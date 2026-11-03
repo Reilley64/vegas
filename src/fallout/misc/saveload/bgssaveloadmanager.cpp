@@ -508,7 +508,7 @@ struct IOManager;
 
 // Calls FUN_00c3e340 on DAT_01202d98, then calls FUN_006ebcd0 on the PathManager singleton.
 // @fnv 0x00850bf0
-void FUN_00850bf0(int)
+void FUN_00850bf0(void*)
 {
     reinterpret_cast<::FUN_00c3e340_cls *>((DAT_01202d98))->FUN_00c3e340();
     reinterpret_cast<::FUN_006ebcd0_shell *>((::GetPathManager()))->FUN_006ebcd0();
@@ -895,7 +895,7 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
         i = reinterpret_cast<::FUN_00850030_shell *>(this)->FUN_00850030((char *)(acFileName), 1, 2, mode);
     if (!i)
     {
-        ::FUN_00850bf0((int)this);
+        ::FUN_00850bf0(this);
         return false;
     }
     if (eb)
@@ -909,10 +909,10 @@ bool SaveManager::FUN_008503b0(const char* acFileName, int mode, bool remove)
     {
         reinterpret_cast<::FUN_00847d00_shell *>((((SaveGameOps*)::g_BGSSaveLoadGame)))->SetFlag4(false);
         ::DispatchMessageToSink((std::intptr_t)((*reinterpret_cast<::SettingString *>(&::g_011d4f0c)).GetString()), 0, (std::intptr_t)(::g_011cba18_arg1), (std::intptr_t)(0), DAT_010162c0, false);
-        ::FUN_00850bf0((int)this);
+        ::FUN_00850bf0(this);
         return false;
     }
-    ::FUN_00850bf0((int)this);
+    ::FUN_00850bf0(this);
     if (i != file)
         reinterpret_cast<::BGSSaveLoadManager *>(this)->FUN_00850100((::SaveLoadHeader *)(i), true);
     if (remove)

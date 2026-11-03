@@ -3390,13 +3390,13 @@ struct Flt
 
 struct FUN_00875bd0_Class
 {
-    unsigned int FUN_00875bd0(int idx);
+    void* FUN_00875bd0(int idx);
 };
 
 // @fnv 0x00875bd0
-unsigned int FUN_00875bd0_Class::FUN_00875bd0(int aiIndex)
+void* FUN_00875bd0_Class::FUN_00875bd0(int aiIndex)
 {
-    return ((Flt*)((char*)this + 0xf4 + aiIndex * 4))->operator unsigned int();
+    return reinterpret_cast<void**>((char*)this + 0xf4)[aiIndex];
 }
 }  // namespace fnv_00875bd0
 
@@ -3416,11 +3416,11 @@ void FUN_00456630_helper::FUN_00876810()
 namespace fnv_00876830 {
 struct BSRenderedTexture
 {
-    void FUN_00876830(int, int);
+    void FUN_00876830(int, std::intptr_t);
 };
 
 // @fnv 0x00876830
-void BSRenderedTexture::FUN_00876830(int, int)
+void BSRenderedTexture::FUN_00876830(int, std::intptr_t)
 {
     ::BSRenderedTexture::EndAllAndResetRendererState();
 }
@@ -5039,7 +5039,7 @@ void MainTarget::FUN_00872940(BSRenderedTexture* apDestination)
     }
     else if (apDestination)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(bmultiSampleEnabled, (int)(apDestination));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(bmultiSampleEnabled, (std::intptr_t)(apDestination));
     }
 
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(result), (::fnv_00876850::ImageSpaceManager *)(pimagespacemanager), (::fnv_00876850::GraphicsRenderer *)(prenderer), (::fnv_00876850::Sun *)(0));
@@ -6836,7 +6836,7 @@ int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_
                 reinterpret_cast<::TESForm *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))))->ClearData();
                 reinterpret_cast<::FUN_004f15a0_shell *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->FUN_004f15a0(1);
                 ::FUN_00af4540();
-                if (!((int)(reinterpret_cast<::LowProcess *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))))->GetTarget())))
+                if (!((reinterpret_cast<::LowProcess *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))))->GetTarget())))
                 {
                     reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::Receiver86 * *>(&::g_dataHandler))))->SetSaveLoadGameState(-1);
                     ::FUN_0040fbe0();
@@ -10032,7 +10032,7 @@ void SceneRendererStub870::FUN_00870a00(TexStub870* target, bool skip)
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::RenderSysStub870 *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 0x16, {});
     }
     if (target)
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (int)(target));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (std::intptr_t)(target));
     ::FUN_00714c20(1);
     if (FUN_008709f0())
     {
@@ -10040,7 +10040,7 @@ void SceneRendererStub870::FUN_00870a00(TexStub870* target, bool skip)
     }
     else if (target)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (int)(target));
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flagVal, (std::intptr_t)(target));
     }
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(rt4), (::fnv_00876850::ImageSpaceManager *)(ism), (::fnv_00876850::GraphicsRenderer *)(renderer2), (::fnv_00876850::Sun *)(0));
 }
@@ -13028,7 +13028,7 @@ void Main86::FUN_0086ff70()
     int eventState = 0;
     if (!(*reinterpret_cast<unsigned char *>(&::DAT_011dea29)) && !::FUN_0070edf0() && (*reinterpret_cast<::fnv_0086ff70::PlayerState86 * *>(&::_g_thePlayer))->vfn_1d0() && !reinterpret_cast<::FM7 *>(((*reinterpret_cast<::fnv_0086ff70::Input86 * *>(&::DAT_011d8804))))->IsFaderActive(1))
     {
-        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0086ff70::Engine86 * *>(&::g_TES))))->GetPrevPath())))
+        if (!((reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_0086ff70::Engine86 * *>(&::g_TES))))->GetPrevPath())))
         {
             if (reinterpret_cast<::FUN_00548210_Class *>((((::fnv_0086ff70::Engine86 *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_0086ff70::Engine86 * *>(&::g_TES))))->GetHitSound()))))->FUN_00548210()[0] && ((::fnv_0086ff70::Topic86 *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_0086ff70::Engine86 * *>(&::g_TES))))->GetName())))
             {
@@ -13254,7 +13254,7 @@ void RenderCoordinator::FUN_00870bd0(int arg, bool skip)
     BSRenderedTexture* j = ((::fnv_00870bd0::BSRenderedTexture *)(reinterpret_cast<::Host *>(this)->FUN_00872f50((::P1 *)(l), (::BSRenderedTexture *)(arg), 0, q)));
     reinterpret_cast<::fnv_00874ac0::FUN_00874ac0_shell *>(this)->FUN_00874ac0(i);
     reinterpret_cast<::FUN_00874b50_shell *>(this)->FUN_00874b50((::BSRenderedTexture *)(j), q, 5);
-    bool cf = !p && !skip && !((int)(reinterpret_cast<::TESRegionDataMap *>((((::fnv_00870bd0::MenuView *)(::fnv_00705910::FUN_00705910()))))->GetRegionMapName())) && !::FUN_00705100();
+    bool cf = !p && !skip && !((reinterpret_cast<::TESRegionDataMap *>((((::fnv_00870bd0::MenuView *)(::fnv_00705910::FUN_00705910()))))->GetRegionMapName())) && !::FUN_00705100();
     bool a = false;
     if (cf && s)
     {
@@ -13280,7 +13280,7 @@ void RenderCoordinator::FUN_00870bd0(int arg, bool skip)
         reinterpret_cast<::TaskQueueInterface *>((((::fnv_00870bd0::RenderNode *)(::fnv_0043b230::FUN_0043b230((const char *)(s))))))->QueueActorDisarm(a);
     EffectView* k = ((::fnv_00870bd0::EffectView *)(reinterpret_cast<::FUN_004ebbc0_shell *>((h))->FUN_004ebbc0(4)));
     bool c = ::FUN_00871220((char *)(k));
-    bool j7 = (reinterpret_cast<::ImageSpaceManager *>((h))->IsEffectActive((::ImageSpaceManager__ImageSpaceEffectEnum)(9)) && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_00870bd0::WorldView * *>(&::g_TES))))->GetPrevPath())) && *(*reinterpret_cast<::fnv_00870bd0::BoolSettingView *>(&::g_011deadc)).FUN_00408d60()) ? true : false;
+    bool j7 = (reinterpret_cast<::ImageSpaceManager *>((h))->IsEffectActive((::ImageSpaceManager__ImageSpaceEffectEnum)(9)) && !((reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_00870bd0::WorldView * *>(&::g_TES))))->GetPrevPath())) && *(*reinterpret_cast<::fnv_00870bd0::BoolSettingView *>(&::g_011deadc)).FUN_00408d60()) ? true : false;
     const bool ba = false;
     const bool f = false;
     bool b = false;
@@ -13309,7 +13309,7 @@ void RenderCoordinator::FUN_00870bd0(int arg, bool skip)
         reinterpret_cast<::fnv_00875e40::FUN_00875e40_shell *>(this)->FUN_00875e40((::fnv_00875e40::BSShaderAccumulator *)(::fnv_00870bd0::ShaderView *)(shaders.FUN_00559450()), (::fnv_00875e40::BSRenderedTexture *)(j));
     if (f)
         reinterpret_cast<::fnv_00875fa0::Outer00875fa0 *>(this)->FUN_00875fa0((::fnv_00875fa0::Param00875fa0 *)(::fnv_00870bd0::ShaderView *)(shaders.FUN_00559450()), j);
-    if (j7 && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_00870bd0::WorldView * *>(&::g_TES))))->GetPrevPath())) && (*reinterpret_cast<::fnv_00870bd0::CameraHolder * *>(&::DAT_011dea20)) && ((::fnv_00870bd0::CameraView *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00870bd0::CameraHolder * *>(&::DAT_011dea20))))->FUN_0045cd60())))
+    if (j7 && !((reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_00870bd0::WorldView * *>(&::g_TES))))->GetPrevPath())) && (*reinterpret_cast<::fnv_00870bd0::CameraHolder * *>(&::DAT_011dea20)) && ((::fnv_00870bd0::CameraView *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00870bd0::CameraHolder * *>(&::DAT_011dea20))))->FUN_0045cd60())))
     {
         NiPoint3 v = ((::fnv_00870bd0::CameraView *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00870bd0::CameraHolder * *>(&::DAT_011dea20))))->FUN_0045cd60()))->v1()->FUN_0045bb80();
         float w, u, n;

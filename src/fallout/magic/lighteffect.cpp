@@ -134,7 +134,7 @@ void FUN_0080e8a0_holder::FUN_0080e8a0(float afSecondsElapsed)
         pnode = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
         if (pnode)
         {
-            if (!((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
+            if (!((::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
             {
                 reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)(*(Flt*)((char*)this + 0x48))), true);
             }
@@ -843,7 +843,7 @@ public:
 void LightEffectDerived::AttachLightEffect()
 {
     Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
-    if (!this->m_spLight && pTarget3 && !((int)(reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
+    if (!this->m_spLight && pTarget3 && !((reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
     {
         TESObjectLIGH* pLightTmp = ((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<::ActiveEffect *>((((FUN_0082ccb0_Cls*)this)))->GetEffectSetting()))->FUN_004fd380()));
         if (!pLightTmp)

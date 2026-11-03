@@ -835,17 +835,17 @@ void* __cdecl FUN_00ec43fb(void* a0, int a1, int* a2, int* a3, int a4);
 
 struct FUN_00818be0_cls
 {
-    void* FUN_00818be0();
+    unsigned int FUN_00818be0();
 };
 
 // @fnv 0x00818be0
-void* FUN_00818be0_cls::FUN_00818be0()
+unsigned int FUN_00818be0_cls::FUN_00818be0()
 {
     void* a = ((void *)(reinterpret_cast<::MagicCaster *>((((Callee00815410*)this)))->GetCasterActor()));
     OuterB* b = (OuterB*)FUN_00ec43fb(this, 0, &DAT_011a1224, &DAT_01184638, 0);
     if (a != 0)
     {
-        return ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Callee0084e3a0*)a)))->FUN_0084e3a0()));
+        return ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Callee0084e3a0*)a)))->FUN_0084e3a0()));
     }
     else
     {
@@ -853,7 +853,7 @@ void* FUN_00818be0_cls::FUN_00818be0()
         {
             if (b->emb.v11() != 0)
             {
-                return ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Callee0084e3a0*)b->emb.v11())))->FUN_0084e3a0()));
+                return ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Callee0084e3a0*)b->emb.v11())))->FUN_0084e3a0()));
             }
         }
     }
@@ -1847,7 +1847,7 @@ struct FloatSetting
 };
 struct Caster
 {
-    void ApplyAreaEffect(Magic*, Item*, int, Vec, Target*, Filter*, Node*, bool*, float);
+    void ApplyAreaEffect(Magic*, Item*, std::intptr_t, Vec, Target*, Filter*, Node*, bool*, float);
 };
 struct P142EffectSetting
 {
@@ -3479,7 +3479,7 @@ MagicTarget* FUN_00817620_shell::FindClosestMagicTarget()
     return pclosestTarget;
 }
 // @fnv 0x00816f10
-void Caster::ApplyAreaEffect(Magic* magic, Item* item, int enabled, Vec pos, Target* exclude, Filter* filter,
+void Caster::ApplyAreaEffect(Magic* magic, Item* item, std::intptr_t enabled, Vec pos, Target* exclude, Filter* filter,
                              Node* list, bool* done, float scale)
 {
     if (!enabled)
@@ -4679,7 +4679,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                     if (reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() > 0 && aTargetObject)
                     {
                         bool blocked = false;
-                        reinterpret_cast<::Caster *>(this)->ApplyAreaEffect((::Magic *)(spellB), (::Item *)(active), (int)(((void *)(reinterpret_cast<::LowProcess *>((aTargetObject))->GetTarget()))), (*(::Vec *)&(const ::CastTargets::Point &)(*aTargetObject->GetPosition())),
+                        reinterpret_cast<::Caster *>(this)->ApplyAreaEffect((::Magic *)(spellB), (::Item *)(active), ((std::intptr_t)(reinterpret_cast<::LowProcess *>((aTargetObject))->GetTarget())), (*(::Vec *)&(const ::CastTargets::Point &)(*aTargetObject->GetPosition())),
                                         (::Target *)(target6), (::Filter *)(false), (::Node *)(::CastTargets::Context *)(&contextSlot12), &blocked, 1.0f);
                         if (blocked)
                             didTarget2 = false;
@@ -4690,7 +4690,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
                          reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() > 0 && casterActorSlot25)
                 {
                     bool blockedCaster = false;
-                    reinterpret_cast<::Caster *>(this)->ApplyAreaEffect((::Magic *)(spellB), (::Item *)(active), (int)(((void *)(reinterpret_cast<::LowProcess *>((casterActorSlot25))->GetTarget()))),
+                    reinterpret_cast<::Caster *>(this)->ApplyAreaEffect((::Magic *)(spellB), (::Item *)(active), ((std::intptr_t)(reinterpret_cast<::LowProcess *>((casterActorSlot25))->GetTarget())),
                                     (*(::Vec *)&(const ::CastTargets::Point &)(*casterActorSlot25->GetPosition())), (::Target *)(target6), (::Filter *)(false), (::Node *)(::CastTargets::Context *)(&contextSlot12), &blockedCaster,
                                     1.0f);
                     if (blockedCaster)

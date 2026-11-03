@@ -331,7 +331,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
     {
         if (pTargetActor != ::_g_thePlayer)
             pBiped = pTargetActor->GetBipedAnim();
-        else if (((int)(::fnv_00490f80::FUN_00490f80((char *)(::_g_thePlayer)))) && ((::MagicShaderHitEffect *)(reinterpret_cast<::FUN_00820bf0_shell *>((::_g_thePlayer))->GetField6A4())) == this)
+        else if (((::fnv_00490f80::FUN_00490f80((char *)(::_g_thePlayer)))) && ((::MagicShaderHitEffect *)(reinterpret_cast<::FUN_00820bf0_shell *>((::_g_thePlayer))->GetField6A4())) == this)
             bWeapon = true;
         else
             pBiped = ((::BipedAnim *)(::_g_thePlayer->FUN_00950b00(!b3rdPerson)));
@@ -1216,7 +1216,7 @@ bool MagicShaderHitEffect::Init()
                 ::AssignFixedString((char *)((m_pParticleShaderNode).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("ParticleShader Geometry")), {});
                 reinterpret_cast<::FUN_0043fa80_s *>(((m_pParticleShaderNode).operator->()))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448)))));
             }
-            if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())))
+            if (!((reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())))
             {
                 NiPointer<NiSourceTexture> texture(0);
                 if (((::BGSTESTexture *)(reinterpret_cast<::FUN_00506390Class *>((m_pEffectShader))->GetFieldAt158()))->GetModelLength() > 0)
@@ -1269,7 +1269,7 @@ bool MagicShaderHitEffect::Init()
             }
             vfn_cc();
         }
-        else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())) && (NiNode*)m_pParticleShaderNode)
+        else if (((reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())) && (NiNode*)m_pParticleShaderNode)
         {
             for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())); ++i)
                 reinterpret_cast<::FUN_00507810Class *>((m_pEffectShader))->FUN_00507810(m_pParticleShaderNode.object, m_kParticleShaderProperties.GetAt(i).object);
@@ -1309,7 +1309,7 @@ bool MagicShaderHitEffect::Init()
             }
             reinterpret_cast<::EffectShaderShell *>((m_pEffectShader))->ApplyShaderToTree(scenegraph.shaders, spTexEffectData);
         }
-        if (!bResetParticles && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kAddonModelObjects))->GetName())) && m_pEffectShader &&
+        if (!bResetParticles && !((reinterpret_cast<::Twin_0044ddc0 *>(&(m_kAddonModelObjects))->GetName())) && m_pEffectShader &&
             m_pEffectShader->GetAddonModels() && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())) > 0 &&
             (ParticleShaderProperty*)m_kParticleShaderProperties.GetAt(0) &&
             reinterpret_cast<::FUN_00658930_class *>(&((*(::NiTArray< ::NiPointer< ::NiAVObject>> *)(reinterpret_cast<::FUN_00820b50_shell *>(((m_kParticleShaderProperties.GetAt(0)).operator->()))->GetFieldAt11C()))))->GetShortAtOffsetA() > 0)

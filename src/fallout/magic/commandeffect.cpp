@@ -95,7 +95,7 @@ void FUN_0080b7c0_shell::FUN_0080b7c0()
         reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->GetOwnerActor())) : 0;
     Actor* pcaster = ((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (ptarget && pcaster)
-        ::FUN_0080b9e0(ptarget, (int)(pcaster), 1);
+        ::FUN_0080b9e0(ptarget, pcaster, 1);
 }
 }  // namespace fnv_0080b7c0
 
@@ -1447,13 +1447,13 @@ struct FUN_008d8520_class
 };
 
 typedef void(* SlotNoFloat)(void* self, int aArg);
-typedef void(* SlotWithFloat)(void* self, int aArg, float aValue);
+typedef void(* SlotWithFloat)(void* self, void* aArg, float aValue);
 typedef void(* SlotThreeInts)(void* self, int aA, int aB, int aC);
 
 
 // If the owner's FUN_008d8520 result is non-null and abFlag is set, calls slot 330 on it with 0, then calls slots 280 and 232 on apOwner.
 // @fnv 0x0080b9e0
-void FUN_0080b9e0(void* apOwner, int aValue, bool abFlag)
+void FUN_0080b9e0(void* apOwner, void* aValue, bool abFlag)
 {
     if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((FUN_008d8520_class*)apOwner)))->GetBaseTexture())) != 0 && abFlag)
     {

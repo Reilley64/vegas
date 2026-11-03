@@ -2065,7 +2065,7 @@ struct S_008356e0_Ref;
 
 // Builds a list via FUN_004ff1a0 from b or DAT_011dea3c, walks it, and returns the first item whose FUN_007af430 equals a.
 // @fnv 0x008356e0
-S_008356e0_Item* __cdecl FUN_008356e0(int a, S_008356e0_Ref* apRef)
+S_008356e0_Item* __cdecl FUN_008356e0(void* a, S_008356e0_Ref* apRef)
 {
     S_008356e0_Item* result = 0;
     BSSimpleListEx<S_008356e0_Item*> _list;
@@ -2079,9 +2079,9 @@ S_008356e0_Item* __cdecl FUN_008356e0(int a, S_008356e0_Ref* apRef)
     }
     S_008356e0_Node* node = (S_008356e0_Node*)&_list;
     bool foundTmp = false;
-    while (!foundTmp && node && *((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) && ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430())))
+    while (!foundTmp && node && *((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) && ((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430())))
     {
-        if (a == ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430())))
+        if (a == static_cast<void *>(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_007af430()))
         {
             result = *((::S_008356e0_Item **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             foundTmp = true;
@@ -2702,7 +2702,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
             delete ((FUN_00832160*)state3);
             return 0;
         }
-        stationForm3 = ((void *)(::FUN_008356e0((int)(sound), (::S_008356e0_Ref *)(a1))));
+        stationForm3 = ((void *)(::FUN_008356e0(sound, (::S_008356e0_Ref *)(a1))));
         if (!stationForm3)
         {
             delete ((FUN_00832160*)state3);
@@ -2717,7 +2717,7 @@ FalloutRadio::RadioStationState* CreateRadioStationState(TESObjectREFR* a1, TESO
             delete ((FUN_00832160*)state3);
             return 0;
         }
-        stationForm3 = ((void *)(::FUN_008356e0((int)(space5), (::S_008356e0_Ref *)(a1))));
+        stationForm3 = ((void *)(::FUN_008356e0(space5, (::S_008356e0_Ref *)(a1))));
         if (!stationForm3)
         {
             delete ((FUN_00832160*)state3);
@@ -3498,7 +3498,7 @@ void __cdecl FUN_00834260(FalloutRadio::RadioStationState* apState)
                 {
                     ::TaskQueueInterface::CopyStringToBuffer(buf, 0x104,
                                  ::FUN_00511840((char *)(((RadioUpdateBoundName*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdateObj *)(reinterpret_cast<::DialogueItem *>((aActor))->GetActiveResponse()))))->FUN_007af430()))))));
-                    if (!((int)(::FUN_004812f0(buf, radioUpdateMonoSuffix))))
+                    if (!((::FUN_004812f0(buf, radioUpdateMonoSuffix))))
                     {
                         char* dot = FUN_0043b9d0(buf, '.');
                         if (dot)

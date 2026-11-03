@@ -1501,7 +1501,7 @@ void This::FUN_00809e60(Actor* apActor)
 
             reinterpret_cast<::fnv_004be930::FUN_004be930_shell *>((m_50[rec2]))->FUN_004be930();
 
-            if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>((m_50[rec2]))->GetName())))
+            if (!((reinterpret_cast<::Twin_0044ddc0 *>((m_50[rec2]))->GetName())))
             {
                 delete m_50[rec2];
                 m_50[rec2] = 0;

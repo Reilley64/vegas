@@ -7509,7 +7509,7 @@ void Controller::FUN_008cb3c0(float afDelta)
         bool shouldRelease = true;
         if (handle && (handle->kind == 1 || handle->kind == 0) && handle->target)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((handle->target))->FUN_0043fcd0())))
+            if (!((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((handle->target))->FUN_0043fcd0())))
             {
                 shouldRelease = false;
             }
@@ -7602,7 +7602,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                     }
                 }
             }
-            if (actor && ref_kind == 1 && (!handle || !handle->target || !((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((handle->target))->FUN_0043fcd0()))))
+            if (actor && ref_kind == 1 && (!handle || !handle->target || !((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((handle->target))->FUN_0043fcd0()))))
             {
                 v49(1);
             }

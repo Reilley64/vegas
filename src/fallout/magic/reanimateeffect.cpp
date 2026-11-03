@@ -733,7 +733,7 @@ void FUN_00827230_shell::FUN_00827230()
                 : 0;
 
         if (pCasterActor != 0)
-            ::FUN_0080b9e0(pTarget, (int)(pCasterActor), 0);
+            ::FUN_0080b9e0(pTarget, pCasterActor, 0);
     }
 }
 

@@ -758,7 +758,7 @@ void SubBufferSaveShell::FUN_00865020(TESForm* form)
         ReferenceSaveAccess* ref = static_cast<ReferenceSaveAccess*>(form);
         FUN_008659c0_Buffer buffer;
         reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>(&(buffer))->InitFormEntry(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form))->FUN_0084e3a0())), (*(unsigned int *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(4))), (unsigned int)(static_cast<ReferenceSaveAccess*>(form)->FUN_00401170()),
-                            (unsigned char)(((void *)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::SaveContext_00851110 * *>(&::DAT_011de134))))->GetConstant27()))));
+                            (unsigned char)(reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::SaveContext_00851110 * *>(&::DAT_011de134))))->GetConstant27()));
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>(&(buffer))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(form));
         reinterpret_cast<::fnv_00562de0::FUN_00562de0_cls *>((ref))->FUN_00562de0((::fnv_00562de0::TargetRef *)(::FUN_008659c0_Buffer *)(&buffer));
         reinterpret_cast<::FUN_00865120_shell *>(this)->FUN_00865120((::BGSSaveFormBuffer *)(::FUN_008659c0_Buffer *)(&buffer));

@@ -1027,11 +1027,11 @@ void FUN_008289e0_cls::CleanupSummonedCreature()
                 reinterpret_cast<::KillActor *>((this->m_4c))->FUN_0089d900((::Actor *)(0), 0.0f);
             }
             reinterpret_cast<::FUN_008feab0_cls *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_008feab0((::Actor *)(this->m_4c));
-            ::FUN_0080b9e0(this->m_4c, (int)(a), 1);
+            ::FUN_0080b9e0(this->m_4c, a, 1);
         }
         else
         {
-            ::FUN_0080b9e0(this->m_4c, (int)(a), 1);
+            ::FUN_0080b9e0(this->m_4c, a, 1);
             this->m_4c->v49(1);
         }
         this->m_4c = 0;

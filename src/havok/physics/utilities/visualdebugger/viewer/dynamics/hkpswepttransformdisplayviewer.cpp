@@ -4,6 +4,7 @@
 
 #include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
+#include "fnv/decl/FUN_00d64650_cls.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00d641f0_cls.h"
 #include "fnv/decl/FUN_00ddcc60.h"
@@ -12,17 +13,45 @@
 #include "fnv/decl/hkWorldC917.h"
 #include "fnv/symbols_010cc000.h"
 #include "fnv/symbols_01268000.h"
+struct FUN_00d647b0_Pool;
+struct SweptVObj;
+struct SpawnOwner;
+
+// The swept transform display viewer (SweptViewer): hkReferencedObject (SweptViewerBase), its hkProcess part
+// (FUN_00d647b0_cls) at +0x08, its world listener part (hkpSweptTransformDisplayViewer) at +0x20, its entity listener
+// part at +0x28 and its post-simulation listener part at +0x2c.
+struct SweptViewerBase
+{
+    virtual ~SweptViewerBase();
+    int m_04;
+};
+struct FUN_00d647b0_cls
+{
+    virtual void p00();
+    int unk04;
+    int unk08;
+    int unk0C;
+    SweptVObj* m_displayHandler;
+    int unk14;
+
+    void NotifyItems();
+};
 struct hkpSweptTransformDisplayViewer
 {
+    virtual void w00();
+    FUN_00d647b0_Pool* m_kNodePool;
+
+    void FUN_00d647f0(SpawnOwner* world);
     void FUN_00d64950(void* a);
 };
-
-extern "C" void FUN_00d64650();
-// @fnv 0x00d647f0
-void FUN_00d647f0(void* self)
+struct SweptEntityListener
 {
-    ((void(*)(void*))FUN_00d64650)((char*)self - 0x20);
-}
+    virtual void EntityAddedCallback(void* entity);
+};
+struct SweptPostSimListener
+{
+    virtual void postSimulationCallback(void* world);
+};
 
 
 // @fnv 0x00d64970
@@ -97,90 +126,14 @@ struct SweptVObj
     virtual int v5(void* p, int g, int z);
 };
 
-class SweptTransformItem
+// The viewer's entity listener part.
+class SweptTransformItem : public SweptEntityListener
 {
   public:
-    int unk00;
-    int unk04;
-    SweptList** m_08;
-
     void FUN_00d64120(SweptArg* a1);
 };
 
 
-// @fnv 0x00d64120
-void SweptTransformItem::FUN_00d64120(SweptArg* a1)
-{
-    if (*(int*)&a1->m_10 == 0)
-    {
-        return;
-    }
-    hkpSweptTransformDisplayViewer* viewer = (hkpSweptTransformDisplayViewer*)((char*)this - 0x28);
-    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex(a1->m_08);
-    if (iIndex < 0)
-    {
-        return;
-    }
-    SweptList* list = this->m_08[iIndex];
-    void* key = (void*)&a1->m_11;
-    SweptVObj* pVObj = *(SweptVObj**)((char*)this - 0x10);
-    pVObj->v5(key, g_ptr_0x1268fd0, 0);
-
-    int i = 0;
-    int iCount = list->m_08;
-    if (iCount > 0)
-    {
-        void** p = list->m_04;
-        do
-        {
-            if (*p == key)
-            {
-                if (i >= 0)
-                {
-                    (*(volatile int*)&list->m_08)--;
-                    int last = list->m_08;
-                    if (last != i)
-                    {
-                        list->m_04[i] = list->m_04[last];
-                    }
-                }
-                break;
-            }
-            ++i;
-            ++p;
-        } while (i < iCount);
-    }
-
-    key = (void*)&a1->m_12;
-    int g2 = g_ptr_0x1268fd0;
-    pVObj = *(SweptVObj**)((char*)this - 0x10);
-    pVObj->v5(key, g2, 0);
-
-    i = 0;
-    iCount = list->m_08;
-    if (iCount > 0)
-    {
-        void** p = list->m_04;
-        do
-        {
-            if (*p == key)
-            {
-                if (i >= 0)
-                {
-                    (*(volatile int*)&list->m_08)--;
-                    int last = list->m_08;
-                    if (last != i)
-                    {
-                        list->m_04[i] = list->m_04[last];
-                    }
-                }
-                break;
-            }
-            ++i;
-            ++p;
-        } while (i < iCount);
-    }
-}
 
 struct FUN_00d647b0_Pool
 {
@@ -211,48 +164,12 @@ struct FUN_00d647b0_Pool
     int unk60;
     int unk64;
     int unk68;
-    int* m_items;
+    SpawnOwner** m_items;
     int m_uiItemCount;
 };
 
-struct FUN_00d647b0_Listener
-{
-    int unk00;
-};
 
-typedef void(* FUN_00d647b0_Handler)(FUN_00d647b0_Listener* self, int item);
 
-struct FUN_00d647b0_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    FUN_00d647b0_Pool* m_kNodePool;
-
-    void NotifyItems();
-};
-
-// @fnv 0x00d647b0
-void FUN_00d647b0_cls::NotifyItems()
-{
-    if (m_kNodePool != 0)
-    {
-        int i = 0;
-        if (m_kNodePool->m_uiItemCount > i)
-        {
-            FUN_00d647b0_Listener* listener = (FUN_00d647b0_Listener*)((char*)this - 8);
-            do
-            {
-                ((FUN_00d647b0_Handler)FUN_00d64650)(listener, m_kNodePool->m_items[i]);
-                i++;
-            } while (i < m_kNodePool->m_uiItemCount);
-        }
-    }
-}
 
 
 
@@ -298,15 +215,6 @@ template <typename T> struct SweptArray
     }
 };
 
-struct SweptEntityListener
-{
-    virtual void EntityAddedCallback(void* entity);
-};
-struct SweptPostSimListener
-{
-    virtual void postSimulationCallback(void* world);
-};
-
 struct SweptWorld
 {
 };
@@ -314,7 +222,7 @@ struct SweptWorld
 struct SweptWorldData
 {
     SweptWorld* m_pOwningWorld;
-    SweptArray<unsigned long> m_kEntityIDs;
+    SweptArray<void*> m_kEntityIDs;
 
     static void operator delete(void* p, size_t nbytes)
     {
@@ -322,26 +230,122 @@ struct SweptWorldData
     }
 };
 
-struct SweptViewerBase
-{
-    virtual ~SweptViewerBase();
-    int m_04, m_08, m_0c, m_10, m_14, m_18, m_1c, m_20, m_24;
-};
-
-struct SweptViewer : SweptViewerBase, SweptEntityListener, SweptPostSimListener
+struct SweptViewer : SweptViewerBase, FUN_00d647b0_cls, hkpSweptTransformDisplayViewer, SweptEntityListener,
+                     SweptPostSimListener
 {
     SweptArray<SweptWorldData*> m_kWorldDataList;
 
     void RemoveWorldData(int index);
 };
-// Calls FindEntryIndex on the viewer at this-0x20 with a; if the returned index is non-negative, calls RemoveWorldData with it.
+// @fnv 0x00d64120
+void SweptTransformItem::FUN_00d64120(SweptArg* a1)
+{
+    if (*(int*)&a1->m_10 == 0)
+    {
+        return;
+    }
+    SweptViewer* viewer = static_cast<SweptViewer*>(static_cast<SweptEntityListener*>(this));
+    int iIndex = reinterpret_cast<::D63FF0Container *>((viewer))->FindEntryIndex(a1->m_08);
+    if (iIndex < 0)
+    {
+        return;
+    }
+    SweptList* list = reinterpret_cast<SweptList*>(viewer->m_kWorldDataList[iIndex]);
+    void* key = (void*)&a1->m_11;
+    SweptVObj* pVObj = viewer->m_displayHandler;
+    pVObj->v5(key, g_ptr_0x1268fd0, 0);
+
+    int i = 0;
+    int iCount = list->m_08;
+    if (iCount > 0)
+    {
+        void** p = list->m_04;
+        do
+        {
+            if (*p == key)
+            {
+                if (i >= 0)
+                {
+                    (*(volatile int*)&list->m_08)--;
+                    int last = list->m_08;
+                    if (last != i)
+                    {
+                        list->m_04[i] = list->m_04[last];
+                    }
+                }
+                break;
+            }
+            ++i;
+            ++p;
+        } while (i < iCount);
+    }
+
+    key = (void*)&a1->m_12;
+    int g2 = g_ptr_0x1268fd0;
+    pVObj = viewer->m_displayHandler;
+    pVObj->v5(key, g2, 0);
+
+    i = 0;
+    iCount = list->m_08;
+    if (iCount > 0)
+    {
+        void** p = list->m_04;
+        do
+        {
+            if (*p == key)
+            {
+                if (i >= 0)
+                {
+                    (*(volatile int*)&list->m_08)--;
+                    int last = list->m_08;
+                    if (last != i)
+                    {
+                        list->m_04[i] = list->m_04[last];
+                    }
+                }
+                break;
+            }
+            ++i;
+            ++p;
+        } while (i < iCount);
+    }
+}
+
+// Calls the viewer's FUN_00d64650 for each world of the context.
+// @fnv 0x00d647b0
+void FUN_00d647b0_cls::NotifyItems()
+{
+    SweptViewer* viewer = static_cast<SweptViewer*>(this);
+    FUN_00d647b0_Pool* pool = viewer->m_kNodePool;
+    if (pool != 0)
+    {
+        int i = 0;
+        if (pool->m_uiItemCount > i)
+        {
+            do
+            {
+                reinterpret_cast<::FUN_00d64650_cls *>(viewer)->FUN_00d64650(pool->m_items[i]);
+                i++;
+            } while (i < pool->m_uiItemCount);
+        }
+    }
+}
+
+// The world listener's thunk to the viewer's FUN_00d64650.
+// @fnv 0x00d647f0
+void hkpSweptTransformDisplayViewer::FUN_00d647f0(SpawnOwner* world)
+{
+    reinterpret_cast<::FUN_00d64650_cls *>(static_cast<SweptViewer*>(this))->FUN_00d64650(world);
+}
+
+// Calls FindEntryIndex on the viewer with a; if the returned index is non-negative, calls RemoveWorldData with it.
 // @fnv 0x00d64950
 void hkpSweptTransformDisplayViewer::FUN_00d64950(void* a)
 {
-    hkpSweptTransformDisplayViewer* p = (hkpSweptTransformDisplayViewer*)((char*)this - 0x20);
+    SweptViewer* p = static_cast<SweptViewer*>(this);
     int r = reinterpret_cast<::D63FF0Container *>((p))->FindEntryIndex(a);
     if (r >= 0)
-        reinterpret_cast<::SweptViewer *>((p))->RemoveWorldData(r);
+        p->RemoveWorldData(r);
 }
 
 // Unregisters this viewer from the world at index, calls ClearSweptEntry, deletes the world data and removes it from the array.
@@ -770,7 +774,6 @@ FUN_00d649c0::FUN_00d649c0()
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00ddf000.h"
-void FUN_00d647f0(void* self);
 int __cdecl FUN_00d64970();
 
 

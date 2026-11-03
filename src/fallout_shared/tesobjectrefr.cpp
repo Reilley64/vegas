@@ -10171,9 +10171,9 @@ struct RefrV
 // @fnv 0x00575700
 void RefrV::FUN_00575700(NiPoint3 aPoint)
 {
-    *(NiPoint3*)((char*)this + 0x24) = aPoint;
+    *(NiPoint3*)&reinterpret_cast<::TESObjectREFR*>(this)->unk24 = aPoint;
     if (v64())
-        *(float*)((char*)this + 0x2c) = ::WrapAngle(*(float*)((char*)this + 0x2c));
+        reinterpret_cast<::TESObjectREFR*>(this)->unk2c = ::WrapAngle(reinterpret_cast<::TESObjectREFR*>(this)->unk2c);
     v18(2);
 }
 }  // namespace fnv_00575700
@@ -16580,7 +16580,7 @@ void RefPersistsStandin::FUN_00565480(bool abVal)
     CellH* pcell;
     unsigned int iflags;
 
-    pcell = reinterpret_cast<CellInterface*>(reinterpret_cast<char*>(this) + 0x18)->GetContainingCell();
+    pcell = reinterpret_cast<CellInterface*>(&reinterpret_cast<::TESObjectREFR*>(this)->kChildCell)->GetContainingCell();
     iflags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName()));
 
     if (abVal)

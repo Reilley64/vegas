@@ -1,5 +1,6 @@
 // fallout/magic/magictarget.cpp: MagicTarget, TESSpellList, MagicCaster, MagicSystem and more (39 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <stddef.h>
 #include <new>
 #include "fnv/decl/ActiveEffectUpdateShell.h"
@@ -111,11 +112,11 @@ int MagicTarget::CompareActiveEffects(ActiveEffect* first, ActiveEffect* second)
     char buffer1[256];
     char buffer2[256];
     EffectItem* pEffect = EFFECT_ITEM(first);
-    sprintf(buffer1, "%c%.30s%.1f%.1f", 'A', ((const char *)(::FUN_00559450((int *)&(pEffect->GetEffectName())))),
+    sprintf(buffer1, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(first)),
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80) ? 1000.0f : first->GetDuration());
     pEffect = EFFECT_ITEM(second);
-    sprintf(buffer2, "%c%.30s%.1f%.1f", 'A', ((const char *)(::FUN_00559450((int *)&(pEffect->GetEffectName())))),
+    sprintf(buffer2, "%c%.30s%.1f%.1f", 'A', pEffect->GetEffectName().String(),
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x100) ? 1000.0f : ::GetFloatAtOffset1C((char *)(second)),
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(0x80) ? 1000.0f : second->GetDuration());
     return _mbsicmp((const unsigned char*)buffer1, (const unsigned char*)buffer2);
@@ -152,7 +153,7 @@ bool MagicTarget::HasEffect(const EffectSetting* setting)
     bool found = false;
     while (node && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty() && !found)
     {
-        ActiveEffect* effect = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* effect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         if (effect && effect->GetEffectSetting() == setting)
             found = true;
         node = (BSSimpleList<ActiveEffect*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)node)))->FUN_00726070()));
@@ -202,7 +203,7 @@ bool MagicTarget::FUN_00822f70(ActorValue::Index aeActorValue)
     BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
     while (node && !b && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty())
     {
-        ActiveEffect* effect = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* effect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         if (effect && EFFECT_ITEM(effect)->GetAffectedActorValue() == aeActorValue)
         {
             bool permanent = (int)((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((LocationDescriptor*)effect)))->GetIconFormID())) == 4 && !reinterpret_cast<::FUN_007df210_shell *>((effect))->FUN_007df210() ? 1 : 0;
@@ -225,7 +226,7 @@ bool MagicTarget::HasSpell(MagicItem* spell, bool includeInactive)
     bool found = false;
     while (node && !found)
     {
-        ActiveEffect* effect = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* effect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         if (effect && EFFECT_SPELL(effect) == spell && (includeInactive || ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((effect))->FUN_00833c20()))) &&
             !EFFECT_ITEM(effect)->IsScriptBasedEffect())
             found = true;
@@ -240,7 +241,7 @@ void MagicTarget::DispelAllEffects()
     BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
     while (node && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty())
     {
-        ActiveEffect* effect = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* effect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         node = (BSSimpleList<ActiveEffect*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)node)))->FUN_00726070()));
         if (effect)
             reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>((effect))->FUN_00804210(true);
@@ -332,7 +333,7 @@ bool FUN_00822cf0_shell::HasActiveEffectOfArchetype(int archetype, bool include)
     bool found = false;
     while (list && !found)
     {
-        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(list)) ::Vec3()));
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)));
         if (effect && effect->GetEffectSetting()->GetArchetype() == archetype && (include || ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((effect))->FUN_00833c20()))))
             found = true;
         list = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -362,7 +363,7 @@ void FUN_00824370_shell::FUN_00824370()
     BSSimpleList<MagicEffectContext*>* list = (BSSimpleList<MagicEffectContext*>*)&m_kActiveEffectList;
     while (list && !list->IsEmpty())
     {
-        MagicEffectContext* data = ((::MagicEffectContext *)(new ((void *)(list)) ::Vec3()));
+        MagicEffectContext* data = (*((::MagicEffectContext * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)));
         if (data)
         {
             Dispel(data->pSpell, data->m_pEffectInstance, data->m_pLinkedEffect);
@@ -397,7 +398,7 @@ void FUN_008248e0_shell::FUN_008248e0(MagicItem* apItem, bool abImmediate)
     BSSimpleList<ActiveEffect*>* apList = GetActiveEffectList();
     while (apList && !apList->IsEmpty())
     {
-        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(apList)) ::Vec3()));
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)));
         apList = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
         if (effect)
         {
@@ -421,7 +422,7 @@ void EvalShell::FUN_008255a0()
     BSSimpleList<ActiveEffect*>* current = GetActiveEffectList();
     while (current)
     {
-        ActiveEffect* effect = (ActiveEffect*)((::ActiveEffect *)(new ((void *)(current)) ::Vec3()));
+        ActiveEffect* effect = (ActiveEffect*)(*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item)));
         current = (BSSimpleList<ActiveEffect*>*)((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         if (effect && (reinterpret_cast<::FUN_007df210_shell *>((effect))->FUN_007df210() || ((LowProcess*)effect)->GetActiveCombatTarget()))
             reinterpret_cast<::ActiveEffect *>((((ActiveEffectEx*)effect)))->AdvanceEffect(0.0f, true);
@@ -453,7 +454,7 @@ float FUN_00822eb0_shell::FUN_00822eb0(MagicItem* apSpell)
         EffectListNode* pEffectNode = (EffectListNode*)GetActiveEffectList();
         while (pEffectNode && !pEffectNode->_ref_008256d0())
         {
-            TESForm* pForm = ((::EffectNode *)(new ((void *)(pEffectNode)) ::Vec3()))->form;
+            TESForm* pForm = (*((::EffectNode * *)(&reinterpret_cast<::SimpleListNodeView*>(pEffectNode)->m_item)))->form;
             if (pForm && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pForm))->FUN_0084e3a0())) == (unsigned int)pmonitorEffect)
                 fresult += GetFloatAtOffset1C((char*)pForm);
             pEffectNode = ((::EffectListNode *)(reinterpret_cast<::Callees *>((pEffectNode))->FUN_00726070()));
@@ -481,7 +482,7 @@ bool FUN_00822e00_shell::FUN_00822e00()
 
     while (list != 0 && !list->IsEmpty() && !found)
     {
-        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(list)) ::Vec3()));
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)));
 
         if (effect != 0 && reinterpret_cast<S3c60*>(effect->GetEffectSetting())->HasFlag2() &&
             reinterpret_cast<EffectItem*>(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(effect)))->FUN_0084e3a0())))->GetAffectedActorValue() ==
@@ -535,7 +536,7 @@ bool B22C30Owner::FUN_00822c30(int iType, B22C30Form* pkForm)
     int iCount6 = 0;
     while (pkNode)
     {
-        B22C30Form* pkItem6 = *((::B22C30Form **)(new ((void *)(pkNode)) ::Vec3()));
+        B22C30Form* pkItem6 = *((::B22C30Form **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item));
         if (pkItem6 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((pkItem6))->GetName())) == iType && ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pkItem6))->FUN_00833c20())) && !reinterpret_cast<::EffectItem *>((((::B22C30Info *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkItem6))->FUN_0084e3a0()))))->IsScriptBasedEffect() &&
             pkItem6 != pkForm)
             iCount6++;
@@ -775,7 +776,7 @@ void MagicTargetDispel::FUN_008249d0(bool immediate)
     BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
     while (node && !node->IsEmpty())
     {
-        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(node)) ::Vec3()));
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
         node = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (effect)
         {
@@ -839,7 +840,7 @@ void FUN_00824df0_cls::FUN_00824df0(void* pOwner, int iKind)
     ListNodeCls* node = GetFirst();
     while (node != 0 && !node->IsDone())
     {
-        ListObj* obj = ((::ListItem *)(new ((void *)(node)) ::Vec3()))->m_pEntryObject;
+        ListObj* obj = (*((::ListItem * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->m_pEntryObject;
         node = ((::ListNodeCls *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (obj != 0 && ((int)(reinterpret_cast<::Twin_0044ddc0 *>((obj))->GetName())) == iKind)
         {
@@ -881,7 +882,7 @@ void MagicTargetUpd::UpdateEffectsByFlags(unsigned int auiFlags)
     while (pIter && !pIter->IsEmpty())
     {
         BSSimpleList<ActiveEffect*>* pNextEntry = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
-        ActiveEffect* pEffect = ((::ActiveEffect *)(new ((void *)(pIter)) ::Vec3()));
+        ActiveEffect* pEffect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
         if (pEffect && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ActiveEffectS*)pEffect)))->GetName())) == auiFlags)
         {
             if (!((bool)(::GetByteAtOffset17((const char *)(pEffect)))))
@@ -1184,9 +1185,9 @@ void FUN_0095e5f0_cls::FUN_0095e5f0()
     if (vfn_37c())
     {
         void* node = ((void *)(reinterpret_cast<::BaseProcess *>(((char*)vfn_37c() + 0x2c))->GetCurrentProcessData()));
-        while (node != 0 && *(int*)((void *)(new ((void *)(node)) ::Vec3())) != 0)
+        while (node != 0 && *(int*)(*((void * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))) != 0)
         {
-            vfn_3e4(*(int*)((void *)(new ((void *)(node)) ::Vec3())));
+            vfn_3e4(*(int*)(*((void * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))));
             node = ((::FUN_0095e5f0_node *)(reinterpret_cast<::Callees *>((((FUN_0095e5f0_node*)node)))->FUN_00726070()));
         }
     }
@@ -1571,7 +1572,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
         Actor* actor = this ? (Actor*)((char*)this - 0x94) : 0;
         if (!actor)
             return;
-        if (!((::Date *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)actor)))->GetBaseTexture())))
+        if (!(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerQuestData*)actor)))->GetBaseTexture()))
             return;
     }
     m_bSecondFlag = true;
@@ -1579,7 +1580,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
     {
         BSSimpleList<ActiveEffect*>* nextNode =
             (BSSimpleList<ActiveEffect*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)node)))->FUN_00726070()));
-        ActiveEffect* pEffect = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* pEffect = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         if (pEffect)
         {
             bool done = reinterpret_cast<::FUN_008240f0_shell *>((pEffect))->FUN_008240f0();
@@ -1617,7 +1618,7 @@ void MagicTarget::UpdateActiveEffects(float delta)
                     }
                     if (show)
                     {
-                        ::DispatchMessageToSink((int)(message), 0, (int)(0), (int)("UIHealthChemsWearOff"), 2.0f, false);
+                        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(0), (std::intptr_t)("UIHealthChemsWearOff"), 2.0f, false);
                         AlchemyItem* potion = dynamic_cast<AlchemyItem*>(spell);
                         if (potion && potion->FUN_004030b0())
                         {
@@ -1702,7 +1703,7 @@ bool MediaLocation825::HasMediaSetOfType(int iType, bool bAny)
     bool bFound = false;
     while (pkNode && !bFound)
     {
-        MediaSet825* pkSet = ((::MediaSet825 *)(new ((void *)(pkNode)) ::Vec3()));
+        MediaSet825* pkSet = (*((::MediaSet825 * *)(&reinterpret_cast<::SimpleListNodeView*>(pkNode)->m_item)));
         TESForm825* pkForm = pkSet ? ((::TESForm825 *)(reinterpret_cast<::Twin_0044ddc0 *>((pkSet))->GetName())) : 0;
         if (pkForm && pkForm->GetFormType() == 0xa && (!iType || ((int)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())) == iType) &&
             (bAny || ((bool)(reinterpret_cast<::FUN_00833c20_shell *>((pkSet))->FUN_00833c20()))))
@@ -1728,7 +1729,7 @@ void MagicTarget::Dispel(MagicItem* spell, MagicCaster* caster, ActiveEffect* ef
     BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
     while (node && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty())
     {
-        ActiveEffect* current = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+        ActiveEffect* current = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
         BSSimpleList<ActiveEffect*>* nextNode =
             (BSSimpleList<ActiveEffect*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSPerkEntry*>*)node)))->FUN_00726070()));
         if (current && !current->IsDone() && EFFECT_SPELL(current) == spell &&
@@ -1764,7 +1765,7 @@ void FUN_00824570_shell::DispelMatchingActiveEffects(unsigned int formID, unsign
     BSSimpleList<ActiveEffect*>* effect = GetActiveEffectList();
     while (effect && !effect->IsEmpty())
     {
-        ActiveEffect* active = (ActiveEffect*)((::ActiveEffect *)(new ((void *)(effect)) ::Vec3()));
+        ActiveEffect* active = (ActiveEffect*)(*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(effect)->m_item)));
         BSSimpleList<ActiveEffect*>* next = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((effect))->FUN_00726070()));
         if (active && !active->IsDone() && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)active)))->GetName())) == flags &&
             ((caster ? ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)active)))->FUN_0045cd60())) == caster : true) &&
@@ -1781,7 +1782,7 @@ void B824800MagicTarget::RemoveEffectsByArchetype(int aiArchetype, int iProcessL
     B824800EffectNode* pkEntry = pkPrevious;
     while (pkEntry && !pkEntry->IsEmpty())
     {
-        B824800ActiveEffect* pkEffectA = *((::B824800ActiveEffect **)(new ((void *)(pkEntry)) ::Vec3()));
+        B824800ActiveEffect* pkEffectA = *((::B824800ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pkEntry)->m_item));
         bool bLevelMatch = iProcessLevel ? iProcessLevel == ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pkEffectA))->FUN_0045cd60())) : true;
         if (pkEffectA && !reinterpret_cast<::ActiveEffect *>((void *)(pkEffectA))->IsDone() && reinterpret_cast<::EffectSetting *>((((::B824800EffectSetting *)(reinterpret_cast<::ActiveEffect *>((pkEffectA))->GetEffectSetting()))))->GetArchetype() == aiArchetype &&
             bLevelMatch)
@@ -1803,7 +1804,7 @@ bool MTShell::FUN_00824af0(unsigned int auiFormID, MagicCaster* apCaster, Active
     BSSimpleList<ActiveEffect*>* pNode2 = GetActiveEffectList();
     while (!bFound4 && pNode2 && !pNode2->IsEmpty())
     {
-        ActiveEffectAcc* pEff = (ActiveEffectAcc*)((::ActiveEffect *)(new ((void *)(pNode2)) ::Vec3()));
+        ActiveEffectAcc* pEff = (ActiveEffectAcc*)(*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode2)->m_item)));
         BSSimpleList<ActiveEffect*>* pNext3 = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
         if (pEff && !pEff->IsDone() && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pEff))->GetName())) == auiFormID &&
             (apCaster ? reinterpret_cast<::FUN_0045cd60_shell *>((pEff))->FUN_0045cd60() == apCaster : true) &&
@@ -1864,7 +1865,7 @@ bool MagicTarget::AddActiveEffect(MagicCaster* caster, MagicItem* spell, ActiveE
             bool found = false;
             while (node && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty() && !found)
             {
-                ActiveEffect* current = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+                ActiveEffect* current = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
                 if (current && EFFECT_ITEM(current) == usageMonitor)
                 {
                     ::FUN_00804cb0((void *)(current), ::GetFloatAtOffset1C((char *)(current)) + ::GetFloatAtOffset1C((char *)(effect)));
@@ -1926,7 +1927,7 @@ bool MagicTarget::AddActiveEffect(MagicCaster* caster, MagicItem* spell, ActiveE
             BSSimpleList<ActiveEffect*>* node = GetActiveEffectList();
             while (node && !((BSSimpleList<PerkButtonEntry*>*)node)->IsEmpty())
             {
-                ActiveEffect* current = (ActiveEffect*)((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3()));
+                ActiveEffect* current = (ActiveEffect*)(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item)));
                 if (current && FUN_0040dfa0(EFFECT_ITEM(effect), EFFECT_ITEM(current)))
                 {
                     Dispel(EFFECT_SPELL(current), 0, current);
@@ -2015,7 +2016,7 @@ bool FUN_00824c00_cls::StackActiveEffect(MagicItem* apItem, MagicCaster* apCaste
     }
     while (!bStackedValue && pNode && !pNode->IsEmpty())
     {
-        ActiveEffect* pActive_2 = ((::ActiveEffect *)(new ((void *)(pNode)) ::Vec3()));
+        ActiveEffect* pActive_2 = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)));
         BSSimpleList<ActiveEffect*>* pTmpNext = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         bool bTmpSame = pActive_2 && (MagicItem*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pActive_2))->GetName())) == apItem;
         if (bAddictionValue)
@@ -2061,7 +2062,7 @@ MagicTargetImpl::~MagicTargetImpl()
     EffectList* iter = &m_kActiveEffectList;
     while (iter && !iter->FUN_008256d0())
     {
-        EffectNode* effect = ((::EffectNode *)(new ((void *)(iter)) ::Vec3()));
+        EffectNode* effect = (*((::EffectNode * *)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)));
         if (effect)
         {
             delete effect;
@@ -2425,7 +2426,7 @@ void MagicTargetTypedDispel::FUN_00824630(int aiType)
                 while (pNode && !pNode->IsEmpty())
                 {
                     BSSimpleList<ListedSpell*>* pNext = ((::BSSimpleList< ::ListedSpell *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
-                    ListedSpell* pSpell = ((::ListedSpell *)(new ((void *)(pNode)) ::Vec3()));
+                    ListedSpell* pSpell = (*((::ListedSpell * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)));
                     if (pSpell && pSpell->GetType() == 1)
                     {
                         pActor->RemoveSpell(pSpell);
@@ -2442,7 +2443,7 @@ void MagicTargetTypedDispel::FUN_00824630(int aiType)
         pIter = GetActiveEffectList();
         while (pIter && !pIter->IsEmpty())
         {
-            ActiveEffectSpell* pEffect = (ActiveEffectSpell*)((::ActiveEffect *)(new ((void *)(pIter)) ::Vec3()));
+            ActiveEffectSpell* pEffect = (ActiveEffectSpell*)(*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
             BSSimpleList<ActiveEffect*>* pNextEffect = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
             if (pEffect && !pEffect->IsDone())
             {

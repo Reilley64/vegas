@@ -1,5 +1,6 @@
 // fallout/magic/magiccaster.cpp: MagicCaster, Caster, ScriptLocalsX, CastingCheck and more (34 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1167,7 +1168,7 @@ bool CastingCheck::TryCast(TESBoundObject* source)
         }
         FeedbackString message = ((SpellFeedback*)GetSelectedMagicItem())->GetNameForType(eReason);
         if (actor && actor->IsPlayer() && (!pCastSpell || pCastSpell->data.HasFoodEffect()))
-            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(message))))), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(message))))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
         SetState(MagicCaster__State_ERR_CANNOT_CAST, (char*)((const char *)(::FUN_00559450((int *)&(message)))));
         SpellCast(GetSelectedMagicItem(), false);
         SetSelectedMagicItem(0);
@@ -2914,7 +2915,7 @@ void ExplosionCaster::ApplyExplosion(ExplosionActor* target, NiPoint3 origin, Ex
     NiPoint3 s = *target->GetPosition();
     s.z += a * 0.75;
     // Displacement used to calculate the distance.
-    NiPoint3 p = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((ExplosionPoint&)s)))->FUN_00439ef0((::NiPoint3 *)&(origin), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3 p = ([&] { ::NiPoint3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)&(((ExplosionPoint&)s)))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(origin))); return difference; }());
     h = reinterpret_cast<::NiPoint3 *>((void *)&(((ExplosionPoint&)p)))->ComputeMagnitude();
     i = ::ComputeBlastPower((int)strength, (int)(reinterpret_cast<::FUN_00404420_shell *>((effect))->FUN_00404420() * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting1112))))))), h,
                           reinterpret_cast<::ActorValueOwner *>(&(target->values))->GetActorValueAsInteger((::ActorValue::Index)(10)), reinterpret_cast<::ActorValueOwner *>(&(target->values))->GetActorValueAsInteger((::ActorValue::Index)(11)), reinterpret_cast<::FUN_00893530_shell *>((target))->GetFatigueRatio());
@@ -3456,16 +3457,16 @@ MagicTarget* FUN_00817620_shell::FindClosestMagicTarget()
                     }
                 }
             }
-            if (ptempfollower && *((::Actor **)(new ((void *)(ptempfollower)) ::Vec3())))
+            if (ptempfollower && *((::Actor **)(&reinterpret_cast<::SimpleListNodeView*>(ptempfollower)->m_item)))
             {
-                ptargetActor = dynamic_cast<Character*>(*((::Actor **)(new ((void *)(ptempfollower)) ::Vec3())));
+                ptargetActor = dynamic_cast<Character*>(*((::Actor **)(&reinterpret_cast<::SimpleListNodeView*>(ptempfollower)->m_item)));
                 ptempfollower = ((::S::BSSimpleList *)(reinterpret_cast<::Callees *>((ptempfollower))->FUN_00726070()));
                 while (ptargetActor && (!((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)ptargetActor)))->GetBaseTexture())) ||
                                         ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)ptargetActor)))->GetBaseTexture())))))->FUN_0045cd60()))))
                 {
                     ptargetActor = 0;
                     if (ptempfollower)
-                        ptargetActor = dynamic_cast<Character*>(*((::Actor **)(new ((void *)(ptempfollower)) ::Vec3())));
+                        ptargetActor = dynamic_cast<Character*>(*((::Actor **)(&reinterpret_cast<::SimpleListNodeView*>(ptempfollower)->m_item)));
                     if (ptempfollower)
                         ptempfollower = ((::S::BSSimpleList *)(reinterpret_cast<::Callees *>((ptempfollower))->FUN_00726070()));
                 }
@@ -3489,9 +3490,9 @@ void Caster::ApplyAreaEffect(Magic* magic, Item* item, int enabled, Vec pos, Tar
         ActorTarget* source7 = ((::ActorTarget *)(reinterpret_cast<::MagicCaster *>(this)->GetCasterActor()));
         bool notified5 = *done;
         Node* nodeB = list;
-        while (nodeB && *((::Ref **)(new ((void *)(nodeB)) ::Vec3())))
+        while (nodeB && *((::Ref **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)))
         {
-            Ref* ref5 = *((::Ref **)(new ((void *)(nodeB)) ::Vec3()));
+            Ref* ref5 = *((::Ref **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item));
             if (ref5)
             {
                 Target* target = ref5->target();
@@ -3600,7 +3601,7 @@ void P142Caster::ApplySpellEffects(P142Spell* spell, int flags, NiPoint3 positio
     bool modifier = false;
     while (targets)
     {
-        EffectItem* item = *((::EffectItem **)(new ((void *)(targets)) ::Vec3()));
+        EffectItem* item = *((::EffectItem **)(&reinterpret_cast<::SimpleListNodeView*>(targets)->m_item));
         if (item && reinterpret_cast<::FUN_0084e3a0_Class *>((item))->FUN_0084e3a0() == 2)
         {
             ActiveEffect* effect = CreateActiveEffect((MagicItem*)spell, item, 0);
@@ -3887,7 +3888,7 @@ void AEGatherer::GatherTargetsInArea(MagicItem* apItem, unsigned int auiEffectCo
     AEEffectList* pIter = static_cast<AEMagicItem*>(apItem);
     while (pIter && !pIter->IsEmpty())
     {
-        AEEffectItem* pEffect = ((::AEEffectItem *)(new ((void *)(pIter)) ::Vec3()));
+        AEEffectItem* pEffect = (*((::AEEffectItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
         if (pEffect && ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pEffect))->FUN_0084e3a0())) == auiEffectCode && reinterpret_cast<::FUN_00404420_shell *>((pEffect))->FUN_00404420() > iMaxAreaA)
             iMaxAreaA = reinterpret_cast<::FUN_00404420_shell *>((pEffect))->FUN_00404420();
         pIter = static_cast<AEEffectList*>(((::BSSimpleList< ::AEEffectItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070())));
@@ -3920,15 +3921,15 @@ void AEGatherer::GatherTargetsInArea(MagicItem* apItem, unsigned int auiEffectCo
                     apTargets->AddHead(pActor4);
                 }
             }
-            if (pNode && ((::Actor *)(new ((void *)(pNode)) ::Vec3())))
+            if (pNode && (*((::Actor * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))))
             {
-                pMobile4 = dynamic_cast<Character*>(((::Actor *)(new ((void *)(pNode)) ::Vec3())));
+                pMobile4 = dynamic_cast<Character*>((*((::Actor * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
                 pNode = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
                 while (pMobile4 && (!((::AEProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<AEMobile*>(pMobile4)))->GetBaseTexture())) ||
                                     ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::AEProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((static_cast<AEMobile*>(pMobile4)))->GetBaseTexture()))))->FUN_0045cd60()))))
                 {
                     if (pNode)
-                        pMobile4 = dynamic_cast<Character*>(((::Actor *)(new ((void *)(pNode)) ::Vec3())));
+                        pMobile4 = dynamic_cast<Character*>((*((::Actor * *)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item))));
                     else
                         pMobile4 = 0;
                     if (pNode)
@@ -4587,7 +4588,7 @@ void Caster::FUN_00815d00(float power, Source* source, bool immediate, float mul
     EffectList* cursorA = static_cast<EffectList*>(reinterpret_cast<MagicView*>(spellB));
     while (cursorA)
     {
-        Effect* effect = *((::CastTargets::Effect **)(new ((void *)(cursorA)) ::Vec3()));
+        Effect* effect = *((::CastTargets::Effect **)(&reinterpret_cast<::SimpleListNodeView*>(cursorA)->m_item));
         if (effect && spellB->GetSpellType() == 6 && source && !::FUN_00409720((::TESBoundObject *)(source), (::ItemExtraList *)(0), (::EffectSetting *)(::CastTargets::EffectSettings *)(((::CastTargets::EffectSettings *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((effect))->FUN_00825c00())))))
             effect = 0;
         if (effect)
@@ -4827,7 +4828,7 @@ void Pusher::FUN_00818150(PushRef* target, Vec3 origin, EffectStub* effect, floa
         if (force > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131)))))))
             force = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1131))))));
         force = force * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00818150::SettingT< ::fnv_00818150::GameSettingCollection> *>(&::originalRuntimeFloatSetting1136))))));
-        reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::fnv_00818150::Vec3 &)(vDirection))->FUN_004a51b0(2) += 0.5;
+        vDirection[2] += 0.5;
         Vec3 vImpulse = vDirection * force;
         hkVector4 v;
         ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(v), (const ::fnv_004a3e00::NiPoint3 &)(vImpulse));
@@ -4924,9 +4925,9 @@ void Master::FUN_00817b90(Vec3 center, ListHandle* item, void* filter, RangeMana
             reinterpret_cast<::FUN_00c9f420_Class *>(&(results))->FUN_00c9f420();
             TargetInterface* node = first;
             TargetInterface* skip = ((::TargetInterface *)(reinterpret_cast<::MagicCaster *>(this)->GetCasterActor()));
-            while (node && *((::TargetInterface **)(new ((void *)(node)) ::Vec3())))
+            while (node && *((::TargetInterface **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
             {
-                TargetInterface* current = *((::TargetInterface **)(new ((void *)(node)) ::Vec3()));
+                TargetInterface* current = *((::TargetInterface **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
                 TargetInterface* candidate = ((TargetAvailable)current->vtable[64])(current) ? current : 0;
                 if (candidate)
                     if (candidate && candidate != skip && ((TargetActive)candidate->vtable[116])(candidate))

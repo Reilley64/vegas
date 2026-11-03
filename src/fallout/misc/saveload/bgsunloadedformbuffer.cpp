@@ -60,11 +60,10 @@ char* FormBufferContext::FUN_00866390()
     return 0;
 }
 
-typedef unsigned int SIZE_TYPE;
 
 
 // @fnv 0x00866430
-SIZE_TYPE FUN_00866430(void* a)
+unsigned int FUN_00866430(void* a)
 {
     return ((unsigned int)(reinterpret_cast<::FUN_00864520_shell *>((*(void**)a))->FUN_00864520()));
 }
@@ -137,7 +136,7 @@ struct FUN_00866480_shell : FormBufferContext
 // @fnv 0x00866480
 BGSLoadFormBuffer* FUN_00866480_shell::FUN_00866480()
 {
-    SIZE_TYPE esizeType;
+    unsigned int esizeType;
     char* padvancedBuffer;
     unsigned int isize;
     unsigned int iposition;

@@ -186,7 +186,7 @@ void FUN_0084d4b0(HeaderFile* file)
     if (*(*reinterpret_cast<::HeaderSetting *>(&::g_011de2fc)).FUN_00408d60())
     {
         ::TaskQueueInterface::CopyStringToBuffer(screenshotPath_2, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::HeaderSetting *>(&::g_011c3f74))))->GetMenuTitle())));
-        FUN_00406d50(screenshotPath_2, 260, ((const char *)(new ((void *)(file)) ::Vec3())));
+        FUN_00406d50(screenshotPath_2, 260, ((const char *)(static_cast<void *>(file))));
         FUN_00406d50(screenshotPath_2, 260, ".bmp");
     }
     HeaderPixels* pixels = 0;
@@ -308,7 +308,8 @@ NiTexture* __cdecl LoadScreenshotTexture(SaveLoadFile* file, unsigned int offset
     aTexFormat.iPixelLayout = 2;
     aTexFormat.iMipMapped = 0;
     aTexFormat.iAlphaFormat = 0;
-    return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(ScreenshotName("BGSSaveLoadHeader_Screenshot")), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
+    ScreenshotName textureName("BGSSaveLoadHeader_Screenshot");
+    return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(textureName.pString), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
 }
 
 #include "generated/data/fallout/misc/saveload/bgssaveloadheader.inc"

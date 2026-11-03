@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadglobaldata.cpp: SaveGameLoader (23 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdio>
 #include <cstdlib>
@@ -549,7 +550,7 @@ void SaveGameLoader::UnloadGameData()
     while (node)
     {
         ImageSpaceModifierInstance* effect =
-            (ImageSpaceModifierInstance*)((NiPointer<NiNode>*)&((::BGSPerkEntry *)(new ((void *)(((BSSimpleList<BGSPerkEntry*>*)node))) ::Vec3())))
+            (ImageSpaceModifierInstance*)((NiPointer<NiNode>*)&(*((::BGSPerkEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<BGSPerkEntry*>*)node))->m_item))))
                 ->
                 operator->();
         if (effect && !reinterpret_cast<::FUN_0084d050_shell *>((effect))->IsFlagSet())
@@ -613,7 +614,7 @@ void FUN_0084cc90(BGSSaveFormBuffer* apBuffer)
     GlobalListNode* pIter = pList;
     while (pIter)
     {
-        TESGlobal* pGlobalForm = ((::TESGlobal *)(new ((void *)(pIter)) ::Vec3()));
+        TESGlobal* pGlobalForm = (*((::TESGlobal * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
         if (pGlobalForm && !reinterpret_cast<::FUN_00549580_shell *>((pGlobalForm))->FUN_00549580())
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pGlobalForm), 0);
@@ -719,7 +720,7 @@ void FUN_00975840_owner::FUN_00975840(BGSSaveFormBuffer* apBuffer)
         ItemListNode* pIter = ((ItemListNode**)((char*)this + 0x44))[i];
         while (pIter)
         {
-            SavedItem* pSavedItem = ((::fnv_00975840::SavedItem *)(new ((void *)(pIter)) ::Vec3()));
+            SavedItem* pSavedItem = (*((::fnv_00975840::SavedItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
             if (pSavedItem)
             {
                 reinterpret_cast<::Candidate *>((pSavedItem))->SaveToStream((::SaveLocal *)(apBuffer));
@@ -780,7 +781,7 @@ void ReconstructAllGlobals()
     while (pGlobalList)
     {
         TESGlobal* pglobal;
-        pglobal = *((::fnv_0084ced0::TESGlobal **)(new ((void *)(((ListStub*)pGlobalList))) ::Vec3()));
+        pglobal = *((::fnv_0084ced0::TESGlobal **)(&reinterpret_cast<::SimpleListNodeView*>(((ListStub*)pGlobalList))->m_item));
         reinterpret_cast<::fnv_00843630::FUN_00843630_shell *>((pReconstructMap))->FUN_00843630((::TESForm *)(pglobal), 0);
         pGlobalList = (BSSimpleList<TESGlobal*>*)((::fnv_0084ced0::ListStub *)(reinterpret_cast<::Callees *>((((ListStub*)pGlobalList)))->FUN_00726070()));
     }
@@ -1067,15 +1068,15 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
         TESObjectREFR* pref;
         reinterpret_cast<::FUN_0084cc40_shell *>((((LLD_SaveLoadGame*)g_BGSSaveLoadGame)))->FUN_0084cc40(true);
         BSSimpleList<LLD_Quest*>* pIter = ((::BSSimpleList< ::LLD_Quest *> *)(reinterpret_cast<::fnv_00455600::FUN_00455600_shell *>((((LLD_DataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->FUN_00455600()));
-        while (pIter && ((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())))
+        while (pIter && (*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))))
         {
             FUN_0084cbd0("Quest %s (%08x) compared to Patch04Debug\n",
-                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))))->FUN_00408da0())),
-                         ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3()))))->FUN_0084e3a0())));
-            if (((LLD_FullNameLen*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))->GetModelLength() > 8 &&
-                std::strstr((char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))))->FUN_00408da0()))), "Patch04Debug"))
+                         ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)(*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))) + 0x30))))->FUN_00408da0())),
+                         ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))))->FUN_0084e3a0())));
+            if (((LLD_FullNameLen*)((char*)(*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))) + 0x30))->GetModelLength() > 8 &&
+                std::strstr((char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)(*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item))) + 0x30))))->FUN_00408da0()))), "Patch04Debug"))
             {
-                *(LLD_Quest**)((char*)::_g_thePlayer + 0xe4c) = ((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3()));
+                *(LLD_Quest**)((char*)::_g_thePlayer + 0xe4c) = (*((::LLD_Quest * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)));
                 break;
             }
             pIter = ((::BSSimpleList< ::LLD_Quest *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
@@ -1263,7 +1264,7 @@ void FUN_0084cd40(BGSLoadGameBuffer* pLoadBuffer)
     GlobalListNode* node2 = ((::GlobalListNode *)(::FUN_00461190((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))))));
     while (node2)
     {
-        TESGlobal* globalVal = ((::TESGlobal *)(new ((void *)(node2)) ::Vec3()));
+        TESGlobal* globalVal = (*((::TESGlobal * *)(&reinterpret_cast<::SimpleListNodeView*>(node2)->m_item)));
         if (globalVal)
             reinterpret_cast<::FUN_0084d310_class *>(&(unchanged2))->FUN_0084d310((int)(globalVal), true);
         node2 = ((::GlobalListNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
@@ -1331,7 +1332,7 @@ void __cdecl SaveImageSpaceModifierInstances(int pBuffer)
     i6 = ((::BSSimpleList< ::NiPointer< ::ImageSpaceModifierInstance>> *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetData()));
     while (i6 != 0)
     {
-        v8_2 = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(new ((void *)(i6)) ::Vec3())).operator->();
+        v8_2 = (*(::NiPointer< ::ImageSpaceModifierInstance> *)(&reinterpret_cast<::SimpleListNodeView*>(i6)->m_item)).operator->();
         if (v8_2 != 0 && !reinterpret_cast<::FUN_0084d050_shell *>((v8_2))->IsFlagSet())
         {
             v2 = (void*)(*(int(**)(int))(*(int*)v8_2 + 148))((int)v8_2);

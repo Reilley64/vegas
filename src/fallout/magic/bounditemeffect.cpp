@@ -2,6 +2,7 @@
 // src/fallout/magic/bounditemeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bounditemeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AssociatedItemCopyEntry.h"
@@ -321,7 +322,7 @@ FUN_00807ee0::~FUN_00807ee0()
     }
     if (unk4c)
     {
-        XDataS* pXData = ((::XListS *)(::FUN_00559450((int *)(unk4c)))) ? *((::XDataS **)(new ((void *)(((::XListS *)(::FUN_00559450((int *)(unk4c)))))) ::Vec3())) : 0;
+        XDataS* pXData = ((::XListS *)(::FUN_00559450((int *)(unk4c)))) ? *((::XDataS **)(&reinterpret_cast<::SimpleListNodeView*>(((::XListS *)(::FUN_00559450((int *)(unk4c)))))->m_item)) : 0;
         if (pXData)
             reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pXData))->FUN_0041afa0();
         reinterpret_cast<::FUN_004bc780_shell *>((unk4c))->ClearExtraDataList();
@@ -331,7 +332,7 @@ FUN_00807ee0::~FUN_00807ee0()
     {
         if (unk50[j])
         {
-            XDataS* pXData2 = ((::XListS *)(::FUN_00559450((int *)(unk50[j])))) ? *((::XDataS **)(new ((void *)(((::XListS *)(::FUN_00559450((int *)(unk50[j])))))) ::Vec3())) : 0;
+            XDataS* pXData2 = ((::XListS *)(::FUN_00559450((int *)(unk50[j])))) ? *((::XDataS **)(&reinterpret_cast<::SimpleListNodeView*>(((::XListS *)(::FUN_00559450((int *)(unk50[j])))))->m_item)) : 0;
             if (pXData2)
                 reinterpret_cast<::fnv_0041afa0::FUN_0041afa0_Class *>((pXData2))->FUN_0041afa0();
             reinterpret_cast<::FUN_004bc780_shell *>((unk50[j]))->ClearExtraDataList();
@@ -2906,7 +2907,7 @@ void EffectObj::Update(float delta)
                 if (weaponA == ((::TESObjectWEAP *)(reinterpret_cast<::Twin_0044ddc0 *>((entry2))->GetName())) && ((::ItemList *)(::FUN_00559450((int *)(entry2)))))
                 {
                     pending = false;
-                    ItemData* data = *((::ItemData **)(new ((void *)(((::ItemList *)(::FUN_00559450((int *)(entry2)))))) ::Vec3()));
+                    ItemData* data = *((::ItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::ItemList *)(::FUN_00559450((int *)(entry2)))))->m_item));
                     reinterpret_cast<::FUN_0041ab70_shell *>((data))->FUN_0041ab70(true);
                 }
             }
@@ -2942,7 +2943,7 @@ void EffectP::FUN_00808a30()
         if (((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())
         {
             ExtraP* old = 0;
-            old = *((::ExtraP **)(new ((void *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)) ::Vec3()));
+            old = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item));
             if (reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((old))->FUN_0040fe20() < 2 || reinterpret_cast<::fnv_0040fe20::FUN_0040fe20_shell *>((old))->FUN_0040fe20() == 2 && reinterpret_cast<::FUN_00418770_shell *>((old))->FUN_00418770() > 1)
                 old = 0;
             TESBoundObject* extra = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()))->GetName()));
@@ -2956,7 +2957,7 @@ void EffectP::FUN_00808a30()
                 }
             }
             reinterpret_cast<::s88c790::Actor *>((weapon))->FUN_0088c790((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()))->GetName()))), 1,
-                                 (int)(*((::ExtraP **)(new ((void *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)) ::Vec3()))), 0, 0, 1);
+                                 (int)(*((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped()->list)->m_item))), 0, 0, 1);
             unk4c = (EntryS*)new FUN_004bc550(extra, 0);
             if (old)
             {
@@ -2972,7 +2973,7 @@ void EffectP::FUN_00808a30()
         if (((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture())) && ((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped() &&
             ((::ExtraListP *)(::FUN_00559450((int *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())))))
         {
-            newExtra = *((::ExtraP **)(new ((void *)(((::ExtraListP *)(::FUN_00559450((int *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())))))) ::Vec3()));
+            newExtra = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(((::ExtraListP *)(::FUN_00559450((int *)(((::ProcessP *)(reinterpret_cast<::BSShaderNoLightingProperty *>((weapon))->GetBaseTexture()))->Equipped())))))->m_item));
             reinterpret_cast<::FUN_0041ab70_shell *>((newExtra))->FUN_0041ab70(1);
         }
         else
@@ -3007,7 +3008,7 @@ void EffectP::FUN_00808a30()
                         unka7 = true;
                     }
                 }
-                ExtraP* data = *((::ExtraP **)(new ((void *)(entry->list)) ::Vec3()));
+                ExtraP* data = *((::ExtraP **)(&reinterpret_cast<::SimpleListNodeView*>(entry->list)->m_item));
                 if (data)
                 {
                     reinterpret_cast<::FUN_0041b010 *>((data))->Method(0);
@@ -3083,7 +3084,7 @@ void BIEffect::StopEffect()
             if (m_pkWeaponEntry)
             {
                 bool bEquipped = false;
-                pkData = ((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))) ? *((::BIItemData **)(new ((void *)(((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))))) ::Vec3())) : 0;
+                pkData = ((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))) ? *((::BIItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::BIItemNode *)(::FUN_00559450((int *)(m_pkWeaponEntry)))))->m_item)) : 0;
                 if (reinterpret_cast<::CombatState *>((pkActor))->GetInventoryItemCount((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((m_pkWeaponEntry))->GetName())))) >= 1)
                 {
                     bEquipped = true;
@@ -3125,7 +3126,7 @@ void BIEffect::StopEffect()
                     BIEntry* pkEntry = m_apArmorEntries[i];
                     BIItemData* pkEntryData = 0;
                     if (((::BIItemNode *)(::FUN_00559450((int *)(pkEntry)))))
-                        pkEntryData = *((::BIItemData **)(new ((void *)(((::BIItemNode *)(::FUN_00559450((int *)(pkEntry)))))) ::Vec3()));
+                        pkEntryData = *((::BIItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::BIItemNode *)(::FUN_00559450((int *)(pkEntry)))))->m_item));
                     if (pkEntry)
                     {
                         bool bKeepModel = false;
@@ -3262,7 +3263,7 @@ bool FUN_0080a700(BIActor* apActor, BIEntry* apRef, void* apExclude)
     EffectNode* pNode2 = static_cast<MagicTargetX*>((ActorX*)apActor)->GetEffectList();
     while (pNode2 && !pNode2->FUN_008256d0())
     {
-        ActiveEffect* pEffect = *((::ActiveEffect **)(new ((void *)(pNode2)) ::Vec3()));
+        ActiveEffect* pEffect = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(pNode2)->m_item));
         BoundItemEffectX* pBound6 = (BoundItemEffectX*)dynamic_cast<BoundItemEffect*>(pEffect);
         if (pBound6 && (void*)pBound6 != apExclude)
         {

@@ -416,6 +416,7 @@ ActiveEffect* FUN_0082a5a0_shell::CreateCopy()
     return copy;
 }
 
+struct FUN_00438fc0_file;
 struct NiPoint3
 {
     float x, y, z;

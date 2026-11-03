@@ -1,5 +1,6 @@
 // fallout/magic/scripteffect.cpp: ScriptEffect, ScriptEffectShell (14 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActiveEffectSaveShell.h"
@@ -310,7 +311,7 @@ void FUN_00827930_shell::CopyScriptEffectData(ActiveEffect* apDestination)
             SCRIPT_LOCAL_LIST* pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ScriptLocals_0084e3a0*)m_pScriptLocals)))->FUN_0084e3a0()));
             while (pLocalEntry && !pLocalEntry->FUN_008256d0())
             {
-                reinterpret_cast<::FUN_005a9290_shell *>((((ScriptLocals_SetVariable*)pse->m_pScriptLocals)))->SetScriptVariable(((::ScriptLocalVariable *)(new ((void *)(pLocalEntry)) ::Vec3()))->uiID, ((::ScriptLocalVariable *)(new ((void *)(pLocalEntry)) ::Vec3()))->fValue);
+                reinterpret_cast<::FUN_005a9290_shell *>((((ScriptLocals_SetVariable*)pse->m_pScriptLocals)))->SetScriptVariable((*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->uiID, (*((::ScriptLocalVariable * *)(&reinterpret_cast<::SimpleListNodeView*>(pLocalEntry)->m_item)))->fValue);
                 pLocalEntry = ((::SCRIPT_LOCAL_LIST *)(reinterpret_cast<::Callees *>((pLocalEntry))->FUN_00726070()));
             }
             if (m_pScriptLocals->effect)

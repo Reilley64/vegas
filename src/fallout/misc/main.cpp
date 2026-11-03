@@ -1,4 +1,5 @@
 // fallout/misc/main.cpp: Interface, SomeClass, BSFadeNodeCuller, Mover and more (192 functions)
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
 #include <shellapi.h>
@@ -253,7 +254,6 @@
 #include "fnv/decl/NiObjectNET.h"
 #include "fnv/decl/NiParallelUpdateTaskManager.h"
 #include "fnv/decl/NiScreenElementsDataShell.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/NiTransform.h"
 #include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/NonActorMagicTarget.h"
@@ -895,6 +895,7 @@ void FUN_0086e4b0(NiGeometry* apGeometry)
 }
 }  // namespace fnv_0086e4b0
 
+class BSPackedTask;
 struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
@@ -3824,7 +3825,7 @@ void FUN_0086fd90_shell::FUN_0086fd90(bool abAdvanceTime)
     int iactiveWeatherCount = 0;
     while (pModifierList)
     {
-        ISMI_0086fd90* pModifier = (ISMI_0086fd90*)(unsigned int)(*(::fnv_0086fd90::Flt *)(new ((void *)(pModifierList)) ::Vec3()));
+        ISMI_0086fd90* pModifier = (ISMI_0086fd90*)(unsigned int)(*(::fnv_0086fd90::Flt *)(&reinterpret_cast<::SimpleListNodeView*>(pModifierList)->m_item));
         if (pModifier)
         {
             if (pModifier->bActive)
@@ -3876,6 +3877,8 @@ struct RgbaColor
 };
 struct FUN_008746d0_shell : public Main
 {
+    char pad00[0x90];
+    ::BSShaderAccumulator* pFirstPersonAccumulator;
     void FUN_008746d0(BSRenderedTexture*);
 };
 
@@ -4012,10 +4015,10 @@ void FUN_008746d0_shell::FUN_008746d0(BSRenderedTexture* apRenderTexture)
     reinterpret_cast<::TaskQueueInterface *>((p1stPersonNode))->QueueActorDisarm(false);
     reinterpret_cast<::C52020Obj *>((p1stperson3d))->FUN_00c52020(::FUN_00874900((const char *)(::fnv_008746d0::PC_00605d70 *)((PC_00605d70*)::_g_thePlayer)), 0, (::C52020Obj *)(0), 0);
     ::BSShaderManager::SetFOV(::FUN_00874900((const char *)(::fnv_008746d0::PC_00605d70 *)((PC_00605d70*)::_g_thePlayer)));
-    reinterpret_cast<::FUN_004a0fd0_shell *>((pculler))->FUN_004a0fd0((::NiNode *)(*(Flt*)((char*)this + 0x90)));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((pculler))->FUN_004a0fd0((::NiNode *)(pFirstPersonAccumulator));
     ::FUN_00b6bee0(((BSFaceGenNiNode*)p1stperson3d)->GetAnimationData(), p1stPersonNode, (::BSShaderAccumulator *)(pculler));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(void *)(((BSFaceGenNiNode*)p1stperson3d)->GetAnimationData()),
-                                           (::BSShaderAccumulator *)(*(Flt*)((char*)this + 0x90)), false);
+                                           pFirstPersonAccumulator, false);
     reinterpret_cast<::FUN_004a0fd0_shell *>((pculler))->FUN_004a0fd0((::NiNode *)(0));
     reinterpret_cast<::C52020Obj *>((p1stperson3d))->FUN_00c52020(::FUN_00710ab0((::FUN_00710ab0_Class *)(::fnv_008746d0::PC_00605d70 *)((PC_00605d70*)::_g_thePlayer)), 0, (::C52020Obj *)(0), 0);
     ::BSShaderManager::SetFOV(::FUN_00710ab0((::FUN_00710ab0_Class *)(::fnv_008746d0::PC_00605d70 *)((PC_00605d70*)::_g_thePlayer)));
@@ -5813,7 +5816,6 @@ void FUN_00a236f0_cls::FUN_00a236f0(int index, int aiValue1, int aiValue2)
     pItem->v06(4, &data);
 }
 
-typedef unsigned int DWORD;
 struct DIPROPHEADER
 {
     DWORD dwSize;
@@ -6194,7 +6196,7 @@ struct FUN_00ec1800_cls
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int hObject;
+    HANDLE hObject;
     unsigned int unk0c;
     unsigned int unk10;
     unsigned int unk14;
@@ -6265,7 +6267,7 @@ void __cdecl FUN_007917a0();
 // @fnv 0x00706320
 void __cdecl FUN_00706320(int)
 {
-    s_bAllowDetach = true;
+    ::fnv_007a2070::s_bAllowDetach = true;
     Tile* root = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_00586150();
     {
         void* position = root->children.GetHeadPos();
@@ -6312,7 +6314,7 @@ void __cdecl FUN_00706320(int)
             }
         }
     }
-    s_bAllowDetach = false;
+    ::fnv_007a2070::s_bAllowDetach = false;
 }
 
 struct Manager86
@@ -6562,16 +6564,11 @@ int __cdecl FUN_0086be30(...);
 int __cdecl FUN_006c0900(...);
 int __cdecl FUN_0086bee0(...);
 int __cdecl FUN_006eb980(...);
-int __cdecl FUN_0086bf10(...);
-int __cdecl FUN_0086bf40(...);
 int __cdecl FUN_00717e50(...);
 int __cdecl FUN_005e01b0(...);
 int __cdecl FUN_0086bb20(...);
 int __cdecl FUN_0086bc10(...);
-int __cdecl FUN_0086bd00(...);
-int __cdecl FUN_008783c0(...);
 int __cdecl FUN_00aa47c0(...);
-int __cdecl FUN_008784d0(...);
 
 extern unsigned int _DAT_011c16bc;
 extern char str_01082ab8[];
@@ -6597,46 +6594,46 @@ extern char str_01082a48[];
 
 // Creates the game window and subsystems, runs the message/render loop until exit, then tears everything down and returns 0.
 // @fnv 0x0086a850
-int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_3, unsigned int param_4)
+int FUN_0086a850(HINSTANCE param_1, HINSTANCE param_2, char* param_3, int param_4)
 
 {
-    Rect86 inactiveRect3;
+    RECT inactiveRect3;
     unsigned int inactiveStyle3;
-    Rect86 activeRect5;
+    RECT activeRect5;
     unsigned int activeStyle1;
     int deviceStatus13;
     char launchPath0[260];
-    int shellResult10;
+    HINSTANCE shellResult10;
     unsigned short* option6;
     int argumentIndex33;
     int argumentCount8;
     unsigned short** arguments5;
     unsigned char enableMemory0;
     Point86 position25;
-    SystemInfo86 systemInfo7;
+    SYSTEM_INFO systemInfo7;
     unsigned int startupState3;
-    WindowClass86 windowClass10;
-    Message86 message0;
+    WNDCLASSA windowClass10;
+    MSG message0;
     Context86 memoryContext11;
     Text86 shutdownText46;
-    int gameWindow3;
+    HWND gameWindow3;
     char path2[260];
-    unsigned int window1;
-    unsigned int mutex17;
-    Rect86 windowRect0;
+    HWND window1;
+    HANDLE mutex17;
+    RECT windowRect0;
     unsigned char paused1;
     unsigned int startupFlags3;
-    int existingWindow30;
+    HWND existingWindow30;
 
-    mutex17 = CreateMutexA(0, 0, &str_01082ab8);
+    mutex17 = CreateMutexA(0, 0, str_01082ab8);
     if (GetLastError() == 0xb7)
     {
-        MessageBoxA(0, &str_01082a7c, &str_0104df38, 0);
+        MessageBoxA(0, str_01082a7c, str_0104df38, 0);
         return 0;
     }
     if (GetSystemMetrics(0x1000))
     {
-        MessageBoxA(0, &str_01082a48, &str_0104df38, 0);
+        MessageBoxA(0, str_01082a48, str_0104df38, 0);
         return 0;
     }
     {
@@ -6650,7 +6647,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
             ::FUN_00c3bc30((const char *)(unsigned char *)(&UNK_01082a10));
             ::fnv_00c3bc80::FUN_00c3bc80((const char *)(unsigned char *)(&UNK_01082a00));
             GetSystemInfo(&systemInfo7);
-            *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = systemInfo7.processors;
+            *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) = systemInfo7.dwNumberOfProcessors;
             ::BGSSaveLoadManager::GetSaveDirectory(path2);
             if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject2_0040c150 *>(&::g_011c3ea4)))))) == 1)
             {
@@ -6763,15 +6760,15 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                 ::fnv_00876d20::FUN_00876d20();
                 reinterpret_cast<::fnv_00404f70::FUN_00404f70_shell *>(&(memoryContext11))->FUN_00404f70();
                 windowClass10.style = 3;
-                windowClass10.procedure = &(*reinterpret_cast<unsigned char *>(&::fnv_0086a0a0::FUN_0086a0a0));
-                windowClass10.classExtra = 0;
-                windowClass10.windowExtra = 0;
-                windowClass10.instance = param_1;
-                windowClass10.icon = LoadIconA(param_1, 0x65);
-                windowClass10.cursor = 0;
-                windowClass10.background = GetStockObject(4);
-                windowClass10.className = _DAT_011a2fe8;
-                windowClass10.menu = 0;
+                windowClass10.lpfnWndProc = reinterpret_cast<WNDPROC>(&::fnv_0086a0a0::FUN_0086a0a0);
+                windowClass10.cbClsExtra = 0;
+                windowClass10.cbWndExtra = 0;
+                windowClass10.hInstance = param_1;
+                windowClass10.hIcon = LoadIconA(param_1, MAKEINTRESOURCEA(0x65));
+                windowClass10.hCursor = 0;
+                windowClass10.hbrBackground = (HBRUSH)GetStockObject(4);
+                windowClass10.lpszClassName = _DAT_011a2fe8;
+                windowClass10.lpszMenuName = 0;
                 RegisterClassA(&windowClass10);
                 windowRect0.left = 0;
                 windowRect0.top = 0;
@@ -6782,7 +6779,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                                           windowRect0.right - windowRect0.left, windowRect0.bottom - windowRect0.top, 0,
                                           0, param_1, 0);
                 globalsAllocation7 = (Receiver86*)::FUN_00401000(0xa4);
-                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160(window1, param_1))) : 0;
+                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160((int)(std::intptr_t)window1, (int)(std::intptr_t)param_1))) : 0;
                 (*reinterpret_cast<unsigned char * *>(&::g_osGlobals)) = (unsigned char*)newGlobals20;
                 reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0xd, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x9f8);
                 interfaceAllocation2 = (Receiver86*)::FUN_00401000(8);
@@ -6824,7 +6821,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                 startupState3 = 0;
                 startupFlags3 = 0;
                 reinterpret_cast<::FUN_00416870_t *>(&(position25))->FUN_00416870(::g_011c7b14_arg1, ::g_011c7b14_arg1, ::DAT_0101e704);
-                reinterpret_cast<::WS458200_Shell *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::g_TES)))))->FUN_00458200((::WS458200_World *)(*((int *)(new ((void *)((*reinterpret_cast<::Receiver86 * *>(&::g_dataHandler))->FUN_00460140())) ::Vec3()))));
+                reinterpret_cast<::WS458200_Shell *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::g_TES)))))->FUN_00458200((::WS458200_World *)(*((int *)(&reinterpret_cast<::SimpleListNodeView*>((*reinterpret_cast<::Receiver86 * *>(&::g_dataHandler))->FUN_00460140())->m_item))));
                 reinterpret_cast<::fnv_0095ee80::FUN_0095ee80_Class *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::_g_thePlayer)))))->ClearIdleAnims();
                 reinterpret_cast<::fnv_008a8150::FUN_008a8150_shell *>(((*reinterpret_cast<::Receiver86 * *>(&::g_TESSaveLoadGame))))->FUN_008a8150(1);
                 ::FUN_0040fbe0();
@@ -6853,8 +6850,8 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                 }
                 reinterpret_cast<::FUN_00456520_Class *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::DAT_01202d98)))))->FUN_00456520();
                 ::FUN_0040fbe0();
-                ::FUN_00403d30(&message0, 0, 0x1c);
-                gameWindow3 = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->GetName()));
+                ::FUN_00403d30(&message0, 0, sizeof(message0));
+                gameWindow3 = ((HWND)(reinterpret_cast<::Twin_0044ddc0 *>((((Receiver86*)(*reinterpret_cast<unsigned char * *>(&::g_osGlobals)))))->GetName()));
                 paused1 = '\0';
                 while (true)
                 {
@@ -6863,7 +6860,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                         TranslateMessage(&message0);
                         DispatchMessageA(&message0);
                     }
-                    if ((int)GetActiveWindow() == gameWindow3 || ((unsigned char)(reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::g_TES)))))->FUN_00451530())) ||
+                    if (GetActiveWindow() == gameWindow3 || ((unsigned char)(reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>((((Receiver86*)(*reinterpret_cast<unsigned int *>(&::g_TES)))))->FUN_00451530())) ||
                         (*reinterpret_cast<::Receiver86 *>(&::g_011deb30)).FUN_00559450() || *(*reinterpret_cast<::Setting86 *>(&::g_011deed8)).FUN_00408d60())
                     {
                         deviceStatus13 = ((::Device86 *)(reinterpret_cast<::FUN_004dc020_Class *>((((::Receiver86 *)(::FUN_0043c4b0()))))->FUN_004dc020()))->TestCooperativeLevel();
@@ -9074,7 +9071,7 @@ struct RenderMgr
     int unk80;
     int unk84;
     int unk88;
-    StrObj name;
+    void* name;
 
     void FUN_00871290();
     int FUN_00872f50(Rend* r, int p1, bool p2, bool b);
@@ -10068,7 +10065,8 @@ BSRenderedTexture* Host::FUN_00872f50(P1* apSource, BSRenderedTexture* apFallbac
             float fb;
             fb = (float)FUN_008731a0(
                 (double)reinterpret_cast<::GraphicsRenderer *>((apSource))->GetRenderTargetHeight() * DAT_01082d20 / (double)((unsigned int)(reinterpret_cast<::fnv_008723d0::S872 *>((((TexObj*)tex)))->FUN_008723d0(0))), 1.0f);
-            ((::_Cam_00712e60 *)(::FUN_00524c90()))->FUN_00712e60((_Rect16_00712e60&)ImageSpaceEffectParam(0.0f, fa, fb, 0.0f));
+            ImageSpaceEffectParam viewport(0.0f, fa, fb, 0.0f);
+            ((::_Cam_00712e60 *)(::FUN_00524c90()))->FUN_00712e60(reinterpret_cast<const ::_Rect16_00712e60 &>(viewport));
         }
         ::FUN_00b6b8d0(7, tex->GetGroup());
     }
@@ -10756,7 +10754,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
         {
             Vec offset(0, 0, 0);
             if (((::SetRenderCamera::Scene *)(::FUN_007721a0((char *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer)))))) && !reinterpret_cast<::fnv_008a8870::HA *>(((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))->FUN_008a8870() && !reinterpret_cast<::FUN_00525430_Class *>(&((*reinterpret_cast<::SetRenderCamera::Mode *>(&::g_011f2250))))->FUN_00525430())
-                offset = (*(::SetRenderCamera::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>((((::SetRenderCamera::Vec *)(::FUN_0045bb80((int)(((::SetRenderCamera::Scene *)(::FUN_007721a0((char *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))))))))))->FUN_00439ef0((::NiPoint3 *)&(*((::SetRenderCamera::Vec *)(::FUN_0045bb80((int)((*reinterpret_cast<::SetRenderCamera::Scene * *>(&::DAT_011e07d0))))))), *(const ::NiPoint3 *)nullptr)));
+                offset = ([&] { ::SetRenderCamera::Vec difference(0, 0, 0); reinterpret_cast<::FUN_00439ef0_class *>((((::SetRenderCamera::Vec *)(::FUN_0045bb80((int)(((::SetRenderCamera::Scene *)(::FUN_007721a0((char *)((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*((::SetRenderCamera::Vec *)(::FUN_0045bb80((int)((*reinterpret_cast<::SetRenderCamera::Scene * *>(&::DAT_011e07d0))))))))); return difference; }());
             Scene* render2Slot14 = ((::SetRenderCamera::Scene *)(::FUN_0045c670()));
             Scene* view2Slot10 = render2Slot14->FUN_006629f0();
             Context* context2Slot0 = ((::SetRenderCamera::Context *)(reinterpret_cast<::MiddleLowProcess *>((render2Slot14))->GetProcessInteger()));
@@ -10768,7 +10766,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
             bool renderedSlot0 = false;
             while (list)
             {
-                Scene* object = ((::SetRenderCamera::Pointer *)(new ((void *)(list)) ::Vec3()))->FUN_00559450();
+                Scene* object = ((::SetRenderCamera::Pointer *)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item))->FUN_00559450();
                 list = ((::SetRenderCamera::List *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 if (object && object->Active())
                 {
@@ -10792,7 +10790,7 @@ void Main::FUN_00875110(Scene* root, Scene* firstPerson, Scene* extra, Scene* pa
         if (::fnv_00705a00::FUN_00705a00() && ::FUN_005b9b00() && reinterpret_cast<::FUN_008c51c0_shell *>(((*reinterpret_cast<::SetRenderCamera::Player * *>(&::_g_thePlayer))))->FUN_008c51c0())
         {
             ::BSRenderedTexture::EndAllAndResetRendererState();
-            (*reinterpret_cast<::SetRenderCamera::Scene * *>(&::DAT_011f9438))->FUN_00a29680();
+            ::FUN_00a29680();
             ::FUN_00b6b8d0(6, (::NiRenderTargetGroup *)(void *)(pass->FUN_00b6b260()));
             if (::DAT_011f9426)
                 reinterpret_cast<::_Cam_00712e60 *>((((::SetRenderCamera::Scene *)(::FUN_00524c90()))))->FUN_00712e60((const ::_Rect16_00712e60 &)((*reinterpret_cast<::SetRenderCamera::Rect *>(&::DAT_011ad840))));
@@ -11369,11 +11367,11 @@ void __cdecl FUN_00876dd0(const char* apCellName, SLPoint3* apPos)
     {
         int m_iGridPositionX = std::atoi(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011dee8c))))->GetMenuTitle())))))));
         int iCellY8 = std::atoi(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011debc4))))->GetMenuTitle())))))));
-        SLWorldSpace* pWorldA = *((::SLWorldSpace **)(new ((void *)((*reinterpret_cast<::SLDataHandler * *>(&::g_dataHandler))->GetWorldSpaces())) ::Vec3()));
+        SLWorldSpace* pWorldA = *((::SLWorldSpace **)(&reinterpret_cast<::SimpleListNodeView*>((*reinterpret_cast<::SLDataHandler * *>(&::g_dataHandler))->GetWorldSpaces())->m_item));
         SLWorldSpaceList* pIter_ = (*reinterpret_cast<::SLDataHandler * *>(&::g_dataHandler))->GetWorldSpaces();
         while (pIter_ && !pIter_->IsEmpty())
         {
-            SLWorldSpace* m_pContainingWorldspace = *((::SLWorldSpace **)(new ((void *)(pIter_)) ::Vec3()));
+            SLWorldSpace* m_pContainingWorldspace = *((::SLWorldSpace **)(&reinterpret_cast<::SimpleListNodeView*>(pIter_)->m_item));
             if (!::FUN_00404dc0(m_pContainingWorldspace->GetEditorID(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011deb48))))->GetMenuTitle()))))
             {
                 pWorldA = m_pContainingWorldspace;
@@ -11796,6 +11794,12 @@ struct ViewNode
 struct ViewGeometry : ViewNode
 {
 };
+// Stand-in for the NiTPointerListBase instance whose RemoveAll is 0x004ed900; the
+// class template of that name in layout_support.h hides the non-template stand-in.
+struct VisibleList_004ed900
+{
+    void FUN_004ed900();
+};
 struct VisibleList
 {
     int unk00;
@@ -12202,8 +12206,8 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
         reinterpret_cast<::FUN_00874460_cls *>(&(localProcess))->set((int)(0));
         ::FUN_00b6bfc0(cameraX, (*(::PointerList6b *)(&commonList3)), (::Accumulator6b *)(::fnv_00873200::LocalCull *)(&localProcess));
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_00873200::RenderSystem *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 21, {});
-        reinterpret_cast<::NiTPointerListBase *>(&(leftList2))->FUN_004ed900();
-        reinterpret_cast<::NiTPointerListBase *>(&(rightList4))->FUN_004ed900();
+        reinterpret_cast<VisibleList_004ed900 *>(&(leftList2))->FUN_004ed900();
+        reinterpret_cast<VisibleList_004ed900 *>(&(rightList4))->FUN_004ed900();
     }
     else
     {
@@ -13384,12 +13388,9 @@ class OSGlobals_ML
   public:
     int unk00;
     int unk04;
-    HWND__* window;
+    ::HWND window;
 };
-struct WindowRect_ML
-{
-    long left, top, right, bottom;
-};
+using WindowRect_ML = ::RECT;
 
 namespace MainLoopGlobals {
 extern "C" bool __cdecl FUN_0086bdf0();
@@ -14759,7 +14760,7 @@ void RenderSystem::FUN_0086d590()
     unsigned int eb = ((bool)(::fnv_0086e5c0::FUN_0086e5c0())) ? 8 : 0;
     eb |= ((bool)(::fnv_0086e5e0::FUN_0086e5e0())) ? 2 : 0;
     DAT_011ad82c = eb;
-    ::FUN_0086e4d0((unsigned int (*)(NiAVObject *))(((unsigned int (&)(fnv_0086d590::NiAVObject *))::FUN_00564360)));
+    ::FUN_0086e4d0((unsigned int (*)(::NiAVObject *))(((unsigned int (&)(fnv_0086d590::NiAVObject *))::FUN_00564360)));
     DAT_011fd870 = 0.0f;
     (*reinterpret_cast<::fnv_0086d590::Resource *>(&::fnv_00b54630::CleanupState::DAT_011f95d8)).FUN_0066b0d0((*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450()->FUN_006629f0());
     ((ModuleRoot*)(*reinterpret_cast<::fnv_0086d590::Resource *>(&::g_011deb7c)).FUN_00559450())->virtual_dc(p, 1);
@@ -14794,7 +14795,7 @@ void RenderSystem::FUN_0086d590()
     ::AssignFixedString((char *)(s), (int)&(const ::fnv_0086d590::NiFixedString &)(NiFixedString(str_01082c78)), {});
     (*reinterpret_cast<::fnv_0086d590::InputObject * *>(&::DAT_011dea14))->virtual_dc(s, 1);
 
-    ::DAT_011ad808 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086d590::SettingView *>(&::g_011dedc8))))));
+    const_cast<float &>(::DAT_011ad808) = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0086d590::SettingView *>(&::g_011dedc8))))));
     s = (InputObject*)new FUN_00a5ecb0(0);
     reinterpret_cast<::FUN_00546780_shell *>((s))->FUN_00546780(1);
     reinterpret_cast<::TaskQueueInterface *>((s))->SetTaskFlag2000(1);
@@ -15046,7 +15047,6 @@ void FUN_00b65660_StandIn::FUN_00b65660()
     }
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 struct PluginListEntry
 {
 };

@@ -483,7 +483,7 @@ void ThisObj::SaveAreaBoltData(int arg)
         unsigned int boltID = 0;
         if ((const char*)node7->name)
         {
-            Form* f5 = ((::Form *)(::FUN_0056f930((::NiAVObject *)(node7->name))));
+            Form* f5 = ((::Form *)(::FUN_0056f930((::NiAVObject *)(const char *)(node7->name))));
             if (f5)
                 boltID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((f5))->FUN_0084e3a0()));
         }
@@ -1694,7 +1694,7 @@ void MagicProjectile::InitializeProjectile(int arg1, int arg2)
         }
     }
     reinterpret_cast<::Bolt *>(this)->InitEffect();
-    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(nodeB4));
+    reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((std::intptr_t)(nodeB4.value));
     reinterpret_cast<::CellView *>((((::ProjectileCell *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00548230((::RefView *)(::TESObjectREFR *)(this), false);
     if (((::SoundForm *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(FUN_004fd400())))))
     {
@@ -1723,8 +1723,6 @@ public:
 // @fnv 0x00814aa0
 FUN_00814aa0::FUN_00814aa0()
 {
-    new ((void *)&(m0)) ::Vec3();
-    new ((void *)&(m1)) ::Vec3();
     f20 = 0;
 }
 
@@ -2538,13 +2536,12 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 Vec3 position3d;
 
-                reinterpret_cast<::FUN_00439ef0_class *>((((::GameObject *)(::FUN_0045bb80((int)(((::GameObject *)(::FUN_00559450((int *)&(m0bc))))))))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr);
+                reinterpret_cast<::FUN_00439ef0_class *>((((::GameObject *)(::FUN_0045bb80((int)(((::GameObject *)(::FUN_00559450((int *)&(m0bc))))))))))->FUN_00439ef0((::NiPoint3 *)(&position3d), *(const ::NiPoint3 *)(pending));
 
-                ::DispatchFloatPair((float)(((::GameObject *)(::FUN_00559450((int *)&(m0a8))))), pending->value1c, reinterpret_cast<::NiPoint3 *>(&(position3d))->ComputeMagnitude(), f088);
+                ::DispatchFloatPair(((::GameObject *)(::FUN_00559450((int *)&(m0a8)))), pending->value1c, reinterpret_cast<::NiPoint3 *>(&(position3d))->ComputeMagnitude(), f088);
 
                 Matrix rot;
 
-                new ((void *)&(rot)) ::Vec3();
 
                 float angle = position3d.z;
 
@@ -2561,11 +2558,11 @@ void Root::UpdatePending(int arg1, int arg2)
 
                 Vec3 position3d = *this->position();
 
-                float direction = reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>((pending))->FUN_00439ef0((::NiPoint3 *)(::Vec3 *)(&position3d), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                float direction = reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec3 &)(([&] { ::Vec3 difference; reinterpret_cast<::FUN_00439ef0_class *>((pending))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)(::Vec3 *)(&position3d))); return difference; }())))->ComputeMagnitude();
 
-                ::DispatchFloatPair((float)(((::GameObject *)(::FUN_00559450((int *)&(m0a8))))), pending->value1c, direction, f088);
+                ::DispatchFloatPair(((::GameObject *)(::FUN_00559450((int *)&(m0a8)))), pending->value1c, direction, f088);
 
-                if (((::GameObject *)(::FUN_00559450((int *)&(::FUN_00ee8990() || state0ac == 2)
+                if (::FUN_00ee8990() || state0ac == 2)
                 {
 
                     reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(2);
@@ -3027,12 +3024,12 @@ void AEProjectile::Impact(AEPoint3 kPos, int iIndex, AERefr* pkTarget, bool bSil
 
     {
         AEPoint3 kWorldPos = (*(const ::AEPoint3 *)&(reinterpret_cast<::NiAVObject *>((GetNode3D()))->FUN_0043c490()));
-        float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AEPoint3 &)((*(::AEPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kWorldPos))->FUN_00439ef0((::NiPoint3 *)&(kPos), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
-        ::DispatchFloatPair((float)(((::AEController *)(::FUN_00559450((int *)&(m_spController))))), 0.01f, fDist, m_f88);
+        float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::AEPoint3 &)(([&] { ::AEPoint3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kWorldPos))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(kPos))); return difference; }())))->ComputeMagnitude();
+        ::DispatchFloatPair(((::AEController *)(::FUN_00559450((int *)&(m_spController)))), 0.01f, fDist, m_f88);
     }
 
     if (!bSilent)
-        reinterpret_cast<::P142Caster *>((((::AEExplosion *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags(reinterpret_cast<::EffectSetting *>(this)->GetArchetype())))))->ApplySpellEffects((::P142Spell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), (*(int *)&(const ::AEPoint3 &)(GetPosition())), (::NiPoint3)(this), (::P142Ref *)(pkTarget), (::P142Ref *)(0), 1.0f, 1.0f, {});
+        reinterpret_cast<::P142Caster *>((((::AEExplosion *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))))->ApplySpellEffects((::P142Spell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), 0, (*(const ::NiPoint3 *)&(const ::AEPoint3 &)(GetPosition())), (::P142Ref *)(this), (::P142Ref *)(pkTarget), 0, 1.0f, 1.0f);
 
     m_pkSource = 0;
     if (FUN_004fd400()->m_kArea.GetValue())
@@ -3326,7 +3323,6 @@ void F139This::AttachEffectToSpine(F139Owner* owner, F139Arg* arg)
         reinterpret_cast<::Emitter *>((h))->FUN_00bc2360();
     }
     F139Vec i;
-    new ((void *)&(i)) ::Vec3();
     reinterpret_cast<::VectorSourceB00 *>((((::F139Result *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>(this)->FUN_009306d0()))))->FUN_00812b00(&i);
     F139Node* p = 0;
     F139Node* f = ref ? ref->node() : 0;

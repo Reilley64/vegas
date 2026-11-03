@@ -396,7 +396,6 @@ void FUN_00864820_shell::LoadRawData(void* apData, unsigned int aiSize)
 }
 }  // namespace fnv_00864820
 
-extern "C" void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_00857bd0
 {
     void Init(unsigned int);

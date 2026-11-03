@@ -2,6 +2,7 @@
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ArrowProjectile.h"
@@ -2512,7 +2513,7 @@ void Projectile::UpdateMotion(float delta)
             Vec difference2 = ((ParentNode*)target)->FUN_0045bb80() - original;
             if (!moving ||
                 ::GetField90Float((char *)this) * speed > ((int)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
-                ::DispatchFloatPair((float)(((Anim*)animation)), delta, reinterpret_cast<::NiPoint3 *>(&(difference2))->ComputeMagnitude(), speed);
+                ::DispatchFloatPair(((Anim*)animation), delta, reinterpret_cast<::NiPoint3 *>(&(difference2))->ComputeMagnitude(), speed);
             Matrix rotation;
             float vertical = difference2.z;
             difference2.z = 0.0f;
@@ -2528,7 +2529,7 @@ void Projectile::UpdateMotion(float delta)
             float length = reinterpret_cast<::NiPoint3 *>((void *)&(const ::Vec &)((original - position)))->ComputeMagnitude();
             if (!moving ||
                 ::GetField90Float((char *)this) * speed > ((int)(reinterpret_cast<::FUN_008d8b80Class *>((((Anim*)animation)))->FUN_008d8b80())) * reinterpret_cast<::FUN_008133b0_class *>((((Anim*)animation)))->GetFloatAt144())
-                ::DispatchFloatPair((float)(((Anim*)animation)), delta, length, speed);
+                ::DispatchFloatPair(((Anim*)animation), delta, length, speed);
             if (::FUN_00ee8990())
             {
                 reinterpret_cast<::FUN_008133d0_shell *>(this)->FUN_008133d0(2);
@@ -3146,7 +3147,7 @@ void FUN_0081a320_class::FUN_0081a320(float afDeltaTime)
                 Vec3 vCurrentPosition = *v125();
 
                 reinterpret_cast<::FUN_00440460_S *>((v116(&vCurrentPosition)))->FUN_00440460({});
-                distanceTraveled = reinterpret_cast<::NiPoint3 *>((void *)&(const ::fnv_0081a320::Vec3 &)((*(::fnv_0081a320::Vec3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(vCurrentPosition))->FUN_00439ef0((::NiPoint3 *)(&start), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                distanceTraveled = reinterpret_cast<::NiPoint3 *>((void *)&(const ::fnv_0081a320::Vec3 &)(([&] { ::fnv_0081a320::Vec3 difference; reinterpret_cast<::FUN_00439ef0_class *>(&(vCurrentPosition))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)(&start))); return difference; }())))->ComputeMagnitude();
 
                 m_8c += distanceTraveled;
 
@@ -3624,6 +3625,8 @@ struct xWorld
 struct xAVOwner
 {
 };
+struct xActor;
+void* __cdecl xFUN_00553300(std::size_t);
 struct __declspec(align(16)) xCtlCinfo
 {
     xCtlCinfo(int);
@@ -5013,7 +5016,6 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
             FourInts transform;
 
-            new ((void *)&(transform)) ::Vec3();
 
             reinterpret_cast<::NiQuaternion *>(&(transform))->FromRotationMatrix(
                 (*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->extended)));
@@ -6950,7 +6952,6 @@ FUN_008cac60::~FUN_008cac60()
         if (world)
         {
             CleanupVector audioVector;
-            new ((void *)&(audioVector)) ::Vec3();
             world->GetAudioPosition(audioVector);
             ::fnv_0062ab60::FUN_0062ab60((const ::fnv_0062ab60::hkVector4V &)(audioVector), data->worldHandle);
         }
@@ -7208,7 +7209,8 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
                 reinterpret_cast<::SoundPlaybackHandle *>(&(m_b4))->Release();
             }
             {
-                reinterpret_cast<::SoundPlaybackHandle *>(&(m_b4))->operator=((*(const ::SoundPlaybackHandle *)((int)&PlaySoundByFormID(v14, 1, 0x40000102, 1))));
+                Obj30 sound = PlaySoundByFormID(v14, 1, 0x40000102, 1);
+                reinterpret_cast<::SoundPlaybackHandle *>(&(m_b4))->operator=((*(const ::SoundPlaybackHandle *)(&sound)));
             }
         }
     }
@@ -7234,7 +7236,8 @@ void Cls8112c0::FUN_008112c0(int aiParam1, int aiParam2)
                 foundEffect = (Obj1c*)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f36ac))), (::NiObject *)(t18))));
                 if (foundEffect)
                 {
-                    result = ((int)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((foundEffect))->FUN_0047a520((::fnv_0047a520::NFSHelper *)(::fnv_008112c0::StrObj *)(&StrObj("SpecialIdle_AreaEffect")))));
+                    StrObj idleName("SpecialIdle_AreaEffect");
+                    result = ((int)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((foundEffect))->FUN_0047a520((::fnv_0047a520::NFSHelper *)(::fnv_008112c0::StrObj *)(&idleName))));
                     if (result)
                     {
                         reinterpret_cast<::FUN_0081c470_shell *>((m_c0))->FUN_0081c470(0, reinterpret_cast<::FUN_00508100_shell *>((((Obj24*)result)))->FUN_00508100() * ::DAT_0101de30);
@@ -7555,7 +7558,7 @@ void Controller::FUN_008cb3c0(float afDelta)
                 {
                     if (actor)
                     {
-                        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(((int)(reinterpret_cast<::NiAVObject *>((actor))->FUN_0043c490()))));
+                        reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)(&(reinterpret_cast<::NiAVObject *>((actor))->FUN_0043c490())));
                     }
                     phase = phase3;
                     return;
@@ -7676,7 +7679,7 @@ void FUN_009ae5d0_shell::FUN_009ae5d0(int a1)
         int val = 0;
         if (!listA4.FUN_008256d0())
         {
-            val = (*((::fnv_009ae5d0::ItemA4 **)(new ((void *)&(listA4)) ::Vec3())))->field0;
+            val = (*((::fnv_009ae5d0::ItemA4 **)(&reinterpret_cast<::SimpleListNodeView*>(&(listA4))->m_item)))->field0;
         }
         reinterpret_cast<::FUN_008d0600_s *>(&((*reinterpret_cast<::fnv_009ae5d0::FUN_008d0600_s *>(&::g_011e0e80))))->FUN_008d0600(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8(), val);
     }
@@ -8588,9 +8591,9 @@ void DialogueActor::FUN_00933d20()
             DialogueActor* target = ((::DialogueActor *)(reinterpret_cast<::FUN_004036b0_Class *>((dialogueB))->FUN_004036b0()));
             if (target)
             {
-                DialogueActor* referenceA = ((::DialogueActor *)(reinterpret_cast<::DialogueItem *>((target))->SelectDefaultResponseList()));
+                DialogueActor* referenceA = ((::DialogueActor *)(reinterpret_cast<::DialogueItem *>((target))->FUN_005e3fa0()));
                 reinterpret_cast<::FUN_0042e130_shell *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((referenceA))->FUN_005d43c0()))))->FUN_0042e130();
-                reinterpret_cast<::FUN_0042e130_shell *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::DialogueActor *)(reinterpret_cast<::DialogueItem *>((target))->SelectDefaultResponseList()))))->FUN_005d43c0()))))->FUN_0042e130();
+                reinterpret_cast<::FUN_0042e130_shell *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((((::DialogueActor *)(reinterpret_cast<::DialogueItem *>((target))->FUN_005e3fa0()))))->FUN_005d43c0()))))->FUN_0042e130();
                 reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::Queue *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(target), 0);
                 reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::Queue *>(&::g_011e0e80))))->AddMobileObjectToList((::MobileObject *)(target));
             }
@@ -8643,8 +8646,6 @@ struct xShape : xNiAlloc
     xShape(float, bool);
     int m_auiShapeKeys[5];
 };
-struct xActor;
-void* __cdecl xFUN_00553300(unsigned int);
 
 
 // @fnv 0x008caea0

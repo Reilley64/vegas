@@ -1448,7 +1448,7 @@ void Shell505::UpdateHitEffectNode()
         else if (((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pTarget))->FUN_007af430())) &&
                  reinterpret_cast<Form505*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pTarget))->FUN_007af430())))->FUN_00401170() == 28)
         {
-            vecPosition = (*(::B006815c0 *)(new ((void *)(((::Node505 *)(reinterpret_cast<::FUN_0043d450_Owner *>((node))->FUN_0043d450())))) ::Vec3()));
+            vecPosition = (*(::B006815c0 *)(static_cast<void *>(((::Node505 *)(reinterpret_cast<::FUN_0043d450_Owner *>((node))->FUN_0043d450())))));
             vecPosition.z = node->FUN_0045bb80().z;
         }
         else

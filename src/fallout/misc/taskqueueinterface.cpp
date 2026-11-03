@@ -1778,8 +1778,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
     }
     case 10: {
         NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
-        NiUpdateData kUpdate;
-        new ((void *)&(kUpdate)) ::NiUpdateData(0.0f, false, false);
+        NiUpdateData kUpdate(0.0f, false, false);
         reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((std::intptr_t)&(kUpdate));
         reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         break;
@@ -2185,8 +2184,7 @@ void UpdateAnimObjFromTask(unsigned int auiTask, void* pvArg)
     AnimObj* pObj = ((::AnimObj *)(::FUN_00559450((int *)(((::WrapperShell *)(reinterpret_cast<::S3e60 *>((pTask))->FUN_006a7ad0((unsigned int)(pvArg))))))));
     if (pObj != 0)
     {
-        NiUpdateData upd;
-        new ((void *)&(upd)) ::NiUpdateData(0.0f, false, false);
+        NiUpdateData upd(0.0f, false, false);
         pObj->Update(upd);
     }
 }

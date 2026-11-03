@@ -2,6 +2,7 @@
 // src/fallout/magic/sundamageeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/sundamageeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
@@ -533,7 +534,7 @@ struct S_00829e00_HitEffect
     int unk0C;
     int unk10;
     int unk14;
-    int unk18;
+    struct S_00829e00_ActiveEffect* pEffect;  // MagicHitEffect::pEffect
     int unk1C;
     int unk20;
     int unk24;
@@ -668,7 +669,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
             {
                 reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(effect));
                 m_effects = new S_00829e00_List(effect);
-                reinterpret_cast<::TESPackage *>((effect))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(this));
+                effect->pEffect = this;
             }
             else
             {
@@ -682,7 +683,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
         S_00829e00_List* node = m_effects;
         while (node && !node->FUN_008256d0())
         {
-            S_00829e00_HitEffect* item = *((::S_00829e00_HitEffect **)(new ((void *)(node)) ::Vec3()));
+            S_00829e00_HitEffect* item = *((::S_00829e00_HitEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             reinterpret_cast<::FUN_00461310_shell *>((item))->SetByteAt24(1);
             reinterpret_cast<::TESPackage *>((item))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0));
             node = ((::S_00829e00_List *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));

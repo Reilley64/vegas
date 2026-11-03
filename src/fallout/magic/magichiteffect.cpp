@@ -51,7 +51,7 @@ MagicHitEffect::MagicHitEffect(TESObjectREFR* target, ActiveEffect* effect) : BS
 
 struct Arg_0081b830
 {
-    int value;
+    void* value;
 };
 
 struct Sub_00905330
@@ -70,7 +70,7 @@ void ForwardArgToSubobject(Owner_0081b830* pThis, Arg_0081b830 arg)
 {
     if (pThis->unk40 != 0)
     {
-        reinterpret_cast<::ItemChangeListNode *>((pThis->unk40))->FUN_00905330((*(::InventoryStackRecord *const *)(&arg)));
+        reinterpret_cast<::ItemChangeListNode *>((pThis->unk40))->FUN_00905330((::InventoryStackRecord *)(arg.value));
     }
 }
 
@@ -127,7 +127,7 @@ FUN_0081b7b0::~FUN_0081b7b0()
 {
     pTarget = 0;
     if (pEffect)
-        ::ForwardArgToSubobject((::Owner_0081b830 *)(((Owner_0081b830*)pEffect)), (::Arg_0081b830)(this));
+        ::ForwardArgToSubobject((::Owner_0081b830 *)(((Owner_0081b830*)pEffect)), ::Arg_0081b830{this});
     pEffect = 0;
 }
 }  // namespace fnv_0081b7b0
@@ -138,7 +138,6 @@ struct FUN_008df040_shell
 {
     unsigned char FUN_008df040();
 };
-typedef FUN_008df040_shell TESSaveLoadGame;
 
 
 struct FUN_0081bd30_s

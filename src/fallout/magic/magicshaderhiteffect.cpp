@@ -1,5 +1,6 @@
 // fallout/magic/magicshaderhiteffect.cpp: MagicShaderHitEffect, Effect, ThisHolder, Outer and more (45 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
@@ -74,7 +75,6 @@
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/decl/Twin_0084d030.h"
 #include "fnv/decl/Vec3.h"
-#include "fnv/decl/WeightedResultList.h"
 #include "fnv/decl/_FUN_0052aa80_shell.h"
 #include "fnv/decl/_FUN_00822510_Class.h"
 #include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
@@ -172,11 +172,18 @@ struct Dummy0042f800
 {
 };
 
+namespace fnv_00822860 {
+struct UW
+{
+    unsigned int v;
+};
+}  // namespace fnv_00822860
+
 // @fnv 0x00822580
 void* FUN_00822580(int** ppObject)
 {
     *ppObject = &DAT_010159d4;
-    ::fnv_00822860::FUN_00822860((::fnv_00822860::AX *)(reinterpret_cast<Dummy0042f800*>(ppObject)), (::fnv_00822860::UW)(0), (::fnv_00822860::UW)(0));
+    ::fnv_00822860::FUN_00822860((::fnv_00822860::AX *)(reinterpret_cast<Dummy0042f800*>(ppObject)), ::fnv_00822860::UW{0}, ::fnv_00822860::UW{0});
     return ppObject;
 }
 
@@ -216,10 +223,6 @@ struct NavMeshInfo;
 struct S2f850
 {
     void FUN_0042fa60(NavMeshInfo**, unsigned int);
-};
-struct UW
-{
-    unsigned int v;
 };
 struct AX
 {
@@ -379,7 +382,7 @@ void MagicShaderHitEffect::GetSceneGraphData(bool& isActor, bool& isWeapon, floa
                     NiUpdateData update(0.0f, false, false);
                     reinterpret_cast<::FUN_00a59c60_cls *>((pObject))->FUN_00a59c60((std::intptr_t)&(update));
                 }
-                NiPoint3 offset = (*(::NiPoint3 *)(new ((void *)&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450())))) ::Vec3())) - pObject->FUN_0045bb80();
+                NiPoint3 offset = (*(::NiPoint3 *)static_cast<void *>(&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450()))))) - pObject->FUN_0045bb80();
                 extent = reinterpret_cast<::NiPoint3 *>(&(offset))->ComputeMagnitude() + reinterpret_cast<::Twin_0084d030 *>(&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pObject))->FUN_0043d450()))))->GetStoredFloatValue();
             }
         }
@@ -536,7 +539,7 @@ struct FUN_00822530_shell
 FUN_00822530_shell* FUN_00822530_shell::FUN_00822530()
 {
     vtable = &DAT_0107b824;
-    ::fnv_00822860::FUN_00822860((::fnv_00822860::AX *)(reinterpret_cast<Caller00822860*>(this)), (::fnv_00822860::UW)(0), (::fnv_00822860::UW)(false));
+    ::fnv_00822860::FUN_00822860((::fnv_00822860::AX *)(reinterpret_cast<Caller00822860*>(this)), ::fnv_00822860::UW{0}, ::fnv_00822860::UW{0});
     return this;
 }
 
@@ -1269,7 +1272,7 @@ bool MagicShaderHitEffect::Init()
         else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())) && (NiNode*)m_pParticleShaderNode)
         {
             for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())); ++i)
-                reinterpret_cast<::FUN_00507810Class *>((m_pEffectShader))->FUN_00507810((int)(m_pParticleShaderNode), (int)(m_kParticleShaderProperties.GetAt(i)));
+                reinterpret_cast<::FUN_00507810Class *>((m_pEffectShader))->FUN_00507810(m_pParticleShaderNode.object, m_kParticleShaderProperties.GetAt(i).object);
             reinterpret_cast<::FUN_006c6200_cls *>(&(m_kParticleShaderProperties))->FUN_006c6200(true);
             if ((NiNode*)m_pParticleShaderNode)
                 reinterpret_cast<::FUN_00a59d00_shell *>(((m_pParticleShaderNode).operator->()))->SetParent(0);
@@ -1318,8 +1321,8 @@ bool MagicShaderHitEffect::Init()
                 entry = m_pEffectShader->GetAddonModels()->GetDataList();
                 while (entry && !entry->IsEmpty())
                 {
-                    reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(((::DebrisModelEntry *)(new ((void *)(entry)) ::Vec3()))->filename), 0, true, false, false, false);
-                    reinterpret_cast<::WeightedResultList *>((void *)&(weightedModels))->FUN_009b7990((::BGSBodyPart *)(((::DebrisModelEntry *)(new ((void *)(entry)) ::Vec3()))->filename), ((::DebrisModelEntry *)(new ((void *)(entry)) ::Vec3()))->chance);
+                    reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)((*((::DebrisModelEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))->filename), 0, true, false, false, false);
+                    weightedModels.AddWeightedItem((*((::DebrisModelEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))->filename, (*((::DebrisModelEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(entry)->m_item)))->chance);
                     entry = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
                 }
                 property = m_kParticleShaderProperties.GetAt(0);
@@ -1715,7 +1718,7 @@ FUN_0081f580::FUN_0081f580(TESObjectREFR* apTarget, TESEffectShader* apShader, f
         BSSimpleList<DebrisModelEntry*>* pIter = m_pEffectShader->GetAddonModels()->GetDataList();
         while (pIter && !pIter->IsEmpty())
         {
-            reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(((::DebrisModelEntry *)(new ((void *)(pIter)) ::Vec3()))->filename), 0, true, false, false, false);
+            reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)((*((::DebrisModelEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))->filename), 0, true, false, false, false);
             pIter = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
@@ -1960,7 +1963,7 @@ FUN_0081f350::FUN_0081f350(TESObjectREFR* apTarget, ActiveEffect* apEffect)
         BSSimpleList<DebrisModelEntry*>* pIter = m_pEffectShader->GetAddonModels()->GetDataList();
         while (pIter && !pIter->IsEmpty())
         {
-            reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)(((::DebrisModelEntry *)(new ((void *)(pIter)) ::Vec3()))->filename), 0, true, false, false, false);
+            reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((g_modelLoader))->FUN_00447080((char *)((*((::DebrisModelEntry * *)(&reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item)))->filename), 0, true, false, false, false);
             pIter = ((::BSSimpleList< ::DebrisModelEntry *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
     }
@@ -2287,7 +2290,7 @@ FUN_0081f770::~FUN_0081f770()
     if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)&(const ::xPtr< ::xNiNode> &)(m_spNode))->operator!=((int)(0)))
     {
         for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kNodeArray))->GetName())); i++)
-            reinterpret_cast<::FUN_00507810Class *>((m_pForm))->FUN_00507810((int)(m_spNode), (int)(m_kNodeArray.GetAt(i)));
+            reinterpret_cast<::FUN_00507810Class *>((m_pForm))->FUN_00507810(m_spNode.m_pObject, m_kNodeArray.GetAt(i).m_pObject);
     }
     if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kProcs))->GetName())) > 0)
     {
@@ -2323,7 +2326,7 @@ FUN_0081f770::~FUN_0081f770()
             xCond* pkCond = ((::xCond *)(reinterpret_cast<::BGSDebris *>((((::xAddon *)(reinterpret_cast<::TESEffectShader *>((m_pForm))->GetAddonModels()))))->GetDataList()));
             while (pkCond && !pkCond->IsDone())
             {
-                reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)((*((::xEntry **)(new ((void *)(pkCond)) ::Vec3())))->m_pPath));
+                reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_0045a5e0((char *)((*((::xEntry **)(&reinterpret_cast<::SimpleListNodeView*>(pkCond)->m_item)))->m_pPath));
                 pkCond = ((::xCond *)(reinterpret_cast<::Callees *>((pkCond))->FUN_00726070()));
             }
         }
@@ -2999,7 +3002,7 @@ void MagicShaderHitEffect_821bd0::ApplyAndCleanup()
     if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)&(const ::PtrX_821bd0< ::NodeX_821bd0> &)(m_pParticleShaderNode))->operator!=(0))
     {
         for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kParticleShaderProperties))->GetName())); i++)
-            reinterpret_cast<::FUN_00507810Class *>((m_pEffectShader))->FUN_00507810((int)(m_pParticleShaderNode), (int)(m_kParticleShaderProperties.GetAt(i)));
+            reinterpret_cast<::FUN_00507810Class *>((m_pEffectShader))->FUN_00507810(m_pParticleShaderNode.object, m_kParticleShaderProperties.GetAt(i).object);
     }
     reinterpret_cast<::FUN_006c6200_cls *>(&(m_kParticleShaderProperties))->FUN_006c6200(true);
     if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)&(const ::PtrX_821bd0< ::NodeX_821bd0> &)(m_pParticleShaderNode))->operator!=(0))
@@ -3188,7 +3191,7 @@ void UpdateEffectNode(EffView* pEffectView)
         pRef4 = p2_c;
     }
 
-    if (reinterpret_cast<::_FUN_0052aa80_shell *>((void *)(((PtrCheck*)&pEffectView->m_pParticleShaderNode)))->operator!=!=(0) && pRef4 != 0)
+    if (((PtrCheck*)&pEffectView->m_pParticleShaderNode)->operator!=(0) && pRef4 != 0)
     {
         ThreeByThreeMatrix mat = pEffectView->m_bUseActorParticleEffects ? ((MyAVObject*)pRef4)->GetWorldRotate()
                                                                 : *(const ThreeByThreeMatrix*)&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448));
@@ -3206,12 +3209,12 @@ void UpdateEffectNode(EffView* pEffectView)
                 }
                 if (pActor1)
                 {
-                    reinterpret_cast<::FUN_0043fa80_s *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_0043fa80(
-                        (*(const ::ThreeByThreeMatrix *)(&(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)((*(::ThreeByThreeMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(((MyAVObject*)((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0())))->GetWorldRotate()))->FUN_004b45b0({})))))->operator+(mat)))));
-                    reinterpret_cast<::FUN_00440460_S *>((((MyAVObject*)(NiAVObject*)pEffectView->m_pParticleShaderNode)))->FUN_00440460(
-                            (const ::V3 *)&(const ::NiPoint3 &)((*(::ThreeByThreeMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(((MyAVObject*)((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0())))
-                                ->GetWorldRotate()))->FUN_004b45b0({}))) *
-                            (pRef4->FUN_0045bb80() - ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0()))->FUN_0045bb80())));
+                    ThreeByThreeMatrix parentTranspose;
+                    reinterpret_cast<ThreeByThreeMatrix *>((void *)&(((MyAVObject*)((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0())))->GetWorldRotate()))->FUN_004b45b0(reinterpret_cast<::ThreeByThreeMatrix *>(&parentTranspose));
+                    ThreeByThreeMatrix rotation = parentTranspose * mat;
+                    reinterpret_cast<::FUN_0043fa80_s *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_0043fa80(reinterpret_cast<const ::ThreeByThreeMatrix &>(rotation));
+                    NiPoint3 localOffset = parentTranspose * (pRef4->FUN_0045bb80() - ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_009611e0()))->FUN_0045bb80());
+                    reinterpret_cast<::FUN_00440460_S *>((((MyAVObject*)(NiAVObject*)pEffectView->m_pParticleShaderNode)))->FUN_00440460((const ::V3 *)&localOffset);
                     NiUpdateData updateData(0.0f, false, false);
                     reinterpret_cast<::FUN_00a59c60_cls *>(((pEffectView->m_pParticleShaderNode).operator->()))->FUN_00a59c60((std::intptr_t)&(updateData));
                 }

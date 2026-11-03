@@ -383,8 +383,6 @@ struct Outer84eac0 : Dummy84eaf0
 Outer84eac0* Outer84eac0::FUN_0084eac0()
 {
     Dummy84eaf0::ClearNumericIDIndex();
-    new ((void *)&(m1)) ::Vec3();
-    new ((void *)&(m2)) ::Vec3();
     return this;
 }
 

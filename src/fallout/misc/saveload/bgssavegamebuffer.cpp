@@ -340,7 +340,6 @@ void FUN_00865ee0_shell::SaveQuaternion(ThreeByThreeMatrix const& aMatrix, int a
 {
     NiQuaternion quat;
     BGSSaveFormBuffer* pkBuffer;
-    new ((void *)&(quat)) ::Vec3();
     quat.FromRotationMatrix(aMatrix);
     pkBuffer = (BGSSaveFormBuffer*)this;
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&quat, 16, 0);

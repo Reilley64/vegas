@@ -68,10 +68,15 @@
 #include "bgssaveloadchangesmap_decls.h"
 #include <new>
 
+struct FUN_00845b30_arg
+{
+    unsigned int val;
+};
+
 // @fnv 0x00845550
 BGSSaveLoadChangesMap::BGSSaveLoadChangesMap()
 {
-    ::FUN_00845b30((int *)this, (::FUN_00845b30_arg)(0x13AF));
+    ::FUN_00845b30((int *)this, ::FUN_00845b30_arg{0x13AF});
     *(void**)this = (void*)fnv_vftable_BGSSaveLoadChangesMap;
 }
 
@@ -183,11 +188,6 @@ CF845 Ctm845::GetFirstEntry(void* actor)
 }
 
 extern int DAT_01031fac;
-
-struct FUN_00845b30_arg
-{
-    unsigned int val;
-};
 
 void FUN_005890c0(int* self, FUN_00845b30_arg a);
 

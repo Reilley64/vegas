@@ -1,5 +1,6 @@
 // fallout/dialogue/menutopic.cpp: TopicMenuController, MenuTopic, TESTopicInfo, TopicHolder and more (33 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/B61F2B0Object.h"
@@ -95,7 +96,7 @@ DialogueResponse* MenuTopic::GetActiveResponse()
 {
     if (m_pCurrentResponseList)
     {
-        return ((::DialogueResponse *)(new ((void *)(m_pCurrentResponseList)) ::Vec3()));
+        return (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item)));
     }
     else
     {
@@ -108,7 +109,7 @@ MenuTopic* TopicMenuController::GetSelectedTopic()
 {
     if (m_pCurrentTopicList)
     {
-        return ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+        return (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
     }
     else
     {
@@ -119,7 +120,7 @@ MenuTopic* TopicMenuController::GetSelectedTopic()
 // @fnv 0x0083e4f0
 MenuTopic* TopicMenuController::GetFirstTopic()
 {
-    return ((::MenuTopic *)(new ((void *)(FUN_0083f260())) ::Vec3()));
+    return (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(FUN_0083f260())->m_item)));
 }
 
 // Advances the stored iterator to its next entry and returns whether it exists and has an item.
@@ -128,7 +129,7 @@ bool TopicMenuController::AdvanceTopic()
 {
     if (m_pCurrentTopicList)
         m_pCurrentTopicList = ((::BSSimpleList< ::MenuTopic *> *)(reinterpret_cast<::Callees *>((m_pCurrentTopicList))->FUN_00726070()));
-    return m_pCurrentTopicList && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return m_pCurrentTopicList && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 // Advances the stored iterator when advance is set and it is non-null, then returns whether the iterator exists and has an item.
@@ -138,7 +139,7 @@ bool TopicMenuController::SelectTopic(bool advance)
     m_pCurrentTopicList = FUN_0083f260();
     if (advance && m_pCurrentTopicList)
         m_pCurrentTopicList = ((::BSSimpleList< ::MenuTopic *> *)(reinterpret_cast<::Callees *>((m_pCurrentTopicList))->FUN_00726070()));
-    return m_pCurrentTopicList && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return m_pCurrentTopicList && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 // @fnv 0x004d5c60
@@ -235,7 +236,7 @@ void FUN_0083e230_shell::FUN_0083e230()
     *(int*)((char*)this + 0xc) = 0;
     while (!_ref_008256d0((char*)&this->m_kTopicListStack))
     {
-        pCurrentElementNext = *((::BSSimpleList<const char *> **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
+        pCurrentElementNext = *((::BSSimpleList<const char *> **)(&reinterpret_cast<::SimpleListNodeView*>((char*)&this->m_kTopicListStack)->m_item));
         _ref_0063f7b0((char*)&this->m_kTopicListStack);
         bdeletegreeting = _ref_008256d0((char*)&this->m_kTopicListStack);
         ((FUN_0083e2d0_helper*)this)->FUN_0083e2d0(pCurrentElementNext, bdeletegreeting);
@@ -267,7 +268,7 @@ bool FUN_0083e430_shell::FUN_0083e430(int aiIndex)
     {
         m_pCurrentTopicList = pMenuTopicEntry;
     }
-    return pMenuTopicEntry && ((::MenuTopic *)(new ((void *)(m_pCurrentTopicList)) ::Vec3()));
+    return pMenuTopicEntry && (*((::MenuTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentTopicList)->m_item)));
 }
 
 namespace fnv_0083f260 {
@@ -280,7 +281,7 @@ struct FUN_0083f260_shell : public TopicMenuController
 // @fnv 0x0083f260
 void* FUN_0083f260_shell::FUN_0083f260()
 {
-    return *((void **)(new ((void *)((char*)&this->m_kTopicListStack)) ::Vec3()));
+    return *((void **)(&reinterpret_cast<::SimpleListNodeView*>((char*)&this->m_kTopicListStack)->m_item));
 }
 }  // namespace fnv_0083f260
 
@@ -318,9 +319,9 @@ void TopicHolder::FUN_0083e2d0(void* list, bool flag)
         node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
     while (node && !_ref_008256d0(node))
     {
-        TopicItem* item = (TopicItem*)*((void **)(new ((void *)(node)) ::Vec3()));
+        TopicItem* item = (TopicItem*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         if (!item->bKeep)
-            delete (TopicItem*)*((void **)(new ((void *)(node)) ::Vec3()));
+            delete (TopicItem*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         _ref_0063f7b0(node);
     }
 }
@@ -366,7 +367,7 @@ BSSimpleList<MenuTopic*>* FUN_0083f1d0_t::PopTopicList()
 {
     if (((::BSSimpleList< ::BSSimpleList< ::MenuTopic *> *> *)(reinterpret_cast<::Callees *>(&(m_kTopicListStack))->FUN_00726070())))
     {
-        BSSimpleList<MenuTopic*>* pCurrentElementNext = ((::BSSimpleList< ::MenuTopic *> *)(new ((void *)&(m_kTopicListStack)) ::Vec3()));
+        BSSimpleList<MenuTopic*>* pCurrentElementNext = m_kTopicListStack.m_item;
         if (pCurrentElementNext)
         {
             m_kTopicListStack.RemoveHead();
@@ -375,7 +376,7 @@ BSSimpleList<MenuTopic*>* FUN_0083f1d0_t::PopTopicList()
             delete pCurrentElementNext;
         }
     }
-    return ((::BSSimpleList< ::MenuTopic *> *)(new ((void *)&(m_kTopicListStack)) ::Vec3()));
+    return m_kTopicListStack.m_item;
 }
 
 struct FormIDEntry
@@ -670,9 +671,9 @@ void FUN_0083ed50_shell::BuildMenuTopics(BSSimpleList<TESTopic*>* apList, bool a
 {
     bool bStateChanged = false;
     Actor* pActorCur = dynamic_cast<Actor*>(m_pDialogueSpeaker);
-    while (apList && ((::TESTopic *)(new ((void *)(apList)) ::Vec3())))
+    while (apList && (*((::TESTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item))))
     {
-        TESTopic* pTopic = ((::TESTopic *)(new ((void *)(apList)) ::Vec3()));
+        TESTopic* pTopic = (*((::TESTopic * *)(&reinterpret_cast<::SimpleListNodeView*>(apList)->m_item)));
         apList = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()));
         if (abFlag && !((FUN_0083de60_shell*)pTopic)->FUN_0083de60())
             continue;

@@ -1,5 +1,6 @@
 // fallout/audio/falloutaudio.cpp: SoundPlaybackManager, PlayerCharacter, std, Interface and more (14 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -272,7 +273,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
             while (pRegionCursor && !pRegionCursor->IsEmpty())
             {
                 isSoundAllowed = true;
-                soundEntry = ((::RegionSound *)(new ((void *)(pRegionCursor)) ::Vec3()));
+                soundEntry = (*((::RegionSound * *)(&reinterpret_cast<::SimpleListNodeView*>(pRegionCursor)->m_item)));
                 pActiveSound = soundEntry->sound;
                 if (!soundEntry || !pActiveSound)
                 {
@@ -358,7 +359,7 @@ void SoundPlaybackManager::ProcessPendingSounds()
                 reinterpret_cast<::C6b7f20_Map *>(&((*reinterpret_cast<::NiTPointerMap<unsigned int, ::SoundPlaybackHandle *> *>(&::g_011dd014))))->FUN_006b7f20((::C6b7f20_Node **)&(soundIterator), (unsigned int *)&(key), (void **)&(existingHandle));
                 while (pRegionCursor && !pRegionCursor->IsEmpty())
                 {
-                    soundEntry = ((::RegionSound *)(new ((void *)(pRegionCursor)) ::Vec3()));
+                    soundEntry = (*((::RegionSound * *)(&reinterpret_cast<::SimpleListNodeView*>(pRegionCursor)->m_item)));
                     pActiveSound = soundEntry->sound;
                     if (key == ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pActiveSound))->FUN_0084e3a0())))
                     {
@@ -423,10 +424,10 @@ void Sky::SetMode(Sky__SKY_MODE mode)
             reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(::fnv_0043b230::FUN_0043b230((const char *)(m_pSun))))))->QueueActorDisarm(true);
         while (!m_pSkySounds->IsEmpty())
         {
-            if (((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))->IsPlaying())
-                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>((((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))))->FUN_00ad88f0();
-            ((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()))->Release();
-            delete ((::SkySound *)(new ((void *)(m_pSkySounds)) ::Vec3()));
+            if ((*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))->IsPlaying())
+                reinterpret_cast<::fnv_00ad88f0::FUN_00ad88f0_h *>(((*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))))->FUN_00ad88f0();
+            (*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)))->Release();
+            delete (*((::SkySound * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pSkySounds)->m_item)));
             m_pSkySounds->RemoveHead();
         }
         DAT_011ccb74 = false;

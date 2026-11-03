@@ -2050,8 +2050,9 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
     GlobalObject_0041a250 p;
     if (pObject != 0 && pObject->GetField230() != 0)
     {
-        p.FUN_copy(&::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((TESSound*)pObject->GetField230()))), 0x182,
-                                                          pObject->GetField230()));
+        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((TESSound*)pObject->GetField230()))), 0x182,
+                                                                pObject->GetField230());
+        p.FUN_copy(&sound);
     }
     else
     {
@@ -2059,10 +2060,16 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
         switch (weaponType)
         {
         case -1:
-            p.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockHand", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockHand", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         default:
-            p.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         }
     }
@@ -2615,7 +2622,7 @@ CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardEx
 {
     Point3* verticesX;
     verticesX = new Point3[8];
-    Point3 directionX = (*(::Point3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(start))->FUN_00439ef0((::NiPoint3 *)&(*end), *(const ::NiPoint3 *)nullptr)));
+    Point3 directionX = ([&] { ::Point3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)(start))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*end))); return difference; }());
     Point3 verticalAxisB(0.0f, 0.0f, 1.0f);
     Point3 crossVal2 = directionX.FUN_004b3800(verticalAxisB);
     crossVal2.z = 0.0f;

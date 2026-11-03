@@ -2,6 +2,7 @@
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/FUN_004534f0_shell.h"
@@ -747,6 +748,9 @@ struct FUN_0082ccb0_Cls
 };
 
 class Actor;
+class TESObjectREFR;
+class ActiveEffect;
+template <class> class BSSimpleList;
 struct MagicTarget
 {
 public:
@@ -958,7 +962,7 @@ void FUN_0080ee50(MagicTarget* target)
     BSSimpleList<ActiveEffect*>* node = target->GetActiveEffectList();
     while (node && !node->IsEmpty())
     {
-        ActiveEffect* effect = ((::ActiveEffect *)(new ((void *)(node)) ::Vec3()));
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
         if (effect && effect->GetEffectSetting()->GetArchetype() == 13 && !effect->IsDone())
         {
             LightEffect* light = dynamic_cast<LightEffect*>(effect);

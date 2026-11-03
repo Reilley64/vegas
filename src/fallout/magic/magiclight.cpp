@@ -413,7 +413,7 @@ FUN_0081c240::~FUN_0081c240()
     m_pReferencedObject = 0;
     ShadowSceneNode* pShadow = ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
     if (pShadow)
-        reinterpret_cast<::B5Owner *>((pShadow))->FUN_00b5eed0((unsigned int)(m_spNode));
+        reinterpret_cast<::B5Owner *>((pShadow))->FUN_00b5eed0((std::uintptr_t)(m_spNode.m_pObject));
     m_spNode = 0;
     m_uiValue1 = 0;
 }

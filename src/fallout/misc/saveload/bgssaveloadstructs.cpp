@@ -2,8 +2,11 @@
 // src/fallout/misc/saveload/bgssaveloadstructs.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveloadstructs.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstring>
+#include <windows.h>
+#include <shellapi.h>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSLoadFormBuffer.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -690,14 +693,14 @@ FUN_008538b0::~FUN_008538b0()
         reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(list));
         while (list)
         {
-            delete *((char **)(new ((void *)(list)) ::Vec3()));
+            delete *((char **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
             list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         }
     }
     StringListNode* list = &owned;
     while (list)
     {
-        delete *((char **)(new ((void *)(list)) ::Vec3()));
+        delete *((char **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
         list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
@@ -942,7 +945,7 @@ struct TextDumpWriter
     int unk0C;
     int unk10;
     int unk14;
-    int unk18;
+    BSFile* file;
     TextDumpWriter();
     ~TextDumpWriter();
     void WriteBody();
@@ -958,7 +961,7 @@ void DumpTextAndOpen(const char* baseName)
     GameStrcat(path, 260, ".txt");
     if (fnv::crt::access(path, 0) != -1)
         DeleteFileA(path);
-    reinterpret_cast<::TESPackage *>(&(writer))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(new BSFile(path, 1, 0x4000, false)));
+    writer.file = new BSFile(path, 1, 0x4000, false);
     reinterpret_cast<::SavedStats *>(&(writer))->LoadStats();
     writer.WriteBody();
     reinterpret_cast<::FUN_008539e0_holder *>(&(writer))->FUN_008539e0();
@@ -1126,7 +1129,7 @@ void SaveLoadStatsDump::FUN_00853e10()
         reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
         while (qArxcFu)
         {
-            xChange* qJDuOZ = (xChange*)*((void **)(new ((void *)(qArxcFu)) ::Vec3()));
+            xChange* qJDuOZ = (xChange*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item));
             if (qJDuOZ)
             {
                 char qpia[0x3e8];
@@ -1226,7 +1229,7 @@ void SaveLoadStatsDump::FUN_00853e10()
     qvyWyw = &m_10;
     while (qvyWyw)
     {
-        xMisc* qBLsiu = (xMisc*)*((void **)(new ((void *)(qvyWyw)) ::Vec3()));
+        xMisc* qBLsiu = (xMisc*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(qvyWyw)->m_item));
         if (qBLsiu)
         {
             ::FUN_00406d00(qHXYKT, 0x3e8, "  %8i      %s\r\n", reinterpret_cast<::FUN_00854810_shell *>((qBLsiu))->GetSumOfFields(), qBLsiu);

@@ -1862,7 +1862,7 @@ void S_00803b70_Main::FUN_00803b70(float value)
         S_00803b70_Pt v7 = (*reinterpret_cast<::S_00803b70_Pt *>((void *)&::NiPoint3::ZERO));
         v7 = *((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O50 *)(::FUN_00559450((int *)&(m_50))))))));
         reinterpret_cast<::FUN_00440460_S *>((((::S_00803b70_O4c *)(::FUN_00559450((int *)&(m_4c))))))->FUN_00440460((const ::V3 *)(::S_00803b70_Pt *)(&v7));
-        S_00803b70_Pt r = (*(::S_00803b70_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&(v7), *(const ::NiPoint3 *)nullptr)));
+        S_00803b70_Pt r = ([&] { ::S_00803b70_Pt difference; reinterpret_cast<::FUN_00439ef0_class *>((((::S_00803b70_Pt *)(::FUN_0045bb80((int)(((::S_00803b70_O54 *)(::FUN_00559450((int *)&(m_54))))))))))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(v7))); return difference; }());
         FUN_006815c0 mat;
         float t = r.z;
         r.z = 0.0f;

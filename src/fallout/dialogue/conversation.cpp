@@ -1,5 +1,6 @@
 // fallout/dialogue/conversation.cpp: ConversationLoad, DialogueItem, ListNode, Conversation and more (11 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -35,7 +36,7 @@
 bool DialogueItem::SelectDefaultResponseList()
 {
     m_pCurrentResponseList = &m_kResponseList;
-    return ((::DialogueResponse *)(new ((void *)(m_pCurrentResponseList)) ::Vec3())) != 0;
+    return (*((::DialogueResponse * *)(&reinterpret_cast<::SimpleListNodeView*>(m_pCurrentResponseList)->m_item))) != 0;
 }
 
 struct ListItem
@@ -53,7 +54,7 @@ void ListNode::FUN_0083c220()
     ListNode* current = this;
     while (current && !current->_ref_008256d0())
     {
-        ListItem* item = *((::ListItem **)(new ((void *)(current)) ::Vec3()));
+        ListItem* item = *((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(current)->m_item));
         reinterpret_cast<::DialogueItemResolver *>((item))->FUN_0083cdf0();
         current = ((::ListNode *)(reinterpret_cast<::Callees *>((void *)(current))->FUN_00726070()));
     }
@@ -74,7 +75,7 @@ void Conversation::FUN_0083c420(BGSLoadFormBuffer* pBuffer)
     BSSimpleList<DialogueItem*>* pCurrentElementNext = reinterpret_cast<BSSimpleList<DialogueItem*>*>(this);
     while (pCurrentElementNext)
     {
-        DialogueItem* pdialogueItem = ((::DialogueItem *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        DialogueItem* pdialogueItem = (*((::DialogueItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item)));
         if (pdialogueItem)
         {
             reinterpret_cast<::FUN_0083d0d0_Class *>((reinterpret_cast<DialogueItem_Stub*>(pdialogueItem)))->RefreshObjectRef((int)(pBuffer));
@@ -97,7 +98,7 @@ short Conversation_Stub::FUN_0083ba50(DialogueItem* item)
     ListNode* node = (ListNode*)this;
     while (node && !node->_ref_008256d0())
     {
-        if (item == (DialogueItem*)((::ListItem **)(new ((void *)(node)) ::Vec3()))[0])
+        if (item == (DialogueItem*)((::ListItem **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item))[0])
             return index;
         ++index;
         node = ((::ListNode *)(reinterpret_cast<::Callees *>((void *)(node))->FUN_00726070()));
@@ -305,7 +306,7 @@ void* ConversationLoad::FUN_0083bac0(unsigned short aiIndex)
     while (pCurrentElementNext && !((DialogueItemListRef*)pCurrentElementNext)->_ref_008256d0())
     {
         if (iElementIndex == (short)aiIndex)
-            return ((::DialogueItem *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            return (*((::DialogueItem * *)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item)));
         iElementIndex++;
         pCurrentElementNext = ((::BSSimpleList< ::DialogueItem *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
     }
@@ -512,7 +513,7 @@ unsigned short DialogueItemList::FUN_0083bb30()
     DialogueItemNode* node5 = this;
     while (node5 && !node5->IsEmpty())
     {
-        DialogueItemSave* item8 = *((::DialogueItemSave **)(new ((void *)(node5)) ::Vec3()));
+        DialogueItemSave* item8 = *((::DialogueItemSave **)(&reinterpret_cast<::SimpleListNodeView*>(node5)->m_item));
         size3 += reinterpret_cast<::FUN_0083c9e0_t *>((item8))->FUN_0083c9e0();
         node5 = ((::DialogueItemNode *)(reinterpret_cast<::Callees *>((void *)(node5))->FUN_00726070()));
     }
@@ -567,7 +568,7 @@ void B83C270Conversation::FUN_0083c270(B83C270Buffer* pkBuffer)
     B83C270Node* pkNode4 = &m_kHead;
     while (pkNode4)
     {
-        B83C270Item* pkItem = *((::B83C270Item **)(new ((void *)(pkNode4)) ::Vec3()));
+        B83C270Item* pkItem = *((::B83C270Item **)(&reinterpret_cast<::SimpleListNodeView*>(pkNode4)->m_item));
         if (pkItem)
         {
             reinterpret_cast<::DialogueItemBufferWriter *>((pkItem))->FUN_0083ce40((::BGSSaveGameBuffer *)(pkBuffer));
@@ -576,7 +577,7 @@ void B83C270Conversation::FUN_0083c270(B83C270Buffer* pkBuffer)
         pkNode4 = ((::B83C270Node *)(reinterpret_cast<::Callees *>((pkNode4))->FUN_00726070()));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((pkBuffer))->FUN_00865ff0(iCount7, uiChunk);
-    short sIndex3 = m_pkCurrent ? reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::B83C270Item **)(new ((void *)(m_pkCurrent)) ::Vec3())))) : -1;
+    short sIndex3 = m_pkCurrent ? reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::B83C270Item **)(&reinterpret_cast<::SimpleListNodeView*>(m_pkCurrent)->m_item)))) : -1;
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer))->FUN_00865e50(&sIndex3, 2, 0);
 }
 
@@ -624,7 +625,7 @@ void CVConv::SaveConversation()
     CVNode* uiStartTime4 = this;  // slot -0x18
     while (uiStartTime4 && !uiStartTime4->IsEmpty())
     {
-        CVItem* pItem = *((::CVItem **)(new ((void *)(uiStartTime4)) ::Vec3()));  // slot -0x24
+        CVItem* pItem = *((::CVItem **)(&reinterpret_cast<::SimpleListNodeView*>(uiStartTime4)->m_item));  // slot -0x24
         reinterpret_cast<::FUN_0083ca90_t *>((pItem))->SaveDialogueItem();
         sIndex5++;
         uiStartTime4 = ((::CVNode *)(reinterpret_cast<::Callees *>((void *)(uiStartTime4))->FUN_00726070()));
@@ -632,7 +633,7 @@ void CVConv::SaveConversation()
     *sVer7 = sIndex5;
     short pNode2 = -1;  // slot -0x08
     if (m_pConversationLoadContext)
-        pNode2 = reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::CVItem **)(new ((void *)(m_pConversationLoadContext)) ::Vec3()))));
+        pNode2 = reinterpret_cast<::Conversation_Stub *>(this)->FUN_0083ba50((::DialogueItem *)(*((::CVItem **)(&reinterpret_cast<::SimpleListNodeView*>(m_pConversationLoadContext)->m_item))));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::CVSaveLoad * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&pNode2, 2);
     if (*(*reinterpret_cast<::SettingStub *>(&::g_011de4e8)).Bool())
     {

@@ -9,6 +9,8 @@
 #include "fnv/decl/S_008785e0.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_01083000.h"
+
+union _LARGE_INTEGER;
 struct FUN_00878430_shell
 {
     int* m_ptr;
@@ -127,7 +129,7 @@ struct FUN_00878590_shell : FileSizeInfo
 int FUN_00878590_shell::FUN_00878590()
 {
     unsigned __int64 size;
-    reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290((::_LARGE_INTEGER &)(size));
+    reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290(reinterpret_cast<::_LARGE_INTEGER &>(size));
     return (int)size;
 }
 }  // namespace fnv_00878590

@@ -2,6 +2,7 @@
 // src/fallout/magic/summoncreatureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/summoncreatureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/ActorMover.h"
@@ -354,7 +355,7 @@ void FUN_00829970_Class::DispelOldestQualifyingEffect()
     bestAge = 0;
     while (node && !node->_ref_008256d0())
     {
-        ActiveEffect* effect = *((::ActiveEffect **)(new ((void *)(node)) ::Vec3()));
+        ActiveEffect* effect = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
         EffectSetting* setting = effect->GetEffectSetting();
         if (::IsArchetypeFlagSet((::EffectSetting *)(setting)) && reinterpret_cast<::S3e60 *>((setting))->FUN_00403e60(0x40000))
         {
@@ -680,8 +681,6 @@ struct FUN_00828470_cls : FUN_00828470_base
 FUN_00828470_cls::FUN_00828470_cls(void* a1, void* a2, FUN_00828470_helper1* a3) : FUN_00828470_base(a1, a2, a3)
 {
     m_vptr = &DAT_0107c2ac;
-    new ((void *)&(m_58)) ::Vec3();
-    new ((void *)&(m_64)) ::Vec3();
     m_4c = 0;
     m_50 = 0;
     m_54 = 0.0f;
@@ -2238,7 +2237,7 @@ struct hkBool
 {
     char m_cBooleanValue;
 
-    hkBool();
+    hkBool() {}
     operator bool() const;
 };
 
@@ -2784,7 +2783,9 @@ bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
     ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kFrom), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
     ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(kInput.m_vTo), (const ::fnv_004a3e00::NiPoint3 &)((const ::NiPoint3 &)(*pkPos + NiPoint3(0.0f, 0.0f, fRadius * 0.5 + 10.0))));
     reinterpret_cast<::ScriptX *>(&(kPhantom))->InvokeInterfaceCall((int)&(kFrom), (int)(&kInput), (int)(&kCastCollector), (int)(&kStartCollector));
-    if ((*(::hkBool *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(reinterpret_cast<::Hld621210 *>(&(kStartCollector))->FUN_00621210({})))->FUN_005609f0())))
+    ::hkBool startHit;
+    reinterpret_cast<::Hld621210 *>(&(kStartCollector))->FUN_00621210((::Rcv621210 *)&startHit);
+    if (reinterpret_cast<::FUN_005609f0_shell *>(&startHit)->FUN_005609f0())
     {
         reinterpret_cast<::FUN_00c9f420_Class *>(&(kPhantom))->FUN_00c9f420();
         delete pkShape;
@@ -2807,7 +2808,9 @@ bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kPick))->FUN_004a3da0((void *)&(kStart));
     reinterpret_cast<::FUN_004a3eb0_shell *>(&(kPick))->FUN_004a3eb0((void *)&(kEnd));
     reinterpret_cast<::FUN_00458420_cls *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00458420((int)&(kPick));
-    if ((*(::hkBool *)(reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(reinterpret_cast<::CalleeObj *>(&(kPick.m_kOutput))->FUN_005c53f0({})))->FUN_005609f0())))
+    ::hkBool pickHit;
+    reinterpret_cast<::CalleeObj *>(&(kPick.m_kOutput))->FUN_005c53f0((::CalleeObj *)&pickHit);
+    if (reinterpret_cast<::FUN_005609f0_shell *>(&pickHit)->FUN_005609f0())
         return false;
 
     return true;

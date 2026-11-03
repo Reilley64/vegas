@@ -20,7 +20,7 @@ class DialogueItem
     TESQuest* pQuest;                                         // +0x14
     TESObjectREFR* m_pDialogueSpeaker;                        // +0x18
     ~DialogueItem();
-    TESObjectREFR* SelectDefaultResponseList();
+    TESObjectREFR* FUN_005e3fa0();
     DialogueResponse* GetActiveResponse();
 };
 #endif

@@ -2,6 +2,7 @@
 // src/fallout/magic/dispeleffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/dispeleffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
@@ -151,7 +152,7 @@ void FUN_0080da00_cls::UpdateItems()
     ItemObj* x = ((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::ItemObj *)(reinterpret_cast<::MagicCaster *>((((::ItemObj *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     while (cur != 0 && !cur->FUN_008256d0())
     {
-        ItemObj* t5 = *((::ItemObj **)(new ((void *)(cur)) ::Vec3()));
+        ItemObj* t5 = *((::ItemObj **)(&reinterpret_cast<::SimpleListNodeView*>(cur)->m_item));
         ItemObj* nextItem = ((::ItemObj *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
         if (t5 != 0 && (void*)t5 != (void*)this)
         {

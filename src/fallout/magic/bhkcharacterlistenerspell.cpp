@@ -1856,7 +1856,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
             Color807 kColorA(1.0f, 1.0f, 1.0f);
             pkNodeA->AttachLine(pkLineA, kColorA);
             Matrix807 kRotA;
-            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotA), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(new ((void *)(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName())))) ::Vec3()))));
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotA), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(static_cast<void *>(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName())))))));
             reinterpret_cast<::FUN_0043fa80_s *>((pkLineA))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotA));
             Point807 kPosA;
             ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosA), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyA))->GetName()))))->GetAddTopicList()))));
@@ -1869,7 +1869,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
             Color807 kColorB(1.0f, 1.0f, 1.0f);
             pkNodeB->AttachLine(pkLineB, kColorB);
             Matrix807 kRotB;
-            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotB), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(new ((void *)(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName())))) ::Vec3()))));
+            ::FUN_00624b10((::FUN_004769c0_shell *)&(kRotB), (::FUN_004b4cf0_shell *)&((*(const ::hkRotation_807 *)(static_cast<void *>(((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName())))))));
             reinterpret_cast<::FUN_0043fa80_s *>((pkLineB))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(kRotB));
             Point807 kPosB;
             ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPosB), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(reinterpret_cast<::TESTopicInfo *>((((::Transform807 *)(reinterpret_cast<::Twin_0044ddc0 *>((kCopy.m_pkBodyB))->GetName()))))->GetAddTopicList()))));
@@ -1877,7 +1877,7 @@ void Listener807::FUN_008070d0(Event807* pkEvent)
         }
     }
     Point807 kPos;
-    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(new ((void *)(pkEvent)) ::Vec3()))));
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kPos), (const ::hkVector4 &)((*(const ::hkVector4_807 *)(static_cast<void *>(pkEvent)))));
     if (*(*reinterpret_cast<::Setting807 *>(&::g_011dbaa4)).GetBool())
     {
         Line807* pkMarker = ((::Line807 *)(::CreateOctahedron(5.0f, (const struct ::FUN_004a7800 *)&(const ::ColorA807 &)(ColorA807(1.0f, 0.0f, 0.0f, 1.0f)), 1)));

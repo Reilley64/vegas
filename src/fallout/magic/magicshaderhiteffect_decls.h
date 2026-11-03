@@ -97,7 +97,7 @@ template <class T> class NiPointer
     NiPointer& operator=(T*);
     bool operator==(T*) const;
 };
-template <class T, int N = 1024> class BSSimpleArray
+template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
     unsigned int data[4];

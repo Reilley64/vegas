@@ -42,14 +42,61 @@ struct S_00d37e60_Agent : S_00d37e60_RefObj
     virtual void getPenetrations();
 };
 
-struct S_00d37e60_Shape
+struct hkVector4f
 {
-    int unk0[8];
+    float x;
+    float y;
+    float z;
+    float w;
+};
+struct hkVector4
+{
+    __m128 m_vComponents;
+    float getW() const
+    {
+        return m_vComponents[3];
+    }
+};
+union hkQuadVector
+{
+    hkVector4f v;
+    __m128 q;
 };
 
+struct hkTransformf
+{
+    hkVector4f m_kColumn0;
+    hkVector4f m_kColumn1;
+    hkVector4f m_kColumn2;
+    hkVector4f m_vTranslation;
+};
+
+struct hkpConvexShapeHeader
+{
+    void* m_ppVirtualMethodTable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_ulUserData;  // +0x08
+    int m_type;          // +0x0c
+};
+struct hkpTriangleShape : hkpConvexShapeHeader
+{
+    float m_fSphereRadius;     // +0x10
+    unsigned short m_weldingInfo;  // +0x14
+    hkVector4 m_kVertices[3];  // +0x20
+    float getRadius() const
+    {
+        return m_fSphereRadius;
+    }
+};
+struct hkpMultiSphereShape : hkpConvexShapeHeader
+{
+    int m_iSphereCount;       // +0x10
+    hkVector4 m_kSpheres[8];  // +0x20
+};
 struct S_00d37e60_CdBody
 {
-    char* m_pCollisionShape;
+    const hkpTriangleShape* m_pCollisionShape;
 };
 
 struct S_00d37e60_Plane
@@ -71,7 +118,7 @@ struct S_00d37e60_TriAgent : S_00d37e60_Agent
     {
         for (int i = 0; i < 8; i++)
             m_ids[i] = 0xffff;
-        FUN_00cd7160(bodyA.m_pCollisionShape + 0x20, &m_kTriangleNormal);
+        FUN_00cd7160(bodyA.m_pCollisionShape->m_kVertices, &m_kTriangleNormal);
     }
 };
 
@@ -242,62 +289,6 @@ struct Simplex
 };
 
 
-struct hkVector4f
-{
-    float x;
-    float y;
-    float z;
-    float w;
-};
-struct hkVector4
-{
-    __m128 m_vComponents;
-    float getW() const
-    {
-        return m_vComponents[3];
-    }
-};
-union hkQuadVector
-{
-    hkVector4f v;
-    __m128 q;
-};
-
-struct hkTransformf
-{
-    hkVector4f m_kColumn0;
-    hkVector4f m_kColumn1;
-    hkVector4f m_kColumn2;
-    hkVector4f m_vTranslation;
-};
-
-struct hkpConvexShapeHeader
-{
-    void* m_ppVirtualMethodTable;
-    int m_ulUserData;
-    int m_type;
-    int unk0C;
-};
-struct hkpTriangleShape : hkpConvexShapeHeader
-{
-    float m_fSphereRadius;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4 m_kVertices[3];
-    float getRadius() const
-    {
-        return m_fSphereRadius;
-    }
-};
-struct hkpMultiSphereShape : hkpConvexShapeHeader
-{
-    int m_iSphereCount;
-    int unk14;
-    int unk18;
-    int unk1C;
-    hkVector4 m_kSpheres[8];
-};
 struct hkpCdBody
 {
     const void* m_pCollisionShape;

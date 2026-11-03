@@ -74,50 +74,74 @@
 
 struct FUN_005224c0_Class
 {
+
+    char pad[0x22c];
+
+    unsigned int unk22c;
     unsigned int GetField22C();
 };
 
 // @fnv 0x005224c0
 unsigned int FUN_005224c0_Class::GetField22C()
 {
-    return *(unsigned int*)((char*)this + 0x22c);
+    return unk22c;
 }
 
 struct FUN_005224e0_class
 {
+
+    char pad[0x230];
+
+    unsigned int unk230;
     unsigned int GetField230();
 };
 
 // @fnv 0x005224e0
 unsigned int FUN_005224e0_class::GetField230()
 {
-    return *(unsigned int*)((char*)this + 0x230);
+    return unk230;
 }
 
 struct FUN_00524b40_class
 {
+
+    char pad[0x100];
+
+    unsigned char unk100;
     bool FUN_00524b40();
 };
 
 // @fnv 0x00524b40
 bool FUN_00524b40_class::FUN_00524b40()
 {
-    return reinterpret_cast<unsigned char*>(this)[0x100] & 2;
+    return unk100 & 2;
 }
 
 struct FUN_00526ae0_class
 {
+
+    char pad[0x28];
+
+    float unk28;
     float FUN_00526ae0() const;
 };
 
 // @fnv 0x00526ae0
 float FUN_00526ae0_class::FUN_00526ae0() const
 {
-    return *(const float*)((const char*)this + 0x28);
+    return unk28;
 }
 
 struct FUN_00527740_class
 {
+
+    char pad[0xc];
+
+    int unk0c;
+
+    int unk10;
+
+    char unk14;
     void FUN_00527740();
 };
 
@@ -125,9 +149,9 @@ struct FUN_00527740_class
 // @fnv 0x00527740
 void FUN_00527740_class::FUN_00527740()
 {
-    *(int*)((char*)this + 0x0c) = 0;
-    *(int*)((char*)this + 0x10) = 0;
-    *(char*)((char*)this + 0x14) = 0;
+    unk0c = 0;
+    unk10 = 0;
+    unk14 = 0;
 }
 
 struct BSTreeNode;
@@ -243,13 +267,15 @@ struct FUN_008256d0_shell_base
 };
 struct FUN_00537b50_shell
 {
+    char pad[0xac];
+    FUN_008256d0_shell_base unkac;
     bool FUN_00537b50();
 };
 // Returns the negation of the result of calling FUN_008256d0 on the object at this+0xac.
 // @fnv 0x00537b50
 bool FUN_00537b50_shell::FUN_00537b50()
 {
-    return !reinterpret_cast<FUN_008256d0_shell_base*>(reinterpret_cast<char*>(this) + 0xac)->FUN_008256d0();
+    return !unkac.FUN_008256d0();
 }
 
 struct Base537
@@ -268,6 +294,7 @@ struct GO
 
 struct FUN_00539f20_Class
 {
+    char pad[0xd0];
     GO m;
     void FUN_00539f20(void*);
 };
@@ -275,7 +302,7 @@ struct FUN_00539f20_Class
 // @fnv 0x00539f20
 void FUN_00539f20_Class::FUN_00539f20(void* p)
 {
-    ((GO*)((char*)this + 0xd0))->operator=(p);
+    m.operator=(p);
 }
 
 extern void* DAT_0102cfa0;
@@ -373,6 +400,9 @@ struct MapH
 };
 struct FUN_00526c40_Class
 {
+    char pad[0x10];
+    unsigned int unk10;
+    int unk14;
     bool RemoveSound(TESSound*);
 };
 // @fnv 0x00526c40
@@ -380,8 +410,8 @@ bool FUN_00526c40_Class::RemoveSound(TESSound* apSound)
 {
     if (reinterpret_cast<::NiTMap_S *>((((MapH*)this)))->RemoveKey(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apSound))->FUN_0084e3a0()))))
     {
-        --(*(unsigned int*)((char*)this + 0x10));
-        *(int*)((char*)this + 0x14) = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00()));
+        --unk10;
+        unk14 = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(g_timeGlobal))->FUN_00825c00()));
         return true;
     }
     return false;
@@ -589,6 +619,8 @@ struct FUN_0044c000_Class
 };
 struct FUN_00528b60_Class
 {
+    char pad[0x20];
+    RecursiveSpinLock unk20;
     unsigned char LockedCall(void* a, void* b, unsigned char c);
 };
 // Locks the object at offset 0x20, calls FUN_00449f80 then FUN_0044c000 on its result, unlocks, and returns that result.
@@ -596,9 +628,9 @@ struct FUN_00528b60_Class
 unsigned char FUN_00528b60_Class::LockedCall(void* a, void* b, unsigned char c)
 {
     unsigned char r;
-    reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x20))))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(((&unk20)))->FUN_0040fbf0((char *)(0));
     r = ((FUN_0044c000_Class*)((FUN_00449f80_Class*)this)->FUN_00449f80(a, b, c))->FUN_0044c000();
-    ((RecursiveSpinLock*)((char*)this + 0x20))->FUN_0040fba0();
+    unk20.FUN_0040fba0();
     return r;
 }
 
@@ -648,14 +680,23 @@ template <int N> struct EndianSizeTag
 
 struct FUN_00535aa0_Class
 {
+
+
+    unsigned short unk00;
+
+
+    char pad02[0x2];
+
+
+    unsigned int unk04;
     void FUN_00535aa0();
 };
 
 // @fnv 0x00535aa0
 void FUN_00535aa0_Class::FUN_00535aa0()
 {
-    ::FUN_00407a90((short *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00401080((int *)(unsigned short *)((unsigned short*)((char*)this + 4)));
+    ::FUN_00407a90((short *)&unk00);
+    ::FUN_00401080((int *)&unk04);
 }
 
 struct CallCls537
@@ -695,6 +736,15 @@ void __cdecl InitQueuedCellManager()
         ::DAT_011c9618 = (TESQueuedCellManager*)new FUN_00527e30_Alloc;
 }
 
+struct FUN_005285c0_Node
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    int unk0c;
+    char unk10;
+};
+
 struct FUN_005285c0_Class
 {
     void* FUN_005285c0(void* a, void* b, void* c);
@@ -706,13 +756,14 @@ void* FUN_005285c0_Class::FUN_005285c0(void* a, void* b, void* c)
     void* p = 0;
     if (a)
     {
-        void* t = ::FUN_00401000(0x14);
+        void* t = ::FUN_00401000(sizeof(FUN_005285c0_Node));
         p = t;
-        ((void**)p)[2] = a;
-        ((void**)p)[0] = b;
-        ((void**)p)[1] = c;
-        ((char*)p)[0x10] = 0;
-        ((int*)p)[3] = 0;
+        FUN_005285c0_Node* node = static_cast<FUN_005285c0_Node*>(p);
+        node->unk08 = a;
+        node->unk00 = b;
+        node->unk04 = c;
+        node->unk10 = 0;
+        node->unk0c = 0;
     }
     return p;
 }

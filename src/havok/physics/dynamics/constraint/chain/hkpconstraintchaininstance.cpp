@@ -11,6 +11,8 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb3000.h"
 #include "havok/hkpConstraintChainInstance.h"
+#include "havok/hkpEntity.h"
+#include "havok/hkpWorld.h"
 
 struct FUN_00c91120
 {
@@ -25,23 +27,22 @@ struct FUN_00c97510
 struct FUN_00cb3da0
 {
 };
-struct FUN_00dd0460
+struct FUN_00dd0460 : hkpConstraintChainInstance
 {
     void EntityRemovedCallback(void*);
 };
 // @fnv 0x00dd0460
 void FUN_00dd0460::EntityRemovedCallback(void* a)
 {
-    FUN_00c97510* w = *(FUN_00c97510**)((char*)a + 8);
-    ++*(int*)((char*)w + 0x94);
-    FUN_00c97510* w2 = *(FUN_00c97510**)((char*)this + 0x44);
-    reinterpret_cast<::hkpWorldDecomp *>((w))->FUN_00c97510((::hkpAction *)(w2));
+    hkpWorld* w = static_cast<hkpWorld*>(static_cast<hkpEntity*>(a)->m_pOwningWorld);
+    ++w->m_iCriticalOperationsLockCount;
+    reinterpret_cast<::hkpWorldDecomp *>((w))->FUN_00c97510((::hkpAction *)(m_pAction));
     ::FUN_00cb3da0((::S_00cb3da0_Ctx *)(w), this);
-    if (--*(int*)((char*)w + 0x94) == 0 && !*(char*)((char*)w + 0x9c))
+    if (--w->m_iCriticalOperationsLockCount == 0 && !w->m_bBlockExecutingPendingOperations)
     {
-        if (*(int*)((char*)w + 0x8c))
+        if (w->m_iPendingOperationCount)
             ((FUN_00c91120*)w)->ExecutePendingOperations();
-        if (*(int*)((char*)w + 0xa4) == 1 && *(int*)((char*)w + 0x90))
+        if (w->m_iPendingOperationQueueCount == 1 && w->m_iQueuedOperationCount)
             reinterpret_cast<::FUN_00c91140_Class *>((((FUN_00c91140*)w)))->FUN_00c91140();
     }
 }

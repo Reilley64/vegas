@@ -1,5 +1,6 @@
 // staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (245 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 // src/staging/blk_00ba0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -1398,7 +1399,7 @@ void FUN_00bb9660_Class::FUN_00bb9660()
 extern char DAT_01200863;
 
 // @fnv 0x00bb96d0
-void FUN_00bb96d0(unsigned int)
+void FUN_00bb96d0(std::uintptr_t)
 {
     DAT_01200863 = 0;
     DAT_012010bc[8] = 0;

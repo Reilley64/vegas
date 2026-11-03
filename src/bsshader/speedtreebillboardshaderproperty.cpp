@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 // src/bsshader/speedtreebillboardshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/speedtreebillboardshaderproperty.cpp).
@@ -82,7 +83,7 @@ int* __cdecl FUN_00ba8680()
 // @fnv 0x00ba8670
 bool FUN_00ba8670(void* apValue)
 {
-    ::FUN_00b665c0((int)(apValue));
+    ::FUN_00b665c0((std::intptr_t)(apValue));
     return false;
 }
 

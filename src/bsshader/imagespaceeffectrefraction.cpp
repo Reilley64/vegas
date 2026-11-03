@@ -1,5 +1,6 @@
 // bsshader/imagespaceeffectrefraction.cpp: free functions (4 functions)
 
+#include <cstdint>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -41,7 +42,7 @@ BSRenderedTexture* RefractionImageSpaceEffect::GetRefractionTexture(bool create)
     {
         DAT_011bf400 = 0;
         reinterpret_cast<::OwnerStandIn *>(&(m_kRefractionTexture))->FUN_00ba37a0(
-            (::RefBase *)(::BSRenderedTexture *)(((::BSRenderedTexture *)(reinterpret_cast<::Pool *>((DAT_011f91a8))->FUN_00b6e110((unsigned int)(NiRenderer::ms_pRenderer), 31, 0, (unsigned int)(0), 0)))));
+            (::RefBase *)(::BSRenderedTexture *)(((::BSRenderedTexture *)(reinterpret_cast<::Pool *>((DAT_011f91a8))->FUN_00b6e110((std::uintptr_t)(NiRenderer::ms_pRenderer), 31, 0, (unsigned int)(0), 0)))));
         DAT_011bf400 = 1;
     }
     return ((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(m_kRefractionTexture))->FUN_00ba3770()));

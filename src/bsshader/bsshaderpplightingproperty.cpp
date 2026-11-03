@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshaderpplightingproperty.cpp: BSShaderPPLightingProperty, CopyProperty, Target, OwnerX and more (34 functions)
 
@@ -1623,12 +1624,12 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 // @fnv 0x00b68fe0
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
-    ::FUN_00ba8be0((::BSSP_stub *)this, 0, (int)((apOther)));
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, (std::intptr_t)((apOther)));
     if (!((m_uiValue1 & (unsigned int)&DAT_01000000) > 0))
     {
         if (!m_spTextureSet)
             m_spTextureSet = new BSShaderTextureSet;
-        reinterpret_cast<::FUN_00b66ad0_cls *>(this)->FUN_00b66ad0((int)(&apOther->m_fAlpha), (::FnvTarget *)(0));
+        reinterpret_cast<::FUN_00b66ad0_cls *>(this)->FUN_00b66ad0((std::intptr_t)(&apOther->m_fAlpha), (::FnvTarget *)(0));
     }
     float fCurrentAlpha = m_fAlpha;
     float fTemp = fCurrentAlpha < ::_DAT_01012060 ? 0.0f : fCurrentAlpha;
@@ -3368,7 +3369,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
             if (prop == 0)
                 prop = properties->alpha;
             bool alphaTest = prop && (bool)(int)(prop->shifted() & 1);
-            reinterpret_cast<::FUN_00bda060_Class *>(this)->FUN_00bda060((int)(geom), geom->skin != 0, alphaTest);
+            reinterpret_cast<::FUN_00bda060_Class *>(this)->FUN_00bda060((std::intptr_t)(geom), geom->skin != 0, alphaTest);
         }
         return special8;
     }

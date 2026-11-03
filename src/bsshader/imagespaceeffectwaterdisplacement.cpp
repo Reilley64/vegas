@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 // src/bsshader/imagespaceeffectwaterdisplacement.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterdisplacement.cpp).
@@ -608,7 +609,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
     {
         void* renderer = (*reinterpret_cast<void * *>(&::DAT_011f9508));
         ImageSpaceManager* pManager = DAT_011f91ac;
-        reinterpret_cast<::BB97550Shader *>((pManager))->FUN_00b97550(0x22, (int)(renderer), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex54))->FUN_00ba3770()))), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex34))->FUN_00ba3770()))), 0, 1);
+        reinterpret_cast<::BB97550Shader *>((pManager))->FUN_00b97550(0x22, (std::intptr_t)(renderer), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex54))->FUN_00ba3770()))), (int)(((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>(&(tex34))->FUN_00ba3770()))), 0, 1);
     }
 
     if (((void *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(tex64))->FUN_00ba3780())))

@@ -2,6 +2,7 @@
 // src/bsshader/bsdistanttreeshaderproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsdistanttreeshaderproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00462dc0_cls.h"
 #include "fnv/decl/fnv_006fa0d0__FUN_006fa0d0_Class.h"
 struct FUN_00462d80_shell
@@ -14,7 +15,7 @@ struct FUN_00462d80_shell
 unsigned int FUN_00462d80_shell::ReadBytes(void* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiSize = 1;
-    unsigned int uiBytesRead = ((unsigned int)(reinterpret_cast<::FUN_00462dc0_cls *>(this)->InvokeAndAccumulate((int)(pvBuffer), uiBytes, (int)(&uiSize), 1)));
+    unsigned int uiBytesRead = ((unsigned int)(reinterpret_cast<::FUN_00462dc0_cls *>(this)->InvokeAndAccumulate((std::intptr_t)(pvBuffer), uiBytes, (int)(&uiSize), 1)));
     return uiBytesRead;
 }
 

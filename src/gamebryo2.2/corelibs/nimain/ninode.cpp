@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/ninode.cpp: NiNode, ChildNode, ChildArray, NiPointLight and more (37 functions)
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/A54440Hash.h"
@@ -953,7 +954,7 @@ struct BaseStub
 
 // Calls FUN_00a59f00 on the node, then registers streamables for each of its child pointers, returning false if the base call fails.
 // @fnv 0x00a5e5b0
-bool RegisterChildStreamables(NiNode* node, int, NiStream& kStream)
+bool RegisterChildStreamables(NiNode* node, std::intptr_t, NiStream& kStream)
 {
     if (!reinterpret_cast<::FUN_00a59f00_cls *>((((BaseStub*)node)))->FUN_00a59f00((void *)&(kStream)))
         return false;

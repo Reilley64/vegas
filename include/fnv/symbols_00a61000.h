@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class A61750Texture;
 class A61E60Obj;
 class NiTexture;
@@ -13,7 +15,7 @@ struct TextureFormatPreferences;
 // 0x00a61040
 namespace fnv_00a61040 { ::fnv_00a61040::SpawnedObject *FUN_00a61040(char **, int, ::NiRenderer *, int *); }
 // 0x00a61120
-::NiCubeMap *CreateCubeMap(void *, void *, void *, void *, void *, void *, ::CubeRenderer *, int, const ::TextureFormatPreferences *);
+::NiCubeMap *CreateCubeMap(void *, void *, void *, void *, void *, void *, ::CubeRenderer *, std::intptr_t, const ::TextureFormatPreferences *);
 // 0x00a614d0
 bool FUN_00a614d0(const char *, const char *);
 // 0x00a61530

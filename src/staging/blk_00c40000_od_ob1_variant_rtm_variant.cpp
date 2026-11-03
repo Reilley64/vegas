@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00c40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -2793,7 +2794,7 @@ struct S_00c4edf0_Obj
 struct S_00c4edf0_cls
 {
     S_00c4edf0_Obj* unk00;
-    bool FUN_00c4edf0(int a1, bool a2);
+    bool FUN_00c4edf0(std::intptr_t a1, bool a2);
 };
 struct DispatchObject
 {

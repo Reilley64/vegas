@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 // src/bsshader/imagespaceshadermenuunpack.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceshadermenuunpack.cpp).
@@ -684,7 +685,7 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
             if ((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->unk208 == true)
                 (*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))->vf64(&color);
         }
-        reinterpret_cast<::FUN_00a87790_cls *>((spr))->FUN_00a87790((int)((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))));
+        reinterpret_cast<::FUN_00a87790_cls *>((spr))->FUN_00a87790((std::intptr_t)((*reinterpret_cast<::ScreenSink * *>(&::NiRenderer::ms_pRenderer))));
         (*reinterpret_cast<bool *>(&::DAT_011ae5d4)) = false;
     }
 }

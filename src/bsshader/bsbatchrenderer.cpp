@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <new>
 #include <cstddef>
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
@@ -1234,7 +1235,7 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
         if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsLit())
             reinterpret_cast<::S_00b7ac20_Class *>(((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))))->FUN_00b7ac20(uiPassId);
         else if ((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))->IsType11())
-            ::FUN_00bb96d0((unsigned int)((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))));
+            ::FUN_00bb96d0((std::uintptr_t)((*reinterpret_cast<::fnv_00b994f0::Shader_b994f0 * *>(&::fnv_00b988e0::DAT_011ffe2c))));
     }
 }
 }  // namespace fnv_00b994f0
@@ -2705,7 +2706,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                 first = false;
             }
             void* draw = shader->Draw(geometry, partition, vertexData, properties);
-            reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(partition), (int)(data));
+            reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(partition), (std::intptr_t)(data));
             if (flags)
             {
                 for (unsigned int next = i + 1; next < count && !flags[i + 1].continuation;)
@@ -2719,7 +2720,7 @@ void __cdecl FUN_00b99110(DrawPass* pass, bool depth, bool alpha, bool blend)
                         draw = shader->Draw(geometry, p, uiVertexData, properties);
                         if (!draw)
                             return;
-                        reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(p), (int)(data));
+                        reinterpret_cast<::E6D310Renderer *>((renderer))->FUN_00e6d310((::E6D310StripSet *)(draw), (::E6D310Geometry *)(p), (std::intptr_t)(data));
                     }
                 }
             }
@@ -2824,12 +2825,12 @@ struct Thing
 {
     char pad[0x64];
     int m_total;
-    void AddNode(int index, int value);
+    void AddNode(int index, std::intptr_t value);
 };
 
 // Allocates or reuses a free node, stores value, and prepends it to the entry's linked list, updating counts.
 // @fnv 0x00b99a90
-void Thing::AddNode(int index, int value)
+void Thing::AddNode(int index, std::intptr_t value)
 {
     Entry* entry = (Entry*)((char*)this + index * 0x14);
     Node* node;
@@ -2881,13 +2882,13 @@ struct Thing
 {
     char pad[0x64];
     int m_total;
-    void AppendNode(int index, int value);
+    void AppendNode(int index, std::intptr_t value);
 };
 
 
 // Allocates or reuses a Node, sets its value, and appends it to the linked list at the given index.
 // @fnv 0x00b99b00
-void Thing::AppendNode(int index, int value)
+void Thing::AppendNode(int index, std::intptr_t value)
 {
     Entry* entry = (Entry*)((char*)this + index * 0x14);
     Node* node;
@@ -3112,9 +3113,9 @@ void S00b99c90_Shell::AddPassToGroup(RenderPass99* pkPass, unsigned int uiPassEn
         reinterpret_cast<::ActivePassNode *>(&(m_kActivePassList))->InsertItem((volatile ::ItemValue)(uiPass), (int (*)(unsigned int, unsigned short))(CompareShorts));
 
     if (pkPass->m_bIsAlpha && (uiPass < 0x238 || uiPass > 0x23e))
-        reinterpret_cast<::fnv_00b99a90::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AddNode(iGroup, (int)(pkPass));
+        reinterpret_cast<::fnv_00b99a90::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AddNode(iGroup, (std::intptr_t)(pkPass));
     else
-        reinterpret_cast<::fnv_00b99b00::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AppendNode(iGroup, (int)(pkPass));
+        reinterpret_cast<::fnv_00b99b00::Thing *>(&(m_pPassBucketEntries[uiIndex]))->AppendNode(iGroup, (std::intptr_t)(pkPass));
 }
 
 namespace fnv_00b9a5b0 {

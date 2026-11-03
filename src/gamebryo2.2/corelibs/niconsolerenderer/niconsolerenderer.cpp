@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.cpp: NiDX9Renderer, Renderer, GraphicsRenderer, NiTMapBaseStub and more (204 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -4050,12 +4051,12 @@ struct E6D310Renderer {
     int unk284;
     E6D310Device* m_device;
 
-    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
+    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, std::intptr_t unused);
 };
 
 // For each strip, computes the primitive count and issues a DrawIndexedPrimitive call, advancing the index start offset.
 // @fnv 0x00e6d310
-void E6D310Renderer::FUN_00e6d310(E6D310StripSet* stripSet, E6D310Geometry* geometry, int unused)
+void E6D310Renderer::FUN_00e6d310(E6D310StripSet* stripSet, E6D310Geometry* geometry, std::intptr_t unused)
 {
     unsigned int start = 0;
     for (unsigned int i = 0; i < stripSet->m_stripCount; i++) {

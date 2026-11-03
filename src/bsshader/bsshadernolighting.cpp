@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshadernolighting.cpp: BSShaderNoLighting, ShaderDispatcher, LightingShader, TechniqueShader and more (21 functions)
 
@@ -388,7 +389,7 @@ struct NiColor
 
 
 // @fnv 0x00bc6fe0
-void UpdateMaterialColor(void* pThis, int, char* pMaterialProp, char* pShaderProp)
+void UpdateMaterialColor(void* pThis, std::intptr_t, char* pMaterialProp, char* pShaderProp)
 {
     DAT_01202010.a = (*(float*)(pMaterialProp + 0x28) < 1.0f) ? *(float*)(pMaterialProp + 0x28) : 1.0f;
 
@@ -490,7 +491,7 @@ int FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char*
 {
     if (arg3)
     {
-        reinterpret_cast<::BoneHost *>((DAT_011f9508))->FUN_00e6fe30((::SkinMatrixBlock *)(edx_unused), (::Xf *)((int)arg2), arg7, 0, 3);
+        reinterpret_cast<::BoneHost *>((DAT_011f9508))->FUN_00e6fe30((::SkinMatrixBlock *)(edx_unused), (::Xf *)(arg2), arg7, 0, 3);
         void* obj = ((DummyRenderer*)DAT_0126f74c)->obj5c;
         typedef void(* VFunc)(void*, int, int, int, int, int);
         VFunc fn = (*(VFunc**)obj)[0x78 / 4];
@@ -527,12 +528,12 @@ void CallHandlerForEachValue(FUN_00bc6940_obj* self)
 
 struct FUN_00bc6fa0_shell
 {
-    void CopyEntriesToGlobalBuffer(int a1, int a2);
+    void CopyEntriesToGlobalBuffer(std::intptr_t a1, int a2);
 };
 
 // Copies count 16-byte entries from the object at a1+0xb8 into DAT_01202048 and stores count at this+0x170+0x20.
 // @fnv 0x00bc6fa0
-void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(int apSource, int aiUnused)
+void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(std::intptr_t apSource, int aiUnused)
 {
     int pContainer = *(int*)(apSource + 0xb8);
     unsigned char count = *(unsigned char*)(pContainer + 0x6c);
@@ -650,10 +651,10 @@ void BSShaderNoLighting::PrepareShaderPass(const NiPropertyState* properties)
         reinterpret_cast<::XRenderer *>((m_pShaderObject))->FUN_00e6fbb0((const ::XTransform &)(*world), false);
     }
     if ((unsigned int)(pass - 82) <= 5)
-        reinterpret_cast<::FUN_00bc6fa0_shell *>(this)->CopyEntriesToGlobalBuffer((int)(geometry), (int)&(geometry->GetWorldTransform()));
+        reinterpret_cast<::FUN_00bc6fa0_shell *>(this)->CopyEntriesToGlobalBuffer((std::intptr_t)(geometry), (int)&(geometry->GetWorldTransform()));
     ::UpdateGlobalMatrix((void *)this);
     reinterpret_cast<::FUN_00bc7100_t *>(this)->FUN_00bc7100();
-    ::UpdateMaterialColor((void *)this, (int)(property), (char *)(material), {});
+    ::UpdateMaterialColor((void *)this, (std::intptr_t)(property), (char *)(material), {});
     if ((unsigned int)(pass - 86) <= 1)
     {
         if ((property->ulFlags[0] & 0x40) > 0)

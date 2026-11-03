@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
@@ -543,7 +544,7 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
             float fRand2 = std::rand() / 32767.0 * 2.0 - 1.0;
             float fValue = apParam->m_iThirdValue * fRand2 * 100.0;
             afInstance[3] = FloorF(fValue) + afInstance[3];
-            reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (int)(apKey));
+            reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (std::intptr_t)(apKey));
             auiCount--;
             iIndex++;
         }

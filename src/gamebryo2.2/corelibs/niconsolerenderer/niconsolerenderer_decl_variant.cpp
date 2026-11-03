@@ -2,6 +2,7 @@
 // with declarations corrected to what the original code does (unit: void __cdecl FUN_00e7a760(); -> bool __cdecl FUN_00e7a760();). Move the function to its real unit once
 // that unit declares it this way.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -2620,7 +2621,7 @@ struct E6D310Renderer {
     int unk284;
     E6D310Device* m_device;
 
-    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
+    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, std::intptr_t unused);
 };
 class PacketEntry {
 public:

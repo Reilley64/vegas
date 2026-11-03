@@ -1,5 +1,6 @@
 // bsshader/debugshader.cpp: BloodSplatterBeamShader, SpeedTreeFrondShaderX, DebugShaderLoader, DebugShaderInit and more (15 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1078,7 +1079,7 @@ void RenderOwner::DrawSlots(void* destination)
             {
                 (*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))->PrepareFrame(&viewportRect);
             }
-            reinterpret_cast<::FUN_00a87790_cls *>((context.m_pObject))->FUN_00a87790((int)((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))));
+            reinterpret_cast<::FUN_00a87790_cls *>((context.m_pObject))->FUN_00a87790((std::intptr_t)((*reinterpret_cast<::DisplayDevice * *>(&::NiRenderer::ms_pRenderer))));
             slots[GetIndex()] = 0;
             context.m_pObject->SetOwner(0);
         }

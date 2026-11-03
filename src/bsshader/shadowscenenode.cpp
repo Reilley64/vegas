@@ -1,5 +1,6 @@
 // bsshader/shadowscenenode.cpp: ShadowSceneNode, Base, Self, BlendOwner and more (63 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -9392,7 +9393,7 @@ ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
         S00b5eca0_Tex* pkTexture;
         if (((S00b5eca0_Settings*)0)->m_bUseRenderedShadows)
         {
-            pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::Pool *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6e110((unsigned int)(DAT_011f9508), 0x2a, 0, 0, 0)));
+            pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::Pool *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6e110((std::uintptr_t)(DAT_011f9508), 0x2a, 0, 0, 0)));
             ((::S00b5eca0_Group *)(reinterpret_cast<::BSRenderedTexture *>((pkTexture))->GetGroup()))->SetBuffer(((void *)(reinterpret_cast<::CpuObject *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->FUN_00b6d120())));
         }
         else
@@ -12214,7 +12215,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
             {
                 LocalNodePtr ptr(0);
                 reinterpret_cast<::fnv_006044e0::FUN_006044e0_shell *>(this)->CreatePartTexture(k, (void *)&(ptr));
-                reinterpret_cast<::S_0060ba10 *>(&(packet.nodes))->FUN_0060ba10((int)&(ptr));
+                reinterpret_cast<::S_0060ba10 *>(&(packet.nodes))->FUN_0060ba10((std::intptr_t)&(ptr));
             }
         }
         reinterpret_cast<::Callees *>(&(references))->FUN_00726070();

@@ -5519,11 +5519,11 @@ struct S_00c4edf0_Obj {
 };
 struct S_00c4edf0_cls {
     S_00c4edf0_Obj* unk00;
-    bool FUN_00c4edf0(int a1, bool a2);
+    bool FUN_00c4edf0(std::intptr_t a1, bool a2);
 };
 // Calls vfn1c on unk00 with a1, 4 and a flag derived from a2, returning true when the call returns 0.
 // @fnv 0x00c4edf0
-bool S_00c4edf0_cls::FUN_00c4edf0(int a1, bool abFlag)
+bool S_00c4edf0_cls::FUN_00c4edf0(std::intptr_t a1, bool abFlag)
 {
     int flag = 0;
     if (abFlag)

@@ -1,5 +1,6 @@
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -3052,11 +3053,11 @@ struct S_004a0e10
 {
     char pad[0x208];
     unsigned char f208;
-    bool FUN_004a0e10(int a, unsigned char b);
+    bool FUN_004a0e10(std::intptr_t a, unsigned char b);
 };
 // Returns false if FUN_004a0e50 fails; otherwise returns whether f208 equals b.
 // @fnv 0x004a0e10
-bool S_004a0e10::FUN_004a0e10(int aiUnused, unsigned char b)
+bool S_004a0e10::FUN_004a0e10(std::intptr_t aiUnused, unsigned char b)
 {
     if (!reinterpret_cast<::FUN_004a0e50_Class *>(this)->FUN_004a0e50())
         return false;

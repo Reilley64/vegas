@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 // src/bsshader/bsshaderbloodsplatterproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/bsshaderbloodsplatterproperty.cpp).
@@ -294,7 +295,7 @@ struct StringArray
         }
         reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(&home)));
     }
-    void append(unsigned int& home, unsigned int value)
+    void append(unsigned int& home, std::uintptr_t value)
     {
         appendInner(home, value);
     }

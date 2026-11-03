@@ -1,5 +1,6 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
@@ -1883,11 +1884,11 @@ struct S_0060ba10
 {
     char pad[0xa];
     unsigned short s;
-    void FUN_0060ba10(int a);
+    void FUN_0060ba10(std::intptr_t a);
 };
 // Forwards the stored short s and the given int to FUN_0060bd90.
 // @fnv 0x0060ba10
-void S_0060ba10::FUN_0060ba10(int aiValue)
+void S_0060ba10::FUN_0060ba10(std::intptr_t aiValue)
 {
     reinterpret_cast<::FUN_0060bd90_cls *>(this)->FUN_0060bd90(s, aiValue);
 }

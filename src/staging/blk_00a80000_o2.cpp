@@ -2,6 +2,7 @@
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -1351,11 +1352,11 @@ struct FUN_00a87790_cls
     virtual void vd4();
     virtual void vd8();
     virtual void Tail(int a);
-    void FUN_00a87790(int a);
+    void FUN_00a87790(std::intptr_t a);
 };
 
 // @fnv 0x00a87790
-void FUN_00a87790_cls::FUN_00a87790(int a)
+void FUN_00a87790_cls::FUN_00a87790(std::intptr_t a)
 {
     this->Tail(a);
 }

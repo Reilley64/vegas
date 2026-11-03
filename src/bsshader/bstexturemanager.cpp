@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bstexturemanager.cpp: free functions (3 functions)
 
@@ -151,7 +152,7 @@ class FUN_004a0dd0_cls
 // @fnv 0x004a0dd0
 void FUN_004a0dd0_cls::FUN_004a0dd0(int a1)
 {
-    if (reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((int)("SetScreenSpaceCameraData"), 1) == 0)
+    if (reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((std::intptr_t)("SetScreenSpaceCameraData"), 1) == 0)
     {
     }
     else
@@ -1612,9 +1613,8 @@ RenderTexture* RenderTargetManager::FUN_00b6d5e0(NiRenderer* pkRenderer, unsigne
         pkFound->m_bIsCubeMap = true;
         pkFound->m_spTexture =
             (uiWidth > 0 && uiHeight > 0)
-                ? ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((int)(pkRenderer), uiWidth, uiHeight, eFormat, iUsage, uiFlags, a7, a8, a9, a10)))
-                : ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((int)(pkRenderer), defaultWidth, defaultHeight, eFormat, iUsage, uiFlags, a7, a8, a9,
-                                     a10)));
+                ? ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((std::intptr_t)(pkRenderer), uiWidth, uiHeight, eFormat, iUsage, uiFlags, a7, a8, a9, a10)))
+                : ((::RenderTexture *)(reinterpret_cast<::RTManager_b6d170 *>(this)->CreateRenderTarget((std::intptr_t)(pkRenderer), defaultWidth, defaultHeight, eFormat, iUsage, uiFlags, a7, a8, a9, a10)));
     }
     else
     {

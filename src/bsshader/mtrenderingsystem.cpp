@@ -1,5 +1,6 @@
 // bsshader/mtrenderingsystem.cpp: TaskThreadManager, AILinearTaskThread (4 functions)
 
+#include <cstdint>
 #include "fnv/symbols_00b6b000.h"
 #include "fnv/symbols_00ba3000.h"
 #include "fnv/symbols_011f9000.h"
@@ -440,7 +441,7 @@ class AccumTaskReceiver : public ::TaskThreadManager
 
 // @fnv 0x00ba3390
 void FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, TaskArg1* a2, NiRefObject* a3, void* a4,
-                             void* a5, NiRefObject* a6, unsigned int a7, unsigned int a8, void* a9)
+                             void* a5, NiRefObject* a6, std::uintptr_t a7, unsigned int a8, void* a9)
 {
     if (::DAT_011f94b4)
     {

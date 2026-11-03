@@ -1,5 +1,6 @@
 // bsaudio/bsaudio.cpp: BSAudio, AudioUpdateStand, Owner (65 functions)
 
+#include <cstdint>
 #include "fnv/decl/AudioCacheOwner.h"
 #include "fnv/decl/AudioManagerD570.h"
 #include "fnv/decl/AudioMgr70.h"
@@ -328,7 +329,7 @@ void FUN_007c2420()
     if (DAT_011da9a4)
     {
         *(int*)(DAT_011da9a4 + 0x28) = 7;
-        reinterpret_cast<::FUN_00a012d0_t *>((((Tile*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))))->FUN_00a012d0(0xfa9, 255.0f, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((Tile*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))))->FUN_00a012d0(0xfa9, 255.0f, true);
     }
 }
 
@@ -1427,7 +1428,7 @@ struct MemContextScope
 void FUN_00ad8100_shell::FUN_00ad8100(char* apSoundName, unsigned int aiFlags, void* apParam)
 {
     MemContextScope tempMemContext(11);
-    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0((const char *)((unsigned int)apSoundName), aiFlags, (unsigned int)apParam);
+    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0((const char *)(apSoundName), aiFlags, (std::intptr_t)apParam);
 }
 }  // namespace fnv_00ad8100
 

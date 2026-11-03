@@ -2,6 +2,7 @@
 // src/staging/blk_00bc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1324,11 +1325,11 @@ struct FUN_00bd8550_Class
     unsigned short m_usIndex;         // +0x12
     void* m_pData;                    // +0x14
     int* m_pEntryData;                // +0x18
-    bool PushEntry(void* src, int value);
+    bool PushEntry(void* src, std::intptr_t value);
 };
 
 // @fnv 0x00bd8550
-bool FUN_00bd8550_Class::PushEntry(void* src, int value)
+bool FUN_00bd8550_Class::PushEntry(void* src, std::intptr_t value)
 {
     if (m_usIndex != m_usElementCount && src)
     {
@@ -2470,12 +2471,12 @@ struct FUN_00bc2c50_class
     unsigned char unkBC;
 
 
-    void CopyTailFields(FUN_00bc2c50_class* destination, int value);
+    void CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value);
 };
 
 // Calls ForwardToBase, then copies unkAC through unkBC from this object into destination.
 // @fnv 0x00bc2c50
-void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, int value)
+void FUN_00bc2c50_class::CopyTailFields(FUN_00bc2c50_class* destination, std::intptr_t value)
 {
     reinterpret_cast<::FUN_00c5fb60_class *>(this)->ForwardToBase((::S_00a953b0_Node *)(destination), (void *)(value));
 

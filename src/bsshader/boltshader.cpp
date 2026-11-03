@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/boltshader.cpp: BoltShader (9 functions)
 
@@ -38,8 +39,7 @@ BSShader* BoltShader::CreateShader()
     NiD3DVertexDeclaration* declaration = ::FUN_00e76700(DAT_011f9508, 5, 1);
     BoltShaderDeclarationCalls* declarationCalls = (BoltShaderDeclarationCalls*)declaration;
 
-    declarationCalls->vfn_08c((unsigned int)shader, (unsigned int)shader, (unsigned int)shader, 2,
-                              (unsigned int)shader);
+    declarationCalls->vfn_08c((std::uintptr_t)shader, (unsigned int)shader, (unsigned int)shader, 2, (unsigned int)shader);
     declarationCalls->vfn_08c(1, 3, 3, 2, (unsigned int)shader);
     declarationCalls->vfn_08c(2, 5, 4, 3, (unsigned int)shader);
     declarationCalls->vfn_08c(3, 7, 5, 1, (unsigned int)shader);

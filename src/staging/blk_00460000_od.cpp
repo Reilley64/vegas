@@ -2,6 +2,7 @@
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "runtime/crt.h"
@@ -1836,12 +1837,12 @@ class FUN_00462dc0_cls
     int m_00;
     int m_04;
     int(__cdecl* m_08)(FUN_00462dc0_cls* self, int a, int b, int c, int d);
-    int InvokeAndAccumulate(int a1, int a2, int a3, int a4);
+    int InvokeAndAccumulate(std::intptr_t a1, int a2, int a3, int a4);
 };
 
 // Calls the callback stored in m_08 with the four arguments, adds its return value to m_04, and returns that value.
 // @fnv 0x00462dc0
-int FUN_00462dc0_cls::InvokeAndAccumulate(int a1, int a2, int a3, int a4)
+int FUN_00462dc0_cls::InvokeAndAccumulate(std::intptr_t a1, int a2, int a3, int a4)
 {
     int result = this->m_08(this, a1, a2, a3, a4);
     this->m_04 += result;

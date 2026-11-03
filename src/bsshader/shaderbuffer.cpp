@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/shaderbuffer.cpp: ShaderBufferCollection, SpawnedObject (5 functions)
 
@@ -326,11 +327,11 @@ struct S00b7fd90_cls
     unsigned short m_usSize;
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
-    void FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* a3);
+    void FUN_00b7fd90(std::uintptr_t a1, unsigned int a2, Thing_b9704* a3);
 };
 
 // @fnv 0x00b7fd90
-void S00b7fd90_cls::FUN_00b7fd90(unsigned int a1, unsigned int a2, Thing_b9704* a3)
+void S00b7fd90_cls::FUN_00b7fd90(std::uintptr_t a1, unsigned int a2, Thing_b9704* a3)
 {
     a3 = new Thing_b9704(a1, a2, a3);
     unsigned int index = m_usSize;

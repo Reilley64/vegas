@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshader.cpp: Zero4, ShaderDerived (27 functions)
 
@@ -1198,7 +1199,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
     {
         if (DAT_011f9494)
         {
-            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((unsigned int)(apCacheName), (unsigned int)((char*)pshaderbuffer), (::Thing_b9704 *)(uiShaderSize));
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(apCacheName), (unsigned int)((char*)pshaderbuffer), (::Thing_b9704 *)(uiShaderSize));
         }
         else
         {
@@ -2221,7 +2222,7 @@ FUN_00be0b30* FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* p
     if (bytecode)
     {
         if (DAT_011f9494)
-            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((unsigned int)(shaderName), (unsigned int)(bytecode), (::Thing_b9704 *)(bytecodeSize));
+            reinterpret_cast<::S00b7fd90_cls *>((DAT_011f9494))->FUN_00b7fd90((std::uintptr_t)(shaderName), (unsigned int)(bytecode), (::Thing_b9704 *)(bytecodeSize));
         else
         {
             VertexDevice* device = ((VertexRendererView*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)))->GetDevice();

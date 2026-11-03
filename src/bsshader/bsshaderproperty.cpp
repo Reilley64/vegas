@@ -1,5 +1,6 @@
 // bsshader/bsshaderproperty.cpp: ShaderPassEntry, ShaderPassList, NiShadeProperty, ShaderPropertyRecord (23 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -240,7 +241,7 @@ struct BSSP_stub : NiObjectNET_stub
     float m_depth;
 };
 // @fnv 0x00ba8be0
-void FUN_00ba8be0(BSSP_stub* self, int, int arg)
+void FUN_00ba8be0(BSSP_stub* self, int, std::intptr_t arg)
 {
     reinterpret_cast<::LinkObjectA5 *>((self))->FUN_00a5c6a0((*(::NiStream *)(arg)));
     if ((self->m_flags & 0x4000000) > 0)
@@ -320,7 +321,7 @@ class BB97550Pass;
 class BB97550Shader
 {
   public:
-    void FUN_00b97550(unsigned int uiPass, int iA, int iB, int iC, int iD, int iE);
+    void FUN_00b97550(unsigned int uiPass, std::intptr_t iA, int iB, int iC, int iD, int iE);
 
     int unk00;
     int unk04;
@@ -329,7 +330,7 @@ class BB97550Shader
 
 // Sets the thread-local alloc tag to 0x27 for the scope, then forwards the arguments to the pass at index uiPass.
 // @fnv 0x00b97550
-void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, int iA, int iB, int iC, int iD, int iE)
+void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, std::intptr_t iA, int iB, int iC, int iD, int iE)
 {
     BB97550AllocTagScope kScope(0x27);
     reinterpret_cast<::FUN_00b8c830_class *>(this)->RenderWithTextures((::HolderForAccum *)(m_ppkPasses[uiPassIndex]), iA, (::BSRenderedTexture *)(iB), (::BSRenderedTexture *)(iC), iD, iE);
@@ -572,7 +573,7 @@ struct SettingArray
         }
         values[index] = value;
     }
-    __forceinline void AddFinal(int value)
+    __forceinline void AddFinal(std::intptr_t value)
     {
         unsigned int index = count;
         if (index >= capacity)

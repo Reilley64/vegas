@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nisourcecubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -900,7 +901,7 @@ struct CubeRenderer
 
 // @fnv 0x00a61120
 NiCubeMap* __cdecl CreateCubeMap(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, CubeRenderer* pkRenderer,
-                                 int iUnused, const TextureFormatPreferences* pkPrefs)
+                                 std::intptr_t iUnused, const TextureFormatPreferences* pkPrefs)
 {
     NiCubeMap* pkMap = new NiCubeMap;
     pkMap->m_kTextureFormatPreferences = *pkPrefs;

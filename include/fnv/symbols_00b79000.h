@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiRefObject;
 struct GO;
 struct NiD3DPass;
@@ -10,7 +12,7 @@ void ResetTransform(int);
 // 0x00b790d0
 void UpdateScaledValue(const char *);
 // 0x00b79100
-void FUN_00b79100(int);
+void FUN_00b79100(std::intptr_t);
 // 0x00b79180
 void FUN_00b79180(void *);
 // 0x00b791f0

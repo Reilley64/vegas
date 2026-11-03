@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 class BA3760Object {
 public:
     // 0x00ba3760
-    void FUN_00ba3760(int);
+    void FUN_00ba3760(std::intptr_t);
 };

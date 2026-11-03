@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (22 functions)
 
@@ -3164,8 +3165,7 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
         PassEffect* effect = GetImageManager()->effects[17];
         reinterpret_cast<::HolderForAccum *>((effect))->SetAccumulatorAt(2, (::NiAccumulator *)(::fnv_00b9f780::ImageSpaceTexture *)(&input), (const ::NiCamera *)(0));
         PassRenderer* renderer2 = (*reinterpret_cast<::fnv_00b9f780::PassRenderer * *>(&::DAT_011f9508));
-        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (int)(renderer2), (int)(m_spLightRenderedTexture.m_pObject),
-                                        (int)(m_spLightRenderedTexture.m_pObject), (int)(&param), 1);
+        reinterpret_cast<::BB97550Shader *>((GetImageManager()))->FUN_00b97550(17, (std::intptr_t)(renderer2), (int)(m_spLightRenderedTexture.m_pObject), (int)(m_spLightRenderedTexture.m_pObject), (int)(&param), 1);
         reinterpret_cast<::MultiBoundOwner *>(((*reinterpret_cast<::fnv_00b9f780::PassTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6d4c0((::BSMultiBound *)(texture));
     }
     if (m_bLightFlag4)

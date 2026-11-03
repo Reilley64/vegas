@@ -1,5 +1,6 @@
 // bsshader/imagespaceeffectvatsscan.cpp: free functions (3 functions)
 
+#include <cstdint>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BBA3C00Shader.h"
@@ -31,7 +32,7 @@ void ImageSpaceEffectMultiTexture::Setup(ImageSpaceManager* manager, ImageSpaceE
     ImageSpaceTexture* pTexture = new ImageSpaceTexture;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00ba3aa0(3, (::KeyPair **)&(pTexture));
     reinterpret_cast<::Holder00ba37f0 *>((pTextures.m_pBase[3]))->FUN_00ba37f0((::Tex00ba37f0 *)(pScanTexture));
-    reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)pTextures.m_pBase[3])))->FUN_00ba3760((int)((MagicItem*)3));
+    reinterpret_cast<::BA3760Object *>((((NonActorMagicCaster*)pTextures.m_pBase[3])))->FUN_00ba3760((std::intptr_t)((MagicItem*)3));
     pTexture = new ImageSpaceTexture;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pTextures))->FUN_00ba3aa0(4, (::KeyPair **)&(pTexture));
     reinterpret_cast<::Holder00ba37f0 *>((pTextures.m_pBase[4]))->FUN_00ba37f0((::Tex00ba37f0 *)(pDistortTexture));

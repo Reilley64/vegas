@@ -2,6 +2,7 @@
 // src/bsaudio/bsaudiomanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsaudio/bsaudiomanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <cstdlib>
@@ -4723,7 +4724,7 @@ struct OwnerQ3 : ObjRegistry
 {
     char padf4[0x180 - 0xf4];
     int m_iNextID;
-    void FUN_00add6f0(const char* pPath, int iFlags, int iArg);
+    void FUN_00add6f0(const char* pPath, int iFlags, std::intptr_t iArg);
 };
 
 struct BSSoundMsg70;
@@ -6779,13 +6780,13 @@ struct S00ae6f10_FUN_00ae6f10_cls
     int unk108;
     CritSecA m_10c;
     S00ae6f10_SubObj_00ae6f10 m_124;
-    void FUN_00ae6f10(int arg);
+    void FUN_00ae6f10(std::intptr_t arg);
 };
 // Calls a helper on the BSAudioManager singleton with this task, then assigns the task's pointer field to itself.
 // @fnv 0x00ae7360
 void AudioLoadTask::FUN_00ae7360()
 {
-    reinterpret_cast<::S00ae6f10_FUN_00ae6f10_cls *>((((Helper*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae6f10((int)(this));
+    reinterpret_cast<::S00ae6f10_FUN_00ae6f10_cls *>((((Helper*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae6f10((std::intptr_t)(this));
     SoundAssetTmp = SoundAssetTmp;
 }
 // @fnv 0x00ae7390
@@ -6828,7 +6829,7 @@ struct S00ae6f10_FUN_00ae6f10_frame
 
 // Locks m_10c, passes the address of arg to m_124.FUN_00ae8150, then unlocks m_10c.
 // @fnv 0x00ae6f10
-void S00ae6f10_FUN_00ae6f10_cls::FUN_00ae6f10(int aValue)
+void S00ae6f10_FUN_00ae6f10_cls::FUN_00ae6f10(std::intptr_t aValue)
 {
     S00ae6f10_FUN_00ae6f10_frame frame;
     EnterCriticalSection(&m_10c);
@@ -12371,7 +12372,7 @@ void AudioManagerD570::FUN_00add570(const char* pcName, unsigned int uiFlags)
 }
 
 // @fnv 0x00add6f0
-void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, int iArg)
+void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, std::intptr_t iArg)
 {
     if (!pPath || !GetAudioQ3()->IsReady())
         return;

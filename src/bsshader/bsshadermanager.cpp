@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
 
@@ -2316,7 +2317,7 @@ void __cdecl FUN_00b557d0()
         hit:
             found = 1;
         join: {
-            ShaderEntryBase* t = (ShaderEntryBase*)((unsigned int)p & (found ? 0xffffffffu : 0u));
+            ShaderEntryBase* t = found ? (ShaderEntryBase*)p : nullptr;
             if (t != 0)
             {
                 t->vfn_120();
@@ -2345,7 +2346,7 @@ void __cdecl FUN_00b55b00(PropHelper* pPropHelper, float fValue)
         unsigned int t = prop->m_uiType - 1;
         int iOutOfRange = (t > 11) ? -1 : 0;
         int inRange = (iOutOfRange + 1) != 0 ? -1 : 0;
-        FUN_00b55b00_prop* target = (FUN_00b55b00_prop*)((unsigned int)prop & (unsigned int)inRange);
+        FUN_00b55b00_prop* target = inRange ? prop : nullptr;
         if (target != 0)
         {
             target->m_fValue = fValue;
@@ -3174,12 +3175,12 @@ struct FUN_00b7fe40_cls
     unsigned int m_00;
     Rec* m_04;
     SubObj m_08;
-    bool LoadFromReader(int param);
+    bool LoadFromReader(std::intptr_t param);
 };
 
 // Reads a chunk into an allocated record, then calls a helper on each subobject.
 // @fnv 0x00b7fe40
-bool FUN_00b7fe40_cls::LoadFromReader(int param)
+bool FUN_00b7fe40_cls::LoadFromReader(std::intptr_t param)
 {
     bool result = false;
     ChunkHeader buf;
@@ -4149,7 +4150,7 @@ void InitRenderSystem()
         {
             (*reinterpret_cast<::TextureManagerInit * *>(&::DAT_011f91a8)) = new TextureManagerInit;
             (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498)) = new TextureLoaderInit(((void *)(::FUN_00b7faf0())));
-            reinterpret_cast<::FUN_00b7fe40_cls *>(((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))))->LoadFromReader((int)((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->source));
+            reinterpret_cast<::FUN_00b7fe40_cls *>(((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))))->LoadFromReader((std::intptr_t)((*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->source));
             if (!(*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498))->count)
             {
                 delete (*reinterpret_cast<::TextureLoaderInit * *>(&::DAT_011f9498));

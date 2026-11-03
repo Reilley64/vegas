@@ -1,5 +1,6 @@
 // bscore/bsstring.cpp: free functions (15 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
@@ -149,7 +150,7 @@ void FUN_00403a00_class::FUN_00403a00(unsigned int length)
 
 struct FUN_004046b0_arg
 {
-    void AssignFromString(unsigned int value);
+    void AssignFromString(std::uintptr_t value);
 };
 
 struct FUN_004046b0_sub

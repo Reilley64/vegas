@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/imagespacetexture.cpp: free functions (1 function)
 
@@ -28,7 +29,7 @@ class BA3760Object
     int unk08;
     int m_iValue;
 
-    void FUN_00ba3760(int iValue);
+    void FUN_00ba3760(std::intptr_t iValue);
 };
 
 
@@ -301,7 +302,7 @@ struct H_00ba3840
 // @fnv 0x00ba3840
 void H_00ba3840::FUN_00ba3840(int arg)
 {
-    Tex00ba37f0* pNew = ((::Tex00ba37f0 *)(reinterpret_cast<::Pool *>((((TexMgr00ba3840*)DAT_011f91a8)))->FUN_00b6e110((unsigned int)(::DAT_011f9508), arg, 0, (unsigned int)(0), 0)));
+    Tex00ba37f0* pNew = ((::Tex00ba37f0 *)(reinterpret_cast<::Pool *>((((TexMgr00ba3840*)DAT_011f91a8)))->FUN_00b6e110((std::uintptr_t)(::DAT_011f9508), arg, 0, (unsigned int)(0), 0)));
     if (pTileTexture != pNew)
     {
         if (pTileTexture)
@@ -369,7 +370,7 @@ TextureReceiver* FUN_00ba3780_struct::FUN_00ba3780()
 
 
 // @fnv 0x00ba3760
-void BA3760Object::FUN_00ba3760(int iValue)
+void BA3760Object::FUN_00ba3760(std::intptr_t iValue)
 {
     m_iValue = iValue;
 }
@@ -952,7 +953,7 @@ int TextureOwnerB63::FUN_00b63c60()
     {
         OwnerStandIn** receiverSlot = &container.node->receiver;
         (*receiverSlot)
-            ->FUN_00ba37a0(((::RefBase *)(reinterpret_cast<::Pool *>((reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)))->FUN_00b6e110((unsigned int)((*reinterpret_cast<void * *>(&::NiRenderer::ms_pRenderer))), 32, (unsigned int)(0), (unsigned int)(0), (unsigned int)(0)))));
+            ->FUN_00ba37a0(((::RefBase *)(reinterpret_cast<::Pool *>((reinterpret_cast<TextureManagerB63*>(DAT_011f91a8)))->FUN_00b6e110((std::uintptr_t)((*reinterpret_cast<void * *>(&::NiRenderer::ms_pRenderer))), 32, (unsigned int)(0), (unsigned int)(0), (unsigned int)(0)))));
     }
     OwnerStandIn** finalSlot = &container.node->receiver;
     return reinterpret_cast<::FUN_00ba3770_struct *>((reinterpret_cast<TextureRenderedViewB63*>(*finalSlot)))->FUN_00ba3770();

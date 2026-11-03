@@ -1,5 +1,6 @@
 // bsshader/bsshadertextureset.cpp: BipedAnim, BSShaderTextureSet (8 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -145,7 +146,7 @@ class BSShaderTextureSetBA89 : public BSShaderTextureSet
 // @fnv 0x00ba8970
 void BSShaderTextureSetBA89::FUN_00ba8970(NiStream& stream)
 {
-    ::FUN_00a89af0((int)(((NiObjectCall*)this)));
+    ::FUN_00a89af0((std::intptr_t)(((NiObjectCall*)this)));
 
     unsigned int uiTextureCount = 6;
     NiStreamSaveBinaryBA89(stream.m_pBackingStream, uiTextureCount);

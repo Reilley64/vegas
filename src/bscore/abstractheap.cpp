@@ -1,5 +1,6 @@
 // bscore/abstractheap.cpp: AbstractHeap, HeapFreeBlock, AbstractHeapDump, AbstractHeapBuckets and more (19 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -393,7 +394,7 @@ struct SubBucket_aa9
 };
 struct FUN_00aaa0d0_s
 {
-    void FUN_00aaa0d0(int);
+    void FUN_00aaa0d0(std::intptr_t);
 };
 struct FUN_00aa9fb0_heap
 {
@@ -424,7 +425,7 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
             pblock = m_kSubBucketLists[isub].pList->pHead;
             while (pblock)
             {
-                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+                ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
                 pblock = pblock->pNext;
             }
         }
@@ -434,14 +435,14 @@ void FUN_00aa9fb0_heap::FUN_00aa9fb0()
         pblock = m_kFreeLists[i2].pHead;
         while (pblock)
         {
-            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+            ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
             pblock = pblock->pNext;
         }
     }
     pblock = m_kFreeListSentinel.pHead;
     while (pblock)
     {
-        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((int)pblock);
+        ((FUN_00aaa0d0_s*)this)->FUN_00aaa0d0((std::intptr_t)pblock);
         pblock = pblock->pNext;
     }
     pfreeCur = m_pLastBlock;

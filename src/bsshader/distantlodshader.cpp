@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/distantlodshader.cpp: DistantLODShader, BSShaderStandin, RSShader, LodCompiler (13 functions)
 
@@ -241,11 +242,11 @@ struct ShaderVTable
     {}
     virtual void f34()
     {}
-    virtual void f35(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int)
+    virtual void f35(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int)
     {}
     virtual void f36()
     {}
-    virtual void f37(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
+    virtual void f37(std::uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
                      unsigned int)
     {}
     virtual void f38()
@@ -359,10 +360,10 @@ FUN_00bd5670* FUN_00bd5920()
 
     FUN_00bd5670* result = 0;
 
-    declaration->f35((unsigned int)result, (unsigned int)result, (unsigned int)result, 2, (unsigned int)result);
+    declaration->f35((std::uintptr_t)result, (unsigned int)result, (unsigned int)result, 2, (unsigned int)result);
     declaration->f35(1, 5, 4, 3, (unsigned int)result);
     declaration->f35(2, 7, 5, 1, (unsigned int)result);
-    declaration->f37((unsigned int)result, 3, 6, 0x80000000, (unsigned int)result, 5, 1, (unsigned int)result);
+    declaration->f37((std::uintptr_t)result, 3, 6, 0x80000000, (unsigned int)result, 5, 1, (unsigned int)result);
     declaration->f45();
 
     result = new FUN_00bd5670(declaration);

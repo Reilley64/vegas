@@ -1,6 +1,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -2642,7 +2643,7 @@ struct E6D310Renderer {
     int unk284;
     E6D310Device* m_device;
 
-    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, int unused);
+    void FUN_00e6d310(E6D310StripSet* set, E6D310Geometry* geometry, std::intptr_t unused);
 };
 class PacketEntry {
 public:

@@ -2228,7 +2228,7 @@ struct ObjX
 };
 struct S
 {
-    void FUN_00561690(int a);
+    void FUN_00561690(std::intptr_t a);
 };
 struct Actor;
 struct BGSLoadFormBuffer;
@@ -36988,7 +36988,7 @@ struct FUN_005616d0_Owner
     void OnTrigger(TriggerContext* context);
 };
 // @fnv 0x00561690
-void S::FUN_00561690(int aiArg)
+void S::FUN_00561690(std::intptr_t aiArg)
 {
     TESBoundObjectX* o = ((::TESBoundObjectX *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (o)

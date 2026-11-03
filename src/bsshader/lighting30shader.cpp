@@ -1414,8 +1414,8 @@ struct Pointer
 };
 struct FUN_00b7e330 : Object
 {
-    virtual void Register(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
-                          unsigned int, unsigned int, unsigned int, unsigned int);
+    virtual void Register(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*,
+                          unsigned int, unsigned int, const void*, bool);
     virtual void slot0c();
     virtual void slot10();
     virtual void slot14();
@@ -1439,10 +1439,10 @@ struct FUN_00b7e330 : Object
     virtual void slot5c();
     virtual void slot60();
     virtual void slot64();
-    virtual void RegisterBuiltin(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
-                                 unsigned int, unsigned int);
+    virtual void RegisterBuiltin(const char*, unsigned int, unsigned int, const char*, unsigned int, unsigned int,
+                                 const void*, bool);
     virtual void slot6c();
-    virtual Object* Find(unsigned int);
+    virtual Object* Find(const char*);
     unsigned int unk08;
     unsigned int unk0c;
     unsigned int unk10;
@@ -1546,117 +1546,91 @@ void Lighting::FUN_00bbf5a0()
         DAT_01201f28 = true;
         constants34.FUN_00a5f860(new FUN_00b7e330(device, 0));
         ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)::DAT_010A1E50, 0x20000009, 0x0, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_01201080)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)::DAT_010A1E50));
+            ->RegisterBuiltin((const char *)::DAT_010A1E50, 0x20000009, 0x0, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_01201080)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)::DAT_010A1E50));
         ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1d20, 0x20000009, 0x14, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_01201084.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1d20));
+            ->RegisterBuiltin((const char *)DAT_010a1d20, 0x20000009, 0x14, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
+        DAT_01201084.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010a1d20));
         ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1ee0, 0x20000009, 0x4, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_01201088.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1ee0));
+            ->RegisterBuiltin((const char *)DAT_010a1ee0, 0x20000009, 0x4, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
+        DAT_01201088.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010a1ee0));
         ((FUN_00b7e330*)constants34.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1db8, 0x20000009, 0x18, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
-        DAT_0120108c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a1db8));
+            ->RegisterBuiltin((const char *)DAT_010a1db8, 0x20000009, 0x18, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
+        DAT_0120108c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010a1db8));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)::DAT_010A1CAC, 0x20000009, 0x120000, 0x34, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
-        DAT_01201090.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)::DAT_010A1CAC));
+            ->Register((const char *)::DAT_010A1CAC, 0x20000009, 0x120000, 0x34, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
+        DAT_01201090.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)::DAT_010A1CAC));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af580, 0x10000009, 0x0, 0x6c, 0x36, (unsigned int)::DAT_01011584, 0x360, 0x4,
-                       (unsigned int)DAT_011fa580, 0x0);
-        DAT_01201094.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af580));
+            ->Register((const char *)DAT_010af580, 0x10000009, 0x0, 0x6c, 0x36, (const char *)::DAT_01011584, 0x360, 0x4, (const void *)DAT_011fa580, 0x0);
+        DAT_01201094.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010af580));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba32c, 0x10000009, 0x0, 0x8, 0x4, (unsigned int)::DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_01201170, 0x0);
-        DAT_01201098.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba32c));
+            ->Register((const char *)DAT_010ba32c, 0x10000009, 0x0, 0x8, 0x4, (const char *)::DAT_01011584, 0x40, 0x4, (const void *)DAT_01201170, 0x0);
+        DAT_01201098.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010ba32c));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010a18a4, 0x10000007, 0x0, 0x28, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201370, 0x0);
-        DAT_012010a4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010a18a4));
+            ->Register((const char *)DAT_010a18a4, 0x10000007, 0x0, 0x28, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201370, 0x0);
+        DAT_012010a4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010a18a4));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba320, 0x10000007, 0x0, 0x2e, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_012013d0, 0x0);
-        DAT_012010c0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba320));
+            ->Register((const char *)DAT_010ba320, 0x10000007, 0x0, 0x2e, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_012013d0, 0x0);
+        DAT_012010c0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010ba320));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)::g_011c37c0_arg1, 0x1000000c, 0x0, 0x2c, 0x2, (unsigned int)::DAT_01011584, 0x20, 0x4,
-                       (unsigned int)DAT_012013b0, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010bc)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)::g_011c37c0_arg1));
+            ->Register((const char *)::g_011c37c0_arg1, 0x1000000c, 0x0, 0x2c, 0x2, (const char *)::DAT_01011584, 0x20, 0x4, (const void *)DAT_012013b0, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010bc)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)::g_011c37c0_arg1));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af5b0, 0x10000007, 0x0, 0x29, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201380, 0x0);
-        DAT_012010a8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af5b0));
+            ->Register((const char *)DAT_010af5b0, 0x10000007, 0x0, 0x29, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201380, 0x0);
+        DAT_012010a8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010af5b0));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_01031334, 0x10000007, 0x0, 0x26, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201350, 0x0);
-        DAT_012010ac.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_01031334));
+            ->Register((const char *)DAT_01031334, 0x10000007, 0x0, 0x26, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201350, 0x0);
+        DAT_012010ac.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_01031334));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba30c, 0x10000007, 0x0, 0x27, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201360, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010b0)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba30c));
+            ->Register((const char *)DAT_010ba30c, 0x10000007, 0x0, 0x27, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201360, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010b0)).FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010ba30c));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba2f4, 0x10000009, 0x0, 0x20, 0x6, (unsigned int)::DAT_01011584, 0x60, 0x4,
-                       (unsigned int)DAT_012012f0, 0x0);
-        DAT_012010b4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba2f4));
+            ->Register((const char *)DAT_010ba2f4, 0x10000009, 0x0, 0x20, 0x6, (const char *)::DAT_01011584, 0x60, 0x4, (const void *)DAT_012012f0, 0x0);
+        DAT_012010b4.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010ba2f4));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af5a0, 0x10000009, 0x0, 0xc, 0x4, (unsigned int)::DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_011fed08, 0x0);
-        DAT_0120109c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af5a0));
+            ->Register((const char *)DAT_010af5a0, 0x10000009, 0x0, 0xc, 0x4, (const char *)::DAT_01011584, 0x40, 0x4, (const void *)DAT_011fed08, 0x0);
+        DAT_0120109c.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010af5a0));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010af590, 0x10000009, 0x0, 0x10, 0x4, (unsigned int)::DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_011fed48, 0x0);
-        DAT_012010a0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010af590));
+            ->Register((const char *)DAT_010af590, 0x10000009, 0x0, 0x10, 0x4, (const char *)::DAT_01011584, 0x40, 0x4, (const void *)DAT_011fed48, 0x0);
+        DAT_012010a0.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010af590));
         ((FUN_00b7e330*)constants34.object)
-            ->Register((unsigned int)DAT_010ba2e4, 0x10000009, 0x0, 0x1c, 0x4, (unsigned int)::DAT_01011584, 0x40, 0x4,
-                       (unsigned int)DAT_012012b0, 0x0);
-        DAT_012010b8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((unsigned int)DAT_010ba2e4));
+            ->Register((const char *)DAT_010ba2e4, 0x10000009, 0x0, 0x1c, 0x4, (const char *)::DAT_01011584, 0x40, 0x4, (const void *)DAT_012012b0, 0x0);
+        DAT_012010b8.FUN_00a5f860(((FUN_00b7e330*)constants34.object)->Find((const char *)DAT_010ba2e4));
         constants34.FUN_00a5f860(new FUN_00b7e330(device, 0));
     }
     if (!constants30.object)
     {
         constants30 = new FUN_00b7e330(device, 2);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2d4, 0x10000007, 0x0, 0x0, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)(*reinterpret_cast<char (*)[]>(&::DAT_01201b30)), 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010c4)) = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2d4);
+            ->Register((const char *)DAT_010ba2d4, 0x10000007, 0x0, 0x0, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)(*reinterpret_cast<char (*)[]>(&::DAT_01201b30)), 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010c4)) = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba2d4);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010aff58, 0x10000007, 0x0, 0x1, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b40, 0x0);
-        DAT_012010c8 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010aff58);
+            ->Register((const char *)DAT_010aff58, 0x10000007, 0x0, 0x1, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201b40, 0x0);
+        DAT_012010c8 = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010aff58);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2c8, 0x10000007, 0x0, 0x2, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b50, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010cc)) = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2c8);
+            ->Register((const char *)DAT_010ba2c8, 0x10000007, 0x0, 0x2, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201b50, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010cc)) = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba2c8);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2bc, 0x10000007, 0x0, 0x3, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b60, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::fnv_00bbe9c0::DAT_012010d0)) = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2bc);
+            ->Register((const char *)DAT_010ba2bc, 0x10000007, 0x0, 0x3, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201b60, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::fnv_00bbe9c0::DAT_012010d0)) = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba2bc);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2b4, 0x10000007, 0x0, 0x4, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b70, 0x0);
-        DAT_012010d4 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2b4);
+            ->Register((const char *)DAT_010ba2b4, 0x10000007, 0x0, 0x4, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201b70, 0x0);
+        DAT_012010d4 = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba2b4);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba2a4, 0x10000007, 0x0, 0x6, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201b90, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010d8)) = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba2a4);
+            ->Register((const char *)DAT_010ba2a4, 0x10000007, 0x0, 0x6, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201b90, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010d8)) = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba2a4);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba294, 0x10000007, 0x0, 0x7, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201ba0, 0x0);
-        DAT_012010dc = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba294);
+            ->Register((const char *)DAT_010ba294, 0x10000007, 0x0, 0x7, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201ba0, 0x0);
+        DAT_012010dc = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba294);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba288, 0x1000000c, 0x0, 0x9, 0x2, (unsigned int)::DAT_01011584, 0x20, 0x4,
-                       (unsigned int)DAT_01201bc0, 0x0);
-        DAT_012010e4 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba288);
+            ->Register((const char *)DAT_010ba288, 0x1000000c, 0x0, 0x9, 0x2, (const char *)::DAT_01011584, 0x20, 0x4, (const void *)DAT_01201bc0, 0x0);
+        DAT_012010e4 = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba288);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba278, 0x10000007, 0x0, 0xb, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201be0, 0x0);
-        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010e0)) = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba278);
+            ->Register((const char *)DAT_010ba278, 0x10000007, 0x0, 0xb, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201be0, 0x0);
+        (*reinterpret_cast<::ConstantMaps::Pointer *>(&::DAT_012010e0)) = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba278);
         ((FUN_00b7e330*)constants30.object)
-            ->Register((unsigned int)DAT_010ba26c, 0x10000009, 0x0, 0x14, 0x29, (unsigned int)::DAT_01011584, 0x290, 0x4,
-                       (unsigned int)DAT_01201c70, 0x0);
-        DAT_012010e8 = ((FUN_00b7e330*)constants30.object)->Find((unsigned int)DAT_010ba26c);
+            ->Register((const char *)DAT_010ba26c, 0x10000009, 0x0, 0x14, 0x29, (const char *)::DAT_01011584, 0x290, 0x4, (const void *)DAT_01201c70, 0x0);
+        DAT_012010e8 = ((FUN_00b7e330*)constants30.object)->Find((const char *)DAT_010ba26c);
         constants30 = new FUN_00b7e330(device, 2);
     }
     constants78 = constants34;
@@ -1665,44 +1639,33 @@ void Lighting::FUN_00bbf5a0()
     {
         constants70 = new FUN_00b7e330(device, 0);
         ((FUN_00b7e330*)constants70.object)
-            ->RegisterBuiltin((unsigned int)::DAT_010A1E50, 0x20000009, 0x0, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
+            ->RegisterBuiltin((const char *)::DAT_010A1E50, 0x20000009, 0x0, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->RegisterBuiltin((unsigned int)DAT_010a1d20, 0x20000009, 0x4, (unsigned int)::DAT_01011584, 0x0, 0x0, 0x0,
-                              0x0);
+            ->RegisterBuiltin((const char *)DAT_010a1d20, 0x20000009, 0x4, (const char *)::DAT_01011584, 0x0, 0x0, 0x0, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)::DAT_010A1CAC, 0x20000009, 0x120000, 0xe, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
+            ->Register((const char *)::DAT_010A1CAC, 0x20000009, 0x120000, 0xe, 0x36, 0x0, 0x0, 0x0, 0x0, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af5d8, 0x10000007, 0x0, 0x8, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01201370, 0x0);
+            ->Register((const char *)DAT_010af5d8, 0x10000007, 0x0, 0x8, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01201370, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af498, 0x10000004, 0x0, 0x9, 0x1, (unsigned int)::DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200be8, 0x0);
+            ->Register((const char *)DAT_010af498, 0x10000004, 0x0, 0x9, 0x1, (const char *)::DAT_01011584, 0x4, 0x4, (const void *)DAT_01200be8, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af48c, 0x10000004, 0x0, 0xa, 0x1, (unsigned int)::DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200bec, 0x0);
+            ->Register((const char *)DAT_010af48c, 0x10000004, 0x0, 0xa, 0x1, (const char *)::DAT_01011584, 0x4, 0x4, (const void *)DAT_01200bec, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010ba258, 0x10000004, 0x0, 0xb, 0x1, (unsigned int)::DAT_01011584, 0x4, 0x4,
-                       (unsigned int)DAT_01200bf0, 0x0);
+            ->Register((const char *)DAT_010ba258, 0x10000004, 0x0, 0xb, 0x1, (const char *)::DAT_01011584, 0x4, 0x4, (const void *)DAT_01200bf0, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010af474, 0x10000007, 0x0, 0xc, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c38, 0x0);
+            ->Register((const char *)DAT_010af474, 0x10000007, 0x0, 0xc, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01200c38, 0x0);
         ((FUN_00b7e330*)constants70.object)
-            ->Register((unsigned int)DAT_010a16ec, 0x10000007, 0x0, 0xd, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c28, 0x0);
+            ->Register((const char *)DAT_010a16ec, 0x10000007, 0x0, 0xd, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01200c28, 0x0);
     }
     if (!constants6c.object)
     {
         constants6c = new FUN_00b7e330(device, 2);
         ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010af468, 0x10000007, 0x0, 0x0, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200bf8, 0x0);
+            ->Register((const char *)DAT_010af468, 0x10000007, 0x0, 0x0, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01200bf8, 0x0);
         ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010af45c, 0x10000007, 0x0, 0x1, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c08, 0x0);
+            ->Register((const char *)DAT_010af45c, 0x10000007, 0x0, 0x1, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01200c08, 0x0);
         ((FUN_00b7e330*)constants6c.object)
-            ->Register((unsigned int)DAT_010ba250, 0x10000007, 0x0, 0x2, 0x1, (unsigned int)::DAT_01011584, 0x10, 0x4,
-                       (unsigned int)DAT_01200c18, 0x0);
+            ->Register((const char *)DAT_010ba250, 0x10000007, 0x0, 0x2, 0x1, (const char *)::DAT_01011584, 0x10, 0x4, (const void *)DAT_01200c18, 0x0);
     }
 }
 }

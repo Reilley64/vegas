@@ -1,5 +1,6 @@
 // bsshader/bsfadenode.cpp: BSFadeNode, NiFixedString, BSShaderManager, FadeViewer and more (22 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -145,7 +146,7 @@ struct FUN_00a5e5b0_helper
 // @fnv 0x00b4def0
 bool FUN_00b4def0_shell::FUN_00b4def0(NiStream* arStream)
 {
-    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (int)(arStream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
+    if (!((unsigned char)(::fnv_00a5e5b0::RegisterChildStreamables((::NiNode *)(((FUN_00a5e5b0_helper*)this)), (std::intptr_t)(arStream), *(::fnv_00a5e5b0::NiStream *)nullptr))))
         return false;
     return true;
 }

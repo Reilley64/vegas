@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -837,7 +838,7 @@ void CollObj::FUN_00c65a80()
     Xform t;
     reinterpret_cast<::S00560c20_Object *>((pBody))->FUN_00560c20((::S00560c20_Target *)&(q));
     reinterpret_cast<::FUN_004f0180_Class *>((void *)&(q))->FUN_004f0180((::M3_ *)&(t.m_kOrientation));
-    reinterpret_cast<::QueryOwner *>((pBody))->FUN_00560bc0((int)&(t.m_kTranslation));
+    reinterpret_cast<::QueryOwner *>((pBody))->FUN_00560bc0((std::intptr_t)&(t.m_kTranslation));
     s46(t);
 }
 
@@ -1379,11 +1380,11 @@ void CollisionSync::FUN_00c65b00()
             __m128 cmp =
                 _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(linearPtr->quad, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)).quad), (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>((void *)&::DAT_01017d10)).quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                reinterpret_cast<::S *>((b))->FUN_00561690((int)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
+                reinterpret_cast<::S *>((b))->FUN_00561690((std::intptr_t)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
             __m128 angular = ((::fnv_00c65b00::FourFloatVector *)(reinterpret_cast<::FUN_00560e10_cls *>((b))->FUN_00560e10()))->quad;
             cmp = _mm_cmple_ps(_mm_and_ps(_mm_sub_ps(angular, (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30)).quad), (*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>((void *)&::DAT_01017d10)).quad), tolerance);
             if ((_mm_movemask_ps(cmp) & 15) != 15)
-                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((b))->FUN_005617c0((int)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
+                reinterpret_cast<::fnv_005617c0::FUN_005617c0_ *>((b))->FUN_005617c0((std::intptr_t)(&(*reinterpret_cast<::fnv_00c65b00::FourFloatVector *>(&::DAT_01267e30))));
         }
     }
     else

@@ -1295,7 +1295,7 @@ void FUN_00b8b7d0_cls::FUN_00b8b7d0(float afParam0, int aiParam1, float afParam2
     float t = d.x * d.x + d.y * d.y + d.z * d.z;
     t = (float)sqrt((double)t);
     float dist = t;
-    ::FUN_00b59d30((::Vec4 *)((int)pPosition), (::NiPoint2 *)((int)&pos), (float *)(int *)((int*)&t));
+    ::FUN_00b59d30((::Vec4 *)(pPosition), (::NiPoint2 *)(&pos), (float *)(int *)((int*)&t));
     t = t + afParam3;
     reinterpret_cast<::B8B060Request *>(this)->SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, (*(const ::B8B060Pair *)((int*)&pos)));
 }

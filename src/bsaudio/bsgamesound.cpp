@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsaudio/bsgamesound.cpp: BSGameSound, SoundView, AudioPathFixer (24 functions)
 
@@ -334,12 +335,12 @@ struct Interface
 
 struct FUN_00aea590_shell
 {
-    bool FUN_00aea590(int param, int unused);
+    bool FUN_00aea590(int param, std::intptr_t unused);
 };
 
 // Returns true when param is non-negative; otherwise logs "Audio system could not be initialized." and returns false.
 // @fnv 0x00aea590
-bool FUN_00aea590_shell::FUN_00aea590(int aiResult, int unused)
+bool FUN_00aea590_shell::FUN_00aea590(int aiResult, std::intptr_t unused)
 {
     if (aiResult >= 0)
         return true;
@@ -707,21 +708,21 @@ void C::SetWindow(int aiWindow)
     {
         CoInitialize(0);
         iResult = ((int)(::FUN_00ee81e0((const void *)(0), (void **)(void *)(&com), (void *)(0))));
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3b10)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3b10)))
             return;
         iResult = com->coop(window, 2);
-        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3ae0));
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3ae0));
         *(int*)capsdata = 96;
         iResult = com->caps(capsdata);
-        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3a78));
+        reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a78));
         std::memset(&desc, 0, 36);
         desc.size = 36;
         desc.flags = 145;
         iResult = com->create(&desc, &buffer, 0);
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3a38)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a3a38)))
             return;
         iResult = buffer->q(&DAT_01100fa4, &iInterface);
-        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a39f8)))
+        if (!reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (std::intptr_t)(&DAT_010a39f8)))
             return;
         sound = new FUN_00aea730_Class(iInterface);
     }

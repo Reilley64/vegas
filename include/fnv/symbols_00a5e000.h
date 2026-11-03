@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiAVObject;
 class NiNode;
 class NiPropertyState;
@@ -13,4 +15,4 @@ namespace fnv_00a5e280 { void UpdateChildControllers(::NiNode *, int, ::NiUpdate
 // 0x00a5e3a0
 void FUN_00a5e3a0(::NiAVObject *, int, ::NiPropertyState *&);
 // 0x00a5e5b0
-namespace fnv_00a5e5b0 { bool RegisterChildStreamables(::NiNode *, int, ::fnv_00a5e5b0::NiStream &); }
+namespace fnv_00a5e5b0 { bool RegisterChildStreamables(::NiNode *, std::intptr_t, ::fnv_00a5e5b0::NiStream &); }

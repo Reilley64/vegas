@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <cstddef>
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
@@ -598,7 +599,7 @@ void FUN_00b63620(AccumStub* self)
         unsigned int uiData = 0;
         if (self->m_aEntries[i].query)
         {
-            reinterpret_cast<::S_00c4edf0_cls *>((self->m_aEntries[i].query))->FUN_00c4edf0((int)(&uiData), 1);
+            reinterpret_cast<::S_00c4edf0_cls *>((self->m_aEntries[i].query))->FUN_00c4edf0((std::intptr_t)(&uiData), 1);
             QueryStub* q = self->m_aEntries[i].query;
             if (q)
             {
@@ -680,7 +681,7 @@ bool FUN_00b63680_shell::CheckVolumeState(unsigned int uiVolumeId, bool abRunQue
                 int r;
                 do
                 {
-                    r = ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((reinterpret_cast<QueryStub*>(vol->m_pRenderQuery)))->FUN_00c4edf0((int)(reinterpret_cast<unsigned int*>(&abRunQuery)), 1)));
+                    r = ((unsigned char)(reinterpret_cast<::S_00c4edf0_cls *>((reinterpret_cast<QueryStub*>(vol->m_pRenderQuery)))->FUN_00c4edf0((std::intptr_t)(reinterpret_cast<unsigned int*>(&abRunQuery)), 1)));
                 } while (r == 1);
                 if (r == 0)
                 {
@@ -1136,8 +1137,8 @@ void FUN_00b65c60(AccumWIP* apAccum)
         {
             ::BSRenderedTexture::EndAllAndResetRendererState();
             if (!(*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)))
-                (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = ((::fnv_00b65c60::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6e110((unsigned int)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), 5, 0, (unsigned int)(0), 0)));
-            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (int)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
+                (*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c)) = ((::fnv_00b65c60::BSRenderedTexture *)(reinterpret_cast<::Pool *>(((*reinterpret_cast<::fnv_00b65c60::BSTextureManager * *>(&::DAT_011f91a8))))->FUN_00b6e110((std::uintptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), 5, 0, (unsigned int)(0), 0)));
+            reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b65c60::ImageSpaceManager * *>(&::DAT_011f91ac))))->FUN_00b97550(0x22, (std::intptr_t)((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))), (int)((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f943c))), 0, true);
             ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(::fnv_00b65c60::NiRenderTargetGroup *)(((::fnv_00b65c60::NiRenderTargetGroup *)(reinterpret_cast<::BSRenderedTexture *>(((*reinterpret_cast<::fnv_00b65c60::BSRenderedTexture * *>(&::DAT_011f9438))))->GetGroup()))));
         }
         reinterpret_cast<::CameraState4E9 *>(((*reinterpret_cast<::fnv_00b65c60::NiRenderer * *>(&::DAT_011f9508))))->SetFromCamera((*(const ::Camera4E9 *)(*(NiCamera**)&apAccum->m_pkAccumulationCamera)));
@@ -2885,7 +2886,7 @@ bool Sh651_Batch::FUN_00b651e0(ShCamera* pkCamera, ShManager* pkManager)
                     Sh651_Cam* pkCam = (*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))->m_pkScene->m_pkCam;
                     pkCam->m_bValueAt0C = true;
                     pkCam->m_kFogTint = kColor;
-                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (int)(pkRenderer), (int)(pkManager), (int)(pkManager), 0, 1);
+                    reinterpret_cast<::BB97550Shader *>(((*reinterpret_cast<::fnv_00b651e0::Sh651_Holder * *>(&::DAT_011f91ac))))->FUN_00b97550(0xd, (std::intptr_t)(pkRenderer), (int)(pkManager), (int)(pkManager), 0, 1);
                 }
             }
         }

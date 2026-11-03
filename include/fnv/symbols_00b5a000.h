@@ -12,7 +12,7 @@ int FUN_00b5a980(int *, int *);
 // 0x00b5aa40
 void *FUN_00b5aa40(::FUN_00b5aa40_self *, int);
 // 0x00b5aa70
-int CompareFloatAtOffsetC(int *, int *);
+int CompareFloatAtOffsetC(const void *, const void *);
 // 0x00b5ac20
 void *GetListItemAt(char *, int, unsigned int);
 // 0x00b5ac60

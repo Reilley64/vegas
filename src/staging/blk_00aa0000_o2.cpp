@@ -61,12 +61,10 @@ unsigned int __cdecl ReadFileData(NiFileHack* apFile, void* buffer, unsigned int
     return reinterpret_cast<::NiFile *>((apFile))->FileRead(buffer, size);
 }
 
-extern int DAT_011f6110;
-
-extern "C" void __cdecl FUN_00aa2060(int a, int b);
+extern void(__cdecl* DAT_011f6110)();
 
 // @fnv 0x00aa2060
-extern "C" void __cdecl FUN_00aa2060(int aiFirst, int aiSecond)
+extern "C" void __cdecl FUN_00aa2060(void(__cdecl* aiFirst)(), void(__cdecl* aiSecond)())
 {
     DAT_011f6110 = aiFirst;
     DAT_011f6114 = aiSecond;
@@ -373,7 +371,7 @@ extern int DAT_010a24b8;
 
 struct FUN_00aa1d30_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
 
     void FUN_00aa1d30();
 };
@@ -381,7 +379,7 @@ struct FUN_00aa1d30_cls
 // @fnv 0x00aa1d30
 void FUN_00aa1d30_cls::FUN_00aa1d30()
 {
-    m_vptr00 = (int)&DAT_010a24b8;
+    m_vptr00 = &DAT_010a24b8;
 }
 
 class FUN_00aa1fd0_cls
@@ -486,11 +484,11 @@ void __cdecl FUN_00aa2170()
 {
     for (unsigned int i = 0; i < (*reinterpret_cast<unsigned int *>(&::DAT_011f6108)); ++i)
     {
-        ((void(__cdecl*)())(*reinterpret_cast<void * (*)[]>(&::DAT_011f6088))[i])();
+        ((void(__cdecl*)())::DAT_011f6088[i])();
     }
     if (::DAT_011f6114 != 0)
     {
-        ((void(__cdecl*)())::DAT_011f6114)();
+        ::DAT_011f6114();
     }
     ::fnv_00aa3070::FUN_00aa3070();
     if (::DAT_011f610d != 0)
@@ -659,7 +657,7 @@ namespace fnv_00aa24f0 {
 
 struct FUN_00aa24f0_cls
 {
-    int m_vptr00;
+    const void* m_vptr00;
 
     void FUN_00aa24f0();
 };
@@ -667,7 +665,7 @@ struct FUN_00aa24f0_cls
 // @fnv 0x00aa24f0
 void FUN_00aa24f0_cls::FUN_00aa24f0()
 {
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::DAT_010a2554));
+    m_vptr00 = &::DAT_010a2554;
 }
 }  // namespace fnv_00aa24f0
 
@@ -777,7 +775,7 @@ void FUN_00aa3070()
 
 struct S_00aa36f0_State
 {
-    unsigned int unk00;
+    unsigned char* unk00;
     unsigned char unk04;
     unsigned char unk05;
 };
@@ -807,7 +805,7 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
 
     *buffer = value;
 
-    unsigned int quotient = ((unsigned int)buffer - state->unk00) / divisor;
+    unsigned int quotient = (unsigned int)(buffer - state->unk00) / divisor;
 
     ++state->unk05;
     state->unk04 = (unsigned char)quotient;
@@ -827,10 +825,10 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
             }
             else if (entry != next)
             {
-                ::SwapIntPairs((int *)(next), (int *)(entry));
+                std::swap(*next, *entry);
             }
 
-            ::fnv_00aa1190::FreeAllocatorBlock((void *)(entry->unk00));
+            ::fnv_00aa1190::FreeAllocatorBlock(entry->unk00);
 
             state = unk18;
             --unk0c;
@@ -1213,7 +1211,7 @@ unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsi
         return 0;
     void* buffer = FUN_00aa1070(size);
     std::memmove(buffer, data, size);
-    ::SwapBufferBySizes((char *)(buffer), size, (const unsigned int *)(optionA), (unsigned int)(optionB));
+    ::SwapBufferBySizes((char *)(buffer), size, (const unsigned int *)(optionA), (uintptr_t)(optionB));
     unsigned int result = reinterpret_cast<::FUN_00aff950_shell *>((state))->FUN_00aa1810(buffer, size);
     FUN_00aa10f0(buffer);
     return result;
@@ -1435,7 +1433,7 @@ void __cdecl FUN_00aa20b0(void* value)
     DAT_011f6118 = value;
     ::FUN_00aa3050();
     if (DAT_011f6110)
-        ((void(__cdecl*)())DAT_011f6110)();
+        DAT_011f6110();
     for (unsigned int i = 0; i < (unsigned int)DAT_011f6108; ++i)
         DAT_011f60c8[i]();
     (*reinterpret_cast<::TLSState *>(&::g_tlsBlock)).unk2b4 = oldState;

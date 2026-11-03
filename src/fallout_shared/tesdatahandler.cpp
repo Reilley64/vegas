@@ -5238,7 +5238,7 @@ void FUN_00464e50_cls::FUN_00464e50()
         b = t;
         b != 0 ? b->vfn_10(1) : 0;
     }
-    reinterpret_cast<::NiTPointerListBase *>((((FUN_00464e50_list*)((char*)this + 0x1fc))))->FUN_00559c30();
+    reinterpret_cast<::NiTPointerListBaseRaw *>((((FUN_00464e50_list*)((char*)this + 0x1fc))))->FUN_00559c30();
     reinterpret_cast<::FUN_00450b40_Class *>(this)->FUN_00450b40(flagTmp);
 }
 

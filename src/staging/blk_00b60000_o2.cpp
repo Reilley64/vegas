@@ -122,11 +122,7 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
-// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
-struct NiTPointerListBase_004ed900 {
-    void FUN_004ed900();
-};
+#include "fnv/decl/NiTPointerListBase.h"
 
 struct FUN_00b6f4a0_class
 {
@@ -2840,7 +2836,7 @@ struct B6List
     unsigned count;
     ~B6List() throw()
     {
-        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     }
 };
 struct FUN_00b6a520 : B6Base
@@ -2853,7 +2849,7 @@ struct FUN_00b6a520 : B6Base
 // @fnv 0x00b6a520
 FUN_00b6a520::~FUN_00b6a520()
 {
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(list))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(list))->FUN_004ed900();
     B6Ref* p = p148;
     if (p && !InterlockedDecrement(&p->refs))
         p->DeleteThis();
@@ -8089,7 +8085,7 @@ void CopyObject::FUN_00b6a6c0(CopyObject* dst, std::intptr_t arg)
     dst->f084 = f084;
     dst->f083 = f083;
     CopyList* dest = &dst->list;
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>((dest))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>((dest))->FUN_004ed900();
     CopyNode* pos = list.head;
     while (pos)
     {
@@ -8442,7 +8438,7 @@ FUN_00b60b10::FUN_00b60b10()
 // @fnv 0x00b6a510
 void FUN_00b6a510()
 {
-    static_cast<::NiTPointerListBase_004ed900 *>(nullptr)->FUN_004ed900();
+    static_cast<::NiTPointerListBaseRaw *>(nullptr)->FUN_004ed900();
 }
 
 void* __cdecl FUN_00aa13e0(unsigned int size);

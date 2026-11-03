@@ -61,11 +61,7 @@
 #include "fnv/symbols_01204000.h"
 #include "../../include/layout_support.h"
 
-// fnv/decl/NiTPointerListBase.h declares a plain struct with the name of the NiTPointerListBase template in layout_support.h,
-// so the two cannot be in one unit; this unit calls 0x004ed900 (RemoveAll) through this declaration.
-struct NiTPointerListBase_004ed900 {
-    void FUN_004ed900();
-};
+#include "fnv/decl/NiTPointerListBase.h"
 #include <cmath>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -4034,7 +4030,7 @@ struct List_c0 : List_c0_base
 {
     inline ~List_c0()
     {
-        reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
     }
     void FUN_004ed900();
     void DeleteItem(ListItem*);
@@ -4148,7 +4144,7 @@ class FUN_00c39770 : public Base_00c46af0
 FUN_00c39770::~FUN_00c39770()
 {
     reinterpret_cast<::BSShaderLightingProperty *>(&(m_b4))->ClearLights();
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(&(m_c0))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(m_c0))->FUN_004ed900();
     reinterpret_cast<::S00c3a2e0_Cls *>(&(m_d0))->FUN_00c3a2e0();
     reinterpret_cast<::FUN_00b5af80_self *>(&(m_dc))->FUN_00b5af80(true);
     if (m_c0.unk0C)
@@ -4678,7 +4674,7 @@ struct S00c3a180_Scope
 void S00c3a180_cls::FUN_00c3a180()
 {
     S00c3a180_Scope s;
-    reinterpret_cast<::NiTPointerListBase_004ed900 *>(this)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(this)->FUN_004ed900();
 }
 
 struct ScopeGuardA3a1

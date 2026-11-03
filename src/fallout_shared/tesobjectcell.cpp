@@ -3931,7 +3931,7 @@ struct NiTListItem
     NiTListItem* m_pNext;
 };
 
-struct NiTPointerListBase
+struct NiTPointerListBaseRaw
 {
     NiTListItem* m_pHead;
     NiTListItem* m_pTail;
@@ -3940,7 +3940,7 @@ struct NiTPointerListBase
 };
 
 // @fnv 0x00559c30
-void NiTPointerListBase::FUN_00559c30()
+void NiTPointerListBaseRaw::FUN_00559c30()
 {
     NiTListItem* pkNode = m_pHead;
     while (pkNode)
@@ -21255,7 +21255,7 @@ bool __cdecl FUN_0054d4b0(PortalVisitCell* cell, const PortalVisitPoint& origin,
     }
     if (!depth)
     {
-        reinterpret_cast<::NiTPointerListBase *>(&(visited))->FUN_00559c30();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(&(visited))->FUN_00559c30();
         if (!stop4 && nearestWorld)
         {
             nearestWorld->ProcessCellsInRadius(nearestPosition, portalVisitRemaining, other, FLT_MAX, callback,

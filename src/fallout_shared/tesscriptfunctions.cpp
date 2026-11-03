@@ -4975,7 +4975,7 @@ struct FUN_005bbc10_Class {
 // @fnv 0x005bbc10
 void FUN_005bbc10_Class::FUN_005bbc10()
 {
-    reinterpret_cast<::NiTPointerListBase *>((((M788*)((char*)this + 8))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>((((M788*)((char*)this + 8))))->FUN_004ed900();
 }
 
 

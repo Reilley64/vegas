@@ -6694,7 +6694,7 @@ struct M788
 // @fnv 0x0070aca0
 void __cdecl FUN_0070aca0()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::M788 *>(&::DAT_011f3324))))->FUN_004ed900();
 }
 
 namespace fnv_0070b5d0 {

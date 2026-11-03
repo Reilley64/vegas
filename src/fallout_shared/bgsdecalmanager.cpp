@@ -2362,7 +2362,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                     }
                 }
             }
-            reinterpret_cast<::NiTPointerListBase *>(&(kHits))->FUN_004ed900();
+            reinterpret_cast<::NiTPointerListBaseRaw *>(&(kHits))->FUN_004ed900();
         }
         break;
     }

@@ -147,6 +147,27 @@ void* FUN_00d687b0(char* a1)
     return a1 + 0x34;
 }
 
+// A Havok viewer as its create function sees it: the hkProcess interface follows
+// the hkReferencedObject base (the header in include/havok clashes with this unit's
+// own hkVector4 and hkStringPtr), and create returns that interface.
+struct D60ReferencedObject
+{
+    virtual void D60ReferencedObject_v00();
+    unsigned short m_usMemSizeAndFlags;
+    short m_sReferenceCount;
+};
+struct D60ViewerProcess
+{
+    virtual void D60ViewerProcess_v00();
+};
+struct D60Viewer : D60ReferencedObject, D60ViewerProcess
+{
+};
+static inline void* D60ProcessOf(void* pViewer)
+{
+    return static_cast<D60ViewerProcess*>(static_cast<D60Viewer*>(pViewer));
+}
+
 struct FnvCpu_FUN_00d687c0_CpuBlock;
 struct FnvCpu_FUN_00d687c0_CpuAllocator
 {
@@ -174,9 +195,7 @@ void* __cdecl FUN_00d687c0(uintptr_t value)
     FnvCpu_FUN_00d687c0_CpuBlock* block = static_cast<FnvCpu_FUN_00d687c0_CpuBlock*>(holder->allocator->Invoke(52));
     block->size = 52;
     block = ((::FnvCpu_FUN_00d687c0_CpuBlock *)(reinterpret_cast<::FUN_00d68770_cls *>((block))->Construct(value)));
-    if (block)
-        return reinterpret_cast<char*>(block) + 8;
-    return 0;
+    return D60ProcessOf(block);
 }
 
 extern "C" int DAT_010d203c;
@@ -265,7 +284,7 @@ void* __cdecl FUN_00d68890(int aiArg)
     FNV_Buffer* pBuffer = (FNV_Buffer*)allocator->Alloc(0x34);
     pBuffer->m_w04 = 0x34;
     void* r = reinterpret_cast<::FUN_00d68840_cls *>((pBuffer))->Init(aiArg);
-    return r != 0 ? (char*)r + 8 : 0;
+    return ::D60ProcessOf(r);
 }
 }  // namespace fnv_00d68890
 
@@ -1504,7 +1523,7 @@ void* __cdecl AllocateRecordWithData(void* data)
     HeapBlockMetadata* record = static_cast<HeapBlockMetadata*>(memory->heap->Allocate(44));
     record->size = 44;
     HeapBlockMetadata* result = ((::HeapBlockMetadata *)(reinterpret_cast<::FUN_00d62ef0_cls *>((record))->FUN_00d62ef0((intptr_t)(data), 1)));
-    return result ? reinterpret_cast<char*>(result) + 8 : 0;
+    return D60ProcessOf(result);
 }
 
 struct Allocator_d632c0
@@ -1904,9 +1923,7 @@ void* __cdecl FUN_00d645f0(uintptr_t value)
     FnvCpu_FUN_00d645f0_CpuBlock* block = static_cast<FnvCpu_FUN_00d645f0_CpuBlock*>(holder->allocator->Invoke(60));
     block->size = 60;
     block = ((::FnvCpu_FUN_00d645f0_CpuBlock *)(new ((void *)(block)) ::FUN_00d64260((void *)(value))));
-    if (block)
-        return reinterpret_cast<char*>(block) + 8;
-    return 0;
+    return D60ProcessOf(block);
 }
 
 namespace fnv_00d64630 {

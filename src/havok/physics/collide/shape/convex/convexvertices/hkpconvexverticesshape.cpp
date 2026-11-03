@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
@@ -290,28 +291,9 @@ union hkVector4U
     hkQuadReal m_vComponents;
 };
 
-struct hkMemoryAllocatorq
-{
-    virtual void v00() throw();
-    virtual void v01() throw();
-    virtual void v02() throw();
-    virtual void v03() throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-
-struct hkThreadMemoryq
-{
-    char* m_stackTop;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorq* m_pStreamAllocator;
-
-    __forceinline hkMemoryAllocatorq& heap() { return *m_pStreamAllocator; }
-};
 
 
-static __forceinline hkThreadMemoryq* hkGetThreadMemory() { return (hkThreadMemoryq*)::FUN_00c85750(); }
+
 
 template <class T>
 struct hkArrayq
@@ -323,11 +305,11 @@ struct hkArrayq
     __forceinline hkArrayq() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     __forceinline ~hkArrayq()
     {
-        hkMemoryAllocatorq& alloc = hkGetThreadMemory()->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         }
     }
     __forceinline T* begin() { return m_data; }
@@ -337,16 +319,13 @@ struct hkArrayq
 template <class T>
 __forceinline T* hkAllocateStack(int n)
 {
-    hkThreadMemoryq* mem = hkGetThreadMemory();
-    char* p = mem->m_stackTop;
-    mem->m_stackTop = p + ((n * sizeof(T) + 127) & ~127);
-    return (T*)p;
+    return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n * sizeof(T) + 127) & ~127));
 }
 
 template <class T>
 __forceinline void hkDeallocateStack(T* p)
 {
-    hkGetThreadMemory()->m_stackTop = (char*)p;
+    hkMemoryRouter::getInstance().deallocateStack(p);
 }
 
 template <class T>
@@ -465,21 +444,6 @@ void hkpConvexVerticesShapeq::Transform(const hkTransform& t)
 }
 }  // namespace fnv_00d59cc0
 
-struct AllocatorD5A360 {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void* AllocateBufferWithSize(int& iNumBytesInOut);
-    virtual void ReturnMemory(void* p, int iNumBytes);
-};
-struct RouterD5A360 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    AllocatorD5A360* m_pkHeap;
-};
-RouterD5A360* GetRouterD5A360();
 struct __declspec(align(16)) Vector4D5A360 {
     float x;
     float y;
@@ -496,13 +460,13 @@ template <class T> struct ArrayD5A360 {
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
     __forceinline ArrayD5A360& operator=(const ArrayD5A360& a)
     {
-        AllocatorD5A360& kAlloc = *GetRouterD5A360()->m_pkHeap;
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (getCapacity() < a.m_iElementCount)
         {
             if ((m_iCapacityState & 0x80000000) == 0)
-                kAlloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+                kAlloc.bufFree(m_data, getCapacity() * sizeof(T));
             int iNumBytes = a.m_iElementCount * sizeof(T);
-            m_data = static_cast<T*>(kAlloc.AllocateBufferWithSize(iNumBytes));
+            m_data = static_cast<T*>(kAlloc.bufAlloc(iNumBytes));
             m_iCapacityState = iNumBytes / (int)sizeof(T);
         }
         m_iElementCount = a.m_iElementCount;
@@ -637,21 +601,7 @@ void VectorSpliceArray::FUN_00d5a410(SpliceAllocator& allocator,int first,int re
     size=newSize;
 }
 
-class hkMemoryAllocatorD598 {
-public:
-    virtual ~hkMemoryAllocatorD598() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD598 {
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD598* m_pStreamAllocator;
-
-    hkMemoryAllocatorD598& heap() { return *m_pStreamAllocator; }
-};
 
 
 template <class T>
@@ -663,10 +613,10 @@ public:
 
     ~hkArrayD598() throw()
     {
-        hkMemoryAllocatorD598& kAlloc = static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -838,13 +788,13 @@ struct FinalCall {
 };
 
 __forceinline void AllocateVectors(
-    AllocatorD5A360& allocator,
+    hkMemoryAllocator& allocator,
     int count,
     Vector4D5A360*& data,
     int& capacity)
 {
     int bytes = count * 16;
-    data = static_cast<Vector4D5A360*>(allocator.AllocateBufferWithSize(bytes));
+    data = static_cast<Vector4D5A360*>(allocator.bufAlloc(bytes));
     capacity = bytes / 16;
 }
 
@@ -852,11 +802,11 @@ __forceinline void ResizePlanes(
     ArrayD5A360<Vector4D5A360>& planes,
     const ArrayD5A360<Vector4D5A360>& source)
 {
-    AllocatorD5A360& allocator = reinterpret_cast<AllocatorD5A360&>(static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap());
+    hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
 
     if ((planes.m_iCapacityState & 0x3fffffff) < source.m_iElementCount) {
         if ((planes.m_iCapacityState & 0x80000000) == 0)
-            allocator.ReturnMemory(
+            allocator.bufFree(
                 planes.m_data,
                 (planes.m_iCapacityState & 0x3fffffff) * 16);
 
@@ -1057,9 +1007,9 @@ hkBoolRet ConvexVertsShape::FUN_00d592a0(const RayInput& input, RayOutput& resul
                     __m128 dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0x55), pd);
                     dot = _mm_add_ss(_mm_shuffle_ps(pd, pd, 0xaa), dot);
                     scratch.plane.w = LowFloat(_mm_sub_ss(DAT_010c7160, dot));
-                    hkMemoryRouterD598& router = (*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
+                    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
                     if (arr->m_iElementCount == (arr->m_iCapacityState & 0x3fffffff)) {
-                        ::ResizeAudioStream((::AudioAllocator *)(router.m_pStreamAllocator), (::AudioStream *)(arr), 0x10);
+                        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(arr), 0x10);
                     }
                     *(__m128*)&arr->m_data[arr->m_iElementCount] = *(__m128*)&scratch.plane;
                     arr->m_iElementCount++;
@@ -1134,7 +1084,7 @@ struct VertArray96Q {
     hkVec4Q& operator[](int i) { return m_data[i]; }
     void SetSizeAndGrow(int n)
     {
-        hkMemoryAllocatorD598& alloc = static_cast<hkMemoryRouterD598*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {
@@ -1310,39 +1260,9 @@ void __cdecl ArrayUtilReserve_c908c0(hkMemoryAllocator& alloc, void* array, int 
 
 
 
-struct Allocator {
-
-    virtual void Method0();
-
-    virtual void Method1();
-
-    virtual void Method2();
-
-    virtual void* allocateChunk(int* reqSizeInOut) throw();
-
-    virtual void deallocateChunk(void* ptr, int size) throw();
-
-};
 
 
 
-struct ThreadMemory {
-
-    void* m_stackCurrent;
-
-    int unk04;
-
-    int unk08;
-
-    int unk0C;
-
-    Allocator* m_pMemoryAllocator;
-
-
-
-    Allocator& heap() throw() { return *m_pMemoryAllocator; }
-
-};
 
 
 
@@ -1420,13 +1340,13 @@ struct PlaneArray {
 
         const hkArray<hkVector4>& other = shape->m_kVertexPositions;
 
-        Allocator& alloc = ((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
 
         if (other.m_iElementCount > 0) {
 
             int req = other.m_iElementCount * 16;
 
-            m_data = (hkVector4*)alloc.allocateChunk(&req);
+            m_data = static_cast<hkVector4*>(alloc.bufAlloc(req));
 
             m_iCapacityState = req / 16;
 
@@ -1460,13 +1380,13 @@ struct PlaneArray {
 
 
 
-    __forceinline void ClearAndRelease(Allocator& alloc) throw() {
+    __forceinline void ClearAndRelease(hkMemoryAllocator& alloc) throw() {
 
         m_iElementCount = 0;
 
         if ((m_iCapacityState & 0x80000000) == 0) {
 
-            alloc.deallocateChunk(m_data, (m_iCapacityState & 0x3fffffff) * 16);
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 16);
 
         }
 
@@ -1480,7 +1400,7 @@ struct PlaneArray {
 
     __forceinline ~PlaneArray() throw() {
 
-        ClearAndRelease(((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
 
     }
 
@@ -1508,13 +1428,9 @@ struct LocalArray {
 
         m_iCapacityState = 0x80000000;
 
-        ThreadMemory* mem = (ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
-
-        void* p = mem->m_stackCurrent;
-
         int nBytes = (capacity * 16 + 127) & ~127;
 
-        mem->m_stackCurrent = (char*)p + nBytes;
+        void* p = hkMemoryRouter::getInstance().allocateStack(nBytes);
 
         m_data = (hkVector4*)p;
 
@@ -1536,21 +1452,21 @@ struct LocalArray {
 
         }
 
-        ((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->m_stackCurrent = initial;
+        hkMemoryRouter::getInstance().deallocateStack(initial);
 
-        ClearAndRelease(((ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750())))->heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
 
     }
 
 
 
-    __forceinline void ClearAndRelease(Allocator& alloc) throw() {
+    __forceinline void ClearAndRelease(hkMemoryAllocator& alloc) throw() {
 
         m_iElementCount = 0;
 
         if ((m_iCapacityState & 0x80000000) == 0) {
 
-            alloc.deallocateChunk(m_data, (m_iCapacityState & 0x3fffffff) * 16);
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * 16);
 
         }
 
@@ -1788,11 +1704,10 @@ if (reinterpret_cast<PlaneVector&>(normal).normalize()==PlaneSuccess) {
 
         int index = shape->m_kVertexPositions.m_iElementCount;
 
-        ThreadMemory* mem = (ThreadMemory*)&(*static_cast<hkMemoryRouterD598*>(::FUN_00c85750()));
 
         reinterpret_cast<::SearchObject *>((reinterpret_cast<FUN_00d5a4c0_Helper*>(&planeEquations)))->FUN_00d5a4c0(
 
-            (uintptr_t)(mem->m_pMemoryAllocator), index, (uintptr_t)(planes.begin()), planes.GetLogicalSize());
+            (uintptr_t)(&hkMemoryRouter::getInstance().heap()), index, (uintptr_t)(planes.begin()), planes.GetLogicalSize());
 
     }
 

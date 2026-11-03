@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niparticlemeshesdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00a8a000.h"
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -15,7 +16,6 @@
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a7d000.h"
-#include "fnv/symbols_00a8a000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f5000.h"
 struct GlobalObjectO2_00a7b610;
@@ -282,7 +282,7 @@ struct Holder00a98d60
 // @fnv 0x00a98d60
 void Holder00a98d60::FUN_00a98d60(NiStream& kStream)
 {
-    ::FUN_00a8a9a0();
+    reinterpret_cast<::FUN_00a8a9a0_shell *>(this)->FUN_00a8a9a0(kStream);
     FakeObj543* pkNew = ((::fnv_00a98d60::FakeObj543 *)(reinterpret_cast<::NiStream *>((((StreamHelper543*)&kStream)))->GetLoadedObject()));
     FakeObj543* pkOld = m_sp;
     if (pkOld != pkNew)

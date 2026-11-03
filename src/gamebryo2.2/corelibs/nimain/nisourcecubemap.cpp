@@ -407,7 +407,7 @@ void NiSourceCubeMap2::FUN_00a60ba0(NiStream& kStream)
 {
     if (kStream.m_uiNifVersion < 0x0A030006)
     {
-        ::FUN_00a47360();
+        reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360(*(::NiStream *)&kStream);
         NiObject* apkFaces[6];
         memset(apkFaces, 0, sizeof(apkFaces));
         if (reinterpret_cast<::FUN_00a63460_shell *>(&(kStream))->FUN_00a63460() == 6)

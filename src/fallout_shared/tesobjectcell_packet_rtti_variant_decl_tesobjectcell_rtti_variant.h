@@ -82,7 +82,7 @@ class TESObjectREFR
   public:
     virtual ~TESObjectREFR();  // the original class is polymorphic (rtti_variants.py)
   public:
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
 public:
     ::ExtraRadioData *GetExtraRadioData();
 };

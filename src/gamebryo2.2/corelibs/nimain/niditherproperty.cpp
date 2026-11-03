@@ -74,7 +74,7 @@ NiCullingProperty* NiCullingProperty::FUN_00a9a5f0(CloningProcess& process)
     {
         copy = 0;
     }
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)copy, (::fnv_00a5c290::CloningProcess *)&process);
     copy->unk18 = unk18;
     return copy;
 }

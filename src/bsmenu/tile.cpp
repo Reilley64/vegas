@@ -4,6 +4,7 @@
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
 
 #include <windows.h>
+#include "fnv/symbols_0043b000.h"
 #include <cctype>
 #include <cstdint>
 #include <cstdlib>
@@ -4973,7 +4974,6 @@ struct ReleaseLink { ReleaseLink* next; ReleaseLink* prev; ReleaseChild* value; 
 struct ChildPoolBlock { ChildPoolBlock* next; void* data; };
 extern ChildPoolBlock* DAT_011c5f58;
 unsigned int __cdecl gm_GetCurrentThreadId();
-int __cdecl FUN_0043b460(volatile long*, long, long);
 void __cdecl FUN_0040fca0(unsigned long);
 void __cdecl FUN_0040fbe0(...);
 struct ChildPoolLock {
@@ -6823,9 +6823,8 @@ struct ParsedNode {
 unsigned int FUN_0040fc90();
 void FUN_0040fca0(unsigned int);
 void FUN_0040fbe0(...);
-unsigned int FUN_0043b460(volatile unsigned int*, unsigned int, unsigned int);
 struct ParsedPoolLock {
-    volatile unsigned int owner;
+    volatile long owner;
     unsigned int recursion;
     void FUN_0040fbf0(int) {
         unsigned int thread = FUN_0040fc90();

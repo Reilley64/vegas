@@ -2,6 +2,8 @@
 // src/staging/blk_00aa0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/symbols_00a81000.h"
+#include "fnv/decl/HC1Base.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <windows.h>
@@ -19,7 +21,6 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_00a29000.h"
 #include "fnv/symbols_00a57000.h"
-#include "fnv/symbols_00a81000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00aa2000.h"
 #include "fnv/symbols_00aa3000.h"
@@ -1151,9 +1152,9 @@ FUN_00aa00d0::FUN_00aa00d0(const char* pcName, unsigned int uiValue, unsigned in
 
 
 // @fnv 0x00aa0ad0
-void __cdecl FUN_00aa0ad0()
+bool HC1Base::FUN_00aa0ad0(::NiStream* pkStream)
 {
-    ::FUN_00a81fe0({});
+    return reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*pkStream);
 }
 
 static inline void DecRefStringAA0(char*& kHandle)

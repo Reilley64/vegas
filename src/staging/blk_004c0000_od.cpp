@@ -164,13 +164,15 @@ extern void(* DAT_00fdf28c)(void*, int, int, int);
 
 struct FUN_004d7490_Class
 {
+    char pad[0xc];
+    void* unk0c;
     void FUN_004d7490();
 };
 
 // @fnv 0x004d7490
 void FUN_004d7490_Class::FUN_004d7490()
 {
-    DAT_00fdf28c(*(void**)((char*)this + 0xC), 0x1101, 0, 0xffff0000);
+    DAT_00fdf28c(unk0c, 0x1101, 0, 0xffff0000);
 }
 
 struct ArrSI
@@ -178,12 +180,14 @@ struct ArrSI
 };
 struct FUN_004d7d50_StandIn
 {
+    char pad[0xc8];
+    ArrSI unkc8;
     unsigned int FUN_004d7d50();
 };
 // @fnv 0x004d7d50
 unsigned int FUN_004d7d50_StandIn::FUN_004d7d50()
 {
-    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xC8))))->GetName()));
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((&unkc8))->GetName()));
 }
 
 struct FUN_004d8510_StandIn
@@ -213,24 +217,28 @@ void* FUN_004d85a0_Class::FUN_004d85a0(int a)
 
 struct FUN_004d8670_Class
 {
+    char pad[0x10];
+    BSSimpleList<int> unk10;
     BSSimpleList<int>* GetListNext();
 };
 
 // @fnv 0x004d8670
 BSSimpleList<int>* FUN_004d8670_Class::GetListNext()
 {
-    return ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((((BSSimpleList<int>*)((char*)this + 0x10))))->FUN_00726070()));
+    return ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((&unk10))->FUN_00726070()));
 }
 
 struct FUN_004d8a00_Class
 {
+    char pad[0x3c];
+    unsigned short unk3c;
     unsigned short GetField3C();
 };
 
 // @fnv 0x004d8a00
 unsigned short FUN_004d8a00_Class::GetField3C()
 {
-    return *(unsigned short*)((char*)this + 0x3c);
+    return unk3c;
 }
 
 struct FUN_004d8a20_Class
@@ -272,13 +280,14 @@ struct FUN_004d9190_Class
 
 struct FUN_004dc020_Class
 {
+    char pad[0x288];
     unsigned int m_p288;
     unsigned int FUN_004dc020();
 };
 // @fnv 0x004dc020
 unsigned int FUN_004dc020_Class::FUN_004dc020()
 {
-    return *(unsigned int*)((char*)this + 0x288);
+    return m_p288;
 }
 
 struct FUN_004dc1c0_Class
@@ -309,12 +318,14 @@ struct Arr
 };
 struct FUN_004dcce0_Class
 {
+    char pad[0x450];
+    Arr unk450;
     void FUN_004dcce0();
 };
 // @fnv 0x004dcce0
 void FUN_004dcce0_Class::FUN_004dcce0()
 {
-    reinterpret_cast<::FUN_00658930_class *>((((Arr*)((char*)this + 0x450))))->GetShortAtOffsetA();
+    reinterpret_cast<::FUN_00658930_class *>((&unk450))->GetShortAtOffsetA();
 }
 
 namespace fnv_004dcd00 {
@@ -324,37 +335,42 @@ struct Arr
 };
 struct FUN_004dcd00_Class
 {
-    unsigned int m_450;
+    char pad[0x450];
+    Arr m_450;
     unsigned int GetElementAt(int idx);
 };
 // Returns the unsigned int stored at the given index in the Arr object located at offset 0x450 of this instance.
 // @fnv 0x004dcd00
 unsigned int FUN_004dcd00_Class::GetElementAt(int aiIndex)
 {
-    return *(reinterpret_cast<Arr*>(reinterpret_cast<unsigned char*>(this) + 0x450))->GetAt(aiIndex);
+    return *m_450.GetAt(aiIndex);
 }
 }  // namespace fnv_004dcd00
 
 struct FUN_004dcd60_Class
 {
+    char pad[0x140];
+    unsigned char unk140;
     unsigned char GetByteAt140();
 };
 
 // @fnv 0x004dcd60
 unsigned char FUN_004dcd60_Class::GetByteAt140()
 {
-    return ((unsigned char*)this)[0x140];
+    return unk140;
 }
 
 struct FUN_004dd220_Class
 {
+    char pad[0x5c8];
+    unsigned int unk5c8;
     unsigned int GetField5C8();
 };
 
 // @fnv 0x004dd220
 unsigned int FUN_004dd220_Class::GetField5C8()
 {
-    return *(unsigned int*)((char*)this + 0x5c8);
+    return unk5c8;
 }
 
 // Allocates size bytes with operator new and returns the resulting pointer.
@@ -393,6 +409,8 @@ FUN_004de290_StandIn* FUN_004de290_StandIn::SetValue(float value)
 
 struct FUN_004de2b0_StandIn
 {
+    char pad[0x4];
+    char unk04;
     FUN_004de2b0_StandIn* SetCharAtOffset4(char c);
 };
 
@@ -400,7 +418,7 @@ struct FUN_004de2b0_StandIn
 FUN_004de2b0_StandIn* FUN_004de2b0_StandIn::SetCharAtOffset4(char acValue)
 {
     if (this)
-        ((char*)this)[4] = acValue;
+        unk04 = acValue;
     return this;
 }
 
@@ -422,13 +440,15 @@ struct GlobalObject_004aff00
 
 struct FUN_004def90_Class
 {
+    char pad[0x9c];
+    GlobalObject_004aff00 unk9c;
     void FUN_004def90();
 };
 
 // @fnv 0x004def90
 void FUN_004def90_Class::FUN_004def90()
 {
-    reinterpret_cast<::fnv_00c5ac00::ArrObj *>((((GlobalObject_004aff00*)((char*)this + 0x9c))))->FUN_004dffa0();
+    reinterpret_cast<::fnv_00c5ac00::ArrObj *>((&unk9c))->FUN_004dffa0();
 }
 
 struct GO
@@ -609,13 +629,19 @@ void* FUN_004d5dd0_Class::FUN_004d5dd0(unsigned int flags)
 }
 
 
+struct FUN_004d60c0_Entry
+{
+    int unk00;
+    int unk04;
+};
+
 // Iterates over the 43 pointers in DAT_011c6d50 and, for each non-null one, sets its second int element to 0.
 // @fnv 0x004d60c0
 void __cdecl FUN_004d60c0(void)
 {
     for (unsigned int i = 0; i < 43; ++i)
         if (DAT_011c6d50[i])
-            ((int*)DAT_011c6d50[i])[1] = 0;
+            ((FUN_004d60c0_Entry*)DAT_011c6d50[i])->unk04 = 0;
 }
 
 extern void*(* DAT_00fdf020)(void*, int, int, int, int, int, int);
@@ -869,6 +895,9 @@ struct FUN_004dc120_StandIn
 };
 struct FUN_004dc160_StandIn
 {
+    char pad[0x460];
+    uintptr_t unk460;
+    uintptr_t unk464;
     uintptr_t FUN_004dc160(int a);
 };
 // @fnv 0x004dc120
@@ -890,15 +919,15 @@ uintptr_t FUN_004dc160_StandIn::FUN_004dc160(int a)
 {
     if (a == 1)
     {
-        if ((unsigned char)((FUN_004dc1c0_Class*)*(uintptr_t*)((char*)this + 0x460))->HasNonZeroValue())
-            return *(uintptr_t*)((char*)this + 0x460);
+        if ((unsigned char)((FUN_004dc1c0_Class*)unk460)->HasNonZeroValue())
+            return unk460;
         else
             return 0;
     }
     else
     {
-        if ((unsigned char)((FUN_004dc1c0_Class*)*(uintptr_t*)((char*)this + 0x464))->HasNonZeroValue())
-            return *(uintptr_t*)((char*)this + 0x464);
+        if ((unsigned char)((FUN_004dc1c0_Class*)unk464)->HasNonZeroValue())
+            return unk464;
         else
             return 0;
     }
@@ -1117,7 +1146,6 @@ struct FUN_004d5080_Class
     void* unk04;
     void* unk08;
     void* unk0C;
-
     void FUN_004d5080();
 };
 
@@ -2788,8 +2816,6 @@ class C4DF040Property : public C4DF040Object
 {
   public:
     C4DF040Property();
-
-
     int unk00;
     int unk04;
     int unk08;
@@ -2826,8 +2852,6 @@ class C4DF040TriShape : public C4DF040Object
     C4DF040TriShape(unsigned short usVertices, C4DF040Point3* pkVertex, C4DF040Point3* pkNormal, void* pkColor,
                     C4DF040Point2* pkTexture, unsigned short usNumTextureSets, unsigned int eNBTMethod,
                     unsigned short usTriangles, unsigned short* pusTriList);
-
-
     int unk00;
     int unk04;
     int unk08;
@@ -2883,7 +2907,6 @@ class C4DF040Node : public C4DF040Object
 {
   public:
     C4DF040Node(unsigned int uiMode);
-
     virtual void VFunc000();
     virtual void VFunc004();
     virtual void VFunc008();
@@ -2940,7 +2963,6 @@ class C4DF040Node : public C4DF040Object
     virtual void VFunc0D4();
     virtual void VFunc0D8();
     virtual void AttachChildInAvailableSlot(C4DF040TriShape* pkChild, bool abFirstAvailableSlot);
-
     int unk04;
     int unk08;
     int unk0C;

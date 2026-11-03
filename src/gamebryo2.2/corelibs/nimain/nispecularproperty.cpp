@@ -42,7 +42,7 @@ struct NiSpecularProperty : NiProperty
 NiObject* NiSpecularProperty::FUN_00a95110(CloningProcess& kCloning)
 {
     NiSpecularProperty* pkObject = new NiSpecularProperty;
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkObject, (::fnv_00a5c290::CloningProcess *)&kCloning);
     pkObject->m_uiObjectFlags = m_uiObjectFlags;
     return pkObject;
 }

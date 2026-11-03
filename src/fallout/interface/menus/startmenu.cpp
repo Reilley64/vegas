@@ -1738,7 +1738,7 @@ FUN_007cb5b0::~FUN_007cb5b0()
     }
     reinterpret_cast<::RecordList *>(((*reinterpret_cast<::fnv_007cb5b0::BGSSaveLoadManager * *>(&::DAT_011de134))))->FUN_00851540();
     (*reinterpret_cast<::StartMenu * *>(&::fnv_007d0700::DAT_011daac0)) = 0;
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&((*reinterpret_cast<::fnv_007cb5b0::M788 *>(&::g_011dabd8))))->FUN_004ed900();
     ::FUN_007cb7a0();
 }
 }  // namespace fnv_007cb5b0

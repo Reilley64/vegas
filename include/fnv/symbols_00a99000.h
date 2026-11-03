@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 class NiExtraData;
 struct NiFogProperty;
@@ -11,3 +12,5 @@ void *FUN_00a99710();
 ::NiExtraData *FUN_00a99cd0();
 // 0x00a99fd0
 ::NiFogProperty *CreateNiFogProperty();
+// 0x00a99e40
+struct FUN_00a99e40_shell { bool FUN_00a99e40(::NiStream& kStream); };

@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 class NiGPUProgram;
 struct BinaryDataRecord;
@@ -14,7 +15,7 @@ template <class> class NiPointer;
 // 0x00a471d0
 void FUN_00a471d0(::FUN_00a471d0_Stream *, unsigned char *, unsigned int);
 // 0x00a47360
-extern "C" void FUN_00a47360();
+struct FUN_00a47360_shell { void FUN_00a47360(::NiStream &); };
 // 0x00a47380
 void *FUN_00a47380();
 // 0x00a47600

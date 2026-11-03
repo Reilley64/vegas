@@ -3625,7 +3625,7 @@ void VcVector::FUN_00b2df90()
     const ::fnv_00b2df90::vecb2d::VcConstIterator &first = begin();
     const ::fnv_00b2df90::vecb2d::VcConstIterator &last = end();
     ::SpanPair result;
-    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+    reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)((*(void *const *)&(first)._Myptr)), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last)._Myptr)));
 }
 }
 
@@ -10180,7 +10180,7 @@ void ResizeContainer::FUN_00b3d910(unsigned int count, T value)
         const ::fnv_00b3d910::ResizeCIterator &first = begin() + count;
         const ::fnv_00b3d910::ResizeCIterator &last = end();
         ::SpanPair result;
-        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)(((void *const *)&(last))[1]));
+        reinterpret_cast<::FUN_00b2e250_cls *>(this)->FUN_00b2e250(&result, (uintptr_t)(((void *const *)&(first))[0]), (uintptr_t)(((void *const *)&(first))[1]), (uintptr_t)(((void *const *)&(last))[0]), (uintptr_t)((*(void *const *)&(last).position)));
     Pad24();
 }
 }

@@ -400,7 +400,7 @@ struct LM2
 // @fnv 0x00788f30
 void LM2::FUN_00788f30()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&(s))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(s))->FUN_004ed8c0(&a);
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(s))->FUN_004ed8c0(&b);
 }
@@ -412,7 +412,7 @@ struct FUN_Sub
 // @fnv 0x00788f80
 void FUN_00788f80(char* self)
 {
-    reinterpret_cast<::NiTPointerListBase *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x94));
     reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x34));
     reinterpret_cast<::FUN_004ed8c0_shell *>((((FUN_Sub*)(self + 0xdc))))->FUN_004ed8c0((int *)(void *)(self + 0x60));
@@ -431,7 +431,7 @@ struct S788
 // @fnv 0x00788fe0
 void S788::FUN_00788fe0()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&(m))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(m))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x68));
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x98));
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m))->FUN_004ed8c0((int *)(void *)((char*)this + 0x9c));
@@ -459,9 +459,9 @@ struct LM3
 // @fnv 0x00789080
 void LM3::FUN_00789080()
 {
-    reinterpret_cast<::NiTPointerListBase *>(&(s1))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s1))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(s1))->FUN_004ed8c0(&a);
-    reinterpret_cast<::NiTPointerListBase *>(&(s2))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw *>(&(s2))->FUN_004ed900();
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(s2))->FUN_004ed8c0(&b);
 }
 }  // namespace fnv_00789080

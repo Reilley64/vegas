@@ -1584,7 +1584,7 @@ int __cdecl FUN_006b9a10(const S006b9a10_Pt& apStart, const S006b9a10_Pt& apEnd,
 struct MobileObjectCellAccess
 {
 };
-struct NiTPointerListBase
+struct NiTPointerListBaseRaw
 {
     void FUN_004ed900();
 };
@@ -1599,7 +1599,7 @@ void FUN_0049c860(MeshInput* apMeshInput)
     if (DAT_011c57ac)
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((DAT_011c57ac))->Clear(true);
     if ((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))
-        reinterpret_cast<NiTPointerListBase*>((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))->FUN_004ed900();
+        reinterpret_cast<NiTPointerListBaseRaw*>((*reinterpret_cast<::Mgr * *>(&::DAT_011c57b0)))->FUN_004ed900();
     BuildMeshBoundaryGeometry(apMeshInput);
     ::BuildWaterSurfaces((::CellView *)(apMeshInput));
     CreateAutoWaterNode(reinterpret_cast<ParamObj*>(apMeshInput));

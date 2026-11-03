@@ -165,15 +165,45 @@ void __cdecl FUN_007c5fb0()
     FUN_007c5fc0(0x23);
 }
 
+struct CallbackCollection
+{
+};
+
+struct FUN_007c9dc0_Slot
+{
+    CallbackCollection secondary;
+    char pad01[0xf];
+    CallbackCollection primary;
+    char pad11[0xf];
+};
+
 struct FUN_007c9dc0_Class
 {
+    char pad00[0x48];
+    unsigned int unk48;
+    int unk4c;
+    char pad50[0x4];
+    unsigned char unk54;
+    char pad55[0x3];
+    int unk58;
+    char pad5c[0x4];
+    FUN_007c9dc0_Slot unk60[9];
+    char pad180[0x30];
+    unsigned int unk1b0;
+    unsigned int unk1b4;
+    unsigned int unk1b8;
+    char pad1bc[0x4];
+    int unk1c0;
+    char pad1c4[0x8];
+    int unk1cc;
+    int unk1d0;
     void InvokeCallbacksForSlot();
 };
 // If DAT_011daa38 is set and its byte at offset 0x54 is nonzero, calls FUN_007c9dc0(1) and InvokeCallbacksForSlot on it.
 // @fnv 0x007cabb0
 void FUN_007cabb0()
 {
-    if (DAT_011daa38 && *(unsigned char*)((unsigned char*)DAT_011daa38 + 0x54))
+    if (DAT_011daa38 && ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk54)
     {
         reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>((((FUN_007c9dc0_Class*)DAT_011daa38)))->FUN_007c9dc0(1);
         ((FUN_007c9dc0_Class*)DAT_011daa38)->InvokeCallbacksForSlot();
@@ -188,7 +218,7 @@ struct FUN_007c9dc0_Class
 // @fnv 0x007cabf0
 void FUN_007cabf0()
 {
-    if (::DAT_011daa38 && *(unsigned char*)((char*)::DAT_011daa38 + 0x54))
+    if (::DAT_011daa38 && ((::FUN_007c9dc0_Class*)::DAT_011daa38)->unk54)
     {
         reinterpret_cast<::SPECIALBookMenu_7c9dc0 *>((((FUN_007c9dc0_Class*)::DAT_011daa38)))->FUN_007c9dc0(0);
         reinterpret_cast<::FUN_007c9dc0_Class *>((((FUN_007c9dc0_Class*)::DAT_011daa38)))->InvokeCallbacksForSlot();
@@ -198,6 +228,8 @@ void FUN_007cabf0()
 
 struct FUN_007cc680_Class
 {
+    char pad00[0x244];
+    unsigned int unk244;
     void SetFlag80(bool set);
 };
 
@@ -205,9 +237,9 @@ struct FUN_007cc680_Class
 void FUN_007cc680_Class::SetFlag80(bool set)
 {
     if (set)
-        *(unsigned int*)((char*)this + 0x244) |= 0x80;
+        this->unk244 |= 0x80;
     else
-        *(unsigned int*)((char*)this + 0x244) &= ~0x80;
+        this->unk244 &= ~0x80;
 }
 
 struct FUN_00570f40_Class
@@ -216,6 +248,7 @@ struct FUN_00570f40_Class
 };
 struct FUN_007d6bd0_Class : FUN_00570f40_Class
 {
+    char pad00[0x244];
     unsigned int m_uiInitializationFlags;
     bool FUN_007d6bd0(bool abValue);
 };
@@ -225,9 +258,9 @@ bool FUN_007d6bd0_Class::FUN_007d6bd0(bool abValue)
 {
     bool bret = FUN_00570f40();
     if (!abValue)
-        ((unsigned int*)((char*)this + 0x244))[0] |= 1;
+        this->m_uiInitializationFlags |= 1;
     else
-        ((unsigned int*)((char*)this + 0x244))[0] &= ~1;
+        this->m_uiInitializationFlags &= ~1;
     return bret;
 }
 
@@ -247,10 +280,14 @@ void* GlobalObject_007da090::Destroy(unsigned int flags)
     return this;
 }
 
+struct FUN_007da240;
 struct FUN_007da110_StandIn
 {
     virtual void v0();
-    virtual int Write(unsigned int size);
+    virtual FUN_007da240* Write(unsigned int size);
+    FUN_007da240* unk04;
+    int unk08;
+    int unk0c;
     void FUN_007da110(unsigned int requested, unsigned int savedSize);
 };
 // Sets the vtable to DAT_01077200, calls FUN_007da110 with 0, 0, and returns this.
@@ -460,25 +497,25 @@ struct FUN_007ca530_Params
 // @fnv 0x007ca530
 void DispatchStateCallback(FUN_007ca530_Params* params)
 {
-    int state = *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x58) -
+    int state = ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58 -
                 FUN_00794d80(reinterpret_cast<void*>(DAT_011daa38));
 
     if (state > 1)
     {
         params->callback->FUN_000000fc(
-            0, reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b0)->operator unsigned int());
+            0, reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b0)->operator unsigned int());
     }
     else if (state == 1)
     {
         params->callback->FUN_000000f0(
             0, 0,
-            reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b4)->operator unsigned int());
+            reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b4)->operator unsigned int());
     }
     else if (state == 0)
     {
         params->callback->FUN_000000f0(
             0, 0,
-            reinterpret_cast<GO*>(reinterpret_cast<unsigned char*>(DAT_011daa38) + 0x1b8)->operator unsigned int());
+            reinterpret_cast<GO*>(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1b8)->operator unsigned int());
     }
 }
 
@@ -794,25 +831,39 @@ struct FUN_00559450_Owner
 };
 
 
+struct FUN_007ca960_Owner
+{
+    int unk00[41];
+    FUN_007ca700_Virt kSub;
+};
+
+struct FUN_007ca700_Item
+{
+    char pad00[0x8];
+    int unk08;
+    char pad0c[0x18];
+    int unk24;
+};
+
 // @fnv 0x007ca700
 void __cdecl FUN_007ca700(void* pObject)
 {
-    int iValue = *(int*)((char*)pObject + 0x24);
-    if (((FUN_007ca700_Virt*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->v07(iValue) > 1)
+    int iValue = ((FUN_007ca700_Item*)pObject)->unk24;
+    if (((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->kSub.v07(iValue) > 1)
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(false);
     }
     else
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(true);
     }
     if (FUN_004b71d0())
     {
-        if (*(int*)((char*)DAT_011daa38 + 0x48) == 8)
+        if ((int)((::FUN_007c9dc0_Class*)DAT_011daa38)->unk48 == 8)
         {
-            if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
+            if (iValue != ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk4c + 4)
             {
-                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
+                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450(&((FUN_007ca700_Item*)pObject)->unk08)))))->QueueActorDisarm(true);
             }
         }
     }
@@ -893,12 +944,12 @@ struct FUN_007ca860_Arg
     FUN_007ca860_Vt* unk0C;
 };
 
-// Calls vfunc60 on arg->unk0C with (0, 0, result of FUN_00559450 on DAT_011daa38 + 0x1c0).
+// Calls vfunc60 on arg->unk0C with (0, 0, result of FUN_00559450 on the SPECIAL book menu field at 0x1c0).
 // @fnv 0x007ca860
 void __cdecl CallVfunc60WithGlobalOffset(FUN_007ca860_Arg* arg)
 {
     arg->unk0C->vfunc60(
-        0, 0, ((void *)(::FUN_00559450((int *)(reinterpret_cast<FUN_007ca860_Obj*>(reinterpret_cast<char*>(DAT_011daa38) + 0x1c0))))));
+        0, 0, ((void *)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1c0))));
 }
 
 struct FUN_00559450_Source
@@ -915,13 +966,13 @@ struct FUN_007ca8e0_Params
 // @fnv 0x007ca8e0
 void __cdecl DispatchSourceCallback(FUN_007ca8e0_Params* params)
 {
-    if (FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58))
+    if (FUN_00794d80(DAT_011daa38) < ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58)
     {
-        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450((int *)(((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1d0)))))));
+        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1d0))));
     }
     else
     {
-        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450((int *)(((FUN_00559450_Source*)((char*)DAT_011daa38 + 0x1cc)))))));
+        params->callback->FUN_000000f0(0, 0, ((unsigned int)(::FUN_00559450(&((::FUN_007c9dc0_Class*)DAT_011daa38)->unk1cc))));
     }
 }
 
@@ -930,38 +981,24 @@ struct Callback
     void(__cdecl* onPrimary)(Callback*);
     void(__cdecl* onSecondary)(Callback*);
 };
-struct CallbackCollection
-{
-};
+
 // @fnv 0x007cacd0
 void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48) < 9)
+    if ((int)this->unk48 < 9)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
-                                         reinterpret_cast<char*>(this) + 0x70 +
-                                         (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].primary)))->GetName()));
              ++i)
         {
-            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>((reinterpret_cast<CallbackCollection*>(
-                  reinterpret_cast<char*>(this) + 0x70 +
-                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(i))))
-                ->onPrimary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>((reinterpret_cast<CallbackCollection*>(
-                                 reinterpret_cast<char*>(this) + 0x70 +
-                                 (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(i))));
+            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].primary)))->FUN_006a7ad0(i))))
+                ->onPrimary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].primary)))->FUN_006a7ad0(i))));
         }
         for (unsigned int uiSecondaryIndex = 0;
-             uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
-                                    reinterpret_cast<char*>(this) + 0x60 +
-                                    (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
+             uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((&this->unk60[this->unk48].secondary)))->GetName()));
              ++uiSecondaryIndex)
         {
-            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>((reinterpret_cast<CallbackCollection*>(
-                  reinterpret_cast<char*>(this) + 0x60 +
-                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(uiSecondaryIndex))))
-                ->onSecondary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>((reinterpret_cast<CallbackCollection*>(
-                                   reinterpret_cast<char*>(this) + 0x60 +
-                                   (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(uiSecondaryIndex))));
+            (*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].secondary)))->FUN_006a7ad0(uiSecondaryIndex))))
+                ->onSecondary(*((struct ::Callback **)(reinterpret_cast<::S3e60 *>(((&this->unk60[this->unk48].secondary)))->FUN_006a7ad0(uiSecondaryIndex))));
         }
     }
 }
@@ -1191,22 +1228,22 @@ struct CopyCollection
 // @fnv 0x007da110
 void FUN_007da110_StandIn::FUN_007da110(unsigned int uiRequestedSize, unsigned int savedSize)
 {
-    ((int*)this)[1] = 0;
-    ((int*)this)[2] = 0;
-    ((int*)this)[3] = 0;
+    this->unk04 = nullptr;
+    this->unk08 = 0;
+    this->unk0c = 0;
     if (savedSize > uiRequestedSize)
     {
         uiRequestedSize = savedSize;
     }
     if (uiRequestedSize > 0)
     {
-        ((int*)this)[1] = Write(uiRequestedSize);
-        ((int*)this)[3] = uiRequestedSize;
+        this->unk04 = Write(uiRequestedSize);
+        this->unk0c = uiRequestedSize;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::CopyCollection *>(this)->ConstructRecords(*(::FUN_007da240 **)((char*)this + 4), savedSize);
-        ((int*)this)[2] = savedSize;
+        reinterpret_cast<::CopyCollection *>(this)->ConstructRecords(this->unk04, savedSize);
+        this->unk08 = savedSize;
     }
 }
 // Default-constructs each of the count FUN_007da240 records in place via placement new.
@@ -1219,9 +1256,11 @@ void CopyCollection::ConstructRecords(FUN_007da240* records, unsigned count)
     }
 }
 
+
 struct FUN_00501c10_Class
 {
 };
+
 struct FUN_007df120_Class
 {
     int unk00;
@@ -1232,12 +1271,13 @@ struct FUN_007df120_Class
     int unk14;
     int unk18;
     int unk1c;
+    FUN_00501c10_Class unk20;
     void FUN_007df120(int a);
 };
 // @fnv 0x007df120
 void FUN_007df120_Class::FUN_007df120(int aiValue)
 {
-    reinterpret_cast<::FUN_00501c10_cls *>((((FUN_00501c10_Class*)((char*)this + 0x20))))->CallAndReturnSelf(aiValue);
+    reinterpret_cast<::FUN_00501c10_cls *>(&this->unk20)->CallAndReturnSelf(aiValue);
 }
 
 struct ImageSpaceEffectParam
@@ -1744,7 +1784,7 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
 {
     int iValue = param_1->unk24;
     if (((CsVObj*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->vf07(iValue) < 10 &&
-        (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
+        (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk58))
     {
         reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(false);
     }
@@ -1753,9 +1793,9 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
         reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
     }
 
-    if (FUN_004b71d0() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
+    if (FUN_004b71d0() && (int)((::FUN_007c9dc0_Class*)DAT_011daa38)->unk48 == 8)
     {
-        if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
+        if (iValue != ((::FUN_007c9dc0_Class*)DAT_011daa38)->unk4c + 4)
         {
             reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
         }
@@ -2217,18 +2257,14 @@ struct FUN_00ad7550_shell
     BSSoundHandleEx FUN_00ad7550(const char* apEditorID, unsigned int auiFlags);
 };
 
-struct FUN_007ca960_Owner
-{
-    int unk00[41];
-    FUN_007ca700_Virt kSub;
-};
+
 
 // @fnv 0x007ca960
 void __cdecl FUN_007ca960(void* apSelf)
 {
     if (!DAT_011daa38)
         return;
-    int m_uiSoundID = ((int*)apSelf)[9];
+    int m_uiSoundID = ((FUN_007ca700_Item*)apSelf)->unk24;
     if (m_uiSoundID != -1)
     {
         int iCount = ((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->kSub.v07(m_uiSoundID);

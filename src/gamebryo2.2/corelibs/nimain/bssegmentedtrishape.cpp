@@ -622,7 +622,7 @@ struct FUN_00a87520_shell : Target
 // @fnv 0x00a87520
 void FUN_00a87520_shell::ReadEntries(void* owner)
 {
-    ::FUN_00a71d10();
+    reinterpret_cast<::FUN_00a71d10_shell *>(this)->FUN_00a71d10(*(::NiStream *)owner);
     StreamFor87520* stream = *(StreamFor87520**)((char*)owner + 0x250);
     {
         unsigned int countBytes = 4;

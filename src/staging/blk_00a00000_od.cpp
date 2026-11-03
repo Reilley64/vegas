@@ -73,11 +73,18 @@ struct FUN_00a1e720_class
     void FUN_00a1e720(intptr_t a, int b, int c);
 };
 
+struct FUN_00a1e720_Obj
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+};
+
 // @fnv 0x00a1e720
 void FUN_00a1e720_class::FUN_00a1e720(intptr_t pObject, int b, int c)
 {
-    *(int*)((char*)pObject + 4) = b;
-    *(int*)((char*)pObject + 8) = c;
+    ((FUN_00a1e720_Obj*)pObject)->unk04 = b;
+    ((FUN_00a1e720_Obj*)pObject)->unk08 = c;
 }
 
 
@@ -980,6 +987,13 @@ void* S00a0d7f0::FUN_00a0d7f0(unsigned int flags)
     return this;
 }
 
+// The global string table keeps this header in front of each string.
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
+
 class NiFixedString
 {
   public:
@@ -993,8 +1007,8 @@ inline NiFixedString::~NiFixedString()
     {
         return;
     }
-    char* pcBlock = (char*)m_pcString - 8;
-    InterlockedDecrement((long*)pcBlock);
+    NiGlobalStringHeader* pkHeader = (NiGlobalStringHeader*)m_pcString - 1;
+    InterlockedDecrement(&pkHeader->m_lRefCount);
 }
 
 // @fnv 0x00a1c790

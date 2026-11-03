@@ -162,7 +162,7 @@ void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
     if (m_0c != 0)
     {
         NodeBase_b9855* p = new NodeObj_b9855();
-        ::FUN_00a5d7a0();
+        reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)p, (::fnv_00a5c290::CloningProcess *)(std::uintptr_t)a1);
         p->m_18 = m_18;
         return p;
     }

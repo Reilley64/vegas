@@ -100,7 +100,7 @@ class ExtraRadioData;
 class TESObjectREFR
 {
   public:
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
 public:
     ::BSExtraData *GetExtraData(unsigned char) const;
 public:

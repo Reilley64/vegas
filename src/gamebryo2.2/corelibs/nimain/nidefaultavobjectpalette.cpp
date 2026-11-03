@@ -72,7 +72,7 @@ void AddObjectToPalette(NiAVObject* object, NiDefaultAVObjectPalette* palette)
 // @fnv 0x00a6ea40
 void NiDefaultAVObjectPalette::LoadBinary(NiStream& stream)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40(stream);
     m_pkScene = (NiAVObject*)stream.DeserializeObject();
 
     unsigned int count = 0;

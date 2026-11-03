@@ -12186,8 +12186,8 @@ void MainView::FUN_00873200(ViewNode* listener, int unused, bool hide, bool draw
         reinterpret_cast<::FUN_00874460_cls *>(&(localProcess))->set((int)(0));
         ::FUN_00b6bfc0(cameraX, (*(::PointerList6b *)(&commonList3)), (::Accumulator6b *)(::fnv_00873200::LocalCull *)(&localProcess));
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_00873200::RenderSystem *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 21, {});
-        reinterpret_cast<::NiTPointerListBase *>(&(leftList2))->FUN_004ed900();
-        reinterpret_cast<::NiTPointerListBase *>(&(rightList4))->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(&(leftList2))->FUN_004ed900();
+        reinterpret_cast<::NiTPointerListBaseRaw *>(&(rightList4))->FUN_004ed900();
     }
     else
     {

@@ -118,13 +118,15 @@ template <class T> T& BigSlot(BigResult&& r) { return *reinterpret_cast<T*>(&r);
 
 struct FUN_00560cf0_Class
 {
+    char pad[0x8];
+    float unk08;
     void FUN_00560cf0(float value);
 };
 
 // @fnv 0x00560cf0
 void FUN_00560cf0_Class::FUN_00560cf0(float value)
 {
-    *(float*)((char*)this + 8) = value;
+    unk08 = value;
 }
 
 struct BSFlags
@@ -134,13 +136,15 @@ struct BSFlags
 
 struct FormChangeRecord
 {
+    char pad[0x17];
+    BSFlags unk17;
     void FUN_005621f0(unsigned int);
 };
 
 // @fnv 0x005621f0
 void FormChangeRecord::FUN_005621f0(unsigned int flags)
 {
-    ((BSFlags*)((char*)this + 0x17))->Clear(flags);
+    unk17.Clear(flags);
 }
 
 struct GlobalObject_00559cc0
@@ -155,13 +159,15 @@ void FUN_00565670(uintptr_t index)
 
 struct FUN_00566910_Class
 {
+    char pad[0x68];
+    unsigned char unk68;
     unsigned char FUN_00566910();
 };
 
 // @fnv 0x00566910
 unsigned char FUN_00566910_Class::FUN_00566910()
 {
-    return ((unsigned char*)this)[0x68];
+    return unk68;
 }
 
 struct TaskQueueInterface
@@ -206,19 +212,16 @@ bool ABD_005f92d0::GetFlag8()
 
 struct FUN_0056af20_Class
 {
+    char pad[0x98];
+    char unk98;
     bool IsFlag2Set();
 };
 
 // @fnv 0x0056af20
 bool FUN_0056af20_Class::IsFlag2Set()
 {
-    return (signed char)((char*)this)[0x98] & 2;
+    return (signed char)unk98 & 2;
 }
-
-struct FUN_0056d360_Class
-{
-    void FUN_0056d360(int a);
-};
 
 struct FUN_005407b0_Class
 {
@@ -226,10 +229,17 @@ public:
     void FUN_005407b0(char);
 };
 
+struct FUN_0056d360_Class
+{
+    char pad[0xd4];
+    FUN_005407b0_Class unkd4;
+    void FUN_0056d360(int a);
+};
+
 // @fnv 0x0056d360
 void FUN_0056d360_Class::FUN_0056d360(int aiValue)
 {
-    ((FUN_005407b0_Class*)((char*)this + 0xd4))->FUN_005407b0(aiValue);
+    unkd4.FUN_005407b0(aiValue);
 }
 
 extern "C" void* DAT_01030534;
@@ -295,6 +305,8 @@ struct FUN_0057c530Class
 
 struct FUN_0056d7a0Class
 {
+    char pad[0xc];
+    FUN_0057c530Class unk0c;
     void FUN_0056d7a0();
 };
 // @fnv 0x0056d780
@@ -399,13 +411,15 @@ void FUN_00570ee0_class::FUN_00570ee0()
 
 struct FUN_00570f40_Class
 {
+    char pad[0x244];
+    unsigned int unk244;
     bool FUN_00570f40() const;
 };
 
 // @fnv 0x00570f40
 bool FUN_00570f40_Class::FUN_00570f40() const
 {
-    return (((*reinterpret_cast<const unsigned int*>(reinterpret_cast<const char*>(this) + 0x244)) & 1) == 0) ? true
+    return ((unk244 & 1) == 0) ? true
                                                                                                               : false;
 }
 
@@ -415,6 +429,8 @@ struct FUN_006205e0_shell
 };
 struct FUN_00576830_shell
 {
+    char pad[0x4];
+    struct FUN_00576870_class* unk04;
     void* FUN_00576830(BSOcclusionPlane*);
     void FUN_00576800(BSOcclusionPlane* p);
 };
@@ -430,6 +446,8 @@ struct V4_538f40
 };
 struct FUN_00577070_class
 {
+    char pad[0x30];
+    V4_538f40 unk30;
     void FUN_00577070();
 };
 struct FUN_004b4cf0_shell
@@ -479,6 +497,9 @@ extern void* DAT_01030fd4;
 
 struct FUN_0057ca30_Class
 {
+    void* vtbl;
+    unsigned int unk04;
+    void* unk08;
     void FUN_0057ca30();
 };
 
@@ -486,9 +507,9 @@ struct FUN_0057ca30_Class
 // @fnv 0x0057ca30
 void FUN_0057ca30_Class::FUN_0057ca30()
 {
-    *(void**)this = &DAT_01030fd4;
+    vtbl = &DAT_01030fd4;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0(*(void**)((char*)this + 8));
+    ::FUN_00aa10f0(unk08);
 }
 
 
@@ -535,6 +556,9 @@ void* FUN_0057ca60_Class::FUN_0057ca60(unsigned int flags)
 
 struct FUN_0057c930_class
 {
+    void* vtbl;
+    unsigned int unk04;
+    void* unk08;
     void FUN_0057c930();
 };
 struct FUN_0057ca90_Class
@@ -635,13 +659,15 @@ struct FUN_00458400_cls
 };
 struct ActorS
 {
+    char pad[0x40];
+    TESWorldSpace* unk40;
     BGSEncounterZone* FUN_00567d90();
 };
 // @fnv 0x00567d90
 BGSEncounterZone* ActorS::FUN_00567d90()
 {
-    if (*(TESWorldSpace**)((char*)this + 0x40) != 0)
-        return reinterpret_cast<::TESObjectCELL *>((void *)((*(TESWorldSpace**)((char*)this + 0x40))))->FindEncounterZone();
+    if (unk40 != 0)
+        return reinterpret_cast<::TESObjectCELL *>((void *)(unk40))->FindEncounterZone();
     TESWorldSpace* ws = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()));
     if (ws != 0)
         return (BGSEncounterZone*)(uintptr_t)((FUN_00458400_cls*)ws)->GetFieldD0();
@@ -932,13 +958,15 @@ struct NiPoint3
 };
 struct SetLoc_S
 {
+    char pad[0x30];
+    NiPoint3 unk30;
     void SetZ(float scale);
 };
 // Copies the NiPoint3 at offset 0x30, replaces its z with scale, and calls SetLocationOnReference with it.
 // @fnv 0x00575b70
 void SetLoc_S::SetZ(float afZ)
 {
-    NiPoint3 p = *(const NiPoint3*)((const char*)this + 0x30);
+    NiPoint3 p = unk30;
     p.z = afZ;
     reinterpret_cast<::Reference *>(this)->FUN_00575830((::Position *)&(p));
 }
@@ -954,7 +982,7 @@ struct FUN_00577090_shell : FUN_005770e0_shell
 void FUN_00577070_class::FUN_00577070()
 {
     reinterpret_cast<::FUN_00577090_shell *>(this)->FUN_00577090();
-    reinterpret_cast<::S_00538f40 *>((((V4_538f40*)((char*)this + 0x30))))->FUN_00538f40();
+    reinterpret_cast<::S_00538f40 *>((&unk30))->FUN_00538f40();
 }
 // Calls FUN_00577110 on this, then sets the base-class elements at indices 0, 1 and 2 to 1.0f.
 // @fnv 0x00577090
@@ -1003,18 +1031,19 @@ FUN_0057c440::FUN_0057c440(int aiValue) : FUN_00559b40(aiValue)
     *(void**)this = &DAT_01030f4c;
 }
 
+struct Helper62d0
+{
+    void* operator=(const void*);
+};
 struct Node
 {
     int a;
     int b;
+    Helper62d0 unk08;
 };
 struct ScriptPool
 {
     Node* FUN_0049fa80();
-};
-struct Helper62d0
-{
-    void* operator=(const void*);
 };
 struct FUN_004ed8c0_shell
 {
@@ -1028,7 +1057,7 @@ struct FUN_0057c590_Class : public FUN_004ed8c0_shell
 void FUN_0057c590_Class::FUN_0057c590(Node* apNode)
 {
     Node* pNode = ((ScriptPool*)this)->FUN_0049fa80();
-    ((Helper62d0*)((char*)pNode + 8))->operator=(apNode);
+    pNode->unk08.operator=(apNode);
     reinterpret_cast<::FUN_00559a70_Class *>(this)->FUN_00559a70(pNode);
 }
 
@@ -1101,9 +1130,9 @@ extern int DAT_01030fb4;
 // @fnv 0x0057c930
 void FUN_0057c930_class::FUN_0057c930()
 {
-    *(void**)this = &DAT_01030fb4;
+    vtbl = &DAT_01030fb4;
     reinterpret_cast<::FUN_00438af0_Class *>((((FUN_0057ca30_Class*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0(((void**)this)[2]);
+    ::FUN_00aa10f0(unk08);
 }
 
 struct FUN_0057c960
@@ -1212,6 +1241,11 @@ struct FUN_00568f30_shell
 {
     void FUN_00568f30();
 };
+struct FUN_00568f30_Portal
+{
+    char pad[0xc];
+    FUN_004534f0_shell* unk0c;
+};
 // @fnv 0x00568f30
 void FUN_00568f30_shell::FUN_00568f30()
 {
@@ -1219,7 +1253,7 @@ void FUN_00568f30_shell::FUN_00568f30()
     void* portal = ((FUN_0042e2a0_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))->GetExtraNavMeshPortal();
     if (portal)
     {
-        FUN_004534f0_shell* form = *(FUN_004534f0_shell**)((char*)portal + 0xc);
+        FUN_004534f0_shell* form = static_cast<FUN_00568f30_Portal*>(portal)->unk0c;
         if (form)
             form->FUN_004534f0((uintptr_t)this);
         reinterpret_cast<::FUN_0042e730_cls *>((((FUN_0042dec0_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))))->FUN_0042e730();
@@ -1840,6 +1874,11 @@ bool Ref563530::FUN_00563530()
     return false;
 }
 
+struct SceneObject_ActorBase
+{
+    char pad[0x30];
+    ABD_005f92d0 unk30;
+};
 struct SceneObject : FUN_0056af20_Class
 {
     int FUN_00401170();
@@ -1864,7 +1903,7 @@ bool FUN_0056ae60_Class::FUN_0056ae60()
                 SceneObject* object = ((::SceneObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
                 if (object)
                 {
-                    result = reinterpret_cast<ABD_005f92d0*>(reinterpret_cast<char*>(object) + 0x30)->GetFlag8();
+                    result = reinterpret_cast<SceneObject_ActorBase*>(object)->unk30.GetFlag8();
                 }
             }
             break;
@@ -2105,7 +2144,6 @@ struct Base_57c9d0
     int unk04;
     int unk08;
     int unk0C;
-
     ~Base_57c9d0();
 };
 
@@ -2663,7 +2701,7 @@ struct FUN_0057c530 : FUN_00483710
 // @fnv 0x0056d7a0
 void FUN_0056d7a0Class::FUN_0056d7a0()
 {
-    reinterpret_cast<::FUN_0057c530 *>((((FUN_0057c530Class*)((char*)this + 0xc))))->FUN_0057c530::~FUN_0057c530();
+    reinterpret_cast<::FUN_0057c530 *>((&unk0c))->FUN_0057c530::~FUN_0057c530();
 }
 // @fnv 0x0057c530
 FUN_0057c530::~FUN_0057c530()
@@ -2995,8 +3033,8 @@ struct FUN_00576870_class
 // @fnv 0x00576830
 void* FUN_00576830_shell::FUN_00576830(BSOcclusionPlane* apOcclusionPlane)
 {
-    return *(FUN_00576870_class**)((char*)this + 4)
-               ? ((void *)(reinterpret_cast<::FUN_00576870_cls *>(((*(FUN_00576870_class**)((char*)this + 4))))->FUN_00576870((intptr_t)(apOcclusionPlane))))
+    return unk04
+               ? ((void *)(reinterpret_cast<::FUN_00576870_cls *>((unk04))->FUN_00576870((intptr_t)(apOcclusionPlane))))
                : 0;
 }
 

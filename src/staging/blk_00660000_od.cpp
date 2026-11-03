@@ -165,6 +165,9 @@ int FUN_00665f10_class::Identity(int aiValue)
 
 struct BGSSaveLoadChangesMap
 {
+    char pad00[0xc];
+    NiTPointerAllocator<unsigned int> unk0c;
+    char pad0d[0x3];
     void Deallocate(void* p);
     void FUN_00666050(void* p);
 };
@@ -173,8 +176,8 @@ struct BGSSaveLoadChangesMap
 // @fnv 0x00666050
 void BGSSaveLoadChangesMap::FUN_00666050(void* apBlock)
 {
-    ((unsigned int*)apBlock)[2] = 0;
-    reinterpret_cast<::FUN_0045cee0_shell *>((((NiTPointerAllocator<unsigned int>*)((char*)this + 0xc))))->FUN_0045cee0(apBlock);
+    ((PoolAllocatorBase<unsigned int>::LinkedListEntry*)apBlock)->m_element = 0;
+    reinterpret_cast<::FUN_0045cee0_shell *>(&this->unk0c)->FUN_0045cee0(apBlock);
 }
 
 struct Setting_S
@@ -191,21 +194,29 @@ struct Flt
 {
     operator unsigned int();
 };
+
+struct GetFltValueAtOffset16_Owner
+{
+    char pad00[0x10];
+    Flt unk10;
+};
 // @fnv 0x0066b660
 std::uintptr_t __cdecl GetFltValueAtOffset16()
 {
-    return ((Flt*)((char*)::FUN_00664840(1) + 0x10))->operator unsigned int();
+    return ((GetFltValueAtOffset16_Owner*)::FUN_00664840(1))->unk10.operator unsigned int();
 }
 
 struct FUN_0066dd80_Class
 {
+    char pad00[0x12c];
+    unsigned int unk12c;
     bool IsFlag8Set() const;
 };
 
 // @fnv 0x0066dd80
 bool FUN_0066dd80_Class::IsFlag8Set() const
 {
-    return (*(const unsigned int*)((const char*)this + 0x12c) & 8) ? true : false;
+    return (*(const unsigned int*)&this->unk12c & 8) ? true : false;
 }
 
 // Returns true when type is 7 or 8, false otherwise.
@@ -572,27 +583,31 @@ void* FUN_0066df40_Class::FUN_0066e300(unsigned int flags)
 
 struct FUN_00671a70_Class
 {
+    char pad00[0x24];
     unsigned short flags;
     void FUN_00671a70(bool set);
 };
 // @fnv 0x00671a70
 void FUN_00671a70_Class::FUN_00671a70(bool set)
 {
-    set ? *(unsigned short*)((char*)this + 0x24) |= 0x40 : *(unsigned short*)((char*)this + 0x24) &= ~0x40;
+    set ? this->flags |= 0x40 : this->flags &= ~0x40;
 }
 
 struct FUN_00671ad0_Class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     void FUN_00671ad0(bool a);
 };
 // @fnv 0x00671ad0
 void FUN_00671ad0_Class::FUN_00671ad0(bool a)
 {
-    a ? *(unsigned short*)((char*)this + 0x24) &= ~1 : *(unsigned short*)((char*)this + 0x24) |= 1;
+    a ? this->unk24 &= ~1 : this->unk24 |= 1;
 }
 
 struct FUN_00671b30_Class
 {
+    char pad00[0x24];
     unsigned short m_0024;
     void FUN_00671b30(bool a);
 };
@@ -601,42 +616,50 @@ struct FUN_00671b30_Class
 // @fnv 0x00671b30
 void FUN_00671b30_Class::FUN_00671b30(bool a)
 {
-    a ? *(unsigned short*)((char*)this + 0x24) &= 0xfffffffd : *(unsigned short*)((char*)this + 0x24) |= 2;
+    a ? this->m_0024 &= 0xfffffffd : this->m_0024 |= 2;
 }
 
 struct FUN_00671b90_Class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     void FUN_00671b90(bool b);
 };
 // @fnv 0x00671b90
 void FUN_00671b90_Class::FUN_00671b90(bool b)
 {
-    b ? *(unsigned short*)((char*)this + 0x24) &= ~4 : *(unsigned short*)((char*)this + 0x24) |= 4;
+    b ? this->unk24 &= ~4 : this->unk24 |= 4;
 }
 
 struct FUN_00671bf0_Class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     void FUN_00671bf0(bool a);
 };
 // @fnv 0x00671bf0
 void FUN_00671bf0_Class::FUN_00671bf0(bool a)
 {
-    a ? *(unsigned short*)((char*)this + 0x24) &= ~8 : *(unsigned short*)((char*)this + 0x24) |= 8;
+    a ? this->unk24 &= ~8 : this->unk24 |= 8;
 }
 
 struct FUN_00671c50_Class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     void FUN_00671c50(bool bSet);
 };
 
 // @fnv 0x00671c50
 void FUN_00671c50_Class::FUN_00671c50(bool bSet)
 {
-    bSet ? *(unsigned short*)((char*)this + 0x24) &= ~0x10 : *(unsigned short*)((char*)this + 0x24) |= 0x10;
+    bSet ? this->unk24 &= ~0x10 : this->unk24 |= 0x10;
 }
 
 struct FUN_00671cb0_Class
 {
+    char pad00[0x24];
+    unsigned short unk24;
     void SetFlag20(bool b);
 };
 
@@ -644,19 +667,20 @@ struct FUN_00671cb0_Class
 // @fnv 0x00671cb0
 void FUN_00671cb0_Class::SetFlag20(bool abSet)
 {
-    abSet ? *(unsigned short*)((char*)this + 0x24) &= ~0x20 : *(unsigned short*)((char*)this + 0x24) |= 0x20;
+    abSet ? this->unk24 &= ~0x20 : this->unk24 |= 0x20;
 }
 
 struct FUN_0067ac70_Class
 {
-    unsigned short wFlags;  // +0x22
+    char pad00[0x22];
+    unsigned short wFlags;
     void SetFlag100(bool bSet);
 };
 
 // @fnv 0x0067ac70
 void FUN_0067ac70_Class::SetFlag100(bool bSet)
 {
-    bSet ? ((unsigned short*)this)[17] |= 0x100 : ((unsigned short*)this)[17] &= ~0x100;
+    bSet ? this->wFlags |= 0x100 : this->wFlags &= ~0x100;
 }
 
 struct FUN_0067ad70_cls
@@ -738,13 +762,17 @@ template <int N> struct EndianSizeTag
 };
 struct FUN_0067eff0_Class
 {
+    char pad00[0x4];
+    unsigned char unk04;
+    char pad05[0x3];
+    unsigned char unk08;
     void FUN_0067eff0();
 };
 // @fnv 0x0067eff0
 void FUN_0067eff0_Class::FUN_0067eff0()
 {
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 4));
-    ::FUN_00401080((int *)(unsigned char *)(reinterpret_cast<unsigned char*>(this) + 8));
+    ::FUN_00401080((int *)&this->unk04);
+    ::FUN_00401080((int *)&this->unk08);
 }
 
 namespace fnv_0067ff10 {
@@ -814,20 +842,22 @@ void TESPackage::SetPackageFlag(bool abFlag)
 
 struct FUN_0067b100_Class
 {
-    unsigned char b0;
-    unsigned char b4;
-    unsigned char b0c;
-    unsigned char b14;
+    int unk00;
+    int unk04;
+    char pad08[0x4];
+    int unk0c;
+    char pad10[0x4];
+    int unk14;
     void FUN_0067b100();
 };
 
 // @fnv 0x0067b100
 void FUN_0067b100_Class::FUN_0067b100()
 {
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 4));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 0x14));
-    ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this + 0xc));
+    ::FUN_00401080(&this->unk00);
+    ::FUN_00401080(&this->unk04);
+    ::FUN_00401080(&this->unk14);
+    ::FUN_00401080(&this->unk0c);
 }
 
 struct bhkConvexShape
@@ -879,6 +909,8 @@ int FindPairValue(int aiThreshold, Pair8* apPairs, int aiCount)
 
 struct FUN_00672c40_Class
 {
+    char pad00[0x28];
+    FUN_0067b170* unk28;
     void SetExtraValue(float value);
 };
 // If GetPackType() is 15 or 28, lazily allocates the object at offset 0x28 and stores value at its offset 4.
@@ -888,10 +920,10 @@ void FUN_00672c40_Class::SetExtraValue(float value)
     if (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get() == 15 || reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get() == 28)
     {
         FUN_0067b170* extra = 0;
-        if (!*(FUN_0067b170**)((char*)this + 0x28))
-            *(FUN_0067b170**)((char*)this + 0x28) = extra = new FUN_0067b170;
+        if (!this->unk28)
+            this->unk28 = extra = new FUN_0067b170;
         else
-            extra = *(FUN_0067b170**)((char*)this + 0x28);
+            extra = this->unk28;
         extra->unk04 = value;
     }
 }
@@ -1368,6 +1400,8 @@ float __cdecl GetObjectValue(SpawnedObject* obj)
 
 struct S_0066e2b0_Class : public FUN_0066df40_Class
 {
+    char pad00[0x18];
+    long unk18;
     void FUN_0066e2b0();
 };
 
@@ -1375,7 +1409,7 @@ struct S_0066e2b0_Class : public FUN_0066df40_Class
 // @fnv 0x0066e2b0
 void S_0066e2b0_Class::FUN_0066e2b0()
 {
-    if (((int)(::WaitForSingleObjectEx((long *)(void *)((void*)((char*)this + 0x18))))) == 0)
+    if (((int)(::WaitForSingleObjectEx(&this->unk18))) == 0)
     {
         FUN_0066df40_Class* object = this;
         FUN_0066df40_Class* first = object;
@@ -1479,6 +1513,16 @@ struct SpawnedFlag
 };
 struct FUN_0067ca10_cls
 {
+    char pad00[0x6];
+    char unk06;
+    char pad07[0x1];
+    char unk08;
+    char pad09[0x1];
+    char unk0a;
+    char pad0b[0x1];
+    char unk0c;
+    char pad0d[0x3];
+    char unk10;
     void FUN_0067ca10();
 };
 // Calls FUN_00407a90 on this+6, +8 and +0xa, then FUN_00401080 on this+0xc and this+0x10, each with a zero-initialised bool.
@@ -1486,18 +1530,18 @@ struct FUN_0067ca10_cls
 void FUN_0067ca10_cls::FUN_0067ca10()
 {
     SpawnedFlag a = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 6));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk06));
     SpawnedFlag b = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 8));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk08));
     SpawnedFlag c = {};
-    ::FUN_00407a90((short *)(void *)((char*)this + 0xa));
+    ::FUN_00407a90((short *)(void *)((char*)&this->unk0a));
     {
         SpawnedFlag d = {};
-        ::FUN_00401080((int *)(void *)((char*)this + 0xc));
+        ::FUN_00401080((int *)(void *)((char*)&this->unk0c));
     }
     {
         SpawnedFlag e = {};
-        ::FUN_00401080((int *)(void *)((char*)this + 0x10));
+        ::FUN_00401080((int *)(void *)((char*)&this->unk10));
     }
 }
 

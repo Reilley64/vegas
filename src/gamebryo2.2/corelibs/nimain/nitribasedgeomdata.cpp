@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitribasedgeomdata.cpp: NiTriBasedGeomData (12 functions)
 
+#include "fnv/symbols_00a8a000.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a67c00.h"
@@ -261,7 +262,7 @@ void FUN_00d3dd00(intptr_t a, int b, int c, int d)
 {}
 
 // @fnv 0x00a8a9a0
-void FUN_00a8a9a0()
+void FUN_00a8a9a0_shell::FUN_00a8a9a0(::NiStream& kStream)
 {
-    static_cast<::NiGeometryData *>(nullptr)->LinkObject(*(::NiStream *)nullptr);
+    reinterpret_cast<::NiGeometryData *>(this)->LinkObject(kStream);
 }

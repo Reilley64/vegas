@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4be10
+#include "fnv/symbols_00a81000.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -38,7 +39,6 @@
 #include "fnv/symbols_011f3000.h"
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_00a4c000.h"
-#include "fnv/symbols_00a81000.h"
 void* __cdecl FUN_00a4be10()
 {
     return &(*reinterpret_cast<void * *>(&::g_011f3f90));
@@ -178,7 +178,7 @@ struct MyInterp
 bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 {
     unsigned int ui;
-    if (!((BaseInterp*)this)->FUN_00a81fe0(kStream))
+    if (!reinterpret_cast<::FUN_00a81fe0_shell *>(this)->FUN_00a81fe0(*(::NiStream *)kStream))
         return false;
     for (ui = 0; ui < 3; ++ui)
     {
@@ -1001,7 +1001,7 @@ class C630Blend : public C630Interpolator
 // @fnv 0x00a4c630
 void C630Blend::FUN_00a4c630(C630Stream& kStream)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40((::NiStream &)kStream);
 
     C630LoadBinary(*kStream.m_pUnderlyingStream, m_usFlags);
     m_pkTarget = ((void *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));

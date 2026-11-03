@@ -17,7 +17,5 @@ bool RemoveGlobalConstant(const ::NiFixedString *);
 void FUN_00aa0ab0();
 // 0x00aa0ac0
 void FUN_00aa0ac0();
-// 0x00aa0ad0
-void FUN_00aa0ad0();
 // 0x00aa0ae0
 unsigned char FUN_00aa0ae0(::NiObject *);

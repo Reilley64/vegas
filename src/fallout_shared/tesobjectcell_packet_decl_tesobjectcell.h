@@ -84,7 +84,7 @@ class NiAVObject
 class TESObjectREFR : public TESForm
 {
   public:
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
     virtual void R001();
     virtual void R002();
     virtual void R003();

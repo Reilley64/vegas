@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 #include <cstdint>
 
@@ -16,7 +17,7 @@ void FUN_00a7b700(::FUN_00a7b700_T *, int, unsigned short, uintptr_t);
 // 0x00a7b790
 void *FUN_00a7b790();
 // 0x00a7b7d0
-void FUN_00a7b7d0();
+struct FUN_00a7b7d0_shell { void FUN_00a7b7d0(::NiStream& kStream); };
 // 0x00a7b870
 ::FUN_00a7b870_T *FUN_00a7b870(::FUN_00a7b870_T *, int);
 // 0x00a7be30

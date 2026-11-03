@@ -1439,7 +1439,6 @@ struct FUN_008ca770_Class
 {
     void FUN_008ca770(Date**);
 };
-int __cdecl FUN_0043b460(long volatile*, long, long);
 
 struct Interface
 {
@@ -2042,7 +2041,6 @@ void FUN_008c78c0_Class::FUN_008c78c0()
     }
 }
 
-int __cdecl FUN_0043b460(long volatile*, long, long);
 
 struct FreeNode16
 {

@@ -4653,7 +4653,7 @@ void PoolSpawn::FUN_00aca300()
     int e;
     m_vft = (void*)&(*reinterpret_cast<int *>(&::DAT_010a3070));
     m_vft = (void*)&::DAT_010a307c;
-    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((StringLike*)((char*)this + 0xc))))->FUN_0044a730(true, 0);
+    reinterpret_cast<::fnv_0044a730::FUN_0044a730_cls *>((((StringLike*)&this->m_p8)))->FUN_0044a730(true, 0);
     ((FUN_0044d6f0_This*)this)->FUN_00ec79a1();
 }
 }  // namespace fnv_00aca300

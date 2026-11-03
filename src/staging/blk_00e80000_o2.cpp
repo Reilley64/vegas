@@ -8796,7 +8796,7 @@ void Target::FUN_00e8b630() {
   --listCount;
  }
  if(object) { object->Release(); object=0; }
- reinterpret_cast<::NiTPointerListBase *>((((ListCleanup*)&head)))->FUN_004ed900();
+ reinterpret_cast<::NiTPointerListBaseRaw *>((((ListCleanup*)&head)))->FUN_004ed900();
  *(void**)this=&DAT_010efdf8;
  reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
  *(void**)this=&DAT_010efdd8;
@@ -15637,7 +15637,7 @@ ArrayElementE80390* __cdecl FUN_00e80390(unsigned int count)
 // declares NiTPointerListBase as a template.
 void ClearPointerList(void* list)
 {
-    reinterpret_cast<::NiTPointerListBase*>(list)->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBaseRaw*>(list)->FUN_004ed900();
 }
 
 #include "generated/data/staging/blk_00e80000_o2.inc"

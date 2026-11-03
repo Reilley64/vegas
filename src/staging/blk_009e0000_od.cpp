@@ -84,6 +84,8 @@ FUN_009f91b0::FUN_009f91b0()
 
 struct FUN_009e9c10
 {
+    void* vtbl;
+    void* unk04;
     void FUN_009e9c30();
     void Call();
 };
@@ -313,8 +315,9 @@ struct FUN_009e99f0_Class
 // @fnv 0x009e99f0
 void* FUN_009e99f0_Class::AssignFromSource(const void* apSource)
 {
-    m_iWordAt00 = *(void**)apSource;
-    m_iWordAt04 = *(float*)((char*)apSource + 4);
+    const FUN_009e99f0_Class* source = (const FUN_009e99f0_Class*)apSource;
+    m_iWordAt00 = source->m_iWordAt00;
+    m_iWordAt04 = source->m_iWordAt04;
     return this;
 }
 
@@ -373,7 +376,7 @@ extern int DAT_01092930;
 void FUN_009e9c10::FUN_009e9c30()
 {
     *(void**)this = &DAT_01092930;
-    ::FUN_004ede70(*(void**)((char*)this + 4));
+    ::FUN_004ede70(this->unk04);
 }
 
 
@@ -457,13 +460,15 @@ class FUN_009e99a0_cls
 class FUN_009eb620_cls
 {
   public:
+    char pad00[0x103b8];
+    int unk103b8;
     int FUN_009eb620();
 };
 
 // @fnv 0x009eb620
 int FUN_009eb620_cls::FUN_009eb620()
 {
-    return (*(int*)((char*)this + 0x103b8))++;
+    return this->unk103b8++;
 }
 
 struct S_009eb8a0_Obj

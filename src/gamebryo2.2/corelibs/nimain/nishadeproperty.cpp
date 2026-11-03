@@ -777,7 +777,7 @@ NiObject* NiShadeProperty::FUN_00a81480(CloningProcess& kCloning)
     {
         pkObject = 0;
     }
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkObject, (::fnv_00a5c290::CloningProcess *)&kCloning);
     pkObject->m_uiObjectFlags = m_uiObjectFlags;
     return (NiObject*)pkObject;
 }
@@ -808,7 +808,7 @@ struct NiShadeProperty : BaseSave
 // @fnv 0x00a815c0
 void NiShadeProperty::SaveToStream(NiStream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
     NiBinaryStream* __restrict pkOstr = kStream.m_pBackingStream;
     unsigned int size = 2;
     pkOstr->position += pkOstr->pfn(pkOstr, &m_us, 2, &size, 1);

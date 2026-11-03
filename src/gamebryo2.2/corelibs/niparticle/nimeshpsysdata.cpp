@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00a7b000.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -20,7 +21,6 @@
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a26000.h"
-#include "fnv/symbols_00a7b000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f6000.h"
@@ -520,7 +520,7 @@ struct NiMeshPSysData308
 // @fnv 0x00c30b70
 void NiMeshPSysData308::FUN_00c30b70(NiStream& kStream)
 {
-    ::FUN_00a7b7d0();
+    reinterpret_cast<::FUN_00a7b7d0_shell *>(this)->FUN_00a7b7d0(kStream);
     NiObject* pkNode = ((NiStreamStandIn*)&kStream)->GetLoadedObject();
     NiObject* pkOld = m_pMeshNode;
     if (pkOld != pkNode)

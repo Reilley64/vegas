@@ -50,6 +50,9 @@
 
 struct FUN_007832e0_class
 {
+    char pad00[0x24];
+    float unk24;
+    float unk28;
     void FUN_007832e0(float a, float b);
 };
 
@@ -57,8 +60,8 @@ struct FUN_007832e0_class
 // @fnv 0x007832e0
 void FUN_007832e0_class::FUN_007832e0(float afFirst, float afSecond)
 {
-    ((float*)this)[9] = afFirst;
-    ((float*)this)[10] = afSecond;
+    this->unk24 = afFirst;
+    this->unk28 = afSecond;
     reinterpret_cast<::List7313 *>(this)->UpdateCurrentValueTile(1);
 }
 
@@ -77,6 +80,8 @@ void* FUN_00788330::Alloc(int a)
 
 struct BSSystemUtility
 {
+    char pad00[0x4a];
+    char unk4a;
     void Update();
     static BSSystemUtility* ms_pSystemUtility;
 };
@@ -87,20 +92,22 @@ void UpdateSystemUtility()
 {
     if (BSSystemUtility::ms_pSystemUtility)
     {
-        ((char*)BSSystemUtility::ms_pSystemUtility)[0x4a] = 1;
+        BSSystemUtility::ms_pSystemUtility->unk4a = 1;
         BSSystemUtility::ms_pSystemUtility->Update();
     }
 }
 
 struct FUN_00792780_Class
 {
+    char pad00[0x30];
+    unsigned char unk30;
     void SetByteAtOffset30(unsigned char param);
 };
 
 // @fnv 0x00792780
 void FUN_00792780_Class::SetByteAtOffset30(unsigned char aucValue)
 {
-    *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x30) = aucValue;
+    this->unk30 = aucValue;
 }
 
 struct GlobalObject_00788300
@@ -136,6 +143,8 @@ void* FUN_0078d8d0_Class::FUN_0078d8d0(unsigned int flags)
 
 struct FUN_0078e090_class
 {
+    char pad00[0x2c];
+    char unk2c;
     char FUN_0078e090();
 };
 
@@ -145,7 +154,7 @@ char FUN_0078e090_class::FUN_0078e090()
 {
     for (int i = 0; i < 16; ++i)
     {
-        if (!(*(int*)((char*)this + 0x2c + i * 4)))
+        if (!(*(int*)((char*)&this->unk2c + i * 4)))
             return 0;
     }
     return 1;
@@ -195,7 +204,10 @@ void FUN_0078cf10_Class::SetAlphaRecursive(NiAVObject* object, float alpha)
 struct S5460
 {
     virtual void v0();
-    virtual unsigned int v1(unsigned int a);
+    virtual void* v1(unsigned int a);
+    void* unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
     unsigned int FUN_007881d0();
 };
 struct FUN_0098f040_shell
@@ -207,21 +219,21 @@ unsigned int S5460::FUN_007881d0()
 {
     if (((bool)(reinterpret_cast<::FUN_00438b90_class *>(this)->FUN_00438b90())))
     {
-        if (!*(unsigned int*)((char*)this + 0xc))
+        if (!this->unk0c)
         {
             unsigned int id = 4;
-            *(unsigned int*)((char*)this + 4) = v1(id);
-            *(unsigned int*)((char*)this + 0xc) = id;
+            this->unk04 = v1(id);
+            this->unk0c = id;
         }
         else
         {
             unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>(this)->FUN_009a3910()));
-            reinterpret_cast<::FUN_009a3c50_cls *>((((FUN_0098f040_shell*)this)))->UpdateThreat(id, *(unsigned int*)((char*)this + 8));
-            *(unsigned int*)((char*)this + 0xc) = id;
+            reinterpret_cast<::FUN_009a3c50_cls *>((((FUN_0098f040_shell*)this)))->UpdateThreat(id, this->unk08);
+            this->unk0c = id;
         }
     }
-    *(unsigned int*)((char*)this + 8) += 1;
-    return *(unsigned int*)((char*)this + 8) - 1;
+    this->unk08 += 1;
+    return this->unk08 - 1;
 }
 
 struct FUN_007883b0
@@ -285,6 +297,9 @@ struct G2
 
 struct InventoryMenu
 {
+    char pad00[0x11c];
+    G2 unk11c;
+    char pad11d[0x3];
     static InventoryMenu* ms_pInventoryMenu;
 };
 
@@ -299,7 +314,7 @@ void __cdecl FUN_007832a0_class::FUN_007832a0(FUN_004bddd0_t* a)
     if (a != 0 && reinterpret_cast<::FUN_004bddd0_shell *>((a))->FUN_004bddd0(false))
     {
         int flags = static_cast<int>(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a))->GetName())));
-        reinterpret_cast<G2*>(reinterpret_cast<char*>(InventoryMenu::ms_pInventoryMenu) + 0x11c)->AddHead(&flags);
+        InventoryMenu::ms_pInventoryMenu->unk11c.AddHead(&flags);
     }
 }
 

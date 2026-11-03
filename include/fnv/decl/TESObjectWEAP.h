@@ -3,7 +3,7 @@
 class Actor;
 class QueuedFile;
 class TESObjectIMOD;
-enum ActorValue__Index;
+namespace ActorValue { enum Index; }
 
 class TESObjectWEAP {
 public:
@@ -20,5 +20,5 @@ public:
     // 0x00709430
     float FUN_00709430(bool);
     // 0x009b6600
-    ::ActorValue__Index GetResistance();
+    ::ActorValue::Index GetResistance();
 };

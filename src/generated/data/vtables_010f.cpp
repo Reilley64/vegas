@@ -13,7 +13,7 @@ extern "C" void fnv_fn_00a44840() __asm__("?FUN_00a44840@FUN_00a44840_stub@@QEAA
 extern "C" void fnv_fn_00a4d5f0() __asm__("?FUN_00a4d5f0@@YAXPEAV?$NiTMapItem@IV?$NiPointer@VNiRefObject@@@@@@IV?$NiPointer@VNiRefObject@@@@@Z");
 extern "C" void fnv_fn_00a4d6d0() __asm__("?HashStringModulo@FUN_00a4d6d0_class@@QEAAIPEBD@Z");
 extern "C" void fnv_fn_00a57020() __asm__("?FUN_00a57020@@YADHHH@Z");
-extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
+extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAA_NPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");

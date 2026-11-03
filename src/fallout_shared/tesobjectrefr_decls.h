@@ -68,7 +68,7 @@ class TESObjectREFR
     TESObjectCELL* pParentCell;     // +0x40
     unsigned char kExtraList[0x20];  // +0x44, an ExtraDataList
     void* pLoadedData;              // +0x64
-    static BGSEncounterZone* FindEncounterZone();
+    static BGSEncounterZone* GetDefaultEncounterZone();
     float GetScale();
 public:
     ::BSExtraData *GetExtraData(unsigned char) const;

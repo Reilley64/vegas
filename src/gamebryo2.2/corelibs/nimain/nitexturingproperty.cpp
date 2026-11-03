@@ -706,7 +706,7 @@ struct FUN_00a6a560_cls : public NiTexturingProperty
 // @fnv 0x00a6a560
 bool FUN_00a6a560_cls::ApplyTextures(unsigned int uiArg)
 {
-    if (!::FUN_00a62130((void *)this, uiArg, {}))
+    if (!::FUN_00a62130((void *)this, 0, (::NiStream *)(std::uintptr_t)uiArg))
     {
         return false;
     }
@@ -865,7 +865,7 @@ struct NiTexturingPropertySave : public NiTexturingProperty
 // @fnv 0x00a6b250
 void NiTexturingPropertySave::FUN_00a6b250(NiStream& kStream)
 {
-    ::FUN_00a5d7b0();
+    reinterpret_cast<::FUN_00a5d7b0_shell *>(this)->FUN_00a5d7b0((::NiStream &)kStream);
 
     SerializeValue(kStream, m_uiObjectFlags);
 
@@ -1922,7 +1922,7 @@ struct LinkProperty
 // @fnv 0x00a6a240
 void LinkProperty::LoadFromStream(LinkStream& stream)
 {
-    ::FUN_00a47360();
+    reinterpret_cast<::FUN_00a47360_shell *>(this)->FUN_00a47360((::NiStream &)stream);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>(&(stream))->FUN_00a63460();
     unsigned int i;
     flags &= 0xf00f;
@@ -2260,7 +2260,7 @@ struct TexProp
 // @fnv 0x00a6bb00
 void TexProp::CloneTo(TexProp* pkDest, CloneProc& kCloning)
 {
-    ::FUN_00a5d7a0();
+    reinterpret_cast<::FUN_00a5d7a0_shell *>(this)->FUN_00a5d7a0((::NiObjectNET *)pkDest, (::fnv_00a5c290::CloningProcess *)&kCloning);
     pkDest->m_uiObjectFlags = m_uiObjectFlags;
     unsigned int uiSize = m_kStringArray.m_usSize;
     reinterpret_cast<::FUN_00a41520_cls *>(&(pkDest->m_kStringArray))->FUN_00a90180(uiSize);

@@ -2,6 +2,7 @@
 #include <cstdint>
 
 class NiAnimTarget;
+class NiStream;
 class NiFixedString;
 struct ActorCombatGroup;
 struct FUN_00a57580_cls;
@@ -29,6 +30,6 @@ void FUN_00a575b0(::FUN_00a575b0_Object *, intptr_t);
 // 0x00a576c0
 void FUN_00a576c0(::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *);
 // 0x00a57c00
-void FUN_00a57c00();
+struct FUN_00a57c00_shell { void FUN_00a57c00(::NiStream &); };
 // 0x00a57d10
 void FUN_00a57d10(::NiTArray< ::ActorCombatGroup *, ::NiTMallocInterface< ::ActorCombatGroup *>> *);

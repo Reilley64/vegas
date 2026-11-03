@@ -14,7 +14,10 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/cachedvalues.cpp
   src/fallout/ai/camerashake.cpp
   src/fallout/ai/character_h_unit.cpp
+  src/fallout/ai/combat/combatactions.cpp
   src/fallout/ai/combat/combatdialoguemanager.cpp
+  src/fallout/ai/combat/combatgroupstrategy.cpp
+  src/fallout/ai/combat/combatmanager.cpp
   src/fallout/ai/combat/combatplan.cpp
   src/fallout/ai/combat/combatplanner.cpp
   src/fallout/ai/combat/combatprocedure.cpp
@@ -22,12 +25,15 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/combat/combatprocedureattacklow.cpp
   src/fallout/ai/combat/combatprocedureattackmelee.cpp
   src/fallout/ai/combat/combatprocedurebeincover.cpp
+  src/fallout/ai/combat/combatprocedureevade.cpp
   src/fallout/ai/combat/combatprocedurehidefromtarget.cpp
+  src/fallout/ai/combat/combatproceduremove.cpp
   src/fallout/ai/combat/combatprocedureusecombatitem.cpp
   src/fallout/ai/combat/combattargetmap.cpp
   src/fallout/ai/combat/combatthreatmap.cpp
   src/fallout/ai/combat/combattimer.cpp
   src/fallout/ai/combat/combatutilities.cpp
+  src/fallout/ai/combat/combatworldstate.cpp
   src/fallout/ai/combat/flameprojectile.cpp
   src/fallout/ai/combat/hitdata.cpp
   src/fallout/ai/combat/missileprojectile.cpp
@@ -186,21 +192,15 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/character.cpp
   src/fallout/ai/combat/beamprojectile.cpp
   src/fallout/ai/combat/combataction.cpp
-  src/fallout/ai/combat/combatactions.cpp
   src/fallout/ai/combat/combatcovermap.cpp
   src/fallout/ai/combat/combatgoal.cpp
   src/fallout/ai/combat/combatgroup.cpp
-  src/fallout/ai/combat/combatgroupstrategy.cpp
-  src/fallout/ai/combat/combatmanager.cpp
   src/fallout/ai/combat/combatprocedureactivateobject.cpp
   src/fallout/ai/combat/combatprocedureattackranged.cpp
   src/fallout/ai/combat/combatprocedureengagetarget.cpp
-  src/fallout/ai/combat/combatprocedureevade.cpp
-  src/fallout/ai/combat/combatproceduremove.cpp
   src/fallout/ai/combat/combatproceduresearch.cpp
   src/fallout/ai/combat/combatprocedureswitchweapon.cpp
   src/fallout/ai/combat/combatstate.cpp
-  src/fallout/ai/combat/combatworldstate.cpp
   src/fallout/ai/combat/continuousbeamprojectile.cpp
   src/fallout/ai/combat/explosion.cpp
   src/fallout/ai/combat/grenadeprojectile.cpp

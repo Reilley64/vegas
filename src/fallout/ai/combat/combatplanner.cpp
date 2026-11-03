@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatplanner.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatplanner.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BGSDebris.h"
@@ -209,7 +210,7 @@ bool CPPlanner::ExpandNode(CPNode* pkNode, CPOutArray* pkOut)
                 if (::IsValidCode((intptr_t)(pkTarget)))
                     pkTarget = ((::CPTarget *)(reinterpret_cast<::FUN_00984470_Class *>((pkNode->m_pUserData))->GetCombatGoal((intptr_t)(pkTarget))));
                 FUN_00995760_Aim kAim;
-                (*reinterpret_cast<::CombatProcedure **>(reinterpret_cast<char *>(m_pkOwnerManager) + 0xa4))->Initialize((::CombatController *)(::FUN_00995760_Aim *)(&kAim));
+                ((::CombatProcedure *)reinterpret_cast<CombatControllerFields*>(m_pkOwnerManager)->pUnknownA4)->Initialize((::CombatController *)(::FUN_00995760_Aim *)(&kAim));
                 if (bValid)
                 {
                     if (pkAction->IsValid(m_pkOwnerManager, &m_kWorldState, pkTarget))

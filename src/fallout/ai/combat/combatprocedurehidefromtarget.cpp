@@ -122,18 +122,18 @@ struct FUN_009d6030 : FUN_009ca680
     FUN_00906f60 m_18;
     FUN_006815c0 m_20;
     FUN_006815c0 m_2c;
-    int m_38;
+    void* m_38;
     bool m_3c;
     bool m_3d;
-    FUN_009d6030(int a, float b, bool c, bool d);
+    FUN_009d6030(void* a, float b, bool c, bool d);
 };
 
 // Constructor: sets the vtable, initializes m_10 to 0, stores b in m_14, a in m_38, c in m_3c and d in m_3d.
 // @fnv 0x009d6030
-FUN_009d6030::FUN_009d6030(int aiValue, float afValue, bool abFlag1, bool abFlag2)
+FUN_009d6030::FUN_009d6030(void* apLocation, float afValue, bool abFlag1, bool abFlag2)
     : m_10((m_vtbl = DAT_01091a64, 0)), m_14(afValue)
 {
-    m_38 = aiValue;
+    m_38 = apLocation;
     m_3c = abFlag1;
     m_3d = abFlag2;
 }

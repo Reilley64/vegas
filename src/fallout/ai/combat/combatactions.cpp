@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatactions.cpp: CombatAction, CombatActionStandIn, CombatActionAttackRangedExplosive, CombatActionMoveStandIn and more (83 functions)
 
+#include "fnv/combat_state_fields.h"
 #include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include <new>
@@ -491,7 +492,7 @@ bool FUN_0097b840_cls::FUN_0097b840(CombatController* apController, CombatStateA
 {
     if (!reinterpret_cast<::FUN_00979e90_shell *>(this)->FUN_00979e90(apController, w, aiValue))
         return false;
-    return reinterpret_cast<::CombatFind::CombatStateQ *>((reinterpret_cast<::InterfaceManager *>((((IMH*)apController)))->FUN_00586150()))->FUN_0099ac20({});
+    return reinterpret_cast<::CombatFind::CombatStateQ *>((reinterpret_cast<CombatControllerFields*>((((IMH*)apController)))->pCombatState))->FUN_0099ac20({});
 }
 
 struct B006815c0
@@ -600,7 +601,7 @@ struct CombatActionStandIn
 float FUN_0097bcc0_cls::FUN_0097bcc0(CombatController* apController, int v)
 {
     float cost = reinterpret_cast<::fnv_00979e40::FUN_00979e40_shell *>(this)->FUN_00979e40((::fnv_00979e40::CombatController *)(apController), v);
-    cost += reinterpret_cast<::CombatActionStandIn *>((((::Sub *)(((FUN_005e3fc0_shell*)apController)->Get()))))->FUN_0097bd00({});
+    cost += reinterpret_cast<::CombatActionStandIn *>((((::Sub *)reinterpret_cast<CombatControllerFields*>(apController)->pUnknownA4)))->FUN_0097bd00({});
     return cost;
 }
 
@@ -726,7 +727,7 @@ struct IgnoreBlockedTargetStandIn
 // @fnv 0x0097ccf0
 void IgnoreBlockedTargetStandIn::FUN_0097ccf0(IMH* apCombatController, int aiActionValue)
 {
-    ((::fnv_0097ccf0::Tile *)(reinterpret_cast<::InterfaceManager *>((apCombatController))->FUN_00586150()))->FUN_0097cd10(0);
+    ((::fnv_0097ccf0::Tile *)(reinterpret_cast<CombatControllerFields*>((apCombatController))->pCombatState))->FUN_0097cd10(0);
 }
 }  // namespace fnv_0097ccf0
 
@@ -846,7 +847,7 @@ struct FUN_009d0890
 struct FUN_009d2440
 {
     char pad[0x6c];
-    FUN_009d2440(unsigned int);
+    FUN_009d2440(void*);
 };
 
 struct FUN_0097af70_shell
@@ -859,7 +860,7 @@ struct FUN_0097af70_shell
 void FUN_0097af70_shell::FUN_0097af70(CombatController* apCombatController, int aiActionValue)
 {
     reinterpret_cast<::fnv_00980110::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_00980110((::fnv_00980110::CombatProcedure *)((intptr_t)new FUN_009d0890()));
-    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)((int)new FUN_009d2440(GetFieldValue((unsigned int*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150()))))));
+    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(new FUN_009d2440(reinterpret_cast<CombatStateFields*>((reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState))->pUnknownE4)));
 }
 }  // namespace fnv_0097af70
 
@@ -992,9 +993,9 @@ struct FUN_0097b880_shell
 // @fnv 0x0097b880
 void FUN_0097b880_shell::FUN_0097b880(CombatController* apCombatController, int aiActionValue)
 {
-    CombatState* pcombatState = (CombatState*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150()));
+    CombatState* pcombatState = (CombatState*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState));
     CombatAvoidanceSphere* pcombatLocation =
-        (CombatAvoidanceSphere*)::GetField18C((char*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())));
+        (CombatAvoidanceSphere*)::GetField18C((char*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)));
     reinterpret_cast<::fnv_00980110::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_00980110((::fnv_00980110::CombatProcedure *)((intptr_t)new FUN_009caee0(((FUN_0097b940_shell*)pcombatLocation)->FUN_0097b940(),
                                              reinterpret_cast<::FUN_0097b960_shell *>((((FUN_0097b960_shell*)pcombatState)))->GetByte76())));
 }
@@ -1022,7 +1023,7 @@ struct FUN_009cadf0
 struct FUN_009d2440
 {
     char pad[0x6c];
-    FUN_009d2440(unsigned int);
+    FUN_009d2440(void*);
 };
 
 struct FUN_0097bab0_shell
@@ -1034,7 +1035,7 @@ struct FUN_0097bab0_shell
 void FUN_0097bab0_shell::FUN_0097bab0(CombatController* apCombatController, int aiActionValue)
 {
     reinterpret_cast<::fnv_00980110::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_00980110((::fnv_00980110::CombatProcedure *)((intptr_t)new FUN_009cadf0()));
-    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)((int)new FUN_009d2440(GetFieldValue((unsigned int*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150()))))));
+    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(new FUN_009d2440(reinterpret_cast<CombatStateFields*>((reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState))->pUnknownE4)));
 }
 }  // namespace fnv_0097bab0
 
@@ -1077,7 +1078,7 @@ struct FUN_0097c090_shell : FUN_0097bca0_cls
 void FUN_0097c090_shell::FUN_0097c090(CombatController* apCombatController, int aiActionValue)
 {
     reinterpret_cast<::fnv_0097bca0::CombatActionMoveStandIn *>(this)->FUN_0097bca0((::fnv_0097bca0::CombatController *)(apCombatController), aiActionValue);
-    TESObjectWEAP* pweapon = ((::fnv_0097c090::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->FUN_0097c150(2)));
+    TESObjectWEAP* pweapon = ((::fnv_0097c090::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->FUN_0097c150(2)));
     reinterpret_cast<::fnv_00980270::CombatController *>((((FUN_00980270_shell*)apCombatController)))->FUN_00980270((::fnv_00980270::CombatProcedure *)((intptr_t)new FUN_009da720(pweapon)));
     reinterpret_cast<::FUN_00714d70 *>((((FUN_00714d70*)apCombatController)))->SetField((intptr_t)pweapon);
 }
@@ -1220,7 +1221,7 @@ void FUN_0097c790_shell::FUN_0097c790(CombatController* apCombatController, int 
     COMBAT_WEAPON_TYPE ecombatWeaponType = (COMBAT_WEAPON_TYPE)aiActionValue;
     if (aiActionValue != 6)
     {
-        pweapon = ((::fnv_0097c790::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->FUN_0097c150(ecombatWeaponType)));
+        pweapon = ((::fnv_0097c790::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->FUN_0097c150(ecombatWeaponType)));
     }
     reinterpret_cast<::fnv_00980270::CombatController *>((((FUN_00980270_shell*)apCombatController)))->FUN_00980270((::fnv_00980270::CombatProcedure *)((intptr_t)new FUN_009da720(pweapon)));
     reinterpret_cast<::FUN_00714d70 *>((((FUN_00714d70*)apCombatController)))->SetField((intptr_t)pweapon);
@@ -1270,7 +1271,7 @@ float FUN_0097c8e0_shell::FUN_0097c8e0(CombatController* apCombatController, int
         COMBAT_WEAPON_TYPE ecombatWeaponType = (COMBAT_WEAPON_TYPE)aiActionValue;
         if (aiActionValue != 6)
         {
-            pweapon = ((::fnv_0097c8e0::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->FUN_0097c150(ecombatWeaponType)));
+            pweapon = ((::fnv_0097c8e0::TESObjectWEAP *)(reinterpret_cast<::fnv_0097c150::CombatActionStandIn *>((((CombatStateStub*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->FUN_0097c150(ecombatWeaponType)));
         }
         if (pweapon && !::FUN_006450c0((::TESObjectWEAP *)(pweapon)))
         {
@@ -1301,7 +1302,7 @@ unsigned int GetFieldValue(unsigned int*);
 struct FUN_009d6030
 {
     char pad[0x40];
-    FUN_009d6030(unsigned int, float, bool, bool);
+    FUN_009d6030(void*, float, bool, bool);
 };
 
 struct FUN_00980250_shell
@@ -1316,8 +1317,8 @@ struct FUN_0097cdb0_shell
 // @fnv 0x0097cdb0
 void FUN_0097cdb0_shell::FUN_0097cdb0(CombatController* apCombatController, int aiActionValue)
 {
-    reinterpret_cast<::BSFaceGenNiNode *>((((BSFaceGenNiNode*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->SetApplyRotToParent(2);
-    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)((int)new FUN_009d6030(GetFieldValue((unsigned int*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150()))),
+    reinterpret_cast<::BSFaceGenNiNode *>((((BSFaceGenNiNode*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->SetApplyRotToParent(2);
+    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(new FUN_009d6030(reinterpret_cast<CombatStateFields*>((reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState))->pUnknownE4,
                                              *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0097cdb0::Setting_S *>(&::originalRuntimeFloatSetting432)))))), true, true)));
 }
 }  // namespace fnv_0097cdb0
@@ -1360,7 +1361,7 @@ struct FUN_0097cf10_shell
 void FUN_0097cf10_shell::FUN_0097cf10(CombatController* apCombatController, int aiActionValue)
 {
     CombatReferenceEntry* pcombatItem =
-        (CombatReferenceEntry*)((int *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((((C99*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->GetActionAtIndex(aiActionValue - 17)));
+        (CombatReferenceEntry*)((int *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>((((C99*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->GetActionAtIndex(aiActionValue - 17)));
     if (pcombatItem)
     {
         reinterpret_cast<::fnv_00980110::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_00980110((::fnv_00980110::CombatProcedure *)((intptr_t)new FUN_009ca5f0(pcombatItem->pRef, pcombatItem->m_pBaseObject)));
@@ -1400,7 +1401,7 @@ struct FUN_0097d060_shell
 void FUN_0097d060_shell::FUN_0097d060(CombatController* apCombatController, int aiActionValue)
 {
     TESBoundObject* pitem =
-        (TESBoundObject*)reinterpret_cast<::FUN_0097d110_shell *>((((FUN_0097d110_shell*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150())))))->GetAt(aiActionValue - 17);
+        (TESBoundObject*)reinterpret_cast<::FUN_0097d110_shell *>((((FUN_0097d110_shell*)((intptr_t)(reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState)))))->GetAt(aiActionValue - 17);
     if (pitem)
     {
         reinterpret_cast<::fnv_00980110::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_00980110((::fnv_00980110::CombatProcedure *)((intptr_t)new FUN_009daa10(pitem)));
@@ -1424,7 +1425,7 @@ struct FUN_00980250_shell
 struct FUN_009d6030
 {
     char pad[0x40];
-    FUN_009d6030(unsigned int, float, int, int);
+    FUN_009d6030(void*, float, int, int);
 };
 
 struct FUN_0097d2d0_shell
@@ -1436,8 +1437,8 @@ struct FUN_0097d2d0_shell
 // @fnv 0x0097d2d0
 void FUN_0097d2d0_shell::FUN_0097d2d0(CombatController* apCombatController, int aiActionValue)
 {
-    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)(reinterpret_cast<int>(new FUN_009d6030(
-            GetFieldValue((unsigned int*)((intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)apCombatController)))->FUN_00586150()))), (float)aiActionValue, 0, 0))));
+    reinterpret_cast<::fnv_009801b0::CombatController *>((((FUN_00980250_shell*)apCombatController)))->FUN_009801b0((::fnv_009801b0::CombatProcedure *)((new FUN_009d6030(
+            reinterpret_cast<CombatStateFields*>((reinterpret_cast<CombatControllerFields*>((((IMH*)apCombatController)))->pCombatState))->pUnknownE4, (float)aiActionValue, 0, 0))));
 }
 }  // namespace fnv_0097d2d0
 
@@ -1487,7 +1488,7 @@ void FUN_0097bed0(CombatController* apCombatController, int aiLocation)
     CombatAvoidanceSphere* pcombatLocation;
 
     pcombatLocation = reinterpret_cast<CombatAvoidanceSphere*>(
-        ::GetField18C(reinterpret_cast<char*>(((intptr_t)(reinterpret_cast<::InterfaceManager *>((reinterpret_cast<IMH*>(apCombatController)))->FUN_00586150())))));
+        ::GetField18C(reinterpret_cast<char*>(((intptr_t)(reinterpret_cast<CombatControllerFields*>((reinterpret_cast<IMH*>(apCombatController)))->pCombatState)))));
 
     if (pcombatLocation->FUN_0097be60(1))
     {
@@ -1632,7 +1633,7 @@ bool __cdecl IsCombatActionValid(CombatController* controller, int iSection)
 
     iStack_c = (FUN_009cde10_shell*)GetField18C(
 
-        (char*)reinterpret_cast<::InterfaceManager *>((((InterfaceManager_helper*)controller)))->FUN_00586150());
+        (char*)reinterpret_cast<CombatControllerFields*>((((InterfaceManager_helper*)controller)))->pCombatState);
 
     if (iStack_c == 0 || ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((iStack_c))->FUN_00825c00())) != iSection)
 

@@ -1817,7 +1817,7 @@ void FUN_009a2f50_shell::FUN_009a2f50(BGSSaveFormBuffer* buffer)
     for (unsigned int i = 0; i < flags; ++i)
     {
         void* cover = reinterpret_cast<::FUN_009a3280_shell *>((((FUN_009a3280_shell*)((char*)this + 32))))->FUN_009a3280(i);
-        ((void(*)(void*, BGSSaveFormBuffer*))(*((int**)cover))[0])(cover, buffer);
+        ((void(*)(void*, BGSSaveFormBuffer*))(*((void***)cover))[0])(cover, buffer);
     }
 }
 }  // namespace fnv_009a2f50
@@ -7810,13 +7810,13 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         reinterpret_cast<::FUN_006e4320_Class *>((param))->FUN_006e4320(reinterpret_cast<::FUN_00453700_shell *>((((FUN_0099d310_field_calls*)f1C4)))->FUN_00453700());
     }
-    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(unsigned int**)((char*)actor + 0xa4))[2])(
+    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(void***)((char*)actor + 0xa4))[2])(
         (char*)actor + 0xa4, 0x10));
     if (item != 0)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)
         {
-            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(unsigned int**)item)[0x1f4 / 4])(item))));
+            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(void***)item)[0x1f4 / 4])(item))));
         }
         reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((intptr_t)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
     }
@@ -10515,7 +10515,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
     CombatRef* pActorOld = ((::CombatFind::CombatRef *)(reinterpret_cast<CombatControllerFields*>(pController)->pActor));
     CombatRef* pTarget = ((::CombatFind::CombatRef *)(reinterpret_cast<::AlchemyItem *>((pController))->FUN_004030b0()));
     CombatPathing* pPathingTmp = ((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()));
-    CombatLocations* pLocationsRes = ((::CombatFind::CombatLocations *)(reinterpret_cast<::FUN_005e3fc0_shell *>((pController))->Get()));
+    CombatLocations* pLocationsRes = ((::CombatFind::CombatLocations *)reinterpret_cast<CombatControllerFields*>(pController)->pUnknownA4);
     if (reinterpret_cast<::FUN_00980700_shell *>((pLocationsRes))->FUN_00980700(aiType))
     {
         reinterpret_cast<::fnv_00979f70::FUN_00979f70_shell *>((pLocationsRes))->FUN_00979f70(aiType);

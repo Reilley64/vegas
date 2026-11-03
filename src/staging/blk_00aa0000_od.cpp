@@ -4308,7 +4308,7 @@ void Container0::FUN_00aba7b0(unsigned int count, Element12 value)
     if (size() < count)
         FUN_00abca90(end(), count - size(), value);
     else if (count < size())
-        reinterpret_cast<::FUN_00aba9a0_cls *>(this)->FUN_00aba9a0((*(::FUN_00aba9a0_pair * *)&(const ::ConstIterator &)(begin() + count)), (*(unsigned int *)&(const ::ConstIterator &)(end())), {}, {}, {});
+        FUN_00aba9a0(begin() + count, end());
 }
 
 inline ConstIterator& ConstIterator::FUN_00ac0dc0(int n)
@@ -8978,7 +8978,10 @@ void VecQ_ab0b60::FUN_00ab0b60(unsigned int _Newsize, ElQ_ab0b60 _Val)
         reinterpret_cast<::PointVector *>(this)->FUN_00ab0fd0((*(::PointIter *)&(const ::fnv_00ab0b60::CItQ_ab0b60_ab0b60 &)(end())), _Newsize - size(), (const ::ShortPoint &)(_Val));
     else if (_Newsize < size())
     {
-        reinterpret_cast<::fnv_0065f5a0::FUN_0065f5a0_cls *>(this)->FUN_0065f5a0((*(::fnv_0065f5a0::FNVPair8 * *)&(const ::fnv_00ab0b60::CItQ_ab0b60_ab0b60 &)(begin() + _Newsize)), (*(int *)&(const ::fnv_00ab0b60::CItQ_ab0b60_ab0b60 &)(end())), {}, {}, {});
+        CItQ_ab0b60_ab0b60 first = begin() + _Newsize;
+        CItQ_ab0b60_ab0b60 last = end();
+        ItQ_ab0b60 result;
+        reinterpret_cast<::fnv_0065f5a0::FUN_0065f5a0_cls *>(this)->FUN_0065f5a0((::fnv_0065f5a0::FNVPair8 *)(void *)(&result), (int)(intptr_t)(first._Myaux), (int)(intptr_t)(first._Myptr), (int)(intptr_t)(last._Myaux), (int)(intptr_t)(last._Myptr));
         Dead31();
     }
 }
@@ -9283,7 +9286,10 @@ void VecQ_ab3130::FUN_00ab3130(unsigned int _Newsize, ElQ _Val)
         FUN_00ab3a40(end(), _Newsize - size(), _Val);
     else if (_Newsize < size())
     {
-        reinterpret_cast<::FUN_0065d8e0_cls *>(this)->BuildAndComparePair((*(::Lay_d8e0_Pair * *)&(const ::fnv_00ab3130::CItQ_ab3130_ab3130 &)(begin() + _Newsize)), (*(int *)&(const ::fnv_00ab3130::CItQ_ab3130_ab3130 &)(end())), {}, {}, {});
+        CItQ_ab3130_ab3130 first = begin() + _Newsize;
+        CItQ_ab3130_ab3130 last = end();
+        ItQ_ab3130 result;
+        reinterpret_cast<::FUN_0065d8e0_cls *>(this)->BuildAndComparePair((::Lay_d8e0_Pair *)(void *)(&result), (int)(intptr_t)(first._Myaux), (int)(intptr_t)(first._Myptr), (int)(intptr_t)(last._Myaux), (int)(intptr_t)(last._Myptr));
         DeadN();
     }
 }
@@ -10671,8 +10677,14 @@ void MeshSampler::FUN_00ab5720(OutCont* out)
             }
         }
         NiP3& kv = mKf[i].m_v;
-        out->FUN_00ab9bc0((*(::NiP3 *)(reinterpret_cast<::FUN_00ac10c0_Class *>((void *)(void *)&(const ::NiP3 &)((*(::NiP3 *)(reinterpret_cast<::FUN_00ac10c0_Class *>((void *)(void *)&(const ::NiP3 &)(mPts[v.x]
-                              .ScaleToPoint3(kv.x)))->AddOffset((::NiPoint3 *)&(const ::NiP3 &)(mPts[v.y].ScaleToPoint3(kv.y)), {})))))->AddOffset((::NiPoint3 *)&(const ::NiP3 &)(mPts[v.z].ScaleToPoint3(kv.z)), {}))));
+        NiP3 p0 = mPts[v.x].ScaleToPoint3(kv.x);
+        NiP3 p1 = mPts[v.y].ScaleToPoint3(kv.y);
+        NiP3 p2 = mPts[v.z].ScaleToPoint3(kv.z);
+        NiP3 s01;
+        NiP3 s012;
+        reinterpret_cast<::FUN_00ac10c0_Class *>((void *)&(p0))->AddOffset((::NiPoint3 *)(void *)(&s01), (::NiPoint3 *)(void *)(&p1));
+        reinterpret_cast<::FUN_00ac10c0_Class *>((void *)&(s01))->AddOffset((::NiPoint3 *)(void *)(&s012), (::NiPoint3 *)(void *)(&p2));
+        out->FUN_00ab9bc0(s012);
     }
 }
 
@@ -12299,7 +12311,9 @@ void VecQ_aba5d0::FUN_00aba5d0(unsigned int _Newsize, ElQ_aba5d0 _Val)
         FUN_00abc320(end(), _Newsize - size(), _Val);
     else if (_Newsize < size())
     {
-        reinterpret_cast<::FUN_00abc180_cls *>(this)->FUN_00abc180((*(unsigned int *)&(const ::fnv_00aba5d0::CItQ_aba5d0_aba5d0 &)(begin() + _Newsize)), (*(unsigned int *)&(const ::fnv_00aba5d0::CItQ_aba5d0_aba5d0 &)(end())), {}, {});
+        CItQ_aba5d0_aba5d0 first = begin() + _Newsize;
+        CItQ_aba5d0_aba5d0 last = end();
+        reinterpret_cast<::FUN_00abc180_cls *>(this)->FUN_00abc180((unsigned int)(uintptr_t)(first._Myaux), (unsigned int)(uintptr_t)(first._Myptr), (unsigned int)(uintptr_t)(last._Myaux), (unsigned int)(uintptr_t)(last._Myptr));
         Dead31();
     }
 }
@@ -12601,7 +12615,10 @@ void VecQ_abad80::FUN_00abad80(unsigned int _Newsize, ElQ_abad80 _Val)
         FUN_00abdb10(end(), _Newsize - size(), _Val);
     else if (_Newsize < size())
     {
-        reinterpret_cast<::FnvAbaf60Owner *>(this)->FUN_00abaf60((*(::FnvAbaf60Iter * *)&(const ::fnv_00abad80::CItQ_abad80_abad80 &)(begin() + _Newsize)), (*(::FnvAbaf60Iter *)&(const ::fnv_00abad80::CItQ_abad80_abad80 &)(end())), {});
+        CItQ_abad80_abad80 first = begin() + _Newsize;
+        CItQ_abad80_abad80 last = end();
+        FnvAbaf60Iter result;
+        reinterpret_cast<::FnvAbaf60Owner *>(this)->FUN_00abaf60(&result, ::FnvAbaf60Iter{first._Myaux, (unsigned int)(uintptr_t)(first._Myptr)}, ::FnvAbaf60Iter{last._Myaux, (unsigned int)(uintptr_t)(last._Myptr)});
         Dead31();
     }
 }
@@ -14407,7 +14424,10 @@ void VecQ_ab0d50::FUN_00ab0d50(unsigned int _Newsize, ElQ _Val)
         FUN_00ab1800(end(), _Newsize - size(), _Val);
     else if (_Newsize < size())
     {
-        reinterpret_cast<::fnv_0065d740::FUN_0065d740_cls *>(this)->FUN_0065d740((*(::fnv_0065d740::FNVPair8 * *)&(const ::fnv_00ab0d50::CItQ_ab0d50_ab0d50 &)(begin() + _Newsize)), (*(unsigned int *)&(const ::fnv_00ab0d50::CItQ_ab0d50_ab0d50 &)(end())), {}, {}, {});
+        CItQ_ab0d50_ab0d50 first = begin() + _Newsize;
+        CItQ_ab0d50_ab0d50 last = end();
+        ItQ_ab0d50 result;
+        reinterpret_cast<::fnv_0065d740::FUN_0065d740_cls *>(this)->FUN_0065d740((::fnv_0065d740::FNVPair8 *)(void *)(&result), (unsigned int)(uintptr_t)(first._Myaux), (unsigned int)(uintptr_t)(first._Myptr), (unsigned int)(uintptr_t)(last._Myaux), (unsigned int)(uintptr_t)(last._Myptr));
         DeadN();
     }
 }
@@ -16163,7 +16183,10 @@ class FUN_00ab9cd0_Vector : public vectorS<Elem9CD0>
 // @fnv 0x00ab9cd0
 void FUN_00ab9cd0_Vector::FUN_00ab9cd0()
 {
-    reinterpret_cast<::FUN_00aba9a0_cls *>(this)->FUN_00aba9a0((*(::FUN_00aba9a0_pair * *)&(const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &)(begin())), (*(unsigned int *)&(const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &)(end())), {}, {}, {});
+    const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &first = begin();
+    const ::fnv_00ab9cd0::_Vector_const_iteratorS< ::fnv_00ab9cd0::Elem9CD0> &last = end();
+    FUN_00aba9a0_pair result;
+    reinterpret_cast<::FUN_00aba9a0_cls *>(this)->FUN_00aba9a0(&result, (unsigned int)(uintptr_t)(((void *const *)&(first))[0]), (unsigned int)(uintptr_t)(((void *const *)&(first))[1]), (unsigned int)(uintptr_t)(((void *const *)&(last))[0]), (unsigned int)(uintptr_t)(((void *const *)&(last))[1]));
 }
 }
 

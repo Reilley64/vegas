@@ -559,13 +559,6 @@ SpawnEntry* SpawnEntry::FUN_00b22f80(SpawnEntry* apSource)
     return this;
 }
 
-struct FUN_00ec78f1_t
-{
-    int m0;
-    int m4;
-    void* FUN_00ec78f1(int* out);
-};
-
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
 // @fnv 0x00b23980
 void* __cdecl FUN_00b23980(unsigned int n)
@@ -577,13 +570,7 @@ void* __cdecl FUN_00b23980(unsigned int n)
     {
         if (-1u / n < 0x38)
         {
-            FUN_00ec78f1_t o;
-            {
-                int zero = 0;
-                o.FUN_00ec78f1(&zero);
-            }
-            o.m0 = (unsigned int)&(*reinterpret_cast<int *>(&::DAT_010176f8));
-            throw o;
+            throw std::bad_alloc();
         }
     }
     return ::FUN_00401000(n * 0x38);
@@ -906,13 +893,6 @@ bool Pool_00b1f920::FUN_00b1f920(unsigned int aiNodeCount)
     return true;
 }
 
-struct FUN_0044d6c0_class
-{
-    void* m_iWordAt00;
-    int m_iWordAt04;
-    int m_8;
-    void* FUN_00ec78f1(void*** a);
-};
 // Returns operator new(n * 0x18), throwing if n * 0x18 would overflow; n of 0 allocates 0 bytes.
 // @fnv 0x00b23aa0
 void* __cdecl FUN_00b23aa0(unsigned int n)
@@ -923,12 +903,7 @@ void* __cdecl FUN_00b23aa0(unsigned int n)
     {
         if (-1 / n < 24)
         {
-            void** z0;
-            FUN_0044d6c0_class e2;
-            z0 = 0;
-            e2.FUN_00ec78f1(&z0);
-            e2.m_iWordAt00 = &(*reinterpret_cast<int *>(&::DAT_010176f8));
-            throw e2;
+            throw std::bad_alloc();
         }
     }
     return ::FUN_00401000(n * 0x18);
@@ -1359,13 +1334,6 @@ FUN_00b18970::FUN_00b18970()
 }  // namespace fnv_00b18970
 
 namespace fnv_00b23bb0 {
-struct AllocationException
-{
-    unsigned int vtable;
-    unsigned int reserved1;
-    unsigned int reserved2;
-    void FUN_00ec78f1(unsigned int* value);
-};
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0
@@ -1375,11 +1343,7 @@ void* __cdecl FUN_00b23bb0(unsigned int count)
         count = 0;
     else if (0xffffffffu / count < 12)
     {
-        unsigned int empty = 0;
-        AllocationException exception;
-        exception.FUN_00ec78f1(&empty);
-        exception.vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010176f8));
-        throw exception;
+        throw std::bad_alloc();
     }
     return ::FUN_00401000(count * 12);
 }

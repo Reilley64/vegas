@@ -1825,6 +1825,8 @@ struct TextTile
 };
 struct QueueText
 {
+    char pad[0x24];
+    const char* unk24;
     ~QueueText();
     const char* FUN_00458b50();
 };
@@ -1934,9 +1936,9 @@ void TextQueue::ProcessQueue()
                         if (!reinterpret_cast<QueueMenu*>((*reinterpret_cast<int *>(&::g_pF57EA0TerminalMenu)))->mode &&
                             *(*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->FUN_00458b50() == *DAT_01072118)
                         {
-                            oldLength = ::FUN_0044a670(((const char *)(reinterpret_cast<::ActorMover *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->GetCurrentMoveModeType())));
+                            oldLength = ::FUN_0044a670(((const char *)((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->unk24)));
                             reinterpret_cast<::TwTypewriter *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->FUN_006ffea0();
-                            newLength = ::FUN_0044a670(((const char *)(reinterpret_cast<::ActorMover *>(((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))))->GetCurrentMoveModeType())));
+                            newLength = ::FUN_0044a670(((const char *)((*((::fnv_007598d0::QueueText **)(reinterpret_cast<::FUN_0073ac90_shell *>(this)->FUN_0073ac90())))->unk24)));
                             for (unsigned int index = 0; index < newLength - oldLength; index++)
                             {
                                 unsigned int offset =
@@ -3235,6 +3237,8 @@ namespace fnv_00757f70 {
 struct TileF;
 struct Value
 {
+    char pad[0xc];
+    const char* unk0C;
 };
 struct TileF
 {
@@ -3341,7 +3345,7 @@ void HostF::FUN_00757f70(int aiTileIndex, TileF* apTile)
                 {
                     reinterpret_cast<::Tile *>((m_pTiles[15]))->Set(0xfa3, 0);
                     val = ((::fnv_00757f70::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>((m_pTiles[7]))->FUN_00a00f30(0xfc4)));
-                    reinterpret_cast<::FUN_00759da0_shell *>((m_pManager))->InsertAtPosition(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((val))->FUN_0084e3a0())), (int)(val), (int)(reinterpret_cast<::FUN_00a00e90_shell *>((m_pTiles[7]))->FindTraitValue(0xfa3)), -1);
+                    reinterpret_cast<::FUN_00759da0_shell *>((m_pManager))->InsertAtPosition(((const char *)(val->unk0C)), (int)(val), (int)(reinterpret_cast<::FUN_00a00e90_shell *>((m_pTiles[7]))->FindTraitValue(0xfa3)), -1);
                 }
                 reinterpret_cast<::LBList_7314c0 *>(&(m_kNode))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void (*)(fnv_00757f70::TileF *, void *))(&((void (&)(fnv_00757f70::TileF *, void *))::UpdateNoteTile)), 0, 0x7fffffff);
                 m_c1 = 1;

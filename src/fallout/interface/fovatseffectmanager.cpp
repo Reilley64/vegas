@@ -325,6 +325,9 @@ struct NiAVObject;
 
 struct RefLike
 {
+    void* vtable;
+    unsigned int m_uiRefCount;
+    void* m_pkSceneObject;
 };
 
 struct FormLike
@@ -374,7 +377,7 @@ void* FUN_004b5ad0(NiAVObject* p);
 // @fnv 0x004b5820
 uintptr_t FUN_004b5820(FormLike* form)
 {
-    unsigned int result5 = 0;
+    std::uintptr_t result5 = 0;
     if (form)
     {
         void* node_ = FUN_004b59f0(form);
@@ -384,7 +387,7 @@ uintptr_t FUN_004b5820(FormLike* form)
             RefLike* ref = ((::RefLike *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(node_))));
             if (ref)
             {
-                result5 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref))->GetName()));
+                result5 = ((std::uintptr_t)(ref->m_pkSceneObject));
             }
             else if (((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FilterHolder &)(FilterHolder(::FUN_0043b540((char *)(form)))))->FUN_004a3a20())) == 1)
             {
@@ -402,7 +405,7 @@ uintptr_t FUN_004b5820(FormLike* form)
             RefLike* ref2 = (RefLike*)FUN_004b5ad0((NiAVObject*)objTmp);
             if (ref2)
             {
-                result5 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ref2))->GetName()));
+                result5 = ((std::uintptr_t)(ref2->m_pkSceneObject));
             }
             if (!result5)
             {
@@ -791,6 +794,8 @@ struct Obj
 };
 struct FaceNode
 {
+    char pad[0xb4];
+    struct Obj* unkB4;
 };
 struct S801880
 {
@@ -834,7 +839,7 @@ void S801880::FUN_00801880()
         Renderer* renderer = ((::Renderer *)(::FUN_0043c4b0()));
         FaceNode* node5 = ((::FaceNode *)(::FUN_0045c670()));
         int unk5 = this->unk04;
-        Obj* objTmp = ((::Obj *)(reinterpret_cast<::MiddleLowProcess *>((node5))->GetProcessInteger()));
+        Obj* objTmp = ((::Obj *)(node5->unkB4));
         reinterpret_cast<::FUN_004a0fd0_shell *>((objTmp))->FUN_004a0fd0((::NiNode *)(const char *)(this->name));
         AnimData* anim = ((::AnimData *)(reinterpret_cast<::BSFaceGenNiNode *>((node5))->GetAnimationData()));
         reinterpret_cast<::CameraState4E9 *>((((::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(anim)));
@@ -2014,6 +2019,8 @@ struct Sub9
 };
 struct P2Obj
 {
+    char pad[0xb4];
+    struct X10* unkB4;
 };
 struct This9
 {
@@ -2208,7 +2215,7 @@ void Struct801420::FUN_00801450(unsigned char a, int b)
         VRenderer* ptr12 = ((::VRenderer *)(::FUN_0043c4b0()));
         P2Obj* q23 = ((::P2Obj *)(::FUN_0045c670()));
         Actor9* actor_ = ((This9*)this)->actor;
-        X10* x102 = ((::X10 *)(reinterpret_cast<::MiddleLowProcess *>((q23))->GetProcessInteger()));
+        X10* x102 = ((::X10 *)(q23->unkB4));
         reinterpret_cast<::FUN_004a0fd0_shell *>((x102))->FUN_004a0fd0((::NiNode *)(::FUN_00559450((int *)&(((This9*)this)->sub2cc))));
         reinterpret_cast<::BGSExplosion *>((x102))->FUN_004fb0b0((::BGSImpactDataSet *)(1));
         Svc9* svcX = ((::Svc9 *)(reinterpret_cast<::BSFaceGenNiNode *>((q23))->GetAnimationData()));

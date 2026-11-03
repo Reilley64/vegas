@@ -3,6 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -2351,6 +2352,8 @@ class InterfaceManager;
 
 struct FUN_009b4440_holder
 {
+    char pad[0x100];
+    void* unk100;
 };
 
 // If FUN_004b7210() returns a Modifier with a nonzero key, returns its FUN_009b4440() result; otherwise returns 0.
@@ -2358,7 +2361,7 @@ struct FUN_009b4440_holder
 void* FUN_00703390()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
-        return ((void *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_holder*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009b4440()));
+        return ((void *)((reinterpret_cast<FUN_009b4440_holder*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->unk100));
     return 0;
 }
 }  // namespace fnv_00703390
@@ -6378,6 +6381,8 @@ struct Mesh34;
 struct V3Maker;
 struct ChainObj
 {
+    char pad[0x24];
+    void* unk24;
     void FUN_00a59c60(V3Maker*);
 };
 struct Mesh34
@@ -6836,7 +6841,7 @@ void __cdecl FUN_0079ffb0(char param_1)
                          (::FUN_00406d90(pos15.x) >> 0xc) + cellX17, (::FUN_00406d90(pos15.y) >> 0xc) + cellY10);
         }
         p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<std::uintptr_t>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
-                                               (::NiObject *)(reinterpret_cast<::ActorMover *>((reinterpret_cast<ChainObj*>(((unsigned int)(::FUN_00559450((int *)&(local1415)))))))->GetCurrentMoveModeType())))));
+                                               (::NiObject *)((reinterpret_cast<ChainObj*>(((unsigned int)(::FUN_00559450((int *)&(local1415))))))->unk24)))));
         ::FUN_00ee6dc2();
         reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 =
             reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
@@ -8254,7 +8259,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                     if (currentWeapon && ((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))) && ((::DisplayList *)(::FUN_00559450((int *)(item)))) &&
                         *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))->m_item)) == *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(item)))))->m_item)))
-                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::Callees *>((currentAmmo2))->FUN_00726070())) : 0;
+                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((currentAmmo2))->m_iCountChange)) : 0;
 
                     else
                         loaded = MinInt(reinterpret_cast<::FUN_004fe160_cls *>((weapon))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item))->HasEffect(2)), total);

@@ -387,7 +387,7 @@ void Owner5b::FUN_00c5b1c0(RefObj5b* p)
 {
     if (!p)
         return;
-    EnterCriticalSection(&(*reinterpret_cast<::_RTL_CRITICAL_SECTION *>(&::DAT_01203328)));
+    EnterCriticalSection(&::DAT_01203328);
     ListItem5b* pos = m_list50.GetHeadPos();
     while (pos)
     {
@@ -409,7 +409,7 @@ void Owner5b::FUN_00c5b1c0(RefObj5b* p)
             }
         }
     }
-    LeaveCriticalSection(&(*reinterpret_cast<::_RTL_CRITICAL_SECTION *>(&::DAT_01203328)));
+    LeaveCriticalSection(&::DAT_01203328);
 }
 
 namespace fnv_00c5b370 {
@@ -536,7 +536,7 @@ struct ItemQueue
 // @fnv 0x00c5b370
 void ItemQueue::FUN_00c5b370(RefObject* obj)
 {
-    EnterCriticalSection(&(*reinterpret_cast<char *>(&::DAT_01203328)));
+    EnterCriticalSection(&::DAT_01203328);
     items.AddTail(obj);
     RefObject* p;
     ItemNode* it;
@@ -552,6 +552,6 @@ void ItemQueue::FUN_00c5b370(RefObject* obj)
             break;
         }
     }
-    LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_01203328)));
+    LeaveCriticalSection(&::DAT_01203328);
 }
 }  // namespace fnv_00c5b370

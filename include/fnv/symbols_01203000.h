@@ -4,6 +4,7 @@ class GlobalObject_00a7b610;
 class Setting_01017720_011f96a0;
 struct ColorA;
 struct FixedString_c55;
+struct _RTL_CRITICAL_SECTION;
 
 // 0x012030a8
 extern ::GlobalObject_00a7b610 g_012030a8;
@@ -56,7 +57,7 @@ extern ::GlobalObject_00a7b610 g_012031e8;
 // 0x012032f8
 extern ::ColorA DAT_012032f8;
 // 0x01203328
-extern void *DAT_01203328;
+extern ::_RTL_CRITICAL_SECTION DAT_01203328;
 // 0x01203340
 extern ::GlobalObject_00a7b610 g_01203340;
 // 0x01203348

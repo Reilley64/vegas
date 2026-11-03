@@ -37,5 +37,5 @@ unsigned short DAT_01202e2e;
 unsigned int DAT_01202e44;
 FNVVec3B DAT_01202e68;
 unsigned char DAT_012030a4;
-void *DAT_01203328;
+_RTL_CRITICAL_SECTION DAT_01203328;
 unsigned char DAT_01204364;

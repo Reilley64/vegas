@@ -457,36 +457,11 @@ struct PortQuery : ChainStep
     {}
 };
 
-struct PortMemory
-{
-    virtual ~PortMemory();
-    virtual void* AllocateMemoryBlock(int);
-    virtual void ReleaseBlock(void*, int);
-    virtual void* AllocateBufferWithSize(int&);
-    virtual void ReturnMemory(void*, int);
-    template <class T> inline void _bufFree(void* pointer, int count)
-    {
-        ReturnMemory(pointer, count * sizeof(T));
-    }
-};
-struct PortRouter
-{
-    int unk00, unk04, unk08, unk0c;
-    PortMemory* m_pStreamAllocator;
-    inline PortMemory& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-inline PortRouter& chainRouter()
-{
-    return reinterpret_cast<PortRouter&>(hkMemoryRouter::getInstance());
-}
 struct PortAllocator
 {
-    PortMemory& get(const void*)
+    hkMemoryAllocator& get(const void*)
     {
-        return chainRouter().heap();
+        return hkMemoryRouter::getInstance().heap();
     }
 };
 
@@ -526,7 +501,7 @@ template <class T> struct PortArrayBase
         PortArrayOps::destroy(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void clearFree(PortMemory& memory)
+    __forceinline void clearFree(hkMemoryAllocator& memory)
     {
         clear();
         if (!(m_iCapacityState & 0x80000000))
@@ -534,7 +509,7 @@ template <class T> struct PortArrayBase
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    __forceinline void append(PortMemory& memory, const T& item)
+    __forceinline void append(hkMemoryAllocator& memory, const T& item)
     {
         if (m_iElementCount == capacity())
             ::ResizeAudioStream((::AudioAllocator *)&(memory), (::AudioStream *)(void *)(this), sizeof(T));

@@ -180,6 +180,7 @@ inline GlobalStringHeader* GetGlobalStringHeader(const void* apString)
 #include "fnv/symbols_01204000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
+#include "fnv/tls.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -2123,13 +2124,13 @@ FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
 struct ThreadMemoryScope
 {
     int previous;
-    ThreadMemoryScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    ThreadMemoryScope() : previous(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~ThreadMemoryScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -2448,14 +2449,14 @@ struct HavokThreadStateScope
 {
     int previousState;
 
-    HavokThreadStateScope() : previousState((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    HavokThreadStateScope() : previousState(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
 
     ~HavokThreadStateScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousState;
+        g_tlsBlock.memoryContext = previousState;
     }
 };
 
@@ -3226,13 +3227,13 @@ struct SpaceView
 struct ContextGuard
 {
     int previous;
-    ContextGuard() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    ContextGuard() : previous(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~ContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct WorldView
@@ -3319,194 +3320,17 @@ void WorldView::ReleaseBodies()
 
 namespace fnv_00c67df0 {
 extern unsigned int DAT_0126fd98;
-struct ThreadContext
-{
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00c;
-    int unk010;
-    int unk014;
-    int unk018;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    unsigned int context;
-};
 struct ContextGuard
 {
     unsigned int saved;
     ContextGuard(unsigned int value)
     {
-        saved = (*reinterpret_cast<::fnv_00c67df0::ThreadContext *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::fnv_00c67df0::ThreadContext *>(&::g_tlsBlock)).context = value;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = value;
     }
     ~ContextGuard()
     {
-        (*reinterpret_cast<::fnv_00c67df0::ThreadContext *>(&::g_tlsBlock)).context = saved;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 struct PendingItem
@@ -4105,13 +3929,13 @@ void __cdecl FUN_00c689c0(PhysOwner* pOwner)
 struct ScopedHavokThreadMode
 {
     unsigned int oldMode;
-    ScopedHavokThreadMode() : oldMode((*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173])
+    ScopedHavokThreadMode() : oldMode(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~ScopedHavokThreadMode()
     {
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = oldMode;
+        g_tlsBlock.memoryContext = oldMode;
     }
 };
 
@@ -4538,188 +4362,6 @@ FUN_00c6b070_cls* FUN_00c6b070_cls::FUN_00c6b070(unsigned char auFlags)
 
     return this;
 }
-
-struct FUN_00c6b670_tls
-{
-    unsigned int unk0000;
-    unsigned int unk0004;
-    unsigned int unk0008;
-    unsigned int unk000C;
-    unsigned int unk0010;
-    unsigned int unk0014;
-    unsigned int unk0018;
-    unsigned int unk001C;
-    unsigned int unk0020;
-    unsigned int unk0024;
-    unsigned int unk0028;
-    unsigned int unk002C;
-    unsigned int unk0030;
-    unsigned int unk0034;
-    unsigned int unk0038;
-    unsigned int unk003C;
-    unsigned int unk0040;
-    unsigned int unk0044;
-    unsigned int unk0048;
-    unsigned int unk004C;
-    unsigned int unk0050;
-    unsigned int unk0054;
-    unsigned int unk0058;
-    unsigned int unk005C;
-    unsigned int unk0060;
-    unsigned int unk0064;
-    unsigned int unk0068;
-    unsigned int unk006C;
-    unsigned int unk0070;
-    unsigned int unk0074;
-    unsigned int unk0078;
-    unsigned int unk007C;
-    unsigned int unk0080;
-    unsigned int unk0084;
-    unsigned int unk0088;
-    unsigned int unk008C;
-    unsigned int unk0090;
-    unsigned int unk0094;
-    unsigned int unk0098;
-    unsigned int unk009C;
-    unsigned int unk00A0;
-    unsigned int unk00A4;
-    unsigned int unk00A8;
-    unsigned int unk00AC;
-    unsigned int unk00B0;
-    unsigned int unk00B4;
-    unsigned int unk00B8;
-    unsigned int unk00BC;
-    unsigned int unk00C0;
-    unsigned int unk00C4;
-    unsigned int unk00C8;
-    unsigned int unk00CC;
-    unsigned int unk00D0;
-    unsigned int unk00D4;
-    unsigned int unk00D8;
-    unsigned int unk00DC;
-    unsigned int unk00E0;
-    unsigned int unk00E4;
-    unsigned int unk00E8;
-    unsigned int unk00EC;
-    unsigned int unk00F0;
-    unsigned int unk00F4;
-    unsigned int unk00F8;
-    unsigned int unk00FC;
-    unsigned int unk0100;
-    unsigned int unk0104;
-    unsigned int unk0108;
-    unsigned int unk010C;
-    unsigned int unk0110;
-    unsigned int unk0114;
-    unsigned int unk0118;
-    unsigned int unk011C;
-    unsigned int unk0120;
-    unsigned int unk0124;
-    unsigned int unk0128;
-    unsigned int unk012C;
-    unsigned int unk0130;
-    unsigned int unk0134;
-    unsigned int unk0138;
-    unsigned int unk013C;
-    unsigned int unk0140;
-    unsigned int unk0144;
-    unsigned int unk0148;
-    unsigned int unk014C;
-    unsigned int unk0150;
-    unsigned int unk0154;
-    unsigned int unk0158;
-    unsigned int unk015C;
-    unsigned int unk0160;
-    unsigned int unk0164;
-    unsigned int unk0168;
-    unsigned int unk016C;
-    unsigned int unk0170;
-    unsigned int unk0174;
-    unsigned int unk0178;
-    unsigned int unk017C;
-    unsigned int unk0180;
-    unsigned int unk0184;
-    unsigned int unk0188;
-    unsigned int unk018C;
-    unsigned int unk0190;
-    unsigned int unk0194;
-    unsigned int unk0198;
-    unsigned int unk019C;
-    unsigned int unk01A0;
-    unsigned int unk01A4;
-    unsigned int unk01A8;
-    unsigned int unk01AC;
-    unsigned int unk01B0;
-    unsigned int unk01B4;
-    unsigned int unk01B8;
-    unsigned int unk01BC;
-    unsigned int unk01C0;
-    unsigned int unk01C4;
-    unsigned int unk01C8;
-    unsigned int unk01CC;
-    unsigned int unk01D0;
-    unsigned int unk01D4;
-    unsigned int unk01D8;
-    unsigned int unk01DC;
-    unsigned int unk01E0;
-    unsigned int unk01E4;
-    unsigned int unk01E8;
-    unsigned int unk01EC;
-    unsigned int unk01F0;
-    unsigned int unk01F4;
-    unsigned int unk01F8;
-    unsigned int unk01FC;
-    unsigned int unk0200;
-    unsigned int unk0204;
-    unsigned int unk0208;
-    unsigned int unk020C;
-    unsigned int unk0210;
-    unsigned int unk0214;
-    unsigned int unk0218;
-    unsigned int unk021C;
-    unsigned int unk0220;
-    unsigned int unk0224;
-    unsigned int unk0228;
-    unsigned int unk022C;
-    unsigned int unk0230;
-    unsigned int unk0234;
-    unsigned int unk0238;
-    unsigned int unk023C;
-    unsigned int unk0240;
-    unsigned int unk0244;
-    unsigned int unk0248;
-    unsigned int unk024C;
-    unsigned int unk0250;
-    unsigned int unk0254;
-    unsigned int unk0258;
-    unsigned int unk025C;
-    unsigned int unk0260;
-    unsigned int unk0264;
-    unsigned int unk0268;
-    unsigned int unk026C;
-    unsigned int unk0270;
-    unsigned int unk0274;
-    unsigned int unk0278;
-    unsigned int unk027C;
-    unsigned int unk0280;
-    unsigned int unk0284;
-    unsigned int unk0288;
-    unsigned int unk028C;
-    unsigned int unk0290;
-    unsigned int unk0294;
-    unsigned int unk0298;
-    unsigned int unk029C;
-    unsigned int unk02A0;
-    unsigned int unk02A4;
-    unsigned int unk02A8;
-    unsigned int unk02AC;
-    unsigned int unk02B0;
-    unsigned int unk02B4;
-    unsigned int unk02B8;
-    unsigned int unk02BC;
-    unsigned int unk02C0;
-};
-
 
 struct FUN_00c6b670_helper
 {
@@ -7517,14 +7159,14 @@ struct ScopedThreadMode
 {
     unsigned int previous;
 
-    __forceinline ScopedThreadMode() : previous((*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173])
+    __forceinline ScopedThreadMode() : previous(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = 16;
+        g_tlsBlock.memoryContext = 16;
     }
 
     __forceinline ~ScopedThreadMode()
     {
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 
@@ -10400,13 +10042,13 @@ struct RoutingModeScope
 {
     int previousMode;
 
-    RoutingModeScope() : previousMode((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    RoutingModeScope() : previousMode(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~RoutingModeScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousMode;
+        g_tlsBlock.memoryContext = previousMode;
     }
 };
 
@@ -12033,7 +11675,7 @@ void __cdecl EnableBehaviorsByKind(InputMap* input)
         switch (behavior->GetKind())
         {
         case 2:
-            ::FUN_00cb8fe0((char *)(behavior), (intptr_t)(item), (*(int *)&(const ::StateFlag &)(true)), {});
+            ::FUN_00cb8fe0((char *)(behavior), (void *)(item), true);
             behavior->valueAC = 0.0f;
             break;
         case 7:
@@ -12122,7 +11764,7 @@ void __cdecl UpdateEntriesByKind(ObjectContext* context)
                     switch (kind)
                     {
                     case 2:
-                        ::FUN_00cb8fe0((char *)(view), (intptr_t)(entry), (*(int *)&(const ::UpdateOptions &)(false)), {});
+                        ::FUN_00cb8fe0((char *)(view), (void *)(entry), false);
                         break;
                     case 7:
                         reinterpret_cast<::FUN_00cdf290_cls *>((view))->SetFlagAndClearFloats((intptr_t)(entry), (*(char *)&(const ::UpdateOptions &)(false)));
@@ -13336,12 +12978,12 @@ struct ScopedMemContext_00c67850
     int m_old;
     ScopedMemContext_00c67850(int val)
     {
-        m_old = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = val;
+        m_old = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = val;
     }
     ~ScopedMemContext_00c67850()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_old;
+        g_tlsBlock.memoryContext = m_old;
     }
 };
 
@@ -13438,12 +13080,12 @@ struct C687B0AllocTagScope
 
     C687B0AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~C687B0AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -14307,12 +13949,12 @@ struct BC6DF60AllocTagScope
 
     BC6DF60AllocTagScope(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~BC6DF60AllocTagScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -15821,13 +15463,13 @@ bool FUN_00c68ec0(C6A2E0AVObject* pkObject, CollisionObjectCountContext* pkConte
 struct S69580_Scope
 {
     int old;
-    S69580_Scope() : old((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    S69580_Scope() : old(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~S69580_Scope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+        g_tlsBlock.memoryContext = old;
     }
 };
 struct S69580_Ref
@@ -20433,8 +20075,7 @@ public:
 // @fnv 0x00c6b670
 void FUN_00c6b670_cls::UpdateState(int a1)
 {
-    FUN_00c6b670_tls* tls = &(*reinterpret_cast<::FUN_00c6b670_tls *>(&::g_tlsBlock));
-    int state = (int)tls->unk02C0;
+    int state = g_tlsBlock.collisionUpdateMode;
     if (state == 3)
         goto L_a2;
     if (((unsigned char)(m_0c >> 6)) & 1)
@@ -20450,16 +20091,14 @@ void FUN_00c6b670_cls::UpdateState(int a1)
         goto L_a2;
     if (v2D())
     {
-        FUN_00c6b670_tls* tls = &(*reinterpret_cast<::FUN_00c6b670_tls *>(&::g_tlsBlock));
-        if (tls->unk02C0 != 2)
+        if (g_tlsBlock.collisionUpdateMode != 2)
         {
             v2A();
             return;
         }
         goto L_a2;
     }
-    FUN_00c6b670_tls* tls2 = &(*reinterpret_cast<::FUN_00c6b670_tls *>(&::g_tlsBlock));
-    if (tls2->unk02C0 != 1)
+    if (g_tlsBlock.collisionUpdateMode != 1)
     {
         v29();
         return;
@@ -21755,13 +21394,13 @@ struct Vec4f
 struct ThreadScope
 {
     int previous;
-    ThreadScope() : previous((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    ThreadScope() : previous(g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 16;
+        g_tlsBlock.memoryContext = 16;
     }
     ~ThreadScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct AllocHeader
@@ -23102,15 +22741,15 @@ struct Last705
 struct Scope705
 {
     unsigned int previous;
-    Scope705(Array705& a) : previous((*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173])
+    Scope705(Array705& a) : previous(g_tlsBlock.memoryContext)
     {
         _ReadWriteBarrier();
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = 16;
+        g_tlsBlock.memoryContext = 16;
         a.count = 0;
     }
     ~Scope705()
     {
-        (*reinterpret_cast<unsigned int (*)[174]>(&::g_tlsBlock))[173] = previous;
+        g_tlsBlock.memoryContext = previous;
     }
 };
 struct FUN_00c705c0 : DtorBase, SecondaryBase, ListenerBase
@@ -23724,12 +23363,12 @@ class AutoMemContextC73
   public:
     AutoMemContextC73(unsigned int m_uiGeometryShaderFlags)
     {
-        m_uiPrevious = ::currentAllocationContext;
-        ::currentAllocationContext = m_uiGeometryShaderFlags;
+        m_uiPrevious = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
     }
     ~AutoMemContextC73()
     {
-        ::currentAllocationContext = m_uiPrevious;
+        g_tlsBlock.memoryContext = m_uiPrevious;
     }
     unsigned int m_uiPrevious;
 };
@@ -26334,12 +25973,12 @@ struct TlsStateScope
     int m_saved;
     TlsStateScope()
     {
-        m_saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        m_saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     ~TlsStateScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_saved;
+        g_tlsBlock.memoryContext = m_saved;
     }
 };
 
@@ -27723,12 +27362,12 @@ struct CollisionTlsGuard
     int saved;
     CollisionTlsGuard(unsigned int id)
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = id;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = id;
     }
     ~CollisionTlsGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -29086,12 +28725,12 @@ struct MemScope
     int saved;
     __forceinline MemScope()
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x10;
+        saved = g_tlsBlock.memoryContext;
+        g_tlsBlock.memoryContext = 0x10;
     }
     __forceinline ~MemScope()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        g_tlsBlock.memoryContext = saved;
     }
 };
 

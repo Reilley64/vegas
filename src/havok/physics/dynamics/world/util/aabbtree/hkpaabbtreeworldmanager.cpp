@@ -684,19 +684,6 @@ bool hkpEntityListD088::CheckCollidables(hkArrayD088<hkpCollidableD088*>& kInact
 struct hkObjectE02;
 struct hkLoaderE02 {
 };
-struct Router {
-    int a;
-    int b;
-    int c;
-    int d;
-    int e;
-    int f;
-    int g;
-    int h;
-    int i;
-    int j;
-};
-Router* __cdecl _FNV_e03300_arena();
 struct Sink {
 };
 struct FUN_00d08940_shell {
@@ -764,9 +751,8 @@ void FUN_00d08940_shell::FUN_00d08940(char const* name)
 {
     hkObjectE02* obj;
     if (::LookupBucketValue((::DepthLimit *)&(loader), (uintptr_t)(name), (uintptr_t *)(&obj))) {
-        Router* router = _FNV_e03300_arena();
         reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((reinterpret_cast<Sink*>(&this->loader)))->FUN_00cb1870(
-            (*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(reinterpret_cast<void*>(router->e))), reinterpret_cast<uintptr_t>(name), 1);
+            (*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(hkMemoryRouter::getInstance().m_heap)), reinterpret_cast<uintptr_t>(name), 1);
     }
 }
 
@@ -1187,16 +1173,7 @@ struct S00d08740_cls {
     void Collect(void* kFrom, void* kTo, void* pkRoot, void* pkFilter, void* pkShapeFilter, void* pkOutput, void* pkCollector);
 };
 
-class hkMemoryAllocatorD089;
 
-struct hkMemoryRouterD089 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD089* m_pStreamAllocator;
-    hkMemoryAllocatorD089& heap() { return *m_pStreamAllocator; }
-};
 
 namespace fnvc_adapt {  }
 

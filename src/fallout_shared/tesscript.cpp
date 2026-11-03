@@ -1542,7 +1542,7 @@ struct GlobalObject2_0096a2d0 : public G2
 
 
 // @fnv 0x005aa500
-void __cdecl FUN_005aa500(int aiTask, unsigned char abAlternate)
+void __cdecl FUN_005aa500(intptr_t aiTask, unsigned char abAlternate)
 {
     reinterpret_cast<::GlobalObject_0044fae0 *>(&((*reinterpret_cast<::fnv_005aa500::ATM *>(&::g_011cacf8))))->FUN_004538a0(0);
 

@@ -1401,10 +1401,10 @@ struct FUN_005858b0_shell
 };
 struct FUN_005857b0_shell : FUN_005858b0_shell
 {
-    void FUN_005857b0(int a, int b);
+    void FUN_005857b0(intptr_t a, int b);
 };
 // @fnv 0x005857b0
-void FUN_005857b0_shell::FUN_005857b0(int a, int aiDelta)
+void FUN_005857b0_shell::FUN_005857b0(intptr_t a, int aiDelta)
 {
     FileH* p = ((::fnv_005857b0::FileH *)(reinterpret_cast<::fnv_00588a90::TESWorldSpace_shell *>(this)->FUN_00588a90((::TESFile *)(a))));
     if (p && p->m_uiData && aiDelta)

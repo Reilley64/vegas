@@ -419,7 +419,7 @@ bool FUN_0046fe90_Class::HasFlag(signed char flag)
 extern int DAT_01019a1c;
 struct FUN_00470040_class
 {
-    int m_vft;
+    void* m_vft;
     void FUN_004704e0(int a, int b);
     FUN_00470040_class(int a, int b);
 };
@@ -1408,6 +1408,10 @@ S* S::ConstructShadowSceneArray()
 
 struct FUN_004791f0_holder2
 {
+    void* m_pVtbl;
+    int m_iCount;
+    void* m_pData;
+    int m_iUnk0c;
     void* InitArrayHolder(int a);
 };
 // @fnv 0x00479190
@@ -1421,12 +1425,12 @@ FUN_00479190_holder* FUN_00479190_holder::Construct(int a)
 // @fnv 0x004791f0
 void* FUN_004791f0_holder2::InitArrayHolder(int aiCount)
 {
-    *(void**)this = &DAT_0101a91c;
-    *(int*)(this + 4) = aiCount;
-    *(int*)(this + 0xc) = 0;
-    unsigned int uiSize = *(int*)(this + 4) << 2;
-    *(int*)(this + 8) = (int)::FUN_00aa1070(uiSize);
-    ::FUN_00403d30(*(void**)(this + 8), 0, *(int*)(this + 4) << 2);
+    m_pVtbl = &DAT_0101a91c;
+    m_iCount = aiCount;
+    m_iUnk0c = 0;
+    unsigned int uiSize = m_iCount << 2;
+    m_pData = ::FUN_00aa1070(uiSize);
+    ::FUN_00403d30(m_pData, 0, m_iCount << 2);
     return this;
 }
 
@@ -1513,7 +1517,7 @@ TESForm* FUN_00474920_shell::GetFormOrScriptForm()
         result = ((::TESForm *)(reinterpret_cast<::FUN_00474a00_shell *>((((FUN_00474a00*)this)))->GetAmmoForm()));
     else if (((::ScriptS *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>((((FUN_00474a40*)this)))->FUN_00474a40())))
     {
-        unsigned int count = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)((::ScriptS *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>((((FUN_00474a40*)this)))->FUN_00474a40())))))->FUN_007af430()));
+        unsigned int count = ((unsigned int)(uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)((::ScriptS *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>((((FUN_00474a40*)this)))->FUN_00474a40())))))->FUN_007af430()));
         if (((BSSimpleListTESRaceSize*)((::LH *)(reinterpret_cast<::BGSCameraPath *>((((::ScriptS *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>((((FUN_00474a40*)this)))->FUN_00474a40()))))->GetConditions())))->GetSize() > count)
         {
             BSSimpleList<TESForm*>* node = (BSSimpleList<TESForm*>*)((::LH *)(reinterpret_cast<::BGSCameraPath *>((((::ScriptS *)(reinterpret_cast<::fnv_00474a40::FUN_00474a40_shell *>((((FUN_00474a40*)this)))->FUN_00474a40()))))->GetConditions()));
@@ -1609,7 +1613,7 @@ struct FUN_004704e0
 FUN_00470040_class::FUN_00470040_class(int aiFirst, int aiSecond)
 {
     new ((void *)this) ::FUN_004704e0(aiFirst, aiSecond);
-    m_vft = (int)&DAT_01019a1c;
+    m_vft = &DAT_01019a1c;
 }
 // Sets the vtable, stores x and y, zeroes c and d, and allocates a buffer of x elements (or null when x is 0).
 // @fnv 0x004704e0
@@ -2053,8 +2057,8 @@ int ActorProcessor::ProcessCollectionTree(CollectionItem* item, intptr_t arg, un
         CollectionItem* localItem = item;
         if (reinterpret_cast<::FUN_00c455a0_cls *>((localItem))->FUN_00c455a0(static_cast<unsigned char>(options)))
         {
-            CreateProjectileRef(arg, output, output, ((unsigned int)(reinterpret_cast<::LowProcess *>((output))->GetTarget())), *((::InstanceData12 *)(::FUN_0045bb80((int)(localItem)))),
-                                *((::InstanceData36 *)(::FUN_00461130((int)(localItem)))));
+            CreateProjectileRef(arg, output, output, ((unsigned int)(uintptr_t)(reinterpret_cast<::LowProcess *>((output))->GetTarget())), *((::InstanceData12 *)(::FUN_0045bb80((intptr_t)(localItem)))),
+                                *((::InstanceData36 *)(::FUN_00461130((intptr_t)(localItem)))));
             ++processed;
         }
     }
@@ -2102,7 +2106,7 @@ int Walk::WalkTree(Node* node, Receiver* receiver, unsigned int mode, Context* c
         Node* typed = node;
         if (((unsigned char)(reinterpret_cast<::FUN_00c455a0_cls *>((typed))->FUN_00c455a0((unsigned char)mode))))
         {
-            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(uintptr_t)(((int)(reinterpret_cast<::LowProcess *>((context))->GetTarget()))), {}, {}, {});
+            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(reinterpret_cast<::LowProcess *>((context))->GetTarget()), {}, {}, {});
             count++;
         }
     }
@@ -2305,7 +2309,7 @@ void FUN_00477090_Owner::UpdateSoundLevel(FUN_00477090_Ref* ref)
         if (sound)
         {
             ref->RefreshSound(0, 1);
-            reinterpret_cast<::FUN_0042e150_StandIn *>((((::FUN_00477090_Handle *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0042e150((int)(sound), (int)(((::FUN_00477090_Space *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))));
+            reinterpret_cast<::FUN_0042e150_StandIn *>((((::FUN_00477090_Handle *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0042e150((intptr_t)(sound), (intptr_t)(((::FUN_00477090_Space *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))));
         }
         reinterpret_cast<::HealthHandler *>(this)->FUN_00476f50((::HealthReference *)(ref), 0);
     }
@@ -4001,7 +4005,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                 }
                 else
                 {
-                    ::fnv_005aa500::FUN_005aa500((int)(ref), 0);
+                    ::fnv_005aa500::FUN_005aa500((intptr_t)(ref), 0);
                     reinterpret_cast<::TESForm *>((ref))->MarkForDeletion(true);
                 }
             }
@@ -4051,7 +4055,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                 if (tmp)
                     reinterpret_cast<::Ref57b240 *>((ref))->FUN_0057b240(true);
                 reinterpret_cast<::FUN_004623f0_shell *>(((*reinterpret_cast<::DSave * *>(&::g_BGSSaveLoadGame))))->FUN_004623f0(oldNodes);
-                reinterpret_cast<::FUN_0042e150_StandIn *>((((::DExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0042e150((int)(z), (int)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))));
+                reinterpret_cast<::FUN_0042e150_StandIn *>((((::DExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0042e150((intptr_t)(z), (intptr_t)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))));
                 ref->Changed(0x80000000);
                 reinterpret_cast<::AttachmentHandler *>(((*reinterpret_cast<::DWorld * *>(&::g_TES))))->FUN_00451ef0((::AttachRef *)(ref), (::AttachCell *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))), (::AttachRef *)(0), 0);
                 if (ref->GetNode())
@@ -4116,7 +4120,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
         if (stage->debris && stage->debrisCount)
         {
             int threshold;
-            threshold = reinterpret_cast<::Walk *>(this)->WalkTree((::Node *)(::DNode *)(root), (::Receiver *)(stage->debris), ptr, (::Context *)(ref), (void *)(stage->debrisCount));
+            threshold = reinterpret_cast<::Walk *>(this)->WalkTree((::Node *)(::DNode *)(root), (::Receiver *)(stage->debris), ptr, (::Context *)(ref), (void *)(uintptr_t)(stage->debrisCount));
             if (!threshold)
             {
                 DPoint pObj = ref->GetPosition();
@@ -4140,7 +4144,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                 if (ref->IsSpecial())
                 {
                     DRef* newRotation = ref;
-                    DResult* stageValue = SpawnExplosion(stage->explosion, ((void *)(::FUN_00874480((char *)(newRotation)))), 0,
+                    DResult* stageValue = SpawnExplosion(stage->explosion, ((void *)(uintptr_t)(::FUN_00874480((char *)(newRotation)))), 0,
                                                          ((void *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())), cnt, oldPercent);
                     if (stageValue && ((int)(reinterpret_cast<::FUN_00476c90_Class *>((newRotation))->FUN_00476c90())))
                         reinterpret_cast<::FUN_00476c70_Class *>((stageValue))->FUN_00476c70(((int)(reinterpret_cast<::FUN_00476c90_Class *>((newRotation))->FUN_00476c90())));
@@ -4730,13 +4734,13 @@ bool LoadHandler::FUN_00467780(LoadFile* file, bool mode)
             }
             else if ((*reinterpret_cast<::LoadTopic * *>(&::DAT_011c3f38)))
             {
-                reinterpret_cast<::FUN_00589f50_shell *>(((*reinterpret_cast<::LoadTopic * *>(&::DAT_011c3f38))))->SetSound((void *)(groupEnd));
+                reinterpret_cast<::FUN_00589f50_shell *>(((*reinterpret_cast<::LoadTopic * *>(&::DAT_011c3f38))))->SetSound((void *)(intptr_t)(groupEnd));
             }
             else if ((*reinterpret_cast<::LoadWorld * *>(&::DAT_011c3f34)))
             {
                 unsigned int distance = groupEnd - reinterpret_cast<::TESFile *>((file))->GetOffset();
                 distance += 0x18;
-                reinterpret_cast<::fnv_005857b0::FUN_005857b0_shell *>(((*reinterpret_cast<::LoadWorld * *>(&::DAT_011c3f34))))->FUN_005857b0((int)(file), distance);
+                reinterpret_cast<::fnv_005857b0::FUN_005857b0_shell *>(((*reinterpret_cast<::LoadWorld * *>(&::DAT_011c3f34))))->FUN_005857b0((intptr_t)(file), distance);
             }
             else if ((*reinterpret_cast<::FormReconstructionMap * *>(&::DAT_011c3f30)) && reinterpret_cast<::TESObjectCELL *>(((*reinterpret_cast<::FormReconstructionMap * *>(&::DAT_011c3f30))))->IsCellInterior() && ((::LoadList *)(reinterpret_cast<::FUN_00464df0_shell *>((file))->FUN_00464df0()))->FUN_008256d0())
             {
@@ -4756,7 +4760,7 @@ bool LoadHandler::FUN_00467780(LoadFile* file, bool mode)
                 DAT_011c40a8++;
                 if ((DAT_011c40a8 & 0xff) == 0)
                     reinterpret_cast<::LLD_TESHelper *>(((*reinterpret_cast<::LoadSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00861ea0();
-                form5 = ((::LoadForm *)(::FUN_004839c0(((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())))));
+                form5 = ((::LoadForm *)(::FUN_004839c0(((unsigned int)(uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())))));
                 lookedUpTmp = true;
                 if (form5)
                     reinterpret_cast<::fnv_008632a0::FUN_008632a0_slg *>(((*reinterpret_cast<::LoadSaveGame * *>(&::g_TESSaveLoadGame))))->AddLoadingTopic((::fnv_008632a0::TESTopicInfo *)(form5));
@@ -4764,7 +4768,7 @@ bool LoadHandler::FUN_00467780(LoadFile* file, bool mode)
             else
             {
                 if (!lookedUpTmp)
-                    form5 = ((::LoadForm *)(::FUN_004839c0(((unsigned int)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())))));
+                    form5 = ((::LoadForm *)(::FUN_004839c0(((unsigned int)(uintptr_t)(reinterpret_cast<::MiddleHighProcess *>((file))->GetFaceGenHeadNode())))));
                 if (form5)
                 {
                     switch (form5->FUN_00401170())
@@ -5169,14 +5173,14 @@ struct TESFileArray
     char pad[0x218];
     unsigned int mCount;
     TESFile* mFiles[1];
-    int FUN_00461cf0(char*, int*, int*);
+    intptr_t FUN_00461cf0(char*, int*, int*);
 };
 
 // @fnv 0x00461cf0
-int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
+intptr_t TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
 {
     AutoMemContext ctx(0x16, true, (char*)DAT_010186b8, 0x1041);
-    int result = 0;
+    intptr_t result = 0;
     *out1 = 0;
     *out2 = 0;
     if (name && *name)
@@ -5192,14 +5196,14 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
         }
         if (found)
         {
-            VoiceStr* p = ((::VoiceStr *)(::FUN_00460140((int)((*reinterpret_cast<::DialogueResponse * *>(&::g_dataHandler))))));
+            VoiceStr* p = ((::VoiceStr *)(::FUN_00460140((intptr_t)((*reinterpret_cast<::DialogueResponse * *>(&::g_dataHandler))))));
             while (p && !p->FUN_008256d0())
             {
                 void* v = *((void **)(new ((void *)(p)) ::Vec3()));
                 p = ((::VoiceStr *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
                 if (reinterpret_cast<::WorldData *>((((FUN_00585940_shell*)v)))->FindCellByEditorID(name, out1, out2))
                 {
-                    result = (int)v;
+                    result = (intptr_t)v;
                     break;
                 }
             }
@@ -5253,7 +5257,7 @@ int TESFileArray::FUN_00461cf0(char* name, int* out1, int* out2)
                                     w = f;
                                 id &= 0xffffff;
                                 id |= (unsigned int)(unsigned char)w->GetFileCompileIndex() << 24;
-                                result = (int)dynamic_cast<TESWorldSpace*>(::FUN_004839c0(id));
+                                result = (intptr_t)dynamic_cast<TESWorldSpace*>(::FUN_004839c0(id));
                                 read2 = reinterpret_cast<::FUN_00472150_shell *>((f))->FUN_00472150(true);
                             }
                             else if (hdr->type == (unsigned int)(*reinterpret_cast<int *>(&::DAT_011872b4)))

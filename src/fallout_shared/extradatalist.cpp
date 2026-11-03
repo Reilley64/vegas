@@ -11635,18 +11635,18 @@ void FUN_00422ac0_shell::FUN_00422ac0(char* apBuffer)
 
 struct FUN_0042e210_Class : BSExtraData
 {
-    int a;
-    int b;
-    FUN_0042e210_Class(int, int);
+    intptr_t a;
+    intptr_t b;
+    FUN_0042e210_Class(intptr_t, intptr_t);
     ~FUN_0042e210_Class();
 };
 struct FUN_0042e150_StandIn : BaseExtraList
 {
-    void FUN_0042e150(int, int);
+    void FUN_0042e150(intptr_t, intptr_t);
 };
 // Finds the extra data of type 0x5b; if absent, allocates it with the two values and adds it, otherwise overwrites its two fields.
 // @fnv 0x0042e150
-void FUN_0042e150_StandIn::FUN_0042e150(int aiValueA, int aiValueB)
+void FUN_0042e150_StandIn::FUN_0042e150(intptr_t aiValueA, intptr_t aiValueB)
 {
     FUN_0042e210_Class* extra = static_cast<FUN_0042e210_Class*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x5b));
     if (!extra)

@@ -301,21 +301,21 @@ void ImpactTask::FUN_004a2d50()
             FUN_004a3a70 collector;
             reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(void *)(&collector));
             bool rayHit = ((bool(*)(World*, FUN_004a3c20*))world->vtable[50])(world, &ray);
-            int count = ((int)(uintptr_t)(reinterpret_cast<::Callees *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070()));
+            int count = ((int)(uintptr_t)(reinterpret_cast<::Callees *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->FUN_00726070()));
             bool placed = false;
             for (int hit = 0; !placed && hit < count; ++hit)
             {
-                HitBody* body = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->body;
+                HitBody* body = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->body;
                 if (body)
                 {
                     unsigned int key = -1;
                     for (int keyIndex = 0;
-                         keyIndex < 8 && ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex] != -1;
+                         keyIndex < 8 && ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex] != -1;
                          ++keyIndex)
                     {
-                        key = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex];
+                        key = ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->keys[keyIndex];
                     }
-                    Shape* shape = ((::Shape *)(::FUN_004a3a40((::TESObjectREFR *)(::Ref *)(((::Ref *)(::FUN_00559450((int *)&(body->shape))))))));
+                    Shape* shape = ((::Shape *)(uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(::Ref *)(((::Ref *)(::FUN_00559450((int *)&(body->shape))))))));
                     if (!shape)
                         continue;
                     unsigned int material = ((unsigned int)(reinterpret_cast<::FUN_00c84f10_cls *>((shape))->FUN_00c84f10(key)));
@@ -323,9 +323,9 @@ void ImpactTask::FUN_004a2d50()
                     if (!texture)
                         continue;
                     NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)&(origin))->ProjectileLaunched((::NiPoint3 *)&(const ::NiPoint3 &)(FUN_004a3760(
-                        ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->fraction, (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(origin), *(const ::NiPoint3 *)nullptr))))), {})));
+                        ((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->fraction, (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(end))->FUN_00439ef0((::NiPoint3 *)&(origin), *(const ::NiPoint3 *)nullptr))))), {})));
                     NiPoint3 normal;
-                    ::FUN_004a3970((::NiPoint3_local &)(normal), (const ::hkVector4 &)(((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((int)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->normal));
+                    ::FUN_004a3970((::NiPoint3_local &)(normal), (const ::hkVector4 &)(((::ImpactHit *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitArray *)(::FUN_00460140((intptr_t)(((::HitHolder *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(ray))->FUN_008cdd90()))))))))->GetEntryAt(hit)))->normal));
                     bool landscape = reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((void *)&(const ::FUN_008c71b0 &)(FUN_008c71b0(::FUN_0043b540((char *)(body)))))->FUN_004a3a20() == 1;
                     Ref* target = 0;
                     if (landscape)

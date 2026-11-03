@@ -355,7 +355,7 @@ struct FUN_004a8ab0_shell
 unsigned short FUN_004a8ab0_shell::GetActorBaseFatigue()
 {
     unsigned int u = ((Flt*)((char*)this + 0xb8))->operator unsigned int();
-    return ((TESActorBaseData*)u)->GetFatigue();
+    return ((TESActorBaseData*)(uintptr_t)u)->GetFatigue();
 }
 
 struct FUN_004a9950_Class
@@ -565,7 +565,7 @@ float __cdecl FUN_004b1500(float a, float b)
 // @fnv 0x004b4a10
 int __cdecl FUN_004b4a10(unsigned short a1, int a2, intptr_t a3, int a4)
 {
-    return ((int(__cdecl*)(unsigned short, int, int, int)) * (&(*reinterpret_cast<int *>(&::DAT_011aa050))))(a1, a2, a3, a4);
+    return (*reinterpret_cast<int(__cdecl**)(unsigned short, int, int, int)>(&::DAT_011aa050))(a1, a2, a3, a4);
 }
 
 struct FUN_004b4cf0_shell;
@@ -1111,7 +1111,7 @@ void FUN_004a4990_s::FUN_004a4990(intptr_t pTarget)
 {
     reinterpret_cast<::FUN_00621c90_Class *>(this)->FUN_00626870();
     if (!(b & 0x80000000))
-        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((intptr_t)(p), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_004a4a10_Holder *>((((H_004a4a10*)pTarget)))->FUN_004a4a10((intptr_t)(p), (intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     p = 0;
     b = 0x80000000;
 }
@@ -1483,7 +1483,7 @@ struct FUN_004b0910_This
 struct FUN_004b0eb0_class
 {
     void* f0;
-    void* f4;
+    unsigned int f4;
     void FUN_004b0eb0();
 };
 // If both f0 and f4 are set, obtains an object via GetOrCreateInstance(1) and calls AddKeyedItems with f0 and f4.
@@ -1491,7 +1491,7 @@ struct FUN_004b0eb0_class
 void FUN_004b0eb0_class::FUN_004b0eb0()
 {
     if (f0 && f4)
-        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), (unsigned int)(f4));
+        reinterpret_cast<::FUN_004b0910_cls *>((((FUN_004b0910_This*)((::GetOrCreateInstance(1))))))->AddKeyedItems((::Key4b0910 *)(f0), f4);
 }
 }  // namespace fnv_004b0eb0
 
@@ -1673,7 +1673,7 @@ void FUN_004bcbd0_Class::ProcessNodes()
     FUN_004bcbd0_Node* node = m_pFirstNode;
     while (node && *((int *)(new ((void *)(node)) ::Vec3())))
     {
-        FUN_004bcbd0_Node* item = (FUN_004bcbd0_Node*)*((int *)(new ((void *)(node)) ::Vec3()));
+        FUN_004bcbd0_Node* item = *((FUN_004bcbd0_Node **)(new ((void *)(node)) ::Vec3()));
         if (item && ((FUN_00418630_Class*)item)->FUN_00418630())
             reinterpret_cast<::FUN_00418600_cls *>((((FUN_00418600_Class*)item)))->FUN_00418600();
         node = ((::FUN_004bcbd0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -2201,16 +2201,16 @@ void __cdecl FUN_004a42a0()
     FUN_004a4650((FUN_004a4650_ListBase*)((char*)FUN_0049fef0() + 8));
     char* kObj = (char*)FUN_0049fef0() + 0x14;
 
-    int cur_2 = ::FUN_00559450((int *)(((FUN_00559450_cls*)kObj)));
+    intptr_t cur_2 = ::FUN_00559450((int *)(((FUN_00559450_cls*)kObj)));
     while (cur_2 != 0)
     {
-        int a = *reinterpret_cast<::ListStandIn *>((((FUN_0057cbe0_cls*)kObj)))->FUN_0057cbe0((int **)(int *)(&cur_2));
-        int b = a;
-        int c2 = b;
-        int r;
+        void* a = *(void **)reinterpret_cast<::ListStandIn *>((((FUN_0057cbe0_cls*)kObj)))->FUN_0057cbe0((int **)(&cur_2));
+        void* b = a;
+        void* c2 = b;
+        intptr_t r;
         if (c2 != 0)
         {
-            r = ((int)(reinterpret_cast<::StandIn *>((((FUN_004a0490_cls*)c2)))->FUN_004a0490(1)));
+            r = ((intptr_t)(reinterpret_cast<::StandIn *>((((FUN_004a0490_cls*)c2)))->FUN_004a0490(1)));
         }
         else
         {
@@ -2591,7 +2591,7 @@ void __cdecl FUN_004ab0c0(Ref_cls* apRef)
     if (apRef == 0)
         return;
     ::FUN_004b6ce0((::FUN_004b6ce0_cls *)(apRef));
-    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Obj2_cls *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), (int)(apRef), {});
+    ::FUN_00b5b1c0((::ShadowSceneNode *)(((::Obj2_cls *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))), 0, (::NiAVObject *)(apRef));
     if (((::Vt_cls *)(reinterpret_cast<::FUN_009611e0_shell *>((apRef))->FUN_009611e0())) != 0)
     {
         ::FUN_00c69ee0((::NiAVObject *)(apRef), 1, 0);
@@ -2934,7 +2934,7 @@ FUN_006815c0* __cdecl CreateElementArray(FUN_004b4910_Source* source)
         return 0;
     }
     elements = new FUN_006815c0[reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650()];
-    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (intptr_t)elements, ::FUN_00461130((int)(source)));
+    FUN_004b4a10(reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650(), ((int)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext())), (intptr_t)elements, ::FUN_00461130((intptr_t)(source)));
     return elements;
 }
 
@@ -3001,11 +3001,11 @@ unsigned int __cdecl FindAcceptedForm(FNVNode* root)
         else if (node->IsTerminalNode())
         {
             FNVNode* leaf = node;
-            FNVForm* form = ((::FNVForm *)(reinterpret_cast<::FUN_00a59d30_C *>((leaf))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
+            FNVForm* form = ((::FNVForm *)(reinterpret_cast<::FUN_00a59d30_C *>((leaf))->FUN_00a59d30(::FUN_00438220())));
             if (form != 0)
             {
                 unsigned int accepted =
-                    (unsigned int)form &
+                    (unsigned int)(uintptr_t)form &
                     ((form == 0 ? 0 : (((int)(reinterpret_cast<::BGSTerrainManager *>((form))->GetMinLevel())) >= 8 && ((int)(reinterpret_cast<::BGSTerrainManager *>((form))->GetMinLevel())) <= 12)) ? ~0u : 0u);
                 if (accepted)
                     return accepted;
@@ -4002,7 +4002,7 @@ void* __cdecl FUN_004a4d40(Target004a4d40* pTarget)
         {
             NiColorA004a4d40 cnt;
             reinterpret_cast<::FUN_00413f90_cls *>((pTarget))->FUN_00413f90((::FUN_00413f90_vec *)(::NiColorA004a4d40 *)(&cnt));
-            bResult = ((void *)(::fnv_004a5100::FUN_004a5100_create(reinterpret_cast<::BSMultiBoundSphere *>((void *)(pTarget))->GetRadius(), (int)(&cnt))));
+            bResult = ((void *)(::fnv_004a5100::FUN_004a5100_create(reinterpret_cast<::BSMultiBoundSphere *>((void *)(pTarget))->GetRadius(), (intptr_t)(&cnt))));
         }
 
         return bResult;

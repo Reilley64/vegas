@@ -208,7 +208,7 @@ struct FUN_004d85a0_Class
 // @fnv 0x004d85a0
 void* FUN_004d85a0_Class::FUN_004d85a0(int a)
 {
-    return ((::bhkShape *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(GetLocalSubValue(a)))));
+    return ((::bhkShape *)(uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(void *)(GetLocalSubValue(a)))));
 }
 
 struct FUN_004d8670_Class
@@ -759,7 +759,7 @@ struct FUN_004d8630_Class
 bhkShape* FUN_004d8630_Class::GetShape()
 {
     void* p = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
-    return ((::bhkShape *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0))));
+    return ((::bhkShape *)(uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(void *)(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0))));
 }
 }  // namespace fnv_004d8630
 
@@ -869,7 +869,7 @@ struct FUN_004dc120_StandIn
 };
 struct FUN_004dc160_StandIn
 {
-    unsigned int FUN_004dc160(int a);
+    uintptr_t FUN_004dc160(int a);
 };
 // @fnv 0x004dc120
 void* FUN_004dc120_StandIn::FUN_004dc120(int a)
@@ -886,19 +886,19 @@ void* FUN_004dc120_StandIn::FUN_004dc120(int a)
 }
 // Returns the object stored at offset 0x460 when a equals 1, otherwise the object at 0x464, if its HasNonZeroValue check passes; else returns 0.
 // @fnv 0x004dc160
-unsigned int FUN_004dc160_StandIn::FUN_004dc160(int a)
+uintptr_t FUN_004dc160_StandIn::FUN_004dc160(int a)
 {
     if (a == 1)
     {
-        if ((unsigned char)((FUN_004dc1c0_Class*)*(unsigned int*)((char*)this + 0x460))->HasNonZeroValue())
-            return *(unsigned int*)((char*)this + 0x460);
+        if ((unsigned char)((FUN_004dc1c0_Class*)*(uintptr_t*)((char*)this + 0x460))->HasNonZeroValue())
+            return *(uintptr_t*)((char*)this + 0x460);
         else
             return 0;
     }
     else
     {
-        if ((unsigned char)((FUN_004dc1c0_Class*)*(unsigned int*)((char*)this + 0x464))->HasNonZeroValue())
-            return *(unsigned int*)((char*)this + 0x464);
+        if ((unsigned char)((FUN_004dc1c0_Class*)*(uintptr_t*)((char*)this + 0x464))->HasNonZeroValue())
+            return *(uintptr_t*)((char*)this + 0x464);
         else
             return 0;
     }
@@ -952,7 +952,7 @@ struct NiNode;
 // @fnv 0x004dc560
 void FUN_004dc560()
 {
-    reinterpret_cast<::TESForm *>((((Date*)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011dee84)))->Flt::operator unsigned int())))->ClearData();
+    reinterpret_cast<::TESForm *>((((Date*)(uintptr_t)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011dee84)))->Flt::operator unsigned int())))->ClearData();
     ((GO*)&(*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011dee84)))->GO::operator=((void*)0);
 }
 
@@ -973,7 +973,7 @@ struct GlobalObject_00633c90
 // @fnv 0x004dc590
 void __cdecl FUN_004dc590()
 {
-    reinterpret_cast<::TESForm *>((((Date*)((Flt*)&(*reinterpret_cast<::fnv_004dc590::GlobalObject_00633c90 *>(&::g_011deca4)))->operator unsigned int())))->ClearData();
+    reinterpret_cast<::TESForm *>((((Date*)(uintptr_t)((Flt*)&(*reinterpret_cast<::fnv_004dc590::GlobalObject_00633c90 *>(&::g_011deca4)))->operator unsigned int())))->ClearData();
     ((GO*)&(*reinterpret_cast<::fnv_004dc590::GlobalObject_00633c90 *>(&::g_011deca4)))->operator=((void*)0);
 }
 }  // namespace fnv_004dc590
@@ -1410,7 +1410,7 @@ struct ClearMap64
 {
     int unk00;
 };
-typedef int(* SendMessageResult64)(void*, int, int, int);
+typedef intptr_t(* SendMessageResult64)(void*, int, int, intptr_t);
 extern void(* DAT_00fdf288)(void*, int);
 struct Header64
 {
@@ -1435,7 +1435,7 @@ struct Owner64
     void* unk04;
     void* window;
     void* dialog;
-    int result;
+    intptr_t result;
     int hwndContext;
     ClearMap64 messageMap;
     int unk1c, unk20, unk24, unk28;
@@ -1467,7 +1467,7 @@ void FUN_004d7470_StandIn::FUN_004d7470()
     DAT_00fdf01c(p14);
 }
 
-typedef int(* SendTreeMessage)(void*, int, int, int);
+typedef int(* SendTreeMessage)(void*, int, int, intptr_t);
 
 struct FUN_004d74c0_Value
 {
@@ -1513,7 +1513,7 @@ void __cdecl ExpandTreeItemsRecursively(void* tree, intptr_t startingItem, int e
     item.handle = ((SendTreeMessage)DAT_00fdf28c)(tree, 0x110a, 4, startingItem);
     while (item.handle != 0)
     {
-        if (((SendTreeMessage)DAT_00fdf28c)(tree, 0x110c, 0, (int)&item) != 0)
+        if (((SendTreeMessage)DAT_00fdf28c)(tree, 0x110c, 0, (intptr_t)&item) != 0)
         {
             node = item.itemData;
             pNodeValue = 0;
@@ -1930,7 +1930,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
             insertInfo.item.selectedImage = insertInfo.item.image;
             insertInfo.parent = parent;
             insertInfo.parent =
-                ((void*(*)(void*, int, int, int))DAT_00fdf28c)(m_treeWindow, 0x1100, 0, (int)&insertInfo);
+                ((void*(*)(void*, int, int, intptr_t))DAT_00fdf28c)(m_treeWindow, 0x1100, 0, (intptr_t)&insertInfo);
             parent = insertInfo.parent;
             node->CollectChildren(nodeArray);
             for (childIndex = 0; childIndex < reinterpret_cast<::FUN_00658930_class *>((nodeArray))->GetShortAtOffsetA(); ++childIndex)
@@ -1938,7 +1938,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
                 insertInfo.item.text = ((char *)(::FUN_00464f30((intptr_t)(*nodeArray->FUN_00877a30(childIndex)))));
                 insertInfo.item.image = 6;
                 insertInfo.item.selectedImage = insertInfo.item.image;
-                DAT_00fdf28c(m_treeWindow, 0x1100, 0, (int)&insertInfo);
+                ((void(*)(void*, int, int, intptr_t))DAT_00fdf28c)(m_treeWindow, 0x1100, 0, (intptr_t)&insertInfo);
             }
             ::FUN_005e03d0((::NiTArray_Layout *)(nodeArray));
         }
@@ -1973,7 +1973,7 @@ void FUN_004d80b0_Class::BuildTreeItems(void* parent, FNVTreeNode* node)
                     FNVTypeD* partE = (FNVTypeD*)((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<unsigned char *>(&::g_012681a8))), (::NiObject *)(partD))));
                     if (partE)
                     {
-                        unsigned int count = ((unsigned int)(reinterpret_cast<::FUN_004d8560_StandIn *>((partE))->GetInnerVirtualResult()));
+                        unsigned int count = ((unsigned int)(uintptr_t)(reinterpret_cast<::FUN_004d8560_StandIn *>((partE))->GetInnerVirtualResult()));
                         if (count)
                         {
                             for (unsigned int index = 0; index < count; ++index)
@@ -2018,12 +2018,12 @@ struct FUN_004d8610_cls
     int unk10;
     int unk14;
     FUN_0062e150_Obj sub18;
-    int GetSubValue(int arg);
+    intptr_t GetSubValue(int arg);
 };
 // @fnv 0x004d8610
-int FUN_004d8610_cls::GetSubValue(int arg)
+intptr_t FUN_004d8610_cls::GetSubValue(int arg)
 {
-    return *((int *)(reinterpret_cast<::FUN_0062e150_cls *>(&(sub18))->FUN_0062e150(arg)));
+    return *((intptr_t *)(reinterpret_cast<::FUN_0062e150_cls *>(&(sub18))->FUN_0062e150(arg)));
 }
 
 struct TreeItem4d86
@@ -2037,7 +2037,7 @@ struct TreeItem4d86
     int iImage;
     int iSelectedImage;
     int cChildren;
-    long lParam;
+    intptr_t lParam;
     int iIntegral;
     unsigned int uStateEx;
     void* hwnd;
@@ -2051,7 +2051,7 @@ struct TreeInsert4d86
     TreeItem4d86 item;
 };
 
-typedef void*(* SendMessage4d86)(void*, int, int, int);
+typedef void*(* SendMessage4d86)(void*, int, int, intptr_t);
 
 
 struct MediaSet4d86
@@ -2084,34 +2084,34 @@ void TreeCtrl4d86::PopulateObjectTree(void* hParentItem, Object4d86* pkObject)
         void* hItem;
         kInsert.hInsertAfter = (void*)0xFFFF0002;
         kInsert.item.mask = 0x27;
-        kInsert.item.lParam = (long)pkObject;
+        kInsert.item.lParam = (intptr_t)pkObject;
         if (((::Palette4d86 *)(::fnv_00537bd0::GetStringAtOffset((const char *)(pkObject)))))
         {
             kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Object Palette"))));
             kInsert.item.iImage = 5;
             kInsert.item.iSelectedImage = kInsert.item.iImage;
             kInsert.hParent = hParentItem;
-            void* hPaletteItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+            void* hPaletteItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
             AddNameItems(hPaletteItem, ((::Palette4d86 *)(::fnv_00537bd0::GetStringAtOffset((const char *)(pkObject)))));
         }
         kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Active Sequences"))));
         kInsert.item.iImage = 5;
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
-        hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+        hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
         for (unsigned int i = 0; i < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((pkObject))->FUN_00495d00(); i++)
         {
             MediaSet4d86* pkSet = ((::MediaSet4d86 *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((pkObject))->FUN_00495d20(i)));
-            if (pkSet && ((int)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())))
-                reinterpret_cast<::LockCtx *>(this)->FUN_004d8b90((int)(hItem), (::NiControllerSequence *)(pkSet));
+            if (pkSet && ((int)(uintptr_t)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())))
+                reinterpret_cast<::LockCtx *>(this)->FUN_004d8b90((intptr_t)(hItem), (::NiControllerSequence *)(pkSet));
         }
         kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)("Inactive Sequences"))));
-        hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+        hItem = ((SendMessage4d86)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
         for (unsigned int uiIndex2 = 0; uiIndex2 < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((pkObject))->FUN_00495d00(); uiIndex2++)
         {
             MediaSet4d86* pkSet = ((::MediaSet4d86 *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((pkObject))->FUN_00495d20(uiIndex2)));
-            if (pkSet && !((int)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())))
-                reinterpret_cast<::LockCtx *>(this)->FUN_004d8b90((int)(hItem), (::NiControllerSequence *)(pkSet));
+            if (pkSet && !((int)(uintptr_t)(reinterpret_cast<::LowProcess *>((pkSet))->GetActiveCombatTarget())))
+                reinterpret_cast<::LockCtx *>(this)->FUN_004d8b90((intptr_t)(hItem), (::NiControllerSequence *)(pkSet));
         }
     }
 }
@@ -2127,7 +2127,7 @@ struct TreeItem4d88
     int iImage;
     int iSelectedImage;
     int cChildren;
-    long lParam;
+    intptr_t lParam;
     int iIntegral;
     unsigned int uStateEx;
     void* hwnd;
@@ -2141,7 +2141,7 @@ struct TreeInsert4d88
     TreeItem4d88 item;
 };
 
-typedef void*(* SendMessage4d88)(void*, int, int, int);
+typedef void*(* SendMessage4d88)(void*, int, int, intptr_t);
 
 extern const char DAT_01020f14[];
 
@@ -2176,12 +2176,12 @@ void TreeCtrl4d88::AddBlendInterpTreeItems(void* hParentItem, BlendInterp4d88* p
         char acBuffer[256];
         kInsert.hInsertAfter = (void*)0xFFFF0002;
         kInsert.item.mask = 0x27;
-        kInsert.item.lParam = (long)pkBlend;
+        kInsert.item.lParam = (intptr_t)pkBlend;
         kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(DAT_01020f14))));
         kInsert.item.iImage = 5;
         kInsert.item.iSelectedImage = kInsert.item.iImage;
         kInsert.hParent = hParentItem;
-        hBlendItem = ((SendMessage4d88)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+        hBlendItem = ((SendMessage4d88)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
         kInsert.hParent = hBlendItem;
         for (unsigned short us = 0; us < reinterpret_cast<::FUN_004d8a00_Class *>((pkBlend))->GetField3C(); us++)
         {
@@ -2191,10 +2191,10 @@ void TreeCtrl4d88::AddBlendInterpTreeItems(void* hParentItem, BlendInterp4d88* p
                 Interp4d88* pkInterp = ((::Interp4d88 *)(reinterpret_cast<::NiAVObject_004b5b00 *>((pkBlend))->GetExtraDataAt(us)));
                 if (pkInterp)
                 {
-                    kInsert.item.lParam = (long)pkInterp;
+                    kInsert.item.lParam = (intptr_t)pkInterp;
                     ::FUN_00406d00(acBuffer, 0x100, "Interp: %d, Target:%s", us, *((const char **)(reinterpret_cast<::TESTopicInfoData *>((pkTarget))->GetLinkToList())));
                     kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(acBuffer))));
-                    void* hItem = ((SendMessage4d88)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+                    void* hItem = ((SendMessage4d88)DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
                     AddNameItems(hItem, pkInterp);
                 }
             }
@@ -2214,7 +2214,7 @@ struct TreeItem4d8a
     int iImage;
     int iSelectedImage;
     int cChildren;
-    long lParam;
+    intptr_t lParam;
     int iIntegral;
     unsigned int uStateEx;
     void* hwnd;
@@ -2285,7 +2285,7 @@ void TreeCtrl4d8a::AddNameItems(void* hParent, NameSource4d8a* pkSource)
         unsigned int i;
         kInsert.hInsertAfter = (void*)0xFFFF0002;
         kInsert.item.mask = 0x27;
-        kInsert.item.lParam = (long)pkSource;
+        kInsert.item.lParam = (intptr_t)pkSource;
         kInsert.hParent = hParent;
         pkSource->GetNames(pkNames);
         for (i = 0; i < reinterpret_cast<::FUN_00658930_class *>((pkNames))->GetShortAtOffsetA(); i++)
@@ -2293,7 +2293,7 @@ void TreeCtrl4d8a::AddNameItems(void* hParent, NameSource4d8a* pkSource)
             kInsert.item.pszText = ((const char *)(::FUN_00464f30((intptr_t)(*pkNames->FUN_00877a30(i)))));
             kInsert.item.iImage = 6;
             kInsert.item.iSelectedImage = kInsert.item.iImage;
-            DAT_00fdf28c(m_hTreeWnd, 0x1100, 0, (int)&kInsert);
+            ((void(*)(void*, int, int, intptr_t))DAT_00fdf28c)(m_hTreeWnd, 0x1100, 0, (intptr_t)&kInsert);
         }
         ::FUN_005e03d0((::NiTArray_Layout *)(pkNames));
         delete pkNames;
@@ -2333,9 +2333,9 @@ class DepthDevice;
 
 
 // @fnv 0x004dc040
-unsigned int __cdecl FUN_004dc040()
+uintptr_t __cdecl FUN_004dc040()
 {
-    return reinterpret_cast<unsigned int>(::DAT_0126f0d8);
+    return reinterpret_cast<uintptr_t>(::DAT_0126f0d8);
 }
 
 // @fnv 0x004dc0a0
@@ -3496,8 +3496,8 @@ void RecreateRenderDevice()
         ::fnv_00702330::FUN_00702330();
         FUN_004dc560();
         ::fnv_004dc590::FUN_004dc590();
-        ((FUN_004dc540_shell*)FUN_004bc3f0())->FUN_004dc540(0);
-        bool bSuccess = reinterpret_cast<::fnv_00e73eb0::DX9RendererE73E *>((((E73shell*)FUN_004bc3f0())))->FUN_00e73eb0(DAT_011c70e0, DAT_011c70e4) != 0;
+        ((FUN_004dc540_shell*)(uintptr_t)FUN_004bc3f0())->FUN_004dc540(0);
+        bool bSuccess = reinterpret_cast<::fnv_00e73eb0::DX9RendererE73E *>((((E73shell*)(uintptr_t)FUN_004bc3f0())))->FUN_00e73eb0(DAT_011c70e0, DAT_011c70e4) != 0;
         if (bSuccess)
         {
             unsigned int uiFlags = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::BSAudio * *>(&::g_osGlobals))))->GetName()));
@@ -4727,7 +4727,7 @@ void Owner64::FUN_004d64c0(intptr_t value, const char* text)
     params.flags = 0;
     params.flagsCopy = params.flags;
     params.number = value;
-    result = ((SendMessageResult64)DAT_00fdf28c)(dialog, 0x1100, 0, (int)&header);
+    result = ((SendMessageResult64)DAT_00fdf28c)(dialog, 0x1100, 0, (intptr_t)&header);
     reinterpret_cast<::fnv_004d66d0::ObjectTree *>(this)->FUN_004d66d0((void *)(result), (::fnv_004d66d0::NiAVObject *)(value));
     DAT_00fdf288(window, 10);
     DAT_00fdf284(window);

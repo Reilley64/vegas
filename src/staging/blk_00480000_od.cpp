@@ -142,7 +142,7 @@ struct FUN_00485bc0_class
 // @fnv 0x00485bc0
 int FUN_00485bc0_class::FUN_00485bc0()
 {
-    return ((int*)this)[3] & (int)&DAT_00ffffff;
+    return ((int*)this)[3] & 0x00ffffff;
 }
 
 
@@ -335,7 +335,7 @@ struct FUN_0049ec60
 // @fnv 0x0049ec60
 unsigned int FUN_0049ec60::GetNext()
 {
-    return ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)((Flt*)((char*)this + 0xb8))->operator unsigned int())))->FUN_007af430()));
+    return ((unsigned int)(uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)(uintptr_t)((Flt*)((char*)this + 0xb8))->operator unsigned int())))->FUN_007af430()));
 }
 
 extern int DAT_010159d4;
@@ -447,7 +447,7 @@ struct FUN_0048b500_Class
 void FUN_0048b500_Class::ResetAndDeallocate(intptr_t pObject)
 {
     *(int*)(pObject + 8) = 0;
-    int local = pObject;
+    intptr_t local = pObject;
     ::FUN_00401030((void*)local);
 }
 }  // namespace fnv_0048b500
@@ -589,7 +589,7 @@ void __cdecl FUN_00485950(void* apDest, unsigned short ausValue)
 {
     if (((bool)(::FUN_00401500())))
         ::FUN_00407a90((short *)(unsigned short *)((unsigned short*)&ausValue));
-    ::AppendChunk((unsigned int)(apDest), &ausValue, 2);
+    ::AppendChunk((unsigned int)(uintptr_t)(apDest), &ausValue, 2);
 }
 
 struct S_486eb0
@@ -735,7 +735,7 @@ struct FUN_0048cea0_shell : TESModel
 void FUN_0048cea0_shell::FUN_0048cea0()
 {
     if (GetModelLength())
-        ::FUN_004856f0((void *)(0x4d414e46), ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(this)))->FUN_00408da0())), (void *)(GetModelLength() + 1));
+        ::FUN_004856f0((void *)(0x4d414e46), ((void *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<FNStub*>(this)))->FUN_00408da0())), (void *)(uintptr_t)(GetModelLength() + 1));
 }
 
 struct FUN_00508100_shell
@@ -818,7 +818,7 @@ struct NiTListItem_0049c6d0
 {
     NiTListItem_0049c6d0* a;
     int b;
-    int c;
+    void* c;
 };
 struct NiTPointerListBase_0049c6d0
 {
@@ -1102,7 +1102,7 @@ void FUN_0049a920_s::FUN_0049a920(unsigned int a)
     *(int*)((char*)this + 0xfc) = 0;
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(7, 0.0f);
     if (*(Flt*)((char*)this + 0xd8))
-        reinterpret_cast<::NiControllerManager *>((((NiControllerManager*)(unsigned int)*(Flt*)((char*)this + 0xd8))))->DeactivateAllSequences(0.0f);
+        reinterpret_cast<::NiControllerManager *>((((NiControllerManager*)(uintptr_t)(unsigned int)*(Flt*)((char*)this + 0xd8))))->DeactivateAllSequences(0.0f);
     ::FUN_00499160((::S_00499160_Obj *)(void *)(((void *)(reinterpret_cast<::TESRegionDataMap *>((((KFModel*)this)))->GetRegionMapName()))));
     reinterpret_cast<::fnv_00499080::FUN_00499080_shell *>((((H00499080*)this)))->FUN_00499080();
     reinterpret_cast<::ResetAnimation *>((((H00499240*)this)))->FUN_00499240(true);
@@ -1112,11 +1112,11 @@ void FUN_0049a920_s::FUN_0049a920(unsigned int a)
 struct FUN_0049f8f0_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
 };
 struct FUN_0049f990_class : FUN_0049f8f0_class
 {
-    int m4;
+    void* m4;
     int m8;
     int mc;
     void FUN_0049f990(unsigned int requested, unsigned int saved);
@@ -1234,7 +1234,7 @@ struct FUN_0049fbf0_vt
 };
 struct FUN_0049fbf0_class : FUN_0049fbf0_vt
 {
-    int m4;
+    void* m4;
     int m8;
     int mc;
     void ConstructElements(void*, unsigned int);
@@ -1266,12 +1266,12 @@ void FUN_0049fbf0_class::FUN_0049fbf0(unsigned int a, unsigned int b)
         a = b;
     if (a > 0)
     {
-        m4 = (int)v0(a);
+        m4 = v0(a);
         mc = a;
     }
     if (b > 0)
     {
-        ConstructElements((void*)m4, b);
+        ConstructElements(m4, b);
         m8 = b;
     }
 }
@@ -1292,19 +1292,19 @@ void __cdecl FUN_00485820(void* destination, void* source, unsigned int count)
             ::FUN_00407a90((short *)(unsigned char *)(reinterpret_cast<unsigned char*>(data) + i * 2));
         }
 
-        ::AppendChunk((unsigned int)(destination), data, size);
+        ::AppendChunk((unsigned int)(uintptr_t)(destination), data, size);
         delete[] data;
     }
     else
     {
-        ::AppendChunk((unsigned int)(destination), source, size);
+        ::AppendChunk((unsigned int)(uintptr_t)(destination), source, size);
     }
 }
 
 // @fnv 0x004858f0
 void __cdecl FUN_004858f0(uintptr_t a, unsigned char ucValue)
 {
-    ::AppendChunk((unsigned int)((void*)a), &ucValue, 1);
+    ::AppendChunk((unsigned int)a, &ucValue, 1);
 }
 
 int __cdecl strcpy_s(char*, unsigned int, char*);
@@ -1318,18 +1318,25 @@ struct FUN_00486ae0_Class
 // @fnv 0x00486ae0
 void FUN_00486ae0_Class::SetString(int* a, char* pcString, int iValue)
 {
+    struct Entry
+    {
+        int unk00;
+        char* pcString;
+        int iValue;
+    };
+    Entry* entry = reinterpret_cast<Entry*>(a);
     unsigned int size;
     if (*(unsigned char*)((char*)this + 0x10) != 0)
     {
         size = std::strlen(pcString) + 1;
-        a[1] = (int)::FUN_00aa1070(size);
-        strcpy_s((char*)a[1], size, pcString);
+        entry->pcString = (char*)::FUN_00aa1070(size);
+        strcpy_s(entry->pcString, size, pcString);
     }
     else
     {
-        a[1] = (int)pcString;
+        entry->pcString = pcString;
     }
-    a[2] = iValue;
+    entry->iValue = iValue;
 }
 
 struct Date
@@ -1478,7 +1485,7 @@ struct Reference
 };
 // Looks up a FormEntry from source, then returns its model value or a value computed from reference's extra data via FUN_00481190.
 // @fnv 0x00480e60
-unsigned int __cdecl FUN_00480e60(void* source, Reference* reference)
+uintptr_t __cdecl FUN_00480e60(void* source, Reference* reference)
 {
     FormEntry* form4 = ((FormEntry *)(dynamic_cast<::TESBipedModelForm *>(reinterpret_cast<::TESForm *>(source))));
     if (form4 == 0)
@@ -1491,7 +1498,7 @@ unsigned int __cdecl FUN_00480e60(void* source, Reference* reference)
     {
         value = extra->FUN_005f0cc0();
     }
-    return ((unsigned int)(reinterpret_cast<::FUN_00481190_standin *>((form4))->FUN_00481190(value)));
+    return ((uintptr_t)(reinterpret_cast<::FUN_00481190_standin *>((form4))->FUN_00481190(value)));
 }
 
 class FUN_00486d60_base
@@ -1783,7 +1790,7 @@ struct FUN_0049c5d0_cls
     unsigned int m_08;
 
     unsigned int RemoveTail();
-    unsigned int RemoveNode(ListLink_b5187** pNode);
+    uintptr_t RemoveNode(ListLink_b5187** pNode);
 };
 
 // Stand-in for the game's NiTPointerListBase (list head / list tail / element count).
@@ -1805,18 +1812,18 @@ struct FNVPointerList
     void* RemoveTail();
 };
 // @fnv 0x0049c5d0
-unsigned int FUN_0049c5d0_cls::RemoveNode(ListLink_b5187** pNode)
+uintptr_t FUN_0049c5d0_cls::RemoveNode(ListLink_b5187** pNode)
 {
     ListLink_b5187* node = *pNode;
     if (node == m_00)
     {
         *pNode = node->m_00;
-        return (unsigned int)reinterpret_cast<NiTPointerListBase_0049c6d0*>(this)->RemoveHead();
+        return (uintptr_t)reinterpret_cast<NiTPointerListBase_0049c6d0*>(this)->RemoveHead();
     }
     if (node == m_04)
     {
         *pNode = 0;
-        return ((unsigned int)(reinterpret_cast<::FNVPointerList *>(this)->RemoveTail()));
+        return ((uintptr_t)(reinterpret_cast<::FNVPointerList *>(this)->RemoveTail()));
     }
     ListLink_b5187* prev3 = node->m_04;
     ListLink_b5187* next = node->m_00;
@@ -2231,7 +2238,7 @@ FUN_0048fb50::~FUN_0048fb50()
     ListX* nodeA5;
     void* pos5;
     reinterpret_cast<::Animation *>(this)->FUN_0048ff50();
-    reinterpret_cast<::FUN_00445430_cls *>(((*reinterpret_cast<::Loader * *>(&::g_modelLoader))))->FUN_00445430((unsigned int)(this));
+    reinterpret_cast<::FUN_00445430_cls *>(((*reinterpret_cast<::Loader * *>(&::g_modelLoader))))->FUN_00445430((uintptr_t)(this));
     if (((::AVObj *)(::FUN_00559450((int *)&(mD8)))))
     {
         ctrlA_b = ((::AVObj *)(::FUN_00559450((int *)&(m8)))) ? ((void *)(reinterpret_cast<::MyHost *>((((::AVObj *)(::FUN_00559450((int *)&(m8))))))->FUN_00a5c570((const ::MyRTTI *)(void *)((void*)&(*reinterpret_cast<int *>(&::g_011f36bc)))))) : 0;
@@ -3190,7 +3197,7 @@ void AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
             m_134.FUN_005ae3d0((ExtraDataList**)&rawNew);
         }
     }
-    int formA5;
+    intptr_t formA5;
     formA5 = 0;
     unsigned char flags6 = reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apBuffer))->FUN_008648e0((unsigned int *)(int *)(&formA5));
     if (flags6)
@@ -3199,7 +3206,7 @@ void AnimSelf::Load(BGSLoadFormBuffer* apBuffer)
     }
     else if (formA5 != 0)
     {
-        formA5 = formA5 != 0 ? (int)dynamic_cast<TESIdleForm*>(::FUN_004839c0((unsigned int)formA5)) : 0;
+        formA5 = formA5 != 0 ? (intptr_t)dynamic_cast<TESIdleForm*>(::FUN_004839c0((unsigned int)formA5)) : 0;
         if (formA5 == 0)
         {
             reinterpret_cast<::FUN_0049bb50_shell *>((apBuffer))->AddToOffset(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((apBuffer))->FUN_00864a60());

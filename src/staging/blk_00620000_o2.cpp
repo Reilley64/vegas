@@ -1832,8 +1832,8 @@ void Owner::FUN_006271b0(Cell* next, int flag)
             {
                 if (interior)
                 {
-                    Filter filter(((int)(::FUN_0043b540((char *)(((FilterData*)((void *)(::FUN_00460140((int)(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(first))->FUN_00629ab0(j)))))))))))));
-                    Ref* ref = ((::fnv_006271b0::Ref *)(::FUN_0062b4e0(((void *)(::FUN_00460140((int)(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(first))->FUN_00629ab0(j))))))))));
+                    Filter filter(((int)(::FUN_0043b540((char *)(((FilterData*)((void *)(::FUN_00460140((intptr_t)(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(first))->FUN_00629ab0(j)))))))))))));
+                    Ref* ref = ((::fnv_006271b0::Ref *)(::FUN_0062b4e0(((void *)(::FUN_00460140((intptr_t)(((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(first))->FUN_00629ab0(j))))))))));
                     if (reinterpret_cast<::FUN_0043b4d0_shell *>(&(filter))->FUN_0043b4d0() == 30 && ref && ref->IsValid())
                     {
                         Ref* r = ref;
@@ -1847,7 +1847,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
                 Node* node = ((::fnv_006271b0::Node *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(second))->FUN_00629ab0(j)));
                 if (reinterpret_cast<::FUN_00629f10_Class *>(&(seen))->FUN_00629f10((int *)(::fnv_006271b0::Node **)(&node), 0, -1) == -1)
                 {
-                    Ref* ref = ((::fnv_006271b0::Ref *)(::FUN_0062b4e0(((void *)(::FUN_00460140((int)(node)))))));
+                    Ref* ref = ((::fnv_006271b0::Ref *)(::FUN_0062b4e0(((void *)(::FUN_00460140((intptr_t)(node)))))));
                     if (node && ::FUN_00517670((::TESDataHandler *)(node)) != 4 && ::FUN_00517670((::TESDataHandler *)(node)) != 5 && ::FUN_00517670((::TESDataHandler *)(node)) != 7)
                     {
                         Node* other = ((::fnv_006271b0::Node *)(::FUN_004b5a80(node)));
@@ -2265,7 +2265,7 @@ void Owner628980::FUN_00628980(Filter628980* filter, List628980* input)
         List628980* responses = ((::List628980 *)(reinterpret_cast<::FUN_00624700_shell *>((((Topic628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((input))->FUN_00629ab0(i))))))->FUN_00624700()));
         for (int j = 0; j < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((responses))->FUN_00726070())); ++j)
         {
-            Voice628980* voice = (Voice628980*)((void *)(::FUN_00460140((int)(((Response628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((responses))->FUN_00629ab0(j))))))));
+            Voice628980* voice = (Voice628980*)((void *)(::FUN_00460140((intptr_t)(((Response628980*)((void *)&(reinterpret_cast<::FUN_00629ab0_shell *>((responses))->FUN_00629ab0(j))))))));
             if (::FUN_00559450((int *)(voice)))
             {
                 Threshold628980* threshold = ((::Threshold628980 *)(reinterpret_cast<::LowProcess *>((topic))->GetPackageObjectType()));
@@ -3253,7 +3253,7 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
     xCollector COL;
     reinterpret_cast<::FUN_006218d0_Class *>(&(EV))->FUN_006218d0(0.0f);
     xModelPtr* WMODEL = ((::xModelPtr *)(reinterpret_cast<::FUN_0043b560_shell *>((BODY))->GetSourceFilesFromObject()));
-    xModelPtr* SMODEL = ((::xModelPtr *)(::FUN_00460140((int)(((::xSrc *)(reinterpret_cast<::ObjHelper *>((apRef))->FUN_00621a90()))))));
+    xModelPtr* SMODEL = ((::xModelPtr *)(::FUN_00460140((intptr_t)(((::xSrc *)(reinterpret_cast<::ObjHelper *>((apRef))->FUN_00621a90()))))));
     xCaster2* CAST = apRef->FUN_00621ad0();
     if (CAST)
     {
@@ -3683,7 +3683,7 @@ bool SpawnAreaB::FUN_006281d0(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkO
             PartListB* pkParts = ((::PartListB *)(reinterpret_cast<::FUN_00624700_shell *>((pkSkeleton))->FUN_00624700()));
             for (int i = 0; i < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkParts))->FUN_00726070())); i++)
             {
-                bhkCollisionB* pkCollision = ((::bhkCollisionB *)(::FUN_00460140((int)((*((::PartB **)&(reinterpret_cast<::FUN_00629ab0_shell *>((pkParts))->FUN_00629ab0(i))))))));
+                bhkCollisionB* pkCollision = ((::bhkCollisionB *)(::FUN_00460140((intptr_t)((*((::PartB **)&(reinterpret_cast<::FUN_00629ab0_shell *>((pkParts))->FUN_00629ab0(i))))))));
                 if (((NiPointerB*)pkCollision)->operator->())
                 {
                     bhkWorldB* pkWorld = ((::bhkWorldB *)(reinterpret_cast<::LowProcess *>((pk3D))->GetPackageObjectType()));

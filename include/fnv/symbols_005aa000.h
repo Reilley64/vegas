@@ -5,7 +5,7 @@ class BGSSaveFormBuffer;
 namespace fnv_005aaaf0 { class BGSLoadFormBuffer; }
 
 // 0x005aa500
-namespace fnv_005aa500 { void FUN_005aa500(int, unsigned char); }
+namespace fnv_005aa500 { void FUN_005aa500(intptr_t, unsigned char); }
 // 0x005aa5d0
 namespace fnv_005aa5d0 { void FUN_005aa5d0(int); }
 // 0x005aa630

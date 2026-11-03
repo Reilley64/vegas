@@ -151,11 +151,11 @@ class LockCtx
   public:
     char pad[0xc];
     int m_iThirdValue;
-    void FUN_004d8b90(int arg1, NiControllerSequence* arg2);
+    void FUN_004d8b90(intptr_t arg1, NiControllerSequence* arg2);
 };
 
 // @fnv 0x004d8b90
-void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
+void LockCtx::FUN_004d8b90(intptr_t arg1, NiControllerSequence* arg2)
 {
     if (arg2)
     {

@@ -7642,7 +7642,7 @@ bool TraceOwner::TraceWithLiftAndExtension(const TraceVector& from, const TraceV
         if (world->Trace(request))
         {
             TraceVector hit =
-                (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(end3))->ProjectileLaunched((::NiPoint3 *)&(const ::TraceVector &)((*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(extended))->FUN_00439ef0((::NiPoint3 *)&(end3), *(const ::NiPoint3 *)nullptr))).ApplyScaled(((::TraceFraction *)(::FUN_00460140((int)(result))))->fraction)), {})));
+                (*(::TraceVector *)(reinterpret_cast<::Point3Offset *>((void *)&(end3))->ProjectileLaunched((::NiPoint3 *)&(const ::TraceVector &)((*(::TraceVector *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(extended))->FUN_00439ef0((::NiPoint3 *)&(end3), *(const ::NiPoint3 *)nullptr))).ApplyScaled(((::TraceFraction *)(::FUN_00460140((intptr_t)(result))))->fraction)), {})));
             output = hit;
             return true;
         }

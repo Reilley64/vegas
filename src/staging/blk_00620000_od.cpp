@@ -420,7 +420,7 @@ struct FUN_00623070_Class
 // @fnv 0x00623070
 BSSimpleList<int*>* FUN_00623070_Class::FUN_00623070()
 {
-    return ((::BSSimpleList<int *> *)(reinterpret_cast<::Callees *>((((::BSSimpleList<int *> *)(::FUN_00460140((int)(reinterpret_cast<TgtOps*>(this)))))))->FUN_00726070()));
+    return ((::BSSimpleList<int *> *)(reinterpret_cast<::Callees *>((((::BSSimpleList<int *> *)(::FUN_00460140((intptr_t)(reinterpret_cast<TgtOps*>(this)))))))->FUN_00726070()));
 }
 
 namespace fnv_006232f0 {
@@ -438,7 +438,7 @@ struct FUN_006232f0_Class
 // @fnv 0x006232f0
 void FUN_006232f0_Class::FUN_006232f0(int aiIndex)
 {
-    reinterpret_cast<::FUN_00807770_Class *>((((FUN_00807770_Class*)((void *)(::FUN_00460140((int)(((TgtOps*)this))))))))->FUN_00807770({});
+    reinterpret_cast<::FUN_00807770_Class *>((((FUN_00807770_Class*)((void *)(::FUN_00460140((intptr_t)(((TgtOps*)this))))))))->FUN_00807770({});
 }
 }  // namespace fnv_006232f0
 
@@ -2990,7 +2990,7 @@ void TileSetHelper::SetTileSetValues(int aiIndex, intptr_t a2, intptr_t a3)
 {
     Obj* obj = FUN_006232f0(aiIndex);
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a2)), (*(const ::hkVector4 *)(((int)(new ((void *)(obj)) ::Vec3())))));
-    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a3)), (*(const ::hkVector4 *)(::FUN_00460140((int)(obj)))));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(a3)), (*(const ::hkVector4 *)(::FUN_00460140((intptr_t)(obj)))));
 }
 
 struct S_006265c0_Q
@@ -7156,7 +7156,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
                 Bounds628 itemBounds;
                 new ((void *)&(itemBounds)) ::fnv_00437c10::FUN_00437c10();
                 Provider628* provider = ((::Provider628 *)(reinterpret_cast<::LowProcess *>((collision))->GetPackageObjectType()));
-                provider->bounds(((void *)(reinterpret_cast<::NonActorMagicTarget *>((((::Geometry628 *)(::FUN_00460140((int)(((::Handle628 *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(group))->FUN_00629ab0(index)))))))))->GetActiveEffectList())), &itemBounds);
+                provider->bounds(((void *)(reinterpret_cast<::NonActorMagicTarget *>((((::Geometry628 *)(::FUN_00460140((intptr_t)(((::Handle628 *)&(reinterpret_cast<::FUN_00629ab0_shell *>(&(group))->FUN_00629ab0(index)))))))))->GetActiveEffectList())), &itemBounds);
                 reinterpret_cast<::FUN_00629560_Class *>(&(bounds))->FUN_00629560((intptr_t)(&itemBounds.max));
                 reinterpret_cast<::FUN_00629560_Class *>(&(bounds))->FUN_00629560((intptr_t)(&itemBounds.min));
             }

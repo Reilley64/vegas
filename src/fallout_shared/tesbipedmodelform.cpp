@@ -179,13 +179,13 @@ struct FUN_00480ad0_shell
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool HasFlag(unsigned int arg);
+    bool HasFlag(const FUN_00480ad0_shell* other);
 };
 
 // @fnv 0x00480ad0
-bool FUN_00480ad0_shell::HasFlag(unsigned int arg)
+bool FUN_00480ad0_shell::HasFlag(const FUN_00480ad0_shell* other)
 {
-    return (m_04 & ((unsigned int*)((char*)arg + 4))[0]) ? true : false;
+    return (m_04 & other->m_04) ? true : false;
 }
 
 struct FUN_00481150_shell

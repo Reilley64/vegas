@@ -14,7 +14,7 @@ int DAT_011afe88 = 0;
 float DAT_011b0128 = 95.0f;
 float DAT_011b0150 = 1.0e+01f;
 Vector3 *DAT_011c3ef8;
-int DAT_011f35a4;
+void *DAT_011f35a4;
 unsigned char DAT_011f4460;
 int DAT_011f4500;
 unsigned char DAT_01202d62;

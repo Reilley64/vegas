@@ -975,13 +975,13 @@ struct FUN_0042e210_Class : public BE
     void* vtbl;
     int a;
     int b;
-    int c;
-    int d;
-    FUN_0042e210_Class(int x, int y);
+    intptr_t c;
+    intptr_t d;
+    FUN_0042e210_Class(intptr_t x, intptr_t y);
 };
 // Initializes the object with base BE(0x5b), sets vtbl to DAT_01015980, and stores x into c and y into d.
 // @fnv 0x0042e210
-FUN_0042e210_Class::FUN_0042e210_Class(int x, int y) : BE(0x5b)
+FUN_0042e210_Class::FUN_0042e210_Class(intptr_t x, intptr_t y) : BE(0x5b)
 {
     vtbl = &DAT_01015980;
     c = x;
@@ -1084,12 +1084,12 @@ void FUN_004381d0(void* p)
 {
     if (*(void**)p == (*reinterpret_cast<void * *>(&::DAT_0109b220)))
         return;
-    void* r = ((void *)(::FUN_00438210((int *)(p))));
+    void* r = ((void *)(::FUN_00438210((intptr_t *)(p))));
     ::WaitForSingleObjectEx((long *)(r));
 }
 
 // @fnv 0x00438210
-int __cdecl FUN_00438210(int* p)
+intptr_t __cdecl FUN_00438210(intptr_t* p)
 {
     return *p - 8;
 }
@@ -1139,7 +1139,7 @@ struct FUN_00438c10_Class : public FNStub
 void FUN_00438c10_Class::FUN_00438c10()
 {
     FUN_004858f0(0x4d414e46, *(unsigned char*)((char*)this + 0xc));
-    ::FUN_004856f0((void *)(0x4c4c5546), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())), (void *)(((TESModel*)this)->GetModelLength() + 1));
+    ::FUN_004856f0((void *)(0x4c4c5546), (void*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())), (void *)(uintptr_t)(((TESModel*)this)->GetModelLength() + 1));
     ::FUN_00485950((void *)(0x4d414e54), *(unsigned short*)((char*)this + 0xe));
     if (*(void**)((char*)this + 0x10))
     {
@@ -1354,7 +1354,7 @@ void __cdecl FUN_0043ba60(int* p)
     }
     else
     {
-        v = ((void *)(::FUN_00438210((int *)(p))));
+        v = ((void *)(::FUN_00438210((intptr_t *)(p))));
         ::FUN_0040b460((unsigned int *)(v));
     }
 }
@@ -1530,16 +1530,19 @@ struct NiInterpController
 };
 struct FUN_0043b3b0_class
 {
-    unsigned short FUN_0043b3b0(unsigned int value);
+    char pad00[0x38];
+    uintptr_t* m_puiArray;
+    unsigned short m_usCount;
+    unsigned short FUN_0043b3b0(uintptr_t value);
 };
 // Scans the array at offset 0x38 up to the count at 0x3c and returns the index of the first element equal to value, or INVALID_INDEX if none matches.
 // @fnv 0x0043b3b0
-unsigned short FUN_0043b3b0_class::FUN_0043b3b0(unsigned int value)
+unsigned short FUN_0043b3b0_class::FUN_0043b3b0(uintptr_t value)
 {
     unsigned short i = 0;
-    for (; i < *(unsigned short*)((char*)this + 0x3c); ++i)
+    for (; i < m_usCount; ++i)
     {
-        if (*(unsigned int*)(*(unsigned int*)((char*)this + 0x38) + i * 4) == value)
+        if (m_puiArray[i] == value)
             return i;
     }
     return NiInterpController::INVALID_INDEX;
@@ -1971,7 +1974,7 @@ struct FUN_00436b20
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
-    FUN_00436b20(unsigned int a, unsigned int b);
+    FUN_00436b20(uintptr_t a, uintptr_t b);
 };
 struct FUN_0042e060_class
 {
@@ -2982,7 +2985,7 @@ CloneRef* CloneFactory::FUN_00436780(void* pBase, CloneSource* pSource)
         if (pPlayerProcess)
         {
             CloneProcess* pProcess = 0;
-            switch (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pPlayerProcess))->FUN_0045cd60())))
+            switch (((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pPlayerProcess))->FUN_0045cd60())))
             {
             case 3:
                 pProcess = new CloneLowProcess;
@@ -2998,7 +3001,7 @@ CloneRef* CloneFactory::FUN_00436780(void* pBase, CloneSource* pSource)
                 break;
             }
             reinterpret_cast<::MiddleHighProcess *>((pRef))->SetFaceAnimationData((::TargetDoorController *)(pProcess));
-            reinterpret_cast<::Host096d450 *>(&((*reinterpret_cast<::CloneProcessLists *>(&::g_011e0e80))))->FUN_0096d450((::MobileObject *)(pRef), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())), false, false, (::MobileObject *)(false));
+            reinterpret_cast<::Host096d450 *>(&((*reinterpret_cast<::CloneProcessLists *>(&::g_011e0e80))))->FUN_0096d450((::MobileObject *)(pRef), ((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())), false, false, (::MobileObject *)(false));
         }
     }
     return pRef;
@@ -3039,7 +3042,7 @@ FUN_00437d10::~FUN_00437d10()
     {
         GcItem* val = *((::GcItem **)(new ((void *)(pos)) ::Vec3()));
         GcItem* cur = val;
-        cur ? ((unsigned int)(reinterpret_cast<::Date *>((cur))->FUN_007b3fa0(1))) : 0;
+        cur ? ((uintptr_t)(reinterpret_cast<::Date *>((cur))->FUN_007b3fa0(1))) : 0;
         *((::GcItem **)(new ((void *)(pos)) ::Vec3())) = 0;
     }
 }
@@ -4124,11 +4127,11 @@ struct FUN_00436b20 : BE
     unsigned int unk04;
     unsigned int unk08;
     CloneRef* unk0c;
-    FUN_00436b20(uintptr_t first, unsigned int second);
+    FUN_00436b20(uintptr_t first, uintptr_t second);
 };
 // Sets the vtable pointer, stores the result of FUN_00436780(first, second) in unk0c, then calls FUN_00575830 on it with second's v125() point.
 // @fnv 0x00436b20
-FUN_00436b20::FUN_00436b20(uintptr_t first, unsigned int second) : BE(0x55)
+FUN_00436b20::FUN_00436b20(uintptr_t first, uintptr_t second) : BE(0x55)
 {
     *(void**)this = (void*)&DAT_01015f24;
     unk0c = ((CloneFactory*)this)->FUN_00436780((void*)first, (CloneSource*)second);
@@ -4195,7 +4198,7 @@ class FUN_0043a9f0_C
 // @fnv 0x0043a9f0
 void FUN_0043a9f0_C::FUN_0043a9f0()
 {
-    unsigned int auiFormId = (unsigned int)m_pkRef;
+    unsigned int auiFormId = (unsigned int)(uintptr_t)m_pkRef;
     if (auiFormId)
         m_pkRef = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(auiFormId));
 }

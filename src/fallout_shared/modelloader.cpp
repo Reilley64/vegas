@@ -6637,13 +6637,13 @@ void FUN_004490e0_Class::FUN_004490e0()
 
 struct FUN_0044ee20_class
 {
-    int GetElementAddress(int index);
+    intptr_t GetElementAddress(int index);
 };
 
 // @fnv 0x0044ee20
-int FUN_0044ee20_class::GetElementAddress(int index)
+intptr_t FUN_0044ee20_class::GetElementAddress(int index)
 {
-    return *(int*)((char*)this + 0xc) + index * 4;
+    return *(intptr_t*)((char*)this + 0xc) + index * 4;
 }
 
 struct FUN_00905330
@@ -16096,7 +16096,7 @@ struct FUN_00445430_cls
     int unk0c;
     int unk10;
     FUN_00445430_obj* m_14;
-    void FUN_00445430(unsigned int a1);
+    void FUN_00445430(uintptr_t a1);
 };
 
 struct FUN_0044ac40_s
@@ -16109,7 +16109,7 @@ LoadScopeGuard::~LoadScopeGuard()
 }
 
 // @fnv 0x00445430
-void FUN_00445430_cls::FUN_00445430(unsigned int a1)
+void FUN_00445430_cls::FUN_00445430(uintptr_t a1)
 {
     LoadScopeGuard guard(0);
     if (m_14->v2(a1, &guard))

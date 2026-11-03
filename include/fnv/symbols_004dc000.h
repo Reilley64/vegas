@@ -3,7 +3,7 @@
 // 0x004dc010
 void FUN_004dc010(unsigned char);
 // 0x004dc040
-unsigned int FUN_004dc040();
+uintptr_t FUN_004dc040();
 // 0x004dc050
 void FUN_004dc050(bool);
 // 0x004dc090

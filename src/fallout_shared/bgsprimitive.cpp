@@ -1654,7 +1654,7 @@ struct FUN_004a5100
 {
     virtual void v0();
     virtual void v1(int);
-    virtual void v2(int);
+    virtual void v2(intptr_t);
     int unk04;
     char pad08[0x2c];
     FUN_004a5100();
@@ -1662,7 +1662,7 @@ struct FUN_004a5100
 };
 // Allocates a FUN_004a5100, calls v2(a) and SetRadius(f), sets the field at offset 4 to 2, and returns it.
 // @fnv 0x004a5100
-FUN_004a5100* FUN_004a5100_create(float afValue, int aiArg)
+FUN_004a5100* FUN_004a5100_create(float afValue, intptr_t aiArg)
 {
     FUN_004a5100* p = new FUN_004a5100;
     p->v2(aiArg);

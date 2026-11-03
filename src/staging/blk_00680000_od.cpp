@@ -2701,7 +2701,7 @@ FUN_0069b6d0_cls::~FUN_0069b6d0_cls()
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
 
-void* __cdecl FUN_00401000(uintptr_t size);
+void* __cdecl FUN_00401000(unsigned int size);
 
 struct Obj_b9971
 {

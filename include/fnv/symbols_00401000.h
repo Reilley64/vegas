@@ -5,7 +5,7 @@ class MemoryManager;
 struct BGSDehydrationStage;
 
 // 0x00401000
-void *FUN_00401000(uintptr_t);
+void *FUN_00401000(unsigned int);
 // 0x00401020
 ::MemoryManager *FUN_00401020();
 // 0x00401030

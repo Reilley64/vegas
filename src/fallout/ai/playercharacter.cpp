@@ -1694,7 +1694,7 @@ extern unsigned int DAT_011c3c00;
 
 extern void *DAT_011c3b3c, *DAT_011c3f2c;
 
-extern void* __cdecl FUN_00401000(uintptr_t);
+extern void* __cdecl FUN_00401000(unsigned int);
 
 
 

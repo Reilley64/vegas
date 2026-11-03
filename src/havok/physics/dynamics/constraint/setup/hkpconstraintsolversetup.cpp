@@ -22,7 +22,7 @@ struct State
     int unk00;
     void* owner;
     int unk08;
-    int eventCode;
+    void* eventCode;
     int unk10;
     int unk14;
     int unk18;
@@ -35,7 +35,7 @@ struct State
     int unk34;
     void* desiredB;
     void* currentB;
-    int callbackFlags;
+    void* callbackFlags;
     int unk44;
     volatile float* end;
     volatile float* current;
@@ -183,7 +183,7 @@ D88310Bool __cdecl CheckTotalsWithinLimits(D88470Obj* obj, D88470Elem** begin, i
             uiSum2 += s->amountB * 4;
             totals[uiTypeIndex] += s->amountA;
             p += 2;
-        } while ((int)p < (int)(end - 1));
+        } while (p < end - 1);
     }
     if (p < end)
     {
@@ -298,8 +298,8 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntit
 
     for (unsigned int i = 0; i < uiNumEntities; i++)
     {
-        ppkEntities[i]->m_uiFilterInfo = reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorC + i) -
-                                         reinterpret_cast<unsigned int>(kResources.m_pVelocityAccumulatorA);
+        ppkEntities[i]->m_uiFilterInfo = (unsigned int)((char*)(kResources.m_pVelocityAccumulatorC + i) -
+                                                        (char*)kResources.m_pVelocityAccumulatorA);
     }
 
     hkpVelocityAccumulatorD886* pkAccumulator = kResources.m_pVelocityAccumulatorC;
@@ -521,8 +521,8 @@ struct S88_Instance
     int unk08;
     S88_ConstraintData* m_data;
     int unk10;
-    int unk14;
-    int unk18;
+    struct S88b50_Entity* unk14;
+    struct S88b50_Entity* unk18;
     unsigned char m_priority;
     unsigned char unk1D;
     unsigned char unk1E;
@@ -1162,11 +1162,11 @@ struct S88b50_Entity
 };
 static __forceinline S88b50_Entity* S88b50_getEntityA(const S88_Instance* i)
 {
-    return (S88b50_Entity*)i->unk14;
+    return i->unk14;
 }
 static __forceinline S88b50_Entity* S88b50_getEntityB(const S88_Instance* i)
 {
-    return (S88b50_Entity*)i->unk18;
+    return i->unk18;
 }
 
 // hkpSimulationIsland

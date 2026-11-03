@@ -331,7 +331,7 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                                 }
                                 else
                                 {
-                                    ::FUN_00c6a270((int)((NiAVObject*)pNi), 1, 1, 0);
+                                    ::FUN_00c6a270((intptr_t)((NiAVObject*)pNi), 1, 1, 0);
                                     ::FUN_00c69ee0((::NiAVObject *)(pNi), 1, 1);
                                 }
                             }

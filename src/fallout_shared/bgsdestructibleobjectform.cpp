@@ -2070,7 +2070,7 @@ void __cdecl FUN_00477d10(ReferenceView* reference)
                 BSFadeNode_Dummy* node = fade ? fade->AsFadeNode() : 0;
                 if (node)
                     FUN_00476ab0(node);
-                ::FUN_00c6a270((int)(object), true, true, 0);
+                ::FUN_00c6a270((intptr_t)(object), true, true, 0);
             }
         }
     }

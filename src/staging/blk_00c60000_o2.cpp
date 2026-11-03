@@ -288,14 +288,14 @@ FUN_00c664e0::FUN_00c664e0(int aiFlags)
 extern int DAT_010c3af8;
 struct FUN_00c66540_class
 {
-    int InitVtableAndCall(int);
+    intptr_t InitVtableAndCall(int);
 };
 // @fnv 0x00c66540
-int FUN_00c66540_class::InitVtableAndCall(int aiUnused)
+intptr_t FUN_00c66540_class::InitVtableAndCall(int aiUnused)
 {
     *(void**)this = (void*)&DAT_010c3af8;
     static_cast<::FUN_00cbf1a0_cls *>(nullptr)->FUN_00cbf1a0();
-    return (int)this;
+    return reinterpret_cast<intptr_t>(this);
 }
 
 namespace fnv_00c66600 {
@@ -316,7 +316,7 @@ struct FUN_00c66600
 FUN_00c66600::FUN_00c66600(void* p)
 {
     m_p = &::DAT_010a47b8;
-    if ((unsigned char)p & 1)
+    if ((uintptr_t)p & 1)
         reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::P03MM *>(&::g_memoryManager)))))->FUN_00aa4060(this);
 }
 }  // namespace fnv_00c66600
@@ -324,6 +324,7 @@ FUN_00c66600::FUN_00c66600(void* p)
 
 struct FUN_00c66fb0_Class
 {
+    char pad[0x80];
     void* m_pObject;
     void* FUN_00c66fb0();
 };
@@ -331,7 +332,7 @@ struct FUN_00c66fb0_Class
 // @fnv 0x00c66fb0
 void* FUN_00c66fb0_Class::FUN_00c66fb0()
 {
-    void* p = *(void**)((char*)this + 0x80);
+    void* p = m_pObject;
     if (p)
         return ((void *)(::FUN_00c7fa90((::S_Obj *)(p))));
     return 0;
@@ -363,17 +364,31 @@ void FUN_00c6a620_cls::SetField(void* pValue)
     m_field = pValue;
 }
 
+struct FUN_00c6c870_collidable
+{
+    char pad[0x1c];
+    unsigned int m_collisionFilterInfo;
+};
+
+struct FUN_00c6c870_source
+{
+    char pad[0x48];
+    FUN_00c6c870_collidable* m_48;
+};
+
 struct FUN_00c6c870_class
 {
-    void FUN_00c6c870(unsigned int a, unsigned int b);
+    char pad[0x6c];
+    unsigned int m_6c;
+    void FUN_00c6c870(unsigned int a, uintptr_t b);
 };
 
 // @fnv 0x00c6c870
-void FUN_00c6c870_class::FUN_00c6c870(unsigned int auiUnused, unsigned int auiSource)
+void FUN_00c6c870_class::FUN_00c6c870(unsigned int auiUnused, uintptr_t auiSource)
 {
-    unsigned int* p = *(unsigned int**)((char*)auiSource + 0x48);
-    if ((p[7] & 0x7f) == 0x1e && *(unsigned int*)((char*)this + 0x6c) > 0)
-        *(unsigned int*)((char*)this + 0x6c) = *(unsigned int*)((char*)this + 0x6c) - 1;
+    FUN_00c6c870_collidable* p = reinterpret_cast<FUN_00c6c870_source*>(auiSource)->m_48;
+    if ((p->m_collisionFilterInfo & 0x7f) == 0x1e && m_6c > 0)
+        m_6c = m_6c - 1;
 }
 
 struct FUN_00c6cba0_class
@@ -586,7 +601,7 @@ struct NiTMapBaseStub
 };
 struct FUN_00c75e00
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int m_iWordAt04;
     void* m_8;
     void Init();
@@ -594,7 +609,7 @@ struct FUN_00c75e00
 // @fnv 0x00c75e00
 void FUN_00c75e00::Init()
 {
-    m_iWordAt00 = (int)&::DAT_010c4ca4;
+    m_iWordAt00 = &::DAT_010c4ca4;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     ::FUN_00aa10f0(m_8);
 }
@@ -794,6 +809,13 @@ void FUN_00c75ad0_Class::FUN_00c75ad0(FUN_00c75ad0_T* p)
     d->f_2c = p->f_2c;
 }
 
+struct FUN_00c7a630_vtable
+{
+    void* slot0;
+    void* slot1;
+    void (*Free)(void*);
+};
+
 struct FUN_00c7a630_class
 {
     int* vtbl;
@@ -808,7 +830,7 @@ void FUN_00c7a630_class::FUN_00c7a630()
     vtbl = (int*)&(*reinterpret_cast<int *>(&::DAT_010c4db8));
     if (m_p)
     {
-        ((void(*)(void*))(*reinterpret_cast<int *>(&::DAT_010c4dc0)))(m_p);
+        reinterpret_cast<FUN_00c7a630_vtable*>(&::DAT_010c4db8)->Free(m_p);
         m_p = 0;
         m_kPointB = 0;
         m_kPointA = 0;
@@ -904,17 +926,20 @@ struct FUN_00c66e20_Class
     int m_iWordAt00;
     int m_iWordAt04;
     int m_8;
+    char pad0c[0x70 - 0x0c];
+    FUN_00c66e20_vtbl** m_ppObjects;
+    int m_iObjectCount;
     void FUN_00c66e20(float a);
 };
-// If m_8 is set, iterates the objects in the array at offset 0x70 up to the count at 0x74 and calls v6(a) on each non-null object when a is non-zero.
+// If m_8 is set, iterates the m_iObjectCount objects in m_ppObjects and calls v6(a) on each non-null object when a is non-zero.
 // @fnv 0x00c66e20
 void FUN_00c66e20_Class::FUN_00c66e20(float afValue)
 {
     if (m_8)
     {
-        for (int i = 0; i < *(int*)((char*)this + 0x74); ++i)
+        for (int i = 0; i < m_iObjectCount; ++i)
         {
-            FUN_00c66e20_vtbl* obj = (FUN_00c66e20_vtbl*)(*(int**)((char*)this + 0x70))[i];
+            FUN_00c66e20_vtbl* obj = m_ppObjects[i];
             if (obj && afValue != 0.0f)
                 obj->v6(afValue);
         }
@@ -1051,16 +1076,16 @@ FUN_00c7a6e0_class* FUN_00c7a6e0_class::FUN_00c7a6e0(unsigned int flags)
 struct FUN_00c66420
 {
     int* vtbl;
-    int Init(int a);
+    intptr_t Init(int a);
 };
 // Sets the object's vtbl to DAT_010c3b80 and, if bit 0 of a is set, deallocates this via the memory manager; returns this.
 // @fnv 0x00c66420
-int FUN_00c66420::Init(int aiFlags)
+intptr_t FUN_00c66420::Init(int aiFlags)
 {
     vtbl = &DAT_010c3b80;
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(this);
-    return (int)this;
+    return reinterpret_cast<intptr_t>(this);
 }
 
 
@@ -1085,12 +1110,14 @@ struct hkVector4
 };
 struct FUN_00c66be0_class
 {
-    void FUN_00c66be0(unsigned int a);
+    char pad[0x60];
+    hkVector4 m_kVector;
+    void FUN_00c66be0(uintptr_t a);
 };
 // @fnv 0x00c66be0
-void FUN_00c66be0_class::FUN_00c66be0(unsigned int auiVectorAddress)
+void FUN_00c66be0_class::FUN_00c66be0(uintptr_t auiVectorAddress)
 {
-    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(*(const hkVector4*)auiVectorAddress), (*(const ::hkVector4 *)((char*)this + 0x60)));
+    ::SetNiPoint3FromHkVector4((::NiPoint3 &)(*(const hkVector4*)auiVectorAddress), m_kVector);
 }
 
 struct FUN_00c67110_v
@@ -1212,8 +1239,12 @@ struct AddReferenceHelper
     void RetainReference();
 };
 
+struct S_Item;
 struct FUN_00c68a40_Class
 {
+    char pad[0x2c];
+    S_Item** m_ppItems;
+    unsigned int m_uiItemCount;
     void FUN_00c68a40();
 };
 
@@ -1435,7 +1466,7 @@ void bhkNiCollisionObject::FUN_00c6bb70(NiStream& aStream)
 
 // Saves the thread-local value, sets it to b, calls FUN_00c6c110(a, 0), then restores the saved value.
 // @fnv 0x00c6c3d0
-void __cdecl SetTlsValueAndReset(int aiArg, int aiValue)
+void __cdecl SetTlsValueAndReset(intptr_t aiArg, int aiValue)
 {
     struct TLSData
     {
@@ -1617,7 +1648,7 @@ struct Heap : MemoryManager
 void* FUN_00c74ea0(unsigned int uiSize)
 {
     unsigned char* p = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>((((Heap*)&::g_memoryManager)))->FUN_00aa3e40(uiSize + 0x10);
-    unsigned char n = (unsigned char)(0x10 - ((unsigned char)p & 0xf));
+    unsigned char n = (unsigned char)(0x10 - ((unsigned char)(uintptr_t)p & 0xf));
     p += n;
     p[-1] = n;
     return p;
@@ -1873,7 +1904,7 @@ struct AudioHolder
 
 struct FUN_00c66510_cls
 {
-    int m_vptr;
+    void* m_vptr;
     unsigned short m_uSize;
     unsigned short m_u06;
 
@@ -1884,7 +1915,7 @@ struct FUN_00c66510_cls
 // @fnv 0x00c66510
 FUN_00c66510_cls* FUN_00c66510_cls::FUN_00c66510(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_010c3bc4;
+    m_vptr = &DAT_010c3bc4;
     reinterpret_cast<::FUN_00c93e50 *>(this)->FUN_00c93e50::~FUN_00c93e50();
     if (acFlags & 1)
     {
@@ -1932,7 +1963,7 @@ void __cdecl NotifyThreadObserverEnabled()
 
 struct FUN_00c665f0_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
 
     void FUN_00c665f0();
 };
@@ -1940,7 +1971,7 @@ struct FUN_00c665f0_cls
 // @fnv 0x00c665f0
 void FUN_00c665f0_cls::FUN_00c665f0()
 {
-    m_vptr00 = (int)&DAT_010c3bb8;
+    m_vptr00 = &DAT_010c3bb8;
 }
 
 class FUN_00c66de0_cls;
@@ -3900,13 +3931,13 @@ struct FUN_00c674d0_Call
 void FUN_00c68a40_Class::FUN_00c68a40()
 {
     ScopedHavokThreadMode threadMode;
-    unsigned int& count = *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x30);
+    unsigned int& count = m_uiItemCount;
     if (count > 0)
     {
         if (count >= 3000)
             count = 3000;
         reinterpret_cast<::S_Owner *>((reinterpret_cast<FUN_00c674d0_Call*>(this)))->FUN_00c674d0(
-            (::S_Item **)(*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x2c)), count);
+            m_ppItems, count);
         count = 0;
     }
 }
@@ -4151,10 +4182,10 @@ struct DispatchPacket
     unsigned int unk18;
 };
 
-extern "C" unsigned int DAT_011afe94;
+extern "C" S_00c68900_Callback DAT_011afe94;
 
 // @fnv 0x00c6a040
-unsigned char __cdecl FUN_00c6a040(int object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
+unsigned char __cdecl FUN_00c6a040(intptr_t object, unsigned char selection, unsigned char mode, unsigned char overrideCheck)
 {
     unsigned char result = 0;
     if (object)
@@ -4179,7 +4210,7 @@ unsigned char __cdecl FUN_00c6a040(int object, unsigned char selection, unsigned
         packet.selection = selection;
 
         if (DAT_011afe94)
-            ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::DispatchPacket *)(&packet), (void (*)(void *, S_00c68900_Context *))(DAT_011afe94));
+            ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::DispatchPacket *)(&packet), DAT_011afe94);
     }
 exit:
     return result;
@@ -4582,7 +4613,7 @@ struct FUN_00c6b730_target
     virtual void v12();
     virtual void v13();
     virtual void v14();
-    virtual void v15(int a1);
+    virtual void v15(intptr_t a1);
 };
 
 struct FUN_00c6b730_cls
@@ -4592,12 +4623,12 @@ struct FUN_00c6b730_cls
     int unk08;
     int unk0C;
     FUN_00c6b730_target* m_pFlagTarget;
-    void DispatchToTarget(int a1);
+    void DispatchToTarget(intptr_t a1);
 };
 
 // If the target pointer is non-null, calls its v15 with a1, then calls Helper with a1.
 // @fnv 0x00c6b730
-void FUN_00c6b730_cls::DispatchToTarget(int a1)
+void FUN_00c6b730_cls::DispatchToTarget(intptr_t a1)
 {
     FUN_00c6b730_target* target = m_pFlagTarget;
     if (target != 0)
@@ -5697,7 +5728,7 @@ extern int DAT_010c446c;
 
 struct FUN_00c6c830_cls
 {
-    int m_vptr00;
+    void* m_vptr00;
 
     void FUN_00c6c830();
 };
@@ -5705,7 +5736,7 @@ struct FUN_00c6c830_cls
 // @fnv 0x00c6c830
 void FUN_00c6c830_cls::FUN_00c6c830()
 {
-    m_vptr00 = (int)&DAT_010c446c;
+    m_vptr00 = &DAT_010c446c;
 }
 
 struct S_00c6c840_Param
@@ -7102,12 +7133,12 @@ struct FUN_00c6cef0_cls
     int unk00;
     int unk04;
     FUN_00c6cef0_target* m_08;
-    void CallTargetWithArgs(int a, int b);
+    void CallTargetWithArgs(intptr_t a, uintptr_t b);
 };
 
 // If this and m_08 are non-null, calls FUN_00cac110 before and after forwarding a and b to m_08's FUN_00cafd00.
 // @fnv 0x00c6cef0
-void FUN_00c6cef0_cls::CallTargetWithArgs(int a, int b)
+void FUN_00c6cef0_cls::CallTargetWithArgs(intptr_t a, uintptr_t b)
 {
     if (this != 0)
     {
@@ -7144,9 +7175,9 @@ FUN_00c6d010_Class* FUN_00c6d010_Class::FUN_00c6d010(unsigned char flags)
 
 
 // @fnv 0x00c6d0e0
-int __cdecl FUN_00c6d0e0()
+intptr_t __cdecl FUN_00c6d0e0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_012685a4)));
+    return reinterpret_cast<intptr_t>(&::g_012685a4);
 }
 
 // @fnv 0x00c6d0f0
@@ -7165,14 +7196,14 @@ class C6D1E0Base
 class FUN_00c6d1e0 : public C6D1E0Base
 {
   public:
-    FUN_00c6d1e0(int a, int b);
+    FUN_00c6d1e0(int a, intptr_t b);
     virtual ~FUN_00c6d1e0();
 
 };
 
 // Constructs the object and forwards both arguments to Init.
 // @fnv 0x00c6d1e0
-FUN_00c6d1e0::FUN_00c6d1e0(int a, int b)
+FUN_00c6d1e0::FUN_00c6d1e0(int a, intptr_t b)
 {
     reinterpret_cast<::S00cbe9f0_cls *>(this)->FUN_00cbe9f0(a, (::FUN_00cbe9f0_Target *)(b));
 }
@@ -7246,12 +7277,12 @@ struct ChainB_cls : public ChainA_cls
 struct FUN_00c6d290 : public ChainB_cls
 {
     virtual void unkC2();
-    FUN_00c6d290(unsigned int a);
+    FUN_00c6d290(uintptr_t a);
 };
 
 // Calls the base SetListShape with a, then increments DAT_012681a0.
 // @fnv 0x00c6d290
-FUN_00c6d290::FUN_00c6d290(unsigned int a)
+FUN_00c6d290::FUN_00c6d290(uintptr_t a)
 {
     reinterpret_cast<::bhkListOwner_c8b090 *>((((FUN_00c8b090_owner*)this)))->SetListShape((::ListInfo_c8b090 *)(a));
     DAT_012681a0 += 1;
@@ -7843,12 +7874,12 @@ struct S_00c6d7a0_Obj
     int unk580, unk584, unk588, unk58c, unk590;
     S_00c6d7a0_Handler* unk594;
     S_00c6d7a0_Handler* unk598;
-    void FUN_00c6d7a0(int arg);
+    void FUN_00c6d7a0(intptr_t arg);
 };
 
 // Forwards arg to the handler objects at unk594 and unk598, calling each with a default of 0 when present.
 // @fnv 0x00c6d7a0
-void S_00c6d7a0_Obj::FUN_00c6d7a0(int arg)
+void S_00c6d7a0_Obj::FUN_00c6d7a0(intptr_t arg)
 {
     if (unk594)
         reinterpret_cast<::S_00c85c10 *>((unk594))->FUN_00c85c10((int *)(arg), (int *)(0));
@@ -10015,7 +10046,7 @@ void MapTable::InsertOrUpdate(unsigned int key, unsigned int value)
 struct FUN_00c74990_node
 {
     FUN_00c74990_node* next;
-    unsigned int key;
+    uintptr_t key;
     unsigned short value;
 };
 
@@ -10023,8 +10054,8 @@ class FUN_00c74990_cls
 {
   public:
     virtual void GetPad();
-    virtual unsigned int KeyToHashIndex(unsigned int key);
-    virtual bool IsKeyEqual(unsigned int a, unsigned int b);
+    virtual unsigned int KeyToHashIndex(uintptr_t key);
+    virtual bool IsKeyEqual(uintptr_t a, uintptr_t b);
     unsigned int m_uiHashSize;
     FUN_00c74990_node** m_ppkHashTable;
     unsigned int m_uiCount;
@@ -10493,9 +10524,9 @@ struct FUN_00c760b0_pool
 
 struct FUN_00c760b0_cls
 {
-    int m_vptr;
+    void* m_vptr;
     int m_04;
-    int m_08;
+    void* m_08;
 
 
     FUN_00c760b0_cls* FUN_00c760b0(unsigned int acFlags);
@@ -10504,9 +10535,9 @@ struct FUN_00c760b0_cls
 // @fnv 0x00c760b0
 FUN_00c760b0_cls* FUN_00c760b0_cls::FUN_00c760b0(unsigned int acFlags)
 {
-    m_vptr = (int)&::fnv_00c75f80::DAT_010c4cf8;
+    m_vptr = &::fnv_00c75f80::DAT_010c4cf8;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
-    ::FUN_00aa10f0((void *)(m_08));
+    ::FUN_00aa10f0(m_08);
     if (acFlags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00c760b0::FUN_00c760b0_pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -11790,7 +11821,7 @@ void __cdecl EnableBehaviorsByKind(InputMap* input)
         switch (behavior->GetKind())
         {
         case 2:
-            ::FUN_00cb8fe0((char *)(behavior), (int)(item), (*(int *)&(const ::StateFlag &)(true)), {});
+            ::FUN_00cb8fe0((char *)(behavior), (intptr_t)(item), (*(int *)&(const ::StateFlag &)(true)), {});
             behavior->valueAC = 0.0f;
             break;
         case 7:
@@ -11879,7 +11910,7 @@ void __cdecl UpdateEntriesByKind(ObjectContext* context)
                     switch (kind)
                     {
                     case 2:
-                        ::FUN_00cb8fe0((char *)(view), (int)(entry), (*(int *)&(const ::UpdateOptions &)(false)), {});
+                        ::FUN_00cb8fe0((char *)(view), (intptr_t)(entry), (*(int *)&(const ::UpdateOptions &)(false)), {});
                         break;
                     case 7:
                         reinterpret_cast<::FUN_00cdf290_cls *>((view))->SetFlagAndClearFloats((intptr_t)(entry), (*(char *)&(const ::UpdateOptions &)(false)));
@@ -15424,16 +15455,16 @@ void FUN_00c66310_class::FUN_00c66310()
     ++unk1c;
 }
 
-extern "C" unsigned int DAT_011afec4;
+extern "C" S_00c68900_Callback DAT_011afec4;
 
-static inline unsigned int C6A120IsEnabled(int object)
+static inline unsigned int C6A120IsEnabled(intptr_t object)
 {
     DispatchState* pkState = ((::DispatchState *)(::GetExtraDataChecked((::NiAVObjectX *)(object))));
     return pkState ? (pkState->flags & 2) : 0;
 }
 
 // @fnv 0x00c6a120
-bool __cdecl SetSelectionValue(int object, float value, unsigned char mode, unsigned char overrideCheck)
+bool __cdecl SetSelectionValue(intptr_t object, float value, unsigned char mode, unsigned char overrideCheck)
 {
     bool bResult = false;
     if (object)
@@ -15447,7 +15478,7 @@ bool __cdecl SetSelectionValue(int object, float value, unsigned char mode, unsi
             kPacket.opcode = 0xf;
             *(float*)&kPacket.selection = value;
             if (DAT_011afec4)
-                ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::DispatchPacket *)(&kPacket), (void (*)(void *, S_00c68900_Context *))(DAT_011afec4));
+                ::FUN_00c68900((::S_00c68900_Node *)(object), (::S_00c68900_Context *)(::DispatchPacket *)(&kPacket), DAT_011afec4);
         }
     }
     return bResult;
@@ -15816,7 +15847,7 @@ class SearchOwner
     NameEntry16* m_pEntries;
     int m_uiItemCount;
     char unk80[0x40];
-    unsigned int* FindEntry(unsigned int* out, unsigned int key, unsigned int zero);
+    uintptr_t* FindEntry(uintptr_t* out, unsigned int key, unsigned int zero);
 };
 
 class LookupTarget
@@ -15836,9 +15867,9 @@ unsigned int FUN_00c6d900(SearchOwner* owner)
         {
             if (owner->m_pEntries[i].m_key == 0x1300)
             {
-                unsigned int out[2];
-                unsigned int* r = owner->FindEntry(out, 0x1300, 0);
-                return ((LookupTarget*)*r)->m_val0xc0;
+                uintptr_t out[2];
+                uintptr_t* r = owner->FindEntry(out, 0x1300, 0);
+                return reinterpret_cast<LookupTarget*>(*r)->m_val0xc0;
             }
         }
     }
@@ -16085,8 +16116,8 @@ void bhkWorld::FUN_00c68a00(bool a)
 struct WorldObjectC67
 {
     int unk00, unk04, unk08;
-    unsigned long m_ulUserData;
-    unsigned long getUserData() const
+    uintptr_t m_ulUserData;
+    uintptr_t getUserData() const
     {
         return m_ulUserData;
     }
@@ -16148,7 +16179,7 @@ extern "C" unsigned int DAT_011afeb8;
 
 // Unless param_4 is set, requires bit 2 of the extra-data flags, then calls the DAT_011afeb8 callback on param_1 with a context built from param_2 and param_3.
 // @fnv 0x00c6a270
-bool __cdecl FUN_00c6a270(int param_1, unsigned char param_2, unsigned char param_3, char abForce)
+bool __cdecl FUN_00c6a270(intptr_t param_1, unsigned char param_2, unsigned char param_3, char abForce)
 {
     bool result = false;
     if (param_1 != 0)
@@ -16194,7 +16225,7 @@ extern "C" unsigned int DAT_011afea8;
 
 // Unless param_3 is set, requires bit 2 of the extra-data flags; calls the DAT_011afea8 callback and returns whether the context's m_0C ends up nonzero.
 // @fnv 0x00c6a440
-bool __cdecl HasCollisionObject(int param_1, unsigned char param_2, char param_3)
+bool __cdecl HasCollisionObject(intptr_t param_1, unsigned char param_2, char param_3)
 {
     bool result = false;
     if (param_1 != 0)
@@ -16943,7 +16974,7 @@ struct bhkRefInitBase
 {
     bhkRefInitBase();
     ~bhkRefInitBase();
-    unsigned int m_vft;
+    void* m_vft;
     unsigned int m_04;
     unsigned int m_08;
 };
@@ -16956,7 +16987,7 @@ struct S00c6d040_A : public bhkRefInitBase
     {
         m_0c = 0;
         m_10 = 0;
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
+        m_vft = &(*reinterpret_cast<unsigned int *>(&::DAT_01030394));
         (*reinterpret_cast<unsigned int *>(&::DAT_0126810c)) += 1;
     }
 };
@@ -16965,7 +16996,7 @@ struct S00c6d040_B : public S00c6d040_A
 {
     S00c6d040_B()
     {
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
+        m_vft = &(*reinterpret_cast<unsigned int *>(&::DAT_0103078c));
         DAT_01268238 += 1;
     }
 };
@@ -16975,7 +17006,7 @@ struct S00c6d040_C : public S00c6d040_B
     unsigned char m_14;
     S00c6d040_C()
     {
-        m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
+        m_vft = &(*reinterpret_cast<unsigned int *>(&::DAT_010306b4));
         (*reinterpret_cast<unsigned int *>(&::DAT_01268208)) += 1;
         m_14 = 0;
     }
@@ -16983,14 +17014,14 @@ struct S00c6d040_C : public S00c6d040_B
 
 struct FUN_00c6d040 : public S00c6d040_C
 {
-    FUN_00c6d040(unsigned int a);
+    FUN_00c6d040(uintptr_t a);
 };
 
 // Constructs the object by setting the vft, calling FUN_00cc2530 with a, incrementing DAT_012685a0, and zeroing m_14.
 // @fnv 0x00c6d040
-FUN_00c6d040::FUN_00c6d040(unsigned int a)
+FUN_00c6d040::FUN_00c6d040(uintptr_t a)
 {
-    m_vft = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
+    m_vft = &(*reinterpret_cast<unsigned int *>(&::DAT_010c4694));
     reinterpret_cast<::S00cc2530_Owner306 *>(this)->FUN_00cc2530((::S00cc2530_Source306 *)(a));
     (*reinterpret_cast<unsigned int *>(&::DAT_012685a0)) += 1;
     m_14 = 0;
@@ -17040,9 +17071,9 @@ char __cdecl FUN_00c6d7e0(FUN_00c6d7e0_Parent* apParent, bool abFlag1, bool abFl
             t = apParent->m_pChildObject->m_uiValue1 & 0x1f;
         }
         unsigned char r = 0;
-        if ((*reinterpret_cast<unsigned int *>(&::DAT_01267bc8)))
+        if (::DAT_01267bc8)
         {
-            r = (unsigned char)((unsigned char(__cdecl*)(unsigned int))(*reinterpret_cast<unsigned int *>(&::DAT_01267bc8)))(t);
+            r = reinterpret_cast<unsigned char(__cdecl*)(unsigned int)>(::DAT_01267bc8)(t);
         }
         return !r;
     }
@@ -17145,7 +17176,7 @@ bool __cdecl FUN_00c6def0(FUN_00c6def0_obj* p)
 
 struct S00c6e050_Sub
 {
-    void AddEntry(int a, long long b);
+    void AddEntry(intptr_t a, long long b);
 };
 struct S00c6e050_Ptr
 {
@@ -17513,11 +17544,11 @@ struct S00c6e050_Obj
     int unk058c;
     int unk0590;
     S00c6e050_Ptr* m_594;
-    void FUN_00c6e050(volatile int a, volatile int b);
+    void FUN_00c6e050(volatile intptr_t a, volatile int b);
 };
 // Unless m_594->ContainsObject(a), calls FUN_00a29680, then m_594->m_08->AddEntry(a, b), then FUN_00a29680 again.
 // @fnv 0x00c6e050
-void S00c6e050_Obj::FUN_00c6e050(volatile int a, volatile int b)
+void S00c6e050_Obj::FUN_00c6e050(volatile intptr_t a, volatile int b)
 {
     S00c6e050_Ptr* p = m_594;
     if (!p)
@@ -20105,19 +20136,19 @@ void Owner274::UpdateMaxVelocity(const float* param_1, float afDuration)
 
 struct FUN_00c74780_StandIn
 {
-    int FUN_00c74780(unsigned char param_2);
+    intptr_t FUN_00c74780(unsigned char param_2);
 };
 
 // Calls FUN_005545f0, conditionally calls DAT_011f6238.FUN_00aa4060 when param_2 has bit 0 set, and returns this as an int.
 // @fnv 0x00c74780
-int FUN_00c74780_StandIn::FUN_00c74780(unsigned char param_2)
+intptr_t FUN_00c74780_StandIn::FUN_00c74780(unsigned char param_2)
 {
     reinterpret_cast<::FUN_005545f0 *>((this))->FUN_005545f0::~FUN_005545f0();
 
     if (param_2 & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_cls *>(&::g_memoryManager))))->FUN_00aa4060(reinterpret_cast<FUN_00c68f50_cls*>(this));
 
-    return reinterpret_cast<int>(this);
+    return reinterpret_cast<intptr_t>(this);
 }
 
 struct QuatResult
@@ -28265,7 +28296,7 @@ void C70CharacterController::FUN_00c70c90(WorldProxy* world)
                 }
                 constraint594->attach(world);
                 ConstraintProxy* c = constraint594;
-                reinterpret_cast<::C68E30Owner *>((world))->FUN_00c68e30((::C68E30Holder *)(c), (int)(((void *)(::PackColorBigEndian(1.0f, 1.0f, 0.0f, 0.75f)))));
+                reinterpret_cast<::C68E30Owner *>((world))->FUN_00c68e30((::C68E30Holder *)(c), (int)::PackColorBigEndian(1.0f, 1.0f, 0.0f, 0.75f));
             }
             constraint598->Attach(world);
         }
@@ -29002,9 +29033,9 @@ bool Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
             ctx.m_10 = 0;
             ctx.m_14 = 0;
             ctx.m_18 = 1;
-            int cb = (int)(*reinterpret_cast<void (**)(NiCollisionObject *, CollisionObjectCountContext *)>(&::DAT_011afe88));
+            S_00c68900_Callback cb = *reinterpret_cast<S_00c68900_Callback*>(&::DAT_011afe88);
             if (cb)
-                ::FUN_00c68900((::S_00c68900_Node *)(apTarget), (::S_00c68900_Context *)(void *)(&ctx), (void (*)(void *, S_00c68900_Context *))(cb));
+                ::FUN_00c68900((::S_00c68900_Node *)(apTarget), (::S_00c68900_Context *)(void *)(&ctx), cb);
         }
     }
     return flagA;

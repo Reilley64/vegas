@@ -570,7 +570,7 @@ void __cdecl FUN_0087cfb0(void* apData, int aiIndex)
         ::FUN_00552490((bool *)((*reinterpret_cast<RagH**>(reinterpret_cast<char*>(pentry->pActor) + 0xac)))) &&
         !pentry->pNode->FUN_00552470() &&
         !reinterpret_cast<::MobileObject *>((void *)(reinterpret_cast<MobileObjectDialogueView*>(pentry->pActor)))->IsInDialogueWithPlayer())
-        ::SetTlsValueAndReset((int)(pentry->pNode), 2);
+        ::SetTlsValueAndReset((intptr_t)(pentry->pNode), 2);
 }
 
 extern int __cdecl InitScriptRunLock(void*);
@@ -1915,7 +1915,7 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
         NiAVObject* pObject = static_cast<NiAVObject*>(akTask.m_akPackedTaskVariantData[1].pData);
         if (pObject)
         {
-            ::FUN_00c6a270((int)(pObject), true, true, 0);
+            ::FUN_00c6a270((intptr_t)(pObject), true, true, 0);
             ::FUN_00c69ee0(pObject, true, 0);
             reinterpret_cast<::WaitableObject *>((pObject))->FUN_00401970();
         }

@@ -1802,7 +1802,7 @@ void S_00caf4d0_Tracker::FUN_00caf4d0(const S_00caf4d0_Collector* input, const S
 }
 
 struct ContactQuery {
-    void FUN_00cafd00(void*, unsigned);
+    void FUN_00cafd00(void*, uintptr_t);
 };
 struct CadColl {
     int unk00;
@@ -3220,7 +3220,7 @@ public:
 };
 // Creates a local S_Collector and calls FUN_00cae900 with a, b and the collector.
 // @fnv 0x00cafd00
-void ContactQuery::FUN_00cafd00(void* a, unsigned b) {
+void ContactQuery::FUN_00cafd00(void* a, uintptr_t b) {
     S_Collector collector;
     reinterpret_cast<::S00cae900_Proxy *>(this)->FUN_00cae900((*(const ::S00cae900_Vec *)(a)),(*(::S00cae900_SurfaceInfo *)(b)),(*(::S00cae900_Collector *)(&collector)));
 }

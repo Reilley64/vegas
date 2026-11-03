@@ -142,7 +142,7 @@ void FUN_00cb8b40_class::DestroyWorldReference()
 
 // Stores b at self+0xa2 and its negation at self+0xb6; if a is non-null, zeroes four floats at a->0x30->0x1c.
 // @fnv 0x00cb8fe0
-void FUN_00cb8fe0(char* self, int, int a, bool b)
+void FUN_00cb8fe0(char* self, intptr_t, int a, bool b)
 {
     self[0xa2] = b;
     self[0xb6] = !b;

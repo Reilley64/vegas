@@ -110410,7 +110410,7 @@ void FUN_00887a80_Class::FUN_00887a80(unsigned char flag)
     FUN_00cb8fe0_Class* receiver = ((::FUN_00cb8fe0_Class *)(reinterpret_cast<::FUN_00887a10_cls *>(this)->FUN_00887a10()));
     if (receiver)
     {
-        ::FUN_00cb8fe0((char *)(receiver), (int)(((void *)(::FUN_004ae750((void *)this)))), (*(int *)&(const ::FUN_00622570 &)(flag)), {});
+        ::FUN_00cb8fe0((char *)(receiver), (intptr_t)(((void *)(::FUN_004ae750((void *)this)))), (*(int *)&(const ::FUN_00622570 &)(flag)), {});
     }
 }
 
@@ -138508,7 +138508,7 @@ void LimbForceActor::FUN_008b65f0()
         if (pRoot)
         {
             if (ItemUpdateArray)
-                ::FUN_00c6a270((int)(pRoot), true, true, 0);
+                ::FUN_00c6a270((intptr_t)(pRoot), true, true, 0);
             for (unsigned int i = 0; i < ItemUpdateArray; i++)
             {
                 NiAVObject* pFound = 0;

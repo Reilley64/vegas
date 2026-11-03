@@ -1,6 +1,8 @@
 #pragma once
 
+#include <cstdint>
+
 // 0x00cb84f0
 void *FUN_00cb84f0();
 // 0x00cb8fe0
-void FUN_00cb8fe0(char *, int, int, bool);
+void FUN_00cb8fe0(char *, intptr_t, int, bool);

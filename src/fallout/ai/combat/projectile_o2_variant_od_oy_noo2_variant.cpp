@@ -1590,7 +1590,7 @@ bool RefP9::FUN_009c03f0()
         reinterpret_cast<::InterfaceManager *>(&(kQuery))->FUN_00500a20((::Tile *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((((::CollHolderP9 *)(::FUN_00559450((int *)&(m_kCollSrc))))))->GetName()))));
     NiPoint3P9 kRay = kWorldPosition * (reinterpret_cast<::fnv_00979260::Projectile *>(this)->GetFirstLightParameter() - reinterpret_cast<::FUN_00508070_class *>(this)->FUN_00508070());
     NiPoint3P9 kTargetCenter;
-    reinterpret_cast<::FUN_00c66be0_class *>((pkWorld))->FUN_00c66be0((unsigned int)&(kTargetCenter));
+    reinterpret_cast<::FUN_00c66be0_class *>((pkWorld))->FUN_00c66be0((uintptr_t)&(kTargetCenter));
     BroadphaseP9* pkBroadphase = ((::BroadphaseP9 *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetActionEntry()));
     NiPoint3P9 kMaxPoint;
     ::SetNiPoint3FromHkVector4((::NiPoint3 &)(kMaxPoint), (const ::hkVector4 &)(pkBroadphase->m_kMax));

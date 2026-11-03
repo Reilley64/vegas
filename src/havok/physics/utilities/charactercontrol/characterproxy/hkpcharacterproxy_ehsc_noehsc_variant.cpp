@@ -7,6 +7,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
 #include <cstddef>
+#include <cstdint>
 #include "fnv/decl/HostC9C6.h"
 #include "fnv/decl/OwnerCD2A.h"
 #include "fnv/decl/PhantomListeners.h"
@@ -897,7 +898,7 @@ struct S_00caf4d0_Tracker : S_00caf4d0_TrackerBase, S_00caf4d0_EntityListener, S
     void FUN_00caf4d0(const S_00caf4d0_Collector* input, const S_00caf4d0_Collector* extra, bool keepListeners) throw();
 };
 struct ContactQuery {
-    void FUN_00cafd00(void*, unsigned);
+    void FUN_00cafd00(void*, uintptr_t);
 };
 struct CadColl {
     int unk00;

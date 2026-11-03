@@ -2734,7 +2734,7 @@ void FUN_00558c90_shell::FUN_00558c90()
         {
             if (reinterpret_cast<::FUN_00545cb0_shell *>((this))->FUN_00545cb0())
             {
-                ::FUN_00c6a270((int)((NiAVObject*)reinterpret_cast<::FUN_00545cb0_shell *>((this))->FUN_00545cb0()), true, true, 1);
+                ::FUN_00c6a270((intptr_t)((NiAVObject*)reinterpret_cast<::FUN_00545cb0_shell *>((this))->FUN_00545cb0()), true, true, 1);
             }
         }
         preflist = reinterpret_cast<::Callees *>((preflist))->FUN_00726070();
@@ -9042,7 +9042,7 @@ void __cdecl FUN_00552390(SceneNode* root)
                 if (candidate->controller != 0 && ::FUN_00552490((bool *)(candidate->controller)) &&
                     !((bool)(reinterpret_cast<::FUN_005524b0_class *>((candidate->controller))->GetByteAtOffset8C())) && !child->FUN_00552470() && !reinterpret_cast<::MobileObject *>((candidate))->IsInDialogueWithPlayer())
                 {
-                    ::SetTlsValueAndReset((int)(child), 2);
+                    ::SetTlsValueAndReset((intptr_t)(child), 2);
                 }
             }
         }

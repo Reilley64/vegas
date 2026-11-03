@@ -576,7 +576,7 @@ FUN_00682f40::~FUN_00682f40()
     }
     if (reinterpret_cast<::FUN_00683480_shell *>(&((*reinterpret_cast<::DebrisCounter *>(&::g_011c3ea4))))->FUN_00683480(1))
     {
-        ::FUN_00c6a270((int)(m_pSceneObject), true, true, 0);
+        ::FUN_00c6a270((intptr_t)(DebrisNode*)(m_pSceneObject), true, true, 0);
         ::FUN_00c69ee0(m_pSceneObject, true, 0);
     }
     else

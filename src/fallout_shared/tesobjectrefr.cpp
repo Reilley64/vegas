@@ -9079,7 +9079,7 @@ void Fn5672c0::FUN_005672c0(NiAVObject* apObject)
     case 0x1c:
         if (::FUN_00404dc0((*(::fnv_005672c0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((apObject))->GetLinkToList())), (*reinterpret_cast<const char * *>(&::DAT_01197b5c))) == 0 && room && reinterpret_cast<::FUN_004543c0_cls *>((room))->FUN_004543c0())
         {
-            ::FUN_00c6a270((int)(v116()), true, true, 1);
+            ::FUN_00c6a270((intptr_t)(v116()), true, true, 1);
             if (::FUN_008c7aa0())
             {
                 reinterpret_cast<::fnv_0087b1e0::Holder *>((TQI::GetInstance()))->FUN_0087b1e0((::fnv_0087b1e0::G00559a40 *)(::fnv_005672c0::NiAVObject *)(v116()), 1);
@@ -30097,12 +30097,12 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                 reinterpret_cast<::FUN_0043fa80_s *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::BuildReferenceScene::Matrix &)(FUN_0056fa00())));
                 if (::FUN_00564cd0((::VTable64 *)this))
                 {
-                    ::FUN_00c6a040((int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 0, 1, 1);
+                    ::FUN_00c6a040((intptr_t)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 0, 1, 1);
                     Update firstUpdateSlot10(0.0f, 0, 0);
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)&(firstUpdateSlot10));
                     Update secondUpdateSlot12(0.0f, 0, 0);
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)&(secondUpdateSlot12));
-                    ::FUN_00c6a040((int)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 1, 1, 1);
+                    ::FUN_00c6a040((intptr_t)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 1, 1, 1);
                     Vector differenceSlot0 =
                         (*(::BuildReferenceScene::Vector *)(reinterpret_cast<::FUN_00439ef0_class *>(&(position))->FUN_00439ef0((::NiPoint3 *)&(*((::BuildReferenceScene::WorldPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043d450()))->FUN_006815c0()), *(const ::NiPoint3 *)nullptr)));
                     reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(differenceSlot0));

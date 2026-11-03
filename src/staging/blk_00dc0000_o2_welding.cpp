@@ -9,20 +9,7 @@
 #include "fnv/decl/CB0StringPtr.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb0000.h"
-struct S_00ddecf0_Heap;
-struct S_00ddecf0_Router
-{
-    char* unk0;
-    void* unk4;
-    void* unk8;
-    void* unkC;
-    S_00ddecf0_Heap* m_pStreamAllocator;
-    S_00ddecf0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
+#include "havok/hkMemoryRouter.h"
 extern const char DAT_010d8038[];
 
 struct S00ddf070_StringPtr
@@ -72,11 +59,6 @@ struct S00ddf070_Node
     int unk54;
     S00ddf070_Node* FUN_00e0d000(S00ddf070_Node* parent, const char* name, int type) throw();
 };
-struct S00ddf070_Heap
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes) throw();
-};
 
 
 // Finds or creates a child node by name, appends the name to the string pool if new, and accumulates value, count, and two counters on the node.
@@ -105,7 +87,7 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
             {
                 S00ddf070_StringPtr strName;
                 strName.FUN_00cb0b80(name);
-                S00ddf070_Heap& heap = *(S00ddf070_Heap*)&static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap();
+                hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
                 if (strings->m_iElementCount == (strings->m_iCapacityState & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(strings), 4);
                 S00ddf070_StringPtr* dest = strings->m_data + strings->m_iElementCount;
@@ -116,7 +98,7 @@ static __declspec(noinline) S00ddf070_Node* FUN_00ddf070(S00ddf070_Node* parent,
             }
             name = strings->back().cString();
         }
-        void* mem = ((S00ddf070_Heap*)&static_cast<S_00ddecf0_Router*>(::FUN_00c85750())->heap())->AllocateMemoryBlock(0x58);
+        void* mem = hkMemoryRouter::getInstance().heap().blockAlloc(0x58);
         child = mem ? ((S00ddf070_Node*)mem)->FUN_00e0d000(parent, name, 1) : 0;
     }
     child->m_uiFilterValue[0] += (float)value;

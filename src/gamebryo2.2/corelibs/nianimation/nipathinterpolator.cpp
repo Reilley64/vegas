@@ -1729,7 +1729,7 @@ struct PathBlend
 {
     FV3* FUN_00439e90(FV3*, const FV3*);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
+
 extern float DAT_011f3e40;
 extern unsigned int DAT_011f3e44;
 extern "C" double __cdecl atan(double);

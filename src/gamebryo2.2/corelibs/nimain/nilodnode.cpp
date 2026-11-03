@@ -77,7 +77,6 @@ bool NiLODNode::FUN_00a992e0(NiStream* stream)
 }
 
 namespace fnv_00a99670 {
-void __cdecl operator delete(void* p, size_t size);
 struct NiLODNode : public NiSwitchNode
 {
     void FUN_00a99470();

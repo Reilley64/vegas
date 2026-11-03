@@ -467,7 +467,7 @@ struct FUN_00a730e0_cls
     void FUN_00a730e0(unsigned int newCount);
 };
 
-extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
+
 
 // @fnv 0x00a730e0
 void FUN_00a730e0_cls::FUN_00a730e0(unsigned int newCount)

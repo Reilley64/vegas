@@ -137,7 +137,6 @@ void NiD3DShaderProgram::FUN_00eea540(NiD3DShaderProgramCreator* pkCreator)
     *reinterpret_cast<uintptr_t*>(this + 0x1c) = reinterpret_cast<uintptr_t>(pkCreator);
 }
 
-extern "C" void __cdecl operator delete(void*, size_t);
 
 struct FUN_00be0b70_shell
 {
@@ -154,7 +153,6 @@ void* FUN_00be0b70_shell::FUN_00be0b70(unsigned int flags)
     return this;
 }
 
-extern "C" void __cdecl operator delete(void*, size_t);
 
 struct NiD3DHLSLPixelShader : NiD3DPixelShader
 {

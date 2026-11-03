@@ -150,10 +150,6 @@ void LightDerived::FUN_00a75d70(NiTPrimitiveArray<char*, NiTMallocInterface<char
 }  // namespace fnv_00a75d70
 
 
-inline void* operator new(size_t, void* memory) throw()
-{
-    return memory;
-}
 // @fnv 0x00a75d50
 NiDirectionalLight* __cdecl CreateNiDirectionalLight()
 {

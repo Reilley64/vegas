@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c320f0
+#include <new>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
 #include "fnv/decl/MyIsEqual.h"
@@ -19,7 +20,6 @@ char const* const* __cdecl FUN_00c320f0()
     return &(*reinterpret_cast<const char *const *>(&::g_012027e0));
 }
 
-extern "C" void __cdecl operator delete(void*, size_t);
 
 struct NiPSysFieldModifier
 {

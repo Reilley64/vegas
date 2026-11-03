@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <new>
 #include <cstring>
 #include "runtime/crt.h"
 // @fnv 0x00a94820
@@ -75,7 +76,6 @@ void NiStringsExtraData::FreeStrings()
 }
 
 namespace fnv_00a94970 {
-void __cdecl operator delete(void*, size_t);
 struct NiStringsExtraData : NiExtraData
 {
     ~NiStringsExtraData();

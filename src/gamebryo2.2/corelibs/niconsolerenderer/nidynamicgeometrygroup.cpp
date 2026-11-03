@@ -119,7 +119,6 @@ void* FUN_00e95780_shell::FUN_00e95780(unsigned int auiFlags)
     return this;
 }
 
-void __cdecl operator delete(void*, size_t);
 struct FUN_00e95b40_shell
 {
     virtual ~FUN_00e95b40_shell();
@@ -462,10 +461,6 @@ struct NiMemObject
 {
     static void* __cdecl operator new(size_t uiSize);
 };
-inline void* __cdecl operator new(size_t, void* pvMem) throw()
-{
-    return pvMem;
-}
 extern NiGeometryGroup* DAT_0126fa38;
 
 // Creates the NiDynamicGeometryGroup singleton on first use and returns it.

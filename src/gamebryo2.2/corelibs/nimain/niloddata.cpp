@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/niloddata.cpp: NiLODData (5 functions)
+#include <new>
 #include <windows.h>
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/symbols_011f6000.h"
@@ -52,7 +53,6 @@ struct NiObject : public NiRefObject
 {
     virtual ~NiObject();
 };
-extern void __cdecl operator delete(void*, size_t);
 struct NiLODData_shell : public NiObject
 {
     void* FUN_00aa09f0(int flags);

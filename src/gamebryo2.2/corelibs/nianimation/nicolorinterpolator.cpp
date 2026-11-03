@@ -557,10 +557,6 @@ void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
 }
 
 
-inline void* __cdecl operator new(size_t, void* p) throw()
-{
-    return p;
-}
 inline NiColorInterpolator::NiColorInterpolator(NiColorData* data)
     : m_kColorValue(DAT_011a9430), m_spColorData(data), m_uiLastKeyIndex(0)
 {}

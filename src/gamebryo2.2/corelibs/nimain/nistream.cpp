@@ -4326,7 +4326,7 @@ void FUN_00a65300(FUN_00a65300_holder* s)
 }
 
 namespace fnv_00a65400 {
-extern "C" char* __cdecl strstr(const char* pStr, const char* pSub);
+
 int __cdecl FUN_00404d80(char* pDest, unsigned int uiSize, const char* pSrc);
 
 struct NiBinaryStreamStandIn

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp: NiTransformInterpolator, Holder, NiTransformInterpolatorCopy, InterpolatorF7B0 (26 functions)
 
+#include <new>
 #include <cstdint>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -375,10 +376,6 @@ struct FUN_00a40460_shell : public NiTransformInterpolator
     NiObject* FUN_00a40460(CloningProcess*);
 };
 
-inline void* operator new(size_t, void* pkMem)
-{
-    return pkMem;
-}
 struct BSFadeNode
 {
     static void* operator new(size_t);
@@ -1120,10 +1117,6 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
 
 namespace fnv_00a403f0 {
 
-inline void* __cdecl operator new(size_t, void* address)
-{
-    return address;
-}
 // @fnv 0x00a403f0
 FUN_00a3fa30* __cdecl FUN_00a403f0()
 {

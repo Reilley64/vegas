@@ -1433,7 +1433,7 @@ bool S_00e69a20::CreateDepthStencilBuffer(Ni2DBuffer* apBuffer, NiPixelFormat co
 	return NiDX9AdditionalDepthStencilBufferData::Create(dev, &apBuffer, apPixelFormat, c);
 }
 
-extern "C" char* __cdecl strcat_s(char* dest, unsigned int size, const char* src);
+
 struct FUN_00e69c00_shell {
     char pad[0x5cc];
     unsigned int flags;
@@ -20754,7 +20754,7 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
 }
 
 namespace fnv_00e73eb0 {
-extern "C" void* __cdecl memmove(void* pvDst, const void* pvSrc, unsigned int uiSize);
+
 
 
 struct PresentParamsE73E {

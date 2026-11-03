@@ -225,10 +225,6 @@ struct ParticleViewData : NiParticlesData
     void FUN_00a96910(ParticleViewFrame*);
 };
 
-inline void* __cdecl operator new(size_t, void* pv) throw()
-{
-    return pv;
-}
 
 struct Obj_a96
 {

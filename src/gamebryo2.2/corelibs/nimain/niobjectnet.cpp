@@ -502,7 +502,7 @@ struct FUN_00a5c290_shell : public NiObjectNET
     void FUN_00a5c290(NiObjectNET*, CloningProcess*);
 };
 
-extern "C" unsigned int __cdecl strlen(const char*);
+
 
 struct NiGlobalStringTable
 {

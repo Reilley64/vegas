@@ -121,11 +121,11 @@ bool FUN_00a75960_shell::FUN_00a75960(NiObject* apObject)
     {
         NiPlane* pPlaneA = (NiPlane*)((char*)this + 0x1c);
         NiPlane* b = (NiPlane*)((char*)apObject + 0x1c);
-        if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneA))->operator====(*b))
+        if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneA))->operator==(*b))
         {
             NiPlane* pPlaneC = (NiPlane*)((char*)this + 0x28);
             NiPlane* pPlaneD = (NiPlane*)((char*)apObject + 0x28);
-            if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneC))->operator====(*pPlaneD))
+            if (!reinterpret_cast<::NiPlane *>((void *)(pPlaneC))->operator==(*pPlaneD))
             {
                 if (*(int*)((char*)this + 0x34) == *(int*)((char*)apObject + 0x34))
                 {

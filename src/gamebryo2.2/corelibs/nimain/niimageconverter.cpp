@@ -174,7 +174,7 @@ bool ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
 {
     NiPixelFormat& a = *(NiPixelFormat*)apFormatA;
     NiPixelFormat& b = *(NiPixelFormat*)apFormatB;
-    return reinterpret_cast<::NiPixelFormat *>((void *)&((*(FUN_00a76890_eq*)&a)))->operator====(b);
+    return reinterpret_cast<::NiPixelFormat *>((void *)&((*(FUN_00a76890_eq*)&a)))->operator==(b);
 }
 
 namespace fnv_00a76960 {
@@ -375,13 +375,13 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
 {
     const NiPixelData& kSrc = *(const NiPixelData*)src;
     const NiPixelFormat& kDestFmt = *(const NiPixelFormat*)apDestFmt;
-    if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&kSrc.m_kPixelFormat)))->operator!=!=((const ::NiPixelFormat &)(kDestFmt)))
+    if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&kSrc.m_kPixelFormat)))->operator!=((const ::NiPixelFormat &)(kDestFmt)))
         return 0;
     if (pkOptDest)
     {
         if (pkOptDest == &kSrc)
             return pkOptDest;
-        if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)))->operator====((const ::NiPixelFormat &)(kDestFmt)) &&
+        if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)))->operator==((const ::NiPixelFormat &)(kDestFmt)) &&
             *pkOptDest->m_puiWidth == *kSrc.m_puiWidth && *pkOptDest->m_puiHeight == *kSrc.m_puiHeight &&
             pkOptDest->m_uiMipmapLevels <= kSrc.m_uiMipmapLevels)
         {

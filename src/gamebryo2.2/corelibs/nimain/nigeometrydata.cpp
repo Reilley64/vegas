@@ -1209,7 +1209,7 @@ void __cdecl FUN_00a67ae0(Owner* pOwner, uintptr_t pData, unsigned int a3)
 }
 
 namespace fnv_00a66a60 {
-extern "C" void* __cdecl memset(void* pvDst, int iValue, unsigned int uiSize);
+
 
 class MemoryManager
 {

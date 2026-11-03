@@ -257,7 +257,7 @@ void Host61480::AppendGlobalString(StrArr* pkStrings)
 }
 
 namespace fnv_00a60ba0 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
+
 
 class NiRefObject
 {

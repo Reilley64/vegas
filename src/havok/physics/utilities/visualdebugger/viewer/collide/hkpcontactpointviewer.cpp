@@ -954,11 +954,11 @@ static __declspec(noinline) void FUN_00de2aa0(Target* self, Contact67* contact, 
 
     int ok2 = 2;
 
-    float a0 = contactArrowAbs67(((const float*)&dir)[0]);
+    float a0 = contactArrowAbs67(dir.m_vComponents[0]);
 
-    float a1 = contactArrowAbs67(((const float*)&dir)[1]);
+    float a1 = contactArrowAbs67(dir.m_vComponents[1]);
 
-    float a2 = contactArrowAbs67(((const float*)&dir)[2]);
+    float a2 = contactArrowAbs67(dir.m_vComponents[2]);
 
     if (a1 < a0) {
 

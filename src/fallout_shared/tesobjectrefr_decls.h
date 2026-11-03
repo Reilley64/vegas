@@ -49,19 +49,25 @@ extern unsigned char DAT_011dd435;
 
 class BSExtraData;
 class ExtraRadioData;
+class TESObjectCELL;
 class TESModel;
 class TESObjectREFR
 {
   public:
     virtual ~TESObjectREFR();  // polymorphic: its RTTI is used (rtti_fix.py)
   public:
-    unsigned char pad[0x1c];
+    unsigned char pad[0x14];
+    void* kChildCell;      // +0x18, the TESChildCell base
+    void* pLoopSound;      // +0x1C
     void* unk20;
     float unk24;
-    unsigned char pad28[0x4];
+    float fRotY;           // +0x28
     float unk2c;
-    unsigned char pad30[0xc];
+    float afPosition[3];   // +0x30
     float m_fObjectScale;  // +0x3C
+    TESObjectCELL* pParentCell;     // +0x40
+    unsigned char kExtraList[0x20];  // +0x44, an ExtraDataList
+    void* pLoadedData;              // +0x64
     static BGSEncounterZone* FindEncounterZone();
     float GetScale();
 public:

@@ -4332,7 +4332,7 @@ class ProfTarget
   public:
     virtual void v0();
     virtual void v1();
-    virtual void v2(unsigned a1);
+    virtual void v2(void* a1);
     virtual void v3();
     virtual void v4();
 };
@@ -4361,7 +4361,7 @@ __forceinline void ProfMark(const char* name, volatile DWORD& outTick)
 }
 // Iterates m_kTargets in reverse, calling v2 on each non-null ProfTarget with a2, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00a00
-void __cdecl NotifyTargets(ProfOwner* pOwner, DWORD a2)
+void __cdecl NotifyTargets(ProfOwner* pOwner, void* a2)
 {
     volatile DWORD beginTick, endTick;
     D00370Array& targets = pOwner->m_kTargets;

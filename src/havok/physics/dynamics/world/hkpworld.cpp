@@ -1393,7 +1393,7 @@ struct bhkWorld {
 
 // 0x00c910a0  ret 4
 // @fnv 0x00c910a0
-void FUN_00c910a0(int) {
+void FUN_00c910a0(const void*) {
 }
 
 // @fnv 0x00c911a0

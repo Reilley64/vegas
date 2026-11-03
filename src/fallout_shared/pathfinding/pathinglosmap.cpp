@@ -45,12 +45,12 @@ struct DummyPointerMap
 struct PathingLOSMap
 {
     char* pTriangleScores;
-    char* GetTriangleScore(unsigned int aNavMeshID);
+    char* GetTriangleScore(std::uintptr_t aNavMeshID);
 };
 
 // Looks up aNavMeshID in the map at this+8 and returns a pointer into the buffer at this+0x18 offset by the stored offset, or null if not found.
 // @fnv 0x006e1610
-char* PathingLOSMap::GetTriangleScore(unsigned int aNavMeshID)
+char* PathingLOSMap::GetTriangleScore(std::uintptr_t aNavMeshID)
 {
     unsigned int ioffset;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(aNavMeshID, (::fnv_00853130::CombatThreatRecord *&)(ioffset)))
@@ -144,7 +144,7 @@ struct Script
 };
 struct FUN_006e1770_shell
 {
-    bool FUN_006e1770(unsigned int a, unsigned int b);
+    bool FUN_006e1770(std::uintptr_t a, unsigned int b);
 };
 namespace fnv_006e2000 {
 struct Script
@@ -325,7 +325,7 @@ struct FUN_006e1670_cls
 };
 // Returns false if the helper at offset 0x1c reports true; otherwise scans text entries and returns true on the first non-positive char whose lookup succeeds.
 // @fnv 0x006e1770
-bool FUN_006e1770_shell::FUN_006e1770(unsigned int a, unsigned int b)
+bool FUN_006e1770_shell::FUN_006e1770(std::uintptr_t a, unsigned int b)
 {
     if (reinterpret_cast<::FUN_0076b610_Class *>((void *)(((const ArrHelper*)((char*)this + 0x1c))))->FUN_0076b610())
         return false;
@@ -357,7 +357,7 @@ char FUN_006e1670_cls::FUN_006e1670(unsigned int limit, SpawnedTarget* target, u
     {
         unsigned int len;
         Script* script = ((::Script *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SeqEntry *)(::FUN_00559450((int *)(((SeqList*)&this->unk1c)->FUN_00877a30(accum)))))))->FUN_0084e3a0()));
-        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)&this->unk08)))->FUN_00853130((unsigned int)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
+        if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((((SubMatcher*)&this->unk08)))->FUN_00853130((std::uintptr_t)(script), (*(::fnv_00853130::CombatThreatRecord * *)(&len))))
         {
             return 0;
         }

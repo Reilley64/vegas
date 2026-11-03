@@ -99,11 +99,11 @@ struct Arr16
 {
     int pad;
     Elem16* data;
-    unsigned int AppendValue(int value);
+    unsigned int AppendValue(std::intptr_t value);
 };
 // Appends a new element at the end of the array, initializes it with the given value, and returns its index.
 // @fnv 0x006c8810
-unsigned int Arr16::AppendValue(int value)
+unsigned int Arr16::AppendValue(std::intptr_t value)
 {
     unsigned int index = ::FUN_006f31f0((::S5460 *)this);
     reinterpret_cast<::FUN_006c8a90_Class *>(this)->InitializeArray((char *)(::Elem16 *)(&data[index]), 1);
@@ -443,7 +443,7 @@ bool ObstacleTaskData::AddOperation(const NiPointer<ObstacleData>& obstacle, OBS
     NavMeshPtr navMesh;
     if (pInfo->ResolveNavMesh(navMesh))
     {
-        reinterpret_cast<::Arr16 *>(&(Operations))->AppendValue((int)&(const ::ObstacleTask &)(ObstacleTask(obstacle, type, navMesh)));
+        reinterpret_cast<::Arr16 *>(&(Operations))->AppendValue((std::intptr_t)&(const ::ObstacleTask &)(ObstacleTask(obstacle, type, navMesh)));
         return true;
     }
     else
@@ -568,7 +568,7 @@ bool ObstacleTaskShell::FUN_006c85e0()
         reinterpret_cast<::HX *>((((ObstacleMesh*)m_spSourceNavMesh)))->FUN_006d3100((::CombatCoverPointData *)(::NavMeshInfo *)(0));
         reinterpret_cast<::NavMesh *>((((ObstacleMesh*)m_spWorkingNavMesh)))->ForceSetFormID(formID);
         reinterpret_cast<::HX *>((((ObstacleMesh*)m_spWorkingNavMesh)))->FUN_006d3100((::CombatCoverPointData *)(::NavMeshInfo *)((NavMeshInfo*)pInfo));
-        reinterpret_cast<::FUN_005a8040_class *>((pInfo))->SetField54((int)(m_spWorkingNavMesh.Get()));
+        reinterpret_cast<::FUN_005a8040_class *>((pInfo))->SetField54((std::intptr_t)(m_spWorkingNavMesh.Get()));
         return true;
     }
     else

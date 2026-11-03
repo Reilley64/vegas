@@ -75,7 +75,7 @@ void NavMeshObstacleManager::ProcessActivatedObstacles()
         bhkRigidBody* body;
         reinterpret_cast<::C006c6030 *>(&(m_kActivatedRigidBodies))->FUN_006c6030((void *)&(body));
         NiPointer<ObstacleData> obstacle;
-        if (reinterpret_cast<::Map62d0 *>((void *)&(RigidBodyObstacleLookup))->FUN_006c62d0((unsigned int)(body), (void **)&(obstacle)))
+        if (reinterpret_cast<::Map62d0 *>((void *)&(RigidBodyObstacleLookup))->FUN_006c62d0((std::uintptr_t)(body), (void **)&(obstacle)))
         {
             if (reinterpret_cast<::FUN_006c6400_Node *>(&(m_kActiveObstacles))->Contains((const ::NiPointer< ::NiAVObject> &)(obstacle)))
                 continue;
@@ -939,7 +939,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
         return;
     qQMZREG = reinterpret_cast<::FUN_00620b80_shell *>((qfTOqo))->GetReferenceFlags();
     SpX<NodeX> qAhbO(0);
-    if (!reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((unsigned int)(apCell), (void **)&(qAhbO)))
+    if (!reinterpret_cast<::Map62d0 *>(&(kMap))->FUN_006c62d0((std::uintptr_t)(apCell), (void **)&(qAhbO)))
     {
         qAhbO = new NodeX(qQMZREG * 2);
         ((NodeX*)(*reinterpret_cast<::SpX< ::NodeX> *>(&::g_011d6e5c)))->AttachChildInAvailableSlot(qAhbO, true);
@@ -1250,7 +1250,7 @@ void NavRenderX::FUN_006a37a0(CellX* apCell, bool abUpdate)
         memcpy(qFffvLe, &qkJsUdT.GetAt(0), qXMUYT * sizeof(Pt3X));
         memcpy(qZAdkzg, &qrEZrs.GetAt(0), qXMUYT * sizeof(ColorX));
         SpX<AVObjX> qpTd(new TriShapeX(qXMUYT, qFffvLe, 0, qZAdkzg, 0, 0, 0, qMBds, qaGEwZ));
-        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (int)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
+        ::AssignFixedString((char *)(((AVObjX*)qpTd)), (std::intptr_t)&(const ::FixedStrX &)(FixedStrX("NavMesh Triangles")), {});
         SpX<AVObjX> qSVM(new PropX());
         ((AVObjX*)qSVM)->SetFlags(0x20, 0);
         reinterpret_cast<::FUN_00439410_cls *>((((AVObjX*)qpTd)))->FUN_00439410((::ArgObject *)(::AVObjX *)(spVertexColor));

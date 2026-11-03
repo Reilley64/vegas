@@ -522,7 +522,7 @@ struct TES
 // @fnv 0x006d6f60
 void __cdecl ForwardToPathing(void* apArg1, void* apArg2)
 {
-    reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((PathStub*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::fnv_006d6f60::TES * *>(&::g_TES))))->FUN_0045af00())))))->FUN_006b7850((::TESWorldSpace *)(apArg1), (int)(apArg2));
+    reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((PathStub*)((::Pathing *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::fnv_006d6f60::TES * *>(&::g_TES))))->FUN_0045af00())))))->FUN_006b7850((::TESWorldSpace *)(apArg1), (std::intptr_t)(apArg2));
 }
 }  // namespace fnv_006d6f60
 
@@ -1734,7 +1734,7 @@ struct DecompPathScope
 int __cdecl QueryPathScope(void* pStart, void* b, void* pQueryArg)
 {
     DecompPathScope scope(pStart, b);
-    return reinterpret_cast<::FUN_006c93f0_Object *>(&(scope))->ProcessIndexRange((int)(pQueryArg));
+    return reinterpret_cast<::FUN_006c93f0_Object *>(&(scope))->ProcessIndexRange((std::intptr_t)(pQueryArg));
 }
 
 struct BaseInitHelper
@@ -1987,7 +1987,7 @@ bool FUN_006d0be0(PathingRequestClosePoint* request, PathingSolution* solution)
     ClosePointSearch p;
     CloseTriangleArray ba(32, 0, 0);
     CloseLinkArray s(32, 0, 0);
-    if (!reinterpret_cast<::FleeSearch *>(&(p))->StartFleeSearch((::FleeRequest *)(request), (const ::FleeStartNode *)(::CloseTriangle *)(&f), (::FleePath *)(::CloseTriangleArray *)(&ba), (unsigned int)(&s)))
+    if (!reinterpret_cast<::FleeSearch *>(&(p))->StartFleeSearch((::FleeRequest *)(request), (const ::FleeStartNode *)(::CloseTriangle *)(&f), (::FleePath *)(::CloseTriangleArray *)(&ba), (std::uintptr_t)(&s)))
         return false;
     CloseTriangle i = (*(::CloseTriangle *)(reinterpret_cast<::FUN_006b3160_shell *>(&(ba))->FUN_006b3160(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(ba))->GetName())) - 1)));
     NiPoint3 e = reinterpret_cast<::NavMesh *>((i.mesh))->GetNavMeshData(i.triangle);
@@ -2249,7 +2249,7 @@ bool __cdecl FUN_006d1660(RequestView* request, SolutionView* solution)
     TriangleArray ba(32, 0, 0);
     MeshArray s(32, 0, 0);
     bool q = true;
-    if (!reinterpret_cast<::fnv_006aa780::FUN_006aa780_Class *>(&(p))->FUN_006aa780((::fnv_006aa780::World *)(request), (const ::fnv_006aa780::Location *)(::MeshTriangle *)(&eb), (int)(&ba), (int)(&s)))
+    if (!reinterpret_cast<::fnv_006aa780::FUN_006aa780_Class *>(&(p))->FUN_006aa780((::fnv_006aa780::World *)(request), (const ::fnv_006aa780::Location *)(::MeshTriangle *)(&eb), (std::intptr_t)(&ba), (int)(&s)))
     {
         if (((void *)(reinterpret_cast<::FUN_006d1be0_Class *>(&(p))->GetField2090())))
             a = reinterpret_cast<::HX *>(&(p))->FUN_006a8290((::PNode *)(void *)(((void *)(reinterpret_cast<::FUN_006d1be0_Class *>(&(p))->GetField2090()))), (::BSSimpleArray< ::NavMeshTriangleReference, 1024> *)(::TriangleArray *)(&ba), (::BSSimpleArray< ::EdgeExtraInfo, 1024> *)(::MeshArray *)(&s));
@@ -2277,7 +2277,7 @@ bool __cdecl FUN_006d1660(RequestView* request, SolutionView* solution)
     {
         NavMeshPtr endMesh;
         unsigned short endTriangle = 0;
-        if (reinterpret_cast<::FUN_006e1770_shell *>((((::SearchResult *)(std::uintptr_t)(reinterpret_cast<::FUN_006d1c40_Class *>(&(p))->FUN_006d1c40()))))->FUN_006e1770((unsigned int)(&endMesh), (unsigned int)(&endTriangle)))
+        if (reinterpret_cast<::FUN_006e1770_shell *>((((::SearchResult *)(std::uintptr_t)(reinterpret_cast<::FUN_006d1c40_Class *>(&(p))->FUN_006d1c40()))))->FUN_006e1770((std::uintptr_t)(&endMesh), (unsigned int)(&endTriangle)))
         {
             unsigned int p = ((int)(reinterpret_cast<::BGSTerrainManager *>((solution))->GetMinLevel()));
             if (p == 0xffffffff || !::FUN_005a4320((char *)(solution)))
@@ -2511,7 +2511,7 @@ bool BuildPathBetweenLocations(RequestOps* request, SolutionOps* result)
     result->endIndex = 1;
     DetailedBuilder l;
     SmoothRoute c(32, 0, 0);
-    reinterpret_cast<::FUN_006ed530_cls *>(&(l))->FUN_006ed530((::NodeA *)(request), (::ArgObj *)&(q), (::ArgObj *)&(i), (::Triple *)&(p), (::Triple *)&(e), (int)(result), (::Gate *)(0), true);
+    reinterpret_cast<::FUN_006ed530_cls *>(&(l))->FUN_006ed530((::NodeA *)(request), (::ArgObj *)&(q), (::ArgObj *)&(i), (::Triple *)&(p), (::Triple *)&(e), (std::intptr_t)(result), (::Gate *)(0), true);
     result->beginIndex = 0;
     result->endIndex = ::FUN_005a4320((char *)(result)) - 1;
     return true;
@@ -2969,10 +2969,10 @@ unsigned int __cdecl FindNearbyTriangles(GeometrySource* geometry, OutputList* o
     for (nodeIndex7 = 0; nodeIndex7 < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshesVal))->GetName())); ++nodeIndex7)
     {
         reinterpret_cast<::NavMeshPtr *>(&(kNodes))->operator=((*(const ::NavMeshPtr *)(meshesVal.FUN_00877a30(nodeIndex7))));
-        triangleCountTmp = (unsigned short)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::NodeCollection *)(::FUN_00461110((int)(((::ParentNode *)(::FUN_00559450((int *)&(kNodes))))))))))->GetName()));
+        triangleCountTmp = (unsigned short)((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::NodeCollection *)(::FUN_00461110((std::intptr_t)(((::ParentNode *)(::FUN_00559450((int *)&(kNodes))))))))))->GetName()));
         for (triangleIndexB = 0; triangleIndexB < triangleCountTmp; ++triangleIndexB)
         {
-            linkedIndexVal = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((((::NodeCollection *)(::FUN_00461110((int)(((::ParentNode *)(::FUN_00559450((int *)&(kNodes))))))))))->FUN_0069dec0(triangleIndexB)));
+            linkedIndexVal = *((unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((((::NodeCollection *)(::FUN_00461110((std::intptr_t)(((::ParentNode *)(::FUN_00559450((int *)&(kNodes))))))))))->FUN_0069dec0(triangleIndexB)));
             triangle16 = ((::Triangle *)(reinterpret_cast<::NavMesh *>((((::ParentNode *)(::FUN_00559450((int *)&(kNodes))))))->GetTriangle(linkedIndexVal)));
             if (!reinterpret_cast<::B690770Object *>((triangle16))->HasFlags())
                 continue;
@@ -5995,7 +5995,7 @@ bool __cdecl IsPathingLocationClear(PathingLocation* location, float radius)
     for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(meshes))->GetName())); ++i)
     {
         TriangleIndices indices;
-        reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - RadiusPoint(radius, radius, 0.0f)),
+        reinterpret_cast<::Obj00696c00 *>((((MeshAccessor*)((::NavMesh *)(::FUN_00559450((int *)&(meshes.FUN_00877a30(i))))))))->ForwardToSub((std::intptr_t)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) - RadiusPoint(radius, radius, 0.0f)),
                            (int)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>()) + RadiusPoint(radius, radius, 0.0f)), (int)&(indices));
         for (unsigned int j = 0; j < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(indices))->GetName())); ++j)
         {
@@ -8552,7 +8552,7 @@ bool __cdecl FUN_006d1c60(P048Request* request, P048Solution* solution)
     P048Hide hide;
     P048Open open2(32, 0, 0);
     P048Closed closedB(32, 0, 0);
-    if (!((bool)(reinterpret_cast<::HideSearchX *>(&(hide))->SetupActorTarget((::ActorX *)(request), (::TriRef20 *)(::P048Node *)(&startTmp), (::ParamX *)(::P048Open *)(&open2), (int)(&closedB)))))
+    if (!((bool)(reinterpret_cast<::HideSearchX *>(&(hide))->SetupActorTarget((::ActorX *)(request), (::TriRef20 *)(::P048Node *)(&startTmp), (::ParamX *)(::P048Open *)(&open2), (std::intptr_t)(&closedB)))))
         return false;
     P048Node end3 = *((::P048Node *)(reinterpret_cast<::FUN_006b3160_shell *>(&(open2))->FUN_006b3160(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(open2))->GetName())) - 1)));
     NiPoint3 goal_2;
@@ -8563,7 +8563,7 @@ bool __cdecl FUN_006d1c60(P048Request* request, P048Solution* solution)
     solution->last = 1;
     P048Final builder;
     P048Unused scratch_2(32, 0, 0);
-    reinterpret_cast<::FUN_006ed530_cls *>(&(builder))->FUN_006ed530((::NodeA *)(request), (::ArgObj *)(::P048Open *)(&open2), (::ArgObj *)(::P048Closed *)(&closedB), (::Triple *)(::NiPoint3 *)(&origin6), (::Triple *)(::NiPoint3 *)(&goal_2), (int)(solution), (::Gate *)(0), 1);
+    reinterpret_cast<::FUN_006ed530_cls *>(&(builder))->FUN_006ed530((::NodeA *)(request), (::ArgObj *)(::P048Open *)(&open2), (::ArgObj *)(::P048Closed *)(&closedB), (::Triple *)(::NiPoint3 *)(&origin6), (::Triple *)(::NiPoint3 *)(&goal_2), (std::intptr_t)(solution), (::Gate *)(0), 1);
     solution->current = 0;
     solution->last = ::FUN_005a4320((char *)(solution)) - 1;
     return true;
@@ -8999,7 +8999,7 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     PathMeshArray c;
     FUN_006d91d0(&c);
     SearchPoint triangleFilter;
-    if (reinterpret_cast<::FUN_006ab4a0_shell *>(&(eb))->StartSearch((int)(request), (::NavMeshSearchLocation *)(::fnv_006d23d0::TriangleCandidate *)(&b), &tolerance, (::PathBuilderDetailedPathInfos *)(::fnv_006d23d0::CandidateArray *)(&memory), (::PathBuilderDetailedPathInfos *)(::fnv_006d23d0::DestinationArray *)(&f)))
+    if (reinterpret_cast<::FUN_006ab4a0_shell *>(&(eb))->StartSearch((std::intptr_t)(request), (::NavMeshSearchLocation *)(::fnv_006d23d0::TriangleCandidate *)(&b), &tolerance, (::PathBuilderDetailedPathInfos *)(::fnv_006d23d0::CandidateArray *)(&memory), (::PathBuilderDetailedPathInfos *)(::fnv_006d23d0::DestinationArray *)(&f)))
     {
         originTriangle = (*(::fnv_006d23d0::TriangleCandidate *)(reinterpret_cast<::FUN_006b3160_shell *>(&(memory))->FUN_006b3160(((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(memory))->GetName())) - 1)));
         if (!reinterpret_cast<::FUN_006a9520_Class *>((((LocationOperations*)&tolerance)))->FUN_006a9520())
@@ -9139,7 +9139,7 @@ bool __cdecl FUN_006d74c0(PathingLocation& start, const NiPoint3& end, NavMesh* 
         unsigned short triangleX;
         int nextEdge4;
         bool canCrossA =
-            reinterpret_cast<::NavMeshEdgeQuery *>((((MeshOps*)(NavMesh*)currentMesh5)))->FUN_0068f3b0(triangle6, edges3, (::NiPointer< ::NavMesh> &)(nextMesh5), (int)&(triangleX), nextEdge4);
+            reinterpret_cast<::NavMeshEdgeQuery *>((((MeshOps*)(NavMesh*)currentMesh5)))->FUN_0068f3b0(triangle6, edges3, (::NiPointer< ::NavMesh> &)(nextMesh5), (std::intptr_t)&(triangleX), nextEdge4);
         if (canCrossA && filter)
         {
             EdgeRef fromEdge((NavMesh*)currentMesh5, triangle6, edges3);

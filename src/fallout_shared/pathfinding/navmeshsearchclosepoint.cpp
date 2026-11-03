@@ -2477,7 +2477,7 @@ bool FUN_006a90a0_Class::IsNodeWithinSearchCriteria(NavMeshTriangleReference* ap
     float fAvoidCost = 0.0f;
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(this->pRequest))->GetString())))
     {
-        fAvoidCost = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((PathingAvoidNodeArray_Sub*)((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(this->pRequest))->GetString())))))->SumNodeValues((int)&(pt));
+        fAvoidCost = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((PathingAvoidNodeArray_Sub*)((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(this->pRequest))->GetString())))))->SumNodeValues((std::intptr_t)&(pt));
     }
     return fAvoidCost <= ::_DAT_01012060;
 }

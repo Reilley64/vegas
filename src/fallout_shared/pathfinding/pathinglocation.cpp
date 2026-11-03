@@ -1181,7 +1181,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
             NavMeshPtr mesh;
             if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
                 m_usTriangleID =
-                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
         }
         return true;
     }
@@ -1195,7 +1195,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
                 !((NiPointer<NiNode>*)&mesh)->operator->()->GetDisabled())
             {
                 unsigned short triangle =
-                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                    reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
                 if (triangle != 0xffff)
                 {
                     m_pLocationNavMesh =
@@ -1232,7 +1232,7 @@ bool PathingLocationProxy::FindContainingTriangle(FindTriangleForLocationFilter*
                     pNavMeshInfoArray = 0;
                     NavMeshPtr mesh;
                     if (const_cast<NavMeshInfo*>(m_pLocationNavMesh)->ResolveNavMesh(mesh))
-                        m_usTriangleID = reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (int)(filter));
+                        m_usTriangleID = reinterpret_cast<::fnv_00696a50::FUN_00696a50_shell *>((((NavMesh*)((NiPointer<NiNode>*)&mesh)->operator->())))->FUN_00696a50((const ::NiPoint3 *)&(Location), (std::intptr_t)(filter));
                     reinterpret_cast<::FUN_006dcfe0_shell *>(this)->FUN_006dcfe0(true);
                     return true;
                 }

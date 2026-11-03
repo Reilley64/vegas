@@ -2,6 +2,7 @@
 #ifndef TESWORLDSPACE_PACKET_H
 #define TESWORLDSPACE_PACKET_H
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CellView.h"
@@ -185,7 +186,7 @@ class TESWorldSpace
     char padC1[7];
     float fC8;
     float fCC;
-    unsigned int fieldD0;
+    std::uintptr_t fieldD0;
     bool SetDateTimeText(const char*);
     BGSTerrainManager* GetWorldTerrainManager();
     TESWorldSpace* GetParentWorld(PARENT_USE_FLAG);
@@ -200,7 +201,7 @@ class TESWorldSpace
     bool GetSmallWorld();
     bool IsFlag4C20Set();
     void SetParent(TESWorldSpace*);
-    void SetFieldD0(unsigned int);
+    void SetFieldD0(std::uintptr_t);
     void FUN_00588270(BSSimpleArray<TESObjectREFR*, 1024>&);
 };
 class Tile;

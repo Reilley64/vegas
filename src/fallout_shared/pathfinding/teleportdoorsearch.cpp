@@ -115,7 +115,7 @@ struct FUN_006f3e30_shell
     FUN_00996840_shell kMap;
     char pad18[0x1ff4 - 0x15];
     FUN_006f4430_shell kQueue;
-    int InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode);
+    int InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode);
 };
 // @fnv 0x006f36d0
 bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, TeleportLink>* node,
@@ -193,7 +193,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                 continue;
             a01 = node->cost + b00 + a06;
             a07 = ((::TESObjectCELL *)(reinterpret_cast<::TeleportableReference *>((a00->GetExtraRadioData()))->FUN_0043a2b0()));
-            switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((unsigned int)(b01), a01, (::AStarNodeTD **)&(a08)))
+            switch (reinterpret_cast<::FUN_006f3e30_shell *>(this)->InsertOrUpdateNode((std::uintptr_t)(b01), a01, (::AStarNodeTD **)&(a08)))
             {
             case 0:
                 if (((int)(reinterpret_cast<::TeleportableReference *>((reinterpret_cast<ExtraLock*>(a00->GetExtraRadioData())))->GetTeleportWorldspace())))
@@ -222,7 +222,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
 }
 
 // @fnv 0x006f3e30
-int FUN_006f3e30_shell::InsertOrUpdateNode(unsigned int aiKey, float afCost, AStarNodeTD** aRetNode)
+int FUN_006f3e30_shell::InsertOrUpdateNode(std::uintptr_t aiKey, float afCost, AStarNodeTD** aRetNode)
 {
     AStarNodeTD** pBucketHead = (AStarNodeTD**)&this->kMap + kMap.FUN_00996840(aiKey);
     if (*pBucketHead)

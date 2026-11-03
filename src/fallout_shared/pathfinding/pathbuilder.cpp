@@ -420,7 +420,7 @@ struct Item48
 unsigned int FUN_006c99c0_shell::AddPathingItem(void* a, TESObjectREFR* pRefr)
 {
     void* idx = ((PathBuilder*)((char*)this + 8))->AdvanceCounter();
-    void* mem = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((int)(idx))));
+    void* mem = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((std::intptr_t)(idx))));
     new (mem) Item48(a, pRefr);
     return (unsigned int)idx;
 }
@@ -935,10 +935,10 @@ struct S006dd460
 struct Mid
 {
     int x;
-    void FUN_006cc560(int);
+    void FUN_006cc560(std::intptr_t);
 };
 // @fnv 0x006cc560
-void Mid::FUN_006cc560(int aiValue)
+void Mid::FUN_006cc560(std::intptr_t aiValue)
 {
     *(int*)((char*)this + 0x38) = aiValue;
     reinterpret_cast<::FUN_006dd460 *>((((S006dd460*)((char*)this + 4))))->FUN_006dd460_1(*(const ::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>(((*(S00568fa0**)((char*)this + 0x38))))->FUN_00568fa0()));
@@ -1049,7 +1049,7 @@ struct FUN_006cef10_shell : S5460
 void* FUN_006c90d0_fix::FUN_006c90d0(const PathingInfoEntry& aItem)
 {
     void* v1 = ((void *)(::std::uintptr_t)(reinterpret_cast<::FUN_006cef10_shell *>((((PathBuilder*)((char*)this + 8))))->AdvanceCounter()));
-    void* v2 = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((int)(v1))));
+    void* v2 = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((std::intptr_t)(v1))));
     new (v2) Item48(aItem);
     return v1;
 }
@@ -1116,15 +1116,15 @@ struct FUN_006c9920_cls
     unsigned int unk00;
     unsigned int unk04;
     FUN_006c9920_sub08 m_08;
-    void* ConstructThing(unsigned int a);
+    void* ConstructThing(std::uintptr_t a);
 };
 
 // Gets a buffer from m_08, constructs a FUN_006c9920_thing in it with a, and returns the buffer pointer.
 // @fnv 0x006c9920
-void* FUN_006c9920_cls::ConstructThing(unsigned int auiValue)
+void* FUN_006c9920_cls::ConstructThing(std::uintptr_t auiValue)
 {
     void* r7 = ((void *)(::std::uintptr_t)(reinterpret_cast<::FUN_006cef10_shell *>(&(m_08))->AdvanceCounter()));
-    void* s = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(&(m_08))->FUN_006e8f40((int)(r7))));
+    void* s = ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(&(m_08))->FUN_006e8f40((std::intptr_t)(r7))));
     new (s) FUN_006c9920_thing(auiValue);
     return r7;
 }
@@ -2004,7 +2004,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
             void* i = reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b);
             if (reinterpret_cast<::PathingGraphNode *>((((NodeS*)i)))->IsTransitionNode())
             {
-                ((Mid*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->FUN_006cc560((int)((void *)(::std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((NodeS*)i)))->GetIconFormID())));
+                ((Mid*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->FUN_006cc560((std::intptr_t)((void *)(::std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((NodeS*)i)))->GetIconFormID())));
             }
             else if (reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)i)))->GetCurrentProcessData())))))->GetMinLevel() != 0)
             {
@@ -2097,7 +2097,7 @@ bool PathBuilder::TryConnectPathNodes(unsigned int a, unsigned int b)
         void* nodeB = reinterpret_cast<::FUN_006e78b0_shell *>((((SolS*)m_pOutputSolution)))->FUN_006e78b0(b);
         if (reinterpret_cast<::PathingGraphNode *>((((NodeS*)nodeB)))->IsTransitionNode())
         {
-            ((Mid*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->FUN_006cc560((int)((void *)(::std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((NodeS*)nodeB)))->GetIconFormID())));
+            ((Mid*)reinterpret_cast<::S_FUN_006b05a0 *>((((SolS*)m_pOutputSolution)))->FUN_006b05a0())->FUN_006cc560((std::intptr_t)((void *)(::std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((NodeS*)nodeB)))->GetIconFormID())));
         }
         else if (reinterpret_cast<::BGSTerrainManager *>((((MinS*)((void *)(reinterpret_cast<::BaseProcess *>((((NodeS*)nodeB)))->GetCurrentProcessData())))))->GetMinLevel() != 0)
         {
@@ -4375,10 +4375,10 @@ struct FUN_006c93f0_Object
     int unk00;
     FUN_006c93f0_Collection* collection;
     bool FUN_006ca0e0(int flag, int index);
-    int ProcessIndexRange(int index);
+    int ProcessIndexRange(std::intptr_t index);
 };
 // @fnv 0x006c93f0
-int FUN_006c93f0_Object::ProcessIndexRange(int index)
+int FUN_006c93f0_Object::ProcessIndexRange(std::intptr_t index)
 {
     int firstIndex = -1;
     int lastIndex = -1;
@@ -4773,7 +4773,7 @@ bool ThisCls::ComputePathingLocation(ArgObj* a0, ArgObj* a1, PathingLocation* ap
         NiPoint3 pt84S;
         NiPoint3 pt90N;
         float rf94;
-        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->CollectTrianglesForDoor((unsigned int)(((::Inner2 *)(reinterpret_cast<::PathingLocationProxy *>((((::Inner *)(reinterpret_cast<::BaseProcess *>((a1))->GetCurrentProcessData()))))->GetAssociatedNavMesh()))), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&zarr));
+        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((::NavMeshShell *)(::FUN_00559450((int *)&(navPtr))))))->CollectTrianglesForDoor((std::uintptr_t)(((::Inner2 *)(reinterpret_cast<::PathingLocationProxy *>((((::Inner *)(reinterpret_cast<::BaseProcess *>((a1))->GetCurrentProcessData()))))->GetAssociatedNavMesh()))), (::fnv_00697590::BSSimpleArrayActor *)(void *)(&zarr));
         bestIdxz = 0xffff;
         ubest = DAT_01016970;
         ui = 0;
@@ -4903,7 +4903,7 @@ bool This152::FindNavMeshLocation(ArgObj* from, ArgObj* to, Out152* output)
     else
     {
         TriArr triangles(0, 0, field08);
-        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((Mesh152*)((::NavMeshShell *)(::FUN_00559450((int *)&(mesh)))))))->CollectTrianglesForDoor((unsigned int)(((::Inner2 *)(reinterpret_cast<::PathingLocationProxy *>((((::Inner *)(reinterpret_cast<::BaseProcess *>((from))->GetCurrentProcessData()))))->GetAssociatedNavMesh()))), (::fnv_00697590::BSSimpleArrayActor *)(::TriArr *)(&triangles));
+        reinterpret_cast<::fnv_00697590::FUN_00697590_shell *>((((Mesh152*)((::NavMeshShell *)(::FUN_00559450((int *)&(mesh)))))))->CollectTrianglesForDoor((std::uintptr_t)(((::Inner2 *)(reinterpret_cast<::PathingLocationProxy *>((((::Inner *)(reinterpret_cast<::BaseProcess *>((from))->GetCurrentProcessData()))))->GetAssociatedNavMesh()))), (::fnv_00697590::BSSimpleArrayActor *)(::TriArr *)(&triangles));
         unsigned int minDistance = 0xffff;
         float best = DAT_01016970;
         for (unsigned int i = 0; i < ((unsigned int)(::std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(triangles))->GetName())); ++i)
@@ -7561,7 +7561,7 @@ bool RouteBuilder::BuildRoute(void* from, void* to)
                 }
             }
             else
-                reinterpret_cast<::FUN_006c9920_cls *>((solution))->ConstructThing((unsigned int)(infos.FUN_00877a30(i2)));
+                reinterpret_cast<::FUN_006c9920_cls *>((solution))->ConstructThing((std::uintptr_t)(infos.FUN_00877a30(i2)));
         }
         reinterpret_cast<::FUN_006c90d0_fix *>((solution))->FUN_006c90d0((const ::PathingInfoEntry &)((*(::RouteInfo *)(::FUN_006a9540((char *)(request))))));
     }

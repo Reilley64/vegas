@@ -1328,7 +1328,7 @@ struct FUN_0069b240_Holder
     int field_0;
     unsigned short* field_4;
     unsigned int field_8;
-    int FindMatchingIndex(int, unsigned int, bool(__cdecl*)(unsigned short*, int));
+    int FindMatchingIndex(std::intptr_t, unsigned int, bool(__cdecl*)(unsigned short*, int));
 };
 // @fnv 0x006987d0
 void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoint3& afFudge,
@@ -1363,7 +1363,7 @@ void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoi
             {
                 for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(parray))->GetName())); i++)
                 {
-                    if (reinterpret_cast<::FUN_0069b240_Holder *>((apRetTriangles))->FindMatchingIndex((int)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1)
+                    if (reinterpret_cast<::FUN_0069b240_Holder *>((apRetTriangles))->FindMatchingIndex((std::intptr_t)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i)), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) != -1)
                         continue;
                     NavMeshTriangleEx* ptri = (NavMeshTriangleEx*)GetTriangle(reinterpret_cast<::FUN_0069dec0_class *>((void *)(parray))->FUN_0069dec0(i));
                     if (reinterpret_cast<::FUN_00691140_shell *>((ptri))->FUN_00691140(0x20))
@@ -1438,7 +1438,7 @@ void NavMeshOverlap::FUN_006987d0(const ObstacleDataPtr& apObstacle, const NiPoi
 }
 // Scans field_4 from start to field_8, calling func on each element with a, and returns the first matching index or -1.
 // @fnv 0x0069b240
-int FUN_0069b240_Holder::FindMatchingIndex(int aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, int))
+int FUN_0069b240_Holder::FindMatchingIndex(std::intptr_t aiValue, unsigned int start, bool(__cdecl* func)(unsigned short*, int))
 {
     unsigned int i;
     for (i = start; i < field_8; ++i)
@@ -1576,11 +1576,11 @@ struct Obj00696c00
 {
     char _pad[0xA8];
     Sub0069d4b0 sub;
-    void ForwardToSub(int a, int b, int c);
+    void ForwardToSub(std::intptr_t a, int b, int c);
 };
 // Calls FUN_0069d4b0 on the sub object at offset 0xA8, passing the three arguments through.
 // @fnv 0x00696c00
-void Obj00696c00::ForwardToSub(int aiArg1, int aiArg2, int aiArg3)
+void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, int aiArg2, int aiArg3)
 {
     reinterpret_cast<::Sub0069d4b0 *>(&(sub))->FUN_0069d4b0((::Pt_0069d4b0 *)(aiArg1), (::Pt_0069d4b0 *)(aiArg2), (::Out_0069d4b0 *)(aiArg3));
 }
@@ -1871,7 +1871,7 @@ struct DA00694f80
 };
 struct FUN_0069b0a0_shell
 {
-    bool LookupValue(unsigned short, unsigned int);
+    bool LookupValue(unsigned short, std::uintptr_t);
 };
 namespace S {
 struct NiTPointerMap
@@ -1898,7 +1898,7 @@ int FUN_0069a830_shell::CollectTrianglePOVs(unsigned short triangle, BSSimpleArr
     {
         unsigned short m_usVertexId = reinterpret_cast<::FUN_005582d0_shell *>((pNavTriangle))->FUN_005582d0(i);
         unsigned int uiPOV;
-        if (((FUN_0069b0a0_shell*)&POVPointerArray)->LookupValue(m_usVertexId, (unsigned int)&uiPOV))
+        if (((FUN_0069b0a0_shell*)&POVPointerArray)->LookupValue(m_usVertexId, (std::uintptr_t)&uiPOV))
         {
             reinterpret_cast<::FUN_00691820_arr *>((povs))->Append((const unsigned short *)&(m_usVertexId));
             iAddedCount++;
@@ -2006,12 +2006,12 @@ struct FUN_00693d30_shell
 
 struct FUN_00697590_shell
 {
-    bool CollectTrianglesForDoor(unsigned int, BSSimpleArrayActor*);
+    bool CollectTrianglesForDoor(std::uintptr_t, BSSimpleArrayActor*);
 };
 
 // Clears the array, then adds each triangle index that has an edge whose linked door ID equals doorID, and returns whether any were added.
 // @fnv 0x00697590
-bool FUN_00697590_shell::CollectTrianglesForDoor(unsigned int doorID, BSSimpleArrayActor* array)
+bool FUN_00697590_shell::CollectTrianglesForDoor(std::uintptr_t doorID, BSSimpleArrayActor* array)
 {
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((reinterpret_cast<_Mem_20a4*>(array)))->FUN_006f2290(0, true);
     reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((reinterpret_cast<HArr*>(array)))->FUN_0084b5c0(100);
@@ -2462,7 +2462,7 @@ bool FUN_006986d0_cls::FUN_006986d0()
         b9_big* q = new b9_big();
         reinterpret_cast<::NavInfo *>((q))->InitializeFromMeshSource((::MeshSource *)(::FUN_006986d0_cls *)(this));
         reinterpret_cast<::HX *>((this))->FUN_006d3100((::CombatCoverPointData *)(q));
-        reinterpret_cast<::FUN_005a8040_class *>((q))->SetField54((int)(this));
+        reinterpret_cast<::FUN_005a8040_class *>((q))->SetField54((std::intptr_t)(this));
         reinterpret_cast<::StandInSearch *>((((::b9_nav *)(reinterpret_cast<::Owner45A *>((((b9_tab*)::g_TES)))->FUN_0045af00()))))->RegisterNavMeshInfo({});
         return true;
     }
@@ -2876,7 +2876,7 @@ public:
     ::NavMeshPtr &operator=(const ::NavMeshPtr &);
 };
 // @fnv 0x006953b0
-void __cdecl RemoveNavMeshId(unsigned int id)
+void __cdecl RemoveNavMeshId(std::uintptr_t id)
 {
     if (!id)
         return;
@@ -3057,10 +3057,10 @@ struct FUN_00696a50_View
 struct FUN_00696a50_shell : public NavMesh
 {
     FUN_00696a50_Grid kGrid;
-    unsigned short FUN_00696a50(const NiPoint3* apPos, int aiArg);
+    unsigned short FUN_00696a50(const NiPoint3* apPos, std::intptr_t aiArg);
 };
 // @fnv 0x00696a50
-unsigned short FUN_00696a50_shell::FUN_00696a50(const NiPoint3* apPos, int aiArg)
+unsigned short FUN_00696a50_shell::FUN_00696a50(const NiPoint3* apPos, std::intptr_t aiArg)
 {
     NavMeshTriList* pCell = 0;
     kGrid.GetTriListAtPosition(apPos, &pCell);
@@ -3824,7 +3824,7 @@ struct NavChangeBuilder
     NavItemArray items, previousItems;
     unsigned int count;
     bool FUN_006bf2a0(NavItem*);
-    bool FUN_006bbd30(NavMeshOwner*, const NavObstaclePtr&, int);
+    bool FUN_006bbd30(NavMeshOwner*, const NavObstaclePtr&, std::intptr_t);
 };
 // Builds a SearchContext and forwards the two ints and this to SearchContext::FUN_006bbd30, returning its result.
 // @fnv 0x00698f40
@@ -3893,12 +3893,12 @@ bool UndoOwner::UndoToPosition(unsigned int position, void* output)
                 break;
         }
         for (unsigned int next3 = 0; next3 < count3; ++next3)
-            reinterpret_cast<::NavChangeBuilder *>(&(context))->FUN_006bbd30((::NavMeshOwner *)(::UndoOwner *)(this), (const ::NavObstaclePtr &)(saved2[next3]), (int)(output));
+            reinterpret_cast<::NavChangeBuilder *>(&(context))->FUN_006bbd30((::NavMeshOwner *)(::UndoOwner *)(this), (const ::NavObstaclePtr &)(saved2[next3]), (std::intptr_t)(output));
     }
     return true;
 }
 // @fnv 0x006bbd30
-bool NavChangeBuilder::FUN_006bbd30(NavMeshOwner* apMesh, const NavObstaclePtr& apObstacle, int flags)
+bool NavChangeBuilder::FUN_006bbd30(NavMeshOwner* apMesh, const NavObstaclePtr& apObstacle, std::intptr_t flags)
 {
     mesh = apMesh;
     obstacle.FUN_006e5cc0(apObstacle);

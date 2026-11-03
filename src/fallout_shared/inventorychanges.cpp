@@ -2475,7 +2475,7 @@ bool FUN_004d0490_shell::FUN_004d0490()
         seen5 = false;
         if (!reinterpret_cast<::FUN_0057c850_cls *>((((FUN_0057c850_cls*)&kMapA)))->FUN_0057c850(entry7->form, &seen5))
         {
-            reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)&kMapA)))->FUN_0084d310((int)(entry7->form), true);
+            reinterpret_cast<::FUN_0084d310_class *>((((FUN_0056aac0_map*)&kMapA)))->FUN_0084d310((std::intptr_t)(entry7->form), true);
             if (((::fnv_004d0490::Script *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(entry7->form)))))
             {
                 bfound9 = true;
@@ -2734,7 +2734,7 @@ const char* ItemChange_004be200::GetIconFilename(TESObjectREFR* apRef)
     }
     if (!piconFilename || !piconFilename[0])
         piconFilename =
-            ::FUN_0048e730((TESForm*)(TESBoundObject*)*(void**)((char*)this + 8), (int)(apRef));
+            ::FUN_0048e730((TESForm*)(TESBoundObject*)*(void**)((char*)this + 8), (std::intptr_t)(apRef));
     if (!piconFilename || !piconFilename[0])
         return ::g_011d33f0.GetMenuTitle();
     return piconFilename;
@@ -3082,7 +3082,7 @@ struct ExtraRef4cfe20
 struct FUN_004cfe20_t : public ::InventoryChanges
 {
     Container4cfe20* FUN_004bffb0();
-    bool HasItem(unsigned int aId);
+    bool HasItem(std::uintptr_t aId);
 };
 
 struct FUN_00419d10
@@ -11114,7 +11114,7 @@ struct Transfer4c37Node84
 {
 };
 unsigned char __cdecl FUN_00702680(int a, int b);
-int FUN_00401170(int a);
+int FUN_00401170(std::uintptr_t a);
 void* __cdecl FUN_00401000(int a);
 struct Transfer4c37Obj96
 {
@@ -11916,7 +11916,7 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
 {
     int total = 0;
     if (a5 != 0)
-        return reinterpret_cast<::FUN_004cfe20_t *>((this))->HasItem((unsigned int)(a5));
+        return reinterpret_cast<::FUN_004cfe20_t *>((this))->HasItem((std::uintptr_t)(a5));
 
     Actor6* pOwner = 0;
     if (pActor != 0 && pActor->v100() != 0)
@@ -12421,7 +12421,7 @@ struct XInv17
     TESContainer* FUN_004bffb0();
 };
 void FUN_004bf0e0(InventoryChanges*);
-int FUN_00401170(unsigned int);
+int FUN_00401170(std::uintptr_t);
 bool FUN_004c0bf0(TESObjectWEAP*);
 
 extern XExtra17* DAT_011c6448;
@@ -13024,7 +13024,7 @@ struct XActor17
 };
 struct XHost17
 {
-    bool FUN_004c0cf0(bool*, unsigned int, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
+    bool FUN_004c0cf0(bool*, std::uintptr_t, int, XActor17*, ExtraDataList*, bool, bool, InventoryStackRecord*, bool*);
 };
 namespace fnv_004d1960 {
 struct InvExtra;
@@ -14960,7 +14960,7 @@ void EquipInv::AddItemToInventory(EquipForm* form, int count, EquipActor* actor,
                 }
             }
             if (!actor->process->v474(1) && equipped)
-                reinterpret_cast<::FUN_004534f0_shell *>((actor))->FUN_004534f0((unsigned int)(equipped->form));
+                reinterpret_cast<::FUN_004534f0_shell *>((actor))->FUN_004534f0((std::uintptr_t)(equipped->form));
             break;
         }
         reinterpret_cast<::FUN_008b0bd0_shell *>((actor))->FUN_008b0bd0((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((actor))->FUN_0043fcd0()))));
@@ -15051,7 +15051,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                 int baseCountScope1 = reinterpret_cast<::TESContainer *>((((::MoveContainer *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()))))->GetObjectCount((::TESObject *)((*((::MoveBaseEntry **)((void *)(base5))))->form));
                 int countScope9 = ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((quest))->FUN_00726070())) + baseCountScope1;
                 bool removedScope4 = false;
-                reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope4, (unsigned int)(form3), countScope9, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), false, false, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
+                reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope4, (std::uintptr_t)(form3), countScope9, (::XActor17 *)(owner), (::ExtraDataList *)(::MoveExtra *)(0), false, false, (::InventoryStackRecord *)(::MoveItem *)(0), 0);
             }
         }
         else if (form3 && !leveled5 && (!infoScope1 || reinterpret_cast<::FUN_00480d90_shell *>((infoScope1))->FUN_00480d90()))
@@ -15136,7 +15136,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
                                     {
                                         bool removedScope2 = false;
                                         bool handled5 = false;
-                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (unsigned int)(form3), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
+                                        reinterpret_cast<::XHost17 *>(this)->FUN_004c0cf0(&removedScope2, (std::uintptr_t)(form3), ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((itemScope1))->FUN_00726070())),
                                                      (::XActor17 *)(::MoveOwner *)(owner->IsActor() ? owner : 0), (::ExtraDataList *)(extraScope1), false, false,
                                                      (::InventoryStackRecord *)(itemScope1), &handled5);
                                         if (!handled5)
@@ -15559,7 +15559,7 @@ float InventoryMove::FUN_004ce380(MoveOwner* owner, MoveOwner* destination, bool
 }
 // Processes matching extra data, updates equipment state and counts, and may remove or merge extra lists.
 // @fnv 0x004c0cf0
-bool XHost17::FUN_004c0cf0(bool* a0, unsigned int a1, int iCount, XActor17* apActor, ExtraDataList* apExtraList,
+bool XHost17::FUN_004c0cf0(bool* a0, std::uintptr_t a1, int iCount, XActor17* apActor, ExtraDataList* apExtraList,
                            bool abWorn, bool a6, InventoryStackRecord* apEntry, bool* abRemoved)
 {
     DAT_011c6448 = 0;
@@ -16047,7 +16047,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                         iRemove = (int)dCount;
                 }
                 ExtraDataList* pExtra = 0;
-                if (reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((int)(pObject)))
+                if (reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((std::intptr_t)(pObject)))
                 {
                     InventoryChanges* m_pInventoryChangesValue = InventoryChanges::CreateForReference(thisObj);
                     if (m_pInventoryChangesValue)
@@ -16060,7 +16060,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                 }
                 if (iRemove > 0)
                 {
-                    bool bEquipped = reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((int)(pObject));
+                    bool bEquipped = reinterpret_cast<::Thing575 *>((static_cast<EquippedActor_5b4e90*>(pActor)))->FUN_00575400((std::intptr_t)(pObject));
                     if (bEquipped)
                         reinterpret_cast<::FUN_008248e0_shell *>((reinterpret_cast<Target_5b4e90*>(static_cast<MagicTarget *>(pActor))))->FUN_008248e0((::MagicItem *)(pObject), true);
                     pActor->RemoveItem((TESForm*)pObject, pExtra, iRemove, 0, 0, 0, 0, 0, 1, 0);
@@ -16090,7 +16090,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                             case 0x73:
                             case 0x74:
                                 ::DispatchMessageToSink(
-                                    (std::intptr_t)(const char *)(sMessage), 0, (int)(g_011cba4c_arg1),
+                                    (std::intptr_t)(const char *)(sMessage), 0, (std::intptr_t)(g_011cba4c_arg1),
                                     (int)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),
@@ -16098,7 +16098,7 @@ bool FUN_005b4e90(ScriptParameter* paramInfo, char* scriptData, TESObjectREFR* t
                                 break;
                             case 0x18:
                                 ::DispatchMessageToSink(
-                                    (std::intptr_t)(const char *)(sMessage), 0, (int)(g_011cba4c_arg1),
+                                    (std::intptr_t)(const char *)(sMessage), 0, (std::intptr_t)(g_011cba4c_arg1),
                                     (int)(iNoMessage
                                         ? 0
                                         : reinterpret_cast<::PickupSoundActorView *>((reinterpret_cast<Player_5b4e90*>((*reinterpret_cast<::W20Ref * *>(&::_g_thePlayer)))))->FUN_008adcf0(pObject, 0, 0)),
@@ -16380,7 +16380,7 @@ public:
     ::TESObjectREFR *FUN_0041c8d0();
 };
 // @fnv 0x004cfe20
-bool FUN_004cfe20_t::HasItem(unsigned int aId)
+bool FUN_004cfe20_t::HasItem(std::uintptr_t aId)
 {
     ::TESBoundObject* pObj;
     ::InventoryStackRecord* pitem = 0;
@@ -17386,7 +17386,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         }
                         else
                         {
-                            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Transfer4c37LogObj *>(&::g_011d31f8))))->IsDLCAvailable()))), 0,
+                            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Transfer4c37LogObj *>(&::g_011d31f8))))->IsDLCAvailable()))), 0,
                                                   (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0,
                                                   DAT_010162c0, 0);
                         }
@@ -20190,8 +20190,8 @@ void InventoryMoveTarget::FUN_004cb5f0(MoveOwner* source, MoveOwner* destination
                                 }
                                 char message4[260];
                                 ::FUN_00406d00(message4, 260, (*reinterpret_cast<const char (*)[]>(&::fnv_004965d0::DAT_0101dcc4)), DAT_010207c0,
-                                             ::FUN_0048e730((::TESForm *)(form), (int)((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))));
-                                ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (int)(::g_011cba4c_arg1),
+                                             ::FUN_0048e730((::TESForm *)(form), (std::intptr_t)((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer)))));
+                                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(formattedItem))))), 0, (int)(::g_011cba4c_arg1),
                                                       ((unsigned int)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::MoveOwner * *>(&::_g_thePlayer))))->FUN_008adcf0(form, false, false))), DAT_010162c0,
                                                       0);
                             }

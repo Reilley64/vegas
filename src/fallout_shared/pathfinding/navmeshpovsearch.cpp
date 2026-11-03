@@ -3358,7 +3358,7 @@ class B6A1330NodePtr
 
 
 // @fnv 0x006a1330
-void __cdecl FUN_006a1330(const char* pcPath, int iParamA, int iParamB)
+void __cdecl FUN_006a1330(const char* pcPath, std::intptr_t iParamA, int iParamB)
 {
     B6A1330NodePtr spNode7 = ((::B6A1330Node *)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(pcPath)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), (*(const class ::FUN_006815c0 *)(iParamA)), (*(const ::fnv_004b3890::FUN_004a7800 *)(iParamB)), true)));
     B6A1330UpdateData kData(0.0f, false, false);
@@ -8103,7 +8103,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (!FindPath(cost, initialPoint5, crossFirst))
                 {
                     if (DAT_011d6dcc)
-                        ::FUN_006a1330((const char *)&(cost.pos), (int)&(crossFirst.pos), (int)(&DAT_011a9c20));
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9c20));
                     continue;
                 }
                 if (FUN_00408840((*(::P072Point *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(crossFirst.pos))->FUN_00439ef0((::NiPoint3 *)&(delta.center), *(const ::NiPoint3 *)nullptr))).z) >= 180.0)
@@ -8112,7 +8112,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                 if (crossSecond == 3.4028234663852886e38)
                 {
                     if (DAT_011d6dcc)
-                        ::FUN_006a1330((const char *)&(cost.pos), (int)&(crossFirst.pos), (int)(&DAT_011a9bf0));
+                        ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9bf0));
                     continue;
                 }
                 if (DAT_011d6dcc)
@@ -8120,7 +8120,7 @@ bool P072Search::FindNeighborNodes(P072Node* pInputNode, P072List* pOutputList)
                     if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
                         ::FUN_006a1180((const ::ArcPoint3 &)(tangentCount.center), tangentCount.radius, (const ::ArcAngle *)&(node.start), (const ::ArcAngle *)&(node.end), node.direction,
                                      (int)(&DAT_011a9c00));
-                    ::FUN_006a1330((const char *)&(cost.pos), (int)&(crossFirst.pos), (int)(&DAT_011a9c00));
+                    ::FUN_006a1330((const char *)&(cost.pos), (std::intptr_t)&(crossFirst.pos), (int)(&DAT_011a9c00));
                 }
                 float direction = reinterpret_cast<::CombatTargetTimestamp *>((pInputNode))->FUN_006a7f50();
                 if (((::P072Node *)(reinterpret_cast<::FUN_006a1b60_Class *>((pInputNode))->GetField54())))
@@ -10440,7 +10440,7 @@ void __cdecl FUN_006a1180(const ArcPoint3& akCenter, float afRadius, const ArcAn
     uiStepCount = 0;
     while (reinterpret_cast<::CircularArc *>((void *)&(kArc))->FUN_006a0660((const ::SineCosine &)(kNext)) && uiStepCount < 24)
     {
-        ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (int)(&kTo5), aiParam);
+        ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (std::intptr_t)(&kTo5), aiParam);
         kFromX = kTo5;
         reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ArcAngle &)(kCur4))->CopyFloatPair((void *)&(kNext));
         reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::ArcAngle &)(kNext))->CopyFloatPair((void *)&(const ::ArcAngle &)(kCur4 + kStep5));
@@ -10450,7 +10450,7 @@ void __cdecl FUN_006a1180(const ArcPoint3& akCenter, float afRadius, const ArcAn
     if (uiStepCount == 24)
         return;
     ArcPoint3 kEnd = akCenter + apEnd->GetOffset(afRadius);
-    ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (int)(&kTo5), aiParam);
+    ::FUN_006a1330((const char *)(::ArcPoint3 *)(&kFromX), (std::intptr_t)(&kTo5), aiParam);
 }
 
 namespace fnv_006a0940 {

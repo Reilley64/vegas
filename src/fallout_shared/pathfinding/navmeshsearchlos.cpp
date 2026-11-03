@@ -452,7 +452,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                         cost = reinterpret_cast<::FUN_00589850_Class *>(&kCostDiff)->FUN_00589850();
                                         extraCost = 0.0f;
                                         if (((::VectVec *)(reinterpret_cast<::_Dummy_0069e390 *>((query))->GetString())))
-                                            extraCost = (float)((double)(reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::VectVec *)(reinterpret_cast<::_Dummy_0069e390 *>((query))->GetString()))))->SumNodeValues((int)(&candidatePoint))));
+                                            extraCost = (float)((double)(reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::VectVec *)(reinterpret_cast<::_Dummy_0069e390 *>((query))->GetString()))))->SumNodeValues((std::intptr_t)(&candidatePoint))));
                                         if (useDirection)
                                         {
                                             P3 kDestCenter = ((NavMeshTriangleReference*)&destination)->FUN_006a6eb0();
@@ -2728,12 +2728,12 @@ struct FUN_006aa780_Class
     Location old;
     unsigned char mode;
     int state;
-    bool FUN_006aa780(World*, const Location*, int, int);
+    bool FUN_006aa780(World*, const Location*, std::intptr_t, int);
     bool FUN_006a7d60(int, int, int);
     void FUN_006a7c90(int);
 };
 // @fnv 0x006aa780
-bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation, int arg, int argCur)
+bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation, std::intptr_t arg, int argCur)
 {
     unsigned short x8;
     world = apWorld;

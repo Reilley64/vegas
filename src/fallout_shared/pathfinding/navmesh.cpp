@@ -1228,11 +1228,11 @@ struct S3e60
 };
 struct Sdc990
 {
-    float SumNodeValues(int);
+    float SumNodeValues(std::intptr_t);
 };
 // Sums the values returned by EvaluateFalloff(a1) over all nodes obtained from FUN_006a1400 up to GetFlags() count.
 // @fnv 0x006dc990
-float Sdc990::SumNodeValues(int a1)
+float Sdc990::SumNodeValues(std::intptr_t a1)
 {
     float fSum = 0.0f;
     unsigned int cnt = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));

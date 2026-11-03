@@ -661,7 +661,7 @@ void Ref::FUN_00574400()
                                 {
                                     if (reinterpret_cast<::fnv_005656d0::Thing *>(this)->FUN_005656d0())
                                     {
-                                        reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((::Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00545560((int)(this));
+                                        reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((::Ref *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->FUN_00545560((std::intptr_t)(this));
                                     }
                                 }
                                 if (q->vt2e8())
@@ -1103,7 +1103,7 @@ JackGeometry* __cdecl FUN_00c59200(float scale)
     JackGeometry* result9 = new JackGeometry(6, positions, colors, 0, 0, 0, flags3);
     result9->position = (*reinterpret_cast<::PointJack *>((void *)&::NiPoint3::ZERO));
     result9->matrix = (*reinterpret_cast<::MatrixJack *>(&::DAT_011a9448));
-    ::AssignFixedString((char *)(result9), (int)&(const ::NameJack &)(NameJack("BSTestObjects Coordinate Jack")), {});
+    ::AssignFixedString((char *)(result9), (std::intptr_t)&(const ::NameJack &)(NameJack("BSTestObjects Coordinate Jack")), {});
     return result9;
 }
 #include "generated/data/fallout_shared/pathfinding/pathingdebuggeometry_ob1_variant.inc"

@@ -2771,7 +2771,7 @@ struct FUN_00433a00_t : public BSExtraData
 // @fnv 0x00433a00
 void FUN_00433a00_t::FUN_00433a00(void* apArg)
 {
-    ::FindContRecordByFormId((int)(apArg), (::ContNode *)(::FUN_00433a00_list *)(&kList));
+    ::FindContRecordByFormId((std::intptr_t)(apArg), (::ContNode *)(::FUN_00433a00_list *)(&kList));
 }
 
 extern char DAT_0118461c;
@@ -5381,11 +5381,11 @@ extern "C" bool FUN_008256d0(LinkedNode*);
 
 struct FUN_00434ee0_Class
 {
-    void FUN_00434ee0(int);
+    void FUN_00434ee0(std::intptr_t);
 };
 
 // @fnv 0x00434ee0
-void FUN_00434ee0_Class::FUN_00434ee0(int id)
+void FUN_00434ee0_Class::FUN_00434ee0(std::intptr_t id)
 {
     ResultContainer* container = func_0x00ec43fb(id, 0, &DAT_01183b2c, &DAT_01184058, 0);
     if (container == 0)
@@ -5671,7 +5671,7 @@ void MergeState::FUN_004370f0(MergeSource* source)
         MergeItem* oldItem = *((::MergeItem **)((void *)(node)));
         node = ((::MergeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         oldItem->state = 255;
-        reinterpret_cast<::FUN_005594e0_cls *>(&(keyMap))->FUN_005594e0((unsigned int)(oldItem->key), true);
+        reinterpret_cast<::FUN_005594e0_cls *>(&(keyMap))->FUN_005594e0((std::uintptr_t)(oldItem->key), true);
     }
     if (source)
     {
@@ -6214,7 +6214,7 @@ FUN_00433260_cls::FUN_00433260_cls() : B433260Form(0x13)
 }
 
 // @fnv 0x004336f0
-void* __cdecl FindContRecordByFormId(int wantedFormId, ContNode* first)
+void* __cdecl FindContRecordByFormId(std::intptr_t wantedFormId, ContNode* first)
 {
     void* result = 0;
     ContNode* node = first;
@@ -6336,11 +6336,11 @@ extern char DAT_01184034;
 
 struct FUN_00434a70_cls
 {
-    void FUN_00434a70(int arg);
+    void FUN_00434a70(std::intptr_t arg);
 };
 
 // @fnv 0x00434a70
-void FUN_00434a70_cls::FUN_00434a70(int arg)
+void FUN_00434a70_cls::FUN_00434a70(std::intptr_t arg)
 {
     void* ret = FUN_00ec43fb(arg, 0, &DAT_01183b2c, &DAT_01184034, 0);
     if (ret == 0)
@@ -6534,7 +6534,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     if (bAdd)
     {
         unsigned int ItemUpdateArray = 0;
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((unsigned int)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         reinterpret_cast<::FUN_00844700_Class *>(&(kRefCounts))->FUN_00844700((unsigned int)pEntry, 1);
         if (pEntry->fPriority > fTop)
         {
@@ -6545,7 +6545,7 @@ void FUN_00437850_Class::UpdatePriorityEntry(FUN_00437850_Entry* pEntry, bool bA
     else
     {
         unsigned int ItemUpdateArray = 0;
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((unsigned int)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(kRefCounts))->FUN_00853130((std::uintptr_t)pEntry, (::fnv_00853130::CombatThreatRecord *&)(ItemUpdateArray));
         if ((int)ItemUpdateArray <= 1)
         {
             reinterpret_cast<::NiTMap_S *>(&(kRefCounts))->RemoveKey((unsigned int)pEntry);

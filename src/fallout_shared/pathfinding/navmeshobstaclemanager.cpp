@@ -851,7 +851,7 @@ struct Map62d0
     virtual bool IsKeysEqual(unsigned int, unsigned int);
     int pad;
     Item62d0** buckets;
-    bool FUN_006c62d0(unsigned int key, void** out);
+    bool FUN_006c62d0(std::uintptr_t key, void** out);
 public:
     void FUN_00559120(::MapItem62d0 *&, void *&, ::Helper62d0 &);
 };
@@ -873,7 +873,7 @@ void FUN_006c0f10_shell::UpdateDoorObstacle(TESObjectREFR* apDoorRef)
     }
 
     GlobalObject_00633c90 spdummy(0);
-    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x100))))->FUN_006c62d0((unsigned int)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
+    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x100))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
     {
         Actor* id1 = (Actor*)((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()));
         if (reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)((char*)this + 0xf8))))->FUN_005f65d0((void **)&(id1)))
@@ -883,7 +883,7 @@ void FUN_006c0f10_shell::UpdateDoorObstacle(TESObjectREFR* apDoorRef)
         }
     }
 
-    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x110))))->FUN_006c62d0((unsigned int)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
+    if (!reinterpret_cast<::Map62d0 *>((void *)(((DoorMapType*)((char*)this + 0x110))))->FUN_006c62d0((std::uintptr_t)(((::bhkRigidBody *)(reinterpret_cast<::FUN_0084e3a0_Class *>((apDoorRef))->FUN_0084e3a0()))), (void **)&(*(NiPointer<ObstacleData>*)&spdummy)))
     {
         if (!reinterpret_cast<::RefList *>((((BSSimpleList<Actor*>*)((char*)this + 0xf0))))->FUN_005f65d0((void **)&(*(Actor**)&apDoorRef)))
         {
@@ -897,7 +897,7 @@ struct Helper62d0
 };
 // Hashes the key, scans that bucket's chain for a matching key, and if found writes its value to out and returns true.
 // @fnv 0x006c62d0
-bool Map62d0::FUN_006c62d0(unsigned int key, void** out)
+bool Map62d0::FUN_006c62d0(std::uintptr_t key, void** out)
 {
     unsigned int uiBucketIndex = HashFunction(key);
     {
@@ -1274,7 +1274,7 @@ struct FUN_006c5ff0_cls
 struct FUN_006c1c70_shell
 {
     char pad[0x60];
-    void FUN_006c1c70(int arg);
+    void FUN_006c1c70(std::intptr_t arg);
 };
 
 struct FUN_006c5ff0_shell
@@ -1282,7 +1282,7 @@ struct FUN_006c5ff0_shell
     void FUN_006c5ff0(void* apArg);
 };
 // @fnv 0x006c1c70
-void FUN_006c1c70_shell::FUN_006c1c70(int arg)
+void FUN_006c1c70_shell::FUN_006c1c70(std::intptr_t arg)
 {
     reinterpret_cast<::FUN_006c5ff0_shell *>((((FUN_006c5ff0_cls*)((char*)this + 0x60))))->FUN_006c5ff0(&arg);
 }
@@ -1511,7 +1511,7 @@ void bhkObstacleDeactivationListener::OnEntityDeactivated(hkpEntity* entity)
     pb = (bhkRigidBody*)::FUN_004b5a80(entity);
     if (pb)
     {
-        reinterpret_cast<::FUN_006c1c70_shell *>((((FUN_006c1c70_shell*)((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager())))))->FUN_006c1c70((int)pb);
+        reinterpret_cast<::FUN_006c1c70_shell *>((((FUN_006c1c70_shell*)((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager())))))->FUN_006c1c70((std::intptr_t)pb);
     }
 }
 }  // namespace fnv_006c01d0
@@ -1599,13 +1599,13 @@ struct ReferenceObstacleArray
 namespace fnv_006c1da0 {
 struct ScriptLocalsX
 {
-    void FUN_006c1da0(int);
+    void FUN_006c1da0(std::intptr_t);
 };
 struct S_00c9c5b0
 {
 };
 // @fnv 0x006c1da0
-void ScriptLocalsX::FUN_006c1da0(int a)
+void ScriptLocalsX::FUN_006c1da0(std::intptr_t a)
 {
     void* p = ((void *)(::FUN_004ae750((void *)this)));
     if (p)
@@ -1957,7 +1957,7 @@ void FUN_006c47e0_shell::FUN_006c47e0()
         unsigned int prefID = *((unsigned int *)((void *)(pNode)));
         pNode = (UList*)((reinterpret_cast<::Callees *>((void *)(((GridArray*)pNode)))->FUN_00726070()));
         GO spArray(0);
-        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x1c))))->FUN_006c62d0((unsigned int)((void*)prefID), (void **)&(spArray)))
+        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x1c))))->FUN_006c62d0((std::uintptr_t)((void*)prefID), (void **)&(spArray)))
         {
             for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
                 reinterpret_cast<::ListReader *>((((BSSimpleList<NiPointer<BSTempEffect> >*)((char*)this + 0x3c))))->FUN_00631620((const ::NodeValue &)(*(NiPointer<BSTempEffect>*)((Arr*)((unsigned int)*(Flt*)&spArray + 0xc))->GetAt(i)));
@@ -2036,7 +2036,7 @@ bool FUN_006c4fb0_shell::ProcessDoorObstacles()
         unsigned int doorId = *((unsigned int *)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::fnv_006c4fb0::UNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         GO spArray(0);
-        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x110))))->FUN_006c62d0((unsigned int)((void*)doorId), (void **)&(spArray)))
+        if (reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 0x110))))->FUN_006c62d0((std::uintptr_t)((void*)doorId), (void **)&(spArray)))
         {
             unsigned int i;
             for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((unsigned int)*(Flt*)&spArray + 0xc))))->GetName())); i++)
@@ -2786,7 +2786,7 @@ FUN_00807790::FUN_00807790(int a1, ScriptLocalsX* a2, unsigned int auiFlags) : m
     m_kFlags.uiFlags = auiFlags;
     m_18 = false;
     reinterpret_cast<::FUN_008078b0_Class *>((m_10))->FUN_008078b0(this);
-    reinterpret_cast<::fnv_006c1da0::ScriptLocalsX *>((m_10))->FUN_006c1da0((int)(static_cast<FUN_0061f580*>(this)));
+    reinterpret_cast<::fnv_006c1da0::ScriptLocalsX *>((m_10))->FUN_006c1da0((std::intptr_t)(static_cast<FUN_0061f580*>(this)));
     reinterpret_cast<::ScriptLocalsX *>((m_10))->FUN_006c1dd0(static_cast<FUN_006c0100*>(this));
 }
 }  // namespace fnv_00807790
@@ -2858,7 +2858,7 @@ void Call_006c0c80::HandleRigidBodyObstacle(bhkRigidBody* apRigidBody)
     TESObjectREFR* pref;
     GO go(0);
 
-    if (reinterpret_cast<::Map62d0 *>((reinterpret_cast<FGModelMap*>(reinterpret_cast<char*>(this) + 0xe0)))->FUN_006c62d0((unsigned int)(apRigidBody), (void **)&(go)))
+    if (reinterpret_cast<::Map62d0 *>((reinterpret_cast<FGModelMap*>(reinterpret_cast<char*>(this) + 0xe0)))->FUN_006c62d0((std::uintptr_t)(apRigidBody), (void **)&(go)))
     {
         pref = ((::fnv_006c1cb0::TESObjectREFR *)(::FUN_004839c0(
             reinterpret_cast<ObstacleData*>(static_cast<unsigned int>(go))->m_pReferenceObstacleArray->formID)));
@@ -5338,7 +5338,7 @@ void Mgr_c1190::RegisterKey(Key_c1190* key)
         reinterpret_cast<::fnv_006c1d60::FUN_006c1d60_shell *>(this)->FUN_006c1d60((::fnv_006c1d60::ScriptLocalsX *)(::Kind_c1190 *)(spObst->m_spKind));
         if (reinterpret_cast<::fnv_005609b0::bhkRigidBody *>(((spObst->m_spKind).operator->()))->FUN_005609b0())
         {
-            reinterpret_cast<::FUN_006c1c70_shell *>(this)->FUN_006c1c70((int)(::Kind_c1190 *)(spObst->m_spKind));
+            reinterpret_cast<::FUN_006c1c70_shell *>(this)->FUN_006c1c70((std::intptr_t)(::Kind_c1190 *)(spObst->m_spKind));
         }
         FUN_006c3440(spObst);
         if (*((bool*)this + 0x198))
@@ -6122,11 +6122,11 @@ struct FUN_00963d60_shell
     int unk608;
 
     BSSimpleList<int>* unk60c;
-    void FUN_00963d60(int param_2);
+    void FUN_00963d60(std::intptr_t param_2);
 };
 // Walks the list at unk60c and deletes each entry whose stored value at offset 8 equals param_2, restarting from the head after each removal.
 // @fnv 0x00963d60
-void FUN_00963d60_shell::FUN_00963d60(int param_2)
+void FUN_00963d60_shell::FUN_00963d60(std::intptr_t param_2)
 {
     BSSimpleList<int>* pNode;
     int pEntry;
@@ -7262,7 +7262,7 @@ void ObsMgr_nogf::FUN_006c4ad0()
         S006c4ad0_Body* body;
         reinterpret_cast<::C006c6030 *>(&(queueA0))->FUN_006c6030(&body);
         S006c4ad0_Ptr sp(0);
-        if (reinterpret_cast<::Map62d0 *>(&(mapE0))->FUN_006c62d0((unsigned int)(body), (void **)(::S006c4ad0_Ptr *)(&sp)))
+        if (reinterpret_cast<::Map62d0 *>(&(mapE0))->FUN_006c62d0((std::uintptr_t)(body), (void **)(::S006c4ad0_Ptr *)(&sp)))
         {
             S006c4ad0_Holder3 h;
             new ((void *)&(h)) ::FUN_004a3c90((*(const ::FUN_004a3c90 *)(((::S006c4ad0_Ref2 *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()))->FUN_004b4ec0())));

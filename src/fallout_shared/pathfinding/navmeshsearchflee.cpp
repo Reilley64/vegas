@@ -160,7 +160,7 @@ bool NavMeshSearchFlee::IsNodeValid(const AStarNode<NavMeshTriangleReference, Na
     }
     fscore = 0.0f;
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString())))
-        fscore = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString()))))->SumNodeValues((int)&(nodeCenter));
+        fscore = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString()))))->SumNodeValues((std::intptr_t)&(nodeCenter));
     return fscore <= ::_DAT_01012060;
 }
 
@@ -287,10 +287,10 @@ struct FleeSearch : FUN_006a9580_shell
     AStarNode<NavMeshTriangleReference, NavMeshTriangleEdgeReference>* FUN_006a7c90(unsigned int, const FleeStartNode*,
                                                                                     float);
     bool FUN_006a7d60(FleePath*, unsigned int, bool);
-    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, unsigned int);
+    bool StartFleeSearch(FleeRequest*, const FleeStartNode*, FleePath*, std::uintptr_t);
 };
 // @fnv 0x006a92e0
-bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, unsigned int limit)
+bool FleeSearch::StartFleeSearch(FleeRequest* request, const FleeStartNode* start, FleePath* path, std::uintptr_t limit)
 {
     pRequest = request;
     reinterpret_cast<FleeStartNode&>(pad205c) = *start;
@@ -456,7 +456,7 @@ bool Search::ExpandNode(Node* node, NodeArray* output)
             float extra = reinterpret_cast<::FUN_00589850_Class *>((void *)&(cost))->FUN_00589850() * delta + node->cost;
             if (avoid)
             {
-                extra += reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()))))->SumNodeValues((int)&(multiplier));
+                extra += reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::AvoidPoints *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(((Request*)pRequest)))->GetString()))))->SumNodeValues((std::intptr_t)&(multiplier));
                 Vector3 penalty = cost;
                 reinterpret_cast<::FUN_004a0c10_s *>(&(penalty))->FUN_004a0c10();
                 float travel = FUN_00404010(0.0f, reinterpret_cast<::FUN_004b6190_shell *>((void *)&(penalty))->DotProduct((void *)&(position)));

@@ -598,7 +598,7 @@ struct FUN_006df440_owner
 // @fnv 0x006df440
 bool FUN_006df440_owner::InitFromLookup(NavMeshLookup* apLookup)
 {
-    unsigned char* const bytes = ((unsigned char *)(reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::NavMeshLookup *)(::FUN_00559450((int *)(apLookup))))))->GetTriangleScore((unsigned int)(((::NavMeshLookup *)(::FUN_00559450((int *)(lookup))))))));
+    unsigned char* const bytes = ((unsigned char *)(reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::NavMeshLookup *)(::FUN_00559450((int *)(apLookup))))))->GetTriangleScore((std::uintptr_t)(((::NavMeshLookup *)(::FUN_00559450((int *)(lookup))))))));
     if (!bytes)
         return false;
 
@@ -1036,7 +1036,7 @@ bool FUN_006e0b50_cls::FUN_006e0b50(void* aArg)
         return false;
     }
     value = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((unsigned int)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((FUN_00853130_shell*)&this->m_08[0])))->FUN_00853130((std::uintptr_t)(((void *)(::FUN_00559450((int *)(((FUN_00559450_shell*)pHolder)))))), *(::fnv_00853130::CombatThreatRecord * *)nullptr))
     {
         return reinterpret_cast<::FUN_006dfdc0_Class *>((((FUN_006dfdc0_shell*)value)))->FUN_006dfdc0((::PathingLocation *)(aArg));
     }

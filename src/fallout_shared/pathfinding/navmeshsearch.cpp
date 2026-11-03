@@ -685,7 +685,7 @@ bool NavMeshSearchEdges::FindEdgeConnections(const SearchNode* current, BSSimple
                             baseDistance7 *= DAT_01016408;
                         if (m_pPathingRequest != 0 && ((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString())) != 0)
                         {
-                            float avoidance = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString()))))->SumNodeValues((int)&(nextCenter));
+                            float avoidance = reinterpret_cast<::fnv_006dc990::Sdc990 *>((((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(m_pPathingRequest))->GetString()))))->SumNodeValues((std::intptr_t)&(nextCenter));
                             if (avoidance > 0.0)
                                 baseDistance7 *= 1.0f + avoidance;
                         }

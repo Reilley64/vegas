@@ -223,7 +223,7 @@ Tile* InterfaceManager::FUN_00586150()
     return pTile;
 }
 // @fnv 0x00584bc0
-void TESWorldSpace::SetFieldD0(unsigned int value)
+void TESWorldSpace::SetFieldD0(std::uintptr_t value)
 {
     fieldD0 = value;
 }
@@ -438,7 +438,7 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
     {
         pmainfile = pmainfile->GetThreadSafeRootFile();
     }
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((unsigned int)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)pmainfile, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)pdata)) || !pdata)
     {
         pdata = new OFFSET_DATA_24;
         pdata->pCellOffsets = 0;
@@ -1242,7 +1242,7 @@ FormIDData* TESWorldSpace_shell::FUN_00588a90(TESFile* file)
     TESFile* current = file;
     while (current && current->GetThreadSafeRootFile())
         current = current->GetThreadSafeRootFile();
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((unsigned int)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xb0))))->FUN_00853130((std::uintptr_t)current, (::fnv_00853130::CombatThreatRecord *&)((unsigned int&)result)))
         result = 0;
     return result;
 }
@@ -3557,7 +3557,7 @@ WsNameList* FUN_005883c0_shell::BuildMapNameList(bool abNoChildren)
         reinterpret_cast<::FUN_00588520_shell *>(this)->FUN_00588520((::BSSimpleList<const char *> *)(pNameList));
         if (!abNoChildren)
         {
-            WsListNode* pNode = ((::WsListNode *)(::FUN_00460140((int)(((WsDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
+            WsListNode* pNode = ((::WsListNode *)(::FUN_00460140((std::intptr_t)(((WsDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
             while (pNode)
             {
                 TESWorldSpace* pWorld = *((::TESWorldSpace **)((void *)(pNode)));
@@ -5338,7 +5338,7 @@ void WorldSpaceOwner5845::FUN_005845e0()
                 else
                     ::FUN_005b5e40();
             }
-            reinterpret_cast<::TESWorldSpace *>(this)->SetFieldD0((unsigned int)(pkEncounterZone));
+            reinterpret_cast<::TESWorldSpace *>(this)->SetFieldD0((std::uintptr_t)(pkEncounterZone));
         }
         uiFormIDA = m_uiWater;
         if (uiFormIDA)

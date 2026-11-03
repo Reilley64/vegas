@@ -577,7 +577,7 @@ struct FUN_00694620_shell : TESForm
 // @fnv 0x00694620
 void FUN_00694620_shell::FUN_00694620(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((std::uintptr_t)apLoadGameBuffer);
     if (m_pNavigationMesh != 0)
         m_pNavigationMesh->SetCollisionDisabled(reinterpret_cast<::TESForm *>(this)->GetDisabled());
 }
@@ -1245,7 +1245,7 @@ bool FUN_00692950_shell::FUN_00692950(TESFile* apFile)
             if (!::FUN_00690830((const ::NavMeshInfo *)(*(NavMeshInfo**)&this->m_pNavigationMesh)))
                 *(unsigned int*)((char*)*(NavMeshInfo**)&this->m_pNavigationMesh + 4) =
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<::NavMeshProxy *>((((NavMeshS*)this)))->GetDoorForm()))->FUN_0084e3a0()));
-            reinterpret_cast<::FUN_005a8040_class *>((((TESRecipe*)*(NavMeshInfo**)&this->m_pNavigationMesh)))->SetField54((unsigned int)this);
+            reinterpret_cast<::FUN_005a8040_class *>((((TESRecipe*)*(NavMeshInfo**)&this->m_pNavigationMesh)))->SetField54((std::intptr_t)this);
         }
         if (ifileVersionNumber < 10)
         {
@@ -1726,7 +1726,7 @@ void FUN_00693fe0_cls::FUN_00693fe0(unsigned char arg)
     }
     if (arg != 0)
     {
-        ::RemoveNavMeshId((unsigned int)(((void *)(reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0()))));
+        ::RemoveNavMeshId((std::uintptr_t)(((void *)(reinterpret_cast<::FUN_0068efb0_shell *>(this)->FUN_0068efb0()))));
         reinterpret_cast<::NavigationOwner *>((((::Res *)(reinterpret_cast<::Owner45A *>(((*reinterpret_cast<::Mgr * *>(&::g_TES))))->FUN_0045af00()))))->ActivateNavigationEntry((int)reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0());
     }
 }

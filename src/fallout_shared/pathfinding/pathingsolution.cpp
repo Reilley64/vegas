@@ -494,16 +494,16 @@ _ref_006815c0 FUN_006e7d60_stub::FUN_006e7d60(char* pFirst, char* pSecond)
 
 struct FUN_006e8f40_shell
 {
-    std::intptr_t FUN_006e8f40(int a) const;
+    std::intptr_t FUN_006e8f40(std::intptr_t a) const;
 };
 // @fnv 0x006e78b0
 void* FUN_006e78b0_shell::FUN_006e78b0(unsigned int aiIndex)
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((int)((void*)aiIndex))));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>((((PathBuilder*)((char*)this + 8))))->FUN_006e8f40((std::intptr_t)((void*)aiIndex))));
 }
 
 // @fnv 0x006e8f40
-std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(int aiIndex) const
+std::intptr_t FUN_006e8f40_shell::FUN_006e8f40(std::intptr_t aiIndex) const
 {
     return aiIndex * 0x30 + *(int*)((char*)this + 4);
 }
@@ -753,13 +753,13 @@ struct OwnS
 {
     char _pad[48];
     RetS FUN_006e9ab0(float);
-    RetS FUN_006e7d60(int, int);
+    RetS FUN_006e7d60(std::intptr_t, int);
 };
 // @fnv 0x006e9ab0
 RetS OwnS::FUN_006e9ab0(float f)
 {
     ::FUN_006e7c20(this, f);
-    return FUN_006e7d60((int)((char*)this + 0x14), (int)((char*)this + 0x2c));
+    return FUN_006e7d60((std::intptr_t)((char*)this + 0x14), (int)((char*)this + 0x2c));
 }
 }  // namespace fnv_006e9ab0
 

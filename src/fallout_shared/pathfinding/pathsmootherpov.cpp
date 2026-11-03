@@ -1356,7 +1356,7 @@ struct Holder3660
 {
     int _0;
     Elem3660* p;
-    int FUN_006b3660(int);
+    int FUN_006b3660(std::intptr_t);
 public:
     void FUN_006a2130(unsigned int, unsigned int);
 };
@@ -1369,7 +1369,7 @@ S_006b3610* S_006b3610::FUN_006b3610()
     return this;
 }
 // @fnv 0x006b3660
-int Holder3660::FUN_006b3660(int a)
+int Holder3660::FUN_006b3660(std::intptr_t a)
 {
     int iIndex = ((int)(reinterpret_cast<::FUN_006b3fd0_cls *>(this)->FUN_006b3fd0()));
     reinterpret_cast<::Array64 *>(this)->FUN_006a2630((::ResizeElement64 *)(::Elem3660 *)(&p[iIndex]), 1);
@@ -1406,10 +1406,10 @@ struct MyHolder
 {
     int f0;
     char* f4;
-    int FUN_006b3730(int a);
+    int FUN_006b3730(std::intptr_t a);
 };
 // @fnv 0x006b3730
-int MyHolder::FUN_006b3730(int a)
+int MyHolder::FUN_006b3730(std::intptr_t a)
 {
     int iIndex;
     iIndex = reinterpret_cast<::FUN_006b4060_class *>((((H4060*)this)))->GetNextIndex();
@@ -1985,7 +1985,7 @@ void Manager6AE::AddEntry(const Key6AE* pkKey, const Data6AE& kData)
     kEntry.m_iCountA = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kOther))->GetName()));
     kEntry.m_iCountB = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kEntries))->GetName()));
     kEntry.m_iIndex = -1;
-    reinterpret_cast<::MyHolder *>(&(m_kEntries))->FUN_006b3730((int)(&kEntry));
+    reinterpret_cast<::MyHolder *>(&(m_kEntries))->FUN_006b3730((std::intptr_t)(&kEntry));
 }
 
 struct Point17
@@ -6946,7 +6946,7 @@ int FUN_006aeb00_C::FUN_006aeb00(const PathPos6AE* pkPos, const PathLoc6AE& kLoc
     kRequest.iCount1 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList1))->GetName()));
     kRequest.iCount2 = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kList2))->GetName()));
     kRequest.iIndex = -1;
-    return reinterpret_cast<::MyHolder *>(&(kList2))->FUN_006b3730((int)(&kRequest));
+    return reinterpret_cast<::MyHolder *>(&(kList2))->FUN_006b3730((std::intptr_t)(&kRequest));
 }
 }  // namespace fnv_006aeb00
 
@@ -7170,7 +7170,7 @@ bool LastNodeSearch17::TryAddLastNode()
     reinterpret_cast<::FUN_006cf900_Class *>((((LocationOps17*)&a.m3)))->FUN_006cf900((const ::FUN_006cf900_Class *)&(s));
     reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle17 &)(((Angle17&)a.m0)))->CopyFloatPair((void *)&((const Angle17&)b.Tangents[0].m_kStartAngle));
     reinterpret_cast<::FUN_006985f0_shell *>((void *)&(const ::Angle17 &)(((Angle17&)a.m1)))->CopyFloatPair((void *)&((const Angle17&)b.Tangents[0].m_kEnd));
-    reinterpret_cast<::Holder3660 *>(&(Links))->FUN_006b3660((int)&((const NavMeshEdgeSegment&)a));
+    reinterpret_cast<::Holder3660 *>(&(Links))->FUN_006b3660((std::intptr_t)&((const NavMeshEdgeSegment&)a));
     PathSmootherPOVAvoidanceNode i;
     i.m_pAvoidNode = m_pGoalPoint;
     i.m_fPathDistance = 0;

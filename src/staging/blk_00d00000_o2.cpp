@@ -1643,7 +1643,7 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, intptr_t p1, intptr_t p2)
     int count = pQuery->unk0c;
     if (count <= 0)
         count = 0x80;
-    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(a), (::S00d1b4d0_Entry *)(b), (*(const ::RealVec *)(&vExtent)), (*(const ::RealVec *)(&vMin)), (::S00d1b4d0_Bounds *)(p1), count, (::S00d1b4d0_List *)(0), static_cast<::S00d1b4d0_Callback *>(p2), (unsigned int **)(0), 0);
+    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(a), (::S00d1b4d0_Entry *)(b), (*(const ::RealVec *)(&vExtent)), (*(const ::RealVec *)(&vMin)), (::S00d1b4d0_Bounds *)(p1), count, (::S00d1b4d0_List *)(0), reinterpret_cast<::S00d1b4d0_Callback *>(p2), (unsigned int **)(0), 0);
 
     pBuf = (HkTimer*)pfnTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pBuf->head < pBuf->end)

@@ -123,7 +123,7 @@ int __cdecl FUN_00d1d4d0(void* a, void* apArg2, void* apArg5, void* apArg6)
 
 // If arg0 is non-null, forwards it with arg1 and arg2 plus three zero arguments to FUN_00d1c560 and returns its result; otherwise returns 0.
 // @fnv 0x00d1d500
-int __cdecl FUN_00d1d500(void* arg0, intptr_t arg1, intptr_t arg2)
+int __cdecl FUN_00d1d500(void* arg0, const void* arg1, void* arg2)
 {
     if (!arg0)
         return 0;

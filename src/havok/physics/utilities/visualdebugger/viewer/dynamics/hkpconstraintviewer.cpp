@@ -1289,7 +1289,7 @@ void ConstraintDrawDetail::Viewer::FUN_00d69260(void* aiCollidable, Entity* enti
     case 18: {
         new ((void *)&(renderer)) ::FUN_00d69a20();
         reinterpret_cast<::FUN_00de47d0_cls *>(&(renderer))->FUN_00de47d0(DAT_011b6168);
-        ::HingeLimitsDrawing::FUN_00de5fe0((::HingeLimitsDrawing::HingeConstraintDrawer *)&(renderer), object, (::HingeLimitsDrawing::hkpConstraintInstance *)(context), (::HingeLimitsDrawing::hkDebugDisplayHandler *)(position), (int)::g_0126901c, {});
+        ::HingeLimitsDrawing::FUN_00de5fe0((::HingeLimitsDrawing::HingeConstraintDrawer *)&(renderer), (::HingeLimitsDrawing::hkpConstraintInstance *)(object), (::HingeLimitsDrawing::hkDebugDisplayHandler *)(context), reinterpret_cast<hkUlong>(position), (int)::g_0126901c);
         reinterpret_cast<struct ::FUN_00da2560 *>((((Tail*)&renderer.unk0d0)))->FUN_00da2560::~FUN_00da2560();
         break;
     }

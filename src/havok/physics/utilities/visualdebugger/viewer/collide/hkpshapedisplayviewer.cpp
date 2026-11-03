@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpshapedisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -1471,7 +1472,7 @@ struct AudioVoiceHost
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void v14(int iKey, int iGlobal, int iResult);
+    virtual void v14(hkUlong iKey, int iGlobal, int iResult);
 };
 // The channel that owns a playback buffer.
 struct AudioChannel
@@ -1485,10 +1486,10 @@ struct AudioBuffer
 struct AudioItemList
 {
     int unk00;
-    int* m_pItems;
+    void** m_pItems;
     int m_iArrayLength;
 
-    __forceinline int find(int key) const
+    __forceinline int find(const void* key) const
     {
         int count = m_iArrayLength;
         for (int i = 0; i < count; ++i)
@@ -1503,7 +1504,7 @@ struct AudioItemList
         --m_iArrayLength;
         if (m_iArrayLength != i)
         {
-            memCpy4_d65f(m_pItems + i, m_pItems + m_iArrayLength, sizeof(int));
+            memCpy4_d65f(m_pItems + i, m_pItems + m_iArrayLength, sizeof(void*));
         }
     }
 };
@@ -1597,9 +1598,9 @@ void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
         displayResult = pParam->m_i10;
 
     iResult = displayResult;
-    int iKey = (int)(size_t)GetProperty1134((D66180Entity*)pParam);
+    void* pKey = GetProperty1134((D66180Entity*)pParam);
     AudioVoiceHost* pVoiceHost = GetDisplayOuter(self)->m_display;
-    pVoiceHost->v14(iKey, DAT_01268fe0, iResult);
+    pVoiceHost->v14((hkUlong)pKey, DAT_01268fe0, iResult);
 
     if (self->m_bPlayed && iResult)
     {
@@ -1617,7 +1618,7 @@ void AudioNodeSub::FUN_00d65640(AudioParam* pParam)
         }
     }
 
-    int i = pItems->find(iKey);
+    int i = pItems->find(pKey);
     if (i >= 0)
     {
         _ReadWriteBarrier();

@@ -1804,8 +1804,8 @@ virtual hkResult RemoveGeometry(hkUlong id,int tag,hkUlong shapeIdHint)=0;
 virtual hkResult DisplayCamera(const hkVector4&from,const hkVector4&to,const hkVector4&up,hkReal nearPlane,hkReal farPlane,hkReal fov,const char*name)=0;
 virtual hkResult DisplayBehaviorGraph(const HavokElementArray<int>&wordVarIdx,const HavokElementArray<int>&wordStack,const HavokElementArray<int>&quadVarIdx,const HavokElementArray<hkVector4>&quadStack,
 const HavokElementArray<char*>&activeNodes,const HavokElementArray<int>&activeStateIds,const HavokElementArray<int>&activeTransitions,const HavokElementArray<hkQsTransform>&transforms)=0;
-virtual hkResult DisplayPoint(const hkVector4&position,int colour,int id,int tag)=0;
-virtual hkResult DisplayLine(const hkVector4&start,const hkVector4&end,int color,int id,int tag)=0;};
+virtual hkResult DisplayPoint(const hkVector4&position,int colour,hkUlong id,int tag)=0;
+virtual hkResult DisplayLine(const hkVector4&start,const hkVector4&end,int color,hkUlong id,int tag)=0;};
 class hkColor
 {
 public:
@@ -2005,7 +2005,7 @@ const hkpVehicleData::WheelComponentParams&wheelParam=vehicle->m_data->m_kWheelP
 const hkpVehicleInstance::WheelInfo&wheel=vehicle->m_kWheelInfoArray[w];
 const hkVector4&contactPoint=wheel.m_vContactPoint.getPosition();
 const hkVector4&hardPoint=wheel.m_vContactPointVelocity;
-const int collidableId=(wheel.m_pUserData)?(int)(hkUlong)(wheel.m_pUserData->getCollidable()):0;
+const hkUlong collidableId=(wheel.m_pUserData)?(hkUlong)(wheel.m_pUserData->getCollidable()):0;
 m_pDisplayHandler->DisplayLine(contactPoint,hardPoint,(wheel.m_pUserData)? hkColor::RED:hkColor::ROSYBROWN,collidableId,::g_D63DC0Value);
 centerPoint[w].setAddMul4(contactPoint,wheel.m_vHardPointWs,-wheelParam.m_fSphereRadius);
 {
@@ -2049,7 +2049,7 @@ for(int w=0;w<numWheels;w++)
 {
 const hkpVehicleData::WheelComponentParams&wheelParam=vehicle->m_data->m_kWheelParams[w];
 const hkpVehicleInstance::WheelInfo&wheel=vehicle->m_kWheelInfoArray[w];
-const int collidableId=(wheel.m_pUserData)?(int)(hkUlong)(wheel.m_pUserData->getCollidable()):0;
+const hkUlong collidableId=(wheel.m_pUserData)?(hkUlong)(wheel.m_pUserData->getCollidable()):0;
 if(wheelParam.m_iAxle !=axle)continue;
 wheelsFoundOnThisAxle++;
 a=b;

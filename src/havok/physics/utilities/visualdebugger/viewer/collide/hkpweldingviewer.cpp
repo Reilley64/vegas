@@ -1616,8 +1616,8 @@ virtual hkResult RemoveGeometry(hkUlong id,int tag,hkUlong shapeIdHint)=0;
 virtual hkResult DisplayCamera(const hkVector4&from,const hkVector4&to,const hkVector4&up,hkReal nearPlane,hkReal farPlane,hkReal fov,const char*name)=0;
 virtual hkResult DisplayBehaviorGraph(const HavokElementArray<int>&wordVarIdx,const HavokElementArray<int>&wordStack,const HavokElementArray<int>&quadVarIdx,const HavokElementArray<hkVector4>&quadStack,
 const HavokElementArray<char*>&activeNodes,const HavokElementArray<int>&activeStateIds,const HavokElementArray<int>&activeTransitions,const HavokElementArray<hkQsTransform>&transforms)=0;
-virtual hkResult DisplayPoint(const hkVector4&position,int colour,int id,int tag)=0;
-virtual hkResult DisplayLine(const hkVector4&start,const hkVector4&end,int color,int id,int tag)=0;};
+virtual hkResult DisplayPoint(const hkVector4&position,int colour,hkUlong id,int tag)=0;
+virtual hkResult DisplayLine(const hkVector4&start,const hkVector4&end,int color,hkUlong id,int tag)=0;};
 class hkColor
 {
 public:
@@ -1781,7 +1781,7 @@ const hkArray<hkpRigidBody*>&rigidBodies=system->getRigidBodies();
 for(int i=0;i<rigidBodies.GetLogicalSize();i++)
 {
 const hkpRigidBody*body=rigidBodies[i];
-const int collidableId=(int)(hkUlong)(body->getCollidable());
+const hkUlong collidableId=(hkUlong)(body->getCollidable());
 const hkTransform&bodyTransform=body->getTransform();
 const hkpShape*rootShape=body->getCollidable()->getShape();
 if(rootShape->getType()==HK_SHAPE_MOPP)

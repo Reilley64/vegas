@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkUlong.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -963,7 +964,7 @@ struct Renderer {
     virtual void v2c();
     virtual void v30();
     virtual void v34();
-    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, int id, int tag);
+    virtual void display(LocalArray<Shape*>* shapes, unsigned int color, hkUlong id, int tag);
 };
 struct ViewerPart {
     virtual void v00();

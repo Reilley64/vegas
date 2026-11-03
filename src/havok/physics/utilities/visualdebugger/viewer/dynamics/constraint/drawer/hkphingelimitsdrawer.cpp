@@ -847,7 +847,7 @@ class HingeConstraintDrawer : public ConstraintDrawer
     __forceinline void __cdecl operator delete[](void*, void*)
     {}
     class CommandArgument;
-    __forceinline void drawHinge(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, int id,
+    __forceinline void drawHinge(hkpConstraintInstance* constraint, hkDebugDisplayHandler* displayHandler, hkUlong id,
                                  int tag);
 
   protected:
@@ -1060,17 +1060,17 @@ class hkDebugDisplayHandler
                                           const HavokElementArray<char*>& activeNodes, const HavokElementArray<int>& activeStateIds,
                                           const HavokElementArray<int>& activeTransitions,
                                           const HavokElementArray<hkQsTransform>& transforms) = 0;
-    virtual hkResult DisplayPoint(const hkVector4& position, int colour, int id, int tag) = 0;
-    virtual hkResult DisplayLine(const hkVector4& start, const hkVector4& end, int color, int id, int tag) = 0;
-    virtual hkResult DisplayTriangle(const hkVector4& a, const hkVector4& b, const hkVector4& c, int colour, int id,
+    virtual hkResult DisplayPoint(const hkVector4& position, int colour, hkUlong id, int tag) = 0;
+    virtual hkResult DisplayLine(const hkVector4& start, const hkVector4& end, int color, hkUlong id, int tag) = 0;
+    virtual hkResult DisplayTriangle(const hkVector4& a, const hkVector4& b, const hkVector4& c, int colour, hkUlong id,
                                      int tag) = 0;
-    virtual hkResult displayText(const char* text, int color, int id, int tag) = 0;
-    virtual hkResult Display3DText(const char* text, const hkVector4& pos, int color, int id, int tag) = 0;
-    virtual hkResult DisplayAnnotation(const char* text, int id, int tag)
+    virtual hkResult displayText(const char* text, int color, hkUlong id, int tag) = 0;
+    virtual hkResult Display3DText(const char* text, const hkVector4& pos, int color, hkUlong id, int tag) = 0;
+    virtual hkResult DisplayAnnotation(const char* text, hkUlong id, int tag)
     {
         return HK_SUCCESS;
     }
-    virtual hkResult DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>& geometries, int color, int id,
+    virtual hkResult DisplayGeometryList(const HavokElementArray<hkDisplayGeometry*>& geometries, int color, hkUlong id,
                                          int tag) = 0;
 };
 class hkColor
@@ -1228,7 +1228,7 @@ class hkColor
     };
 };
 __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* constraint,
-                                                    hkDebugDisplayHandler* displayHandler, int id, int tag)
+                                                    hkDebugDisplayHandler* displayHandler, hkUlong id, int tag)
 {
     const hkpHingeLimitsData* lhinge = static_cast<const hkpHingeLimitsData*>(constraint->getData());
     reinterpret_cast<::CpuObject *>(&(m_kDisplayGeometry))->FUN_00e10a10((displayHandler));
@@ -1281,9 +1281,8 @@ __forceinline void HingeConstraintDrawer::drawHinge(hkpConstraintInstance* const
     }
 }
 // @fnv 0x00de5fe0
-extern "C" __declspec(noinline) void FUN_00de5fe0(HingeConstraintDrawer* drawer, void*,
-                                                             hkpConstraintInstance* constraint,
-                                                             hkDebugDisplayHandler* handler, int id, int tag)
+extern "C" __declspec(noinline) void FUN_00de5fe0(HingeConstraintDrawer* drawer, hkpConstraintInstance* constraint,
+                                                  hkDebugDisplayHandler* handler, hkUlong id, int tag)
 {
     drawer->drawHinge(constraint, handler, id, tag);
 }

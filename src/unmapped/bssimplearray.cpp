@@ -219,7 +219,7 @@ bool NiPoint3::FUN_004390c0(const NiPoint3& aPoint)
 
 struct FUN_00692290_class
 {
-    void FUN_005ef650(unsigned int count, unsigned int growBy);
+    void FUN_005ef650(uintptr_t count, unsigned int growBy);
 };
 struct FUN_00691820_arr
 {
@@ -937,7 +937,7 @@ void BSSimpleArrayActor::FUN_005eee80(unsigned int aiNewSize, bool abFreeMemory)
 
 
 // @fnv 0x005ef650
-void FUN_00692290_class::FUN_005ef650(unsigned int count, unsigned int growBy)
+void FUN_00692290_class::FUN_005ef650(uintptr_t count, unsigned int growBy)
 {
     unsigned int i;
     void* p2;
@@ -2333,11 +2333,11 @@ struct FUN_0069f920_cls
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     FUN_0069f920_Sub unk20;
-    void* FUN_0069f920(int, int);
+    void* FUN_0069f920(intptr_t, intptr_t);
 };
 // Calls unk20.FUN_006a1920 for a node, constructs FUN_006e2280(a, b) at the address FUN_006e8f80 returns for it, and returns the node.
 // @fnv 0x0069f920
-void* FUN_0069f920_cls::FUN_0069f920(int aiArg1, int aiArg2)
+void* FUN_0069f920_cls::FUN_0069f920(intptr_t aiArg1, intptr_t aiArg2)
 {
     void* pNode = ((void *)(reinterpret_cast<::FUN_006a1920_cls *>(&(unk20))->FUN_006a1920()));
     void* pPlace = ((void *)(reinterpret_cast<::BSSimpleArray_PathingNode_1024 *>(&(unk20))->FUN_006e8f80((unsigned int)pNode)));

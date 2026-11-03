@@ -122,13 +122,13 @@
 struct FUN_00692290_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void FUN_00692290(unsigned int requested, unsigned int savedSize);
-    int iSize;
+    void* iSize;
     int iPosition;
     int iDataLength;
 public:
-    void FUN_005ef650(unsigned int, unsigned int);
+    void FUN_005ef650(uintptr_t, unsigned int);
 };
 
 // @fnv 0x00692290
@@ -148,7 +148,7 @@ void FUN_00692290_class::FUN_00692290(unsigned int requested, unsigned int saved
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_00692290_class *>(this)->FUN_005ef650(iSize, savedSize);
+        reinterpret_cast<::FUN_00692290_class *>(this)->FUN_005ef650((uintptr_t)iSize, savedSize);
         iPosition = savedSize;
     }
 }
@@ -162,7 +162,7 @@ struct PackageTargetRecord
 void PackageTargetRecord::FUN_00680170(void* reference)
 {
     if (GetTargetKind() == 2)
-        *(int*)((char*)this + 4) = (int)reference;
+        *(void**)((char*)this + 4) = reference;
 }
 
 struct TESConditionItem
@@ -272,7 +272,7 @@ extern int DAT_0106a038;
 
 struct GlobalObject_00869f00
 {
-    int pData;
+    void* pData;
     void Clear(bool);
 };
 
@@ -284,7 +284,7 @@ struct FUN_0068eb30_class : GlobalObject_00869f00
 // @fnv 0x0068eb30
 void FUN_0068eb30_class::InitializeGlobalObject()
 {
-    pData = (int)&DAT_0106a038;
+    pData = &DAT_0106a038;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
@@ -484,7 +484,7 @@ struct FUN_0069aeb0_class
 {
     void FUN_0069aeb0(intptr_t a);
     int f0;
-    int f4;
+    void* f4;
     int f8;
 };
 
@@ -492,7 +492,7 @@ struct FUN_0069aeb0_class
 // @fnv 0x0069aeb0
 void FUN_0069aeb0_class::FUN_0069aeb0(intptr_t a)
 {
-    std::qsort((void *)(f4), f8, 2, (int (*)(const void *, const void *))(a));
+    std::qsort(f4, f8, 2, (int (*)(const void *, const void *))(a));
 }
 
 // @fnv 0x0069b1b0
@@ -508,13 +508,13 @@ struct GlobalObject_00869f00
 };
 struct FUN_0069b1d0_class
 {
-    int m_pData;
+    void* m_pData;
     void FUN_0069b1d0();
 };
 // @fnv 0x0069b1d0
 void FUN_0069b1d0_class::FUN_0069b1d0()
 {
-    m_pData = (int)&::DAT_0106b1cc;
+    m_pData = &::DAT_0106b1cc;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_0069b1d0
@@ -1162,18 +1162,18 @@ struct FUN_00692320_class
 struct FUN_006923f0_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void FUN_006923f0(unsigned int requested, unsigned int savedSize);
-    int iSize;
+    void* iSize;
     int iPosition;
     int iDataLength;
 };
 struct FUN_00692740_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void FUN_00692740(unsigned int requested, unsigned int savedSize);
-    int iSize;
+    void* iSize;
     int iPosition;
     int iDataLength;
 };
@@ -1549,7 +1549,7 @@ int FUN_006925b0_class::AppendSlot()
         else
         {
             unsigned int n = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>(this)->FUN_009a3910()));
-            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(n), iCount);
+            reinterpret_cast<::FUN_005efa80_cls *>(this)->FUN_005efa80((void *)(uintptr_t)(n), iCount);
             iSize = n;
         }
     }
@@ -1601,9 +1601,9 @@ struct FUN_006e1280_Class
 struct FUN_0069b940_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void FUN_0069b940(unsigned int requested, unsigned int savedSize);
-    int iSize;
+    void* iSize;
     int iPosition;
     int iDataLength;
 };
@@ -1635,8 +1635,8 @@ struct EH
 struct FUN_0069b310_S
 {
     virtual int v0();
-    virtual int Write(unsigned int);
-    int iSize;
+    virtual void* Write(unsigned int);
+    void* iSize;
     int iPosition;
     int iDataLength;
     void ResetAndWrite(unsigned int requested, unsigned int savedSize);
@@ -1644,9 +1644,9 @@ struct FUN_0069b310_S
 struct FUN_0069d140_class
 {
     virtual void v0();
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void InitializeBuffer(unsigned int requested, unsigned int savedSize);
-    int iSize;
+    void* iSize;
     int iPosition;
     int iDataLength;
 };
@@ -1687,7 +1687,7 @@ struct NiTMallocInterface_0096afc0
 struct FUN_00682590_class
 {
     void* p;
-    int iSize;
+    unsigned int iSize;
     int iPosition;
     FUN_00682590_class* FUN_00682590(unsigned int requested);
 };
@@ -1811,7 +1811,7 @@ void FUN_0069d1d0_class::ReadFromFile(TESFile* file, unsigned int* puiValue)
     if (file->IsEndianConversionRequired())
         ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
     puiValue++;
-    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((((TES*)g_TES)))->FUN_0045af00())), {}, {});
+    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((*reinterpret_cast<TES **>(&g_TES)))->FUN_0045af00())), {}, {});
 }
 
 struct NiTMallocInterface_006826d0
@@ -1851,7 +1851,7 @@ void* FUN_00683870_class::FUN_00683870(unsigned int flags)
 // @fnv 0x00683850
 void FUN_00683850_class::FUN_00683850()
 {
-    *reinterpret_cast<int*>(this) = (int)&$SG6833;
+    *reinterpret_cast<void**>(this) = &$SG6833;
 }
 
 struct FUN_00693cd0_class
@@ -1948,7 +1948,7 @@ void BSSimpleArrayActor::Resize(uintptr_t size, bool shrink)
         }
         else
         {
-            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(size), (void *)(mCount));
+            reinterpret_cast<::fnv_005efc90::FUN_005efc90_class *>(this)->FUN_005efc90((void *)(uintptr_t)(size), (void *)(uintptr_t)(mCount));
             mCapacity = size;
         }
 
@@ -2475,9 +2475,9 @@ int FUN_00691c10_class::FUN_00691c10(S00691c60 const& aEntry)
 {
     int count = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00978bc0()));
 
-    reinterpret_cast<::B692320Allocator *>(this)->ConstructEntries((::B692320Entry *)(count * 12 + reinterpret_cast<int>(m4)), 1);
+    reinterpret_cast<::B692320Allocator *>(this)->ConstructEntries((::B692320Entry *)(count * 12 + reinterpret_cast<intptr_t>(m4)), 1);
 
-    reinterpret_cast<S00691c60*>(reinterpret_cast<int>(m4) + count * 12)->Assign(aEntry);
+    reinterpret_cast<S00691c60*>(reinterpret_cast<intptr_t>(m4) + count * 12)->Assign(aEntry);
 
     return count;
 }
@@ -5922,7 +5922,7 @@ struct ThisCls
     Node* m_2078;
     Node* m_207c;
     int m_2080;
-    int m_2084;
+    void* m_2084;
     Obj2088 m_2088;
     Obj2088 m_20b0;
     Obj20d8 m_20d8;
@@ -5939,7 +5939,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
     {
         bool ok;
         m_2080 = a3;
-        m_2084 = (int)apResult;
+        m_2084 = apResult;
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011d6dcc)))
         {
             if (reinterpret_cast<::_FUN_0052aa80_shell *>(&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))->operator!=(0))
@@ -6013,10 +6013,10 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
             {
                 StrObj str1((char*)(&((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_1c),
                             ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((NavLike*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_10)))->FUN_0068efb0())));
-                reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((int)(&str1), (int)(&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))));
+                reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((intptr_t)(&str1), (intptr_t)(&::NiPoint3::ZERO));
                 StrObj str2((char*)(&((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_34),
                             ((void *)(reinterpret_cast<::FUN_0068efb0_shell *>((((NavLike*)((::fnv_0069f010::ElemE *)(reinterpret_cast<::DummyArr *>(&(m_20e8))->GetBufferElementAddress(k)))->m_28)))->FUN_0068efb0())));
-                reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((int)(&str2), (int)(&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))));
+                reinterpret_cast<::FUN_0069f920_cls *>((apResult))->FUN_0069f920((intptr_t)(&str2), (intptr_t)(&::NiPoint3::ZERO));
             }
         }
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011d6dcc)))

@@ -1797,7 +1797,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             while ((local_b4Value16 < 7 &&
                                     ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_b4Value16])))))->GetName()))) != 0)))
                             {
-                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_b4Value16));
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_b4Value16));
 
                                 if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_a8Value19].rows[local_b4Value16])))))->GetName()))) > 3)
                                 {
@@ -1818,7 +1818,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                     reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_b4Value16));
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_b4Value16));
                                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
                                     reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
@@ -1834,7 +1834,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                         {
                             local_c0Value21 = local_c0Value21 + 1;
                         }
-                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_c0Value21));
+                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_c0Value21));
                         if (local_c0Value21 == 7)
                             continue;
 
@@ -1852,7 +1852,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                             reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                             currentValue29 = new CaravanDecision();
-                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_c0Value21));
+                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_c0Value21));
                             reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_b0Value32);
                             reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                         }
@@ -1882,7 +1882,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     for (local_d0Value6 = 0; local_d0Value6 < 7; local_d0Value6 = local_d0Value6 + 1)
                                     {
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_d0Value6));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_d0Value6));
                                         local_d8Value0 =
                                             ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((
                                                  void*)(&lanes[(5 - local_a8Value19)].rows[local_d0Value6])))))->GetName()));
@@ -1913,7 +1913,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                 reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
                                                 reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                 currentValue29 = new CaravanDecision();
-                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_d0Value6));
+                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_d0Value6));
                                                 reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
                                                 reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                             }
@@ -1924,7 +1924,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     for (local_e0Value0 = 0; local_e0Value0 < 7; local_e0Value0 = local_e0Value0 + 1)
                                     {
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_e0Value0));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
                                         local_e8Value5 =
                                             ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((
                                                  void*)(&lanes[local_a8Value19].rows[local_e0Value0])))))->GetName()));
@@ -1978,7 +1978,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                 reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(3));
                                                 reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                 currentValue29 = new CaravanDecision();
-                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_e0Value0));
+                                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
                                                 reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
                                                 reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                             }
@@ -2097,7 +2097,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                     reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(3));
                                                     reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                                     currentValue29 = new CaravanDecision();
-                                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_e0Value0));
+                                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_e0Value0));
                                                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
                                                     reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                                 }
@@ -2114,7 +2114,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     local_130Value0 = local_130Value0 + 1;
                                 }
-                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_130Value0));
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_130Value0));
                                 local_12cValue4 = local_c8Value6 + laneTotals[local_a8Value19].total;
                                 if ((local_12cValue4 < 0x1b) &&
                                     (local_12cValue4 > laneTotals[(5 - local_a8Value19)].total))
@@ -2142,7 +2142,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     currentValue29->band = (reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_12cValue4));
                                     reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_130Value0));
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_130Value0));
                                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_c4Value23);
                                     reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
@@ -2169,7 +2169,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     for (local_140Value41 = 0; local_140Value41 < 7;
                                          local_140Value41 = local_140Value41 + 1)
                                     {
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_140Value41));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_140Value41));
                                         local_144Value42 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_a8Value19, local_140Value41);
 
                                         if (((reinterpret_cast<::FUN_00752df0_class *>((this))->CompareToTwentyOneToTwentySix(local_acValue61 +
@@ -2185,7 +2185,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                             reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                             reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                             currentValue29 = new CaravanDecision();
-                                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_140Value41));
+                                            reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_140Value41));
                                             reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_138Value1);
                                             reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                         }
@@ -2200,7 +2200,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 {
                                     local_148Value2 = local_148Value2 + 1;
                                 }
-                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_148Value2));
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_148Value2));
 
                                 if (!((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_148Value2, local_138Value1, true))))
                                     continue;
@@ -2215,7 +2215,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(0));
                                     reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_148Value2));
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_148Value2));
                                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_138Value1);
                                     reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                 }
@@ -2241,7 +2241,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                             {
                                 for (local_154Value1 = 0; local_154Value1 < 7; local_154Value1 = local_154Value1 + 1)
                                 {
-                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_154Value1));
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_154Value1));
                                     local_158Value12 = reinterpret_cast<::fnv_0074f600::FUN_0074f600_shell *>((this))->FUN_0074f600(local_a8Value19, local_154Value1);
                                     if ((local_acValue61 - local_158Value12 < 0x1b) &&
                                         ((reinterpret_cast<::PlacementMenu *>((this))->CanPlaceCard(local_a8Value19, local_154Value1, local_14cValue41,
@@ -2256,7 +2256,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                         reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(2));
                                         reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_154Value1));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_154Value1));
                                         reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_14cValue41);
                                         reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_a8Value19);
                                     }
@@ -2285,7 +2285,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                     while ((local_164Value11 < 7 &&
                             ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_15cValue23].rows[local_164Value11])))))->GetName()))) != 0)))
                     {
-                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
 
                         if ((((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((PointerArray*)((void*)(&lanes[local_15cValue23].rows[local_164Value11])))))->GetName()))) > 3)
                         {
@@ -2306,7 +2306,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
                                 reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                 currentValue29 = new CaravanDecision();
-                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
                                 reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
                                 reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                             }
@@ -2319,7 +2319,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                     reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
                                     reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                     currentValue29 = new CaravanDecision();
-                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                                    reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
                                     reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
                                     reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                 }
@@ -2337,7 +2337,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                 reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(7));
                                 reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                 currentValue29 = new CaravanDecision();
-                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                                reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
                                 reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
                                 reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                             }
@@ -2369,12 +2369,12 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                    void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
                                                   ->FUN_00877a30(0))))))->GetProcessInteger()))
                                     {
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11 + -1));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11 + -1));
                                         reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(0x23 - local_170Value0));
                                         reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(1));
                                         reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
                                         reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
                                         reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                     }
@@ -2391,12 +2391,12 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                                                    void*)(&lanes[local_15cValue23].rows[(local_164Value11 + -2)])))
                                                   ->FUN_00877a30(0))))))->GetProcessInteger()))
                                     {
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11 + -1));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11 + -1));
                                         reinterpret_cast<::TESPackage *>((currentValue29))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(local_170Value0 + 0x19));
                                         reinterpret_cast<::TESRegionGrassObject *>((currentValue29))->AssignLandTexture((::TESLandTexture *)(1));
                                         reinterpret_cast<::FUN_00438690 *>((((PointerArray*)(choicesValue1))))->FUN_007cb2e0((unsigned int *)(void **)((void**)&currentValue29));
                                         currentValue29 = new CaravanDecision();
-                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(local_164Value11));
+                                        reinterpret_cast<::BGSQuestObjective *>((currentValue29))->SetOwner((::TESQuest *)(intptr_t)(local_164Value11));
                                         reinterpret_cast<::FUN_00600ab0_shell *>((currentValue29))->FUN_00600ab0(local_160Value33);
                                         reinterpret_cast<::FUN_0041fd00_shell *>((currentValue29))->FUN_0041fd00(local_15cValue23);
                                     }

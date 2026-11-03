@@ -1014,13 +1014,13 @@ struct DummyArr
 {
     void* vtbl;
     Dummy64* pBuffer;
-    int GetBufferElementAddress(unsigned int aiIndex);
+    intptr_t GetBufferElementAddress(unsigned int aiIndex);
 };
 
 // @fnv 0x006b30e0
-int DummyArr::GetBufferElementAddress(unsigned int aiIndex)
+intptr_t DummyArr::GetBufferElementAddress(unsigned int aiIndex)
 {
-    return reinterpret_cast<int>(&pBuffer[aiIndex]);
+    return reinterpret_cast<intptr_t>(&pBuffer[aiIndex]);
 }
 
 struct FUN_006b3160_shell

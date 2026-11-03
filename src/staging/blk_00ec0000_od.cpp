@@ -124,19 +124,21 @@ void FUN_00ec20a0(void* apMemory)
 
 struct FUN_00ec29b0_class
 {
+    char m_pad00[0x21];
+    bool m_b21;
     void FUN_00ec29b0();
 };
 // @fnv 0x00ec29b0
 void FUN_00ec29b0_class::FUN_00ec29b0()
 {
-    ((char*)this)[0x21] = 1;
+    m_b21 = true;
 }
 
 struct FUN_00ec2c10
 {
     int m_0000;
     int m_0004;
-    int m_0008;
+    void* m_0008;
     int m_000c;
     int m_0010;
     int m_0014;
@@ -211,8 +213,6 @@ struct FUN_00ec0cd0_Class
 };
 struct FUN_00ec1f60_Class
 {
-    int m_0020;
-    unsigned char m_0024;
     unsigned char InitAndCheck(intptr_t a, unsigned char b);
 };
 struct FUN_00ec1fb0_class
@@ -322,7 +322,7 @@ void FUN_00ec2c10::SetThreadPriorityLevel(int aiLevel)
         break;
     }
     m_002c = aiLevel;
-    SetThreadPriority(*(void**)((char*)this + 8), b);
+    SetThreadPriority(m_0008, b);
 }
 
 struct FUN_00ec1fd0_shell
@@ -458,25 +458,34 @@ void FUN_00ec1b80_Class::Initialize()
 
 struct FUN_00ec1cc0_Class
 {
+    char m_pad00[0x10];
+    unsigned char m_bCopyStrings;
     void AssignString(void* a, const char* b, int c);
+};
+struct EC1CC0Target
+{
+    int unk00;
+    void* m_pString;
+    int m_iValue;
 };
 
 // Stores a string into a+4 (copying it when this+0x10 is set) and stores c into a+8.
 // @fnv 0x00ec1cc0
 void FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int aiValue)
 {
-    if (*(unsigned char*)((char*)this + 0x10))
+    EC1CC0Target* pkTarget = static_cast<EC1CC0Target*>(apTarget);
+    if (m_bCopyStrings)
     {
         unsigned int uiLen = (unsigned int)std::strlen(apString) + 1;
-        *(void**)((char*)apTarget + 4) = ::FUN_00aa1070(uiLen);
-        void* dest = *(void**)((char*)apTarget + 4);
+        pkTarget->m_pString = ::FUN_00aa1070(uiLen);
+        void* dest = pkTarget->m_pString;
         fnv::crt::strcpy_s((char*)dest, uiLen, apString);
     }
     else
     {
-        *(void**)((char*)apTarget + 4) = (void*)apString;
+        pkTarget->m_pString = (void*)apString;
     }
-    *(int*)((char*)apTarget + 8) = aiValue;
+    pkTarget->m_iValue = aiValue;
 }
 
 struct FUN_00ec1a90_Class
@@ -689,17 +698,22 @@ class NiPlaybackFile
     bool FindString(const char* pcName, bool bQuiet, bool bLoop, bool bFlag);
     bool InitPlayback(const char* pcName, bool bQuiet, bool bLoop, bool bLooping);
 };
+struct EC1F60Movie : NiPlaybackFile
+{
+    unsigned char m_bOpening;
+};
 // @fnv 0x00ec1f60
 unsigned char FUN_00ec1f60_Class::InitAndCheck(intptr_t aiValue, unsigned char b)
 {
-    *(int*)((char*)this + 0x20) = 2;
-    *(unsigned char*)((char*)this + 0x24) = 1;
-    if (!((unsigned char)(reinterpret_cast<::NiPlaybackFile *>((((FUN_00ec0cd0_Class*)this)))->InitPlayback((const char *)(aiValue), 1, b, 0))))
+    EC1F60Movie* pkMovie = reinterpret_cast<EC1F60Movie*>(this);
+    pkMovie->m_iFadeIndex = 2;
+    pkMovie->m_bOpening = 1;
+    if (!((unsigned char)(pkMovie->InitPlayback((const char *)(aiValue), 1, b, 0))))
     {
-        *(unsigned char*)((char*)this + 0x24) = 0;
+        pkMovie->m_bOpening = 0;
         return 0;
     }
-    *(unsigned char*)((char*)this + 0x24) = 0;
+    pkMovie->m_bOpening = 0;
     return 1;
 }
 
@@ -1090,19 +1104,10 @@ struct S_00ec2d80_Class
 // @fnv 0x00ec2d80
 void S_00ec2d80_Class::FUN_00ec2d80(int a, intptr_t b)
 {
-    char* p;
-    char* oB;
-    char* n;
-    char* m;
-    char* l;
-    char* k;
-    char* j;
+    unsigned int uiSize = (unsigned int)std::strlen((const char *)(b)) + 1;
+    char* p = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize)));
 
-    oB = ((char *)(std::uintptr_t)(std::strlen((const char *)(b))));
-    n = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned int)((std::uintptr_t)oB + 1))));
-    p = n;
-
-    fnv::crt::strcpy_s(p, (std::size_t)(std::uintptr_t)(oB + 1), (const char *)(b));
+    fnv::crt::strcpy_s(p, uiSize, (const char *)(b));
     this->m_0040.AddOrUpdate(a, p);
 }
 }  // namespace fnv_00ec2d80

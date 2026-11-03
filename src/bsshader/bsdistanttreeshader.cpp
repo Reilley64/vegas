@@ -162,18 +162,17 @@ void FUN_00bb6060_shell::FUN_00bb6060()
     pixelShaderParamsSilhouette.macros[2].Name = 0;
     std::memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 13 * sizeof(const char*));
 
-    char* pThis = (char*)this;
     FUN_00be0c00(vertexShaderParams.pFile, cacheName);
     ::FUN_00406d00(tempName, 260, "DISTTREE.vso");
-    *(ShPtr*)(pThis + 0x74) =
-        (ShRefObj*)((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(cacheName), (const char *)(const ::_D3DXMACRO *)((const _D3DXMACRO*)vertexShaderParams.macros), "vs_1_1")));
+    *(ShPtr*)&m_spTreeVertexShader =
+        (ShRefObj*)((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0(cacheName, (::_D3DXMACRO *)(vertexShaderParams.macros), "vs_1_1", tempName)));
     FUN_00be0c00(pixelShaderParams.pFile, cacheName);
     ::FUN_00406d00(tempName, 260, "DISTTREE.pso");
-    *(ShPtr*)(pThis + 0x78) =
+    *(ShPtr*)&m_spPixelShaderVariants[0] =
         (ShRefObj*)reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(cacheName), (void *)((const _D3DXMACRO*)pixelShaderParams.macros), (char *)("ps_2_a"), (char *)(tempName));
     FUN_00be0c00(pixelShaderParamsSilhouette.pFile, cacheName);
     ::FUN_00406d00(tempName, 260, "DISTTREESil.pso");
-    *(ShPtr*)(pThis + 0x7c) = (ShRefObj*)reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(
+    *(ShPtr*)&m_spPixelShaderVariants[1] = (ShRefObj*)reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(
         (char *)(cacheName), (void *)((const _D3DXMACRO*)pixelShaderParamsSilhouette.macros), (char *)("ps_2_a"), (char *)(tempName));
 }
 

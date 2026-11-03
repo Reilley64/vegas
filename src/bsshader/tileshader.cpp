@@ -53,18 +53,27 @@ template <class T> class NiPointer
 };
 
 
+struct SelectGPUProgram_Shader
+{
+    char pad00[0x28];
+    NiPointer<NiGPUProgram> m_spProgram;
+    char pad2c[0x6c - 0x2c];
+    std::intptr_t m_aiPass[2];
+};
+
 // @fnv 0x00bcb180
 void SelectGPUProgram(char* this_ptr, int, int arg)
 {
+    SelectGPUProgram_Shader* shader = (SelectGPUProgram_Shader*)this_ptr;
     switch (arg)
     {
     case 0x24c:
-        DAT_0126f74c = *(int*)(this_ptr + 0x6c);
-        *(NiPointer<NiGPUProgram>*)(this_ptr + 0x28) = DAT_012021e0;
+        DAT_0126f74c = shader->m_aiPass[0];
+        shader->m_spProgram = DAT_012021e0;
         break;
     case 0x24d:
-        DAT_0126f74c = *(int*)(this_ptr + 0x70);
-        *(NiPointer<NiGPUProgram>*)(this_ptr + 0x28) = DAT_012021e4;
+        DAT_0126f74c = shader->m_aiPass[1];
+        shader->m_spProgram = DAT_012021e4;
         break;
     }
 }
@@ -72,13 +81,15 @@ void SelectGPUProgram(char* this_ptr, int, int arg)
 
 struct FUN_00bca500_shell
 {
+    char pad00[0x6c];
+    std::intptr_t m_iPass;
     void FUN_00bca500(void* p);
 };
 
 // @fnv 0x00bca500
 void FUN_00bca500_shell::FUN_00bca500(void* p)
 {
-    DAT_0126f74c = *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x6c);
+    DAT_0126f74c = m_iPass;
 }
 
 
@@ -88,25 +99,38 @@ void* __cdecl FUN_00bca6b0()
     return &(*reinterpret_cast<void * *>(&::g_012021b8));
 }
 
-// Sets byte at offset 8 of the objects at thisptr+0x84/0x88/0x8c based on whether a3 equals 0x24d, then calls vtable slot 0x24 on the object at thisptr+0x34.
+struct SetFlagState_Stage
+{
+    char pad00[8];
+    char m_bEnabled;
+};
+struct SetFlagState_Owner
+{
+    char pad00[0x34];
+    char* m_pObj34;
+    char pad38[0x84 - 0x38];
+    SetFlagState_Stage* m_apStage[3];
+};
+
+// Sets the enabled byte of the three stages based on whether a3 equals 0x24d, then calls vtable slot 0x24 on the object m_pObj34.
 // @fnv 0x00bcb1d0
 void SetFlagState(void* thisptr, int, int a3)
 {
-    char* obj84 = *(char**)((char*)thisptr + 0x84);
+    SetFlagState_Owner* owner = (SetFlagState_Owner*)thisptr;
     char al;
     if (a3 != 0x24d)
     {
-        obj84[8] = 1;
+        owner->m_apStage[0]->m_bEnabled = 1;
         al = 0;
     }
     else
     {
-        obj84[8] = 0;
+        owner->m_apStage[0]->m_bEnabled = 0;
         al = 1;
     }
-    *(char*)(*(char**)((char*)thisptr + 0x88) + 8) = al;
-    *(char*)(*(char**)((char*)thisptr + 0x8c) + 8) = al;
-    char* obj34 = *(char**)((char*)thisptr + 0x34);
+    owner->m_apStage[1]->m_bEnabled = al;
+    owner->m_apStage[2]->m_bEnabled = al;
+    char* obj34 = owner->m_pObj34;
     void** vtable = *(void***)obj34;
     typedef void(* VFunc)(void*);
     ((VFunc)vtable[0x24 / 4])(obj34);
@@ -530,8 +554,22 @@ public:
 public:
     static void CreateD3DPass(::NiPointer< ::NiD3DPass> &);
 };
+struct FUN_00bca6c0_RefObject
+{
+    void* m_pVtable;
+    long m_uiRefCount;
+};
+struct FUN_00bca6c0_Pass
+{
+    char pad00[0x64];
+    int m_iRefCount;
+};
 struct FUN_00bca6c0_shell : NiShader
 {
+    char pad[0x6c - sizeof(void*)];
+    FUN_00bca6c0_Pass* m_pPass;
+    FUN_00bca6c0_RefObject* m_apVertexObjects[3];
+    FUN_00bca6c0_RefObject* m_apPixelObjects[3];
     bool FUN_00bca6c0();
 };
 // Calls NiShader::Initialize, then releases three pairs of reference-counted objects and a NiD3DPass, clearing each pointer and returning true.
@@ -541,30 +579,30 @@ bool FUN_00bca6c0_shell::FUN_00bca6c0()
     reinterpret_cast<::BSShader *>(this)->Initialize();
     for (int i = 0; i < 3; ++i)
     {
-        void* pObject = *(void**)((char*)this + 0x70 + i * 4);
+        FUN_00bca6c0_RefObject* pObject = m_apVertexObjects[i];
         if (pObject)
         {
-            if (InterlockedDecrement((volatile long*)((char*)pObject + 4)) == 0)
+            if (InterlockedDecrement(&pObject->m_uiRefCount) == 0)
                 ((void(*)(void*))(*(void***)pObject)[1])(pObject);
-            *(void**)((char*)this + 0x70 + i * 4) = 0;
+            m_apVertexObjects[i] = 0;
         }
     }
     for (int i = 0; i < 3; ++i)
     {
-        void* pObject = *(void**)((char*)this + 0x7c + i * 4);
+        FUN_00bca6c0_RefObject* pObject = m_apPixelObjects[i];
         if (pObject)
         {
-            if (InterlockedDecrement((volatile long*)((char*)pObject + 4)) == 0)
+            if (InterlockedDecrement(&pObject->m_uiRefCount) == 0)
                 ((void(*)(void*))(*(void***)pObject)[1])(pObject);
-            *(void**)((char*)this + 0x7c + i * 4) = 0;
+            m_apPixelObjects[i] = 0;
         }
     }
-    void* pass = *(void**)((char*)this + 0x6c);
+    FUN_00bca6c0_Pass* pass = m_pPass;
     if (pass)
     {
-        if (--*(int*)((char*)pass + 0x64) == 0)
+        if (--pass->m_iRefCount == 0)
             ((NiD3DPass*)pass)->DestroyPass();
-        *(void**)((char*)this + 0x6c) = 0;
+        m_pPass = 0;
     }
     return true;
 }

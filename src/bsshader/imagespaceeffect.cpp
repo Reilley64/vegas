@@ -28,6 +28,16 @@ struct NiTPrimitiveArray_int___
     void SetAt(unsigned int, int&);
 };
 
+struct ImageSpaceEffectArrays
+{
+    char pad00[8];
+    char m_kEffectList[0x10];
+    char m_kEffectParamList[0x10];
+    char m_kArray28[0x10];
+    char m_kTextureList[0x10];
+    char m_kEffectOutput[0x10];
+};
+
 struct FUN_00ba3c70_shell
 {
     void SetEffectAt(int aiEffectIndex, ImageSpaceEffect* apEffect, ImageSpaceEffectParam* apParam, int aiOutput);
@@ -38,11 +48,12 @@ struct FUN_00ba3c70_shell
 void FUN_00ba3c70_shell::SetEffectAt(int aiEffectIndex, ImageSpaceEffect* apEffect, ImageSpaceEffectParam* apParam,
                                      int aiOutput)
 {
+    ImageSpaceEffectArrays* arrays = reinterpret_cast<ImageSpaceEffectArrays*>(this);
     NiTPrimitiveArray_ImageSpaceEffect___& pEffectList =
-        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffect___*>(this + 8);
+        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffect___*>(arrays->m_kEffectList);
     NiTPrimitiveArray_ImageSpaceEffectParam___& pEffectParamList =
-        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffectParam___*>(this + 0x18);
-    NiTPrimitiveArray_int___& pEffectOutput = *reinterpret_cast<NiTPrimitiveArray_int___*>(this + 0x48);
+        *reinterpret_cast<NiTPrimitiveArray_ImageSpaceEffectParam___*>(arrays->m_kEffectParamList);
+    NiTPrimitiveArray_int___& pEffectOutput = *reinterpret_cast<NiTPrimitiveArray_int___*>(arrays->m_kEffectOutput);
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectList))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(apEffect));
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectParamList))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(apParam));
     reinterpret_cast<::FUN_00a41520_cls *>(&(pEffectOutput))->FUN_00ba3aa0(aiEffectIndex, (::KeyPair **)&(aiOutput));
@@ -55,7 +66,7 @@ struct FUN_00ba3b50_t
 {
     void SetArrayEntry(int, int, int, int, int);
 };
-// Allocates a 16-byte block, stores the four arguments in it, and sets it at index a1 in the array at offset 0x38.
+// Allocates a 16-byte block, stores the four arguments in it, and sets it at index a1 in the texture array.
 // @fnv 0x00ba3b50
 void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
 {
@@ -65,7 +76,7 @@ void FUN_00ba3b50_t::SetArrayEntry(int uiIndex, int a2, int a3, int a4, int a5)
     p[2] = a3;
     int* t = p;
     p[3] = a5;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)((char*)this + 0x38))))->FUN_00ba3aa0((unsigned int)uiIndex, (::KeyPair **)&(t));
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_int___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kTextureList)))->FUN_00ba3aa0((unsigned int)uiIndex, (::KeyPair **)&(t));
 }
 
 struct NiTPrimitiveArray_ImageSpaceTexture___
@@ -75,14 +86,14 @@ struct ImageSpaceEffect
 {
     void SetTextureArraySize(int count);
 };
-// Sets the size of the four texture arrays at offsets 8, 0x18, 0x38 and 0x48 to count.
+// Sets the size of the effect, parameter, texture and output arrays to count.
 // @fnv 0x00ba3f90
 void ImageSpaceEffect::SetTextureArraySize(int count)
 {
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 8))))->FUN_00a90180(count);
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x18))))->FUN_00a90180(count);
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x38))))->FUN_00a90180(count);
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x48))))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectParamList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kTextureList)))->FUN_00a90180(count);
+    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)reinterpret_cast<ImageSpaceEffectArrays*>(this)->m_kEffectOutput)))->FUN_00a90180(count);
 }
 
 namespace fnv_00ba3ba0 {

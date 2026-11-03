@@ -153,14 +153,17 @@ void* __cdecl FUN_00bd5460()
 
 struct FUN_00bd5470_shell
 {
+    char pad00[0x74];
+    int m_i74;
+    char m_c78;
     void FUN_00bd5470(int a, char b);
 };
 
 // @fnv 0x00bd5470
 void FUN_00bd5470_shell::FUN_00bd5470(int a, char b)
 {
-    *reinterpret_cast<int*>(this + 0x74) = a;
-    *reinterpret_cast<char*>(this + 0x78) = b;
+    m_i74 = a;
+    m_c78 = b;
 }
 
 struct S_00bd58f0
@@ -386,6 +389,8 @@ public:
 
 struct FUN_00bd5a40_shell
 {
+    char pad00[0x6c];
+    NiD3DPass* m_pRenderPass;
     bool FUN_00bd5a40();
 };
 
@@ -764,7 +769,7 @@ struct RSShader
 // @fnv 0x00bd5a40
 bool FUN_00bd5a40_shell::FUN_00bd5a40()
 {
-    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(*(NiD3DPass**)((char*)this + 0x6c)));
+    ::NiD3DPass::CreateD3DPass((::NiPointer< ::NiD3DPass> &)(m_pRenderPass));
     reinterpret_cast<::RSShader *>(this)->SetupRenderPass();
     return true;
 }

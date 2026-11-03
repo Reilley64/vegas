@@ -63,34 +63,36 @@ namespace fnv_00b6f540 { struct CloningProcess; }
 // @fnv 0x00b70490
 ShadowSceneLight* BSShaderLightingProperty::GetFirstAttachedLight(void*& iter)
 {
-    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
+    FNVPointerListItem* node = *(FNVPointerListItem**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (!node)
         return 0;
-    iter = *(void**)node;
-    return *(ShadowSceneLight**)((char*)node + 8);
+    iter = node->m_pkNext;
+    return (ShadowSceneLight*)node->m_element;
 }
 
 // Allocates a node from the pool at this+8, links it after source in the list, and increments the count.
 // @fnv 0x00b713c0
 void BSShaderLightingProperty::CopyMemberData(BSShaderLightingProperty* source, CloningProcess& process)
 {
-    bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)((char*)this + 8);
-    void* node = ((void *)(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010()));
-    *(void**)((char*)node + 8) = *(void**)&process;
-    *(void**)node = source;
-    *(void**)((char*)node + 4) = *(void**)((char*)source + 4);
-    if (*(void**)((char*)source + 4))
+    FNVPointerListBase* list = (FNVPointerListBase*)this;
+    FNVPointerListItem* before = (FNVPointerListItem*)source;
+    bsshaderlightingproperty_NodePool* allocator = (bsshaderlightingproperty_NodePool*)&list->m_kItemCount;
+    FNVPointerListItem* node = ((FNVPointerListItem *)(reinterpret_cast<::FUN_0043a010_shell *>((allocator))->FUN_0043a010()));
+    node->m_element = *(void**)&process;
+    node->m_pkNext = before;
+    node->m_pkPrev = before->m_pkPrev;
+    if (before->m_pkPrev)
     {
-        void* next = *(void**)((char*)source + 4);
-        *(void**)next = node;
-        *(void**)((char*)source + 4) = node;
-        ++*(unsigned int*)((char*)this + 8);
+        FNVPointerListItem* prev = before->m_pkPrev;
+        prev->m_pkNext = node;
+        before->m_pkPrev = node;
+        ++list->m_kItemCount.m_uiCount;
         return;
     }
-    *(void**)this = node;
-    *(void**)((char*)source + 4) = node;
-    ++*(unsigned int*)((char*)this + 8);
+    list->m_pkHead = node;
+    before->m_pkPrev = node;
+    ++list->m_kItemCount.m_uiCount;
 }
 
 // @fnv 0x00b71300
@@ -121,19 +123,19 @@ void BSShaderLightingProperty::ClearLights()
 // @fnv 0x00b70590
 ShadowSceneLight* BSShaderLightingProperty::GetFirstActiveLight(void*& iter)
 {
-    void* node = *(void**)&this->m_kShadowSceneLights.m_pkHead;
+    FNVPointerListItem* node = *(FNVPointerListItem**)&this->m_kShadowSceneLights.m_pkHead;
     iter = node;
     if (node)
     {
-        iter = *(void**)node;
-        ShadowSceneLight* light = *(ShadowSceneLight**)((char*)node + 8);
+        iter = node->m_pkNext;
+        ShadowSceneLight* light = (ShadowSceneLight*)node->m_element;
         while (iter && light)
         {
             if (bsshaderlightingproperty_IsActive(light))
                 break;
-            void* next = iter;
-            iter = *(void**)next;
-            light = *(ShadowSceneLight**)((char*)next + 8);
+            FNVPointerListItem* next = (FNVPointerListItem*)iter;
+            iter = next->m_pkNext;
+            light = (ShadowSceneLight*)next->m_element;
         }
         if (!light || bsshaderlightingproperty_IsActive(light))
             return light;
@@ -360,22 +362,6 @@ bool FindNodeByItemValue(Obj_00b70340* pThis, int, void* aiTargetValue, int unus
     return false;
 }
 
-struct Helper_00b707d0_Obj
-{
-    char pad[0x30];
-    unsigned char flags;
-};
-
-struct Helper_00b707d0_Light
-{
-    char pad0[0xec];
-    bool byteEC;
-    char pad1[0xf8 - 0xed];
-    Helper_00b707d0_Obj* objF8;
-    char pad2[0x110 - 0xfc];
-    unsigned short word110;
-};
-
 struct Helper_00b707d0_Node
 {
     Helper_00b707d0_Node* next;
@@ -390,12 +376,12 @@ struct Helper_00b707d0_Node
     }
 };
 
-// Walks the linked list at thisPtr+0x60 and counts lights whose word110 is not 0xFF, whose objF8 flags bit 0 is clear, and whose byteEC is false.
+// Walks the shadow scene light list and counts lights whose word110 is not 0xFF, whose objF8 flags bit 0 is clear, and whose byteEC is false.
 // @fnv 0x00b707d0
 int FUN_00b707d0(void* thisPtr)
 {
     int count = 0;
-    Helper_00b707d0_Node* pos = *(Helper_00b707d0_Node**)((char*)thisPtr + 0x60);
+    Helper_00b707d0_Node* pos = (Helper_00b707d0_Node*)((BSShaderLightingProperty*)thisPtr)->m_kShadowSceneLights.m_pkHead;
     while (pos)
     {
         Helper_00b707d0_Light* light = pos->GetNext(pos);
@@ -411,7 +397,7 @@ extern int DAT_010ae7b0;
 // @fnv 0x00b71410
 void FUN_00b71410(void* pThis, int)
 {
-    BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)((char*)pThis + 0x60);
+    BSShaderLightingProperty* pSub = (BSShaderLightingProperty*)&((BSShaderLightingProperty*)pThis)->m_kShadowSceneLights;
     *(int**)pThis = &DAT_010ae7b0;
     pSub->ClearLights();
     pSub->ClearLights();
@@ -425,17 +411,18 @@ void FUN_00ba8e50(void*);
 void* FUN_00b71720(char* pThis)
 {
     reinterpret_cast<::FUN_00ba8e50_cls *>((pThis))->FUN_00ba8e50();
-    char* list = pThis + 0x60;
+    BSShaderLightingProperty* self = (BSShaderLightingProperty*)pThis;
+    FNVPointerListBase* list = (FNVPointerListBase*)&self->m_kShadowSceneLights;
     *(int**)pThis = &DAT_010ae7b0;
-    *(int*)(list + 8) = 0;
-    *(int*)(list + 0) = 0;
-    *(int*)(list + 4) = 0;
+    list->m_kItemCount.m_uiCount = 0;
+    list->m_pkHead = 0;
+    list->m_pkTail = 0;
     ((BSShaderLightingProperty*)list)->ClearLights();
-    *(float*)(pThis + 0x6c) = 1.0f;
-    *(int*)(pThis + 0x70) = 0;
-    *(char*)(pThis + 0x74) = 0;
-    *(int*)(pThis + 0x78) = 0;
-    *(int*)(pThis + 0x1c) = 1;
+    self->m_fForcedDarkness = 1.0f;
+    self->m_uiLightCount = 0;
+    self->m_bHasForcedDarkness = false;
+    self->m_pLightData = 0;
+    self->m_iShaderType = 1;
     return pThis;
 }
 
@@ -709,14 +696,7 @@ struct _RCObj
 {
     virtual void _v0();
     virtual void _dtor();
-};
-
-struct _Vec4
-{
-    int x;
-    int y;
-    int z;
-    int w;
+    long m_uiRefCount;
 };
 
 // @fnv 0x00b6f540
@@ -729,20 +709,23 @@ void FUN_00b6f540_shell::CopyShaderLightingProperty(BSShaderLightingProperty* pD
     {
         if (oldVal)
         {
-            if (InterlockedDecrement(reinterpret_cast<long*>(reinterpret_cast<char*>(oldVal) + 4)) == 0)
+            if (InterlockedDecrement(&oldVal->m_uiRefCount) == 0)
                 oldVal->_dtor();
         }
         _RCObj* newVal = *reinterpret_cast<_RCObj**>(&this->m_kShadowSceneLights.m_pkHead);
         *reinterpret_cast<_RCObj**>(&pDest->m_kShadowSceneLights.m_pkHead) = newVal;
         if (newVal)
-            InterlockedIncrement(reinterpret_cast<long*>(reinterpret_cast<char*>(newVal) + 4));
+            InterlockedIncrement(&newVal->m_uiRefCount);
     }
 
     int val = *reinterpret_cast<int*>(&this->m_fForcedDarkness);
     *reinterpret_cast<int*>(&pDest->m_fForcedDarkness) = val;
 
-    *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(pDest) + 0x70) =
-        *reinterpret_cast<_Vec4*>(reinterpret_cast<char*>(this) + 0x70);
+    pDest->m_uiLightCount = m_uiLightCount;
+    pDest->m_bHasForcedDarkness = m_bHasForcedDarkness;
+    std::memcpy(pDest->layoutPadding7D, layoutPadding7D, sizeof(layoutPadding7D));
+    pDest->m_pLightData = m_pLightData;
+    pDest->layoutPCExtra = layoutPCExtra;
 }
 }  // namespace fnv_00b6f540
 
@@ -964,7 +947,7 @@ extern int DAT_010ae7b0;
 BSShaderLightingProperty* DestroyShaderLightingProperty(BSShaderLightingProperty* self, int edx,
                                                                    unsigned int flags)
 {
-    BSShaderLightingProperty* list = (BSShaderLightingProperty*)((char*)self + 0x60);
+    BSShaderLightingProperty* list = (BSShaderLightingProperty*)&self->m_kShadowSceneLights;
     *(int**)self = &DAT_010ae7b0;
     list->ClearLights();
     list->ClearLights();
@@ -1120,10 +1103,8 @@ static inline Light_b70700* GetNext_b70700(ListItem_b70700*& kPos)
 
 static inline bool Skip_b70700(Light_b70700* p)
 {
-    char* l = reinterpret_cast<char*>(p);
-    return *reinterpret_cast<unsigned short*>(l + 0x110) == 0xff ||
-           (*reinterpret_cast<unsigned int*>(*reinterpret_cast<char**>(l + 0xf8) + 0x30) & 1) ||
-           *reinterpret_cast<bool*>(l + 0xec) == true;
+    Helper_00b707d0_Light* l = reinterpret_cast<Helper_00b707d0_Light*>(p);
+    return l->word110 == 0xff || (l->objF8->flags & 1) || l->byteEC == true;
 }
 
 // @fnv 0x00b70700
@@ -2072,7 +2053,8 @@ struct FUN_00b704b0_t
 // @fnv 0x00b704b0
 unsigned short FUN_00b704b0_t::get68()
 {
-    return *(unsigned short*)((char*)this + 0x68);
+    FNVPointerListBase* list = (FNVPointerListBase*)&((BSShaderLightingProperty*)this)->m_kShadowSceneLights;
+    return (unsigned short)list->m_kItemCount.m_uiCount;
 }
 
 struct S00b700d0_RTTI;
@@ -3013,8 +2995,8 @@ struct S00b70680_Helper
 {
     static bool Active(ShadowSceneLight* l)
     {
-        return *(unsigned short*)((char*)l + 0x110) != 0xff &&
-               (*(unsigned char*)(*(char**)((char*)l + 0xf8) + 0x30) & 1) == 0;
+        Helper_00b707d0_Light* light = (Helper_00b707d0_Light*)l;
+        return light->word110 != 0xff && (light->objF8->flags & 1) == 0;
     }
 };
 // Advances the iterator past inactive ShadowSceneLight entries and returns the next active light or null.

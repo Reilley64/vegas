@@ -120,17 +120,32 @@ struct Node_00b9e770
     char* data;
 };
 
-static __forceinline int IsShaderProp_00b9e770(char* prop)
+struct Prop_00b9e770
 {
-    unsigned int t = *(unsigned int*)(prop + 0x1c);
+    char pad00[0x1c];
+    unsigned int m_iShaderType;
+    char pad20[0x38 - 0x20];
+    int iLastRenderPassState;
+};
+
+struct Geometry_00b9e770
+{
+    char pad00[0xa8];
+    Prop_00b9e770* m_pShaderProperty;
+};
+
+static __forceinline int IsShaderProp_00b9e770(Prop_00b9e770* prop)
+{
+    unsigned int t = prop->m_iShaderType;
     return t >= 1 && t <= 12;
 }
 
-// Walks the list at self+0x138, clears field +0x38 of each item's shader property, then nulls the list head.
+// Walks the list in m_pShadowData, clears the last render pass state of each item's shader property, then nulls the list head.
 // @fnv 0x00b9e770
 void ClearShaderPropRefs(char* self)
 {
-    Node_00b9e770* pNode = *(Node_00b9e770**)(self + 0x138);
+    ShadowSceneLight* light = (ShadowSceneLight*)self;
+    Node_00b9e770* pNode = (Node_00b9e770*)light->m_pShadowData;
     while (pNode)
     {
         char** ppData = &pNode->data;
@@ -138,16 +153,16 @@ void ClearShaderPropRefs(char* self)
         char* item = *ppData;
         if (item)
         {
-            char* prop = *(char**)(item + 0xa8);
+            Prop_00b9e770* prop = ((Geometry_00b9e770*)item)->m_pShaderProperty;
             if (prop)
             {
-                char* pShaderProp = IsShaderProp_00b9e770(prop) ? prop : 0;
+                Prop_00b9e770* pShaderProp = IsShaderProp_00b9e770(prop) ? prop : 0;
                 if (pShaderProp)
-                    *(void**)(pShaderProp + 0x38) = 0;
+                    pShaderProp->iLastRenderPassState = 0;
             }
         }
     }
-    *(Node_00b9e770**)(self + 0x138) = 0;
+    light->m_pShadowData = 0;
 }
 
 extern "C" __declspec(dllimport) void FreeBlockImp(void*);
@@ -449,15 +464,15 @@ struct FUN_00b9fba0_s
 // @fnv 0x00b9fba0
 void FUN_00b9fba0_s::FUN_00b9fba0()
 {
-    char* self = reinterpret_cast<char*>(this);
-    FencePtr& fence = *reinterpret_cast<FencePtr*>(self + 0x13c);
+    ShadowSceneLight* self = reinterpret_cast<ShadowSceneLight*>(this);
+    FencePtr& fence = *reinterpret_cast<FencePtr*>(&self->m_spShadowGeometry);
     if (fence.m_p == 0)
     {
         fence = reinterpret_cast<NiAVObject*>(new FUN_00a74480(0));
         ::AssignFixedString((char *)((fence).operator->()), 0, (char **)&(const ::NiFixedString &)("fence"));
     }
-    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(self + 0xe0)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
-    *reinterpret_cast<int*>(self + 0x138) = *reinterpret_cast<int*>(self + 0xe0);
+    reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(&self->m_kLightStripList)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
+    self->m_pShadowData = self->m_kLightStripList.m_pkHead;
 }
 
 struct V3
@@ -489,9 +504,16 @@ struct C3
 };
 struct LightV
 {
+    char pad00[0x8c];
+    V3 m_kWorldTranslate;
+    char pad98[0xc4 - 0x98];
+    float m_fDimmer;
+    char padC8[0xd4 - 0xc8];
+    C3 m_kDiffuse;
+    float m_fRadius;
     float GetDimmer() const
     {
-        return *(float*)((char*)this + 0xc4);
+        return m_fDimmer;
     }
 };
 inline float MinF(float a, float b)
@@ -512,26 +534,27 @@ struct FUN_00b9bc50_t
     float ComputeLightAttenuation(V3 apPoint, NiLight* apIgnore);
 };
 
-// Computes a light's attenuation at apPoint from its dimmed color and distance/radius falloff, storing and returning the result at this+0xc.
+// Computes a light's attenuation at apPoint from its dimmed color and distance/radius falloff, storing and returning the result in m_fShadowParameter3.
 // @fnv 0x00b9bc50
 float FUN_00b9bc50_t::ComputeLightAttenuation(V3 apPoint, NiLight* apIgnore)
 {
-    char* pkLight = *(char**)((char*)this + 0xf8);
-    if (pkLight == (char*)apIgnore || *((char*)this + 0xec) == 1)
+    ShadowSceneLight* self = reinterpret_cast<ShadowSceneLight*>(this);
+    LightV* pkLight = (LightV*)self->m_pMenuLight.m_pObject;
+    if (pkLight == (LightV*)apIgnore || self->m_bSkipLightObject == 1)
         return 0.0f;
-    V3 lightPos = *(V3*)(pkLight + 0x8c);
-    C3 lightColor = *(C3*)(pkLight + 0xd4);
-    lightColor *= ((LightV*)pkLight)->GetDimmer();
-    float plightRadius = *(float*)(pkLight + 0xe0);
-    *(float*)((char*)this + 0xc) = 1.0f;
-    if (*((char*)this + 0xf4))
+    V3 lightPos = pkLight->m_kWorldTranslate;
+    C3 lightColor = pkLight->m_kDiffuse;
+    lightColor *= pkLight->GetDimmer();
+    float plightRadius = pkLight->m_fRadius;
+    self->m_fShadowParameter3 = 1.0f;
+    if (self->m_bLightFlag0)
     {
         float fdistance = (apPoint - lightPos).Length() / plightRadius;
         fdistance = MinF(1.0f, fdistance < ::_DAT_01012060 ? 0.0f : fdistance);
-        *(float*)((char*)this + 0xc) = 1.0f - fdistance * fdistance;
+        self->m_fShadowParameter3 = 1.0f - fdistance * fdistance;
     }
-    *(float*)((char*)this + 0xc) = MaxF(lightColor.r, MaxF(lightColor.g, lightColor.b)) * *(float*)((char*)this + 0xc);
-    return *(float*)((char*)this + 0xc);
+    self->m_fShadowParameter3 = MaxF(lightColor.r, MaxF(lightColor.g, lightColor.b)) * self->m_fShadowParameter3;
+    return self->m_fShadowParameter3;
 }
 
 struct BSTextureManager;

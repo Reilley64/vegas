@@ -118,13 +118,15 @@ struct MMStandIn
 };
 struct StandIn
 {
+    void* m_pVtable;
+    void* m_pArray;
     void* Destroy(unsigned int);
 };
 // @fnv 0x00a9bbc0
 void* StandIn::Destroy(unsigned int auiFlags)
 {
-    void* p = *(void**)((char*)this + 4);
-    *(void**)this = (void*)&DAT_010a1458;
+    void* p = m_pArray;
+    m_pVtable = (void*)&DAT_010a1458;
     ::ReleaseObjectArray((::Obj00a47600 **)(p));
     if (auiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MMStandIn *>(&::g_memoryManager))))->FUN_00aa4060(this);

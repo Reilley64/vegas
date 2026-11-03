@@ -388,8 +388,7 @@ extern NiPoint4 DAT_0120003c;
 
 static HolderForAccum* GetNode(HolderForAccum* p)
 {
-    void* d = p ? (void*)((char*)p - 0x6c) : 0;
-    return d ? (HolderForAccum*)((char*)d + 0x6c) : 0;
+    return p;
 }
 
 struct MemoryManager

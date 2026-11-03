@@ -672,11 +672,11 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
             reinterpret_cast<::FUN_00a5a040_Class *>((pScreenElements))->FUN_00a5a040();
             NiUpdateData ud;
             reinterpret_cast<::FUN_00a59c60_cls *>((pScreenElements))->FUN_00a59c60((std::intptr_t)(&ud));
-            pScreenElements->unkc0 = (HudOwner*)((char*)this - 0x6c);
+            pScreenElements->unkc0 = static_cast<HudOwner*>(this);
             (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200 = pScreenElements;
         }
         NiScreenElements* spr = (*reinterpret_cast<::GlobalA * *>(&::DAT_011f91ac))->unk200;
-        HudOwner* pHudOwner = (HudOwner*)((char*)this - 0x6c);
+        HudOwner* pHudOwner = static_cast<HudOwner*>(this);
         pHudOwner->vf14(spr);
         pHudOwner->vf52(p);
         reinterpret_cast<::S00c03c80_cls *>((pHudOwner))->ProcessEntries();

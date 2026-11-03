@@ -294,14 +294,25 @@ void SortList(void*, FUN_00b99630_Arg);
 extern char DAT_011ffe35;
 extern void* DAT_011ffe38;
 
+struct GeometryGroupView_b9
+{
+    unsigned char m_ucEntryType;
+    unsigned char pad01;
+    unsigned short m_usPassCountLocal;
+    void* m_pGroupKey;
+    void* m_pGroupRenderer;
+    char m_kPasses[1];
+};
+
 // @fnv 0x00b99a10
 void FUN_00b99a10(char* this_ptr, int, std::intptr_t param_1, char param_2)
 {
     DAT_011ffe38 = (void*)param_1;
     DAT_011ffe35 = param_2;
     FUN_00b99630_Arg arg = {((void (&)())::CompareSortPassesByDepth)};
-    SortList(*(char**)(this_ptr + 0x70) + 0xc, arg);
-    SortList(*(char**)(this_ptr + 0x74) + 0xc, arg);
+    BSBatchRenderer* renderer = (BSBatchRenderer*)this_ptr;
+    SortList(&((GeometryGroupView_b9*)renderer->m_pSecondaryGeometryGroups[0])->m_kPasses, arg);
+    SortList(&((GeometryGroupView_b9*)renderer->m_pSecondaryGeometryGroups[1])->m_kPasses, arg);
 }
 
 struct PassGroup_Layout
@@ -710,9 +721,9 @@ struct FUN_00b9a3c0_shell : public BSBatchRenderer
 bool FUN_00b9a3c0_shell::FUN_00b9a3c0(unsigned int& auiPass, int& aiBucket, bool& abFlag, bool)
 {
     unsigned int idx = 0;
-    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)((char*)this + 0xc))))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
+    reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)&this->m_kGroupIndexMap)))->FUN_00853130(auiPass, (::fnv_00853130::CombatThreatRecord *&)(idx));
     PassGroup_Layout* pGroups = *(PassGroup_Layout**)&this->m_pPassBucketEntries;
-    ::ClearPassGroups((::PassGroup_Layout *)(((PassGroup_Layout*)((char*)pGroups + idx * 0x68))), false, {});
+    ::ClearPassGroups((::PassGroup_Layout *)(pGroups + idx), false, {});
     return ((BSBatchRenderer*)this)->FindPassBucket(auiPass, aiBucket, abFlag);
 }
 }  // namespace fnv_00b9a3c0
@@ -897,31 +908,37 @@ struct FUN_00b9a5b0 : public BSFadeNode
     virtual void Method35(void* pPass, unsigned int id);
 };
 
+struct PassView_b9abc0
+{
+    char pad00[4];
+    unsigned short m_usPassId;
+};
+
 // @fnv 0x00b9abc0
 void DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
 {
-    unsigned char* pBytes = (unsigned char*)pThis;
-    if ((pBytes[0] & 1u) > 0)
+    GeometryGroupView_b9* pGroup = (GeometryGroupView_b9*)pThis;
+    if ((pGroup->m_ucEntryType & 1u) > 0)
     {
         if (bFlag)
         {
-            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)(pBytes + 0xc))), 0, (unsigned int *)((&pPass)));
+            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)&pGroup->m_kPasses)), 0, (unsigned int *)((&pPass)));
         }
         else
         {
-            ::FUN_00b99840((void *)(((PassListStandin*)(pBytes + 0xc))), 0, (void *const *)((&pPass)));
+            ::FUN_00b99840((void *)(((PassListStandin*)&pGroup->m_kPasses)), 0, (void *const *)((&pPass)));
         }
     }
     else
     {
-        if (*(void**)(pBytes + 8) == 0)
+        if (pGroup->m_pGroupRenderer == 0)
         {
-            *(void**)(pBytes + 8) = new FUN_00b9a5b0(*(void**)(pBytes + 4), 0x64);
+            pGroup->m_pGroupRenderer = new FUN_00b9a5b0(pGroup->m_pGroupKey, 0x64);
         }
-        FUN_00b9a5b0* pObj = *(FUN_00b9a5b0**)(pBytes + 8);
-        pObj->Method35(pPass, *(unsigned short*)((char*)pPass + 4));
+        FUN_00b9a5b0* pObj = (FUN_00b9a5b0*)pGroup->m_pGroupRenderer;
+        pObj->Method35(pPass, ((PassView_b9abc0*)pPass)->m_usPassId);
     }
-    (*(unsigned short*)(pBytes + 2))++;
+    pGroup->m_usPassCountLocal++;
 }
 
 struct SortPt
@@ -1727,12 +1744,13 @@ struct NodeAllocator
 };
 struct AlphaListCursor
 {
+    AlphaNode* m_pkHead;
     AlphaNode* m_pkTail;
     NodeAllocator m_kItemCount;
 };
 static inline AlphaNode*& ListHead(AlphaListCursor* pkList)
 {
-    return *(AlphaNode**)((char*)pkList - 4);
+    return pkList->m_pkHead;
 }
 struct PoolLock
 {
@@ -1761,7 +1779,7 @@ void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bo
     if (pRenderer->m_iActiveGroupCount == 0 && pCamera != 0)
     {
         GroupStandin** idx = (GroupStandin**)pRenderer->m_pAlphaGeometryGroups;
-        AlphaListCursor* pkList = (AlphaListCursor*)((char*)pRenderer->AlphaGeometryList + 4);
+        AlphaListCursor* pkList = (AlphaListCursor*)&pRenderer->AlphaGeometryList[0];
         long iRemaining = 2;
         while (iRemaining ? true : false)
         {
@@ -1829,7 +1847,7 @@ void AddSortedGroup(BSBatchRenderer* pRenderer, int dummy, SortBound* pBound, bo
             }
             *idx = c;
             idx++;
-            pkList = (AlphaListCursor*)((char*)pkList + 12);
+            pkList++;
             iRemaining--;
         }
         pRenderer->m_bHasActiveGroups = bFlag1;

@@ -388,20 +388,37 @@ struct NiColor
 };
 
 
+struct MaterialView_bc6fe0
+{
+    char pad00[0x28];
+    float m_fAlpha;
+};
+
+struct ShaderPropView_bc6fe0
+{
+    char pad00[0x28];
+    NiColor m_kEmissiveColor;
+    NiColor* m_pEmissiveColorOverride;
+    char pad38[0x40 - 0x38];
+    float m_fEmissiveScale;
+};
+
 // @fnv 0x00bc6fe0
 void UpdateMaterialColor(void* pThis, int, char* pMaterialProp, char* pShaderProp)
 {
-    DAT_01202010.a = (*(float*)(pMaterialProp + 0x28) < 1.0f) ? *(float*)(pMaterialProp + 0x28) : 1.0f;
+    MaterialView_bc6fe0* material = (MaterialView_bc6fe0*)pMaterialProp;
+    ShaderPropView_bc6fe0* shaderProp = (ShaderPropView_bc6fe0*)pShaderProp;
+    DAT_01202010.a = (material->m_fAlpha < 1.0f) ? material->m_fAlpha : 1.0f;
 
-    NiColor* pEmissiveColor = *(NiColor**)(pShaderProp + 0x34);
+    NiColor* pEmissiveColor = shaderProp->m_pEmissiveColorOverride;
     if (!pEmissiveColor)
-        pEmissiveColor = (NiColor*)(pShaderProp + 0x28);
+        pEmissiveColor = &shaderProp->m_kEmissiveColor;
 
     NiColor emissiveColor = *pEmissiveColor;
 
     if (::DAT_011f941e || (emissiveColor.r < 0.1f && emissiveColor.g < 0.1f && emissiveColor.b < 0.1f))
     {
-        float fScale = *(float*)(pShaderProp + 0x40);
+        float fScale = shaderProp->m_fEmissiveScale;
         emissiveColor.r *= fScale;
         emissiveColor.g *= fScale;
         emissiveColor.b *= fScale;
@@ -433,7 +450,30 @@ struct Mat3x3_00bc8e00
     float m[3][3];
 };
 
-// Builds an identity 3x3 matrix, replaces it with the matrix at p3+0x20 when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
+struct TexXformView_bc8e00
+{
+    char pad00[0x1c];
+    char m_bDirty;
+    char pad1d[0x20 - 0x1d];
+    Mat3x3_00bc8e00 m_kMatrix;
+};
+struct TextureView_bc8e00
+{
+    char pad00[0xc];
+    TexXformView_bc8e00* m_pTransform;
+};
+struct PropertyView_bc8e00
+{
+    char pad00[0x20];
+    TextureView_bc8e00** m_ppTextures;
+};
+struct ObjectView_bc8e00
+{
+    char pad00[0x14];
+    PropertyView_bc8e00* m_pProperty;
+};
+
+// Builds an identity 3x3 matrix, replaces it with the first texture's transform matrix when reachable, and copies it into the DAT_01201fe0..DAT_01202008 globals.
 // @fnv 0x00bc8e00
 void UpdateGlobalMatrix(void* pObject)
 {
@@ -448,20 +488,20 @@ void UpdateGlobalMatrix(void* pObject)
     mat.m[2][1] = 0.0f;
     mat.m[2][2] = 1.0f;
 
-    char* p1 = *reinterpret_cast<char**>(reinterpret_cast<char*>(pObject) + 0x14);
+    PropertyView_bc8e00* p1 = reinterpret_cast<ObjectView_bc8e00*>(pObject)->m_pProperty;
     if (p1)
     {
-        char* p2 = **reinterpret_cast<char***>(p1 + 0x20);
+        TextureView_bc8e00* p2 = *p1->m_ppTextures;
         if (p2)
         {
-            char* p3 = *reinterpret_cast<char**>(p2 + 0xc);
+            TexXformView_bc8e00* p3 = p2->m_pTransform;
             if (p3)
             {
-                if (*reinterpret_cast<char*>(p3 + 0x1c) != 0)
+                if (p3->m_bDirty != 0)
                 {
                     reinterpret_cast<::TexXform *>((p3))->UpdateMatrix();
                 }
-                mat = *reinterpret_cast<Mat3x3_00bc8e00*>(p3 + 0x20);
+                mat = p3->m_kMatrix;
             }
         }
     }
@@ -484,6 +524,26 @@ struct DummyRenderer
     void* obj5c;
 };
 
+struct Self_bc8f20
+{
+    char pad00[0x180];
+    int m_i180;
+};
+struct Geometry_bc8f20
+{
+    char pad00[0x20];
+    int m_i20;
+    char pad24[0x28 - 0x24];
+    int m_i28;
+};
+struct Data_bc8f20
+{
+    char pad00[4];
+    int m_i04;
+    char pad08[0x20 - 8];
+    unsigned short m_us20;
+};
+
 // If arg3 is non-null, calls FUN_00e6fe30 then invokes renderer vtable slot 0x78 with fields from this_ptr, arg2 and arg3, returning 0.
 // @fnv 0x00bc8f20
 int FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char* arg3, int arg4, int arg5,
@@ -495,8 +555,8 @@ int FUN_00bc8f20(char* this_ptr, int edx_unused, int aiUnused, char* arg2, char*
         void* obj = ((DummyRenderer*)DAT_0126f74c)->obj5c;
         typedef void(* VFunc)(void*, int, int, int, int, int);
         VFunc fn = (*(VFunc**)obj)[0x78 / 4];
-        fn(obj, *(int*)(this_ptr + 0x180), *(int*)(arg2 + 0x28), *(unsigned short*)(arg3 + 0x20), *(int*)(arg2 + 0x20),
-           *(int*)(arg3 + 4));
+        fn(obj, ((Self_bc8f20*)this_ptr)->m_i180, ((Geometry_bc8f20*)arg2)->m_i28, ((Data_bc8f20*)arg3)->m_us20,
+           ((Geometry_bc8f20*)arg2)->m_i20, ((Data_bc8f20*)arg3)->m_i04);
     }
     return 0;
 }
@@ -526,23 +586,40 @@ void CallHandlerForEachValue(FUN_00bc6940_obj* self)
 }
 
 
+struct EntryContainer_bc6fa0
+{
+    char pad00[0x68];
+    void* m_pEntries;
+    unsigned char m_ucCount;
+};
+struct Source_bc6fa0
+{
+    char pad00[0xb8];
+    EntryContainer_bc6fa0* m_pContainer;
+};
+struct Target_bc6fa0
+{
+    char pad00[0x20];
+    int m_iCount;
+};
+
 struct FUN_00bc6fa0_shell
 {
+    char pad00[0x170];
+    Target_bc6fa0* m_pTarget;
     void CopyEntriesToGlobalBuffer(std::intptr_t a1, std::intptr_t a2);
 };
 
-// Copies count 16-byte entries from the object at a1+0xb8 into DAT_01202048 and stores count at this+0x170+0x20.
+// Copies count 16-byte entries from the source's container into DAT_01202048 and stores count in the target.
 // @fnv 0x00bc6fa0
 void FUN_00bc6fa0_shell::CopyEntriesToGlobalBuffer(std::intptr_t apSource, std::intptr_t aiUnused)
 {
-    std::intptr_t pContainer = *(std::intptr_t*)(apSource + 0xb8);
-    unsigned char count = *(unsigned char*)(pContainer + 0x6c);
+    EntryContainer_bc6fa0* pContainer = ((Source_bc6fa0*)apSource)->m_pContainer;
+    unsigned char count = pContainer->m_ucCount;
     if (count > 0)
     {
-        std::intptr_t pEntries = *(std::intptr_t*)(pContainer + 0x68);
-        std::memmove(&(*reinterpret_cast<char *>(&::NoLightingConsts::DAT_01202048)), (const void*)pEntries, count << 4);
-        std::intptr_t obj = *(std::intptr_t*)((char*)this + 0x170);
-        *(int*)(obj + 0x20) = count;
+        std::memmove(&(*reinterpret_cast<char *>(&::NoLightingConsts::DAT_01202048)), pContainer->m_pEntries, count << 4);
+        m_pTarget->m_iCount = count;
     }
 }
 
@@ -1285,6 +1362,8 @@ bool LightingShader::FUN_00bc77e0()
 
 struct NiD3DPassRelease
 {
+    char pad00[0x64];
+    unsigned int m_uiRefCount;
 };
 
 inline NiPointer<NiD3DPass>::~NiPointer()
@@ -1292,7 +1371,7 @@ inline NiPointer<NiD3DPass>::~NiPointer()
     NiD3DPass* pass = m_pObject;
     if (pass)
     {
-        unsigned int* referenceCount = (unsigned int*)((char*)pass + 0x64);
+        unsigned int* referenceCount = &((NiD3DPassRelease*)pass)->m_uiRefCount;
         if (--*referenceCount == 0)
         {
             reinterpret_cast<::NiD3DPass *>((((NiD3DPassRelease*)pass)))->DestroyPass();
@@ -1322,7 +1401,7 @@ __forceinline BSShaderNoLighting::~BSShaderNoLighting()
         NiD3DPass* pass = spRenderPass[i].m_pObject;
         if (pass)
         {
-            unsigned int* referenceCount = (unsigned int*)((char*)pass + 0x64);
+            unsigned int* referenceCount = &((NiD3DPassRelease*)pass)->m_uiRefCount;
             if (--*referenceCount == 0)
             {
                 reinterpret_cast<::NiD3DPass *>((((NiD3DPassRelease*)pass)))->DestroyPass();

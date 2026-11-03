@@ -142,14 +142,38 @@ struct Node_00be0eb0
     Node_00be0eb0* next;
 };
 
+struct CurrentShaderList_be0
+{
+    char pad00[0x10];
+    void* m_pHead;
+};
+
+struct CurrentShader_be0
+{
+    char pad00[0x18];
+    unsigned int m_uiPassCount;
+    char pad1c[0x24 - 0x1c];
+    void** m_ppPasses;
+    char pad28[0x30 - 0x28];
+    CurrentShaderList_be0* m_pList;
+    char pad34[0x4c - 0x34];
+    char m_cPassMask;
+};
+
+struct PassView_be2
+{
+    char pad00[8];
+    int m_i08;
+};
+
 void __cdecl FUN_00b97d90(int, int, int);
 
-// Walks the linked list at DAT_0126f74c+0x30+0x10 and calls FUN_00b97d90 on each node's a and b fields with 0.
+// Walks the current shader's list and calls FUN_00b97d90 on each node's a and b fields with 0.
 // @fnv 0x00be0eb0
 void FUN_00be0eb0(int)
 {
-    std::intptr_t ecx_val = *(std::intptr_t*)(DAT_0126f74c + 0x30);
-    Node_00be0eb0* pNode = *(Node_00be0eb0**)(ecx_val + 0x10);
+    CurrentShaderList_be0* ecx_val = ((CurrentShader_be0*)DAT_0126f74c)->m_pList;
+    Node_00be0eb0* pNode = (Node_00be0eb0*)ecx_val->m_pHead;
     while (pNode)
     {
         FUN_00b97d90(pNode->a, pNode->b, 0);
@@ -166,12 +190,12 @@ struct Node_00be0ee0
 
 void __cdecl FUN_00b98610(int, int);
 
-// Walks the linked list at DAT_0126f74c+0x30's +0x10 and calls FUN_00b98610 with each node's m_val and 0.
+// Walks the current shader's list and calls FUN_00b98610 with each node's m_val and 0.
 // @fnv 0x00be0ee0
 void FUN_00be0ee0(int)
 {
-    std::intptr_t p1 = *(std::intptr_t*)(DAT_0126f74c + 0x30);
-    Node_00be0ee0* node = *(Node_00be0ee0**)(p1 + 0x10);
+    CurrentShaderList_be0* p1 = ((CurrentShader_be0*)DAT_0126f74c)->m_pList;
+    Node_00be0ee0* node = (Node_00be0ee0*)p1->m_pHead;
     while (node)
     {
         FUN_00b98610(node->m_val, 0);
@@ -202,13 +226,19 @@ class BSFile
     bool m_bGood;                                                                                 // +0x2C
 };
 
+struct ShaderPathOwner_be1eb0
+{
+    void* m_pVtable;
+    const char* m_pBasePath;
+};
+
 // Builds a full path from pFileName, opens the file, allocates a buffer of its size, reads it into ppData, and returns the byte count in pBytes.
 // @fnv 0x00be1eb0
 long ReadFileIntoMemory(void* pThis, int aiUnused, const char* pFileName, int aiUnused2, const void** appData,
                                   unsigned int* apuiBytes)
 {
     char fullPath[260];
-    ResolveRelativePath(*((const char**)pThis + 1), pFileName, fullPath);
+    ResolveRelativePath(((ShaderPathOwner_be1eb0*)pThis)->m_pBasePath, pFileName, fullPath);
 
     BSFile* pFile = FileFinder::GetFile(fullPath, NiFile::READ_ONLY, 0x4000, 0x20);
     if (pFile)
@@ -334,12 +364,19 @@ void SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
 }  // namespace fnv_00be1f90
 
 
-// Reads a byte array from param, extracts a 3-bit value from offset 0x18 and a byte at 0x1a, and passes them to FUN_00b97f20.
+struct StateData_be20b0
+{
+    char pad00[0x18];
+    unsigned short m_usFlags;
+    unsigned char m_ucValue;
+};
+
+// Extracts a 3-bit value from the state flags and the byte after them, and passes them to FUN_00b97f20.
 // @fnv 0x00be20b0
 int FUN_00be20b0(unsigned char** apData)
 {
-    unsigned char* p = *apData;
-    FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
+    StateData_be20b0* p = (StateData_be20b0*)*apData;
+    FUN_00b97f20((p->m_usFlags >> 10) & 7, p->m_ucValue, 0);
     return 0;
 }
 
@@ -352,14 +389,14 @@ struct NiD3DPass_Ex : NiD3DPass
 // @fnv 0x00be2170
 void __cdecl FUN_00be2170()
 {
-    std::intptr_t p = DAT_0126f74c;
-    unsigned int count = *(unsigned int*)(p + 0x18);
+    CurrentShader_be0* p = (CurrentShader_be0*)DAT_0126f74c;
+    unsigned int count = p->m_uiPassCount;
     for (unsigned int i = 0; i < count; ++i)
     {
-        NiD3DPass_Ex* pass = ((NiD3DPass_Ex**)*(std::intptr_t*)(p + 0x24))[i];
+        NiD3DPass_Ex* pass = ((NiD3DPass_Ex**)p->m_ppPasses)[i];
         if (!pass)
             break;
-        if (*(bool*)&pass->m_uiRefCount && *(int*)((char*)pass + 8))
+        if (*(bool*)&pass->m_uiRefCount && ((PassView_be2*)pass)->m_i08)
             reinterpret_cast<::NiD3DPass *>((pass))->ApplyRenderStateChanges(false);
     }
 }
@@ -373,17 +410,17 @@ struct NiD3DPass_Ext : public NiD3DPass
 // @fnv 0x00be21b0
 void __cdecl FUN_00be21b0()
 {
-    std::intptr_t p = DAT_0126f74c;
-    unsigned int count = *(unsigned int*)(p + 0x18);
-    int mask = *(char*)(p + 0x4c);
+    CurrentShader_be0* p = (CurrentShader_be0*)DAT_0126f74c;
+    unsigned int count = p->m_uiPassCount;
+    int mask = p->m_cPassMask;
     for (unsigned int i = 0; i < count; ++i)
     {
         if (DAT_011ae640[i] & mask)
         {
-            NiD3DPass_Ext* pass = ((NiD3DPass_Ext**)*(std::intptr_t*)(p + 0x24))[i];
+            NiD3DPass_Ext* pass = ((NiD3DPass_Ext**)p->m_ppPasses)[i];
             if (!pass)
                 break;
-            if (*(int*)((char*)pass + 8) != 0)
+            if (((PassView_be2*)pass)->m_i08 != 0)
                 reinterpret_cast<::NiD3DPass *>((pass))->ApplyRenderStateChanges(false);
         }
     }
@@ -589,6 +626,9 @@ void FUN_00be20e0(StructA* pStruct, bool bCheckProp0)
 
 struct StageReturn
 {
+    char pad00[0x5f];
+    char m_bInUse;
+    unsigned int m_uiRefCount;
 };
 struct StagePool
 {
@@ -617,20 +657,20 @@ void AssignStageFromPool(StageReturn*& output)
 {
     StageReturn* stage = DAT_0126f6cc->Get();
     if (stage)
-        ++*(unsigned int*)((char*)stage + 0x60);
-    *((char*)stage + 0x5f) = 1;
+        ++stage->m_uiRefCount;
+    stage->m_bInUse = 1;
     StageReturn* old = output;
     if (old != stage)
     {
         if (old)
         {
-            if (--*(unsigned int*)((char*)old + 0x60) == 0)
+            if (--old->m_uiRefCount == 0)
                 reinterpret_cast<::FUN_00e7ecd0_cls *>((old))->FUN_00e7ecd0();
         }
         output = stage;
-        ++*(unsigned int*)((char*)stage + 0x60);
+        ++stage->m_uiRefCount;
     }
-    if (--*(unsigned int*)((char*)stage + 0x60) == 0)
+    if (--stage->m_uiRefCount == 0)
         reinterpret_cast<::FUN_00e7ecd0_cls *>((stage))->FUN_00e7ecd0();
 }
 
@@ -795,6 +835,12 @@ struct NiD3DGPUProgramCache
 struct BSFadeNode
 {
 };
+struct StreamStateView_be1750
+{
+    char pad00[0x2c];
+    bool m_bGood;
+};
+
 struct ShaderSourceFile_be1750
 {
     virtual ~ShaderSourceFile_be1750();
@@ -814,7 +860,7 @@ struct ShaderSourceFile_be1750
     }
     bool IsGood()
     {
-        return *((bool*)this + 0x2c);
+        return reinterpret_cast<StreamStateView_be1750*>(this)->m_bGood;
     }
 };
 struct ShaderCodeBuffer_be1750
@@ -991,6 +1037,13 @@ struct FUN_00be08f0
     GraphicsRenderer* m_pShaderObject;
     void* m_pRenderState;
     GeometryRelatedType* m_pD3DPixelShader;
+};
+
+struct ShaderDevice_be1750;
+struct RendererDeviceView_be1750
+{
+    char pad00[0x288];
+    ShaderDevice_be1750* m_pD3DDevice;
 };
 
 // @fnv 0x00be1750
@@ -1203,7 +1256,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
         }
         else
         {
-            ShaderDevice_be1750* pdevice = *(ShaderDevice_be1750**)((char*)(*reinterpret_cast<::GraphicsRenderer * *>(&::DAT_011f9508)) + 0x288);
+            ShaderDevice_be1750* pdevice = ((RendererDeviceView_be1750*)::DAT_011f9508)->m_pD3DDevice;
             if (pdevice->CreatePixelShader(pshaderbuffer, &pd3dShader))
             {
                 char perror[260];

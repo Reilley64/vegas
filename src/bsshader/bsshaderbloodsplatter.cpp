@@ -187,11 +187,17 @@ void BSShaderBloodSplatter::FUN_00b805d0(unsigned int pass)
     }
 }
 
-// Assigns value to the NiRefObject pointer at offset 0x44, releasing the old reference and incrementing the new one's ref count.
+struct RefSlotView_b80600
+{
+    char pad00[0x44];
+    NiRefObject* m_pObject44;
+};
+
+// Assigns value to the NiRefObject pointer slot m_pObject44, releasing the old reference and incrementing the new one's ref count.
 // @fnv 0x00b80600
 void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 {
-    NiRefObject** ppSlot = reinterpret_cast<NiRefObject**>(reinterpret_cast<char*>(this) + 0x44);
+    NiRefObject** ppSlot = &reinterpret_cast<RefSlotView_b80600*>(this)->m_pObject44;
     NiRefObject* old = *ppSlot;
     if (old != value)
     {
@@ -205,13 +211,13 @@ void BSShaderBloodSplatter::FUN_00b80600(NiRefObject* value)
 
 struct FUN_00b807c0_shell
 {
-    int FUN_00b807c0(void* a, void* b);
+    void* FUN_00b807c0(void* a, void* b);
 };
 
 // @fnv 0x00b807c0
-int FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
+void* FUN_00b807c0_shell::FUN_00b807c0(void* a, void* b)
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<unsigned char*>(this) + 0x28);
+    return reinterpret_cast<BSShaderBloodSplatter*>(this)->m_spShaderDeclaration.m_pObject;
 }
 
 
@@ -225,12 +231,12 @@ struct FUN_00b80380_shell
 {
     void FUN_00b80380();
 };
-// Calls the virtual function at vtable slot 74 on this for each of the two pointers stored at this+0x6c and this+0x70.
+// Calls the virtual function at vtable slot 74 on this for each of the two render passes.
 // @fnv 0x00b80380
 void FUN_00b80380_shell::FUN_00b80380()
 {
     typedef void(* Fn)(void*, void*);
-    void** p = (void**)((char*)this + 0x6c);
+    void** p = (void**)reinterpret_cast<BSShaderBloodSplatter*>(this)->spRenderPass;
     int n = 2;
     do
     {
@@ -407,13 +413,13 @@ template <class T> struct NiPointerS
     }
 };
 
-// Lazily creates the two NiD3DShaderConstantMap objects stored at offsets 0x30 and 0x34 and registers their shader constant entries.
+// Lazily creates the two shader constant maps and registers their shader constant entries.
 // @fnv 0x00b80f50
 void FUN_00b80f50_shell::CreateShaderConstantMaps()
 {
-    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x30);
+    NiPointerS<NiD3DShaderConstantMap>& pAlphaMap = *(NiPointerS<NiD3DShaderConstantMap>*)&m_spFirstShaderConstantMap;
     NiPointerS<NiD3DShaderConstantMap>& m_pVertexShaderConstantMap =
-        *(NiPointerS<NiD3DShaderConstantMap>*)((char*)this + 0x34);
+        *(NiPointerS<NiD3DShaderConstantMap>*)&m_spSecondShaderConstantMap;
     if (!pAlphaMap)
     {
         pAlphaMap = new NiD3DShaderConstantMap(*(void**)&this->m_pShaderObject, 2);

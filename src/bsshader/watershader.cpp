@@ -2011,7 +2011,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
                 WaterVec3 position = pointLight->position;
 
-                reinterpret_cast<WaterVec4*>(DAT_011ff658 + 4)[index] =
+                reinterpret_cast<WaterVec4*>(DAT_011ff658)[1 + index] =
                     WaterVec4(position.x, position.y, position.z, pointLight->radius);
 
                 float strength = pointLight->intensity;
@@ -2022,7 +2022,7 @@ void WaterSetup::FUN_00b864d0(WaterRenderArg* arg)
 
                 WaterVec3 vScaled = diffuse * material->lightScale;
 
-                reinterpret_cast<WaterVec4*>(DAT_011ff658 + 36)[index] = WaterVec4(vScaled.x, vScaled.y, vScaled.z, 1);
+                reinterpret_cast<WaterVec4*>(DAT_011ff658)[9 + index] = WaterVec4(vScaled.x, vScaled.y, vScaled.z, 1);
 
                 index++;
             }

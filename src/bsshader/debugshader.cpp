@@ -102,6 +102,9 @@ void FUN_00bd3f80_shell::FUN_00bd3f80()
 
 struct FUN_00bd2b40_class
 {
+    void* m_pVtable;
+    char pad04[0x84 - 4];
+    void* m_p84;
     void CallVirtualWithMember();
 };
 
@@ -109,7 +112,7 @@ struct FUN_00bd2b40_class
 void FUN_00bd2b40_class::CallVirtualWithMember()
 {
     void** vtbl = *(void***)this;
-    void* arg = *(void**)((char*)this + 0x84);
+    void* arg = m_p84;
     typedef void(* Fn)(void*, void*);
     ((Fn)vtbl[0x128 / 4])(this, arg);
 }

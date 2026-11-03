@@ -741,7 +741,7 @@ BSFaceGenAnimationData* FUN_00524c90()
     return ((BSFaceGenNiNode*)(((::BSFaceGenNiNode *)(::FUN_00559450((int *)(((Flt*)&::g_011deb7c)))))))->GetAnimationData();
 }
 
-struct FUN_00522440_shell
+struct FUN_00522440_shell : public ::TESObjectWEAP
 {
     std::intptr_t GetValueByFlag(bool bUse);
 };
@@ -752,11 +752,11 @@ std::intptr_t FUN_00522440_shell::GetValueByFlag(bool bUse)
 {
     if (bUse)
     {
-        return *(int*)((char*)this + 0x244);
+        return reinterpret_cast<std::intptr_t>(m_pWeaponPickupSound);
     }
     else
     {
-        return *(int*)((char*)this + 0x220);
+        return reinterpret_cast<std::intptr_t>(m_pWeaponSound2);
     }
 }
 
@@ -773,7 +773,7 @@ std::uintptr_t FUN_00522500_shell::GetField234()
     return field234;
 }
 
-struct FUN_00522520_shell
+struct FUN_00522520_shell : public ::TESObjectWEAP
 {
     std::intptr_t GetField238();
 };
@@ -781,10 +781,10 @@ struct FUN_00522520_shell
 // @fnv 0x00522520
 std::intptr_t FUN_00522520_shell::GetField238()
 {
-    return *(int*)((char*)this + 0x238);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponSound8);
 }
 
-struct FUN_00522560_shell
+struct FUN_00522560_shell : public ::TESObjectWEAP
 {
     int FUN_00522560(bool param);
 };
@@ -796,7 +796,7 @@ int FUN_00522560_shell::FUN_00522560(bool abReturnTwo)
     if (abReturnTwo)
         return 2;
     else
-        return *(int*)((char*)this + 0x364);
+        return m_eSoundLevel;
 }
 
 class BGSLoadFormBuffer;
@@ -807,7 +807,7 @@ struct FUN_0048ea80_t {
 
 void FUN_0048ea80_t::FUN_0048ea80(BGSLoadFormBuffer* b) {}
 
-struct FUN_00523120_shell : public TESForm {
+struct FUN_00523120_shell : public ::TESObjectWEAP {
     void LoadGame(BGSLoadFormBuffer* buffer);
 };
 
@@ -815,7 +815,7 @@ struct FUN_00523120_shell : public TESForm {
 void FUN_00523120_shell::LoadGame(BGSLoadFormBuffer* buffer)
 {
     TESForm::LoadGame(buffer);
-    reinterpret_cast<::FUN_0048ea80_Class *>((reinterpret_cast<FUN_0048ea80_t*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea80(buffer);
+    reinterpret_cast<::FUN_0048ea80_Class *>(static_cast<TESValueForm*>(this))->FUN_0048ea80(buffer);
 }
 
 
@@ -842,7 +842,7 @@ void FUN_00524d30_shell::SetByteAtOffset1F8(char acValue) {
     ((char*)this)[0x1f8] = acValue;
 }
 
-struct FUN_00525be0_shell
+struct FUN_00525be0_shell : public ::TESObjectWEAP
 {
     char GetByteAtOffsetB0();
 };
@@ -859,10 +859,10 @@ unsigned char TESObjectWEAP::GetDamageForActor(bool includeMods, bool ignoreAmmo
 // @fnv 0x00525be0
 char FUN_00525be0_shell::GetByteAtOffsetB0()
 {
-    return *reinterpret_cast<char*>(reinterpret_cast<unsigned char*>(this) + 0xb0);
+    return m_ucClipRounds;
 }
 
-struct FUN_00645c60_shell
+struct FUN_00645c60_shell : public ::TESObjectWEAP
 {
     virtual float GetField178Float() const;
 };
@@ -870,10 +870,10 @@ struct FUN_00645c60_shell
 // @fnv 0x00645c60
 float FUN_00645c60_shell::GetField178Float() const
 {
-    return *reinterpret_cast<const float*>(reinterpret_cast<const unsigned char*>(this) + 0x178);
+    return data.m_fMaximumSemiAutomaticFireDelay;
 }
 
-struct FUN_008bffa0_shell
+struct FUN_008bffa0_shell : public ::TESObjectWEAP
 {
     std::intptr_t GetField228();
 };
@@ -881,10 +881,10 @@ struct FUN_008bffa0_shell
 // @fnv 0x008bffa0
 std::intptr_t FUN_008bffa0_shell::GetField228()
 {
-    return *(int*)((char*)this + 0x228);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponSound4);
 }
 
-struct FUN_0051f5f0_shell
+struct FUN_0051f5f0_shell : public ::TESObjectWEAP
 {
     unsigned int GetByteAt11D();
 };
@@ -892,20 +892,20 @@ struct FUN_0051f5f0_shell
 // @fnv 0x0051f5f0
 unsigned int FUN_0051f5f0_shell::GetByteAt11D()
 {
-    return ((unsigned char*)this)[0x11d];
+    return data.m_ucAttackAnimation;
 }
 
-struct FUN_0051f610_shell {
+struct FUN_0051f610_shell : public ::TESObjectWEAP {
     unsigned int GetByteAtOffset101();
 };
 
 // @fnv 0x0051f610
 unsigned int FUN_0051f610_shell::GetByteAtOffset101()
 {
-    return ((unsigned char*)this)[0x101];
+    return data.m_ucGripAnimation;
 }
 
-struct FUN_00521580_shell {
+struct FUN_00521580_shell : public ::TESObjectWEAP {
     char m_011e; // placeholder
     void FUN_00521580(bool bVal);
 };
@@ -913,17 +913,17 @@ struct FUN_00521580_shell {
 // @fnv 0x00521580
 void FUN_00521580_shell::FUN_00521580(bool bVal)
 {
-    *(char*)((char*)this + 0x11E) = bVal;
+    data.m_ucProjectileCount = bVal;
 }
 
-struct FUN_00522540_shell {
+struct FUN_00522540_shell : public ::TESObjectWEAP {
     std::intptr_t GetField23C();
 };
 
 // @fnv 0x00522540
 std::intptr_t FUN_00522540_shell::GetField23C()
 {
-    return *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x23c);
+    return reinterpret_cast<std::intptr_t>(m_pWeaponUnequipSound);
 }
 
 namespace fnv_00522c00 {
@@ -931,7 +931,7 @@ struct Flt {
     operator unsigned int() const;
 };
 
-struct FUN_00522c00_shell {
+struct FUN_00522c00_shell : public ::TESObjectWEAP {
     unsigned int FUN_00522c00();
 };
 
@@ -940,7 +940,7 @@ unsigned int FUN_00522c00_shell::FUN_00522c00()
 {
     if (((unsigned char)(reinterpret_cast<::FUN_0046e8c0_class *>(this)->FUN_0046e8c0())))
     {
-        return reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0x35c)->operator unsigned int();
+        return reinterpret_cast<Flt*>(&m_kEmbeddedWeaponNodeName)->operator unsigned int();
     }
     return 0;
 }
@@ -1012,37 +1012,37 @@ struct FUN_0051dad0_This {
     void* FUN_0051dad0(unsigned int);
 };
 struct FUN_004fb7a0_obj {  };
-struct FUN_00522ba0_obj { std::intptr_t FUN_00522ba0(int); };
+struct FUN_00522ba0_obj : public ::TESObjectWEAP { std::intptr_t FUN_00522ba0(int); };
 // If the object at offset 0x24C is non-null, forwards a1 to its FUN_004fb7a0 and returns the result; otherwise returns 0.
 // @fnv 0x00522ba0
 std::intptr_t FUN_00522ba0_obj::FUN_00522ba0(int a1)
 {
     std::intptr_t val = 0;
-    if (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C) != 0)
-        val = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>(((*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))))->FUN_004fb7a0(a1)));
+    if (reinterpret_cast<FUN_004fb7a0_obj*&>(m_pImpactDataSet) != 0)
+        val = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>(((reinterpret_cast<FUN_004fb7a0_obj*&>(m_pImpactDataSet))))->FUN_004fb7a0(a1)));
     return val;
 }
 
 namespace fnv_00522be0 {
 struct Flt { operator unsigned int(); };
-struct FUN_00522be0_shell {
+struct FUN_00522be0_shell : public ::TESObjectWEAP {
     unsigned int FUN_00522be0();
 };
 // @fnv 0x00522be0
 unsigned int FUN_00522be0_shell::FUN_00522be0()
 {
-    return ((Flt*)((char*)this + 0x368))->operator unsigned int();
+    return reinterpret_cast<Flt*>(&VATSAttackName)->operator unsigned int();
 }
 }  // namespace fnv_00522be0
 
 struct FUN_0051b070_shell {   };
-struct FUN_00523080_shell { void FUN_00523080(unsigned int); };
+struct FUN_00523080_shell : public ::TESObjectWEAP { void FUN_00523080(unsigned int); };
 // Forwards aiFlags to FUN_00484c20 on this and to FUN_0048e9e0 on the object at offset 0x84.
 // @fnv 0x00523080
 void FUN_00523080_shell::FUN_00523080(unsigned int aiFlags)
 {
     reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
-    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>((((FUN_0051b070_shell*)((char*)this + 0x84))))->FUN_0048e9e0(aiFlags);
+    reinterpret_cast<::fnv_0048e9e0::TESValueForm *>(static_cast<TESValueForm*>(this))->FUN_0048e9e0(aiFlags);
 }
 
 struct FUN_00524b80_This : TESObjectWEAP { float FUN_00524b80(bool); };
@@ -1244,29 +1244,29 @@ TESModel* FUN_00522df0_shell::GetModelForModFlags(unsigned char acModFlags, bool
     return m_kModelObjectsItem;
 }
 
-struct FUN_00525450_shell {
+struct FUN_00525450_shell : public ::BGSPreloadable {
     void QueueModelsForLoad(int, class QueuedFile*);
 };
 
 // @fnv 0x00525450
 void FUN_00525450_shell::QueueModelsForLoad(int aiIndex, class QueuedFile* apFile)
 {
-    if (reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)->GetModelLength())
-        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(reinterpret_cast<TESModel*>(reinterpret_cast<char*>(this) + 0x104)), aiIndex, (std::uintptr_t)(apFile), 0, true, false, false);
-    if (((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))
-        reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>((reinterpret_cast<TESObjectWEAP*>(reinterpret_cast<char*>(this) - 0xcc)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
-    if (*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180))
-        reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x180)) + 0x18)->vfn_10(aiIndex, apFile);
+    if (static_cast<TESModel*>(&static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_kModel)->GetModelLength())
+        reinterpret_cast<::QueueModelHolder *>((g_modelLoader))->FUN_00443d30((std::uintptr_t)(static_cast<TESModel*>(&static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_kModel)), aiIndex, (std::uintptr_t)(apFile), 0, true, false, false);
+    if (((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))
+        reinterpret_cast<TESModel*>(static_cast<BGSPreloadable *>((::BGSProjectile *)(reinterpret_cast<::Thing *>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this)))->GetOrFallback((int)(0)))))->vfn_10(aiIndex, apFile);
+    if (static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet)
+        reinterpret_cast<TESModelTextureSwap*>(reinterpret_cast<char*>(static_cast<::TESObjectWEAP*>(static_cast<::BGSPreloadable*>(this))->m_pImpactDataSet) + 0x18)->vfn_10(aiIndex, apFile);
 }
 
 struct GlobalObject_0045cfe0 {  };
-struct FUN_00525620_shell { int GetStateValue(bool a, bool b); };
+struct FUN_00525620_shell : public ::TESObjectWEAP { int GetStateValue(bool a, bool b); };
 // Reads a state value from offset 0x364, overridden to 2 or 1 by the flags, and returns the int from the matching global.
 // @fnv 0x00525620
 int FUN_00525620_shell::GetStateValue(bool abForceState2, bool abForceState1)
 {
     int r7 = 0;
-    int s = *(int*)((char*)this + 0x364);
+    int s = m_eSoundLevel;
     if (abForceState2) s = 2;
     if (abForceState1) s = 1;
     switch (s) {

@@ -10,16 +10,27 @@
 #include "fnv/symbols_01268000.h"
 struct FUN_00d97a10_Class
 {
+    // One 0x60-byte entry of the array at +0x10; FUN_00d97a10 reads the float at +0x10 of the first four.
+    struct Entry
+    {
+        float m_unk00[4];
+        float m_value;  // +0x10
+        float m_unk14[19];
+    };
+
+    unsigned char m_pad00[0x10];
+    const Entry* m_entries;  // +0x10
+
     void FUN_00d97a10(float* p) const;
 };
 // @fnv 0x00d97a10
 void FUN_00d97a10_Class::FUN_00d97a10(float* afOut) const
 {
-    const float* m = *(const float**)((const char*)this + 0x10);
-    afOut[0] = m[0x10 / 4];
-    afOut[1] = m[0x70 / 4];
-    afOut[2] = m[0xd0 / 4];
-    afOut[3] = m[0x130 / 4];
+    const Entry* m = m_entries;
+    afOut[0] = m[0].m_value;
+    afOut[1] = m[1].m_value;
+    afOut[2] = m[2].m_value;
+    afOut[3] = m[3].m_value;
 }
 
 struct S_00d979e0_Inner

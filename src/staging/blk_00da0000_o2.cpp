@@ -109,18 +109,25 @@ extern int DAT_010d6014;
 
 struct FUN_00db7ab0_class
 {
+    void* m_vptr;
+    short unk04;
+    short m_sRefCount;
+    void* m_pC;
+    void* m_pA;
+    void* m_pB;
+    int m_iFlag;
     void* FUN_00db7ab0(void* a, void* b, void* c);
 };
 
 // @fnv 0x00db7ab0
 void* FUN_00db7ab0_class::FUN_00db7ab0(void* a, void* b, void* c)
 {
-    *(short*)((char*)this + 6) = 1;
-    *(int*)((char*)this + 12) = (int)a;
-    *(void**)this = (void*)&DAT_010d6014;
-    *(int*)((char*)this + 16) = (int)b;
-    *(int*)((char*)this + 20) = 1;
-    *(int*)((char*)this + 8) = (int)c;
+    m_sRefCount = 1;
+    m_pA = a;
+    m_vptr = &DAT_010d6014;
+    m_pB = b;
+    m_iFlag = 1;
+    m_pC = c;
     return this;
 }
 
@@ -199,7 +206,7 @@ void __cdecl FUN_00da0680(char* pObject, int bReset)
             *(int*)(pObject + 0x48) = 0;
             *(int*)(pObject + 0x20) = 1;
             *(int*)(pObject + 0x30) = 0;
-            *(char*)(ecx + 5) = (char)((char)(unsigned char)(unsigned int)pObject - (char)(unsigned int)ecx);
+            *(char*)(ecx + 5) = (char)(pObject - ecx);
         }
         *(int*)(pObject + 0x50) = 0;
         *(int*)(pObject + 0x54) = 0;
@@ -742,7 +749,7 @@ DB7570Result DB7570Map::Lookup(unsigned int key, unsigned int& valueOut) const
 struct FUN_00db75b0_entry
 {
     int unk00;
-    int unk04;
+    const char* unk04;
 };
 
 struct FUN_00db75b0_class
@@ -759,8 +766,8 @@ unsigned int FUN_00db75b0_class::FUN_00db75b0(intptr_t a1, unsigned int* a2)
 {
     for (int index = 0; index < unk08; ++index)
     {
-        unsigned int value = unk04[index].unk04;
-        if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(a1), (const char *)(value)) == 0)
+        const char* value = unk04[index].unk04;
+        if (::fnv_00cb0fe0::CompareStringsCaseInsensitive((const char *)(a1), value) == 0)
         {
             unsigned int result = unk04[index].unk00;
             *a2 = result;
@@ -1571,7 +1578,7 @@ struct FUN_00da2840_Obj
 
 struct FUN_00da2b90_Obj
 {
-    int unk00;
+    void* unk00;
     short unk04;
     short unk06;
     int* unk08;
@@ -1584,7 +1591,7 @@ struct FUN_00da2b90_Obj
 unsigned int* FUN_00da2b90_Obj::Initialize()
 {
     unk06 = 1;
-    unk00 = reinterpret_cast<int>(&DAT_010d4de4);
+    unk00 = &DAT_010d4de4;
     unk08 = &DAT_01269a9c;
 
     reinterpret_cast<FUN_00da2840_Obj*>(&DAT_01269a9c)->FUN_00da2840();
@@ -2023,12 +2030,12 @@ extern "C" unsigned int stub_val(void);
 // @fnv 0x00db0db0
 static __declspec(noinline) int* FUN_00db0db0(unsigned int a)
 {
-    return (int*)((a & 0x70) + (unsigned int)&DAT_010d52d0);
+    return (int*)((char*)&DAT_010d52d0 + (a & 0x70));
 }
 
-int stub_caller(void)
+int* stub_caller(void)
 {
-    return (int)FUN_00db0db0(stub_val());
+    return FUN_00db0db0(stub_val());
 }
 
 struct FUN_00db7c80_class
@@ -3687,19 +3694,19 @@ static __declspec(noinline) void FUN_00db0dc0(float* pFirst, float* pSecond, int
     pOut[1] = (unsigned char)((((~maskSecond) & 7) << 4) + idxSecond);
 }
 
-volatile int gA;
+float* volatile gA;
 
-volatile int gB;
+float* volatile gB;
 
 volatile int gI;
 
 volatile int gJ;
 
-volatile int gO;
+unsigned char* volatile gO;
 
 void drive_db0dc0(void)
 {
-    FUN_00db0dc0((float*)gA, (float*)gB, gI, gJ, (unsigned char*)gO);
+    FUN_00db0dc0(gA, gB, gI, gJ, gO);
 }
 
 struct SymbolInfoBuffer
@@ -4068,7 +4075,7 @@ void drive_db09f0(void);
 
 static int* FUN_00db0db0(unsigned int a);
 
-int stub_caller(void);
+int* stub_caller(void);
 
 class hkMemoryAllocatorDA24
 {

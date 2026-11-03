@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
 #include "fnv/symbols_00cc9000.h"
 #include <intrin.h>
@@ -515,7 +516,7 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
     dst->m_f130 = m->m_f130;
     dst->m_f104 = m->m_f104;
     dst->m_f108 = m->m_f108;
-    ::FUN_00cde9f0((void *)(dst), m->m_fF8, {});
+    ::FUN_00cde9f0((void *)(dst), 0, m->m_fF8);
     float scale = src->m_vScale;
     if (scale != 1.0f)
     {
@@ -525,9 +526,9 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
     if (r)
     {
         Cc6830Ref* x = r->unk0C();
-        ::FUN_00cdea70((int)(dst));
-        ::FUN_00cdeab0((int)(dst));
-        ::FUN_00cdea90((int)(dst));
+        reinterpret_cast<::hkMalleableConstraintData *>(dst)->FUN_00cdea70((::hkMalleableContactNormal *)x);
+        reinterpret_cast<::hkMalleableConstraintData *>(dst)->FUN_00cdeab0((::hkMalleableContactNormal *)x);
+        reinterpret_cast<::hkMalleableConstraintData *>(dst)->FUN_00cdea90((::hkMalleableContactNormal *)x);
         reinterpret_cast<::hkReferencedObjectC905 *>((x))->FUN_00c905b0();
         dst->m_flagA2 = m->m_flagA2;
     }

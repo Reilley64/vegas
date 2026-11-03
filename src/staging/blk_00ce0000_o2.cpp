@@ -1280,13 +1280,13 @@ class FUN_00ce5360_This
   public:
     virtual ~FUN_00ce5360_This()
     {}
-    unsigned int FUN_00ce5360(unsigned int arg);
+    uintptr_t FUN_00ce5360(uintptr_t arg);
 };
 
 // @fnv 0x00ce5360
-unsigned int FUN_00ce5360_This::FUN_00ce5360(unsigned int arg)
+uintptr_t FUN_00ce5360_This::FUN_00ce5360(uintptr_t arg)
 {
-    return reinterpret_cast<unsigned int>(this);
+    return reinterpret_cast<uintptr_t>(this);
 }
 
 class FUN_00ce9800_obj

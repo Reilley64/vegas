@@ -743,7 +743,7 @@ void __cdecl FUN_00d9db60(S00d9db60_Mediator& mediator, S00d9db60_KdTree* tree)
         numPrimitivesPerSubTree[i] += emptyNodesPerSubTree[i] + (emptyNodesPerSubTree[i] & 1);
         currentNodeIdx += numPrimitivesPerSubTree[i];
 
-        subTreeDepths[i] = ::FUN_00df56a0((::Node56 *)&(input), (::Output56 **)(::S00d9db60_TreeStream *)(&stream), (int)(tree->getProjectedEntries()), &depth, &emptyNodesPerSubTree[i]);
+        subTreeDepths[i] = ::FUN_00df56a0((::Node56 *)&(input), (::Output56 **)(::S00d9db60_TreeStream *)(&stream), (intptr_t)(tree->getProjectedEntries()), &depth, &emptyNodesPerSubTree[i]);
         subTreeDepths[i] += 2;
         ::FUN_00df3160();
     }

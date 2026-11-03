@@ -425,7 +425,7 @@ union ThreeVectors
 
 // @fnv 0x00d6c470
 static __declspec(noinline) void FUN_00d6c470(const FaceCode* face, const __m128* normals, const unsigned char* points,
-                                              int a, int b)
+                                              intptr_t a, intptr_t b)
 {
     unsigned int index = face->index;
     unsigned int first = ::DAT_010d33c1[index];
@@ -442,12 +442,12 @@ static __declspec(noinline) void FUN_00d6c470(const FaceCode* face, const __m128
 const FaceCode* volatile inputFace;
 const __m128* volatile inputNormals;
 const unsigned char* volatile inputPoints;
-volatile int inputA, inputB;
+volatile intptr_t inputA, inputB;
 extern "C" const FaceCode* getFace();
 extern "C" const __m128* getNormals();
 extern "C" const unsigned char* getPoints();
-extern "C" int getA();
-extern "C" int getB();
+extern "C" intptr_t getA();
+extern "C" intptr_t getB();
 void invoke()
 {
     FUN_00d6c470(getFace(), getNormals(), getPoints(), getA(), getB());
@@ -477,7 +477,7 @@ struct Triple
 };
 
 // @fnv 0x00d6c500
-static __declspec(noinline) void FUN_00d6c500(Span* span, int a1, Box base, Box p10, int a2)
+static __declspec(noinline) void FUN_00d6c500(Span* span, intptr_t a1, Box base, Box p10, intptr_t a2)
 {
     char* b = base.p;
     for (int i = span->start; i < span->start + span->count; ++i)
@@ -492,13 +492,13 @@ static __declspec(noinline) void FUN_00d6c500(Span* span, int a1, Box base, Box 
 
 Span* g_span;
 
-int g_a1;
+intptr_t g_a1;
 
 Box g_base;
 
 Box g_p10;
 
-int g_a2;
+intptr_t g_a2;
 
 int g_sink;
 

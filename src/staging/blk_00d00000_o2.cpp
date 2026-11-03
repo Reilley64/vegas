@@ -131,10 +131,10 @@ struct SpawnedAllocator
 
 struct AllocHolder
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
-    int unk0C;
+    void* unk0C;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -443,18 +443,18 @@ struct D01E50Node
     int unk10;
     int unk14;
     int unk18;
-    int payload;
+    intptr_t payload;
 };
-int __cdecl FUN_00d94df0(int, void*, D01E50Node*);
-int __cdecl ExecuteConstraintCallbacks(int, void*, D01E50Node*);
-int __cdecl FUN_00d94a80(int, void*, D01E50Node*);
-int __cdecl FUN_00d947e0(int, void*, D01E50Node*);
-int __cdecl FUN_00d944d0(int, void*, D01E50Node*);
-int __cdecl FUN_00d94570(int, void*, D01E50Node*);
-int __cdecl LogIntegrateVelocity(int, void*, D01E50Node*);
-int __cdecl FUN_00d94730(int, void*, D01E50Node*);
-int __cdecl FUN_00d943d0(int, void*, D01E50Node*);
-int __cdecl FUN_00d94340(int, void*, D01E50Node*);
+int __cdecl FUN_00d94df0(intptr_t, void*, D01E50Node*);
+int __cdecl ExecuteConstraintCallbacks(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d94a80(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d947e0(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d944d0(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d94570(intptr_t, void*, D01E50Node*);
+int __cdecl LogIntegrateVelocity(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d94730(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d943d0(intptr_t, void*, D01E50Node*);
+int __cdecl FUN_00d94340(intptr_t, void*, D01E50Node*);
 
 // Dispatches on node->kind to one of several handlers, passing node->payload, ctx and node; returns 1 for unknown kinds.
 // @fnv 0x00d01e50
@@ -485,7 +485,7 @@ int __cdecl DispatchNodeByKind(void* pContext, D01E50Node* node)
     case 5:
         return FUN_00d94340(node->payload, pContext, node);
     case 12:
-        return ((int)(::FUN_00d93ba0((::S93ba0_Owner *)(node->payload), (::S93ba0_Output *)(pContext), (::S93ba0_Job *)(node))));
+        return ((int)(intptr_t)(::FUN_00d93ba0((::S93ba0_Owner *)(node->payload), (::S93ba0_Output *)(pContext), (::S93ba0_Job *)(node))));
     case 15:
     case 13:
         return ::FUN_00d93380((::Globals *)(node->payload), (::Queue *)(pContext), (::Job *)(node));
@@ -578,11 +578,11 @@ struct FUN_00d07070_s : FUN_00d06f70_s
     int unk00;
     unsigned short unk04;
 
-    int FUN_00d07070(unsigned char flag);
+    FUN_00d07070_s* FUN_00d07070(unsigned char flag);
 };
 
 // @fnv 0x00d07070
-int FUN_00d07070_s::FUN_00d07070(unsigned char flag)
+FUN_00d07070_s* FUN_00d07070_s::FUN_00d07070(unsigned char flag)
 {
     this->FUN_00d06f70();
 
@@ -593,7 +593,7 @@ int FUN_00d07070_s::FUN_00d07070(unsigned char flag)
         holder->m_pAllocator->Free(reinterpret_cast<void*>(this), value);
     }
 
-    return reinterpret_cast<int>(this);
+    return this;
 }
 
 // 0x00d070b0  bare ret
@@ -671,13 +671,13 @@ void __cdecl FUN_00d10780()
 
 struct FUN_00d1bab0_t
 {
-    int m_vft;
+    const void* m_vft;
     FUN_00d1bab0_t(bool fInit);
 };
 // @fnv 0x00d1bab0
 FUN_00d1bab0_t::FUN_00d1bab0_t(bool fInit)
 {
-    m_vft = (int)&DAT_010cd664;
+    m_vft = &DAT_010cd664;
     if (fInit & 1)
         FUN_00401030(this);
 }
@@ -955,14 +955,14 @@ FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(int v)
 
 struct S00d1b7f0_Input
 {
-    int m00;
+    intptr_t m00;
     int m04;
     int m08;
     int m0C;
     int m10;
     int m14;
     int m18;
-    int m1C;
+    intptr_t m1C;
     int m20;
     int m24;
     int m28;
@@ -989,17 +989,17 @@ struct S00d1b7f0_Frame
 
 // Subtracts the vector at p+0x30 from the one at p+0x40 and calls QueryKdTree with p->m00 twice, p->m1C, the difference and the p+0x30 values.
 // @fnv 0x00d1b7f0
-void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
+void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, intptr_t argB, intptr_t argC)
 {
     S00d1b7f0_Frame frame;
 
-    int first = p->m00;
+    intptr_t first = p->m00;
     frame.v0 = p->m30;
     frame.v1 = p->m34;
     frame.v2 = p->m38;
     frame.v3 = p->m3C;
 
-    int m1c = p->m1C;
+    intptr_t m1c = p->m1C;
 
     frame.diff = _mm_sub_ps(*reinterpret_cast<const __m128*>(&p->m40), *reinterpret_cast<const __m128*>(&p->m30));
 
@@ -1185,7 +1185,7 @@ struct QueryObj
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
+    intptr_t unk1c;
     int unk20;
     int unk24;
     int unk28;
@@ -1197,7 +1197,7 @@ struct QueryObj
 
 // Records two HkTimer profiling markers around a call to FUN_00d1b4d0 with the QueryObj vertex data and bounds.
 // @fnv 0x00d1b850
-void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
+void __cdecl FUN_00d1b850(QueryObj* obj, intptr_t arg1, intptr_t arg2)
 {
     HkTimer* prof = (HkTimer*)TlsGetValue((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     char* cur = prof->head;
@@ -1211,7 +1211,7 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
     }
 
     void* verts = obj->unk00;
-    int vcount = obj->unk1c;
+    intptr_t vcount = obj->unk1c;
     Vec4 mn = *(const Vec4*)&obj->min;
     __m128 dv = _mm_sub_ps(obj->max, obj->min);
     const Vec4* delta = (const Vec4*)&dv;
@@ -1233,14 +1233,14 @@ void __cdecl FUN_00d1b850(QueryObj* obj, int arg1, int arg2)
 
 // Builds a frame from the vectors at p->m30 and p->m40 (start and difference) and calls FUN_00d1b4d0 with count m0C, or 128 if that is not positive.
 // @fnv 0x00d1b930
-void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, int argB, int argC, intptr_t argD)
+void __cdecl FUN_00d1b930(S00d1b7f0_Input* p, intptr_t argB, intptr_t argC, intptr_t argD)
 {
     S00d1b7f0_Frame frame;
     __m128 end = _mm_load_ps(reinterpret_cast<const float*>(&p->m40));
     __m128 start = _mm_load_ps(reinterpret_cast<const float*>(&p->m30));
     __m128 difference = _mm_sub_ps(end, start);
-    int first = p->m00;
-    int second = p->m1C;
+    intptr_t first = p->m00;
+    intptr_t second = p->m1C;
     frame.v0 = p->m30;
     frame.v1 = p->m34;
     frame.v2 = p->m38;
@@ -1487,7 +1487,7 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
         {
             AllocHolder* holder = (AllocHolder*)::FUN_00c85750();
             if (hits->size == (hits->capacity & 0x3fffffff))
-                ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)holder->unk0C), (::AudioStream *)(hits), 4);
+                ::ResizeAudioStream((::AudioAllocator *)holder->unk0C, (::AudioStream *)(hits), 4);
             int* dst = hits->data + hits->size;
             for (int once = 0; once < 1; ++once)
                 dst[once] = key.packed;
@@ -1620,7 +1620,7 @@ typedef void*(* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
 
 // Records a TtqueryAabb timer, calls FUN_00d1b4d0 with the query AABB and count, then records an Et timer.
 // @fnv 0x00d1b9b0
-void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
+void __cdecl FUN_00d1b9b0(QueryObj* pQuery, intptr_t p1, intptr_t p2)
 {
     volatile unsigned int tick;
     S00d1b9b0_TlsGet pfnTls = TlsGetValue;
@@ -1636,7 +1636,7 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
     }
 
     const void* a = pQuery->unk00;
-    int b = pQuery->unk1c;
+    intptr_t b = pQuery->unk1c;
     Vec4 vMin = *(const Vec4*)&pQuery->min;
     Vec4 vExtent;
     *(__m128*)&vExtent = _mm_sub_ps(pQuery->max, pQuery->min);
@@ -1836,8 +1836,8 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
     AllocHolder* alloc = static_cast<AllocHolder*>(::FUN_00c85750());
     S00d1b4d0_Node** base = (S00d1b4d0_Node**)alloc->unk00;
     S00d1b4d0_Node** top = base;
-    int bytes = (capacity * 4 + 127) & ~127;
-    alloc->unk00 = (int)((char*)base + bytes);
+    int bytes = (capacity * (int)sizeof(S00d1b4d0_Node*) + 127) & ~127;
+    alloc->unk00 = (intptr_t)((char*)base + bytes);
     S00d1b4d0_Bounds bounds = *query;
     int found = 0;
     for (;;)
@@ -1924,7 +1924,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                         {
                             AllocHolder* grow = static_cast<AllocHolder*>(::FUN_00c85750());
                             if (list->size == (int)(list->capacity & 0x3fffffff))
-                                ::ResizeAudioStream((::AudioAllocator *)(void *)((void*)grow->unk0C), (::AudioStream *)(list), 4);
+                                ::ResizeAudioStream((::AudioAllocator *)grow->unk0C, (::AudioStream *)(list), 4);
                             copyResult(list->data + list->size, 1, *(unsigned*)&id);
                             list->size++;
                         }
@@ -1946,7 +1946,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
         n.set(cur);
     }
 done:
-    static_cast<AllocHolder*>(::FUN_00c85750())->unk00 = (int)base;
+    static_cast<AllocHolder*>(::FUN_00c85750())->unk00 = (intptr_t)base;
     return found;
 }
 

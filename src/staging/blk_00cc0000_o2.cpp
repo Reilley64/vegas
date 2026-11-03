@@ -842,15 +842,15 @@ void FUN_00cde9f0(void* self, int, float v)
 }
 
 // @fnv 0x00cdea70
-void FUN_00cdea70(int param_1)
+void hkMalleableConstraintData::FUN_00cdea70(hkMalleableContactNormal* normal)
 {
-    reinterpret_cast<::hkMalleableConstraintData *>((0))->SetContactNormal(param_1, {});
+    SetContactNormal(0, normal);
 }
 
 // @fnv 0x00cdea90
-void FUN_00cdea90(int param_1)
+void hkMalleableConstraintData::FUN_00cdea90(hkMalleableContactNormal* normal)
 {
-    reinterpret_cast<::hkMalleableConstraintData *>((2))->SetContactNormal(param_1, {});
+    SetContactNormal(2, normal);
 }
 
 struct FUN_00cdf290_cls {
@@ -1675,9 +1675,9 @@ bool* FUN_00cda090_class::FUN_00cda090(bool* result)
 }
 
 // @fnv 0x00cdeab0
-void FUN_00cdeab0(int a)
+void hkMalleableConstraintData::FUN_00cdeab0(hkMalleableContactNormal* normal)
 {
-    reinterpret_cast<::hkMalleableConstraintData *>((1))->SetContactNormal(a, {});
+    SetContactNormal(1, normal);
 }
 
 struct hkMatrix3 {
@@ -25317,9 +25317,9 @@ void FUN_00d53200_class::FUN_00cc6b80(LocalStream& stream)
     Normalize(constraint->axisB);
     if (stream.version > 29) {
         LocalReference* object = ((::LocalReference *)(::FUN_00c8a330((::Stream674 *)this)));
-        ::FUN_00cdea70((int)(constraint));
-        ::FUN_00cdeab0((int)(constraint));
-        ::FUN_00cdea90((int)(constraint));
+        reinterpret_cast<::hkMalleableConstraintData *>(constraint)->FUN_00cdea70((::hkMalleableContactNormal *)object);
+        reinterpret_cast<::hkMalleableConstraintData *>(constraint)->FUN_00cdeab0((::hkMalleableContactNormal *)object);
+        reinterpret_cast<::hkMalleableConstraintData *>(constraint)->FUN_00cdea90((::hkMalleableContactNormal *)object);
         if (object) {
             stream.input->Read(&constraint->enabled,1);
             reinterpret_cast<::hkReferencedObjectC905 *>((object))->FUN_00c905b0();

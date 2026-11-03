@@ -1626,10 +1626,10 @@ extern BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00da2da0()
 {}
 
-void __cdecl FUN_00da44d0(int a, int b, void* pvCallback);
+void __cdecl FUN_00da44d0(void* a, const void* b, void* pvCallback);
 
 // @fnv 0x00da4900
-void __cdecl FUN_00da4900(int a, int b)
+void __cdecl FUN_00da4900(void* a, void* b)
 {
     FUN_00da44d0(a, b, reinterpret_cast<void*>(&((void (&)())::ProcessCollisionEntry)));
 }

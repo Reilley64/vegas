@@ -2125,12 +2125,12 @@ void __cdecl FUN_00d2f540(unsigned char value)
 struct D347D0Query {
     const unsigned char* descriptor;
     float bound;
-    unsigned int filter;
+    void* filter;
 };
 
 // Builds a D347D0Query from DAT_010ce7fc, DAT_0104da48 and filter, then calls GetClosestPointsShapeCollection with b, a, c and the query.
 // @fnv 0x00d347d0
-void __cdecl QueryClosestPoints(void* a, void* b, void* c, unsigned int filter)
+void __cdecl QueryClosestPoints(void* a, void* b, void* c, void* filter)
 {
     D347D0Query query = { &DAT_010ce7fc, ::DAT_0104da48, filter };
     typedef void (__cdecl *Dispatch)(void*, void*, void*, D347D0Query*);
@@ -3188,13 +3188,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with the key and a4, and calls FUN_00d43b90 with an optional second record for a5.
 // @fnv 0x00d34810
-void __cdecl FUN_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d34810(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3241,13 +3241,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs input vector with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d33ca0 with an optional second record when a5 is non-zero.
 // @fnv 0x00d349b0
-void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d349b0(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3264,9 +3264,9 @@ void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, 
         rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(&rec2));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, &rec2);
     } else {
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(0));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, nullptr);
     }
 }
 }  // namespace fnv_00d349b0

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/modifiers/hkpremoveterminalsmoppmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/S00e67230_Machine.h"
 #include "fnv/symbols_00c90000.h"
@@ -110,14 +111,6 @@ hkBoolE485 hkObjE485::IsBitClear(int index, int iUnused) const
 }
 }  // namespace fnv_00e48550
 
-struct FUN_00e48580_Heap
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* unk10;
-};
 struct Packed
 {
     unsigned int lo : 8;
@@ -140,10 +133,10 @@ struct FUN_00e48580_Obj
 void FUN_00e48580_Obj::AppendPackedValue(int value)
 {
     FUN_00e48580_Array* arr = &this->arr;
-    FUN_00e48580_Heap* heap = reinterpret_cast<FUN_00e48580_Heap*>(::FUN_00c85750());
+    hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     if (arr->unk04 == (int)(arr->unk08 & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(heap->unk10), (::AudioStream *)(arr), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(&heap), (::AudioStream *)(arr), 4);
     }
     Packed* pEntry = &arr->unk00[arr->unk04++];
     pEntry->lo = 0;
@@ -198,33 +191,7 @@ FUN_00e486e0::FUN_00e486e0(void* apFirst, void* apSecond, void* context) throw()
 }
 
 namespace fnv_00e48740 {
-class hkMemoryAllocatorE487
-{
-  public:
-    virtual ~hkMemoryAllocatorE487() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterE487
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE487* m_pStreamAllocator;
-    hkMemoryAllocatorE487& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 template <class T> __forceinline void destructE487(T* t, int n)
 {
@@ -246,14 +213,14 @@ template <class T> class hkArrayE487
 
     ~hkArrayE487() throw()
     {
-        ClearAndRelease(static_cast<hkMemoryRouterE487*>(::FUN_00c85750())->heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructE487(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorE487& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)

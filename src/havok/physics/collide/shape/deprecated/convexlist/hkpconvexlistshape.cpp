@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
@@ -253,14 +254,6 @@ int FUN_00d5e2d0_cls::FUN_00d5e2d0()
     return unk34;
 }
 
-struct BSAudio
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* allocator;
-};
 
 
 struct ConvexList : hkpConvexListShape
@@ -272,8 +265,7 @@ struct ConvexList : hkpConvexListShape
 void ConvexList::SetChildren(hkpConvexShape** children, int numChildren)
 {
     hkArray<hkpConvexShape*>* pChildrenArray = &m_kChildShapes;
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    void* allocator = audio->allocator;
+    hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
     int iCapacity = pChildrenArray->m_iCapacityState & 0x3fffffff;
     if (iCapacity < numChildren)
     {
@@ -693,24 +685,7 @@ FUN_00d5e750::FUN_00d5e750(void* a, int b) throw() : hkShapeD5E7(0x16)
 }
 
 namespace fnv_00d5e7c0 {
-struct hkAllocatorD5E7
-{
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD5E7
-{
-    int unk00, unk04, unk08, unk0C;
-    hkAllocatorD5E7* m_pkHeap;
-    hkAllocatorD5E7& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 namespace hkRouterD5E7 {
 }
@@ -725,17 +700,17 @@ template <typename T> struct hkArrayD5E7
     {
         return m_iElementCount;
     }
-    void _clearAndDeallocate(hkAllocatorD5E7& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~hkArrayD5E7() throw()
     {
-        _clearAndDeallocate(static_cast<hkMemoryRouterD5E7*>(::FUN_00c85750())->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 

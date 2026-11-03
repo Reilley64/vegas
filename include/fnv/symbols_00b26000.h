@@ -23,7 +23,7 @@ void FUN_00b26260(::FUN_00b1ff50 *, ::FUN_00b1ff50 *, ::FrondPred, int *, ::FUN_
 // 0x00b262d0
 void FUN_00b262d0(::FUN_00b1ff50 *, ::FUN_00b1ff50 *, ::FrondPred, ::FUN_00b1ff50 *);
 // 0x00b26450
-void FUN_00b26450(int, int, int, int);
+void FUN_00b26450(void *, void *, void *, void *);
 // 0x00b264a0
 namespace fnv_00b264a0 { ::fnv_00b264a0::Elem64a0 *FUN_00b264a0(::fnv_00b264a0::Elem64a0 *, ::fnv_00b264a0::Elem64a0 *, ::fnv_00b264a0::Elem64a0 *, ::fnv_00b264a0::allocatorS< ::fnv_00b264a0::Elem64a0> &); }
 // 0x00b264f0

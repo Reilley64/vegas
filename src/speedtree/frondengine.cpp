@@ -502,20 +502,20 @@ FUN_0065d6e0_class::~FUN_0065d6e0_class()
 
 struct FUN_00b1db00_class
 {
-    int i0;
-    int i4;
-    int i8;
-    int ic;
-    int i10;
-    unsigned int FUN_00b1db00(unsigned int a);
+    void* i0;
+    void* i4;
+    void* i8;
+    char* ic;
+    char* i10;
+    char* FUN_00b1db00(unsigned int a);
 };
 // Bounds-checks index a against (i10 - ic) / 56, calls FUN_00ec7c56 if out of range, and returns ic + a * 56.
 // @fnv 0x00b1db00
-unsigned int FUN_00b1db00_class::FUN_00b1db00(unsigned int uiIndex)
+char* FUN_00b1db00_class::FUN_00b1db00(unsigned int uiIndex)
 {
     if (uiIndex >= (unsigned int)((i10 - ic) / 56))
         std::abort();
-    return uiIndex * 56 + (unsigned int)ic;
+    return ic + uiIndex * 56;
 }
 
 namespace fnv_00b1ff00 {
@@ -540,35 +540,40 @@ int FUN_00b1ff00_class::FUN_00b1ff00(FUN_00b1ff00_class* other)
 
 struct FUN_00b30fd0_class
 {
-    unsigned int FUN_00b30fd0(unsigned int n);
+    char pad00[0x100];
+    void* unk100;
+    void* unk104;
+    void* unk108;
+    float* m_pFirst;
+    float* m_pLast;
+    float* FUN_00b30fd0(unsigned int n);
 };
 
 // Doubles n, bounds-checks it against the element count in the array at this+0x100, and returns the address of the element at that index.
 // @fnv 0x00b30fd0
-unsigned int FUN_00b30fd0_class::FUN_00b30fd0(unsigned int uiIndex)
+float* FUN_00b30fd0_class::FUN_00b30fd0(unsigned int uiIndex)
 {
     unsigned int count = uiIndex << 1;
-    char* p = (char*)this + 0x100;
-    if (count >= (*(int*)(p + 0x10) - *(int*)(p + 0xc)) >> 2)
+    if (count >= (unsigned int)(m_pLast - m_pFirst))
         std::abort();
-    return *(unsigned int*)(p + 0xc) + count * 4;
+    return m_pFirst + count;
 }
 
 struct FUN_00b319a0_class
 {
-    int m_iWordAt00;
-    int m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
-    int m_10;
-    int FUN_00b319a0(int n);
+    void* m_iWordAt00;
+    void* m_iWordAt04;
+    void* m_8;
+    char* m_iThirdValue;
+    char* m_10;
+    char* FUN_00b319a0(int n);
 };
 // @fnv 0x00b319a0
-int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
+char* FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
 {
-    if (uiIndex >= (unsigned int)((m_10 - m_iThirdValue) / 24))
+    if ((unsigned int)uiIndex >= (unsigned int)((m_10 - m_iThirdValue) / 24))
         std::abort();
-    return uiIndex * 24 + m_iThirdValue;
+    return m_iThirdValue + uiIndex * 24;
 }
 
 
@@ -1469,18 +1474,18 @@ struct TagByte
 };
 struct RangePtr
 {
-    int entry;
+    void* entry;
     int scratch;
 };
 
 // Calls FUN_00b25fa0(a, b, c, d) with two one-byte tag arguments.
 // @fnv 0x00b26450
-void __cdecl FUN_00b26450(int a, int b, int aiDest, int d)
+void __cdecl FUN_00b26450(void* a, void* b, void* aiDest, void* d)
 {
     TagByte tag = {};
     TagByte end;
     TagByte flags = end;
-    int t = b;
+    void* t = b;
     RangePtr pos;
     pos.entry = a;
     ::fnv_00b25fa0::FUN_00b25fa0((::fnv_00b25fa0::ElemQ *)(pos.entry), (::fnv_00b25fa0::ElemQ *)(t), (::fnv_00b25fa0::ElemQ *)(aiDest));
@@ -1751,7 +1756,6 @@ void Host::FUN_00b18f60(FUN_00b37880* arg)
     }
 }
 
-extern int* FrondAllocateProxy(unsigned int, unsigned int);
 
 extern double FUN_00ec6054(double);
 
@@ -1866,7 +1870,7 @@ struct FrondGuidePoint : FrondPoint
 
 struct FrondPointStorage
 {
-    int a, b, c;
+    void *a, *b, *c;
     FrondPoint *first, *last, *limit;
     void FUN_00b39460();
     __forceinline ~FrondPointStorage()
@@ -1879,11 +1883,11 @@ struct FrondPointList : FrondPointStorage
 {
     inline FrondPointList()
     {
-        int* proxy = FrondAllocateProxy(1, 0);
-        int* linked = proxy;
+        void** proxy = (void**)::FUN_00401000(sizeof(void*));
+        void** linked = proxy;
         if (linked)
-            *linked = (int)this;
-        a = (int)linked;
+            *linked = this;
+        a = linked;
         b = 0;
         c = 0;
         first = 0;
@@ -3714,7 +3718,7 @@ void Frond::FUN_00b18340(Parser* p)
             i3c = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32cd:
-            reinterpret_cast<::Host *>(this)->FUN_00b18f60((::FUN_00b37880 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::Host *>(this)->FUN_00b18f60((::FUN_00b37880 *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x32ce:
             i44 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
@@ -29728,7 +29732,7 @@ struct FUN_00b39460
 
 struct FUN_00b1fca0
 {
-    int allocator, allocationFlags, growth;
+    void *allocator, *allocationFlags, *growth;
     Vector3* first;
     Vector3* last;
     Vector3* limit;
@@ -29756,9 +29760,9 @@ struct FUN_00b1e3e0 : FUN_00b39460, FUN_00b1fca0
     void FUN_00b1fbe0(unsigned int);
     FUN_00b1e3e0()
     {
-        void** allocated = (void**)FUN_0044d670(1, 0);
+        void** allocated = (void**)::FUN_00401000(sizeof(void*));
         void** proxy = allocated;
-        allocator = (int)(proxy ? (*proxy = this, proxy) : 0);
+        allocator = proxy ? (*proxy = this, proxy) : 0;
         FUN_00b1fbe0(0);
     }
 };
@@ -29774,7 +29778,7 @@ struct FUN_00449fd0 : FrondFloatStorage
 
 struct FUN_00b1fe80
 {
-    int allocator, allocationFlags, growth;
+    void *allocator, *allocationFlags, *growth;
     FUN_00449fd0* first;
     FUN_00449fd0* last;
     FUN_00449fd0* limit;
@@ -29799,7 +29803,7 @@ struct TexCoord
 
 struct PackedColors
 {
-    int allocator, allocationFlags, growth;
+    void *allocator, *allocationFlags, *growth;
     unsigned int* first;
     unsigned int* last;
     unsigned int* limit;

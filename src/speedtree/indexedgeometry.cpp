@@ -327,12 +327,12 @@ void FUN_00b305f0_cls::FUN_00b305f0(const float* apComponents)
 class FUN_00b32c60_cls
 {
   public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int m_pHeadNode;
-    int m_last;
-    int m_kRayEnd;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    char* m_pHeadNode;
+    char* m_last;
+    char* m_kRayEnd;
     void FUN_00b32c60();
     void DestroyRange(int first, int last);
 };
@@ -344,8 +344,8 @@ void FUN_00b32c60_cls::FUN_00b32c60()
     if (m_pHeadNode != 0)
     {
         reinterpret_cast<::Vec18 *>(this)->FUN_00b32bb0((::Elem18 *)(m_pHeadNode), (::Elem18 *)(m_last));
-        int count = (m_kRayEnd - m_pHeadNode) / 0x18;
-        int* p = (int*)m_pHeadNode;
+        int count = (int)((m_kRayEnd - m_pHeadNode) / 0x18);
+        char* p = m_pHeadNode;
         ::FUN_00401030(p);
     }
     m_pHeadNode = 0;
@@ -355,10 +355,10 @@ void FUN_00b32c60_cls::FUN_00b32c60()
 
 struct K
 {
-    char pad0[12];
-    int fC;
-    int f10;
-    int f14;
+    void* pad0[3];
+    char* fC;
+    char* f10;
+    char* f14;
     void FUN_00b331c0();
 };
 
@@ -367,15 +367,15 @@ struct K
 void K::FUN_00b331c0()
 {
     int u[12];
-    int t2;
+    char* t2;
     int t1;
 
     if (fC != 0)
     {
         reinterpret_cast<::Outer_b33110 *>(this)->FUN_00b33110((::Value *)(fC), (::Value *)(f10));
-        t1 = (f14 - fC) / 24;
+        t1 = (int)((f14 - fC) / 24);
         t2 = fC;
-        FUN_00401030((void*)t2);
+        FUN_00401030(t2);
     }
     fC = 0;
     f10 = 0;
@@ -894,7 +894,7 @@ struct Strips : Vector<unsigned short*>
 
 struct FUN_00b31350 : ValueBase<Lengths>
 {
-    unsigned int unkc, unk10, unk14;
+    Lengths *unkc, *unk10, *unk14;
 
     FUN_00b31350(unsigned int n)
     {
@@ -906,7 +906,7 @@ struct FUN_00b31350 : ValueBase<Lengths>
         {
             try
             {
-                unk10 = (unsigned int)fill((Lengths*)unkc, n, val);
+                unk10 = fill(unkc, n, val);
             }
             catch (...)
             {
@@ -926,9 +926,9 @@ struct FUN_00b31350 : ValueBase<Lengths>
             std::abort();
         else
         {
-            unkc = (unsigned int)valueAlloc.allocate(n);
+            unkc = valueAlloc.allocate(n);
             unk10 = unkc;
-            unk14 = unkc + n * sizeof(Lengths);
+            unk14 = unkc + n;
         }
         return true;
     }
@@ -944,9 +944,9 @@ struct FUN_00b31350 : ValueBase<Lengths>
 
     __forceinline Lengths& operator[](unsigned int index)
     {
-        if (index >= (unsigned int)((Lengths*)unk10 - (Lengths*)unkc))
+        if (index >= (unsigned int)(unk10 - unkc))
             std::abort();
-        return ((Lengths*)unkc)[index];
+        return unkc[index];
     }
 
     void FUN_00b314f0(const FUN_00b31350&);
@@ -954,7 +954,7 @@ struct FUN_00b31350 : ValueBase<Lengths>
 
 struct FUN_00b31ad0 : ValueBase<Strips>
 {
-    unsigned int unkc, unk10, unk14;
+    Strips *unkc, *unk10, *unk14;
 
     FUN_00b31ad0(unsigned int n)
     {
@@ -966,7 +966,7 @@ struct FUN_00b31ad0 : ValueBase<Strips>
         {
             try
             {
-                unk10 = (unsigned int)fill((Strips*)unkc, n, val);
+                unk10 = fill(unkc, n, val);
             }
             catch (...)
             {
@@ -986,9 +986,9 @@ struct FUN_00b31ad0 : ValueBase<Strips>
             std::abort();
         else
         {
-            unkc = (unsigned int)valueAlloc.allocate(n);
+            unkc = valueAlloc.allocate(n);
             unk10 = unkc;
-            unk14 = unkc + n * sizeof(Strips);
+            unk14 = unkc + n;
         }
         return true;
     }
@@ -1004,9 +1004,9 @@ struct FUN_00b31ad0 : ValueBase<Strips>
 
     __forceinline Strips& operator[](unsigned int index)
     {
-        if (index >= (unsigned int)((Strips*)unk10 - (Strips*)unkc))
+        if (index >= (unsigned int)(unk10 - unkc))
             std::abort();
-        return ((Strips*)unkc)[index];
+        return unkc[index];
     }
 
     void FUN_00b31c70(const FUN_00b31ad0&);
@@ -1014,7 +1014,7 @@ struct FUN_00b31ad0 : ValueBase<Strips>
 
 struct FUN_00b311b0 : ValueBase<unsigned int>
 {
-    unsigned int unkc, unk10, unk14;
+    unsigned int *unkc, *unk10, *unk14;
 
     FUN_00b311b0(unsigned int n)
     {
@@ -1026,7 +1026,7 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
         {
             try
             {
-                unk10 = (unsigned int)fill((unsigned int*)unkc, n, val);
+                unk10 = fill(unkc, n, val);
             }
             catch (...)
             {
@@ -1046,9 +1046,9 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
             std::abort();
         else
         {
-            unkc = (unsigned int)valueAlloc.allocate(n);
+            unkc = valueAlloc.allocate(n);
             unk10 = unkc;
-            unk14 = unkc + n * sizeof(unsigned int);
+            unk14 = unkc + n;
         }
         return true;
     }
@@ -1064,9 +1064,9 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
 
     __forceinline unsigned int& operator[](unsigned int index)
     {
-        if (index >= (unsigned int)((unsigned int*)unk10 - (unsigned int*)unkc))
+        if (index >= (unsigned int)(unk10 - unkc))
             std::abort();
-        return ((unsigned int*)unkc)[index];
+        return unkc[index];
     }
 
     void FUN_00b36330(const FUN_00b311b0&);
@@ -3471,8 +3471,8 @@ struct VectorSet
 template <class T> struct CheckedVector
 {
     void* proxy;
-    unsigned int allocator;
-    unsigned int state;
+    void* allocator;
+    void* state;
     T* first;
     T* last;
     T* limit;
@@ -4080,34 +4080,17 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 class FUN_00b30730_Tree
 {
   public:
-    int* FUN_00b30730(unsigned short usIndex);
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4C;
-    int unk50;
-    int unk54;
-    vectorS<vectorS<int> > m_kLists;
+    unsigned short** FUN_00b30730(unsigned short usIndex);
+    int unk00[9];
+    unsigned short rows;
+    unsigned short columns;
+    CheckedVector<unsigned int> counts;
+    CheckedVector<CheckedUnsignedShortVector> shorts;
+    vectorS<vectorS<unsigned short*> > m_kLists;
 };
 
 // @fnv 0x00b30730
-int* FUN_00b30730_Tree::FUN_00b30730(unsigned short usIndex)
+unsigned short** FUN_00b30730_Tree::FUN_00b30730(unsigned short usIndex)
 {
     return m_kLists[usIndex].size() ? &m_kLists[usIndex][0] : 0;
 }
@@ -4358,42 +4341,12 @@ inline Iter Vec::end()
 
 inline CIter Vec::FUN_00b33030(CIter a, CIter b)
 {
-    int s0, s1, s2, s3, s4, s5, s6, s7;
-    int t0, t1, t2, t3, t4, t5, t6, t7;
-    int u0, u1, u2, u3, u4, u5, u6, u7;
-    int v0, v1, v2, v3, v4;
-    s0 = (int)a.ptr;
-    s1 = (int)b.ptr;
-    s2 = s0 + s1;
-    s3 = s2 + 1;
-    s4 = s3 + 2;
-    s5 = s4 + 3;
-    s6 = s5 + 4;
-    s7 = s6 + 5;
-    t0 = s7 + 6;
-    t1 = t0 + 7;
-    t2 = t1 + 8;
-    t3 = t2 + 9;
-    t4 = t3 + 1;
-    t5 = t4 + 1;
-    t6 = t5 + 1;
-    t7 = t6 + 1;
-    u0 = t7 + 1;
-    u1 = u0 + 1;
-    u2 = u1 + 1;
-    u3 = u2 + 1;
-    u4 = u3 + 1;
-    u5 = u4 + 1;
-    u6 = u5 + 1;
-    u7 = u6 + 1;
-    v0 = u7 + 1;
-    v1 = v0 + 1;
-    v2 = v1 + 1;
-    v3 = v2 + 1;
-    v4 = v3 + 1;
     if (a.ptr != b.ptr)
     {
-        fin = (int*)(s0 + t0 + u0 + v4);
+        int* dest = a.ptr;
+        for (int* src = b.ptr; src != last; ++src, ++dest)
+            *dest = *src;
+        last = dest;
     }
     return a;
 }

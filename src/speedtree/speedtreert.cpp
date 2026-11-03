@@ -2598,6 +2598,7 @@ void FUN_00b02e00_class::FUN_00b02e00()
 
 struct FUN_00b2bcf0_shell
 {
+    FUN_00b2bcf0_shell* m_pTarget;
     void FUN_00b2bcf0(float*, float*);
     void FUN_00b06260(float* a, float* b);
 };
@@ -2605,7 +2606,7 @@ struct FUN_00b2bcf0_shell
 // @fnv 0x00b06260
 void FUN_00b2bcf0_shell::FUN_00b06260(float* pfA, float* pfB)
 {
-    ((FUN_00b2bcf0_shell*)*(int*)this)->FUN_00b2bcf0(pfA, pfB);
+    m_pTarget->FUN_00b2bcf0(pfA, pfB);
 }
 
 struct FUN_00b071c0_Class
@@ -2682,12 +2683,12 @@ void FUN_00b074c0_class::SetFieldD0(float afValue)
 
 struct FUN_00b074f0_obj
 {
-    void* GetNestedPointer();
+    int GetNestedPointer();
 };
 // @fnv 0x00b074f0
-void* FUN_00b074f0_obj::GetNestedPointer()
+int FUN_00b074f0_obj::GetNestedPointer()
 {
-    void* p = *(void**)((char*)*(void**)((char*)this + 0x10) + 0x10);
+    int p = *(int*)((char*)*(void**)((char*)this + 0x10) + 0x10);
     return p;
 }
 
@@ -2757,13 +2758,13 @@ struct FUN_00b076c0_Class
     void* mf4;
     void* mf8;
     void* mfc;
-    void* fun_00b076c0();
+    int fun_00b076c0();
 };
 
 // @fnv 0x00b076c0
-void* FUN_00b076c0_Class::fun_00b076c0()
+int FUN_00b076c0_Class::fun_00b076c0()
 {
-    void* result = *(void**)((char*)m10 + 8);
+    int result = *(int*)((char*)m10 + 8);
     return result;
 }
 
@@ -2778,13 +2779,13 @@ struct FUN_00b078e0_Class
     void* m_18;
     void* m_1c;
     void* m_20;
-    void* GetFieldAt0C();
+    int GetFieldAt0C();
 };
 
 // @fnv 0x00b078e0
-void* FUN_00b078e0_Class::GetFieldAt0C()
+int FUN_00b078e0_Class::GetFieldAt0C()
 {
-    void* result = *(void**)((char*)m_10 + 0xc);
+    int result = *(int*)((char*)m_10 + 0xc);
     return result;
 }
 
@@ -2795,6 +2796,7 @@ struct FUN_00b2bdc0_shell
 
 struct FUN_00b08500_shell
 {
+    FUN_00b2bdc0_shell* m_pTarget;
     void FUN_00b08500(float a, float b);
 };
 
@@ -2802,7 +2804,7 @@ struct FUN_00b08500_shell
 // @fnv 0x00b08500
 void FUN_00b08500_shell::FUN_00b08500(float afValue, float afOther)
 {
-    ((FUN_00b2bdc0_shell*)*reinterpret_cast<int*>(this))->FUN_00b2bdc0(afValue, afOther);
+    m_pTarget->FUN_00b2bdc0(afValue, afOther);
 }
 
 struct FUN_00b086f0_class
@@ -2890,12 +2892,12 @@ struct FUN_00b0d5d0_Class
     int m_unk_5c;
     int m_unk_60;
     int m_unk_64;
-    int m_unk_68;
-    int GetUnk68();
+    const char* m_unk_68;
+    const char* GetUnk68();
 };
 
 // @fnv 0x00b0d5d0
-int FUN_00b0d5d0_Class::GetUnk68()
+const char* FUN_00b0d5d0_Class::GetUnk68()
 {
     return m_unk_68;
 }
@@ -3116,18 +3118,18 @@ struct FUN_00b02b70_shell
 {
     int m_iWordAt00;
     unsigned short m_iWordAt04;
-    int m_8;
-    int m_iThirdValue;
+    const void* m_8;
+    const void* m_iThirdValue;
     unsigned short m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
+    const void* m_14;
+    const void* m_18;
+    const void* m_1c;
+    const void* m_20;
+    const void* m_24;
+    const void* m_28;
+    const void* m_2c;
+    const void* m_30;
+    const void* m_34;
     FUN_00b02b70_shell();
 };
 // Initializes all fields of the object: sets the first int to -1 and every other field to 0.
@@ -3503,12 +3505,12 @@ struct FUN_00b097b0_class
 {
     void* m_p;
     char pad[0x60];
-    int* FUN_00b097b0(int a);
+    int* FUN_00b097b0(void* a);
 };
 
 // Calls FUN_00aca270 with a, sets m_p to the address of DAT_010a51e0, and returns this as an int pointer.
 // @fnv 0x00b097b0
-int* FUN_00b097b0_class::FUN_00b097b0(int a)
+int* FUN_00b097b0_class::FUN_00b097b0(void* a)
 {
     char pad[0x58];
     new ((void *)this) ::FUN_00aca270((::ThisBase_aca270 *)(a));
@@ -3940,7 +3942,7 @@ struct FUN_00b0d5f0_Class
     int m_unk_5c;
     int m_unk_60;
     int m_unk_64;
-    int m_unk_68;
+    char* m_unk_68;
     char m_unk_6c;
     unsigned char m_bFlag;
     char m_unk_6e;
@@ -4269,20 +4271,20 @@ void FUN_00b0b920_self::FillFrondGeometry(FUN_00b0b920_arg* arg, short type)
         short cnt;
         int ae, av, bg, ak, au, ba, bl, ac, bd, bv, cu, bq, ce, co, cy, bi, bj, bm, ap, at, by, ai, al, bs, bu, cb, cl;
         beg->m_10 = (unsigned short)((unsigned int)(q->m_10 - q->m_0c) / 3);
-        beg->m_14 = ((int)(reinterpret_cast<::MyClass *>((m_60))->FUN_00b0b4b0()));
-        beg->m_24 = ((int)(reinterpret_cast<::FUN_00b0b530_Tree *>((m_60))->FUN_00b0b530()));
-        beg->m_18 = ((int)(reinterpret_cast<::FUN_00b0b5b0_Tree *>((m_60))->FUN_00b0b5b0()));
-        beg->m_1c = ((int)(reinterpret_cast<::FUN_00b0b630_Tree *>((m_60))->FUN_00b0b630()));
-        beg->m_20 = ((int)(reinterpret_cast<::FUN_00b0b6b0_Tree *>((m_60))->FUN_00b0b6b0()));
-        beg->m_28 = ((int)(reinterpret_cast<::FUN_00b0b730_Tree *>((m_60))->FUN_00b0b730()));
-        beg->m_2c = ((int)(reinterpret_cast<::FUN_00b0b7b0_Tree *>((m_60))->FUN_00b0b7b0()));
-        beg->m_30 = ((int)(reinterpret_cast<::FUN_00b0b830_Class *>((m_60))->FUN_00b0b830()));
-        beg->m_34 = ((int)(reinterpret_cast<::FUN_00b0b8b0_Tree *>((m_60))->FUN_00b0b8b0()));
+        beg->m_14 = reinterpret_cast<::MyClass *>((m_60))->FUN_00b0b4b0();
+        beg->m_24 = reinterpret_cast<::FUN_00b0b530_Tree *>((m_60))->FUN_00b0b530();
+        beg->m_18 = reinterpret_cast<::FUN_00b0b5b0_Tree *>((m_60))->FUN_00b0b5b0();
+        beg->m_1c = reinterpret_cast<::FUN_00b0b630_Tree *>((m_60))->FUN_00b0b630();
+        beg->m_20 = reinterpret_cast<::FUN_00b0b6b0_Tree *>((m_60))->FUN_00b0b6b0();
+        beg->m_28 = reinterpret_cast<::FUN_00b0b730_Tree *>((m_60))->FUN_00b0b730();
+        beg->m_2c = reinterpret_cast<::FUN_00b0b7b0_Tree *>((m_60))->FUN_00b0b7b0();
+        beg->m_30 = reinterpret_cast<::FUN_00b0b830_Class *>((m_60))->FUN_00b0b830();
+        beg->m_34 = reinterpret_cast<::FUN_00b0b8b0_Tree *>((m_60))->FUN_00b0b8b0();
         short w = (type == -1) ? reinterpret_cast<::FUN_00b085a0_local_shell *>(this)->FUN_00b085a0(-1.0f) : type;
         beg->m_iWordAt00 = w;
         beg->m_iWordAt04 = ((unsigned short)(reinterpret_cast<::fnv_00b0a9a0::FUN_00b0a9a0_Tree *>((m_60))->FUN_00b0a9a0((unsigned short)w)));
-        beg->m_8 = ((int)(reinterpret_cast<::SpeedTreeRTB0AA20 *>((m_60))->FUN_00b0aa20((unsigned short)w)));
-        beg->m_iThirdValue = ((int)(reinterpret_cast<::FUN_00b30730_Tree *>((m_60))->FUN_00b30730((unsigned short)w)));
+        beg->m_8 = reinterpret_cast<::SpeedTreeRTB0AA20 *>((m_60))->FUN_00b0aa20((unsigned short)w);
+        beg->m_iThirdValue = reinterpret_cast<::FUN_00b30730_Tree *>((m_60))->FUN_00b30730((unsigned short)w);
         if (DAT_011f8b78)
         {
             n = reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710() + 1;
@@ -5709,7 +5711,7 @@ struct Alloc59
     int state;
     __forceinline void deallocate(Proxy59* allocation, unsigned int count)
     {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b059e0::Global59 *>(&::g_memoryManager))))->FUN_00aa4060((void *)((int)allocation));
+        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b059e0::Global59 *>(&::g_memoryManager))))->FUN_00aa4060((void *)(allocation));
     }
 };
 struct ScalarTag59
@@ -5788,14 +5790,14 @@ struct FUN_00b06090
 {
     unsigned int m_pos;
     Inner59 m_in;
-    FUN_00b06090(int p1, int p2) : m_pos(0)
+    FUN_00b06090(const char* p1, int p2) : m_pos(0)
     {
         m_in.FUN_00b0e200(p2, 0);
         for (int index = 0; index < p2; ++index)
         {
             if ((unsigned int)index >= (unsigned int)(m_in.e - m_in.d))
                 FUN_00ec7c56();
-            m_in.d[index] = ((const char*)p1)[index];
+            m_in.d[index] = p1[index];
         }
     }
     bool FUN_00b06180()
@@ -5986,7 +5988,7 @@ struct Tree59
     int unk54;
     int unk58;
     Sub5c* m_p5c;
-    bool FUN_00b059e0(int p1, int p2);
+    bool FUN_00b059e0(const char* p1, int p2);
     __forceinline SubC* engine()
     {
         return m_p0c;
@@ -6097,7 +6099,7 @@ struct StrCalls
 };
 
 // @fnv 0x00b059e0
-bool Tree59::FUN_00b059e0(int p1, int p2)
+bool Tree59::FUN_00b059e0(const char* p1, int p2)
 {
     bool result5 = false;
     try
@@ -8403,11 +8405,11 @@ float SpdTreeQ::FUN_00b07b00(float fWaterLevelItem, float fLeaf, float fBranch)
             if (fBranch == -1.0)
                 fBranch = pWind->GetF0();
             fResult = reinterpret_cast<::FUN_00b37470_shell *>((pWind))->SetStrength(fWaterLevelItem, fLeaf, fBranch);
-            if (((int)(reinterpret_cast<::FUN_00b076c0_Class *>(this)->fun_00b076c0())) == 1 && pBranch)
+            if (reinterpret_cast<::FUN_00b076c0_Class *>(this)->fun_00b076c0() == 1 && pBranch)
                 pBranch->SetB12(false);
-            if (((int)(reinterpret_cast<::FUN_00b078e0_Class *>(this)->GetFieldAt0C())) == 1 && pFrond)
+            if (reinterpret_cast<::FUN_00b078e0_Class *>(this)->GetFieldAt0C() == 1 && pFrond)
                 pFrond->SetB12(false);
-            if (((int)(reinterpret_cast<::FUN_00b074f0_obj *>(this)->GetNestedPointer())) == 1 || WindB14())
+            if (reinterpret_cast<::FUN_00b074f0_obj *>(this)->GetNestedPointer() == 1 || WindB14())
                 reinterpret_cast<::SpeedTreeLodData *>((pWind8))->FUN_00b27820();
         }
         else
@@ -9484,16 +9486,16 @@ struct SpeedTreeRTB08AF0
     int unk00;
     int unk04;
     LeafGeometryB08AF0* m_pLodData;
-    const float* FUN_00b08af0(int iIndex);
+    const float* FUN_00b08af0(unsigned int& iIndex);
 };
 
 // @fnv 0x00b08af0
-const float* SpeedTreeRTB08AF0::FUN_00b08af0(int iIndex)
+const float* SpeedTreeRTB08AF0::FUN_00b08af0(unsigned int& iIndex)
 {
     const float* pSearchEntries = 0;
     try
     {
-        pSearchEntries = reinterpret_cast<::FUN_00b27870_Class *>((m_pLodData))->CopyLodData((*(unsigned int *)(iIndex)));
+        pSearchEntries = reinterpret_cast<::FUN_00b27870_Class *>((m_pLodData))->CopyLodData(iIndex);
     }
     catch (std::exception& e)
     {
@@ -11414,10 +11416,10 @@ struct I0b
 {
     int iLod;
     unsigned short usA;
-    int i8;
-    int ic;
+    const void* i8;
+    const void* ic;
     unsigned short m_usPassCountLocal;
-    int i14, i18, i1c, i20, i24, i28, i2c, i30, i34;
+    const void *i14, *i18, *i1c, *i20, *i24, *i28, *i2c, *i30, *i34;
     float fAlpha;
 };
 
@@ -11549,20 +11551,20 @@ void S0b::FUN_00b0b1d0(I0b* pArg, short sLod)
         I0b* pInfo = pArg;
         pInfo->m_usPassCountLocal = pEngine->geo.Count();
         DeadB();
-        pInfo->i14 = ((int)(reinterpret_cast<::MyClass *>((pEngine))->FUN_00b0b4b0()));
-        pInfo->i24 = ((int)(reinterpret_cast<::FUN_00b0b530_Tree *>((pEngine))->FUN_00b0b530()));
-        pInfo->i18 = ((int)(reinterpret_cast<::FUN_00b0b5b0_Tree *>((pEngine))->FUN_00b0b5b0()));
-        pInfo->i1c = ((int)(reinterpret_cast<::FUN_00b0b630_Tree *>((pEngine))->FUN_00b0b630()));
-        pInfo->i20 = ((int)(reinterpret_cast<::FUN_00b0b6b0_Tree *>((pEngine))->FUN_00b0b6b0()));
-        pInfo->i28 = ((int)(reinterpret_cast<::FUN_00b0b730_Tree *>((pEngine))->FUN_00b0b730()));
-        pInfo->i2c = ((int)(reinterpret_cast<::FUN_00b0b7b0_Tree *>((pEngine))->FUN_00b0b7b0()));
-        pInfo->i30 = ((int)(reinterpret_cast<::FUN_00b0b830_Class *>((pEngine))->FUN_00b0b830()));
-        pInfo->i34 = ((int)(reinterpret_cast<::FUN_00b0b8b0_Tree *>((pEngine))->FUN_00b0b8b0()));
+        pInfo->i14 = reinterpret_cast<::MyClass *>((pEngine))->FUN_00b0b4b0();
+        pInfo->i24 = reinterpret_cast<::FUN_00b0b530_Tree *>((pEngine))->FUN_00b0b530();
+        pInfo->i18 = reinterpret_cast<::FUN_00b0b5b0_Tree *>((pEngine))->FUN_00b0b5b0();
+        pInfo->i1c = reinterpret_cast<::FUN_00b0b630_Tree *>((pEngine))->FUN_00b0b630();
+        pInfo->i20 = reinterpret_cast<::FUN_00b0b6b0_Tree *>((pEngine))->FUN_00b0b6b0();
+        pInfo->i28 = reinterpret_cast<::FUN_00b0b730_Tree *>((pEngine))->FUN_00b0b730();
+        pInfo->i2c = reinterpret_cast<::FUN_00b0b7b0_Tree *>((pEngine))->FUN_00b0b7b0();
+        pInfo->i30 = reinterpret_cast<::FUN_00b0b830_Class *>((pEngine))->FUN_00b0b830();
+        pInfo->i34 = reinterpret_cast<::FUN_00b0b8b0_Tree *>((pEngine))->FUN_00b0b8b0();
         short sLevel7 = sLod == -1 ? reinterpret_cast<::FUN_00b08530_class *>(this)->GetIndexFromLevel(-1.0f) : sLod;
         pInfo->iLod = sLevel7;
         pInfo->usA = ((unsigned short)(reinterpret_cast<::fnv_00b0a9a0::FUN_00b0a9a0_Tree *>((pEngine))->FUN_00b0a9a0(sLevel7)));
-        pInfo->i8 = ((int)(reinterpret_cast<::SpeedTreeRTB0AA20 *>((pEngine))->FUN_00b0aa20(sLevel7)));
-        pInfo->ic = ((int)(reinterpret_cast<::FUN_00b30730_Tree *>((pEngine))->FUN_00b30730(sLevel7)));
+        pInfo->i8 = reinterpret_cast<::SpeedTreeRTB0AA20 *>((pEngine))->FUN_00b0aa20(sLevel7);
+        pInfo->ic = reinterpret_cast<::FUN_00b30730_Tree *>((pEngine))->FUN_00b30730(sLevel7);
         if (DAT_011f8b78)
         {
             unsigned short usN5 = reinterpret_cast<::CSpeedTreeRT *>(this)->FUN_00b08710() + 1;
@@ -12111,11 +12113,11 @@ class TrackOwner_b0cd
     int unk40, unk44, unk48, unk4c;
     Track_b0cd* m_pkTrack;
 
-    void FUN_00b0cd40(int iValue);
+    void FUN_00b0cd40(void* iValue);
 };
 
 // @fnv 0x00b0cd40
-void TrackOwner_b0cd::FUN_00b0cd40(int iValue)
+void TrackOwner_b0cd::FUN_00b0cd40(void* iValue)
 {
     m_pkTrack = new Track_b0cd;
     reinterpret_cast<::FrondInfo *>((m_pkTrack))->FUN_00b3e750((::ChunkReader *)(iValue));
@@ -15838,7 +15840,7 @@ inline void __cdecl AssignString(const char* s)
     d1 = d0 + d2 + d3;
     d2 = d1 + d3 + d0;
     d3 = d2 + d0 + d1;
-    d0 = d3 + d1 + (int)s;
+    d0 = d3 + d1 + (int)(s != 0);
 }
 
 namespace st {
@@ -15913,7 +15915,7 @@ struct TreeEngine
     int unke0;
     int unke4;
     int unke8;
-    int m_ec;
+    void* m_ec;
 };
 struct LightingEngine
 {
@@ -15930,7 +15932,7 @@ struct CSpeedTreeRT
 // @fnv 0x00b08cc0
 void CSpeedTreeRT::FUN_00b08cc0()
 {
-    int a;
+    void* a;
     try
     {
         float box2[6];
@@ -16067,7 +16069,7 @@ void UserDataOwner::FUN_00b0d500(TreeFileReader* pFile)
         switch (token)
         {
         case 0x4a3a:
-            m_unk_68 = (int)DuplicateString(pFile->FUN_00b3ee40().c_str());
+            m_unk_68 = DuplicateString(pFile->FUN_00b3ee40().c_str());
             Dead5Q();
             break;
         }
@@ -16301,15 +16303,15 @@ void FUN_00b08ec0(int param_1)
         {
             if (param_1 == 0)
             {
-                if ((**it)->fun_00b076c0() == (void*)1)
+                if ((**it)->fun_00b076c0() == 1)
                 {
                     field_m04(**it)->byte12 = 0;
                 }
-                if (reinterpret_cast<::FUN_00b078e0_Class *>((((BranchModeView*)(**it))))->GetFieldAt0C() == (void*)1)
+                if (reinterpret_cast<::FUN_00b078e0_Class *>((((BranchModeView*)(**it))))->GetFieldAt0C() == 1)
                 {
                     field_m60(**it)->byte12 = 0;
                 }
-                if (reinterpret_cast<::FUN_00b074f0_obj *>((((LeafModeView*)(**it))))->GetNestedPointer() == (void*)1 || field_byte14(**it))
+                if (reinterpret_cast<::FUN_00b074f0_obj *>((((LeafModeView*)(**it))))->GetNestedPointer() == 1 || field_byte14(**it))
                 {
                     reinterpret_cast<::SpeedTreeLodData *>((((FUN_00b27820_class*)(**it)->m08)))->FUN_00b27820();
                 }

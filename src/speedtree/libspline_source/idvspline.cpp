@@ -82,7 +82,7 @@ struct Node
 {
     Node *left, *parent, *right;
     Key key;
-    unsigned mapped;
+    void* mapped;
     signed char color, isNil;
 };
 

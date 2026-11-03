@@ -127,6 +127,9 @@ void __cdecl DestroyArrayElements(void*);
 
 struct FUN_00e7f790_Class
 {
+    void* m_pElements;
+    int unk04;
+    FUN_00e7f790_Class* m_pNext;
     void DestroyList();
 };
 
@@ -134,10 +137,10 @@ struct FUN_00e7f790_Class
 void FUN_00e7f790_Class::DestroyList()
 {
     DestroyArrayElements(*(void**)this);
-    void* next = *(void**)((char*)this + 8);
+    FUN_00e7f790_Class* next = m_pNext;
     if (next)
     {
-        ((FUN_00e7f790_Class*)next)->DestroyList();
+        next->DestroyList();
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(next);
     }
 }
@@ -161,8 +164,26 @@ int __cdecl FUN_00e60c70(int a)
     }
 }
 
+struct E67FD0Entry40
+{
+    int m_iValue;
+    char m_pad04[0x3c];
+};
+struct E67FD0Entry50
+{
+    int m_iValue;
+    char m_pad04[0x4c];
+};
 struct FUN_00e67fd0_cls
 {
+    char m_pad00[8];
+    int m_iCount40;
+    int unk0c;
+    int m_iCount50;
+    char m_pad14[0x3c];
+    E67FD0Entry40 m_aEntries40[61];
+    char m_padf90[0x24];
+    E67FD0Entry50 m_aEntries50[1];
     void ClearEntries();
 };
 
@@ -171,22 +192,22 @@ struct FUN_00e67fd0_cls
 void FUN_00e67fd0_cls::ClearEntries()
 {
     int count = 0;
-    if (count < *(int*)((char*)this + 0x10))
+    if (count < m_iCount50)
     {
         do
         {
-            *(int*)((char*)this + 0xfb4 + count * 0x50) = 0;
+            m_aEntries50[count].m_iValue = 0;
             ++count;
-        } while (count < *(int*)((char*)this + 0x10));
+        } while (count < m_iCount50);
     }
     count = 0;
-    if (count < *(int*)((char*)this + 8))
+    if (count < m_iCount40)
     {
         do
         {
-            *(int*)((char*)this + 0x50 + count * 0x40) = 0;
+            m_aEntries40[count].m_iValue = 0;
             ++count;
-        } while (count < *(int*)((char*)this + 8));
+        } while (count < m_iCount40);
     }
 }
 
@@ -757,6 +778,11 @@ namespace fnv_00e7bb50 {
 void __cdecl _NiFree(void* p);
 void __cdecl _delete(void* p, unsigned int size);
 void ClearPointerList(void* list);
+struct E7BB50Item
+{
+    char m_pad00[0x10];
+    void* m_kList;
+};
 
 struct FUN_00e7b550_Class
 {
@@ -779,7 +805,7 @@ void FUN_00e7bb50_Class::FUN_00e7bb50()
 
         if (item)
         {
-            ClearPointerList(reinterpret_cast<unsigned char*>(item) + 0x10);
+            ClearPointerList(&static_cast<E7BB50Item*>(item)->m_kList);
             _delete(item, 0x1c);
         }
     }
@@ -929,6 +955,12 @@ struct NiRefObject
 
 struct FUN_00e7dbc0_Class
 {
+    void* m_pVtbl;
+    int unk04;
+    int unk08;
+    void* m_pBuffer;
+    int unk10;
+    void* m_pObject;
     void FUN_00e7dbc0();
 };
 
@@ -940,16 +972,16 @@ void FUN_00e7dbc0_Class::FUN_00e7dbc0()
     void* p = this;
     reinterpret_cast<::AlphaList *>((((BSBatchRenderer__AlphaList*)&DAT_0126f5cc)))->FUN_00e7db70((void *const *)(void **)(&p));
     LeaveCriticalSection(reinterpret_cast<CRITICAL_SECTION*>(&::DAT_0126f600));
-    void* q = *(void**)((char*)this + 0x14);
+    void* q = m_pObject;
     *(void**)this = (void*)&::DAT_010eeed4;
     if (q)
     {
-        (*(void(**)(void*))(*(char**)q + 8))(q);
-        *(int*)((char*)this + 0x14) = 0;
+        ((void(*)(void*))(*(void***)q)[2])(q);
+        m_pObject = 0;
     }
-    void* r = *(void**)((char*)this + 0xc);
+    void* r = m_pBuffer;
     reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<void * *>(&::g_memoryManager)))))->FUN_00aa4060(r);
-    *(int*)((char*)this + 0xc) = 0;
+    m_pBuffer = 0;
     *(void**)this = (void*)&::DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
 }
@@ -3420,13 +3452,16 @@ struct EntryArray
 };
 struct Owner
 {
+    char m_pad000[0x450];
+    EntryArray m_kEntries;
     EntryArray& entries()
     {
-        return *reinterpret_cast<EntryArray*>(reinterpret_cast<char*>(this) + 0x450);
+        return m_kEntries;
     }
     Entry* FUN_00e7b190(unsigned int group, unsigned int identifier, unsigned int subIdentifier,
                         unsigned int* accumulated);
 };
+struct ListNode_b9541;
 struct FUN_00e7b550_cls
 {
     int unk00;
@@ -3506,6 +3541,7 @@ struct FUN_00e7b550_cls
     int unk128;
     int unk12C;
     int unk130;
+    ListNode_b9541* m_pLights;
     void DeleteAllItems();
 };
 
@@ -3519,7 +3555,7 @@ struct ListNode_b9541
 // @fnv 0x00e7b550
 void FUN_00e7b550_cls::DeleteAllItems()
 {
-    ListNode_b9541* node = *(ListNode_b9541**)((char*)this + 0x134);
+    ListNode_b9541* node = m_pLights;
     if (node != 0)
     {
         do
@@ -3534,7 +3570,7 @@ void FUN_00e7b550_cls::DeleteAllItems()
             }
         } while (node != 0);
     }
-    reinterpret_cast<::BSShaderLightingProperty *>((((FUN_00e7b550_cls*)((char*)this + 0x134))))->ClearLights();
+    reinterpret_cast<::BSShaderLightingProperty *>(&m_pLights)->ClearLights();
 }
 
 class BE7BBF0Source
@@ -4262,11 +4298,11 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
     void** slot = &m_14;
     if (*slot != 0)
         v21();
-    if (((FNV_PFN_2)(*(void**)((char*)*(void**)a1 + 0xa0)))(a1, slot) < 0)
+    if (((FNV_PFN_2)((*(void***)a1)[40]))(a1, slot) < 0)
         return 0;
-    if (((FNV_PFN_2)(*(void**)((char*)*(void**)*slot + 0x30)))(*slot, &frame.out) < 0)
+    if (((FNV_PFN_2)((*(void***)*slot)[12]))(*slot, &frame.out) < 0)
     {
-        ((FNV_PFN_1)(*(void**)((char*)*(void**)*slot + 8)))(*slot);
+        ((FNV_PFN_1)((*(void***)*slot)[2]))(*slot);
         *slot = 0;
         return 0;
     }

@@ -12,14 +12,15 @@
 #include "fnv/symbols_010c6000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpTriSampledHeightFieldBvTreeShape.h"
+#include "havok/hkpTriSampledHeightFieldCollection.h"
 
 // ---------------------------------------------------------------------------
-// hkpShape is only forward declared by the pack's headers, so complete it
-// here.  hkBaseObject contributes the virtual destructor, which sits in the
-// first vtable slot; the four shape virtuals follow it, so the one the
-// container forwards to ends up at vtable offset 0x10.
+// The shape virtuals the header's hkpShape does not declare.  hkBaseObject
+// contributes the virtual destructor, which sits in the first vtable slot; the
+// four shape virtuals follow it, so the one the container forwards to ends up
+// at vtable offset 0x10.
 // ---------------------------------------------------------------------------
-class hkpShape : public hkBaseObject
+class hkpShapeVirtuals : public hkpShape
 {
   public:
     virtual void v1();
@@ -40,7 +41,7 @@ struct TriSampledHeightFieldBvTreeShape : public hkpTriSampledHeightFieldBvTreeS
 // @fnv 0x00d27200
 void TriSampledHeightFieldBvTreeShape::FUN_00d27200()
 {
-    m_kChildContainer.m_pContainedShape->v4();
+    static_cast<hkpShapeVirtuals*>(m_kChildContainer.m_pContainedShape)->v4();
 }
 
 struct FUN_00d268b0_Obj : public hkpTriSampledHeightFieldBvTreeShape
@@ -309,9 +310,8 @@ class hkpSampledHeightFieldShapeq
     hkReal m_kHeightScaleVector[4];
 };
 
-class hkpTriSampledHeightFieldCollectionq
+class hkpTriSampledHeightFieldCollectionq : public hkpTriSampledHeightFieldCollection
 {
-  public:
 };
 
 struct hkBoolq
@@ -536,7 +536,7 @@ extern const hkVector4q hkVector4Util_uint16Magic;
 
 __forceinline hkReal getRadius(const hkpTriSampledHeightFieldCollectionq* collection)
 {
-    return reinterpret_cast<const hkReal*>(collection)[8];
+    return collection->m_fSphereRadius;
 }
 
 __forceinline void SetAllComponents(hkVector4q& self, hkReal r)
@@ -739,11 +739,6 @@ class hkpSampledHeightFieldShape
         hkReal h = GetHeightAtGridPoint(x, z);
         return m_kHeightScaleVector.y * h;
     }
-};
-
-class hkpTriSampledHeightFieldCollection
-{
-  public:
 };
 
 struct hkBoolResult

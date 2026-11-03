@@ -5227,8 +5227,8 @@ void FUN_006dffc0_Class::WriteToBuffer(FUN_00865db0_shell* buffer)
     reinterpret_cast<::BGSSaveGameBuffer *>((((FUN_00865f60_shell*)buffer)))->FUN_00865f60(count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        FUN_006df9c0_shell* item = *(FUN_006df9c0_shell**)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index));
-        item->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
+        unsigned int item = *(unsigned int*)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index));
+        ((FUN_006df9c0_shell*)(uintptr_t)item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
     }
 }
 

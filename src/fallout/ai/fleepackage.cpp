@@ -2,6 +2,8 @@
 // src/fallout/ai/fleepackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/fleepackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/package_fields.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
@@ -217,9 +219,9 @@ FUN_009f9250::FUN_009f9250(TESObjectREFR* apRef, int aiUnk88, int aiUnk8c, int a
     reinterpret_cast<::FUN_00672fc0_shell *>(this)->FUN_00672fc0(pTarget);
     delete pTarget;
     SetProcedureType((PACKAGE_PROCEDURE_TYPE)0x14);
-    ((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData()))->SetTargetKind((::PACK_TARG_TYPE)(0));
-    ((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData()))->SetTargetObjectReference(apRef);
-    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData())))))->AssignLandTexture((::TESLandTexture *)(0x80));
+    ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))->SetTargetKind((::PACK_TARG_TYPE)(0));
+    ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))->SetTargetObjectReference(apRef);
+    reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget)))))->AssignLandTexture((::TESLandTexture *)(0x80));
     iUnk90 = -1;
     iUnk94 = aiUnk94;
     iUnk98 = 0;
@@ -243,21 +245,21 @@ void FUN_009f1350_shell::RemoveRef(TESObjectREFR* apRef)
 {
     reinterpret_cast<::ItemChangeListNode *>((((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))->FUN_00905330((::InventoryStackRecord *const &)(apRef));
     TESObjectREFR* pref = 0;
-    if (((Script*)this)->GetData())
-        pref = reinterpret_cast<::PackageTargetRecord *>((((PTHelper*)((Script*)this)->GetData())))->GetReferenceTarget();
+    if (reinterpret_cast<PackageFields*>(this)->pPackageTarget)
+        pref = reinterpret_cast<::PackageTargetRecord *>((((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)))->GetReferenceTarget();
     if (pref && pref == apRef)
     {
         if (!((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))->FUN_008256d0())
         {
-            ((PTHelper*)((Script*)this)->GetData())
+            ((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)
                 ->SetTargetObjectReference(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
-            ((LocationDescriptor*)((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)this)))->GetIconFormID())))
+            ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)
                 ->FUN_0067f3c0(*(((::TESObjectREFR **)(((::Vec3 *)(void *)(((BSSimpleList_TESObjectREFR_Helper*)((char*)this + 0x98))))))));
         }
         else
         {
-            ((PTHelper*)((Script*)this)->GetData())->SetTargetObjectReference(0);
-            ((LocationDescriptor*)((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)this)))->GetIconFormID())))->FUN_0067f3c0(0);
+            ((PTHelper*)reinterpret_cast<PackageFields*>(this)->pPackageTarget)->SetTargetObjectReference(0);
+            ((LocationDescriptor*)reinterpret_cast<PackageFields*>(this)->pLocation)->FUN_0067f3c0(0);
         }
     }
     if (apRef == *(TESObjectREFR**)((char*)this + 0xa4))
@@ -1793,8 +1795,8 @@ struct AvoidancePackage_1440 : public AvoidancePackage
 PathingAvoidNodeArray* AvoidancePackage_1440::BuildAvoidNodeArray()
 {
     PathingAvoidNodeArray* pNodes_ = new PathingAvoidNodeArray;
-    float fRadius3 = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>((((TESPackage*)this)))->GetData()))
-                         ? (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)((::PackageTargetRecord *)(reinterpret_cast<::Script *>((((TESPackage*)this)))->GetData())))))->GetName()))
+    float fRadius3 = ((::PackageTargetRecord *)(reinterpret_cast<PackageFields*>(this)->pPackageTarget))
+                         ? (float)reinterpret_cast<PackageTargetFields*>(reinterpret_cast<PackageFields*>(this)->pPackageTarget)->iValue
                          : ::DAT_010231a0;
     fRadius3 = FUN_00404010(fRadius3, ::DAT_01032adc);
     AvoidedList* pNode;
@@ -1924,18 +1926,18 @@ void FleeSavePackage::SaveFleePackage()
     reinterpret_cast<::Package679120 *>(this)->SavePackage();
     unsigned short sizeVal = 0;   // Serialized block length.
     unsigned char* position = 0;  // Address of the block length field.
-    unsigned char* aPosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    unsigned char* aPosition = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
     if (*::g_011de4e8.Bool())
-        aPosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        aPosition = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&tag, 4);
-        position = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        position = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&sizeVal, 2);
     }
     unsigned short kCount = 0;  // Number of avoided references.
-    unsigned char* _position = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    unsigned char* _position = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&kCount, 2);
     SavedReferenceList* node = &avoided;
     while (node && !node->FUN_008256d0())
@@ -1964,7 +1966,7 @@ void FleeSavePackage::SaveFleePackage()
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&flagA9, 1);
     if (*::g_011de4e8.Bool())
     {
-        unsigned char* end = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* end = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
         SaveDebugRecord* reference = ((::SaveDebugRecord *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (reference)
         {
@@ -1978,7 +1980,7 @@ void FleeSavePackage::SaveFleePackage()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned char* end = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* end = ((unsigned char *)(reinterpret_cast<SaveLoadGameView*>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
         unsigned char* data = position;
         if (end > data + 65535)
             ::FUN_005b5e40();
@@ -2066,7 +2068,7 @@ void FleeLoadPackage::FUN_009f1e80()
     unsigned short usCount4;
     unsigned int uiRefA7;
     unsigned int uiRefA9;
-    unsigned int uiBlockStart7;
+    char* uiBlockStart7;
     unsigned short usBlockSize2;
     int i3;
 
@@ -2091,7 +2093,7 @@ void FleeLoadPackage::FUN_009f1e80()
                 ::FUN_005b5e40();
             }
         }
-        uiBlockStart7 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        uiBlockStart7 = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usBlockSize2, 2);
     }
 
@@ -2119,7 +2121,7 @@ void FleeLoadPackage::FUN_009f1e80()
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiBlockEndA = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* uiBlockEndA = reinterpret_cast<SaveLoadGameView*>(((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         FleeLoadFormInfo* pEndInfo = ((::FleeLoadFormInfo *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::FleeLoadManager * *>(&::g_TESSaveLoadGame))))));
         if (pEndInfo)
         {

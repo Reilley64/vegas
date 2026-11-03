@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureevade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureevade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_manager_fields.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/decl/AA10Menu.h"
@@ -519,7 +520,7 @@ void EvadeProcedure::UpdateFleeState()
                 reinterpret_cast<::FUN_008df000_shell *>(&(fleeRequest))->FUN_008df000();
             else
                 fleeRequest.SetDestination(&ResultSlot(PathingLocation(targetPosition, (TESObjectREFR*)actor)));
-            destination = ((int)(reinterpret_cast<::AvoidanceMap *>((((::EvadeSearchResult *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::EvadeSearch * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->BuildAvoidanceNodes({}, {}, {})));
+            destination = ((intptr_t)(reinterpret_cast<::AvoidanceMap *>((((::EvadeSearchResult *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::EvadeSearch * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))))->BuildAvoidanceNodes({}, {}, {})));
             destination = ((intptr_t)(reinterpret_cast<::FUN_009892a0_shell *>((((::EvadeMovement *)(reinterpret_cast<::EffectSetting *>((context))->GetCastSound()))))->FUN_009892a0((::AvoidMember9892 *)(actor), (const ::Pos9892 *)(::NiPoint3 *)(&actorPosition), DAT_01050b98, (::PathingAvoidNodeArray *)(destination), (::AvoidMember9892 *)(0))));
             break;
         }

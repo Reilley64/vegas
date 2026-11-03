@@ -6326,9 +6326,9 @@ void State::SetupPackageTarget(Package* package)
         reinterpret_cast<::FUN_0067a720_shell *>(this)->SetFlag4000000((flags & 0x4000000) != 0);
         Process* process4 = ((::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
         bool useRef = true;
-        if (((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
         {
-            switch (reinterpret_cast<::DurationData *>((((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location))))->FUN_00678ca0())
+            switch (reinterpret_cast<::DurationData *>((((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation))))->FUN_00678ca0())
             {
             case 1:
             case 2:
@@ -6353,7 +6353,7 @@ void State::SetupPackageTarget(Package* package)
             if (reinterpret_cast<::FUN_00981320_shell *>((package))->IsFlag4Set())
                 useRef = true;
             Data* data = ((::Data *)(reinterpret_cast<::Script *>((package))->GetData()));
-            float radius = reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((::TargetData *)(reinterpret_cast<::TESPackageFields *>((package))->location)) ? (float)reinterpret_cast<::HighProcess *>((package))->UpdateHighProcessState((::Actor *)(actor))
+            float radius = reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((::TargetData *)(reinterpret_cast<::PackageFields *>((package))->pLocation)) ? (float)reinterpret_cast<::HighProcess *>((package))->UpdateHighProcessState((::Actor *)(actor))
                            : data                                        ? (float)((int)(reinterpret_cast<::Twin_0044ddc0 *>((data))->GetName()))
                                                                          : 30.0f;
             float nearDistance9 = radius * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting421))))));

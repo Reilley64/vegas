@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureattackranged.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackranged.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include "fnv/decl/AngleView.h"
 #include "fnv/decl/AnimSequenceStub.h"
@@ -719,7 +720,7 @@ void FUN_009d09a0_shell::FUN_009d09a0()
 // @fnv 0x009d1c30
 void D1C30Task::ResetTask()
 {
-    D1C30Actor* pkActor = ((::D1C30Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkOwnerManager))));
+    D1C30Actor* pkActor = ((::D1C30Actor *)(reinterpret_cast<CombatControllerFields*>(m_pkOwnerManager)->pActor));
     ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagB(0);
     ((::D1C30Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetFlagA(0);
     reinterpret_cast<::TimeoutTimer *>(&(m_kHelper))->FUN_00910b10();
@@ -1798,7 +1799,7 @@ class Controller9D1
 // @fnv 0x009d1bc0
 void Controller9D1::FUN_009d1bc0(bool bActive)
 {
-    Actor9D1* pkActor = ((::Actor9D1 *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkMobile))));
+    Actor9D1* pkActor = ((::Actor9D1 *)(reinterpret_cast<CombatControllerFields*>(m_pkMobile)->pActor));
     ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetActive(bActive);
     ((::Process9D1 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActor))->GetBaseTexture()))->SetUpdateFlag(1);
     reinterpret_cast<::TimeoutTimer *>(&(m_kTimer))->FUN_00910b10();
@@ -1972,7 +1973,7 @@ void RAttack::UpdateAttack()
         reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Missing either weapon, animation, or weapon projectile"));
         return;
     }
-    float fov16 = reinterpret_cast<::FUN_00639aa0_shell *>((((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->FUN_00639aa0();
+    float fov16 = reinterpret_cast<::FUN_00639aa0_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->FUN_00639aa0();
     if (fov16 > 0.0 && target &&
         !::IsWithinAimLimits((::S_009a6d70_Actor *)(actor), (::NiPoint3 *)(::RPoint *)(target->GetPosition()), float(fov16 * 0.01745329238474369), 6.2831854820251465f))
     {
@@ -2281,8 +2282,8 @@ void RAttack::UpdateAttack()
         bool attacked = reinterpret_cast<::Pawn *>((actor))->TryAttack(attack20);
         if (attacked && !automatic77)
         {
-            float minDelay = reinterpret_cast<::FUN_00645c40_Class *>((weapon0))->GetField174Float() * reinterpret_cast<::FUN_009d1b30_class *>((void *)(((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetFloatAtOffset50();
-            float maxDelay = reinterpret_cast<::FUN_00645c60_shell *>((weapon0))->GetField178Float() * reinterpret_cast<::FUN_009d1b50_shell *>((((::RTuning *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetField54Float();
+            float minDelay = reinterpret_cast<::FUN_00645c40_Class *>((weapon0))->GetField174Float() * reinterpret_cast<::FUN_009d1b30_class *>((void *)(((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetFloatAtOffset50();
+            float maxDelay = reinterpret_cast<::FUN_00645c60_shell *>((weapon0))->GetField178Float() * reinterpret_cast<::FUN_009d1b50_shell *>((((::RTuning *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetField54Float();
             reinterpret_cast<::FUN_008d7f40_shell *>(&(shot))->FUN_008d7f40(RandomFloat(minDelay, maxDelay));
         }
         if (projectile && ::IsExplosionRadiusValid((::PathingRequest *)(projectile)))

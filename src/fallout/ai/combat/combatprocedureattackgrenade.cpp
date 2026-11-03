@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatprocedureattackgrenade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackgrenade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_controller_fields.h"
 #include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CPStandIn009caae0.h"
@@ -452,7 +453,7 @@ class B9CB380Package
 // @fnv 0x009cb380
 bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg)
 {
-    B9CB380Mobile* pkMobile2 = ((::B9CB380Mobile *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkActor))));
+    B9CB380Mobile* pkMobile2 = ((::B9CB380Mobile *)(reinterpret_cast<CombatControllerFields*>(m_pkActor)->pActor));
     B9CB380Process* pkProcess = ((::B9CB380Process *)(reinterpret_cast<::InterfaceManager *>((m_pkActor))->FUN_00586150()));
     if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::B9CB380World * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(pkMobile2), (::ThreatActor *)(pkForm), (*(const ::ThreatPosition *)(iArg)), fArg))
     {

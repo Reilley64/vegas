@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/combatcovermap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatcovermap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/combat_manager_fields.h"
 #include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -83,7 +84,7 @@ struct FUN_009a0510_shell
 void FUN_009a0510_shell::FUN_009a0510(StageHolder* pStage)
 {
     if (pStage && !reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
-        ((FUN_00983280_holder*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_009611e0())))
+        ((FUN_00983280_holder*)((reinterpret_cast<CombatManagerFields*>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->pCoverMap)))
             ->FUN_00983280(m_1c4, pStage);
 }
 
@@ -108,7 +109,7 @@ struct FUN_009a0560_shell
 bool FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 {
     if (pStageHolder && !reinterpret_cast<::FUN_005dc960_shell *>((pStageHolder))->FUN_005dc960())
-        return ((FUN_00983420_shell*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009611e0())))
+        return ((FUN_00983420_shell*)((reinterpret_cast<CombatManagerFields*>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->pCoverMap)))
             ->GetOrCreateCoverItem(*(int*)((char*)this + 0x1C4), pStageHolder);
     return true;
 }
@@ -137,7 +138,7 @@ void FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
 {
     if (pStage && reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
     {
-        ((::fnv_009a05b0::FUN_00983520_obj *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_009a05b0::Calendar * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))->FUN_00983520(fld1c4, pStage);
+        ((::fnv_009a05b0::FUN_00983520_obj *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_009a05b0::Calendar * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))->FUN_00983520(fld1c4, pStage);
     }
 }
 }  // namespace fnv_009a05b0

@@ -1,5 +1,7 @@
 // fallout/ai/combat/combatmanager.cpp: CombatFlagHolder, CombatBox, CombatManager, CombatNodeArray and more (37 functions)
 
+#include "fnv/combat_group_fields.h"
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/Actor8A7.h"
@@ -148,6 +150,7 @@
 #include "fnv/symbols_011f1000.h"
 #include "combatmanager_decls.h"
 
+
 // @fnv 0x00993790
 void CombatManager::ApplyLoadBuffer(BGSLoadGameBuffer* buffer)
 {
@@ -213,7 +216,7 @@ void FUN_00991dc0_shell::FUN_00991dc0()
 {
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)this)))->GetShortAtOffsetA(); i++)
     {
-        ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+        ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
         if (pgroup)
         {
             unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
@@ -1266,7 +1269,7 @@ CombatNode* CombatNodeArray::FindByKey(unsigned int key)
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); ++i)
     {
         CombatNode* node = *GetAt(i);
-        if (node && ((unsigned int)(reinterpret_cast<::Callees *>((node))->FUN_00726070())) == key)
+        if (node && reinterpret_cast<::CombatGroupFields*>(node)->unk04 == key)
             return node;
     }
     return 0;
@@ -1823,7 +1826,7 @@ void FUN_00992920_shell::ProcessCombatTarget(TargetObj* pTarget)
 
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>(this)->GetShortAtOffsetA(); i++)
     {
-        FUN_00987820_shell* pGroup = (FUN_00987820_shell*)*Arr::GetAt(i);
+        FUN_00987820_shell* pGroup = SimpleArrayItem<FUN_00987820_shell*>(this, i);
         if (pGroup)
             reinterpret_cast<::Group_987820 *>((pGroup))->FUN_00987820((::Actor_987820 *)(pTarget));
     }
@@ -1914,7 +1917,7 @@ void FUN_00991600_shell::FUN_00991600(bool abTimeStopped)
     {
         for (unsigned int i = 0; i < igroupCount; i++)
         {
-            ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+            ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
             if (pgroup && reinterpret_cast<::FUN_00986c40_shell *>((((FUN_00986c40_obj*)pgroup)))->FUN_00986c40())
             {
                 delete (FUN_009914d0*)pgroup;
@@ -1931,7 +1934,7 @@ void FUN_00991600_shell::FUN_00991600(bool abTimeStopped)
     {
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
         {
-            ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+            ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
             if (pgroup)
             {
                 unsigned int imemberCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
@@ -2267,7 +2270,7 @@ unsigned int FUN_009931c0_shell::CountCombatGroupMembers(Actor* apActor, unsigne
         *apNumLost = 0;
     for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
     {
-        ActorCombatGroup* pgroup = (ActorCombatGroup*)*((Arr*)this)->GetAt(i);
+        ActorCombatGroup* pgroup = SimpleArrayItem<ActorCombatGroup*>(this, i);
         if (pgroup && (!apActor || reinterpret_cast<::FUN_009865b0_shell *>((pgroup))->FUN_009865b0((intptr_t)(apActor))))
         {
             unsigned int igroupCount = reinterpret_cast<::FUN_00990890_shell *>((pgroup))->FUN_00990890();
@@ -2467,7 +2470,7 @@ void FUN_009932d0_shell::FUN_009932d0(BGSSaveFormBuffer* apBuffer)
         unsigned int uiPos2;
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00658930_class *>((((Arr*)this)))->GetShortAtOffsetA(); i++)
         {
-            Flt* pItem = (Flt*)*((Arr*)this)->GetAt(i);
+            Flt* pItem = SimpleArrayItem<Flt*>(this, i);
             if (pItem)
             {
                 unsigned int uiNext;
@@ -2475,7 +2478,7 @@ void FUN_009932d0_shell::FUN_009932d0(BGSSaveFormBuffer* apBuffer)
                     unsigned int uiID = *pItem;
                     reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&uiID, 4, 0);
                 }
-                uiNext = (unsigned int)((::BSSimpleList<void *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<void*>*)pItem)))->FUN_00726070()));
+                uiNext = reinterpret_cast<::CombatGroupFields*>(pItem)->unk04;
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&uiNext, 4, 0);
                 reinterpret_cast<::SavedCombatState *>((((S0098de90*)pItem)))->WriteToStream((::CombatWriter *)(apBuffer));
                 uiSavedCount++;

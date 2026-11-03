@@ -7030,7 +7030,7 @@ void OwnerBase::FUN_00908cd0(Actor* apActor, TESObjectREFR* apRef, int a3)
     reinterpret_cast<::TESPackage *>((pPackage))->SetMustReachLocation(true);
     reinterpret_cast<::TESPackage *>((pPackage))->SetMustComplete(true);
     reinterpret_cast<::fnv_00671d30::FUN_00671d30_shell *>((pPackage))->FUN_00671d30((::fnv_00671d30::LocationDescriptor *)(((int)(reinterpret_cast<::BGSMessageInitAccess *>((((PkgObj*)vfn_22c())))->GetIconFormID()))));
-    reinterpret_cast<::FUN_0067f1f0_shell *>((((::PkgData *)(reinterpret_cast<::TESPackageFields *>((pPackage))->location))))->FUN_0067f1f0(reinterpret_cast<::FUN_006784c0_shell *>((((RefArg*)apRef)))->FUN_006784c0());
+    reinterpret_cast<::FUN_0067f1f0_shell *>((((::PkgData *)(reinterpret_cast<::PackageFields *>((pPackage))->pLocation))))->FUN_0067f1f0(reinterpret_cast<::FUN_006784c0_shell *>((((RefArg*)apRef)))->FUN_006784c0());
     reinterpret_cast<::FUN_00672fc0_shell *>((pPackage))->FUN_00672fc0((::PackageTargetRecord *)(::PkgData *)(((::PkgData *)(reinterpret_cast<::Script *>((((PkgObj*)vfn_22c())))->GetData()))));
     reinterpret_cast<::TESPackage *>((pPackage))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(6));
     reinterpret_cast<::PackageTargetRecord *>((((::PkgData *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->SetTargetKind((::PACK_TARG_TYPE)(0));
@@ -9852,13 +9852,13 @@ void* ActorShell::FUN_0090f3f0(Ref* apRef)
     {
     case 0:
     case 50:
-        if (((void *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (((void *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
             result = ((void *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(apRef))));
         else
             result = ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((apRef))->FUN_00575d70()));
         break;
     case 47:
-        if (reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((void *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (reinterpret_cast<::C901C50Object *>((package))->IsFlag4Clear() && ((void *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
             result = ((void *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(apRef))));
         else if (v74())
             result = ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((v74()))->FUN_00575d70()));
@@ -9881,7 +9881,7 @@ void* ActorShell::FUN_0090f3f0(Ref* apRef)
         break;
     case 4:
     case 5:
-        if (((void *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (((void *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
             result = ((void *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(apRef))));
         else
             result = ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((apRef))->FUN_00575d70()));
@@ -9895,7 +9895,7 @@ void* ActorShell::FUN_0090f3f0(Ref* apRef)
             result = ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((apRef))->FUN_00575d70()));
         break;
     case 7:
-        if (((void *)(reinterpret_cast<::TESPackageFields *>((package))->location)))
+        if (((void *)(reinterpret_cast<::PackageFields *>((package))->pLocation)))
             result = ((void *)(reinterpret_cast<::fnv_00675a50::FUN_00675a50_shell *>((package))->FUN_00675a50((::MobileObject *)(apRef))));
         else
             result = ((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((apRef))->FUN_00575d70()));
@@ -11961,7 +11961,7 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
                 void* ownerTmp = 0;
                 if (xData != 0 && reinterpret_cast<::FUN_0041c8d0_shell *>((xData))->FUN_0041c8d0())
                     ownerTmp = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Actor*)reinterpret_cast<::FUN_0041c8d0_shell *>((xData))->FUN_0041c8d0())))->FUN_0084e3a0()));
-                AcquireRef* location = ((::AcquireRef *)(reinterpret_cast<::LocationDescriptor *>((((::PackageTargetData *)(reinterpret_cast<::TESPackageFields *>((packageNum))->location))))->GetLocationReference()));
+                AcquireRef* location = ((::AcquireRef *)(reinterpret_cast<::LocationDescriptor *>((((::PackageTargetData *)(reinterpret_cast<::PackageFields *>((packageNum))->pLocation))))->GetLocationReference()));
                 if (location == 0)
                     location = (AcquireRef*)m_pReference40;
                 if (location != 0 && ((intptr_t)(reinterpret_cast<::s55d310::Owner *>((location))->FUN_0055d310())))
@@ -11973,7 +11973,7 @@ void AcquireProcess::FUN_00909430(AcquireActor* actor)
                     if (((::EntryExtendList *)(::FUN_00559450((int *)(entry)))))
                         xData = *((::ExtraDataList **)(((::Vec3 *)(void *)(((::EntryExtendList *)(::FUN_00559450((int *)(entry))))))));
                     NiPoint3* posVal = 0;
-                    PackageTargetData* target = ((::PackageTargetData *)(reinterpret_cast<::TESPackageFields *>((packageNum))->location));
+                    PackageTargetData* target = ((::PackageTargetData *)(reinterpret_cast<::PackageFields *>((packageNum))->pLocation));
                     PackageLocationData* packageLocation = ((::PackageLocationData *)(reinterpret_cast<::Script *>((packageNum))->GetData()));
                     if (target != 0)
                     {
@@ -12722,15 +12722,15 @@ TESObjectREFR* LowProcessTarget::FUN_0090e970(TargetActor* actor, bool useCurren
     case 5:
     case 7:
     case 50:
-        target2 = ((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location)) ? reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location))))->GetLocationReference() : 0;
+        target2 = ((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation)) ? reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation))))->GetLocationReference() : 0;
         if (!target2)
             target2 = ((::TargetProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) ? ((::TargetProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_514() : 0;
         if (!target2)
             target2 = actor;
         break;
     case 47:
-        if (reinterpret_cast<::C901C50Object *>((package2))->IsFlag4Clear() && ((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location)))
-            target2 = reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location))))->GetLocationReference();
+        if (reinterpret_cast<::C901C50Object *>((package2))->IsFlag4Clear() && ((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation)))
+            target2 = reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation))))->GetLocationReference();
         else
         {
             TargetProcess* aProcess = ((::TargetProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
@@ -12745,8 +12745,8 @@ TESObjectREFR* LowProcessTarget::FUN_0090e970(TargetActor* actor, bool useCurren
         }
         break;
     case 54:
-        if (((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location)))
-            target2 = reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::TESPackageFields *>((package2))->location))))->GetLocationReference();
+        if (((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation)))
+            target2 = reinterpret_cast<::LocationDescriptor *>((((::PackageTargetView *)(reinterpret_cast<::PackageFields *>((package2))->pLocation))))->GetLocationReference();
         if (!target2)
             target2 = ((::TargetProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) ? ((::TargetProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->vfn_514() : 0;
         if (!target2)

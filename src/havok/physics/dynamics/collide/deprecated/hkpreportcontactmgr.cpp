@@ -68,6 +68,14 @@ FUN_00cfcc30_class* FUN_00cfcc30_class::FUN_00cfcc30(unsigned char flags)
     return this;
 }
 
+// hkpEntity members read by the report contact manager (32-bit offsets).
+struct ReportEntityFields
+{
+    char pad00[0xaa];
+    unsigned short m_usNextProcessCallbackDelay;  // +0xaa
+    char padac[0x158];
+    unsigned short m_contactListenerCount;        // +0x204, m_contactListeners size
+};
 struct GameNode
 {
     unsigned int unknown00;
@@ -76,7 +84,7 @@ struct GameNode
 
     unsigned short activityFlag() const
     {
-        return *reinterpret_cast<const unsigned short*>(reinterpret_cast<const unsigned char*>(this) + 0x204);
+        return reinterpret_cast<const ReportEntityFields*>(this)->m_contactListenerCount;
     }
 };
 
@@ -88,18 +96,21 @@ struct InputRecord
     GameNode* primary;
     GameNode* secondary;
     void* tertiary;
+    unsigned char m_member18[0x14];  // +0x18
+    unsigned char m_member2c[0x24];  // +0x2c
+    unsigned char m_member50[1];     // +0x50
 
     void* member18()
     {
-        return reinterpret_cast<unsigned char*>(this) + 0x18;
+        return m_member18;
     }
     void* member2c()
     {
-        return reinterpret_cast<unsigned char*>(this) + 0x2c;
+        return m_member2c;
     }
     void* member50()
     {
-        return reinterpret_cast<unsigned char*>(this) + 0x50;
+        return m_member50;
     }
 };
 
@@ -159,9 +170,17 @@ struct CFCA90Shape
     int m_type, m_flags, m_uiContentCount, m_kSmartReference;
     signed char m_subshapeOffset;
 };
+// hkpProcessCdPoint (0x30 bytes).
+struct CFCA90CdPoint
+{
+    unsigned char m_bytes[0x30];
+};
+// hkpProcessCollisionOutput: the first free contact point, then the points at +0x10.
 struct CFCA90Range
 {
     char* m_kRayEnd;
+    char pad04[0xc];
+    CFCA90CdPoint m_contactPoints[1];  // +0x10
 };
 struct CFCA90Object;
 struct CFCA90Work
@@ -186,24 +205,24 @@ void CFCA90Object::ProcessShapePair(CFCA90Shape* shapeA, CFCA90Shape* shapeB, vo
 {
     if (m_remainingCount-- != 0)
         return;
-    char* partA = (char*)shapeA + shapeA->m_subshapeOffset;
-    char* partB = (char*)shapeB + shapeB->m_subshapeOffset;
-    unsigned short countB = *(unsigned short*)(partB + 0xaa);
-    unsigned short countA = *(unsigned short*)(partA + 0xaa);
+    ReportEntityFields* partA = reinterpret_cast<ReportEntityFields*>((char*)shapeA + shapeA->m_subshapeOffset);
+    ReportEntityFields* partB = reinterpret_cast<ReportEntityFields*>((char*)shapeB + shapeB->m_subshapeOffset);
+    unsigned short countB = partB->m_usNextProcessCallbackDelay;
+    unsigned short countA = partA->m_usNextProcessCallbackDelay;
     unsigned short nextCount = countA < countB ? countA : countB;
     CFCA90Work work;
     work.m_firstShape = shapeA;
     work.m_secondShape = shapeB;
     work.m_range = range;
     m_remainingCount = nextCount;
-    int entries = (int)(range->m_kRayEnd - ((char*)range + 16)) / 48;
+    int entries = (int)(range->m_kRayEnd - (char*)range->m_contactPoints) / (int)sizeof(CFCA90CdPoint);
     work.m_pOwnerObject = this;
     for (int iIndex = entries - 1; iIndex >= 0; --iIndex)
         work.m_scratchIndices[iIndex] = 0;
     ::NotifyShapeSetListeners((::D019B0World *)(m_controller), (::D019B0Event *)(void *)(&work));
-    if (*(unsigned short*)(partA + 0x204))
+    if (partA->m_contactListenerCount)
         ::FUN_00d00270(partA, (::TaskContext *)(void *)(&work));
-    if (*(unsigned short*)(partB + 0x204))
+    if (partB->m_contactListenerCount)
         ::FUN_00d00270(partB, (::TaskContext *)(void *)(&work));
 }
 
@@ -252,9 +271,9 @@ void ContactDispatcher::DispatchContact(void* arg1, void* arg2)
     data.m_iSecondInteger = second;
     data.m_arg1 = arg1;
     ::FUN_00d01900((::WorldD *)(collidable), (*(::RemovedEvent *)(&data)));
-    if (*(unsigned short*)((char*)first + 0x204) != 0)
+    if (reinterpret_cast<ReportEntityFields*>(first)->m_contactListenerCount != 0)
         ::FUN_00d001c0((::CManager *)(first), (::CEvent *)(::ContactEvent *)(&data));
-    if (*(unsigned short*)((char*)second + 0x204) != 0)
+    if (reinterpret_cast<ReportEntityFields*>(second)->m_contactListenerCount != 0)
         ::FUN_00d001c0((::CManager *)(second), (::CEvent *)(::ContactEvent *)(&data));
 }
 

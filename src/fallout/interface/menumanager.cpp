@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <new>
+#include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0071f570_ModelList.h"

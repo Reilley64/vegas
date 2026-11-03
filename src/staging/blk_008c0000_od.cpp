@@ -208,7 +208,7 @@ struct FUN_008c5000_item;
 struct FUN_008c5000_shell
 {
     FUN_008c5000_item* FUN_008c5000(int);
-    int IsNonZero(int arg);
+    int IsNonZero(intptr_t arg);
 };
 
 // @fnv 0x008c4fe0

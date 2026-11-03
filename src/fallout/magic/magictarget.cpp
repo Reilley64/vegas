@@ -1,5 +1,6 @@
 // fallout/magic/magictarget.cpp: MagicTarget, TESSpellList, MagicCaster, MagicSystem and more (39 functions)
 
+#include <cstdio>
 #include <cstdint>
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"

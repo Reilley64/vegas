@@ -105342,7 +105342,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
     }
     else
     {
-        ::FUN_009b5120((std::intptr_t)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
+        ::FUN_009b5120((std::intptr_t)(Node9b *)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
     }
 
     ((ThisV*)this)->V202(((ThisV*)this)->V203() + 1);

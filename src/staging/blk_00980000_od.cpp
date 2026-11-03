@@ -1490,7 +1490,7 @@ struct FUN_00995980_class
 {
     int m_00;
     void** m_04;
-    void SetEntry(int index, int value, float amount);
+    void SetEntry(int index, intptr_t value, float amount);
 };
 
 // Stores value and amount into the arrays at offsets 8 and 0xb8 for index, then calls SetQuantity on the object at this+4.

@@ -1,5 +1,6 @@
 // fallout/interface/menus/dialogmenu.cpp: DialogMenu, TESTopicInfo, Interface, ListBoxProxy (19 functions)
 
+#include <cstring>
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>

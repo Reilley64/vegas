@@ -1,5 +1,6 @@
 // fallout/misc/seendata.cpp: SeenData, IntSeenData, SeenData_S, SeenDataShell and more (25 functions)
 
+#include <cstring>
 #include <new>
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_004bc1f0_S.h"

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/chargenmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/chargenmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"

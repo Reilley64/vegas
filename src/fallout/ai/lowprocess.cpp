@@ -1,5 +1,6 @@
 // fallout/ai/lowprocess.cpp: LowProcess, ActorX, DelStandIn, LowProcessProxy and more (123 functions)
 
+#include <cstdio>
 #include <cstdint>
 #include <new>
 #include "fnv/decl/Actor467.h"

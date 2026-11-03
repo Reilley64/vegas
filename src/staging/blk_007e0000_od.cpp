@@ -1172,9 +1172,9 @@ struct TileX
 struct Entry
 {
     TileX* tile;
-    int data;
+    intptr_t data;
     int extra;
-    Entry(TileX*, int*);
+    Entry(TileX*, intptr_t*);
 };
 struct Entries
 {

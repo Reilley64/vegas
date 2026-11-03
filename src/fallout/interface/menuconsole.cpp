@@ -1,5 +1,6 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
+#include <cstdio>
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/A0F8Self.h"

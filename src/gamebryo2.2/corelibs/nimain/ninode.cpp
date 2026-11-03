@@ -306,11 +306,11 @@ struct FUN_00a5db30_shell : public NiNode
 // @fnv 0x00a5db30
 void FUN_00a5db30_shell::FUN_00a5db30()
 {
-    int* pParent = *(int**)&this->m_pParentNode;
-    (*(void(**)(void*))(*(intptr_t*)this + 0xbc))(this);
+    void* pParent = this->m_pParentNode;
+    (*(void(**)(void*))(*(void***)this + 0xbc / 4))(this);
     if (pParent)
     {
-        (*(void(**)(void*))(*pParent + 0xfc))(pParent);
+        (*(void(**)(void*))(*(void***)pParent + 0xfc / 4))(pParent);
     }
 }
 

@@ -421,7 +421,7 @@ void FUN_00e92f70(intptr_t param_1)
         int* piVar1 = *(int**)(param_1 + 0x288);
         if (DAT_0126fa18 != 0)
         {
-            (**(void(**)(int))(*(intptr_t*)DAT_0126fa18 + 8))(DAT_0126fa18);
+            (**(void(**)(int))(*(void***)DAT_0126fa18 + 2))(DAT_0126fa18);
         }
         DAT_0126fa18 = (intptr_t)piVar1;
         if (piVar1 != 0)
@@ -434,7 +434,7 @@ void FUN_00e92f70(intptr_t param_1)
     DAT_0126fa20 = 0;
     if (DAT_0126fa18 != 0)
     {
-        (**(void(**)(int))(*(intptr_t*)DAT_0126fa18 + 8))(DAT_0126fa18);
+        (**(void(**)(int))(*(void***)DAT_0126fa18 + 2))(DAT_0126fa18);
     }
     DAT_0126fa18 = 0;
 }

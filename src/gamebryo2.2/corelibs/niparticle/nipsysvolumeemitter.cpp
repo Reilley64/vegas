@@ -148,14 +148,14 @@ void FUN_00c31cf0_shell::ComputeEmitterInitialPositionAndVelocity(NiPoint3* kPos
         NiTransform kInvPSys;
         kPSys.CalculateInverse(kInvPSys);
         NiTransform kEmitterToPSys = kInvPSys * kEmitter;
-        ((ComputeVolumeInitialPositionAndVelocity_t)(*(int**)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
+        ((ComputeVolumeInitialPositionAndVelocity_t)(*(void***)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
                                                                               kMotionVelocity);
     }
     else
     {
         NiTransform kEmitterToPSys;
         kEmitterToPSys.ResetToIdentity();
-        ((ComputeVolumeInitialPositionAndVelocity_t)(*(int**)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
+        ((ComputeVolumeInitialPositionAndVelocity_t)(*(void***)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
                                                                               kMotionVelocity);
     }
 }

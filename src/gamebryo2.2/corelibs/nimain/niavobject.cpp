@@ -124,9 +124,9 @@ struct FUN_00a59c90_shell
 // @fnv 0x00a59c90
 void FUN_00a59c90_shell::FUN_00a59c90(NiUpdateData& aUpdateData)
 {
-    ((void(*)(void*, void*, int))(*(int**)this)[42])(this, &aUpdateData, 0);
+    ((void(*)(void*, void*, int))(*(void***)this)[42])(this, &aUpdateData, 0);
     if (*(int**)((char*)this + 0x18))
-        ((void(*)(void*))(*(int**)(*(int**)((char*)this + 0x18)))[63])(*(int**)((char*)this + 0x18));
+        ((void(*)(void*))(*(void***)(*(void***)((char*)this + 0x18)))[63])(*(void***)((char*)this + 0x18));
 }
 
 struct NiNode;

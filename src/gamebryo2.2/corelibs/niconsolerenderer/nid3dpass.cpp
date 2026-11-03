@@ -478,7 +478,7 @@ void __cdecl FUN_00e7f920(intptr_t pObject)
         {
             intptr_t obj = DAT_0126f720;
             intptr_t vtbl = *(int*)obj;
-            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
+            void(* release)(int) = (void(*)(int)) * ((void**)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = state;
@@ -486,7 +486,7 @@ void __cdecl FUN_00e7f920(intptr_t pObject)
         {
             intptr_t obj = state;
             intptr_t vtbl = *(int*)obj;
-            void(* addRef)(int) = (void(*)(int)) * ((int*)vtbl + 1);
+            void(* addRef)(int) = (void(*)(int)) * ((void**)vtbl + 1);
             addRef(obj);
         }
         DAT_0126f728 = *(int*)((char*)DAT_0126f724 + 0x8b8);
@@ -497,7 +497,7 @@ void __cdecl FUN_00e7f920(intptr_t pObject)
         {
             intptr_t obj = DAT_0126f720;
             intptr_t vtbl = *(int*)obj;
-            void(* release)(int) = (void(*)(int)) * ((int*)vtbl + 2);
+            void(* release)(int) = (void(*)(int)) * ((void**)vtbl + 2);
             release(obj);
         }
         DAT_0126f720 = 0;
@@ -937,7 +937,7 @@ void FUN_00e7e8d0(intptr_t pObject)
         if (DAT_0126f6c0)
         {
             typedef void(* ReleaseFunction)(int);
-            ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
+            ReleaseFunction release = (ReleaseFunction) * (int**)(*(void***)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
         DAT_0126f6c0 = pNewObject;
@@ -954,7 +954,7 @@ void FUN_00e7e8d0(intptr_t pObject)
         if (DAT_0126f6c0)
         {
             typedef void(* ReleaseFunction)(int);
-            ReleaseFunction release = (ReleaseFunction) * (int**)(*(int**)DAT_0126f6c0 + 2);
+            ReleaseFunction release = (ReleaseFunction) * (int**)(*(void***)DAT_0126f6c0 + 2);
             release(DAT_0126f6c0);
         }
         DAT_0126f6c0 = 0;

@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
 #include <intrin.h>
 #include <new>
 #include <windows.h>
@@ -1277,12 +1278,12 @@ void __cdecl FUN_00ce5300()
 class FUN_00ce5360_This
 {
   public:
-// @fnv 0x00ce5360
     virtual ~FUN_00ce5360_This()
     {}
     unsigned int FUN_00ce5360(unsigned int arg);
 };
 
+// @fnv 0x00ce5360
 unsigned int FUN_00ce5360_This::FUN_00ce5360(unsigned int arg)
 {
     return reinterpret_cast<unsigned int>(this);
@@ -4818,10 +4819,6 @@ struct RotationX {
     void operator=(const RotationX& a) { vec=a.vec; }
     void flipped(const VectorX&);
     __forceinline const VectorX& imag() const { return vec; }
-    void FUN_00cd9d10(const VectorX&, const VectorX&) throw();
-    void FUN_00c74ac0(const RotationX&, const RotationX&) throw();
-    void FUN_00ce0ca0(const RotationX&) throw();
-    void FUN_00c66320(const RotationX&, const RotationX&) throw();
 };
 
 __forceinline void VectorX::rotate(const RotationX& q,const VectorX& dir) {
@@ -4841,61 +4838,6 @@ static __forceinline __m128 reciprocalRootX(__m128 a) {
     __m128 r=_mm_rsqrt_ps(a);
     return _mm_mul_ps(_mm_mul_ps(_mm_set1_ps(0.5f),r),_mm_sub_ps(_mm_set1_ps(3.0f),_mm_mul_ps(_mm_mul_ps(r,a),r)));
 }
-__declspec(noinline) void RotationX::FUN_00cd9d10(const VectorX& from,const VectorX& to) throw() {
-    __m128 dp=from.dot(to).splat();
-    __m128 nearOne=_mm_set1_ps(1.0f-1e-5f);
-    __m128 nearNegative=_mm_set1_ps(-(1.0f-1e-3f));
-    if(_mm_movemask_ps(_mm_cmpgt_ps(dp,nearOne))) {
-        vec.quad()=_mm_set_ps(1.0f,0.0f,0.0f,0.0f);
-    } else if(_mm_movemask_ps(_mm_cmplt_ps(dp,_mm_sub_ps(_mm_setzero_ps(),nearOne)))) {
-        flipped(from);
-    } else {
-        __m128 half=_mm_set1_ps(0.5f);
-        __m128 c=_mm_add_ps(half,_mm_mul_ps(half,dp));
-        __m128 inv=reciprocalRootX(c);
-        VectorX perpendicular; perpendicular.cross(from,to);
-        __m128 amount=_mm_mul_ps(half,inv);
-        if(_mm_movemask_ps(_mm_cmplt_ps(dp,nearNegative))) {
-            __m128 sineSquared=_mm_sub_ps(c,dp);
-            __m128 lengthSquared=perpendicular.dot(perpendicular).quad();
-            __m128 lenInv=_mm_rsqrt_ss(lengthSquared);
-            lenInv=_mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f),lenInv),_mm_sub_ss(_mm_set_ss(3.0f),_mm_mul_ss(_mm_mul_ss(lengthSquared,lenInv),lenInv)));
-            lenInv=_mm_andnot_ps(_mm_cmpeq_ss(lengthSquared,_mm_setzero_ps()),lenInv);
-            amount=_mm_mul_ps(reciprocalRootX(sineSquared),sineSquared);
-            amount=_mm_mul_ps(_mm_shuffle_ps(lenInv,lenInv,0),amount);
-        }
-        perpendicular.quad()=_mm_mul_ps(perpendicular.quad(),amount);
-        __m128 real=_mm_mul_ps(c,inv);
-        vec.quad()=_mm_shuffle_ps(perpendicular.quad(),_mm_unpackhi_ps(perpendicular.quad(),real),0xc4);
-    }
-}
-
-inline void RotationX::FUN_00c66320(const RotationX& a,const RotationX& b) throw() {
-    VectorX result; result.cross(a.imag(),b.imag());
-    result.accumulateProduct(a.vec.element(3),b.imag());
-    result.accumulateProduct(b.vec.element(3),a.imag());
-    VectorX d; d.fill(a.vec.dot(b.vec));
-    VectorX real; real.product(a.vec,b.vec); real.subtract(d);
-    vec.pack(result,real);
-}
-
-inline void RotationX::FUN_00ce0ca0(const RotationX& b) throw() {
-    VectorX result; result.cross(imag(),b.imag());
-    result.accumulateProduct(vec.element(3),b.imag());
-    result.accumulateProduct(b.vec.element(3),imag());
-    VectorX d; d.fill(imag().dot(b.imag()));
-    VectorX real; real.product(vec,b.vec); real.subtract(d);
-    vec.pack(result,real);
-}
-
-inline void RotationX::FUN_00c74ac0(const RotationX& a,const RotationX& b) throw() {
-    VectorX result; result.cross(b.imag(),a.imag());
-    result.subtractProduct(a.vec.element(3),b.imag());
-    result.accumulateProduct(b.vec.element(3),a.imag());
-    VectorX real; real.fill(a.vec.dot4(b.vec));
-    vec.pack(result,real);
-}
-
 struct PoseX { VectorX translation; RotationX rotation; VectorX scale;
     __forceinline const VectorX& position() const { return translation; }
     __forceinline const RotationX& orient() const { return rotation; }
@@ -5004,18 +4946,6 @@ template<class T> struct BufferX {
     __forceinline ~BufferX() throw() { *(T**)static_cast<AudioHolder*>(::FUN_00c85750())=data.get(); }
 };
 
-static __declspec(noinline) void FUN_00ce2a50(VectorX& a,VectorX& b) throw() {
-    VectorX al; al.quad()=a.dot(a).splat();
-    VectorX bl; bl.quad()=b.dot(b).splat();
-    VectorX packed;
-    packed.quad()=_mm_shuffle_ps(al.quad(),_mm_unpackhi_ps(al.quad(),bl.quad()),0xc4);
-    __m128 root=_mm_rsqrt_ps(packed.quad());
-    __m128 correction=_mm_mul_ps(_mm_mul_ps(root,packed.quad()),root);
-    __m128 inverse=_mm_mul_ps(_mm_mul_ps(::DAT_010c71d0,root),_mm_sub_ps(::DAT_010c71c0,correction));
-    a.multiply(ScalarX(_mm_shuffle_ps(inverse,inverse,0)));
-    b.multiply(ScalarX(_mm_shuffle_ps(inverse,inverse,0xff)));
-}
-
 // @fnv 0x00ce3090
 void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const short* mapA,const short* mapB,bool additive) const {
     {
@@ -5100,11 +5030,11 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             int a=r.a,c=r.c,b=r.b,d=r.d;
             if(sparse) { a=mapA[a];c=mapB[c];b=mapA[b];d=mapB[d]; }
             ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[c]),(const __m128 *)&(r.root),(const __m128 *)&(input[a]));
-            FUN_00ce2a50(posA,posB);
-            RotationX shortest; shortest.FUN_00cd9d10(posB,posA);
+            FUN_00ce2a50((FourFloatVector*)&posA,(FourFloatVector*)&posB);
+            RotationX shortest; reinterpret_cast<::fnv_00cd9d10::Q_00cd9d10 *>(&shortest)->FUN_00cd9d10((const __m128 *)&posB,(const __m128 *)&posA);
             RotationX offset; offset.vec=r.end.translation;
             RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
-            output[c].rotation.FUN_00ce0ca0(applied);
+            reinterpret_cast<::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&output[c].rotation)->FUN_00ce0ca0(*reinterpret_cast<const ::fnv_00ce0ca0::FUN_00ce0ca0_Quaternion *>(&applied));
             ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), nullptr, (const __m128 *)&(r.end.rotation), (const __m128 *)&(input[b].rotation));
         }
     }

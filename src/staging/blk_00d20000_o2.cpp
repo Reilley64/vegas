@@ -4092,16 +4092,6 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
 
 __declspec(noinline) void __cdecl FUN_00d36c30(void* apObject);
 
-__declspec(noinline) void __cdecl FUN_00d36bb0(CollisionAgentFunctionTable* f)
-{
-    f->a = (void*)(void (__cdecl*)())&FUN_00d36b70;
-    f->b = (void*)&((void (&)())::FUN_00d34790);
-    f->c = (void*)(void (__cdecl*)())&((void (&)())::QueryClosestPoints);
-    f->d = (void*)&((void (&)())::fnv_00d34810::FUN_00d34810);
-    f->e = 0;
-    f->f = 1;
-}
-
 // Fills a function table via FUN_00d36c30 and passes it to agent->FUN_00cfbbe0 with (9, -1), then refills via FUN_00d36bb0 and passes it with (-1, 9).
 // @fnv 0x00d36c60
 void __cdecl FUN_00d36c60(void* apAgent)
@@ -4114,7 +4104,7 @@ void __cdecl FUN_00d36c60(void* apAgent)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((agent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&funcs), 9, -1);
     funcs.e = 0;
     funcs.f = 0;
-    FUN_00d36bb0(&funcs);
+    FUN_00d36bb0((void**)&funcs);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((agent))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)(::CollisionAgentFunctionTable *)(&funcs), -1, 9);
 }
 

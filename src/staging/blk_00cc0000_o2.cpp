@@ -22975,8 +22975,6 @@ FUN_00ccbc00::~FUN_00ccbc00() {
 }
 
 class S00ccd2c0_Obj {
-public:
-    void FUN_00ccd170(float value);
 };
 
 struct S00ccd2c0_Arg2 {
@@ -22994,13 +22992,6 @@ public:
     int FUN_00c84df0(void* a1, S00ccd2c0_Arg2* a2);
     int FUN_00ccd2c0(void* a1, S00ccd2c0_Arg2* a2);
 };
-
-static volatile float S00ccd2c0_sink;
-
-__declspec(noinline) void S00ccd2c0_Obj::FUN_00ccd170(float value)
-{
-    S00ccd2c0_sink = value;
-}
 
 // Gets an object via v45, passes a2->m_10 to its FUN_00ccd170 when it is not 1.0f, then returns FUN_00c84df0(a1, a2).
 // @fnv 0x00ccd2c0

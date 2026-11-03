@@ -2257,17 +2257,24 @@ struct D85Node5 {
     virtual void v05(D85Msg m);
 };
 
-static __declspec(noinline) D85Ctn* FUN_00d85d40(D85Ctn* c) {
-    for (int i = c->count - 1; i >= 0; --i) {
-        if (c->entries[i] != 0) continue;
-        c->count -= 1;
-        unsigned int cnt = c->count;
-        if (i < (int)cnt) {
-            for (int j = i; j < (int)cnt; ++j)
-                c->entries[j] = c->entries[j + 1];
+struct ListenerArray {
+    void** m_ppItems;
+    unsigned short m_wCount;
+};
+
+// Removes null entries from the listener array by shifting subsequent items down and decrementing the count.
+// @fnv 0x00d85d40
+static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
+{
+    for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
+    {
+        if (pArr->m_ppItems[i] == 0)
+        {
+            pArr->m_wCount--;
+            for (int j = i; j < (int)pArr->m_wCount; j++)
+                pArr->m_ppItems[j] = pArr->m_ppItems[j + 1];
         }
     }
-    return c;
 }
 
 // @fnv 0x00d85fa0
@@ -2301,7 +2308,7 @@ void __cdecl FUN_00d85fa0(D85Msg a) {
             }
         } while (--i >= 0);
     }
-    FUN_00d85d40(ctn);
+    FUN_00d85d40((ListenerArray*)ctn);
 }
 
 struct NiBinaryStreamD861 {
@@ -3136,18 +3143,6 @@ struct D90Node {
     virtual void v03(D90Owner* pOwner);
 };
 
-static __declspec(noinline) D90Ctn* FUN_00d85d40(D90Ctn* c) {
-    for (int i = c->count - 1; i >= 0; --i) {
-        if (c->entries[i] != 0) continue;
-        c->count -= 1;
-        unsigned int cnt = c->count;
-        if (i < (int)cnt) {
-            for (int j = i; j < (int)cnt; ++j)
-                c->entries[j] = c->entries[j + 1];
-        }
-    }
-    return c;
-}
 
 // Iterates the owner's listener array in reverse, records a TtconAddCb/Et profiling event around each v01 call, then compacts the array.
 // @fnv 0x00d85d90
@@ -3181,7 +3176,8 @@ D90Ctn* __cdecl FUN_00d85d90(D90Owner* pOwner) {
             }
         } while (--i >= 0);
     }
-    return FUN_00d85d40(ctn);
+    FUN_00d85d40((ListenerArray*)ctn);
+    return ctn;
 }
 
 struct hkTimerCommand {
@@ -3233,14 +3229,6 @@ struct hkpConstraintInstance {
     ResizableArray<hkpConstraintListener*> m_kListeners;
 };
 
-static void FUN_00d85d40(ResizableArray<hkpConstraintListener*>& cleanupArray)
-{
-    for (int i = cleanupArray.GetLogicalSize() - 1; i >= 0; i--) {
-        if (cleanupArray[i] == 0) {
-            cleanupArray.removeAtAndCopy(i);
-        }
-    }
-}
 
 // Invokes ConstraintRemovedCallback on each non-null listener in the constraint's listener array, then removes null entries.
 // @fnv 0x00d85e40
@@ -3255,7 +3243,7 @@ void __cdecl NotifyConstraintRemoved(hkpConstraintInstance* constraint)
             hkTimer("Et", ticks[1]);
         }
     }
-    FUN_00d85d40(listen);
+    FUN_00d85d40((ListenerArray*)&listen);
 }
 
 
@@ -4934,25 +4922,6 @@ __m128 __cdecl FUN_00d98620()
     return DAT_011b6de0;
 }
 
-struct ListenerArray {
-    void** m_ppItems;
-    unsigned short m_wCount;
-};
-
-// Removes null entries from the listener array by shifting subsequent items down and decrementing the count.
-// @fnv 0x00d85d40
-static __declspec(noinline) void FUN_00d85d40(ListenerArray* pArr)
-{
-    for (int i = (int)pArr->m_wCount - 1; i >= 0; i--)
-    {
-        if (pArr->m_ppItems[i] == 0)
-        {
-            pArr->m_wCount--;
-            for (int j = i; j < (int)pArr->m_wCount; j++)
-                pArr->m_ppItems[j] = pArr->m_ppItems[j + 1];
-        }
-    }
-}
 
 struct ListenerOwner {
     int unk00;
@@ -5827,15 +5796,6 @@ struct D86050Stamps {
     unsigned int out;
 };
 
-static __declspec(noinline) void FUN_00d85d40(D86050Arr* arr) {
-    for (int i = (int)arr->m_uiItemCount - 1; i >= 0; --i) {
-        if (arr->m_pElements[i] == 0) {
-            arr->m_uiItemCount = (unsigned short)(arr->m_uiItemCount - 1);
-            for (int j = i; j < (int)arr->m_uiItemCount; ++j)
-                arr->m_pElements[j] = arr->m_pElements[j + 1];
-        }
-    }
-}
 
 // Invokes the v06 callback on each non-null element of the indexed array, bracketing each call with TtconRepairedCb/Et profiler stamps, then compacts the array.
 // @fnv 0x00d86050
@@ -5867,7 +5827,7 @@ void __cdecl FUN_00d86050(D86050Self* self) {
             }
         }
     }
-    FUN_00d85d40(arr);
+    FUN_00d85d40((ListenerArray*)arr);
 }
 }  // namespace fnv_00d86050
 
@@ -6465,7 +6425,6 @@ struct MemberD86 {
     unsigned char type;
     unsigned char subType;
     short extent;
-    __declspec(noinline) int FUN_00d86b30() { return subType; }
 };
 
 // @fnv 0x00d86ec0
@@ -7291,7 +7250,6 @@ void FUN_00d94eb0(d94eb0_cls* dst);
 
 void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 
-void FUN_00d85d40(ListenerArray* pArr);
 
 struct D863MemoryContext {
     unsigned int saved;

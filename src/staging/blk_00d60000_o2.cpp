@@ -2828,9 +2828,6 @@ void E6C1A0Adjust(int* piValue)
     FUN_00d6c1a0(piValue);
 }
 
-// FUN_00d73400's body must be in-TU so VC9 knows it clobbers only eax:
-// that is what lets the ctor keep `this` live in ECX across the call
-// (matches orig: xor eax,eax; mov [ecx..0xc],eax; call; mov eax,ecx; ret).
 class FUN_00d73410;
 
 struct Z0
@@ -2839,16 +2836,7 @@ struct Z0
     int m_iUnk04;
     int m_iUnk08;
     int m_iUnk0C;
-    void FUN_00d73400();
 };
-
-__declspec(noinline) void Z0::FUN_00d73400()
-{
-    m_iUnk00 = 0;
-    m_iUnk04 = 0;
-    m_iUnk08 = 0;
-    m_iUnk0C = 0;
-}
 
 class FUN_00d73410
 {
@@ -3887,7 +3875,7 @@ class CompareBits
     }
 };
 
-class hkVector4
+struct hkVector4
 {
   private:
     hkQuadReal m_vComponents;
@@ -4019,7 +4007,7 @@ class hkVector4
     }
 };
 
-class hkQuaternion
+struct hkQuaternion
 {
   public:
     hkVector4 m_vec;
@@ -4033,23 +4021,10 @@ class hkQuaternion
     }
                 // SetProduct
     void FUN_00cb2850(const hkQuaternion& q0, const hkQuaternion& q1, hkReal t);  // setSlerp
-    inline void FUN_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;  // estimateAngleTo
+    void FUN_00d6bec0(const hkQuaternion& to, hkVector4& angleOut) const;  // estimateAngleTo
 };
 
 extern const hkQuadReal DAT_01017d20;
-
-inline void hkQuaternion::FUN_00d6bec0(const hkQuaternion& target, hkVector4& result) const
-{
-    result.setCross(getImag(), target.getImag());
-    result.subMul4(target.m_vec.getSimdAt(3), getImag());
-    result.addMul4(m_vec.getSimdAt(3), target.getImag());
-    result.add4(result);
-    hkQuadReal d = _mm_mul_ps(target.m_vec.getQuad(), m_vec.getQuad());
-    d = _mm_add_ps(_mm_shuffle_ps(d, d, 78), d);
-    d = _mm_add_ps(_mm_shuffle_ps(d, d, 177), d);
-    if (_mm_movemask_ps(d) & 1)
-        result.getQuad() = _mm_xor_ps(result.getQuad(), DAT_01017d20);
-}
 
 __forceinline void hkVector4::SetRotatedDirection(const hkQuaternion& quat, const hkVector4& direction)
 {
@@ -4353,6 +4328,8 @@ static __declspec(noinline) void FUN_00d6b510(const hkQsTransform* poseLocalSpac
     }
 }
 
+static __declspec(noinline) float FUN_00d6b3c0(__m128* p, float a1, float a2);
+
 static __declspec(noinline) void FUN_00d6b330(hkReal maxLength, hkVector4& v)
 {
     const hkReal lengthSquared = v.lengthSquared3();
@@ -4362,28 +4339,6 @@ static __declspec(noinline) void FUN_00d6b330(hkReal maxLength, hkVector4& v)
         const hkReal factor = (1.0f / localSqrt(lengthSquared)) * maxLength;
         v.mul4(factor);
     }
-}
-
-static __declspec(noinline) hkReal FUN_00d6b3c0(hkReal maxVelocity, hkReal maxDistance, hkVector4& v)
-{
-    const hkReal lengthSquared = v.lengthSquared3();
-    const hkReal maxSquared = maxVelocity * maxVelocity;
-    const hkReal stress = lengthSquared / maxSquared;
-    if (lengthSquared > maxSquared)
-    {
-        const hkReal distSquared = maxDistance * maxDistance;
-        if (lengthSquared < distSquared)
-        {
-            const hkReal factor = localSqrt(maxSquared / lengthSquared);
-            v.mul4(factor);
-        }
-        else
-        {
-            const hkReal factor = maxVelocity * maxDistance / lengthSquared;
-            v.mul4(factor);
-        }
-    }
-    return stress;
 }
 
 // @fnv 0x00d6b8e0
@@ -4462,7 +4417,7 @@ __declspec(noinline) void __cdecl FUN_00d6b8e0(hkReal m_fTimeStep, const Transfo
             snapVelocity.sub4(linearNew);
             snapVelocity.mul4(snapGain);
             const hkReal maxDistance = controlData.m_fSnapMaxLinearDistance * invDeltaTime * snapGain;
-            const hkReal stress = FUN_00d6b3c0(controlData.m_fSnapMaxLinearVelocity, maxDistance, snapVelocity);
+            const hkReal stress = FUN_00d6b3c0((__m128*)&snapVelocity, controlData.m_fSnapMaxLinearVelocity, maxDistance);
             if (output)
                 output[i].m_fOutputValue = stress;
             linearNew.add4(snapVelocity);
@@ -4507,7 +4462,7 @@ __declspec(noinline) void __cdecl FUN_00d6b8e0(hkReal m_fTimeStep, const Transfo
             snapVelocity.sub4(angularNew);
             snapVelocity.mul4(snapGain);
             const hkReal maxDistance = controlData.m_fSnapMaxAngularDistance * invDeltaTime * snapGain;
-            const hkReal stress = FUN_00d6b3c0(controlData.m_fSnapMaxAngularVelocity, maxDistance, snapVelocity);
+            const hkReal stress = FUN_00d6b3c0((__m128*)&snapVelocity, controlData.m_fSnapMaxAngularVelocity, maxDistance);
             if (output)
                 output[i].m_fOutputValue += stress;
             angularNew.add4(snapVelocity);
@@ -4639,10 +4594,10 @@ class FUN_004b4ab0_Class
     }
     __forceinline void _setRotatedDir(const RotationR2& r, const FUN_004b4ab0_Class& v);
     __forceinline void _setMul3(const MatrixR2& r, const FUN_004b4ab0_Class& v);
-    void FUN_004b4ab0(int r, int v);
+    void FUN_004b4ab0(intptr_t r, intptr_t v);
     __forceinline void setRotatedInverseDir(const RotationR2& r, const FUN_004b4ab0_Class& v)
     {
-        FUN_004b4ab0((int)&r, (int)&v);
+        FUN_004b4ab0((intptr_t)&r, (intptr_t)&v);
     }
 };
 
@@ -4678,21 +4633,6 @@ __forceinline void VectorR2::_setMul3(const MatrixR2& r, const VectorR2& v)
     __m128 sz = _mm_shuffle_ps(v.value, v.value, 0xaa);
     __m128 pz = _mm_mul_ps(r.getColumn(2).value, sz);
     value = _mm_add_ps(_mm_add_ps(px, py), pz);
-}
-
-inline void VectorR2::FUN_004b4ab0(int r, int v)
-{
-    const RotationR2& m = *reinterpret_cast<const RotationR2*>(r);
-    __m128 low = _mm_unpacklo_ps(m.getColumn(0), m.getColumn(1));
-    __m128 high = _mm_unpackhi_ps(m.getColumn(0), m.getColumn(1));
-    __m128 cx = _mm_movelh_ps(low, m.getColumn(2));
-    __m128 cy = _mm_shuffle_ps(_mm_movehl_ps(cx, low), m.getColumn(2), 0xd4);
-    __m128 cz = _mm_shuffle_ps(high, m.getColumn(2), 0xe4);
-    const VectorR2& q = *reinterpret_cast<const VectorR2*>(v);
-    __m128 x = _mm_mul_ps(cx, _mm_shuffle_ps(q.value, q.value, 0));
-    __m128 y = _mm_mul_ps(cy, _mm_shuffle_ps(q.value, q.value, 0x55));
-    __m128 z = _mm_mul_ps(cz, _mm_shuffle_ps(q.value, q.value, 0xaa));
-    value = _mm_add_ps(_mm_add_ps(x, y), z);
 }
 
 template <class T> class PaddedR2
@@ -5512,8 +5452,8 @@ static __declspec(noinline) void FUN_00d6c080(Obj4* firstObject, F4* second, F4*
     __m128 d2 = _mm_sub_ps(_mm_load_ps(&first->x), _mm_load_ps(&secondObject->u40.x));
     FUN_004b4ab0_Class r1;
     FUN_004b4ab0_Class r2;
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(r1))->FUN_004b4ab0((int)&firstObject->u50, (int)&firstObject->u20);
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(r2))->FUN_004b4ab0((int)&secondObject->u50, (int)&secondObject->u20);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(r1))->FUN_004b4ab0((intptr_t)&firstObject->u50, (intptr_t)&firstObject->u20);
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(r2))->FUN_004b4ab0((intptr_t)&secondObject->u50, (intptr_t)&secondObject->u20);
     __m128 s = _mm_shuffle_ps(s0, s0, 0);
     __m128 c2 = cross4(d2, r2.m);
     __m128 c1 = cross4(d1, r1.m);

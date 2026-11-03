@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "fnv/symbols_00c85000.h"
+#include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
+#include "fnv/symbols_00cc9000.h"
 #include <intrin.h>
 #include "../../include/layout_support.h"
 #include <xmmintrin.h>
@@ -4529,16 +4531,6 @@ struct ShapeCinfoC97
     float m_vScale;
 };
 
-__declspec(noinline) void __cdecl FUN_00cc96b0(float scale, ShapeC97* shape)
-{
-    if (shape && scale != 1.0f)
-    {
-        __m128 s = _mm_load_ss(&scale);
-        shape->m_v20.m_vComponents = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), shape->m_v20.m_vComponents);
-        shape->m_v30.m_vComponents = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), shape->m_v30.m_vComponents);
-    }
-}
-
 class ShapeClonerC97
 {
   public:
@@ -4563,7 +4555,7 @@ ShapeC97* ShapeClonerC97::FUN_00cc9790(ShapeC97* dst, ShapeCinfoC97* cinfo)
     float scale = cinfo->m_vScale;
     if (scale != 1.0f)
     {
-        FUN_00cc96b0(scale, dst);
+        ::FUN_00cc96b0(scale, (::S00cc96b0_ScaleObject *)dst);
     }
     return ReleaseObject(dst, cinfo);
 }
@@ -5818,8 +5810,8 @@ void CloneOwner513::FUN_00cc7600(FUN_00d4fe80* output, CloneData513* data) {
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(int)(data));
 }
 
-struct S00cc96b0_ScaleObject {
-    int unk00, unk04, unk08, unk0c;
+struct S00cc96b0_ScaleObject : ::hkReferencedObject {
+    int unk08, unk0c;
     int unk10, unk14, unk18, unk1c;
     __m128 vector20;
     __m128 vector30;
@@ -7559,7 +7551,6 @@ public:
     inline void operator=(const NQuaternion& a) {m_vec=a.m_vec;}
     inline const NVector& imag() const {return m_vec;}
     __forceinline void SetConjugate(const NQuaternion& q) {m_vec.negThree(q.imag());}
-    void FUN_00cd9d10(const NVector&,const NVector&);
 };
 
 __forceinline void NVector::SetRotatedDirection(const NQuaternion& q,const NVector& a) {
@@ -7670,42 +7661,7 @@ struct NativeSolver {
     NativeBool cached;
     NVector cachePoint,cacheTarget,drift;
     bool RayCast(const NativeInput&,const NVector&,const NVector&,float&,NVector&) const;
-    bool FUN_00cd8a50(const NativeInput&,const NVector&,const NVector&,NVector&,NVector&) const;
 };
-
-__declspec(noinline) bool NativeSolver::FUN_00cd8a50(const NativeInput& a,const NVector& foot,const NVector& toe,NVector& projected,NVector& normal) const {
-    float above=settings.unk7c, below=settings.unk80;
-    float span=above+below;
-    float fraction0=::DAT_0104da48,fraction1=::DAT_0104da48;
-    NVector start,end,n0,n1;
-    start.setAddMul4(foot,settings.direction,above);
-    end.setAddMul4(foot,settings.direction,-below);
-    bool hit0=RayCast(a,start,end,fraction0,n0),hit1=false;
-    __m128 delta=_mm_and_ps(_mm_sub_ps(toe.quad(),foot.quad()),DAT_01017d10);
-    __m128 epsilonVector=_mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00);
-    if ((_mm_movemask_ps(_mm_cmple_ps(delta,epsilonVector))&7)!=7) {
-        start.setAddMul4(toe,settings.direction,above);
-        end.setAddMul4(toe,settings.direction,-below);
-        hit1=RayCast(a,start,end,fraction1,n1);
-        if (hit1) {
-            float up=n1.dot3(settings.direction);
-            if(up<=0.0f)hit1=false;
-            else {
-                NVector position,ray;
-                ray.setSub4(end,start);position.setAddMul4(start,ray,fraction1);
-                float planeHeight=-float(position.dot3(n1));
-                start.setAddMul4(foot,settings.direction,above);
-                float height=start.dot3(n1);
-                fraction1=-(planeHeight+height)/(-span*up);
-            }
-        }
-    }
-    if(!hit0&&!hit1)return false;
-    if(hit0&&fraction0<=fraction1) {normal=n0;fraction1=fraction0;}
-    else normal=n1;
-    projected.setAddMul4(foot,settings.direction,-(fraction1*span-above));
-    return true;
-}
 
 static __forceinline __m128 rawDot(__m128 a,__m128 b) {
     __m128 p=_mm_mul_ps(a,b);
@@ -7754,34 +7710,6 @@ static __forceinline __m128 normalizedQuaternion(__m128 value) {
     __m128 sum=_mm_add_ps(p,_mm_shuffle_ps(p,p,0x4e));
     sum=_mm_add_ps(sum,_mm_shuffle_ps(sum,sum,0xb1));
     return _mm_mul_ps(value,inverseRoot(sum));
-}
-
-inline void NQuaternion::FUN_00cd9d10(const NVector& from,const NVector& to) {
-    __m128 dot=rawDot(from.quad(),to.quad());
-    dot=_mm_shuffle_ps(dot,dot,0);
-    if (_mm_movemask_ps(_mm_cmpgt_ps(dot,parallelLimit))) m_vec.quad()=quaternionUnit;
-    else if (_mm_movemask_ps(_mm_cmplt_ps(dot,opposedLimit))) {
-        NVector axis;
-        float x=from.quad()[0];
-        if(x> -0.5f && x<0.5f)axis.quad()=axisFirst;
-        else axis.quad()=axisSecond;
-        NVector perpendicular;perpendicular.cross(from,axis);
-        perpendicular(3)=0.0f;
-        m_vec.quad()=normalizedQuaternion(perpendicular.quad());
-    } else {
-        __m128 halfAngle=_mm_mul_ps(quaternionHalf,_mm_add_ps(quaternionOne,dot));
-        __m128 invCosine=inverseRoot(halfAngle);
-        NVector cross;cross.cross(from,to);
-        __m128 factor=_mm_mul_ps(quaternionHalf,invCosine);
-        if(_mm_movemask_ps(_mm_cmplt_ps(dot,correctionLimit))) {
-            __m128 length=rawDot(cross.quad(),cross.quad());
-            length=_mm_shuffle_ps(length,length,0);
-            factor=_mm_mul_ps(_mm_sqrt_ps(_mm_sub_ps(halfAngle,dot)),inverseRoot(length));
-        }
-        __m128 imaginary=_mm_mul_ps(cross.quad(),factor);
-        __m128 real=_mm_mul_ps(halfAngle,invCosine);
-        m_vec.quad()=_mm_shuffle_ps(imaginary,_mm_unpackhi_ps(imaginary,real),0xc4);
-    }
 }
 
 
@@ -7926,7 +7854,7 @@ const NVector& offset=self->drift;
             localUp.SetRotatedDirection(inverse.getRotation(),self->settings.direction);
             localNormal.SetRotatedDirection(inverse.getRotation(),desiredUp);
             NQuaternion rotation,combined,interpolated;
-            rotation.FUN_00cd9d10(localUp,localNormal);
+            reinterpret_cast<::fnv_00cd9d10::Q_00cd9d10 *>(&rotation)->FUN_00cd9d10((const __m128 *)&localUp,(const __m128 *)&localNormal);
             ::fnv_00c66320::FUN_00c66320((__m128 *)&(combined), nullptr, (const __m128 *)&(rotation), (const __m128 *)&(originalRotation));
             interpolated.m_vec.setInterpolate4(originalRotation.m_vec,combined.m_vec,self->weight);
             reinterpret_cast<::FUN_005611c0_t *>(&(interpolated))->FUN_005611c0();

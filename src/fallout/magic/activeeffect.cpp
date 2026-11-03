@@ -2761,7 +2761,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     float p;
     int h;
     unsigned short a = 0;
-    unsigned int i = 0;
+    char* i = 0;
     unsigned short s;
     ActiveEffectList_5d40* f;
     unsigned int eb;
@@ -2772,7 +2772,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
     VampirismEffect* k;
     ActiveEffect* l;
     SaveLoadRecord_5d40* c;
-    unsigned int e;
+    char* e;
     TESFormStandin_5d40* j;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
@@ -2793,7 +2793,7 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
                     );
             }
         }
-        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        i = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_008579e0(&a, 2);
     }
 
@@ -2829,17 +2829,17 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
 
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00862110())
     {
-        e = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))->FUN_00825c00();
+        e = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         c = (SaveLoadRecord_5d40*)((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TESSaveLoadGame_5d40*)::g_TESSaveLoadGame)))));
         if (c)
         {
             j = (TESFormStandin_5d40*)FUN_004839c0(c->formID);
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );
@@ -2847,12 +2847,12 @@ void FUN_00805d40(ActiveEffectList_5d40* apList, ActorStandin_5d40* apActor)
         }
         else
         {
-            if (e > (unsigned int)a + i)
+            if (e > i + a)
             {
                 ::FUN_005b5e40(
                     );
             }
-            else if (e < (unsigned int)a + i)
+            else if (e < i + a)
             {
                 ::FUN_005b5e40(
                     );

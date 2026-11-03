@@ -769,7 +769,7 @@ void TopicLoad::LoadFromSave(void*)
     unsigned int uiChunkType, infoID, topicID;
     {
         unsigned short start = 0;
-        unsigned int chunkSize = 0;
+        char* chunkSize = 0;
         if (reinterpret_cast<::FUN_00862110_cls *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00862110())
         {
             unsigned int tag;
@@ -787,7 +787,7 @@ void TopicLoad::LoadFromSave(void*)
                     ::FUN_005b5e40(
                         );
             }
-            chunkSize = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00825c00();
+            chunkSize = reinterpret_cast<::SaveLoadGameView *>(g_TESSaveLoadGame)->pBufferCursor;
             reinterpret_cast<::FUN_008579e0_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_008579e0(&start, 2);
         }
         char text[260];
@@ -810,7 +810,7 @@ void TopicLoad::LoadFromSave(void*)
         pInfo = dynamic_cast<TESTopicInfo*>(::FUN_004839c0(topicID));
         if (reinterpret_cast<::FUN_00862110_cls *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00862110())
         {
-            unsigned int end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TopicLoader*)g_TESSaveLoadGame)))->FUN_00825c00();
+            char* end = reinterpret_cast<::SaveLoadGameView *>(g_TESSaveLoadGame)->pBufferCursor;
             LoadHeader* current = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TopicLoader*)g_TESSaveLoadGame)))));
             if (current)
             {

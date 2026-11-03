@@ -2,6 +2,7 @@
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
 #include "fnv/magic_projectile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
@@ -3442,7 +3443,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
 {
     reinterpret_cast<::fnv_009320e0::FUN_009320e0_class *>(this)->SetProcessLevel(arg1, arg2);
     unsigned short a = 0;
-    unsigned i = 0;
+    char* i = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned tag;
@@ -3460,7 +3461,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
                 ::FUN_005b5e40(
                     );
         }
-        i = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        i = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&a, 2);
     }
     reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&mode, 4);
@@ -3534,7 +3535,7 @@ void Loaded::FUN_008ceb50(void* arg1, void* arg2)
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&c2, 1);
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* end = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         Record* recEnd = ((::fnv_008ceb50::Record *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::fnv_008ceb50::Loader * *>(&::g_TESSaveLoadGame))))));
         if (recEnd)
         {
@@ -4941,12 +4942,12 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
     unsigned short* pLength = 0;
 
-    int start = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    char* start = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
     if (*(*reinterpret_cast<::SaveFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
 
-        start = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        start = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
     }
 
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
@@ -4956,7 +4957,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&magic, 4);
 
-        pLength = reinterpret_cast<unsigned short*>(((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00())));
+        pLength = reinterpret_cast<unsigned short*>(reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor);
 
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&idB, 2);
     }
@@ -5096,7 +5097,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (*(*reinterpret_cast<::SaveFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
 
-        int info = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* info = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         unsigned int* finished =
             static_cast<unsigned int*>(((void *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound())));
@@ -5120,17 +5121,17 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (reinterpret_cast<::FUN_00862110_cls *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
 
-        int lengthFieldPointer = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<SaveStream*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        char* lengthFieldPointer = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         unsigned short* info = pLength;
 
-        if (static_cast<unsigned int>(lengthFieldPointer) > reinterpret_cast<unsigned int>(info) + 0xffffU)
+        if (lengthFieldPointer > reinterpret_cast<char*>(info) + 0xffffU)
         {
 
             ::FUN_005b5e40();
         }
 
-        *pLength = static_cast<unsigned short>(lengthFieldPointer - reinterpret_cast<int>(info));
+        *pLength = static_cast<unsigned short>(lengthFieldPointer - reinterpret_cast<char*>(info));
     }
 }
 // Computes the serialized save size of an ArrowSave, adding field sizes conditionally on save version and projectile type, and logs the result.

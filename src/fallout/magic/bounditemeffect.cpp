@@ -2,6 +2,7 @@
 // src/fallout/magic/bounditemeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bounditemeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
 #include "InventoryStackRecord.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
@@ -1442,7 +1443,7 @@ void This::FUN_00809e60(Actor* apActor)
 
     unsigned short w18 = 0;
 
-    int flag = 0;
+    char* flag = 0;
 
     if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
     {
@@ -1472,7 +1473,7 @@ void This::FUN_00809e60(Actor* apActor)
             }
         }
 
-        flag = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((::g_TESSaveLoadGame))->FUN_00825c00();
+        flag = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         ::g_TESSaveLoadGame->FUN_008579e0(&w18, 2);
     }
@@ -1530,9 +1531,9 @@ void This::FUN_00809e60(Actor* apActor)
     if (reinterpret_cast<::FUN_00862110_cls *>((::g_TESSaveLoadGame))->FUN_00862110())
     {
 
-        unsigned int ts;
+        char* ts;
 
-        ts = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((::g_TESSaveLoadGame))->FUN_00825c00();
+        ts = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
 
         TESSound* tag = ((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(::g_TESSaveLoadGame))));
 
@@ -1541,12 +1542,12 @@ void This::FUN_00809e60(Actor* apActor)
 
             Sound* snd2 = ((::Sound *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(tag->m_00))));
 
-            if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+            if (ts > flag + (unsigned int)w18)
             {
 
                 ::FUN_005b5e40();
             }
-            else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+            else if (ts < flag + (unsigned int)w18)
             {
 
                 ::FUN_005b5e40();
@@ -1555,12 +1556,12 @@ void This::FUN_00809e60(Actor* apActor)
         else
         {
 
-            if ((unsigned int)ts > (unsigned int)w18 + (unsigned int)flag)
+            if (ts > flag + (unsigned int)w18)
             {
 
                 ::FUN_005b5e40();
             }
-            else if ((unsigned int)ts < (unsigned int)w18 + (unsigned int)flag)
+            else if (ts < flag + (unsigned int)w18)
             {
 
                 ::FUN_005b5e40();
@@ -1679,16 +1680,16 @@ void SaveEffect::FUN_00809bd0(void* arg)
     bool present;
     int iSlot;
     unsigned short blockSize = 0;
-    unsigned int blockStart = 0;
+    char* blockStart = 0;
     {
-        unsigned int uiTimestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        char* uiTimestamp = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         if (*(*reinterpret_cast<::fnv_00809bd0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
-            uiTimestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            uiTimestamp = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             unsigned int tag = 0x424c4f4b;
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&tag, 4);
-            blockStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            blockStart = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&blockSize, 2);
         }
         present = false;
@@ -1715,7 +1716,7 @@ void SaveEffect::FUN_00809bd0(void* arg)
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unka8, 1);
         if (*(*reinterpret_cast<::fnv_00809bd0::GlobalObject_0045cf30 *>(&::g_011de4e8)).Bool())
         {
-            unsigned int uiHeaderPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            char* uiHeaderPos = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
             SaveHeader* pSaveHeader = ((::fnv_00809bd0::SaveHeader *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
             if (pSaveHeader)
             {
@@ -1729,8 +1730,8 @@ void SaveEffect::FUN_00809bd0(void* arg)
         }
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
-            unsigned int uiFinishPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00809bd0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
-            unsigned int uiBeginPos = blockStart;
+            char* uiFinishPos = reinterpret_cast<::SaveLoadGameView *>(::g_TESSaveLoadGame)->pBufferCursor;
+            char* uiBeginPos = blockStart;
             if (uiFinishPos > uiBeginPos + 65535)
                 ::FUN_005b5e40();
             *(unsigned short*)blockStart = (unsigned short)(uiFinishPos - uiBeginPos);

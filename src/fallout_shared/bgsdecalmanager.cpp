@@ -1840,7 +1840,7 @@ void Camera::UpdateCamera(Input* input)
         ::FUN_005b5e40();
     }
     if (!((::CameraPass::Render *)(::FUN_00559450((int *)&(render)))))
-        render.FUN_0066b0d0(((::CameraPass::Render *)(((::Pool *)(std::intptr_t)(::FUN_004a0ea0()))->FUN_00b6e110(::FUN_004a0e90(), 0x33, 0, 0, 0))));
+        render.FUN_0066b0d0(((::CameraPass::Render *)(((::Pool *)(std::intptr_t)(::FUN_004a0ea0()))->FUN_00b6e110((::std::uintptr_t)(::FUN_004a0e90()), 0x33, 0, 0, 0))));
     if (input->alternate)
         ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::CameraPass::Render *)(::FUN_00559450((int *)&(render))))))->GetGroup()))));
     else

@@ -10889,7 +10889,7 @@ void Owner074::RenderWaterRefs(Camera074* camera, State074* state)
                 ((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator))))->Attach(((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&(state->camera)))));
                 reinterpret_cast<::_Dummy_004bc4a0 *>((((::fnv_004ebef0::BSShaderAccumulator *)(::FUN_00559450((int *)&(state->accumulator))))))->SetAccumulate(true);
                 if (!((::fnv_004ebef0::FUN_00a712f0 *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)))))))
-                    (*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)).FUN_0066b0d0(((::fnv_004ebef0::FUN_00a712f0 *)(reinterpret_cast<::Pool *>((((::fnv_004ebef0::Texture074 *)(::FUN_004a0ea0()))))->FUN_00b6e110(::FUN_004a0e90(), 17, 0, 0, 0))));
+                    (*reinterpret_cast<::fnv_004ebef0::PtrFUN_00a712f0 *>(&::g_011c7b68)).FUN_0066b0d0(((::fnv_004ebef0::FUN_00a712f0 *)(reinterpret_cast<::Pool *>((((::fnv_004ebef0::Texture074 *)(::FUN_004a0ea0()))))->FUN_00b6e110((::std::uintptr_t)(::FUN_004a0e90()), 17, 0, 0, 0))));
                 didActors = false;
                 didGrid = false;
                 position = ((void *)(::FUN_00559450((int *)&(state->refs))));

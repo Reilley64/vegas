@@ -25,10 +25,17 @@ void FUN_00d4f880_class::FUN_00d4f880(::GenericConstraintAtomScheme* a) const
 }
 
 // @fnv 0x00d4f8a0
+// hkpConstraintData::RuntimeInfo as this function fills it.
+struct PrismaticRuntimeInfo
+{
+    int m_sizeOfExternalRuntime;
+    int m_numSolverResults;
+};
 void FUN_00d4f8a0(int aiUnused, hkpPrismaticConstraintData* apConstraintData)
 {
-    *(int*)((char*)apConstraintData + 4) = 8;
-    *(int*)((char*)apConstraintData + 0) = 0x48;
+    PrismaticRuntimeInfo* info = reinterpret_cast<PrismaticRuntimeInfo*>(apConstraintData);
+    info->m_numSolverResults = 8;
+    info->m_sizeOfExternalRuntime = 0x48;
 }
 
 extern int DAT_010d0b3c;
@@ -38,13 +45,15 @@ struct DDCC60World
 struct FUN_00d4f8d0_class
 {
     int* vtbl;
+    char pad04[0xa8];
+    DDCC60World* m_linMotorMotor;  // +0xac, m_atoms.m_motor.m_motor
     void FUN_00d4f8d0();
 };
-// Sets the vtable to DAT_010d0b3c, releases the DDCC60World reference at offset 0xac if present, then sets the vtable to DAT_0102e388.
+// Sets the vtable to DAT_010d0b3c, releases the linear motor reference if present, then sets the vtable to DAT_0102e388.
 // @fnv 0x00d4f8d0
 void FUN_00d4f8d0_class::FUN_00d4f8d0()
 {
-    DDCC60World* p = *reinterpret_cast<DDCC60World**>(reinterpret_cast<unsigned char*>(this) + 0xac);
+    DDCC60World* p = m_linMotorMotor;
     vtbl = &DAT_010d0b3c;
     if (p)
         reinterpret_cast<::hkReferencedObjectC905 *>((p))->FUN_00c905b0();

@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct CAC300Owner {
 public:
     // 0x00cac300
-    void FUN_00cac300(int);
+    void FUN_00cac300(intptr_t);
 };

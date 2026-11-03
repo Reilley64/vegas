@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class hkpCollisionDispatcherD367;
 struct A1Rec;
@@ -20,7 +21,7 @@ extern "C" void FUN_00d36520(::SortPair *, int, int, unsigned int);
 // 0x00d365d0
 int FUN_00d365d0(::A1Rec *, int, int, int, int);
 // 0x00d367b0
-void FUN_00d367b0(int);
+void FUN_00d367b0(intptr_t);
 // 0x00d367d0
 void FUN_00d367d0(::hkpCollisionDispatcherD367 *);
 // 0x00d36920

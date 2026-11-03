@@ -23,9 +23,3 @@ namespace fnv_00cde450 { void CollectReachableNodes(::fnv_00cde450::S_00cde450_G
 void FUN_00cde740(const ::PoseBlend *, const ::PoseBlend *, const ::Vec4f *, ::PoseBlend *);
 // 0x00cde9f0
 void FUN_00cde9f0(void *, int, float);
-// 0x00cdea70
-void FUN_00cdea70(int);
-// 0x00cdea90
-void FUN_00cdea90(int);
-// 0x00cdeab0
-void FUN_00cdeab0(int);

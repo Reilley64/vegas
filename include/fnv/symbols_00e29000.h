@@ -14,7 +14,7 @@ void FUN_00e29250(::E29250Matrix6 &, const ::E29250Matrix6 &);
 // 0x00e29470
 void FUN_00e29470(void *, ::WrappedPointer, ::WrappedPointer);
 // 0x00e298f0
-void FUN_00e298f0(::FUN_00e29620_class *, int);
+void FUN_00e298f0(::FUN_00e29620_class *, intptr_t);
 // 0x00e29920
 namespace RaySimilarityMath { extern "C" bool FUN_00e29920(const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, const ::RaySimilarityMath::RayVector &, float, float); }
 // 0x00e29cd0

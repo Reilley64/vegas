@@ -1,6 +1,7 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -43,15 +44,6 @@
 
 extern "C" void __cdecl FUN_00cb0a70(void*);
 extern int DAT_010d461c;
-
-struct DAMemoryRouter
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* m_pStreamAllocator;
-};
 
 struct FUN_00da07b0_class
 {
@@ -850,25 +842,6 @@ void FUN_00db78a0_cls::FUN_00db78a0(FUN_00db78a0_item** apItems, void** apValues
     } while (*p != 0);
 }
 
-struct hkMemoryAllocator;
-
-struct AudioMgr
-{
-    int unk00, unk04, unk08;
-    hkMemoryAllocator* unk0c;
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-inline AudioMgr* audio()
-{
-    return (AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
-
 struct MapPair
 {
     unsigned int key;
@@ -929,16 +902,10 @@ struct MapHolder
 void MapHolder::CopyMapEntries(const MapHolder& other)
 {
     for (int it = other.m_map.GetFirstIterator(); other.m_map.isValid(it); it = other.m_map.getNext(it))
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(audio()->heap()), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(m_map))->FUN_00cb1870((::fnv_00cb1870::hkMemoryAllocatorCB18 &)(hkMemoryRouter::getInstance().heap()), other.m_map.GetIteratorKey(it), other.m_map.getValue(it));
 }
 
 namespace fnv_00db7960 {
-
-struct FUN_00db7960_Target
-{
-    virtual void vf00();
-    virtual void* vf04(int a);
-};
 
 struct FUN_00db7960_Data
 {
@@ -959,10 +926,9 @@ struct FUN_00db7960_Result
 // @fnv 0x00db7960
 void* __cdecl CreateAudioResult()
 {
-    void* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    FUN_00db7960_Target* target = static_cast<FUN_00db7960_Target*>(static_cast<::DAMemoryRouter*>(audio)->m_pStreamAllocator);
+    hkMemoryAllocator& target = hkMemoryRouter::getInstance().heap();
 
-    void* allocated = target->vf04(sizeof(FUN_00db7960_Result));
+    void* allocated = target.blockAlloc(sizeof(FUN_00db7960_Result));
     FUN_00db7960_Result* result = reinterpret_cast<FUN_00db7960_Result*>(allocated);
 
     result->unk04 = sizeof(FUN_00db7960_Result);
@@ -973,8 +939,7 @@ void* __cdecl CreateAudioResult()
     result->m_kData.m_iNumElements = 0;
     result->m_kData.m_iHashMod = -1;
 
-    void* audio2 = static_cast<BSAudio*>(::FUN_00c85750());
-    void* target2 = static_cast<::DAMemoryRouter*>(audio2)->m_pStreamAllocator;
+    void* target2 = hkMemoryRouter::getInstance().m_heap;
 
     FUN_00db7960_Data* dataObject = &result->m_kData;
     reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((intptr_t)(target2), 0);
@@ -984,24 +949,6 @@ void* __cdecl CreateAudioResult()
 }  // namespace fnv_00db7960
 
 namespace fnv_00db7a20 {
-struct hkMemoryAllocator
-{
-    virtual ~hkMemoryAllocator();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
-
-struct AudioMgr
-{
-    int unk00[4];
-    hkMemoryAllocator* unk10;
-    hkMemoryAllocator& heap()
-    {
-        return *unk10;
-    }
-};
-
-struct BSAudio;
-
 struct hkBool
 {
     char m_cBooleanValue;
@@ -1026,7 +973,7 @@ class RefObj
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock((int)nbytes);
+        RefObj* b = (RefObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1102,27 +1049,9 @@ int DBA340Object::FUN_00dba340(void* pvA, void* pvB, void* pvC)
 }
 
 namespace fnv_00dba3d0 {
-struct DBA3D0Allocator
+// Kept for the decorated name of ClearAndRelease (0x00cb1e40).
+struct DBA3D0Allocator : hkMemoryAllocator
 {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-
-struct DBA3D0MemoryRouter
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    DBA3D0Allocator* m_pStreamAllocator;
-
-    DBA3D0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
 };
 
 
@@ -1145,10 +1074,10 @@ template <class T> struct DBA3D0Array
 
     ~DBA3D0Array() throw()
     {
-        DBA3D0Allocator& alloc = (*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc._bufFree<T>(m_data, getCapacity());
         m_iCapacityState = 0x80000000;
         m_data = 0;
     }
@@ -1170,7 +1099,7 @@ class DBA3D0Map : public DBA3D0MapBase
   public:
     ~DBA3D0Map() throw()
     {
-        ClearAndRelease((*static_cast<DBA3D0MemoryRouter*>(::FUN_00c85750())).heap());
+        ClearAndRelease(static_cast<DBA3D0Allocator&>(hkMemoryRouter::getInstance().heap()));
     }
 };
 
@@ -1226,23 +1155,6 @@ void DBB100WriteClassNames(const DBB100Registry* registry, const void** objects,
     FUN_00dbb100(registry, objects[1], writer);
 }
 
-struct hkMemoryAllocator
-{
-    virtual void vSlot00();
-    virtual void vSlot04();
-    virtual void vSlot08();
-    virtual void vSlot0C(void* field, void* item);
-    virtual void free(void* p, unsigned int nbytes);
-};
-struct AudioRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* unk10;
-};
-AudioRouter* __cdecl da06d0_getRouter();
 struct Elem
 {
     int unk00;
@@ -1279,12 +1191,11 @@ void __cdecl FUN_00da06d0(Buffer* self)
 {
     int* pSize = &self->m_iElementCount;
     int* piCapacity = &self->m_pRayCursor;
-    AudioRouter* router = da06d0_getRouter();
-    hkMemoryAllocator* alloc = router->unk10;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
     int iCapacity = self->m_pRayCursor;
     *pSize = 0;
     if ((iCapacity & (int)0x80000000) == 0)
-        alloc->free(self->m_ppData, (iCapacity & 0x3fffffff) * sizeof(Elem));
+        alloc->_bufFree<Elem>(self->m_ppData, iCapacity & 0x3fffffff);
     *piCapacity = (int)0x80000000;
     self->m_ppData = 0;
 }
@@ -1366,32 +1277,14 @@ int __cdecl SweepCollidePairs(const SweepBounds* bounds, int count, SweepPair* p
     return int(out - pairs);
 }
 
-struct DBA430Listener
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void vslot10(int a, int b);
-};
-
 struct DBA430Inner
 {
-};
-
-struct BSAudio
-{
-    virtual void vf00();
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    DBA430Listener* m_10;
 };
 
 
 struct DBA430Owner
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     DBA430Inner m_0C;
@@ -1403,10 +1296,9 @@ struct DBA430Owner
 void DBA430Owner::Reset()
 {
     DBA430Inner* p = &m_0C;
-    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(static_cast<BSAudio*>(::FUN_00c85750())->m_10));
+    reinterpret_cast<::CB1A90Owner *>((p))->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap));
     ::FUN_00a29680();
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    DBA430Listener* listener = audio->m_10;
+    hkMemoryAllocator* listener = hkMemoryRouter::getInstance().m_heap;
     m_04 = 0;
     if (!(m_08 & (int)0x80000000))
     {
@@ -1414,7 +1306,7 @@ void DBA430Owner::Reset()
         n = n + n;
         n = n + n;
         n = n + n;
-        listener->vslot10(m_00, n);
+        listener->bufFree(m_00, n);
     }
     m_08 = (int)0x80000000;
     m_00 = 0;
@@ -1636,22 +1528,6 @@ unsigned int* FUN_00da2b90_Obj::Initialize()
     return reinterpret_cast<unsigned int*>(this);
 }
 
-struct DA2D70Listener
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(void* object, int value);
-};
-
-struct DA2D70Audio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    DA2D70Listener* m_10;
-};
-
 struct DA2D70Object
 {
     int unk00;
@@ -1680,21 +1556,6 @@ void* __cdecl FUN_00da6e10(void* apUnused, void* b, void* c)
     return FUN_00da3510(b, c);
 }
 
-
-struct Allocator
-{
-    virtual void Reserved();
-    virtual void* Alloc(unsigned int bytes);
-};
-
-struct Manager
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Allocator* heap;
-};
 
 struct SubObject
 {
@@ -1736,8 +1597,7 @@ struct CreatedObject
 // @fnv 0x00db79c0
 void* __cdecl FUN_00db79c0()
 {
-    Manager* manager = (Manager*)static_cast<BSAudio*>(::FUN_00c85750());
-    CreatedObject* object = (CreatedObject*)manager->heap->Alloc(0x20);
+    CreatedObject* object = (CreatedObject*)hkMemoryRouter::getInstance().heap().blockAlloc(0x20);
     object->Init();
     return object;
 }
@@ -2451,35 +2311,6 @@ void __cdecl FUN_00da6dc0(void* aUnused, void* arg2, void* arg3, void* arg4, voi
 void __cdecl FUN_00da82c0()
 {}
 
-struct S06c0_Alloc
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void slot08();
-    virtual void* AllocateBufferWithSize(int& bytes);
-    virtual void ReturnMemory(void* memory, int bytes);
-
-    template <class T> __forceinline T* bufAllocT(int& num)
-    {
-        int bytes = num * (int)sizeof(T);
-        T* p = static_cast<T*>(AllocateBufferWithSize(bytes));
-        num = bytes / (int)sizeof(T);
-        return p;
-    }
-};
-struct S06c0_Mgr
-{
-    int unk00, unk04, unk08;
-    S06c0_Alloc* unk0c;
-    S06c0_Alloc& heap()
-    {
-        return *unk0c;
-    }
-};
-inline S06c0_Mgr* s06c0_mgr()
-{
-    return (S06c0_Mgr*)static_cast<BSAudio*>(::FUN_00c85750());
-}
 struct S06c0_Key
 {
     unsigned int key;
@@ -2496,12 +2327,12 @@ struct S06c0_Rec
 
 template <class T> __forceinline void s06c0_allocArray(int n, int& capacity, T*& data)
 {
-    S06c0_Alloc& a = s06c0_mgr()->heap();
+    hkMemoryAllocator& a = hkMemoryRouter::getInstance().temp();
     int num;
     if (n)
     {
         num = n;
-        data = a.bufAllocT<T>(num);
+        data = a._bufAlloc<T>(num);
     }
     else
     {
@@ -2512,9 +2343,9 @@ template <class T> __forceinline void s06c0_allocArray(int n, int& capacity, T*&
 }
 template <class T> __forceinline void s06c0_freeArray(T* data, int capacity)
 {
-    S06c0_Alloc& a = s06c0_mgr()->heap();
+    hkMemoryAllocator& a = hkMemoryRouter::getInstance().temp();
     if (!(capacity & 0x80000000))
-        a.ReturnMemory(data, (capacity & 0x3fffffff) * sizeof(T));
+        a._bufFree<T>(data, capacity & 0x3fffffff);
 }
 inline void s06c0_memCpy16NonEmpty(void* dst, const void* src, int numQuads)
 {
@@ -2895,11 +2726,6 @@ struct S00da6eb0_Ctx
     S00da6eb0_Router* m_pRouter;
 };
 
-struct S00da6eb0_Alloc
-{
-    char* m_pCur;
-};
-
 extern char str_010d50b8[];
 
 extern "C" void _ReadWriteBarrier(void);
@@ -2943,10 +2769,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
     S00da6eb0_List* pList = static_cast<S00da6eb0_Ctx*>(apCtx)->m_pRouter->m_pEntries;
     int iSize = pList->m_uiSize;
 
-    S00da6eb0_Alloc* pAlloc = reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()));
-    unsigned int* pEventIndex = reinterpret_cast<unsigned int*>(pAlloc->m_pCur);
-
-    pAlloc->m_pCur += (iSize * 4 + 0x83) & 0xffffff80;
+    unsigned int* pEventIndex = static_cast<unsigned int*>(hkMemoryRouter::getInstance().allocateStack(int((iSize * 4 + 0x83) & 0xffffff80)));
 
     unsigned int iIndexCount = 0;
     unsigned int uiBitMask = 1;
@@ -2967,7 +2790,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     S00da6eb0_TimerMark(::DAT_010c41f8);
 
-    reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()))->m_pCur = reinterpret_cast<char*>(pEventIndex);
+    hkMemoryRouter::getInstance().deallocateStack(pEventIndex);
 
     return static_cast<DA6EB0Out*>(apOut)->m_kNext;
 }
@@ -3544,9 +3367,8 @@ void* DA2D70Object::NotifyAudioListener(int flags)
 
     if (flags & 1)
     {
-        DA2D70Audio* audio = reinterpret_cast<DA2D70Audio*>(static_cast<BSAudio*>(::FUN_00c85750()));
-        DA2D70Listener* listener = audio->m_10;
-        listener->vf08(this, static_cast<int>(unk04));
+        hkMemoryAllocator* listener = hkMemoryRouter::getInstance().m_heap;
+        listener->blockFree(this, static_cast<int>(unk04));
     }
 
     return this;
@@ -4100,29 +3922,6 @@ static int* FUN_00db0db0(unsigned int a);
 
 int* stub_caller(void);
 
-class hkMemoryAllocatorDA24
-{
-  public:
-    virtual ~hkMemoryAllocatorDA24() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterDA24
-{
-    char* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    hkMemoryAllocatorDA24* m_pStreamAllocator;
-    hkMemoryAllocatorDA24& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 namespace hkRouterDA24 {
 }
 
@@ -4152,19 +3951,19 @@ template <class T> class hkArrayDA24
         return m_iCapacityState & CAPACITY_MASK;
     }
 
-    __forceinline void _clearAndDeallocate(hkMemoryAllocatorDA24& alloc)
+    __forceinline void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         hkArrayUtilDA24::destruct(m_data, m_iElementCount);
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc._bufFree<T>(m_data, getCapacity());
         m_data = 0;
         m_iCapacityState = DONT_DEALLOCATE_FLAG;
     }
 
     ~hkArrayDA24() throw()
     {
-        _clearAndDeallocate((*static_cast<hkMemoryRouterDA24*>(::FUN_00c85750())).heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 
     hkArrayDA24() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)

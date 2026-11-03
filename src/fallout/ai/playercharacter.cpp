@@ -1,5 +1,6 @@
 // fallout/ai/playercharacter.cpp: PlayerView, PlayerCharacter_StandIn, PlayerCharacter, PlayerStub and more (251 functions)
 
+#include "fnv/result_slot.h"
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <windows.h>
@@ -22166,7 +22167,7 @@ Node* View::FUN_0094e1d0(bool arg)
     reinterpret_cast<::FUN_00a59c60_cls *>((localValue11))->FUN_00a59c60((std::intptr_t)&(localValue60));
     cameraHeight = ((::fnv_0094e1d0::Point *)(::FUN_0045bb80((int)((*reinterpret_cast<::fnv_0094e1d0::Node * *>(&::DAT_011e07d0))))))->z;
     Matrix localValue22 = (*reinterpret_cast<::fnv_0094e1d0::Matrix *>(&::DAT_011a9448));
-    reinterpret_cast<::FUN_0043fa80_s *>((localValue11))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&FUN_0056fac0(localValue22))));
+    reinterpret_cast<::FUN_0043fa80_s *>((localValue11))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(FUN_0056fac0(localValue22)))));
     biped = new Biped(this, localValue11);
     animation = new AnimState;
     bool localValue30 = loadingModel;
@@ -23924,7 +23925,7 @@ void KarmaActor::FUN_0094fd30(int aiKarmaChange)
         else
             ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3420))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d2cd0))->GetMenuTitle()))), (int)(0), 2.0f, false);
         GlobalObject_0041a250 sound;
-        sound.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaDown", 0x121));
+        sound.FUN_copy(&ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaDown", 0x121)));
         reinterpret_cast<FUN_00ad8830_shell*>(&sound)->FUN_00ad8830(false);
     }
     else
@@ -23936,7 +23937,7 @@ void KarmaActor::FUN_0094fd30(int aiKarmaChange)
         else
             ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3c70))->GetMenuTitle()))), 0, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d3b14))->GetMenuTitle()))), (int)(0), 2.0f, false);
         GlobalObject_0041a250 sound;
-        sound.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaUp", 0x121));
+        sound.FUN_copy(&ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID("UIKarmaUp", 0x121)));
         reinterpret_cast<FUN_00ad8830_shell*>(&sound)->FUN_00ad8830(false);
     }
     if (aiKarmaChange > 0 && current >= *((int *)&(::FUN_0043d4d0((int *)&(::g_011cd644)))))
@@ -58925,7 +58926,7 @@ bool Player::FUN_009614b0(Bound* object, V3* output, bool search, bool rotate)
         reinterpret_cast<::FUN_0059ce80_shell *>(&(bits))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>(((*reinterpret_cast<::fnv_009614b0::Player * *>(&::_g_thePlayer))->FUN_00931ed0(&filterTemp)))->FUN_004a3a20())));
         ray.FUN_004a3f70(bits.bits);
         reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0(&origin);
-        reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((*(const ::NiPoint3 *)(&(offset * float(distance + size)))));
+        reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((*(const ::NiPoint3 *)(&ResultSlot((offset * float(distance + size))))));
         Collector collector;
         reinterpret_cast<::FUN_004a3fb0_shell *>(&(ray))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::fnv_009614b0::Collector *)(&collector));
         World* world = ((::fnv_009614b0::Cell *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_009614b0::Player * *>(&::_g_thePlayer))))->GetTarget()))->FUN_004543c0();
@@ -67625,13 +67626,13 @@ void PlayerCharacterEx::FUN_0095c0a0(BGSLoadFormBuffer* buffer)
     if (health4 <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1002)))) && health4 > *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
     {
         reinterpret_cast<PCStandin*>(this)->soundHandle77C.FUN_copy(
-            &::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatALP, 0x31));
+            &ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatALP, 0x31)));
         reinterpret_cast<::FUN_00ad8830_shell *>((reinterpret_cast<BSSoundHandleEx*>(&reinterpret_cast<PCStandin*>(this)->soundHandle77C)))->FUN_00ad8830(true);
     }
     else if (health4 <= *((float *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1003)))))
     {
         reinterpret_cast<PCStandin*>(this)->soundHandle77C.FUN_copy(
-            &::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatBLP, 0x31));
+            &ResultSlot(::FUN_00453a70()->GetSoundHandleByEditorID(s_UIHealthHeartbeatBLP, 0x31)));
         reinterpret_cast<::FUN_00ad8830_shell *>((reinterpret_cast<BSSoundHandleEx*>(&reinterpret_cast<PCStandin*>(this)->soundHandle77C)))->FUN_00ad8830(true);
     }
     if (this->GetNiNode())
@@ -70184,7 +70185,7 @@ void ThisShell::FUN_0094a0c0(NiPoint3* p1, NiPoint3* p2, unsigned char flag)
         vec = *p1;
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011e07b9)))
         {
-            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue()));
+            reinterpret_cast<::FUN_0063c8a0_shell *>((((StoreShell*)&DAT_011e0808)))->FUN_0063c8a0(&ResultSlot(((vec - DAT_011e0808) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingShell *>(&::originalRuntimeFloatSetting215)))))) * reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::TimeShell *>(&::g_timeGlobal))))->GetStoredFloatValue())));
             vec = DAT_011e0808;
         }
         else
@@ -71905,7 +71906,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                     reinterpret_cast<::FUN_0059ce80_shell *>(&(filter))->FUN_0059ce80(((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((FUN_00931ed0(&filterTemp)))->FUN_004a3a20())));
                     ray.FUN_004a3f70(filter.bits);
                     reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0((void *)(&origin));
-                    reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((*(const ::NiPoint3 *)(&(direction * distance))));
+                    reinterpret_cast<::Class_007f68a0 *>(&(ray))->FUN_007f68a0((*(const ::NiPoint3 *)(&ResultSlot((direction * distance)))));
                     if (world->Cast(&ray))
                     {
                         GrabBody* hit = ((::GrabBody *)(::FUN_00c66fd0((::BhkPickData *)&(ray))));
@@ -71947,7 +71948,7 @@ void GrabHost::FUN_0095f930(GrabRef* ref, int newMode, float range)
                 {
                     GrabVector scratch;
                     GrabVector rotated;
-                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::GrabVector *)(&rotated), (*(const ::NiPoint3 *)(&(((::GrabMatrix *)(::FUN_00461130((int)(root))))->FUN_004b4500(&(*reinterpret_cast<const ::GrabPoint *>((void *)&::DAT_011a9484)))))));
+                    ::CopyCharacterControllerVector((::bhkCharacterController *)(::GrabVector *)(&rotated), (*(const ::NiPoint3 *)(&ResultSlot((((::GrabMatrix *)(::FUN_00461130((int)(root))))->FUN_004b4500(&(*reinterpret_cast<const ::GrabPoint *>((void *)&::DAT_011a9484))))))));
                     reinterpret_cast<::fnv_004b4d10::UnaryActionSettings *>(&(data.position))->ApplyToAction((::fnv_004b4d10::bhkUnaryAction *)(::GrabVector *)(&position));
                     reinterpret_cast<::V *>(&(position))->FUN_00553f70((*(const ::V *)(&rotated)));
                     reinterpret_cast<::S004b4db0_Quaternion *>(&(data.position))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(&position)));

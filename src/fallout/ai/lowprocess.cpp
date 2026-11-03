@@ -5170,9 +5170,6 @@ void FUN_00910250_shell::UpdateTargetRefs(unsigned int aiFlags, unsigned int aiO
     }
 }
 
-namespace std {
-float __cdecl abs(float);
-}
 
 struct Flt
 {

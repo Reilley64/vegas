@@ -18745,9 +18745,6 @@ struct FUN_0088c570_shell : public Actor
     bool IsPointInConeFOV(void*, float);
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 struct TopicH
 {
 };
@@ -59288,7 +59285,7 @@ void Actor88::UpdateNodeTransform()
             rotationB = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Mat88 &)(rotationB))->operator+((const ::ThreeByThreeMatrix &)(tilt2));
         }
     }
-    reinterpret_cast<::FUN_0043fa80_s *>((node7))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&Transform(rotationB))));
+    reinterpret_cast<::FUN_0043fa80_s *>((node7))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(Transform(rotationB)))));
     if (this != player88 && !reinterpret_cast<::PlayerCharacter *>((player88))->IsSleepingOrResting() && Node())
     {
         reinterpret_cast<::Cell *>((((::State88 *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))))->UpdateRefPlacement((::Ref *)(void *)(this), 1, ((void *)(reinterpret_cast<::ExtraDataList *>((((::Extra88 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetDismemberedLimbs())) != 0);
@@ -61973,9 +61970,6 @@ void SActor::ProcessFormInteraction(SForm* form, SExtra* extra, int arg)
 }
 }  // namespace fnv_00892520
 
-namespace std {
-float abs(float);
-}
 struct Pos8931
 {
     float x, y, z;
@@ -111440,9 +111434,6 @@ class FUN_0099b8b0_shell
   public:
 };
 
-namespace std {
-float abs(float);
-}
 
 PathingLocation FUN_006d7a40(const PathingLocation& kFrom, const PathingLocation& kTo, float fRadius);
 
@@ -130002,7 +129993,7 @@ void HActor::FUN_0089a760(HHit* hit, signed char mode)
                 if (((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture())))
                 {
                     HProcess* process = ((::fnv_0089a760::HProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((hit->attacker))->GetBaseTexture()));
-                    vf478(hit->attacker, damage, feedback, process->vf460(), &hit->attacker->GetNodePosition(false));
+                    vf478(hit->attacker, damage, feedback, process->vf460(), &ResultSlot(hit->attacker->GetNodePosition(false)));
                 }
                 if (reinterpret_cast<::Holder0087 *>(this)->FUN_0087f9c0() > 0.0 && !reinterpret_cast<::fnv_0089d5e0::FUN_0089d5e0_shell *>(&(((::fnv_0089a760::HBase *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->flags))->FUN_0089d5e0() &&
                     (!hit->source || !hit->source->vf224()))
@@ -137170,7 +137161,7 @@ float ActorStub::FUN_008a20d0(const char* soundPath, SH_00418890* pSoundHandle, 
         soundFlags4 |= 1;
     }
 
-    reinterpret_cast<::SoundPlaybackHandle *>((pSoundHandle))->operator=((*(const ::SoundPlaybackHandle *)(&((DialogueAudioView*)FUN_00453a70())->FUN_00ad7480(Diff6, soundFlags4, 0))));
+    reinterpret_cast<::SoundPlaybackHandle *>((pSoundHandle))->operator=((*(const ::SoundPlaybackHandle *)(&ResultSlot(((DialogueAudioView*)FUN_00453a70())->FUN_00ad7480(Diff6, soundFlags4, 0)))));
 
     reinterpret_cast<::FUN_00ad9030_shell *>((pSoundHandle))->FUN_00ad9030(0x40);
 
@@ -143370,7 +143361,7 @@ void MoveSelf454::FUN_008ad1c0(int destination, float angle, TESObjectCELL* cell
                                         PathingRequest pathDataB;   // Navigation request.
                                         reinterpret_cast<::fnv_006e29f0::FUN_006e29f0_shell *>(&(pathDataB))->InitFromActor((::Actor *)(::fnv_008ad1c0::MoveActor454 *)((MoveActor454*)this));
                                         reinterpret_cast<::FUN_006e2b50_shell *>(&(pathDataB))->SetCantOpenDoors(true);
-                                        reinterpret_cast<::PathingRequest *>(&(pathDataB))->SetDestination((::PathingLocation *)(::fnv_008ad1c0::PathingLocation *)(&PathingLocation(pathDataD, (MoveActor454*)this)));
+                                        reinterpret_cast<::PathingRequest *>(&(pathDataB))->SetDestination((::PathingLocation *)(::fnv_008ad1c0::PathingLocation *)(&ResultSlot(PathingLocation(pathDataD, (MoveActor454*)this))));
                                         reinterpret_cast<::FUN_008ad8f0Class *>(&(pathDataB))->SetByteAtOffset9B(true);
                                         NiPoint3 pathDataA;  // Resolved destination.
                                         {
@@ -149032,8 +149023,8 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
         ::FalloutRadio::SetRadioEnabled(0);
         ::FalloutAudioMedia::FadeOutMedia(0x3e8, (::MEDIATYPE)(0));
         {
-            reinterpret_cast<::FUN_00ad8830_shell *>(&(((KillSupport::DeathAudio*)::FUN_00453a70())
-                ->FUN_00ad7550(KillSupport::DAT_01084d00, 0x901, 0)))->FUN_00ad8830({});
+            reinterpret_cast<::FUN_00ad8830_shell *>(&ResultSlot((((KillSupport::DeathAudio*)::FUN_00453a70())
+                ->FUN_00ad7550(KillSupport::DAT_01084d00, 0x901, 0))))->FUN_00ad8830({});
         }
         reinterpret_cast<::VATS *>((((KillSupport::GlobV*)&(*reinterpret_cast<::VATS *>(&::g_011f2250)))))->FUN_009c8950(0, 0);
         if (((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((KillSupport::ThisProc*)this)))->GetBaseTexture())) != 0)

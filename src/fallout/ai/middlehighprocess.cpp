@@ -1,5 +1,6 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
+#include "fnv/result_slot.h"
 #include <new>
 #include <cstdint>
 #include <cstdlib>
@@ -27715,7 +27716,7 @@ void P124Process::UpdateFurnitureAnimation(P124Input* input)
             P124Marker rotation = model->FUN_005094d0(m_ucFurnitureMarkerIndex);
             P124Point delta = (*(::P124Point *)(((::Vec3 *)(void *)&(rotation))));
             P124Point position;
-            ::FUN_00a582f0((const float *)(const ::P124Matrix *)(&((P124Furniture*)m_pFurnitureReference)->FUN_0056fa00()),
+            ::FUN_00a582f0((const float *)(const ::P124Matrix *)(&ResultSlot(((P124Furniture*)m_pFurnitureReference)->FUN_0056fa00())),
                          (const float *)(::P124Point *)(((P124Furniture*)m_pFurnitureReference)->GetPosition()), true, (const ::Point314 *)(::P124Point *)(&delta), (::Point314 *)(::P124Point *)(&position));
             reinterpret_cast<::fnv_00568ab0::FUN_00568ab0_shell *>((((P124Marker*)&FurnitureMarker)))->FUN_00568ab0(reinterpret_cast<::FUN_005094b0_shell *>(&(rotation))->FUN_005094b0());
             reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((((P124Marker*)&FurnitureMarker)))->FUN_0098ddd0(&position);
@@ -27725,7 +27726,7 @@ void P124Process::UpdateFurnitureAnimation(P124Input* input)
             P124Matrix transformed;
             reinterpret_cast<::FUN_004a0c90_shell *>(&(transformed))->FUN_004a0c90(reinterpret_cast<::FUN_00568650_shell *>((((P124Marker*)&FurnitureMarker)))->FUN_00568650());
             previousState = transformed.FUN_004b4500(&previousState);
-            actor->SetPosition(&((*(::P124Point *)(((::Vec3 *)(void *)(((P124Marker*)&FurnitureMarker))))) + previousState));
+            actor->SetPosition(&ResultSlot(((*(::P124Point *)(((::Vec3 *)(void *)(((P124Marker*)&FurnitureMarker))))) + previousState)));
             unsigned char offset = m_ucFurnitureInteractionState;
             m_ucFurnitureInteractionState = 0;
             if (actor != (P124Actor*)(*reinterpret_cast<::SSActor * *>(&::_g_thePlayer)))

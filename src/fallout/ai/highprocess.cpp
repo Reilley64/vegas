@@ -28723,9 +28723,6 @@ struct Time8db4
 struct Clock8db4
 {
 };
-namespace std {
-float abs(float);
-}
 struct Process8db4
 {
     virtual void v000();

@@ -1867,9 +1867,6 @@ void S_00979a70::ScaleNode(S_00979a70_Obj* node, float fScale, float fDivisor)
 
 extern const double DAT_0108fdd0;
 
-namespace std {
-double abs(float);
-}
 
 struct S9b8b10_Sub88
 {

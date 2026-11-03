@@ -1,5 +1,6 @@
 // fallout/ai/movement/detailedactorpathhandler.cpp: std, DetailedActorPathHandler, DetailedActorPathHandlerEx, DelStandIn and more (73 functions)
 
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/ActorMoverBuildPath14.h"
 #include "fnv/decl/ActorMoverLocation14.h"
@@ -257,7 +258,7 @@ void DetailedActorPathHandler::TransitionFrom(ActorPathHandler* previous)
         m_fPathValue12 = 0.0f;
         while (((::TESTopicInfo *)(((::Vec3 *)(void *)&(oldPath->ActorAvoidEntryList)))))
         {
-            ActorAvoidEntryList.AddHead(((::TESTopicInfo *)(((::Vec3 *)(void *)&(oldPath->ActorAvoidEntryList)))));
+            ActorAvoidEntryList.AddHead(*(::TESTopicInfo **)(void *)&(oldPath->ActorAvoidEntryList));
             oldPath->ActorAvoidEntryList.RemoveHead();
         }
     }
@@ -845,9 +846,6 @@ bool DetailedActorPathHandler::TurnToAngle(float angle, bool keepActorHeading)
 
 void __cdecl WrapValueToRange(float&, float, float);
 
-namespace std {
-float __cdecl abs(float);
-}
 
 class Date
 {
@@ -1357,9 +1355,6 @@ void* DelStandIn::FUN_009e0160(unsigned int flags)
 namespace fnv_009e0470 {
 extern float DAT_01092470;
 
-namespace std {
-float __cdecl abs(float);
-}
 
 class PathingGraphNode
 {
@@ -1979,9 +1974,6 @@ struct ActorStub
     virtual void v212();
     virtual float GetTurnSpeed();
 };
-namespace std {
-float __cdecl abs(float);
-}
 struct FUN_005f0c80_shell
 {
 };
@@ -2053,7 +2045,7 @@ int FUN_009e16e0_shell::FUN_009e16e0(float afDeltaT)
             {
                 float fCurrentAngle = ::WrapAngle((*(ActorStub**)&this->pActor)->GetCurrentTargetDistance(0));
                 p07::NiPoint3 firingLocation = FUN_009a8050(*(ActorStub**)&this->pActor);
-                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(((FUN_00595c80_shell*)&(firingLocation - lookatPoint))))->GetSquaredXYLength() <
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(((FUN_00595c80_shell*)&ResultSlot((firingLocation - lookatPoint)))))->GetSquaredXYLength() <
                     ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() *
                         ((CombatState*)*(ActorStub**)&this->pActor)->ProcessCoverLOSResult() * 0.25)
                     eresult = 0;
@@ -3290,9 +3282,6 @@ void DetailedActorPathHandlerEx::UpdatePathing(float afDeltaT)
 }
 }  // namespace fnv_009e3d50
 
-namespace std {
-float __cdecl abs(float);
-}
 
 void __cdecl WrapValueToRange(float&, float, float);
 void __cdecl FUN_005330e0(float&, float, float);
@@ -4289,9 +4278,6 @@ struct Flt
 {
     operator unsigned int() const;
 };
-namespace std {
-float abs(float);
-}
 bool FUN_009e8670(unsigned int);
 extern double DAT_01092508;
 extern float DAT_011a5d00;
@@ -4900,9 +4886,6 @@ NiPoint3 FUN_009e3a70_shell::GetNextPathPoint()
     }
 }
 
-namespace std {
-float __cdecl abs(float);
-}
 
 extern double DAT_010924a0;
 
@@ -8417,7 +8400,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 if ((AvoidPath*)path)
                 {
                     AvoidLocation end(*((::fnv_009e5ae0::AvoidanceVectorData *)(reinterpret_cast<::S_FUN_006b05a0 *>((((AvoidPath*)path)))->FUN_006b05a0()))->FUN_00717e50());
-                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(g_thePlayer, g_thePlayer->FUN_008be1b0())), {}))
+                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(g_thePlayer, g_thePlayer->FUN_008be1b0()))), {}))
                     {
                         if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>((((AvoidRequest*)request)))->FUN_00632ce0())))
                             return 3;
@@ -8439,7 +8422,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
             if (obstacle->FUN_008b3860(&location))
             {
                 if (reinterpret_cast<::FUN_006deeb0_cls *>(&(location))->IsWithinDistanceOfSameLocation(
-                        (const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(actor, ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request))))), {}))
+                        (const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(actor, ::GetFloatAtOffset68((const char *)(((AvoidRequest*)request)))))), {}))
                     moving = false;
             }
             if (moving)
@@ -8471,7 +8454,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 if ((AvoidPath*)path)
                 {
                     AvoidLocation end(*((::fnv_009e5ae0::AvoidanceVectorData *)(reinterpret_cast<::S_FUN_006b05a0 *>((((AvoidPath*)path)))->FUN_006b05a0()))->FUN_00717e50());
-                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&AvoidLocation(obstacle, obstacle->FUN_008be1b0())), {}))
+                    if (reinterpret_cast<::FUN_006deeb0_cls *>(&(end))->IsWithinDistanceOfSameLocation((const ::PathingLocation *)(const ::fnv_009e5ae0::AvoidLocation *)(&ResultSlot(AvoidLocation(obstacle, obstacle->FUN_008be1b0()))), {}))
                     {
                         if (((bool)(reinterpret_cast<::FUN_00632ce0_Class *>((((AvoidRequest*)request)))->FUN_00632ce0())))
                             return 3;
@@ -8535,7 +8518,7 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                 AvoidPoint velocity = rotation.FUN_004b4500(((const ::fnv_009e5ae0::AvoidPoint *)(reinterpret_cast<::FUN_008b3d50_This *>((current))->FUN_008b3d50())));
                 AvoidPoint delta = velocity.FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e5ae0::AvoidTime *>(&::g_timeGlobal))))->GetStoredFloatValue());
                 if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > current->FUN_008be1b0())
-                    reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&AvoidElement(current->v125() + delta, avoidRadius, 2.0f, mode)));
+                    reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(current->v125() + delta, avoidRadius, 2.0f, mode))));
                 AvoidPoint position = current->v125();
                 AvoidController* controller = ((::fnv_009e5ae0::AvoidController *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((current))->FUN_009306d0()));
                 if (controller && !reinterpret_cast<::bhkCharacterListener *>(&(controller->flags))->FUN_00621270(0x8000000))
@@ -8547,9 +8530,9 @@ int AvoidHandler::UpdateAvoidance(float deltaTime)
                     position.x = offset.x;
                     position.y = offset.y;
                 }
-                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode)));
+                reinterpret_cast<::FUN_00905450_StandIn *>((avoidNodes))->AppendNode((::PathingAvoidanceNode *)(&ResultSlot(AvoidElement(position, avoidRadius, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_009e5ae0::AvoidSetting *>(&::g_011f2b5c)))))), mode))));
             }
-            reinterpret_cast<::FUN_006d3ac0_Class *>((((AvoidRequest*)request)))->AssignPathingLocation((*(const ::PathingLocation *)(&AvoidLocation(actor))));
+            reinterpret_cast<::FUN_006d3ac0_Class *>((((AvoidRequest*)request)))->AssignPathingLocation((*(const ::PathingLocation *)(&ResultSlot(AvoidLocation(actor)))));
             reinterpret_cast<::PathingRequest *>((((AvoidRequest*)request)))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(avoidNodes));
             reinterpret_cast<::TESForm *>((mover))->ClearData();
             return 2;
@@ -9227,9 +9210,6 @@ struct Pt3
     float Dot(const Pt3& point) const;
 };
 
-namespace std {
-float __cdecl abs(float);
-}
 
 void __cdecl FUN_005330e0(float&, float, float);
 
@@ -11154,7 +11134,7 @@ void __cdecl FUN_009e71b0(void* context, Request75* request, Handler75* handler)
             Matrix75 rotation;
             reinterpret_cast<::FUN_009e1640_shell *>(&(rotation))->SetRotationMatrix(actor->Heading(0));
             Point75 velocity = rotation.Transform(((const ::fnv_009e71b0::Point75 *)(reinterpret_cast<::FUN_008b3d50_This *>((actor))->FUN_008b3d50())));
-            Point75 delta = reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e71b0::Time75 *>(&::g_timeGlobal))))->GetStoredFloatValue());
+            Point75 delta = *(const Point75 *)&ResultSlot(reinterpret_cast<::Point3_0053d280 *>((void *)&(const ::fnv_009e71b0::Point75 &)(velocity))->FUN_0053d280(reinterpret_cast<::Twin_0084d030 *>(&((*reinterpret_cast<::fnv_009e71b0::Time75 *>(&::g_timeGlobal))))->GetStoredFloatValue()));
             if (reinterpret_cast<::TESCombatStyle *>((void *)&(delta))->UpdateCombatStyle() > actor->Radius())
             {
                 reinterpret_cast<::FUN_00905450_StandIn *>((avoid))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009e71b0::Area75 &)(Area75(reinterpret_cast<const Position75&>(actor->Position()) + delta, weight, 2.0f, kind)));

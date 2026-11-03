@@ -1,25 +1,9 @@
 // src/havok/physics/vehicle/hkpvehicleinstanceclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstanceclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00e38bf0.h"
-struct AudioAllocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void Free(void* apMemory, unsigned int auiSize) throw();
-};
-
-struct AudioHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AudioAllocator* m_pAllocator;
-};
-
-
 
 struct FUN_00dfbe50_cls
 {
@@ -38,9 +22,9 @@ FUN_00dfbe50_cls* FUN_00dfbe50_cls::FUN_00dfbe50(unsigned char acFlags)
     reinterpret_cast<::FUN_00e38bf0 *>(this)->FUN_00e38bf0::~FUN_00e38bf0();
     if (acFlags & 1)
     {
-        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
-        AudioAllocator* pAllocator = pHolder->m_pAllocator;
-        pAllocator->Free(this, m_uSize);
+        hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* pAllocator = pHolder->m_heap;
+        pAllocator->blockFree(this, m_uSize);
     }
     return this;
 }

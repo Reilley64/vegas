@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/contactlistener/util/hkpcollisioncallbackutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/FUN_00d92820_cls.h"
@@ -35,17 +36,7 @@ struct FUN_00d0b1e0
 };
 extern int DAT_010cb1e4;
 
-struct CallbackInterface
-{
-    virtual void f0();
-    virtual void f1();
-    virtual void callback(void*, unsigned short);
-};
-struct Manager
-{
-    int unk00[4];
-    CallbackInterface* interface10;
-};
+
 // Initializes the object's base subobject and pointers, then if flags bit 0 is set calls callback on the manager's interface with this and unk04.
 // @fnv 0x00d0b1e0
 FUN_00d0b1e0::FUN_00d0b1e0(int flags)
@@ -56,8 +47,8 @@ FUN_00d0b1e0::FUN_00d0b1e0(int flags)
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
     if (flags & 1)
     {
-        Manager* manager = (Manager*)::FUN_00c85750();
-        manager->interface10->callback(this, unk04);
+        hkMemoryRouter* manager = &hkMemoryRouter::getInstance();
+        manager->m_heap->blockFree(this, unk04);
     }
 }
 
@@ -398,19 +389,6 @@ Derived::Derived()
 {}
 
 namespace fnv_00d0b040 {
-struct hkMemory
-{
-    virtual void unk00();
-    virtual void* allocateChunk(int size);
-};
-
-struct hkThreadMemory
-{
-    char pad00[0x10];
-    hkMemory* m_pMemoryAllocator;
-};
-
-
 
 struct SubObj
 {
@@ -446,8 +424,8 @@ void __cdecl FUN_00d0b040(TargetClass* obj)
         return;
     }
 
-    hkThreadMemory* threadMem = static_cast<hkThreadMemory*>(::FUN_00c85750());
-    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_pMemoryAllocator->allocateChunk(0x4c);
+    hkMemoryRouter* threadMem = &hkMemoryRouter::getInstance();
+    hkpCollisionCallbackUtil* mem = (hkpCollisionCallbackUtil*)threadMem->m_heap->blockAlloc(0x4c);
     mem->m_usMemSizeAndFlags = 0x4c;
     util = ((::fnv_00d0b040::hkpCollisionCallbackUtil *)(reinterpret_cast<::FUN_00d0b180_cls *>((mem))->Initialize()));
     obj->m_pCallbackData = util;

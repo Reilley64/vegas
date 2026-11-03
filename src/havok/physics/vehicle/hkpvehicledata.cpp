@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/hkpvehicledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkpVehicleData.h"
 
@@ -24,20 +25,6 @@ extern "C"
     void _ReadWriteBarrier();
 }
 
-
-struct hkMemoryAllocator;
-struct NineIntegerRecord
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct SimdReal
@@ -147,7 +134,7 @@ template <class T> struct Array
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(static_cast<NineIntegerRecord*>(::FUN_00c85750())->heap(), n);
+        _setSize(hkMemoryRouter::getInstance().heap(), n);
     }
     __forceinline T& operator[](int i)
     {

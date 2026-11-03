@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/rejectchassislistener/hkprejectchassislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010c9000.h"
@@ -82,29 +83,6 @@ struct FunAdjust_Derived : FunAdjust_Plat, FunAdjust_Host, FunAdjust_Shim
 FunAdjust_Derived::FunAdjust_Derived()
 {}
 
-class hkMemoryAllocatorXdfbd40
-{
-  public:
-    virtual ~hkMemoryAllocatorXdfbd40() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterXdfbd40
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorXdfbd40* m_pStreamAllocator;
-
-    hkMemoryAllocatorXdfbd40& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
 
 class hkObjdfbd40 : public hkpRejectChassisListener
 {
@@ -113,7 +91,7 @@ class hkObjdfbd40 : public hkpRejectChassisListener
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterXdfbd40*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkObjdfbd40*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {

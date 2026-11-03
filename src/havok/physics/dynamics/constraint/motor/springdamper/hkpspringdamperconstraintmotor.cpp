@@ -2,31 +2,11 @@
 // src/havok/physics/dynamics/constraint/motor/springdamper/hkpspringdamperconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/springdamper/hkpspringdamperconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "havok/hkpSpringDamperConstraintMotor.h"
 
-class S00d862a0_Heap
-{
-  public:
-    virtual ~S00d862a0_Heap() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct S00d862a0_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S00d862a0_Heap* m_pStreamAllocator;
-
-    S00d862a0_Heap& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace S00d862a0_Rt {
 
@@ -55,7 +35,7 @@ class S00d862a0_Ref : public S00d862a0_Base
 
     static void* operator new(size_t nbytes)
     {
-        S00d862a0_Ref* b = static_cast<S00d862a0_Ref*>((*static_cast<S00d862a0_Router*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        S00d862a0_Ref* b = static_cast<S00d862a0_Ref*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

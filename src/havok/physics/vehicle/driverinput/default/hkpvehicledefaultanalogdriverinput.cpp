@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/driverinput/default/hkpvehicledefaultanalogdriverinput.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -251,27 +252,6 @@ hkReal AnalogDriverInput::FUN_00e435a0(hkReal deltaTime, const hkpVehicleDriverI
     return v;
 }
 
-class hkMemoryAllocatorE43A
-{
-  public:
-    virtual ~hkMemoryAllocatorE43A() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE43A
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE43A* m_pStreamAllocator;
-
-    hkMemoryAllocatorE43A& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE43A {
 
@@ -286,7 +266,7 @@ class hkRefObjE43A
 
     static void* operator new(size_t nbytes)
     {
-        hkRefObjE43A* b = static_cast<hkRefObjE43A*>((*static_cast<hkMemoryRouterE43A*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
+        hkRefObjE43A* b = static_cast<hkRefObjE43A*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }

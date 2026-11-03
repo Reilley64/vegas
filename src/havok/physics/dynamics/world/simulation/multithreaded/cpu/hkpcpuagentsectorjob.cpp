@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <new>
@@ -244,8 +245,6 @@ __forceinline void profile(const char *name, unsigned long tlsIndex) {
         m->end = p + 1;
     }
 }
-struct Allocator { virtual void v0(); virtual void v1(); virtual void release(void *, int); };
-struct Memory { int field00, field04, field08, field0c; Allocator *allocator; };
 
 __forceinline Quality *qualityAt(Context &c, int index) { return ((Dispatcher *)c.dispatcher)->qualities + index; }
 __forceinline void storeResults(Statistics *s, Owner &owner) {
@@ -356,7 +355,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
     }
     int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
     owner.dispatch = &(*reinterpret_cast<int *>(&::DAT_0102e388));
-    if (context.allocation) { Memory *m = static_cast<Memory*>(::FUN_00c85750()); Allocator *a = m->allocator; a->release(context.allocation, 512); }
+    if (context.allocation) { hkMemoryRouter *m = &hkMemoryRouter::getInstance(); hkMemoryAllocator *a = m->m_heap; a->blockFree(context.allocation, 512); }
     return result;
 }
 

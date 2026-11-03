@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include <cstdint>
 
@@ -670,20 +671,6 @@ void FUN_00def160_cls::FUN_00def160()
 }  // namespace fnv_00def160
 
 namespace fnv_00def500 {
-struct CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    CpuAllocator* allocator;
-};
 
 struct CpuObject
 {
@@ -691,15 +678,15 @@ struct CpuObject
     unsigned short size;
     CpuObject* FUN_00def500(unsigned int flags);
 };
-// Calls FUN_00def160, and if the low bit of flags is set, invokes the CpuAllocator from FUN_00c85750 with this and size, then returns this.
+// Calls FUN_00def160, and if the low bit of flags is set, invokes the hkMemoryAllocator from FUN_00c85750 with this and size, then returns this.
 // @fnv 0x00def500
 CpuObject* CpuObject::FUN_00def500(unsigned int flags)
 {
     reinterpret_cast<::fnv_00def160::FUN_00def160_cls *>(this)->FUN_00def160();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

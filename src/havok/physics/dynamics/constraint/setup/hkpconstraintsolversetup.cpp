@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/setup/hkpconstraintsolversetup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cstdint>
@@ -321,21 +322,6 @@ void __cdecl FUN_00d88670(hkpConstraintSolverResourcesD886& kResources, hkpEntit
     kResources.m_pVelocityAccumulatorC->m_type = 3;
 }
 
-struct S88_Allocator;
-
-struct S88_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S88_Allocator* m_pStreamAllocator;
-    S88_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 template <typename T> struct S88_PadSpu
@@ -644,7 +630,7 @@ struct S88_Array
     }
     S88_SchemaInfo& AllocatePair()
     {
-        S88_Allocator& alloc = static_cast<S88_Router*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
             ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(S88_SchemaInfo));
@@ -922,69 +908,12 @@ extern const char str_010d3d70[];
 extern const char str_010d3d60[];
 
 // hkMemoryAllocator
-struct S88b50_Allocator
-{
-    virtual void v00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-    virtual void ReleaseBlock(void* p, int numBytes);
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
-    virtual void ReturnMemory(void* p, int numBytes);
-    template <typename T> T* _bufAlloc(int& reqNumInOut)
-    {
-        int n = reqNumInOut;
-        void* p = AllocateBufferWithSize(n);
-        reqNumInOut = n;
-        return static_cast<T*>(p);
-    }
-    template <typename T> void _bufFree(void* p, int numElem)
-    {
-        ReturnMemory(p, numElem);
-    }
-};
-struct S88b50_Stack
-{
-    char* m_pTileTemplate;
-    int unk04;
-    int unk08;
-    void* allocateStack(int numBytes)
-    {
-        char* current = m_pTileTemplate;
-        m_pTileTemplate = current + numBytes;
-        return current;
-    }
-};
-struct S88b50_Router
-{
-    S88b50_Stack m_aiEntries;
-    S88b50_Allocator* m_pTemp;
-    S88b50_Allocator* m_pStreamAllocator;
-    S88b50_Allocator* m_pDebugAllocator;
-    S88b50_Allocator* m_pSolver;
-    S88b50_Stack& stack()
-    {
-        return m_aiEntries;
-    }
-    S88b50_Allocator& temp()
-    {
-        return *m_pTemp;
-    }
-    S88b50_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-    S88b50_Allocator& solver()
-    {
-        return *m_pSolver;
-    }
-    static S88b50_Router& GetMonitorStream()
-    {
-        return *(S88b50_Router*)static_cast<S88_Router*>(::FUN_00c85750());
-    }
-};
+
+
 static __forceinline char* S88b50_allocateStack(int n)
 {
-    S88b50_Router& mem = S88b50_Router::GetMonitorStream();
-    return static_cast<char*>(mem.stack().allocateStack((n + 127) & ~127));
+    hkMemoryRouter& mem = hkMemoryRouter::getInstance();
+    return static_cast<char*>(mem.allocateStack((n + 127) & ~127));
 }
 
 struct S88b50_ConstraintInternal
@@ -1206,21 +1135,21 @@ struct S88b50_InplaceArray
     }
     void AddBack(const S88b50_ConstraintInternal* const& t)
     {
-        S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
-            ::ResizeAudioStream((::AudioAllocator *)&(*(S88_Allocator*)&alloc), (::AudioStream *)(void *)(this), sizeof(t));
+            ::ResizeAudioStream((::AudioAllocator *)&alloc, (::AudioStream *)(void *)(this), sizeof(t));
         }
         m_data[m_iElementCount] = t;
         m_iElementCount++;
     }
     void destroy()
     {
-        S88b50_Allocator& alloc = S88b50_Router::GetMonitorStream().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc._bufFree<const S88b50_ConstraintInternal*>(m_data, getCapacity() * 4);
+            alloc.bufFree(m_data, getCapacity() * int(sizeof(const S88b50_ConstraintInternal*)));
         }
     }
 };
@@ -1482,7 +1411,7 @@ int __cdecl FUN_00d88b50(const hkStepInfoD886& stepInfo, const void* solverInfo,
     char* bufferEnd;
     if (preallocatedBuffer == 0)
     {
-        scratch = S88b50_Router::GetMonitorStream().solver()._bufAlloc<char>(totalSize);
+        scratch = hkMemoryRouter::getInstance().solver()._bufAlloc<char>(totalSize);
         buffer = scratch;
         bufferEnd = buffer + totalSize;
     }
@@ -1549,11 +1478,11 @@ redoElemTemp:
         }
         if (scratch2 != 0)
         {
-            S88b50_Router::GetMonitorStream().temp().ReleaseBlock(scratch2, scratch2Size);
+            hkMemoryRouter::getInstance().temp().blockFree(scratch2, scratch2Size);
         }
         if (scratch != 0)
         {
-            S88b50_Router::GetMonitorStream().solver()._bufFree<char>(scratch, totalSize);
+            hkMemoryRouter::getInstance().solver()._bufFree<char>(scratch, totalSize);
         }
         return result;
     }
@@ -1562,7 +1491,7 @@ redoElemTemp:
         if (schemas >= bufferEnd)
         {
             scratch2Size = (int)(buffer - scratch);
-            scratch2 = (char*)S88b50_Router::GetMonitorStream().temp().AllocateMemoryBlock(scratch2Size);
+            scratch2 = (char*)hkMemoryRouter::getInstance().temp().blockAlloc(scratch2Size);
             buffer = scratch2;
             bufferEnd = buffer + scratch2Size;
             goto redoAll;
@@ -1574,7 +1503,7 @@ redoElemTemp:
             int maxFree = S88b50_max2(freeSchemaSpace, 0);
             int schemaBSize = island.m_iSchemaByteSize + minSchemaSize - maxFree;
             scratch2Size = elemTempSize + schemaBSize;
-            scratch2 = (char*)S88b50_Router::GetMonitorStream().temp().AllocateMemoryBlock(scratch2Size);
+            scratch2 = (char*)hkMemoryRouter::getInstance().temp().blockAlloc(scratch2Size);
             if (freeSchemaSpace < 0)
             {
                 buffer = scratch2;

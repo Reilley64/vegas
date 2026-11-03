@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldagentutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldagentutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkpCollisionDispatcher.h"
 #include "fnv/decl/ContainerD082.h"
@@ -395,22 +396,6 @@ struct DispatchContext
     void* table;
 };
 typedef void(__cdecl* EventHandler)(void*, void*, void*, void*, void*, void*, void*);
-struct MemoryAllocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0c();
-    virtual void Free(void* pointer, unsigned int bytes);
-};
-struct BSAudio
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    MemoryAllocator* volatile allocator;
-};
 
 // @fnv 0x00cc1190
 void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
@@ -443,11 +428,11 @@ void __cdecl DispatchEvents(EventSource* source, DispatchContext* context)
             ++index;
         } while (index < events.count);
     }
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    MemoryAllocator* allocator = audio->allocator;
+    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* allocator = audio->m_heap;
     events.count = 0;
     if (!(events.capacity & (int)0x80000000))
-        allocator->Free(events.data, (events.capacity & 0x3fffffff) * 8);
+        allocator->bufFree(events.data, (events.capacity & 0x3fffffff) * 8);
 }
 
 struct ItemEntry

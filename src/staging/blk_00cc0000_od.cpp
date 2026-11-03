@@ -2,6 +2,7 @@
 // src/staging/blk_00cc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "bsmenu/global_string_header.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
@@ -2747,7 +2748,7 @@ struct Name
     ~Name()
     {
         if (value != ::DAT_0109b220)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(value) - 2);
+            InterlockedDecrement(&(reinterpret_cast<StringHeader*>(value) - 1)->refs);
     }
 };
 
@@ -7916,7 +7917,10 @@ static __forceinline DWORD Tick()
 
 struct IkVector4
 {
-    __m128 m_vComponents;
+    union {
+        __m128 m_vComponents;
+        unsigned __int64 m_halves[2];
+    };
     __forceinline IkVector4() {}
     __forceinline void operator=(const IkVector4& v) { m_vComponents = v.m_vComponents; }
 };
@@ -7927,7 +7931,7 @@ struct hkQuaternion
 {
     IkVector4 m_vec;
     __forceinline hkQuaternion() {}
-    __forceinline hkQuaternion(const hkQuaternion& q) { reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[0]=reinterpret_cast<const unsigned __int64*>(&q.m_vec.m_vComponents)[0]; reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[1]=reinterpret_cast<const unsigned __int64*>(&q.m_vec.m_vComponents)[1]; }
+    __forceinline hkQuaternion(const hkQuaternion& q) { m_vec.m_halves[0]=q.m_vec.m_halves[0]; m_vec.m_halves[1]=q.m_vec.m_halves[1]; }
 __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(const QuadWords*)&q.m_vec;}
     __declspec(noalias) void FUN_005611c0();
     void FUN_00cb2450(const IkVector4& axis, float angle);

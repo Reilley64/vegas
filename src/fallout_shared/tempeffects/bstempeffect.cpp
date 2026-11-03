@@ -95,7 +95,7 @@ struct BGSLoadFormBuffer
 {
 };
 
-struct FUN_00682a80_shell
+struct FUN_00682a80_shell : ::BSTempEffect
 {
     void FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer);
 };
@@ -103,9 +103,9 @@ struct FUN_00682a80_shell
 // @fnv 0x00682a80
 void FUN_00682a80_shell::FUN_00682a80(BGSLoadFormBuffer* apLoadGameBuffer)
 {
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 8)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x10)), 4);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)this + 0x14)), 1);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_fParticleParameter5)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->m_fFirstFloatValue)), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((void*)((char*)&this->bInitialized)), 1);
 }
 
 struct FUN_00682810_shell
@@ -157,7 +157,7 @@ bool FUN_006828a0_shell::FUN_006828a0(float afTimeDelta)
 struct BGSSaveFormBuffer
 {
 };
-struct Holder00682a30
+struct Holder00682a30 : ::BSTempEffect
 {
     void FUN_00682a30(BGSSaveFormBuffer*);
 };
@@ -165,9 +165,9 @@ struct Holder00682a30
 // @fnv 0x00682a30
 void Holder00682a30::FUN_00682a30(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 8), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 16), 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)this + 20), 1, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->m_fParticleParameter5), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->m_fFirstFloatValue), 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((void*)((char*)&this->bInitialized), 1, 0);
 }
 
 struct SoundH

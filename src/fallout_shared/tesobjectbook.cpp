@@ -301,7 +301,7 @@ struct FUN_0048ea40_holder
 {
 };
 
-struct FUN_00515340_shell
+struct FUN_00515340_shell : ::TESObjectBOOK
 {
     void FUN_00515340(BGSSaveFormBuffer* buffer);
 };
@@ -310,9 +310,9 @@ struct FUN_00515340_shell
 void FUN_00515340_shell::FUN_00515340(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged(buffer);
-    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(reinterpret_cast<char*>(this) + 0x84)))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
+    reinterpret_cast<::fnv_0048ea40::TESValueForm *>((reinterpret_cast<FUN_0048ea40_holder*>(static_cast<TESValueForm *>(this))))->FUN_0048ea40((::fnv_0048ea40::BGSSaveFormBuffer *)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(buffer)->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
-        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(this) + 0xc1, 1, 0);
+        reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(reinterpret_cast<char*>(&this->Data.teaches), 1, 0);
 }
 
 struct FUN_005146a0_shell

@@ -529,7 +529,7 @@ struct BGSSaveFormBuffer
 struct FUN_00484d60_holder
 {
 };
-struct FUN_005f5780_holder
+struct FUN_005f5780_holder : ::TESChallenge
 {
     void FUN_005f5780(BGSSaveFormBuffer*);
 };
@@ -538,8 +538,8 @@ struct FUN_005f5780_holder
 void FUN_005f5780_holder::FUN_005f5780(BGSSaveFormBuffer* apBuffer)
 {
     reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged(apBuffer);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x6C, 4, 0);
-    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)this + 0x70, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)&this->progress, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50((char*)&this->progress.m_iCompletionCount, 4, 0);
 }
 
 struct BSIntToType1

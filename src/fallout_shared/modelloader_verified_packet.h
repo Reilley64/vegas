@@ -16,30 +16,12 @@
 #include "fnv/symbols_00af6000.h"
 #include "fnv/symbols_011c3000.h"
 #include "fnv/symbols_01202000.h"
-class QueuedReference
-{
-  public:
-    void Attach();
-    void FUN_00441b80();
-    void FUN_004414f0();
-};
-
-class QueuedCharacter : public QueuedReference
-{
-  public:
-    void Attach();
-};
-
-class QueuedPlayer : public QueuedCharacter
-{
-  public:
-    void Attach();
-};
 
 class BSFileEntry;
 class Archive;
 class TESObjectREFR;
 class QueuedFile;
+class KFModel;
 class BGSPerkEntry;
 class CountingSemaphore;
 class BSStream;
@@ -90,11 +72,7 @@ class Archive : public ArchiveManager
 {
 };
 
-class QueuedTexture : public LocationDescriptor
-{
-  public:
-    unsigned char GetFileIndex();
-};
+
 
 class BGSTerrainChunkLoadTask : public LocationDescriptor
 {
@@ -135,6 +113,7 @@ class ModelLoader
 template <class T> class NiPointer
 {
   public:
+    T* m_pObject;
     NiPointer(T*);
     operator T*() const;
     NiPointer<T>& operator=(T*);
@@ -185,11 +164,46 @@ class IOTask
     IO_TASK_PRIORITY FUN_0043cc60();
 public:
     void FUN_00c3c7e0(::RefObj *);
+    unsigned int m_uiUnk04;      // +0x04
+    volatile long m_iRefCount;   // +0x08
+    volatile long m_eState;      // +0x0C, the task state FUN_004491c0 swaps
+    __int64 m_iKey;              // +0x10, file index, offset, priority and counter
 };
 class QueuedFile : public IOTask
 {
 public:
     void SetParent(::QueuedFile *);
+    int m_iMemoryContext;        // +0x18
+    unsigned int m_uiUnk1C;      // +0x1C
+    void* m_pUnk20;              // +0x20
+    unsigned int m_uiUnk24;      // +0x24
+};
+class QueuedReference : public QueuedFile
+{
+  public:
+    void Attach();
+    void FUN_00441b80();
+    void FUN_004414f0();
+    TESObjectREFR* m_pRef;       // +0x28
+    void* m_pUnk2C;              // +0x2C
+    void* m_pUnk30;              // +0x30
+    void* m_spClone;             // +0x34, the reference's cloned 3D
+};
+
+class QueuedCharacter : public QueuedReference
+{
+  public:
+    void Attach();
+    unsigned int m_uiUnk38;      // +0x38
+    unsigned int m_uiUnk3C;      // +0x3C
+    void* m_pUnk40;              // +0x40
+    void* m_spHelmet;            // +0x44, NiPointer<QueuedHelmet>
+};
+
+class QueuedPlayer : public QueuedCharacter
+{
+  public:
+    void Attach();
 };
 class QueuedModel : public QueuedFile
 {
@@ -197,11 +211,21 @@ class QueuedModel : public QueuedFile
     void GenerateKey();
     void DispatchToManager();
     void OnChildCompletion();
+    unsigned int m_uiUnk28;      // +0x28
+    unsigned int m_uiUnk2C;      // +0x2C
+    unsigned int m_uiUnk30;      // +0x30
+    void* m_pModelForm;          // +0x34, the form whose texture swaps are queued
+    unsigned int m_uiUnk38;      // +0x38
+    unsigned char m_ucFlags;     // +0x3C
 };
 class QueuedKF : public QueuedFile
 {
   public:
     void DispatchToManager();
+    unsigned int m_uiUnk28;      // +0x28
+    unsigned int m_uiUnk2C;      // +0x2C
+    NiPointer<KFModel> m_spKFModel;  // +0x30
+    unsigned char m_ucFlags;     // +0x34
 };
 class QueuedHead : public QueuedFile
 {
@@ -214,6 +238,21 @@ class QueuedAnimIdle : public QueuedFile
   public:
     void OnChildCompletion();
     void ProcessLoadedAnimIdle();
+    unsigned int m_uiUnk28;      // +0x28
+    unsigned int m_uiUnk2C;      // +0x2C
+    NiPointer<QueuedFile> m_spFirstChild;   // +0x30
+    unsigned int m_uiUnk34;      // +0x34
+    unsigned int m_uiUnk38;      // +0x38
+    NiPointer<QueuedFile> m_spSecondChild;  // +0x3C
+};
+class QueuedTexture : public QueuedFile
+{
+  public:
+    unsigned char GetFileIndex();
+    unsigned int m_uiUnk28;      // +0x28
+    unsigned int m_uiUnk2C;      // +0x2C
+    const char* m_pFileName;     // +0x30
+    unsigned char m_ucFlags;     // +0x34
 };
 class IOManager
 {

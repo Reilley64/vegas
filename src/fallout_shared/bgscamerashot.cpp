@@ -171,7 +171,7 @@ struct FUN_0058be60_host
 struct FUN_005e78f0_t
 {
 };
-struct FUN_0058bfc0_shell
+struct FUN_0058bfc0_shell : ::BGSCameraShot
 {
     void CopyFromCameraShot(TESForm*);
 };
@@ -184,7 +184,7 @@ void FUN_0058bfc0_shell::CopyFromCameraShot(TESForm* apCopy)
     if (!pcopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0((TESForm*)pcopy);
-    __memcpy((char*)this + 0x38, (char*)&pcopy->Data, 0x28);
+    __memcpy((char*)&this->Data, (char*)&pcopy->Data, 0x28);
 }
 
 struct Flt
@@ -221,7 +221,7 @@ bool FUN_0058d630_shell::FUN_0058d630()
 struct FUN_005e79a0_t
 {
 };
-struct FUN_0058c020_shell
+struct FUN_0058c020_shell : ::BGSCameraShot
 {
     bool FUN_0058c020(TESForm*);
 };
@@ -233,7 +233,7 @@ bool FUN_0058c020_shell::FUN_0058c020(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pCameraShot))
         return true;
-    if (std::memcmp(reinterpret_cast<char*>(this) + 0x38, reinterpret_cast<char*>(&pCameraShot->Data), 0x28))
+    if (std::memcmp(reinterpret_cast<char*>(&this->Data), reinterpret_cast<char*>(&pCameraShot->Data), 0x28))
         return true;
     return false;
 }

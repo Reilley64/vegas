@@ -210,7 +210,7 @@ bool FUN_00509d30_shell::FUN_00509d30(unsigned char aucValue)
     return false;
 }
 
-struct FUN_00509d60_class
+struct FUN_00509d60_class : ::TESGrass
 {
     bool FUN_00509d60(unsigned char value);
 };
@@ -219,9 +219,9 @@ struct FUN_00509d60_class
 // @fnv 0x00509d60
 bool FUN_00509d60_class::FUN_00509d60(unsigned char value)
 {
-    if (value <= 0x5a && value <= ((unsigned char*)this)[0x4a])
+    if (value <= 0x5a && value <= this->Data.m_ucMaxSlope)
     {
-        ((unsigned char*)this)[0x49] = value;
+        this->Data.m_ucMinSlope = value;
         return true;
     }
     return false;

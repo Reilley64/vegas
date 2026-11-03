@@ -646,7 +646,7 @@ bool FUN_0060d8d0_shell::HasFlag0x10()
     return (*reinterpret_cast<unsigned char*>(((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>((this))->GetField()))) & 0x10) != 0;
 }
 
-struct FUN_0060e680_shell
+struct FUN_0060e680_shell : ::TESQuest
 {
     void SetFlags(unsigned int arg);
 };
@@ -674,7 +674,7 @@ struct BSStringT_char
 struct BSStr
 {
 };
-struct FUN_0060dab0_shell
+struct FUN_0060dab0_shell : ::TESQuest
 {
     bool FUN_0060dab0(const char* arg);
 };

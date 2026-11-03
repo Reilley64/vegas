@@ -126,7 +126,7 @@ struct FUN_0048e370_obj
 {
     void FUN_0048e370(unsigned int);
 };
-struct FUN_00509280_obj
+struct FUN_00509280_obj : ::BGSMenuIcon
 {
     void FUN_0048e370(unsigned int);
     void FUN_00590470();
@@ -135,7 +135,7 @@ struct FUN_00509280_obj
 void FUN_00509280_obj::FUN_00590470()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0_shell*)this)))->FUN_004855a0();
-    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)((char*)this + 0x18))))->FUN_0048e370(0x4e4f4349);
+    reinterpret_cast<::fnv_0048e370::FUN_0048e370_shell *>((((FUN_0048e370_obj*)&this->icon)))->FUN_0048e370(0x4e4f4349);
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 

@@ -340,16 +340,15 @@ struct GlobalObject2_0040c150
 GlobalObject2_0040c150 g_011cd3b4;
 GlobalObject2_0040c150 g_011cd538;
 GlobalObject2_0040c150 g_011cdde0;
-struct FUN_004fb810_shell
+struct FUN_004fb810_shell : ::BGSExplosion
 {
-    int m_00a4;
     int* FUN_004fb810();
 };
 // @fnv 0x004fb810
 int* FUN_004fb810_shell::FUN_004fb810()
 {
     std::intptr_t result = 0;
-    switch (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xa4))
+    switch (*reinterpret_cast<int*>(&this->Data.m_eSoundLevel))
     {
     case 2:
         result = ((int *)&(::FUN_0043d4d0((int *)(((GlobalObject_0045cfe0*)&g_011cd3b4)))))[0];

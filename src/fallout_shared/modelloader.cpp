@@ -436,7 +436,7 @@ void QueuedKF::DispatchToManager()
 // @fnv 0x0043ec20
 void QueuedHead::DispatchToManager()
 {
-    ::QueueFaceGenAssets((::TESActorBase *)(*reinterpret_cast<TESNPC**>(reinterpret_cast<char*>(this) + 0x28)),
+    ::QueueFaceGenAssets((::TESActorBase *)(*reinterpret_cast<TESNPC**>(&this->m_pUnk20)),
                                          (*(int *)&(const ::IO_TASK_PRIORITY &)(FUN_0043cc60())), this);
     vfn_28();
 }
@@ -862,7 +862,7 @@ struct FUN_0043c100_shell : public QueuedTexture
 // @fnv 0x0043c100
 void FUN_0043c100_shell::FUN_0043c100(bool abValue)
 {
-    ::FUN_0044aea0(abValue, (unsigned char *)(void *)(reinterpret_cast<char*>(this) + 0x34));
+    ::FUN_0044aea0(abValue, (unsigned char *)(void *)(reinterpret_cast<char*>(&this->m_uiUnk2C)));
 }
 
 struct FUN_0043c130_shell : public ModelLoader
@@ -893,7 +893,7 @@ struct FUN_0043c3d0_shell : public QueuedTexture
 // @fnv 0x0043c3d0
 bool FUN_0043c3d0_shell::FUN_0043c3d0()
 {
-    return ((bool)(::fnv_0044ae50::FUN_0044ae50(*(unsigned char*)((char*)this + 0x34))));
+    return ((bool)(::fnv_0044ae50::FUN_0044ae50(*(unsigned char*)&this->m_uiUnk2C)));
 }
 
 struct _TLS_0043c3f0
@@ -968,7 +968,7 @@ struct FUN_0043c630_shell : public QueuedTexture
 // @fnv 0x0043c630
 bool FUN_0043c630_shell::FUN_0043c630()
 {
-    return ((bool)(::fnv_0044ae90::FUN_0044ae90(*((unsigned char*)this + 0x34))));
+    return ((bool)(::fnv_0044ae90::FUN_0044ae90(*((unsigned char*)&this->m_uiUnk2C))));
 }
 
 
@@ -1117,7 +1117,7 @@ struct FUN_0043ccc0_shell : public QueuedModel
 // @fnv 0x0043ccc0
 void FUN_0043ccc0_shell::FUN_0043ccc0(bool abValue)
 {
-    ::FUN_0044aea0(abValue, (unsigned char *)(void *)((char*)this + 0x3c));
+    ::FUN_0044aea0(abValue, (unsigned char *)(void *)((char*)&this->m_pModelForm));
 }
 
 struct FUN_0043cf40_shell : public QueuedModel
@@ -1141,7 +1141,7 @@ struct FUN_0043cf60_shell : public QueuedModel
 // @fnv 0x0043cf60
 void FUN_0043cf60_shell::FUN_0043cf60(bool abValue)
 {
-    ::SetFlag8(abValue, (unsigned char *)(void *)((char*)this + 0x3c));
+    ::SetFlag8(abValue, (unsigned char *)(void *)((char*)&this->m_pModelForm));
 }
 
 struct FUN_0043cf90_shell : public QueuedModel
@@ -1362,7 +1362,7 @@ struct FUN_0043e530_shell : public QueuedTexture
 // @fnv 0x0043e530
 bool FUN_0043e530_shell::FUN_0043e530()
 {
-    return ((bool)(::fnv_0044ae10::FUN_0044ae10(*((unsigned char*)this + 0x34))));
+    return ((bool)(::fnv_0044ae10::FUN_0044ae10(*((unsigned char*)&this->m_uiUnk2C))));
 }
 
 struct TESObjectANIO;
@@ -1718,7 +1718,7 @@ void ApplyQueuedModels(const char* pFace);
 // @fnv 0x004418b0
 void FUN_004418b0_shell::AttachHeadAndFaceParts()
 {
-    TESObjectREFR* pcharacter = *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<char*>(this) + 0x28);
+    TESObjectREFR* pcharacter = *reinterpret_cast<TESObjectREFR**>(&this->m_pUnk20);
     Biped* pbiped = ((::fnv_004418b0::Biped *)(::FUN_005d9f90((char *)(reinterpret_cast<TESObjectREFR_Helper*>(pcharacter)))));
 
     if (static_cast<const char*>(*reinterpret_cast<BSStringT<char>*>(reinterpret_cast<char*>(this) + 0x40)))
@@ -3388,13 +3388,13 @@ struct HM
 // @fnv 0x0043c550
 void FUN_0043c550_shell::ApplyQueuedTexture()
 {
-    if (!reinterpret_cast<::FUN_0043e530_shell *>((((H0*)this)))->FUN_0043e530() && (const char*)(*(BSStringT*)((char*)this + 0x30)))
+    if (!reinterpret_cast<::FUN_0043e530_shell *>((((H0*)this)))->FUN_0043e530() && (const char*)(*(BSStringT*)&this->m_uiUnk28))
     {
         if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())))
-            ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)((char*)this + 0x30))),
+            ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)&this->m_uiUnk28)),
                                                ((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())));
         else if (((::fnv_0043c550::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((void *)(((Tile*)this)))->FUN_0045cd60())))
-            ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)((char*)this + 0x30))), 0);
+            ::TextureFileEntrySetter::SetTexture((::NiTexture *)((const char*)(*(BSStringT*)&this->m_uiUnk28)), 0);
     }
     if (((::BSFileEntry *)(reinterpret_cast<::BGSMessageInitAccess *>((((H0*)this)))->GetIconFormID())) && reinterpret_cast<::FUN_0043c630_shell *>((((H0*)this)))->FUN_0043c630())
     {
@@ -4354,7 +4354,7 @@ struct Q441560
 // @fnv 0x00441ba0
 void FUN_00441ba0_shell::FUN_00441ba0()
 {
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(*(int*)&this->m_iKey, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x94e);
     (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer))->LoadIdleAnimations(((IOTask*)this)->FUN_0043cc60(), this);
     ((Q441560*)this)->LoadBipedModel();
@@ -7212,15 +7212,15 @@ bool IsFieldCZero(Dummy_0069b080*);
 // @fnv 0x0043fed0
 void FUN_0043fed0_shell::FUN_0043fed0()
 {
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(*(int*)&this->m_iKey, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x72a);
     DecalList* pdecallist;
-    if ((*(RefV**)((char*)this + 0x28)) && reinterpret_cast<::FUN_00564e60_shell *>(((*(RefV**)((char*)this + 0x28))))->FUN_00564e60() &&
-        !(*(RefV**)((char*)this + 0x28))->v116())
+    if ((*(RefV**)&this->m_pUnk20) && reinterpret_cast<::FUN_00564e60_shell *>(((*(RefV**)&this->m_pUnk20)))->FUN_00564e60() &&
+        !(*(RefV**)&this->m_pUnk20)->v116())
         ((QRV*)this)->v12();
-    if ((*(RefV**)((char*)this + 0x28)))
+    if ((*(RefV**)&this->m_pUnk20))
     {
-        pdecallist = ((::fnv_0043fed0::DecalList *)(reinterpret_cast<::FUN_0041f050_shell *>((((FUN_0041f050_shell*)reinterpret_cast<::FUN_005d43c0_ *>(((*(RefV**)((char*)this + 0x28))))->FUN_005d43c0())))->FUN_0041f050()));
+        pdecallist = ((::fnv_0043fed0::DecalList *)(reinterpret_cast<::FUN_0041f050_shell *>((((FUN_0041f050_shell*)reinterpret_cast<::FUN_005d43c0_ *>(((*(RefV**)&this->m_pUnk20)))->FUN_005d43c0())))->FUN_0041f050()));
         while (pdecallist && !pdecallist->FUN_008256d0())
         {
             ReferenceIntersectionData* pdata = *((::fnv_0043fed0::ReferenceIntersectionData **)((void *)(pdecallist)));
@@ -7299,17 +7299,17 @@ struct FUN_00477640_shell
 void FUN_00440050_shell::FUN_00440050()
 {
     TESModelV* ptesModel;
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(*(int*)&this->m_iKey, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x752);
-    void* pobj = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_007af430_shell*)*(void**)((char*)this + 0x28))))->FUN_007af430()));
-    ptesModel = ((::fnv_00440050::TESModelV *)(reinterpret_cast<::TESObjectREFR *>((((FUN_00571630_shell*)*(void**)((char*)this + 0x28))))->GetTESModel()));
+    void* pobj = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_007af430_shell*)this->m_pUnk20)))->FUN_007af430()));
+    ptesModel = ((::fnv_00440050::TESModelV *)(reinterpret_cast<::TESObjectREFR *>((((FUN_00571630_shell*)this->m_pUnk20)))->GetTESModel()));
     if (!ptesModel || !*ptesModel->GetModelFileName())
         return;
     ((FUN_00444dc0_shell*)g_modelLoader)
-        ->QueueModelForObject(pobj, (char*)this + 0x2c, ((IOTask*)this)->FUN_0043cc60(), this,
-                              *(void**)((char*)this + 0x28));
-    if (!*(Flt*)((char*)this + 0x2c))
-        reinterpret_cast<::FUN_004472a0_shell *>((((FUN_004472a0_shell*)g_modelLoader)))->FUN_004472a0(ptesModel->GetModelFileName(), (char*)this + 0x30);
+        ->QueueModelForObject(pobj, (char*)&this->m_uiUnk24, ((IOTask*)this)->FUN_0043cc60(), this,
+                              this->m_pUnk20);
+    if (!*(Flt*)&this->m_uiUnk24)
+        reinterpret_cast<::FUN_004472a0_shell *>((((FUN_004472a0_shell*)g_modelLoader)))->FUN_004472a0(ptesModel->GetModelFileName(), (char*)&this->m_pRef);
     FUN_00477640_shell* pdestruct = ((::fnv_00440050::FUN_00477640_shell *)(::FUN_00475400(pobj)));
     if (pdestruct)
         reinterpret_cast<::BGSDestructibleObjectForm *>((pdestruct))->QueueResourceLoad((::TESBoundObject *)(pobj), (::IO_TASK_PRIORITY)(((IOTask*)this)->FUN_0043cc60()), (::QueuedFile *)(void *)(this));
@@ -7506,15 +7506,15 @@ void FUN_00440780_shell::FUN_00440780()
 {
     if (::FUN_00449110((int*)this) && reinterpret_cast<::FUN_0043caa0_shell *>((((IOTask*)this)))->FUN_0043caa0() && !::FUN_00449130((int*)this))
     {
-        if (*(Flt*)((char*)this + 0x2c) && !*(Flt*)((char*)this + 0x30))
+        if (*(Flt*)&this->m_uiUnk24 && !*(Flt*)((char*)this + 0x30))
             reinterpret_cast<::NP_0044aed0 *>((((SetterHelper*)((char*)this + 0x30))))->FUN_0044aed0((::WaitableObject *)(void *)(((::fnv_00440780::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)((*(CtlV**)((char*)this + 0x2c))))))));
         bool bbackgroundClone = false;
-        if (*(Flt*)((char*)this + 0x30) && *(TESObjectREFR**)((char*)this + 0x28) != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) &&
-            reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::fnv_00440780::TESObjectCELL *)(((::fnv_00440780::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((ActorS*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget()))), false) &&
-            reinterpret_cast<::TES *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsRefUsable(*(TESObjectREFR**)((char*)this + 0x28)) &&
-            !((::fnv_00440780::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RefA*)*(TESObjectREFR**)((char*)this + 0x28))))->FUN_0043fcd0())))
+        if (*(Flt*)((char*)this + 0x30) && *(TESObjectREFR**)&this->m_pUnk20 != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) &&
+            reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::fnv_00440780::TESObjectCELL *)(((::fnv_00440780::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((ActorS*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget()))), false) &&
+            reinterpret_cast<::TES *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsRefUsable(*(TESObjectREFR**)&this->m_pUnk20) &&
+            !((::fnv_00440780::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RefA*)*(TESObjectREFR**)&this->m_pUnk20)))->FUN_0043fcd0())))
             bbackgroundClone = true;
-        if ((*(VRef_00440780**)((char*)this + 0x28))->v137() || (*(VRef_00440780**)((char*)this + 0x28))->v136())
+        if ((*(VRef_00440780**)&this->m_pUnk20)->v137() || (*(VRef_00440780**)&this->m_pUnk20)->v136())
             bbackgroundClone = false;
         if (bbackgroundClone)
             reinterpret_cast<::FUN_004408d0_S *>((((FUN_004408d0_S*)g_modelLoader)))->ForwardToBCT((::QR2 *)(void *)(this));
@@ -7754,35 +7754,35 @@ struct FUN_00572350_shell
 // @fnv 0x00440ba0
 void FUN_00440ba0_shell::FUN_00440ba0()
 {
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(*(int*)&this->m_iKey, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x804);
     if (::FUN_00449130((int*)this))
         return;
     bool bdisabled = false;
-    bdisabled = reinterpret_cast<::TESForm *>((((RefH*)*(TESObjectREFR**)((char*)this + 0x28))))->GetDisabled() ||
-                reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)*(TESObjectREFR**)((char*)this + 0x28))))->FUN_00440d80();
-    if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())))
-        reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())))))->CellRefLockEnter();
+    bdisabled = reinterpret_cast<::TESForm *>((((RefH*)*(TESObjectREFR**)&this->m_pUnk20)))->GetDisabled() ||
+                reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)*(TESObjectREFR**)&this->m_pUnk20)))->FUN_00440d80();
+    if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())))
+        reinterpret_cast<::TESObjectCELL *>((((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())))))->CellRefLockEnter();
     if (!bdisabled &&
         reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00440ba0::TES * *>(&::g_TES))))->IsCellBuffered(
-            (::TESObjectCELL *)(::fnv_00440ba0::TESObjectCELL *)((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget()))), false))
+            (::TESObjectCELL *)(::fnv_00440ba0::TESObjectCELL *)((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget()))), false))
     {
         if ((unsigned int)*(Flt*)((char*)this + 0x30))
             g_modelLoader->UpdateReferenceNode(
-                *(TESObjectREFR**)((char*)this + 0x28),
-                (NiNode*)(*(BSFaceGenModelExtraData**)((char*)this + 0x30))->GetModelFilePath());
+                *(TESObjectREFR**)&this->m_pUnk20,
+                (NiNode*)(*(BSFaceGenModelExtraData**)&this->m_pRef)->GetModelFilePath());
         reinterpret_cast<::AttachmentHandler *>(((*reinterpret_cast<::fnv_00440ba0::TES * *>(&::g_TES))))->FUN_00451ef0(
-            (::AttachRef *)(*(TESObjectREFR**)((char*)this + 0x28)),
-            (::AttachCell *)(::fnv_00440ba0::TESObjectCELL *)((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget()))), (::AttachRef *)(void *)(this), false);
+            (::AttachRef *)(*(TESObjectREFR**)&this->m_pUnk20),
+            (::AttachCell *)(::fnv_00440ba0::TESObjectCELL *)((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget()))), (::AttachRef *)(void *)(this), false);
     }
-    reinterpret_cast<::FUN_004409e0_shell *>((((FUN_004409e0_shell*)g_modelLoader)))->FUN_004409e0(*(TESObjectREFR**)((char*)this + 0x28));
-    if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())))
+    reinterpret_cast<::FUN_004409e0_shell *>((((FUN_004409e0_shell*)g_modelLoader)))->FUN_004409e0(*(TESObjectREFR**)&this->m_pUnk20);
+    if (((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())))
     {
         ::FinishScriptRunLockAndReset(
-            (char*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())));
-        if (reinterpret_cast<::FUN_00572350_shell *>((((FUN_00572350_shell*)*(TESObjectREFR**)((char*)this + 0x28))))->FUN_00572350())
-            ::FinishScriptRun((char*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())));
-        ::FUN_00541ae0((char *)(((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget())))));
+            (char*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())));
+        if (reinterpret_cast<::FUN_00572350_shell *>((((FUN_00572350_shell*)*(TESObjectREFR**)&this->m_pUnk20)))->FUN_00572350())
+            ::FinishScriptRun((char*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())));
+        ::FUN_00541ae0((char *)(((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)&this->m_pUnk20)))->GetTarget())))));
     }
 }
 }  // namespace fnv_00440ba0
@@ -8447,23 +8447,23 @@ void FUN_00441560_shell::LoadBipedModel()
     BipedAnim* pbipedAnim;
     TESNPC* pnpc;
     TESModel* pmodel;
-    AutoMemHelper tempMemContext(*(int*)((char*)this + 0x18), true,
+    AutoMemHelper tempMemContext(*(int*)&this->m_iKey, true,
                                  "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x8ca);
-    pnpc = (TESNPC*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(N_008c48d0**)((char*)this + 0x28))))->FUN_007af430()));
-    pbipedAnim = (*(RefVtbl**)((char*)this + 0x28))->GetBipedAnim();
+    pnpc = (TESNPC*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*(N_008c48d0**)&this->m_pUnk20)))->FUN_007af430()));
+    pbipedAnim = (*(RefVtbl**)&this->m_pUnk20)->GetBipedAnim();
     if (!pbipedAnim)
     {
-        pbipedAnim = ((::fnv_00441560::BipedAnim *)(reinterpret_cast<::FUN_006055f0_shell *>((((FUN_006055f0_shell*)pnpc)))->GetOrCreateBipedAnim(*(TESObjectREFR**)((char*)this + 0x28))));
+        pbipedAnim = ((::fnv_00441560::BipedAnim *)(reinterpret_cast<::FUN_006055f0_shell *>((((FUN_006055f0_shell*)pnpc)))->GetOrCreateBipedAnim(*(TESObjectREFR**)&this->m_pUnk20)));
     }
     if (pbipedAnim)
     {
-        reinterpret_cast<::TESNPC *>((pnpc))->RebuildHeadModel(*(TESObjectREFR**)((char*)this + 0x28), (::BipedAnim *)(pbipedAnim), 0);
-        reinterpret_cast<::BipedAnim *>((((FUN_004abd30_shell*)pbipedAnim)))->FUN_004abd30((::IO_TASK_PRIORITY)(((IOTask*)this)->FUN_0043cc60()), (*(::NiPointer< ::QueuedHelmet> *)((char*)this + 0x44)), (::QueuedFile *)(void *)(this));
-        reinterpret_cast<::FUN_00444fe0_shell *>((((FUN_00444fe0_shell*)g_modelLoader)))->FUN_00444fe0((::TESNPC *)(pnpc), (char*)this + 0x40, ((IOTask*)this)->FUN_0043cc60(), (QueuedFile*)this);
+        reinterpret_cast<::TESNPC *>((pnpc))->RebuildHeadModel(*(TESObjectREFR**)&this->m_pUnk20, (::BipedAnim *)(pbipedAnim), 0);
+        reinterpret_cast<::BipedAnim *>((((FUN_004abd30_shell*)pbipedAnim)))->FUN_004abd30((::IO_TASK_PRIORITY)(((IOTask*)this)->FUN_0043cc60()), (*(::NiPointer< ::QueuedHelmet> *)&this->m_uiUnk3C), (::QueuedFile *)(void *)(this));
+        reinterpret_cast<::FUN_00444fe0_shell *>((((FUN_00444fe0_shell*)g_modelLoader)))->FUN_00444fe0((::TESNPC *)(pnpc), (char*)&this->m_uiUnk38, ((IOTask*)this)->FUN_0043cc60(), (QueuedFile*)this);
     }
     pmodel = pnpc ? (TESModel*)((char*)pnpc + 0xdc) : 0;
     ((FUN_00445a10_shell*)g_modelLoader)
-        ->QueueModelAnimations(pmodel, ((IOTask*)this)->FUN_0043cc60(), this, *(TESObjectREFR**)((char*)this + 0x28), 0,
+        ->QueueModelAnimations(pmodel, ((IOTask*)this)->FUN_0043cc60(), this, *(TESObjectREFR**)&this->m_pUnk20, 0,
                                0);
     reinterpret_cast<::fnv_004412e0::QueuedActor *>((((FUN_004412e0_shell*)this)))->QueueDismemberedLimbLoads();
 }

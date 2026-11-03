@@ -680,7 +680,7 @@ struct ConditionList_t
 struct Conditions_t
 {
 };
-struct FUN_005eb5e0_t
+struct FUN_005eb5e0_t : ::BGSPerk
 {
     bool CheckPlayerConditions();
 };
@@ -690,7 +690,7 @@ bool FUN_005eb5e0_t::CheckPlayerConditions()
 {
     bool bresult;
     const ConditionList_t* pCurrentElementNext;
-    bresult = *(reinterpret_cast<bool*>(this) + 0x3b);
+    bresult = this->Data.bPlayable;
     if (bresult)
     {
         pCurrentElementNext = ((const ::ConditionList_t *)((void *)(reinterpret_cast<Conditions_t*>(reinterpret_cast<char*>(this) + 0x40))));
@@ -1831,7 +1831,7 @@ struct FUN_005eb800_perk_vtable
     virtual void FUN_34(void*, bool) = 0;
 };
 
-struct FUN_005eb800_shell
+struct FUN_005eb800_shell : ::BGSPerk
 {
     void FUN_005eb800(BGSPerk* perk, bool flag);
 };
@@ -1903,7 +1903,7 @@ struct FUN_00680f70_helper
 {
 };
 
-struct FUN_005eba00_shell
+struct FUN_005eba00_shell : ::BGSPerk
 {
     bool FUN_005eba00(TESObjectREFR* apActionRef);
 };

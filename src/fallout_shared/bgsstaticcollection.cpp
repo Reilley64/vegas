@@ -116,7 +116,7 @@ struct S_0048a520
 {
 };
 
-struct FUN_004fe520_shell
+struct FUN_004fe520_shell : ::BGSStaticCollection
 {
     void FUN_004fe520(void);
 };
@@ -126,7 +126,7 @@ struct FUN_004fe520_shell
 void FUN_004fe520_shell::FUN_004fe520(void)
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
-    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)((char*)this + 0x30))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
+    reinterpret_cast<::FUN_0048a520_shell *>((((S_0048a520*)static_cast<TESModelTextureSwap *>(this))))->ProcessAndFreeData(0x4c444f4d, 0x54444f4d, 0x53444f4d);
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 

@@ -172,7 +172,7 @@ struct FUN_0058dda0_shell : public BGSImpactData
     bool IsDifferentFrom(TESForm* apCompare);
 };
 
-struct FUN_0058de80_class
+struct FUN_0058de80_class : ::BGSImpactData
 {
     bool IsFlagSet();
 };
@@ -202,7 +202,7 @@ bool FUN_0058dda0_shell::IsDifferentFrom(TESForm* apCompare)
 // @fnv 0x0058de80
 bool FUN_0058de80_class::IsFlagSet()
 {
-    return (reinterpret_cast<unsigned char*>(this)[0x44] & 1) ? true : false;
+    return (this->Data.cFlags & 1) ? true : false;
 }
 
 struct TagX
@@ -377,12 +377,8 @@ struct FUN_00593320_shell
     void FUN_00593320(void*);
 };
 
-struct FUN_0058e450_shell
+struct FUN_0058e450_shell : ::BGSImpactData
 {
-    unsigned char padding[0x48];
-    TESForm* m_pDecalTextureSet;
-    TESForm* m_pPrimaryImpactSound;
-    TESForm* m_pSecondaryImpactSound;
 
     void FUN_0058e450();
 };
@@ -394,24 +390,24 @@ void FUN_0058e450_shell::FUN_0058e450()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((reinterpret_cast<FUN_004855a0*>(this)))->FUN_004855a0();
 
-    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(reinterpret_cast<unsigned char*>(this) + 0x18)))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
+    reinterpret_cast<::FUN_004891d0_cls *>((reinterpret_cast<FUN_004891d0_obj*>(static_cast<TESModel *>(this))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::OpaqueData *>((reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->SwapEndian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(&this->Data))), 0x18);
 
     if (((bool)(::FUN_00401500())))
     {
-        reinterpret_cast<::OpaqueData *>((reinterpret_cast<BGSImpactData__IMPACT_DATA_DATA*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->SwapEndian();
+        reinterpret_cast<::OpaqueData *>((&this->Data))->SwapEndian();
     }
 
     if (!reinterpret_cast<::FUN_0058de80_class *>((reinterpret_cast<FUN_0058de80_shell*>(this)))->IsFlagSet())
     {
-        reinterpret_cast<FUN_00593320_shell*>(reinterpret_cast<unsigned char*>(this) + 0x54)
+        reinterpret_cast<FUN_00593320_shell*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)
             ->FUN_00593320(reinterpret_cast<void*>(0x54444f44));
     }
 
@@ -459,7 +455,7 @@ struct DecalDataCopy
 {
 };
 
-struct FUN_0058e730Class
+struct FUN_0058e730Class : ::BGSImpactData
 {
     void CopyDecalData();
 };
@@ -517,12 +513,12 @@ void FUN_0058e730Class::CopyDecalData()
     {
         if (reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest())
         {
-            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)))->Copy(reinterpret_cast<DecalData*>(
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(
                     FUN_0056a880(reinterpret_cast<char*>(reinterpret_cast<TopicInfo_Ext*>(this)->GetParentQuest()))));
         }
         else
         {
-            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(reinterpret_cast<char*>(this) + 0x54)))->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
+            reinterpret_cast<::DecalData *>((reinterpret_cast<DecalDataCopy*>(&this->ImpactDecalInfo.Data.m_fDecalMinWidth)))->Copy(reinterpret_cast<DecalData*>(FUN_0056a8c0()));
         }
     }
 }
@@ -531,7 +527,7 @@ struct GlobalObject_0045cfe0
 {
 };
 
-struct FUN_0058e790_S
+struct FUN_0058e790_S : ::BGSImpactData
 {
     int GetGlobalValue();
 };
@@ -541,7 +537,7 @@ struct FUN_0058e790_S
 int FUN_0058e790_S::GetGlobalValue()
 {
     int result = 0;
-    switch (*(int*)((char*)this + 0x40))
+    switch (*(int*)&this->Data.m_eSoundLevel)
     {
     case 2:
         result = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GlobalObject_0045cfe0 *>(&::g_011cd3b4))))));

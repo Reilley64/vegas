@@ -310,7 +310,7 @@ FUN_00505d20::~FUN_00505d20()
 struct FUN_005e78f0_t
 {
 };
-struct FUN_005062a0Class
+struct FUN_005062a0Class : ::TESEffectShader
 {
     void CopyFrom(TESForm* apCopy);
 };
@@ -323,11 +323,11 @@ void FUN_005062a0Class::CopyFrom(TESForm* apCopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(pcopy);
     ::__memcpy(((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((((TESEffectShader*)this)))->GetConditions())), ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pcopy))->GetConditions())), 0x134);
-    ((TESTexture*)((char*)this + 0x14c))
+    (&this->m_kFillTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506370Class*)pcopy)->GetFieldAt14C());
-    ((TESTexture*)((char*)this + 0x158))
+    (&this->m_kParticleShaderTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_00506390Class*)pcopy)->GetFieldAt158());
-    ((TESTexture*)((char*)this + 0x164))
+    (&this->m_kHolesTexture)
         ->CopyFromBase((BaseFormComponent*)((FUN_005063b0Class*)pcopy)->GetFieldAt164());
 }
 

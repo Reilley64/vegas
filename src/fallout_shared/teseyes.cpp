@@ -78,7 +78,7 @@ bool FUN_005fc4d0_shell::IsFlagSet()
     return (cFlags & 1) ? true : false;
 }
 
-struct FUN_005fc4f0_shell
+struct FUN_005fc4f0_shell : ::TESEyes
 {
     void SetFlag(bool aFlag);
 };
@@ -88,9 +88,9 @@ struct FUN_005fc4f0_shell
 void FUN_005fc4f0_shell::SetFlag(bool aFlag)
 {
     if (aFlag)
-        ((char*)this)[0x30] |= 1;
+        this->cFlags |= 1;
     else
-        ((char*)this)[0x30] &= 0xfffffffe;
+        this->cFlags &= 0xfffffffe;
 }
 
 struct FUN_005fc530_shell

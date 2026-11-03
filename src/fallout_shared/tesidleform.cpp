@@ -340,7 +340,7 @@ bool FUN_005ff200_shell::IsFlag40Set()
         return false;
 }
 
-struct FUN_005ff220_shell
+struct FUN_005ff220_shell : ::TESIdleForm
 {
     void SetFlag40(bool bFlag);
 };
@@ -350,9 +350,9 @@ struct FUN_005ff220_shell
 void FUN_005ff220_shell::SetFlag40(bool abSet)
 {
     if (abSet)
-        ((unsigned char*)this)[0x38] |= 0x40;
+        this->data.m_ucAnimationGroupSection |= 0x40;
     else
-        ((unsigned char*)this)[0x38] &= ~0x40;
+        this->data.m_ucAnimationGroupSection &= ~0x40;
 }
 
 struct FUN_005ff260_shell

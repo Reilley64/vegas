@@ -466,7 +466,7 @@ struct BGSLoadFormBuffer
 {
     FormChangeMask GetOldChangeFlags(unsigned int);
 };
-struct FUN_004ff930_shell : TESForm
+struct FUN_004ff930_shell : ::BGSTalkingActivator
 {
     void RevertAndClearField(BGSLoadFormBuffer*);
 };

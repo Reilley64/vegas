@@ -638,7 +638,7 @@ int __cdecl NormalizePartIndex(int aePart)
         return epart;
 }
 
-struct FUN_00610430_shell : public TESForm
+struct FUN_00610430_shell : ::TESRace
 {
     char* GetStringOrEmpty();
 };
@@ -682,7 +682,7 @@ struct BSStringT_char
 {
 };
 
-struct FUN_00615330_shell
+struct FUN_00615330_shell : ::TESRace
 {
     bool SetWeaponName(char const* aWeapon);
 };

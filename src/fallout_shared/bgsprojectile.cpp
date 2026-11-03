@@ -866,7 +866,7 @@ struct FUN_004fe160_sub
     int FUN_00401170();
 };
 
-struct FUN_004fe160_cls
+struct FUN_004fe160_cls : ::BGSProjectile
 {
     int GetFlaggedValue(unsigned char flag);
 };

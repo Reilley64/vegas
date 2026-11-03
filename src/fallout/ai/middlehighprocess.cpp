@@ -1,5 +1,7 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/result_slot.h"
@@ -3568,7 +3570,7 @@ bool MiddleHighProcessQ::HasMatchingQueuedItem(TESBoundObject* apObject, ExtraDa
         if (pitem && *((bool*)pitem + 0xc) == abEquipped && *(TESBoundObject**)pitem == apObject &&
             apExtra == *((ExtraDataList**)pitem + 1))
             bFound = true;
-        pCurrentElementNext = ((::QueuedItemList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        pCurrentElementNext = ((::QueuedItemList *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
     }
     return bFound;
 }
@@ -3933,7 +3935,7 @@ void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
             if (plastlist)
             {
                 reinterpret_cast<::ItemChangeListNode *>((plastlist))->FUN_00905330((::InventoryStackRecord *const &)(plimb));
-                pCurrentElementNext = ((::fnv_0092c120::HideLimbNodeList *)(reinterpret_cast<::Callees *>((plastlist))->FUN_00726070()));
+                pCurrentElementNext = ((::fnv_0092c120::HideLimbNodeList *)(reinterpret_cast<::SimpleListNodeView *>((plastlist))->m_pkNext));
             }
             else
             {
@@ -3943,7 +3945,7 @@ void FUN_0092c120_shell::UpdateHideLimbNodes(Actor* apActor, float afDeltaTime)
         else
         {
             plastlist = pCurrentElementNext;
-            pCurrentElementNext = ((::fnv_0092c120::HideLimbNodeList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+            pCurrentElementNext = ((::fnv_0092c120::HideLimbNodeList *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
         }
     }
 }
@@ -8049,7 +8051,7 @@ void Shell914::FUN_00914c60(MiddleHighProcess* apSource)
         while (cur5 != 0 && (((cur5))->m_item) != 0)
         {
             m_kReferenceList.AddHead((((cur5))->m_item));
-            cur5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((cur5))->FUN_00726070()));
+            cur5 = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((cur5))->m_pkNext));
         }
     }
     {
@@ -8073,7 +8075,7 @@ void Shell914::FUN_00914c60(MiddleHighProcess* apSource)
             newItem2->m_0f = srcItem2->m_0f;
             reinterpret_cast<::NP_0092c820 *>(&(newItem2->m_14))->FUN_0092c820((const ::NP_0092c820 &)(srcItem2->m_14));
             ((FUN_0096a2d0*)m_pkPaddedFloatRecordList)->FUN_005ae3d0(&newItem2);
-            qcur8 = ((::fnv_00914c60::QNode *)(reinterpret_cast<::Callees *>((qcur8))->FUN_00726070()));
+            qcur8 = ((::fnv_00914c60::QNode *)(reinterpret_cast<::SimpleListNodeView *>((qcur8))->m_pkNext));
         }
     }
     m_bAnimationStateFlag = ((VirtSrc*)apSource)->v316();
@@ -8095,7 +8097,7 @@ void Shell914::FUN_00914c60(MiddleHighProcess* apSource)
         while (acurA != 0 && !acurA->FUN_008256d0())
         {
             ((AEList*)m_pActiveEffectList)->FUN_005ae3d0((*((::fnv_00914c60::AEItem **)(((::Vec3 *)(void *)(acurA)))))->v4());
-            acurA = ((::fnv_00914c60::AENode *)(reinterpret_cast<::Callees *>((acurA))->FUN_00726070()));
+            acurA = ((::fnv_00914c60::AENode *)(reinterpret_cast<::SimpleListNodeView *>((acurA))->m_pkNext));
         }
     }
     m_pCombatTarget = apSource->m_pCombatTarget;
@@ -11423,7 +11425,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(void *)(current)));
-                    current = ((::fnv_009278d0::RefList *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    current = ((::fnv_009278d0::RefList *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     current->FUN_0063f7b0();
@@ -11431,7 +11433,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
             else
             {
                 previous = current;
-                current = ((::fnv_009278d0::RefList *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::fnv_009278d0::RefList *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             }
         }
     }
@@ -11487,7 +11489,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((*(::InventoryStackRecord *const *)(void *)(current)));
-                    current = ((::fnv_009278d0::EntryListNode *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    current = ((::fnv_009278d0::EntryListNode *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     current->FUN_0063f7b0();
@@ -11495,7 +11497,7 @@ void Target::ResolveReferences(ResolveBuffer* buffer)
             else
             {
                 previous = current;
-                current = ((::fnv_009278d0::EntryListNode *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::fnv_009278d0::EntryListNode *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             }
         }
     }
@@ -12446,7 +12448,7 @@ int S_9292e0::FUN_009292e0(S_9292e0_Node* pNodeList, int mask)
         {
             int v = ::FUN_0040df90();
             flags |= v;
-            node = ((::S_9292e0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::S_9292e0_Node *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         dirty = 0;
     }
@@ -14347,13 +14349,13 @@ void CFActor::CopyFromActor(CFActor* apSource)
     while (pIter && *((::CFItem **)(((::Vec3 *)(void *)(pIter)))))
     {
         reinterpret_cast<::Callees *>((pCopiedFollowerList))->FUN_00905820((void *)&(*((::CFItem **)(((::Vec3 *)(void *)(pIter))))));
-        pIter = ((::CFList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+        pIter = ((::CFList *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
     }
     pIter = apSource->pListB;
     while (pIter && *((::CFItem **)(((::Vec3 *)(void *)(pIter)))))
     {
         reinterpret_cast<::Callees *>((pListB))->FUN_00905820((void *)&(*((::CFItem **)(((::Vec3 *)(void *)(pIter))))));
-        pIter = ((::CFList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+        pIter = ((::CFList *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
     }
 
     iValue2E4 = apSource->iValue2E4;
@@ -14941,7 +14943,7 @@ FUN_00914610::~FUN_00914610()
         {
             Active96* effect = ((::Active96 *)(((::Vec3 *)(void *)(iter))));
             delete effect;
-            iter = ((::List96< ::Active96> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+            iter = ((::List96< ::Active96> *)(reinterpret_cast<::SimpleListNodeView *>((iter))->m_pkNext));
         }
         reinterpret_cast<::FileMatchList *>((effects))->RemoveAll();
         delete effects;
@@ -14972,7 +14974,7 @@ FUN_00914610::~FUN_00914610()
             Arrow96* arrow = ((::Arrow96 *)(((::Vec3 *)(void *)(pArrowIter))));
             if (arrow)
                 reinterpret_cast<::FUN_008d0240_Class *>((arrow))->FUN_008d0240();
-            pArrowIter = ((::List96< ::Arrow96> *)(reinterpret_cast<::Callees *>((pArrowIter))->FUN_00726070()));
+            pArrowIter = ((::List96< ::Arrow96> *)(reinterpret_cast<::SimpleListNodeView *>((pArrowIter))->m_pkNext));
         }
         reinterpret_cast<::FileMatchList *>((arrows))->RemoveAll();
         delete arrows;
@@ -15140,7 +15142,7 @@ void PendingProcess::RemovePendingByGroupAndValue(int group, int value)
             reinterpret_cast<::ItemChangeListNode *>((reinterpret_cast<PendingListNode*>(m_pkPaddedFloatRecordList)))->FUN_00905330((*(::InventoryStackRecord *const *)(&item)));
             return;
         }
-        current = ((::PendingListNode *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+        current = ((::PendingListNode *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
     }
 }
 
@@ -16169,7 +16171,7 @@ void Process::UpdateTargetSelection(Target* actor)
                     indexB = count;
                 Node* node2 = &list;
                 for (int step = 0; step < indexB; step++)
-                    node2 = ((::Node *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
+                    node2 = ((::Node *)(reinterpret_cast<::SimpleListNodeView *>((node2))->m_pkNext));
                 selected = *((::Target **)(((::Vec3 *)(void *)(node2))));
                 reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>(this)->FUN_0092c680();
             }
@@ -16249,7 +16251,7 @@ void FurnitureProcess::FUN_00917a70(FurnitureActorAccess* actor, intptr_t elapse
                     count = index;
                 BSSimpleList<TESObjectREFR*>* node = &m_kSecondaryReferenceList;
                 for (int i = 0; i < count; i++)
-                    node = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                    node = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                 m_pFurnitureReference = (((node))->m_item);
                 reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>(this)->FUN_0092c680();
                 reinterpret_cast<::ItemChangeListNode *>(&(m_kSecondaryReferenceList))->FUN_00905330((::InventoryStackRecord *const &)(m_pFurnitureReference));
@@ -20236,7 +20238,7 @@ void CrimeProcess::FUN_0091ded0(CrimeActor* actor)
                             accepted9 = true;
                     }
                 }
-                nodeB = ((::CrimeNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
+                nodeB = ((::CrimeNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeB))->m_pkNext));
             }
             if (accepted9)
             {
@@ -26189,15 +26191,15 @@ void Process86::FUN_00924560(unsigned int flags, MobileObject* owner)
     Actor* actor12 = dynamic_cast<Actor*>(owner);
     reinterpret_cast<::MiddleLowProcess_92e560 *>(this)->FUN_0092e560(flags, (intptr_t)(owner));
     unsigned short blockSize14 = 0;
-    uintptr_t block31 = 0;
-    unsigned int start24 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+    std::uintptr_t block31 = 0;
+    std::uintptr_t start24 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
     if (*(*reinterpret_cast<::fnv_00924560::Debug86 *>(&::g_011de4e8)).FUN_00408d60())
-        start24 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        start24 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
     if (reinterpret_cast<::FUN_00862110_cls *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&tag), 4);
-        block31 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        block31 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         reinterpret_cast<::FUN_008579b0_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&blockSize14), 2);
     }
     reinterpret_cast<::FUN_008579b0_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&unk134), 1);
@@ -26254,7 +26256,7 @@ void Process86::FUN_00924560(unsigned int flags, MobileObject* owner)
     {
         reinterpret_cast<::FUN_008579b0_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&unkd8), 4);
         unsigned short count33 = 0;
-        unsigned short* countLocation35 = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        unsigned short* countLocation35 = (unsigned short*)reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((void *)(&count33), 2);
         List86* node17 = &list;
         while (node17 && !node17->FUN_008256d0())
@@ -26265,7 +26267,7 @@ void Process86::FUN_00924560(unsigned int flags, MobileObject* owner)
                 id1 = reinterpret_cast<::FUN_0084e3a0_Class *>((item13))->FUN_0084e3a0();
             reinterpret_cast<::C857A10Buffer *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10((const unsigned int *)(const void *)(&id1), 4);
             count33++;
-            node17 = ((::fnv_00924560::List86 *)(reinterpret_cast<::Callees *>((node17))->FUN_00726070()));
+            node17 = ((::fnv_00924560::List86 *)(reinterpret_cast<::SimpleListNodeView *>((node17))->m_pkNext));
         }
         *countLocation35 = count33;
     }
@@ -26280,7 +26282,7 @@ void Process86::FUN_00924560(unsigned int flags, MobileObject* owner)
     }
     if (*(*reinterpret_cast<::fnv_00924560::Debug86 *>(&::g_011de4e8)).FUN_00408d60())
     {
-        unsigned int end14 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        std::uintptr_t end14 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         Record86* record62 = ((::fnv_00924560::Record86 *)(reinterpret_cast<::EffectSetting *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (record62)
         {
@@ -26292,7 +26294,7 @@ void Process86::FUN_00924560(unsigned int flags, MobileObject* owner)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned int finishEnd33 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        std::uintptr_t finishEnd33 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((Buffer86*)(*reinterpret_cast<::SaveBuffer * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         unsigned int begin12 = block31;
         if (finishEnd33 > begin12 + 65535)
             ::FUN_005b5e40();
@@ -26394,13 +26396,13 @@ void TargetClass::ResolveFormPointers(unsigned int param1, unsigned int param2, 
                 {
                     tempX = itemB;
                     reinterpret_cast<::ItemChangeListNode *>((pPrev5))->FUN_00905330((::InventoryStackRecord *const &)(tempX));
-                    pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pPrev5))->FUN_00726070()));
+                    pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((pPrev5))->m_pkNext));
                 }
             }
             else
             {
                 pPrev5 = pNode;
-                pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+                pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
             }
         }
     }
@@ -27276,7 +27278,7 @@ void ProcessSave58::FUN_00926a20(SaveBuffer58* buffer)
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(form), 0);
                 count++;
             }
-            node = ((::FormNode58 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::FormNode58 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, marker);
     }
@@ -27305,7 +27307,7 @@ void ProcessSave58::FUN_00926a20(SaveBuffer58* buffer)
                 item->FUN_00913d60(buffer);
                 finalCount++;
             }
-            finalNode = ((::SaveNode58 *)(reinterpret_cast<::Callees *>((finalNode))->FUN_00726070()));
+            finalNode = ((::SaveNode58 *)(reinterpret_cast<::SimpleListNodeView *>((finalNode))->m_pkNext));
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(finalCount, finalMarker);
     }
@@ -29354,7 +29356,7 @@ void ArmorProcess::UpdatePowerArmorState(ArmorActor* actor)
                 !reinterpret_cast<::TESBipedModelForm *>(&(armor->bipedModel))->HasBipedModel((::BIPED_OBJECT)(0), false, (::BGSBipedModelList *)(false)))
                 m_bFourthWeaponFlag = true;
         }
-        node = ((::BSSimpleList< ::InventoryItem *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::BSSimpleList< ::InventoryItem *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10() && (oldBackpack != m_bSeventhWeaponFlag || oldPower != m_bFifthWeaponFlag) &&
         !m_bAdditionalActorFlag && pWeapon && actor->IsCharacter())
@@ -29577,7 +29579,7 @@ void TargetProcess::LoadFromSave(unsigned int a1, unsigned int a2, MobileObject*
     reinterpret_cast<::fnv_0092e730::Target92 *>((this))->FUN_0092e730(a1, a2, (uintptr_t)(a3));
 
     unsigned short ExitLoc = 0;
-    unsigned int aA114 = 0;
+    std::uintptr_t aA114 = 0;
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
@@ -29597,7 +29599,7 @@ void TargetProcess::LoadFromSave(unsigned int a1, unsigned int a2, MobileObject*
                 ::FUN_005b5e40();
             }
         }
-        aA114 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        aA114 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&ExitLoc, 2);
     }
 
@@ -29757,7 +29759,7 @@ void TargetProcess::LoadFromSave(unsigned int a1, unsigned int a2, MobileObject*
 
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int j = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        std::uintptr_t j = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
         void* pFormInfoEnd = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*reinterpret_cast<::fnv_00924b90::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))));
         if (pFormInfoEnd)
         {
@@ -35692,7 +35694,7 @@ void S_9294b0::FUN_009294b0(TESObjectREFR* apAttachedRef)
             reinterpret_cast<::fnv_00548740::FUN_00548740_Cell *>((((CellStandIn_9294b0*)pcell)))->FUN_00548740((::TESObjectREFR *)(parrow));
             reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::MatchQueue_9294b0 *>(&::g_011e0e80))))->AddMobileObjectToList((::MobileObject *)(parrow));
         }
-        pCurrentElementNext = ((::BSSimpleList< ::ArrowProjectile *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        pCurrentElementNext = ((::BSSimpleList< ::ArrowProjectile *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
     }
 }
 

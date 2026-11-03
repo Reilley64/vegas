@@ -1,5 +1,7 @@
 // fallout/ai/modifierlist.cpp: ModifierListCalc (21 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -120,7 +122,7 @@ void ActorValueModifierList::CopyModifierListFrom(ActorValueModifierList* apSour
     {
         Modifier* item = ((::Modifier *)(((::Vec3 *)(void *)(current))));
         reinterpret_cast<::ModifierRoutingList *>(this)->FUN_00937380((::ModifierEntryView *)(::Modifier *)(new Modifier(item)));
-        current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+        current = (ActorValueModifierList*)((::BSSimpleList< ::Modifier *> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
     }
 }
 
@@ -298,7 +300,7 @@ struct FUN_009378d0_shell : Host37870
 void FUN_009378d0_shell::CountModifiers()
 {
     unsigned short icount = 0;
-    unsigned short* pusCount = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    unsigned short* pusCount = (unsigned short*)reinterpret_cast<::SaveLoadGameView *>((void *)((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_009378d0::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&icount, 2);
 
     BSSimpleList<Modifier*>* pmodlist = (BSSimpleList<Modifier*>*)this;
@@ -307,7 +309,7 @@ void FUN_009378d0_shell::CountModifiers()
         Modifier* pmod = *((::fnv_009378d0::Modifier **)(((::Vec3 *)(void *)(((BSSimpleList_helper*)pmodlist)))));
         if (reinterpret_cast<::Host37870 *>(this)->FUN_00937870((::Modifier *)(pmod)))
             icount++;
-        pmodlist = ((::BSSimpleList< ::fnv_009378d0::Modifier *> *)(reinterpret_cast<::Callees *>((pmodlist))->FUN_00726070()));
+        pmodlist = ((::BSSimpleList< ::fnv_009378d0::Modifier *> *)(reinterpret_cast<::SimpleListNodeView *>((pmodlist))->m_pkNext));
     }
 
     int ifastCount = *(void**)((char*)this + 0xc) ? ::DAT_011e0750 : 0;

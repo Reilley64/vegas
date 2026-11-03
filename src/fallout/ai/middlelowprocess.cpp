@@ -1,5 +1,6 @@
 // fallout/ai/middlelowprocess.cpp: MiddleLowProcess, StandIn, Holder, ProcStandIn (24 functions)
 
+#include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include <cstdint>
 #include <new>
@@ -1021,14 +1022,14 @@ void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, intptr_t aiArg
     reinterpret_cast<::fnv_0090fa70::LowProcessFA70 *>(this)->SaveToStream(auiFlags, aiArg);
     unsigned short usBlockSize = 0;
     unsigned short* pBlockSize3 = 0;
-    unsigned int _uiStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+    std::uintptr_t _uiStart = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
     if (*(*reinterpret_cast<::SettingBool_92e560 *>(&::g_011de4e8)).Bool())
-        _uiStart = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        _uiStart = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int uiMarker6 = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&uiMarker6, 4);
-        pBlockSize3 = (unsigned short*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        pBlockSize3 = (unsigned short*)reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&usBlockSize, 2);
     }
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&unkB4, 4);
@@ -1036,7 +1037,7 @@ void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, intptr_t aiArg
         reinterpret_cast<::fnv_009378d0::FUN_009378d0_shell *>(&(unkB8))->CountModifiers();
     if (*(*reinterpret_cast<::SettingBool_92e560 *>(&::g_011de4e8)).Bool())
     {
-        unsigned int uiEnd4 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        std::uintptr_t uiEnd4 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
         SaveFormData_92e560* pFormData3 = ((::SaveFormData_92e560 *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (pFormData3)
         {
@@ -1050,7 +1051,7 @@ void MiddleLowProcess_92e560::FUN_0092e560(unsigned int auiFlags, intptr_t aiArg
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned int uiCur2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+        std::uintptr_t uiCur2 = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::SaveLoadGame_92e560 * *>(&::g_TESSaveLoadGame))))->pBufferCursor);
         uintptr_t uiBase2 = (uintptr_t)pBlockSize3;
         if (uiCur2 > uiBase2 + 0xffff)
             ::FUN_005b5e40();
@@ -1199,7 +1200,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, uintptr_t arg3)
 {
     reinterpret_cast<::fnv_0090fd80::ProcessState *>((((Base92*)this)))->FUN_0090fd80(flags, arg2, arg3);
     unsigned short a = 0;
-    unsigned b = 0;
+    std::uintptr_t b = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned uiMagic;
@@ -1217,7 +1218,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, uintptr_t arg3)
                 ::FUN_005b5e40();
             }
         }
-        b = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        b = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         reinterpret_cast<::FUN_008579e0_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a, 2);
     }
     reinterpret_cast<::FUN_008579e0_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&field, 4);
@@ -1225,7 +1226,7 @@ void Target92::FUN_0092e730(unsigned flags, unsigned arg2, uintptr_t arg3)
         reinterpret_cast<::fnv_009379c0::FUN_009379c0_shell *>(&(sub))->LoadModifiers();
     if (reinterpret_cast<::FUN_00862110_cls *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned uiNewPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        std::uintptr_t uiNewPos = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         Record92* pRecord2 = ((::fnv_0092e730::Record92 *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Save92**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
         if (pRecord2)
         {

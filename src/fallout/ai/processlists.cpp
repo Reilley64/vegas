@@ -1,5 +1,7 @@
 // fallout/ai/processlists.cpp: ProcessLists, ProcessListsEx, TESObjectREFR, BGSProjectile and more (133 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include "fnv/simple_array_item.h"
 #include <windows.h>
@@ -483,7 +485,7 @@ void ProcessLists::UpdateFollowerTempList()
             else if (target && target->IsActor() && target != ::_g_thePlayer)
                 reinterpret_cast<::FUN_008bc790_shell *>((actor))->FUN_008bc790(static_cast<Actor*>(target));
         }
-        current = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+        current = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
     }
 }
 
@@ -507,7 +509,7 @@ void ProcessLists::UpdateInterfaceTempEffects(float delta)
         {
             BSTempEffect* effect = (*(::NiPointer< ::BSTempEffect> *)(((::Vec3 *)(void *)(current))));
             if (!first)
-                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             if (effect && !effect->Update(delta))
             {
                 effect->Detach();
@@ -516,7 +518,7 @@ void ProcessLists::UpdateInterfaceTempEffects(float delta)
             }
             else if (first)
             {
-                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
                 first = false;
             }
         }
@@ -529,7 +531,7 @@ void ProcessLists::UpdateInterfaceTempEffects(float delta)
         {
             BSTempEffect* effect = (*(::NiPointer< ::BSTempEffect> *)(((::Vec3 *)(void *)(current))));
             if (!first)
-                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             if (effect && !effect->Update(delta))
             {
                 ::FUN_00868490((intptr_t)(effect));
@@ -537,7 +539,7 @@ void ProcessLists::UpdateInterfaceTempEffects(float delta)
             }
             else if (first)
             {
-                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
                 first = false;
             }
         }
@@ -646,7 +648,7 @@ void ProcessLists::InitLoadGame(BGSLoadGameBuffer* buffer)
             Crime* crime = (((current))->m_item);
             if (crime)
                 reinterpret_cast<::AlarmPackageData *>((crime))->FUN_009ec400(buffer);
-            current = ((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+            current = ((::BSSimpleList< ::Crime *> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
         }
     }
     CalculateAliveActorList();
@@ -718,7 +720,7 @@ MagicShaderHitEffect* ProcessLists::FindMagicShaderHitEffect(TESObjectREFR* targ
                     m_fFirstFloatValue = reinterpret_cast<::FUN_00621b00_shell *>((reinterpret_cast<ActorPackageContext*>(shader)))->FUN_00621b00();
                 }
             }
-            current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+            current = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
         }
     }
     return result;
@@ -750,8 +752,8 @@ struct FUN_0096bbc0_cls
 // @fnv 0x0096bbc0
 void FUN_0096bbc0_cls::ProcessMobileObjects(FUN_0096bbc0_list* apList)
 {
-    unsigned int end = reinterpret_cast<::FUN_005be5c0_shell *>((void *)&(pa))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)((PROCESS_TYPE)((int)(reinterpret_cast<::Callees *>((apList))->FUN_00726070())))));
-    for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)&(pa))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)((PROCESS_TYPE)((int)(reinterpret_cast<::Callees *>((apList))->FUN_00726070()))))); i < end; i++)
+    unsigned int end = reinterpret_cast<::FUN_005be5c0_shell *>((void *)&(pa))->FUN_005be5c0((*(int *)&(const ::PROCESS_TYPE &)((PROCESS_TYPE)((int)(reinterpret_cast<::SimpleListNodeView *>((apList))->m_pkNext)))));
+    for (unsigned int i = reinterpret_cast<::fnv_005de0f0::FUN_005de0f0_shell *>((void *)&(pa))->FUN_005de0f0((*(int *)&(const ::PROCESS_TYPE &)((PROCESS_TYPE)((int)(reinterpret_cast<::SimpleListNodeView *>((apList))->m_pkNext))))); i < end; i++)
     {
         MobileObject* pmob = ((::MobileObject *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((void *)&(pa))->FUN_00968670(i)));
         if (pmob && !reinterpret_cast<::FUN_00576d30_shell *>((void *)(((TESForm*)pmob)))->FUN_00576d30())
@@ -1219,12 +1221,12 @@ void FUN_00975080(char* self)
             {
                 reinterpret_cast<::ItemChangeListNode *>((((TESFormList*)(self + 0x70))))->FUN_00905330((*(::InventoryStackRecord *const *)(&ref)));
                 if (cur != prev)
-                    cur = ((::TESFormList *)(reinterpret_cast<::Callees *>((prev))->FUN_00726070()));
+                    cur = ((::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((prev))->m_pkNext));
             }
             else
             {
                 prev = cur;
-                cur = ((::TESFormList *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+                cur = ((::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((cur))->m_pkNext));
             }
         }
     }
@@ -1529,7 +1531,7 @@ void FUN_00978890_cls::UpdateMuzzleFlashes(float dt)
         {
             MuzzleFlash* pflash = *((::MuzzleFlash **)(((::Vec3 *)(void *)(pCurrentElementNext))));
             if (!bfirst)
-                pCurrentElementNext = ((::FUN_00978890_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                pCurrentElementNext = ((::FUN_00978890_list *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
             bool bremove = pflash != 0;
             if (pflash)
             {
@@ -1545,7 +1547,7 @@ void FUN_00978890_cls::UpdateMuzzleFlashes(float dt)
             }
             if (!bremove && bfirst)
             {
-                pCurrentElementNext = ((::FUN_00978890_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                pCurrentElementNext = ((::FUN_00978890_list *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
                 bfirst = false;
             }
         }
@@ -1905,14 +1907,14 @@ void ProcessListsHigh::FUN_0096bcd0(float afDelta, bool abSleeping)
                                     }
                                 }
                             }
-                            pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                            pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
                         }
                         pCurrentElementNext = pTempList;
                         while (pCurrentElementNext && (((pCurrentElementNext))->m_item))
                         {
                             Actor* ptarget = (((pCurrentElementNext))->m_item);
                             reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((ExtraFollowerList*)((const ::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(pmob))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(ptarget));
-                            pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                            pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
                         }
                         reinterpret_cast<::FileMatchList *>((pTempList))->RemoveAll();
                         delete pTempList;
@@ -2941,7 +2943,7 @@ MobileObject* FUN_009724e0_shell::FindMobileObjectByValue(int iList, int iValue)
     while (pCurrent && *((::MobileObject **)(((::Vec3 *)(void *)(pCurrent)))) && !pRet)
     {
         MobileObject* pObject = *((::MobileObject **)(((::Vec3 *)(void *)(pCurrent))));
-        pCurrent = ((::fnv_009724e0::TESFormList *)(reinterpret_cast<::Callees *>((pCurrent))->FUN_00726070()));
+        pCurrent = ((::fnv_009724e0::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((pCurrent))->m_pkNext));
         if (((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)pObject)))->FUN_0045cd60())) == iValue)
             pRet = pObject;
     }
@@ -2978,7 +2980,7 @@ void FUN_00974af0_shell::FUN_00974af0(char* apTarget)
                 if (reinterpret_cast<::Script *>((pHitEffect))->GetData() == apTarget)
                     reinterpret_cast<::FUN_00461310_shell *>((pHitEffect))->SetByteAt24(1);
             }
-            pIter = ((::fnv_00974af0::TESFormList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+            pIter = ((::fnv_00974af0::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
         }
     }
 }
@@ -3325,7 +3327,7 @@ void FUN_0096b050_shell::UpdateLowProcesses(float afDelta, bool abSleeping)
             reinterpret_cast<::MiddleHighProcess *>((((MobileObjectExt*)pmob)))->SetFaceAnimationData((::TargetDoorController *)(::BaseProcess *)(0));
             reinterpret_cast<::RecursiveSpinLock *>(&(DAT_011f11a0))->FUN_0040fba0();
         }
-        plisttemp = ((::BSSimpleList< ::MobileObject *> *)(reinterpret_cast<::Callees *>((plisttemp))->FUN_00726070()));
+        plisttemp = ((::BSSimpleList< ::MobileObject *> *)(reinterpret_cast<::SimpleListNodeView *>((plisttemp))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((TempList))->RemoveAll();
     delete TempList;
@@ -3355,7 +3357,7 @@ void FUN_00974c30_shell::FUN_00974c30()
                 MiddleHighProcess* target = (MiddleHighProcess*)decal;
                 target->FUN_00929260(1);
             }
-            list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+            list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
         }
     }
 }
@@ -3844,7 +3846,7 @@ Crime* FUN_00972570_shell::FindCrime(uintptr_t formID, TESObjectREFR* target, in
     while (pNode && *((::Crime **)(((::Vec3 *)(void *)(pNode)))) && !pInventoryObject)
     {
         Crime* pItem = *((::Crime **)(((::Vec3 *)(void *)(pNode))));
-        pNode = ((::fnv_00972570::TESFormList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+        pNode = ((::fnv_00972570::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         if (((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)pItem)))->FUN_0084e3a0())) == formID && ((::TESObjectREFR *)(reinterpret_cast<::Twin_0044ddc0 *>((((Crime_Standin*)pItem)))->GetName())) == target)
         {
             pInventoryObject = pItem;
@@ -3898,7 +3900,7 @@ void FUN_00974a50_shell::FUN_00974a50(TESObjectREFR* apEffectTarget, void* apSha
                     reinterpret_cast<::FUN_00461310_shell *>((((MagicHitEffect*)pshaderEffect)))->SetByteAt24(1);
                 }
             }
-            pelist = ((::fnv_00974a50::TESFormList *)(reinterpret_cast<::Callees *>((pelist))->FUN_00726070()));
+            pelist = ((::fnv_00974a50::TESFormList *)(reinterpret_cast<::SimpleListNodeView *>((pelist))->m_pkNext));
         }
     }
 }
@@ -4542,7 +4544,7 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
                     reinterpret_cast<::FUN_008feb60_shell *>((phigh))->FUN_008feb60(pactor);
                     ideadCount--;
                 }
-                pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
             }
         }
         else
@@ -4562,7 +4564,7 @@ void FUN_00977130_shell::FUN_00977130(float afDeltaTime)
                         foldestDeadTime = ((HighProcess*)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pactor))->GetBaseTexture())))->GetDeadTimer();
                     }
                 }
-                pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+                pCurrentElementNext = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
             }
             if (poldestDeadActor)
             {
@@ -4641,7 +4643,7 @@ unsigned short FUN_00972740_shell::FUN_00972740(unsigned int aeType, BGSPerk* ap
         if (apCrime == *((::BGSPerk **)(((::Vec3 *)(void *)(pCurrentElementNext)))))
             return iElementIndex;
         iElementIndex++;
-        pCurrentElementNext = ((::CrimeListNode *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        pCurrentElementNext = ((::CrimeListNode *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
     }
     ::FUN_005b5e40();
     return 0;
@@ -4760,11 +4762,11 @@ void FUN_009721f0_shell::AddObjectToList(TESFormList* objectList)
 {
     if (objectList)
     {
-        if ((int)reinterpret_cast<::Callees *>((objectList))->FUN_00726070() > -1)
+        if ((int)reinterpret_cast<::SimpleListNodeView *>((objectList))->m_pkNext > -1)
         {
-            if ((int)reinterpret_cast<::Callees *>((objectList))->FUN_00726070() < 5)
+            if ((int)reinterpret_cast<::SimpleListNodeView *>((objectList))->m_pkNext < 5)
             {
-                SL* list = reinterpret_cast<FUN_009721f0_layout*>(this)->bItemFound[(int)reinterpret_cast<::Callees *>((objectList))->FUN_00726070()];
+                SL* list = reinterpret_cast<FUN_009721f0_layout*>(this)->bItemFound[(int)reinterpret_cast<::SimpleListNodeView *>((objectList))->m_pkNext];
 
                 if (!list)
                     list = new SL;
@@ -4772,7 +4774,7 @@ void FUN_009721f0_shell::AddObjectToList(TESFormList* objectList)
                 if (!reinterpret_cast<::RefList *>((reinterpret_cast<LH*>(list)))->FUN_005f65d0((void **)&(reinterpret_cast<int&>(objectList))))
                     reinterpret_cast<G2*>(list)->AddHead(reinterpret_cast<int*>(&objectList));
 
-                reinterpret_cast<FUN_009721f0_layout*>(this)->bItemFound[(int)reinterpret_cast<::Callees *>((objectList))->FUN_00726070()] = list;
+                reinterpret_cast<FUN_009721f0_layout*>(this)->bItemFound[(int)reinterpret_cast<::SimpleListNodeView *>((objectList))->m_pkNext] = list;
             }
         }
     }
@@ -4825,7 +4827,7 @@ void FUN_009754f0_shell::FUN_009754f0()
     for (i = 0; i < 5; ++i)
     {
         unsigned short count = 0;
-        time = ((unsigned int *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(reinterpret_cast<GameTimerRecord*>((*reinterpret_cast<::fnv_009754f0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        time = ((unsigned int *)(reinterpret_cast<::SaveLoadGameView *>((void *)(reinterpret_cast<GameTimerRecord*>((*reinterpret_cast<::fnv_009754f0::SaveManager * *>(&::g_TESSaveLoadGame)))))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGame*>((*reinterpret_cast<::fnv_009754f0::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&count, 2);
         list = lists[i];
 
@@ -5485,7 +5487,7 @@ void LinkedListNode::FUN_007a8790(int(__cdecl* compare)(void*, void*))
                     }
                 }
                 previous = current;
-                current = ((::LinkedListNode *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::LinkedListNode *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             }
             --iterations;
         }
@@ -6220,7 +6222,7 @@ bool S_972600_Lists::HasMatchingCrime(intptr_t a, intptr_t b, intptr_t c, int ai
     while (pNode && *((::S_972600_Crime **)(((::Vec3 *)(void *)(pNode)))))
     {
         S_972600_Crime* crime = *((::S_972600_Crime **)(((::Vec3 *)(void *)(pNode))));
-        pNode = ((::S_972600_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+        pNode = ((::S_972600_Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         if ((((int)(reinterpret_cast<::Callees *>((crime))->FUN_00726070())) == aiListIndex || aiListIndex == -1) && reinterpret_cast<::FUN_0084e3a0_Class *>((crime))->FUN_0084e3a0() == b &&
             (((int)(reinterpret_cast<::Twin_0044ddc0 *>((crime))->GetName())) == a || a == 0) && (f == -1 || f == ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((crime))->FUN_0045cd60()))) &&
             (c == 0 || reinterpret_cast<::Crime *>((crime))->IsActorInList((::Actor *)(c))))
@@ -6340,7 +6342,7 @@ void FUN_00973590_shell::FUN_00973590(Actor* target, List_973590* output)
                 output->FUN_005ae3d0(follower);
                 FUN_00973590(follower, output);
             }
-            node = ((::Node_973590 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::Node_973590 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     MobileObject* mobile = 0;
@@ -6528,7 +6530,7 @@ S973_Actor* FUN_00973ab0_shell::FindUsableActorInArray(S973_Ref* apRef)
                 pActor2 = 0;
                 if ((*((::S973_Actor **)(((::Vec3 *)(void *)(pNode)))))->IsValid973())
                     pActor2 = *((::S973_Actor **)(((::Vec3 *)(void *)(pNode))));
-                pNode = ((::S973_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+                pNode = ((::S973_Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
                 while (pNode && pActor2 && (!((::S973_Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture())) || ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::S973_Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pActor2))->GetBaseTexture()))))->FUN_0045cd60()))))
                 {
                     if (pNode && *((::S973_Actor **)(((::Vec3 *)(void *)(pNode)))) && (*((::S973_Actor **)(((::Vec3 *)(void *)(pNode)))))->IsValid973())
@@ -6536,7 +6538,7 @@ S973_Actor* FUN_00973ab0_shell::FindUsableActorInArray(S973_Ref* apRef)
                     else
                         pActor2 = 0;
                     if (pNode)
-                        pNode = ((::S973_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+                        pNode = ((::S973_Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
                 }
             }
             else
@@ -6732,7 +6734,7 @@ void TempEffectListOwner::RemoveParticleEffectsBySource(ParticleSource* apSource
                     if (pPrev)
                     {
                         reinterpret_cast<::ListReader *>((pPrev))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::BSTempEffect> &)(pEffect)));
-                        pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
+                        pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pPrev))->m_pkNext));
                     }
                     else
                     {
@@ -6742,13 +6744,13 @@ void TempEffectListOwner::RemoveParticleEffectsBySource(ParticleSource* apSource
                 else
                 {
                     pPrev = pIter6;
-                    pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
+                    pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pIter6))->m_pkNext));
                 }
             }
             else
             {
                 pPrev = pIter6;
-                pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
+                pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pIter6))->m_pkNext));
             }
         }
     }
@@ -6892,7 +6894,7 @@ bool ProcessListsEx::FUN_00974e90(intptr_t aiKind, intptr_t aTarget)
                     fBest2 = reinterpret_cast<::FUN_00621b00_shell *>((pShader))->FUN_00621b00();
                 }
             }
-            pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
+            pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pIter6))->m_pkNext));
         }
         if (pBest2)
         {
@@ -6917,7 +6919,7 @@ struct PLTempEffectSaver : public ProcessLists
 void PLTempEffectSaver::SaveTempEffects()
 {
     unsigned short count = 0;
-    unsigned short* countPtr = ((unsigned short *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    unsigned short* countPtr = ((unsigned short *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&count, 2);
 
     BSSimpleList<NiPointer<BSTempEffect> >* _iter;
@@ -6932,7 +6934,7 @@ void PLTempEffectSaver::SaveTempEffects()
             effect8->SaveGameTES();
             count++;
         }
-        _iter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((_iter))->FUN_00726070()));
+        _iter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((_iter))->m_pkNext));
     }
     _iter = &m_kTemporaryEffectList2;
     while (_iter && !reinterpret_cast<::ObsList *>((_iter))->FUN_004a4460())
@@ -6945,7 +6947,7 @@ void PLTempEffectSaver::SaveTempEffects()
             effect4->SaveGameTES();
             count++;
         }
-        _iter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((_iter))->FUN_00726070()));
+        _iter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((_iter))->m_pkNext));
     }
     *countPtr = count;
 }
@@ -7867,7 +7869,7 @@ void Host::FUN_00976680(Obj* apObject)
                 reinterpret_cast<::FUN_009b28a0_t *>((copy2b6))->FUN_009b28a0((uintptr_t)(apObject));
             }
         }
-        node7 = ((::fnv_00976680::ListNode *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+        node7 = ((::fnv_00976680::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((node7))->m_pkNext));
     }
     reinterpret_cast<::FUN_0096e6f0_shell *>((this))->RemoveActor((::Actor *)(apObject));
 }
@@ -11035,7 +11037,7 @@ void FUN_0096f600_shell::FUN_0096f600(Actor* arg1, bool abClearPackageTargets)
                                 {
                                     bed1 = (Actor*)(((folNode))->m_item);
                                 }
-                                folNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((folNode))->FUN_00726070()));
+                                folNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::SimpleListNodeView *>((folNode))->m_pkNext));
                             }
                             else
                             {
@@ -11925,7 +11927,7 @@ RetCls* Cls9715::CollectCombatTargets(Obj9715* arg1, Node9715* apNodeList)
                                     }
                                 }
                             }
-                            node = ((::fnv_009715c0::Node9715 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                            node = ((::fnv_009715c0::Node9715 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                         }
                     }
                 }
@@ -12053,7 +12055,7 @@ bool FUN_009722e0_shell::IsActorInOtherList(Actor* pActor, FUN_009722e0_member* 
         FUN_009722e0_member* pMember = (((pIter))->m_item);
         if (pMember != pExcludeMember && ((::BSSimpleList< ::Actor *> *)(::GetField38((char *)(pMember)))) && reinterpret_cast<::RefList *>((void *)(((::BSSimpleList< ::Actor *> *)(::GetField38((char *)(pMember))))))->FUN_005f65d0((void **)&(pActor)))
             bFound = true;
-        pIter = ((::BSSimpleList< ::FUN_009722e0_member *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+        pIter = ((::BSSimpleList< ::FUN_009722e0_member *> *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
     }
     if (!bFound)
     {
@@ -12064,7 +12066,7 @@ bool FUN_009722e0_shell::IsActorInOtherList(Actor* pActor, FUN_009722e0_member* 
             FUN_009722e0_member* pMember2 = (((pIter2))->m_item);
             if (pMember2 != pExcludeMember && ((::BSSimpleList< ::Actor *> *)(::GetField38((char *)(pMember2)))) && reinterpret_cast<::RefList *>((void *)(((::BSSimpleList< ::Actor *> *)(::GetField38((char *)(pMember2))))))->FUN_005f65d0((void **)&(pActor)))
                 bFound2 = true;
-            pIter2 = ((::BSSimpleList< ::FUN_009722e0_member *> *)(reinterpret_cast<::Callees *>((pIter2))->FUN_00726070()));
+            pIter2 = ((::BSSimpleList< ::FUN_009722e0_member *> *)(reinterpret_cast<::SimpleListNodeView *>((pIter2))->m_pkNext));
         }
     }
     return bFound;
@@ -12143,7 +12145,7 @@ void S_972aa0_Owner::RemoveCrimeById(uintptr_t uiCrimeId)
             }
             else
             {
-                node = ((::fnv_00972aa0::S_972aa0_Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                node = ((::fnv_00972aa0::S_972aa0_Node *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
             }
         }
     }
@@ -12178,7 +12180,7 @@ void ProcessListsCellAccess::FUN_009740a0(TESObjectCELL* apCell)
                 if (pPrev)
                 {
                     reinterpret_cast<::ListReader *>((pPrev))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::BSTempEffect> &)(pEffect)));
-                    pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
+                    pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pPrev))->m_pkNext));
                 }
                 else
                 {
@@ -12188,7 +12190,7 @@ void ProcessListsCellAccess::FUN_009740a0(TESObjectCELL* apCell)
             else
             {
                 pPrev = pIter6;
-                pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pIter6))->FUN_00726070()));
+                pIter6 = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pIter6))->m_pkNext));
             }
         }
     }
@@ -12206,7 +12208,7 @@ void ProcessListsCellAccess::FUN_009740a0(TESObjectCELL* apCell)
                 if (aPMPrev)
                 {
                     reinterpret_cast<::ListReader *>((aPMPrev))->FUN_00631620((const ::NodeValue &)((const ::NiPointer< ::BSTempEffect> &)(pMEffect)));
-                    pMIter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((aPMPrev))->FUN_00726070()));
+                    pMIter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((aPMPrev))->m_pkNext));
                 }
                 else
                 {
@@ -12216,7 +12218,7 @@ void ProcessListsCellAccess::FUN_009740a0(TESObjectCELL* apCell)
             else
             {
                 aPMPrev = pMIter;
-                pMIter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((pMIter))->FUN_00726070()));
+                pMIter = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((pMIter))->m_pkNext));
             }
         }
     }
@@ -12286,7 +12288,7 @@ void EffectProcessLists::FUN_009746c0(float delta)
                 updateBuffer.FUN_006a1440(slot).global = 1;
                 updateBuffer.FUN_006a1440(slot).finished = 0;
             }
-            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         node = &m_kTemporaryEffectList2;
         while (node)
@@ -12300,7 +12302,7 @@ void EffectProcessLists::FUN_009746c0(float delta)
                 updateBuffer.FUN_006a1440(slot).global = 0;
                 updateBuffer.FUN_006a1440(slot).finished = 0;
             }
-            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(updateBuffer))->GetName())))
         {
@@ -12428,7 +12430,7 @@ void CrimeProcess::FUN_00975320(TESForm* form)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(removed));
-                    current = ((::CrimeListView *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    current = ((::CrimeListView *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     current->FUN_0063f7b0();
@@ -12443,7 +12445,7 @@ void CrimeProcess::FUN_00975320(TESForm* form)
             if (!crime)
             {
                 previous = current;
-                current = ((::CrimeListView *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
+                current = ((::CrimeListView *)(reinterpret_cast<::SimpleListNodeView *>((current))->m_pkNext));
             }
         }
     }
@@ -12468,7 +12470,7 @@ unsigned int SaveProcessLists::FUN_009755b0()
             size += 1;
             size += (unsigned short)effect->GetSaveSize();
         }
-        list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+        list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
     }
     list = &m_kTemporaryEffectList2;
     while (list && !reinterpret_cast<::ObsList *>((list))->FUN_004a4460())
@@ -12479,7 +12481,7 @@ unsigned int SaveProcessLists::FUN_009755b0()
             size += 1;
             size += (unsigned short)effect->GetSaveSize();
         }
-        list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+        list = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
     }
     return size;
 }
@@ -12788,7 +12790,7 @@ void F8660Owner::FUN_00978660(unsigned int uiTreeBlockIndex)
         {
             F8660Entry* pkEntry = *((::F8660Entry **)(((::Vec3 *)(void *)(pkNode))));
             if (!bAtHead)
-                pkNode = ((::F8660Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+                pkNode = ((::F8660Node *)(reinterpret_cast<::SimpleListNodeView *>((pkNode))->m_pkNext));
 
             bool bRemoved = false;
             if (pkEntry && reinterpret_cast<::BGSTerrainManager *>((pkEntry))->GetMinLevel() == uiTreeBlockIndex)
@@ -12800,7 +12802,7 @@ void F8660Owner::FUN_00978660(unsigned int uiTreeBlockIndex)
 
             if (!bRemoved && bAtHead)
             {
-                pkNode = ((::F8660Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+                pkNode = ((::F8660Node *)(reinterpret_cast<::SimpleListNodeView *>((pkNode))->m_pkNext));
                 bAtHead = false;
             }
         }
@@ -13172,7 +13174,7 @@ void Owner96::UpdateActorsFromList(FUN_0096a2d0* pInputList)
     {
         if ((*((::fnv_0096dcb0::Actor96 **)(((::Vec3 *)(void *)(pInputList)))))->valid())
             list3->FUN_005ae3d0(((::fnv_0096dcb0::Actor96 **)(((::Vec3 *)(void *)(pInputList)))));
-        pInputList = ((::fnv_0096dcb0::FUN_0096a2d0 *)(reinterpret_cast<::Callees *>((pInputList))->FUN_00726070()));
+        pInputList = ((::fnv_0096dcb0::FUN_0096a2d0 *)(reinterpret_cast<::SimpleListNodeView *>((pInputList))->m_pkNext));
     }
     while (list3 && *((::fnv_0096dcb0::Actor96 **)(((::Vec3 *)(void *)(list3)))))
     {
@@ -15678,7 +15680,7 @@ R9711* Lst9711::CollectNearbyRefs(R9711* apObj, R9711* apList)
                                     }
                                 }
                             }
-                            node = ((::R9711 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                            node = ((::R9711 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                         }
                     }
                 }
@@ -15690,7 +15692,7 @@ R9711* Lst9711::CollectNearbyRefs(R9711* apObj, R9711* apList)
                 {
                     ref = (Ref9711*)*((::R9711 **)(((::Vec3 *)(void *)(iter))));
                 }
-                iter = ((::R9711 *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+                iter = ((::R9711 *)(reinterpret_cast<::SimpleListNodeView *>((iter))->m_pkNext));
             }
             else
             {
@@ -15735,7 +15737,7 @@ unsigned short OwnQ::GetTotalSize()
         {
             ItmQ* pItem = *((::ItmQ **)(((::Vec3 *)(void *)(pIter))));
             usTotalSize += reinterpret_cast<::FUN_009ebb80_shell *>((pItem))->FUN_009ebb80();
-            pIter = ((::LstQ *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+            pIter = ((::LstQ *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
         }
     }
     return usTotalSize;
@@ -16721,7 +16723,7 @@ void FUN_0096eb40_cls::FUN_0096eb40()
                 RefEx* pActor = 0;
                 if ((*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38))->IsActor())
                     pActor = (*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38));
-                pNode = ((::fnv_0096eb40::Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+                pNode = ((::fnv_0096eb40::Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
                 if (!reinterpret_cast<::FUN_00576d30_shell *>(((*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38))))->FUN_00576d30())
                 {
                     if (((*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38))->IsActor() && !((::fnv_0096eb40::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38))))->GetBaseTexture()))) || (((bool)(::FUN_00574900((const unsigned char *)((*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38)))))) && ((::fnv_0096eb40::RefEx *)(::GetDialogCastSound())) != (*reinterpret_cast<::fnv_0096eb40::RefEx * *>(&::DAT_011e0e38))))
@@ -16839,7 +16841,7 @@ void FUN_0096eb40_cls::FUN_0096eb40()
         {
             Ref* r = *((::fnv_0096eb40::Ref **)(((::Vec3 *)(void *)(pNode))));
             r->HandleInteger(1);
-            pNode = ((::fnv_0096eb40::Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+            pNode = ((::fnv_0096eb40::Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         }
     }
 }
@@ -16876,7 +16878,7 @@ struct WeaponShaderCleanup : public ::ProcessLists
                         reinterpret_cast<::FUN_00461310_shell *>((current))->SetByteAt24(1);
                 }
             }
-            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::BSSimpleList< ::NiPointer< ::BSTempEffect>> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     return result;

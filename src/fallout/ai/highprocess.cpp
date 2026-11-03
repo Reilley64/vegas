@@ -1,5 +1,7 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include <cstdint>
@@ -1075,7 +1077,7 @@ PathingAvoidNodeArray* HighProcess::GetPathingAvoidNodeArray(Actor* actor)
             if (!result)
                 result = new PathingAvoidNodeArray;
             reinterpret_cast<::FUN_00905450_StandIn *>((result))->AppendNode((::PathingAvoidanceNode *)(::TopicInfoRecord *)((TopicInfoRecord*)((::TESTopicInfo *)(((::Vec3 *)(void *)(m_pkTopicInfoList))))));
-            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
         }
     }
     return result;
@@ -9294,7 +9296,7 @@ void HighProcessS::FUN_008f21f0(Actor* apActor)
             }
             else
             {
-                pIter = ((::fnv_008f21f0::XList *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                pIter = ((::fnv_008f21f0::XList *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
             }
         }
     }
@@ -9741,7 +9743,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((((list))->m_item)));
-                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     list->RemoveHead();
@@ -9749,7 +9751,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = list;
-                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
             }
         }
     }
@@ -9779,7 +9781,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((((list))->m_item)));
-                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     list->RemoveHead();
@@ -9787,7 +9789,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = list;
-                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
             }
         }
     }
@@ -9818,7 +9820,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((((list))->m_item)));
-                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     list->RemoveHead();
@@ -9826,7 +9828,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = list;
-                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
             }
         }
     }
@@ -9839,7 +9841,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             TopicInfoRecord* area = (TopicInfoRecord*)(((list))->m_item);
             if (area)
                 reinterpret_cast<::FUN_008d74a0 *>((area))->DoIt((uintptr_t)(buffer));
-            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
         }
     }
     {
@@ -9865,7 +9867,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((((list))->m_item)));
-                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     list->RemoveHead();
@@ -9873,7 +9875,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = list;
-                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
             }
         }
     }
@@ -9900,7 +9902,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
                 if (previous)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((((list))->m_item)));
-                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
+                    list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((previous))->m_pkNext));
                 }
                 else
                     list->RemoveHead();
@@ -9908,7 +9910,7 @@ void HighProcess::InitLoadGame(BGSLoadFormBuffer* buffer)
             else
             {
                 previous = list;
-                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
             }
         }
     }
@@ -10013,7 +10015,7 @@ bool FUN_009040f0_PC::HasReference(TESObjectREFR* apRef)
     while (pCurrentElementNext && (((pCurrentElementNext))->m_item) && !bHasResultObj)
     {
         TopicInfoRecord* pstruct = (((pCurrentElementNext))->m_item);
-        pCurrentElementNext = ((::BSSimpleList< ::TopicInfoRecord *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+        pCurrentElementNext = ((::BSSimpleList< ::TopicInfoRecord *> *)(reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext));
         if (*(TESObjectREFR**)((char*)pstruct + 0x30) == apRef)
             bHasResultObj = true;
     }
@@ -10458,7 +10460,7 @@ void HighProcess::ProcessActorGroupState(Actor* actor)
             if (!actor->vfn_428() || currentGroup != actor->vfn_3f8())
                 break;
         }
-        list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+        list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
     }
     list = &m_kPrimaryDetectionList;
     if (!list || !(((list))->m_item))
@@ -10479,7 +10481,7 @@ void HighProcess::ProcessActorGroupState(Actor* actor)
         }
         vfn_33c(actor, state->actor, 0, state->flag9, 0, false, false, flag, false, false, false, true, false);
         delete state;
-        list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+        list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
     }
     if (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PlayerCharacter*)actor)))->FUN_00493bb0())) && !m_kPrimaryTopicList.IsEmpty())
     {
@@ -10512,7 +10514,7 @@ void HighProcess::ProcessActorGroupState(Actor* actor)
             ActorGroupState* state = (ActorGroupState*)(((list))->m_item);
             reinterpret_cast<::fnv_00992480::CombatOwner_SV *>((BGSSaveLoadGlobalDataWorldspacePtr))->FUN_00992480(actor, state->actor);
             delete state;
-            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
         }
     }
     reinterpret_cast<::FileMatchList *>(&(m_kActorGroupStateList))->RemoveAll();
@@ -17912,7 +17914,7 @@ bool HighProcess::HasGroupEntry(ActorCombatGroup* group)
         TESTopicInfo* entry = (((node))->m_item);
         if (group == reinterpret_cast<GroupToHelpEntry*>(entry)->group)
             found = true;
-        node = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     return found;
 }
@@ -20825,14 +20827,14 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
     reinterpret_cast<::fnv_00924560::Process86 *>(this)->FUN_00924560(flags, (::MobileObject *)(buffer));
     unsigned short blockSize_ = 0;
     unsigned char* blockStart9 = 0;
-    unsigned char* start = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    unsigned char* start = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
     if ((*reinterpret_cast<::fnv_008faa50::SaveDebugFlag *>(&::g_011de4e8)).FUN_00408d60())
-        start = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        start = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&tag), 4);
-        blockStart9 = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        blockStart9 = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&blockSize_), 2);
     }
     unsigned int unused4;
@@ -20890,7 +20892,7 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
         teleportID5 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SavedFormView*)m_pFadeReference)))->FUN_0084e3a0()));
     reinterpret_cast<::C857A10Buffer *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00857a10((const unsigned int *)(const void *)(&teleportID5), 4);
     unsigned short count_ = 0;
-    unsigned char* countPosition5 = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+    unsigned char* countPosition5 = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&count_), 2);
     DetectedActorNode* nodeTmp = (DetectedActorNode*)pDetectionEventList;
     while (nodeTmp && !nodeTmp->FUN_008256d0())
@@ -20904,7 +20906,7 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&entry7->unk1E), 1);
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((void *)(&entry7->unk08), 4);
         ++count_;
-        nodeTmp = ((::fnv_008faa50::DetectedActorNode *)(reinterpret_cast<::Callees *>((nodeTmp))->FUN_00726070()));
+        nodeTmp = ((::fnv_008faa50::DetectedActorNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeTmp))->m_pkNext));
     }
     *(unsigned short*)countPosition5 = count_;
     if (flags & 0x10000000)
@@ -20958,7 +20960,7 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
     }
     if ((*reinterpret_cast<::fnv_008faa50::SaveDebugFlag *>(&::g_011de4e8)).FUN_00408d60())
     {
-        unsigned char* end = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        unsigned char* end = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         SavedFormRecord* record = ((::fnv_008faa50::SavedFormRecord *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (record)
         {
@@ -20973,7 +20975,7 @@ void HighProcessSave::SaveToStream(unsigned int flags, void* buffer)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
-        unsigned char* blockEnd_ = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->FUN_00825c00()));
+        unsigned char* blockEnd_ = ((unsigned char *)(reinterpret_cast<::SaveLoadGameView *>(((*reinterpret_cast<::fnv_008faa50::ProcessSaveBuffer * *>(&::g_TESSaveLoadGame))))->pBufferCursor));
         unsigned char* begin = blockStart9;
         if (blockEnd_ > begin + 65535)
             ::FUN_005b5e40();
@@ -24415,7 +24417,7 @@ bool HighProcess::IsCurrentPackageTarget(Actor* actor)
                                             }
                                             else
                                                 target = 0;
-                                            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                                            list = ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
                                         }
                                     }
                                 }
@@ -26129,7 +26131,7 @@ int FUN_00962620_cls::FUN_00962620()
                 item->GetDesc() == (uintptr_t)(*reinterpret_cast<::fnv_00962620::B9054Mgr * *>(&::_g_thePlayer)))
             {
                 count = count + 1;
-                node2 = ((::fnv_00962620::B9054Node *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
+                node2 = ((::fnv_00962620::B9054Node *)(reinterpret_cast<::SimpleListNodeView *>((node2))->m_pkNext));
             }
             else
             {
@@ -27871,7 +27873,7 @@ FUN_008d98e0::~FUN_008d98e0()
     while (node && ((void *)(((::Vec3 *)(void *)(node)))))
     {
         delete ((void *)(((::Vec3 *)(void *)(node))));
-        node = ((::CleanNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::CleanNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((detected))->RemoveAll();
     delete detected;
@@ -27879,7 +27881,7 @@ FUN_008d98e0::~FUN_008d98e0()
     while (node && ((void *)(((::Vec3 *)(void *)(node)))))
     {
         delete ((void *)(((::Vec3 *)(void *)(node))));
-        node = ((::CleanNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::CleanNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((threadDetect))->RemoveAll();
     delete threadDetect;
@@ -27887,7 +27889,7 @@ FUN_008d98e0::~FUN_008d98e0()
     while (node && ((void *)(((::Vec3 *)(void *)(node)))))
     {
         delete ((void *)(((::Vec3 *)(void *)(node))));
-        node = ((::CleanNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::CleanNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((tempDetect))->RemoveAll();
     delete tempDetect;
@@ -27895,7 +27897,7 @@ FUN_008d98e0::~FUN_008d98e0()
     while (node && ((void *)(((::Vec3 *)(void *)(node)))))
     {
         delete ((void *)(((::Vec3 *)(void *)(node))));
-        node = ((::CleanNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::CleanNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((detecting))->RemoveAll();
     delete detecting;
@@ -39360,7 +39362,7 @@ void ResponseProcess::HandleResponse(ResponseActor* actor)
                             combat_1 = true;
                     }
                 }
-                node = ((::fnv_008ecf20::ResponseList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                node = ((::fnv_008ecf20::ResponseList *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
             }
             if (combat_1)
             {
@@ -45284,7 +45286,7 @@ void HighProcessWorker::ProcessDetectionStateLists(Actor* apActor)
         reinterpret_cast<::FUN_008d6fc0_cls *>((((DetectionStateHelper*)pState9)))->FUN_008d6fc0((*(const ::FUN_008d6fc0_cls *)(item3)));
         bModified5 = true;
         delete item3;
-        iter = ((::BSSimpleList< ::DetectionViewData *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+        iter = ((::BSSimpleList< ::DetectionViewData *> *)(reinterpret_cast<::SimpleListNodeView *>((iter))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((((BSSimpleList<DetectionViewData*>*)this->m_pDetectionList)))->RemoveAll();
 
@@ -45309,7 +45311,7 @@ void HighProcessWorker::ProcessDetectionStateLists(Actor* apActor)
         }
         reinterpret_cast<::FUN_008d6fc0_cls *>((((DetectionStateHelper*)pState3)))->FUN_008d6fc0((*(const ::FUN_008d6fc0_cls *)(item2)));
         delete item2;
-        iter = ((::BSSimpleList< ::DetectionViewData *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
+        iter = ((::BSSimpleList< ::DetectionViewData *> *)(reinterpret_cast<::SimpleListNodeView *>((iter))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((((BSSimpleList<DetectionViewData*>*)this->m_pSecondaryDetectionList)))->RemoveAll();
 
@@ -46736,7 +46738,7 @@ bool Process::FUN_008f9320(Actor* actor)
                         selectedSlot2 = length;
                     List* cursor = &targetList;
                     for (int index = 0; index < selectedSlot2; index++)
-                        cursor = ((::BehaviorUpdate::List *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
+                        cursor = ((::BehaviorUpdate::List *)(reinterpret_cast<::SimpleListNodeView *>((cursor))->m_pkNext));
                     pendingTarget = *((::BehaviorUpdate::Ref **)(((::Vec3 *)(void *)(cursor))));
                     reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>(this)->FUN_0092c680();
                 }
@@ -47406,7 +47408,7 @@ void This::Load(int aiFlags, int arg1, ActorObj* apActor)
 {
     reinterpret_cast<::fnv_00924b90::TargetProcess *>(this)->LoadFromSave(aiFlags, arg1, (::MobileObject *)(apActor));
     unsigned short tmp28 = 0;
-    int verHi;
+    std::uintptr_t verHi;
     verHi = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
@@ -47425,7 +47427,7 @@ void This::Load(int aiFlags, int arg1, ActorObj* apActor)
                 ::FUN_005b5e40();
             }
         }
-        verHi = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        verHi = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&tmp28, 2);
     }
     if ((int)reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() < 0x3e)
@@ -47515,7 +47517,7 @@ void This::Load(int aiFlags, int arg1, ActorObj* apActor)
     while (nodeH != 0 && *((void **)(((::Vec3 *)(void *)(nodeH)))) != 0)
     {
         delete *((void **)(((::Vec3 *)(void *)(nodeH))));
-        nodeH = ((::fnv_008fb330::ListNode *)(reinterpret_cast<::Callees *>((nodeH))->FUN_00726070()));
+        nodeH = ((::fnv_008fb330::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeH))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>((m_25c))->RemoveAll();
     unsigned short cnt2cA;
@@ -47634,7 +47636,7 @@ void This::Load(int aiFlags, int arg1, ActorObj* apActor)
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         TESSound* j2;
-        unsigned int val = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        std::uintptr_t val = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         j2 = ((::fnv_008fb330::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((TESSaveLoadGame*)(*reinterpret_cast<::Player * *>(&::g_TESSaveLoadGame)))))));
         if (!!j2)
         {
@@ -48004,7 +48006,7 @@ void FUN_008fbfd0_cls::CastFormReferences(int a1, int a2, intptr_t a3)
         else
         {
             _cnt = cur;
-            cur = ((::FUN_008fbfd0_node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::FUN_008fbfd0_node *)(reinterpret_cast<::SimpleListNodeView *>((cur))->m_pkNext));
         }
     }
     if ((int)reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::FUN_008fbfd0_mgr * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x5a)
@@ -49299,7 +49301,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(itemTmp), 0);
             count++;
         }
-        nodeA = ((::SaveNode *)(reinterpret_cast<::Callees *>((nodeA))->FUN_00726070()));
+        nodeA = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeA))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, pos23);
     count6 = 0;
@@ -49313,7 +49315,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(items7), 0);
             count6++;
         }
-        nodeAVal = ((::SaveNode *)(reinterpret_cast<::Callees *>((nodeAVal))->FUN_00726070()));
+        nodeAVal = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeAVal))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count6, pos25);
     countA9 = 0;
@@ -49327,7 +49329,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)buffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(itemsA), 0);
             countA9++;
         }
-        nodeA_ = ((::SaveNode *)(reinterpret_cast<::Callees *>((nodeA_))->FUN_00726070()));
+        nodeA_ = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeA_))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(countA9, pos35);
     hasMod16_2 = (f368 != 0);
@@ -49345,7 +49347,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_008d73b0::FUN_008d73b0_Class *>((aPThisItem))->FUN_008d73b0((::fnv_008d73b0::BGSSaveFormBuffer *)(buffer));
             countBVal++;
         }
-        nodeExtra8 = ((::SaveNode *)(reinterpret_cast<::Callees *>((nodeExtra8))->FUN_00726070()));
+        nodeExtra8 = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeExtra8))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(countBVal, pos44);
     countB_ = 0;
@@ -49359,7 +49361,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_008d7070::DetectionStateProxy *>((aPObj3D))->SaveDetectionState((::fnv_008d7070::BGSSaveFormBuffer *)(buffer));
             countB_++;
         }
-        nodeExtra_ = ((::SaveNode *)(reinterpret_cast<::Callees *>((nodeExtra_))->FUN_00726070()));
+        nodeExtra_ = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((nodeExtra_))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(countB_, pos6_2);
     countTmp = 0;
@@ -49373,7 +49375,7 @@ void ProcessSave::FUN_008fc4f0(SaveBuf* buffer)
             reinterpret_cast<::fnv_008d7070::DetectionStateProxy *>((aTarget))->SaveDetectionState((::fnv_008d7070::BGSSaveFormBuffer *)(buffer));
             countTmp++;
         }
-        node_ = ((::SaveNode *)(reinterpret_cast<::Callees *>((node_))->FUN_00726070()));
+        node_ = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((node_))->m_pkNext));
     }
     reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(countTmp, posA5);
     hasMod3 = (f3dc != 0);
@@ -50609,7 +50611,7 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                                                                                                                                                                 (ActorGroupState*)((::TESTopicInfo *)(((::Vec3 *)(void *)(list))));
                                                                                                                                                                                                                                             delete item1;
                                                                                                                                                                                                                                             list =
-                                                                                                                                                                                                                                                ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                                                                                                                                                                                                                                                ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                         reinterpret_cast<::FileMatchList *>(&(m_kPrimaryDetectionList))->RemoveAll();
                                                                                                                                                                                                                                         list =
@@ -50622,7 +50624,7 @@ bool HighProcess::ShouldProcessActor(Actor* actor)
                                                                                                                                                                                                                                                 (ActorGroupState*)((::TESTopicInfo *)(((::Vec3 *)(void *)(list))));
                                                                                                                                                                                                                                             delete item2;
                                                                                                                                                                                                                                             list =
-                                                                                                                                                                                                                                                ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
+                                                                                                                                                                                                                                                ((::BSSimpleList< ::TESTopicInfo *> *)(reinterpret_cast<::SimpleListNodeView *>((list))->m_pkNext));
                                                                                                                                                                                                                                         }
                                                                                                                                                                                                                                         reinterpret_cast<::FileMatchList *>(&(m_kActorGroupStateList))->RemoveAll();
                                                                                                                                                                                                                                         reinterpret_cast<::FileMatchList *>(&(m_kSecondaryTopicList))->RemoveAll();
@@ -51377,7 +51379,7 @@ void MiddleHighProcess_standin::EngageCombatTarget(Actor* apTarget)
                         AddToCombat(apTarget, pActor, 0, bTrue, 0, false, false, bTrue, false, false, false, true,
                                     false);
                     }
-                    pIter = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                    pIter = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
                 }
             }
         }
@@ -51622,7 +51624,7 @@ void FUN_00900830_shell::UpdateFollowerList(TESObjectREFR* apRef, float afTime)
         while (pNode2 && *((::Actor **)(((::Vec3 *)(void *)(pNode2)))))
         {
             reinterpret_cast<::Callees *>((pFollowers3))->FUN_00905820((void *)&(*((::Actor **)(((::Vec3 *)(void *)(pNode2))))));
-            pNode2 = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
+            pNode2 = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::SimpleListNodeView *>((pNode2))->m_pkNext));
         }
 
         while (pIter && *((::Actor **)(((::Vec3 *)(void *)(pIter)))))
@@ -51662,7 +51664,7 @@ void FUN_00900830_shell::UpdateFollowerList(TESObjectREFR* apRef, float afTime)
                     }
                 }
             }
-            pIter = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+            pIter = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
         }
 
         pIter = (FUN_00900830_node*)pRemove2;
@@ -51670,7 +51672,7 @@ void FUN_00900830_shell::UpdateFollowerList(TESObjectREFR* apRef, float afTime)
         {
             Actor* pDead = *((::Actor **)(((::Vec3 *)(void *)(pIter))));
             reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((((::fnv_00900830::FUN_00422700_extra *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->FUN_00422690((::fnv_00422690::Actor *)(pDead));
-            pIter = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+            pIter = ((::fnv_00900830::FUN_00900830_node *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
         }
 
         reinterpret_cast<::FileMatchList *>((pRemove2))->RemoveAll();
@@ -54213,7 +54215,7 @@ void MoveActor::SelectMoveTarget(MoveActor* actor, MoveResult* result, bool move
     while (list19 && !list19->FUN_008256d0())
     {
         MoveListEntry* entry2 = *((::fnv_009026c0::MoveListEntry **)(((::Vec3 *)(void *)(list19))));
-        list19 = ((::fnv_009026c0::MoveList *)(reinterpret_cast<::Callees *>((list19))->FUN_00726070()));
+        list19 = ((::fnv_009026c0::MoveList *)(reinterpret_cast<::SimpleListNodeView *>((list19))->m_pkNext));
         MoveActor* candidate65 = entry2->actor;
         if (!candidate65)
             continue;
@@ -54821,7 +54823,7 @@ void FUN_00904220_class::RemoveItemByID(int aiID)
         }
         else
         {
-            node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
+            node = reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext;
         }
     }
 }
@@ -60591,7 +60593,7 @@ void ProcessShell::UpdateDialogueTarget(Actor* actor)
                     count = index;
                 ListShell* node = &list;
                 for (int i = 0; i < count; i++)
-                    node = ((::ListShell *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                    node = ((::ListShell *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                 target = *((::RefShell **)(((::Vec3 *)(void *)(node))));
                 reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>(this)->FUN_0092c680();
             }
@@ -61225,7 +61227,7 @@ BSSimpleList<BSSimpleList<MenuTopic*>*>* MenuTopicOwner::BuildTopicLists(Actor* 
                         delete pList;
                     }
                 }
-                pNode = ((::ContNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+                pNode = ((::ContNode *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
             }
         }
     }
@@ -67671,7 +67673,7 @@ bool UWProcess::FUN_008f7730(UWActor* actor)
         while (node2 && !node2->IsEmpty())
         {
             UWDetectionData* detected = ((::UWDetectionData *)(((::Vec3 *)(void *)(node2))));
-            node2 = ((::UWDetectionNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
+            node2 = ((::UWDetectionNode *)(reinterpret_cast<::SimpleListNodeView *>((node2))->m_pkNext));
             if (detected->actor == combatTarget2)
                 continue;
             if (detected->actor->IsDead(false))
@@ -70991,7 +70993,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
                         {
                             for (int index = ::GetRandomNumberInRange(0, node->FUN_005ae380() - 1); node && index > 0;
                                  --index)
-                                node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                                node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                             aGlobal = (TESForm*)*((::TESObjectREFR **)(((::Vec3 *)(void *)(node))));
                         }
                     }
@@ -71059,7 +71061,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
                         aMaximum = aTotal;
                     ProcessEatListView* node = (ProcessEatListView*)&m_kSecondaryReferenceList;
                     for (int index = 0; index < aMaximum; ++index)
-                        node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                        node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                     m_pFurnitureReference = *((::TESObjectREFR **)(((::Vec3 *)(void *)(node))));
                     reinterpret_cast<::fnv_0092c680::FUN_0092c680_cls *>(this)->FUN_0092c680();
                 }
@@ -71194,7 +71196,7 @@ void ProcessEatProcess008e3140::FUN_008e3140(Actor* actor, TESObjectREFR* prefer
                             {
                                 for (int index = ::GetRandomNumberInRange(0, node->FUN_005ae380() - 1); node && index > 0;
                                      --index)
-                                    node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                                    node = ((::fnv_008e3140::ProcessEatListView *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                                 aGlobal = (TESForm*)*((::TESObjectREFR **)(((::Vec3 *)(void *)(node))));
                             }
                         }

@@ -1,5 +1,6 @@
 // fallout/ai/baseprocess.cpp: BaseProcess, SavedProcess, Target8d (46 functions)
 
+#include "fnv/save_load_game_view.h"
 #include <cstdint>
 #include "fnv/decl/ActorPackageLegacySave.h"
 #include "fnv/decl/ActorPackageLoad.h"
@@ -1723,21 +1724,21 @@ void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
 {
     unsigned short length = 0;
     unsigned int* begin = 0;
-    unsigned int initial = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+    std::uintptr_t initial = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
     if (*g_011de4e8.Bool())
-        initial = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        initial = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&tag, 4);
-        begin = (unsigned int*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        begin = (unsigned int*)reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor;
         reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&length, 2);
     }
     reinterpret_cast<::ActorPackageLegacySave *>(&(data))->FUN_008c6250(flags);
     reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&unk1c, 4);
     if (*g_011de4e8.Bool())
     {
-        unsigned int header = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        std::uintptr_t header = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
         SaveHeaderView* end = ((::SaveHeaderView *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->GetHitSound()));
         if (end)
         {
@@ -1749,7 +1750,7 @@ void SavedProcess::FUN_008d0a10(unsigned int flags, unsigned int unused)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_00862110())
     {
-        unsigned int uiTimestamp = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((TimeGlobal*)g_TESSaveLoadGame)))->FUN_00825c00();
+        std::uintptr_t uiTimestamp = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>((((TimeGlobal*)g_TESSaveLoadGame)))->pBufferCursor);
         uintptr_t finalPosition = (uintptr_t)begin;
         if (uiTimestamp > finalPosition + 65535)
             ::FUN_005b5e40();
@@ -1862,7 +1863,7 @@ struct Target8d
 void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
 {
     unsigned short count = 0;
-    unsigned start = 0;
+    std::uintptr_t start = 0;
     if (reinterpret_cast<::FUN_00862110_cls *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
         unsigned tag;
@@ -1880,14 +1881,14 @@ void Target8d::LoadAndValidate(void* arg1, void* arg2, void* arg3)
                 ::FUN_005b5e40();
             }
         }
-        start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        start = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&count, 2);
     }
     reinterpret_cast<::ActorPackageLoad *>(&(base))->FUN_008c6320((intptr_t)(arg1), (intptr_t)(arg2));
     reinterpret_cast<::FUN_008579e0_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&field, 4);
     if (reinterpret_cast<::FUN_00862110_cls *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00862110())
     {
-        unsigned end = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
+        std::uintptr_t end = reinterpret_cast<std::uintptr_t>(reinterpret_cast<::SaveLoadGameView *>(((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))->pBufferCursor);
         Record8d* record = ((::fnv_008d0bc0::Record8d *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)((*(Reader8d**)&(*reinterpret_cast<char *>(&::g_TESSaveLoadGame)))))));
         if (record)
         {

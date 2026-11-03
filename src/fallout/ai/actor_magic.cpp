@@ -1,5 +1,6 @@
 // fallout/ai/actor_magic.cpp: Actor, ActorStandIn, SummonOwner, Controller and more (40 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include <cstdio>
@@ -1010,7 +1011,7 @@ void FUN_009b28a0_t::FUN_009b28a0(uintptr_t c)
     while (pNode && !pNode->FUN_008256d0())
     {
         FUN_009b28a0_efx* peffect;
-        FUN_009b28a0_node* m_pActionSuccessor = ((::FUN_009b28a0_node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+        FUN_009b28a0_node* m_pActionSuccessor = ((::FUN_009b28a0_node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         peffect = *((::FUN_009b28a0_efx **)(((::Vec3 *)(void *)(pNode))));
         if (peffect && (uintptr_t)peffect->m_pEffectInstance == c)
         {
@@ -1931,7 +1932,7 @@ bool SummonOwner::DispelSummonEffects()
                 bDispelled5 = true;
             }
         }
-        pNode6 = ((::EffectNode *)(reinterpret_cast<::Callees *>((pNode6))->FUN_00726070()));
+        pNode6 = ((::EffectNode *)(reinterpret_cast<::SimpleListNodeView *>((pNode6))->m_pkNext));
     }
     return bDispelled5;
 }
@@ -4655,7 +4656,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
         SpellItem* pSpell_2 = *((::SpellItem **)(((::Vec3 *)(void *)(pNode2))));
         if (pSpell_2 && FUN_00804b30((intptr_t)pSpell_2->vfn_18()) && !((bool)(reinterpret_cast<::FlaggedData *>((((FUN_008c2e30_spell*)pSpell_2)))->FUN_008c2e30())))
             reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(pSpell_2, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
-        pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
+        pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::SimpleListNodeView *>((pNode2))->m_pkNext));
     }
 
     pNode2 = ((FUN_008c2b60_vtbl*)this)->v223() ? ((::FUN_008c2b60_node *)(reinterpret_cast<::BaseProcess *>((&((FUN_008c2b60_vtbl*)this)->v223()->spells))->GetCurrentProcessData())) : 0;
@@ -4664,7 +4665,7 @@ void FUN_008c2b60_shell::ApplyActorSpells()
         SpellItem* _pRaceSpell = *((::SpellItem **)(((::Vec3 *)(void *)(pNode2))));
         if (_pRaceSpell && FUN_00804b30((intptr_t)_pRaceSpell->vfn_18()))
             reinterpret_cast<::MagicTarget *>((((FUN_00824400_target*)static_cast<MagicTarget *>(this))))->Dispel(_pRaceSpell, (::MagicCaster *)(void *)(0), (::ActiveEffect *)(void *)(0));
-        pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
+        pNode2 = ((::FUN_008c2b60_node *)(reinterpret_cast<::SimpleListNodeView *>((pNode2))->m_pkNext));
     }
 
     InventoryChanges* pChanges = ::InventoryChanges::CreateForReference(this);
@@ -4780,7 +4781,7 @@ void Actor8c30::FUN_008c30a0()
         SpellItem8c30* pkSpell = (SpellItem8c30*)(((pkIter))->m_item);
         if (pkSpell && ::FUN_00804b30((intptr_t)(pkSpell->vfn_18())))
             reinterpret_cast<::UnloadMagic *>((pkSpell))->FUN_0040b800(true);
-        pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
+        pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::SimpleListNodeView *>((pkIter))->m_pkNext));
     }
     pkIter = GetRace() ? ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::BaseProcess *>(&(GetRace()->spells))->GetCurrentProcessData())) : 0;
     while (pkIter)
@@ -4788,7 +4789,7 @@ void Actor8c30::FUN_008c30a0()
         SpellItem8c30* pkRaceSpell = (SpellItem8c30*)(((pkIter))->m_item);
         if (pkRaceSpell && ::FUN_00804b30((intptr_t)(pkRaceSpell->vfn_18())))
             reinterpret_cast<::UnloadMagic *>((pkRaceSpell))->FUN_0040b800(true);
-        pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
+        pkIter = ((::BSSimpleList< ::SpellItem *> *)(reinterpret_cast<::SimpleListNodeView *>((pkIter))->m_pkNext));
     }
     InventoryChanges* pkInvChanges = ::InventoryChanges::CreateForReference(this);
     for (unsigned int i = 0; i < 5; i++)

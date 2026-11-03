@@ -1,5 +1,6 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include "fnv/result_slot.h"
 #include <intrin.h>
 #include <new>
@@ -6496,7 +6497,7 @@ void FUN_00935ae0_t::FUN_00935ae0()
             }
             else
             {
-                pList = ((::BSSimpleList< ::TopicInfoVisitRecord *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+                pList = ((::BSSimpleList< ::TopicInfoVisitRecord *> *)(reinterpret_cast<::SimpleListNodeView *>((pList))->m_pkNext));
             }
         }
     }

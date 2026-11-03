@@ -1,5 +1,6 @@
 // fallout/ai/aitaskmanager.cpp: MovementTaskData, PackageUpdateTaskData, Owner, ActorsScriptTaskData and more (87 functions)
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include "havok/hkMemoryRouter.h"
 #include <new>
@@ -3203,21 +3204,21 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
                 while (list_ && (((list_))->m_item))
                 {
                     reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&((((list_))->m_item)));
-                    list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((list_))->FUN_00726070()));
+                    list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((list_))->m_pkNext));
                 }
                 while (nodeVal && (((nodeVal))->m_item))
                 {
                     Actor* actorA = (((nodeVal))->m_item);
                     if (actorA && actorA != (*reinterpret_cast<::fnv_008c8be0::PlayerCharacter * *>(&::_g_thePlayer)) && !reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<UpdateActor*>(actorA)))->FUN_008bc860(actorTmp))
                         listVal->AddHead(actorA);
-                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
                 nodeVal = listVal;
                 while (nodeVal && (((nodeVal))->m_item))
                 {
                     Actor* targetB = (((nodeVal))->m_item);
                     reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(targetB));
-                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
                 reinterpret_cast<::FileMatchList *>((listVal))->RemoveAll();
                 delete listVal;

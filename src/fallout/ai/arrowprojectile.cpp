@@ -1,6 +1,7 @@
 // src/fallout/ai/arrowprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/arrowprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -694,7 +695,7 @@ void FUN_008cddd0(MobileObject* owner, bool bFlag)
                         if (reinterpret_cast<::FUN_00440d80_shell *>((projectile))->FUN_00440d80())
                             projectile->Unk_73(0, 1);
                     }
-                    node = ((::ProjectileNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                    node = ((::ProjectileNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
                 }
                 reinterpret_cast<::FileMatchList *>((process->Unk_1AC()))->RemoveAll();
             }

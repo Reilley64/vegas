@@ -1,5 +1,7 @@
 // fallout/ai/actor.cpp: ActorValue, ActorX, Holder, ActorStub and more (806 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/package_fields.h"
 #include "fnv/vats_camera_data_view.h"
 #include "fnv/tls.h"
@@ -2776,7 +2778,7 @@ void FUN_0087fad0_Actor::FUN_0087fad0(void* pTarget)
         }
         else
         {
-            pNode = ((::FUN_0087fad0_Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+            pNode = ((::FUN_0087fad0_Node *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
         }
     }
 }
@@ -2807,7 +2809,7 @@ float FUN_0087fcb0_cls::GetAmountForActor(void* apActor)
         if (it->actor == apActor)
             return (float)it->amount;
         else
-            node = ((::Node87 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::Node87 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
     return result;
 }
@@ -11306,7 +11308,7 @@ int FUN_0048bf50_cls::FindValueByKey(intptr_t key)
             Item48* it = *((::Item48 **)(((::Vec3 *)(void *)(node))));
             if (it->key == key)
                 return it->val;
-            node = ((::Node48 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::Node48 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     return 0;
@@ -12866,7 +12868,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
                 return aiArraySize;
             }
         }
-        apList1 = reinterpret_cast<::Callees *>((apList1))->FUN_00726070();
+        apList1 = reinterpret_cast<::SimpleListNodeView *>((apList1))->m_pkNext;
     }
 
     while (apList2)
@@ -12898,7 +12900,7 @@ unsigned int FUN_008b8ca0_shell::FUN_008b8ca0(TESFaction** apFactionArray, unsig
                 apFactionArray[iExistingIndex] = 0;
             }
         }
-        apList2 = reinterpret_cast<::Callees *>((apList2))->FUN_00726070();
+        apList2 = reinterpret_cast<::SimpleListNodeView *>((apList2))->m_pkNext;
     }
 
     return icount;
@@ -15752,9 +15754,9 @@ void FUN_008bcb40_shell::FUN_008bcb40()
         {
             TESFaction* pfac = (TESFaction*)*((void **)(((::Vec3 *)(void *)(pCurrentElementNext))));
             reinterpret_cast<::FUN_0047eb90_Class *>((pfac))->FUN_0047eb90(false);
-            pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
+            pCurrentElementNext = reinterpret_cast<::SimpleListNodeView *>((pCurrentElementNext))->m_pkNext;
         }
-        pcrimelist = reinterpret_cast<::Callees *>((pcrimelist))->FUN_00726070();
+        pcrimelist = reinterpret_cast<::SimpleListNodeView *>((pcrimelist))->m_pkNext;
     }
 }
 }  // namespace fnv_008bcb40
@@ -43068,7 +43070,7 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
             if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((uintptr_t)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
                 bHasResultObj = true;
         }
-        pList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
+        pList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::SimpleListNodeView *>((pList))->m_pkNext));
     }
     while (pExtraFactionList && *((::fnv_008ac6f0::FactionReaction **)(((::Vec3 *)(void *)(pExtraFactionList)))) && !bHasResultObj)
     {
@@ -43078,7 +43080,7 @@ bool ActorS_008ac6f0::FUN_008ac6f0()
             if ((!pextra || !reinterpret_cast<::PredicateOwner *>((pextra))->HasMatchingValue((uintptr_t)(prank->pFaction))) && reinterpret_cast<::FUN_0047d7e0_Class *>((void *)(prank->pFaction))->FUN_0047d7e0())
                 bHasResultObj = true;
         }
-        pExtraFactionList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::Callees *>((pExtraFactionList))->FUN_00726070()));
+        pExtraFactionList = ((::fnv_008ac6f0::FRList *)(reinterpret_cast<::SimpleListNodeView *>((pExtraFactionList))->m_pkNext));
     }
     return bHasResultObj;
 }
@@ -45088,7 +45090,7 @@ bool P09A::FUN_008aad40(unsigned int aiFlags)
                     peffect = dynamic_cast<ReanimateEffect*>(*((::ActiveEffect **)(((::Vec3 *)(void *)(pnode)))));
                     if (peffect && reinterpret_cast<::FUN_0068a810_class *>((((P09AS*)peffect)))->GetField4C() < 0x1e)
                         return true;
-                    pnode = ((::P09Node *)(reinterpret_cast<::Callees *>((pnode))->FUN_00726070()));
+                    pnode = ((::P09Node *)(reinterpret_cast<::SimpleListNodeView *>((pnode))->m_pkNext));
                 }
             }
         }
@@ -50344,7 +50346,7 @@ void FUN_0087eef0_cls::ProcessEntries()
                     }
                 }
             }
-            cur = ((::Eef0_Node *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070()));
+            cur = ((::Eef0_Node *)(reinterpret_cast<::SimpleListNodeView *>((cur))->m_pkNext));
         }
     }
     Eef0_R2* R2 = (Eef0_R2*)((void *)(reinterpret_cast<::ExtraDataList *>((reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))->GetContainerChangeData()));
@@ -70601,7 +70603,7 @@ TargetRef* SelectingActor::SelectTarget()
             _bestScore = range7;
             best = targetVal;
         }
-        node9 = ((::CandidateList *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070()));
+        node9 = ((::CandidateList *)(reinterpret_cast<::SimpleListNodeView *>((node9))->m_pkNext));
     }
     reinterpret_cast<::FileMatchList *>(&(candidates3))->RemoveAll();
     return best;
@@ -74605,14 +74607,14 @@ void ActorSave::SaveActorData(unsigned int flags)
     reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(flags);
     unsigned short a = 0;
     char* p = 0;
-    char* i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    char* i = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     if (*g_011de4e8.Bool())
-        i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        i = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&tag, 4);
-        p = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        p = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 2);
     }
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&field114, 4);
@@ -74627,7 +74629,7 @@ void ActorSave::SaveActorData(unsigned int flags)
     if (flags & 0x80000)
     {
         unsigned short a = 0;
-        unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&a, 2);
         SaveList* p = &listFC;
         while (p && !p->Empty())
@@ -74650,7 +74652,7 @@ void ActorSave::SaveActorData(unsigned int flags)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&index, 4);
     }
     unsigned short f = 0;
-    unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+    unsigned short* h = (unsigned short*)((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((g_TESSaveLoadGame))->FUN_008579b0(&f, 2);
     SaveList* s = &listF4;
     while (s && !s->Empty())
@@ -74714,7 +74716,7 @@ void ActorSave::SaveActorData(unsigned int flags)
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&field118, 1);
     if (*g_011de4e8.Bool())
     {
-        char* end = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        char* end = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         SaveRecord* record = ((::fnv_008a9380::SaveRecord *)(reinterpret_cast<::EffectSetting *>((g_TESSaveLoadGame))->GetHitSound()));
         if (record)
         {
@@ -74726,7 +74728,7 @@ void ActorSave::SaveActorData(unsigned int flags)
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((g_TESSaveLoadGame))->FUN_00862110())
     {
-        char* l = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((g_TESSaveLoadGame))->FUN_00825c00()));
+        char* l = ((char *)(reinterpret_cast<::SaveLoadGameView *>((g_TESSaveLoadGame))->pBufferCursor));
         char* c = p;
         if (l > c + 0xffff)
             ::FUN_005b5e40();
@@ -74978,7 +74980,7 @@ void SaveActor::FUN_008aaf40(SaveBuffer* buffer)
                 reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(entry, 4, 0);
                 count++;
             }
-            node = ((::SaveNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::SaveNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
         reinterpret_cast<::FUN_00865ff0_shell *>((buffer))->FUN_00865ff0(count, position);
     }
@@ -83797,7 +83799,7 @@ void TaskOwner::ProcessTargets()
                     }
                 }
             }
-            node7 = ((::fnv_008b8f90::List *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+            node7 = ((::fnv_008b8f90::List *)(reinterpret_cast<::SimpleListNodeView *>((node7))->m_pkNext));
         }
     }
 }
@@ -89114,7 +89116,7 @@ void Ref8BC::CopyScaleAndResetItems(Ref8BC* pkSource)
     {
         Item8BC* pkItem = *((::Item8BC **)(((::Vec3 *)(void *)(pkNode))));
         reinterpret_cast<::FUN_0047eb90_Class *>((pkItem))->FUN_0047eb90(true);
-        pkNode = ((::ListNode8BC *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
+        pkNode = ((::ListNode8BC *)(reinterpret_cast<::SimpleListNodeView *>((pkNode))->m_pkNext));
     }
     reinterpret_cast<::fnv_009721f0::FUN_009721f0_shell *>(&((*reinterpret_cast<::Manager8BC *>(&::g_011e0e80))))->AddObjectToList((::fnv_009721f0::TESFormList *)(pkSource));
 }
@@ -90253,7 +90255,7 @@ bool WalkListForTarget(ListWalkNode* node, ListWalkTarget* target)
                 return true;
             }
         }
-        node = ((::ListWalkNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+        node = ((::ListWalkNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
     }
 }
 
@@ -94912,7 +94914,7 @@ void AddTimedEntry(uintptr_t auiKey1, unsigned int auiKey2)
     for (iter2 = &(*reinterpret_cast<::BSSimpleList< ::FUN_008d6000_Class *> *>(&::g_011e0098)); iter2;)
     {
         FUN_008d6000_Class* entry8 = (((iter2))->m_item);
-        iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::Callees *>((iter2))->FUN_00726070()));
+        iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::SimpleListNodeView *>((iter2))->m_pkNext));
         if (entry8 && auiKey1 == entry8->key1)
         {
             if (::GetLevelValue(entry8->key2) >= ::GetLevelValue(auiKey2) && entry8->time2 > now)
@@ -94935,7 +94937,7 @@ void AddTimedEntry(uintptr_t auiKey1, unsigned int auiKey2)
             if (bMatch)
                 iter2->RemoveHead();
             else
-                iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::Callees *>((iter2))->FUN_00726070()));
+                iter2 = ((::BSSimpleList< ::FUN_008d6000_Class *> *)(reinterpret_cast<::SimpleListNodeView *>((iter2))->m_pkNext));
         }
         FUN_008d6000_Class* pNewX;
         {
@@ -111269,7 +111271,7 @@ void AlarmActorView::FUN_008c09e0(TESObjectREFR* pkTarget)
                     ::SetTlsInt(0);
                 }
             }
-            pkList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pkList))->FUN_00726070()));
+            pkList = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((pkList))->m_pkNext));
         }
         if (pkCurrentObject)
         {
@@ -116737,7 +116739,7 @@ void ActorTarget::FUN_0087fb40(Actor* target, float amount)
             }
             else
             {
-                node = ((::BSSimpleList< ::ActorListEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                node = ((::BSSimpleList< ::ActorListEntry *> *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
             }
         }
         newItem = new ActorListEntry;
@@ -123818,7 +123820,7 @@ void FUN_008abc40_shell::FUN_008abc40(BGSLoadFormBuffer* buffer)
             if (modifier)
                 modifier->pActor =
                     modifier->pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)modifier->pActor)) : 0;
-            node = ((::fnv_008abc40::DispositionNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+            node = ((::fnv_008abc40::DispositionNode *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext));
         }
     }
     TESPackage* package = m_pBaseProcess ? ((ProcessFinish*)m_pBaseProcess)->GetCurrentPackage() : 0;
@@ -124016,7 +124018,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                         inner = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((inner))->FUN_00726070()));
                     }
             }
-            list8 = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((list8))->FUN_00726070()));
+            list8 = ((::FactionNode87 *)(reinterpret_cast<::SimpleListNodeView *>((list8))->m_pkNext));
         }
     }
     else if (extraB && !extra9)
@@ -124075,7 +124077,7 @@ int Actor87::FUN_008b87a0(Actor87* other, bool* apbEnemy)
                             return reaction2;
                     }
             }
-            list8 = ((::FactionNode87 *)(reinterpret_cast<::Callees *>((list8))->FUN_00726070()));
+            list8 = ((::FactionNode87 *)(reinterpret_cast<::SimpleListNodeView *>((list8))->m_pkNext));
         }
     }
     else
@@ -128778,7 +128780,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
             {
                 ZProcess* activeProcess = ((::fnv_00899200::ZProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()));
                 ZList* list2 = targets;
-                ZActor* candidate6 = ((::fnv_00899200::ZActor *)(reinterpret_cast<::Callees *>((list2))->FUN_00726070()));
+                ZActor* candidate6 = ((::fnv_00899200::ZActor *)(reinterpret_cast<::SimpleListNodeView *>((list2))->m_pkNext));
                 if (candidate6 && candidate6->isActor())
                 {
                     target = candidate6;
@@ -130852,7 +130854,7 @@ void LimbActor::FUN_008b43a0(LimbHit* apHit, intptr_t a2, intptr_t a3)
         while (pNode && !pNode->FUN_008256d0() && iCount < 7)
         {
             LimbEntry* pEntryRef = *((::LimbEntry **)(((::Vec3 *)(void *)(pNode))));
-            pNode = ((::LimbEntryList *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
+            pNode = ((::LimbEntryList *)(reinterpret_cast<::SimpleListNodeView *>((pNode))->m_pkNext));
             LimbBodyPart* pEntryPart = ((::LimbBodyPart *)(reinterpret_cast<::FUN_005e50f0_Obj *>((pBodyDataLoc))->GetValueByIndex(pEntryRef->iPart)));
             if (pEntryPart && pEntryRef->iPart)
             {
@@ -141907,7 +141909,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 else
                 {
                     reinterpret_cast<::ItemChangeListNode *>((kIter))->FUN_00905330((*(::InventoryStackRecord *const *)(&cell2)));
-                    ix = ((::ActorLinkDetail::Node87X *)(reinterpret_cast<::Callees *>((kIter))->FUN_00726070()));
+                    ix = ((::ActorLinkDetail::Node87X *)(reinterpret_cast<::SimpleListNodeView *>((kIter))->m_pkNext));
                 }
                 delete cell2;
             }
@@ -141943,7 +141945,7 @@ void FUN_008d3380_shell::FUN_008aa4c0(unsigned int aiFlags, unsigned int p2)
                 else
                 {
                     reinterpret_cast<::ItemChangeListNode *>((kIter))->FUN_00905330((*(::InventoryStackRecord *const *)(&cell2)));
-                    ix = ((::ActorLinkDetail::Node48X *)(reinterpret_cast<::Callees *>((kIter))->FUN_00726070()));
+                    ix = ((::ActorLinkDetail::Node48X *)(reinterpret_cast<::SimpleListNodeView *>((kIter))->m_pkNext));
                 }
                 delete cell2;
             }
@@ -143336,7 +143338,7 @@ void MoveSelf454::FUN_008ad1c0(intptr_t destination, float angle, TESObjectCELL*
                 {
                     actors.FUN_005ae3d0((MoveActor454*)this);
                     count = 0;
-                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())), ++count)
+                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext)), ++count)
                     {
                         MoveFollowers454* followers =
                             (MoveFollowers454*)((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::FUN_00422700_shell *>((((::fnv_008ad1c0::MoveExtra454 *)(reinterpret_cast<::FUN_005d43c0_ *>(((*((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node)))))))->FUN_005d43c0()))))->FUN_00422700()));
@@ -143352,7 +143354,7 @@ void MoveSelf454::FUN_008ad1c0(intptr_t destination, float angle, TESObjectCELL*
                     }
                     bool allowed = allow || reinterpret_cast<::PlayerCharacter *>((((MovePlayer454*)::_g_thePlayer)))->IsSleepingOrResting();
                     extra = abUseOffset ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_008ad1c0::MoveSetting454 *>(&::originalRuntimeFloatSetting291)))))) : 0.0f;
-                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
+                    for (node = &actors; node; node = ((::fnv_008ad1c0::MoveNode454 *)(reinterpret_cast<::SimpleListNodeView *>((node))->m_pkNext)))
                     {
                         currentActor = *((::fnv_008ad1c0::MoveActor454 **)(((::Vec3 *)(void *)(node))));
                         if (!currentActor->V22c(0) && !reinterpret_cast<::TESForm *>((currentActor))->GetDisabled() && !reinterpret_cast<::fnv_008a6210::FUN_008a6210_shell *>((currentActor))->FUN_008a6210() &&
@@ -158483,7 +158485,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                         reinterpret_cast<::fnv_00887af0::FUN_00887af0_class *>((pFace))->FUN_00887af0(&kRotationBasis);
                         break;
                     }
-                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
                 }
                 if (::FUN_008c7aa0())
                     reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});
@@ -158525,7 +158527,7 @@ void Actor::FUN_00886cb0(float afDelta, int aiUnused)
                         reinterpret_cast<::FUN_00887ac0_class *>((pShader))->FUN_00887ac0(fScale);
                         break;
                     }
-                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
+                    pIter = ((::ActorUpdate3D::ListNode *)(reinterpret_cast<::SimpleListNodeView *>((pIter))->m_pkNext));
                 }
                 if (::FUN_008c7aa0())
                     reinterpret_cast<::S0087ab50 *>((((::ActorUpdate3D::FaceAnim *)(::TaskQueueInterface::GetSingleton()))))->SetPairIfEnabled({}, {});

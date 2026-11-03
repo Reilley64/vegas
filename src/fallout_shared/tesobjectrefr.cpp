@@ -7264,7 +7264,7 @@ void FUN_0057c180(char* this_ptr)
         *(TempLoadedRefData**)(this_ptr + 0x64) = new TempLoadedRefData();
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk00 = 0;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk04 = 0;
-        MobileObjectCellAccess* pcell = (MobileObjectCellAccess*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this_ptr)))->GetTarget()));
+        MobileObjectCellAccess* pcell = (MobileObjectCellAccess*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this_ptr)))->GetTarget()));
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk08 =
             (pcell && reinterpret_cast<::fnv_004518e0::TESObjectCELL *>((void *)(pcell))->FUN_004518e0()) ? reinterpret_cast<::FUN_005471e0_shell *>((pcell))->FUN_005471e0() : ::DAT_01015f5c;
         (*(TempLoadedRefData**)(this_ptr + 0x64))->unk0c = -1.0f;
@@ -10979,7 +10979,7 @@ BSAnimNoteReceiver* FUN_0057a770_shell::FUN_0057a770()
     if (!pextra)
     {
         FUN_0057a960* m_pReceiver = new FUN_0057a960;
-        reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)m_pReceiver)))->Initialize((::CombatController *)((unsigned int)this));
+        reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)m_pReceiver)))->Initialize((::CombatController *)(this));
         pextra = (BSExtraData*)new FUN_0057a870(m_pReceiver);
         reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((((StandIn_BaseExtraList*)((XActor*)this)->GetExtra())))->FUN_0040ff60((::BSExtraData *)(pextra));
     }
@@ -11330,7 +11330,7 @@ void FUN_00562020(TESObjectREFR* self)
     CharCtl_S* pcon;
     UpdData UpDataB;
     NiAVObject* pobj3D2;
-    pobj3D2 = (NiAVObject*)((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RA_H*)self)))->FUN_0043fcd0()));
+    pobj3D2 = (NiAVObject*)((reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((RA_H*)self)))->FUN_0043fcd0()));
     if (pobj3D2)
     {
         if ((*(bool(**)(void*))(*(char**)self + 0xfc))(self))
@@ -12552,8 +12552,8 @@ void FUN_005627c0_shell::FUN_005627c0(BGSLoadFormBuffer* apLoadGameBuffer)
         if (reinterpret_cast<::FUN_00437b90_shell *>((((RefX*)this)))->FUN_00437b90())
             ((VRefr005627c0*)this)->Slot73(0, 0);
         else if (!((VRefr005627c0*)this)->Slot74() && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())) &&
-                 ::FUN_00450ff0((void *)(((TESObjectCELL*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))))))
-            reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_005627c0::Loader_S * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::TESObjectREFR *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))), (::LodPoint *)(0))))), 1);
+                 ::FUN_00450ff0((void *)(((TESObjectCELL*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))))))
+            reinterpret_cast<::ML *>(((*reinterpret_cast<::fnv_005627c0::Loader_S * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::TESObjectREFR *)(this), (int)(((void *)(reinterpret_cast<::LodGrid *>((g_TES))->FUN_00458be0((::LodCell *)(((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget()))), (::LodPoint *)(0))))), 1);
     }
 }
 }  // namespace fnv_005627c0
@@ -14217,7 +14217,7 @@ void FUN_0057b520_shell::FUN_0057b520(bool abTraverseAllZones)
         if (((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
         {
             bhkWorld* pw;
-            pw = (bhkWorld*)((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()));
+            pw = (bhkWorld*)((reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()));
             if (pw)
             {
                 TESWaterListener* plistener;
@@ -14369,7 +14369,7 @@ void FUN_00560870(NiAVObject* pObject, VisitDataStandIn* pData)
     CountInfoStandIn* pCount = pData->pCount;
     if (::FUN_0043b300((const ::NiRTTI *)(const ::fnv_00560870::NiRTTI *)(&(*reinterpret_cast<::fnv_00560870::NiRTTI *>(&::g_0126817c))), (::NiAVObject *)(pObject)))
         pCount->m_ucEntryType |= 8;
-    pkParent = (NiAVObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
+    pkParent = (NiAVObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pObject)))->GetName()));
     if (pObject != pCount->pRoot && pkParent && (const char*)(*(::fnv_00560870::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pkParent)))->GetLinkToList())) &&
         !::FUN_00408b20((*(::fnv_00560870::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pkParent)))->GetLinkToList())), "Arrow"))
         return;
@@ -20353,7 +20353,7 @@ void ActorActions::FUN_00579220(float amount, bool repeat)
     {
         if (!reinterpret_cast<::FUN_00477ba0_shell *>(this)->FUN_00477ba0() || repeat)
         {
-            reinterpret_cast<::Destruction *>((((::AnimationAction *)(::FUN_00475400((void *)(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))))))->FUN_00475b20({}, {}, {});
+            reinterpret_cast<::Destruction *>((((::AnimationAction *)(::FUN_00475400((void *)(((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))))))))->FUN_00475b20({}, {}, {});
         }
     }
 }
@@ -49287,7 +49287,7 @@ TESForm* OwnerLookupView::FUN_00567790()
         if (pzone && pzone != TESObjectREFR::FindEncounterZone())
             powner = (TESForm*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)pzone)))->FUN_009611e0()));
         if (!powner && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
-            powner = ((DoorCell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))->GetOwner();
+            powner = ((DoorCell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))->GetOwner();
     }
     return powner;
 }
@@ -49632,7 +49632,7 @@ void AddBoundItemRef::FUN_00574fa0(TESBoundObject* apObject, ExtraDataList* apEx
             if (((int)(reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())) && ((void *)((::fnv_004826d0::FUN_004826d0)((::fnv_004826d0::TESForm *)(apObject)))) &&
                 !reinterpret_cast<::fnv_005656d0::Thing *>((((StandIn_Refr*)this)))->FUN_005656d0())
             {
-                reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((StandIn_Cell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())))))->FUN_00545560((int)((TESObjectREFR*)(void*)this));
+                reinterpret_cast<::fnv_00545560::FUN_00545560Class *>((((StandIn_Cell*)((reinterpret_cast<::LowProcess *>((void *)(((::BSOcclusionPlane*)this)))->GetTarget())))))->FUN_00545560((int)((TESObjectREFR*)(void*)this));
             }
         }
         if ((void*)this == (void*)AddBoundItemData::DAT_011dea3c)
@@ -49937,7 +49937,7 @@ bool Standin_00576680::FUN_00576680()
         ::_FNV_GetFormType(((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((TESObjectREFR*)this))->FUN_007af430()))) == 0xe &&
         ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))
     {
-        reinterpret_cast<::FUN_0061f890_shell *>((((::Helper_0061f890 *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Proc_S *)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList_SV*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()))))->FUN_0045cd60()))))->FUN_0061f890((::NiAVObject *)(void *)(this), 1);
+        reinterpret_cast<::FUN_0061f890_shell *>((((::Helper_0061f890 *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::Proc_S *)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList_SV*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_004543c0()))))->FUN_0045cd60()))))->FUN_0061f890((::NiAVObject *)(void *)(this), 1);
     }
     ((FUN_0056c880_S*)this)->FUN_0056c880(1, false);
     reinterpret_cast<::ActorTaskManager *>((((TES_helper*)g_TES_576680)))->FUN_00453860(0);
@@ -50019,7 +50019,7 @@ void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
     }
     if (bActive)
     {
-        reinterpret_cast<::FUN_005455c0_cls *>((((Standin_Cell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_005455c0((::FUN_005455c0_ref *)(void *)(this));
+        reinterpret_cast<::FUN_005455c0_cls *>((((Standin_Cell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)this)))->GetTarget())))))->FUN_005455c0((::FUN_005455c0_ref *)(void *)(this));
     }
 }
 

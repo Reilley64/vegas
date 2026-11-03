@@ -667,7 +667,7 @@ NiSortAdjustNode* ScriptClass::CreateSortAdjustNode()
     {
         NavMeshLocalPtr p2;
         unsigned short p0;
-        if (!(unsigned char)reinterpret_cast<::FUN_006e1670_cls *>((this))->FUN_006e1670(j, (::SpawnedTarget *)((unsigned int)&p2), (unsigned short *)((unsigned int)&p0)))
+        if (!(unsigned char)reinterpret_cast<::FUN_006e1670_cls *>((this))->FUN_006e1670(j, (::SpawnedTarget *)(&p2), (unsigned short *)(&p0)))
             continue;
         char a = reinterpret_cast<::FUN_006d7ee0_shell *>((this))->GetByteAt(j);
         if (a == 0x7f)

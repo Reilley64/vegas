@@ -1003,7 +1003,7 @@ bool PathManagerImpl_t::QueueTaskletRequest(GO aspRequest, Ptr2_006e9e20 aspMess
 {
     BSTaskletData* ptaskData = new FUN_006e9cc0(aspRequest, aspMessageQueue);
     FUN_006c5e70 task = (*(::fnv_006eac70::FUN_006c5e70 *)(::FUN_006c5e40({})));
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)&task)))->Initialize((::CombatController *)((unsigned int)ptaskData));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)&task)))->Initialize((::CombatController *)(ptaskData));
     kQueue.Add(::FUN_00559450((int*)&aspRequest), &ptaskData, 1);
     if (!FUN_006c5ec0(&task, 0))
     {

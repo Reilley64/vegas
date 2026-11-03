@@ -3419,11 +3419,11 @@ void FUN_005575d0_shell::UpdateNavMeshObstacles()
         {
             if ((*(VFn**)pref)[0x15c / 4](pref))
                 reinterpret_cast<::fnv_006c0c30::Mgr006c0c30 *>((((::fnv_005575d0::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0c30((::fnv_006c0c30::Actor *)(::fnv_005575d0::TESObjectREFR *)((TESObjectREFR*)pref));
-            if (_FNV_GetFormType((void*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()))) == 0x1c)
+            if (_FNV_GetFormType((void*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()))) == 0x1c)
             {
                 if (BGSOpenCloseForm::GetOpenState((TESObjectREFR*)pref) == 1)
                 {
-                    TESObjectDOOR* pdoor = (TESObjectDOOR*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()));
+                    TESObjectDOOR* pdoor = (TESObjectDOOR*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()));
                     if (!reinterpret_cast<::FUN_00518080_shell *>((pdoor))->FUN_00518080())
                         reinterpret_cast<::fnv_006c0c30::Mgr006c0c30 *>((((::fnv_005575d0::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0c30((::fnv_006c0c30::Actor *)(::fnv_005575d0::TESObjectREFR *)((TESObjectREFR*)pref));
                 }
@@ -4557,7 +4557,7 @@ void FUN_0054ae30()
         {
             TESObjectREFR* pref = ::FUN_0056f930((NiAVObject*)(unsigned int)data.m_pSceneObject);
             if (pref && ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))
-                reinterpret_cast<::FUN_005496b0_shell *>((((FUN_005496b0_shell*)((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))))->FUN_005496b0(pref, (NiNode*)(unsigned int)data.m_pParent);
+                reinterpret_cast<::FUN_005496b0_shell *>((((FUN_005496b0_shell*)((reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)pref)))->GetTarget())))))->FUN_005496b0(pref, (NiNode*)(unsigned int)data.m_pParent);
         }
     }
     reinterpret_cast<::FUN_00438af0_Class *>(&((*reinterpret_cast<::fnv_0054ae30::MapX *>(&::g_011ca0f4))))->FUN_00438af0();
@@ -7805,7 +7805,7 @@ void FUN_00555630_holder::FUN_00555630(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned char ctempCellFlags;
 
-    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)apSaveGameBuffer));
+    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(apSaveGameBuffer));
 
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00555630::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags()))->FUN_004280f0(2))
     {
@@ -17260,7 +17260,7 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
                         else
                         {
                             FNV_Effects* ExitLoc5 = ((::fnv_00548880::FNV_Effects *)(reinterpret_cast<::fnv_009d9f20::FUN_009d9f20_shell *>(this)->FUN_009d9f20()));
-                            reinterpret_cast<::S_00c5b140 *>((ExitLoc5))->FUN_00c5b140((void *)((int)EntryLoc7));
+                            reinterpret_cast<::S_00c5b140 *>((ExitLoc5))->FUN_00c5b140((void *)(EntryLoc7));
                         }
                     }
                 }
@@ -21825,7 +21825,7 @@ bool CellOwnerCheck::FUN_00546ca0(Actor* apActor)
         TESNPC* pnpc = dynamic_cast<TESNPC*>(powner);
         if (pnpc)
         {
-            if (pnpc == (TESNPC*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((CellLightingTemplate*)apActor))->FUN_007af430())))
+            if (pnpc == (TESNPC*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((CellLightingTemplate*)apActor))->FUN_007af430())))
             {
                 bHasResultObj = true;
             }
@@ -21837,7 +21837,7 @@ bool CellOwnerCheck::FUN_00546ca0(Actor* apActor)
             {
                 int irank = ((FUN_00546ac0_shell*)this)->FUN_00546ac0();
                 TESNPC* pactnpc =
-                    dynamic_cast<TESNPC*>((TESBoundObject*)((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((CellLightingTemplate*)apActor))->FUN_007af430())));
+                    dynamic_cast<TESNPC*>((TESBoundObject*)((reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((CellLightingTemplate*)apActor))->FUN_007af430())));
                 int iactrank =
                     reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>(&(((CellOwnerNpcView*)pactnpc)->actorBase))->GetFactionRank((::fnv_0047d680::TESFaction *)(pfaction), apActor == (Actor*)DAT_011dea3c);
                 if (iactrank >= irank)
@@ -24321,7 +24321,7 @@ void Cell::FUN_00542d40()
         if (((unsigned int)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate())))
         {
             unsigned int handle = ((unsigned int)(reinterpret_cast<::FUN_00558b40_shell *>(this)->GetLightingTemplate()));
-            ::ResolveFormID(&handle, (::TESFile *)(((int)(reinterpret_cast<::TESForm_ctx4 *>(this)->GetFile(-1)))));
+            ::ResolveFormID(&handle, (::TESFile *)(((reinterpret_cast<::TESForm_ctx4 *>(this)->GetFile(-1)))));
             BGSLightingTemplate* resolved = dynamic_cast<BGSLightingTemplate*>(::FUN_004839c0(handle));
             reinterpret_cast<::fnv_00558b60::FUN_00558b60_shell *>(this)->FUN_00558b60((::fnv_00558b60::BGSLightingTemplate *)(resolved));
             if (!resolved && handle)

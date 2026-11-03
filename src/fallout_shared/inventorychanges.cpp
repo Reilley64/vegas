@@ -3004,18 +3004,18 @@ int FUN_004c8fd0_t::FUN_004c8fd0(bool abcountplayable)
             TESBipedModelForm* pbipedForm = 0;
             if (!abcountplayable)
             {
-                switch (FNV_GetFormType((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))
+                switch (FNV_GetFormType((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))
                 {
                 case 41:
-                    if (!((bool)(reinterpret_cast<::FUN_004c94d0_shell *>(((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->GetFlag())))
+                    if (!((bool)(reinterpret_cast<::FUN_004c94d0_shell *>(((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->GetFlag())))
                         bcontinue = false;
                     break;
                 case 40:
-                    if (!reinterpret_cast<::FUN_0047bcf0_class *>(((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->IsFlag80Clear())
+                    if (!reinterpret_cast<::FUN_0047bcf0_class *>(((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))))->IsFlag80Clear())
                         bcontinue = false;
                     break;
                 default:
-                    pbipedForm = ::TESBipedModelForm::GetFormAsBipedModel((TESForm*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())));
+                    pbipedForm = ::TESBipedModelForm::GetFormAsBipedModel((TESForm*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())));
                     if (pbipedForm)
                         bcontinue = ((FUN_00480d90_shell*)pbipedForm)->FUN_00480d90();
                     break;
@@ -6787,7 +6787,7 @@ FUN_0076b630* AmmoInventory::FindBestAmmoChange(AmmoScorer* scorer, int unused)
         {
             changeNode->extras = new FUN_0096a2d0;
             changeNode->extras->FUN_005ae3d0(&change->extras->item);
-            reinterpret_cast<::CombatProcedure *>((changeNode))->Initialize((::CombatController *)((int)((::ItemList *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()))));
+            reinterpret_cast<::CombatProcedure *>((changeNode))->Initialize((::CombatController *)(((::ItemList *)(reinterpret_cast<::Callees *>((change))->FUN_00726070()))));
         }
     }
     else if (memory)
@@ -8679,7 +8679,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                     }
                 }
                 reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                 {
                     Extra* extraF = new Extra;
@@ -8734,10 +8734,10 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                         transferSlot3->list->FUN_005ae3d0(&extraH);
                     }
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
                     {
-                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
                     else
@@ -8751,7 +8751,7 @@ void Inventory::FUN_004d26d0(Inventory* target, void* owner, bool exclude)
                 else
                 {
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(::InventoryTransfer::Form *)(((::InventoryTransfer::Form *)(reinterpret_cast<::Twin_0044ddc0 *>((changed))->GetName()))));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     chosen = new Extra;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                     reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));
@@ -11944,8 +11944,8 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
                         total += (*((::ContObj6 **)((void *)(pNode))))->count;
                 }
                 if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
-                *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
+                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
+                *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())));
             }
             else
             {
@@ -11970,8 +11970,8 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
             if (pItem2 != 0 && ((int)(reinterpret_cast<::Callees *>((pItem2))->FUN_00726070())) >= iRequiredCount)
             {
                 if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
-                *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
+                    ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
+                *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((pItem2))->GetName())));
                 return true;
             }
         }
@@ -11985,8 +11985,8 @@ bool FUN_004cffe0_t::CheckItemRequirement(void* a1, void* a2, int iRequiredCount
                     ((int)(reinterpret_cast<::Callees *>(((*((::ItemCh6 **)((void *)(pNode2))))))->FUN_00726070())) >= iRequiredCount)
                 {
                     if (pOwner != 0 && ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())) != 0)
-                        ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
-                    *a4 = FUN_00679ba0((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
+                        ((::ProcV6 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture()))->v1d0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
+                    *a4 = FUN_00679ba0((void*)((reinterpret_cast<::Twin_0044ddc0 *>((*((::ItemCh6 **)((void *)(pNode2)))))->GetName())));
                     return true;
                 }
                 pNode2 = ((::Node2_6 *)(reinterpret_cast<::Callees *>((pNode2))->FUN_00726070()));
@@ -12230,7 +12230,7 @@ bool C004d2480::FUN_004d2480(TESObjectREFR* apRef)
                         if (FNV_GetFormType((TESForm*)pScript) == 0x11)
                         {
                             reinterpret_cast<::fnv_00568bb0::FUN_00568bb0_shell *>((((Sh00568bb0*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00568bb0((::fnv_00568bb0::ExtraDataList *)(pExtra));
-                            reinterpret_cast<::Fn575690 *>((((Sh00575690*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00575690((void*)((int)(reinterpret_cast<::Twin_0044ddc0 *>(((InventoryItemEntry*)pItem))->GetName())));
+                            reinterpret_cast<::Fn575690 *>((((Sh00575690*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_00575690((void*)((reinterpret_cast<::Twin_0044ddc0 *>(((InventoryItemEntry*)pItem))->GetName())));
                             if (reinterpret_cast<::FUN_005ac1e0_shell *>((((Sh005ac1e0*)pScript)))->FUN_005ac1e0((::TESObjectREFR *)((*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444))), (::ScriptLocals *)(void *)(((void *)(reinterpret_cast<::FUN_00418830_shell *>((((Sh00418830*)pExtra)))->FUN_00418830()))), (::TESObjectREFR *)(apRef), false))
                                 bRan = true;
                             reinterpret_cast<::FUN_00419f80_shell *>((((Sh00419f80*)reinterpret_cast<::FUN_005d43c0_ *>((((Sh005d43c0*)(*reinterpret_cast<::DAT_011c6444_type * *>(&::DAT_011c6444)))))->FUN_005d43c0())))->FUN_00419f80((::ScriptLocals *)(void *)((void*)0));
@@ -14994,7 +14994,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
                     }
                 }
                 if (pact)
-                    reinterpret_cast<::FUN_008248e0_shell *>((pact))->FUN_008248e0((::MagicItem *)(::TESBoundObject *)((TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))), true);
+                    reinterpret_cast<::FUN_008248e0_shell *>((pact))->FUN_008248e0((::MagicItem *)(::TESBoundObject *)((TESBoundObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName()))), true);
                 reinterpret_cast<::XHost17 *>((((FUN_004c0cf0_t*)this)))->FUN_004c0cf0(&bremoved, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pitem)))->GetName())), iwornCount, (::XActor17 *)(::Actor *)((Actor*)pact), pextra, 0, true,
                                    pitem, (bool *)(0));
                 if (bremoved)
@@ -16349,7 +16349,7 @@ float ItemChangeValueShell::FUN_004bd400()
     float fConditionValue;
     fConditionValue =
         ComputeItemValue((float)::FUN_0048e8a0((::TESForm *)(m_pItemObject)), reinterpret_cast<::FUN_004bcdb0_shell *>((((ItemHealthCall*)this)))->FUN_004bcdb0(true));
-    pWeap = dynamic_cast<TESObjectWEAP*>((TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())));
+    pWeap = dynamic_cast<TESObjectWEAP*>((TESBoundObject*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())));
     if (pWeap)
     {
         int iSlotFlags = ((FUN_004bd820_stand*)this)->FUN_004bd820();
@@ -16759,7 +16759,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             if (((::Transfer4c37Cont14c *)(reinterpret_cast<::BSShaderNoLightingProperty *>((saved58))->GetBaseTexture())) != 0)
                             {
                                 didUnequip10 =
-                                    reinterpret_cast<::FUN_0088d7d0_shell *>((saved58))->FUN_0088d7d0((::TESBoundObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))),
+                                    reinterpret_cast<::FUN_0088d7d0_shell *>((saved58))->FUN_0088d7d0((::TESBoundObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))),
                                                           (int)reinterpret_cast<::FUN_00418770_shell *>((sourceExtra3))->FUN_00418770(), (::ExtraDataList *)(sourceExtra3), 0, 0, 1);
                             }
                             goto flag52_done;
@@ -16784,7 +16784,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             {
                                 if (this->m04->Vcall100())
                                 {
-                                    reinterpret_cast<::fnv_0088c830::ThisC *>((this->m04))->FUN_0088c830((::fnv_0088c830::FormC *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))), stackCount10 - aiCount,
+                                    reinterpret_cast<::fnv_0088c830::ThisC *>((this->m04))->FUN_0088c830((::fnv_0088c830::FormC *)(((reinterpret_cast<::Twin_0044ddc0 *>((itemChange7))->GetName()))), stackCount10 - aiCount,
                                                             sourceExtra3, 1, 0, 0);
                                 }
                             }
@@ -16935,7 +16935,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             }
                         }
                         bool copyModel0 = 0;
-                        Transfer4c37M68Obj* sourceCell30 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                        Transfer4c37M68Obj* sourceCell30 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                         if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
                             if (sourceCell30 != 0)
@@ -17011,7 +17011,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 transferExtra18 = 0;
                             }
                             bool copyReferenceModel20 = 0;
-                            Transfer4c37M68Obj* referenceCell8 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                            Transfer4c37M68Obj* referenceCell8 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                             if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                             {
                                 if (referenceCell8 != 0)
@@ -17073,7 +17073,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                     }
                                     if ((unsigned char)p2 != 0)
                                     {
-                                        if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                                        if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                                             reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((raw1ec))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item88));
                                     }
                                 }
@@ -17103,7 +17103,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 }
                                 if ((unsigned char)p2 != 0)
                                 {
-                                    if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                                    if (!((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                                     {
                                         raw1ec = new Transfer4c37Obj20;
                                         reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((raw1ec))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item90));
@@ -17257,7 +17257,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                 {
                     resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(p1), transferCount2, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                     {
-                        Transfer4c37M68Obj* plainCell18 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                        Transfer4c37M68Obj* plainCell18 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                         bool copyPlainModel42 = 0;
                         if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                         {
@@ -17313,7 +17313,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     }
                     else
                     {
-                        dc_dc = (void*)((int)(reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
+                        dc_dc = (void*)((reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
                     }
                     if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(p1)))) &&
                         (FUN_00401170(p1) != 0x29 || apTarget != (Transfer4c37C37Form*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))
@@ -17481,7 +17481,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 resultRef6 =
                                     (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(itemChange7->m08), transferCount2, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
                                 {
-                                    Transfer4c37M68Obj* stackCell3 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                                    Transfer4c37M68Obj* stackCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                                     bool copyStackModel11 = 0;
                                     if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                     {
@@ -17574,7 +17574,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                     {
                                         bool copyStackReferenceModel26 = 0;
                                         Transfer4c37M68Obj* stackReferenceCell32 =
-                                            (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                                            (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                                         if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                                         {
                                             if (stackReferenceCell32 != 0)
@@ -17643,7 +17643,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             {
                                 item_100 = ((int)(reinterpret_cast<::OwnerLookupView *>((apSource))->FUN_00567790()));
                             }
-                            if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(((int)(reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
+                            if (p2 != 0 && !((unsigned char)(::FUN_00481f10((::TESObject *)(((reinterpret_cast<::Twin_0044ddc0 *>((transferEntry7))->GetName())))))))
                             {
                                 reinterpret_cast<::fnv_00419700::FUN_00419700_shell *>((item_fc))->FUN_00419700((::fnv_00419700::TESForm *)(void *)((void*)item_100));
                                 reinterpret_cast<::FUN_00419ad0_shell *>((item_fc))->FUN_00419ad0((unsigned short)transferCount2);
@@ -17709,7 +17709,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         {
             resultRef6 = (int)((::Transfer4c37ResObj *)(reinterpret_cast<::Placement *>((this))->PlaceObject((::PlacedRef *)(apSource), (void *)(p1), aiCount, 0, (::NiPoint3 *)(p7), (::NiPoint3 *)(p8))));
             {
-                Transfer4c37M68Obj* remainderCell3 = (Transfer4c37M68Obj*)((int)(reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
+                Transfer4c37M68Obj* remainderCell3 = (Transfer4c37M68Obj*)((reinterpret_cast<::LowProcess *>((apSource))->GetTarget()));
                 bool copyRemainderModel32 = 0;
                 if (!((int)(reinterpret_cast<::fnv_00567770::FUN_00567770_shell *>((((Transfer4c37ResObj*)resultRef6)))->FUN_00567770())))
                 {
@@ -19745,7 +19745,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                     }
                 }
                 reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                 if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0) && countSlot56 < ((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070())))
                 {
                     Extra_ctxr* extraF = new Extra_ctxr;
@@ -19800,10 +19800,10 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                         transferSlot3->list->FUN_005ae3d0(&extraH);
                     }
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(changed->form));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     if (!reinterpret_cast<::FUN_004bddd0_shell *>((transferSlot3))->FUN_004bddd0(0))
                     {
-                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                        reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                         reinterpret_cast<::fnv_004c3380::FUN_004c3380_shell *>((target))->FUN_004c3380((::InventoryStackRecord *)(transferSlot3), 1);
                     }
                     else
@@ -19817,7 +19817,7 @@ void Inventory_ctxr::FUN_004d26d0(Inventory_ctxr* target, void* owner, bool excl
                 else
                 {
                     reinterpret_cast<::TESRegionGrassObject *>((transferSlot3))->AssignLandTexture((::TESLandTexture *)(::InventoryTransfer::Form_ctxr *)(((::InventoryTransfer::Form_ctxr *)(reinterpret_cast<::Twin_0044ddc0 *>((changed))->GetName()))));
-                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
+                    reinterpret_cast<::CombatProcedure *>((transferSlot3))->Initialize((::CombatController *)(((reinterpret_cast<::Callees *>((changed))->FUN_00726070()))));
                     chosen = new Extra_ctxr;
                     reinterpret_cast<::fnv_00418550::FUN_00418550_cls *>((chosen))->SetOriginalReference((::fnv_00418550::TESObjectREFR *)(owner));
                     reinterpret_cast<::FUN_00419ad0_shell *>((chosen))->FUN_00419ad0(((int)(reinterpret_cast<::Callees *>((transferSlot3))->FUN_00726070())));

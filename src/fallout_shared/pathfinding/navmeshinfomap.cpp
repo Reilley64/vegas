@@ -1328,7 +1328,7 @@ void WorkerNavMap::ValidateNavMeshes()
                                         if (x == gridX && y == gridY)
                                             continue;
                                         MeshInfoArray* pCellMeshes =
-                                            ((::MeshInfoArray *)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((GridLookup*)this)))->FUN_006b7850((::TESWorldSpace *)(::NavMesh *)((NavMesh*)((int)(::FUN_00690800((const ::NavMeshInfo *)(meshInfo))))),
+                                            ((::MeshInfoArray *)(reinterpret_cast<::fnv_006b7850::FUN_006b7850_shell *>((((GridLookup*)this)))->FUN_006b7850((::TESWorldSpace *)(::NavMesh *)((NavMesh*)((::FUN_00690800((const ::NavMeshInfo *)(meshInfo))))),
                                                                ((unsigned int)(::PackShortPair((unsigned short)x, (unsigned short)y))))));
                                         if (pCellMeshes)
                                             for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pCellMeshes))->GetName())); ++i)

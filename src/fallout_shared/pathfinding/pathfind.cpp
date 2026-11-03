@@ -8976,7 +8976,7 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     float cf = FUN_00408840(i - p);
     SearchPoint a;
     if (!::Pathing::FindClosestPathingPoint((::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::BGSTerrainManager *>((((LocationOperations*)((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request))))))))->GetMinLevel()))),
-                      (::TESObjectCELL *)(((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)(((LocationOperations*)((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request))))))))->GetContainingCell()))), (*(const ::NiPoint3 *)(&loc)), &a))
+                      (::TESObjectCELL *)(((reinterpret_cast<::PathingLocation *>((void *)(((LocationOperations*)((::PathingLocation *)(::GetOffsetC((int)(((RequestOperations*)request))))))))->GetContainingCell()))), (*(const ::NiPoint3 *)(&loc)), &a))
         return false;
     NiPoint3 candidatePoints = a - loc;
     if (reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&candidatePoints)))->UpdateCombatStyle() > cf * cf)
@@ -9027,8 +9027,8 @@ bool __cdecl BuildOptimalPathSolution(PathingRequestOptimalLocation* request, Pa
     closestPoint = reinterpret_cast<::TESCombatStyle *>((void *)(((PointOperations*)&vDir)))->UpdateCombatStyle();
     if (closestPoint < remaining * remaining || closestPoint > route * route)
         return false;
-    reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((((SolutionFields*)solution)))->AddPathingItem((void *)(&h), (::TESObjectREFR *)(((unsigned int)(reinterpret_cast<::FUN_0068efb0_shell *>((b.mesh))->FUN_0068efb0()))));
-    reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((((SolutionFields*)solution)))->AddPathingItem((void *)(&triangleFilter), (::TESObjectREFR *)(((unsigned int)(reinterpret_cast<::FUN_0068efb0_shell *>((originTriangle.mesh))->FUN_0068efb0()))));
+    reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((((SolutionFields*)solution)))->AddPathingItem((void *)(&h), (::TESObjectREFR *)(((reinterpret_cast<::FUN_0068efb0_shell *>((b.mesh))->FUN_0068efb0()))));
+    reinterpret_cast<::fnv_006c99c0::FUN_006c99c0_shell *>((((SolutionFields*)solution)))->AddPathingItem((void *)(&triangleFilter), (::TESObjectREFR *)(((reinterpret_cast<::FUN_0068efb0_shell *>((originTriangle.mesh))->FUN_0068efb0()))));
     ((SolutionFields*)solution)->edgeIndex = 0;
     ((SolutionFields*)solution)->initialized = 1;
     RouteFinalizer e;

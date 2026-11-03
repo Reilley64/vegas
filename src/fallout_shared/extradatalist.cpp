@@ -849,7 +849,7 @@ void FUN_00411ec0_shell::FUN_00411ec0(ExtraDataList* apCopy)
         while (pwork)
         {
             reinterpret_cast<::ExtraDataListEx *>((((EDLStandIn*)this)))->FUN_004103d0((::BSExtraDataEx *)(pwork));
-            pwork = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((NodeSI*)pwork)))->GetName()));
+            pwork = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((NodeSI*)pwork)))->GetName()));
         }
     }
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_00411ec0::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
@@ -1069,7 +1069,7 @@ bool FUN_004126c0_shell::FUN_004126c0(ExtraDataList* apCompare, bool abCompareSc
         }
         if (reinterpret_cast<::PatrolActorPackageData *>((((PatrolActorPackageData*)work)))->IsPatrolling() == 0x16 && bThrown)
         {
-            work = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)work)))->GetName()));
+            work = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)work)))->GetName()));
             continue;
         }
         if (reinterpret_cast<::PatrolActorPackageData *>((((PatrolActorPackageData*)work)))->IsPatrolling() != 0x24 &&
@@ -1087,7 +1087,7 @@ bool FUN_004126c0_shell::FUN_004126c0(ExtraDataList* apCompare, bool abCompareSc
                 break;
             }
         }
-        work = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)work)))->GetName()));
+        work = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Flags*)work)))->GetName()));
     }
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_004126c0::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
     return bres;
@@ -2990,7 +2990,7 @@ bool FUN_0041d120_shell::HasOnlyAllowedExtraData(bool bwornignore)
                 return false;
             }
         }
-        work = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Fake*)work)))->GetName()));
+        work = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_Fake*)work)))->GetName()));
     }
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_0041d120::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
     return true;
@@ -6383,7 +6383,7 @@ BSExtraData* FUN_0040ff60_shell::FUN_0040ff60(BSExtraData* apExtra)
         {
             while (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName())))
             {
-                work = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName()));
+                work = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName()));
             }
             reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)work)))->AssignLandTexture((::TESLandTexture *)(apExtra));
         }
@@ -7255,7 +7255,7 @@ bool FUN_0041d030_shell::FUN_0041d030()
             reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_0041d030::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
             return bHasResultObj;
         }
-        work = (PatrolActorPackageData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName()));
+        work = (PatrolActorPackageData*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)work)))->GetName()));
     }
     reinterpret_cast<::RecursiveSpinLock *>(&((*reinterpret_cast<::fnv_0041d030::RecursiveSpinLock *>(&::g_011c3920))))->FUN_0040fba0();
     return bHasResultObj;
@@ -20260,7 +20260,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x21: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x23: {
@@ -20270,18 +20270,18 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x22: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x1c: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x49:
             extra_49: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x56: {
@@ -20291,20 +20291,20 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0xd: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 reinterpret_cast<::SaveLocals9db0 *>((t->m_10))->FUN_005a9db0((::BGSSaveFormBuffer *)(apBuffer));
                 break;
             }
             case 0x5b: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_10), 0);
-                int res = ::FindIndexByValue((void *)((int)t->m_10), (int)t->m_0c);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_10), 0);
+                int res = ::FindIndexByValue((void *)(t->m_10), (int)t->m_0c);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&res, 4, 0);
                 break;
             }
             case 0x19: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_14), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_10, 4, 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_18, 1, 0);
@@ -20314,7 +20314,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x18: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_10, 0xc, 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_1c, 4, 0);
                 break;
@@ -20348,7 +20348,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                     ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
-                        reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)e), 0);
+                        reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(e), 0);
                         entryCount = entryCount + 1;
                     }
                     cursor4 = ((::fnv_00426a30::ListObj *)(reinterpret_cast<::Callees *>((cursor4))->FUN_00726070()));
@@ -20358,7 +20358,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x6c: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x73: {
@@ -20383,8 +20383,8 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x75: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_10), 0);
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_10), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_18, 1, 0);
                 break;
             }
@@ -20483,7 +20483,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x74: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x5c: {
@@ -20498,7 +20498,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x6e: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&t->m_10, 4, 0);
                 break;
             }
@@ -20510,7 +20510,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
 
             case 0x1a: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 if (t->m_0c != 0)
                 {
                     ((VObj54*)t->m_0c)->v54(apBuffer);
@@ -20563,13 +20563,13 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x33: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_1c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_1c), 0);
                 ::FUN_00806a10((::BGSSaveFormBuffer *)(apBuffer), (::BSSimpleList< ::BGSPerkEntry *> *)(void *)(&t->m_20));
                 break;
             }
             case 0x39: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x3f: {
@@ -20579,7 +20579,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x46: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x4d: {
@@ -20621,7 +20621,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x55: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
 
@@ -20639,14 +20639,14 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x3c: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
 
             case 0x2e: {
                 Node* record3 = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)record3->m_0c), 0);
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)record3->m_10), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(record3->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(record3->m_10), 0);
                 ObjR* object4 = ((::fnv_00426a30::ObjR *)(reinterpret_cast<::Actor *>((((ObjRBase*)r1)))->GetActorBase()));
                 int val = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(&(object4->m_30))->FUN_0045cd60()));
                 reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(&val, 4, 0);
@@ -20670,7 +20670,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
             }
             case 0x89: {
                 Node* t = node;
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)t->m_0c), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(t->m_0c), 0);
                 break;
             }
             case 0x8b: {
@@ -22220,7 +22220,7 @@ void FUN_0040fae0_shell::FUN_0040fae0(bool abDelete)
         while (pwork)
         {
             ArrSI* ptemp = pwork;
-            pwork = (ArrSI*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pwork))->GetName()));
+            pwork = (ArrSI*)((reinterpret_cast<::Twin_0044ddc0 *>((pwork))->GetName()));
             pHead = (BSExtraData*)pwork;
             if (abDelete)
                 delete ptemp;
@@ -22788,7 +22788,7 @@ void FUN_00410020_t::FUN_00410020(BSExtraData* apExtra, bool abDelete)
     int etype = ((PatrolActorPackageData*)apExtra)->IsPatrolling();
     BSExtraData* pprev = reinterpret_cast<::fnv_004102d0::FUN_004102d0_shell *>(this)->FUN_004102d0(etype);
     if (pprev)
-        reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)pprev)))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()))));
+        reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)pprev)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()))));
     else
         *(unsigned int*)((char*)this + 4) = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)apExtra)))->GetName()));
     FUN_0040f7d0(this, etype);
@@ -22826,7 +22826,7 @@ void FUN_004120b0_shell::FUN_004120b0()
     while (pwork)
     {
         BSExtraData* ptemp = pwork;
-        pwork = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pwork)))->GetName()));
+        pwork = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pwork)))->GetName()));
         switch (((PatrolActorPackageData*)ptemp)->IsPatrolling())
         {
         case 4:
@@ -22843,7 +22843,7 @@ void FUN_004120b0_shell::FUN_004120b0()
             if (ptemp == ((BaseExtraList*)this)->pHead)
                 ((BaseExtraList*)this)->pHead = pwork;
             if (plast)
-                reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)plast)))->AssignLandTexture((::TESLandTexture *)((unsigned int)pwork));
+                reinterpret_cast<::TESRegionGrassObject *>((((TESObjectREFR_Flags*)plast)))->AssignLandTexture((::TESLandTexture *)(pwork));
             delete (ExtraVDel*)ptemp;
         }
     }
@@ -23677,14 +23677,14 @@ void RemoveExtraList::FUN_00410140(unsigned char etype)
     while (apExtra && reinterpret_cast<::PatrolActorPackageData *>((((S_0044ddc0*)apExtra)))->IsPatrolling() != etype)
     {
         pprev = apExtra;
-        apExtra = (XD*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()));
+        apExtra = (XD*)((reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()));
     }
     if (apExtra)
     {
         if (pprev)
-            reinterpret_cast<::TESRegionGrassObject *>((((S_00403550*)pprev)))->AssignLandTexture((::TESLandTexture *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()))));
+            reinterpret_cast<::TESRegionGrassObject *>((((S_00403550*)pprev)))->AssignLandTexture((::TESLandTexture *)(((reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()))));
         else
-            pHead = (BSExtraData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()));
+            pHead = (BSExtraData*)((reinterpret_cast<::Twin_0044ddc0 *>((((S_0044ddc0*)apExtra)))->GetName()));
         FUN_0040f7d0(this, etype);
         delete apExtra;
     }
@@ -23718,13 +23718,13 @@ void CopyableExtraList::FUN_00411fd0(bool abdelete)
     while (pwork)
     {
         CopyableExtraNode* pcur = pwork;
-        pwork = (CopyableExtraNode*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pwork))->GetName()));
+        pwork = (CopyableExtraNode*)((reinterpret_cast<::Twin_0044ddc0 *>((pwork))->GetName()));
         if (reinterpret_cast<::fnv_00411f20::FUN_00411f20_shell *>((((S11f20*)this)))->FUN_00411f20((BSExtraData*)pcur))
         {
             if ((BSExtraData*)pcur == pHead)
                 pHead = (BSExtraData*)pwork;
             if (plast)
-                reinterpret_cast<::TESRegionGrassObject *>((plast))->AssignLandTexture((::TESLandTexture *)((unsigned int)pwork));
+                reinterpret_cast<::TESRegionGrassObject *>((plast))->AssignLandTexture((::TESLandTexture *)(pwork));
             if (abdelete)
                 delete pcur;
         }

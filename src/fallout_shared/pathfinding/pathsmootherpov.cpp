@@ -526,7 +526,7 @@ void PathSmootherPOVSearch::AddNavMeshEdgeRecord(NavMesh* mesh, unsigned short t
                             if (m_bUnderwaterPath)
                             {
                                 float water = reinterpret_cast<::FUN_0045cbc0_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetCellHeightAtPosition(
-                                    (const ::NiPoint3 *)&(Crossing), (::CellView *)(((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->GetContainingCell()))));
+                                    (const ::NiPoint3 *)&(Crossing), (::CellView *)(((reinterpret_cast<::PathingLocation *>((void *)&((*(::PathingLocation *)(reinterpret_cast<::BaseProcess *>((((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pOutputSolution))->FUN_006b05a0()))))->GetCurrentProcessData()))))->GetContainingCell()))));
                                 if (water >= Crossing.z)
                                     Crossing.z = water;
                             }

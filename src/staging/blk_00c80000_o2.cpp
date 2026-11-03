@@ -11669,7 +11669,6 @@ int FUN_00c9a620_Obj::FUN_00c9a620(float* other)
     return 0;
 }
 
-void FUN_00cbb990();
 struct ArenaReleaseAllocator : ArenaAllocator
 {
     virtual void Deallocate(void* p, unsigned int bytes);

@@ -498,7 +498,6 @@ class hkMemorySystemD2
     virtual void InitializeThreadRouter(hkMemoryRouterD2& router, const char* name, hkMemorySystemFlagsD2 flags);
     virtual void ThreadQuit(hkMemoryRouterD2& router, hkMemorySystemFlagsD2 flags);
 };
-void __cdecl FUN_00cbb990();
 
 struct hkSemaphoreD2
 {

@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "havok/hkBase.h"
 #include "fnv/symbols_00d36000.h"
@@ -268,10 +269,6 @@ struct S00d369a0_ListAgent
     void FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, void* a4);
 };
 
-struct S00d369a0_StackRouter
-{
-    char* m_stackTop;
-};
 // @fnv 0x00d369a0
 void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S00d369a0_Config* a3, void* a4)
 {
@@ -294,9 +291,7 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     input.tim[3] = (f0 * o->f9c) * o->fa0 + (f1 * p->f9c) * p->fa0;
     reinterpret_cast<::hkTransformCB22 *>(&(input.transform))->FUN_00cb22f0((*(const ::hkTransformCB22 *)(o)), (*(const ::hkTransformCB22 *)(p)));
     int count = bits->m1C;
-    S00d369a0_StackRouter* out = static_cast<S00d369a0_StackRouter*>(::FUN_00c85750());
-    unsigned int* dst = (unsigned int*)out->m_stackTop;
-    out->m_stackTop = (char*)dst + ((count * 4 + 0x83) & 0xffffff80);
+    unsigned int* dst = static_cast<unsigned int*>(hkMemoryRouter::getInstance().allocateStack((count * 4 + 0x83) & 0xffffff80));
     int n = 0;
     unsigned int mask = 1;
     for (int i = 0; i < count; ++i, *(volatile unsigned int*)& mask = _rotl(*(volatile unsigned int*)&mask, 1))
@@ -306,5 +301,5 @@ void S00d369a0_ListAgent::FUN_00d369a0(S00d369a0_Body* a1, S00d369a0_Body* a2, S
     }
     dst[n] = 0xffffffff;
     ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)(&this->track10)), (*(const ::fnv_00da4aa0::Q14 *)(&input)), (const ::fnv_00da4aa0::Q24 *)(bits), (const unsigned int *)(dst), (*(::fnv_00da4aa0::Q6 *)(a4)));
-    static_cast<S00d369a0_StackRouter*>(::FUN_00c85750())->m_stackTop = (char*)dst;
+    hkMemoryRouter::getInstance().deallocateStack(dst);
 }

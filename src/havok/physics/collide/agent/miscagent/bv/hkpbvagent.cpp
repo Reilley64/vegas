@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -434,25 +435,7 @@ FUN_00d453d0_cls* FUN_00d453d0_cls::Construct(FUN_00d452a0* a1, void* apArg2, vo
     return this;
 }
 
-struct D45480Allocator
-{
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct D45480MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D45480Allocator* m_pStreamAllocator;
-
-    D45480Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 class D45480ReferencedObject
@@ -461,7 +444,7 @@ class D45480ReferencedObject
     static void* operator new(size_t nbytes)
     {
         D45480ReferencedObject* b =
-            static_cast<D45480ReferencedObject*>(static_cast<D45480MemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
+            static_cast<D45480ReferencedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -2030,20 +2013,7 @@ namespace fnv_00d45f30 {
 // stamps a 16-bit size at +4, runs the out-of-line base constructor with the
 // four arguments, stores the derived vtable and returns the block.
 
-struct SpawnedAllocator
-{
-    virtual void v0();
-    virtual void* v1(unsigned int nSize);
-};
 
-struct SpawnedHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    SpawnedAllocator* m_pAllocator;
-};
 
 
 struct SpawnedBase
@@ -2065,9 +2035,7 @@ struct SpawnedObject : SpawnedBase
 // @fnv 0x00d45f30
 void* __cdecl FUN_00d45f30(int a1, int a2, int a3, int a4)
 {
-    SpawnedHolder* pHolder = static_cast<SpawnedHolder*>(::FUN_00c85750());
-    SpawnedAllocator* pAlloc = pHolder->m_pAllocator;
-    SpawnedObject* pObj = (SpawnedObject*)pAlloc->v1(0x14);
+    SpawnedObject* pObj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x14));
     pObj->m_iElementCount = 0x14;
     return new (pObj) SpawnedObject(a2, a1, a3, a4);
 }

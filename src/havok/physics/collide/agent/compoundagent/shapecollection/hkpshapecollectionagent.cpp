@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/shapecollection/hkpshapecollectionagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
@@ -464,14 +465,6 @@ inline AgentS* DispatcherS::getNewCollisionAgent(const CdBodyS& bodyA, const CdB
     return f(bodyA, bodyB, input, mgr);
 }
 
-struct RouterS
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pStreamAllocator;
-};
 
 struct CollisionAgentMapRecord
 {
@@ -490,7 +483,7 @@ struct AgentArray
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void GrowArrayCapacity(void* alloc, int n)
+    void GrowArrayCapacity(hkMemoryAllocator* alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -502,8 +495,7 @@ struct AgentArray
     }
     void reserve(int n)
     {
-        RouterS* r = static_cast<RouterS*>(::FUN_00c85750());
-        GrowArrayCapacity(r->m_pStreamAllocator, n);
+        GrowArrayCapacity(&hkMemoryRouter::getInstance().heap(), n);
     }
     void init()
     {
@@ -839,26 +831,9 @@ struct CollisionAgent
                                       ConstraintOwner& owner);
 };
 
-struct MemAllocator;
-
-struct MemRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    MemAllocator* m_pStreamAllocator;
-    MemAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
-__forceinline MemRouter* getRouter()
-{
-    return (MemRouter*)static_cast<RouterS*>(::FUN_00c85750());
-}
+
 
 __forceinline void memCpyOneAligned8(void* dst, const void* src)
 {
@@ -896,7 +871,7 @@ struct AgentPairArray
 
     KeyAgentPairA& AllocatePair()
     {
-        MemAllocator& a = getRouter()->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), sizeof(KeyAgentPairA));
         return m_data[m_iElementCount++];

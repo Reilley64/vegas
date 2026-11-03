@@ -158,6 +158,28 @@
 #include "fnv/symbols_011c5000.h"
 #include <vector>
 #include <string.h>
+
+// Layout views of the forms whose models and textures the face gen code reads: TESHair and
+// BGSHeadPart keep their TESModel after TESForm and TESFullName, TESEyes keeps its TESTexture there.
+struct HairFormView
+{
+    char formAndName[0x24];
+    char model[0x18];
+    char texture[0xc];
+};
+struct EyesFormView
+{
+    char formAndName[0x24];
+    char texture[0xc];
+};
+// An entry of the face gen model map: the cached model and the tick of its last use.
+struct FaceGenModelEntryView
+{
+    unsigned int refCount;
+    const char* key;
+    void* model;
+    unsigned int lastUseTick;
+};
 // @fnv 0x006521e0
 FaceGenCoordinates* BSFaceGenManager::GetFaceGenCoordinates()
 {
@@ -283,17 +305,25 @@ extern int DAT_01065678;
 struct Dummy658aa0
 {
 };
+struct FaceGenModelCacheView
+{
+    const void* pVtable;
+    char kMap[0x14];
+    unsigned int auiLimits[2];
+    unsigned char unk20;
+};
 
 // @fnv 0x0064fd80
 void* FUN_0064fd80(void* pThis)
 {
-    *(int**)pThis = &DAT_01065678;
-    reinterpret_cast<::FUN_00658aa0_class *>((((Dummy658aa0*)((char*)pThis + 4))))->Initialize(0x25, 1);
+    FaceGenModelCacheView* pcache = static_cast<FaceGenModelCacheView*>(pThis);
+    pcache->pVtable = &DAT_01065678;
+    reinterpret_cast<::FUN_00658aa0_class *>(&pcache->kMap)->Initialize(0x25, 1);
     for (unsigned int cnt = 0; cnt < 2; ++cnt)
     {
-        ((unsigned int*)((char*)pThis + 0x18))[cnt] = 0x10000000;
+        pcache->auiLimits[cnt] = 0x10000000;
     }
-    *((unsigned char*)pThis + 0x20) = 0;
+    pcache->unk20 = 0;
     return pThis;
 }
 
@@ -812,15 +842,17 @@ struct GO633 : NP
 };
 struct S654
 {
+    char pad[0x24];
+    NP unk24;
     NP FUN_0057c5d0(GO633&);
     void ForwardToSubobject(std::intptr_t v);
 };
-// Constructs a GO633 from v and passes it to FUN_0057c5d0 on the S654 subobject at offset 0x24.
+// Constructs a GO633 from v and assigns it to the pointer unk24 through FUN_0057c5d0.
 // @fnv 0x00654640
 void S654::ForwardToSubobject(std::intptr_t aiValue)
 {
     GO633 a(aiValue);
-    ((S654*)((char*)this + 0x24))->FUN_0057c5d0(a);
+    reinterpret_cast<S654*>(&unk24)->FUN_0057c5d0(a);
 }
 
 template <typename T> class BSSimpleList;
@@ -1150,7 +1182,7 @@ struct NiMemObject
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -1426,6 +1458,8 @@ struct LightPropCalls
     virtual void v0f8();
     virtual void SetTexture2(int, void*);
     virtual void SetTexture(int, void*);
+    char pad04[0x84 - 4];
+    RgbaColor kTintColor;
 };
 struct ModelCalls
 {
@@ -1505,10 +1539,10 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                                        ? pshaderprop
                                        : 0)) == 0)
             continue;
-        if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() && *((bool*)arNpcData + 0xd4))
+        if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() && arNpcData->bFaceGenTexturing)
             *(Helper62d0*)&sptexBaseMod = *(void* const*)((Arr*)&arNpcData->Accessories[0])->GetAt(ipart);
         if (ipart == 0 && cage >= 0 &&
-            FUN_00653880(&fileDetail, *(int*)((char*)arNpcData + 0x90), (unsigned char)cage,
+            FUN_00653880(&fileDetail, arNpcData->m_eSex, (unsigned char)cage,
                          ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)*((Arr*)&arNpcData->m_kFaceGenTextures[0])->GetAt(ipart))))->FUN_00408da0()))))
         {
             if (reinterpret_cast<::FUN_00658930_class *>((((GlobalObject_004aff00*)&arNpcData->Accessories[0])))->GetShortAtOffsetA() == 0 ||
@@ -1543,7 +1577,7 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
         {
             pshaderpropLighting->SetTexture(0, ((void *)(::fnv_00656db0::FUN_00656db0())));
         }
-        if (*((bool*)arNpcData + 0xd4) && ishaderindex == 0xe)
+        if (arNpcData->bFaceGenTexturing && ishaderindex == 0xe)
         {
             pshaderpropLighting->SetTexture2(1, (void*)(void*)*(Flt*)&sptexBaseMod);
             pshaderpropLighting->SetTexture(
@@ -1597,8 +1631,8 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                                                ? pgeomdata
                                                : 0)) != 0)
                 {
-                    unsigned int uiColor = *(unsigned int*)((char*)arNpcData + 0x84);
-                    *(RgbaColor*)((char*)pchildgeom + 0x84) =
+                    unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
+                    pchildgeom->kTintColor =
                         RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
                                   (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
                                   (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
@@ -1614,8 +1648,8 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                                                    ? pgeomdata
                                                    : 0)) != 0)
                     {
-                        unsigned int uiColor = *(unsigned int*)((char*)arNpcData + 0x84);
-                        *(RgbaColor*)((char*)eNBTmethod + 0x84) =
+                        unsigned int uiColor = (unsigned int)arNpcData->iHairColor;
+                        eNBTmethod->kTintColor =
                             RgbaColor((float)((unsigned char)(uiColor & 0xff) / 255.0),
                                       (float)((unsigned char)(((unsigned short)uiColor >> 8) & 0xff) / 255.0),
                                       (float)((unsigned char)((uiColor >> 16) & 0xff) / 255.0), 1.0f);
@@ -1735,7 +1769,7 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     {
         char pTexturePath[260];
         ::TaskQueueInterface::CopyStringToBuffer(pTexturePath, 260, "Textures\\");
-        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)faceGenData.pEyes + 0x24))))->FUN_00408da0())));
+        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<EyesFormView*>(faceGenData.pEyes)->texture))))->FUN_00408da0())));
         reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pTexturePath, (void *)(aePriority), apParent);
     }
     else
@@ -1744,13 +1778,13 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     }
     if (faceGenData.m_pHair)
     {
-        reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0),
+        reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(faceGenData.m_pHair ? (TESModel*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->model) : 0),
                                            aePriority, (std::uintptr_t)(apParent), 0, false, false, true);
         char pTexturePath[260];
         ::TaskQueueInterface::CopyStringToBuffer(pTexturePath, 260, "Textures\\");
-        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)faceGenData.m_pHair + 0x3c))))->FUN_00408da0())));
+        strcat_s(pTexturePath, 260, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->texture))))->FUN_00408da0())));
         reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pTexturePath, (void *)(aePriority), apParent);
-        reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(faceGenData.m_pHair ? (TESModel*)((char*)faceGenData.m_pHair + 0x24) : 0), aePriority,
+        reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(faceGenData.m_pHair ? (TESModel*)(reinterpret_cast<HairFormView*>(faceGenData.m_pHair)->model) : 0), aePriority,
                                 apParent, 9);
     }
     char pheadModTexture[260];
@@ -1802,12 +1836,12 @@ void __cdecl QueueFaceGenAssets(TESActorBase* apNPC, int aePriority, QueuedFile*
     while (pheadPartList)
     {
         BGSHeadPart* pheadPart = *((::BGSHeadPart **)((void *)(pheadPartList)));
-        if (pheadPart && ((FUN_0048cee0_shell*)((char*)pheadPart + 0x24))->FUN_0048cee0())
+        if (pheadPart && ((FUN_0048cee0_shell*)(reinterpret_cast<HairFormView*>(pheadPart)->model))->FUN_0048cee0())
         {
-            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority,
+            reinterpret_cast<::QueueModelHolder *>((::g_modelLoader))->FUN_00443d30((std::uintptr_t)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority,
                                                (int)(apParent), 0, false, false, true);
-            reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority, apParent, ipart);
-            reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(::TESModel *)(pheadPart ? (TESModel*)((char*)pheadPart + 0x24) : 0), aePriority, apParent,
+            reinterpret_cast<::MeshLoader *>((::g_modelLoader))->LoadMesh((::MeshSource *)(::TESModel *)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority, apParent, ipart);
+            reinterpret_cast<::fnv_00448080::Owner448 *>((::g_modelLoader))->LoadTaskFromPath((::fnv_00448080::Task448 *)(::TESModel *)(pheadPart ? (TESModel*)(reinterpret_cast<HairFormView*>(pheadPart)->model) : 0), aePriority, apParent,
                                             ipart);
         }
         pheadPartList = ((::HPList *)(reinterpret_cast<::Callees *>((pheadPartList))->FUN_00726070()));
@@ -2391,11 +2425,11 @@ struct NPX
     operator unsigned int() const;
 };
 
-// Returns the value stored at offset 0x1198 of DAT_011d59e8, or 0 when DAT_011d59e8 is null.
+// Returns the face gen manager's spUnk1198 pointer, or 0 when DAT_011d59e8 is null.
 // @fnv 0x00655270
 std::uintptr_t __cdecl FUN_00655270()
 {
-    return (unsigned int)(DAT_011d59e8 ? *(NPX*)((char*)DAT_011d59e8 + 0x1198) : NPX(0));
+    return (unsigned int)(DAT_011d59e8 ? *reinterpret_cast<NPX*>(&DAT_011d59e8->spUnk1198) : NPX(0));
 }
 
 namespace fnv_00655320 {
@@ -2419,7 +2453,7 @@ struct NiMemObject
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -2777,13 +2811,13 @@ void BuildHairFaceGenNodes(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode** a
     NiPointer<NiTriBasedGeom> spshape(0);
     B006815c0 matrot;
     reinterpret_cast<::ThreeByThreeMatrix *>((((ThreeByThreeMatrix*)&matrot)))->SetYRotation(-1.5707964f);
-    if (*(TESHair**)((char*)aNpcData + 0x80))
+    if (aNpcData->m_pHair)
     {
         for (int ehairPart = 0; ehairPart < 2; ehairPart++)
         {
             ::FUN_00406f60((::FUN_00406f90_this *)&(filename), 
                 "Meshes\\%s",
-                ((TESModelDispatch*)((char*)*(TESHair**)((char*)aNpcData + 0x80) + 0x24))->GetModelFilePath());
+                ((TESModelDispatch*)(reinterpret_cast<HairFormView*>(aNpcData->m_pHair)->model))->GetModelFilePath());
             const char* pegm = BuildEgmFilename(&fileEGM, filename, ehairPart);
             const char* ptri = BuildTriPathAndSet(&fileTRI, filename, ehairPart);
             BSFaceGenModel* pmodelFG = 0;
@@ -2813,9 +2847,9 @@ void BuildHairFaceGenNodes(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode** a
                     reinterpret_cast<::TaskQueueInterface *>((((NiGeometryCullSI*)(NiTriBasedGeom*)spshape)))->QueueActorDisarm(true);
                 char tempHairName[32];
                 ::AssignFixedString((char *)(((NiObjectNET*)(NiTriBasedGeom*)spshape)), (int)&(const ::fnv_00655320::fx::NiFixedString &)(fx::NiFixedString(BSFaceGenManager::BuildFaceGenPartPath(tempHairName, ehairPart))), {});
-                FUN_00653470(spshape, *(float*)((char*)aNpcData + 0x88));
+                FUN_00653470(spshape, aNpcData->m_fHairLength);
                 ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s",
-                                 ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)*(TESHair**)((char*)aNpcData + 0x80) + 0x3c))))->FUN_00408da0())));
+                                 ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)(reinterpret_cast<HairFormView*>(aNpcData->m_pHair)->texture))))->FUN_00408da0())));
                 reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_00655320::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
                 if (sptexBase)
                 {
@@ -2881,7 +2915,7 @@ struct NiMemObject
 struct FaceGenData
 {
     void* __vecDelDtor(unsigned int);
-    char m_kFaceGenCoordinates[96];
+    char m_kFaceGenCoordinates[0x80];
     TESHair* m_pHair;
     int iHairColor;
     float m_fHairLength;
@@ -3216,9 +3250,9 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
     PC::ThreeByThreeMatrix matrot;
     BSFaceGenModel* pmodelFG = 0;
     reinterpret_cast<::ThreeByThreeMatrix *>(&(matrot))->SetYRotation(-1.5707964f);
-    if (*(TESModel**)((char*)aNpcData + 0xd8))
+    if (aNpcData->m_pHeadModel)
     {
-        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (*(TESModel**)((char*)aNpcData + 0xd8))->GetModelFilePath());
+        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (aNpcData->m_pHeadModel)->GetModelFilePath());
         pmodelFG = GetOrCreateFaceGenModel(BuildEgmFilename(fileEGM, filename, -1), filename,
                                            BuildTriPathAndSet(fileTRI, filename, -1), 0, true, -1, 0);
         if (pmodelFG)
@@ -3226,9 +3260,9 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
         if (spshape)
         {
             ::AssignFixedString((char *)((spshape).operator->()), (int)&(const ::fnv_006558b0::NiFixedString &)(NiFixedString("FaceGenEyeLeft")), {});
-            if (*(TESEyes**)((char*)aNpcData + 0x8c))
+            if (aNpcData->pEyes)
             {
-                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((*(TESEyes**)((char*)aNpcData + 0x8c))))->FUN_00408da0())));
+                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((aNpcData->pEyes)))->FUN_00408da0())));
                 reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             else
@@ -3268,9 +3302,9 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
         spshape = 0;
         sptexBase = 0;
     }
-    if (*(TESModel**)((char*)aNpcData + 0xdc))
+    if (aNpcData->m_pFaceGenModel)
     {
-        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (*(TESModel**)((char*)aNpcData + 0xdc))->GetModelFilePath());
+        ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Meshes\\%s", (aNpcData->m_pFaceGenModel)->GetModelFilePath());
         pmodelFG = GetOrCreateFaceGenModel(BuildEgmFilename(fileEGM, filename, -1), filename,
                                            BuildTriPathAndSet(fileTRI, filename, -1), 0, true, -1, 0);
         if (pmodelFG)
@@ -3278,9 +3312,9 @@ void __cdecl CreateEyeGeometry(BSFaceGenNiNode** apOutNodeBiped, BSFaceGenNiNode
         if (spshape)
         {
             ::AssignFixedString((char *)((spshape).operator->()), (int)&(const ::fnv_006558b0::NiFixedString &)(NiFixedString("FaceGenEyeRight")), {});
-            if (*(TESEyes**)((char*)aNpcData + 0x8c))
+            if (aNpcData->pEyes)
             {
-                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((*(TESEyes**)((char*)aNpcData + 0x8c))))->FUN_00408da0())));
+                ::FUN_00406f60((::FUN_00406f90_this *)&(filename), "Textures\\%s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(((aNpcData->pEyes)))->FUN_00408da0())));
                 reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006558b0::TES * *>(&::g_TES))))->FUN_004568c0(filename, (::TexPtr< ::NiSourceTexture> &)(sptexBase), false, false);
             }
             else
@@ -3461,6 +3495,8 @@ struct MapH
 };
 struct FGModelCache
 {
+    const void* pVtable;
+    MapH kMap;
     void FUN_00650ba0(void*);
     void FUN_0064ffd0(const char* apcKey, void* apModel);
 };
@@ -3474,14 +3510,14 @@ void FGModelCache::FUN_0064ffd0(const char* apcKey, void* apModel)
     GO spentry(0);
     if (!apModel)
     {
-        reinterpret_cast<::NiTMap_S *>((((MapH*)((char*)this + 4))))->RemoveKey((std::uintptr_t)apcKey);
+        reinterpret_cast<::NiTMap_S *>(&kMap)->RemoveKey((std::uintptr_t)apcKey);
         FUN_00652190();
         return;
     }
     (NP&)spentry = new FUN_00650100();
-    *(NP*)((char*)(void*)(Flt&)spentry + 8) = apModel;
-    *(unsigned int*)((char*)(void*)(Flt&)spentry + 0xc) = ((unsigned int)(::FUN_00457fe0()));
-    ((MapH*)((char*)this + 4))->InsertOrUpdate((unsigned int)apcKey, SpObst((unsigned int*)&spentry));
+    *reinterpret_cast<NP*>(&static_cast<FaceGenModelEntryView*>((void*)(Flt&)spentry)->model) = apModel;
+    static_cast<FaceGenModelEntryView*>((void*)(Flt&)spentry)->lastUseTick = ((unsigned int)(::FUN_00457fe0()));
+    kMap.InsertOrUpdate((unsigned int)apcKey, SpObst((unsigned int*)&spentry));
     FUN_00650ba0((void*)(Flt&)spentry);
     FUN_00652190();
 }
@@ -3508,6 +3544,8 @@ void FUN_00652190();
 
 struct BSFaceGenModelMap_t
 {
+    const void* pVtable;
+    FGModelMap kMap;
     bool FUN_00650780(const char* apKey);
 };
 
@@ -3520,7 +3558,7 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
     bool bres = false;
     GO spentry(0);
     FUN_00652140();
-    if (!reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((std::uintptr_t)((void*)apKey), (void **)&(spentry)))
+    if (!reinterpret_cast<::Map62d0 *>(&kMap)->FUN_006c62d0((std::uintptr_t)((void*)apKey), (void **)&(spentry)))
     {
         char* pext;
         char ptemp[260];
@@ -3530,12 +3568,12 @@ bool BSFaceGenModelMap_t::FUN_00650780(const char* apKey)
         {
             *pext = 0;
             strcat_s(ptemp, 260, ".egm");
-            reinterpret_cast<::Map62d0 *>((((FGModelMap*)((char*)this + 4))))->FUN_006c62d0((std::uintptr_t)(ptemp), (void **)&(spentry));
+            reinterpret_cast<::Map62d0 *>(&kMap)->FUN_006c62d0((std::uintptr_t)(ptemp), (void **)&(spentry));
         }
     }
     if ((Flt&)spentry)
     {
-        reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>(*(void**)(*(char**)&spentry + 8))->FUN_0065c400();
+        reinterpret_cast<::fnv_0065c400::FUN_0065c400_t *>(static_cast<FaceGenModelEntryView*>(spentry.m_pObject)->model)->FUN_0065c400();
         bres = true;
     }
     FUN_00652190();
@@ -3579,12 +3617,12 @@ void BSFaceGenModelMap_t::FUN_00650ba0(void* aspNewEntry)
             switch (cnt)
             {
             case 0:
-                if (reinterpret_cast<::FUN_0065c110_t *>(*(void**)((char*)aspNewEntry + 8))->GetEGMSize() > 0)
+                if (reinterpret_cast<::FUN_0065c110_t *>(static_cast<FaceGenModelEntryView*>(aspNewEntry)->model)->GetEGMSize() > 0)
                     continue;
                 size = 10;
                 break;
             case 1:
-                if (((UnusedModel*)(void*)*(Flt*)((char*)aspNewEntry + 8))->FUN_0065c490() > 0)
+                if (((UnusedModel*)static_cast<FaceGenModelEntryView*>(aspNewEntry)->model)->FUN_0065c490() > 0)
                     continue;
                 size = 10;
                 break;

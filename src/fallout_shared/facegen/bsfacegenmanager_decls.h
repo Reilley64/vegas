@@ -18,6 +18,9 @@ class BSFaceGenManager
     FaceGenCoordinates coords;
     char rest[0x1194 - 8 - 0x60];
     BSFaceGenModelMap* cache;
+    void* spUnk1198;
+    void* spUnk119c;
+    void* spUnk11a0;
     static BSFaceGenManager* GetFaceGenManager();
     static FaceGenCoordinates* GetFaceGenCoordinates();
     static BSFaceGenModelMap* GetModelMap();

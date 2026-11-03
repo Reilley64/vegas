@@ -8,7 +8,6 @@
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
-#include "fnv/decl/hkpSphereCapsuleAgent.h"
 #include "fnv/symbols_00d23000.h"
 #include "fnv/symbols_00d3a000.h"
 #include "fnv/symbols_00d3e000.h"
@@ -41,31 +40,6 @@ struct S_00d3ef70_Dispatcher {
 
 void FUN_00d3e330(const S_00d3ef70_CdBody&, const S_00d3ef70_CdBody&, const S_00d3ef70_Input&, S_00d3ef70_Collector&);
 
-// Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
-// @fnv 0x00d3ef70
-void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher)
-{
-    {
-        S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e2f0);
-        agentFuncs.m_pQueryPenetrationsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f040);
-        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f4c0);
-        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00d3ac80);
-        agentFuncs.m_bIsFlipped = true;
-        agentFuncs.m_bIsPredictive = false;
-        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 5, 1);
-    }
-    {
-        S_00d3ef70_AgentFuncs agentFuncs;
-        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e270);
-        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3e330;
-        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::hkpSphereCapsuleAgent::FUN_00d3ebe0);
-        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00daf8e0);
-        agentFuncs.m_bIsFlipped = false;
-        agentFuncs.m_bIsPredictive = false;
-        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 1, 5);
-    }
-}
 
 class InnerCls {
 public:
@@ -142,47 +116,47 @@ void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiVal
 
 
 // @fnv 0x00d3e510
-void FUN_00d3e510(int a, int b, int c, int d)
+void FUN_00d3e510(const void* a, const void* b, const void* c, void* d)
 {
-    ::FUN_00d3e330((*(const ::S_00d3ef70_CdBody *)(a)), (*(const ::S_00d3ef70_CdBody *)(b)), (*(const ::S_00d3ef70_Input *)(c)), (*(::S_00d3ef70_Collector *)(d)));
+    ::FUN_00d3e330(*static_cast<const ::S_00d3ef70_CdBody *>(a), *static_cast<const ::S_00d3ef70_CdBody *>(b), *static_cast<const ::S_00d3ef70_Input *>(c), *static_cast<::S_00d3ef70_Collector *>(d));
 }
 
 
 struct FUN_00d3f040_tmp {
     const char* str;
     unsigned char flag;
-    unsigned int value;
+    void* value;
 };
 
 
 // Builds a FUN_00d3f040_tmp with value a3, flag 0 and str pointing at DAT_010ce81c, then calls FUN_00d3e330(a1, a0, a2, &t).
 // @fnv 0x00d3f040
-void __cdecl FUN_00d3f040(unsigned int a0, unsigned int a1, unsigned int a2, unsigned int uiValue)
+void __cdecl FUN_00d3f040(const void* a0, const void* a1, const void* a2, void* uiValue)
 {
     FUN_00d3f040_tmp t;
     t.value = uiValue;
     t.flag = 0;
     t.str = &DAT_010ce81c;
-    ::FUN_00d3e330((*(const ::S_00d3ef70_CdBody *)(a1)), (*(const ::S_00d3ef70_CdBody *)(a0)), (*(const ::S_00d3ef70_Input *)(a2)), (*(::S_00d3ef70_Collector *)(&t)));
+    ::FUN_00d3e330(*static_cast<const ::S_00d3ef70_CdBody *>(a1), *static_cast<const ::S_00d3ef70_CdBody *>(a0), *static_cast<const ::S_00d3ef70_Input *>(a2), (*(::S_00d3ef70_Collector *)(&t)));
 }
 
 struct AgentDispatchDescriptor {
     const void* dispatchTable;
     unsigned char isFlipped;
-    volatile unsigned int tag;
+    void* volatile tag;
 };
 struct CollisionDispatcher {
-    void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag);
+    void FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, void* tag);
 };
 // Builds an AgentDispatchDescriptor with the given tag and a fixed dispatch table, then calls FUN_00d3e510 with the bodies swapped.
 // @fnv 0x00d3f000
-void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, unsigned int tag)
+void CollisionDispatcher::FUN_00d3f000(void* bodyA, void* bodyB, void* volatile input, void* tag)
 {
     AgentDispatchDescriptor descriptor;
     descriptor.tag = tag;
     descriptor.isFlipped = false;
     descriptor.dispatchTable = &DAT_010ce81c;
-    ::FUN_00d3e510((int)this, (int)(bodyB), (int)(bodyA), (int)(input));
+    ::FUN_00d3e510(bodyB, bodyA, input, &descriptor);
 }
 
 
@@ -555,13 +529,6 @@ return m_vValue;
 private:
 hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;
-extern "C"{
-double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);
-double __cdecl sqrt([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);inline float fabsf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)fabs((double)_X));}
-inline float sqrtf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)sqrt((double)_X));}
-}
 namespace MathUtilities
 {
 inline hkReal __cdecl sqrt(hkReal r){return::sqrtf(r);}
@@ -938,6 +905,32 @@ protected:
 static ClosestPointResult __cdecl ComputeClosestPoints(const hkpCdBody&bodyA,const hkpCdBody&bodyB,const CollisionAgentContext&input,hkContactPoint&cpoint);
 hkContactPointId m_usContactPointId;
 };
+
+// Registers two collision agent function tables with the dispatcher for the type pairs (5,1) and (1,5).
+// @fnv 0x00d3ef70
+void FUN_00d3ef70(S_00d3ef70_Dispatcher* dispatcher)
+{
+    {
+        S_00d3ef70_AgentFuncs agentFuncs;
+        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e2f0);
+        agentFuncs.m_pQueryPenetrationsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f040);
+        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::FUN_00d3f4c0);
+        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00d3ac80);
+        agentFuncs.m_bIsFlipped = true;
+        agentFuncs.m_bIsPredictive = false;
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 5, 1);
+    }
+    {
+        S_00d3ef70_AgentFuncs agentFuncs;
+        agentFuncs.m_pCreateFunc = ((S_00d3ef70_Agent *(&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, void *))::FUN_00d3e270);
+        agentFuncs.m_pQueryPenetrationsFunc = FUN_00d3e330;
+        agentFuncs.m_getClosestPointsFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &))::hkpSphereCapsuleAgent::FUN_00d3ebe0);
+        agentFuncs.m_pLinearCastFunc = ((void (&)(const S_00d3ef70_CdBody &, const S_00d3ef70_CdBody &, const S_00d3ef70_Input &, S_00d3ef70_Collector &, S_00d3ef70_Collector *))::FUN_00daf8e0);
+        agentFuncs.m_bIsFlipped = false;
+        agentFuncs.m_bIsPredictive = false;
+        reinterpret_cast<::FUN_00cfbbe0_cls *>((dispatcher))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(agentFuncs), 1, 5);
+    }
+}
 class hkpSphereRepShape:public hkpShape
 {
 public:
@@ -1362,14 +1355,7 @@ return m_vValue;
 }
 private:
 hkQuadReal m_vValue;};
-typedef const VectorComponentValue&hkSimdRealParameter;extern "C"{
-double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);
-double __cdecl sqrt([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);inline float fabsf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)fabs((double)_X));}
-inline float sqrtf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)sqrt((double)_X));}
-}
-namespace MathUtilities
+typedef const VectorComponentValue&hkSimdRealParameter;namespace MathUtilities
 {
 inline hkReal __cdecl sqrt(hkReal r){return sqrtf(r);}
 inline hkReal __cdecl fabs(hkReal r){return fabsf(r);}
@@ -1998,6 +1984,7 @@ void hkEmitVtable(const hkpCdBody&b,const CollisionAgentContext&i){hkEmitHelper 
 #include <cmath>
 
 
+namespace fnv_00d3e850 {
 static inline float hkMathSqrt(float r)
 {
     volatile float v = (float)sqrt(r);
@@ -2024,6 +2011,116 @@ struct hkMonitorTimerCommand
     unsigned int m_uiStartTicks;
     unsigned int m_uiEndTicks;
 };
+
+struct hkVector4
+{
+    float& operator()(int i)
+    {
+        return reinterpret_cast<float*>(&m_vComponents)[i];
+    }
+    const float& operator()(int i) const
+    {
+        return ((const float*)&m_vComponents)[i];
+    }
+    __m128 m_vComponents;
+};
+
+struct hkMatrix3
+{
+    inline void operator=(const hkMatrix3& m)
+    {
+        m_kColumn0 = m.m_kColumn0;
+        m_kColumn1 = m.m_kColumn1;
+        m_kColumn2 = m.m_kColumn2;
+    }
+    hkVector4 m_kColumn0;
+    hkVector4 m_kColumn1;
+    hkVector4 m_kColumn2;
+};
+
+struct hkRotation : hkMatrix3
+{
+    inline void operator=(const hkRotation& m)
+    {
+        hkMatrix3::operator=(m);
+    }
+};
+
+struct hkTransform
+{
+    inline hkTransform(const hkTransform& t)
+    {
+        m_rotation.m_kColumn0 = t.m_rotation.m_kColumn0;
+        m_rotation.m_kColumn1 = t.m_rotation.m_kColumn1;
+        m_rotation.m_kColumn2 = t.m_rotation.m_kColumn2;
+        m_vTranslation = t.m_vTranslation;
+    }
+    hkRotation m_rotation;
+    hkVector4 m_vTranslation;
+};
+
+struct hkpShape
+{
+    void* m_vtbl;
+    int unk04;
+    int unk08;
+    int unk0C;
+};
+
+struct hkpConvexShape : hkpShape
+{
+    float m_fSphereRadius;
+};
+
+struct hkpSphereShape : hkpConvexShape
+{
+};
+
+struct hkpCapsuleShape : hkpConvexShape
+{
+    int unk14;
+    int unk18;
+    int unk1C;
+    hkVector4 m_kVertexA;
+    hkVector4 m_kVertexB;
+};
+
+struct hkpCdBody
+{
+    const hkpShape* m_pCollisionShape;
+    unsigned int m_uiCollisionShapeKey;
+    const hkTransform* m_pMotionState;
+    const hkpCdBody* m_parent;
+};
+
+struct CollisionAgentContext
+{
+    void* m_pCollisionDispatcher;
+    void* m_iFilter;
+    float m_fScalar;
+};
+
+struct hkContactPoint
+{
+    hkVector4 m_vContactPosition;
+    hkVector4 m_vSeparatingNormal;
+};
+
+struct ContactPointPair
+{
+    ContactPointPair(const hkpCdBody& a, const hkpCdBody& b) : m_pBodyA(a), m_pBodyB(b)
+    {}
+    hkContactPoint m_kPoint;
+    const hkpCdBody& m_pBodyA;
+    const hkpCdBody& m_pBodyB;
+};
+
+struct hkpCdPointCollector
+{
+    virtual void unk00();
+    virtual void AddCdPoint(const ContactPointPair& event);
+};
+
 
 struct Vector4Wrapper
 {
@@ -2094,18 +2191,18 @@ void FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
     ContactPointPair event(bodyA, bodyB);
     const hkTransform& tB = *bodyB.m_pMotionState;
     first.column0 = tB.m_rotation.m_kColumn0;
-    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[0] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[0];
-    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[1] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[1];
-    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[2] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[2];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[0] = reinterpret_cast<const int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[0];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[1] = reinterpret_cast<const int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[1];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[2] = reinterpret_cast<const int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[2];
     __m128 c0 = _mm_load_ps(reinterpret_cast<float*>(&first.column0.m_vComponents));
-    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[3] = reinterpret_cast<int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[3];
+    reinterpret_cast<int*>(&fourth.column1.m_vComponents)[3] = reinterpret_cast<const int*>(&tB.m_rotation.m_kColumn1.m_vComponents)[3];
     second.column2 = tB.m_rotation.m_kColumn2;
     __m128 c1 = _mm_load_ps(reinterpret_cast<float*>(&fourth.column1.m_vComponents));
-    reinterpret_cast<int*>(&third.translation.m_vComponents)[0] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[0];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[0] = reinterpret_cast<const int*>(&tB.m_vTranslation.m_vComponents)[0];
     __m128 c2 = _mm_load_ps(reinterpret_cast<float*>(&second.column2.m_vComponents));
-    reinterpret_cast<int*>(&third.translation.m_vComponents)[1] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[1];
-    reinterpret_cast<int*>(&third.translation.m_vComponents)[2] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[2];
-    reinterpret_cast<int*>(&third.translation.m_vComponents)[3] = reinterpret_cast<int*>(&tB.m_vTranslation.m_vComponents)[3];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[1] = reinterpret_cast<const int*>(&tB.m_vTranslation.m_vComponents)[1];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[2] = reinterpret_cast<const int*>(&tB.m_vTranslation.m_vComponents)[2];
+    reinterpret_cast<int*>(&third.translation.m_vComponents)[3] = reinterpret_cast<const int*>(&tB.m_vTranslation.m_vComponents)[3];
     __m128 tr = _mm_load_ps(reinterpret_cast<float*>(&third.translation.m_vComponents));
     const hkVector4* in = &capsuleB->m_kVertexA;
     int i = 1;
@@ -2198,4 +2295,5 @@ void FUN_00d3e850(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
 
     timerCommand("Et", scal2.endTicks);
 }
+}  // namespace fnv_00d3e850
 #include "generated/data/havok/physics/collide/agent/convexagent/spherecapsule/hkpspherecapsuleagent.inc"

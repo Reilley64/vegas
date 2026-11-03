@@ -182,7 +182,7 @@ struct FUN_00cb0a70_class
 void __cdecl FUN_00dfd770(void* pObject, void* arg2)
 {
     if (pObject)
-        ((FUN_00cb0a70_class*)((char*)pObject + 4))->FUN_00cb0a70((int)arg2);
+        ((FUN_00cb0a70_class*)((char*)pObject + 4))->FUN_00cb0a70((intptr_t)arg2);
 }
 
 namespace fnv_00dfd970 {
@@ -635,7 +635,7 @@ extern int DAT_010e5474;
 void __cdecl FUN_00dfe340(void* p)
 {
     if (p)
-        *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&DAT_010e5474);
+        *(void**)p = (void*)&DAT_010e5474;
 }
 
 struct FUN_00dfe430_class
@@ -741,7 +741,7 @@ void __cdecl FUN_00dfec90(int** p)
 // @fnv 0x00dfecb0
 void __cdecl FUN_00dfecb0(int* p)
 {
-    ((void(*)(void*, int))(*(int*)p[0]))(p, 0);
+    ((void(*)(void*, int))(**(void***)p))(p, 0);
 }
 
 
@@ -3236,7 +3236,7 @@ void __cdecl FUN_00dfb950(CalleeObj* pCallee, void* pSecond)
 {
     if (pCallee != 0)
     {
-        reinterpret_cast<::FUN_00ce5360_This *>((pCallee))->FUN_00ce5360((unsigned int)(pSecond));
+        reinterpret_cast<::FUN_00ce5360_This *>((pCallee))->FUN_00ce5360((uintptr_t)(pSecond));
     }
 }
 
@@ -4805,7 +4805,7 @@ unsigned char* __cdecl FUN_00dfd1b0()
 // @fnv 0x00dfd1c0
 void __cdecl FUN_00dfd1c0(void* p)
 {
-    (*(void(**)(void*, int)) * (int*)p)(p, 0);
+    (*(void(**)(void*, int)) *(void**)p)(p, 0);
 }
 
 
@@ -6820,7 +6820,7 @@ void __cdecl FUN_00dffe80(void* apObject, int b)
 {
     if (apObject != 0)
     {
-        *reinterpret_cast<int*>(apObject) = reinterpret_cast<int>(&(*reinterpret_cast<void * *>(&::DAT_010c59f4)));
+        *(void**)apObject = (void*)&(*reinterpret_cast<void * *>(&::DAT_010c59f4));
 
         if (b != 0)
         {
@@ -6830,7 +6830,7 @@ void __cdecl FUN_00dffe80(void* apObject, int b)
                 static_cast<unsigned short>(bits >> 16);
         }
 
-        *reinterpret_cast<int*>(apObject) = reinterpret_cast<int>(&DAT_010c6d54);
+        *(void**)apObject = (void*)&DAT_010c6d54;
     }
 }
 

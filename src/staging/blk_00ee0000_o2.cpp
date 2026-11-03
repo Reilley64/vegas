@@ -23,7 +23,7 @@ extern int DAT_011011ec;
 
 struct FUN_00ee88b0
 {
-    int m_vftable;
+    void* m_vftable;
     FUN_00ee88b0();
 };
 
@@ -31,7 +31,7 @@ struct FUN_00ee88b0
 FUN_00ee88b0::FUN_00ee88b0()
 {
     _Call_a5d3a0();
-    m_vftable = (int)&DAT_011011ec;
+    m_vftable = &DAT_011011ec;
 }
 
 struct FUN_00ee8a10

@@ -31,7 +31,7 @@ struct S00ddf070_StringPtr
     S00ddf070_StringPtr* FUN_00cb0b80(const char* s) throw();
     const char* cString() const
     {
-        return (const char*)((unsigned int)m_pcText & ~1u);
+        return (const char*)((uintptr_t)m_pcText & ~(uintptr_t)1);
     }
 };
 struct S00ddf070_StringArray

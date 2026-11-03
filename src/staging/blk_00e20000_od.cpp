@@ -536,7 +536,7 @@ struct SplitResult
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
 };
 
-void __cdecl FUN_00e29b80(int a, int b, int n, void* p1, void* p2, void* p3, SplitResult* pOut);
+void __cdecl FUN_00e29b80(intptr_t a, intptr_t b, int n, void* p1, void* p2, void* p3, SplitResult* pOut);
 
 __forceinline void ProfMark(const char* pName)
 {
@@ -1038,7 +1038,7 @@ struct S00e29b80_Array
 };
 
 // @fnv 0x00e29b80
-void __cdecl FUN_00e29b80(int a, int b, int numRays, void* p1, void* p2, void* p3, SplitResult* pOut)
+void __cdecl FUN_00e29b80(intptr_t a, intptr_t b, int numRays, void* p1, void* p2, void* p3, SplitResult* pOut)
 {
     for (int i = 0; i < numRays; i++)
     {

@@ -1523,7 +1523,7 @@ struct ZSubDFE2F0
 
 struct __declspec(align(16)) ZHolderDFE2F0
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
     int unk0C;
@@ -1562,7 +1562,7 @@ int* FUN_00dfe2f0()
 {
     ZHolderDFE2F0 holder;
     ZArgDFE2F0 arg = {0};
-    holder.unk00 = (int)&DAT_010cb864;
+    holder.unk00 = &DAT_010cb864;
     reinterpret_cast<::FUN_00ce5360_This *>(&(holder.m_sub))->FUN_00ce5360((*(unsigned int *)&(const ::ZArgDFE2F0 &)(arg)));
     return *(int**)&holder.unk00;
 }
@@ -1941,7 +1941,7 @@ Shape_de1190::Shape_de1190(const Vec4_de1190& kMinBoundsCur, const Vec4_de1190& 
 
 struct SplitB
 {
-    int f0;
+    void* f0;
     int f4;
 };
 

@@ -54,10 +54,6 @@ void FUN_00e48970_struct::ClearMaskedBits(unsigned int auiMaskA, unsigned int au
     } while (--count);
 }
 
-struct FUN_00e48830_class
-{
-};
-
 struct hkBoolRet
 {
     char b;
@@ -77,7 +73,7 @@ struct FUN_00e48b60_arg1
     int value_24;
 };
 
-struct FUN_00e48b60_class
+struct FUN_00e48b60_class : hkpRayCollidableFilter
 {
     hkBoolRet* FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2);
 };
@@ -91,7 +87,7 @@ class GroupFilter : public hkpGroupFilter
 // @fnv 0x00e48b60
 hkBoolRet* FUN_00e48b60_class::FUN_00e48b60(hkBoolRet* value, FUN_00e48b60_arg1* arg1, FUN_00e48b60_arg2* arg2)
 {
-    *value = reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 0x14)))->ShouldCollide(arg1->value_24, arg2->value_1c);
+    *value = static_cast<::GroupFilter *>(static_cast<hkpRayCollidableFilter*>(this))->ShouldCollide(arg1->value_24, arg2->value_1c);
     return value;
 }
 
@@ -135,7 +131,7 @@ struct FUN_00e488a0_object
     virtual int getValue(int input);
 };
 
-struct FUN_00e488a0_class
+struct FUN_00e488a0_class : hkpRayShapeCollectionFilter
 {
     hkBoolRet* CallGetValueAndDispatch(hkBoolRet* value, FUN_00e488a0_data* data, int unused, FUN_00e488a0_object* object,
                                  int input);
@@ -147,8 +143,8 @@ hkBoolRet* FUN_00e488a0_class::CallGetValueAndDispatch(hkBoolRet* value, FUN_00e
                                                  FUN_00e488a0_object* object, int input)
 {
     int result = object->getValue(input);
-    FUN_00e48830_class* owner = reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 16);
-    *value = reinterpret_cast<::GroupFilter *>((owner))->ShouldCollide(data->value20, result);
+    ::GroupFilter* owner = static_cast<::GroupFilter *>(static_cast<hkpRayShapeCollectionFilter*>(this));
+    *value = owner->ShouldCollide(data->value20, result);
     return value;
 }
 
@@ -187,7 +183,7 @@ struct FUN_00e48ab0_value
     int value_1c;
 };
 
-struct FUN_00e48ab0_class
+struct FUN_00e48ab0_class : hkpCollidableCollidableFilter
 {
     hkBoolRet* FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* arg2, FUN_00e48ab0_value* arg3);
 };
@@ -196,7 +192,7 @@ struct FUN_00e48ab0_class
 // @fnv 0x00e48ab0
 hkBoolRet* FUN_00e48ab0_class::FUN_00e48ab0(hkBoolRet* value, FUN_00e48ab0_value* pFirstValue, FUN_00e48ab0_value* pSecondValue)
 {
-    *value = reinterpret_cast<::GroupFilter *>((reinterpret_cast<FUN_00e48830_class*>(reinterpret_cast<char*>(this) - 8)))->ShouldCollide(pFirstValue->value_1c, pSecondValue->value_1c);
+    *value = static_cast<::GroupFilter *>(static_cast<hkpCollidableCollidableFilter*>(this))->ShouldCollide(pFirstValue->value_1c, pSecondValue->value_1c);
     return value;
 }
 

@@ -247,7 +247,7 @@ void Veh_00d1e090::ComputeVelocityAlongDirection(hkVector4* position, hkVector4*
 void FUN_00d1e010(hkVector4* inertia)
 {
     __m128 zero = _mm_setzero_ps();
-    _mm_store_ps(reinterpret_cast<float*>(inertia), zero);
-    _mm_store_ps(reinterpret_cast<float*>(inertia) + 4, zero);
-    _mm_store_ps(reinterpret_cast<float*>(inertia) + 8, zero);
+    _mm_store_ps(&inertia[0].x, zero);
+    _mm_store_ps(&inertia[1].x, zero);
+    _mm_store_ps(&inertia[2].x, zero);
 }

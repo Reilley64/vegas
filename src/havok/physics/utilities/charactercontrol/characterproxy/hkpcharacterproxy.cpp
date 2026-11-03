@@ -382,7 +382,7 @@ struct CpuObject {
     unsigned int unk28;
     unsigned int unk2c;
     CpuScalar* value;
-    unsigned int FUN_00cac910();
+    uintptr_t FUN_00cac910();
 };
 // @fnv 0x00cac910
 uintptr_t CpuObject::FUN_00cac910()

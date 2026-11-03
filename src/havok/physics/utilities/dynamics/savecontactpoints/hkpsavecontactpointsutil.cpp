@@ -143,7 +143,7 @@ struct FUN_00dcb550_class
     Item* items;
     unsigned capacity, version;
     Node* current;
-    int SetItemContextByKey(unsigned key);
+    int SetItemContextByKey(uintptr_t key);
 };
 // Finds the entry for key in the current node tree, resolves its index, and calls SetContext on the matching item's object.
 // @fnv 0x00dcb550

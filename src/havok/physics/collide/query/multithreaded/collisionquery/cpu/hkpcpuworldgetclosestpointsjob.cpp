@@ -1593,7 +1593,7 @@ broadphase->CollectAabbCastResults(aabb,&broadPhaseCollector);
 }
 if(aabbTreeInt)
 {
-::FUN_00d1d500((void *)(aabbTreeInt),&aabb,&broadPhaseCollector);
+::FUN_00d1d500((void *)(aabbTreeInt),(intptr_t)&aabb,(intptr_t)&broadPhaseCollector);
 }
 if(kdTree)
 {

@@ -86,7 +86,6 @@ void __cdecl FUN_009fa040(int* a)
 }
 
 namespace fnv_009fa180 {
-extern "C" void* __cdecl DAT_00fdf1c0;
 
 // @fnv 0x009fa180
 void FUN_009fa180(int a)
@@ -104,8 +103,8 @@ int FUN_009fa480(int aSource, int apOut)
     return 0;
 }
 
-extern void(* DAT_00fdf05c)(int*);
-extern void(* DAT_00fdf100)(int*);
+extern void(* DAT_00fdf05c)(CRITICAL_SECTION*);
+extern void(* DAT_00fdf100)(CRITICAL_SECTION*);
 
 struct FUN_009fa4e0_class
 {
@@ -114,7 +113,7 @@ struct FUN_009fa4e0_class
 // @fnv 0x009fa4e0
 int FUN_009fa4e0_class::FUN_009fa4e0(int a, int aiValue)
 {
-    int* p = *(int**)((char*)a + 0x10);
+    CRITICAL_SECTION* p = *(CRITICAL_SECTION**)((char*)a + 0x10);
     DAT_00fdf05c(p);
     *(int*)((char*)a + 0x1c) = aiValue;
     DAT_00fdf100(p);
@@ -320,9 +319,9 @@ int FUN_009faca0(int pSource, int* pOutput)
 {
     if (!pOutput)
         return 0x80004003;
-    int* d = 0;
+    CRITICAL_SECTION* d = 0;
     if (pSource - 12)
-        d = (int*)(pSource - 12) + 4;
+        d = (CRITICAL_SECTION*)((int*)(pSource - 12) + 4);
     else
         d = 0;
     DAT_00fdf05c(d);
@@ -395,7 +394,7 @@ struct FUN_009fd530_class
 // @fnv 0x009fd530
 int FUN_009fd530_class::FUN_009fd530(int b)
 {
-    int* lock = *(int**)((char*)this + 0x20);
+    CRITICAL_SECTION* lock = *(CRITICAL_SECTION**)((char*)this + 0x20);
     DAT_00fdf05c(lock);
     char* base = (char*)*(int**)((char*)this + 0x98);
     if (::FUN_009f9980((const void *)((int)(base + 0x1a0)), (const void *)(b)))
@@ -823,7 +822,8 @@ int* FUN_009fdcb0_class::FUN_009fdcb0(int a)
 // @fnv 0x009f9968
 unsigned int FUN_009f9968(unsigned int dwOptions)
 {
-    return D3DPERF_SetOptions(dwOptions);
+    D3DPERF_SetOptions(dwOptions);
+    return 0;
 }
 
 
@@ -1439,8 +1439,6 @@ int FUN_009fa8a0(FUN_009fa8a0_cls* a1)
     return a1->m_10;
 }
 
-extern "C" int DAT_01093d28;
-extern "C" int DAT_01093cf8;
 struct EntryObject
 {
     void* volatile vtable;
@@ -1616,8 +1614,8 @@ LayoutBase::LayoutBase(SourceObj* src)
 
 struct PinCritSecLock
 {
-    int* m_pLock;
-    PinCritSecLock(int* lock) : m_pLock(lock)
+    CRITICAL_SECTION* m_pLock;
+    PinCritSecLock(CRITICAL_SECTION* lock) : m_pLock(lock)
     {
         EnterCriticalSection(lock);
     }
@@ -1673,7 +1671,7 @@ struct BasePinStub : PinUnknownBase, PinIface, PinQualityIface
     int unk14;
     void* m_Connected;
     int unk1c;
-    int* m_pLock;
+    CRITICAL_SECTION* m_pLock;
     char unk24;
     char m_bCanReconnectWhenActive;
     char unk26;
@@ -2014,14 +2012,8 @@ void CallVirtualMethod9(int aiObject, int aiArg1, int aiArg2)
 }
 
 
-struct FDC10CriticalSection
+struct FDC10CriticalSection : CRITICAL_SECTION
 {
-    int unk000;
-    int unk004;
-    int unk008;
-    int unk00C;
-    int unk010;
-    int unk014;
 
     ~FDC10CriticalSection()
     {
@@ -2281,14 +2273,8 @@ long S_9fe1a0_Class::GetValue(int* piOut)
 }
 
 
-struct S_Lock
+struct S_Lock : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
     S_Lock()
     {
         InitializeCriticalSection(this);
@@ -2435,17 +2421,8 @@ int FUN_009f9cd0(int a)
 }
 }  // namespace fnv_009f9cd0
 
-struct AllocSysInfo
+struct AllocSysInfo : SYSTEM_INFO
 {
-    unsigned long dwOemId;
-    unsigned long dwPageSize;
-    void* lpMinimumApplicationAddress;
-    void* lpMaximumApplicationAddress;
-    unsigned long dwActiveProcessorMask;
-    unsigned long dwNumberOfProcessors;
-    unsigned long dwProcessorType;
-    unsigned long dwAllocationGranularity;
-    unsigned long dwProcessorLevelRevision;
 };
 
 struct AllocProps
@@ -2456,14 +2433,8 @@ struct AllocProps
     long cbPrefix;
 };
 
-struct AllocCritSec
+struct AllocCritSec : CRITICAL_SECTION
 {
-    int m_cs00;
-    int m_cs04;
-    int m_cs08;
-    int m_cs0c;
-    int m_cs10;
-    int m_cs14;
 };
 
 struct AllocLock
@@ -2660,12 +2631,13 @@ int MediaType::FUN_009f9a80(const MediaType* ppartial) const
 class S009f9d50_Value
 {
   public:
-    S009f9d50_Value& FUN_009f9c80(const S009f9d50_Value& kOther);  // operator=
-    S009f9d50_Value& FUN_009f9d50(const S009f9d50_Value& kOther);
+    int FUN_009f9c80(const S009f9d50_Value& kOther);
+    int FUN_009f9d50(const S009f9d50_Value& kOther);
 };
 
+// Returns the HRESULT of FUN_009f9c80 (copy the media type).
 // @fnv 0x009f9d50
-S009f9d50_Value& S009f9d50_Value::FUN_009f9d50(const S009f9d50_Value& kOther)
+int S009f9d50_Value::FUN_009f9d50(const S009f9d50_Value& kOther)
 {
     return FUN_009f9c80(kOther);
 }
@@ -2795,7 +2767,7 @@ struct FUN_009fa330_cls
 // @fnv 0x009fa330
 int FUN_009fa330_cls::FUN_009fa330(int a)
 {
-    int r = ((int)(reinterpret_cast<::S009f9d50_Value *>(&(m_34))->FUN_009f9d50((*(const ::S009f9d50_Value *)(a)))));
+    int r = reinterpret_cast<::S009f9d50_Value *>(&(m_34))->FUN_009f9d50((*(const ::S009f9d50_Value *)(a)));
     return r & ((r >= 0) ? 0 : -1);
 }
 
@@ -3179,12 +3151,7 @@ long MediaSampleSI::FUN_009faa20(unsigned int cbProperties, const unsigned char*
 struct FUN_009fae30_Rec
 {
     int unk00;
-    void* m_cs;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
+    CRITICAL_SECTION m_cs;
     int unk1C;
     int m_20;
     int unk24;
@@ -3196,7 +3163,7 @@ struct FUN_009fae30_Rec
 // @fnv 0x009fae30
 int FUN_009fae30(FUN_009fae30_Rec* r, int* out)
 {
-    void* pLock = ((char*)r - 0xc) ? (void*)&r->m_cs : 0;
+    CRITICAL_SECTION* pLock = ((char*)r - 0xc) ? &r->m_cs : 0;
     EnterCriticalSection(pLock);
     *out = r->m_2c - r->m_30 + r->m_20;
     LeaveCriticalSection(pLock);
@@ -3353,14 +3320,8 @@ FUN_009fb550::~FUN_009fb550()
     }
 }
 
-struct FindCritSec
+struct FindCritSec : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
     void Lock()
     {
         EnterCriticalSection(this);
@@ -3719,7 +3680,7 @@ long BasePinStub::ReceiveConnection(void* pReceivePin, void* pMediaType)
 
 struct DsCritSec
 {
-    int m_CritSec;
+    CRITICAL_SECTION m_CritSec;
     void Lock()
     {
         EnterCriticalSection(&m_CritSec);
@@ -4075,7 +4036,7 @@ struct FUN_009fc890 : FUN_009fcee0
     wchar_t* m_pName;
     void* m_Connected;
     int m_dir;
-    int* m_pLock;
+    CRITICAL_SECTION* m_pLock;
     bool m_bRunTimeError;
     bool m_bCanReconnectWhenActive;
     bool m_bTryMyTypesFirst;
@@ -4087,13 +4048,13 @@ struct FUN_009fc890 : FUN_009fcee0
     __int64 m_tStart;
     __int64 m_tStop;
     volatile double m_dRate;
-    FUN_009fc890(int objectName, void* filter, int* lock, int* phr, const wchar_t* name, int dir);
+    FUN_009fc890(int objectName, void* filter, CRITICAL_SECTION* lock, int* phr, const wchar_t* name, int dir);
 };
 // Initialises the object: constructs the embedded FUN_009fc890 sub-object with "Output", sets vtable and member pointers, and stores b and c.
 // @fnv 0x009fdd70
 FUN_009fdd70_class::FUN_009fdd70_class(int a, int b, int c, int d)
 {
-    new ((void *)(((FUN_009fc890_class*)&this->m_08))) ::FUN_009fc890(0, (void *)(b), (int *)(d), (int *)(a), L"Output", 1);
+    new ((void *)(((FUN_009fc890_class*)&this->m_08))) ::FUN_009fc890(0, (void *)(b), (CRITICAL_SECTION *)(d), (int *)(a), L"Output", 1);
     m_08 = (int)&DAT_01093de8;
     m_a0 = b;
     m_vft = (int)&DAT_01093e24;
@@ -4103,7 +4064,7 @@ FUN_009fdd70_class::FUN_009fdd70_class(int a, int b, int c, int d)
 }
 // Initializes members from the arguments, copies name into a new wchar_t array, and sets m_tStart to 0, m_tStop to the maximum and m_dRate to 1.0.
 // @fnv 0x009fc890
-FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, int* lock, int* phr, const wchar_t* name, int dir)
+FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, CRITICAL_SECTION* lock, int* phr, const wchar_t* name, int dir)
     : FUN_009fcee0(objectName, 0), m_pName(0), m_Connected(0), m_dir(dir), m_pLock(lock), m_bRunTimeError(false),
       m_bCanReconnectWhenActive(false), m_bTryMyTypesFirst(false), m_pOwnerFilter(apOwnerFilter), m_pQSink(0),
       m_TypeVersion(1)
@@ -4144,14 +4105,8 @@ int FUN_009fcab0(char* a, FUN_009fcab0_obj** out)
     return *out != 0 ? 0 : 0x8007000e;
 }
 
-struct S9fcc60_RawCS
+struct S9fcc60_RawCS : CRITICAL_SECTION
 {
-    int DebugInfo;
-    int LockCount;
-    int RecursionCount;
-    int OwningThread;
-    int LockSemaphore;
-    int SpinCount;
 };
 
 struct S9fcc60_CritSec
@@ -5032,16 +4987,16 @@ int Fdfe0Cls::FUN_009fdfe0(unsigned int p0, unsigned int p1, unsigned int p2, un
 
 class CCritSec
 {
-    int m_CritSec[6];
+    CRITICAL_SECTION m_CritSec;
 
   public:
     void Lock()
     {
-        EnterCriticalSection(m_CritSec);
+        EnterCriticalSection(&m_CritSec);
     }
     void Unlock()
     {
-        LeaveCriticalSection(m_CritSec);
+        LeaveCriticalSection(&m_CritSec);
     }
 };
 class CAutoLock
@@ -5178,11 +5133,11 @@ namespace fnv_009fe870 {
 class OwnedLock
 {
   public:
-    char m_acSection[0x18];  // CRITICAL_SECTION
+    CRITICAL_SECTION m_acSection;
     int m_iOwner;
     ~OwnedLock()
     {
-        DeleteCriticalSection(m_acSection);
+        DeleteCriticalSection(&m_acSection);
     }
 };
 
@@ -5705,15 +5660,7 @@ struct __declspec(novtable) Mem2_cls
 
 struct CriticalSection_cls
 {
-    struct
-    {
-        int m_00;
-        int m_04;
-        int m_08;
-        int m_0c;
-        int m_10;
-        int m_14;
-    } m_cs;
+    CRITICAL_SECTION m_cs;
     CriticalSection_cls()
     {
         InitializeCriticalSection(&m_cs);
@@ -5889,15 +5836,15 @@ struct GraphFilter
     unsigned int unk20;
     unsigned int unk24;
     unsigned int unk28;
-    void* m_lock;
+    CRITICAL_SECTION* m_lock;
     wchar_t* m_name;
     GraphUnknown* m_graph;
     GraphUnknown* m_sink;
 };
 struct GraphLock
 {
-    void* m_lock;
-    GraphLock(void* lock) : m_lock(lock)
+    CRITICAL_SECTION* m_lock;
+    GraphLock(CRITICAL_SECTION* lock) : m_lock(lock)
     {
         EnterCriticalSection(m_lock);
     }
@@ -6038,15 +5985,7 @@ class CCritSecW
         LeaveCriticalSection(&m_CritSec);
     }
 
-    struct CriticalSection
-    {
-        int DebugInfo;
-        int LockCount;
-        int RecursionCount;
-        int OwningThread;
-        int LockSemaphore;
-        int SpinCount;
-    } m_CritSec;
+    CRITICAL_SECTION m_CritSec;
 };
 
 class CAutoLockW
@@ -6249,12 +6188,12 @@ struct LockedOwner_b5d0
     unsigned int unk20;
     unsigned int unk24;
     unsigned int unk28;
-    int* m_2c;
+    CRITICAL_SECTION* m_2c;
 };
 
 struct LockGuard_b5d0
 {
-    int* m_pGuardedLock;
+    CRITICAL_SECTION* m_pGuardedLock;
     LockGuard_b5d0(LockedOwner_b5d0* o)
     {
         m_pGuardedLock = o->m_2c;
@@ -6284,13 +6223,13 @@ int SetLockedPointer(LockedOwner_b5d0* apOwner, void* apNewPointer)
     return 0;
 }
 
-extern void(* DAT_00fdf05c)(int* pkCriticalSection);
-extern void(* DAT_00fdf100)(int* pkCriticalSection);
+extern void(* DAT_00fdf05c)(CRITICAL_SECTION* pkCriticalSection);
+extern void(* DAT_00fdf100)(CRITICAL_SECTION* pkCriticalSection);
 
 class CriticalSectionLock
 {
   public:
-    CriticalSectionLock(int* pkCriticalSection) : m_pkCriticalSection(pkCriticalSection)
+    CriticalSectionLock(CRITICAL_SECTION* pkCriticalSection) : m_pkCriticalSection(pkCriticalSection)
     {
         EnterCriticalSection(m_pkCriticalSection);
     }
@@ -6299,7 +6238,7 @@ class CriticalSectionLock
         LeaveCriticalSection(m_pkCriticalSection);
     }
 
-    int* m_pkCriticalSection;
+    CRITICAL_SECTION* m_pkCriticalSection;
 };
 
 class TaskW
@@ -6347,7 +6286,7 @@ struct TaskGroupInnerW
     int unk20;
     int unk24;
     int unk28;
-    int* m_pkCriticalSection;
+    CRITICAL_SECTION* m_pkCriticalSection;
 };
 
 // Under the critical section, if m_bPending calls Finish on each active task, returns the first negative result (else 0), and clears m_bPending.
@@ -6418,15 +6357,15 @@ struct FilterInterface
     int unk20;
     int unk24;
     int unk28;
-    int* m_pLock;
+    CRITICAL_SECTION* m_pLock;
 
     int Activate();
 };
 
 struct AutoLock
 {
-    int* m_pLock;
-    AutoLock(int* lock) : m_pLock(lock)
+    CRITICAL_SECTION* m_pLock;
+    AutoLock(CRITICAL_SECTION* lock) : m_pLock(lock)
     {
         EnterCriticalSection(m_pLock);
     }
@@ -6463,14 +6402,8 @@ int FilterInterface::Activate()
     return 0;
 }
 
-struct FltCritSec
+struct FltCritSec : CRITICAL_SECTION
 {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
     void Lock()
     {
         EnterCriticalSection(this);
@@ -6977,9 +6910,9 @@ extern void(* DAT_00fdf1cc)(int*);
 
 struct S_009fe370_AutoLock
 {
-    int* pLock;
+    CRITICAL_SECTION* pLock;
 
-    S_009fe370_AutoLock(int* p) : pLock(p)
+    S_009fe370_AutoLock(CRITICAL_SECTION* p) : pLock(p)
     {
         EnterCriticalSection(pLock);
     }
@@ -6999,12 +6932,7 @@ struct S_009fe370_Class
     int unk10;
     int unk14;
     int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
+    CRITICAL_SECTION unk1c;
     int unk34;
     int unk38;
     int unk3c;
@@ -7093,14 +7021,8 @@ struct S_009fe420_Item
 };
 
 
-struct CriticalSection9FE
+struct CriticalSection9FE : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
     void Lock()
     {
         EnterCriticalSection(this);
@@ -7192,12 +7114,7 @@ class SixIntegerRecord
     {
         DeleteCriticalSection(&m_cs00);
     }
-    int m_cs00;
-    int m_cs04;
-    int m_cs08;
-    int m_cs0c;
-    int m_cs10;
-    int m_cs14;
+    CRITICAL_SECTION m_cs00;
 };
 
 class FUN_009fabb0 : public LockBase, public SixIntegerRecord
@@ -7358,14 +7275,8 @@ int FUN_009fae90(Packet* packet)
 
 namespace fnv_009fe690 {
 
-struct AsyncCritSec
+struct AsyncCritSec : CRITICAL_SECTION
 {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
     void Lock()
     {
         EnterCriticalSection(this);
@@ -7481,14 +7392,8 @@ long AsyncIo::FUN_009fe690()
 }
 }  // namespace fnv_009fe690
 
-struct S009faf50_CritSec_009faf50
+struct S009faf50_CritSec_009faf50 : CRITICAL_SECTION
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
 };
 
 class S009faf50_FUN_009faf50_rec;
@@ -7609,7 +7514,7 @@ int FUN_009fba40(void* self)
         return r + 1;
     CoInitialize(0);
     PinIface* p;
-    if (CoCreateInstance(DAT_0107cb08, 0, 1, DAT_01093b8c, (void**)&p) >= 0)
+    if (CoCreateInstance(*reinterpret_cast<const CLSID*>(&DAT_0107cb08), 0, 1, *reinterpret_cast<const IID*>(&DAT_01093b8c), (void**)&p) >= 0)
     {
         ::fnv_009fb290::WriteRecordSet((const ::fnv_009fb290::RecordSet *)(r), (::fnv_009fb290::RecordWriter *)(p), 1);
         p->Release();
@@ -7633,9 +7538,8 @@ int FUN_009fbe40(MediaEnumerator* self, int delta)
     return result;
 }
 
-struct S009fe2f0_CS
+struct S009fe2f0_CS : CRITICAL_SECTION
 {
-    int m[6];
 };
 
 class S009fe2f0_BSAutoCSLock6153
@@ -7905,7 +7809,7 @@ int FUN_009fbab0(void* self)
     CoInitialize(0);
     long hr;
     C9FB250Unknown* p;
-    hr = CoCreateInstance(DAT_0107cb08, 0, 1, DAT_01093b8c, (void**)&p);
+    hr = CoCreateInstance(*reinterpret_cast<const CLSID*>(&DAT_0107cb08), 0, 1, *reinterpret_cast<const IID*>(&DAT_01093b8c), (void**)&p);
     if (hr >= 0)
     {
         hr = ::fnv_009fb290::WriteRecordSet((const ::fnv_009fb290::RecordSet *)(r), (::fnv_009fb290::RecordWriter *)(p), 0);
@@ -7926,7 +7830,7 @@ struct PinConnectionView_009fc390
     int mode08;
     int connected;
     int flags10;
-    int* lock;
+    CRITICAL_SECTION* lock;
     int data18;
     int data1c;
     int data20;
@@ -7995,12 +7899,7 @@ struct Lk_Item
 struct Lk_Owner
 {
     void* vtbl;
-    int cs00;
-    int cs04;
-    int cs08;
-    int cs0c;
-    int cs10;
-    int cs14;
+    CRITICAL_SECTION cs00;
     Lk_Item* head;
     int count;
     int unk24;
@@ -8024,7 +7923,7 @@ int FUN_009fc480(int apOwner, Lk_Item* apItem)
         return 0x80004003;
     Lk_Owner* o = (Lk_Owner*)apOwner;
     int notify = 0;
-    int* pCritSec = ((char*)o - 0xc) ? &o->cs00 : 0;
+    CRITICAL_SECTION* pCritSec = ((char*)o - 0xc) ? &o->cs00 : 0;
     {
         PinCritSecLock g(pCritSec);
         apItem->next = o->head;

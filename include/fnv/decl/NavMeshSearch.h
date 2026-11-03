@@ -9,7 +9,7 @@ struct NavMeshNodeInfo;
 struct PathingRequest;
 struct PathingSolution;
 template <class, class> class AStarNode;
-template <class, int> class BSSimpleArray;
+template <class, unsigned int> class BSSimpleArray;
 
 struct NavMeshSearch {
 public:

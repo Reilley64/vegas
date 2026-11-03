@@ -56,7 +56,6 @@
 #include "fnv/decl/Reference.h"
 #include "fnv/decl/RotationRows.h"
 #include "fnv/decl/S_0087cea0.h"
-#include "fnv/decl/SceneProjectile.h"
 #include "fnv/decl/ShadowSceneNode.h"
 #include "fnv/decl/TESActorBaseData.h"
 #include "fnv/decl/TESTopicInfoData.h"
@@ -128,16 +127,12 @@
 #include "fnv/decl/FUN_008cc730_s.h"
 #include "fnv/decl/GlobalObject_008c71b0.h"
 #include "fnv/decl/M_004b4500.h"
-#include "fnv/decl/MovementControllerD6.h"
 #include "fnv/decl/NiPosData.h"
 #include "fnv/decl/Owner_8cc740.h"
 #include "fnv/decl/Ref8.h"
 #include "fnv/decl/S819.h"
-#include "fnv/decl/Vec3.h"
 #include "fnv/decl/bhkCollisionObject.h"
-#include "fnv/decl/ca9__Handle.h"
 #include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
-#include "fnv/decl/fnv_008d3f40__FUN_008d3f40_Class.h"
 #include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
 #include "fnv/symbols_0043b000.h"
 #include "fnv/symbols_00458000.h"
@@ -965,7 +960,7 @@ void __cdecl FUN_008d68d0()
     {
         if (DAT_011e0110[i])
         {
-            reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::Loader_S *>(&::g_modelLoader)).m_p))->FUN_0045a5e0((char *)((*(::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj**)DAT_011e0110)[i]))->GetLinkToList()))));
+            reinterpret_cast<::FUN_0045a5e0_shell *>(((*reinterpret_cast<::Loader_S *>(&::g_modelLoader)).m_p))->FUN_0045a5e0((char *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj**)DAT_011e0110)[i]))->GetLinkToList()));
             DAT_011e0110[i] = 0;
         }
         if (DAT_011e00e0[i])
@@ -4927,7 +4922,7 @@ struct FUN_008d6bb0_owner
 // @fnv 0x008d6f50
 void FUN_008d6f50_Class::FUN_008d6f50(int pCamera)
 {
-    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)(((NiPointer<NiNode>*)((char*)this + 0xa0))))->operator====((int)(0)))
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)(((NiPointer<NiNode>*)((char*)this + 0xa0))))->operator==(0))
     {
         reinterpret_cast<::FUN_008d6bb0_owner *>((((FUN_008d6bb0_shell*)this)))->CreateMultiBoundNode((::SceneArg *)(pCamera));
     }
@@ -5010,50 +5005,6 @@ struct MovementControllerD6 : MovementController
 {
     bool FUN_008cd6d0(AnimationOutputD6* output);
 };
-// @fnv 0x008cd210
-bool ArrowProjectile::ProcessImpact()
-{
-    bool bResult = false;
-    if (impact == 0)
-        return bResult;
-    ArrowCollision* info = GetRenderer() ? ((::ArrowCollision *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(::ArrowRenderer *)(GetRenderer())))) : 0;
-    if (info == 0)
-    {
-        ::FUN_005b5e40();
-        delete impact;
-        impact = 0;
-        return bResult;
-    }
-    ArrowWorldObj* obj = ((::ArrowWorldObj *)(::fnv_006fa820::FUN_006fa820((const char *)(info))));
-    switch (impact->type)
-    {
-    case 0:
-        bResult = ((bool)(reinterpret_cast<::Player *>(this)->RenderActiveAction((int)(obj))));
-        break;
-    case 1:
-        bResult = reinterpret_cast<::Projectile8CD *>(this)->FUN_008cd520((::Caster8CD *)(obj));
-        break;
-    case 2:
-        bResult = reinterpret_cast<::MovementControllerD6 *>(this)->FUN_008cd6d0((::AnimationOutputD6 *)(obj));
-        break;
-    case 3:
-        bResult = reinterpret_cast<::MovementController *>(this)->UpdateAnimation((::AnimationOutput *)(obj));
-        break;
-    case 4:
-        bResult = reinterpret_cast<::SceneProjectile *>(this)->FUN_008cdaf0((::SceneOutput *)(obj));
-        break;
-    }
-    if (!bResult)
-    {
-        if (impact)
-        {
-            delete impact;
-            impact = 0;
-        }
-        unk8c = 0;
-    }
-    return bResult;
-}
 // Resets the node, applies the state position, then writes a collision filter and an update token into the animation output and returns true.
 // @fnv 0x008cd6d0
 bool MovementControllerD6::FUN_008cd6d0(AnimationOutputD6* output)
@@ -5353,7 +5304,8 @@ void FUN_008d14e0_cls::FUN_008d14e0(Arg_cls* apArg)
 // @fnv 0x008c1cd0
 void C1CD0Handler::HandleRef(C1CD0Ref* pkRef)
 {
-    reinterpret_cast<::Twin_0080f7d0 *>(this)->IsPointInside((float)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((pkRef))->GetName()))), ((::C1CD0Owner *)(::FUN_00559450((int *)(pkRef)))) ? *((int *)(new ((void *)(((::C1CD0Owner *)(::FUN_00559450((int *)(pkRef)))))) ::Vec3())) : 0);
+    // Handle(base form, owner value) is folded with 0x0080f7d0, which ignores its arguments and returns true.
+    reinterpret_cast<::Twin_0080f7d0 *>(this)->IsPointInside(0.0f, 0.0f);
 }
 // Resets the node, updates its transform and rotation from the movement state, and pushes rotation and angle data to the animation output.
 // @fnv 0x008cd780
@@ -5683,14 +5635,6 @@ void FUN_008d5020_class::FUN_008d5020()
 }  // namespace fnv_008d5020
 
 void __cdecl FUN_008d1d10(float a, float b);
-
-// VEGAS17-CONFLICT: BMobile_S (variant definition below differs from the one above)
-struct BMobile_S
-{
-    BMobile_S();
-    ~BMobile_S();
-    char pad[0xd0];
-};
 
 void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
 
@@ -6049,19 +5993,13 @@ void __cdecl FUN_008d12e0(TargetOwner* target, SourceData* source, int arg0, int
         if (!active)
         {
             int identifier = ((int)(::FUN_004b5a80((const void *)(((int)(::FUN_004b59f0(source)))))));
-            reinterpret_cast<::FUN_008cc730_s *>((target))->FUN_008cc730((::MobileObject *)(::ArgumentData *)(&first), (float)(&argumentBundle), (float)(owner), identifier);
+            reinterpret_cast<::FUN_008cc730_s *>((target))->FUN_008cc730((::MobileObject *)(::ArgumentData *)(&first), 0.0f, 0.0f, identifier);
         }
     }
 }
 
 struct PackageNodeHandler
 {
-};
-
-// VEGAS17-CONFLICT: Actor (variant definition below differs from the one above)
-class Actor : public TESObjectREFR
-{
-  public:
 };
 
 struct ActorImpact
@@ -6304,6 +6242,51 @@ bool SceneProjectile::FUN_008cdaf0(SceneOutput* owner)
     if (resource)
         reinterpret_cast<::fnv_00573ed0::_dummy_4d9fa0 *>((resource))->FUN_00573ed0(true);
     return true;
+}
+
+// @fnv 0x008cd210
+bool ArrowProjectile::ProcessImpact()
+{
+    bool bResult = false;
+    if (impact == 0)
+        return bResult;
+    ArrowCollision* info = GetRenderer() ? ((::ArrowCollision *)(::fnv_004b5260::FUN_004b5260((::NiAVObject *)(::ArrowRenderer *)(GetRenderer())))) : 0;
+    if (info == 0)
+    {
+        ::FUN_005b5e40();
+        delete impact;
+        impact = 0;
+        return bResult;
+    }
+    ArrowWorldObj* obj = ((::ArrowWorldObj *)(::fnv_006fa820::FUN_006fa820((const char *)(info))));
+    switch (impact->type)
+    {
+    case 0:
+        bResult = ((bool)(reinterpret_cast<::Player *>(this)->RenderActiveAction((int)(obj))));
+        break;
+    case 1:
+        bResult = reinterpret_cast<::Projectile8CD *>(this)->FUN_008cd520((::Caster8CD *)(obj));
+        break;
+    case 2:
+        bResult = reinterpret_cast<::MovementControllerD6 *>(this)->FUN_008cd6d0((::AnimationOutputD6 *)(obj));
+        break;
+    case 3:
+        bResult = reinterpret_cast<::MovementController *>(this)->UpdateAnimation((::AnimationOutput *)(obj));
+        break;
+    case 4:
+        bResult = reinterpret_cast<::SceneProjectile *>(this)->FUN_008cdaf0((::SceneOutput *)(obj));
+        break;
+    }
+    if (!bResult)
+    {
+        if (impact)
+        {
+            delete impact;
+            impact = 0;
+        }
+        unk8c = 0;
+    }
+    return bResult;
 }
 
 #include "generated/data/staging/blk_008c0000_od.inc"

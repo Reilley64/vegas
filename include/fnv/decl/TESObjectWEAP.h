@@ -3,7 +3,7 @@
 class Actor;
 class QueuedFile;
 class TESObjectIMOD;
-enum ActorValue__Index;
+#include "../../layout_support.h"
 
 class TESObjectWEAP {
 public:

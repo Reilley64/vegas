@@ -277,7 +277,7 @@ struct S009b0bf0_Obj
 void S009b0bf0_Obj::FUN_009b0bf0(int a0)
 {
     S009b0bf0_Box box;
-    reinterpret_cast<::FUN_009b0c50_Class *>(this)->FUN_009b0c50(((int)(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&box)), (*(const ::fnv_004a3e00::NiPoint3 *)(a0))))));
+    reinterpret_cast<::FUN_009b0c50_Class *>(this)->FUN_009b0c50((&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&box)), (*(const ::fnv_004a3e00::NiPoint3 *)(a0))))));
 }
 
 struct __declspec(align(16)) hkVec4S_9b0c90
@@ -307,7 +307,7 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
             reinterpret_cast<::FUN_004a0c10_s *>(&(kWorldPosition))->FUN_004a0c10();
             HandleB09 kHandle;
             if (reinterpret_cast<::C00624070 *>((pRef->FUN_0043b4f0(&kHandle)))->FUN_00624070())
-                reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3B09 &)(kWorldPosition))->FUN_004a51b0(2) += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1028))))));
+                *const_cast<float *>(reinterpret_cast<::FUN_004a51b0_shell *>((void *)&(const ::NiPoint3B09 &)(kWorldPosition))->FUN_004a51b0(2)) += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingB09 *>(&::originalRuntimeFloatSetting1028))))));
             bool bMatched = false;
             if (((void *)(reinterpret_cast<::BSFadeNode *>(this)->FUN_009ad610())))
             {

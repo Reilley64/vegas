@@ -25,7 +25,6 @@
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/ContainerOperation.h"
 #include "fnv/decl/DetectionList.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/EventActor.h"
 #include "fnv/decl/ExtraDataListRemoveTrespassPackage.h"
 #include "fnv/decl/FUN_0041cd70_shell.h"
@@ -368,6 +367,14 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01203000.h"
 #include "../../include/layout_support.h"
+
+class TESObjectREFR;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+};
 
 struct ObjB
 {

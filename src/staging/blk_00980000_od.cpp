@@ -21,7 +21,6 @@
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatGroupS.h"
 #include "fnv/decl/CombatWorldStateListNode.h"
-#include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/DistanceCheck.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
 #include "fnv/decl/FUN_0041ca90.h"
@@ -234,6 +233,20 @@
 #include "fnv/symbols_011f1000.h"
 #include "fnv/symbols_011f4000.h"
 #include "../../include/layout_support.h"
+
+class TESObjectREFR;
+class DialogueResponse;
+// The shared fnv/decl/DialogueItem.h declares SelectDefaultResponseList twice (0x005e3fa0 and 0x0083c7b0, which differ
+// only in the return type); this unit calls the 0x005e3fa0 one.
+class DialogueItem {
+public:
+    ::TESObjectREFR *SelectDefaultResponseList();
+    ::DialogueResponse *GetActiveResponse();
+};
+// 0x0083c7b0 is also named DialogueItem::SelectDefaultResponseList (it returns bool); one class cannot declare both.
+struct DialogueItem_0083c7b0 {
+    bool SelectDefaultResponseList();
+};
 
 struct FUN_00993d60
 {
@@ -592,7 +605,6 @@ Inner097* FUN_0098fda0_Class::FUN_0098fda0()
 }
 
 extern int DAT_0108d93c;
-void __cdecl FUN_0098ffb0(void* self, int arg);
 struct FUN_0098ff80_class
 {
     int* vfn;
@@ -2230,8 +2242,6 @@ class BGSEncounterZone;
 struct TESObjectREFR
 {
     ExtraRadioData* GetExtraRadioData(void);
-public:
-    static ::BGSEncounterZone *FindEncounterZone();
 public:
     ::BGSEncounterZone *FindEncounterZone();
 };
@@ -6031,7 +6041,7 @@ bool P029Manager::TryStartDialogue(P029Actor* apSpeaker, void* other, int type, 
         P029Item* item = ((::P029Item *)(reinterpret_cast<::FUN_0061b320_shell *>((d))->FUN_0061b320((::TESObjectREFR *)(apSpeaker), (::TESObjectREFR *)(other), (::TESTopic *)(d), 0, true)));
         if (item)
         {
-            if (reinterpret_cast<::DialogueItem *>((item))->SelectDefaultResponseList())
+            if (reinterpret_cast<::DialogueItem_0083c7b0 *>((item))->SelectDefaultResponseList())
             {
                 P029Ref* ref = ((::P029Ref *)(reinterpret_cast<::DialogueItem *>((item))->GetActiveResponse()));
                 if (ref)
@@ -9163,10 +9173,11 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
                     {
                         void* world0 = ((void *)(reinterpret_cast<::TESObjectREFR *>((linked0))->FindEncounterZone()));
                         void* actorWorld5 = ((void *)(reinterpret_cast<::TESObjectREFR *>((actor15))->FindEncounterZone()));
+                        // TESObjectREFR::FindEncounterZone (0x00546a90, the static one) returns DAT_011c9520.
                         if (!world0)
-                            world0 = ((void *)(::TESObjectREFR::FindEncounterZone()));
+                            world0 = ((void *)(::DAT_011c9520));
                         if (!actorWorld5)
-                            actorWorld5 = ((void *)(::TESObjectREFR::FindEncounterZone()));
+                            actorWorld5 = ((void *)(::DAT_011c9520));
                         if (world0 != actorWorld5)
                             continue;
                     }

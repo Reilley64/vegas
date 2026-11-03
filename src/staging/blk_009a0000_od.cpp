@@ -842,16 +842,16 @@ struct ScriptX
 };
 struct FUN_009b0c50_Class
 {
-    void FUN_009b0c50(int a);
+    void FUN_009b0c50(void* a);
 };
 // @fnv 0x009b0c50
-void FUN_009b0c50_Class::FUN_009b0c50(int a)
+void FUN_009b0c50_Class::FUN_009b0c50(void* a)
 {
     hkpRigidBody* p = ((::hkpRigidBody *)(::FUN_004ae750((void *)(reinterpret_cast<ScriptLocalsX*>(this)))));
     if (p)
     {
         ::FUN_00a29680();
-        reinterpret_cast<::B8182D0Object *>((p))->ApplyToTarget(reinterpret_cast<void*>(a));
+        reinterpret_cast<::B8182D0Object *>((p))->ApplyToTarget(a);
         ::FUN_00a29680();
     }
 }

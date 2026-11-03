@@ -692,7 +692,8 @@ NiPoint3* FUN_009c8ac0_class::FUN_009c8ac0(NiPoint3* result)
     if (point.FUN_004390c0(::NiPoint3::ZERO))
     {
         NiPoint3 offset;
-        point = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((::NiPoint3 *)(::FUN_0045bb80(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((void *)((*reinterpret_cast<::P09H * *>(&::DAT_011f21f0))))->FUN_0043fcd0())))))))->ProjectileLaunched+((::NiPoint3 *)&((*(::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>(&(offset))->FUN_00416870(0.0f, 0.0f, FUN_0070c3b0((*reinterpret_cast<::FUN_0070c3b0_Dummy * *>(&::_g_thePlayer))))))), {})));
+        NiPoint3 sum;
+        point = *reinterpret_cast<::Point3Offset *>((void *)(((::NiPoint3 *)(::FUN_0045bb80(((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((void *)((*reinterpret_cast<::P09H * *>(&::DAT_011f21f0))))->FUN_0043fcd0())))))))->ProjectileLaunched(&sum, (::NiPoint3 *)(reinterpret_cast<::FUN_00416870_t *>(&(offset))->FUN_00416870(0.0f, 0.0f, FUN_0070c3b0((*reinterpret_cast<::FUN_0070c3b0_Dummy * *>(&::_g_thePlayer))))));
     }
 
     *result = point;
@@ -3417,7 +3418,8 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                     void* pSkinRoot = ::FUN_004b59f0(pSurfaceInfo);
                                     if (pSkinRoot)
                                     {
-                                        pAttach = ((::ProjectileImpact::ImpAttach *)(::FUN_00559450((int *)&(FUN_00c85ef0(pSkinRoot, &(*reinterpret_cast<char *>(&::g_011f4a20)))))));
+                                        ImpAttachHandle kAttachHandle = FUN_00c85ef0(pSkinRoot, &(*reinterpret_cast<char *>(&::g_011f4a20)));
+                                        pAttach = ((::ProjectileImpact::ImpAttach *)(::FUN_00559450((int *)&(kAttachHandle))));
                                         if (pAttach && ((::ProjectileImpact::ImpAttach *)(reinterpret_cast<::FUN_009611e0_shell *>((pAttach))->FUN_009611e0())))
                                             pAttach = ((::ProjectileImpact::ImpAttach *)(reinterpret_cast<::FUN_009611e0_shell *>((pAttach))->FUN_009611e0()));
                                     }

@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsdecalnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsdecalnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
@@ -219,7 +220,7 @@ void FUN_004ee560_shell::FUN_004ee560(std::intptr_t aiValue)
 void TargetHost::CallVirtualAndForward(VirtParam* pVirtParam, void* b)
 {
     reinterpret_cast<::DecalNode *>((((S1*)this)))->RemoveEffect(pVirtParam);
-    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(void *)(pVirtParam->v38(b)), *(::fnv_00a5e780::RefPtr *)nullptr);
+    reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(void *)(pVirtParam->v38(b)), *(::fnv_00a5e780::RefPtr *)&::ResultSlot<void *>());
 }
 // Removes the given effect from the list stored at offset 0xac of this node.
 // @fnv 0x004ee4f0

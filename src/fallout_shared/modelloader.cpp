@@ -14923,7 +14923,7 @@ void FnvRoot::FUN_0043f2f0()
                                             FnvRenderSelector* a = ((::FnvRenderSelector *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::FnvRenderSelector *)(reinterpret_cast<::FUN_0043f010 *>((master28))->Get()))))->FUN_007af430()));
                                             FnvEntry p[4];   // Resource entries for the selected geometry.
                                             FnvHandle h(0);  // Retains the active scene object.
-                                            reinterpret_cast<::NiObjectD510 *>((((::FnvSceneNode *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry))))))->FUN_00a5d510(*(::NiPointerD510 *)nullptr);
+                                            reinterpret_cast<::NiObjectD510 *>((((::FnvSceneNode *)(::fnv_005495f0::FUN_005495f0((const char *)(geometry))))))->FUN_00a5d510(*(::NiPointerD510 *)&(current));
                                             h.FUN_0066b0d0(((::FnvSceneNode *)(::FUN_00559450((int *)&(current)))));
                                             geometry->vfnE4(((::FnvSceneNode *)(::FUN_00559450((int *)&(h)))));
                                             a->FUN_00603ad0(p);
@@ -15388,7 +15388,7 @@ class B441420Owner
 // @fnv 0x00441420
 B441420Info* B441420Owner::GetInfoAt(int iIndex)
 {
-    return ((::B441420Info *)(reinterpret_cast<::S3e60 *>(&(m_kInfos))->FUN_006a7ad0(iIndex)));
+    return (*(::B441420Info **)(reinterpret_cast<::S3e60 *>(&(m_kInfos))->FUN_006a7ad0(iIndex)));
 }
 
 struct MLPackage
@@ -19594,7 +19594,7 @@ struct QueueX
 bool Q449::FUN_00449280(void* arData)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
-    bool bResult = reinterpret_cast<::QueueX *>((FUN_00449f80(arData)))->Pop(*(::PtrX *)nullptr);
+    bool bResult = reinterpret_cast<::QueueX *>((FUN_00449f80(arData)))->Pop(*(::PtrX *)(arData));
     reinterpret_cast<::RecursiveSpinLock *>(&(lock))->FUN_0040fba0();
     return bResult;
 }

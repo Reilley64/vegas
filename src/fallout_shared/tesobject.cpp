@@ -1,5 +1,6 @@
 // fallout_shared/tesobject.cpp: TESObject, TESBoundObject, SceneObjectLookup, TESFormList and more (81 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <string.h>
 #include <new>
@@ -571,7 +572,7 @@ struct ActorValueShortVector
     short x, y, z;
     ActorValueShortVector operator-(const ActorValueShortVector& rhs) const
     {
-        return (*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)this)->Subtract((::ActorValueShortVector *)&(rhs), *(const ::ActorValueShortVector *)nullptr)));
+        return (*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)this)->Subtract((::ActorValueShortVector *)&::ResultSlot<::fnv_0050ebf0::ActorValueShortVector>(), *(const ::ActorValueShortVector *)((::ActorValueShortVector *)&(rhs)))));
     }
 };
 
@@ -580,7 +581,7 @@ struct ActorValueShortVector
 // @fnv 0x0050ebf0
 float FUN_0050ebf0_shell::FUN_0050ebf0()
 {
-    return ((double)(::FUN_0050ec80((short *)(&((*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)(((ActorValueShortVector*)&this->bounds)))->Subtract((::ActorValueShortVector *)&(*(const ActorValueShortVector*)((char*)this + 0x2a)), *(const ::ActorValueShortVector *)nullptr)))))))) *
+    return ((double)(::FUN_0050ec80((short *)(&((*(::fnv_0050ebf0::ActorValueShortVector *)(reinterpret_cast<::ActorValueShortVector *>((void *)(((ActorValueShortVector*)&this->bounds)))->Subtract((::ActorValueShortVector *)&::ResultSlot<::fnv_0050ebf0::ActorValueShortVector>(), *(const ::ActorValueShortVector *)((::ActorValueShortVector *)&(*(const ActorValueShortVector*)((char*)this + 0x2a))))))))))) *
            ::DAT_01011588;
 }
 }  // namespace fnv_0050ebf0

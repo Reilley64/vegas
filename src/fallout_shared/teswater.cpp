@@ -1,5 +1,6 @@
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -2921,7 +2922,7 @@ bool WaterScanner_004e83e0::IsPlayerNearWaterActor(void* collection)
                 Vec_004e83e0 distance = *reinterpret_cast<const Vec_004e83e0*>(&object->GetPos());
                 vPlayerPos.z = 0.0f;
                 distance.z = 0.0f;
-                float playerPos = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Vec_004e83e0 &)((*(::Vec_004e83e0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vPlayerPos))->FUN_00439ef0((::NiPoint3 *)&(distance), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude();
+                float playerPos = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::Vec_004e83e0 &)((*(::Vec_004e83e0 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(vPlayerPos))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(distance)))))))->ComputeMagnitude();
                 if (playerPos <= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::RangeSetting_004e83e0 *>(&::g_011c7b54)))))))
                     return true;
             }
@@ -11886,7 +11887,7 @@ void WaterSound098::UpdateWaterSound()
                     samples.y += -1.0 * count + pos * x;
                     NiPoint3 kTemp11887_8(samples.x, samples.y, 0.0f);
                     if (!terrain || !reinterpret_cast<::fnv_00550200::FUN_00550200 *>((terrain))->IsPointInCell((*(const ::fnv_00550200::NiPoint3 *)(&kTemp11887_8))))
-                        terrain = ((::WaterCell098 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::World098 *)(reinterpret_cast<::EffectSetting *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetHitSound()))))->FUN_00587550(*(const ::fnv_00587550::NiPoint3 *)nullptr)));
+                        terrain = ((::WaterCell098 *)(reinterpret_cast<::fnv_00587550::FUN_00587550_shell *>((((::World098 *)(reinterpret_cast<::EffectSetting *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetHitSound()))))->FUN_00587550(*(const ::fnv_00587550::NiPoint3 *)(&kTemp11887_8))));
                     float water = terrain ? reinterpret_cast<::FUN_005471e0_shell *>((terrain))->FUN_005471e0() : DAT_01015f5c;
                     if (reinterpret_cast<::FUN_004572e0_shell *>((((TES098*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetLandHeightAt((*(const ::NiPoint3 *)(&samples)), (*(float *)(&range))) && range < water)
                     {

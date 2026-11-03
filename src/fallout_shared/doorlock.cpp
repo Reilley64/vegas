@@ -1,5 +1,6 @@
 // fallout_shared/doorlock.cpp: DoorAccessData, Copy9, LockAccess (15 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <cstring>
 #include "fnv/decl/Actor.h"
@@ -1910,7 +1911,7 @@ bool BuildPathWithDoors(Location* start, Location* end, Result* result, std::int
         FUN_006b8340 builder;
         PathBuilderDetailedPathInfos infos;
         FUN_005e04c0 doors;
-        if (reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(builder))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(a4), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), ((::Nav *)(reinterpret_cast<::MagicCaster_shell *>((start))->FUN_0044edb0())), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))),
+        if (reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(builder))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(a4), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())))), ((::Nav *)(reinterpret_cast<::MagicCaster_shell *>((start))->FUN_0044edb0())), (void *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())))),
                                        ((::Nav *)(reinterpret_cast<::MagicCaster_shell *>((end))->FUN_0044edb0())), (void *)&(infos), (void *)&(doors), a5))
         {
             ParentSpaceNode node;
@@ -1933,8 +1934,8 @@ bool BuildPathWithDoors(Location* start, Location* end, Result* result, std::int
                     reinterpret_cast<::FUN_006cf4c0_Array *>((result))->FUN_006cf4c0(next);
                 }
             }
-            result->unk20 = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
-            result->unk2C = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+            result->unk20 = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())));
+            result->unk2C = (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(end))->QueueActorAnimationTask(*(::NiPoint3 *)&::ResultSlot<::Point>())));
             return true;
         }
     }

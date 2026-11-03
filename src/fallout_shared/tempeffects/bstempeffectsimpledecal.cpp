@@ -1,5 +1,6 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cmath>
@@ -2090,7 +2091,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start4 = positions[previous];
                 Point _end = positions[current];
-                Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0((::NiPoint3 *)&(_end), *(const ::NiPoint3 *)nullptr)));
+                Point edgeTmp = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start4))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(_end)))));
                 Point normal = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(start4)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal))->DotProduct((void *)&(edgeTmp))));
                 if (fraction > ::g_01012070 && fraction <= DAT_01069ff0)
@@ -2120,7 +2121,7 @@ int ClipPolygonToPlane(Plane* plane, int count, const int* indices, const Point*
             {
                 Point start_ = positions[current];
                 Point end2 = positions[previous];
-                Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0((::NiPoint3 *)&(end2), *(const ::NiPoint3 *)nullptr)));
+                Point edge_ = (*(::DecalClipping::Point *)(reinterpret_cast<::FUN_00439ef0_class *>(&(start_))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)&(end2)))));
                 Point normal3 = (*(const ::DecalClipping::Point *)((void *)(plane)));
                 float fraction2 = (((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(start_)))) + -((double)(reinterpret_cast<::Twin_0084d030 *>((plane))->GetStoredFloatValue()))) / ((double)(reinterpret_cast<::FUN_004b6190_shell *>(&(normal3))->DotProduct((void *)&(edge_))));
                 if (fraction2 < ::_DAT_01012060)
@@ -2351,7 +2352,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
         }
         else
         {
-            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam))))), *(const ::NiPoint3 *)nullptr)));
+            eValue2 = (*(::P3 *)(reinterpret_cast<::FUN_00439ef0_class *>(&(c34Value43))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(::NiPoint3(0.0f, 0.0f, 0.0f)), *(const ::NiPoint3 *)((::NiPoint3 *)(::P3 *)(((::P3 *)(::FUN_0045bb80((std::intptr_t)(apParam)))))))));
             eValue2 = eValue2.ApplyScaled(1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((apParam))->FUN_008d01e0());
         }
         ::FUN_00a582f0((const float *)(::M3 *)(&mecValue16), (const float *)(const char *)((const char*)&(*reinterpret_cast<int *>((void *)&::NiPoint3::ZERO))), 1, (const ::Point314 *)(::P3 *)(&eValue2), (::Point314 *)(::P3 *)(&gValue23));

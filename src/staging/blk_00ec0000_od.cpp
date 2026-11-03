@@ -253,11 +253,11 @@ struct FUN_00ec2d40_class
     int m_0018;
     int m_001c;
     int m_0020;
-    void SetValueAndReset(int a);
+    void SetValueAndReset(intptr_t a);
 };
 // Stores a into m_0014, clears m_0004, calls the callback at m_001c, then clears m_001c.
 // @fnv 0x00ec2d40
-void FUN_00ec2d40_class::SetValueAndReset(int aiValue)
+void FUN_00ec2d40_class::SetValueAndReset(intptr_t aiValue)
 {
     m_0014 = aiValue;
     m_0004 = 0;
@@ -2715,7 +2715,7 @@ int FUN_00ec2ca0(int a1)
 {
     SpawnedObject* obj = new SpawnedObject();
     reinterpret_cast<::NiPlaybackFile *>((obj))->FindString((const char *)(a1), 1, 1, 1);
-    reinterpret_cast<FUN_00ec2d40_class*>(::DAT_0126fac4)->SetValueAndReset((int)obj);
+    reinterpret_cast<FUN_00ec2d40_class*>(::DAT_0126fac4)->SetValueAndReset((intptr_t)obj);
     return 0;
 }
 }

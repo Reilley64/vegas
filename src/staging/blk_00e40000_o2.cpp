@@ -126,7 +126,7 @@ void FUN_00e428f0_class::FUN_00e428f0(void* p)
 }
 
 // @fnv 0x00e42940
-int __cdecl FUN_00e42940(int pObject)
+int __cdecl FUN_00e42940(intptr_t pObject)
 {
     int v = *(int*)(pObject + 0x7c);
     return *(int*)(v + 0x20) != 2 ? 0 : 256;
@@ -1751,7 +1751,7 @@ char* __cdecl IsSampleBoundary(int* base, int idx, int b, int c);
 
 // Scans indices starting at a upward, calling IsSampleBoundary, until the returned byte is non-zero, and returns that index.
 // @fnv 0x00e54bd0
-int __cdecl FindFirstNonZero(int aiStartIndex, int b, int c)
+int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c)
 {
     int i = aiStartIndex;
     if (*IsSampleBoundary(&aiStartIndex, i, b, c) == 0) {
@@ -1795,9 +1795,7 @@ void __cdecl FUN_00e54630(FourFloatVector* result, int a, int b, int c, int d, f
 float __cdecl LookupAndConsume(const FourFloatVector* a, const FourFloatVector* b);
 
 // @fnv 0x00e55080
-unsigned char* __cdecl CheckPointsWithinThreshold(
-    unsigned char* result, int a, int b, int c, int d,
-    int count, const FourFloatVector** points, const float** weights, float threshold)
+unsigned char* __cdecl CheckPointsWithinThreshold(unsigned char* result, int a, int b, intptr_t c, intptr_t d, int count, const FourFloatVector** points, const float** weights, float threshold)
 {
     *result = 1;
     if (count >= 0) {
@@ -2756,7 +2754,7 @@ inline void TimerMark(const char* name)
     }
 }
 struct E42940Inner { int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int m_type; };
-__declspec(noinline) int __cdecl FUN_00e42940(int p)
+__declspec(noinline) int __cdecl FUN_00e42940(intptr_t p)
 {
     E42940Inner* inner = *(E42940Inner**)((char*)p + 0x7c);
     return inner->m_type == 2 ? 0x100 : 0;
@@ -2803,7 +2801,7 @@ void VSim::RunVehicleSync(VWorld* world, VCollector* coll, VInfo* info, int aiCo
     VStepJob* job = (VStepJob*)FUN_00c85620(alloc, 4, 0x80);
     if (job)
         reinterpret_cast<::FUN_00d04350_cls *>((job))->Create(0, 1000);
-    vfn_24(world, ::FUN_00e42940((int)world), aiCount, info, job, mark);
+    vfn_24(world, ::FUN_00e42940((intptr_t)world), aiCount, info, job, mark);
     ::FUN_00c911a0();
     coll->vfn_0c(info, 0xb);
     reinterpret_cast<::Dispatcher *>((info))->FUN_00d051b0();
@@ -5583,7 +5581,7 @@ char* FitSpline(char* result,int n,int degree,ElevationArray<KnotVector>* output
  for(int i=1;i<n;++i) {
   for(int j=0;j<4;++j) {float* src=&(*reinterpret_cast<float *>(reinterpret_cast<::FUN_00e58780_Class *>(&(interior))->GetElementPtr(i-1,j)));KnotVector* base=fitted.data;_ReadWriteBarrier();float* dst=&(*reinterpret_cast<float *>(reinterpret_cast<::S_00e53590_Foo *>(&(base[i]))->FUN_00e53590(j)));*dst=*src;}
  }
- if(*((char *)(::fnv_00e55080::CheckPointsWithinThreshold((unsigned char *)(char *)(&ok),n,degree,(int)(&fitted),(int)(knots),m,(const ::fnv_00e55080::FourFloatVector **)(points),(const float **)(params),tolerance2)))) {
+ if(*((char *)(::fnv_00e55080::CheckPointsWithinThreshold((unsigned char *)(char *)(&ok),n,degree,(intptr_t)(&fitted),(intptr_t)(knots),m,(const ::fnv_00e55080::FourFloatVector **)(points),(const float **)(params),tolerance2)))) {
   reinterpret_cast<::FUN_00d9ec10_cls *>((output))->SwapThreeInts((int *)(::fnv_00e57620::ElevationArray< ::fnv_00e57620::KnotVector> *)(&fitted));*result=1;
  } else *result=0;
  fitted.free();reinterpret_cast<::FUN_00c7b0f0_shell *>(&(interior))->FUN_00c7b0f0();temporary.free();reinterpret_cast<::FUN_00c7b0f0_shell *>(&(rhs.matrix))->FUN_00c7b0f0();reinterpret_cast<::fnv_00e58b90::FUN_00e58b90_cls *>(&(grid))->FUN_00e58b90();return result;
@@ -7290,7 +7288,7 @@ float Vector4NormalizedDot(const E54B50Vector4& kA, const E54B50Vector4& kB);
 
 void __cdecl FUN_00e54ba0(void* value, FUN_00e532b0_class* object);
 
-int __cdecl FindFirstNonZero(int aiStartIndex, int b, int c);
+int __cdecl FindFirstNonZero(int aiStartIndex, intptr_t b, int c);
 
 void RemoveAndDecrement(int index, E54C50IntArray& array, int end);
 
@@ -7714,7 +7712,7 @@ __declspec(nothrow) int __cdecl FUN_00e54930(float**,int);
 
 __declspec(nothrow) int __cdecl FindInsertIndex(float,float**,int);
 
-__declspec(nothrow) int __cdecl FindFirstNonZero(int,int,int);
+__declspec(nothrow) int __cdecl FindFirstNonZero(int, intptr_t, int);
 
 static __forceinline int getDifference(int saved,int* current){return saved-*current;}
 
@@ -7889,8 +7887,8 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             int lastAffected = knot - removalCount + degree < currentCount ?
                                knot - removalCount + degree : currentCount;
             FUN_00e555f0(currentCount, degree, ((float**)knots), ((int)context), &knotErrors,
-                FindFirstNonZero(firstAffected, (int)((float**)knots), m),
-                FindFirstNonZero(lastAffected, (int)((float**)knots), m));
+                FindFirstNonZero(firstAffected, (intptr_t)((float**)knots), m),
+                FindFirstNonZero(lastAffected, (intptr_t)((float**)knots), m));
         } else {
             *currentError = DAT_010ec990;
         }
@@ -8065,7 +8063,7 @@ int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector
 }
 
 
-int __cdecl FUN_00e42940(int p);
+int __cdecl FUN_00e42940(intptr_t p);
 
 extern GlobalObjectO2_00d472a0 g_0126c5f0;
 
@@ -8134,7 +8132,7 @@ float __cdecl FUN_00e535a0(const void* a, const void* b);
 extern void __cdecl helper_before();
 
 
-int __cdecl FindFirstNonZero(int a, int b, int c);
+int __cdecl FindFirstNonZero(int a, intptr_t b, int c);
 
 extern const double DAT_01016978;
 

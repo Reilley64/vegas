@@ -1035,10 +1035,10 @@ struct CallTarget_00dba270
 };
 struct SearchObject
 {
-    int FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    int FUN_00dba320(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3);
 };
 // @fnv 0x00dba320
-int SearchObject::FUN_00dba320(unsigned int arg0, unsigned int arg1, unsigned int arg2, unsigned int arg3)
+int SearchObject::FUN_00dba320(uintptr_t arg0, uintptr_t arg1, uintptr_t arg2, unsigned int arg3)
 {
     unsigned int callResult0 =
         (unsigned int)((CallTarget_00dba270*)this)->Splice((int)arg0, (int)arg1, (int)0u, (int)arg2, (int)arg3);
@@ -1054,7 +1054,7 @@ class DBA340Object
 // @fnv 0x00dba340
 int DBA340Object::FUN_00dba340(void* pvA, void* pvB, void* pvC)
 {
-    return reinterpret_cast<::SearchObject *>(this)->FUN_00dba320((unsigned int)(pvA), (unsigned int)(pvB), (unsigned int)(pvC), 1);
+    return reinterpret_cast<::SearchObject *>(this)->FUN_00dba320((uintptr_t)(pvA), (uintptr_t)(pvB), (uintptr_t)(pvC), 1);
 }
 
 namespace fnv_00dba3d0 {

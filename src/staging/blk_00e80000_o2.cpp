@@ -8262,11 +8262,11 @@ struct FUN_00e8aaf0_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8aaf0(int a1, int a2);
+    void FUN_00e8aaf0(intptr_t a1, int a2);
 };
 // Copies data to each cube map surface: gets the surface level, copies data into it, and releases it, logging on failure.
 // @fnv 0x00e8aaf0
-void FUN_00e8aaf0_cls::FUN_00e8aaf0(int pData, int iFace) {
+void FUN_00e8aaf0_cls::FUN_00e8aaf0(intptr_t pData, int iFace) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -8338,11 +8338,11 @@ struct FUN_00e8ab70_cls {
     int unk60;
     CubeMapSource* m_64;
     unsigned int m_68;
-    void FUN_00e8ab70(int a1, int a2);
+    void FUN_00e8ab70(intptr_t a1, int a2);
 };
 // Copies data into each surface level of the cube map source, releasing each surface and logging a failure if GetSurfaceLevel fails.
 // @fnv 0x00e8ab70
-void FUN_00e8ab70_cls::FUN_00e8ab70(int aiData, int a2) {
+void FUN_00e8ab70_cls::FUN_00e8ab70(intptr_t aiData, int a2) {
     CubeMapSource* src = m_64;
     unsigned int i = 0;
     if (i < m_68) {
@@ -13520,7 +13520,7 @@ struct PlainResource58 {
 
     void FUN_00e687a0(TextureInput*, ResourceConfig*);
     PlainResource58(TextureInput* input, ResourceConfig* config) {
-        new ((void *)this) ::FUN_00e687a0((int)(input), (int)(config));
+        new ((void *)this) ::FUN_00e687a0((intptr_t)(input), (intptr_t)(config));
         vtable = &DAT_010efc34;
         flags = 0;
     }
@@ -14043,7 +14043,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
             unsigned int pad = 0;
             if ((bytes & 0xfffff000) != bytes) pad = ((bytes & 0xfffff000) - bytes) + 0x1000;
             DAT_0126f9c0 += pad;
-            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::fnv_00e8ab70::FUN_00e8ab70_cls *>((result))->FUN_00e8ab70((int)(directResource), slot);
+            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::fnv_00e8ab70::FUN_00e8ab70_cls *>((result))->FUN_00e8ab70((intptr_t)(directResource), slot);
             goto succeeded;
         }
         goto failed;
@@ -14071,7 +14071,7 @@ DeviceResource* __cdecl FUN_00e8abf0(TextureInput* input, ResourceConfig* config
                 result->Delete(1);
                 return 0;
             }
-            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::FUN_00e8aaf0_cls *>((result))->FUN_00e8aaf0((int)(preparedSurface), slot);
+            for (slot = 0; slot < 6; ++slot) reinterpret_cast<::FUN_00e8aaf0_cls *>((result))->FUN_00e8aaf0((intptr_t)(preparedSurface), slot);
             
             reinterpret_cast<::E68760Pass *>((result))->SetProgram((::E68760Program *)(void *)(surface->GetPalette()));
             unsigned int bytes = preparedSurface->GetSize();
@@ -14423,7 +14423,7 @@ void FUN_00e8b0c0_Class::FUN_00e8b0c0()
     m_84 = a->m_68;
     if (m_64 != 0) {
         for (unsigned int i = 0; i < pResult->m_6c; i++) {
-            reinterpret_cast<::FUN_00e8aaf0_cls *>(this)->FUN_00e8aaf0((int)(pResult), i);
+            reinterpret_cast<::FUN_00e8aaf0_cls *>(this)->FUN_00e8aaf0((intptr_t)(pResult), i);
         }
     }
     if (pResult != 0) {

@@ -3590,7 +3590,7 @@ void* __cdecl FUN_00e027a0()
 }
 
 // @fnv 0x00e030c0
-int __cdecl ReadIntAtOffset(int index, int* data)
+int __cdecl ReadIntAtOffset(intptr_t index, int* data)
 {
     int base = *data;
     *data = base + 4;
@@ -5973,7 +5973,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
         }
         else
         {
-            ::ProcessListBlocks((int)(context), (::ListE061 *)(argument));
+            ::ProcessListBlocks((intptr_t)(context), (::ListE061 *)(argument));
             *changed = true;
         }
         break;
@@ -5981,7 +5981,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
     case 7:
     case 8:
     case 9:
-        ::ProcessListBlocks((int)(context), (::ListE061 *)(argument));
+        ::ProcessListBlocks((intptr_t)(context), (::ListE061 *)(argument));
         *changed = true;
         break;
     }
@@ -6024,7 +6024,7 @@ struct ListE061
 
 // Iterates each block's payload, advancing a cursor entry and calling ProcessInput per chunk until the block end.
 // @fnv 0x00e061c0
-void __cdecl ProcessListBlocks(int a1, ListE061* list)
+void __cdecl ProcessListBlocks(intptr_t a1, ListE061* list)
 {
     ListEntryE061* cur;
     int j;
@@ -7346,7 +7346,7 @@ void ParserE030::FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut)
     int iPos = 0;
     while (iPos < m_pcEnd - m_pcBegin)
     {
-        int iOff = ::ReadIntAtOffset((int)(pcData), &iPos);
+        int iOff = ::ReadIntAtOffset((intptr_t)(pcData), &iPos);
         if (iOff == -1)
             break;
         int iStart = ((int)(::ReadPaddedString((char *)(pcData), &iPos)));
@@ -7644,7 +7644,7 @@ void ExportSection::ReadRecords(const void* base, ExportList<ExportRecord, Expor
     const char* stream = static_cast<const char*>(base) + exportStart;
     for (int cursor = 0; cursor < exportEnd - exportStart;)
     {
-        int iOffset = ::ReadIntAtOffset((int)(stream), &cursor);
+        int iOffset = ::ReadIntAtOffset((intptr_t)(stream), &cursor);
         if (iOffset == -1)
             break;
         const char* label = reinterpret_cast<const char*>(((int)(::ReadPaddedString((char *)(stream), &cursor))));
@@ -8758,7 +8758,7 @@ void __cdecl FUN_00e02700(E02700Object* pkObject, void* pvData);
 extern int DAT_0126eba0;
 
 
-int __cdecl ReadIntAtOffset(int index, int* data);
+int __cdecl ReadIntAtOffset(intptr_t index, int* data);
 
 void __cdecl UpdateStateFlags(void* a);
 
@@ -8807,7 +8807,7 @@ void ProcessInput(Context** context, Input* input, void* argument, bool reverse,
 
 void __cdecl ProcessInput(int a1, char* pos, ListEntryE061* cur, FlagE061 flag, int* consumed, bool* pbOut);
 
-void __cdecl ProcessListBlocks(int a1, ListE061* list);
+void __cdecl ProcessListBlocks(intptr_t a1, ListE061* list);
 
 void __cdecl SwapHkHeaderE05E(hkHeaderE05E* h);
 

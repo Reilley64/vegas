@@ -37,7 +37,7 @@ struct FUN_00eae690_Class
 // @fnv 0x00eae690
 int FUN_00eae690_Class::FUN_00eae690(const FUN_00eae690_Class& aOther)
 {
-    if (((char)(::FUN_00eb60e0((::FUN_00eb60e0_t *)this, (int)&(aOther), {}))) && !(m_f != aOther.m_f))
+    if (((char)(::FUN_00eb60e0((::FUN_00eb60e0_t *)this, (intptr_t)&(aOther), {}))) && !(m_f != aOther.m_f))
         return 1;
     return 0;
 }
@@ -49,7 +49,7 @@ struct FUN_00eb60e0_t
 
 // Compares the six floats of p and q and returns 1 if all are equal, otherwise 0.
 // @fnv 0x00eb60e0
-int FUN_00eb60e0(FUN_00eb60e0_t* p, int, FUN_00eb60e0_t* q)
+int FUN_00eb60e0(FUN_00eb60e0_t* p, intptr_t, FUN_00eb60e0_t* q)
 {
     if (!(p->a[0] != q->a[0] || p->a[1] != q->a[1] || p->a[2] != q->a[2] || p->a[3] != q->a[3] || p->a[4] != q->a[4] ||
           p->a[5] != q->a[5]))
@@ -2459,7 +2459,7 @@ struct FUN_00eba1b0
     int unk80;
     int unk84;
     int unk88;
-    FUN_00eba1b0(int, unsigned short, const unsigned short*, const Point139*, int, int);
+    FUN_00eba1b0(intptr_t, unsigned short, const unsigned short*, const Point139*, int, int);
 };
 // Allocates an object sized by kind, stores it in unk08, initialises unk04/unk10/unk14/unk18/unk0c/unk50 and calls unk1c.FUN_00a86bf0.
 // @fnv 0x00eb5f10
@@ -2471,7 +2471,7 @@ FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int ar
     if (kind > 1)
     {
         object = reinterpret_cast<::MemoryManagerStandIn *>((manager))->FUN_00aa3e40(0x8c);
-        object = object ? ((void *)(new ((void *)(((FUN_00eb5f10_Large*)object))) ::FUN_00eba1b0((int)(this), kind, (const unsigned short *)(arg2), (const ::Point139 *)(arg3), arg4, arg5))) : 0;
+        object = object ? ((void *)(new ((void *)(((FUN_00eb5f10_Large*)object))) ::FUN_00eba1b0((intptr_t)(this), kind, (const unsigned short *)(arg2), (const ::Point139 *)(arg3), arg4, arg5))) : 0;
     }
     else
     {
@@ -2490,8 +2490,7 @@ FUN_00eb5f10_Class* FUN_00eb5f10_Class::InitFromKind(unsigned short kind, int ar
 }
 // Computes each triangle's area and centroid from indices and vertices, then calls BuildNode with them plus temporary order and scratch arrays.
 // @fnv 0x00eba1b0
-FUN_00eba1b0::FUN_00eba1b0(int arg1, unsigned short count, const unsigned short* indices, const Point139* vertices,
-                           int arg5, int arg6)
+FUN_00eba1b0::FUN_00eba1b0(intptr_t arg1, unsigned short count, const unsigned short* indices, const Point139* vertices, int arg5, int arg6)
 {
     unk7c = 0;
     float* areas = (float*)::FUN_00aa1070(count * sizeof(float));

@@ -18,7 +18,7 @@ struct S_00df7010_Output;
 // 0x00df7010
 void ExecuteMoppAabbQuery(::S_00df7010_Output *, const ::S_00df7010_Input *);
 // 0x00df7760
-void FUN_00df7760(const ::CastSettings *, const ::CollisionAgentContext *, ::CastJob *, int);
+void FUN_00df7760(const ::CastSettings *, const ::CollisionAgentContext *, ::CastJob *, intptr_t);
 // 0x00df79d0
 void FUN_00df79d0(void *, ::TaskTarget *);
 // 0x00df7a90

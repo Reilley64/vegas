@@ -414,7 +414,7 @@ struct FUN_00ddfb80_s
 
 // Initialises the object: sets field at offset 6 to 1, assigns the vtable, copies two pointers from src, and zeroes the field at offset 16.
 // @fnv 0x00ddfb80
-FUN_00ddfb80_s* FUN_00ddfb80(FUN_00ddfb80_s* self, int, const void* src)
+FUN_00ddfb80_s* FUN_00ddfb80(FUN_00ddfb80_s* self, intptr_t, const void* src)
 {
     self->m_04 = 1;
     self->m_vt = &DAT_010d8094;

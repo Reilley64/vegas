@@ -8455,7 +8455,7 @@ void __cdecl FUN_00de0fe0(int arg1, int arg2, int arg3, int arg4)
     S00de0fe0_Local local;
 
     reinterpret_cast<::FUN_00ddfb70_cls *>(&(local.arr))->FUN_00ddfb70();
-    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(local.o), (int)((int*)&local.arr), {});
+    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(local.o), (intptr_t)((int*)&local.arr), {});
 
     local.arr.data = 0;
     local.arr.count = 0;
@@ -11642,7 +11642,7 @@ void __cdecl FUN_00df79d0(void* a1, TaskTarget* a2)
         pBuf->m_pCur = pRec + 1;
     }
 
-    ::FUN_00df7760((const ::CastSettings *)(a2), (const ::CollisionAgentContext *)(void *)((void*)a2->m_18), (::CastJob *)(void *)((void*)a2->m_34), (int)((void*)a2->m_38));
+    ::FUN_00df7760((const ::CastSettings *)(a2), (const ::CollisionAgentContext *)(void *)((void*)a2->m_18), (::CastJob *)(void *)((void*)a2->m_34), (intptr_t)((void*)a2->m_38));
 
     pBuf = (ProfBuf*)pfnTls(DAT_0126835c);
     if (pBuf->m_pCur < pBuf->m_pRecordEnd)

@@ -2173,12 +2173,12 @@ class FUN_00e67660_cls
     int unkdd8;
     int unkddc;
     FnvNode67* m_de0[100];
-    int FUN_00e67660(FnvNode67* a1, int a2, int* a3, FnvEnt67** a4);
+    int FUN_00e67660(FnvNode67* a1, intptr_t a2, int* a3, FnvEnt67** a4);
 };
 
 
 // @fnv 0x00e67660
-int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, FnvEnt67** apOutEntry)
+int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, intptr_t aiArg, int* apiCount, FnvEnt67** apOutEntry)
 {
     int iResult = 0;
     int i = 0;
@@ -4988,11 +4988,11 @@ struct FUN_00e687a0 : Mid_00e687a0
 {
     Q74 q74;
     virtual void V1();
-    FUN_00e687a0(int p1, int p2);
+    FUN_00e687a0(intptr_t p1, intptr_t p2);
 };
 // Constructs the object by forwarding p1 and p2 to the base constructor and leaving the Q74 member default-initialized.
 // @fnv 0x00e687a0
-FUN_00e687a0::FUN_00e687a0(int p1, int p2) : Mid_00e687a0(p1, p2)
+FUN_00e687a0::FUN_00e687a0(intptr_t p1, intptr_t p2) : Mid_00e687a0(p1, p2)
 {}
 
 extern long(* DAT_00fdf1c0)(void*);
@@ -12722,7 +12722,7 @@ static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63V
         status = 5;
         return 1;
     }
-    if (reinterpret_cast<::FUN_00e67660_cls *>(&(hull))->FUN_00e67660((::FnvNode67 *)(face), (int)(vert), &status, (::FnvEnt67 **)(::E63Edge **)(&outEdge)) != 0)
+    if (reinterpret_cast<::FUN_00e67660_cls *>(&(hull))->FUN_00e67660((::FnvNode67 *)(face), (intptr_t)(vert), &status, (::FnvEnt67 **)(::E63Edge **)(&outEdge)) != 0)
     {
         status = 5;
         return 1;

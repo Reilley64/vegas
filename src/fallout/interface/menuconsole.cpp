@@ -268,7 +268,7 @@ void FUN_0071d620_shell::FUN_0071d620(char acState)
                 reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                                  ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
 
-                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 4)))->GetName())));
+                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::ConsoleManager *>(this)->m_kOutputLines.m_kItemCount.m_uiCount)));
             }
             else
             {
@@ -350,7 +350,7 @@ void FUN_0071d770_shell::FUN_0071d770()
     {
         reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                          ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
-        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())));
+        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
         FUN_00703310(0);
     }
@@ -487,6 +487,8 @@ struct DumpTexture
     virtual void v94();
     virtual void v98();
     virtual DumpName* v9c();
+    char pad[0x28];
+    DumpTexture* m_pkNext;
 };
 struct DumpRTTI
 {
@@ -582,7 +584,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 DAT_011d8ce4 = true;
                 InterfaceManager* manager = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
                 reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kOutputLines)))->GetName())));
+                    ((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
                 ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), text);
                 BSStringT<char> line(text);
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
@@ -974,7 +976,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             m_iCommandHistoryPosition++;
                             m_iCommandHistoryPosition = MinInt(
                                 m_iCommandHistoryPosition,
-                                ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())) -
+                                ((unsigned int)(m_kCommandHistory.m_kItemCount.m_uiCount)) -
                                     1);
                             void* position =
                                 ((void *)(::FUN_00559450((int *)(reinterpret_cast<
@@ -1129,7 +1131,7 @@ void DumpConsole::DumpLoadedTextures()
                     }
                 }
             }
-            a1 = ((::DumpTexture *)(reinterpret_cast<::BGSMessageInitAccess *>((a1))->GetIconFormID()));
+            a1 = ((::DumpTexture *)(a1->m_pkNext));
         }
         a8 = new BSFile("textures.txt", NiFile::WRITE_ONLY, 0x1000, true);
         if (!a8 || !a8->vfn_20(false, false))

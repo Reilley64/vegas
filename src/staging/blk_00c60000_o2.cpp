@@ -759,7 +759,7 @@ struct FUN_00c76220_Class
     int* m_piValues;
     char pad0c[0x20 - 0x0c];
     int* m_piIndices;
-    int FUN_00c76220(int idx);
+    intptr_t FUN_00c76220(int idx);
 };
 
 // @fnv 0x00c76220
@@ -798,7 +798,7 @@ struct FUN_00c76320_class
 {
     char pad[0x48];
     FUN_00c76320_head* m_pHead;
-    int GetNestedValue();
+    intptr_t GetNestedValue();
 };
 
 // Follows m_pHead->m_pLink->m_pNode->m_pLeaf and returns the leaf's m_iValue, or 0 if any link is null.

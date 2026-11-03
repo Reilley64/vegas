@@ -603,7 +603,7 @@ struct ScriptX
     void* unk00;
     void* unk04;
     FUN_00c9eba0_IFace* m_pIFace;
-    void InvokeInterfaceCall(intptr_t a, intptr_t b, intptr_t c, int d);
+    void InvokeInterfaceCall(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 extern CRITICAL_SECTION DAT_0126820c;
 // @fnv 0x00c9eba0

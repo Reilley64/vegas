@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <cmath>
@@ -106,34 +107,7 @@ FUN_00e46300::FUN_00e46300(hkFinishLoadedObjectFlagE463 flag) : FUN_00e466a0(fla
 }
 
 namespace fnv_00e46340 {
-class hkMemoryAllocatorE463
-{
-  public:
-    virtual ~hkMemoryAllocatorE463() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterE463
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE463* m_pStreamAllocator;
-    hkMemoryAllocatorE463& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-static inline hkMemoryRouterE463& getMemoryRouter() { return *static_cast<hkMemoryRouterE463*>(::FUN_00c85750()); }
 
 template <class T> __forceinline void destructE463(T* t, int n)
 {
@@ -155,14 +129,14 @@ template <class T> class hkArrayE463
 
     ~hkArrayE463() throw()
     {
-        ClearAndRelease(getMemoryRouter().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructE463(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorE463& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -200,7 +174,7 @@ class hkReferencedObjectE463
 
     static void operator delete(void* p) throw()
     {
-        getMemoryRouter().heap().ReleaseBlock(p, static_cast<hkReferencedObjectE463*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkReferencedObjectE463*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -708,17 +682,8 @@ void hkpGravityGunEx::FUN_00e46140(hkReal dt, DDCC60World* world, GunArg3* a3, G
 
 class hkMemoryAllocatorE460;
 
-struct hkMemoryRouterE460
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorE460* m_pStreamAllocator;
-};
 
 namespace hkRouterE460 {
-static inline hkMemoryRouterE460& getMemoryRouter() { return *static_cast<hkMemoryRouterE460*>(::FUN_00c85750()); }
 }
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize) throw();
 
@@ -747,9 +712,9 @@ template <class T> struct hkArrayE460
 
     void AddBack(const T& e)
     {
-        hkMemoryRouterE460& router = hkRouterE460::getMemoryRouter();
+        hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(router.m_pStreamAllocator, this, sizeof(T));
+            ResizeAudioStream(router.m_heap, this, sizeof(T));
         constructWithCopyE460<T>(m_data + m_iElementCount, 1, e);
         m_iElementCount++;
     }
@@ -1393,7 +1358,7 @@ void hkpGravityGunE45::FUN_00e45ee0(int dirSlot, int viewSlot, int p3Slot)
         v.q = _mm_mul_ps(bcastE45(m_fHoldDistance), *(const __m128*)dirSlot);
         v.f[1] = (float)(v.f[1] + DAT_01011588);
         v.q = _mm_add_ps(((const ViewE45*)viewSlot)->m_kTranslationalVelocity, v.q);
-        reinterpret_cast<::FUN_005616d0_Owner *>((body))->OnTrigger((::TriggerContext *)((int)&v));
+        reinterpret_cast<::FUN_005616d0_Owner *>((body))->OnTrigger((::TriggerContext *)(void *)(&v));
         body->unk2a = 6;
     }
     else

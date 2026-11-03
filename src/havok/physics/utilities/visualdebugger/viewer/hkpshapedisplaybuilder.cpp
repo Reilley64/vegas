@@ -1,31 +1,14 @@
 // src/havok/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/hkpshapedisplaybuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00de1d20.h"
 #include "fnv/symbols_00c90000.h"
-struct S_00ddfcd0_Allocator
-{
-    virtual void v0();
-    virtual void* AllocateMemoryBlock(int nbytes);
-};
 
-struct S_00ddfcd0_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00ddfcd0_Allocator* m_pStreamAllocator;
-    S_00ddfcd0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-static inline S_00ddfcd0_Router* getMemoryRouter() { return static_cast<S_00ddfcd0_Router*>(::FUN_00c85750()); }
 
 struct S_00ddfcd0_RefObj
 {
@@ -39,7 +22,7 @@ struct S_00ddfcd0_RefObj
     {}
     void* operator new(size_t nbytes)
     {
-        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(getMemoryRouter()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddfcd0_RefObj* b = static_cast<S_00ddfcd0_RefObj*>(hkMemoryRouter::getInstance().heap().blockAlloc(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -127,7 +110,7 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
     if (m_pConvex == (HkDisplayConvexObj*)zero)
     {
         HkArrayPairBlock* pBlock = (HkArrayPairBlock*)zero;
-        HkAllocHolder* pHolder = (HkAllocHolder*)getMemoryRouter();
+        HkAllocHolder* pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
         void* mem = pHolder->m_pAllocator->Alloc(0x18);
         if (mem != (void*)zero)
         {
@@ -142,12 +125,12 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
             pBlock = p;
         }
 
-        pHolder = (HkAllocHolder*)getMemoryRouter();
+        pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
         mem = pHolder->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)mem)->m_u04 = 0x60;
         m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20(pBlock)));
 
-        pHolder = (HkAllocHolder*)getMemoryRouter();
+        pHolder = (HkAllocHolder*)&hkMemoryRouter::getInstance();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))
         {
             ::ResizeAudioStream((::AudioAllocator *)(pHolder->m_pAllocator), (::AudioStream *)(apArray), 4);
@@ -470,32 +453,32 @@ template <class T> class ArrayBase
     {
         return capacity & 0x3fffffff;
     }
-    __forceinline void reserve(S_00ddfcd0_Allocator& heap, int n)
+    __forceinline void reserve(hkMemoryAllocator& heap, int n)
     {
         int cap = getCapacity();
         if (cap < n)
         {
             int twice = 2 * cap;
             int next = n < twice ? twice : n;
-            ::FUN_00c908c0((::SpawnedObject *)(::S_00ddfcd0_Allocator *)(&heap), (::SpawnedArray *)(void *)(this), next, sizeof(T));
+            ::FUN_00c908c0((::SpawnedObject *)(::hkMemoryAllocator *)(&heap), (::SpawnedArray *)(void *)(this), next, sizeof(T));
         }
     }
-    __forceinline T* expandBy(S_00ddfcd0_Allocator& heap, int n)
+    __forceinline T* expandBy(hkMemoryAllocator& heap, int n)
     {
         int old = size;
         reserve(heap, size + n);
         size += n;
         return data + old;
     }
-    __forceinline void SetSizeAndGrow(S_00ddfcd0_Allocator& heap, int n)
+    __forceinline void SetSizeAndGrow(hkMemoryAllocator& heap, int n)
     {
         reserve(heap, n);
         size = n;
     }
-    __forceinline void AddBack(S_00ddfcd0_Allocator& heap, const T& v)
+    __forceinline void AddBack(hkMemoryAllocator& heap, const T& v)
     {
         if (size == (capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(::S_00ddfcd0_Allocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocator *)(&heap), (::AudioStream *)(void *)(this), sizeof(T));
         copyRange(data + size, 1, v);
         ++size;
     }
@@ -503,7 +486,7 @@ template <class T> class ArrayBase
     {
         size = 0;
     }
-    __forceinline void release(S_00ddfcd0_Allocator& heap)
+    __forceinline void release(hkMemoryAllocator& heap)
     {
         size = 0;
         if ((capacity & 0x80000000) == 0)
@@ -518,19 +501,19 @@ template <class T> struct Array : ArrayBase<T>
     {}
     __forceinline ~Array()
     {
-        release(getMemoryRouter()->heap());
+        release(hkMemoryRouter::getInstance().heap());
     }
     __forceinline T* expandBy(int n)
     {
-        return ArrayBase<T>::expandBy(getMemoryRouter()->heap(), n);
+        return ArrayBase<T>::expandBy(hkMemoryRouter::getInstance().heap(), n);
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        ArrayBase<T>::SetSizeAndGrow(getMemoryRouter()->heap(), n);
+        ArrayBase<T>::SetSizeAndGrow(hkMemoryRouter::getInstance().heap(), n);
     }
     __forceinline void AddBack(const T& v)
     {
-        ArrayBase<T>::AddBack(getMemoryRouter()->heap(), v);
+        ArrayBase<T>::AddBack(hkMemoryRouter::getInstance().heap(), v);
     }
 };
 template <class T> struct LocalArray : Array<T>
@@ -538,9 +521,8 @@ template <class T> struct LocalArray : Array<T>
     T* saved;
     __forceinline LocalArray(int n)
     {
-        S_00ddfcd0_Router* r = getMemoryRouter();
-        T* p = (T*)r->unk0;
-        r->unk0 = (int)p + ((n * sizeof(T) + 127) & ~127);
+        hkMemoryRouter* r = &hkMemoryRouter::getInstance();
+        T* p = static_cast<T*>(r->allocateStack((n * sizeof(T) + 127) & ~127));
         data = p;
         capacity = n | 0x80000000;
         saved = p;
@@ -550,7 +532,7 @@ template <class T> struct LocalArray : Array<T>
         T* p = saved;
         if (p == data)
             clear();
-        getMemoryRouter()->unk0 = (int)p;
+        hkMemoryRouter::getInstance().deallocateStack(p);
     }
 };
 struct Mesh
@@ -570,7 +552,7 @@ struct Mesh
     Array<Triangle> m_uiTriangleCount;
     __forceinline void* operator new(size_t n)
     {
-        return getMemoryRouter()->heap().AllocateMemoryBlock(n);
+        return hkMemoryRouter::getInstance().heap().blockAlloc(n);
     }
 };
 struct FUN_00cce5e0 : Mesh
@@ -600,7 +582,7 @@ struct RefObject
     unsigned short GetAllocationSize, refs;
     __forceinline void* operator new(size_t n)
     {
-        RefObject* p = (RefObject*)getMemoryRouter()->heap().AllocateMemoryBlock(n);
+        RefObject* p = (RefObject*)hkMemoryRouter::getInstance().heap().blockAlloc(n);
         p->GetAllocationSize = (unsigned short)n;
         return p;
     }

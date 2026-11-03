@@ -10772,7 +10772,7 @@ bool FUN_005bd240(const ScriptParameter* params, const char* script, TESObjectRE
     {
         if (owner && ((void *)(reinterpret_cast<::TESForm *>((((FUN_00485b60*)owner)))->GetFile(-1))))
             ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>((((FUN_00485b60*)owner)))->GetFile(-1)))));
-        ((FUN_006c1150_shell*)((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager())))->FUN_006c1150((int*)id);
+        ((FUN_006c1150_shell*)((::NavMeshObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager())))->FUN_006c1150((int*)(std::uintptr_t)id);
     }
     return true;
 }

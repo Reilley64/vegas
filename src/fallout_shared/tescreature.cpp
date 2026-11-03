@@ -1975,7 +1975,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->ReadChunkInt(&scriptID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
             reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(void *)(this));
             break;
         }
@@ -2005,13 +2005,13 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x4f4c5053: {
             unsigned int spellID = 0;
             file->ReadChunkInt(&spellID);
-            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(spellID));
+            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(std::uintptr_t)(spellID));
             break;
         }
         case 0x4d544945: {
             unsigned int touchID = 0;
             file->ReadChunkInt(&touchID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(touchID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(touchID));
             break;
         }
         case 0x544d4145: {
@@ -2065,7 +2065,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x44494b50: {
             unsigned int packageID = 0;
             file->ReadChunkInt(&packageID);
-            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(packageID));
+            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(std::uintptr_t)(packageID));
             break;
         }
         case 0x4d414e53: {
@@ -2171,7 +2171,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x52435343: {
             unsigned int soundCreature = 0;
             file->ReadChunkInt(&soundCreature);
-            reinterpret_cast<::TESCreature *>(this)->SetCreatureSoundsFrom((::TESCreature *)(soundCreature));
+            reinterpret_cast<::TESCreature *>(this)->SetCreatureSoundsFrom((::TESCreature *)(std::uintptr_t)(soundCreature));
             break;
         }
         case 0x54445343: {
@@ -2202,7 +2202,7 @@ bool CreatureRecord::FUN_005f7ec0(CreatureRecordFile* file)
         case 0x4d414e43: {
             unsigned int impact = 0;
             file->ReadChunkInt(&impact);
-            reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(impact));
+            reinterpret_cast<::FUN_005f8bb0_shell *>(this)->SetImpactDataSet((::BGSImpactDataSet *)(std::uintptr_t)(impact));
             break;
         }
         case 0x4d414e4c: {

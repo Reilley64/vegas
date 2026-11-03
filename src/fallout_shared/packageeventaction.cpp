@@ -137,7 +137,7 @@ void PackageEventActionData::Load(TESFile* file)
             unsigned int formID;
             ScriptReferencedObject* object = new ScriptReferencedObject;
             file->GetChunkData(&formID);
-            object->pForm = (TESForm*)formID;
+            object->pForm = (TESForm*)(std::uintptr_t)formID;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>((((Script*)m_pkNext)))->FUN_005d43c0()))))->FUN_00905820((void *)&(object));
             break;
         }
@@ -152,11 +152,11 @@ void PackageEventActionData::Load(TESFile* file)
         break;
         case 0x4d414e49:
             file->GetChunkData(&id);
-            m_item = (TESForm*)id;
+            m_item = (TESForm*)(std::uintptr_t)id;
             break;
         case 0x4d414e54:
             file->GetChunkData(&id);
-            pTopic = (TESForm*)id;
+            pTopic = (TESForm*)(std::uintptr_t)id;
             done = true;
             break;
         }

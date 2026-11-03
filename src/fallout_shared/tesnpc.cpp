@@ -375,7 +375,7 @@ bool TESNPC::Load(TESFile* file)
             case 'IRCS': {
                 unsigned int scriptID = 0;
                 file->GetChunkData(&scriptID);
-                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(scriptID));
+                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
                 TESScriptableForm::InitItem(this);
                 break;
             }
@@ -405,13 +405,13 @@ bool TESNPC::Load(TESFile* file)
             case 'OLPS': {
                 unsigned int spell = 0;
                 file->GetChunkData(&spell);
-                reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(spell));
+                reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(std::uintptr_t)(spell));
                 break;
             }
             case 'MTIE': {
                 unsigned int spell = 0;
                 file->GetChunkData(&spell);
-                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(spell));
+                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(spell));
                 break;
             }
             case 'TMAE': {
@@ -463,7 +463,7 @@ bool TESNPC::Load(TESFile* file)
             case 'DIKP': {
                 unsigned int package = 0;
                 file->GetChunkData(&package);
-                reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(package));
+                reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(std::uintptr_t)(package));
                 break;
             }
             case 'MANS': {
@@ -504,7 +504,7 @@ bool TESNPC::Load(TESFile* file)
             case 'MANR': {
                 unsigned int race = 0;
                 file->GetChunkData(&race);
-                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(race));
+                reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(race));
                 break;
             }
             case 'ZFFK':
@@ -2817,7 +2817,7 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x49524353 /* SCRI */: {
             unsigned int uiScript = 0;
             apFile->GetChunkData(&uiScript);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiScript));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiScript));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -2847,13 +2847,13 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x4F4C5053 /* SPLO */: {
             unsigned int uiSpell = 0;
             apFile->GetChunkData(&uiSpell);
-            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(uiSpell));
+            reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>(this)->FUN_0048d290((::TESForm *)(std::uintptr_t)(uiSpell));
             break;
         }
         case 0x4D544945 /* EITM */: {
             unsigned int uiEnchant = 0;
             apFile->GetChunkData(&uiEnchant);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiEnchant));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiEnchant));
             break;
         }
         case 0x544D4145 /* EAMT */: {
@@ -2910,7 +2910,7 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x44494B50 /* PKID */: {
             unsigned int uiPackage = 0;
             apFile->GetChunkData(&uiPackage);
-            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(uiPackage));
+            reinterpret_cast<::fnv_0047f500::FUN_0047f500_shell *>(this)->FUN_0047f500((::fnv_0047f500::TESPackage *)(std::uintptr_t)(uiPackage));
             break;
         }
         case 0x4D414E53 /* SNAM */: {
@@ -2925,19 +2925,19 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x4D414E49 /* INAM */: {
             unsigned int uiDeathItem = 0;
             apFile->GetChunkData(&uiDeathItem);
-            m_pBaseTemplateForm = (TESForm*)uiDeathItem;
+            m_pBaseTemplateForm = (TESForm*)(std::uintptr_t)uiDeathItem;
             break;
         }
         case 0x4B435456 /* VTCK */: {
             unsigned int uiVoice;
             apFile->GetChunkData(&uiVoice);
-            m_kFactionList = (TESForm*)uiVoice;
+            m_kFactionList = (TESForm*)(std::uintptr_t)uiVoice;
             break;
         }
         case 0x544C5054 /* TPLT */: {
             unsigned int uiTemplate;
             apFile->GetChunkData(&uiTemplate);
-            m_ppTemplateForms = (TESForm*)uiTemplate;
+            m_ppTemplateForms = (TESForm*)(std::uintptr_t)uiTemplate;
             break;
         }
         case 0x53424341 /* ACBS */:
@@ -2951,7 +2951,7 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x4D414E52 /* RNAM */: {
             unsigned int uiRace = 0;
             apFile->GetChunkData(&uiRace);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(uiRace));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(uiRace));
             break;
         }
         case 0x5A46464B /* KFFZ */:
@@ -3060,13 +3060,13 @@ bool NpcLoadShell::FUN_00602190(TESFile* apFile)
         case 0x4D414E43 /* CNAM */: {
             unsigned int uiClass = 0;
             apFile->GetChunkData(&uiClass);
-            m_pClass = (TESClass*)uiClass;
+            m_pClass = (TESClass*)(std::uintptr_t)uiClass;
             break;
         }
         case 0x4D414E5A /* ZNAM */: {
             unsigned int uiCombatStyle;
             apFile->GetChunkData(&uiCombatStyle);
-            ((TESActorBase*)this)->SetCombatStyle((TESCombatStyle*)uiCombatStyle);
+            ((TESActorBase*)this)->SetCombatStyle((TESCombatStyle*)(std::uintptr_t)uiCombatStyle);
             break;
         }
         case 0x4D414E46 /* FNAM */:

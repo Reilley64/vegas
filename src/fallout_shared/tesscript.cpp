@@ -3869,7 +3869,7 @@ bool ScriptLoader::FUN_005ab9f0(TESFile* file)
             referenceID = new ScriptReferencedObject;
             file->GetChunkData(&unusedID);
             if (size == 0x4f524353)
-                referenceID->pForm = (TESForm*)unusedID;
+                referenceID->pForm = (TESForm*)(std::uintptr_t)unusedID;
             else
                 referenceID->m_uiFormID = unusedID;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_00905820((void *)&(referenceID));

@@ -15361,7 +15361,7 @@ struct P114ActorView : TESObjectREFR
     virtual void slot240();
     virtual void slot241();
     virtual void slot242();
-    virtual void SetDestination(int, P114RefOps*, int, P114Point*, int);
+    virtual void SetDestination(intptr_t, P114RefOps*, int, P114Point*, int);
 };
 struct P114Settings
 {
@@ -16925,7 +16925,7 @@ void P114Process::FUN_00916df0(Actor* actor)
                     ba = m_pReference40;
                 if (ba && ((void *)(reinterpret_cast<::s55d310::Owner *>((((P114RefOps*)ba)))->FUN_0055d310())))
                 {
-                    reinterpret_cast<::fnv_00892e90::FUN_00892e90_shell *>((((P114ActorOps*)actor)))->FUN_00892e90((::TESForm *)(std::intptr_t)(reinterpret_cast<::PackageTargetFields *>((item2))->iValue), (intptr_t)(c), ba, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), q);
+                    reinterpret_cast<::fnv_00892e90::FUN_00892e90_shell *>((((P114ActorOps*)actor)))->FUN_00892e90((::TESForm *)(reinterpret_cast<::InventoryEntryFields *>((item2))->pObject), (intptr_t)(c), ba, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), q);
                 }
                 else
                 {
@@ -16943,7 +16943,7 @@ void P114Process::FUN_00916df0(Actor* actor)
                             locationPos = (P114Point*)location2->GetPos();
                     }
                     ((P114ActorView*)actor)
-                        ->SetDestination(((int)(reinterpret_cast<::PackageTargetFields *>((item2))->iValue)), c, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), locationPos, 0);
+                        ->SetDestination(((intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item2))->pObject)), c, reinterpret_cast<::FUN_00672930_cls *>((i))->FUN_00672930(), locationPos, 0);
                 }
             }
             delete item2;

@@ -39,7 +39,7 @@ extern "C" void fnv_fn_00a38ec0() __asm__("?UpdateKeyTimes@NiTimeControllerA38@@
 extern "C" void fnv_fn_00a39080() __asm__("?FUN_00a39080@FUN_00a39080_cls@@QEAAFPEAH@Z");
 extern "C" void fnv_fn_00a3a710() __asm__("?CallVirtualMethodAtOffsetA8@FUN_00a3a710_shell@@QEAAXPEAX0@Z");
 extern "C" void fnv_fn_00a411c0() __asm__("?FUN_00a411c0@@YAPEAUControllerAllocation@@IPEAXIMI@Z");
-extern "C" void fnv_fn_00a41220() __asm__("?FUN_00a41220@@YAXH@Z");
+extern "C" void fnv_fn_00a41220() __asm__("?FUN_00a41220@FUN_00a41220_shell@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a44840() __asm__("?FUN_00a44840@FUN_00a44840_stub@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00a44cd0() __asm__("?FUN_00a44cd0@@YAXXZ");
 extern "C" void fnv_fn_00a4fbd0() __asm__("?LoadBinaryWithVersionCheck@@YAXPEAUNiPSysModifierCtlr@@HAEAUNiStream@@@Z");
@@ -58,7 +58,7 @@ extern "C" void fnv_fn_00a59fd0() __asm__("?UpdateDownwardPassIfSelective@AV59f@
 extern "C" void fnv_fn_00a5a030() __asm__("?FUN_00a5a030@FUN_00a5a030_shell@@QEAAXAEAUNiUpdateData@@@Z");
 extern "C" void fnv_fn_00a5a430() __asm__("?SetEventualParent@NiAVObject@fnv_00a5a430@@QEAAXPEAUNiNode@2@@Z");
 extern "C" void fnv_fn_00a5c6a0() __asm__("?FUN_00a5c6a0@LinkObjectA5@@QEAAXAEAVNiStream@@@Z");
-extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
+extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAA_NPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
@@ -105,7 +105,7 @@ extern "C" void fnv_fn_00a6d500() __asm__("?LinkObject@NiTimeController@@UEAAXAE
 extern "C" void fnv_fn_00a6d5e0() __asm__("?FUN_00a6d5e0@NiTimeController_Luna@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a6d730() __asm__("?FUN_00a6d730@FUN_00a6d730_shell@@QEAAXAEAUStream_a6d730@@@Z");
 extern "C" void fnv_fn_00a6d830() __asm__("?FUN_00a6d830@TCController@@QEAAXPEAVNiViewerStringsArray@@@Z");
-extern "C" void fnv_fn_00a71d10() __asm__("?FUN_00a71d10@@YAXXZ");
+extern "C" void fnv_fn_00a71d10() __asm__("?FUN_00a71d10@FUN_00a71d10_shell@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a724d0() __asm__("?FUN_00a724d0@@YAXXZ");
 extern "C" void fnv_fn_00a74500() __asm__("?FUN_00a74500@@YAXXZ");
 extern "C" void fnv_fn_00a74510() __asm__("?FUN_00a74510@@YAXXZ");
@@ -123,14 +123,14 @@ extern "C" void fnv_fn_00a80930() __asm__("?FUN_00a80930@FUN_00a80930_shell@fnv_
 extern "C" void fnv_fn_00a809b0() __asm__("?FUN_00a809b0@GeomStub@@QEAAXPEAUNiRenderer@@@Z");
 extern "C" void fnv_fn_00a80a10() __asm__("?ProcessClone@NiGeometry@@UEAAXAEAVCloningProcess@@@Z");
 extern "C" void fnv_fn_00a81100() __asm__("?FUN_00a81100@BA81100Object@@QEAAXPEAVBA81100StringArray@@@Z");
-extern "C" void fnv_fn_00a81fe0() __asm__("?FUN_00a81fe0@@YAX_J@Z");
+extern "C" void fnv_fn_00a81fe0() __asm__("?FUN_00a81fe0@FUN_00a81fe0_shell@@QEAA_NAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a8f410() __asm__("?FUN_00a8f410@@YAHHH@Z");
 extern "C" void fnv_fn_00a93ea0() __asm__("?SetChildAt@fnv_00a93ea0@@YAXPEAVNiNode@@HIPEAVNiAVObject@@@Z");
 extern "C" void fnv_fn_00a98ea0() __asm__("?FUN_00a98ea0@@YAXXZ");
 extern "C" void fnv_fn_00a98eb0() __asm__("?FUN_00a98eb0@FUN_00a98eb0_shell@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00aa09d0() __asm__("?FUN_00aa09d0@@YADD@Z");
-extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
+extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@HC1Base@@QEAA_NPEAVNiStream@@@Z");
 extern "C" void fnv_fn_00aa4a50() __asm__("?FUN_00aa4a50@FUN_00aa4a50_shell2@@QEAAXH@Z");
 extern "C" void fnv_fn_00aa4d40() __asm__("?FUN_00aa4d40@BSCoreMessage_shell@@QEAAPEAUBSCoreMessage@@IIPEBD0I@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
@@ -161,7 +161,7 @@ extern "C" void fnv_fn_00c2a090() __asm__("?DestroyIfRequested@Host@@QEAAPEAU1@_
 extern "C" void fnv_fn_00c2a190() __asm__("?FUN_00c2a190@@YA_NHH@Z");
 extern "C" void fnv_fn_00c2b450() __asm__("?FUN_00c2b450@@YAXXZ");
 extern "C" void fnv_fn_00c2b7d0() __asm__("?FUN_00c2b7d0@Holder00c2b7d0@fnv_00c2b7d0@@QEAA_NPEAX@Z");
-extern "C" void fnv_fn_00c2b8a0() __asm__("?FUN_00c2b8a0@@YAXXZ");
+extern "C" void fnv_fn_00c2b8a0() __asm__("?FUN_00c2b8a0@FUN_00c2b8a0_shell@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00c2c110() __asm__("?FUN_00c2c110@NiPSysAirFieldModifier_00c2c110@@QEAAXAEAUCloningProcess@@@Z");
 extern "C" void fnv_fn_00c2cf90() __asm__("?LoadBinary@NiPSysColorModifier@@UEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00c2d300() __asm__("?UpdateItems@FUN_00c2d300_cls@@QEAAXMPEAUData@@@Z");

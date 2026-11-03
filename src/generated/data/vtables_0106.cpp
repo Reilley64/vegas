@@ -393,7 +393,7 @@ extern "C" void fnv_fn_00a1f160() __asm__("?SetTraitValue@TileMenu@@UEAAPEAVTile
 extern "C" void fnv_fn_00a1f310() __asm__("?FUN_00a1f310@TileMenuStub@@QEAAXXZ");
 extern "C" void fnv_fn_00a29680() __asm__("?FUN_00a29680@@YAXXZ");
 extern "C" void fnv_fn_00a44840() __asm__("?FUN_00a44840@FUN_00a44840_stub@@QEAAPEAXI@Z");
-extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
+extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAA_NPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
@@ -422,7 +422,7 @@ extern "C" void fnv_fn_00a867a0() __asm__("?SaveSkinInstance@SkinInstanceW@@QEAA
 extern "C" void fnv_fn_00a86830() __asm__("?FUN_00a86830@NiSkinInstanceStub@@QEAAPEAU1@AEAUNiCloningProcessStub@@@Z");
 extern "C" void fnv_fn_00a86920() __asm__("?FUN_00a86920@Skin@@QEAAXPEAUStrings@@@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
-extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
+extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@HC1Base@@QEAA_NPEAVNiStream@@@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00b606e0() __asm__("?FUN_00b606e0@@YAEXZ");
 extern "C" void fnv_fn_00c65820() __asm__("?FUN_00c65820@@YAXXZ");

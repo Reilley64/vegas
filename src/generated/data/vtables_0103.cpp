@@ -162,7 +162,7 @@ extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEA
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a81100() __asm__("?FUN_00a81100@BA81100Object@@QEAAXPEAVBA81100StringArray@@@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
-extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
+extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@HC1Base@@QEAA_NPEAVNiStream@@@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00c65800() __asm__("?FUN_00c65800@Stub65800@@QEAAXAEAVBC6C330Stream@@@Z");
 extern "C" void fnv_fn_00c65810() __asm__("?FUN_00c65810@@YAXXZ");

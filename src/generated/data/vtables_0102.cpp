@@ -383,7 +383,7 @@ extern "C" void fnv_fn_00a59cf0() __asm__("?FUN_00a59cf0@A59CF0Holder@@QEAAXXZ")
 extern "C" void fnv_fn_00a59db0() __asm__("?FUN_00a59db0@FUN_00a59db0_shell@@QEAAXH@Z");
 extern "C" void fnv_fn_00a5a430() __asm__("?SetEventualParent@NiAVObject@fnv_00a5a430@@QEAAXPEAUNiNode@2@@Z");
 extern "C" void fnv_fn_00a5c6a0() __asm__("?FUN_00a5c6a0@LinkObjectA5@@QEAAXAEAVNiStream@@@Z");
-extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
+extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAA_NPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");
@@ -449,8 +449,8 @@ extern "C" void fnv_fn_00a7f9a0() __asm__("?FUN_00a7f9a0@NiBinaryExtraData@@QEAA
 extern "C" void fnv_fn_00a7fa20() __asm__("?FUN_00a7fa20@NiBinaryExtraData@fnv_00a7fa20@@QEAAXPEAUNiStreamLike@2@@Z");
 extern "C" void fnv_fn_00a7fa90() __asm__("?FUN_00a7fa90@FUN_00a7fa90_cls@@QEAAXPEAUFUN_00a7fa90_obj@@@Z");
 extern "C" void fnv_fn_00a7fdb0() __asm__("?FUN_00a7fdb0@FUN_00a59dc0_shell@@QEAAXPEAX@Z");
-extern "C" void fnv_fn_00a81fe0() __asm__("?FUN_00a81fe0@@YAXH@Z");
-extern "C" void fnv_fn_00a88a40() __asm__("?FUN_00a88a40@@YAXXZ");
+extern "C" void fnv_fn_00a81fe0() __asm__("?FUN_00a81fe0@FUN_00a81fe0_shell@@QEAA_NAEAVNiStream@@@Z");
+extern "C" void fnv_fn_00a88a40() __asm__("?FUN_00a88a40@FUN_00a88a40_shell@@QEAAXAEAVNiStream@@@Z");
 extern "C" void fnv_fn_00a89ae0() __asm__("?FUN_00a89ae0@FUN_00a89ae0_shell@@QEAA_N_J@Z");
 extern "C" void fnv_fn_00a89af0() __asm__("?FUN_00a89af0@@YAX_J@Z");
 extern "C" void fnv_fn_00a93c40() __asm__("?FUN_00a93c40@@YAXXZ");
@@ -458,7 +458,7 @@ extern "C" void fnv_fn_00a93ea0() __asm__("?SetChildAt@fnv_00a93ea0@@YAXPEAVNiNo
 extern "C" void fnv_fn_00a95ca0() __asm__("?FUN_00a95ca0@FUN_00a95ca0_shell@@QEAAXAEAUS_00a58160_Stream@@@Z");
 extern "C" void fnv_fn_00a9a730() __asm__("?FUN_00a9a730@@YAXXZ");
 extern "C" void fnv_fn_00a9af00() __asm__("?FUN_00a9af00@@YAXXZ");
-extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@@YAXXZ");
+extern "C" void fnv_fn_00aa0ad0() __asm__("?FUN_00aa0ad0@HC1Base@@QEAA_NPEAVNiStream@@@Z");
 extern "C" void fnv_fn_00acbb70() __asm__("?FUN_00acbb70@FUN_00acbb70_shell@@QEAAHXZ");
 extern "C" void fnv_fn_00b606e0() __asm__("?FUN_00b606e0@@YAEXZ");
 extern "C" void fnv_fn_00ba87d0() __asm__("?FUN_00ba87d0@FUN_00ba87d0_Class@@QEAA_NPEAUNiObj_s@@@Z");

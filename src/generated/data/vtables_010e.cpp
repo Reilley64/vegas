@@ -11,7 +11,7 @@ extern "C" void fnv_fn_00a38de0() __asm__("?FUN_00a38de0@@YAHH@Z");
 extern "C" void fnv_fn_00a44840() __asm__("?FUN_00a44840@FUN_00a44840_stub@@QEAAPEAXI@Z");
 extern "C" void fnv_fn_00a4d5f0() __asm__("?FUN_00a4d5f0@@YAXPEAV?$NiTMapItem@IV?$NiPointer@VNiRefObject@@@@@@IV?$NiPointer@VNiRefObject@@@@@Z");
 extern "C" void fnv_fn_00a57020() __asm__("?FUN_00a57020@@YADHHH@Z");
-extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAAXPEAUStreamDev@@@Z");
+extern "C" void fnv_fn_00a5d2f0() __asm__("?FUN_00a5d2f0@FUN_00a5d2f0_class@@QEAA_NPEAUStreamDev@@@Z");
 extern "C" void fnv_fn_00a5d310() __asm__("?FUN_00a5d310@FUN_00a5d310_Class@@QEAAXXZ");
 extern "C" void fnv_fn_00a5d430() __asm__("?FUN_00a5d430@FUN_00a5d430_Class@@QEAAX_K@Z");
 extern "C" void fnv_fn_00a5d470() __asm__("?IsSameAs@A5d470Class@@UEAA_NPEAUA5d470Object@@@Z");

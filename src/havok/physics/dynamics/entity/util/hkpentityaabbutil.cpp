@@ -45,6 +45,7 @@ setStart:
     }
 }
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
@@ -367,12 +368,9 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
         if(allocated) {
             const ShapeParts* parts=geometry->GetShapeContainer();
             int n=parts->GetNumChildShapes();
-            char** stack=(char**)::FUN_00c85750();
-            BoundsRecord* bounds=(BoundsRecord*)*stack;
-            *stack+=((unsigned)n*32+127)&~127;
-            stack=(char**)::FUN_00c85750();
-            unsigned int* keys=(unsigned int*)*stack;
-            *stack+=(n*4+127)&~127;
+            hkMemoryRouter& router=hkMemoryRouter::getInstance();
+            BoundsRecord* bounds=static_cast<BoundsRecord*>(router.allocateStack((n*32+127)&~127));
+            unsigned int* keys=static_cast<unsigned int*>(router.allocateStack((n*4+127)&~127));
             OffsetInput sweepInput;
             ::FUN_00cbec90((const ::hkMotionStateq *)(void *)(object->m_pMotionState.GetMotionState()),(::SweptTransformSamples *)(void *)(&sweepInput));
             FloatBounds total;
@@ -409,9 +407,7 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
             ConvertAabb(totalSweep,context->quantization.low,context->quantization.high,context->quantization.scale,expanded);
             CompressExpanded(expanded,*output);
             if (n) {
-                stack = (char**)::FUN_00c85750();
-                S_00d1b1d0_Item* pairs = (S_00d1b1d0_Item*)*stack;
-                *stack += (n * 8 + 127) & -128;
+                S_00d1b1d0_Item* pairs = static_cast<S_00d1b1d0_Item*>(hkMemoryRouter::getInstance().allocateStack((n * 8 + 127) & -128));
                 if (n > 1) {
                     int* fillValues=reinterpret_cast<int*>(pairs);
                     BoundsRecord* sourceCursor=bounds;
@@ -436,10 +432,10 @@ extern "C" void FUN_00d1a330(const CollisionContext* context,EntityNode*const* o
                     valueCursor+=2;
                 } while(--remaining);
                 }
-                *(char**)::FUN_00c85750() = (char*)pairs;
+                hkMemoryRouter::getInstance().deallocateStack(pairs);
             }
-            *(char**)::FUN_00c85750()=(char*)keys;
-            *(char**)::FUN_00c85750()=(char*)bounds;
+            hkMemoryRouter::getInstance().deallocateStack(keys);
+            hkMemoryRouter::getInstance().deallocateStack(bounds);
         } else {
             AabbHolder holder; FloatBounds& box=holder.box;
             geometry->getAabb(object->m_pMotionState.getTransform(),slack,reinterpret_cast<FloatBounds&>(box));

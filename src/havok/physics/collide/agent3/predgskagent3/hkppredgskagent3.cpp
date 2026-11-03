@@ -16,7 +16,7 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_010cf000.h"
 #include "fnv/symbols_01268000.h"
-void __cdecl ForwardToTarget(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int unused)
+void __cdecl ForwardToTarget(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4, void* unused)
 {
     ::FUN_00d41860_impl(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -279,11 +279,18 @@ found:
 
 // Calls ReleaseAllEntries on the record at b+0x0C, computes an aligned size from three bytes, clears byte 2 of a, and returns b plus that size.
 // @fnv 0x00d41860
-extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int aData)
+struct S00d41860_AgentData
 {
-    unsigned char* rec = (unsigned char*)apRecord + 0x0C;
+    unsigned char m_gskCache[0x0C];
+    unsigned char m_manifold[4];
+};
 
-    ::ReleaseAllEntries((::S_00dad640_Set *)(rec), (::S_00dad640_Target *)(aObj), (void *)(aData));
+extern "C" void* __cdecl FUN_00d41860_impl(void* apOut, void* apRecord, void* aObj, void* aData)
+{
+    S00d41860_AgentData* data = static_cast<S00d41860_AgentData*>(apRecord);
+    unsigned char* rec = data->m_manifold;
+
+    ::ReleaseAllEntries(reinterpret_cast<::S_00dad640_Set *>(rec), static_cast<::S_00dad640_Target *>(aObj), aData);
 
     unsigned int count = rec[0] + rec[1] + rec[2] * 4;
 
@@ -292,9 +299,9 @@ extern "C" int __cdecl FUN_00d41860_impl(int apOut, int apRecord, int aObj, int 
     count = scaled + 27;
     count &= ~0x0F;
 
-    ((char*)apOut)[2] = 0;
+    static_cast<char*>(apOut)[2] = 0;
 
-    return apRecord + (int)count;
+    return reinterpret_cast<unsigned char*>(apRecord) + count;
 }
 
 // Adapted from an unverified 2026-10-23 prior contributor draft; independently checked under this claim.

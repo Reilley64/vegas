@@ -90,10 +90,10 @@ struct __declspec(align(16)) S_00cd7850_Vec
     }
     __forceinline void set(float a, float b, float c, float d)
     {
-        quad.x = a;
-        quad.y = b;
-        quad.z = c;
-        quad.w = d;
+        quad[0] = a;
+        quad[1] = b;
+        quad[2] = c;
+        quad[3] = d;
     }
 };
 

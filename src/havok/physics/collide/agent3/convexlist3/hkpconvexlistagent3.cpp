@@ -515,7 +515,7 @@ void __cdecl FUN_00d32ba0(void* agent, hkpShapeD32* shape, void* input, void* ou
 {
     if (shape->m_flags & 0x20)
     {
-        ::ForwardToTarget((int)(agent), (int)(shape), (int)(input), (int)(output), (int)(collector));
+        ::ForwardToTarget(agent, shape, input, output, collector);
         return;
     }
     ::FUN_00da42b0((::BlockPoolArray *)(int *)(&shape->m_data), (::S_00da40e0_Dispatcher *)(collector), (::S_00da40e0_ContactMgr *)(input), (*(::S_00da40e0_ConstraintOwner *)(output)));
@@ -1133,7 +1133,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
         output->count = temporary.count;
         if (output->savedContacts)
             memmove(output->savedContacts, &temporary.owner, 0x1008);
-        ::FUN_00d41860_impl(stream, (int)(agent), (int)(context->manager), output->owner);
+        ::FUN_00d41860_impl(stream, agent, context->manager, output->owner);
         agent->flags &= 0xdf;
         StateRecord* state = &agent->state;
         if (state)

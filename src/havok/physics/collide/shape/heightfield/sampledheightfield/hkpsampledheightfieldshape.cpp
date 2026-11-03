@@ -127,14 +127,13 @@ struct S00d261b0_cls {
     float f04;
     unsigned char b08;
     S00d261b0_Elem* p0c;
-    void UpdateMinValue(int a0, int a1);
+    void UpdateMinValue(int a0, S00d261b0_Elem* a1);
 };
 
 // If a1's f10 is below f04, stores it in f04, copies v00, f10 and i14 into *p0c, sets p0c's slot at m_idx40 to -1, and sets b08 to 1.
 // @fnv 0x00d261b0
-void S00d261b0_cls::UpdateMinValue(int a0, int a1)
+void S00d261b0_cls::UpdateMinValue(int a0, S00d261b0_Elem* a)
 {
-    S00d261b0_Elem* a = (S00d261b0_Elem*)a1;
     if (a->f10 < f04) {
         f04 = a->f10;
         p0c->v00 = a->v00;
@@ -487,10 +486,7 @@ namespace MathUtilities
 return fnv_FloatToInt(r);
 }
 }
-extern "C"{
-double __cdecl fabs([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]double _X);inline float fabsf([SA_Pre(Null=SA_No)][SA_Pre(Deref=1,Valid=SA_Yes,Access=SA_Read)]float _X)
-{return((float)fabs((double)_X));}
-}
+#include <math.h>
 namespace MathUtilities {
 inline hkReal __cdecl fabs(hkReal r){return::fabsf(r);}
 template<typename T>
@@ -1453,7 +1449,6 @@ distToNextCell[sInd]+=gridLineDistance(sInd);
 }
 
 // Moved from hkpsampledheightfieldshape_gs_nogs_variant.cpp (VEGAS-15).
-#include "fnv/decl/SampledHeightRayCastView.h"
 
 
 struct hkRotation_d26310 {
@@ -1494,7 +1489,7 @@ void FUN_00d26310_cls::FUN_00d26310(Context_d26310* pkContext, const Input_d2631
 
 // Moved from hkpsampledheightfieldshape_rtm_variant.cpp (VEGAS-15).
 
-inline void* operator new(size_t,void* p) throw() { return p; }
+#include <new>
 
 
 

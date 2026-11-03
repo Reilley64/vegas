@@ -78,7 +78,7 @@ public:
     // 0x00d87c20
     void FUN_00d87c20(int, bool);
     // 0x00d97070
-    void FUN_00d97070(void *);
+    void FUN_00d97070(int);
     // 0x00d9bef0
     unsigned short *AppendElement(unsigned short);
     // 0x00d9e000

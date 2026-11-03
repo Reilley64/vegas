@@ -21,9 +21,9 @@ void InsertSlotId(int, ::Table *, unsigned short);
 // 0x00d41830
 int FindEntryByKey(int, ::FUN_00d41830_table *, unsigned short);
 // 0x00d41860
-extern "C" int FUN_00d41860_impl(int, int, int, int);
+extern "C" void *FUN_00d41860_impl(void *, void *, void *, void *);
 // 0x00d418b0
-void ForwardToTarget(int, int, int, int, int);
+void ForwardToTarget(void *, void *, void *, void *, void *);
 // 0x00d418d0
 void *DispatchInputRecord(::InputData *, unsigned char *, ::ResultData *);
 // 0x00d41930

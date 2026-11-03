@@ -12,55 +12,69 @@
 #include "havok/hkpConvexTransformShape.h"
 
 
-struct FUN_00d5d730_class
+struct FUN_00d5d730_Collector
 {
     virtual void v0();
     virtual void v1();
     virtual void v2();
-    virtual void v3(const char*, const char*, int);
+    virtual void v3(const char*, const void*, int);
     virtual void v4();
     virtual void v5();
     virtual void v6();
     virtual void v7();
     virtual void v8();
     virtual void v9();
-    void FUN_00d5d730(FUN_00d5d730_class* pChild, const char* name);
+};
+
+struct FUN_00d5d730_class : hkpConvexTransformShape
+{
+    void FUN_00d5d730(FUN_00d5d730_Collector* pChild, const char* name);
 };
 
 struct FUN_00c90360_helper
 {
 };
 
-// Calls pChild->v3 with "Child" and this+0x18, then FUN_00c90360 with pChild and g_01268970_arg1.
+// Calls pChild->v3 with "Child" and the child shape, then FUN_00c90360 with pChild and g_01268970_arg1.
 // @fnv 0x00d5d730
-void FUN_00d5d730_class::FUN_00d5d730(FUN_00d5d730_class* pChild, const char* name)
+void FUN_00d5d730_class::FUN_00d5d730(FUN_00d5d730_Collector* pChild, const char* name)
 {
-    pChild->v3("Child", *(const char**)((char*)this + 0x18), 0);
+    pChild->v3("Child", m_pContainedShape.m_pContainedShape, 0);
     reinterpret_cast<::FunctionContext *>((((FUN_00c90360_helper*)this)))->FUN_00c90360(pChild, (void *)(&(*reinterpret_cast<const char *const *>(&::g_01268940))));
 }
 
-struct FUN_00d5e020_standin
+struct FUN_00d5e020_ChildShape
 {
-    int FUN_00d5e020(int a, int b);
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual int calcSizeForSpu(const void* input, int spuBufferSizeLeft);
+};
+
+struct FUN_00d5e020_standin : hkpConvexTransformShape
+{
+    int FUN_00d5e020(const void* input, int spuBufferSizeLeft);
 };
 
 // @fnv 0x00d5e020
-int FUN_00d5e020_standin::FUN_00d5e020(int a, int aiLimit)
+int FUN_00d5e020_standin::FUN_00d5e020(const void* a, int aiLimit)
 {
-    char* p = (char*)this;
+    hkpShape* child = m_pContainedShape.m_pContainedShape;
     int iLimit = aiLimit - 0x60;
-    int iResult =
-        (*(int(**)(void*, int, int))(*(int*)(*(int*)(p + 0x18)) + 0x18))(*(void**)(p + 0x18), a, iLimit);
+    int iResult = reinterpret_cast<FUN_00d5e020_ChildShape*>(child)->calcSizeForSpu(a, iLimit);
     if (iResult < 0)
         return -1;
     if (iResult > iLimit)
         return -1;
-    if (*(int*)(p + 0x18) == (int)(p + 0x60))
+    if (child == static_cast<hkpShape*>(static_cast<void*>(static_cast<hkpConvexTransformShape*>(this) + 1)))
     {
-        *(int*)(p + 0x1c) = 0;
+        m_iChildShapeSize = 0;
         return iResult + 0x60;
     }
-    *(int*)(p + 0x1c) = iResult;
+    m_iChildShapeSize = iResult;
     return 0x60;
 }
 
@@ -695,7 +709,7 @@ struct TransformChild
     virtual void vf30();
     virtual void vf34();
     virtual void vf38();
-    virtual void vf3c(int a, int b, int c);
+    virtual void vf3c(const unsigned short* a, int b, float* c);
 };
 
 struct TransformHost
@@ -713,7 +727,7 @@ struct TransformHost
     hkVector4 unk40;
     hkVector4 unk50;
 
-    void FUN_00d5dd40(int a, int b, float* c);
+    void FUN_00d5dd40(const unsigned short* a, int b, float* c);
 };
 
 struct __declspec(align(16)) LocalTransform
@@ -722,9 +736,9 @@ struct __declspec(align(16)) LocalTransform
 };
 // Calls unk18->vf3c(a, b, c), then transforms the b vectors in c in place by the matrix made from unk20, unk30, unk40 and unk50.
 // @fnv 0x00d5dd40
-void TransformHost::FUN_00d5dd40(int a, int aiCount, float* apPoints)
+void TransformHost::FUN_00d5dd40(const unsigned short* a, int aiCount, float* apPoints)
 {
-    unk18->vf3c(a, aiCount, (int)apPoints);
+    unk18->vf3c(a, aiCount, apPoints);
     LocalTransform localTransform;
     localTransform.c0 = unk20;
     localTransform.c1 = unk30;

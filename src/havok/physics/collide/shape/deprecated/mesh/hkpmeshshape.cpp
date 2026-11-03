@@ -602,10 +602,13 @@ static __declspec(noinline) void ExpandAabbWithVertex(const MeshVec& vertex, con
     aabb.m_kMinimumCorner.m_vComponents = _mm_min_ps(aabb.m_kMinimumCorner.m_vComponents, v.m_vComponents);
     aabb.m_kMaximumCorner.m_vComponents = _mm_max_ps(aabb.m_kMaximumCorner.m_vComponents, v.m_vComponents);
 }
-volatile int g_meshIn0, g_meshIn1, g_meshIn2, g_meshIn3;
+MeshVec* volatile g_meshIn0;
+hkTransform* volatile g_meshIn1;
+MeshVec* volatile g_meshIn2;
+MeshAabb* volatile g_meshIn3;
 void MeshGetAabb_dccdd0()
 {
-    ExpandAabbWithVertex(*(MeshVec*)g_meshIn0, *(hkTransform*)g_meshIn1, *(MeshVec*)g_meshIn2, *(MeshAabb*)g_meshIn3);
+    ExpandAabbWithVertex(*g_meshIn0, *g_meshIn1, *g_meshIn2, *g_meshIn3);
 }
 
 inline void* operator new(size_t, void* p)

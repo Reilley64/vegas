@@ -45,7 +45,7 @@ struct FUN_00d97060_cls
     int unk04;
     int unk08;
     int unk0c;
-    void* m_pSection;
+    CRITICAL_SECTION* m_pSection;
 
     void FUN_00d97060();
 };
@@ -94,11 +94,11 @@ class Owner
     unsigned int unk04;
     SubObj m_08;
     Spawned* m_10;
-    void FUN_00d97070(void* a1);
+    void FUN_00d97070(int spinCount);
 };
 
 // @fnv 0x00d97070
-void Owner::FUN_00d97070(void* apArg)
+void Owner::FUN_00d97070(int apArg)
 {
     if (m_10 == 0)
     {
@@ -153,7 +153,7 @@ struct FUN_00d97050_cls
     int unk04;
     int unk08;
     int unk0c;
-    void* m_pSection;
+    CRITICAL_SECTION* m_pSection;
 
     void FUN_00d97050();
 };
@@ -171,7 +171,7 @@ struct FUN_00d970c0_cls
     int unk04;
     int unk08;
     int unk0c;
-    void* m_pCs;
+    CRITICAL_SECTION* m_pCs;
 
     void FUN_00d970c0();
 };
@@ -188,7 +188,7 @@ struct FreeAllocator
 void FUN_00d970c0_cls::FUN_00d970c0()
 {
     m_vptr = &DAT_010d3f7c;
-    void* pCs = m_pCs;
+    CRITICAL_SECTION* pCs = m_pCs;
     if (pCs != 0)
     {
         DeleteCriticalSection(pCs);

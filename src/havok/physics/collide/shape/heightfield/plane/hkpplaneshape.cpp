@@ -10,18 +10,20 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpPlaneShape.h"
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 
 
-struct FUN_00d552c0_StandIn
+struct FUN_00d552c0_StandIn : hkpPlaneShape
 {
-    void FUN_00d552c0(void*, float, int);
+    void FUN_00d552c0(const ::hkTransformD262*, float, ::hkAabbD262*);
 };
 
 // Forwards param1, the objects at offsets 0x30 and 0x20 of this, param2 and param3 to FUN_00d26230.
 // @fnv 0x00d552c0
-void FUN_00d552c0_StandIn::FUN_00d552c0(void* param1, float param2, int param3)
+void FUN_00d552c0_StandIn::FUN_00d552c0(const ::hkTransformD262* param1, float param2, ::hkAabbD262* param3)
 {
-    ::FUN_00d26230((*(const ::hkTransformD262 *)(param1)), (*(const ::hkVector4D262 *)((void*)((char*)this + 0x30))), (*(const ::hkVector4D262 *)((void*)((char*)this + 0x20))), param2, (*(::hkAabbD262 *)(param3)));
+    ::FUN_00d26230(*param1, reinterpret_cast<const ::hkVector4D262&>(m_kAabbHalfExtents), reinterpret_cast<const ::hkVector4D262&>(m_kAabbCenter), param2, *param3);
 }
 
 class GlobalObjectO2_00d472a0;
@@ -184,7 +186,6 @@ FUN_00d55240::FUN_00d55240(const PlaneVector& normal, const PlaneVector& center,
 
 namespace fnv_00d552f0 {
 extern "C" const __m128 DAT_010ec7f0;
-extern "C" const __m128 DAT_01017d10;
 
 extern "C" const char DAT_010d1074[];
 extern "C" const char DAT_010c41f8[];
@@ -340,7 +341,6 @@ HkBoolD55 PlaneShapeD55::FUN_00d552f0(const RayInputD55& input, RayOutputD55& re
     return false;
 }
 }  // namespace fnv_00d552f0
-#include "fnv/symbols_simd.h"
 
 // Moved from hkpplaneshape_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 

@@ -2,29 +2,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/symbols_00c85000.h"
-struct FUN_00e4dd90_shell
-{
-    void FUN_00e4dd90(float* output);
-};
-// If the object at offset 0x0c is set, writes four floats from its nested structure at offsets 0x10, 0x70, 0xd0 and 0x130 into output.
-// @fnv 0x00e4dd90
-void FUN_00e4dd90_shell::FUN_00e4dd90(float* output)
-{
-    if (*(int*)((unsigned char*)this + 0x0c) != 0)
-    {
-        output[0] = *(float*)(*(unsigned char**)(*(unsigned char**)((unsigned char*)this + 0x0c) + 0xc4) + 0x10);
-        output[1] = *(float*)(*(unsigned char**)(*(unsigned char**)((unsigned char*)this + 0x0c) + 0xc4) + 0x70);
-        output[2] = *(float*)(*(unsigned char**)(*(unsigned char**)((unsigned char*)this + 0x0c) + 0xc4) + 0xd0);
-        output[3] = *(float*)(*(unsigned char**)(*(unsigned char**)((unsigned char*)this + 0x0c) + 0xc4) + 0x130);
-    }
-}
+struct InputStruct;
+struct LocalInput;
 
 struct FUN_00e4dde0
 {
     virtual void Vfn0();
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk04;
+    InputStruct* unk08;
+    LocalInput* unk0C;
     int unk10;
     int unk14;
     int unk18;
@@ -699,6 +685,23 @@ struct LocalInput
     int saved[4];
 };
 
+struct FUN_00e4dd90_shell : FUN_00e4dde0
+{
+    void FUN_00e4dd90(float* output);
+};
+// If the local input at unk0C is set, writes the f10 value of its first four Sub60 entries into output.
+// @fnv 0x00e4dd90
+void FUN_00e4dd90_shell::FUN_00e4dd90(float* output)
+{
+    if (unk0C != 0)
+    {
+        output[0] = unk0C->ptr[0].f10;
+        output[1] = unk0C->ptr[1].f10;
+        output[2] = unk0C->ptr[2].f10;
+        output[3] = unk0C->ptr[3].f10;
+    }
+}
+
 struct FloatMatrix3
 {
     __m128 col0;
@@ -731,9 +734,9 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
     }
 
     FUN_00e4dde0 obj;
-    obj.unk04 = (int)a3;
-    obj.unk08 = (int)a2;
-    obj.unk0C = (int)&local;
+    obj.unk04 = a3;
+    obj.unk08 = a2;
+    obj.unk0C = &local;
     obj.unk70 = a2->items30[0].i24;
     obj.unk80 = a2->saved[0];
     obj.unk84 = a2->saved[1];
@@ -742,7 +745,7 @@ void FUN_00e2acf0(void* a1, InputStruct* a2, void* a3, float* a4)
 
     FloatMatrix3 m1;
     FloatMatrix3 m2;
-    ::fnv_00e2ab00::FUN_00e2ab00((__m128 *)(a2), (__m128 *)(::FloatMatrix3 *)(&m1), (__m128 *)(::FloatMatrix3 *)(&m2));
+    ::fnv_00e2ab00::FUN_00e2ab00(&a2->items30[0].v0, &m1.col0, &m2.col0);
 
     unsigned char result;
     FUN_00d99570(&result, a1, &m1, &m2, &obj, DAT_011b3830[a2->count]);

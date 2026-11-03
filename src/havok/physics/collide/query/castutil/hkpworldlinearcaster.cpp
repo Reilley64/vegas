@@ -35,12 +35,23 @@ struct FuncEntry
     int unk10;
 };
 
-typedef int(__cdecl* SlotFn)(int, int, int, int, int);
+struct SlotCollidable
+{
+    SlotTarget* m_shape;
+};
+
+struct SlotDispatcher
+{
+    unsigned char m_agentTypes[0x9ac];
+    FuncEntry m_linearCastFuncs[1];
+};
+
+typedef int(__cdecl* SlotFn)(void*, SlotCollidable*, SlotDispatcher**, FloatHolder*, void*);
 
 struct NodeMatcher
 {
     virtual void v00();
-    virtual unsigned char* Match(SlotRecord** ppRecord, int aKey, int aSlot);
+    virtual unsigned char* Match(SlotRecord** ppRecord, void* aKey, SlotCollidable* aSlot);
 };
 
 struct FUN_00cfae50_cls
@@ -49,11 +60,11 @@ struct FUN_00cfae50_cls
     int unk04;
     NodeMatcher* m_08;
     FloatHolder* m_0c;
-    int m_10;
-    int m_14;
+    void* m_10;
+    void* m_14;
     int m_18;
     int unk1c;
-    unsigned char* m_20;
+    SlotDispatcher* m_20;
 
     float InvokeSlotHandler(SlotRecord* a1, int a2);
 };
@@ -62,18 +73,18 @@ struct FUN_00cfae50_cls
 // @fnv 0x00cfae50
 float FUN_00cfae50_cls::InvokeSlotHandler(SlotRecord* pRecord, int a2)
 {
-    int iSlotAddr = (int)pRecord + pRecord->m_05;
-    SlotTarget* pTarget = *(SlotTarget**)iSlotAddr;
+    SlotCollidable* iSlotAddr = reinterpret_cast<SlotCollidable*>(reinterpret_cast<char*>(pRecord) + pRecord->m_05);
+    SlotTarget* pTarget = iSlotAddr->m_shape;
     if (pTarget != 0 && m_14 != iSlotAddr)
     {
         unsigned char* hit = m_08->Match((SlotRecord**)&pRecord, m_14, iSlotAddr);
         if (*hit != 0)
         {
             int index = ((m_18 + 0xd) << 5) + pTarget->m_0c;
-            unsigned char code = m_20[index];
-            FuncEntry* entries = (FuncEntry*)(m_20 + 0x9ac);
+            unsigned char code = m_20->m_agentTypes[index];
+            FuncEntry* entries = m_20->m_linearCastFuncs;
             SlotFn pfnHandler = (SlotFn)entries[code].pfn;
-            pfnHandler(m_14, iSlotAddr, (int)&m_20, (int)m_0c, m_10);
+            pfnHandler(m_14, iSlotAddr, &m_20, m_0c, m_10);
         }
         return m_0c->m_04;
     }

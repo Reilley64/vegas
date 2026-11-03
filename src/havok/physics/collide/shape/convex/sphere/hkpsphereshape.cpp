@@ -31,7 +31,7 @@ FUN_00cd8160::FUN_00cd8160(float radius)
     *(unsigned short*)((char*)this + 6) = 1;
     *(int*)((char*)this + 8) = 0;
     *(int*)((char*)this + 0xc) = 1;
-    *(int*)this = (int)&DAT_010cb5ac;
+    *reinterpret_cast<const void**>(this) = &DAT_010cb5ac;
 }
 
 // @fnv 0x00cd8050
@@ -184,9 +184,9 @@ class RayMask
     }
 };
 const RayMask::Component RayMask::components[4] = {RayMask::X, RayMask::Y, RayMask::Z, RayMask::W};
-static const __m128 signVector = {{-0.0f, -0.0f, -0.0f, -0.0f}};
-static const __m128 tripleVector = {{3.0f, 3.0f, 3.0f, 3.0f}};
-static const __m128 halfVector = {{0.5f, 0.5f, 0.5f, 0.5f}};
+static const __m128 signVector = {-0.0f, -0.0f, -0.0f, -0.0f};
+static const __m128 tripleVector = {3.0f, 3.0f, 3.0f, 3.0f};
+static const __m128 halfVector = {0.5f, 0.5f, 0.5f, 0.5f};
 static __forceinline __m128 reciprocalVector(__m128 value)
 {
     __m128 estimate = _mm_rcp_ps(value);
@@ -487,30 +487,20 @@ void FUN_00cd8060(int direction, float* vertexOut)
     _mm_store_ps(vertexOut, zero);
 }
 
-extern "C" void __movsd(unsigned long*, const unsigned long*, unsigned long);
+#include <intrin.h>
 
-// Unpacks a count and destination pointer from packed, zeroes four floats at dst, then copies them forward over the following (count-1)*4 floats.
+// Zeroes four floats at dst, then copies them forward over the following (count-1)*4 floats.
 // @fnv 0x00cd8080
-void FUN_00cd8080(int aUnused, __int64 packed)
+void FUN_00cd8080(const unsigned short* aUnused, int count, float* dst)
 {
-    union
-    {
-        __int64 v;
-        struct
-        {
-            int count;
-            float* dst;
-        } s;
-    } u;
-    u.v = packed;
-    int c = u.s.count;
+    int c = count;
     c += -1;
     if (c >= 0)
     {
         unsigned long n = ((unsigned long)c & 0xfffffff) * 4;
         __m128 z = _mm_setzero_ps();
-        *(__m128*)u.s.dst = z;
-        __movsd((unsigned long*)(u.s.dst + 4), (const unsigned long*)u.s.dst, n);
+        *(__m128*)dst = z;
+        __movsd((unsigned long*)(dst + 4), (const unsigned long*)dst, n);
     }
 }
 
@@ -571,7 +561,7 @@ void __cdecl FUN_00cd8040(char const* const* a1, char const* const* a2);
 int __cdecl FUN_00cd8050();
 int FUN_00cd87f0(int a1, int a2);
 void FUN_00cd8060(int direction, float* vertexOut);
-void FUN_00cd8080(int a0, __int64 packed);
+void FUN_00cd8080(const unsigned short* a0, int count, float* dst);
 CentreVectorCD80 FUN_00cd80c0();
 void FUN_00cd80e0(float* output);
 

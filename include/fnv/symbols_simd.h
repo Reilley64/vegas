@@ -110,7 +110,7 @@ void FUN_00e29510(::__m128 *, const ::__m128 *, const ::__m128 *);
 // 0x00e29a10
 void FUN_00e29a10(::E29SrcList *, const ::__m128 *, const ::__m128 *, char *, ::E29Out1 *, int *, ::E29Out2 *, int *);
 // 0x00e2ab00
-namespace fnv_00e2ab00 { ::fnv_00e2ab00::__m128 *FUN_00e2ab00(::fnv_00e2ab00::__m128 *, ::fnv_00e2ab00::__m128 *, ::fnv_00e2ab00::__m128 *); }
+namespace fnv_00e2ab00 { ::__m128 *FUN_00e2ab00(::__m128 *, ::__m128 *, ::__m128 *); }
 // 0x00e2b510
 void FUN_00e2b510(::Owner *, ::RayBatch *, int, ::__m128 &);
 // 0x00e31180

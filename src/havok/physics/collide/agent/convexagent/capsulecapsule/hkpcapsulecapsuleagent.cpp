@@ -736,7 +736,6 @@ struct CapsulePointTransforms {
 };
 
 extern "C" const char DAT_010d1074[];
-extern "C" const char DAT_010c41f8[];
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 
@@ -827,7 +826,6 @@ void FUN_00d3baf0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
 }
 
 // Moved from hkpcapsulecapsuleagent_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/hkpCapsuleCapsuleAgent.h"
 #include "fnv/symbols_00d22000.h"
 #include "fnv/symbols_00d3c000.h"
 #include "fnv/symbols_010c4000.h"

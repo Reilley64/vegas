@@ -71,6 +71,23 @@
 #include "fnv/symbols_006f7000.h"
 #include "fnv/symbols_00afd000.h"
 #include "fnv/symbols_011f9000.h"
+
+// A tree group of a distant tree block: its model and the instances that use it.
+struct DistantTreeGroupView
+{
+    const void* pVtable;
+    void* spModel;
+    char kInstances[0x10];
+    char pad18[0x1c - 0x18];
+    unsigned char ucFlag1c;
+};
+// A tree instance of a distant tree block: the index of its group and its state flag.
+struct DistantTreeInstanceView
+{
+    char pad[0x18];
+    unsigned int uiGroupIndex;
+    unsigned char ucFlag1c;
+};
 struct NP
 {
     NP& operator=(void*);
@@ -93,14 +110,16 @@ struct BGSDistantTreeBlockLoadTask
 namespace fnv_006f9540 {
 struct BGSDistantTreeBlockLoadTask
 {
+    char pad[0x44];
+    char cUnk44;
     void FUN_006f9540(int a1, void* a2);
 };
 
-// Sets the byte at this+0x44 to 1, then calls FUN_00c3cb70 with the given arguments.
+// Sets cUnk44 to 1, then calls FUN_00c3cb70 with the given arguments.
 // @fnv 0x006f9540
 void BGSDistantTreeBlockLoadTask::FUN_006f9540(int aiArg, void* apArg)
 {
-    ((char*)this + 0x44)[0] = 1;
+    cUnk44 = 1;
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg, (::fnv_00c3cb70::RefObj *)(apArg));
 }
 }  // namespace fnv_006f9540
@@ -218,14 +237,17 @@ struct QIdlePtr
 };
 struct FUN_006f88e0_shell
 {
+    char pad[0x44];
+    MiddleHighProcess** ppProcess;
+    char cUnk48;
     void FUN_006f88e0();
 };
-// Sets the byte at offset 0x48 to 1, calls FUN_00929260(1) on the process at offset 0x44, then clears the pointer at offset 0.
+// Sets cUnk48 to 1, calls FUN_00929260(1) on the process ppProcess points to, then clears the pointer at offset 0.
 // @fnv 0x006f88e0
 void FUN_006f88e0_shell::FUN_006f88e0()
 {
-    *(char*)(this + 0x48) = 1;
-    (*(MiddleHighProcess**)((*(void**)((char*)this + 0x44))))->FUN_00929260(1);
+    cUnk48 = 1;
+    (*ppProcess)->FUN_00929260(1);
     reinterpret_cast<::FUN_006f74f0_cls *>(this)->FUN_006f74f0(nullptr);
 }
 
@@ -245,21 +267,23 @@ struct FUN_006f90a0_shell
 {
     void UpdateInstances(void* a, void* b);
 };
-struct FUN_006f91a0_shell : ArrSI
+struct FUN_006f91a0_shell
 {
+    const void* pVtable;
+    char kGroups[0x10];
     void FUN_006f91a0();
 };
-// Iterates the array at this+4, and for each unflagged entry with a nonzero value, looks up a property and passes it with the entry to UpdateInstances.
+// Iterates kGroups, and for each unflagged entry with a nonzero value, looks up a property and passes it with the entry to UpdateInstances.
 // @fnv 0x006f91a0
 void FUN_006f91a0_shell::FUN_006f91a0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(reinterpret_cast<ArrSI*>(kGroups))->GetName())); ++i)
     {
-        void* p = *((void**)((ArrSI*)((char*)this + 4))->GetAt(i));
-        if (!(*(unsigned char*)((char*)p + 0x1c)) && ((Flt*)((char*)p + 4))->operator unsigned int())
+        ::DistantTreeGroupView* p = *reinterpret_cast<::DistantTreeGroupView**>(reinterpret_cast<ArrSI*>(kGroups)->GetAt(i));
+        if (!p->ucFlag1c && reinterpret_cast<Flt*>(&p->spModel)->operator unsigned int())
         {
             void* property =
-                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(((*(PropHelper**)(((char*)p + 4)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
+                ((void *)(reinterpret_cast<::FUN_00a59d30_C *>(static_cast<PropHelper*>(p->spModel))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
             if (property)
                 ((FUN_006f90a0_shell*)this)->UpdateInstances(property, p);
         }
@@ -270,12 +294,14 @@ void FUN_006f91a0_shell::FUN_006f91a0()
 struct BGSDistantTreeBlockLoadTask;
 struct BGSDistantTreeBlockLoadTask_shell : BGSDistantTreeBlockLoadTask
 {
+    char pad[0x34];
+    char cUnk34;
     void FUN_006f94c0();
 };
 // @fnv 0x006f94c0
 void BGSDistantTreeBlockLoadTask_shell::FUN_006f94c0()
 {
-    *(char*)((char*)this + 0x34) = 1;
+    cUnk34 = 1;
     ((void(*)(void*))(*(void***)this)[0x28 / 4])(this);
 }
 
@@ -483,7 +509,10 @@ struct ArrSI : public Arr
 };
 struct BGSDistantTreeBlock
 {
-    char _pad[52];
+    const void* pVtable;
+    char kGroups[0x10];
+    char kInstanceMap[0x10];
+    char pad24[0x34 - 0x24];
     ArrSI mArray;
     void ProcessAllTrees();
 };
@@ -568,12 +597,13 @@ void BGSDistantTreeBlock::ProcessAllTrees()
 void BGSDistantTreeBlock_shell::MarkTreeInstance(unsigned int aID, bool abQueue)
 {
     std::uintptr_t pinst = 0;
-    bool bfound = reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 0x14))))->FUN_00853130(aID, (::fnv_00853130::CombatThreatRecord *&)(pinst));
+    bool bfound = reinterpret_cast<::fnv_00853130::NiTMapBase *>(reinterpret_cast<DummyPointerMap*>(kInstanceMap))->FUN_00853130(aID, (::fnv_00853130::CombatThreatRecord *&)(pinst));
     if (bfound)
     {
-        ((InstanceDataB*)((char*)pinst + 0x1c))->b1c = 1;
-        ((InstanceDataB*)((char*)*((ArrB*)((char*)this + 4))->GetAt((int)*(unsigned int*)((char*)pinst + 0x18))) + 0x1c)
-            ->b1c = 0;
+        reinterpret_cast<::DistantTreeInstanceView*>(pinst)->ucFlag1c = 1;
+        static_cast<::DistantTreeGroupView*>(
+            *reinterpret_cast<ArrB*>(kGroups)->GetAt((int)reinterpret_cast<::DistantTreeInstanceView*>(pinst)->uiGroupIndex))
+            ->ucFlag1c = 0;
     }
     else if (abQueue)
         reinterpret_cast<::FUN_00438690 *>((((BSSimpleArrayStandIn*)&this->mArray)))->FUN_007cb2e0((unsigned int *)&((void*&)aID));
@@ -661,10 +691,8 @@ struct FUN_006f90a0_instance
     unsigned char flag;
 };
 
-struct FUN_006f90a0_owner
+struct FUN_006f90a0_owner : ::DistantTreeGroupView
 {
-    char _pad[0x1c];
-    unsigned char flag;
 };
 
 struct FUN_006f90a0_params
@@ -683,12 +711,12 @@ struct FUN_006f90a0_shell
 void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
 {
     unsigned int count = FUN_0042f5a0(
-        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(params.owner) + 8)))->GetName())), FUN_00bb6030());
+        ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(reinterpret_cast<ArrSI*>(params.owner->kInstances))->GetName())), FUN_00bb6030());
 
     for (unsigned int i = 0; i < count; ++i)
     {
         FUN_006f90a0_instance* instance = reinterpret_cast<FUN_006f90a0_instance*>(
-            ((void *)(reinterpret_cast<FUN_006b3120_shell*>(reinterpret_cast<unsigned char*>(params.owner) + 8)->GetElementAt(i))));
+            ((void *)(reinterpret_cast<FUN_006b3120_shell*>(params.owner->kInstances)->GetElementAt(i))));
 
         reinterpret_cast<::BB7290Owner *>((params.renderer))->SetEntry(i, instance->f0, instance->f1, instance->f2, instance->f3,
                                   instance->flag ? 0.0f : instance->f4);
@@ -699,7 +727,7 @@ void FUN_006f90a0_shell::UpdateInstances(FUN_006f90a0_params params)
         reinterpret_cast<::BB7290Owner *>((params.renderer))->SetEntry(j, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
     }
 
-    params.owner->flag = 1;
+    params.owner->ucFlag1c = 1;
 }
 
 struct NiPoint3

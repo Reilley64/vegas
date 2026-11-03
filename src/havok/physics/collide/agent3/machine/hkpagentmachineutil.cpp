@@ -13,23 +13,22 @@ struct FUN_00c91180_Class
     void IncrementCounter();
     int m_field;
     void* m_ptr;
+    ::StepBeginDetail::Simulation* m_simulation;  // +0x8
+    unsigned char m_pad0C[0x44];
+    int m_unk50;                                  // +0x50
 };
 
-struct FUN_00d022b0_Class
-{
-};
-
-// If the field at offset 0x50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the object at offset 8.
+// If m_unk50 is set, calls IncrementCounter, FUN_00d01d20 and FUN_00c91190 on self, then forwards a and c to the simulation.
 // @fnv 0x00c92d70
 void FUN_00c92d70(FUN_00c91180_Class* self, int, void* apArg, float afValue)
 {
-    if (*(int*)((char*)self + 0x50))
+    if (self->m_unk50)
     {
         self->IncrementCounter();
         ::FUN_00d01d20((::Src *)(self));
         reinterpret_cast<::FUN_00c91190_Class *>((self))->FUN_00c91190();
     }
-    reinterpret_cast<::StepBeginDetail::Simulation *>((((FUN_00d022b0_Class*)*(void**)((char*)self + 8))))->FUN_00d022b0((::StepBeginDetail::ArgCls *)(apArg), afValue);
+    self->m_simulation->FUN_00d022b0((::StepBeginDetail::ArgCls *)(apArg), afValue);
 }
 
 

@@ -100,7 +100,7 @@ struct FUN_00e7cdf0_shell
     int _p1;
     int _p2;
     int _p3;
-    int _p4;
+    void* _p4;
     int _p5;
     int _p6;
 };
@@ -220,7 +220,7 @@ struct MemoryManager
 extern int DAT_010eec74;
 struct FUN_00e7b200_Class
 {
-    int vtbl;
+    void* vtbl;
     void* m_p;
     FUN_00e7b200_Class* FUN_00e7b200(int);
 };
@@ -228,7 +228,7 @@ struct FUN_00e7b200_Class
 // @fnv 0x00e7b200
 FUN_00e7b200_Class* FUN_00e7b200_Class::FUN_00e7b200(int aiFlags)
 {
-    vtbl = (int)&DAT_010eec74;
+    vtbl = &DAT_010eec74;
     NiFree((void*)m_p);
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -677,16 +677,16 @@ struct NiTMapBaseStub
 };
 struct FUN_00e7afc0_Class : NiTMapBaseStub
 {
-    int vtbl;
+    void* vtbl;
     int _04;
-    int _08;
+    void* _08;
     FUN_00e7afc0_Class* FUN_00e7afc0(int);
 };
 // Sets the vtable, removes all entries, frees the buffer at _08, and deallocates this object when ai has bit 0 set.
 // @fnv 0x00e7afc0
 FUN_00e7afc0_Class* FUN_00e7afc0_Class::FUN_00e7afc0(int aiFlags)
 {
-    vtbl = (int)&DAT_010eec54;
+    vtbl = &DAT_010eec54;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     NiFree((void*)_08);
     if ((unsigned char)aiFlags & 1)
@@ -941,7 +941,7 @@ void FUN_00e7dbc0_Class::FUN_00e7dbc0()
     *(void**)this = (void*)&::DAT_010eeed4;
     if (q)
     {
-        (*(void(**)(void*))(*(int*)q + 8))(q);
+        (*(void(**)(void*))(*(char**)q + 8))(q);
         *(int*)((char*)this + 0x14) = 0;
     }
     void* r = *(void**)((char*)this + 0xc);
@@ -1045,7 +1045,7 @@ struct FUN_00c85750_Result
     int unk04;
     int unk08;
     int unk0C;
-    int unk10;
+    void* unk10;
 };
 
 
@@ -4275,7 +4275,7 @@ unsigned char FUN_00e7ce30_cls::FUN_00e7ce30(void* a1)
         *slot = 0;
         return 0;
     }
-    m_0c = (void*)((int)(::CreatePixelFormat((intptr_t)(frame.out))));
+    m_0c = (void*)(::CreatePixelFormat((intptr_t)(frame.out)));
     reinterpret_cast<::FUN_00a8f080_Class *>((((FUN_00a8f080_shell*)m_08)))->SetValues(frame.unk18, frame.unk1c);
     return 1;
 }
@@ -6480,7 +6480,7 @@ void __cdecl AppendIndices(int primType, const unsigned short* src, int count, i
         }
         if (count > 0)
         {
-            int delta = (int)src - (int)dst;
+            int delta = (int)((char*)src - (char*)dst);
             do
             {
                 *dst = (unsigned short)(*(unsigned short*)((char*)dst + delta) + offset);

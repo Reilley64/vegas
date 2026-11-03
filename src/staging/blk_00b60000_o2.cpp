@@ -971,11 +971,11 @@ void FUN_00b6a670(StrArr* pStrArr)
 {
     reinterpret_cast<::ShaderPropertyRecord *>((pStrArr))->WriteToSettingArray({});
     char* p = ::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011fa018))));
-    unsigned int idx = *(unsigned short*)((char*)pStrArr + 0xa);
-    unsigned int uiCapacity = *(unsigned short*)((char*)pStrArr + 8);
+    unsigned int idx = pStrArr->m_usSize;
+    unsigned int uiCapacity = pStrArr->m_usMaxSize;
     if (idx >= uiCapacity)
     {
-        unsigned int grow = *(unsigned short*)((char*)pStrArr + 0xe);
+        unsigned int grow = pStrArr->m_usGrowBy;
         reinterpret_cast<::ViewerStrings *>((pStrArr))->SetSize(grow + idx);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(idx, p);

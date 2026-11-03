@@ -416,6 +416,12 @@ FUN_00c31ff0* __cdecl FUN_00c2c7b0()
 struct CloningProcess;
 struct NiPSysModifier
 {
+    void* m_pVtbl;
+    unsigned int m_uiRefCount;
+    char* m_kName;
+    unsigned int m_uiOrder;
+    void* m_pkTarget;
+    bool m_bActive;
     void CopyMemberData(NiPSysModifier*, CloningProcess&);
 };
 struct NiPSysParticle
@@ -510,8 +516,19 @@ FUN_00c31ff0* __cdecl FUN_00c26790()
     return 0;
 }
 
-struct NiPSysBoxEmitter
+struct NiPSysBoxEmitter : NiPSysModifier
 {
+    float m_fSpeed;
+    float m_fSpeedVar;
+    float m_fDeclination;
+    float m_fDeclinationVar;
+    float m_fPlanarAngle;
+    float m_fPlanarAngleVar;
+    int m_kInitialColor[4];
+    float m_fInitialRadius;
+    float m_fRadiusVar;
+    float m_fLifeSpan;
+    float m_fLifeSpanVar;
     void CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kProcess);
     void CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess);
 };
@@ -520,22 +537,21 @@ struct NiPSysBoxEmitter
 void NiPSysBoxEmitter::CopyTo(NiPSysModifier* pkDest, CloningProcess& kProcess)
 {
     CopyMemberData(pkDest, kProcess);
-    float* pSrc = (float*)((char*)this + 0x18);
-    float* pDst = (float*)((char*)pkDest + 0x18);
-    pDst[0] = pSrc[0];
-    pDst[1] = pSrc[1];
-    pDst[2] = pSrc[2];
-    pDst[3] = pSrc[3];
-    pDst[4] = pSrc[4];
-    pDst[5] = pSrc[5];
-    *(int*)((char*)pkDest + 0x30) = *(int*)((char*)this + 0x30);
-    *(int*)((char*)pkDest + 0x34) = *(int*)((char*)this + 0x34);
-    *(int*)((char*)pkDest + 0x38) = *(int*)((char*)this + 0x38);
-    *(int*)((char*)pkDest + 0x3c) = *(int*)((char*)this + 0x3c);
-    *(float*)((char*)pkDest + 0x40) = *(float*)((char*)this + 0x40);
-    *(float*)((char*)pkDest + 0x48) = *(float*)((char*)this + 0x48);
-    *(float*)((char*)pkDest + 0x4c) = *(float*)((char*)this + 0x4c);
-    *(float*)((char*)pkDest + 0x44) = *(float*)((char*)this + 0x44);
+    NiPSysBoxEmitter* pkEmitter = static_cast<NiPSysBoxEmitter*>(pkDest);
+    pkEmitter->m_fSpeed = m_fSpeed;
+    pkEmitter->m_fSpeedVar = m_fSpeedVar;
+    pkEmitter->m_fDeclination = m_fDeclination;
+    pkEmitter->m_fDeclinationVar = m_fDeclinationVar;
+    pkEmitter->m_fPlanarAngle = m_fPlanarAngle;
+    pkEmitter->m_fPlanarAngleVar = m_fPlanarAngleVar;
+    pkEmitter->m_kInitialColor[0] = m_kInitialColor[0];
+    pkEmitter->m_kInitialColor[1] = m_kInitialColor[1];
+    pkEmitter->m_kInitialColor[2] = m_kInitialColor[2];
+    pkEmitter->m_kInitialColor[3] = m_kInitialColor[3];
+    pkEmitter->m_fInitialRadius = m_fInitialRadius;
+    pkEmitter->m_fLifeSpan = m_fLifeSpan;
+    pkEmitter->m_fLifeSpanVar = m_fLifeSpanVar;
+    pkEmitter->m_fRadiusVar = m_fRadiusVar;
 }
 
 struct FUN_00c22ad0_object : A51BF0Base

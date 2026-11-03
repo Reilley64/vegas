@@ -3547,12 +3547,12 @@ void FUN_00b8d620_cls::InitAlphaMultShader()
     FUN_00b8d620_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "imagespace\\1x\\p\\copy.p.hlsl";
     f.unk04 = "ALPHAMULT";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3c);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     this->v4F((char*)&f.unk4C, &f, "ALPHAMULT", "vs_1_1", "ps_2_0");
     this->v53();
 }
@@ -3671,10 +3671,10 @@ void FUN_00b8d770_cls::CreateBlendShader()
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
     f.unk10 = 0;
-    std::memset((char*)&f + 0x14, 0, 0x38);
+    std::memset(f.unk14, 0, sizeof(f.unk14));
     f.unk4C = "imagespace\\2x\\p\\blend.p.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     this->v4F(&f, (char*)&f.unk4C, "BLEND", "vs_1_1", "ps_2_0");
     this->v53();
 }
@@ -4485,12 +4485,12 @@ void FUN_00b8ddf0_cls::CreateBlur9Shader()
     FUN_00b8ddf0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     f.unk04 = "TEXTAP";
     f.unk08 = (const char*)&DAT_01063ee8;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3c);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     this->v4F((char*)&f.unk4C, &f, "BLUR9", "vs_1_1", "ps_2_a");
     this->v53();
 }
@@ -4940,12 +4940,12 @@ void FUN_00b8e1e0_cls::InitBlur15Shader()
     FUN_00b8e1e0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     f.unk04 = "TEXTAP";
     f.unk08 = "15";
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3c);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     this->v4F((char*)&f.unk4C, &f, "BLUR15", "vs_1_1", "ps_2_a");
     this->v53();
 }
@@ -5332,12 +5332,12 @@ void FUN_00b8f3d0_cls::CreateStencilCopyNoTexNoDepth()
     FUN_00b8f3d0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "imagespace\\1x\\p\\copy.p.hlsl";
     f.unk04 = "NOTEX";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3c);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "STENCILCOPYNOTEXNODEPTH", "vs_1_1", r);
     this->v53();
@@ -5455,10 +5455,10 @@ void FUN_00b8f590_cls::FUN_00b8f590()
     f.unk04 = "NOTEX";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3c);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     f.unk4C = 0;
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     this->v4F(&f, (char*)&f.unk4C, "NULL", "vs_1_1", 0);
     this->v53();
 }
@@ -7637,12 +7637,12 @@ void FUN_00b92850_cls::InitWaterDisplacementTexOffset()
     FUN_00b92850_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "TEXCOORD_OFFSET";
     f.unk08 = 0;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3C);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTTEXOFFSET", "vs_1_1", r);
     this->v53();
@@ -8161,12 +8161,12 @@ void FUN_00b92e00_cls::FUN_00b92e00()
     FUN_00b92e00_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "HEIGHTMAP_RAIN";
     f.unk08 = 0;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3C);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTRAINHEIGHTMAP", "vs_1_1", r);
     this->v53();
@@ -8541,12 +8541,12 @@ void FUN_00b931f0_cls::FUN_00b931f0()
     FUN_00b931f0_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    std::memset((char*)&f + 0x54, 0, 0x44);
+    std::memset(f.unk54, 0, sizeof(f.unk54));
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "NORMALS";
     f.unk08 = 0;
     f.unk0C = 0;
-    std::memset((char*)&f + 0x10, 0, 0x3C);
+    std::memset(f.unk10, 0, sizeof(f.unk10));
     const char* r = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTNORMALS", "vs_1_1", r);
     this->v53();

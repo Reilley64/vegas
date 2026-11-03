@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <xmmintrin.h>
+#include <bit>
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_01268000.h"
@@ -308,7 +309,7 @@ struct hkVector4D223
     }
     void setInt24W(int i)
     {
-        reinterpret_cast<int*>(&m_vComponents)[3] = i | 0x3f000000;
+        m_vComponents[3] = std::bit_cast<float>(i | 0x3f000000);
     }
 };
 

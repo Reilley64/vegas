@@ -3144,7 +3144,7 @@ const char* FUN_005495f0(const char* pThis)
 // @fnv 0x00559450
 intptr_t FUN_00559450(int* pThis)
 {
-    return *pThis;
+    return *reinterpret_cast<intptr_t*>(pThis);
 }
 
 struct FUN_005d8710_shell : public QueuedReference

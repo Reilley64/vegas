@@ -650,7 +650,7 @@ struct Flt_00610430
 // @fnv 0x00610430
 char* FUN_00610430_shell::GetStringOrEmpty()
 {
-    return ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) ? ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) : "";
+    return ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) ? ((char *)(::FUN_00559450((int *)(((Flt_00610430*)((char*)this + 0x50c)))))) : (char *)"";
 }
 
 struct FUN_00613100_shell
@@ -2351,7 +2351,8 @@ bool RaceTexture::ApplyBodyTexture(NiPointer<NiSourceTexture>& source, NiPointer
         reinterpret_cast<::BSFaceGenModel *>((((BSFaceGenModel*)model6)))->ApplyTextureCoordinate((FaceGenCoordinates*)coords9, (::NiPointer< ::NiTexture> &)(texture), ((unsigned int)(::FUN_006151d0())));
         if (!texture)
             return false;
-        reinterpret_cast<::FUN_00a5fba0_class *>((((TextureAccess*)(NiTexture*)texture)))->FUN_00a5fba0((const ::NiFixedString *)(const ::fnv_006149b0::NiFixedString *)(&NiFixedString(path3)));
+        NiFixedString kPath3(path3);
+        reinterpret_cast<::FUN_00a5fba0_class *>((((TextureAccess*)(NiTexture*)texture)))->FUN_00a5fba0((const ::NiFixedString *)(const ::fnv_006149b0::NiFixedString *)(&kPath3));
         ::TextureFileEntrySetter::SetTexture((::NiTexture *)(::fnv_006149b0::NiTexture *)(texture), (const ::BSFileEntry *)(0));
     }
     return true;

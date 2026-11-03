@@ -64,7 +64,7 @@ extern ::GlobalObject_0040c150 g_011c34d8;
 // 0x011c3534
 extern bool g_bLimbConditionEffectInitialized;
 // 0x011c3580
-extern int DAT_011c3580;
+extern ::TESEffectShader *DAT_011c3580;
 // 0x011c3584
 extern ::TESEffectShader *DAT_011c3584;
 // 0x011c3588

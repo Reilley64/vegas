@@ -45,19 +45,13 @@
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_011c3000.h"
 #include "effectsetting_decls.h"
-#include "fnv/decl/EndianSwappableData.h"
-#include "fnv/decl/FUN_004077c0_shell.h"
-#include "fnv/decl/FUN_00407820_shell.h"
 #include "fnv/decl/FUN_00482cb0_shell.h"
 #include "fnv/decl/FUN_00487010_shell.h"
 #include "fnv/decl/FUN_004891d0_cls.h"
-#include "fnv/decl/FUN_00857230_shell.h"
-#include "fnv/decl/FUN_008ce390_shell.h"
 #include "fnv/decl/Holder.h"
 #include "fnv/decl/fnv_004855a0__ArrSI.h"
 #include "fnv/decl/fnv_0048e370__FUN_0048e370_shell.h"
 #include "fnv/symbols_00472000.h"
-#include "effectsetting_decls_decl_effectsetting.h"
 
 // Compares the effect name with name case-insensitively and, if they differ, sets the full name to name.
 // @fnv 0x00408570
@@ -210,10 +204,6 @@ int FUN_00408790_shell::FUN_00408790()
         this->m_iEffectID = this->m_iEffectID - 1;
     }
     return this->m_iEffectID;
-}
-
-namespace std {
-float __cdecl abs(float);
 }
 
 // @fnv 0x00408820

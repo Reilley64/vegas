@@ -26,6 +26,12 @@
 #include "fnv/decl/FUN_004615d0_shell.h"
 #include "fnv/decl/ItemChangeListNode.h"
 #include "fnv/symbols_00944000.h"
+
+struct Arg_004727f0
+{
+    int* out;
+};
+
 // @fnv 0x004f4860
 bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
 {
@@ -41,7 +47,7 @@ bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
         unsigned int unused = 0;
         {
             unsigned int id = 0;
-            ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+            ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
             if (id)
             {
                 if (file->IsEndianConversionRequired())
@@ -57,14 +63,14 @@ bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
     }
     case 0x49534452: {
         unsigned int id = 0;
-        ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+        ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
         if (id)
             incidental = id;
         break;
     }
     case 0x42534452: {
         unsigned int id = 0;
-        ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+        ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
         reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(&Battle)))->FUN_00905820(
             (void *)&(reinterpret_cast<ScriptVariableInfo* const&>(id)));
         break;
@@ -144,10 +150,6 @@ int FUN_00944480_shell::IntInRange(int aiMin, int aiMax)
 
 template <int N> struct EndianSizeTag
 {
-};
-struct Arg_004727f0
-{
-    int* out;
 };
 // Reads a 4-byte chunk value into a.out and byte-swaps it when endian conversion is required; returns whether the read succeeded.
 // @fnv 0x004727f0

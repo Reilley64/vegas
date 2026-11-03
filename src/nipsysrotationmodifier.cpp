@@ -702,16 +702,16 @@ struct C20980_Modifier : C20980_Base
         m_35 = 0;
     }
 };
-struct C20980_Owner
+struct C20980_Owner : NiPSysRotationModifier
 {
-    C20980_Modifier* CreateModifier(int arg);
+    C20980_Modifier* CreateModifier(CloningProcess& process);
 };
-// Allocates and constructs a C20980_Modifier, passes it and arg to FUN_00c205e0, and returns it.
+// Allocates and constructs a C20980_Modifier, copies this modifier's members into it and returns it.
 // @fnv 0x00c20980
-C20980_Modifier* C20980_Owner::CreateModifier(int arg)
+C20980_Modifier* C20980_Owner::CreateModifier(CloningProcess& process)
 {
     C20980_Modifier* modifier = new C20980_Modifier;
-    reinterpret_cast<::NiPSysRotationModifier *>(this)->CopyMemberData((::NiPSysRotationModifier *)(modifier), (*(::CloningProcess *)(arg)));
+    CopyMemberData(reinterpret_cast<NiPSysRotationModifier*>(modifier), process);
     return modifier;
 }
 

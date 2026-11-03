@@ -389,7 +389,7 @@ void LoadScreenA6C::CopyLoadScreenData(TESForm* pkForm)
     pkDstNode = &m_kWorldCellRecordList;
     while (pkSrcIter && !pkSrcIter->IsEmpty())
     {
-        reinterpret_cast<::Callees *>((static_cast<LoadFormListA6C*>(pkDstNode)))->FUN_00905820((void *)&(((::WorldCellRecord *)(new ((void *)(pkSrcIter)) ::Vec3()))));
+        reinterpret_cast<::Callees *>((static_cast<LoadFormListA6C*>(pkDstNode)))->FUN_00905820((void *)(new ((void *)(pkSrcIter)) ::Vec3()));
         if (((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070())))
             pkDstNode = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkDstNode))->FUN_00726070()));
         pkSrcIter = ((::BSSimpleList< ::WorldCellRecord *> *)(reinterpret_cast<::Callees *>((pkSrcIter))->FUN_00726070()));

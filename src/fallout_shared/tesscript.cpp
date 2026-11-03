@@ -1,5 +1,6 @@
 // fallout_shared/tesscript.cpp: Script, ScriptLocals, DelStandIn, ScriptInitOwner and more (82 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActList.h"
@@ -280,7 +281,7 @@ struct TLS_Data_005a9140
     void* pLastLocals;
 };
 
-__declspec(thread) TLS_Data_005a9140 tls_005a9140;
+thread_local TLS_Data_005a9140 tls_005a9140;
 
 // Looks up a script local variable by ID (using a TLS cache), returns its double value, or warns and returns 0.0 if not found.
 // @fnv 0x005a9140
@@ -293,7 +294,7 @@ double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
     }
     if (plocalvar == 0)
     {
-        unsigned int pCurrentElementNext = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
+        std::uintptr_t pCurrentElementNext = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
         while (pCurrentElementNext != 0 && !_ref_008256d0(pCurrentElementNext))
         {
             ScriptLocalVariable* pCandidate = *((::ScriptLocalVariable **)((void *)(pCurrentElementNext)));
@@ -302,7 +303,7 @@ double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
                 plocalvar = pCandidate;
                 break;
             }
-            pCurrentElementNext = ((unsigned int)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
+            pCurrentElementNext = ((std::uintptr_t)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         }
     }
     (*reinterpret_cast<::TLS_Data_005a9140 *>(&::g_tlsBlock)).pLastLocals = this;
@@ -350,7 +351,7 @@ Script::Script()
     InitializeComponent();
 }
 
-__declspec(thread) extern char tls_pad[0x268];
+extern thread_local char tls_pad[0x268];
 
 // Clears the script's data fields and TLS state, then sets the form type to 0x11.
 // @fnv 0x005aa220
@@ -697,7 +698,7 @@ struct TLSData
     Script* lastScript;
 };
 
-__declspec(thread) TLSData g_tlsData;
+thread_local TLSData g_tlsData;
 
 // Returns the reference at aiIndex in this object's extra-data list, resolving its form ID via the script locals and caching the last result in TLS.
 // @fnv 0x005ac4f0
@@ -890,7 +891,7 @@ bool FUN_005ac1e0_shell::FUN_005ac1e0(TESObjectREFR* ownerObject, ScriptLocals* 
 }
 
 bool _ref_008256d0(unsigned int);
-__declspec(thread) void* g_tlsSlot;
+thread_local void* g_tlsSlot;
 struct RefObj
 {
     char pad[8];
@@ -1015,7 +1016,7 @@ void FUN_005ac730(bool abProcessScripts)
     DAT_0118c685 = abProcessScripts;
 }
 
-__declspec(thread) int DAT_tls;
+thread_local int DAT_tls;
 
 // @fnv 0x005ae270
 void FUN_005ae270()
@@ -1043,9 +1044,9 @@ void FUN_00857bd0::Init(unsigned int value)
     m_0x14 += value;
 }
 
-__declspec(thread) int tlsVar1;
-__declspec(thread) int tlsVar2 = -1;
-__declspec(thread) int tlsVar3;
+thread_local int tlsVar1;
+thread_local int tlsVar2 = -1;
+thread_local int tlsVar3;
 
 // Resets the three thread-local variables to 0, -1 and 0.
 // @fnv 0x005a9d60
@@ -1743,7 +1744,7 @@ class AutoMemHelper
 };
 
 extern int __tls_index;
-__declspec(thread) unsigned char FUN_005ac400_tls[0x269];
+thread_local unsigned char FUN_005ac400_tls[0x269];
 
 struct ScriptCompileAndRun
 {

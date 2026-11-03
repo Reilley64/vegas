@@ -1232,7 +1232,7 @@ void Mgr_e74120_iso::FUN_00e74120()
             {
                 unsigned int fl = sub->allocationFlags;
                 void* vb = sub->buffer;
-                unsigned int base = ((unsigned int)(reinterpret_cast<::Owner_e8bff0 *>((helper8bc))->FUN_00e8bff0((::Holder_e8bff0 *)(vb), lo, hi - lo, fl)));
+                std::uintptr_t base = ((std::uintptr_t)(reinterpret_cast<::Owner_e8bff0 *>((helper8bc))->FUN_00e8bff0((::Holder_e8bff0 *)(vb), lo, hi - lo, fl)));
                 UploadBatchItem* it = val;
                 do
                 {
@@ -3152,7 +3152,7 @@ float FUN_0053ae30_class::FUN_0053ae30(unsigned char type, unsigned short id)
 // @fnv 0x0053a630
 int FUN_0053a630_Class::FUN_0053a630(unsigned char type, unsigned short id)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (type < 4 && id < 0x121) {
         float best = DAT_01015f5c;
         int index = 0;
@@ -3164,7 +3164,7 @@ int FUN_0053a630_Class::FUN_0053a630(unsigned char type, unsigned short id)
             }
         }
         if (index == 0) {
-            result = (int)((FUN_0053a5a0_Outer*)this)->FUN_0053a5a0(type);
+            result = (std::intptr_t)((FUN_0053a5a0_Outer*)this)->FUN_0053a5a0(type);
         } else {
             result = reinterpret_cast<::FUN_0053a700_Holder *>(this)->FUN_0053a700(type, index - 1);
         }
@@ -3721,7 +3721,7 @@ void Surface::FUN_005400e0()
     if(eb) {
      short i=((short)(reinterpret_cast<::TESActorBaseData *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetFatigue()));
      short a=((short)(reinterpret_cast<::BSShaderPPLightingProperty *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->GetDiffuseTextureIndex()));
-     unsigned int h=((unsigned int)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
+     std::uintptr_t h=((std::uintptr_t)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));
      float f=(float)data->x-i;
      float s=(float)data->y-a;
      cf.x=(f+k.x)/((unsigned int)(reinterpret_cast<::Callees *>((((::TextureSample *)(::FUN_00559450((int *)(eb))))))->FUN_00726070()));

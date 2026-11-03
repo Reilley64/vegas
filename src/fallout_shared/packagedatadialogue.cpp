@@ -1,5 +1,6 @@
 // fallout_shared/packagedatadialogue.cpp: TESDialoguePackageData, DelStandIn, ConstructorHost (8 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -44,7 +45,7 @@
 // @fnv 0x0067b590
 void TESDialoguePackageData::InitItem(TESForm* form)
 {
-    unsigned int topicID = (unsigned int)pMenuTopicEntry;
+    std::uintptr_t topicID = (std::uintptr_t)pMenuTopicEntry;
     ::ResolveFormID((unsigned int *)&(topicID), form->GetFile(-1));
     pMenuTopicEntry = dynamic_cast<TESTopic*>(::FUN_004839c0(topicID));
     if (!pMenuTopicEntry && topicID)

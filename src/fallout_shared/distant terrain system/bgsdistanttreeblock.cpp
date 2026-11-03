@@ -1562,7 +1562,7 @@ struct TreeBoundsOwner
 // @fnv 0x006f8910
 FUN_006240d0 TreeBoundsOwner::ComputeTreeBounds(BoundTreeBlock* block)
 {
-    unsigned int maximum;
+    std::uintptr_t maximum;
     FUN_006240d0 bound;
     // Local spellings preserve the original MSVC9 /Od stack layout.
     // minimum: largest finite float; count: lower corner; limit: upper corner.
@@ -1570,7 +1570,7 @@ FUN_006240d0 TreeBoundsOwner::ComputeTreeBounds(BoundTreeBlock* block)
     NiPoint3Ex count(minimum, minimum, minimum);
     NiPoint3Ex limit(-minimum, -minimum, -minimum);
     // maximum is the number of instance positions.
-    maximum = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(block->instances))->GetName()));
+    maximum = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(block->instances))->GetName()));
     for (unsigned int i = 0; i < maximum; ++i)
     {
         count.x = FUN_0040ebd0(count.x, ((::NiPoint3Ex *)(reinterpret_cast<::FUN_006b3120_shell *>(&(block->instances))->GetElementAt(i)))->x);

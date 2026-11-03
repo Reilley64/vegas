@@ -2043,8 +2043,8 @@ bool __cdecl FUN_005b5950(const ScriptParameter* apParameters, const char* apCom
 
 class PlayerCharacter;
 class TESBoundObject;
-__declspec(thread) char _tls_pad_005b59f0[0x28c];
-__declspec(thread) unsigned int _tls_uActivateDepth;
+thread_local char _tls_pad_005b59f0[0x28c];
+thread_local unsigned int _tls_uActivateDepth;
 
 struct TESForm_acc : public TESForm
 {
@@ -2577,7 +2577,7 @@ namespace fnv_005c7800 {
 struct PlayerCharacter005c7800 {  };
 void __cdecl DebugLog(const char*, ...);
 struct TlsBlock005c7800 { char pad[0x268]; unsigned char flag; };
-__declspec(thread) TlsBlock005c7800 g_tls005c7800;
+thread_local TlsBlock005c7800 g_tls005c7800;
 // @fnv 0x005c7800
 bool __cdecl FUN_005c7800(const ScriptParameter* a, const char* b, TESObjectREFR* c, TESObjectREFR* d, Script* e, ScriptLocals* f, double& result, unsigned int& g)
 {
@@ -3490,7 +3490,7 @@ struct BGSQuestObjective { bool GetCompleted() const; public:
 };
 struct TESQuestObjectiveView {  };
 struct ThreadFlags { char pad[0x268]; unsigned char bLogScripts; };
-__declspec(thread) ThreadFlags g_threadFlags;
+thread_local ThreadFlags g_threadFlags;
 // @fnv 0x005d7e30
 bool __cdecl FUN_005d7e30(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double* afReturnValue, unsigned int* auiOffset)
 {
@@ -4953,7 +4953,7 @@ struct TES {
     int GetPrevPath(void);
 };
 
-__declspec(thread) unsigned char g_tls_flag;
+thread_local unsigned char g_tls_flag;
 
 // @fnv 0x005b9370
 bool __cdecl FUN_005b9370(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double&, unsigned int&)
@@ -5237,7 +5237,7 @@ bool __cdecl FUN_005d4600(const ScriptParameter* params, const char* name, TESOb
 
 namespace fnv_005d4af0 {
 extern "C" void __cdecl DebugLog(const char*, ...);
-__declspec(thread) unsigned char g_tlsDebugFlag;
+thread_local unsigned char g_tlsDebugFlag;
 
 // @fnv 0x005d4af0
 bool __cdecl FUN_005d4af0(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
@@ -5305,7 +5305,7 @@ bool __cdecl FUN_005d7940(const ScriptParameter* apParameters, const char* apCom
 {
     ::Script::GetActorSexConditionFunction(apRefObject, 0, 0, afReturnValue);
     
-    __declspec(thread) static bool bDebugLogFlag;
+    static thread_local bool bDebugLogFlag;
     
     if (bDebugLogFlag)
     {
@@ -6056,7 +6056,7 @@ struct TLSDebugFlag {
     unsigned char flag;
 };
 
-__declspec(thread) TLSDebugFlag g_tlsDebug;
+thread_local TLSDebugFlag g_tlsDebug;
 
 // @fnv 0x005d56d0
 bool __cdecl FUN_005d56d0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -6272,7 +6272,7 @@ int Str004b10a0::FUN_004b10a0()
 
 struct Ref_S {  };
 struct Script_0059bfa0 { static bool FUN_0059bfa0(TESObjectREFR*, void*, void*, double&); };
-__declspec(thread) bool g_bDebugLog;
+thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 namespace fnv_005b78a0 {
 struct ThreeByThreeMatrix { float m00, m01, m02, m10, m11, m12, m20, m21, m22; };
@@ -8855,7 +8855,7 @@ namespace fnv_005d9170 {
 struct ConsoleManager { static ConsoleManager* __cdecl Instance(bool); };
 struct Holder {  };
 extern "C" void _DebugLog(const char*, ...);
-__declspec(thread) bool _gOutputDisabled;
+thread_local bool _gOutputDisabled;
 // @fnv 0x005d9170
 bool __cdecl FUN_005d9170(const ScriptParameter* parameters, const char* scriptData,
     TESObjectREFR* thisObject, TESObjectREFR* container, Script* script,
@@ -8886,7 +8886,7 @@ struct PC7d {
 };
 extern void __cdecl _DebugLog(const char*, ...);
 extern int __tls_index;
-__declspec(thread) unsigned char g_debugFlag;
+thread_local unsigned char g_debugFlag;
 // @fnv 0x005d9670
 bool FUN_005d9670(const ScriptParameter* parameters, const char* scriptData,
                   TESObjectREFR* thisObject, TESObjectREFR* container,
@@ -9547,7 +9547,7 @@ struct NiAdditionalGeometryData {  };
 struct FUN_005b9870_This {  };
 extern "C" void __cdecl _DebugLog(const char*, ...);
 extern unsigned char DAT_011cae46;
-__declspec(thread) unsigned char g_bDebugLogEnabled;
+thread_local unsigned char g_bDebugLogEnabled;
 
 // @fnv 0x005b97f0
 bool FUN_005b97f0()
@@ -9593,7 +9593,7 @@ void FUN_005ba310_t::FUN_005ba310(bool b)
     *(unsigned char*)((char*)this + 0x21d) = ((*(unsigned char*)((char*)this + 0x21c) != 0) && (b != 0)) ? 1 : 0;
 }
 
-__declspec(thread) unsigned char gDebugLogEnabled;
+thread_local unsigned char gDebugLogEnabled;
 void _DebugLog(const char*, ...);
 
 // @fnv 0x005ba560
@@ -9648,7 +9648,7 @@ struct TLSStandIn
 {
     bool m_bEnableAiDetection;
 };
-__declspec(thread) TLSStandIn g_tlsStandIn;
+thread_local TLSStandIn g_tlsStandIn;
 
 // @fnv 0x005bbda0
 bool FUN_005bbda0()
@@ -9698,7 +9698,7 @@ struct LowProcessState
 {
     unsigned char m_bLowProcessEnabled;
 };
-__declspec(thread) LowProcessState g_LowProcessState;
+thread_local LowProcessState g_LowProcessState;
 // @fnv 0x005bc430
 bool __cdecl FUN_005bc430()
 {
@@ -10080,7 +10080,7 @@ struct FUN_005ce6b0_Script
 {
 };
 
-__declspec(thread) bool DAT_011c72c0_arg1;
+thread_local bool DAT_011c72c0_arg1;
 
 void _DebugLog(const char* apFormat, ...);
 
@@ -10105,7 +10105,7 @@ bool FUN_005ce6b0(const ScriptParameter* apParameters, const char* apCompiledPar
 
 namespace fnv_005cedf0 {
 extern TESObjectREFR* g_thePlayer;
-__declspec(thread) bool tls_0268;
+thread_local bool tls_0268;
 // @fnv 0x005cedf0
 bool FUN_005cedf0()
 {
@@ -10162,7 +10162,7 @@ bool __cdecl FUN_005d27a0(const ScriptParameter* apParameters, const char* apCom
 
 bool __cdecl FUN_005a36b0(TESObjectREFR*, void*, void*, double&);
 void __cdecl _DebugLog(const char*, ...);
-__declspec(thread) bool g_bDebugLava;
+thread_local bool g_bDebugLava;
 // @fnv 0x005d2970
 bool __cdecl FUN_005d2970(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
@@ -10194,7 +10194,7 @@ bool FUN_005d3b20(const ScriptParameter* apParameters, const char* apCompiledPar
 }
 
 void __cdecl _DebugLog(const char*, const char*);
-__declspec(thread) unsigned char __tls_index[0x269];
+thread_local unsigned char __tls_index[0x269];
 
 // @fnv 0x005d4510
 bool FUN_005d4510()
@@ -10233,7 +10233,7 @@ bool FUN_005d49c0(const ScriptParameter* parameters, const char* scriptData, TES
 void __cdecl _DebugLog(const char* format, ...);
 bool __cdecl FUN_005a39d0(TESObjectREFR*, void*, void*, double&);
 
-__declspec(thread) bool g_bDebugIsActor;
+thread_local bool g_bDebugIsActor;
 
 // @fnv 0x005d4aa0
 bool __cdecl FUN_005d4aa0(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
@@ -10271,7 +10271,7 @@ struct GetLastHitLocationStandIn {
 struct DebugFlagsStandIn {
     bool bDebugScripts;
 };
-__declspec(thread) DebugFlagsStandIn g_DebugFlags;
+thread_local DebugFlagsStandIn g_DebugFlags;
 // @fnv 0x005d5630
 bool __cdecl FUN_005d5630(const ScriptParameter*, const char*, TESObjectREFR* apRefObject, TESObjectREFR*, Script*, ScriptLocals*, double& afReturnValue, unsigned int&)
 {
@@ -10414,7 +10414,7 @@ struct FUN_0089f4e0_shell {  };
 struct TESSound {  };
 extern TESObjectREFR* g_thePlayer;
 extern void _DebugLog(const char*, ...);
-__declspec(thread) bool g_bDebugLogEnabled;
+thread_local bool g_bDebugLogEnabled;
 // @fnv 0x005d9730
 bool FUN_005d9730(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
@@ -10671,7 +10671,7 @@ bool FUN_005de600(const ScriptParameter* parameters, const char* scriptData, TES
     return true;
 }
 
-__declspec(thread) bool gNoHumanGore;
+thread_local bool gNoHumanGore;
 void DebugLog(const char* fmt, ...);
 // @fnv 0x005dfde0
 bool __cdecl FUN_005dfde0(const ScriptParameter*, const char*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, double& result, unsigned int&)
@@ -10835,7 +10835,7 @@ struct GameTimerRecord {  };
 struct BSAudioManager { static BSAudioManager& GetRandomGenerator(); };
 struct FUN_005d5610_Class {  };
 struct DebugLog { static void _DebugLog(const char* format, ...); };
-__declspec(thread) unsigned char g_tlsDebugFlag;
+thread_local unsigned char g_tlsDebugFlag;
 
 // @fnv 0x005d5560
 bool FUN_005d5560(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -11080,7 +11080,7 @@ bool FUN_005b57e0(const ScriptParameter* parameter, const char* functionName,
                   ScriptLocals* scriptLocals, double& result,
                   unsigned int& context)
 {
-    unsigned int formID = 0;
+    std::uintptr_t formID = 0;
 
     if (!ExtractArgs(parameter, functionName, &context, object, object2,
                      script, scriptLocals, &formID))
@@ -11090,7 +11090,7 @@ bool FUN_005b57e0(const ScriptParameter* parameter, const char* functionName,
 
     if (formID == 0)
     {
-        formID = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005b57e0::TESObject * *>(&::_g_thePlayer))))->FUN_007af430()));
+        formID = ((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005b57e0::TESObject * *>(&::_g_thePlayer))))->FUN_007af430()));
     }
 
     if (object != 0)
@@ -11428,7 +11428,7 @@ extern unsigned int __tls_index;
 void _DebugLog(const char*);
 
 // @fnv 0x005b9ea0
-__declspec(thread) struct FUN_005b9ea0_TLS_DATA
+thread_local struct FUN_005b9ea0_TLS_DATA
 {
     unsigned char pad[0x268];
     unsigned char flag;
@@ -11992,7 +11992,7 @@ struct FUN_005beb00_TLS
     unsigned char debugLogEnabled;
 };
 
-static __declspec(thread) FUN_005beb00_TLS FUN_005beb00_tls;
+static thread_local FUN_005beb00_TLS FUN_005beb00_tls;
 
 void __cdecl _DebugLog(char const*, ...);
 
@@ -12544,7 +12544,7 @@ bool FUN_005cdfb0(const ScriptParameter* parameter, const char* name,
     {
         reinterpret_cast<::FUN_005ce040_class *>((object))->FUN_005ce040(true);
 
-        int cullResult = ((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005cdfb0::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget()));
+        std::intptr_t cullResult = ((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_005cdfb0::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget()));
         if (cullResult)
             reinterpret_cast<::DoorCell *>((reinterpret_cast<DoorCell*>(cullResult)))->GetOwner();
     }
@@ -12870,8 +12870,8 @@ FUN_00976030_ProcessLists DAT_011e0e80;
 
 void __cdecl _DebugLog(const char* message);
 
-__declspec(thread) unsigned char FUN_005d4400_tls_padding[0x268];
-__declspec(thread) unsigned char FUN_005d4400_tls_flag;
+thread_local unsigned char FUN_005d4400_tls_padding[0x268];
+thread_local unsigned char FUN_005d4400_tls_flag;
 
 bool FUN_005d4400(const ScriptParameter* apParameters,
                   const char* apCompiledParams,
@@ -12919,7 +12919,7 @@ struct FUN_TLSData
     unsigned char enabled;
 };
 
-__declspec(thread) FUN_TLSData FUN_tlsData;
+thread_local FUN_TLSData FUN_tlsData;
 
 class FUN_ReferenceDeleter
 {
@@ -14789,7 +14789,7 @@ bool FUN_00594e40(void* unused,int value,void* parameter,double& result) {
     break;
    }
    case 15: {
-    int a=(int)parameter;
+    std::intptr_t a=(std::intptr_t)parameter;
     if(p->info->weapon) {
      if(p->info->weapon->FUN_00446390()==a) result=1;
     } else if(a==0) result=1;
@@ -15761,7 +15761,7 @@ struct DebugTextTlsBlock005ba760 {
     unsigned int unk0268;
     bool bDebugTextEnabled;
 };
-extern __declspec(thread) DebugTextTlsBlock005ba760 g_debugTextTls;
+extern thread_local DebugTextTlsBlock005ba760 g_debugTextTls;
 
 // @fnv 0x005ba760
 bool __cdecl FUN_005ba760()
@@ -18105,7 +18105,7 @@ bool __cdecl FUN_005c7f10(const ScriptParameter* parameters,
     if (!status)
         return true;
 
-    int target = ((int)(reinterpret_cast<::Actor *>((status))->GetActorBase()));
+    std::intptr_t target = ((std::intptr_t)(reinterpret_cast<::Actor *>((status))->GetActorBase()));
     if (status && form)
         reinterpret_cast<::fnv_008b86e0::FUN_008b8290_shell *>((status))->FUN_008b86e0((::TESFaction *)(form), (unsigned char)value, status == (*reinterpret_cast<::fnv_005c7f10::CommandTarget * *>(&::_g_thePlayer)));
     return true;
@@ -19239,7 +19239,7 @@ struct TlsBlock_t
     int unk264;
     unsigned char unk268;
 };
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 extern unsigned int _tls_index;
 unsigned int FUN_0084e3a0(void* ecx);
@@ -20172,25 +20172,25 @@ namespace fnv_005d1760 {
 struct ScriptFallback {
 };
 extern ScriptFallback* DAT_011dea3c;
-bool __cdecl FUN_005accb0(int, int, int, int, int, int, int, int*, int*);
+bool __cdecl FUN_005accb0(void*, void*, void*, void*, void*, void*, void*, void**, void**);
 
 // @fnv 0x005d1760
-bool __cdecl FUN_005d1760(int a1, int a2, int a3, int a4,
-                           int a5, int a6, double* result, int a8)
+bool __cdecl FUN_005d1760(void* a1, void* a2, void* a3, void* a4,
+                           void* a5, void* a6, double* result, void* a8)
 {
     *result = 0.0;
-    int fallback;
+    void* fallback;
     {
-        int parsedValue;
+        void* parsedValue;
         parsedValue = 0;
         fallback = 0;
         if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &parsedValue, &fallback)) {
             return false;
         }
         if (fallback == 0) {
-            fallback = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005d1760::ScriptFallback * *>(&::_g_thePlayer))))->FUN_007af430()));
+            fallback = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(((*reinterpret_cast<::fnv_005d1760::ScriptFallback * *>(&::_g_thePlayer))))->FUN_007af430()));
         }
-        ::FUN_005a2ed0((::TESObjectREFR *)(a3), (void *)(parsedValue), (void *)(fallback), (*(double *)(result)));
+        ::FUN_005a2ed0((::TESObjectREFR *)(a3), parsedValue, fallback, (*(double *)(result)));
         return true;
     }
 }
@@ -34500,7 +34500,7 @@ unsigned char __cdecl FUN_005c5a70(void* source, void* callback, void* third, vo
             }
             unsigned int count=((unsigned int)(::FUN_005b5e40()));
             unsigned int rawFormat=FUN_00e7bd20(largest[i].operator NiTexture*()->FUN_0059bb30()->FUN_007d6bb0());
-            unsigned int uiBits=((unsigned int)(::GraphicsRenderer::GetD3DFormatName((::_D3DFORMAT)(rawFormat))));
+            std::uintptr_t uiBits=((std::uintptr_t)(::GraphicsRenderer::GetD3DFormatName((::_D3DFORMAT)(rawFormat))));
             NiTexture* pkImage=largest[i].operator NiTexture*()->v2()->operator NiTexture*();
             FUN_00406d00(line,0x200,&DAT_0103952c,i+1,category,temp,
                          largest[i].operator NiTexture*()->v37(),
@@ -34691,7 +34691,7 @@ class FormX { public:   };
 bool FUN_005c7e60(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int* opcodeOffsetPtr)
 {
     FormX* h;
-    int v;
+    std::intptr_t v;
     void* a = 0;
     int b = 0;
     if (!FUN_005accb0(paramInfo, scriptData, opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &a, &b))
@@ -34700,7 +34700,7 @@ bool FUN_005c7e60(const ScriptParameter* paramInfo, const char* scriptData, TESO
     h = (FormX*)dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(thisObj));
     if (!h)
         return true;
-    v = ((int)(reinterpret_cast<::Actor *>((h))->GetActorBase()));
+    v = ((std::intptr_t)(reinterpret_cast<::Actor *>((h))->GetActorBase()));
     if (h && a)
         reinterpret_cast<::WorkerActor *>((h))->FUN_008b8580((::TESFaction *)(a), (unsigned char)b);
     return true;
@@ -35812,7 +35812,7 @@ if(actor && target){reinterpret_cast<::FUN_00934250_shell *>((actor))->FUN_00934
 ((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Reset(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Clear();
 if(!actor->FUN_00931850()){if(!optionSlot33){((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((target))->GetBaseTexture()))->Target(actor);reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((target))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(actor));}((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Flag(0);((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Target(target);}
 if((*reinterpret_cast<::ScriptIdle::Manager * *>(&::_g_thePlayer))->FUN_0094df60() || ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))))->FUN_0045cd60())) || (reinterpret_cast<::FUN_0087f3d0_shell *>((actor))->FUN_0087f3d0() && reinterpret_cast<::FUN_004f8960_shell *>((actor))->FUN_004f8960()==6)){
-Event* event=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(actor),(::TESObjectREFR *)(target),(::TESTopic *)(0),(void *)(0),1)));if(event){reinterpret_cast<::DialogueItem *>((event))->SelectDefaultResponseList();int old=((int)(reinterpret_cast<::DialogueItem *>((event))->GetActiveResponse()));reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(0);reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(1);FUN_005ac750(idleSlot10,reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0(),0x40000);delete event;}}
+Event* event=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(actor),(::TESObjectREFR *)(target),(::TESTopic *)(0),(void *)(0),1)));if(event){reinterpret_cast<::DialogueItem *>((event))->SelectDefaultResponseList();std::intptr_t old=((std::intptr_t)(reinterpret_cast<::DialogueItem *>((event))->GetActiveResponse()));reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(0);reinterpret_cast<::FUN_0083c850 *>((event))->AppendTopicInfo(1);FUN_005ac750(idleSlot10,reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0(),0x40000);delete event;}}
 else{reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((actor))->FUN_0057bd60((::fnv_0057bd60::MobileObject *)(target));((::ScriptIdle::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Start(actor,idleSlot10,enabledSlot10,0,1,1);}
 }}
 else if(object && (object->Ready() || (object->IsReference() && ((::ScriptIdle::Actor *)(reinterpret_cast<::DialogueItem *>((object))->SelectDefaultResponseList()))->Ready()))){reinterpret_cast<::fnv_0057ad20::FUN_0057ad20_shell *>((object))->FUN_0057ad20((::fnv_0057ad20::TESTopic *)(idleSlot10));Event* event2Slot0=((::ScriptIdle::Event *)(reinterpret_cast<::FUN_0061b320_shell *>((idleSlot10))->FUN_0061b320((::TESObjectREFR *)(object),(::TESObjectREFR *)(::ScriptIdle::Actor *)(0),(::TESTopic *)(0),(void *)(0),0)));if(event2Slot0)reinterpret_cast<::fnv_0057ace0::FUN_0057ace0_shell *>((object))->FUN_0057ace0((::fnv_0057ace0::TESTopicInfo *)(((reinterpret_cast<::FUN_0084e3a0_Class *>((event2Slot0))->FUN_0084e3a0()))));Result outcomeSlot1=object->Play(idleSlot10,target,0,0,0,0,enabledSlot10);reinterpret_cast<::SoundPlaybackHandle *>(&(outcomeSlot1))->SetCompletionCallback((void (*)(void *, bool))(::fnv_005790f0::FUN_005790f0),(void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0()))));}
@@ -39411,7 +39411,7 @@ struct PlayerSpellStub
 {
 };
 
-extern __declspec(thread) bool g_bDebugLog;
+extern thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 
@@ -39772,7 +39772,7 @@ struct SDO_OpenCloseForm
 bool __cdecl SDO_ExtractArgs(void* apParams, void* apCompiled, unsigned int* apOffset, SDO_Ref* apRef,
                              SDO_Ref* apContainer, void* apScript, void* apLocals, int* apOut);
 
-extern __declspec(thread) bool g_bDebugLog;
+extern thread_local bool g_bDebugLog;
 void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005cebf0
@@ -44953,9 +44953,9 @@ bool FUN_005dc9a0(const void* pParams, const char* pData, xRef* pThis, xRef* pCo
                         xNode* qrEZrs = qsSDDgz->Get3D();
                         void* qpqRa = qrEZrs ? qrEZrs->GetRoot() : 0;
                         if (qpqRa) {
-                            int iSeq = 0;
+                            std::intptr_t iSeq = 0;
                             if (qsSDDgz->ComputePositionAtTime() && ((::xControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((qsSDDgz->ComputePositionAtTime()))->FUN_00496940())))
-                                iSeq = ((int)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::xControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((qsSDDgz->ComputePositionAtTime()))->FUN_00496940()))))));
+                                iSeq = ((std::intptr_t)(::fnv_00537bd0::GetStringAtOffset((const char *)(((::xControllerManager *)(reinterpret_cast<::fnv_00496940::FUN_00496940_shell *>((qsSDDgz->ComputePositionAtTime()))->FUN_00496940()))))));
                             int iSeq2 = iSeq;
                             xProc* pkProc = qsSDDgz->GetProc(0);
                             if (pkProc && ((::xDays *)(reinterpret_cast<::FUN_009611e0_shell *>((pkProc))->FUN_009611e0()))) {
@@ -46721,7 +46721,7 @@ struct FNVWipScreenManager {
 void FNVWipScreenManager::FUN_008d6050() {
     FNVWipResource* resource = ((::FNVWipResource *)(::FUN_008d5910(handle)));
     if (resource) {
-      int playback = ((int)(reinterpret_cast<::fnv_0061a720::FUN_0061a720_shell *>((resource))->FUN_0061a720((::MobileObject *)(player), (::PlayerCharacter *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))));
+      std::intptr_t playback = ((std::intptr_t)(reinterpret_cast<::fnv_0061a720::FUN_0061a720_shell *>((resource))->FUN_0061a720((::MobileObject *)(player), (::PlayerCharacter *)((*reinterpret_cast<void * *>(&::_g_thePlayer))))));
       if (playback) {
         if (player) {
           if (((::FNVWipController *)(reinterpret_cast<::BSShaderNoLightingProperty *>((player))->GetBaseTexture()))) {
@@ -46756,7 +46756,7 @@ void FNVWipScreenManager::FUN_008d6050() {
             FNVWipGame* dialogue2 = ((::FNVWipGame *)(reinterpret_cast<::FUN_0061b320_shell *>((resource))->FUN_0061b320((::TESObjectREFR *)(player),(::TESObjectREFR *)(0),(::TESTopic *)(0),(void *)(0),1)));
             if (dialogue2) {
                 reinterpret_cast<::DialogueItem *>((dialogue2))->SelectDefaultResponseList();
-                int mode = ((int)(reinterpret_cast<::DialogueItem *>((dialogue2))->GetActiveResponse()));
+                std::intptr_t mode = ((std::intptr_t)(reinterpret_cast<::DialogueItem *>((dialogue2))->GetActiveResponse()));
                 reinterpret_cast<::FUN_0083c850 *>((dialogue2))->AppendTopicInfo(0);
                 reinterpret_cast<::FUN_0083c850 *>((dialogue2))->AppendTopicInfo(1);
                 FUN_005ac750(resource,reinterpret_cast<::FUN_005d43c0_ *>((player))->FUN_005d43c0(),0x40000);
@@ -47136,7 +47136,7 @@ struct FUN_005b98a0_TLS
     unsigned char enabled;
 };
 
-__declspec(thread) FUN_005b98a0_TLS tls_005b98a0;
+thread_local FUN_005b98a0_TLS tls_005b98a0;
 
 void _DebugLog(const char*, ...);
 
@@ -47991,7 +47991,7 @@ struct FUN_00973460_Standin
 };
 
 
-__declspec(thread) unsigned char FUN_005cda20_tls_data[0x269];
+thread_local unsigned char FUN_005cda20_tls_data[0x269];
 
 void _DebugLog(const char* format, const char* value);
 
@@ -48960,7 +48960,7 @@ bool FUN_005d21e0(
 namespace fnv_005d4660 {
 extern int __cdecl __ftol2_sse(double);
 extern void __cdecl _DebugLog(const char*, ...);
-extern __declspec(thread) bool __tls_index;
+extern thread_local bool __tls_index;
 
 // @fnv 0x005d4660
 bool FUN_005d4660(const ScriptParameter* apParameters,
@@ -50591,7 +50591,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
                 travelTime8 = PtLength(((PtOp*)&aBId.start)->operator-(*((PathRef*)aBId.m_10.GetAt(aD1x).m_00)->Position()));
             _DebugLog("Travel %f units", (double)travelTime8);
             TESObjectREFR* refr6 = (TESObjectREFR*)aBId.m_10.GetAt(aD1x).m_00;
-            int aux3 = ((int)(reinterpret_cast<::TESObjectREFR *>((((S00568e50*)refr6)))->GetExtraRadioData()));
+            std::intptr_t aux3 = ((std::intptr_t)(reinterpret_cast<::TESObjectREFR *>((((S00568e50*)refr6)))->GetExtraRadioData()));
             StrMem strBuf_;
             if (((::fnv_005c25f0::FormChk *)(reinterpret_cast<::FUN_00569160_shell *>((((S00568e50*)refr6)))->FUN_00569160())) && reinterpret_cast<::LockExtraData *>((((::fnv_005c25f0::FormChk *)(reinterpret_cast<::FUN_00569160_shell *>((((S00568e50*)refr6)))->FUN_00569160()))))->IsLocked()) strBuf_ += "-Locked";
             if (reinterpret_cast<::TESForm *>((((TESForm_acc*)refr6)))->GetDisabled() || reinterpret_cast<::TESForm *>((((TESForm_acc*)((void *)(::FUN_00559450((int *)(((S59450*)aux3))))))))->GetDisabled()) strBuf_ += "-Disabled";
@@ -50628,7 +50628,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
             else aE0x = PtLength(((PtOp*)&aBId.m_10.GetAt(aD1x - 1).position)->operator-(aBId.finish));
             _DebugLog("Travel %f units", (double)aE0x);
             float aBox = reinterpret_cast<::fnv_006f49c0::FUN_006f49c0_shell *>(&(aBId))->GetPathLength();
-            int aAll = ((int)(::FUN_004839c0(58)));
+            std::intptr_t aAll = ((std::intptr_t)(::FUN_004839c0(58)));
             float ratio = aBox / reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((SpeedObj*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_008a0b10();
             ratio = (float)(ratio / ::DAT_01012640);
             ratio = reinterpret_cast<::FUN_00526ac0_shell *>((((TESGlobalValueReader*)aAll)))->FUN_00526ac0() * ratio;
@@ -50636,12 +50636,12 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
             _DebugLog("--Estimated Travel Time: %.2f game hours.", (double)ratio);
             if (!reinterpret_cast<::FUN_0076b610_Class *>(&(aBId.m_10))->FUN_0076b610())
             {
-                int rr = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)aBId.m_10.GetAt(0).m_00)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
+                std::intptr_t rr = ((std::intptr_t)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)aBId.m_10.GetAt(0).m_00)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>((((ActivateObj*)(*reinterpret_cast<void * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(rr), ::DAT_01018f5c);
             }
             else
             {
-                int rr2 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)apRefObject)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
+                std::intptr_t rr2 = ((std::intptr_t)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)apRefObject)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>((((ActivateObj*)(*reinterpret_cast<void * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(rr2), ::DAT_01018f5c);
             }
     }
@@ -53410,7 +53410,7 @@ struct GhostCommandTLS
     unsigned char enabled;
 };
 
-__declspec(thread) GhostCommandTLS ghostCommandTLS;
+thread_local GhostCommandTLS ghostCommandTLS;
 
 void __cdecl _DebugLog(const char* format, ...);
 

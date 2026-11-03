@@ -1,5 +1,6 @@
 // fallout_shared/packageeventaction.cpp: PackageEventActionData (7 functions)
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -43,7 +44,7 @@ PackageEventActionData::PackageEventActionData()
 // @fnv 0x0067e190
 void PackageEventActionData::InitItem(TESForm* owner)
 {
-    unsigned int id = (unsigned int)m_item;
+    std::uintptr_t id = (std::uintptr_t)m_item;
     ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
     TESObjectANIO* idle = dynamic_cast<TESObjectANIO*>(::FUN_004839c0(id));
     if (idle)
@@ -56,7 +57,7 @@ void PackageEventActionData::InitItem(TESForm* owner)
             ::FUN_005b5e40();
         m_item = 0;
     }
-    id = (unsigned int)pTopic;
+    id = (std::uintptr_t)pTopic;
     ::ResolveFormID((unsigned int *)&(id), owner->GetFile(-1));
     TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(id));
     if (topic)

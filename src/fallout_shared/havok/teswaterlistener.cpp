@@ -192,10 +192,10 @@ unsigned int __cdecl GetOcclusionPlaneThreadID(BSOcclusionPlane* pPlane)
     unsigned int result = 0;
     if (pPlane)
     {
-        unsigned int cullResult = ((unsigned int)(reinterpret_cast<::LowProcess *>((void *)(pPlane))->GetTarget()));
+        std::uintptr_t cullResult = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((void *)(pPlane))->GetTarget()));
         if (cullResult)
         {
-            unsigned int room = ((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)cullResult)))->FUN_004543c0()));
+            std::uintptr_t room = ((std::uintptr_t)(reinterpret_cast<::FUN_004543c0_cls *>((((ExtraDataList*)cullResult)))->FUN_004543c0()));
             if (room)
             {
                 result = reinterpret_cast<::ActorMover *>((((BSThread*)room)))->GetCurrentMoveModeType();

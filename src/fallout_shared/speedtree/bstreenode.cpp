@@ -5234,7 +5234,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 struct TlsGuard_t
 {
@@ -5604,7 +5604,7 @@ struct S_00caaf40_Tls
     int ctx;
 };
 
-__declspec(thread) S_00caaf40_Tls DAT_tls;
+thread_local S_00caaf40_Tls DAT_tls;
 
 struct S_00caaf40_Ctx
 {
@@ -5886,7 +5886,7 @@ struct TlsBlock_t
     int unk2b4;
 };
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 // The recursion guard: remember the old guard word, then mark the slot busy.
 // The compiler keeps the guard word in a frame slot and restores it in the
@@ -6295,7 +6295,7 @@ struct S_00cab8c0_Tls
     int unk2b0;
     int ctx;
 };
-__declspec(thread) S_00cab8c0_Tls DAT_tls;
+thread_local S_00cab8c0_Tls DAT_tls;
 
 struct S_00cab8c0_Ctx
 {
@@ -6517,7 +6517,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 struct TlsGuard_t
 {
@@ -6967,7 +6967,7 @@ struct TlsBlock_t
 };
 
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 struct TlsGuard
 {
@@ -7378,7 +7378,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 struct TlsGuard
 {
@@ -8779,7 +8779,7 @@ struct TlsBlock_t
     int m_2b4;
 };
 
-__declspec(thread) TlsBlock_t g_tlsBlock;
+thread_local TlsBlock_t g_tlsBlock;
 
 struct TlsGuard_t
 {

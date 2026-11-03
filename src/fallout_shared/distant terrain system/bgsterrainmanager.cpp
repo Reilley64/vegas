@@ -1,5 +1,6 @@
 
 // fallout_shared/distant terrain system/bgsterrainmanager.cpp
+#include <cstdint>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSDistantTreeBlock_shell.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -217,7 +218,7 @@ struct FUN_006fcf30_shell
 // @fnv 0x006fcf30
 void FUN_006fcf30_shell::FUN_006fcf30(TESObjectREFR* apTreeRef)
 {
-    unsigned int icount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x2c))))->GetName()));
+    std::uintptr_t icount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x2c))))->GetName()));
     unsigned int i = 0;
     while (i < icount)
     {
@@ -943,12 +944,12 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
             }
             if (m_bShaderFeatureActive && *::g_011d8680.Bool())
             {
-                unsigned int count;
+                std::uintptr_t count;
                 reinterpret_cast<::TerrainNodeX *>((lodNode))->FUN_006fe330((int)&(pos));
                 if (FUN_006fcda0() > 0u && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName())) > 0)
                 {
                     LocalRefArray kept;
-                    count = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
+                    count = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(array2C))->GetName()));
                     for (unsigned int i = 0; i < count; i++)
                     {
                         unsigned int val = reinterpret_cast<::FUN_00485b60 *>((array2C.FUN_00877a30(i)))->Go();
@@ -965,7 +966,7 @@ void BGSTerrainManager::FUN_006fca90(const NiPoint3& arPos, int aiFlags)
                     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(array2C))->Clear(true);
                     if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName())) > 0)
                     {
-                        unsigned int keptCount = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
+                        std::uintptr_t keptCount = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kept))->GetName()));
                         reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(array2C))->FUN_006f2290(keptCount, true);
                         for (unsigned int j = 0; j < keptCount; j++)
                         {

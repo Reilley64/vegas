@@ -1535,7 +1535,7 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
         if ((void*)*(Flt*)&sptexNormal)
         {
             pshaderpropLighting->SetTexture(0, (void*)(void*)*(Flt*)&sptexNormal);
-            int eFormat = ((int)(reinterpret_cast<::Callees *>((((TextureFormatHelper*)((void *)(::GetObjectiveTargetList((::FUN_00656d80_this *)(void *)((void*)(void*)*(Flt*)&sptexNormal)))))))->FUN_00726070()));
+            std::intptr_t eFormat = ((std::intptr_t)(reinterpret_cast<::Callees *>((((TextureFormatHelper*)((void *)(::GetObjectiveTargetList((::FUN_00656d80_this *)(void *)((void*)(void*)*(Flt*)&sptexNormal)))))))->FUN_00726070()));
             bspecular = (eFormat == 5 || eFormat == 6 || eFormat == 1);
             ((LightPropHelper*)pshaderpropLighting)->FUN_00441130(0, bspecular);
         }
@@ -5131,7 +5131,7 @@ const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
     char buf2[0x104];
     HPList hashA;
     HashB8 hashB;
-    int r6;
+    std::intptr_t r6;
 
     if (apModel == 0)
         return 0;
@@ -5152,7 +5152,7 @@ const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
     (void *)(&hashA);
     (void *)((HPList*)&hashB);
     ::HashPathComponents(((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))), (::FileNameHash *)(::HPList *)(&hashA), (::FileNameHash *)(::HPList *)((HPList*)&hashB));
-    r6 = ((int)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hashA)), (*(::fnv_00af6540::FileNameHash *)((HPList*)&hashB)), ((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))))));
+    r6 = ((std::intptr_t)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hashA)), (*(::fnv_00af6540::FileNameHash *)((HPList*)&hashB)), ((const char *)(::FUN_00559450((int *)((const BSStringT<char>*)&iter)))))));
     if (r6 == 0)
         return 0;
     return *aStr;
@@ -5488,13 +5488,13 @@ bool __cdecl BuildCharacterParts(FG547Node** root, FG547Node** alternate, FG547D
         if (data->lod == 0 && part == 0)
         {
             FUN_00653a10(&meshPath, (const char*)*(BSStringT<char>*)&model);
-            int fallback = 0;
+            std::intptr_t fallback = 0;
             if ((const char*)*(BSStringT<char>*)&meshPath)
             {
                 FileNameHash hash1;
                 FileNameHash hash2;
                 ::HashPathComponents((const char*)*(BSStringT<char>*)&meshPath, (::FileNameHash *)(::fnv_00654720::FileNameHash *)(&hash1), (::FileNameHash *)(::fnv_00654720::FileNameHash *)(&hash2));
-                fallback = ((int)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hash1)), (*(::fnv_00af6540::FileNameHash *)(&hash2)), (const char*)*(BSStringT<char>*)&meshPath)));
+                fallback = ((std::intptr_t)(::fnv_00af6540::FindFileEntryInArchives(0, (*(::fnv_00af6540::FileNameHash *)(&hash1)), (*(::fnv_00af6540::FileNameHash *)(&hash2)), (const char*)*(BSStringT<char>*)&meshPath)));
             }
             if (fallback)
                 FUN_00653a10(&model, (const char*)*(BSStringT<char>*)&model);
@@ -7423,7 +7423,7 @@ void S00a67410_o2::FUN_00a67410(BSFaceGenMorphData_o2* outData)
     }
 
     void* data;
-    unsigned int size;
+    std::uintptr_t size;
     if (!vars[0])
     {
         data = m_pDefaultData;
@@ -7432,7 +7432,7 @@ void S00a67410_o2::FUN_00a67410(BSFaceGenMorphData_o2* outData)
     else
     {
         data = vars[0];
-        size = (unsigned int)vars[1];
+        size = (std::uintptr_t)vars[1];
     }
 
     outData->m_pData = data;

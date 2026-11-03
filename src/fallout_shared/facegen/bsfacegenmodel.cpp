@@ -1115,9 +1115,9 @@ void FUN_0065c5f0()
         BSFadeNode* bInner = DAT_011d5b50;
         pFadeNode = bInner;
         {
-            int iRes;
+            std::intptr_t iRes;
             if (pFadeNode)
-                iRes = ((int)(reinterpret_cast<::NiFixedString *>((((Holder_004b9900*)pFadeNode)))->FUN_004b9900(1)));
+                iRes = ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((((Holder_004b9900*)pFadeNode)))->FUN_004b9900(1)));
             else
                 iRes = 0;
         }
@@ -1426,7 +1426,7 @@ bool FUN_0065a970_shell::ApplyMorphs(FaceGenCoordinate* apCoordinate, NiTriBased
             }
             if (pExtra)
             {
-                unsigned int uiTotal = ((unsigned int)(reinterpret_cast<::FUN_0065b3e0_Holder *>((pLastMorphExtra))->GetPointerByFlag(0)));
+                std::uintptr_t uiTotal = ((std::uintptr_t)(reinterpret_cast<::FUN_0065b3e0_Holder *>((pLastMorphExtra))->GetPointerByFlag(0)));
                 for (unsigned int k = uiNumVertices; k < uiTotal; k++, kDelta++)
                 {
                     pExtra->x = (*(::ThreeComponentVector<short> *)reinterpret_cast<::FUN_0064dda0_cls *>(&kDelta)->FUN_0064dda0()).x * fWeightCur + pExtra->x;

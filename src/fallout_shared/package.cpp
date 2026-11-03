@@ -1,5 +1,6 @@
 // fallout_shared/package.cpp: TESPackage, TESFormStub, Package, PHost and more (140 functions)
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstdio>
@@ -4197,12 +4198,12 @@ bool TESPackage::GetPackageSearchRadius(MobileObject* actor, float& radius)
 int FUN_00672930_cls::FUN_00672930()
 {
     PackageTargetRecord* ptarget = ((::PackageTargetRecord *)(reinterpret_cast<::Script *>(this)->GetData()));
-    int count;
+    std::intptr_t count;
     if (!ptarget)
         return 0;
     if (ptarget->GetTargetKind() == 0 || ptarget->GetTargetKind() == 3)
         return 1;
-    count = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)ptarget)))->GetName()));
+    count = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_00672930_flags*)ptarget)))->GetName()));
     if (count > 0)
         return count;
     if (((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0())) == 0x1c)
@@ -11002,7 +11003,7 @@ struct FUN_00672f20_cls
 // @fnv 0x006758a0
 unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 {
-    int loc = ((int)(reinterpret_cast<::FUN_00672f20_cls *>((((PkgProxy*)this)))->FUN_00672f20()));
+    std::intptr_t loc = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>((((PkgProxy*)this)))->FUN_00672f20()));
     return loc == ((Script*)this)->GetText() ? reinterpret_cast<::HighProcess *>((((TESPackage*)this)))->UpdateHighProcessState((::Actor *)(apMobile))
                                              : reinterpret_cast<::fnv_00675670::FUN_00675670_shell *>((((F5670*)this)))->FUN_00675670();
 }
@@ -11010,13 +11011,13 @@ unsigned int Proxy758a0::FUN_006758a0(MobileObject* apMobile)
 // @fnv 0x006757e0
 int FUN_006757e0_shell::FUN_006757e0(MobileObject* actor)
 {
-    int firstResult = ((int)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
+    std::intptr_t firstResult = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
     return firstResult == FUN_0055b980() ? FUN_00675c20(actor) : ((int)(reinterpret_cast<::fnv_006751a0::Pkg *>(this)->FUN_006751a0((::fnv_006751a0::Ref *)(actor))));
 }
 // @fnv 0x00675830
 PackValue12* FUN_00675830_shell::FUN_00675830(PackValue12* output, void* actor)
 {
-    int packageType = ((int)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
+    std::intptr_t packageType = ((std::intptr_t)(reinterpret_cast<::FUN_00672f20_cls *>(this)->FUN_00672f20()));
     PackValue12 successful;
     PackValue12 fallback;
     const PackValue12* sourceValue =
@@ -11319,7 +11320,7 @@ struct Package
 // @fnv 0x006787e0
 float Package::GetPackageResult(Obj* obj, bool flag)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     void* ref = flag ? ((void *)(reinterpret_cast<::FUN_00672dd0_shell *>(this)->FUN_00672dd0())) : FUN_0055b980();
     Obj* unused = 0;
     if (obj->isRef())
@@ -11335,9 +11336,9 @@ float Package::GetPackageResult(Obj* obj, bool flag)
         {
             Package* pPackage = ((::fnv_006787e0::Package *)(reinterpret_cast<::FUN_0041cb10_shell *>((((::fnv_006787e0::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((unused))->FUN_005d43c0()))))->FUN_0041cb10()));
             if (reinterpret_cast<struct ::FUN_0041ca90 *>(this)->get() == 28 && pPackage && ((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData())))
-                result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->GetName()));
+                result = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>((pPackage))->GetData()))))->GetName()));
             else if (((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData())) && type != 26)
-                result = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData()))))->GetName()));
+                result = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_006787e0::Data *)(reinterpret_cast<::Script *>(this)->GetData()))))->GetName()));
             if (!result && !target->isRef())
             {
                 result = (int)reinterpret_cast<::TESObjectREFR *>((target))->GetBoundingRadius();
@@ -12409,7 +12410,7 @@ void PackX::FUN_009ecbe0()
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&cType, 1);
         unsigned short usID;
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&usID, 2);
-        int iResult = ((int)(reinterpret_cast<::FUN_009727c0_shell *>(&((*reinterpret_cast<::fnv_009ecbe0::ListX *>(&::g_011e0e80))))->FUN_009727c0(cType, usID)));
+        std::intptr_t iResult = ((std::intptr_t)(reinterpret_cast<::FUN_009727c0_shell *>(&((*reinterpret_cast<::fnv_009ecbe0::ListX *>(&::g_011e0e80))))->FUN_009727c0(cType, usID)));
     }
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_009ecbe0::SaveX * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {

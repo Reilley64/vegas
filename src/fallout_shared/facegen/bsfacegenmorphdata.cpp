@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmorphdata.cpp: BSFaceGenMorphDataHead, DifferentialArray, HolderDb0, BSFaceGenMorphDataHair (26 functions)
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <cstdlib>
 #include "runtime/crt.h"
@@ -531,9 +532,9 @@ void FUN_006627e0()
         S_004b9900* p1 = (*reinterpret_cast<::fnv_006627e0::S_004b9900 * *>(&::fnv_00653460::DAT_011d5b8c));
         p2 = p1;
         {
-            int v;
+            std::intptr_t v;
             if (p2)
-                v = ((int)(reinterpret_cast<::NiFixedString *>((p2))->FUN_004b9900(1)));
+                v = ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((p2))->FUN_004b9900(1)));
             else
                 v = 0;
         }

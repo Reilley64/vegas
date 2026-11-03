@@ -179,7 +179,7 @@ struct TLSData_005e23f0
     bool bVal;
 };
 
-static __declspec(thread) TLSData_005e23f0 s_tlsData_005e23f0;
+static thread_local TLSData_005e23f0 s_tlsData_005e23f0;
 
 // @fnv 0x005e23f0
 bool __cdecl GetThreadLocalValue()

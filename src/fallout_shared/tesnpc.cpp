@@ -3134,7 +3134,7 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
     bool flag = true;
     while (1)
     {
-        int pEntry = ((int)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
+        std::intptr_t pEntry = ((std::intptr_t)(reinterpret_cast<::Callees *>((((FUN_00603280_Api*)((reinterpret_cast<::Callees *>((((FUN_00603280_Api*)(*reinterpret_cast<int *>(&::g_dataHandler)))))->FUN_00726070())))))->FUN_00726070()));
         while (pEntry != 0)
         {
             if (((FUN_00603280_Api*)pEntry)->FUN_00401170() == 0x2a)
@@ -3152,7 +3152,7 @@ void FUN_00603280(int aiFirstValue, int aiSecondValue, int pCollector)
                     }
                 }
             }
-            pEntry = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)pEntry)))->FUN_007af430()));
+            pEntry = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00603280_Api*)pEntry)))->FUN_007af430()));
         }
         if (reinterpret_cast<::FUN_0076b610_Class *>((((FUN_00603280_Api*)pCollector)))->FUN_0076b610() && flag)
         {
@@ -3930,10 +3930,10 @@ void ProcessHost::FUN_0060a890(int pObject)
     if (pObject == (*reinterpret_cast<int *>(&::_g_thePlayer)))
     {
         OutBuf out;
-        int x;
+        std::intptr_t x;
         int y;
         int p;
-        x = (int)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
+        x = (std::intptr_t)((void *)(reinterpret_cast<::FUN_00950bb0_shell *>((((ProcessHost*)(*reinterpret_cast<int *>(&::_g_thePlayer)))))->FUN_00950bb0(1)));
         y = x != 0 ? x : 0;
         p = y != 0 ? (int)((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((ProcessHost*)y)))->FUN_0045bc00(0))) : 0;
         blob = *(CopyBlob9*)&(*reinterpret_cast<unsigned char *>(&::DAT_011a9448));
@@ -6435,7 +6435,7 @@ void HeadNPC::FUN_00606820(TESObjectREFR* ref, NiPointer<BipedAnim>* biped)
                                     NiSkinInstance* l = ((::NiSkinInstance *)(reinterpret_cast<::fnv_006072c0::Outer6072 *>((extra->GetModelFilePath()))->FUN_006072c0()));
                                     NiSkinInstance* k = ((::NiSkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(aNode5))));
                                     FaceObject** ba = ((::FaceObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((l))->FUN_00825c00()));
-                                    unsigned int b = ((unsigned int)(reinterpret_cast<::LowProcess *>((((::FaceSkinData *)(reinterpret_cast<::TESRegionDataMap *>((l))->GetRegionMapName()))))->GetActiveCombatTarget()));
+                                    std::uintptr_t b = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((::FaceSkinData *)(reinterpret_cast<::TESRegionDataMap *>((l))->GetRegionMapName()))))->GetActiveCombatTarget()));
                                     for (unsigned int j = 0; j < b; j++)
                                         reinterpret_cast<::FUN_004adda0_shell *>((k))->SetBone(j, (::NiAVObject *)(ba[j]));
                                 }

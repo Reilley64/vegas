@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/foislandactivationlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/foislandactivationlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0043b4d0_shell.h"
@@ -666,7 +667,7 @@ void FUN_00624580_Class::FUN_00624580(SceneList* pSceneList)
     if (!pSceneList)
         return;
     SceneList* count = ((::fnv_00624580::SceneList *)(reinterpret_cast<::FUN_00624700_shell *>((pSceneList))->FUN_00624700()));
-    int iItemCount = ((int)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
+    std::intptr_t iItemCount = ((std::intptr_t)(reinterpret_cast<::Callees *>((count))->FUN_00726070()));
     void* pEntry;
     for (int sceneObject = 0; sceneObject < iItemCount; ++sceneObject)
     {
@@ -1124,7 +1125,7 @@ void Manager96::FUN_00624720(Input96* input)
     if (!input)
         return;
     Array96* items = ((::Array96 *)(reinterpret_cast<::FUN_00624700_shell *>((input))->FUN_00624700()));
-    int count = ((int)(reinterpret_cast<::Callees *>((items))->FUN_00726070()));
+    std::intptr_t count = ((std::intptr_t)(reinterpret_cast<::Callees *>((items))->FUN_00726070()));
     for (int i = 0; i < count; i++)
     {
         Node96* node = ((::Node96 *)&(reinterpret_cast<::FUN_00629ab0_shell *>((items))->FUN_00629ab0(i)));

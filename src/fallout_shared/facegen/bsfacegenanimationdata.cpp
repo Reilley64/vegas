@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenanimationdata.cpp: BSFaceGenAnimationData, BSFaceGenKeyframeMultiple, AnimHost, BSFaceGenEyeData (43 functions)
 
+#include <cstdint>
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_004a49e0_shell.h"
 #include "fnv/decl/FUN_0073ac90_shell.h"
@@ -1030,10 +1031,10 @@ void FUN_00649ec0()
 {
     BSFadeNode* b = (*reinterpret_cast<::fnv_00649ec0::BSFadeNode * *>(&::DAT_011d5744));
     BSFadeNode* a;
-    int c;
+    std::intptr_t c;
     a = b;
     if (a)
-        c = ((int)(reinterpret_cast<::NiFixedString *>((a))->FUN_004b9900(1)));
+        c = ((std::intptr_t)(reinterpret_cast<::NiFixedString *>((a))->FUN_004b9900(1)));
     else
         c = 0;
     (*reinterpret_cast<::fnv_00649ec0::BSFadeNode * *>(&::DAT_011d5744)) = 0;

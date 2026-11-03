@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/testraplistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/testraplistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -1761,7 +1762,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
             Array62* array = collector.FUN_00413f40();
             if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
             {
-                int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
+                std::intptr_t count = ((std::intptr_t)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
                 for (int i = 0; i < count; i++)
                 {
                     void* body = ((::ArrayEntry62 *)(reinterpret_cast<::FUN_0062e150_cls *>((array))->FUN_0062e150(i)))->bodyC;
@@ -1793,7 +1794,7 @@ bool Subject62::ProcessCollisionPairs(int arg)
         Array62* array = ((::Array62 *)(reinterpret_cast<::FUN_0045c650_shell *>((shape))->FUN_0045c650()));
         if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::Check62 &)((*(::Check62 *)(reinterpret_cast<::FUN_0062e120_shell *>((array))->FUN_0062e120({})))))->FUN_005609f0())
         {
-            int count = ((int)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
+            std::intptr_t count = ((std::intptr_t)(reinterpret_cast<::Callees *>((array))->FUN_00726070()));
             for (int i = 0; i < count; i++)
             {
                 void* body = ((::ArrayEntry62 *)&(reinterpret_cast<::FUN_00629ab0_shell *>((array))->FUN_00629ab0(i)))->bodyA;

@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenninode.cpp: FaceNode, FaceGenNode, DumpNode (33 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1810,7 +1811,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
 {
     unsigned int numBones, count, i;
     SceneNode* j;
-    unsigned int bones;
+    std::uintptr_t bones;
     Geometry* skin;
     SkinInstance* bone;
     SceneNode** geometry;
@@ -1829,7 +1830,7 @@ void FaceNode::AttachBones(SceneNode* parent, bool warn)
         bone = ((::SkinInstance *)(::fnv_0043fad0::FUN_0043fad0((const char *)(skin))));
         if (!bone || !((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName())))
             continue;
-        bones = ((unsigned int)(reinterpret_cast<::LowProcess *>((((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName()))))->GetActiveCombatTarget()));
+        bones = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((((::SkinData *)(reinterpret_cast<::TESRegionDataMap *>((bone))->GetRegionMapName()))))->GetActiveCombatTarget()));
         geometry = ((::SceneNode **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((bone))->FUN_00825c00()));
         if (!geometry || !bones)
             continue;

@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/tesarrowtargetlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/tesarrowtargetlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_00444d00_Class.h"
@@ -208,7 +209,7 @@ void FUN_0062a510_cls::FUN_0062a510(int a1)
     {
         Obj* m_tmp = ((::Obj *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(::Obj *)(((::Obj *)(::FUN_004ae750((void *)(p))))))));
         Obj* r = (m_tmp != 0) ? ((::Obj *)(reinterpret_cast<::Twin_0044ddc0 *>((m_tmp))->GetName())) : 0;
-        int g_tmp = ((int)(::FUN_0056f930((::NiAVObject *)(r))));
+        std::intptr_t g_tmp = ((std::intptr_t)(::FUN_0056f930((::NiAVObject *)(r))));
         Obj* t = ((::Obj *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::Obj *>(&::g_011e0e80))))->GetCurrentProcessData()));
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_005be5c0_shell *>((t))->FUN_005be5c0(0); ++i)
         {

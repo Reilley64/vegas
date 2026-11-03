@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptableform.cpp: TESScriptableForm (6 functions)
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -27,7 +28,7 @@ void TESScriptableForm::InitItem(TESForm* owner)
         return;
     if (m_pFormScript)
     {
-        unsigned int scriptID = (unsigned int)m_pFormScript;
+        std::uintptr_t scriptID = (std::uintptr_t)m_pFormScript;
         ::ResolveFormID((unsigned int *)&(scriptID), owner->GetFile(-1));
         m_pFormScript = dynamic_cast<Script*>(::FUN_004839c0(scriptID));
         if (!m_pFormScript)

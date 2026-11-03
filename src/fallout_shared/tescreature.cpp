@@ -1,5 +1,6 @@
 // fallout_shared/tescreature.cpp: TESCreature, DelStandIn, ActorValue, StandIn and more (45 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <malloc.h>
@@ -4610,7 +4611,7 @@ void Host_CreatureInit::FUN_005f9340()
     }
     if (!reinterpret_cast<::TESActorBaseData *>((void *)&(m_30))->GetFlag(0x100))
     {
-        unsigned int soundId = (unsigned int)m_128;
+        unsigned int soundId = (unsigned int)(std::uintptr_t)m_128;
         if (soundId)
         {
             ::ResolveFormID(&soundId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -4628,7 +4629,7 @@ void Host_CreatureInit::FUN_005f9340()
     }
     if (m_140)
     {
-        unsigned int combatId = (unsigned int)v98();
+        unsigned int combatId = (unsigned int)(std::uintptr_t)v98();
         if (combatId)
         {
             ::ResolveFormID(&combatId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -4643,7 +4644,7 @@ void Host_CreatureInit::FUN_005f9340()
         v99(((::TESCombatStyle *)(::FUN_00505000())));
     if (m_144)
     {
-        unsigned int bodyId = (unsigned int)m_144;
+        unsigned int bodyId = (unsigned int)(std::uintptr_t)m_144;
         if (bodyId)
         {
             ::ResolveFormID(&bodyId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -4654,7 +4655,7 @@ void Host_CreatureInit::FUN_005f9340()
             }
         }
     }
-    formId = (unsigned int)m_14c;
+    formId = (unsigned int)(std::uintptr_t)m_14c;
     if (formId)
     {
         ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));
@@ -4662,7 +4663,7 @@ void Host_CreatureInit::FUN_005f9340()
         if (!m_14c)
             ::FUN_005b5e40();
     }
-    formId = (unsigned int)m_158;
+    formId = (unsigned int)(std::uintptr_t)m_158;
     if (formId)
     {
         ::ResolveFormID(&formId, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));

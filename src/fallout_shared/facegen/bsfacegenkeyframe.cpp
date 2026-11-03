@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenkeyframe.cpp: BSFaceGenKeyframeMultiple, BSFaceGenKeyframe, DelStandIn, KFThis and more (26 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_004ed8c0_shell.h"
@@ -559,11 +560,11 @@ bool BlendFrame::BlendWith(BlendFrame* apLeft, BlendFrame* apRight, float weight
         blendA = 1.0f;
     else
         blendA = weight;
-    unsigned _maximum;
+    std::uintptr_t _maximum;
     if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0())) >= ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0())))
-        _maximum = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0()));
+        _maximum = ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((leftX))->FUN_0044edb0()));
     else
-        _maximum = ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0()));
+        _maximum = ((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((right3))->FUN_0044edb0()));
     SetType(leftX->GetType());
     for (unsigned index = 0; index < count; ++index)
     {

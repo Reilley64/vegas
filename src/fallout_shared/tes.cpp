@@ -6865,7 +6865,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
     }
     {
         Obj* base;
-        int ret;
+        std::intptr_t ret;
         Obj* node;
         if (((Obj*)::FUN_0070ec90((char*)this)) != 0)
         {
@@ -6874,19 +6874,19 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
             ret = 0;
             while (0 != base)
             {
-                ret = ((int)(reinterpret_cast<::FUN_007b52d0_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->DereferenceIfNotNull((int **)(base))));
+                ret = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->DereferenceIfNotNull((int **)(base))));
                 if (base != 0)
                 {
                     node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((int)(base))));
                     Obj* lst = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)((char*)node + 0x24))))));
-                    unsigned int nxtL = 0;
+                    std::uintptr_t nxtL = 0;
                     while (lst != 0)
                     {
-                        nxtL = ((int)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst))));
+                        nxtL = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst))));
                         if (lst != 0)
                         {
                             Obj* theItem = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((int)(lst))));
-                            int pass = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((theItem))->FUN_007af430()));
+                            std::intptr_t pass = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((theItem))->FUN_007af430()));
                             Obj* vTmp = ((BigV*)theItem)->v116ret();
                             if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(vTmp->FUN_0043b4a0(0))))
                             {
@@ -6903,14 +6903,14 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
             if (node != 0)
             {
                 Obj* lst2 = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((Obj*)((char*)node + 0x24))))));
-                int nxt2 = 0;
+                std::intptr_t nxt2 = 0;
                 while (lst2 != 0)
                 {
-                    nxt2 = ((int)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst2))));
+                    nxt2 = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((Obj*)((char*)node + 0x24))))->DereferenceIfNotNull((int **)(lst2))));
                     if (lst2 != 0)
                     {
                         Obj* itemB = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((Obj*)((char*)node + 0x24))))->AddEight((int)(lst2))));
-                        int has = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((itemB))->FUN_007af430()));
+                        std::intptr_t has = ((std::intptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((itemB))->FUN_007af430()));
                         Obj* top = ((BigV*)itemB)->v116ret();
                         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(char *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::fnv_0045bc80::Obj *)(top->FUN_0043b4a0(0))))
                         {
@@ -10224,7 +10224,7 @@ float FUN_0045cbc0_shell::GetCellHeightAtPosition(const NiPoint3* apPos, CellVie
             return reinterpret_cast<::BGSProjectile *>((((::FUN_0045cbc0_Grid *)(reinterpret_cast<::EffectSetting *>((((FUN_0045cbc0_TES*)g_TES)))->GetHitSound()))))->GetExplosionProximity();
     }
     int iWorldX;
-    int iBaseY;
+    std::intptr_t iBaseY;
     if (apCell)
     {
         iWorldX = reinterpret_cast<::TESObjectCELL *>((apCell))->GetCellGridX();
@@ -10233,7 +10233,7 @@ float FUN_0045cbc0_shell::GetCellHeightAtPosition(const NiPoint3* apPos, CellVie
     else
     {
         iWorldX = ((int)(reinterpret_cast<::ActorMover *>((((FUN_0045cbc0_TES*)g_TES)))->GetCurrentMoveModeType()));
-        iBaseY = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0045cbc0_TES*)g_TES)))->FUN_0045cd60()));
+        iBaseY = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0045cbc0_TES*)g_TES)))->FUN_0045cd60()));
     }
     float fOtherHeight = 0.0f;
     for (int iX = iWorldX - 1; iX < iWorldX + 2; iX++)

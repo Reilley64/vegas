@@ -1,5 +1,6 @@
 // fallout_shared/packagetarget.cpp: PackageTargetRecord, LocationDescriptor, Script, SaveDataStub (21 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -173,7 +174,7 @@ char* Script::GetData()
 // @fnv 0x006803b0
 void PackageTargetRecord::InitItem(TESForm* owner)
 {
-    unsigned int formID = (unsigned int)pTargetForm;
+    std::uintptr_t formID = (std::uintptr_t)pTargetForm;
     ::ResolveFormID((unsigned int *)&(formID), owner->GetFile(-1));
     switch (m_uiTargetType)
     {

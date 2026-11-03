@@ -1141,7 +1141,7 @@ struct TLS_004623f0
     char pad[0x294];
     unsigned int val;
 };
-__declspec(thread) TLS_004623f0 g_tls_004623f0;
+thread_local TLS_004623f0 g_tls_004623f0;
 
 // Calls FUN_00462480 on this, sets or clears bit 0 of g_tls_004623f0.val based on abValue, and returns the call's result.
 // @fnv 0x004623f0
@@ -4166,7 +4166,7 @@ struct FUN_0046a080_shell
 int FUN_0046a080_shell::CreateExplosion(TESObjectREFR* pProjectile, NiPoint3* pPosition, NiPoint3* pDirection,
                                         TESObjectCELL* pCellArg, TESWorldSpace* m_pContainingWorldspace)
 {
-    int pCell = 0;
+    std::intptr_t pCell = 0;
     TESObjectCELL* cellX;
     TESObjectREFR* result;
     int pActor;
@@ -4193,7 +4193,7 @@ int FUN_0046a080_shell::CreateExplosion(TESObjectREFR* pProjectile, NiPoint3* pP
 
         if (cellX != 0)
         {
-            pCell = ((int)(::CreateProjectile((::P062Ammo *)(result), (::P062Object *)(0), (::P062Object *)(0), (::P062Object *)(0), *pPosition, pDirection->z, pDirection->x, (void *)(0), 0, 0, 0, 0.0f, 0.0f,
+            pCell = ((std::intptr_t)(::CreateProjectile((::P062Ammo *)(result), (::P062Object *)(0), (::P062Object *)(0), (::P062Object *)(0), *pPosition, pDirection->z, pDirection->x, (void *)(0), 0, 0, 0, 0.0f, 0.0f,
                                      cellX)));
         }
     }
@@ -4263,7 +4263,7 @@ void TESDataHandler::RegisterAddonNode(BGSAddonNode* node)
 {
     if (!node)
         return;
-    unsigned int index = ((unsigned int)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass()));
+    std::uintptr_t index = ((std::uintptr_t)(reinterpret_cast<::FUN_0068a830_shell *>((node))->GetGrass()));
     if (index < reinterpret_cast<::FUN_00658930_class *>(&(addonNodes))->GetShortAtOffsetA())
     {
         BGSAddonNode* old = addonNodes.GetAt(index);
@@ -4514,13 +4514,13 @@ typedef bool(* FUN_00460270_vfn)(void*, unsigned int);
 // @fnv 0x00460270
 bool FUN_00460270_cls::FUN_00460270(TESForm* pForm, int unused)
 {
-    unsigned int id;
+    std::uintptr_t id;
     bool flagTmp;
     if (m_20c == 0)
     {
         return false;
     }
-    id = ((unsigned int)(reinterpret_cast<::TESForm *>((((FUN_00460270_forminfo*)pForm)))->GetFile(-1)));
+    id = ((std::uintptr_t)(reinterpret_cast<::TESForm *>((((FUN_00460270_forminfo*)pForm)))->GetFile(-1)));
     flagTmp = false;
     if ((!(id != m_20c || reinterpret_cast<::TESFile *>((((FUN_00460270_slotfn*)m_20c)))->IsMasterFile()) ||
          reinterpret_cast<::FUN_00460340_shell *>((((FUN_00460270_forminfo*)pForm)))->FUN_00460340()) ||
@@ -4570,8 +4570,8 @@ TESObjectCELL* FUN_00461330_shell::FUN_00461330(const char* editorID, int x, int
     AutoMemContext memContext3((MEM_CONTEXT)0x1a, true,
                                "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESDataHandler.cpp", 0x7dd);
     TESObjectCELL* pCell = new TESObjectCELL;
-    unsigned int uiID = 0;
-    uiID = ((unsigned int)(reinterpret_cast<::Own61 *>((((SaveLoadIDHelper*)::g_TESSaveLoadGame)))->RemoveCommand((const char *)(((reinterpret_cast<::FUN_0084e3a0_Class *>((((CellCoordHelper*)world)))->FUN_0084e3a0()))), {}, {})));
+    std::uintptr_t uiID = 0;
+    uiID = ((std::uintptr_t)(reinterpret_cast<::Own61 *>((((SaveLoadIDHelper*)::g_TESSaveLoadGame)))->RemoveCommand((const char *)(((reinterpret_cast<::FUN_0084e3a0_Class *>((((CellCoordHelper*)world)))->FUN_0084e3a0()))), {}, {})));
     if (uiID)
         pCell->SetRefID(uiID, true);
     if (editorID)
@@ -5542,7 +5542,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
                 TESBoundObject* pObjectBase = ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430()));
                 ::FUN_005b5e40(
                     );
-                unsigned int uiFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName()));
+                std::uintptr_t uiFlags = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pRef))->GetName()));
                 uiFlags &= ~0x400;
                 reinterpret_cast<::TESRegionGrassObject *>((pRef))->AssignLandTexture((::TESLandTexture *)(uiFlags));
             }

@@ -1168,7 +1168,7 @@ void DistantBlock::LoadDistantObjectBlock()
         MEM_DISTANT_OBJECT, true,
         "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Distant Terrain System\\BGSDistantObjectBlock.cpp",
         922);
-    int memory = ((int)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
+    std::intptr_t memory = ((std::intptr_t)(reinterpret_cast<::FUN_00c3cff0_shell *>(this)->FUN_00c3cff0(0, 1)));
     int canLoad = 1;
     if (memory == 0 && !FUN_00456a20(((const char *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())), 0, 6, 1))
         canLoad = 0;

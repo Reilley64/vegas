@@ -1017,9 +1017,9 @@ struct FUN_00522ba0_obj { int FUN_00522ba0(int); };
 // @fnv 0x00522ba0
 int FUN_00522ba0_obj::FUN_00522ba0(int a1)
 {
-    int val = 0;
+    std::intptr_t val = 0;
     if (*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C) != 0)
-        val = ((int)(reinterpret_cast<::Proxy804 *>(((*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))))->FUN_004fb7a0(a1)));
+        val = ((std::intptr_t)(reinterpret_cast<::Proxy804 *>(((*reinterpret_cast<FUN_004fb7a0_obj**>(reinterpret_cast<char*>(this) + 0x24C))))->FUN_004fb7a0(a1)));
     return val;
 }
 
@@ -1453,169 +1453,169 @@ void TESObjectWEAP::InitItem()
     TESModelTextureSwap::InitItem(this);
     BGSRepairItemList::InitItem(this);
     BGSPickupPutdownSounds::InitItem(this);
-    unsigned int formID = (unsigned int)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
+    std::uintptr_t formID = (std::uintptr_t)((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         reinterpret_cast<::FUN_0051f4b0_shell *>(this)->FUN_0051f4b0((int)(dynamic_cast<BGSProjectile*>(::FUN_004839c0(formID))));
         if(!((::BGSProjectile *)(reinterpret_cast<::Thing *>(this)->GetOrFallback((int)(0))))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));
+    formID = (std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         reinterpret_cast<::FUN_0051f570_shell *>(this)->SetEffectShader(dynamic_cast<TESEffectShader*>(::FUN_004839c0(formID)));
         if(!((::TESEffectShader *)(reinterpret_cast<::TESDataHandler *>(this)->GetCompiledFileCount()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         reinterpret_cast<::FUN_0051f4f0_Class *>(this)->FUN_0051f4f0((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::FUN_0051f4d0_class *>(this)->GetField1CC()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
+    formID = (std::uintptr_t)((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()));
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         reinterpret_cast<::FUN_0051f530_class *>(this)->FUN_0051f530((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if(!((::SpellItem *)(reinterpret_cast<::HighProcess *>(this)->GetMobileObject()))) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound1;
+    formID = (std::uintptr_t)m_pWeaponSound1;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound1 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound1) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound2;
+    formID = (std::uintptr_t)m_pWeaponSound2;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound2 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound2) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound3;
+    formID = (std::uintptr_t)m_pWeaponSound3;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound3 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound3) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound4;
+    formID = (std::uintptr_t)m_pWeaponSound4;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound4 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound4) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound5;
+    formID = (std::uintptr_t)m_pWeaponSound5;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound5 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound5) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound6;
+    formID = (std::uintptr_t)m_pWeaponSound6;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound6 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound6) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound7;
+    formID = (std::uintptr_t)m_pWeaponSound7;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound7 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound7) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponSound8;
+    formID = (std::uintptr_t)m_pWeaponSound8;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponSound8 = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponSound8) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponUnequipSound;
+    formID = (std::uintptr_t)m_pWeaponUnequipSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponUnequipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponUnequipSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponEquipSound;
+    formID = (std::uintptr_t)m_pWeaponEquipSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponEquipSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponEquipSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponPickupSound;
+    formID = (std::uintptr_t)m_pWeaponPickupSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponPickupSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponPickupSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponDropSound;
+    formID = (std::uintptr_t)m_pWeaponDropSound;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponDropSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if(!m_pWeaponDropSound) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pImpactDataSet;
+    formID = (std::uintptr_t)m_pImpactDataSet;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pImpactDataSet = dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID));
         if(!m_pImpactDataSet) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonObject;
+    formID = (std::uintptr_t)p1stPersonObject;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonObject = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonObject) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod1Object;
+    formID = (std::uintptr_t)p1stPersonMod1Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod1Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod1Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod2Object;
+    formID = (std::uintptr_t)p1stPersonMod2Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod2Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod2Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod3Object;
+    formID = (std::uintptr_t)p1stPersonMod3Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod3Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod3Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod12Object;
+    formID = (std::uintptr_t)p1stPersonMod12Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod12Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod12Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod13Object;
+    formID = (std::uintptr_t)p1stPersonMod13Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod13Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod13Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod23Object;
+    formID = (std::uintptr_t)p1stPersonMod23Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod23Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod23Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)p1stPersonMod123Object;
+    formID = (std::uintptr_t)p1stPersonMod123Object;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         p1stPersonMod123Object = dynamic_cast<TESObjectSTAT*>(::FUN_004839c0(formID));
         if(!p1stPersonMod123Object) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod1;
+    formID = (std::uintptr_t)m_pWeaponMod1;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod1 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
         if(!m_pWeaponMod1) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod2;
+    formID = (std::uintptr_t)m_pWeaponMod2;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod2 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));
         if(!m_pWeaponMod2) ::FUN_005b5e40();
     }
-    formID = (unsigned int)m_pWeaponMod3;
+    formID = (std::uintptr_t)m_pWeaponMod3;
     if(formID) {
         ::ResolveFormID((unsigned int *)&(formID),GetFile(-1));
         m_pWeaponMod3 = dynamic_cast<TESObjectIMOD*>(::FUN_004839c0(formID));

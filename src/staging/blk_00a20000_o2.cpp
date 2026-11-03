@@ -329,7 +329,6 @@ FUN_00a29a70::FUN_00a29a70()
 
 
 // Stores seven function pointers into seven global tables at the slot computed from a and b.
-extern bool (*g_fnv_cb_011f3810[])(float, int*, int*);
 // @fnv 0x00a2baa0
 void __cdecl FUN_00a2baa0(int a, int b)
 {

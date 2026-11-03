@@ -16,6 +16,7 @@
 #include "fnv/symbols_00eea000.h"
 #include "fnv/symbols_0101d000.h"
 #include "fnv/symbols_0109b000.h"
+#include "bsmenu/global_string_header.h"
 #include "../../include/layout_support.h"
 
 extern "C" void __cdecl _Call_a5d3a0();
@@ -85,9 +86,9 @@ void FUN_00eea710_class::AssignRefCounted(void** apSource)
     if (m_field_18 != src)
     {
         if (src != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            InterlockedIncrement((volatile long*)((char*)src - 8));
+            InterlockedIncrement(&((StringHeader*)(src) - 1)->refs);
         if (m_field_18 != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
-            InterlockedDecrement((volatile long*)((char*)m_field_18 - 8));
+            InterlockedDecrement(&((StringHeader*)(m_field_18) - 1)->refs);
         m_field_18 = src;
     }
 }
@@ -131,10 +132,10 @@ void FUN_00eea650_stand_in::FUN_00eea650(const FUN_00ee8a10& aSource)
     if (m_pString != pcSourceString)
     {
         if (pcSourceString != ::DAT_0109b220)
-            InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(pcSourceString) - 8));
+            InterlockedIncrement(&((StringHeader*)(pcSourceString) - 1)->refs);
 
         if (m_pString != ::DAT_0109b220)
-            InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
+            InterlockedDecrement(&((StringHeader*)(m_pString) - 1)->refs);
 
         m_pString = pcSourceString;
     }
@@ -503,15 +504,15 @@ struct FixedStringOwner
 void FixedStringOwner::ReleaseStrings()
 {
     if (m_fifthString != ::DAT_0109b220)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fifthString) - 8));
+        InterlockedDecrement(&((StringHeader*)(m_fifthString) - 1)->refs);
     if (m_fourthString != ::DAT_0109b220)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_fourthString) - 8));
+        InterlockedDecrement(&((StringHeader*)(m_fourthString) - 1)->refs);
     if (m_thirdString != ::DAT_0109b220)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_thirdString) - 8));
+        InterlockedDecrement(&((StringHeader*)(m_thirdString) - 1)->refs);
     if (m_secondString != ::DAT_0109b220)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_secondString) - 8));
+        InterlockedDecrement(&((StringHeader*)(m_secondString) - 1)->refs);
     if (m_firstString != ::DAT_0109b220)
-        InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_firstString) - 8));
+        InterlockedDecrement(&((StringHeader*)(m_firstString) - 1)->refs);
 
     m_vftable = &(*reinterpret_cast<unsigned int *>(&::DAT_0101dce4));
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
@@ -538,11 +539,11 @@ void FixedStringHolder::FUN_00eea690(const char** source)
     {
         if (newString != ::DAT_0109b220)
         {
-            InterlockedIncrement(reinterpret_cast<volatile long*>(const_cast<char*>(newString) - 8));
+            InterlockedIncrement(&((StringHeader*)(newString) - 1)->refs);
         }
         if (m_pString != ::DAT_0109b220)
         {
-            InterlockedDecrement(reinterpret_cast<volatile long*>(const_cast<char*>(m_pString) - 8));
+            InterlockedDecrement(&((StringHeader*)(m_pString) - 1)->refs);
         }
         m_pString = newString;
     }
@@ -583,12 +584,14 @@ int* FUN_00eea500_Holder::FUN_00eea500()
 
 struct FnvCpu_FUN_00eea520_CpuObject
 {
+    char m_pad00[0x18];
+    char m_buffer18[1];
     char* FUN_00eea520();
 };
 // @fnv 0x00eea520
 char* FnvCpu_FUN_00eea520_CpuObject::FUN_00eea520()
 {
-    return reinterpret_cast<char*>(this) + 24;
+    return m_buffer18;
 }
 
 struct FixedStringBase

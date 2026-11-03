@@ -774,6 +774,12 @@ struct hkpAgentNnEntryCFEA
     int unk18, unk1c;
 };
 
+// The entry of an agent with a time of impact: the separating normal follows the entry.
+struct hkpAgentNnMachineTimEntryCFEA : hkpAgentNnEntryCFEA
+{
+    alignas(16) float m_separatingNormal[4];
+};
+
 struct hkpCollisionEntryCFEA
 {
     hkpAgentNnEntryCFEA* m_pAgentEntry;
@@ -851,13 +857,13 @@ void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionD
     case 10:
     case 14: {
         hkAgent3DestroyFuncCFEA pDestroyFunc = dispatch->getAgent3DestroyFunc(entry->m_ucNnTrackType);
-        pDestroyFunc(entry, (char*)entry + 0x20, entry->m_pContactManager, constraintOwner, dispatch);
+        pDestroyFunc(entry, entry + 1, entry->m_pContactManager, constraintOwner, dispatch);
         break;
     }
     case 4:
     case 12: {
         hkAgent3DestroyFuncCFEA pDestroyFunc = dispatch->getAgent3DestroyFunc(entry->m_ucNnTrackType);
-        pDestroyFunc(entry, (char*)entry + 0x30, entry->m_pContactManager, constraintOwner, dispatch);
+        pDestroyFunc(entry, static_cast<hkpAgentNnMachineTimEntryCFEA*>(entry) + 1, entry->m_pContactManager, constraintOwner, dispatch);
         break;
     }
     default:

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <xmmintrin.h>
+
 class FnvHolder;
 namespace fnv_00c66320 { union __m128; }
 namespace fnv_00cb94a0 { struct MyHost; }

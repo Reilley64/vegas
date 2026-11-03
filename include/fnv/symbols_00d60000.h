@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x00d60550
 float DivideInt64ToFloat(long long, long long);
@@ -11,4 +12,4 @@ void FUN_00d60900(char *);
 // 0x00d60960
 void FUN_00d60960(const float *);
 // 0x00d609c0
-unsigned int HashUInt(unsigned int);
+unsigned int HashUInt(uintptr_t);

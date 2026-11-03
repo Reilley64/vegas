@@ -8,7 +8,7 @@
 // array.  It forwards to a file-static helper FUN_00c7f4a0(out, self, count).
 //
 // MSVC 2008 gives an internal-linkage (file-static) helper its own internal
-// "register argument" convention: instead of pushing the arguments on the
+// "argument" convention: instead of pushing the arguments on the
 // stack they are passed in registers.  With the helper declared as
 //     static void* FUN_00c7f4a0(void* out, void* self, int count)
 // MSVC 2008 assigns  out->EAX, self->ESI, count->EDX  and the call site
@@ -18,6 +18,11 @@
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
 
+#include <cstdint>
+#include "fnv_simd.h"
+#include <cmath>
+#include "fnv/symbols_01012000.h"
+#include <math.h>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/FUN_00c6c720_class.h"
 #include "fnv/decl/FUN_00c6e280_cls.h"
@@ -1484,7 +1489,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
     else
         decoded48 = 0;
     bool flag = false;
-    int iIndex = 0;
+    intptr_t iIndex = 0;
     if (decoded48)
     {
         BoundingVolumeNode* found = 0;
@@ -1550,10 +1555,10 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                 {
                     direction.q = make4(0.0f, (float)(x5f4 * 0.5), scale, 0.0f);
                     if (i == 1)
-                        direction.q.m128_f32[1] = (float)(direction.q.m128_f32[1] * -1.0);
+                        fnv_simd_as<float>(direction.q)[1] = (float)(fnv_simd_as<float>(direction.q)[1] * -1.0);
                 }
                 slots[i].FUN_00c7f640(tm, &direction);
-                slots[i].q.m128_f32[2] += x470;
+                fnv_simd_as<float>(slots[i].q)[2] += x470;
                 input.vectors[i] = subtractVectors(pos, slots[i]);
             }
             float d0 = scalar(squared3(input.vectors[0].q));
@@ -1567,10 +1572,10 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
         __m128 vLeft = origin.q;
         _ReadWriteBarrier();
         direction.q = _mm_sub_ps(vLeft, pos.q);
-        direction.q.m128_f32[2] = 0.0f;
+        fnv_simd_as<float>(direction.q)[2] = 0.0f;
         origin(2) += x470;
         __m128 vNormalized = normalized3(direction.q);
-        pos.q.m128_f32[2] = (float)origin.get(2);
+        fnv_simd_as<float>(pos.q)[2] = (float)origin.get(2);
         float fDeltaZ = sourceZ - (float)origin.get(2);
         direction.q = vNormalized;
         char side = 1;
@@ -1581,7 +1586,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
         {
             if (!(sub.flags & 1))
                 goto end;
-            fDeltaZ = sourceZ - slots[iIndex].q.m128_f32[2] + x470;
+            fDeltaZ = sourceZ - fnv_simd_as<float>(slots[iIndex].q)[2] + x470;
             if (fDeltaZ > 0.0f)
             {
                 if (fDeltaZ > limit)
@@ -1612,8 +1617,8 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                 ::ComputeInverseLengths((::__m128 *)(scratch.col), (float *)(::Plane *)(&plane));
                 input.vectors[1].q = pos.q;
                 input.vectors[0].q = pos.q;
-                input.vectors[1].q.m128_f32[0] -= scalar(direction.q) * x474;
-                input.vectors[1].q.m128_f32[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * x474;
+                fnv_simd_as<float>(input.vectors[1].q)[0] -= scalar(direction.q) * x474;
+                fnv_simd_as<float>(input.vectors[1].q)[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * x474;
                 ::FUN_00cd6520((const ::ContactVector *)(input.vectors), 0.05f, (const ::ContactVector *)(scratch.col), triangle->radius, (const float *)(const ::Plane *)(&plane), 0.0f, 0, (::ContactRecord *)(::Contacts *)(&output.contacts), (::Feature *)(void *)(0));
                 flag = output.contacts.hit[0].distance >= 0.0f && output.contacts.hit[1].distance >= 0.0f;
                 goto end;
@@ -1629,8 +1634,8 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
             output.ray.keys[0] = -1;
             endpoint.q = origin.q;
             scale = x474 + scale;
-            endpoint.q.m128_f32[0] -= scalar(direction.q) * scale;
-            endpoint.q.m128_f32[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * scale;
+            fnv_simd_as<float>(endpoint.q)[0] -= scalar(direction.q) * scale;
+            fnv_simd_as<float>(endpoint.q)[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * scale;
             scratch.col[0].q = decoded48->mat.col[0].q;
             scratch.col[1].q = decoded48->mat.col[1].q;
             scratch.col[2].q = decoded48->mat.col[2].q;
@@ -1657,8 +1662,85 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
     }
 end:
     if ((sub.flags & 1) && flag)
-        reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((int)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
+        reinterpret_cast<::FUN_00c6c720_class *>(&(sub))->AccumulateValue((intptr_t)((void*)iIndex), scalar(_mm_shuffle_ps(_mm_load_ps(a->v), _mm_load_ps(a->v), 170)));
     return flag;
+}
+struct hkBool_c7f5
+{
+    char m_cBooleanValue;
+    hkBool_c7f5()
+    {}
+    hkBool_c7f5(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+class hkVector4_c7f5
+{
+  public:
+    __m128 m_vComponents;
+    hkBool_c7f5 CheckFloatsFinite() const;
+    hkBool_c7f5 FUN_00c7f520(float eps) const;
+};
+
+// @fnv 0x00c7f520
+hkBool_c7f5 hkVector4_c7f5::FUN_00c7f520(float eps) const
+{
+    if (CheckFloatsFinite())
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq);
+        len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), len);
+        float lenSq;
+        _mm_store_ss(&lenSq, len);
+        float lenZero = (float)(lenSq - ::g_01012070);
+        return (float)fabs(lenZero) < eps;
+    }
+    return false;
+}
+
+struct hkBool_c7f5b
+{
+    char m_cBooleanValue;
+    hkBool_c7f5b()
+    {}
+    hkBool_c7f5b(bool b)
+    {
+        m_cBooleanValue = (char)b;
+    }
+    operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+
+class hkVector4_c7f5b
+{
+  public:
+    __m128 m_vComponents;
+    hkBool_c7f5b FUN_00c7f500() const;
+    hkBool_c7f5b FUN_00c7f5b0(float eps) const;
+};
+
+// @fnv 0x00c7f5b0
+hkBool_c7f5b hkVector4_c7f5b::FUN_00c7f5b0(float eps) const
+{
+    if (FUN_00c7f500())
+    {
+        __m128 sq = _mm_mul_ps(m_vComponents, m_vComponents);
+        __m128 sum = _mm_add_ps(_mm_shuffle_ps(sq, sq, 0x4e), sq);
+        __m128 len = _mm_add_ps(_mm_shuffle_ps(sum, sum, 0xb1), sum);
+        float lenSq;
+        _mm_store_ss(&lenSq, len);
+        float lenZero = (float)(lenSq - ::g_01012070);
+        return (float)fabs(lenZero) < eps;
+    }
+    return false;
 }
 
 #include "generated/data/havok/common/base/math/vector/hkvector4.inc"

@@ -2,7 +2,11 @@
 // src/havok/common/scenedata/mesh/hkxmeshsection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
 #include <new>
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_01268000.h"
 #include "fnv/decl/E673F0Geometry.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00e3dfb0_cls.h"
@@ -11,6 +15,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
 #include "havok/hkxMeshSection.h"
+#include "havok/hkxIndexBuffer.h"
 
 extern int DAT_010e9b7c;
 struct IndexArray
@@ -32,6 +37,7 @@ struct FUN_00e61720
     IndexArray m_kUserChannels;
     FUN_00e61720(void* arg);
 };
+
 
 class hkMemoryAllocatorE6;
 
@@ -176,10 +182,6 @@ hkxMeshSectionE6& hkxMeshSectionE6::FUN_00e61770(const hkxMeshSectionE6& o)
     return *this;
 }
 
-class hkxIndexBuffer
-{
-  public:
-};
 struct MeshSection : public hkxMeshSection
 {
     void FUN_00e61420(unsigned int position, unsigned int& a, unsigned int& b, unsigned int& c) const;
@@ -282,5 +284,128 @@ void Mesh_e614::FUN_00e61480(hkArray_e614<__m128>& positions)
     {
         positions.m_data[base + i] = *(const __m128*)src;
         src += stride;
+    }
+}
+
+
+struct hkGeometryTriangle
+{
+    int m_kPointA;
+    int m_kPointB;
+    int m_iThirdValue;
+    int m_iMaterialIndex;
+};
+
+struct hkGeometryData
+{
+    hkArray<hkVector4> m_kVertices;
+    hkArray<hkGeometryTriangle> m_uiTriangleCount;
+};
+
+struct hkContainerAllocHolder
+{
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
+};
+
+void ResizeAudioStream(void* alloc, void* array, int elemSize);
+
+class hkErrStreamData
+{
+  public:
+    hkErrStreamData(void* buf, int size) throw();
+    ~hkErrStreamData() throw();
+    hkErrStreamData& operator<<(const char* str) throw();
+    void* unk00;
+    int unk04;
+    void* unk08;
+};
+
+class hkErrorData
+{
+  public:
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual int message(int type, int id, const char* desc, const char* file, int line) throw();
+};
+
+
+static inline void PushBackTriangle(hkArray<hkGeometryTriangle>& arr, const hkGeometryTriangle& t)
+{
+    hkContainerAllocHolder* holder = static_cast<hkContainerAllocHolder*>(::FUN_00c85750());
+    if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
+        ResizeAudioStream(holder->unk10, &arr, sizeof(hkGeometryTriangle));
+    arr.m_data[arr.m_iElementCount++] = t;
+}
+
+class hkxMeshSectionImpl : public hkxMeshSection
+{
+  public:
+    void FUN_00e61480(hkGeometryData& geometry);
+    void FUN_00e61530(hkGeometryData& geometry, int materialIndex);
+};
+
+// @fnv 0x00e61530
+void hkxMeshSectionImpl::FUN_00e61530(hkGeometryData& geometry, int materialIndex)
+{
+    FUN_00e61480(geometry);
+
+    for (int ib = 0; ib < m_kIndexBuffers.m_iElementCount; ib++)
+    {
+        hkxIndexBuffer* ibuffer = m_kIndexBuffers.m_data[ib];
+        int numIndices = ibuffer->m_kIndices16.m_iElementCount | ibuffer->m_kIndices32.m_iElementCount;
+        bool is16 = ibuffer->m_kIndices16.m_iElementCount > 0;
+
+        int ci = 0;
+        while (ci < numIndices)
+        {
+            hkGeometryTriangle tri;
+            switch (ibuffer->m_eIndexType)
+            {
+            case 1:
+                tri.m_kPointA = is16 ? ibuffer->m_kIndices16.m_data[ci] : ibuffer->m_kIndices32.m_data[ci];
+                tri.m_kPointB = is16 ? ibuffer->m_kIndices16.m_data[ci + 1] : ibuffer->m_kIndices32.m_data[ci + 1];
+                tri.m_iThirdValue = is16 ? ibuffer->m_kIndices16.m_data[ci + 2] : ibuffer->m_kIndices32.m_data[ci + 2];
+                ci += 3;
+                break;
+            case 2:
+                if (ci < 2)
+                {
+                    ci++;
+                    continue;
+                }
+                if (ci == 2)
+                {
+                    tri.m_kPointA = is16 ? ibuffer->m_kIndices16.m_data[0] : ibuffer->m_kIndices32.m_data[0];
+                    tri.m_kPointB = is16 ? ibuffer->m_kIndices16.m_data[1] : ibuffer->m_kIndices32.m_data[1];
+                    tri.m_iThirdValue = is16 ? ibuffer->m_kIndices16.m_data[2] : ibuffer->m_kIndices32.m_data[2];
+                    ci = 3;
+                }
+                else
+                {
+                    hkGeometryTriangle& last = geometry.m_uiTriangleCount.m_data[geometry.m_uiTriangleCount.m_iElementCount - 1];
+                    tri.m_kPointA = last.m_iThirdValue;
+                    tri.m_kPointB = last.m_kPointB;
+                    tri.m_iThirdValue = is16 ? ibuffer->m_kIndices16.m_data[ci] : ibuffer->m_kIndices32.m_data[ci];
+                    ci++;
+                }
+                break;
+            default: {
+                char buf[512];
+                hkErrStreamData ostr(buf, sizeof(buf));
+                reinterpret_cast<::SinkOwner *>((void *)&(const ::hkErrStreamData &)(ostr))->FUN_00cc01c0("Unsupported index buffer type - Ignoring");
+                (*reinterpret_cast<::hkErrorData * *>(&::DAT_01268360))->message(1, 0xabbaa883, buf, ".\\Mesh\\hkxMeshSection.cpp", 141);
+            }
+                ci = numIndices;
+                continue;
+            }
+
+            tri.m_iMaterialIndex = materialIndex;
+            PushBackTriangle(geometry.m_uiTriangleCount, tri);
+        }
     }
 }

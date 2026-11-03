@@ -2,6 +2,9 @@
 // src/havok/common/base/memory/router/hkmemoryrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/router/hkmemoryrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include "fnv/decl/MagicCaster_shell.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00c85690_Allocator
 {
@@ -12,14 +15,14 @@ struct FUN_00c85690_Allocator
 struct FUN_00c85690_Header
 {
     FUN_00c85690_Allocator* allocator;
-    unsigned int size;
+    uintptr_t size;
     int unk08;
     int unk0C;
 };
 
 // Allocates size plus a header from allocator, stores size and allocator in the header, and returns the pointer past the header.
 // @fnv 0x00c85690
-void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, unsigned int size)
+void* __cdecl AllocateWithHeader(FUN_00c85690_Allocator* allocator, uintptr_t size)
 {
     FUN_00c85690_Header* header = (FUN_00c85690_Header*)allocator->Allocate(size + sizeof(FUN_00c85690_Header));
     header->size = size;
@@ -156,6 +159,36 @@ void* FUN_00c85760()
 {
     return TlsGetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)));
 }
-}  // namespace fnv_00c85760
+}
+
+
+struct ReturnType
+{
+    int unk00;
+    unsigned short unk04;
+};
+
+struct Pool
+{
+    virtual void unk00();
+    virtual ReturnType* Alloc(unsigned int nbytes);
+};
+
+struct Holder
+{
+};
+
+
+// @fnv 0x0056d280
+ReturnType* __cdecl FUN_0056d280(unsigned int nbytes)
+{
+    ReturnType* result;
+    {
+        Pool* pool = ((::Pool *)(reinterpret_cast<::MagicCaster_shell *>((static_cast<Holder*>(::FUN_00c85750())))->FUN_0044edb0()));
+        result = pool->Alloc(nbytes);
+    }
+    result->unk04 = (unsigned short)nbytes;
+    return result;
+}
 
 #include "generated/data/havok/common/base/memory/router/hkmemoryrouter.inc"

@@ -2,6 +2,8 @@
 // src/havok/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/reader/stdio/hkstdiostreamreader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstdio>
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_010cc000.h"
@@ -36,11 +38,11 @@ struct FUN_00d2bda0_cls
 // @fnv 0x00d2bda0
 void FUN_00d2bda0_cls::DestroyFileHandle()
 {
-    int file = *(int*)((char*)this + 0xc);
-    *(int*)this = (int)&DAT_010ce6c0;
+    intptr_t file = *(int*)((char*)this + 0xc);
+    *(int*)this = (intptr_t)&DAT_010ce6c0;
     if (file)
         std::fclose((std::FILE *)(file));
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(int*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
 struct FUN_00d2bd50_cls
@@ -139,7 +141,7 @@ void Owner::FUN_00d2bdf0()
 
 struct Prefix
 {
-    int vtable;
+    intptr_t vtable;
     int unk04;
     int unk08;
     int unk0c;
@@ -160,7 +162,7 @@ struct FUN_00d2c7e0_class : Prefix
 // @fnv 0x00d2c7e0
 FUN_00d2c7e0_class::FUN_00d2c7e0_class(int value)
 {
-    vtable = (int)&DAT_010cc2fc;
+    vtable = (intptr_t)&DAT_010cc2fc;
     sub.FUN_00cb0a70(value);
 }
 
@@ -187,7 +189,7 @@ extern const char kModeReadBinary[];
 
 struct StdioStreamReader
 {
-    int m_vptr;
+    intptr_t m_vptr;
     unsigned short unk04;
     unsigned short refCount;
     int lastSeek;
@@ -202,7 +204,7 @@ StdioStreamReader* StdioStreamReader::OpenFile(const char* fname)
 {
     refCount = 1;
     lastSeek = -1;
-    m_vptr = (int)&DAT_010ce6c0;
+    m_vptr = (intptr_t)&DAT_010ce6c0;
     *(volatile unsigned char*)&IsStreamValid = 1;
     handle = std::fopen(fname, kModeReadBinary);
     IsStreamValid = handle != 0;
@@ -217,13 +219,12 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
-CpuAllocatorHolder* __cdecl FUN_00c85750();
 struct CpuObject
 {
     unsigned int unk00;
@@ -236,7 +237,7 @@ CpuObject* CpuObject::FUN_00d2be00(unsigned int flags)
     reinterpret_cast<::FUN_00d2bda0_cls *>(this)->DestroyFileHandle();
     if (flags & 1)
     {
-        CpuAllocatorHolder* holder = FUN_00c85750();
+        CpuAllocatorHolder* holder = static_cast<CpuAllocatorHolder*>(::FUN_00c85750());
         holder->allocator->Invoke(this, size);
     }
     return this;

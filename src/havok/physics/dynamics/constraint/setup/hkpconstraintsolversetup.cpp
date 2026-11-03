@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include <cstdint>
 #include <windows.h>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d01000.h"
@@ -878,7 +879,7 @@ struct S883_TaskHeader
 
 // Lays out accumulator, schema and solver-element-temporary regions in buffer, sets taskHeader pointers and sizes, and initialises the first accumulator as fixed.
 // @fnv 0x00d883c0
-int __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
+intptr_t __cdecl FUN_00d883c0(const S883_Island& island, char* buffer, int bufferSize, S883_TaskHeader& taskHeader)
 {
     taskHeader.m_buffer = buffer;
     int numEntities = island.GetEntities().GetLogicalSize();

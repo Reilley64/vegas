@@ -1,3 +1,4 @@
+#include "fnv/symbols_00c85000.h"
 
 // src/havok/common/scenedata/mesh/hkxvertexbufferclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbufferclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -13,10 +14,10 @@ struct DFD680Allocator
 
 struct DFD680MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DFD680Allocator* m_pStreamAllocator;
 
     DFD680Allocator& heap()
@@ -25,7 +26,6 @@ struct DFD680MemoryRouter
     }
 };
 
-extern "C" DFD680MemoryRouter& __cdecl FUN_00c85750();
 
 template <class T> struct DFD680Array
 {
@@ -44,7 +44,7 @@ template <class T> struct DFD680Array
 
     __forceinline void ClearAndRelease()
     {
-        _clearAndDeallocate(FUN_00c85750().heap());
+        _clearAndDeallocate((*static_cast<DFD680MemoryRouter*>(::FUN_00c85750())).heap());
     }
 };
 

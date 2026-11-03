@@ -3,3 +3,12 @@
 // Definitions of the globals this unit refers to that no unit defines.
 
 namespace fnv_00e318a0 { unsigned int DAT_010eb3e8[6] = {3u, 0u, 1u, 0u, 1u, 3u}; }
+
+const char str_010eb414[4] = ":1.";
+const char str_010eb418[16] = "Original Size: ";
+const char str_010eb428[26] = " bytes. Compressed Size: ";
+const char str_010eb444[34] = "Size of largest block (PS3 SPU): ";
+const char str_010eb468[8] = " bytes.";
+const char str_010eb470[66] = ".\\Animation\\SplineCompressed\\hkaSplineCompressedAnimationCtor.cpp";
+const char str_010eb4b4[19] = "Number of blocks: ";
+const char str_010eb4c8[12] = "Compression";

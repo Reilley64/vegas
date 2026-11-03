@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiAVObject;
 class NiPick;
@@ -11,7 +12,7 @@ struct NiTriShape;
 struct Vec87;
 
 // 0x004b2780
-bool FUN_004b2780(::NiPick *, int, int, float, int, bool);
+bool FUN_004b2780(::NiPick *, intptr_t, intptr_t, float, intptr_t, bool);
 // 0x004b2800
 namespace fnv_004b2800 { bool PickObjectsInRadius(::fnv_004b2800::NiPick *, const ::NiPoint3 &, const ::NiPoint3 &, float, ::NiAVObject *); }
 // 0x004b29b0

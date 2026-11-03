@@ -1,5 +1,6 @@
 // fallout_shared/bgsdecalmanager.cpp: BGSDecalManager, BSA_, PD_, M3_ and more (61 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -116,7 +117,7 @@
 #include "bgsdecalmanager_types_BSTempEffectSimpleDecal.h"
 
 // @fnv 0x00460140
-int FUN_00460140(int apBase)
+intptr_t FUN_00460140(intptr_t apBase)
 {
     return apBase + 0x10;
 }
@@ -788,7 +789,7 @@ struct S3e60
     bool FUN_0056d340(unsigned int f);
 };
 // @fnv 0x0056d340
-bool S3e60::FUN_0056d340(unsigned int auiFlag)
+bool S3e60::FUN_0056d340(uintptr_t auiFlag)
 {
     return GetFlag(auiFlag);
 }

@@ -2,6 +2,7 @@
 // src/fallout/interface/fovatseffectmanager_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/interface/fovatseffectmanager.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSExplosion.h"
@@ -225,7 +226,7 @@ struct ExtraLike
 void* FUN_004b5ad0(NiAVObject* p);
 
 // @fnv 0x004b5820
-unsigned int FUN_004b5820(FormLike* form)
+uintptr_t FUN_004b5820(FormLike* form)
 {
     unsigned int result5 = 0;
     if (form)

@@ -2,6 +2,7 @@
 // src/havok/common/base/reflection/registry/hkvtableclassregistry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/reflection/registry/hkvtableclassregistry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00cb0a60.h"
 #include "fnv/decl/S_00d49350.h"
@@ -64,9 +65,9 @@ int FUN_00d49240(Object* object)
     {
         if (::FUN_00cb1290((const unsigned char *)(void *)(&parseState.bits), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) != 0)
             goto check3;
-        if (reinterpret_cast<::S_00d49350 *>(&(parseState.buffer))->Equals((const char *)(((int)(::FUN_00dc0fb0())))) != 0)
+        if (reinterpret_cast<::S_00d49350 *>(&(parseState.buffer))->Equals((const char *)(((intptr_t)(::FUN_00dc0fb0())))) != 0)
         {
-            ::FUN_00cb0c00((int)&(parseState.buffer));
+            ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
             return 1;
         }
         goto manager;
@@ -77,11 +78,11 @@ check3:
 manager:
     if ((*reinterpret_cast<::Manager * *>(&::DAT_01269b74))->vf10(&parseState.status))
     {
-        ::FUN_00cb0c00((int)&(parseState.buffer));
+        ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
         return 1;
     }
 failure:
-    ::FUN_00cb0c00((int)&(parseState.buffer));
+    ::FUN_00cb0c00((intptr_t)&(parseState.buffer));
     return 0;
 }
 

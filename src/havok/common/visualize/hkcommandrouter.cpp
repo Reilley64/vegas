@@ -2,6 +2,8 @@
 // src/havok/common/visualize/hkcommandrouter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkcommandrouter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/StringBuf.h"
 #include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
@@ -18,7 +20,7 @@ struct FUN_00cb18f0_t
 {
     int unk00;
     int unk04;
-    int FUN_00cb1fb0(int value);
+    int FUN_00cb1fb0(intptr_t value);
 };
 struct FUN_00dd95b0_Outer
 {
@@ -54,7 +56,6 @@ struct MessageContext
     void* unk0c;
     void* active;
 };
-MessageContext* __cdecl FUN_00c85750();
 struct MessageSink
 {
 };
@@ -75,8 +76,8 @@ void MessageProcessor::ProcessInputData(InputProvider* source)
     for (int i = 0; i < length; ++i)
     {
         unsigned char value = bytes[i];
-        MessageContext* context = FUN_00c85750();
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(context->active)), value, (unsigned int)(source));
+        MessageContext* context = static_cast<MessageContext*>(::FUN_00c85750());
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(sink))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(context->active)), value, (uintptr_t)(source));
     }
 }
 
@@ -263,7 +264,7 @@ S_00dd9660_Bool S_00dd9660_Handler::ReadCommands(S_00dd9660_IArchive* stream)
         if (command != 0xf0)
         {
             S_00dd9660_Process* p;
-            if (::LookupBucketValue((::DepthLimit *)&(m_kCommandMap), command, (int)(&p), {}) == 0 && p)
+            if (::LookupBucketValue((::DepthLimit *)&(m_kCommandMap), command, (uintptr_t *)(&p)) == 0 && p)
             {
                 p->ExecuteCommand(command);
             }

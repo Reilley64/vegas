@@ -2,7 +2,12 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
+#include <new>
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
+#include <xmmintrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00e5c490_cls.h"
@@ -12,6 +17,21 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "havok/hkReferencedObject.h"
+
+struct hkCriticalSectionDataC905 : CRITICAL_SECTION
+{
+};
+
+struct hkReferencedObjectLockC905
+{
+    void* unk00;
+    int unk04;
+    int m_multiThreaded;
+    int m_lLockCount;
+    int unk10;
+    int unk14;
+    hkCriticalSectionDataC905 m_kCriticalSection;
+};
 
 struct FUN_00c903b0_class
 {
@@ -47,7 +67,7 @@ void FUN_00c903a0_class::FUN_00c903a0()
 // @fnv 0x00c90410
 void __cdecl FUN_00c90410(int v)
 {
-    *(int*)(*(int**)(void*)&DAT_012681d4 + 2) = v;
+    reinterpret_cast<hkReferencedObjectLockC905*>(DAT_012681d4)->m_multiThreaded = v;
 }
 
 
@@ -221,7 +241,7 @@ FUN_00e3e840_result* FUN_00e3e840_class::FindWorldByKey(FUN_00e3e840_result* res
 // @fnv 0x00c90480
 int __cdecl FUN_00c90480()
 {
-    return *(int*)(DAT_012681d4 + 8);
+    return reinterpret_cast<hkReferencedObjectLockC905*>(DAT_012681d4)->m_multiThreaded;
 }
 
 struct ThreadMode_9bf0
@@ -425,7 +445,7 @@ struct RestoreMode_9bf0
 };
 struct Obj
 {
-    int a;
+    void* a;
     unsigned short w;
     void Init();
 };
@@ -436,72 +456,39 @@ struct Alloc
 };
 struct Mgr
 {
-    char pad[0x10];
+    void* pad[4];
     Alloc* m_alloc;
     Obj* New(unsigned n)
     {
         return m_alloc->Allocate(n);
     }
 };
-Mgr* FUN_00c85750();
 // @fnv 0x00c903e0
 void CreateAndInitObj()
 {
-    Obj* o = FUN_00c85750()->New(0x30);
-    o->w = 0x30;
+    Obj* o = static_cast<Mgr*>(::FUN_00c85750())->New(sizeof(hkReferencedObjectLockC905));
+    o->w = sizeof(hkReferencedObjectLockC905);
     o->Init();
 }
 
 extern int DAT_012681d8;
 
-struct FUN_00c90490_state
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int m_0c;
-    int unk10;
-    int unk14;
-    int unk18;
-};
-
 // Increments the TLS-guarded counter if the TLS slot holds the sentinel, otherwise enters the critical section, resets the counter to 1 and sets the TLS slot.
 // @fnv 0x00c90490
 void __cdecl EnterTlsGuard()
 {
-    FUN_00c90490_state* st = reinterpret_cast<FUN_00c90490_state*>(DAT_012681d4);
-    if ((int)TlsGetValue(DAT_012681d8) == 0x23df4554)
+    hkReferencedObjectLockC905* st = reinterpret_cast<hkReferencedObjectLockC905*>(DAT_012681d4);
+    if ((intptr_t)TlsGetValue(DAT_012681d8) == 0x23df4554)
     {
-        st->m_0c++;
+        st->m_lLockCount++;
         return;
     }
-    EnterCriticalSection(&st->unk18);
-    st->m_0c = 1;
+    EnterCriticalSection(&st->m_kCriticalSection);
+    st->m_lLockCount = 1;
     TlsSetValue(DAT_012681d8, (void*)0x23df4554);
 }
 
 
-
-struct hkCriticalSectionDataC905
-{
-    void* m_debugInfo;
-    long m_lLockCount;
-    long m_recursionCount;
-    void* m_owningThread;
-    void* m_lockSemaphore;
-    unsigned long m_spinCount;
-};
-
-struct hkReferencedObjectLockC905
-{
-    int unk00;
-    int unk04;
-    int m_multiThreaded;
-    int m_lLockCount;
-    int unk10;
-    int unk14;
-    hkCriticalSectionDataC905 m_kCriticalSection;
-};
 
 class hkReferencedObjectC905 : public hkReferencedObject
 {
@@ -521,7 +508,7 @@ void hkReferencedObjectC905::FUN_00c905b0()
             return;
         }
         hkReferencedObjectLockC905* pkLock = reinterpret_cast<hkReferencedObjectLockC905*>(DAT_012681d4);
-        const unsigned long& kTls = reinterpret_cast<const unsigned long*>(&DAT_012681d4)[1];
+        const unsigned long kTls = DAT_012681d8;
         if (pkLock->m_multiThreaded == 1 && TlsGetValue(kTls) != reinterpret_cast<void*>(0x23df4554))
         {
             if (TlsGetValue(kTls) == reinterpret_cast<void*>(0x23df4554))
@@ -900,10 +887,10 @@ class hkMemoryAllocatorC904
 
 struct hkMemoryRouterC904
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorC904* m_pStreamAllocator;
 
     hkMemoryAllocatorC904& heap()
@@ -913,7 +900,6 @@ struct hkMemoryRouterC904
 };
 
 namespace hkRouterC904 {
-extern "C" hkMemoryRouterC904& __cdecl FUN_00c85750() throw();
 }
 
 class hkRefObjC904
@@ -930,7 +916,7 @@ class hkRefObjC904
 
     static void* operator new(std::size_t nbytes)
     {
-        hkRefObjC904* b = static_cast<hkRefObjC904*>(hkRouterC904::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
+        hkRefObjC904* b = static_cast<hkRefObjC904*>((*static_cast<hkMemoryRouterC904*>(::FUN_00c85750())).heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -1043,38 +1029,38 @@ void FUN_00c90510_class::FUN_00c90510()
     if (!m_uiObjectFlags)
         return;
 
-    int* state = (int*)DAT_012681d4;
+    hkReferencedObjectLockC905* state = reinterpret_cast<hkReferencedObjectLockC905*>(DAT_012681d4);
     int one = 1;
 
-    if (state[2] == one)
+    if (state->m_multiThreaded == one)
     {
-        int(* getValue)(int) = DAT_00fdf044;
-        int value = getValue(DAT_012681d8);
+        void*(* getValue)(unsigned long) = reinterpret_cast<void*(*)(unsigned long)>(DAT_00fdf044);
+        uintptr_t value = (uintptr_t)getValue(DAT_012681d8);
 
         if (value != 0x23df4554)
         {
-            value = getValue(DAT_012681d8);
+            value = (uintptr_t)getValue(DAT_012681d8);
 
-            int(* setValue)(int, int) = DAT_00fdf04c;
+            int(* setValue)(unsigned long, void*) = reinterpret_cast<int(*)(unsigned long, void*)>(DAT_00fdf04c);
 
             if (value == 0x23df4554)
             {
-                state[3] += one;
+                state->m_lLockCount += one;
             }
             else
             {
-                DAT_00fdf05c(state + 6);
-                state[3] = one;
-                setValue(DAT_012681d8, 0x23df4554);
+                DAT_00fdf05c(&state->m_kCriticalSection);
+                state->m_lLockCount = one;
+                setValue(DAT_012681d8, (void*)(uintptr_t)0x23df4554);
             }
 
             m_uCount += one;
-            --state[3];
+            --state->m_lLockCount;
 
-            if (state[3] <= 0)
+            if (state->m_lLockCount <= 0)
             {
-                setValue(DAT_012681d8, 0);
-                DAT_00fdf100(state + 6);
+                setValue(DAT_012681d8, nullptr);
+                DAT_00fdf100(&state->m_kCriticalSection);
             }
 
             return;
@@ -1264,7 +1250,7 @@ void __cdecl HeapSort(SortEntry* entries, int count, int compare)
     int index = count / 2;
     while (index > 0)
     {
-        ::SiftDownHeap((::HeapEntryE3EE *)(entries), index, count, (::HeapLessE3EE)(compare));
+        ::SiftDownHeap((::HeapEntryE3EE *)(entries), index, count, ::HeapLessE3EE());
         --index;
     }
     if (remaining >= 1)
@@ -1298,7 +1284,7 @@ void __cdecl HeapSort(SortEntry* entries, int count, int compare)
             last->value = copyEntry.value;
             --remaining;
             --last;
-            ::SiftDownHeap((::HeapEntryE3EE *)(entries), 1, remaining, (::HeapLessE3EE)(compare));
+            ::SiftDownHeap((::HeapEntryE3EE *)(entries), 1, remaining, ::HeapLessE3EE());
             if (copyEntry.object)
                 reinterpret_cast<::hkReferencedObjectC905 *>((copyEntry.object))->FUN_00c905b0();
         } while (remaining >= 1);
@@ -1402,7 +1388,7 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
     int bCreated = 0;
     volatile int tmp[2];
     tmp[0] = 0;
-    int i = reinterpret_cast<::FUN_00e5c490_cls *>(this)->FindEntryIndex((unsigned int)(((volatile E5C4Key&)akKey).p));
+    int i = reinterpret_cast<::FUN_00e5c490_cls *>(this)->FindEntryIndex((uintptr_t)(((volatile E5C4Key&)akKey).p));
     tmp[0] = 0;
     tmp[1] = 0;
     E5C4Ref* slot;
@@ -1424,14 +1410,14 @@ E5C4Ref E5C4Foo::FUN_00e5c4d0(E5C4Key akKey)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-volatile int S00e3eba0_sink;
+volatile intptr_t S00e3eba0_sink;
 __declspec(noinline) void FUN_00c90510(void* self)
 {
-    S00e3eba0_sink = (int)self;
+    S00e3eba0_sink = (intptr_t)self;
 }
 __declspec(noinline) void FUN_00c905b0(void* self)
 {
-    S00e3eba0_sink = (int)self + 1;
+    S00e3eba0_sink = (intptr_t)self + 1;
 }
 struct S00e3eba0_class
 {
@@ -1534,9 +1520,9 @@ void ReferenceIncrementC906::FUN_00c903a0()
 void __cdecl FUN_00c90670(const void* objects, int numObjects, int stride)
 {
     hkReferencedObjectLockC905* lock = (hkReferencedObjectLockC905*)DAT_012681d4;
-    if (lock->m_multiThreaded && (unsigned int)TlsGetValue(DAT_012681d8) != 0x23df4554)
+    if (lock->m_multiThreaded && (uintptr_t)TlsGetValue(DAT_012681d8) != 0x23df4554)
     {
-        if ((unsigned int)TlsGetValue(DAT_012681d8) == 0x23df4554)
+        if ((uintptr_t)TlsGetValue(DAT_012681d8) == 0x23df4554)
         {
             lock->m_lLockCount++;
         }
@@ -1579,6 +1565,42 @@ void __cdecl FUN_00c904e0()
         TlsSetValue(DAT_012681d8, 0);
         LeaveCriticalSection(&lock->m_kCriticalSection);
     }
+}
+struct FUN_00c90e60_cls
+{
+    int unk00;
+    float m_fBoundRadius;
+    float m_fOriginZ;
+    float m_fHalfRadius;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    __m128 m_kRadiusOverHeight;
+    __m128 m_kHeightOverRadius;
+    float m_fHeightOverRadius;
+    float m_fRadiusOverHeight;
+    float m_fHeightOverHalfRadius;
+    float m_fHalfRadiusOverHeight;
+    void FUN_00c90e60(float fRadius, float m_fGlyphExtent);
+};
+// @fnv 0x00c90e60
+void FUN_00c90e60_cls::FUN_00c90e60(float fRadius, float m_fGlyphExtent)
+{
+    m_fBoundRadius = fRadius;
+    float fHalfRadius = fRadius * 0.5;
+    m_fHalfRadius = fHalfRadius;
+    m_fOriginZ = m_fGlyphExtent;
+    m_fHeightOverRadius = m_fGlyphExtent / fRadius;
+    m_fHeightOverHalfRadius = m_fGlyphExtent / fHalfRadius;
+    m_fRadiusOverHeight = fRadius / m_fGlyphExtent;
+    m_fHalfRadiusOverHeight = fHalfRadius / m_fGlyphExtent;
+    m_kRadiusOverHeight = _mm_set1_ps(m_fRadiusOverHeight);
+    m_kHeightOverRadius = _mm_set1_ps(m_fHeightOverRadius);
 }
 
 #include "generated/data/havok/common/base/object/hkreferencedobject.inc"

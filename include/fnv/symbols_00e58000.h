@@ -21,7 +21,7 @@ void FUN_00e58310(int, const ::S00e58310_Array< ::S00e58310_Point> &, const ::S0
 // 0x00e58440
 void FUN_00e58440(int, const float *, const ::Float4 *, int, float, int *, float *, int *, ::Float4 *);
 // 0x00e58740
-void FUN_00e58740(int, int, int, int, float, int, int, int, int);
+void FUN_00e58740(int, intptr_t, intptr_t, int, float, intptr_t, intptr_t, intptr_t, intptr_t);
 // 0x00e588a0
 float DotProduct(::CE588A0Vector *, ::CE588A0Vector *);
 // 0x00e58900

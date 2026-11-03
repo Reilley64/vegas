@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct SpawnedObject {
 public:
@@ -9,5 +10,5 @@ public:
     // 0x00c5b8d0
     void FUN_00c5b8d0();
     // 0x00dd8d40
-    ::SpawnedObject *Construct(int);
+    ::SpawnedObject *Construct(intptr_t);
 };

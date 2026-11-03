@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include <cstdint>
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -146,7 +147,7 @@ struct FUN_00dcb550_class
 };
 // Finds the entry for key in the current node tree, resolves its index, and calls SetContext on the matching item's object.
 // @fnv 0x00dcb550
-int FUN_00dcb550_class::SetItemContextByKey(unsigned key)
+int FUN_00dcb550_class::SetItemContextByKey(uintptr_t key)
 {
     int offset = current->Find(key);
     Node* node = current;

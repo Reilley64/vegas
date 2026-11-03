@@ -2,7 +2,10 @@
 // src/havok/common/visualize/process/hkdebugdisplayprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkdebugdisplayprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include <new>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/fnv_00c99ce0__hkOwnerXc99ce0.h"
 #include "fnv/decl/hkListenerListC995.h"
@@ -127,10 +130,10 @@ struct S_00ddcb90_Allocator
 
 struct S_00ddcb90_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00ddcb90_Allocator* m_pStreamAllocator;
     S_00ddcb90_Allocator& heap()
     {
@@ -138,7 +141,6 @@ struct S_00ddcb90_Router
     }
 };
 
-S_00ddcb90_Router* FUN_00c85750();
 
 struct S_00ddcb90_RefObj
 {
@@ -148,7 +150,7 @@ struct S_00ddcb90_RefObj
     {}
     void* operator new(std::size_t nbytes)
     {
-        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(static_cast<S_00ddcb90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -197,10 +199,9 @@ struct Allocator
 };
 struct ProcessServices
 {
-    int a, b, c, d;
+    void* a; void* b; void* c; void* d;
     Allocator* allocator;
 };
-ProcessServices* __cdecl FUN_00c85750();
 struct Process
 {
     int unk00;
@@ -216,7 +217,7 @@ Process* Process::FUN_00ddcc10(unsigned char flags)
     reinterpret_cast<::Process *>(this)->FUN_00ddcb50();
     if (flags & 1)
     {
-        ProcessServices* services = FUN_00c85750();
+        ProcessServices* services = static_cast<ProcessServices*>(::FUN_00c85750());
         unsigned short size = unk04;
         Allocator* allocator = services->allocator;
         allocator->Release(this, size);
@@ -753,7 +754,7 @@ struct S_00ddcbc0_Factory
 // @fnv 0x00ddcbc0
 void FUN_00ddcbc0()
 {
-    (*reinterpret_cast<void * *>(&::g_1269cdc)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00ddcbc0::S_00ddcbc0_Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Debug Display", (int)(((void *(&)())::FUN_00ddcb90)))));
+    (*reinterpret_cast<void * *>(&::g_1269cdc)) = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::fnv_00ddcbc0::S_00ddcbc0_Factory * *>(&::DAT_01269cd0))))->FUN_00dd9380("Debug Display", (intptr_t)(((void *(&)())::FUN_00ddcb90)))));
 }
 }  // namespace fnv_00ddcbc0
 

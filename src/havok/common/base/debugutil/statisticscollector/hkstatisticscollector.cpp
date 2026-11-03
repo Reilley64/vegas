@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
 #include "fnv/symbols_00cb1000.h"
@@ -57,18 +59,18 @@ class Handler
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void Emit(int kind, int a, const char* s, int len, int hash);
-    void EmitString(int a, unsigned int* str);
+    virtual void Emit(int kind, intptr_t a, const char* s, intptr_t len, int hash);
+    void EmitString(intptr_t a, uintptr_t* str);
 };
 
 // If the string pointer in str is non-null, computes its length and hash and emits it via Emit with kind 3.
 // @fnv 0x00d07030
-void Handler::EmitString(int a, unsigned int* str)
+void Handler::EmitString(intptr_t a, uintptr_t* str)
 {
-    const char* s = (const char*)(*str & ~1u);
+    const char* s = (const char*)(*str & ~(uintptr_t)1);
     if (s)
     {
-        int len = ::fnv_00cb10d0::FUN_00cb10d0(s);
+        int len = (int)::fnv_00cb10d0::FUN_00cb10d0(s);
         Emit(3, a, s, len, FUN_00d06f80(s, len));
     }
 }
@@ -82,14 +84,13 @@ struct SlotAllocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SlotAllocator* m_pAllocator;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct GrowBuf
 {
@@ -111,7 +112,7 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
         newCount = 1;
     }
 
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     void* newData = holder->m_pAllocator->Alloc(newCount * elemSize);
     std::memmove(newData, buf->m_pData, (unsigned int)buf->m_uCap * elemSize);
 
@@ -119,7 +120,7 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
     {
         void* oldData = buf->m_pData;
         unsigned int oldBytes = (buf->m_uiObjectFlags & 0x3fffu) * elemSize;
-        AllocHolder* pAllocHolder2 = FUN_00c85750();
+        AllocHolder* pAllocHolder2 = static_cast<AllocHolder*>(::FUN_00c85750());
         pAllocHolder2->m_pAllocator->Free(oldData, oldBytes);
     }
 
@@ -235,15 +236,15 @@ struct S_00d06dd0_Heap
     virtual void v8();
     virtual void v9();
     virtual void v10();
-    virtual int vfn2c(int a, int b);
+    virtual int vfn2c(intptr_t a, int b);
 };
 
 struct S_00d06dd0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d06dd0_Heap* unk10;
     S_00d06dd0_Heap& heap()
     {
@@ -251,7 +252,6 @@ struct S_00d06dd0_Router
     }
 };
 
-S_00d06dd0_Router* FUN_00c85750();
 
 struct S_00d06dd0_Obj
 {
@@ -260,18 +260,18 @@ struct S_00d06dd0_Obj
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual void slot14(int a, int b, int c, int d, int e);
-    void DispatchIfNotFlagged(int a, unsigned int flags);
+    virtual void slot14(int a, int b, intptr_t c, int d, int e);
+    void DispatchIfNotFlagged(intptr_t a, unsigned int flags);
 };
 
 // When bit 0 of flags is clear, computes a value from a, calls the router heap's vfn2c with both, and passes the results to slot14.
 // @fnv 0x00d06dd0
-void S_00d06dd0_Obj::DispatchIfNotFlagged(int a, unsigned int flags)
+void S_00d06dd0_Obj::DispatchIfNotFlagged(intptr_t a, unsigned int flags)
 {
     if ((flags & 1) == 0)
     {
         int b = reinterpret_cast<::FUN_00d06d90_cls *>(this)->GetFlagsOrProcess((::Rec *)(a));
-        int r = FUN_00c85750()->heap().vfn2c(a, b);
+        int r = static_cast<S_00d06dd0_Router*>(::FUN_00c85750())->heap().vfn2c(a, b);
         slot14(0, 0, a, b, r);
     }
 }
@@ -295,19 +295,18 @@ struct FUN_00d06e10_obj
     virtual void v20();
     virtual void v24();
     virtual void v28();
-    virtual int v2c(int a, int b);
+    virtual int v2c(intptr_t a, int b);
 };
 
 struct FUN_00d06e10_holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00d06e10_obj* m_10;
 };
 
-FUN_00d06e10_holder* __cdecl FUN_00c85750();
 
 class FUN_00d06e10_cls
 {
@@ -319,17 +318,17 @@ class FUN_00d06e10_cls
     virtual void v10();
     virtual void Emit(int kind, int a, const char* s, int len, int hash);
 
-    void FUN_00d06e10(int a1, int a2, unsigned char flag);
+    void FUN_00d06e10(intptr_t a1, intptr_t a2, unsigned char flag);
 };
 
 // When flag bit 0 is clear, reads a length from a1, computes a hash via holder->m_10->v2c(a2, len), and calls Emit with that length and hash.
 // @fnv 0x00d06e10
-void FUN_00d06e10_cls::FUN_00d06e10(int pSource, int pData, unsigned char flag)
+void FUN_00d06e10_cls::FUN_00d06e10(intptr_t pSource, intptr_t pData, unsigned char flag)
 {
     if ((flag & 1) == 0)
     {
         int len = reinterpret_cast<::FnvCpu_FUN_00d470d0_CpuObject *>((((FUN_00d06e10_src*)pSource)))->FUN_00d470d0();
-        FUN_00d06e10_holder* holder = FUN_00c85750();
+        FUN_00d06e10_holder* holder = static_cast<FUN_00d06e10_holder*>(::FUN_00c85750());
         int hash = holder->m_10->v2c(pData, len);
         Emit(0, 0, (const char*)pData, len, hash);
     }
@@ -388,7 +387,6 @@ struct Holder
     Target* unk10;
 };
 
-extern void* __cdecl FUN_00c85750();
 
 // If s is non-null, gets a Holder via FUN_00c85750 and returns holder->unk10->v11(s, len); otherwise returns len.
 // @fnv 0x00d06f80
@@ -412,14 +410,14 @@ struct FUN_00d06ff0_cls
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual void V14(int aiZero, int aiA, int aiB, int aiC, int aiR);
+    virtual void V14(int aiZero, int aiA, intptr_t aiB, int aiC, int aiR);
 
-    void FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD);
+    void FUN_00d06ff0(int aiA, intptr_t aiB, int aiC, int aiD);
 };
 
 // If aiC is positive and aiD is zero, computes a result via FUN_00d06f80(aiB, aiC), then calls V14 with zero, aiA, aiB, aiC and the result.
 // @fnv 0x00d06ff0
-void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, int aiB, int aiC, int aiD)
+void FUN_00d06ff0_cls::FUN_00d06ff0(int aiA, intptr_t aiB, int aiC, int aiD)
 {
     int iResult = aiD;
     if (aiC > 0 && aiD == 0)

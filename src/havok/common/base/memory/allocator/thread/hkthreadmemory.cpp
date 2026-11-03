@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/allocator/thread/hkthreadmemory.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/thread/hkthreadmemory.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/symbols_00d2c000.h"
 #include "fnv/symbols_010ca000.h"
 struct FUN_00d2c3a0_class
@@ -297,16 +298,16 @@ struct SelfCls
 {
     virtual void vslot0();
     virtual void* vslot1(void* p);
-    virtual void vslot2(int a, int b);
+    virtual void vslot2(intptr_t a, int b);
 
-    void* FUN_00d2c6d0(int a1, int a2, FUN_00d2c3a0_class* a3);
+    void* FUN_00d2c6d0(intptr_t a1, int a2, FUN_00d2c3a0_class* a3);
 };
 
 // @fnv 0x00d2c6d0
-void* SelfCls::FUN_00d2c6d0(int a1, int a2, FUN_00d2c3a0_class* a3)
+void* SelfCls::FUN_00d2c6d0(intptr_t a1, int a2, FUN_00d2c3a0_class* a3)
 {
     void* res = this->vslot1(a3->m0);
-    int n = (int)a3->m0 < a2 ? (int)a3->m0 : a2;
+    intptr_t n = (intptr_t)a3->m0 < a2 ? (intptr_t)a3->m0 : a2;
     ::fnv_00d2caa0::FUN_00d2caa0(res, (void *)(a1), n);
     this->vslot2(a1, a2);
     return res;
@@ -914,11 +915,11 @@ struct ThreadMemoryView : FUN_00d2c3a0_class
     unsigned char freeList[41];
     int bigBlocks[8];
     void InitSizeClasses();
-    void FUN_00d2c3a0(void* allocator, int limit);
+    void FUN_00d2c3a0(void* allocator, intptr_t limit);
     ThreadMemoryView* FUN_00d2c760(void* allocator);
 };
 
-__declspec(noinline) void ThreadMemoryView::FUN_00d2c3a0(void* allocator, int limit)
+__declspec(noinline) void ThreadMemoryView::FUN_00d2c3a0(void* allocator, intptr_t limit)
 {
     FUN_00d2c3a0_class::FUN_00d2c3a0(allocator, (void*)limit);
 }

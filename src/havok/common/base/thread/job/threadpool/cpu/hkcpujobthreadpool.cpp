@@ -2,12 +2,13 @@
 // src/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/Dispatcher.h"
 #include "fnv/decl/FUN_00d04370_cls.h"
 #include "fnv/decl/FUN_00d04390.h"
 #include "fnv/decl/FUN_00d87920_cls.h"
-#include "fnv/decl/Thr_00d87940.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_00cbb000.h"
@@ -134,10 +135,10 @@ class hkMemoryAllocatorXd2d3b0
 
 struct hkMemoryRouterXd2d3b0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorXd2d3b0* m_pStreamAllocator;
 
     hkMemoryAllocatorXd2d3b0& heap()
@@ -146,7 +147,6 @@ struct hkMemoryRouterXd2d3b0
     }
 };
 
-extern "C" hkMemoryRouterXd2d3b0& __cdecl FUN_00c85750() throw();
 
 class hkObjd2d3b0 : public FUN_00d2cf00
 {
@@ -155,7 +155,7 @@ class hkObjd2d3b0 : public FUN_00d2cf00
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
+        (*static_cast<hkMemoryRouterXd2d3b0*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjd2d3b0*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -282,7 +282,16 @@ void ClsD2C::FUN_00d2cf00()
         ::FUN_00d87a70();
     } while (--k >= 0);
     *(void**)this = (void*)&(*reinterpret_cast<char *>(&::DAT_0102e388));
-}
+}struct Thr_00d87940
+{
+    uintptr_t m0;
+    unsigned int m4;
+    uintptr_t m8;
+    unsigned int mC;
+    int FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3);
+};
+
+
 
 namespace fnv_00d2d110 {
 struct SYSTEM_INFO_D2D1
@@ -418,7 +427,7 @@ FUN_00d2d110::FUN_00d2d110(const hkCpuJobThreadPoolCinfoD2D1& kCi)
             kData.m_iOffset1C = kCi.m_pHardwareThreadIds[i];
         else
             kData.m_iOffset1C = iThreadId % iNumCores;
-        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((unsigned long)(((void *(&)(void *))::CpuJobThreadMain)), (unsigned long)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
+        reinterpret_cast<::Thr_00d87940 *>(&(kData.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void *(&)(void *))::CpuJobThreadMain)), (uintptr_t)(&kData), m_pName, m_iTimerBufferPerThreadAllocation);
     }
     ::FUN_00c90410(1);
 }
@@ -717,7 +726,7 @@ void hkCpuJobThreadPoolD2D::InitializeWorkerThread()
     int processorCount = *(volatile int*)&sysInfo.dwNumberOfProcessors;
     data.m_iOffset1C = threadId % processorCount;
 
-    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((unsigned long)(((void (&)(void *))::CpuJobThreadMain)), (unsigned long)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
+    reinterpret_cast<::Thr_00d87940 *>(&(data.m_iThreadHandle))->FUN_00d87940((uintptr_t)(((void (&)(void *))::CpuJobThreadMain)), (uintptr_t)(&data), m_pName, m_iTimerBufferPerThreadAllocation);
 
     m_iHardwareInfoValue++;
 }
@@ -775,6 +784,43 @@ void WorkerThreadPoolViewD2::FUN_00d2ce50()
     reinterpret_cast<::FUN_00d04390 *>(&(worker.m_pCompletionSemaphore))->wait(1);
     ::FUN_00d04380(&pool->m_sharedData.m_kWorkerSemaphore, {});
     reinterpret_cast<::FUN_00d87920_cls *>(&(worker.m_iThreadHandle))->FUN_00d87920();
+}
+
+
+extern "C" unsigned long __cdecl _exception_code(void);
+
+struct THREADNAME_INFO
+{
+    unsigned long dwType;
+    const char* szName;
+    unsigned long dwThreadID;
+    unsigned long dwFlags;
+};
+
+
+// @fnv 0x00d87940
+int Thr_00d87940::FUN_00d87940(uintptr_t a0, uintptr_t a1, const char* a2, unsigned long a3)
+{
+    unsigned long threadId;
+    m0 = (uintptr_t)CreateThread(0, a3, (unsigned long(*)(void*))a0, (void*)a1, 0, &threadId);
+    if (m0 == 0)
+    {
+        return 1;
+    }
+    m8 = threadId;
+    mC = 0;
+    THREADNAME_INFO info;
+    info.dwType = 0x1000;
+    info.szName = a2;
+    info.dwThreadID = threadId;
+    info.dwFlags = 0;
+    __try
+    {
+        RaiseException(0x406D1388, 0, sizeof(info) / sizeof(ULONG_PTR), (const ULONG_PTR*)&info);
+    }
+    __except (_exception_code() == 0x406D1388 ? -1 : 1)
+    {}
+    return 0;
 }
 
 #include "generated/data/havok/common/base/thread/job/threadpool/cpu/hkcpujobthreadpool.inc"

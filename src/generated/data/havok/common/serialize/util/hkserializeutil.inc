@@ -8,4 +8,4 @@ const char str_010cf9f4[50] = "Unable to version data of class %s, version 0x%p.
 const char str_010cfa94[36] = "Unable to detect format from stream";
 const char str_010cfab8[17] = "Stream is not ok";
 const char str_010cfacc[23] = "Stream pointer is null";
-volatile int DAT_01269b70;
+volatile intptr_t DAT_01269b70;

@@ -2,20 +2,10 @@
 // src/havok/common/base/math/matrix/hkmatrix6.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix6.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/symbols_00cd5000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct hkVector4
 {
@@ -83,10 +73,7 @@ void __cdecl FUN_00e29250(E29250Matrix6& out, const E29250Matrix6& in)
     reinterpret_cast<::CD4BA0Matrix3 *>(&(out.m_iUnknownValue2[1][1]))->Transpose((const ::CD4BA0Matrix3 &)(in.m_iUnknownValue2[1][1]));
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm8);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
+
 // @fnv 0x00e29510
 void FUN_00e29510(__m128* out, const __m128* aMatrix, const __m128* aVectors)
 {
@@ -200,7 +187,7 @@ void __cdecl FUN_00e29470(void* apDest, WrappedPointer src, WrappedPointer rhs)
     } while (--outer != 0);
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
 __forceinline void subtract(__m128& a, const __m128& b)
 {
     a = _mm_sub_ps(a, b);

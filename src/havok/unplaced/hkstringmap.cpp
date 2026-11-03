@@ -1,7 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
+#include <new>
 #include "fnv/decl/WorldData.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb0000.h"
@@ -13,11 +16,11 @@ struct FUN_00d87430_class
     int* m_p;
     int m_kPointB;
     int m_iThirdValue;
-    int GetEntry(int idx);
+    intptr_t GetEntry(intptr_t idx);
 };
 
 // @fnv 0x00d87430
-int FUN_00d87430_class::GetEntry(int idx)
+intptr_t FUN_00d87430_class::GetEntry(intptr_t idx)
 {
     return m_p[m_iThirdValue + idx + 1];
 }
@@ -27,17 +30,17 @@ struct FUN_00d87440_Class
     void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    int FUN_00d87440(int a);
+    intptr_t FUN_00d87440(intptr_t a);
 };
 // @fnv 0x00d87440
-int FUN_00d87440_Class::FUN_00d87440(int aiIndex)
+intptr_t FUN_00d87440_Class::FUN_00d87440(intptr_t aiIndex)
 {
     return *(int*)((char*)m_iWordAt00 + aiIndex * 4 + m_8 * 8 + 8);
 }
 
 struct SlotBitmap
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_auiShapeKeys;
     int m_iPairCount;
     int FindNextUsedSlot(int i);
@@ -49,10 +52,10 @@ int SlotBitmap::FindNextUsedSlot(int aiStartIndex)
     ++aiStartIndex;
     if (aiStartIndex <= m_iPairCount)
     {
-        unsigned long* p = m_kPrimitiveElement + aiStartIndex;
+        uintptr_t* p = m_kPrimitiveElement + aiStartIndex;
         do
         {
-            if (*p != 0xffffffff)
+            if (*p != ~uintptr_t(0))
                 break;
             ++aiStartIndex;
             p += 1;
@@ -67,11 +70,11 @@ struct FUN_00d874b0_class
     int m_cByteAtOffset1;
     int m_cByteAtOffset2;
     int m_cByteAtOffset3;
-    char* SetBoolFromThreshold(char* p, int value);
+    char* SetBoolFromThreshold(char* p, intptr_t value);
 };
 
 // @fnv 0x00d874b0
-char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, int value)
+char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, intptr_t value)
 {
     *pbOut = value <= m_cByteAtOffset2;
     return pbOut;
@@ -79,21 +82,21 @@ char* FUN_00d874b0_class::SetBoolFromThreshold(char* pbOut, int value)
 
 struct FUN_00d87460_class
 {
-    int m_iWordAt00;
+    intptr_t m_iWordAt00;
     int m_iWordAt04;
     int m_8;
-    void SetElement(int idx, int val);
+    void SetElement(intptr_t idx, int val);
 };
 
 // @fnv 0x00d87460
-void FUN_00d87460_class::SetElement(int aiIndex, int aiValue)
+void FUN_00d87460_class::SetElement(intptr_t aiIndex, int aiValue)
 {
     *(int*)((int*)m_iWordAt00 + m_8 * 2 + 2 + aiIndex) = aiValue;
 }
 
 struct FUN_00d87760_class
 {
-    void** m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
     void ClearEntries();
@@ -104,7 +107,7 @@ void FUN_00d87760_class::ClearEntries()
 {
     int i;
     for (i = 0; i < m_iPairCount + 1; i++)
-        ((unsigned long*)m_kPrimitiveElement)[i] = 0xffffffff;
+        m_kPrimitiveElement[i] = ~uintptr_t(0);
     m_iCapacityFlags = 0;
 }
 
@@ -125,7 +128,7 @@ FUN_00d877d0_router* _D1A0E0GetMemoryRouter();
 
 struct FUN_00d877d0_class
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_auiShapeKeys;
     int m_iPairCount;
     void FreeBuffer();
@@ -135,13 +138,13 @@ struct FUN_00d877d0_class
 void FUN_00d877d0_class::FreeBuffer()
 {
     FUN_00d877d0_router* router = _D1A0E0GetMemoryRouter();
-    router->m_pThreadAllocator->FUN_00d877d0_free(m_kPrimitiveElement, 12 * (m_iPairCount + 1));
+    router->m_pThreadAllocator->FUN_00d877d0_free(m_kPrimitiveElement, 3 * sizeof(uintptr_t) * (m_iPairCount + 1));
 }
 
 struct FUN_00d87820_Class
 {
-    int FindStringKey(int);
-    int FUN_00d87820(int a);
+    intptr_t FindStringKey(intptr_t);
+    int FUN_00d87820(intptr_t a);
 };
 
 namespace fnv_00dc8080 {
@@ -215,13 +218,13 @@ static __forceinline int stringHash(const char* str)
 }
 
 // @fnv 0x00d87580
-int FUN_00d87820_Class::FindStringKey(int key)
+intptr_t FUN_00d87820_Class::FindStringKey(intptr_t key)
 {
     const char* str = (const char*)key;
     SlotBitmap* table = (SlotBitmap*)this;
     int hash = stringHash(str);
     unsigned int slot = hash & table->m_iPairCount;
-    while (table->m_kPrimitiveElement[slot] != 0xffffffffu)
+    while (table->m_kPrimitiveElement[slot] != ~uintptr_t(0))
     {
         if (table->m_kPrimitiveElement[slot] == (unsigned int)hash &&
             ::fnv_00cb0fa0::FUN_00cb0fa0(str, (const char*)table->m_kPrimitiveElement[table->m_iPairCount + slot + 1]) == 0)
@@ -240,14 +243,13 @@ struct Allocator
 
 struct MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* m_pThreadAllocator;
 };
 
-MemoryRouter* FUN_00c85750();
 
 struct FUN_00d87790
 {
@@ -261,7 +263,7 @@ struct FUN_00d87790
 // @fnv 0x00d87790
 FUN_00d87790::FUN_00d87790(int a)
 {
-    MemoryRouter* router = FUN_00c85750();
+    MemoryRouter* router = static_cast<MemoryRouter*>(::FUN_00c85750());
     void* p = router->m_pThreadAllocator->alloc(0xc0);
     m_kPrimitiveElement = p;
     ::FUN_00cb1280(p, 0xff, 0x40);
@@ -272,7 +274,7 @@ FUN_00d87790::FUN_00d87790(int a)
 class hkObjectD878
 {
   public:
-    int GetValue(int a, int b);
+    intptr_t GetValue(intptr_t a, int b);
 };
 
 struct hkBoolD876
@@ -295,7 +297,7 @@ class hkStringMapD876
     int unk04;
     int unk08;
 
-    int GetOrSetInt(const char* key, int def);
+    intptr_t GetOrSetInt(const char* key, int def);
 };
 
 struct hkBoolD8765
@@ -321,7 +323,7 @@ class hkStringMapD8765
     int FUN_00d87650(const char* key, int* out);
 };
 // @fnv 0x00d87800
-int hkObjectD878::GetValue(int a, int aiDefault)
+intptr_t hkObjectD878::GetValue(intptr_t a, int aiDefault)
 {
     int iValue = aiDefault;
     reinterpret_cast<::hkStringMapD8765 *>(this)->FUN_00d87650((const char *)(a), &iValue);
@@ -332,7 +334,7 @@ int hkObjectD878::GetValue(int a, int aiDefault)
 // @fnv 0x00d87650
 int hkStringMapD8765::FUN_00d87650(const char* key, int* piOut)
 {
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((int)(key));
+    intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(key));
     if ((*(::hkBoolD8765 *)(reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(it), {}))))
     {
         *piOut = reinterpret_cast<::FUN_00d87440_Class *>(this)->FUN_00d87440(it);
@@ -351,7 +353,7 @@ class hkMemoryAllocatorD878
 
 struct hkMemoryRouterD878
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorD878* m_pStreamAllocator;
     hkMemoryAllocatorD878& heap()
     {
@@ -360,13 +362,12 @@ struct hkMemoryRouterD878
 };
 
 namespace fnvc_adapt {
-extern "C" hkMemoryRouterD878& __cdecl FUN_00c85750() throw();
 }
 
 class FUN_00d874d0_s
 {
   public:
-    unsigned int* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -375,16 +376,16 @@ class FUN_00d874d0_s
 
 struct S00d876a0_Map
 {
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
-    void FUN_00d876a0(int it);
+    void FUN_00d876a0(intptr_t it);
 };
 // @fnv 0x00d87820
-int FUN_00d87820_Class::FUN_00d87820(int a)
+int FUN_00d87820_Class::FUN_00d87820(intptr_t a)
 {
-    int v = FindStringKey(a);
+    intptr_t v = FindStringKey(a);
     char r;
     if (*reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold(&r, v))
     {
@@ -396,27 +397,27 @@ int FUN_00d87820_Class::FUN_00d87820(int a)
 
 // Removes the element at index it from the open-addressing hash table, compacting remaining entries to fill the gap.
 // @fnv 0x00d876a0
-void S00d876a0_Map::FUN_00d876a0(int aiIndex)
+void S00d876a0_Map::FUN_00d876a0(intptr_t aiIndex)
 {
-    unsigned i = aiIndex;
+    uintptr_t i = aiIndex;
 
     // remove it
     --m_iCapacityFlags;
-    m_kPrimitiveElement[i] = unsigned(-1);
+    m_kPrimitiveElement[i] = ~uintptr_t(0);
 
     // find lowest element of this unbroken run
-    unsigned lo = (i + m_iPairCount) & m_iPairCount;
-    while (m_kPrimitiveElement[lo] != unsigned(-1))
+    uintptr_t lo = (i + m_iPairCount) & m_iPairCount;
+    while (m_kPrimitiveElement[lo] != ~uintptr_t(0))
     {
         lo = (lo + m_iPairCount) & m_iPairCount;
     }
     lo = (lo + 1) & m_iPairCount;
 
     // the slot which has become empty
-    unsigned empty = i;
+    uintptr_t empty = i;
 
     // shift up, closing any gaps we find
-    for (i = (i + 1) & m_iPairCount; m_kPrimitiveElement[i] != unsigned(-1); i = (i + 1) & m_iPairCount)
+    for (i = (i + 1) & m_iPairCount; m_kPrimitiveElement[i] != ~uintptr_t(0); i = (i + 1) & m_iPairCount)
     {
         unsigned hash = m_kPrimitiveElement[i] & m_iPairCount;
 
@@ -435,7 +436,7 @@ void S00d876a0_Map::FUN_00d876a0(int aiIndex)
         m_kPrimitiveElement[empty] = m_kPrimitiveElement[i];
         m_kPrimitiveElement[m_iPairCount + 1 + empty] = m_kPrimitiveElement[m_iPairCount + 1 + i];
         m_kPrimitiveElement[2 * (m_iPairCount + 1) + empty] = m_kPrimitiveElement[2 * (m_iPairCount + 1) + i];
-        m_kPrimitiveElement[i] = unsigned(-1);
+        m_kPrimitiveElement[i] = ~uintptr_t(0);
         empty = i;
     }
 }
@@ -444,7 +445,7 @@ void S00d876a0_Map::FUN_00d876a0(int aiIndex)
 class hkStringMapD874
 {
   public:
-    unsigned long* m_kPrimitiveElement;
+    uintptr_t* m_kPrimitiveElement;
     int m_iCapacityFlags;
     int m_iPairCount;
 
@@ -456,13 +457,13 @@ class hkStringMapD874
         return h & 0x7fffffff;
     }
 
-    void FUN_00d874d0(const char* pcKey, int iValue);
+    void FUN_00d874d0(const char* pcKey, intptr_t iValue);
 };
 // Looks up key; if found returns its value, otherwise stores def under key and returns def.
 // @fnv 0x00d87600
-int hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
+intptr_t hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 {
-    int it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((int)(key));
+    intptr_t it = reinterpret_cast<::FUN_00d87820_Class *>(this)->FindStringKey((intptr_t)(key));
     if ((*(::hkBoolD876 *)(reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(it), {}))))
         return reinterpret_cast<::FUN_00d87440_Class *>(this)->FUN_00d87440(it);
     reinterpret_cast<::hkStringMapD874 *>(this)->FUN_00d874d0(key, iDefault);
@@ -473,32 +474,32 @@ int hkStringMapD876::GetOrSetInt(const char* key, int iDefault)
 void FUN_00d874d0_s::FUN_00d87860(int iNewCap)
 {
     int iOldCap = m_iPairCount + 1;
-    unsigned int* puiOldElements = m_kPrimitiveElement;
-    hkMemoryAllocatorD878& kAlloc = fnvc_adapt::FUN_00c85750().heap();
-    m_kPrimitiveElement = (unsigned int*)kAlloc.AllocateMemoryBlock(iNewCap * 3 * sizeof(unsigned int));
-    ::FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(unsigned int));
+    uintptr_t* puiOldElements = m_kPrimitiveElement;
+    hkMemoryAllocatorD878& kAlloc = (*static_cast<hkMemoryRouterD878*>(::FUN_00c85750())).heap();
+    m_kPrimitiveElement = (uintptr_t*)kAlloc.AllocateMemoryBlock(iNewCap * 3 * sizeof(uintptr_t));
+    ::FUN_00cb1280(m_kPrimitiveElement, 0xff, iNewCap * sizeof(uintptr_t));
     m_iCapacityFlags = 0;
     m_iPairCount = iNewCap - 1;
 
     for (int i = 0; i < iOldCap; i++)
     {
-        if (puiOldElements[i] != 0xffffffff)
+        if (puiOldElements[i] != ~uintptr_t(0))
             reinterpret_cast<::hkStringMapD874 *>(this)->FUN_00d874d0((const char*)puiOldElements[iOldCap + i], puiOldElements[i + 2 * iOldCap]);
     }
 
-    kAlloc.ReleaseBlock(puiOldElements, iOldCap * 3 * sizeof(unsigned int));
+    kAlloc.ReleaseBlock(puiOldElements, iOldCap * 3 * sizeof(uintptr_t));
 }
 
 // Inserts a key-value pair into the hash map, growing the table if the load factor exceeds half capacity.
 // @fnv 0x00d874d0
-void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
+void hkStringMapD874::FUN_00d874d0(const char* pcKey, intptr_t iValue)
 {
     int uiHash = hash(pcKey);
     if (m_iCapacityFlags * 2 > m_iPairCount)
         reinterpret_cast<::FUN_00d874d0_s *>(this)->FUN_00d87860(m_iPairCount + m_iPairCount + 2);
 
     int i = uiHash & m_iPairCount;
-    while (m_kPrimitiveElement[i] != 0xffffffffu)
+    while (m_kPrimitiveElement[i] != ~uintptr_t(0))
     {
         if (m_kPrimitiveElement[i] == uiHash)
         {
@@ -513,7 +514,7 @@ void hkStringMapD874::FUN_00d874d0(const char* pcKey, int iValue)
 
 KEY_FOUND:
     m_kPrimitiveElement[i] = uiHash;
-    m_kPrimitiveElement[m_iPairCount + i + 1] = (unsigned long)pcKey;
+    m_kPrimitiveElement[m_iPairCount + i + 1] = (uintptr_t)pcKey;
     m_kPrimitiveElement[2 * m_iPairCount + 2 + i] = iValue;
 }
 
@@ -527,7 +528,7 @@ class AllocatorE028
 
 struct RouterE028
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     AllocatorE028* m_pStreamAllocator;
 
     AllocatorE028& heap()
@@ -537,7 +538,6 @@ struct RouterE028
 };
 
 namespace hkRouterE028 {
-extern "C" RouterE028& __cdecl FUN_00c85750() throw();
 }
 
 char* __cdecl FUN_00cb1160(const char* pcString, AllocatorE028& kAlloc);
@@ -563,12 +563,12 @@ class FUN_00d87790
 
     static void* operator new(std::size_t uiSize)
     {
-        return hkRouterE028::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        return (*static_cast<RouterE028*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
     }
     static void operator delete(void* p);
 
 
-    bool isValid(int iIt)
+    bool isValid(intptr_t iIt)
     {
         char cValid;
         reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold(&cValid, iIt);
@@ -616,7 +616,7 @@ template <class T> class hkArrayE028
     }
     void AddBack(const T& t)
     {
-        _pushBack(hkRouterE028::FUN_00c85750(), t);
+        _pushBack((*static_cast<RouterE028*>(::FUN_00c85750())), t);
     }
 };
 
@@ -637,11 +637,11 @@ void NamedObjectsE028::FUN_00e02800(void* pkObject, const char* pcName)
     if (!m_pkPool)
         m_pkPool = new StringMapE028();
     StringMapE028* pkPool = m_pkPool;
-    int iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((int)(pcName));
+    intptr_t iIt = reinterpret_cast<::FUN_00d87820_Class *>((pkPool))->FindStringKey((intptr_t)(pcName));
     const char* pcPooled;
     if (!pkPool->isValid(iIt))
     {
-        pcPooled = FUN_00cb1160(pcName, hkRouterE028::FUN_00c85750().heap());
+        pcPooled = FUN_00cb1160(pcName, (*static_cast<RouterE028*>(::FUN_00c85750())).heap());
         reinterpret_cast<::hkStringMapD874 *>((pkPool))->FUN_00d874d0(pcPooled, 0);
     }
     else

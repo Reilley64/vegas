@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct S3e60 {
 public:
@@ -7,7 +8,7 @@ public:
     // 0x0056d320
     bool FUN_0056d320(unsigned int);
     // 0x0056d340
-    bool FUN_0056d340(unsigned int);
+    bool FUN_0056d340(uintptr_t);
     // 0x006a1400
     bool FUN_006a1400(unsigned int);
     // 0x006a7ad0

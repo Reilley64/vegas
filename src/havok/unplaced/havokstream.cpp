@@ -2,6 +2,8 @@
 // src/havok/unplaced/havokstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/havokstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <cstring>
@@ -187,12 +189,11 @@ void FUN_00626320::Method(const void* data, unsigned int size)
 struct BSAudio
 {
 };
-extern "C" BSAudio* __cdecl FUN_00c85750();
 void __cdecl FUN_00c856c0(void* a, void* b);
 // @fnv 0x00626760
 void __cdecl FUN_00626760(void* a)
 {
-    BSAudio* p = FUN_00c85750();
+    BSAudio* p = static_cast<BSAudio*>(::FUN_00c85750());
     FUN_00c856c0(((void *)(reinterpret_cast<::MagicCaster_shell *>((p))->FUN_0044edb0())), a);
 }
 
@@ -261,7 +262,6 @@ int FUN_00626390_class::FUN_00626390()
     return pFile ? FUN_004720a0(reinterpret_cast<char*>(pFile)) : 0;
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 char* __cdecl FUN_00cb1410(const char*);
 struct FUN_00626420_shell
 {
@@ -282,7 +282,7 @@ void FUN_00625e70_class::FUN_00625e70(const char* apFile, int aiLine)
     strcat_s(pfile, 128, pext);
     ap.p = FUN_00cb1410(pfile);
     ap.aiLine = aiLine;
-    reinterpret_cast<::Cls *>((((FUN_00625e70_class*)((char*)this + 8))))->FUN_00626420((int)(&ap));
+    reinterpret_cast<::Cls *>((((FUN_00625e70_class*)((char*)this + 8))))->FUN_00626420((intptr_t)(&ap));
 }
 
 struct $SG2686
@@ -925,7 +925,7 @@ struct FUN_00625bf0_Class
 // @fnv 0x00625bf0
 void FUN_00625bf0_Class::FUN_00625bf0(FUN_00625bf0_Container* container)
 {
-    for (int index = 0; index < ((int)(reinterpret_cast<::Callees *>((container))->FUN_00726070())); ++index)
+    for (int index = 0; index < ((intptr_t)(reinterpret_cast<::Callees *>((container))->FUN_00726070())); ++index)
     {
         FUN_00625bf0_Item item = *((::FUN_00625bf0_Item *)(reinterpret_cast<::FUN_00626660_Class *>((container))->FUN_00626660(index)));
         FUN_00626760(item.unk00);
@@ -984,13 +984,13 @@ int ErrorHandler6256::ReportMessage(int iType, int iMessageId, const char* pcMes
 // @fnv 0x00625c50
 bool FileFilter625c::FUN_00625c50(const char* pcPath, int iValue)
 {
-    if (((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())))
+    if (((intptr_t)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())))
     {
         char acExtBuf[32];
         char acName[128];
         ::FUN_00462d40(pcPath, (char *)(0), 0, (char *)(0), 0, acName, 0x80, acExtBuf, 0x20);
         strcat_s(acName, 0x80, acExtBuf);
-        for (int i3 = 0; i3 < ((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
+        for (int i3 = 0; i3 < ((intptr_t)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
         {
             FileEntry625c kEntry = *((::FileEntry625c *)(reinterpret_cast<::FUN_00626660_Class *>(&(m_kList))->FUN_00626660(i3)));
             if (!::fnv_00cb0fe0::CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)
@@ -1029,7 +1029,7 @@ void FileFilter625c::RemoveEntryByPathAndValue(const char* pcPath, int iValue)
     char acName[128];
     ::FUN_00462d40(pcPath, (char *)(0), 0, (char *)(0), 0, acName, 0x80, acExtBuf, 0x20);
     strcat_s(acName, 0x80, acExtBuf);
-    for (int i3 = 0; i3 < ((int)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
+    for (int i3 = 0; i3 < ((intptr_t)(reinterpret_cast<::Callees *>(&(m_kList))->FUN_00726070())); i3++)
     {
         FileEntry625c kEntry = *((::fnv_00625d60::FileEntry625c *)(reinterpret_cast<::FUN_00626660_Class *>(&(m_kList))->FUN_00626660(i3)));
         if (!::fnv_00cb0fe0::CompareStringsCaseInsensitive(acName, kEntry.m_pcName) && iValue == kEntry.m_iValue)

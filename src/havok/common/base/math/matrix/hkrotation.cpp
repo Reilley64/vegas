@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hkrotation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkrotation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/Shell_c8da40.h"
 #include "fnv/symbols_010c7000.h"
 #include "fnv/symbols_01268000.h"
@@ -29,7 +30,7 @@ struct __declspec(align(16)) SpawnedSnap
     float unk08;
     float unk0C;
 
-    SpawnedSnap(int value, float scale);
+    SpawnedSnap(intptr_t value, float scale);
 };
 
 class FUN_00cb2e30_cls
@@ -65,23 +66,7 @@ FUN_00cb2ff0::~FUN_00cb2ff0()
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00cb2e70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    void _mm_store_ss(float*, __m128);
-    int _mm_movemask_ps(__m128);
-}
+
 
 extern __m128 DAT_01017d10;
 
@@ -252,7 +237,7 @@ static __forceinline void convertRotation(RotationRows& output, __m128 quaternio
     __m128 squareX = _mm_mul_ss(quaternion, twice);
     __m128 products = _mm_mul_ps(pairInputs, crossInputs);
     ProductHolder savedProducts(products);
-    __assume((reinterpret_cast<unsigned>(&output) & 15) == 0);
+    __assume((reinterpret_cast<uintptr_t>(&output) & 15) == 0);
     __m128 diagonalStart = _mm_sub_ss((*reinterpret_cast<const ::__m128 *>(&::DAT_010c7180)), squareX);
     __m128 signs = DAT_010c8780;
     __m128 signedProducts = _mm_xor_ps(static_cast<__m128>(savedProducts), DAT_010c8780);

@@ -4,6 +4,7 @@
 
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/decl/FUN_00cf5950_cls.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"

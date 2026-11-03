@@ -1463,7 +1463,7 @@ struct FUN_00c6c720_class
 
 // If the float at this+0x50[index] equals FLT_MIN it stores value there, otherwise adds value to it and stores the sum scaled by DAT_01011588.
 // @fnv 0x00c6c720
-void FUN_00c6c720_class::AccumulateValue(int index, float value)
+void FUN_00c6c720_class::AccumulateValue(intptr_t index, float value)
 {
     float* p = (float*)((char*)this + 0x50);
     if (p[index] == 1.1754943508222875e-38f)

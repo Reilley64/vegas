@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FnvSpawnedObject;
 struct Transform;
@@ -11,4 +12,4 @@ void FUN_00ce2d10(const struct ::Transform *, ::PointerParam<const struct ::Tran
 // 0x00ce2f30
 void FUN_00ce2f30();
 // 0x00ce2f40
-void FUN_00ce2f40(unsigned int, unsigned int, unsigned int, int, unsigned int);
+void FUN_00ce2f40(unsigned int, uintptr_t, unsigned int, int, unsigned int);

@@ -2,6 +2,10 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv_simd.h"
+#include "fnv/symbols_0104f000.h"
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00d23000.h"
@@ -22,7 +26,7 @@ struct hkDisplayCapsule
 void hkDisplayCapsule::FUN_00d22d70()
 {
     ::FUN_00da16d0((*(const ::hkVector4 *)(this + 0x60)), (*(const ::hkVector4 *)(this + 0x70)), *(float*)((char*)this + 0x80),
-                                    (int)(*(void**)((char*)this + 0x88)), (int)(*(void**)((char*)this + 0x84)), (*(const ::hkTransform *)(this + 0x10)),
+                                    (intptr_t)(*(void**)((char*)this + 0x88)), (intptr_t)(*(void**)((char*)this + 0x84)), (*(const ::hkTransform *)(this + 0x10)),
                                     (*(::hkGeometry * *)(this + 0x8)));
 }
 
@@ -30,22 +34,12 @@ void hkDisplayCapsule::FUN_00d22d70()
 void FUN_00d22db0(int, int)
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
 extern "C"
 {
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
+
+
     void _ReadWriteBarrier();
 }
 struct Vector
@@ -197,13 +191,6 @@ void invokeProjection()
     FUN_00d234e0(inputLimit, inputPoint, outputPoint, inputOther);
 }
 
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 static __forceinline float root(float f)
 {
     return (float)sqrt(f);
@@ -526,7 +513,6 @@ inline __m128 distances3(float a, float b, float c)
 
 extern void __cdecl FUN_00d234e0(IntersectionContext*, PlaneRecord*, const __m128*);
 
-extern const double DAT_01011588 = 0.5;
 
 struct PairPlane
 {
@@ -599,13 +585,13 @@ static __declspec(noinline) void FUN_00d23850(IntersectionContext* ctx, PairPlan
 
             float projection = dot(difference, direction.v);
 
-            float threshold = (float)((a->auxiliary.m128_f32[0] + b->auxiliary.m128_f32[0] +
+            float threshold = (float)((fnv_simd_as<float>(a->auxiliary)[0] + fnv_simd_as<float>(b->auxiliary)[0] +
                                        radius * ((projection * radius > 0.0f)
-                                                     ? a->auxiliary.m128_f32[1] + b->auxiliary.m128_f32[1]
-                                                     : a->auxiliary.m128_f32[2] + b->auxiliary.m128_f32[2])) *
+                                                     ? fnv_simd_as<float>(a->auxiliary)[1] + fnv_simd_as<float>(b->auxiliary)[1]
+                                                     : fnv_simd_as<float>(a->auxiliary)[2] + fnv_simd_as<float>(b->auxiliary)[2])) *
                                       DAT_01011588);
 
-            float blend = (float)((a->auxiliary.m128_f32[3] + b->auxiliary.m128_f32[3]) * DAT_01011588);
+            float blend = (float)((fnv_simd_as<float>(a->auxiliary)[3] + fnv_simd_as<float>(b->auxiliary)[3]) * DAT_01011588);
 
             if ((squared - projection * projection) * threshold * threshold >= projection * projection)
             {
@@ -967,12 +953,12 @@ static __declspec(noinline) void FUN_00d23850(SimplexInfo& ctx_, const PlaneReco
             float squared = dot(difference, difference);
             float radius = dot(ctx->geometry->unk30, direction.v);
             float projection = dot(difference, direction.v);
-            float threshold = (float)((a->auxiliary.m128_f32[0] + b->auxiliary.m128_f32[0] +
+            float threshold = (float)((fnv_simd_as<float>(a->auxiliary)[0] + fnv_simd_as<float>(b->auxiliary)[0] +
                                        radius * ((projection * radius > 0.0f)
-                                                     ? a->auxiliary.m128_f32[1] + b->auxiliary.m128_f32[1]
-                                                     : a->auxiliary.m128_f32[2] + b->auxiliary.m128_f32[2])) *
+                                                     ? fnv_simd_as<float>(a->auxiliary)[1] + fnv_simd_as<float>(b->auxiliary)[1]
+                                                     : fnv_simd_as<float>(a->auxiliary)[2] + fnv_simd_as<float>(b->auxiliary)[2])) *
                                       DAT_01011588);
-            float blend = (float)((a->auxiliary.m128_f32[3] + b->auxiliary.m128_f32[3]) * DAT_01011588);
+            float blend = (float)((fnv_simd_as<float>(a->auxiliary)[3] + fnv_simd_as<float>(b->auxiliary)[3]) * DAT_01011588);
             if ((squared - projection * projection) * threshold * threshold >= projection * projection)
             {
                 rw.m_vComponents = position;
@@ -1225,4 +1211,25 @@ SimplexInfo* volatile g_simplexInfo;
 void invokeExamineActivePlanes()
 {
     FUN_00d23f50(*g_simplexInfo);
+}
+
+
+struct Plane
+{
+    __m128 m_vHitNormal;
+    __m128 m_kPoint;
+};
+
+// @fnv 0x00d23480
+static __declspec(noinline) hkBool* FUN_00d23480(hkBool* out, const __m128* p, const Plane* pl)
+{
+    __m128 m = _mm_mul_ps(_mm_sub_ps(*p, pl->m_kPoint), pl->m_vHitNormal);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
+    float d;
+    _mm_store_ss(&d, s);
+    if (d >= DAT_0104ffb8)
+        out->m_cBooleanValue = 0;
+    else
+        out->m_cBooleanValue = 1;
+    return out;
 }

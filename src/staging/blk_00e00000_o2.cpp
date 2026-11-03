@@ -2,6 +2,7 @@
 // src/staging/blk_00e00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -4108,7 +4109,7 @@ class FUN_00e114f0_cls
 };
 
 // @fnv 0x00e114f0
-void FUN_00e114f0_cls::FUN_00e114f0(int a1, int a2, int a3)
+void FUN_00e114f0_cls::FUN_00e114f0(intptr_t a1, intptr_t a2, intptr_t a3)
 {
     m_100 = 1;
 }
@@ -4189,7 +4190,7 @@ class FUN_00e11500_cls : public FlagObjectPad
 };
 
 // @fnv 0x00e11500
-void FUN_00e11500_cls::FUN_00e11500(int a1, int a2)
+void FUN_00e11500_cls::FUN_00e11500(intptr_t a1, intptr_t a2)
 {
     m_flag100 = 1;
 }
@@ -4200,7 +4201,7 @@ struct FUN_00e11510_obj
 };
 
 // @fnv 0x00e11510
-void FUN_00e11510_obj::FUN_00e11510(int a, int b)
+void FUN_00e11510_obj::FUN_00e11510(intptr_t a, intptr_t b)
 {
     ((char*)this)[0x100] = 1;
 }
@@ -4275,7 +4276,7 @@ struct FUN_00e11520_class
     void FUN_00e11520(int a, int b);
 };
 // @fnv 0x00e11520
-void FUN_00e11520_class::FUN_00e11520(int a, int b)
+void FUN_00e11520_class::FUN_00e11520(intptr_t a, intptr_t b)
 {
     flag100 = 1;
 }
@@ -7338,7 +7339,7 @@ class ParserE030
 
 // Reads offset/padded-string pairs from m_pcBegin+iOffset until -1 or the end, appending one RangeE030 per pair to kOut.
 // @fnv 0x00e03010
-void ParserE030::FUN_00e03010(int iOffset, hkArrayE030<RangeE030>& kOut)
+void ParserE030::FUN_00e03010(intptr_t iOffset, hkArrayE030<RangeE030>& kOut)
 {
     const char* pcData = m_pcBegin + iOffset;
     int iPos = 0;

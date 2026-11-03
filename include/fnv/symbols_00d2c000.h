@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FnvCpu_FUN_00d2c7d0_CpuInterface;
 struct TargetObj;
@@ -10,7 +11,7 @@ void ConstructObjD2C840(void *, int);
 // 0x00d2c8a0
 const void *FUN_00d2c8a0();
 // 0x00d2caa0
-namespace fnv_00d2caa0 { void FUN_00d2caa0(void *, void *, unsigned int); }
+namespace fnv_00d2caa0 { void FUN_00d2caa0(void *, void *, uintptr_t); }
 // 0x00d2cab0
 void FUN_00d2cab0();
 // 0x00d2cb70

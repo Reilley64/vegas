@@ -2,6 +2,9 @@
 // src/havok/common/base/system/io/socket/bsd/hkbsdsocket.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/socket/bsd/hkbsdsocket.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include "fnv/decl/FUN_00d2b850.h"
+#include "fnv/decl/StringBuf.h"
 #include <winsock2.h>
 #include <windows.h>
 #include <new>
@@ -16,33 +19,51 @@
 #include "fnv/symbols_00ee6000.h"
 #include "fnv/symbols_0102e000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void closesocket(int);
-struct FUN_00da2dc0_class
+
+// hkBsdSocket's data (32-bit offsets): hkReferencedObject at +0x0, hkSocket's reader and writer adapters at +0x8 and
+// +0x14, the socket handle at +0x20. The per-function classes below derive from it; their virtual calls go through
+// m_vtable with Callback.
+struct hkBsdSocketLayout
 {
-    int m_kPointA;                // +0x00
-    int m_kPointB;                // +0x04
-    int m_iThirdValue;                // +0x08
-    int m_iFourthElementInteger;                // +0x0c
-    int m_usTrailingValue;  // +0x10
-    int m_f;                // +0x14
-    int m_g;                // +0x18
-    int m_h;                // +0x1c
-    int m_pSocket;          // +0x20
+    struct Adapter
+    {
+        void* m_vtable;
+        unsigned short m_memSizeAndFlags;
+        short m_referenceCount;
+        hkBsdSocketLayout* m_socket;
+    };
+
+    void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    Adapter m_reader;
+    Adapter m_writer;
+    SOCKET m_pSocket;
+
+    typedef void (*Callback)(hkBsdSocketLayout*);
+    Callback virtualSlot(int index)
+    {
+        return static_cast<Callback*>(m_vtable)[index];
+    }
+};
+
+struct FUN_00da2dc0_class : hkBsdSocketLayout
+{
     void CloseSocket();
 };
 // @fnv 0x00da2dc0
 void FUN_00da2dc0_class::CloseSocket()
 {
-    if (m_pSocket != -1)
+    if (m_pSocket != INVALID_SOCKET)
     {
         closesocket(m_pSocket);
-        m_pSocket = -1;
+        m_pSocket = INVALID_SOCKET;
     }
 }
 
 extern int DAT_010d5030;
 
-struct hkBsdSocket
+struct hkBsdSocket : hkBsdSocketLayout
 {
     void Destroy();
 };
@@ -50,90 +71,69 @@ struct hkBsdSocket
 // @fnv 0x00da3080
 void hkBsdSocket::Destroy()
 {
-    *(int*)this = (int)&DAT_010d5030;
+    m_vtable = &DAT_010d5030;
     reinterpret_cast<::FUN_00da2dc0_class *>((this))->CloseSocket();
-    *(int*)((char*)this + 0x14) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)((char*)this + 8) = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    m_writer.m_vtable = &::DAT_0102e388;
+    m_reader.m_vtable = &::DAT_0102e388;
+    m_vtable = &::DAT_0102e388;
 }
 
 extern "C" void __cdecl FUN_00d2b850(void);
 extern "C" void __cdecl FUN_00da2de0(void*);
 extern int DAT_010d5030;
 
-struct FUN_00da30a0_cls
+struct FUN_00da30a0_cls : hkBsdSocketLayout
 {
-    void* m_vft;
-    char m_auiShapeKeys[28];
-    int m_field_0x20;
     void FUN_00da2de0();
-    void* InitWithParam(int param);
+    void* InitWithParam(SOCKET param);
 };
 
-struct FUN_00da2db0_cls
+struct FUN_00da2db0_cls : hkBsdSocketLayout
 {
-    char m_auiShapeKeys[0x20];
-    int m_pSocket;
     bool* FUN_00da2db0(bool* pOut);
 };
 
 // @fnv 0x00da2db0
 bool* FUN_00da2db0_cls::FUN_00da2db0(bool* pOut)
 {
-    *pOut = (m_pSocket != -1);
+    *pOut = (m_pSocket != INVALID_SOCKET);
     return pOut;
 }
 
 
-struct FUN_00da2e60_cls
+struct FUN_00da2e60_cls : hkBsdSocketLayout
 {
-    void* m_vft;  // +0x00
-    char m_auiShapeKeys[0x1c];
-    int m_pSocket;  // +0x20
-    int FUN_00da2e60(int, int);
+    int FUN_00da2e60(intptr_t, int);
 };
 
 // @fnv 0x00da2e60
-int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
+int FUN_00da2e60_cls::FUN_00da2e60(intptr_t a, int b)
 {
     int r;
-    if (m_pSocket != -1)
+    if (m_pSocket != INVALID_SOCKET)
     {
         r = send(m_pSocket, (const char *)(a), b, 0);
         if (r > 0 && r != -1)
             return r;
         if (WSAGetLastError() != 0x2733)
-        {
-            void** vft = *(void***)this;
-            void(* fn)(void*) = (void(*)(void*))vft[4];
-            fn(this);
-        }
+            virtualSlot(4)(this);
     }
     return 0;
 }
 
 
-struct FUN_00da2de0_class
+struct FUN_00da2de0_class : hkBsdSocketLayout
 {
-    virtual void f0();
-    virtual void f1();
-    virtual void f2();
-    virtual void f3();
-    virtual void f4();
-
-    char m_auiShapeKeys[0x1c];
-    int m_pSocket;
-
     int FUN_00da2de0();
 };
 // Calls FUN_00d2b850, sets the vtable to DAT_010d5030 and m_field_0x20 to param, calls FUN_00da2de0 if param is -1, and returns this.
 // @fnv 0x00da30a0
-void* FUN_00da30a0_cls::InitWithParam(int param)
+void* FUN_00da30a0_cls::InitWithParam(SOCKET param)
 {
     FUN_00d2b850();
-    m_vft = &DAT_010d5030;
-    m_field_0x20 = param;
-    if (param == -1)
+    m_vtable = &DAT_010d5030;
+    m_pSocket = param;
+    if (param == INVALID_SOCKET)
         reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0();
     return this;
 }
@@ -141,59 +141,35 @@ void* FUN_00da30a0_cls::InitWithParam(int param)
 // @fnv 0x00da2de0
 int FUN_00da2de0_class::FUN_00da2de0()
 {
-    this->f4();
+    virtualSlot(4)(this);
 
-    int result = socket(2, 1, 0);
-    bool success = result == -1;
+    SOCKET result = socket(2, 1, 0);
+    bool success = result == INVALID_SOCKET;
     m_pSocket = result;
     return success;
 }
 
-struct FUN_00da2f90_cls
+struct FUN_00da2f90_cls : hkBsdSocketLayout
 {
-    char m_auiShapeKeys[0x20];
-    int m_pSocket;
-    bool FUN_00da2f90(int a, int b, int c);
+    bool FUN_00da2f90(intptr_t a, int b, int c);
 };
 // @fnv 0x00da2f90
-bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
+bool FUN_00da2f90_cls::FUN_00da2f90(intptr_t aiArg1, int aiArg2, int c)
 {
     return WSAAsyncSelect(m_pSocket, (HWND)(aiArg1), aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
 }
 
-// FUN_00ee6d9e: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 21 (setsockopt, stdcall, 5 args).
 
-// @fnv 0x00ee6d9e
-int FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int optlen)
+
+struct FUN_00da2e10_cls : hkBsdSocketLayout
 {
-    return setsockopt(s, level, optname, optval, optlen);
-}
-
-
-struct FUN_00da2e10_cls
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int m_pSocket;
-
     int Read(void* buf, int len);
 };
 
 // @fnv 0x00da2e10
 int FUN_00da2e10_cls::Read(void* buf, int len)
 {
-    if (m_pSocket != -1)
+    if (m_pSocket != INVALID_SOCKET)
     {
         int res = recv(m_pSocket, (char *)(buf), len, 0);
         if (res > 0 && res != -1)
@@ -202,7 +178,7 @@ int FUN_00da2e10_cls::Read(void* buf, int len)
         }
         if (WSAGetLastError() != 0x2733)
         {
-            v4();
+            virtualSlot(4)(this);
         }
     }
     return 0;
@@ -214,19 +190,18 @@ struct FUN_00cbbd40_router
     virtual void f1();
     virtual void f2();
     virtual void f3();
-    virtual void f4(int, int);
+    virtual void f4(void*, int);
 };
 struct FUN_00cbbd40_holder
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     FUN_00cbbd40_router* unkC;
 };
-extern "C" FUN_00cbbd40_holder* __cdecl FUN_00c85750(void);
 struct FUN_00cbbd40_cls
 {
-    int m_iWordAt00;
+    void* m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     void FUN_00cbbd40();
@@ -234,7 +209,7 @@ struct FUN_00cbbd40_cls
 // @fnv 0x00cbbd40
 void FUN_00cbbd40_cls::FUN_00cbbd40()
 {
-    FUN_00cbbd40_holder* pHolder = FUN_00c85750();
+    FUN_00cbbd40_holder* pHolder = static_cast<FUN_00cbbd40_holder*>(::FUN_00c85750());
     FUN_00cbbd40_router* r = pHolder->unkC;
     int iOldValue = m_8;
     m_iWordAt04 = 0;
@@ -245,18 +220,9 @@ void FUN_00cbbd40_cls::FUN_00cbbd40()
 }
 
 
-class SocketDA2F
+class SocketDA2F : public hkBsdSocketLayout
 {
   public:
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    unsigned int m_uiSocket;
 
     bool SetNonBlocking(bool m_bCombatItemSearchActive);
 };
@@ -270,7 +236,7 @@ bool SocketDA2F::SetNonBlocking(bool m_bCombatItemSearchActive)
 
     ulNonBlocking = (*pBlocking == 0);
 
-    int result = ioctlsocket(m_uiSocket, 0x8004667e, const_cast<unsigned long*>(&ulNonBlocking));
+    int result = ioctlsocket(m_pSocket, 0x8004667e, const_cast<unsigned long*>(&ulNonBlocking));
 
     return !!result;
 }
@@ -278,7 +244,6 @@ bool SocketDA2F::SetNonBlocking(bool m_bCombatItemSearchActive)
 extern char DAT_01269acc;
 extern const char str_010d5004[];
 extern const char str_010d4fdc[];
-int FUN_00ee6d86(unsigned short, void*);
 
 struct S00da2ff0_Msg
 {
@@ -303,10 +268,10 @@ void InitWinsock()
     {
         struct
         {
-            int wsa[0x64];
+            WSADATA wsa;
             int buf[0x80];
         } L;
-        if (FUN_00ee6d86(0x202, L.wsa) == -1)
+        if (WSAStartup(0x202, &L.wsa) == -1)
         {
             S00da2ff0_Msg ostr;
             new ((void *)&(ostr)) ::FUN_00cb1600(L.buf, 0x200);
@@ -344,21 +309,8 @@ struct HostEntry
     short address_length;
     char** addresses;
 };
-struct SocketConnector
+struct SocketConnector : hkBsdSocketLayout
 {
-    virtual void onInitialize();
-    virtual void onConnected();
-    virtual void onClose();
-    virtual void onRead();
-    virtual void onConnectionFailure();
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int socket;
     int FUN_00da2de0();
     int FUN_00da2ec0(const char* host, int port);
 };
@@ -378,28 +330,25 @@ int SocketConnector::FUN_00da2ec0(const char* host, int port)
     }
     else
     {
-        HostEntry* pHostEntry = (HostEntry*)((int)(std::uintptr_t)(gethostbyname(host)));
+        HostEntry* pHostEntry = (HostEntry*)(gethostbyname(host));
         if (!pHostEntry)
             return 1;
         ::FUN_00cb1260(&target.address, pHostEntry->addresses[0], pHostEntry->address_length);
     }
 
-    if (socket == -1 && reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0())
+    if (m_pSocket == INVALID_SOCKET && reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0())
         return 1;
-    int iResult = connect(socket, (const sockaddr *)(&target), sizeof(target));
+    int iResult = connect(m_pSocket, (const sockaddr *)(&target), sizeof(target));
     if (iResult != -1)
         goto success;
     if (WSAGetLastError() == 0x2733)
         goto success;
-    onConnectionFailure();
+    virtualSlot(4)(this);
     return 1;
 success:
     return 0;
 }
 
-int FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
-int FUN_00ee6d92(unsigned int s, int iBacklog);
-int FUN_00ee6d8c(char* pcName, int iNameLen);
 
 extern const char str_010d505c[];
 extern const char str_010d5070[];
@@ -454,23 +403,9 @@ class hkOstreamDA30
     }
 };
 
-class hkBsdSocketDA30
+class hkBsdSocketDA30 : public hkBsdSocketLayout
 {
   public:
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void close() throw();
-
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    unsigned int m_pSocket;
 
     int FUN_00da2de0() throw();
     int FUN_00da30d0(int iPort) throw();
@@ -489,22 +424,22 @@ int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
     kName.sin_port = htons((unsigned short)iPort);
 
     int iOn = 1;
-    ::FUN_00ee6d9e(m_pSocket, 0xffff, 4, (const char *)(const void *)((const void*)&iOn), sizeof(int));
+    setsockopt(m_pSocket, 0xffff, 4, (const char*)&iOn, sizeof(int));
 
-    if (FUN_00ee6d98(m_pSocket, &kName, sizeof(kName)) == -1)
+    if (bind(m_pSocket, (const sockaddr*)&kName, sizeof(kName)) == -1)
     {
-        close();
+        virtualSlot(4)(this);
         return 1;
     }
-    if (FUN_00ee6d92(m_pSocket, 2) == -1)
+    if (listen(m_pSocket, 2) == -1)
     {
-        close();
+        virtualSlot(4)(this);
         return 1;
     }
 
     hkStringBufDA30 kHost;
     unsigned int auiHostName[64];
-    FUN_00ee6d8c((char*)auiHostName, sizeof(auiHostName));
+    gethostname((char*)auiHostName, sizeof(auiHostName));
     kHost = (const char*)auiHostName;
     {
         unsigned int auiReportBuf[128];
@@ -543,10 +478,113 @@ FUN_00da33d0_cls* FUN_00da33d0_cls::FUN_00da33d0(bool flag)
     reinterpret_cast<::hkBsdSocket *>((this))->Destroy();
     if (flag & 1)
     {
-        FUN_00da33d0_router* router = (FUN_00da33d0_router*)FUN_00c85750();
+        FUN_00da33d0_router* router = (FUN_00da33d0_router*)static_cast<FUN_00cbbd40_holder*>(::FUN_00c85750());
         router->m_client->FUN_00da33d0_c(this, m_kPointB);
     }
     return this;
+}
+
+
+namespace fnv_00da3230 {
+struct StrBufD32
+{
+    char* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    char m_kStorage[0x80];
+
+};
+
+struct OstreamD32
+{
+    int unk00;
+    int unk04;
+    int unk08;
+
+};
+
+struct ErrorD32
+{
+    virtual void v00();
+    virtual void v01();
+    virtual void v02();
+    virtual int message(int eType, int aiSoundId, const char* pcDesc, const char* pcFile, int iLine);
+};
+
+struct AllocD32
+{
+    virtual void v00();
+    virtual void* AllocateMemoryBlock(int iNumBytes);
+};
+struct RouterD32
+{
+    void* unk00; void* unk04; void* unk08; void* unk0C;
+    AllocD32* m_pStreamAllocator;
+
+    AllocD32& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+namespace hkRouterD32 {
+}
+
+struct SockD32 : hkBsdSocketLayout
+{
+    void* FUN_00da3230();
+};
+
+// @fnv 0x00da3230
+void* SockD32::FUN_00da3230()
+{
+    if (m_pSocket != INVALID_SOCKET)
+    {
+        fd_set readFds;
+        FD_ZERO(&readFds);
+        FD_SET(m_pSocket, &readFds);
+        fd_set exceptFds;
+        FD_ZERO(&exceptFds);
+        FD_SET(m_pSocket, &exceptFds);
+        timeval t;
+        t.tv_sec = 0;
+        t.tv_usec = 0;
+        int nfds = int(m_pSocket);
+        nfds++;
+        int numHits = select(nfds, &readFds, 0, &exceptFds, &t);
+        if ((numHits > 0) && FD_ISSET(m_pSocket, &readFds))
+        {
+            sockaddr_in from;
+            int iFromLen = sizeof(from);
+            SOCKET s = accept(m_pSocket, (sockaddr*)&from, &iFromLen);
+            StrBufD32 kMsg;
+            reinterpret_cast<::BufferOwner *>(&(kMsg))->InitBuffer();
+            reinterpret_cast<::StringBuf *>((&kMsg))->FUN_00d61d00("Socket got connection from [%s:%d]\n", inet_ntoa(from.sin_addr),
+                         ntohs(from.sin_port));
+            {
+                char acBuf[512];
+                OstreamD32 kOstr;
+                new ((void *)&(kOstr)) ::FUN_00cb1600(acBuf, sizeof(acBuf));
+                reinterpret_cast<::RequestReceiver *>(&(kOstr))->InvokeFromRequest((void *)&(kMsg));
+                (*reinterpret_cast<::fnv_00da3230::ErrorD32 * *>(&::DAT_01268360))->message(0, -1, acBuf, ".\\System\\Io\\Socket\\Bsd\\hkBsdSocket.cpp", 0x193);
+                reinterpret_cast<struct ::FUN_00cc00e0 *>(&(kOstr))->FUN_00cc00e0::~FUN_00cc00e0();
+            }
+            if (s == INVALID_SOCKET)
+            {
+                reinterpret_cast<::FUN_00cbbd40_cls *>(&(kMsg))->FUN_00cbbd40();
+                return 0;
+            }
+            int iNoDelay = 1;
+            setsockopt(s, 6, 1, (const char*)&iNoDelay, 4);
+            hkBsdSocketLayout* p =
+                (hkBsdSocketLayout*)(*static_cast<RouterD32*>(::FUN_00c85750())).heap().AllocateMemoryBlock(sizeof(hkBsdSocketLayout));
+            p->m_memSizeAndFlags = sizeof(hkBsdSocketLayout);
+            void* pkSocket = ((FUN_00da30a0_cls*)p)->InitWithParam(s);
+            reinterpret_cast<::FUN_00cbbd40_cls *>(&(kMsg))->FUN_00cbbd40();
+            return pkSocket;
+        }
+    }
+    return 0;
+}
 }
 
 #include "generated/data/havok/common/base/system/io/socket/bsd/hkbsdsocket.inc"

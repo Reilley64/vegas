@@ -2,6 +2,9 @@
 // src/havok/common/visualize/serialize/hkobjectserialize.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkobjectserialize.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <cstdint>
 #include <new>
 #include "fnv/decl/D60590Object.h"
 #include "fnv/decl/E02A80_cls.h"
@@ -17,16 +20,16 @@
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d60000.h"
 #include "fnv/symbols_01268000.h"
-typedef unsigned int C68E30size_t;
+typedef std::size_t C68E30size_t;
 
 struct C68E30Allocator;
 
 struct C68E30MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     C68E30Allocator* m_pStreamAllocator;
 
     C68E30Allocator& heap()
@@ -35,7 +38,6 @@ struct C68E30MemoryRouter
     }
 };
 
-extern "C" C68E30MemoryRouter& __cdecl FUN_00c85750();
 
 struct C68E30PrimaryBase
 {
@@ -84,7 +86,7 @@ struct C68E30PairArray
 
     void AddBack(const C68E30Pair& pair)
     {
-        _pushBack(FUN_00c85750().heap(), pair);
+        _pushBack((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), pair);
     }
 };
 
@@ -149,15 +151,14 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* volatile m_pAllocator;
 };
 
 namespace fnvc_adapt {
-AudioHolder* __cdecl FUN_00c85750() throw();
 }
 
 
@@ -219,7 +220,7 @@ void FUN_00d641f0_cls::ClearSweptEntry(int aiIndex)
     }
 
     SweptItemArray* pArray = &pEntry->m_04;
-    AudioHolder* pAudioHolder = fnvc_adapt::FUN_00c85750();
+    AudioHolder* pAudioHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     void* pAllocator = pAudioHolder->m_pAllocator;
     int iCapacity = (int)(pArray->m_08 & 0x3fffffffu);
     if (iCapacity < 0)
@@ -269,7 +270,7 @@ struct Buffer
 
 // Serializes a1-a4, data pairs/triples, and payload into sink via buffer, returning total bytes written or -1 on failure.
 // @fnv 0x00e0b850
-static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, unsigned int a3, unsigned int a4,
+static __declspec(noinline) int FUN_00e0b850(unsigned int a1, unsigned int a2, uintptr_t a3, unsigned int a4,
                                              const void* payload, unsigned int payloadBytes, ByteSwap byteSwap,
                                              Data* data, Sink* sink)
 {
@@ -350,7 +351,7 @@ struct C68E30Allocator
     virtual void ReleaseBlock(void* p, int numBytes) throw();
 };
 
-void* __cdecl AllocateWithHeader(void* alloc, int size);
+void* __cdecl AllocateWithHeader(void* alloc, intptr_t size);
 void __cdecl FUN_00c856c0(void* alloc, void* p);
 
 struct hkBool
@@ -449,12 +450,12 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(&numRelocs, 4);
     if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     int count = numRelocs;
-    relocs.SetSizeAndGrow(FUN_00c85750().heap(), count);
+    relocs.SetSizeAndGrow((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), count);
     for (i = 0; i < (unsigned int)numRelocs; ++i)
     {
         Reloc& r = relocs[i];
@@ -462,7 +463,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
         stream->read(&r.toOffset, 4);
         if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         {
-            relocs.ClearAndRelease(FUN_00c85750().heap());
+            relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
             return 0;
         }
     }
@@ -470,12 +471,12 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(&numItems, 4);
     if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     count = numItems;
-    outItems.SetSizeAndGrow(FUN_00c85750().heap(), count);
+    outItems.SetSizeAndGrow((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), count);
     for (i = 0; i < (unsigned int)numItems; ++i)
     {
         char* item = (char*)&outItems[i];
@@ -484,7 +485,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
         stream->read(item + 16, 8);
         if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
         {
-            relocs.ClearAndRelease(FUN_00c85750().heap());
+            relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
             return 0;
         }
     }
@@ -492,17 +493,17 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
     stream->read(outAllocSize, 4);
     if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
     int iAllocationSize = *outAllocSize;
-    char* buffer = (char*)AllocateWithHeader(&FUN_00c85750().heap(), iAllocationSize);
+    char* buffer = (char*)AllocateWithHeader(&(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), iAllocationSize);
     stream->read(buffer, *outAllocSize);
     if (!reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(stream->IsStreamValid()))->FUN_005609f0())
     {
-        FUN_00c856c0(&FUN_00c85750().heap(), buffer);
-        relocs.ClearAndRelease(FUN_00c85750().heap());
+        FUN_00c856c0(&(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap(), buffer);
+        relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
         return 0;
     }
 
@@ -517,7 +518,7 @@ unsigned __int64 __cdecl ReadRelocatedData(hkStreamReader* stream, char** outBuf
 
     *outBuffer = buffer;
     unsigned __int64 ret = header;
-    relocs.ClearAndRelease(FUN_00c85750().heap());
+    relocs.ClearAndRelease((*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap());
     return ret;
 }
 
@@ -533,8 +534,8 @@ struct ObjectWriteFlag
         return value != 0;
     }
 };
-static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, unsigned int idLow, unsigned int idHigh,
-                                             unsigned int classLow, unsigned int classHigh, const void* payload,
+static __declspec(noinline) int FUN_00e0b850(Data* fixups, Sink* output, uintptr_t idLow, unsigned int idHigh,
+                                             uintptr_t classLow, unsigned int classHigh, const void* payload,
                                              unsigned int payloadSize, ObjectWriteFlag swap)
 {
     bool ok;
@@ -683,11 +684,11 @@ extern char DAT_011b7b89;
 
 // Writes an object record to a sink by serializing its fixups and payload via FUN_00e0b850, returning the total bytes written.
 // @fnv 0x00e0bd40
-int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, unsigned int aiIdHigh, int p5,
-                         unsigned int p6, ObjectWriteArrItem* out)
+int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, uintptr_t aiIdLow, unsigned int aiIdHigh, intptr_t p5,
+                         uintptr_t p6, ObjectWriteArrItem* out)
 {
     ObjectWriteX x;
-    reinterpret_cast<::FUN_00e02bb0_cls *>(&(x))->FUN_00e02bb0((int)(p2));
+    reinterpret_cast<::FUN_00e02bb0_cls *>(&(x))->FUN_00e02bb0((intptr_t)(p2));
     ObjectWriteArrByte y;
     y.m_data = 0;
     y.m_iElementCount = 0;
@@ -708,10 +709,10 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     w.m_a3.m_iElementCount = 0;
     w.m_a3.m_cap = 0x80000000;
     w.m_30 = 0;
-    reinterpret_cast<::E02A80_cls *>(&(x))->FUN_00e02a80((::E02A80Arg *)(::ObjectWriteZ *)(&z), p5, (::E02A80Helper *)(p6), (int)(&w));
+    reinterpret_cast<::E02A80_cls *>(&(x))->FUN_00e02a80((::E02A80Arg *)(::ObjectWriteZ *)(&z), p5, (::E02A80Helper *)(p6), (intptr_t)(&w));
 
     int need = out->m_iElementCount + w.m_a1.m_iElementCount;
-    C68E30Allocator& alloc = FUN_00c85750().heap();
+    C68E30Allocator& alloc = (*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap();
     if ((out->m_cap & 0x3fffffff) < need)
     {
         int iDoubled = (out->m_cap & 0x3fffffff) * 2;
@@ -719,7 +720,7 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
     }
     for (int i = 0; i < w.m_a1.m_iElementCount; i++)
     {
-        C68E30MemoryRouter* router = &FUN_00c85750();
+        C68E30MemoryRouter* router = &(*static_cast<C68E30MemoryRouter*>(::FUN_00c85750()));
         if (out->m_iElementCount == (out->m_cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(out), 0x18);
         ObjectWriteItem* p = out->m_data + out->m_iElementCount;
@@ -734,7 +735,7 @@ int __cdecl FUN_00e0bd40(Sink* p1, ObjectWriteInfo* p2, unsigned int aiIdLow, un
                          ObjectWriteFlag(p2->m_01 != DAT_011b7b89));
     reinterpret_cast<::FUN_00e028e0 *>(&(w))->FUN_00e028e0::~FUN_00e028e0();
     reinterpret_cast<::FUN_00cc0780 *>(&(z))->FUN_00cc0780::~FUN_00cc0780();
-    C68E30Allocator& allocY = FUN_00c85750().heap();
+    C68E30Allocator& allocY = (*static_cast<C68E30MemoryRouter*>(::FUN_00c85750())).heap();
     y.m_iElementCount = 0;
     if ((y.m_cap & 0x80000000) == 0)
         allocY.ReleaseBlock(y.m_data, y.m_cap & 0x3fffffff);

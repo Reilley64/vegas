@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 
 #include "fnv/symbols_00c85000.h"
@@ -271,7 +272,7 @@ public:
     ::Owner *FUN_00cf5ea0();
 };
 // @fnv 0x00ca85f0
-void Owner::FUN_00ca85f0(unsigned int value)
+void Owner::FUN_00ca85f0(uintptr_t value)
 {
     subobjectE0.update(value);
     void* source = unk10;

@@ -6,6 +6,7 @@
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include <intrin.h>
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"

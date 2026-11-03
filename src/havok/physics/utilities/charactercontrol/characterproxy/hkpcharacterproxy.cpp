@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include <cstdint>
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -384,7 +385,7 @@ struct CpuObject {
     unsigned int FUN_00cac910();
 };
 // @fnv 0x00cac910
-unsigned int CpuObject::FUN_00cac910()
+uintptr_t CpuObject::FUN_00cac910()
 {
     return value->value + 48u;
 }

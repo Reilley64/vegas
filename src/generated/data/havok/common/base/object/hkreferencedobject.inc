@@ -8,5 +8,5 @@ extern "C" void fnv_api_TlsSetValue() __asm__("TlsSetValue");
 
 // import slot of KERNEL32.dll TlsSetValue
 int (*DAT_00fdf04c)(int, int) = reinterpret_cast< int (*)(int, int)>(&fnv_api_TlsSetValue);
-int DAT_012681d4;
+intptr_t DAT_012681d4;
 int DAT_012681d8;

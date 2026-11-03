@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/selection/hkxnodeselectionsetclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/selection/hkxnodeselectionsetclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include "fnv/decl/FUN_00e3eaa0.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -16,10 +18,10 @@ struct E01D40Allocator
 
 struct E01D40MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E01D40Allocator* m_pStreamAllocator;
 
     E01D40Allocator& heap()
@@ -28,7 +30,6 @@ struct E01D40MemoryRouter
     }
 };
 
-extern "C" E01D40MemoryRouter& __cdecl FUN_00c85750();
 
 struct E01D40ReferencedObject
 {
@@ -99,8 +100,8 @@ struct E01D40Object : E01D40Base
 // @fnv 0x00e01d40
 void E01D40Object::FUN_00e01d40()
 {
-    ::FUN_00cb0c00((int)&(m_name));
-    m_kTrackedObjects.ClearAndRelease(FUN_00c85750().heap());
+    ::FUN_00cb0c00((intptr_t)&(m_name));
+    m_kTrackedObjects.ClearAndRelease((*static_cast<E01D40MemoryRouter*>(::FUN_00c85750())).heap());
     reinterpret_cast<::FUN_00e3eaa0 *>(this)->FUN_00e3eaa0::~FUN_00e3eaa0();
 }
 
@@ -120,7 +121,6 @@ struct AudioSystem
     int unk0c;
     AudioInterface* unk10;
 };
-extern void* __cdecl FUN_00c85750();
 struct CpuObject
 {
     int unk00;

@@ -65,7 +65,7 @@ public:
     // 0x00ca4f80
     void FUN_00ca4f80(::Sink *);
     // 0x00ca85f0
-    void FUN_00ca85f0(unsigned int);
+    void FUN_00ca85f0(uintptr_t);
     // 0x00cab0e0
     void FUN_00cab0e0(int, int, float);
     // 0x00ce1420

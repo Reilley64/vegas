@@ -2,6 +2,7 @@
 // src/havok/common/base/monitor/hkmonitorstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/monitor/hkmonitorstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_01268000.h"
 struct S_00cb0da0
@@ -40,11 +41,11 @@ struct ByteAllocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     ByteAllocator* m_14;
 };
 
@@ -57,7 +58,6 @@ struct SpawnedBuffer
     unsigned char m_10;
 };
 
-char* FUN_00c85750();
 
 // @fnv 0x00cb0e50
 void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
@@ -72,11 +72,11 @@ void ResizeBuffer(SpawnedBuffer* pBuffer, int iSize)
     {
         if (begin != 0 && pBuffer->m_10 != 0)
         {
-            AllocHolder* h = (AllocHolder*)FUN_00c85750();
+            AllocHolder* h = (AllocHolder*)static_cast<char*>(::FUN_00c85750());
             h->m_14->Free(begin, end - begin);
         }
         pBuffer->m_10 = 1;
-        AllocHolder* h2 = (AllocHolder*)FUN_00c85750();
+        AllocHolder* h2 = (AllocHolder*)static_cast<char*>(::FUN_00c85750());
         ByteAllocator* pAllocator = h2->m_14;
         {
             unsigned int count = iSize;
@@ -105,15 +105,14 @@ class SpawnedAllocator
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     SpawnedAllocator* m_14;
 };
 
-AllocHolder* __cdecl FUN_00c85750();
 
 struct SpawnedObject
 {
@@ -128,7 +127,7 @@ struct SpawnedObject
 // @fnv 0x00cb0db0
 void __cdecl FUN_00cb0db0()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_14;
     SpawnedObject* obj = (SpawnedObject*)alloc->Alloc(0x14);
     TlsSetValue(::DAT_0126835c, obj);
@@ -153,15 +152,14 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct GrowBuffer
 {
@@ -182,12 +180,12 @@ void __cdecl FUN_00cb0df0(GrowBuffer* apBuffer)
     if (pBegin != 0 && apBuffer->m_bOwned != 0)
     {
         char* pEnd = apBuffer->m_pRecordEnd;
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->FreeArray(pBegin, (int)(pEnd - pBegin));
     }
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     pAllocator2->Free(pThreadData, 0x14);
 

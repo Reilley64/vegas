@@ -15,4 +15,4 @@ extern int DAT_011b3830[5];
 // 0x011b3b4c
 extern "C" extern unsigned int DAT_011b3b4c[];
 // 0x011b3dc0
-extern "C" extern int (*DAT_011b3dc0)(int, LocalBuf *);
+extern "C" extern const char *(*DAT_011b3dc0)(const char *, LocalBuf *);

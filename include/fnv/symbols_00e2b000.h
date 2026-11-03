@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class RayVector;
 class Vec4;
@@ -22,7 +23,7 @@ void FUN_00e2b070(const ::Input *, ::BundleCommand *, void *, ::RayVector &, voi
 // 0x00e2b9b0
 void FUN_00e2b9b0(::Chain *, ::Node *, ::Manager *);
 // 0x00e2baa0
-::E2baaDst *FUN_00e2baa0(::E2baaDst *, ::E2baaSrc *, int);
+::E2baaDst *FUN_00e2baa0(::E2baaDst *, ::E2baaSrc *, intptr_t);
 // 0x00e2baf0
 ::RayQuerySet FUN_00e2baf0(const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, const ::Vec4 &, int);
 // 0x00e2bbd0

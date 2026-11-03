@@ -2,6 +2,7 @@
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -1375,7 +1376,7 @@ class hkObjectD626
 };
 // Computes a value from arg, reads a record via FUN_00c85750, and calls FUN_00d62630 with rec[3], unk04-1, arg and that value; returns this.
 // @fnv 0x00d61df0
-FUN_00d61df0_cls* FUN_00d61df0_cls::FUN_00d61df0(int arg)
+FUN_00d61df0_cls* FUN_00d61df0_cls::FUN_00d61df0(intptr_t arg)
 {
     int ebx = ::fnv_00cb10d0::FUN_00cb10d0((const char *)(arg));
     int ebp = unk04;
@@ -2417,7 +2418,7 @@ namespace fnvc_adapt {
 
 // Initializes the string buffer, grows capacity if needed, copies value into m_data, and returns this.
 // @fnv 0x00d61a50
-int* FUN_00d61a50_cls::FUN_00d61a50(int value)
+int* FUN_00d61a50_cls::FUN_00d61a50(intptr_t value)
 {
     m_data = (int*)((char*)this + 0x0C);
     m_iElementCount = 0;

@@ -2,27 +2,27 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <xmmintrin.h>
+#include <cstddef>
 #include <new>
-#include "fnv/decl/Se31d50_Anim.h"
+#include <cmath>
+#include "fnv/decl/CC0280Writer.h"
+#include "fnv/decl/FUN_00cb1600.h"
+#include "fnv/decl/FUN_00cc00e0.h"
+#include "fnv/decl/FUN_00cc02d0_cls.h"
+#include "fnv/decl/FUN_00e33330_Class.h"
+#include "fnv/decl/FloatArgStream.h"
+#include "fnv/decl/SinkOwner.h"
+#include "fnv/symbols_00e58000.h"
+#include "fnv/symbols_01268000.h"
+#include "fnv/symbols_simd.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e30000.h"
 #include "fnv/symbols_00e31000.h"
 #include "fnv/symbols_010eb000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct __declspec(align(16)) FUN_005611c0_t
 {
@@ -40,7 +40,7 @@ struct Buffer
     int m_iElementCount;
 };
 
-void __cdecl CallHandlerByIndex(int, int, int);
+void __cdecl CallHandlerByIndex(int, intptr_t, intptr_t);
 
 struct VecArray
 {
@@ -68,7 +68,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
             FUN_005611c0_t t = apVecArray->m_data[i];
             t.FUN_005611c0();
             ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
-            CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
+            CallHandlerByIndex(type, (intptr_t)&t, (intptr_t)(m_buf.m_data + m_buf.m_iElementCount - size));
         }
     }
     else if (flags & 0x0f)
@@ -78,7 +78,7 @@ void Writer::FUN_00e319e0(unsigned char flags, int type, const FUN_005611c0_t* a
         FUN_005611c0_t t = *apVec;
         t.FUN_005611c0();
         ::fnv_00e31800::FUN_00e31800(size, (::fnv_00e31800::Buf *)(::Buffer *)(&m_buf));
-        CallHandlerByIndex(type, (int)&t, (int)(m_buf.m_data + m_buf.m_iElementCount - size));
+        CallHandlerByIndex(type, (intptr_t)&t, (intptr_t)(m_buf.m_data + m_buf.m_iElementCount - size));
     }
 }
 
@@ -109,7 +109,6 @@ struct S_00e31ca0_Router
         return *m_pStreamAllocator;
     }
 };
-S_00e31ca0_Router* FUN_00c85750();
 template <typename T> inline void S_00e31ca0_constructWithCopy(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++)
@@ -133,7 +132,7 @@ struct S_00e31ca0_ByteArray
     }
     void AddBack(const unsigned char& t)
     {
-        _pushBack(FUN_00c85750()->heap(), t);
+        _pushBack(static_cast<S_00e31ca0_Router*>(::FUN_00c85750())->heap(), t);
     }
 };
 struct S_00e31ca0_FloatArray
@@ -206,7 +205,6 @@ struct E317C0MemoryRouter
 };
 
 namespace fnvc_adapt {
-extern "C" E317C0MemoryRouter& __cdecl FUN_00c85750();
 }
 
 struct E317C0CharArray
@@ -228,7 +226,7 @@ struct E317C0CharArray
 
     void AddBack(char const& e)
     {
-        E317C0Allocator& alloc = fnvc_adapt::FUN_00c85750().heap();
+        E317C0Allocator& alloc = (*static_cast<E317C0MemoryRouter*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(char));
         construct(m_data + m_iElementCount, 1, e);
@@ -257,61 +255,6 @@ void __cdecl WriteFloatToMemWriter(float value, MemWriter* writer)
     *(float*)(writer->data + writer->used - 4) = value;
 }
 
-struct E32C80Array
-{
-    void* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    E32C80Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-};
-
-class E32C80Base
-{
-  public:
-    E32C80Base(void* info);
-    virtual void unk00();
-
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1C;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2C;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3C;
-    int unk40;
-};
-
-class FUN_00e32c80 : public E32C80Base
-{
-  public:
-    FUN_00e32c80(void* info, void* arg1, void* arg2);
-    virtual void unk00();
-
-
-    E32C80Array m_array44;
-    E32C80Array m_array50;
-    E32C80Array m_array5C;
-    E32C80Array m_array68;
-    E32C80Array m_array74;
-};
-
-// Constructs the object by forwarding info, arg1 and arg2 to init after initializing the E32C80Base base with info.
-// @fnv 0x00e32c80
-FUN_00e32c80::FUN_00e32c80(void* info, void* arg1, void* arg2) : E32C80Base(info)
-{
-    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(info)), (*(const ::Se31d50_PerTrack *)(arg1)), (*(const ::Se31d50_AnimParams *)(arg2)));
-}
-
 struct hkMemory
 {
     virtual void v0() throw();
@@ -335,7 +278,7 @@ template <typename T> struct hkArray
 
     ~hkArray() throw()
     {
-        hkThreadMemory* tm = (hkThreadMemory*)FUN_00c85750();
+        hkThreadMemory* tm = (hkThreadMemory*)static_cast<S_00e31ca0_Router*>(::FUN_00c85750());
         hkMemory* mem = tm->m_pMemoryAllocator;
         m_iElementCount = 0;
         if (!(m_iCapacityState & (int)0x80000000))
@@ -397,11 +340,11 @@ struct e319Cls
     char padCur[0x14];
     int m_2c;
     char kad[4];
-    char* m_34;
+    int m_34;
     char pNewad[0xc];
     int* m_44;
     char pTmpad[0x2c];
-    int m_74;
+    unsigned char* m_74;
     char pad78[8];
     int m_80;
     void FUN_00e31900();
@@ -414,8 +357,8 @@ void e319Cls::FUN_00e31900()
         return;
     for (int i = 0; i < m_2c; i++)
     {
-        unsigned char* pSrc = (unsigned char*)(m_44[i] + m_74);
-        char* p = m_34 + (unsigned int)pSrc;
+        unsigned char* pSrc = m_74 + m_44[i];
+        char* p = (char*)pSrc + m_34;
         for (int n = 0; n < m_10; n++)
         {
             e319Rec rec;
@@ -430,6 +373,1003 @@ void e319Cls::FUN_00e31900()
             ::FUN_00e31740((unsigned char)(ucTail & 0xf9), (ucTail >> 1) & 3, (unsigned int *)(char **)(&p));
         }
     }
+}
+
+#include <stdlib.h>
+
+struct Vector4Array
+{
+    const float* m_data;
+};
+
+struct AnimationCompressor
+{
+    char pad[0x74];
+    char m_stream;
+
+    void WriteCompressedAnimation(unsigned char mask, int quantType, const float* staticValues, const float* minValues,
+                                  const float* maxValues, int numFrames, const Vector4Array* data);
+};
+
+// Writes animation header and per-frame quantized values to m_stream based on mask and quantType.
+// @fnv 0x00e31b20
+void AnimationCompressor::WriteCompressedAnimation(unsigned char mask, int quantType, const float* staticValues,
+                                                   const float* minValues, const float* maxValues, int numFrames,
+                                                   const Vector4Array* data)
+{
+    void* stream = &m_stream;
+    ::fnv_00e31850::FUN_00e31850(4, (::fnv_00e31850::BufferInfo *)(stream));
+
+    unsigned int bit = 1;
+    for (int i = 0; i < 3; ++i, bit = _rotl(bit, 1))
+    {
+        if (mask & _rotl(bit, 4))
+        {
+            ::WriteFloatToMemWriter(minValues[i], (::MemWriter *)(stream));
+            ::WriteFloatToMemWriter(maxValues[i], (::MemWriter *)(stream));
+        }
+        else if (mask & bit)
+        {
+            ::WriteFloatToMemWriter(staticValues[i], (::MemWriter *)(stream));
+        }
+    }
+
+    if (mask & 0xf0)
+    {
+        for (int frame = 0; frame <= numFrames; ++frame)
+        {
+            int comp = 0;
+            unsigned int b = 1;
+            for (; comp < 3; ++comp, b = _rotl(b, 1))
+            {
+                if (mask & _rotl(b, 4))
+                {
+                    if (quantType == 0)
+                    {
+                        ::AppendChar(::ScaleToByte(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
+                                   (*(::E317C0CharArray *)(stream)));
+                    }
+                    else
+                    {
+                        ::fnv_00e31ad0::WriteUInt16ToBuffer(
+                            ::NormalizeToUShort(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
+                            (::fnv_00e31ad0::Buffer *)(stream));
+                    }
+                }
+            }
+        }
+    }
+}
+
+namespace fnv_00e31800 {
+struct Holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    void* m_pAllocator;
+};
+
+struct Buf
+{
+    char* m_data;
+    unsigned int m_len;
+    unsigned int m_cap;
+};
+
+extern "C" void _ReadWriteBarrier(void);
+
+
+// Appends count zero bytes to buf, calling FUN_00c90940 when its length equals the masked capacity.
+// @fnv 0x00e31800
+void __cdecl FUN_00e31800(int count, Buf* buf)
+{
+    if (count > 0)
+    {
+        do
+        {
+            Holder* h = static_cast<Holder*>(::FUN_00c85750());
+            if (buf->m_len == (buf->m_cap & 0x3fffffff))
+            {
+                ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(buf), 1);
+            }
+            char* slot = buf->m_data + buf->m_len;
+            _ReadWriteBarrier();
+            *slot = 0;
+            buf->m_len++;
+        } while (--count);
+    }
+}
+}  // namespace fnv_00e31800
+
+namespace fnv_00e31850 {
+#include <string.h>
+
+struct BufferInfo
+{
+    char* volatile data;
+    unsigned int length;
+    unsigned int capacity;
+};
+struct FourIntegerPointerRecord
+{
+    int unk00, unk04, unk08, unk0C;
+    void* unk10;
+};
+// Appends zero bytes until no bits selected by alignment minus one remain set in the buffer length.
+// @fnv 0x00e31850
+void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
+{
+    unsigned int mask = alignment - 1;
+    while (buffer->length & mask)
+    {
+        FourIntegerPointerRecord* alloc = static_cast<FourIntegerPointerRecord*>(::FUN_00c85750());
+        if (buffer->length == (buffer->capacity & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(alloc->unk10), (::AudioStream *)(buffer), 1);
+        memset(buffer->data + buffer->length, 0, 1);
+        ++buffer->length;
+    }
+}
+}  // namespace fnv_00e31850
+
+namespace fnv_00e318a0 {
+extern unsigned int DAT_010eb3e8[];
+
+struct FUN_00e318a0_buf
+{
+    char* m_pData;
+    unsigned int m_uLength;
+    unsigned int m_uCapacityFlags;
+};
+
+struct FUN_00e318a0_holder
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    void* m_pAllocator;
+};
+
+
+// @fnv 0x00e318a0
+void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
+{
+    unsigned int mask = DAT_010eb3e8[auBit];
+    if ((apBuf->m_uLength & mask) != 0)
+    {
+        do
+        {
+            FUN_00e318a0_holder* holder = static_cast<FUN_00e318a0_holder*>(::FUN_00c85750());
+            if (apBuf->m_uLength == (apBuf->m_uCapacityFlags & 0x3fffffff))
+            {
+                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(apBuf), 1);
+            }
+            char* volatile* pp = &apBuf->m_pData;
+            char* p = (char*)((uintptr_t)*pp + apBuf->m_uLength);
+            *p = 0;
+            apBuf->m_uLength++;
+            mask = *(volatile unsigned int*)&DAT_010eb3e8[auBit];
+        } while ((apBuf->m_uLength & mask) != 0);
+    }
+}
+}
+
+
+extern "C" const char str_010eb400[];  // "Compression Ratio: "
+extern "C" const char str_010eb414[];  // ":1."
+extern "C" const char str_010eb418[];  // "Original Size: "
+extern "C" const char str_010eb428[];  // " bytes. Compressed Size: "
+extern "C" const char str_010eb444[];  // "Size of largest block (PS3 SPU): "
+extern "C" const char str_010eb468[];  // " bytes."
+extern "C" const char str_010eb470[];  // .\Animation\SplineCompressed\hkaSplineCompressedAnimationCtor.cpp
+extern "C" const char str_010eb4b4[];  // "Number of blocks: "
+extern "C" const char str_010eb4c8[];  // "Compression"
+
+
+struct Se31d50_Alloc
+{
+    virtual ~Se31d50_Alloc();
+    virtual void* AllocateMemoryBlock(int numBytes);
+    virtual void ReleaseBlock(void* p, int numBytes);
+    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut);
+    virtual void ReturnMemory(void* p, int numBytes);
+    template <typename TYPE> __forceinline TYPE* _bufAlloc(int& reqNumInOut)
+    {
+        const int SIZE_ELEM = sizeof(TYPE);
+        int n = reqNumInOut * SIZE_ELEM;
+        void* p = AllocateBufferWithSize(n);
+        reqNumInOut = n / SIZE_ELEM;
+        return static_cast<TYPE*>(p);
+    }
+    template <typename TYPE> __forceinline void _bufFree(void* p, int numElem)
+    {
+        const int SIZE_ELEM = sizeof(TYPE);
+        ReturnMemory(p, numElem * SIZE_ELEM);
+    }
+};
+struct Se31d50_Router
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    Se31d50_Alloc* m_pStreamAllocator;
+    __forceinline Se31d50_Alloc& heap()
+    {
+        return *m_pStreamAllocator;
+    }
+};
+
+struct Se31d50_ContainerHeap
+{
+    __forceinline Se31d50_Alloc& get(const void*)
+    {
+        return (*static_cast<Se31d50_Router*>(::FUN_00c85750())).heap();
+    }
+};
+template <bool B> struct Se31d50_Trait
+{
+};
+typedef Se31d50_Trait<true> Se31d50_IsPod;
+struct Se31d50_ArrayUtil
+{
+    template <typename T> static __forceinline void construct(T*, int, Se31d50_IsPod)
+    {}
+    template <typename T> static __forceinline void destruct(T*, int, Se31d50_IsPod)
+    {}
+    template <typename T> static __forceinline void constructWithCopy(T* t, int n, const T& tcopy, Se31d50_IsPod)
+    {
+        for (int i = 0; i < n; ++i)
+            t[i] = tcopy;
+    }
+};
+template <typename T> struct Se31d50_ArrayBase
+{
+    enum
+    {
+        CAPACITY_MASK = 0x3fffffff,
+        DONT_DEALLOCATE_FLAG = 0x80000000
+    };
+    T* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+    __forceinline Se31d50_ArrayBase()
+    {}
+    __forceinline ~Se31d50_ArrayBase()
+    {}
+    __forceinline int GetLogicalSize() const
+    {
+        return m_iElementCount;
+    }
+    __forceinline int getCapacity() const
+    {
+        return m_iCapacityState & CAPACITY_MASK;
+    }
+    __forceinline T& operator[](int i)
+    {
+        return m_data[i];
+    }
+    __forceinline const T& operator[](int i) const
+    {
+        return m_data[i];
+    }
+    __forceinline T* begin()
+    {
+        return m_data;
+    }
+    __forceinline const T* begin() const
+    {
+        return m_data;
+    }
+    __forceinline void clear()
+    {
+        Se31d50_ArrayUtil::destruct(m_data, m_iElementCount, Se31d50_IsPod());
+        m_iElementCount = 0;
+    }
+    __forceinline void _clearAndDeallocate(Se31d50_Alloc& alloc)
+    {
+        clear();
+        if ((m_iCapacityState & 0x80000000) == 0)
+        {
+            alloc._bufFree<T>(m_data, getCapacity());
+        }
+        m_data = 0;
+        m_iCapacityState = 0x80000000;
+    }
+    __forceinline void GrowArrayCapacity(Se31d50_Alloc& alloc, int n)
+    {
+        const int capacity = getCapacity();
+        if (capacity < n)
+        {
+            int cap2 = 2 * capacity;
+            int newSize = (n < cap2) ? cap2 : n;
+            ::FUN_00c908c0((::SpawnedObject *)&(alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(T));
+        }
+    }
+    __forceinline void _setSize(Se31d50_Alloc& alloc, int n)
+    {
+        GrowArrayCapacity(alloc, n);
+        Se31d50_ArrayUtil::destruct(m_data + n, m_iElementCount - n, Se31d50_IsPod());
+        Se31d50_ArrayUtil::construct(m_data + m_iElementCount, n - m_iElementCount, Se31d50_IsPod());
+        m_iElementCount = n;
+    }
+    __forceinline void _pushBack(Se31d50_Alloc& alloc, const T& t)
+    {
+        if (m_iElementCount == getCapacity())
+        {
+            ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
+        }
+        Se31d50_ArrayUtil::constructWithCopy(m_data + m_iElementCount, 1, t, Se31d50_IsPod());
+        m_iElementCount++;
+    }
+    __forceinline void setOwnedData(T* ptr, int size, int capacity)
+    {
+        m_data = ptr;
+        m_iElementCount = size;
+        m_iCapacityState = capacity;
+    }
+};
+template <typename T> struct Se31d50_Array : Se31d50_ArrayBase<T>
+{
+    __forceinline Se31d50_Array()
+    {}
+    __forceinline void init()
+    {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = Se31d50_ArrayBase<T>::DONT_DEALLOCATE_FLAG;
+    }
+    __forceinline Se31d50_Array(int n)
+    {
+        this->m_data = 0;
+        this->m_iElementCount = 0;
+        this->m_iCapacityState = Se31d50_ArrayBase<T>::DONT_DEALLOCATE_FLAG;
+        Se31d50_Alloc& a = Se31d50_ContainerHeap().get(this);
+        T* p = n ? a._bufAlloc<T>(n) : 0;
+        int cap = n ? n : (int)0x80000000;
+        this->setOwnedData(p, n, cap);
+        Se31d50_ArrayUtil::construct(this->m_data, n, Se31d50_IsPod());
+    }
+    __forceinline ~Se31d50_Array()
+    {
+        ClearAndRelease();
+    }
+    __forceinline void ClearAndRelease()
+    {
+        this->_clearAndDeallocate(Se31d50_ContainerHeap().get(this));
+    }
+    __forceinline void SetSizeAndGrow(int n)
+    {
+        this->_setSize(Se31d50_ContainerHeap().get(this), n);
+    }
+    __forceinline void AddBack(const T& t)
+    {
+        this->_pushBack(Se31d50_ContainerHeap().get(this), t);
+    }
+};
+struct Se31d50_SimdReal
+{
+    __m128 m_vValue;
+    __forceinline Se31d50_SimdReal(const __m128& x) : m_vValue(x)
+    {}
+    __forceinline __m128 broadcast() const
+    {
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
+    }
+    __forceinline const __m128& getQuad() const
+    {
+        return m_vValue;
+    }
+};
+class __declspec(align(16)) Se31d50_Vector4
+{
+  public:
+    __m128 m_vComponents;
+    __forceinline Se31d50_Vector4()
+    {}
+    __forceinline Se31d50_Vector4(const Se31d50_Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void operator=(const Se31d50_Vector4& v)
+    {
+        m_vComponents = v.m_vComponents;
+    }
+    __forceinline void set(float a, float b, float c, float d)
+    {
+        m_vComponents = _mm_setr_ps(a, b, c, d);
+    }
+    __forceinline void setZero4()
+    {
+        m_vComponents = _mm_setzero_ps();
+    }
+    __forceinline void add4(const Se31d50_Vector4& a)
+    {
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
+    }
+    __forceinline void setMul4(float a, const Se31d50_Vector4& b)
+    {
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(_mm_set_ss(a), _mm_set_ss(a), 0), b.m_vComponents);
+    }
+    __forceinline void setMin4(const Se31d50_Vector4& a, const Se31d50_Vector4& b)
+    {
+        m_vComponents = _mm_min_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline void setMax4(const Se31d50_Vector4& a, const Se31d50_Vector4& b)
+    {
+        m_vComponents = _mm_max_ps(a.m_vComponents, b.m_vComponents);
+    }
+    __forceinline const float& operator()(int i) const
+    {
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
+    }
+    __forceinline Se31d50_SimdReal dot4(const Se31d50_Vector4& a) const
+    {
+        __m128 x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        __m128 sum0 = _mm_add_ps(_mm_shuffle_ps(x2, x2, 0x4e), x2);
+        __m128 sum1 = _mm_shuffle_ps(sum0, sum0, 0xb1);
+        return _mm_add_ps(sum0, sum1);
+    }
+    __forceinline Se31d50_SimdReal lengthInverse4() const
+    {
+        const __m128 half = _mm_set_ss(0.5f);
+        const __m128 three = _mm_set_ss(3.0f);
+        const __m128 zero = _mm_set_ss(0.0f);
+        const __m128 len2 = this->dot4(*this).getQuad();
+        const __m128 len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const __m128 approx = _mm_rsqrt_ss(len2);
+        const __m128 refined =
+            _mm_mul_ss(_mm_mul_ss(half, approx), _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
+    }
+    __forceinline void normalize4()
+    {
+        __m128 lenInv = lengthInverse4().broadcast();
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
+    }
+};
+struct Se31d50_Bool
+{
+    char m_cBooleanValue;
+    __forceinline operator bool() const
+    {
+        return m_cBooleanValue != 0;
+    }
+};
+enum Se31d50_RotQ
+{
+    Se31d50_POLAR32 = 0
+};
+enum Se31d50_ScalQ
+{
+    Se31d50_BITS8 = 0
+};
+enum Se31d50_AnimType
+{
+    Se31d50_SPLINE = 5
+};
+template <typename E, typename S> struct Se31d50_Enum
+{
+    S m_kStorage;
+    __forceinline operator E() const
+    {
+        return (E)m_kStorage;
+    }
+    __forceinline void operator=(E e)
+    {
+        m_kStorage = (S)e;
+    }
+};
+struct Se31d50_TrackParams
+{
+    float m_fRotationTolerance;
+    float m_fTranslationTolerance;
+    float m_fScaleTolerance;
+    float m_fFloatingTolerance;
+    unsigned short m_iRotationDegree;
+    unsigned short m_iTranslationDegree;
+    unsigned short m_iScaleDegree;
+    unsigned short m_iFloatingDegree;
+    Se31d50_Enum<Se31d50_RotQ, unsigned char> m_eRotationQuantizationType;
+    Se31d50_Enum<Se31d50_ScalQ, unsigned char> m_eTranslationQuantizationType;
+    Se31d50_Enum<Se31d50_ScalQ, unsigned char> m_eScaleQuantizationType;
+    Se31d50_Enum<Se31d50_ScalQ, unsigned char> m_eFloatQuantizationType;
+};
+struct Se31d50_PerTrack
+{
+    Se31d50_Array<Se31d50_TrackParams> m_kTrackParams;
+    Se31d50_Array<int> m_kFirstIntArray;
+    Se31d50_Array<int> m_kSecondIntArray;
+};
+struct Se31d50_AnimParams
+{
+    unsigned short m_iMaxFramesPerBlock;
+    Se31d50_Bool m_bEnableSampleSingleTracks;
+};
+struct __declspec(align(16)) Se31d50_Qs
+{
+    Se31d50_Vector4 m_vTranslation;
+    Se31d50_Vector4 m_rotation;
+    Se31d50_Vector4 m_vScale;
+};
+struct Se31d50_Raw
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual int GetIntegerValue() const;
+    int unk04;
+    int unk08;
+    float unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    Se31d50_Array<Se31d50_Qs> m_kTransforms;
+    Se31d50_Array<float> m_kFloats;
+};
+struct Se31d50_Error
+{
+    virtual ~Se31d50_Error();
+    virtual void v04();
+    virtual void v08();
+    virtual int message(int msg, int id, const char* description, const char* file, int line);
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void BeginSection(int id, const char* name);
+    virtual void EndSection();
+};
+struct Se31d50_ErrStream
+{
+    void* unk00;
+    int unk04;
+    void* unk08;
+    __forceinline Se31d50_ErrStream(void* buf, int bufSize)
+    {
+        new ((void *)this) ::FUN_00cb1600(buf, bufSize);
+    }
+    __forceinline ~Se31d50_ErrStream()
+    {
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(this)->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    __forceinline Se31d50_ErrStream& operator<<(const char* s)
+    {
+        return (*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(this)->FUN_00cc01c0(s)));
+    }
+    __forceinline Se31d50_ErrStream& operator<<(int i)
+    {
+        return (*(::Se31d50_ErrStream *)&(reinterpret_cast<::CC0280Writer *>(this)->WriteInt(i)));
+    }
+    __forceinline Se31d50_ErrStream& operator<<(unsigned int i)
+    {
+        return (*(::Se31d50_ErrStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(this)->FUN_00cc02d0(i)));
+    }
+    __forceinline Se31d50_ErrStream& operator<<(float f)
+    {
+        return (*(::Se31d50_ErrStream *)(reinterpret_cast<::FloatArgStream *>(this)->WriteFloat(f)));
+    }
+};
+typedef Se31d50_Array<Se31d50_Vector4> Se31d50_VecArr;
+typedef Se31d50_Array<float> Se31d50_FltArr;
+typedef Se31d50_Array<unsigned char> Se31d50_ByteArr;
+struct Se31d50_AnimParams;
+struct Se31d50_PerTrack;
+struct Se31d50_Raw;
+
+
+struct Se31d50_Anim
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual int GetValueAt2C() const;
+    int unk04;
+    Se31d50_Enum<Se31d50_AnimType, int> m_type;
+    float m_fAnimationDuration;
+    int m_iNumTransformTracks;
+    int m_iNumberOfFloatTracks;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int m_iFrameCount;
+    int m_iBlockCount;
+    int m_iMaxFramesPerBlock;
+    int m_iMaskAndQuantizationSize;
+    float m_fBlockDuration;
+    float m_fBlockInverseDuration;
+    float m_fPerFrameDuration;
+    Se31d50_Array<unsigned int> m_kFirstUInt32Array;
+    Se31d50_Array<unsigned int> m_kFloatBlockOffsets;
+    Se31d50_Array<unsigned int> m_kTransformOffsets;
+    Se31d50_Array<unsigned int> m_kFloatOffsets;
+    Se31d50_ByteArr m_kCompressedData;
+    int m_iEndian;
+    void FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
+                      const Se31d50_AnimParams& animationParams);
+    static Se31d50_Vector4 FUN_00e31410(const Se31d50_VecArr& d);
+    static Se31d50_Vector4 FUN_00e31470(const Se31d50_VecArr& d);
+    static Se31d50_Vector4 FUN_00e314c0(const Se31d50_VecArr& d);
+    static unsigned char FUN_00e311f0(const Se31d50_Vector4& mean, const Se31d50_Vector4& mn, const Se31d50_Vector4& mx,
+                                      float tol, const Se31d50_Vector4& id);
+    static unsigned char PackBitFields(Se31d50_ScalQ t, Se31d50_RotQ r, Se31d50_ScalQ s);
+    static unsigned char FUN_00e30f40(unsigned char mask, Se31d50_ScalQ f);
+    static void FillInterpolatedValues(int n, Se31d50_FltArr& U, float a, float b);
+    static void FUN_00e310c0(const Se31d50_Qs* t, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a,
+                             Se31d50_VecArr& b, Se31d50_VecArr& c);
+    static void FUN_00e31180(const float* f, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a);
+};
+
+__declspec(noinline) Se31d50_Vector4 Se31d50_Anim::FUN_00e31410(const Se31d50_VecArr& data)
+{
+    Se31d50_Vector4 mean;
+    mean.setZero4();
+    const int n = data.GetLogicalSize();
+    for (int i = 0; i < n; i++)
+    {
+        mean.add4(data[i]);
+    }
+    mean.setMul4(1.0f / n, mean);
+    return mean;
+}
+__declspec(noinline) Se31d50_Vector4 Se31d50_Anim::FUN_00e31470(const Se31d50_VecArr& data)
+{
+    Se31d50_Vector4 m = data[0];
+    const int n = data.GetLogicalSize();
+    for (int i = 1; i < n; i++)
+    {
+        m.setMin4(m, data[i]);
+    }
+    return m;
+}
+__declspec(noinline) Se31d50_Vector4 Se31d50_Anim::FUN_00e314c0(const Se31d50_VecArr& data)
+{
+    Se31d50_Vector4 m = data[0];
+    const int n = data.GetLogicalSize();
+    for (int i = 1; i < n; i++)
+    {
+        m.setMax4(m, data[i]);
+    }
+    return m;
+}
+__declspec(noinline) unsigned char Se31d50_Anim::FUN_00e311f0(const Se31d50_Vector4& mean, const Se31d50_Vector4& mn,
+                                                              const Se31d50_Vector4& mx, float tol,
+                                                              const Se31d50_Vector4& id)
+{
+    unsigned char mask = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        if ((float)fabs(mean(i) - mn(i)) > tol || (float)fabs(mean(i) - mx(i)) > tol)
+        {
+            mask |= (1 << (i + 4));
+        }
+        else if ((float)fabs(mean(i) - id(i)) > tol)
+        {
+            mask |= (1 << i);
+        }
+    }
+    return mask;
+}
+__declspec(noinline) unsigned char Se31d50_Anim::PackBitFields(Se31d50_ScalQ t, Se31d50_RotQ r, Se31d50_ScalQ s)
+{
+    return (unsigned char)(t | (r << 2) | (s << 6));
+}
+__declspec(noinline) unsigned char Se31d50_Anim::FUN_00e30f40(unsigned char mask, Se31d50_ScalQ f)
+{
+    return (unsigned char)(mask | (f << 1));
+}
+__declspec(noinline) void Se31d50_Anim::FillInterpolatedValues(int n, Se31d50_FltArr& U, float a, float b)
+{
+    U[0] = a;
+    U[n] = b;
+    for (int i = 1; i < n; i++)
+    {
+        U[i] = (float)i / n * (b - a) + a;
+    }
+}
+__declspec(noinline) void Se31d50_Anim::FUN_00e310c0(const Se31d50_Qs* src, int numTracks, int numFrames, int first,
+                                                     int track, Se31d50_VecArr& a, Se31d50_VecArr& b, Se31d50_VecArr& c)
+{
+    for (int i = 0; i < numFrames; i++)
+    {
+        const Se31d50_Qs& t = src[(i + first) * numTracks + track];
+        a[i].set(t.m_vTranslation(0), t.m_vTranslation(1), t.m_vTranslation(2), 0.0f);
+        b[i].set(t.m_rotation(0), t.m_rotation(1), t.m_rotation(2), t.m_rotation(3));
+        c[i].set(t.m_vScale(0), t.m_vScale(1), t.m_vScale(2), 0.0f);
+    }
+}
+__declspec(noinline) void Se31d50_Anim::FUN_00e31180(const float* f, int numTracks, int numFrames, int first, int track,
+                                                     Se31d50_VecArr& a)
+{
+    for (int i = 0; i < numFrames; i++)
+    {
+        a[i].set(f[(i + first) * numTracks + track], 0.0f, 0.0f, 0.0f);
+    }
+}
+__forceinline int Se31d50_max2(int x, int y)
+{
+    return x > y ? x : y;
+}
+__forceinline int Se31d50_min2(int x, int y)
+{
+    return x < y ? x : y;
+}
+
+// @fnv 0x00e31d50
+void Se31d50_Anim::FUN_00e31d50(const Se31d50_Raw& raw, const Se31d50_PerTrack& trackParams,
+                                const Se31d50_AnimParams& animationParams)
+{
+    m_iEndian = 0;
+    m_type = Se31d50_SPLINE;
+    m_iMaxFramesPerBlock = animationParams.m_iMaxFramesPerBlock;
+    Se31d50_Bool enableSampleSingleTracks = animationParams.m_bEnableSampleSingleTracks;
+    m_iFrameCount = raw.GetIntegerValue();
+    m_iBlockCount = Se31d50_max2(1, (m_iFrameCount + m_iMaxFramesPerBlock - 3) / (m_iMaxFramesPerBlock - 1));
+    m_fBlockDuration = m_fAnimationDuration / (m_iFrameCount - 1) * (m_iMaxFramesPerBlock - 1);
+    m_fBlockInverseDuration = 1.0f / m_fBlockDuration;
+    m_fPerFrameDuration = m_fAnimationDuration / (m_iFrameCount - 1);
+    int f = 0;
+    m_iMaskAndQuantizationSize = (4 * m_iNumTransformTracks + m_iNumberOfFloatTracks + 3) & ~3;
+    for (int i = 0; i < m_iBlockCount; i++)
+    {
+        m_kFirstUInt32Array.AddBack(m_kCompressedData.GetLogicalSize());
+        const int nf = Se31d50_min2(m_iMaxFramesPerBlock, m_iFrameCount - f);
+        const float blockDuration = m_fAnimationDuration / (m_iFrameCount - 1) * (nf - 1);
+        int maskPos = m_kCompressedData.GetLogicalSize();
+        ::fnv_00e31800::FUN_00e31800(m_iMaskAndQuantizationSize, (::fnv_00e31800::Buf *)&(m_kCompressedData));
+        for (int isFloat = 0; isFloat < 2; isFloat++)
+        {
+            const int numTracks = (isFloat == 0) ? m_iNumTransformTracks : m_iNumberOfFloatTracks;
+            const int numComponents = (isFloat == 0) ? 3 : 1;
+            if (isFloat == 1)
+            {
+                m_kFloatBlockOffsets.AddBack(m_kCompressedData.GetLogicalSize() - m_kFirstUInt32Array[i]);
+            }
+            for (int t = 0; t < numTracks; t++)
+            {
+                if (enableSampleSingleTracks)
+                {
+                    if (isFloat == 0)
+                    {
+                        m_kTransformOffsets.AddBack(m_kCompressedData.GetLogicalSize() - m_kFirstUInt32Array[i]);
+                    }
+                    else
+                    {
+                        m_kFloatOffsets.AddBack(m_kCompressedData.GetLogicalSize() - m_kFirstUInt32Array[i]);
+                    }
+                }
+                const Se31d50_TrackParams& params =
+                    trackParams.m_kTrackParams[(isFloat == 0) ? trackParams.m_kFirstIntArray[t]
+                                                              : trackParams.m_kSecondIntArray[t]];
+                Se31d50_VecArr data[3];
+                Se31d50_VecArr* pData = data;
+                int n = 2;
+                do
+                {
+                    pData->init();
+                    ++pData;
+                } while (--n >= 0);
+                Se31d50_FltArr U[3];
+                Se31d50_FltArr* pU = U;
+                n = 2;
+                do
+                {
+                    pU->init();
+                    ++pU;
+                } while (--n >= 0);
+                for (int c = 0; c < numComponents; c++)
+                {
+                    data[c].SetSizeAndGrow(nf);
+                    U[c].SetSizeAndGrow(nf);
+                    ::FillInterpolatedValues(nf - 1, (float **)&(U[c]), 0.0f, blockDuration);
+                }
+                int degree[3];
+                float tolerance[3];
+                if (isFloat == 0)
+                {
+                    degree[0] = params.m_iTranslationDegree;
+                    degree[1] = params.m_iRotationDegree;
+                    degree[2] = params.m_iScaleDegree;
+                    tolerance[0] = params.m_fTranslationTolerance;
+                    tolerance[1] = params.m_fRotationTolerance;
+                    tolerance[2] = params.m_fScaleTolerance;
+                }
+                else
+                {
+                    degree[0] = params.m_iFloatingDegree;
+                    tolerance[0] = params.m_fFloatingTolerance;
+                }
+                if (isFloat == 0)
+                {
+                    ::FUN_00e310c0((const ::Mat34 *)(const ::Se31d50_Qs *)(raw.m_kTransforms.begin()), m_iNumTransformTracks, nf, f, t, (::hkVector4Stub **)&(data[0]), (::hkVector4Stub **)&(data[1]), (::hkVector4Stub **)&(data[2]));
+                }
+                else
+                {
+                    ::FUN_00e31180(raw.m_kFloats.begin(), m_iNumberOfFloatTracks, nf, f, t, (::__m128 **)&(data[0]));
+                }
+                for (int c = 0; c < numComponents; c++)
+                {
+                    Se31d50_Vector4 mean = (*(::Se31d50_Vector4 *)(::FUN_00e31410((::__m128 *)&(data[c]), {})));
+                    Se31d50_Vector4 minV = FUN_00e31470(data[c]);
+                    Se31d50_Vector4 maxV = FUN_00e314c0(data[c]);
+                    if (c == 1)
+                    {
+                        mean.normalize4();
+                    }
+                    Se31d50_Vector4 identity[3];
+                    identity[0].set(0.0f, 0.0f, 0.0f, 0.0f);
+                    identity[1].set(0.0f, 0.0f, 0.0f, 1.0f);
+                    identity[2].set(1.0f, 1.0f, 1.0f, 0.0f);
+                    unsigned char mask = FUN_00e311f0(mean, minV, maxV, tolerance[c], identity[c]);
+                    if (isFloat == 1 && mask == 0)
+                    {
+                        mask = 1;
+                    }
+                    if (isFloat == 0)
+                    {
+                        if (c == 0)
+                        {
+                            m_kCompressedData[maskPos] =
+                                ((unsigned char)(::PackBitFields((*(int *)&(const ::Se31d50_ScalQ &)(params.m_eTranslationQuantizationType)), (*(int *)&(const ::Se31d50_RotQ &)(params.m_eRotationQuantizationType)),
+                                             (*(int *)&(const ::Se31d50_ScalQ &)(params.m_eScaleQuantizationType)))));
+                            maskPos++;
+                        }
+                        m_kCompressedData[maskPos] = mask;
+                        maskPos++;
+                    }
+                    else
+                    {
+                        m_kCompressedData[maskPos] = ((unsigned char)(::FUN_00e30f40(mask, (*(int *)&(const ::Se31d50_ScalQ &)(params.m_eFloatQuantizationType)))));
+                        maskPos++;
+                    }
+                    Se31d50_VecArr controlPoints(nf * 3);
+                    Se31d50_FltArr knots(nf * 3 + 2);
+                    if (mask & 0xf0)
+                    {
+                        int numKnots;
+                        int numControlPoints;
+                        ::FUN_00e58740(nf, (intptr_t)(U[c].begin()), (intptr_t)(data[c].begin()), degree[c], tolerance[c], (intptr_t)(&numKnots),
+                                     (intptr_t)(knots.begin()), (intptr_t)(&numControlPoints), (intptr_t)(controlPoints.begin()));
+                        knots.SetSizeAndGrow(numKnots);
+                        controlPoints.SetSizeAndGrow(numControlPoints);
+                        if (controlPoints.GetLogicalSize() > nf)
+                        {
+                            degree[c] = 1;
+                            ::FUN_00e58740(nf, (intptr_t)(U[c].begin()), (intptr_t)(data[c].begin()), degree[c], tolerance[c], (intptr_t)(&numKnots),
+                                         (intptr_t)(knots.begin()), (intptr_t)(&numControlPoints), (intptr_t)(controlPoints.begin()));
+                            knots.SetSizeAndGrow(numKnots);
+                            controlPoints.SetSizeAndGrow(numControlPoints);
+                        }
+                        reinterpret_cast<::S_00e31ca0 *>(this)->AppendScaledValues(controlPoints.GetLogicalSize() - 1,
+                                     knots.GetLogicalSize() - controlPoints.GetLogicalSize() - 1, (::S_00e31ca0_FloatArray &)(knots));
+                    }
+                    if (c == 1)
+                    {
+                        reinterpret_cast<::Writer *>(this)->FUN_00e319e0(mask, (*(int *)&(const ::Se31d50_RotQ &)(params.m_eRotationQuantizationType)), (const ::FUN_005611c0_t *)&(mean), controlPoints.GetLogicalSize() - 1,
+                                     (const ::VecArray *)&(controlPoints));
+                    }
+                    else
+                    {
+                        if (mask & 0xf0)
+                        {
+                            minV = FUN_00e31470(controlPoints);
+                            maxV = FUN_00e314c0(controlPoints);
+                        }
+                        reinterpret_cast<::AnimationCompressor *>(this)->WriteCompressedAnimation(mask,
+                                                 (*(int *)&(const ::Se31d50_ScalQ &)((isFloat == 0)
+                                                     ? (Se31d50_ScalQ)((c == 0) ? params.m_eTranslationQuantizationType
+                                                                                : params.m_eScaleQuantizationType)
+                                                     : (Se31d50_ScalQ)params.m_eFloatQuantizationType)),
+                                                 (const float *)&(mean), (const float *)&(minV), (const float *)&(maxV), controlPoints.GetLogicalSize() - 1, (const ::Vector4Array *)&(controlPoints));
+                    }
+                    ::fnv_00e31850::FUN_00e31850(4, (::fnv_00e31850::BufferInfo *)&(m_kCompressedData));
+                }
+            }
+        }
+        f += nf - 1;
+        ::fnv_00e31850::FUN_00e31850(16, (::fnv_00e31850::BufferInfo *)&(m_kCompressedData));
+    }
+    (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->BeginSection(0x36118e94, str_010eb4c8);
+    {
+        char reportBuf[512];
+        Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
+        reinterpret_cast<::CC0280Writer *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb4b4)))))->WriteInt(m_iBlockCount);
+        (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 366);
+    }
+    {
+        char reportBuf[512];
+        Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
+        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)&(reinterpret_cast<::CC0280Writer *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb444)))))->WriteInt(GetValueAt2C())))))->FUN_00cc01c0(str_010eb468);
+        (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 367);
+    }
+    const unsigned int originalSize =
+        raw.m_kTransforms.GetLogicalSize() * sizeof(float) * 16 + raw.m_kFloats.GetLogicalSize() * sizeof(float);
+    {
+        char reportBuf[512];
+        Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
+        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)&(reinterpret_cast<::CC0280Writer *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FUN_00cc02d0_cls *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb418)))))->FUN_00cc02d0(originalSize)))))->FUN_00cc01c0(str_010eb428)))))->WriteInt(((intptr_t)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb468);
+        (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 372);
+    }
+    {
+        char reportBuf[512];
+        Se31d50_ErrStream ostr(reportBuf, sizeof(reportBuf));
+        reinterpret_cast<::SinkOwner *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::FloatArgStream *>(&((*(::Se31d50_ErrStream *)(reinterpret_cast<::SinkOwner *>(&(ostr))->FUN_00cc01c0(str_010eb400)))))->WriteFloat((float)originalSize / ((intptr_t)(reinterpret_cast<::FUN_00e33330_Class *>((void *)this)->FUN_00e33330())))))))->FUN_00cc01c0(str_010eb414);
+        (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->message(0, -1, reportBuf, str_010eb470, 373);
+    }
+    (*reinterpret_cast<::Se31d50_Error * *>(&::DAT_01268360))->EndSection();
+}
+
+struct E32C80Array
+{
+    void* m_data;
+    int m_iElementCount;
+    int m_iCapacityState;
+
+    E32C80Array() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
+    {}
+};
+
+class E32C80Base
+{
+  public:
+    E32C80Base(void* info);
+    virtual void unk00();
+
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2C;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3C;
+    int unk40;
+};
+
+class FUN_00e32c80 : public E32C80Base
+{
+  public:
+    FUN_00e32c80(void* info, void* arg1, void* arg2);
+    virtual void unk00();
+
+
+    E32C80Array m_array44;
+    E32C80Array m_array50;
+    E32C80Array m_array5C;
+    E32C80Array m_array68;
+    E32C80Array m_array74;
+};
+
+// Constructs the object by forwarding info, arg1 and arg2 to init after initializing the E32C80Base base with info.
+// @fnv 0x00e32c80
+FUN_00e32c80::FUN_00e32c80(void* info, void* arg1, void* arg2) : E32C80Base(info)
+{
+    reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(info)), (*(const ::Se31d50_PerTrack *)(arg1)), (*(const ::Se31d50_AnimParams *)(arg2)));
 }
 
 // Havok-style constructor: base init from a1, five empty hkArray members, then a temporary set of
@@ -449,6 +1389,7 @@ struct RouterL
     }
 };
 RouterL* GetRouterL() throw();
+
 
 template <class T> struct ArrL
 {
@@ -548,192 +1489,5 @@ FUN_00e32af0::FUN_00e32af0(SrcL* pSource, const Elem28L* elem, void* arg3) throw
         arrays.m_kPointB[i] = 0;
     reinterpret_cast<::Se31d50_Anim *>(this)->FUN_00e31d50((*(const ::Se31d50_Raw *)(pSource)), (*(const ::Se31d50_PerTrack *)(&arrays)), (*(const ::Se31d50_AnimParams *)(arg3)));
 }
-
-#include <stdlib.h>
-extern "C"
-{
-}
-
-struct Vector4Array
-{
-    const float* m_data;
-};
-
-struct AnimationCompressor
-{
-    char pad[0x74];
-    char m_stream;
-
-    void WriteCompressedAnimation(unsigned char mask, int quantType, const float* staticValues, const float* minValues,
-                                  const float* maxValues, int numFrames, const Vector4Array* data);
-};
-
-// Writes animation header and per-frame quantized values to m_stream based on mask and quantType.
-// @fnv 0x00e31b20
-void AnimationCompressor::WriteCompressedAnimation(unsigned char mask, int quantType, const float* staticValues,
-                                                   const float* minValues, const float* maxValues, int numFrames,
-                                                   const Vector4Array* data)
-{
-    void* stream = &m_stream;
-    ::fnv_00e31850::FUN_00e31850(4, (::fnv_00e31850::BufferInfo *)(stream));
-
-    unsigned int bit = 1;
-    for (int i = 0; i < 3; ++i, bit = _rotl(bit, 1))
-    {
-        if (mask & _rotl(bit, 4))
-        {
-            ::WriteFloatToMemWriter(minValues[i], (::MemWriter *)(stream));
-            ::WriteFloatToMemWriter(maxValues[i], (::MemWriter *)(stream));
-        }
-        else if (mask & bit)
-        {
-            ::WriteFloatToMemWriter(staticValues[i], (::MemWriter *)(stream));
-        }
-    }
-
-    if (mask & 0xf0)
-    {
-        for (int frame = 0; frame <= numFrames; ++frame)
-        {
-            int comp = 0;
-            unsigned int b = 1;
-            for (; comp < 3; ++comp, b = _rotl(b, 1))
-            {
-                if (mask & _rotl(b, 4))
-                {
-                    if (quantType == 0)
-                    {
-                        ::AppendChar(::ScaleToByte(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
-                                   (*(::E317C0CharArray *)(stream)));
-                    }
-                    else
-                    {
-                        ::fnv_00e31ad0::WriteUInt16ToBuffer(
-                            ::NormalizeToUShort(minValues[comp], maxValues[comp], data->m_data[frame * 4 + comp]),
-                            (::fnv_00e31ad0::Buffer *)(stream));
-                    }
-                }
-            }
-        }
-    }
-}
-
-namespace fnv_00e31800 {
-struct Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    void* m_pAllocator;
-};
-
-struct Buf
-{
-    char* m_data;
-    unsigned int m_len;
-    unsigned int m_cap;
-};
-
-extern "C" void _ReadWriteBarrier(void);
-
-Holder* __cdecl FUN_00c85750();
-
-// Appends count zero bytes to buf, calling FUN_00c90940 when its length equals the masked capacity.
-// @fnv 0x00e31800
-void __cdecl FUN_00e31800(int count, Buf* buf)
-{
-    if (count > 0)
-    {
-        do
-        {
-            Holder* h = FUN_00c85750();
-            if (buf->m_len == (buf->m_cap & 0x3fffffff))
-            {
-                ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(buf), 1);
-            }
-            char* slot = buf->m_data + buf->m_len;
-            _ReadWriteBarrier();
-            *slot = 0;
-            buf->m_len++;
-        } while (--count);
-    }
-}
-}  // namespace fnv_00e31800
-
-namespace fnv_00e31850 {
-#include <string.h>
-
-struct BufferInfo
-{
-    char* volatile data;
-    unsigned int length;
-    unsigned int capacity;
-};
-struct FourIntegerPointerRecord
-{
-    int unk00, unk04, unk08, unk0C;
-    void* unk10;
-};
-extern FourIntegerPointerRecord* __cdecl FUN_00c85750();
-// Appends zero bytes until no bits selected by alignment minus one remain set in the buffer length.
-// @fnv 0x00e31850
-void __cdecl FUN_00e31850(unsigned int alignment, BufferInfo* buffer)
-{
-    unsigned int mask = alignment - 1;
-    while (buffer->length & mask)
-    {
-        FourIntegerPointerRecord* alloc = FUN_00c85750();
-        if (buffer->length == (buffer->capacity & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(alloc->unk10), (::AudioStream *)(buffer), 1);
-        memset(buffer->data + buffer->length, 0, 1);
-        ++buffer->length;
-    }
-}
-}  // namespace fnv_00e31850
-
-namespace fnv_00e318a0 {
-extern unsigned int DAT_010eb3e8[];
-
-struct FUN_00e318a0_buf
-{
-    char* m_pData;
-    unsigned int m_uLength;
-    unsigned int m_uCapacityFlags;
-};
-
-struct FUN_00e318a0_holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
-
-extern FUN_00e318a0_holder* __cdecl FUN_00c85750();
-
-// @fnv 0x00e318a0
-void __cdecl FUN_00e318a0(unsigned int auBit, FUN_00e318a0_buf* apBuf)
-{
-    unsigned int mask = DAT_010eb3e8[auBit];
-    if ((apBuf->m_uLength & mask) != 0)
-    {
-        do
-        {
-            FUN_00e318a0_holder* holder = FUN_00c85750();
-            if (apBuf->m_uLength == (apBuf->m_uCapacityFlags & 0x3fffffff))
-            {
-                ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(apBuf), 1);
-            }
-            char* volatile* pp = &apBuf->m_pData;
-            char* p = (char*)((unsigned int)*pp + apBuf->m_uLength);
-            *p = 0;
-            apBuf->m_uLength++;
-            mask = *(volatile unsigned int*)&DAT_010eb3e8[auBit];
-        } while ((apBuf->m_uLength & mask) != 0);
-    }
-}
-}  // namespace fnv_00e318a0
 
 #include "generated/data/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.inc"

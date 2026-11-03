@@ -2,6 +2,9 @@
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <xmmintrin.h>
+#include "fnv/decl/Cls_c7f4e0.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/CMatrixOps.h"
 #include "fnv/symbols_00cb2000.h"
@@ -91,7 +94,7 @@ bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
     bool value2;
     bool value;
 
-    if (*unk30.CheckFloatsFinite(&value1) && *((bool *)(::FUN_00cb2d70((unsigned int)this))))
+    if (*unk30.CheckFloatsFinite(&value1) && *((bool *)(::FUN_00cb2d70((uintptr_t)this))))
     {
         value = true;
     }
@@ -103,21 +106,9 @@ bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
     return result;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
 
 class hkMatrix3CB22;
 
@@ -266,8 +257,6 @@ void Obj::FUN_00cb23e0(intptr_t a)
     FUN_00cb2240(&localMatrix, a);
 }
 
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-
 
 struct FUN_00cb2050_cls
 {
@@ -290,10 +279,6 @@ void FUN_00cb2050_cls::FUN_00cb2050(FUN_00cb2050_cls* apOut)
     __m128 kRow3 = m_kRow3;
     apOut->m_kRow3 = _mm_shuffle_ps(kRow3, _mm_unpackhi_ps(kRow3, ::DAT_010c7170), 0xc4);
 }
-
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
 
 
 struct FUN_00cb20b0_shell
@@ -320,8 +305,6 @@ const Matrix44* FUN_00cb20b0_shell::FUN_00cb20b0(const Matrix44* source)
 
     return source;
 }
-
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
 
 struct S_00cb21e0_Vector4
@@ -371,11 +354,6 @@ void FUN_00cb21e0_shell::FUN_00cb21e0(const Matrix44* source)
     ((S_00cb21e0_Transform*)this)->Body(*(const S_00cb21e0_Transform*)source);
 }
 
-extern "C" __m128 _mm_set_ps1(float _A);
-extern "C" __m128 _mm_and_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_cmple_ps(__m128 _A, __m128 _B);
-extern "C" int _mm_movemask_ps(__m128 _A);
-
 
 struct FUN_00cb2160_cls : hkTransformCB22
 {
@@ -403,4 +381,28 @@ unsigned char* FUN_00cb2160_cls::FUN_00cb2160(unsigned char* out, const FUN_00cb
 done:
     *(unsigned char volatile*)out = r;
     return out;
+}
+
+
+struct FUN_00cb2240_cls
+{
+    __m128 m_col[4];
+
+    void FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b);
+};
+
+// @fnv 0x00cb2240
+void FUN_00cb2240_cls::FUN_00cb2240(const __m128* __restrict a, const __m128* __restrict b)
+{
+    const __m128& c1 = a[1];
+    const __m128& c0 = a[0];
+    const __m128& c2 = a[2];
+    for (int i = 3; i >= 0; i--)
+    {
+        const __m128& v = b[i];
+        m_col[i] =
+            _mm_add_ps(_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0), c0), _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), c1)),
+                       _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c2));
+    }
+    m_col[3] = _mm_add_ps(a[3], m_col[3]);
 }

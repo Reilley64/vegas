@@ -5,6 +5,7 @@
 
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -878,7 +879,7 @@ struct StackTracer
     void FUN_00da2990(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*), void* context);
 };
 // @fnv 0x00da2990
-void StackTracer::FUN_00da2990(unsigned int* addresses, int count, void(__cdecl* output)(const char*, void*),
+void StackTracer::FUN_00da2990(unsigned int* addresses, intptr_t count, void(__cdecl* output)(const char*, void*),
                                void* context)
 {
     void* process = GetCurrentProcess();

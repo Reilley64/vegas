@@ -478,7 +478,7 @@ FUN_00537e30_cls* FUN_00537e30_cls::FUN_00537e30()
 }
 
 // @fnv 0x00537e90
-void FUN_00537e90::SetQuantity(unsigned int value)
+void FUN_00537e90::SetQuantity(uintptr_t value)
 {
     quantity = value;
 }

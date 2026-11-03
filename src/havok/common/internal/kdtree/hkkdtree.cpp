@@ -2,6 +2,9 @@
 // src/havok/common/internal/kdtree/hkkdtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/hkkdtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
 #include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d9d000.h"
@@ -67,13 +70,13 @@ void FUN_00d97710_class::ClearEntryByKey(int key)
 
 struct DrawParams
 {
-    int m_i00;
-    int m_i04;
+    intptr_t m_i00;
+    intptr_t m_i04;
     int unk08;
     int m_i0c;
     int m_iArrayLength;
     int unk14;
-    int m_i18;
+    intptr_t m_i18;
     int m_i1c;
 };
 
@@ -91,10 +94,10 @@ struct D97770Allocator;
 
 struct D97770MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D97770Allocator* m_pStreamAllocator;
 
     D97770Allocator& heap()
@@ -103,7 +106,6 @@ struct D97770MemoryRouter
     }
 };
 
-extern "C" D97770MemoryRouter& __cdecl FUN_00c85750();
 
 struct D97770Interval
 {
@@ -144,7 +146,7 @@ struct D97770IntervalArray
 
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve(FUN_00c85750().heap(), n);
+        reserve((*static_cast<D97770MemoryRouter*>(::FUN_00c85750())).heap(), n);
         construct(m_data + m_iElementCount, n - m_iElementCount);
         m_iElementCount = n;
     }
@@ -209,14 +211,13 @@ struct Allocator
 
 struct Holder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Allocator* m_pAllocator;
 };
 
-Holder* FUN_00c85750();
 
 class FUN_00d97850_cls
 {
@@ -239,7 +240,7 @@ class FUN_00d97850_cls
 // @fnv 0x00d97850
 void FUN_00d97850_cls::ClearBuffers()
 {
-    Holder* pAllocHolder = FUN_00c85750();
+    Holder* pAllocHolder = static_cast<Holder*>(::FUN_00c85750());
     Allocator* alloc = pAllocHolder->m_pAllocator;
     unsigned int flags = m_nFlags24;
     m_nCount20 = 0;
@@ -250,7 +251,7 @@ void FUN_00d97850_cls::ClearBuffers()
     m_pBuf1C = 0;
     m_nFlags24 = 0x80000000u;
 
-    pAllocHolder = FUN_00c85750();
+    pAllocHolder = static_cast<Holder*>(::FUN_00c85750());
     alloc = pAllocHolder->m_pAllocator;
     flags = m_nFlags08;
     m_nCount04 = 0;
@@ -311,7 +312,7 @@ template <class T> struct hkArray_d978
     int m_iCapacityState;
     void SetSizeAndGrow(int n)
     {
-        D97770Allocator& heap = FUN_00c85750().heap();
+        D97770Allocator& heap = (*static_cast<D97770MemoryRouter*>(::FUN_00c85750())).heap();
         int cap = m_iCapacityState & 0x3fffffff;
         if (cap < n)
         {

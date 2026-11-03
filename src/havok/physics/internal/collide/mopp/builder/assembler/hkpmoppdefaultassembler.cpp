@@ -4,6 +4,7 @@
 
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
+#include <cstdint>
 #include <cstddef>
 #include <new>
 #include <cstring>

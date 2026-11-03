@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgschangeflags.cpp: BGSChangeFlagsState, FormChangeMask, BGSChangeFlagsEx (6 functions)
 
+#include <cstdint>
 #include "fnv/decl/BSFlags.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
@@ -9,7 +10,7 @@
 #include "fnv/symbols_011c3000.h"
 #include "bgschangeflags_decls.h"
 // @fnv 0x008c71b0
-GlobalObject_008c71b0::GlobalObject_008c71b0(int initial)
+GlobalObject_008c71b0::GlobalObject_008c71b0(intptr_t initial)
 {
     value = initial;
 }

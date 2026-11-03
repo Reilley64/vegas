@@ -2,6 +2,10 @@
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
+#include "fnv/symbols_00e5c000.h"
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -38,7 +42,7 @@ struct FUN_00cb0bd0
     FUN_00cb0bd0(const FUN_00cb0bd0& kOther) throw();
     ~FUN_00cb0bd0() throw()
     {
-        ::FUN_00cb0c00((int)(((FUN_00cb0c00_class*)this)));
+        ::FUN_00cb0c00((intptr_t)(((FUN_00cb0c00_class*)this)));
     }
 };
 
@@ -119,7 +123,7 @@ void hkArrayE5CD::SpliceArray(hkMemoryAllocatorE5CD& kAlloc, int iIndex, int iNu
 // Adapted from unverified 2026-10-25 attempts by two prior contributors.
 struct NameReference
 {
-    unsigned int encoded;
+    uintptr_t encoded;
 };
 struct TextWriter
 {
@@ -232,11 +236,11 @@ struct NewElem
 
 struct Allocator
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
 };
 
 struct ElemArray
@@ -255,7 +259,6 @@ struct S00e5cce0_Class
     S00e5cce0_Class& FUN_00e5cce0(const S00e5cce0_Class& o);
 };
 
-Allocator* __cdecl FUN_00c85750(void);
 
 static __forceinline void destructElems(Elem* data, int n)
 {
@@ -267,7 +270,7 @@ static __forceinline void destructElems(Elem* data, int n)
             reinterpret_cast<::hkReferencedObjectC905 *>((e.ref))->FUN_00c905b0();
         }
         e.ref = 0;
-        ::FUN_00cb0c00((int)&(e.inner));
+        ::FUN_00cb0c00((intptr_t)&(e.inner));
     }
 }
 
@@ -288,8 +291,8 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
 {
     reinterpret_cast<::Cb0StringCopy *>(this)->FUN_00cb0c30((const ::CB0StringPtr &)(aOther));
     ElemArray& s = arr;
-    Allocator* pAllocator = FUN_00c85750();
-    int alloc = pAllocator->unk10;
+    Allocator* pAllocator = static_cast<Allocator*>(::FUN_00c85750());
+    intptr_t alloc = (intptr_t)pAllocator->unk10;
     int n = 0;
     int iCapacity = s.capacityAndFlags & 0x3fffffff;
     if (iCapacity < n)
@@ -306,10 +309,60 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     if (iCount != 0)
     {
         Elem* src = aOther.arr.data;
-        int a = FUN_00c85750()->unk10;
-        reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (int)(src), iCount);
+        intptr_t a = (intptr_t)static_cast<Allocator*>(::FUN_00c85750())->unk10;
+        reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (intptr_t)(src), iCount);
     }
     return *this;
+}
+
+
+struct AttributeObj
+{
+    void* unk00;
+    int unk04;
+    hkQuaternion* m_quaternion;
+};
+
+struct S00e5cb40_Os
+{
+    int unk00;
+    int unk04;
+    int unk08;
+};
+
+struct S00e5cb40_Err
+{
+    virtual void vf0();
+    virtual void vf1();
+    virtual void vf2();
+    virtual void report(int level, unsigned int id, char* buf, const char* file, int line);
+};
+
+
+struct S00e5cb40_Grp : hkxAttributeGroup
+{
+    int FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out);
+};
+
+// @fnv 0x00e5cb40
+int S00e5cb40_Grp::FUN_00e5cb40(const char* name, bool warnIfNotFound, hkQuaternion* out)
+{
+    AttributeObj* attr = ((::AttributeObj *)(::fnv_00e5c670::FUN_00e5c670((void *)this)));
+    if (attr)
+    {
+        *(__m128*)out = *(__m128*)attr->m_quaternion;
+        return 0;
+    }
+    if (warnIfNotFound)
+    {
+        char buf[512];
+        S00e5cb40_Os os;
+        new ((void *)&(os)) ::FUN_00cb1600(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::AttributeFormatter *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&((*(::S00e5cb40_Os *)(reinterpret_cast<::SinkOwner *>(&(os))->FUN_00cc01c0("Quaternion attribute ")))))->FUN_00cc01c0(name)))))->FUN_00cc01c0(" not found in ")))))->WriteName((::NameReference *)&(m_name))))))->FUN_00cc01c0(" attribute group");
+        (*reinterpret_cast<::S00e5cb40_Err * *>(&::DAT_01268360))->report(1, 0xabbaab81, buf, ".\\Attributes\\hkxAttributeGroup.cpp", 0xb3);
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(os))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+    return 1;
 }
 
 #include "generated/data/havok/common/scenedata/attributes/hkxattributegroup.inc"

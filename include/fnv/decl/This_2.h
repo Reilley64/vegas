@@ -1,5 +1,6 @@
 #pragma once
 #include "havok/hkUlong.h"
+#include <cstdint>
 
 struct NiPoint3;
 struct Node;
@@ -19,7 +20,7 @@ public:
     // 0x00c84e20
     void FUN_00c84e20(unsigned int *);
     // 0x00ca4e50
-    void FUN_00ca4e50(int, int);
+    void FUN_00ca4e50(intptr_t, intptr_t);
     // 0x00dba690
     void FUN_00dba690();
     // 0x00de59f0

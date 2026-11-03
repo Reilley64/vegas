@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/util/hkmemutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/util/hkmemutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/symbols_00d2c000.h"
 void __cdecl CopyMemoryBackward(void*, void*, unsigned int);
@@ -27,13 +28,13 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
     unsigned int n = size;
     unsigned int uiBulk8 = n & ~7u;
 
-    if (uiBulk8 != 0 && (n & 7) == 0 && ((unsigned int)apDest & 7) == 0 && ((unsigned int)apSource & 7) == 0)
+    if (uiBulk8 != 0 && (n & 7) == 0 && ((uintptr_t)apDest & 7) == 0 && ((uintptr_t)apSource & 7) == 0)
     {
         unsigned int uiCount8 = n >> 3;
         if (n >= 8)
         {
             unsigned char* pCursor8 = (unsigned char*)apDest + uiCount8 * 8 - 8;
-            unsigned int uiSrcDelta = (unsigned int)apSource - (unsigned int)apDest;
+            uintptr_t uiSrcDelta = (uintptr_t)apSource - (uintptr_t)apDest;
             do
             {
                 *(unsigned int*)pCursor8 = *(unsigned int*)(pCursor8 + uiSrcDelta);
@@ -48,14 +49,14 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
 
     {
         unsigned int bulk4 = n & ~3u;
-        if (bulk4 != 0 && (n & 3) == 0 && ((unsigned int)apDest & 3) == 0 && ((unsigned int)apSource & 3) == 0)
+        if (bulk4 != 0 && (n & 3) == 0 && ((uintptr_t)apDest & 3) == 0 && ((uintptr_t)apSource & 3) == 0)
         {
             unsigned int uiCount4 = n >> 2;
             if (n >= 4)
             {
-                unsigned int uiSrcDelta = (unsigned int)apSource;
+                uintptr_t uiSrcDelta = (uintptr_t)apSource;
                 unsigned char* pCursor8 = (unsigned char*)apDest + uiCount4 * 4 - 4;
-                uiSrcDelta -= (unsigned int)apDest;
+                uiSrcDelta -= (uintptr_t)apDest;
                 unsigned int i = uiCount4;
                 do
                 {
@@ -71,14 +72,14 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
 
     {
         unsigned int bulk2 = n & ~1u;
-        if (bulk2 != 0 && (n & 1) == 0 && ((unsigned int)apDest & 1) == 0 && ((unsigned int)apSource & 1) == 0)
+        if (bulk2 != 0 && (n & 1) == 0 && ((uintptr_t)apDest & 1) == 0 && ((uintptr_t)apSource & 1) == 0)
         {
             unsigned int uiCount2 = n >> 1;
             if (n >= 2)
             {
-                unsigned int uiSrcDelta = (unsigned int)apSource;
+                uintptr_t uiSrcDelta = (uintptr_t)apSource;
                 unsigned char* pCursor8 = (unsigned char*)apDest + uiCount2 * 2 - 2;
-                uiSrcDelta -= (unsigned int)apDest;
+                uiSrcDelta -= (uintptr_t)apDest;
                 unsigned int i = uiCount2;
                 do
                 {
@@ -95,7 +96,7 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
     for (unsigned int i = n; i >= 1; --i)
     {
         unsigned char* pCursor1 = (unsigned char*)apDest + i - 1;
-        *pCursor1 = *(pCursor1 + ((unsigned int)apSource - (unsigned int)apDest));
+        *pCursor1 = *(pCursor1 + ((uintptr_t)apSource - (uintptr_t)apDest));
         --pCursor1;
     }
 }
@@ -103,7 +104,7 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
 namespace fnv_00d2caa0 {
 
 // @fnv 0x00d2caa0
-void __cdecl FUN_00d2caa0(void* dst, void* src, unsigned int size)
+void __cdecl FUN_00d2caa0(void* dst, void* src, uintptr_t size)
 {
     std::memmove(dst, src, size);
 }
@@ -122,7 +123,7 @@ struct D2CAC0Elem
     unsigned int hi;
 };
 
-// static: VC9 /O2 gives it a register convention (src in ecx, dst in edx, nbytes in eax)
+// static: VC9 /O2 gives it a convention (src in ecx, dst in edx, nbytes in eax)
 // Copies nbytes/sizeof(D2CAC0Elem) elements from src to dst in reverse order, decrementing nbytes by one element per iteration.
 // @fnv 0x00d2cac0
 static void __declspec(noinline)
@@ -151,7 +152,7 @@ static __declspec(noinline) void FUN_00d2caf0(void* dst, void* src, unsigned int
     if (size >= 4)
     {
         unsigned int* d = (unsigned int*)dst + n - 1;
-        unsigned int off = (unsigned int)src - (unsigned int)dst;
+        uintptr_t off = (uintptr_t)src - (uintptr_t)dst;
 
         do
         {
@@ -174,7 +175,7 @@ static __declspec(noinline) void FUN_00d2cb20(void* dst, void* src, unsigned int
     if (count >= 2)
     {
         unsigned short* d = (unsigned short*)dst + (words - 1);
-        unsigned int off = (unsigned int)src - (unsigned int)dst;
+        uintptr_t off = (uintptr_t)src - (uintptr_t)dst;
         do
         {
             *d = *(unsigned short*)(off + (char*)d);

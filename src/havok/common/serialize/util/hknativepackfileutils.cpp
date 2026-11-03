@@ -2,6 +2,9 @@
 // src/havok/common/serialize/util/hknativepackfileutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hknativepackfileutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ExportSection.h"
@@ -18,7 +21,7 @@
 #include "fnv/symbols_010d6000.h"
 #include "fnv/symbols_011b7000.h"
 #include "fnv/symbols_01268000.h"
-extern "C" void __cdecl ProcessElements(int, int, int);
+extern "C" void __cdecl ProcessElements(intptr_t, intptr_t, intptr_t);
 
 struct FUN_00dc0ed0_class
 {
@@ -84,7 +87,7 @@ struct FUN_00dc08f0_Header
 };
 
 // @fnv 0x00dc08f0
-extern "C" void __cdecl ProcessElements(int header, int first, int second)
+extern "C" void __cdecl ProcessElements(intptr_t header, intptr_t first, intptr_t second)
 {
     FUN_00dc08f0_Header* pHeader = (FUN_00dc08f0_Header*)header;
     for (int i = 0; i < pHeader->count; i++)
@@ -92,7 +95,7 @@ extern "C" void __cdecl ProcessElements(int header, int first, int second)
         FUN_00dc08f0_Element* pElement = &pHeader->elements[i];
         void* data = (char*)pHeader + pElement->dataOffset;
         reinterpret_cast<::ExportSection *>((pElement))->ReadRecords(data, (*(::ExportList< ::ExportRecord, ::ExportAlloc> *)(first)));
-        reinterpret_cast<::ParserE030 *>((pElement))->FUN_00e03010((int)(data), (*(::hkArrayE030< ::RangeE030> *)(second)));
+        reinterpret_cast<::ParserE030 *>((pElement))->FUN_00e03010((intptr_t)(data), (*(::hkArrayE030< ::RangeE030> *)(second)));
     }
 }
 
@@ -107,10 +110,10 @@ struct S_00dc0de0_Allocator
 
 struct S_00dc0de0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00dc0de0_Allocator* m_pStreamAllocator;
     S_00dc0de0_Allocator& heap()
     {
@@ -118,7 +121,6 @@ struct S_00dc0de0_Router
     }
 };
 
-S_00dc0de0_Router* FUN_00c85750();
 
 struct S_00dc0de0_Value
 {
@@ -220,8 +222,8 @@ void FUN_00dc0de0(S_00dc0de0* s)
         if (pValue->m_callback)
             pValue->m_callback(map.GetIteratorKey(it));
     }
-    s->m_ppData._clearAndDeallocate(FUN_00c85750()->heap());
-    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)&(FUN_00c85750()->heap()));
+    s->m_ppData._clearAndDeallocate(static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap());
+    reinterpret_cast<::CB1A90Owner *>(&(map))->ProcessArgument((::CB1A90Argument *)&(static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap()));
     ::FUN_00a29680();
 }
 
@@ -275,7 +277,7 @@ struct S_00dc0cd0_Router
     }
     static S_00dc0cd0_Router& GetMonitorStream() throw()
     {
-        return *(S_00dc0cd0_Router*)FUN_00c85750();
+        return *(S_00dc0cd0_Router*)static_cast<S_00dc0de0_Router*>(::FUN_00c85750());
     }
 };
 
@@ -378,7 +380,7 @@ void* __cdecl CreateResourceFromArray(void* arg0, void* arg1, void* arg2) throw(
     void* pKey = UnpackPackfile(arg0, arg1, tempArray.m_data, needed, arg2);
     S_00dc0cd0_Map* map = (S_00dc0cd0_Map*)((char*)tempArray.m_data + 8);
     void* pFound = 0;
-    void** ppValue = (void**)((void *)(reinterpret_cast<::FUN_00cb1930_t *>((map))->LookupHashEntry((int)(pKey), 0)));
+    void** ppValue = (void**)((void *)(reinterpret_cast<::FUN_00cb1930_t *>((map))->LookupHashEntry((intptr_t)(pKey), 0)));
     if (ppValue)
     {
         pFound = *ppValue;
@@ -420,7 +422,7 @@ struct BSAudio;
 
 struct FUN_00dc0f20_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     void* m_08;
     void* m_0c;
@@ -434,14 +436,14 @@ struct FUN_00dc0f20_cls
 // @fnv 0x00dc0f20
 void FUN_00dc0f20_cls::FUN_00dc0f20()
 {
-    m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_010d6a94));
+    m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_010d6a94));
     if (m_14 != 0)
     {
         ::FUN_00dc0de0((::S_00dc0de0 *)(m_08));
         m_14 = 0;
         m_18 = 0;
     }
-    AudioHolder* pAudioHolder = (AudioHolder*)FUN_00c85750();
+    AudioHolder* pAudioHolder = (AudioHolder*)static_cast<S_00dc0de0_Router*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pAudioHolder->m_pAllocator;
     m_0c = 0;
     unsigned int uCapBits = m_10;
@@ -451,7 +453,7 @@ void FUN_00dc0f20_cls::FUN_00dc0f20()
     }
     m_08 = 0;
     m_10 = 0x80000000u;
-    *(volatile int*)&m_vptr = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 }  // namespace fnv_00dc0f20
 
@@ -462,7 +464,6 @@ struct StructureLayoutRules
     unsigned char m_bReusePaddingOptimization;
     unsigned char m_bEmptyBaseClassOptimization;
 };
-
 
 
 struct hkPackfileHeader
@@ -546,7 +547,7 @@ int __cdecl ValidatePackfileHeader(const hkPackfileHeader* header, const char** 
                 "Trying to process a binary file with a different empty base class optimization than this platform.";
         return 1;
     }
-    if (((unsigned int)header & 3) != 0)
+    if (((uintptr_t)header & 3) != 0)
     {
         if (outError)
             *outError = "Packfile data source needs to be 4 byte aligned";
@@ -580,7 +581,6 @@ struct hkPackfileSectionHeaderN
     int m_iImportsOffset;
     int m_iEndOffset;
 };
-
 
 
 struct hkSectionArrayN
@@ -733,8 +733,8 @@ extern "C" void* __cdecl UnpackPackfile(void* packfileData, void* dataSize, void
                 const void* typeInfo = registry->RegisterLoadedObject(obj, className);
                 if (typeInfo)
                 {
-                    S_00dc0de0_Allocator& heap = FUN_00c85750()->heap();
-                    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (unsigned int)(obj), (unsigned int)(typeInfo));
+                    S_00dc0de0_Allocator& heap = static_cast<S_00dc0de0_Router*>(::FUN_00c85750())->heap();
+                    reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(out->m_pTracker))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&heap)), (uintptr_t)(obj), (uintptr_t)(typeInfo));
                 }
             }
         }
@@ -844,7 +844,6 @@ struct Manager
     unsigned flags, state, count, capacity;
     Allocator* allocator;
 };
-Manager* FUN_00c85750();
 struct FUN_00dc0f80
 {
     unsigned short allocationSize;
@@ -852,7 +851,7 @@ struct FUN_00dc0f80
     virtual ~FUN_00dc0f80();
     void operator delete(void* ptr)
     {
-        Manager* manager = FUN_00c85750();
+        Manager* manager = static_cast<Manager*>(::FUN_00c85750());
         manager->allocator->Free(ptr, static_cast<FUN_00dc0f80*>(ptr)->allocationSize);
     }
 };

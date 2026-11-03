@@ -2,6 +2,10 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AudioHandle.h"
@@ -155,7 +159,7 @@ class hkMemoryAllocatorDC5D;
 
 struct hkMemoryRouterDC5D
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -165,7 +169,6 @@ struct hkMemoryRouterDC5D
         return *m_pStreamAllocator;
     }
 };
-extern "C" hkMemoryRouterDC5D& __cdecl FUN_00c85750();
 
 
 template <class T> __forceinline void constructWithCopyDC5D(T* p, int n, const T& t)
@@ -187,7 +190,7 @@ template <class T> class hkArrayDC5D
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         constructWithCopyDC5D(m_data + m_iElementCount, 1, t);
@@ -195,7 +198,7 @@ template <class T> class hkArrayDC5D
     }
 };
 
-char* __cdecl AllocateWithHeader(hkMemoryAllocatorDC5D* pkAlloc, int iNumBytes) throw();
+char* __cdecl AllocateWithHeader(hkMemoryAllocatorDC5D* pkAlloc, intptr_t iNumBytes) throw();
 
 class hkBinaryReaderDC5D
 {
@@ -229,7 +232,6 @@ struct hkMemoryRouterDC5E
         return *m_pkHeap;
     }
 };
-extern "C" hkMemoryRouterDC5E* __cdecl FUN_00c85750() throw();
 
 
 template <typename T> struct hkArrayDC5E
@@ -258,7 +260,7 @@ template <typename T> struct hkArrayDC5E
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(FUN_00c85750()->heap(), n);
+        GrowArrayCapacity(static_cast<hkMemoryRouterDC5E*>(::FUN_00c85750())->heap(), n);
         m_iElementCount = n;
     }
 };
@@ -405,8 +407,8 @@ char* hkBinaryReaderDC5D::ReadString()
     int iLen = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0();
     if (iLen > 0)
     {
-        char* pcString = AllocateWithHeader(&FUN_00c85750().heap(), iLen + 1);
-        reinterpret_cast<::FUN_00dd90d0_cls *>(this)->FUN_00dd90d0((int)(pcString));
+        char* pcString = AllocateWithHeader(&(*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap(), iLen + 1);
+        reinterpret_cast<::FUN_00dd90d0_cls *>(this)->FUN_00dd90d0((intptr_t)(pcString));
         pcString[iLen] = 0;
         m_pStringFunctions.AddBack(pcString);
         return pcString;
@@ -566,13 +568,13 @@ struct FUN_00dc5d50_Local
     void* unk34;
     void* unk38;
 
-    void FUN_00dc5f30(unsigned int, unsigned int);
-    void FUN_00dc6e50(unsigned int);
+    void FUN_00dc5f30(uintptr_t, unsigned int);
+    void FUN_00dc6e50(uintptr_t);
     void FreeAllBlocks();
 };
 
 // @fnv 0x00dc5d50
-unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
+uintptr_t FUN_00dc5d50(uintptr_t a, uintptr_t b, unsigned int c)
 {
     FUN_00dc5d50_Local local;
     local.FUN_00dc5f30(b, c);
@@ -580,7 +582,6 @@ unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
     reinterpret_cast<::hkLargeBlockAllocator *>(&(local))->FreeAllBlocks();
     return a;
 }
-
 
 
 struct S00dc5f30_Tag
@@ -616,12 +617,12 @@ struct S00dc5f30_Obj
     S00dc5f30_HL m_hl30;
 
 
-    S00dc5f30_Obj* FUN_00dc5f30(int a0, int a1);
+    S00dc5f30_Obj* FUN_00dc5f30(intptr_t a0, intptr_t a1);
 };
 
 // Initializes the object with a0 and a1, sets m_p10 and m_n14, and adds three entries to the m_hl18 and m_hl24 lists.
 // @fnv 0x00dc5f30
-S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
+S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(intptr_t a0, intptr_t a1)
 {
     reinterpret_cast<::FUN_00dd9130_class *>(this)->Init((::hkReferencedObject *)(a0), (*(bool *)&(const ::S00dc5f30_Tag &)(S00dc5f30_Tag())));
     m_p10 = (void*)a1;
@@ -638,7 +639,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     m_hl30.m_uiValueCount = 0;
     m_hl30.m_flags = 0x80000000;
 
-    hkMemoryRouterDC5D& r = FUN_00c85750();
+    hkMemoryRouterDC5D& r = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pFirstList->m_uiValueCount == (pFirstList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r.m_pStreamAllocator), (::AudioStream *)(pFirstList), 4);
@@ -648,7 +649,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     new (pSlot) void * (0);
     ++pFirstList->m_uiValueCount;
 
-    hkMemoryRouterDC5D& r2 = FUN_00c85750();
+    hkMemoryRouterDC5D& r2 = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r2.m_pStreamAllocator), (::AudioStream *)(pSecondList), 4);
@@ -658,7 +659,7 @@ S00dc5f30_Obj* S00dc5f30_Obj::FUN_00dc5f30(int a0, int a1)
     new (pSlot2) void*(&(*reinterpret_cast<char *>((void *)&::DAT_01011584)));
     pSecondList->m_uiValueCount += 1;
 
-    hkMemoryRouterDC5D& r3 = FUN_00c85750();
+    hkMemoryRouterDC5D& r3 = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
     if (pSecondList->m_uiValueCount == (pSecondList->m_flags & 0x3fffffff))
     {
         ::ResizeAudioStream((::AudioAllocator *)(r3.m_pStreamAllocator), (::AudioStream *)(pSecondList), 4);
@@ -696,7 +697,7 @@ template <typename T> struct hkArrayTF
     {}
     __forceinline void clearStorage()
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
             kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
@@ -717,7 +718,7 @@ template <typename T> struct hkArrayTF
     }
     __forceinline void AddBack(const T& t)
     {
-        hkMemoryAllocatorDC5D& kAlloc = FUN_00c85750().heap();
+        hkMemoryAllocatorDC5D& kAlloc = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         ConstructWithCopyTF(m_data + m_iElementCount, 1, t);
@@ -736,9 +737,9 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
 {
     __forceinline hkLocalArrayTF(int n)
     {
-        hkMemoryRouterDC5D& kRouter = FUN_00c85750();
+        hkMemoryRouterDC5D& kRouter = (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750()));
         T* pLocal = (T*)kRouter.m_00;
-        kRouter.m_00 = (int)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f));
+        kRouter.m_00 = (intptr_t)((char*)pLocal + ((n * sizeof(T) + 0x7f) & ~0x7f));
         this->m_data = pLocal;
         this->m_iCapacityState = n | 0x80000000;
         m_pStackAllocation = pLocal;
@@ -748,7 +749,7 @@ template <typename T> struct hkLocalArrayTF : public hkArrayTF<T>
         T* pLocal = m_pStackAllocation;
         if (pLocal == this->m_data)
             this->m_iElementCount = 0;
-        FUN_00c85750().m_00 = (int)pLocal;
+        (*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())).m_00 = (intptr_t)pLocal;
     }
     T* m_pStackAllocation;
 };
@@ -797,7 +798,7 @@ class hkDataClassTF
   public:
     hkDataClassTF(hkDataClassImplTF* pkImpl)
     {
-        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650((unsigned int)(pkImpl));
+        reinterpret_cast<::FUN_00dba650_cls *>(this)->FUN_00dba650((uintptr_t)(pkImpl));
     }
     void close()
     {
@@ -874,7 +875,7 @@ class hkBinaryTagfileReaderTF
     {
         return reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
     }
-    hkDataObjectTF FUN_00dc6970(int aiAllocationTag);
+    hkDataObjectTF FUN_00dc6970(intptr_t aiAllocationTag);
     int unk00;
     int unk04;
     int unk08;
@@ -905,12 +906,12 @@ struct TagRouter
 };
 __forceinline TagRouter* getTagRouter()
 {
-    return reinterpret_cast<TagRouter*>(&FUN_00c85750());
+    return reinterpret_cast<TagRouter*>(&(*static_cast<hkMemoryRouterDC5D*>(::FUN_00c85750())));
 }
 template <class T> struct TagArray
 {
     T* data;
-    int size;
+    intptr_t size;
     int capacity;
     __forceinline TagArray() : data(0), size(0), capacity(0x80000000)
     {}
@@ -1013,11 +1014,11 @@ struct TagClass
 struct TagReader
 {
     TagString FUN_00dc6970(int) throw();
-    void FUN_00dc6100(TagArrayRef*, int);
+    void FUN_00dc6100(TagArrayRef*, intptr_t);
 };
 // Reads an array of 'count' elements from the tag stream into the given TagArrayRef, dispatching on the element type code.
 // @fnv 0x00dc6100
-void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
+void TagReader::FUN_00dc6100(TagArrayRef* array, intptr_t count)
 {
     switch (array->FUN_00dbac10())
     {
@@ -1025,7 +1026,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         TagArray<char> values(count);
         values.reserve(getTagRouter()->temporary, count);
         reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(values.data, 1, count);
-        reinterpret_cast<::fnv_00dbae10::Outer *>((array))->FUN_00dbae10((int)(values.data));
+        reinterpret_cast<::fnv_00dbae10::Outer *>((array))->FUN_00dbae10((intptr_t)(values.data));
         values.release(getTagRouter()->temporary);
         break;
     }
@@ -1048,7 +1049,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         for (int i = 0; i < count; ++i)
         {
             reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(values, 4, width);
-            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((int)(values), 4);
+            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((intptr_t)(values), 4);
         }
         break;
     }
@@ -1064,7 +1065,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
                 reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&value, 4, 1);
                 values[j] = value;
             }
-            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((int)(values), width);
+            reinterpret_cast<::FUN_00dbad60_cls *>((void *)&(const ::TagArrayValue &)(array->FUN_00dbab90(i)))->FUN_00dbad60((intptr_t)(values), width);
         }
         break;
     }
@@ -1087,7 +1088,7 @@ void TagReader::FUN_00dc6100(TagArrayRef* array, int count)
         reinterpret_cast<::fnv_00dc5e10::hkBinaryTagfileReaderDC5E *>(this)->ReadBits(membersCount, (::fnv_00dc5e10::hkArrayDC5E<char> &)(presentBits));
         TagLocalArray<TagMember> members;
         members.allocateLocal(membersCount);
-        int toConstruct = membersCount - members.size;
+        intptr_t toConstruct = membersCount - members.size;
         TagMember* first = members.data + members.size;
         for (int k = 0; k < toConstruct; ++k)
             new (first + k) TagMember;
@@ -1170,9 +1171,9 @@ struct ValueReader : TagFileReader
 };
 // Reads a data object from the binary tagfile stream, resolves its class and members, reads present values, and returns the object.
 // @fnv 0x00dc6970
-hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(int aiAllocationTag)
+hkDataObjectTF hkBinaryTagfileReaderTF::FUN_00dc6970(intptr_t aiAllocationTag)
 {
-    int iTagType = aiAllocationTag;
+    intptr_t iTagType = aiAllocationTag;
     if (iTagType == -1)
         iTagType = ReadTag();
     if (iTagType == 5)
@@ -1237,7 +1238,7 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
     {
         Item20 local;
         memcpy(&local, item, sizeof(local));
-        int index = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
+        intptr_t index = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
         if (reinterpret_cast<::fnv_00dba920::Target *>(&(value))->QueryAndWriteResult() == 0x19 && item->objectClass == 0)
         {
             int objectIndex = reinterpret_cast<::ReaderDC5BD0 *>((this))->FUN_00dc5bd0();
@@ -1282,21 +1283,110 @@ void ValueReader::FUN_00dc6720(ParamP value, const Item20* item)
             reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&scalar, 4, 1);
             values[i] = scalar;
         }
-        reinterpret_cast<::AudioHandle *>(&(value))->FUN_00dbab10((unsigned int)(values), count);
+        reinterpret_cast<::AudioHandle *>(&(value))->FUN_00dbab10((uintptr_t)(values), count);
         break;
     }
     case 8:
     case 9: {
         RefA object;
-        reinterpret_cast<::hkBinaryTagfileReaderTF *>(this)->FUN_00dc6970((int)(&object));
+        reinterpret_cast<::hkBinaryTagfileReaderTF *>(this)->FUN_00dc6970((intptr_t)(&object));
         reinterpret_cast<::FUN_00dbaa50_cls *>(&(value))->DispatchToObject((void **)(::RefA *)(&object));
         reinterpret_cast<::DBA7F0Ref *>(&(object))->FUN_00dba7f0();
         break;
     }
     case 10:
-        reinterpret_cast<::S_00dbab30_Ref *>(&(value))->FUN_00dbab30((int)(reinterpret_cast<::hkBinaryReaderDC5D *>((this))->ReadString()));
+        reinterpret_cast<::S_00dbab30_Ref *>(&(value))->FUN_00dbab30((intptr_t)(reinterpret_cast<::hkBinaryReaderDC5D *>((this))->ReadString()));
         break;
     default:
         break;
     }
+}
+
+
+struct hkDataObjectImpl;
+
+struct DataObjectImplReference
+{
+    hkDataObjectImpl* m_pClassImpl;
+    DataObjectImplReference(hkDataObjectImpl* impl);
+};
+
+struct hkOstream
+{
+    void* m_ppVirtualMethodTable;
+    int m_usMemSizeAndFlags;
+    void* m_pStreamWriter;
+    hkOstream(void* buf, int bufSize);
+    ~hkOstream();
+    hkOstream& operator<<(const char* s);
+};
+
+struct hkError
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual int message(int type, int id, const char* desc, const char* file, int line);
+};
+
+
+struct hkBinaryTagfileReader
+{
+    DataObjectImplReference readObjectTopLevel(int tag);
+
+    DataObjectImplReference FUN_00dc6e50();
+};
+
+// @fnv 0x00dc6e50
+DataObjectImplReference hkBinaryTagfileReader::FUN_00dc6e50()
+{
+    char buf[512];
+    int magic0;
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic0, 4, 1);
+    int magic1;
+    reinterpret_cast<::DD8FE0_Stream *>(this)->FUN_00dd8fe0(&magic1, 4, 1);
+    if (magic0 == 0xcab00d1e && magic1 == 0xd011face)
+    {
+        for (int tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0(); tag != -1; tag = reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0())
+        {
+            switch (tag)
+            {
+            case 1: {
+                if (reinterpret_cast<::ReaderDC5BD0 *>(this)->FUN_00dc5bd0() != 0)
+                {
+                    {
+                        hkOstream ostr(buf, sizeof(buf));
+                        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("Unrecognised tagfile version.");
+                        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp",
+                                              0x1d9);
+                    }
+                    return DataObjectImplReference(0);
+                }
+                break;
+            }
+            case 2: {
+                if (reinterpret_cast<::TagFileReader *>(this)->ReadTagFileEntry() == 1)
+                {
+                    return DataObjectImplReference(0);
+                }
+                break;
+            }
+            case 3:
+            case 4:
+            case 6: {
+                return readObjectTopLevel(tag);
+            }
+            default: {
+                return DataObjectImplReference(0);
+            }
+            }
+        }
+    }
+    else
+    {
+        hkOstream ostr(buf, sizeof(buf));
+        reinterpret_cast<::SinkOwner *>((void *)&(ostr))->FUN_00cc01c0("This does not look like a binary tagfile (magic number mismatch)");
+        (*reinterpret_cast<::hkError * *>(&::DAT_01268360))->message(1, 0x2ab6036f, buf, ".\\Tagfile\\Binary\\hkBinaryTagfileReader.cpp", 0x1c5);
+    }
+    return DataObjectImplReference(0);
 }

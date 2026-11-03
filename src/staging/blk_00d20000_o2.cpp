@@ -1735,11 +1735,11 @@ FUN_00d277f0_node* __cdecl FUN_00d277f0(FUN_00d277f0_arg* a)
 }
 
 struct FUN_00d61840_class {
-    int m_iWordAt00;
-    int FUN_00d61c10(int a);
+    char* m_iWordAt00;
+    int FUN_00d61c10(const char* a);
 };
 // @fnv 0x00d2b330
-int __cdecl CallAndGetId(int a, FUN_00d61840_class* obj)
+const char* __cdecl CallAndGetId(const char* a, FUN_00d61840_class* obj)
 {
     obj->FUN_00d61c10(a);
     reinterpret_cast<::hkStringD618 *>((obj))->ReplaceChar(0x2f, 0x5c, 1);

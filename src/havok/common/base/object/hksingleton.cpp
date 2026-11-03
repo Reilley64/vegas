@@ -2,6 +2,7 @@
 // src/havok/common/base/object/hksingleton.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hksingleton.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00c903a0_class.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -74,13 +75,13 @@ void __cdecl RelinkSecondListFromHelper(SecondNode* pSecondList, FirstNode* pFir
 
     for (FirstNode* node = pFirstList; node != 0; node = node->m_08)
     {
-        reinterpret_cast<::hkStringMapD874 *>(&(helper))->FUN_00d874d0((const char *)(node->m_00), (int)(node));
+        reinterpret_cast<::hkStringMapD874 *>(&(helper))->FUN_00d874d0((const char *)(node->m_00), (intptr_t)(node));
     }
 
     for (SecondNode* node = pSecondList; node != 0; node = node->m_08)
     {
         void* key = node->m_00;
-        FoundEntry* found = ((::FoundEntry *)(reinterpret_cast<::hkObjectD878 *>(&(helper))->GetValue((int)(key), 0)));
+        FoundEntry* found = ((::FoundEntry *)(reinterpret_cast<::hkObjectD878 *>(&(helper))->GetValue((intptr_t)(key), 0)));
         if (found != 0)
         {
             node->m_0c->m_00 = found->m_0c->m_00;
@@ -138,7 +139,7 @@ void ClearMatchingRefs(FirstNode* pNodesToClear, FirstNode* pKeyNodes)
         FirstNode* pKeyNode = pKeyNodes;
         do
         {
-            reinterpret_cast<::hkStringMapD874 *>(&(nodeMap))->FUN_00d874d0(pKeyNode->m_00, (int)pKeyNode);
+            reinterpret_cast<::hkStringMapD874 *>(&(nodeMap))->FUN_00d874d0(pKeyNode->m_00, (intptr_t)pKeyNode);
             pKeyNode = pKeyNode->m_08;
         } while (pKeyNode != 0);
     }
@@ -149,7 +150,7 @@ void ClearMatchingRefs(FirstNode* pNodesToClear, FirstNode* pKeyNodes)
         do
         {
             const char* key = pNode->m_00;
-            if (((void *)(reinterpret_cast<::hkObjectD878 *>(&(nodeMap))->GetValue((int)(key), 0))))
+            if (((void *)(reinterpret_cast<::hkObjectD878 *>(&(nodeMap))->GetValue((intptr_t)(key), 0))))
             {
                 if (*pNode->m_0c != 0)
                 {

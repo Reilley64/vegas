@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class hkpEntityD748;
 struct Cache_d74480;

@@ -2,7 +2,12 @@
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c85000.h"
+#include <cstdint>
+#include <cstddef>
 #include <new>
+#include "fnv/decl/FUN_00db0060_class.h"
+#include "fnv/symbols_00db0000.h"
 #include <cstring>
 #include "fnv/decl/MapBase_cb1e.h"
 #include "fnv/symbols_00c90000.h"
@@ -80,35 +85,35 @@ struct SpawnedObject
     virtual void v00();
     virtual void v01();
     virtual void v02();
-    virtual int v03(int* out);
+    virtual void* v03(int& reqNumBytesInOut);
     virtual void v04();
-    virtual int v05(int a, int b, int* out);
+    virtual void* v05(void* pOld, int oldNumBytes, int& reqNumBytesInOut);
 };
 
 struct SpawnedArray
 {
-    int m_00;
+    void* m_00;
     int m_04;
-    unsigned int m_08;
+    int m_08;
 };
 
 
 // @fnv 0x00c908c0
-void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, int aiSize, int stride)
+void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, intptr_t aiSize, int stride)
 {
-    int iNewSize = aiSize * stride;
-    if ((apArray->m_08 & 0x80000000u) == 0)
+    int iNewSize = int(aiSize) * stride;
+    if ((apArray->m_08 & 0x80000000) == 0)
     {
-        int n = (int)(apArray->m_08 & 0x3fffffffu) * stride;
-        apArray->m_00 = apObject->v05(apArray->m_00, n, &iNewSize);
-        apArray->m_08 = (unsigned int)(iNewSize / stride);
+        int n = (apArray->m_08 & 0x3fffffff) * stride;
+        apArray->m_00 = apObject->v05(apArray->m_00, n, iNewSize);
+        apArray->m_08 = iNewSize / stride;
     }
     else
     {
-        int pNewData = apObject->v03(&iNewSize);
-        std::memmove((void *)(pNewData), (const void *)(apArray->m_00), apArray->m_04 * stride);
+        void* pNewData = apObject->v03(iNewSize);
+        std::memmove(pNewData, apArray->m_00, apArray->m_04 * stride);
         apArray->m_00 = pNewData;
-        apArray->m_08 = (unsigned int)(iNewSize / stride);
+        apArray->m_08 = iNewSize / stride;
     }
 }
 
@@ -156,8 +161,7 @@ void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSiz
     }
 }
 
-typedef unsigned int hkUlong;
-
+typedef uintptr_t hkUlong;
 
 
 struct S_00da2bd0_Node
@@ -205,18 +209,18 @@ struct S_00da2bd0_CallTree
         return m_data[m_iElementCount++];
     }
 
-    int FindOrAddCallTrace(const hkUlong* trace, int depth);
+    int FindOrAddCallTrace(const hkUlong* trace, intptr_t depth);
 };
 
 // @fnv 0x00da2bd0
-int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, int depth)
+int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, intptr_t depth)
 {
     if (m_iElementCount == 0)
     {
         _setSize(m_pThreadAllocator, 1);
     }
     int curNode = 0;
-    for (int i = depth - 1; i >= 0; --i)
+    for (intptr_t i = depth - 1; i >= 0; --i)
     {
         hkUlong ulAddress = trace[i];
         int nextNode = -1;
@@ -246,15 +250,14 @@ int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, int depth)
 
 struct Holder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    uintptr_t unk10;
     void* m_pAllocator;
 };
 
-Holder* __cdecl FUN_00c85750();
 extern "C" void _ReadWriteBarrier(void);
 
 struct FUN_00e108b0_cls
@@ -274,7 +277,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
     m_len = 0;
     m_cap = 0x80000000u;
 
-    Holder* h = FUN_00c85750();
+    Holder* h = static_cast<Holder*>(::FUN_00c85750());
     void* alloc = h->m_pAllocator;
     int cap = (int)(m_cap & 0x3fffffffu);
     if (cap < 0x40)
@@ -287,7 +290,7 @@ FUN_00e108b0_cls* FUN_00e108b0_cls::FUN_00e108b0()
         ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(void *)(this), newCap, 1);
     }
 
-    h = FUN_00c85750();
+    h = static_cast<Holder*>(::FUN_00c85750());
     if ((unsigned int)m_len == (m_cap & 0x3fffffffu))
     {
         ::ResizeAudioStream((::AudioAllocator *)(h->m_pAllocator), (::AudioStream *)(void *)(this), 1);
@@ -420,7 +423,7 @@ struct S00c70de0_Array
 
 // Builds 18 vertices using scaled start coordinates, end z, radius, and height, then passes them to CreateFromSource.
 // @fnv 0x00c70de0
-int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
+intptr_t __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
 {
     S00c70de0_Guard memGuard(16);
     float fScaledRadius = radius * ::DAT_01267bcc;
@@ -471,7 +474,7 @@ int __cdecl FUN_00c70de0(float* end, float* start, float radius, float height)
     vertex.component(2) += halfRadius;
     mesh.AddBack(vertex);
 
-    return ((int)(::CreateFromSource((::SrcD *)(void *)(&mesh))));
+    return ((intptr_t)(::CreateFromSource((::SrcD *)(void *)(&mesh))));
 }
 
 namespace fnv_00c909d0 {
@@ -530,7 +533,7 @@ struct MeshAllocator
 
 static __forceinline MeshAllocator* getMeshAllocator()
 {
-    Holder* holder = FUN_00c85750();
+    Holder* holder = static_cast<Holder*>(::FUN_00c85750());
     return (MeshAllocator*)holder->unk10;
 }
 
@@ -666,16 +669,16 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
 
     vertexMap->SetSizeAndGrow(mesh->vertices.size);
 
-    MeshArray<MeshVertex> vertices = {0, 0, 0x80000000};
+    MeshArray<MeshVertex> vertices = {0, 0, (int)0x80000000};
 
     FUN_00da0f10(mesh, &vertices, vertexMap, tolerance);
 
     if (unique)
     {
 
-        MeshArray<MeshVertex> compact = {0, 0, 0x80000000};
+        MeshArray<MeshVertex> compact = {0, 0, (int)0x80000000};
 
-        MeshArray<int> mapping = {0, 0, 0x80000000};
+        MeshArray<int> mapping = {0, 0, (int)0x80000000};
 
         int n = vertices.size;
 
@@ -757,6 +760,215 @@ void __cdecl FUN_00da12b0(ScriptProgram* mesh, float tolerance, bool unique, Mes
     }
 
     mesh->triangles.SetSizeAndGrow(dest - mesh->triangles.begin());
+}
+
+__forceinline __m128 scalar_0f10(const float& v)
+{
+    return _mm_load_ss(&v);
+}
+struct FNVVector_0f10
+{
+    __m128 quad;
+};
+struct FNVBounds_0f10
+{
+    FNVVector_0f10 min;
+    FNVVector_0f10 max;
+};
+struct FNVCloud_0f10
+{
+    FNVVector_0f10* m_pPts;
+    int m_uiItemCount;
+};
+
+struct FNVScratchAlloc_0f10
+{
+    virtual void unk00();
+    virtual void unk04();
+    virtual void unk08();
+    virtual void* AllocBlock(int* pSize);
+    virtual void FreeBlock(void* pData, int size);
+    template <class T> __forceinline T* allocate(int& count)
+    {
+        int bytes = count * sizeof(T);
+        T* result = (T*)AllocBlock(&bytes);
+        count = bytes / (int)sizeof(T);
+        return result;
+    }
+    template <class T> __forceinline void freeArray(T* data, int count)
+    {
+        FreeBlock(data, count * sizeof(T));
+    }
+};
+
+struct FNVRouter_0f10
+{
+    void* temp;
+    void* stack;
+    void* debug;
+    void* solver;
+    FNVScratchAlloc_0f10* heap;
+};
+
+__forceinline void copy16_0f10(void* dest, const void* source, int bytes)
+{
+    const unsigned int* s = (const unsigned int*)source;
+    unsigned int* d = (unsigned int*)dest;
+    int n = bytes >> 4;
+    do
+    {
+        d[0] = s[0];
+        d[1] = s[1];
+        d[2] = s[2];
+        d[3] = s[3];
+        s += 4;
+        d += 4;
+    } while (--n > 0);
+}
+
+struct __declspec(align(16)) FNVRec_0f10
+{
+    unsigned int minX;
+    unsigned int minY;
+    unsigned int minZ;
+    unsigned int vertexKey;
+    unsigned int maxX;
+    unsigned int maxY;
+    unsigned int maxZ;
+    unsigned int maxExtra;
+    __forceinline void operator=(const FNVRec_0f10& other)
+    {
+        copy16_0f10(this, &other, sizeof(FNVRec_0f10));
+    }
+};
+
+// @fnv 0x00da0f10
+void __cdecl FUN_00da0f10(FNVCloud_0f10* cloud, AudioStream* out, AudioStream* idx, float radius)
+{
+    int n = cloud->m_uiItemCount;
+    FNVRouter_0f10* r = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
+    FNVScratchAlloc_0f10* alloc = r->heap;
+    int cap = idx->m_uCapacity & 0x3fffffff;
+    if (cap < n)
+    {
+        int cap2 = cap * 2;
+        ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(idx), n < cap2 ? cap2 : n, 4);
+    }
+    idx->m_iArrayLength = n;
+
+    int scratchCap = n + 4;
+    FNVRouter_0f10* router2 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
+    FNVScratchAlloc_0f10* alloc2 = router2->heap;
+    FNVRec_0f10* scratch;
+    if (scratchCap)
+    {
+        int bytes = scratchCap * 32;
+        FNVRec_0f10* result = (FNVRec_0f10*)alloc2->AllocBlock(&bytes);
+        int c = bytes / 32;
+        _ReadWriteBarrier();
+        scratch = result;
+        scratchCap = c;
+    }
+    else
+        scratch = 0;
+    if (scratchCap == 0)
+        scratchCap = 0x80000000;
+
+    FNVVector_0f10 h;
+    float half = radius * 0.5f;
+    __m128 halfScalar = _mm_load_ss(&half);
+    h.quad = _mm_shuffle_ps(halfScalar, halfScalar, 0);
+    unsigned int offset;
+    int i = 0;
+    if (n > 0)
+    {
+        offset = 0;
+        FNVRec_0f10* sp = scratch;
+        do
+        {
+            FNVBounds_0f10 box;
+            __m128 halfQuad = h.quad;
+            box.min.quad = _mm_sub_ps(((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad, halfQuad);
+            box.max.quad = _mm_add_ps(halfQuad, ((FNVVector_0f10*)((char*)cloud->m_pPts + offset))->quad);
+            reinterpret_cast<::FUN_00db0060_class *>((sp))->FUN_00db0060((int *)(::FNVBounds_0f10 *)(&box), i);
+            ++i;
+            offset += 16;
+            ++sp;
+        } while (i < n);
+    }
+
+    {
+        FNVRec_0f10 sentinel;
+        sentinel.minX = 0xffffffff;
+        FNVRec_0f10* end = scratch + n;
+        copy16_0f10(end, &sentinel, sizeof(FNVRec_0f10));
+        copy16_0f10(end + 1, &sentinel, sizeof(FNVRec_0f10));
+        copy16_0f10(end + 2, &sentinel, sizeof(FNVRec_0f10));
+        copy16_0f10(end + 3, &sentinel, sizeof(FNVRec_0f10));
+    }
+
+    ::SortRecordsByKey((::S06c0_Rec *)(scratch), n);
+    FNVVector_0f10 squaredRadius;
+    float rsq = radius * radius;
+    squaredRadius.quad = scalar_0f10(rsq);
+
+    if (n > 0)
+    {
+        int rem = n;
+        int next = 1;
+        unsigned int* keyp = &scratch[0].vertexKey;
+        for (; rem != 0; ++next, keyp += 8, --rem)
+        {
+            int ci = (int)*keyp;
+            if (ci != -1)
+            {
+                FNVVector_0f10 p = cloud->m_pPts[ci];
+                ((int*)idx->m_pData)[ci] = out->m_iArrayLength;
+                FNVRouter_0f10* router3 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
+                if (out->m_iArrayLength == (out->m_uCapacity & 0x3fffffff))
+                {
+                    (::ResizeAudioStream)((::AudioAllocator *)(void *)((void*)router3->heap), (::AudioStream *)(void *)((void*)out), 0x10);
+                }
+                ((FNVVector_0f10*)out->m_pData)[out->m_iArrayLength].quad = p.quad;
+                ++out->m_iArrayLength;
+                int j = next;
+                if (j < n)
+                {
+                    unsigned int* scanp = keyp + 8;
+                    do
+                    {
+                        unsigned int minX = scanp[-3];
+                        _ReadWriteBarrier();
+                        if (minX > keyp[1])
+                            break;
+                        int cj = (int)*scanp;
+                        if (cj == -1)
+                            goto advance;
+                        FNVVector_0f10 q = cloud->m_pPts[cj];
+                        __m128 d = _mm_sub_ps(p.quad, q.quad);
+                        d = _mm_mul_ps(d, d);
+                        __m128 xy = _mm_add_ss(_mm_shuffle_ps(d, d, 0x55), d);
+                        __m128 dist = _mm_add_ss(_mm_shuffle_ps(d, d, 0xaa), xy);
+                        float distance, threshold;
+                        _mm_store_ss(&distance, dist);
+                        _mm_store_ss(&threshold, squaredRadius.quad);
+                        if (distance <= threshold)
+                        {
+                            ((int*)idx->m_pData)[cj] = ((int*)idx->m_pData)[ci];
+                            *scanp = 0xffffffff;
+                        }
+                    advance:
+                        ++j;
+                        scanp += 8;
+                    } while (j < n);
+                }
+            }
+        }
+    }
+    FNVRouter_0f10* router4 = (FNVRouter_0f10*)static_cast<Holder*>(::FUN_00c85750());
+    FNVScratchAlloc_0f10* a4 = router4->heap;
+    if ((scratchCap & 0x80000000) == 0)
+        a4->freeArray(scratch, scratchCap & 0x3fffffff);
 }
 
 #include "generated/data/havok/common/base/container/array/hkarrayutil.inc"

@@ -21,63 +21,76 @@
 #include "fnv/symbols_0104d000.h"
 #include "havok/hkpProjectileGun.h"
 
+struct hkpWorldE44C
+{
+};
+
+struct hkpEntityE44C
+{
+    int unk00;
+    int unk04;
+    hkpWorldE44C* m_pOwningWorld;
+};
+
+// hkpGunProjectile's data: the referenced-object header, the entity-listener base at +8, flags at +0xc,
+// the projectile body at +0x10 and its existence time at +0x14 (32-bit offsets).
+struct GunProjectileData
+{
+    void* m_vtable;
+    int m_memSizeAndFlags;
+    void* m_listenerVtable;
+    unsigned char m_flags;
+    hkpEntityE44C* m_body;
+    float m_existenceTime;
+};
+
 struct FUN_00e44c70_cls
 {
     virtual void v0();
     virtual void v4();
     virtual void v8();
     virtual void vC();
-    unsigned char flags;
-    unsigned char pad1;
-    unsigned char pad2;
-    unsigned char pad3;
-    unsigned char pad4;
-    unsigned char pad5;
-    unsigned char pad6;
-    unsigned char pad7;
-    unsigned char pad8;
-    unsigned char pad9;
-    unsigned char padA;
-    unsigned char padB;
-    unsigned char padC;
+    int m_memSizeAndFlags;
+    void* m_listenerVtable;
+    unsigned char m_flags;
     void InitOnce();
 };
 
 // @fnv 0x00e44c70
 void FUN_00e44c70_cls::InitOnce()
 {
-    if (!(this->pad8 & 1))
+    if (!(this->m_flags & 1))
     {
         vC();
-        this->pad8 |= 1;
+        this->m_flags |= 1;
     }
 }
 
 struct hkpEntity
 {
 };
-struct FUN_00e44d50_cls
+struct FUN_00e44d50_cls : GunProjectileData
 {
     void FUN_00e44d50(bool);
 };
 // @fnv 0x00e44d50
 void FUN_00e44d50_cls::FUN_00e44d50(bool on)
 {
-    if (on != (((unsigned char*)this)[0xc] >> 2 & 1))
+    if (on != (m_flags >> 2 & 1))
     {
-        void* e = *(void**)((char*)this + 0x10);
-        if (e && *(int*)((char*)e + 8))
+        hkpEntityE44C* e = m_body;
+        if (e && e->m_pOwningWorld)
         {
-            void* arg = (void*)((char*)this + 8);
+            void* arg = &m_listenerVtable;
             if (on)
                 reinterpret_cast<::hkOwnerC9C5 *>((((hkpEntity*)e)))->AddSlot(arg);
             else
                 reinterpret_cast<::hkOwnerC9C1 *>((((hkpEntity*)e)))->FUN_00c9c140(arg);
         }
         if (on)
-            ((unsigned char*)this)[0xc] |= 4;
+            m_flags |= 4;
         else
-            ((unsigned char*)this)[0xc] &= 0xfb;
+            m_flags &= 0xfb;
     }
 }
 
@@ -114,7 +127,7 @@ void FUN_00e44be0_cls::UpdateValue(float afDelta, int b, int c, int d, int e, in
 struct DDCC60World
 {
 };
-struct hkpGunProjectile
+struct hkpGunProjectile : GunProjectileData
 {
     void ReleaseWorld();
 };
@@ -168,7 +181,7 @@ struct Iface1
 extern int DAT_010ebf74;
 extern int DAT_010ebf94;
 
-struct FUN_00e44e70_cls
+struct FUN_00e44e70_cls : GunProjectileData
 {
     void ResetVtables();
 };
@@ -176,14 +189,13 @@ struct FUN_00e44e70_cls
 // @fnv 0x00e44e70
 void FUN_00e44e70_cls::ResetVtables()
 {
-    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&DAT_010ebf94);
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8) = reinterpret_cast<void*>(&DAT_010ebf74);
+    m_vtable = reinterpret_cast<void*>(&DAT_010ebf94);
+    m_listenerVtable = reinterpret_cast<void*>(&DAT_010ebf74);
 
     reinterpret_cast<::hkpGunProjectile *>(this)->ReleaseWorld();
 
-    *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 8) =
-        const_cast<void*>(static_cast<const void*>(&(*reinterpret_cast<const ::Iface1 *>(&::DAT_0104dd7c))));
-    *reinterpret_cast<void**>(this) = reinterpret_cast<void*>(&(*reinterpret_cast<int *>(&::DAT_0102e388)));
+    m_listenerVtable = const_cast<void*>(static_cast<const void*>(&(*reinterpret_cast<const ::Iface1 *>(&::DAT_0104dd7c))));
+    m_vtable = reinterpret_cast<void*>(&(*reinterpret_cast<int *>(&::DAT_0102e388)));
 }
 
 struct FUN_00e44f30_cls
@@ -256,19 +268,25 @@ struct V
     virtual void f2(int);
     virtual void f3(int);
     virtual void f4(int);
+    int m_memSizeAndFlags;
 };
+// The projectile's entity-listener base (at +8 of the projectile).
 struct C
 {
+    void* m_listenerVtable;
     void FUN_00e45090(int);
+};
+struct VC : V, C
+{
 };
 // @fnv 0x00e45090
 void C::FUN_00e45090(int x)
 {
-    V* base = reinterpret_cast<V*>(reinterpret_cast<char*>(this) - 8);
+    V* base = static_cast<VC*>(this);
     base->f4(x);
 }
 
-struct FUN_00e450b0_cls
+struct FUN_00e450b0_cls : GunProjectileData
 {
     void FUN_00e450b0(int);
 };
@@ -276,7 +294,7 @@ struct FUN_00e450b0_cls
 // @fnv 0x00e450b0
 void FUN_00e450b0_cls::FUN_00e450b0(int)
 {
-    *(unsigned char*)(this + 0xc) |= 2;
+    m_flags |= 2;
 }
 
 class hkTimerE44B
@@ -331,17 +349,6 @@ struct hkBoolE44C
 struct hkpEntityE44C;
 struct hkpEntityListenerE44C;
 
-struct hkpWorldE44C
-{
-};
-
-struct hkpEntityE44C
-{
-    int unk00;
-    int unk04;
-    hkpWorldE44C* m_pOwningWorld;
-};
-
 struct hkBaseAE44C
 {
     int unk00;
@@ -367,12 +374,12 @@ struct hkObjE44C : public hkBaseAE44C, public hkpEntityListenerE44C
 // @fnv 0x00e44cf0
 void hkpGunProjectile::ReleaseWorld()
 {
-    if (*(DDCC60World**)((char*)this + 0x10))
+    if (m_body)
     {
-        if (*(int*)((char*)*(void**)((char*)this + 0x10) + 8))
+        if (m_body->m_pOwningWorld)
             reinterpret_cast<::hkObjE44C *>(this)->FUN_00e44cc0();
-        reinterpret_cast<::hkReferencedObjectC905 *>(((*(DDCC60World**)((char*)this + 0x10))))->FUN_00c905b0();
-        *(void**)((char*)this + 0x10) = 0;
+        reinterpret_cast<::hkReferencedObjectC905 *>(m_body)->FUN_00c905b0();
+        m_body = nullptr;
     }
 }
 
@@ -598,13 +605,18 @@ class hkpRigidBodyq
   public:
     __forceinline const hkTransformq& getTransform() const
     {
-        return *reinterpret_cast<const hkTransformq*>(reinterpret_cast<const char*>(this) + 0xf0);
+        return m_transform;
     }
 
     __forceinline const hkVector4q& getLinearVelocity() const
     {
-        return *reinterpret_cast<const hkVector4q*>(reinterpret_cast<const char*>(this) + 0x1b0);
+        return m_linearVelocity;
     }
+
+    unsigned char m_unk000[0xf0];
+    hkTransformq m_transform;            // +0xf0 (32-bit)
+    unsigned char m_unk130[0x80];
+    hkVector4q m_linearVelocity;         // +0x1b0 (32-bit)
 
 };
 
@@ -969,7 +981,7 @@ void FUN_00e44da0_cls::FUN_00e44da0(float value)
     while (index < count)
     {
         FUN_00e44c70_V* item = reinterpret_cast<FUN_00e44c70_V*>(m_kRigidBodies.m_data[index]);
-        float itemValue = *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(item) + 0x14);
+        float itemValue = reinterpret_cast<GunProjectileData*>(item)->m_existenceTime;
 
         if (itemValue > value)
         {

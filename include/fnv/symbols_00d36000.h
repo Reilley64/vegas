@@ -41,6 +41,6 @@ void FUN_00d36b00(int, int, int, int);
 // 0x00d36bb0
 void FUN_00d36bb0(void **);
 // 0x00d36be0
-namespace fnv_00d36be0 { void *FUN_00d36be0(int, int, int, int); }
+namespace fnv_00d36be0 { void *FUN_00d36be0(intptr_t, intptr_t, intptr_t, intptr_t); }
 // 0x00d36c60
 void FUN_00d36c60(void *);

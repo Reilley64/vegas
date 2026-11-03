@@ -35,10 +35,10 @@ struct hkpConvexListAgent
 {
     void FUN_00d33770(int a);
 };
-extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
+extern "C" void __cdecl FUN_00d339d0(intptr_t, intptr_t, intptr_t, intptr_t);
 struct FUN_00d33b70_cls
 {
-    void FUN_00d33b70(int a, int b, int c, int d);
+    void FUN_00d33b70(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 extern "C"
 {
@@ -628,7 +628,7 @@ struct hkpCdPointCollector
     virtual void AddCdPoint(const ContactPointPair& point) = 0;
 };
 // @fnv 0x00d339d0
-extern "C" void __cdecl FUN_00d339d0(int a1, int a2, int a3, int a4)
+extern "C" void __cdecl FUN_00d339d0(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4)
 {
     {
         StringCursor* pForm = (StringCursor*)TlsGetValue(DAT_0126835c);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpCollisionDispatcherD398;
 struct Context;
 struct D390Callback;
@@ -21,7 +23,7 @@ char *InitOutputDefaults(::FUN_00d390a0_Owner *, ::FUN_00d390a0_Flags *, ::FUN_0
 // 0x00d390e0
 unsigned short *ReleaseHandles(void *, ::D390HandleTable *, ::D390Callback *, void *);
 // 0x00d39130
-void FUN_00d39130(int, int, int, int, int);
+void FUN_00d39130(intptr_t, intptr_t, intptr_t, intptr_t, int);
 // 0x00d39390
 unsigned short *FUN_00d39390(::Pair *, ::Header *, unsigned short *, ::FourFloatVector *, ::Context *);
 // 0x00d39840

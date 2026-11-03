@@ -557,7 +557,7 @@ int hkpSimpleContactConstraintData::FUN_00d92df0(hkpConstraintOwner& constraintO
 
     if (reinterpret_cast<::FUN_005609f0_shell *>((void *)&(const ::hkBool &)(atomReallocated))->FUN_005609f0())
     {
-        ::ReplaceEntry((int)(m_pHavokConstraint), (int)(oldAtom), (int)(m_pAtom), localAtom->m_usSizeOfAllAtoms);
+        ::ReplaceEntry((void *)(m_pHavokConstraint), (void *)(oldAtom), (void *)(m_pAtom), localAtom->m_usSizeOfAllAtoms);
         m_iAtomSize = localAtom->m_usSizeOfAllAtoms;
     }
     return ((int)(reinterpret_cast<::FUN_00d93140_cls *>(&(m_kAtoms))->ReplaceOrAppendByte(size)));

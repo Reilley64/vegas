@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00d343f0 { class hkpCollisionAgentD343; }
 namespace fnv_00d343f0 { struct hkpCdBodyD343; }
 namespace fnv_00d343f0 { struct hkpCollisionInputD343; }
@@ -20,17 +22,17 @@ void FUN_00d34790(void *, void *, void *, int);
 // 0x00d347d0
 void QueryClosestPoints(void *, void *, void *, unsigned int);
 // 0x00d34810
-namespace fnv_00d34810 { void FUN_00d34810(int, int, const ::fnv_00d34810::Input_d2e9 *, int, int); }
+namespace fnv_00d34810 { void FUN_00d34810(intptr_t, intptr_t, const ::fnv_00d34810::Input_d2e9 *, int, int); }
 // 0x00d34930
-void InitSpawnedBuffer(int, int, int, int);
+void InitSpawnedBuffer(intptr_t, intptr_t, intptr_t, int);
 // 0x00d34970
 void FUN_00d34970(int, int, int, int);
 // 0x00d349b0
-namespace fnv_00d349b0 { void FUN_00d349b0(int, int, const ::fnv_00d349b0::Input_d2e9 *, int, int); }
+namespace fnv_00d349b0 { void FUN_00d349b0(intptr_t, intptr_t, const ::fnv_00d349b0::Input_d2e9 *, int, int); }
 // 0x00d34d30
 void FUN_00d34d30(void *, void *, void *, void *);
 // 0x00d34d60
-void ForwardCall(int, int, int);
+void ForwardCall(int, intptr_t, intptr_t);
 // 0x00d34d80
 void FUN_00d34d80(void *, void *, float, float, void *);
 // 0x00d34db0

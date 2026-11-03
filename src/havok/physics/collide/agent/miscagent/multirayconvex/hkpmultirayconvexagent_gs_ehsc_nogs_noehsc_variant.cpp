@@ -17,7 +17,7 @@
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
 struct FUN_00d37690_Class {
-    void ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 void FUN_00d378a0(int a, int b, int c, int d);
 struct FUN_00cfbbe0_Arg {
@@ -253,7 +253,7 @@ struct S_00d374f0_Collector {
 };
 
 // @fnv 0x00d374f0
-void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB, int input, S_00d374f0_Collector* collector)
+void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB, intptr_t input, S_00d374f0_Collector* collector)
 {
     S_00d374f0_Timer("TtmultiRay-cnvx-getPen");
     const S_00d374f0_MultiRayShape* msA = (const S_00d374f0_MultiRayShape*)bodyA.m_pCollisionShape;

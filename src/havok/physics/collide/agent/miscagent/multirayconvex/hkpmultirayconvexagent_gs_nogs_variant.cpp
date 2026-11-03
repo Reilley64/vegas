@@ -1,6 +1,7 @@
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent_gs_nogs_variant.cpp - flag-variant unit created 2026-11-01 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHsc /Gy (unit src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include <cstdint>
 
 
 // src/havok/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/multirayconvex/hkpmultirayconvexagent.cpp).
@@ -8,7 +9,7 @@
 void FUN_00d374f0(int a, int b, int c, int d);
 struct FUN_00d37690_Class
 {
-    void ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 void FUN_00d37740(int a, int b, int c, int d);
 void FUN_00d37780(int a, int b, int c, int d);

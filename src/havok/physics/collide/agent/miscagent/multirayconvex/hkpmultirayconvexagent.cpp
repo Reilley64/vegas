@@ -13,11 +13,11 @@
 #include "fnv/symbols_010ce000.h"
 struct FUN_00d37690_Class
 {
-    void ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 
 // @fnv 0x00d37690
-void FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d37690_Class::ForwardToFunction(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(aiArg1)), (*(const ::S_00d374f0_CdBody *)(aiArg2)), aiArg3, (::S_00d374f0_Collector *)(aiArg4));
 }
@@ -116,7 +116,7 @@ struct S_00d37860_Collector : S_00d37860_Base
 void FUN_00d37860(void* a, void* b, void* c, int filter)
 {
     S_00d37860_Collector collector(filter);
-    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(b)), (*(const ::S_00d374f0_CdBody *)(a)), (int)(c), (::S_00d374f0_Collector *)(::S_00d37860_Collector *)(&collector));
+    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(b)), (*(const ::S_00d374f0_CdBody *)(a)), (intptr_t)(c), (::S_00d374f0_Collector *)(::S_00d37860_Collector *)(&collector));
 }
 
 struct Payload

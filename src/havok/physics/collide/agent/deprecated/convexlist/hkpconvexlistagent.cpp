@@ -44,15 +44,15 @@ void hkpConvexListAgent::FUN_00d33770(int a)
         ::FUN_00da3510((*(::AgentSectorPointerArray *)(this + 0x30)), (*(::CollisionAgentContext *)((void*)a)));
 }
 
-extern "C" void __cdecl FUN_00d339d0(int, int, int, int);
+extern "C" void __cdecl FUN_00d339d0(intptr_t, intptr_t, intptr_t, intptr_t);
 
 struct FUN_00d33b70_cls
 {
-    void FUN_00d33b70(int a, int b, int c, int d);
+    void FUN_00d33b70(intptr_t a, intptr_t b, intptr_t c, intptr_t d);
 };
 
 // @fnv 0x00d33b70
-void FUN_00d33b70_cls::FUN_00d33b70(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d33b70_cls::FUN_00d33b70(intptr_t aiArg1, intptr_t aiArg2, intptr_t aiArg3, intptr_t aiArg4)
 {
     FUN_00d339d0(aiArg1, aiArg2, aiArg3, aiArg4);
 }
@@ -1023,7 +1023,7 @@ struct hkpCdPointCollector
 
 // If TestGsk reports a hit calls QueryClosestPoints; else adds the closest point to a4 when its distance exceeds b's shape threshold, otherwise calls QueryClosestPoints.
 // @fnv 0x00d339d0
-extern "C" void __cdecl FUN_00d339d0(int apBodyA, int apBodyB, int a3, int apCollector)
+extern "C" void __cdecl FUN_00d339d0(intptr_t apBodyA, intptr_t apBodyB, intptr_t a3, intptr_t apCollector)
 {
     {
         StringCursor* pForm = (StringCursor*)TlsGetValue(DAT_0126835c);
@@ -1139,7 +1139,7 @@ struct __declspec(align(16)) S00d33ca0_Local
 
 // Writes a timer entry, calls FUN_00daf8e0, and if local.unk08 is set writes another entry and calls FUN_00d34810; then writes a closing timer entry.
 // @fnv 0x00d33ca0
-extern "C" void __cdecl FUN_00d33ca0(int a, int b, int c, int d, int e)
+extern "C" void __cdecl FUN_00d33ca0(intptr_t a, intptr_t b, intptr_t c, intptr_t d, intptr_t e)
 {
     S00d33ca0_Buf* buf;
     unsigned int* p;

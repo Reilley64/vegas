@@ -4,6 +4,7 @@
 
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -5534,19 +5535,7 @@ struct IntArrayX
     }
 };
 void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 __forceinline float dot3(__m128 p)
 {
     float value;
@@ -7136,14 +7125,6 @@ class SwapChainBufferData : public NiDX92DBufferDataStub
     PresentParamsE7D6B0 m_kParams;
     DeviceE7D6B0* m_pkDevice;
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 class XfCallee
 {
   public:
@@ -7173,10 +7154,6 @@ class XfTransformBlock
     XfCallee* m_pCalleeB;
     void FUN_00e62b20(__m128* in, __m128* out);
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct __declspec(align(16)) Vector
 {
     __m128 value;
@@ -7244,21 +7221,6 @@ struct SupportOwner
 };
 extern "C"
 {
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
     void _ReadWriteBarrier();
     void _WriteBarrier();
 }
@@ -7326,7 +7288,6 @@ struct TrianglePlane
 
     void FUN_00e67570();
 };
-extern "C" __m128 _mm_sqrt_ss(__m128);
 struct S00e61d30_TriVerts
 {
     __m128 v0;
@@ -7339,9 +7300,6 @@ static inline __m128 Sum3(__m128 a, __m128 b)
     return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
 void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
-extern "C"
-{
-}
 struct S00e67ae0_HullFace;
 struct S00e67ae0_HullEdge
 {
@@ -7414,31 +7372,13 @@ class NiDX9AdditionalDepthStencilBufferData : public NiDX92DBufferDataStub
 };
 
 extern "C" void _ReadBarrier();
-static __forceinline void CopySupport_e63770(::__m128*& out, int index, const ::__m128& source)
+static __forceinline void CopySupport_e63770(__m128*& out, int index, const __m128& source)
 {
-    ::__m128 value = source;
+    __m128 value = source;
     _ReadBarrier();
     out[index] = value;
 }
 
-namespace PenetrationIntrinsics {
-extern "C"
-{
-    ::__m128(_mm_load_ss)(const float* p);
-    ::__m128(_mm_load_ps)(const float* p);
-    ::__m128(_mm_sub_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_mul_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_add_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_xor_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_cmplt_ps)(::__m128 a, ::__m128 b);
-    int(_mm_movemask_ps)(::__m128 a);
-    ::__m128(_mm_unpacklo_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_unpackhi_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_movelh_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_movehl_ps)(::__m128 a, ::__m128 b);
-    ::__m128(_mm_shuffle_ps)(::__m128 a, ::__m128 b, int imm8);
-}
-}
 
 static __declspec(noinline) float FUN_00e62ac0(int seed)
 {
@@ -7447,9 +7387,9 @@ static __declspec(noinline) float FUN_00e62ac0(int seed)
 }
 struct E63Vert
 {
-    ::__m128 m_00;
-    ::__m128 m_10;
-    ::__m128 m_20;
+    __m128 m_00;
+    __m128 m_10;
+    __m128 m_20;
     int m_30;
     int unk34;
     int unk38;
@@ -7459,7 +7399,7 @@ class E63Edge;
 class E63Face
 {
   public:
-    ::__m128 m_vHitNormal;
+    __m128 m_vHitNormal;
     E63Vert* m_v0;
     int unk14;
     E63Edge* m_18;
@@ -7520,7 +7460,7 @@ struct E63Out
 {
     union
     {
-        ::__m128 m_00;
+        __m128 m_00;
         struct
         {
             float m_00x;
@@ -7529,52 +7469,52 @@ struct E63Out
             float m_0c;
         };
     };
-    ::__m128 m_10;
+    __m128 m_10;
 };
 struct Solver
 {
-    ::__m128 unk00;
-    ::__m128 unk10;
-    ::__m128 unk20;
-    ::__m128 m_30;
-    ::__m128 m_40;
+    __m128 unk00;
+    __m128 unk10;
+    __m128 unk20;
+    __m128 m_30;
+    __m128 m_40;
     int unk50;
     int unk54;
     int unk58;
     int m_5c;
-    ::__m128* m_60;
-    ::__m128* m_64;
-    ::__m128* m_68;
+    __m128* m_60;
+    __m128* m_64;
+    __m128* m_68;
     int m_6c;
     void FUN_00e62b20(E63Face* face, E63Vert* vert);
     int FUN_00e63770(E63Out* out);
 };
-static __forceinline void transposeThree(::__m128& a, ::__m128& b, ::__m128& c)
+static __forceinline void transposeThree(__m128& a, __m128& b, __m128& c)
 {
-    ::__m128 lo = (PenetrationIntrinsics::_mm_unpacklo_ps)(a, b);
-    ::__m128 hi = (PenetrationIntrinsics::_mm_unpackhi_ps)(a, b);
-    a = (PenetrationIntrinsics::_mm_movelh_ps)(lo, c);
-    b = (PenetrationIntrinsics::_mm_shuffle_ps)((PenetrationIntrinsics::_mm_movehl_ps)(a, lo), c, 0xd4);
-    c = (PenetrationIntrinsics::_mm_shuffle_ps)(hi, c, 0xe4);
+    __m128 lo = (_mm_unpacklo_ps)(a, b);
+    __m128 hi = (_mm_unpackhi_ps)(a, b);
+    a = (_mm_movelh_ps)(lo, c);
+    b = (_mm_shuffle_ps)((_mm_movehl_ps)(a, lo), c, 0xd4);
+    c = (_mm_shuffle_ps)(hi, c, 0xe4);
 }
 static __forceinline int expand(Solver* self, E63Hull& hull, E63Face* face, E63Vert* vert, int& status,
                                 E63Edge*& outEdge)
 {
-    ::__m128 v = vert->m_00;
-    ::__m128 d0 = (PenetrationIntrinsics::_mm_sub_ps)(v, face->m_v0->m_00);
-    ::__m128 d1 = (PenetrationIntrinsics::_mm_sub_ps)(v, face->m_v1->m_00);
-    ::__m128 d2 = (PenetrationIntrinsics::_mm_sub_ps)(v, face->m_v2->m_00);
+    __m128 v = vert->m_00;
+    __m128 d0 = (_mm_sub_ps)(v, face->m_v0->m_00);
+    __m128 d1 = (_mm_sub_ps)(v, face->m_v1->m_00);
+    __m128 d2 = (_mm_sub_ps)(v, face->m_v2->m_00);
     transposeThree(d0, d1, d2);
-    ::__m128 r2 = d2;
-    ::__m128 r1 = d1;
-    ::__m128 r0 = d0;
-    ::__m128 n = face->m_vHitNormal;
-    ::__m128 s01 = (PenetrationIntrinsics::_mm_add_ps)(
-        (PenetrationIntrinsics::_mm_mul_ps)(r1, (PenetrationIntrinsics::_mm_shuffle_ps)(n, n, 0x55)),
-        (PenetrationIntrinsics::_mm_mul_ps)((PenetrationIntrinsics::_mm_shuffle_ps)(n, n, 0x00), r0));
-    ::__m128 dots = (PenetrationIntrinsics::_mm_add_ps)(
-        s01, (PenetrationIntrinsics::_mm_mul_ps)(r2, (PenetrationIntrinsics::_mm_shuffle_ps)(n, n, 0xaa)));
-    if (((PenetrationIntrinsics::_mm_movemask_ps)((PenetrationIntrinsics::_mm_cmplt_ps)(dots, self->m_40)) & 7) != 0)
+    __m128 r2 = d2;
+    __m128 r1 = d1;
+    __m128 r0 = d0;
+    __m128 n = face->m_vHitNormal;
+    __m128 s01 = (_mm_add_ps)(
+        (_mm_mul_ps)(r1, (_mm_shuffle_ps)(n, n, 0x55)),
+        (_mm_mul_ps)((_mm_shuffle_ps)(n, n, 0x00), r0));
+    __m128 dots = (_mm_add_ps)(
+        s01, (_mm_mul_ps)(r2, (_mm_shuffle_ps)(n, n, 0xaa)));
+    if (((_mm_movemask_ps)((_mm_cmplt_ps)(dots, self->m_40)) & 7) != 0)
     {
         status = 0;
         return 1;
@@ -7612,7 +7552,7 @@ int Solver::FUN_00e63770(E63Out* out)
 {
     int status;
     E63Edge* outEdge;
-    ::__m128 bary;
+    __m128 bary;
     E63Face* face;
     for (;;)
     {
@@ -7650,7 +7590,7 @@ int Solver::FUN_00e63770(E63Out* out)
                     m_68[0] = face->m_v0->m_00;
                     m_68[1] = face->m_v1->m_00;
                     m_68[2] = face->m_v2->m_00;
-                    FUN_00e61a10(&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30)), &m_68[0], &m_68[1], &m_68[2],
+                    FUN_00e61a10(&(*reinterpret_cast<__m128 *>(&::DAT_01267e30)), &m_68[0], &m_68[1], &m_68[2],
                                  reinterpret_cast<BarycentricResult*>(&bary));
                     if (!(bary.lanes.x < 0.0f) && !(bary.lanes.y < 0.0f) && !(bary.lanes.z < 0.0f))
                         goto found_face;
@@ -7671,19 +7611,19 @@ int Solver::FUN_00e63770(E63Out* out)
 
                 m_6c = 3;
                 *(float*)&outEdge = (float)(double)bary.lanes.x;
-                ::__m128 bx = (PenetrationIntrinsics::_mm_load_ss)((float*)&outEdge);
+                __m128 bx = (_mm_load_ss)((float*)&outEdge);
                 *(float*)&outEdge = (float)(double)bary.lanes.y;
-                ::__m128 by = (PenetrationIntrinsics::_mm_load_ss)((float*)&outEdge);
+                __m128 by = (_mm_load_ss)((float*)&outEdge);
                 *(float*)&outEdge = (float)(double)bary.lanes.z;
-                ::__m128 bz = (PenetrationIntrinsics::_mm_load_ss)((float*)&outEdge);
-                ::__m128* p60 = m_60;
-                out->m_10 = (PenetrationIntrinsics::_mm_add_ps)(
-                    (PenetrationIntrinsics::_mm_add_ps)(
-                        (PenetrationIntrinsics::_mm_mul_ps)((PenetrationIntrinsics::_mm_shuffle_ps)(by, by, 0), p60[1]),
-                        (PenetrationIntrinsics::_mm_mul_ps)((PenetrationIntrinsics::_mm_shuffle_ps)(bx, bx, 0),
+                __m128 bz = (_mm_load_ss)((float*)&outEdge);
+                __m128* p60 = m_60;
+                out->m_10 = (_mm_add_ps)(
+                    (_mm_add_ps)(
+                        (_mm_mul_ps)((_mm_shuffle_ps)(by, by, 0), p60[1]),
+                        (_mm_mul_ps)((_mm_shuffle_ps)(bx, bx, 0),
                                                             p60[0])),
-                    (PenetrationIntrinsics::_mm_mul_ps)((PenetrationIntrinsics::_mm_shuffle_ps)(bz, bz, 0), p60[2]));
-                out->m_00 = (PenetrationIntrinsics::_mm_xor_ps)(face->m_vHitNormal, ::DAT_010c44d0);
+                    (_mm_mul_ps)((_mm_shuffle_ps)(bz, bz, 0), p60[2]));
+                out->m_00 = (_mm_xor_ps)(face->m_vHitNormal, ::DAT_010c44d0);
                 out->m_0c = -face->m_40;
                 return status;
             }
@@ -7702,7 +7642,7 @@ int Solver::FUN_00e63770(E63Out* out)
             bary.lanes.x = *(float*)&outEdge;
             bary.lanes.y = *(float*)&outEdge;
             bary.lanes.z = *(float*)&outEdge;
-            bary = (PenetrationIntrinsics::_mm_add_ps)(bary, m_30);
+            bary = (_mm_add_ps)(bary, m_30);
             m_30 = bary;
             continue;
         }

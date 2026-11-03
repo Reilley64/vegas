@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -69,18 +70,7 @@ begin:
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 
 struct QuaternionVector
 {
@@ -153,7 +143,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                 _mm_add_ps(_mm_mul_ps(cross, w), _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                             _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
             output[i].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), p.translation);
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[i].rotation), (void *)(&p.rotation), (const ::fnv_00c66320::__m128 *)(const ::QuaternionVector *)(&l.rotation), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[i].rotation), (void *)(&p.rotation), (const __m128 *)(const ::QuaternionVector *)(&l.rotation), {});
             output[i].scale = _mm_mul_ps(l.scale, p.scale);
         }
     }
@@ -185,7 +175,7 @@ void __cdecl FUN_00ce2d10(const Transform* parents, PointerParam<const Transform
                                             _mm_add_ps(_mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
                                                        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q)));
                 output[index].translation = _mm_add_ps(_mm_add_ps(rotated, rotated), parent.translation);
-                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[index].rotation), (void *)(&parent.rotation), (const ::fnv_00c66320::__m128 *)(const ::QuaternionVector *)(&source->rotation), {});
+                ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[index].rotation), (void *)(&parent.rotation), (const __m128 *)(const ::QuaternionVector *)(&source->rotation), {});
                 output[index].scale = _mm_mul_ps(source->scale, parent.scale);
                 ++source;
             }
@@ -272,12 +262,6 @@ void __cdecl FUN_00cf8510(SortRec* a, int low, int high, SortCmp cmp)
 }
 
 namespace fnv_00cfac20 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
 extern "C" unsigned __int64 __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern char DAT_010cc678[];

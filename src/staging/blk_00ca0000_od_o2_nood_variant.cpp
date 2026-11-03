@@ -107,10 +107,10 @@ void ShapeCa36a0::FUN_00ca36a0(const hkTransform& t)
     {
         const hkVertex3& p = m_kVertices->m_data[i];
         hkVector4 v;
-        v.m_vComponents.m128_f32[0] = p.x;
-        v.m_vComponents.m128_f32[1] = p.y;
-        v.m_vComponents.m128_f32[2] = p.z;
-        v.m_vComponents.m128_f32[3] = 0.0f;
+        v.m_vComponents[0] = p.x;
+        v.m_vComponents[1] = p.y;
+        v.m_vComponents[2] = p.z;
+        v.m_vComponents[3] = 0.0f;
         v.m_vComponents = _mm_mul_ps(m_vScale.m_vComponents, v.m_vComponents);
         hkVector4 tv;
         tv.FUN_00c7f640(t, v);
@@ -242,10 +242,10 @@ void ShapeCa37e0::FUN_00ca37e0(const hkTransform& t, float tolerance, hkAabb& ou
     {
         const hkVertex3& p = m_kVertices->m_data[i];
         hkVector4 v;
-        v.m_vComponents.m128_f32[0] = p.x;
-        v.m_vComponents.m128_f32[1] = p.y;
-        v.m_vComponents.m128_f32[2] = p.z;
-        v.m_vComponents.m128_f32[3] = 0.0f;
+        v.m_vComponents[0] = p.x;
+        v.m_vComponents[1] = p.y;
+        v.m_vComponents[2] = p.z;
+        v.m_vComponents[3] = 0.0f;
         v.m_vComponents = _mm_mul_ps(m_vScale.m_vComponents, v.m_vComponents);
         hkVector4 tv;
         tv.FUN_00c7f640(t, v);
@@ -569,10 +569,10 @@ struct Vec4
     __m128 m_vComponents;
     void set(float x, float y, float z, float w = 0.0f)
     {
-        m_vComponents.m128_f32[0] = x;
-        m_vComponents.m128_f32[1] = y;
-        m_vComponents.m128_f32[2] = z;
-        m_vComponents.m128_f32[3] = w;
+        m_vComponents[0] = x;
+        m_vComponents[1] = y;
+        m_vComponents[2] = z;
+        m_vComponents[3] = w;
     }
     void mul4(const Vec4& a)
     {
@@ -1272,17 +1272,6 @@ void F7_Clone::FUN_00cbdb70(F7_Shape* dest, F7_Params* params)
 }
 
 namespace fnv_00cbeaf0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c10;
 
@@ -1291,9 +1280,9 @@ struct hkVector4
     __m128 m_vComponents;
     __forceinline void load3(const float* p)
     {
-        m_vComponents.m128_f32[0] = p[0];
-        m_vComponents.m128_f32[1] = p[1];
-        m_vComponents.m128_f32[2] = p[2];
+        m_vComponents[0] = p[0];
+        m_vComponents[1] = p[1];
+        m_vComponents[2] = p[2];
     }
 };
 

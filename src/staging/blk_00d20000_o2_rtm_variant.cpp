@@ -1800,8 +1800,8 @@ struct hkVecQ {
     __forceinline __m128& getQuad() { return data; }
     __forceinline const __m128& getQuad() const { return data; }
 
-    __forceinline float& operator()(int a) { return getQuad().m128_f32[a]; }
-    __forceinline const float& operator()(int a) const { return getQuad().m128_f32[a]; }
+    __forceinline float& operator()(int a) { return getQuad()[a]; }
+    __forceinline const float& operator()(int a) const { return getQuad()[a]; }
 
     static __forceinline __m128 rotated(const hkVecQ& q, const hkVecQ& v)
     {
@@ -1966,17 +1966,8 @@ void hkOrientHingedBodyAction::FUN_00d2ad50(const hkStepInfo& stepInfo)
     }
 }
 
-namespace S00d386c0_N {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; };
-extern "C" {
-__m128 _mm_load_ss(const float*);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-}
-}
 #include "fnv/symbols_simd.h"
-typedef S00d386c0_N::__m128 S00d386c0_Quad;
+typedef __m128 S00d386c0_Quad;
 
 extern "C" {
 unsigned __int64 __rdtsc(void);
@@ -2030,8 +2021,8 @@ static __forceinline void S00d386c0_timer(const char* name)
 struct S00d386c0_SimdReal
 {
     S00d386c0_Quad m_vValue;
-    __forceinline S00d386c0_SimdReal(float x) { m_vValue = S00d386c0_N::_mm_load_ss(&x); }
-    __forceinline S00d386c0_Quad broadcast() const { return S00d386c0_N::_mm_shuffle_ps(m_vValue, m_vValue, 0); }
+    __forceinline S00d386c0_SimdReal(float x) { m_vValue = _mm_load_ss(&x); }
+    __forceinline S00d386c0_Quad broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
 };
 
 struct S00d386c0_Transform;
@@ -2047,7 +2038,7 @@ struct __declspec(align(16)) S00d386c0_Vector4
 
     __forceinline void setAddMul4(const S00d386c0_Vector4& a, const S00d386c0_Vector4& b, const S00d386c0_SimdReal& r)
     {
-        m_vComponents = S00d386c0_N::_mm_add_ps(a.m_vComponents, S00d386c0_N::_mm_mul_ps(r.broadcast(), b.m_vComponents));
+        m_vComponents = _mm_add_ps(a.m_vComponents, _mm_mul_ps(r.broadcast(), b.m_vComponents));
     }
     __forceinline void _setTransformedPos(const S00d386c0_Transform& t, const S00d386c0_Vector4& b);
 };
@@ -2085,13 +2076,13 @@ struct S00d386c0_Transform
 __forceinline void S00d386c0_Vector4::_setTransformedPos(const S00d386c0_Transform& t, const S00d386c0_Vector4& b)
 {
     const S00d386c0_Matrix3& r = t.getRotation();
-    S00d386c0_Quad b0 = S00d386c0_N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
-    S00d386c0_Quad r0 = S00d386c0_N::_mm_mul_ps(r.getColumn(0).m_vComponents, b0);
-    S00d386c0_Quad b1 = S00d386c0_N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
-    S00d386c0_Quad r1 = S00d386c0_N::_mm_mul_ps(r.getColumn(1).m_vComponents, b1);
-    S00d386c0_Quad b2 = S00d386c0_N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
-    S00d386c0_Quad r2 = S00d386c0_N::_mm_mul_ps(r.getColumn(2).m_vComponents, b2);
-    m_vComponents = S00d386c0_N::_mm_add_ps(S00d386c0_N::_mm_add_ps(r0, r1), S00d386c0_N::_mm_add_ps(r2, t.getTranslation().m_vComponents));
+    S00d386c0_Quad b0 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x00);
+    S00d386c0_Quad r0 = _mm_mul_ps(r.getColumn(0).m_vComponents, b0);
+    S00d386c0_Quad b1 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0x55);
+    S00d386c0_Quad r1 = _mm_mul_ps(r.getColumn(1).m_vComponents, b1);
+    S00d386c0_Quad b2 = _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xaa);
+    S00d386c0_Quad r2 = _mm_mul_ps(r.getColumn(2).m_vComponents, b2);
+    m_vComponents = _mm_add_ps(_mm_add_ps(r0, r1), _mm_add_ps(r2, t.getTranslation().m_vComponents));
 }
 
 static __forceinline void S00d386c0_transformPoints(const S00d386c0_Transform& t, const S00d386c0_Vector4* vectorsIn, int numVectors, S00d386c0_Vector4* vectorsOut)

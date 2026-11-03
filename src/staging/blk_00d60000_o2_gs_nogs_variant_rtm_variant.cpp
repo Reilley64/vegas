@@ -1327,8 +1327,6 @@ struct FUN_00d61a50_cls
 
     int* FUN_00d61a50(int value);
 };
-namespace fnvc_adapt {
-}
 void __cdecl FUN_00c908c0(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
 class hkMemoryAllocatorD61B8
 {
@@ -1715,7 +1713,7 @@ static __declspec(noinline) void FUN_00d6bf60(StiffSpringBodyBF60* oa, StiffSpri
     float scale = dist;
     if (dist <= ::DAT_0104da4c)
     {
-        v.dir = (*reinterpret_cast<::__m128 *>(&::DAT_01268370));
+        v.dir = (*reinterpret_cast<__m128 *>(&::DAT_01268370));
         scale = 0.0f;
     }
     else
@@ -1739,17 +1737,6 @@ __declspec(noinline) void InvokeStiffSpringBF60(StiffSpringBodyBF60* a, StiffSpr
 #include <xmmintrin.h>
 namespace fnv_00d6c080 {
 
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 struct F4
 {

@@ -1921,13 +1921,6 @@ Shape_de1190::Shape_de1190(const Vec4_de1190& kMinBoundsCur, const Vec4_de1190& 
     m_kMax = kMaxPoint;
 }
 
-namespace SIMD56 {
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-}
 #include "fnv/symbols_simd.h"
 struct SplitB
 {
@@ -1945,12 +1938,12 @@ struct Node56
     int m14;
     int m18;
     int m1c;
-    SIMD56::__m128 m20;
+    __m128 m20;
     int m30;
     int m34;
     int m38;
     int m3c;
-    SIMD56::__m128 m40;
+    __m128 m40;
 };
 
 struct W2
@@ -2004,12 +1997,12 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
     }
     if (1 == i)
     {
-        ::FUN_00df32d0((::MetaEntry *)(*p2), (::Vector4f *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c);
+        ::FUN_00df32d0((::MetaEntry *)(*p2), (::Vector4f *)(p->m0->f0), (__m128 *)(p3), p->m4, p->m0c);
         return i;
     }
     if (4 >= i)
     {
-        *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c, i);
+        *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (__m128 *)(p3), p->m4, p->m0c, i);
         return 1;
     }
     int t[3];
@@ -2024,7 +2017,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         SplitB j;
         if (::KdTreeBuilder::FUN_00df4ec0((*(const ::KdWorkingSet *)(p->m0)), p->m0c, p->m10, (*(::KdSplitResults *)(&ptr)), (*(int *)(p5)), (*(::KdWorkingSet *)(&j)), (*(const ::KdProjectedEntry *)(&p->m20)), (*(const ::KdVector4Comparison *)(&p->m40))) == 1)
         {
-            *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (::__m128 *)(p3), p->m4, p->m0c, i);
+            *p5 += ::FUN_00df3330((::FNVPair8 *)(*p2), (::FNVVec16 *)(p->m0->f0), (__m128 *)(p3), p->m4, p->m0c, i);
             return 1;
         }
         y.setPlanes(ptr.lo, ptr.hi);
@@ -2037,7 +2030,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         saved40.r[0] = j;
         saved40.r[1] = j;
         mid = ptr.f4;
-        left.m40 = (*reinterpret_cast<::SIMD56::__m128 *>(&::DAT_012684d0));
+        left.m40 = (*reinterpret_cast<__m128 *>(&::DAT_012684d0));
         left.m0 = &saved40.r[0];
         left.m0c = p->m0c;
         left.m10 = mid;
@@ -2046,7 +2039,7 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         ((short*)&left.m20)[a + 4] = ptr.hi;
         int writer = p->m30;
         left.m8 = p->m8;
-        right.m40 = (*reinterpret_cast<::SIMD56::__m128 *>(&::DAT_012684d0));
+        right.m40 = (*reinterpret_cast<__m128 *>(&::DAT_012684d0));
         right.m0 = &saved40.r[1];
         right.m4 = pForm + 1;
         right.m0c = mid;
@@ -2064,11 +2057,11 @@ int FUN_00df56a0(Node56* p, Output56** p2, int p3, int* p4, int* p5)
         t[2] = 3;
         struct
         {
-            SIMD56::__m128 table;
-            SIMD56::__m128 result;
+            __m128 table;
+            __m128 result;
         } masks;
-        masks.table = (*reinterpret_cast<SIMD56::__m128 (*)[]>(&::DAT_01268460))[t[a]];
-        masks.result = SIMD56::_mm_and_ps(masks.table, p->m40);
+        masks.table = (*reinterpret_cast<__m128 (*)[]>(&::DAT_01268460))[t[a]];
+        masks.result = _mm_and_ps(masks.table, p->m40);
         left.m40 = masks.result;
         right.m40 = masks.result;
     }

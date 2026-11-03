@@ -1,6 +1,7 @@
 // src/staging/blk_00e20000_od_o2_nood_variant_gs_nogs_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00e20000_od_o2_nood_variant.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS- /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 
@@ -31,20 +32,8 @@
 #include "fnv/symbols_011b3000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
 #include "fnv/symbols_simd.h"
 extern "C" {
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_andnot_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
 void _ReadWriteBarrier();
 }
 struct Vertex { __m128 position; __m128 supportA; __m128 supportB; int flags; int unk34; int unk38; int unk3c; };
@@ -130,12 +119,8 @@ struct Track_e3a1 {
     hkArray_e3a1<Key_e3a1> m_keys;
     void FUN_00e3a1e0(int numKeys);
 };
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 typedef __m128 FourFloatVector;
-__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
+__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v[0]=x; v[1]=y; v[2]=z; v[3]=w; return v; }
 struct RaySource {
     FourFloatVector from, to;
     unsigned char enable; unsigned char unk21; unsigned short unk22;
@@ -397,29 +382,24 @@ template <class T> __forceinline void ArrClearFree(ScrapArr<T>& arr)
     arr.m_uiCap = 0x80000000;
 }
 void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 namespace SplineMax {
 struct Vec { __m128 value; };
 struct Points { Vec* data; int count; int capacity; };
 }
 
-typedef ::__m128 S2d6c0_Simd;
+typedef __m128 S2d6c0_Simd;
 namespace S2d6c0_Intrinsics {
-using ::_mm_load_ss;
-using ::_mm_mul_ps;
-using ::_mm_mul_ss;
-using ::_mm_add_ss;
-using ::_mm_sub_ss;
-using ::_mm_shuffle_ps;
-using ::_mm_rsqrt_ss;
-using ::_mm_set_ss;
-using ::_mm_cmpeq_ss;
-using ::_mm_andnot_ps;
-using ::_mm_store_ss;
-extern "C" {
-::__m128 (_mm_add_ps)(::__m128, ::__m128);
-::__m128 (_mm_load_ps1)(const float*);
-}
+using _mm_load_ss;
+using _mm_mul_ps;
+using _mm_mul_ss;
+using _mm_add_ss;
+using _mm_sub_ss;
+using _mm_shuffle_ps;
+using _mm_rsqrt_ss;
+using _mm_set_ss;
+using _mm_cmpeq_ss;
+using _mm_andnot_ps;
+using _mm_store_ss;
 }
 
 using ::DAT_01016248;
@@ -430,29 +410,29 @@ struct S2d6c0_Vector
 
     __forceinline float dot3(const S2d6c0_Vector& o) const
     {
-        S2d6c0_Simd x = (S2d6c0_Intrinsics::_mm_mul_ps)(m_vComponents, o.m_vComponents);
-        S2d6c0_Simd r = (S2d6c0_Intrinsics::_mm_add_ss)((S2d6c0_Intrinsics::_mm_shuffle_ps)(x, x, 0xaa), (S2d6c0_Intrinsics::_mm_add_ss)((S2d6c0_Intrinsics::_mm_shuffle_ps)(x, x, 0x55), x));
+        S2d6c0_Simd x = (_mm_mul_ps)(m_vComponents, o.m_vComponents);
+        S2d6c0_Simd r = (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0xaa), (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0x55), x));
         float f;
-        (S2d6c0_Intrinsics::_mm_store_ss)(&f, r);
+        (_mm_store_ss)(&f, r);
         return f;
     }
     __forceinline void setMul4(float s, const S2d6c0_Vector& v)
     {
-        m_vComponents = (S2d6c0_Intrinsics::_mm_mul_ps)((S2d6c0_Intrinsics::_mm_load_ps1)(&s), v.m_vComponents);
+        m_vComponents = (_mm_mul_ps)((_mm_load_ps1)(&s), v.m_vComponents);
     }
     __forceinline void addMul4(float s, const S2d6c0_Vector& v)
     {
-        m_vComponents = (S2d6c0_Intrinsics::_mm_add_ps)((S2d6c0_Intrinsics::_mm_mul_ps)((S2d6c0_Intrinsics::_mm_shuffle_ps)((S2d6c0_Intrinsics::_mm_load_ss)(&s),(S2d6c0_Intrinsics::_mm_load_ss)(&s),0), v.m_vComponents), m_vComponents);
+        m_vComponents = (_mm_add_ps)((_mm_mul_ps)((_mm_shuffle_ps)((_mm_load_ss)(&s),(_mm_load_ss)(&s),0), v.m_vComponents), m_vComponents);
     }
     __forceinline void normalize3()
     {
-        S2d6c0_Simd x = (S2d6c0_Intrinsics::_mm_mul_ps)(m_vComponents, m_vComponents);
-        S2d6c0_Simd r = (S2d6c0_Intrinsics::_mm_add_ss)((S2d6c0_Intrinsics::_mm_shuffle_ps)(x, x, 0xaa), (S2d6c0_Intrinsics::_mm_add_ss)((S2d6c0_Intrinsics::_mm_shuffle_ps)(x, x, 0x55), x));
-        S2d6c0_Simd e = (S2d6c0_Intrinsics::_mm_rsqrt_ss)(r);
-        S2d6c0_Simd ret = (S2d6c0_Intrinsics::_mm_mul_ss)((S2d6c0_Intrinsics::_mm_mul_ss)((S2d6c0_Intrinsics::_mm_set_ss)(0.5f), e),
-                                (S2d6c0_Intrinsics::_mm_sub_ss)((S2d6c0_Intrinsics::_mm_set_ss)(3.0f), (S2d6c0_Intrinsics::_mm_mul_ss)((S2d6c0_Intrinsics::_mm_mul_ss)(r, e), e)));
-        S2d6c0_Simd inv = (S2d6c0_Intrinsics::_mm_andnot_ps)((S2d6c0_Intrinsics::_mm_cmpeq_ss)(r, (S2d6c0_Intrinsics::_mm_set_ss)(0.0f)), ret);
-        m_vComponents = (S2d6c0_Intrinsics::_mm_mul_ps)((S2d6c0_Intrinsics::_mm_shuffle_ps)(inv, inv, 0), m_vComponents);
+        S2d6c0_Simd x = (_mm_mul_ps)(m_vComponents, m_vComponents);
+        S2d6c0_Simd r = (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0xaa), (_mm_add_ss)((_mm_shuffle_ps)(x, x, 0x55), x));
+        S2d6c0_Simd e = (_mm_rsqrt_ss)(r);
+        S2d6c0_Simd ret = (_mm_mul_ss)((_mm_mul_ss)((_mm_set_ss)(0.5f), e),
+                                (_mm_sub_ss)((_mm_set_ss)(3.0f), (_mm_mul_ss)((_mm_mul_ss)(r, e), e)));
+        S2d6c0_Simd inv = (_mm_andnot_ps)((_mm_cmpeq_ss)(r, (_mm_set_ss)(0.0f)), ret);
+        m_vComponents = (_mm_mul_ps)((_mm_shuffle_ps)(inv, inv, 0), m_vComponents);
     }
 };
 
@@ -555,5 +535,5 @@ extern "C" void __cdecl FUN_00e2d6c0(::Hull* a, ::Hull* b, S2d6c0_Vector* out,
     out->addMul4(t, (const S2d6c0_Vector&)(*pb)->normal);
     out->normalize3();
     float dd = (0.0 > best) ? 0.0f : best;
-    out->m_vComponents.m128_f32[3] = S2d6c0_sqrt(dd).value;
+    out->m_vComponents[3] = S2d6c0_sqrt(dd).value;
 }

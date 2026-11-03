@@ -11591,7 +11591,7 @@ class ScaleOwner
     float unk98;
     float unk9C;
 
-    ::__m128 unkA0;
+    __m128 unkA0;
     float unkB0;
 
     void FUN_00c8cdf0(float scale);
@@ -11602,7 +11602,7 @@ void ScaleOwner::FUN_00c8cdf0(float scale)
 {
     float scale3 = scale * scale * scale;
 
-    unkA0 = (::_mm_mul_ps)((::_mm_shuffle_ps)((::_mm_load_ss)(&scale), (::_mm_load_ss)(&scale), 0), unkA0);
+    unkA0 = (_mm_mul_ps)((_mm_shuffle_ps)((_mm_load_ss)(&scale), (_mm_load_ss)(&scale), 0), unkA0);
 
     float* current = &unk80;
     unsigned int count = 3;

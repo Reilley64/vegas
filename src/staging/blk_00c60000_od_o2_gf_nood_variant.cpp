@@ -1190,7 +1190,7 @@ float Constraint::FUN_00c755e0(unsigned int index, InputRef input)
         }
         {
             Vector result;
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(result), (void *)(&delta), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&entries[index].position), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(result), (void *)(&delta), (const __m128 *)(const ::Vector *)(&entries[index].position), {});
             reinterpret_cast<::FUN_005611c0_t *>(&(result))->FUN_005611c0();
             TargetVector* target = ((::TargetVector *)&(reinterpret_cast<::PoseState *>((entries[index].holder))->FUN_00cda8e0(entries[index].index)));
             __m128 updated = result.value;

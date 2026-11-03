@@ -2630,16 +2630,6 @@ extern "C" void __cdecl S00db0aa0_Entry(void)
 }
 
 namespace fnv_00db0e50 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 struct VectorFlags
 {
@@ -2958,31 +2948,6 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 }
 
 namespace CleanSimd {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float lane[4];
-    unsigned int bits[4];
-} __m128;
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    int _mm_movemask_ps(__m128);
-}
 
 extern float DAT_01011d78;
 extern float DAT_01017718;
@@ -3114,28 +3079,6 @@ void __cdecl FUN_00da8340()
 
 namespace N {
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    int _mm_movemask_ps(__m128);
-}
 extern const __m128 DAT_010c44d0;
 class Scalar
 {
@@ -3257,8 +3200,8 @@ static __declspec(noinline) int FUN_00dacf10(const N::Rows* rows, const N::Desc*
     p.cross(ac, u);
     q.cross(ad, v);
     r.cross(ab, w);
-    N::__m128 dots = N::fourDots(p, q, r, rows->separating, n);
-    unsigned mask = N::_mm_movemask_ps(N::_mm_cmplt_ps(dots, N::_mm_setzero_ps()));
+    __m128 dots = N::fourDots(p, q, r, rows->separating, n);
+    unsigned mask = _mm_movemask_ps(_mm_cmplt_ps(dots, _mm_setzero_ps()));
     out->normal = n;
     if (mask & 8)
         out->normal.negate(n);
@@ -3275,20 +3218,6 @@ void callPlane()
 
 #include <xmmintrin.h>
 namespace fnv_00db47a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 
 struct S00db47a0_Obj
 {
@@ -3406,19 +3335,6 @@ void drive()
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 namespace fnv_00db48a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 union __declspec(align(16)) SlabVec
 {
@@ -3535,7 +3451,7 @@ static __declspec(noinline) float FUN_00db48a0(const VecHolder* pv, const VecHol
     r1.cross(A, e1);
     SlabMath e2(pe[1].v00), r2;
     r2.cross(C, e2);
-    SlabMath vNegC(_mm_xor_ps(c.p->v00, (*reinterpret_cast<const ::fnv_00db48a0::__m128 *>((void *)&::DAT_010c44d0))));
+    SlabMath vNegC(_mm_xor_ps(c.p->v00, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0))));
     SlabMath r, delta, dot;
     r.add(r1, vNegC);
     delta.sub(r, r2);

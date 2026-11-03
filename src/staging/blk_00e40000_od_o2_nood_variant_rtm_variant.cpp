@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -32,14 +33,6 @@ struct FloatLess
 {
 	bool operator()(const float& a, const float& b) const { return a < b; }
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" int _mm_movemask_ps(__m128);
 static inline __m128 Dot3v(__m128 a, __m128 b)
 {
     __m128 p = _mm_mul_ps(a, b);
@@ -89,29 +82,9 @@ extern "C" void __cdecl FUN_00e5d010(int first,int second,int third)
 }
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_xor_ps(__m128,__m128);
-extern "C" __m128 _mm_and_ps(__m128,__m128);
-extern "C" __m128 _mm_andnot_ps(__m128,__m128);
-extern "C" __m128 _mm_or_ps(__m128,__m128);
-extern "C" __m128 _mm_move_ss(__m128,__m128);
-extern "C" __m128 _mm_movelh_ps(__m128,__m128);
-extern "C" __m128 _mm_movehl_ps(__m128,__m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128,__m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128,__m128);
-extern "C" __m128 _mm_set_ps(float,float,float,float);
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_set_ss(float);
 extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
-extern "C" void _mm_store_ss(float*,__m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 struct hkQuatStore_e52d90 { __m128 m_vec; };
 struct Shorts_e52d90 { short a; short b; short c; };
 void __cdecl FUN_00e52d90(const unsigned short* in, hkQuatStore_e52d90* out);
@@ -119,14 +92,6 @@ extern "C" void _ReadWriteBarrier();
 static __forceinline int readPacked(const unsigned char* q) {int a=q[0]; int b=q[1]; int c=q[2]; return ((a<<8)+b<<8)+c;}
 static __forceinline int readUpper(const unsigned char* q) {return ((q[0]<<8)+q[1]<<8)+q[2];}
 struct P1 { union { struct { int f0; int f4; int xyz[3]; int f14; }; int fields[6]; }; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 struct V4 { union { __m128 m; float f[4]; };
  __forceinline void setAdd(const V4& a,const V4& b){m=_mm_add_ps(a.m,b.m);}
  __forceinline void setSub(const V4& a,const V4& b){m=_mm_sub_ps(a.m,b.m);}
@@ -238,14 +203,6 @@ extern "C" void _ReadWriteBarrier();
 __forceinline int packedLocal(const unsigned char* q){_ReadWriteBarrier(); int a=q[0]; return ((a<<8)+q[1]<<8)+q[2];}
 extern "C" void _ReadWriteBarrier();
 static __forceinline int read24(const unsigned char* q) {_ReadWriteBarrier(); int a=q[0]; int b=q[1]; int c=q[2]; return ((a<<8)+b<<8)+c;}
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 extern "C" void __debugbreak();
 struct IntegerOrigin { int x,y,z; int& operator[](int i) { return (&x)[i]; }
     int volatileAt(int i) const { return reinterpret_cast<const volatile int*>(&x)[i]; } };
@@ -275,13 +232,13 @@ struct CullMachine {
         __m128 extent = _mm_sub_ps(bounds.maximum, bounds.minimum);
         for (int n=count; --n >= 0; ++p, ++q) {
             __m128 radius = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(q->x.m128_f32),_mm_shuffle_ps(extent,extent,0)),
-                           _mm_mul_ps(_mm_load_ps(q->y.m128_f32),_mm_shuffle_ps(extent,extent,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(q->z.m128_f32),_mm_shuffle_ps(extent,extent,0xaa)),_mm_load_ps(q->w.m128_f32)));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->x)),_mm_shuffle_ps(extent,extent,0)),
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->y)),_mm_shuffle_ps(extent,extent,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&q->z)),_mm_shuffle_ps(extent,extent,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&q->w))));
             __m128 distance = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(p->x.m128_f32),_mm_shuffle_ps(center,center,0)),
-                           _mm_mul_ps(_mm_load_ps(p->y.m128_f32),_mm_shuffle_ps(center,center,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(p->z.m128_f32),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(p->w.m128_f32)));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->x)),_mm_shuffle_ps(center,center,0)),
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&p->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance,radius),_mm_setzero_ps())) != 15) return 0;
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
@@ -308,8 +265,8 @@ struct CullMachine {
                 _mm_add_ps(_mm_mul_ps(q->z,_mm_shuffle_ps(extent,extent,0xaa)),q->w));
             __m128 distance = _mm_add_ps(
                 _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(center,center,0),px),
-                           _mm_mul_ps(_mm_load_ps(p->y.m128_f32),_mm_shuffle_ps(center,center,0x55))),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(p->z.m128_f32),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(p->w.m128_f32)));
+                           _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->y)),_mm_shuffle_ps(center,center,0x55))),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&p->z)),_mm_shuffle_ps(center,center,0xaa)),_mm_load_ps(reinterpret_cast<float*>(&p->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance,radius),_mm_setzero_ps())) != 15) return 0;
             allInside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance,radius),_mm_setzero_ps()));
         }
@@ -336,12 +293,12 @@ struct TreeDecoder {
         int op = code[offset];
         while (op >= 0x26 && op <= 0x2b) {
             if (op >= 0x29) {
-                bounds.minimum.m128_f32[op-0x29] = read24(code+offset+1)*scalar;
-                bounds.maximum.m128_f32[op-0x29] = int(((code[offset+4]<<8)+code[offset+5]<<8)+code[offset+6])*scalar;
+                bounds.minimum[op-0x29] = read24(code+offset+1)*scalar;
+                bounds.maximum[op-0x29] = int(((code[offset+4]<<8)+code[offset+5]<<8)+code[offset+6])*scalar;
                 offset += 7;
             } else {
-                bounds.minimum.m128_f32[op-0x26] = (state->origin[op-0x26] + (code[offset+1]<<state->shift))*scalar;
-                bounds.maximum.m128_f32[op-0x26] = (state->origin[op-0x26] + (code[offset+2]<<state->shift))*scalar;
+                bounds.minimum[op-0x26] = (state->origin[op-0x26] + (code[offset+1]<<state->shift))*scalar;
+                bounds.maximum[op-0x26] = (state->origin[op-0x26] + (code[offset+2]<<state->shift))*scalar;
                 offset += 3;
             }
             op = code[offset];
@@ -350,12 +307,12 @@ struct TreeDecoder {
         int op = code[offset];
         while (op >= 0x26 && op <= 0x2b) {
             if (op >= 0x29) {
-                bounds.minimum.m128_f32[op-0x29] = read24(code+offset+1)*scale;
-                bounds.maximum.m128_f32[op-0x29] = (int)rightPacked(code+offset+4)*scale;
+                bounds.minimum[op-0x29] = read24(code+offset+1)*scale;
+                bounds.maximum[op-0x29] = (int)rightPacked(code+offset+4)*scale;
                 offset += 7;
             } else {
-                bounds.minimum.m128_f32[op-0x26] = (state->origin[op-0x26] + (code[offset+1]<<state->shift))*scale;
-                bounds.maximum.m128_f32[op-0x26] = (state->origin[op-0x26] + (code[offset+2]<<state->shift))*scale;
+                bounds.minimum[op-0x26] = (state->origin[op-0x26] + (code[offset+1]<<state->shift))*scale;
+                bounds.maximum[op-0x26] = (state->origin[op-0x26] + (code[offset+2]<<state->shift))*scale;
                 offset += 3;
             }
             op = code[offset];
@@ -363,20 +320,9 @@ struct TreeDecoder {
     }
 
 };
-extern "C" __m128 _mm_and_ps(__m128, __m128);
 struct hkQuatStore_e52190 { __m128 m_vec; };
 void __cdecl FUN_00e52190(const hkQuatStore_e52190* q, unsigned char* out);
 
-extern "C" {
-__m128 _mm_unpacklo_ps(__m128, __m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_movelh_ps(__m128, __m128);
-__m128 _mm_movehl_ps(__m128, __m128);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-}
 
 class FaceScalar
 {

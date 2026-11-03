@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS- /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include <cstddef>
 #include <windows.h>
 // src/staging/blk_00cc0000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_moves.py: the bytes and the matched neighbours of these functions
@@ -66,11 +67,6 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct MemContextGuard
 {
     int m_iSaved;
@@ -245,20 +241,6 @@ class Cd2Owner
     }
     bool FUN_00cd2f10(void* key);
 };
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_load_ps(float const*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 struct __declspec(align(16)) PoseVector
 {
     union
@@ -382,7 +364,7 @@ struct PoseTransform
         PoseVector moved;
         moved.rotate(a.rotation.vector, b.translation);
         translation.value = _mm_add_ps(a.translation.value, moved.value);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(a.rotation), (const ::fnv_00c66320::__m128 *)&(b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(a.rotation), (const __m128 *)&(b.rotation), {});
         scale.value = _mm_mul_ps(a.scale.value, b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a, const PoseTransform& b)
@@ -608,7 +590,6 @@ struct S_00ccbce0_Owner
 
     void FUN_00ccbce0(S_00ccbce0_Output* value);
 };
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4
 {
     __m128 m_vComponents;
@@ -1552,7 +1533,6 @@ struct CinfoVector
         value.m_vComponents = vector;
     }
 };
-extern "C" __m128 _mm_set_ps1(float);
 struct CachedObj
 {
     int unk00;
@@ -1987,12 +1967,6 @@ struct Subject
     Body* body;
     void FUN_00ccf150(ConvexShapeNode*, void*);
 };
-extern "C"
-{
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 struct BoundsVector : hkVector4
 {
     __forceinline const __m128& Get() const
@@ -2558,7 +2532,6 @@ static void AddName(NameArr* arr, const unsigned int& v)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(n, (char *&)(v));
 }
-extern "C" void _mm_store_ss(float*, __m128);
 struct hkVec4Q
 {
     hkVec4 storage;
@@ -2628,7 +2601,6 @@ struct ContactManifold
 
     void FUN_00cd3080();
 };
-extern "C" __m128 _mm_setzero_ps();
 union hkVecQ3E
 {
     __m128 m_vComponents;
@@ -3226,14 +3198,6 @@ struct FUN_00ccea00Holder
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
 
 extern const double DAT_010cb650;
 extern const double DAT_0109deb0;
@@ -3281,7 +3245,7 @@ struct Vec_cdb910
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     __forceinline void normalize4()
     {

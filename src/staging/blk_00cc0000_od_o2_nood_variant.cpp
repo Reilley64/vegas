@@ -1,5 +1,6 @@
 // staging/blk_00cc0000_od_o2_nood_variant.cpp: TransformOwner, Obj, Cd2Owner, PoseQuaternion and more (33 functions)
 
+#include <xmmintrin.h>
 #include <cstddef>
 #include <windows.h>
 // src/staging/blk_00cc0000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_moves.py: the bytes and the matched neighbours of these functions
@@ -75,11 +76,6 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 
@@ -334,11 +330,6 @@ void Obj::FUN_00cdb7c0(float t, Mat* src, const Mat& xf, int a4)
 }  // namespace fnv_00cdb7c0
 
 namespace fnv_00cc6830 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4
 {
@@ -523,11 +514,6 @@ void Cc6830Self::FUN_00cc6830(Cc6830Motion* dst, const Cc6830Src* src)
 }  // namespace fnv_00cc6830
 
 namespace fnv_00cc91c0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned int m128_u32[4];
-} __m128;
 
 struct __declspec(align(16)) hkVector4
 {
@@ -819,20 +805,6 @@ bool Cd2Owner::FUN_00cd2f10(void* key)
     return ok;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_load_ps(float const*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 struct __declspec(align(16)) PoseVector
 {
@@ -955,7 +927,7 @@ struct PoseTransform
         PoseVector moved;
         moved.rotate(a.rotation.vector, b.translation);
         translation.value = _mm_add_ps(a.translation.value, moved.value);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(a.rotation), (const ::fnv_00c66320::__m128 *)&(b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(a.rotation), (const __m128 *)&(b.rotation), {});
         scale.value = _mm_mul_ps(a.scale.value, b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a, const PoseTransform& b)
@@ -1250,7 +1222,6 @@ void S_00ccbce0_Owner::FUN_00ccbce0(S_00ccbce0_Output* value)
     value->unk10 = source->unk80;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4
 {
     __m128 m_vComponents;
@@ -2150,7 +2121,7 @@ void RotationOwner525::FUN_00ccb810(StringArray525* stream)
     ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&position)), (*(const ::hkVector4 *)(&rotation)));
     value = reinterpret_cast<::NiPoint3 *>(&(position))->FUN_00a59af0(DAT_0101c29c);
     stream->append(value);
-    value = FUN_00a7d550(DAT_010ca6a4, rotation.value.m128_f32[3]);
+    value = FUN_00a7d550(DAT_010ca6a4, rotation.value[3]);
     stream->append(value);
 }
 
@@ -2350,7 +2321,6 @@ struct CinfoVector
         value.m_vComponents = vector;
     }
 };
-extern "C" __m128 _mm_set_ps1(float);
 
 struct CachedObj
 {
@@ -2845,12 +2815,6 @@ void Subject::FUN_00ccf150(ConvexShapeNode* parent, void* arg)
     }
 }
 
-extern "C"
-{
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-}
 
 
 struct BoundsVector : hkVector4
@@ -3543,7 +3507,6 @@ void NamedShape::FUN_00ccd960(NameArr* arr)
     AddName(arr, item);
 }
 
-extern "C" void _mm_store_ss(float*, __m128);
 struct hkVec4Q
 {
     hkVec4 storage;
@@ -3674,7 +3637,6 @@ void ContactManifold::FUN_00cd3080()
     }
 }
 
-extern "C" __m128 _mm_setzero_ps();
 
 
 union hkVecQ3E
@@ -4485,9 +4447,6 @@ void FUN_00ccea00Holder::FUN_00ccea00(FUN_00ccea00Out* out)
     out->m_10.m_v3 = src->m_v3;
 }
 
-namespace ScalarC97 {
-extern "C" ::__m128 _mm_load_ss(const float*);
-}
 
 class ShapeC97 : public ::hkReferencedObject
 {
@@ -4521,9 +4480,9 @@ __declspec(noinline) void __cdecl FUN_00cc96b0(float scale, ShapeC97* shape)
 {
     if (shape && scale != 1.0f)
     {
-        ::__m128 s = (ScalarC97::_mm_load_ss)(&scale);
-        shape->m_v20.m_vComponents = (::_mm_mul_ps)((::_mm_shuffle_ps)(s, s, 0), shape->m_v20.m_vComponents);
-        shape->m_v30.m_vComponents = (::_mm_mul_ps)((::_mm_shuffle_ps)(s, s, 0), shape->m_v30.m_vComponents);
+        __m128 s = (_mm_load_ss)(&scale);
+        shape->m_v20.m_vComponents = (_mm_mul_ps)((_mm_shuffle_ps)(s, s, 0), shape->m_v20.m_vComponents);
+        shape->m_v30.m_vComponents = (_mm_mul_ps)((_mm_shuffle_ps)(s, s, 0), shape->m_v30.m_vComponents);
     }
 }
 
@@ -4561,7 +4520,7 @@ struct Ccb5d0Vector
     ::hkVec4 m_uiFilterValue;
     Ccb5d0Vector(float x, float y, float z, float w)
     {
-        m_uiFilterValue.m_vComponents = (::_mm_setr_ps)(x, y, z, w);
+        m_uiFilterValue.m_vComponents = (_mm_setr_ps)(x, y, z, w);
     }
 };
 
@@ -4727,7 +4686,7 @@ struct MeshInitElement
         m_flags = 0;
         m_data = 0;
         unk10 = 0;
-        m_vector.m_vComponents = (::_mm_setzero_ps)();
+        m_vector.m_vComponents = (_mm_setzero_ps)();
         unk50 = 0;
         m_uiContentCount = 0;
         m_iValueAfterFlags = 12;
@@ -5162,7 +5121,7 @@ struct __declspec(align(16)) hkVector4CC3
 {
     void set(float x, float y, float z, float w)
     {
-        storage.m_vComponents = (::_mm_setr_ps)(x, y, z, w);
+        storage.m_vComponents = (_mm_setr_ps)(x, y, z, w);
     }
     hkVector4CC3& operator=(const hkVector4CC3& v)
     {

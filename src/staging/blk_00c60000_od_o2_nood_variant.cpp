@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -1450,11 +1451,6 @@ void CharacterProxy::FUN_00c6cf30(unsigned int formID)
 }
 
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4
 {
@@ -2101,14 +2097,6 @@ void GroundController::FUN_00c6e980(const GroundPoint* point)
 }
 
 namespace fnv_00c741e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 extern "C" unsigned long __readfsdword(unsigned long);
 
 extern "C" __m128 DAT_01267e30;
@@ -2579,7 +2567,7 @@ struct T741_M4
     int f598;
     __forceinline T741_M4()
     {
-        _mm_store_ps(f500, (*reinterpret_cast<::fnv_00c741e0::__m128 *>(&::DAT_01267e30)));
+        _mm_store_ps(f500, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
         f520 = 0;
         f524 = 0.0f;
         f528 = 0.0f;
@@ -2593,7 +2581,7 @@ struct T741_M4
         f550 = 0.0f;
         f554 = 0.0f;
         f558 = 1.0f;
-        _mm_store_ps(f570, (*reinterpret_cast<::fnv_00c741e0::__m128 *>(&::DAT_01267e30)));
+        _mm_store_ps(f570, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
         f594 = 0;
         f598 = 0;
     }
@@ -2632,7 +2620,7 @@ struct T741_M7
     int f630;
     __forceinline T741_M7()
     {
-        _mm_store_ps(f620, (*reinterpret_cast<::fnv_00c741e0::__m128 *>(&::DAT_01267e30)));
+        _mm_store_ps(f620, (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
         f630 = 0;
     }
     ~T741_M7();
@@ -2746,18 +2734,6 @@ FUN_00c741e0::FUN_00c741e0(T741_Src* p)
 }  // namespace fnv_00c741e0
 
 namespace fnv_00c66320 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f[4];
-} __m128;
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 static __forceinline void multiply(__m128* out, const __m128* a, const __m128* b);
 
@@ -3201,23 +3177,6 @@ SseBlock& SseBlock::FUN_00c6d670(const SseBlock& o)
 }
 
 // Reconstruction adapted from an unverified 2026-10-26 contribution by another contributor.
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sqrt_ss(__m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-}
 extern "C" inline float cosf(_In_ float _X)
 {
     return ((float)cos((double)_X));
@@ -3569,9 +3528,6 @@ bool SceneEffect::FUN_00c77ac0(EffectOutput* pkOutput, EffectRequest* pkRequest)
 }
 
 namespace fnv_00c7b1f0 {
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
 
 // Full SIMD storage views mirror the VC9 intrinsic type; the pack supplies only its float/qword views.
 union __declspec(align(16)) Vector_c7
@@ -4928,42 +4884,7 @@ void ShapeOwner::FUN_00c72410(ShapeInput* input)
     }
 }
 
-namespace P064Intrinsics {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-};
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-    float _mm_cvtss_f32(__m128);
-    int _mm_movemask_ps(__m128);
-}
-}
-typedef P064Intrinsics::__m128 P064Quad;
+typedef __m128 P064Quad;
 
 struct P064Bool
 {
@@ -5060,84 +4981,84 @@ static __forceinline void P064Assign(P064Quad& dst, const P064Quad& src)
 }
 static __forceinline P064Quad P064Dot(const P064Quad& a, const P064Quad& b)
 {
-    P064Quad p = P064Intrinsics::_mm_mul_ps(a, b);
-    return P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(p, p, 170),
-                                      P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(p, p, 85), p));
+    P064Quad p = _mm_mul_ps(a, b);
+    return _mm_add_ss(_mm_shuffle_ps(p, p, 170),
+                                      _mm_add_ss(_mm_shuffle_ps(p, p, 85), p));
 }
 static __forceinline P064Quad P064Cross(const P064Quad& a, const P064Quad& b)
 {
-    return P064Intrinsics::_mm_sub_ps(P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(a, a, 201),
-                                                                 P064Intrinsics::_mm_shuffle_ps(b, b, 210)),
-                                      P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(a, a, 210),
-                                                                 P064Intrinsics::_mm_shuffle_ps(b, b, 201)));
+    return _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a, a, 201),
+                                                                 _mm_shuffle_ps(b, b, 210)),
+                                      _mm_mul_ps(_mm_shuffle_ps(a, a, 210),
+                                                                 _mm_shuffle_ps(b, b, 201)));
 }
 static __forceinline P064Quad P064Rotate(const P064Quad& q, P064Quad v, bool inverse = false)
 {
-    P064Quad w = P064Intrinsics::_mm_shuffle_ps(q, q, 255);
+    P064Quad w = _mm_shuffle_ps(q, q, 255);
     P064Quad dot = P064Dot(v, q);
-    P064Quad crossA = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 201),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 210));
-    P064Quad crossB = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 210),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 201));
+    P064Quad crossA = _mm_mul_ps(_mm_shuffle_ps(v, v, 201),
+                                                 _mm_shuffle_ps(q, q, 210));
+    P064Quad crossB = _mm_mul_ps(_mm_shuffle_ps(v, v, 210),
+                                                 _mm_shuffle_ps(q, q, 201));
     P064Quad cross;
     if (inverse)
-        cross = P064Intrinsics::_mm_sub_ps(crossA, crossB);
+        cross = _mm_sub_ps(crossA, crossB);
     else
-        cross = P064Intrinsics::_mm_sub_ps(crossB, crossA);
-    P064Quad sum = P064Intrinsics::_mm_add_ps(
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(w, w), DAT_010c71e0), v),
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(dot, dot, 0), q));
-    P064Quad result = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(cross, w), sum);
-    return P064Intrinsics::_mm_add_ps(result, result);
+        cross = _mm_sub_ps(crossB, crossA);
+    P064Quad sum = _mm_add_ps(
+        _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
+        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
+    P064Quad result = _mm_add_ps(_mm_mul_ps(cross, w), sum);
+    return _mm_add_ps(result, result);
 }
 static __forceinline P064Quad P064InitialRotate(const P064Quad& q, const P064Quad& v, bool inverse = false)
 {
-    P064Quad w = P064Intrinsics::_mm_shuffle_ps(q, q, 255);
+    P064Quad w = _mm_shuffle_ps(q, q, 255);
     P064Quad dot = P064Dot(v, q);
-    P064Quad crossA = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 201),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 210));
-    P064Quad crossB = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 210),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 201));
+    P064Quad crossA = _mm_mul_ps(_mm_shuffle_ps(v, v, 201),
+                                                 _mm_shuffle_ps(q, q, 210));
+    P064Quad crossB = _mm_mul_ps(_mm_shuffle_ps(v, v, 210),
+                                                 _mm_shuffle_ps(q, q, 201));
     P064Quad cross;
     if (inverse)
-        cross = P064Intrinsics::_mm_sub_ps(crossA, crossB);
+        cross = _mm_sub_ps(crossA, crossB);
     else
-        cross = P064Intrinsics::_mm_sub_ps(crossB, crossA);
-    P064Quad sum = P064Intrinsics::_mm_add_ps(
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(w, w), DAT_010c71e0), v),
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(dot, dot, 0), q));
-    P064Quad result = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(cross, w), sum);
-    return P064Intrinsics::_mm_add_ps(result, result);
+        cross = _mm_sub_ps(crossB, crossA);
+    P064Quad sum = _mm_add_ps(
+        _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
+        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
+    P064Quad result = _mm_add_ps(_mm_mul_ps(cross, w), sum);
+    return _mm_add_ps(result, result);
 }
 static __forceinline P064Quad P064InverseRotate(const P064Quad& q, const P064Quad& v)
 {
-    P064Quad w = P064Intrinsics::_mm_shuffle_ps(q, q, 255);
+    P064Quad w = _mm_shuffle_ps(q, q, 255);
     P064Quad dot = P064Dot(v, q);
-    P064Quad crossA = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 201),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 210));
-    P064Quad crossB = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(v, v, 210),
-                                                 P064Intrinsics::_mm_shuffle_ps(q, q, 201));
-    P064Quad cross = P064Intrinsics::_mm_sub_ps(crossA, crossB);
-    P064Quad sum = P064Intrinsics::_mm_add_ps(
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(w, w), DAT_010c71e0), v),
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(dot, dot, 0), q));
-    P064Quad result = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(cross, w), sum);
-    return P064Intrinsics::_mm_add_ps(result, result);
+    P064Quad crossA = _mm_mul_ps(_mm_shuffle_ps(v, v, 201),
+                                                 _mm_shuffle_ps(q, q, 210));
+    P064Quad crossB = _mm_mul_ps(_mm_shuffle_ps(v, v, 210),
+                                                 _mm_shuffle_ps(q, q, 201));
+    P064Quad cross = _mm_sub_ps(crossA, crossB);
+    P064Quad sum = _mm_add_ps(
+        _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), DAT_010c71e0), v),
+        _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
+    P064Quad result = _mm_add_ps(_mm_mul_ps(cross, w), sum);
+    return _mm_add_ps(result, result);
 }
 static __forceinline P064Quad P064Normalize(const P064Quad& v, const P064Quad& zero, const P064Quad& three,
                                             const P064Quad& half)
 {
     P064Quad length = P064Dot(v, v);
-    P064Quad r = P064Intrinsics::_mm_rsqrt_ss(length);
-    P064Quad corrected = P064Intrinsics::_mm_mul_ss(
-        P064Intrinsics::_mm_mul_ss(half, r),
-        P064Intrinsics::_mm_sub_ss(three, P064Intrinsics::_mm_mul_ss(P064Intrinsics::_mm_mul_ss(length, r), r)));
-    corrected = P064Intrinsics::_mm_andnot_ps(P064Intrinsics::_mm_cmpeq_ss(length, zero), corrected);
-    return P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(corrected, corrected, 0), v);
+    P064Quad r = _mm_rsqrt_ss(length);
+    P064Quad corrected = _mm_mul_ss(
+        _mm_mul_ss(half, r),
+        _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(length, r), r)));
+    corrected = _mm_andnot_ps(_mm_cmpeq_ss(length, zero), corrected);
+    return _mm_mul_ps(_mm_shuffle_ps(corrected, corrected, 0), v);
 }
 static __forceinline float P064Length(const P064Quad& v)
 {
-    return P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_sqrt_ss(P064Dot(v, v)));
+    return _mm_cvtss_f32(_mm_sqrt_ss(P064Dot(v, v)));
 }
 static __forceinline P064Transform* P064Model(P064Pose* pose, int bone)
 {
@@ -5159,20 +5080,20 @@ static __forceinline P064Transform* P064Local(P064Pose* pose, int bone, P064Tran
             P064Transform* dst = pose->local + bone;
             P064Transform& inverse = *scratch;
             inverse.translation =
-                P064Intrinsics::_mm_xor_ps(P064InverseRotate(p->rotation.value, p->translation), DAT_010c44d0);
-            inverse.rotation.value = P064Intrinsics::_mm_xor_ps(p->rotation.value, DAT_010c4c00);
-            P064Quad scale = P064Intrinsics::_mm_shuffle_ps(
-                P064Intrinsics::_mm_load_ps(p->scale.m128_f32),
-                P064Intrinsics::_mm_unpackhi_ps(P064Intrinsics::_mm_load_ps(p->scale.m128_f32), DAT_010c7170), 196);
-            P064Quad r = P064Intrinsics::_mm_rcp_ps(scale);
-            inverse.scale = P064Intrinsics::_mm_and_ps(
-                P064Intrinsics::_mm_sub_ps(P064Intrinsics::_mm_add_ps(r, r),
-                                           P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_mul_ps(r, scale), r)),
+                _mm_xor_ps(P064InverseRotate(p->rotation.value, p->translation), DAT_010c44d0);
+            inverse.rotation.value = _mm_xor_ps(p->rotation.value, DAT_010c4c00);
+            P064Quad scale = _mm_shuffle_ps(
+                _mm_load_ps(reinterpret_cast<float*>(&p->scale)),
+                _mm_unpackhi_ps(_mm_load_ps(reinterpret_cast<float*>(&p->scale)), DAT_010c7170), 196);
+            P064Quad r = _mm_rcp_ps(scale);
+            inverse.scale = _mm_and_ps(
+                _mm_sub_ps(_mm_add_ps(r, r),
+                                           _mm_mul_ps(_mm_mul_ps(r, scale), r)),
                 DAT_010c4c10);
             dst->translation =
-                P064Intrinsics::_mm_add_ps(P064Rotate(inverse.rotation.value, src->translation), inverse.translation);
+                _mm_add_ps(P064Rotate(inverse.rotation.value, src->translation), inverse.translation);
             dst->rotation.FUN_00c66320(&inverse.rotation, &src->rotation);
-            dst->scale = P064Intrinsics::_mm_mul_ps(src->scale, inverse.scale);
+            dst->scale = _mm_mul_ps(src->scale, inverse.scale);
         }
         else
         {
@@ -5248,7 +5169,7 @@ struct P064Scalar
         P064Quad value;
         float lanes[4];
     };
-    P064Scalar(float f) : value(P064Intrinsics::_mm_set_ss(f))
+    P064Scalar(float f) : value(_mm_set_ss(f))
     {}
 };
 
@@ -5256,24 +5177,24 @@ __declspec(noinline) void P064Quaternion::FUN_00c66320(const P064Quaternion* fir
 {
     P064Quad left = first->value;
     P064Quad right = second->value;
-    P064Quad product = P064Intrinsics::_mm_mul_ps(right, left);
+    P064Quad product = _mm_mul_ps(right, left);
     P064Quad sum = P064Dot(left, right);
-    P064Quad realPart = P064Intrinsics::_mm_sub_ps(product, P064Intrinsics::_mm_shuffle_ps(sum, sum, 0));
-    P064Quad ca = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(right, right, 210),
-                                             P064Intrinsics::_mm_shuffle_ps(left, left, 201));
-    P064Quad cb = P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(right, right, 201),
-                                             P064Intrinsics::_mm_shuffle_ps(left, left, 210));
-    P064Quad cross = P064Intrinsics::_mm_sub_ps(ca, cb);
-    P064Quad leftW = P064Intrinsics::_mm_shuffle_ps(left, left, 255);
-    leftW = P064Intrinsics::_mm_shuffle_ps(leftW, leftW, 0);
-    P064Quad lv = P064Intrinsics::_mm_mul_ps(leftW, right);
-    P064Quad rightW = P064Intrinsics::_mm_shuffle_ps(right, right, 255);
-    rightW = P064Intrinsics::_mm_shuffle_ps(rightW, rightW, 0);
-    P064Quad rv = P064Intrinsics::_mm_mul_ps(rightW, left);
-    P064Quad vectorPart = P064Intrinsics::_mm_add_ps(rv, P064Intrinsics::_mm_add_ps(lv, cross));
+    P064Quad realPart = _mm_sub_ps(product, _mm_shuffle_ps(sum, sum, 0));
+    P064Quad ca = _mm_mul_ps(_mm_shuffle_ps(right, right, 210),
+                                             _mm_shuffle_ps(left, left, 201));
+    P064Quad cb = _mm_mul_ps(_mm_shuffle_ps(right, right, 201),
+                                             _mm_shuffle_ps(left, left, 210));
+    P064Quad cross = _mm_sub_ps(ca, cb);
+    P064Quad leftW = _mm_shuffle_ps(left, left, 255);
+    leftW = _mm_shuffle_ps(leftW, leftW, 0);
+    P064Quad lv = _mm_mul_ps(leftW, right);
+    P064Quad rightW = _mm_shuffle_ps(right, right, 255);
+    rightW = _mm_shuffle_ps(rightW, rightW, 0);
+    P064Quad rv = _mm_mul_ps(rightW, left);
+    P064Quad vectorPart = _mm_add_ps(rv, _mm_add_ps(lv, cross));
     P064Quaternion result;
     result.value =
-        P064Intrinsics::_mm_shuffle_ps(vectorPart, P064Intrinsics::_mm_unpackhi_ps(vectorPart, realPart), 196);
+        _mm_shuffle_ps(vectorPart, _mm_unpackhi_ps(vectorPart, realPart), 196);
     *this = result;
 }
 
@@ -5281,18 +5202,18 @@ __declspec(noinline) void P064Quaternion::FUN_00c74ac0(const P064Quaternion* a, 
 {
     P064Quad x = a->value, y = b->value;
     P064Quad cross = P064Cross(y, x);
-    P064Quad xw = P064Intrinsics::_mm_shuffle_ps(x, x, 255);
-    P064Quad yw = P064Intrinsics::_mm_shuffle_ps(y, y, 255);
+    P064Quad xw = _mm_shuffle_ps(x, x, 255);
+    P064Quad yw = _mm_shuffle_ps(y, y, 255);
     P064Quad vectorPart =
-        P064Intrinsics::_mm_sub_ps(cross, P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(xw, xw, 0), y));
-    vectorPart = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(yw, yw, 0), x),
+        _mm_sub_ps(cross, _mm_mul_ps(_mm_shuffle_ps(xw, xw, 0), y));
+    vectorPart = _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(yw, yw, 0), x),
                                             vectorPart);
-    P064Quad product = P064Intrinsics::_mm_mul_ps(y, x);
-    P064Quad pairs = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_shuffle_ps(product, product, 78), product);
-    P064Quad sum = P064Intrinsics::_mm_add_ps(P064Intrinsics::_mm_shuffle_ps(pairs, pairs, 177), pairs);
-    sum = P064Intrinsics::_mm_shuffle_ps(sum, sum, 0);
+    P064Quad product = _mm_mul_ps(y, x);
+    P064Quad pairs = _mm_add_ps(_mm_shuffle_ps(product, product, 78), product);
+    P064Quad sum = _mm_add_ps(_mm_shuffle_ps(pairs, pairs, 177), pairs);
+    sum = _mm_shuffle_ps(sum, sum, 0);
     P064Quaternion result;
-    result.value = P064Intrinsics::_mm_shuffle_ps(vectorPart, P064Intrinsics::_mm_unpackhi_ps(vectorPart, sum), 196);
+    result.value = _mm_shuffle_ps(vectorPart, _mm_unpackhi_ps(vectorPart, sum), 196);
     *this = result;
 }
 
@@ -5301,9 +5222,9 @@ __declspec(noinline) float P064Controller::FUN_00c755e0(int index, P064Quaternio
     float angle = 0.0f;
     P064Slot& slot = slots[index];
     P064Quad difference =
-        P064Intrinsics::_mm_and_ps(P064Intrinsics::_mm_sub_ps(current->value, slot.previous.value), DAT_01017d10);
-    if ((P064Intrinsics::_mm_movemask_ps(
-             P064Intrinsics::_mm_cmple_ps(difference, P064Intrinsics::_mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00))) &
+        _mm_and_ps(_mm_sub_ps(current->value, slot.previous.value), DAT_01017d10);
+    if ((_mm_movemask_ps(
+             _mm_cmple_ps(difference, _mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00))) &
          7) != 7)
     {
         P064Quaternion delta;
@@ -5316,15 +5237,15 @@ __declspec(noinline) float P064Controller::FUN_00c755e0(int index, P064Quaternio
             angle = (float)limit;
             P064Quad axis;
             delta.FUN_00c74c90(&axis);
-            P064Quad z = P064Intrinsics::_mm_set_ss(DAT_01011d78), t = P064Intrinsics::_mm_set_ss(DAT_01017718),
-                     h = P064Intrinsics::_mm_set_ss(::fnv_00c88020::DAT_01016248);
+            P064Quad z = _mm_set_ss(DAT_01011d78), t = _mm_set_ss(DAT_01017718),
+                     h = _mm_set_ss(::fnv_00c88020::DAT_01016248);
             axis = P064Normalize(axis, z, t, h);
             delta.FUN_00cb2450(&axis, angle);
         }
         P064Quaternion rotation;
         rotation.FUN_00c66320(&delta, &slot.previous);
         rotation.FUN_005611c0();
-        P064Transform* destination = reinterpret_cast<P064Transform*>(((::P064Intrinsics::__m128 *)&(reinterpret_cast<::PoseState *>((slot.pose))->FUN_00cda8e0(slot.bone))));
+        P064Transform* destination = reinterpret_cast<P064Transform*>(((__m128 *)&(reinterpret_cast<::PoseState *>((slot.pose))->FUN_00cda8e0(slot.bone))));
         destination->rotation.value = rotation.value;
         slot.previous.value = rotation.value;
     }
@@ -5336,61 +5257,61 @@ bool P064Controller::FUN_00c78610(int index, const P064Point* point)
 {
     P064Aim aim;
     aim.weight = slots[index].weight;
-    aim.offset = P064Intrinsics::_mm_setzero_ps();
+    aim.offset = _mm_setzero_ps();
     aim.target = slots[index].target;
     P064Quad direction = P064InitialRotate(P064Model(slots[index].pose, slots[index].referenceBone)->rotation.value,
                                            slots[index].direction);
     P064Quad directionLength = P064Dot(direction, direction);
-    P064Quad directionReciprocal = P064Intrinsics::_mm_rsqrt_ss(directionLength);
+    P064Quad directionReciprocal = _mm_rsqrt_ss(directionLength);
     P064Scalar zero(DAT_01011d78);
     P064Scalar three(DAT_01017718);
     P064Scalar half(::fnv_00c88020::DAT_01016248);
-    P064Quad directionScale = P064Intrinsics::_mm_mul_ss(
-        P064Intrinsics::_mm_mul_ss(half.value, directionReciprocal),
-        P064Intrinsics::_mm_sub_ss(
-            three.value, P064Intrinsics::_mm_mul_ss(P064Intrinsics::_mm_mul_ss(directionLength, directionReciprocal),
+    P064Quad directionScale = _mm_mul_ss(
+        _mm_mul_ss(half.value, directionReciprocal),
+        _mm_sub_ss(
+            three.value, _mm_mul_ss(_mm_mul_ss(directionLength, directionReciprocal),
                                                     directionReciprocal)));
     directionScale =
-        P064Intrinsics::_mm_andnot_ps(P064Intrinsics::_mm_cmpeq_ss(directionLength, zero.value), directionScale);
+        _mm_andnot_ps(_mm_cmpeq_ss(directionLength, zero.value), directionScale);
     aim.direction =
-        P064Intrinsics::_mm_mul_ps(P064Intrinsics::_mm_shuffle_ps(directionScale, directionScale, 0), direction);
+        _mm_mul_ps(_mm_shuffle_ps(directionScale, directionScale, 0), direction);
     P064Point position;
     reinterpret_cast<::InversePositionVector *>(&(position))->FUN_00c7f840((const ::Vec4 *)(point), (const ::Vec4 *)(const void *)(&transformTranslation));
     if (constrained && index == 1)
     {
-        const P064Quad* referenceAddress = ((::P064Intrinsics::__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(index)));
+        const P064Quad* referenceAddress = ((__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(index)));
         P064Quad normalTarget = slots[1].target;
         P064Quad reference = *referenceAddress;
         P064Quad normal = P064Normalize(P064Cross(normalTarget, reference), zero.value, three.value, half.value);
         P064Quad projected = P064Normalize(P064Cross(normal, slots[1].target), zero.value, three.value, half.value);
-        P064Quad projectedSquared = P064Intrinsics::_mm_mul_ps(projected, projected);
-        reference = *((::P064Intrinsics::__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(index)));
-        P064Quad squaredLength = P064Intrinsics::_mm_add_ss(
-            P064Intrinsics::_mm_shuffle_ps(projectedSquared, projectedSquared, 170),
-            P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(projectedSquared, projectedSquared, 85),
+        P064Quad projectedSquared = _mm_mul_ps(projected, projected);
+        reference = *((__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(index)));
+        P064Quad squaredLength = _mm_add_ss(
+            _mm_shuffle_ps(projectedSquared, projectedSquared, 170),
+            _mm_add_ss(_mm_shuffle_ps(projectedSquared, projectedSquared, 85),
                                        projectedSquared));
         float rawDistance;
-        P064Intrinsics::_mm_store_ss(
+        _mm_store_ss(
             &rawDistance,
-            P064Intrinsics::_mm_div_ss(P064Dot(projected, reference), P064Intrinsics::_mm_sqrt_ss(squaredLength)));
+            _mm_div_ss(P064Dot(projected, reference), _mm_sqrt_ss(squaredLength)));
         float distance = rawDistance;
         P064Quad delta =
-            P064Intrinsics::_mm_sub_ps(position.value, P064Model(slots[1].pose, slots[1].bone)->translation);
+            _mm_sub_ps(position.value, P064Model(slots[1].pose, slots[1].bone)->translation);
         float magnitude;
-        P064Intrinsics::_mm_store_ss(&magnitude, P064Intrinsics::_mm_sqrt_ss(P064Dot(delta, delta)));
+        _mm_store_ss(&magnitude, _mm_sqrt_ss(P064Dot(delta, delta)));
         P064Quad unit = P064Normalize(delta, zero.value, three.value, half.value);
         if (magnitude < rawDistance)
-            position.value = P064Intrinsics::_mm_add_ps(
-                position.value, P064Intrinsics::_mm_mul_ps(unit, P064Intrinsics::_mm_set_ps1(distance)));
-        aim.offset = *((::P064Intrinsics::__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(1)));
+            position.value = _mm_add_ps(
+                position.value, _mm_mul_ps(unit, _mm_set_ps1(distance)));
+        aim.offset = *((__m128 *)&(reinterpret_cast<::PoseState *>((slots[0].pose))->FUN_00cda8e0(1)));
     }
     P064Transform saved;
     saved = *P064Local(slots[index].pose, slots[index].bone, &saved);
-    P064Quad previousDelta = P064Intrinsics::_mm_and_ps(
-        P064Intrinsics::_mm_sub_ps(slots[index].previous.value, *reinterpret_cast<const P064Quad*>(&DAT_01267e30)),
+    P064Quad previousDelta = _mm_and_ps(
+        _mm_sub_ps(slots[index].previous.value, *reinterpret_cast<const P064Quad*>(&DAT_01267e30)),
         DAT_01017d10);
-    if ((P064Intrinsics::_mm_movemask_ps(
-             P064Intrinsics::_mm_cmple_ps(previousDelta, P064Intrinsics::_mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00))) &
+    if ((_mm_movemask_ps(
+             _mm_cmple_ps(previousDelta, _mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00))) &
          7) == 7)
         P064Assign(slots[index].previous.value, saved.rotation.value);
     bool changed = FUN_00ce0290(&aim, &position, 1.0f, ((::P064Transform *)&(reinterpret_cast<::hkaPoseCDA *>((slots[index].pose))->FUN_00cdad80(slots[index].bone, 1))), 0);
@@ -6350,12 +6271,12 @@ void AimController_c70060::FUN_00c70060()
             {
                 FUN_00c6e680(0, &position);
                 difference =
-                    P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(position.q, position.q, 0xaa));
+                    _mm_cvtss_f32(_mm_shuffle_ps(position.q, position.q, 0xaa));
             }
             if (angle == 1.1754943508222875e-38f)
             {
                 FUN_00c6e680(1, &position);
-                angle = P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(position.q, position.q, 0xaa));
+                angle = _mm_cvtss_f32(_mm_shuffle_ps(position.q, position.q, 0xaa));
             }
             difference = angle - difference;
             if (difference != 0.0f)
@@ -6392,12 +6313,12 @@ void AimController_c70060::FUN_00c70060()
             {
                 FUN_00c6e680(2, &position);
                 difference =
-                    P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(position.q, position.q, 0xaa));
+                    _mm_cvtss_f32(_mm_shuffle_ps(position.q, position.q, 0xaa));
             }
             if (angle == 1.1754943508222875e-38f)
             {
                 FUN_00c6e680(3, &position);
-                angle = P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(position.q, position.q, 0xaa));
+                angle = _mm_cvtss_f32(_mm_shuffle_ps(position.q, position.q, 0xaa));
             }
             difference = angle - difference;
             if (difference != 0.0f)
@@ -6434,11 +6355,11 @@ void AimController_c70060::FUN_00c70060()
         double ucLimitOffset = DAT_011b0148 * 0.01745329238474369;
         unsigned int flags = field_414;
         P064Quad rotation;
-        rotation = P064Intrinsics::_mm_load_ps((const float*)&position);
+        rotation = _mm_load_ps((const float*)&position);
         float limit = (float)ucLimitOffset;
         if (((unsigned char)(flags >> 26) & 1))
         {
-            float angle = AimMax(AimMin((float)(P064Intrinsics::_mm_cvtss_f32(rotation) * -1.0), limit), -limit);
+            float angle = AimMax(AimMin((float)(_mm_cvtss_f32(rotation) * -1.0), limit), -limit);
             float difference = angle - field_554;
             if (difference != 0.0f)
             {
@@ -6449,7 +6370,7 @@ void AimController_c70060::FUN_00c70060()
         }
         if (((unsigned char)(flags >> 25) & 1))
         {
-            double raw = P064Intrinsics::_mm_cvtss_f32(P064Intrinsics::_mm_shuffle_ps(rotation, rotation, 0x55));
+            double raw = _mm_cvtss_f32(_mm_shuffle_ps(rotation, rotation, 0x55));
             float angle = AimMax(raw < limit ? (float)raw : limit, -limit);
             float difference = angle - field_550;
             if (difference != 0.0f)
@@ -7135,7 +7056,7 @@ bool MainClass::FUN_00c757b0(void* out)
     if (m_190)
     {
         P064Vector local;
-        local.value = *((::P064Intrinsics::__m128 *)&(reinterpret_cast<::PoseState *>((m_f0))->FUN_00cda8e0(1)));
+        local.value = *((__m128 *)&(reinterpret_cast<::PoseState *>((m_f0))->FUN_00cda8e0(1)));
         P064Transform* ptr = P064Model(m_88, m_144);
         reinterpret_cast<::TransformedPosDAD *>(&(local))->FUN_00c7f7a0((*(const ::hkQsTransformDAD *)(ptr)), (*(const ::hkVector4DAD *)(&local)));
         reinterpret_cast<::TransformedPosDAD *>(&(local))->FUN_00c7f7a0((*(const ::hkQsTransformDAD *)(&m_10)), (*(const ::hkVector4DAD *)(&local)));
@@ -7155,7 +7076,7 @@ class SupportScalar
     __forceinline operator float() const
     {
         float result;
-        P064Intrinsics::_mm_store_ss(&result, value);
+        _mm_store_ss(&result, value);
         return result;
     }
 };
@@ -7168,7 +7089,7 @@ class SupportVector
     {}
     __forceinline void Difference(const SupportVector& a, const SupportVector& b)
     {
-        value = P064Intrinsics::_mm_sub_ps(a.value, b.value);
+        value = _mm_sub_ps(a.value, b.value);
     }
     __forceinline float& operator()(int lane)
     {
@@ -7176,9 +7097,9 @@ class SupportVector
     }
     __forceinline SupportScalar Dot(const SupportVector& b) const
     {
-        P064Quad product = P064Intrinsics::_mm_mul_ps(value, b.value);
-        P064Quad xy = P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(product, product, 0x55), product);
-        return P064Intrinsics::_mm_add_ss(P064Intrinsics::_mm_shuffle_ps(product, product, 0xaa), xy);
+        P064Quad product = _mm_mul_ps(value, b.value);
+        P064Quad xy = _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
+        return _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), xy);
     }
     __forceinline SupportScalar SquaredLength() const
     {
@@ -7191,11 +7112,11 @@ class SupportVector
         case 0:
             return value;
         case 1:
-            return P064Intrinsics::_mm_shuffle_ps(value, value, 0x55);
+            return _mm_shuffle_ps(value, value, 0x55);
         case 2:
-            return P064Intrinsics::_mm_shuffle_ps(value, value, 0xaa);
+            return _mm_shuffle_ps(value, value, 0xaa);
         default:
-            return P064Intrinsics::_mm_shuffle_ps(value, value, 0xff);
+            return _mm_shuffle_ps(value, value, 0xff);
         }
     }
 };
@@ -7445,7 +7366,7 @@ void S00c6e680_Class::FUN_00c6e680(int index, __m128* position)
 
     *position = *(__m128*)((char*)this + ((index + 0x5B) << 4));
     filterInfo.input.from = *position;
-    position->m128_f32[2] = position->m128_f32[2] - DAT_0104f2f0;
+    (*position)[2] = (*position)[2] - DAT_0104f2f0;
 
     filterInfo.unk90 = (*(__m128*)&DAT_01267e30);
     filterInfo.input.to = *position;
@@ -7465,7 +7386,7 @@ void S00c6e680_Class::FUN_00c6e680(int index, __m128* position)
     {
         float fraction;
         fraction = 1.0f - filterInfo.collector.output.hitFraction;
-        position->m128_f32[2] = fraction * DAT_0104f2f0 + position->m128_f32[2];
+        (*position)[2] = fraction * DAT_0104f2f0 + (*position)[2];
     }
 }
 
@@ -7495,37 +7416,18 @@ void __cdecl FUN_00c6d620(VectorData* data, int arg, Vec4Sink* callee)
     callee->FUN_00c7f640(arg, &value);
 }
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-}
-}
 
 struct __declspec(align(16)) hkVector4C66
 {
     void setSub4(const hkVector4C66& a, const hkVector4C66& b)
     {
-        m_vComponents = N::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
     void add4(const hkVector4C66& a)
     {
-        m_vComponents = N::_mm_add_ps(m_vComponents, a.m_vComponents);
+        m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents);
     }
-    N::__m128 m_vComponents;
+    __m128 m_vComponents;
 };
 
 class BodyC66
@@ -7609,11 +7511,6 @@ union __declspec(align(16)) VecBoxQ
     __m128 q;
     __int8 i8[16];
 };
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 extern const float DAT_01013ea4;
 
 struct ProxyHolder
@@ -7640,8 +7537,8 @@ void FUN_00c6ca30(ProxyHolder* a, ProxyHolder* b, VecSrc* src)
         return;
     __m128 zero = _mm_set_ss(DAT_01011d78);
     __m128 dir = src->vec10;
-    dir.m128_f32[2] = 0.0f;
-    p.m128_f32[2] = 0.0f;
+    dir[2] = 0.0f;
+    p[2] = 0.0f;
     __m128 three = _mm_set_ss(DAT_01017718);
     __m128 sq = _mm_mul_ps(dir, dir);
     __m128 len = _mm_add_ss(_mm_shuffle_ps(sq, sq, 0xaa), _mm_add_ss(_mm_shuffle_ps(sq, sq, 0x55), sq));
@@ -7651,7 +7548,7 @@ void FUN_00c6ca30(ProxyHolder* a, ProxyHolder* b, VecSrc* src)
                                                           _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(len, r), r))));
     dir = _mm_mul_ps(_mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), dir), p);
     p = _mm_add_ps(*(const __m128*)b->FUN_00cac950(), dir);
-    reinterpret_cast<::CacObj *>((b))->FUN_00cac960((const ::CacV4 *)(const ::__m128 *)(&p));
+    reinterpret_cast<::CacObj *>((b))->FUN_00cac960((const ::CacV4 *)(const __m128 *)(&p));
 }
 
 struct S00c7fcc0_Out
@@ -7889,7 +7786,7 @@ bool FUN_00c7fcc0(S00c7fcc0_Obj* self, int a2, S00c7fcc0_Out* out, bool flag)
                     }
                     if (reinterpret_cast<::Capsule *>((edi))->FUN_00cab3c0((::Sphere *)(sp.key), (::Matrix *)(void *)(&ctx.a0), (::Contact *)(void *)(&ctx.b0)))
                     {
-                        if (!out->node || ((float*)&out->m20)[3] > ctx.b1.m128_f32[3])
+                        if (!out->node || ((float*)&out->m20)[3] > ctx.b1[3])
                         {
                             P064Quad t0 = ctx.b0;
                             out->node = node;

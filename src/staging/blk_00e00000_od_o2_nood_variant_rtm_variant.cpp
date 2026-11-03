@@ -663,41 +663,22 @@ struct __declspec(align(16)) S00e00d70_Object
     int unk58;
     int unk5c;
 };
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    N::__m128 _mm_load_ps(const float*);
-    N::__m128 _mm_load_ss(const float*);
-    N::__m128 _mm_set_ss(float);
-    N::__m128 _mm_set1_ps(float);
-    N::__m128 _mm_shuffle_ps(N::__m128, N::__m128, int);
-    N::__m128 _mm_mul_ps(N::__m128, N::__m128);
-    N::__m128 _mm_add_ps(N::__m128, N::__m128);
-    N::__m128 _mm_add_ss(N::__m128, N::__m128);
-    void _mm_store_ps(float*, N::__m128);
-    float _mm_cvtss_f32(N::__m128);
-}
-}
 struct __declspec(align(16)) Vector4f
 {
     float v[4];
-    void addScaled(const N::__m128& scale, const Vector4f& n)
+    void addScaled(const __m128& scale, const Vector4f& n)
     {
-        N::_mm_store_ps(v, N::_mm_add_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(scale, scale, 0), N::_mm_load_ps(n.v)),
-                                         N::_mm_load_ps(v)));
+        _mm_store_ps(v, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), _mm_load_ps(n.v)),
+                                         _mm_load_ps(v)));
     }
 };
 inline float maxScore(float a, float b)
 {
     return a > b ? a : b;
 }
-inline N::__m128 scaleNormal(const Vector4f& n, const N::__m128& s)
+inline __m128 scaleNormal(const Vector4f& n, const __m128& s)
 {
-    return N::_mm_mul_ps(N::_mm_shuffle_ps(s, s, 0), N::_mm_load_ps(n.v));
+    return _mm_mul_ps(_mm_shuffle_ps(s, s, 0), _mm_load_ps(n.v));
 }
 struct Vertex
 {

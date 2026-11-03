@@ -922,11 +922,11 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  
  ContactTag tags[3];
  ::FUN_00cd6520((const ::ContactVector *)(endPoints),shapeA->radius,(const ::ContactVector *)(triVertices),shapeB->radius,(const float *)(void *)(ids+4),3.40282e+38f,1,(::ContactRecord *)(points),(::Feature *)(tags));
- int closest=points[0].normal.value.m128_f32[3] < points[1].normal.value.m128_f32[3] ? 0 : 1;
+ int closest=points[0].normal.value[3] < points[1].normal.value[3] ? 0 : 1;
  int k=0; FourFloatVector* cp=&points[0].normal;
  for(;k<3;++k, cp+=2) {
    unsigned short id=ids[k];
-   if((*cp).value.m128_f32[3] < pair->threshold->distance) {
+   if((*cp).value[3] < pair->threshold->distance) {
      if(id==0xffff) {
        if(context->deferred) {
          if(pair->manager->Reserve(1)) goto store_id;

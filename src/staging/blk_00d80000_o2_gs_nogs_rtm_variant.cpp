@@ -1,6 +1,8 @@
 // src/staging/blk_00d80000_o2_gs_nogs_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d80000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS- /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1190,9 +1192,6 @@ int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
 static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
 void S00d96870_Entry(unsigned char* self, int* src);
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 struct D99FC0Quad { int a; int b; int c; int d; };
 struct D99FC0Object {
     void* unk00;
@@ -2028,9 +2027,6 @@ struct S00d96970_Obj {
 static void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 extern double DAT_01035718;
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __forceinline unsigned int roundLane(const float& value)
 {
     float copy = value;
@@ -2276,10 +2272,6 @@ static __forceinline int split15(S00d967a0_Rec* src, S00d967a0_Rec* dst)
     dst->m28 = c;
     return 1;
 }
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct D986Result {
     char value;
     D986Result(bool b) : value(b) {}
@@ -2431,33 +2423,6 @@ static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
         return 0;
     }
 
-}
-union __declspec(intrin_type) __declspec(align(16)) __m128i { unsigned __int64 q[2]; };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_or_ps(__m128, __m128);
-__m128 _mm_cmpeq_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_setzero_ps();
-
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-int _mm_movemask_ps(__m128);
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
 }
 __forceinline __m128 TreeSplat(float value) {
     __m128 scalar = _mm_load_ss(&value);
@@ -2627,7 +2592,6 @@ union F128U
 };
 static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
 float FUN_00d97440();
-extern "C" void _mm_store_ps(float* p, __m128 a);
 struct FUN_00d84bd0
 {
     unsigned int m_00;
@@ -2678,7 +2642,6 @@ struct FUN_00d84bd0
     FUN_00d84bd0();
 };
 
-extern "C" __m128 _mm_rsqrt_ps(__m128);
 
 namespace RayBundleTraversal {
 
@@ -3048,11 +3011,8 @@ extern "C" PacketResult __cdecl FUN_00d99570(const PacketTree* tree,
 }
 
 namespace linear_cast_d9a2a0 {
-using ::__m128;
+using __m128;
 struct ContextArg { int* value; };
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 
 struct SimdReal
@@ -3230,35 +3190,35 @@ struct Point {
     union { __m128 value; float lane[4]; };
     float& at(int index) { return lane[index]; }
     float at(int index) const { return lane[index]; }
-    void add(const Point& a,const Point& b) { value = ::_mm_add_ps(a.value,b.value); }
-    void difference(const Point& a,const Point& b) { value = ::_mm_sub_ps(a.value,b.value); }
-    void absolute() { value = ::_mm_and_ps(value,::DAT_01017d10); }
+    void add(const Point& a,const Point& b) { value = _mm_add_ps(a.value,b.value); }
+    void difference(const Point& a,const Point& b) { value = _mm_sub_ps(a.value,b.value); }
+    void absolute() { value = _mm_and_ps(value,::DAT_01017d10); }
     void scale(float scale) {
-        __m128 factor = ::_mm_load_ss(&scale);
-        value = ::_mm_mul_ps(::_mm_shuffle_ps(factor,factor,0),value);
+        __m128 factor = _mm_load_ss(&scale);
+        value = _mm_mul_ps(_mm_shuffle_ps(factor,factor,0),value);
     }
 };
 inline __m128 scalar(float f);
 struct Bounds {
     Point lower,upper;
-    void center(Point& result) const {Point sum;sum.add(lower,upper);result.value=::_mm_mul_ps(::_mm_shuffle_ps(scalar(0.5f),scalar(0.5f),0),sum.value);}
-    void empty() { lower.value=::_mm_set_ps1(3.402820018375656e38f); upper.value=::_mm_set_ps1(-3.402820018375656e38f); }
-    void include(const Point& p) { lower.value=::_mm_min_ps(lower.value,p.value); upper.value=::_mm_max_ps(upper.value,p.value); }
+    void center(Point& result) const {Point sum;sum.add(lower,upper);result.value=_mm_mul_ps(_mm_shuffle_ps(scalar(0.5f),scalar(0.5f),0),sum.value);}
+    void empty() { lower.value=_mm_set_ps1(3.402820018375656e38f); upper.value=_mm_set_ps1(-3.402820018375656e38f); }
+    void include(const Point& p) { lower.value=_mm_min_ps(lower.value,p.value); upper.value=_mm_max_ps(upper.value,p.value); }
 };
 struct IndexList { int* data; int size; int capacity; int& operator[](int n) {return data[n];} };
 inline void exchangeValues(int& a,int& b) {int t=a;a=b;b=t;}
-inline __m128 scalar(float f) {return ::_mm_load_ss(&f);}
+inline __m128 scalar(float f) {return _mm_load_ss(&f);}
 
 
-inline void centerSwap(Point& result,const Bounds& b) {__m128 sum=::_mm_add_ps(b.lower.value,b.upper.value);__m128 factor=scalar(0.5f);factor=::_mm_shuffle_ps(factor,factor,0);result.value=::_mm_mul_ps(factor,sum);}
+inline void centerSwap(Point& result,const Bounds& b) {__m128 sum=_mm_add_ps(b.lower.value,b.upper.value);__m128 factor=scalar(0.5f);factor=_mm_shuffle_ps(factor,factor,0);result.value=_mm_mul_ps(factor,sum);}
 
 // @fnv 0x00d9a520
 extern "C" void __cdecl FUN_00d9a520(const Bounds* bounds,const Bounds* prims,IndexList* indices,int start,int count,Bounds* left,Bounds* right,int* leftCount,int* rightCount)
 {
     static const float emptyMinimum = 3.402820018375656e38f;
     static const float emptyMaximum = -3.402820018375656e38f;
-    __m128 lo=::_mm_set_ps1(emptyMinimum);
-    __m128 hi=::_mm_set_ps1(emptyMaximum);
+    __m128 lo=_mm_set_ps1(emptyMinimum);
+    __m128 hi=_mm_set_ps1(emptyMaximum);
     left->lower.value=lo; left->upper.value=hi;
     right->lower.value=lo; right->upper.value=hi;
     Point sum,extent;
@@ -3309,18 +3269,17 @@ extern "C" void __cdecl FUN_00d9a520(const Bounds* bounds,const Bounds* prims,In
 
 static const float partitionLowLimit=3.402820018375656e38f;
 static const float partitionHighLimit=-3.402820018375656e38f;
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
 struct __declspec(align(16)) PartitionVector {
     union { __m128 value; struct { float x,y,z,w; }; };
     void operator=(const PartitionVector& rhs) { value = rhs.value; }
     void set(__m128 v) { value = v; }
     __m128 get() const { return value; }
     const float& component(int axis) const { return (&x)[axis]; }
-    void setAdd4(const PartitionVector& a, const PartitionVector& b) { set(::_mm_add_ps(a.get(),b.get())); }
-    void setSub4(const PartitionVector& a, const PartitionVector& b) { set(::_mm_sub_ps(a.get(),b.get())); }
-    void setAbs4(const PartitionVector& a) { set(::_mm_and_ps(a.get(), ::DAT_01017d10)); }
-    void add4(const PartitionVector& b) { set(::_mm_add_ps(get(),b.get())); }
-    void mul4(const __m128& a) { set(::_mm_mul_ps(get(),::_mm_shuffle_ps(a,a,0))); }
+    void setAdd4(const PartitionVector& a, const PartitionVector& b) { set(_mm_add_ps(a.get(),b.get())); }
+    void setSub4(const PartitionVector& a, const PartitionVector& b) { set(_mm_sub_ps(a.get(),b.get())); }
+    void setAbs4(const PartitionVector& a) { set(_mm_and_ps(a.get(), ::DAT_01017d10)); }
+    void add4(const PartitionVector& b) { set(_mm_add_ps(get(),b.get())); }
+    void mul4(const __m128& a) { set(_mm_mul_ps(get(),_mm_shuffle_ps(a,a,0))); }
     void set(float a, float b, float c, float d) { set(_mm_setr_ps(a,b,c,d)); }
 };
 struct PartitionBounds {
@@ -3333,7 +3292,7 @@ struct PartitionQuantizedBounds {
 };
 struct PartitionIndices { unsigned short* data; };
 struct PartitionScalar { __m128 value;
-    __forceinline PartitionScalar(float f) { value = ::_mm_load_ss(&f); }
+    __forceinline PartitionScalar(float f) { value = _mm_load_ss(&f); }
 };
 __forceinline void partitionCenter(const PartitionQuantizedBounds& bounds, PartitionVector& center) {
     center.set(float(bounds.minX),float(bounds.minY),float(bounds.minZ),0.0f);
@@ -3344,8 +3303,8 @@ __forceinline void partitionCenter(const PartitionQuantizedBounds& bounds, Parti
 }
 __forceinline void partitionInclude(PartitionBounds& bounds, __m128 point)
 {
-    bounds.minimum.set(::_mm_min_ps(bounds.minimum.get(), point));
-    bounds.maximum.set(::_mm_max_ps(bounds.maximum.get(), point));
+    bounds.minimum.set(_mm_min_ps(bounds.minimum.get(), point));
+    bounds.maximum.set(_mm_max_ps(bounds.maximum.get(), point));
 }
 __forceinline void partitionSwap(unsigned short& a, unsigned short& b) {
     unsigned short saved = a;
@@ -3380,8 +3339,8 @@ extern "C" void __cdecl FUN_00d9a850(const PartitionBounds& bounds, const Partit
     PartitionIndices& indices, unsigned short start, int count,
     PartitionBounds& leftBounds, PartitionBounds& rightBounds, int& leftCount, int& rightCount)
 {
-    __m128 low=::_mm_set_ps1(partitionLowLimit);
-    __m128 high=::_mm_set_ps1(partitionHighLimit);
+    __m128 low=_mm_set_ps1(partitionLowLimit);
+    __m128 high=_mm_set_ps1(partitionHighLimit);
     leftBounds.minimum.set(low);
     leftBounds.maximum.set(high);
     rightBounds.minimum.set(low);

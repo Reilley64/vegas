@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -22,20 +23,7 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
 #include "../../include/layout_support.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -218,13 +206,6 @@ class hkpCollisionDispatcherD398
   public:
 };
 void FUN_00d39090();
-extern "C"
-{
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    void _mm_store_ps(float* p, __m128 a);
-}
 struct ClosestPointResult
 {
     float distSq;
@@ -241,8 +222,6 @@ static __forceinline void Dot3(float& result, __m128 u, __m128 v)
     __m128 z = _mm_shuffle_ps(m, m, 0xaa);
     _mm_store_ss(&result, _mm_add_ss(z, _mm_add_ss(y, m)));
 }
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 struct D2fVector4
 {
     __declspec(align(16)) float m_vComponents[4];
@@ -300,23 +279,6 @@ struct D2fWorld
     void FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5);
 };
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-}
-}
 
 struct S00d2c960_Info
 {
@@ -350,7 +312,7 @@ class S00d2c960_Motion
     virtual void vf4C();
     virtual void vf50();
     virtual void vf54();
-    virtual void vf58(float fTime, void* pTarget, const N::__m128* pPosition);
+    virtual void vf58(float fTime, void* pTarget, const __m128* pPosition);
 };
 
 class S00d2c960_Body
@@ -428,7 +390,7 @@ class S00d2c960_Body
     unsigned int unk114;
     unsigned int unk118;
     unsigned int unk11C;
-    N::__m128 m_kPathOffset;
+    __m128 m_kPathOffset;
 };
 
 class FUN_00d2c960_cls
@@ -452,7 +414,7 @@ void FUN_00d2c960_cls::FUN_00d2c960(const S00d2c960_Info* pkInfo)
 {
     float fTime = pkInfo->m_fTime;
     S00d2c960_Body* pkBody = m_pkBody;
-    N::__m128 kPosition = pkBody->m_kPathOffset;
+    __m128 kPosition = pkBody->m_kPathOffset;
     reinterpret_cast<::hkpEntityC9C *>((pkBody))->FUN_00c9c1d0();
     pkBody->m_kMotion.vf58(fTime, &m_kRoomNode, &kPosition);
 }

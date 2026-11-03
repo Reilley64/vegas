@@ -7,6 +7,8 @@
 // to their real unit once identified.
 // src/staging/blk_00de0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/AnimationEndian.h"
@@ -2096,19 +2098,6 @@ struct S_00dfff80_Foo
 // FUN_00dfffd0 : a one-line function - getter
 void* FUN_00dfffd0();
 extern void* DAT_010e80b4;
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
-extern "C" __m128 _mm_setzero_ps(void);
 class hkVector4_de1210
 {
   public:
@@ -2123,7 +2112,7 @@ class hkVector4_de1210
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 class hkMatrix3_de1210
@@ -2300,7 +2289,7 @@ struct DE5450Vector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     void operator=(const DE5450Vector4& v)
     {
@@ -3034,22 +3023,6 @@ struct ElemDFB5A0
 extern "C" void* df3210_target(void);
 static void FUN_00df3210(__m128* p);
 void df3210_caller(void);
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    __int64 m128i_i64[2];
-    int m128i_i32[4];
-} __m128i;
-extern "C" __m128i _mm_setzero_si128(void);
-extern "C" __m128i _mm_loadu_si128(const __m128i*);
-extern "C" __m128i _mm_unpackhi_epi16(__m128i, __m128i);
-extern "C" __m128i _mm_unpacklo_epi16(__m128i, __m128i);
-extern "C" __m128i _mm_slli_epi32(__m128i, int);
-extern "C" __m128i _mm_srli_epi32(__m128i, int);
-extern "C" __m128 _mm_cvtepi32_ps(__m128i);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 struct Dst
 {
     __m128 q;
@@ -3057,13 +3030,6 @@ struct Dst
 static void FUN_00df3170(const unsigned short* src, Dst* d);
 void CallerStandIn(Dst* d, const unsigned short* src);
 
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" int _mm_movemask_ps(__m128);
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_load_ss(const float*);
 
 class KdSimdReal
 {

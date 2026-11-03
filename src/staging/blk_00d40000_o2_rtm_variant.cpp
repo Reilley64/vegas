@@ -4,6 +4,7 @@
 
 // src/staging/blk_00d40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cstddef>
 #include "fnv/decl/ArrayClass.h"
@@ -3072,11 +3073,6 @@ class bhkWorldObject35D0
     int unk04;
     void* m_phkObject;
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -3649,20 +3645,6 @@ class FUN_00d48250
 
     FUN_00d48250(const char* pcName, int iParam) throw();
 };
-namespace SpringSimd {
-union __declspec(intrin_type) __m128
-{
-    struct
-    {
-        float x;
-        float y;
-        float z;
-        float w;
-    } lanes;
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float*, __m128);
-}
 struct S_00d4f0f0_B1
 {
     virtual void v0();
@@ -3707,17 +3689,6 @@ struct FUN_00d4f0f0 : S_00d4f0f0_B2
     FUN_00d4f0f0();
     virtual void v0();
 };
-namespace D4F2A0Simd {
-union __declspec(intrin_type) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_setzero_ps();
-extern "C" void _mm_store_ps(float*, __m128);
-}
 struct __declspec(align(16)) D4F2A0Vector
 {
     float x, y, z, w;
@@ -3741,7 +3712,7 @@ struct hkpConstraintDataS : hkReferencedObjectS
 };
 inline void setZero4(D4F2A0Vector& v)
 {
-    D4F2A0Simd::_mm_store_ps(&v.x, D4F2A0Simd::_mm_setzero_ps());
+    _mm_store_ps(&v.x, _mm_setzero_ps());
 }
 struct hkRotationS
 {
@@ -3829,9 +3800,9 @@ struct Matrix
     float m20, m21, m22, m23;
     __forceinline void setZero()
     {
-        ::D4F2A0Simd::_mm_store_ps(&m00, ::D4F2A0Simd::_mm_setzero_ps());
-        ::D4F2A0Simd::_mm_store_ps(&m10, ::D4F2A0Simd::_mm_setzero_ps());
-        ::D4F2A0Simd::_mm_store_ps(&m20, ::D4F2A0Simd::_mm_setzero_ps());
+        _mm_store_ps(&m00, _mm_setzero_ps());
+        _mm_store_ps(&m10, _mm_setzero_ps());
+        _mm_store_ps(&m20, _mm_setzero_ps());
     }
     __forceinline void setDiagonal(float x, float y, float z)
     {
@@ -3896,7 +3867,6 @@ struct FUN_00d54290
     volatile float m_float44;
     FUN_00d54290();
 };
-extern "C" ::D4F2A0Simd::__m128 _mm_setr_ps(float x, float y, float z, float w);
 static const float DAT_010181bc = 0.05f;
 static const float DAT_01011d78 = 0.0f;
 static const float DAT_01017870 = 0.3f;
@@ -3922,28 +3892,17 @@ struct FUN_00d54de0
     char m_flag20;
 };
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-}
-}
 
 struct RecordVector
 {
     union
     {
-        N::__m128 quad;
+        __m128 quad;
         float component[4];
     };
     __forceinline void set(float x, float y, float z, float w)
     {
-        quad = N::_mm_setr_ps(x, y, z, w);
+        quad = _mm_setr_ps(x, y, z, w);
     }
     __forceinline RecordVector()
     {}
@@ -4005,14 +3964,6 @@ int ConstraintBuilder::FUN_00d52ae0(float value)
     return result;
 }
 
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-}
 extern "C" void _ReadWriteBarrier();
 struct Scalar380
 {
@@ -4103,10 +4054,6 @@ FUN_00d59760::FUN_00d59760(TransposedPoints380* vertexData, int count, Vector380
     center.Multiply(0.5f);
 }
 
-namespace AngularFrictionIntrinsics {
-extern "C" ::D4F2A0Simd::__m128 _mm_setr_ps(float, float, float, float);
-extern "C" ::D4F2A0Simd::__m128 _mm_load_ps(const float*);
-}
 
 struct AngularFrictionRecord : ::D4F2A0Vector
 {
@@ -4114,7 +4061,7 @@ struct AngularFrictionRecord : ::D4F2A0Vector
     {}
     AngularFrictionRecord(const AngularFrictionRecord& other)
     {
-        ::D4F2A0Simd::_mm_store_ps(&x, AngularFrictionIntrinsics::_mm_load_ps(&other.x));
+        _mm_store_ps(&x, _mm_load_ps(&other.x));
     }
 };
 
@@ -4149,17 +4096,13 @@ int AngularFrictionWriter::FUN_00d528e0(unsigned char value, float f)
     state->values.AddBack(0x14);
     state->values.AddBack(value);
     AngularFrictionRecord tmp;
-    ::D4F2A0Simd::_mm_store_ps(&tmp.x, AngularFrictionIntrinsics::_mm_setr_ps(f, 0.0f, 0.0f, 0.0f));
+    _mm_store_ps(&tmp.x, _mm_setr_ps(f, 0.0f, 0.0f, 0.0f));
     int result = state->records.m_iElementCount;
     state->records.AddBack(tmp);
     state->budget.add(0x30, 1, 2);
     return result;
 }
 
-namespace MoppBuildSimd {
-extern "C" ::D4F2A0Simd::__m128 _mm_load_ps(const float*);
-extern "C" ::D4F2A0Simd::__m128(_mm_setr_ps)(float, float, float, float);
-}
 
 typedef ::D4F2A0Vector hkQuadReal;
 
@@ -4188,7 +4131,7 @@ struct Sub3
 
     __forceinline Sub3() : f0(0.5f), f1(0.2f), f2(1.0f), i20(5), b24(true)
     {
-        __declspec(align(16))::D4F2A0Simd::__m128 q = MoppBuildSimd::_mm_setr_ps(0.2f, 0.2f, 0.05f, 0.0f);
+        __declspec(align(16))__m128 q = _mm_setr_ps(0.2f, 0.2f, 0.05f, 0.0f);
         v = *reinterpret_cast<const hkQuadReal*>(&q);
     }
 };
@@ -4295,7 +4238,7 @@ void* __cdecl FUN_00d54a40(void* arg0, void* arg1, Arg2Struct* arg2, ::SearchObj
         sub3.f1 = ::FUN_00d54dd0((char *)(arg2), {});
         sub3.f2 = reinterpret_cast<::FnvCpu_FUN_00d54d70_CpuObject *>((arg2))->FUN_00d54d70();
         hkQuadReal tmp;
-        ::D4F2A0Simd::_mm_store_ps((float*)&sub3.v, MoppBuildSimd::_mm_load_ps((const float*)arg2->GetValue(&tmp)));
+        _mm_store_ps((float*)&sub3.v, _mm_load_ps((const float*)arg2->GetValue(&tmp)));
         sub3.b24 = flag17;
         reinterpret_cast<::Destination *>(&(big_obj))->CopyFromSourceData((unsigned int)(&sub3));
     }

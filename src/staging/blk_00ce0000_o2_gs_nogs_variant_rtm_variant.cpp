@@ -1851,7 +1851,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             const RecordX& r=records[i];
             int a=r.a,b=r.b;
             if(sparse) { a=mapA[a]; if(a<0) continue; b=mapB[b]; }
-            ::FUN_00ce2ca0((void *)(property),(::__m128 *)&(output[b]),(const ::__m128 *)&(r.offset),(const ::__m128 *)&(input[a]));
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[b]),(const __m128 *)&(r.offset),(const __m128 *)&(input[a]));
             _mm_prefetch((const char*)&input[a]+128,_MM_HINT_NTA);
             _mm_prefetch((const char*)&output[b]+128,_MM_HINT_NTA);
         }
@@ -1900,13 +1900,13 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             }
             int a=r.a,c=r.c,b=r.b,d=r.d;
             if(sparse) { a=mapA[a];c=mapB[c];b=mapA[b];d=mapB[d]; }
-            ::FUN_00ce2ca0((void *)(property),(::__m128 *)&(output[c]),(const ::__m128 *)&(r.root),(const ::__m128 *)&(input[a]));
+            ::FUN_00ce2ca0((void *)(property),(__m128 *)&(output[c]),(const __m128 *)&(r.root),(const __m128 *)&(input[a]));
             FUN_00ce2a50(posA,posB);
             RotationX shortest; shortest.FUN_00cd9d10(posB,posA);
             RotationX offset; offset.vec=r.end.translation;
             RotationX applied; reinterpret_cast<::Quat74 *>(&(applied))->FUN_00c74ac0((const ::Quat74 &)(shortest),(const ::Quat74 &)(offset));
             output[c].rotation.FUN_00ce0ca0(applied);
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(output[d].rotation), (void *)&(r.end.rotation),(const ::fnv_00c66320::__m128 *)&(input[b].rotation), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(output[d].rotation), (void *)&(r.end.rotation),(const __m128 *)&(input[b].rotation), {});
         }
     }
     if(additive) ::FUN_00ce2f40((unsigned int)(output),(unsigned int)(second->reference.begin()),(unsigned int)(mapB),second->bones.count(),(unsigned int)(output));

@@ -2,6 +2,7 @@
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <new>
@@ -2413,8 +2414,6 @@ struct FUN_00d61a50_cls
     int* FUN_00d61a50(int value);
 };
 
-namespace fnvc_adapt {
-}
 
 // Initializes the string buffer, grows capacity if needed, copies value into m_data, and returns this.
 // @fnv 0x00d61a50
@@ -2962,14 +2961,7 @@ void d6c1b0_caller(void)
     FUN_00d6c1b0(d6c1b0_cursor_src(), g_d6c1b0_owner, g_d6c1b0_a1);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 extern "C" __m128 g_d6c1d0_src[4];
 extern "C" __m128 g_d6c1d0_mat[4];
@@ -3522,8 +3514,6 @@ void RotateLocalFrames(const LocalOrientations& local, const ConstraintQuery& in
     FUN_00d6c3c0(local, input, outputA, outputB);
 }
 
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 
 struct D73390Source
@@ -3551,7 +3541,7 @@ void __cdecl FUN_00d73390(D73390Source* source, int count)
     _mm_store_ps(data.value0, _mm_load_ps(source->value0));
     _mm_store_ps(data.value1, _mm_load_ps(source->value1));
     _mm_store_ps(data.value2, _mm_load_ps(source->value2));
-    _mm_store_ps(data.value3, _mm_load_ps((const float*)&(*reinterpret_cast<::__m128 *>(&::DAT_01267e30))));
+    _mm_store_ps(data.value3, _mm_load_ps((const float*)&(*reinterpret_cast<__m128 *>(&::DAT_01267e30))));
 
     reinterpret_cast<::FUN_00de8f10_Class *>(&(data))->FUN_00de8f10();
     ((void(__cdecl*)(int*, int))FUN_00d73380)((int*)&data, count);
@@ -3582,7 +3572,6 @@ void UpperCaseBufferD618::FUN_00d618d0()
     }
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
 struct TransformContext
 {
     int unk00;
@@ -3621,7 +3610,7 @@ static __declspec(noinline) void FUN_00d6c240(TransformPair* dest, const __m128*
     {
         __m128 v = src[n + 1];
         __m128 r = _mm_add_ps(
-            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps(src[n + 1].m128_f32), _mm_load_ps(src[n + 1].m128_f32), 0), a),
+            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps(reinterpret_cast<float*>(&src[n + 1])), _mm_load_ps(reinterpret_cast<float*>(&src[n + 1])), 0), a),
             _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), b));
         dest->m_row[n] = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c));
     }
@@ -3635,7 +3624,7 @@ static __declspec(noinline) void FUN_00d6c240(TransformPair* dest, const __m128*
     {
         __m128 v = src[n + 5];
         __m128 r = _mm_add_ps(
-            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps(src[n + 5].m128_f32), _mm_load_ps(src[n + 5].m128_f32), 0), a),
+            _mm_mul_ps(_mm_shuffle_ps(_mm_load_ps(reinterpret_cast<float*>(&src[n + 5])), _mm_load_ps(reinterpret_cast<float*>(&src[n + 5])), 0), a),
             _mm_mul_ps(_mm_shuffle_ps(v, v, 0x55), b));
         out[n] = _mm_add_ps(r, _mm_mul_ps(_mm_shuffle_ps(v, v, 0xaa), c));
     }

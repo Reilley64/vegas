@@ -5,6 +5,7 @@
 
 // src/staging/blk_00e60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -21,32 +22,7 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-    int _mm_movemask_ps(__m128);
-}
   // zero
   // sign mask xyzw
 extern const signed char DAT_010ececc[];
@@ -139,11 +115,11 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
     float v = plane[2] * d0 - plane[0] * d1;
     const float eps = 0.001f;
     hkVector4 bary;
-    bary.m_vComponents.m128_f32[0] = u + eps;
-    bary.m_vComponents.m128_f32[1] = 1.0f + eps - u - v;
-    bary.m_vComponents.m128_f32[2] = v + eps;
-    bary.m_vComponents.m128_f32[3] = eps;
-    Comparison mask = {_mm_cmplt_ps((*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30)), bary.m_vComponents)};
+    bary.m_vComponents[0] = u + eps;
+    bary.m_vComponents[1] = 1.0f + eps - u - v;
+    bary.m_vComponents[2] = v + eps;
+    bary.m_vComponents[3] = eps;
+    Comparison mask = {_mm_cmplt_ps((*reinterpret_cast<const __m128 *>(&::DAT_01267e30)), bary.m_vComponents)};
     if (mask == 7)
     {
         __m128 negative = _mm_mul_ps(_mm_shuffle_ps(edge.m_vComponents, edge.m_vComponents, 0xc9),
@@ -266,21 +242,6 @@ int __cdecl FUN_00e62100(const hkVector4* point, const hkVector4* tri, const flo
 namespace fnv_00e61fb0 {
 extern "C" void _ReadWriteBarrier(void);
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps1(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 class hkSimdRealE6F
 {
@@ -305,11 +266,11 @@ class hkVector4E6F
 
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     const float& operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 
     void setSub4(const hkVector4E6F& a, const hkVector4E6F& b)
@@ -447,11 +408,6 @@ void S00e62c10_List::FUN_00e62c10(const __m128* param)
 }
 
 namespace fnv_00e63ba0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4
 {
@@ -770,24 +726,6 @@ void MoppFindAllVM::FUN_00e66290(const MoppQueryState* current, const unsigned c
 }
 
 namespace fnv_00e67740 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 extern const float DAT_01011d78 = 0.0f;
 extern const float DAT_01017718;
 extern const float DAT_01016248;
@@ -970,25 +908,7 @@ int Hull::FUN_00e67740(int count, HullLink* links, const HullVertex* endpoint)
 }  // namespace fnv_00e67740
 
 namespace fnv_00e679d0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_rsqrt_ss(__m128 a);
-    __m128 _mm_mul_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    float _mm_cvtss_f32(__m128 a);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct hkVector4
 {
@@ -1127,7 +1047,6 @@ void TetraHull::FUN_00e679d0()
 }
 }  // namespace fnv_00e679d0
 
-extern "C" __m128 _mm_rsqrt_ps(__m128);
 
 
 struct S00e61e70_V
@@ -1166,17 +1085,17 @@ void __cdecl FUN_00e61e70(const float* p, float* out)
     S00e61e70_V n;
     n.setCross(b, a);
     __m128 len;
-    len.m128_f32[0] = b.lengthSquared3();
-    len.m128_f32[1] = a.lengthSquared3();
-    len.m128_f32[2] = c.lengthSquared3();
+    len[0] = b.lengthSquared3();
+    len[1] = a.lengthSquared3();
+    len[2] = c.lengthSquared3();
     float nl = n.lengthSquared3();
-    len.m128_f32[3] = nl;
+    len[3] = nl;
     __m128 r = _mm_rsqrt_ps(len);
     len = _mm_mul_ps(_mm_sub_ps(DAT_010c71c0, _mm_mul_ps(_mm_mul_ps(r, len), r)), _mm_mul_ps(DAT_010c71d0, r));
-    out[0] = len.m128_f32[0];
-    out[1] = len.m128_f32[1];
-    out[2] = len.m128_f32[2];
-    float w = len.m128_f32[3];
+    out[0] = len[0];
+    out[1] = len[1];
+    out[2] = len[2];
+    float w = len[3];
     out[3] = w;
     out[4] = nl * w;
 }

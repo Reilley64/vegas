@@ -6505,11 +6505,6 @@ struct S00cafef0_Obj
     void UpdateBoundsFromElements();
 };
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #endif
 struct S00cb87e0_Node
 {
@@ -6532,8 +6527,8 @@ struct S00cb87e0_Node
         f30 = ::fnv_00c88020::DAT_01016248;
         unk00 = 0;
         unk04 = 0;
-        v10 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
-        v20 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+        v10 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
+        v20 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
         f34 = DAT_0101e2bc;
     }
     void* operator new(std::size_t size) throw()
@@ -9252,13 +9247,6 @@ typedef union __declspec(intrin_type) _CRT_ALIGN(16) S00ca4120_Q
     unsigned __int16 m128_u16[8];
     unsigned __int32 m128_u32[4];
 } S00ca4120_Q;
-extern "C"
-{
-    ::__m128 _mm_min_ps(::__m128, ::__m128);
-    ::__m128 _mm_max_ps(::__m128, ::__m128);
-    ::__m128 _mm_mul_ps(::__m128, ::__m128);
-    ::__m128 _mm_setr_ps(float, float, float, float);
-}
 extern float DAT_012682c8;
 extern const float DAT_01011d78;
 struct S00ca4120_Vec
@@ -9266,22 +9254,22 @@ struct S00ca4120_Vec
     S00ca4120_Q q;
     void set(float a, float b, float c, float d)
     {
-        q.m128_f32[0] = a;
-        q.m128_f32[1] = b;
-        q.m128_f32[2] = c;
-        q.m128_f32[3] = d;
+        q[0] = a;
+        q[1] = b;
+        q[2] = c;
+        q[3] = d;
     }
     void setMin4(const S00ca4120_Vec& a, const S00ca4120_Vec& b)
     {
-        *(::__m128*)&q = (_mm_min_ps)(*(::__m128*)&a.q, *(::__m128*)&b.q);
+        *(__m128*)&q = _mm_min_ps(*(__m128*)&a.q, *(__m128*)&b.q);
     }
     void setMax4(const S00ca4120_Vec& a, const S00ca4120_Vec& b)
     {
-        *(::__m128*)&q = (_mm_max_ps)(*(::__m128*)&a.q, *(::__m128*)&b.q);
+        *(__m128*)&q = _mm_max_ps(*(__m128*)&a.q, *(__m128*)&b.q);
     }
     void mul4(const S00ca4120_Vec& a)
     {
-        *(::__m128*)&q = (_mm_mul_ps)(*(::__m128*)&q, *(::__m128*)&a.q);
+        *(__m128*)&q = _mm_mul_ps(*(__m128*)&q, *(__m128*)&a.q);
     }
     void FUN_00c7f640(const struct S00ca4120_Xf* t, const S00ca4120_Vec* v);
 };
@@ -9307,7 +9295,7 @@ struct S00ca4120_Entry
 };
 struct S00ca4120_Geom
 {
-    ::__m128 unk00, unk10;
+    __m128 unk00, unk10;
     S00ca4120_Xf transform;
     S00ca4120_Vec minimum, maximum;
     S00ca4120_Vec scale;
@@ -9319,12 +9307,12 @@ struct S00ca4120_Geom
 // @fnv 0x00ca4120
 void S00ca4120_Geom::FUN_00ca4120(const S00ca4120_Xf* input)
 {
-    *(::__m128*)&transform.c0.q = *(::__m128 const*)&input->c0.q;
-    *(::__m128*)&transform.c1.q = *(::__m128 const*)&input->c1.q;
-    *(::__m128*)&transform.c2.q = *(::__m128 const*)&input->c2.q;
-    *(::__m128*)&transform.c3.q = *(::__m128 const*)&input->c3.q;
-    *(::__m128*)&minimum.q = (_mm_setr_ps)(3.40282e38F, 3.40282e38F, 3.40282e38F, 0.0f);
-    *(::__m128*)&maximum.q = (_mm_setr_ps)(-3.40282e38F, -3.40282e38F, -3.40282e38F, 0.0f);
+    *(__m128*)&transform.c0.q = *(__m128 const*)&input->c0.q;
+    *(__m128*)&transform.c1.q = *(__m128 const*)&input->c1.q;
+    *(__m128*)&transform.c2.q = *(__m128 const*)&input->c2.q;
+    *(__m128*)&transform.c3.q = *(__m128 const*)&input->c3.q;
+    *(__m128*)&minimum.q = _mm_setr_ps(3.40282e38F, 3.40282e38F, 3.40282e38F, 0.0f);
+    *(__m128*)&maximum.q = _mm_setr_ps(-3.40282e38F, -3.40282e38F, -3.40282e38F, 0.0f);
     unsigned int n = count;
     const S00ca4120_Vec& s = scale;
     for (unsigned int i = 0; i < n; ++i)
@@ -9678,7 +9666,7 @@ NTCVt::NTCVt()
 {
     new ((void *)(this)) class ::FUN_00a6d220();
     m_vtbl = (void*)&DAT_010c8a2c;
-    m_40.v = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+    m_40.v = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
     m_50 = 0.0f;
 }
 
@@ -9795,14 +9783,14 @@ struct S00cbe7b0_Obj
     int m_14;
     float m_18;
     float m_1c;
-    ::__m128 q20;
-    ::__m128 q30;
-    ::__m128 q40;
-    ::__m128 q50;
-    ::__m128 q60;
-    ::__m128 q70;
-    ::__m128 q80;
-    ::__m128 q90;
+    __m128 q20;
+    __m128 q30;
+    __m128 q40;
+    __m128 q50;
+    __m128 q60;
+    __m128 q70;
+    __m128 q80;
+    __m128 q90;
     unsigned char m_a0;
     unsigned char m_a1;
     unsigned char m_a2;
@@ -9816,21 +9804,21 @@ S00cbe7b0_Obj* S00cbe7b0_Obj::FUN_00cbe7b0()
     m_8 = 0;
     m_vtbl = &DAT_010c91ec;
     reinterpret_cast< ::FUN_00cbe820_cls*>(reinterpret_cast<char*>(this) + 0x10)->FUN_00cbe820();
-    ::__m128 z = (_mm_setzero_ps)();
-    (_mm_store_ps)((float*)&q20, z);
-    (_mm_store_ps)((float*)&q30, z);
-    (_mm_store_ps)((float*)&q40, z);
-    q20.m128_f32[0] = 1.0f;
-    q30.m128_f32[1] = 1.0f;
-    q40.m128_f32[2] = 1.0f;
-    (_mm_store_ps)((float*)&q50, z);
-    (_mm_store_ps)((float*)&q60, z);
-    (_mm_store_ps)((float*)&q70, z);
-    (_mm_store_ps)((float*)&q80, z);
-    q60.m128_f32[0] = 1.0f;
-    q70.m128_f32[1] = 1.0f;
-    q80.m128_f32[2] = 1.0f;
-    (_mm_store_ps)((float*)&q90, z);
+    __m128 z = _mm_setzero_ps();
+    _mm_store_ps((float*)&q20, z);
+    _mm_store_ps((float*)&q30, z);
+    _mm_store_ps((float*)&q40, z);
+    q20[0] = 1.0f;
+    q30[1] = 1.0f;
+    q40[2] = 1.0f;
+    _mm_store_ps((float*)&q50, z);
+    _mm_store_ps((float*)&q60, z);
+    _mm_store_ps((float*)&q70, z);
+    _mm_store_ps((float*)&q80, z);
+    q60[0] = 1.0f;
+    q70[1] = 1.0f;
+    q80[2] = 1.0f;
+    _mm_store_ps((float*)&q90, z);
     m_a2 = 0;
     return this;
 }
@@ -9846,7 +9834,7 @@ static inline ::NiPoint3 Scale_00cbe8d0(::NiPoint3 p, float fScalar)
 
 union BoundCenter
 {
-    ::__m128 m_vComponents;
+    __m128 m_vComponents;
     unsigned char m_bytes[16];
     ::NiPoint3 m_kPoint;
 };
@@ -10300,7 +10288,7 @@ void BoundOwner::FUN_00cbe8d0()
     }
     else
     {
-        kTargetCenter.m_vComponents = *((::__m128 *)(reinterpret_cast<::NiObject *>((m_pkNode))->FUN_00621a40()));
+        kTargetCenter.m_vComponents = *((__m128 *)(reinterpret_cast<::NiObject *>((m_pkNode))->FUN_00621a40()));
         kTargetCenter.m_kPoint = Scale_00cbe8d0(kTargetCenter.m_kPoint, DAT_011b21e8);
         fRadius = 1.0f;
     }
@@ -10321,10 +10309,6 @@ void BoundOwner::FUN_00cbe8d0()
     reinterpret_cast<::S006230f0_Object *>(this)->FUN_006230f0((const ::S006230f0_Source *)(const ::NiPoint3 *)(reinterpret_cast<const ::NiPoint3*>(&kTargetCenter.m_bytes[0])));
 }
 
-namespace TriStripIntrinsics {
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(float const*);
-}
 
 static float DAT_012682c8;
 
@@ -10334,7 +10318,7 @@ union S00ca45b0_Vec
     char m_bytes[16];
     void set(float x, float y, float z, float w)
     {
-        float* f = m_vComponents.m128_f32;
+        float* f = reinterpret_cast<float*>(&m_vComponents);
         f[0] = x;
         f[1] = y;
         f[2] = z;
@@ -10347,7 +10331,7 @@ union S00ca45b0_Vec
     void mul4(const S00ca45b0_Vec& o)
     {
         m_vComponents =
-            TriStripIntrinsics::_mm_mul_ps(TriStripIntrinsics::_mm_load_ps(m_vComponents.m128_f32), o.m_vComponents);
+            _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&m_vComponents)), o.m_vComponents);
     }
 };
 
@@ -10466,7 +10450,7 @@ S00ca45b0_Tri* S00ca45b0_Shape::FUN_00ca45b0(unsigned int key, S00ca45b0_Alloc* 
     const float* c = &verts[i2 * 3];
     S00ca45b0_Tri* tri = alloc ? ((::S00ca45b0_Tri *)(new ((void *)(alloc)) ::FUN_00ca39a0(m_fSphereRadius))) : 0;
     S00ca45b0_Vec v;
-    float* q = v.m_vComponents.m128_f32;
+    float* q = reinterpret_cast<float*>(&v.m_vComponents);
     q[0] = *(float volatile*)&a[0] * DAT_012682c8;
     q[1] = a[1] * DAT_012682c8;
     q[2] = a[2] * DAT_012682c8;
@@ -10488,11 +10472,6 @@ S00ca45b0_Tri* S00ca45b0_Shape::FUN_00ca45b0(unsigned int key, S00ca45b0_Alloc* 
     return tri;
 }
 
-namespace PointBoundsSse {
-extern "C" __m128 _mm_load_ps1(float const* p);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-}
 
 
 struct BoundVector
@@ -10531,8 +10510,8 @@ void FUN_00cbebf0(PointArrayArg points, int n, BoundsArg bounds)
     {
         PointBounds* pd = bounds.p;
         _ReadWriteBarrier();
-        pd->min.quad = PointBoundsSse::_mm_load_ps1(&::DAT_0104da48);
-        pd->max.quad = PointBoundsSse::_mm_load_ps1(&DAT_0104e148);
+        pd->min.quad = _mm_load_ps1(&::DAT_0104da48);
+        pd->max.quad = _mm_load_ps1(&DAT_0104e148);
     }
     else
     {
@@ -10544,27 +10523,14 @@ void FUN_00cbebf0(PointArrayArg points, int n, BoundsArg bounds)
         pd->max.quad = pa[0]->quad;
         for (int i = 1; i < n; ++i)
         {
-            pd->min.quad = PointBoundsSse::_mm_min_ps(pa[i]->quad, pd->min.quad);
-            pd->max.quad = PointBoundsSse::_mm_max_ps(pa[i]->quad, pd->max.quad);
+            pd->min.quad = _mm_min_ps(pa[i]->quad, pd->min.quad);
+            pd->max.quad = _mm_max_ps(pa[i]->quad, pd->max.quad);
         }
         pd->min.w = 0.0f;
         pd->max.w = 0.0f;
     }
 }
 
-namespace StripsBoundsIntrinsics {
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_load_ps1(const float*);
-    void _mm_store_ss(float*, __m128);
-}
-}
 
 union StripsBoundsQuad
 {
@@ -10580,12 +10546,12 @@ class StripsBoundsVector
     StripsBoundsQuad m_vComponents;
     void add(const StripsBoundsQuad& r)
     {
-        m_vComponents.simd = StripsBoundsIntrinsics::_mm_add_ps(m_vComponents.simd, r.simd);
+        m_vComponents.simd = _mm_add_ps(m_vComponents.simd, r.simd);
     }
     float getX() const
     {
         float x;
-        StripsBoundsIntrinsics::_mm_store_ss(&x, m_vComponents.simd);
+        _mm_store_ss(&x, m_vComponents.simd);
         return x;
     }
     void FUN_00c7f640(const StripsBoundsTransform& t, const StripsBoundsVector& v);
@@ -10643,9 +10609,9 @@ void StripsBoundsShape::FUN_00ca4280(const StripsBoundsTransform& t, float toler
     else
     {
         out.m_kMinimumCorner.m_vComponents.simd =
-            StripsBoundsIntrinsics::_mm_setr_ps(3.40282e38f, 3.40282e38f, 3.40282e38f, 0.0f);
+            _mm_setr_ps(3.40282e38f, 3.40282e38f, 3.40282e38f, 0.0f);
         out.m_kMaximumCorner.m_vComponents.simd =
-            StripsBoundsIntrinsics::_mm_setr_ps(-3.40282e38f, -3.40282e38f, -3.40282e38f, 0.0f);
+            _mm_setr_ps(-3.40282e38f, -3.40282e38f, -3.40282e38f, 0.0f);
         unsigned n = count;
         const StripsBoundsVector& scale = m_vScale;
         for (unsigned i = 0; i < n; ++i)
@@ -10661,28 +10627,24 @@ void StripsBoundsShape::FUN_00ca4280(const StripsBoundsTransform& t, float toler
                 v.m_vComponents.lanes[2] = p[j].z * DAT_012682c8;
                 v.m_vComponents.lanes[3] = 0.0f;
                 v.m_vComponents.simd =
-                    StripsBoundsIntrinsics::_mm_mul_ps(scale.m_vComponents.simd, v.m_vComponents.simd);
+                    _mm_mul_ps(scale.m_vComponents.simd, v.m_vComponents.simd);
                 StripsBoundsVector tv;
                 tv.FUN_00c7f640(t, v);
                 out.m_kMinimumCorner.m_vComponents.simd =
-                    StripsBoundsIntrinsics::_mm_min_ps(out.m_kMinimumCorner.m_vComponents.simd, tv.m_vComponents.simd);
+                    _mm_min_ps(out.m_kMinimumCorner.m_vComponents.simd, tv.m_vComponents.simd);
                 out.m_kMaximumCorner.m_vComponents.simd =
-                    StripsBoundsIntrinsics::_mm_max_ps(out.m_kMaximumCorner.m_vComponents.simd, tv.m_vComponents.simd);
+                    _mm_max_ps(out.m_kMaximumCorner.m_vComponents.simd, tv.m_vComponents.simd);
             }
         }
     }
     float radius = m_fSphereRadius + tolerance;
     StripsBoundsQuad r;
-    r.simd = StripsBoundsIntrinsics::_mm_load_ps1(&radius);
+    r.simd = _mm_load_ps1(&radius);
     out.m_kMinimumCorner.m_vComponents.simd =
-        StripsBoundsIntrinsics::_mm_sub_ps(out.m_kMinimumCorner.m_vComponents.simd, r.simd);
+        _mm_sub_ps(out.m_kMinimumCorner.m_vComponents.simd, r.simd);
     out.m_kMaximumCorner.add(r);
 }
 
-namespace PackedDisplayIntrinsics {
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-}
 
 class NiFixedString
 {
@@ -11128,9 +11090,9 @@ void S00ca5da0_Builder::FUN_00ca5da0(S00ca5da0_Node* parent, S00ca5da0_Pt* pt)
             t[2] = geom->m_18[k].z;
             t[3] = 0.0f;
             float x, y, z;
-            PackedDisplayIntrinsics::_mm_store_ss(&x, v);
-            PackedDisplayIntrinsics::_mm_store_ss(&y, PackedDisplayIntrinsics::_mm_shuffle_ps(v, v, 0x55));
-            PackedDisplayIntrinsics::_mm_store_ss(&z, PackedDisplayIntrinsics::_mm_shuffle_ps(v, v, 0xaa));
+            _mm_store_ss(&x, v);
+            _mm_store_ss(&y, _mm_shuffle_ps(v, v, 0x55));
+            _mm_store_ss(&z, _mm_shuffle_ps(v, v, 0xaa));
             S00ca5da0_Vec3* d = &verts[k - base];
             d->x = x * DAT_011b1864;
             d->y = y * DAT_011b1864;
@@ -11296,7 +11258,7 @@ void S00cbfaa0_Obj::FUN_00cbfaa0(S00cbfaa0_Base* a0, S00cbfaa0_Src* a1, int a2, 
     }
 
     S00cbfaa0_Rec r;
-    *(::__m128*)&r.vec = *(const ::__m128*)&a1->q00;
+    *(__m128*)&r.vec = *(const __m128*)&a1->q00;
     r.m_1c = a4;
     r.m_14 = &a1->unk10;
     r.m_10 = a2;
@@ -11318,24 +11280,6 @@ void S00cbfaa0_Obj::FUN_00cbfaa0(S00cbfaa0_Base* a0, S00cbfaa0_Src* a1, int a2, 
 
 #include <xmmintrin.h>
 namespace fnv_00ca1410 {
-extern "C"
-{
-    ::__m128(_mm_load_ss)(const float*);
-    void(_mm_store_ss)(float*, ::__m128);
-    ::__m128(_mm_shuffle_ps)(::__m128, ::__m128, int);
-    ::__m128(_mm_setr_ps)(float, float, float, float);
-    ::__m128(_mm_sub_ps)(::__m128, ::__m128);
-    ::__m128(_mm_mul_ps)(::__m128, ::__m128);
-    ::__m128(_mm_add_ps)(::__m128, ::__m128);
-    ::__m128(_mm_add_ss)(::__m128, ::__m128);
-    ::__m128(_mm_sqrt_ss)(::__m128);
-    ::__m128(_mm_set_ss)(float);
-    ::__m128(_mm_cmpeq_ss)(::__m128, ::__m128);
-    ::__m128(_mm_rsqrt_ss)(::__m128);
-    ::__m128(_mm_mul_ss)(::__m128, ::__m128);
-    ::__m128(_mm_sub_ss)(::__m128, ::__m128);
-    ::__m128(_mm_andnot_ps)(::__m128, ::__m128);
-}
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
 extern float DAT_0126829c;
 extern float DAT_012682a8;
@@ -11440,29 +11384,29 @@ struct Skeleton
 };
 struct ScalarValue
 {
-    ::__m128 q;
+    __m128 q;
     ScalarValue()
     {}
-    ScalarValue(const ::__m128& v) : q(v)
+    ScalarValue(const __m128& v) : q(v)
     {}
     ScalarValue(float f)
     {
-        q = (_mm_load_ss)(&f);
+        q = _mm_load_ss(&f);
     }
     operator float() const
     {
         float f;
-        (_mm_store_ss)(&f, q);
+        _mm_store_ss(&f, q);
         return f;
     }
-    __forceinline ::__m128 splat() const
+    __forceinline __m128 splat() const
     {
-        return (_mm_shuffle_ps)(q, q, 0);
+        return _mm_shuffle_ps(q, q, 0);
     }
 };
 union VectorQuad
 {
-    ::__m128 simd;
+    __m128 simd;
     float lanes[4];
     signed char bytes[16];
 };
@@ -11473,21 +11417,21 @@ struct VectorValue
     {}
     VectorValue(float x, float y, float z, float w)
     {
-        q.simd = (_mm_setr_ps)(x, y, z, w);
+        q.simd = _mm_setr_ps(x, y, z, w);
     }
     VectorValue(const VectorValue& v)
     {
         q.simd = v.q.simd;
     }
-    VectorValue(const ::__m128& v)
+    VectorValue(const __m128& v)
     {
         q.simd = v;
     }
-    operator ::__m128() const
+    operator __m128() const
     {
         return q.simd;
     }
-    void operator=(const ::__m128& v)
+    void operator=(const __m128& v)
     {
         q.simd = v;
     }
@@ -11497,49 +11441,49 @@ struct VectorValue
     }
     __forceinline void difference(const VectorValue& a, const VectorValue& b)
     {
-        q.simd = (_mm_sub_ps)(a.q.simd, b.q.simd);
+        q.simd = _mm_sub_ps(a.q.simd, b.q.simd);
     }
     __forceinline void cross(const VectorValue& a, const VectorValue& b)
     {
-        ::__m128 lhs =
-            (_mm_mul_ps)((_mm_shuffle_ps)(a.q.simd, a.q.simd, 0xc9), (_mm_shuffle_ps)(b.q.simd, b.q.simd, 0xd2));
-        ::__m128 rhs =
-            (_mm_mul_ps)((_mm_shuffle_ps)(a.q.simd, a.q.simd, 0xd2), (_mm_shuffle_ps)(b.q.simd, b.q.simd, 0xc9));
-        q.simd = (_mm_sub_ps)(lhs, rhs);
+        __m128 lhs =
+            _mm_mul_ps(_mm_shuffle_ps(a.q.simd, a.q.simd, 0xc9), _mm_shuffle_ps(b.q.simd, b.q.simd, 0xd2));
+        __m128 rhs =
+            _mm_mul_ps(_mm_shuffle_ps(a.q.simd, a.q.simd, 0xd2), _mm_shuffle_ps(b.q.simd, b.q.simd, 0xc9));
+        q.simd = _mm_sub_ps(lhs, rhs);
     }
     __forceinline void add(const VectorValue& a)
     {
-        q.simd = (_mm_add_ps)(q.simd, a.q.simd);
+        q.simd = _mm_add_ps(q.simd, a.q.simd);
     }
     __forceinline ScalarValue dot(const VectorValue& a) const
     {
-        ::__m128 products = (_mm_mul_ps)(q.simd, a.q.simd);
-        ::__m128 xy = (_mm_add_ss)((_mm_shuffle_ps)(products, products, 0x55), products);
-        return (_mm_add_ss)((_mm_shuffle_ps)(products, products, 0xaa), xy);
+        __m128 products = _mm_mul_ps(q.simd, a.q.simd);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(products, products, 0x55), products);
+        return _mm_add_ss(_mm_shuffle_ps(products, products, 0xaa), xy);
     }
     __forceinline ScalarValue length() const
     {
-        return (_mm_sqrt_ss)(dot(*this).q);
+        return _mm_sqrt_ss(dot(*this).q);
     }
     __forceinline ScalarValue inverseLength() const
     {
-        ::__m128 half = (_mm_set_ss)(0.5f);
-        ::__m128 three = (_mm_set_ss)(3.0f);
-        ::__m128 zero = (_mm_set_ss)(0.0f);
-        ::__m128 squared = dot(*this).q;
-        ::__m128 isZero = (_mm_cmpeq_ss)(squared, zero);
-        ::__m128 estimate = (_mm_rsqrt_ss)(squared);
-        ::__m128 result = (_mm_mul_ss)((_mm_mul_ss)(half, estimate),
-                                       (_mm_sub_ss)(three, (_mm_mul_ss)((_mm_mul_ss)(squared, estimate), estimate)));
-        return (_mm_andnot_ps)(isZero, result);
+        __m128 half = _mm_set_ss(0.5f);
+        __m128 three = _mm_set_ss(3.0f);
+        __m128 zero = _mm_set_ss(0.0f);
+        __m128 squared = dot(*this).q;
+        __m128 isZero = _mm_cmpeq_ss(squared, zero);
+        __m128 estimate = _mm_rsqrt_ss(squared);
+        __m128 result = _mm_mul_ss(_mm_mul_ss(half, estimate),
+                                       _mm_sub_ss(three, _mm_mul_ss(_mm_mul_ss(squared, estimate), estimate)));
+        return _mm_andnot_ps(isZero, result);
     }
     __forceinline void normalize()
     {
-        q.simd = (_mm_mul_ps)(inverseLength().splat(), q.simd);
+        q.simd = _mm_mul_ps(inverseLength().splat(), q.simd);
     }
     __forceinline void scale(const ScalarValue& a, const VectorValue& b)
     {
-        q.simd = (_mm_mul_ps)(a.splat(), b.q.simd);
+        q.simd = _mm_mul_ps(a.splat(), b.q.simd);
     }
 };
 struct Contact
@@ -12261,7 +12205,7 @@ template <class T, unsigned Growth> __forceinline T& GetAtSV(BSSimpleArray<T, Gr
 }
 union RagdollScalarVector
 {
-    ::__m128 simd;
+    __m128 simd;
     struct
     {
         float x, y, z, w;
@@ -12906,8 +12850,8 @@ void ShapeUpdater::FUN_00cba6f0(SceneObject* object, float scale)
     MaterialShape* old = (MaterialShape*)owner->GetShape(current);
     old->material = GetMaterial();
     RagdollConstruction::FUN_00cb9a90* replacement = new RagdollConstruction::FUN_00cb9a90(
-        int(old->data ? &((TransformData*)old->data)->source : (const float*)&(*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30))),
-        int(old->data ? &((TransformData*)old->data)->target : (const float*)&(*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30))), radius * scale);
+        int(old->data ? &((TransformData*)old->data)->source : (const float*)&(*reinterpret_cast<const __m128 *>(&::DAT_01267e30))),
+        int(old->data ? &((TransformData*)old->data)->target : (const float*)&(*reinterpret_cast<const __m128 *>(&::DAT_01267e30))), radius * scale);
     ((RefCounted*)replacement)->IncRefCount();
     replacement->unk10 = GetMaterial();
     ScaleShapeData* scaledData = (ScaleShapeData*)replacement->unk08;
@@ -13015,74 +12959,52 @@ void ShapeUpdater::FUN_00cba6f0(SceneObject* object, float scale)
     }
 }
 
-namespace quaternion_simd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
-extern "C"
-{
-    quaternion_simd::__m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_mul_ps(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_mul_ss(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_add_ss(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_xor_ps(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_shuffle_ps(quaternion_simd::__m128, quaternion_simd::__m128, int);
-    quaternion_simd::__m128 _mm_sub_ps(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_add_ps(quaternion_simd::__m128, quaternion_simd::__m128);
-    quaternion_simd::__m128 _mm_unpackhi_ps(quaternion_simd::__m128, quaternion_simd::__m128);
-}
-}
 
 
 struct FNV_ALIGN(16) VectorComponentValue
 {
     float realX, realY, realZ, realW;
-    quaternion_simd::__m128 getRealQuad() const
+    __m128 getRealQuad() const
     {
-        return *(const quaternion_simd::__m128*)this;
+        return *(const __m128*)this;
     }
-    VectorComponentValue(quaternion_simd::__m128 q)
+    VectorComponentValue(__m128 q)
     {
-        *(quaternion_simd::__m128*)this = q;
+        *(__m128*)this = q;
     }
     VectorComponentValue(const float& f)
     {
-        *(quaternion_simd::__m128*)this = quaternion_simd::_mm_load_ss(&f);
+        *(__m128*)this = _mm_load_ss(&f);
     }
     operator float() const
     {
         float f;
-        quaternion_simd::_mm_store_ss(&f, getRealQuad());
+        _mm_store_ss(&f, getRealQuad());
         return f;
     }
 };
 inline VectorComponentValue operator*(const VectorComponentValue& a, const VectorComponentValue& b)
 {
-    return VectorComponentValue(quaternion_simd::_mm_mul_ss(a.getRealQuad(), b.getRealQuad()));
+    return VectorComponentValue(_mm_mul_ss(a.getRealQuad(), b.getRealQuad()));
 }
 struct FNV_ALIGN(16) hkVector4
 {
     float x, y, z, w;
-    quaternion_simd::__m128 getQuad() const
+    __m128 getQuad() const
     {
-        return *(quaternion_simd::__m128*)this;
+        return *(__m128*)this;
     }
-    void setQuad(quaternion_simd::__m128 q)
+    void setQuad(__m128 q)
     {
-        *(quaternion_simd::__m128*)this = q;
+        *(__m128*)this = q;
     }
     VectorComponentValue dot3(const hkVector4& a) const
     {
-        quaternion_simd::__m128 mul = quaternion_simd::_mm_mul_ps(getQuad(), a.getQuad());
-        quaternion_simd::__m128 shuf1 = quaternion_simd::_mm_shuffle_ps(mul, mul, 0x55);
-        quaternion_simd::__m128 add1 = quaternion_simd::_mm_add_ss(shuf1, mul);
-        quaternion_simd::__m128 shuf2 = quaternion_simd::_mm_shuffle_ps(mul, mul, 0xaa);
-        return quaternion_simd::_mm_add_ss(shuf2, add1);
+        __m128 mul = _mm_mul_ps(getQuad(), a.getQuad());
+        __m128 shuf1 = _mm_shuffle_ps(mul, mul, 0x55);
+        __m128 add1 = _mm_add_ss(shuf1, mul);
+        __m128 shuf2 = _mm_shuffle_ps(mul, mul, 0xaa);
+        return _mm_add_ss(shuf2, add1);
     }
 };
 
@@ -13098,13 +13020,13 @@ struct FNV_ALIGN(16) hkQuaternion
     void FUN_00c66320(const hkQuaternion& q1, const hkQuaternion& q2);
     void SetConjugate(const hkQuaternion& q)
     {
-        m_vec.setQuad(quaternion_simd::_mm_xor_ps(q.m_vec.getQuad(), *(quaternion_simd::__m128*)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4c00))));
+        m_vec.setQuad(_mm_xor_ps(q.m_vec.getQuad(), *(__m128*)&(*reinterpret_cast<unsigned int *>(&::DAT_010c4c00))));
     }
     void setInverseMul(const hkQuaternion& q0, const hkQuaternion& q1)
     {
         hkQuaternion inv0;
         inv0.SetConjugate(q0);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)this, (void *)&(inv0), (const ::fnv_00c66320::__m128 *)&(q1), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)this, (void *)&(inv0), (const __m128 *)&(q1), {});
     }
     float getReal() const
     {
@@ -13123,25 +13045,25 @@ __declspec(noinline) void copyQuaternionVector(hkVector4* out, const hkVector4* 
 }
 __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& a, const hkQuaternion& b)
 {
-    quaternion_simd::__m128 u = a.m_vec.getQuad(), v = b.m_vec.getQuad();
-    quaternion_simd::__m128 cross =
-        quaternion_simd::_mm_sub_ps(quaternion_simd::_mm_mul_ps(quaternion_simd::_mm_shuffle_ps(u, u, 0xc9),
-                                                                quaternion_simd::_mm_shuffle_ps(v, v, 0xd2)),
-                                    quaternion_simd::_mm_mul_ps(quaternion_simd::_mm_shuffle_ps(u, u, 0xd2),
-                                                                quaternion_simd::_mm_shuffle_ps(v, v, 0xc9)));
-    quaternion_simd::__m128 uw = quaternion_simd::_mm_shuffle_ps(u, u, 0xff),
-                            vw = quaternion_simd::_mm_shuffle_ps(v, v, 0xff);
-    quaternion_simd::__m128 xyz = quaternion_simd::_mm_add_ps(quaternion_simd::_mm_mul_ps(uw, v), cross);
-    xyz = quaternion_simd::_mm_add_ps(quaternion_simd::_mm_mul_ps(vw, u), xyz);
-    quaternion_simd::__m128 product = quaternion_simd::_mm_mul_ps(u, v);
-    quaternion_simd::__m128 yz =
-        quaternion_simd::_mm_add_ss(quaternion_simd::_mm_shuffle_ps(product, product, 0x55), product);
-    quaternion_simd::__m128 dot =
-        quaternion_simd::_mm_add_ss(quaternion_simd::_mm_shuffle_ps(product, product, 0xaa), yz);
-    dot = quaternion_simd::_mm_shuffle_ps(dot, dot, 0);
-    quaternion_simd::__m128 real = quaternion_simd::_mm_sub_ps(product, dot);
+    __m128 u = a.m_vec.getQuad(), v = b.m_vec.getQuad();
+    __m128 cross =
+        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(u, u, 0xc9),
+                                                                _mm_shuffle_ps(v, v, 0xd2)),
+                                    _mm_mul_ps(_mm_shuffle_ps(u, u, 0xd2),
+                                                                _mm_shuffle_ps(v, v, 0xc9)));
+    __m128 uw = _mm_shuffle_ps(u, u, 0xff),
+                            vw = _mm_shuffle_ps(v, v, 0xff);
+    __m128 xyz = _mm_add_ps(_mm_mul_ps(uw, v), cross);
+    xyz = _mm_add_ps(_mm_mul_ps(vw, u), xyz);
+    __m128 product = _mm_mul_ps(u, v);
+    __m128 yz =
+        _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product);
+    __m128 dot =
+        _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa), yz);
+    dot = _mm_shuffle_ps(dot, dot, 0);
+    __m128 real = _mm_sub_ps(product, dot);
     hkVector4 result;
-    result.setQuad(quaternion_simd::_mm_shuffle_ps(xyz, quaternion_simd::_mm_unpackhi_ps(xyz, real), 0xc4));
+    result.setQuad(_mm_shuffle_ps(xyz, _mm_unpackhi_ps(xyz, real), 0xc4));
     copyQuaternionVector(&m_vec, &result);
 }
 
@@ -13369,7 +13291,7 @@ class bhkForceController : public NiTimeController
         raw[-1] = pad;
         return raw;
     }
-    bhkForceController() : unk40(*(__m128*)&(*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30))), unk50(0.0f)
+    bhkForceController() : unk40(*(__m128*)&(*reinterpret_cast<const __m128 *>(&::DAT_01267e30))), unk50(0.0f)
     {}
     __forceinline void Configure(float duration)
     {

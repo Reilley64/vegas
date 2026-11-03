@@ -5,6 +5,7 @@
 
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <emmintrin.h>
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -1012,23 +1013,6 @@ void dad340_drive()
     dad340_result = FUN_00dad340(get_quad(), get_rows(), get_output());
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    __int8 m128i_i8[16];
-    __int16 m128i_i16[8];
-    __int32 m128i_i32[4];
-    __int64 m128i_i64[2];
-    unsigned __int8 m128i_u8[16];
-    unsigned __int16 m128i_u16[8];
-    unsigned __int32 m128i_u32[4];
-    unsigned __int64 m128i_u64[2];
-};
-extern "C"
-{
-    __m128i _mm_srli_epi32(__m128i, int);
-    __m128i _mm_slli_epi32(__m128i, int);
-    __m128 _mm_cvtepi32_ps(__m128i);
-}
 class GridVector
 {
     __m128 value;

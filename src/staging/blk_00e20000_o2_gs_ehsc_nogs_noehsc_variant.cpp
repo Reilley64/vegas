@@ -2352,7 +2352,7 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
         Collector* collectors[4] = {queries, queries + 1, queries + 2, 3 + queries};
         FUN_00d1bfa0(tree, node, arg3, &batch, collectors, oldFraction);
         for (int i = 0; i < n; ++i)
-            fractions[index4[i]] = queries[i].maxFraction.v.m128_f32[0];
+            fractions[index4[i]] = queries[i].maxFraction.v[0];
     }
 }
 }  // namespace fnv_00e2c100

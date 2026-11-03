@@ -15969,7 +15969,7 @@ struct EE60Vec
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 struct EE60Mat
@@ -16648,7 +16648,7 @@ struct hkVector4_s
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 struct hkRotation_s
@@ -17974,14 +17974,6 @@ __forceinline const __m128& quad(const QuadCDA& q)
 {
     return *(const __m128*)&q;
 }
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_rcp_ps(__m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 class hkQuaternionCDA;
 class hkVector4CDA
 {
@@ -18137,7 +18129,7 @@ class hkQsTransformCDA
         hkVector4CDA temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         quad(m_vScale.m_vComponents) = _mm_mul_ps(quad(t2.m_vScale.m_vComponents), quad(t1.m_vScale.m_vComponents));
     }
     __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
@@ -18577,8 +18569,8 @@ struct Collision
     {}
     __forceinline Collision(const Collision& c)
     {
-        _mm_store_ps(position.m128_f32, c.position);
-        _mm_store_ps(direction.m128_f32, c.direction);
+        _mm_store_ps(reinterpret_cast<float*>(&position), c.position);
+        _mm_store_ps(reinterpret_cast<float*>(&direction), c.direction);
         a = c.a;
         state = c.state;
         shapeKeysA = c.shapeKeysA;
@@ -19800,11 +19792,11 @@ class GroundVector
     }
     __forceinline float& operator()(int i)
     {
-        return lanes.m128_f32[i];
+        return lanes[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return lanes.m128_f32[i];
+        return lanes[i];
     }
     __forceinline void setSub4(const GroundVector& a, const GroundVector& b)
     {
@@ -20829,25 +20821,12 @@ void MotionController::FUN_00cd4800(FUN_00c6cba0_class* character)
 }
 
 namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sub_ps(__m128, __m128);
-}
 }
 struct TriangleVector
 {
     union
     {
-        N::__m128 m_vComponents;
+        __m128 m_vComponents;
         float lane[4];
     };
 
@@ -20862,26 +20841,26 @@ struct TriangleVector
 
     __forceinline void setSub4(const TriangleVector& a, const TriangleVector& b)
     {
-        m_vComponents = N::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
     __forceinline void mul4(float s)
     {
-        m_vComponents = N::_mm_mul_ps(m_vComponents, N::_mm_set_ps1(s));
+        m_vComponents = _mm_mul_ps(m_vComponents, _mm_set_ps1(s));
     }
     __forceinline void setMul4(float s, const TriangleVector& a)
     {
-        m_vComponents = N::_mm_mul_ps(N::_mm_set_ps1(s), a.m_vComponents);
+        m_vComponents = _mm_mul_ps(_mm_set_ps1(s), a.m_vComponents);
     }
     __forceinline void setZero4()
     {
-        m_vComponents = N::_mm_setzero_ps();
+        m_vComponents = _mm_setzero_ps();
     }
     __forceinline void setCross(const TriangleVector& a, const TriangleVector& b)
     {
-        m_vComponents = N::_mm_sub_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xc9),
-                                                    N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xd2)),
-                                      N::_mm_mul_ps(N::_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xd2),
-                                                    N::_mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xc9)));
+        m_vComponents = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xc9),
+                                                    _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xd2)),
+                                      _mm_mul_ps(_mm_shuffle_ps(a.m_vComponents, a.m_vComponents, 0xd2),
+                                                    _mm_shuffle_ps(b.m_vComponents, b.m_vComponents, 0xc9)));
     }
 };
 
@@ -20937,12 +20916,12 @@ void FUN_00cd73e0(const TriangleInput* tri, const TriangleWeights* p, TriangleMa
     e2.setSub4(tri->m_kPointA, tri->m_iThirdValue);
     TriangleVector e1;
     e1.setSub4(tri->m_kPointB, tri->m_kPointA);
-    N::__m128 weight = N::_mm_load_ss(&p->m_w);
-    weight = N::_mm_shuffle_ps(weight, weight, 0);
+    __m128 weight = _mm_load_ss(&p->m_w);
+    weight = _mm_shuffle_ps(weight, weight, 0);
 
     TriangleVector n;
     n.setCross(e0, e2);
-    n.m_vComponents = N::_mm_mul_ps(n.m_vComponents, weight);
+    n.m_vComponents = _mm_mul_ps(n.m_vComponents, weight);
     nrm->m_vComponents = n.m_vComponents;
 
     TriangleVector v0;
@@ -20952,17 +20931,17 @@ void FUN_00cd73e0(const TriangleInput* tri, const TriangleWeights* p, TriangleMa
     TriangleVector v2;
     v2.setMul4(p->m_uiZ, e1);
 
-    N::__m128 normal9 = N::_mm_shuffle_ps(n.m_vComponents, n.m_vComponents, 0xc9);
-    N::__m128 normal2 = N::_mm_shuffle_ps(n.m_vComponents, n.m_vComponents, 0xd2);
+    __m128 normal9 = _mm_shuffle_ps(n.m_vComponents, n.m_vComponents, 0xc9);
+    __m128 normal2 = _mm_shuffle_ps(n.m_vComponents, n.m_vComponents, 0xd2);
     out->m_kColumn0.m_vComponents =
-        N::_mm_sub_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), normal2),
-                      N::_mm_mul_ps(N::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), normal9));
+        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), normal2),
+                      _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), normal9));
     out->m_kColumn1.m_vComponents =
-        N::_mm_sub_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9), normal2),
-                      N::_mm_mul_ps(N::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2), normal9));
+        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9), normal2),
+                      _mm_mul_ps(_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2), normal9));
     out->m_kColumn2.m_vComponents =
-        N::_mm_sub_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9), normal2),
-                      N::_mm_mul_ps(N::_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2), normal9));
+        _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xc9), normal2),
+                      _mm_mul_ps(_mm_shuffle_ps(v2.m_vComponents, v2.m_vComponents, 0xd2), normal9));
     out->transpose3();
 
     out->m_kColumn0(3) = (*nrm)(0);
@@ -20976,50 +20955,16 @@ void FUN_00cd73e0(const TriangleInput* tri, const TriangleWeights* p, TriangleMa
 namespace fnv_00cd8a50 {
 namespace N {
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-} __m128;
 
-extern "C"
-{
-
-    __m128 _mm_mul_ps(__m128, __m128);
-
-    __m128 _mm_add_ps(__m128, __m128);
-
-    __m128 _mm_sub_ps(__m128, __m128);
-
-    __m128 _mm_add_ss(__m128, __m128);
-
-    __m128 _mm_sub_ss(__m128, __m128);
-
-    __m128 _mm_and_ps(__m128, __m128);
-
-    __m128 _mm_cmple_ps(__m128, __m128);
-
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-
-    __m128 _mm_load_ps1(const float*);
-
-    __m128 _mm_load_ss(const float*);
-
-    void _mm_store_ss(float*, __m128);
-
-    int _mm_movemask_ps(__m128);
-}
 
 }
 
-static __forceinline N::__m128 broadcast(float f)
+static __forceinline __m128 broadcast(float f)
 {
 
-    N::__m128 scalar = N::_mm_load_ss(&f);
+    __m128 scalar = _mm_load_ss(&f);
 
-    return N::_mm_shuffle_ps(scalar, scalar, 0);
+    return _mm_shuffle_ps(scalar, scalar, 0);
 }
 
 
@@ -21028,48 +20973,48 @@ static __forceinline N::__m128 broadcast(float f)
 
 class ScalarLane
 {
-    N::__m128 value;
+    __m128 value;
 
   public:
     ScalarLane()
     {}
-    ScalarLane(const N::__m128& v) : value(v)
+    ScalarLane(const __m128& v) : value(v)
     {}
     ScalarLane(float f)
     {
-        value = N::_mm_load_ss(&f);
+        value = _mm_load_ss(&f);
     }
     operator float() const
     {
         float f;
-        N::_mm_store_ss(&f, value);
+        _mm_store_ss(&f, value);
         return f;
     }
-    __forceinline N::__m128 splat() const
+    __forceinline __m128 splat() const
     {
-        return N::_mm_shuffle_ps(value, value, 0);
+        return _mm_shuffle_ps(value, value, 0);
     }
-    __forceinline const N::__m128& raw() const
+    __forceinline const __m128& raw() const
     {
         return value;
     }
 };
 inline ScalarLane operator-(const ScalarLane& s)
 {
-    return N::_mm_sub_ss((*reinterpret_cast<::fnv_00cd8a50::N::__m128 *>(&::DAT_010c7160)), s.raw());
+    return _mm_sub_ss((*reinterpret_cast<__m128 *>(&::DAT_010c7160)), s.raw());
 }
 class FootVector
 {
-    N::__m128 value;
+    __m128 value;
 
   public:
     FootVector()
     {}
     FootVector(const FootVector& a) : value(a.value)
     {}
-    FootVector(const N::__m128& a) : value(a)
+    FootVector(const __m128& a) : value(a)
     {}
-    operator N::__m128() const
+    operator __m128() const
     {
         return value;
     }
@@ -21077,29 +21022,29 @@ class FootVector
     {
         value = a.value;
     }
-    __forceinline void operator=(const N::__m128& a)
+    __forceinline void operator=(const __m128& a)
     {
         value = a;
     }
     __forceinline void addScaled(const FootVector& base, const FootVector& axis, const ScalarLane& scale)
     {
-        value = N::_mm_add_ps(base.value, N::_mm_mul_ps(scale.splat(), axis.value));
+        value = _mm_add_ps(base.value, _mm_mul_ps(scale.splat(), axis.value));
     }
     __forceinline void subtract(const FootVector& a, const FootVector& b)
     {
-        value = N::_mm_sub_ps(a.value, b.value);
+        value = _mm_sub_ps(a.value, b.value);
     }
     __forceinline ScalarLane dot(const FootVector& a) const
     {
-        N::__m128 p = N::_mm_mul_ps(value, a.value);
-        N::__m128 xy = N::_mm_add_ss(N::_mm_shuffle_ps(p, p, 0x55), p);
-        return N::_mm_add_ss(N::_mm_shuffle_ps(p, p, 0xaa), xy);
+        __m128 p = _mm_mul_ps(value, a.value);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p);
+        return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), xy);
     }
     __forceinline int close3(const FootVector& other) const
     {
-        N::__m128 delta = N::_mm_and_ps(N::_mm_sub_ps(value, other.value), (*reinterpret_cast<::fnv_00cd8a50::N::__m128 *>((void *)&::DAT_01017d10)));
-        N::__m128 limit = N::_mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
-        return (N::_mm_movemask_ps(N::_mm_cmple_ps(delta, limit)) & 7) == 7;
+        __m128 delta = _mm_and_ps(_mm_sub_ps(value, other.value), (*reinterpret_cast<__m128 *>((void *)&::DAT_01017d10)));
+        __m128 limit = _mm_load_ps1(&::AngularDashpotApplyD4DCB0::DAT_01017d00);
+        return (_mm_movemask_ps(_mm_cmple_ps(delta, limit)) & 7) == 7;
     }
 };
 struct RaycastInterface
@@ -21357,7 +21302,6 @@ inline bool flag(unsigned int f, unsigned int shift)
 {
     return ((unsigned char)(f >> shift) & 1) != 0;
 }
-extern "C" __m128 _mm_load_ss(const float*);
 class SwimScale
 {
     __m128 value;
@@ -21805,7 +21749,7 @@ __declspec(noinline) void FUN_00cd44e0(MotionState* object)
     if (parentObject)
     {
         reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((object))->FUN_00c89720();
-        parent = ((::__m128 *)(reinterpret_cast<::CpuObject *>((parentObject))->FUN_00cac910()));
+        parent = ((__m128 *)(reinterpret_cast<::CpuObject *>((parentObject))->FUN_00cac910()));
         reinterpret_cast<::FnvCpu_FUN_00c89720_CpuInterface *>((object))->FUN_00c89720();
     }
     float height = altScalar(_mm_shuffle_ps(*parent, *parent, 0xaa)) - object->field578;
@@ -21827,7 +21771,7 @@ __declspec(noinline) void FUN_00cd44e0(MotionState* object)
         }
         if (altScalar(_mm_shuffle_ps(*velocity, *velocity, 0xaa)) > 0.0f)
         {
-            object->field4f0.m128_f32[2] = 0.0f;
+            object->field4f0[2] = 0.0f;
         }
         else
         {

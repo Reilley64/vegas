@@ -8,6 +8,7 @@
 // to their real unit once identified.
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -21,18 +22,6 @@ struct FloatLess
         return a < b;
     }
 };
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" int _mm_movemask_ps(__m128);
 static inline __m128 Dot3v(__m128 a, __m128 b)
 {
     __m128 p = _mm_mul_ps(a, b);
@@ -44,8 +33,6 @@ static inline __m128 Dot3_e4b570(__m128 p)
 }
 int __cdecl FUN_00e4b570(const __m128* point, const __m128* verts, float* out);
 
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
 
 struct Quaternion81
 {

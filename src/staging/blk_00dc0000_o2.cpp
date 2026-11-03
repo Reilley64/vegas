@@ -1,5 +1,6 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
+#include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -2655,25 +2656,8 @@ void __cdecl FUN_00dcfff0(ObjA* a, ObjB* b, float* out)
 }
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #endif
 #ifndef _INCLUDED_MM2
-extern "C"
-{
-    __m128 _mm_setzero_ps();
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_or_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    int _mm_movemask_ps(__m128);
-}
 #endif
 
 
@@ -3211,13 +3195,6 @@ TokenReader* TokenReader::ReadToken(TokenOwner* owner)
 void FUN_00dccb60(int value)
 {}
 
-extern "C"
-{
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 class S00dd0ff0_SimdReal
 {

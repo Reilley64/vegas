@@ -1067,7 +1067,7 @@ extern "C" void* __cdecl CreateObjectFromFactory(
     object->unk10 = 0xffff;
 
     ::ComputeInverseLengths(
-        (::__m128 *)(reinterpret_cast<const void*>(
+        (__m128 *)(reinterpret_cast<const void*>(
             static_cast<unsigned int>(*reinterpret_cast<int*>(param_2)) + 0x20)),
         (float *)(void *)(reinterpret_cast<void*>(&object->unk14)));
 
@@ -1973,7 +1973,7 @@ char* __cdecl InitOutputDefaults(FUN_00d390a0_Owner* owner, FUN_00d390a0_Flags* 
     out->unk00 = 0xffff;
     out->unk02 = 0xffff;
     out->unk04 = 0xffff;
-    ::ComputeInverseLengths((::__m128 *)(void *)((char*)leaf + 0x20), (float *)(void *)(&out->unk08));
+    ::ComputeInverseLengths((__m128 *)(void *)((char*)leaf + 0x20), (float *)(void *)(&out->unk08));
     return (char*)out + 0x20;
 }
 
@@ -3658,12 +3658,6 @@ FUN_00d37d30::FUN_00d37d30() {
 
 #include <xmmintrin.h>
 namespace fnv_00d22260 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float f[4]; };
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
 
 struct D22260_Matrix
 {

@@ -2,6 +2,8 @@
 // src/staging/blk_00de0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -6967,20 +6969,7 @@ void** __cdecl FUN_00dffff0()
     return &DAT_010e80b4;
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_setzero_ps(void);
 
 class hkVector4_de1210
 {
@@ -6996,7 +6985,7 @@ class hkVector4_de1210
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 
@@ -7207,7 +7196,7 @@ struct DE5450Vector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
     void operator=(const DE5450Vector4& v)
     {
@@ -9132,14 +9121,6 @@ int FUN_00df3330(FNVPair8* out, FNVVec16* src, __m128* dst, unsigned int index, 
     return count + count - 2;
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 
 class hkVector4
 {
@@ -10968,11 +10949,6 @@ int __cdecl FUN_00de9bd0(const float* d, S00de9bd0_Edge* apEdges, float orientat
     return mask;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
 struct VelocityVector
 {
     union
@@ -11144,18 +11120,6 @@ float __cdecl FUN_00df2510(const VelocityBody* a, const VelocityBody* b, const V
 extern "C"
 {
     void _ReadWriteBarrier();
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
 }
 
 struct V4
@@ -11681,7 +11645,6 @@ void __cdecl FUN_00df79d0(void* a1, TaskTarget* a2)
     reinterpret_cast<::LunaOwner *>((((FUN_00d04e80_cls*)a1)))->ProcessCallback((int)(a2), (int)(a2), 0);
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
 struct PulleyObjectBase
 {
     int* vtable;
@@ -11784,7 +11747,6 @@ class FUN_00dfbf70 : public SuspensionObject
 FUN_00dfbf70::~FUN_00dfbf70() throw()
 {}
 
-extern "C" void _mm_store_ps(float*, __m128);
 
 extern "C" int DAT_010d8274;
 
@@ -12015,7 +11977,7 @@ int __cdecl FUN_00df8440(S00df8440_Owner* owner, S00df8440_Job* job)
     S00df8440_Desc desc;
     desc.m_pPair = &pair;
     desc.m_04 = job->m_28;
-    desc.m_40 = (*reinterpret_cast<::__m128 *>(&::DAT_012684d0));
+    desc.m_40 = (*reinterpret_cast<__m128 *>(&::DAT_012684d0));
     desc.m_0c = job->m_34;
     desc.m_10 = job->m_38;
     desc.m_20 = job->m_40;
@@ -12035,51 +11997,9 @@ int __cdecl FUN_00df8440(S00df8440_Owner* owner, S00df8440_Job* job)
 }
 
 namespace SimpleQuad {
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C" __m128 _mm_setzero_ps();
 extern "C"
 {
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_or_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    void _mm_store_ss(float*, __m128);
     extern const __m128 DAT_010c7170;
-}
-struct __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int x, y, z, w;
-};
-extern "C"
-{
-    __m128i _mm_setzero_si128();
-    __m128i _mm_unpacklo_epi16(__m128i, __m128i);
-    __m128i _mm_unpackhi_epi16(__m128i, __m128i);
-    __m128i _mm_slli_epi32(__m128i, int);
-    __m128i _mm_srli_epi32(__m128i, int);
-    __m128 _mm_cvtepi32_ps(__m128i);
 }
 class ByteAnswer
 {
@@ -12308,7 +12228,7 @@ class PVec
     }
     __forceinline void xyz0(const PVec& a)
     {
-        value = _mm_and_ps(a.value, (*reinterpret_cast<const ::SimpleQuad::__m128 *>(&::DAT_010c4c10)));
+        value = _mm_and_ps(a.value, (*reinterpret_cast<const __m128 *>(&::DAT_010c4c10)));
     }
     __forceinline void addMul(const PVec& origin, const PVec& scale, const PVec& v)
     {
@@ -12603,7 +12523,7 @@ struct TraversalCursor
 };
 struct PhaseVector
 {
-    SimpleQuad::__m128 value;
+    __m128 value;
 };
 struct LeafCursor
 {
@@ -12642,10 +12562,10 @@ extern "C" ByteAnswer __cdecl FUN_00df2750(const PTree* tree, PCast& input, PCol
     PVec origin = start;
     PMask flat;
     PVec persistentZero;
-    persistentZero.quad() = SimpleQuad::_mm_setzero_ps();
+    persistentZero.quad() = _mm_setzero_ps();
     {
         PVec one;
-        one.quad() = (*reinterpret_cast<const ::SimpleQuad::__m128 *>(&::DAT_010c7170));
+        one.quad() = (*reinterpret_cast<const __m128 *>(&::DAT_010c7170));
         const PVec& zero = persistentZero;
         flat = dir.equal(zero);
         PVec safe;

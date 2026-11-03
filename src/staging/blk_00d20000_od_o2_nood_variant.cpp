@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -26,19 +27,6 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct hkVector4
 {
@@ -101,18 +89,6 @@ bool FUN_00d28560(void* unused, char** items, int count, int offset)
 }
 
 namespace fnv_00d31610 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -490,18 +466,6 @@ void CastObj::FUN_00d31610(int a1, int a2, int a3, LinearCastState& st)
 }  // namespace fnv_00d31610
 
 namespace fnv_00d36d60 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -591,15 +555,6 @@ void SimplexProcessor::FUN_00d36d60(int a, int b, int c, Simplex* s)
 }  // namespace fnv_00d36d60
 
 namespace fnv_00d23380 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkVector4
 {
@@ -710,18 +665,6 @@ const void* __cdecl FUN_00d2c8a0()
 }
 
 namespace fnv_00d32850 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -913,15 +856,6 @@ void __cdecl FUN_00d367d0(hkpCollisionDispatcherD367* pkDispatcher)
 }
 
 namespace fnv_00d36e80 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c44d0;
 
@@ -1013,18 +947,6 @@ void Agent::FUN_00d36e80(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const S
 }  // namespace fnv_00d36e80
 
 namespace fnv_00d37c10 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -1171,18 +1093,6 @@ void __cdecl FUN_00d39840(hkpCollisionDispatcherD398* pkDispatcher)
 }
 
 namespace fnv_00d3f500 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 
 extern __m128 DAT_010c4c00;
 
@@ -1275,18 +1185,8 @@ void Agent::FUN_00d3f500(int a, int b, int c, Simplex* s)
 }  // namespace fnv_00d3f500
 
 namespace fnv_00d3fe90 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 extern "C"
 {
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ss(const float*);
     unsigned __int64 __rdtsc();
     void _ReadWriteBarrier();
 }
@@ -1435,13 +1335,6 @@ void* __cdecl FUN_00d3fe90(Params* p, unsigned char* out, unsigned char* obj, in
 }
 }  // namespace fnv_00d3fe90
 
-extern "C"
-{
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    void _mm_store_ps(float* p, __m128 a);
-}
 
 struct ClosestPointResult
 {
@@ -1503,15 +1396,13 @@ int FUN_00d231b0(const __m128* pa, const __m128* pb, const __m128* pc, const __m
     Dot3(distSq, diff, diff);
 
     out->distSq = distSq;
-    _mm_store_ps(out->p1.m128_f32, p1);
-    _mm_store_ps(out->p2.m128_f32, p2);
+    _mm_store_ps(reinterpret_cast<float*>(&out->p1), p1);
+    _mm_store_ps(reinterpret_cast<float*>(&out->p2), p2);
     out->s = s;
     out->t = t;
     return result;
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 
 extern __m128 DAT_010c44d0;
 
@@ -1593,24 +1484,6 @@ void D2fWorld::FUN_00d2f460(int a1, int a2, const D2fInput* a3, int a4, void* a5
     }
 }
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-}
-}
 
 class S00d2c910_Base
 {
@@ -1631,13 +1504,13 @@ class FUN_00d2c910 : public S00d2c910_Base
   public:
     FUN_00d2c910(void* a, int b);
     virtual void vf00();
-    N::__m128 m_kScaleFactors;
+    __m128 m_kScaleFactors;
 };
 
 // @fnv 0x00d2c910
 FUN_00d2c910::FUN_00d2c910(void* a, int b) : S00d2c910_Base(a, b)
 {
-    m_kScaleFactors = N::_mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
+    m_kScaleFactors = _mm_setr_ps(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
 #include "generated/data/staging/blk_00d20000_od_o2_nood_variant.inc"

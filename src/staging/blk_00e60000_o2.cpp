@@ -2,6 +2,7 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -8360,19 +8361,7 @@ void __cdecl FUN_00e60e40(int type, int count, int aiStart, IntArray* out)
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 __forceinline float dot3(__m128 p)
 {
     float value;
@@ -8484,15 +8473,6 @@ void __cdecl FUN_00e61a10(const __m128* point, const __m128* apVertexA, const __
 }
 
 namespace fnv_00e63af0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 extern double DAT_0109a3a0;
 
@@ -11189,14 +11169,6 @@ SwapChainBufferData* __cdecl FUN_00e7d6b0(DeviceE7D6B0* pkDevice, PresentParamsE
     return pkThis;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 class XfCallee
 {
@@ -11261,10 +11233,6 @@ void XfTransformBlock::FUN_00e62b20(__m128* in, __m128* out)
     out[2] = t2;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 struct __declspec(align(16)) Vector
 {
@@ -11358,21 +11326,6 @@ __m128* SupportOwner::FUN_00e62c60(Arg<__m128> out, const Vector* direction, Arg
 
 extern "C"
 {
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
     void _ReadWriteBarrier();
     void _WriteBarrier();
 }
@@ -11456,7 +11409,6 @@ void TrianglePlane::FUN_00e67570()
     m_40 = m_00.dotFloat(first);
 }
 
-extern "C" __m128 _mm_sqrt_ss(__m128);
 
 struct S00e61d30_TriVerts
 {
@@ -11500,9 +11452,6 @@ void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out)
     out[3] = 1.0f / len;
 }
 
-extern "C"
-{
-}
 
 struct S00e67ae0_HullFace;
 

@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include <xmmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include "generated/data/vtables.h"
@@ -12641,11 +12642,6 @@ StringStorageCB* StringStorageCB::FUN_00cb0ba0(const char* text, int count)
 }  // namespace fnv_00cb0ba0
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #endif
 
 struct S00cb87e0_Node
@@ -12669,8 +12665,8 @@ struct S00cb87e0_Node
         f30 = ::fnv_00c88020::DAT_01016248;
         unk00 = 0;
         unk04 = 0;
-        v10 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
-        v20 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+        v10 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
+        v20 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
         f34 = DAT_0101e2bc;
     }
     void* operator new(std::size_t size) throw()
@@ -13711,8 +13707,8 @@ void* S00cb87e0_Obj::GetNode(bool* abCreated)
         S00cb87e0_Node* p = (S00cb87e0_Node*)raw;
         p->unk00 = 0;
         p->unk04 = 0;
-        p->v10 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
-        p->v20 = (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+        p->v10 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
+        p->v20 = (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
         p->f30 = defaultScale;
         p->f34 = DAT_0101e2bc;
         m_0c = p;

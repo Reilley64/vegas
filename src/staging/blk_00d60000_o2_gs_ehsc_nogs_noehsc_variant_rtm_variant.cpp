@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -1326,8 +1327,6 @@ struct FUN_00d61a50_cls
 
     int* FUN_00d61a50(int value);
 };
-namespace fnvc_adapt {
-}
 void __cdecl FUN_00c908c0(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
 class hkMemoryAllocatorD61B8
 {
@@ -1604,13 +1603,6 @@ volatile int g_d6c1b0_a1;
 D6C1B0Owner* volatile g_d6c1b0_owner;
 static void FUN_00d6c1b0(D6C180Command** ppkCursor, D6C1B0Owner* pOwner, int a1);
 void d6c1b0_caller(void);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 g_d6c1d0_src[4];
 extern "C" __m128 g_d6c1d0_mat[4];
 extern "C" __m128 g_d6c1d0_out[4];
@@ -1749,14 +1741,6 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 
-extern "C"
-{
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-    void _mm_store_ps(float*, __m128);
-}
 #include <math.h>
 
 inline float Fwd(float x)

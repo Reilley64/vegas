@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -1114,25 +1115,8 @@ __forceinline float Clamp(const float& value, const float& hi, const float& lo)
     return value < lo ? lo : (hi < value ? hi : value);
 }
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 #endif
 #ifndef _INCLUDED_MM2
-extern "C"
-{
-    __m128 _mm_setzero_ps();
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_or_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    int _mm_movemask_ps(__m128);
-}
 #endif
 static __forceinline __m128 choose(__m128 mask, __m128 yes, __m128 no)
 {
@@ -1335,13 +1319,6 @@ double FUN_00ecdf2d(const char* s, char** end);
 static float FUN_00dcc3b0(TokenReader* stream);
 float MatchCaller(TokenReader* s);
 void FUN_00dccb60(int value);
-extern "C"
-{
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-}
 class S00dd0ff0_SimdReal
 {
   public:
@@ -1521,26 +1498,19 @@ struct Wrap
 static V FUN_00dd3020(V B, V A, V C, V O, Wrap E, V D, V M1, V M2);
 void call_interleave(V B, V A, V C, V O, Wrap E, V D, V M1, V M2);
 
-namespace S00dcfec0_Intrinsics {
-extern "C"
-{
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_sqrt_ss(__m128);
-}
-}
 
 
 struct S00dcfec0_SimdReal
 {
     __m128 m_vValue;
-    __forceinline S00dcfec0_SimdReal(float x) : m_vValue(S00dcfec0_Intrinsics::_mm_load_ss(&x))
+    __forceinline S00dcfec0_SimdReal(float x) : m_vValue(_mm_load_ss(&x))
     {}
     __forceinline S00dcfec0_SimdReal(__m128 r) : m_vValue(r)
     {}
     __forceinline operator float() const
     {
         float s;
-        ::_mm_store_ss(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
 };
@@ -1552,41 +1522,41 @@ struct S00dcfec0_V
     template <int I> __forceinline S00dcfec0_V permuted() const
     {
         S00dcfec0_V r;
-        r.m_vComponents = ::_mm_shuffle_ps(m_vComponents, m_vComponents, I);
+        r.m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, I);
         return r;
     }
     __forceinline void permuteC()
     {
-        m_vComponents = ::_mm_shuffle_ps(m_vComponents, m_vComponents, 0xc9);
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xc9);
     }
     __forceinline void permuteD()
     {
-        m_vComponents = ::_mm_shuffle_ps(m_vComponents, m_vComponents, 0xd2);
+        m_vComponents = _mm_shuffle_ps(m_vComponents, m_vComponents, 0xd2);
     }
     __forceinline S00dcfec0_V operator*(const S00dcfec0_V& other) const
     {
         S00dcfec0_V r;
-        r.m_vComponents = ::_mm_mul_ps(m_vComponents, other.m_vComponents);
+        r.m_vComponents = _mm_mul_ps(m_vComponents, other.m_vComponents);
         return r;
     }
     __forceinline S00dcfec0_V operator-(const S00dcfec0_V& other) const
     {
         S00dcfec0_V r;
-        r.m_vComponents = ::_mm_sub_ps(m_vComponents, other.m_vComponents);
+        r.m_vComponents = _mm_sub_ps(m_vComponents, other.m_vComponents);
         return r;
     }
 
     __forceinline void setSum(const S00dcfec0_V& a, const S00dcfec0_V& b)
     {
-        m_vComponents = ::_mm_add_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents);
     }
     __forceinline S00dcfec0_SimdReal length() const
     {
-        return S00dcfec0_Intrinsics::_mm_sqrt_ss(dot3(*this).m_vValue);
+        return _mm_sqrt_ss(dot3(*this).m_vValue);
     }
     __forceinline void scale(const S00dcfec0_SimdReal& x)
     {
-        m_vComponents = ::_mm_mul_ps(::_mm_shuffle_ps(x.m_vValue, x.m_vValue, 0), m_vComponents);
+        m_vComponents = _mm_mul_ps(_mm_shuffle_ps(x.m_vValue, x.m_vValue, 0), m_vComponents);
     }
 
     __forceinline S00dcfec0_V()
@@ -1599,9 +1569,9 @@ struct S00dcfec0_V
     }
     __forceinline S00dcfec0_SimdReal dot3(const S00dcfec0_V& b) const
     {
-        __m128 m = ::_mm_mul_ps(m_vComponents, b.m_vComponents);
-        __m128 y = ::_mm_add_ss(::_mm_shuffle_ps(m, m, 0x55), m);
-        return ::_mm_add_ss(::_mm_shuffle_ps(m, m, 0xaa), y);
+        __m128 m = _mm_mul_ps(m_vComponents, b.m_vComponents);
+        __m128 y = _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m);
+        return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), y);
     }
     __forceinline void crossFirst(const S00dcfec0_V& v0, const S00dcfec0_V& v1)
     {
@@ -1611,9 +1581,9 @@ struct S00dcfec0_V
     {
         __m128 y = v1.m_vComponents;
         __m128 x = v0.m_vComponents;
-        __m128 cross0 = ::_mm_mul_ps(::_mm_shuffle_ps(x, x, 0xc9), ::_mm_shuffle_ps(y, y, 0xd2));
-        __m128 cross1 = ::_mm_mul_ps(::_mm_shuffle_ps(x, x, 0xd2), ::_mm_shuffle_ps(y, y, 0xc9));
-        m_vComponents = ::_mm_sub_ps(cross0, cross1);
+        __m128 cross0 = _mm_mul_ps(_mm_shuffle_ps(x, x, 0xc9), _mm_shuffle_ps(y, y, 0xd2));
+        __m128 cross1 = _mm_mul_ps(_mm_shuffle_ps(x, x, 0xd2), _mm_shuffle_ps(y, y, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
     }
 };
 

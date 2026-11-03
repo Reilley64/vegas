@@ -14943,8 +14943,6 @@ void IndexBufferOwnerE8F::FUN_00e8f840()
 
 using ::ConstantTarget;
 using ::Vec4;
-namespace ShaderSubtractData {
-}
 
 // Subtracts DAT_0126f8b0 from DAT_0126f8a0 into DAT_0126f900 based on typeA and typeB, then calls target->SetConstant(reg, &DAT_0126f900.x, 0).
 // @fnv 0x00e83320
@@ -14998,8 +14996,6 @@ int FUN_00e83320(ConstantTarget* target, intptr_t reg, intptr_t typeA, int typeB
 using ::ConstantTarget;
 using ::Vec4;
 
-namespace ShaderDivideDetail {
-}
 
 struct S00e82e70_D3DXMATRIX {
     float _11, _12, _13, _14;
@@ -15009,8 +15005,6 @@ struct S00e82e70_D3DXMATRIX {
 };
 
 
-extern "C" {
-}
 
 // Computes a divided matrix or vector from DAT_0126f820/DAT_0126f8a0 by DAT_0126f8b0, optionally inverting/transposing, then calls target->SetConstant.
 // @fnv 0x00e82e70

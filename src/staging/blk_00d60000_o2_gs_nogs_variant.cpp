@@ -1323,8 +1323,6 @@ struct FUN_00d61a50_cls
 
     int* FUN_00d61a50(int value);
 };
-namespace fnvc_adapt {
-}
 void __cdecl FUN_00c908c0(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
 class hkMemoryAllocatorD61B8
 {

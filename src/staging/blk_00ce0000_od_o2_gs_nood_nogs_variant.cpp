@@ -33,7 +33,7 @@ __declspec(align(16)) struct Vec4Pod
 void FUN_00ce2ca0(void* unused, __m128* dst, const __m128* a, const __m128* b)
 {
     dst[0] = _mm_add_ps(_mm_mul_ps(a[2], b[0]), a[0]);
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((Vec4Target*)(dst + 1))), (void *)(a + 1), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(b + 1), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(((Vec4Target*)(dst + 1))), (void *)(a + 1), (const __m128 *)(const __m128 *)(b + 1), {});
     dst[2] = b[2];
 }
 

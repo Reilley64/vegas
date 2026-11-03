@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <xmmintrin.h>
 #include <cstddef>
 #include <windows.h>
 // src/staging/blk_00cc0000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_moves.py: the bytes and the matched neighbours of these functions
@@ -86,7 +87,6 @@
 #include "fnv/symbols_0126f000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 #include "fnv/symbols_simd.h"
 struct MemContextGuard
 {
@@ -246,19 +246,6 @@ public:
     __forceinline Cd2Collection* GetCollection() { return this ? m_pShapeCollection : 0; }
     bool FUN_00cd2f10(void* key);
 };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_load_ps(float const*);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-void _mm_store_ps(float*, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-}
 struct __declspec(align(16)) PoseVector {
     union { __m128 value; float lane[4]; };
     PoseVector() {}
@@ -337,7 +324,7 @@ struct PoseTransform {
     __forceinline void multiply(const PoseTransform& a,const PoseTransform& b) {
         PoseVector moved;moved.rotate(a.rotation.vector,b.translation);
         translation.value=_mm_add_ps(a.translation.value,moved.value);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(a.rotation),(const ::fnv_00c66320::__m128 *)&(b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(a.rotation),(const __m128 *)&(b.rotation), {});
         scale.value=_mm_mul_ps(a.scale.value,b.scale.value);
     }
     __forceinline void relative(const PoseTransform& a,const PoseTransform& b) {
@@ -526,7 +513,6 @@ struct S_00ccbce0_Owner
 
     void FUN_00ccbce0(S_00ccbce0_Output* value);
 };
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 union hkVec4 { __m128 m_vComponents; char m_bytes[16]; };
 struct BytePair { char a; char b; };
 struct EntityCinfo {
@@ -1161,7 +1147,6 @@ struct CinfoVector {
     hkVec4 value;
     __forceinline CinfoVector(__m128 vector) { value.m_vComponents = vector; }
 };
-extern "C" __m128 _mm_set_ps1(float);
 struct CachedObj {
     int unk00;
     int unk04;
@@ -1528,11 +1513,6 @@ struct Owner { int unk00,unk04; Target* target; };
 struct Body { int unk00,unk04,unk08,unk0c,unk10,unk14; Owner* owner; int unk1c; Transform transform; };
 extern const char nodeName[];
 struct Subject { int unk00,unk04; Body* body; void FUN_00ccf150(ConvexShapeNode*,void*); };
-extern "C" {
-__m128 _mm_set_ps1(float);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-}
 struct BoundsVector : hkVector4
 {
     __forceinline const __m128& Get() const { return m_vComponents; }
@@ -2025,7 +2005,6 @@ static void AddName(NameArr* arr, const unsigned int& v) {
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(n, (char *&)(v));
 }
-extern "C" void _mm_store_ss(float*, __m128);
 struct hkVec4Q {
     hkVec4 storage;
     __forceinline void setSub4(const hkVec4Q& a, const hkVec4Q& b) { storage.m_vComponents = _mm_sub_ps(a.storage.m_vComponents, b.storage.m_vComponents); }
@@ -2082,7 +2061,6 @@ struct ContactManifold {
 
     void FUN_00cd3080();
 };
-extern "C" __m128 _mm_setzero_ps();
 union hkVecQ3E
 {
     __m128 m_vComponents;
@@ -2742,7 +2720,6 @@ struct ThreadBlock {
     unsigned int unk02b0;
     unsigned int allocationType;
 };
-extern "C" {  }
 struct AllocationTypeScope {
     unsigned int previous;
     AllocationTypeScope(unsigned int type) : previous((*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).allocationType) {(*reinterpret_cast<::ThreadBlock *>(&::g_tlsBlock)).allocationType=type;}
@@ -2753,7 +2730,6 @@ struct RouterHeap {
     virtual void* Allocate(int bytes);
     virtual void Release(void* memory,int bytes);
 };
-extern "C" __m128 _mm_load_ss(float const*);
 struct SimdReal { hkVec4 m; SimdReal(float f){ m.m_vComponents=_mm_load_ss(&f);} };
 union __declspec(align(16)) MotionVector {__m128 quad;hkVec4 storage;
     void Mul(const SimdReal& r){ quad=_mm_mul_ps(_mm_shuffle_ps(r.m.m_vComponents,r.m.m_vComponents,0),quad);}
@@ -2806,7 +2782,6 @@ void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(int)(scale));
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 struct BlockAllocator {
     virtual void unknown00();
     virtual void* allocate(int);
@@ -2895,7 +2870,6 @@ void CloneOwner513::FUN_00cc7600(FUN_00d4fe80* output, CloneData513* data) {
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(int)(data));
 }
 
-extern "C" __m128 _mm_load_ss(float const*_A);
 
 
 struct S00cc96b0_ScaleObject {
@@ -2920,7 +2894,6 @@ void __cdecl FUN_00cc96b0(float value, S00cc96b0_ScaleObject* object)
     }
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 
 
 struct RefObjStandIn
@@ -2995,9 +2968,6 @@ void ScaledNode::FUN_00ccbf00(TargetArg* pkTarget, ScaleArg* pkArg)
 }
 
 extern "C" {
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*,__m128);
 void _ReadBarrier();
 void _ReadWriteBarrier();
 }
@@ -3385,15 +3355,15 @@ void FUN_00cd3cb0(Motion* object) {
     scale.up = object->vec4c0;
     scale.normal = object->vec4c0;
     if (b < -100000000.0f) {
-        (*(0 + object->vec4f0.m128_f32)) = 0.0f;
+        (*(0 + reinterpret_cast<float*>(&object->vec4f0))) = 0.0f;
         scale.oldVelocity = object->vec4f0;
         scale.time = 1.0f;
         _mm_store_ss(&b,_mm_shuffle_ps(object->vec510,object->vec510,0xaa));
         transferScalar(z,b);
         _mm_store_ss(&b,object->vec510);
         transferScalar(b,b);
-        _mm_store_ss(((0)[&scale.gravity.m128_f32]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
-        scale.gravity = _mm_setr_ps(scale.gravity.m128_f32[0],b,z,0.0f);
+        _mm_store_ss(((0)[&reinterpret_cast<float*>(&scale.gravity)]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
+        scale.gravity = _mm_setr_ps(scale.gravity[0],b,z,0.0f);
         scale.limit = 100000.0f;
         scale.basis = object->vec4a0;
         ::FUN_00d6aef0((const ::MotionInput *)(::Step *)(&scale),(float)(&object->vec4f0));
@@ -3404,8 +3374,8 @@ void FUN_00cd3cb0(Motion* object) {
         transferScalar(b,z);
         _mm_store_ss(&z,object->vec510);
         transferScalar(z,z);
-        _mm_store_ss(((&scale.gravity.m128_f32)[0]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
-        scale.gravity = _mm_setr_ps((((scale.gravity.m128_f32)[(0)])),z,b,0.0f);
+        _mm_store_ss(((&reinterpret_cast<float*>(&scale.gravity))[0]),_mm_shuffle_ps(object->vec510,object->vec510,0x55));
+        scale.gravity = _mm_setr_ps((((reinterpret_cast<float*>(&scale.gravity))[(0)])),z,b,0.0f);
         scale.limit = 100000.0f;
         scale.basis = object->vec4a0;
         ::FUN_00d6aef0((const ::MotionInput *)(::Step *)(&scale),(float)(&object->vec4f0));
@@ -3445,10 +3415,6 @@ void FUN_00cd3cb0(Motion* object) {
 
 extern "C" void _ReadBarrier(void);
 #pragma intrinsic(_ReadBarrier)
-extern "C" float _mm_cvtss_f32(__m128 _A);
-extern "C" __m128 _mm_load_ss(float const*_A);
-extern "C" void _mm_store_ss(float *_V, __m128 _A);
-extern "C" __m128 _mm_sub_ss(__m128 _A, __m128 _B);
 
 
 
@@ -3975,8 +3941,8 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
             float x = object->getX510();
             __m128 source = object->m_v510.m_vComponents;
             _ReadBarrier();
-            _mm_store_ss(&params.m_v50.m_vComponents.m128_f32[0], _mm_shuffle_ps(source,source,0x55));
-            params.m_v50.set(params.m_v50.m_vComponents.m128_f32[0],x,::DAT_01011d78,::DAT_01011d78);
+            _mm_store_ss(&params.m_v50.m_vComponents[0], _mm_shuffle_ps(source,source,0x55));
+            params.m_v50.set(params.m_v50.m_vComponents[0],x,::DAT_01011d78,::DAT_01011d78);
         }
         S00cd3fb0_hkVector4* vel = &object->m_fVelocity;
         ::FUN_00d6aef0((const ::MotionInput *)(::S00cd3fb0_MotionParams *)(&params), (float)(vel));
@@ -4006,21 +3972,6 @@ void S00cd3fb0_MotionContext::FUN_00cd3fb0(S00cd3fb0_MotionObject* object)
 
 extern "C" {
 void _ReadWriteBarrier();
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_set_ps1(float);
-__m128 _mm_load_ps(const float*);
-float _mm_cvtss_f32(__m128);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*, __m128);
 }
 struct MotionData {
     __m128 orientation;
@@ -4487,14 +4438,14 @@ void FUN_00cd4280(MotionController* controller)
             dir = direction;
         }
         direction = _mm_load_ps(reference);
-        direction.m128_f32[2] = 0.0f;
-        controller->velocity = _mm_add_ps(_mm_load_ps(direction.m128_f32), dir);
+        direction[2] = 0.0f;
+        controller->velocity = _mm_add_ps(_mm_load_ps(reinterpret_cast<float*>(&direction)), dir);
     }
     {
         __m128 outBuf;
         controller->SubtractVectors(&reciprocal.v);
         ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&outBuf)), (*(const ::hkVector4 *)(&reciprocal.v)));
-        controller->heading = outBuf.m128_f32[2];
+        controller->heading = outBuf[2];
     }
     controller->state = 2;
     reinterpret_cast<::FUN_00c6cba0_class *>((controller))->FUN_00c6cba0();
@@ -4502,7 +4453,6 @@ void FUN_00cd4280(MotionController* controller)
     ((::MotionListener *)(reinterpret_cast<::hkpCharacterStateView *>((controller->listeners))->FUN_00cbc510(controller->listenerIndex)))->update(controller);
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
 
 
 
@@ -4579,37 +4529,35 @@ template<class T> struct NativeArray {
     __forceinline T& operator[](int i) {return data[i];}
 };
 extern "C" {
-::__m128 _mm_load_ss(const float*);
-::__m128 _mm_setzero_ps();
 void _ReadWriteBarrier();
 }
 
 struct NScalar {
 private:
-    ::__m128 bits;
+    __m128 bits;
 public:
-    inline const ::__m128& bitsValue() const {return bits;}
-    NScalar(const ::__m128& a):bits(a) {}
+    inline const __m128& bitsValue() const {return bits;}
+    NScalar(const __m128& a):bits(a) {}
     NScalar(float a) {bits=_mm_load_ss(&a);}
-    operator float() const { float a;(::_mm_store_ss)(&a,bits);return a; }
-    __forceinline ::__m128 splat() const {return _mm_shuffle_ps(bits,bits,0);}
+    operator float() const { float a;(_mm_store_ss)(&a,bits);return a; }
+    __forceinline __m128 splat() const {return _mm_shuffle_ps(bits,bits,0);}
 };
 class NQuaternion;
 struct NTransform;
 class NVector {
-    union {::__m128 data;float lanes[4];};
+    union {__m128 data;float lanes[4];};
 public:
     __forceinline void operator=(const NVector& a) {data=a.data;}
-    __forceinline void operator=(const ::__m128& a) {data=a;}
+    __forceinline void operator=(const __m128& a) {data=a;}
     __forceinline float& operator()(int i) {return lanes[i];}
-    __forceinline const ::__m128& quad() const {return data;}
-    __forceinline ::__m128& quad() {return data;}
+    __forceinline const __m128& quad() const {return data;}
+    __forceinline __m128& quad() {return data;}
     __forceinline NScalar dot3(const NVector& a) const {
-        ::__m128 p=_mm_mul_ps(data,a.data);
-        ::__m128 y=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
+        __m128 p=_mm_mul_ps(data,a.data);
+        __m128 y=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
         return _mm_add_ss(_mm_shuffle_ps(p,p,0xaa),y);
     }
-    __forceinline operator ::__m128() const {return data;}
+    __forceinline operator __m128() const {return data;}
     __forceinline void negAll(const NVector& a) {data=_mm_xor_ps(a.data,::DAT_010c44d0);}
     __forceinline void negThree(const NVector& a) {data=_mm_xor_ps(a.data,::DAT_010c4c00);}
     __forceinline void xyzZero(const NVector& a) {data=_mm_and_ps(a,::DAT_010c4c10);}
@@ -4621,19 +4569,19 @@ public:
     __forceinline void addMul4(const NVector& a,const NVector& b) {data=_mm_add_ps(data,_mm_mul_ps(a.data,b.data));}
     __forceinline void triple(const NVector& a,const NVector& b,const NVector& c) {data=_mm_add_ps(a.data,_mm_mul_ps(b.data,c.data));}
     __forceinline void broadcast(int i) {splatFrom(*this,i);}
-    __forceinline void add4(const NVector& a) {*this=_mm_add_ps(static_cast<::__m128>(*this),static_cast<::__m128>(a));}
+    __forceinline void add4(const NVector& a) {*this=_mm_add_ps(static_cast<__m128>(*this),static_cast<__m128>(a));}
     __forceinline void mul4(const NVector& a) {data=_mm_mul_ps(data,a.data);}
     __forceinline void mul4(const NScalar& a) {data=_mm_mul_ps(a.splat(),data);}
     __forceinline void addMul4(const NScalar& a,const NVector& b) {data=_mm_add_ps(data,_mm_mul_ps(a.splat(),b.data));}
     __forceinline void subMul4(const NScalar& a,const NVector& b) {data=_mm_sub_ps(data,_mm_mul_ps(a.splat(),b.data));}
     __forceinline void setAddMul4(const NVector& a,const NVector& b,const NScalar& c) {data=_mm_add_ps(a.data,_mm_mul_ps(c.splat(),b.data));}
     __forceinline void setInterpolate4(const NVector& a,const NVector& b,const NScalar& c) {
-        ::__m128 t=c.splat();
+        __m128 t=c.splat();
         data=_mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0,t),a.data),_mm_mul_ps(t,b.data));
     }
     __forceinline void cross(const NVector& a,const NVector& b) {
-        ::__m128 first=_mm_mul_ps(_mm_shuffle_ps(a.data,a.data,0xc9),_mm_shuffle_ps(b.data,b.data,0xd2));
-        ::__m128 second=_mm_mul_ps(_mm_shuffle_ps(a.data,a.data,0xd2),_mm_shuffle_ps(b.data,b.data,0xc9));
+        __m128 first=_mm_mul_ps(_mm_shuffle_ps(a.data,a.data,0xc9),_mm_shuffle_ps(b.data,b.data,0xd2));
+        __m128 second=_mm_mul_ps(_mm_shuffle_ps(a.data,a.data,0xd2),_mm_shuffle_ps(b.data,b.data,0xc9));
         data=_mm_sub_ps(first,second);
     }
     __forceinline void SetRotatedDirection(const NQuaternion&,const NVector&);
@@ -4674,7 +4622,7 @@ __forceinline void NVector::inverseRotate(const NQuaternion& q,const NVector& a)
     accum.addMul4(real,cp);
     setAdd4(accum,accum);
 }
-static __forceinline ::__m128 reciprocalValue(::__m128 a) {::__m128 seed=_mm_rcp_ps(a);::__m128 error=_mm_mul_ps(_mm_mul_ps(a,seed),seed);return _mm_sub_ps(_mm_add_ps(seed,seed),error);}
+static __forceinline __m128 reciprocalValue(__m128 a) {__m128 seed=_mm_rcp_ps(a);__m128 error=_mm_mul_ps(_mm_mul_ps(a,seed),seed);return _mm_sub_ps(_mm_add_ps(seed,seed),error);}
 struct NTransform {
     NVector m_vTranslation;
     NQuaternion m_rotation;
@@ -4700,8 +4648,6 @@ __forceinline void NVector::_setTransformedPos(const NTransform& a,const NVector
 }
 struct NativeBool {char value;NativeBool(){}NativeBool(bool a):value(a){}operator bool() const {return value!=0;}NativeBool& operator=(bool a){value=a;return *this;}};
 
-extern "C" ::__m128 _mm_cmple_ps(::__m128,::__m128);
-extern "C" int _mm_movemask_ps(::__m128);
 template<class T> static __forceinline T valueMax(T a,T b) {return a>b?a:b;}
 template<class T> static __forceinline T valueMin(T a,T b) {return a<b?a:b;}
 struct NativePose {
@@ -4760,8 +4706,8 @@ __declspec(noinline) bool NativeSolver::FUN_00cd8a50(const NativeInput& a,const 
     start.setAddMul4(foot,settings.direction,above);
     end.setAddMul4(foot,settings.direction,-below);
     bool hit0=RayCast(a,start,end,fraction0,n0),hit1=false;
-    ::__m128 delta=_mm_and_ps(_mm_sub_ps(toe.quad(),foot.quad()),DAT_01017d10);
-    ::__m128 epsilonVector=_mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00);
+    __m128 delta=_mm_and_ps(_mm_sub_ps(toe.quad(),foot.quad()),DAT_01017d10);
+    __m128 epsilonVector=_mm_set_ps1(::AngularDashpotApplyD4DCB0::DAT_01017d00);
     if ((_mm_movemask_ps(_mm_cmple_ps(delta,epsilonVector))&7)!=7) {
         start.setAddMul4(toe,settings.direction,above);
         end.setAddMul4(toe,settings.direction,-below);
@@ -4786,85 +4732,81 @@ __declspec(noinline) bool NativeSolver::FUN_00cd8a50(const NativeInput& a,const 
     return true;
 }
 
-static __forceinline ::__m128 rawDot(::__m128 a,::__m128 b) {
-    ::__m128 p=_mm_mul_ps(a,b);
-    ::__m128 y=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
+static __forceinline __m128 rawDot(__m128 a,__m128 b) {
+    __m128 p=_mm_mul_ps(a,b);
+    __m128 y=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);
     return _mm_add_ss(_mm_shuffle_ps(p,p,0xaa),y);
 }
 static __forceinline void rotateFront(NVector& out,const NQuaternion& quat,const NVector& dir) {
-    const ::__m128& q=quat.m_vec.quad();
-    ::__m128 a=dir.quad();
-    ::__m128 cross=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(a,a,0xd2)),_mm_mul_ps(_mm_shuffle_ps(q,q,0xd2),_mm_shuffle_ps(a,a,0xc9)));
-    ::__m128 r=_mm_shuffle_ps(q,q,0xff);
-    ::__m128 h=_mm_add_ps(_mm_mul_ps(r,r),::DAT_010c71e0);
-    ::__m128 result=_mm_mul_ps(a,h);
-    ::__m128 dot=rawDot(q,a);
+    const __m128& q=quat.m_vec.quad();
+    __m128 a=dir.quad();
+    __m128 cross=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(a,a,0xd2)),_mm_mul_ps(_mm_shuffle_ps(q,q,0xd2),_mm_shuffle_ps(a,a,0xc9)));
+    __m128 r=_mm_shuffle_ps(q,q,0xff);
+    __m128 h=_mm_add_ps(_mm_mul_ps(r,r),::DAT_010c71e0);
+    __m128 result=_mm_mul_ps(a,h);
+    __m128 dot=rawDot(q,a);
     result=_mm_add_ps(result,_mm_mul_ps(_mm_shuffle_ps(dot,dot,0),q));
     result=_mm_add_ps(result,_mm_mul_ps(cross,r));
     out.quad()=_mm_add_ps(result,result);
 }
-extern "C" ::__m128 _mm_rsqrt_ps(::__m128);
-extern "C" ::__m128 _mm_sqrt_ps(::__m128);
-extern "C" ::__m128 _mm_cmpgt_ps(::__m128,::__m128);
-extern "C" ::__m128 _mm_cmplt_ps(::__m128,::__m128);
-static const ::__m128 quaternionUnit={{0.0f,0.0f,0.0f,1.0f}};
-static const ::__m128 quaternionOne={{1.0f,1.0f,1.0f,1.0f}};
-static const ::__m128 quaternionHalf={{0.5f,0.5f,0.5f,0.5f}};
-static const ::__m128 quaternionThree={{3.0f,3.0f,3.0f,3.0f}};
-static const ::__m128 parallelLimit={{0.99999f,0.99999f,0.99999f,0.99999f}};
-static const ::__m128 opposedLimit={{-0.99999f,-0.99999f,-0.99999f,-0.99999f}};
-static const ::__m128 correctionLimit={{-0.999f,-0.999f,-0.999f,-0.999f}};
-static const ::__m128 axisFirst={{1.0f,0.0f,0.0f,0.0f}};
-static const ::__m128 axisSecond={{0.0f,1.0f,0.0f,0.0f}};
-static __forceinline ::__m128 inverseRoot(::__m128 value) {
-    ::__m128 r=_mm_rsqrt_ps(value);
+static const __m128 quaternionUnit={{0.0f,0.0f,0.0f,1.0f}};
+static const __m128 quaternionOne={{1.0f,1.0f,1.0f,1.0f}};
+static const __m128 quaternionHalf={{0.5f,0.5f,0.5f,0.5f}};
+static const __m128 quaternionThree={{3.0f,3.0f,3.0f,3.0f}};
+static const __m128 parallelLimit={{0.99999f,0.99999f,0.99999f,0.99999f}};
+static const __m128 opposedLimit={{-0.99999f,-0.99999f,-0.99999f,-0.99999f}};
+static const __m128 correctionLimit={{-0.999f,-0.999f,-0.999f,-0.999f}};
+static const __m128 axisFirst={{1.0f,0.0f,0.0f,0.0f}};
+static const __m128 axisSecond={{0.0f,1.0f,0.0f,0.0f}};
+static __forceinline __m128 inverseRoot(__m128 value) {
+    __m128 r=_mm_rsqrt_ps(value);
     return _mm_mul_ps(_mm_mul_ps(quaternionHalf,r),_mm_sub_ps(quaternionThree,_mm_mul_ps(_mm_mul_ps(value,r),r)));
 }
-static __forceinline ::__m128 normalizedQuaternion(::__m128 value) {
-    ::__m128 p=_mm_mul_ps(value,value);
-    ::__m128 sum=_mm_add_ps(p,_mm_shuffle_ps(p,p,0x4e));
+static __forceinline __m128 normalizedQuaternion(__m128 value) {
+    __m128 p=_mm_mul_ps(value,value);
+    __m128 sum=_mm_add_ps(p,_mm_shuffle_ps(p,p,0x4e));
     sum=_mm_add_ps(sum,_mm_shuffle_ps(sum,sum,0xb1));
     return _mm_mul_ps(value,inverseRoot(sum));
 }
 inline void NQuaternion::FUN_00cd9d10(const NVector& from,const NVector& to) {
-    ::__m128 dot=rawDot(from.quad(),to.quad());
+    __m128 dot=rawDot(from.quad(),to.quad());
     dot=_mm_shuffle_ps(dot,dot,0);
     if (_mm_movemask_ps(_mm_cmpgt_ps(dot,parallelLimit))) m_vec.quad()=quaternionUnit;
     else if (_mm_movemask_ps(_mm_cmplt_ps(dot,opposedLimit))) {
         NVector axis;
-        float x=from.quad().m128_f32[0];
+        float x=from.quad()[0];
         if(x> -0.5f && x<0.5f)axis.quad()=axisFirst;
         else axis.quad()=axisSecond;
         NVector perpendicular;perpendicular.cross(from,axis);
         perpendicular(3)=0.0f;
         m_vec.quad()=normalizedQuaternion(perpendicular.quad());
     } else {
-        ::__m128 halfAngle=_mm_mul_ps(quaternionHalf,_mm_add_ps(quaternionOne,dot));
-        ::__m128 invCosine=inverseRoot(halfAngle);
+        __m128 halfAngle=_mm_mul_ps(quaternionHalf,_mm_add_ps(quaternionOne,dot));
+        __m128 invCosine=inverseRoot(halfAngle);
         NVector cross;cross.cross(from,to);
-        ::__m128 factor=_mm_mul_ps(quaternionHalf,invCosine);
+        __m128 factor=_mm_mul_ps(quaternionHalf,invCosine);
         if(_mm_movemask_ps(_mm_cmplt_ps(dot,correctionLimit))) {
-            ::__m128 length=rawDot(cross.quad(),cross.quad());
+            __m128 length=rawDot(cross.quad(),cross.quad());
             length=_mm_shuffle_ps(length,length,0);
             factor=_mm_mul_ps(_mm_sqrt_ps(_mm_sub_ps(halfAngle,dot)),inverseRoot(length));
         }
-        ::__m128 imaginary=_mm_mul_ps(cross.quad(),factor);
-        ::__m128 real=_mm_mul_ps(halfAngle,invCosine);
+        __m128 imaginary=_mm_mul_ps(cross.quad(),factor);
+        __m128 real=_mm_mul_ps(halfAngle,invCosine);
         m_vec.quad()=_mm_shuffle_ps(imaginary,_mm_unpackhi_ps(imaginary,real),0xc4);
     }
 }
 
 __declspec(noinline) void NQuaternion::FUN_00c66320(const NQuaternion& a,const NQuaternion& b) {
-    ::__m128 av=a.m_vec.quad(),bv=b.m_vec.quad();
-    ::__m128 cp=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2)),_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9)));
-    ::__m128 xyz=_mm_add_ps(_mm_add_ps(cp,_mm_mul_ps(_mm_shuffle_ps(av,av,0xff),bv)),_mm_mul_ps(_mm_shuffle_ps(bv,bv,0xff),av));
-    ::__m128 p=_mm_mul_ps(av,bv);::__m128 dot=rawDot(av,bv);
-    ::__m128 w=_mm_sub_ps(p,_mm_shuffle_ps(dot,dot,0));
+    __m128 av=a.m_vec.quad(),bv=b.m_vec.quad();
+    __m128 cp=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(av,av,0xc9),_mm_shuffle_ps(bv,bv,0xd2)),_mm_mul_ps(_mm_shuffle_ps(av,av,0xd2),_mm_shuffle_ps(bv,bv,0xc9)));
+    __m128 xyz=_mm_add_ps(_mm_add_ps(cp,_mm_mul_ps(_mm_shuffle_ps(av,av,0xff),bv)),_mm_mul_ps(_mm_shuffle_ps(bv,bv,0xff),av));
+    __m128 p=_mm_mul_ps(av,bv);__m128 dot=rawDot(av,bv);
+    __m128 w=_mm_sub_ps(p,_mm_shuffle_ps(dot,dot,0));
     m_vec.quad()=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,w),0xc4);
 }
 
-static __forceinline float scalarDotValue(::__m128 a,::__m128 b) {float f;(::_mm_store_ss)(&f,rawDot(a,b));return f;}
-static __forceinline void scalarDotStore(float& f,::__m128 a,::__m128 b){(::_mm_store_ss)(&f,rawDot(a,b));}
+static __forceinline float scalarDotValue(__m128 a,__m128 b) {float f;(_mm_store_ss)(&f,rawDot(a,b));return f;}
+static __forceinline void scalarDotStore(float& f,__m128 a,__m128 b){(_mm_store_ss)(&f,rawDot(a,b));}
 
 // @fnv 0x00cd8d90
 extern "C" void FUN_00cd8d90(NativeSolver* self,void*,const NativeInput& a,NativeOutput& out,NativePose& pose) {
@@ -5004,7 +4946,7 @@ const NVector& offset=self->drift;
             localNormal.SetRotatedDirection(inverse.getRotation(),desiredUp);
             NQuaternion rotation,combined,interpolated;
             rotation.FUN_00cd9d10(localUp,localNormal);
-            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(combined), (void *)&(rotation),(const ::fnv_00c66320::__m128 *)&(originalRotation), {});
+            ::fnv_00c66320::FUN_00c66320((__m128 *)&(combined), (void *)&(rotation),(const __m128 *)&(originalRotation), {});
             interpolated.m_vec.setInterpolate4(originalRotation.m_vec,combined.m_vec,self->weight);
             reinterpret_cast<::FUN_005611c0_t *>(&(interpolated))->FUN_005611c0();
             (*(::NTransform *)&(reinterpret_cast<::hkaPoseCDA *>(&(pose))->FUN_00cdad80(self->settings.bone2,1))).SetBodyOrientation(interpolated);
@@ -5015,18 +4957,6 @@ const NVector& offset=self->drift;
 }
 
 typedef unsigned long DWORD;
-extern "C" {
-::__m128 _mm_sub_ss(::__m128,::__m128);
-::__m128 _mm_mul_ss(::__m128,::__m128);
-::__m128 _mm_andnot_ps(::__m128,::__m128);
-::__m128 _mm_cmpeq_ss(::__m128,::__m128);
-::__m128 _mm_rsqrt_ss(::__m128);
-::__m128 _mm_setzero_ps();
-::__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*,::__m128);
-}
-extern "C" ::__m128 _mm_set_ss(float);
-extern "C" ::__m128 _mm_set_ps1(float);
 extern "C" unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
@@ -5087,7 +5017,7 @@ static __forceinline DWORD Tick()
 
 struct IkVector4
 {
-    ::__m128 m_vComponents;
+    __m128 m_vComponents;
     __forceinline IkVector4() {}
     __forceinline void operator=(const IkVector4& v) { m_vComponents = v.m_vComponents; }
 };
@@ -5097,7 +5027,7 @@ struct hkQuaternion
 {
     IkVector4 m_vec;
     __forceinline hkQuaternion() {}
-    __forceinline hkQuaternion(const hkQuaternion& q) { m_vec.m_vComponents.m128_u64[0]=q.m_vec.m_vComponents.m128_u64[0]; m_vec.m_vComponents.m128_u64[1]=q.m_vec.m_vComponents.m128_u64[1]; }
+    __forceinline hkQuaternion(const hkQuaternion& q) { reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[0]=reinterpret_cast<unsigned __int64*>(&q.m_vec.m_vComponents)[0]; reinterpret_cast<unsigned __int64*>(&m_vec.m_vComponents)[1]=reinterpret_cast<unsigned __int64*>(&q.m_vec.m_vComponents)[1]; }
 __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(const QuadWords*)&q.m_vec;}
     void FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1);
     __declspec(noalias) void FUN_005611c0();
@@ -5107,39 +5037,39 @@ __forceinline void copyRotation(const hkQuaternion& q) {*(QuadWords*)&m_vec=*(co
 
 float __cdecl ClampedAcos(float x);
 
-static __forceinline ::__m128 Dot3(::__m128 a, ::__m128 b)
+static __forceinline __m128 Dot3(__m128 a, __m128 b)
 {
-    ::__m128 x2 = _mm_mul_ps(a, b);
-    ::__m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+    __m128 x2 = _mm_mul_ps(a, b);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
     return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), s);
 }
 
 struct VectorComponentValue
 {
-    ::__m128 m_vValue;
+    __m128 m_vValue;
 };
 
-static __forceinline VectorComponentValue Dot3S(const ::__m128& a, const ::__m128& b)
+static __forceinline VectorComponentValue Dot3S(const __m128& a, const __m128& b)
 {
     VectorComponentValue r;
-    ::__m128 x2 = _mm_mul_ps(a, b);
-    ::__m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+    __m128 x2 = _mm_mul_ps(a, b);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
     r.m_vValue = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), s);
     return r;
 }
-static __forceinline VectorComponentValue Dot3Srev(const ::__m128& a, const ::__m128& b)
+static __forceinline VectorComponentValue Dot3Srev(const __m128& a, const __m128& b)
 {
     VectorComponentValue r;
-    ::__m128 x2 = _mm_mul_ps(b, a);
-    ::__m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+    __m128 x2 = _mm_mul_ps(b, a);
+    __m128 s = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
     r.m_vValue = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), s);
     return r;
 }
 
 struct MathQuad {
- ::__m128 m_vComponents;
+ __m128 m_vComponents;
  __forceinline MathQuad() {}
- __forceinline MathQuad(const ::__m128& x):m_vComponents(x) {}
+ __forceinline MathQuad(const __m128& x):m_vComponents(x) {}
  template<int shuffle> __forceinline void component(const MathQuad& a) { m_vComponents=_mm_shuffle_ps(a.m_vComponents,a.m_vComponents,shuffle); }
  __forceinline void product(const MathQuad& a,const MathQuad& b) { m_vComponents=_mm_mul_ps(a.m_vComponents,b.m_vComponents); }
  __forceinline void sumProduct(const MathQuad& offset,const MathQuad& a,const MathQuad& b) { m_vComponents=_mm_add_ps(offset.m_vComponents,_mm_mul_ps(a.m_vComponents,b.m_vComponents)); }
@@ -5152,22 +5082,22 @@ struct MathQuad {
 };
 
 class DotValue {
- ::__m128 quad;
+ __m128 quad;
 public:
  __forceinline DotValue(){}
- __forceinline DotValue(const ::__m128& x):quad(x){}
- __forceinline void operator=(const ::__m128& x){quad=x;}
- __forceinline operator ::__m128()const{return quad;}
+ __forceinline DotValue(const __m128& x):quad(x){}
+ __forceinline void operator=(const __m128& x){quad=x;}
+ __forceinline operator __m128()const{return quad;}
 };
 class DotReference {
- ::__m128 quad;
+ __m128 quad;
 public:
  __forceinline DotReference(){}
- __forceinline DotReference(const ::__m128& x):quad(x){}
- __forceinline void operator=(const ::__m128& x){quad=x;}
- __forceinline operator const ::__m128&()const{return quad;}
+ __forceinline DotReference(const __m128& x):quad(x){}
+ __forceinline void operator=(const __m128& x){quad=x;}
+ __forceinline operator const __m128&()const{return quad;}
 };
-static __forceinline ::__m128 RotatedDir(const ::__m128& q,const ::__m128& v) {
+static __forceinline __m128 RotatedDir(const __m128& q,const __m128& v) {
 MathQuad rotation(q);
 MathQuad scalar; scalar.component<0xff>(rotation);
 
@@ -5175,14 +5105,14 @@ MathQuad input(v);
 MathQuad bias(::DAT_010c71e0);
 MathQuad factor; factor.sumProduct(bias,scalar,scalar);
 MathQuad value; value.product(input,factor);
-DotValue wrapped(v);MathQuad projection(Dot3S(rotation.m_vComponents,(::__m128)wrapped).m_vValue); projection.component<0>(projection);
+DotValue wrapped(v);MathQuad projection(Dot3S(rotation.m_vComponents,(__m128)wrapped).m_vValue); projection.component<0>(projection);
 value.accumulate(projection,rotation);
 MathQuad perpendicular; perpendicular.m_vComponents=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(rotation.m_vComponents,rotation.m_vComponents,0xc9),_mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0xd2)),_mm_mul_ps(_mm_shuffle_ps(input.m_vComponents,input.m_vComponents,0xc9),_mm_shuffle_ps(rotation.m_vComponents,rotation.m_vComponents,0xd2)));
 value.accumulate(scalar,perpendicular);
 value.doubleValue(value);
 return value.m_vComponents;
 }
-static __forceinline ::__m128 TargetRotation(const ::__m128& q, const ::__m128& v)
+static __forceinline __m128 TargetRotation(const __m128& q, const __m128& v)
 {
     MathQuad rotation(q), input(v), bias(::DAT_010c71e0);
     MathQuad scalar; scalar.component<0xff>(rotation);
@@ -5196,27 +5126,27 @@ static __forceinline ::__m128 TargetRotation(const ::__m128& q, const ::__m128& 
     return result.m_vComponents;
 }
 struct HingeScalar {
-private: ::__m128 quad;
+private: __m128 quad;
 public:
  __forceinline HingeScalar() {}
- __forceinline HingeScalar(::__m128 x):quad(x) {}
- __forceinline operator ::__m128() const {return quad;}
- __forceinline ::__m128 raw() const {return quad;}
+ __forceinline HingeScalar(__m128 x):quad(x) {}
+ __forceinline operator __m128() const {return quad;}
+ __forceinline __m128 raw() const {return quad;}
 };
 struct HingeVector {
- ::__m128 quad;
+ __m128 quad;
  __forceinline HingeVector() {}
- __forceinline HingeVector(const ::__m128& x):quad(x) {}
+ __forceinline HingeVector(const __m128& x):quad(x) {}
  __forceinline void mul(const HingeVector& a,const HingeVector& b) {quad=_mm_mul_ps(a.quad,b.quad);}
  __forceinline void addMul(const HingeVector& z,const HingeVector& a,const HingeVector& b) {quad=_mm_add_ps(z.quad,_mm_mul_ps(a.quad,b.quad));}
  __forceinline void accum(const HingeVector& a,const HingeVector& b) {quad=_mm_add_ps(quad,_mm_mul_ps(a.quad,b.quad));}
  __forceinline void plus(const HingeVector& a,const HingeVector& b) {quad=_mm_add_ps(a.quad,b.quad);}
- __forceinline HingeScalar dot(const HingeVector& b) const {::__m128 p=_mm_mul_ps(quad,b.quad);::__m128 sum=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);return HingeScalar(_mm_add_ss(_mm_shuffle_ps(p,p,0xaa),sum));}
+ __forceinline HingeScalar dot(const HingeVector& b) const {__m128 p=_mm_mul_ps(quad,b.quad);__m128 sum=_mm_add_ss(_mm_shuffle_ps(p,p,0x55),p);return HingeScalar(_mm_add_ss(_mm_shuffle_ps(p,p,0xaa),sum));}
  __forceinline void cross(const HingeVector& a,const HingeVector& b) {quad=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(a.quad,a.quad,0xc9),_mm_shuffle_ps(b.quad,b.quad,0xd2)),_mm_mul_ps(_mm_shuffle_ps(b.quad,b.quad,0xc9),_mm_shuffle_ps(a.quad,a.quad,0xd2)));}
  __forceinline void splat(const HingeVector& a) {quad=_mm_shuffle_ps(a.quad,a.quad,0xff);}
  __forceinline void broadcast() {quad=_mm_shuffle_ps(quad,quad,0);}
 };
-static __forceinline ::__m128 HingeRotation(const ::__m128& q,const ::__m128& v) {
+static __forceinline __m128 HingeRotation(const __m128& q,const __m128& v) {
 const HingeVector& rotation=*(const HingeVector*)&q;const HingeVector& input=*(const HingeVector*)&v;
 HingeVector bias(::DAT_010c71e0);
 HingeVector w;w.splat(rotation);
@@ -5229,65 +5159,65 @@ value.accum(w,cross);
 HingeVector out;out.plus(value,value);
 return out.quad;
 }
-static __forceinline ::__m128 ForwardDot(const ::__m128& a,const ::__m128& b) { const ::__m128 x=_mm_mul_ps(b,a); const ::__m128 xy=_mm_add_ss(_mm_shuffle_ps(x,x,0x55),x); const ::__m128 z=_mm_shuffle_ps(x,x,0xaa); return _mm_add_ss(z,xy); }
-static __forceinline ::__m128 RotateForward(const ::__m128& q, const ::__m128& v)
+static __forceinline __m128 ForwardDot(const __m128& a,const __m128& b) { const __m128 x=_mm_mul_ps(b,a); const __m128 xy=_mm_add_ss(_mm_shuffle_ps(x,x,0x55),x); const __m128 z=_mm_shuffle_ps(x,x,0xaa); return _mm_add_ss(z,xy); }
+static __forceinline __m128 RotateForward(const __m128& q, const __m128& v)
 {
-    const ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
-    const ::__m128 dot=ForwardDot(q,v);
-    ::__m128 cross;
+    const __m128 w = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 dot=ForwardDot(q,v);
+    __m128 cross;
     cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(v,v,0xd2)),
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
     cross = _mm_mul_ps(cross, w);
-    ::__m128 result;
+    __m128 result;
     result = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), ::DAT_010c71e0), v);
     result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
     cross = _mm_add_ps(cross, result);
     return _mm_add_ps(cross, cross);
-}static __forceinline ::__m128 InitialForward(const hkQuaternion& rotation,const IkVector4& input) { const ::__m128& v=input.m_vComponents; const ::__m128& q=rotation.m_vec.m_vComponents;
-    const ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
-    const ::__m128 dot=ForwardDot(q,v);
-    ::__m128 cross;
+}static __forceinline __m128 InitialForward(const hkQuaternion& rotation,const IkVector4& input) { const __m128& v=input.m_vComponents; const __m128& q=rotation.m_vec.m_vComponents;
+    const __m128 w = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 dot=ForwardDot(q,v);
+    __m128 cross;
     cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(v,v,0xd2)),
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
     cross = _mm_mul_ps(cross, w);
-    ::__m128 result;
+    __m128 result;
     result = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), ::DAT_010c71e0), v);
     result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
     cross = _mm_add_ps(cross, result);
     return _mm_add_ps(cross, cross);
 }
-static __forceinline ::__m128 FirstRestoreForward(const ::__m128& v,::__m128 q) {
-    const ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
+static __forceinline __m128 FirstRestoreForward(const __m128& v,__m128 q) {
+    const __m128 w = _mm_shuffle_ps(q, q, 0xff);
     const VectorComponentValue dot=Dot3S(v,q);
-    ::__m128 cross;
+    __m128 cross;
     cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(v,v,0xd2)),
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
     cross = _mm_mul_ps(cross, w);
-    ::__m128 result;
+    __m128 result;
     result = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), ::DAT_010c71e0), v);
     result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(dot.m_vValue,dot.m_vValue,0), q));
     cross = _mm_add_ps(cross, result);
     return _mm_add_ps(cross, cross);
 }
 
-static __forceinline ::__m128 ContextForward(::__m128 q, ::__m128 v)
+static __forceinline __m128 ContextForward(__m128 q, __m128 v)
 {
-    const ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
-    const ::__m128 dot=ForwardDot(q,v);
-    ::__m128 cross;
+    const __m128 w = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 dot=ForwardDot(q,v);
+    __m128 cross;
     cross = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(q,q,0xc9),_mm_shuffle_ps(v,v,0xd2)),
                           _mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)));
     cross = _mm_mul_ps(cross, w);
-    ::__m128 result;
+    __m128 result;
     result = _mm_mul_ps(_mm_add_ps(_mm_mul_ps(w, w), ::DAT_010c71e0), v);
     result = _mm_add_ps(result, _mm_mul_ps(_mm_shuffle_ps(dot, dot, 0), q));
     cross = _mm_add_ps(cross, result);
     return _mm_add_ps(cross, cross);
 }
 
-static __forceinline ::__m128 RotatedInverseDir(const ::__m128& q, const ::__m128& v)
+static __forceinline __m128 RotatedInverseDir(const __m128& q, const __m128& v)
 {
-    const ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
+    const __m128 w = _mm_shuffle_ps(q, q, 0xff);
     const VectorComponentValue d = Dot3S(q, v);
     IkVector4 c;
     c.m_vComponents = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(v, v, 0xc9), _mm_shuffle_ps(q, q, 0xd2)),
@@ -5300,26 +5230,26 @@ static __forceinline ::__m128 RotatedInverseDir(const ::__m128& q, const ::__m12
     return _mm_add_ps(c.m_vComponents, c.m_vComponents);
 }
 
-static __forceinline ::__m128 Normalized3(const ::__m128& v)
+static __forceinline __m128 Normalized3(const __m128& v)
 {
-    const ::__m128 lenSq = Dot3S(v, v).m_vValue;
-    ::__m128 r = _mm_rsqrt_ss(lenSq);
-    ::__m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), r),
+    const __m128 lenSq = Dot3S(v, v).m_vValue;
+    __m128 r = _mm_rsqrt_ss(lenSq);
+    __m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), r),
                             _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(lenSq, r), r)));
     inv = _mm_andnot_ps(_mm_cmpeq_ss(lenSq, _mm_set_ss(0.0f)), inv);
     return _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), v);
 }
 
-static __forceinline ::__m128 Normalized3Approx(const ::__m128& v)
+static __forceinline __m128 Normalized3Approx(const __m128& v)
 {
-    const ::__m128 lenSq = Dot3S(v, v).m_vValue;
-    ::__m128 r = _mm_rsqrt_ss(lenSq);
+    const __m128 lenSq = Dot3S(v, v).m_vValue;
+    __m128 r = _mm_rsqrt_ss(lenSq);
     return _mm_mul_ps(_mm_shuffle_ps(r, r, 0), v);
 }
 
-static __forceinline float ToReal(::__m128 x)
+static __forceinline float ToReal(__m128 x)
 {
-    float f; (_mm_store_ss)(&f,x); return f;
+    float f; _mm_store_ss(&f,x); return f;
 }
 
 static __forceinline float Sqrt(float x)
@@ -5333,43 +5263,39 @@ template <typename T> static __forceinline T Max2(T a, T b) { return a > b ? a :
 
 __declspec(noinline) void MultiplyQuaternions(const hkQuaternion& q0,const hkQuaternion& q1,hkQuaternion& out)
 {
-    const ::__m128 a=q0.m_vec.m_vComponents;
-    const ::__m128 dots=Dot3S(q0.m_vec.m_vComponents,q1.m_vec.m_vComponents).m_vValue;
-    const ::__m128 b=q1.m_vec.m_vComponents;
+    const __m128 a=q0.m_vec.m_vComponents;
+    const __m128 dots=Dot3S(q0.m_vec.m_vComponents,q1.m_vec.m_vComponents).m_vValue;
+    const __m128 b=q1.m_vec.m_vComponents;
     IkVector4 cross;
     cross.m_vComponents=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(b,b,0xd2),_mm_shuffle_ps(a,a,0xc9)),_mm_mul_ps(_mm_shuffle_ps(b,b,0xc9),_mm_shuffle_ps(a,a,0xd2)));
-    const ::__m128 aw=_mm_shuffle_ps(a,a,0xff);
-    const ::__m128 bw=_mm_shuffle_ps(b,b,0xff);
+    const __m128 aw=_mm_shuffle_ps(a,a,0xff);
+    const __m128 bw=_mm_shuffle_ps(b,b,0xff);
     IkVector4 vec;
     vec.m_vComponents=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(aw,aw,0),b),cross.m_vComponents);
     vec.m_vComponents=_mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(bw,bw,0),a),vec.m_vComponents);
-    const ::__m128 mul=_mm_mul_ps(b,a);
-    const ::__m128 real=_mm_sub_ps(mul,_mm_shuffle_ps(dots,dots,0));
-    const ::__m128 high=_mm_unpackhi_ps(vec.m_vComponents,real);
+    const __m128 mul=_mm_mul_ps(b,a);
+    const __m128 real=_mm_sub_ps(mul,_mm_shuffle_ps(dots,dots,0));
+    const __m128 high=_mm_unpackhi_ps(vec.m_vComponents,real);
     out.m_vec.m_vComponents=_mm_shuffle_ps(vec.m_vComponents,high,0xc4);
 }
 
 __declspec(noinline) void hkQuaternion::FUN_00c66320(const hkQuaternion& q0, const hkQuaternion& q1)
 { MultiplyQuaternions(q0,q1,*this); }
 
-extern "C" {
-::__m128 _mm_rsqrt_ps(::__m128);::__m128 _mm_cmpeq_ps(::__m128,::__m128);
-::__m128 _mm_unpacklo_ps(::__m128,::__m128);::__m128 _mm_movelh_ps(::__m128,::__m128);
-}
-__declspec(noinline) void hkQuaternion::FUN_005611c0(){const ::__m128 half=_mm_set_ps1(0.5f),three=_mm_set_ps1(3.0f),zero=_mm_setzero_ps();
+__declspec(noinline) void hkQuaternion::FUN_005611c0(){const __m128 half=_mm_set_ps1(0.5f),three=_mm_set_ps1(3.0f),zero=_mm_setzero_ps();
 
- const ::__m128 input=m_vec.m_vComponents;
- const ::__m128 x=_mm_shuffle_ps(input,input,0);
- const ::__m128 y=_mm_shuffle_ps(input,input,0x55);
- const ::__m128 z=_mm_shuffle_ps(input,input,0xaa);
- const ::__m128 w=_mm_shuffle_ps(input,input,0xff);
- const ::__m128 length=_mm_add_ps(_mm_add_ps(_mm_mul_ps(x,x),_mm_mul_ps(z,z)),_mm_add_ps(_mm_mul_ps(y,y),_mm_mul_ps(w,w)));
- const ::__m128 mask=_mm_cmpeq_ps(length,zero);
- const ::__m128 root=_mm_rsqrt_ps(length);
- const ::__m128 correction=_mm_sub_ps(three,_mm_mul_ps(_mm_mul_ps(length,root),root));
- const ::__m128 scale=_mm_andnot_ps(mask,_mm_mul_ps(_mm_mul_ps(half,root),correction));
- const ::__m128 lower=_mm_unpacklo_ps(_mm_mul_ps(x,scale),_mm_mul_ps(y,scale));
- const ::__m128 upper=_mm_unpacklo_ps(_mm_mul_ps(z,scale),_mm_mul_ps(w,scale));
+ const __m128 input=m_vec.m_vComponents;
+ const __m128 x=_mm_shuffle_ps(input,input,0);
+ const __m128 y=_mm_shuffle_ps(input,input,0x55);
+ const __m128 z=_mm_shuffle_ps(input,input,0xaa);
+ const __m128 w=_mm_shuffle_ps(input,input,0xff);
+ const __m128 length=_mm_add_ps(_mm_add_ps(_mm_mul_ps(x,x),_mm_mul_ps(z,z)),_mm_add_ps(_mm_mul_ps(y,y),_mm_mul_ps(w,w)));
+ const __m128 mask=_mm_cmpeq_ps(length,zero);
+ const __m128 root=_mm_rsqrt_ps(length);
+ const __m128 correction=_mm_sub_ps(three,_mm_mul_ps(_mm_mul_ps(length,root),root));
+ const __m128 scale=_mm_andnot_ps(mask,_mm_mul_ps(_mm_mul_ps(half,root),correction));
+ const __m128 lower=_mm_unpacklo_ps(_mm_mul_ps(x,scale),_mm_mul_ps(y,scale));
+ const __m128 upper=_mm_unpacklo_ps(_mm_mul_ps(z,scale),_mm_mul_ps(w,scale));
  m_vec.m_vComponents=_mm_movelh_ps(lower,upper);
 }
 
@@ -5392,11 +5318,11 @@ struct hkQsTransform
     {
         m_vTranslation.m_vComponents = _mm_xor_ps(RotatedInverseDir(t.m_rotation.m_vec.m_vComponents, t.m_vTranslation.m_vComponents), ::DAT_010c44d0);
         m_rotation.m_vec.m_vComponents = _mm_xor_ps(t.m_rotation.m_vec.m_vComponents, ::DAT_010c4c00);
-        ::__m128 s = t.m_vScale.m_vComponents;
-        ::__m128 h = _mm_unpackhi_ps(s, ::DAT_010c7170);
+        __m128 s = t.m_vScale.m_vComponents;
+        __m128 h = _mm_unpackhi_ps(s, ::DAT_010c7170);
         s = _mm_shuffle_ps(s, h, 0xc4);
-        ::__m128 r = _mm_rcp_ps(s);
-        ::__m128 rs = _mm_mul_ps(r, s);
+        __m128 r = _mm_rcp_ps(s);
+        __m128 rs = _mm_mul_ps(r, s);
         r = _mm_sub_ps(_mm_add_ps(r, r), _mm_mul_ps(rs, r));
         m_vScale.m_vComponents = _mm_and_ps(r, ::DAT_010c4c10);
     }
@@ -5404,14 +5330,14 @@ struct hkQsTransform
     __forceinline void SetProduct(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(RotateForward(a.m_rotation.m_vec.m_vComponents,b.m_vTranslation.m_vComponents), a.m_vTranslation.m_vComponents);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
 
     __forceinline void setMulContext(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(ContextForward(a.m_rotation.m_vec.m_vComponents,b.m_vTranslation.m_vComponents), a.m_vTranslation.m_vComponents);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
     __forceinline void setRelativeContext(const hkQsTransform& a, const hkQsTransform& b)
@@ -5423,13 +5349,13 @@ struct hkQsTransform
     __forceinline void setMulInitial(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(InitialForward(a.m_rotation,b.m_vTranslation), a.m_vTranslation.m_vComponents);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
     __forceinline void setMulFirst(const hkQsTransform& a, const hkQsTransform& b)
     {
         m_vTranslation.m_vComponents = _mm_add_ps(FirstRestoreForward(b.m_vTranslation.m_vComponents,a.m_rotation.m_vec.m_vComponents), a.m_vTranslation.m_vComponents);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(a.m_vScale.m_vComponents, b.m_vScale.m_vComponents);
     }
     __forceinline void SetMulInverse(const hkQsTransform& a, const hkQsTransform& b)
@@ -5717,7 +5643,7 @@ IkVector4 secondTwist;
                 }
                 else
                 {
-                    ::__m128 q = RotatedInverseDir(setup.m_qSecondIkRotation.m_vec.m_vComponents, setup.m_vSecondIkVector.m_vComponents);
+                    __m128 q = RotatedInverseDir(setup.m_qSecondIkRotation.m_vec.m_vComponents, setup.m_vSecondIkVector.m_vComponents);
                     q = TargetRotation(setup.m_qFirstIkRotation.m_vec.m_vComponents, q);
                     ptr.m_vComponents = _mm_sub_ps(setup.m_vFirstIkVector.m_vComponents, q);
                     secondTwist = endPos2.m_vTranslation;
@@ -5726,41 +5652,41 @@ IkVector4 secondTwist;
                 float cosTheta;
                 float a;
                 {
-                    const ::__m128 h2 = currentCos.m_vTranslation.m_vComponents;
-                    const ::__m128 endPosMS = x.m_vTranslation.m_vComponents;
+                    const __m128 h2 = currentCos.m_vTranslation.m_vComponents;
+                    const __m128 endPosMS = x.m_vTranslation.m_vComponents;
                     IkVector4 firstToSecond; firstToSecond.m_vComponents = _mm_sub_ps(h2, endPosMS);
                     IkVector4 secondToEnd; secondToEnd.m_vComponents = _mm_sub_ps(secondTwist.m_vComponents, h2);
                     IkVector4 firstToTarget; firstToTarget.m_vComponents = _mm_sub_ps(ptr.m_vComponents, endPosMS);
 
                     hkQuaternion firstPos;firstPos.copyRotation(pose.getBoneModelSpace(setup.m_sSecondJointIndex).m_rotation);
                     reinterpret_cast<::FUN_005611c0_t *>(&(firstPos))->FUN_005611c0();
-                    const ::__m128 hingeAxis = HingeRotation(firstPos.m_vec.m_vComponents,setup.m_vHingeAxisLS.m_vComponents);
+                    const __m128 hingeAxis = HingeRotation(firstPos.m_vec.m_vComponents,setup.m_vHingeAxisLS.m_vComponents);
 
                     
                     const VectorComponentValue secondMSDot={Dot3(firstToSecond.m_vComponents,hingeAxis)}; const float secondMS=ToReal(secondMSDot.m_vValue);
-                    const ::__m128 h1 = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&secondMS),_mm_load_ss(&secondMS),0), hingeAxis);
+                    const __m128 h1 = _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&secondMS),_mm_load_ss(&secondMS),0), hingeAxis);
                     IkVector4 f2sProj; f2sProj.m_vComponents = _mm_sub_ps(firstToSecond.m_vComponents, h1);
                     const VectorComponentValue pRecDot={Dot3(secondToEnd.m_vComponents,hingeAxis)}; const float pRec=ToReal(pRecDot.m_vValue);
-                    const ::__m128 firstMS2 = _mm_mul_ps(_mm_set_ps1(pRec), hingeAxis);
+                    const __m128 firstMS2 = _mm_mul_ps(_mm_set_ps1(pRec), hingeAxis);
                     IkVector4 s2eProj; s2eProj.m_vComponents = _mm_sub_ps(secondToEnd.m_vComponents, firstMS2);
-                    const ::__m128 endTargetMS = _mm_sub_ps(h1, firstMS2);
+                    const __m128 endTargetMS = _mm_sub_ps(h1, firstMS2);
                     float oldRot2;
-                    const ::__m128 squaredOffset=_mm_mul_ps(endTargetMS,endTargetMS);
+                    const __m128 squaredOffset=_mm_mul_ps(endTargetMS,endTargetMS);
                      
                      const float minLimit=setup.m_fSecondIkParameter;
-const ::__m128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
-                    const ::__m128 sz=_mm_shuffle_ps(squaredOffset,squaredOffset,0xaa);
-                    const ::__m128 xy=_mm_add_ss(sy,squaredOffset);
-                    (_mm_store_ss)(&oldRot2,_mm_add_ss(sz,xy));
+const __m128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
+                    const __m128 sz=_mm_shuffle_ps(squaredOffset,squaredOffset,0xaa);
+                    const __m128 xy=_mm_add_ss(sy,squaredOffset);
+                    _mm_store_ss(&oldRot2,_mm_add_ss(sz,xy));
 
                     const float hingeLenSq = ToReal(Dot3(firstToTarget.m_vComponents, firstToTarget.m_vComponents)) - oldRot2;
                     const float hingeAxis2 = ToReal(Dot3(f2sProj.m_vComponents, f2sProj.m_vComponents));
                     const float secondMSRW = ToReal(Dot3(s2eProj.m_vComponents, s2eProj.m_vComponents));
                     cosTheta = Max2(setup.m_fFirstIkParameter, Min2((float)((hingeLenSq - hingeAxis2 - secondMSRW) / (-2.0 * Sqrt(hingeAxis2) * Sqrt(secondMSRW))),minLimit));
 
-                    const ::__m128 y = _mm_xor_ps(Normalized3(f2sProj.m_vComponents), ::DAT_010c4c00);
-                    const ::__m128 d1 = Normalized3(s2eProj.m_vComponents);
-                    (_mm_store_ss)(&a, Dot3(y, d1));
+                    const __m128 y = _mm_xor_ps(Normalized3(f2sProj.m_vComponents), ::DAT_010c4c00);
+                    const __m128 d1 = Normalized3(s2eProj.m_vComponents);
+                    _mm_store_ss(&a, Dot3(y, d1));
                 }
                 {
                     hkQsTransform& secondRot = (*(::hkQsTransform *)&(reinterpret_cast<::hkaPoseCDA *>(&(pose))->FUN_00cdad80(setup.m_sSecondJointIndex, 1)));
@@ -5773,7 +5699,7 @@ const ::__m128 sy=_mm_shuffle_ps(squaredOffset,squaredOffset,0x55);
                     firstMS = setup.m_fFourthIkParameter * firstMS;
                     hkQuaternion s2eN;
                     s2eN.FUN_00cb2450(pForm, firstMS);
-                    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(secondRot.m_rotation), (void *)&(s2eN), (const ::fnv_00c66320::__m128 *)&(fromDir), {});
+                    ::fnv_00c66320::FUN_00c66320((__m128 *)&(secondRot.m_rotation), (void *)&(s2eN), (const __m128 *)&(fromDir), {});
                     reinterpret_cast<::FUN_005611c0_t *>(&(secondRot.m_rotation))->FUN_005611c0();
                 }
             }
@@ -5809,7 +5735,7 @@ reinterpret_cast<::Quat_cdb910 *>(&(kIter))->FUN_00cdb910(setup.m_fThirdIkParame
 
                 hkQsTransform& firstTwist = (*(::hkQsTransform *)&(reinterpret_cast<::hkaPoseCDA *>(&(pose))->FUN_00cdad80(setup.m_sFirstJointIndex, 1)));
                 const hkQuaternion d2 = firstTwist.m_rotation;
-                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(firstTwist.m_rotation), (void *)&(kIter), (const ::fnv_00c66320::__m128 *)&(d2), {});
+                ::fnv_00c66320::FUN_00c66320((__m128 *)&(firstTwist.m_rotation), (void *)&(kIter), (const __m128 *)&(d2), {});
                 reinterpret_cast<::FUN_005611c0_t *>(&(firstTwist.m_rotation))->FUN_005611c0();
             }
             }

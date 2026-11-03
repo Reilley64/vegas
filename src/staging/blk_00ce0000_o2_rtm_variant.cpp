@@ -2757,7 +2757,7 @@ void __cdecl FUN_00ce4e20(QsTransform* xforms, const float* volatile weights, un
         QsTransform* scaled = xforms;
         do
         {
-            ScalarValue inv(_mm_div_ss(_mm_load_ss(&one.m128_f32[0]), _mm_load_ss(input + i)));
+            ScalarValue inv(_mm_div_ss(_mm_load_ss(&one[0]), _mm_load_ss(input + i)));
             scaled->m_vTranslation.apply(inv);
             scaled->m_vScale.apply(inv);
             ++i;

@@ -2119,7 +2119,6 @@ struct ChainArray {
     }
 };
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
-namespace ns_e5c5 {  }
 struct Resource_e5c5 {
     void FUN_00c905b0() throw();
 };
@@ -2865,10 +2864,8 @@ public:
 void __cdecl FUN_00e5d070(const S00e5d070::hkpMoppCode* code, const S00e5d070::PlaneArrayDescriptor& input, S00e5d070::hkpMoppPrimitiveInfoArray* primitives_out, S00e5d070::hkpMoppPrimitiveInfoArray* hits);
 static __forceinline int moppHighLast(int middle,const volatile unsigned char& high,const volatile unsigned char& last){middle+=int(high)<<8;return(middle<<8)+last;}
 static __forceinline int moppRead24(const unsigned char* p) { int middle = p[1]; middle += int(p[0]) << 8; return (middle << 8) + p[2]; }
-extern "C" int _mm_movemask_ps(__m128);
 extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
-extern "C" __m128 _mm_load_ps(const float*);
 struct MoppState {
     int terminalBase;
     int properties[1];
@@ -2899,11 +2896,11 @@ struct MoppPlaneSet {
             __m128 dy = _mm_shuffle_ps(difference, difference, 0x55);
             __m128 dz = _mm_shuffle_ps(difference, difference, 0xaa);
             __m128 radius = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(absolutePlane->x.m128_f32), dx), _mm_mul_ps(_mm_load_ps(absolutePlane->y.m128_f32), dy)),
-                _mm_mul_ps(_mm_load_ps(absolutePlane->z.m128_f32), dz));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->x)), dx), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->y)), dy)),
+                _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->z)), dz));
             __m128 distance = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(plane->y.m128_f32), sy), _mm_mul_ps(_mm_load_ps(plane->x.m128_f32), sx)),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(plane->z.m128_f32), sz), _mm_load_ps(plane->w.m128_f32)));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->y)), sy), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->x)), sx)),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->z)), sz), _mm_load_ps(reinterpret_cast<float*>(&plane->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance, radius), _mm_setzero_ps())) != 15)
                 return 0;
             inside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance, radius), _mm_setzero_ps()));
@@ -3183,7 +3180,7 @@ protected:
 StringPointerTriple m_aiEntries;
 Allocator*m_pTemp;
 Allocator*m_pStreamAllocator;};
-typedef ::__m128 hkQuadReal;
+typedef __m128 hkQuadReal;
 class hkVector4;
 typedef const hkVector4&hkVector4Parameter;
 class VectorComponentValue
@@ -3195,17 +3192,17 @@ VectorComponentValue(const hkQuadReal&x)
 }
 VectorComponentValue(hkReal x)
 {
-m_vValue=(_mm_load_ss)(&x);
+m_vValue=_mm_load_ss(&x);
 }
 operator hkReal()const
 {
 hkReal s;
-(_mm_store_ss)(&s,m_vValue);
+_mm_store_ss(&s,m_vValue);
 return s;
 }
 __forceinline hkQuadReal broadcast()const
 {
-return (_mm_shuffle_ps)(m_vValue,m_vValue,0);
+return _mm_shuffle_ps(m_vValue,m_vValue,0);
 }
 __forceinline const hkQuadReal&getQuad()const
 {
@@ -3215,11 +3212,11 @@ private:
 hkQuadReal m_vValue;};
 typedef const VectorComponentValue&hkSimdRealParameter;__forceinline void hkSimdReal_store(hkSimdRealParameter a,float*f)
 {
-(_mm_store_ss)(f,a.getQuad());
+_mm_store_ss(f,a.getQuad());
 }
 inline VectorComponentValue __cdecl operator+(hkSimdRealParameter r,hkSimdRealParameter s)
 {
-return (_mm_add_ss)(r.getQuad(),s.getQuad());
+return _mm_add_ss(r.getQuad(),s.getQuad());
 }
 namespace MathUtilities
 {
@@ -3296,91 +3293,91 @@ m_vComponents=v.m_vComponents;
 }
 inline void hkVector4::add4(const hkVector4&v)
 {
-m_vComponents=(_mm_add_ps)(m_vComponents,v.m_vComponents);
+m_vComponents=_mm_add_ps(m_vComponents,v.m_vComponents);
 }
 inline void hkVector4::add3clobberW(const hkVector4&v)
 {
-m_vComponents=(_mm_add_ps)(m_vComponents,v.m_vComponents);
+m_vComponents=_mm_add_ps(m_vComponents,v.m_vComponents);
 }
 inline void hkVector4::setAdd4(const hkVector4&v0,const hkVector4&v1)
 {
-m_vComponents=(_mm_add_ps)(v0.m_vComponents,v1.m_vComponents);
+m_vComponents=_mm_add_ps(v0.m_vComponents,v1.m_vComponents);
 }
 inline void hkVector4::sub3clobberW(const hkVector4&v)
 {
-m_vComponents=(_mm_sub_ps)(m_vComponents,v.m_vComponents);
+m_vComponents=_mm_sub_ps(m_vComponents,v.m_vComponents);
 }
 inline void hkVector4::setSub4(const hkVector4&v0,const hkVector4&v1)
 {
-m_vComponents=(_mm_sub_ps)(v0.m_vComponents,v1.m_vComponents);
+m_vComponents=_mm_sub_ps(v0.m_vComponents,v1.m_vComponents);
 }
 inline void hkVector4::mul4(const hkVector4&v)
 {
-m_vComponents=(_mm_mul_ps)(m_vComponents,v.m_vComponents);
+m_vComponents=_mm_mul_ps(m_vComponents,v.m_vComponents);
 }
 inline void hkVector4::setMul4(const hkVector4&a,const hkVector4&b)
 {
-m_vComponents=(_mm_mul_ps)(a.m_vComponents,b.m_vComponents);
+m_vComponents=_mm_mul_ps(a.m_vComponents,b.m_vComponents);
 }
 inline void hkVector4::setMul4(hkSimdRealParameter r,const hkVector4&v1)
 {
-m_vComponents=(_mm_mul_ps)(r.broadcast(),v1.m_vComponents);
+m_vComponents=_mm_mul_ps(r.broadcast(),v1.m_vComponents);
 }
 inline void hkVector4::setCross(const hkVector4&v0,const hkVector4&v1)
 {
 hkQuadReal cross0;
-cross0=(_mm_mul_ps)(
-(_mm_shuffle_ps)(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))),
-(_mm_shuffle_ps)(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))));
+cross0=_mm_mul_ps(
+_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))),
+_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))));
 hkQuadReal cross1;
-cross1=(_mm_mul_ps)(
-(_mm_shuffle_ps)(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))),
-(_mm_shuffle_ps)(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))));
-m_vComponents=(_mm_sub_ps)(cross0,cross1);}
+cross1=_mm_mul_ps(
+_mm_shuffle_ps(v0.m_vComponents,v0.m_vComponents,(((3)<<6)|((1)<<4)|((0)<<2)|((2)))),
+_mm_shuffle_ps(v1.m_vComponents,v1.m_vComponents,(((3)<<6)|((0)<<4)|((2)<<2)|((1)))));
+m_vComponents=_mm_sub_ps(cross0,cross1);}
 inline void hkVector4::_setMul3(const hkMatrix3&a,const hkVector4&b)
 {
-const hkQuadReal b0=(_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
-const hkQuadReal r0=(_mm_mul_ps)(a.getColumn(0).m_vComponents,b0);
-const hkQuadReal b1=(_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
-const hkQuadReal r1=(_mm_mul_ps)(a.getColumn(1).m_vComponents,b1);
-const hkQuadReal b2=(_mm_shuffle_ps)(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
-const hkQuadReal r2=(_mm_mul_ps)(a.getColumn(2).m_vComponents,b2);
-m_vComponents=(_mm_add_ps)((_mm_add_ps)(r0,r1),r2);}
+const hkQuadReal b0=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+const hkQuadReal r0=_mm_mul_ps(a.getColumn(0).m_vComponents,b0);
+const hkQuadReal b1=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+const hkQuadReal r1=_mm_mul_ps(a.getColumn(1).m_vComponents,b1);
+const hkQuadReal b2=_mm_shuffle_ps(b.m_vComponents,b.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+const hkQuadReal r2=_mm_mul_ps(a.getColumn(2).m_vComponents,b2);
+m_vComponents=_mm_add_ps(_mm_add_ps(r0,r1),r2);}
 inline void hkVector4::_setRotatedDir(const hkRotation&r,const hkVector4&v)
 {
 _setMul3(r,v);
 }
 inline VectorComponentValue hkVector4::horizontalAdd3()const
 {
-hkQuadReal xySum=(_mm_add_ss)((_mm_shuffle_ps)(m_vComponents,m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1)))),m_vComponents);
-return (_mm_add_ss)((_mm_shuffle_ps)(m_vComponents,m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2)))),xySum);
+hkQuadReal xySum=_mm_add_ss(_mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1)))),m_vComponents);
+return _mm_add_ss(_mm_shuffle_ps(m_vComponents,m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2)))),xySum);
 }
 inline VectorComponentValue hkVector4::horizontalAdd4()const
 {
-hkQuadReal sum0=(_mm_add_ps)((_mm_shuffle_ps)(m_vComponents,m_vComponents,(((1)<<6)|((0)<<4)|((3)<<2)|((2)))),m_vComponents);
-hkQuadReal sum1=(_mm_shuffle_ps)(sum0,sum0,(((2)<<6)|((3)<<4)|((0)<<2)|((1))));
-return (_mm_add_ps)(sum0,sum1);}
+hkQuadReal sum0=_mm_add_ps(_mm_shuffle_ps(m_vComponents,m_vComponents,(((1)<<6)|((0)<<4)|((3)<<2)|((2)))),m_vComponents);
+hkQuadReal sum1=_mm_shuffle_ps(sum0,sum0,(((2)<<6)|((3)<<4)|((0)<<2)|((1))));
+return _mm_add_ps(sum0,sum1);}
 inline void hkVector4::setW(const hkVector4&w)
 {
-m_vComponents=(_mm_shuffle_ps)(m_vComponents,(_mm_unpackhi_ps)(m_vComponents,w.m_vComponents),(((3)<<6)|((0)<<4)|((1)<<2)|((0))));
+m_vComponents=_mm_shuffle_ps(m_vComponents,_mm_unpackhi_ps(m_vComponents,w.m_vComponents),(((3)<<6)|((0)<<4)|((1)<<2)|((0))));
 }
 inline void hkVector4::setBroadcast(const hkVector4&v,int i)
 {
 if(i==0)
 {
-m_vComponents=(_mm_shuffle_ps)(v.m_vComponents,v.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((0)<<6)|((0)<<4)|((0)<<2)|((0))));
 }
 else if(i==1)
 {
-m_vComponents=(_mm_shuffle_ps)(v.m_vComponents,v.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((1)<<6)|((1)<<4)|((1)<<2)|((1))));
 }
 else if(i==2)
 {
-m_vComponents=(_mm_shuffle_ps)(v.m_vComponents,v.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((2)<<6)|((2)<<4)|((2)<<2)|((2))));
 }
 else if(i==3)
 {
-m_vComponents=(_mm_shuffle_ps)(v.m_vComponents,v.m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
+m_vComponents=_mm_shuffle_ps(v.m_vComponents,v.m_vComponents,(((3)<<6)|((3)<<4)|((3)<<2)|((3))));
 }
 }
 inline void hkVector4::setBroadcast3clobberW(const hkVector4&v,int i)

@@ -15953,7 +15953,7 @@ struct EE60Vec
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 struct EE60Mat
@@ -16632,7 +16632,7 @@ struct hkVector4_s
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 struct hkRotation_s

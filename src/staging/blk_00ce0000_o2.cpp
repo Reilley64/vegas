@@ -274,8 +274,8 @@ bool __cdecl FUN_00ce2a00(int unused, FnvSpawnedObject* obj)
 // @fnv 0x00ce2cf0
 void __cdecl FUN_00ce2cf0(int pObject, int param_2, int param_3)
 {
-    ::FUN_00ce2ca0((void *)(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74)), (::__m128 *)(param_3),
-                 (const ::__m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const ::__m128 *)(param_2));
+    ::FUN_00ce2ca0((void *)(*reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x74)), (__m128 *)(param_3),
+                 (const __m128 *)(int *)(reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x40)), (const __m128 *)(param_2));
 }
 
 
@@ -3784,20 +3784,7 @@ void SelectionMapper::MapSelection(const Selection& sel, hkArrayX<hkInt16>& sour
 
 #include <xmmintrin.h>
 namespace fnv_00ce0ca0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-}
 
 struct FUN_00ce0ca0_Quaternion
 {
@@ -3854,16 +3841,6 @@ void FUN_00ce0ca0_Quaternion::FUN_00ce0ca0(const FUN_00ce0ca0_Quaternion& rhs)
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 namespace fnv_00cf4fb0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 extern const __m128 DAT_010c71d0;
 
 struct BoundsVector

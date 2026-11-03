@@ -5,6 +5,7 @@
 
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -13,21 +14,7 @@
 #include "fnv/symbols_010c8000.h"
 #include "../../include/layout_support.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct VecArray
 {
@@ -78,7 +65,7 @@ void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
             bool dup = false;
             for (; lim >= arr->m_data; --lim)
             {
-                if (lim->m128_f32[0] < cur->m128_f32[0] - (double)0.01f)
+                if ((*lim)[0] < (*cur)[0] - (double)0.01f)
                     break;
                 if (distanceSquared(*lim, *cur) < tol)
                 {
@@ -121,11 +108,6 @@ void __cdecl FUN_00dd68d0(float tol, VecArray* arr, int* outCount)
 }
 
 namespace fnv_00dd6a10 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 typedef __m128 Plane;
 
@@ -255,13 +237,13 @@ void __cdecl FUN_00dd6a10(Edge* edgeIn, PlaneArray* vertices, EdgeArray* visited
             e1.a = neighbours.data[i].v0;
             e1.b = neighbours.data[i].v2;
             e1.tri = &neighbours.data[i];
-            ::fnv_00dd62e0::FUN_00dd62e0((::fnv_00dd62e0::VectorArray *)(vertices), e1.tri->v0, e1.tri->v2, e1.tri->v1, (::fnv_00dd62e0::__m128 *)(::fnv_00dd6a10::__m128 *)(&e1.plane));
+            ::fnv_00dd62e0::FUN_00dd62e0((::fnv_00dd62e0::VectorArray *)(vertices), e1.tri->v0, e1.tri->v2, e1.tri->v1, (__m128 *)(__m128 *)(&e1.plane));
             FUN_00dd6a10(&e1, vertices, vr, planes);
             Edge e2;
             e2.a = neighbours.data[i].v1;
             e2.b = neighbours.data[i].v2;
             e2.tri = &neighbours.data[i];
-            ::fnv_00dd62e0::FUN_00dd62e0((::fnv_00dd62e0::VectorArray *)(vertices), e2.tri->v1, e2.tri->v2, e2.tri->v0, (::fnv_00dd62e0::__m128 *)(::fnv_00dd6a10::__m128 *)(&e2.plane));
+            ::fnv_00dd62e0::FUN_00dd62e0((::fnv_00dd62e0::VectorArray *)(vertices), e2.tri->v1, e2.tri->v2, e2.tri->v0, (__m128 *)(__m128 *)(&e2.plane));
             FUN_00dd6a10(&e2, vertices, vr, planes);
         }
     }
@@ -323,17 +305,6 @@ FUN_00dd1f00::FUN_00dd1f00(const FUN_00dd1f00& o)
 }
 
 namespace fnv_00dd62e0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f[4];
-} __m128;
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
 extern const __m128 DAT_010c44d0;
 struct VectorArray
 {
@@ -353,7 +324,7 @@ void __cdecl FUN_00dd62e0(VectorArray* self, int a, int b, int c, __m128* out)
     _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(product, product, 0xaa),
                                   _mm_add_ss(_mm_shuffle_ps(product, product, 0x55), product)));
     if (dot > 0.0f)
-        *out = _mm_xor_ps(cross, (*reinterpret_cast<const ::fnv_00dd62e0::__m128 *>((void *)&::DAT_010c44d0)));
+        *out = _mm_xor_ps(cross, (*reinterpret_cast<const __m128 *>((void *)&::DAT_010c44d0)));
 }
 }  // namespace fnv_00dd62e0
 
@@ -494,9 +465,6 @@ static __forceinline bool gt_00dd6c10(const float& a, const float& b)
 }
 extern const float DAT_010c8440 = -1.1920929e-07f;
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern const float DAT_010b9be8;
 extern const __m128 DAT_010c44d0;
 struct PlanePoint

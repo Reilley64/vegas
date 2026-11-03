@@ -1,4 +1,6 @@
 // staging/blk_00d80000_o2.cpp: IdxStand_, ObjD9A4, MonitorBuffer (124 functions)
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -2070,7 +2072,7 @@ FUN_00d98390::FUN_00d98390()
 // @fnv 0x00d99540
 void* __cdecl FUN_00d99540(void* a1, void* a2, void* a3, void* a4)
 {
-    ::FUN_00d98630((const ::__m128 *)(a1), (const ::__m128 *)(a2), (int)(a3));
+    ::FUN_00d98630((const __m128 *)(a1), (const __m128 *)(a2), (int)(a3));
     return a1;
 }
 
@@ -2715,9 +2717,6 @@ void S00d96870_Entry(unsigned char* self, int* src)
     FUN_00d96870(self, src, S00d96870_outp);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct D99FC0Quad { int a; int b; int c; int d; };
 
@@ -4898,9 +4897,6 @@ Finish:
 }  // namespace fnv_00d969e0
 
 extern double DAT_01035718;
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 
 __forceinline unsigned int roundLane(const float& value)
 {
@@ -4917,10 +4913,10 @@ float FUN_00d974f0()
     for (int n = 23; n != 0; --n) {
         float mid = (high + low) * DAT_01011588;
         __m128 values = _mm_mul_ps(_mm_add_ps(*(const __m128*)&(*reinterpret_cast<char *>(&::DAT_01267e30)), _mm_set_ps1(mid)), scale);
-        unsigned int x = roundLane(values.m128_f32[0]);
-        unsigned int y = roundLane(values.m128_f32[1]);
-        unsigned int z = roundLane(values.m128_f32[2]);
-        unsigned int w = roundLane(values.m128_f32[3]);
+        unsigned int x = roundLane(values[0]);
+        unsigned int y = roundLane(values[1]);
+        unsigned int z = roundLane(values[2]);
+        unsigned int w = roundLane(values[3]);
         if (x < 11u) low = mid;
         else high = mid;
     }
@@ -5295,10 +5291,6 @@ int SplitRecord(int a1, int a2, S00d967a0_Rec* src, S00d967a0_Rec* dst)
     return 0;
 }
 
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct D986Result {
     char value;
     D986Result(bool b) : value(b) {}
@@ -5474,33 +5466,6 @@ int __cdecl PopPart(int callbackCtx, int callbackIndex, D96600Blob* src, D96600B
 return popPart(src,dst);
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128i { unsigned __int64 q[2]; };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_or_ps(__m128, __m128);
-__m128 _mm_cmpeq_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_setzero_ps();
-
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-int _mm_movemask_ps(__m128);
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
-}
 
 
 __forceinline __m128 TreeSplat(float value) {
@@ -6027,7 +5992,6 @@ float FUN_00d97440()
     return (float)((b + a) * 0.5 - DAT_01035718);
 }
 
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 
 struct FUN_00d84bd0
@@ -6106,40 +6070,6 @@ FUN_00d84bd0::FUN_00d84bd0()
     m_a2 = 0;
 }
 
-extern "C" {
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_andnot_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_or_ps(__m128,__m128);
-__m128 _mm_and_ps(__m128,__m128);
-__m128 _mm_setzero_ps();
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-__m128 _mm_cmpeq_ps(__m128,__m128);
-__m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_cmple_ps(__m128,__m128);
-__m128 _mm_cmplt_ps(__m128,__m128);
-__m128 _mm_min_ps(__m128,__m128);
-__m128 _mm_max_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
-int _mm_movemask_ps(__m128);
-}
-extern "C" {
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
-}
 
 // Storage remains POD so that the aligned scratch vectors do not require /GS.
 struct __declspec(align(16)) RayVector {

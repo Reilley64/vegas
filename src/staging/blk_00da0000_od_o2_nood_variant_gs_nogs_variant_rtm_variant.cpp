@@ -88,11 +88,11 @@ class S00da8180_Lane
     {}
     S00da8180_Lane(float x)
     {
-        m_vValue = ::_mm_load_ss(&x);
+        m_vValue = _mm_load_ss(&x);
     }
     __forceinline __m128 broadcast() const
     {
-        return ::_mm_shuffle_ps(m_vValue, m_vValue, 0);
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
     }
     __forceinline const __m128& getQuad() const
     {
@@ -101,7 +101,7 @@ class S00da8180_Lane
     operator float() const
     {
         float s;
-        ::_mm_store_ss(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
 
@@ -124,24 +124,24 @@ class S00da8180_Quad4
     }
     __forceinline void setZero4()
     {
-        m_vComponents = ::_mm_setzero_ps();
+        m_vComponents = _mm_setzero_ps();
     }
     __forceinline void setSub4(const S00da8180_Quad4& a, const S00da8180_Quad4& b)
     {
-        m_vComponents = ::_mm_sub_ps(a.m_vComponents, b.m_vComponents);
+        m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents);
     }
     __forceinline void setMul4(const S00da8180_Lane& r, const S00da8180_Quad4& v)
     {
-        m_vComponents = ::_mm_mul_ps(r.broadcast(), v.m_vComponents);
+        m_vComponents = _mm_mul_ps(r.broadcast(), v.m_vComponents);
     }
     __forceinline void mul4(const S00da8180_Lane& s)
     {
-        m_vComponents = ::_mm_mul_ps(s.broadcast(), m_vComponents);
+        m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents);
     }
     __forceinline S00da8180_Lane horizontalAdd3() const
     {
-        __m128 xy = ::_mm_add_ss(::_mm_shuffle_ps(m_vComponents, m_vComponents, 0x55), m_vComponents);
-        return ::_mm_add_ss(::_mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa), xy);
+        __m128 xy = _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, 0x55), m_vComponents);
+        return _mm_add_ss(_mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa), xy);
     }
     __forceinline float& operator()(int i)
     {

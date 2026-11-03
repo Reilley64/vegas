@@ -4,6 +4,7 @@
 
 // src/staging/blk_00c80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cstdint>
 #include <new>
 #include <cstddef>
@@ -11561,18 +11562,7 @@ class ListShapeSharingView : public bhkListShapeStub
     unsigned char FUN_00c8b440(int a1);
 };
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned char m128_u8[16];
-};
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 
 
@@ -12547,16 +12537,6 @@ void __cdecl FUN_00c80ce0(SceneObjectLocal* owner, int notification)
 }
 
 namespace BlendTransformDetail {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned char m128_u8[16];
-};
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 struct VecLocal
 {
     __m128 v;
@@ -12800,10 +12780,10 @@ void BlendLocal::FUN_00c81e30()
         SceneTransLocal& world = node->world;
         NiPoint3& worldPosition = world.position;
         VecLocal position;
-        position.v.m128_f32[0] = worldPosition.x * DAT_01267e6c;
-        position.v.m128_f32[1] = worldPosition.y * DAT_01267e6c;
-        position.v.m128_f32[2] = worldPosition.z * DAT_01267e6c;
-        position.v.m128_f32[3] = 0.0f;
+        position.v[0] = worldPosition.x * DAT_01267e6c;
+        position.v[1] = worldPosition.y * DAT_01267e6c;
+        position.v[2] = worldPosition.z * DAT_01267e6c;
+        position.v[3] = 0.0f;
         RotLocal converted;
         ::VisitAndFetchThree((::FetcherC *)(::BlendTransformDetail::RotLocal *)(&converted), (::VisitorB *)(&world.rotation));
         QuatLocal desiredRotation;
@@ -13948,22 +13928,10 @@ void FUN_00c9e700(const RayInputE700& kInput, const CdBodyE700& kBody, RayHitCol
     }
 }
 
-namespace RigidCinfoSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-    unsigned char m128_u8[16];
-};
-extern "C" __m128 _mm_load_ps(float const*);
-extern "C" void _mm_store_ps(float*, __m128);
-}
 
 struct __declspec(align(16)) Vector482
 {
-    RigidCinfoSimd::__m128 value;
+    __m128 value;
 };
 
 struct Config482
@@ -14192,8 +14160,8 @@ void Wrapper482::FUN_00c8cfd0(Info482* info)
 
             info->config.mass = reinterpret_cast<::MotionMassView *>((motion))->FUN_00c86430();
 
-            RigidCinfoSimd::_mm_store_ps((float*)info->config.centerOfMass.value.m128_u8,
-                                         RigidCinfoSimd::_mm_load_ps((float*)motion->centerOfMass.value.m128_u8));
+            _mm_store_ps((float*)reinterpret_cast<unsigned char*>(&info->config.centerOfMass.value),
+                                         _mm_load_ps((float*)reinterpret_cast<unsigned char*>(&motion->centerOfMass.value)));
 
             info->config.linearDamping = motion->linearDamping;
 
@@ -14201,8 +14169,8 @@ void Wrapper482::FUN_00c8cfd0(Info482* info)
 
             motion->GetInertia(&info->config.inertia);
 
-            RigidCinfoSimd::_mm_store_ps((float*)info->config.centerOfMass.value.m128_u8,
-                                         RigidCinfoSimd::_mm_load_ps((float*)motion->centerOfMass.value.m128_u8));
+            _mm_store_ps((float*)reinterpret_cast<unsigned char*>(&info->config.centerOfMass.value),
+                                         _mm_load_ps((float*)reinterpret_cast<unsigned char*>(&motion->centerOfMass.value)));
         }
 
         if (body && body->GetCollidable())
@@ -14216,16 +14184,6 @@ void Wrapper482::FUN_00c8cfd0(Info482* info)
 }
 
 namespace WorldPositionDetail {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned char m128_u8[16];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" int _mm_movemask_ps(__m128);
 
 extern "C" double fabs(double);
 
@@ -14312,7 +14270,7 @@ bool MotionBounds::FUN_00c9a1f0(__m128* value)
         d = input;
         reinterpret_cast<::FUN_00c9a070_shell *>((((WorldWrapAdjust*)this)))->AdjustVector((float*)&d);
         __m128 diff = _mm_sub_ps(d, base);
-        __m128 absdiff = _mm_and_ps(diff, (*reinterpret_cast<::WorldPositionDetail::__m128 *>((void *)&::DAT_01017d10)));
+        __m128 absdiff = _mm_and_ps(diff, (*reinterpret_cast<__m128 *>((void *)&::DAT_01017d10)));
         __m128 cmp = _mm_cmple_ps(absdiff, _mm_set_ps1(::fnv_00c88020::DAT_01016248));
         unsigned int mask = _mm_movemask_ps(cmp) & 7;
         bool result = mask != 7;

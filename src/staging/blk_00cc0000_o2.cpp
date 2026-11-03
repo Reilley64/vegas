@@ -23099,7 +23099,7 @@ struct EE60Vec
 
     __forceinline void operator=(const EE60Vec& v) { m_vComponents = v.m_vComponents; }
     __forceinline void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    __forceinline float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    __forceinline float& operator()(int i) { return m_vComponents[i]; }
 };
 
 struct EE60Mat
@@ -23783,9 +23783,6 @@ extern "C" void __cdecl FUN_00cdd2d0(FUN_00cdd2d0_Input* input, EntryData* outpu
 }
 
 namespace fnv_00cdd320 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-};
 
 struct FUN_00cdd320_Entry {
     int unk00;
@@ -23867,7 +23864,7 @@ void FUN_00cdd360(Table* pkTable, Flag kOnlyActive)
 struct hkVector4_s {
     __m128 m_vComponents;
     void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    float& operator()(int i) { return m_vComponents[i]; }
 };
 
 struct hkRotation_s {
@@ -26029,14 +26026,6 @@ struct __declspec(align(16)) QuadCDA { float x, y, z, w; };
 __forceinline __m128& quad(QuadCDA& q) { return *(__m128*)&q; }
 __forceinline const __m128& quad(const QuadCDA& q) { return *(const __m128*)&q; }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_rcp_ps(__m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
 
 
 class hkQuaternionCDA;
@@ -26166,7 +26155,7 @@ public:
         hkVector4CDA temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         quad(m_vScale.m_vComponents) = _mm_mul_ps(quad(t2.m_vScale.m_vComponents), quad(t1.m_vScale.m_vComponents));
     }
     __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
@@ -27139,7 +27128,7 @@ struct Collision {
     Body* b; int key;
     ShapeKeys shapeKeysB;
     Collision() {}
-    __forceinline Collision(const Collision& c) {_mm_store_ps(position.m128_f32,c.position); _mm_store_ps(direction.m128_f32,c.direction); a=c.a; state=c.state; shapeKeysA=c.shapeKeysA; b=c.b; key=c.key; shapeKeysB=c.shapeKeysB; }
+    __forceinline Collision(const Collision& c) {_mm_store_ps(reinterpret_cast<float*>(&position),c.position); _mm_store_ps(reinterpret_cast<float*>(&direction),c.direction); a=c.a; state=c.state; shapeKeysA=c.shapeKeysA; b=c.b; key=c.key; shapeKeysB=c.shapeKeysB; }
 };
 struct PointMatrix { __m128 x,y,z; };
 struct PointVector { __m128 value; void FUN_00c7f700(const PointMatrix&,const PointVector&); };
@@ -27447,7 +27436,7 @@ PointVector direction; (void)direction.value;
             reinterpret_cast<PointVector&>(normal).FUN_00c7f700(*static_cast<PointMatrix*>(triangle->transform),reinterpret_cast<const PointVector&>(normal));
             direction.value=collision.direction;
             __m128 product=_mm_mul_ps(normal,direction.value);
-            __m128 rotated=_mm_load_ps(normal.m128_f32);
+            __m128 rotated=_mm_load_ps(reinterpret_cast<float*>(&normal));
             __m128 dot=_mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
             dot=_mm_add_ss(_mm_shuffle_ps(product,product,0xaa),dot);
             if(scalar(dot)<0.0f) rotated=_mm_xor_ps(rotated,signMask);
@@ -27533,25 +27522,6 @@ S00cd8920_Obj* S00cd8920_Obj::FUN_00cd8920()
 
 #include <xmmintrin.h>
 namespace fnv_00cd9d10 {
-struct __declspec(intrin_type) __declspec(align(16)) __m128 { float x,y,z,w; };
-extern "C" {
-extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern __m128 _mm_andnot_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_cmpeq_ss(__m128 _A, __m128 _B);
-extern __m128 _mm_cmplt_ps(__m128 _A, __m128 _B);
-extern int _mm_movemask_ps(__m128 _A);
-extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_mul_ss(__m128 _A, __m128 _B);
-extern __m128 _mm_rsqrt_ps(__m128 _A);
-extern __m128 _mm_rsqrt_ss(__m128 _A);
-extern __m128 _mm_set_ss(float _A);
-extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_sub_ss(__m128 _A, __m128 _B);
-extern __m128 _mm_unpackhi_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_xor_ps(__m128 _A, __m128 _B);
-}
 
 extern __m128 DAT_010cb620;
 extern __m128 DAT_010c71d0;
@@ -27588,7 +27558,7 @@ struct Q_00cd9d10 {
 void Q_00cd9d10::FUN_00cd9d10(const __m128* from, const __m128* to)
 {
     __m128 vf = *from;
-    __m128 nzero = (*reinterpret_cast<::fnv_00cd9d10::__m128 *>((void *)&::DAT_010c44d0));
+    __m128 nzero = (*reinterpret_cast<__m128 *>((void *)&::DAT_010c44d0));
     __m128 vt = *to;
     VectorLocal mul = _mm_mul_ps(vt, vf);
     __m128 y2 = _mm_shuffle_ps(mul, mul, 0x55);
@@ -27603,14 +27573,14 @@ void Q_00cd9d10::FUN_00cd9d10(const __m128* from, const __m128* to)
     int mask1 = _mm_movemask_ps(m1);
     __m128 m2 = _mm_cmplt_ps(dot, nzero);
     if (mask1) {
-        this->q = (*reinterpret_cast<::fnv_00cd9d10::__m128 *>((void *)&::DAT_010c71b0));
+        this->q = (*reinterpret_cast<__m128 *>((void *)&::DAT_010c71b0));
         return;
     }
     if (_mm_movemask_ps(m2)) {
         reinterpret_cast<::fnv_00cb2700::PerpendicularVector *>((void *)(from))->FUN_00cb2700({});
         return;
     }
-    __m128 three = (*reinterpret_cast<::fnv_00cd9d10::__m128 *>(&::DAT_010c71c0));
+    __m128 three = (*reinterpret_cast<__m128 *>(&::DAT_010c71c0));
     VectorLocal t = _mm_add_ps(_mm_mul_ps(DAT_010c71d0, dot), DAT_010c71d0);
     __m128 nr = quadRsqrt(t);
     __m128 s1 = _mm_shuffle_ps(vt, vt, 201);

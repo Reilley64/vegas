@@ -1,3 +1,4 @@
+#include <xmmintrin.h>
 
 // src/staging/blk_00dc0000_o2_tokens.cpp - staging unit created 2026-10-30 for 0x00dcc240 (flag review): blk_00dc0000_o2.cpp holds SSE helper
 // classes (inline functions passing __m128 by value) that make VC9 drop the private register convention of every static

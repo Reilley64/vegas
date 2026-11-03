@@ -2149,7 +2149,6 @@ struct ChainArray {
     }
 };
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
-namespace ns_e5c5 {  }
 struct Resource_e5c5 {
     void FUN_00c905b0() throw();
 };

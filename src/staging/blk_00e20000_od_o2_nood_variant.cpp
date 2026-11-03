@@ -1,4 +1,5 @@
 // staging/blk_00e20000_od_o2_nood_variant.cpp: Face, Hull (8 functions)
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 
@@ -28,19 +29,7 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
 extern "C" {
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_andnot_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
 void _ReadWriteBarrier();
 }
 struct Vertex { __m128 position; __m128 supportA; __m128 supportB; int flags; int unk34; int unk38; int unk3c; };
@@ -175,8 +164,7 @@ void FUN_00e29a10(E29SrcList* src, const __m128* posA, const __m128* posB, char*
 }
 
 namespace fnv_00e2ab00 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
-extern "C" { __m128 _mm_load_ps(const __m128*); void _mm_store_ps(__m128*,__m128); __m128 _mm_shuffle_ps(__m128,__m128,int); void _ReadWriteBarrier(); }
+extern "C" { void _ReadWriteBarrier(); }
 
 // @fnv 0x00e2ab00
 __m128* FUN_00e2ab00(__m128* src, __m128* out1, __m128* out2) {
@@ -261,14 +249,10 @@ void Track_e3a1::FUN_00e3a1e0(int numKeys)
     }
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 void __cdecl FUN_00d1bb50(void*, void*, void*, void*, void*, void*, void*, void*, void*, int) throw();
 typedef __m128 FourFloatVector;
-__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
+__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v[0]=x; v[1]=y; v[2]=z; v[3]=w; return v; }
 struct RaySource {
     FourFloatVector from, to;
     unsigned char enable; unsigned char unk21; unsigned short unk22;
@@ -353,7 +337,7 @@ void __cdecl FUN_00e2b510(Owner* owner, RayBatch* input, int mode, FourFloatVect
         collectors[i].ray.mode = mode;
         collectors[i].input2 = &rays[i];
         collectors[i].input = &rays[i];
-        values[i] = fractions.m128_f32[i];
+        values[i] = fractions[i];
         pointers[i] = &collectors[i].ray;
     }
     bundle.dispatch = (*reinterpret_cast<void * (*)[]>(&::DAT_011b3830))[input->type];
@@ -734,7 +718,6 @@ void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pS
     ArrFree(pData1, uiCap1);
 }
 
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 namespace SplineMax {
 struct Vec { __m128 value; };
 struct Points { Vec* data; int count; int capacity; };
@@ -749,13 +732,10 @@ SplineMax::Vec __cdecl FUN_00e314c0(const SplineMax::Points& input)
     return result;
 }
 
-namespace S31470_Intrinsics {
-extern "C" ::__m128 (_mm_min_ps)(::__m128, ::__m128);
-}
 
 struct MinVec4 {
     __m128 m_vComponents;
-    void setMin4(const MinVec4& a, const MinVec4& b) { m_vComponents = (S31470_Intrinsics::_mm_min_ps)(a.m_vComponents, b.m_vComponents); }
+    void setMin4(const MinVec4& a, const MinVec4& b) { m_vComponents = (_mm_min_ps)(a.m_vComponents, b.m_vComponents); }
 };
 struct MinVec4Array {
     MinVec4* m_data;

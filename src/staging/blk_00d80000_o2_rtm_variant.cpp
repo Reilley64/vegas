@@ -1,6 +1,7 @@
 // src/staging/blk_00d80000_o2_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d80000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <xmmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1192,9 +1193,6 @@ int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
 static void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
 void S00d96870_Entry(unsigned char* self, int* src);
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 struct D99FC0Quad { int a; int b; int c; int d; };
 struct D99FC0Object {
     void* unk00;
@@ -2030,9 +2028,6 @@ struct S00d96970_Obj {
 static void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 extern double DAT_01035718;
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __forceinline unsigned int roundLane(const float& value)
 {
     float copy = value;
@@ -2278,10 +2273,6 @@ static __forceinline int split15(S00d967a0_Rec* src, S00d967a0_Rec* dst)
     dst->m28 = c;
     return 1;
 }
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct D986Result {
     char value;
     D986Result(bool b) : value(b) {}
@@ -2433,33 +2424,6 @@ static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
         return 0;
     }
 
-}
-union __declspec(intrin_type) __declspec(align(16)) __m128i { unsigned __int64 q[2]; };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_or_ps(__m128, __m128);
-__m128 _mm_cmpeq_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_setzero_ps();
-
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-int _mm_movemask_ps(__m128);
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
 }
 __forceinline __m128 TreeSplat(float value) {
     __m128 scalar = _mm_load_ss(&value);
@@ -2629,7 +2593,6 @@ union F128U
 };
 static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
 float FUN_00d97440();
-extern "C" void _mm_store_ps(float* p, __m128 a);
 struct FUN_00d84bd0
 {
     unsigned int m_00;

@@ -2116,7 +2116,6 @@ struct ChainArray {
     }
 };
 void __cdecl ResizeAudioStream(void* pAllocator, void* pArray, int auiNewSize);
-namespace ns_e5c5 {  }
 struct Resource_e5c5 {
     void FUN_00c905b0() throw();
 };
@@ -2873,10 +2872,8 @@ void __cdecl FUN_00e5d070(const S00e5d070::hkpMoppCode* code, const S00e5d070::P
 
 static __forceinline int moppHighLast(int middle,const volatile unsigned char& high,const volatile unsigned char& last){middle+=int(high)<<8;return(middle<<8)+last;}
 static __forceinline int moppRead24(const unsigned char* p) { int middle = p[1]; middle += int(p[0]) << 8; return (middle << 8) + p[2]; }
-extern "C" int _mm_movemask_ps(__m128);
 extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct MoppState {
     int terminalBase;
@@ -2908,11 +2905,11 @@ struct MoppPlaneSet {
             __m128 dy = _mm_shuffle_ps(difference, difference, 0x55);
             __m128 dz = _mm_shuffle_ps(difference, difference, 0xaa);
             __m128 radius = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(absolutePlane->x.m128_f32), dx), _mm_mul_ps(_mm_load_ps(absolutePlane->y.m128_f32), dy)),
-                _mm_mul_ps(_mm_load_ps(absolutePlane->z.m128_f32), dz));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->x)), dx), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->y)), dy)),
+                _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&absolutePlane->z)), dz));
             __m128 distance = _mm_add_ps(
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(plane->y.m128_f32), sy), _mm_mul_ps(_mm_load_ps(plane->x.m128_f32), sx)),
-                _mm_add_ps(_mm_mul_ps(_mm_load_ps(plane->z.m128_f32), sz), _mm_load_ps(plane->w.m128_f32)));
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->y)), sy), _mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->x)), sx)),
+                _mm_add_ps(_mm_mul_ps(_mm_load_ps(reinterpret_cast<float*>(&plane->z)), sz), _mm_load_ps(reinterpret_cast<float*>(&plane->w))));
             if (_mm_movemask_ps(_mm_cmplt_ps(_mm_sub_ps(distance, radius), _mm_setzero_ps())) != 15)
                 return 0;
             inside &= _mm_movemask_ps(_mm_cmplt_ps(_mm_add_ps(distance, radius), _mm_setzero_ps()));

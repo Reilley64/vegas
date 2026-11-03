@@ -1,6 +1,7 @@
 // src/staging/blk_00e20000_od_o2_nood_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00e20000_od_o2_nood_variant.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 
@@ -29,19 +30,7 @@
 #include "fnv/symbols_011b3000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
 extern "C" {
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_andnot_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
 void _ReadWriteBarrier();
 }
 struct Vertex { __m128 position; __m128 supportA; __m128 supportB; int flags; int unk34; int unk38; int unk3c; };
@@ -126,12 +115,8 @@ struct Track_e3a1 {
     hkArray_e3a1<Key_e3a1> m_keys;
     void FUN_00e3a1e0(int numKeys);
 };
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 typedef __m128 FourFloatVector;
-__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v.m128_f32[0]=x; v.m128_f32[1]=y; v.m128_f32[2]=z; v.m128_f32[3]=w; return v; }
+__forceinline FourFloatVector packFractions(float x,float y,float z,float w) { FourFloatVector v; v[0]=x; v[1]=y; v[2]=z; v[3]=w; return v; }
 struct RaySource {
     FourFloatVector from, to;
     unsigned char enable; unsigned char unk21; unsigned short unk22;
@@ -393,21 +378,12 @@ template <class T> __forceinline void ArrClearFree(ScrapArr<T>& arr)
     arr.m_uiCap = 0x80000000;
 }
 void __cdecl FUN_00e2a390(int a, int b, int n, float f1, float f2, JobSource* pSrc, JobQueue* m_pPrimaryTaskProcessor, JobWaiter* pWaiter, int iParam, bool bAuto);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 namespace SplineMax {
 struct Vec { __m128 value; };
 struct Points { Vec* data; int count; int capacity; };
 }
 
-extern "C" __m128 _mm_cmplt_ps(__m128 _A, __m128 _B);
-extern "C" int _mm_movemask_ps(__m128 _A);
-extern "C" __m128 _mm_setzero_ps(void);
 #include <math.h>
-extern "C" {
-__m128 _mm_setzero_ps();
-__m128 _mm_cmplt_ps(__m128,__m128);
-int _mm_movemask_ps(__m128);
-}
 
 struct S00e29b80_Allocator;
 struct S00e29b80_Router
@@ -548,12 +524,6 @@ void __cdecl FUN_00e29b80(int a, int b, int numRays, void* p1, void* p2, void* p
 
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-__m128 _mm_load_ss(const float*);
-__m128 _mm_setzero_ps(void);
-}
 
 typedef float hkReal;
 typedef __m128 hkQuadReal;
@@ -756,9 +726,6 @@ struct AvgSrc
     int count;
 };
 
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 
 // @fnv 0x00e31410
 __m128* FUN_00e31410(__m128* out, AvgSrc* s)
@@ -785,10 +752,6 @@ __m128* FUN_00e31410(__m128* out, AvgSrc* s)
     return out;
 }
 
-extern "C" {
-__m128 _mm_div_ss(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-}
 static __forceinline __m128 inverseSpan(__m128 a, __m128 b) { return _mm_div_ss(_mm_load_ss(&DAT_01012068),_mm_add_ss(a,b)); }
 // @fnv 0x00e33670
 void FUN_00e33670(float t, int unused, const float* knots, const __m128* ctrl, __m128* out)

@@ -948,42 +948,23 @@ int __cdecl FUN_00e00d70()
     return (int)object.first;
 }
 
-namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    N::__m128 _mm_load_ps(const float*);
-    N::__m128 _mm_load_ss(const float*);
-    N::__m128 _mm_set_ss(float);
-    N::__m128 _mm_set1_ps(float);
-    N::__m128 _mm_shuffle_ps(N::__m128, N::__m128, int);
-    N::__m128 _mm_mul_ps(N::__m128, N::__m128);
-    N::__m128 _mm_add_ps(N::__m128, N::__m128);
-    N::__m128 _mm_add_ss(N::__m128, N::__m128);
-    void _mm_store_ps(float*, N::__m128);
-    float _mm_cvtss_f32(N::__m128);
-}
-}
 
 struct __declspec(align(16)) Vector4f
 {
     float v[4];
-    void addScaled(const N::__m128& scale, const Vector4f& n)
+    void addScaled(const __m128& scale, const Vector4f& n)
     {
-        N::_mm_store_ps(v, N::_mm_add_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(scale, scale, 0), N::_mm_load_ps(n.v)),
-                                         N::_mm_load_ps(v)));
+        _mm_store_ps(v, _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), _mm_load_ps(n.v)),
+                                         _mm_load_ps(v)));
     }
 };
 inline float maxScore(float a, float b)
 {
     return a > b ? a : b;
 }
-inline N::__m128 scaleNormal(const Vector4f& n, const N::__m128& s)
+inline __m128 scaleNormal(const Vector4f& n, const __m128& s)
 {
-    return N::_mm_mul_ps(N::_mm_shuffle_ps(s, s, 0), N::_mm_load_ps(n.v));
+    return _mm_mul_ps(_mm_shuffle_ps(s, s, 0), _mm_load_ps(n.v));
 }
 struct Vertex
 {
@@ -1264,12 +1245,12 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
     {
         EdgeRef ref = ((EdgeRef*)refs.data)[index];
         EdgeNode* adjacent = (EdgeNode*)(ref.node->edges[ref.index] & ~3u);
-        N::__m128 product = N::_mm_mul_ps(N::_mm_load_ps(ref.node->normal.v), N::_mm_load_ps(adjacent->normal.v));
-        N::__m128 y = N::_mm_shuffle_ps(product, product, 0x55);
-        N::__m128 z = N::_mm_shuffle_ps(product, product, 0xaa);
-        y = N::_mm_add_ss(y, product);
-        z = N::_mm_add_ss(z, y);
-        ((float*)scores.data)[index] = ClampedAcos(N::_mm_cvtss_f32(z));
+        __m128 product = _mm_mul_ps(_mm_load_ps(ref.node->normal.v), _mm_load_ps(adjacent->normal.v));
+        __m128 y = _mm_shuffle_ps(product, product, 0x55);
+        __m128 z = _mm_shuffle_ps(product, product, 0xaa);
+        y = _mm_add_ss(y, product);
+        z = _mm_add_ss(z, y);
+        ((float*)scores.data)[index] = ClampedAcos(_mm_cvtss_f32(z));
     }
     float maximum = 0.0f;
     for (int index = 0; index < refs.size; ++index)
@@ -1287,16 +1268,16 @@ void EdgeProcessor::FUN_00e195c0(float threshold, float distance, const EdgeMesh
             Vertex* first = ref.node->vertices[ref.index];
             __declspec(align(16)) Vector4f a = first->position;
 
-            N::__m128 p = scaleNormal(first->normal, N::_mm_set_ss(distance));
+            __m128 p = scaleNormal(first->normal, _mm_set_ss(distance));
             Vertex* second = ref.node->vertices[(9 >> (2 * ref.index)) & 3];
             __declspec(align(16)) Vector4f b = second->position;
-            N::__m128 q = scaleNormal(second->normal, N::_mm_set_ss(distance));
-            N::_mm_store_ps(a.v, N::_mm_add_ps(p, N::_mm_load_ps(a.v)));
-            N::_mm_store_ps(b.v, N::_mm_add_ps(q, N::_mm_load_ps(b.v)));
+            __m128 q = scaleNormal(second->normal, _mm_set_ss(distance));
+            _mm_store_ps(a.v, _mm_add_ps(p, _mm_load_ps(a.v)));
+            _mm_store_ps(b.v, _mm_add_ps(q, _mm_load_ps(b.v)));
             Vertex* va = vertices.allocate(Vertex());
             Vertex* vb = vertices.allocate(Vertex());
-            N::_mm_store_ps(va->position.v, N::_mm_load_ps(a.v));
-            N::_mm_store_ps(vb->position.v, N::_mm_load_ps(b.v));
+            _mm_store_ps(va->position.v, _mm_load_ps(a.v));
+            _mm_store_ps(vb->position.v, _mm_load_ps(b.v));
             EdgeNode* edge = edges.allocate(EdgeNode());
             edge->vertices[0] = va;
             edge->vertices[1] = vb;

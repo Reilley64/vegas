@@ -1,4 +1,5 @@
 // staging/blk_00de0000_o2_gs_ehsc_nogs_noehsc_variant.cpp: hkVector4_S, ShapeRayCastOutput, hkVector4, hkTransform and more (8 functions)
+#include <xmmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1887,27 +1888,14 @@ struct S_00dfff80_Foo {
 // FUN_00dfffd0 : a one-line function - getter
 void* FUN_00dfffd0();
 extern void* DAT_010e80b4;
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    signed char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_setzero_ps(void);
 class hkVector4_de1210
 {
 public:
     __m128 m_vComponents;
     __forceinline void operator=(const hkVector4_de1210& v) { m_vComponents = v.m_vComponents; }
     __forceinline void setZero() { m_vComponents = _mm_setzero_ps(); }
-    __forceinline float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    __forceinline float& operator()(int i) { return m_vComponents[i]; }
 };
 class hkMatrix3_de1210
 {
@@ -2058,7 +2046,7 @@ struct DE5450Vector4 {
     __m128 m_vComponents;
 
     void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    float& operator()(int i) { return m_vComponents[i]; }
     void operator=(const DE5450Vector4& v) { m_vComponents = v.m_vComponents; }
 };
 struct DE5450Transform {
@@ -2739,14 +2727,6 @@ struct FNVPair8 {
     unsigned int m_uiKey;
     int m_iArrayLength;
 };
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
 class hkVector4
 {
 public:
@@ -4049,14 +4029,6 @@ struct AdjDerived : AdjPrim, AdjSec {
 };
 static AdjDerived g_adjThunk;
 
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_div_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 
 extern const float DAT_0104da4c = 1.1920928955078125e-07f;
 
@@ -4082,7 +4054,6 @@ _mm_store_ss(&tmp,t);
 return false;
 }
 
-extern "C" __m128 _mm_set_ps1(float);
 
 class TransformRadiusInput {
 public:
@@ -4244,15 +4215,6 @@ public:
 hkReferencedObject_S(class FinishingFlag flag){}
 };
 
-extern "C"{
-
-
-
-
-
-
-
-};
 typedef __m128 hkQuadReal;
 class hkMatrix3_S;
 class hkRotation;

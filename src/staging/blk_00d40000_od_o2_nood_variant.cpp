@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -21,11 +22,6 @@
 #include "fnv/symbols_01267000.h"
 #include "../../include/layout_support.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
 struct D51Allocator;
@@ -125,15 +121,6 @@ int D51Writer::FUN_00d51c30(const D51Input& input)
 }
 
 namespace fnv_00d52640 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-}
 
 struct hkMemoryAllocator;
 
@@ -238,17 +225,7 @@ int FUN_00d52640_c::FUN_00d52640(bool flag, const hkReferencedObject* object)
 }  // namespace fnv_00d52640
 
 namespace fnv_00d56470 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" int _mm_movemask_ps(__m128 a);
 
 static const float DAT_01017d00 = 0.001f;
 
@@ -258,7 +235,7 @@ struct hkVector4D564
 
     bool equals3(const hkVector4D564& v, float fEpsilon) const
     {
-        const __m128 kDiff = _mm_and_ps(_mm_sub_ps(m_vComponents, v.m_vComponents), (*reinterpret_cast<const ::fnv_00d56470::__m128 *>((void *)&::DAT_01017d10)));
+        const __m128 kDiff = _mm_and_ps(_mm_sub_ps(m_vComponents, v.m_vComponents), (*reinterpret_cast<const __m128 *>((void *)&::DAT_01017d10)));
         const __m128 kEps = _mm_load_ps1(&fEpsilon);
         return (_mm_movemask_ps(_mm_cmple_ps(kDiff, kEps)) & 7) == 7;
     }
@@ -944,11 +921,6 @@ int HkOwnerD51::FUN_00d51890(const HkVecD51& v, int index)
 }  // namespace fnv_00d51890
 
 namespace fnv_00d51d40 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 struct HeapContext
 {
     void* manager;
@@ -1102,7 +1074,6 @@ int D52Class::FUN_00d52000(const VecD52& v)
 }
 }  // namespace fnv_00d52000
 
-extern "C" __m128 _mm_setr_ps(float e0, float e1, float e2, float e3);
 static const float DAT_01011d78 = 0.0f;
 struct D529E0_Heap;
 struct D529E0_Router
@@ -1162,19 +1133,6 @@ int D529E0_Builder::FUN_00d529e0(unsigned char a1, float a2)
     return index;
 }
 
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-}
 struct __declspec(align(16)) Vec
 {
     __m128 quad;
@@ -1244,20 +1202,6 @@ const Vec* BasisPair::FUN_00d52ce0(const Vec* a, const Vec* c, const Vec* b, con
     return c;
 }
 
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-}
 
 struct Vector172
 {

@@ -162,9 +162,6 @@ int FUN_00ee6d98(unsigned int s, const void* name, int namelen)
     return bind(s, name, namelen);
 }
 
-extern "C"
-{
-}
 
 // @fnv 0x00ee6da4
 char* FUN_00ee6da4(unsigned int addr)

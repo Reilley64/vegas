@@ -5028,7 +5028,6 @@ void __cdecl CollectConnectedNodesAndEdges(ChainArray<void*>* src, void* node, C
     }
 }
 
-namespace ns_e5c5 {  }
 struct Resource_e5c5 {
 };
 
@@ -6352,8 +6351,6 @@ void CallFinishObject() { FUN_00e5b130(g_finishObject, g_finishFlags); }
 
 #include <xmmintrin.h>
 namespace fnv_00e4b6e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {float f[4];};
-extern "C" {__m128 _mm_mul_ps(__m128,__m128);__m128 _mm_sub_ps(__m128,__m128);__m128 _mm_add_ss(__m128,__m128);__m128 _mm_shuffle_ps(__m128,__m128,int);int _mm_movemask_ps(__m128);__m128 _mm_rsqrt_ss(__m128);}
 
 struct __declspec(align(16)) Vec4 {
 __m128 q;
@@ -6778,18 +6775,6 @@ void __cdecl FUN_00e5d360(unsigned codeBits,const PlaneView& input,int output,in
 
 #include <xmmintrin.h>
 namespace fnv_00e5d650 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" {
-__m128 _mm_set_ps1(float a);
-__m128 _mm_setzero_ps(void);
-__m128 _mm_add_ps(__m128 a, __m128 b);
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-__m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-__m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-}
 struct hkVector4 {
     __m128 m_vComponents;
     __forceinline void setZero4() { m_vComponents = _mm_setzero_ps(); }
@@ -6797,8 +6782,8 @@ struct hkVector4 {
     __forceinline void setSub4(const hkVector4& a, const hkVector4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
     __forceinline void add4(const hkVector4& a) { m_vComponents = _mm_add_ps(m_vComponents, a.m_vComponents); }
     __forceinline void setXYZ(const hkVector4& v) { m_vComponents = _mm_shuffle_ps(v.m_vComponents, _mm_unpackhi_ps(v.m_vComponents, m_vComponents), 0xc4); }
-    __forceinline float& operator()(int i) { return m_vComponents.m128_f32[i]; }
-    __forceinline const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    __forceinline float& operator()(int i) { return m_vComponents[i]; }
+    __forceinline const float& operator()(int i) const { return m_vComponents[i]; }
 };
 struct RaySegment {
     hkVector4 m_vFrom;
@@ -6865,14 +6850,6 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, unsigned int input
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
 namespace fnv_00e5d710 {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ss(const float*);
 union __declspec(align(16)) QueryVector {
     __m128 quad;
     struct { float x, y, z, w; } components;

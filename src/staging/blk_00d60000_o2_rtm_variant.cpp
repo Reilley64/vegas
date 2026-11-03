@@ -4,6 +4,7 @@
 
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cstddef>
 #include <new>
 #include <cmath>
@@ -1345,8 +1346,6 @@ struct FUN_00d61a50_cls
 
     int* FUN_00d61a50(int value);
 };
-namespace fnvc_adapt {
-}
 void __cdecl FUN_00c908c0(int allocator, FUN_00d61a50_cls* array, int capacity, int value);
 class hkMemoryAllocatorD61B8
 {
@@ -1623,13 +1622,6 @@ volatile int g_d6c1b0_a1;
 D6C1B0Owner* volatile g_d6c1b0_owner;
 static void FUN_00d6c1b0(D6C180Command** ppkCursor, D6C1B0Owner* pOwner, int a1);
 void d6c1b0_caller(void);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, int imm);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 g_d6c1d0_src[4];
 extern "C" __m128 g_d6c1d0_mat[4];
 extern "C" __m128 g_d6c1d0_out[4];
@@ -1879,8 +1871,6 @@ static void FUN_00d6c3c0(const LocalOrientations& local, const ConstraintQuery& 
                          RigidTransform& outputB);
 void RotateLocalFrames(const LocalOrientations& local, const ConstraintQuery& input, RigidTransform& outputA,
                        RigidTransform& outputB);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 struct D73390Source
 {
     float value0[4];
@@ -1909,7 +1899,6 @@ class UpperCaseBufferD618 : public hkStringBufD618
     }
     void FUN_00d618d0();
 };
-extern "C" __m128 _mm_load_ps(const float*);
 struct TransformContext
 {
     int unk00;
@@ -1967,21 +1956,6 @@ RigidTransform* volatile outASourceC320;
 RigidTransform* volatile outBSourceC320;
 void InvokeTransformC320();
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-}
 static __forceinline float localSqrt(float x)
 {
     return (float)sqrt((double)x);
@@ -2247,7 +2221,7 @@ class hkQsTransform
         hkVector4 extraTrans;
         extraTrans.SetRotatedDirection(aTb.m_rotation, bTc.m_vTranslation);
         m_vTranslation.setAdd4(aTb.m_vTranslation, extraTrans);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(aTb.m_rotation), (const ::fnv_00c66320::__m128 *)&(bTc.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(aTb.m_rotation), (const __m128 *)&(bTc.m_rotation), {});
         m_vScale.setMul4(aTb.m_vScale, bTc.m_vScale);
     }
 };
@@ -2486,7 +2460,7 @@ static __declspec(noinline) void FUN_00d6b510(const hkQsTransform* poseLocalSpac
         comOffset.SetRotatedDirection(rotation, rigidBody->getCenterOfMassLocal());
         position.add4(comOffset);
         hkVector4 identity;
-        identity.getQuad() = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+        identity.getQuad() = (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
         cache[i].m_comPose.set(position, rotation, identity);
     }
 }
@@ -2659,16 +2633,6 @@ __declspec(noinline) void __cdecl FUN_00d6b8e0(hkReal m_fTimeStep, const Transfo
 void(__cdecl* volatile retainKeyFrameEntry)(hkReal, const TransformReferenceData&, const IntegerTriple&, const ControlData*,
                                             Output*) = &FUN_00d6b8e0;
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 class ScalarR2
 {
     __m128 value;
@@ -3019,22 +2983,6 @@ static __declspec(noinline) void FUN_00d6c630(const VectorR2& pa, const VectorR2
 extern "C"
 {
     void _ReadWriteBarrier();
-    __m128 _mm_setzero_ps();
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
 }
 
 struct BoolD72

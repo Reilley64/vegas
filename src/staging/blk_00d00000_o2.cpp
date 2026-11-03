@@ -2,6 +2,8 @@
 // src/staging/blk_00d00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -948,15 +950,8 @@ FUN_00d107d0_t* FUN_00d107d0_t::FUN_00d107d0(int v)
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 
 struct S00d1b7f0_Input
 {
@@ -1008,7 +1003,7 @@ void __cdecl FUN_00d1b7f0(S00d1b7f0_Input* p, int argB, int argC)
 
     frame.diff = _mm_sub_ps(*reinterpret_cast<const __m128*>(&p->m40), *reinterpret_cast<const __m128*>(&p->m30));
 
-    ::QueryKdTree((void *)(first), (::KdNode *)(first), (const ::Aabb16 *)(m1c), (const float *)(const ::__m128 *)(&frame.diff), (const float *)(const int *)(&frame.v0), (const ::QueryAabb *__restrict)(argB), (::PrimIds *)(argC));
+    ::QueryKdTree((void *)(first), (::KdNode *)(first), (const ::Aabb16 *)(m1c), (const float *)(const __m128 *)(&frame.diff), (const float *)(const int *)(&frame.v0), (const ::QueryAabb *__restrict)(argB), (::PrimIds *)(argC));
 }
 
 // @fnv 0x00d043e0
@@ -1311,26 +1306,7 @@ bool* D01B40_cls::FUN_00d01b40(bool* pbResult)
     return pbResult;
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128i
-{
-    int m128i_i32[4];
-} __m128i;
 
-extern "C"
-{
-    __m128i _mm_setzero_si128(void);
-    __m128i _mm_unpacklo_epi16(__m128i, __m128i);
-    __m128i _mm_unpackhi_epi16(__m128i, __m128i);
-    __m128i _mm_slli_epi32(__m128i, int);
-    __m128i _mm_srli_epi32(__m128i, int);
-    __m128 _mm_cvtepi32_ps(__m128i);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128i _mm_load_si128(__m128i const*);
-}
 
 extern __m128 DAT_011b3810;
 extern "C" void _ReadWriteBarrier(void);
@@ -1523,14 +1499,6 @@ void __cdecl QueryKdTree(void* tree, KdNode* node, const Aabb16* prims, const fl
     } while (count);
 }
 
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_cmpeq_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_or_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_rcp_ps(__m128 a);
 
 
 static inline __m128 quadRecip(__m128 r)
@@ -1583,7 +1551,7 @@ struct HkRayBundle
     {
         const HkVec4& kOne = (const HkVec4&)DAT_010c7170;
         const HkVec4& kMaxPoint = (const HkVec4&)DAT_010cd670;
-        const HkVec4& kZero = (const HkVec4&)(*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
+        const HkVec4& kZero = (const HkVec4&)(*reinterpret_cast<__m128 *>(&::DAT_01267e30));
         m_uiMask = mask;
         m_vFrom = from;
         HkBundle delta;
@@ -1693,10 +1661,6 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
 // Today's unit (blk_00d00000_o2.cpp) declares __m128 and most SSE1 intrinsics as
 // extern "C" functions instead of including <xmmintrin.h>; declare the four the
 // matched code needs that the unit does not have.
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" float _mm_cvtss_f32(__m128 a);
 
 // Returns the squared distance from the point at b to the box with min at a and max at a+4 floats, or 0.0f when the point is inside.
 // @fnv 0x00d1bad0
@@ -1719,7 +1683,6 @@ float __cdecl FUN_00d1bad0(float* a, float* b)
     return _mm_cvtss_f32(sum);
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct FUN_00d1f9f0
 {
@@ -1911,14 +1874,14 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                 __m128 biasLo;
                 __m128 biasHi;
                 __m128i zeroData;
-                biasLo.m128_f32[0] = 1e16f;
-                biasLo.m128_f32[1] = 1e16f;
-                biasLo.m128_f32[2] = 1e16f;
-                biasLo.m128_f32[3] = 1e16f;
-                biasHi.m128_f32[0] = 1e16f;
-                biasHi.m128_f32[1] = 1e16f;
-                biasHi.m128_f32[2] = 1e16f;
-                biasHi.m128_f32[3] = 1e16f;
+                biasLo[0] = 1e16f;
+                biasLo[1] = 1e16f;
+                biasLo[2] = 1e16f;
+                biasLo[3] = 1e16f;
+                biasHi[0] = 1e16f;
+                biasHi[1] = 1e16f;
+                biasHi[2] = 1e16f;
+                biasHi[3] = 1e16f;
                 zeroData = _mm_setzero_si128();
                 unsigned short* p = &entries[n.code & 0x7fffffff].unk0e;
                 do
@@ -1926,13 +1889,13 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                     id.lo = p[-4];
                     id.hi = p[0];
                     __m128 factor = _mm_mul_ps(DAT_011b3810, scale.q);
-                    packedData.m128i_i32[0] =
+                    reinterpret_cast<int*>(&packedData)[0] =
                         ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word0;
-                    packedData.m128i_i32[1] =
+                    reinterpret_cast<int*>(&packedData)[1] =
                         ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word1;
-                    packedData.m128i_i32[2] =
+                    reinterpret_cast<int*>(&packedData)[2] =
                         ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word2;
-                    packedData.m128i_i32[3] =
+                    reinterpret_cast<int*>(&packedData)[3] =
                         ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word3;
                     __m128 off = offset.q;
                     IVector data = {packedData}, zero = {zeroData};

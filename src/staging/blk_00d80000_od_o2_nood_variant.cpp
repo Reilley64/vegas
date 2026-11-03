@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00cdf6d0_t.h"
@@ -12,10 +13,6 @@
 #include "fnv/symbols_00450000.h"
 #include "../../include/layout_support.h"
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
 struct BaseD85
 {
     int unk00;
@@ -157,11 +154,6 @@ StandinClass& StandinClass::FUN_00d85300(const StandinClass* source)
 }
 
 namespace fnv_00d925b0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
@@ -258,7 +250,6 @@ void FUN_00d925b0(hkpSimpleContactConstraintAtom* dst, const hkpSimpleContactCon
 }
 }  // namespace fnv_00d925b0
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4Stub
 {

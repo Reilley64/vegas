@@ -23,7 +23,7 @@ struct RotationVector
     __m128 m_vComponents;
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return m_vComponents[i];
     }
 };
 extern const __m128 DAT_01017d10;
@@ -76,16 +76,7 @@ void __cdecl FUN_00e52320(const RotationVector* rotation, unsigned int* packed)
 }
 
 namespace fnv_00e526f0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C"
-{
-    __m128 _mm_and_ps(__m128 a, __m128 b);
-}
 
 extern const __m128 DAT_01017d10;
 
@@ -104,11 +95,11 @@ void __cdecl FUN_00e526f0(const hkQuaternion* q, short* out)
     static float scale = float(sqrt(2.0)) * 16383.0;
     __m128 a = _mm_and_ps(q->m_vComponents, DAT_01017d10);
     short largest = 0;
-    if (a.m128_f32[1] > a.m128_f32[0])
+    if (a[1] > a[0])
         largest = 1;
-    if (a.m128_f32[2] > a.m128_f32[largest])
+    if (a[2] > a[largest])
         largest = 2;
-    if (a.m128_f32[3] > a.m128_f32[largest])
+    if (a[3] > a[largest])
         largest = 3;
 
     int L = largest;

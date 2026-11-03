@@ -1,6 +1,8 @@
 // src/staging/blk_00d80000_o2_rtm_00d86300_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00d80000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include <xmmintrin.h>
+#include <emmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1192,9 +1194,6 @@ int S00d881a0_Wrap(void* p);
 static unsigned char* S00d96870_outp;
 void FUN_00d96870(unsigned char* self, int* src, unsigned char* out);
 void S00d96870_Entry(unsigned char* self, int* src);
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 struct D99FC0Quad { int a; int b; int c; int d; };
 struct D99FC0Object {
     void* unk00;
@@ -2030,9 +2029,6 @@ struct S00d96970_Obj {
 void FUN_00d96970(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 void S00d96970_Entry(S00d96970_Obj* self, const S00d96970_Local* src, S00d96970_Target* target, int value);
 extern double DAT_01035718;
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
 __forceinline unsigned int roundLane(const float& value)
 {
     float copy = value;
@@ -2278,10 +2274,6 @@ static __forceinline int split15(S00d967a0_Rec* src, S00d967a0_Rec* dst)
     dst->m28 = c;
     return 1;
 }
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct D986Result {
     char value;
     D986Result(bool b) : value(b) {}
@@ -2433,33 +2425,6 @@ static __forceinline int popPart(D96600Blob* src, D96600Blob* dst)
         return 0;
     }
 
-}
-union __declspec(intrin_type) __declspec(align(16)) __m128i { unsigned __int64 q[2]; };
-extern "C" {
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_and_ps(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_or_ps(__m128, __m128);
-__m128 _mm_cmpeq_ps(__m128, __m128);
-__m128 _mm_cmplt_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_unpackhi_ps(__m128, __m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_setzero_ps();
-
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-int _mm_movemask_ps(__m128);
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
 }
 __forceinline __m128 TreeSplat(float value) {
     __m128 scalar = _mm_load_ss(&value);
@@ -2629,7 +2594,6 @@ union F128U
 };
 static const F128U V4C = { { 196608.0f, 196608.0f, 196608.0f, 196608.0f } };
 float FUN_00d97440();
-extern "C" void _mm_store_ps(float* p, __m128 a);
 struct FUN_00d84bd0
 {
     unsigned int m_00;
@@ -2679,40 +2643,6 @@ struct FUN_00d84bd0
 
     FUN_00d84bd0();
 };
-extern "C" {
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,int);
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_set_ss(float);
-__m128 _mm_andnot_ps(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_or_ps(__m128,__m128);
-__m128 _mm_and_ps(__m128,__m128);
-__m128 _mm_setzero_ps();
-__m128 _mm_load_ss(const float*);
-__m128 _mm_set_ps1(float);
-__m128 _mm_cmpeq_ps(__m128,__m128);
-__m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_cmple_ps(__m128,__m128);
-__m128 _mm_cmplt_ps(__m128,__m128);
-__m128 _mm_min_ps(__m128,__m128);
-__m128 _mm_max_ps(__m128,__m128);
-void _mm_store_ss(float*,__m128);
-int _mm_movemask_ps(__m128);
-}
-extern "C" {
-__m128i _mm_setzero_si128();
-__m128i _mm_unpacklo_epi16(__m128i, __m128i);
-__m128i _mm_unpackhi_epi16(__m128i, __m128i);
-__m128i _mm_slli_epi32(__m128i, int);
-__m128i _mm_srli_epi32(__m128i, int);
-__m128 _mm_cvtepi32_ps(__m128i);
-}
 // Storage remains POD so that the aligned scratch vectors do not require /GS.
 struct __declspec(align(16)) RayVector {
     union {
@@ -3000,14 +2930,14 @@ struct D863_Rec {
     int unk24;
     int unk28;
     int unk2c;
-    ::__m128 unk30;
-    ::__m128 unk40;
-    ::__m128 unk50;
-    ::__m128 unk60;
-    ::__m128 unk70;
-    ::__m128 unk80;
-    ::__m128 unk90;
-    ::__m128 unka0;
+    __m128 unk30;
+    __m128 unk40;
+    __m128 unk50;
+    __m128 unk60;
+    __m128 unk70;
+    __m128 unk80;
+    __m128 unk90;
+    __m128 unka0;
 };
 
 struct D863_Params {
@@ -3018,8 +2948,8 @@ struct D863_Params {
     float unk10;
 };
 
-union D863_Quad { ::__m128 v; char bytes[16]; };
-__forceinline ::__m128 Scale(::__m128 v, float x) { D863_Quad t; t.v = (::_mm_load_ss)(&x); return (::_mm_mul_ps)((::_mm_shuffle_ps)(t.v, t.v, 0), v); }
+union D863_Quad { __m128 v; char bytes[16]; };
+__forceinline __m128 Scale(__m128 v, float x) { D863_Quad t; t.v = (_mm_load_ss)(&x); return (_mm_mul_ps)((_mm_shuffle_ps)(t.v, t.v, 0), v); }
 
 struct D863_Owner {
     int unk00;
@@ -3047,7 +2977,7 @@ void D863_Owner::FUN_00d86300(D863_Rec* dst, D863_Params* p)
     dst->unka0 = s->unka0;
     float k = p->unk10;
     if (k != 1.0f) {
-        (::_mm_store_ps)((float*)&dst->unk60, Scale(dst->unk60, k));
+        (_mm_store_ps)((float*)&dst->unk60, Scale(dst->unk60, k));
         dst->unka0 = Scale(dst->unka0, k);
     }
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(dst), (int)(p));

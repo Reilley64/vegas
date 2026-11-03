@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <windows.h>
 #include <cmath>
@@ -25,20 +26,7 @@
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -221,13 +209,6 @@ class hkpCollisionDispatcherD398
   public:
 };
 void FUN_00d39090();
-extern "C"
-{
-    __m128 _mm_set_ps1(float a);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    void _mm_store_ps(float* p, __m128 a);
-}
 struct ClosestPointResult
 {
     float distSq;
@@ -245,27 +226,6 @@ static __forceinline void Dot3(float& result, __m128 u, __m128 v)
     _mm_store_ss(&result, _mm_add_ss(z, _mm_add_ss(y, m)));
 }
 
-namespace MoppSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_load_ps1(const float*);
-
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
-}
 
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
@@ -288,7 +248,7 @@ struct MoppCastQuad
 {
     union
     {
-        MoppSimd::__m128 v;
+        __m128 v;
         struct
         {
             float x, y, z, w;
@@ -392,20 +352,20 @@ void __cdecl FUN_00d2f0d0(MoppCastBody* a, MoppCastBody* b, MoppCastInput* c, in
     reinterpret_cast<::FUN_004b4ab0_Class *>(&(ls.direction))->FUN_004b4ab0((int)(b->transform), (int)(&c->direction));
 
     float tolerance = c->tolerance;
-    MoppSimd::__m128 scalarHalf = MoppSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248);
-    MoppSimd::__m128 half = MoppSimd::_mm_shuffle_ps(MoppSimd::_mm_load_ss(&::fnv_00c88020::DAT_01016248), scalarHalf, 0);
-    (MoppSimd::__m128&)ls.query.start = MoppSimd::_mm_add_ps(
-        MoppSimd::_mm_mul_ps(MoppSimd::_mm_sub_ps((*reinterpret_cast<::MoppSimd::__m128 *>((void *)&::DAT_010ec7f0)), half), (MoppSimd::__m128&)ls.bounds.min),
-        MoppSimd::_mm_mul_ps(half, (MoppSimd::__m128&)ls.bounds.max));
-    (MoppSimd::__m128&)ls.query.end =
-        MoppSimd::_mm_add_ps((MoppSimd::__m128&)ls.direction.quad, (MoppSimd::__m128&)ls.query.start);
-    MoppSimd::__m128 radius = MoppSimd::_mm_add_ps(
-        MoppSimd::_mm_mul_ps(MoppSimd::_mm_shuffle_ps(scalarHalf, scalarHalf, 0),
-                             MoppSimd::_mm_sub_ps((MoppSimd::__m128&)ls.bounds.max, (MoppSimd::__m128&)ls.bounds.min)),
-        MoppSimd::_mm_shuffle_ps(MoppSimd::_mm_load_ss(&tolerance), MoppSimd::_mm_load_ss(&tolerance), 0));
+    __m128 scalarHalf = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
+    __m128 half = _mm_shuffle_ps(_mm_load_ss(&::fnv_00c88020::DAT_01016248), scalarHalf, 0);
+    (__m128&)ls.query.start = _mm_add_ps(
+        _mm_mul_ps(_mm_sub_ps((*reinterpret_cast<__m128 *>((void *)&::DAT_010ec7f0)), half), (__m128&)ls.bounds.min),
+        _mm_mul_ps(half, (__m128&)ls.bounds.max));
+    (__m128&)ls.query.end =
+        _mm_add_ps((__m128&)ls.direction.quad, (__m128&)ls.query.start);
+    __m128 radius = _mm_add_ps(
+        _mm_mul_ps(_mm_shuffle_ps(scalarHalf, scalarHalf, 0),
+                             _mm_sub_ps((__m128&)ls.bounds.max, (__m128&)ls.bounds.min)),
+        _mm_shuffle_ps(_mm_load_ss(&tolerance), _mm_load_ss(&tolerance), 0));
     ls.query.a = a;
     ls.query.b = b;
-    (MoppSimd::__m128&)ls.query.radius = radius;
+    (__m128&)ls.query.radius = radius;
     ls.query.input = c;
     reinterpret_cast<::S00da8180_AabbCastMachine *>(&(ls.collector))->FUN_00da8180((*(const ::AabbCastInput *)(&ls.query)), (void *)(d), (void *)(e));
     ProfMark(DAT_010c41f8);

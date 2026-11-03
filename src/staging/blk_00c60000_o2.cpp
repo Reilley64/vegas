@@ -18197,7 +18197,7 @@ inline float MinValue(float value, float limit)
 // @fnv 0x00c69010
 FUN_00c69010::FUN_00c69010(ConstructorArgument* argument)
     : unk10(0), flag14(false), flag15(false), flag16(false), unk18(0), unk1c(0), unk20(0), unk24(0), unk28(0), unk30(0),
-      unk38(0), unk40(0), unk48(0), unk50(0), vector60((*reinterpret_cast<::__m128 *>(&::DAT_01267e30)))
+      unk38(0), unk40(0), unk48(0), unk50(0), vector60((*reinterpret_cast<__m128 *>(&::DAT_01267e30)))
 {
     ThreadMemoryScope scope;
     ++::DAT_012677a4;
@@ -19587,13 +19587,13 @@ FUN_00c74ed0::FUN_00c74ed0()
     channel2 = -1;
     channel3 = -1;
     channel4 = -1;
-    _mm_store_ps(reinterpret_cast<float*>(&initialVector), (*reinterpret_cast<::__m128 *>(&::DAT_01267e30)));
+    _mm_store_ps(reinterpret_cast<float*>(&initialVector), (*reinterpret_cast<__m128 *>(&::DAT_01267e30)));
     initialValue = (float)initial;
     factor3 = factor2 = factor1 = factor0 = 1.0f;
-    currentPosition = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
-    currentScale = (*reinterpret_cast<::__m128 *>(&::DAT_012683b0));
-    previousPosition = (*reinterpret_cast<::__m128 *>(&::DAT_01267e30));
-    previousScale = (*reinterpret_cast<::__m128 *>(&::DAT_012683b0));
+    currentPosition = (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
+    currentScale = (*reinterpret_cast<__m128 *>(&::DAT_012683b0));
+    previousPosition = (*reinterpret_cast<__m128 *>(&::DAT_01267e30));
+    previousScale = (*reinterpret_cast<__m128 *>(&::DAT_012683b0));
     enabled = 1;
     dirty = 0;
 }
@@ -22170,22 +22170,22 @@ void C6E180Owner::FUN_00c6e180(float fNewScale)
             kRot.vector =
                 (pkCast->m_kMotionTransform ? pkCast->m_kMotionTransform->m_rotate : *(const C6E180Vec4*)&DAT_01267e30)
                     .vector;
-            kPos.vector.m128_f32[2] = kPos.vector.m128_f32[2] + delta;
-            kRot.vector.m128_f32[2] = kRot.vector.m128_f32[2] - delta;
+            kPos.vector[2] = kPos.vector[2] + delta;
+            kRot.vector[2] = kRot.vector[2] - delta;
 
             if (pkCast->m_kMotionTransform)
             {
                 C6E180Transform* t = pkCast->m_kMotionTransform;
                 C6E180Vec4 value = kPos;
                 t->m_translate.vector = value.vector;
-                t->m_translate.vector.m128_f32[3] = t->m_vScale;
+                t->m_translate.vector[3] = t->m_vScale;
             }
             if (pkCast->m_kMotionTransform)
             {
                 C6E180Transform* t = pkCast->m_kMotionTransform;
                 C6E180Vec4 value = kRot;
                 t->m_rotate.vector = value.vector;
-                t->m_rotate.vector.m128_f32[3] = t->m_vScale;
+                t->m_rotate.vector[3] = t->m_vScale;
             }
             if (pkCast->m_kMotionTransform)
             {
@@ -22967,12 +22967,12 @@ struct C70940Node
     __forceinline void SetA(const C70940Vec& value)
     {
         vecA = value;
-        vecA.q.m128_f32[3] = scale;
+        vecA.q[3] = scale;
     }
     __forceinline void SetB(const C70940Vec& value)
     {
         vecB = value;
-        vecB.q.m128_f32[3] = scale;
+        vecB.q[3] = scale;
     }
 };
 struct C70940Cast
@@ -23445,20 +23445,20 @@ void C70940Obj::FUN_00c70940(float delta)
         a.q = (node ? &node->vecA : reinterpret_cast<const C70940Vec*>(&DAT_01267e30))->q;
         C70940Vec b;
         b.q = (node ? &node->vecB : reinterpret_cast<const C70940Vec*>(&DAT_01267e30))->q;
-        a.q.m128_f32[2] -= step;
-        b.q.m128_f32[2] += step;
+        a.q[2] -= step;
+        b.q[2] += step;
         if (node)
         {
             node->vecA = a;
             node->vecA.q = a.q;
-            node->vecA.q.m128_f32[3] = node->scale;
+            node->vecA.q[3] = node->scale;
         }
         C70940Node* nodeB = cast->node;
         if (nodeB)
         {
             nodeB->vecB = b;
             nodeB->vecB.q = b.q;
-            nodeB->vecB.q.m128_f32[3] = nodeB->scale;
+            nodeB->vecB.q[3] = nodeB->scale;
         }
         if (cast->node)
             cast->node->scale = value;
@@ -24641,7 +24641,7 @@ void ControllerLocal::FUN_00c751f0(void* arg)
             else
             {
                 TransformLocal transformed;
-                reinterpret_cast<::InversePositionVector *>(&(transformed))->FUN_00c7f840((const ::Vec4 *)(arg), (const ::Vec4 *)(::__m128 *)(&state->position));
+                reinterpret_cast<::InversePositionVector *>(&(transformed))->FUN_00c7f840((const ::Vec4 *)(arg), (const ::Vec4 *)(__m128 *)(&state->position));
                 DescriptorLocal descriptor;
                 new ((void *)&(descriptor)) ::fnv_00c74ed0::FUN_00c74ed0();
                 descriptor.weight0 = state->weight;
@@ -24682,7 +24682,7 @@ struct __declspec(align(16)) Vec
     };
     Component z() const
     {
-        return Component(q.m128_f32[2]);
+        return Component(q[2]);
     }
     __forceinline Vec& operator=(const Vec& b)
     {
@@ -26718,7 +26718,7 @@ struct SimdTransform
         SimdVector extra;
         extra.Rotate(a.rotation, b.position);
         position.Sum(a.position, extra);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)(&a.rotation), (const ::fnv_00c66320::__m128 *)(const ::fnv_00c79a50::SimdQuaternion *)(&b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)(&a.rotation), (const __m128 *)(const ::fnv_00c79a50::SimdQuaternion *)(&b.rotation), {});
         scale.Product(a.scale, b.scale);
     }
     __forceinline void SetInverseMul(const SimdTransform& a, const SimdTransform& b)
@@ -27047,7 +27047,7 @@ static __forceinline void P103SetMul(P103Transform& out, const P103Transform& t1
 {
     __m128 temp = _mm_add_ps(P103Rotate(t1.rotation, t2.translation), t1.translation);
     out.translation = temp;
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((P103Quaternion*)&out.rotation)), (void *)(&t1.rotation), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(&t2.rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(((P103Quaternion*)&out.rotation)), (void *)(&t1.rotation), (const __m128 *)(const __m128 *)(&t2.rotation), {});
     out.scale = _mm_mul_ps(t1.scale, t2.scale);
 }
 __forceinline const P103Transform& P103Pose::localAt(int index)
@@ -27219,7 +27219,7 @@ void P103Controller::FUN_00c7aa60(P103Transform* transform)
         reinterpret_cast<::P064Controller *>(this)->FUN_00c78610(1, (const ::P064Point *)&(*transform));
     }
     P103Transform& target = *((::P103Transform *)&(reinterpret_cast<::hkaPoseCDA *>((pose))->FUN_00cdad80(bone, 1)));
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((P103Quaternion*)&target.rotation)), (void *)(&target.rotation), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)((const __m128*)&unk0c0), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)(((P103Quaternion*)&target.rotation)), (void *)(&target.rotation), (const __m128 *)(const __m128 *)((const __m128*)&unk0c0), {});
     pose->storeModel(bone, target);
     if (enabled)
     {
@@ -27227,7 +27227,7 @@ void P103Controller::FUN_00c7aa60(P103Transform* transform)
         P103Transform combined;
         combined.translation =
             _mm_add_ps(P103Rotate(transform->rotation, boneTransform->translation), transform->translation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((P103Quaternion*)&combined.rotation)), (void *)(&transform->rotation), (const ::fnv_00c66320::__m128 *)(const ::__m128 *)(&boneTransform->rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)(((P103Quaternion*)&combined.rotation)), (void *)(&transform->rotation), (const __m128 *)(const __m128 *)(&boneTransform->rotation), {});
         combined.scale = _mm_mul_ps(transform->scale, boneTransform->scale);
         changed = reinterpret_cast<::P064Controller *>(this)->FUN_00c78610(0, (const ::P064Point *)&(combined)) || forceChanged != 0;
         __m128 right = _mm_setr_ps(1.0f, 0.0f, 0.0f, 0.0f);
@@ -28616,8 +28616,6 @@ int __cdecl ShutdownIfInitialized();
 void __cdecl NotifyThreadObserverEnabled();
 void __cdecl RunCallbackIfPresent();
 
-namespace QuitCalls {
-}
 
 // Runs FUN_00c66570, FUN_00c6d340 and FUN_00c6d3c0, releases DAT_012677a8, deletes DAT_012677d0, calls v02(3) and v00(0) on DAT_012677d4, then clears it.
 // @fnv 0x00c66670
@@ -28986,7 +28984,7 @@ bool Host::FUN_00c69960(C69960Arg* apSource, C69960Arg* apTarget)
                                 Rotate(vTemp.q, work->m_20.q, work->m_30.q);
                                 objAC.FUN_00c7f640(&matTransform, &vTemp);
                                 reinterpret_cast<::FUN_00827200_class *>(&(obj60))->FUN_00cb26e0((int)(&matTransform));
-                                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(obj74), &work->m_20, (const ::fnv_00c66320::__m128 *)(void *)(&obj60), {});
+                                ::fnv_00c66320::FUN_00c66320((__m128 *)&(obj74), &work->m_20, (const __m128 *)(void *)(&obj60), {});
                                 RotateInverse(vTemp.q, work->m_20.q, objAC.m_00.q);
                                 work->m_30.q = vTemp.q;
                                 work->m_20.q = obj74.m_00.q;

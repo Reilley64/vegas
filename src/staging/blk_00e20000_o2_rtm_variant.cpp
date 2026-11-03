@@ -2111,8 +2111,6 @@ void Mesh::FUN_00e3d200(int iTri, float fValue, int iArg0, int iArg1, int iArg2)
 }
 
 }
-namespace ns_e3e8 {
-}
 struct Resource_e3e8
 {
     void FUN_00c905b0() throw();
@@ -2463,21 +2461,6 @@ struct WorkArray : hkArr<WorkItem>
 };
 #include <xmmintrin.h>
 namespace FanSpace {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m[4];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" void _mm_store_ss(float*, __m128);
 struct SimdScalar
 {
     union
@@ -2735,13 +2718,12 @@ struct TyremarkInfoView
 };
 
 namespace RaySimilarityMath {
-typedef FanSpace::__m128 __m128;
-extern "C" __m128 _mm_load_ss(const float*);
-using FanSpace::_mm_sub_ps;
-using FanSpace::_mm_mul_ps;
-using FanSpace::_mm_add_ss;
-using FanSpace::_mm_shuffle_ps;
-using FanSpace::_mm_store_ss;
+typedef __m128 __m128;
+using _mm_sub_ps;
+using _mm_mul_ps;
+using _mm_add_ss;
+using _mm_shuffle_ps;
+using _mm_store_ss;
 
 struct RayScalar
 {

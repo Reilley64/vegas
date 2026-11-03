@@ -4,6 +4,7 @@
 
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -5530,18 +5531,6 @@ struct IntArrayX
     }
 };
 void __cdecl FUN_00e60e40(int type, int count, int data, IntArray* out);
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    } lanes;
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" void _mm_store_ss(float*, __m128);
 __forceinline float dot3(__m128 p)
 {
     float value;
@@ -7131,14 +7120,6 @@ class SwapChainBufferData : public NiDX92DBufferDataStub
     PresentParamsE7D6B0 m_kParams;
     DeviceE7D6B0* m_pkDevice;
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ps(const float*);
 class XfCallee
 {
   public:
@@ -7168,10 +7149,6 @@ class XfTransformBlock
     XfCallee* m_pCalleeB;
     void FUN_00e62b20(__m128* in, __m128* out);
 };
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 struct __declspec(align(16)) Vector
 {
     __m128 value;
@@ -7239,21 +7216,6 @@ struct SupportOwner
 };
 extern "C"
 {
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ps(float*, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
     void _ReadWriteBarrier();
     void _WriteBarrier();
 }
@@ -7322,7 +7284,6 @@ struct TrianglePlane
 
     void FUN_00e67570();
 };
-extern "C" __m128 _mm_sqrt_ss(__m128);
 struct S00e61d30_TriVerts
 {
     __m128 v0;
@@ -7335,9 +7296,6 @@ static inline __m128 Sum3(__m128 a, __m128 b)
     return _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
 void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
-extern "C"
-{
-}
 struct S00e67ae0_HullFace;
 struct S00e67ae0_HullEdge
 {
@@ -7409,26 +7367,6 @@ class NiDX9AdditionalDepthStencilBufferData : public NiDX92DBufferDataStub
     virtual ~NiDX9AdditionalDepthStencilBufferData();
 };
 
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_div_ss(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-extern "C" __m128 _mm_movelh_ps(__m128, __m128);
-extern "C" __m128 _mm_movehl_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 #include <math.h>
 
 typedef float hkReal;
@@ -8083,19 +8021,6 @@ int GskCollisionSolver::FUN_00e62d30(GskPointPair& output, hkGskStatus& gjkStatu
     return HK_SUCCESS;
 }
 
-extern "C"
-{
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-}
 
 extern "C" double __cdecl _chgsign(double);
 #include <math.h>

@@ -2,6 +2,7 @@
 // src/staging/blk_00d40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <xmmintrin.h>
 #include <cstddef>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -5797,11 +5798,6 @@ bool bhkWorldObject35D0::FUN_00d535d0()
     return false;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4
 {
@@ -6612,20 +6608,6 @@ FUN_00d48250::FUN_00d48250(const char* pcName, int iParam) throw() : m_object(0)
     reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(m_pClassName))->FUN_00cb0c10(((::FUN_00d46d40_s *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_object))->FUN_00d477a0())) ? reinterpret_cast<::FnvClassNameNode *>((((::FUN_00d46d40_s *)(reinterpret_cast<::ReferencedObjectHolder *>((void *)&(m_object))->FUN_00d477a0()))))->FUN_00d46d40() : 0);
 }
 
-namespace SpringSimd {
-union __declspec(intrin_type) __m128
-{
-    struct
-    {
-        float x;
-        float y;
-        float z;
-        float w;
-    } lanes;
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float*, __m128);
-}
 struct S_00d4f0f0_B1
 {
     virtual void v0();
@@ -6676,21 +6658,10 @@ struct FUN_00d4f0f0 : S_00d4f0f0_B2
 FUN_00d4f0f0::FUN_00d4f0f0()
 {
     unk44 = 0.0f;
-    SpringSimd::_mm_store_ps(unk20.m_vComponents.m128_f32, SpringSimd::_mm_setzero_ps());
-    SpringSimd::_mm_store_ps(unk30.m_vComponents.m128_f32, SpringSimd::_mm_setzero_ps());
+    _mm_store_ps(reinterpret_cast<float*>(&unk20.m_vComponents), _mm_setzero_ps());
+    _mm_store_ps(reinterpret_cast<float*>(&unk30.m_vComponents), _mm_setzero_ps());
 }
 
-namespace D4F2A0Simd {
-union __declspec(intrin_type) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
-extern "C" __m128 _mm_setzero_ps();
-extern "C" void _mm_store_ps(float*, __m128);
-}
 
 struct __declspec(align(16)) D4F2A0Vector
 {
@@ -6719,7 +6690,7 @@ struct hkpConstraintDataS : hkReferencedObjectS
 
 inline void setZero4(D4F2A0Vector& v)
 {
-    D4F2A0Simd::_mm_store_ps(&v.x, D4F2A0Simd::_mm_setzero_ps());
+    _mm_store_ps(&v.x, _mm_setzero_ps());
 }
 
 struct hkRotationS
@@ -6851,9 +6822,9 @@ struct Matrix
     float m20, m21, m22, m23;
     __forceinline void setZero()
     {
-        ::D4F2A0Simd::_mm_store_ps(&m00, ::D4F2A0Simd::_mm_setzero_ps());
-        ::D4F2A0Simd::_mm_store_ps(&m10, ::D4F2A0Simd::_mm_setzero_ps());
-        ::D4F2A0Simd::_mm_store_ps(&m20, ::D4F2A0Simd::_mm_setzero_ps());
+        _mm_store_ps(&m00, _mm_setzero_ps());
+        _mm_store_ps(&m10, _mm_setzero_ps());
+        _mm_store_ps(&m20, _mm_setzero_ps());
     }
     __forceinline void setDiagonal(float x, float y, float z)
     {
@@ -6953,11 +6924,10 @@ FUN_00d54290::FUN_00d54290()
     m_word40 = 5;
     reinterpret_cast<::FUN_00ca9360_cls *>(&(m_data43))->FUN_00ca9360((const float *)(5));
     m_float44 = ::DAT_0104da48;
-    ::D4F2A0Simd::_mm_store_ps((float*)&m_zero20, ::D4F2A0Simd::_mm_setzero_ps());
-    ::D4F2A0Simd::_mm_store_ps((float*)&m_zero30, ::D4F2A0Simd::_mm_setzero_ps());
+    _mm_store_ps((float*)&m_zero20, _mm_setzero_ps());
+    _mm_store_ps((float*)&m_zero30, _mm_setzero_ps());
 }
 
-extern "C" ::D4F2A0Simd::__m128 _mm_setr_ps(float x, float y, float z, float w);
 
 static const float DAT_010181bc = 0.05f;
 static const float DAT_01011d78 = 0.0f;
@@ -6993,7 +6963,7 @@ FUN_00d54de0::FUN_00d54de0()
     m_value18 = DAT_01017870;
     m_value10 = DAT_010231a8;
     m_value14 = DAT_0101e2bc;
-    ::D4F2A0Simd::_mm_store_ps(&m_vector.x, _mm_setr_ps(DAT_010181bc, DAT_010181bc, DAT_010181bc, DAT_01011d78));
+    _mm_store_ps(&m_vector.x, _mm_setr_ps(DAT_010181bc, DAT_010181bc, DAT_010181bc, DAT_01011d78));
     MoppInputSetBool(m_flag1C, true);
     MoppInputSetBool(m_flag1D, true);
     MoppInputSetBool(m_flag1F, true);

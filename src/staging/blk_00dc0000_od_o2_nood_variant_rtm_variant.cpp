@@ -7,6 +7,7 @@
 // unit once identified.
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <xmmintrin.h>
 #include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -17,21 +18,7 @@
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_010c8000.h"
 #include "../../include/layout_support.h"
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 struct VecArray
 {
     __m128* m_data;
@@ -220,9 +207,6 @@ static __forceinline bool gt_00dd6c10(const float& a, const float& b)
     return a > b;
 }
 extern const float DAT_010c8440 = -1.1920929e-07f;
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern const float DAT_010b9be8;
 struct PlanePoint
 {
@@ -287,7 +271,6 @@ __declspec(noinline) int __cdecl FUN_00dd6510(const __m128* normal, VecArr_00dd6
 int __cdecl FUN_00dd6c10(VecArr_00dd6c10* vectors, int* first, int* second, PlanePoint* q, PlanePoint* p);
 
 #pragma intrinsic(fabs)
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
 
 
 struct TriangleProjectionData

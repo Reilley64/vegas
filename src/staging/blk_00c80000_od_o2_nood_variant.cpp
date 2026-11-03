@@ -278,8 +278,8 @@ void __cdecl FUN_00c803a0(SceneObject* object, float scale)
                 PhysicsWrapper* wrapper = state->physics;
                 ScaledBackend* backend = wrapper->backend;
                 ScaledVector values[2];
-                values[0].value = backend ? backend->firstVector : (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
-                values[1].value = backend ? backend->secondVector : (*reinterpret_cast<const ::__m128 *>(&::DAT_01267e30));
+                values[0].value = backend ? backend->firstVector : (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
+                values[1].value = backend ? backend->secondVector : (*reinterpret_cast<const __m128 *>(&::DAT_01267e30));
                 values[0].Multiply(ScalarFactor(scale));
                 values[1].Multiply(ScalarFactor(scale));
                 if (backend)
@@ -561,18 +561,6 @@ void FUN_00c9ec60(NiTransformC9E* pkOut)
 }
 
 namespace fnv_00c9ecb0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
 
 struct hkVector4
 {
@@ -620,10 +608,10 @@ void FUN_00c9ecb0_cls::FUN_00c9ecb0(HingeVectorSet* set)
     hkMatrix4 m;
     reinterpret_cast<::Owner00c9ec00 *>(this)->FUN_00c9ec00((::FnvMat4 *)&(m));
     bhkLimitedHingeVector* vectors = set->m_akVectors;
-    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[0]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(m.m_kColumn0.m_vComponents.m128_f32)));
-    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[1]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(m.m_kColumn1.m_vComponents.m128_f32)));
-    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[2]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(m.m_kColumn2.m_vComponents.m128_f32)));
-    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[3]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(m.m_kColumn3.m_vComponents.m128_f32)));
+    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[0]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(reinterpret_cast<float*>(&m.m_kColumn0.m_vComponents))));
+    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[1]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(reinterpret_cast<float*>(&m.m_kColumn1.m_vComponents))));
+    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[2]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(reinterpret_cast<float*>(&m.m_kColumn2.m_vComponents))));
+    reinterpret_cast<::S004b4db0_Quaternion *>(&(vectors[3]))->FUN_004b4db0((*(const ::S004b4db0_Vector4 *)(reinterpret_cast<float*>(&m.m_kColumn3.m_vComponents))));
 }
 }  // namespace fnv_00c9ecb0
 
@@ -731,10 +719,10 @@ void __cdecl FUN_00c88520(SceneObject* a0, SceneObject* a1)
         __m128 position;
         ::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(*reinterpret_cast<FourFloatVector*>(&position)), (const ::fnv_004a3e00::NiPoint3 &)(combined.translate));
         __m128 rotation;
-        rotation.m128_f32[0] = q.x;
-        rotation.m128_f32[1] = q.y;
-        rotation.m128_f32[2] = q.z;
-        rotation.m128_f32[3] = q.w;
+        rotation[0] = q.x;
+        rotation[1] = q.y;
+        rotation[2] = q.z;
+        rotation[3] = q.w;
         reinterpret_cast<::FUN_005611c0_t *>((reinterpret_cast<FourFloatVector*>(&rotation)))->FUN_005611c0();
         reinterpret_cast<::FUN_0040fbf0_shell *>((reinterpret_cast<LockObject*>(&(*reinterpret_cast<unsigned int *>(&::DAT_01267b80)))))->FUN_0040fbf0((char *)(0));
         ((void(*)(SceneObject*, FourFloatVector*, FourFloatVector*))destination->vtable[58])(
@@ -2368,7 +2356,7 @@ void __cdecl FUN_00c9b670(NiAVObject* object, const NiPoint3& velocity, unsigned
                     {
                         new (&sharedPoint) NiPoint3(static_cast<const NiPoint3_helper&>(velocity) * DAT_011b0f88);
                         NiPoint3& scaled = sharedPoint;
-                        ::fnv_00cb94a0::FUN_00cb94a0((::fnv_00cb94a0::MyHost *)(active), (const ::__m128 *)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))), DAT_011b0f8c);
+                        ::fnv_00cb94a0::FUN_00cb94a0((::fnv_00cb94a0::MyHost *)(active), (const __m128 *)&((*(::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(work.vector), (const ::fnv_004a3e00::NiPoint3 &)(scaled))))), DAT_011b0f8c);
                     }
                 }
                 else

@@ -104,7 +104,7 @@ hkBool __cdecl FUN_00dd66d0(const hkVector4* direction, hkArray<hkVector4>* plan
         float denom = VectorComponentValue(denomv);
         if (DAT_0109afc4 < denom)
         {
-            position->m_vComponents.m128_f32[3] = 1.0f;
+            position->m_vComponents[3] = 1.0f;
             __m128 dot = _mm_mul_ps(planes->m_data[i].m_vComponents, position->m_vComponents);
             __m128 sum = _mm_add_ps(_mm_shuffle_ps(dot, dot, 0x4e), dot);
             sum = _mm_add_ps(_mm_shuffle_ps(sum, sum, 0xb1), sum);

@@ -156504,7 +156504,6 @@ void RagdollCtl::FUN_00c7c150(bool b)
     }
 }
 
-// @fnv 0x00c7f4a0
 static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, const float* src, int count)
 {
     int i = 0;
@@ -156525,6 +156524,7 @@ static __declspec(noinline) unsigned char* FUN_00c7f4a0(unsigned char* out, cons
     *out = 1;
     return out;
 }
+// @fnv 0x00c7f4a0
 unsigned char* S00c7f4a0_Call(unsigned char* out, const float* src, int count)
 {
     return FUN_00c7f4a0(out, src, count);

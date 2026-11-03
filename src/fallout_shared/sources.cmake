@@ -8,13 +8,18 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgsaddonnode.cpp
   src/fallout_shared/bgsammoform.cpp
   src/fallout_shared/bgsbipedmodellist.cpp
+  src/fallout_shared/bgsbodypart.cpp
   src/fallout_shared/bgsbodypartdata.cpp
+  src/fallout_shared/bgscamerapath.cpp
+  src/fallout_shared/bgscamerashot.cpp
   src/fallout_shared/bgscliproundsform.cpp
   src/fallout_shared/bgsdebris.cpp
   src/fallout_shared/bgsdefaultobjectmanager.cpp
+  src/fallout_shared/bgsdestructibleobjectform.cpp
   src/fallout_shared/bgsentrypointfunction_h_unit.cpp
   src/fallout_shared/bgsexplosion.cpp
   src/fallout_shared/bgsheadpart.cpp
+  src/fallout_shared/bgshunger.cpp
   src/fallout_shared/bgsidlecollection.cpp
   src/fallout_shared/bgsidlemarker.cpp
   src/fallout_shared/bgsimpactdata.cpp
@@ -22,15 +27,20 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/bgslistform.cpp
   src/fallout_shared/bgsloadedreferencecollection.cpp
   src/fallout_shared/bgsmenuicon.cpp
+  src/fallout_shared/bgsmessageicon.cpp
   src/fallout_shared/bgsmovablestatic.cpp
   src/fallout_shared/bgsmusictype.cpp
+  src/fallout_shared/bgsnote.cpp
+  src/fallout_shared/bgsperk.cpp
   src/fallout_shared/bgspickupputdownsounds.cpp
   src/fallout_shared/bgsplaceablewater.cpp
+  src/fallout_shared/bgsquestobjective.cpp
   src/fallout_shared/bgsradiation.cpp
   src/fallout_shared/bgsrepairitemlist.cpp
   src/fallout_shared/bgssleepdeprevation.cpp
   src/fallout_shared/bgsstaticcollection.cpp
   src/fallout_shared/bgstextureset.cpp
+  src/fallout_shared/bgstextureusemap.cpp
   src/fallout_shared/bgstouchspellform.cpp
   src/fallout_shared/bgsvoicetype.cpp
   src/fallout_shared/bsanimgroupsequence_h_unit.cpp
@@ -269,30 +279,20 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/animation.cpp
   src/fallout_shared/bgsacousticspace.cpp
   src/fallout_shared/bgsautowater.cpp
-  src/fallout_shared/bgsbodypart.cpp
-  src/fallout_shared/bgscamerapath.cpp
-  src/fallout_shared/bgscamerashot.cpp
   src/fallout_shared/bgsconstructibleobject.cpp
   src/fallout_shared/bgsdecalmanager.cpp
   src/fallout_shared/bgsdecalnode.cpp
   src/fallout_shared/bgsdehydration.cpp
-  src/fallout_shared/bgsdestructibleobjectform.cpp
   src/fallout_shared/bgsentrypointfunction.cpp
   src/fallout_shared/bgsequiptype.cpp
-  src/fallout_shared/bgshunger.cpp
   src/fallout_shared/bgsmessage.cpp
-  src/fallout_shared/bgsmessageicon.cpp
-  src/fallout_shared/bgsnote.cpp
   src/fallout_shared/bgsopencloseform.cpp
-  src/fallout_shared/bgsperk.cpp
   src/fallout_shared/bgsprimitive.cpp
   src/fallout_shared/bgsprojectile.cpp
-  src/fallout_shared/bgsquestobjective.cpp
   src/fallout_shared/bgsragdoll.cpp
   src/fallout_shared/bgssceneinfo.cpp
   src/fallout_shared/bgstalkingactivator.cpp
   src/fallout_shared/bgsterminal.cpp
-  src/fallout_shared/bgstextureusemap.cpp
   src/fallout_shared/bgsworldlocation.cpp
   src/fallout_shared/bipedanim.cpp
   src/fallout_shared/bsanimgroupsequence.cpp

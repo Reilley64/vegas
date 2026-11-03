@@ -6514,7 +6514,7 @@ void S::FUN_0044e4f0(void* arg0)
     reinterpret_cast<::CombatProcedure *>((((X6ecd40*)arg0)))->Initialize((::CombatController *)(m_pCurrent));
     m_pCurrent = arg0;
     m_iCount = m_iCount + 1;
-    if (*(int*)((char*)this + 0xc) == reinterpret_cast<::FUN_0084e3a0_Class *>((((X84e3a0*)*(void**)this)))->FUN_0084e3a0())
+    if (this->m_iCount == reinterpret_cast<::FUN_0084e3a0_Class *>((((X84e3a0*)*(void**)this)))->FUN_0084e3a0())
     {
         reinterpret_cast<::OwnerX *>((((X44eed0*)this)))->FUN_0044eed0();
     }

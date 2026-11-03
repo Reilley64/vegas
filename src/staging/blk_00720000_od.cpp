@@ -349,7 +349,7 @@ void FUN_00726090_cls::FUN_00726090()
 {
     m_1c = 0;
     m_20 = 0.0f;
-    for (FNVNodeLink* cur = this ? (FNVNodeLink*)((char*)this + 4) : 0; cur != 0 && *((void ***)(new ((void *)(cur)) ::Vec3())) != 0;
+    for (FNVNodeLink* cur = this ? (FNVNodeLink*)&this->m_04 : 0; cur != 0 && *((void ***)(new ((void *)(cur)) ::Vec3())) != 0;
          cur = ((::FNVNodeLink *)(reinterpret_cast<::Callees *>((cur))->FUN_00726070())))
     {
         if (((unsigned char*)*((void ***)(new ((void *)(cur)) ::Vec3())))[8] == 0)

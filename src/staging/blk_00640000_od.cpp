@@ -1655,7 +1655,7 @@ struct Dummy658130
 // @fnv 0x00658040
 void FUN_00658040::Call_00658040()
 {
-    reinterpret_cast<::Dummy658130 *>((((FUN_00658130*)((char*)this + 8))))->FUN_00658130();
+    reinterpret_cast<::Dummy658130 *>((((FUN_00658130*)&this->m_8)))->FUN_00658130();
 }
 // @fnv 0x00658130
 unsigned Dummy658130::FUN_00658130()

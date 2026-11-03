@@ -4213,7 +4213,7 @@ struct Obj2250 {  };
 extern char DAT_0102cb00;
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct XObj {
-    static void* __cdecl operator new(unsigned int size) { return FUN_00aa13e0(size); } static void operator delete(void*, unsigned int);
+    
     void* pEffect; void* pSource; void* pTransform; unsigned int flags; float intensity; float x; float y; float z; unsigned int lifetime;
     XObj(void*, float, int, Param*, P12*, Mat36*, P12*, P12*, float, int, int);
 };

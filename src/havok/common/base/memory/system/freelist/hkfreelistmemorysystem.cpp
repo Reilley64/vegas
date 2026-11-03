@@ -28,10 +28,10 @@
 #include "fnv/symbols_010ca000.h"
 struct FUN_00cd06c0_t
 {
-    void FUN_00cd06c0(int v);
+    void FUN_00cd06c0(intptr_t v);
 };
 // @fnv 0x00cd06c0
-void FUN_00cd06c0_t::FUN_00cd06c0(int v)
+void FUN_00cd06c0_t::FUN_00cd06c0(intptr_t v)
 {
     *(int*)((char*)this + 4) = v;
     *(int*)((char*)this + 0x18) = v;

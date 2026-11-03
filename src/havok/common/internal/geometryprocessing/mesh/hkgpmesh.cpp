@@ -3214,7 +3214,6 @@ struct E24850Node {
     E24850Node* m_next;
     E24850Node* m_pSecondNode;
 
-    static void* operator new(std::size_t, void* p) { return p; }
     E24850Node(void* data);
 };
 
@@ -3589,7 +3588,6 @@ struct FUN_00e23af0_cls {
     unsigned int m_uiObjectFlags;
 
     FUN_00e23af0_cls* ClearAndFree(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // @fnv 0x00e23af0
@@ -3660,7 +3658,6 @@ struct SpawnedObject {
     SpawnedSub m_sub20;
 
     SpawnedObject* DestroySpawnedObject(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Resets the vtable, tears down both sub-objects, and if acFlags has bit 0 set, frees this object through the audio allocator.
@@ -10261,7 +10258,7 @@ template<class T> struct CopyPool {
 struct PartsMap {
     int data,size,mask;
     __forceinline PartsMap():data(0),size(0),mask(-1) {reserve(0);}
-    static void* operator new(unsigned n,Allocator* heap){return heap->allocate(n);}
+    static void* operator new(std::size_t n,Allocator* heap){return heap->allocate(n);}
     __forceinline void reserve(int n){reinterpret_cast<::FUN_00cb1fe0_t *>(this)->EnsureCapacity((intptr_t)(&FUN_00c85750().getHeap()),n);}
     __forceinline uintptr_t lookup(uintptr_t k)const{return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(k,0)));}
     __forceinline void insert(uintptr_t k,uintptr_t v){reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&FUN_00c85750().getHeap())),k,v);}
@@ -12329,7 +12326,6 @@ namespace Qr{Qmemrouter&__cdecl FUN_00c85750() throw();}
 class Qmemalloc
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t,void*p){return p;}
 virtual ~Qmemalloc();
 virtual void*AllocateMemoryBlock(int numBytes)=0;
 virtual void ReleaseBlock(void*p,int numBytes)=0;
@@ -12355,7 +12351,6 @@ QhkPadSpu<void*>m_kRayEnd;};
 class Qmemrouter
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t,void*p){return p;}
 typedef Qmemalloc Allocator;
 static Qmemrouter&__cdecl GetMonitorStream(){return Qr::FUN_00c85750();}inline Allocator&heap(){return*m_pStreamAllocator;}
 protected:
@@ -12374,7 +12369,7 @@ __forceinline QhkBaseObject(){}
 class QhkReferencedObject:public QhkBaseObject
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;QhkReferencedObject*b=static_cast<QhkReferencedObject*>(Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<QhkUint16>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;QhkReferencedObject*b=static_cast<QhkReferencedObject*>(Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<QhkUint16>(nbytes);;return b;}
 public:
 enum
 {
@@ -12551,7 +12546,7 @@ inline QhkReal __cdecl fabs(QhkReal r){return::fabsf(r);}
 class QhkVector4
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 QhkBool::CompileTimeTrueType operator==(const QhkTypeIsPod&)const;
 __forceinline void operator=(const QhkVector4&v);
 __forceinline void setInt24W(int value);
@@ -12577,7 +12572,7 @@ return m_vComponents;
 };class QhkMatrix3
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline QhkVector4&getColumn(int i);
 QhkSimdReal FUN_00cd51c0() throw();
 protected:
@@ -12642,7 +12637,7 @@ return(&m_kColumn0)[x];
 class QhkAabb
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 public:
 QhkVector4 m_kMinimumCorner;
 QhkVector4 m_kMaximumCorner;};
@@ -12657,7 +12652,7 @@ QhkUint8 m_data[sizeof(T)];
 };
 struct Pool
 {
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Pool));}}__forceinline void*__cdecl operator new(Qhk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](Qhk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Pool));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 Item m_items[N];
 Item*m_free;
 int m_uiBufferCapacity;
@@ -12765,7 +12760,7 @@ struct List
 {
 struct Item:BASE
 {
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Item));}}__forceinline void*__cdecl operator new(Qhk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](Qhk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Item));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 __forceinline T*next()const{return(m_next);}
 __forceinline T*&next(){return(m_next);}
 __forceinline T*prev()const{return(m_pSecondNode);}
@@ -12802,7 +12797,7 @@ template<typename VERTEX,typename BASE>
 struct Vertex:List<VERTEX,BASE>::Item
 {
 typedef typename List<VERTEX,BASE>::Item tBase;
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Vertex));}}__forceinline void*__cdecl operator new(Qhk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](Qhk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Vertex));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 static __forceinline bool isOrdered(const VERTEX*a,const VERTEX*b)
 {
 const int c((*a).compare(*b));
@@ -12817,7 +12812,7 @@ struct Triangle:List<TRIANGLE,BASE>::Item
 {
 typedef typename List<TRIANGLE,BASE>::Item tBase;
 typedef const VERTEX&vParm;
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Triangle));}}__forceinline void*__cdecl operator new(Qhk_size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](Qhk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}__forceinline void __cdecl operator delete(void*p){if(p){;Qmemrouter::GetMonitorStream().heap().ReleaseBlock(p,sizeof(Triangle));}}__forceinline void*__cdecl operator new(std::size_t n,void*p){;return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 __forceinline void setVertices(vParm a,vParm b,vParm c){m_kVertices[0]=a;m_kVertices[1]=b;m_kVertices[2]=c;}
 __forceinline bool hasReferences()const{return(0!=((link(0)|link(1)|link(2))>>2));}
 __forceinline VERTEX vertex(int i)const{return(m_kVertices[i]);}
@@ -12832,7 +12827,7 @@ template<typename EDGE,typename VERTEX,typename TRIANGLE,typename ALLOCATOR=QhkC
 class QhkgpAbstractMesh:public QhkReferencedObject
 {
 public:
-__forceinline void*__cdecl operator new(Qhk_size_t nbytes){;QhkReferencedObject*b=static_cast<QhkReferencedObject*>(Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<QhkUint16>(nbytes);;return b;}typedef QhkGeometryProcessing::DynamicMemoryAllocator<VERTEX,32,ALLOCATOR>VertexPoolAllocator;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;QhkReferencedObject*b=static_cast<QhkReferencedObject*>(Qmemrouter::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<QhkUint16>(nbytes);;return b;}typedef QhkGeometryProcessing::DynamicMemoryAllocator<VERTEX,32,ALLOCATOR>VertexPoolAllocator;
 typedef QhkGeometryProcessing::DynamicMemoryAllocator<TRIANGLE,32,ALLOCATOR>TrianglePoolAllocator;
 typedef QhkgpAbstractMeshDefinitions::List<VERTEX,typename VERTEX::tBase,VertexPoolAllocator>VertexList;
 typedef QhkgpAbstractMeshDefinitions::List<TRIANGLE,typename VERTEX::tBase,TrianglePoolAllocator>TriangleList;
@@ -17295,7 +17290,6 @@ struct Pair {
     intptr_t a; intptr_t b;
     Pair() {}
     Pair(intptr_t aa,int bb) : a(aa),b(bb) {}
-    static void *operator new(std::size_t,void *p) throw() {return p;}
 };
 struct EdgeSelection { Pair first,second; };
 struct PairArrRaw {

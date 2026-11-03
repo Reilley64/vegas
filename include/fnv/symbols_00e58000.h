@@ -33,6 +33,6 @@ void FUN_00e589a0(::FUN_00e587b0_Class *, ::FUN_00e58880_Class *);
 // 0x00e589e0
 namespace fnv_00e589e0 { void NegateElements(::fnv_00e589e0::FUN_00e587b0_Class *); }
 // 0x00e58e80
-::E87E0Matrix *FUN_00e58e80(int, int, ::E58E80Object *, const ::E87E0Matrix &);
+::E87E0Matrix *FUN_00e58e80(intptr_t, intptr_t, ::E58E80Object *, const ::E87E0Matrix &);
 // 0x00e58f10
 bool *ConjugateGradientSolve(bool *, ::SolverMatrix *, ::SolverVector *, ::SolverVector *, int, float);

@@ -522,8 +522,6 @@ struct NodeHolder
 struct Manager
 {
 };
-void* __cdecl operator new(unsigned);
-void __cdecl operator delete(void*);
 struct Camera : Resource
 {
     int f04, f08, f0c, f10, f14, f18, f1c, f20, f24, f28, f2c, f30, f34, f38, f3c;
@@ -531,13 +529,11 @@ struct Camera : Resource
     int f80, f84, f88, f8c, f90, f94, f98, f9c, fa0, fa4, fa8, fac, fb0, fb4, fb8, fbc;
     int fc0, fc4, fc8, fcc, fd0, fd4, fd8, fdc, fe0, fe4, fe8, fec, ff0, ff4, ff8, ffc;
     int f100, f104, f108, f10c, f110;
-    static void* operator new(unsigned);
     Camera();
 };
 struct Controller
 {
     int f00, f04, f08, f0c, f10, f14, f18;
-    static void* operator new(unsigned);
     Controller();
 };
 struct Interface

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niparticlesdata.cpp: NiParticlesData, Candidate, ParticleViewData, ParticlesEquality and more (14 functions)
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
@@ -80,7 +81,6 @@ struct NiGeometryData_SetConsistency_View
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int uiSize);
 };
 
 extern char DAT_010a05e4[];
@@ -103,7 +103,7 @@ struct FUN_00a96600_data : NiGeometryData_SetConsistency_View
 // @fnv 0x00a96600
 void* FUN_00a96600()
 {
-    FUN_00a96600_data* p = (FUN_00a96600_data*)BSFadeNode::operator new(sizeof(FUN_00a96600_data));
+    FUN_00a96600_data* p = (FUN_00a96600_data*)::operator new(sizeof(FUN_00a96600_data));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a67c00();
@@ -216,7 +216,7 @@ struct ParticleViewFrame
     unsigned int unk_60;
     NiPoint3 axisX, axisY, axisZ;
 };
-inline void* operator new[](unsigned int bytes, MemoryManager& manager)
+inline void* operator new[](std::size_t bytes, MemoryManager& manager)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(manager))->FUN_00aa3e40(bytes);
 }
@@ -224,11 +224,6 @@ struct ParticleViewData : NiParticlesData
 {
     void FUN_00a96910(ParticleViewFrame*);
 };
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
-inline void* __cdecl operator new(unsigned int, void* pv) throw()
-{
-    return pv;
-}
 
 struct Obj_a96
 {
@@ -928,10 +923,6 @@ struct AllocSvc
 };
 struct ArrNew
 {
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct Rot16 : ArrNew
 {

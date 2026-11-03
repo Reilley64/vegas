@@ -266,7 +266,6 @@ class FUN_005a7b60_cls
 
     bool FUN_005a7b60(TESForm* pkForm);
 };
-void __cdecl operator delete(void*);
 struct DeletingObject
 {
     void FUN_005a7d40();

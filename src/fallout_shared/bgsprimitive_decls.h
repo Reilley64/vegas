@@ -1,6 +1,7 @@
 // fallout_shared/bgsprimitive_decls.h: declares NiPoint3, RgbaColor, NiBound, NiUpdateData, NiFixedString and more
 #ifndef BGSPRIMITIVE_DECLS_H
 #define BGSPRIMITIVE_DECLS_H
+#include <new>
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_00a59c60_cls.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"
@@ -70,8 +71,6 @@ class NiGeometryData
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiAVObject : public NiMemObject
 {

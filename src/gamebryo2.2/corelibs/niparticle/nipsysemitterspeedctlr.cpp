@@ -3,6 +3,8 @@
 
 
 // @fnv 0x00c2b360
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
@@ -74,7 +76,7 @@ void FUN_00c2b3d0(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uiSize, psz);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct CtorBase_cls
 {
@@ -85,12 +87,12 @@ struct FUN_00c2b380_cls
     void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
-    void* FUN_00c2b380(unsigned int a1);
+    void* FUN_00c2b380(uintptr_t a1);
 };
 
 // Allocates a 0x40-byte object, runs its base constructor and sets its vtable, then passes it to FUN_00c32de0 with a1 and returns it.
 // @fnv 0x00c2b380
-void* FUN_00c2b380_cls::FUN_00c2b380(unsigned int a1)
+void* FUN_00c2b380_cls::FUN_00c2b380(uintptr_t a1)
 {
     FUN_00c2b380_cls* p = (FUN_00c2b380_cls*)FUN_00aa13e0(0x40);
     if (p != 0)

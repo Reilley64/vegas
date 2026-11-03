@@ -5,7 +5,10 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -86,14 +89,6 @@ typedef unsigned int C25AC0size_t;
 struct C25AC0MemoryManager
 {
 };
-inline void __cdecl operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
-inline void __cdecl operator delete[](void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 struct C25AC0MemObject
 {
 };
@@ -162,7 +157,6 @@ class FUN_00a5d3d0
   public:
     ~FUN_00a5d3d0();
 };
-void __cdecl operator delete(void* pv, int iSize);
 void __cdecl FUN_00aa1490(void* pv, unsigned int uiSize);
 struct Elem_c25 : FUN_00a5d3d0
 {
@@ -193,7 +187,7 @@ struct Elem_c25 : FUN_00a5d3d0
     void* DestroyElements(unsigned int uiFlags);
 };
 
-extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
+
 struct C25990Elem
 {
     void* m_vf;
@@ -204,7 +198,7 @@ struct C25990Elem
     C25990Elem();
     ~C25990Elem()
     {}
-    static void* operator new[](unsigned int size, unsigned int count)
+    static void* operator new[](std::size_t size, unsigned int count)
     {
         if (count == 0)
             return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolAlloc_00c25b30 *>(&::g_memoryManager))))->FUN_00aa3e40(4);

@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -71,7 +72,6 @@ struct NiD3DShaderProgramCreator;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiD3DShaderProgramFactory
@@ -83,15 +83,11 @@ extern int DAT_010f0a90;
 
 struct CreatorHLSL
 {
-    int vtbl;
+    intptr_t vtbl;
     int field4;
-    static void* operator new(unsigned int sz)
-    {
-        return BSFadeNode::operator new(sz);
-    }
     CreatorHLSL()
     {
-        vtbl = (int)&DAT_010f0a90;
+        vtbl = (intptr_t)&DAT_010f0a90;
         field4 = 0;
     }
 };
@@ -227,7 +223,7 @@ int CallVirtualSlot43(char* self, int)
 }
 
 // @fnv 0x00e91710
-char FUN_00e91710(int a)
+char FUN_00e91710(intptr_t a)
 {
     return ((char)(reinterpret_cast<::fnv_00a98170::NiPersistentSrcTextureRendererData *>((a))->FUN_00a98170(*(::NiStream *)nullptr))) != 0;
 }
@@ -280,7 +276,7 @@ struct FUN_00e90560_shell
 // @fnv 0x00e90560
 void* FUN_00e90560_shell::FUN_00e90560(int aiFlags)
 {
-    *(int*)this = (int)&::DAT_010f0764;
+    *(intptr_t*)this = (intptr_t)&::DAT_010f0764;
     ::DAT_0126f74c = 0;
     FUN_00e806c0();
     if (aiFlags & 1)
@@ -319,10 +315,6 @@ struct BooleanKey
     int _0;
     int _4;
     ~BooleanKey();
-    void* operator new[](unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a2cdc0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 // @fnv 0x00a2cdc0
 BooleanKey* __cdecl FUN_00a2cdc0(NiStream& kStream, unsigned int uiElementCount)
@@ -346,9 +338,9 @@ struct NiPixelFormat
 extern int DAT_010efb7c;
 struct FUN_00e8a260 : _Call_a5d3a0
 {
-    int m_00;
+    intptr_t m_00;
     int m_04;
-    int m_08;
+    intptr_t m_08;
     int m_0c;
     int m_10;
     NiPixelFormat m_14;
@@ -357,14 +349,14 @@ struct FUN_00e8a260 : _Call_a5d3a0
     unsigned char m_5a;
     unsigned char m_5b;
     int m_5c;
-    int m_60;
+    intptr_t m_60;
     int m_64;
     int m_68;
-    FUN_00e8a260(unsigned int, unsigned int);
+    FUN_00e8a260(uintptr_t, uintptr_t);
 };
 // Initializes the object's fields: stores a1 in m_08, a2 in m_60, sets m_58-m_5a to 0xff, m_5b/m_64/m_68/m_0c/m_10 to 0, and installs two vtable pointers.
 // @fnv 0x00e8a260
-FUN_00e8a260::FUN_00e8a260(unsigned int a1, unsigned int a2) : m_00((int)&DAT_010a080c), m_08((int)a1), m_0c(0), m_10(0)
+FUN_00e8a260::FUN_00e8a260(uintptr_t a1, uintptr_t a2) : m_00((intptr_t)&DAT_010a080c), m_08((int)a1), m_0c(0), m_10(0)
 {
     m_58 = 0xff;
     m_59 = 0xff;
@@ -372,7 +364,7 @@ FUN_00e8a260::FUN_00e8a260(unsigned int a1, unsigned int a2) : m_00((int)&DAT_01
     m_5b = 0;
     m_64 = 0;
     m_68 = 0;
-    m_00 = (int)&DAT_010efb7c;
+    m_00 = (intptr_t)&DAT_010efb7c;
     m_60 = (int)a2;
 }
 
@@ -381,11 +373,11 @@ struct FUN_00e8fd60_shell
 {
     void* m_iWordAt00;
     void FUN_00e8a260(int, int);
-    void* InitWithArgs(int a, int b, int c);
+    void* InitWithArgs(intptr_t a, intptr_t b, int c);
 };
 
 // @fnv 0x00e8fd60
-void* FUN_00e8fd60_shell::InitWithArgs(int aiArg1, int aiArg2, int aiArg3)
+void* FUN_00e8fd60_shell::InitWithArgs(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 {
     new ((void *)this) ::FUN_00e8a260(aiArg1, aiArg2);
     m_iWordAt00 = &DAT_010f02fc;
@@ -856,17 +848,16 @@ void FUN_00e91190_Holder::SetFlag(bool b)
 namespace fnv_00e916d0 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 // @fnv 0x00e916d0
 void* FUN_00e916d0()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x94);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x94);
     if (p)
     {
         new ((void *)(p)) ::FUN_00a981d0();
-        *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&::DAT_010f099c);
+        *reinterpret_cast<intptr_t*>(p) = reinterpret_cast<intptr_t>(&::DAT_010f099c);
         return p;
     }
     return 0;
@@ -1456,7 +1447,6 @@ struct ScriptX
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00e8a260 : BSFadeNode
 {
@@ -1484,7 +1474,7 @@ typedef void*(* RTD_BufFn)(void*);
 
 // Allocates an RTD_Obj, initializes it, queries IDirect3DTexture9, creates the buffer data, and releases the object on failure.
 // @fnv 0x00e8ff60
-void* __cdecl CreateRenderedTextureData(unsigned int a1, unsigned int a2, unsigned int a3)
+void* __cdecl CreateRenderedTextureData(uintptr_t a1, unsigned int a2, unsigned int a3)
 {
     RTD_Obj* p = new RTD_Obj(a1, a2);
     if (!p->FUN_00e8fe10(a1, a3))
@@ -1504,7 +1494,7 @@ void* __cdecl CreateRenderedTextureData(unsigned int a1, unsigned int a2, unsign
         (*(RTD_DelFn**)p)[0](p, 1);
         return 0;
     }
-    int bCreated = ((int)(::NiDX9TextureBufferData::FUN_00e7d250((::D3DTexture_e7d250 *)(pD3DTexture), (*(::Ni2DBufferStub * *)(&pBuffer)), a3, *(unsigned int*)((char*)p + 0x6c))));
+    intptr_t bCreated = ((intptr_t)(::NiDX9TextureBufferData::FUN_00e7d250((::D3DTexture_e7d250 *)(pD3DTexture), (*(::Ni2DBufferStub * *)(&pBuffer)), a3, *(unsigned int*)((char*)p + 0x6c))));
     if (pD3DTexture)
         pD3DTexture->Release();
     if (!bCreated)
@@ -1552,7 +1542,7 @@ bool NiD3DVertexDeclaration::FUN_00e90970()
         if (pOld)
         {
             if (InterlockedDecrement((long*)((char*)pOld + 4)) == 0)
-                (*(void(**)(NiD3DVertexDeclaration*))(*(int*)pOld + 4))(pOld);
+                (*(void(**)(NiD3DVertexDeclaration*))(*(intptr_t*)pOld + 4))(pOld);
         }
         *(NiD3DVertexDeclaration**)((char*)this + 0x28) = pNew;
         if (pNew)
@@ -1560,7 +1550,7 @@ bool NiD3DVertexDeclaration::FUN_00e90970()
     }
 
     NiD3DVertexDeclaration* p = *(NiD3DVertexDeclaration**)((char*)this + 0x28);
-    (*(void(**)(NiD3DVertexDeclaration*, int, int, int, int, int))(*(int*)p + 0x8c))(p, 0, 0, 0, 2, 0);
+    (*(void(**)(NiD3DVertexDeclaration*, int, int, int, int, int))(*(intptr_t*)p + 0x8c))(p, 0, 0, 0, 2, 0);
 
     return true;
 }
@@ -1669,7 +1659,7 @@ void NiShader::SetRandomColorRenderStates(unsigned int arg1, unsigned int arg2, 
         reinterpret_cast<::StateGroup *>((data->renderStateGroup))->SetNodeValue(0x34, 0, true);
     }
 
-    ::FUN_00a8f3e0((int)this, arg1, arg2, arg3, arg4, arg5, arg6);
+    ::FUN_00a8f3e0((intptr_t)this, arg1, arg2, arg3, arg4, arg5, arg6);
 }
 
 struct CachedResource
@@ -1693,7 +1683,7 @@ struct CacheRing
     unsigned char cursor;
     CacheEntry* entries[5];
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ResourceCache
 {
     int unk00, unk04;
@@ -1900,7 +1890,7 @@ struct FUN_00e90ac0_Sub
 
 struct FUN_00e90ac0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     FUN_00e90ac0_Sub* m_pSub;
     int unk0c;
@@ -1913,10 +1903,10 @@ struct FUN_00e90ac0_cls
 FUN_00e90ac0_cls* FUN_00e90ac0_cls::FUN_00e90ac0(unsigned char acFlags)
 {
     FUN_00e90ac0_Sub* pSub = m_pSub;
-    m_vptr = (int)&DAT_010f086c;
+    m_vptr = (intptr_t)&DAT_010f086c;
     pSub->Release();
     m_pSub = 0;
-    m_vptr = (int)&DAT_0101dce4;
+    m_vptr = (intptr_t)&DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     if (acFlags & 1)
     {
@@ -2029,12 +2019,8 @@ struct TexRecord
     unsigned char m_70;
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // Rejects tiled owners, allocates and constructs a TexRecord, checks it against the device flag, and on failure destroys it and returns 0.
 // @fnv 0x00e904c0
@@ -2050,7 +2036,7 @@ TexRecord* __cdecl CreateDynamicTexture(TexOwner* owner)
     TexRecord* pRecord = (TexRecord*)FUN_00aa13e0(0x74);
     if (pRecord != 0)
     {
-        new (pRecord) FUN_00e8a260((unsigned int)owner, (unsigned int)dev);
+        new (pRecord) FUN_00e8a260((uintptr_t)owner, (uintptr_t)dev);
         pRecord->m_ppVirtualMethodTable = (void**)&DAT_010f05ec;
         pRecord->m_6c = 0;
         pRecord->m_70 = 0;
@@ -2117,8 +2103,8 @@ FUN_00e909e0_cls* FUN_00e909e0_cls::FUN_00e909e0()
     m_vtbl = (void*)&DAT_010f0764;
     reinterpret_cast<::ErrorShaderStandIn *>(this)->InitErrorShaderPass();
     void* p = ((void *)(::NiGlobalStringTable::AddString("NiDX9ErrorShader")));
-    ::AssignFixedString((char *)this, (int)(&p), {});
-    if ((int)p != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+    ::AssignFixedString((char *)this, (intptr_t)(&p), {});
+    if ((intptr_t)p != (*reinterpret_cast<int *>(&::DAT_0109b220)))
     {
         InterlockedDecrement((volatile long*)((char*)p - 8));
     }
@@ -2143,11 +2129,11 @@ struct CritLock
     _RTL_CRITICAL_SECTION_S m_kCriticalSection;
     void Lock()
     {
-        EnterCriticalSection(&m_kCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
     void Unlock()
     {
-        LeaveCriticalSection(&m_kCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 
@@ -2252,11 +2238,11 @@ struct RendererStub
     CritLock m_kLock;
     void Lock()
     {
-        EnterCriticalSection(&m_kLock.m_kCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kLock.m_kCriticalSection));
     }
     void Unlock()
     {
-        LeaveCriticalSection(&m_kLock.m_kCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kLock.m_kCriticalSection));
     }
 };
 
@@ -2371,7 +2357,7 @@ void* FUN_00e90b10_shell::GetTextureData(Texture* pkTexture, bool* pbChanged, bo
         NiObject* pkSrc = pkTexture->DynamicCast(&(*reinterpret_cast<::NiRTTI *>(&::g_011f444c)));
         if (pkSrc)
         {
-            pkData = (TexData*)((int)(::FUN_00e68ef0((::FnvSource *)(pkSrc), (::FnvDevice *)(m_pOwnerShader))));
+            pkData = (TexData*)((intptr_t)(::FUN_00e68ef0((::FnvSource *)(pkSrc), (::FnvDevice *)(m_pOwnerShader))));
             *pbChanged = true;
         }
         else
@@ -3703,10 +3689,6 @@ struct Renderer_e91590 : RendererBase
         m_b1114 = false;
         std::memmove(&m_kCreateDesc, desc, sizeof(CreateDesc));
     }
-    static void* operator new(unsigned int sz)
-    {
-        return BSFadeNode::operator new(sz);
-    }
 };
 
 // Allocates a Renderer_e91590, initializes it, updates matching entries in DAT_011bfce8, sets flag bit 2 when zenable, and stores the result of FUN_00e978a0.
@@ -3724,7 +3706,7 @@ Renderer_e91590* __cdecl CreateRenderer(int adapter, CreateDesc* desc, bool zena
     }
     if (zenable)
         r->m_flags08 |= 2;
-    r->m_sp10f0 = ((::fnv_00e91590::RefObj *)(::FUN_00e978a0(adapter, (int)(desc))));
+    r->m_sp10f0 = ((::fnv_00e91590::RefObj *)(::FUN_00e978a0(adapter, (intptr_t)(desc))));
     return r;
 }
 }  // namespace fnv_00e91590
@@ -3750,11 +3732,11 @@ struct FnvCriticalSection
 
     void Enter()
     {
-        EnterCriticalSection(this);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(this));
     }
     void Leave()
     {
-        LeaveCriticalSection(this);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(this));
     }
 };
 
@@ -3944,7 +3926,7 @@ bool FnvRendererOwner::IsObjectStatic(FnvObject* obj, void* arg2, void* arg3)
     {
         FnvObject* found = obj->DynamicCast(&(*reinterpret_cast<::fnv_00e90c70::FnvRTTI *>(&::g_011f444c)));
         if (found)
-            data = (FnvData*)((int)(::FUN_00e68ef0((::FnvSource *)(found), (::FnvDevice *)(m_pBinaryStream))));
+            data = (FnvData*)((intptr_t)(::FUN_00e68ef0((::FnvSource *)(found), (::FnvDevice *)(m_pBinaryStream))));
         else
         {
             pRenderGlobal->m_kCriticalSection.Leave();
@@ -4184,7 +4166,7 @@ struct Counts
 
 // Normalizes fmt (6->2) and tile (3->0), then returns the first non-zero Counts field chosen by fmt and tile, or 0.
 // @fnv 0x00e89ed0
-int __cdecl SelectFormatTileValue(Pair* p, Counts* pCounts)
+intptr_t __cdecl SelectFormatTileValue(Pair* p, Counts* pCounts)
 {
     int fmt = p->fmt;
     int tile = p->tile;
@@ -6570,7 +6552,7 @@ struct FnvD3dDevice
 };
 extern "C" unsigned char DAT_010ed37c;
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SourcePixelFormat
 {
@@ -7540,7 +7522,7 @@ struct FnvSourceFmt
 namespace SourceTextureConstruction {
 struct FUN_00e8a260 : ::FUN_00e8a260
 {
-    FUN_00e8a260(unsigned int source, unsigned int device);
+    FUN_00e8a260(uintptr_t source, uintptr_t device);
 };
 }
 struct FnvOutput : SourceTextureConstruction::FUN_00e8a260
@@ -7553,9 +7535,9 @@ struct FnvOutput : SourceTextureConstruction::FUN_00e8a260
     void* m_pixels;
     unsigned int m_sampler;
     FnvOutput(FnvSource* source, FnvDevice* device)
-        : SourceTextureConstruction::FUN_00e8a260((unsigned int)source, (unsigned int)device)
+        : SourceTextureConstruction::FUN_00e8a260((uintptr_t)source, (uintptr_t)device)
     {
-        m_00 = (int)&DAT_010ed37c;
+        m_00 = (intptr_t)&DAT_010ed37c;
         m_failure = 0;
         m_hasMipmaps = 0;
         m_totalSize = 0;
@@ -7595,10 +7577,10 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         cached = reinterpret_cast<SourceFields*>(source)->cached;
         if (!cached)
         {
-            int kind = reinterpret_cast<SourceFields*>(source)->kind;
+            intptr_t kind = reinterpret_cast<SourceFields*>(source)->kind;
             if (DAT_011f4509 && reinterpret_cast<SourceFields*>(source)->fast && device)
             {
-                unsigned flags = reinterpret_cast<SourceFields*>(source)->flags;
+                uintptr_t flags = reinterpret_cast<SourceFields*>(source)->flags;
                 if (reinterpret_cast<::NiDX9SourceTextureDataQ *>((output))->LoadFromFilename((const char *)(kind), (::NiDX9RendererQ *)(device), (*(const ::FormatPrefsQ *)(&format)), (::NiFileQ *)(flags)))
                 {
                     reinterpret_cast<SourceFields*>(output->m_08)->rendererData = output;
@@ -7618,7 +7600,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
     unsigned adapter;
     if (!existing && !cached)
     {
-        cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000005, 1)));
+        cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000005, 1)));
         ::FUN_00a29680();
         output->m_failure = 1;
     }
@@ -7634,13 +7616,13 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
                 pixelData = ::FUN_00e8a300((::ShaderRequest093 *)(output), (::ShaderTraits093 *)(&srcFormat), (::ShaderChoices093 *)(&format));
                 if (!pixelData)
                 {
-                    cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+                    cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
                     output->m_failure = 1;
                 }
             }
             else
             {
-                cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000006, 1)));
+                cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000006, 1)));
                 output->m_failure = 1;
             }
         }
@@ -7649,14 +7631,14 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
             pixelData = ::FUN_00e8a300((::ShaderRequest093 *)(output), (::ShaderTraits093 *)(&srcFormat), (::ShaderChoices093 *)(&format));
             if (!pixelData)
             {
-                cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+                cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
                 output->m_failure = 1;
             }
         }
         texture = FUN_00e7bd20(&reinterpret_cast<ExistingFields*>(existing)->format);
         if (!texture)
         {
-            cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+            cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
             output->m_failure = 1;
         }
         TextureRendererFields* videoState = reinterpret_cast<TextureRendererFields*>((*reinterpret_cast<::TexDeviceState * *>(&::NiRenderer::ms_pRenderer)));
@@ -7666,7 +7648,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         adapter = reinterpret_cast<TextureRendererFields*>(videoState)->adapter;
         if (d3d->CreateTexture(adapter, devType, adapterFormat, 0, 3, texture) < 0)
         {
-            cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+            cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
             output->m_failure = 1;
         }
     }
@@ -7692,13 +7674,13 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
                 }
                 if (!pixelData)
                 {
-                    cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+                    cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
                     output->m_failure = 1;
                 }
             }
             else
             {
-                cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000006, 1)));
+                cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000006, 1)));
                 output->m_failure = 1;
             }
         }
@@ -7707,7 +7689,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
             pixelData = ::FUN_00e8a300((::ShaderRequest093 *)(output), (::ShaderTraits093 *)(&dstFormat), (::ShaderChoices093 *)(&format));
             if (!pixelData)
             {
-                cached = ((::FnvResource *)(::DispatchIfHighBitSet((int)(source), 0x80000004, 1)));
+                cached = ((::FnvResource *)(::DispatchIfHighBitSet((intptr_t)(source), 0x80000004, 1)));
                 output->m_failure = 1;
             }
         }
@@ -7722,7 +7704,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         output->m_68 = reinterpret_cast<ExistingFields*>(existing)->mipLevels;
         output->m_hasMipmaps = output->m_68 != 1;
         output->m_failure = 0;
-        output->m_60 = (int)device;
+        output->m_60 = (intptr_t)device;
         output->m_totalSize =
             reinterpret_cast<ExistingFields*>(existing)->sizes[reinterpret_cast<ExistingFields*>(existing)->mipLevels] *
             reinterpret_cast<ExistingFields*>(existing)->faces;
@@ -7735,7 +7717,7 @@ FnvOutput* __cdecl FUN_00e68ef0(FnvSource* source, FnvDevice* device)
         if (!output->m_64)
             reinterpret_cast<::TextureOwner *>((output))->CreateTextureFromInput((::TextureInput *)(existing), texture);
         if (output->m_64)
-            reinterpret_cast<::fnv_00e68920::FUN_00e68920_cls *>((output))->FUN_00e68920((int)(existing));
+            reinterpret_cast<::fnv_00e68920::FUN_00e68920_cls *>((output))->FUN_00e68920((intptr_t)(existing));
     }
     else
     {
@@ -8047,10 +8029,10 @@ extern int DAT_010f049c;
 // @fnv 0x00e901a0
 NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiDX9Renderer* pkRenderer)
 {
-    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::BSFadeNode::operator new(0x70);
+    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::::operator new(0x70);
     if (pkShell)
     {
-        reinterpret_cast<::FUN_00e8fd60_shell *>((pkShell))->InitWithArgs((int)pkTexture, (int)pkRenderer, 0);
+        reinterpret_cast<::FUN_00e8fd60_shell *>((pkShell))->InitWithArgs((intptr_t)pkTexture, (intptr_t)pkRenderer, 0);
         pkShell->m_iWordAt00 = &DAT_010f049c;
     }
     else
@@ -8067,12 +8049,12 @@ NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiD
     }
     pkThis->m_pkTexture->m_pTextureRendererData = pkThis;
     void* pkCurrentObject = 0;
-    for (unsigned int i = 0; i < 6; i++)
+    for (uintptr_t i = 0; i < 6; i++)
     {
         pkThis->GetD3DTexture();
         void* pkFace = pkTexture->m_ppCubeMapFaces[i];
         int iAdapter = pkRenderer->m_288;
-        void* pkData = ((void *)(::CreateDepthBufferData((::AdditionalDepthDevice *)(void *)(pkThis->GetD3DTexture()), (void *)(i), (int)(pkCurrentObject), iAdapter, (::Ni2DBufferStub **)(void **)(&pkFace))));
+        void* pkData = ((void *)(::CreateDepthBufferData((::AdditionalDepthDevice *)(void *)(pkThis->GetD3DTexture()), (void *)(i), (intptr_t)(pkCurrentObject), iAdapter, (::Ni2DBufferStub **)(void **)(&pkFace))));
         if (!pkData)
         {
             ::FUN_00a29680();

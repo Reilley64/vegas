@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nicollision/nihalfspacebv.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nihalfspacebv.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -92,7 +93,7 @@ int Holder00e9cc20::MatchesBoundingVolume(const NiBoundingVolume& kABV) const
 {
     if (reinterpret_cast<const BVProxy&>(kABV)._f3() == 5)
     {
-        if (((bool)(::FUN_00a92660((const float *)(reinterpret_cast<const Q*>(reinterpret_cast<const char*>(&kABV) + 4)), (int)&(*reinterpret_cast<const Q*>(reinterpret_cast<const char*>(this) + 4)), {}))))
+        if (((bool)(::FUN_00a92660((const float *)(reinterpret_cast<const Q*>(reinterpret_cast<const char*>(&kABV) + 4)), (intptr_t)&(*reinterpret_cast<const Q*>(reinterpret_cast<const char*>(this) + 4)), {}))))
             return 1;
     }
     return 0;
@@ -141,7 +142,7 @@ bool __cdecl FUN_00e9e980(float afValue, D_00e9e980* pContainer, void* a, void* 
     for (; i < pContainer->m_cnt; ++i)
     {
         void* e = pContainer->m_pp[i];
-        if (::CallConditionFunction(afValue, (::FUN_00e9c8c0_obj *)(e), (unsigned int)(a), (::FUN_00e9c8c0_obj *)(b), (unsigned int)(c)))
+        if (::CallConditionFunction(afValue, (::FUN_00e9c8c0_obj *)(e), (uintptr_t)(a), (::FUN_00e9c8c0_obj *)(b), (uintptr_t)(c)))
         {
             pContainer->m_found = (int)i;
             return true;
@@ -177,7 +178,7 @@ struct NiHalfSpaceBV : NiObject
 // @fnv 0x00e9cb50
 void NiHalfSpaceBV::FUN_00e9cb50(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     reinterpret_cast<::NiSphere *>(&(m_kHalfSpacePlane))->LoadBinary((::NiStream &)(stream));
     reinterpret_cast<::NiColor *>(&(m_kCenter))->LoadBinary((::NiStream &)(stream));
 }
@@ -344,10 +345,6 @@ struct CloneNode : NiBoundingVolume
     virtual ~CloneNode();
     FUN_00a69940_Member member;
     NiPoint3 point;
-    void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     NiBoundingVolume* FUN_00e9e730();
 };
 

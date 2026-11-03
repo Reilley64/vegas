@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c1f4f0
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
@@ -205,7 +206,7 @@ struct NiGeometry
 struct NiSkinInstance
 {
     char _pad[8];
-    int m_kPointB;
+    intptr_t m_kPointB;
 };
 
 
@@ -217,7 +218,7 @@ struct FUN_00c1f5f0_shell : NiPSysMeshEmitter
     void FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelocity);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SkinData_c1d170
 {
@@ -229,10 +230,6 @@ struct Partition_c1d170
 {
     int unk[4];
     Partition_c1d170() throw();
-    static void* __cdecl operator new(unsigned int s) throw()
-    {
-        return FUN_00aa13e0(s);
-    }
 };
 
 struct SkinInst_c1d170
@@ -709,11 +706,11 @@ struct Emit_c1f880
     int unk74;
     int unk78;
     Vec3_c1f880 vec7C;
-    Emit_c1f880* FUN_00c1f880(unsigned int uiArg);
+    Emit_c1f880* FUN_00c1f880(uintptr_t uiArg);
 };
 
 // @fnv 0x00c1f880
-Emit_c1f880* Emit_c1f880::FUN_00c1f880(unsigned int uiArg)
+Emit_c1f880* Emit_c1f880::FUN_00c1f880(uintptr_t uiArg)
 {
     Emit_c1f880* pkNew = (Emit_c1f880*)FUN_00aa13e0(0x88);
     Emit_c1f880* pkResult;
@@ -736,7 +733,6 @@ Emit_c1f880* Emit_c1f880::FUN_00c1f880(unsigned int uiArg)
 // Factory: allocates a 0x88-byte NiPSysMeshEmitter and runs its out-of-line constructor (FUN_00c1f550).
 struct NiPSysMeshEmitterObject
 {
-    static void* __cdecl operator new(unsigned int);
     NiPSysMeshEmitterObject() throw();
     int unk00;
     int unk04;
@@ -1004,7 +1000,7 @@ void scale(NiPoint3& r, const NiPoint3& a, float f)
 }
 // Accumulates weighted transformed positions and normals for the selected vertex, then writes the results to the output vectors.
 // @fnv 0x00c1d230
-void SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4, Arg5Obj* arg5, int vert)
+void SkinVertex(NiPoint3* outPos, NiPoint3* outVel, Arg3Obj* arg3, Arg4Obj* arg4, Arg5Obj* arg5, intptr_t vert)
 {
     BoneHead* skin = arg4->m_08;
     BoneTransformD230 c;
@@ -1203,7 +1199,7 @@ bool SkinEmitter::GetRandomEmitterParticle(SkinInst* skin, SkinGeometry* geometr
         {
             Point3 localPosition = (*reinterpret_cast<::fnv_00c1dec0::Point3 *>((void *)&::NiPoint3::ZERO));
             localVelocity = (*reinterpret_cast<::fnv_00c1dec0::Point3 *>((void *)&::NiPoint3::ZERO));
-            ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)(::fnv_00c1dec0::Point3 *)(&localPosition), (::Arg3Obj *)(::fnv_00c1dec0::Point3 *)(&localVelocity), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (int)(record));
+            ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)(::fnv_00c1dec0::Point3 *)(&localPosition), (::Arg3Obj *)(::fnv_00c1dec0::Point3 *)(&localVelocity), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(record));
             position = localPosition;
         }
         if (unk74 == 0 && geometry->extra->hasData != 0)
@@ -1389,8 +1385,8 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
     NiPoint3 kPos1 = ::NiPoint3::ZERO;
     NiPoint3 kNorm1 = ::NiPoint3::ZERO;
 
-    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos0), (::Arg3Obj *)&(kNorm0), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (int)(pkPartition));
-    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos1), (::Arg3Obj *)&(kNorm1), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (int)(pkPartition));
+    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos0), (::Arg3Obj *)&(kNorm0), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (intptr_t)(pkPartition));
+    ::SkinVertex((::NiPoint3 *)(this), (::NiPoint3 *)&(kPos1), (::Arg3Obj *)&(kNorm1), (::Arg4Obj *)(pkGeometry), (::Arg5Obj *)(pkData), (intptr_t)(pkPartition));
     {
         NiPoint3 kTmp = reinterpret_cast<::Point3_0053d280 *>((void *)(void *)&(const ::MyPoint3 &)(((MyPoint3&)kPos0 + (MyPoint3&)kPos1)))->FUN_0053d280(2.0f);
         kPosition = kTmp;
@@ -1529,7 +1525,7 @@ void MeshEmitter::WriteToViewerStrings(NiViewerStringsArray* pkStrings)
 {
     reinterpret_cast<::FUN_00c22780_shell *>((((Standin_VolumeEmitter*)this)))->FUN_00c22780((::StrArr *)(pkStrings));
 
-    pkStrings->Add(::FUN_00a7d330((char*)(*reinterpret_cast<int *>(&::g_01202500))));
+    pkStrings->Add(::FUN_00a7d330((char*)(*reinterpret_cast<intptr_t *>(&::g_01202500))));
 
     unsigned int i = 0;
     while (i < GetEmitterObjCount())
@@ -2474,7 +2470,7 @@ struct FUN_00c1d660_cls
 // @fnv 0x00c1d660
 FUN_00c1d660_cls* FUN_00c1d660_cls::Release(unsigned char acFlags)
 {
-    LONG(* pDecrement)(LONG volatile*) = &InterlockedDecrement;
+    LONG(* pDecrement)(LONG volatile*) = [](volatile long* p) { return InterlockedDecrement(p); };
     FUN_00c1d660_cls* self = this;
     NiRefObject* obj = self->m_08;
     if (obj != 0)
@@ -2595,7 +2591,7 @@ struct NiSkinSlot790
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00c1f790_cls : NiPSysMeshEmitter
 {
@@ -2886,9 +2882,9 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
     triangle.v1 = ::NiPoint3::ZERO;
     triangle.p2 = ::NiPoint3::ZERO;
     triangle.v2 = ::NiPoint3::ZERO;
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p0), (::Arg3Obj *)&(triangle.v0), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (int)(sample));
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p1), (::Arg3Obj *)&(triangle.v1), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (int)(sample));
-    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p2), (::Arg3Obj *)&(triangle.v2), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (int)(sample));
+    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p0), (::Arg3Obj *)&(triangle.v0), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
+    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p1), (::Arg3Obj *)&(triangle.v1), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
+    ::SkinVertex((::NiPoint3 *)this, (::NiPoint3 *)&(triangle.p2), (::Arg3Obj *)&(triangle.v2), (::Arg4Obj *)(geometry), (::Arg5Obj *)(data), (intptr_t)(sample));
     {
         SumValue scratch(triangle.p0.x + triangle.p1.x);
         scratch.y = triangle.p1.y + triangle.p0.y;

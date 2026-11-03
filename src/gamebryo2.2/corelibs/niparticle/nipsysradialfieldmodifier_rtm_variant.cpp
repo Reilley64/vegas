@@ -4,6 +4,9 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/NiPSysFieldModifierImpl.h"
 #include "fnv/decl/NiPSysParticle.h"
@@ -214,30 +217,26 @@ struct FieldMod
 };
 
 extern int DAT_010be99c;
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 {
-    static void* operator new(unsigned int, void* where) throw()
-    {
-        return where;
-    }
     float m30;
     RadialFieldObject_00c285d0()
     {
         m30 = 0.0f;
-        *((int*)this) = (int)&DAT_010be99c;
+        *((intptr_t*)this) = (intptr_t)&DAT_010be99c;
     }
 };
 
 struct FUN_00c285d0_cls
 {
     int unk0;
-    void* FUN_00c285d0(unsigned int a1);
+    void* FUN_00c285d0(uintptr_t a1);
 };
 
 // @fnv 0x00c285d0
-void* FUN_00c285d0_cls::FUN_00c285d0(unsigned int a1)
+void* FUN_00c285d0_cls::FUN_00c285d0(uintptr_t a1)
 {
     RadialFieldObject_00c285d0* p = new (FUN_00aa13e0(0x34)) RadialFieldObject_00c285d0;
     reinterpret_cast<::NiPSysParticle *>(this)->FUN_00c32020((::NiPSysParticle *)(p), (::CloningProcess *)(a1));

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00a6d730_shell.h"
@@ -233,7 +234,7 @@ struct Holder
 // @fnv 0x00a57ad0
 bool Holder::FUN_00a57ad0(NiStream& stream)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)(((BaseCall*)this)), (int)&(stream), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)(((BaseCall*)this)), (intptr_t)&(stream), *(::NiStream *)nullptr))
         return false;
     ptr->v21(stream);
     return true;
@@ -451,7 +452,7 @@ struct FUN_00a57b20_cls
 // @fnv 0x00a57b20
 bool FUN_00a57b20_cls::FUN_00a57b20(FUN_00a57b20_cls* other)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(other), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(other), {}))
     {
         return false;
     }

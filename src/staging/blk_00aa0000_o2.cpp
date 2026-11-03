@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -317,19 +318,19 @@ unsigned char FUN_00aa0ff0_cls::FUN_00aa0ff0()
 struct DeviceInterface
 {
     virtual void Unknown();
-    virtual void Dispatch(int* value, int* command, int a, int b, int c, int d, int e);
+    virtual void* Dispatch(int* value, int* command, int a, int b, int c, int d, int e);
 };
 
-// Defaults value to 1 if zero, then dispatches command 4 with the adjusted value through the device interface.
+// Defaults value to 1 if zero, then allocates through the memory manager's allocator (size, alignment 4, operator new) and returns the block.
 // @fnv 0x00aa13e0
-void __cdecl FUN_00aa13e0(int value)
+void* __cdecl FUN_00aa13e0(size_t value)
 {
     if (!value)
         value = 1;
-    int adjusted = value;
+    int adjusted = static_cast<int>(value);
     DeviceInterface* device = *(*reinterpret_cast<::DeviceInterface ** *>(&::DAT_011f6080));
     int command = 4;
-    device->Dispatch(&adjusted, &command, 1, 1, 0, -1, 0);
+    return device->Dispatch(&adjusted, &command, 1, 1, 0, -1, 0);
 }
 
 struct FUN_00aff950_shell
@@ -459,7 +460,7 @@ extern FUN_00aa2080_callback DAT_011f60c8[];
 
 // Stores callback and value in parallel arrays at the current index, increments the index, and invokes the callback if the flag is set.
 // @fnv 0x00aa2080
-void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, int value)
+void __cdecl FUN_00aa2080(FUN_00aa2080_callback callback, intptr_t value)
 {
     DAT_011f60c8[DAT_011f6108] = callback;
     DAT_011f6088[DAT_011f6108] = value;
@@ -981,7 +982,7 @@ inline void Swap4(char* data, int count)
     }
 }
 // @fnv 0x00aa1de0
-void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned int* sizes, unsigned int count)
+void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned int* sizes, uintptr_t count)
 {
     char* data = buffer;
     unsigned int done = 0;
@@ -1103,10 +1104,6 @@ struct StringHandleAllocatorAA0
 class FixedStringAA0
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StringHandleAllocatorAA0 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     FixedStringAA0() throw()
     {
         m_kHandle = ::DAT_0109b220;

@@ -9,9 +9,9 @@ template <>
 void NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>::SetAt(
     const char* key, NiShader* value)
 {
-    register NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>* map = this;
-    register unsigned int index = map->KeyToHashIndex(key);
-    register NiTMapItem<const char*, NiShader*>* item = map->m_ppkHashTable[index];
+    NiTStringTemplateMap<NiTPointerMap<const char*, NiShader*>, NiShader*>* map = this;
+    unsigned int index = map->KeyToHashIndex(key);
+    NiTMapItem<const char*, NiShader*>* item = map->m_ppkHashTable[index];
     while (item)
     {
         if (map->IsKeysEqual(key, item->m_key))
@@ -36,9 +36,9 @@ template <>
 void NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned short>::SetAt(
     const char* key, unsigned short value)
 {
-    register NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned short>* map = this;
-    register unsigned int index = map->KeyToHashIndex(key);
-    register NiTMapItem<const char*, unsigned short>* item = map->m_ppkHashTable[index];
+    NiTStringTemplateMap<NiTPointerMap<const char*, unsigned short>, unsigned short>* map = this;
+    unsigned int index = map->KeyToHashIndex(key);
+    NiTMapItem<const char*, unsigned short>* item = map->m_ppkHashTable[index];
     while (item)
     {
         if (map->IsKeysEqual(key, item->m_key))

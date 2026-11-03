@@ -2,6 +2,7 @@
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/ActorMover.h"
@@ -566,7 +567,7 @@ struct NodeHead
 struct LinkedNode : NodeHead, LinkBase
 {
     LinkedNode(int a, unsigned int b);
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void*);
     RefList refs;
 };
@@ -1490,7 +1491,6 @@ struct EventWater
     int unk44;
     void* reference;
 };
-void* __cdecl operator new(unsigned int);
 struct WaterManager
 {
     int unk00;

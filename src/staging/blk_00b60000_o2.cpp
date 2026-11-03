@@ -2,6 +2,8 @@
 // src/staging/blk_00b60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -259,7 +261,6 @@ void* FUN_00b60c70_class::DestroyIfRequested(bool dealloc)
 }  // namespace fnv_00b60c70
 
 void __cdecl FUN_00b60d80(void);
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00b61220_class
 {
@@ -306,7 +307,6 @@ void FUN_00b63d60_class::FUN_00b63d60()
 }  // namespace fnv_00b63d60
 
 void __cdecl FUN_00b656e0();
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b664f0_class
 {
@@ -354,7 +354,6 @@ int __cdecl FUN_00b66760(int a)
 
 void __cdecl FUN_00b6a520();
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b6adb0_class
 {
@@ -372,7 +371,6 @@ void* FUN_00b6adb0_class::FUN_00b6adb0(int flags)
 }
 
 void __cdecl FUN_00b6aef0();
-void __cdecl operator delete(void* p, unsigned int) throw();
 
 struct FUN_00b6b160_class
 {
@@ -2255,14 +2253,6 @@ class RenderPassB66
   public:
     RenderPassB66(void* pvOwner, int iType, ...);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerB66 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerB66 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
     int unk00, unk04, unk08, unk0C;
 };
@@ -3854,7 +3844,6 @@ struct RenderTarget_b6d170
     int unk34;
     int unk38;
     int unk3C;
-    static void* operator new(unsigned int size);
     RenderTarget_b6d170(void* tex, int a, void* depth);
 };
 
@@ -4446,10 +4435,6 @@ class BlobBase_cls
     unsigned int unk58;
     unsigned int unk5c;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 class BlobObj_cls : public BlobBase_cls
@@ -6043,10 +6028,6 @@ struct B61250Item
     ~B61250Item()
     {
         reinterpret_cast<::FUN_00bd8f90 *>(this)->FUN_00bd8f90::~FUN_00bd8f90();
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -7849,8 +7830,6 @@ struct MemContextGuard
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 
 class FUN_00b60cb0_Clone : public NiMemObject
@@ -8210,10 +8189,6 @@ struct B6AE60Obj
     int unk148;
     int unk14c;
     B6AE60Obj();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 // Allocates and constructs a B6AE60Obj via its operator new and returns the new object.
 // @fnv 0x00b6ae60
@@ -8474,7 +8449,7 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct FUN_00b6abb0
 {
     FUN_00b6abb0();
-    static void* operator new(unsigned int size, unsigned int requestedSize)
+    static void* operator new(std::size_t size, unsigned int requestedSize)
     {
         return FUN_00aa13e0(requestedSize);
     }
@@ -8676,11 +8651,6 @@ struct StringOwner
     unsigned int m_uiKeyB;
 
     ~StringOwner();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-        --DAT_011f9ef4;
-    }
 };
 
 template <class T> inline void NiTPointerAllocator<T>::Deallocate(void* pointer)
@@ -12045,10 +12015,6 @@ struct MorphPoint3
     float x, y, z;
     MorphPoint3()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerB66 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct MorphGeomData
 {
@@ -12108,14 +12074,6 @@ struct FUN_00537bf0
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     FUN_00537bf0(unsigned int);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerB66 *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 struct ShaderGeometryOwner
 {
@@ -12841,14 +12799,6 @@ struct B61Bound
 };
 struct B61Alloc
 {
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 struct B61Vec3 : B61Alloc
 {
@@ -12958,14 +12908,6 @@ class B61PropBase
     unsigned short m_usFlags;
     unsigned char m_ucTestRef;
     unsigned char unk1b;
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
     B61PropBase();
 };
 class B61AlphaProperty : public B61PropBase
@@ -13014,14 +12956,6 @@ inline bool B61IsKindOf(const NiRTTI* pkRTTI, B61AVObject* pkObj)
 class B61TriShapeData : public B61Ref
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
     int unk008;
     int unk00c;
     int unk010;
@@ -13050,14 +12984,6 @@ class B61TriShapeData : public B61Ref
 class B61TriStripsData : public B61Ref
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
     int unk008;
     int unk00c;
     int unk010;
@@ -13475,14 +13401,6 @@ class B61Loaded : public FnvB60280Ref
         if (InterlockedDecrement(&m_ref) == 0)
             delete this;
     }
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
     B61Loaded(const char* pcName);
     NiPointer<B61AVObject> FUN_00b60750()
     {
@@ -13520,11 +13438,6 @@ class B61Entry : public B61Ref
     unsigned char m_ucKind;
     unsigned char m_ucPending;
     unsigned short m_usGroup;
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* pvMem, void* pvPlace);
     B61Entry();
 };
 struct B61MapItem

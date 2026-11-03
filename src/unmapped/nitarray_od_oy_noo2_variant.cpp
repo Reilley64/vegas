@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
@@ -48,10 +49,6 @@ struct KeyPair
     void* m_pFirst;
     void* m_pSecond;
 
-    static void* operator new(unsigned int auiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
-    }
 
     KeyPair(void* apFirst, void* apSecond) throw() : m_pFirst(apFirst), m_pSecond(apSecond)
     {}
@@ -78,10 +75,6 @@ template <class T> struct NiPointer
 {
     T* ptr;
     ~NiPointer();
-    static void __cdecl operator delete[](void* memory)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(memory);
-    }
 };
 struct S_Interface
 {
@@ -220,11 +213,11 @@ class NiTObjectArrayA47
     unsigned short m_usESize;
     unsigned short m_usGrowBy;
 
-    void FUN_0060bef0(unsigned int uiMaxSize);
+    void FUN_0060bef0(uintptr_t uiMaxSize);
 };
 
 // @fnv 0x0060bef0
-void NiTObjectArrayA47::FUN_0060bef0(unsigned int uiMaxSize)
+void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)
 {
     if (uiMaxSize == m_usMaxSize)
         return;

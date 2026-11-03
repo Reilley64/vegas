@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nistencilproperty_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nistencilproperty.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -77,13 +78,12 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a6f410
 void* __cdecl FUN_00a6f410()
 {
-    void* p = BSFadeNode::operator new(0x24);
+    void* p = ::operator new(0x24);
     if (p)
     {
         new ((void *)(((NiProperty*)p))) struct ::FUN_00a5c200();
@@ -166,7 +166,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
 {
     if (*(unsigned int*)((char*)this + 0xc))
     {
-        FUN_00a6f390* pkObject = (FUN_00a6f390*)BSFadeNode::operator new(0x24);
+        FUN_00a6f390* pkObject = (FUN_00a6f390*)::operator new(0x24);
         if (pkObject)
         {
             new ((void *)(((NiPropertyCtorStub*)pkObject))) struct ::FUN_00a5c200();
@@ -187,7 +187,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
     }
     else
     {
-        reinterpret_cast<::FUN_00a5d450_class *>((((NiObject*)this)))->CreateVertexBufferSet((unsigned int)((NiObject*)this), &kCloning);
+        reinterpret_cast<::FUN_00a5d450_class *>((((NiObject*)this)))->CreateVertexBufferSet((uintptr_t)((NiObject*)this), &kCloning);
         return this;
     }
 }
@@ -587,7 +587,7 @@ class StencilRefObj
 // @fnv 0x00a6f450
 void FUN_00a6f450()
 {
-    StencilRefObj* obj = (StencilRefObj*)BSFadeNode::operator new(0x24);
+    StencilRefObj* obj = (StencilRefObj*)::operator new(0x24);
     if (obj != 0)
     {
         new ((void *)(reinterpret_cast<NiProperty*>(obj))) struct ::FUN_00a5c200();

@@ -689,7 +689,6 @@ FUN_009ae0f0::FUN_009ae0f0()
     m14 = 15.0f;
 }
 
-void* __cdecl operator new(unsigned int);
 struct BGSLoadFormBuffer
 {
     virtual unsigned char GetVersion();

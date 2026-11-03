@@ -436,10 +436,6 @@ struct SpawnedObject
     SpawnedObject()
     {}
 
-    static void* operator new(std::size_t, void* apMemory)
-    {
-        return apMemory;
-    }
 };
 
 // Allocates 8 bytes through the holder's allocator, sets m_w04 and m_w06, then placement-constructs a SpawnedObject there.
@@ -499,7 +495,7 @@ AllocHolder* __cdecl FUN_00c85750();
 
 // Allocates and initializes two spawned objects, stores them in global pointers, and sets the initialization flag.
 // @fnv 0x00cbbb10
-int __cdecl FUN_00cbbb10(intptr_t a1, unsigned int auParam1, unsigned int auParam2)
+int __cdecl FUN_00cbbb10(intptr_t a1, uintptr_t auParam1, unsigned int auParam2)
 {
     if (DAT_01268414 != 0)
     {

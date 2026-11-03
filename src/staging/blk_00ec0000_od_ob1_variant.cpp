@@ -697,11 +697,6 @@ struct Movie2490
 {
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24;
     Movie2490();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void*);
 };
 struct FUN_00ec2490_Class
 {
@@ -753,10 +748,6 @@ struct SpawnedObject
     int unk24;
 
     SpawnedObject();
-    static __forceinline void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemMgr_cls*>(&(*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 
 // @fnv 0x00ec2ca0
@@ -1159,14 +1150,6 @@ class AutoMemContextEC2200
 class PlaybackFileEC2200
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerEC2200 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        (*reinterpret_cast<::MemoryManagerEC2200 *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
     PlaybackFileEC2200();
     int unk00;
     int unk04;
@@ -1229,11 +1212,6 @@ class BSMovieJob
   public:
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     BSMovieJob();
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pv);
 };
 
 class BSMovieThread
@@ -1625,10 +1603,6 @@ struct BaseE40
             }
         }
         m_uiCount = 0;
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00ec1df0_pool *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 struct FUN_00ec1e40 : BaseE40

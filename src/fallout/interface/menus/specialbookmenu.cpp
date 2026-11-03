@@ -1300,8 +1300,6 @@ struct BkNode
 struct BkLight
 {
     char pad[0xfc];
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     BkLight();
     void FUN_0050dd50(const BkColor& c);
 };
@@ -1370,8 +1368,6 @@ struct BkLoader
 
 struct BkItemBase
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*);
 };
 struct BkButton : BkItemBase
 {

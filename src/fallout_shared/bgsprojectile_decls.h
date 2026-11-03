@@ -35,7 +35,6 @@ class TESDataHandler
   public:
 };
 class BGSProjectile;
-void* operator new(unsigned int size);
 
 class BGSProjectileFloatNode
 {

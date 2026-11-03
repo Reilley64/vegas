@@ -232,7 +232,6 @@ struct FUN_00767bb0_shell
 
     TGF* FUN_00767bb0(unsigned int a, unsigned int b);
 };
-void* __cdecl operator new(unsigned int);
 struct FUN_00702220
 {
     void* pData;

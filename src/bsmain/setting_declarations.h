@@ -79,9 +79,6 @@ template <class Collection> class SettingT : public Setting
     static void EnsureCollection();
 };
 
-// These are declarations only. The pack identifies the real global allocator.
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
 
 #endif

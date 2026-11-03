@@ -2,6 +2,8 @@
 // src/staging/blk_00ce0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1106,10 +1108,6 @@ class MemoryManager
 class CF4840Saver
 {
   public:
-    void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     virtual void DeleteThis(bool bFree);
     int unk04;
     int unk08;
@@ -1164,7 +1162,7 @@ struct Saver13 : CF4840Saver
 
 // Allocates and returns a CF4840Saver-derived object chosen by uiType, or null for unsupported types.
 // @fnv 0x00cf4840
-CF4840Saver* __cdecl CreateSaver(unsigned int uiType)
+CF4840Saver* __cdecl CreateSaver(uintptr_t uiType)
 {
     CF4BC0AllocTagScope kScope(0x10);
     switch (uiType)
@@ -3155,7 +3153,7 @@ unsigned int FUN_00cf0dc0(CF4BC0Stream& stream, TargetType* obj)
 
 // Returns the Havok constraint class name string for the given eType, or "Unknown" if the type is not recognized.
 // @fnv 0x00cf4790
-const char* __cdecl GetConstraintTypeName(int eType)
+const char* __cdecl GetConstraintTypeName(intptr_t eType)
 {
     switch (eType)
     {
@@ -3593,10 +3591,6 @@ struct hkMemoryRouterX
     }
 };
 
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct hkArrayUtilX
 {
     static void __cdecl GrowArrayCapacity(hkMemoryAllocator& a, void* array, int reqElements, int sizeElem) throw();

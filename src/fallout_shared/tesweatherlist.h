@@ -21,6 +21,5 @@ class TESWeatherList : public BSSimpleList<WeatherEntry*>
     void ClearWeatherSounds();
 };
 
-void __cdecl operator delete(void* pointer);
 
 #endif

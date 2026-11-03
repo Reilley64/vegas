@@ -5,6 +5,7 @@
 
 // Returns the address of the global g_011f3f30.
 // @fnv 0x00a47140
+#include <cstdint>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
@@ -104,7 +105,7 @@ struct S_00a47210 : NiObject
 // @fnv 0x00a47210
 void S_00a47210::WriteToStream(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned int uiSize = m_uiSize;
     SerializeValue(kStream, uiSize);
     if (uiSize > 0)
@@ -166,7 +167,6 @@ struct S_00a47150_Obj : S_00a47150_Base
     void* m_08;
     int m_0C;
     int m_10;
-    static void* operator new(unsigned int n);
     S_00a47150_Obj() throw()
     {
         m_08 = 0;

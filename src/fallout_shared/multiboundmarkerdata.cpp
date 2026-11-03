@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <new>
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_00439f50_class.h"
 #include "fnv/decl/FUN_00439f90_shell.h"
@@ -31,7 +32,6 @@ namespace fnv_00439290 {
 struct NiProperty
 {
     ~NiProperty();
-    static void operator delete(void* p, unsigned int size);
     void* DestroyAndFree(unsigned int flags);
 };
 

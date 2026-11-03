@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecomppoint3interpolator.cpp: NiBSplineCompPoint3Interpolator, SplineEvaluationState (8 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/A50880Light.h"
 #include "fnv/decl/FUN_00a50960_shell.h"
 #include "fnv/decl/NiBSplineData.h"
@@ -95,7 +97,7 @@ struct SplineEvaluationState
     float startTime;
     float endTime;
     SplinePath* spline;
-    unsigned int componentOffset;
+    uintptr_t componentOffset;
     Vec3 lastValue;
     unsigned int controlPointIndex;
     float scale;
@@ -174,7 +176,6 @@ class CloningProcessA513;
 const float DAT_01099a1c = 3.402823466e+38f;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 class FUN_00a506c0
@@ -201,10 +202,6 @@ class ObjA513 : public FUN_00a506c0
     {}
     virtual ~ObjA513() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
     float m_2c;
     float m_30;
@@ -235,7 +232,7 @@ void* __cdecl FUN_00a51270();
 
 void FUN_00a51480(StrArr* pkStrings);
 
-extern void* FUN_00aa13e0(unsigned int bytes) throw();
+
 
 struct Base506
 {
@@ -256,10 +253,6 @@ struct Pair
 struct Comp4 : Base506
 {
     Pair m_pair;
-    static void* operator new(unsigned int bytes) throw()
-    {
-        return FUN_00aa13e0(bytes);
-    }
     Comp4() throw() : Base506(0, 0xffff, 0)
     {}
 };

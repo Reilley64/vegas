@@ -2,6 +2,9 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysagedeathmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -40,7 +43,7 @@ struct NiPSysAirFieldSpreadCtlr
 void NiPSysAirFieldSpreadCtlr::FUN_00c2f3e0(float& fValue)
 {
     unsigned char* base = reinterpret_cast<unsigned char*>(this);
-    int* ptr = reinterpret_cast<int*>(*(reinterpret_cast<int*>(base + 0x3c)));
+    int* ptr = reinterpret_cast<int*>(*(reinterpret_cast<intptr_t*>(base + 0x3c)));
     fValue = *reinterpret_cast<float*>(reinterpret_cast<unsigned char*>(ptr) + 0x64);
 }
 
@@ -158,25 +161,20 @@ void NiPSysAgeDeathModifier::FUN_00c2f1a0(CloningProcess& kCloning)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00c32d80
 {
     FUN_00c32d80();
 };
 extern int DAT_010c03cc;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // @fnv 0x00c2f3a0
 FUN_00c32d80* __cdecl FUN_00c2f3a0()
 {
-    FUN_00c32d80* p = (FUN_00c32d80*)BSFadeNode::operator new(0x40);
+    FUN_00c32d80* p = (FUN_00c32d80*)::operator new(0x40);
     if (p)
     {
         new (p) FUN_00c32d80();
-        *(int*)p = (int)&DAT_010c03cc;
+        *(intptr_t*)p = (intptr_t)&DAT_010c03cc;
         return p;
     }
     return 0;
@@ -234,7 +232,7 @@ extern int DAT_010c0304;
 // @fnv 0x00c2f150
 NiPSysAgeDeathModifierClone* NiPSysAgeDeathModifierClone::FUN_00c2f150(CloningProcess& kCloning)
 {
-    NiPSysAgeDeathModifierClone* pkObject = (NiPSysAgeDeathModifierClone*)BSFadeNode::operator new(0x20);
+    NiPSysAgeDeathModifierClone* pkObject = (NiPSysAgeDeathModifierClone*)::operator new(0x20);
     if (pkObject)
     {
         pkObject->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -623,14 +621,14 @@ void NiPSysSpawnModifier::FUN_00c2f3f0(float fValue)
     target->unk64 = fClamped;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct Host2f440
 {
-    FUN_00c32d80* CreateAndInit(int arg);
+    FUN_00c32d80* CreateAndInit(intptr_t arg);
 };
 // Allocates a 0x40-byte object, constructs it with a vtable, initializes it via FUN_00c32de0 with arg, and returns it (or null on allocation failure).
 // @fnv 0x00c2f440
-FUN_00c32d80* Host2f440::CreateAndInit(int arg)
+FUN_00c32d80* Host2f440::CreateAndInit(intptr_t arg)
 {
     FUN_00c32d80* p = (FUN_00c32d80*)FUN_00aa13e0(0x40);
     if (p)

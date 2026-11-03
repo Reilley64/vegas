@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (3 functions)
 
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
@@ -29,12 +30,12 @@ char* NiGlobalStringTable::AddString(const char* s)
     if (!s)
         return 0;
     unsigned len = strlen(s);
-    EnterCriticalSection((char*)DAT_011f42c0 + 0x2080);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
     char* result = reinterpret_cast<::StringTable169 *>((DAT_011f42c0))->FUN_00a5b300(s, len);
     if (result)
     {
         InterlockedIncrement((long*)(result - 8));
-        LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
         return result;
     }
     unsigned tlsIndex = ::DAT_0126fd98;
@@ -53,7 +54,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     char* handle = result;
     std::memmove(result, s, len + 1);
     reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0(&handle, len);
-    LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((char*)DAT_011f42c0 + 0x2080));
     *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
     return result;
 }
@@ -69,7 +70,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     {
         unsigned uiCurrentThreadID;
         int* piTimestamp;
-        NiPlaybackStat kStat;
+        fnv::crt::FileStatus kStat;
         unsigned uiFlags;
         char pad[2];
         bool bSuccess;
@@ -79,7 +80,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
 
     if (!strlen(name))
         return false;
-    if (!reinterpret_cast<::EC2DF0Registry *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->GetNameByKey((unsigned int)(name), acPath))
+    if (!reinterpret_cast<::EC2DF0Registry *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->GetNameByKey((uintptr_t)(name), acPath))
     {
         strcpy(acPath, "Data\\Video\\");
         std::strcat(acPath, name);
@@ -88,10 +89,10 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     if (preload || force)
     {
         unsigned reserved;
-        if (FUN_00ec923c(acPath, &local.kStat) != -1)
+        if (fnv::crt::stat(acPath, &local.kStat) != -1)
         {
             local.piTimestamp = &(*reinterpret_cast<::NiPlaybackTimestamp *>(&::g_0126fad4)) ? &(*reinterpret_cast<::NiPlaybackTimestamp *>(&::g_0126fad4)).timestamp : &(DAT_01202800 = 0);
-            if (local.kStat.timestamp <= *local.piTimestamp || force)
+            if (static_cast<long long>(local.kStat.size) <= *local.piTimestamp || force)
                 local.uiFlags |= 0x2000;
         }
     }

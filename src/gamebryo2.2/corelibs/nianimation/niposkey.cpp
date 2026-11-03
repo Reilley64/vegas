@@ -44,7 +44,7 @@ NiPoint3 PositionKeyInterpolator::InterpolatePosition(float time, PositionKeyInt
 
     float normalizedTime = (time - lowerTime) / (upperTime - lowerTime);
     NiPoint3 result;
-    (*reinterpret_cast<void (**[6])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[type](normalizedTime, keys->GetKeyAtIndex(lower, size), keys->GetKeyAtIndex(upper, size), &result);
+    (*reinterpret_cast<void (*(*)[6])(float, const AnimationKey *, const AnimationKey *, void *)>(&::DAT_011f3ca8))[type](normalizedTime, keys->GetKeyAtIndex(lower, size), keys->GetKeyAtIndex(upper, size), &result);
     lastIndex = lower;
     return result;
 }

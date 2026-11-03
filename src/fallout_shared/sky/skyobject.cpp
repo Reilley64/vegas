@@ -1,5 +1,6 @@
 // fallout_shared/sky/skyobject.cpp: SkyObject, StandIn (4 functions)
 
+#include <new>
 #include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/symbols_00401000.h"
 #include "skyobject.h"
@@ -47,8 +48,6 @@ class NiSortAdjustNode
   public:
     NiSortAdjustNode(unsigned int uiChildCount);
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
 
     virtual ~NiSortAdjustNode();

@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifloatextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -30,7 +32,6 @@ struct NiFloatExtraData
 };
 
 extern void* DAT_010a0ec4;
-extern void __cdecl operator delete(void*, unsigned int);
 
 // @fnv 0x00a9a4b0
 void* NiFloatExtraData::Destroy(unsigned int flags)
@@ -65,7 +66,6 @@ bool FUN_00a9a3f0_Class::MatchesFloatValue(NiObject* pObject)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiExtraData
 {
@@ -75,7 +75,7 @@ struct NiExtraData
 void* NiExtraData::CloneFloatExtraData(void* kCloning)
 {
     NiFloatExtraData* pkObject;
-    pkObject = (NiFloatExtraData*)BSFadeNode::operator new(0x10);
+    pkObject = (NiFloatExtraData*)::operator new(0x10);
     if (pkObject)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pkObject)))->FUN_00a7b2e0();
@@ -98,13 +98,12 @@ struct NiExtraData
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
 };
 
 // @fnv 0x00a9a480
 void* __cdecl FUN_00a9a480()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((reinterpret_cast<NiExtraData*>(p)))->FUN_00a7b2e0();
@@ -185,7 +184,7 @@ void FUN_00a9a520_shell::AppendViewerStrings(A89C70StringArray* strings)
     reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(strings));
 
     char* value =
-        ::FUN_00a7d330((const char *)(::GlobalObjectO2_00a7b610 *)(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<unsigned int*>(&::g_011f5f40))));
+        ::FUN_00a7d330((const char *)(::GlobalObjectO2_00a7b610 *)(reinterpret_cast<GlobalObjectO2_00a7b610*>(*reinterpret_cast<uintptr_t*>(&::g_011f5f40))));
 
     unsigned int index = strings->m_nextIndex;
 

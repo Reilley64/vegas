@@ -27,6 +27,7 @@ float hkpAabbTreeCollidableRaycaster::FUN_00d9a240(void* arg)
 }
 }  // namespace fnv_00d9a240
 
+#include <cstddef>
 #include <xmmintrin.h>
 struct FnvRayInput
 {
@@ -192,7 +193,7 @@ struct S_00d9a270_Base
 {
     virtual ~S_00d9a270_Base()
     {}
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         S_00d9a270_Router::FUN_00c85750()->heap().ReleaseBlock(p, nbytes);
     }

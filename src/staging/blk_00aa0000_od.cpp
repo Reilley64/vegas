@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <cstdlib>
 #include <cstring>
@@ -270,10 +271,10 @@ struct FUN_00aa45a0_Class
     unsigned short m_uiItemCount;
     unsigned int m_unknown;
     FUN_00aa45a0_vt** m_items;
-    FUN_00aa45a0_vt* FindItemByArg(int arg);
+    FUN_00aa45a0_vt* FindItemByArg(intptr_t arg);
 };
 // @fnv 0x00aa45a0
-FUN_00aa45a0_vt* FUN_00aa45a0_Class::FindItemByArg(int arg)
+FUN_00aa45a0_vt* FUN_00aa45a0_Class::FindItemByArg(intptr_t arg)
 {
     for (unsigned short i = 0; i < m_uiItemCount; ++i)
     {

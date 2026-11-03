@@ -130,7 +130,6 @@ void* DelStandIn::FUN_006c7970(unsigned int flags)
 }
 }
 
-void __cdecl operator delete(void*);
 
 struct BSTaskletData
 {

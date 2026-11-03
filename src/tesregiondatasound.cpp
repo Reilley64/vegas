@@ -336,10 +336,6 @@ FUN_004f4480::FUN_004f4480(const FUN_004f4480& kOther) : F4480Base(kOther)
 
 struct F4BD0Item
 {
-    static void operator delete(void* pvMem)
-    {
-        ::FUN_00401030(pvMem);
-    }
 
     int unk00;
 };

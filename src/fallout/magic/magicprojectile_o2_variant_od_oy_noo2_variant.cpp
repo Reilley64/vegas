@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/magicprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/C70CharacterController.h"
 #include "fnv/decl/FUN_00407860_class.h"
 #include "fnv/decl/FUN_004543c0_cls.h"
@@ -82,8 +83,6 @@ class CollisionObject80F
 class Shape80F
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     Shape80F(float fScale, int iType);
     int unk00;
     int unk04;
@@ -227,7 +226,7 @@ class Controller80F
     virtual void v0c8();
     virtual void v0cc();
     virtual void SetState(int iState);
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pvMem);
     Controller80F(ControllerInfo80F& kInfo, Actor80F* pkActor);
     World80F* GetWorld();
@@ -1261,8 +1260,6 @@ class CollisionObject80F
 class Shape80F
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     Shape80F(float fScale, int iType);
     int unk00;
     int unk04;
@@ -1406,7 +1403,7 @@ class Controller80F
     virtual void v0c8();
     virtual void v0cc();
     virtual void SetState(int iState);
-    static void* operator new(unsigned int uiSize);
+    static void* operator new(std::size_t uiSize);
     static void operator delete(void* pvMem);
     Controller80F(ControllerInfo80F& kInfo, Actor80F* pkActor);
     World80F* GetWorld();
@@ -2489,8 +2486,6 @@ struct ColorData
     int unk0C;
     int unk10;
     ColorData(float, int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct Resource
 {
@@ -3245,7 +3240,7 @@ struct Visual
     int unk658;
     int unk65C;
     Visual(FxState*, Actor*);
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     Scene* FUN_00621ad0();
     Handle FUN_0070c440();
@@ -3480,8 +3475,6 @@ struct Actor
 struct RenderGlobals
 {
 };
-extern void* __cdecl operator new(unsigned int);
-extern void __cdecl operator delete(void*);
 // @fnv 0x00819ca0
 void Actor::FUN_00819ca0()
 {

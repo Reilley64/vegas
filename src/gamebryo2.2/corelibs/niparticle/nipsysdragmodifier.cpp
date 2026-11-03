@@ -32,7 +32,6 @@ void NiPSysDragModifier::LoadBinary(NiStream& kStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 void* FUN_00c2c030(void*);
@@ -40,7 +39,7 @@ void* FUN_00c2c030(void*);
 // @fnv 0x00c2c080
 void* __cdecl FUN_00c2c080()
 {
-    void* p = BSFadeNode::operator new(0x34);
+    void* p = ::operator new(0x34);
     if (p)
         return FUN_00c2c030(p);
     return 0;
@@ -71,7 +70,6 @@ struct FUN_00c2c0b0_shell : public NiPSysDragModifier
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct DragCtorStub
 {
@@ -93,7 +91,7 @@ struct DragData
 // @fnv 0x00c2c0b0
 NiObject* FUN_00c2c0b0_shell::CloneDragModifier(CloningProcess* kCloning)
 {
-    DragCtorStub* pAlloc = (DragCtorStub*)BSFadeNode::operator new(0x34);
+    DragCtorStub* pAlloc = (DragCtorStub*)::operator new(0x34);
     DragData* pkObject = pAlloc ? (DragData*)pAlloc->FUN_00c2c030() : 0;
     reinterpret_cast<::NiPSysModifier *>((((CopyStub*)this)))->CopyMemberData((NiPSysModifier*)pkObject, (::CloningProcess &)(*kCloning));
     DragData* pSource = (DragData*)this;

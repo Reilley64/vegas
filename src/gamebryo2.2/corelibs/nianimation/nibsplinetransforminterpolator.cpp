@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinetransforminterpolator.cpp: NiBSplineTransformInterpolator, SplineWork, BSplineTransformLoad (15 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A57E90Controller.h"
@@ -206,7 +207,6 @@ bool FUN_00a50090(FUN_00a50090_obj* self, int, unsigned short usChannel)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a50110_quat
 {
@@ -239,7 +239,6 @@ FUN_00a50110_obj* FUN_00a50110(FUN_00a50110_obj* self, int, FUN_00a50110_proc* k
 namespace fnv_00a50180 {
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a4fff0 : public BSFadeNode
 {
@@ -631,26 +630,26 @@ void BSplineTransformLoad::LoadBSplineTransform(NiStream& stream)
 {
     reinterpret_cast<::BA58200Sequence *>((reinterpret_cast<BSplineBaseCalls*>(this)))->FUN_00a58200((::BA58200StringArray *)&(stream));
     BinaryStreamPosition& pos = reinterpret_cast<BinaryStreamPosition&>(stream);
-    unsigned int value = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f3fe4))))));
+    uintptr_t value = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f3fe4))))));
     unsigned int index = pos.unk0A;
     if (index >= pos.unk08)
         reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
     reinterpret_cast<::QXformViewer *>(&(reinterpret_cast<QuatLoadCalls&>(m_kTransform)))->FUN_00a38cb0((::ViewerStrings *)&(stream));
-    value = ((unsigned int)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996bc), m_uiTranslationHandle)));
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996bc), m_uiTranslationHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
         reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
-    value = ((unsigned int)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996ac), m_uiRotationHandle)));
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_010996ac), m_uiRotationHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
         reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(pos))->SetAt(index, (*(char * *)(&value)));
 
-    value = ((unsigned int)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_01099698), m_uiScaleHandle)));
+    value = ((uintptr_t)(::FUN_00a7d510((const char *)(const unsigned char *)(&_DAT_01099698), m_uiScaleHandle)));
     index = pos.unk0A;
     if (index >= pos.unk08)
         reinterpret_cast<::ViewerStrings *>(&(pos))->SetSize(index + pos.unk0E);

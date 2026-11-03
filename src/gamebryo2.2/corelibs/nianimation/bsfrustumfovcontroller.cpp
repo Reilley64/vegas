@@ -28,7 +28,6 @@ struct NiFloatInterpController
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern int DAT_0109780c;
@@ -36,7 +35,7 @@ extern int DAT_0109780c;
 // @fnv 0x00a42ee0
 void* __cdecl FUN_00a42ee0()
 {
-    void* p = BSFadeNode::operator new(0x38);
+    void* p = ::operator new(0x38);
     if (p)
     {
         NiFloatInterpController* pController = static_cast<NiFloatInterpController*>(p);
@@ -161,8 +160,6 @@ class A42D00Interpolator
   public:
     A42D00Interpolator(void* pkData) throw();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     virtual void vfn00();
     virtual void DeleteThis() throw();
@@ -443,10 +440,6 @@ class ObjA42E : public FUN_00a57640
     {}
     virtual ~ObjA42E() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
     ObjA42E* FUN_00a42e90(CloningProcessObjA42E& cloning);
 };

@@ -5,6 +5,7 @@
 
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -329,12 +330,6 @@ struct TargetClass
 
 // Based on another contributor's triangle-strip reconstruction supplied in packet.json.
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 namespace StripJoin {
 
 struct AllocationFailure
@@ -389,7 +384,6 @@ struct FUN_00b39460
 
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
-void* __cdecl operator new[](unsigned int);
 
 template <class T> struct ValueBase : FUN_00b39460
 {
@@ -1780,10 +1774,6 @@ void ShapeHost::FUN_00b2fa30(BoundsBox* out)
 typedef unsigned int size_t;
 typedef int ptrdiff_t;
 unsigned int FUN_00ec7c56();
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
-inline void __cdecl operator delete(void*, void*)
-{}
 extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 namespace std {
 template <class T> void swap(T&, T&);
@@ -3555,7 +3545,6 @@ int* FUN_00b30730_Tree::FUN_00b30730(unsigned short usIndex)
 
 typedef unsigned short U16;
 typedef unsigned int U32;
-void* __cdecl operator new[](U32 bytes);
 unsigned int __cdecl FUN_00ec7c56();
 template <class T> struct DataVector
 {
@@ -4223,7 +4212,6 @@ void Target::FUN_00b2af80(float elapsed)
 namespace fnv_00b2c890 {
 #include <string.h>
 
-void* operator new(unsigned int);
 namespace std {
 class exception
 {

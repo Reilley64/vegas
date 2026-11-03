@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifieractivectlr.cpp: NiPSysAirFieldAirFrictionCtlr, StandIn, NiPSysModifierActiveCtlr (13 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/CtlrStandin.h"
 #include "fnv/decl/FUN_00a52f00.h"
@@ -32,7 +34,6 @@ void* FUN_00c32b60(void* pThis)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct Dummy_00a532d0
@@ -47,10 +48,6 @@ void* FUN_00a532d0(void* p, int, bool bValue);
 struct Wrap_00a532d0
 {
     char pad[0x18];
-    static void* __cdecl operator new(unsigned int s)
-    {
-        return BSFadeNode::operator new(s);
-    }
     Wrap_00a532d0(bool bValue)
     {
         ((void*(*)(void*, bool))FUN_00a532d0)(this, bValue);
@@ -62,8 +59,8 @@ struct Wrap_00a532d0
 void* FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 {
     bool bValue;
-    (*(void(**)(void*, bool*))(*(int*)pThis + 0xf0))(pThis, &bValue);
-    void* p = BSFadeNode::operator new(0x18);
+    (*(void(**)(void*, bool*))(*(void***)pThis + 0xf0 / 4))(pThis, &bValue);
+    void* p = ::operator new(0x18);
     if (p)
         return ((void*(*)(void*, bool))FUN_00a532d0)(p, bValue);
     return 0;
@@ -72,7 +69,7 @@ void* FUN_00c32b80(void* pThis, int, unsigned short usUnused)
 // @fnv 0x00c32bc0
 bool FUN_00c32bc0(const void* pThis, int, void* pkInterpolator, unsigned short usIndex)
 {
-    return (*(bool(**)(void*))(*(int*)pkInterpolator + 0xa4))(pkInterpolator);
+    return (*(bool(**)(void*))(*(intptr_t*)pkInterpolator + 0xa4))(pkInterpolator);
 }
 
 struct FUN_00c29d50_shell
@@ -83,7 +80,7 @@ struct FUN_00c29d50_shell
 // @fnv 0x00c29d50
 void FUN_00c29d50_shell::FUN_00c29d50(char* pOut)
 {
-    *pOut = *(char*)(*(int*)((char*)this + 0x3c) + 0x14);
+    *pOut = *(char*)(*(intptr_t*)((char*)this + 0x3c) + 0x14);
 }
 
 struct GlobalObjectO2_00a7b610;
@@ -256,8 +253,6 @@ class C29D80Base
     C29D80Base() throw();
     virtual ~C29D80Base();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -303,7 +298,7 @@ void FUN_00c29d30()
 }
 
 #include <windows.h>
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefCountedStandIn
 {

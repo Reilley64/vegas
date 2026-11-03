@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/bstexturepalette.cpp: TextureFileEntrySetter, TexMap (6 functions)
 
+#include <cstdint>
 #include "fnv/decl/A619B0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -77,7 +78,7 @@ bool FUN_00a61f30(const void* apTexture)
         if (pitem)
         {
             if (pitem->pad4)
-                reinterpret_cast<::FUN_00a61670_Map *>((((FUN_00a61670_stub*)DAT_011f4468)))->RemoveByKey((unsigned int)(pitem->pad4));
+                reinterpret_cast<::FUN_00a61670_Map *>((((FUN_00a61670_stub*)DAT_011f4468)))->RemoveByKey((uintptr_t)(pitem->pad4));
             reinterpret_cast<::NameTableA61 *>((((FUN_00a61890_stub*)((char*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)) + pitem->w * 0xb28))))->RemoveNode((::NodeA61 *)(pitem));
             bres = true;
         }
@@ -146,10 +147,6 @@ struct BSTexMapItem_StandIn
     short field_c;
     short offset;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 
     BSTexMapItem_StandIn(NiTexture* tex, TextureCacheNode* next)
     {
@@ -181,7 +178,7 @@ void __cdecl TextureFileEntrySetter::SetTexture(NiTexture* texture, const BSFile
             if (!entry)
                 entry = FindEntryForTexture(texture);
             if (entry)
-                reinterpret_cast<::HashA616 *>((DAT_011f4468))->FUN_00a61610((unsigned int)(entry), (::EntryA616 *)(item));
+                reinterpret_cast<::HashA616 *>((DAT_011f4468))->FUN_00a61610((uintptr_t)(entry), (::EntryA616 *)(item));
         }
         if (--g_spinLock.m_uiRecursionCount == 0)
             g_spinLock.m_uiOwningThreadID = 0;
@@ -239,7 +236,7 @@ bool __cdecl FindTextureByPath(const char* path, NiTexture** ppTex)
         {
             if (iSlot-- == 0)
                 break;
-            found = reinterpret_cast<::FUN_00a61920_Class *>((static_cast<S_00a61b90_Map*>((*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)) + iSlot)))->FindShaderByHash(hash, (int)(name), (::NiShader **)(ppTex));
+            found = reinterpret_cast<::FUN_00a61920_Class *>((static_cast<S_00a61b90_Map*>((*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)) + iSlot)))->FindShaderByHash(hash, (intptr_t)(name), (::NiShader **)(ppTex));
         } while (!found);
         if (--g_spinLock.m_uiRecursionCount == 0)
             g_spinLock.m_uiOwningThreadID = 0;
@@ -398,7 +395,7 @@ void __cdecl FUN_00a61cd0()
                 if (last && last->m_uiRefCount == 2)
                 {
                     if (olditem->m_pFileEntry)
-                        reinterpret_cast<::FUN_00a61670_Map *>((((TexEntryMap*)DAT_011f4468)))->RemoveByKey((unsigned int)(olditem->m_pFileEntry));
+                        reinterpret_cast<::FUN_00a61670_Map *>((((TexEntryMap*)DAT_011f4468)))->RemoveByKey((uintptr_t)(olditem->m_pFileEntry));
                     reinterpret_cast<::NameTableA61 *>(&(((TexMap*)(*reinterpret_cast<::TextureCacheMap * *>(&::DAT_011f4464)))[oldmap]))->RemoveNode((::NodeA61 *)(olditem));
                     ++removed;
                 }

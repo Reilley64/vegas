@@ -2,6 +2,7 @@
 // src/staging/blk_00e80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -190,7 +191,6 @@ void FUN_00e891f0_Class::FUN_00e891f0()
     *(int*)((char*)this + 4) = 0;
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010efc34;
 void __cdecl FUN_00e68830();
 
@@ -259,12 +259,11 @@ struct FUN_00e97790_Class {
     int InitFromSource(int a, int b);
 };
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 // @fnv 0x00e978a0
-int __cdecl FUN_00e978a0(int a, int b)
+intptr_t __cdecl FUN_00e978a0(int a, intptr_t b)
 {
-    void* p = BSFadeNode::operator new(0x8c);
+    void* p = ::operator new(0x8c);
     if (p)
         return reinterpret_cast<FUN_00e97790_Class*>(p)->InitFromSource(a, b);
     return 0;
@@ -586,7 +585,7 @@ extern int DAT_010f0af4;
 // @fnv 0x00e91b90
 void __cdecl FUN_00e91b90()
 {
-    FUN_00e91b90_Class* p = (FUN_00e91b90_Class*)BSFadeNode::operator new(0x10);
+    FUN_00e91b90_Class* p = (FUN_00e91b90_Class*)::operator new(0x10);
     if (p) {
         p->m_auiShapeKeys[0] = 0;
         p->m_auiShapeKeys[1] = 0;
@@ -696,7 +695,6 @@ FUN_00e941d0_Node* RemoveFirstNodeAtLeast(FUN_00e941d0_This* self, int, unsigned
     return node;
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00e98610_Node {
     void* m_next;
@@ -878,7 +876,7 @@ extern int DAT_0126fa50;
 // @fnv 0x00e91b40
 void __cdecl FUN_00e91b40()
 {
-    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)BSFadeNode::operator new(0x10);
+    NiD3DShaderProgramCreator* p = (NiD3DShaderProgramCreator*)::operator new(0x10);
     if (p) {
         *(int*)p = (int)&DAT_010f0ac0;
         *(int*)(p + 1) = 0;
@@ -1100,7 +1098,6 @@ void* FUN_00e8ce70_Class::FUN_00e8ce70(int flag)
     return this;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class {
     void* FUN_00e8d200(bool flag);
 };
@@ -1576,7 +1573,6 @@ void FUN_00e96c90_Class::FUN_00e96c90()
     reinterpret_cast<::S_00e89970 *>(this)->FUN_00e89970();
 }
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 void __cdecl FUN_00e989c0();
 extern int DAT_010f1550;
 
@@ -1596,7 +1592,6 @@ FUN_00e97870_Class::FUN_00e97870_Class(unsigned char flag) {
 extern unsigned int DAT_011c1118;
 
 struct A51BF0Base {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // Allocates DAT_011c1118 zero-initialised 0x20-byte nodes, links each to the previous head via offsets 0x1c and 0x18, and updates DAT_0126fa58 to the new head.
@@ -1606,7 +1601,7 @@ void AllocateNodeList()
     unsigned int i = 0;
     if (DAT_011c1118 > 0) {
         do {
-            void* mem = A51BF0Base::operator new(0x20);
+            void* mem = ::operator new(0x20);
             int* node;
             if (mem != 0) {
                 node = (int*)mem;
@@ -1686,14 +1681,14 @@ struct FUN_00e81b60_Class {
     unsigned int m_uiEdgeIndex[3];
     FUN_00e81b60_Entry* m_entries[3];
 
-    int LookupEntry(unsigned int a, unsigned int b, int c, int d);
+    intptr_t LookupEntry(unsigned int a, unsigned int b, int c, int d);
 };
 
 extern int DAT_01101294;
 
 // Builds a key from a and b, checks the entry at the current index in slot c, and if it matches advances the index and returns the entry's value.
 // @fnv 0x00e81b60
-int FUN_00e81b60_Class::LookupEntry(unsigned int auiLowKey, unsigned int auiHighKey, int aiSlot, int aiUnused)
+intptr_t FUN_00e81b60_Class::LookupEntry(unsigned int auiLowKey, unsigned int auiHighKey, int aiSlot, int aiUnused)
 {
     unsigned int key = (auiHighKey << DAT_01101294) | auiLowKey;
     unsigned int index = m_uiEdgeIndex[aiSlot];
@@ -1800,7 +1795,7 @@ struct ConstantTarget {
 
 
 // @fnv 0x00e830f0
-int SetConstantSum(ConstantTarget* target, int reg, int type1, int type2, int iUnused1, int iUnused2)
+int SetConstantSum(ConstantTarget* target, intptr_t reg, intptr_t type1, int type2, int iUnused1, int iUnused2)
 {
     switch (type1) {
     case 3:
@@ -6866,11 +6861,11 @@ struct FUN_00e89ae0_cls {
     int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC;
     int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4;
     FUN_00e89ae0_obj* m_10f8;
-    bool IsVtblCallSucceeded(int a1, int a2, int a3, int a4);
+    bool IsVtblCallSucceeded(int a1, intptr_t a2, int a3, int a4);
 };
 // Calls virtual method slot 0x62 on m_10f8 with a1, a2, a3 and returns whether the result is non-negative.
 // @fnv 0x00e89ae0
-bool FUN_00e89ae0_cls::IsVtblCallSucceeded(int a1, int a2, int a3, int a4) {
+bool FUN_00e89ae0_cls::IsVtblCallSucceeded(int a1, intptr_t a2, int a3, int a4) {
     FUN_00e89ae0_obj* obj = m_10f8;
     return ((FUN_00e89ae0_vfn)obj->vtbl[0x62])(obj, a1, a2, a3) >= 0;
 }
@@ -8065,12 +8060,12 @@ public:
     int unk10F4;
     E89B40Device* m_pkDevice;
 
-    bool SetDeviceState(unsigned int uiA, unsigned int uiB, unsigned int uiC, unsigned int uiUnused);
+    bool SetDeviceState(unsigned int uiA, uintptr_t uiB, unsigned int uiC, unsigned int uiUnused);
 };
 
 // Calls m_pkDevice->SetState with uiA, uiB and uiC and returns whether the result is non-negative.
 // @fnv 0x00e89b40
-bool E89B40Renderer::SetDeviceState(unsigned int uiA, unsigned int uiB, unsigned int uiC, unsigned int uiUnused) {
+bool E89B40Renderer::SetDeviceState(unsigned int uiA, uintptr_t uiB, unsigned int uiC, unsigned int uiUnused) {
     return m_pkDevice->SetState(uiA, uiB, uiC) >= 0;
 }
 
@@ -9126,7 +9121,6 @@ struct FUN_00e940a0_Class {
     void ReleaseGlobalSlot();
 };
 
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 
 // If the global object exists and holds a pointer in unk_48, clears that slot, nulls m_00 when it matches, and deletes the pointer.
 // @fnv 0x00e940a0
@@ -9271,7 +9265,7 @@ struct FUN_00e984d0_Struct {
 };
 
 // @fnv 0x00e984d0
-void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, int aiArg1, int aiArg2)
+void __cdecl FUN_00e984d0(FUN_00e984d0_Struct* pStruct, intptr_t aiArg1, int aiArg2)
 {
     int local = 1;
     pStruct->unk04 += pStruct->unk0c(pStruct, aiArg1, aiArg2, &local, 1);
@@ -9294,7 +9288,7 @@ public:
 
 // Looks up a function pointer in DAT_0126fa94 indexed by the two objects' indices and calls it, swapping the argument pairs if the first lookup is null.
 // @fnv 0x00e9c8c0
-bool __cdecl CallConditionFunction(float afValue, FUN_00e9c8c0_obj* apFirst, unsigned int auiFirstArg, FUN_00e9c8c0_obj* apSecond, unsigned int auiSecondArg)
+bool __cdecl CallConditionFunction(float afValue, FUN_00e9c8c0_obj* apFirst, uintptr_t auiFirstArg, FUN_00e9c8c0_obj* apSecond, uintptr_t auiSecondArg)
 {
     unsigned int uiFirstIndex = apFirst->GetIndex() * 6;
     unsigned int uiSecondIndex = apSecond->GetIndex();
@@ -9438,7 +9432,7 @@ struct ItemArrayOwner {
     unsigned int foundIndex;
 };
 
-bool __cdecl CallConditionFunction(float a1, void* a2, unsigned int a3, void* a4, unsigned int a5);
+bool __cdecl CallConditionFunction(float a1, void* a2, uintptr_t a3, void* a4, uintptr_t a5);
 
 // Searches a2's items against a4's items with CallConditionFunction and, on a match, stores both indices in foundIndex and returns true.
 // @fnv 0x00e9e9e0
@@ -9725,7 +9719,6 @@ struct E94B0Block {
             m_pkEntryArray = 0;
     }
 
-    static void* operator new(unsigned int uiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::E94B0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize); }
 
     E94B0Entry* GetAt(unsigned int uiIndex)
     {
@@ -10167,11 +10160,8 @@ struct NiColor3 {
 
 class NiMemObject {
 public:
-    static void* operator new(unsigned int size) throw();
-    static void* operator new(unsigned int, void* p) { return p; }
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 
 extern volatile long DAT_011f4400;
 
@@ -10752,7 +10742,7 @@ void LightManager::FUN_00e8b740(LightInput* input) {
  else {
  unsigned int index=((unsigned int)(reinterpret_cast<::FUN_00e8b1f0_cls *>(this)->AllocateBitIndex()));
  if(index==-1)continue;
- ActiveLight* fresh=(ActiveLight*)BSFadeNode::operator new(sizeof(ActiveLight));
+ ActiveLight* fresh=(ActiveLight*)::operator new(sizeof(ActiveLight));
  if(fresh)data=((::ActiveLight *)(reinterpret_cast<::S_00e8b4b0_Class *>((fresh))->Init((int)(current),index))); else data=0;
  reinterpret_cast<::HashTableBase *>(this)->InsertOrUpdate((unsigned int)(current),(unsigned int)(data));
  current->active=data;
@@ -10869,12 +10859,12 @@ struct StageSet {
     int m_1C;
     StageArray m_20;
 
-    int FUN_00e802b0(unsigned int index, Stage321* obj);
+    int FUN_00e802b0(uintptr_t index, Stage321* obj);
 };
 
 // Stores obj at index in m_20, updating m_14, m_18, m_1C, and obj->m_04, or shrinks m_14 when obj is null.
 // @fnv 0x00e802b0
-int StageSet::FUN_00e802b0(unsigned int index, Stage321* obj)
+int StageSet::FUN_00e802b0(uintptr_t index, Stage321* obj)
 {
     if (index >= DAT_011bf560)
         return 1;
@@ -11768,13 +11758,11 @@ struct Chip8F6D0 {
     int unk30;
     int unk34;
     ~Chip8F6D0();
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Entry8F6D0 {
     int unk00;
     int unk04;
     Chip8F6D0* m_apChips[5];
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Item8F6D0 {
     Item8F6D0* m_pkNext;
@@ -11988,7 +11976,6 @@ void __cdecl FUN_00e9ca50(
 struct FUN_00e9ec90 {
     void* m_pData;
     virtual ~FUN_00e9ec90();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 
 // Destructor that frees m_pData with NiFree.
@@ -11999,7 +11986,7 @@ FUN_00e9ec90::~FUN_00e9ec90() {
 
 static const void* kNull = 0;
 extern "C" void _ReadWriteBarrier();
-void* FUN_00aa13e0(unsigned int size);
+
 
 struct S00e8fa80_Node {
     volatile unsigned int key;
@@ -12021,7 +12008,7 @@ struct S00e8fa80_Obj {
     S00e8fa80_Node* GetOrCreateNode(int a, unsigned int b, int c);
 };
 
-void* FUN_00aa13e0(unsigned int size);
+
 
 // Packs a and b into a key, looks up the selected map by c, and creates a new node if the key is not found.
 // @fnv 0x00e8fa80
@@ -12093,14 +12080,14 @@ struct BlockAllocator {
     unsigned int unk24;
     unsigned int unk28;
     FUN_00a64330_Obj unk2C;
-    unsigned int FUN_00e98660(unsigned int size);
+    uintptr_t FUN_00e98660(unsigned int size);
 };
 
 
 void AllocateNodeList();
 
 // @fnv 0x00e98660
-unsigned int BlockAllocator::FUN_00e98660(unsigned int size) {
+uintptr_t BlockAllocator::FUN_00e98660(unsigned int size) {
     if (unk24 < size) {
         return 0;
     }
@@ -13934,7 +13921,7 @@ struct CreationContext {
         f = adapterFormat;
     }
 };
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int __cdecl FUN_00e7bd20(TextureDescription*);
 extern char DAT_010efd88;
 extern unsigned int DAT_0126f9bc, DAT_0126f9c0;
@@ -14657,7 +14644,6 @@ void E895A0_Object::FUN_00e895a0()
     NiFree(m_00);
 }
 
-extern "C++" void __cdecl operator delete(void*, int);
 struct E95B80SV {  };
 extern unsigned char kVtbl_NiDX9IndexBufferManager;
 
@@ -14962,7 +14948,7 @@ namespace ShaderSubtractData {
 
 // Subtracts DAT_0126f8b0 from DAT_0126f8a0 into DAT_0126f900 based on typeA and typeB, then calls target->SetConstant(reg, &DAT_0126f900.x, 0).
 // @fnv 0x00e83320
-int FUN_00e83320(ConstantTarget* target, int reg, int typeA, int typeB, int aiUnused5, int aiUnused6) {
+int FUN_00e83320(ConstantTarget* target, intptr_t reg, intptr_t typeA, int typeB, int aiUnused5, int aiUnused6) {
     switch (typeA) {
         case 3:
         case 4:
@@ -15028,7 +15014,7 @@ extern "C" {
 
 // Computes a divided matrix or vector from DAT_0126f820/DAT_0126f8a0 by DAT_0126f8b0, optionally inverting/transposing, then calls target->SetConstant.
 // @fnv 0x00e82e70
-int FUN_00e82e70(ConstantTarget* target, int aiRegister, int type1, int type2, bool abInverse, bool abTranspose) {
+int FUN_00e82e70(ConstantTarget* target, intptr_t aiRegister, intptr_t type1, int type2, bool abInverse, bool abTranspose) {
     switch (type1) {
     case 9: {
         if (type2 < 3) {

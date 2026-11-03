@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiNode;
 namespace fnv_00b7cb00 { struct LightMatrix; }
@@ -28,7 +29,7 @@ void SetSlotValue(::SlotObject *, int, int);
 // 0x00b7c3a0
 void UpdateFogShaderConstants();
 // 0x00b7c7b0
-namespace fnv_00b7c7b0 { void FUN_00b7c7b0(unsigned int); }
+namespace fnv_00b7c7b0 { void FUN_00b7c7b0(uintptr_t); }
 // 0x00b7c850
 void UpdateLightShaderConstants(const ::Matrix *, float);
 // 0x00b7cb00

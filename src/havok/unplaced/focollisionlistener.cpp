@@ -714,8 +714,6 @@ struct HitEntry
     HitHandle m_kSource;
     HitEntry* FUN_00623bd0();
     HitEntry();
-    void* operator new(std::size_t uiSize);
-    void operator delete(void* pvMem);
 };
 struct HitList
 {

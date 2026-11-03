@@ -59,7 +59,6 @@ class ImageSpaceManagerScreenGeometry
     unsigned char padding[0xb8];
     NiScreenElementsData* m_spGeometryData;
     unsigned char tail_padding[8];
-    static void* __cdecl operator new(unsigned int size) throw();
     ImageSpaceManagerScreenGeometry(NiScreenElementsData* data)
     {
         FUN_00a87810(data);

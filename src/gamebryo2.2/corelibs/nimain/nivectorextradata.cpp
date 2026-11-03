@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a92070
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -75,7 +76,6 @@ public:
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CloningProcess
 {
@@ -89,7 +89,7 @@ struct FUN_00a920b0_shell : NiVectorExtraData
 // @fnv 0x00a920b0
 NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
 {
-    NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
+    NiVectorExtraData* pkObject = (NiVectorExtraData*)::operator new(sizeof(NiVectorExtraData));
     if (pkObject)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pkObject)))->FUN_00a7b2e0();
@@ -136,7 +136,7 @@ void FUN_00a92290_shell::FUN_00a92290(StrArr* pStringArray)
 {
     reinterpret_cast<::ExtraDataStrings *>((reinterpret_cast<A89C70Base*>(this)))->FUN_00a7b580(pStringArray);
 
-    char* pcVectorString = ::FUN_00a7d330(reinterpret_cast<char*>((*reinterpret_cast<int *>(&::g_011f5e84))));
+    char* pcVectorString = ::FUN_00a7d330(reinterpret_cast<char*>((*reinterpret_cast<intptr_t *>(&::g_011f5e84))));
 
     unsigned int uiIndex = pStringArray->m_uiPosition;
     unsigned int ItemUpdateArray = pStringArray->m_uiCount;
@@ -325,7 +325,7 @@ struct S_00a921f0_Stream
     int unk240;
     int unk244;
     int unk248;
-    int unk24c;
+    intptr_t unk24c;
     S_00a921f0_File* m_pFile;
 };
 

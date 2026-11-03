@@ -1,5 +1,6 @@
 // bsshader/speedtreeleafshader.cpp: SpeedTreeLeafShader (5 functions)
 
+#include <cstddef>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -234,19 +235,17 @@ struct LeafV
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct FadeTag
 {
 };
-inline void* operator new(unsigned int sz, FadeTag*)
+inline void* operator new(std::size_t sz, FadeTag*)
 {
-    return BSFadeNode::operator new(sz);
+    return ::operator new(sz);
 }
 inline void operator delete(void* p, FadeTag*)
 {
-    BSFadeNode::operator delete(p);
+    ::operator delete(p);
 }
 struct FUN_00bb1d40_t
 {

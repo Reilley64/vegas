@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4be10
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -112,7 +113,7 @@ void Host_00a4bb80::FUN_00a4bb80(CloningProcess& kCloning)
     bool bCloned;
     NiObject* pkClone;
     NiLookAtInterpolator* pkDest;
-    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((uintptr_t)&(kCloning));
     pkClone = 0;
     reinterpret_cast<::A54440Hash *>((kCloning.m_pCloneMap))->FUN_00a53c30((::A54440Manager *)((char const*)this), (::A54440Manager **)&((ShaderBufferRecord*&)pkClone));
     pkDest = (NiLookAtInterpolator*)pkClone;
@@ -192,13 +193,12 @@ bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
 void* __cdecl FUN_00a4c5a0()
 {
-    void* p = BSFadeNode::operator new(0x44);
+    void* p = ::operator new(0x44);
     if (p)
         return ((BSFadeNode*)p)->FUN_00a4bcf0(0, 0, 0);
     return 0;
@@ -479,7 +479,7 @@ bool FUN_00a4bae0_cls::FUN_00a4bae0()
     if (p != 0)
     {
         void* pNewHandle = ((void *)(::NiGlobalStringTable::AddString((const char *)(p))));
-        long(* pfnDecrement)(volatile long*) = InterlockedDecrement;
+        long(* pfnDecrement)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         if (m_hCur != pNewHandle)
         {
             if (pNewHandle != (*reinterpret_cast<void * *>(&::DAT_0109b220)))
@@ -1339,7 +1339,7 @@ struct S_00a4ba30_Cls
 // @fnv 0x00a4ba30
 S_00a4ba30_Cls* S_00a4ba30_Cls::FUN_00a4ba30(float a, float b)
 {
-    S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((int)this, a)));
+    S_00a4ba30_Cls* pResult = ((::S_00a4ba30_Cls *)(::FUN_00a57050((intptr_t)this, a)));
     for (int i = 0; i < 3; i++)
     {
         if (unk38[i])
@@ -1430,7 +1430,7 @@ struct FUN_00a4bcf0 : public NiInterpolator
 // @fnv 0x00a4c5e0
 BSFadeNode* Builder::CreateFadeNode(unsigned int flags)
 {
-    BSFadeNode* allocated = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x44));
+    BSFadeNode* allocated = static_cast<BSFadeNode*>(::operator new(0x44));
     BSFadeNode* node = allocated ? static_cast<BSFadeNode*>(((void *)(new ((void *)(allocated)) ::FUN_00a4bcf0(0, 0, 0)))) : 0;
     FUN_00a4c4b0(node, flags);
     return node;

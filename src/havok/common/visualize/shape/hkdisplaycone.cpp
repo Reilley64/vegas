@@ -30,10 +30,6 @@ struct GeometryBuffers
     DynamicArray<Edge> edges;
     GeometryBuffers() : vertices(), edges()
     {}
-    static void* operator new(std::size_t, void* position)
-    {
-        return position;
-    }
 };
 struct Allocator
 {

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -90,7 +91,6 @@ public:
 struct BSFadeNode
 {
     void* vtbl;
-    static void* operator new(unsigned int size);
 };
 struct NiBound
 {
@@ -177,10 +177,6 @@ struct FUN_00a99c40_shell : public NiExtraData
 struct NiLODData
 {
     NiLODData();
-    void* operator new(size_t, void* p)
-    {
-        return p;
-    }
 };
 unsigned int __cdecl FUN_00a88ac0(unsigned int a);
 struct NiExtraDataHelper
@@ -419,7 +415,6 @@ struct FUN_00a5a390_shell
 public:
     void FUN_00a5a390();
 };
-void __cdecl operator delete(void* p, unsigned int);
 void __cdecl FUN_00a9b8b0();
 void __cdecl FUN_00a9b9b0();
 void __cdecl FUN_00a9ba80();
@@ -845,10 +840,6 @@ struct S_00a8f2c0_Obj
     int unk08;
     int unk0c;
     S_00a8f2c0_Sub sub;
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     S_00a8f2c0_Obj() throw()
     {
         new ((void *)this) struct ::FUN_00a5d3a0();
@@ -1064,14 +1055,6 @@ struct WeightArray
         m_iElementCount++;
     }
 
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(static_cast<MemMgr&>(g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(static_cast<MemMgr&>(g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 
 struct BoneWeight
@@ -1305,10 +1288,6 @@ class FUN_00a8b110 : public NiRefObject
 {
   public:
     unsigned int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     FUN_00a8b110(bool, unsigned int, const BmpColor*);
 };
 class NiPixelData
@@ -1325,10 +1304,6 @@ class NiPixelData
     unsigned int levels;
     unsigned int stride;
     unsigned int unk68, unk6c, unk70;
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int = 1, unsigned int = 1);
     unsigned char* Pixels()
     {
@@ -1570,7 +1545,7 @@ NiPixelData* BmpReader::FUN_00a8e810(BmpStream& stream, NiPixelData* optional)
     return dest;
 }
 
-inline void* operator new[](unsigned int size, int) throw()
+inline void* operator new[](std::size_t size, int) throw()
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(static_cast<MemMgr&>(g_memoryManager)))->FUN_00aa3e40(size);
 }
@@ -1590,10 +1565,6 @@ struct TempRecord
     {
         ::FUN_00aa10f0(data);
     }
-    static void operator delete[](void* block)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(block);
-    }
 };
 
 struct Holder
@@ -1606,10 +1577,6 @@ struct Holder
     ~Holder()
     {
         ::FUN_00aa10f0(data);
-    }
-    static void operator delete(void* block)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(block);
     }
     bool ContainsSortedSubset(const Holder* other);
 };

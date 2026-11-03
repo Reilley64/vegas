@@ -6,6 +6,7 @@
 // No @fnv markers here; the covered template members are defined and
 // marked in the header. This translation unit only forces the covered
 // COMDATs to be emitted so their bytes can be compared.
+#include <cstdint>
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
 #include "fnv/decl/NiTObjectArrayA47.h"
@@ -317,7 +318,7 @@ void ViewerConstraint::FUN_00c8a560(BC8AD40StringArray* array)
     char buffer[32];
     if (object)
     {
-        text = ::fnv_00a7d5e0::FUN_00a7d5e0("Type", ::GetConstraintTypeName((int)(object->GetType())));
+        text = ::fnv_00a7d5e0::FUN_00a7d5e0("Type", ::GetConstraintTypeName((intptr_t)(object->GetType())));
         array->Add(text);
     }
     ::FUN_00406d00(buffer, 32, "0x%8X", entityA);
@@ -587,7 +588,7 @@ void CAA010This::FUN_00caa010(CAA010Arr* array)
     _ReadWriteBarrier();
     if (inner)
     {
-        CAA010Shell* shell = ((::CAA010Shell *)(::CreateSaver((unsigned int)(inner->GetHandle()))));
+        CAA010Shell* shell = ((::CAA010Shell *)(::CreateSaver((uintptr_t)(inner->GetHandle()))));
         if (shell)
         {
             reinterpret_cast<::C89AC0_Owner *>((shell))->SetChildObject((::C89AC0_Child *)(inner));

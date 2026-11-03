@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nicollision/nipick.cpp: Results, NiPick (10 functions)
 
+#include <cstdint>
+#include <cstddef>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -106,7 +108,7 @@ void* FUN_00e99300_shell::FUN_00e99300()
     int iPreviousCount = DAT_0126fa60;
     DAT_0126fa60 = DAT_0126fa60 + 1;
     if (iPreviousCount == 0)
-        ::FUN_00aa2080((void (*)())(void *)((void*)InitNiStreamCallbacks), (int)((void*)FUN_00e99260));
+        ::FUN_00aa2080((void (*)())(void *)((void*)InitNiStreamCallbacks), (intptr_t)((void*)FUN_00e99260));
     return result;
 }
 
@@ -396,12 +398,12 @@ class ImageSpaceTextureE993
     int unk30;
     NiColorAE993 m_kFogTint;
 
-    ImageSpaceTextureE993(int iParam) : m_unk00(0), m_unk04(0)
+    ImageSpaceTextureE993(intptr_t iParam) : m_unk00(0), m_unk04(0)
     {
         reinterpret_cast<::S_00e98aa0_Holder *>(this)->SetObject((::S_00e98aa0_RefObj *)(iParam));
     }
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }
@@ -429,12 +431,12 @@ class TexturePoolE993
         return uiIndex;
     }
 
-    ImageSpaceTextureE993* GetTexture(int iParam);
+    ImageSpaceTextureE993* GetTexture(intptr_t iParam);
 };
 
 // Returns the next ImageSpaceTextureE993 from the pool, reusing an existing slot or allocating a new one when the pool is exhausted.
 // @fnv 0x00e99330
-ImageSpaceTextureE993* TexturePoolE993::GetTexture(int iParam)
+ImageSpaceTextureE993* TexturePoolE993::GetTexture(intptr_t iParam)
 {
     if (m_uiNext < m_usSize)
     {

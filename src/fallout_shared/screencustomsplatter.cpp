@@ -1,5 +1,6 @@
 // fallout_shared/screencustomsplatter.cpp: ScreenCustomSplatter, BSPortal, BSCustomSplatterExtraData (15 functions)
 
+#include <new>
 #include "fnv/decl/CamLook.h"
 #include "fnv/decl/FUN_00440460_S.h"
 #include "fnv/decl/FUN_004def90_Class.h"
@@ -366,8 +367,6 @@ struct SplatterExtraData : NiExtraData
 {
     SplatterParams params;
     SplatterExtraData(SplatterParams* p);
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct SplatterGeometry

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niextradata.cpp: NiExtraData, NiAccumulator, MyOwner, ExtraDataObject and more (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/Cls_a64ea0.h"
@@ -124,7 +125,7 @@ struct FUN_00a5d450_holder
 // @fnv 0x00a7b330
 void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess* kCloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((unsigned int)(pkDest), kCloning);
+    reinterpret_cast<::FUN_00a5d450_class *>((((FUN_00a5d450_holder*)this)))->CreateVertexBufferSet((uintptr_t)(pkDest), kCloning);
     char* src = *(char**)&this->name.handle;
     if (*(char**)&pkDest->name.handle != src)
     {
@@ -139,21 +140,16 @@ void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess*
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct _Call_a5d3a0
 {
     _Call_a5d3a0();
 };
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a 12-byte NiExtraData, constructs it, sets its vtable and copies a stored int into offset 8, returning the object or null.
 // @fnv 0x00a7b380
 NiExtraData* FUN_00a7b380()
 {
-    NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(12);
+    NiExtraData* p = (NiExtraData*)::operator new(12);
     if (p)
     {
         new (p) _Call_a5d3a0;
@@ -183,7 +179,7 @@ struct FUN_00a7b2c0_shell
 // @fnv 0x00a7b2c0
 void FUN_00a7b2c0_shell::FUN_00a7b2c0(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<FUN_00a7b2c0_NiObject*>(this)));
     reinterpret_cast<::FUN_00a641f0_cls *>((reinterpret_cast<FUN_00a7b2c0_NiStream*>(&kStream)))->WriteObjectLink((void *)(m_kName));
 }
 

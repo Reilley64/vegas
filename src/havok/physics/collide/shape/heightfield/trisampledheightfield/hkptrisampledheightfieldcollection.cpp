@@ -465,10 +465,6 @@ struct S00d26510_Tri : public S00d26510_Convex
     __m128 m_kVertexC;
     __m128 m_kVertexTransform;
 
-    void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
     S00d26510_Tri(float radius) : S00d26510_Convex(3, radius)
     {
         m_kWeldingInfo = 0;

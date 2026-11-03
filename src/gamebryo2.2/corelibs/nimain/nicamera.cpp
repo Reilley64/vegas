@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nicamera.cpp: NiCamera, ComparableCamera, CamLook, ScreenCamera and more (20 functions)
 
+#include <cstdint>
+#include <new>
 #include <cstring>
 #include "fnv/decl/A5a260Object.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -203,13 +205,12 @@ extern int DAT_0109cb9c;
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 // @fnv 0x00a70050
 void* DestroyCamera(int* pThis, int, unsigned int flags)
 {
-    *pThis = (int)&DAT_0109cb9c;
+    *pThis = (intptr_t)&DAT_0109cb9c;
     reinterpret_cast<::FUN_00a5a390_shell *>((pThis))->FUN_00a5a390();
     if (flags & 1)
         ::FUN_00aa1460(pThis, 0x114);
@@ -239,7 +240,6 @@ struct FUN_00a713e0_shell : public NiCamera
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a712f0 : BSFadeNode
 {
@@ -261,7 +261,6 @@ void* FUN_00a713e0(CamStub* self, int edx, CloningProcess* kCloning)
 namespace fnv_00a71430 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a712f0 : BSFadeNode
 {
@@ -1023,12 +1022,12 @@ union FUN_00a70f60_FloatBits
 
 struct FUN_00a70f60_Obj
 {
-    void FUN_00a70f60(NiCamera* destination, int second);
+    void FUN_00a70f60(NiCamera* destination, intptr_t second);
 };
 
 // Copies NiCamera state from source to destination via base copy, memcpy, and field assignments.
 // @fnv 0x00a70f60
-void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
+void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, intptr_t second)
 {
     NiCamera* source = reinterpret_cast<NiCamera*>(this);
 

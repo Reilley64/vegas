@@ -329,7 +329,6 @@ void GlobalObject_00869f00::FUN_005eeff0()
 }
 }  // namespace fnv_005eeff0
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_005ef150_class
 {
@@ -876,7 +875,6 @@ void* FUN_005dd7b0_class::FUN_005e06b0(unsigned int flags)
 struct FUN_005e03a0_Class
 {
 };
-void __cdecl operator delete(void*);
 struct FUN_005e06e0_Class
 {
     void* FUN_005e06e0(unsigned int flags);
@@ -924,7 +922,6 @@ void* FUN_005e0740_class::FUN_005e0740(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_005dd7f0_class
 {
     void FUN_005dd7f0();
@@ -958,7 +955,6 @@ _Mem_20a4* _Mem_20a4::FUN_005e07a0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_005e0590_shell
 {
@@ -1106,7 +1102,6 @@ GlobalObject_00869f00* GlobalObject_00869f00_Deleting::FUN_005ef590(unsigned int
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_005eeff0_shell
 {
 };
@@ -1128,7 +1123,6 @@ struct FUN_005ef1d0_class
 {
     void FUN_005ef1d0();
 };
-void __cdecl operator delete(void*);
 
 struct FUN_005ef5f0_class
 {
@@ -1144,7 +1138,6 @@ void* FUN_005ef5f0_class::FUN_005ef5f0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_005ef3b0
 {
@@ -2549,8 +2542,6 @@ void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
     }
 }
 
-void* operator new(unsigned int uiSize, void* pvMem);
-void operator delete(void* pvMem, void* pvPlace);
 
 struct EFBC0Item
 {
@@ -3727,7 +3718,6 @@ bool Target005ed1e0::FUN_005ed1e0(Target005ed1e0* other)
     return different;
 }
 
-void* __cdecl operator new(unsigned int, void*);
 
 struct SpawnItem : FUN_005ef7f0_Data
 {
@@ -3752,8 +3742,6 @@ void FUN_005ef910::ConstructSpawnItems(int base, int count)
     }
 }
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct E5EF9A0Entry
 {
@@ -4890,7 +4878,6 @@ void Data5E35::FUN_005e3510()
     ::FUN_00407a90(&m_0A);
 }
 
-void __cdecl operator delete(void*);
 struct DeletingObject
 {
     void FUN_005e4bc0();
@@ -5451,7 +5438,6 @@ bool FUN_005e2d90_TESSound::FUN_005e2d90(TESForm* other)
     return false;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_005e63f0 : s5e63f0::Derived
 {

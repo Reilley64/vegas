@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00a53070
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A53480Object.h"
 #include "fnv/decl/FUN_00a95ca0_shell.h"
@@ -424,7 +425,7 @@ void FUN_00a536d0_cls::FUN_00a536d0(FUN_00a536d0_arr* pArr)
     unsigned int idx;
 
     reinterpret_cast<::fnv_00a3cbf0::NiKeyBasedInterpolator *>((self))->FUN_00a3cbf0((::fnv_00a3cbf0::StrArr *)(pArr));
-    v = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f404c))))));
+    v = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f404c))))));
     idx = pArr->m_usElementCount;
     if (idx >= pArr->m_usCapacity)
     {
@@ -580,7 +581,7 @@ bool S_00a533c0_Class::UpdateValue(float fValue, int iValue, unsigned char* pucO
         unsigned int uiOther = pData->unk10;
         unsigned int ItemUpdateArray = pData->unk08;
         unsigned char ucFlag = pData->unk14;
-        unsigned int uiKey = pData->unk0c;
+        uintptr_t uiKey = pData->unk0c;
         if (ItemUpdateArray > 0)
         {
             unk0c = ((unsigned char)((int)(::InterpolateBooleanKey(fValue, (const ::AnimationKey *)(uiKey), uiOther, ItemUpdateArray, (unsigned int *)(void *)(&unk14), ucFlag))) != 0);
@@ -609,7 +610,6 @@ class CloningProcessA535;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 
 class FUN_00a3ca10
@@ -640,10 +640,6 @@ class NiBoolInterpA535 : public FUN_00a3ca10
     }
     virtual ~NiBoolInterpA535() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
 
     bool m_bBoolValue;
     NiPointerA535<void> m_spBoolData;

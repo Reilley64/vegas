@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/niadditionalgeometrydata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niadditionalgeometrydata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -170,11 +172,11 @@ class FUN_00a72530_owner
     unsigned int unk08;
     unsigned char unk0c;
 
-    void FUN_00a72530(unsigned int value);
+    void FUN_00a72530(uintptr_t value);
 };
 
 // @fnv 0x00a72530
-void FUN_00a72530_owner::FUN_00a72530(unsigned int value)
+void FUN_00a72530_owner::FUN_00a72530(uintptr_t value)
 {
     if (value == 0 && unk0c != 0)
         value = unk08;
@@ -396,11 +398,11 @@ class DataBlockStub
     unsigned char m_bLoadComplete;
     unsigned char m_bOld;
 
-    void FUN_00a72eb0(NiStreamStub& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal);
+    void FUN_00a72eb0(NiStreamStub& kStream, int a2, intptr_t a3, int a4, unsigned short m_usPassCountLocal);
 };
 
 // @fnv 0x00a72eb0
-void DataBlockStub::FUN_00a72eb0(NiStreamStub& kStream, int a2, int a3, int a4, unsigned short m_usPassCountLocal)
+void DataBlockStub::FUN_00a72eb0(NiStreamStub& kStream, int a2, intptr_t a3, int a4, unsigned short m_usPassCountLocal)
 {
     LoadBinary(kStream, m_uiSize);
     m_bOld = m_usPassCountLocal < 0x40;
@@ -443,14 +445,6 @@ struct SceneElem
     unsigned int unk18;
 
     SceneElem() throw();
-    static void* operator new[](unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a730e0::FixedAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p) throw()
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a730e0::FixedAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct FUN_00a730e0_cls
@@ -465,7 +459,7 @@ struct FUN_00a730e0_cls
     void FUN_00a730e0(unsigned int newCount);
 };
 
-extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
+
 
 // @fnv 0x00a730e0
 void FUN_00a730e0_cls::FUN_00a730e0(unsigned int newCount)
@@ -553,7 +547,7 @@ FUN_00a734c0::FUN_00a734c0()
     m_18 = 0;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct Obj_a73e20
 {
@@ -572,7 +566,6 @@ Obj_a73e20* __cdecl FUN_00a73e20()
 struct Impl00a8a680
 {
     Impl00a8a680(int a1, int a2, int a3, int a4, int a5, int a6, int a7) throw();
-    static void* operator new(unsigned int size);
     int unk00;
     int unk04;
     int unk08;
@@ -818,10 +811,6 @@ struct LBMemoryManager
 };
 
 
-inline void* __cdecl operator new[](unsigned int auiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LBMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
-}
 
 struct LBKey
 {
@@ -958,7 +947,7 @@ void LBObject::FUN_00a73160(LBStream& arStream)
         if (bHasBlock)
         {
             LBBlock* pBlock = CreateBlock();
-            reinterpret_cast<::DataBlockStub *>((pBlock))->FUN_00a72eb0((::NiStreamStub &)(arStream), j, (int)(m_pKeyArray), m_uiNumKeys, m_usKeyType);
+            reinterpret_cast<::DataBlockStub *>((pBlock))->FUN_00a72eb0((::NiStreamStub &)(arStream), j, (intptr_t)(m_pKeyArray), m_uiNumKeys, m_usKeyType);
             m_kBlocks.SetAt(j, pBlock);
         }
         else
@@ -1202,11 +1191,11 @@ struct FUN_00a73d90_cls
 {
     unsigned int unk00;
     unsigned int m_04;
-    unsigned int m_08;
+    uintptr_t m_08;
     void FUN_00a73d90(ArrayArg* p);
 };
 
-static inline void AddVal(ArrayArg* p, unsigned int v)
+static inline void AddVal(ArrayArg* p, uintptr_t v)
 {
     unsigned int idx = p->m_0a;
     if (idx >= p->m_08)
@@ -1219,8 +1208,8 @@ static inline void AddVal(ArrayArg* p, unsigned int v)
 // @fnv 0x00a73d90
 void FUN_00a73d90_cls::FUN_00a73d90(ArrayArg* p)
 {
-    AddVal(p, ((unsigned int)(::FUN_00a7d510(str_0109d2f4, m_04))));
-    AddVal(p, ((unsigned int)(::FUN_00a7d5a0(str_0109d2dc, (void *)(m_08)))));
+    AddVal(p, ((uintptr_t)(::FUN_00a7d510(str_0109d2f4, m_04))));
+    AddVal(p, ((uintptr_t)(::FUN_00a7d5a0(str_0109d2dc, (void *)(m_08)))));
 }
 
 template <class T> class NiTViewerArray
@@ -1354,7 +1343,7 @@ class Owner517
 // @fnv 0x00a73370
 void FUN_00a73370Node::FUN_00a73370(SaveStream* stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     SerializeValue(stream, flags);
     SerializeValue(stream, elemCount);
     for (unsigned int i = 0; i < elemCount; i++)
@@ -1467,10 +1456,6 @@ struct DummyMM
 struct FUN_00a724e0
 {
     virtual ~FUN_00a724e0();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a724e0::DummyMM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // @fnv 0x00a724e0
 FUN_00a724e0::~FUN_00a724e0()
@@ -1567,150 +1552,150 @@ void Descriptor73530::FUN_00a73530(StringArray73530* output)
     {
     case 0:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_INVALID");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 1:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 2:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 3:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 4:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_FLOAT4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 5:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 6:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 7:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 8:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_LONG4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 9:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 10:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 11:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 12:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_ULONG4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 13:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 14:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 15:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 16:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_SHORT4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 17:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 18:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 19:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 20:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_USHORT4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 21:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 22:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 23:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 24:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BYTE4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 25:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 26:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 27:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 28:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_UBYTE4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 29:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND1");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 30:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND2");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 31:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND3");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 32:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_BLEND4");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     case 33:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "AGD_NITYPE_COUNT");
-        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((output))->FUN_0096a610((intptr_t)(&value));
         break;
     default:
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("        m_uiType", "UNKNOWN!!!");
         output->Append(value);
         break;
     }
-    output->Append((const char*)((unsigned int)(::FUN_00a7d510("        m_uiUnitSize", unitSize))));
-    output->Append((const char*)((unsigned int)(::FUN_00a7d510("        m_uiTotalSize", totalSize))));
-    output->Append((const char*)((unsigned int)(::FUN_00a7d510("        m_uiStride", stride))));
-    output->Append((const char*)((unsigned int)(::FUN_00a7d510("        m_uiBlockIndex", blockIndex))));
-    output->Append((const char*)((unsigned int)(::FUN_00a7d510("        m_uiBlockOffset", blockOffset))));
+    output->Append((const char*)((uintptr_t)(::FUN_00a7d510("        m_uiUnitSize", unitSize))));
+    output->Append((const char*)((uintptr_t)(::FUN_00a7d510("        m_uiTotalSize", totalSize))));
+    output->Append((const char*)((uintptr_t)(::FUN_00a7d510("        m_uiStride", stride))));
+    output->Append((const char*)((uintptr_t)(::FUN_00a7d510("        m_uiBlockIndex", blockIndex))));
+    output->Append((const char*)((uintptr_t)(::FUN_00a7d510("        m_uiBlockOffset", blockOffset))));
     bool keepValue = (flags & 1) != 0;
     output->Append(::FUN_00a7d370("        Keep", keepValue));
     AppendConsistency(output);

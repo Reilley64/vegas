@@ -3,8 +3,6 @@
 #define FNV_BSRANDOM_SINGLETON_H
 
 #include "fnv/symbols_011c5000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 namespace bsrandom_singleton {
 class MersenneTwister
 {

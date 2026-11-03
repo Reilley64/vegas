@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysvolumeemitter.cpp: NiPSysVolumeEmitter (10 functions)
 
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00416870_t.h"
@@ -148,14 +149,14 @@ void FUN_00c31cf0_shell::ComputeEmitterInitialPositionAndVelocity(NiPoint3* kPos
         NiTransform kInvPSys;
         kPSys.CalculateInverse(kInvPSys);
         NiTransform kEmitterToPSys = kInvPSys * kEmitter;
-        ((ComputeVolumeInitialPositionAndVelocity_t)(*(int**)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
+        ((ComputeVolumeInitialPositionAndVelocity_t)(*(void***)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
                                                                               kMotionVelocity);
     }
     else
     {
         NiTransform kEmitterToPSys;
         kEmitterToPSys.ResetToIdentity();
-        ((ComputeVolumeInitialPositionAndVelocity_t)(*(int**)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
+        ((ComputeVolumeInitialPositionAndVelocity_t)(*(void***)this)[0xb0 / 4])(this, kEmitterToPSys, kPosition,
                                                                               kMotionVelocity);
     }
 }
@@ -168,7 +169,6 @@ char const* const* __cdecl FUN_00c31bc0()
 }
 
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c31c70_shell
 {

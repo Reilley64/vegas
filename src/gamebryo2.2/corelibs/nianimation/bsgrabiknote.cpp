@@ -70,7 +70,6 @@ extern int DAT_01097d34;
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
     void* m_ppVirtualMethodTable;
     int m_auiShapeKeys;
     int m_flags;
@@ -83,7 +82,7 @@ struct BSFadeNode
 // @fnv 0x00a44380
 void* __cdecl FUN_00a44380()
 {
-    BSFadeNode* node = static_cast<BSFadeNode*>(BSFadeNode::operator new(28));
+    BSFadeNode* node = static_cast<BSFadeNode*>(::operator new(28));
     if (node)
     {
         new ((void *)(node)) struct ::FUN_00a5d3a0();

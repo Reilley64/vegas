@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nicolordata.cpp: NiColorData, NiColorDataHack, NiColorDataA3D (9 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -76,7 +77,6 @@ void NiColorDataHack::FUN_00a3d0e0(float afValue1, float afValue2)
 namespace fnv_00a3d150 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a5d3a0_standin
@@ -88,7 +88,7 @@ struct FUN_00a5d3a0_standin
 // @fnv 0x00a3d150
 void* CreateNiColorData()
 {
-    char* p = (char*)A51BF0Base::operator new(0x18);
+    char* p = (char*)::operator new(0x18);
     if (p)
     {
         new ((void *)(((FUN_00a5d3a0_standin*)p))) struct ::FUN_00a5d3a0();
@@ -542,7 +542,7 @@ struct FUN_00a3d410_cls : S_a3d410_Base
 // @fnv 0x00a3d410
 void FUN_00a3d410_cls::LoadFromStream(S_a3d410_Stream* pStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned& n = unk8;
     S_a3d410_Load(pStream, n);
     if (n > 0)
@@ -585,7 +585,7 @@ void FUN_00a3d490_cls::FUN_00a3d490(FUN_00a3d490_arr* arr)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((arr))->SetAt(index, (*(char * *)(&item)));
 
-    item = ((void *)(::FUN_00a7d510("m_uiNumKeys", (unsigned int)(m_p08))));
+    item = ((void *)(::FUN_00a7d510("m_uiNumKeys", (uintptr_t)(m_p08))));
     index = arr->m_usElementCount;
     if (index >= arr->m_usCap)
     {

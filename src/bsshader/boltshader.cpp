@@ -268,7 +268,6 @@ struct FUN_00bc1950_shell : public BoltShader
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiD3DShaderConstantMap : BSFadeNode
 {
@@ -673,10 +672,6 @@ struct MemoryManager
 struct IndexU16
 {
     unsigned short value;
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 
@@ -684,17 +679,11 @@ class NiPoint3
 {
   public:
     float x, y, z;
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 class FUN_00ba63e0 : public NiObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     int unk10;
@@ -729,8 +718,6 @@ struct NiBound
 class FUN_00a7b630 : public NiObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     NiBound m_kBound;
@@ -759,8 +746,6 @@ class NiAVObject : public NiObject
 class FUN_00a74480 : public NiAVObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk08;
     int unk0c;
     int unk10;
@@ -833,8 +818,6 @@ class NiProperty : public NiObject
 class FUN_00bc1d40 : public NiProperty
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk20;
     int unk24;
     int unk28;

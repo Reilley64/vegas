@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niblendpoint3interpolator.cpp: NiBlendPoint3Interpolator, BlendPointShell (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendCopy.h"
@@ -72,7 +73,7 @@ struct Call_439090_tgt
 // @fnv 0x00a55ec0
 bool FUN_00a55ec0_shell::FUN_00a55ec0(NiObject* pkObject)
 {
-    bool r = ::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (int)(pkObject), {});
+    bool r = ::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (intptr_t)(pkObject), {});
     if (!r)
         return r;
     r = reinterpret_cast<::NiPlane *>((((Call_439090_tgt*)&this->m_kPoint3Value.x)))->operator==((*(const ::NiPlane *)((char*)pkObject + 0x30)));
@@ -132,19 +133,18 @@ void FUN_00a55ef0_shell::AppendPoint3Value(void* pkStrings)
 // @fnv 0x00a55a60
 bool FUN_00a55a60(NiBlendPoint3Interpolator* p)
 {
-    return reinterpret_cast<bool(*)(NiObject*)>(*reinterpret_cast<const unsigned int*>(
-        reinterpret_cast<const unsigned char*>(*reinterpret_cast<const unsigned int*>(p)) + 0xb0))(p);
+    return reinterpret_cast<bool(*)(NiObject*)>(*reinterpret_cast<const uintptr_t*>(
+        reinterpret_cast<const unsigned char*>(*reinterpret_cast<const uintptr_t*>(p)) + 0xb0))(p);
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_0109a49c;
 // @fnv 0x00a55a80
 void* FUN_00a55a80()
 {
-    void* p = BSFadeNode::operator new(64);
+    void* p = ::operator new(64);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -202,7 +202,7 @@ struct FUN_00a55b20_shell : public NiBlendPoint3Interpolator
 // @fnv 0x00a55b20
 void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
 {
-    NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(BSFadeNode::operator new(0x40));
+    NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(::operator new(0x40));
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();
@@ -236,7 +236,7 @@ struct FUN_00a370b0_tgt
 
 struct FUN_00a55a10
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     int unk08;
     int unk0C;
@@ -258,7 +258,7 @@ struct FUN_00a55a10
 FUN_00a55a10::FUN_00a55a10(void* apArg, float f, void* c)
 {
     reinterpret_cast<::S_00a370b0_Class *>((((FUN_00a370b0_tgt*)this)))->FUN_00a370b0((bool)(apArg), f, (volatile unsigned char)(c));
-    m_vptr = reinterpret_cast<int>(&DAT_0109a49c);
+    m_vptr = reinterpret_cast<intptr_t>(&DAT_0109a49c);
     m_kPoint3Value = DAT_011a9424;
     m_bValueValid = false;
 }

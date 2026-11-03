@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CClsA.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -46,8 +47,8 @@ struct FUN_00c1ba30 : NiTimeControllerStop
 };
 void FUN_00c1ba30(FUN_00c1ba30* self, int unused);
 const char* const* __cdecl FUN_00c1c2f0();
-extern int DAT_011ae754;
-extern int DAT_011ae758;
+extern intptr_t DAT_011ae754;
+extern intptr_t DAT_011ae758;
 const char* const* FUN_00c1ba50(unsigned short usIndex);
 struct NiPSysEmitterCtlr_shell : NiPSysEmitterCtlr
 {

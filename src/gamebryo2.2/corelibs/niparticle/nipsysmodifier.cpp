@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifier.cpp: NiPSysModifier, MyIsEqual, ParticleModifierBinary, ParticleModifier (8 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -46,7 +47,7 @@ void NiPSysModifier::LoadBinary(NiStream& kStream)
 // @fnv 0x00C31780
 void NiPSysModifier::CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(pkDest), (void *)&(kCloning));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(pkDest), (void *)&(kCloning));
     char* pcName = m_kName.m_kHandle;
     if (pkDest->m_kName.m_kHandle != pcName)
     {
@@ -64,7 +65,7 @@ void NiPSysModifier::CopyMemberData(NiPSysModifier* pkDest, CloningProcess& kClo
 // @fnv 0x00C317E0
 void NiPSysModifier::ProcessClone(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(kCloning));
     NiObject* pkClone = 0;
     NiPSysCloneMapGetAt(kCloning.m_pCloneMap, this, pkClone);
     NiPSysModifier* pkDest = static_cast<NiPSysModifier*>(pkClone);
@@ -75,7 +76,7 @@ void NiPSysModifier::ProcessClone(CloningProcess& kCloning)
 // @fnv 0x00C31650
 void NiPSysModifier::LinkObject(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     kStream.GetLoadedObject();
 }
 
@@ -87,8 +88,8 @@ struct NiPSysModifier_shell
 // @fnv 0x00c31640
 void NiPSysModifier_shell::FUN_00c31640(NiParticleSystem* pkTarget)
 {
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned int*>(this) + 4) =
-        reinterpret_cast<unsigned int>(pkTarget);
+    *reinterpret_cast<uintptr_t*>(reinterpret_cast<unsigned int*>(this) + 4) =
+        reinterpret_cast<uintptr_t>(pkTarget);
 }
 
 
@@ -199,7 +200,7 @@ __forceinline void BooleanWrite(OutputBinaryStream* stream, bool value)
 // @fnv 0x00c31950
 void ParticleModifierBinary::FUN_00c31950(OutputStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     reinterpret_cast<::FUN_00a641f0_cls *>(&(stream))->WriteObjectLink((void *)&(name));
     PrimitiveWrite(stream.m_pBackingStream, order);
     reinterpret_cast<LinkOutput*>(&stream)->SaveObject(target);
@@ -301,10 +302,6 @@ class NamedC318 : public FUN_00a5d3d0
     virtual ~NamedC318()
     {}
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        FUN_00aa1460(pvMem, uiSize);
-    }
 
     NiFixedStringC318 m_kName;
     int unk0C[3];
@@ -318,7 +315,7 @@ NamedC318* NamedC318::FUN_00c31870(unsigned int uiFlags)
 {
     this->NamedC318::~NamedC318();
     if (uiFlags & 1)
-        NamedC318::operator delete(this, sizeof(NamedC318));
+        ::operator delete(this, sizeof(NamedC318));
     return this;
 }
 

@@ -17,15 +17,7 @@ class Matrix4f
     Matrix4f();
     void InitializeIdentity();
 
-    static __forceinline void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 
-    static __forceinline void operator delete[](void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 
 

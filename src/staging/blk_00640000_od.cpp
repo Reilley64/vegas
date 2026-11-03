@@ -2,6 +2,7 @@
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -310,7 +311,7 @@ struct FUN_0064db00_class
 
 struct FUN_0064db50_class
 {
-    void FUN_0064db50(int a, int b);
+    void FUN_0064db50(int a, intptr_t b);
 };
 
 struct FUN_0064dbd0_Class
@@ -1319,7 +1320,6 @@ int CompareObjects(int aiLeft, int aiRight)
         return 0;
 }
 
-void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_00644490_Class
 {
     void FUN_00644490(char* items, unsigned int count);
@@ -1668,7 +1668,6 @@ void FUN_00658c60(int a, int b, int c)
 }
 }  // namespace fnv_00658c60
 
-void __cdecl operator delete(void* p);
 struct FUN_00658bb0_Class
 {
     void FUN_00658bb0();
@@ -1691,7 +1690,6 @@ void* FUN_00658ea0_cls::FUN_00658ea0(unsigned int flags)
     return (void*)this;
 }
 
-void __cdecl operator delete(void* p);
 struct FUN_00658ed0_Class
 {
     void FUN_00658e10();
@@ -1725,7 +1723,6 @@ struct FUN_006a68b0_Class
 {
     void FUN_006a68b0();
 };
-void __cdecl operator delete(void*);
 struct FUN_00659140_Class
 {
     void* FUN_00659140(unsigned int flags);
@@ -1816,7 +1813,6 @@ void __cdecl FUN_00659370(int a)
     ((FUN_006593b0_class*)a)->FUN_006593b0(0);
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00659380_class
 {
     void* FUN_00659380(unsigned int flags);
@@ -1923,11 +1919,11 @@ struct FUN_0065cc70_Holder
     int m_iWordAt04;
     int m_8;
     int m_C;
-    int FUN_0065cc70(unsigned int param);
+    intptr_t FUN_0065cc70(unsigned int param);
 };
 // Bounds-checks param against the holder's count, then returns the int stored at offset 0xc plus param.
 // @fnv 0x0065cc70
-int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
+intptr_t FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
 {
     if (uiIndex >= ((FUN_0065cc50_Class*)this)->FUN_0065cc50())
         std::abort();
@@ -1942,10 +1938,10 @@ struct TextureBasis
 };
 struct Holder : TextureBasis
 {
-    int FUN_0065cec0(unsigned int);
+    intptr_t FUN_0065cec0(unsigned int);
 };
 // @fnv 0x0065cec0
-int Holder::FUN_0065cec0(unsigned int auiIndex)
+intptr_t Holder::FUN_0065cec0(unsigned int auiIndex)
 {
     if (auiIndex >= ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(this)->FUN_0065cea0())))
         std::abort();
@@ -2362,7 +2358,6 @@ void* FUN_0065ec10_class::FUN_0065ec10(unsigned int flags)
 }
 }  // namespace fnv_0065ec10
 
-void __cdecl operator delete(void*);
 struct FUN_0065eca0_class
 {
     void FUN_0065edd0();
@@ -2397,7 +2392,6 @@ void* FUN_0065ecd0_class::FUN_0065ecd0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void* p);
 struct FUN_0065ed00_class
 {
     void* FUN_0065ed00(unsigned int flags);
@@ -4008,7 +4002,7 @@ class FUN_0064dcf0_cls
     void ApplyToCopy(int a1, const Vector4f* a2);
 };
 // @fnv 0x0064db50
-void FUN_0064db50_class::FUN_0064db50(int aiArg1, int aiArg2)
+void FUN_0064db50_class::FUN_0064db50(int aiArg1, intptr_t aiArg2)
 {
     reinterpret_cast<::FUN_0064dcf0_cls *>(this)->ApplyToCopy(aiArg1, (const ::Vector4f *)(aiArg2));
 }
@@ -5832,7 +5826,6 @@ struct S_0065e550_Err
     ~S_0065e550_Err();
 };
 
-void* __cdecl operator new(unsigned int size);
 
 // Clamps n to 0, throws S_0065e550_Err(0) if n * 0x34 would overflow, and returns operator new(n * 0x34).
 // @fnv 0x0065e550
@@ -6401,8 +6394,6 @@ int __cdecl FUN_0065ffe0(int a, int b, int c, int d)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_0064ec10_obj
 {
@@ -6733,7 +6724,6 @@ FUN_00657af0::~FUN_00657af0()
     reinterpret_cast<::FUN_00657e60_Class *>(this)->FUN_00657e60();
 }
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class C658CA0BadAlloc
 {

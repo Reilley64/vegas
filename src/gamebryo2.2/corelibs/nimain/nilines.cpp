@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nilines.cpp: NiLines, LinesCloneSource (8 functions)
 
+#include <cstddef>
 #include "fnv/decl/FUN_00a80610_shell.h"
 #include "fnv/decl/GeometryStub.h"
 #include "fnv/decl/S_00a80470_Owner.h"
@@ -197,7 +198,7 @@ struct __declspec(novtable) LinesCloneObject : NiLinesBaseCtor
 {
     int unkBC;
     int unkC0;
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         return NiAllocBlock(size);
     }

@@ -4,6 +4,8 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
 #include "fnv/decl/FUN_00a6d730_shell.h"
 #include "fnv/decl/FUN_00c53e40.h"
 #include "fnv/decl/NiTimeController.h"
@@ -64,10 +66,10 @@ struct NiBSBoneLODController : NiObject
 // @fnv 0x00c53ab0
 void NiBSBoneLODController::FUN_00c53ab0(NiStream& s)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     void* old = *(void**)((char*)this + 0x34);
     *(void**)((char*)this + 0x34) = (void*)0xffffffff;
-    reinterpret_cast<::Q52Obj *>(this)->FUN_00c52960((unsigned int)(old));
+    reinterpret_cast<::Q52Obj *>(this)->FUN_00c52960((uintptr_t)(old));
 }
 
 namespace fnv_00c53cd0 {
@@ -118,7 +120,6 @@ void CloneableObj::FUN_00c533f0(NiControllerManager* a, CloningProcess* b)
     a->m38 = m38;
 }
 
-void operator delete(void*, unsigned int);
 struct S_00c53e10
 {
     void* FUN_00c53e10(unsigned int);
@@ -211,10 +212,10 @@ void BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
     unsigned int j;
 
     reinterpret_cast<::FUN_00a6d730_shell *>(this)->FUN_00a6d730((*(::Stream_a6d730 *)(stream)));
-    ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (int)(&m_34field));
-    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&m_38field));
+    ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (intptr_t)(&m_34field));
+    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (intptr_t)(&m_38field));
     savedCount = groupCount;
-    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&savedCount));
+    ::FUN_0044adf0((::MiddleHighProcess *)(stream), (intptr_t)(&savedCount));
 
     for (n = 0; n < groupCount; ++n)
     {
@@ -223,7 +224,7 @@ void BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
         {
             innerCount = i->count;
             zero = innerCount;
-            ::FUN_0044adf0((::MiddleHighProcess *)(stream), (int)(&zero));
+            ::FUN_0044adf0((::MiddleHighProcess *)(stream), (intptr_t)(&zero));
             for (groupTotal = 0; groupTotal < (j = i->count); ++groupTotal)
             {
                 group = i->objects[groupTotal];
@@ -233,7 +234,7 @@ void BoneLODControllerSave::FUN_00c536d0(NiStream* stream)
         else
         {
             object = 0;
-            ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (int)(&object));
+            ::CallAnimCallback((::FUN_00a3da50_Owner *)(stream), (intptr_t)(&object));
         }
     }
 }
@@ -280,11 +281,11 @@ void ControllerObject::FUN_00c53a10(BinaryStream* stream)
         if (list != 0)
         {
             unsigned int value = 0;
-            unsigned int size;
+            uintptr_t size;
             unsigned int j;
             for (; value < (j = list->count); ++value)
             {
-                size = ((unsigned int)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
+                size = ((uintptr_t)(reinterpret_cast<::NiStream *>((stream))->GetLoadedObject()));
                 if (value >= list->count)
                 {
                 }
@@ -395,10 +396,10 @@ struct FUN_00c53c50_Padding
 
 struct FUN_00c53c50_Values
 {
-    unsigned int value3;
-    unsigned int value2;
-    unsigned int value1;
-    unsigned int value0;
+    uintptr_t value3;
+    uintptr_t value2;
+    uintptr_t value1;
+    uintptr_t value0;
 };
 
 // @fnv 0x00c53c50
@@ -408,14 +409,14 @@ void FUN_00c53c50_Class::FUN_00c53c50(NiTPrimitiveArray_unsigned_int* array)
     FUN_00c53c50_Values values;
 
     values.value3 = *(unsigned int*)&(*reinterpret_cast<::GlobalObjectO2_00a7b610 *>(&::g_012031b8));
-    values.value0 = (unsigned int)::FUN_00a7d330((const char *)(values.value3));
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value0));
+    values.value0 = (uintptr_t)::FUN_00a7d330((const char *)(values.value3));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((intptr_t)&(values.value0));
 
-    values.value1 = (unsigned int)::FUN_00a7d4d0(str_0109a394, this->unk34);
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value1));
+    values.value1 = (uintptr_t)::FUN_00a7d4d0(str_0109a394, this->unk34);
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((intptr_t)&(values.value1));
 
-    values.value2 = (unsigned int)::FUN_00a7d510(str_0109a388, this->unk38);
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(values.value2));
+    values.value2 = (uintptr_t)::FUN_00a7d510(str_0109a388, this->unk38);
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((intptr_t)&(values.value2));
 }
 
 #include "generated/data/gamebryo2.2/corelibs/nianimation/nibonelodcontroller_od_variant.inc"

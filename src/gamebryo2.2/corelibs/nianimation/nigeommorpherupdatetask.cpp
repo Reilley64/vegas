@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -34,7 +36,7 @@ struct FreeStore
 // @fnv 0x00a56f90
 NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask()
 {
-    EnterCriticalSection((void*)&DAT_011f4180);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_011f4180));
     if (DAT_011a9414 == 0)
     {
         ((FreeStore*)&DAT_011a940c)->FUN_00a56e60(DAT_011a941c);
@@ -43,7 +45,7 @@ NiGeomMorpherUpdateTask* __cdecl PopMorpherUpdateTask()
     NiGeomMorpherUpdateTask* pkTask = DAT_011a940c[0];
     DAT_011a9414--;
     DAT_011a940c[0] = DAT_011a940c[DAT_011a9414];
-    LeaveCriticalSection((void*)&DAT_011f4180);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)&DAT_011f4180));
     return pkTask;
 }
 
@@ -240,7 +242,7 @@ class NiObject_00a56d40
 
 struct FUN_00a56d40_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     NiRefObject* m_0c;
@@ -273,7 +275,7 @@ FUN_00a56d40_cls* FUN_00a56d40_cls::Destroy(unsigned char acFlags)
                 {
                     b->Unk_04();
                 }
-                p->m_vptr00 = (int)&DAT_01069674;
+                p->m_vptr00 = (intptr_t)&DAT_01069674;
                 reinterpret_cast<class ::FUN_00a5d3d0 *>((((NiObject_00a56d40*)p)))->FUN_00a5d3d0::~FUN_00a5d3d0();
             } while (--i >= 0);
         }
@@ -298,10 +300,6 @@ class A56DF0Heap
 };
 
 
-void operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A56DF0Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 
 class A56DF0Entry
 {
@@ -369,10 +367,10 @@ bool S_00a56f10::ReleaseReferences()
             b->Unk_04();
         _10 = 0;
     }
-    EnterCriticalSection(&DAT_011f4180);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4180));
     S_00a56f10* self = this;
     reinterpret_cast<::ActiveArray *>((reinterpret_cast<S_00a56f10_List*>(&DAT_011a940c)))->FindOrAdd((*(void *const *)(&self)));
-    LeaveCriticalSection(&DAT_011f4180);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f4180));
     return true;
 }
 
@@ -403,7 +401,7 @@ struct TaskBlock
         return i >= m_uiCount ? 0 : &m_pkTasks[i];
     }
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }

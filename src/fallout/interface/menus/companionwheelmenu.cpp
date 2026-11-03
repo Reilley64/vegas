@@ -768,7 +768,6 @@ class TESObjectREFR;
 struct DialogueItem
 {
     ~DialogueItem();
-    static void operator delete(void*);
 public:
     ::TESObjectREFR *SelectDefaultResponseList();
 public:

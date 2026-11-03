@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbnode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbnode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_004b6190_shell.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiOBB.h"
@@ -336,16 +337,16 @@ struct RayNodeW7
     int unk70;
     int unk74;
     int unk78;
-    int unk7c;
+    intptr_t unk7c;
     ChildTest* m_0x80;
     ChildTest* m_0x84;
     int m_0x88;
-    void ComputeWeightedCovariance(void* out, unsigned short* a1, V3* a2, int a3, int a4, int a5, int a6, int* a7);
-    void ComputeTriangleBounds(int a0, unsigned short* a1, V3* a2, int a3, int a4, int a5, int a6, int* a7);
+    void ComputeWeightedCovariance(void* out, unsigned short* a1, V3* a2, intptr_t a3, intptr_t a4, int a5, int a6, int* a7);
+    void ComputeTriangleBounds(intptr_t a0, unsigned short* a1, V3* a2, intptr_t a3, intptr_t a4, int a5, int a6, int* a7);
 };
 
 // @fnv 0x00eb94e0
-void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* apVertices, int a3, int a4, int a5,
+void RayNodeW7::ComputeTriangleBounds(intptr_t a0, unsigned short* ausIndices, V3* apVertices, intptr_t a3, intptr_t a4, int a5,
                                       int aiEndTri, int* apiTriMap)
 {
     V3& origin = center;
@@ -355,7 +356,7 @@ void RayNodeW7::ComputeTriangleBounds(int a0, unsigned short* ausIndices, V3* ap
     WorkObj work;
     LocalObj detail;
     ComputeWeightedCovariance(&work, ausIndices, apVertices, a3, a4, a5, aiEndTri, apiTriMap);
-    reinterpret_cast<::TransformRecord *>(&(work))->GetMatrix((unsigned int)(&sub), (float *)(void *)(&mat));
+    reinterpret_cast<::TransformRecord *>(&(work))->GetMatrix((uintptr_t)(&sub), (float *)(void *)(&mat));
     V3 vLower(0, 0, 0), vUpper(0, 0, 0);
     unsigned short index = (unsigned short)a5;
     if ((int)(unsigned short)index <= aiEndTri)
@@ -444,8 +445,8 @@ struct PlainPoint3
 
 // Accumulates weighted centroid and covariance over triangles a7[a5..a6], stores the centroid in center and the covariance matrix in out.
 // @fnv 0x00eb8ae0
-void RayNodeW7::ComputeWeightedCovariance(void* pCovariance, unsigned short* pIndices, V3* pVertices, int pWeights,
-                                          int pCentroids, int iStart, int iEnd, int* pTriList)
+void RayNodeW7::ComputeWeightedCovariance(void* pCovariance, unsigned short* pIndices, V3* pVertices, intptr_t pWeights,
+                                          intptr_t pCentroids, int iStart, int iEnd, int* pTriList)
 {
     V3 vSum(0.0f, 0.0f, 0.0f);
     float fTotalWeight = 0.0f;
@@ -642,10 +643,10 @@ struct OBBContext
 
 struct OBBCollisionRecord
 {
-    int m_iA;
-    int m_iB;
-    int m_iC;
-    int m_iD;
+    intptr_t m_iA;
+    intptr_t m_iB;
+    intptr_t m_iC;
+    intptr_t m_iD;
     float m_fTime;
     NiPoint3 m_kPoint;
     NiPoint3 m_kNormal0;
@@ -687,12 +688,12 @@ struct OBBLeaf
     int unk78;
     OBBShape* m_pkShape;
 
-    int FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool* pbHit);
+    int FUN_00eb9b00(OBBLeaf* pkOther, intptr_t iA, intptr_t iB, intptr_t iC, intptr_t iD, bool* pbHit);
 };
 
 // On a collision, sets pbHit, projects the contact point onto both contexts' axes, and runs swap tests.
 // @fnv 0x00eb9b00
-int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, int iA, int iB, int iC, int iD, bool* pbHit)
+int OBBLeaf::FUN_00eb9b00(OBBLeaf* pkOther, intptr_t iA, intptr_t iB, intptr_t iC, intptr_t iD, bool* pbHit)
 {
     OBBCollisionRecord kRecord;
     kRecord.m_iE = 0;
@@ -778,7 +779,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
         goto fail;
 
     if (!aiDepthA || !adDepthB)
-        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (int)(a2), (int)(a3), (int)(a4), (int)(a5), (bool *)(a10));
+        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
 
     if (Slot04())
     {
@@ -794,7 +795,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
             goto fail;
         }
         int b;
-        b = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (int)(a2), (int)(a3), (int)(a4), (int)(a5), (bool *)(a10));
+        b = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
         if (b >= 1)
             return b;
         goto fail;
@@ -807,7 +808,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
             RayTree* child = m_0x80;
             if (!child || !m_0x84)
             {
-                int result = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (int)(a2), (int)(a3), (int)(a4), (int)(a5), (bool *)(a10));
+                int result = reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
                 _ReadWriteBarrier();
                 return result;
             }
@@ -826,7 +827,7 @@ int RayTree::Intersect(RayTree* pOther, void* a2, void* a3, void* a4, void* a5, 
 
             static_cast<volatile int&>(aiDepthA) = aiDepthA - 1;
             if (!child || !m_0x84)
-                return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (int)(a2), (int)(a3), (int)(a4), (int)(a5), (bool *)(a10));
+                return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(pOther), (intptr_t)(a2), (intptr_t)(a3), (intptr_t)(a4), (intptr_t)(a5), (bool *)(a10));
             int b = child->Intersect(pOther, a2, a3, a4, a5, aiDepthA, adDepthB, aiBoundsIdA, aiBoundsIdB, a10);
             if (b >= 1)
                 return b;
@@ -928,10 +929,6 @@ struct S00eb9fa0_Node
     S00eb9fa0_Node* m_0x84;
     int m_0x88;
     virtual ~S00eb9fa0_Node();
-    static void* operator new(unsigned int s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S00eb9fa0_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
     S00eb9fa0_Node()
     {
         m_0x80 = 0;
@@ -953,7 +950,7 @@ struct S00eb9fa0_Leaf : S00eb9fa0_Node
 void S00eb9fa0_Node::BuildNode(void* a0, const unsigned short* apIndices, const V3* apVertices, const V3* a3, float* a4,
                                V3* a5, int iStart, int iEnd, int* a7, int* apOrder, int iMin)
 {
-    reinterpret_cast<::RayNodeW7 *>(this)->ComputeTriangleBounds((int)(a0), (unsigned short *)(apIndices), (::V3 *)(apVertices), (int)(a4), (int)(a5), iStart, iEnd, a7);
+    reinterpret_cast<::RayNodeW7 *>(this)->ComputeTriangleBounds((intptr_t)(a0), (unsigned short *)(apIndices), (::V3 *)(apVertices), (intptr_t)(a4), (intptr_t)(a5), iStart, iEnd, a7);
     if (iEnd - iStart < iMin)
     {
         m_0x80 = 0;

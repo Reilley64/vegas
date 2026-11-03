@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/OwnerD562.h"
 #include "fnv/decl/S_00d55950.h"
@@ -172,12 +174,6 @@ class FUN_00d49c40
 __declspec(noinline) FUN_00d49c40::FUN_00d49c40(hkFinishLoadedObjectFlagD4A1 flag) throw()
 {}
 __declspec(noinline) FUN_00d4a170::FUN_00d4a170(hkFinishLoadedObjectFlagD4A1 flag) throw()
-{}
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void operator delete(void*, void*) throw()
 {}
 struct hkpTrianglesSubpartD4A1
 {
@@ -496,7 +492,7 @@ struct StorageReferencedObject : hkBaseObject
     hkInt16 m_sReferenceCount;
     __forceinline StorageReferencedObject() : m_sReferenceCount(1)
     {}
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(std::size_t nbytes)
     {
         StorageReferencedObject* b = static_cast<StorageReferencedObject*>(
             NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));
@@ -650,7 +646,7 @@ enum hkPlacementNewArg
 {
     hkPlacementNew
 };
-inline void* operator new(unsigned int, void* p, hkPlacementNewArg)
+inline void* operator new(std::size_t, void* p, hkPlacementNewArg)
 {
     return p;
 }
@@ -766,7 +762,7 @@ struct FUN_00d4aef0
     Buffer<NamedMaterial> namedMaterials;
     Buffer<unsigned short> materialIndices16;
     FUN_00d4aef0() throw();
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         hkMemoryAllocatorD4AC& allocator = fnvc_adapt::FUN_00c85750().heap();
         FUN_00d4aef0* memory = static_cast<FUN_00d4aef0*>(allocator.AllocateMemoryBlock(bytes));

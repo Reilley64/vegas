@@ -1,6 +1,7 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -423,7 +424,7 @@ FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
 }
 
 struct FUN_00e58b10_class {
-    void FUN_00e58b10(int a, int b, int c);
+    void FUN_00e58b10(intptr_t a, intptr_t b, intptr_t c);
 };
 void FUN_00e5c540(int, int);
 // @fnv 0x00e5c5d0
@@ -3849,7 +3850,7 @@ struct E58E80Object {
     void CopyFrom(int setting);
 };
 // @fnv 0x00e58e80
-E87E0Matrix* FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
+E87E0Matrix* FUN_00e58e80(intptr_t setting, intptr_t unused, E58E80Object* object, const E87E0Matrix& right) {
     object->CopyFrom(setting);
     E87E0Matrix* matrix = reinterpret_cast<E87E0Matrix*>(object);
     matrix->FUN_00e587e0(right);
@@ -4114,7 +4115,7 @@ struct FUN_00e58a20_cls {
     void FUN_00e58a20(SampleField* volatile input, SampleField* weights, SampleField* output);
 };
 // @fnv 0x00e58b10
-void FUN_00e58b10_class::FUN_00e58b10(int a, int aiArg2, int aiArg3)
+void FUN_00e58b10_class::FUN_00e58b10(intptr_t a, intptr_t aiArg2, intptr_t aiArg3)
 {
     float v = 0.0f;
     reinterpret_cast<::FUN_00e58820_cls *>((((FUN_00e58b10_class*)a)))->FillWithValue(&v);
@@ -4309,7 +4310,6 @@ LoadedObject* LoadedObject::Initialize(LoadedFlag flag)
     return this;
 }
 
-void* operator new(size_t, void* p) { return p; }
 
 struct Actor : ActorEntry {
     __forceinline ExtendedListeners* listeners() {
@@ -4597,7 +4597,6 @@ struct CopyEntry {
     CopyEntry& operator=(const CopyEntry& other) { m_00 = other.m_00; reinterpret_cast<::Cb0StringCopy *>(&(m_04))->FUN_00cb0c30((*(const ::CB0StringPtr *)(&other.m_04))); return *this; }
     ~CopyEntry() { ::FUN_00cb0c00((int)&(m_04)); }
 };
-inline void* operator new(unsigned int, void* p) { return p; }
 struct CopyAllocator { int m_00, m_04, m_08, m_0c; void* m_10; };
 CopyAllocator* __cdecl FUN_00c85750();
 static __forceinline void destroyEntries(CopyEntry* p, int count) {
@@ -5935,7 +5934,7 @@ struct Se5b160_RefObj {
     static Se5b160_Heap& heap() { return reinterpret_cast<Se5b160_Router*>(FUN_00c85750())->heap(); }
     unsigned short m_usAllocationSize;
     unsigned short m_iObjectReferenceCount;
-    static void* operator new(unsigned int nbytes) {
+    static void* operator new(std::size_t nbytes) {
         Se5b160_RefObj* b = static_cast<Se5b160_RefObj*>(Se5b160_Router::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usAllocationSize = static_cast<unsigned short>(nbytes);
         return b;

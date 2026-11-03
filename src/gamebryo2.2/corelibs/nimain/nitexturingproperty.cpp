@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
 
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/EqBase.h"
@@ -238,7 +240,7 @@ void DestroyDynamicEffect(NiDynamicEffect* apEffect)
 
 
 // @fnv 0x00a6c680
-bool FUN_00a6c680(void* pThis, int edx, NiStream& kStream)
+bool FUN_00a6c680(void* pThis, intptr_t edx, NiStream& kStream)
 {
     if (!reinterpret_cast<::SkinGraph *>((pThis))->VisitSkinGraphLinks((*(::NiStream *)(edx))))
         return false;
@@ -316,7 +318,7 @@ NiObject* FUN_00a6c610_shell::CloneTexturingProperty(CloningProcess* pCloningPro
         reinterpret_cast<FUN_00a6bb00_holder*>(this)->CloneTo(p, pCloningProcess);
         return reinterpret_cast<NiObject*>(p);
     }
-    reinterpret_cast<::FUN_00a5d450_class *>((reinterpret_cast<NiObject*>(this)))->CreateVertexBufferSet((unsigned int)(reinterpret_cast<NiObject*>(this)), pCloningProcess);
+    reinterpret_cast<::FUN_00a5d450_class *>((reinterpret_cast<NiObject*>(this)))->CreateVertexBufferSet((uintptr_t)(reinterpret_cast<NiObject*>(this)), pCloningProcess);
     return reinterpret_cast<NiObject*>(this);
 }
 
@@ -637,7 +639,6 @@ char* BuildFilterModeString(const char* pcPrefix, unsigned int eMode)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a6ad40
@@ -790,10 +791,6 @@ struct TexMapStub
     int unk0C;
     TexMapStub(NiTexture* pkTexture, unsigned int uiIndex, int eClamp, int eFilter,
                TextureMapTransform* pkXform) throw();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 
 struct FUN_00a6abb0 : PropertyBase
@@ -1647,7 +1644,7 @@ struct StrArr
     __forceinline void Add(char*& value)
     {
         reinterpret_cast<::S_0060ba10 *>((reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(this)))->FUN_0096a610(
-            (int)&(reinterpret_cast<const unsigned int&>(value)));
+            (intptr_t)&(reinterpret_cast<const unsigned int&>(value)));
     }
 };
 
@@ -2139,7 +2136,7 @@ void S00a6a150_Tex::FUN_00a6a150(unsigned int index, NiTexturingProperty::Map* m
         }
     }
 
-    reinterpret_cast<::FUN_00a69b40_Class *>(this)->FUN_00a69b40((int)(newMap));
+    reinterpret_cast<::FUN_00a69b40_Class *>(this)->FUN_00a69b40((intptr_t)(newMap));
 }
 
 namespace fnv_00a6bb00 {
@@ -2151,11 +2148,6 @@ struct TexMap
     void* m_spTexture;
     void* m_pTextureTransform;
     TexMap(const TexMap&);
-    static void operator delete(void*, void*);
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 struct TexBumpMap : TexMap
 {
@@ -2207,10 +2199,6 @@ struct TexShaderMapArray : TexShaderMapArrayBase
     TexShaderMapArray(unsigned int maxSize = 0, unsigned int growBy = 1) : TexShaderMapArrayBase(maxSize, growBy)
     {}
     virtual ~TexShaderMapArray();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     void SetAt(unsigned int i, TexShaderMap*& value)
     {
         if (i >= m_usSize)

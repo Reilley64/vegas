@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp: NiDevImageConverter, Converter, NiDevImageConverterStandIn, ImageConverterBase and more (34 functions)
 
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -750,7 +752,7 @@ void Convert4BitPalettedTo24Bit(unsigned int width, unsigned int height, unsigne
             }
         }
     }
-    else if (fmt->mask0 == (unsigned int)&DAT_00ff0000)
+    else if (fmt->mask0 == (uintptr_t)&DAT_00ff0000)
     {
         for (unsigned int y = 0; y < height; y++)
         {
@@ -2135,10 +2137,6 @@ struct ReaderAllocator
 };
 struct ReaderStorage
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ReaderAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     int unk000;
     int unk004;
     int unk008;
@@ -3378,10 +3376,6 @@ MipPixelData* MipImageConverter::FUN_00a7ae60(const char** ppcFileNames, unsigne
     return pkDest;
 }
 
-inline void* __cdecl operator new(unsigned int, void* memory) throw()
-{
-    return memory;
-}
 
 namespace Mipmap {
 
@@ -3425,7 +3419,6 @@ struct Format
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 
 struct Image : NiMemObject
@@ -3515,7 +3508,7 @@ Image* Converter::GenerateMipmaps(Image* source, Image* destination)
 
     if (!output || !reinterpret_cast<::NiPixelFormat *>(&(output->format))->operator==((const ::NiPixelFormat &)(format)) || output->levels <= 1 || output->faces != source->faces)
     {
-        void* storage = Image::operator new(sizeof(Image));
+        void* storage = ::operator new(sizeof(Image));
         if (storage)
             output = ::new (storage) Image(source->Width(), source->Height(), format, 0, source->Faces());
         else
@@ -3719,7 +3712,7 @@ void __cdecl FUN_00a7a160(unsigned int uiWidth, unsigned int uiHeight, unsigned 
 {
     if (kSrcBits.m_uiGreenMask == 0xFF00u)
     {
-        if (kSrcBits.m_uiRedMask == (unsigned int)&DAT_00ff0000)
+        if (kSrcBits.m_uiRedMask == (uintptr_t)&DAT_00ff0000)
         {
             if (uiHeight <= 0)
                 return;
@@ -3763,7 +3756,7 @@ void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int 
     if (format->unk04 != 0xff00)
         return;
 
-    if (format->unk00 == reinterpret_cast<unsigned int>(&DAT_00ff0000))
+    if (format->unk00 == reinterpret_cast<uintptr_t>(&DAT_00ff0000))
     {
         for (unsigned int row = 0; row < height; ++row)
         {

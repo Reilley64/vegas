@@ -2,6 +2,7 @@
 // src/fallout_shared/extradatalist_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/extradatalist.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -195,7 +196,7 @@ template <class T> class MyList
 class B5Owner
 {
   public:
-    void FUN_00b5eed0(unsigned int key);
+    void FUN_00b5eed0(uintptr_t key);
     __declspec(noinline) void AddBound(const NiPointer<B5Item>& ptr);
     int unk000;
     int unk004;
@@ -324,7 +325,7 @@ class B5Owner
 };
 
 // @fnv 0x00b5eed0
-void B5Owner::FUN_00b5eed0(unsigned int key)
+void B5Owner::FUN_00b5eed0(uintptr_t key)
 {
     if (key == 0)
         return;

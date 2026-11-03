@@ -2,6 +2,8 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -94,7 +96,6 @@ unsigned char FUN_00e7cdf0_shell::FUN_00e7cdf0()
 }
 
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00e7d230_cls
 {
@@ -3040,11 +3041,11 @@ struct FUN_00e68920_cls
     unsigned int unk70;
     unsigned int unk74;
     unsigned int m_78;
-    void FUN_00e68920(int a1);
+    void FUN_00e68920(intptr_t a1);
 };
 // Copies renderer data into each surface level of m_pTex from m_78 up to unk68, skipping null or type 4/5 textures and logging failed GetSurfaceLevel calls.
 // @fnv 0x00e68920
-void FUN_00e68920_cls::FUN_00e68920(int a1)
+void FUN_00e68920_cls::FUN_00e68920(intptr_t a1)
 {
     if (m_pTex == 0)
         return;
@@ -3272,7 +3273,7 @@ void __cdecl BE7B040SizedFree(void* pvMem, unsigned int uiSize);
 
 struct BE7B040Value
 {
-    static void operator delete(void* pvMem, unsigned int uiSize)
+    static void operator delete(void* pvMem, std::size_t uiSize)
     {
         BE7B040SizedFree(pvMem, uiSize);
     }
@@ -3533,7 +3534,6 @@ class BE7BBF0Source
 class BE7BBF0Item
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BE7BBF0Item(BE7BBF0Source* pkSource, unsigned int uiIndex, void* pvContext) throw();
 
@@ -3909,12 +3909,12 @@ struct Base_e7bc90
 struct FUN_00e7bc90 : Base_e7bc90
 {
     NiArr_e7bc90 m_aiIndexedValues;
-    FUN_00e7bc90(int a, int b) throw();
+    FUN_00e7bc90(intptr_t a, intptr_t b) throw();
 };
 
 // Initializes the count to zero, constructs the array with max size 0 and grow-by 1, then calls BuildItemsFromSource with the two arguments.
 // @fnv 0x00e7bc90
-FUN_00e7bc90::FUN_00e7bc90(int a, int b) throw() : m_aiIndexedValues(0, 1)
+FUN_00e7bc90::FUN_00e7bc90(intptr_t a, intptr_t b) throw() : m_aiIndexedValues(0, 1)
 {
     m_uiCount = 0;
     reinterpret_cast<::FUN_00e7bbf0_cls *>(this)->BuildItemsFromSource((::BE7BBF0Source *)(a), (void *)(b));
@@ -4373,7 +4373,6 @@ class Ni2DBufferStub;
 class NiRefObjectStub
 {
   public:
-    static void* operator new(unsigned int uiSize);
     NiRefObjectStub() throw()
     {
         m_uiRefCount = 0;
@@ -4888,10 +4887,6 @@ void __cdecl FUN_00aa1490(void* pvMem, unsigned int uiAlignment);
 class BE7F610Object
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::BE7F610Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class BE7F610Worker : public BE7F610Object
@@ -4947,7 +4942,7 @@ void __cdecl DestroyGlobalQueues()
 
 
 // @fnv 0x00e7f7c0
-int __cdecl FUN_00e7f7c0()
+intptr_t __cdecl FUN_00e7f7c0()
 {
     return DAT_0126f728;
 }
@@ -5073,7 +5068,6 @@ struct E74Geometry
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 struct E74ShaderPtr
 {
@@ -5114,7 +5108,7 @@ inline E74Node* E74NewNode()
 {
     E74Node* pkNode = (E74Node*)DAT_0126f0ec;
     if (!pkNode)
-        return (E74Node*)BSFaceGenMorphData::operator new(sizeof(E74Node));
+        return (E74Node*)::operator new(sizeof(E74Node));
     DAT_0126f0ec = (int)pkNode->m_pkNext;
     pkNode->m_pkNext = 0;
     return pkNode;
@@ -6337,11 +6331,6 @@ class CE7C500Heap
 class CE7C500PixelFormat
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CE7C500Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     CE7C500PixelFormat() throw();
 
@@ -6367,7 +6356,7 @@ class CE7C500PixelFormat
 
 // Allocates a CE7C500PixelFormat, converts the given format into it, and returns the new object.
 // @fnv 0x00e7c500
-CE7C500PixelFormat* __cdecl CreatePixelFormat(int eFormat)
+CE7C500PixelFormat* __cdecl CreatePixelFormat(intptr_t eFormat)
 {
     CE7C500PixelFormat* pkFormat = new CE7C500PixelFormat;
     ::GetPixelTemplateForFormat(eFormat, (*(::PixelTemplate *)(pkFormat)));
@@ -6404,7 +6393,7 @@ class AdditionalDepthData : public NiDX92DBufferDataStub
 extern char DAT_010ef028;
 // Creates AdditionalDepthData, acquires a depth surface from the device, queries its description, and creates or reuses the Ni2DBufferStub.
 // @fnv 0x00e7d390
-AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, int, int,
+AdditionalDepthData* __cdecl CreateDepthBufferData(AdditionalDepthDevice* device, void* surfaceSource, intptr_t, int,
                                                    Ni2DBufferStub** buffer)
 {
     AdditionalDepthData* result = new AdditionalDepthData;
@@ -6598,10 +6587,6 @@ struct IndexSource
     int unk18;
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 inline bool isTri(int t)
 {
     switch (t)
@@ -7856,7 +7841,6 @@ __forceinline ModeItem404* const& GetNext(ListNode*& pos)
 struct FUN_00e7b260 : ModeItem404
 {
 
-    static void* operator new(unsigned int size) throw();
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
@@ -9115,11 +9099,11 @@ class DepthStencilSearch
     int unk00;
     int unk04;
     SearchIndex m_08;
-    int FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
+    intptr_t FindBestFullscreenFormat(unsigned int p1, int p2, int p3);
 };
 // Returns the DAT_011bf140 value of the enabled fullscreen entry whose two values from FUN_00e7a8b0 are closest to p2 and p3, or 0.
 // @fnv 0x00e7ade0
-int DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
+intptr_t DepthStencilSearch::FindBestFullscreenFormat(unsigned int p1, int aiDepth, int aiStencil)
 {
     NiDX9RenderTargetInfo* pRenderTargetInfo = 0;
     int result = 0;
@@ -9243,10 +9227,6 @@ class FUN_00e7a5e0_Object
 
     void* m_pResource;
 
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 
     FUN_00e7a5e0_Object* FUN_00e7a5e0(unsigned int uiFlags);
 };
@@ -9257,7 +9237,7 @@ FUN_00e7a5e0_Object* FUN_00e7a5e0_Object::FUN_00e7a5e0(unsigned int uiFlags)
 {
     this->FUN_00e7a5e0_Object::~FUN_00e7a5e0_Object();
     if (uiFlags & 1)
-        FUN_00e7a5e0_Object::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 
@@ -9991,10 +9971,6 @@ struct DisplayModeInfo
     {
         list.AddHead(d.refresh);
         unk08 = FUN_00e7acb0(d.format);
-    }
-    void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
     }
 };
 
@@ -10895,10 +10871,6 @@ struct RTInfoZ : NiDX9RenderTargetInfo
         unsigned int* puiData = reinterpret_cast<unsigned int*>(this);
         for (unsigned int n = 0; n < sizeof(*this) / sizeof(unsigned int); n++)
             puiData[n] = 0;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
     }
 };
 

@@ -83,7 +83,6 @@ void AILinearTaskThread::StartTaskThread()
     (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->BuildCompiledFileList();
 }
 
-void __cdecl operator delete(void*);
 struct FUN_008c7830
 {
     FUN_008c7830* FUN_008c7830_(unsigned int aiFlags);

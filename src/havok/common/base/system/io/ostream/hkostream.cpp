@@ -354,7 +354,7 @@ hkStreamCC06* hkStreamCC06::DestroyStream(unsigned int uiFlags) throw()
 {
     this->hkStreamCC06::~hkStreamCC06();
     if (uiFlags & 1)
-        hkStreamCC06::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 }  // namespace fnv_00cc0690

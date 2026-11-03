@@ -1237,7 +1237,6 @@ float __cdecl ComputeObjectAngleDelta(NiPoint3 apObjectLoc, NiPoint3 apPlayerLoc
 }
 }  // namespace fnv_00778b80
 
-void* __cdecl operator new(unsigned int);
 extern int DAT_011d96ac;
 
 class ActorTaskManager
@@ -3846,8 +3845,6 @@ struct CamObj
     int unk10C;
     int unk110;
     CamObj();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 struct FovSource
 {

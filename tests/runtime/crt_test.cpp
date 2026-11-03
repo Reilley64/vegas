@@ -2,6 +2,8 @@
 #include "runtime/crt.h"
 
 #include <cerrno>
+#include <chrono>
+#include <cstdint>
 #include <cstring>
 #include <filesystem>
 #include <stdexcept>
@@ -182,7 +184,24 @@ void Files(Checks& checks)
     checks.Equal("fopen_s file", true, file != nullptr);
     std::fclose(file);
     checks.Equal("access existing", 0, fnv::crt::access(path.string().c_str(), 0));
+
+    file = std::fopen(path.string().c_str(), "w");
+    std::fputs("twelve bytes", file);
+    std::fclose(file);
+    // 2010-10-19 00:00:00 UTC, the original release's date.
+    std::chrono::sys_seconds released{std::chrono::seconds(1287446400)};
+#if defined(_LIBCPP_VERSION) // libc++ has no clock_cast yet
+    std::filesystem::last_write_time(path, std::chrono::file_clock::from_sys(released));
+#else
+    std::filesystem::last_write_time(path, std::chrono::clock_cast<std::chrono::file_clock>(released));
+#endif
+    fnv::crt::FileStatus status{};
+    checks.Equal("stat existing", 0, fnv::crt::stat(path.string().c_str(), &status));
+    checks.Equal("stat size", std::uint64_t{12}, status.size);
+    checks.Equal("stat modified", std::int64_t{1287446400}, status.modified);
+
     std::filesystem::remove(path);
+    checks.Equal("stat missing", -1, fnv::crt::stat(path.string().c_str(), &status));
     checks.Equal("access missing", -1, fnv::crt::access(path.string().c_str(), 0));
     checks.Equal("fopen_s missing", ENOENT, fnv::crt::fopen_s(&file, path.string().c_str(), "r"));
     checks.Equal("fopen_s missing file", true, file == nullptr);

@@ -3566,14 +3566,6 @@ struct AF1d80
     {
         reinterpret_cast<::FUN_00af1d80_cls *>(this)->UpdateAndReleaseTarget();
     }
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 
     __forceinline int SamplesPerSec()
     {
@@ -3942,10 +3934,6 @@ struct FUN_00ae93f0 : FUN_00ae9360_Base
 struct AudioCleanupHelper
 {
     __forceinline ~AudioCleanupHelper();
-    __forceinline static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct AudioStreamStorage
 {
@@ -4985,14 +4973,6 @@ struct MemoryManagerAllocator
 {
 };
 
-inline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-}
 
 
 inline void CopyChars(unsigned short* destination, const unsigned short* source, unsigned int size)

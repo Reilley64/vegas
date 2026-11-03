@@ -150,8 +150,6 @@ class GlobalObject_00633c90
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class BSTextureSet : public NiMemObject
 {

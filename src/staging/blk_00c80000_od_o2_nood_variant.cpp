@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstddef>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/A50Cls.h"
@@ -1805,7 +1806,7 @@ struct FUN_00c88380
     void* object;
     int unk0c;
 
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00aa13e0(n);
     }
@@ -2303,14 +2304,6 @@ extern float DAT_011b0f88, DAT_011b0f8c;
 struct PhysicsMotion
 {
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void* operator new[](unsigned int, void* p)
-{
-    return p;
-}
 struct PlainKey
 {
     float time, value, tangent;

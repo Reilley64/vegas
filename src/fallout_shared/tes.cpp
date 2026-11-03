@@ -4779,11 +4779,6 @@ void FUN_00454fc0_shell::CompactQueuedCells()
 
 struct A51BF0Base
 {
-    static void* operator new(unsigned int size)
-    {
-        return ::FUN_00401000(size);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 struct NiAVObject : A51BF0Base
@@ -4954,7 +4949,6 @@ void FUN_00458e20_shell::FUN_00458e20(NiAVObject* apObject, float afTime)
     }
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct G2
 {

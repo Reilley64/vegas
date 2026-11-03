@@ -16,6 +16,7 @@
 #include <math.h>
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/symbols_00ce2000.h"
+#include <cstddef>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00ca8860_cls.h"
@@ -442,7 +443,7 @@ class hkaSkeletonR : public hkReferencedObjectR
 class hkaRagdollInstanceR : public hkReferencedObjectR
 {
   public:
-    __forceinline void* operator new(hk_size_tR uiBytes)
+    __forceinline void* operator new(std::size_t uiBytes)
     {
         hkReferencedObjectR* b =
             static_cast<hkReferencedObjectR*>(GetMemoryRouterR().heap().AllocateMemoryBlock(uiBytes));

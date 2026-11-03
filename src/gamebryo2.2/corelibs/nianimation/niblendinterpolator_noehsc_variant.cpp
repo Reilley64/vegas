@@ -24,10 +24,6 @@ class MemoryManagerAllocHelper
   public:
 };
 
-void* operator new[](size_t size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
 
 struct CloneInterpItem
 {
@@ -105,14 +101,6 @@ class FUN_00a370a0 : public NiBlendInterpolator__InterpArrayItem
 {
   public:
     __declspec(nothrow) FUN_00a370a0();
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class NiBlendInterpolatorW : public NiBlendInterpolator
@@ -159,10 +147,6 @@ struct FUN_00a370a0
     __declspec(nothrow) FUN_00a370a0();
     ~FUN_00a370a0()
     {}
-    static void* operator new[](unsigned int n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a37980::Memory100 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 
 typedef struct FUN_00a370a0 Item100;

@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <windows.h>
 #include <cmath>
 #include <cstring>
@@ -164,7 +165,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a316a0_shell
 {
@@ -1381,16 +1381,16 @@ struct SeqFixedString
 {
     char* m_kHandle;
 
-    SeqFixedString() : m_kHandle((char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    SeqFixedString() : m_kHandle((char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
     {}
     SeqFixedString& operator=(const SeqFixedString& kString)
     {
         if (m_kHandle != kString.m_kHandle)
         {
             char* kHandle = kString.m_kHandle;
-            if (kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedIncrement((long volatile*)(kHandle - 8));
-            if (m_kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (m_kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedDecrement((long volatile*)(m_kHandle - 8));
             m_kHandle = kHandle;
         }
@@ -1421,10 +1421,6 @@ struct SeqInterpItem
 
     SeqInterpItem();
     ~SeqInterpItem();
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct SeqTag
@@ -1437,10 +1433,6 @@ struct SeqTag
 
     SeqTag();
     ~SeqTag();
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct SeqRefObj
@@ -1511,7 +1503,7 @@ ControllerSequence::ControllerSequence(const SeqFixedString& kName, unsigned int
     m_fEndTime = fInvalid;
     m_fDestinationFrame = fInvalid;
     m_pkTimeSyncSequence = 0;
-    m_kAccumulationRootName.m_kHandle = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+    m_kAccumulationRootName.m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
     m_pkAccumulationRoot = 0;
     m_spStringPalette = 0;
     m_sCurAnimNIdx = -1;

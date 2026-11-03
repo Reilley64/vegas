@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicullingproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -23,7 +24,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a8fce0_shell
@@ -34,11 +34,11 @@ struct FUN_00a8fce0_shell
 // @fnv 0x00a8fd80
 void __cdecl FUN_00a8fd80()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         FUN_00a8fce0_shell* pFadeNode = reinterpret_cast<FUN_00a8fce0_shell*>(p);
-        DAT_011f5e40 = (int)((void *)(reinterpret_cast<::NiSingleShaderMaterialLibrary *>((pFadeNode))->FUN_00a8fce0()));
+        DAT_011f5e40 = (intptr_t)((void *)(reinterpret_cast<::NiSingleShaderMaterialLibrary *>((pFadeNode))->FUN_00a8fce0()));
     }
     else
     {
@@ -73,7 +73,7 @@ struct NiCullingProperty : NiProperty
 // @fnv 0x00a8f530
 NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
 {
-    NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
+    NiCullingProperty* p = static_cast<NiCullingProperty*>(::operator new(0x1c));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
@@ -120,7 +120,7 @@ void NiCullingProperty::FUN_00a8f650(NiStream& stream)
 }
 }  // namespace fnv_00a8f650
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern int DAT_0109f68c;
 
 struct NiPropertyMem;
@@ -337,15 +337,11 @@ void BA8F690Property::GetViewerStrings(BA8F690StringArray* pkStrings)
 }
 
 extern int DAT_0109f68c;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a NiProperty, clears the low bit of the 0x18 field, sets the vtable to DAT_0109f68c, and returns it.
 // @fnv 0x00a8f580
 NiProperty* __cdecl CreateProperty()
 {
-    NiProperty* pProperty = (NiProperty*)BSFadeNode::operator new(0x1c);
+    NiProperty* pProperty = (NiProperty*)::operator new(0x1c);
     if (pProperty)
     {
         new (pProperty) NiProperty();

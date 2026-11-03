@@ -245,8 +245,6 @@ typedef FaceGenMatrix<float> FaceGenCoord;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiObject : public NiMemObject
 {

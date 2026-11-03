@@ -2662,7 +2662,7 @@ class MiddleHighProcess
 
 
 // @fnv 0x0044adf0
-void __cdecl FUN_0044adf0(MiddleHighProcess* pProcess, int a2)
+void __cdecl FUN_0044adf0(MiddleHighProcess* pProcess, intptr_t a2)
 {
     ::CallWithScaledArg((::FUN_0044e120_Cls *)(::NiAVObject *)(pProcess->GetAnimationObject()), a2, 1);
 }
@@ -3866,7 +3866,6 @@ PairStandIn ModelLoaderStandIn::FUN_0044a1a0(int aiFirstA, int aiFirstB, int aiS
 }
 
 namespace fnv_0043abf0 {
-void* __cdecl operator new(unsigned int);
 
 struct GO
 {
@@ -3904,7 +3903,6 @@ FUN_0043abf0::FUN_0043abf0(const char* apStr, void* apPtr) : m_ptr(0)
 }  // namespace fnv_0043abf0
 
 namespace fnv_0043baf0 {
-void* __cdecl operator new(unsigned int);
 struct FUN_0043baf0;
 struct ModelLoaderStandIn
 {
@@ -4395,7 +4393,6 @@ FUN_00441f80::FUN_00441f80(int a, int b, int c) : QueuedFileLoadBase(a, b, c), m
 
 extern int DAT_01016e50;
 
-void* __cdecl operator new(unsigned int);
 
 template <typename T> struct LockFreeQueue
 {
@@ -4981,7 +4978,6 @@ void FUN_00444fe0_shell::FUN_00444fe0(TESNPC* apNPC, void* aspQueuedHead, int ae
     reinterpret_cast<::NP_0092c820 *>((((QHeadPtrDest*)aspQueuedHead)))->FUN_0092c820((const ::NP_0092c820 &)(spqueuedHead));
 }
 
-void* __cdecl operator new(unsigned int);
 struct QIdle
 {
     QIdle(void*, int, void*, void*);
@@ -5115,7 +5111,6 @@ struct FUN_00447850_shell : public ModelLoader
     void* FUN_00447850(void*, void*);
 };
 
-void* __cdecl operator new(unsigned int);
 struct StrList
 {
     StrList();
@@ -8527,8 +8522,6 @@ struct FUN_00c3cff0_t
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_0043baf0 : BSFadeNode
 {
@@ -12226,31 +12219,26 @@ struct TaskA
 {
     char d[72];
     TaskA(int);
-    void* operator new(unsigned int);
 };
 struct TaskB
 {
     char d[64];
     TaskB(Ref*, int);
-    void* operator new(unsigned int);
 };
 struct TaskC
 {
     char d[72];
     TaskC(Ref*, int);
-    void* operator new(unsigned int);
 };
 struct TaskD
 {
     char d[64];
     TaskD(Ref*, int);
-    void* operator new(unsigned int);
 };
 struct TaskE
 {
     char d[64];
     TaskE(Ref*, int);
-    void* operator new(unsigned int);
 };
 
 int FUN_0040fc90();
@@ -12366,11 +12354,11 @@ class FUN_00445370_cls
     int m_24;
     int m_28;
     unsigned char m_2c;
-    void FUN_00445370(unsigned int a1, bool flag);
+    void FUN_00445370(uintptr_t a1, bool flag);
 };
 
 // @fnv 0x00445370
-void FUN_00445370_cls::FUN_00445370(unsigned int a1, bool flag)
+void FUN_00445370_cls::FUN_00445370(uintptr_t a1, bool flag)
 {
     TargetObj* p = 0;
     if (this->m_04->v08(a1, &p))
@@ -13704,8 +13692,6 @@ class NiSortAdjustNode : public NiMemObject
 {
   public:
     NiSortAdjustNode(int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     int m_00;
     int m_04;
     int m_08;
@@ -16855,7 +16841,6 @@ struct TaskHandle
     MeshTask* operator->() const;
 };
 int FUN_00406d50(char*, unsigned int, const char*);
-void* operator new(unsigned int);
 struct MeshLoader
 {
     void LoadMesh(MeshSource*, int, void*, int);
@@ -19099,7 +19084,6 @@ class TextureNodeInfo
 {
   public:
 };
-void* __cdecl operator new(unsigned int);
 class TextureLoader
 {
   public:
@@ -19507,7 +19491,6 @@ class FUN_0043d540 : public QIdle
 {
   public:
     FUN_0043d540(int a, int b, int c);
-    void* operator new(unsigned int);
     unsigned int unk[15];
 };
 class OwnerX

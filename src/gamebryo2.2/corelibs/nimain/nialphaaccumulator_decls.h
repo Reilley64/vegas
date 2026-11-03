@@ -3,13 +3,14 @@
 #define FNV_NIALPHAACCUMULATOR_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/symbols_010a2000.h"
 struct ItemListNode;
 
 class NiAccumulator
 {
   public:
-    unsigned int m_layout0;
+    uintptr_t m_layout0;
     unsigned int m_layout4;
     void* m_pkAccumulationCamera;
 };

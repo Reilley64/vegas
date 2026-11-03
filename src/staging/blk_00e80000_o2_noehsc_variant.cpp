@@ -5,6 +5,7 @@
 
 // src/staging/blk_00e80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E895A0_Object.h"
@@ -101,7 +102,6 @@ struct FUN_00e891f0_Class
 {
     void FUN_00e891f0();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010efc34;
 struct FUN_00e8aa40_Class
 {
@@ -131,7 +131,6 @@ struct FUN_00e97790_Class
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern "C" void __cdecl NiFreeAlias(void*);
 struct FUN_00e98640_Class
@@ -253,7 +252,6 @@ struct FUN_00e941d0_This
     int pad[11];
     FUN_00e941d0_Node* head;
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e98610_Node
 {
     void* m_next;
@@ -396,7 +394,6 @@ struct FUN_00e8ce70_Class : NiTMapBaseStub
 
     void* FUN_00e8ce70(int flag);
 };
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class
 {
     void* FUN_00e8d200(bool flag);
@@ -560,7 +557,6 @@ struct FUN_00e96c90_Class
 
     void FUN_00e96c90();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010f1550;
 struct FUN_00e97870_Class
 {
@@ -570,7 +566,6 @@ struct FUN_00e97870_Class
 extern unsigned int DAT_011c1118;
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 void AllocateNodeList();
 struct FUN_00e98b10_Class
@@ -8588,7 +8583,6 @@ struct FUN_00e940a0_Class
     void* m_00;
     void ReleaseGlobalSlot();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e94150_Node
 {
     int m_00;
@@ -8921,10 +8915,6 @@ struct E94B0Block
             m_pkEntryArray = 0;
     }
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::E94B0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 
     E94B0Entry* GetAt(unsigned int uiIndex)
     {
@@ -9241,10 +9231,6 @@ struct SNAEntryElem
     ~SNAEntryElem()
     {}
 
-    static void* operator new[](unsigned int size) throw()
-    {
-        return FUN_00aa1420(size);
-    }
 };
 
 // @fnv 0x00e89460

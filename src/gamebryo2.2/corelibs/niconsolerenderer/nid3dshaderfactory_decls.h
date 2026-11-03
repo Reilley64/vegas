@@ -33,7 +33,6 @@ class NiD3DShaderFactory : public NiShaderFactory
 class NiMemObject
 {
   public:
-    static void* __cdecl operator new(unsigned int);
 };
 class NiD3DDefaultShader
 {

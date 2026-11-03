@@ -824,7 +824,6 @@ struct FUN_00d078e0_cls
 
 
     FUN_00d078e0_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // @fnv 0x00d078e0

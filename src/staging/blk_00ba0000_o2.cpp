@@ -1,5 +1,6 @@
 // staging/blk_00ba0000_o2.cpp: GeomList_S, Owner, BSFogProperty, FnvOdbObject and more (245 functions)
 
+#include <cstddef>
 #include <windows.h>
 // src/staging/blk_00ba0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -271,8 +272,6 @@ void* FUN_00ba4920_Class::FUN_00ba4920(int a)
 }  // namespace fnv_00ba4920
 
 void __cdecl FUN_00ba7df0();
-void __cdecl operator delete(void*);
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00ba8270_Class
 {
@@ -360,7 +359,6 @@ struct FUN_00bae780_Class
     char FUN_00bae780(NiAVObject* obj);
 };
 void __cdecl FUN_00bb0de0();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bb0ea0_Class
 {
@@ -378,7 +376,6 @@ void* FUN_00bb0ea0_Class::FUN_00bb0ea0(bool abDelete)
 }
 
 namespace fnv_00bb3140 {
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bb3140_Class
 {
     int m_vtbl;
@@ -486,7 +483,6 @@ void* FUN_00bb3710_Class::FUN_00bb3710(void* apValue, short asValue)
 }
 
 void __cdecl FUN_00bb35b0();
-void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00bb38e0_Class
 {
@@ -554,7 +550,6 @@ void* FUN_00bb4650_Class::FUN_00bb4650(unsigned char flags)
 }
 
 void __cdecl FUN_00bb7d70();
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00bb7f60_Class
 {
     void FUN_00bb7d70();
@@ -906,7 +901,6 @@ struct FUN_00bb7170_Class
 {
     char m0[0x68];
     FUN_00bb7170_Class();
-    static void* operator new(unsigned int);
 };
 struct FUN_00bb7300_Class
 {
@@ -1111,7 +1105,6 @@ void FUN_00bb3cb0_Class::FUN_00bb3cb0(const void* apData, unsigned int b)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00bb3ba0 : A51BF0Base
@@ -2341,7 +2334,7 @@ void ParticleShader::CompileParticleShaders()
     pixelProgram = ((::ShaderProgram *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(sourcePath), &pixel.options, (char *)(profile), (char *)(binaryPath))));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct Obj_b10008
 {
@@ -2429,10 +2422,6 @@ struct Obj_b10008
     int unk144;
     int unk148;
     Obj_b10008();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00ba82a0_cls
@@ -2766,17 +2755,13 @@ class FUN_00ba8560_cls
     void DispatchRefOp(ImgRef* p);
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedObject
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10, unk14, unk18, unk1C;
     unsigned int unk20, unk24, unk28, unk2C, unk30, unk34;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject();
 };
@@ -2986,14 +2971,8 @@ struct FUN_00ba94b0
 
     FUN_00ba94b0(unsigned int a);
 
-    static void* __cdecl operator new(unsigned int size);
 };
 
-void* FUN_00ba94b0::operator new(unsigned int size)
-{
-    MemoryManagerAllocator* pAllocator = (MemoryManagerAllocator*)&g_memoryManager;
-    return reinterpret_cast<::MemoryManagerStandIn *>((pAllocator))->FUN_00aa3e40(size);
-}
 
 struct FUN_00ba96d0Owner
 {
@@ -3123,14 +3102,6 @@ class BA97B0Child
 
     BA97B0Child(unsigned int uiValue);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(BA97B0GetHeap()))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 class BA97B0Owner
@@ -3178,10 +3149,6 @@ struct SpawnedObject_b7307
 {
     char m0[0x14];
     SpawnedObject_b7307(int a);
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<NiMemoryManager*>(&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 
 struct FUN_00ba9820_cls
@@ -4111,7 +4078,6 @@ void FUN_00baec80_cls::FUN_00baec80(int value)
 struct SpawnedObject90
 {
     SpawnedObject90();
-    static void* operator new(unsigned int size);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -4150,7 +4116,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+
 
 struct SpawnFactory
 {
@@ -4169,7 +4135,6 @@ namespace fnv_00baee40 {
 struct SpawnedObject90
 {
     SpawnedObject90();
-    static void* operator new(unsigned int size);
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -4208,7 +4173,7 @@ struct SpawnedObject90
     unsigned int unk8C;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int aiSize);
+
 
 // Allocates and constructs a SpawnedObject90, returning the new object.
 // @fnv 0x00baee40
@@ -4838,8 +4803,6 @@ struct MatProp
     unsigned int m_rev;
     int unk48;
     MatProp();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     void SetAmb(const NiColor& c)
     {
         m_amb = c;
@@ -5291,7 +5254,7 @@ ShaderRenderCommand* ShaderRenderState::FUN_00bb0fc0(void* data, unsigned int ve
 
 namespace fnv_00bb1080 {
 extern "C" char DAT_010b9008[];
-extern "C" void* FUN_00aa13e0(unsigned int);
+
 struct FUN_00bb1080_tls
 {
     unsigned int unk0000;
@@ -5537,10 +5500,6 @@ class SpawnedObject
         m_98 = 1;
         m_9c = 0;
         m_1c = 0x12;
-    }
-    void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
     }
 };
 
@@ -6339,7 +6298,7 @@ GlobalObjectO2_00bb3130* __cdecl FUN_00bb3130()
     return &(*reinterpret_cast<::GlobalObjectO2_00bb3130 *>(&::g_01200788));
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct BaseObj_b9933
 {
@@ -6418,10 +6377,6 @@ struct Obj_b9933 : public BaseObj_b9933
     {
         m_58 = 4;
         m_1c = 0xa;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
     }
 };
 
@@ -6589,11 +6544,6 @@ void* FUN_00bb3210_cls::FUN_00bb3210()
     return m_104;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
-__forceinline void* __cdecl operator new(unsigned int size)
-{
-    return FUN_00aa13e0(size);
-}
 struct ImageSpaceTextureDescriptor
 {
     unsigned int format;
@@ -7909,7 +7859,7 @@ void* FUN_00bb45c0()
     return &(*reinterpret_cast<int *>(&::g_012007b0));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class ObjectBase_b9105
 {
@@ -7929,10 +7879,6 @@ class ObjectDerived_b9105 : public ObjectBase_b9105
     virtual void v00();
     int m100;
     int m104;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // Allocates and constructs a new ObjectDerived_b9105 via its custom operator new and returns it.
@@ -7942,7 +7888,7 @@ ObjectDerived_b9105* CreateObjectDerived()
     return new ObjectDerived_b9105();
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct ThreadState
 {
@@ -8213,10 +8159,6 @@ struct Obj_b9974 : public BaseObj_b9974
     virtual void v00();
     int m100;
     int m104;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00bb4680_cls
@@ -8524,15 +8466,11 @@ void* FUN_00bb7200()
     return &(*reinterpret_cast<int *>(&::g_012007c8));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00bb7170_Node
 {
     FUN_00bb7170_Node();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     int unk00;
     int unk04;
     int unk08;
@@ -8627,11 +8565,11 @@ S_00bb7370_Obj* S_00bb7370_Obj::FUN_00bb7370(unsigned int flags)
 }
 }  // namespace fnv_00bb7370
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 class FUN_00bb7c30_Class
 {
   public:
-    static void* operator new(unsigned int)
+    static void* operator new(std::size_t)
     {
         return FUN_00aa13e0(0xb0);
     }
@@ -8792,7 +8730,7 @@ void ShaderPassParameters::AppendShaderParameters(StrArr* array)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 void __cdecl FUN_00aa1460(void*, unsigned int);
 
 struct FogProp_bb8280
@@ -8800,14 +8738,6 @@ struct FogProp_bb8280
     int unk[25];
     FogProp_bb8280();
     FogProp_bb8280* Clone(void* pCloning);
-    static void* __cdecl operator new(unsigned int s)
-    {
-        return FUN_00aa13e0(s);
-    }
-    static void __cdecl operator delete(void* p, unsigned int s)
-    {
-        FUN_00aa1460(p, s);
-    }
 };
 
 // @fnv 0x00bb8280
@@ -8887,10 +8817,6 @@ class TextureOwned
 {
   public:
     ~TextureOwned();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct EffectArray
 {
@@ -9200,15 +9126,7 @@ FUN_00ba02f0::FUN_00ba02f0()
     m_pReferencedObject = 0;
 }
 
-inline void* __cdecl operator new[](unsigned int uiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocator*)&g_memoryManager)))->FUN_00aa3e40(uiSize);
-}
 
-inline void __cdecl operator delete[](void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-}
 
 class ISKernelEffect
 {
@@ -9287,14 +9205,6 @@ struct S_00ba63e0_Elem
     int unk14;
     int unk18;
     S_00ba63e0_Elem();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ba63e0::S_00ba63e0_MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        (*reinterpret_cast<::fnv_00ba63e0::S_00ba63e0_MM *>(&::g_memoryManager)).Deallocate(p);
-    }
 };
 struct S_00ba63e0_ArrBase
 {
@@ -9586,12 +9496,6 @@ struct NewObj
     unsigned int unk0C;
     unsigned int unk10;
     NewObj(int a1);
-    static void* operator new(unsigned int sz) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ba9660::PoolHolder *>(&::g_memoryManager))))->FUN_00aa3e40(sz);
-    }
-    static void operator delete(void* p) throw()
-    {}
 };
 
 struct FUN_00ba9660_cls
@@ -9958,8 +9862,6 @@ FUN_00baec90::~FUN_00baec90()
 
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00b6abb0 : NiMemObjectAllocation
 {
@@ -10320,13 +10222,9 @@ struct FUN_00c05880 : NiMemObjectAllocation
     int unk100;
     int unk104;
 };
-inline void* operator new(unsigned int, int bytes)
+inline void* operator new(std::size_t, int bytes)
 {
-    return NiMemObjectAllocation::operator new(bytes);
-}
-inline void operator delete(void* p, int bytes)
-{
-    NiMemObjectAllocation::operator delete(p, bytes);
+    return ::operator new(bytes);
 }
 struct FactorySelector
 {
@@ -11703,8 +11601,6 @@ class B30B0Pass
     B30B0Pass(void* pvState);
     virtual ~B30B0Pass();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -11886,7 +11782,6 @@ class CBB3B10RefObject
         InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize);
 
     unsigned int m_uiRefCount;
 
@@ -11914,7 +11809,7 @@ CBB3B10Object* CBB3B10Object::DestroyObject(unsigned int uiFlags)
 {
     this->CBB3B10Object::~CBB3B10Object();
     if (uiFlags & 1)
-        CBB3B10Object::operator delete(this, sizeof(CBB3B10Object));
+        ::operator delete(this, sizeof(CBB3B10Object));
     return this;
 }
 
@@ -12046,7 +11941,6 @@ void FUN_00bb3d80_cls::FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int size);
 };
 
 namespace nsbb {
@@ -12243,14 +12137,6 @@ struct BB5DD0Obj
     int unk08;
     int unk0C;
     BB5DD0Obj(BB5DD0Ref* pRef, int iType, ...);
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<BB5DD0Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 struct BB5DD0Owner
@@ -13714,14 +13600,6 @@ struct S00ba1770_Param : EffectParam
     int unk80;
     int unk84;
     S00ba1770_Param();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<S00ba1770_Heap&>(g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct S00ba1770_Tex
@@ -16607,10 +16485,6 @@ struct PoolElement20
     int unk14;
     int unk18;
     int unk1c;
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00bb7170::PoolHeap *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct FUN_00bb7170 : BaseShim
@@ -16661,11 +16535,6 @@ struct ImageSpaceEffectParam
 struct ImageSpaceShaderParam : ImageSpaceEffectParam
 {
     ImageSpaceShaderParam();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GameHeap *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p);
 
     int unk00;
     int unk04;
@@ -18517,10 +18386,6 @@ struct ISTexture
 {
     int unk00;
     ~ISTexture();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct ISEffectParam

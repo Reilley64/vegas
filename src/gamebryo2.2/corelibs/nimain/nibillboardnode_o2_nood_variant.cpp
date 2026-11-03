@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include "fnv/symbols_011f4000.h"
+#include "fnv/symbols_00aa1000.h"
 class NiRTTI;
 class NiBillboardNode
 {
@@ -11,7 +12,7 @@ class NiBillboardNode
     virtual const NiRTTI* GetRTTI() const;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 class FUN_00a5ecb0
 {
   public:
@@ -70,10 +71,6 @@ class BillboardNode : public FUN_00a5ecb0
     BillboardNode() throw() : FUN_00a5ecb0(0), angle(0.0f)
     {
         mode = 9;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
     }
 };
 // @fnv 0x00a7e770

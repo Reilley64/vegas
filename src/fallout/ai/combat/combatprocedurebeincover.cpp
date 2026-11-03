@@ -127,7 +127,6 @@ unsigned int FUN_009d2510_shell::FUN_009d2510()
     return 7;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009d2520_shell
 {

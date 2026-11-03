@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c281f0
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -106,16 +107,15 @@ void* NiPSysSphericalCollider::FUN_00c28200(unsigned int flags)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct Collider : BSFadeNode
 {
-    Collider* FUN_00c28110(float, int, int, int, int, float);
+    Collider* FUN_00c28110(float, int, int, intptr_t, intptr_t, float);
 };
 // @fnv 0x00c282a0
 Collider* CreateCollider()
 {
-    Collider* p = (Collider*)BSFadeNode::operator new(0xb0);
+    Collider* p = (Collider*)::operator new(0xb0);
     if (p)
         return p->FUN_00c28110(1.0f, 0, 0, 0, 0, 1.0f);
     return 0;
@@ -194,7 +194,7 @@ struct FUN_00c28250_shell : NiPSysSphericalCollider
 // @fnv 0x00c28250
 Collider* FUN_00c28250_shell::CloneCollider(CloningProcess& kCloning)
 {
-    Collider* pkObject = (Collider*)BSFadeNode::operator new(0xb0);
+    Collider* pkObject = (Collider*)::operator new(0xb0);
     if (pkObject)
         pkObject = pkObject->FUN_00c28110(1.0f, 0, 0, 0, 0, 1.0f);
     else
@@ -738,7 +738,7 @@ SphereCollision* SphereCollision::TestSphereCollision(float time, float& earlies
             }
         }
     }
-    SphereCollision* result = ((::SphereCollision *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (unsigned int)&(earliest), (unsigned int)(data), index)));
+    SphereCollision* result = ((::SphereCollision *)(reinterpret_cast<::FUN_00c32450_shell *>(this)->FUN_00c32450(time, (uintptr_t)&(earliest), (uintptr_t)(data), index)));
     return result ? result : (hit ? this : 0);
 }
 
@@ -845,8 +845,8 @@ struct NiPSysColliderInit
 
 // Initializes collider fields, passes settings to the base initializer, sets a nonnegative radius, and initializes cached transforms.
 // @fnv 0x00c28110
-Collider* Collider::FUN_00c28110(float fBounce, int bSpawnOnCollide, int bDieOnCollide, int pkSpawnModifier,
-                                 int pkColliderObj, float fRadius)
+Collider* Collider::FUN_00c28110(float fBounce, int bSpawnOnCollide, int bDieOnCollide, intptr_t pkSpawnModifier,
+                                 intptr_t pkColliderObj, float fRadius)
 {
     UpdateCollider* p = (UpdateCollider*)this;
     new ((void *)(((NiPSysColliderInit*)this))) ::FUN_00c32780(fBounce, bSpawnOnCollide, bDieOnCollide, (::NiPSysSpawnModifier *)(pkSpawnModifier));

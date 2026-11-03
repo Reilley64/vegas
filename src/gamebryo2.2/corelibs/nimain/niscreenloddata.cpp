@@ -155,7 +155,6 @@ void FUN_00a95d60_shell::SetProportionCount(unsigned int count)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct FUN_00a95cc0_shell
@@ -166,7 +165,7 @@ struct FUN_00a95cc0_shell
 // @fnv 0x00a95f20
 void* AllocateAndConstruct()
 {
-    void* p = A51BF0Base::operator new(0x30);
+    void* p = ::operator new(0x30);
     return p ? reinterpret_cast<FUN_00a95cc0_shell*>(p)->InitializeScreenLODData() : 0;
 }
 
@@ -580,7 +579,7 @@ void* FUN_00a96030_cls::CloneWithBounds(unsigned int unused)
 {
     FUN_00a96030_cls* result;
     float radius;
-    void* pMemory = A51BF0Base::operator new(0x30);
+    void* pMemory = ::operator new(0x30);
     if (pMemory != 0)
     {
         result = (FUN_00a96030_cls*)((FUN_00a95cc0_shell*)pMemory)->InitializeScreenLODData();
@@ -632,7 +631,7 @@ struct FUN_00a95f40_cls
 void* FUN_00a95f40_cls::Clone()
 {
     FUN_00a95f40_cls* dst;
-    void* raw = A51BF0Base::operator new(0x30);
+    void* raw = ::operator new(0x30);
     if (raw != 0)
     {
         dst = (FUN_00a95f40_cls*)reinterpret_cast<FUN_00a95cc0_shell*>(raw)->InitializeScreenLODData();

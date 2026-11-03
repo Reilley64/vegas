@@ -72,10 +72,6 @@ class CB1600ReferencedObject
 class CB1600MemoryStreamWriter : public CB1600ReferencedObject
 {
   public:
-    static void* operator new(std::size_t, void* p) throw()
-    {
-        return p;
-    }
 
     CB1600MemoryStreamWriter(void* buf, int bufSize, CB1600Bool isString);
 

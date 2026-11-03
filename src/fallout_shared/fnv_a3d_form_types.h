@@ -151,8 +151,4 @@ public:
 public:
     void LoadGame(void *);
 };
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* memory);
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* memory);
 #endif

@@ -4,6 +4,7 @@
 
 // src/fallout/ai/combat/explosion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/explosion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00c867d0_cls.h"
@@ -418,10 +419,6 @@ struct FUN_00cbc550_class
     int unk34;
     int unk38;
     int unk3c;
-    static void* __cdecl operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     FUN_00cbc550_class();
 };
 struct FUN_00cbca20_class
@@ -658,10 +655,6 @@ void FUN_00cbd650_cls::FUN_00cbd650(NiViewerStringArray* pkStrings)
     pkStrings->Add(FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01268420))));
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct SmallAlignedState
 {
     unsigned int unk00;

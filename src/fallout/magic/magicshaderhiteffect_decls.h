@@ -137,8 +137,6 @@ class CloningProcess
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiObjectNET : public NiMemObject
 {

@@ -47,7 +47,6 @@ class GlobalObject_0045cf30
 int __cdecl FUN_00406d50(char* dst, unsigned int sz, const char* src);
 extern const char saveExtension[];
 int __cdecl FUN_004564f0(char* a, const char* b, int n);
-void* __cdecl operator new(unsigned int n);
 
 class Finder
 {

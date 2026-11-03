@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysbombmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysbombmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -686,7 +688,7 @@ void NiPSysEmitterC2E::FUN_00c2ec40(NiStreamC2E& kStream)
     C2EC40SaveBinary(kStream, m_fD);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_010c01ec;
 struct C2E570_Base
 {
@@ -708,10 +710,6 @@ struct C2E570_Modifier : C2E570_Base
     int m_30;
     int m_34;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     C2E570_Modifier()
     {
         new ((void *)this) ::NiPSysPositionModifier();
@@ -725,11 +723,11 @@ struct C2E570_Modifier : C2E570_Base
         m_30 = 0;
         m_34 = 0;
     }
-    C2E570_Modifier* FUN_00c2e570(int arg);
+    C2E570_Modifier* FUN_00c2e570(intptr_t arg);
 };
 // Creates a new modifier, calls FUN_00c31780 on it, copies m_1C, m_20, m_24, m_28, m_2C, m_30, and m_34, then returns it.
 // @fnv 0x00c2e570
-C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(int arg)
+C2E570_Modifier* C2E570_Modifier::FUN_00c2e570(intptr_t arg)
 {
     C2E570_Modifier* clone = new C2E570_Modifier;
     reinterpret_cast<::NiPSysModifier *>(this)->CopyMemberData((::NiPSysModifier *)(clone), (*(::CloningProcess *)(arg)));

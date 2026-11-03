@@ -223,8 +223,6 @@ struct bhkSphereShape
     int unk0c;
     int unk10;
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     bhkSphereShape(float fRadius, bool bFlag);
     virtual ~bhkSphereShape();

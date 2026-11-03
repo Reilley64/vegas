@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/niparticle/nipsysgrowfademodifier.cpp: NiPSysGrowFadeModifier (8 functions)
 
+#include <new>
 #include "fnv/decl/FUN_00c319e0_cls.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/MyIsEqual.h"
 #include "fnv/decl/ParticleModifierBinary.h"
 #include "fnv/decl/PositionState.h"
@@ -31,7 +33,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00c2a360()
     return &::g_012026f8;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c2a370_shell : NiPSysGrowFadeModifier
 {
     FUN_00c2a370_shell* FUN_00c2a370(unsigned int flags);
@@ -215,11 +216,6 @@ void FUN_00c2a6e0_shell::AppendGrowFadeModifierStrings(StrArr* pkStrings)
     pkStrings->Add(pcString);
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 struct A4b0Clone;
 class FUN_00c31720
 {

@@ -4,6 +4,7 @@
 
 // src/havok/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/compiler/hkpmoppcompiler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <xmmintrin.h>
 #include <new>
 #include <cstring>
@@ -135,7 +136,7 @@ class hkReferencedObject : public hkBaseObject
     {
         referenceCount = 1;
     }
-    static void* operator new(unsigned int n) throw()
+    static void* operator new(std::size_t n) throw()
     {
         hkReferencedObject* b = (hkReferencedObject*)FUN_00c85750()->heap().allocate(n);
         b->memSizeAndFlags = (unsigned short)n;

@@ -42,8 +42,6 @@ struct Item
     Item(EffectSetting*);
     ~Item();
 };
-void* __cdecl operator new(unsigned);
-void __cdecl operator delete(void*);
 void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct List
 {

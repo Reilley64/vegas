@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00eacd20
+#include <cstdint>
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BA81100Object.h"
@@ -36,7 +38,7 @@ void* __cdecl FUN_00eacd20()
 extern "C" void* __cdecl _NiMalloc(unsigned int);
 // Allocates a string sized from pcPrefix and formats it as "<pcPrefix> = <mode name>" based on eMode, returning the buffer.
 // @fnv 0x00eacef0
-char* FUN_00eacef0(const char* pcPrefix, unsigned int eMode)
+char* FUN_00eacef0(const char* pcPrefix, uintptr_t eMode)
 {
     char* pString;
     unsigned int uiBufferSize;
@@ -519,7 +521,7 @@ struct FUN_00eacde0_cls
     unsigned int m_38;
     unsigned int m_3c;
     unsigned int m_40;
-    unsigned int m_44;
+    uintptr_t m_44;
 
     void FUN_00eacde0();
 };
@@ -527,7 +529,7 @@ struct FUN_00eacde0_cls
 // @fnv 0x00eacde0
 void FUN_00eacde0_cls::FUN_00eacde0()
 {
-    unsigned int a = m_40;
+    uintptr_t a = m_40;
     m_00 = &DAT_010f18bc;
     reinterpret_cast<::FNV_MemoryManager *>((((FUN_00aa4060_shell*)&(*reinterpret_cast<unsigned char *>(&::g_memoryManager)))))->FUN_00aa4060((void *)(a));
     reinterpret_cast<::FNV_MemoryManager *>((((FUN_00aa4060_shell*)&(*reinterpret_cast<unsigned char *>(&::g_memoryManager)))))->FUN_00aa4060((void *)(m_44));
@@ -1019,7 +1021,7 @@ struct GeomObj : NiObjectStub
 struct TriData
 {
     TriData(unsigned short usTriangles, unsigned short* pusTriList, void* pkVertex, void* pkWorldVertex, int iParam);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -1611,7 +1613,7 @@ void EAD7B0Object::FUN_00ead7b0(EAD7B0Stream& kStream)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct FUN_00eacd60_shell
 {
@@ -1847,9 +1849,9 @@ void FUN_00ead8d0_shell::FUN_00ead8d0(StrArr* pkStrings)
     reinterpret_cast<::ClaimCls *>(this)->WriteToStream((*(::StreamShell *)(pkStrings)));
     pkStrings->Add(::FUN_00a7d330((char*)(*reinterpret_cast<void * *>(&::g_0126fab4))));
     unsigned int propagationMode = m_ePropagationMode;
-    pkStrings->Add(::FormatName((const char *)this, (int)("m_ePropagationMode")));
+    pkStrings->Add(::FormatName((const char *)this, (intptr_t)("m_ePropagationMode")));
     unsigned int collisionMode = m_eCollisionMode;
-    pkStrings->Add(::FUN_00eacef0((const char *)this, (unsigned int)("m_eCollisionMode")));
+    pkStrings->Add(::FUN_00eacef0((const char *)this, (uintptr_t)("m_eCollisionMode")));
     if (m_pkModelABV)
         m_pkModelABV->GetViewerStrings("m_pkModelABV->Type", pkStrings);
     pkStrings->Add(reinterpret_cast<::NiPoint3 *>(&(m_kLocalVelocity))->FUN_00a59af0("m_kLocalVelocity"));
@@ -1866,7 +1868,7 @@ void* __cdecl FUN_00aa1070(unsigned int size);
 
 // Obtains a buffer sized from name length and formats name into it using the mode-selected format string.
 // @fnv 0x00eacfd0
-char* FormatName(const char* name, int mode)
+char* FormatName(const char* name, intptr_t mode)
 {
     unsigned int len = strlen(name);
     char* buf = (char*)FUN_00aa1070(len + 0x20);
@@ -1894,10 +1896,6 @@ char* FormatName(const char* name, int mode)
 struct Allocator
 {
 };
-void* __cdecl operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<Allocator&>((*reinterpret_cast<unsigned char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-}
 struct Point
 {
     float x, y, z;

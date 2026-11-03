@@ -112,7 +112,6 @@ class ExtraDataList
 {
   public:
 };
-void __cdecl operator delete(void*);
 struct ReflectReferences554 : BSExtraData
 {
     BSSimpleList<ReflectReference554*> references;

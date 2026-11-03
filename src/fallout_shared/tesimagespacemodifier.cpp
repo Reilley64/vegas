@@ -1,5 +1,6 @@
 // fallout_shared/tesimagespacemodifier.cpp: TESImageSpaceModifier, RgbaColor, ImageSpaceModifierEffectData, NiColorInterpolator and more (37 functions)
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FORenderedMenu.h"
@@ -565,7 +566,6 @@ struct NiMemObject
 struct Obj52 : NiMemObject
 {
     void* FUN_0052cf90(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 // Calls FUN_00a3cc80, deletes this with size 0x18 when flags has bit 0 set, and returns this.
 // @fnv 0x0052cf90
@@ -581,7 +581,6 @@ namespace fnv_0052d130 {
 struct Obj52 : NiMemObject
 {
     void* FUN_0052d130(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 // Calls FUN_00a3cc80, then deletes this with size 0x18 when flags has bit 0 set, and returns this.
 // @fnv 0x0052d130

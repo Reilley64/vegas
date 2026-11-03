@@ -2,6 +2,7 @@
 // src/fallout_shared/tempeffects/bstempeffectgeometrydecal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tempeffects/bstempeffectgeometrydecal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -234,11 +235,11 @@ struct RefObj
 };
 struct Class87d40
 {
-    void ForwardActorBaseData(void*, int, int, int, int, int);
+    void ForwardActorBaseData(void*, intptr_t, intptr_t, int, int, int);
 };
 // Calls FUN_00a855f0 with the object reference, thread ID and fatigue obtained from a1, plus a2 through a6.
 // @fnv 0x00687d40
-void Class87d40::ForwardActorBaseData(void* apObject, int aiArg2, int aiArg3, int aiArg4, int aiArg5,
+void Class87d40::ForwardActorBaseData(void* apObject, intptr_t aiArg2, intptr_t aiArg3, int aiArg4, int aiArg5,
                                                  int aiArg6)
 {
     reinterpret_cast<::SkinInstance *>(this)->FUN_00a855f0((const ::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)apObject)))->FUN_007af430()))), (const ::NiPoint3 *)(reinterpret_cast<::ActorMover *>((((BSThread*)apObject)))->GetCurrentMoveModeType()),
@@ -365,7 +366,6 @@ struct DtorOwner00685e80
 };
 typedef void (DtorOwner00685e80::*DtorMemberPointer)();
 extern void FUN_0065ee50_Helper(void* object, unsigned int size, int count, DtorMemberPointer destructor);
-void __cdecl operator delete(void* p);
 struct FUN_00685e80_Class
 {
     void* DestroyOrFree(unsigned int flags);
@@ -902,8 +902,6 @@ struct Obj18c
     int m_08;
     int m_0c;
     Obj18c();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 extern void(__cdecl* DAT_00fdf0c8)();
 struct BSString
@@ -1188,14 +1186,10 @@ struct DNewPartition
 {
     int unk00, unk04, unk08, unk0c;
     DNewPartition();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 DMatrix __cdecl FUN_00c4b600(DPoint);
 float __cdecl DecalPower(float, int);
 float __cdecl FloatAbs(float);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
 struct DDecal
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
@@ -2290,8 +2284,6 @@ struct NiTriShape
     int tfb8;
     int tfbc;
     int tfc0;
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     NiTriShape(unsigned short a, NiPoint3* c, NiPoint3* d, void* z1, NiPoint2* z2, unsigned short z3, unsigned int z4,
                unsigned short div, unsigned short* e);
 };
@@ -2350,8 +2342,6 @@ struct ObjB
     int wc8;
     int wcc;
     int wd0;
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     ObjB();
 };
 struct SkinDataX
@@ -2380,8 +2370,6 @@ struct ObjC
     int cf3c;
     int cf40;
     int cf44;
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     ObjC(int partList, DBone* bone, int x);
 };
 struct ObjD
@@ -2402,8 +2390,6 @@ struct ObjD
     int df34;
     int df38;
     int df3c;
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     ObjD(ObjC* c, int x, int* arr, Entry4* textObj, int n);
     void FUN_004addc0(void* p);
 };
@@ -2413,8 +2399,6 @@ struct ObjE
     int ef04;
     int ef08;
     int ef0c;
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     ObjE();
 };
 struct GeomX

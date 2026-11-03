@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3ddefaultshader.cpp: ShaderStandIn, FakeShader, ShaderCls, ShaderPassBuilder and more (10 functions)
 
+#include <cstdint>
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
@@ -887,7 +888,7 @@ struct ShaderPass
         if (--references == 0)
             reinterpret_cast<::FUN_00e7ecd0_cls *>(this)->FUN_00e7ecd0();
     }
-    void BindTexture(void* image, unsigned int value)
+    void BindTexture(void* image, uintptr_t value)
     {
         PassRenderState* current = state;
         texture = image;
@@ -970,7 +971,7 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
         }
         else
         {
-            ::FUN_00e7c610((float *)this, (::S_00e7c610_Object *)(((unsigned int)(::FUN_00bc5c20((char *)(configuration))))));
+            ::FUN_00e7c610((float *)this, (::S_00e7c610_Object *)(((uintptr_t)(::FUN_00bc5c20((char *)(configuration))))));
         }
         --remainingTextures;
     }
@@ -994,7 +995,7 @@ ShaderPass* ShaderPassBuilder::CreatePass(ShaderMaterial* material, unsigned int
             --remainingTextures;
     }
     --remainingPasses;
-    reinterpret_cast<::StageSet *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e802b0((unsigned int)((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))->group), (::Stage321 *)(result));
+    reinterpret_cast<::StageSet *>(((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))))->FUN_00e802b0((uintptr_t)((*reinterpret_cast<::fnv_00e7c830::ShaderPassManager * *>(&::DAT_0126f74c))->group), (::Stage321 *)(result));
     if (pass)
         pass->Release();
     return result;

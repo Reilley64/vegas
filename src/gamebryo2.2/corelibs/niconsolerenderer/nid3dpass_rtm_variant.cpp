@@ -1,5 +1,6 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/ElemPtrArray.h"
@@ -190,7 +191,7 @@ struct TextureStageView_b7dde0
 {
     unsigned int unk00;
     unsigned int unk04;
-    unsigned int texture;
+    uintptr_t texture;
 };
 
 struct StagePair_b7dde0
@@ -239,7 +240,7 @@ void BloodDraw_b7dde0::FUN_00b7dde0(DrawArgument_b7dde0* argument)
     pass = passes->second;
 
     reinterpret_cast<TextureStageView_b7dde0*>(pass)->texture =
-        reinterpret_cast<unsigned int>(((void *)(::GetTextureByIndex((char *)this, (int)(reinterpret_cast<char*>(source))))));
+        reinterpret_cast<uintptr_t>(((void *)(::GetTextureByIndex((char *)this, (intptr_t)(reinterpret_cast<char*>(source))))));
 
     reinterpret_cast<::E7DE90Owner *>((reinterpret_cast<TextureStageView_b7dde0*>(pass)))->ApplyPairToState(source->GetValue());
 
@@ -256,6 +257,6 @@ void BloodDraw_b7dde0::FUN_00b7dde0(DrawArgument_b7dde0* argument)
     Matrix4_b7dde0 local;
 
     ::fnv_00c4c2d0::FUN_00c4c2d0((::fnv_00c4c2d0::NiAVObject *)(field), 0, (::fnv_00c4c2d0::Mat4 *)(::Matrix4_b7dde0 *)(&local));
-    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((unsigned int)(geom), (unsigned int)(field));
-    ::fnv_00b7c7b0::FUN_00b7c7b0((unsigned int)this);
+    reinterpret_cast<::FUN_00b7c750_cls *>(this)->FUN_00b7c750((uintptr_t)(geom), (uintptr_t)(field));
+    ::fnv_00b7c7b0::FUN_00b7c7b0((uintptr_t)this);
 }

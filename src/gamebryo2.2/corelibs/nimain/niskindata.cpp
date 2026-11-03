@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niskindata.cpp: NiSkinData, FakeSkin, SkinDataLike, SkinDataBounds and more (11 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdio>
 #include "fnv/decl/A54440Hash.h"
@@ -50,9 +51,9 @@ void FUN_00a632e0_shell::FUN_00a632e0(int value)
 
 // Returns the address of the global variable g_011f5b24.
 // @fnv 0x00a84d20
-int __cdecl GetGlobalAddress()
+intptr_t __cdecl GetGlobalAddress()
 {
-    return (int)&(*reinterpret_cast<int *>(&::g_011f5b24));
+    return (intptr_t)&(*reinterpret_cast<int *>(&::g_011f5b24));
 }
 
 struct NiStream;
@@ -80,7 +81,7 @@ struct FakeSkin : NiObject
 // @fnv 0x00a84ce0
 void FakeSkin::FUN_00a84ce0(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (kStream.m_uiNifVersion >= 0x4000001 && kStream.m_uiNifVersion < 0xa010065)
         m_sp = kStream.GetLoadedObject();
 }
@@ -91,17 +92,16 @@ struct _Call_a5d3a0
 };
 struct BSFadeNode : _Call_a5d3a0
 {
-    void* operator new(unsigned int size);
 };
 extern int DAT_0109e574;
 // @fnv 0x00a84d30
 void* __cdecl FUN_00a84d30()
 {
-    void* p = BSFadeNode::operator new(0x48);
+    void* p = ::operator new(0x48);
     if (p)
     {
         new ((void *)(((BSFadeNode*)p))) struct ::FUN_00a5d3a0();
-        *(int*)p = (int)&DAT_0109e574;
+        *(intptr_t*)p = (intptr_t)&DAT_0109e574;
         *(int*)((char*)p + 8) = 0;
         *(int*)((char*)p + 0x40) = 0;
         return p;
@@ -196,10 +196,6 @@ struct S_00a84e70_Elem
     int unk00;
     int unk04;
     int unk08;
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct S_00a84e70_Array
@@ -400,7 +396,7 @@ struct SkinStream
     int unk240;
     int unk244;
     int unk248;
-    int unk24c;
+    intptr_t unk24c;
     NiBinaryStream* m_pBackingStream;
 };
 
@@ -460,7 +456,7 @@ struct SkinDataLike : SkinObjectBase
 // @fnv 0x00a85250
 void SkinDataLike::FUN_00a85250(SkinStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     reinterpret_cast<::TransformSaver *>(&(m_kSkinTransform))->FUN_00a86cd0((::NiStream &)(kStream));
     SkinSaveBinary(kStream, m_uiBoneCount);
     bool bHasVertexWeights = m_pBoneData->m_pkVertexWeights != 0;
@@ -557,7 +553,7 @@ struct a84ef0_Mgr
 
 struct FUN_00a84ef0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     a84ef0_Counted* m_pCounted;
     int unk0c;
@@ -573,7 +569,7 @@ struct FUN_00a84ef0_cls
     int unk34;
     int unk38;
     int unk3c;
-    unsigned int m_uValue;
+    uintptr_t m_uValue;
 
     FUN_00a84ef0_cls* FUN_00a84ef0(unsigned char acFlags);
 };
@@ -581,7 +577,7 @@ struct FUN_00a84ef0_cls
 // @fnv 0x00a84ef0
 FUN_00a84ef0_cls* FUN_00a84ef0_cls::FUN_00a84ef0(unsigned char acFlags)
 {
-    m_vptr = (int)&DAT_0109e574;
+    m_vptr = (intptr_t)&DAT_0109e574;
     reinterpret_cast<::FUN_00a84ca0_class *>(this)->FreeEntryResources();
     reinterpret_cast<::FNV_MemoryManager *>((((a84ef0_Mgr*)&(*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager)))))->FUN_00aa4060((void *)(m_uValue));
     a84ef0_Counted* pCounted = m_pCounted;
@@ -731,10 +727,6 @@ struct SkinLoadWeight
     float weight;
     SkinLoadWeight() : vertex(0)
     {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct ResetFields
 {
@@ -743,10 +735,6 @@ struct ResetFields
     SkinLoadWeight* weights;
     unsigned short vertices;
     ResetFields() throw();
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct SkinLoadData : SkinObjectBase
 {

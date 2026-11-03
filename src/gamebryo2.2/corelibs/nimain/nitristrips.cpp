@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nitristrips.cpp: NiTriStrips, Holder (10 functions)
 
+#include <cstddef>
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/LineLoadEntry__LineReceiver.h"
@@ -144,14 +146,13 @@ struct NiParticleMeshes
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // Allocates 0xc4 bytes, constructs a NiGeometry in place, sets its vtable to NiParticleMeshes::vftable, and returns the pointer or 0 on failure.
 // @fnv 0x00a9b150
 void* __cdecl FUN_00a9b150()
 {
-    void* pObject = BSFadeNode::operator new(0xc4);
+    void* pObject = ::operator new(0xc4);
     if (pObject)
     {
         NiGeometry* obj = static_cast<NiGeometry*>(pObject);
@@ -239,11 +240,11 @@ void FUN_00a71d30_shell::FUN_00a71d30(NiRenderer* apkRenderer)
 }
 }  // namespace fnv_00a71d30
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct NiTriStripsObject
 {
     void* vtable;
-    static void* operator new(unsigned int size, unsigned int extraBytes)
+    static void* operator new(std::size_t size, unsigned int extraBytes)
     {
         return FUN_00aa13e0(size + extraBytes);
     }

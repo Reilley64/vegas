@@ -2,6 +2,7 @@
 #ifndef FNV_TESDATAHANDLER_FORMS_H
 #define FNV_TESDATAHANDLER_FORMS_H
 
+#include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CellView.h"
@@ -46,8 +47,6 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_0070e000.h"
 #include "fnv/symbols_011de000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class NiNode;
 class TESFile;
 enum ENUM_FORM_ID
@@ -159,8 +158,6 @@ public:
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class TESFullName
 {

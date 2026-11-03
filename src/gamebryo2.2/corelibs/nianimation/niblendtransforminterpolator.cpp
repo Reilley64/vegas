@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendtransforminterpolator.cpp: NiBlendTransformInterpolator, BlendTransformInterpolator (9 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -42,7 +44,7 @@ struct FUN_00a36fd0_tgt
 // @fnv 0x00a40a20
 bool FUN_00a40a20_shell::FUN_00a40a20(NiObject* pkObject)
 {
-    return ((char)(::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (int)(pkObject), {})));
+    return ((char)(::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)(((FUN_00a36fd0_tgt*)this)), (intptr_t)(pkObject), {})));
 }
 
 class FUN_00a40980_base
@@ -65,7 +67,7 @@ class FUN_00a40980 : public FUN_00a40980_base
 FUN_00a40980::FUN_00a40980(int a, float b, int c) : FUN_00a40980_base(a, b, c)
 {}
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct NiBlendObject_b9169
 {
@@ -77,10 +79,6 @@ struct NiBlendObject_b9169
 struct NiBlendObjectDerived_b9169 : NiBlendObject_b9169
 {
     virtual void Update();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct NiUpdateOwner_b9169
@@ -89,11 +87,11 @@ struct NiUpdateOwner_b9169
 
 struct FUN_00a40a50_cls : NiUpdateOwner_b9169
 {
-    NiBlendObject_b9169* CreateBlendObject(int a1);
+    NiBlendObject_b9169* CreateBlendObject(intptr_t a1);
 };
 
 // @fnv 0x00a40a50
-NiBlendObject_b9169* FUN_00a40a50_cls::CreateBlendObject(int aiValue)
+NiBlendObject_b9169* FUN_00a40a50_cls::CreateBlendObject(intptr_t aiValue)
 {
     NiBlendObject_b9169* p = new NiBlendObjectDerived_b9169();
     reinterpret_cast<::BlendCopy *>(this)->FUN_00a37510((::NiBlendInterpolator *)(p), (::CloningProcess *)(aiValue));

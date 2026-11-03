@@ -51,7 +51,6 @@ class ActorValueModifierList : public BSSimpleList<Modifier*>
     void AddFastModifier(char key, Modifier* modifier);
 };
 
-void __cdecl operator delete(void* memory);
 
 
 #endif

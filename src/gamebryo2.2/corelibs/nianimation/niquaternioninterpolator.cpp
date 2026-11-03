@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niquaternioninterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A48280Obj.h"
@@ -92,7 +94,6 @@ const void* __cdecl FUN_00a48ab0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern int DAT_010986f4;
@@ -110,11 +111,11 @@ struct NiQuaternionInterpolator;
 // @fnv 0x00a48d70
 NiQuaternionInterpolator* __cdecl CreateNiQuaternionInterpolator()
 {
-    NiQuaternionInterpolator* p = (NiQuaternionInterpolator*)BSFadeNode::operator new(0x24);
+    NiQuaternionInterpolator* p = (NiQuaternionInterpolator*)::operator new(0x24);
     if (p)
     {
         new ((void *)(((NiKeyBasedInterpolatorHelper*)p))) ::FUN_00a3ca10();
-        *(int*)(p) = (int)&DAT_010986f4;
+        *(intptr_t*)(p) = (intptr_t)&DAT_010986f4;
         *(int*)(p + 0xc) = (*reinterpret_cast<int *>(&::DAT_011f4208));
         *(int*)(p + 0x10) = DAT_011f420c;
         *(int*)(p + 0x14) = DAT_011f4210;
@@ -231,7 +232,7 @@ bool NiQuaternionInterpolatorStandIn::FUN_00a48800(unsigned int nTime)
 {
     if (m_pKeyData != 0)
         return false;
-    bool bIsDefault = !((bool)(::FUN_00a92660((const float *)&(m_bound), (int)&((*reinterpret_cast<::NiBound *>(&::DAT_011f4208))), {})));
+    bool bIsDefault = !((bool)(::FUN_00a92660((const float *)&(m_bound), (intptr_t)&((*reinterpret_cast<::NiBound *>(&::DAT_011f4208))), {})));
     return bIsDefault;
 }
 
@@ -481,7 +482,7 @@ inline void Assign(RefObj*& dst, RefObj* src)
 // @fnv 0x00a48bc0
 FUN_00a48bc0_cls* FUN_00a48bc0_cls::Interpolate(float a, float b)
 {
-    FUN_00a48bc0_cls* pResult = ((::FUN_00a48bc0_cls *)(::FUN_00a57050((int)this, a)));
+    FUN_00a48bc0_cls* pResult = ((::FUN_00a48bc0_cls *)(::FUN_00a57050((intptr_t)this, a)));
     if (m_1c)
     {
         RefObj* pInterp = 0;
@@ -561,11 +562,11 @@ struct Quat48c
     {}
     bool operator==(const Quat48c& q) const
     {
-        return ((bool)(::FUN_00a92660((const float *)this, (int)&(q), {})));
+        return ((bool)(::FUN_00a92660((const float *)this, (intptr_t)&(q), {})));
     }
     bool operator!=(const Quat48c& q) const
     {
-        return !((bool)(::FUN_00a92660((const float *)this, (int)&(q), {})));
+        return !((bool)(::FUN_00a92660((const float *)this, (intptr_t)&(q), {})));
     }
 };
 struct RotKey48c
@@ -725,7 +726,7 @@ struct A48E20_Color
     float r, g, b, a;
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct A48E20_Base
 {
 };
@@ -738,10 +739,6 @@ struct A48E20_Object : A48E20_Base
     int m_1C;
     int m_20;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     A48E20_Object()
     {
         new ((void *)this) ::FUN_00a3ca10();

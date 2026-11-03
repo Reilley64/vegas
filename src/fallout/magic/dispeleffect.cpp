@@ -49,7 +49,6 @@ bool FUN_0082d060_shell::IsCharacter(MagicTarget* apTarget)
     return dynamic_cast<Character*>(apTarget) != 0;
 }
 
-void* operator new(unsigned int size) throw();
 
 struct SpawnedEffect
 {

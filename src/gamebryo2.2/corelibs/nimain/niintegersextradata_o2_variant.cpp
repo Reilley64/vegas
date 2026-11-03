@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/niintegersextradata_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b330_shell.h"
@@ -61,7 +63,7 @@ struct FUN_00a99950_shell
 void FUN_00a99950_shell::FUN_00a99950()
 {
     void* p = *(void**)((char*)this + 0x10);
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
+    *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
     ::FUN_00aa10f0(p);
     this->f10 = 0;
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();
@@ -75,13 +77,13 @@ struct PB_00a99800
 };
 struct ST_00a99980 : NiExtraData
 {
-    ST_00a99980* FUN_00a99980(int a, int b);
+    ST_00a99980* FUN_00a99980(int a, intptr_t b);
 };
 // @fnv 0x00a99980
-ST_00a99980* ST_00a99980::FUN_00a99980(int a, int b)
+ST_00a99980* ST_00a99980::FUN_00a99980(int a, intptr_t b)
 {
     reinterpret_cast<::ExtraDataObject *>((((PB_00a7b2e0*)this)))->FUN_00a7b2e0();
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
+    *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c));
     *(int*)((char*)this + 0x10) = 0;
     reinterpret_cast<::FUN_00a99800_shell *>((((PB_00a99800*)this)))->AssignPointerArray(a, (const void *)(b));
     return this;
@@ -89,7 +91,6 @@ ST_00a99980* ST_00a99980::FUN_00a99980(int a, int b)
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiExtraDataShell : NiExtraData
 {
@@ -97,11 +98,11 @@ struct NiExtraDataShell : NiExtraData
 // @fnv 0x00a99a10
 NiExtraData* FUN_00a99a10()
 {
-    NiExtraData* data = static_cast<NiExtraData*>(BSFadeNode::operator new(0x14));
+    NiExtraData* data = static_cast<NiExtraData*>(::operator new(0x14));
     if (data)
     {
         reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraDataShell*>(data)))->FUN_00a7b2e0();
-        data->baseData[0] = reinterpret_cast<unsigned int>(&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c)));
+        data->baseData[0] = reinterpret_cast<uintptr_t>(&(*reinterpret_cast<int *>(&::fnv_00a99a50::DAT_010a0c7c)));
         data->baseData[4] = 0;
         data->baseData[3] = 0;
         return data;
@@ -113,19 +114,18 @@ namespace fnv_00a99a50 {
 void __cdecl FUN_00a7b300();
 struct FUN_00a99a50_shell
 {
-    int vtbl;
+    intptr_t vtbl;
     int a;
     int b;
     int c;
-    int d;
+    intptr_t d;
     void FUN_00a7b300();
     FUN_00a99a50_shell* FUN_00a99a50(int);
-    void __cdecl operator delete(void* p, unsigned int);
 };
 // @fnv 0x00a99a50
 FUN_00a99a50_shell* FUN_00a99a50_shell::FUN_00a99a50(int flag)
 {
-    vtbl = (int)&DAT_010a0c7c;
+    vtbl = (intptr_t)&DAT_010a0c7c;
     ::FUN_00aa10f0((void*)d);
     d = 0;
     reinterpret_cast<::FUN_00a7b300_shell *>(this)->FUN_00a7b300();
@@ -258,8 +258,6 @@ class NiPSysBaseA99
     NiPSysBaseA99() throw();
     virtual ~NiPSysBaseA99();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04, unk08;
 };

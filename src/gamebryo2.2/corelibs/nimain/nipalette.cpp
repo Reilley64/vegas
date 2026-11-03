@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a8b070
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -41,7 +42,7 @@ extern int DAT_011f5c80;
 // @fnv 0x00a8b010
 void FUN_00a8b010_Node::Unlink()
 {
-    EnterCriticalSection(&DAT_011f5c80);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
     if (DAT_011f5c00 == this)
         DAT_011f5c00 = this->_next;
     if (DAT_011f5c04 == this)
@@ -50,12 +51,11 @@ void FUN_00a8b010_Node::Unlink()
         this->_prev->_next = this->_next;
     if (this->_next)
         this->_next->_prev = this->_prev;
-    LeaveCriticalSection(&DAT_011f5c80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
 }
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_0109f3fc;
 void FUN_00a8afc0(void*);
@@ -67,15 +67,15 @@ struct MyObj
     char pad09[3];
     void* f0C;
     int f10;
-    int f14;
-    int f18;
+    intptr_t f14;
+    intptr_t f18;
     int f1C;
     int f20;
 };
 // @fnv 0x00a8b220
 void* FUN_00a8b220()
 {
-    MyObj* p = (MyObj*)BSFadeNode::operator new(0x24);
+    MyObj* p = (MyObj*)::operator new(0x24);
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();
@@ -222,10 +222,6 @@ struct A8b110Allocator
 
 struct A8b110Elem
 {
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A8b110Allocator *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
     int m_uiFilterValue;
 };
 
@@ -382,10 +378,6 @@ struct MemoryBlock
     unsigned int value;
     MemoryBlock()
     {}
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<MMExtra&>((*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 struct Observer
 {
@@ -648,7 +640,7 @@ class A8B3C0Data : public A8B3C0Base
 // @fnv 0x00a8b3c0
 void A8B3C0Data::FUN_00a8b3c0(A8B3C0Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     A8B3C0SaveBinary<unsigned char>(kStream, m_bFlag);
     A8B3C0SaveBinary(kStream, m_uiCount);
     A8B3C0SaveBinary(kStream, m_pCompressedData, m_uiCount * 4);
@@ -689,10 +681,6 @@ struct MMAllocInterface
 struct ArrayElement
 {
     unsigned int value;
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MMAllocInterface*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
-    }
 };
 // Copies the f08 scalar and the f14/f0C integer array from rhs, reallocating the array only when the element count differs.
 // @fnv 0x00a8b190
@@ -710,11 +698,11 @@ MyObj* FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
         if (self->f0C != rhs->f0C)
         {
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060((void*)self->f14);
-            unsigned int count = (unsigned int)rhs->f0C;
+            uintptr_t count = (uintptr_t)rhs->f0C;
             self->f0C = (void*)count;
-            self->f14 = (int)(new ArrayElement[count]);
+            self->f14 = (intptr_t)(new ArrayElement[count]);
         }
-        memcpy((void*)self->f14, (void*)rhs->f14, (unsigned int)rhs->f0C * sizeof(int));
+        memcpy((void*)self->f14, (void*)rhs->f14, (uintptr_t)rhs->f0C * sizeof(int));
     }
     return self;
 }
@@ -724,7 +712,7 @@ MyObj* FUN_00a8b190(MyObj* self, void*, const MyObj* rhs)
 void FUN_00a8afc0(void* apNode)
 {
     FUN_00a8b010_Node* node = static_cast<FUN_00a8b010_Node*>(apNode);
-    EnterCriticalSection(&DAT_011f5c80);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
     if (DAT_011f5c00 == 0)
         DAT_011f5c00 = node;
     if (DAT_011f5c04 != 0)
@@ -738,7 +726,7 @@ void FUN_00a8afc0(void* apNode)
     }
     DAT_011f5c04 = node;
     node->_next = 0;
-    LeaveCriticalSection(&DAT_011f5c80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&DAT_011f5c80));
 }
 
 #include "generated/data/gamebryo2.2/corelibs/nimain/nipalette.inc"

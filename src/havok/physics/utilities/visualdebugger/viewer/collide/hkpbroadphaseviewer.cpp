@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpbroadphaseviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/SearchArray.h"
@@ -552,7 +553,7 @@ struct S_00d6ada0_ReferencedObject
 {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, std::size_t)
     {
         S_00d6ada0_ReferencedObject* b = static_cast<S_00d6ada0_ReferencedObject*>(p);
         FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

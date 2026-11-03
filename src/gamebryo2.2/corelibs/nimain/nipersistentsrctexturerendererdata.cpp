@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00e91780
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -113,7 +114,7 @@ struct NiPersistentSrcTextureRendererData
 // @fnv 0x00a98110
 void NiPersistentSrcTextureRendererData::LinkPalette(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)(((NiObjectHelper*)this)));
+    ::FUN_00a89af0((intptr_t)(((NiObjectHelper*)this)));
     NiPalette* pkPalette = (NiPalette*)reinterpret_cast<::NiStream *>((((NiStreamHelper*)&kStream)))->GetLoadedObject();
     NiPalette* pkOld = m_spPalette;
     if (pkOld != pkPalette)
@@ -277,7 +278,7 @@ struct NiPersistentSrcTextureRendererData_s : RendererDataBase_s
 // @fnv 0x00a984b0
 void NiPersistentSrcTextureRendererData_s::FUN_00a984b0(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
 
     bool bToolModeStreamingValid = DAT_011f5f00 && m_uiPaletteSize && m_uiPaletteEntryCount && m_pucPaletteData;
 
@@ -545,22 +546,22 @@ void ViewerData::AppendToStrings(ViewerArray* strings)
     {
     case 0: {
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("TargetPlatform", "NI_ANY - Generic (default)");
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)(&value));
         break;
     }
     case 3: {
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("TargetPlatform", "NI_DX9");
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)(&value));
         break;
     }
     case 1: {
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("TargetPlatform", "NI_XENON");
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)(&value));
         break;
     }
     case 2: {
         value = ::fnv_00a7d5e0::FUN_00a7d5e0("TargetPlatform", "NI_PS3");
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)(&value));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)(&value));
         break;
     }
     default:
@@ -2016,7 +2017,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
         {
             FreeListNode* next = item->next;
             FreeListNode* old = (FreeListNode*)::DAT_0126f0ec;
-            ::DAT_0126f0ec = (int)item;
+            ::DAT_0126f0ec = (intptr_t)item;
             item->next = old;
             item = next;
         } while (item);
@@ -2046,7 +2047,7 @@ FUN_00e75a70::~FUN_00e75a70() throw()
                 PrePackObject* nextVal = val->m_pkNext;
                 if (nextVal)
                 {
-                    reinterpret_cast<::HashTableBase *>(&(m_kMap610))->InsertOrUpdate(key, (unsigned int)(nextVal));
+                    reinterpret_cast<::HashTableBase *>(&(m_kMap610))->InsertOrUpdate(key, (uintptr_t)(nextVal));
                 }
                 else
                 {

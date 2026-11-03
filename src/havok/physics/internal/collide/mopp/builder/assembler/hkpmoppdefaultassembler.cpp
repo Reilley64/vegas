@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/E06490Stack.h"
@@ -2499,7 +2500,7 @@ struct FUN_00e065f0
     BvArray<BvFixup> m_buffer;
 
     FUN_00e065f0(unsigned int id) throw();
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         FUN_00e065f0* p = static_cast<FUN_00e065f0*>(GetBvRouter()->allocator->AllocateMemoryBlock(n));
         p->m_usMemSizeAndFlags = (unsigned short)n;
@@ -2705,10 +2706,6 @@ void BvBuilder::FUN_00e08a60(BvNode* node, FUN_00e095d0_cls* parent, FUN_00e095d
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 template <class T> __forceinline void constructCopy(T* p, int n, const T& value)
 {
     for (int i = 0; i < n; ++i)

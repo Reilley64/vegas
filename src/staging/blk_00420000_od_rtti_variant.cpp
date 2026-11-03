@@ -5,6 +5,7 @@
 
 // src/staging/blk_00420000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -679,7 +680,6 @@ struct FUN_00420c10_Class : public FUN_004207e0Class
 {
     void FUN_00420c10(int value);
 };
-void* __cdecl operator new(unsigned int size);
 struct FUN_0042cca0 : public BSExtraData
 {
     void* vtbl;
@@ -847,8 +847,6 @@ struct FUN_0042e060_class
 {
     void FUN_0042e060(unsigned int a, unsigned int b);
 };
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 struct B42FA60Entry
 {
     int unk00;
@@ -874,8 +872,6 @@ class FUN_0042fe80_Map : public B42FE80MapBase
     virtual ~FUN_0042fe80_Map();
     void RemoveAll();
 };
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct FUN_004300a0
 {
     void* m_uiFilterValue;
@@ -1913,8 +1909,6 @@ class TESObjectREFR
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct Bound : NiMemObject
 {
@@ -2026,8 +2020,6 @@ struct AnimMatrix3
 };
 struct AnimMemObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 struct AnimSource
 {

@@ -85,7 +85,6 @@ struct FUN_00a744a0 {  public:
 };
 struct BSFadeNode {
     void* vtbl;
-    static void* operator new(unsigned int size);
 };
 struct NiBound {
 };
@@ -157,7 +156,6 @@ struct FUN_00a99c40_shell : public NiExtraData {
 };
 struct NiLODData {
     NiLODData();
-    void* operator new(size_t, void* p) { return p; }
 };
 unsigned int __cdecl FUN_00a88ac0(unsigned int a);
 struct NiExtraDataHelper {
@@ -374,7 +372,6 @@ struct FUN_00a5a390_shell {
 public:
     void FUN_00a5a390();
 };
-void __cdecl operator delete(void* p, unsigned int);
 void __cdecl FUN_00a9b8b0();
 void __cdecl FUN_00a9b9b0();
 void __cdecl FUN_00a9ba80();
@@ -758,7 +755,6 @@ struct S_00a8f2c0_Obj {
     int unk08;
     int unk0c;
     S_00a8f2c0_Sub sub;
-    static void* operator new(unsigned int n) { return BSFadeNode::operator new(n); }
     S_00a8f2c0_Obj() throw() {
         new ((void *)this) struct ::FUN_00a5d3a0();
         vft = (void*)&DAT_0109f4dc;
@@ -1091,7 +1087,6 @@ struct FnvQueueState {
 };
 class BA87920Base {
 public:
-    static void* operator new(unsigned int uiSize);
 
     BA87920Base() throw();
     virtual ~BA87920Base();
@@ -1275,7 +1270,6 @@ class RendererDataA9F : public NiRefObjectA9F {
 };
 class Ni2DBufferA9F : public NiRefObjectA9F {
 public:
-    static void* operator new(unsigned int uiSize) throw();
 
     Ni2DBufferA9F() throw();
     virtual ~Ni2DBufferA9F() throw();
@@ -1421,9 +1415,6 @@ struct FUN_00a5e3a0_Helper {  };
 struct PixelRow4 {
     unsigned char rgba[4];
     PixelRow4() {}
-    static void* operator new[](unsigned int size) {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
 };
 struct ImageConverter {
     unsigned int unknown000;
@@ -1570,7 +1561,6 @@ struct SpawnedRecord {
     int m_i3;
     SpawnedRecord() throw();
     ~SpawnedRecord() {}
-    static void* operator new[](unsigned int size) throw() { return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<P03MM*>(&(*reinterpret_cast<::FUN_00aa4060_class *>(&::g_memoryManager)))))->FUN_00aa3e40(size); }
 };
 
 // @fnv 0x00a90290

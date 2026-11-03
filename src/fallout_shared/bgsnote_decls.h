@@ -18,8 +18,6 @@
 #include "fnv/symbols_00487000.h"
 #include "fnv/symbols_0048e000.h"
 #include "fnv/symbols_005b5000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class TESFile;
 class TESDescription
 {

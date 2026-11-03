@@ -30,7 +30,7 @@ bool FUN_00a88c00_shell::FUN_00a88c00(float* out)
         if (m_kHandle)
         {
             int pos = ((int)(std::uintptr_t)(std::strpbrk((char *)(m_kHandle), "-0")));
-            if (pos != 0 && pos - (int)m_kHandle >= 0 && pos - (int)m_kHandle != -1)
+            if (pos != 0 && pos - (intptr_t)m_kHandle >= 0 && pos - (intptr_t)m_kHandle != -1)
                 return true;
         }
         return false;

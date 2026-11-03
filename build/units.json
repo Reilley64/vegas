@@ -1,9 +1,9 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2869,
-  "functions": 68657,
-  "bytes": 11458056,
+  "units": 2868,
+  "functions": 68655,
+  "bytes": 11458030,
   "eh_tails": 1954,
   "eh_tail_bytes": 138526
  },
@@ -605706,34 +605706,6 @@
     "?DrawTexturedQuad@@YAXPAUEC0280Device@@MMMMHH@Z": "0x00ec0280",
     "?ApplyLastEffect@@YAXPAUEffectStackEBF@@@Z": "0x00ebff00",
     "?LockNextTile@@YAHPAUTiledTexture@@PAPAXPAHPAI333@Z": "0x00ebfda0"
-   }
-  },
-  {
-   "source": "src/staging/blk_00ec0000_o2.cpp",
-   "compiler": "sp1",
-   "flags": [
-    "/MT",
-    "/O2",
-    "/GS",
-    "/EHsc",
-    "/Gy"
-   ],
-   "functions": [
-    {
-     "address": "0x00eccf00",
-     "symbol": "_FUN_00eccf00",
-     "size": 15
-    },
-    {
-     "address": "0x00ece2f0",
-     "symbol": "?FUN_00ece2f0@FUN_00ece2f0_cls@@QAEXXZ",
-     "size": 11
-    }
-   ],
-   "symbols": {
-    "?DAT_010f20a8@@3HA": "0x010f20a8",
-    "?FUN_00ec79a1@FUN_00ece2f0_cls@@QAEXXZ": "0x00ec79a1",
-    "_doexit": "0x00eccd99"
    }
   },
   {

@@ -61,7 +61,6 @@ struct FUN_00b2bdc0_shell
 {
     void FUN_00b2bdc0(float a, float b);
 };
-void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
     void* DestroyIfFlagged(unsigned int flags);
@@ -574,13 +573,6 @@ NarrowString& FUN_00b2b910_shell::FUN_00b2b910(const NarrowString& rhs)
     return *this;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
-inline void* operator new(unsigned int, void* _Where) throw()
-{
-    return _Where;
-}
-inline void operator delete(void*, void*) throw()
-{}
 namespace shutb2b9 {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -2305,7 +2297,6 @@ namespace fnv_00b2d090 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -3041,7 +3032,6 @@ inline Elem* copy_new(Elem* _First, Elem* _Last, Elem* _Dest)
 {
     return ((::Elem *)(::FUN_00b2e500((::record_model::FUN_00b2e680 *)(::Elem *)(_Checked_base(_First)), (::record_model::FUN_00b2e680 *)(::Elem *)(_Checked_base(_Last)), (::record_model::FUN_00b2e680 *)(_Dest))));
 }
-void __cdecl operator delete(void*);
 struct Alloc
 {
     void deallocate(Elem* _Ptr, unsigned int)

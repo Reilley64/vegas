@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niimageconverter.cpp: NiImageConverter, ImageOwner (17 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -42,7 +43,6 @@ struct Sub80
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int) throw();
 };
 struct NiImageConverter2 : NiRefObject2
 {
@@ -52,10 +52,6 @@ struct NiImageConverter2 : NiRefObject2
     NiImageConverter2() throw()
     {
         new ((void *)&(s)) ::FUN_00a8ae50();
-    }
-    void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
     }
 };
 inline void Rel(NiRefObject2* o)
@@ -173,7 +169,7 @@ bool ArePixelFormatsEqual(void* apFormatA, void* apFormatB)
 {
     NiPixelFormat& a = *(NiPixelFormat*)apFormatA;
     NiPixelFormat& b = *(NiPixelFormat*)apFormatB;
-    return reinterpret_cast<::NiPixelFormat *>((void *)&((*(FUN_00a76890_eq*)&a)))->operator====(b);
+    return reinterpret_cast<::NiPixelFormat *>((void *)&((*(FUN_00a76890_eq*)&a)))->operator==(b);
 }
 
 namespace fnv_00a76960 {
@@ -336,7 +332,6 @@ struct FUN_00a76c10_shell : public NiImageConverter
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct PixelFormatOps
 {
@@ -347,10 +342,6 @@ struct NiPalette
 {
     char data[0x24];
     NiPalette(const NiPalette& other);
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 struct NiPixelData
 {
@@ -374,13 +365,13 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
 {
     const NiPixelData& kSrc = *(const NiPixelData*)src;
     const NiPixelFormat& kDestFmt = *(const NiPixelFormat*)apDestFmt;
-    if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&kSrc.m_kPixelFormat)))->operator!=!=((const ::NiPixelFormat &)(kDestFmt)))
+    if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&kSrc.m_kPixelFormat)))->operator!=((const ::NiPixelFormat &)(kDestFmt)))
         return 0;
     if (pkOptDest)
     {
         if (pkOptDest == &kSrc)
             return pkOptDest;
-        if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)))->operator====((const ::NiPixelFormat &)(kDestFmt)) &&
+        if (reinterpret_cast<::NiPixelFormat *>((void *)(((const PixelFormatOps*)&pkOptDest->m_kPixelFormat)))->operator==((const ::NiPixelFormat &)(kDestFmt)) &&
             *pkOptDest->m_puiWidth == *kSrc.m_puiWidth && *pkOptDest->m_puiHeight == *kSrc.m_puiHeight &&
             pkOptDest->m_uiMipmapLevels <= kSrc.m_uiMipmapLevels)
         {
@@ -395,7 +386,7 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
             {
                 if (!pkOptDest->m_spPalette)
                 {
-                    void* pal = BSFadeNode::operator new(0x24);
+                    void* pal = ::operator new(0x24);
                     reinterpret_cast<::Owner *>((pkOptDest))->FUN_00a76a60((::Item *)(::fnv_00a76c10::NiPalette *)(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0));
                 }
                 else
@@ -404,7 +395,7 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
             return pkOptDest;
         }
     }
-    void* pNewPixelData = BSFadeNode::operator new(0x74);
+    void* pNewPixelData = ::operator new(0x74);
     return pNewPixelData ? ((::fnv_00a76c10::NiPixelData *)(new ((void *)(((NiPixelData*)pNewPixelData))) ::FUN_00a7c030((const ::FUN_00a7c030 &)(kSrc)))) : 0;
 }
 }  // namespace fnv_00a76c10
@@ -490,7 +481,7 @@ static inline unsigned short Chan(unsigned int p, const Fmt* s, const Fmt* d, in
 }
 // Converts each 16-bit source pixel to the destination format by remapping its four channels through Chan and OR-ing them together.
 // @fnv 0x00a76d70
-void FUN_00a76d70(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pucDst, unsigned int,
+void FUN_00a76d70(unsigned int uiWidth, unsigned int uiHeight, unsigned int, unsigned char* pucDst, uintptr_t,
                   const Fmt* pDstFmt, const unsigned char* pucSrc, const Fmt* pSrcFmt)
 {
     const unsigned short* pSrcPixels = (const unsigned short*)pucSrc;
@@ -513,7 +504,7 @@ struct PixelFormatBitLayout;
 void __cdecl FUN_00a76e90(unsigned int a, unsigned int b, unsigned int c, unsigned char* d, NiPalette const* e,
                           PixelFormatBitLayout const& f, unsigned char const* g, PixelFormatBitLayout const& h)
 {
-    ::FUN_00a76d70(a, b, c, d, (unsigned int)(e), (const ::Fmt *)&(f), g, (const ::Fmt *)&(h));
+    ::FUN_00a76d70(a, b, c, d, (uintptr_t)(e), (const ::Fmt *)&(f), g, (const ::Fmt *)&(h));
 }
 
 
@@ -574,7 +565,6 @@ struct FUN_00a76bb0 : NiRefObject
 {
     char m_data[0x778];
     virtual ~FUN_00a76bb0();
-    static void operator delete(void*, unsigned int);
 };
 // Frees and clears DAT_011f4a78, then calls FUN_00a8ada0 on the subobject at offset 0x80.
 // @fnv 0x00a76bb0

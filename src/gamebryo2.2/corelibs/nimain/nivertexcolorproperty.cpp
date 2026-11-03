@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nivertexcolorproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -23,7 +25,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 
 extern int DAT_0109b72c;
@@ -32,12 +33,12 @@ extern int DAT_0109b72c;
 // @fnv 0x00a5f280
 NiProperty* FUN_00a5f280()
 {
-    NiProperty* p = static_cast<NiProperty*>(BSFadeNode::operator new(0x1c));
+    NiProperty* p = static_cast<NiProperty*>(::operator new(0x1c));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
         *reinterpret_cast<short*>(reinterpret_cast<char*>(p) + 0x18) = 8;
-        *reinterpret_cast<int*>(p) = reinterpret_cast<int>(&DAT_0109b72c);
+        *reinterpret_cast<intptr_t*>(p) = reinterpret_cast<intptr_t>(&DAT_0109b72c);
         return p;
     }
     return 0;
@@ -122,7 +123,7 @@ void FUN_00a5f3a0_shell::AppendVertexColorProperties(StrArr* strings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct NodeBase_b9855
 {
@@ -135,10 +136,6 @@ struct NodeBase_b9855
 
 struct NodeObj_b9855 : NodeBase_b9855
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     virtual void unk00();
     NodeObj_b9855() throw()
     {

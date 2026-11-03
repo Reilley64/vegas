@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a485a0
+#include <cstdint>
 #include <new>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FUN_00a57990.h"
@@ -35,7 +36,6 @@ void* __cdecl FUN_00a485b0()
 }
 
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern int DAT_01098634;
@@ -43,13 +43,13 @@ extern int DAT_01098634;
 // @fnv 0x00a48750
 void* __cdecl FUN_00a48750()
 {
-    void* pFadeNode = BSFadeNode::operator new(0x3c);
+    void* pFadeNode = ::operator new(0x3c);
     if (pFadeNode)
     {
         new ((void *)(pFadeNode)) class ::FUN_00a6d220();
         *(int*)((char*)pFadeNode + 0x38) = 0;
         *(int*)((char*)pFadeNode + 0x34) = 0;
-        *(int*)pFadeNode = (int)&DAT_01098634;
+        *(intptr_t*)pFadeNode = (intptr_t)&DAT_01098634;
         return pFadeNode;
     }
     return 0;
@@ -91,12 +91,11 @@ void NiRollController::FUN_00a48790(StrArr* pStrArr)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pStrArr))->SetAt(uiSize, pkString);
 }
 
-typedef unsigned int A486F0size_t;
+typedef size_t A486F0size_t;
 
 struct A486F0CloningProcess;
 
 struct A486F0Object {
-    static void* operator new(A486F0size_t stSize);
 
     __declspec(nothrow) A486F0Object();
     virtual ~A486F0Object();

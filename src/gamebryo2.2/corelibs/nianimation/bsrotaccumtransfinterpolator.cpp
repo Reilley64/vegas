@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/bsrotaccumtransfinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A3F8D0Interpolator.h"
 #include "fnv/decl/FUN_0058cb00_Class.h"
@@ -29,7 +30,6 @@ NiRTTI* __cdecl FUN_00a43ab0()
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiTransformInterpolator
 {
@@ -64,7 +64,7 @@ struct BSRotAccumTransfInterpolator : NiTransformInterpolator
 // @fnv 0x00a43e40
 BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 {
-    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)BSFadeNode::operator new(0x58);
+    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)::operator new(0x58);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) ::fnv_00a3fa30::FUN_00a3fa30((::NiTransformData *)(0));
@@ -80,7 +80,7 @@ BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 
 extern int DAT_011a9ea4;
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a3fa30_cls
 {
@@ -115,11 +115,11 @@ struct FUN_00a43e90_cls
     int unk40;
     int unk44;
     QuadInts m_48;
-    BSRotAccumTransfInterpolator* CreateInterpolator(int a);
+    BSRotAccumTransfInterpolator* CreateInterpolator(intptr_t a);
 };
 
 // @fnv 0x00a43e90
-BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(int a)
+BSRotAccumTransfInterpolator* FUN_00a43e90_cls::CreateInterpolator(intptr_t a)
 {
     BSRotAccumTransfInterpolator* obj = (BSRotAccumTransfInterpolator*)FUN_00aa13e0(0x58);
     if (obj != 0)
@@ -422,7 +422,7 @@ struct FUN_00a43df0_cls
 // @fnv 0x00a43df0
 FUN_00a43df0_cls* FUN_00a43df0_cls::FUN_00a43df0(unsigned char acFlags)
 {
-    *(volatile int*)&m_vptr = (int)&DAT_01097af4;
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&DAT_01097af4;
     a43df0_Counted* pCounted = *(a43df0_Counted* volatile*)&m_pCounted;
     if (pCounted != 0)
     {

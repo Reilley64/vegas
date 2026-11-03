@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinepoint3interpolator.cpp: NiBSplinePoint3Interpolator, NiBSplineTransformInterpolator (13 functions)
 
+#include <cstdint>
 #include "fnv/decl/A57E90Controller.h"
 #include "fnv/decl/BA58200Sequence.h"
 #include "fnv/decl/FUN_00a57f20_cls.h"
@@ -85,7 +86,6 @@ void FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, uns
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_010996dc;
 struct FUN_00a57f20_shell
@@ -95,7 +95,7 @@ struct FUN_00a57f20_shell
 // @fnv 0x00a50840
 void* __cdecl FUN_00a50840()
 {
-    void* p = BSFadeNode::operator new(0x2c);
+    void* p = ::operator new(0x2c);
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
@@ -111,10 +111,10 @@ void* __cdecl FUN_00a50840()
 
 struct FUN_00a506c0_shell
 {
-    void* FUN_00a506c0(int a1, int a2, int a3);
+    void* FUN_00a506c0(intptr_t a1, int a2, intptr_t a3);
 };
 // @fnv 0x00a506c0
-void* FUN_00a506c0_shell::FUN_00a506c0(int a1, int aiValue, int a3)
+void* FUN_00a506c0_shell::FUN_00a506c0(intptr_t a1, int aiValue, intptr_t a3)
 {
     reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)this)))->FUN_00a57f20((void *)(a1), (void *)(a3));
     *(void**)this = (void*)&DAT_010996dc;
@@ -153,11 +153,11 @@ struct FUN_00a507e0_obj
 // @fnv 0x00a507e0
 NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
 {
-    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)BSFadeNode::operator new(44);
+    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)::operator new(44);
     if (pkObject)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)pkObject)))->FUN_00a57f20((void *)(0), (void *)(0));
-        *(int*)pkObject = (int)&DAT_010996dc;
+        *(intptr_t*)pkObject = (intptr_t)&DAT_010996dc;
         pkObject->_28 = 0xffff;
     }
     else
@@ -251,7 +251,7 @@ struct FUN_00a50710_shell
     float startTime;
     float endTime;
     BSplineData* data;
-    int dataOffset;
+    intptr_t dataOffset;
     Point3 lastValue;
     unsigned int handle;
     bool SampleBSpline(float time, int unk, Point3* output);

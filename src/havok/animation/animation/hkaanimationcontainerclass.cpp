@@ -72,11 +72,6 @@ struct CpuVtableHolder
     CpuVtableHolder()
     {}
     virtual void Vf();
-    void* operator new(std::size_t, void* p)
-    {
-        __assume(p != 0);
-        return p;
-    }
 };
 
 __forceinline static void ReleaseBucket(CpuBucket& b)

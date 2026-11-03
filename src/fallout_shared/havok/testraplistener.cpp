@@ -945,7 +945,6 @@ void* FUN_0062e0a0_shell::RemoveFirstNode()
     return pValue;
 }
 
-void* __cdecl operator new(unsigned int size);
 
 struct FUN_0062cb90_Entry
 {
@@ -1269,7 +1268,6 @@ FUN_0062c640::FUN_0062c640()
     m_aiIndexedValues = new TrigEntry[m_uiItemCount];
 }
 
-void __cdecl operator delete[](void*);
 struct Form62C
 {
     virtual void v0();

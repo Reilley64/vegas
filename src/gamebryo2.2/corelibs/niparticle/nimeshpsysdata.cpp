@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -44,7 +45,6 @@ struct NiMeshPSysData : NiPSysData
     void* FUN_00c30bd0(unsigned int);
 };
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct Mesh308
 {
@@ -218,7 +218,6 @@ struct NiObject;
 struct CloningProcess;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct Hc00
 {
@@ -300,7 +299,7 @@ struct NiMeshPSysData_00c30920 : NiObject
 // @fnv 0x00c30920
 void NiMeshPSysData_00c30920::FUN_00c30920(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(kCloning));
     m_pMeshNode->ProcessClone(kCloning);
 }
 
@@ -334,13 +333,12 @@ void* FUN_00c309a0_shell::Destroy(unsigned char deallocate)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 // @fnv 0x00c30ca0
 NiMeshPSysData* __cdecl CreateNiMeshPSysData()
 {
-    void* object = A51BF0Base::operator new(0x98);
+    void* object = ::operator new(0x98);
     if (object)
         return static_cast<Hc00*>(object)->FUN_00c30c00();
     return 0;
@@ -1040,7 +1038,7 @@ class FUN_00c30c00_cls : public BC30C00Base
 NiObject* Holder_00c30c50::FUN_00c30c50(CloningProcess& kCloning)
 {
     NiMeshPSysData* pkObject;
-    void* pMemory = BSFadeNode::operator new(0x98);
+    void* pMemory = ::operator new(0x98);
     if (pMemory)
         pkObject = ((::NiMeshPSysData *)(new ((void *)(((Hc00*)pMemory))) ::FUN_00c30c00_cls()));
     else
@@ -1273,10 +1271,6 @@ template <class T> struct NiTArray436
 template <class T> struct NiTObjectArray : NiTArray436<T>
 {
     virtual ~NiTObjectArray();
-    static void* operator new(unsigned size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<Heap436*>(&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
     void FUN_0060bef0(unsigned size);
 };
 typedef NiTObjectArray<NiPointer<NiAVObject> > Array436;
@@ -1546,11 +1540,6 @@ struct MemMgrStub
 
 struct NiMemObjectStub
 {
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStub *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 
 struct PoolArrayBase : NiMemObjectStub

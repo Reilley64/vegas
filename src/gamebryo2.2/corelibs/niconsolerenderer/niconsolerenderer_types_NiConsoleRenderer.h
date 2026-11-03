@@ -2,6 +2,7 @@
 #ifndef FNV_TASK_TYPES_NICONSOLERENDERER_H
 #define FNV_TASK_TYPES_NICONSOLERENDERER_H
 
+#include <cstdint>
 #include "layout_support.h"
 #include "NiObject.h"
 #include "NiPoint3.h"
@@ -771,7 +772,7 @@ class GraphicsRenderer : public NiRenderer
     // void __cdecl GraphicsRenderer::*()
     bool BeginUsingRenderTargetGroup(NiRenderTargetGroup*, unsigned int);
     bool MapScreenCoordinates(unsigned int, unsigned int, float&, float&, NiRenderTargetGroup*);
-    unsigned int GetRenderTargetWidth();
-    unsigned int GetRenderTargetHeight();
+    uintptr_t GetRenderTargetWidth();
+    uintptr_t GetRenderTargetHeight();
 };
 #endif

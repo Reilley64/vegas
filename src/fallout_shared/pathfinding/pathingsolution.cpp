@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathingsolution.cpp: PathingSolution, OwnS, DelS, HermiteStub and more (34 functions)
 
+#include <new>
 #include "fnv/decl/BGSSaveGameBuffer.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSSimpleArray_006cefa0.h"
@@ -76,7 +77,6 @@ PathingSolution::PathingSolution()
 struct DelS
 {
     void FUN_006e7720();
-    static void operator delete(void*, unsigned int);
     void* FUN_006e76f0(unsigned int flags);
 };
 struct PSClearStub

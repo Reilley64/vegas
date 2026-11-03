@@ -1,7 +1,9 @@
 
 // to their real unit once identified.
 
+#include <new>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/C_00e8f010.h"
@@ -77,7 +79,6 @@ struct RendererPacketEntry
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class GraphicsRenderer : public NiMemObject
 {
@@ -689,7 +690,7 @@ struct S_00e69a20
     DepthDevice* dev;
     bool CreateDepthStencilBuffer(Ni2DBuffer* a, NiPixelFormat const* b, unsigned int c);
 };
-extern "C" char* __cdecl strcat_s(char* dest, unsigned int size, const char* src);
+
 struct FUN_00e69c00_shell
 {
     char pad[0x5cc];
@@ -2189,7 +2190,7 @@ struct FUN_00e69a60_obj20
 struct FUN_00e69a60_obj14
 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererListNode
 {
     void* m_pListObject;
@@ -2223,7 +2224,6 @@ class NiRefObject
 class NiPixelData : public NiRefObject
 {
   public:
-    static void* operator new(unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08;
     int unk0c;
@@ -4853,10 +4853,6 @@ class E6EC20Cache
   public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        operator_delete_sized(pvMem, uiSize);
-    }
 
     int unk00;
     int unk04;
@@ -4893,7 +4889,7 @@ struct ResourceParameters
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge
 {
     RendererStateSlot* State(unsigned int idx)
@@ -9397,14 +9393,6 @@ struct ShaderD3DDevice
 struct ShaderMemMgr
 {
 };
-inline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 struct ShaderVertexElement
 {
     unsigned short Stream;
@@ -9665,10 +9653,6 @@ class E7A6A0Bucket
         m_kEntries.RemoveAll();
     }
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        operator_delete_sized(pvMem, uiSize);
-    }
 
     int m_iKey;
     E7A6A0Array<E7A6A0Entry*> m_kEntries;
@@ -13791,11 +13775,6 @@ struct Node
 
     Node* m_next;
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-
-        operator_delete_sized(pvMem, uiSize);
-    }
 };
 void* NiMalloc(unsigned int);
 struct RendererBase
@@ -14946,7 +14925,7 @@ struct FUN_00e759c0_cls
 extern "C" const char* FUN_00ee6e2e(void* pDevice);
 extern "C" const char* FUN_00ee6e28(void* pDevice);
 int __cdecl GetGlobalDataPtr() throw();
-void* __cdecl FUN_00aa13e0(unsigned int size) throw();
+
 
 struct ShaderName
 {
@@ -14969,10 +14948,6 @@ struct ShaderProgram;
 
 struct ShaderEntry
 {
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     ShaderEntry(unsigned int id, int target, int type, const ShaderName& name, const char* libraryName, int a2, int a3,
                 int a5, int a4) throw();
     int unk00;

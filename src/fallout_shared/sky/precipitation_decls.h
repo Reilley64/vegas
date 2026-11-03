@@ -3,6 +3,7 @@
 #define FNV_PRECIPITATION_DECLS_H
 
 
+#include <new>
 #include "fnv/decl/FUN_00453470_shell.h"
 #include "fnv/decl/FUN_00a5a040_Class.h"
 #include "fnv/decl/S_FUN_0045bc00.h"
@@ -140,8 +141,6 @@ class Precipitation
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 class NiSortAdjustNode : public NiMemObject

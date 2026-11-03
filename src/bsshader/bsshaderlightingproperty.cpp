@@ -1,5 +1,6 @@
 // bsshader/bsshaderlightingproperty.cpp: BSShaderLightingProperty, NewObj, LList, FalloffProperty and more (45 functions)
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/B9DBE0Fader.h"
@@ -157,7 +158,6 @@ void FUN_00b6fd30(void* pThis);
 
 struct NiMemObject_DeleteHelper : NiMemObject
 {
-    static void __cdecl operator delete(void* p, size_t s);
 };
 
 
@@ -981,7 +981,6 @@ struct _Helper_00ba8b10
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00ba8e50 : BSFadeNode
 {
@@ -1030,7 +1029,6 @@ NewObj* FUN_00b71800(_Helper_00ba8b10* self, int unused, void* arg)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00b71720 : BSFadeNode
 {
@@ -2083,8 +2081,6 @@ struct S00b700d0_RTTI;
 class S00b700d0_Alpha : public NiProperty
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     S00b700d0_Alpha();
 
     unsigned short m_usFlags;

@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nicolorextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a698a0_class.h"
@@ -156,8 +158,6 @@ class A89400ExtraData
   public:
     A89400ExtraData() throw();
     virtual ~A89400ExtraData();
-    static void* operator new(unsigned int uiSize) throw();
-    static void operator delete(void* pvMem);
 
     void CopyMemberData(A89400ExtraData* pkDest, A89400CloningProcess& kCloning);
 
@@ -272,7 +272,7 @@ struct NiExtraData_StandIn
     virtual ~NiExtraData_StandIn();
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 extern int DAT_0109eccc;
 
 // Obtains a 0x1c byte block, calls a method on it, writes a global pointer and four global values, and returns it.
@@ -285,7 +285,7 @@ unsigned int* __cdecl FUN_00a89490()
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData_StandIn*)ptr)))->FUN_00a7b2e0();
 
-        ptr[0] = (unsigned int)&DAT_0109eccc;
+        ptr[0] = (uintptr_t)&DAT_0109eccc;
 
         float f[4];
         f[0] = 0.0f;

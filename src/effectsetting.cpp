@@ -356,7 +356,6 @@ TESSound* FUN_008ce390_shell::FUN_008ce390()
     return this->data.m_pAreaEffectSound;
 }
 
-void __cdecl operator delete(void*);
 struct S
 {
     void FUN_00407230();

@@ -313,7 +313,6 @@ void FUN_00559ff0_class::FUN_00559ff0()
 }
 }  // namespace fnv_00559ff0
 
-void __cdecl operator delete(void*);
 struct FUN_005407d0_Class
 {
     void FUN_005409b0();
@@ -457,7 +456,6 @@ struct FUN_005422b0Class
 {
     void* FUN_00559970(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 // @fnv 0x00559970
 void* FUN_005422b0Class::FUN_00559970(unsigned int flags)
 {
@@ -1080,7 +1078,6 @@ void FUN_00558600_Class::FUN_00558600(int* a, int* b, int* c, int* d, int* e, in
     *k = DAT_011f9fec;
 }
 
-void* __cdecl operator new(unsigned int);
 extern int DAT_0102f3e8;
 struct FUN_00559b40
 {
@@ -1997,7 +1994,6 @@ struct LightData
     int unk18;
     int unk1c;
     int unk20;
-    static void* operator new(unsigned int);
     LightData();
 };
 struct Extras
@@ -2144,8 +2140,6 @@ struct IntSeenData : SeenData
     IntSeenData* field_28;
     IntSeenData(unsigned char, unsigned char);
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct Result556ef0
 {
 };

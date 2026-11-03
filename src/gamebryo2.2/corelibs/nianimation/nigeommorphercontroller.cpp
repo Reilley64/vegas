@@ -139,7 +139,6 @@ void FUN_00a3a8b0(NiGeomMorpherController* self, int, NiInterpolator* pkInterpol
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiFloatInterpolator
 {
@@ -151,7 +150,7 @@ NiInterpolator* CreateMorphWeightInterpolator(NiGeomMorpherController* self, int
     float fValue = 0.0f;
     if (self->m_pInterpolatorItems)
         fValue = self->m_pInterpolatorItems[usIndex].m_fWeight;
-    NiFloatInterpolator* p = static_cast<NiFloatInterpolator*>(BSFadeNode::operator new(0x18));
+    NiFloatInterpolator* p = static_cast<NiFloatInterpolator*>(::operator new(0x18));
     if (p)
         return reinterpret_cast<NiInterpolator*>(((::NiFloatInterpolator *)(new ((void *)(p)) ::FUN_00a3c390(fValue))));
     return 0;
@@ -348,10 +347,6 @@ struct P03MM
 struct MorphPoint3
 {
     float x, y, z;
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct MorphGeomData
@@ -1830,7 +1825,7 @@ void FUN_00a3b080_cls::ApplySetterArg(SetterArg* a1)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 extern int DAT_01096cec;
 
@@ -1886,10 +1881,6 @@ struct Obj_b10413 : public Base_b10413
     bool m_bUpdateBounds;
 
     Obj_b10413(MorphData_b10413* pkData) throw();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 Obj_b10413::Obj_b10413(MorphData_b10413* pkData) throw() : m_spMorphTargetData(pkData)
@@ -2041,7 +2032,6 @@ int* C00a41590::FUN_00a41590()
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 class NiMorphDataA3B
 {
@@ -2083,10 +2073,6 @@ class NiGeomMorpherControllerA3B : public a3bb::FUN_00a2f8c0
         m_bUpdateBounds = false;
     }
     virtual ~NiGeomMorpherControllerA3B() throw();
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
     unsigned short m_uiObjectFlags;
     NiPtrA3B<NiMorphDataA3B> m_spMorphTargetData;
     void* m_pInterpolatorItems;

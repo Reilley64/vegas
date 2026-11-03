@@ -41,7 +41,6 @@ struct FUN_00cd12b0_cls
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(std::size_t size);
     BSFadeNode();
     ~BSFadeNode();
 };

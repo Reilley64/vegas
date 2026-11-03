@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nibinaryextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibinaryextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -25,7 +26,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int size);
 };
 
 extern int DAT_0102e394;
@@ -33,7 +33,7 @@ extern int DAT_0102e394;
 // @fnv 0x00a7f8e0
 void* __cdecl FUN_00a7f8e0()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)p)))->FUN_00a7b2e0();
@@ -346,14 +346,14 @@ struct FUN_00a7fa90_cls
 void FUN_00a7fa90_cls::FUN_00a7fa90(FUN_00a7fa90_obj* pObj)
 {
     reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(pObj));
-    void* r = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f4ab8))))));
+    void* r = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f4ab8))))));
     unsigned int a = pObj->m_w0A;
     if (a >= pObj->m_w08)
     {
         reinterpret_cast<::ViewerStrings *>((pObj))->SetSize(a + pObj->m_w0E);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pObj))->SetAt(a, (*(char * *)(&r)));
-    r = ((void *)(::FUN_00a7d510(::str_0109df4c, (unsigned int)(m_p10))));
+    r = ((void *)(::FUN_00a7d510(::str_0109df4c, (uintptr_t)(m_p10))));
     a = pObj->m_w0A;
     if (a >= pObj->m_w08)
     {
@@ -367,10 +367,10 @@ struct FUN_00cb9c70_cls
 };
 struct FUN_00a89ae0_shell
 {
-    bool FUN_00a89ae0(int);
+    bool FUN_00a89ae0(intptr_t);
 };
 // @fnv 0x00a89ae0
-bool FUN_00a89ae0_shell::FUN_00a89ae0(int a)
+bool FUN_00a89ae0_shell::FUN_00a89ae0(intptr_t a)
 {
     return reinterpret_cast<::MyOwner *>((((FUN_00cb9c70_cls*)this)))->FUN_00a7b290((*(::NiStream *)(a)));
 }
@@ -412,8 +412,6 @@ struct CloningProcess;
 class A7F920ExtraData
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* p);
 
     __declspec(nothrow) A7F920ExtraData();
     virtual void vfunc00();

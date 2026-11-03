@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathmanager_decls.h: declares QueuedMessage, ActorPathingMessageQueue, NiMemObject, PathingSolution, Pathing and more
 
+#include <new>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/TESForm.h"
@@ -79,8 +80,6 @@ class ActorPathingMessageQueue
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 
 class PathingSolution : public NiMemObject

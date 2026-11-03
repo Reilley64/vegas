@@ -255,10 +255,6 @@ class DA0920Base
     }
     virtual void vfunc00();
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 class DA0920Object : public DA0920Base
 {

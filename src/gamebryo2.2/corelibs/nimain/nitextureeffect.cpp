@@ -1,6 +1,7 @@
 
 // gamebryo2.2/corelibs/nimain/nitextureeffect.cpp
 // NiTextureEffect: static texture-type string table init.
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -83,9 +84,9 @@ int* __cdecl FUN_00a927d0()
     return &(*reinterpret_cast<int *>(&::g_011f5e94));
 }
 
-extern long DAT_011f5ea0;
-extern long DAT_011f5ea4;
-extern long DAT_011f5ea8;
+extern intptr_t DAT_011f5ea0;
+extern intptr_t DAT_011f5ea4;
+extern intptr_t DAT_011f5ea8;
 
 struct FUN_00a928b0_shell : NiTextureEffect
 {
@@ -106,21 +107,21 @@ void FUN_00a928b0_shell::ClearFixedStrings()
     pOldHandle = (char*)DAT_011f5ea0;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea0 = (long)NiGlobalStringTable::AddString(0);
+        DAT_011f5ea0 = (intptr_t)NiGlobalStringTable::AddString(0);
         if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
     pOldHandle = (char*)DAT_011f5ea4;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea4 = (long)NiGlobalStringTable::AddString(0);
+        DAT_011f5ea4 = (intptr_t)NiGlobalStringTable::AddString(0);
         if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
     pOldHandle = (char*)DAT_011f5ea8;
     if (pOldHandle != 0)
     {
-        DAT_011f5ea8 = (long)NiGlobalStringTable::AddString(0);
+        DAT_011f5ea8 = (intptr_t)NiGlobalStringTable::AddString(0);
         if (pOldHandle != (*reinterpret_cast<::NiFixedString *>(&::DAT_0109b220)).m_kHandle)
             InterlockedDecrement((long*)(pOldHandle - 8));
     }
@@ -226,7 +227,7 @@ struct Sub16
 
 struct FUN_00a92710_cls : FUN_00a92710_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     unsigned char m_unk04[0x99];
     unsigned char m_9d;
     unsigned char m_unk9e[0x26];
@@ -257,7 +258,7 @@ void* FUN_00a92710_cls::FUN_00a92710()
 {
     FUN_00a92710_base* base = reinterpret_cast<FUN_00a92710_base*>(this);
     new ((void *)(base)) ::NiDynamicEffect();
-    m_vptr00 = (int)&(*reinterpret_cast<int *>(&::fnv_00a92bd0::DAT_0109fd0c));
+    m_vptr00 = (intptr_t)&(*reinterpret_cast<int *>(&::fnv_00a92bd0::DAT_0109fd0c));
     m_mat1 = *(Mat3x3*)&(*reinterpret_cast<float (*)[32]>(&::DAT_011a9448))[0];
     m_e8 = 0.0f;
     m_ec = 0.0f;
@@ -785,12 +786,11 @@ void TexEffectSaver::FUN_00a932f0(NiStream& kStream)
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 // @fnv 0x00a929b0
 void* __cdecl FUN_00a929b0()
 {
-    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)NiMemObject::operator new(0x15c);
+    FUN_00a92710_cls* obj = (FUN_00a92710_cls*)::operator new(0x15c);
     if (obj)
         return obj->FUN_00a92710();
     return 0;
@@ -962,7 +962,7 @@ struct TextureEffectViewer : DynamicEffectViewer
 void TextureEffectViewer::AppendToStrings(StrArr& strings)
 {
     reinterpret_cast<::Zx3Effect *>(this)->FUN_00a69140((::StrArr *)&(strings));
-    strings.Add(FUN_00a7d330(reinterpret_cast<const char*>((*reinterpret_cast<int *>(&::g_011f5e94)))));
+    strings.Add(FUN_00a7d330(reinterpret_cast<const char*>((*reinterpret_cast<intptr_t *>(&::g_011f5e94)))));
     strings.Add(reinterpret_cast<::FloatMatrix3 *>(&(modelProjMat))->ToString("m_kModelProjMat"));
     strings.Add(reinterpret_cast<::NiPoint3 *>(&(modelProjTrans))->FUN_00a59af0("m_kModelProjTrans"));
     strings.Add(::FUN_00a92a60("m_eTextureMode", textureMode));
@@ -1171,7 +1171,6 @@ void TexEffectLoader::FUN_00a93140(NiStreamL& kStream)
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 class NiCloningProcessA93;
 namespace a93 {
@@ -1179,10 +1178,6 @@ class FUN_00a92710
 {
   public:
     FUN_00a92710() throw();
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
     unsigned int unk000;
     unsigned int unk004;
     unsigned int unk008;

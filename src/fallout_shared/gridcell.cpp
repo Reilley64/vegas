@@ -1190,8 +1190,6 @@ struct Obj
     virtual void v54();
     virtual void AttachChildInAvailableSlot(Obj*, int);
 
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 
     void SetColB(void*);
 };

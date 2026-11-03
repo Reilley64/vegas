@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bspackedadditionalgeometrydata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a73370Node.h"
 #include "fnv/decl/FUN_00a734c0.h"
@@ -13,7 +14,6 @@
 #include "fnv/symbols_011f4000.h"
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FakeBase
 {
@@ -22,7 +22,7 @@ extern int DAT_0102e1dc;
 // @fnv 0x00a7f740
 void* FUN_00a7f740()
 {
-    void* p = BSFadeNode::operator new(52);
+    void* p = ::operator new(52);
     if (p)
     {
         new ((void *)(((FakeBase*)p))) ::FUN_00a734c0();
@@ -72,7 +72,7 @@ void Owner::AppendNameStrings(StringList* list)
     if (index >= list->capacity)
         reinterpret_cast<::ViewerStrings *>((list))->SetSize(list->growth + index);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((list))->SetAt(index, (*(char * *)(&text)));
-    text = ::FUN_00a7d510(str_0109deec, (unsigned int)(name));
+    text = ::FUN_00a7d510(str_0109deec, (uintptr_t)(name));
     index = list->count;
     if (index >= list->capacity)
         reinterpret_cast<::ViewerStrings *>((list))->SetSize(list->growth + index);

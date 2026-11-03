@@ -698,7 +698,6 @@ class LipSyncAnimation
 {
   public:
     ~LipSyncAnimation();
-    static void operator delete(void*);
 };
 class DialogueResponse;
 class TESObjectREFR;
@@ -708,7 +707,6 @@ class DialogueItem
     unsigned char state[28];
     DialogueItem();
     ~DialogueItem();
-    static void operator delete(void*);
 public:
     ::TESObjectREFR *SelectDefaultResponseList();
 public:
@@ -1341,7 +1339,6 @@ namespace ActorValue {
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class PathingAvoidNodeArray : public NiMemObject
 {
@@ -1379,7 +1376,6 @@ class TargetDoorController
 {
   public:
     ~TargetDoorController();
-    static void operator delete(void*);
 };
 class DecalDataDeleter
 {
@@ -1389,7 +1385,6 @@ class MuzzleFlash
 {
   public:
     ~MuzzleFlash();
-    static void operator delete(void*);
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting347;
 struct PlayerDetectionCounter

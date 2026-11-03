@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -31,14 +32,13 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 
 // @fnv 0x00a9af90
 void* __cdecl FUN_00a9af90()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
@@ -99,19 +99,15 @@ struct CloningProcess;
 
 struct S_00a9af40 : NiExtraData
 {
-    int unk0;
+    intptr_t unk0;
     int unk4;
     int unk8;
     bool unkC;
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     S_00a9af40() throw()
     {
         reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();
-        unk0 = (int)&DAT_010a112c;
+        unk0 = (intptr_t)&DAT_010a112c;
         unkC = false;
     }
     S_00a9af40* FUN_00a9af40(CloningProcess* pkCloning);

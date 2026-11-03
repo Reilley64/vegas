@@ -261,10 +261,6 @@ struct FUN_00aa18c0 : NiBinaryStream
     NiFile::OpenMode m_eMode;
     bool m_bGood;
     virtual ~FUN_00aa18c0();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // When m_bGood and m_pFile are set, flushes and closes the file, then frees m_pBuffer.
 // @fnv 0x00aa18c0

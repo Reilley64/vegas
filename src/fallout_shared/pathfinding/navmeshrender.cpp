@@ -444,8 +444,6 @@ struct ObjX
     virtual void v0d4();
     virtual void v0d8();
     virtual void AttachChildInAvailableSlot(AVObjX* apChild, bool abFirstAvail);
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
 };
 struct AVObjX : public ObjX
 {

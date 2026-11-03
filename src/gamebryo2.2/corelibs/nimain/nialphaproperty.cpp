@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nialphaproperty.cpp: NiAlphaProperty (12 functions)
 
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
@@ -92,10 +93,6 @@ struct SdmBase
     }
     virtual ~SdmBase()
     {}
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 struct SdmDerived : SdmBase
 {
@@ -122,7 +119,6 @@ void CreateSdmDerived()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiPropertyCtorStub
 {
@@ -132,7 +128,7 @@ struct NiPropertyCtorStub
 // @fnv 0x00a5cef0
 void FUN_00a5cef0()
 {
-    char* pAlphaProperty = (char*)BSFadeNode::operator new(0x1c);
+    char* pAlphaProperty = (char*)::operator new(0x1c);
     if (pAlphaProperty)
     {
         new ((void *)(((NiPropertyCtorStub*)pAlphaProperty))) struct ::FUN_00a5c200();
@@ -158,13 +154,12 @@ void FUN_00a5cef0()
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a5ceb0
 NiAlphaProperty* __cdecl CreateNiAlphaProperty()
 {
-    NiAlphaProperty* p = (NiAlphaProperty*)A51BF0Base::operator new(0x1c);
+    NiAlphaProperty* p = (NiAlphaProperty*)::operator new(0x1c);
     if (p)
     {
         new ((void *)(((NiPropertyCtorStub*)p))) struct ::FUN_00a5c200();
@@ -484,7 +479,7 @@ void __cdecl FUN_00a99e40()
     ::FUN_00a62130({}, {}, {});
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct S00a5ce30_cls
 {

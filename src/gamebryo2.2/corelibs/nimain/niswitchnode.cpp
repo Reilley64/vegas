@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00a943f0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ChildNode.h"
@@ -103,14 +105,14 @@ struct NiObjectNET
 // @fnv 0x00a5bf50
 bool NiObjectNET::FUN_00a5bf50(unsigned short ausIndex)
 {
-    EnterCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
     if (ausIndex < *(unsigned short*)((char*)this + 0x14))
     {
         DeleteExtraData(ausIndex);
-        LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
         return true;
     }
-    LeaveCriticalSection(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380)));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&(*reinterpret_cast<unsigned char *>(&::DAT_011f4380))));
     return false;
 }
 
@@ -200,7 +202,7 @@ void SwitchHack::FUN_00a94300(NiUpdateData& data)
     }
     else
     {
-        ::fnv_00a5e280::UpdateChildControllers((::NiNode *)(((NiNodeHack*)this)), (int)&(data), *(::NiUpdateData *)nullptr);
+        ::fnv_00a5e280::UpdateChildControllers((::NiNode *)(((NiNodeHack*)this)), (intptr_t)&(data), *(::NiUpdateData *)nullptr);
     }
 }
 
@@ -232,7 +234,6 @@ struct CloningProcess
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiNode_Helper
 {
@@ -249,7 +250,7 @@ struct FUN_00a94500_Holder : NiSwitchNode
 NiObject* FUN_00a94500_Holder::CloneSwitchNode(CloningProcess& kCloning)
 {
     NiSwitchNode* pkObject;
-    void* pMemory = BSFadeNode::operator new(0xCC);
+    void* pMemory = ::operator new(0xCC);
     if (pMemory)
         pkObject = ((NiSwitchNode_Helper*)pMemory)->FUN_00a94360();
     else
@@ -355,7 +356,7 @@ void Target::FUN_00a93ca0(RefObj* child, RefPtr& out)
     RefPtr refTemp;
     refTemp.p = 0;
     reinterpret_cast<::fnv_00a5e780::NodeStandIn *>((((S2*)this)))->FUN_00a5e780((::fnv_00a5e780::RefObj *)(child), (::fnv_00a5e780::RefPtr &)(refTemp));
-    int active = (int)m_0b0;
+    intptr_t active = (intptr_t)m_0b0;
     if (active > -1 && (active >= (int)*((unsigned short*)&m_0a4 + 1) || !((RefObj**)m_0a0)[active]))
         m_0b0 = (void*)-1;
     out.Assign(refTemp);
@@ -554,13 +555,13 @@ struct FUN_00a93ef0_cls : public NiSwitchNode
     void* m_0b8;
     SwitchHolderB10050 m_0bc;
     void** m_0c0;
-    void UpdateSwitchChild(unsigned int arg);
+    void UpdateSwitchChild(uintptr_t arg);
 };
 
 // @fnv 0x00a93ef0
-void FUN_00a93ef0_cls::UpdateSwitchChild(unsigned int arg)
+void FUN_00a93ef0_cls::UpdateSwitchChild(uintptr_t arg)
 {
-    int idx = (int)m_0b0;
+    intptr_t idx = (intptr_t)m_0b0;
     if (idx >= 0)
     {
         SwitchChildB10050* child = (SwitchChildB10050*)((void**)m_0a0)[idx];
@@ -603,7 +604,7 @@ void FUN_00a93f90_cls::UpdateFromActiveChild()
 {
     if ((m_0ac & 1) != 0)
     {
-        int idx = (int)m_0b0;
+        intptr_t idx = (intptr_t)m_0b0;
         NiObject* child = 0;
         if (idx >= 0)
             child = (NiObject*)((void**)m_0a0)[idx];
@@ -685,13 +686,13 @@ void FUN_00a94040_shell::UpdateSwitchState(FNV_UpdateFlags* update, unsigned int
         if (update->shouldActivate)
             reinterpret_cast<::NiAVObject *>((update))->UpdateTimeControllers((*(::NiUpdateData *)(1)), {});
         reinterpret_cast<FNV_SwitchVirtual*>(this)->NotifyUpdated(update);
-        if ((int)m_0b0 >= 0)
+        if ((intptr_t)m_0b0 >= 0)
         {
-            FNV_ChildVirtual* child = reinterpret_cast<FNV_ChildVirtual**>(m_0a0)[(int)m_0b0];
+            FNV_ChildVirtual* child = reinterpret_cast<FNV_ChildVirtual**>(m_0a0)[(intptr_t)m_0b0];
             if (child)
             {
                 child->NotifySelected(update, flags);
-                reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_pTracker))->SetAt((int)m_0b0, (*(char * *)(count)));
+                reinterpret_cast<::fnv_00b5c7d0::StrArr *>(&(m_pTracker))->SetAt((intptr_t)m_0b0, (*(char * *)(count)));
                 NiObject* raw = reinterpret_cast<NiObject*>(child);
                 FNV_Color4* color = raw->m_020 ? reinterpret_cast<FNV_Color4*>(raw->m_020) : &(*reinterpret_cast<::FNV_Color4 *>(&::g_defaultBound));
                 FNV_Color4* out = reinterpret_cast<FNV_Color4*>(m_020);
@@ -1046,7 +1047,7 @@ void Node_a94440::FUN_00a94440(void* a1, int a2)
     m_kArrBC.Add(0);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SwitchNode_a94550
 {
@@ -1363,7 +1364,7 @@ void FUN_00a94680_shell::AppendDebugStrings(StrArr* pkStrings)
 {
     reinterpret_cast<::FUN_00a5ea70_t *>((reinterpret_cast<FUN_00a5ea70_Obj*>(this)))->FUN_00a5ea70(pkStrings);
     AddString(pkStrings, FUN_00a7d330((*reinterpret_cast<char * *>(&::g_011f5eb4))));
-    AddString(pkStrings, FUN_00a7d4d0("m_iIndex", reinterpret_cast<int>(m_0b0)));
+    AddString(pkStrings, FUN_00a7d4d0("m_iIndex", reinterpret_cast<intptr_t>(m_0b0)));
     bool bUpdateOnlyActive = m_0ac & 1;
     AddString(pkStrings, FUN_00a7d370("m_bUpdateOnlyActive", bUpdateOnlyActive));
 }
@@ -1491,11 +1492,11 @@ class SwitchNodeUpdate : public SwitchNodeBase
     unsigned int m_uiRevID;        // +0xb8
     SwitchRevList m_kRevList;      // +0xbc
 
-    void FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFlags);
+    void FUN_00a94220(FNV_UpdateFlags* apData, uintptr_t auiFlags);
 };
 
 // @fnv 0x00a94220
-void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFlags)
+void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, uintptr_t auiFlags)
 {
     m_fSwitchValue = apData->time;
     if (m_uiSwitchFlags & 1)
@@ -1526,7 +1527,7 @@ void SwitchNodeUpdate::FUN_00a94220(FNV_UpdateFlags* apData, unsigned int auiFla
     }
     else
     {
-        ::FUN_00a5e1f0((::NiNode *)this, (int)(apData), (*(::NiUpdateData *)(auiFlags)), {});
+        ::FUN_00a5e1f0((::NiNode *)this, (intptr_t)(apData), (*(::NiUpdateData *)(auiFlags)), {});
     }
 }
 

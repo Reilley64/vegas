@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysdragfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/C32060EmitterModifier.h"
@@ -67,7 +68,6 @@ struct CloningProcess
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     virtual ~BSFadeNode();
 };
 struct NiPSysFieldModifier : BSFadeNode
@@ -81,7 +81,7 @@ struct NiPSysDragFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c2c8d0
 NiPSysFieldModifier* NiPSysDragFieldModifier::FUN_00c2c8d0(CloningProcess& process)
 {
-    NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(BSFadeNode::operator new(0x40));
+    NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(::operator new(0x40));
     if (clone)
     {
         new ((void *)(clone)) ::FUN_00c31ff0();
@@ -117,7 +117,7 @@ struct BoundDataBlock
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
-    unsigned int unk20;
+    uintptr_t unk20;
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
@@ -492,10 +492,6 @@ void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkD
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct NiPoint3Helper : NiPoint3
 {

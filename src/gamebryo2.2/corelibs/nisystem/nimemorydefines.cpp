@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nisystem/nimemorydefines.cpp: NiFixedAllocatorStub (8 functions)
 
+#include <cstdint>
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f6000.h"
 #include "nimemorydefines_decls.h"
@@ -89,8 +90,8 @@ class S_AllocVt
     virtual void* Alloc(unsigned int& size, unsigned int& alignment, int event, bool accurateSize, const char* file,
                         int line, const char* function);
     virtual void Free(void* p, int event, int size);
-    virtual void* Realloc(void* p, unsigned int& oldSize, unsigned int& newSize, int event, int a4, int a5, int a6,
-                          int a7, int a8);
+    virtual void* Realloc(void* p, unsigned int& oldSize, unsigned int& newSize, int event, int a4, int a5, intptr_t a6,
+                          int a7, intptr_t a8);
 };
 
 // @fnv 0x00aa1250
@@ -162,7 +163,7 @@ struct ReallocMemMgr
                      bool bAccurate, unsigned int stSizeCurrent, const char* pcFile, int iLine, const char* pcFunction)
     {
         return m_pHeapAllocator->Realloc(pvMem, stSizeInBytes, stAlignment, aiAllocationType, bAccurate, stSizeCurrent,
-                                         (int)pcFile, iLine, (int)pcFunction);
+                                         (intptr_t)pcFile, iLine, (intptr_t)pcFunction);
     }
     void Deallocate(void* pvMem, int aiAllocationType, unsigned int stSizeinBytes)
     {

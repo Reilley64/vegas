@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -140,7 +141,6 @@ struct NiObject
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct NiBoneLODController : public NiObject
 {
@@ -199,7 +199,7 @@ struct NiBoneLODController : NiObject
 // @fnv 0x00a54340
 void NiBoneLODController::FUN_00a54340(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     int iLOD = m_iLOD;
     m_iLOD = -1;
     FUN_00a541f0(iLOD);
@@ -276,13 +276,12 @@ void NiBoneLODController::UpdateLOD(NiUpdateData& UpdateData)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a55300
 NiBoneLODController* CreateBoneLODController()
 {
-    NiBoneLODController* p = (NiBoneLODController*)A51BF0Base::operator new(0x68);
+    NiBoneLODController* p = (NiBoneLODController*)::operator new(0x68);
     if (p)
         return p->FUN_00a550b0();
     return 0;
@@ -426,7 +425,7 @@ class NiBoneLODControllerA53 : public NiTimeController
 // @fnv 0x00a53d00
 bool NiBoneLODControllerA53::FUN_00a53d00(NiStream& kStream)
 {
-    if (!::FUN_00a6d0f0((::TCReg *)this, (int)&(kStream), *(::NiStream *)nullptr))
+    if (!::FUN_00a6d0f0((::TCReg *)this, (intptr_t)&(kStream), *(::NiStream *)nullptr))
         return false;
 
     for (unsigned int ui = 0; ui < m_kSkinInfoSets.GetSize(); ui++)
@@ -881,7 +880,7 @@ class EqBoneLODController : public EqTimeController
 // @fnv 0x00a53ea0
 bool EqBoneLODController::FUN_00a53ea0(EqObject* pkObject)
 {
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObject), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(pkObject), {}))
         return false;
 
     EqBoneLODController* pkDest = (EqBoneLODController*)pkObject;
@@ -1120,10 +1119,6 @@ template <class T> struct LinkGroup
     T* data;
     unsigned int capacity;
     unsigned int count;
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     LinkGroup() : data(0), capacity(0), count(0)
     {}
     void Reserve(unsigned int size)
@@ -1156,10 +1151,6 @@ struct LinkSkinInfo
 {
     void* object;
     void* skin;
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LODPool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     LinkSkinInfo() : skin(0)
     {}
 };
@@ -1599,7 +1590,7 @@ class FUN_00a550b0 : public a550::FUN_00a6d220
 // @fnv 0x00a552c0
 NiBoneLODController* NiBoneLODController::FUN_00a552c0(CloningProcess& kCloning)
 {
-    NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(BSFadeNode::operator new(0x68));
+    NiBoneLODController* pkObject = static_cast<NiBoneLODController*>(::operator new(0x68));
     if (pkObject)
         pkObject = ((::NiBoneLODController *)(new ((void *)(pkObject)) ::FUN_00a550b0()));
     else
@@ -1672,10 +1663,6 @@ struct A54440Heap : MemoryAllocator
 };
 struct A54440PointerGroup
 {
-    static void* operator new(unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
-    }
     A54440PointerGroup() : elements(0), capacity(0), count(0)
     {}
     void** elements;
@@ -1726,10 +1713,6 @@ struct A54440GrowGroup
 };
 struct A54440LinkGroup
 {
-    static void* operator new(unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
-    }
     A54440LinkGroup() : entries(0), capacity(0), count(0)
     {}
     __forceinline void Append(A54440Link* item)
@@ -1842,10 +1825,6 @@ static void* A54440Map(A54440Hash* hash, void* key)
 }
 struct A54440SourceLink
 {
-    static void* operator new(unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((A54440Heap*)&(*reinterpret_cast<::MemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(bytes);
-    }
     A54440SourceLink() : ref(0)
     {}
     void* source;

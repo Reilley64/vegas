@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
@@ -57,7 +58,6 @@ void* __cdecl FUN_00a56060()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_011a9434;
 extern int DAT_011a9438;
@@ -67,11 +67,11 @@ extern int DAT_0109a58c;
 // @fnv 0x00a55ff0
 NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
 {
-    NiBlendColorInterpolator* pInterpolator = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
+    NiBlendColorInterpolator* pInterpolator = (NiBlendColorInterpolator*)::operator new(0x44);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();
-        *(int*)pInterpolator = (int)&DAT_0109a58c;
+        *(intptr_t*)pInterpolator = (intptr_t)&DAT_0109a58c;
         *(int*)&pInterpolator->m_kColorValue = *(int*)&::DAT_011a9430;
         *(int*)((char*)pInterpolator + 0x34) = DAT_011a9434;
         *(int*)((char*)pInterpolator + 0x38) = DAT_011a9438;
@@ -221,7 +221,7 @@ struct FUN_00a56090_shell : NiBlendColorInterpolator
 // @fnv 0x00a56090
 void* FUN_00a56090_shell::FUN_00a56090(CloningProcess& kCloning)
 {
-    NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)BSFadeNode::operator new(0x44);
+    NiBlendColorInterpolator* pkObject = (NiBlendColorInterpolator*)::operator new(0x44);
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();

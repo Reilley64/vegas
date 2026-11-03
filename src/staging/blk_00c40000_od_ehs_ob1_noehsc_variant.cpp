@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/A54440Hash.h"
@@ -470,7 +471,6 @@ void __cdecl FUN_00c43070(void*);
 struct FUN_00c43620_Class {
     void FUN_00c43070();
     void* FUN_00c43620(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c43850_Class {
     void FUN_00c43850(void* dst, unsigned int size);
@@ -551,7 +551,6 @@ struct FUN_00c51640_Class {
 };
 struct FUN_00878690_shell {
 };
-void __cdecl operator delete(void* ptr, unsigned int size);
 struct FUN_00c52830_class {
     void* FUN_00c52830(unsigned int flags);
 };
@@ -569,7 +568,6 @@ struct FUN_00c54ec0_class {
 struct FUN_00a7b300_shell { void FUN_00a7b300(); };
 struct FUN_00c55330_class {
     void* FUN_00c55330(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 extern int DAT_010c2d54;
 struct FUN_00c1c280_class {
@@ -623,11 +621,9 @@ struct FUN_00c5e560_class : public NiNode_Helper {
 };
 struct FUN_00c5db90_Class {
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5eb20_Class {
     void* FUN_00c5eb20(unsigned int flags);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5ed60_Class {
     void FUN_00c5ed60();
 };
@@ -644,7 +640,6 @@ struct FUN_00c5f500_class {
 };
 struct FUN_00c5fc20_class {
     void* FUN_00c5fc20(unsigned int flags);
-    void __cdecl operator delete(void* p, unsigned int size);
     void FUN_00c5faa0();
 };
 struct BaseForCall {  };
@@ -809,7 +804,6 @@ struct FUN_00c450d0 : FUN_00c5f570_Class {
     FUN_00c450d0();
 };
 struct FUN_00c465a0_class {
-    void* operator new(unsigned int);
     FUN_00c465a0_class();
     char pad[0x1c];
 };
@@ -826,7 +820,6 @@ struct FUN_00c465a0 {
     int f;
     FUN_00c465a0();
     ~FUN_00c465a0();
-    static void* operator new(unsigned int);
 };
 FUN_00c465a0* __cdecl FUN_00c46740();
 struct FUN_00c48fe0_Class {
@@ -972,7 +965,6 @@ struct FUN_00c46930_class {
 struct A51BF0Base {
     char pad[0xb4];
 
-    static void* __cdecl operator new(unsigned int size);
     A51BF0Base();
 
     A51BF0Base* FUN_00c46ba0(int a);
@@ -1066,7 +1058,6 @@ struct FUN_00c5ce40_Class {
     int PopFrontNode();
 };
 struct FUN_00c5d260_view {
-    static void __cdecl operator delete(void* p, unsigned int sz);
 };
 struct FUN_00c5d260 : FUN_00c5d260_view {
     void* FUN_00c5d260_method(unsigned int flags);
@@ -1146,11 +1137,9 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9874 {
     char m00[0x10];
     SpawnedObject_b9874();
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
 struct S_00c437c0_Obj {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4;
-    static void* operator new(unsigned int);
     S_00c437c0_Obj();
 };
 struct S_00c437c0 : FUN_00c43850_Class {
@@ -1158,7 +1147,6 @@ struct S_00c437c0 : FUN_00c43850_Class {
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660 {
-    static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
 };
 class FUN_00c43be0_cls {
 public:
@@ -1564,7 +1552,6 @@ struct NewObject_b9649 {
     unsigned int unkAC;
     unsigned int unkB0;
     NewObject_b9649();
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
 struct UpdateContext {
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
@@ -2968,7 +2955,6 @@ struct FUN_00c5c400 {
     unsigned int unk58;
     unsigned int m_0x5c;
     unsigned int m_0x60;
-    static void* __cdecl operator new(unsigned int size);
     FUN_00c5c400();
 };
 struct NiPSysEmitterCtlr_CloneShell {
@@ -2987,8 +2973,6 @@ struct FUN_00c5cb50_cls {
 };
 class BC5CBB0Object {
 public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 class BC5CBB0Controller : public BC5CBB0Object {
 public:
@@ -3075,8 +3059,6 @@ struct EmitterObjectStub {
     int unkcc;
     int unkd0;
     EmitterObjectStub();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 struct EmitterOwnerStub {
     EmitterObjectStub* CreateAndAttachEmitterObject(int iParam);
@@ -3696,7 +3678,6 @@ struct BSShaderAccumulator {
     int unk10;
     int unk14;
     int unk18;
-    static void* __cdecl operator new(unsigned int size);
     BSShaderAccumulator();
 };
 struct FUN_00a7b4a0_cls {
@@ -3721,7 +3702,6 @@ public:
 };
 class NiMemObject {
 public:
-    static void* __cdecl operator new(unsigned int size);
 };
 struct NiTransformView {
     float rotation[9];
@@ -3834,9 +3814,6 @@ struct PositionModifierInstance {
     bool active;
     float lastTime;
     void* next;
-    static __forceinline void* operator new(unsigned int amount) {
-        return FUN_00aa13e0(amount);
-    }
 };
 struct MyStream;
 struct ParticlePositionModifier {
@@ -3915,8 +3892,6 @@ struct ThisC43220 {
 class BC45120CloningProcess;
 class BC45120Object {
 public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     BC45120Object();
     virtual ~BC45120Object();
@@ -4362,7 +4337,6 @@ struct C45440_Obj : FUN_00c450d0 {
     int uA4;
     int uA8;
     int uAC;
-    static void* __cdecl operator new(unsigned int size);
 };
 C45440_Obj* __cdecl CreateC45440Obj(void);
 struct Animation;
@@ -4376,7 +4350,7 @@ struct C5EDC0_AnimExtra {
     C5EDC0_AnimArray m_kAnimations;
     unsigned int AddAnimation(Animation* apAnim);
 };
-struct BSFaceGenMorphData { static void* operator new(unsigned int); static void operator delete(void*); };
+struct BSFaceGenMorphData { };
 namespace c30 {
 struct FUN_00c5fd30 : BSFaceGenMorphData { FUN_00c5fd30(); int m[7]; };
 struct Owner30 {
@@ -5212,8 +5186,6 @@ struct BBXRef
 {
     int m_uiFilterValue;
 
-    static void *operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>((((BBXHeap *)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(size); }
-    static void operator delete(void *p) { ((BBXHeap *)&(*reinterpret_cast<char *>(&::g_memoryManager)))->FUN_00aa4060(p); }
 
     BBXRef(const char *s)
     {

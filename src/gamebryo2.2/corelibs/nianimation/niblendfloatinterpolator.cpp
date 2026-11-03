@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendfloatinterpolator.cpp: NiBlendFloatInterpolator, NiBlendInterpolator, BlendFloatSource (12 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendCopy.h"
@@ -148,7 +150,6 @@ FUN_00a40520::FUN_00a40520(bool onlyUseHighestWeight, float weightThreshold, uns
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern const void* vftable_NiBlendFloatInterpolator[];
@@ -156,7 +157,7 @@ extern const void* vftable_NiBlendFloatInterpolator[];
 // @fnv 0x00a40580
 void* __cdecl CreateNiBlendFloatInterpolator()
 {
-    void* pInterpolator = BSFadeNode::operator new(0x34);
+    void* pInterpolator = ::operator new(0x34);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();
@@ -177,7 +178,7 @@ struct M76Obj
 // @fnv 0x00a405b0
 bool M76Obj::IsFloatValueEqual(M76Obj* pkObject)
 {
-    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkObject), {}))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (intptr_t)(pkObject), {}))
         return false;
     M76Obj* pkDest = pkObject;
     if (m_fFloatValue != pkDest->m_fFloatValue)
@@ -259,7 +260,7 @@ void AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 }
 }  // namespace fnv_00a408f0
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct CopyMembersArguments
 {
     NiBlendFloatInterpolator* destination;

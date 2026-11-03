@@ -4996,7 +4996,6 @@ struct FUN_00432da0_object
 {
     void* FUN_00432da0(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 // Calls FreeAndClear, then deletes this object when flags has bit 0 set, and returns this.
 // @fnv 0x00432da0
 void* FUN_00432da0_object::FUN_00432da0(unsigned int flags)
@@ -5105,7 +5104,6 @@ FUN_00433ca0::FUN_00433ca0() : BSExtraData(0x57), kList()
 struct FUN_00433d10_shell
 {
     void FUN_00433d40();
-    void operator delete(void*);
     FUN_00433d10_shell* FUN_00433d10(unsigned int flags);
 };
 
@@ -6105,7 +6103,6 @@ struct FUN_004331c0_rec
 {
     unsigned int key;
     unsigned char flag;
-    static void* __cdecl operator new(unsigned int);
 };
 
 class FUN_005ae3d0_cls
@@ -7121,7 +7118,6 @@ FUN_0081dd00::FUN_0081dd00(OwnerForm* owner, int arg2, int arg3, int arg4, NiPoi
 
 struct ContNode;
 bool FUN_008256d0(ContNode*);
-void __cdecl operator delete(void*);
 struct ListNode
 {
     void* m_item;

@@ -112,10 +112,6 @@ struct D97770Interval
     int m_kRayStart;
     int m_data;
 
-    static void* operator new(std::size_t, void* p) throw()
-    {
-        return p;
-    }
     D97770Interval() : m_kRayStart(0x7fffffff), m_data(0)
     {}
 };

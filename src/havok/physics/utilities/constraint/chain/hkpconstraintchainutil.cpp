@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/D10710Object.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/Quat74.h"
@@ -372,12 +373,6 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     return 1;
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 
 struct S_00e5c370_Alloc;
 struct __declspec(align(16)) S_00e5c370_Vec

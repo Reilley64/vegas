@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/motor/springdamper/hkpspringdamperconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/springdamper/hkpspringdamperconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "havok/hkpSpringDamperConstraintMotor.h"
 
 class S00d862a0_Heap
@@ -51,7 +52,7 @@ class S00d862a0_Ref : public S00d862a0_Base
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         S00d862a0_Ref* b = static_cast<S00d862a0_Ref*>(S00d862a0_Rt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

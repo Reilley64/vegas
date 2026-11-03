@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nirenderedcubemap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nirenderedcubemap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include <new>
 #include "fnv/decl/FUN_00a5c240_shell.h"
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_00a8f000.h"
@@ -41,8 +43,6 @@ void* __cdecl FUN_00ee82a0()
     return &(*reinterpret_cast<void * *>(&::g_012708e4));
 }
 
-void __cdecl operator delete(void* p, size_t size);
-void* __cdecl operator new(size_t);
 struct NiRenderedCubeMap
 {
     virtual ~NiRenderedCubeMap();
@@ -73,7 +73,7 @@ struct Mid_ee8240 : NiProperty
         m_iB = 3;
         m_iC = 2;
         m_iD = 0;
-        ::FUN_00a5f7b0((int)this);
+        ::FUN_00a5f7b0((intptr_t)this);
         m_i30 = 0;
         _ReadWriteBarrier();
     }
@@ -175,7 +175,7 @@ void Obj::FUN_00ee82b0()
     Ref* p = ref30;
     if (p && InterlockedDecrement((volatile long*)p + 1) == 0)
         p->slot1();
-    *(int*)this = (int)&DAT_0109b944;
+    *(intptr_t*)this = (intptr_t)&DAT_0109b944;
     if (item24)
         delete item24;
     ::FUN_00a5f800((::TextureListView *)this);
@@ -238,7 +238,6 @@ inline bool S_00ee8330_IsPowerOf2(unsigned int ui)
 
 struct S_00ee8330_CubeMap
 {
-    static void* operator new(size_t n);
     S_00ee8330_CubeMap() throw();
     virtual ~S_00ee8330_CubeMap();
     int unk04;

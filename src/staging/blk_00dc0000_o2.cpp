@@ -1,6 +1,7 @@
 // staging/blk_00dc0000_o2.cpp: SpawnedObject, ArrayHost, Lock_dd9, hkOwnerDCB1 and more (96 functions)
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -1395,7 +1396,7 @@ class DD91A0ReferencedObject
     }
     virtual void vfunc00();
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         DD91A0ReferencedObject* b =
             static_cast<DD91A0ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -1468,7 +1469,7 @@ class DDC160ReferencedObject
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         DDC160ReferencedObject* b =
             static_cast<DDC160ReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -1934,10 +1935,6 @@ struct hkPairDDFB
 
     hkPairDDFB(void* object, void* key) : m_object(object), m_key(key)
     {}
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
 };
 
 template <class T> class hkArrayDDFB

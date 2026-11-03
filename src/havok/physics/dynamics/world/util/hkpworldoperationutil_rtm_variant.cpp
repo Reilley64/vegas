@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/C67F20List.h"
 #include "fnv/decl/CallRet.h"
@@ -1630,10 +1631,6 @@ struct FUN_00cb7480_cls
 
     void FUN_00cb7480(FUN_00cb7480_holder* a1, FUN_00cb7480_delta* a2);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S00cb5310_Sub;
 struct S00cb5310_Node;
 struct S00cb5310_Piece;
@@ -4371,14 +4368,14 @@ struct MotionBase : RefHeader31
     short m_11c;
     S00cb4230_Half m_fGravityFactor;
     void FUN_00c86610(MotionBase* p);
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         S_00c6aca0_Heap& h = FUN_00c85750()->heap();
         RefHeader31* b = static_cast<RefHeader31*>(((AllocObj*)&h)->v01(static_cast<int>(nbytes)));
         b->m_04 = static_cast<unsigned short>(nbytes);
         return b;
     }
-    __forceinline static void* operator new(unsigned int, void* p)
+    __forceinline static void* operator new(std::size_t, void* p)
     {
         return p;
     }

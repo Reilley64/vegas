@@ -506,10 +506,6 @@ Derived::Derived()
 
 extern "C" void _ReadWriteBarrier();
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct Alloc480
 {

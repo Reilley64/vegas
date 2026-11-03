@@ -98,7 +98,7 @@ hkAlignSceneToNodeOptionsE4AF* hkAlignSceneToNodeOptionsE4AF::FUN_00e4afa0(unsig
 {
     this->hkAlignSceneToNodeOptionsE4AF::~hkAlignSceneToNodeOptionsE4AF();
     if (uiFlags & 1)
-        hkAlignSceneToNodeOptionsE4AF::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 

@@ -336,7 +336,6 @@ int __cdecl FUN_0077f9c0(int a)
     return a * a;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_0077f9d0_class
 {
     void* FUN_0077f9d0(unsigned int flags);
@@ -486,20 +485,12 @@ struct SlotItem
 {
     int m_iWordAt00;
     SlotItem();
-    void* operator new(unsigned int size, void* where);
-    void operator delete(void* p, void* where);
 };
 
 SlotItem::SlotItem()
 {}
 
-void* SlotItem::operator new(unsigned int size, void* where)
-{
-    return where;
-}
 
-void SlotItem::operator delete(void* p, void* where)
-{}
 
 // Placement-constructs count SlotItem objects into the array arr.
 // @fnv 0x00761630
@@ -1061,7 +1052,6 @@ struct WeatherEntry
     int subtitleFont;
     char icon[260];
 };
-void* __cdecl operator new(unsigned int);
 // Allocates a WeatherEntry, copies the title, subtitle and icon strings, validates the fonts, and queues the entry by priority.
 // @fnv 0x0076b960
 void __cdecl FUN_0076b960(const char* title, const char* subtitle, int priority, int extra, int titleFont,

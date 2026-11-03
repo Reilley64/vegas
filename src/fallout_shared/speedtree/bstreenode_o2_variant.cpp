@@ -4,6 +4,8 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BC6C330HavokCollision.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -391,7 +393,6 @@ struct BSFadeNode
 {
     void* vf;
     char pad[16];
-    static void* __cdecl operator new(unsigned int);
     BSFadeNode()
     {
         FUN_00c6b910(this);
@@ -407,7 +408,6 @@ BSFadeNode* FUN_00c87fc0()
 namespace fnv_00cb7640 {
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NewObjA : BSFadeNode
 {
@@ -590,10 +590,6 @@ struct C8CA60Child
 {
     C8CA60Child();
 
-    static void* operator new(C8CA60size_t, void* pvMem)
-    {
-        return pvMem;
-    }
 };
 
 struct C8CA60Owner
@@ -825,8 +821,6 @@ FUN_00cb78b0::~FUN_00cb78b0()
 
 struct S_00cb79d0_Base
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     S_00cb79d0_Base();
     virtual void v00();
     int unk04;
@@ -1517,7 +1511,6 @@ struct S_00caaf40_Obj
     int unk08;
     int unk0c;
     int unk10;
-    static void* operator new(unsigned int);
     S_00caaf40_Obj();
 };
 
@@ -1949,7 +1942,7 @@ struct FUN_00d22590
     int unk38;
     int unk3C;
     FUN_00d22590(int a, int b, float c);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         FUN_00d22590* p = (FUN_00d22590*)FUN_00c85750()->Alloc(size);
         p->unk04 = (short)size;
@@ -2430,7 +2423,6 @@ struct SpawnedFade
     void* vf;
     char pad[16];
 
-    static void* __cdecl operator new(unsigned int);
     SpawnedFade()
     {
         FUN_00c6b910(this);
@@ -2936,7 +2928,7 @@ struct SpawnedNode
     SpawnedNode(unsigned int a, unsigned int b);
     static void operator delete(void* p) throw()
     {}
-    static void* operator new(unsigned int size) throw()
+    static void* operator new(std::size_t size) throw()
     {
         SpawnHolder* h = (SpawnHolder*)FUN_00c85750();
         void* p = h->m_alloc->Alloc(size);
@@ -4698,10 +4690,6 @@ struct SpawnedObject
         m_vtbl = (void*)(*reinterpret_cast<char (*)[]>(&::DAT_01066d44));
         (*reinterpret_cast<int *>(&::DAT_012681b0))++;
     }
-    void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct FUN_00c8c4d0_cls
@@ -4784,12 +4772,6 @@ struct S_00cb8270_Array
     int unk08;
     unsigned int unk0C;
 
-    void* operator new(unsigned int sz)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00cb8270::S_00cb8270_MM *>(&::g_memoryManager))))->FUN_00aa3e40(sz);
-    }
-    void operator delete(void*)
-    {}
 
     S_00cb8270_Array() : unk00(0), unk04(0), unk08(0), unk0C(0x80000000)
     {}

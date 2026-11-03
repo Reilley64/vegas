@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpswepttransformdisplayviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00d641f0_cls.h"
 #include "fnv/decl/FUN_00ddcc60.h"
 #include "fnv/decl/RotationRows.h"
@@ -334,7 +335,7 @@ struct SweptWorldData
     SweptWorld* m_pOwningWorld;
     SweptArray<unsigned long> m_kEntityIDs;
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -767,7 +768,7 @@ struct FUN_00d649c0
     short m_sReferenceCount;
 
     FUN_00d649c0();
-    static void operator delete(void* p, unsigned int)
+    static void operator delete(void* p, std::size_t)
     {
         FUN_00d649c0* b = static_cast<FUN_00d649c0*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

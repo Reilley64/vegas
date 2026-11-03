@@ -2,6 +2,7 @@
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -331,7 +332,6 @@ char FUN_00c3a130_Class::FUN_00c3a130(void* arg)
     return 1;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
     void* FUN_00c3a140(unsigned int flags);
@@ -769,7 +769,6 @@ void FUN_00c3a6d0()
     NiStream::RegisterObjectLoader(g_01204388_arg0, ((NiObject *(&)())::CreatePositionModifierInstance));
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00c3ba80_Class
 {

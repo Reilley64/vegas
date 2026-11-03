@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00cd8160.h"
 #include "fnv/decl/FUN_00d2b260.h"
@@ -382,7 +383,7 @@ class FUN_00cbb4e0 : public hkpUnaryAction
 
     FUN_00cbb4e0(hkpEntity* pkEntity) throw();
 
-    void* operator new(unsigned int uiSize)
+    void* operator new(std::size_t uiSize)
     {
         hkMemoryRouterCBB7* pkRouter = (hkMemoryRouterCBB7*)FUN_00c85750();
         hkReferencedObject* pkObj = (hkReferencedObject*)pkRouter->m_pStreamAllocator->AllocateMemoryBlock(uiSize);

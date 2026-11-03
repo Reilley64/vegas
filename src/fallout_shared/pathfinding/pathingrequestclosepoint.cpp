@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/pathingrequestclosepoint.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/pathingrequestclosepoint.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/FUN_00507610_Class.h"
 #include "fnv/decl/FUN_006d2c20_Class.h"
 #include "fnv/decl/FUN_006dad70_shell.h"
@@ -46,7 +47,6 @@ FUN_006e3f30::FUN_006e3f30() : PathingRequest()
 struct PathingRequestClosePoint
 {
     virtual ~PathingRequestClosePoint();
-    static void __cdecl operator delete(void* p, unsigned int flags);
     void* FUN_006e3f70(unsigned int flags);
 };
 

@@ -1046,7 +1046,6 @@ FUN_0087ce70();                                            // @ref 0x0087ce70 FU
   // @ref 0x011df1c4 DAT_011df1c4
         // @ref 0x011df1b8 DAT_011df1b8
              // @ref 0x01202df4 DAT_01202df4
-void operator delete(void*);
 extern bool DAT_011a31f4;
 
 class InterfaceManager

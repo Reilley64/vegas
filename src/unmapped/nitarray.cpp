@@ -74,10 +74,6 @@ struct KeyPair
     void* m_pFirst;
     void* m_pSecond;
 
-    static void* operator new(unsigned int auiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
-    }
 
     KeyPair(void* apFirst, void* apSecond) throw() : m_pFirst(apFirst), m_pSecond(apSecond)
     {}
@@ -122,10 +118,6 @@ template <class T> struct NiPointer
 {
     T* ptr;
     ~NiPointer();
-    static void __cdecl operator delete[](void* memory)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(memory);
-    }
 };
 // Deletes the array of NiPointer<NiNode> objects pointed to by buffer when buffer is non-null.
 // @fnv 0x00b7ce30
@@ -620,10 +612,6 @@ struct TextureMapTransform
     int unk40;
     int unk44;
 
-    static void* operator new(size_t size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     TextureMapTransform(const NiPoint2& kTranslate, float m_fRotation, const NiPoint2& kScale,
                        const NiPoint2& kTargetCenter, int eMethod) throw();
 

@@ -5,6 +5,7 @@
 // src/fallout_shared/tesobjectrefr_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS /EHsc /Gy (unit src/fallout_shared/tesobjectrefr.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include <cstddef>
 #include "fnv/decl/CB2FC0Object.h"
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/FUN_00c876d0_cls.h"
@@ -595,7 +596,7 @@ struct F9_Obj
     int unk168;
     int unk16C;
     F9_Obj(int a, const F9_Mat* m, int b);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         F9_Alloc& h = FUN_00c85750()->heap();
         void* p = h.alloc((int)n);
@@ -1361,7 +1362,7 @@ struct C9FA20_Data
     __m128 m_20;
     __m128 m_30;
 
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         unsigned char* p = static_cast<unsigned char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::C9FA20_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(size + 0x10));
         unsigned char offset = (unsigned char)(0x10 - ((unsigned int)p & 0xf));

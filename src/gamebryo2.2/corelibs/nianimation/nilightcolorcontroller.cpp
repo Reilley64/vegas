@@ -5,6 +5,7 @@
 
 // @fnv 0x00a461c0
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_004bc280_S.h"
 #include "fnv/decl/FUN_00a495f0.h"
@@ -56,7 +57,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a4d200()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiLightColorController
@@ -69,7 +69,7 @@ extern int DAT_01098dd4;
 // @fnv 0x00a4d500
 void* __cdecl FUN_00a4d500()
 {
-    void* p = BSFadeNode::operator new(0x3c);
+    void* p = ::operator new(0x3c);
     if (p)
     {
         NiLightColorController* pController = (NiLightColorController*)p;
@@ -266,7 +266,7 @@ void Stand840::WriteToStream(NiStream& stream)
     out->_4 += out->_c(out, &_38, 2, &size, 1);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct RefObject
 {
@@ -532,7 +532,7 @@ struct FUN_00a57c80 : FUN_00a38e00
 // @fnv 0x00a4d4b0
 void* CloneHost::FUN_00a4d4b0(CloningProcess& kCloning)
 {
-    CloneHost* pkObject = (CloneHost*)BSFadeNode::operator new(0x3c);
+    CloneHost* pkObject = (CloneHost*)::operator new(0x3c);
     if (pkObject)
     {
         new ((void *)(((NiLightColorController*)pkObject))) struct ::FUN_00a57c80();

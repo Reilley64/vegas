@@ -35,7 +35,6 @@ struct FUN_00511950 : public TESForm, public B2_4fe
     FUN_00511950();
     virtual ~FUN_00511950();
 };
-void operator delete(void*);
 struct FUN_005119e0_obj
 {
     void* Destroy(unsigned int flags);

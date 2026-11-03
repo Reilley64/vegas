@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nianimation/nifloatinterpolator_decls.h: declares AnimationKey, NiMemObject, NiFloatData, NiFloatInterpolator
+#include <new>
 #ifndef NIFLOATINTERPOLATOR_DECLS_H
 #define NIFLOATINTERPOLATOR_DECLS_H
 
@@ -14,8 +15,6 @@ class TimedAnimationKey;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiFloatData : public NiMemObject
 {

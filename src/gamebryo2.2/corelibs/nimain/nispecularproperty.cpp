@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nispecularproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nispecularproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00a62a40_this.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -11,7 +12,6 @@
 extern int DAT_010a02e4;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiObject : BSFadeNode
 {
@@ -75,7 +75,7 @@ struct FUN_00a951f0_cls
 void FUN_00a951f0_cls::FUN_00a951f0(FUN_00a951f0_list* list)
 {
     reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(list));
-    unsigned int item = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_011f5ecc))))));
+    uintptr_t item = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_011f5ecc))))));
     unsigned int count = list->m_0a;
     if (count >= list->m_08)
         reinterpret_cast<::ViewerStrings *>((list))->SetSize(count + list->m_0e);
@@ -84,8 +84,8 @@ void FUN_00a951f0_cls::FUN_00a951f0(FUN_00a951f0_list* list)
     unsigned char ucSpecFlag = m_18;
     ucSpecFlag &= 1;
     *(volatile unsigned char*)&item = ucSpecFlag;
-    unsigned int result = ((unsigned int)(::FUN_00a7d370("m_bSpec", *(volatile unsigned int*)&item)));
-    *(volatile unsigned int*)&item = result;
+    uintptr_t result = ((uintptr_t)(::FUN_00a7d370("m_bSpec", *(volatile unsigned int*)&item)));
+    *(volatile uintptr_t*)&item = result;
 
     count = list->m_0a;
     if (count >= list->m_08)

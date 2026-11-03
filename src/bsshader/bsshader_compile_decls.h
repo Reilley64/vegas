@@ -58,7 +58,6 @@ class ID3DXInclude;
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int);
 };
 class GraphicsRenderer;
 class NiD3DVertexShader

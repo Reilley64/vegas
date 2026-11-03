@@ -1,5 +1,6 @@
 // staging/blk_00da0000_o2.cpp: Holder, MapHolder, SpawnedOuter, SearchObject and more (113 functions)
 
+#include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
 // src/staging/blk_00da0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
@@ -504,10 +505,6 @@ class DA0920Base
     }
     virtual void vfunc00();
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 
 class DA0920Object : public DA0920Base
@@ -985,7 +982,7 @@ class RefObj
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         RefObj* b = (RefObj*)((AudioMgr*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

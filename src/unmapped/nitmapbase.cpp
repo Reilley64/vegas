@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/symbols_00401000.h"
@@ -87,12 +88,12 @@ struct NiTMapBase
     virtual ~NiTMapBase();
     virtual unsigned int GetHash(unsigned int key);
     virtual bool Matches(unsigned int key, unsigned int uiHash);
-    bool FUN_00853130(unsigned int key, CombatThreatRecord*& value);
+    bool FUN_00853130(uintptr_t key, CombatThreatRecord*& value);
 };
 
 // Looks up key in the hash table, returning true and setting value to the matching item's data, or false if not found.
 // @fnv 0x00853130
-bool NiTMapBase::FUN_00853130(unsigned int key, CombatThreatRecord*& value)
+bool NiTMapBase::FUN_00853130(uintptr_t key, CombatThreatRecord*& value)
 {
     NiTMapItem* item;
     unsigned int index = GetHash(key);
@@ -123,10 +124,6 @@ struct SpawnedObj404a80
 {
     char m00[0x120];
     SpawnedObj404a80();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
 };
 
 // Allocates a SpawnedObj404a80 and stores it in DAT_011c8048 if that global is currently null.

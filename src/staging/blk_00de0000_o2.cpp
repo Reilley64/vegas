@@ -2,6 +2,7 @@
 // src/staging/blk_00de0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/AnimationEndian.h"
@@ -1708,7 +1709,6 @@ struct FUN_00de10e0_cls
     int m_10;
 
     FUN_00de10e0_cls* FUN_00de10e0(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // @fnv 0x00de10e0
@@ -1812,7 +1812,7 @@ BDE43E0Memory* __cdecl FUN_00c85750();
 class BDE43E0ReferencedObject
 {
   public:
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         BDE43E0ReferencedObject* pkObject =
             static_cast<BDE43E0ReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(uiSize));
@@ -3117,10 +3117,6 @@ int* __cdecl FUN_00dfb560()
     return &(*reinterpret_cast<int *>(&::g_0126ad90));
 }
 
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 
 struct DFB570FinishFlag
 {
@@ -4772,7 +4768,6 @@ struct FUN_00dfd130_cls
     int m_uiItemCount;
 
     FUN_00dfd130_cls* FUN_00dfd130(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the data array through the audio allocator, resets the object's fields and vtable, and frees the object itself when acFlags bit 0 is set.
@@ -6146,10 +6141,6 @@ class DFF2E0Object
   public:
     DFF2E0Object(DFF2E0FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 
 // @fnv 0x00dff2e0
@@ -6185,10 +6176,6 @@ int* __cdecl FUN_00dff3d0()
 }
 
 namespace fnv_00dff3e0 {
-inline void* operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 
 class SpawnPrimaryBase
 {
@@ -6367,10 +6354,6 @@ class DFF520Object
   public:
     DFF520Object(DFF520FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 
 // @fnv 0x00dff520
@@ -6793,10 +6776,6 @@ struct SpawnedDerived : SpawnedObject
     {}
 };
 
-inline void* operator new(unsigned int, void* where)
-{
-    return where;
-}
 
 // Placement-constructs a SpawnedDerived at p when p is non-null, forwarding flag to the constructor.
 // @fnv 0x00dffde0

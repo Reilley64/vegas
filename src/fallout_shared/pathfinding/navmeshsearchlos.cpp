@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearchlos.cpp: NavMeshSearchLOSArray, BSMultiBoundRoom, PathingLOSMap, PathSearch (14 functions)
 
+#include <new>
 #include "fnv/decl/DoorAccessData.h"
 #include "fnv/decl/FUN_00438690.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -628,8 +629,6 @@ struct FUN_006dcc40 : PathingLocation
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_006e1370 : NiMemObject
 {

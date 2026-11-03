@@ -1,6 +1,7 @@
 
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d610_Object.h"
@@ -63,7 +64,7 @@ void Holder::FUN_00c36070(class NiStream& stream)
 {
     int _u1;
     int _u2;
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_go = ((::fnv_00c36070::NiObject *)(reinterpret_cast<::NiStream *>(&(stream))->GetLoadedObject()));
 }
 }  // namespace fnv_00c36070
@@ -132,8 +133,6 @@ struct BSMultiBound
 {
     void* b[4];
     BSMultiBound();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct FUN_00c35f50_class
 {
@@ -153,7 +152,6 @@ extern int _data_011c16bc;
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00c361a0
@@ -218,7 +216,7 @@ struct FUN_00c360f0_shell : fnv_00c36070::NiObject
 // @fnv 0x00c360f0
 void FUN_00c360f0_shell::FUN_00c360f0(fnv_00c36070::NiStream& s)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     int tmp = val;
     reinterpret_cast<FUN_00c360f0_StreamVTable&>(s).f12(tmp);
 }

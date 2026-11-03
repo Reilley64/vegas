@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class CoordArray;
 class FaceGenCoordArray;
@@ -8,7 +9,7 @@ struct FG652_Mat;
 struct MatrixProxy;
 
 // 0x00652040
-namespace fnv_00652040 { bool FUN_00652040(int); }
+namespace fnv_00652040 { bool FUN_00652040(intptr_t); }
 // 0x00652140
 void FUN_00652140();
 // 0x00652160

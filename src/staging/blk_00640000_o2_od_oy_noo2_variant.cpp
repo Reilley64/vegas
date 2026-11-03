@@ -5,6 +5,7 @@
 
 // src/staging/blk_00640000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -43,8 +44,6 @@ struct NiPixelData
 {
     virtual ~NiPixelData();
     NiPixelData(unsigned int w, unsigned int h, const NiPixelFormat& fmt, unsigned int a, unsigned int b);
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     int unk04;
     int unk08;
     int unk0c;

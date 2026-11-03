@@ -123,7 +123,7 @@ void FUN_00a361c0_cls::FUN_00a361c0(NiStream& kStream)
     if (uiFileVersion < 0x0a010068)
     {
         NiTransformData* pkData = (NiTransformData*)kStream.GetLoadedObject();
-        void* pMem = NiMemObject::operator new(0x48);
+        void* pMem = ::operator new(0x48);
         m_spControllerInterpolator = pMem ? ((::NiTransformInterpolator *)(new ((void *)(((NiTransformInterpolatorMem*)pMem))) ::fnv_00a3fa30::FUN_00a3fa30(pkData))) : 0;
         ((NiInterpolatorVirtuals*)m_spControllerInterpolator.m_pObject)->Collapse();
     }

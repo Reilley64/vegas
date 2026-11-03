@@ -5,6 +5,7 @@
 
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include "fnv/decl/Agent378.h"
@@ -663,12 +664,6 @@ void FUN_00d23380(SortList* list)
 }
 }  // namespace fnv_00d23380
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void operator delete(void*, void*) throw()
-{}
 
 struct FinishingFlag
 {

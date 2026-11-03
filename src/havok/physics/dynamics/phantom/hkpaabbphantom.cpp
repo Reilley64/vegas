@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/C.h"
 #include "fnv/decl/CA92A0Object.h"
@@ -796,7 +797,7 @@ class hkpWorldObjectCF2D
 class FUN_00cf2cb0 : public hkpWorldObjectCF2D
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;

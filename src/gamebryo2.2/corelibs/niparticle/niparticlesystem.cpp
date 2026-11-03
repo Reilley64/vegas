@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/niparticlesystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A54440Hash.h"
@@ -505,7 +507,7 @@ void S_00c1b120::FUN_00c1b120()
 struct Object
 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 // @fnv 0x00c1b7f0
 Object* __cdecl FUN_00c1b7f0()
 {
@@ -517,11 +519,10 @@ Object* __cdecl FUN_00c1b7f0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct CloneSource
 {
-    BSFadeNode* FUN_00c1b9e0(unsigned int);
+    BSFadeNode* FUN_00c1b9e0(uintptr_t);
 };
 
 struct Block9
@@ -2154,7 +2155,7 @@ struct FUN_00c1b850_cls
 void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
 {
     ::FUN_00a9b2e0((::StrArr *)this);
-    unsigned int v = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<unsigned int *>(&::g_012024e0))))));
+    uintptr_t v = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<uintptr_t *>(&::g_012024e0))))));
     unsigned int uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -2162,7 +2163,7 @@ void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
-    v = ((unsigned int)(::FUN_00a7d370("World Space", m_c4)));
+    v = ((uintptr_t)(::FUN_00a7d370("World Space", m_c4)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -2171,7 +2172,7 @@ void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiNumMods = m_d0;
-    v = ((unsigned int)(::FUN_00a7d510("NumMods", uiNumMods)));
+    v = ((uintptr_t)(::FUN_00a7d510("NumMods", uiNumMods)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -2180,7 +2181,7 @@ void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiNumParticles = m_b8->m_50;
-    v = ((unsigned int)(::FUN_00a7d490("NumParticles", uiNumParticles)));
+    v = ((uintptr_t)(::FUN_00a7d490("NumParticles", uiNumParticles)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -2189,7 +2190,7 @@ void FUN_00c1b850_cls::WriteParticleSystemInfo(FUN_00c1b850_list* pList)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((((C_0096ae90*)pList)))->SetAt(uiIndex, (*(char * *)(&v)));
 
     unsigned int uiMaxParticles = m_b8->m_08;
-    v = ((unsigned int)(::FUN_00a7d490("MaxParticles", uiMaxParticles)));
+    v = ((uintptr_t)(::FUN_00a7d490("MaxParticles", uiMaxParticles)));
     uiIndex = pList->m_0a;
     if (uiIndex >= pList->m_08)
     {
@@ -3094,9 +3095,9 @@ class BSMultiBoundNode : public NiNodeC1B
     bool m_bD9;
 };
 // @fnv 0x00c1b9e0
-BSFadeNode* CloneSource::FUN_00c1b9e0(unsigned int flags)
+BSFadeNode* CloneSource::FUN_00c1b9e0(uintptr_t flags)
 {
-    void* memory = BSFadeNode::operator new(0x110);
+    void* memory = ::operator new(0x110);
     BSFadeNode* node;
     if (memory)
         node = ((::BSFadeNode *)(new ((void *)(((BSFadeNode*)memory))) ::FUN_00c1b5c0()));

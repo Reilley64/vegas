@@ -612,8 +612,6 @@ struct Message
     unsigned int flags;
     Message();
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 void* FUN_00401000(unsigned int);
 struct Messages
 {

@@ -4,7 +4,9 @@
 
 
 // @fnv 0x00c2b550
+#include <new>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a7d000.h"
@@ -90,7 +92,7 @@ void FUN_00c2b570_class::FUN_00c2b570(float fValue)
     unk3C->unk28 = fValue;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct S_00c2b580_Base
 {
@@ -115,12 +117,6 @@ struct S_00c2b580_TargetObj : S_00c2b580_Base
     int unk34;
     int unk38;
     int unk3C;
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void*, unsigned int) throw()
-    {}
     S_00c2b580_TargetObj() throw()
     {}
 };

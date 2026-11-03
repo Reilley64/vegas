@@ -558,7 +558,6 @@ char* __cdecl AllocateZeroed(unsigned int aNum, unsigned int aSize)
     return (char*)pBuffer;
 }
 
-void* __cdecl operator new(unsigned int);
 bool _ref_008256d0(void*);
 
 class SoundListEntry;
@@ -643,7 +642,6 @@ struct FUN_005abf60_shell : public Script
     ScriptLocals* FUN_005abf60();
 };
 
-void* __cdecl operator new(unsigned int);
 void* CopyVariableList(Script*);
 
 // Allocates a ScriptLocals, stores the result of CopyVariableList(this) at offset 0xc and this at offset 0, then returns it.

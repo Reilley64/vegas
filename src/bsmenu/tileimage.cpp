@@ -658,10 +658,6 @@ struct GameAllocator
 };
 struct NiPoint3
 {
-    static __forceinline void* operator new[](size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
-    }
     float x, y, z;
     NiPoint3()
     {}
@@ -670,10 +666,6 @@ struct NiPoint3
 };
 struct NiUV
 {
-    static __forceinline void* operator new[](size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ImageNodeBuild::GameAllocator *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned)n);
-    }
     float u, v_r;
     NiUV()
     {}

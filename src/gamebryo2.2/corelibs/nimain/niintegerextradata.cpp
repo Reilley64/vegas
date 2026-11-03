@@ -1,5 +1,8 @@
 // gamebryo2.2/corelibs/nimain/niintegerextradata.cpp: NiIntegerExtraData, ExtraDataOwner (7 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b300_shell.h"
@@ -41,7 +44,6 @@ void FUN_00a99c70_shell::FUN_00a99c70()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiExtraDataShell : NiExtraData
@@ -51,7 +53,7 @@ struct NiExtraDataShell : NiExtraData
 // @fnv 0x00a99cd0
 NiExtraData* FUN_00a99cd0()
 {
-    NiExtraData* pExtraData = static_cast<NiExtraData*>(BSFadeNode::operator new(0x10));
+    NiExtraData* pExtraData = static_cast<NiExtraData*>(::operator new(0x10));
     if (pExtraData)
     {
         reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraDataShell*>(pExtraData)))->FUN_00a7b2e0();
@@ -62,7 +64,6 @@ NiExtraData* FUN_00a99cd0()
     return 0;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a99d00_shell
 {
     void* Destroy(unsigned int);
@@ -122,17 +123,17 @@ void FUN_00a99d70_shell::FUN_00a99d70(A89C70StringArray* apViewerStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((apViewerStrings))->SetAt(index, pString);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct ExtraDataOwner
 {
     int unk00;
     int unk04;
     int unk08;
     int m_iValue;
-    NiIntegerExtraData* CreateIntegerExtraData(unsigned int);
+    NiIntegerExtraData* CreateIntegerExtraData(uintptr_t);
 };
 // @fnv 0x00a99c80
-NiIntegerExtraData* ExtraDataOwner::CreateIntegerExtraData(unsigned int argument)
+NiIntegerExtraData* ExtraDataOwner::CreateIntegerExtraData(uintptr_t argument)
 {
     NiIntegerExtraData* result;
     NiIntegerExtraData* allocated = (NiIntegerExtraData*)FUN_00aa13e0(16);

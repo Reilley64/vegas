@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /Gy (unit src/gamebryo2.2/corelibs/nianimation/niboolinterpolator.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A53480Object.h"
 #include "fnv/decl/FUN_00a53910_shell.h"
@@ -391,7 +392,6 @@ class CloningProcessA535;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(unsigned int n);
 };
 class FUN_00a3ca10
 {
@@ -419,10 +419,6 @@ class NiBoolInterpA535 : public FUN_00a3ca10
     }
     virtual ~NiBoolInterpA535() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
 
     bool m_bBoolValue;
     NiPointerA535<void> m_spBoolData;
@@ -593,7 +589,7 @@ class Controller3300
 // @fnv 0x00a53300
 Controller3300* Controller3300::FUN_00a53300(float fA, float fB)
 {
-    Controller3300* pkCopy = ((::Controller3300 *)(::FUN_00a57050((int)this, fA)));
+    Controller3300* pkCopy = ((::Controller3300 *)(::FUN_00a57050((intptr_t)this, fA)));
     if (m_spInterp.m_pObject)
     {
         NiPointer3300<Interpolator3300> spInterp;

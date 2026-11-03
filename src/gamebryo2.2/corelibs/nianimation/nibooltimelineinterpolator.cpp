@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00a52d70
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include "fnv/decl/FUN_00a536d0_cls.h"
 #include "fnv/decl/NiBoolInterpolatorA536.h"
@@ -42,14 +44,13 @@ extern int DAT_01099fb4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // Allocates a 0x20-byte NiBoolInterpolator, initialises its vtable, clears the field at offset 0x18 and the byte at 0x1c, and returns it (or null).
 // @fnv 0x00a52fe0
 NiBoolInterpolator* __cdecl CreateBoolInterpolator()
 {
-    NiBoolInterpolator* p = static_cast<NiBoolInterpolator*>(BSFadeNode::operator new(0x20));
+    NiBoolInterpolator* p = static_cast<NiBoolInterpolator*>(::operator new(0x20));
     if (p)
     {
         reinterpret_cast<::S_00a53280_Foo *>((p))->FUN_00a53280(0);
@@ -127,19 +128,15 @@ struct NiKeyBasedInterpolator
     NiKeyBasedInterpolator();
 };
 extern unsigned int DAT_0109a0b4;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates a 0x18-byte NiKeyBasedInterpolator, constructs it, sets its vtable and fields, and returns the pointer or 0.
 // @fnv 0x00a53500
 void* CreateNiKeyBasedInterpolator()
 {
-    void* p = BSFadeNode::operator new(0x18);
+    void* p = ::operator new(0x18);
     if (p)
     {
         new (p) NiKeyBasedInterpolator();
-        *(unsigned int*)p = (unsigned int)&DAT_0109a0b4;
+        *(uintptr_t*)p = (uintptr_t)&DAT_0109a0b4;
         *(unsigned char*)((char*)p + 0xc) = DAT_0109a914;
         *(unsigned int*)((char*)p + 0x10) = 0;
         *(unsigned int*)((char*)p + 0x14) = 0;
@@ -405,10 +402,6 @@ class InterpA52F : public FUN_00a53280
     }
     virtual ~InterpA52F() throw();
 
-    static void* operator new(unsigned int n)
-    {
-        return BSFadeNode::operator new(n);
-    }
 
     unsigned int m_uiLastIndex;
     bool m_bBoolValue;

@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/motion/rigid/hkpboxmotion.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/rigid/hkpboxmotion.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00cd5880_cls.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_0104d000.h"
@@ -285,10 +286,6 @@ struct Motion
     void FUN_00d1eaf0(const Vec& impulse);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct FUN_00c86530_Obj
 {
     virtual ~FUN_00c86530_Obj();

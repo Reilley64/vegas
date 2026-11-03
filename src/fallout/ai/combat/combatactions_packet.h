@@ -5,8 +5,6 @@
 #include "fnv/decl/BS9AA340List.h"
 #include "fnv/decl/SoundListView.h"
 #include "fnv/symbols_011f1000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 template <class T> class BSSimpleList
 {
     T item;

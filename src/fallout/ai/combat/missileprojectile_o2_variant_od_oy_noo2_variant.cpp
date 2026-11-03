@@ -350,10 +350,6 @@ class OwnerBase_t
     unsigned int m_04;
     unsigned int m_08;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 class ChainA_t : public OwnerBase_t
 {
@@ -587,10 +583,6 @@ struct S_cbde40_Obj
     int unk08;
     int unk0c;
     int unk10;
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_cbde40_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct S_cbde40
 {
@@ -806,10 +798,6 @@ struct PathRef
     int unk08;
     int unk0C;
     PathRef(Path* p);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
 };
 
 void* FUN_00aa13e0(unsigned int n);

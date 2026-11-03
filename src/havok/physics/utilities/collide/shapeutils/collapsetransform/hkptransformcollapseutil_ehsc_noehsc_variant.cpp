@@ -327,10 +327,6 @@ static __declspec(noinline) void FUN_00d737d0(ShapeD738* shape, hkArrayD748<Shap
     }
 }
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 static __forceinline int indexOfD738(ShapeData* self, int value)
 {

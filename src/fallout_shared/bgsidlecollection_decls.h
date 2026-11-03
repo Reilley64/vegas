@@ -44,6 +44,4 @@ class Actor
 template <int N> struct EndianSizeTag
 {
 };
-void* operator new[](unsigned int);
-void operator delete[](void*);
 #endif

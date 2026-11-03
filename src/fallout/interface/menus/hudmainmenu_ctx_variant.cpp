@@ -1,6 +1,7 @@
 
 // hudmainmenu_ctx_variant.cpp: context variant of src/fallout/interface/menus/hudmainmenu.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
 #include <cstring>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -214,8 +215,6 @@ class NiNode
     unsigned int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;
     unsigned int unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80;
     unsigned int unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8;
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     NiNode(unsigned short childCount);
     void IncRefCount();
     void DecRefCount();
@@ -1031,7 +1030,6 @@ struct SubtitleRecord
     int visibility;
     SubtitleRecord();
 };
-void* __cdecl operator new(unsigned int);
 template <class T> struct SubtitleArray
 {
     void* table;

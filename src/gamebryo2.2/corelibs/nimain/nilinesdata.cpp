@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00a8a7b0
+#include <cstdint>
+#include <new>
 #include "fnv/decl/GeomData.h"
 #include "fnv/decl/GeometryEquality.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -26,7 +28,6 @@ struct FUN_00a68800_shell
 
 extern int DAT_0109f23c;
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00a8a7c0_shell : public FUN_00a68800_shell
 {
@@ -325,7 +326,7 @@ void RegisterFields(S_00a8a890_Arr* arr);
 struct S_00a8a890_Obj
 {
     int unk00[16];
-    int unk40;
+    intptr_t unk40;
     void RegisterFields(S_00a8a890_Arr* arr);
     void FUN_00a8a890(S_00a8a890_Arr* arr);
 };
@@ -334,7 +335,7 @@ struct S_00a8a890_Obj
 void S_00a8a890_Obj::FUN_00a8a890(S_00a8a890_Arr* arr)
 {
     reinterpret_cast<::GeomData *>(this)->RegisterFields((::StrArr *)(arr));
-    arr->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f5b88)))));
+    arr->Add(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f5b88)))));
     arr->Add(::FUN_00a7d5a0("m_pkFlags", (void *)(unk40)));
 }
 

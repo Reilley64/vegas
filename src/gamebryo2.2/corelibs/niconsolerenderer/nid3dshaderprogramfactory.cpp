@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp: NiD3DShaderProgramFactory, ProgFactoryDirs, ShaderEntryOwner (26 functions)
 
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cctype>
 #include <cstring>
@@ -147,14 +149,14 @@ void CreateCreatorMap()
     int* p = (int*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(0x14);
     if (p)
     {
-        p[0] = (int)&DAT_010f0eb0;
+        p[0] = (intptr_t)&DAT_010f0eb0;
         p[1] = 0x25;
         p[3] = 0;
         int* data = (int*)::FUN_00aa1070(0x94);
-        p[2] = (int)data;
+        p[2] = (intptr_t)data;
         std::memset((void*)data, 0, 4 * p[1]);
         *(char*)(p + 4) = 1;
-        p[0] = (int)&DAT_010f0f50;
+        p[0] = (intptr_t)&DAT_010f0f50;
         (*reinterpret_cast<::NiTStringTemplateMap< ::NiTPointerMap<const char *, ::NiShader *>, ::NiShader *> * *>(&::DAT_0126fa14)) = (CreatorMap*)p;
     }
     else
@@ -407,12 +409,12 @@ void FUN_00e937f0_shell::AddShader(ShaderArg* pkShader)
         m_pTaskMap->SetAt(pkShader->GetKey(), (NiShader*)pkShader);
 }
 
-extern int DAT_0126fa18;
-extern int DAT_0126fa1c;
-extern int DAT_0126fa20;
+extern intptr_t DAT_0126fa18;
+extern intptr_t DAT_0126fa1c;
+extern intptr_t DAT_0126fa20;
 
 // @fnv 0x00e92f70
-void FUN_00e92f70(int param_1)
+void FUN_00e92f70(intptr_t param_1)
 {
     DAT_0126fa1c = param_1;
     if (param_1 != 0)
@@ -420,12 +422,12 @@ void FUN_00e92f70(int param_1)
         int* piVar1 = *(int**)(param_1 + 0x288);
         if (DAT_0126fa18 != 0)
         {
-            (**(void(**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
+            (**(void(**)(int))(*(void***)DAT_0126fa18 + 2))(DAT_0126fa18);
         }
-        DAT_0126fa18 = (int)piVar1;
+        DAT_0126fa18 = (intptr_t)piVar1;
         if (piVar1 != 0)
         {
-            (**(void(**)(int*))(*(int*)piVar1 + 4))(piVar1);
+            (**(void(**)(int*))(*(intptr_t*)piVar1 + 4))(piVar1);
         }
         DAT_0126fa20 = *(int*)(DAT_0126fa1c + 0x8b8);
         return;
@@ -433,7 +435,7 @@ void FUN_00e92f70(int param_1)
     DAT_0126fa20 = 0;
     if (DAT_0126fa18 != 0)
     {
-        (**(void(**)(int))(*(int*)DAT_0126fa18 + 8))(DAT_0126fa18);
+        (**(void(**)(int))(*(void***)DAT_0126fa18 + 2))(DAT_0126fa18);
     }
     DAT_0126fa18 = 0;
 }
@@ -708,11 +710,6 @@ public:
 class NiMemObject_00e93ad0
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 template <class TVAL> class ShaderMapBase : public NiMemObject_00e93ad0
@@ -831,7 +828,7 @@ struct ShaderEntryOwner
 // @fnv 0x00e93e00
 void FUN_00e93e00_Obj::FUN_00e93e00()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010f0f70);
+    *reinterpret_cast<intptr_t*>(this) = reinterpret_cast<intptr_t>(&DAT_010f0f70);
 
     if (unk14 != 0)
         reinterpret_cast<::S_00b601a0_Map *>((unk14))->FUN_00b601a0();
@@ -848,7 +845,7 @@ void FUN_00e93e00_Obj::FUN_00e93e00()
     reinterpret_cast<::ShaderEntryOwner *>(this)->FUN_00e93cc0();
     reinterpret_cast<::BSShaderLightingProperty *>(&(unk08))->ClearLights();
 
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0101dce4);
+    *reinterpret_cast<intptr_t*>(this) = reinterpret_cast<intptr_t>(&DAT_0101dce4);
     DAT_00fdf1c4(&(*reinterpret_cast<int *>(&::NiRefObject::ms_lObjectCount)));
 }
 // Iterates nonnull elements, searches for matching list nodes, removes matches, and passes each element to FUN_00aa10f0.

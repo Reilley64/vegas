@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/magic/magicballprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/magicballprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/C70CharacterController.h"
 #include "fnv/decl/FUN_00407860_class.h"
@@ -126,8 +127,6 @@ struct xAVOwner
 };
 struct xNiAlloc
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct xShape : xNiAlloc
 {
@@ -197,7 +196,7 @@ struct xCharCtl
     virtual void v50();
     virtual void v51();
     virtual void FUN_d0(int);
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return xFUN_00553300(n);
     }

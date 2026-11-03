@@ -2,6 +2,7 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <new>
 #include <windows.h>
 // src/staging/blk_00dc0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -736,10 +737,6 @@ struct hkPairDDFB
 
     hkPairDDFB(void* object, void* key) : m_object(object), m_key(key)
     {}
-    static void* operator new(unsigned int, void* p) throw()
-    {
-        return p;
-    }
 };
 template <class T> class hkArrayDDFB
 {

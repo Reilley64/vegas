@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/niposdata.cpp: NiPosData, MyPosData, Holder, PosKeyData (10 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -54,7 +55,6 @@ void NiPosData::LoadBinary(NiStream& stream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct BaseUnk
 {
@@ -71,7 +71,7 @@ struct Derived : BaseUnk
 // @fnv 0x00a49020
 Derived* FUN_00a49020()
 {
-    Derived* p = (Derived*)BSFadeNode::operator new(sizeof(Derived));
+    Derived* p = (Derived*)::operator new(sizeof(Derived));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();
@@ -120,7 +120,7 @@ struct Holder : NiRefObject
 void Holder::FUN_00a48fb0()
 {
     PositionKeyInterpolator* p = _0C;
-    *(int*)this = (int)&(*reinterpret_cast<int *>(&::DAT_0109717c));
+    *(intptr_t*)this = (intptr_t)&(*reinterpret_cast<int *>(&::DAT_0109717c));
     if (p)
         DAT_011f38b8[_10](p);
     reinterpret_cast<class ::FUN_00a5d3d0 *>((this))->FUN_00a5d3d0::~FUN_00a5d3d0();
@@ -178,7 +178,7 @@ bool PosKeyData::Equals(const PosKeyData* other)
         m_ucKeyDataSize != other->m_ucKeyDataSize)
         return false;
 
-    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (**[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
+    KeyEqual pfnEqualKeys = (*reinterpret_cast<bool (*(*)[])(const void *, const void *)>(&::DAT_011f3af8))[m_eRequestType];
     for (unsigned int i = 0; i < m_uiNumKeys; ++i)
     {
         unsigned int offset = i * m_ucKeyDataSize;
@@ -389,12 +389,12 @@ class A49300Data : public A49300Base
 // @fnv 0x00a49300
 void A49300Data::SaveToStream(A49300Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     kStream.m_pBackingStream->Write(&m_uiCount, 4);
     if (m_uiCount > 0)
     {
         kStream.m_pBackingStream->Write(&m_uiType, 4);
-        (*reinterpret_cast<void (**[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
+        (*reinterpret_cast<void (*(*)[])(A49300Stream &, void *, unsigned int)>(&::g_011f3a68))[m_uiType](kStream, m_pResource, m_uiCount);
     }
 }
 
@@ -421,18 +421,18 @@ struct Owner_00a49380
 // @fnv 0x00a49380
 void Owner_00a49380::FUN_00a49380(FUN_0096ad30_param* param)
 {
-    unsigned int value;
+    uintptr_t value;
     unsigned int index;
 
     reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(param));
-    value = ((int)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f3f68))))));
+    value = ((intptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f3f68))))));
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {
         reinterpret_cast<::ViewerStrings *>((param))->SetSize((unsigned int)param->unk0E + index);
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((param))->SetAt(index, (*(char * *)(&value)));
-    value = ((int)(::FUN_00a7d510(str_01097164, unk08)));
+    value = ((intptr_t)(::FUN_00a7d510(str_01097164, unk08)));
     index = param->unk0A;
     if (index >= (unsigned int)param->unk08)
     {
@@ -490,7 +490,7 @@ void FUN_00a49140_cls::FUN_00a49140(float a1, float a2, RefCountedObj** apObj)
     {
         uiOut1 = 0;
         uiOut2 = 0;
-        ::FUN_00a3d630(1, m_10, (void *)((int)m_0C), (int)m_08, a1, a2, (void **)(unsigned int *)(&uiOut1), (int *)(unsigned int *)(&uiOut2));
+        ::FUN_00a3d630(1, m_10, (void *)((intptr_t)m_0C), (int)m_08, a1, a2, (void **)(unsigned int *)(&uiOut1), (int *)(unsigned int *)(&uiOut2));
         p->FUN_00a490e0(uiOut1, uiOut2, m_10);
     }
     RefCountedObj* old = *apObj;

@@ -4935,7 +4935,6 @@ bool Owner::SetIndexFromType(unsigned int uiType, int* piIndex)
 
 }
 
-void* __cdecl operator new(unsigned int size);
 
 
 

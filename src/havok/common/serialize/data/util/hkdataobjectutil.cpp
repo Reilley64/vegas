@@ -2251,10 +2251,6 @@ struct DWC_MemberInfo
     DWC_MemberInfo() throw() : m_name(0), m_type(0), m_tuple(0), m_class(0), m_valuePtr(0)
     {}
 };
-inline void* operator new(std::size_t, DWC_MemberInfo* p) throw()
-{
-    return p;
-}
 
 __forceinline void DWC_construct(DWC_MemberInfo* t, int n) throw()
 {

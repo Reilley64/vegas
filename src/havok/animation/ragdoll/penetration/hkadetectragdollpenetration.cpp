@@ -367,7 +367,6 @@ struct FUN_00d1fe70_cls
     int m_20;
 
     FUN_00d1fe70_cls* FUN_00d1fe70(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the m_p18 array, resets its state, restores the vtable, and optionally frees this when acFlags bit 0 is set.

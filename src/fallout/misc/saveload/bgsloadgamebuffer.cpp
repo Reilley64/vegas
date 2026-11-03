@@ -886,7 +886,6 @@ unsigned int FUN_00853500_shell::FUN_00853500()
     return ((FUN_00846d20_shell*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
 }
 
-void* __cdecl operator new(unsigned int);
 
 int DAT_011d60cc;
 
@@ -939,7 +938,6 @@ void FUN_00864a20_shell::FUN_00864a20(ThreeByThreeMatrix& matrix, unsigned int u
     }
 }
 
-void __cdecl operator delete(void* pointer);
 
 struct FUN_0081db60_shell
 {

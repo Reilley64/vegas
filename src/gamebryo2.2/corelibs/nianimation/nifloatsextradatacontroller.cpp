@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <windows.h>
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatacontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -34,17 +35,16 @@ extern int DAT_0109928c;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a4f000
 int* __cdecl FUN_00a4f000()
 {
-    int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
+    int* p = static_cast<int*>(::operator new(0x48));
     if (p)
     {
         InitTimeController(p);
-        p[0] = reinterpret_cast<int>(&DAT_0109928c);
+        p[0] = reinterpret_cast<intptr_t>(&DAT_0109928c);
         p[0x10] = 0xffffffff;
         p[0x11] = (*reinterpret_cast<int *>(&::DAT_0109b220));
         return p;
@@ -68,7 +68,7 @@ struct FUN_00a4ef70_shell
 // @fnv 0x00a4ef70
 InterpStub* FUN_00a4ef70_shell::CreateInterpStub(unsigned short usIndex)
 {
-    InterpStub* p = (InterpStub*)BSFadeNode::operator new(0x18);
+    InterpStub* p = (InterpStub*)::operator new(0x18);
     if (p)
         return ((::InterpStub *)(new ((void *)(p)) ::FUN_00a3c390(reinterpret_cast<::FUN_00a89020_cls *>((e))->GetValueAt(idx))));
     return 0;
@@ -96,7 +96,7 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
 // @fnv 0x00a4efb0
 NiFloatsExtraDataController* NiFloatsExtraDataController::FUN_00a4efb0(CloningProcess& kCloning)
 {
-    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(BSFadeNode::operator new(0x48));
+    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(::operator new(0x48));
     if (pkObject)
     {
         InitTimeController(reinterpret_cast<int*>(pkObject));
@@ -260,7 +260,7 @@ void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
     if (index >= stream->unk08)
         reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
-    value = ((void *)(::FUN_00a7d4d0((const char *)(int *)(&DAT_01099270), (int)(unk40))));
+    value = ((void *)(::FUN_00a7d4d0((const char *)(int *)(&DAT_01099270), (intptr_t)(unk40))));
     index = stream->unk0A;
     if (index >= stream->unk08)
         reinterpret_cast<::ViewerStrings *>((stream))->SetSize(index + stream->unk0E);
@@ -455,10 +455,10 @@ void NiFloatsExtraDataController::FUN_00c312f0(NiFloatsExtraDataController* pkDe
     char* pcName = m_kName.m_kHandle;
     if (pkDest->m_kName.m_kHandle != pcName)
     {
-        if (pcName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (pcName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((volatile long*)(pcName - 8));
         char* pcOldName = pkDest->m_kName.m_kHandle;
-        if (pcOldName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (pcOldName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((volatile long*)(pcOldName - 8));
         pkDest->m_kName.m_kHandle = pcName;
     }

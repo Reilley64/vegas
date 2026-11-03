@@ -4,6 +4,9 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cmath>
 #include <cstdlib>
@@ -186,7 +189,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a316a0_shell
 {
@@ -1429,7 +1431,7 @@ struct SeqIDTagOffsets
     OffsetString m_kCtlrType;
     OffsetString m_kCtlrID;
     OffsetString m_kInterpolatorID;
-    void LoadFromPalette(NiStringPalette* pkPalette, int iUnused);
+    void LoadFromPalette(NiStringPalette* pkPalette, intptr_t iUnused);
 };
 struct A31500Ref
 {
@@ -1664,10 +1666,6 @@ struct NiMultiTargetTransformController : Controller31910
         reinterpret_cast<::Controller *>(this)->FUN_00a2feb0(n);
     }
 };
-void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 static bool IsKind31910(Node31910* node, Rtti31910* type)
 {
     Rtti31910* rtti = node->GetRTTI();
@@ -2449,16 +2447,16 @@ struct Controller33130
 };
 static void Release33130(char* h)
 {
-    if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(h - 8));
 }
 static void Assign33130(FixedStr& dst, const char* value)
 {
-    char* h = !value ? (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
+    char* h = !value ? (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
     if (dst.m_handle != h)
     {
         char* old = dst.m_handle;
-        if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(h - 8));
         Release33130(old);
         dst.m_handle = h;
@@ -2655,12 +2653,7 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(unsigned int);
 
-    static void* __cdecl operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 
     __declspec(noalias)
         NewSequence(const char* const& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy) throw();
@@ -2992,14 +2985,14 @@ struct LegacyRef
     LegacyController* pointer;
     ~LegacyRef() throw()
     {}
-    static void* operator new[](unsigned int bytes, ReferenceAllocation*& allocation) throw();
+    static void* operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw();
 };
 struct ReferenceAllocation
 {
     unsigned int count;
     LegacyRef elements[1];
 };
-__forceinline void* LegacyRef::operator new[](unsigned int bytes, ReferenceAllocation*& allocation) throw()
+__forceinline void* LegacyRef::operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw()
 {
     allocation = (ReferenceAllocation*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
     return allocation;
@@ -3074,11 +3067,11 @@ struct LegacySequence : ::NiObject
 // @fnv 0x00a352f0
 void LegacySequence::FUN_00a352f0(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (stringPalette)
     {
         for (unsigned int i = 0; i < count; ++i)
-            reinterpret_cast<::SeqIDTagOffsets *>(&(tags[i]))->LoadFromPalette((::NiStringPalette *)(stringPalette), (int)&(stream));
+            reinterpret_cast<::SeqIDTagOffsets *>(&(tags[i]))->LoadFromPalette((::NiStringPalette *)(stringPalette), (intptr_t)&(stream));
         if (stringPalette)
         {
             RefObj* palette = stringPalette;

@@ -262,8 +262,6 @@ struct FUN_005e63f0
     unsigned int vtable;
     float value;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct OneValueDuplicateEntry
 {
     unsigned int vtable;
@@ -755,7 +753,6 @@ bool FUN_005e6790_cls::FUN_005e6790(TESFile_s* apFile)
 }  // namespace fnv_005e6790
 
 namespace fnv_005e6cd0 {
-void* __cdecl operator new(unsigned int);
 
 struct Script
 {

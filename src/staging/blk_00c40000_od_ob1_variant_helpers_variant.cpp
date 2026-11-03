@@ -1,6 +1,7 @@
 // src/staging/blk_00c40000_od_ob1_variant_helpers_variant.cpp - helper variant unit created 2026-11-01 by helper_variants.py: the reworked code of these functions uses the
 // approved helpers of fnv_asm_helpers.h, which src/staging/blk_00c40000_od_ob1_variant.cpp cannot include without changing its accepted functions.
 // Same flags (/MT /Od /Oy- /GS /EHsc /Gy /Ob1); declarations copied from that unit's skeleton.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -476,7 +477,6 @@ void __cdecl FUN_00c43070(void*);
 struct FUN_00c43620_Class {
     void FUN_00c43070();
     void* FUN_00c43620(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c43850_Class {
     void FUN_00c43850(void* dst, unsigned int size);
@@ -558,7 +558,6 @@ struct FUN_00c51640_Class {
 struct FUN_00878690_shell {
     void FUN_00c51df0();
 };
-void __cdecl operator delete(void* ptr, unsigned int size);
 struct FUN_00c52830_class {
     void* FUN_00c52830(unsigned int flags);
 };
@@ -573,7 +572,6 @@ struct FUN_00c54ec0_class {
 struct FUN_00a7b300_shell { void FUN_00a7b300(); };
 struct FUN_00c55330_class {
     void* FUN_00c55330(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 extern int DAT_010c2d54;
 struct FUN_00c1c280_class {
@@ -627,11 +625,9 @@ struct FUN_00c5e560_class : public NiNode_Helper {
 };
 struct FUN_00c5db90_Class {
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5eb20_Class {
     void* FUN_00c5eb20(unsigned int flags);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5ed60_Class {
     void FUN_00c5ed60();
 };
@@ -648,7 +644,6 @@ struct FUN_00c5f500_class {
 };
 struct FUN_00c5fc20_class {
     void* FUN_00c5fc20(unsigned int flags);
-    void __cdecl operator delete(void* p, unsigned int size);
     void FUN_00c5faa0();
 };
 struct BaseForCall {  };
@@ -814,7 +809,6 @@ struct FUN_00c450d0 : FUN_00c5f570_Class {
     FUN_00c450d0();
 };
 struct FUN_00c465a0_class {
-    void* operator new(unsigned int);
     FUN_00c465a0_class();
     char pad[0x1c];
 };
@@ -831,7 +825,6 @@ struct FUN_00c465a0 {
     int f;
     FUN_00c465a0();
     ~FUN_00c465a0();
-    static void* operator new(unsigned int);
 };
 FUN_00c465a0* __cdecl FUN_00c46740();
 struct FUN_00c48fe0_Class {
@@ -978,7 +971,6 @@ struct FUN_00c46930_class {
 struct A51BF0Base {
     char pad[0xb4];
 
-    static void* __cdecl operator new(unsigned int size);
     A51BF0Base();
 
     A51BF0Base* FUN_00c46ba0(int a);
@@ -1075,7 +1067,6 @@ struct FUN_00c5ce40_Class {
     int PopFrontNode();
 };
 struct FUN_00c5d260_view {
-    static void __cdecl operator delete(void* p, unsigned int sz);
 };
 struct FUN_00c5d260 : FUN_00c5d260_view {
     void* FUN_00c5d260_method(unsigned int flags);
@@ -1157,11 +1148,9 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9874 {
     char m00[0x10];
     SpawnedObject_b9874();
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
 struct S_00c437c0_Obj {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4;
-    static void* operator new(unsigned int);
     S_00c437c0_Obj();
 };
 struct S_00c437c0 : FUN_00c43850_Class {
@@ -1169,7 +1158,6 @@ struct S_00c437c0 : FUN_00c43850_Class {
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660 {
-    static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
 };
 class FUN_00c43be0_cls {
 public:
@@ -1554,7 +1542,6 @@ struct NewObject_b9649 {
     unsigned int unkAC;
     unsigned int unkB0;
     NewObject_b9649();
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
 };
 struct UpdateContext {
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
@@ -2965,7 +2952,6 @@ struct FUN_00c5c400 {
     unsigned int unk58;
     unsigned int m_0x5c;
     unsigned int m_0x60;
-    static void* __cdecl operator new(unsigned int size);
     FUN_00c5c400();
 };
 struct NiPSysEmitterCtlr_CloneShell {
@@ -2984,8 +2970,6 @@ struct FUN_00c5cb50_cls {
 };
 class BC5CBB0Object {
 public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 class BC5CBB0Controller : public BC5CBB0Object {
 public:
@@ -3072,8 +3056,6 @@ struct EmitterObjectStub {
     int unkcc;
     int unkd0;
     EmitterObjectStub();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 struct EmitterOwnerStub {
     void Attach(EmitterObjectStub* pkObject, int iParam);
@@ -3694,7 +3676,6 @@ struct BSShaderAccumulator {
     int unk10;
     int unk14;
     int unk18;
-    static void* __cdecl operator new(unsigned int size);
     BSShaderAccumulator();
 };
 struct FUN_00a7b4a0_cls {
@@ -3719,7 +3700,6 @@ public:
 };
 class NiMemObject {
 public:
-    static void* __cdecl operator new(unsigned int size);
 };
 struct NiTransformView {
     float rotation[9];
@@ -3834,9 +3814,6 @@ struct PositionModifierInstance {
     bool active;
     float lastTime;
     void* next;
-    static __forceinline void* operator new(unsigned int amount) {
-        return FUN_00aa13e0(amount);
-    }
 };
 struct MyStream;
 struct ParticlePositionModifier {
@@ -3915,8 +3892,6 @@ struct ThisC43220 {
 class BC45120CloningProcess;
 class BC45120Object {
 public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     BC45120Object();
     virtual ~BC45120Object();
@@ -4362,7 +4337,6 @@ struct C45440_Obj : FUN_00c450d0 {
     int uA4;
     int uA8;
     int uAC;
-    static void* __cdecl operator new(unsigned int size);
 };
 C45440_Obj* __cdecl CreateC45440Obj(void);
 struct Animation;
@@ -4376,7 +4350,7 @@ struct C5EDC0_AnimExtra {
     C5EDC0_AnimArray m_kAnimations;
     unsigned int AddAnimation(Animation* apAnim);
 };
-struct BSFaceGenMorphData { static void* operator new(unsigned int); static void operator delete(void*); };
+struct BSFaceGenMorphData { };
 namespace c30 {
 struct FUN_00c5fd30 : BSFaceGenMorphData { FUN_00c5fd30(); int m[7]; };
 struct Owner30 {
@@ -4490,8 +4464,6 @@ struct Pointer351 {
     Ref351* pointer;
     Pointer351() : pointer(0) { if (pointer) pointer->IncRefCount(); }
     ~Pointer351() { if (pointer) pointer->DecRefCount(); }
-    static void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size); }
-    static void operator delete[](void* memory) { reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManager*>(&g_memoryManager)))->FUN_00aa4060(memory); }
 };
 struct C46Child {
     virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
@@ -4853,7 +4825,6 @@ inline void FreeAB(void* p) { FUN_00aa10f0(p); }
 struct ItemAB {
     void* m_pData;
     ~ItemAB() { FreeAB(m_pData); }
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>((((HeapAB*)&DAT_011f6238)))->FUN_00aa4060(p); }
 };
 template <class T> class ArrAB {
 public:
@@ -4890,7 +4861,6 @@ struct FixedString_c55 {
             InterlockedDecrement(p);
         }
     }
-    static void operator delete(void* apMem) { reinterpret_cast<::FNV_MemoryManager *>((((Heap_c55*)&DAT_011f6238)))->FUN_00aa4060(apMem); }
 };
 void FUN_00c552a0();
 void* __cdecl FUN_00aa13e0(unsigned int);
@@ -4901,7 +4871,6 @@ class NiPoint2 { public: float x, y; };
 class NiTriShape {
 public:
     NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short, unsigned short*);
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     virtual ~NiTriShape();
     virtual void v01(); virtual void v02(); virtual void v03(); virtual void v04(); virtual void v05(); virtual void v06(); virtual void v07(); virtual void v08(); virtual void v09(); virtual void v10();
     virtual void v11(); virtual void v12(); virtual void v13(); virtual void v14(); virtual void v15(); virtual void v16(); virtual void v17(); virtual void v18(); virtual void v19(); virtual void v20();
@@ -4959,7 +4928,6 @@ public:
     unsigned int unkBC;
     unsigned int unkC0;
 };
-inline void* __cdecl operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size); }
 NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color);
 struct RefObj5b {
 
@@ -5359,12 +5327,9 @@ struct HandlerRegistration {
     HandlerRegistration* next;
     QueueRefPtr item;
     __forceinline HandlerRegistration() : next(0) {}
-    __forceinline static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(size); }
-    __forceinline static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p); }
 };
 struct InnerOwnedItem {
     ~InnerOwnedItem();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p); }
 };
 struct InnerEntry { unsigned int key; InnerOwnedItem* object; };
 struct Inner {
@@ -5379,8 +5344,6 @@ struct Inner {
         reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(unk08);
         DAT_0fdf050(unk04);
     }
-    __forceinline static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(size); }
-    __forceinline static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p); }
 };
 unsigned int gm_GetCurrentThreadId();
 struct Lock {
@@ -5462,7 +5425,6 @@ struct FUN_00c4a070 {
     void Shrink(unsigned int uiNewSize) { int aiB[8]; reinterpret_cast<::CachedRef_b5611 *>(this)->UpdateCachedRef(uiNewSize, uiNewSize); m_uiCapacity = uiNewSize; }
     void SetSize(unsigned int uiNewSize, bool bFree);
 };
-inline void* operator new(unsigned int, void* pv) { return pv; }
 struct ElemY { int a, b, c; };
 struct FUN_00c4a1e0 {
     virtual void v00();
@@ -5478,7 +5440,6 @@ struct FUN_00c4a1e0 {
 extern char DAT_010c1eb4;
 struct DerQ : FUN_00c450d0 {
   int unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC;
-  static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
   DerQ() { vtbl = (int)&DAT_010c1eb4; }
 };
 struct S_00c4aca0_Base {
@@ -5527,7 +5488,6 @@ struct S_00c4aca0_Base {
     int unka4;
     int unka8;
     int unkac;
-    static void* operator new(unsigned int);
 };
 struct S_00c4aca0_Obj : S_00c4aca0_Base {
     S_00c4aca0_Obj() {}
@@ -5631,7 +5591,6 @@ struct C55010Obj : NiExtraDataStandIn {
     int m_08;
     NiPoint3 m_0c;
     NiPoint3 m_18;
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     C55010Obj(const NiFixedString& name) : NiExtraDataStandIn(name) {
         m_vtbl = &DAT_010c2b64;
         m_0c = ::NiPoint3::ZERO;
@@ -5860,7 +5819,6 @@ struct WeightedMapNode {
     int unk04;
     MapRefPtr m_spObj;
     TaggedMapLink m_next;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memMgr))->FUN_00aa4060(p); }
 };
 unsigned int __cdecl GetMapThreadId();
 int __cdecl CompareMapLock(volatile long*, long, long);
@@ -5890,8 +5848,6 @@ struct Pool {
     int GetSize() { return unk00; }
     Pool(int a);
     ~Pool();
-    static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memMgr))->FUN_00aa3e40(size); }
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memMgr))->FUN_00aa4060(p); }
 };
 struct NodeMap {
     virtual void v00();
@@ -6008,9 +5964,6 @@ struct Arg41fe0 {
     ~Arg41fe0() {
         DtorScratch41fe0 scratch;
     }
-    static void operator delete(void* p) {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManager*>(&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 class C41FE0_Owner {
 public:
@@ -6121,14 +6074,11 @@ struct S_00c42960_Node {
     int unk04;
     NodeLink m_pNext;
     void FUN_0044dd60();
-    static __forceinline void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa4060(p); }
     __forceinline S_00c42960_Node* GetNext() { return m_pNext.value; }
 };
 __forceinline NodeLink::~NodeLink() { if (value) reinterpret_cast<ReleaseObject*>(value)->FUN_0044dd60(); }
 struct S_00c42960_Slot {
     S_00c42960_Node* m_pReferencedNode;
-    static void* operator new[](unsigned int bytes) { return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa3e40(bytes); }
-    static void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa4060(p); }
 };
 struct S_00c42960_Counter {
     unsigned int m_uiItemCount;
@@ -6780,7 +6730,6 @@ struct ObjC4aa40 : FUN_00c450d0 {
     int unka4;
     int unka8;
     int unkac;
-    __forceinline static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     __forceinline ObjC4aa40() {
         vtbl = (int)&DAT_010c1eb4;
     }
@@ -6811,7 +6760,6 @@ struct BSDebrisNode : FUN_00c450d0 {
     int unka4;
     int unka8;
     int unkac;
-    static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
     BSDebrisNode() { vtbl = (int)&DAT_010c1fc4; }
 };
 void* __cdecl FUN_00aa13e0(unsigned int size);
@@ -6838,7 +6786,6 @@ struct S00c4af00_Obj : FUN_00c450d0
     int unkA8;
     int unkAC;
     S00c4af00_Obj() : FUN_00c450d0() { vtbl = (int)&DAT_010c20d4; }
-    static void* operator new(unsigned int size) throw() { return FUN_00aa13e0(size); }
 };
 struct S00c4af00_Cls
 {
@@ -6866,7 +6813,6 @@ struct C4B0C0_Obj : FUN_00c450d0
     int uA4;
     int uA8;
     int uAC;
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     __forceinline C4B0C0_Obj() { vtbl = (int)&DAT_010c20d4; }
 };
 // Same-TU body is visible, so /Ob1 tries to inline it and refuses.
@@ -7122,8 +7068,6 @@ struct Alloc086 {  };
 extern "C" char DAT_011f6238;
 struct NewShorts086 : Shorts086 {
     __forceinline NewShorts086() { table=&DAT_0106abe4; reinterpret_cast<::FUN_00692290_class *>(this)->FUN_00692290(0,0); }
-    __forceinline static void* operator new(unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((Alloc086*)&DAT_011f6238)))->FUN_00aa3e40(n); }
-    static void operator delete(void*);
 };
 struct RefBase086 {
     virtual void v0();
@@ -7229,7 +7173,7 @@ struct FUN_00a5ecb0 : RefBase086 {
     int unka4;
     int unka8;
     FUN_00a5ecb0(unsigned int);
-    static inline void* operator new(unsigned int size) {
+    static inline void* operator new(std::size_t size) {
         if(size==0) size=1;
         unsigned int requested=size;
         unsigned int alignment=4;
@@ -7286,10 +7230,6 @@ struct S00c4db20_Pt {
 struct FUN_006917d0_Arr {
     int unk00, unk04, unk08, unk0c;
     FUN_006917d0_Arr();
-    static __forceinline void* operator new(unsigned int size) {
-        S00c4db20_Pt t;
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 struct S00c4db20_Child {
     int unk00;
@@ -7321,22 +7261,16 @@ struct NP3 {
     float x, y, z;
     NP3() {}
     NP3(float a, float b, float c) { x = a; y = b; z = c; }
-    __forceinline static void* operator new[](size_t n) { return NiAlloc(n); }
-    static void operator delete[](void*) {}
 };
 struct NP2 {
     float x, y;
     NP2() {}
     NP2(float a, float b) { x = a; y = b; }
-    __forceinline static void* operator new[](size_t n) { return NiAlloc(n); }
-    static void operator delete[](void*) {}
 };
 struct NC4 {
     float r, g, b, a;
     NC4() : r(0.0f), g(0.0f), b(0.0f), a(0.0f) {}
     NC4(float q, float w, float e, float t) { r = q; g = w; b = e; a = t; }
-    __forceinline static void* operator new[](size_t n) { return NiAlloc(n); }
-    static void operator delete[](void*) {}
 };
 inline NP3* At3(NP3* p, int i) { return p + i; }
 inline unsigned short* At2(unsigned short* p, int i) { return p + i; }
@@ -7345,8 +7279,6 @@ struct P3Arr { int unk0; NP3* p; };
 struct ShArr { int unk0; unsigned short* p; };
 struct TESObjectDoorController {
     char pad[0x58];
-    static void* operator new(unsigned int n);
-    static void operator delete(void*);
     TESObjectDoorController(unsigned short a1, NP3* a2, NP3* a3, NC4* a4,
                             NP2* a5, int a6, int a7, unsigned short a8, void* a9);
 };
@@ -7488,9 +7420,6 @@ struct FUN_00c504e0_mgr {  };
 struct FUN_00c504e0_task {
 // @fnv 0x00c504e0
     ~FUN_00c504e0_task() {}
-    static void operator delete(void* p) {
-        reinterpret_cast<::FNV_MemoryManager *>((((FUN_00c504e0_pool*)&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 struct ScopeBase_c5 {
     virtual ~ScopeBase_c5();
@@ -7747,7 +7676,6 @@ extern MemoryManager g_011f6238;
 struct OwnedB {
  void* data;
  ~OwnedB() { NiFree(data); }
- static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_011f6238))->FUN_00aa4060(p); }
 };
 struct FUN_00c51df0 : BaseForC51df0 {
  NiPointerC51<RefObjectC51> m_spNode;
@@ -7930,7 +7858,6 @@ struct Q5Hold { Q5Item** m_data; unsigned m_alloc; unsigned m_uiItemCount;
   inline unsigned Count() { return m_uiItemCount; } };
 struct Q5Obj { virtual void v00(),v04(),v08(),v0c(),v10(),v14(),v18(),v1c(),v20(),v24(),v28(),v2c(),v30(),v34(),v38(),v3c(),v40(),v44(),v48(),v4c(),v50(),v54(),v58(),v5c(),v60(),v64(),v68(),v6c(),v70(),v74(),v78(),v7c(),v80(),v84(),v88(),v8c(),v90(),v94(); virtual void v98(Q5Item*);
  char pad[0x48];
-  static __forceinline void* operator new(unsigned int amount) { int dq[2]; return FUN_00aa13e0(amount); }
   Q5Obj();
     };
 struct Q5Item {  };
@@ -9298,9 +9225,6 @@ struct ObjC44 {
         InterlockedDecrement(&b.p->count);
     }
 };
-inline void operator delete[](void* p) {
-    reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
-}
 struct OwnerC44 {
     ObjC44** unk00;
     void FUN_00c44b70();
@@ -9410,8 +9334,6 @@ public:
     int unk04, unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60, unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8;
 
     BoundingVolumeNode(unsigned short usNumChildren);
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     virtual void Unk00(); virtual void Unk01(); virtual void Unk02(); virtual void Unk03();
     virtual void Unk04(); virtual void Unk05(); virtual void Unk06(); virtual void Unk07();

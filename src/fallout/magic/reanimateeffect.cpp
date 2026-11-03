@@ -361,7 +361,6 @@ void FUN_008274a0_shell::FUN_008274a0(Actor* apActor)
     reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)::g_TESSaveLoadGame)))->FUN_008579b0(m_60, 16);
 }
 
-void* __cdecl operator new(unsigned int);
 extern int _data_011c16bc;
 
 struct FUN_008266a0_virt

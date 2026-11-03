@@ -2384,7 +2384,6 @@ void MenuState::UpdateMenuSelection()
     DAT_011d8a90 = 99;
 }
 
-void __cdecl operator delete(void*);
 struct ListNode7164
 {
     int unk00;

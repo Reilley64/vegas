@@ -17,6 +17,7 @@
 #include "fnv/symbols_00e58000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_simd.h"
+#include "fnv/decl/Se31d50_Anim.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e30000.h"
 #include "fnv/symbols_00e31000.h"

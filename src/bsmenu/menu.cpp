@@ -185,15 +185,7 @@ class NiFixedString
   public:
     char* m_kHandle;
 
-    void* operator new(unsigned int stSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(stSize);
-    }
 
-    void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 
     NiFixedString(const char* pcString)
     {
@@ -506,22 +498,6 @@ struct P03MM
 {
     void* Allocate(unsigned int auSize);
 };
-inline void* operator new(size_t auSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(auSize);
-}
-inline void* operator new[](size_t auSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(auSize);
-}
-inline void operator delete(void* apMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((P03MM*)&g_memoryManager)))->FUN_00aa4060(apMem);
-}
-inline void operator delete[](void* apMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((P03MM*)&g_memoryManager)))->FUN_00aa4060(apMem);
-}
 struct FileFinder
 {
     static NiFile* __cdecl GetFile(const char* apName, int aeMode, unsigned int auiBufferSize, unsigned int auiUnk);
@@ -834,14 +810,6 @@ struct MemoryManager
     void Deallocate(void* apMem);
 };
 extern MemoryManager g_memoryManager;
-inline void* operator new[](size_t stSize)
-{
-    return g_memoryManager.Allocate(stSize);
-}
-inline void operator delete[](void* pvMem)
-{
-    g_memoryManager.Deallocate(pvMem);
-}
 class NiBinaryStream
 {
   public:
@@ -1140,14 +1108,6 @@ struct FUN_00a0ac80 : public FUN_00a0ad40
             ++pkItem;
             ++iIndex;
         }
-    }
-    static void* operator new(unsigned int auSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(auSize);
-    }
-    static void operator delete(void* apMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(apMem);
     }
 };
 
@@ -1720,11 +1680,6 @@ struct BSFileX
     unsigned int unk130, unk134, unk138, unk13c, unk140, unk144, unk148, unk14c;
     unsigned int unk150, unk154;
     BSFileX(const char* apName, int aiMode, unsigned int auiBufferSize, bool abFlag);
-    static void* operator new(unsigned int auiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(DAT_011f6238))->FUN_00aa3e40(auiSize);
-    }
-    static void operator delete(void* apMem);
     unsigned int BinaryWrite(const void* apBuffer, unsigned int auiTotalBytes, unsigned int* apuiComponentSizes,
                              unsigned int auiNumComponents)
     {
@@ -1881,10 +1836,6 @@ class TileCollection
     {
         Destroy();
     }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 class MenuOwner;
 struct TileOwner
@@ -1928,10 +1879,6 @@ struct TemplateList
     ~TemplateList()
     {
         reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
-    }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
 class FUN_00a1c520

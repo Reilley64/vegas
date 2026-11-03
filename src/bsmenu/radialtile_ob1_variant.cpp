@@ -92,8 +92,6 @@ inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b)
 {
     return a > b ? a : b;
 }
-void* operator new(unsigned int);
-void operator delete(void*);
 
 struct BSString
 {

@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectcell.cpp: TESObjectCELL, Owner, Cell, hkpEntityListener and more (325 functions)
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -507,7 +508,6 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_01202000.h"
 #include "tesobjectcell_packet.h"
-void __cdecl operator delete(void* pointer);
 
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 
@@ -812,7 +812,6 @@ struct FUN_00544630_shell : public TESObjectCELL
     void ResetCellData();
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct InteriorData
 {
@@ -3555,8 +3554,6 @@ struct FUN_00545b30_shell : public TESObjectCELL
 struct BSFadeNode
 {
     char pad[0x78];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 public:
     void SetRange(float, float);
 };
@@ -8409,8 +8406,6 @@ struct FaceGenNode
     int nac;
     int nb0;
     FaceGenNode();
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct Primitive
@@ -11090,22 +11085,12 @@ struct Widget
 struct FUN_00a5ecb0 : Widget
 {
     FUN_00a5ecb0(int);
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00c46970 : Widget
 {
     int unkac, unkb0;
     FUN_00c46970();
     void FUN_005468d0(int);
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00c35e00
 {
@@ -11113,22 +11098,12 @@ struct FUN_00c35e00
     int unk04, unk08, unk0c;
     FUN_00c35e00();
     void FUN_004addc0(void*);
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00c37ec0
 {
     void* vfptr;
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
     FUN_00c37ec0();
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
 };
 struct WidgetSlot
 {
@@ -12428,8 +12403,6 @@ extern Ref* player;
 struct Pending
 {
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct Cell
 {
     int f00;
@@ -14267,8 +14240,6 @@ struct RenderObject
 struct RenderCamera : RenderObject
 {
     RenderCamera();
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
     int field004;
     int field008;
     int field00c;
@@ -14341,8 +14312,6 @@ struct RenderCamera : RenderObject
 struct RenderNode : RenderObject
 {
     RenderNode(unsigned short);
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
     int field004;
     int field008;
     int field00c;
@@ -15383,7 +15352,6 @@ struct Data
     int unk18;
     int unk1c;
     int unk20;
-    static void* operator new(unsigned int);
 };
 struct Interior : Data
 {
@@ -16270,16 +16238,10 @@ class NiFixedString
     ~NiFixedString();
 };
 
-inline void* operator new(unsigned int size, void* ptr)
-{
-    return ptr;
-}
 
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* pointer, unsigned int);
 };
 
 extern void* DAT_011dea10;
@@ -18250,7 +18212,6 @@ void S_005574d0_Owner::ProcessPerkEntries()
 }  // namespace fnv_005574d0
 
 namespace fnv_005596a0 {
-void __cdecl operator delete(void* pointer);
 
 class FUN_005596a0
 {
@@ -18378,8 +18339,6 @@ FUN_005415b0::FUN_005415b0() : fieldb4(0), fieldb8(0), fieldbc(0), fieldd4(0)
     field58.slot0();
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct Mem960
 {
     unsigned int handle;
@@ -19039,8 +18998,6 @@ class BSA
 {
   public:
     char pad[0x280];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     BSA(int, int, int);
 };
 
@@ -19288,8 +19245,6 @@ struct SceneObject
     virtual void v39();
     virtual void InsertChild(SceneObject* apChild);
 
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_00a712f0 : SceneObject
@@ -21223,9 +21178,6 @@ namespace fnv_00552dc0 {
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct ChildGeometryBase;
 
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*);
 
 struct ScopedCellOperation
 {
@@ -21330,7 +21282,7 @@ struct SpatialNode
     int unk90;
     int unk94;
     int unk98;
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     SpatialNode(SceneInitializer*);
     virtual void V00();
@@ -21466,11 +21418,6 @@ struct RefList
 };
 struct Shadow
 {
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* pvMem, unsigned int);
     Shadow();
     int unk00;
     int unk04;

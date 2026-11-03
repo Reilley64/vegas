@@ -5,6 +5,9 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cmath>
 #include <cstring>
@@ -166,7 +169,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a316a0_shell
 {
@@ -1437,7 +1439,7 @@ template <class T> struct ClonePtr
         }
         return *this;
     }
-    static void* operator new[](unsigned int size, MemoryManager& memory = ::g_memoryManager) throw()
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
     }
@@ -1456,7 +1458,7 @@ struct FUN_00a31240
     void* blend;
     unsigned char blendIndex, priority, unk0e, unk0f;
     FUN_00a31240() throw();
-    static void* operator new[](unsigned int size, MemoryManager& memory = ::g_memoryManager) throw()
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
     }
@@ -1466,7 +1468,7 @@ struct FUN_00a31680
     FixedStr object, property, type, controller, interpolator;
     FUN_00a31680() throw();
     ~FUN_00a31680();
-    static void* operator new[](unsigned int size, MemoryManager& memory = ::g_memoryManager) throw()
+    static void* operator new[](std::size_t size, MemoryManager& memory = ::g_memoryManager) throw()
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(memory))->FUN_00aa3e40(size);
     }
@@ -1479,9 +1481,9 @@ struct CloneString
         char* value = other.handle;
         if (handle != value)
         {
-            if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (value != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedIncrement((long*)(value - 8));
-            if (handle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (handle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedDecrement((long*)(handle - 8));
             handle = value;
         }
@@ -1514,7 +1516,7 @@ struct CloneSequence
 // @fnv 0x00a33570
 void CloneSequence::FUN_00a33570(CloneSequence* dest, void* context)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(dest), context);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(dest), context);
     dest->name = name;
     dest->count = count;
     dest->growth = growth;
@@ -1590,14 +1592,6 @@ struct InterpArrayItem
             m_spControllerInterpolator->DecRefCount();
     }
     InterpArrayItem& operator=(const InterpArrayItem& kItem);
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a32330::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        (*reinterpret_cast<::fnv_00a32330::MemoryManager *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
 };
 
 struct IDTag
@@ -1623,14 +1617,6 @@ struct IDTag
             InterlockedDecrement((long volatile*)(pc - 8));
     }
     IDTag& operator=(const IDTag& kTag);
-    static void* operator new[](unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a32330::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        (*reinterpret_cast<::fnv_00a32330::MemoryManager *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
 };
 
 struct SequenceArrays
@@ -1680,11 +1666,6 @@ struct Memory71
 };
 struct Array71
 {
-    static void operator delete[](void*, unsigned int);
-    static void* operator new[](unsigned int n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<Memory71&>((*reinterpret_cast<::S_00aa4060_Class *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-    }
 };
 struct Interp71 : Array71
 {
@@ -1701,11 +1682,11 @@ extern int(* DAT_00fdf1c0)(void*);
 struct String71
 {
     char* ptr;
-    String71() : ptr((char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    String71() : ptr((char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
     {}
     void Release()
     {
-        if (ptr != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             DAT_00fdf1c4(ptr - 8);
     }
     String71& operator=(const String71& other)
@@ -1713,9 +1694,9 @@ struct String71
         if (ptr != other.ptr)
         {
             char* replacement = other.ptr;
-            if (replacement != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (replacement != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 DAT_00fdf1c0(replacement - 8);
-            if (ptr != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 DAT_00fdf1c4(ptr - 8);
             ptr = replacement;
         }

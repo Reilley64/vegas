@@ -4,6 +4,7 @@
 
 // NiQuaternion component-wise inequality comparison.
 // Returns true when any of the four quaternion components differs.
+#include <new>
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a57000.h"
@@ -45,7 +46,6 @@ FUN_00a3ca10::FUN_00a3ca10()
     *reinterpret_cast<void**>(this) = &::DAT_01097054;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct NiKeyBasedInterpolator
 {
     void* m_pVTable;

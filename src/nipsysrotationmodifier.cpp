@@ -107,7 +107,6 @@ bool FUN_00c20a60_shell::FUN_00c20a60(NiObject* object)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiPSysPositionModifier
 {
@@ -126,15 +125,11 @@ struct NiPSysPositionModifier
     NiPSysPositionModifier();
 };
 extern int DAT_010bdaec;
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 // Allocates and constructs a NiPSysPositionModifier, sets its vtable, zeroes four floats, copies three globals and initializes two flags.
 // @fnv 0x00c20640
 NiPSysPositionModifier* FUN_00c20640()
 {
-    NiPSysPositionModifier* pModifier = (NiPSysPositionModifier*)BSFadeNode::operator new(56);
+    NiPSysPositionModifier* pModifier = (NiPSysPositionModifier*)::operator new(56);
     if (pModifier)
     {
         new (pModifier) NiPSysPositionModifier();
@@ -691,10 +686,6 @@ struct C20980_Modifier : C20980_Base
     unsigned char m_34;
     unsigned char m_35;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     C20980_Modifier()
     {
         new ((void *)this) ::NiPSysPositionModifier();

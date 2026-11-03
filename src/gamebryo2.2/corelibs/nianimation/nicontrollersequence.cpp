@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00a31730
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -205,7 +207,7 @@ struct FUN_00a33bf0_s : NiObject
 // @fnv 0x00a33bf0
 void FUN_00a33bf0_s::SaveToStream(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     reinterpret_cast<::FUN_00a641f0_cls *>(&(kStream))->WriteObjectLink((void *)((const char*)&m_kName));
     kStream.m_pBackingStream->Write(&m_uiNumControlledBlocks, 4);
     kStream.m_pBackingStream->Write(&m_uiNumIDTags, 4);
@@ -285,7 +287,7 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
 
     for (ui = 0; ui < *(unsigned int*)((char*)this + 0xc); ++ui)
     {
-        kItem = (SeqInterpArrayItem*)(*(unsigned int*)((char*)this + 0x14) + ui * 0x10);
+        kItem = (SeqInterpArrayItem*)(*(uintptr_t*)((char*)this + 0x14) + ui * 0x10);
         if (kItem->m_spControllerInterpolator && kItem->m_pkBlendInterpolator)
         {
             unsigned int ucPriority;
@@ -294,7 +296,7 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
             else
                 ucPriority = kItem->m_ucArrayItemID;
             kItem->m_ucBlendIndex = ((unsigned char(*)(void*, void*, float, unsigned int, float)) *
-                                     (void**)(*(unsigned int*)kItem->m_pkBlendInterpolator + 0xdc))(
+                                     (void**)(*(uintptr_t*)kItem->m_pkBlendInterpolator + 0xdc))(
                 kItem->m_pkBlendInterpolator, kItem->m_spControllerInterpolator, *(float*)((char*)this + 0x1c),
                 ucPriority, 1.0f);
         }
@@ -303,7 +305,6 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a316a0_shell
@@ -313,7 +314,7 @@ struct FUN_00a316a0_shell
 // @fnv 0x00a326c0
 void* __cdecl FUN_00a326c0()
 {
-    void* p = A51BF0Base::operator new(0x74);
+    void* p = ::operator new(0x74);
     if (p)
         return ((void *)(new ((void *)(reinterpret_cast<FUN_00a316a0_shell*>(p))) ::NiControllerSequence()));
     return 0;
@@ -1115,7 +1116,7 @@ struct FUN_00a32bc0_cls
     SlotEntry* m_pSlots;
     SlotInfo* m_pInfos;
 
-    int AssignSlot(RefObj* p1, unsigned int p2, unsigned char p3);
+    int AssignSlot(RefObj* p1, uintptr_t p2, unsigned char p3);
 };
 
 struct FUN_00a34480_obj
@@ -1265,7 +1266,7 @@ void Sequence::FUN_00a34540(OutputArray* output)
     output->Append(FormatStringWithType(&DAT_01044a7c, name));
     output->Append(((void *)(::FUN_00a7d510(&DAT_01096678, itemCount))));
     output->Append(((void *)(::FUN_00a7d550(&DAT_0105ac84, mainWeight))));
-    output->Append(((void *)(::FUN_00a6d190(&DAT_0109666c, (int)(interp)))));
+    output->Append(((void *)(::FUN_00a6d190(&DAT_0109666c, (intptr_t)(interp)))));
     output->Append(((void *)(::FUN_00a7d550(&DAT_01096664, fadeIn))));
     output->Append(((void *)(::FUN_00a7d550(&DAT_01044c94, fadeOut))));
     output->Append(((void *)(::FUN_00a7d550(&DAT_01044c90, duration))));
@@ -1562,23 +1563,23 @@ FUN_00a315b0_cls* FUN_00a315b0_cls::FUN_00a315b0(unsigned char acFlags)
             do
             {
                 e = (FUN_00a315b0_Elem*)((char*)e - 20);
-                if ((int)e->m_10 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+                if ((intptr_t)e->m_10 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 {
                     pRelease(e->m_10 - 8);
                 }
-                if ((int)e->m_0c != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+                if ((intptr_t)e->m_0c != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 {
                     pRelease(e->m_0c - 8);
                 }
-                if ((int)e->m_08 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+                if ((intptr_t)e->m_08 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 {
                     pRelease(e->m_08 - 8);
                 }
-                if ((int)e->m_04 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+                if ((intptr_t)e->m_04 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 {
                     pRelease(e->m_04 - 8);
                 }
-                if ((int)e->m_00 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
+                if ((intptr_t)e->m_00 != (*reinterpret_cast<int *>(&::DAT_0109b220)))
                 {
                     pRelease(e->m_00 - 8);
                 }
@@ -1605,19 +1606,19 @@ void FUN_00a30750_shell::FUN_00a30750()
 {
     char* p;
     p = m_kPointA[4];
-    if (p != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (p != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(p - 8));
     p = m_kPointA[3];
-    if (p != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (p != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(p - 8));
     p = m_kPointA[2];
-    if (p != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (p != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(p - 8));
     p = m_kPointA[1];
-    if (p != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (p != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(p - 8));
     p = m_kPointA[0];
-    if (p != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (p != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(p - 8));
 }
 
@@ -1742,7 +1743,7 @@ void* __cdecl FormatStringWithType(const char* pcText, void* arg2)
 {
     void* esi = reinterpret_cast<::MemoryManagerStandIn *>(&(((S_00a31140_Allocator&)(*reinterpret_cast<::S_00aa4060_Class *>(&::g_memoryManager)))))->FUN_00aa3e40((unsigned int)strlen(pcText) + 0x20);
     const char* eax = 0;
-    switch ((unsigned int)arg2)
+    switch ((uintptr_t)arg2)
     {
     case 0:
         eax = str_01020fd4;
@@ -1808,7 +1809,7 @@ class A1400StringGroup
     A1400StringGroup& FUN_00a31400(const A1400StringGroup& kOther);
 };
 // @fnv 0x00a32bc0
-int FUN_00a32bc0_cls::AssignSlot(RefObj* apRef, unsigned int auiValue, unsigned char aucFlag)
+int FUN_00a32bc0_cls::AssignSlot(RefObj* apRef, uintptr_t auiValue, unsigned char aucFlag)
 {
     unsigned int count = m_uiItemCount;
     unsigned int idx = 0;
@@ -2045,12 +2046,12 @@ void IDTagA33a50::ReadFromStream(StreamA33a50& kStream, unsigned int& uiPaletteL
     }
     else if (kStream.m_uiNifVersion < 0x14010001)
     {
-        uiPaletteLink = ((unsigned int)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
-        unsigned int uiAVObjectNameOffset = 0;
-        unsigned int uiPropertyTypeOffset = 0;
-        unsigned int uiCtlrTypeOffset = 0;
-        unsigned int uiCtlrIDOffset = 0;
-        unsigned int uiInterpolatorIDOffset = 0;
+        uiPaletteLink = ((uintptr_t)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));
+        uintptr_t uiAVObjectNameOffset = 0;
+        uintptr_t uiPropertyTypeOffset = 0;
+        uintptr_t uiCtlrTypeOffset = 0;
+        uintptr_t uiCtlrIDOffset = 0;
+        uintptr_t uiInterpolatorIDOffset = 0;
         kStream.m_pUnderlyingStream->Read(&uiAVObjectNameOffset, 4);
         kStream.m_pUnderlyingStream->Read(&uiPropertyTypeOffset, 4);
         kStream.m_pUnderlyingStream->Read(&uiCtlrTypeOffset, 4);
@@ -2414,7 +2415,7 @@ struct SequenceLink : NiObject
 // @fnv 0x00a326e0
 void SequenceLink::LinkSequenceSource(NiSequenceSource* source)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (source->versionD8 < 0x0a010068)
     {
         object20 = ((::RefObject *)(reinterpret_cast<::NiStream *>((source))->GetLoadedObject()));
@@ -2538,11 +2539,11 @@ void A33950Object::LoadFromStream(A33950Stream* stream)
         stream->Input()->Read(&flag0d, 1);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a344f0_cls
 {
-    void* FUN_00a344f0(unsigned int param);
+    void* FUN_00a344f0(uintptr_t param);
 };
 
 
@@ -2629,11 +2630,11 @@ struct SeqIDTagOffsets
 // @fnv 0x00a30d40
 void SeqIDTagOffsets::LoadFromPalette(NiStringPalette* pkPalette, int iUnused)
 {
-    int iAVObjectNameOffset = (int)m_kAVObjectName.m_kHandle;
-    int iPropertyTypeOffset = (int)m_kPropertyType.m_kHandle;
-    int iCtlrTypeOffset = (int)m_kCtlrType.m_kHandle;
-    int iCtlrIDOffset = (int)m_kCtlrID.m_kHandle;
-    int iInterpolatorIDOffset = (int)m_kInterpolatorID.m_kHandle;
+    intptr_t iAVObjectNameOffset = (intptr_t)m_kAVObjectName.m_kHandle;
+    intptr_t iPropertyTypeOffset = (intptr_t)m_kPropertyType.m_kHandle;
+    intptr_t iCtlrTypeOffset = (intptr_t)m_kCtlrType.m_kHandle;
+    intptr_t iCtlrIDOffset = (intptr_t)m_kCtlrID.m_kHandle;
+    intptr_t iInterpolatorIDOffset = (intptr_t)m_kInterpolatorID.m_kHandle;
     char* pcNullHandle = ::DAT_0109b220;
     OffsetString* apkOffsets[5] = {&m_kAVObjectName, &m_kPropertyType, &m_kCtlrType, &m_kCtlrID, &m_kInterpolatorID};
     for (int i = 0; i < 5; i++)
@@ -2874,7 +2875,7 @@ struct Node31910
     int unk24;
     int unk28;
     int unk2c;
-    unsigned int flags30;
+    uintptr_t flags30;
 
 };
 struct NiSingleInterpControllerBase : Node31910
@@ -2963,7 +2964,7 @@ extern const char DAT_01096564;
 extern void* DAT_01096444;
 void __cdecl FUN_00fdad60();
 void __cdecl FUN_00fdad80();
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 struct NiMultiTargetTransformController : Controller31910
 {
     virtual void V00();
@@ -2975,10 +2976,6 @@ struct NiMultiTargetTransformController : Controller31910
         reinterpret_cast<::Controller *>(this)->FUN_00a2feb0(n);
     }
 };
-void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 static bool IsKind31910(Node31910* node, Rtti31910* type)
 {
     Rtti31910* rtti = node->GetRTTI();
@@ -3076,7 +3073,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
     for (unsigned int i = 0; i < count; i++)
     {
         TagItem& v = tags[i];
-        if (v.third != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) && MorphType31910() == v.third)
+        if (v.third != (const char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) && MorphType31910() == v.third)
         {
             usMorphTargetCount += (unsigned short)entries[i].interpolator->count;
             ++uiMorphEntries;
@@ -3097,7 +3094,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
             {
                 const char* cnt;
                 cnt = tags[i].third;
-                if (cnt != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) && cnt && cnt[2] == 'T' && cnt[7] == 'f')
+                if (cnt != (const char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) && cnt && cnt[2] == 'T' && cnt[7] == 'f')
                     usExistingTargets++;
             }
         if (!usExistingTargets && !uiMorphEntries)
@@ -3159,7 +3156,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
     {
         Entry31910& entry = entries[i];
         TagItem& v = tags[i];
-        if (v.third != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) && v.third && v.third[2] == 'T' && v.third[7] == 'f')
+        if (v.third != (const char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) && v.third && v.third[2] == 'T' && v.third[7] == 'f')
         {
             Node31910* spTransformController = root->FindObject(&v);
             if (!spTransformController || (accum == spTransformController && owner->skipAccum))
@@ -3183,7 +3180,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
             entry.blend = (Blend31910*)&ctrl->blends[s];
             entry.blend->flags |= 1;
         }
-        else if (v.third != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) && MorphType31910() == v.third)
+        else if (v.third != (const char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) && MorphType31910() == v.third)
         {
             Morph31910* interp = entry.interpolator;
             volatile unsigned int s;
@@ -3470,7 +3467,7 @@ public:
     void FUN_00a33570(::CloneSequence *, void *);
 };
 // @fnv 0x00a344f0
-void* FUN_00a344f0_cls::FUN_00a344f0(unsigned int param)
+void* FUN_00a344f0_cls::FUN_00a344f0(uintptr_t param)
 {
     void* p = FUN_00aa13e0(0x74);
     void* result = p ? ((void *)(new ((void *)(((FUN_00a316a0_shell*)p))) ::NiControllerSequence())) : 0;
@@ -3481,7 +3478,7 @@ void* FUN_00a344f0_cls::FUN_00a344f0(unsigned int param)
 // @fnv 0x00a32470
 void CloneSequence::FUN_00a32470(CloneContext& context)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(context));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(context));
     CloneObject* clone = 0;
     reinterpret_cast<::A54440Hash *>((void *)(context.map))->FUN_00a53c30((*(::A54440Manager * *)&(const ::CloneObject * &)((CloneObject*)this)), (::A54440Manager **)&(clone));
     CloneSequence* copy = (CloneSequence*)clone;
@@ -3580,12 +3577,12 @@ struct Base43c
 };
 struct Obj43c : Base43c
 {
-    void ClearInterpolatorRefs(Src43c* pkSrc, int iArg);
+    void ClearInterpolatorRefs(Src43c* pkSrc, intptr_t iArg);
 };
 
 // Releases each ref returned by pkSrc->AssignInterpolatorRef, calls both controller methods, then invokes the base handler.
 // @fnv 0x00a343c0
-void Obj43c::ClearInterpolatorRefs(Src43c* pkSrc, int iArg)
+void Obj43c::ClearInterpolatorRefs(Src43c* pkSrc, intptr_t iArg)
 {
     for (unsigned int i = 0; i < pkSrc->m_uiCount; i++)
     {
@@ -4127,7 +4124,7 @@ void FUN_00a32940_cls::SetEntry(unsigned int uiIndex, NiRefStubB5652** apNewStub
     if (uiIndex >= m_0a)
     {
         m_0a = (unsigned short)(uiIndex + 1);
-        if ((unsigned int)*apNewStub == key.m_00)
+        if ((uintptr_t)*apNewStub == key.m_00)
         {
         }
         else
@@ -4137,16 +4134,16 @@ void FUN_00a32940_cls::SetEntry(unsigned int uiIndex, NiRefStubB5652** apNewStub
     }
     else
     {
-        if ((unsigned int)*apNewStub != key.m_00)
+        if ((uintptr_t)*apNewStub != key.m_00)
         {
-            if ((unsigned int)m_04[uiIndex] == key.m_00)
+            if ((uintptr_t)m_04[uiIndex] == key.m_00)
             {
                 m_0c++;
             }
         }
         else
         {
-            if ((unsigned int)m_04[uiIndex] != key.m_00)
+            if ((uintptr_t)m_04[uiIndex] != key.m_00)
             {
                 m_0c--;
             }
@@ -4371,7 +4368,7 @@ struct BindSequence
 bool BindSequence::FUN_00a32c70(bool abUpdate)
 {
     BindObj* root = owner->root;
-    if (rootName != (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (rootName != (const char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         accumRoot = root->Find(&rootName);
     abUpdate = reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(abUpdate), (::Node31910 *)(root), false);
     for (unsigned int index = 0; index < count; ++index)
@@ -4523,16 +4520,16 @@ struct Controller33130
 };
 static void Release33130(char* h)
 {
-    if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
         InterlockedDecrement((long*)(h - 8));
 }
 static void Assign33130(FixedStr& dst, const char* value)
 {
-    char* h = !value ? (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
+    char* h = !value ? (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)) : NiGlobalStringTable::AddString(value);
     if (dst.m_handle != h)
     {
         char* old = dst.m_handle;
-        if (h != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (h != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(h - 8));
         Release33130(old);
         dst.m_handle = h;
@@ -4578,7 +4575,7 @@ bool FUN_00a34480_cls::AssignControllers(void* apObjectName, FUN_00a34480_obj* a
         Assign33130(tag.m_kCtlrID, controller->V52());
         Assign33130(tag.m_kInterpolatorID, controller->V46(i));
         RefObj* interpolator = controller->V49(i);
-        int index = ((FUN_00a32bc0_cls*)this)->AssignSlot(interpolator, (unsigned int)&tag, 255);
+        int index = ((FUN_00a32bc0_cls*)this)->AssignSlot(interpolator, (uintptr_t)&tag, 255);
         if (index == -1)
         {
             Clear33130(tag);
@@ -4600,7 +4597,7 @@ bool FUN_00a34480_cls::AssignControllers(void* apObjectName, FUN_00a34480_obj* a
 
 
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 
 struct SeqFixedString
@@ -4792,12 +4789,7 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(unsigned int);
 
-    static void* __cdecl operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 
     __declspec(noalias)
         NewSequence(const char* const& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy) throw();
@@ -5076,7 +5068,7 @@ void S00a32fa0_Seq::FUN_00a32fa0(S00a32fa0_Seq* destination, int, int, bool remo
                 S00a32fa0_Tag tag;
                 unsigned int newIndex = destination->AssignSlot(
                     interpolator,
-                    (unsigned int)new (&tag)
+                    (uintptr_t)new (&tag)
                         FUN_00a312d0((FixedStr&)(*reinterpret_cast<int *>(&::DAT_011f49e0)), (FixedStr&)(*reinterpret_cast<int *>(&::DAT_011f49e0)), (FixedStr&)(*reinterpret_cast<int *>(&::DAT_011f49e0)),
                                      (FixedStr&)(*reinterpret_cast<int *>(&::DAT_011f49e0)), (FixedStr&)(*reinterpret_cast<int *>(&::DAT_011f49e0))),
                     0xff);

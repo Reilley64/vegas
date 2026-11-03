@@ -580,11 +580,6 @@ class B0E060Effect
   public:
     B0E060Effect(void* pvTarget, void* pvItem, void* pvMagnitude);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     virtual ~B0E060Effect();
 
@@ -1168,7 +1163,6 @@ struct ExtraHealth
     int unk40;
     int unk44;
     int unk48;
-    static void* __cdecl operator new(unsigned int size);
     ExtraHealth(void* a, void* b, void* c);
 };
 // Allocates and constructs an ExtraHealth object from the three given arguments.
@@ -1555,7 +1549,6 @@ struct MVActiveEffect
     int unk034;
     int unk038;
 
-    static void* __cdecl operator new(unsigned int auiSize);
     MVActiveEffect(MVActor* apTarget, int aiValue);
 };
 

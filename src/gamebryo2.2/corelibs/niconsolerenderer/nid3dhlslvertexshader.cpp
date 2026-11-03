@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dhlslvertexshader.cpp: MyHolder, ShaderWrap, NiD3DHLSLVertexShader, ArrayShader (8 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/E89B40Renderer.h"
 #include "fnv/decl/FUN_0043ba10_shell.h"
@@ -385,11 +386,11 @@ struct VS_00e972e0_Shader
     }
     __forceinline bool SetI(unsigned int uiReg, const void* pv, unsigned int ItemUpdateArray)
     {
-        return reinterpret_cast<::E89B40Renderer *>((m_pShaderObject))->SetDeviceState(uiReg, (unsigned int)(pv), ItemUpdateArray, 0);
+        return reinterpret_cast<::E89B40Renderer *>((m_pShaderObject))->SetDeviceState(uiReg, (uintptr_t)(pv), ItemUpdateArray, 0);
     }
     __forceinline bool SetB(unsigned int uiReg, const void* pv, unsigned int ItemUpdateArray)
     {
-        return reinterpret_cast<::FUN_00e89ae0_cls *>((m_pShaderObject))->IsVtblCallSucceeded(uiReg, (int)(pv), ItemUpdateArray, 0);
+        return reinterpret_cast<::FUN_00e89ae0_cls *>((m_pShaderObject))->IsVtblCallSucceeded(uiReg, (intptr_t)(pv), ItemUpdateArray, 0);
     }
     __forceinline long SetM(unsigned int uiReg, const float* pv, unsigned int ItemUpdateArray)
     {

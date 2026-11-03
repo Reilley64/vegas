@@ -2932,7 +2932,6 @@ class LoadingMenuCreateMenu
     void FUN_00788ab0(TESForm*);
 };
 extern bool DAT_011da0c8;
-void* __cdecl operator new(unsigned int);
 
 // Looks up a loading-menu tile by id; if missing, loads loading_menu.xml, initialises the menu, creates the thread and returns the tile.
 // @fnv 0x00788cc0
@@ -2990,8 +2989,6 @@ struct ScreenEntry
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     ScreenPath path;
     int unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    static void* operator new(unsigned int) throw();
-    static void operator delete(void*);
     ScreenEntry();
 };
 struct ScreenList

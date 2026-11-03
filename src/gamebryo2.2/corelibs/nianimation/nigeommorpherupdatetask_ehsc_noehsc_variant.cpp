@@ -5,7 +5,9 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nigeommorpherupdatetask.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -149,8 +151,6 @@ struct S_00a56c60 : S_00a56c10
 {
     void SetRefObjects(NiRefObject* nextFirst, NiRefObject* nextSecond);
 };
-extern "C" void __cdecl FUN_00aa1460(void* apMemory, unsigned int aiSize);
-extern "C" void __cdecl FUN_00aa1490(void* apMemory, unsigned int aiSize);
 class NiObject_00a56d40
 {
   public:
@@ -169,10 +169,6 @@ class A56DF0Heap
 {
   public:
 };
-void operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A56DF0Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 class A56DF0Entry
 {
   public:
@@ -232,7 +228,7 @@ struct TaskBlock
         return i >= m_uiCount ? 0 : &m_pkTasks[i];
     }
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }
@@ -260,7 +256,7 @@ class NiStreamLinkIDSet
 struct S_00a56ce0_HeapX
 {
 };
-extern "C" void* __cdecl FUN_00aa1420(unsigned int n);
+
 
 struct MorphTaskArr
 {

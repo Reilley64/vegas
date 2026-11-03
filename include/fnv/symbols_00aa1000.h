@@ -1,4 +1,6 @@
 #pragma once
+#include <cstddef>
+#include <cstdint>
 
 class NiFile;
 class NiFileHack;
@@ -29,9 +31,9 @@ int FUN_00aa1370(const char *, const char *, unsigned int);
 // 0x00aa1380
 void NormalizePathSeparators(char *);
 // 0x00aa13e0
-void FUN_00aa13e0(int);
+void *FUN_00aa13e0(size_t);
 // 0x00aa1420
-void FUN_00aa1420(int);
+void *FUN_00aa1420(size_t);
 // 0x00aa1460
 void FUN_00aa1460(void *, unsigned int);
 // 0x00aa1490
@@ -51,4 +53,4 @@ unsigned int FUN_00aa1ad0(::ProcessingState *, const void *, unsigned int, void 
 // 0x00aa1d40
 unsigned char FUN_00aa1d40();
 // 0x00aa1de0
-void SwapBufferBySizes(char *, unsigned int, const unsigned int *, unsigned int);
+void SwapBufferBySizes(char *, unsigned int, const unsigned int *, uintptr_t);

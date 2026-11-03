@@ -7,7 +7,6 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
-void operator delete(void*);
 class ImageSpaceEffect;
 class ImageSpaceEffectParam;
 class ImageSpaceManager;
@@ -51,10 +50,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     unsigned char layoutPadding57;
     unsigned char inputArraysAndStates[48];
     ImageSpaceShaderParam();
-    static void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     void AllocateShaderConstants(int, int);
     void FUN_00b8a7c0();
     void CopyParamData(int, const float*, unsigned int);

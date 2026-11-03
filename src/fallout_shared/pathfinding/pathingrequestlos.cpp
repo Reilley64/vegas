@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathingrequestlos.cpp: PathingRequestLOS, PathingRequestLOS_ (10 functions)
 
+#include <new>
 #include <math.h>
 
 // @fnv 0x004b1480
@@ -27,7 +28,6 @@ float WrapAngle(float angle)
 struct PathingRequestLOS
 {
     virtual ~PathingRequestLOS();
-    static void operator delete(void* p, unsigned int size);
     void* DestroyAndFree(unsigned int flags);
 };
 struct C006e39d0

@@ -3153,7 +3153,6 @@ struct ProcV
 struct NewObj
 {
     char pad[0x3c];
-    static void* operator new(size_t_ n);
     NewObj(int, RefObj*, ActorX*, int, int, TESForm*);
     void FUN_008bff50();
     void FUN_008b7c00(int, int);

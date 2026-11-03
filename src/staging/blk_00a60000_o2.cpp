@@ -1,5 +1,6 @@
 // staging/blk_00a60000_o2.cpp: NiShader, PivotGeometry, NiDirectionalLight, NiTMapBaseStub and more (116 functions)
 
+#include <cstdint>
 #include <windows.h>
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
@@ -226,13 +227,12 @@ void* FUN_00a652d0_class::FUN_00a652d0(bool abFree)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiTriBasedGeomData;
 // @fnv 0x00a7b790
 void* __cdecl FUN_00a7b790()
 {
-    char* p = (char*)BSFadeNode::operator new(0x58);
+    char* p = (char*)::operator new(0x58);
     if (p)
     {
         ::InitializeTriBasedGeomData((NiTriBasedGeomData*)p);
@@ -347,7 +347,6 @@ int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a7d6e0_Class
@@ -357,7 +356,7 @@ struct FUN_00a7d6e0_Class
 // @fnv 0x00a7d6e0
 void* FUN_00a7d6e0()
 {
-    FUN_00a7d6e0_Class* obj = (FUN_00a7d6e0_Class*)A51BF0Base::operator new(0xfc);
+    FUN_00a7d6e0_Class* obj = (FUN_00a7d6e0_Class*)::operator new(0xfc);
     if (obj)
     {
         new ((void *)(obj)) ::FUN_00a71f60_cls();
@@ -651,7 +650,7 @@ struct NiTriStrips
 // @fnv 0x00a71ce0
 void* CreateNiTriStrips()
 {
-    NiTriStrips* p = (NiTriStrips*)A51BF0Base::operator new(0xc4);
+    NiTriStrips* p = (NiTriStrips*)::operator new(0xc4);
     if (p)
     {
         p->NiTriStrips::NiTriStrips();
@@ -701,11 +700,11 @@ struct FUN_00a61670_Map
 {
     HashNode_00a61670* buckets[1001];
     unsigned int count;
-    HashValue_00a61670* RemoveByKey(unsigned int key);
+    HashValue_00a61670* RemoveByKey(uintptr_t key);
 };
 // Looks up a key in the hash map, unlinks and deallocates its node, clears the value's key, and returns the removed value or null.
 // @fnv 0x00a61670
-HashValue_00a61670* FUN_00a61670_Map::RemoveByKey(unsigned int key)
+HashValue_00a61670* FUN_00a61670_Map::RemoveByKey(uintptr_t key)
 {
     unsigned int index = (key >> 4) % 1001;
     HashValue_00a61670* result = 0;
@@ -965,7 +964,7 @@ class FUN_00a61920_Class
   public:
     FUN_00a61920_Node* m_pBuckets[1];
 
-    bool FindShaderByHash(int, int, NiShader**);
+    bool FindShaderByHash(int, intptr_t, NiShader**);
 };
 
 void NiShader::Release()
@@ -977,7 +976,7 @@ int* NiShader::GetHash()
 }
 
 // @fnv 0x00a61920
-bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, int iHashKey, NiShader** ppOutShader)
+bool FUN_00a61920_Class::FindShaderByHash(int iBucketIndex, intptr_t iHashKey, NiShader** ppOutShader)
 {
     FUN_00a61920_Node* node = m_pBuckets[iBucketIndex];
     bool found = false;
@@ -1308,10 +1307,6 @@ struct ShaderState
     {
         reinterpret_cast<::FUN_00a615c0_Class *>(this)->ClearAllBuckets();
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct ShaderEntry
 {
@@ -1559,11 +1554,11 @@ struct FUN_00a66960_cls
     int m_24;
     int m_28;
     int m_2C;
-    int FUN_00a66960(int a1);
+    intptr_t FUN_00a66960(int a1);
 };
 
 // @fnv 0x00a66960
-int FUN_00a66960_cls::FUN_00a66960(int a1)
+intptr_t FUN_00a66960_cls::FUN_00a66960(int a1)
 {
     return m_2C;
 }
@@ -1732,12 +1727,12 @@ FUN_00a69b00::FUN_00a69b00()
 
 struct FUN_00a69b40_Class
 {
-    void FUN_00a69b40(int param_2);
+    void FUN_00a69b40(intptr_t param_2);
 };
 
 // Sets or clears bit 0 of the flags at offset 0x18 depending on whether param_2 is nonzero or any entry after the first in the array at 0x20 is nonzero.
 // @fnv 0x00a69b40
-void FUN_00a69b40_Class::FUN_00a69b40(int param_2)
+void FUN_00a69b40_Class::FUN_00a69b40(intptr_t param_2)
 {
     bool found = param_2 != 0;
     if (!found)
@@ -1927,7 +1922,7 @@ struct FUN_00a75dc0_cls
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a71c40_cls
 {
@@ -2436,7 +2431,7 @@ struct SceneFactoryObject
 // @fnv 0x00a74750
 SceneFactoryObject* CreateSceneFactoryObject()
 {
-    SceneFactoryObject* object = static_cast<SceneFactoryObject*>(BSFadeNode::operator new(196));
+    SceneFactoryObject* object = static_cast<SceneFactoryObject*>(::operator new(196));
     if (object)
     {
         new ((void *)(object)) ::NiGeometry();
@@ -3142,10 +3137,6 @@ template <class T> class NiPointerA61
 
 struct NodeA61
 {
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerA61 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
     NiPointerA61<NiObjectA61> m_pReferencedObject;
     int m_iData;
@@ -3556,7 +3547,6 @@ class NiTPointerMapA6F : public NiTMapBaseA6F
 class NiObjectA6F
 {
   public:
-    static void* operator new(unsigned int uiSize) throw();
 
     NiObjectA6F() throw();
     virtual ~NiObjectA6F() throw();
@@ -3730,7 +3720,7 @@ struct A5FC10Stub
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // @fnv 0x00a60070
 A5FC10Stub* __cdecl CreateA5FC10Stub()
@@ -3903,11 +3893,6 @@ struct NodeA616
     NodeA616(EntryA616* entry, NodeA616* next) : m_entry(entry), m_next(next)
     {}
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 
 class HashA616
@@ -3916,11 +3901,11 @@ class HashA616
     NodeA616* m_buckets[1001];
     unsigned int m_uiItemCount;
 
-    void FUN_00a61610(unsigned int key, EntryA616* entry);
+    void FUN_00a61610(uintptr_t key, EntryA616* entry);
 };
 
 // @fnv 0x00a61610
-void HashA616::FUN_00a61610(unsigned int key, EntryA616* entry)
+void HashA616::FUN_00a61610(uintptr_t key, EntryA616* entry)
 {
     unsigned int uiBucket = (key >> 4) % 1001;
     entry->m_key = key;
@@ -5295,10 +5280,6 @@ struct FUN_00a64470
 {
     virtual ~FUN_00a64470();
     void* m_pData;
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 // @fnv 0x00a64470

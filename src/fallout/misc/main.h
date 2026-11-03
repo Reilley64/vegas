@@ -7,6 +7,7 @@
 // matched functions use members the canonical headers do not declare:
 //   NiPointer: default constructor and out-of-line operator= on incomplete T (Main::spMenuSceneGraph, 0x0066b0d0).
 //   NiMemObject: static operator new (??2NiMemObject@@SAPAXI@Z, 0x00aa13e0); canonical NiMemObject is empty.
+#include <new>
 #include "fnv/symbols_011de000.h"
 #define NiPointer FNV_NiPointer_Dummy
 #define NiMemObject FNV_NiMemObject_Canonical
@@ -30,8 +31,6 @@ template <class T> class NiPointer
 class NiMemObject
 {
   public:
-    static void* operator new(size_t size);
-    static void operator delete(void*, unsigned int);
 };
 
 #include "NiRefObject.h"

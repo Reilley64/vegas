@@ -7,6 +7,7 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/Builder.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -266,7 +267,7 @@ struct Host
     {
         if (this == 0)
             return false;
-        return ((VObj*)this)->vt08() == (int)&(*reinterpret_cast<int *>(&::g_012030b0));
+        return ((VObj*)this)->vt08() == (intptr_t)&(*reinterpret_cast<int *>(&::g_012030b0));
     }
     void FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag);
 };
@@ -304,18 +305,18 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     Pt aCorners[8];
     Pt tmp4c;
     reinterpret_cast<::Builder *>(this)->FUN_00c35c10((::Point *)(aCorners));
-    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[0])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    tmp4c = (aCorners[0] - p0);
     reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
-    aCorners[4] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[0])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
-    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[1])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    aCorners[4] = (aCorners[0] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[1] - p0);
     reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
-    aCorners[5] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[1])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
-    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[2])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    aCorners[5] = (aCorners[1] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[2] - p0);
     reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
-    aCorners[6] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[2])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
-    tmp4c = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[3])))->FUN_00439ef0-((::NiPoint3 *)&(p0), *(const ::NiPoint3 *)nullptr)));
+    aCorners[6] = (aCorners[2] + (&tmp4c)->operator*(::g_011deba0_arg1));
+    tmp4c = (aCorners[3] - p0);
     reinterpret_cast<::FUN_004a0c10_s *>(&(tmp4c))->FUN_004a0c10();
-    aCorners[7] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[3])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&tmp4c)->operator*(::g_011deba0_arg1)), {})));
+    aCorners[7] = (aCorners[3] + (&tmp4c)->operator*(::g_011deba0_arg1));
     unsigned short t13[8][2];
     t13[0][0] = 0;
     t13[0][1] = 1;
@@ -402,16 +403,16 @@ void Host::FUN_00c34ad0(Pt p0, Obj* pA, Obj* pB, Vec4 color, unsigned char flag)
     {
         Pt vec128 = ::NiPoint3::ZERO;
         GetColumn(1, vec128);
-        pVertsTmp[idx46 * 2] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[0])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), {})));
+        pVertsTmp[idx46 * 2] = (aCorners[0] + (&vec128)->operator*(30.0f));
         colors8[idx46 * 2] = colorA;
-        pVertsTmp[idx46 * 2 + 1] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[0])))->FUN_00439ef0-((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), *(const ::NiPoint3 *)nullptr)));
+        pVertsTmp[idx46 * 2 + 1] = (aCorners[0] - (&vec128)->operator*(30.0f));
         colors8[idx46 * 2 + 1] = colorA;
         flags0[idx46].a = 1;
         flags0[idx46].b = 0;
         idx46++;
-        pVertsTmp[idx46 * 2] = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)((&aCorners[3])))->ProjectileLaunched+((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), {})));
+        pVertsTmp[idx46 * 2] = (aCorners[3] + (&vec128)->operator*(30.0f));
         colors8[idx46 * 2] = colorA;
-        pVertsTmp[idx46 * 2 + 1] = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)((&aCorners[3])))->FUN_00439ef0-((::NiPoint3 *)&(const ::NiPoint3 &)((&vec128)->operator*(30.0f)), *(const ::NiPoint3 *)nullptr)));
+        pVertsTmp[idx46 * 2 + 1] = (aCorners[3] - (&vec128)->operator*(30.0f));
         colors8[idx46 * 2 + 1] = colorA;
         flags0[idx46].a = 1;
         flags0[idx46].b = 0;

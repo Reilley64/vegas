@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -1125,7 +1126,6 @@ struct FUN_00620230_Class
 {
     void* FUN_00620230(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 // Calls FUN_0061fc50, deletes this when flags has bit 1 set, and returns this.
 // @fnv 0x00620230
 void* FUN_00620230_Class::FUN_00620230(unsigned int flags)
@@ -1421,7 +1421,6 @@ struct FUN_00622780
 {
     void Clear();
 };
-void __cdecl operator delete(void*);
 struct FUN_00622810_Class : public FUN_00622780
 {
     void* FUN_00622810(unsigned int flags);
@@ -1936,7 +1935,6 @@ FUN_0062e780_Class* __cdecl FUN_0062f3d0()
     return (*reinterpret_cast<::FUN_0062e780_Class * *>(&::DAT_011cc54c));
 }
 
-void __cdecl operator delete(void* p);
 struct FUN_006317c0_Class
 {
     void* FUN_006317c0(unsigned int flags);
@@ -2467,7 +2465,6 @@ struct FUN_00626800_Pair
     int a;
     int b;
 };
-void* __cdecl operator new(unsigned int, void*);
 // For each of count elements, placement-constructs an 8-byte pair at base + i*8 by copying the pair from src.
 // @fnv 0x00626800
 void __cdecl CopyPairsIntoPlacement(int base, int count, int* src)
@@ -4362,8 +4359,6 @@ struct TriData : Obj
     int unk50;
     int unk54;
     int unk58;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     TriData(unsigned short nVerts, Pt3* verts, Pt3* normals, void* colors, Pt2* uvs, unsigned short nSets, int flags,
             unsigned short nTris, unsigned short* tris, int a, int b);
 };
@@ -4418,8 +4413,6 @@ struct TriShape : Obj
     int unkB8;
     int unkBC;
     int unkC0;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     TriShape(TriData* d);
 };
 
@@ -4435,8 +4428,6 @@ struct PartData : Obj
     int unk20;
     int unk24;
     int unk28;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     PartData(unsigned short n, int a, int b);
 };
 
@@ -4481,8 +4472,6 @@ struct PartCtrl : Obj
     int unk94;
     int unk98;
     int unk9C;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
     PartCtrl(unsigned short n, float life, Pt3* dir, Pt3* minp, Pt3* maxp, int flag, int mode);
 };
 
@@ -4970,7 +4959,7 @@ extern void __cdecl InitHavokPhysics();
 extern void __cdecl FUN_00c661d0(int);
 struct Allocator622
 {
-    static __forceinline void* operator new(unsigned int count)
+    static __forceinline void* operator new(std::size_t count)
     {
         return FUN_0056d280(count);
     }
@@ -5369,7 +5358,7 @@ struct Obj6268b0
     int unk3A8;
     int unk3AC;
     Obj6268b0(float fValue, unsigned int uiValue);
-    static void* operator new(unsigned int size);
+    static void* operator new(std::size_t size);
     static void operator delete(void*);
 };
 
@@ -6780,8 +6769,6 @@ struct FUN_0056e550
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     FUN_0056e550(const FUN_0056e4e0*);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct BoundaryPointer
 {

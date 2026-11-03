@@ -246,11 +246,6 @@ struct FUN_00aa5860
     FUN_00aa5860();
     // Overloaded operator new that forwards the requested size to the memory manager's Allocate method and returns the allocated pointer.
 // @fnv 0x00aa58d0
-    void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00aa58d0_Alloc*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    void operator delete(void*);
 };
 
 
@@ -388,10 +383,6 @@ struct MemoryManagerDealloc
 struct FUN_00aa5950_s
 {
     ~FUN_00aa5950_s();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManagerDealloc*)&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 // Deletes the object pointed to by DAT_011f63b4 and sets the pointer to null.
 // @fnv 0x00aa5950

@@ -5,6 +5,7 @@
 
 // @fnv 0x00a51210
 #include "fnv/decl/A51D30Loader.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a51ab0_cls.h"
 #include "fnv/decl/FUN_00a51cf0_cls.h"
 #include "fnv/decl/FUN_00a57f80_cls.h"
@@ -208,7 +209,6 @@ void NiBSplineCompColorInterpolator::FUN_00a519b0(NiTPrimitiveArray<char*, NiTMa
 static const float DAT_01099c2c = 3.402823466e+38f;
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a51ab0 : NiMemObject
 {
@@ -287,7 +287,7 @@ char CompColorInterpolator::EvaluateColor(float time, void*, RgbaColor* output)
     return 1;
 }
 
-extern void* __cdecl FUN_00aa13e0(unsigned int);
+
 extern const float DAT_01099c2c;
 extern int DAT_01099c34;
 struct NiBSplineColorInterpolator_a51a60 : NiBSplineColorInterpolator

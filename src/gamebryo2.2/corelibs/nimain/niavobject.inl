@@ -12,7 +12,7 @@ void NiAVObject::UpdateTimeControllers(NiUpdateData& data, bool updateProperties
 {
     NiTimeController* controller;
     if (updateProperties && reinterpret_cast<::FUN_004f0000_shell *>((void *)this)->FUN_004f0000()) {
-        NiTListIterator position = ((void *)(::FUN_00559450((int *)&(SceneGraphObject))));
+        NiTListIterator position = (*(void **)&(SceneGraphObject));
         while (position) {
             NiProperty* property = (*(::NiPointer< ::NiProperty> *)(reinterpret_cast<::ListStandIn *>(&(SceneGraphObject))->FUN_0057cbe0((int **)&(position))));
             if (property && ((::NiTimeController *)(::fnv_0043b230::FUN_0043b230((const char *)(property)))))

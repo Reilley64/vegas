@@ -71,7 +71,6 @@ struct FUN_00e7cdf0_shell
     int _p5;
     int _p6;
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e7d230_cls
 {
     FUN_00e7d230_cls* DestroyIfFlagged(int);
@@ -2056,10 +2055,6 @@ struct FUN_00e68ea0_cls
 void __cdecl NiFree(void* pvMem);
 struct BE7B040Value
 {
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        ::FUN_00aa1460(pvMem, uiSize);
-    }
 
     int m_aiData00;
     int m_aiData04;
@@ -2274,7 +2269,6 @@ class BE7BBF0Source
 class BE7BBF0Item
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BE7BBF0Item(BE7BBF0Source* pkSource, unsigned int uiIndex, void* pvContext) throw();
 
@@ -2952,7 +2946,6 @@ class Ni2DBufferStub;
 class NiRefObjectStub
 {
   public:
-    static void* operator new(unsigned int uiSize);
     NiRefObjectStub() throw()
     {
         m_uiRefCount = 0;
@@ -3007,10 +3000,6 @@ class BE7F610Heap
 class BE7F610Object
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::BE7F610Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 class BE7F610Worker : public BE7F610Object
 {
@@ -3166,7 +3155,6 @@ struct E74Geometry
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 struct E74ShaderPtr
 {
@@ -3207,7 +3195,7 @@ inline E74Node* E74NewNode()
 {
     E74Node* pkNode = (E74Node*)DAT_0126f0ec;
     if (!pkNode)
-        return (E74Node*)BSFaceGenMorphData::operator new(sizeof(E74Node));
+        return (E74Node*)::operator new(sizeof(E74Node));
     DAT_0126f0ec = (int)pkNode->m_pkNext;
     pkNode->m_pkNext = 0;
     return pkNode;
@@ -4137,11 +4125,6 @@ class CE7C500Heap
 class CE7C500PixelFormat
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CE7C500Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     CE7C500PixelFormat() throw();
 
@@ -4273,10 +4256,6 @@ struct IndexSource
     unsigned char unk17;
     int unk18;
 };
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 inline bool isTri(int t)
 {
     switch (t)
@@ -5271,7 +5250,6 @@ __forceinline ModeItem404* const& GetNext(ListNode*& pos)
 struct FUN_00e7b260 : ModeItem404
 {
 
-    static void* operator new(unsigned int size) throw();
 
     FUN_00e7b260(S00e7b590_D3D* dev, int ctx, D3DDEVTYPE id, D3DFORMAT key, bool fullscreen, bool windowed) throw();
 };
@@ -6082,10 +6060,6 @@ class FUN_00e7a5e0_Object
 
     void* m_pResource;
 
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 
     FUN_00e7a5e0_Object* FUN_00e7a5e0(unsigned int uiFlags);
 };

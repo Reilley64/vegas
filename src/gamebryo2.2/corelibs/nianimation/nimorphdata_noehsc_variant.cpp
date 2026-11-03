@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nimorphdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -624,10 +625,6 @@ struct MorphPoint3
     float x, y, z;
     MorphPoint3()
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct NiFloatData;
 struct NiFloatInterpolator
@@ -691,7 +688,6 @@ struct NiFloatInterpolator
         if (InterlockedDecrement(&m_uiRefCount) == 0)
             DeleteThis();
     }
-    static void* operator new(unsigned int);
     NiFloatInterpolator(NiFloatData*) throw();
     void SetKeyData(void* pkKeys, unsigned int uiNumKeys, unsigned int eType);
 };
@@ -725,18 +721,18 @@ struct NiFixedStrL
     char* m_kHandle;
     static void IncRefCount(char* kHandle)
     {
-        if (kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedIncrement((long*)(kHandle - 8));
     }
     static void DecRefCount(char* kHandle)
     {
-        if (kHandle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (kHandle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             InterlockedDecrement((long*)(kHandle - 8));
     }
     NiFixedStrL(const char* pcString)
     {
         if (pcString == 0)
-            m_kHandle = (char*)(*reinterpret_cast<int *>(&::DAT_0109b220));
+            m_kHandle = (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220));
         else
             m_kHandle = NiGlobalStringTable::AddString(pcString);
     }
@@ -782,10 +778,6 @@ struct FUN_00a415f0
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa4060(m_pkVertexPositions);
     }
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MorphMemory *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
     void SetName(const NiFixedStrL& kName)
     {
         m_kName = kName;
@@ -818,11 +810,11 @@ struct MorphKeyHelpers
     }
     static KeyCreateFn GetCreate(unsigned int type)
     {
-        return (*reinterpret_cast<void *(**[])(NiStreamL &, unsigned int)>(&::DAT_011f3db0))[type];
+        return (*reinterpret_cast<void *(*(*)[])(NiStreamL &, unsigned int)>(&::DAT_011f3db0))[type];
     }
     static KeyFillFn GetFill(unsigned int type)
     {
-        return (*reinterpret_cast<void (**[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
+        return (*reinterpret_cast<void (*(*)[])(void *, unsigned int, unsigned char)>(&::DAT_011f3780))[type];
     }
 };
 struct MorphData

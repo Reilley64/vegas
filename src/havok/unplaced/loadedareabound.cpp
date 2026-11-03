@@ -59,7 +59,6 @@ struct LoadedAreaBound
 {
     virtual ~LoadedAreaBound();
     void* FUN_006270c0(unsigned int flags);
-    static void operator delete(void* p, size_t size);
 };
 
 // Calls FUN_006270f0, then deletes this with size 0x44 when flags has bit 0 set, and returns this.

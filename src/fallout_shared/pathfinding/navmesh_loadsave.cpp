@@ -830,7 +830,6 @@ struct FUN_00692950_shell : public NavMesh
 };
 
 extern "C" void* __cdecl _alloca(unsigned int);
-void* operator new(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };

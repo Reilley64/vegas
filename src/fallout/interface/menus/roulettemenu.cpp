@@ -5753,8 +5753,6 @@ struct Bound
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Scene : NiMemObject
 {

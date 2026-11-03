@@ -1012,7 +1012,6 @@ TESModelTextureSwap* GetBipedModelTextureSwap(TESForm* form, TESObjectREFR* refr
 }
 
 extern int DAT_0101d274;
-void* __cdecl operator new(unsigned int);
 struct FUN_0048b3e0_t
 {
     int* vtbl;
@@ -1985,8 +1984,6 @@ int FUN_0049f7d0_cls::FindIndexIf(int a1, unsigned int start, bool(__cdecl* pred
     return -1;
 }
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct B49F8F0Entry
 {
@@ -2030,8 +2027,6 @@ void B49F8F0Allocator::ConstructEntries(B49F8F0Entry* pkArray, unsigned int Item
         new (&pkArray[i]) B49F8F0Entry;
 }
 
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void*, void*);
 struct FUN_0049f1c0
 {
     unsigned int unk00;
@@ -2317,8 +2312,6 @@ struct MyNode;
 
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct AnimIdleStub : NiMemObject
 {
@@ -2425,7 +2418,6 @@ struct FUN_005ae3d0_S
     void FUN_005ae3d0(ExtraDataList** a);
 };
 struct PlayerCharacter;
-void* __cdecl operator new(unsigned int);
 class ActorPackageContext;
 struct BaseProcess
 {
@@ -4102,7 +4094,6 @@ const char* __cdecl FUN_00480f80(TESForm* form, TESObjectREFR* ref)
     return reinterpret_cast<::ArmorNames *>((reinterpret_cast<FUN_00481280_class*>(pOwner)))->FUN_00481280(nSex);
 }
 
-void __cdecl operator delete(void*);
 
 struct DeleteWrapper : FUN_00486c60_t
 {

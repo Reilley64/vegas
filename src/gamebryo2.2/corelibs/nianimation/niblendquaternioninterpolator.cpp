@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niblendquaternioninterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
@@ -87,13 +88,12 @@ extern int DAT_0109a3ac;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 // @fnv 0x00a55470
 void* __cdecl FUN_00a55470()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -180,11 +180,11 @@ struct FUN_00a55510_shell : NiBlendQuaternionInterpolator
 // @fnv 0x00a55510
 void* FUN_00a55510_shell::CloneInterpolator(void* kCloning)
 {
-    void* pkObject = BSFadeNode::operator new(0x40);
+    void* pkObject = ::operator new(0x40);
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();
-        *(int*)pkObject = (int)&DAT_0109a3ac;
+        *(intptr_t*)pkObject = (intptr_t)&DAT_0109a3ac;
         *(NiQuaternion*)((char*)pkObject + 0x30) = *(NiQuaternion*)&(*reinterpret_cast<int *>(&::DAT_011f4208));
     }
     else
@@ -253,7 +253,7 @@ void FUN_00a55980_shell::AppendInterpolatorStrings(StrArr* pkStrings)
 {
     reinterpret_cast<::BlendSerializer *>((reinterpret_cast<FUN_00a38080_shell*>(this)))->FUN_00a38080((::NiStream *)(pkStrings));
 
-    char* pString = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_011f4064))));
+    char* pString = ::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_011f4064))));
 
     unsigned int uiIndex = pkStrings->m_uiCount;
     unsigned int uiSize = pkStrings->m_uiSize;
@@ -300,7 +300,7 @@ struct FUN_00a55590_cls
 // @fnv 0x00a55590
 unsigned char FUN_00a55590_cls::CheckWithOffset(void* pkParam)
 {
-    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkParam), {}))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (intptr_t)(pkParam), {}))
     {
         return false;
     }

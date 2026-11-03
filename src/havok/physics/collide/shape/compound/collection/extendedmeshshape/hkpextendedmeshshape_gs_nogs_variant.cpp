@@ -5,6 +5,7 @@
 
 // src/havok/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/extendedmeshshape/hkpextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00d1f1e0_class.h"
 #include "fnv/decl/SpawnedOwnerQ.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -103,10 +104,6 @@ struct S_00d56880_Router
         return *m_pStreamAllocator;
     }
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S_00d56880_Elem
 {
     unsigned char unk0;

@@ -1357,7 +1357,6 @@ void FUN_007160b0(InterfaceManager* pThis)
     reinterpret_cast<::fnv_00452490::FUN_00452490_shell *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->FUN_00452490(true);
 }
 
-void __cdecl operator delete(void*);
 
 struct Node_007165d0
 {
@@ -3440,7 +3439,6 @@ void FUN_0070c4a0_shell::UpdateInterface()
 }
 }  // namespace fnv_0070c4a0
 
-void* __cdecl operator new(unsigned int);
 struct Scratch
 {
     int a;
@@ -3516,8 +3514,6 @@ struct SL
 class MenuAlphaProperty
 {
   public:
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
     MenuAlphaProperty();
     char m_data[0x1c];
 };
@@ -3525,8 +3521,6 @@ class MenuAlphaProperty
 class BSShaderAccumulator
 {
   public:
-    static void* operator new(unsigned int auiSize);
-    static void operator delete(void* apMem, unsigned int);
     BSShaderAccumulator(int aeMode, unsigned int auiA, unsigned int auiB);
     char m_data[0x280];
 };
@@ -3837,7 +3831,6 @@ struct AutoMemContext
 };
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct NiUpdateDataH
 {
@@ -3853,8 +3846,6 @@ struct NiUpdateDataH
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 class NiFixedString
@@ -5892,8 +5883,6 @@ class GraphicsRenderer : public NiRenderer
 class NiAVObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     virtual void v00();
     virtual void v01();
     virtual void v02();
@@ -6037,7 +6026,6 @@ SceneGraph* FUN_00712e90_shell::FUN_00712e90(SceneGraph* apGraph, char* apName, 
 }
 }  // namespace fnv_00712e90
 
-void* __cdecl operator new(unsigned int);
 struct Widget
 {
     Widget();
@@ -14042,7 +14030,6 @@ struct FUN_00718ee0_shell : public SystemColorManager
     void AddColor(char*, unsigned int, unsigned int, unsigned int, SystemColorInfo*, int);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00719250_stand
 {
@@ -14289,7 +14276,6 @@ struct SystemColorInfo;
 struct GlobalObject2_0040c150
 {
 };
-void* __cdecl operator new(unsigned int);
 struct FUN_007192e0
 {
     int a, b, c, d;

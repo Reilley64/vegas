@@ -4,7 +4,9 @@
 
 
 // @fnv 0x00a95310
+#include <new>
 #include "fnv/decl/FUN_00a5dbe0_shell.h"
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00a5e930.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/NiNodeEq.h"
@@ -46,18 +48,11 @@ public:
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
 // @fnv 0x00a952a0
 void* __cdecl FUN_00a952a0()
 {
-    void* p = BSFadeNode::operator new(0xB0);
+    void* p = ::operator new(0xB0);
     if (p)
     {
         new (p) NiNode(0);
@@ -147,7 +142,7 @@ unsigned char MyOther::FUN_00a952e0(MyOther* other)
     return (unsigned char)(*(int*)((char*)this + 0xac) == *(int*)((char*)other + 0xac));
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct S_00a953b0_Node
 {
@@ -195,12 +190,6 @@ struct S_00a953b0_Node
     int unka8;
     S_00a953b0_Node(unsigned short) throw();
     virtual void v0();
-    void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    void operator delete(void*)
-    {}
 };
 
 struct S_00a953b0_Sort : S_00a953b0_Node

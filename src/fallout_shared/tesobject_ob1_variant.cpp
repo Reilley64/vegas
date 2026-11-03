@@ -289,12 +289,6 @@ inline void DeadB()
 struct ObjX : B1
 {
     G16 m8;
-    static void* operator new(unsigned n)
-    {
-        return ::FUN_00401000(n);
-    }
-    static void operator delete(void* p)
-    {}
     virtual void V0();
     ObjX(const FUN_00ad3ca0& a)
     {
@@ -434,7 +428,6 @@ bool FUN_00ab7e30(const FileString& fileName, void* output)
 
 void __cdecl FUN_00ec7c56();
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-void __cdecl operator delete(void*);
 namespace std {
 template <class E> struct char_traits
 {
@@ -778,7 +771,6 @@ FUN_00ac0530_cls* FUN_00ac0530_cls::FUN_00ac0530(int a)
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -1455,13 +1447,6 @@ FUN_00ac3df0::FUN_00ac3df0(BxString name)
 }
 }  // namespace fnv_00ac3df0
 
-void __cdecl operator delete(void* _Ptr) throw();
-inline void* operator new(unsigned int, void* _Where) throw()
-{
-    return _Where;
-}
-inline void operator delete(void*, void*) throw()
-{}
 namespace wrac52 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
@@ -3238,7 +3223,6 @@ struct _iobuf
     char* _tmpfname;
 };
 extern "C" int __cdecl fclose(struct _iobuf* _File);
-void __cdecl operator delete(void* pv);
 
 template <class _Ty> class allocatorDEB0
 {
@@ -3466,7 +3450,6 @@ namespace fnv_00ad3000 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 unsigned int __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -3759,7 +3742,6 @@ namespace fnv_00ad3e60 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 unsigned int __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -4154,7 +4136,6 @@ void StrQ_ad6bb0::FUN_00ad6bb0(StrQ_ad6bb0& _Right)
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {}
 extern "C" char* __cdecl strcpy(char* pcDst, const char* pcSrc);
 struct IdName_ac34
@@ -4172,7 +4153,6 @@ void __cdecl FUN_00ac34c0(IdName_ac34* pPtr, const IdName_ac34& kVal)
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {}
 extern "C" char* __cdecl strcpy(char* pcDst, const char* pcSrc);
 struct Point3_b2e7
@@ -4455,10 +4435,6 @@ struct InsertItem
         destination.x = copiedX;
         destination.y = copiedY;
         destination.z = copiedZ;
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 namespace wrac52 {
@@ -5766,10 +5742,6 @@ template <class K, class V> struct PairRecord
 {
     K first;
     V second;
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
     PairRecord() : first(), second()
     {}
     PairRecord(const K& key, const V& value) : first(key), second(value)
@@ -6065,10 +6037,6 @@ struct Element52
     {}
     ~Element52()
     {}
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<int *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 };
 template <class T> struct InsertAllocator
 {
@@ -6818,7 +6786,6 @@ bool FaceBinaryReadReceiver::FUN_00ac5e00(void* data, unsigned int size, unsigne
     return true;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 namespace plusad42 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
@@ -7908,7 +7875,6 @@ plusad42::BxString FUN_00ad4210(const plusad42::BxString& _Left, const char* _Ri
     return plusad42::BxString(_Left) += _Right;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 namespace rdac52 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
@@ -9021,7 +8987,6 @@ bool GvBinaryFile_SV::FUN_00ac52b0(void* data, unsigned int size, unsigned int c
     return true;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 namespace plus2ad4 {
 void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);

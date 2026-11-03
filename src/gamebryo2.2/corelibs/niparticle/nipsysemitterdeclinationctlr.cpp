@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationctlr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysemitterdeclinationctlr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -93,7 +94,6 @@ struct S_00c2b9c0_Base
     int unk3c;
     S_00c2b9c0_Base() throw();
     virtual void vf0() throw();
-    static void* operator new(unsigned int n) throw();
 };
 struct S_00c2b9c0_Obj : S_00c2b9c0_Base
 {
@@ -103,11 +103,11 @@ struct S_00c2b9c0_Obj : S_00c2b9c0_Base
 };
 struct FUN_00c2b9c0_class
 {
-    S_00c2b9c0_Base* CreateObject(unsigned int a) throw();
+    S_00c2b9c0_Base* CreateObject(uintptr_t a) throw();
 };
 // Allocates a new S_00c2b9c0_Obj, initializes it via FUN_00c32de0 with a, and returns it as S_00c2b9c0_Base.
 // @fnv 0x00c2b9c0
-S_00c2b9c0_Base* FUN_00c2b9c0_class::CreateObject(unsigned int a) throw()
+S_00c2b9c0_Base* FUN_00c2b9c0_class::CreateObject(uintptr_t a) throw()
 {
     S_00c2b9c0_Base* p = new S_00c2b9c0_Obj;
     reinterpret_cast<::NiPSysAirFieldAirFrictionCtlr *>(this)->CopyMemberData((::NiPSysAirFieldAirFrictionCtlr *)(p), (*(::CloningProcess *)(a)));

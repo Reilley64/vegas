@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/E367_Class.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
@@ -521,7 +522,7 @@ class hkpVehicleLinearCastWheelCollideE36E : public hkReferencedObjectE36E
 class FUN_00e36b20 : public hkpVehicleLinearCastWheelCollideE36E
 {
   public:
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkReferencedObjectE36E* p = (hkReferencedObjectE36E*)FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -1277,11 +1278,11 @@ class hkpPhantomE36C : public hkReferencedObjectE36C
 class FUN_00cf2cb0 : public hkpPhantomE36C
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* pvMem) throw()
+    static __forceinline void* operator new(std::size_t, void* pvMem) throw()
     {
         return pvMem;
     }
-    static __forceinline void* operator new(unsigned int uiSize) throw()
+    static __forceinline void* operator new(std::size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
             (hkReferencedObjectE36C*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
@@ -1502,7 +1503,7 @@ struct ContextE36120
 ContextE36120* GetContextE36120();
 struct ShapeE36120
 {
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         ContextE36120* pkContext = GetContextE36120();
         ShapeE36120* pkShape = static_cast<ShapeE36120*>(pkContext->m_pkMemory->allocateChunk(nbytes));
@@ -1550,10 +1551,6 @@ ShapeE36120* FUN_00e36120(float afHeight, float fRadius)
     return new CapsuleE36120(kTop, kBottom, fRadius, 0.0f);
 }
 
-inline void* operator new(unsigned int, void* pvMem) throw()
-{
-    return pvMem;
-}
 
 struct __declspec(align(16)) hkVector4E363
 {

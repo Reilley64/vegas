@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitexture.cpp: NiObjectNET, NiTexture, Elements (13 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a5c240_shell.h"
@@ -53,7 +54,6 @@ extern int DAT_010983bc;
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(unsigned int);
 };
 
 class NiProperty : public BSFadeNode
@@ -67,7 +67,7 @@ class NiProperty : public BSFadeNode
 // @fnv 0x00a47380
 void* __cdecl FUN_00a47380()
 {
-    NiProperty* p = (NiProperty*)BSFadeNode::operator new(0x18);
+    NiProperty* p = (NiProperty*)::operator new(0x18);
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
@@ -231,7 +231,7 @@ struct TextureColor
 struct TextureCacheEntry
 {
     int value;
-    void FUN_00a5f860(int);
+    void FUN_00a5f860(intptr_t);
 };
 // Looks up a cached texture for a type index, generating it from per-type color pairs via CreateCheckerboardTexture when not yet cached, and returns the cached value.
 // @fnv 0x00a62690
@@ -287,7 +287,7 @@ int GetTextureForType(int unused, int type)
             mode = 6;
             break;
         }
-        (*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].FUN_00a5f860(((int)(::CreateCheckerboardTexture((*(const ::CheckerColor *)(&firstColor)), (*(const ::CheckerColor *)(&secondColor)), (*(const ::NiPixelFormat *)((*reinterpret_cast<const char (*)[]>(&::gNiPoint3StartupDst)))), mode))));
+        (*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].FUN_00a5f860(((intptr_t)(::CreateCheckerboardTexture((*(const ::CheckerColor *)(&firstColor)), (*(const ::CheckerColor *)(&secondColor)), (*(const ::NiPixelFormat *)((*reinterpret_cast<const char (*)[]>(&::gNiPoint3StartupDst)))), mode))));
     }
     return (*reinterpret_cast<TextureCacheEntry (*)[10]>(&::g_aspObjects_11f4514))[index].value;
 }

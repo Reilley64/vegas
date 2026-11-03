@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp: NiBlendInterpolator, InterpItem, LoadInterpItem, BlendSerializer and more (19 functions)
 
+#include <cstdint>
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -260,7 +262,7 @@ void NiBlendInterpolator::RemoveInterpolatorAt(unsigned char index)
 // @fnv 0x00a36e80
 void NiBlendInterpolator::ProcessClone(CloningProcess& aCloneProcess)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(aCloneProcess));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(aCloneProcess));
     NiObject* cloneObject = 0;
     reinterpret_cast<::A54440Hash *>((void *)(aCloneProcess.m_pCloneMap))->FUN_00a53c30((*(::A54440Manager * *)&(const ::NiObject * &)(this)), (::A54440Manager **)&(cloneObject));
     NiBlendInterpolator* clone = static_cast<NiBlendInterpolator*>(cloneObject);
@@ -1233,7 +1235,7 @@ struct ViewerBool
 };
 union ViewerValue
 {
-    unsigned int value;
+    uintptr_t value;
     ViewerBool boolean;
 };
 struct InterpolatorRegistry
@@ -1249,34 +1251,34 @@ class BlendSerializer : public NiBlendInterpolator
 void BlendSerializer::FUN_00a38080(NiStream* stream)
 {
     ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(this));
-    unsigned int uiValue;
+    uintptr_t uiValue;
     {
         ViewerValue temp;
-        temp.value = ((unsigned int)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f36fc))))));
+        temp.value = ((uintptr_t)(::FUN_00a7d330((const char *)((*reinterpret_cast<void * *>(&::g_011f36fc))))));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b68), this->m_ucArraySize)));
+        temp.value = ((uintptr_t)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b68), this->m_ucArraySize)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b54), DAT_011a83ff)));
+        temp.value = ((uintptr_t)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096b54), DAT_011a83ff)));
         stream->AppendValue(temp.value);
         temp.boolean.flag = (this->m_uiObjectFlags & 1) != 0;
-        temp.value = ((unsigned int)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096b40), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
+        temp.value = ((uintptr_t)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096b40), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096b2c), this->m_fWeightThreshold)));
+        temp.value = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096b2c), this->m_fWeightThreshold)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b1c), this->m_cHighPriority)));
+        temp.value = ((uintptr_t)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b1c), this->m_cHighPriority)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b08), this->m_cNextHighPriority)));
+        temp.value = ((uintptr_t)(::FUN_00a7d4d0((const char *)(const void *)(&UNK_01096b08), this->m_cNextHighPriority)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096af4), this->m_fHighSumOfWeights)));
+        temp.value = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096af4), this->m_fHighSumOfWeights)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096adc), this->m_fNextHighSumOfWeights)));
+        temp.value = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096adc), this->m_fNextHighSumOfWeights)));
         stream->AppendValue(temp.value);
         temp.boolean.flag = ((this->m_uiObjectFlags >> 1) & 1) != 0;
-        temp.value = ((unsigned int)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096ac4), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
+        temp.value = ((uintptr_t)(::FUN_00a7d370((const char *)(const void *)(&UNK_01096ac4), (*(bool *)&(const ::ViewerBool &)(temp.boolean)))));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096ab4), this->m_ucInterpCount)));
+        temp.value = ((uintptr_t)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096ab4), this->m_ucInterpCount)));
         stream->AppendValue(temp.value);
-        temp.value = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096aa4), this->m_ucSingleIdx)));
+        temp.value = ((uintptr_t)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096aa4), this->m_ucSingleIdx)));
         stream->AppendValue(temp.value);
     }
     for (unsigned int index = 0; index < this->m_ucArraySize; ++index)
@@ -1284,24 +1286,24 @@ void BlendSerializer::FUN_00a38080(NiStream* stream)
         if (this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject && (*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f4)))
         {
             LinkedInterpolator* linked =
-                ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f4))))->FindItemByBindingId((int)(this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject), 1)));
+                ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f4))))->FindItemByBindingId((intptr_t)(this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject), 1)));
             if (!linked && (*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f8)))
             {
                 NiInterpolator* retryInterpolator = this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject;
-                linked = ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f8))))->FindItemByBindingId((int)(retryInterpolator), 1)));
+                linked = ((::LinkedInterpolator *)(reinterpret_cast<::Registry *>(((*reinterpret_cast<::InterpolatorRegistry * *>(&::DAT_011f36f8))))->FindItemByBindingId((intptr_t)(retryInterpolator), 1)));
             }
             if (linked)
             {
                 void* linkedObject = linked->m_object;
-                uiValue = ((unsigned int)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(const void *)(&(*reinterpret_cast<char *>((void *)&::g_011f36dc_arg0))), (const char *)(linkedObject))));
+                uiValue = ((uintptr_t)(::fnv_00a7d5e0::FUN_00a7d5e0((const char *)(const void *)(&(*reinterpret_cast<char *>((void *)&::g_011f36dc_arg0))), (const char *)(linkedObject))));
                 stream->AppendValue(uiValue);
-                uiValue = ((unsigned int)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096a98), (unsigned char)this->m_pInterpArray[index].m_cPriority)));
+                uiValue = ((uintptr_t)(::FUN_00a7d410((const char *)(const void *)(&UNK_01096a98), (unsigned char)this->m_pInterpArray[index].m_cPriority)));
                 stream->AppendValue(uiValue);
-                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a8c), this->m_pInterpArray[index].m_fWeight)));
+                uiValue = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a8c), this->m_pInterpArray[index].m_fWeight)));
                 stream->AppendValue(uiValue);
-                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a78), this->m_pInterpArray[index].m_fNormalizedWeight)));
+                uiValue = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a78), this->m_pInterpArray[index].m_fNormalizedWeight)));
                 stream->AppendValue(uiValue);
-                uiValue = ((unsigned int)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a68), this->m_pInterpArray[index].m_fEaseSpinner)));
+                uiValue = ((uintptr_t)(::FUN_00a7d550((const char *)(const void *)(&UNK_01096a68), this->m_pInterpArray[index].m_fEaseSpinner)));
                 stream->AppendValue(uiValue);
                 NiInterpolator* finalInterpolator = this->m_pInterpArray[index].m_spControllerInterpolator.m_pObject;
                 ::FUN_00a570b0((::NiTPrimitiveArray<char *, ::NiTMallocInterface<char *>> *)(finalInterpolator));
@@ -1562,7 +1564,6 @@ void SBObject::FUN_00a37ec0(SBStream& arStream)
 // The engine replaces the global deallocation function with a sized variant;
 // this is the routine the original's deleting destructor calls with the size
 // of the object it is releasing.
-void __cdecl operator delete(void* p, unsigned int n);
 
 // Stand-in for NiBlendInterpolator (48 bytes, virtual destructor in vftable
 // slot 0).  The real class is the engine's blend interpolator: it owns an
@@ -1571,7 +1572,6 @@ void __cdecl operator delete(void* p, unsigned int n);
 struct FUN_00a37670_NiBlendInterpolator
 {
     virtual __declspec(noinline) ~FUN_00a37670_NiBlendInterpolator();
-    static void operator delete(void* p, unsigned int n);
     int unk04;                      // NiObject
     float m_fLastTime;              // NiInterpolator
     unsigned char m_uiObjectFlags;         // +12
@@ -1602,9 +1602,5 @@ FUN_00a37670_NiBlendInterpolator::~FUN_00a37670_NiBlendInterpolator()
     m_ucInterpCount = 0;
 }
 
-void FUN_00a37670_NiBlendInterpolator::operator delete(void* p, unsigned int n)
-{
-    ::FUN_00aa1460(p, n);
-}
 
 #include "generated/data/gamebryo2.2/corelibs/nianimation/niblendinterpolator.inc"

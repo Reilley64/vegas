@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/utilities/hkpmousepickingviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -155,7 +156,7 @@ struct hkpEntityD66D;
 struct FUN_00cbb560
 {
     char m_acUnk00[0x60];
-    static __forceinline void* operator new(unsigned int uiSize)
+    static __forceinline void* operator new(std::size_t uiSize)
     {
         void* p = FUN_00c85750()->heap().AllocateMemoryBlock(uiSize);
         ((unsigned short*)p)[2] = (unsigned short)uiSize;

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nishaderfactory.cpp: NiShaderFactory, NiRefObject (11 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -155,10 +156,10 @@ struct NiGlobalConstantEntryStub
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int uiSize);
+
 
 // @fnv 0x00aa0400
-bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned int a2, unsigned int a3, unsigned int a4)
+bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned int a2, unsigned int a3, uintptr_t a4)
 {
     if (ShaderFactorySlot::Get() == 0)
         return false;
@@ -166,10 +167,10 @@ bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned in
     NiFixedString kLocal;
     NiTMapItem<NiFixedString, NiGlobalConstantEntry*>* pkItem =
         pkFactory->m_kGlobalConstantEntryMap
-            .m_ppkHashTable[(unsigned int)pkName->m_kHandle % pkFactory->m_kGlobalConstantEntryMap.m_uiHashSize];
+            .m_ppkHashTable[(uintptr_t)pkName->m_kHandle % pkFactory->m_kGlobalConstantEntryMap.m_uiHashSize];
     while (pkItem != 0)
     {
-        if ((unsigned int)pkName->m_kHandle == (unsigned int)pkItem->m_key.m_kHandle)
+        if ((uintptr_t)pkName->m_kHandle == (uintptr_t)pkItem->m_key.m_kHandle)
         {
             NiGlobalConstantEntryView* pkEntry = (NiGlobalConstantEntryView*)pkItem->m_val;
             if (pkEntry == 0)
@@ -185,7 +186,7 @@ bool __cdecl AcquireGlobalConstantEntry(const NiFixedString* pkName, unsigned in
     void* pvMem = FUN_00aa13e0(0x18);
     if (pvMem == 0)
         return false;
-    unsigned int uiKey = (unsigned int)pkName->m_kHandle;
+    uintptr_t uiKey = (uintptr_t)pkName->m_kHandle;
     NiGlobalConstantEntry* pkNew = ((::NiGlobalConstantEntry *)(new ((void *)(((NiGlobalConstantEntryStub*)pvMem))) ::FUN_00aa00d0((const char *)(uiKey), a2, a3, (const void *)(a4))));
     if (pkNew == 0)
         return false;
@@ -225,12 +226,12 @@ struct FUN_00e897d0 : public SpawnedArgBase
     int m_unk20;
     int m_unk24;
     int m_unk28;
-    FUN_00e897d0(int a1, int a2) throw();
+    FUN_00e897d0(intptr_t a1, int a2) throw();
 };
 
 // Constructs the object from a base argument and a1, zeroes eight fields, then calls Init(a1).
 // @fnv 0x00e897d0
-FUN_00e897d0::FUN_00e897d0(int a1, int aiArg) throw() : SpawnedArgBase(aiArg)
+FUN_00e897d0::FUN_00e897d0(intptr_t a1, int aiArg) throw() : SpawnedArgBase(aiArg)
 {
     m_unk0C = 0;
     m_unk10 = 0;
@@ -431,13 +432,13 @@ bool RemoveGlobalConstant(const NiFixedString* pkName)
     if (pkFactory == 0)
         return false;
 
-    unsigned int uiKey = (unsigned int)pkName->m_kHandle;
+    uintptr_t uiKey = (uintptr_t)pkName->m_kHandle;
     ShaderConstantMap* pkMap = (ShaderConstantMap*)&pkFactory->m_kGlobalConstantEntryMap;
     NiTMapItem<NiFixedString, NiGlobalConstantEntry*>* pkItem = pkMap->m_ppkHashTable[uiKey % pkMap->m_uiHashSize];
     NiRefObject* pkEntry = 0;
     while (pkItem != 0)
     {
-        if (uiKey == (unsigned int)pkItem->m_key.m_kHandle)
+        if (uiKey == (uintptr_t)pkItem->m_key.m_kHandle)
         {
             pkEntry = (NiRefObject*)pkItem->m_val;
             break;

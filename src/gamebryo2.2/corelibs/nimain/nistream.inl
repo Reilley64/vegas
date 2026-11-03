@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "fnv/symbols_0044a000.h"
 #include "nistream_decls.h"
 
@@ -5,5 +6,5 @@
 void NiStream::SaveLinkID(const NiObject* object)
 {
     unsigned int linkID = vfn_2c(object);
-    ::FUN_0044adf0((::MiddleHighProcess *)&(*this), (int)&(linkID));
+    ::FUN_0044adf0((::MiddleHighProcess *)&(*this), (intptr_t)&(linkID));
 }

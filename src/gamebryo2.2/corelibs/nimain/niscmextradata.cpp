@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00ee89a0
+#include <cstdint>
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/symbols_00a5b000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -18,7 +20,6 @@ struct FUN_00a7b300_shell
 {
     void FUN_00a7b300();
 };
-void __cdecl operator delete(void*, unsigned int);
 struct NiSCMExtraData
 {
     char _pad[36];
@@ -31,7 +32,7 @@ struct NiSCMExtraData
 void* NiSCMExtraData::Destroy(unsigned int auiFlags)
 {
     void* tmp = m_24;
-    *(int*)this = (int)&DAT_0110129c;
+    *(intptr_t*)this = (intptr_t)&DAT_0110129c;
     ::FUN_00aa10f0(tmp);
     ::FUN_00aa10f0(m_2c);
     ((FUN_00a7b300_shell*)this)->FUN_00a7b300();

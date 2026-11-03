@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00aa1ab0
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AA1AC0Class.h"
@@ -64,9 +66,9 @@ struct SomeClass
 // @fnv 0x00ee90b0
 void* SomeClass::FUN_00ee90b0(unsigned int uiFlags)
 {
-    *(int*)this = (int)&DAT_01101388;
+    *(intptr_t*)this = (intptr_t)&DAT_01101388;
     ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();
-    *(int*)this = (int)&DAT_01101378;
+    *(intptr_t*)this = (intptr_t)&DAT_01101378;
     ((NiTFixedStringMap_NiAVObject___*)this)->RemoveAll();
     _NiFreeAlias(*(void**)((char*)this + 8));
     if (uiFlags & 1)
@@ -75,7 +77,6 @@ void* SomeClass::FUN_00ee90b0(unsigned int uiFlags)
 }
 
 void __cdecl FUN_00ee9a60();
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
     void* FUN_00ee9ca0(unsigned int flags);
@@ -145,13 +146,8 @@ struct FUN_00a5e3a0_Helper
 };
 struct NiStandardAllocator
 {
-    static void* __cdecl operator new(unsigned int);
     virtual void func();
 };
-void* __cdecl NiStandardAllocator::operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
-}
 struct FUN_00aa2200
 {
     NiStandardAllocator* object;
@@ -254,7 +250,7 @@ void FixedStringMap::GetNextEntry(MapItem*& pos, NiFixedString& key, NiObjPtr& v
         pos = pkItem->m_pkNext;
         return;
     }
-    unsigned int i = (unsigned int)pkItem->m_key.m_kHandle % m_uiHashSize;
+    uintptr_t i = (uintptr_t)pkItem->m_key.m_kHandle % m_uiHashSize;
     for (++i; i < m_uiHashSize; i++)
     {
         pkItem = m_ppkHashTable[i];
@@ -348,7 +344,7 @@ bool S_00ee8af0::SetString(const NiFixedString& akString) throw()
     if (akString.m_kHandle != ::DAT_0109b220 && FUN_00aa2cc0(akString.m_kHandle))
     {
         char acDir[260];
-        if (((bool)(::FUN_00aa2d10((int)(acDir), 260))))
+        if (((bool)(::FUN_00aa2d10((intptr_t)(acDir), 260))))
         {
             const char* pcHandle = akString.m_kHandle;
             char acFullPath[260];
@@ -554,7 +550,7 @@ void __cdecl AdvancePosition(S_00a8d8b0* a, void* b, unsigned int c);
 
 // Reads a length-prefixed string into a2 via self->fn, advances self->pos, and null-terminates the buffer; returns false if a3 is 0 or a2 is null.
 // @fnv 0x00ee92d0
-bool FUN_00ee92d0(S_00a8d8b0* self, unsigned int pBuffer, unsigned int a3)
+bool FUN_00ee92d0(S_00a8d8b0* self, uintptr_t pBuffer, uintptr_t a3)
 {
     if (a3 == 0)
         goto fail;
@@ -779,10 +775,6 @@ struct ItemWithDtor
     __forceinline ~ItemWithDtor() throw()
     {}
 
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 // Clears the item's key and value, then deletes the item through its custom operator delete.
@@ -846,7 +838,7 @@ class FUN_00ee9a60_cls : public SpawnedRoot
     NiFixedString m_s1;
     NiFixedString m_s2;
     NiFixedString m_s3;
-    unsigned int m_mapHead;
+    uintptr_t m_mapHead;
 };
 
 // Destructor: clears the map at m_mapHead, frees its table, then releases the four NiFixedString handles and the base.
@@ -1484,9 +1476,9 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
             }
 
             bool bLittleEndian;
-            ::InvokeAndAccumulate((::FUN_00a57580_cls *)(pkFile), (int)(&bLittleEndian));
+            ::InvokeAndAccumulate((::FUN_00a57580_cls *)(pkFile), (intptr_t)(&bLittleEndian));
             unsigned int uiVersion;
-            ::FUN_00a575b0((::FUN_00a575b0_Object *)(pkFile), (int)(&uiVersion));
+            ::FUN_00a575b0((::FUN_00a575b0_Object *)(pkFile), (intptr_t)(&uiVersion));
             if (uiVersion < 5)
             {
                 delete pkFile;
@@ -1495,19 +1487,19 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
                 return false;
             }
 
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetShaderType()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetRendererName()) != 0)
             {
                 delete pkFile;
                 return false;
             }
-            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkFile), (unsigned int)(acBuffer));
+            ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkFile), (uintptr_t)(acBuffer));
             if (FUN_00aa1360(acBuffer, GetPlatformName()) != 0)
             {
                 delete pkFile;
@@ -1577,7 +1569,7 @@ __declspec(noinline) void OwnerMap::GetNextEntry(MapItem*& pos, NiFixedString& k
         pos = item->m_pkNext;
         return;
     }
-    unsigned int bucket = (unsigned int)item->m_key.m_kHandle % m_uiHashSize + 1;
+    uintptr_t bucket = (uintptr_t)item->m_key.m_kHandle % m_uiHashSize + 1;
     for (; bucket < m_uiHashSize; ++bucket)
     {
         if (m_ppkHashTable[bucket])
@@ -1665,7 +1657,7 @@ bool GpuCacheWriter::FUN_00ee9620()
     if (s && s->IsGood() == true)
     {
         const char* str = "NiGPUProgram Cache File";
-        ::FUN_00e984d0((::FUN_00e984d0_Struct *)(s), (int)(str), strlen(str) + 1);
+        ::FUN_00e984d0((::FUN_00e984d0_Struct *)(s), (intptr_t)(str), strlen(str) + 1);
 
         unsigned char bLittleEndian = 1;
         S00ee9620_SaveBinary(s, bLittleEndian);

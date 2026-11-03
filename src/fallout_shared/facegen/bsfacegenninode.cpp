@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenninode.cpp: FaceNode, FaceGenNode, DumpNode (33 functions)
 
+#include <new>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1072,8 +1073,6 @@ struct CloningProcess
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_006628c0 : A51BF0Base

@@ -503,7 +503,6 @@ struct FUN_00d63e10_cls
     void FUN_00d63cb0();
 
     FUN_00d63e10_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // @fnv 0x00d63e10

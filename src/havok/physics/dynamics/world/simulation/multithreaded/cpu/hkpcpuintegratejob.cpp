@@ -1,6 +1,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -64,7 +65,7 @@ struct Record {
 };
 struct Block {
     Block() { count = 0; firstEnd = 0; next = 0; }
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     Block* next;
     Owner* owner;
     void* payload;
@@ -75,7 +76,7 @@ struct Block {
 };
 struct Group {
     Group() { next = 0; boundary = false; count = 0; limit = 0; }
-    static void* operator new(unsigned int) throw();
+    static void* operator new(std::size_t) throw();
     Group* next;
     Owner* owner;
     void* payload;
@@ -95,8 +96,8 @@ struct SpecialList { Special* data; int count; };
 struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
 struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
 void* __cdecl FUN_00c85750();
-inline void* Block::operator new(unsigned int) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x1000); }
-inline void* Group::operator new(unsigned int) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
+inline void* Block::operator new(std::size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x1000); }
+inline void* Group::operator new(std::size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
@@ -200,7 +201,6 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 #include <xmmintrin.h>
 #include <windows.h>
 extern "C" void _ReadWriteBarrier();
-inline void* operator new(unsigned int, void* ptr) { return ptr; }
 __declspec(nothrow) void* FUN_00c85750();
 struct FlagByte {
     char value;
@@ -463,7 +463,7 @@ struct __declspec(align(128)) BuildTask {
     unsigned char* m_akBuildBuffer;
     int m_iBuildItemCount;
     BuildTaskData m_akBuildTaskEntries[144];
-    static void* operator new(unsigned int n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(std::size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
     BuildTask() { m_iBuildItemCount=0; m_akBuildBuffer=0; m_next=0; }
 };
 struct __declspec(align(16)) SolveTask {
@@ -477,7 +477,7 @@ struct __declspec(align(16)) SolveTask {
     unsigned short m_usSolverElementCount;
     SolveTask* m_pNextSolveTask;
     int unknown24,unknown28,unknown2c;
-    static void* operator new(unsigned int n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(std::size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
     SolveTask() { m_next=0; m_kSolveTaskFlagByte=false; m_usSolverElementCount=0; m_pNextSolveTask=0; }
 };
 struct BuildCollection {
@@ -1097,7 +1097,7 @@ struct SolveCollection {
 };
 
 struct JobHeader {
-    __forceinline void* operator new(unsigned int nbytes) { return TaskMemory::GetMonitorStream().heap().allocate(nbytes); }
+    __forceinline void* operator new(std::size_t nbytes) { return TaskMemory::GetMonitorStream().heap().allocate(nbytes); }
     unsigned int openJobs;
     unsigned int unfinishedJobs;
     unsigned int shouldDeactivate;
@@ -1162,7 +1162,6 @@ struct MotionPacket : ExportPacket {
     unsigned short firstEntityIdx;
     int unk38;
     FlagByte applyForces;
-    __forceinline void* operator new(unsigned int, void* p) { return p; }
     __forceinline MotionPacket(const DynamicsPacket& src, const JobHeader& hdr)
         : ExportPacket(src, 0x40, hdr, 11) {
         firstEntityIdx = 0;
@@ -1174,7 +1173,6 @@ struct MotionPacket : ExportPacket {
 
 struct BroadPacket : DynamicsPacket {
     unsigned short numIslands;
-    __forceinline void* operator new(unsigned int, void* p) { return p; }
     __forceinline BroadPacket(const DynamicsPacket& src, JobHeader* hdr)
         : DynamicsPacket(12, 48, src, MODE_DISABLED) {
         header = hdr;

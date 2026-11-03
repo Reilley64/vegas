@@ -1,6 +1,10 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
+#include <cstddef>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -80,7 +84,7 @@ void FUN_00e94770(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
             if (pkChip->m_pkOwningStream)
             {
                 pkBlock = pkChip->m_pkTreeBlock;
-                reinterpret_cast<::NiVBSet *>((pkBlock->field0))->FUN_00e94490((unsigned int)(pkBlock->field1), pkChip->m_uiPosition);
+                reinterpret_cast<::NiVBSet *>((pkBlock->field0))->FUN_00e94490((uintptr_t)(pkBlock->field1), pkChip->m_uiPosition);
             }
             if (uiStream < pkBuffData->m_uiRegisterStreamCount)
                 pkBuffData->m_ppkVertexBuffers[uiStream] = 0;
@@ -244,7 +248,6 @@ FUN_00e94ab0::FUN_00e94ab0()
 namespace fnv_00e94c00 {
 struct NiMemObject
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct FUN_00e94ab0 : NiMemObject
 {
@@ -389,12 +392,6 @@ struct FUN_00e947c0
     int unk4C;
     int unk50;
     FUN_00e947c0() throw();
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00e948f0_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*)
-    {}
 };
 typedef FUN_00e947c0 S_00e948f0_Data;
 
@@ -503,7 +500,7 @@ void S_00e948f0_Holder::InitData(S_00e948f0_Obj* apObj, int aiUnused, S_00e948f0
         flags |= 0x200000;
     }
     d->m_flags = (t << 24) | flags;
-    ::FUN_00e98730((int)this, (int)(d), {});
+    ::FUN_00e98730((intptr_t)this, (intptr_t)(d), {});
 }
 
 extern int DAT_011c0ce0;
@@ -541,7 +538,7 @@ struct FUN_00e94b00
     int unk04;
     int unk08;
     int unk0c;
-    int unk10;
+    intptr_t unk10;
     int unk14;
     int unk18;
     S_00e94b00_Arr arr;
@@ -648,7 +645,7 @@ VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideI
     VbNode* pNode = 0;
     VbNode* object;
     FUN_00e94c20_cls* owner = this;
-    unsigned int key = apDesc->GetKey();
+    uintptr_t key = apDesc->GetKey();
     unsigned int stride;
     stride = apDesc->GetStride(uiStrideIndex);
     if (key == 0)
@@ -664,7 +661,7 @@ VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideI
     if (!reinterpret_cast<::A54440Hash *>((((FUN_00a53c30_cls*)&owner->map)))->FUN_00a53c30((::A54440Manager *)(key), (::A54440Manager **)(void **)((void**)&pNode)) || !(object = pNode))
     {
         object = (VbNode*)FUN_00e94b80(0x10000, owner->m_08, key, usage, 0);
-        reinterpret_cast<::HashTableBase *>((((FUN_00b57ea0_cls*)&owner->map)))->InsertOrUpdate(key, (unsigned int)(object));
+        reinterpret_cast<::HashTableBase *>((((FUN_00b57ea0_cls*)&owner->map)))->InsertOrUpdate(key, (uintptr_t)(object));
     }
     unsigned int count = apDesc->GetCount();
     VbNode* r = ((::VbNode *)(reinterpret_cast<::VBSet *>((((FUN_00e94650_cls*)object)))->FUN_00e94650(apDesc->GetVertexCount() * stride, count > 1)));
@@ -672,7 +669,7 @@ VbNode* FUN_00e94c20_cls::GetOrCreateNode(VbDesc* apDesc, unsigned int uiStrideI
     return r;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int n);
+
 void __cdecl FUN_00e941a0(void* object);
 struct S00e94b80_Unknown
 {
@@ -684,7 +681,7 @@ struct S00e94b80_Heap
 {
 };
 static S00e94b80_Heap s00e94b80_heap;
-inline void* operator new(unsigned int n, S00e94b80_Heap) throw()
+inline void* operator new(std::size_t n, S00e94b80_Heap) throw()
 {
     return FUN_00aa13e0(n);
 }
@@ -699,7 +696,7 @@ void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, un
         S00e94b80_Unknown* pUnknown = (S00e94b80_Unknown*)apUnknown;
         if (pUnknown)
         {
-            object->unk10 = (int)pUnknown;
+            object->unk10 = (intptr_t)pUnknown;
             pUnknown->AddRef();
         }
         else
@@ -720,10 +717,6 @@ void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, un
 struct P03MM
 {
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct NiScreenTexture
 {
     char _0[0x1c];
@@ -756,7 +749,7 @@ void NiStaticGeometryGroup_00e94a30::FUN_00e94a30(NiScreenTexture* pkScreenTextu
             pkBuffData = 0;
         pkBuffData->m_eRequestType = 4;
         pkBuffData->m_uiValue1 = &DAT_01400000;
-        ::FUN_00e98730((int)this, (int)(pkBuffData), {});
+        ::FUN_00e98730((intptr_t)this, (intptr_t)(pkBuffData), {});
     }
 }
 

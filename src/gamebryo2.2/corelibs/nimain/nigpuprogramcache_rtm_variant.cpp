@@ -4,6 +4,8 @@
 
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AA1AC0Class.h"
@@ -61,7 +63,6 @@ struct SomeClass
 {
     void* FUN_00ee90b0(unsigned int);
 };
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
     void* FUN_00ee9ca0(unsigned int flags);
@@ -71,13 +72,8 @@ struct FUN_00a5e3a0_Helper
 };
 struct NiStandardAllocator
 {
-    static void* __cdecl operator new(unsigned int);
     virtual void func();
 };
-void* __cdecl NiStandardAllocator::operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
-}
 struct FUN_00aa2200
 {
     NiStandardAllocator* object;
@@ -431,10 +427,6 @@ struct ItemWithDtor
     __forceinline ~ItemWithDtor() throw()
     {}
 
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 void ClearAndDeleteItem(ItemWithDtor* pItem);
 void __cdecl FreeBlock(void* p);
@@ -795,7 +787,7 @@ __declspec(noinline) void OwnerMap::GetNextEntry(MapItem*& pos, NiFixedString& k
         pos = item->m_pkNext;
         return;
     }
-    unsigned int bucket = (unsigned int)item->m_key.m_kHandle % m_uiHashSize + 1;
+    uintptr_t bucket = (uintptr_t)item->m_key.m_kHandle % m_uiHashSize + 1;
     for (; bucket < m_uiHashSize; ++bucket)
     {
         if (m_ppkHashTable[bucket])
@@ -886,7 +878,6 @@ struct CacheRefVTable
 class RefObjBase
 {
   public:
-    static void* operator new(unsigned int);
     RefObjBase() throw() : m_vtbl(&(*reinterpret_cast<const ::CacheRefVTable *>(&::DAT_0101dce4))), m_uiRefCount(0)
     {
         InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
@@ -1112,7 +1103,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             ReadStr(s, buf);
             FixedStr t1;
             t1.m_kHandle = NiGlobalStringTable::AddString(buf);
-            ::AssignFixedString((char *)(e), (int)&(t1), {});
+            ::AssignFixedString((char *)(e), (intptr_t)&(t1), {});
             ReleaseStr(t1);
             ReadStr(s, buf);
             FixedStr t2;
@@ -1134,7 +1125,7 @@ bool ShaderLib::FUN_00ee9cc0(S_00a8d8b0* s, bool& changed)
             t5.m_kHandle = NiGlobalStringTable::AddString(buf);
             reinterpret_cast<::fnv_00eea710::FUN_00eea710_class *>((e))->AssignRefCounted((void **)&(t5));
             ReleaseStr(t5);
-            unsigned int v;
+            uintptr_t v;
             ReadRaw(s, &v, 4, 4);
             reinterpret_cast<::NiD3DShaderProgram *>((e))->FUN_00eea540((::NiD3DShaderProgramCreator *)(v));
             ReadRaw(s, &v, 4, 4);

@@ -5,6 +5,8 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_00a3ce20_shell.h"
@@ -65,7 +67,6 @@ struct FUN_00a3ddf0_shell
 {
     void* FUN_00a3ddf0(void* pData, int i1, int i2, float fTime);
 };
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a3e980_shell
 {
     void* Destroy(unsigned int flags);
@@ -173,7 +174,6 @@ struct FUN_00a3dcc0_cls
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a3f060_shell
 {
@@ -653,7 +653,6 @@ class NiObjectA3F
     NiObjectA3F(void* pvFirst, void* pvSecond) throw();
     virtual ~NiObjectA3F();
 
-    static void* operator new(unsigned int uiSize);
 
     int unk04;
     int unk08;
@@ -826,7 +825,7 @@ class ControllerE6F0
 // @fnv 0x00a3e6f0
 ControllerE6F0* ControllerE6F0::FUN_00a3e6f0(float fA, float fB)
 {
-    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((int)this, fA)));
+    ControllerE6F0* pkCopy = ((::ControllerE6F0 *)(::FUN_00a57050((intptr_t)this, fA)));
     if (m_spInterp.m_pObject)
     {
         NiPointerE6F0<InterpolatorE6F0> spInterp;

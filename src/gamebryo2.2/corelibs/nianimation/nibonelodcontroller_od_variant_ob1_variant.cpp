@@ -7,6 +7,9 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
+#include <new>
+#include <cstddef>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a41520_cls.h"
@@ -80,7 +83,6 @@ class CloneableObj
     int m38;
     void FUN_00c533f0(NiControllerManager*, CloningProcess*);
 };
-void operator delete(void*, unsigned int);
 struct S_00c53e10
 {
     void FUN_00c53e40();
@@ -314,11 +316,6 @@ struct ArrW
     void** m_pBase;
     unsigned int m_uiMax;
     unsigned int m_uiSize;
-    static void* operator new(unsigned int n)
-    {
-        int aiD[2];
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolW *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
     ArrW(unsigned int uiMax = 0)
     {
         if (uiMax > 0)
@@ -462,7 +459,7 @@ struct FUN_00c53af0
 bool FUN_00c53af0::IsEqual(FUN_00c53af0* pkObj)
 {
     unsigned int i;
-    if (!::FUN_00a6cc80((::TCEq *)this, (int)(pkObj), {}))
+    if (!::FUN_00a6cc80((::TCEq *)this, (intptr_t)(pkObj), {}))
         return false;
     FUN_00c53af0* pkOther = pkObj;
     if (m_i34 != pkOther->m_i34 || m_i38 != pkOther->m_i38 || GetCount() != pkOther->m_usElementCount)
@@ -697,14 +694,6 @@ class BoneLODController;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 class BoneLODControllerArray : public NiMemObject
@@ -875,7 +864,7 @@ extern Manager_c53360* DAT_011f6080;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         unsigned int requested = size ? size : 1;
         unsigned int alignment = 4;
@@ -904,7 +893,7 @@ NiControllerManager* CloneOwner_c53360::FUN_00c53360(CloningProcess* process)
 }  // namespace fnv_00c53360
 
 namespace fnv_00c537f0 {
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct FUN_00c53d70
 {
     int unk00;
@@ -926,12 +915,6 @@ struct FUN_00c53d70
     int unk40;
     int unk44;
     int unk48;
-    static void* operator new(unsigned int size)
-    {
-        int unused[2];
-        (void)unused;
-        return FUN_00aa13e0(size);
-    }
     FUN_00c53d70();
 };
 // @fnv 0x00c537f0

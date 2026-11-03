@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a44920
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/A5D6E0This.h"
@@ -49,7 +50,6 @@ extern int DAT_01097dd4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct _Call_a5d3a0
@@ -60,7 +60,7 @@ struct _Call_a5d3a0
 // @fnv 0x00a44940
 void* __cdecl FUN_00a44940()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         _Call_a5d3a0* pFadeNode = (_Call_a5d3a0*)p;
@@ -276,7 +276,7 @@ class CA449C0Container : public CA449C0Base
 // @fnv 0x00a449c0
 void CA449C0Container::LinkObjects(CA449C0Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     for (int i = 0; i < m_usNumObjects; i++)
     {
         m_ppkObjects[i] = ((::CA449C0Object *)(reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject()));
@@ -291,10 +291,6 @@ class A4AF0MemoryManager
   public:
 };
 
-inline void* __cdecl operator new[](unsigned int uiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A4AF0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-}
 
 class A4AF0BinaryStream
 {
@@ -621,7 +617,7 @@ class LoaderA44 : public FUN_00a89af0_helper
 // @fnv 0x00a44a90
 void LoaderA44::FUN_00a44a90(NiStreamA44& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     ReadBinaryValue(kStream, m_08);
     ReadBinaryValue(kStream, m_0C);
 }
@@ -832,7 +828,7 @@ class B80Notes : public B80Object
 // @fnv 0x00a44b80
 void B80Notes::FUN_00a44b80(B80Stream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     B80SaveBinary(*kStream.m_pBackingStream, m_usNumNotes);
     for (unsigned int i = 0; i < m_usNumNotes; i++)
         kStream.SaveLinkID(m_ppkNotes[i]);

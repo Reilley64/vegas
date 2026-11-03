@@ -318,8 +318,6 @@ struct SkyObject
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 }
 

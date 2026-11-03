@@ -178,7 +178,6 @@ bool ObsList::FUN_004a4460()
     return (m_pkNext == 0 && reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::EqHelper &)(*reinterpret_cast<EqHelper*>(this)))->operator==((int)(0))) ? 1 : 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct SL
 {
@@ -356,7 +355,6 @@ FUN_00513d60::FUN_00513d60()
     c = 0;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct _FUN_0052aa80_shell
 {
@@ -517,7 +515,6 @@ FUN_00619740::FUN_00619740()
 }
 
 namespace fnv_00631540 {
-void* __cdecl operator new(unsigned int);
 
 struct _FUN_0052aa80_shell
 {

@@ -104,7 +104,6 @@ unsigned int FUN_008663e0_shell::FUN_008663e0()
     return uiOut;
 }
 
-void* __cdecl operator new(unsigned int);
 unsigned int _data_011c16bc;
 
 struct BGSLoadFormBuffer

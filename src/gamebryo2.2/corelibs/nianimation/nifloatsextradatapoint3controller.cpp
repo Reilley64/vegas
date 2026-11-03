@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/C_00e8f010.h"
@@ -25,7 +26,6 @@
 #include "fnv/symbols_011bf000.h"
 #include "fnv/symbols_011f3000.h"
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 
 
@@ -34,11 +34,11 @@ extern int DAT_0109917c;
 // @fnv 0x00a4ecd0
 int* __cdecl FUN_00a4ecd0()
 {
-    int* p = (int*)BSFadeNode::operator new(0x48);
+    int* p = (int*)::operator new(0x48);
     if (p)
     {
         InitTimeController(p);
-        p[0] = (int)&DAT_0109917c;
+        p[0] = (intptr_t)&DAT_0109917c;
         p[0x40 / 4] = -1;
         p[0x44 / 4] = (*reinterpret_cast<int *>(&::DAT_0109b220));
         return p;
@@ -55,7 +55,7 @@ public:
 struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
     int* m_pvt;
     char pad[0x38];
-    int unk3c;
+    intptr_t unk3c;
     int m_iFloatsExtraDataIndex;
     int m_kCtlrID;
     NiFloatsExtraDataPoint3Controller* FUN_00a4ec80(void* proc);
@@ -63,7 +63,7 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
 // @fnv 0x00a4ec80
 NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::FUN_00a4ec80(void* proc)
 {
-    NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)BSFadeNode::operator new(0x48);
+    NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)::operator new(0x48);
     if (p) {
         ::InitTimeController((int *)(p));
         p->m_pvt = &DAT_0109917c;
@@ -200,7 +200,7 @@ struct GlobalObjectO2_00a7b610;
 
 
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct Vec12Sink {
     int FUN_00a49650(Vec12 v);
@@ -398,9 +398,9 @@ struct VertexBufferLockInfo {
     unsigned unk04;
     IDirect3DVertexBuffer9* buffer;
     unsigned lockArg0;
-    unsigned lockArg1;
+    uintptr_t lockArg1;
     unsigned lockArg2;
-    unsigned GetBuffer() const { return (unsigned)buffer; }
+    uintptr_t GetBuffer() const { return (uintptr_t)buffer; }
     unsigned GetOffset() const { return lockArg0; }
     unsigned GetFlags() const { return lockArg2; }
     IDirect3DVertexBuffer9* GetSize() const { return (IDirect3DVertexBuffer9*)lockArg1; }
@@ -410,7 +410,7 @@ struct VertexBufferLockInfo {
 struct VertexRenderer {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
-    unsigned lockArg;
+    uintptr_t lockArg;
     unsigned unk44;
     void* lockedPtr;
     unsigned lockedState;
@@ -469,7 +469,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
             }
         }
         if (!valid) {
-            if (!::FUN_00e8bfa0((::Outer *)this, (unsigned int)(buffer)))
+            if (!::FUN_00e8bfa0((::Outer *)this, (uintptr_t)(buffer)))
                 return 0;
             if (buffer->count > 0)
                 resource = *(VertexBufferLockInfo**)buffer->entries;
@@ -478,7 +478,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
             flags = 0xfff;
         }
         option = (char*)reinterpret_cast<::Owner_e8bff0 *>(this)->FUN_00e8bff0((::Holder_e8bff0 *)(resource->GetBuffer()), resource->GetOffset(),
-                                        resource->GetFlags(), (unsigned int)(resource->GetSize()));
+                                        resource->GetFlags(), (uintptr_t)(resource->GetSize()));
     }
 
     char* dst = (char*)(option + positionOffset);

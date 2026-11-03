@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.cpp: NiDX9Renderer, Renderer, GraphicsRenderer, NiTMapBaseStub and more (204 functions)
 
+#include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -114,7 +116,7 @@ class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
 struct RendererPacketEntry { unsigned int pad[2]; void* resource; };
-class NiMemObject { public: static void* operator new(unsigned int); };
+class NiMemObject { public: };
 class GraphicsRenderer : public NiMemObject {
 public:
  virtual ~GraphicsRenderer() throw();
@@ -313,9 +315,9 @@ void* __cdecl FUN_00a5f200()
 
 
 // @fnv 0x00a5f4f0
-int __cdecl FUN_00a5f4f0()
+intptr_t __cdecl FUN_00a5f4f0()
 {
-    return (int)&(*reinterpret_cast<int *>(&::g_011f443c));
+    return (intptr_t)&(*reinterpret_cast<int *>(&::g_011f443c));
 }
 
 // @fnv 0x00a5f500
@@ -528,20 +530,20 @@ extern int DAT_010edb5c;
 struct FUN_00e6eab0_shell : NiTMapBase_StandIn {
     char pad[8];
     void* data;
-    int DestroyMap(int flag);
+    intptr_t DestroyMap(int flag);
 };
 
 // @fnv 0x00e6eab0
-int FUN_00e6eab0_shell::DestroyMap(int aiFlags)
+intptr_t FUN_00e6eab0_shell::DestroyMap(int aiFlags)
 {
-    *(int*)this = (int)&DAT_010edb5c;
+    *(intptr_t*)this = (intptr_t)&DAT_010edb5c;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
-    *(int*)this = (int)&DAT_010eda84;
+    *(intptr_t*)this = (intptr_t)&DAT_010eda84;
     reinterpret_cast<::S_00b601a0_Map *>(this)->FUN_00b601a0();
     _NiFreeAlias(this->data);
     if (aiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct NodePoolView {
@@ -972,11 +974,11 @@ struct StandIn_e6dc40 { bool FUN_00e6dc40(void*); };
 // @fnv 0x00e6dc40
 bool StandIn_e6dc40::FUN_00e6dc40(void* a1)
 {
-	EnterCriticalSection((void*)((char*)this + 0x180));
-	int v = *(int*)((char*)a1 + 0x24);
+	EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
+	intptr_t v = *(int*)((char*)a1 + 0x24);
 	if (!v)
-		v = ((int)(::FUN_00e68ef0((::FnvSource *)(a1), (::FnvDevice *)(void *)(this))));
-	LeaveCriticalSection((void*)((char*)this + 0x180));
+		v = ((intptr_t)(::FUN_00e68ef0((::FnvSource *)(a1), (::FnvDevice *)(void *)(this))));
+	LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	return v;
 }
 
@@ -987,10 +989,10 @@ struct Stand_00e6dc80 { char pad[0x8cc]; NiVBSet vb; bool CreateVertexBufferIfNe
 bool Stand_00e6dc80::CreateVertexBufferIfNeeded(Param_00e6dc80* pParam, unsigned int a2)
 {
     if (pParam->flag == 0) {
-        int r = ((int)(::fnv_00e8ff60::CreateRenderedTextureData((unsigned int)(pParam), (unsigned int)(this), a2)));
+        intptr_t r = ((intptr_t)(::fnv_00e8ff60::CreateRenderedTextureData((uintptr_t)(pParam), (uintptr_t)(this), a2)));
         if (!r)
             return false;
-        reinterpret_cast<::HashTableBase *>(&(vb))->InsertOrUpdate((unsigned int)pParam, (unsigned int)((void*)r));
+        reinterpret_cast<::HashTableBase *>(&(vb))->InsertOrUpdate((uintptr_t)pParam, (uintptr_t)((void*)r));
     }
     return true;
 }
@@ -1000,11 +1002,11 @@ struct FUN_00e6dcc0_shell { bool FUN_00e6dcc0(void*); };
 // @fnv 0x00e6dcc0
 bool FUN_00e6dcc0_shell::FUN_00e6dcc0(void* a1)
 {
-	EnterCriticalSection((void*)((char*)this + 0x180));
+	EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	if (*(int*)((char*)a1 + 0x24) != 0)
 		return true;
-	int r = ((int)(::FUN_00e8abf0((::TextureInput *)(a1), (::ResourceConfig *)(void *)(this))));
-	LeaveCriticalSection((void*)((char*)this + 0x180));
+	intptr_t r = ((intptr_t)(::FUN_00e8abf0((::TextureInput *)(a1), (::ResourceConfig *)(void *)(this))));
+	LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>((void*)((char*)this + 0x180)));
 	return r;
 }
 
@@ -1018,7 +1020,7 @@ bool ProxyRenderer::EnsureVertexBufferSet(void* a1)
         void* v = ((void *)(::FUN_00e901a0((::NiRenderedCubeMap *)(a1), (::NiDX9Renderer *)(void *)(this))));
         if (!v)
             return false;
-        reinterpret_cast<::HashTableBase *>((((NiVBSet*)((char*)this + 0x8dc))))->InsertOrUpdate((unsigned int)a1, (unsigned int)(v));
+        reinterpret_cast<::HashTableBase *>((((NiVBSet*)((char*)this + 0x8dc))))->InsertOrUpdate((uintptr_t)a1, (uintptr_t)(v));
     }
     return true;
 }
@@ -1049,7 +1051,7 @@ bool FUN_00e6dd40_shell::EnsureVertexBufferReady(Prm* pPrm)
  void* c = ((void *)(::CreateDynamicTexture((::TexOwner *)(pPrm))));
  if (!c)
   return false;
- reinterpret_cast<::HashTableBase *>(&(vb))->InsertOrUpdate((unsigned int)pPrm, (unsigned int)(c));
+ reinterpret_cast<::HashTableBase *>(&(vb))->InsertOrUpdate((uintptr_t)pPrm, (uintptr_t)(c));
  return true;
 }
 }  // namespace fnv_00e6dd40
@@ -1186,7 +1188,7 @@ void* FUN_00e6eb30_shell::FUN_00e6eb30(unsigned int auiFlags)
 namespace fnv_00e6eba0 {
 struct NiTMapBaseStub { void RemoveAll(); };
 struct FUN_00e6eba0_holder {
- int v0;
+ intptr_t v0;
  int v4;
  void* vp8;
  void* FUN_00e6eba0(unsigned int);
@@ -1194,7 +1196,7 @@ struct FUN_00e6eba0_holder {
 // @fnv 0x00e6eba0
 void* FUN_00e6eba0_holder::FUN_00e6eba0(unsigned int auiFlags)
 {
- v0 = (int)&DAT_010edac4;
+ v0 = (intptr_t)&DAT_010edac4;
  reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
  _NiFreeAlias(vp8);
  if (auiFlags & 1)
@@ -1343,7 +1345,7 @@ void __cdecl FUN_00e7a860()
         ((unsigned short*)p)[5] = 0;
         ((unsigned short*)p)[6] = 0;
         ((unsigned int*)p)[1] = 0;
-        ((unsigned int*)p)[0] = (unsigned int)&DAT_010ee898;
+        ((uintptr_t*)p)[0] = (uintptr_t)&DAT_010ee898;
         DAT_0126f550 = p;
     } else {
         DAT_0126f550 = 0;
@@ -1365,7 +1367,7 @@ void FUN_00e69920_shell::ClearList()
         unsigned int tail;
     };
     Obj* p = (Obj*)this;
-    unsigned int node = p->head;
+    uintptr_t node = p->head;
     while (node)
     {
         unsigned int next = *(unsigned int*)(node + 0xc);
@@ -1432,7 +1434,7 @@ bool S_00e69a20::CreateDepthStencilBuffer(Ni2DBuffer* apBuffer, NiPixelFormat co
 	return NiDX9AdditionalDepthStencilBufferData::Create(dev, &apBuffer, apPixelFormat, c);
 }
 
-extern "C" char* __cdecl strcat_s(char* dest, unsigned int size, const char* src);
+
 struct FUN_00e69c00_shell {
     char pad[0x5cc];
     unsigned int flags;
@@ -1947,7 +1949,7 @@ char* FUN_00e6c690_shell::GetDepthDeviceDescription()
             output,
             0x200,
             "%s (%s-%s)",
-            reinterpret_cast<int>(buffer + 0x200),
+            reinterpret_cast<intptr_t>(buffer + 0x200),
             type,
             name);
     }
@@ -3241,9 +3243,9 @@ struct RenderBufferAllocation {
 // @fnv 0x00e69a00
 RenderBufferAllocation* CreateRenderBufferAllocation(void* parameters)
 {
-    RenderBufferAllocation* buffer = static_cast<RenderBufferAllocation*>(NiMemObject::operator new(84));
+    RenderBufferAllocation* buffer = static_cast<RenderBufferAllocation*>(::operator new(84));
     if (buffer)
-        return ((::RenderBufferAllocation *)(new ((void *)(buffer)) ::FUN_00e8db90((unsigned int)(parameters))));
+        return ((::RenderBufferAllocation *)(new ((void *)(buffer)) ::FUN_00e8db90((uintptr_t)(parameters))));
     return 0;
 }
 
@@ -3257,7 +3259,7 @@ struct FUN_00e69a60_obj14 {
 };
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 // Returns the cached global pointer, creating it via a factory call and helper object when unset and InitD3D9CreateFunctions succeeds.
 // @fnv 0x00e69a60
@@ -3273,7 +3275,7 @@ void* __cdecl FUN_00e69a60()
     if (obj != 0) {
         FUN_00e69a60_obj14* helper = (FUN_00e69a60_obj14*)FUN_00aa13e0(0x14);
         if (helper != 0) {
-            g_0126f0e8 = ((void *)(new ((void *)(helper)) ::FUN_00e7bc90((int)(obj), (int)(&DAT_0126f0f8))));
+            g_0126f0e8 = ((void *)(new ((void *)(helper)) ::FUN_00e7bc90((intptr_t)(obj), (intptr_t)(&DAT_0126f0f8))));
         } else {
             g_0126f0e8 = 0;
         }
@@ -3294,10 +3296,10 @@ struct FUN_00e69b00_cls
     virtual void v01();
     virtual void v02();
     virtual RendererListNode* GetListHead();
-    unsigned int ContainsNode(RendererListNode* pTarget);
+    uintptr_t ContainsNode(RendererListNode* pTarget);
 };
 // @fnv 0x00e69b00
-unsigned int FUN_00e69b00_cls::ContainsNode(RendererListNode* pTarget)
+uintptr_t FUN_00e69b00_cls::ContainsNode(RendererListNode* pTarget)
 {
     RendererListNode* node = GetListHead();
     bool found;
@@ -3315,7 +3317,7 @@ unsigned int FUN_00e69b00_cls::ContainsNode(RendererListNode* pTarget)
 found_label:
     found = true;
 done:
-    return (found ? -1 : 0) & (unsigned int)this;
+    return (found ? -1 : 0) & (uintptr_t)this;
 }
 
 struct NiPixelFormat;
@@ -3329,13 +3331,12 @@ public:
 };
 class NiPixelData : public NiRefObject {
 public:
-    static void* operator new(unsigned int);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
     int unk40; int unk44; int unk48; int unk4c;
     unsigned char* m_pucPixels;
-    int unk54; int unk58;
+    intptr_t unk54; int unk58;
     unsigned int* m_puiOffsetInBytes;
     int unk60;
     unsigned int m_uiPixelStride;
@@ -4513,7 +4514,7 @@ virtual void pad0(); virtual void pad1(); virtual void pad2(); virtual void pad3
 class FUN_00e6de70_D {
 public:
 virtual void pad0(); virtual void pad1(); virtual void pad2(); virtual void pad3(); virtual void pad4(); virtual void pad5(); virtual void pad6(); virtual void pad7(); virtual void pad8(); virtual void pad9(); virtual void pad10(); virtual void pad11(); virtual void pad12(); virtual void pad13(); virtual void pad14(); virtual void pad15(); virtual void pad16(); virtual void pad17(); virtual void pad18(); virtual void pad19(); virtual void pad20(); virtual void pad21(); virtual void pad22(); virtual void pad23(); virtual void pad24(); virtual void pad25(); virtual void pad26(); virtual void pad27(); virtual void pad28(); virtual void pad29(); virtual void pad30();
- virtual int v31(FUN_00e6de70_C*, unsigned int);
+ virtual int v31(FUN_00e6de70_C*, uintptr_t);
 };
 
 class FUN_00e6de70_cls {
@@ -4554,7 +4555,7 @@ bool FUN_00e6de70_cls::FUN_00e6de70(FUN_00e6de70_A* a1)
         return false;
     }
     if (m_6f5 == 0) {
-        unsigned int r2 = (unsigned int)b->v39();
+        uintptr_t r2 = (uintptr_t)b->v39();
         if (r2 == 0) {
             return false;
         }
@@ -5381,7 +5382,6 @@ class E6EC20Cache {
 public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, unsigned int uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int unk00; int unk04; int unk08; int unk0C; int unk10;
 };
@@ -5427,7 +5427,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -5916,12 +5916,12 @@ struct FUN_00e744b0_Src {
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
-    unsigned int unk0c;
+    uintptr_t unk0c;
     unsigned int unk10;
     unsigned int unk14;
     unsigned int unk18;
     unsigned int unk1c;
-    unsigned int m_20;
+    uintptr_t m_20;
     unsigned int unk24;
     unsigned int unk28;
     unsigned int unk2c;
@@ -6507,8 +6507,8 @@ struct FUN_00e744b0_cls {
     unsigned int unk8a0;
     unsigned int unk8a4;
     unsigned int unk8a8;
-    unsigned int m_8ac;
-    unsigned int m_8b0;
+    uintptr_t m_8ac;
+    uintptr_t m_8b0;
     void ProcessVObj(FUN_00e744b0_Src* ebx);
 };
 extern char DAT_011f4288[16];
@@ -7180,7 +7180,6 @@ struct P3 : Property { P3() throw(); };
 struct NiPropertyState {
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18;
  NiPropertyState() throw();
- static void* operator new(unsigned int amount) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(amount); }
 };
 struct Input { int unk00,unk04,unk08,unk0c; void* content; Property* property; int unk18; void* extra; };
 struct Manager { virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void Set(unsigned,Input*); };
@@ -10581,8 +10580,6 @@ struct ShaderMemMgr {
     void Deallocate(void* p);
 };
 
-inline void* operator new[](unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-inline void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 
 struct ShaderVertexElement {
     unsigned short Stream;
@@ -11492,7 +11489,6 @@ class E7A6A0Bucket {
 public:
     __forceinline ~E7A6A0Bucket() { m_kEntries.RemoveAll(); }
 
-    static void operator delete(void* pvMem, unsigned int uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int m_iKey;
     E7A6A0Array<E7A6A0Entry*> m_kEntries;
@@ -11550,9 +11546,9 @@ FUN_00a62af0_cls::FUN_00a62af0_cls() throw()
     unsigned int zero = 0;
     *(volatile unsigned int*)&unk08 = zero;
     *(volatile unsigned int*)&unk14 = zero;
-    InitializeCriticalSection(&unk80);
-    InitializeCriticalSection(&unk100);
-    InitializeCriticalSection(&unk180);
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk80));
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk100));
+    InitializeCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&unk180));
     unk200 = zero;
     unk204 = zero;
     unk208 = (unsigned char)zero;
@@ -11843,7 +11839,7 @@ struct PointE69 {
 struct VertexE69 {
     PointE69 m_kPos;
     PointE69 m_kPlaneNormal;
-    unsigned int m_uiColor;
+    uintptr_t m_uiColor;
     float m_fU;
     float m_fV;
 };
@@ -11851,7 +11847,7 @@ struct VertexE69 {
 struct VertexWE69 {
     PointE69 m_kPos;
     PointE69 m_kPlaneNormal;
-    unsigned int m_uiColor;
+    uintptr_t m_uiColor;
     float m_fU;
     float m_fV;
     float m_fVectorX;
@@ -11860,7 +11856,7 @@ struct VertexWE69 {
 // Writes position, normal, color and UVs into the next vertex; if fW is non-negative it uses the wider vertex layout and also stores fW.
 // @fnv 0x00e69b60
 float* WriteVertex(float* pVertexBuffer, const PointE69& kPos, const PointE69& kNormal,
-    unsigned int uiColor, float fTextureCoordinateU, float fV, float fW)
+    uintptr_t uiColor, float fTextureCoordinateU, float fV, float fW)
 {
     if (fW >= 0.0f) {
         pVertexBuffer = (float*)((VertexWE69*)pVertexBuffer + 1);
@@ -11931,7 +11927,7 @@ struct PackingOwner {
     virtual void ReleaseStream(PackingPacket*, unsigned int);
 };
 struct PackingPacket {
-    unsigned int unk00, flags;
+    uintptr_t unk00, flags;
     PackingOwner* owner;
     unsigned int unk0c, unk10;
     bool dynamic;
@@ -12071,8 +12067,8 @@ bool PackingRenderer::UpdatePackingPacket(PackingPacket* packet, Model_e6da60* m
             unsigned int packed = 0;
             if (geometry) packed = geometry->Pack(model, geometryData, data, dirty, stream, i, 0, 0, 0);
             if (!packed) {
-                if (streamCount != 1 || !((unsigned int)(reinterpret_cast<::VertexRenderer *>((((PackingVertexManager*)m_pShaderStreamInfo)))->FUN_00e8c820(
-                    (::VertexSource *)(model), (unsigned int)(geometryData), (::VertexData *)(data), dirty, (::VertexBufferLockInfo *)(stream), (char *)(0)))))
+                if (streamCount != 1 || !((uintptr_t)(reinterpret_cast<::VertexRenderer *>((((PackingVertexManager*)m_pShaderStreamInfo)))->FUN_00e8c820(
+                    (::VertexSource *)(model), (uintptr_t)(geometryData), (::VertexData *)(data), dirty, (::VertexBufferLockInfo *)(stream), (char *)(0)))))
                     return false;
             }
         }
@@ -12177,7 +12173,7 @@ struct Map_e6e
 {
 };
 
-int __cdecl FUN_00e7bd20(int iFormat);
+int __cdecl FUN_00e7bd20(intptr_t iFormat);
 
 struct FUN_00e6ee00_cls
 {
@@ -13761,8 +13757,8 @@ bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3,
     }
 
     bool bPrecached = reinterpret_cast<::FUN_00e72c20_cls *>(this)->FUN_00e72c20((::Arg1 *)(p), (::Ifc *)(0));
-    EnterCriticalSection(&m_kCS80);
-    EnterCriticalSection(&m_kCS100);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS80));
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS100));
     unsigned int uiTech = auiTechnique;
     if (!uiTech)
         uiTech = pShader->GetDefaultTechnique();
@@ -13783,8 +13779,8 @@ bool PG_Renderer::FUN_00e73f60(PG_GeomFull* p, unsigned int a2, unsigned int a3,
         unsigned int uiIdx = pData->m_us44;
         bResult = FUN_00e72980_s(p, pData, usActive, usVerts, m_pkDeltas, pIdx, uiIdx, uiTech);
     }
-    LeaveCriticalSection(&m_kCS100);
-    LeaveCriticalSection(&m_kCS80);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS100));
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCS80));
     return bResult;
 }
 }  // namespace fnv_00e73f60
@@ -15755,11 +15751,6 @@ struct Node {
 
 
 
-    static void operator delete(void* pvMem, unsigned int uiSize) {
-
-        operator_delete_sized(pvMem, uiSize);
-
-    }
 
 };
 
@@ -15789,9 +15780,9 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
             } else {
 
-                EnterCriticalSection(&cs1_080);
+                EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs1_080));
 
-                EnterCriticalSection(&cs2_100);
+                EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs2_100));
 
 
 
@@ -15821,7 +15812,7 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
                                 } else if (curr->m_next) {
 
-                                    reinterpret_cast<::HashTableBase *>(&(m_map))->InsertOrUpdate((unsigned int)(key), (unsigned int)(static_cast<Node* const volatile&>(curr->m_next)));
+                                    reinterpret_cast<::HashTableBase *>(&(m_map))->InsertOrUpdate((uintptr_t)(key), (uintptr_t)(static_cast<Node* const volatile&>(curr->m_next)));
 
                                     next = curr->m_next;
 
@@ -15853,9 +15844,9 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
 
 
-                LeaveCriticalSection(&cs2_100);
+                LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs2_100));
 
-                LeaveCriticalSection(&cs1_080);
+                LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&cs1_080));
 
             }
 
@@ -17781,7 +17772,7 @@ struct PacketObj {
     int unk3c;
     unsigned short unk40; unsigned short unk42;
     unsigned short unk44; unsigned short unk46;
-    int unk48;
+    intptr_t unk48;
 };
 
 // @fnv 0x00e6fa90
@@ -17794,7 +17785,7 @@ void ApplyPacketUpdate(PacketObj* pPacketObj, PacketTarget* target, int bRelease
     if (!mask) {
         reinterpret_cast<::GeomData_S *>((pPacketObj))->FUN_00a670c0(id, (::NiPoint3 *)(0), (::NiPoint3 *)(0), (::RgbaColor *)(0), (::NiPoint2 *)(0), 0, pPacketObj->unk0c & 0xf000);
     } else {
-        int a = 0, b = 0, c = 0, d = 0, e = 0;
+        intptr_t a = 0, b = 0, c = 0, d = 0, e = 0;
         if (mask & 1) a = pPacketObj->unk20;
         if (mask & 2) b = pPacketObj->unk24;
         if (mask & 4) c = pPacketObj->unk28;
@@ -17952,10 +17943,10 @@ void GeomGroupOwner::RemoveGeomFromGroups(GeomData* pkGeom)
     if (!pkParts)
         return;
     if (pkParts->Get(0)) {
-        EnterCriticalSection(&kLockA);
-        EnterCriticalSection(&kLockB);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockA));
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockB));
         for (unsigned int i = 0; i < pkParts->uiSize; i++) {
-            unsigned int uiKey = pkParts->Get(i)->uiKey;
+            uintptr_t uiKey = pkParts->Get(i)->uiKey;
             GeomGroupEntry* pkHead = 0;
             if (reinterpret_cast<::A54440Hash *>((void *)&(kGroups))->FUN_00a53c30((::A54440Manager *)(uiKey), (::A54440Manager **)&(pkHead))) {
                 GeomGroupEntry* pkPrev = 0;
@@ -17982,8 +17973,8 @@ void GeomGroupOwner::RemoveGeomFromGroups(GeomData* pkGeom)
                 }
             }
         }
-        LeaveCriticalSection(&kLockB);
-        LeaveCriticalSection(&kLockA);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockB));
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&kLockA));
     }
     pkListener->Release(pkGeom, 0);
 }
@@ -18054,7 +18045,7 @@ __forceinline void SetVertexCounts(unsigned short av,unsigned short v) { activeV
 __forceinline void SetTriangleCounts(unsigned short at,unsigned short t,void* lens,unsigned short strips,void* idx) { stripLengths=at; triangles=t; activeTriangles=lens; indices=idx; stripCount=strips; }
   
 };
-struct Geo108 {unsigned int unk00,unk04,unk08,unk0c,unk10,unk14,revision;};
+struct Geo108 {uintptr_t unk00,unk04,unk08,unk0c,unk10,unk14,revision;};
 class NiD3DHLSLVertexShader {public:const char* GetEntryPoint();};
 struct VB108 {  };
 struct IB108 { };
@@ -18663,10 +18654,10 @@ bool Renderer108::PrepareGeometryPacket(Packet108* packet, NiAVObject* source, G
  unsigned int streams = shader ? shader->unk20 : 1;
  unsigned short dirty = source->dirty & 0xfff;
  if (geometry) {
-  unsigned int oldRevision = geometry->revision;
-  if (oldRevision != ((unsigned int)(reinterpret_cast<::NiD3DHLSLVertexShader *>((vb))->GetEntryPoint()))) {
+  uintptr_t oldRevision = geometry->revision;
+  if (oldRevision != ((uintptr_t)(reinterpret_cast<::NiD3DHLSLVertexShader *>((vb))->GetEntryPoint()))) {
    dirty |= 3;
-   geometry->revision = ((unsigned int)(reinterpret_cast<::NiD3DHLSLVertexShader *>((vb))->GetEntryPoint()));
+   geometry->revision = ((uintptr_t)(reinterpret_cast<::NiD3DHLSLVertexShader *>((vb))->GetEntryPoint()));
   }
  }
  if (force) dirty = 0xfff;
@@ -19766,7 +19757,7 @@ void S00e711e0_Owner::FUN_00e711e0()
     S00e711e0_Entry* head = m_620;
     if (head == 0 || m_6fc != 0) goto L_end;
     {
-    unsigned int last = head->a8;
+    uintptr_t last = head->a8;
     S00e711e0_Obj* obj = head->obj;
     unsigned int bc = obj->mbc;
     void* p68 = &obj->m68;
@@ -19937,15 +19928,15 @@ virtual void v17();
 virtual void v18();
 virtual void v19();
 virtual void v20();
-virtual int step21(Mesh*,unsigned int,unsigned int,unsigned int,unsigned int,void*,void*);
-virtual int step22(Mesh*,unsigned int,unsigned int,unsigned int,unsigned int,void*,void*);
-virtual int step23(Mesh*,unsigned int,unsigned int,unsigned int,unsigned int,void*,void*);
+virtual int step21(Mesh*,unsigned int,uintptr_t,unsigned int,unsigned int,void*,void*);
+virtual int step22(Mesh*,unsigned int,uintptr_t,unsigned int,unsigned int,void*,void*);
+virtual int step23(Mesh*,unsigned int,uintptr_t,unsigned int,unsigned int,void*,void*);
 virtual int step24(Mesh*,unsigned int,unsigned int,Batch*,unsigned int,unsigned int,void*,void*);
 virtual void v25();
 virtual int step26(Mesh*,unsigned int,unsigned int,Batch*,unsigned int,unsigned int,void*,void*);
-virtual Batch* batch(Mesh*,unsigned int,unsigned int,unsigned int);
+virtual Batch* batch(Mesh*,unsigned int,uintptr_t,unsigned int);
 virtual int step28(Mesh*,unsigned int,unsigned int,Batch*,unsigned int,unsigned int,void*,void*);
-virtual int step29(Mesh*,unsigned int,unsigned int,unsigned int,unsigned int,void*,void*);
+virtual int step29(Mesh*,unsigned int,uintptr_t,unsigned int,unsigned int,void*,void*);
 virtual void v30();
 virtual void v31();
 virtual void v32();
@@ -20657,19 +20648,19 @@ unsigned int unk8a4;
 unsigned int unk8a8;
 unsigned int unk8ac;
 unsigned int unk8b0;
-unsigned int unk8b4; State* unk8b8; void DrawMesh(Mesh*,unsigned int,unsigned int,void*,void*,Batch*); };
+unsigned int unk8b4; State* unk8b8; void DrawMesh(Mesh*,uintptr_t,unsigned int,void*,void*,Batch*); };
 // Draws a mesh by iterating shader steps and submitting indexed or plain batches via unk288, handling skinned geometry per strip.
 // @fnv 0x00e715a0
-void DrawOwner715::DrawMesh(Mesh* mesh,unsigned int b,unsigned int c,void* B,void* A,Batch* batch) {
+void DrawOwner715::DrawMesh(Mesh* mesh,uintptr_t b,unsigned int c,void* B,void* A,Batch* batch) {
  Shader* shader=0;
  if(mesh) shader=mesh->unkc0;
 
- if(shader->step21(mesh,c,(unsigned int)batch,unk00c,unk010,B,A)) return;
- shader->step22(mesh,c,(unsigned int)batch,unk00c,unk010,B,A);
+ if(shader->step21(mesh,c,(uintptr_t)batch,unk00c,unk010,B,A)) return;
+ shader->step22(mesh,c,(uintptr_t)batch,unk00c,unk010,B,A);
  if(shader->step36()) do {
- shader->step23(mesh,c,(unsigned int)batch,unk00c,unk010,B,A);
+ shader->step23(mesh,c,(uintptr_t)batch,unk00c,unk010,B,A);
  shader->step24(mesh,c,0,batch,unk00c,unk010,B,A);
- batch=shader->batch(mesh,0,(unsigned int)batch,unk00c);
+ batch=shader->batch(mesh,0,(uintptr_t)batch,unk00c);
  shader->step26(mesh,c,0,batch,unk00c,unk010,B,A);
  if(batch->unk34) {
  unsigned int start=0;
@@ -20693,7 +20684,7 @@ void DrawOwner715::DrawMesh(Mesh* mesh,unsigned int b,unsigned int c,void* B,voi
  } else unk288->plain(batch->unk3c,batch->unk38,batch->unk40);
  shader->step28(mesh,c,0,batch,unk00c,unk010,B,A);
  } while(shader->step37());
- shader->step29(mesh,c,(unsigned int)batch,unk00c,unk010,B,A);
+ shader->step29(mesh,c,(uintptr_t)batch,unk00c,unk010,B,A);
  unk8b8->finish(0);
 }
 
@@ -20727,7 +20718,7 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
     for (; entry; entry=entry->next) {
         if (!Equal(key, entry->key)) continue;
         ReferenceObject* previous = entry->resource.object;
-        long (*pDecrement)(volatile long*) = &InterlockedDecrement;
+        long (*pDecrement)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         if (previous != value.object) {
             if (previous && !pDecrement(&previous->referenceCount))
                 previous->DeleteThis();
@@ -20753,7 +20744,7 @@ void RendererPacketMap::FUN_00e72cf0(unsigned int key, ReferencePtr value) {
 }
 
 namespace fnv_00e73eb0 {
-extern "C" void* __cdecl memmove(void* pvDst, const void* pvSrc, unsigned int uiSize);
+
 
 
 struct PresentParamsE73E {
@@ -20971,7 +20962,7 @@ struct PixRow_00e79760 {
 unsigned int FUN_00e79760(PixRow_00e79760* r)
 {
   unsigned int total = 0;
-  unsigned int base = r->m_srcBase;
+  uintptr_t base = r->m_srcBase;
   unsigned short* index = r->m_uiEdgeIndex;
   char* dst = r->m_dst;
 
@@ -21103,14 +21094,14 @@ void* FUN_00e6ee00_cls::GetOrCreateFormatEntry(int iFormat, int iB, int iC)
     else
         pSrc = ((::Src_e6e *)(reinterpret_cast<::FUN_00e69b00_cls *>((pObj))->ContainsNode((::RendererListNode *)(::GlobalObjectO2_00a7b610 *)(&g_0126f5d8))));
     int iFmt = FUN_00e7bd20(iFormat);
-    unsigned int uiKey = ((unsigned int)(reinterpret_cast<::RendererE7B *>((m_5dc))->FUN_00e7b0f0(pSrc->unk28, iFmt, iB, iC)));
+    uintptr_t uiKey = ((uintptr_t)(reinterpret_cast<::RendererE7B *>((m_5dc))->FUN_00e7b0f0(pSrc->unk28, iFmt, iB, iC)));
     {
         void* pVal = 0;
         if (reinterpret_cast<::A54440Hash *>(&(m_kFormatEntries))->FUN_00a53c30((::A54440Manager *)(uiKey), (::A54440Manager **)&(pVal)) && pVal)
             return pVal;
     }
     void* pNew = ((void *)(::CreatePixelFormat(uiKey)));
-    reinterpret_cast<::HashTableBase *>(&(m_kFormatEntries))->InsertOrUpdate(uiKey, (unsigned int)(pNew));
+    reinterpret_cast<::HashTableBase *>(&(m_kFormatEntries))->InsertOrUpdate(uiKey, (uintptr_t)(pNew));
     return pNew;
 }
 
@@ -21846,10 +21837,10 @@ void MeshGenerator::FUN_00e6d3a0(float* pDest, unsigned short* pIndex, SrcObj* p
 
                 float fW = pAlpha ? (float)pAlpha[usRow] : -1.0f;
 
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[0], (unsigned int)&(pNorm[0]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[1], (unsigned int)&(pNorm[0]), uiColor, fV, 1.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[2], (unsigned int)&(pNorm[1]), uiColor, fV, 0.0f);
-                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[3], (unsigned int)&(pNorm[1]), uiColor, fV, 1.0f);
+                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[0], (uintptr_t)&(pNorm[0]), uiColor, fV, 0.0f);
+                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[1], (uintptr_t)&(pNorm[0]), uiColor, fV, 1.0f);
+                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[2], (uintptr_t)&(pNorm[1]), uiColor, fV, 0.0f);
+                pDest = ::WriteVertex((float *)this, (*(const ::PointE69 *)(pDest)), pPos[3], (uintptr_t)&(pNorm[1]), uiColor, fV, 1.0f);
                 fV += fStep;
 
                 *pIndex++ = (unsigned short)uiIndex++;
@@ -23308,14 +23299,14 @@ void FUN_00e744b0_cls::ProcessVObj(FUN_00e744b0_Src* apSrc)
             unsigned int* src = (p20 != 0) ? p20 : (unsigned int*)(*reinterpret_cast<char (*)[16]>(&::g_defaultBound));
             FUN_00e744b0_Blk16 A;
             A.d[0] = src[0]; A.d[1] = src[1]; A.d[2] = src[2]; A.d[3] = src[3];
-            unsigned int esi = (unsigned int)vo;
-            unsigned int edi = bc;
+            uintptr_t esi = (uintptr_t)vo;
+            uintptr_t edi = bc;
             bool r = reinterpret_cast<::FUN_00e72c20_cls *>(this)->FUN_00e72c20((::Arg1 *)(apSrc), (::Ifc *)(0));
             ::ProcessCollector((::HkCollector *)(((FUN_00e744b0_obj*)m_8ac)), (::HkBody *)(m_8b0), (::HkInput *)(esi), edi, *(unsigned int*)&r, 0);
             if (r) {
                 reinterpret_cast<::StripTarget *>(this)->DrawStrip((::Geometry *)(apSrc), (::Flags *)(esi), (::Shape *)(edi), &B, (::Color *)(::FUN_00e744b0_Blk16 *)(&A));
             } else {
-                reinterpret_cast<::DrawOwner715 *>(this)->DrawMesh((::Mesh *)(apSrc), esi, edi, &B, &A, (::Batch *)(*(unsigned int*)(esi + 0x34)));
+                reinterpret_cast<::DrawOwner715 *>(this)->DrawMesh((::Mesh *)(apSrc), esi, edi, &B, &A, (::Batch *)(*(uintptr_t*)(esi + 0x34)));
             }
         }
     }
@@ -23433,7 +23424,7 @@ struct QuadGeometry {
  unsigned int unk00,unk04,unk08,unk0c,unk10;
  unsigned char flag; unsigned char unk15,unk16,unk17;
  unsigned int vertices,activeVertices,count; unsigned int* strides; QuadBuffer** buffers;
- unsigned int indices,handle,resource,unk38,unk3c,triangles,activeTriangles,one,zero1,zero2;
+ uintptr_t indices,handle,resource,unk38,unk3c,triangles,activeTriangles,one,zero1,zero2;
  QuadBuffer* GetBuffer() { return count>0 ? buffers[0] : 0; }
  unsigned int GetStride() { return count>0 ? strides[0] : 0; }
 };
@@ -24240,7 +24231,7 @@ bool S72_Renderer::BuildAndRegisterNodes(unsigned int uiUnused, S72_Model* pkMod
         unsigned int ItemUpdateArray = pkPkt->m_uiCount;
         for (unsigned int i = 0; i < ItemUpdateArray; ++i)
         {
-            unsigned int uiId = pkPkt->GetAt(i)->unk04;
+            uintptr_t uiId = pkPkt->GetAt(i)->unk04;
             S72_Node* pNode = (S72_Node*)FUN_00aa13e0(0x24);
             pNode->unk00 = pkModel;
             pNode->unk04 = 0;
@@ -24252,7 +24243,7 @@ bool S72_Renderer::BuildAndRegisterNodes(unsigned int uiUnused, S72_Model* pkMod
             pNode->unk1C = i;
             void* pv;
             pNode->unk20 = reinterpret_cast<::A54440Hash *>((((Map_e6e*)&this->unk0610)))->FUN_00a53c30((::A54440Manager *)(uiId), (::A54440Manager **)&(pv)) ? pv : 0;
-            reinterpret_cast<::HashTableBase *>((((Map_e6e*)&this->unk0610)))->InsertOrUpdate(uiId, (unsigned int)(pNode));
+            reinterpret_cast<::HashTableBase *>((((Map_e6e*)&this->unk0610)))->InsertOrUpdate(uiId, (uintptr_t)(pNode));
         }
     }
     return bOk;
@@ -24285,7 +24276,7 @@ void PackingManager_cc0::FUN_00e74cc0(PackingEntry_cc0* entry)
     if (entry) {
         PackingPacket* packet = entry->packet;
         bool current = reinterpret_cast<::GraphicsRenderer *>((packet))->HasPendingPackets();
-        packet->flags = (unsigned int)&(*reinterpret_cast<void * *>(&::DAT_01400000));
+        packet->flags = (uintptr_t)&(*reinterpret_cast<void * *>(&::DAT_01400000));
         reinterpret_cast<::NiSlotSetE8E *>((packet))->FUN_00e8ef10(1);
         unsigned short flags = entry->flags;
 
@@ -24890,7 +24881,6 @@ struct FUN_00e6eaf0 {
     virtual ~FUN_00e6eaf0();
     int m04;
     void* m08;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 // Destructor that removes all entries from the map and frees the m08 alias via _NiFreeAlias.
 // @fnv 0x00e6eaf0
@@ -24903,7 +24893,6 @@ FUN_00e6eaf0::~FUN_00e6eaf0()
 struct FUN_00e6eb70 {
  void* m_04;
  virtual ~FUN_00e6eb70();
- static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 // Destructor that releases the alias held in m_04 by calling _NiFreeAlias.
 // @fnv 0x00e6eb70
@@ -24912,25 +24901,19 @@ FUN_00e6eb70::~FUN_00e6eb70()
  _NiFreeAlias(m_04);
 }
 
-struct FUN_00e72df0 { void* m_04; virtual ~FUN_00e72df0(); static void operator delete(void*); };
+struct FUN_00e72df0 { void* m_04; virtual ~FUN_00e72df0(); };
 // @fnv 0x00e72df0
 FUN_00e72df0::~FUN_00e72df0() { _NiFreeAlias(m_04); }
-void FUN_00e72df0::operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 
 struct FUN_00e7a610 {
  void* m_ptr;
  virtual ~FUN_00e7a610();
- static void operator delete(void* p);
 };
 // Calls _NiFreeAlias with m_ptr.
 // @fnv 0x00e7a610
 FUN_00e7a610::~FUN_00e7a610()
 {
  _NiFreeAlias(m_ptr);
-}
-void FUN_00e7a610::operator delete(void* p)
-{
- reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
 struct D3DCapsStandIn;
@@ -26874,7 +26857,6 @@ struct BridgeFields {
 
 
 struct NPFNew : NiPixelFormat {
-    static void* operator new(unsigned int size) { return reinterpret_cast<::MemoryManagerStandIn *>((((MMStandIn*)&g_memoryManager)))->FUN_00aa3e40(size); }
     NPFNew(const NiPixelFormat& o) : NiPixelFormat(o) {}
 };
 
@@ -26906,27 +26888,27 @@ void RendererBridge::CreateFormats(RendererStateSlot* state, unsigned int type, 
         switch (i) {
     case 0:
         p = new NPFNew(DAT_011aa888);
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 1:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa8d0)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 3:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa960)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 4:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa9f0)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 5:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aaac8)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 6:
@@ -26935,78 +26917,78 @@ void RendererBridge::CreateFormats(RendererStateSlot* state, unsigned int type, 
         break;
     case 8:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa498)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 9:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa4e0)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 10:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa528)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 11:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa408)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 12:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aad08)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 13:
         p = new NPFNew(DAT_011aa450);
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 2:
     case 22:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aab58)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 14:
         p = new NPFNew(DAT_011aa720);
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 15:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa768)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 16:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa6d8)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 17:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa648)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 18:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa5b8)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 19:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa600)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 20:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa690)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
     case 21:
         p = new NPFNew((*reinterpret_cast<const ::NiPixelFormat *>((void *)&::DAT_011aa570)));
-        p->m_uiRendererHint = FUN_00e7bd20((int)p);
+        p->m_uiRendererHint = FUN_00e7bd20((intptr_t)p);
         p->m_uiExtraData = i;
         break;
         }
@@ -27099,7 +27081,7 @@ struct NewObj {
 };
 struct Map610 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct C_00e8f010;
 struct TwoComponentVector;
@@ -27558,7 +27540,7 @@ void QuadRenderer::UploadQuads(QuadInput* input,unsigned short flags)
           texcoords[vertex].y=(j%2)==0 ? u : vbottom;
        }
     }
-    if(!((unsigned int)(reinterpret_cast<::ThisObj *>((uploader))->FUN_00e8c570((::C_00e8f010 *)(geometry),vertices,(const ::TwoComponentVector *)(points),(const float *)(colors),(const unsigned int *)(texcoords),flags,(::VBEntry *)(buffer),(void *)(0))))) return;
+    if(!((uintptr_t)(reinterpret_cast<::ThisObj *>((uploader))->FUN_00e8c570((::C_00e8f010 *)(geometry),vertices,(const ::TwoComponentVector *)(points),(const float *)(colors),(const unsigned int *)(texcoords),flags,(::VBEntry *)(buffer),(void *)(0))))) return;
  }
  if(dynamic) {
     if((unsigned int)nindices>indexCapacity) {
@@ -27575,9 +27557,9 @@ void QuadRenderer::UploadQuads(QuadInput* input,unsigned short flags)
           indices[k++]=(unsigned short)(v+3);
        }
     }
-    unsigned int handle=geometry->handle;
-    unsigned int old=geometry->resource;
-    unsigned int result=((unsigned int)(reinterpret_cast<::IndexBufferManager *>((indexUploader))->PackBuffer(indices,nindices,nindices,(::COMBaseInterface *)(old),(*(unsigned int *)(&handle)),!DAT_0126f0d0,geometry->flag ? 16:0)));
+    uintptr_t handle=geometry->handle;
+    uintptr_t old=geometry->resource;
+    uintptr_t result=((uintptr_t)(reinterpret_cast<::IndexBufferManager *>((indexUploader))->PackBuffer(indices,nindices,nindices,(::COMBaseInterface *)(old),(*(unsigned int *)(&handle)),!DAT_0126f0d0,geometry->flag ? 16:0)));
     if(old!=result) {
        reinterpret_cast<::NiGeometryBufferData *>((geometry))->ReleaseBuffers();
        geometry->resource=result;
@@ -27615,12 +27597,12 @@ bool ThisObj::BuildPacketEntries(void* a1, void* pkModel, Arg3* pkArg3, void* pk
                     {
                         for (unsigned int i = 0; i < uiStreamCount; i++) {
                             StreamObj* pkStream = pkPacket->GetStream(i);
-                            unsigned int uiKey = pkStream->key;
+                            uintptr_t uiKey = pkStream->key;
                             NewObj* pkObj = (NewObj*)FUN_00aa13e0(0x24);
                             pkObj->Init(pkModel, pkArg3, &pkEntries[n], pkGeom, a5, a6, pkPacket, i);
                             unsigned int uiOut;
                             pkObj->f20 = reinterpret_cast<::A54440Hash *>(&(map))->FUN_00a53c30((::A54440Manager *)(uiKey), (::A54440Manager **)(unsigned int *)(&uiOut)) ? uiOut : 0;
-                            reinterpret_cast<::HashTableBase *>(&(map))->InsertOrUpdate(uiKey, (unsigned int)(pkObj));
+                            reinterpret_cast<::HashTableBase *>(&(map))->InsertOrUpdate(uiKey, (uintptr_t)(pkObj));
                         }
                     }
                 } else {
@@ -28436,7 +28418,7 @@ struct InitRenderer {
  unsigned field3b0;
  unsigned field3b4;
  unsigned field3b8;
- unsigned field3bc;
+ uintptr_t field3bc;
  unsigned field3c0;
  unsigned field3c4;
  unsigned field3c8;
@@ -28983,7 +28965,7 @@ bool InitRenderer::FUN_00e72e60(unsigned width,unsigned height,unsigned options,
  reinterpret_cast<::RendererPacketMap *>(&(stateMap))->FUN_00e72cf0(deviceWindow,(*(::ReferencePtr *)&(const ::InitSmartState &)(InitSmartState(state))));
  field5d0=GetValueForIndex(MapCodeToIndex(state->GetFormat(0)->format));
  if(!reinterpret_cast<::RendererBridge *>(this)->InitializeRendererResources()) { ::FUN_00a29680(); return false; }
- vertices=((::InitVertexManager *)(::fnv_00e91590::CreateRenderer((int)(this),(::fnv_00e91590::CreateDesc *)(void *)(&field28c),1)));
+ vertices=((::InitVertexManager *)(::fnv_00e91590::CreateRenderer((intptr_t)(this),(::fnv_00e91590::CreateDesc *)(void *)(&field28c),1)));
  ::NiD3DShaderInterface::InitializeShaderRenderer((::GraphicsRenderer *)(::InitRenderer *)(this));
  InitTextureManager* textureMem=(InitTextureManager*)FUN_00aa13e0(0x100);
  textures=textureMem ? ((::InitTextureManager *)(new ((void *)(textureMem)) ::FUN_00e8d0e0((::ComStub *)(device)))) : 0;
@@ -29033,59 +29015,59 @@ extern void* DAT_0126f550;
 // @fnv 0x00e78560
 void __cdecl FUN_00e78560(unsigned int type, unsigned int mode) {
  CallbackBucket* bucket = static_cast<CallbackRegistry*>(DAT_0126f550)->buckets[type];
- int callback = 0;
- if (!mode) { callback=reinterpret_cast<int>(((void (&)())::FUN_00e7cd40)); reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(0,(::KeyPair **)&(callback)); return; }
+ intptr_t callback = 0;
+ if (!mode) { callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e7cd40)); reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(0,(::KeyPair **)&(callback)); return; }
  if(type<=3) {
  switch(mode) {
- case 1: case 2: case 3: case 4: if(mode-1==type) callback=reinterpret_cast<int>(((void (&)())::FUN_00e78f80)); else if(mode-1<type) goto sameFormat; else callback=reinterpret_cast<int>(((void (&)())::FUN_00e78d50)); break;
- case 5: case 6: case 7: case 8: callback=reinterpret_cast<int>(((void (&)())::DecodeVertexData)); break;
- case 9: case 10: case 11: case 12: callback=reinterpret_cast<int>(((void (&)())::FUN_00e79370)); break;
- case 13: case 14: case 15: case 16: callback=reinterpret_cast<int>(((void (&)())::ConvertNormalizedShortsToFloats)); break;
- case 17: case 18: case 19: case 20: callback=reinterpret_cast<int>(((void (&)())::FUN_00e79760)); break;
- case 21: case 22: case 23: case 24: callback=reinterpret_cast<int>(((void (&)())::ConvertByteFloatStream)); break;
- case 25: case 26: case 27: case 28: callback=reinterpret_cast<int>(((void (&)())::NormalizeVertexStream)); break;
- case 29: case 30: case 31: case 32: sameFormat: callback=reinterpret_cast<int>(((void (&)())::FUN_00e78e30)); break;
+ case 1: case 2: case 3: case 4: if(mode-1==type) callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78f80)); else if(mode-1<type) goto sameFormat; else callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78d50)); break;
+ case 5: case 6: case 7: case 8: callback=reinterpret_cast<intptr_t>(((void (&)())::DecodeVertexData)); break;
+ case 9: case 10: case 11: case 12: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e79370)); break;
+ case 13: case 14: case 15: case 16: callback=reinterpret_cast<intptr_t>(((void (&)())::ConvertNormalizedShortsToFloats)); break;
+ case 17: case 18: case 19: case 20: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e79760)); break;
+ case 21: case 22: case 23: case 24: callback=reinterpret_cast<intptr_t>(((void (&)())::ConvertByteFloatStream)); break;
+ case 25: case 26: case 27: case 28: callback=reinterpret_cast<intptr_t>(((void (&)())::NormalizeVertexStream)); break;
+ case 29: case 30: case 31: case 32: sameFormat: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78e30)); break;
  default: break;
  }
  if(callback) reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(mode,(::KeyPair **)&(callback));
  } else if(type==4) {
  switch(mode) {
- case 1: case 2: case 6: case 7: case 8: case 10: case 11: case 12: case 13: case 14: case 15: case 17: case 18: case 19: callback=reinterpret_cast<int>(((void (&)())::FUN_00e7cd40)); break;
+ case 1: case 2: case 6: case 7: case 8: case 10: case 11: case 12: case 13: case 14: case 15: case 17: case 18: case 19: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e7cd40)); break;
  case 3: case 4: goto packedFormat;
- case 5: callback=reinterpret_cast<int>(((void (&)())::FUN_00e78880)); break;
- case 9: callback=reinterpret_cast<int>(((void (&)())::FUN_00e78880)); break;
- case 16: callback=reinterpret_cast<int>(((void (&)())::PackVertexColors)); break;
- case 20: callback=reinterpret_cast<int>(((void (&)())::FUN_00e78a70)); break;
- case 21: case 22: case 23: case 24: callback=reinterpret_cast<int>(((void (&)())::FUN_00e79f40)); break;
- case 25: case 26: case 27: case 28: callback=reinterpret_cast<int>(((void (&)())::ConvertColorStream)); break;
- case 29: case 30: case 31: case 32: packedFormat: callback=reinterpret_cast<int>(((void (&)())::FUN_00e79d00)); break;
+ case 5: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78880)); break;
+ case 9: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78880)); break;
+ case 16: callback=reinterpret_cast<intptr_t>(((void (&)())::PackVertexColors)); break;
+ case 20: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e78a70)); break;
+ case 21: case 22: case 23: case 24: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e79f40)); break;
+ case 25: case 26: case 27: case 28: callback=reinterpret_cast<intptr_t>(((void (&)())::ConvertColorStream)); break;
+ case 29: case 30: case 31: case 32: packedFormat: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e79d00)); break;
  default: break;
  }
  if(callback) reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(mode,(::KeyPair **)&(callback));
  } else if(type!=6 && type!=7) {
  if(type!=5) return;
  switch(mode) {
- case 1: case 2: case 3: case 4: callback=reinterpret_cast<int>(((void (&)())::FUN_00e77950)); break;
- case 5: case 6: case 7: case 8: callback=reinterpret_cast<int>(((void (&)())::FUN_00e77b50)); break;
- case 9: case 10: case 11: case 12: callback=reinterpret_cast<int>(((void (&)())::PackByteElements)); break;
- case 13: case 14: case 15: case 16: callback=reinterpret_cast<int>(((void (&)())::FUN_00e77eb0)); break;
- case 17: case 18: case 19: case 20: callback=reinterpret_cast<int>(((void (&)())::CopyStreamElements)); break;
- case 21: case 22: case 23: case 24: callback=reinterpret_cast<int>(((void (&)())::CopyIndexedRows)); break;
- case 25: case 26: case 27: case 28: callback=reinterpret_cast<int>(((void (&)())::FUN_00e783b0)); break;
- case 29: case 30: case 31: case 32: callback=reinterpret_cast<int>(((void (&)())::FUN_00e7cd40)); break;
+ case 1: case 2: case 3: case 4: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e77950)); break;
+ case 5: case 6: case 7: case 8: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e77b50)); break;
+ case 9: case 10: case 11: case 12: callback=reinterpret_cast<intptr_t>(((void (&)())::PackByteElements)); break;
+ case 13: case 14: case 15: case 16: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e77eb0)); break;
+ case 17: case 18: case 19: case 20: callback=reinterpret_cast<intptr_t>(((void (&)())::CopyStreamElements)); break;
+ case 21: case 22: case 23: case 24: callback=reinterpret_cast<intptr_t>(((void (&)())::CopyIndexedRows)); break;
+ case 25: case 26: case 27: case 28: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e783b0)); break;
+ case 29: case 30: case 31: case 32: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e7cd40)); break;
  default: break;
  }
  if(callback) reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(mode,(::KeyPair **)&(callback));
  } else {
  switch(mode) {
- case 1: case 2: case 3: case 4: callback=reinterpret_cast<int>(((void (&)())::FUN_00e76c30)); break;
- case 5: case 6: case 7: case 8: callback=reinterpret_cast<int>(((void (&)())::ConvertVertexComponents)); break;
- case 9: case 10: case 11: case 12: callback=reinterpret_cast<int>(((void (&)())::CopyVertexStream)); break;
- case 13: case 14: case 15: case 16: callback=reinterpret_cast<int>(((void (&)())::CopyPackedVerts)); break;
- case 17: case 18: case 19: case 20: callback=reinterpret_cast<int>(((void (&)())::PackShortVertexData)); break;
- case 21: case 22: case 23: case 24: callback=reinterpret_cast<int>(((void (&)())::FUN_00e77590)); break;
- case 25: case 26: case 27: case 28: callback=reinterpret_cast<int>(((void (&)())::ConvertVertexFormat)); break;
- case 29: case 30: case 31: case 32: callback=reinterpret_cast<int>(((void (&)())::FUN_00e7cd40)); break;
+ case 1: case 2: case 3: case 4: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e76c30)); break;
+ case 5: case 6: case 7: case 8: callback=reinterpret_cast<intptr_t>(((void (&)())::ConvertVertexComponents)); break;
+ case 9: case 10: case 11: case 12: callback=reinterpret_cast<intptr_t>(((void (&)())::CopyVertexStream)); break;
+ case 13: case 14: case 15: case 16: callback=reinterpret_cast<intptr_t>(((void (&)())::CopyPackedVerts)); break;
+ case 17: case 18: case 19: case 20: callback=reinterpret_cast<intptr_t>(((void (&)())::PackShortVertexData)); break;
+ case 21: case 22: case 23: case 24: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e77590)); break;
+ case 25: case 26: case 27: case 28: callback=reinterpret_cast<intptr_t>(((void (&)())::ConvertVertexFormat)); break;
+ case 29: case 30: case 31: case 32: callback=reinterpret_cast<intptr_t>(((void (&)())::FUN_00e7cd40)); break;
  default: break;
  }
  if(callback) reinterpret_cast<::FUN_00a41520_cls *>(&(bucket->callbacks))->FUN_00ba3aa0(mode,(::KeyPair **)&(callback));
@@ -29146,7 +29128,7 @@ int __cdecl FUN_00e78880(StreamE788* pkStream)
     return iTotal;
 }
 
-struct CopyFill { int value; };
+struct CopyFill { intptr_t value; };
 
 struct CopyStreamData {
     int unk00;
@@ -29854,7 +29836,7 @@ struct StripRenderState {
     virtual void slot40();
     virtual void slot41();
     virtual void slot42();
-    virtual void SetFormat(unsigned int, bool);
+    virtual void SetFormat(uintptr_t, bool);
 };
 struct StripShaderX {
     virtual void v0();
@@ -32354,7 +32336,6 @@ void Se745_StandinRenderer::FUN_00e745a0(Se745_Src* apSrc) {
     pData->m_0e &= 0xf000;
 }
 
-inline void* operator new(unsigned int, void* p){return p;}
 namespace RendererReset {
 
 
@@ -32736,7 +32717,7 @@ struct ScrDX9Renderer {
 };
 
 enum ScrAllocationTag { ScrAllocatePixels };
-__forceinline void* operator new(unsigned int size, ScrAllocationTag) { return NiPixelData::operator new(size); }
+__forceinline void* operator new(std::size_t size, ScrAllocationTag) { return ::operator new(size); }
 
 // Locks a render target surface, copies the pixel rows into a new NiPixelData buffer, and returns it.
 // @fnv 0x00e6f4e0
@@ -33572,7 +33553,7 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
     Data_e6da60* pkData, GeomData_e6da60* pkGeom)
 {
     unsigned int uiStreams = 0;
-    unsigned int uiSingle = 0;
+    uintptr_t uiSingle = 0;
     unsigned int ItemUpdateArray = 0;
     unsigned int uiSingleValue = 0;
     unsigned int uiOutC, uiOutD, uiOutE, uiOutF, uiOutG;
@@ -33625,7 +33606,7 @@ bool Renderer_e6da60::BuildPacket(Packet_e6da60* pkPacket, Model_e6da60* pkModel
     unsigned int j;
     for (j = 0; j < ItemUpdateArray; j++)
     {
-        if (!::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (unsigned int)(pkPacket)))
+        if (!::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkPacket)))
         {
             for (; j > 0; j--)
                 pkPacket->m_pkOwnerManager->ReleaseStream(pkPacket, j);
@@ -33675,12 +33656,12 @@ void StripRenderer::FUN_00e70720(StripGeometry* geometry)
     renderState->SetTransform(transform);
     if (colors) {
         if (rd->streamCount > 0) rd->strides[0] = 40;
-        renderState->SetFormat(((unsigned int)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790())),false);
-        reinterpret_cast<::Holder_00e8f040 *>((rd))->SetComPointer((::FakeCOM_00e8f040 *)(((unsigned int)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790()))));
+        renderState->SetFormat(((uintptr_t)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790())),false);
+        reinterpret_cast<::Holder_00e8f040 *>((rd))->SetComPointer((::FakeCOM_00e8f040 *)(((uintptr_t)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790()))));
     } else {
         if (rd->streamCount > 0) rd->strides[0] = 36;
-        renderState->SetFormat(((unsigned int)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0())),false);
-        reinterpret_cast<::Holder_00e8f040 *>((rd))->SetComPointer((::FakeCOM_00e8f040 *)(((unsigned int)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0()))));
+        renderState->SetFormat(((uintptr_t)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0())),false);
+        reinterpret_cast<::Holder_00e8f040 *>((rd))->SetComPointer((::FakeCOM_00e8f040 *)(((uintptr_t)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0()))));
     }
     rd->primitiveType = 5;
     shader->v90();
@@ -33689,7 +33670,7 @@ void StripRenderer::FUN_00e70720(StripGeometry* geometry)
     shader->v80(properties);
     shader->v84(properties);
     shader->v88(properties,true);
-    ::FUN_00e8bfa0((::Outer *)(vertexManager), (unsigned int)(rd));
+    ::FUN_00e8bfa0((::Outer *)(vertexManager), (uintptr_t)(rd));
     StripStream* stream;
     if (rd->streamCount > 0) stream = rd->streams[0];
     else stream = 0;
@@ -33803,7 +33784,7 @@ void LineRenderer::FUN_00e70be0(LineGeometry* pkLines)
     reinterpret_cast<::C_00e8f010 *>((pkBuffData))->FUN_00e8f010(uiFVF);
     if (pkBuffData->m_uiRegisterStreamCount > 0)
         pkBuffData->m_puiVertexStrides[0] = uiStride;
-    ::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (unsigned int)(pkBuffData));
+    ::FUN_00e8bfa0((::Outer *)(m_pShaderStreamInfo), (uintptr_t)(pkBuffData));
     LineVBInfo* pkVBInfo = (pkBuffData->m_uiRegisterStreamCount > 0) ? pkBuffData->m_ppkVBInfo[0] : 0;
     m_pCurrentRenderState->SetShaderDeclaration(pkBuffData->m_pkVertexDeclaration, false);
     if (!pkVBInfo->m_pkOwningStream)
@@ -34188,12 +34169,12 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
     }
     if (data == 0) return;
 
-    int m = a->m28;
-    int p4c = a->f4c;
-    unsigned int k_field_8 = a->f54;
-    int primitiveSize = a->unk020;
-    unsigned long p5c = a->f5c;
-    unsigned int p64 = a->f64;
+    intptr_t m = a->m28;
+    intptr_t p4c = a->f4c;
+    uintptr_t k_field_8 = a->f54;
+    intptr_t primitiveSize = a->unk020;
+    uintptr_t p5c = a->f5c;
+    uintptr_t p64 = a->f64;
 
     state->Begin(0);
     ::BuildTransformMatrix((float *)(void *)(&unk940), (*(const ::ThreeByThreeMatrix *)(&srcMaterial.m_kOrientation)), (*(const ::NiPoint3 *)(&srcMaterial.m_kTranslation)), srcMaterial.m_fScale);
@@ -34208,28 +34189,28 @@ void RendererE70140::FUN_00e70140(SceneArg* apSceneArg)
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::FUN_00e69790_shell *>(this)->FUN_00e69790()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x28;
-        ::FUN_00e8bfa0((::Outer *)(shader), (unsigned int)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
-        unsigned int ib = ((unsigned int)(reinterpret_cast<::Owner_e8bff0 *>((shader))->FUN_00e8bff0((::Holder_e8bff0 *)((unsigned int)j->Buffer()), (unsigned int)j->Offset(), overlay * 40, (unsigned int)j->Count())));
+        uintptr_t ib = ((uintptr_t)(reinterpret_cast<::Owner_e8bff0 *>((shader))->FUN_00e8bff0((::Holder_e8bff0 *)((uintptr_t)j->Buffer()), (unsigned int)j->Offset(), overlay * 40, (unsigned int)j->Count())));
         if (ib == 0) return;
         reinterpret_cast<::ParticleRenderer *>((this))->FUN_00e6ab40((::ParticleVertex *)(ib), (const ::ParticlePoint *)(primitiveSize), (const ::ColorA *)(m), (const float *)(p4c), (const float *)(k_field_8), (const float *)(p5c), (const unsigned char *)(p64), primitiveCount);
     } else {
         handle = ((::FakeCOM_00e8f040 *)(reinterpret_cast<::RendererDeclarationOwner *>(this)->FUN_00e696a0()));
         buffer->SetComPointer(handle);
         if (0 < buffer->streamSize) buffer->format[0] = 0x24;
-        ::FUN_00e8bfa0((::Outer *)(shader), (unsigned int)(buffer));
+        ::FUN_00e8bfa0((::Outer *)(shader), (uintptr_t)(buffer));
         StreamRecord* j = (buffer->streamSize > 0) ? (StreamRecord*)*buffer->current : 0;
         indexDest = &j->buffer;
         if (!j->Buffer()) return;
-        unsigned int ib = ((unsigned int)(reinterpret_cast<::Owner_e8bff0 *>((shader))->FUN_00e8bff0((::Holder_e8bff0 *)((unsigned int)j->Buffer()), (unsigned int)j->Offset(), 36 * overlay, (unsigned int)j->Count())));
+        uintptr_t ib = ((uintptr_t)(reinterpret_cast<::Owner_e8bff0 *>((shader))->FUN_00e8bff0((::Holder_e8bff0 *)((uintptr_t)j->Buffer()), (unsigned int)j->Offset(), 36 * overlay, (unsigned int)j->Count())));
         if (!ib) return;
         reinterpret_cast<::S00e69ea0_Rnd *>((this))->FUN_00e69ea0((::S00e69ea0_Vtx *)(ib), (const ::S00e69ea0_Pt *)(primitiveSize), (const ::S00e69ea0_Color *)(m), (const float *)(p4c), (const float *)(k_field_8), (const float *)(p5c), primitiveCount);
     }
 
     shader->CopyAndRelease(*(void**)indexDest);
-    int localFrame = (int)overlayArg->GetCommand();
+    intptr_t localFrame = (intptr_t)overlayArg->GetCommand();
     char* k = (char*)&apSceneArg->unk09c;
     overlayArg->BeginA(k);
     overlayArg->BeginB(k);

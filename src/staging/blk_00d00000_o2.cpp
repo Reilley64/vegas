@@ -699,10 +699,6 @@ void __cdecl FUN_00d1fa10()
 void FUN_00d043f0(int)
 {}
 
-inline void* operator new(unsigned int, void* address)
-{
-    return address;
-}
 
 struct ArrayAllocator
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/motor/velocity/hkpvelocityconstraintmotor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/motor/velocity/hkpvelocityconstraintmotor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "havok/hkpVelocityConstraintMotor.h"
 
 struct hkMemory_d861c0
@@ -26,10 +27,6 @@ struct Router_d861
     static hkThreadMemoryHolder_d861c0& __cdecl FUN_00c85750() throw();
 };
 
-inline void* operator new(unsigned int size, void* p)
-{
-    return p;
-}
 
 class hkReferencedObject_d861
 {

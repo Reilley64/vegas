@@ -1,5 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -106,7 +109,6 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 void ReleaseSpawnedRefs(void*);
@@ -116,7 +118,7 @@ void* FUN_00a7c450(void* pThis, int, unsigned int flags)
 {
     ReleaseSpawnedRefs(pThis);
     if (flags & 1)
-        NiMemObject::operator delete(pThis, 0x74);
+        ::operator delete(pThis, 0x74);
     return pThis;
 }
 
@@ -200,7 +202,7 @@ bool FUN_00a7bee0_cls::FUN_00a7bee0(unsigned int flags)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct SpawnedPixelData : NiObject
 {
@@ -230,10 +232,6 @@ struct SpawnedPixelData : NiObject
         unk6c = 0;
         unk64 = 0;
         unk68 = 1;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
     }
 };
 
@@ -298,7 +296,7 @@ static __forceinline void TransferData(NiStreamSerialization* stream, const void
 // @fnv 0x00a7c670
 void NiPixelDataSerialization::SaveToStream(NiStreamSerialization* stream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<NiObjectSerialization*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<NiObjectSerialization*>(this)));
     reinterpret_cast<::FUN_00a7d1a0_Class *>((reinterpret_cast<NiPixelFormatSerialization*>(&m_kPixelFormat)))->FUN_00a7d1a0((*(::NiStream *)(stream)));
     stream->SavePalette(m_spPalette.value);
 
@@ -671,7 +669,7 @@ struct PixelDataBE80 : public RendererDataBase_s
 // @fnv 0x00a7be80
 void PixelDataBE80::FUN_00a7be80(NiStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     m_spPalette = reinterpret_cast<::NiStream *>(&(kStream))->GetLoadedObject();
 }
 
@@ -837,7 +835,6 @@ class NiPalette : public NiObject
     unsigned int unk1C;
     unsigned int unk20;
     NiPalette(const NiPalette& src) throw();
-    static void* __cdecl operator new(unsigned int size);
     void IncRefCount()
     {
         InterlockedIncrement((LONG*)&m_uiRefCount);

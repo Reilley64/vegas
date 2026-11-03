@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -183,7 +184,7 @@ unsigned int __cdecl GetAttributeTypeForMapping(void*, unsigned int*, unsigned i
 unsigned int UpdateEntryFromKey(FUN_00e82ac0_e* pEntry)
 {
     void* x;
-    unsigned int uiKey = pEntry->key;
+    uintptr_t uiKey = pEntry->key;
     unsigned int y = 0;
     unsigned int z;
     if (::LookupShaderConstantMapping((const char *)(uiKey), (unsigned int *)&(x)))
@@ -464,7 +465,6 @@ struct FUN_00a9beb0
 {
     unsigned int a, b;
     virtual ~FUN_00a9beb0();
-    static void operator delete(void* p, unsigned int n);
 };
 // @fnv 0x00a9beb0
 FUN_00a9beb0::~FUN_00a9beb0()
@@ -500,12 +500,12 @@ struct FUN_00b7e330 : ShaderMapBase
     ShaderMapArray activeEntries, definedEntries;
     unsigned char enabled, unk2d, unk2e, unk2f;
     unsigned int unk30, unk34, unk38, unk3c, unk40;
-    FUN_00b7e330(unsigned int, unsigned int);
+    FUN_00b7e330(uintptr_t, unsigned int);
     virtual void MapVirtual();
 };
 // Constructs a shader map by initializing base state, calling FUN_00e81d00 with mapId, and preparing activeEntries.
 // @fnv 0x00b7e330
-FUN_00b7e330::FUN_00b7e330(unsigned int mapId, unsigned int initMode)
+FUN_00b7e330::FUN_00b7e330(uintptr_t mapId, unsigned int initMode)
     : ShaderMapBase(initMode), activeEntries(), definedEntries(), unk30(0), unk34(0), unk38(0), unk3c(0), unk40(0)
 {
     enabled = 1;
@@ -606,7 +606,6 @@ struct FUN_00e81f10_shell : public NiD3DShaderConstantMap
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CtorShim
 {
@@ -671,7 +670,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
                                               char* pszVariableName, unsigned int uiConstantDataSize,
                                               unsigned int uiDataStride, void* pvDataSource, bool bCopyData)
 {
-    void* mem = BSFadeNode::operator new(0x38);
+    void* mem = ::operator new(0x38);
     NiShaderConstantMapEntry* pkEntry = mem ? new ((void *)(((CtorShim*)mem))) ::NiShaderConstantMapEntry() : 0;
     EntryLayout* e = (EntryLayout*)pkEntry;
     e->m_kControlPoint = pszKey;
@@ -979,7 +978,7 @@ unsigned int FUN_00e821e0_shell::FUN_00e821e0(char* pszKey, unsigned int uiFlags
     else
     {
         unsigned int uiConstantType = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[uiEntryFlags & 0xff];
-        ::AcquireGlobalConstantEntry((const ::NiFixedString *)&(const ::FixedStrS &)(pszKey), uiConstantType, uiConstantDataSize, (unsigned int)(pvDataSource));
+        ::AcquireGlobalConstantEntry((const ::NiFixedString *)&(const ::FixedStrS &)(pszKey), uiConstantType, uiConstantDataSize, (uintptr_t)(pvDataSource));
     }
     return m_eErrorCode;
 }
@@ -1049,7 +1048,6 @@ struct Entry311
     String311 alternative;
     unsigned int unk28, unk2c, unk30, unk34;
     __declspec(nothrow) Entry311() throw();
-    __declspec(noalias) __declspec(nothrow) static void* operator new(unsigned int) throw();
 };
 struct Map311
 {
@@ -1283,7 +1281,7 @@ unsigned int InitShaderConstantEntry(ShaderConstEntry* apEntry)
 {
     unsigned int count = 4;
     unsigned int type;
-    unsigned int key = apEntry->key;
+    uintptr_t key = apEntry->key;
     if (!::NiShaderConstantMap::FindConstantMapping((const char *)(key), (*(unsigned int *)(&type)), (*(unsigned int *)(&count))))
         return 0x40;
     apEntry->flags = (apEntry->flags & 0xffffff00) | (*reinterpret_cast<unsigned char (*)[]>(&::DAT_011f5fb4))[FUN_00a9bbf0(type, count)];
@@ -1347,7 +1345,7 @@ struct Vector
 extern Matrix DAT_0126f860;
 // Computes a matrix or vector constant based on type and mode, applies inverse or transpose in some matrix cases, and passes it to SetConstant.
 // @fnv 0x00e82b40
-unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int type, unsigned int mode,
+unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, uintptr_t type, unsigned int mode,
                                     bool inverse, bool transpose)
 {
     switch (type)
@@ -1420,13 +1418,9 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int typ
     return 1;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
-inline void* operator new(unsigned int, void* location)
-{
-    return location;
-}
 
 struct FUN_00e81ba0
 {
@@ -1978,7 +1972,7 @@ unsigned int TexConstantMap::FUN_00e84ba0(TexProgram* prog, TexEntry* entry, NiA
         {
             tex = geom->GetExtraData(entry->key);
             if (tex)
-                reinterpret_cast<::FUN_00e80640_cls *>((cache))->AddEntry(entry->unk1c, pass, unk08, (unsigned int)(tex), global);
+                reinterpret_cast<::FUN_00e80640_cls *>((cache))->AddEntry(entry->unk1c, pass, unk08, (uintptr_t)(tex), global);
         }
     }
     else
@@ -2941,7 +2935,7 @@ struct S00e85c40_Obj
 };
 
 extern char DAT_0126f770;
-bool __cdecl FillLightConstantData(void* data, unsigned int pitch, void* src, unsigned int fmt, int p3, int p4, int p5,
+bool __cdecl FillLightConstantData(void* data, unsigned int pitch, void* src, uintptr_t fmt, int p3, int p4, int p5,
                                    int p6, int p7, unsigned int p8, int p9, int p10, int p11);
 
 static unsigned int Dbl(unsigned int x)
@@ -2952,13 +2946,13 @@ static unsigned int Dbl(unsigned int x)
 // Gets a format and dimensions, calls FillLightConstantData with the source and derived pitch, then passes the buffer to obj->s1d.
 // @fnv 0x00e85c40
 int FUN_00e85c40(S00e85c40_Obj* obj, S00e85c40_Tex* tex, int p3, int p4, int p5, int p6, int p7,
-                           unsigned int auiLightType, int p9, int p10, int p11)
+                           uintptr_t auiLightType, int p9, int p10, int p11)
 {
     int result = 0;
     unsigned int m18 = tex->m_18;
     unsigned int idx = tex->m_15;
     unsigned int uiTableEntry = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5f90))[idx];
-    unsigned int fmt = ((unsigned int)(::GetLightByType((::ShaderLights *)(auiLightType), uiTableEntry, m18)));
+    uintptr_t fmt = ((uintptr_t)(::GetLightByType((::ShaderLights *)(auiLightType), uiTableEntry, m18)));
     void* src = tex->m_10;
     unsigned int w, h;
     if (!GetAttributeTypeForMapping(src, &w, &h))
@@ -2989,7 +2983,7 @@ struct FUN_00e86a50_object
 
 // Copies the float data from object into the matching slot of g_0126f7c4 based on the type code and returns that code.
 // @fnv 0x00e86a50
-unsigned int FUN_00e86a50(unsigned int index, FUN_00e86a50_object* object, unsigned int unused)
+unsigned int FUN_00e86a50(uintptr_t index, FUN_00e86a50_object* object, uintptr_t unused)
 {
     float* source = object->data;
     unsigned int type = (*reinterpret_cast<unsigned int (*)[]>(&::DAT_011f5fc4))[object->type & 0xff];
@@ -3111,12 +3105,12 @@ struct SCMapEntry
 struct SCConstantMap
 {
     int LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, SCGeometry* apGeometry, void* apSkin,
-                     void* apPartition, void* apBuffData, unsigned int auiPass, void* apState);
+                     void* apPartition, void* apBuffData, uintptr_t auiPass, void* apState);
 };
 
 // @fnv 0x00e86ca0
 int SCConstantMap::LoadConstant(unsigned int auiRegister, SCMapEntry* apEntry, SCGeometry* apGeometry, void* apSkin,
-                                void* apPartition, void* apBuffData, unsigned int auiPass, void* apState)
+                                void* apPartition, void* apBuffData, uintptr_t auiPass, void* apState)
 {
     if (!apGeometry)
         return 1;
@@ -3386,14 +3380,14 @@ struct FUN_00e87220_shell
 
     unsigned int FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry, const void* pkSkin,
                               const void* pkState, const void* pkEffects, const void* kWorld, const void* kWorldBound,
-                              unsigned int uiPass);
+                              uintptr_t uiPass);
 };
 
 // Resolves two operand entries, dispatches their evaluation by type, then applies the operator to the shader program and returns the result.
 // @fnv 0x00e87220
 unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* pkEntry, void* pkGeometry,
                                               const void* pkSkin, const void* pkState, const void* pkEffects,
-                                              const void* kWorld, const void* kWorldBound, unsigned int uiPass)
+                                              const void* kWorld, const void* kWorldBound, uintptr_t uiPass)
 {
     unsigned int uiExtra = pkEntry->m_uiValue2;
     bool bInverse = (uiExtra & 0x02000000) != 0;
@@ -3423,15 +3417,15 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
         unsigned int uiOperand1Type = pkEntry1->m_uiValue1 & 0xf0000000;
         if (uiOperand1Type == 0x40000000)
         {
-            ::FUN_00e86a50((unsigned int)this, (::FUN_00e86a50_object *)(false), (unsigned int)(pkEntry1));
+            ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(false), (uintptr_t)(pkEntry1));
         }
         else if (uiOperand1Type == 0x30000000)
         {
-            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (unsigned int)(kWorldBound), (void *)(uiPass));
+            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
         }
         else if (uiOperand1Type == 0x10000000)
         {
-            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (unsigned int)(kWorldBound), (void *)(uiPass));
+            reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(false, (::SCMapEntry *)(pkEntry1), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
         }
     }
 
@@ -3443,15 +3437,15 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
     }
     else if (uiOperand2Type == 0x30000000)
     {
-        reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(true, (::SCMapEntry *)(pkEntry2), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (unsigned int)(kWorldBound), (void *)(uiPass));
+        reinterpret_cast<::SCConstantMap *>(this)->LoadConstant(true, (::SCMapEntry *)(pkEntry2), (::SCGeometry *)(pkGeometry), (void *)(pkSkin), (void *)(pkState), (void *)(kWorld), (uintptr_t)(kWorldBound), (void *)(uiPass));
     }
     else if (uiOperand2Type == 0x40000000)
     {
-        ::FUN_00e86a50((unsigned int)this, (::FUN_00e86a50_object *)(true), (unsigned int)(pkEntry2));
+        ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(true), (uintptr_t)(pkEntry2));
     }
     else if (uiOperand2Type == 0x10000000)
     {
-        ::FUN_00e86a50((unsigned int)this, (::FUN_00e86a50_object *)(true), (unsigned int)(pkEntry2));
+        ::FUN_00e86a50((uintptr_t)this, (::FUN_00e86a50_object *)(true), (uintptr_t)(pkEntry2));
     }
 
     if (!eType1 || !eType2)
@@ -3463,13 +3457,13 @@ unsigned int FUN_00e87220_shell::FUN_00e87220(void* pkShaderProgram, OpCEntry* p
     switch (uiOperator)
     {
     case 0x10000000:
-        return ::FUN_00e82b40((::FUN_00e84b60_prog *)this, pkShaderProgram, (unsigned int)(pkEntry), eType1, eType2, bTranspose);
+        return ::FUN_00e82b40((::FUN_00e84b60_prog *)this, pkShaderProgram, (uintptr_t)(pkEntry), eType1, eType2, bTranspose);
     case 0x20000000:
-        return ((unsigned int)(::FUN_00e82e70((::ConstantTarget *)this, (int)(pkShaderProgram), (int)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::FUN_00e82e70((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
     case 0x30000000:
-        return ((unsigned int)(::SetConstantSum((::ConstantTarget *)this, (int)(pkShaderProgram), (int)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::SetConstantSum((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
     case 0x40000000:
-        return ((unsigned int)(::FUN_00e83320((::ConstantTarget *)this, (int)(pkShaderProgram), (int)(pkEntry), eType1, eType2, bTranspose)));
+        return ((unsigned int)(::FUN_00e83320((::ConstantTarget *)this, (intptr_t)(pkShaderProgram), (intptr_t)(pkEntry), eType1, eType2, bTranspose)));
     }
     return 1;
 }

@@ -67,24 +67,28 @@
 #include "fnv/decl/fnv_00c3cf60__FUN_00c3cf60_shell.h"
 struct FUN_006fa840_shell
 {
+    char pad[0x5d];
+    unsigned char ucUnk5d;
     unsigned char GetByteAt5D();
 };
 
 // @fnv 0x006fa840
 unsigned char FUN_006fa840_shell::GetByteAt5D()
 {
-    return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x5d);
+    return ucUnk5d;
 }
 
 struct FUN_006fb150_shell
 {
+    char pad[0x5c];
+    unsigned char ucUnk5c;
     unsigned char GetByteAtOffset5C();
 };
 
 // @fnv 0x006fb150
 unsigned char FUN_006fb150_shell::GetByteAtOffset5C()
 {
-    return ((unsigned char*)this)[0x5c];
+    return ucUnk5c;
 }
 
 struct NiAVObject
@@ -93,31 +97,36 @@ struct NiAVObject
 
 struct Flt
 {
+    void* m_pObject;
     operator unsigned int() const;
 };
 
 struct FUN_006fb6e0_shell
 {
+    const void* pVtable;
+    Flt aspNodes[3];
     void SetAllAppCulled();
 };
 
-// For each of the three pointers at offsets 4, 8 and 12, if non-null, calls SetAppCulled(true) on it.
+// For each of the three aspNodes pointers, if non-null, calls SetAppCulled(true) on it.
 // @fnv 0x006fb6e0
 void FUN_006fb6e0_shell::SetAllAppCulled()
 {
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
+    if (aspNodes[0].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())))->QueueActorDisarm(true);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
+            aspNodes[0].operator unsigned int())))->QueueActorDisarm(true);
+    if (aspNodes[1].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())))->QueueActorDisarm(true);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
+            aspNodes[1].operator unsigned int())))->QueueActorDisarm(true);
+    if (aspNodes[2].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())))->QueueActorDisarm(true);
+            aspNodes[2].operator unsigned int())))->QueueActorDisarm(true);
 }
 
 struct FUN_006fb940_shell
 {
+    char pad[0xf0];
+    float afUnkF0[3];
     void FUN_006fb940(float a, float b, float c);
 };
 
@@ -125,9 +134,9 @@ struct FUN_006fb940_shell
 // @fnv 0x006fb940
 void FUN_006fb940_shell::FUN_006fb940(float a, float b, float c)
 {
-    *(float*)((char*)this + 0xf0) = a;
-    *(float*)((char*)this + 0xf4) = b;
-    *(float*)((char*)this + 0xf8) = c;
+    afUnkF0[0] = a;
+    afUnkF0[1] = b;
+    afUnkF0[2] = c;
 }
 
 struct QueuedFileEntry
@@ -140,6 +149,8 @@ struct BGSTerrainChunkLoadTask : QueuedFileEntry
     int iX;
     int iY;
     int iLevel;
+    void* unk40;
+    void* pUnk44;
     bool FUN_006fc400(char* apDescription, unsigned int aiBufferSize);
 };
 
@@ -338,21 +349,23 @@ void __cdecl BuildLodNormalTexturePath(char* pBuffer, FakeFab* pNameSource, int 
 
 struct FUN_006fb760_shell
 {
+    const void* pVtable;
+    Flt aspNodes[3];
     void FUN_006fb760();
 };
 // For each of the three object pointers at offsets 4, 8 and 12, if non-null, calls SetAppCulled(false) on it.
 // @fnv 0x006fb760
 void FUN_006fb760_shell::FUN_006fb760()
 {
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())
+    if (aspNodes[0].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 4)->operator unsigned int())))->QueueActorDisarm(false);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())
+            aspNodes[0].operator unsigned int())))->QueueActorDisarm(false);
+    if (aspNodes[1].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 8)->operator unsigned int())))->QueueActorDisarm(false);
-    if (reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())
+            aspNodes[1].operator unsigned int())))->QueueActorDisarm(false);
+    if (aspNodes[2].operator unsigned int())
         reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<NiAVObject*>(
-            reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 12)->operator unsigned int())))->QueueActorDisarm(false);
+            aspNodes[2].operator unsigned int())))->QueueActorDisarm(false);
 }
 
 struct S_006fbae0
@@ -362,25 +375,31 @@ struct S_006fbae0
 };
 struct FUN_006fbcd0_shell
 {
+    char pad[0x58];
+    bool bUnk58;
     void SetFlagAndCall(int a, int b);
 };
 // Sets the bool at offset 0x58 to true, then forwards both arguments to FUN_00c3cb70.
 // @fnv 0x006fbcd0
 void FUN_006fbcd0_shell::SetFlagAndCall(int aiArg1, int aiArg2)
 {
-    *(bool*)((char*)this + 0x58) = true;
+    bUnk58 = true;
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg1, (::fnv_00c3cb70::RefObj *)(aiArg2));
 }
 
 struct FUN_006fbfe0_shell
 {
+    char pad[0xc8];
+    unsigned int uiUnkC8;
+    char padCC;
+    unsigned char ucUnkCd;
     unsigned int GetFlagOrValue();
 };
 // Returns 1 if the byte at offset 0xcd is set, otherwise returns the unsigned int at offset 0xc8.
 // @fnv 0x006fbfe0
 unsigned int FUN_006fbfe0_shell::GetFlagOrValue()
 {
-    return ((unsigned char*)this)[0xcd] ? 1 : *(unsigned int*)((char*)this + 0xc8);
+    return ucUnkCd ? 1 : uiUnkC8;
 }
 
 struct IOTask
@@ -609,7 +628,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
 
     BuildLODDiffuseTexturePath(
         pdiffuseTextureFileName,
-        reinterpret_cast<FakeObj*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x44)), iLevel,
+        reinterpret_cast<FakeObj*>(pUnk44), iLevel,
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pdiffuseTextureFileName,
@@ -618,7 +637,7 @@ void FUN_006fbbd0_shell::LoadTerrainChunkTextures()
 
     BuildLodNormalTexturePath(
         pnormalTextureFileName,
-        reinterpret_cast<FakeFab*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x44)), iLevel,
+        reinterpret_cast<FakeFab*>(pUnk44), iLevel,
         static_cast<unsigned short>(iX), static_cast<unsigned short>(iY));
 
     reinterpret_cast<::fnv_004436c0::FUN_004436c0_Class *>((::g_modelLoader))->LoadTexture(pnormalTextureFileName,

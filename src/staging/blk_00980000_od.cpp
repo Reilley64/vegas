@@ -5301,7 +5301,7 @@ bool Arr994350::InsertSortedEntry(int aiStartIndex, KeyObj* apKey, void* aiValue
             {
                 ItemObj* head1 = *((::ItemObj **)(((::Vec3 *)(void *)(lstA))));
                 int res1 = reinterpret_cast<::FUN_009947f0_Class *>((apCtx))->FUN_009947f0(((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((head1))->FUN_00726070())), {});
-                ListObj* obj34 = ((::ListObj *)(::GetOffsetC((int)(v0))));
+                ListObj* obj34 = ((::ListObj *)(::GetOffsetC((std::intptr_t)(v0))));
                 while (obj34 && *((::ItemObj **)(((::Vec3 *)(void *)(obj34)))) != 0)
                 {
                     ItemObj* item34 = *((::ItemObj **)(((::Vec3 *)(void *)(obj34))));
@@ -8544,7 +8544,7 @@ bool FindCombatPosition(Actor* owner, float range, bool quiet)
     float extentSlot0 = ::DAT_010236e0;
     float widthSlot19 = ::g_011c7b14_arg1;
     int limitSlot0 = 200;
-    Actor* actorSlot12 = ((::CombatPosition::Actor *)(::GetOffsetC((int)(owner))));
+    Actor* actorSlot12 = ((::CombatPosition::Actor *)(::GetOffsetC((std::intptr_t)(owner))));
     Actor* target = ((::CombatPosition::Actor *)(::FUN_006a9540((char *)(owner))));
     Path* pathSlot25 = ((::CombatPosition::Path *)(reinterpret_cast<::_Dummy_0069e390 *>((owner))->GetString()));
     Context* context = ((::CombatPosition::Context *)(reinterpret_cast<::FUN_0068efb0_shell *>((owner))->FUN_0068efb0()));
@@ -9662,7 +9662,7 @@ void DebugTree::FUN_00995ef0(int parent, DebugNode* node)
                 {
                     bool marked;
                     {
-                        DebugName* name = *((::DebugName **)(::GetOffsetC((int)(node))));
+                        DebugName* name = *((::DebugName **)(::GetOffsetC((std::intptr_t)(node))));
                         name->label->Format(label, 260, name->detail);
                         marked = reinterpret_cast<::FUN_009962f0_s *>((membership))->f((*(::NavMesh *const *)(((::CombatStateHash **)(reinterpret_cast<::TESTopicInfoData *>((node))->GetLinkToList())))));
                         FUN_00406d00(text, 260, "%s [ %i ] (%.2f) %s", label, count, cost, marked ? "***" : "");

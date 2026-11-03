@@ -32,7 +32,7 @@ struct FUN_00c903b0_Class
 {
 };
 extern intptr_t DAT_011b3dec;
-extern "C" void __cdecl FUN_00cbb990();
+extern "C" int __cdecl FUN_00cbb990();
 extern "C" void __cdecl FUN_00cbbbd0();
 // @fnv 0x00cbbcb0
 int __cdecl ShutdownIfInitialized()
@@ -155,12 +155,12 @@ inline void* hkAlloc(int n)
 }
 
 // @fnv 0x00cbbee0
-ObjB* FUN_00cbbee0(int a)
+ObjB* FUN_00cbbee0(const char* a)
 {
     LocalBuf localBuf;
     reinterpret_cast<::BufferOwner *>(&(localBuf))->InitBuffer();
     ObjA* objA = (ObjA*)hkAlloc(sizeof(ObjA));
-    ObjA* src = ((::ObjA *)(reinterpret_cast<::Candidate *>((objA))->OpenFile((const char *)(DAT_011b3dc0(a, &localBuf)))));
+    ObjA* src = ((::ObjA *)(reinterpret_cast<::Candidate *>((objA))->OpenFile(DAT_011b3dc0(a, &localBuf))));
     ObjB* objB = (ObjB*)hkAlloc(sizeof(ObjB));
     ObjB* result = ((::ObjB *)(new ((void *)(objB)) ::hkBufStreamWriterD274((::hkStreamWriterD274 *)(src), 0x1000)));
     reinterpret_cast<::hkReferencedObjectC905 *>((src))->FUN_00c905b0();
@@ -285,7 +285,7 @@ extern "C" void __cdecl FUN_00cbbbd0()
         heap.ReturnMemory(pendingList.m_data, (pendingList.m_iCapacityState & 0x3fffffff) * 4);
 }
 
-extern int DAT_01268790;
+extern intptr_t DAT_01268790;
 struct SpawnedListNode
 {
     int m_00;

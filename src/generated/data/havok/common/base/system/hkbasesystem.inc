@@ -6,9 +6,9 @@ extern "C" void fnv_fn_00d2b330() __asm__("?CallAndGetId@@YAHHPEAUFUN_00d61840_c
 extern "C" void fnv_fn_00da25a0() __asm__("?FUN_00da25a0@@YA?AW4DirectoryResult@@PEBDAEAUDirectoryOutput@@@Z");
 
 void *DAT_011b3dbc = reinterpret_cast< void *>(&fnv_fn_00da25a0);
-int (*DAT_011b3dc0)(int, LocalBuf *) = reinterpret_cast< int (*)(int, LocalBuf *)>(&fnv_fn_00d2b330);
+const char *(*DAT_011b3dc0)(const char *, LocalBuf *) = reinterpret_cast< const char *(*)(const char *, LocalBuf *)>(&fnv_fn_00d2b330);
 intptr_t DAT_011b3dec = 0;
 ::FUN_00dcc670_Manager *DAT_01268364;
-namespace fnv_00cbbb10 { int DAT_01268410; }
-int DAT_01268790;
+namespace fnv_00cbbb10 { intptr_t DAT_01268410; }
+intptr_t DAT_01268790;
 bool DAT_01268a44;

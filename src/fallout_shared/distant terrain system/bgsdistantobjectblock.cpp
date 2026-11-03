@@ -231,24 +231,28 @@ void __cdecl FormatStingerBlockPath(char* apOutput, TESWorldSpace* apWorld, int 
 
 struct FUN_006f6070_shell
 {
+    char pad[0x23];
+    unsigned char ucUnk23;
     unsigned char GetByteAtOffset35();
 };
 
 // @fnv 0x006f6070
 unsigned char FUN_006f6070_shell::GetByteAtOffset35()
 {
-    return ((unsigned char*)this)[0x23];
+    return ucUnk23;
 }
 
 struct FUN_006f6520_shell
 {
+    char pad[0xdf2];
+    char cUnkDf2;
     char GetByteAtOffset();
 };
 
 // @fnv 0x006f6520
 char FUN_006f6520_shell::GetByteAtOffset()
 {
-    return ((char*)this)[0xdf2];
+    return cUnkDf2;
 }
 
 struct BGSDistantObjectBlockLoadTask
@@ -261,19 +265,21 @@ struct BGSDistantObjectBlockLoadTask
 namespace fnv_006f71a0 {
 struct BGSDistantObjectBlockLoadTask
 {
+    char pad[0x50];
+    unsigned char ucStarted;
     void RunOnce(void* apTaskState, void* apTaskOwner);
 };
 
-// If the byte at offset 0x50 is unset, sets it to 1 and calls FUN_00c3cb70 with the task state and owner; otherwise does nothing.
+// If ucStarted is unset, sets it to 1 and calls FUN_00c3cb70 with the task state and owner; otherwise does nothing.
 // @fnv 0x006f71a0
 void BGSDistantObjectBlockLoadTask::RunOnce(void* apTaskState, void* apTaskOwner)
 {
-    if (*(unsigned char*)((char*)this + 0x50))
+    if (ucStarted)
     {
     }
     else
     {
-        *(unsigned char*)((char*)this + 0x50) = 1;
+        ucStarted = 1;
         reinterpret_cast<::fnv_00c3cb70::IOTask *>((this))->FUN_00c3cb70((std::intptr_t)(apTaskState), (::fnv_00c3cb70::RefObj *)(apTaskOwner));
     }
 }
@@ -281,13 +287,15 @@ void BGSDistantObjectBlockLoadTask::RunOnce(void* apTaskState, void* apTaskOwner
 
 struct FUN_006f73b0_shell
 {
+    char pad[0x24];
+    char cFlag24;
     void SetFlag();
 };
 
 // @fnv 0x006f73b0
 void FUN_006f73b0_shell::SetFlag()
 {
-    ((char*)this)[0x24] = 1;
+    cFlag24 = 1;
 }
 
 // Formats a landscape LOD block NIF path from the worldspace's stinger block file name, level and cell coordinates into apOutput.
@@ -331,6 +339,10 @@ struct Flt
 
 struct FUN_006f5800_shell
 {
+    char pad[8];
+    void* spUnk08;
+    void* unk0c;
+    void* spUnk10;
     std::uintptr_t GetSelectedValue(bool abFlag);
 };
 
@@ -338,7 +350,7 @@ struct FUN_006f5800_shell
 // @fnv 0x006f5800
 std::uintptr_t FUN_006f5800_shell::GetSelectedValue(bool abFlag)
 {
-    Flt* pFlt = abFlag ? (Flt*)((char*)this + 0x10) : (Flt*)((char*)this + 8);
+    Flt* pFlt = abFlag ? reinterpret_cast<Flt*>(&spUnk10) : reinterpret_cast<Flt*>(&spUnk08);
     return *pFlt;
 }
 
@@ -1362,6 +1374,8 @@ struct FUN_006e5cc0_shell
 
 struct FUN_006f6250_shell
 {
+    char pad[0x4c];
+    char kUnk4c[4];
     void FUN_006f6250(FUN_006e5cc0_shell* apObject);
 };
 // @fnv 0x006f6150
@@ -1397,7 +1411,7 @@ void Owner::UpdateReferences(bool update)
 // @fnv 0x006f6250
 void FUN_006f6250_shell::FUN_006f6250(FUN_006e5cc0_shell* apObject)
 {
-    apObject->FUN_006e5cc0((void*)((char*)this + 0x4c));
+    apObject->FUN_006e5cc0((void*)kUnk4c);
 }
 
 namespace fnv_006f6270 {

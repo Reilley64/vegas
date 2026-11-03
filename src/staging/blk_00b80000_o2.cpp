@@ -955,17 +955,17 @@ FUN_00b917c0::FUN_00b917c0()
 void FUN_00c03a20();
 struct FUN_00b918c0_Class
 {
-    int FUN_00b918c0(bool flag);
+    void* FUN_00b918c0(bool flag);
 };
 // @fnv 0x00b918c0
-int FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
+void* FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b4de8;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b4dc8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
-    return (int)this;
+    return this;
 }
 
 namespace fnv_00b91900 {
@@ -1333,9 +1333,8 @@ struct FUN_00b92b90
 // @fnv 0x00b92b90
 FUN_00b92b90::FUN_00b92b90(bool abDelete)
 {
-    int* p = (int*)this;
-    *p = (int)&DAT_010b61f0;
-    p[0x6c / 4] = (int)&DAT_010b61d0;
+    *(void**)this = (void*)&DAT_010b61f0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b61d0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1545,17 +1544,17 @@ extern int DAT_010b6d70;
 void FUN_00c03a20();
 struct FUN_00b93710_class
 {
-    int FUN_00b93710(bool flag);
+    void* FUN_00b93710(bool flag);
 };
 // @fnv 0x00b93710
-int FUN_00b93710_class::FUN_00b93710(bool abFree)
+void* FUN_00b93710_class::FUN_00b93710(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b6d90;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6d70;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
-    return (int)this;
+    return this;
 }
 
 extern int DAT_010b6f38;
@@ -1930,9 +1929,8 @@ struct FUN_00b8dc30_class : public ImageSpaceEffectShader
 // @fnv 0x00b8dc30
 FUN_00b8dc30_class::FUN_00b8dc30_class()
 {
-    int* v = (int*)this;
-    v[0] = (int)&DAT_010b0ec0;
-    v[0x1b] = (int)&DAT_010b0e9c;
+    *(void**)this = (void*)&DAT_010b0ec0;
+    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b0e9c;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
 }
 
@@ -2583,9 +2581,9 @@ FUN_00b9b930_class* FUN_00b9b930_class::FUN_00b9b930(bool abDelete)
 
 
 // @fnv 0x00b811e0
-int __cdecl FUN_00b811e0()
+intptr_t __cdecl FUN_00b811e0()
 {
-    return reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::g_011ff0f4)));
+    return reinterpret_cast<intptr_t>(&::g_011ff0f4);
 }
 
 struct FUN_00b811f0_cls
@@ -20349,7 +20347,7 @@ static float WeightUpperBound(float limit, float x)
 // @fnv 0x00b9d150
 void B9D150::UpdateOutputLight(B9List* lights, B9Point3 position)
 {
-    B9Bounds* bounds = ((::B9Bounds *)(reinterpret_cast<::NiAVObject *>((object))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<int *>(&::g_pkString_c55)))))));
+    B9Bounds* bounds = ((::B9Bounds *)(reinterpret_cast<::NiAVObject *>((object))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
     position = object->worldPosition;
     if (bounds)
     {

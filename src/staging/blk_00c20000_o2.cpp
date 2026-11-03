@@ -696,7 +696,7 @@ void* FUN_00c30790(void)
     if (p)
     {
         new ((void *)(p)) ::FUN_00c32d80();
-        *(int*)p = (int)&(*reinterpret_cast<int *>(&::g_010c06e4));
+        *(void**)p = (void*)&::g_010c06e4;
         return p;
     }
     return 0;
@@ -951,7 +951,7 @@ NiPSysModifierC2D* CreateNiPSysModC2D()
 
 struct FUN_00c2e550_StandIn
 {
-    unsigned int FUN_00c2e550(unsigned char flags);
+    void* FUN_00c2e550(unsigned char flags);
 };
 
 void __cdecl FUN_00aa1460(void* object, unsigned int size);
@@ -1218,14 +1218,14 @@ struct PositionState : NiObject_Helper
     void FUN_00c31750();
 };
 // @fnv 0x00c2e550
-unsigned int FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
+void* FUN_00c2e550_StandIn::FUN_00c2e550(unsigned char flags)
 {
-    static_cast<::PositionState *>(nullptr)->FUN_00c31750();
+    reinterpret_cast<::PositionState *>(this)->FUN_00c31750();
     if ((flags & 1) != 0)
     {
         FUN_00aa1460(this, 0x38);
     }
-    return reinterpret_cast<unsigned int>(this);
+    return this;
 }
 // Sets the vtable pointer, decrements the name string's refcount unless it is DAT_0109b220, then calls FUN_00a5d3d0.
 // @fnv 0x00c31750

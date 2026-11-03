@@ -84,8 +84,11 @@ struct RefObj
     void RetainReference(void);
 };
 
+// hkpPrismaticConstraintData::setMotor: the motor reference is m_atoms.m_motor.m_motor at +0xac.
 struct FUN_00d4f850_class : hkReferencedObject
 {
+    char pad08[0xa4];
+    hkReferencedObject* m_linMotorMotor;  // +0xac
     void SetReferencedObject(hkReferencedObject* obj);
 };
 
@@ -94,9 +97,9 @@ void FUN_00d4f850_class::SetReferencedObject(hkReferencedObject* apObject)
 {
     if (apObject)
         ((RefObj*)apObject)->RetainReference();
-    if (*(DDCC60World**)((char*)this + 0xac))
-        reinterpret_cast<::hkReferencedObjectC905 *>(((*(DDCC60World**)((char*)this + 0xac))))->FUN_00c905b0();
-    *(hkReferencedObject**)((char*)this + 0xac) = apObject;
+    if (m_linMotorMotor)
+        reinterpret_cast<::hkReferencedObjectC905 *>(m_linMotorMotor)->FUN_00c905b0();
+    m_linMotorMotor = apObject;
 }
 }  // namespace fnv_00d4f850
 

@@ -680,12 +680,12 @@ unsigned int FUN_00476be0_Class::FUN_00476be0()
 struct FUN_00476c70_Class
 {
     char pad[0xe0];
-    int unke0;
-    void FUN_00476c70(int value);
+    intptr_t unke0;
+    void FUN_00476c70(intptr_t value);
 };
 
 // @fnv 0x00476c70
-void FUN_00476c70_Class::FUN_00476c70(int value)
+void FUN_00476c70_Class::FUN_00476c70(intptr_t value)
 {
     unke0 = value;
 }

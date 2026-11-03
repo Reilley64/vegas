@@ -1,5 +1,6 @@
 # Fallout game units in the game library (VEGAS-19). A pointer must never be narrowed to a 32-bit integer.
 set(VEGAS19_FALLOUT_SOURCES
+  src/fallout/ai/actor.cpp
   src/fallout/ai/actor_h_unit.cpp
   src/fallout/ai/actor_magic.cpp
   src/fallout/ai/actorpackage.cpp
@@ -258,7 +259,6 @@ set_source_files_properties(${VEGAS19_FALLOUT_SOURCES} PROPERTIES
 # These units still pass pointers through 32-bit integers, so they build without the narrowing errors.
 # Move each unit to the list above once it builds with them.
 set(VEGAS19_FALLOUT_NARROWING_SOURCES
-  src/fallout/ai/actor.cpp
 )
 target_sources(game PRIVATE ${VEGAS19_FALLOUT_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS19_FALLOUT_NARROWING_SOURCES} PROPERTIES

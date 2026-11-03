@@ -5754,9 +5754,9 @@ BlendSequence* BlendAnimation::FUN_004949a0(BlendSequence* apSequence, unsigned 
     BlendSequence* previous2 = sequences[section3];
     int previousType = FUN_005f2440(groups[section3]);
     bool synchronize = false;
-    int state = 0;
+    std::intptr_t state = 0;
     if (previous2)
-        state = ((int)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget()));
+        state = ((std::intptr_t)(reinterpret_cast<::LowProcess *>((previous2))->GetActiveCombatTarget()));
     if (!apSequence || group == 255)
         return 0;
     if (apSequence)
@@ -7182,7 +7182,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
 {
     unsigned short lengthA5;
     unsigned int uStart7;
-    unsigned int uMark2;
+    std::uintptr_t uMark2;
     char cb_;
     char bMask7;
     unsigned char bFlagVal;
@@ -7271,7 +7271,7 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                  ->v8c(FUN_00499b70());
         if (pV != 0)
         {
-            int iVar;
+            std::intptr_t iVar;
             iVar = ((ChnObj_00499b90*)pV)->FUN_000c();
             if (iVar != 0)
             {
@@ -7279,13 +7279,13 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
                 p38 = (Chan_00499b90*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((Bc_00499b90*)iVar)))->FUN_0045bc00(0)));
                 if (p38 != 0)
                 {
-                    unsigned int u38;
-                    unsigned int u3c3;
-                    u38 = ((unsigned int)(::fnv_0043b230::FUN_0043b230((const char *)(((Chan2_00499b90*)p38)))));
-                    u3c3 = (unsigned int)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f36ac))), (::NiObject *)(u38))));
+                    std::uintptr_t u38;
+                    std::uintptr_t u3c3;
+                    u38 = ((std::uintptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(((Chan2_00499b90*)p38)))));
+                    u3c3 = (std::uintptr_t)((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_011f36ac))), (::NiObject *)(u38))));
                     if (u3c3 != 0)
                     {
-                        unsigned int u40;
+                        std::uintptr_t u40;
                         u40 = reinterpret_cast<::fnv_0047a520::Fn47a520 *>((((Chan3_00499b90*)u3c3)))->FUN_0047a520((::fnv_0047a520::NFSHelper *)((std::uintptr_t)FUN_00499b80()));
                         if (u40 != 0)
                         {
@@ -7317,9 +7317,9 @@ void Holder_00499b90::WriteToStream(Class2_00499b90* pClass2)
     if (*((Detect_00499b90*)&(*reinterpret_cast<::StringManager *>(&::g_011de4e8)))->FUN_00408d60() != '\0')
     {
         unsigned int u50_2;
-        unsigned int u4c4;
+        std::uintptr_t u4c4;
         u50_2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
-        u4c4 = ((unsigned int)(reinterpret_cast<::EffectSetting *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
+        u4c4 = ((std::uintptr_t)(reinterpret_cast<::EffectSetting *>((((Stream_00499b90*)(*reinterpret_cast<::ActiveManager * *>(&::g_TESSaveLoadGame)))))->GetHitSound()));
         if (u4c4 != 0)
         {
             MemObj_00499b90* p54;

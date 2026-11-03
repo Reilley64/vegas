@@ -44,10 +44,10 @@ __declspec(noinline) Dummy_00594c60* Dummy_00594c60::ctor()
 }
 
 // @fnv 0x00594c60
-int InitStack(Dummy_00594c60* _this)
+std::intptr_t InitStack(Dummy_00594c60* _this)
 {
     _this->top = -1;
-    return (int)_this;
+    return (std::intptr_t)_this;
 }
 
 struct FUN_00594b80_shell

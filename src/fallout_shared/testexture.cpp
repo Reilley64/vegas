@@ -326,7 +326,7 @@ struct FUN_00480ef0_obj
 };
 
 // @fnv 0x00480ef0
-int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
+std::intptr_t __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, std::intptr_t param)
 {
     FUN_00480ef0_obj* found = (FUN_00480ef0_obj*)FUN_00ec43fb(pOwner, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), (*reinterpret_cast<char (*)[]>(&::DAT_01183978)), 0);
     if (found == 0)
@@ -335,7 +335,7 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     }
     if (param == 0)
     {
-        return ((int)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00480ef0_sub*)((char*)found + 0x8c))))->FUN_00408da0()));
+        return ((std::intptr_t)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00480ef0_sub*)((char*)found + 0x8c))))->FUN_00408da0()));
     }
     FUN_00480ef0_obj* ref = ((::FUN_00480ef0_obj *)(reinterpret_cast<::OwnerLookupView *>((((FUN_00480ef0_obj*)param)))->FUN_00567790()));
     int valueX = 0;
@@ -343,5 +343,5 @@ int __cdecl FUN_00480ef0(FUN_00480ef0_obj* pOwner, int param)
     {
         valueX = ref->FUN_005f0cc0();
     }
-    return ((int)(reinterpret_cast<::FUN_00481230_stand *>((found))->FUN_00481230(valueX)));
+    return ((std::intptr_t)(reinterpret_cast<::FUN_00481230_stand *>((found))->FUN_00481230(valueX)));
 }

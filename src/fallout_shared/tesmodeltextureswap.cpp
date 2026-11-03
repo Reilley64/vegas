@@ -73,7 +73,7 @@ void TESModelTextureSwap::InitItem(TESForm* form)
         locals.formID = locals.swap->formID;
         ::ResolveFormID((unsigned int *)&(locals.formID), form->GetFile(-1));
         locals.swap->formID =
-            reinterpret_cast<unsigned int>(dynamic_cast<BGSTextureSet*>(::FUN_004839c0(locals.formID)));
+            (unsigned int)(std::uintptr_t)(dynamic_cast<BGSTextureSet*>(::FUN_004839c0(locals.formID)));
         if (!locals.swap->formID)
         {
             ::FUN_005b5e40();
@@ -179,7 +179,7 @@ void TESModelTextureSwap::AddTexSwap(const char* name, int index, BGSTextureSet*
             reinterpret_cast<BSSimpleList<SpellItem*>*>(&TextureSwapNodeAccessor)
                 ->AddHead(reinterpret_cast<SpellItem*&>(swap));
         }
-        swap->formID = reinterpret_cast<unsigned int>(textureSet);
+        swap->formID = (unsigned int)(std::uintptr_t)(textureSet);
     }
 }
 
@@ -585,7 +585,7 @@ bool FUN_0048a7b0_shell::LoadTextureSwapList(void* apData, unsigned int aiDataSi
             ireadsize = 4;
             if (ireadsize <= aiDataSize)
             {
-                unsigned int uiTexturePtr = *(unsigned int*)pdata;
+                std::uintptr_t uiTexturePtr = *(unsigned int*)pdata;
                 pdata += ireadsize;
                 aiDataSize -= ireadsize;
                 pnewtexture = (BGSTextureSet*)uiTexturePtr;
@@ -624,7 +624,7 @@ struct FUN_0048a590_obj
 
 struct FUN_0048a520_shell : FUN_004891d0_obj
 {
-    void ProcessAndFreeData(unsigned int a, unsigned int b, unsigned int c);
+    void ProcessAndFreeData(std::uintptr_t a, std::uintptr_t b, unsigned int c);
 };
 
 class B48A490Model
@@ -696,7 +696,7 @@ void FUN_0048aba0_Class::ApplyTextureSwapOverrides(unsigned int formID)
     while (node && !node->FUN_008256d0())
     {
         TextureSwapRecord* record = *((::TextureSwapRecord **)((void *)(node)));
-        reinterpret_cast<::TESModelTextureSwap *>(this)->AddTexSwap(record->objectName, record->index, (::BGSTextureSet *)(record->formID));
+        reinterpret_cast<::TESModelTextureSwap *>(this)->AddTexSwap(record->objectName, record->index, (::BGSTextureSet *)(std::uintptr_t)(record->formID));
         node = ((::TextureSwapNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
@@ -764,10 +764,10 @@ class FUN_0048a590_cls
 };
 // Calls WriteToBuffer with a and b, then if SerializeList yields a data pointer and size, passes them with c to AppendChunk and deallocates the pointer.
 // @fnv 0x0048a520
-void FUN_0048a520_shell::ProcessAndFreeData(unsigned int uiFirst, unsigned int uiSecond, unsigned int uiThird)
+void FUN_0048a520_shell::ProcessAndFreeData(std::uintptr_t uiFirst, std::uintptr_t uiSecond, unsigned int uiThird)
 {
     reinterpret_cast<::FUN_004891d0_cls *>(this)->WriteToBuffer((char *)(uiFirst), (void *)(uiSecond));
-    unsigned int pdata = 0;
+    std::uintptr_t pdata = 0;
     unsigned int idatasize = 0;
     if (reinterpret_cast<::FUN_0048a590_cls *>((((FUN_0048a590_obj*)this)))->SerializeList((char **)&(pdata), (unsigned int *)&(idatasize)))
     {
@@ -782,8 +782,8 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
     *apBuffer = 0;
     *auiSize = 0;
     ListNode* iT = ((::ListNode *)(reinterpret_cast<::BGSCameraPath *>(this)->GetConditions()));
-    unsigned int v;
-    unsigned int P;
+    std::uintptr_t v;
+    std::uintptr_t P;
     unsigned int r;
     unsigned int t;
     int count;
@@ -827,7 +827,7 @@ bool FUN_0048a590_cls::SerializeList(char** apBuffer, unsigned int* auiSize)
             _w += r;
             t = 0;
             if (*(unsigned int*)P != 0)
-                t = reinterpret_cast<::FUN_0084e3a0_Class *>((((ObjectRef*)*(unsigned int*)P)))->FUN_0084e3a0();
+                t = reinterpret_cast<::FUN_0084e3a0_Class *>((((ObjectRef*)*(std::uintptr_t*)P)))->FUN_0084e3a0();
             *(unsigned int*)_w = t;
             _w += 4;
             *(unsigned int*)_w = *((unsigned int*)P + 1);

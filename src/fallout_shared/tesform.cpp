@@ -529,11 +529,11 @@ int* FUN_00486930(int* self, FUN_00486930_arg aArg)
 struct S00486ab0
 {
     const char* p;
-    S00486ab0* Construct(unsigned int n, bool b);
+    S00486ab0* Construct(std::uintptr_t n, bool b);
 };
 // Calls FUN_00486ee0 with n and b, sets p to "0lH", and returns this.
 // @fnv 0x00486ab0
-S00486ab0* S00486ab0::Construct(unsigned int auiValue, bool b)
+S00486ab0* S00486ab0::Construct(std::uintptr_t auiValue, bool b)
 {
     reinterpret_cast<::FUN_00486ee0 *>(this)->Init((void *)(auiValue), b);
     p = "0lH";
@@ -1089,14 +1089,14 @@ bool FUN_004011f0_shell::FUN_004011f0()
 
 struct S3c60
 {
-    int FUN_00408a40(void);
+    std::intptr_t FUN_00408a40(void);
 };
 
 
 // @fnv 0x00408a40
-int S3c60::FUN_00408a40()
+std::intptr_t S3c60::FUN_00408a40()
 {
-    return ((int)(::GetEntryByIndex(reinterpret_cast<::EffectSetting *>(this)->GetArchetype())));
+    return ((std::intptr_t)(::GetEntryByIndex(reinterpret_cast<::EffectSetting *>(this)->GetArchetype())));
 }
 
 extern unsigned char DAT_011c3c0d;
@@ -1882,10 +1882,10 @@ void FUN_009f87b0_shell::FUN_009f9720()
     reinterpret_cast<::FUN_006796c0_shell *>(this)->FUN_006796c0();
     unsigned int v3 = *(unsigned int*)((char*)this + 0x88);
     if (v3)
-        *(unsigned int*)((char*)this + 0x88) = (unsigned int)::FUN_004839c0(v3);
+        *(std::uintptr_t*)((char*)this + 0x88) = (std::uintptr_t)::FUN_004839c0(v3);
     unsigned int v8c = *(unsigned int*)((char*)this + 0x8c);
     if (v8c)
-        *(unsigned int*)((char*)this + 0x8c) = (unsigned int)::FUN_004839c0(v8c);
+        *(std::uintptr_t*)((char*)this + 0x8c) = (std::uintptr_t)::FUN_004839c0(v8c);
 }
 
 struct FUN_004846e0_shell
@@ -2955,8 +2955,8 @@ bool CompareForm::FUN_004853e0(BaseFormComponent* apOther)
         }
     }
 
-    unsigned int flagsA = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
-    unsigned int flagsB = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CompareForm*>(otherForm)))->GetName()));
+    std::uintptr_t flagsA = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    std::uintptr_t flagsB = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CompareForm*>(otherForm)))->GetName()));
     flagsA &= 0xffffbff4;
     flagsB &= 0xffffbff4;
     if (flagsA != flagsB)
@@ -3090,12 +3090,12 @@ void* FUN_004867a0_cls::FUN_004867a0(void* unused, void* arg)
 
 struct S4868f0_host
 {
-    void FUN_004868f0(unsigned int a);
+    void FUN_004868f0(std::uintptr_t a);
 };
 
 
 // @fnv 0x004868f0
-void S4868f0_host::FUN_004868f0(unsigned int a)
+void S4868f0_host::FUN_004868f0(std::uintptr_t a)
 {
     ::FUN_00406f60((::FUN_00406f90_this *)(a), "%s Form '%s' (%08X)", ((unsigned int)(reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((unsigned int)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
 }
@@ -3466,14 +3466,14 @@ void SDSaveForm::FUN_00485e20(const void* apData, unsigned int auiSize)
     }
     if (pValueTmp)
     {
-        *(int*)pWrite2 = ((int)(reinterpret_cast<::Callees *>((((SDIntComponent*)pValueTmp)))->FUN_00726070()));
+        *(std::intptr_t*)pWrite2 = ((std::intptr_t)(reinterpret_cast<::Callees *>((((SDIntComponent*)pValueTmp)))->FUN_00726070()));
         if (((bool)(::FUN_00401500())))
             ::FUN_00401080((int*)pWrite2);
         pWrite2 += 4;
     }
     if (pHealth5)
     {
-        *(int*)pWrite2 = ((int)(reinterpret_cast<::Callees *>((((SDIntComponent*)pHealth5)))->FUN_00726070()));
+        *(std::intptr_t*)pWrite2 = ((std::intptr_t)(reinterpret_cast<::Callees *>((((SDIntComponent*)pHealth5)))->FUN_00726070()));
         if (((bool)(::FUN_00401500())))
             ::FUN_00401080((int*)pWrite2);
         pWrite2 += 4;

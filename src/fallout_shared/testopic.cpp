@@ -157,11 +157,11 @@ struct TESObject
 };
 struct FUN_00616f40_shell
 {
-    bool DispatchOnNextFormType(TESObject* obj, int a, int b, int c, int d);
+    bool DispatchOnNextFormType(TESObject* obj, std::intptr_t a, std::intptr_t b, std::intptr_t c, std::intptr_t d);
 };
 // If obj is non-null and its next object's form type is 0x16, 0x2a or 0x2b, forwards that next object to BuildVoiceFilePath; otherwise returns false.
 // @fnv 0x00616f40
-bool FUN_00616f40_shell::DispatchOnNextFormType(TESObject* obj, int a, int b, int c, int d)
+bool FUN_00616f40_shell::DispatchOnNextFormType(TESObject* obj, std::intptr_t a, std::intptr_t b, std::intptr_t c, std::intptr_t d)
 {
     if (obj)
     {

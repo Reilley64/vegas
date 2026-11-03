@@ -892,7 +892,7 @@ void TESTopicInfo::InitItem()
             BSSimpleList<TESTopic*>* pTopics = GetAddTopicList();
             while (pTopics && (pTopics->m_item))
             {
-                unsigned int formID = reinterpret_cast<unsigned int>((pTopics->m_item));
+                unsigned int formID = (unsigned int)(std::uintptr_t)((pTopics->m_item));
                 ::ResolveFormID((unsigned int *)&(formID), pFile);
                 TESTopic* topic = dynamic_cast<TESTopic*>(::FUN_004839c0(formID));
                 if (!topic)
@@ -928,7 +928,7 @@ void TESTopicInfo::InitItem()
                     pTopics = ((::BSSimpleList< ::TESTopic *> *)(reinterpret_cast<::Callees *>((pTopics))->FUN_00726070()));
                 }
             }
-            unsigned int speakerID = reinterpret_cast<unsigned int>(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())));
+            unsigned int speakerID = (unsigned int)(std::uintptr_t)(((::TESActorBase *)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())));
             if (speakerID)
             {
                 ::ResolveFormID((unsigned int *)&(speakerID), GetFile(-1));
@@ -952,7 +952,7 @@ void TESTopicInfo::InitItem()
                     TESForm* form;
                     ActorValueInfo* actorValue;
                 } resolved;
-                resolved.formID = reinterpret_cast<unsigned int>(m_pPerkSkillStat);
+                resolved.formID = (unsigned int)(std::uintptr_t)(m_pPerkSkillStat);
                 ::ResolveFormID((unsigned int *)&(resolved.formID), GetFile(-1));
                 resolved.form = ::FUN_004839c0(resolved.formID);
                 resolved.actorValue = dynamic_cast<ActorValueInfo*>(resolved.form);
@@ -989,7 +989,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>((pTopicList->m_item));
+            resolved.formID = (unsigned int)(std::uintptr_t)((pTopicList->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.topic = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1050,7 +1050,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>((pTopicList->m_item));
+            resolved.formID = (unsigned int)(std::uintptr_t)((pTopicList->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.topic = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1111,7 +1111,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
                 unsigned int formID;
                 TESForm* form;
             } resolved;
-            resolved.formID = reinterpret_cast<unsigned int>((infoCursor.current->m_item));
+            resolved.formID = (unsigned int)(std::uintptr_t)((infoCursor.current->m_item));
             ::ResolveFormID((unsigned int *)&(resolved.formID), pFile);
             resolved.followUp = 0;
             resolved.form = ::FUN_004839c0(resolved.formID);
@@ -1618,7 +1618,7 @@ struct FUN_0061d8c0_shell
 // @fnv 0x0061d8c0
 void FUN_0061d8c0_shell::GetResponseForTopicInfo(FUN_0061d8c0_output* output, FUN_0061d8c0_input* input)
 {
-    int iVar1;
+    std::intptr_t iVar1;
 
     if (output != 0)
     {
@@ -1630,7 +1630,7 @@ void FUN_0061d8c0_shell::GetResponseForTopicInfo(FUN_0061d8c0_output* output, FU
             case 0:
                 if (input->unk08 == DAT_01187344)
                 {
-                    iVar1 = ((int)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(void *)(this))));
+                    iVar1 = ((std::intptr_t)(::fnv_0061a310::FindTopicByInfo((::TESTopicInfo *)(void *)(this))));
                     if (iVar1 != 0)
                     {
                         output->pResponse = (*reinterpret_cast<::TESResponse * *>(&::fnv_00543df0::kGroupFormType));
@@ -1842,7 +1842,7 @@ Script* FUN_0061eb60_class::FUN_0061eb60(unsigned int auiIndex)
             ScriptReferencedObject* reference = new ScriptReferencedObject;
             unsigned int id;
             a->GetChunkData(&id);
-            reference->pForm = (TESForm*)id;
+            reference->pForm = (TESForm*)(std::uintptr_t)id;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(g_resultScripts[s]))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             break;
         }

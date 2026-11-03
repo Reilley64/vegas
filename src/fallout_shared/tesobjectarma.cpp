@@ -210,19 +210,19 @@ struct FUN_00511e40
 // @fnv 0x00511e40
 FUN_00511e40::FUN_00511e40()
 {
-    *(int*)((char*)this + 0x0) = (int)&DAT_0102a31c;
-    *(int*)((char*)this + 0x30) = (int)&DAT_0102a304;
-    *(int*)((char*)this + 0x3c) = (int)&DAT_0102a2f0;
-    *(int*)((char*)this + 0x48) = (int)&DAT_0102a2d8;
-    *(int*)((char*)this + 0x58) = (int)&DAT_0102a2b8;
-    *(int*)((char*)this + 0x60) = (int)&DAT_0102a2a4;
+    *(std::intptr_t*)((char*)this + 0x0) = (std::intptr_t)&DAT_0102a31c;
+    *(std::intptr_t*)((char*)this + 0x30) = (std::intptr_t)&DAT_0102a304;
+    *(std::intptr_t*)((char*)this + 0x3c) = (std::intptr_t)&DAT_0102a2f0;
+    *(std::intptr_t*)((char*)this + 0x48) = (std::intptr_t)&DAT_0102a2d8;
+    *(std::intptr_t*)((char*)this + 0x58) = (std::intptr_t)&DAT_0102a2b8;
+    *(std::intptr_t*)((char*)this + 0x60) = (std::intptr_t)&DAT_0102a2a4;
     *(const char**)((char*)this + 0x68) = " rH";
-    *(int*)((char*)this + 0x70) = (int)&DAT_0102a278;
-    *(int*)((char*)this + 0x14c) = (int)&DAT_0102a264;
-    *(int*)((char*)this + 0x154) = (int)&DAT_0102a250;
-    *(int*)((char*)this + 0x15c) = (int)&DAT_0102a23c;
-    *(int*)((char*)this + 0x164) = (int)&DAT_0102a228;
-    *(int*)((char*)this + 0x16c) = (int)&DAT_0102a214;
+    *(std::intptr_t*)((char*)this + 0x70) = (std::intptr_t)&DAT_0102a278;
+    *(std::intptr_t*)((char*)this + 0x14c) = (std::intptr_t)&DAT_0102a264;
+    *(std::intptr_t*)((char*)this + 0x154) = (std::intptr_t)&DAT_0102a250;
+    *(std::intptr_t*)((char*)this + 0x15c) = (std::intptr_t)&DAT_0102a23c;
+    *(std::intptr_t*)((char*)this + 0x164) = (std::intptr_t)&DAT_0102a228;
+    *(std::intptr_t*)((char*)this + 0x16c) = (std::intptr_t)&DAT_0102a214;
     reinterpret_cast<::FUN_004f15a0_shell *>((((SFTX*)this)))->FUN_004f15a0(0x60);
     ((TESObjectARMA*)this)->ResetFormData();
 }

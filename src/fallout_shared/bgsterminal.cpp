@@ -182,7 +182,7 @@ bool BGSTerminal::Load(TESFile* file)
             unsigned int formID;
             ScriptReferencedObject* reference = new ScriptReferencedObject;
             file->GetChunkData(&formID);
-            reference->form = (TESForm*)formID;
+            reference->form = (TESForm*)(std::uintptr_t)formID;
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::ScriptReferencedObject *> *)(reinterpret_cast<::FUN_005d43c0_ *>(&(current->m_kScript))->FUN_005d43c0()))))->FUN_00905820((void *)&(reference));
             break;
         }
@@ -288,7 +288,7 @@ void BGSTerminal::InitItem()
         pList = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (item->m_pNote)
         {
-            formID = (unsigned int)item->m_pNote;
+            formID = (unsigned int)(std::uintptr_t)item->m_pNote;
             ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
             item->m_pNote = dynamic_cast<BGSNote*>(::FUN_004839c0(formID));
             if (!item->m_pNote)
@@ -296,7 +296,7 @@ void BGSTerminal::InitItem()
         }
         if (item->m_pTerminal)
         {
-            formID = (unsigned int)item->m_pTerminal;
+            formID = (unsigned int)(std::uintptr_t)item->m_pTerminal;
             ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
             item->m_pTerminal = dynamic_cast<BGSTerminal*>(::FUN_004839c0(formID));
             if (!item->m_pTerminal)

@@ -233,7 +233,7 @@ void TESSpellList::InitItem(TESForm* owner)
             unsigned int id;
             TESForm* form;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>((listCursor.current->m_item));
+        resolvedForm.id = (unsigned int)(std::uintptr_t)((listCursor.current->m_item));
         ::ResolveFormID((unsigned int *)&(resolvedForm.id), listCursor.file);
         resolvedForm.form = ::FUN_004839c0(resolvedForm.id);
         {
@@ -624,7 +624,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         unsigned int currentPos1;
         void* createdObj2;
         TESForm* form;
-        unsigned int startBlock;
+        std::uintptr_t startBlock;
         unsigned int posNow1;
 
         startPosData = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -690,7 +690,7 @@ void TESSpellList_Target::SaveSpellList(unsigned int flags)
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {
             posNow1 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<TimeGlobal*>((*reinterpret_cast<::fnv_0048da20::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
-            startBlock = (unsigned int)pBlockSize3;
+            startBlock = (std::uintptr_t)pBlockSize3;
             if (posNow1 > startBlock + 0xFFFF)
             {
                 ::FUN_005b5e40();

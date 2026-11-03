@@ -224,7 +224,7 @@ struct FUN_004a7c80_shell
 // @fnv 0x004a7c40
 void* FUN_004a7c40_shell::FUN_004a7c40()
 {
-    *(int*)this = (int)&DAT_0101ec68;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101ec68;
     reinterpret_cast<::FUN_004a7c80_shell *>((((FUN_004a7c40_shell*)((char*)this + 4))))->ClearToZero();
     ::FUN_00403d30((char*)this + 4, 0, 0x40);
     *(int*)((char*)this + 0x44) = 0;
@@ -310,7 +310,7 @@ void* FUN_004a8f50_shell::FUN_004a8f50()
 void* FUN_004a95d0_shell::FUN_004a95d0(int a)
 {
     reinterpret_cast<::FUN_004a97e0_Class *>(this)->FUN_004a97e0(a);
-    *(int*)this = (int)&DAT_0101ecec;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101ecec;
     return this;
 }
 
@@ -318,7 +318,7 @@ extern int DAT_0101ed0c;
 
 struct FUN_004a9600_shell
 {
-    int m_0000;
+    std::intptr_t m_0000;
     void* FUN_004a9600(void* arg);
 };
 
@@ -327,7 +327,7 @@ struct FUN_004a9600_shell
 void* FUN_004a9600_shell::FUN_004a9600(void* arg)
 {
     reinterpret_cast<::FUN_004a98e0_class *>(this)->FUN_004a98e0((std::intptr_t)(arg));
-    m_0000 = (int)&DAT_0101ed0c;
+    m_0000 = (std::intptr_t)&DAT_0101ed0c;
     return this;
 }
 

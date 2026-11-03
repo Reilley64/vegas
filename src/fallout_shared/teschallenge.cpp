@@ -73,7 +73,7 @@ void TESChallenge::InitItem()
     if (GetInitialized())
         return;
     TESScriptableForm::InitItem(this);
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pPrimaryForm);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pPrimaryForm);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -81,7 +81,7 @@ void TESChallenge::InitItem()
         if (!m_pPrimaryForm)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryForm);
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryForm);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

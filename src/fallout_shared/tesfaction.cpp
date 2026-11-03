@@ -120,7 +120,7 @@ void TESFaction::InitItem()
     if (pReputationData != 0)
     {
         unsigned int formID = 0;
-        formID = reinterpret_cast<unsigned int>(pReputationData);
+        formID = (unsigned int)(std::uintptr_t)(pReputationData);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         pReputationData = reinterpret_cast<::TESDataHandler *>((reinterpret_cast<TESDataHandlerAccess*>((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->GetReputation(formID);
     }
@@ -638,11 +638,11 @@ struct Outer_5fd400
     virtual void v18(int);
     int _pad[8];
     Helper_48c0b0 _h;
-    void FUN_005fd400(int, int);
+    void FUN_005fd400(std::intptr_t, int);
 };
 // Calls the helper's FUN_0048c0b0 with a and b, then invokes virtual v18 with 4.
 // @fnv 0x005fd400
-void Outer_5fd400::FUN_005fd400(int aiArg1, int aiArg2)
+void Outer_5fd400::FUN_005fd400(std::intptr_t aiArg1, int aiArg2)
 {
     reinterpret_cast<::C0B0Owner *>(&(_h))->FUN_0048c0b0((::C0B0Form *)(aiArg1), aiArg2);
     v18(4);
@@ -1043,7 +1043,7 @@ bool FactionLoader::LoadFactionRecord(TESFile* file)
             file->GetChunkData(&formID);
             if (formID)
             {
-                pReputationData = (TESReputation*)formID;
+                pReputationData = (TESReputation*)(std::uintptr_t)formID;
             }
             break;
         }

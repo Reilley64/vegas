@@ -731,7 +731,7 @@ void FUN_004addc0(DummyThis* this_ptr, StackArg aStackArg)
 
 
 // @fnv 0x004ade00
-void __cdecl FUN_004ade00(int a1, int a2)
+void __cdecl FUN_004ade00(std::intptr_t a1, std::intptr_t a2)
 {
     ::FUN_00c4b470((::FUN_00c4b470_owner *)(a1), (void **)(a2), 1);
 }
@@ -1549,7 +1549,7 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
         if (geometry)
         {
             NiAVObject* boneCount;
-            unsigned int replacement = ((unsigned int)(reinterpret_cast<::LowProcess *>((reinterpret_cast<SkinDataProbe*>(((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName())))))->GetActiveCombatTarget()));
+            std::uintptr_t replacement = ((std::uintptr_t)(reinterpret_cast<::LowProcess *>((reinterpret_cast<SkinDataProbe*>(((::NiSkinData *)(reinterpret_cast<::TESRegionDataMap *>((geometry))->GetRegionMapName())))))->GetActiveCombatTarget()));
             NiAVObject** bones = ((::NiAVObject **)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((geometry))->FUN_00825c00()));
             for (unsigned int i = 0; i < replacement; ++i)
             {
@@ -2598,7 +2598,7 @@ bool Holder_o2::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
         return false;
     if (!pkTex)
         return false;
-    if ((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(((NiShader*)pkTex)))->FUN_00a62660())).data == (const char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if ((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((void *)(((NiShader*)pkTex)))->FUN_00a62660())).data == (const char*)(*reinterpret_cast<std::intptr_t *>(&::DAT_0109b220)))
     {
         ::AssignFixedString((char *)(((NiAVObject*)pkTex)), (int)&(kName), {});
     }

@@ -141,7 +141,7 @@ void TESReactionForm::InitItem(TESForm* form)
         ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->item));
         unsigned int formID = reaction->formID;
         ::ResolveFormID((unsigned int *)&(formID), pPrev);
-        reaction->formID = reinterpret_cast<unsigned int>(::FUN_004839c0(formID));
+        reaction->formID = (unsigned int)(std::uintptr_t)(::FUN_004839c0(formID));
         if (reaction->formID)
         {
             pList = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -640,7 +640,7 @@ void S24::WriteReactionList(unsigned int auiFlags)
     if (auiFlags & 4)
     {
         unsigned short sizeWord = 0;
-        unsigned int posSize4 = 0;
+        std::uintptr_t posSize4 = 0;
         unsigned int startPos = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::SaveC400 * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
         if (*::g_011de4e8.Bool())
         {
@@ -879,7 +879,7 @@ void FUN_0048c9d0_Class::FUN_0048c9d0(FUN_0048c9d0_SaveBuffer* buffer)
                 item = ((::FUN_0048c9d0_ListNode *)((void *)(cursor)))->item;
                 if (item != 0)
                 {
-                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(int*)item), 0);
+                    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((buffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(std::intptr_t*)item), 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 4, 4, 0);
                     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)item + 8, 4, 0);
                     count = count + 1;

@@ -80,22 +80,22 @@ unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(std::uintptr_t arg)
     std::uintptr_t cur = (std::uintptr_t)this;
     while (cur != 0 && found8 == 0 && !((SpawnedObject*)cur)->FUN_008256d0())
     {
-        unsigned int tmp = *((unsigned int *)((void *)(((SpawnedObject*)cur))));
+        std::uintptr_t tmp = *((unsigned int *)((void *)(((SpawnedObject*)cur))));
         if (tmp != 0 && *(unsigned int*)tmp == arg)
             found8 = tmp;
-        cur = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)cur)))->FUN_00726070()));
+        cur = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)cur)))->FUN_00726070()));
     }
 
     result2 = 0;
     if (found8 != 0)
     {
-        unsigned int p3 = found8 + 4;
+        std::uintptr_t p3 = found8 + 4;
         while (result2 == 0 && p3 != 0 && !reinterpret_cast<::ObsList *>((((SpawnedObject*)p3)))->FUN_004a4460())
         {
-            unsigned int r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)((void *)(((SpawnedObject*)p3)))))))));
+            std::uintptr_t r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)((void *)(((SpawnedObject*)p3)))))))));
             if (r != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
                 result2 = r;
-            p3 = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
+            p3 = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
         }
     }
     return result2;
@@ -218,7 +218,7 @@ void FUN_004b0910_cls::AddKeyedItems(Key4b0910* pkKey, unsigned int ItemUpdateAr
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {
         FUN_004ad050 kArgTmp(1.0f);
-        int iObject2 = ((int)(reinterpret_cast<::A5D2C0Object *>((pkKey))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kArgTmp)))));
+        std::intptr_t iObject2 = ((std::intptr_t)(reinterpret_cast<::A5D2C0Object *>((pkKey))->FUN_00a5d2c0((*(::A5D2C0CloningProcess *)(&kArgTmp)))));
         reinterpret_cast<::fnv_00631540::TargetClass *>(&(pkFound4->m_kList))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::GlobalObject_00633c90 &)(iObject2)));
     }
 }

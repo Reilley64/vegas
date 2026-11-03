@@ -172,7 +172,7 @@ void TESObjectLIGH::InitItem()
 
     if (m_pGameSound)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(m_pGameSound);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(m_pGameSound);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         m_pGameSound = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if (!m_pGameSound)
@@ -523,7 +523,7 @@ void FUN_00510130_shell::RemoveNode(NiNode* pNode)
     {
         *(NiNode**)((char*)this + 8) = (NiNode*)((BGSTerrainManager*)(*(NiNode**)((char*)this + 8)))->GetMinLevel();
     }
-    unsigned int n = ((BGSTerrainManager*)pNode)->GetMinLevel();
+    std::uintptr_t n = ((BGSTerrainManager*)pNode)->GetMinLevel();
     if (n)
     {
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)n)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((unsigned int)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)pNode)))->FUN_007af430()))));
@@ -786,7 +786,7 @@ bool LightLoader::LoadLight(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(scriptID));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(scriptID));
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -803,7 +803,7 @@ bool LightLoader::LoadLight(TESFile* file)
         case 0x4d414e53: {
             unsigned int soundID = 0;
             file->GetChunkData(&soundID);
-            m_pGameSound = (TESSound*)soundID;
+            m_pGameSound = (TESSound*)(std::uintptr_t)soundID;
             break;
         }
         }

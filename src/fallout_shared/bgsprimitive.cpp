@@ -1159,11 +1159,11 @@ void FUN_00c4fc10_shell::FUN_00c4fc10(NiStream& stream)
 namespace fnv_00c4fc70 {
 struct FUN_00c38020_shell
 {
-    unsigned char FUN_00c4fc70(int);
+    unsigned char FUN_00c4fc70(std::intptr_t);
 };
 // Returns 1 if FUN_00c4fa30 returns nonzero for a, otherwise returns 0.
 // @fnv 0x00c4fc70
-unsigned char FUN_00c38020_shell::FUN_00c4fc70(int a)
+unsigned char FUN_00c38020_shell::FUN_00c4fc70(std::intptr_t a)
 {
     if (!((unsigned char)(reinterpret_cast<::fnv_00c4fa30::FUN_00c4fa30_shell *>(this)->FUN_00c4fa30((*(::fnv_00c4fa30::NiStream *)(a))))))
         return 0;
@@ -1293,7 +1293,7 @@ struct FUN_00c36430_shell
 
 struct FUN_00c38000_shell
 {
-    void FUN_00c38000(int a);
+    void FUN_00c38000(std::intptr_t a);
 };
 // @fnv 0x00c36430
 void FUN_00c36430_shell::FUN_00c36430(int a)
@@ -1302,7 +1302,7 @@ void FUN_00c36430_shell::FUN_00c36430(int a)
 }
 
 // @fnv 0x00c38000
-void FUN_00c38000_shell::FUN_00c38000(int a)
+void FUN_00c38000_shell::FUN_00c38000(std::intptr_t a)
 {
     reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(a)));
 }
@@ -1331,10 +1331,10 @@ void FUN_00c4fab0_shell::FUN_00c4fab0(std::intptr_t a)
 
 struct FUN_00c4fa10_shell
 {
-    void FUN_00c4fc50(int a);
+    void FUN_00c4fc50(std::intptr_t a);
 };
 // @fnv 0x00c4fc50
-void FUN_00c4fa10_shell::FUN_00c4fc50(int a)
+void FUN_00c4fa10_shell::FUN_00c4fc50(std::intptr_t a)
 {
     reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(a)));
 }
@@ -1412,14 +1412,14 @@ struct BaseFake
 struct MyHolder : BaseFake
 {
     Data9 d;
-    MyHolder* FUN_004a70b0(int a, int b, const Data9& c);
+    MyHolder* FUN_004a70b0(std::intptr_t a, std::intptr_t b, const Data9& c);
 };
 // Calls FUN_004a6fc0 with a and b, sets the vtable pointer to DAT_0101e9a4, copies c into d, and returns this.
 // @fnv 0x004a70b0
-MyHolder* MyHolder::FUN_004a70b0(int aiArg1, int aiArg2, const Data9& arData)
+MyHolder* MyHolder::FUN_004a70b0(std::intptr_t aiArg1, std::intptr_t aiArg2, const Data9& arData)
 {
     new ((void *)this) ::FUN_004a6fc0((*(const ::FUN_004a6fc0_Pt *)(aiArg1)), (*(const ::FUN_004a6fc0_Pt *)(aiArg2)));
-    *(int*)this = (int)&DAT_0101e9a4;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101e9a4;
     d = arData;
     return this;
 }
@@ -1518,7 +1518,7 @@ struct C00c37f70
     int _0C;
     char _10[8];
     D12_00c37f70 d;
-    void FUN_00c37f70(A00c37f70* a, int b);
+    void FUN_00c37f70(A00c37f70* a, std::intptr_t b);
 };
 // Calls FUN_00c37f70 on the passed Holder and then copies this object's fld into it.
 // @fnv 0x00c363c0
@@ -1529,7 +1529,7 @@ void Holder::FUN_00c363c0(Holder* apTarget, int b)
 }
 // Calls CopyMembersStreamWithField, then passes &_0C to a->vm and copies d into a->d.
 // @fnv 0x00c37f70
-void C00c37f70::FUN_00c37f70(A00c37f70* apTarget, int b)
+void C00c37f70::FUN_00c37f70(A00c37f70* apTarget, std::intptr_t b)
 {
     reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(apTarget), (void *)(b));
     apTarget->vm((void*)&_0C);
@@ -1604,11 +1604,11 @@ struct Shell
     int _m0C;
     char _pad1[8];
     float _m18;
-    void FUN_00c4fbc0(Shell*, int);
+    void FUN_00c4fbc0(Shell*, std::intptr_t);
 };
 // Calls CopyMembersStreamWithField with a2, invokes Real on _m0C, then reads and rewrites _m18 with its own value.
 // @fnv 0x00c4fbc0
-void Shell::FUN_00c4fbc0(Shell* a1, int a2)
+void Shell::FUN_00c4fbc0(Shell* a1, std::intptr_t a2)
 {
     reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(a1), (void *)(a2));
     a1->Real(&_m0C);
@@ -3476,14 +3476,14 @@ void* FUN_00c37ec0(void*);
 extern int DAT_0101e9a4;
 struct FUN_00c36310_shell
 {
-    int FUN_00c36310();
+    std::intptr_t FUN_00c36310();
 };
 // @fnv 0x00c36310
-int FUN_00c36310_shell::FUN_00c36310()
+std::intptr_t FUN_00c36310_shell::FUN_00c36310()
 {
     FUN_00c37ec0(this);
     *(int**)this = &DAT_0101e9a4;
-    return (int)this;
+    return (std::intptr_t)this;
 }
 
 void FUN_00c4f980(void*);
@@ -3492,7 +3492,7 @@ extern int DAT_0101ea8c;
 void* FUN_00c4fb10(void* apObj)
 {
     new ((void *)(apObj)) struct ::FUN_00c4f980();
-    *(int*)apObj = (int)&DAT_0101ea8c;
+    *(std::intptr_t*)apObj = (std::intptr_t)&DAT_0101ea8c;
     return apObj;
 }
 
@@ -3712,11 +3712,11 @@ void C_00c36580::FUN_00c36580(Obj_0096a610* value)
 {
     reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((std::intptr_t)value));
 
-    int src = (*reinterpret_cast<int *>(&::g_01202818));
+    std::intptr_t src = (*reinterpret_cast<int *>(&::g_01202818));
     unsigned int first = (unsigned int)((int)(::FUN_00a7d330((const char *)(src))));
     reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((std::intptr_t)&(first));
 
-    unsigned int second = ((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(unk24))->ToString("Axis")));
+    std::uintptr_t second = ((std::uintptr_t)(reinterpret_cast<::FloatMatrix3 *>(&(unk24))->ToString("Axis")));
     reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((std::intptr_t)&(second));
 }
 

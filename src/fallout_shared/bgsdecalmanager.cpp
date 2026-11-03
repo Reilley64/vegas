@@ -1071,7 +1071,7 @@ struct FUN_004a3ae0_shell
 // @fnv 0x004a3ae0
 void FUN_004a3ae0_shell::FUN_004a3ae0()
 {
-    *(int*)this = (int)&DAT_0101e594;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0101e594;
 }
 
 extern int DAT_0101e594;
@@ -1131,7 +1131,7 @@ void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
 {
     if (*(int*)((char*)pObject + 0x48) == 0)
     {
-        *(int*)((char*)pObject + 0x48) = (int)this;
+        *(std::intptr_t*)((char*)pObject + 0x48) = (std::intptr_t)this;
     }
     bsrandom_singleton::MersenneTwister::GetRandomGenerator()->AddGeometryDecal(pObject, b, c);
 }
@@ -1139,7 +1139,7 @@ void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
 struct FUN_0049f560_Holder
 {
     int _00;
-    int _04;
+    std::intptr_t _04;
     int _08;
     void CallWithTwelve(std::intptr_t);
 };
@@ -1242,9 +1242,9 @@ void BGSDecalManager::RenderDecals()
         struct IteratorState
         {
             unsigned int previous;
-            unsigned int position;
+            std::uintptr_t position;
         } iterator;
-        iterator.position = reinterpret_cast<unsigned int>(static_cast<BSFaceGenAnimationData*>(
+        iterator.position = reinterpret_cast<std::uintptr_t>(static_cast<BSFaceGenAnimationData*>(
             *reinterpret_cast<NiPointer<BSFaceGenAnimationData>*>(&m_kSimpleDecalList)));
         while (iterator.position != 0)
         {
@@ -3226,7 +3226,7 @@ void HostV::FUN_00c4ee90(ObjV* pkObj)
         }
         else
         {
-            int iState = ((int)(reinterpret_cast<::NavEntryOwner *>((m_pkCtrl))->BuildEntryValueArray()));
+            std::intptr_t iState = ((std::intptr_t)(reinterpret_cast<::NavEntryOwner *>((m_pkCtrl))->BuildEntryValueArray()));
             if (reinterpret_cast<::TreeEvaluator *>((m_pkCtrl))->FUN_00c491a0((::TreeQuery *)(pkObj)))
                 pkObj->Attach(this);
             reinterpret_cast<::fnv_00c49100::ActorTable *>((m_pkCtrl))->SetActorList((int *)(iState));

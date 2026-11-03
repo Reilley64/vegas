@@ -177,7 +177,7 @@ bool EffectItem::Load(TESFile* file, const char* actorEffect)
             ::FUN_005b5e40();
         else if (reinterpret_cast<::S3c60 *>((m_pEffectSetting))->HasFlag2() && reinterpret_cast<::FUN_00403e80_shell *>((m_pEffectSetting))->FUN_00403e80())
             data.m_eAssociatedActorValue =
-                reinterpret_cast<int>(reinterpret_cast<InterfaceManager*>(m_pEffectSetting)->FUN_00586150());
+                reinterpret_cast<std::intptr_t>(reinterpret_cast<InterfaceManager*>(m_pEffectSetting)->FUN_00586150());
         break;
     case 0x41445443:
         ((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>(this)->GetDataList()))->Load(file);
@@ -838,7 +838,7 @@ class FUN_00403b30_cls : public FUN_00403b30_base
 {
   public:
     FUN_00403b30_member m_1c;
-    FUN_00403b30_cls(int a);
+    FUN_00403b30_cls(std::intptr_t a);
 };
 
 
@@ -861,7 +861,7 @@ class FUN_00403be0_cls
 };
 // Initializes the base and member subobjects, then calls Init with the given value.
 // @fnv 0x00403b30
-FUN_00403b30_cls::FUN_00403b30_cls(int aiValue) : FUN_00403b30_base(), m_1c()
+FUN_00403b30_cls::FUN_00403b30_cls(std::intptr_t aiValue) : FUN_00403b30_base(), m_1c()
 {
     reinterpret_cast<::FUN_00403be0_cls *>(this)->FUN_00403be0((::InterfaceManager *)(aiValue));
 }
@@ -986,7 +986,7 @@ bool SettingRegistry::FUN_00405120()
     bool isValid = FUN_00404d30(this);
     if (isValid)
     {
-        int iterator = ((int)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<SettingMap*>(reinterpret_cast<char*>(this) + 0x10c)))->GetFirstPos()));
+        std::intptr_t iterator = ((std::intptr_t)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((reinterpret_cast<SettingMap*>(reinterpret_cast<char*>(this) + 0x10c)))->GetFirstPos()));
         while (iterator != 0)
         {
             int value;

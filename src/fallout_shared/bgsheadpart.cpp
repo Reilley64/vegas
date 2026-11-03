@@ -960,7 +960,7 @@ void HeadPartInit::FUN_005e77b0()
             ::FUN_005b5e40();
             if (pPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSHeadPart *const &)((BGSHeadPart*)auiFormId)));
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSHeadPart *const &)((BGSHeadPart*)(std::uintptr_t)auiFormId)));
                 pIter = ((::HeadPartList *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else

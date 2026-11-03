@@ -197,7 +197,7 @@ struct FUN_004dea80 : NiExtraData
 // @fnv 0x004dea80
 FUN_004dea80::FUN_004dea80(Vector4f* apSource) : NiExtraData(FUN_004de890())
 {
-    *(int*)this = (int)&DAT_010228c4;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_010228c4;
     q = *apSource;
 }
 

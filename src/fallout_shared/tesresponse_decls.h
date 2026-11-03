@@ -2,6 +2,7 @@
 #ifndef FNV_TESRESPONSE_H
 #define FNV_TESRESPONSE_H
 
+#include <cstdint>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -92,7 +93,7 @@ class TESResponse
 
 union SETTING_VALUE
 {
-    int i;
+    std::intptr_t i;
     float f;
     const char* s;
     bool b;

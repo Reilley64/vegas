@@ -18,4 +18,4 @@ void FUN_0057d4f0(::Mgr *, std::intptr_t, ::NiPoint3, ::NiPoint3, float, float, 
 // 0x0057dd70
 float FUN_0057dd70(float);
 // 0x0057de00
-namespace fnv_0057de00 { void GenerateGrassPositions(int, int, int, ::fnv_0057de00::LODLand *, void *, const ::fnv_0057de00::NiPoint3 &, int, ::fnv_0057de00::NiPoint3, ::fnv_0057de00::LODSettings *, float *, int, float, unsigned short, int, float, unsigned char, unsigned char); }
+namespace fnv_0057de00 { void GenerateGrassPositions(int, int, int, ::fnv_0057de00::LODLand *, void *, const ::fnv_0057de00::NiPoint3 &, std::intptr_t, ::fnv_0057de00::NiPoint3, ::fnv_0057de00::LODSettings *, float *, int, float, unsigned short, int, float, unsigned char, unsigned char); }

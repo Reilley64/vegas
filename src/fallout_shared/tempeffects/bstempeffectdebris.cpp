@@ -216,7 +216,7 @@ class FUN_00682c40 : public EffectBase
     virtual void v0();
 
     MemberPtr m_18;
-    int m_1c;
+    std::intptr_t m_1c;
     char m_20;
     char m_21;
 };

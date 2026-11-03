@@ -124,10 +124,10 @@ struct FUN_004aa720_shell
 // @fnv 0x004aa6f0
 void InvokeIfPresent(int aiArg1, int aiArg2, int apHolder)
 {
-    int pparam = apHolder;
+    std::intptr_t pparam = apHolder;
     if (*(int*)pparam)
     {
-        ((FUN_004aa720_shell*)*(int*)pparam)->AddEntry(aiArg1, aiArg2, *(int*)(pparam + 4));
+        ((FUN_004aa720_shell*)*(std::intptr_t*)pparam)->AddEntry(aiArg1, aiArg2, *(int*)(pparam + 4));
     }
 }
 
@@ -543,7 +543,7 @@ bool TexUseMap::FUN_004aa900(const char* apFileName)
         void* posVal = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(m_kEntryMap))->GetFirstPos();
         while (posVal)
         {
-            unsigned int key5 = 0;
+            std::uintptr_t key5 = 0;
             void* value9 = 0;
             reinterpret_cast<::C6b7f20_Map *>(&(m_kEntryMap))->FUN_006b7f20((::C6b7f20_Node **)&(posVal), (unsigned int *)&(key5), (void **)&(value9));
             CastedObj* casted9 = (CastedObj*)((::NiAVObject *)(::FUN_00653270((const NiRTTI*)&(*reinterpret_cast<int *>(&::g_011f444c)), (::NiObject *)(::NiAVObject *)((NiAVObject*)key5))));

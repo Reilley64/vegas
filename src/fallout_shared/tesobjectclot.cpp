@@ -654,7 +654,7 @@ bool ClothingLoader::ReadFromStream(RecordReader* reader)
         case 0x49524353: {
             unsigned int formID = 0;
             reader->ReadChunkInt(&formID);
-            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<ScriptView*>(&this->scriptForm)))->Initialize((::CombatController *)(formID));
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<ScriptView*>(&this->scriptForm)))->Initialize((::CombatController *)(std::uintptr_t)(formID));
             reinterpret_cast<::TESScriptableForm *>((reinterpret_cast<ScriptView*>(&this->scriptForm)))->InitItem((::TESForm *)(void *)(this));
             break;
         }
@@ -662,7 +662,7 @@ bool ClothingLoader::ReadFromStream(RecordReader* reader)
         case 0x4d414e45: {
             unsigned int formID = 0;
             reader->ReadChunkInt(&formID);
-            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EnchantmentView*>(&this->enchantment)))->Initialize((::CombatController *)(formID));
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EnchantmentView*>(&this->enchantment)))->Initialize((::CombatController *)(std::uintptr_t)(formID));
             break;
         }
         case 0x4d414e41:
@@ -793,7 +793,7 @@ bool ClothingLoader::ReadFromStream(RecordReader* reader)
         case 0x50595445: {
             unsigned int equipID = 0;
             reader->ReadChunkInt(&equipID);
-            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EquipView*>(&this->equip)))->Initialize((::CombatController *)(equipID));
+            reinterpret_cast<::CombatProcedure *>((reinterpret_cast<EquipView*>(&this->equip)))->Initialize((::CombatController *)(std::uintptr_t)(equipID));
             break;
         }
         case 0x41544144: {

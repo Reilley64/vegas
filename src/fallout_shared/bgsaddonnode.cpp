@@ -53,7 +53,7 @@ void BGSAddonNode::InitItem()
     TESModelTextureSwap::InitItem(this);
     if (SoundAssetTmp)
     {
-        unsigned int formID = reinterpret_cast<unsigned int>(SoundAssetTmp);
+        unsigned int formID = (unsigned int)(std::uintptr_t)(SoundAssetTmp);
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         SoundAssetTmp = dynamic_cast<TESSound*>(::FUN_004839c0(formID));
         if (!SoundAssetTmp)

@@ -532,11 +532,11 @@ class B479FB0IdleList
     short unk06;
     B479FB0Idle** m_ppkIdles;
 
-    bool FUN_00479fb0(B479FB0Actor* pkActor, int iArg);
+    bool FUN_00479fb0(B479FB0Actor* pkActor, std::intptr_t iArg);
 };
 
 // @fnv 0x00479fb0
-bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, int iArg)
+bool B479FB0IdleList::FUN_00479fb0(B479FB0Actor* pkActor, std::intptr_t iArg)
 {
     if (pkActor)
     {

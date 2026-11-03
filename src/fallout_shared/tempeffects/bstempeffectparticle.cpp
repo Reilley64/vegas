@@ -1335,7 +1335,7 @@ struct BSTempEffect
 {
     BSTempEffect(TESObjectCELL* cell, float radius);
     ~BSTempEffect();
-    unsigned int m_kPointA;
+    std::uintptr_t m_kPointA;
     unsigned char m_auiShapeKeys[0x14];
 };
 
@@ -1356,7 +1356,7 @@ struct FUN_00688fc0_shell : public BSTempEffect
 // Constructs a temporary effect that stores a node pointer, a filename, and an identity motion transform.
 // @fnv 0x00688fc0
 FUN_00688fc0_shell::FUN_00688fc0_shell(TESObjectCELL* cell, float radius, const char* filename, void* node)
-    : BSTempEffect(cell, radius), m_18((m_kPointA = (unsigned int)&DAT_01069c5c, 0)), m_20(0), m_kMotionTransform(), m_5c(),
+    : BSTempEffect(cell, radius), m_18((m_kPointA = (std::uintptr_t)&DAT_01069c5c, 0)), m_20(0), m_kMotionTransform(), m_5c(),
       m_68()
 {
     m_18 = 0;

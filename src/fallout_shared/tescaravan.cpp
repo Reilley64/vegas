@@ -522,10 +522,10 @@ struct FUN_00484d60_holder
 };
 struct FUN_0059add0_shell : public FUN_00484d60_holder
 {
-    void ForwardToBase(unsigned int a);
+    void ForwardToBase(std::uintptr_t a);
 };
 // @fnv 0x0059add0
-void FUN_0059add0_shell::ForwardToBase(unsigned int a)
+void FUN_0059add0_shell::ForwardToBase(std::uintptr_t a)
 {
     reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(a));
 }
@@ -756,11 +756,11 @@ class FUN_0059b680_cls : public FUN_0059b680_base
     char unk90[0x1c];
     FUN_0059b680_sub m_ac;
 
-    void FUN_0059b680(int a1);
+    void FUN_0059b680(std::intptr_t a1);
 };
 
 // @fnv 0x0059b680
-void FUN_0059b680_cls::FUN_0059b680(int a1)
+void FUN_0059b680_cls::FUN_0059b680(std::intptr_t a1)
 {
     void* p = dynamic_cast<::TESCaravanMoney *>(reinterpret_cast<::TESForm *>(a1));
     if (p == 0)

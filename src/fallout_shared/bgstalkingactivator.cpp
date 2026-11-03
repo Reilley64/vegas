@@ -72,7 +72,7 @@ void BGSTalkingActivator::InitItem()
         return;
     reinterpret_cast<::FUN_00510770_shell *>(this)->FUN_00510770();
     m_pTempRef = 0;
-    voiceTypeID = reinterpret_cast<unsigned int>(m_kFactionList);
+    voiceTypeID = (unsigned int)(std::uintptr_t)(m_kFactionList);
     if (voiceTypeID)
     {
         ::ResolveFormID((unsigned int *)&(voiceTypeID), GetFile(-1));

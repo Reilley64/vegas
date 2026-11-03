@@ -409,11 +409,11 @@ struct FUN_004ee610_cls
     unsigned char unk00[0xac];
     FUN_004ee610_node* m_ac;
 
-    void FUN_004ee610(int a1);
+    void FUN_004ee610(std::intptr_t a1);
 };
 
 // @fnv 0x004ee610
-void FUN_004ee610_cls::FUN_004ee610(int a1)
+void FUN_004ee610_cls::FUN_004ee610(std::intptr_t a1)
 {
     if (reinterpret_cast<::NiAVObject *>(this)->IsVisualObject())
     {

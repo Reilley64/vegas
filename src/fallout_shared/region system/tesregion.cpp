@@ -129,14 +129,14 @@ bool TESRegion::Load(TESFile* file)
         case 0x4d414e57: {
             loadState.worldID = 0;
             file->GetChunkData(&loadState.worldID);
-            AssignWorldSpace((TESWorldSpace*)loadState.worldID);
+            AssignWorldSpace((TESWorldSpace*)(std::uintptr_t)loadState.worldID);
             break;
         }
         case 0x494c5052: {
             loadState.distance = 0;
             file->GetChunkData(&loadState.distance);
             loadState.pointList = new RegionPointList(true);
-            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((loadState.pointList))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(loadState.distance));
+            reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((loadState.pointList))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(std::uintptr_t)(loadState.distance));
             reinterpret_cast<::Callees *>((((::BSSimpleList< ::RegionPointList *> *)(reinterpret_cast<::BGSTerrainManager *>((void *)this)->GetMinLevel()))))->FUN_00905820((void *)&(loadState.pointList));
             break;
         }

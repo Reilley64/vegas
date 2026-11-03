@@ -52,7 +52,7 @@ void MediaSet::InitItem()
         return;
 
     formID = 0;
-    formID = reinterpret_cast<unsigned int>(m_pSound1);
+    formID = (unsigned int)(std::uintptr_t)(m_pSound1);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -61,7 +61,7 @@ void MediaSet::InitItem()
             ::FUN_005b5e40();
     }
 
-    formID = reinterpret_cast<unsigned int>(m_pSound2);
+    formID = (unsigned int)(std::uintptr_t)(m_pSound2);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

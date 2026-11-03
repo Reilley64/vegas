@@ -469,7 +469,7 @@ void BGSImpactData::InitItem()
 {
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pDecalTextureSet);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pDecalTextureSet);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -481,7 +481,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pPrimaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pPrimaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -493,7 +493,7 @@ void BGSImpactData::InitItem()
         else
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(m_pSecondaryImpactSound);
+    formID = (unsigned int)(std::uintptr_t)(m_pSecondaryImpactSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSExplosion;
 class BGSRadiationStage;
@@ -110,7 +111,7 @@ extern ::TESBoundObject *g_pLockpickItem;
 // 0x011ca26c
 extern ::TESObjectSTAT *DAT_011ca26c;
 // 0x011ca278
-extern unsigned int DAT_011ca278;
+extern std::uintptr_t DAT_011ca278;
 // 0x011ca27c
 extern ::Ref *DAT_011ca27c;
 // 0x011ca280

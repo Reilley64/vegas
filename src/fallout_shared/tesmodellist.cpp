@@ -472,8 +472,8 @@ bool FUN_00489e40_cls::HasAnyMismatchedEntry(unsigned int arg)
     }
     FNV_NodeIter* a = (FNV_NodeIter*)((char*)this + 4);
     FNV_NodeIter* b = (FNV_NodeIter*)(p + 4);
-    int y4;
-    int x3;
+    std::intptr_t y4;
+    std::intptr_t x3;
     while (a != 0 && b != 0)
     {
         x3 = *((int *)((void *)(a)));
@@ -536,7 +536,7 @@ void FUN_00489ba0_shell::CopyModelListToBuffer(void* destination, unsigned int f
 {
     if (!m_kModelPaths.IsEmpty())
     {
-        unsigned int iStack_8 = 1;
+        std::uintptr_t iStack_8 = 1;
         BSSimpleList<const char*>* iStack7 = &m_kModelPaths;
         const char* piVar4;
         char* allocResult;

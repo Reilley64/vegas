@@ -1318,7 +1318,7 @@ const NiRTTI* FUN_004b5210_shell::GetRTTI() const
 }
 
 // @fnv 0x004b59a0
-int GetCharAtOffset4(int param_1)
+int GetCharAtOffset4(std::intptr_t param_1)
 {
     return (int)*(char*)(param_1 + 4);
 }
@@ -1511,7 +1511,7 @@ void* FUN_004b51e0_shell::FUN_004b51e0(unsigned int flags)
     return this;
 }
 
-int GetCharAtOffset4(int);
+int GetCharAtOffset4(std::intptr_t);
 
 // @fnv 0x004b5980
 int FUN_004b5980(intptr_t param_1)
@@ -1642,7 +1642,7 @@ struct Fake004b50c0
 Fake004b50c0* Fake004b50c0::FUN_004b50c0()
 {
     new ((void *)this) ::fnv_004b50f0::FUN_004b50f0();
-    *(int*)this = (int)&DAT_0102009c;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0102009c;
     DAT_01268118++;
     return this;
 }
@@ -3761,7 +3761,7 @@ class FUN_004b50c0
 class FUN_004b5040 : public FUN_004b50c0
 {
   public:
-    FUN_004b5040(unsigned int value);
+    FUN_004b5040(std::uintptr_t value);
     virtual ~FUN_004b5040();
 };
 
@@ -3769,7 +3769,7 @@ extern int DAT_01268124;
 
 // Calls FUN_00c87260 with value and increments the global counter DAT_01268124.
 // @fnv 0x004b5040
-FUN_004b5040::FUN_004b5040(unsigned int value)
+FUN_004b5040::FUN_004b5040(std::uintptr_t value)
 {
     reinterpret_cast<::MouseSpringOwner *>(this)->FUN_00c87260((::MouseSpringInfo *)(value));
     ++DAT_01268124;
@@ -4071,8 +4071,8 @@ void FUN_00ba6240(OutBa* a1)
     InBa* q = cond ? p : 0;
     if (!q)
         return;
-    int b = DAT_0126f74c;
-    int e = *(int*)(b + 0x24);
+    std::intptr_t b = DAT_0126f74c;
+    std::intptr_t e = *(int*)(b + 0x24);
     int v = q->f118;
     BeamStage* s = *(BeamStage**)e;
     *(int*)((char*)s + 8) = v;
@@ -4337,7 +4337,7 @@ void FUN_00ba5de0(OutBa* a1, int unused)
     {
         c = (p->f1c == 0x11);
     }
-    unsigned int mask = (c != 0) ? 0xffffffffu : 0u;
+    std::uintptr_t mask = (c != 0) ? 0xffffffffu : 0u;
     InBa* sel = (InBa*)(mask & (unsigned int)(std::uintptr_t)p);
     int arr[8];
     arr[0] = 7;
@@ -6622,7 +6622,7 @@ class World6b3c0_o2
 bool ObjectCandidate::FUN_00c86ab0(Item* item)
 {
     ScopedAllocationMode guard;
-    int current = this ? activeObject : 0;
+    std::intptr_t current = this ? activeObject : 0;
     bool result = false;
     if (current != 0)
     {
@@ -6648,7 +6648,7 @@ bool ObjectCandidate::FUN_00c86ab0(Item* item)
 bool S00c87a70_Obj::FUN_00c87a70(Item* arg)
 {
     TlsGuard_t guard;
-    int active = this ? activeObject : 0;
+    std::intptr_t active = this ? activeObject : 0;
     bool result = false;
     if (active != 0)
     {

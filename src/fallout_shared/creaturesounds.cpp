@@ -243,13 +243,13 @@ struct FUN_005f0a30_shell : CreatureSoundCollection
 // @fnv 0x005f0a30
 unsigned int FUN_005f0a30_shell::GetRandomCreatureSound(CREATURE_SOUND_TYPE aeSoundType)
 {
-    unsigned int result2 = 0;
+    std::uintptr_t result2 = 0;
     BSSimpleList<SoundListEntry*>* pSoundList = GetSoundListForType(aeSoundType);
     while (pSoundList && !pSoundList->IsEmpty() && !result2)
     {
         SoundListEntry* sound = (pSoundList->m_item);
         if (sound->SoundAssetTmp && DialogueRandom() % 100 < sound->m_ucSortOrder)
-            result2 = (unsigned int)sound->SoundAssetTmp;
+            result2 = (std::uintptr_t)sound->SoundAssetTmp;
         pSoundList = ((::BSSimpleList< ::SoundListEntry *> *)(reinterpret_cast<::Callees *>((pSoundList))->FUN_00726070()));
     }
     return result2;

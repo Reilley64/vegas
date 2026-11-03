@@ -47,7 +47,7 @@ void TESResponse::InitItem(TESForm* owner)
             unsigned int formID;
             TESForm* form;
         } resolved;
-        resolved.formID = reinterpret_cast<unsigned int>(Data.m_pTopic);
+        resolved.formID = (unsigned int)(std::uintptr_t)(Data.m_pTopic);
         ::ResolveFormID((unsigned int *)&(resolved.formID), owner->GetFile(-1));
         resolved.form = ::FUN_004839c0(resolved.formID);
         if (resolved.form && resolved.form->GetFormType() == 69)
@@ -79,7 +79,7 @@ void TESResponse::InitItem(TESForm* owner)
             unsigned int formID;
             TESForm* form;
         } resolved;
-        resolved.formID = reinterpret_cast<unsigned int>(Data.m_pResponseSound);
+        resolved.formID = (unsigned int)(std::uintptr_t)(Data.m_pResponseSound);
         ::ResolveFormID((unsigned int *)&(resolved.formID), owner->GetFile(-1));
         resolved.form = ::FUN_004839c0(resolved.formID);
         if (resolved.form && resolved.form->GetFormType() == 13)
@@ -111,7 +111,7 @@ void TESResponse::InitItem(TESForm* owner)
             unsigned int formID;
             TESForm* form;
         } resolved;
-        resolved.formID = reinterpret_cast<unsigned int>(m_pFirstIdleForm);
+        resolved.formID = (unsigned int)(std::uintptr_t)(m_pFirstIdleForm);
         ::ResolveFormID((unsigned int *)&(resolved.formID), owner->GetFile(-1));
         resolved.form = ::FUN_004839c0(resolved.formID);
         if (resolved.form && resolved.form->GetFormType() == 72)
@@ -143,7 +143,7 @@ void TESResponse::InitItem(TESForm* owner)
             unsigned int formID;
             TESForm* form;
         } resolved;
-        resolved.formID = reinterpret_cast<unsigned int>(m_pSecondIdleForm);
+        resolved.formID = (unsigned int)(std::uintptr_t)(m_pSecondIdleForm);
         ::ResolveFormID((unsigned int *)&(resolved.formID), owner->GetFile(-1));
         resolved.form = ::FUN_004839c0(resolved.formID);
         if (resolved.form && resolved.form->GetFormType() == 72)

@@ -753,7 +753,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
             if (queriedVal)
             {
                 void* clonePtr = queriedVal;
-                int held2 = ((LookupObj*)clonePtr)->vfn_c4(0);
+                std::intptr_t held2 = ((LookupObj*)clonePtr)->vfn_c4(0);
                 void* altObj2Val = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f3e50))), (::NiObject *)(void *)((void*)held2))));
                 void* myAltPtr = 0;
                 if (altObj2Val)

@@ -87,7 +87,7 @@ void AlchemyItem::ClearData()
 // @fnv 0x004030d0
 void AlchemyItem::SetSound(TESSound* sound)
 {
-    unk0C8 = (int)sound;
+    unk0C8 = (std::intptr_t)sound;
 }
 
 // @fnv 0x004030b0
@@ -670,7 +670,7 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x49524353: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         reinterpret_cast<::TESScriptableForm *>(this)->InitItem((::TESForm *)(::AlchBase00 *)(this));
         break;
     }
@@ -681,19 +681,19 @@ void FUN_00403280_t::FUN_00403280(TESFile* apFile, int aiChunk)
     case 0x50595445: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e59: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(formID));
+        reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(std::uintptr_t)(formID));
         break;
     }
     case 0x4d414e5a: {
         unsigned int formID = 0;
         ((FUN_004727f0_t*)apFile)->ReadChunkInt(&formID);
-        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(formID));
+        reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(std::uintptr_t)(formID));
         break;
     }
     case 0x41544144:

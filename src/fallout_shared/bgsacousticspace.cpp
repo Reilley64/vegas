@@ -142,7 +142,7 @@ bool BGSAcousticSpace::Load(TESFile* file)
 // @fnv 0x00589f50
 void FUN_00589f50_shell::SetSound(void* apSound)
 {
-    *(int*)((char*)this + 0x4c) = (int)apSound;
+    *(std::intptr_t*)((char*)this + 0x4c) = (std::intptr_t)apSound;
 }
 
 struct Standin00589930
@@ -169,7 +169,7 @@ void BGSAcousticSpace::InitItem()
     unsigned int formID;
     if (reinterpret_cast<::TESForm *>((void *)(static_cast<TESFormInitFlag*>(static_cast<TESForm*>(this))))->GetInitialized())
         return;
-    formID = reinterpret_cast<unsigned int>(pDawnSound);
+    formID = (unsigned int)(std::uintptr_t)(pDawnSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -177,7 +177,7 @@ void BGSAcousticSpace::InitItem()
         if (!pDawnSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pNoonSound);
+    formID = (unsigned int)(std::uintptr_t)(pNoonSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -185,7 +185,7 @@ void BGSAcousticSpace::InitItem()
         if (!pNoonSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pDuskSound);
+    formID = (unsigned int)(std::uintptr_t)(pDuskSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -193,7 +193,7 @@ void BGSAcousticSpace::InitItem()
         if (!pDuskSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pNightSound);
+    formID = (unsigned int)(std::uintptr_t)(pNightSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -201,7 +201,7 @@ void BGSAcousticSpace::InitItem()
         if (!pNightSound)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pRegion);
+    formID = (unsigned int)(std::uintptr_t)(pRegion);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -209,7 +209,7 @@ void BGSAcousticSpace::InitItem()
         if (!pRegion)
             ::FUN_005b5e40();
     }
-    formID = reinterpret_cast<unsigned int>(pWallaSound);
+    formID = (unsigned int)(std::uintptr_t)(pWallaSound);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

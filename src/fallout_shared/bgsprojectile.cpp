@@ -96,28 +96,28 @@ void BGSProjectile::InitItem()
         return;
     BGSDestructibleObjectForm::InitItem(this);
     unsigned int formID;
-    formID = (unsigned int)((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<EffectSetting*>(this)))->FUN_004fd380()));
+    formID = (unsigned int)(std::uintptr_t)((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<EffectSetting*>(this)))->FUN_004fd380()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<::fnv_0057bd60::fnv_anon_tesobjectrefr::Dummy *>((reinterpret_cast<EffectSetting*>(this)))->FUN_0057bd60(
             (::fnv_0057bd60::MobileObject *)(::TESObjectLIGH *)(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID))));
     }
-    formID = (unsigned int)((::TESForm *)(reinterpret_cast<::FUN_004fd3a0_shell *>((reinterpret_cast<TESChallenge*>(this)))->FUN_004fd3a0()));
+    formID = (unsigned int)(std::uintptr_t)((::TESForm *)(reinterpret_cast<::FUN_004fd3a0_shell *>((reinterpret_cast<TESChallenge*>(this)))->FUN_004fd3a0()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<TESObjectACTI*>(this)->SetLoopingSound(
             reinterpret_cast<TESSound*>(dynamic_cast<TESObjectLIGH*>(::FUN_004839c0(formID))));
     }
-    formID = (unsigned int)((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this)))));
+    formID = (unsigned int)(std::uintptr_t)((::TESSound *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(reinterpret_cast<EffectSetting*>(this)))));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<EffectSetting*>(this)->SetBoltSound(
             reinterpret_cast<TESSound*>(dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID))));
     }
-    formID = (unsigned int)reinterpret_cast<EffectSetting*>(this)->GetHitSound();
+    formID = (unsigned int)(std::uintptr_t)reinterpret_cast<EffectSetting*>(this)->GetHitSound();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -131,14 +131,14 @@ void BGSProjectile::InitItem()
         reinterpret_cast<::FUN_004078a0_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetEffectID(
             (int)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
     }
-    formID = (unsigned int)reinterpret_cast<InterfaceManager*>(this)->FUN_00586150();
+    formID = (unsigned int)(std::uintptr_t)reinterpret_cast<InterfaceManager*>(this)->FUN_00586150();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<::FUN_00810570_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetAssociatedActorValue(
             (int)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
     }
-    formID = (unsigned int)((::Tile *)(reinterpret_cast<::MagicProjectile *>((reinterpret_cast<InterfaceManager*>(this)))->FUN_004fd400()));
+    formID = (unsigned int)(std::uintptr_t)((::Tile *)(reinterpret_cast<::MagicProjectile *>((reinterpret_cast<InterfaceManager*>(this)))->FUN_004fd400()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

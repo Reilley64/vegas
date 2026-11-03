@@ -83,7 +83,7 @@ void BGSBodyPartData::InitItem()
         if (part)
             part->InitItem(this);
     }
-    unsigned int ragdollID = reinterpret_cast<unsigned int>(m_pRagdoll);
+    unsigned int ragdollID = (unsigned int)(std::uintptr_t)(m_pRagdoll);
     if (ragdollID)
     {
         ::ResolveFormID((unsigned int *)&(ragdollID), GetFile(-1));

@@ -124,7 +124,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x49524353: {
             unsigned int scriptID = 0;
             file->GetChunkData(&scriptID);
-            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)scriptID);
+            ((CombatProcedure*)static_cast<TESScriptableForm *>(this))->Initialize((CombatController*)(std::uintptr_t)scriptID);
             TESScriptableForm::InitItem(this);
             break;
         }
@@ -135,13 +135,13 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int pickupID = 0;
             file->GetChunkData(&pickupID);
-            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)pickupID);
+            ((CombatProcedure*)static_cast<BGSPickupPutdownSounds *>(this))->Initialize((CombatController*)(std::uintptr_t)pickupID);
             break;
         }
         case 0x4d414e5a: {
             unsigned int putdownID = 0;
             file->GetChunkData(&putdownID);
-            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)putdownID);
+            ((TESRegionGrassObject*)static_cast<BGSPickupPutdownSounds *>(this))->AssignLandTexture((TESLandTexture*)(std::uintptr_t)putdownID);
             break;
         }
         case 0x41544144:
@@ -150,7 +150,7 @@ bool TESObjectMISC::Load(TESFile* file)
         case 0x4d414e52: {
             unsigned int loopingID = 0;
             file->GetChunkData(&loopingID);
-            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(loopingID));
+            reinterpret_cast<::TESObjectMISC *>(this)->SetLoopingSound((::TESSound *)(std::uintptr_t)(loopingID));
             break;
         }
         }

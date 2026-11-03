@@ -365,7 +365,7 @@ float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float
         AmmoEffectValue* effect = (sorted->value);
         sorted = ((::AmmoEffectList *)(reinterpret_cast<::Callees *>((sorted))->FUN_00726070()));
         int effectType = ((int)(reinterpret_cast<::ActorMover *>((effect))->GetCurrentMoveModeType()));
-        int iOperation = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));
+        std::intptr_t iOperation = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((effect))->FUN_0045cd60()));
         float magnitude = reinterpret_cast<::FUN_00759450_shell *>((effect))->FUN_00759450();
         if (effectType != iEffectType)
             continue;

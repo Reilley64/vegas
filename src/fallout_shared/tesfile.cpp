@@ -482,7 +482,7 @@ struct FUN_00471a10_shell : public TESFile
 
 struct FUN_00471ad0_shell : public TESFile
 {
-    unsigned int FUN_00471ad0();
+    std::uintptr_t FUN_00471ad0();
 };
 
 
@@ -988,9 +988,9 @@ TESFile* FUN_00471a10_shell::GetFileByIndex(unsigned int index)
     return (this->m_ppTESFiles)[index - 1];
 }
 // @fnv 0x00471ad0
-unsigned int FUN_00471ad0_shell::FUN_00471ad0()
+std::uintptr_t FUN_00471ad0_shell::FUN_00471ad0()
 {
-    return ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
+    return ((std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC()));
 }
 
 // @fnv 0x00471850
@@ -1349,7 +1349,7 @@ struct BSStr
 struct S7010
 {
 };
-extern int DAT_011c5490;
+extern std::intptr_t DAT_011c5490;
 struct FormTypeInfo
 {
     unsigned char cType;
@@ -1769,8 +1769,8 @@ int TESFile_Standin::FUN_00472e60(TESForm* apForm)
 {
     this->FUN_004736c0(apForm);
 
-    *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) =
-        ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apForm)))->GetName()));
+    *reinterpret_cast<std::uintptr_t*>(reinterpret_cast<char*>(this) + 0x278) =
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apForm)))->GetName()));
     *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) =
         *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x278) & 0x30032FE0;
 
@@ -3152,7 +3152,7 @@ void __cdecl FUN_00473270(void* pObject)
         void* r;
         unsigned int a = *((unsigned int *)((void *)(((Probe_B*)pObject))));
         unsigned int b = a;
-        unsigned int c2 = b;
+        std::uintptr_t c2 = b;
         if (c2 != 0)
         {
             r = ((FUN_004601a0Class*)c2)->DestroyIfFlagged(1);
@@ -3491,7 +3491,7 @@ void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
         return;
     if (DAT_011c5490 == (int)(std::uintptr_t)this && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0())))
         return;
-    DAT_011c5490 = (int)this;
+    DAT_011c5490 = (std::intptr_t)this;
     reinterpret_cast<::TextString *>((((BSStr*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004037f0(0, 0);
     {
         TESFile* pFile = apForm->GetFile(-1);

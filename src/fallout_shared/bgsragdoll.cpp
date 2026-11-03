@@ -180,7 +180,7 @@ void BGSRagdoll::InitItem()
 
     TESForm::ClearData();
 
-    unsigned int formID = reinterpret_cast<unsigned int>(m_pBodyPartDataCur);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(m_pBodyPartDataCur);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -189,7 +189,7 @@ void BGSRagdoll::InitItem()
             ::FUN_005b5e40();
     }
 
-    formID = reinterpret_cast<unsigned int>(m_pActorBase);
+    formID = (unsigned int)(std::uintptr_t)(m_pActorBase);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
@@ -803,7 +803,7 @@ struct AX
 // @fnv 0x005eede0
 void* AX::FUN_005eede0()
 {
-    *(int*)this = (int)&::DAT_010472d0;
+    *(std::intptr_t*)this = (std::intptr_t)&::DAT_010472d0;
     FUN_006b3eb0(0, 0);
     return this;
 }

@@ -91,7 +91,7 @@ bool BGSListForm::Load(TESFile* file)
             unsigned int formID = 0;
             file->GetChunkData(&formID);
             {
-                reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->FUN_00905820((void *)&(const ::MediaSet *const &)((MediaSet*)formID));
+                reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<MediaSet*>*>(reinterpret_cast<BGSCameraPath*>(this)->GetConditions())))->FUN_00905820((void *)&(const ::MediaSet *const &)((MediaSet*)(std::uintptr_t)formID));
             }
             break;
         }
@@ -130,7 +130,7 @@ void BGSListForm::InitItem()
             ::FUN_005b5e40();
             if (previous != 0)
             {
-                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSCameraShot *const &)((BGSCameraShot*)formID)));
+                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((const ::BGSCameraShot *const &)((BGSCameraShot*)(std::uintptr_t)formID)));
                 current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(
                     ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(previous)))->FUN_00726070())));
             }

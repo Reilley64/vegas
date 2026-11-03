@@ -1011,7 +1011,7 @@ void IdleInit::InitLoad()
         }
         reinterpret_cast<::LowProcess *>(this)->SetCurrentCombatTarget((::TESObjectREFR *)(parent));
     }
-    uiFormId = (unsigned int)m_pIdleForm;
+    uiFormId = (unsigned int)(std::uintptr_t)m_pIdleForm;
     if (uiFormId)
     {
         ResolveFormID(&uiFormId, GetFile(-1));

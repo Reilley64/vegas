@@ -2310,7 +2310,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
     float uValue22;
     P3 diffValue4;
     int iValue13;
-    int tValue0;
+    std::intptr_t tValue0;
     float inv11cValue22;
     float inv118Value2;
     M3 mecValue16;
@@ -2442,7 +2442,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
                 }
             }
             reinterpret_cast<::ResizeMesh *>(this)->ResizeMeshBuffers();
-            tValue0 = ((int)(reinterpret_cast<::B68CA90Builder *>(this)->FUN_0068ca90()));
+            tValue0 = ((std::intptr_t)(reinterpret_cast<::B68CA90Builder *>(this)->FUN_0068ca90()));
             m_28.FUN_0066b0d0(((std::intptr_t)(::CreateB68CA10Object(tValue0))));
             if (((void *)(::FUN_00559450((int *)&(m_28)))))
             {

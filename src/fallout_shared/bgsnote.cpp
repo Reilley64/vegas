@@ -176,7 +176,7 @@ void BGSNote::InitItem()
     while (current && !current->IsEmpty())
     {
         BGSNoteReference<TESQuest> noteRef;
-        noteRef.id = (unsigned int)(current->item);
+        noteRef.id = (unsigned int)(std::uintptr_t)(current->item);
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESQuest*>(::FUN_004839c0(noteRef.id));
         if (noteRef.form)
@@ -200,7 +200,7 @@ void BGSNote::InitItem()
     if (FUN_005e9100())
     {
         BGSNoteReference<TESSound> noteRef;
-        noteRef.id = (unsigned int)FUN_005e9100();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e9100();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESSound*>(::FUN_004839c0(noteRef.id));
         reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)(noteRef.form));
@@ -210,7 +210,7 @@ void BGSNote::InitItem()
     if (FUN_005e9240())
     {
         BGSNoteReference<TESTopic> noteRef;
-        noteRef.id = (unsigned int)FUN_005e9240();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e9240();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESTopic*>(::FUN_004839c0(noteRef.id));
         reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270(noteRef.form);
@@ -220,7 +220,7 @@ void BGSNote::InitItem()
     if (FUN_005e92a0())
     {
         BGSNoteReference<TESActorBase> noteRef;
-        noteRef.id = (unsigned int)FUN_005e92a0();
+        noteRef.id = (unsigned int)(std::uintptr_t)FUN_005e92a0();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESActorBase*>(::FUN_004839c0(noteRef.id));
         reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0(noteRef.form);
@@ -264,13 +264,13 @@ bool BGSNote::Load(TESFile* file)
         case 0x4d414e59: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x41544144: {
@@ -282,7 +282,7 @@ bool BGSNote::Load(TESFile* file)
         case 0x4d414e4f: {
             unsigned int id = 0;
             file->GetChunkData(&id);
-            ownerQuests.AddHead((TESQuest*)id);
+            ownerQuests.AddHead((TESQuest*)(std::uintptr_t)id);
             break;
         }
         case 0x4d414e58: {
@@ -304,7 +304,7 @@ bool BGSNote::Load(TESFile* file)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)((TESSound*)id));
+                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)((TESSound*)(std::uintptr_t)id));
                 }
                 break;
             case 1:
@@ -328,13 +328,13 @@ bool BGSNote::Load(TESFile* file)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0((TESActorBase*)id);
+                    reinterpret_cast<::FUN_005e92d0_shell *>(this)->FUN_005e92d0((TESActorBase*)(std::uintptr_t)id);
                 }
                 else if (chunk == 0x4d414e54)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270((TESTopic*)id);
+                    reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270((TESTopic*)(std::uintptr_t)id);
                 }
                 break;
             }

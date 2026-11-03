@@ -737,7 +737,7 @@ struct hkpTypedBroadPhaseHandle
 // @fnv 0x0043b540
 uintptr_t FUN_0043b540(char* pThis)
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)(pThis + 0x14))))->GetName()));
+    return ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((hkpTypedBroadPhaseHandle*)(pThis + 0x14))))->GetName()));
 }
 
 struct BSFile;
@@ -932,12 +932,12 @@ void GetNodePointer(NiNode* apNode, NiPointer<NiNode>& apNodePtr)
 
 struct FUN_0043c4f0_shell
 {
-    void FUN_0043c4f0(int a1, int a2);
+    void FUN_0043c4f0(int a1, std::intptr_t a2);
 };
 
 // Computes a value from a1 via FUN_0043c530, then calls GetByKey with that value, a1 and a2.
 // @fnv 0x0043c4f0
-void FUN_0043c4f0_shell::FUN_0043c4f0(int a1, int aiArg)
+void FUN_0043c4f0_shell::FUN_0043c4f0(int a1, std::intptr_t aiArg)
 {
     int v = ((int)(::FUN_0043c530(a1)));
     reinterpret_cast<::FUN_00a61a60_cls *>(this)->GetByKey(v, a1, (*(::NiRefObject * *)(aiArg)));
@@ -957,7 +957,7 @@ struct FUN_0043c610_shell : public QueuedFile
 // @fnv 0x0043c610
 void FUN_0043c610_shell::RunVirtualMethod28()
 {
-    (*(void(**)(QueuedFile*))(*(int*)this + 0x28))(this);
+    (*(void(**)(QueuedFile*))(*(std::intptr_t*)this + 0x28))(this);
 }
 
 struct FUN_0043c630_shell : public QueuedTexture
@@ -2338,7 +2338,7 @@ extern int DAT_0101732c;
 
 struct FUN_004492c0_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     void FUN_0044c270(int a, int b, int c);
     FUN_004492c0_shell* FUN_004492c0(int a, int b, int c);
 };
@@ -2348,7 +2348,7 @@ struct FUN_004492c0_shell
 FUN_004492c0_shell* FUN_004492c0_shell::FUN_004492c0(int a, int b, int c)
 {
     FUN_0044c270(a, b, c);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 
@@ -2451,7 +2451,7 @@ extern int DAT_0101732c;
 
 struct FUN_004496a0_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     void FUN_0044c270(int a, int b, int c);
     FUN_004496a0_shell* FUN_004496a0(int a, int b, int c);
 };
@@ -2461,7 +2461,7 @@ struct FUN_004496a0_shell
 FUN_004496a0_shell* FUN_004496a0_shell::FUN_004496a0(int a, int b, int c)
 {
     FUN_0044c270(a, b, c);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 }  // namespace fnv_004496a0
@@ -2484,7 +2484,7 @@ extern int DAT_0101732c;
 
 struct FUN_004497c0_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     void FUN_0044c270(int a, int b, int c);
     FUN_004497c0_shell* FUN_004497c0(int a, int b, int c);
 };
@@ -2494,7 +2494,7 @@ struct FUN_004497c0_shell
 FUN_004497c0_shell* FUN_004497c0_shell::FUN_004497c0(int aiArg1, int aiArg2, int aiArg3)
 {
     FUN_0044c270(aiArg1, aiArg2, aiArg3);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 }  // namespace fnv_004497c0
@@ -2582,7 +2582,7 @@ extern int DAT_0101732c;
 
 struct FUN_00449f50_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     void FUN_0044c270(int a, int b, int c);
     FUN_00449f50_shell* FUN_00449f50(int a, int b, int c);
 };
@@ -2592,7 +2592,7 @@ struct FUN_00449f50_shell
 FUN_00449f50_shell* FUN_00449f50_shell::FUN_00449f50(int aiArg1, int aiArg2, int aiArg3)
 {
     FUN_0044c270(aiArg1, aiArg2, aiArg3);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 }  // namespace fnv_00449f50
@@ -2610,7 +2610,7 @@ extern int DAT_0101732c;
 
 struct FUN_00449fa0_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     FUN_00449fa0_shell* ConstructWithVtbl(int a, int b, int c);
 };
 
@@ -2619,7 +2619,7 @@ struct FUN_00449fa0_shell
 FUN_00449fa0_shell* FUN_00449fa0_shell::ConstructWithVtbl(int aiArg1, int aiArg2, int aiArg3)
 {
     new ((void *)this) ::FUN_0044c270(aiArg1, aiArg2, aiArg3);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 }  // namespace fnv_00449fa0
@@ -2629,7 +2629,7 @@ extern int DAT_0101732c;
 
 struct FUN_0044a100_shell
 {
-    int vtbl;
+    std::intptr_t vtbl;
     FUN_0044a100_shell* FUN_0044a100(int a, int b, int c);
 };
 
@@ -2638,7 +2638,7 @@ struct FUN_0044a100_shell
 FUN_0044a100_shell* FUN_0044a100_shell::FUN_0044a100(int aiArg1, int aiArg2, int aiArg3)
 {
     new ((void *)this) ::FUN_0044c920(aiArg1, aiArg2, aiArg3);
-    vtbl = (int)&DAT_0101732c;
+    vtbl = (std::intptr_t)&DAT_0101732c;
     return this;
 }
 }  // namespace fnv_0044a100
@@ -3866,7 +3866,7 @@ struct ModelLoaderStandIn
 {
     char pad[0x10];
     int field10;
-    PairStandIn FUN_0044a1a0(int, int, int, int);
+    PairStandIn FUN_0044a1a0(std::intptr_t, int, std::intptr_t, int);
 };
 // Initializes p18 and p1c to null, then calls FUN_0044a0a0.
 // @fnv 0x00449610
@@ -3883,7 +3883,7 @@ void VecStandIn::FUN_0044a0a0()
     reinterpret_cast<::ModelLoaderStandIn *>(this)->FUN_0044a1a0((*(int *)&(const ::ConstIterStandIn &)((*(::FaceGenImageView *)(reinterpret_cast<::_Dummy_0044a170 *>((((FaceGenImage*)this)))->FUN_0044a170({}))))), (*(int *)&(const ::ConstIterStandIn &)((*(::FaceGenImageView *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>(this)->CallWithSelf({}))))), {}, {});
 }
 // @fnv 0x0044a1a0
-PairStandIn ModelLoaderStandIn::FUN_0044a1a0(int aiFirstA, int aiFirstB, int aiSecondA, int aiSecondB)
+PairStandIn ModelLoaderStandIn::FUN_0044a1a0(std::intptr_t aiFirstA, int aiFirstB, std::intptr_t aiSecondA, int aiSecondB)
 {
     PairStandIn r1 = (*(::PairStandIn *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(aiFirstA), aiFirstB, {})));
     PairStandIn r2 = (*(::PairStandIn *)(reinterpret_cast<::FUN_0065ded0_Class *>(this)->FUN_0065ded0((::_Out_0044a170 *)(aiSecondA), aiSecondB, {})));
@@ -4310,8 +4310,8 @@ void FUN_0043ecb0_shell::FUN_0043ecb0()
 {
     ::FUN_00652140();
     MemCtx tempMemContext(0x37, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x5f9);
-    unsigned int pbipedNode3;
-    unsigned int pskinnedNode;
+    std::uintptr_t pbipedNode3;
+    std::uintptr_t pskinnedNode;
     pskinnedNode = 0;
     pbipedNode3 = 0;
     reinterpret_cast<::TESNPC *>((((HeadLayout*)this)->npc))->GetFaceGenNodes((*(::BSFaceGenNiNode * *)(&pskinnedNode)), (*(::BSFaceGenNiNode * *)(&pbipedNode3)));
@@ -9463,7 +9463,7 @@ NiFile* FUN_00c3cff0_shell::FUN_00c3cff0(int aeArchiveTypeIndex, int aeArchiveTy
     NiFile* pFile = 0;
     if (*(int*)((char*)this + 0x2c))
     {
-        pFile = ((::NiFile *)(::fnv_00af6340::FUN_00af6340(aeArchiveTypeIndex, (::fnv_00af6340::BSFileEntry *)(*(int*)((char*)this + 0x2c)), -1, 0)));
+        pFile = ((::NiFile *)(::fnv_00af6340::FUN_00af6340(aeArchiveTypeIndex, (::fnv_00af6340::BSFileEntry *)(*(std::intptr_t*)((char*)this + 0x2c)), -1, 0)));
     }
     if (*(int*)((char*)this + 0x28) && !pFile)
     {
@@ -9780,7 +9780,7 @@ struct DeletedNodeScanner
 };
 struct FUN_005292a0 : public BSAudio
 {
-    unsigned int f0, f4, f8, fc, f10, f14, f18, f1c;
+    std::uintptr_t f0, f4, f8, fc, f10, f14, f18, f1c;
     unsigned int f20;
     void SetRace(std::uintptr_t race);
 };
@@ -9791,7 +9791,7 @@ void FUN_005292a0::SetRace(std::uintptr_t race)
     reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)race)))->Initialize((::CombatController *)(f1c));
     f1c = race;
     f20++;
-    if (f20 == ((int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)*(unsigned int*)this)))->FUN_0044edb0())))
+    if (f20 == ((int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)*(std::uintptr_t*)this)))->FUN_0044edb0())))
         ((DeletedNodeScanner*)this)->ScanForDeletedNodes();
 }
 }  // namespace fnv_005292a0
@@ -9814,7 +9814,7 @@ struct FUN_00666510_Class
 void FUN_00666510_Class::AddRace(TESRaceForm* pRace)
 {
     *(unsigned int*)((char*)pRace + 4) = 0;
-    reinterpret_cast<::CombatProcedure *>((pRace))->Initialize((::CombatController *)(*(unsigned int*)((char*)this + 0x1c)));
+    reinterpret_cast<::CombatProcedure *>((pRace))->Initialize((::CombatController *)(*(std::uintptr_t*)((char*)this + 0x1c)));
     *(TESRaceForm**)((char*)this + 0x1c) = pRace;
     *(unsigned int*)((char*)this + 0x20) += 1;
     if (*(unsigned int*)((char*)this + 0x20) == ((int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(((*(BSAudio**)((char*)this))))->FUN_0044edb0())))
@@ -10012,8 +10012,8 @@ typedef AutoMemHelper AutoMemContext;
 struct QueuedTreeModel
 {
     unsigned char padding[0x48];
-    int pRef;
-    int pTree;
+    std::intptr_t pRef;
+    std::intptr_t pTree;
 
     void FUN_0043da00();
 };
@@ -10962,12 +10962,12 @@ struct FUN_0043d540_cls : FUN_0043bd10_base
     int unk34;
     int m_iValue38;
 
-    FUN_0043d540_cls* FUN_0043d540(int a1, int a2, int a3);
+    FUN_0043d540_cls* FUN_0043d540(std::intptr_t a1, int a2, int a3);
 };
 
 // Calls the base constructor with a1 and a2, sets the vtable pointer to DAT_0101698c, stores a3 in m_iValue38, and returns this.
 // @fnv 0x0043d540
-FUN_0043d540_cls* FUN_0043d540_cls::FUN_0043d540(int a1, int a2, int aiValue)
+FUN_0043d540_cls* FUN_0043d540_cls::FUN_0043d540(std::intptr_t a1, int a2, int aiValue)
 {
     new ((void *)this) ::fnv_0043bd10::FUN_0043bd10((const char *)(a1), a2);
     m_pVTable = (void*)DAT_0101698c;
@@ -11296,7 +11296,7 @@ class FUN_0043ef10 : public SaveLoadBase
     SaveLoadElemA m_arrA[20];
     SaveLoadElemB m_arrB[20];
     SaveLoadElemB m_arrC[20];
-    unsigned int m_11c;
+    std::uintptr_t m_11c;
     unsigned char m_120;
 
     FUN_0043ef10(SaveLoadTarget* target, unsigned int flags, unsigned int unused);
@@ -11309,7 +11309,7 @@ FUN_0043ef10::FUN_0043ef10(SaveLoadTarget* target, unsigned int flags, unsigned 
     : SaveLoadBase(flags), m_pFlagTarget(target)
 {
     m_120 = 0;
-    m_11c = ((unsigned int)(reinterpret_cast<::FUN_0043f010 *>((m_pFlagTarget))->Get()));
+    m_11c = ((std::uintptr_t)(reinterpret_cast<::FUN_0043f010 *>((m_pFlagTarget))->Get()));
 }
 
 struct SpawnedCallee
@@ -11363,13 +11363,13 @@ struct Host0043fb10
     char _pad[0x11c];
     Standin0043fb50* m_11c;
     void FUN_00c3cb70(int, int);
-    void CallWithArgsAndForwardMember(int a, int b);
+    void CallWithArgsAndForwardMember(int a, std::intptr_t b);
 };
 
 
 // Calls FUN_00c3cb70 with a and b, then calls DispatchToVirtual on g_11c3b3c passing m_11c.
 // @fnv 0x0043fb10
-void Host0043fb10::CallWithArgsAndForwardMember(int aiArg1, int aiArg2)
+void Host0043fb10::CallWithArgsAndForwardMember(int aiArg1, std::intptr_t aiArg2)
 {
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg1, (::fnv_00c3cb70::RefObj *)(aiArg2));
     reinterpret_cast<::Standin0043fb50 *>(((*reinterpret_cast<::fnv_0043fb10::Standin0043fb50 * *>(&::g_modelLoader))))->DispatchToVirtual((std::intptr_t)m_11c);
@@ -12041,7 +12041,7 @@ struct S_004445c0_Dest
 };
 struct S_004445c0_This
 {
-    void FUN_004445c0(int a1, int a2, S_004445c0_Dest* a3, int a4, int a5, int a6);
+    void FUN_004445c0(int a1, int a2, S_004445c0_Dest* a3, int a4, std::intptr_t a5, int a6);
 };
 // Creates a scope object with mode 0 and forwards all arguments to Dispatch.
 // @fnv 0x00444540
@@ -12052,7 +12052,7 @@ void FUN_00444540_cls::DispatchWithScope(std::uintptr_t a, std::uintptr_t b, uns
 }
 // Allocates an object from the given arguments, calls FUN_00443aa0 and v8 on it, then passes it to FUN_0092c820 on the destination.
 // @fnv 0x004445c0
-void S_004445c0_This::FUN_004445c0(int aiArg1, int aiArg2, S_004445c0_Dest* pDest, int aiArg4, int aiArg5, int aiArg6)
+void S_004445c0_This::FUN_004445c0(int aiArg1, int aiArg2, S_004445c0_Dest* pDest, int aiArg4, std::intptr_t aiArg5, int aiArg6)
 {
     S_004445c0_Ptr sp(new S_004445c0_Obj(aiArg1, aiArg2, aiArg4, aiArg6));
     reinterpret_cast<::QueuedFile *>(((sp).operator->()))->SetParent((::QueuedFile *)(aiArg5));
@@ -12893,7 +12893,7 @@ struct Obj44
     Slot44 unk18;
     void Finish(int p);
     void Release();
-    bool TryInsertAndFinish(int a, int b);
+    bool TryInsertAndFinish(int a, std::intptr_t b);
 };
 
 class FUN_0044df40_PtrHolder
@@ -13430,9 +13430,9 @@ struct Controller
 struct Worker
 {
     Controller* controller;
-    int unk04;
-    int unk08;
-    int unk0c;
+    std::intptr_t unk04;
+    std::intptr_t unk08;
+    std::intptr_t unk0c;
     int* state;
     NodeLink current;
     NodeLink pending;
@@ -14135,7 +14135,7 @@ struct FUN_0043d8f0_Class : public FUN_0043c830
 // @fnv 0x0043d8f0
 void FUN_0043d8f0_Class::FUN_0043d8f0()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010169d4);
+    *reinterpret_cast<std::intptr_t*>(this) = reinterpret_cast<std::intptr_t>(&DAT_010169d4);
     this->FUN_0043c830::~FUN_0043c830();
 }
 
@@ -14504,11 +14504,11 @@ void Task43E::LoadModelsAndFinish()
 struct FUN_0043e840_shell : public ModelLoader
 {
     void FUN_00c3cb70(int, int);
-    void FUN_0043e840(int param_2, int param_3);
+    void FUN_0043e840(int param_2, std::intptr_t param_3);
 };
 // Calls FUN_00c3cb70 with the two arguments, then passes the queued file at this+0x3c to g_modelLoader->DispatchAnimIdle.
 // @fnv 0x0043e840
-void FUN_0043e840_shell::FUN_0043e840(int aiArg1, int aiArg2)
+void FUN_0043e840_shell::FUN_0043e840(int aiArg1, std::intptr_t aiArg2)
 {
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(aiArg1, (::fnv_00c3cb70::RefObj *)(aiArg2));
     reinterpret_cast<::FUN_0043e810_shell *>((g_modelLoader))->DispatchAnimIdle((::AnimIdle *)(::QueuedFile *)((QueuedFile*)FUN_00559450((int*)((char*)this + 0x3c))));
@@ -14529,13 +14529,13 @@ struct FUN_0043eac0_class
     int unk28;
 
     void FUN_00c3cb70(int param_1, int param_2);
-    void ForwardToHolder(int param_1, int param_2);
+    void ForwardToHolder(int param_1, std::intptr_t param_2);
 };
 
 
 // Calls FUN_00c3cb70 with the two arguments, then calls ForwardToInner on DAT_011c3b3c passing unk28.
 // @fnv 0x0043eac0
-void FUN_0043eac0_class::ForwardToHolder(int param_1, int param_2)
+void FUN_0043eac0_class::ForwardToHolder(int param_1, std::intptr_t param_2)
 {
     reinterpret_cast<::fnv_00c3cb70::IOTask *>(this)->FUN_00c3cb70(param_1, (::fnv_00c3cb70::RefObj *)(param_2));
     (*reinterpret_cast<::Holder14 * *>(&::g_modelLoader))->ForwardToInner(unk28);
@@ -14630,10 +14630,10 @@ struct AttachTask
     int unk28;
     NodePointer first;
     NodePointer second;
-    void FUN_0043ed90(RefActor* actor, int arg);
+    void FUN_0043ed90(RefActor* actor, std::intptr_t arg);
 };
 // @fnv 0x0043ed90
-void AttachTask::FUN_0043ed90(RefActor* actor, int arg)
+void AttachTask::FUN_0043ed90(RefActor* actor, std::intptr_t arg)
 {
     AutoMemContext_1 manager((MEM_CONTEXT)0x37, true,
                              "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\ModelLoader.cpp", 0x613);
@@ -14855,7 +14855,7 @@ struct FnvRoot
     FnvRefPtr references[20];
     FnvRefPtr attachments[20];
     FnvRefPtr children[20];
-    int p11c;
+    std::intptr_t p11c;
     bool IsFieldCZero();
     void FUN_0043f2f0();
 };
@@ -15287,11 +15287,11 @@ class FUN_004408f0_cls
     int m_30;
     int m_34;
     int m_38;
-    void FUN_004408f0(int a1, int a2);
+    void FUN_004408f0(int a1, std::intptr_t a2);
 };
 
 // @fnv 0x004408f0
-void FUN_004408f0_cls::FUN_004408f0(int a1, int a2)
+void FUN_004408f0_cls::FUN_004408f0(int a1, std::intptr_t a2)
 {
     if (FUN_00559450((int*)&m_38) != 0)
     {
@@ -15914,7 +15914,7 @@ void HeadLoader444::FUN_00444350(void* apKey, int aiArg2, QPtr444* apOut, int ae
 struct S_00444d40_Class
 {
 
-    void FUN_00444d40(std::intptr_t param1, int param2, int param3, int param4);
+    void FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4);
 };
 // @fnv 0x004457d0
 void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr_t aiArg2, void* ref)
@@ -15923,7 +15923,7 @@ void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr
     char path[0x104];
     if (creature)
     {
-        int node = ((int)(reinterpret_cast<::BaseProcess *>(&(creature->data114))->GetCurrentProcessData()));
+        std::intptr_t node = ((std::intptr_t)(reinterpret_cast<::BaseProcess *>(&(creature->data114))->GetCurrentProcessData()));
         ::TaskQueueInterface::CopyStringToBuffer(path, 0x104, model->GetModelPath());
         char* slash = FUN_0040ab30(path, '\\');
         if (slash)
@@ -15952,7 +15952,7 @@ void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr
 }
 
 // @fnv 0x00444d40
-void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, int param3, int param4)
+void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4)
 {
     GlobalObject_00528cb0 local(0);
 
@@ -16882,7 +16882,7 @@ void FUN_0043f120_cls::FUN_0043f120()
     {
         if (reinterpret_cast<::BipedAnim *>((m_28))->IsSlotHidden((::BIPED_OBJECT)(i)))
         {
-            unsigned int v = ((::SaveItem *)(reinterpret_cast<::FUN_0043f220_cls *>((m_28))->GetEntryAt(i)))->m_04;
+            std::uintptr_t v = ((::SaveItem *)(reinterpret_cast<::FUN_0043f220_cls *>((m_28))->GetEntryAt(i)))->m_04;
             (*reinterpret_cast<::QueueModelHolder * *>(&::g_modelLoader))->FUN_00443dc0(v, (QueueObj*)&m_2c[i], reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60(), (std::uintptr_t)this, 3, true, true, true, 0.0f);
             reinterpret_cast<::MeshLoader *>((reinterpret_cast<SaveHolder*>((*reinterpret_cast<::QueueModelHolder * *>(&::g_modelLoader)))))->LoadMesh((::MeshSource *)(v), reinterpret_cast<::FUN_0043cc60_shell *>(this)->FUN_0043cc60(), (void *)((std::intptr_t)this), -1);
         }
@@ -17102,7 +17102,7 @@ struct Traversal : Worker
 };
 // Loops calling TryInsert, compares entries via FUN_004491c0, calls Finish or TryInsert again, then Release and returns whether it succeeded.
 // @fnv 0x0044d3f0
-bool Obj44::TryInsertAndFinish(int aiFirst, int aiSecond)
+bool Obj44::TryInsertAndFinish(int aiFirst, std::intptr_t aiSecond)
 {
     bool result2 = false;
     while (1)
@@ -17208,11 +17208,11 @@ class B44F890Collection
 {
   public:
     B44F890Node* GetNextNode(B44F890Node* pkNode);
-    int FUN_0044f890(int iArg);
+    int FUN_0044f890(std::intptr_t iArg);
 };
 
 // @fnv 0x0044f890
-int B44F890Collection::FUN_0044f890(int iArg)
+int B44F890Collection::FUN_0044f890(std::intptr_t iArg)
 {
     AutoMemHelper kMemHelper(9, true, "d:\\_fallout3\\platforms\\common\\code\\bsmain\\Setting.h", 0x326);
     B44F890Node* pkNode = ((::B44F890Node *)(::FUN_0044faa0((char *)this)));
@@ -18571,7 +18571,7 @@ struct ControllerV
 // @fnv 0x006662a0
 bool Worker::ProcessNodeChain(int a1, int a2)
 {
-    int head7;
+    std::intptr_t head7;
     bool flag_;
     StateValue svA2;
     StateValue svB;
@@ -18583,7 +18583,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
         flag_ = 0;
         state = (int*)head7;
         current = *(NodeLink*)state;
-        *(int*)unk08 = (int)current.ClearLowBit();
+        *(std::intptr_t*)unk08 = (std::intptr_t)current.ClearLowBit();
         FUN_0040fbe0();
         reinterpret_cast<::FUN_006ecba0_class *>(&(svA2))->FUN_006ecba0(0, current.ClearLowBit());
         if (::FUN_00559450((int *)(((StateValue*)state))) != ::FUN_00559450((int *)&(svA2)))
@@ -18593,7 +18593,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
             if (!current.ClearLowBit())
                 return false;
             pending = *(NodeLink*)&current.FUN_0044df00()->state;
-            *(int*)unk04 = (int)pending.ClearLowBit();
+            *(std::intptr_t*)unk04 = (std::intptr_t)pending.ClearLowBit();
             FUN_0040fbe0();
             if (::FUN_00559450((int *)(((StateValue*)&pending))) !=
                 ::FUN_00559450((int *)(((StateValue*)&current.FUN_0044df00()->state))))
@@ -18613,7 +18613,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
                 if (((ControllerV*)controller)->Call34(nodeVal, a2))
                     return ((ControllerV*)controller)->Call38(nodeVal, a2);
                 state = &current.FUN_0044df00()->state;
-                *(int*)unk0c = (int)current.ClearLowBit();
+                *(std::intptr_t*)unk0c = (std::intptr_t)current.ClearLowBit();
                 FUN_0040fbe0();
             }
             else
@@ -18630,7 +18630,7 @@ bool Worker::ProcessNodeChain(int a1, int a2)
                 }
             }
             current = pending;
-            *(int*)unk08 = (int)pending.ClearLowBit();
+            *(std::intptr_t*)unk08 = (std::intptr_t)pending.ClearLowBit();
             FUN_0040fbe0();
         }
         if (flag_)

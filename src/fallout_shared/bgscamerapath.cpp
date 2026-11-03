@@ -99,7 +99,7 @@ void BGSCameraPath::InitItem()
     } shotEntry;
     while (pShotNode && !pShotNode->IsEmpty())
     {
-        shotEntry.formID = (unsigned int)(pShotNode->m_item);
+        shotEntry.formID = (unsigned int)(std::uintptr_t)(pShotNode->m_item);
         ::ResolveFormID((unsigned int *)&(shotEntry.formID), GetFile(-1));
         shotEntry.cameraShot = dynamic_cast<BGSCameraShot*>(::FUN_004839c0(shotEntry.formID));
         if (!shotEntry.cameraShot)
@@ -240,7 +240,7 @@ bool BGSCameraPath::Load(TESFile* file)
         case 0x4d414e53: {
             unsigned int formID = 0;
             file->GetChunkData(&formID);
-            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)&m_kCameraShotList)))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)formID));
+            reinterpret_cast<::Callees *>((((BSSimpleList<ScriptVariableInfo*>*)&m_kCameraShotList)))->FUN_00905820((void *)&(const ::ScriptVariableInfo *const &)((ScriptVariableInfo*)(std::uintptr_t)formID));
             break;
         }
         case 0x4d414e41: {
@@ -280,7 +280,7 @@ bool BGSCameraPath::HasMissingPathArray()
     } locals;
     locals.success = true;
     locals.parent = 0;
-    locals.formID = (unsigned int)m_pFirstCameraPath;
+    locals.formID = (unsigned int)(std::uintptr_t)m_pFirstCameraPath;
     if (locals.formID)
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -295,7 +295,7 @@ bool BGSCameraPath::HasMissingPathArray()
         AssignParentPath(locals.parent);
     }
     locals.previous = 0;
-    locals.formID = (unsigned int)m_pSecondCameraPath;
+    locals.formID = (unsigned int)(std::uintptr_t)m_pSecondCameraPath;
     if (locals.formID)
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
@@ -762,7 +762,7 @@ TESForm* CameraPathClone::FUN_0058a870(bool abPersist, CameraPathMap* apMap)
         {
             TESForm* pChildA = m_pPathArray->FUN_00877a30(i5);
             TESForm* pNewChildB1 = pChildA->CreateForm((void*)(int)abPersist, apMap);
-            unsigned int uiValueC2 = (unsigned int)pNewChildB1;
+            unsigned int uiValueC2 = (unsigned int)(std::uintptr_t)pNewChildB1;
             pArray->SetSize(i5, &uiValueC2);
             pLastVal = pNewChildB1;
         }

@@ -353,7 +353,7 @@ void ConditionSerializer::SerializeCondition()
 {
     SavedCondition savedCondition;
     ::__memcpy(&savedCondition, this, 0x1c);
-    int functionCode = ((int)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()));
+    std::intptr_t functionCode = ((std::intptr_t)(reinterpret_cast<::TESTopicInfoData *>(this)->GetLinkToList()));
     int count = ((int)(::ScriptFunctionData::GetParamCount((const ::FunctionData *)(functionCode))));
     for (int index = 0; index < count; index++)
     {

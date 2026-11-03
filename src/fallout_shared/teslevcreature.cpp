@@ -74,7 +74,7 @@ bool TESLevCreature::Load(TESFile* file)
         case 0x474c564c: {
             unsigned int uiGlobalId = 0;
             file->GetChunkData(&uiGlobalId);
-            global = (TESForm*)uiGlobalId;
+            global = (TESForm*)(std::uintptr_t)uiGlobalId;
             break;
         }
         case 0x4c444f4d:

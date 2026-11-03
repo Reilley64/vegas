@@ -210,7 +210,7 @@ void TESObjectDOOR::InitItem()
             unsigned int id;
             TESForm* value;
         } resolvedForm;
-        resolvedForm.id = reinterpret_cast<unsigned int>((current->item));
+        resolvedForm.id = (unsigned int)(std::uintptr_t)((current->item));
         ::ResolveFormID((unsigned int *)&(resolvedForm.id), GetFile(-1));
         resolvedForm.value = ::FUN_004839c0(resolvedForm.id);
         if (resolvedForm.value)

@@ -70,7 +70,7 @@ struct FUN_00527df0_shell
 bool FUN_00527df0_shell::GetDescription(char* apDescription, unsigned int aiBufferSize)
 {
     ::FUN_00406d00(apDescription, aiBufferSize, "ExteriorCellLoaderTask for cell ( %i, %i )",
-               ((IntPoint2D*)*(int*)((char*)this + 0x1c))->iX, ((IntPoint2D*)*(int*)((char*)this + 0x1c))->iY);
+               ((IntPoint2D*)*(std::intptr_t*)((char*)this + 0x1c))->iX, ((IntPoint2D*)*(std::intptr_t*)((char*)this + 0x1c))->iY);
     return true;
 }
 
@@ -105,14 +105,14 @@ extern int DAT_0102d078;
 
 struct FUN_00528800_shell
 {
-    int m_val;
+    std::intptr_t m_val;
     void FUN_00528800();
 };
 
 // @fnv 0x00528800
 void FUN_00528800_shell::FUN_00528800()
 {
-    m_val = (int)&DAT_0102d078;
+    m_val = (std::intptr_t)&DAT_0102d078;
 }
 
 struct FUN_00528820_shell
@@ -192,7 +192,7 @@ struct TESWorldSpace
     int m_00;
     int m_04;
     int m_08;
-    int m_0c;
+    std::intptr_t m_0c;
     int m_10;
     int m_14;
     int m_18;
@@ -206,7 +206,7 @@ struct FUN_00527d80_shell
     int m_0c;
     int m_10;
     int m_14;
-    int m_18;
+    std::intptr_t m_18;
     TESWorldSpace* m_1c;
     void FUN_00527d80(int, int);
 };
@@ -269,7 +269,7 @@ void FUN_00527d00_shell::FUN_00527d00()
         {
             if (*(unsigned char*)(m_pGridCoordinates + 0x10) != 0)
             {
-                pLoader->FUN_005287b0((TESObjectCELL*)*(int*)(m_pGridCoordinates + 0xc));
+                pLoader->FUN_005287b0((TESObjectCELL*)*(std::intptr_t*)(m_pGridCoordinates + 0xc));
             }
         }
     }

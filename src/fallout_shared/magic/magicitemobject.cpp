@@ -93,8 +93,8 @@ void FUN_0040c5f0_shell::FUN_0040c5f0()
 {
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     reinterpret_cast<::FUN_00487010_shell *>((((DoorPart30*)((char*)this + 0x30))))->FUN_00487010();
-    (*(void(**)(void*))(*(int*)((char*)this + 0x30) + 0x38))((char*)this + 0x30);
-    (*(void(**)(void*))(*(int*)((char*)this + 0x30) + 0x3c))((char*)this + 0x30);
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x38))((char*)this + 0x30);
+    (*(void(**)(void*))(*(std::intptr_t*)((char*)this + 0x30) + 0x3c))((char*)this + 0x30);
     reinterpret_cast<::EffectItemList4056 *>(((char*)this + 0x3c))->FUN_004056d0();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }

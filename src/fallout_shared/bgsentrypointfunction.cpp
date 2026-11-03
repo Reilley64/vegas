@@ -83,7 +83,7 @@ class EntryPointValueSource
 
 // Validates arguments, then adds a random float between the source's two values to the first value in apapValues.
 // @fnv 0x005e5d80
-void FUN_005e5d80(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5d80(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
     if (!::FUN_005e5b80(0, 2, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
@@ -222,7 +222,7 @@ void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** 
 
 // Validates entry function arguments, then sets the first value in apapValues to its absolute value.
 // @fnv 0x005e5ea0
-void __cdecl FUN_005e5ea0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void __cdecl FUN_005e5ea0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                           EntryPointValueSource* apSource)
 {
     float* pfValue;
@@ -236,7 +236,7 @@ class EntryPointValueSource;
 
 
 // @fnv 0x005e5ef0
-void FUN_005e5ef0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5ef0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
     if (!::FUN_005e5b80(0, 0, (::TESObjectREFR *)(aiArg1), aiArg2, aucArgCount, (void **)(apapValues), apSource))
@@ -257,7 +257,7 @@ struct FUN_005e6490_shell
 
 struct FUN_005e6420
 {
-    int m0;
+    std::intptr_t m0;
     FUN_005e6420();
 };
 extern int DAT_01046300;
@@ -270,7 +270,7 @@ struct FUN_005e64b0 : FUN_005e6420
 // @fnv 0x005e64b0
 FUN_005e64b0::FUN_005e64b0()
 {
-    m0 = (int)&DAT_01046300;
+    m0 = (std::intptr_t)&DAT_01046300;
     f4 = 0.0f;
     f8 = 0.0f;
 }
@@ -452,7 +452,7 @@ struct FUN_005e6e50_obj
 
 // Validates the arguments, then adds the return value of FUN_006b9130 to the first pointed-to float.
 // @fnv 0x005e5cc0
-void FUN_005e5cc0(int aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
+void FUN_005e5cc0(std::intptr_t aiArg1, int aiArg2, unsigned char aucArgCount, float** apapValues,
                   EntryPointValueSource* apSource)
 {
     EntryPointSingleValueSource* pSource;

@@ -1694,7 +1694,7 @@ float __cdecl ComputeWeaponDamageModifier(Actor* actor, TESObjectWEAP* weapon, v
     int weaponCategoryX = weapon ? ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetUnk15C())) : 0x2d;
     float categoryValueB = reinterpret_cast<::ActorValueOwner *>((reinterpret_cast<CombatAVOwner*>(static_cast<ActorValueOwner *>(actor))))->GetActorValueAsInteger((::ActorValue::Index)(weaponCategoryX));
     int categoryLevel = (unsigned int)categoryValueB;
-    int weaponClass2 = ((int)(reinterpret_cast<::FUN_008d8160_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetField1BC()));
+    std::intptr_t weaponClass2 = ((std::intptr_t)(reinterpret_cast<::FUN_008d8160_Class *>((reinterpret_cast<CombatWeapon*>(weapon)))->GetField1BC()));
     float categoryModifier4 = ::fnv_00647870::ComputeScaledCount(weaponClass2, categoryLevel, 0);
     modifier4 += categoryModifier4;
 

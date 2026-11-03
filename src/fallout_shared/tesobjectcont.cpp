@@ -77,7 +77,7 @@ void TESObjectCONT::InitItem()
     static_cast<BGSDestructibleObjectForm *>(this)->InitItem(this);
     static_cast<TESModelTextureSwap *>(this)->InitItem(this);
 
-    soundFormID = (unsigned int)m_pOpenSound;
+    soundFormID = (unsigned int)(std::uintptr_t)m_pOpenSound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -86,7 +86,7 @@ void TESObjectCONT::InitItem()
             ::FUN_005b5e40();
     }
 
-    soundFormID = (unsigned int)m_pSecondarySound;
+    soundFormID = (unsigned int)(std::uintptr_t)m_pSecondarySound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -95,7 +95,7 @@ void TESObjectCONT::InitItem()
             ::FUN_005b5e40();
     }
 
-    soundFormID = (unsigned int)pLoopingSound;
+    soundFormID = (unsigned int)(std::uintptr_t)pLoopingSound;
     if (soundFormID != 0)
     {
         ::ResolveFormID((unsigned int *)&(soundFormID), GetFile(-1));
@@ -214,7 +214,7 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x4D414E51: {
             unsigned int qnamFormID = 0;
             file->GetChunkData(&qnamFormID);
-            reinterpret_cast<::BGSExplosion *>(this)->FUN_004fb0b0((::BGSImpactDataSet *)(qnamFormID));
+            reinterpret_cast<::BGSExplosion *>(this)->FUN_004fb0b0((::BGSImpactDataSet *)(std::uintptr_t)(qnamFormID));
             break;
         }
 

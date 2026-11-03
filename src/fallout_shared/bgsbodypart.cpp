@@ -86,25 +86,25 @@ void BGSBodyPart::InitItem(TESForm* form)
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pDebrisObject = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
+    formID = (unsigned int)(std::uintptr_t)((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Actor*)this)))->GetBaseTexture()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pExplosion = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((EffectSetting*)this)->GetCastSound();
+    formID = (unsigned int)(std::uintptr_t)((EffectSetting*)this)->GetCastSound();
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pRelatedObject2 = dynamic_cast<BGSExplosion*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
+    formID = (unsigned int)(std::uintptr_t)((::TESEffectShader *)(reinterpret_cast<::TESPackage *>((((EffectSetting*)this)))->GetRefCount()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         Data.m_pRelatedObject1 = dynamic_cast<BGSDebris*>(::FUN_004839c0(formID));
     }
-    formID = (unsigned int)((::Tile *)(reinterpret_cast<::MagicProjectile *>((((InterfaceManager*)this)))->FUN_004fd400()));
+    formID = (unsigned int)(std::uintptr_t)((::Tile *)(reinterpret_cast<::MagicProjectile *>((((InterfaceManager*)this)))->FUN_004fd400()));
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));

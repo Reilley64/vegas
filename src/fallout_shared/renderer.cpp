@@ -1566,7 +1566,7 @@ extern FloatSetting DAT_011c71ac;
 
 // Initializes the renderer device, queries GPU capabilities, writes RendererInfo.txt, and caches float/bool settings into globals.
 // @fnv 0x004da670
-int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
+std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
 {
     S4eb0 tracker10(4, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Renderer.cpp", 377);
     DAT_011c6fc0 = ahWnd;
@@ -1669,7 +1669,7 @@ int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         }
         else
         {
-            int ft = ((int)(::BSShaderManager::GetRenderModeName()));
+            std::intptr_t ft = ((std::intptr_t)(::BSShaderManager::GetRenderModeName()));
             (void)ft;
             ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
             file32 = std::fopen(buf21, (const char*)&DAT_01021568);
@@ -1963,7 +1963,7 @@ int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         (*reinterpret_cast<unsigned char *>(&::fnv_004e8ec0::DAT_011ad832)) = (int)(r510 >= 0);
     }
     ::FUN_004dc2d0(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c71ac))))->f);
-    int t1404 = ((int)(::BSShaderManager::GetRenderModeName()));
+    std::intptr_t t1404 = ((std::intptr_t)(::BSShaderManager::GetRenderModeName()));
     ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
     file32 = std::fopen(buf21, (const char*)&DAT_01021568);
     if (file32 != 0)
@@ -2040,7 +2040,7 @@ int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
         ImageSpaceEffectParam(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c75f8))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c77cc))))->f, ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c73d0))))->f, 1.0f);
     ::SetBSStringCapacity(((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c76cc))))->i);
     (*reinterpret_cast<unsigned char *>(&::DAT_011f948a)) = DAT_011c7308.Bool()->b;
-    return (int)((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))));
+    return (std::intptr_t)((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))));
 }
 }  // namespace fnv_004da670
 

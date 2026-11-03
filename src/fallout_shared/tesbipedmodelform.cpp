@@ -180,11 +180,11 @@ struct FUN_00480ad0_shell
 {
     unsigned int m_00;
     unsigned int m_04;
-    bool HasFlag(unsigned int arg);
+    bool HasFlag(std::uintptr_t arg);
 };
 
 // @fnv 0x00480ad0
-bool FUN_00480ad0_shell::HasFlag(unsigned int arg)
+bool FUN_00480ad0_shell::HasFlag(std::uintptr_t arg)
 {
     return (m_04 & ((unsigned int*)((char*)arg + 4))[0]) ? true : false;
 }

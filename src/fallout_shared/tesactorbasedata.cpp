@@ -1408,17 +1408,17 @@ void FUN_0047cac0_t::DestroySoundHandles()
         reinterpret_cast<::Header47cb90 *>((((FUN_0047cb90_t*)((char*)this + 4))))->SwapEndianness();
     if (*(unsigned int*)((char*)this + 0x1c))
     {
-        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x1c))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x1c))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4d414e49, itempint);
     }
     if (*(unsigned int*)((char*)this + 0x20))
     {
-        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x20))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x20))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4b435456, itempint);
     }
     if (*(unsigned int*)((char*)this + 0x24))
     {
-        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(unsigned int*)((char*)this + 0x24))))->FUN_0084e3a0()));
+        std::uintptr_t itempint = (std::uintptr_t)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)*(std::uintptr_t*)((char*)this + 0x24))))->FUN_0084e3a0()));
         ::FUN_00485910(0x544c5054, itempint);
     }
 }

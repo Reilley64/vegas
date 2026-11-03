@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESObjectREFR;
 namespace fnv_005a4410 { class RefT; }
@@ -18,7 +19,7 @@ bool FUN_005a4240(::TESObjectREFR *, void *, void *, double &);
 // 0x005a42b0
 bool FUN_005a42b0(void *, void *, void *, double *);
 // 0x005a4320
-unsigned int FUN_005a4320(char *);
+std::uintptr_t FUN_005a4320(char *);
 // 0x005a4340
 namespace fnv_005a4340 { bool FUN_005a4340(::TESObjectREFR *, void *, void *, double &); }
 // 0x005a43b0
@@ -44,7 +45,7 @@ namespace fnv_005a48a0 { bool FUN_005a48a0(::TESObjectREFR *, void *, void *, do
 // 0x005a4930
 bool FUN_005a4930(::TESObjectREFR *, void *, void *, double &);
 // 0x005a4aa0
-namespace fnv_005a4aa0 { bool FUN_005a4aa0(int, unsigned int, unsigned int, double &); }
+namespace fnv_005a4aa0 { bool FUN_005a4aa0(std::intptr_t, unsigned int, unsigned int, double &); }
 // 0x005a4b60
 namespace fnv_005a4b60 { bool FUN_005a4b60(::TESObjectREFR *, void *, void *, double &); }
 // 0x005a4c20

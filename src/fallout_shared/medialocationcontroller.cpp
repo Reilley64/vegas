@@ -106,7 +106,7 @@ void MediaLocationController::InitItem()
     ProcessMediaSetList(&m_kMediaSetList6);
     if (pFaction)
     {
-        unsigned int auiFormId = reinterpret_cast<unsigned int>(pFaction);
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)(pFaction);
         ::ResolveFormID((unsigned int *)&(auiFormId), GetFile(-1));
         pFaction = (*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler))->GetFactionByFormID(auiFormId);
         if (!pFaction)
@@ -122,7 +122,7 @@ void MediaLocationController::ProcessMediaSetList(BSSimpleList<MediaSet*>* apLis
     BSSimpleList<MediaSet*>* pPrevNode = 0;
     while (apList && !apList->IsEmpty())
     {
-        unsigned int auiFormId = reinterpret_cast<unsigned int>((apList->m_item));
+        unsigned int auiFormId = (unsigned int)(std::uintptr_t)((apList->m_item));
         ::ResolveFormID((unsigned int *)&(auiFormId), GetFile(-1));
         MediaSet* pMediaSet = dynamic_cast<MediaSet*>(::FUN_004839c0(auiFormId));
         if (!pMediaSet)

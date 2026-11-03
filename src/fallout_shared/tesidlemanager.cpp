@@ -325,7 +325,7 @@ NiFormArray* FUN_00600560_shell::GetFormArrayForIdleDir(TESForm* apIdleDir)
     NiFormArray* pretarray = 0;
     if (apIdleDir && *(const char*)apIdleDir)
     {
-        unsigned int proot = 0;
+        std::uintptr_t proot = 0;
         if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)proot;
@@ -354,7 +354,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
     NiFormArray* pretarray = 0;
     if (apIdleDir && *(const char*)apIdleDir != '\0')
     {
-        unsigned int proot = 0;
+        std::uintptr_t proot = 0;
         if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)this)))->FUN_00853130((std::uintptr_t)apIdleDir, (::fnv_00853130::CombatThreatRecord *&)(proot)) && proot)
         {
             pretarray = (NiFormArray*)(proot + 0x18);

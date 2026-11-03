@@ -782,7 +782,7 @@ bool __cdecl FUN_0059dc90(TESObjectREFR* reference, void* apUnused1, void* apUnu
         pactor = (Actor*)reference;
     if (pactor)
     {
-        switch ((*(unsigned int(**)(Actor*))(*(unsigned int*)pactor + 0x214))(pactor))
+        switch ((*(unsigned int(**)(Actor*))(*(std::uintptr_t*)pactor + 0x214))(pactor))
         {
         case 10:
             result += 1.0;
@@ -3545,9 +3545,9 @@ struct TESObjectREFR_GetFlags_Helper : public TESObjectREFR
     }
 };
 // @fnv 0x005a4320
-unsigned int FUN_005a4320(char* this_ptr)
+std::uintptr_t FUN_005a4320(char* this_ptr)
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 8))))->GetName()));
+    return ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(this_ptr + 8))))->GetName()));
 }
 
 namespace fnv_005a4340 {
@@ -8257,7 +8257,7 @@ struct TESObjectREFR_Dismembered : TESObjectREFR
 bool __cdecl FUN_005a3db0(TESObjectREFR* reference, void* aiLimb, void* apUnused, double& result)
 {
     result = 0.0;
-    int limb = reinterpret_cast<int>(aiLimb);
+    std::intptr_t limb = reinterpret_cast<std::intptr_t>(aiLimb);
     if (reference && reference->IsActor())
     {
         TESObjectREFR_Dismembered* actor = static_cast<TESObjectREFR_Dismembered*>(reference);
@@ -11790,7 +11790,7 @@ extern int __tls_index;
 // @fnv 0x005a0800
 bool __cdecl FUN_005a0800(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, double& afReturnValue)
 {
-    int pactor;
+    std::intptr_t pactor;
     NiAVObject* proot;
     Actor* p3d;
 
@@ -11805,7 +11805,7 @@ bool __cdecl FUN_005a0800(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (p3d)
     {
-        pactor = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(p3d)))->FUN_0043fcd0()));
+        pactor = ((std::intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(p3d)))->FUN_0043fcd0()));
 
         proot = reinterpret_cast<NiAVObject*>(
             ((::fnv_005a0800::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((reinterpret_cast<FUN_00571550_shell*>(p3d)))->FUN_00571530((::fnv_00571530::NiAVObject *)(pactor), (::fnv_00571530::NiFixedString *)(reinterpret_cast<std::intptr_t>(((::fnv_005a0800::NiFixedString *)(::FUN_005a07f0()))))))));
@@ -20854,7 +20854,7 @@ int FUN_005a4b40Class::GetFactionRankSum()
 
 // Returns a true/false flag and sets result to the faction rank sum (or player value) of the actor, logging minor crimes when the crime flag is set.
 // @fnv 0x005a4aa0
-bool __cdecl FUN_005a4aa0(int actor, unsigned int arg2, unsigned int arg3, double& result)
+bool __cdecl FUN_005a4aa0(std::intptr_t actor, unsigned int arg2, unsigned int arg3, double& result)
 {
     result = 0.0;
 

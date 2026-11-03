@@ -64,7 +64,7 @@ void FUN_0052ce20_shell::FUN_0052ce20(float afX)
 
 struct FUN_004f5600_shell
 {
-    int m_vftable;
+    std::intptr_t m_vftable;
     FUN_004f5600_shell();
 };
 
@@ -73,7 +73,7 @@ extern int DAT_01023ee4;
 // @fnv 0x004f5600
 FUN_004f5600_shell::FUN_004f5600_shell()
 {
-    m_vftable = (int)&DAT_01023ee4;
+    m_vftable = (std::intptr_t)&DAT_01023ee4;
 }
 
 extern int DAT_01023ec4;

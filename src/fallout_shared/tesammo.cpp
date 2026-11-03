@@ -126,7 +126,7 @@ void TESAmmo::InitItem()
     locals.resolved = 0;
     while (locals.node && (locals.node->m_item))
     {
-        locals.formID = (unsigned int)(locals.node->m_item);
+        locals.formID = (unsigned int)(std::uintptr_t)(locals.node->m_item);
         if (locals.formID)
         {
             ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));

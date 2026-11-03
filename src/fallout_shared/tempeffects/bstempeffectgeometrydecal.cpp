@@ -239,11 +239,11 @@ struct RefObj
 };
 struct Class87d40
 {
-    void ForwardActorBaseData(void*, intptr_t, intptr_t, int, int, int);
+    void ForwardActorBaseData(void*, intptr_t, intptr_t, std::intptr_t, std::intptr_t, int);
 };
 // Calls FUN_00a855f0 with the object reference, thread ID and fatigue obtained from a1, plus a2 through a6.
 // @fnv 0x00687d40
-void Class87d40::ForwardActorBaseData(void* apObject, intptr_t aiArg2, intptr_t aiArg3, int aiArg4, int aiArg5,
+void Class87d40::ForwardActorBaseData(void* apObject, intptr_t aiArg2, intptr_t aiArg3, std::intptr_t aiArg4, std::intptr_t aiArg5,
                                                  int aiArg6)
 {
     reinterpret_cast<::SkinInstance *>(this)->FUN_00a855f0((const ::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RefObj*)apObject)))->FUN_007af430()))), (const ::NiPoint3 *)(reinterpret_cast<::ActorMover *>((((BSThread*)apObject)))->GetCurrentMoveModeType()),
@@ -412,7 +412,7 @@ float* VecOwner::GetElem(int i)
 void Calc::ReadWeights(int aiIndex, VecOwner* apOwner)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(aiIndex);
-    int iAddress = aiIndex * this->m4 + this->m0;
+    std::intptr_t iAddress = aiIndex * this->m4 + this->m0;
     float f, g;
     float* pFloats;
     pFloats = (float*)iAddress;
@@ -435,7 +435,7 @@ struct Cell4
 
 struct FUN_00685e20_cls
 {
-    int m_base;
+    std::intptr_t m_base;
     int m_iElementIndex;
     void GetCellAt(int index, Cell4* out);
 };
@@ -492,7 +492,7 @@ struct FUN_006884c0 : SpawnBase
 void* FUN_00688470_shell::ConstructShell(int aiArg1, int aiArg2, int aiArg3, int aiValue38, int aiValue34)
 {
     new ((void *)this) ::FUN_006884c0(aiArg1, aiArg2, aiArg3);
-    *(int*)this = (int)&DAT_01069a84;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_01069a84;
     *(int*)((char*)this + 0x34) = aiValue34;
     *(int*)((char*)this + 0x38) = aiValue38;
     *(char*)((char*)this + 0x3c) = 1;
@@ -1076,11 +1076,11 @@ struct XD8Obj
 struct BigEntry
 {
     int m_00;
-    int m_04;
+    std::intptr_t m_04;
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
+    std::intptr_t m_14;
     int m_18;
     unsigned short s1c;
     unsigned short m_1e;
@@ -1196,13 +1196,13 @@ float __cdecl DecalPower(float, int);
 float __cdecl FloatAbs(float);
 struct DDecal
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
+    std::intptr_t unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
     DGeometryRef geometry;
     int unk30, unk34;
     DPoint position;
     DPoint direction;
     float size, angle;
-    int unk58, vertexCount, bodyParts;
+    std::intptr_t unk58, vertexCount, bodyParts;
     void CreateDecalGeometry(DGeometry*, unsigned short, unsigned short, DPoint*, DPoint*, unsigned short*, DBone*,
                              DNewPartition*, unsigned short*);
     void BuildDecalGeometry();
@@ -1244,7 +1244,7 @@ void ThisObj::BuildSkinPartitions()
     int total14cLocalAC;
     unsigned short* a148LocalAD;
     void* p144LocalEF;
-    int z140LocalBM;
+    std::intptr_t z140LocalBM;
     int flag13cLocalAL;
     NineDw nineLocalBC;
     unsigned char* a114LocalBI;
@@ -1254,7 +1254,7 @@ void ThisObj::BuildSkinPartitions()
     int cntFcLocalBB;
     unsigned short* aF8LocalBB;
     unsigned short wordF4LocalAD;
-    unsigned int flagsLocalBC;
+    std::uintptr_t flagsLocalBC;
     unsigned char byteE9LocalBH;
     Pt3Obj* arrE8LocalFA;
     NiPoint3 ptE4LocalAB;
@@ -1286,7 +1286,7 @@ void ThisObj::BuildSkinPartitions()
         savedLocalAB = skinInstLocalAA;
     else
         return;
-    flagsLocalBC = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::CtrlObj *)(::fnv_0043b230::FUN_0043b230((const char *)(((SkinBase*)skinInstLocalAA)))))))->GetName()));
+    flagsLocalBC = ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((::CtrlObj *)(::fnv_0043b230::FUN_0043b230((const char *)(((SkinBase*)skinInstLocalAA)))))))->GetName()));
 
 
     nineLocalBC = *((::NineDw *)(::FUN_00461130((std::intptr_t)(((ConvObjA*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
@@ -1384,7 +1384,7 @@ void ThisObj::BuildSkinPartitions()
     ::FUN_00a85510((std::intptr_t)(((SkinMid*)skinInstLocalAA)), (std::intptr_t)(&s1LocalBB), (std::intptr_t)(&s4LocalAA), (std::intptr_t)(&s5LocalAF), (std::intptr_t)(&s2LocalAK), cntFcLocalBB, (std::intptr_t)(arr10cLocalAB), (std::intptr_t)(arrE8LocalFA));
     xD8LocalDC = ((void *)(reinterpret_cast<::TESRegionDataMap *>((((SkinMid*)skinInstLocalAA)))->GetRegionMapName()));
     data38LocalAM = (void*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetTarget()));
-    z140LocalBM = ((int)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetActiveCombatTarget()));
+    z140LocalBM = ((std::intptr_t)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetActiveCombatTarget()));
     arr198LocalAB = new Obj4c[z140LocalBM];
     for (int jValueBA = 0; jValueBA < z140LocalBM; jValueBA = jValueBA + 1)
     {
@@ -2424,8 +2424,8 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
         entries->m_7c.FUN_0066b0d0(partCount);
     SkinX* count;
     count = (SkinX*)((::DSkin *)(::fnv_0043fad0::FUN_0043fad0((const char *)(geom))));
-    int objD;
-    objD = ((int)(reinterpret_cast<::LowProcess *>((((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName()))))->GetActiveCombatTarget()));
+    std::intptr_t objD;
+    objD = ((std::intptr_t)(reinterpret_cast<::LowProcess *>((((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName()))))->GetActiveCombatTarget()));
     ObjC* textObj;
     textObj = new ObjC(objD, bone, ::GetOffsetC((std::intptr_t)(((::SkinDataX *)(reinterpret_cast<::TESRegionDataMap *>((count))->GetRegionMapName())))));
     int* s;
@@ -2500,7 +2500,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
     reinterpret_cast<::FUN_00a5a040_Class *>((objA))->FUN_00a5a040();
     ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(objA), 0, 0);
     ((PtrHolder*)&unk1c)->FUN_0066b0d0(objA);
-    unk20 = (int)((::DGeometry *)(::FUN_00559450((int *)&(geometry))));
+    unk20 = (std::intptr_t)((::DGeometry *)(::FUN_00559450((int *)&(geometry))));
 }
 
 namespace fnv_00688770 {
@@ -2885,7 +2885,7 @@ bool DecalLoad688::FUN_00688c90()
             DecalLoad688Header* form7 = ((::DecalLoad688Header *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((DecalLoad688Runtime*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))));
             if (form7)
             {
-                SaveForm688* obj_2 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(form7->formID)))));
+                SaveForm688* obj_2 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(std::uintptr_t)(form7->formID)))));
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015718)), &str_01069ba0, 1932, form7->formID, obj_2->GetName(), form7->version,
                              *(int*)&form7->dataSize);
             }
@@ -2903,7 +2903,7 @@ bool DecalLoad688::FUN_00688c90()
         DecalLoad688Header* form2 = ((::DecalLoad688Header *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((DecalLoad688Runtime*)(*reinterpret_cast<::GlobalRuntime * *>(&::g_TESSaveLoadGame)))))));
         if (form2)
         {
-            SaveForm688* obj3 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(form2->formID)))));
+            SaveForm688* obj3 = (SaveForm688*)((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)((void*)(std::uintptr_t)(form2->formID)))));
             if (cur4 > count + base)
             {
                 ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015588)), cur4 - (count + base), &str_01069ba0, 2104, form2->formID, obj3->GetName(),
@@ -2949,7 +2949,7 @@ struct FUN_00a81f90_class
 void* FUN_00a81f90_class::FUN_00a81f90()
 {
     _Call_a5d3a0();
-    *(int*)this = (int)&DAT_0109e47c;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0109e47c;
     *(int*)((char*)this + 0xc) = 0;
     return this;
 }

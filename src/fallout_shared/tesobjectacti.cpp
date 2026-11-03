@@ -326,7 +326,7 @@ void FUN_00510770_shell::FUN_00510770()
     reinterpret_cast<::BGSDestructibleObjectForm *>((reinterpret_cast<BGSDestructibleObjectFormInitItemProxy*>(static_cast<BGSDestructibleObjectForm *>(this))))->InitItem(this);
     reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESModelTextureSwapInitItemProxy*>(static_cast<TESModelTextureSwap *>(this))))->InitItem(this);
 
-    unsigned int itempint = reinterpret_cast<unsigned int>(m_pSoundEffect);
+    std::uintptr_t itempint = reinterpret_cast<std::uintptr_t>(m_pSoundEffect);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -335,7 +335,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pLoopSound);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pLoopSound);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -344,7 +344,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(pRadioTemplate);
+    itempint = reinterpret_cast<std::uintptr_t>(pRadioTemplate);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -353,7 +353,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pWaterForm);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pWaterForm);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));
@@ -362,7 +362,7 @@ void FUN_00510770_shell::FUN_00510770()
             ::FUN_005b5e40();
     }
 
-    itempint = reinterpret_cast<unsigned int>(m_pTalkingActivator);
+    itempint = reinterpret_cast<std::uintptr_t>(m_pTalkingActivator);
     if (itempint)
     {
         ::ResolveFormID((unsigned int *)&(itempint), GetFile(-1));

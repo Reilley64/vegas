@@ -668,12 +668,12 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiP
         if (pCell)
         {
             NiPoint3 kStartPt = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(0), 0, 0, (const int *)(0), {})));
-            int iV1b8 = 0;
+            std::intptr_t iV1b8 = 0;
             NiBound kBounds = (*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pCell))->FUN_0043d450()));
             NiPoint3 kNone = ::NiPoint3::ZERO;
             float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((akPos - (*(const ::NiPoint3 *)((void *)&(kBounds))))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(kBounds))->GetStoredFloatValue();
             Node45* pAt = ((::Node45 *)(reinterpret_cast<::NiNode *>((((::NiNodeHelper *)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetCellChildAt(2)))))->GetAt({})));
-            int eState = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormKind*)((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData())))))))))->GetName()));
+            std::intptr_t eState = ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FormKind*)((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData())))))))))->GetName()));
             unsigned char bProjectedOnScreen = ((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData()))))))->IsInFrustum(&kTester);
             if ((eState == 1 || eState == 0 || bProjectedOnScreen) && fDist < afRadius)
             {
@@ -723,7 +723,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiP
                         kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
                         kPos.x = kPos.x - 256.0;
                         kPos.y = kPos.y - 256.0;
-                        int iSample = PackFloatPairToInt(&kPos.x);
+                        std::intptr_t iSample = PackFloatPairToInt(&kPos.x);
                         ::fnv_00b61370::FUN_00b61370((const char *)(iSample));
                     }
                 }
@@ -830,7 +830,7 @@ float FUN_004dfea0();
 // Samples a grid over the land, tests density and height/slope filters, and stores accepted positions and luminance values for the owner.
 // @fnv 0x0057de00
 void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void* pvOwner, const NiPoint3& kBase,
-                            int iC, NiPoint3 akStart, LODSettings* pkSettings, float* afDensityGrid, int iUnused34,
+                            std::intptr_t iC, NiPoint3 akStart, LODSettings* pkSettings, float* afDensityGrid, int iUnused34,
                             float fRadius, unsigned short usRange, int iMode, float afHeight, unsigned char ucMinAngle,
                             unsigned char ucMaxAngle)
 {

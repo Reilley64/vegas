@@ -315,7 +315,7 @@ void BGSIdleCollection::InitItem(TESForm* form)
     for (unsigned int index = 0; index < m_ucPickType; ++index)
     {
         unsigned int formID;
-        formID = reinterpret_cast<unsigned int>(m_ppIdleForms[index]);
+        formID = (unsigned int)(std::uintptr_t)(m_ppIdleForms[index]);
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
         idle = dynamic_cast<TESObjectANIO*>(::FUN_004839c0(formID));
         if (idle)

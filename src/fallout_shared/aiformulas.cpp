@@ -99,7 +99,7 @@ void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, floa
 struct FUN_006c8980_stand
 {
     int pad;
-    int a;
+    std::intptr_t a;
     int b;
     void FUN_006c8980(std::intptr_t fn);
 };

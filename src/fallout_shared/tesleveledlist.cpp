@@ -832,21 +832,21 @@ void FUN_00c60e70_shell::FUN_00c60e70(NiStream& stream)
 
 struct FUN_00c60ec0_shell
 {
-    void FUN_00c60ec0(int a);
+    void FUN_00c60ec0(std::intptr_t a);
 };
 
 // @fnv 0x00c60ec0
-void FUN_00c60ec0_shell::FUN_00c60ec0(int aiValue)
+void FUN_00c60ec0_shell::FUN_00c60ec0(std::intptr_t aiValue)
 {
     reinterpret_cast<::fnv_00c4fa10::FUN_00c4fa10_shell *>(this)->FUN_00c4fa10((*(::fnv_00c4fa10::NiStream *)(aiValue)));
 }
 
 struct FUN_00c38020_shell
 {
-    bool FUN_00c60ee0(int);
+    bool FUN_00c60ee0(std::intptr_t);
 };
 // @fnv 0x00c60ee0
-bool FUN_00c38020_shell::FUN_00c60ee0(int a)
+bool FUN_00c38020_shell::FUN_00c60ee0(std::intptr_t a)
 {
     if (!((unsigned char)(reinterpret_cast<::fnv_00c4fa30::FUN_00c4fa30_shell *>(this)->FUN_00c4fa30((*(::fnv_00c4fa30::NiStream *)(a))))))
         return false;
@@ -1197,7 +1197,7 @@ void TESLeveledList::InitItem(TESForm* owner)
         unsigned int formID, globalID;
         while (resolveState.node && (resolveState.entry = (resolveState.node->m_item)) != 0)
         {
-            formID = reinterpret_cast<unsigned int>(resolveState.entry->form);
+            formID = (unsigned int)(std::uintptr_t)(resolveState.entry->form);
             ::ResolveFormID((unsigned int *)&(formID), resolveState.file);
             resolveState.entry->form = ::FUN_004839c0(formID);
             if (!resolveState.entry->form)
@@ -1232,7 +1232,7 @@ void TESLeveledList::InitItem(TESForm* owner)
         }
         if (m_pLevelGlobal)
         {
-            globalID = reinterpret_cast<unsigned int>(m_pLevelGlobal);
+            globalID = (unsigned int)(std::uintptr_t)(m_pLevelGlobal);
             ::ResolveFormID((unsigned int *)&(globalID), resolveState.file);
             m_pLevelGlobal = dynamic_cast<TESGlobal*>(::FUN_004839c0(globalID));
             if (!m_pLevelGlobal)
@@ -1281,11 +1281,11 @@ struct Shell
     Vec3 m0c;
     Vec3 m18;
     float m24;
-    void FUN_00c60e00(Shell* dest, int a);
+    void FUN_00c60e00(Shell* dest, std::intptr_t a);
 };
 // Calls CopyMembersStreamWithField on dest, then copies m0c, m18 and m24 from this into dest.
 // @fnv 0x00c60e00
-void Shell::FUN_00c60e00(Shell* dest, int aiArg)
+void Shell::FUN_00c60e00(Shell* dest, std::intptr_t aiArg)
 {
     reinterpret_cast<::fnv_00c4f9b0::FUN_00c4f9b0_class *>(this)->CopyMembersStreamWithField((::fnv_00c4f9b0::NiObject *)(dest), (void *)(aiArg));
     dest->m0c = m0c;

@@ -1713,7 +1713,7 @@ struct R
 };
 struct S
 {
-    R FUN_004ed140(int);
+    R FUN_004ed140(std::intptr_t);
 };
 namespace fnv_006db840 {
 struct S5460
@@ -3486,7 +3486,7 @@ WaterSurface* WaterZoneManager::GetWaterZone(TESObjectREFR* apWaterRef, TESObjec
     return 0;
 }
 // @fnv 0x004ed140
-R S::FUN_004ed140(int a)
+R S::FUN_004ed140(std::intptr_t a)
 {
     R tmp;
     (void *)(((NiPlane*)&tmp));
@@ -11538,7 +11538,7 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
                             unsigned int p;
                             void* subPos;
                             reinterpret_cast<::C6b7f20_Map *>((map))->FUN_006b7f20((::C6b7f20_Node **)&(q), (unsigned int *)&(p), (void **)&(subPos));
-                            int s;
+                            std::intptr_t s;
                             s = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((SoundH*)((char*)4 + p))))->FUN_0084e3a0()));
                             void* i;
                             i = ((void *)(::FUN_00559450((int *)(((NiTPointerList<TESObjectREFR*>*)&kIter->m_kWaterReferences)))));
@@ -12266,7 +12266,7 @@ struct FUN_00a6fae0_Class
 // @fnv 0x00a6fae0
 void FUN_00a6fae0_Class::FUN_00a6fae0()
 {
-    *(int*)this = (int)&DAT_0109cb9c;
+    *(std::intptr_t*)this = (std::intptr_t)&DAT_0109cb9c;
     reinterpret_cast<::FUN_00a5a390_shell *>((this))->FUN_00a5a390();
 }
 

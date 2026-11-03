@@ -48,7 +48,7 @@ void BGSPlaceableWater::InitItem()
     if (GetInitialized())
         return;
 
-    unsigned int formID = reinterpret_cast<unsigned int>(Data.m_pOwningWater);
+    unsigned int formID = (unsigned int)(std::uintptr_t)(Data.m_pOwningWater);
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));

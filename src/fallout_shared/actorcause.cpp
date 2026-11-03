@@ -196,7 +196,7 @@ class B66E810Node
 
 // Walks g_kB66E810List, updating items with a positive count and deleting/removing items whose count is zero or that are null.
 // @fnv 0x0066e810
-void __cdecl UpdateOrRemoveItems(int iArg)
+void __cdecl UpdateOrRemoveItems(std::intptr_t iArg)
 {
     B66E810Node* pkNode = &(*reinterpret_cast<::B66E810Node *>(&::g_011d6124));
     B66E810Node* pkPrev = 0;

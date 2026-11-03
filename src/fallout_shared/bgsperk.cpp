@@ -236,7 +236,7 @@ void BGSQuestPerkEntry::InitItem(TESForm* form)
 {
     if (Data.pQuest)
     {
-        unsigned int id = reinterpret_cast<unsigned int>(Data.pQuest);
+        unsigned int id = (unsigned int)(std::uintptr_t)(Data.pQuest);
         TESForm::RemapFormIDForFile(id, form->GetFile(-1));
         Data.pQuest = dynamic_cast<TESQuest*>(::FUN_004839c0(id));
         if (!Data.pQuest)
@@ -255,7 +255,7 @@ void BGSAbilityPerkEntry::InitItem(TESForm* apOwner)
 {
     if (m_pSpell)
     {
-        unsigned int id = reinterpret_cast<unsigned int>(m_pSpell);
+        unsigned int id = (unsigned int)(std::uintptr_t)(m_pSpell);
         TESForm::RemapFormIDForFile(id, apOwner->GetFile(-1));
         m_pSpell = dynamic_cast<SpellItem*>(::FUN_004839c0(id));
         if (!m_pSpell)
@@ -1994,11 +1994,11 @@ struct FUN_005eb1b0_cls
     unsigned char unk38[8];
     FUN_005eb1b0_cond cond40;
     FUN_005eb1b0_node list48;
-    void FUN_005eb1b0(int a1);
+    void FUN_005eb1b0(std::intptr_t a1);
 };
 
 // @fnv 0x005eb1b0
-void FUN_005eb1b0_cls::FUN_005eb1b0(int a1)
+void FUN_005eb1b0_cls::FUN_005eb1b0(std::intptr_t a1)
 {
     FUN_005eb1b0_cls* _copy;
     FUN_005eb1b0_node* node2;
@@ -2446,7 +2446,7 @@ void PerkPrinter::BuildDescription(char* output, unsigned int outputSize)
                     strcat_s(output, outputSize, ::DAT_01012630);
                 }
                 ConditionParameters* dataTmp = ((::ConditionParameters *)(reinterpret_cast<::TESTopicInfoData *>((kItem))->GetLinkToList()));
-                int formX = dataTmp->value;
+                std::intptr_t formX = dataTmp->value;
                 unsigned int countB = dataTmp->upperBound;
                 if (formX && countB > 0)
                 {

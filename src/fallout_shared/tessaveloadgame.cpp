@@ -288,7 +288,7 @@ struct Dummy_00863390
 int* FUN_008552b0(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
-    *(int*)apObject = (int)&DAT_01080514;
+    *(std::intptr_t*)apObject = (std::intptr_t)&DAT_01080514;
     return (int*)apObject;
 }
 
@@ -304,7 +304,7 @@ struct Dummy_00863390
 int* FUN_008553e0(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
-    *(int*)apObject = (int)&DAT_01080514;
+    *(std::intptr_t*)apObject = (std::intptr_t)&DAT_01080514;
     return (int*)apObject;
 }
 }  // namespace fnv_008553e0
@@ -321,7 +321,7 @@ struct Dummy_00863390
 int* FUN_00855550(Dummy_00863390* apObject)
 {
     apObject->FUN_00863390(0x25);
-    *(int*)apObject = (int)&DAT_01080514;
+    *(std::intptr_t*)apObject = (std::intptr_t)&DAT_01080514;
     return (int*)apObject;
 }
 }  // namespace fnv_00855550
@@ -561,7 +561,7 @@ extern int DAT_01081f98;
 
 struct FUN_00863d60_obj
 {
-    int field0;
+    std::intptr_t field0;
     ActorCombatGroup** field4;
     void FUN_00863d60();
 };
@@ -570,7 +570,7 @@ struct FUN_00863d60_obj
 // @fnv 0x00863d60
 void FUN_00863d60_obj::FUN_00863d60()
 {
-    field0 = reinterpret_cast<int>(&DAT_01081f98);
+    field0 = reinterpret_cast<std::intptr_t>(&DAT_01081f98);
     ::FUN_004ede70(field4);
 }
 
@@ -725,17 +725,17 @@ struct FUN_00863360
 extern int DAT_01081e50;
 struct FUN_00863390_class
 {
-    int m;
+    std::intptr_t m;
     void FUN_008636d0(int);
-    int FUN_00863390(int a);
+    std::intptr_t FUN_00863390(int a);
 };
 // Calls FUN_008636d0 with a, stores the address of DAT_01081e50 in m, and returns this.
 // @fnv 0x00863390
-int FUN_00863390_class::FUN_00863390(int a)
+std::intptr_t FUN_00863390_class::FUN_00863390(int a)
 {
     FUN_008636d0(a);
-    m = (int)&DAT_01081e50;
-    return (int)this;
+    m = (std::intptr_t)&DAT_01081e50;
+    return (std::intptr_t)this;
 }
 
 struct FUN_008633f0_class
@@ -771,16 +771,16 @@ extern int DAT_01081ed0;
 struct FUN_00863450_Class
 {
     int FUN_00863e30(int);
-    int InitWithGlobal(int a);
+    std::intptr_t InitWithGlobal(int a);
 };
 
 // Calls FUN_00863e30 with a, stores the address of DAT_01081ed0 into this, and returns this.
 // @fnv 0x00863450
-int FUN_00863450_Class::InitWithGlobal(int a)
+std::intptr_t FUN_00863450_Class::InitWithGlobal(int a)
 {
     reinterpret_cast<::FUN_00863e30_struct *>(this)->FUN_00863e30(a);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01081ed0);
-    return reinterpret_cast<int>(this);
+    *reinterpret_cast<std::intptr_t*>(this) = reinterpret_cast<std::intptr_t>(&DAT_01081ed0);
+    return reinterpret_cast<std::intptr_t>(this);
 }
 
 extern int DAT_01081ef8;
@@ -804,11 +804,11 @@ void FUN_008636a0::Init()
 
 struct FUN_00863cb0_Class
 {
-    void FUN_00863cb0(int a, char b, int c);
+    void FUN_00863cb0(std::intptr_t a, char b, int c);
 };
 
 // @fnv 0x00863cb0
-void FUN_00863cb0_Class::FUN_00863cb0(int a, char b, int aiValue)
+void FUN_00863cb0_Class::FUN_00863cb0(std::intptr_t a, char b, int aiValue)
 {
     ((char*)a)[4] = b;
     ((int*)a)[2] = aiValue;
@@ -1078,7 +1078,7 @@ struct Holder : MyMap
 // @fnv 0x008638c0
 void Holder::FUN_008638c0()
 {
-    *(int*)this = (int)&::fnv_008637d0::DAT_01081f38;
+    *(std::intptr_t*)this = (std::intptr_t)&::fnv_008637d0::DAT_01081f38;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0(m8);
 }
@@ -1432,9 +1432,9 @@ struct FUN_00861cd0Class
 // @fnv 0x00861cd0
 unsigned int FUN_00861cd0Class::FUN_00861cd0(unsigned short index)
 {
-    if (index > ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(unsigned int*)((char*)this + 0x7c)))))->FUN_0084e3a0())))
+    if (index > ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(std::uintptr_t*)((char*)this + 0x7c)))))->FUN_0084e3a0())))
         return 0;
-    unsigned int result = *((Arr*)(*(unsigned int*)((char*)this + 0x7c)))->GetAt(index);
+    unsigned int result = *((Arr*)(*(std::uintptr_t*)((char*)this + 0x7c)))->GetAt(index);
     return result;
 }
 }  // namespace fnv_00861cd0
@@ -1735,7 +1735,7 @@ void FUN_008578b0_Class::ReleaseFile(BSFile* file, int type)
     case 3:
         if (pRefList)
         {
-            int value = reinterpret_cast<int>(file);
+            std::intptr_t value = reinterpret_cast<std::intptr_t>(file);
             reinterpret_cast<::ItemChangeListNode *>((pRefList))->FUN_00905330((::InventoryStackRecord *const &)(value));
         }
         delete file;
@@ -2298,7 +2298,7 @@ class C8578b0
 class C857950
 {
   public:
-    void FUN_00857950(int* a, int b);
+    void FUN_00857950(int* a, std::intptr_t b);
 };
 
 
@@ -3770,7 +3770,7 @@ struct SaveOwner
     SaveFile* OpenSaveFile(SaveFile*, const char*, unsigned int);
 };
 // @fnv 0x00857950
-void C857950::FUN_00857950(int* pObject, int b)
+void C857950::FUN_00857950(int* pObject, std::intptr_t b)
 {
     int* p;
     if (pObject == 0)
@@ -4548,9 +4548,9 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
         char text[50];
         if (mobile2)
         {
-            int level = -1;
+            std::intptr_t level = -1;
             if (((::fnv_0085b320::SaveProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile2))->GetBaseTexture())))
-                level = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_0085b320::SaveProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile2))->GetBaseTexture()))))->FUN_0045cd60()));
+                level = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_0085b320::SaveProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile2))->GetBaseTexture()))))->FUN_0045cd60()));
             switch (level)
             {
             case -1:
@@ -6348,11 +6348,11 @@ int* Stub8622Self::InitMaxValue()
         apTargetLight = ((FUN_004fd380_shell*)this)->FUN_004fd380();
         bHadNull = true;
     }
-    unsigned int nMax = 0;
+    std::uintptr_t nMax = 0;
     unsigned int nValue;
     while (apTargetLight && !FUN_008256d0(apTargetLight))
     {
-        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(int*)((void *)((void *)(((Stub8622Lt*)apTargetLight))))), (std::intptr_t)(&nValue), (char *)(0), (const char *)(0), 0);
+        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(std::intptr_t*)((void *)((void *)(((Stub8622Lt*)apTargetLight))))), (std::intptr_t)(&nValue), (char *)(0), (const char *)(0), 0);
         if (nValue > nMax)
         {
             nMax = nValue;
@@ -7430,15 +7430,15 @@ struct Host58030
 // @fnv 0x00858030
 void Host58030::FUN_00858030(std::intptr_t aParam)
 {
-    int v48;
+    std::intptr_t v48;
 
-    int v444;
-    int v405;
-    int v3c4;
-    int v38;
-    int v34;
+    std::intptr_t v444;
+    std::intptr_t v405;
+    std::intptr_t v3c4;
+    std::intptr_t v38;
+    std::intptr_t v34;
     Ref58030* pCell_;
-    int v2c;
+    std::intptr_t v2c;
     int v282;
     unsigned short w4;
     int v20;
@@ -7453,7 +7453,7 @@ void Host58030::FUN_00858030(std::intptr_t aParam)
     v282 = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<::fnv_00858030::TES58030 * *>(&::g_TES))->FUN_004fd3e0()))->FUN_0084e3a0();
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(aParam), (const char *)(void *)(&v282), 4);
     v1c = ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::fnv_00858030::TES58030 * *>(&::g_TES))))->GetCurrentMoveModeType()));
-    v2c = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00858030::TES58030 * *>(&::g_TES))))->FUN_0045cd60()));
+    v2c = ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::fnv_00858030::TES58030 * *>(&::g_TES))))->FUN_0045cd60()));
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(aParam), (const char *)(void *)(&v1c), 4);
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(aParam), (const char *)(void *)(&v2c), 4);
 
@@ -8561,7 +8561,7 @@ struct Cls56
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
+    std::intptr_t m_14;
     int m_18;
     int m_1c;
     int m_20;
@@ -8682,7 +8682,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, std::intptr_t apSavePath, unsigned ch
         reinterpret_cast<::C6b7f20_Map *>((m_00))->FUN_006b7f20((::C6b7f20_Node **)&(mapPos), (unsigned int *)&(mapKey), (void **)&(value1));
         if (mapKey && value1)
         {
-            m_14 = (int)reinterpret_cast<::Callees *>((value1))->FUN_00726070();
+            m_14 = (std::intptr_t)reinterpret_cast<::Callees *>((value1))->FUN_00726070();
             int refVal = ::FUN_00559450((int *)(value1));
             Rec56 recData;
             recData.a = (int)mapKey;
@@ -10283,8 +10283,8 @@ struct C006c6fe0
         Node006c6fe0* old;
         long expected;
         long result;
-        long current;
-        long compare;
+        std::intptr_t current;
+        std::intptr_t compare;
         long outcome;
         bool ok;
         for (;;)
@@ -10317,8 +10317,8 @@ struct C006c6fe0
                     continue;
                 continue;
             }
-            current = (long)cur;
-            compare = (long)tail;
+            current = (std::intptr_t)cur;
+            compare = (std::intptr_t)tail;
             outcome = InterlockedCompareExchange((long volatile*)&cur->next, current, compare);
             ok = outcome == current;
             if (!ok)

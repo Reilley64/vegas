@@ -124,13 +124,13 @@ bool TESCasinoChips::Load(TESFile* apFile)
         case 0x4d414e59: {
             unsigned int id = 0;
             apFile->GetChunkData(&id);
-            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::CombatProcedure *>(this)->Initialize((::CombatController *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e5a: {
             unsigned int id = 0;
             apFile->GetChunkData(&id);
-            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)id));
+            reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(::TESSound *)((TESSound*)(std::uintptr_t)id));
             break;
         }
         case 0x4d414e4f: {

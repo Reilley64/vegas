@@ -588,11 +588,11 @@ struct FUN_00401400_class
 };
 struct TESObjectLIGH
 {
-    bool FUN_0050e4b0(unsigned int, unsigned int, bool, unsigned int, unsigned int);
+    bool FUN_0050e4b0(unsigned int, std::uintptr_t, bool, unsigned int, std::uintptr_t);
 };
 // Returns false if FUN_0046f070 fails, otherwise forwards the arguments to InvokeAction and returns its result.
 // @fnv 0x0050e4b0
-bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, unsigned int a2, bool bFlag, unsigned int a4, unsigned int a5)
+bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, std::uintptr_t a2, bool bFlag, unsigned int a4, std::uintptr_t a5)
 {
     if (!reinterpret_cast<::FUN_0046f070_shell *>(this)->FUN_0046f070())
         return false;
@@ -601,11 +601,11 @@ bool TESObjectLIGH::FUN_0050e4b0(unsigned int a1, unsigned int a2, bool bFlag, u
 
 struct Unk515010
 {
-    void ForwardToF670(int, int, bool, int, int);
+    void ForwardToF670(int, std::intptr_t, bool, int, std::intptr_t);
 };
 // Calls InvokeAction with the same five arguments, forwarding the call unchanged.
 // @fnv 0x00515010
-void Unk515010::ForwardToF670(int aiArg1, int aiArg2, bool abFlag, int aiArg4, int aiArg5)
+void Unk515010::ForwardToF670(int aiArg1, std::intptr_t aiArg2, bool abFlag, int aiArg4, std::intptr_t aiArg5)
 {
     reinterpret_cast<::ActionCaller *>(this)->InvokeAction(aiArg1, (void *)(aiArg2), abFlag, aiArg4, (void *)(aiArg5));
 }
@@ -625,11 +625,11 @@ public:
 };
 struct Dummy25750
 {
-    void CastToActorAndCall(int, TESObjectREFR*, bool, int, int);
+    void CastToActorAndCall(int, TESObjectREFR*, bool, int, std::intptr_t);
 };
 // Casts b to Actor and forwards all arguments to InvokeAction; the cast result is unused.
 // @fnv 0x00525750
-void Dummy25750::CastToActorAndCall(int aiArg1, TESObjectREFR* apRefr, bool abFlag, int aiArg4, int aiArg5)
+void Dummy25750::CastToActorAndCall(int aiArg1, TESObjectREFR* apRefr, bool abFlag, int aiArg4, std::intptr_t aiArg5)
 {
     Actor* actor = dynamic_cast<Actor*>(apRefr);
     reinterpret_cast<::ActionCaller *>(this)->InvokeAction(aiArg1, apRefr, abFlag, aiArg4, (void *)(aiArg5));
@@ -1372,12 +1372,12 @@ struct ResolvedLight
 };
 struct LightController : TESObjectLIGH
 {
-    unsigned char FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
-                                          unsigned int param5);
+    unsigned char FUN_004fde40(unsigned int first, std::uintptr_t second, bool allow, unsigned int param4,
+                                          std::uintptr_t param5);
 };
 // @fnv 0x004fde40
-unsigned char LightController::FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
-                                            unsigned int param5)
+unsigned char LightController::FUN_004fde40(unsigned int first, std::uintptr_t second, bool allow, unsigned int param4,
+                                            std::uintptr_t param5)
 {
     void* lightSource = dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(second));
     ResolvedLight* linkedLight = static_cast<ResolvedLight*>(FUN_00ec43fb(first, 0, &::DAT_011841cc, &DAT_01189dbc, 0));
@@ -3201,7 +3201,7 @@ int FUN_0047b250(ActivateReference*);
 bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* activator, int unused, int a4, int a5)
 {
     ActivateActor* actor2 = (ActivateActor*)dynamic_cast<Actor*>(activator);
-    int extra = 0;
+    std::intptr_t extra = 0;
     int found8 = 0;
     if (actor2)
     {

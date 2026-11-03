@@ -214,7 +214,7 @@ void TESRegionDataImposter::InitItem(TESForm* form)
     {
         if ((pList->m_item))
         {
-            entry.formID = reinterpret_cast<unsigned int>((pList->m_item));
+            entry.formID = (unsigned int)(std::uintptr_t)((pList->m_item));
             TESFile* file = form ? form->GetFile(-1) : 0;
             ::ResolveFormID((unsigned int *)&(entry.formID), file);
             entry.reference = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(entry.formID));

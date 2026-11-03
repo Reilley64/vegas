@@ -645,7 +645,7 @@ void S_004f95a0::LoadFormReferences()
         if (!unkac)
             ::FUN_005b5e40();
     }
-    id = (unsigned int)unkb0;
+    id = (unsigned int)(std::uintptr_t)unkb0;
     if (id)
     {
         ::ResolveFormID(&id, (::TESFile *)(void *)(((void *)(reinterpret_cast<::TESForm *>(this)->GetFile(-1)))));

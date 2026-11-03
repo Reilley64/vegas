@@ -139,7 +139,7 @@ void FUN_00482c80_shell::ClearParsedXML()
     this->m_uiDescriptionFileOffset = 0;
 }
 
-void __cdecl WriteDescChunk(void*, int);
+void __cdecl WriteDescChunk(void*, std::intptr_t);
 
 struct FUN_00482cb0_shell
 {
@@ -168,7 +168,7 @@ struct FUN_00482d30_shell
     unsigned int GetMenuParsedXmlLength();
 };
 // @fnv 0x00482cd0
-void __cdecl WriteDescChunk(void* apDesc, int aiChunk)
+void __cdecl WriteDescChunk(void* apDesc, std::intptr_t aiChunk)
 {
     char empty;
     if (apDesc)
@@ -369,7 +369,7 @@ void Desc482d::FUN_00482d80(BaseFormComponent* apComponent)
     if (!pDesc)
         return;
     reinterpret_cast<::TextString *>(&(g_011c5498))->FUN_004037f0((const char*)((DescStandIn*)pDesc)->vf4(0, 'CSED'), 0);
-    m_uiDescriptionFileOffset = ((unsigned long)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
+    m_uiDescriptionFileOffset = ((std::uintptr_t)(reinterpret_cast<::Callees *>((((Off482d*)pDesc)))->FUN_00726070()));
 }
 
 // Adjustor thunk: the secondary-base (+0x3c) vtable entry for an override defined on the derived class.

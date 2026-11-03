@@ -119,7 +119,7 @@ void TESWaterForm::InitItem()
         if (!m_pWaterSound)
             ::FUN_005b5e40();
     }
-    id = (unsigned int)m_pWaterSpell;
+    id = (unsigned int)(std::uintptr_t)m_pWaterSpell;
     if (id)
     {
         ::ResolveFormID((unsigned int *)&(id), GetFile(-1));
@@ -150,7 +150,7 @@ void TESWaterForm::InitItem()
     }
     for (int i = 0; i < 3; ++i)
     {
-        id = (unsigned int)m_apWaterForms[i];
+        id = (unsigned int)(std::uintptr_t)m_apWaterForms[i];
         if (id)
         {
             ::ResolveFormID((unsigned int *)&(id), GetFile(-1));

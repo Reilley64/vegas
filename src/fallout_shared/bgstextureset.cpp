@@ -522,12 +522,12 @@ struct Owner
     ValueList m_kList3;
     ValueList m_kList4;
 
-    void FUN_00593030(unsigned int uiType, int iValue);
+    void FUN_00593030(unsigned int uiType, std::intptr_t iValue);
 };
 
 // Dispatches iValue to the ValueList member selected by uiType, calling FUN_00489100 on the matching list.
 // @fnv 0x00593030
-void Owner::FUN_00593030(unsigned int uiType, int iValue)
+void Owner::FUN_00593030(unsigned int uiType, std::intptr_t iValue)
 {
     switch (uiType)
     {

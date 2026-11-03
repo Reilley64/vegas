@@ -149,7 +149,7 @@ void TESRace::InitItem()
         return;
     if (m_apDefaultVoiceTypes[0])
     {
-        unsigned int maleVoiceID = reinterpret_cast<unsigned int>(m_apDefaultVoiceTypes[0]);
+        unsigned int maleVoiceID = (unsigned int)(std::uintptr_t)(m_apDefaultVoiceTypes[0]);
         ::ResolveFormID((unsigned int *)&(maleVoiceID), GetFile(-1));
         m_apDefaultVoiceTypes[0] = dynamic_cast<BGSVoiceType*>(::FUN_004839c0(maleVoiceID));
         if (!m_apDefaultVoiceTypes[0])
@@ -157,7 +157,7 @@ void TESRace::InitItem()
     }
     if (m_apDefaultVoiceTypes[1])
     {
-        unsigned int femaleVoiceID = reinterpret_cast<unsigned int>(m_apDefaultVoiceTypes[1]);
+        unsigned int femaleVoiceID = (unsigned int)(std::uintptr_t)(m_apDefaultVoiceTypes[1]);
         ::ResolveFormID((unsigned int *)&(femaleVoiceID), GetFile(-1));
         m_apDefaultVoiceTypes[1] = dynamic_cast<BGSVoiceType*>(::FUN_004839c0(femaleVoiceID));
         if (!m_apDefaultVoiceTypes[1])
@@ -165,7 +165,7 @@ void TESRace::InitItem()
     }
     if (m_apDefaultHairStyles[0])
     {
-        unsigned int maleHairID = reinterpret_cast<unsigned int>(m_apDefaultHairStyles[0]);
+        unsigned int maleHairID = (unsigned int)(std::uintptr_t)(m_apDefaultHairStyles[0]);
         ::ResolveFormID((unsigned int *)&(maleHairID), GetFile(-1));
         m_apDefaultHairStyles[0] = dynamic_cast<TESHair*>(::FUN_004839c0(maleHairID));
         if (!m_apDefaultHairStyles[0])
@@ -173,7 +173,7 @@ void TESRace::InitItem()
     }
     if (m_apDefaultHairStyles[1])
     {
-        unsigned int femaleHairID = reinterpret_cast<unsigned int>(m_apDefaultHairStyles[1]);
+        unsigned int femaleHairID = (unsigned int)(std::uintptr_t)(m_apDefaultHairStyles[1]);
         ::ResolveFormID((unsigned int *)&(femaleHairID), GetFile(-1));
         m_apDefaultHairStyles[1] = dynamic_cast<TESHair*>(::FUN_004839c0(femaleHairID));
         if (!m_apDefaultHairStyles[1])
@@ -181,7 +181,7 @@ void TESRace::InitItem()
     }
     if (m_pOlderRace)
     {
-        unsigned int olderRaceID = reinterpret_cast<unsigned int>(m_pOlderRace);
+        unsigned int olderRaceID = (unsigned int)(std::uintptr_t)(m_pOlderRace);
         ::ResolveFormID((unsigned int *)&(olderRaceID), GetFile(-1));
         m_pOlderRace = dynamic_cast<TESRace*>(::FUN_004839c0(olderRaceID));
         if (!m_pOlderRace)
@@ -189,7 +189,7 @@ void TESRace::InitItem()
     }
     if (m_pYoungerRace)
     {
-        unsigned int youngerRaceID = reinterpret_cast<unsigned int>(m_pYoungerRace);
+        unsigned int youngerRaceID = (unsigned int)(std::uintptr_t)(m_pYoungerRace);
         ::ResolveFormID((unsigned int *)&(youngerRaceID), GetFile(-1));
         m_pYoungerRace = dynamic_cast<TESRace*>(::FUN_004839c0(youngerRaceID));
         if (!m_pYoungerRace)
@@ -2574,7 +2574,7 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             ::TESDescription::ReadDescriptionFromFile(this, apFile);
             break;
         case 0x4f4c5053: {
-            unsigned int tempint = 0;
+            std::uintptr_t tempint = 0;
             ((RaceLoadFile*)apFile)->ReadChunkInt(&tempint);
             reinterpret_cast<::fnv_0048d290::FUN_0048d290_shell *>((((RaceLoadSpellList*)(&((RaceLoadComponents*)this)->spells))))->FUN_0048d290((::TESForm *)(tempint));
             break;
@@ -2591,13 +2591,13 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
             reinterpret_cast<::fnv_004861f0::Form_004861f0 *>((((RaceLoadDataReader*)this)))->FUN_004861f0(apFile, &Data, 0x24);
             break;
         case 0x4d414e4f: {
-            unsigned int itempint = 0;
+            std::uintptr_t itempint = 0;
             ((RaceLoadFile*)apFile)->ReadChunkInt(&itempint);
             m_pOlderRace = (TESRace*)itempint;
             break;
         }
         case 0x4d414e59: {
-            unsigned int itempint = 0;
+            std::uintptr_t itempint = 0;
             ((RaceLoadFile*)apFile)->ReadChunkInt(&itempint);
             m_pYoungerRace = (TESRace*)itempint;
             break;

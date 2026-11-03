@@ -429,7 +429,7 @@ struct FUN_0050c1d0_shell
 FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
 {
     FUN_0096a2d0* pkResult = 0;
-    for (int i = 0; i < 6; i++)
+    for (std::intptr_t i = 0; i < 6; i++)
     {
         List_009e03e0* pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::SpellSelector *>(this)->FUN_0050c000((void *)(i), (unsigned short)(pkOwner->m_kSource.GetEntry(::GetMinusOne())))));
         List_009e03e0* pkListCur = pkIter;

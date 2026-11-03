@@ -241,11 +241,11 @@ BGSBodyPartData* FUN_005f0f80(TESActorBase* apActorBase)
 
 struct FUN_005f0b30_shell
 {
-    void FUN_005f0b30(int a1);
+    void FUN_005f0b30(std::intptr_t a1);
 };
 
 // @fnv 0x005f0b30
-void FUN_005f0b30_shell::FUN_005f0b30(int aiValue)
+void FUN_005f0b30_shell::FUN_005f0b30(std::intptr_t aiValue)
 {
     reinterpret_cast<::CombatProcedure *>((((Reset3DMobIterator*)((char*)this + 0xb0))))->Initialize((::CombatController *)(aiValue));
 }
@@ -878,7 +878,7 @@ void SaveActorBase::FUN_005f18c0(unsigned int flags)
     reinterpret_cast<::fnv_0047f840::FUN_0047f840_shell *>(&(ai))->FUN_0047f840(flags);
     if (flags & 0)
     {
-        unsigned int first = ((unsigned int)(reinterpret_cast<::Callees *>(&(list))->FUN_00726070()));
+        std::uintptr_t first = ((std::uintptr_t)(reinterpret_cast<::Callees *>(&(list))->FUN_00726070()));
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0((void *)(&first), 4);
     }
     if (flags & 0x20)
@@ -1094,12 +1094,12 @@ struct ActorBaseLoad
     int fieldCC;
     SubD0 subD0;
 
-    void FUN_005f1b30(unsigned int, unsigned int);
+    void FUN_005f1b30(unsigned int, std::uintptr_t);
 };
 
 // Reads the actor base block from the save stream, dispatches to sub-structs, and verifies the block boundary against the expected end position.
 // @fnv 0x005f1b30
-void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, unsigned int a2)
+void ActorBaseLoad::FUN_005f1b30(unsigned int aiFlags, std::uintptr_t a2)
 {
     FormName* form5;
     LoadHdr* hdrB;

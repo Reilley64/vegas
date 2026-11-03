@@ -37,7 +37,7 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
         TESFile* file;
     } initData;
 
-    initData.formID = (unsigned int)m_pPickupSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPickupSound;
     initData.file = owner ? owner->GetFile(-1) : 0;
 
     if (initData.formID)
@@ -60,7 +60,7 @@ void BGSPickupPutdownSounds::InitItem(TESForm* owner)
         }
     }
 
-    initData.formID = (unsigned int)m_pPutdownSound;
+    initData.formID = (unsigned int)(std::uintptr_t)m_pPutdownSound;
     if (initData.formID)
     {
         ::ResolveFormID((unsigned int *)&(initData.formID), initData.file);

@@ -130,7 +130,7 @@ void FUN_0051b4b0_shell::FUN_0051b4b0()
     FUN_004858f0(0x53555242, *(unsigned char*)((char*)this + 0x50));
     if (*(unsigned int*)((char*)this + 0x54))
     {
-        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(unsigned int*)((char*)this + 0x54)))))->FUN_0084e3a0()));
+        unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)(*(std::uintptr_t*)((char*)this + 0x54)))))->FUN_0084e3a0()));
         ::FUN_00485910(0x4D414E52, id);
     }
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
@@ -175,7 +175,7 @@ struct TESObjectSTAT_shell : public TESForm
 // @fnv 0x0051b530
 void TESObjectSTAT_shell::FUN_0051b530()
 {
-    unsigned int itempint;
+    std::uintptr_t itempint;
 
     if (reinterpret_cast<::TESForm *>((void *)this)->GetInitialized())
         return;
@@ -183,7 +183,7 @@ void TESObjectSTAT_shell::FUN_0051b530()
     reinterpret_cast<::TESModelTextureSwap *>((reinterpret_cast<TESObjectSTAT_shell*>(reinterpret_cast<unsigned char*>(this) + 0x30)))->InitItem(this);
 
     itempint =
-        reinterpret_cast<unsigned int>(*reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54));
+        reinterpret_cast<std::uintptr_t>(*reinterpret_cast<TESSound**>(reinterpret_cast<unsigned char*>(this) + 0x54));
 
     if (itempint)
     {

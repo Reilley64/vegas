@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -166,25 +167,7 @@ void GetNodePairValue(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, 
     *pOutVal = iResult;
 }
 
-struct CFE820Allocator
-{
-    virtual void unk00();
-    virtual void* AllocateMemoryBlock(int numBytes);
-};
 
-struct CFE820MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    CFE820Allocator* m_pStreamAllocator;
-
-    CFE820Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 void __cdecl ResizeAudioStream(void* alloc, void* array, int sizeElem);
 
@@ -207,7 +190,7 @@ struct CFE820BlockArray
 
     void AddBack(char* const& e)
     {
-        CFE820Allocator& alloc = static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&alloc, this, sizeof(char*));
         construct(m_data + m_iElementCount, 1, e);
@@ -231,7 +214,7 @@ static __declspec(noinline) char* AllocatePoolChunk(CFE820Pool* pool)
         pool->m_uiBufferCapacity += 0x80;
         return p;
     }
-    char* block = static_cast<char*>(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap().AllocateMemoryBlock(0x200));
+    char* block = static_cast<char*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x200));
     pool->m_kBlocks.AddBack(block);
     pool->m_uiBufferCapacity = 0x80;
     return block;
@@ -415,17 +398,6 @@ struct DataBufferInfo
     Record* record;
     unsigned other;
 };
-struct Allocator
-{
-    virtual void Slot0();
-    virtual void* Allocate(unsigned bytes);
-};
-struct BSAudio
-{
-    unsigned unk00, unk04, unk08, unk0c;
-    Allocator* allocator;
-};
-void ResizeAudioStream(void*, void*, int);
 struct SlabArray
 {
     char** data;
@@ -433,9 +405,8 @@ struct SlabArray
     unsigned capacityFlags;
     void Append(char* block)
     {
-        BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
         if (count == (capacityFlags & 0x3fffffffu))
-            ResizeAudioStream(audio->allocator, this, 4);
+            ::ResizeAudioStream(&hkMemoryRouter::getInstance().heap(), this, int(sizeof(char*)));
         data[count] = block;
         ++count;
     }
@@ -453,9 +424,7 @@ __declspec(noinline) static Record* AllocatePoolChunk(State* state)
         state->used += 128;
         return reinterpret_cast<Record*>(result);
     }
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    Allocator* allocator = audio->allocator;
-    char* block = static_cast<char*>(allocator->Allocate(512));
+    char* block = static_cast<char*>(hkMemoryRouter::getInstance().heap().blockAlloc(512));
     state->slabs.Append(block);
     state->used = 128;
     return reinterpret_cast<Record*>(block);
@@ -855,7 +824,7 @@ struct hkCollisionEntryArrayCFEA
         }
     }
 
-    void OptimizeCapacity(CFE820Allocator& alloc, int numFreeElemsLeft)
+    void OptimizeCapacity(hkMemoryAllocator& alloc, int numFreeElemsLeft)
     {
         int totalSize = hkNextPowerOf2CFEA(m_iElementCount + numFreeElemsLeft);
         if (totalSize < getCapacity())
@@ -908,7 +877,7 @@ void __cdecl FUN_00cfea30(void* track, hkpAgentNnEntryCFEA* entry, hkpCollisionD
             hkpAgentNnEntryCFEA* pMovedEntry = entries.m_data[index].m_pAgentEntry;
             pMovedEntry->m_ausAgentData[pMovedEntry->m_kCollidable[0] != collidable] = (unsigned short)index;
         }
-        entries.OptimizeCapacity(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap(), 4);
+        entries.OptimizeCapacity(hkMemoryRouter::getInstance().heap(), 4);
     }
 
     ::FUN_00cfe020((::S_cfe020_Pool *)(track), (::S_cfe020_Entry *)(entry));
@@ -930,23 +899,7 @@ static __forceinline int hkNextPowerOf2CFF2(unsigned int in)
 
 void __cdecl FUN_00c909d0(void* alloc, void* array, int sizeElem, void* storage, int newCapacity);
 
-struct hkMemoryAllocatorCFF2
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
-struct hkMemoryRouterCFF2
-{
-    int unk00, unk04, unk08, unk0c;
-    hkMemoryAllocatorCFF2* m_pStreamAllocator;
-
-    hkMemoryAllocatorCFF2& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterCFF2 {
 }
@@ -983,11 +936,11 @@ struct hkSectorArrayCFF2
             int newCapacity = hkNextPowerOf2CFF2(m_iElementCount + numFreeElemsLeft);
             if (newCapacity < 1)
             {
-                FUN_00c909d0(&(static_cast<hkMemoryRouterCFF2*>(::FUN_00c85750())->heap()), this, sizeof(hkpAgentNnSectorCFF2*), m_kStorage, 1);
+                FUN_00c909d0(&hkMemoryRouter::getInstance().heap(), this, sizeof(hkpAgentNnSectorCFF2*), m_kStorage, 1);
             }
             else if (newCapacity < getCapacity())
             {
-                FUN_00c909d0(&(static_cast<hkMemoryRouterCFF2*>(::FUN_00c85750())->heap()), this, sizeof(hkpAgentNnSectorCFF2*), 0, newCapacity);
+                FUN_00c909d0(&hkMemoryRouter::getInstance().heap(), this, sizeof(hkpAgentNnSectorCFF2*), 0, newCapacity);
             }
         }
     }
@@ -1018,7 +971,7 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
         {
             hkpAgentNnSectorCFF2* sector = appendee->m_kSectors.back();
             appendee->m_kSectors.popBack();
-            static_cast<hkMemoryRouterCFF2*>(::FUN_00c85750())->heap().ReleaseBlock(sector, 0x200);
+            hkMemoryRouter::getInstance().heap().blockFree(sector, 0x200);
             appendee->m_iBytesUsedInLastSector = 0x200;
         }
         appendee->m_kSectors.OptimizeCapacity(4);
@@ -1027,7 +980,7 @@ void __cdecl FUN_00cff290(hkpAgentNnTrackCFF2* track, hkpAgentNnTrackCFF2* appen
     if (appendee->m_kSectors.GetLogicalSize())
     {
         hkpAgentNnSectorCFF2** sectors = appendee->m_kSectors.m_data;
-        reinterpret_cast<::SearchObject *>(&(track->m_kSectors))->Search((uintptr_t)&(static_cast<hkMemoryRouterCFF2*>(::FUN_00c85750())->heap()), track->m_kSectors.GetLogicalSize(), (uintptr_t)(sectors),
+        reinterpret_cast<::SearchObject *>(&(track->m_kSectors))->Search((uintptr_t)&hkMemoryRouter::getInstance().heap(), track->m_kSectors.GetLogicalSize(), (uintptr_t)(sectors),
                                  appendee->m_kSectors.GetLogicalSize());
         track->m_iBytesUsedInLastSector = appendee->m_iBytesUsedInLastSector;
         appendee->m_kSectors.m_iElementCount = 0;
@@ -1145,14 +1098,8 @@ struct S_cfe020_Entry
         return *this;
     }
 };
-struct S_cfe020_Heap
-{
-    virtual void v0();
-    virtual void v1();
-    virtual void ReleaseBlock(void* p, int size);
-};
 
-void __cdecl FUN_00c909d0(S_cfe020_Heap* heap, void* arr, int elemSize, void* mem, int n);
+void __cdecl FUN_00c909d0(void* heap, void* arr, int elemSize, void* mem, int n);
 
 struct S_cfe020_Blocks
 {
@@ -1181,11 +1128,11 @@ struct S_cfe020_Blocks
             int newCap = n + 1;
             if (newCap < 1)
             {
-                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, sizeof(char*), &local, 1);
+                FUN_00c909d0(&hkMemoryRouter::getInstance().heap(), &data, sizeof(char*), &local, 1);
             }
             else if (newCap < (cap & 0x3fffffff))
             {
-                FUN_00c909d0((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()), &data, sizeof(char*), 0, newCap);
+                FUN_00c909d0(&hkMemoryRouter::getInstance().heap(), &data, sizeof(char*), 0, newCap);
             }
         }
     }
@@ -1216,7 +1163,7 @@ void FUN_00cfe020(S_cfe020_Pool* pool, S_cfe020_Entry* dest)
     {
         char* block = pool->blocks.back();
         pool->blocks.popBack();
-        ((S_cfe020_Heap*)&(static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap()))->ReleaseBlock(block, 0x200);
+        hkMemoryRouter::getInstance().heap().blockFree(block, 0x200);
         pool->used = 0x200;
     }
     pool->blocks.optimize();
@@ -1233,7 +1180,7 @@ struct LinkArray
     }
     LinkEntry* AddBack()
     {
-        CFE820Allocator& alloc = static_cast<CFE820MemoryRouter*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ResizeAudioStream(&alloc, this, sizeof(LinkEntry));
         LinkEntry* ret = &m_data[m_iElementCount];

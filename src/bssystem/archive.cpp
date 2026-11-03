@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include "fileformat/compression.h"
 #include "runtime/crt.h"
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/DirectoryArchive.h"
@@ -168,7 +169,7 @@ class CompressedArchiveFile : public ArchiveFile
   public:
     virtual void SetEndianSwap(bool doSwap);  // v10 override
     virtual void Seek(int offset, int mode);  // v14 override
-    void* m_pArchiveStream;                   // +0x160
+    fileformat::Inflater* m_pArchiveStream;   // +0x160
     char* m_pCompressedBuffer;                // +0x164
     unsigned int m_uiCompressedSize;          // +0x168
     unsigned int m_uiUncompressedSize;        // +0x16C
@@ -733,24 +734,6 @@ int __cdecl FUN_00afbf80(Dummy_00afbbf0* pTarget, void* b, int c)
     return reinterpret_cast<::S_afbb *>((pTarget))->FUN_00afbbf0(b, c);
 }
 
-struct ZlibStreamPeer;
-struct ZlibStream
-{
-    unsigned char* m_pNextInputByte;
-    unsigned int m_uiAvailableInputBytes;
-    unsigned long m_ulTotalInputBytes;
-    unsigned char* m_pNextOutputByte;
-    unsigned int m_uiAvailableOutputBytes;
-    unsigned long m_ulTotalOutputBytes;
-    char* msg;
-    ZlibStreamPeer* state;
-    int* m_pAllocateCallback;
-    int* m_pFreeCallback;
-    void* opaque;
-    int data_type;
-    unsigned long m_ulAdler32Checksum;
-    unsigned long reserved;
-};
 struct FUN_00afbfe0_shell : public CompressedArchiveFile
 {
     void DestroyCompressedArchiveFile();
@@ -763,8 +746,6 @@ class MemoryManager
 public:
     void *Reallocate(void *, unsigned int);
 };
-int __cdecl _inflateEnd(ZlibStream* kReadStream);
-
 struct FUN_00afc060_shell2 : public CompressedArchiveFile
 {
     bool AttachFileStream(bool, bool);
@@ -1108,31 +1089,9 @@ class MemoryManager
     void* Allocate(unsigned int);
     void _DeallocateAlias(void*);
 };
-int __cdecl _inflateInit_(void*, const char*, int);
-int __cdecl _inflateEnd(void*);
 extern unsigned int DAT_011f8164;
 struct S_afbb
 {
-};
-struct P03Z
-{
-    void* m_pNextInputByte;
-    unsigned int m_uiAvailableInputBytes;
-    char pad08[0x14];
-    void* state;
-    void* m_pAllocateCallback;
-    void* m_pFreeCallback;
-    void* opaque;
-};
-struct P03CAF
-{
-    char pad[0x160];
-    P03Z* pStream;
-    void* pBuffer;
-    unsigned int uiBufSize;
-    unsigned int uiCap;
-    int f170;
-    int f174;
 };
 struct FUN_00afb300
 {
@@ -1149,34 +1108,12 @@ FUN_00afc430::FUN_00afc430(int a, int b, int c, int d, int e) : FUN_00afb300(a, 
     *(int**)this = &::DAT_010a464c;
     ((CompressedArchiveFile*)this)->CompressedArchiveFile::SetEndianSwap(false);
     reinterpret_cast<::S_afbb *>((((S_afbb*)this)))->FUN_00afbbf0(&((CompressedArchiveFile*)this)->m_uiCompressedSize, 4);
-    char* pStream;
-    int pTmp;
-    void* err = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(0x1be0);
-    pStream = (char*)err;
-    ((P03CAF*)this)->pStream = (P03Z*)pStream;
-    ((P03CAF*)this)->pStream->m_pAllocateCallback = 0;
-    ((P03CAF*)this)->pStream->m_pFreeCallback = 0;
-    ((P03CAF*)this)->pStream->opaque = 0;
-    ((P03CAF*)this)->pStream->m_uiAvailableInputBytes = 0;
-    ((P03CAF*)this)->pStream->m_pNextInputByte = 0;
-    ((P03CAF*)this)->pStream->state = pStream + 0x38;
-    pTmp = _inflateInit_(((P03CAF*)this)->pStream, "1.2.1", 0x38);
-    if (pTmp)
-    {
-        _inflateEnd(((P03CAF*)this)->pStream);
-        void* pFree = ((P03CAF*)this)->pStream;
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pFree);
-        ((P03CAF*)this)->pStream = 0;
-    }
-    else
-    {
-        ((P03CAF*)this)->uiCap = ((P03CAF*)this)->uiBufSize < DAT_011f8164 ? ((P03CAF*)this)->uiBufSize : DAT_011f8164;
-        unsigned int pBuf = ((P03CAF*)this)->uiCap;
-        void* uiSize = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(pBuf);
-        ((P03CAF*)this)->pBuffer = uiSize;
-        ((P03CAF*)this)->f170 = 0;
-        ((P03CAF*)this)->f174 = 0;
-    }
+    CompressedArchiveFile* file = (CompressedArchiveFile*)this;
+    file->m_pArchiveStream = new fileformat::Inflater;
+    file->m_uiUncompressedSize = file->m_uiCompressedSize < DAT_011f8164 ? file->m_uiCompressedSize : DAT_011f8164;
+    file->m_pCompressedBuffer = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afc430::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(file->m_uiUncompressedSize);
+    file->m_uiCompressedPosition = 0;
+    file->m_uiUncompressedPosition = 0;
 }
 }  // namespace fnv_00afc430
 
@@ -5242,15 +5179,8 @@ class FUN_00afb520_cls : public FUN_00afb520_base
 // @fnv 0x00afbfe0
 void FUN_00afbfe0_shell::DestroyCompressedArchiveFile()
 {
-    ZlibStream* pzstream;
     *(int**)this = &DAT_010a464c;
-    if (*(ZlibStream**)&this->m_pArchiveStream != 0)
-    {
-        pzstream = *(ZlibStream**)&this->m_pArchiveStream;
-        _inflateEnd(pzstream);
-        void* p1 = pzstream;
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p1);
-    }
+    delete m_pArchiveStream;
     if (*(void**)&this->m_pCompressedBuffer != 0)
     {
         void* p2 = *(void**)&this->m_pCompressedBuffer;
@@ -8539,16 +8469,6 @@ void __cdecl FUN_00af5ab0(const char* path)
     }
 }
 
-struct ArcInflateReadState
-{
-    unsigned char* m_pNextInputByte;
-    unsigned int m_uiAvailableInputBytes;
-    unsigned int m_ulTotalInputBytes;
-    unsigned char* m_pNextOutputByte;
-    unsigned int m_uiAvailableOutputBytes;
-};
-int __cdecl FUN_00b44000(ArcInflateReadState* state, int flush);
-int __cdecl FUN_00b45db0(ArcInflateReadState* state);
 struct DecompReadFile : public CompressedArchiveFile
 {
     unsigned int FUN_00afc0e0(char* buffer, unsigned int size);
@@ -8559,7 +8479,6 @@ unsigned int DecompReadFile::FUN_00afc0e0(char* buffer, unsigned int size)
 {
     unsigned int bytesToRead = size;
     unsigned int nRead = 0;
-    ArcInflateReadState* state = (ArcInflateReadState*)m_pArchiveStream;
     unsigned int available = m_uiUncompressedPosition - m_uiCompressedPosition;
 
     if (bytesToRead > available)
@@ -8578,40 +8497,37 @@ unsigned int DecompReadFile::FUN_00afc0e0(char* buffer, unsigned int size)
         m_uiCompressedPosition = 0;
         m_uiUncompressedPosition = 0;
 
-        int status;
+        fileformat::InflateStatus status;
         while (bytesToRead > 0)
         {
-            state->m_uiAvailableOutputBytes = m_uiUncompressedSize;
-            state->m_pNextOutputByte = (unsigned char*)m_pCompressedBuffer;
+            std::span<std::byte> output(reinterpret_cast<std::byte*>(m_pCompressedBuffer), m_uiUncompressedSize);
 
-            while (state->m_uiAvailableOutputBytes != 0)
+            while (!output.empty())
             {
                 available = m_uiBufferReadSize - m_uiPos;
-                state->m_uiAvailableInputBytes = available;
-                state->m_pNextInputByte = (unsigned char*)(m_pBuffer + m_uiPos);
+                std::span<const std::byte> input(reinterpret_cast<const std::byte*>(m_pBuffer + m_uiPos), available);
 
                 if (available != 0)
                 {
-                    status = FUN_00b44000(state, 2);
-                    if (status == -2 || status == 2 || status == -3 || status == -4)
+                    status = m_pArchiveStream->Inflate(input, output);
+                    if (status == fileformat::InflateStatus::Error)
                     {
-                        FUN_00b45db0(state);
                         bytesToRead = 0;
                         break;
                     }
-                    if (status == 1)
+                    if (status == fileformat::InflateStatus::End)
                         break;
                 }
-                m_uiPos += available - state->m_uiAvailableInputBytes;
-                m_uiBufferSize += available - state->m_uiAvailableInputBytes;
-                if (state->m_uiAvailableInputBytes == 0)
+                m_uiPos += available - input.size();
+                m_uiBufferSize += available - input.size();
+                if (input.empty())
                 {
                     NiFile::Flush();
                     m_uiBufferReadSize = reinterpret_cast<::Reader078 *>(this)->ReadAtOffset((char *)(m_pBuffer), m_uiBufferAllocSize, 0);
                 }
             }
 
-            m_uiUncompressedPosition = m_uiUncompressedSize - state->m_uiAvailableOutputBytes;
+            m_uiUncompressedPosition = m_uiUncompressedSize - output.size();
             if (m_uiUncompressedPosition == 0)
             {
                 break;

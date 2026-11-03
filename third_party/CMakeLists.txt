@@ -14,12 +14,19 @@ FetchContent_Declare(Vorbis
   URL https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz
   URL_HASH SHA256=b33cc4934322bcbf6efcbacf49e3ca01aadbea4114ec9589d1b1e9d20f72954b
 )
+FetchContent_Declare(zlib
+  URL https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.xz
+  URL_HASH SHA256=d7a0654783a4da529d1bb793b7ad9c3318020af77667bcae35f95d0e42a792f3
+)
 
 set(SDL_STATIC OFF)
 set(SDL_TEST_LIBRARY OFF)
+set(ZLIB_BUILD_SHARED OFF)
+set(ZLIB_BUILD_TESTING OFF)
+set(ZLIB_INSTALL OFF)
 # libvorbis 1.3.7 asks for CMake 2.8.12, which CMake 4 no longer accepts.
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
-FetchContent_MakeAvailable(SDL3 Ogg Vorbis)
+FetchContent_MakeAvailable(SDL3 Ogg Vorbis zlib)
 unset(CMAKE_POLICY_VERSION_MINIMUM)
 
 # FFmpeg builds only with its own configure script and make, so on Windows it runs

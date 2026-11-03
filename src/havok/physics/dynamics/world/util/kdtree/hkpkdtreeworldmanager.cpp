@@ -27,6 +27,18 @@
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
+// The world object passed to the kd-tree listeners.
+struct FUN_00d0a360_Arg
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    void* m_pCollisionShape;  // +0x10, hkpWorldObject::m_collidable.m_shape
+};
+// hkpKdTreeWorldManager's two listener bases (x86 layout).
+static const int kKdTreeListenerAt14Offset = 0x14;
+static const int kKdTreeListenerAt18Offset = 0x18;
 struct hkpKdTreeWorldManager
 {
     int m_kPointA;
@@ -43,7 +55,7 @@ struct hkpKdTreeWorldManager
 // @fnv 0x00d0a2b0
 void hkpKdTreeWorldManager::FUN_00d0a2b0(void* p)
 {
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(p) + 0x10))
+    if (static_cast<FUN_00d0a360_Arg*>(p)->m_pCollisionShape)
         m_iThirdValue = 1;
 }
 
@@ -68,11 +80,11 @@ struct FUN_00d0a340_StandIn
     char m_g;
     char m_h;
 
-    void SetFlagOrForward(int);
+    void SetFlagOrForward(void*);
 };
 
 // @fnv 0x00d0a340
-void FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
+void FUN_00d0a340_StandIn::SetFlagOrForward(void* arg)
 {
     if (m_h == 0)
     {
@@ -80,7 +92,7 @@ void FUN_00d0a340_StandIn::SetFlagOrForward(int arg)
         return;
     }
 
-    return reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x14)))->FUN_00d0a270(arg);
+    return reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - kKdTreeListenerAt14Offset)))->FUN_00d0a270(arg);
 }
 
 struct FUN_00c917a0_shell
@@ -178,14 +190,6 @@ bool FUN_00d0ad80_Class::FUN_00d0ad80()
     return this->unk20 == '\0';
 }
 
-struct FUN_00d0a360_Arg
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
-};
 
 struct FUN_00d0a360_Owner
 {
@@ -194,15 +198,15 @@ struct FUN_00d0a360_Owner
     unsigned char unk08;
     unsigned char unk09;
 
-    void HandleArg(int arg);
+    void HandleArg(void* arg);
 };
 
-// If the argument's field at offset 0x10 is nonzero, sets unk08 when unk09 is zero, otherwise calls FUN_00d0a270 on the object 0x18 bytes before this.
+// If the argument has a collision shape, sets unk08 when unk09 is zero, otherwise calls FUN_00d0a270 on the object 0x18 bytes before this.
 // @fnv 0x00d0a360
-void FUN_00d0a360_Owner::HandleArg(int arg)
+void FUN_00d0a360_Owner::HandleArg(void* arg)
 {
-    FUN_00d0a360_Arg* p = reinterpret_cast<FUN_00d0a360_Arg*>(arg);
-    if (p->unk10 != 0)
+    FUN_00d0a360_Arg* p = static_cast<FUN_00d0a360_Arg*>(arg);
+    if (p->m_pCollisionShape != 0)
     {
         if (unk09 == 0)
         {
@@ -210,7 +214,7 @@ void FUN_00d0a360_Owner::HandleArg(int arg)
         }
         else
         {
-            reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - 0x18)))->FUN_00d0a270(arg);
+            reinterpret_cast<::FUN_00d0a270_class *>((reinterpret_cast<FUN_00d0a270_StandIn*>(reinterpret_cast<char*>(this) - kKdTreeListenerAt18Offset)))->FUN_00d0a270(arg);
         }
     }
 }
@@ -1489,7 +1493,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
             _ReadWriteBarrier();
             volatile unsigned int tick = (unsigned int)__rdtsc();
             record->clock = tick;
-            stream->current = reinterpret_cast<char*>(record) + 16;
+            stream->current = reinterpret_cast<char*>(record + 1);
         }
     }
     reinterpret_cast<::fnv_00d04b50::Owner *>((queue))->FUN_00d04b50(&info, 0);

@@ -1427,6 +1427,12 @@ struct ItemObj
     virtual void v00();
     virtual void v04(void* pParam);
 };
+// hkpEntity::m_contactListeners (an hkSmallArray at +0x200).
+struct EntityContactListenerFields
+{
+    char pad00[0x200];
+    char m_contactListeners[8];  // +0x200
+};
 struct ItemTable
 {
     ItemObj** m_ppItems;
@@ -1436,7 +1442,7 @@ struct ItemTable
 // @fnv 0x00cfffb0
 void __cdecl FUN_00cfffb0(void* apOwner, void* apParam)
 {
-    ItemTable* pItemTable = (ItemTable*)((char*)apOwner + 0x200);
+    ItemTable* pItemTable = reinterpret_cast<ItemTable*>(static_cast<EntityContactListenerFields*>(apOwner)->m_contactListeners);
     int i = (int)pItemTable->m_wCount - 1;
     TraceTick tEnter;
     TraceTick tExit;
@@ -1500,13 +1506,13 @@ class TaskObjV7
 };
 extern const char str_010cca5c[];
 typedef CFF9B0SmallArray TaskArray;
-// Stores pOwner in pContext, calls v06(pContext) on each non-null entry of the array at pOwner+0x200 in reverse with profiler records, then calls FUN_00cff9b0.
+// Stores pOwner in pContext, calls v06(pContext) on each non-null contact listener of pOwner in reverse with profiler records, then calls FUN_00cff9b0.
 // @fnv 0x00d00270
 void __cdecl FUN_00d00270(void* pOwner, TaskContext* pContext)
 {
     volatile DWORD t1;
     volatile DWORD* pEndTick = &t1;
-    TaskArray* pArr = (TaskArray*)((char*)pOwner + 0x200);
+    TaskArray* pArr = reinterpret_cast<TaskArray*>(static_cast<EntityContactListenerFields*>(pOwner)->m_contactListeners);
     pContext->m_pSharedOwner = pOwner;
     int i = (int)pArr->m_iElementCount - 1;
     if (i >= 0)

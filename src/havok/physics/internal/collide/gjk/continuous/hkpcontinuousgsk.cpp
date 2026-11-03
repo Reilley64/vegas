@@ -5,6 +5,7 @@
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include <bit>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/GapSolver.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -1340,7 +1341,7 @@ inline void hkVector4X::operator=(const hkVector4X& v)
 }
 int hkVector4X::getInt24W() const
 {
-    return (reinterpret_cast<const hkUint32*>(this))[3] & ~0x3f000000;
+    return std::bit_cast<hkUint32>(m_vComponents[3]) & ~0x3f000000;
 }
 inline void hkVector4X::add4(const hkVector4X& v)
 {
@@ -3106,7 +3107,7 @@ class hkVector4
     }
     __forceinline int getInt24W() const
     {
-        return (reinterpret_cast<const hkUint32*>(this))[3] & ~0x3f000000;
+        return std::bit_cast<hkUint32>(m_vComponents[3]) & ~0x3f000000;
     }
     __forceinline void _setMul3(const hkMatrix3& a, const hkVector4& b);
     __forceinline void _setRotatedDir(const hkRotation& r, const hkVector4& v);

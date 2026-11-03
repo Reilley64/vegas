@@ -30,6 +30,14 @@
 #include "../../include/layout_support.h"
 #include "fnv/symbols_simd.h"
 
+struct D1A300Entry
+{
+    char pad00[0x30];
+    int m_30;
+    char pad34[0xc];
+    int m_40;
+};
+
 // @fnv 0x00d1a300
 void __cdecl InitArrayEntries(int** apEntries, int count)
 {
@@ -38,10 +46,10 @@ void __cdecl InitArrayEntries(int** apEntries, int count)
     {
         do
         {
-            int* p = apEntries[i] + 12;
+            D1A300Entry* p = reinterpret_cast<D1A300Entry*>(apEntries[i]);
             ++i;
-            *(int*)p = 1;
-            *(int*)((char*)p + 0x10) = 0;
+            p->m_30 = 1;
+            p->m_40 = 0;
         } while (i < count);
     }
 }
@@ -112,14 +120,19 @@ void __cdecl FUN_00d1f180(FUN_00c9ce00_cls* obj, int v)
 struct FUN_00d1fa20_t
 {
     int m_uiCount;
+    char pad04[0x14];
+    unsigned int* m_puiEntries;
+    int m_iEntryCount;
+    int m_iEntryCapacity;
+    unsigned char m_ucDirty;
     void ResetEntries();
 };
 // @fnv 0x00d1fa20
 void FUN_00d1fa20_t::ResetEntries()
 {
-    for (int i = 0; i < *(int*)((char*)this + 0x1c); ++i)
-        *(unsigned int*)((char*)*(unsigned char**)((char*)this + 0x18) + i * 4) = 1;
-    *(unsigned char*)((char*)this + 0x24) = 0;
+    for (int i = 0; i < m_iEntryCount; ++i)
+        m_puiEntries[i] = 1;
+    m_ucDirty = 0;
 }
 
 struct SpawnedAllocator
@@ -603,12 +616,14 @@ void FUN_00d070b0()
 
 struct FnvCpu_FUN_00d081d0_CpuObject
 {
+    char pad00[0x50];
+    char m_50;
     char* FUN_00d081d0();
 };
 // @fnv 0x00d081d0
 char* FnvCpu_FUN_00d081d0_CpuObject::FUN_00d081d0()
 {
-    return reinterpret_cast<char*>(this) + 80;
+    return &m_50;
 }
 
 struct FUN_00d081e0_ret
@@ -1869,7 +1884,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
             int i = 0;
             if (count > i)
             {
-                __m128i packedData;
+                union { __m128i v; int lanes[4]; } packedData;
                 __m128 biasLo;
                 __m128 biasHi;
                 __m128i zeroData;
@@ -1882,22 +1897,18 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                 biasHi[2] = 1e16f;
                 biasHi[3] = 1e16f;
                 zeroData = _mm_setzero_si128();
-                unsigned short* p = &entries[n.code & 0x7fffffff].unk0e;
+                const S00d1b4d0_Entry* pEntry = &entries[n.code & 0x7fffffff];
                 do
                 {
-                    id.lo = p[-4];
-                    id.hi = p[0];
+                    id.lo = pEntry->unk06;
+                    id.hi = pEntry->unk0e;
                     __m128 factor = _mm_mul_ps(DAT_011b3810, scale.q);
-                    reinterpret_cast<int*>(&packedData)[0] =
-                        ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word0;
-                    reinterpret_cast<int*>(&packedData)[1] =
-                        ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word1;
-                    reinterpret_cast<int*>(&packedData)[2] =
-                        ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word2;
-                    reinterpret_cast<int*>(&packedData)[3] =
-                        ((const S00d1b4d0_Entry*)((const char*)p - offsetof(S00d1b4d0_Entry, unk0e)))->word3;
+                    packedData.lanes[0] = pEntry->word0;
+                    packedData.lanes[1] = pEntry->word1;
+                    packedData.lanes[2] = pEntry->word2;
+                    packedData.lanes[3] = pEntry->word3;
                     __m128 off = offset.q;
-                    IVector data = {packedData}, zero = {zeroData};
+                    IVector data = {packedData.v}, zero = {zeroData};
                     IVector lo, hi;
                     lo.unpackLo(data, zero);
                     hi.unpackHi(data, zero);
@@ -1935,7 +1946,7 @@ int __cdecl FUN_00d1b4d0(S00d1b4d0_Node* node, S00d1b4d0_Entry* entries, const R
                                 goto done;
                         }
                     }
-                    p += 8;
+                    ++pEntry;
                     ++i;
                 } while (i < count);
             }

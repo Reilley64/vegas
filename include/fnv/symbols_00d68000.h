@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 // 0x00d687c0
-void *FUN_00d687c0(unsigned int);
+void *FUN_00d687c0(uintptr_t);
 // 0x00d68890
 namespace fnv_00d68890 { void *FUN_00d68890(int); }
 // 0x00d688d0

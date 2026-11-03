@@ -141,4 +141,4 @@ void FUN_00e01f30(int *);
 // 0x00e01f50
 void FUN_00e01f50(int *);
 // 0x00e01f60
-unsigned int FUN_00e01f60();
+void* FUN_00e01f60();

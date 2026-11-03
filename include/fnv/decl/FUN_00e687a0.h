@@ -3,5 +3,5 @@
 struct FUN_00e687a0 {
 public:
     // 0x00e687a0
-    FUN_00e687a0(int, int);
+    FUN_00e687a0(intptr_t, intptr_t);
 };

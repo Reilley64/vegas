@@ -8,7 +8,7 @@ template <class> struct KnotArray;
 template <class> struct TypedTemporary;
 
 // 0x00e55080
-namespace fnv_00e55080 { unsigned char *CheckPointsWithinThreshold(unsigned char *, int, int, int, int, int, const ::fnv_00e55080::FourFloatVector **, const float **, float); }
+namespace fnv_00e55080 { unsigned char *CheckPointsWithinThreshold(unsigned char *, int, int, intptr_t, intptr_t, int, const ::fnv_00e55080::FourFloatVector **, const float **, float); }
 // 0x00e552f0
 float FUN_00e552f0(int, int, ::CurveArray &, ::PointArray &, float, int, int);
 // 0x00e555f0

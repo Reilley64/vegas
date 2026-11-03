@@ -1,3 +1,4 @@
+#include <xmmintrin.h>
 
 // src/staging/blk_00dc0000_o2_tokens.cpp - staging unit created 2026-10-30 for 0x00dcc240 (flag review): blk_00dc0000_o2.cpp holds SSE helper
 // classes (inline functions passing __m128 by value) that make VC9 drop the private register convention of every static
@@ -46,7 +47,7 @@ static __declspec(noinline) void SkipWhitespace(S00dcc240_Stream* stream)
 
 // Skips whitespace, then parses an optional sign and a decimal, octal, or hexadecimal integer from the stream, storing the sign in negative.
 // @fnv 0x00dcc240
-static __declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative)
+__declspec(noinline) unsigned __int64 FUN_00dcc240(S00dcc240_Stream* stream, bool* negative)
 {
     int storage[64];
 

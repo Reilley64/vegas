@@ -112,6 +112,7 @@
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpWorld.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include "fnv/decl/S_00ce5290.h"
 #include "fnv/symbols_simd.h"
 class hkWorldCFD4;
@@ -138,18 +139,31 @@ struct WorldFinishEntryC91C : hkpWorld {
 struct FUN_00cf7c10 {
 };
 
-struct FUN_00c91120 {
+// hkpCollisionFilter's hkpCollidableCollidableFilter base, the interface after its hkReferencedObject part.
+struct hkpCollisionFilterBases : hkReferencedObject {
+    void* m_collidableCollidableFilter;
+};
+static inline void* collidableCollidableFilterOf(void* filter)
+{
+    return filter ? &static_cast<hkpCollisionFilterBases*>(filter)->m_collidableCollidableFilter : 0;
+}
+// hkpCollisionInput field saved with the world: the config pointer.
+struct WorldSaveCollisionInput {
+    char pad00[0x70];
+    void* m_config;  // +0x70
+};
+struct FUN_00c91120 : hkpWorld {
     void ExecutePendingOperations();
 };
 
 // @fnv 0x00c91120
 void FUN_00c91120::ExecutePendingOperations()
 {
-    *(int*)((char*)this + 0x8c) = 0;
-    reinterpret_cast<::Pending *>((((FUN_00cf7c10*)*(void**)((char*)this + 0x88))))->FUN_00cf7c10();
+    m_iPendingOperationCount = 0;
+    reinterpret_cast<::Pending *>(m_pPendingOperations)->FUN_00cf7c10();
 }
 
-struct FUN_00c91180_Class {
+struct FUN_00c91180_Class : hkpWorld {
     void EnterTlsGuard();
     void IncrementCounter();
 };
@@ -158,19 +172,22 @@ struct FUN_00c91180_Class {
 void FUN_00c91180_Class::IncrementCounter()
 {
     EnterTlsGuard();
-    ++(*(int*)((char*)this + 0xbc));
+    ++m_iIsLocked;
 }
 
-struct FUN_00c91250_Class {
-    void* m_p;
+struct KdTreeManagerC9125 {
+    virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c(); virtual void v10();
+    virtual void v14(int);
+};
+struct FUN_00c91250_Class : hkpWorld {
     void FUN_00c91250();
 };
 
 // @fnv 0x00c91250
 void FUN_00c91250_Class::FUN_00c91250()
 {
-    if (*(void**)((char*)this + 0x5c))
-        ((void (*)(void*, int))(*(void***)*(void**)((char*)this + 0x5c))[5])(*(void**)((char*)this + 0x5c), 0);
+    if (m_pKdTreeManager)
+        static_cast<KdTreeManagerC9125*>(m_pKdTreeManager)->v14(0);
 }
 
 struct FUN_00cf6d20_Class {
@@ -178,19 +195,23 @@ struct FUN_00cf6d20_Class {
 };
 struct FUN_00cf6d30_Class {
 };
-struct FUN_00c91280_Class {
+struct FUN_00c91280_BroadPhase : hkReferencedObject {
+    hkMultiThreadCheck m_kMultiThreadCheck;
+};
+struct FUN_00c91280_Class : hkpWorld {
     void FUN_00c91280(int);
 };
-// Calls ResetThreadCheck on this+0xa8 and on the object at this+0x58+8 when a is zero, otherwise calls FUN_00cf6d20 on both.
+// Calls ResetThreadCheck on the world's and the broad phase's multithread checks when a is zero, otherwise calls FUN_00cf6d20 on both.
 // @fnv 0x00c91280
 void FUN_00c91280_Class::FUN_00c91280(int a)
 {
+    FUN_00c91280_BroadPhase* broadPhase = static_cast<FUN_00c91280_BroadPhase*>(m_pJobSemaphore);
     if (!a) {
-        reinterpret_cast<::hkMultiThreadCheckCF6E *>((((FUN_00cf6d30_Class*)((char*)this + 0xa8))))->ResetThreadCheck();
-        reinterpret_cast<::hkMultiThreadCheckCF6E *>((((FUN_00cf6d30_Class*)(*(char**)((char*)this + 0x58) + 8))))->ResetThreadCheck();
+        reinterpret_cast<::hkMultiThreadCheckCF6E *>(&m_kMultiThreadCheck)->ResetThreadCheck();
+        reinterpret_cast<::hkMultiThreadCheckCF6E *>(&broadPhase->m_kMultiThreadCheck)->ResetThreadCheck();
     } else {
-        ((FUN_00cf6d20_Class*)((char*)this + 0xa8))->FUN_00cf6d20();
-        ((FUN_00cf6d20_Class*)(*(char**)((char*)this + 0x58) + 8))->FUN_00cf6d20();
+        reinterpret_cast<FUN_00cf6d20_Class*>(&m_kMultiThreadCheck)->FUN_00cf6d20();
+        reinterpret_cast<FUN_00cf6d20_Class*>(&broadPhase->m_kMultiThreadCheck)->FUN_00cf6d20();
     }
 }
 
@@ -521,35 +542,35 @@ struct S_00cf7540_Ref {
 struct S_00cf7540 {
     void AddEntry(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
-struct FUN_00c91170_Class {
+struct FUN_00c91170_Class : hkpWorld {
     void FUN_00c91170(S_00cf7540_Ref*, S_00cf7540_Ref*, int, int);
 };
 // @fnv 0x00c91170
 void FUN_00c91170_Class::FUN_00c91170(S_00cf7540_Ref* a, S_00cf7540_Ref* b, int c, int d)
 {
-    (*(S_00cf7540**)((char*)this + 0x88))->AddEntry(a, b, c, d);
+    static_cast<S_00cf7540*>(m_pPendingOperations)->AddEntry(a, b, c, d);
 }
 
 void __cdecl FUN_00c904e0();
-struct FUN_00c91190_Class {
+struct FUN_00c91190_Class : hkpWorld {
     void FUN_00c91190();
 };
 // @fnv 0x00c91190
 void FUN_00c91190_Class::FUN_00c91190()
 {
-    --*(int*)((char*)this + 0xbc);
+    --m_iIsLocked;
     FUN_00c904e0();
 }
 
 
-struct FUN_00c911d0_Class {
+struct FUN_00c911d0_Class : hkpWorld {
     void EnterLock(void*);
 };
 
 // @fnv 0x00c911d0
 void FUN_00c911d0_Class::EnterLock(void* unused)
 {
-    CRITICAL_SECTION* cs = *(CRITICAL_SECTION**)(this + 0xb8);
+    CRITICAL_SECTION* cs = static_cast<CRITICAL_SECTION*>(m_pModifyConstraintCriticalSection);
     if (cs)
     {
         EnterCriticalSection(cs);
@@ -559,30 +580,30 @@ void FUN_00c911d0_Class::EnterLock(void* unused)
 
 extern void (*DAT_00fdf05c)(void*);
 
-struct FUN_00c911f0_Class {
+struct FUN_00c911f0_Class : hkpWorld {
     void FUN_00c911f0(void*);
 };
 
 // @fnv 0x00c911f0
 void FUN_00c911f0_Class::FUN_00c911f0(void* p)
 {
-    void* pStoredKey = *(void**)((char*)this + 0xb8);
+    void* pStoredKey = m_pModifyConstraintCriticalSection;
     if (pStoredKey)
         DAT_00fdf05c(pStoredKey);
 }
 
 namespace fnv_00c91f40 {
 struct RefObj { void RetainReference(); void removeReference(); };
-struct FUN_00c91f40_Class {
+struct FUN_00c91f40_Class : ::hkpWorld {
     void SetRefObj(RefObj* obj);
 };
 // @fnv 0x00c91f40
 void FUN_00c91f40_Class::SetRefObj(RefObj* apRefObj)
 {
     if (apRefObj) reinterpret_cast<::FUN_00c90510_class *>((apRefObj))->FUN_00c90510();
-    RefObj* old = *(RefObj**)((char*)this + 0x50);
+    RefObj* old = static_cast<RefObj*>(m_pMemoryWatchDog);
     if (old) reinterpret_cast<::hkReferencedObjectC905 *>((old))->FUN_00c905b0();
-    *(RefObj**)((char*)this + 0x50) = apRefObj;
+    m_pMemoryWatchDog = apRefObj;
 }
 }  // namespace fnv_00c91f40
 
@@ -663,6 +684,20 @@ struct hkpWorld_MemUsageOut {
     void* m_maxObject;
 };
 
+// The island fields ComputeMemoryUsage reads: constraint info sizes, constraint count and entity count.
+struct FUN_00c92b50_Island {
+    void* m_vtbl;
+    int m_refs;
+    int m_maxSizeOfSchema;
+    int m_sizeOfSchemas;
+    int m_numSolverResults;
+    int m_numSolverElemTemps;
+    void* m_world;
+    int m_numConstraints;
+    char pad20[0x28];
+    void* m_entities;
+    int m_numEntities;
+};
 struct FUN_00c92b50_Class {
     char pad[0x28];
     void* m_data;   // +0x28
@@ -679,14 +714,14 @@ void FUN_00c92b50_Class::ComputeMemoryUsage(hkpWorld_MemUsageOut* out)
     out->m_maxObject = 0;
 
     for (int i = m_iElementCount - 1; i >= 0; --i) {
-        void* obj = ((void**)m_data)[i];
-        int a = *(int*)((char*)obj + 0x1c);
-        int b = *(int*)((char*)obj + 0x4c);
+        FUN_00c92b50_Island* obj = ((FUN_00c92b50_Island**)m_data)[i];
+        int a = obj->m_numConstraints;
+        int b = obj->m_numEntities;
         int q = a / 80;
         int r = (q + q + 8);
-        int size = r * 3 + *(int*)((char*)obj + 0x14);
+        int size = r * 3 + obj->m_numSolverElemTemps;
         int size2 = (r + b * 8 + 10) << 4;
-        size = ((size * 4 + 0x17) & 0xfffffff0) + size2 + *(int*)((char*)obj + 0xc);
+        size = ((size * 4 + 0x17) & 0xfffffff0) + size2 + obj->m_sizeOfSchemas;
         out->m_totalSize += size;
         if (size > out->m_maxSize) {
             out->m_maxSize = size;
@@ -703,7 +738,7 @@ struct CA8B80Queue {
 };
 struct FUN_00c97510 {
 };
-struct FUN_00c97f50_Class {
+struct FUN_00c97f50_Class : hkpWorld {
     void DispatchOrQueue(void* p);
 };
 struct FUN_00c98350_Class {
@@ -720,7 +755,15 @@ void* FUN_00c98350_Class::InitAndMaybeFree(int flags)
 }
 
 
-struct FUN_00c983e0_Class {
+struct LockedListenerList {
+    void* m_vtbl;
+    int m_refs;
+    void** m_data;
+    int m_size;
+    int m_capacity;
+    CRITICAL_SECTION* m_cs;
+};
+struct FUN_00c983e0_Class : LockedListenerList {
     void ForEachCall(int a, int b, int c, int d, int e);
 };
 
@@ -728,14 +771,14 @@ struct FUN_00c983e0_Class {
 // @fnv 0x00c983e0
 void FUN_00c983e0_Class::ForEachCall(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5)
 {
-    EnterCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
-    for (int i = 0; i < *(int*)((char*)this + 0xc); ++i) {
-        void* obj = *(void**)(*(char**)((char*)this + 8) + i * 4);
+    EnterCriticalSection(m_cs);
+    for (int i = 0; i < m_size; ++i) {
+        void* obj = m_data[i];
         void** vtbl = *(void***)obj;
         typedef void (* Fn)(void*, int, int, int, int, int);
         ((Fn)vtbl[1])(obj, aiArg1, aiArg2, aiArg3, aiArg4, aiArg5);
     }
-    LeaveCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
+    LeaveCriticalSection(m_cs);
 }
 
 
@@ -762,7 +805,7 @@ void FUN_00c984a0_Class::FUN_00c984a0(int aiArg1, int aiArg2, int aiArg3)
     LeaveCriticalSection(unk14);
 }
 
-struct FUN_00c98540_Class {
+struct FUN_00c98540_Class : LockedListenerList {
     void CallAllWithArgs(int a, int b, int c);
 };
 
@@ -770,19 +813,19 @@ struct FUN_00c98540_Class {
 // @fnv 0x00c98540
 void FUN_00c98540_Class::CallAllWithArgs(int aiArg1, int aiArg2, int aiArg3)
 {
-    CRITICAL_SECTION* pLock = *(CRITICAL_SECTION**)((char*)this + 0x14);
+    CRITICAL_SECTION* pLock = m_cs;
     EnterCriticalSection(pLock);
     int i = 0;
-    if (*(int*)((char*)this + 0xc) > 0) {
+    if (m_size > 0) {
         do {
-            void* obj = (*(void***)((char*)this + 8))[i];
+            void* obj = m_data[i];
             void** vtbl = *(void***)obj;
             void (* fn)(void*, int, int, int) = (void (*)(void*, int, int, int))vtbl[5];
             fn(obj, aiArg1, aiArg2, aiArg3);
             ++i;
-        } while (i < *(int*)((char*)this + 0xc));
+        } while (i < m_size);
     }
-    CRITICAL_SECTION* pLock2 = *(CRITICAL_SECTION**)((char*)this + 0x14);
+    CRITICAL_SECTION* pLock2 = m_cs;
     LeaveCriticalSection(pLock2);
 }
 
@@ -812,7 +855,7 @@ void FUN_00c98600_Class::CallVirtualOnAll(int aiArg0, int aiArg1, int aiArg2, in
     LeaveCriticalSection(m_cs);
 }
 
-struct FUN_00c990b0_Class {
+struct FUN_00c990b0_Class : LockedListenerList {
     void FUN_00c990b0(int a, int b, int c, int d);
 };
 
@@ -821,22 +864,22 @@ struct FUN_00c990b0_Class {
 // @fnv 0x00c990b0
 void FUN_00c990b0_Class::FUN_00c990b0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
-    EnterCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
+    EnterCriticalSection(m_cs);
     int i = 0;
-    if (*(int*)((char*)this + 0xc) > 0) {
+    if (m_size > 0) {
         do {
-            void* obj = (*(void***)((char*)this + 8))[i];
+            void* obj = m_data[i];
             void** ppVtable = *(void***)obj;
             void (* fn)(void*, int, int, int, int) = (void (*)(void*, int, int, int, int))ppVtable[0x2c / 4];
             fn(obj, aiArg1, aiArg2, aiArg3, aiArg4);
             ++i;
-        } while (i < *(int*)((char*)this + 0xc));
+        } while (i < m_size);
     }
-    LeaveCriticalSection(*(CRITICAL_SECTION**)((char*)this + 0x14));
+    LeaveCriticalSection(m_cs);
 }
 
 
-struct FUN_00c995f0_Class {
+struct FUN_00c995f0_Class : LockedListenerList {
     void FUN_00c995f0();
 };
 
@@ -844,10 +887,10 @@ struct FUN_00c995f0_Class {
 // @fnv 0x00c995f0
 void FUN_00c995f0_Class::FUN_00c995f0()
 {
-    CRITICAL_SECTION* p = *(CRITICAL_SECTION**)((char*)this + 0x14);
+    CRITICAL_SECTION* p = m_cs;
     EnterCriticalSection(p);
-    p = *(CRITICAL_SECTION**)((char*)this + 0x14);
-    *(int*)((char*)this + 0xc) = 0;
+    p = m_cs;
+    m_size = 0;
     LeaveCriticalSection(p);
 }
 
@@ -2125,12 +2168,12 @@ struct EntryListNode {
         return -1;
     }
 };
-struct FUN_00c919d0_Class {
+struct FUN_00c919d0_Class : hkpWorld {
     void FUN_00c919d0(int value);
 };
 // @fnv 0x00c919d0
 void FUN_00c919d0_Class::FUN_00c919d0(int value) {
-    EntryListNode& list=*(EntryListNode*)((char*)this+0x188);
+    EntryListNode& list=*reinterpret_cast<EntryListNode*>(&m_kIslandPostIntegrateListeners);
     list.entries[list.findIndex(value)]=0;
 }
 
@@ -2141,6 +2184,8 @@ struct CD22Registry {
     virtual void v3();
     virtual void v4();
     virtual int v5();
+    int m_refs;
+    CD22Registry* m_inner;
     int FUN_00c91ba0();
 };
 
@@ -2148,7 +2193,7 @@ struct CD22Registry {
 int CD22Registry::FUN_00c91ba0()
 {
     reinterpret_cast<::FUN_00c91180_Class *>(this)->IncrementCounter();
-    int r = ((CD22Registry*)*(void**)((char*)this + 8))->v5();
+    int r = m_inner->v5();
     reinterpret_cast<::FUN_00c91190_Class *>(this)->FUN_00c91190();
     return r;
 }
@@ -2364,7 +2409,7 @@ void WorldSave::FUN_00c92db0(ObjectWriter* writer,void* unused) {
     SaveBlob(writer,&str_010c65a4, reinterpret_cast<void*>(m_pBroadPhaseBorderListener), 0xc);
     SaveBlob(writer,&str_010c6598, reinterpret_cast<void*>(m_pCollisionInput), 0x80);
     if (m_pCollisionInput) {
-      SaveBlob(writer,&str_010c6580,*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(m_pCollisionInput)+0x70),0x10);
+      SaveBlob(writer,&str_010c6580,static_cast<WorldSaveCollisionInput*>(m_pCollisionInput)->m_config,0x10);
     }
     writer->WriteValue(&str_010c6578, reinterpret_cast<void*>(m_pCollisionFilter), 0);
     writer->WriteValue(&str_010c6564, reinterpret_cast<void*>(m_pConvexListCollisionFilter), 0);
@@ -4934,7 +4979,7 @@ int* Class9::GetOrCreateData(unsigned char* wasEmpty) {
             nextData = contents;
         } else nextData = 0;
         data = nextData;
-        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? (Node9*)((char*)data - 4) : 0));
+        if (callbackFlag) reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((uintptr_t)(data ? (Node9*)((char*)data - offsetof(Node9, value)) : 0));
     }
     return data;
 }
@@ -6271,7 +6316,7 @@ void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
         timer->current = entry + 1;
     }
     if (m_pKdTreeManager && ((QueryTree*)m_pKdTreeManager)->enabled()) {
-        void* filter = m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : 0;
+        void* filter = collidableCollidableFilterOf(m_pCollisionFilter);
         CollisionInput* input = (CollisionInput*)m_pCollisionInput;
         ((QueryTree*)m_pKdTreeManager)->cast(a,b,filter,input,input->unk70,c,d);
     } else {
@@ -6279,7 +6324,7 @@ void WorldQuery::FUN_00c92430(void* a,void* b,void* c,void* d) {
         caster.unk80 = ::DAT_0104da4c;
         caster.unk00 = &DAT_010c6488;
         caster.unk24 = 0;
-        reinterpret_cast<::S_00cfaed0_This *>(&(caster))->FUN_00cfaed0((::S_00cfaed0_Iface *)(m_pJobSemaphore),(::S_00cfaed0_P2 *)(a),(::S_00cfaed0_P3 *)(b),(m_pCollisionFilter ? (char*)m_pCollisionFilter+8 : nullptr),(::S_00cfaed0_P5 *)(m_pCollisionInput),((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
+        reinterpret_cast<::S_00cfaed0_This *>(&(caster))->FUN_00cfaed0((::S_00cfaed0_Iface *)(m_pJobSemaphore),(::S_00cfaed0_P2 *)(a),(::S_00cfaed0_P3 *)(b),collidableCollidableFilterOf(m_pCollisionFilter),(::S_00cfaed0_P5 *)(m_pCollisionInput),((CollisionInput*)m_pCollisionInput)->unk70,0,c,d);
     }
     timer = (TimerBuffer*)TlsGetValue(DAT_0126835c);
     entry = timer->current;
@@ -9438,6 +9483,12 @@ struct Dst_00c91c50 {
     unsigned char b_e0;
 };
 
+// hkpBroadPhaseBorder fields read when copying the world setup.
+struct BroadPhaseBorderC91C50 {
+    char pad00[0x30];
+    int m_type;                                 // +0x30
+    unsigned char m_postponeAndSortCallbacks;   // +0x34
+};
 struct Src_00c91c50 {
     char pad00[0x08];
     Sub_08* p08;
@@ -9521,8 +9572,9 @@ void Src_00c91c50::FUN_00c91c50(Dst_00c91c50* pOut)
     pOut->f_54 = this->p78->unk08;
     pOut->p58 = this->p7c;
     pOut->p5c = this->p84;
-    pOut->b_28 = (unsigned char)(this->p_1bc ? *(int*)((char*)this->p_1bc + 0x30) : 3);
-        pOut->b_29 = *(this->p_1bc ? (unsigned char*)((char*)this->p_1bc + 0x34) : &(unkZero = 0));
+    const BroadPhaseBorderC91C50* border = static_cast<const BroadPhaseBorderC91C50*>(this->p_1bc);
+    pOut->b_28 = (unsigned char)(border ? border->m_type : 3);
+    pOut->b_29 = *(border ? &border->m_postponeAndSortCallbacks : &(unkZero = 0));
     pOut->b_50 = (this->i5c != 0);
     pOut->b_53 = this->b60;
     pOut->f_60 = this->p80->f1e40;
@@ -10084,7 +10136,7 @@ struct hkMonitorStream_00c951b0 {
             _ReadWriteBarrier();
             stamp = (unsigned int)__rdtsc();
             pos->time = stamp;
-            m_commandPosition = (char*)(pos + 1);
+            m_commandPosition = reinterpret_cast<char*>(pos + 1);
         }
     }
     inline void timerSplitList(const char* name) throw() {
@@ -10094,7 +10146,7 @@ struct hkMonitorStream_00c951b0 {
             _ReadWriteBarrier();
             volatile unsigned int stamp = (unsigned int)__rdtsc();
             pos->time = stamp;
-            m_commandPosition = (char*)(pos + 1);
+            m_commandPosition = reinterpret_cast<char*>(pos + 1);
         }
     }
     inline void timerEndList(const char* name) throw() { timerSplitList(name); }
@@ -10891,6 +10943,8 @@ struct S96_WorldShell : hkpWorld {
  void FUN_00c96ff0(int mode,int update);
 public:
 };
+// Constraint storage blocks of an island are 512 bytes.
+static const int kS96BlockBytes = 512;
 // @fnv 0x00c96ff0
 void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
  if(m_iCriticalOperationsLockCount) {
@@ -10926,7 +10980,7 @@ void S96_WorldShell::FUN_00c96ff0(int mode,int update) {
     int j=0;
     while(j<island->unk60) {
      S96_Constraint* current=island->unk5C[j++];
-     S96_Constraint* end=(j==island->unk60)?(S96_Constraint*)((char*)current+island->unk58):(S96_Constraint*)((char*)current+512);
+     S96_Constraint* end=(j==island->unk60)?(S96_Constraint*)((char*)current+island->unk58):(S96_Constraint*)((char*)current+kS96BlockBytes);
      for(;current<end;current=(S96_Constraint*)((char*)current+current->unk03)) {
       if(!S96_enabled(current)) {
        S96_AllocatorHolder* holder=(S96_AllocatorHolder*)::FUN_00c85750();
@@ -11016,7 +11070,7 @@ static __forceinline void S97_timerList(const char* name1, const char* name2)
         h->m_pCommandName = name1;
         h->m_pFirst = name2;
         h->setTime();
-        mStream.setEnd((char*)(h + 1));
+        mStream.setEnd(reinterpret_cast<char*>(h + 1));
     }
 }
 static __forceinline void S97_timer(const char* name)
@@ -11026,7 +11080,7 @@ static __forceinline void S97_timer(const char* name)
         S97_MonitorStream::CommandTimingEntry* h = reinterpret_cast<S97_MonitorStream::CommandTimingEntry*>(mStream.GetStreamEnd());
         h->m_pCommandName = name;
         h->setTime();
-        mStream.setEnd((char*)(h + 1));
+        mStream.setEnd(reinterpret_cast<char*>(h + 1));
     }
 }
 
@@ -11102,10 +11156,9 @@ struct S97_DispatcherHead {
 struct S97_Dispatcher {
     __forceinline S97_GetClosestPointsFunc getGetClosestPointsFunc(int typeA, int typeB) const
     {
-        const unsigned char (*agent2Types)[32] = (const unsigned char (*)[32])((const char*)this + 0x1a0);
-        const S97_AgentFuncs* agent2Func = (const S97_AgentFuncs*)((const char*)this + 0x9a8);
-        int idx = agent2Types[typeA][typeB];
-        return agent2Func[idx].m_pGetPenetrationsFunc;
+        const hkpCollisionDispatcher* dispatcher = reinterpret_cast<const hkpCollisionDispatcher*>(this);
+        int idx = (unsigned char)dispatcher->m_agent2Types[typeA][typeB];
+        return (S97_GetClosestPointsFunc)dispatcher->m_agent2Func[idx].m_getClosestPointsFunc;
     }
 };
 struct S97_CollisionInput {
@@ -12196,7 +12249,7 @@ if(count==0)return; if(areCriticalOperationsLocked()){ TWO1::EntityBatchAddPaylo
 op.vnE=(TU16)count; op.va2=activation; reinterpret_cast<::WorldWithPending *>(this)->FUN_00c91160(); return;
 } { TMS&mStream=TMS::GetMonitorStream(); if(mStream.memoryAvailable()){
 TMS::TimedNameRecord*h=reinterpret_cast<TMS::TimedNameRecord*>(mStream.GetStreamEnd()); h->vcAM="L""t""AddEntities"; h->vnOFS="S""t""init"; h->setTime();
-mStream.setEnd((char*)(h+1)); } } ;
+mStream.setEnd(reinterpret_cast<char*>(h+1)); } } ;
 lockCriticalOperations(); TA2<TBPH*,TCTA>handles; handles.reserveExactly(count); TA2<TA,TCTA>bounds;
 bounds.reserveExactly(count); bool used=false; FUN_00d07830*island; if(vwSI){
 island=new FUN_00d07830(this); island->vsCR=true; if(activation==KEADA){ island->vsI5=(TOI)getActiveSimulationIslands().GetLogicalSize();
@@ -12214,17 +12267,17 @@ TA*aabb=bounds.expandByUnchecked(1); c->getShape()->getAabb(c->getTransform(),ra
 if(used){ island->vsCFC=(TU)island->ve1[0]->vu; TA2<FUN_00d07830*>&islands=activation==KEADA?const_cast<TA2<FUN_00d07830*>&>(getActiveSimulationIslands()):viSI; islands.AddBack(island);
 } else delete island; } TLA1<TBPHP>pairs(vbPQS);
 { TMS&mStream=TMS::GetMonitorStream(); if(mStream.memoryAvailable()){ TMS::CommandTimingEntry*h=reinterpret_cast<TMS::CommandTimingEntry*>(mStream.GetStreamEnd());
-h->vcAM="S""t""Broadphase"; h->setTime(); mStream.setEnd((char*)(h+1)); }
+h->vcAM="S""t""Broadphase"; h->setTime(); mStream.setEnd(reinterpret_cast<char*>(h+1)); }
 } ; vbP->UpdatePairs(handles,bounds,pairs); {
 TMS&mStream=TMS::GetMonitorStream(); if(mStream.memoryAvailable()){ TMS::CommandTimingEntry*h=reinterpret_cast<TMS::CommandTimingEntry*>(mStream.GetStreamEnd()); h->vcAM="S""t""CreateAgents";
-h->setTime(); mStream.setEnd((char*)(h+1)); } }
+h->setTime(); mStream.setEnd(reinterpret_cast<char*>(h+1)); } }
 ; reinterpret_cast<::DispatcherCF7080 *>((void *)(vbPD))->FUN_00cf7080((::PairCF7080 *)(::TTBPHP *)(reinterpret_cast<TTBPHP*>(pairs.begin())),pairs.GetLogicalSize(),(const ::FilterCF7080 *)(const ::TCCF *)(getCollisionFilter())); { TMS&mStream=TMS::GetMonitorStream();
 if(mStream.memoryAvailable()){ TMS::CommandTimingEntry*h=reinterpret_cast<TMS::CommandTimingEntry*>(mStream.GetStreamEnd()); h->vcAM="S""t""AddedCb"; h->setTime();
-mStream.setEnd((char*)(h+1)); } } ;
+mStream.setEnd(reinterpret_cast<char*>(h+1)); } } ;
 for(int j=0;j<count;++j){ TE*entity=entities[j]; ::fnv_00d00500::NotifyEntityAdded((::fnv_00d00500::World833 *)(::TW *)(this),(::fnv_00d00500::hkpEntity *)(entity)); ::FUN_00cffa00((::ProfOwner_cffa00 *)(entity));
 } unlockAndAttemptToExecutePendingOperations(); { TMS&mStream=TMS::GetMonitorStream();
 if(mStream.memoryAvailable()){ TMS::CommandTimingEntry*h=reinterpret_cast<TMS::CommandTimingEntry*>(mStream.GetStreamEnd()); h->vcAM="l""t"""; h->setTime();
-mStream.setEnd((char*)(h+1)); } } ;
+mStream.setEnd(reinterpret_cast<char*>(h+1)); } } ;
 }
 
 extern "C" unsigned __int64 __rdtsc(void);
@@ -12375,7 +12428,7 @@ static __forceinline void doShift(Sbp_World* self,const __m128& rawShift, __m128
     ext[1].add4(effective);
     ++self->m_iCriticalOperationsLockCount;
     reinterpret_cast<::DispatcherCF7080 *>((((Sbp_Dispatcher*)self->m_pBroadPhaseDispatcher)))->FUN_00cf7080((::PairCF7080 *)(pairs.data), pairs.size,
-        (const ::FilterCF7080 *)(void *)(self->m_pCollisionFilter ? (char*)self->m_pCollisionFilter + 8 : 0));
+        (const ::FilterCF7080 *)(void *)collidableCollidableFilterOf(self->m_pCollisionFilter));
     Sbp_Border* border = (Sbp_Border*)self->m_pBroadPhaseBorder;
     if (border) border->shiftPhantoms(effective.q);
     if (update == 0) {
@@ -14294,7 +14347,7 @@ void WorldHelper::FUN_00c954e0(hkpPhantom* const* phantomBatch, int numPhantoms)
     StackAllocatedArray<BroadPhaseCastCollector> pairs(m_iBroadPhaseQuerySize);
     ((BroadPhase*)m_pJobSemaphore)->UpdatePairs(handles, aabbs, pairs);
 
-    void* filter = m_pCollisionFilter ? (char*)m_pCollisionFilter + 8 : 0;
+    void* filter = ::collidableCollidableFilterOf(m_pCollisionFilter);
     reinterpret_cast<::DispatcherCF7080 *>((((BroadPhaseDispatcher*)m_pBroadPhaseDispatcher)))->FUN_00cf7080((::PairCF7080 *)(pairs.m_data), pairs.m_iElementCount, (const ::FilterCF7080 *)(filter));
 
     m_iCriticalOperationsLockCount--;
@@ -14438,7 +14491,7 @@ struct hkpWorldDecomp : ::hkpWorld {
 // @fnv 0x00c97f50
 void FUN_00c97f50_Class::DispatchOrQueue(void* p)
 {
-    if (*(unsigned int*)((char*)this + 0x94)) {
+    if (m_iCriticalOperationsLockCount) {
         CA8B80Command cmd;
         cmd.m_bType = 0xb;
         cmd.m_p = p;

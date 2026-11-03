@@ -201,44 +201,6 @@ void NavMeshObstacleManager::AddProcessedTask(ObstacleTaskData* task)
     reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)((char*)this + 0x14c))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)task));
     ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
 }
-// @fnv 0x006c4540
-bool NavMeshObstacleManager::ClearBackgroundTasks()
-{
-    unsigned int size = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x14c))))->GetName()));
-    for (unsigned int i = 0; i < size; i++)
-    {
-        delete (ObstacleTaskData*)((NiTArray<TESObjectREFR*, NiTNewInterface<TESObjectREFR*> >*)((char*)this + 0x14c))
-            ->GetAt(i);
-    }
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x14c))))->Clear(true);
-    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((BSSimpleArray<SandboxProcedureData, 1024>*)((char*)this + 0x13c))))->Clear(true);
-    return true;
-}
-// @fnv 0x006c4ec0
-void NavMeshObstacleManager::QueueObstacleTasks()
-{
-    struct
-    {
-        TESFile* key;
-        ObstacleTaskData* task;
-        TESFile* iterator;
-    } locals;
-    locals.iterator = (TESFile*)((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x12c))->GetFirstPos();
-    while (locals.iterator)
-    {
-        reinterpret_cast<::C6b7f20_Map *>((((BGSReconstructFormsInAllFilesMap*)((char*)this + 0x12c))))->FUN_006b7f20((::C6b7f20_Node **)&((void*&)locals.iterator), (unsigned int *)&(locals.key), (void **)&((BGSReconstructFormsInFileMap*&)locals.task));
-        if (((SettingT<INISettingCollection>*)&g_011d71a0)->Bool()->b)
-            ProcessObstacleTask(locals.task);
-        else
-        {
-            reinterpret_cast<::FUN_0040fbf0_shell *>((((RecursiveSpinLock*)((char*)this + 0x160))))->FUN_0040fbf0((char *)(0));
-            reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<NavMeshInfo*, 1024>*)((char*)this + 0x13c))))->FUN_007cb2e0((unsigned int *)&((NavMeshInfo*&)locals.task));
-            ((RecursiveSpinLock*)((char*)this + 0x160))->FUN_0040fba0();
-            locals.task->Run();
-        }
-    }
-    reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x12c))))->FUN_00438af0();
-}
 // @fnv 0x006c47e0
 void NavMeshObstacleManager::ClearObstacles()
 {

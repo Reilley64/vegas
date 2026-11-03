@@ -2,6 +2,7 @@
 // src/havok/physics/collide/dispatch/hkpcollisiondispatcher.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/dispatch/hkpcollisiondispatcher.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -5532,7 +5533,6 @@ void S00cfb080_State::FUN_00cfb080()
 }
 
 #include <math.h>
-extern "C" void* __cdecl fnv_zlib_memset(void* dst, int val, unsigned int n);
 
 struct Src
 {
@@ -5896,7 +5896,7 @@ void Big::FUN_00cfb570(Src* src)
     *b5 = *b4;
     b5->f0c = src->f04;
     b5->f08 = src->f04;
-    fnv_zlib_memset(table, 1, 100);
+    std::memset(table, 1, 100);
     table[0] = 0;
     table[1] = 0;
     table[9] = 3;

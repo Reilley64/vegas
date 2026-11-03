@@ -2,6 +2,7 @@
 // src/havok/common/base/container/array/hkarrayutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/array/hkarrayutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/MapBase_cb1e.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cd7000.h"
@@ -90,7 +91,6 @@ struct SpawnedArray
     unsigned int m_08;
 };
 
-void __cdecl FUN_00ec44d0(int a, int b, int c);
 
 // @fnv 0x00c908c0
 void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, int aiSize, int stride)
@@ -105,7 +105,7 @@ void __cdecl FUN_00c908c0(SpawnedObject* apObject, SpawnedArray* apArray, int ai
     else
     {
         int pNewData = apObject->v03(&iNewSize);
-        FUN_00ec44d0(pNewData, apArray->m_00, apArray->m_04 * stride);
+        std::memmove((void *)(pNewData), (const void *)(apArray->m_00), apArray->m_04 * stride);
         apArray->m_00 = pNewData;
         apArray->m_08 = (unsigned int)(iNewSize / stride);
     }
@@ -136,7 +136,6 @@ struct AudioAllocator
     virtual void* ResizeBlock(void* pData, int size, int* pSize);
 };
 
-extern "C" void* __cdecl FNV_block_copy(void* dst, const void* src, unsigned int size);
 
 // @fnv 0x00c90940
 void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSize)
@@ -150,7 +149,7 @@ void ResizeAudioStream(AudioAllocator* pAlloc, AudioStream* pStream, int elemSiz
     else
     {
         void* pBlock = pAlloc->AllocBlock(&n);
-        FNV_block_copy(pBlock, pStream->m_pData, pStream->m_iArrayLength * elemSize);
+        std::memmove(pBlock, pStream->m_pData, pStream->m_iArrayLength * elemSize);
         pStream->m_pData = pBlock;
         pStream->m_uCapacity = n / elemSize;
     }

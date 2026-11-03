@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/DummyStruct_00631820.h"
@@ -691,7 +692,6 @@ NiTexturingProperty::Map::Map(const Map& kMap) throw() : m_usFlags(kMap.m_usFlag
 }
 
 #include <string.h>
-void __cdecl FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
 
 struct FUN_004eba20
 {
@@ -762,7 +762,7 @@ template <class T> struct TFixedArray
     TFixedArray(unsigned int uiSize) : m_uiSize(uiSize), unk0c(0)
     {
         m_pData = (T*)FUN_00aa1070(uiSize * sizeof(T));
-        FUN_00ec61c0(m_pData, 0, m_uiSize * sizeof(T));
+        std::memset(m_pData, 0, m_uiSize * sizeof(T));
     }
     virtual ~TFixedArray();
 };

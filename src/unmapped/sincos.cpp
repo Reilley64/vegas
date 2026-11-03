@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_0101a000.h"
 #include "fnv/symbols_0101f000.h"
@@ -13,10 +14,6 @@ extern double DAT_010b7f30;
 extern float DAT_01200060;
 extern float DAT_01200064;
 extern float DAT_01200068;
-
-extern "C" double __cdecl cos(double value);
-extern "C" double __cdecl sin(double value);
-extern "C" double __cdecl exp(double value);
 
 // @fnv 0x00ba1480
 float FUN_00ba1480(float x, float y)

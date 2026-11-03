@@ -4,14 +4,11 @@
 // ResolveRelativePath: resolve a path, strip leading "..\\" components from rel,
 // and copy the result into out (cdecl, /MT /Od /GS /EHsc).
 
+#include <cstring>
+#include "runtime/crt.h"
 extern "C" char DAT_010a46be[];
 extern "C" char DAT_010a46c8[];
 
-void __cdecl FUN_00ec7f1e(const char* a1, int a2, int a3, char* buf2, int size, int a6, int a7, int a8, int a9);
-unsigned int __cdecl FUN_00ec6130(const char* s);
-int __cdecl FUN_00ec8a19(const char* a, const char* b, unsigned int n);
-void __cdecl FUN_00ec6bd2(char* dst, unsigned int size, const char* src);
-void __cdecl FUN_00ec65a6(char* dst, unsigned int size, const char* src);
 void __cdecl FUN_00ec408c();
 
 // @fnv 0x00afe830
@@ -19,10 +16,10 @@ void __cdecl ResolveRelativePath(const char* aBasePath, const char* aRelPath, ch
 {
     char buf2[0x104];
     aOutPath[0] = 0;
-    FUN_00ec7f1e(aBasePath, 0, 0, buf2, 0x104, 0, 0, 0, 0);
+    fnv::crt::splitpath_s(aBasePath, 0, 0, buf2, 0x104, 0, 0, 0, 0);
 
     char* pX = buf2;
-    int len5 = FUN_00ec6130(pX);
+    int len5 = std::strlen(pX);
     if (pX[len5 - 1] == '\\')
     {
         pX[len5 - 1] = 0;
@@ -30,11 +27,11 @@ void __cdecl ResolveRelativePath(const char* aBasePath, const char* aRelPath, ch
 
     bool stripped3 = false;
     char* lastSep;
-    while (FUN_00ec8a19(aRelPath, "..\\", 3) == 0)
+    while (std::strncmp(aRelPath, "..\\", 3) == 0)
     {
         stripped3 = true;
         lastSep = pX;
-        len5 = FUN_00ec6130(pX);
+        len5 = std::strlen(pX);
         for (int i2 = len5 - 1; i2 > 0; i2--)
         {
             if (pX[i2] == '\\')
@@ -56,12 +53,12 @@ void __cdecl ResolveRelativePath(const char* aBasePath, const char* aRelPath, ch
 
     if (stripped3)
     {
-        FUN_00ec6bd2(aOutPath, 0x104, pX);
-        FUN_00ec6bd2(aOutPath, 0x104, DAT_010a46c8);
-        FUN_00ec6bd2(aOutPath, 0x104, aRelPath);
+        fnv::crt::strcat_s(aOutPath, 0x104, pX);
+        fnv::crt::strcat_s(aOutPath, 0x104, DAT_010a46c8);
+        fnv::crt::strcat_s(aOutPath, 0x104, aRelPath);
     }
     else
     {
-        FUN_00ec65a6(aOutPath, 0x104, aRelPath);
+        fnv::crt::strcpy_s(aOutPath, 0x104, aRelPath);
     }
 }

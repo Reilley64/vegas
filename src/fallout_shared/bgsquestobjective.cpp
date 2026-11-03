@@ -1,6 +1,7 @@
 // fallout_shared/bgsquestobjective.cpp: BGSQuestObjective, StandIn (15 functions)
 
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -320,7 +321,6 @@ struct FUN_005ec370_shell : public BGSQuestObjective
     void FUN_005ec370(TESFile*);
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct S_005ec440
 {
     void FUN_005ec440(char*);

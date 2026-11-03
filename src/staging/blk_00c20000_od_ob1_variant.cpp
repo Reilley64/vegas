@@ -6,6 +6,8 @@
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -607,7 +609,6 @@ struct S_00c3a5e0
     virtual void v2f();
     void FUN_00c3a5e0();
 };
-extern "C" unsigned int __cdecl strlen(const char*);
 void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
 void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
 PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* name);
@@ -617,7 +618,6 @@ static const char kBackslash[] = "\\";
 static const char kIniName[] = "Loaders.ini";
 static const char kSpace[] = " ";
 void __cdecl LoadObjectLoadersFromIni(const char* dir);
-extern "C" char* __cdecl strrchr(const char* s, int c);
 extern "C" int __cdecl _strnicmp(const char* a, const char* b, unsigned int n);
 void __cdecl BuildDataPath(char* out, const char* path, const char* suffix);
 extern char DAT_01202a40[0x104];
@@ -1096,7 +1096,6 @@ PFN_NiObjectLoader __cdecl FUN_00c3b3c0(const char* pcName)
     return pfnLoader;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct Point
 {
     float x, y, z;
@@ -1839,8 +1838,6 @@ bool ListQ::FUN_00c3f960(SPX pSceneObject)
 }
 
 #include <math.h>
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned);
-
 class NiPoint3
 {
   public:
@@ -2452,11 +2449,10 @@ class NiPoint3
     NiPoint3 operator-(const NiPoint3& rhs) const;
 };
 
-extern "C" double __cdecl _fabs(double);
 
 inline float AbsF(float v)
 {
-    return ((void)v, (float)_fabs((double)v));
+    return ((void)v, (float)std::fabs((double)v));
 }
 
 class FUN_00c39560_Class
@@ -5823,8 +5819,6 @@ FUN_00c3f8c0::~FUN_00c3f8c0()
     }
 }
 }  // namespace fnv_00c3f8c0
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 struct FUN_0045c620
 {

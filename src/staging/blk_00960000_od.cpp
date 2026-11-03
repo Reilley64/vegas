@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/A_00885520.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorPicker.h"
@@ -770,7 +771,6 @@ struct FUN_0096a300_Class
     void FUN_0096a4b0();
     void* FUN_0096a300(unsigned int flags);
 };
-void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0096a390_Class
 {
     void* m_vtbl;
@@ -967,7 +967,6 @@ struct FUN_00978f40_Class
     void FUN_00978f70();
     void* FUN_00978f40(unsigned int flags);
 };
-void* __cdecl memset(void* dest, int value, unsigned int count);
 struct CombatAction
 {
     static CombatAction* __cdecl CreateAction(int type);

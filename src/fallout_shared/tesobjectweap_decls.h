@@ -2,6 +2,8 @@
 #ifndef TESOBJECTWEAP_DECLS_H
 #define TESOBJECTWEAP_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
@@ -569,9 +571,6 @@ class ActorValue
   public:
 };
 bool FUN_0066eba0(ActorValue__Index);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
-
 union SETTING_VALUE
 {
     bool b;

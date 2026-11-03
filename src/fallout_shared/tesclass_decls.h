@@ -1,5 +1,7 @@
 // fallout_shared/tesclass_decls.h: declares FormChangeMask, BGSLoadFormBuffer, TESFullName, TESDescription, TESTexture and more
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_00480130_shell.h"
 #include "fnv/decl/fnv_004861f0__Form_004861f0.h"
@@ -77,9 +79,6 @@ class TESClass : public TESForm, public TESFullName, public TESDescription, publ
     void LoadGame(BGSLoadFormBuffer*);
     bool Load(TESFile*);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
-extern "C" void* __cdecl _alloca(unsigned int);
 class TESFileFormInt
 {
   public:

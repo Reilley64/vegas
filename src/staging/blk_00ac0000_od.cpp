@@ -2,6 +2,13 @@
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
+#include <stdexcept>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0044a8d0_Class.h"
@@ -60,7 +67,6 @@ void FUN_00ac5340_class::FUN_00ac5340(int a, int b, int c)
     reinterpret_cast<::GvBinaryFile *>(this)->FUN_00ac5220((const void *)(a), b, c);
 }
 
-void __cdecl _fclose(void*);
 
 struct FUN_00ac5ed0_This
 {
@@ -73,7 +79,7 @@ struct FUN_00ac5ed0_This
 void FUN_00ac5ed0_This::CloseFile()
 {
     if (m_pFile)
-        _fclose(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
 }
 
 
@@ -102,7 +108,6 @@ void __cdecl FUN_00ac6830()
     DAT_011f6c88 = 0;
 }
 
-extern "C" void FUN_00eccec5(int);
 
 // @fnv 0x00ac68e0
 void __cdecl FUN_00ac68e0()
@@ -110,7 +115,7 @@ void __cdecl FUN_00ac68e0()
     if (DAT_011f6c88)
     {
         ::Q::FUN_00ac6850();
-        FUN_00eccec5(-1);
+        std::exit(-1);
     }
 }
 
@@ -278,13 +283,12 @@ struct FUN_00acad30_class
 {
     void* GetElementAt(int a);
 };
-unsigned int __cdecl FUN_00ec7c56();
 // Returns a pointer to the element at index a, calling FUN_00ec7c56 if a is out of range.
 // @fnv 0x00acad30
 void* FUN_00acad30_class::GetElementAt(int aiIndex)
 {
     if (aiIndex >= (unsigned int)(*(int*)((char*)this + 0x10) - *(int*)((char*)this + 0xc)))
-        FUN_00ec7c56();
+        std::abort();
     return *(char**)((char*)this + 0xc) + aiIndex;
 }
 
@@ -320,7 +324,6 @@ int FUN_00ace9c0_Class::AdvanceCounter()
     return *m_20;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ad1a50_class
 {
     FUN_00ad1a50_class* FUN_00ad1a50(int a, int b);
@@ -332,7 +335,7 @@ FUN_00ad1a50_class* FUN_00ad1a50_class::FUN_00ad1a50(int aiFirst, int piSource)
     *reinterpret_cast<int*>(this) = 0;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 4) = aiFirst;
     if (piSource == 0)
-        FUN_00ec7c56();
+        std::abort();
     *reinterpret_cast<int*>(this) = *reinterpret_cast<int*>(piSource);
     return this;
 }
@@ -368,7 +371,6 @@ char* FUN_00ad3f50_class::FUN_00ad3f50(char* pBegin, char* end)
     return pBegin;
 }
 
-void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
     void FUN_00ad41c0();
@@ -524,9 +526,6 @@ void FUN_00ac52b0_class::FUN_00ac5370(int a, int b, int c)
     reinterpret_cast<::GvBinaryFile_SV *>(this)->FUN_00ac52b0((void *)(a), b, c);
 }
 
-unsigned __int64 __cdecl __time64(unsigned __int64*);
-void __cdecl FUN_00ecada6(unsigned int);
-int __cdecl GetRandomNumber();
 extern double DAT_01031140;
 extern unsigned char DAT_011f6c78;
 
@@ -535,7 +534,7 @@ double FUN_00ac6220()
 {
     if (!DAT_011f6c78)
     {
-        FUN_00ecada6(static_cast<unsigned int>(__time64(0)));
+        std::srand(static_cast<unsigned int>(std::time(0)));
         DAT_011f6c78 = 1;
     }
 
@@ -544,7 +543,7 @@ double FUN_00ac6220()
 
     for (int i = 0; i < 4; ++i)
     {
-        fRandom = fRandom * fScale + GetRandomNumber();
+        fRandom = fRandom * fScale + std::rand();
     }
 
     fRandom /= (fScale * fScale * fScale * fScale);
@@ -697,7 +696,6 @@ int FUN_00ad56e0_class::FUN_00ad56e0(void* apUnused, void* apValue, void* apUnus
     return 3;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00ac0460_cls
 {
     unsigned int m_iWordAt00;
@@ -709,7 +707,7 @@ int FUN_00ac0460_cls::FUN_00ac0460(FUN_00ac0460_cls* other)
 {
     if (!((unsigned char)(int)(m_iWordAt00 != 0) && (unsigned char)(int)(m_iWordAt00 == other->m_iWordAt00)))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     return ((unsigned char)(int)(m_iWordAt04 == other->m_iWordAt04) ? -1 : 0) + 1;
 }
@@ -796,7 +794,6 @@ struct FUN_00ac1720_pool
 {
 };
 
-extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 struct FUN_00ac1720_err
 {
@@ -1184,7 +1181,7 @@ void S_00ac3f40_Class::FUN_00ac3f40(S_00ac3f40_Arg* arg)
 
     if ((unsigned int)pInner->unk14 < 5)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1469,15 +1466,13 @@ struct FUN_00ac6100_cls
     int FUN_00ac6100(unsigned int a1, unsigned int a2, int a3, unsigned int a4);
 };
 
-int __cdecl FUN_00ec4835(char* p, int a, unsigned int n);
-void __cdecl FUN_00ec30e8();
 
 // @fnv 0x00ac6100
 int FUN_00ac6100_cls::FUN_00ac6100(unsigned int a1, unsigned int uiAvailable, int a3, unsigned int a4)
 {
     if (m_14 < a1)
     {
-        FUN_00ec30e8();
+        throw std::out_of_range("invalid string position");
     }
     if (m_14 - a1 < uiAvailable)
     {
@@ -1492,13 +1487,11 @@ int FUN_00ac6100_cls::FUN_00ac6100(unsigned int a1, unsigned int uiAvailable, in
     {
         n = a4;
     }
-    int iReadResult = FUN_00ec4835((m_18 >= 0x10 ? m_04 : (char*)&m_04) + a1, a3, n);
+    int iReadResult = std::memcmp((m_18 >= 0x10 ? m_04 : (char*)&m_04) + a1, (const void *)(a3), n);
     return (iReadResult != 0) ? iReadResult : (uiAvailable < a4 ? -1 : (uiAvailable != a4));
 }
 
 double __cdecl FUN_00ac6220();
-double __cdecl FUN_00eca920(double x);
-double __cdecl FUN_00ec6054(double x);
 
 class FUN_00ac62b0_cls
 {
@@ -1523,13 +1516,11 @@ double FUN_00ac62b0_cls::SampleNormal()
     } while (s > 1.0 || s == 0.0);
     double mean = this->m_00;
     double inv = 1.0 / this->m_10;
-    return (inv * v) * FUN_00ec6054(FUN_00eca920(s) * DAT_0106d4c8 / s) + mean;
+    return (inv * v) * std::sqrt(std::log(s) * DAT_0106d4c8 / s) + mean;
 }
 
 
 double __cdecl FUN_00ac6220();
-double __cdecl FUN_00eca920(double value);
-double __cdecl FUN_00ec6054(double value);
 
 // Generates a Gaussian-distributed random value via the Box-Muller transform, rejecting samples outside the unit circle or with zero sum.
 // @fnv 0x00ac6360
@@ -1549,10 +1540,9 @@ double __cdecl GenerateGaussianRandom()
         } while (sum > 1.0);
     } while (sum == 0.0);
 
-    return FUN_00ec6054(FUN_00eca920(sum) * DAT_0106d4c8 / sum) * first;
+    return std::sqrt(std::log(sum) * DAT_0106d4c8 / sum) * first;
 }
 
-extern "C" int __cdecl FUN_00ec6130(char* p);
 
 struct Ac6510Target
 {
@@ -1571,7 +1561,7 @@ struct Ac6510Frame
 int __cdecl ApplyGlobalToTarget(int pTarget)
 {
     Ac6510Frame frame;
-    int tmp = FUN_00ec6130(&DAT_011f6c8c);
+    int tmp = std::strlen(&DAT_011f6c8c);
     ((Ac6510Target*)pTarget)->FUN_0044a7f0(&DAT_011f6c8c, tmp);
     return DAT_011f6c88;
 }
@@ -2043,7 +2033,6 @@ void FUN_00acb850_cls::FUN_00acb850(int a, int b)
     v07(a, -1, b);
 }
 
-extern "C" int __cdecl FUN_00ec7c66(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 
 struct SecureCharTraitsTag
 {
@@ -2093,7 +2082,7 @@ int StreamBufStub::WriteChars(const char* apChars, int count)
                 n = count;
             dst2 = *pPutNext;
             tagCopy = tag4;
-            FUN_00ec7c66(dst2, size_2, apChars, n);
+            fnv::crt::memcpy_s(dst2, size_2, apChars, n);
             apChars += n;
             copied6 += n;
             count -= n;
@@ -2120,7 +2109,6 @@ int StreamBufStub::WriteChars(const char* apChars, int count)
 
 class FUN_00acd930_cls;
 
-int __cdecl Unk_ecd7e8(int a, int b, int c, int d);
 
 class FUN_00acd930_cls
 {
@@ -2131,7 +2119,6 @@ class FUN_00acd930_cls
     FUN_00acd930_cls* FUN_00acd930(int a1, int a2);
 };
 
-int __cdecl FUN_00ecda70(void* resource);
 struct ResourceOwner
 {
     virtual void unusedVirtual();
@@ -2163,7 +2150,7 @@ int ResourceOwner::QueryResourceStatus()
     int value;
     int invalid;
     return (m_resource != 0 && (value = query(-1), invalid = -1, ((unsigned char)(short)(invalid == value)) == 0) &&
-            FUN_00ecda70(m_resource) < 0)
+            std::fflush((std::FILE *)(m_resource)) < 0)
                ? -1
                : 0;
 }
@@ -2601,7 +2588,7 @@ FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(int a1, int a2)
     int unk08;
     int unk0c;
     int unk10;
-    if (m_4c == 0 || Unk_ecd7e8(m_4c, a1, (a1 == 0 && a2 == 0) ? 4 : 0, a2) != 0)
+    if (m_4c == 0 || std::setvbuf((std::FILE *)(m_4c), (char *)(a1), (a1 == 0 && a2 == 0) ? 4 : 0, a2) != 0)
     {
         return 0;
     }
@@ -2612,7 +2599,6 @@ FUN_00acd930_cls* FUN_00acd930_cls::FUN_00acd930(int a1, int a2)
     }
 }
 
-int __cdecl FUN_00ec9907(void*);
 
 // @fnv 0x00acfb90
 void* S_00acfb90_Class::FUN_00acfb90()
@@ -2672,7 +2658,7 @@ void* S_00acfb90_Class::FUN_00acfb90()
                 result = 0;
             }
 
-            if (FUN_00ec9907(this->unk4c))
+            if (std::fclose((std::FILE *)(this->unk4c)))
             {
                 result = 0;
             }
@@ -2684,7 +2670,6 @@ void* S_00acfb90_Class::FUN_00acfb90()
 }
 
 namespace fnv_00ad0360 {
-void FUN_00ec30b0();
 
 struct Flag4
 {
@@ -2712,7 +2697,7 @@ FUN_00ad0360_cls* FUN_00ad0360_cls::FUN_00ad0360(unsigned int idx, unsigned char
     unsigned int unk1, unk2, unk3, unk4, unk5, unk6;
     if (idx == ::g_010173f0)
     {
-        FUN_00ec30b0();
+        throw std::length_error("string too long");
     }
     if (reinterpret_cast<::FUN_0044a8d0_Class *>(this)->FUN_0044a8d0(idx, 0))
     {
@@ -3125,12 +3110,12 @@ unsigned int FUN_00ad2f30_cls::GetPosition()
     {
         if (!(unsigned char)((m_pHead != 0) ? 1 : 0))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         FUN_00ad2f30_Head* h = m_pHead;
         if (m_uiPos >= (h->m_capacity18 >= 0x10 ? h->m_dataPtr : (unsigned int)&h->m_dataPtr) + m_pHead->m_length14)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
     }
     return m_uiPos;
@@ -3221,7 +3206,7 @@ FUN_00ad3550_cls* FUN_00ad3550_cls::InitFromSource(char* pPos, FNVSourceStringX*
     if (pSource == 0 || pPos == 0 || (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)&pSource->m_pData) > pPos ||
         pPos > (pSource->m_uiCapacity >= 0x10 ? pSource->m_pData : (char*)&pSource->m_pData) + pSource->m_uiCharacterCount)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     m_pSource = pSource;
     m_pPos = pPos;
@@ -3252,8 +3237,6 @@ void FUN_00ad4010_cls::ForwardToV07(int a, int b, int c)
 }
 
 namespace fnv_00ad4040 {
-unsigned int __cdecl FUN_00ec7c56();
-void __cdecl FUN_00ec7c66(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 
 struct FUN_00ad4040_Class
 {
@@ -3266,9 +3249,9 @@ char* FUN_00ad4040_Class::CopyChecked(char* pSrcBegin, char* srcEnd, char* dst, 
 {
     if (dstSize < (unsigned int)(srcEnd - pSrcBegin))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
-    FUN_00ec7c66(dst, dstSize, pSrcBegin, srcEnd - pSrcBegin);
+    fnv::crt::memcpy_s(dst, dstSize, pSrcBegin, srcEnd - pSrcBegin);
     return srcEnd;
 }
 }  // namespace fnv_00ad4040
@@ -3438,7 +3421,6 @@ FUN_00ad6190_cls* FUN_00ad6190_cls::FUN_00ad6190(int a)
 
 // The real callee is the CRT's strncpy_s at 0x00ec7ce3 in the game image.
 // The name here is only a stand-in so that the call stays a plain external call.
-extern "C" int __cdecl FNV_strncpy_s_standin(void* dest, unsigned int destsz, const void* src, unsigned int count);
 
 // A one-byte class.  At /Od an empty brace initialiser zero-initialises the
 // object in place, which is the "xor eax,eax" + byte store the original shows.
@@ -3471,7 +3453,7 @@ int FUN_00ad6ab0(void* pSource, void* pSourceEnd, void* pDest, int unused)
     unsigned int cF = (unsigned int)cf + gM;
     if (gM > 0)
     {
-        FNV_strncpy_s_standin(cf, gM, (void*)va, gM);
+        fnv::crt::memmove_s(cf, gM, (void*)va, gM);
     }
     return (int)cF;
 }
@@ -3859,8 +3841,6 @@ StreamPos* StringBuf::FUN_00acc490(StreamPos* _Result, StreamPos _Ptr, int _Mode
     return _Result;
 }
 
-unsigned int __cdecl FUN_00ec7c56();
-extern "C" int __cdecl FUN_00ec7c66(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 
 struct FNVCheckedBytes
 {
@@ -3872,8 +3852,8 @@ char* FNVCheckedBytes::FUN_00ad40d0(char* pBegin, char* pEnd, unsigned char m_uc
                                     unsigned int uiDestSize)
 {
     if (uiDestSize < (unsigned int)(pEnd - pBegin))
-        FUN_00ec7c56();
-    FUN_00ec7c66(pDest, uiDestSize, pBegin, (unsigned int)(pEnd - pBegin));
+        std::abort();
+    fnv::crt::memcpy_s(pDest, uiDestSize, pBegin, (unsigned int)(pEnd - pBegin));
     return pEnd;
 }
 
@@ -4289,7 +4269,6 @@ struct FUN_00ad5430_err
     unsigned int unk08;
     void FUN_00ec78f1(unsigned int* out);
 };
-extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 // Clamps count to zero, reports an error if count*0x18 would overflow, then allocates count*0x18 bytes and returns the pointer.
 // @fnv 0x00ad5430

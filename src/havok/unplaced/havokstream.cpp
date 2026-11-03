@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/C626680Array.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Cls.h"
@@ -809,7 +810,6 @@ struct ErrorHandler6256
 };
 
 int __cdecl FUN_00406d50(char* pcDest, unsigned int uiSize, const char* pcSrc);
-char* __cdecl FUN_00ec7750(const char* pcString, const char* pcFind);
 
 struct LogStub6257
 {
@@ -859,9 +859,9 @@ void ErrorHandler6257::FUN_00625790(const char* pcPrefix, int aiSoundId, const c
     const char* pcReportFile = 0;
     if (m_acSdkPath[0])
     {
-        pcReportFile = FUN_00ec7750(pcFile, "TES4");
+        pcReportFile = std::strstr((char *)(pcFile), "TES4");
         if (!pcReportFile)
-            pcReportFile = FUN_00ec7750(pcFile, "tes4");
+            pcReportFile = std::strstr((char *)(pcFile), "tes4");
         if (pcReportFile)
         {
             ::TaskQueueInterface::CopyStringToBuffer(acFileName, 0x104, m_acSdkPath);

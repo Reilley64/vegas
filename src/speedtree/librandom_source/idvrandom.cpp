@@ -1,5 +1,6 @@
 // speedtree/librandom_source/idvrandom.cpp: RandomNumberGenerator, Uniform (8 functions)
 
+#include <ctime>
 #include "fnv/symbols_00b43000.h"
 #include "fnv/symbols_01012000.h"
 #include "idvrandom_decls.h"
@@ -39,7 +40,7 @@ void RandomNumberGenerator::SeedRandomGenerator(long seed)
         long randomSeed = 12345;
         if (DAT_011f8eb8)
             randomSeed = (long)reinterpret_cast<::FUN_00b3f130_shell *>(this)->FUN_00b3f130(0.0f, 2147483648.0f);
-        long currentTime = (long)_time64(0);
+        long currentTime = (long)std::time(0);
         if (randomSeed > currentTime)
             Random::Set((double)currentTime / randomSeed);
         else

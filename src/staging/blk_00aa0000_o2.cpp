@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CBaseList9FD.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -85,7 +87,6 @@ void __cdecl FUN_00aa3050()
     }
 }
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
 struct FUN_00aa1010_s
 {
     unsigned int m_uiSize;
@@ -104,7 +105,7 @@ void FUN_00aa1010_s::ResizeAndCopy(unsigned int uiNewSize, const void* pData)
     if (!*(void**)((char*)this + 0x14))
         *(void**)((char*)this + 0x14) = ::FUN_00aa1070(*(unsigned int*)((char*)this + 0x10));
     if (pData)
-        _memmove(*(void**)((char*)this + 0x14), pData, uiNewSize);
+        std::memmove(*(void**)((char*)this + 0x14), pData, uiNewSize);
 }
 
 // Placeholder declarations
@@ -840,7 +841,6 @@ void S_00aa36f0_Foo::WriteBufferByte(unsigned char* buffer)
 }
 
 
-extern "C" void* __cdecl MemSetAA3(void* pvDest, int iValue, unsigned int uiSize);
 
 class NiRefObjectAA3
 {
@@ -866,7 +866,7 @@ class NiTMapBaseAA3
         m_uiCount = 0;
         unsigned int uiSize = sizeof(NiTMapItemAA3*) * m_uiHashSize;
         m_ppkHashTable = (NiTMapItemAA3**)::FUN_00aa1070(uiSize);
-        MemSetAA3(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemAA3*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemAA3*));
     }
     virtual ~NiTMapBaseAA3() throw();
 
@@ -899,8 +899,6 @@ class FUN_00aa0390 : public NiRefObjectAA3
 // @fnv 0x00aa0390
 FUN_00aa0390::FUN_00aa0390() throw() : m_pkFirst(0), m_pkSecond(0), m_pkThird(0)
 {}
-
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 
 static const char kBackslash = 0x5c;
 static const char kForwardSlash = 0x2f;
@@ -1015,7 +1013,6 @@ void __cdecl SwapBufferBySizes(char* buffer, unsigned int length, const unsigned
 }
 
 namespace fnv_00aa2820 {
-int strcat_s(char* dst, unsigned int size, const char* src);
 
 class FileNameComponents
 {
@@ -1076,25 +1073,25 @@ bool FileNameComponents::BuildFullPath(char* pcOutPath, unsigned int uiBufferSiz
     }
     if (m_acFolderPath[0])
     {
-        strcat_s(pcOutPath, uiBufferSize, m_acFolderPath);
+        fnv::crt::strcat_s(pcOutPath, uiBufferSize, m_acFolderPath);
         char c = pcOutPath[strlen(pcOutPath) - 1];
         if (c != '\\' && c != '/')
             ::SafeStrcat(pcOutPath, uiBufferSize, "\\");
     }
     if (m_acDirectoryComponent[0])
     {
-        strcat_s(pcOutPath, uiBufferSize, m_acDirectoryComponent);
+        fnv::crt::strcat_s(pcOutPath, uiBufferSize, m_acDirectoryComponent);
         char c = pcOutPath[strlen(pcOutPath) - 1];
         if (c != '\\' && c != '/')
             ::SafeStrcat(pcOutPath, uiBufferSize, "\\");
     }
     if (m_acBaseName[0])
-        strcat_s(pcOutPath, uiBufferSize, m_acBaseName);
+        fnv::crt::strcat_s(pcOutPath, uiBufferSize, m_acBaseName);
     if (m_acExtension[0])
     {
         if (m_acExtension[0] != '.')
-            strcat_s(pcOutPath, uiBufferSize, ".");
-        strcat_s(pcOutPath, uiBufferSize, m_acExtension);
+            fnv::crt::strcat_s(pcOutPath, uiBufferSize, ".");
+        fnv::crt::strcat_s(pcOutPath, uiBufferSize, m_acExtension);
     }
     return true;
 }
@@ -1209,7 +1206,6 @@ struct ProcessingState
 {
 };
 
-void __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int size);
 
 // If size is non-zero, copies data to a temporary buffer, calls SwapBufferBySizes on it, returns state->FUN_00aa1810(buffer, size) and frees the buffer; else 0.
 // @fnv 0x00aa1ad0
@@ -1219,7 +1215,7 @@ unsigned int __cdecl FUN_00aa1ad0(ProcessingState* state, const void* data, unsi
     if (size <= 0u)
         return 0;
     void* buffer = FUN_00aa1070(size);
-    FUN_00ec44d0(buffer, data, size);
+    std::memmove(buffer, data, size);
     ::SwapBufferBySizes((char *)(buffer), size, (const unsigned int *)(optionA), (unsigned int)(optionB));
     unsigned int result = reinterpret_cast<::FUN_00aff950_shell *>((state))->FUN_00aa1810(buffer, size);
     FUN_00aa10f0(buffer);

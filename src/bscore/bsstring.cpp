@@ -1,5 +1,6 @@
 // bscore/bsstring.cpp: free functions (15 functions)
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/ConsoleText.h"
@@ -185,7 +186,6 @@ FUN_004046b0_arg* FUN_004046b0_cls::AssignFromSub(FUN_004046b0_arg* apArg)
     return apArg;
 }
 
-int _strlen(const char* text);
 int _tolower(int character);
 
 // Returns a pointer to the first case-insensitive occurrence of apString2 within apString1, or 0 if not found.
@@ -197,8 +197,8 @@ const char* FUN_004b75a0(const char* apString1, const char* apString2)
     int ilen1;
     int i;
 
-    ilen1 = _strlen(apString1);
-    ilen2 = _strlen(apString2);
+    ilen1 = std::strlen(apString1);
+    ilen2 = std::strlen(apString2);
 
     for (i = 0; i < ilen1 - ilen2 + 1; ++i)
     {

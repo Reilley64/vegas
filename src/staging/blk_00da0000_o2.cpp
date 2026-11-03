@@ -5,6 +5,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUNObj.h"
@@ -1755,7 +1756,6 @@ void __cdecl InitLoadedObject(void* pvObject, int iFinishing)
     }
 }
 
-extern "C" void __cdecl FUN_00ec658f(const void*);
 extern unsigned char DAT_01269b80;
 extern void* DAT_010d6260;
 extern void* DAT_01269b78;
@@ -1770,7 +1770,7 @@ void* __cdecl FUN_00dba610()
         *(unsigned int*)&DAT_01269b80 |= iInitFlag;
         DAT_01269b7e = iInitFlag;
         DAT_01269b78 = &DAT_010d6260;
-        FUN_00ec658f(&FUN_00fde2a0);
+        std::atexit((void (*)())(&FUN_00fde2a0));
     }
     return &DAT_01269b78;
 }

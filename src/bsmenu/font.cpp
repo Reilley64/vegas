@@ -1,6 +1,10 @@
 // bsmenu/font.cpp: Font, FontManager, OwnQ, SBox and more (57 functions)
 
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/Bound88.h"
@@ -237,23 +241,20 @@ float FUN_00a1b3a0_shell::FUN_00a1b3a0(int aiFont)
 
 extern char str_010a435c[];
 
-unsigned int __cdecl strlen(const char*);
-int __cdecl _stricmp(const char*, const char*);
 int __cdecl _strnicmp(const char*, const char*, unsigned int);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 
 // Builds dst from src: prefixes "Trees" when src ends in "spt", prefixes str_010a435c unless src starts with "meshes\", else copies src.
 // @fnv 0x00af4250
 void __cdecl BuildAssetPath(const char* pcSourcePath, char* pcDestPath, unsigned int uiDestSize)
 {
     unsigned int len = strlen(pcSourcePath);
-    if (len > 3 && _stricmp(pcSourcePath + len - 3, "spt") == 0) {
+    if (len > 3 && fnv::crt::stricmp(pcSourcePath + len - 3, "spt") == 0) {
         strcpy_s(pcDestPath, uiDestSize, "Trees");
-        strcat_s(pcDestPath, uiDestSize, pcSourcePath);
+        fnv::crt::strcat_s(pcDestPath, uiDestSize, pcSourcePath);
     } else if (_strnicmp(pcSourcePath, "meshes\\", 7) != 0) {
         strcpy_s(pcDestPath, uiDestSize, str_010a435c);
-        strcat_s(pcDestPath, uiDestSize, pcSourcePath);
+        fnv::crt::strcat_s(pcDestPath, uiDestSize, pcSourcePath);
     } else {
         strcpy_s(pcDestPath, uiDestSize, pcSourcePath);
     }
@@ -467,7 +468,6 @@ void FUN_00a1c2d0_shell::FUN_00a1c2d0()
 }
 }  // namespace fnv_00a1c2d0
 
-void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
 struct FUN_00a1c400_elem { char b[32]; };
 struct FUN_00a1c400_shell {
     void CopyElements(FUN_00a1c400_elem* apDestAddr, FUN_00a1c400_elem* apSrcAddr, unsigned int aiCount);
@@ -480,10 +480,10 @@ void FUN_00a1c400_shell::CopyElements(FUN_00a1c400_elem* apDestAddr, FUN_00a1c40
         return;
     if (apDestAddr < apSrcAddr) {
         for (unsigned int i = 0; i < aiCount; ++i)
-            FUN_00ec7230(&apDestAddr[i], &apSrcAddr[i], sizeof(FUN_00a1c400_elem));
+            std::memmove(&apDestAddr[i], &apSrcAddr[i], sizeof(FUN_00a1c400_elem));
     } else if (apDestAddr > apSrcAddr) {
         for (int i = aiCount - 1; i >= 0; --i)
-            FUN_00ec7230(&apDestAddr[i], &apSrcAddr[i], sizeof(FUN_00a1c400_elem));
+            std::memmove(&apDestAddr[i], &apSrcAddr[i], sizeof(FUN_00a1c400_elem));
     }
 }
 
@@ -928,7 +928,6 @@ namespace fnv_00a1b020 {
 extern "C" double __cdecl fmod(double, double);
 
 struct FUN_00a1b3a0_shell {  };
-unsigned int __cdecl _strlen(const char*);
 
 const float TAB_WIDTH = 75.0f;
 
@@ -954,7 +953,7 @@ NiPoint3 FUN_00a1b020_t::FUN_00a1b020(const char* strText, int aiFont, float afW
         return ::NiPoint3::ZERO;
 
     returnDims = ::NiPoint3::ZERO;
-    uistrLength = _strlen(strText);
+    uistrLength = std::strlen(strText);
     plettersA = (FontCharacterInfo*)(*(char**)&pFont[aiFont - 1]->m_pFontData + 0x128);
     fwrapPointWidth = 0;
     fcurrLineWidth = 0;
@@ -1201,7 +1200,6 @@ void FUN_00a1b770_cls::FUN_00a1b770()
     FUN_00a1b7f0(0x20);
 }
 
-unsigned int __cdecl strlen(const char*);
 int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 inline void CopyFont(char* dst, unsigned int size, const char* file) { strcpy_s(dst, size, file); }
@@ -1566,9 +1564,8 @@ struct AtlasGeometry : NiMemObjectAllocation {
  AtlasData* GetData() { AtlasData* result=data;return result; }
  void FUN_00439410(AtlasShader* shader) { if(shader->GetPropertyType()<7) { AtlasPropertyPointer property(shader);properties.FUN_00439fd0(property); } }
 };
-void FUN_00ec8d5f(char*,unsigned,const char*,unsigned);
 extern char sheetGeometryName[];
-inline void CopyAtlasPath(char* dest,const char* source,unsigned limit) { FUN_00ec8d5f(dest,limit+1,source,limit); }
+inline void CopyAtlasPath(char* dest,const char* source,unsigned limit) { fnv::crt::strncpy_s(dest,limit+1,source,limit); }
 struct FontAtlasFactory {
  unsigned unk00;
  unsigned unk04;
@@ -2544,11 +2541,8 @@ struct FontC {
                       int* value, char* pch, bool flag);
 };
 
-void __cdecl FUN_00ec8d5f(char*, int, const char*, int);
-void __cdecl FUN_00ec61c0(void*, int, unsigned int);
-void __cdecl FUN_00ec7c66(char*, int, const char*, int);
 
-inline void CopyName(char* d, int sz, const char* s, int n) { FUN_00ec8d5f(d, sz, s, n); }
+inline void CopyName(char* d, int sz, const char* s, int n) { fnv::crt::strncpy_s(d, sz, s, n); }
 
 // Scans text from *pos until a stop character or mask match, expanding '&...;' settings into _buf, and returns the accumulated SStr.
 // @fnv 0x00a16ea0
@@ -2559,7 +2553,7 @@ SStr FontC::FUN_00a16ea0(const char* text, int* apiPos, unsigned mask, unsigned 
     char _buf[0x800];
     int count2 = 0;
     int other7 = 0;
-    FUN_00ec61c0(_buf, 0, 0x800);
+    std::memset(_buf, 0, 0x800);
     while (true) {
         *apCh = text[*apiPos];
         int r6 = reinterpret_cast<::FUN_00a16da0_shell *>((this))->GetCharClassFlags((unsigned char)*apCh);
@@ -2601,10 +2595,10 @@ SStr FontC::FUN_00a16ea0(const char* text, int* apiPos, unsigned mask, unsigned 
                         count2++;
                     } else if (kNamebuf[0] != 0) {
                         iLen = (int)strlen(kNamebuf);
-                        FUN_00ec7c66(&_buf[count2], iLen, kNamebuf, iLen);
+                        fnv::crt::memcpy_s(&_buf[count2], iLen, kNamebuf, iLen);
                         count2 += iLen;
                     } else if (n5 != 0) {
-                        FUN_00ec7c66(&_buf[count2], n5, p2, n5);
+                        fnv::crt::memcpy_s(&_buf[count2], n5, p2, n5);
                         count2 += n5;
                     }
                     *apiPos = n5 + *apiPos - 1;
@@ -2793,7 +2787,6 @@ RunNode* FontData::CreateTextRunNode(SStr* text, Info_* info) {
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 namespace fnv_00a12880 {
-double __cdecl FUN_00ec9130(double, double);
 extern char DAT_01011584[];
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
@@ -3043,7 +3036,7 @@ struct InlineManager : FontManager {
     }
 };
 inline InlineManager* Manager() { return (InlineManager*)(*reinterpret_cast<::FontManager * *>(&::DAT_011f33f8)); }
-__forceinline double TabMod(const float& value) { return (float)FUN_00ec9130((double)value,(double)::InventorySelection::DAT_0102f0f8); }
+__forceinline double TabMod(const float& value) { return (float)std::fmod((double)value,(double)::InventorySelection::DAT_0102f0f8); }
 __forceinline void TabAdvance(float& value) { float tabPosition=value; float tabMultiple=(float)TabMod(tabPosition); value=::DAT_010731a8-tabMultiple+value; }
 // @fnv 0x00a12880
 void FontRenderer::FUN_00a12880(int* source,int* width,int* height,int count,int limit,int mode,char separator,int flags,ShapeView** primary,ShapeView** secondary) {
@@ -3190,17 +3183,15 @@ inline void DeadQ14(){int a[14];}
 inline void DeadQ15(){int a[15];}
 inline void DeadQ16(){int a[16];}
 inline void DeadQ17(){int a[17];}
-unsigned int __cdecl strlen(const char*);
-void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager { void* Allocate(unsigned int); void Deallocate(void*); };
 struct BSStr {
     char* m_data; unsigned short m_len; unsigned short m_kMaximumCorner;
     bool Set(const char* s, unsigned int n);
     unsigned int Length() { return m_len == 0xffff ? StrLenQ(m_data) : m_len; }
-    static unsigned int StrLenQ(const char* s) { return strlen(s); }
+    static unsigned int StrLenQ(const char* s) { return std::strlen(s); }
     char& At(unsigned int i) { return m_data[m_data ? i : 0]; }
 };
-__forceinline char* AllocZ(unsigned int count) { unsigned int sz = 1; sz = count * sz; char* p = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a15ee0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(sz); fnv_zlib_memset(p, 0, sz); return p; }
+__forceinline char* AllocZ(unsigned int count) { unsigned int sz = 1; sz = count * sz; char* p = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a15ee0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(sz); std::memset(p, 0, sz); return p; }
 inline void FreeQ(char* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a15ee0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 struct TxtQ {
     void ExtractLine(BSStr* str, int line);
@@ -3245,11 +3236,8 @@ inline void* LayoutCopy(void* destination,const void* source,unsigned int size) 
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" char* __cdecl strcpy(char*,const char*);
 extern "C" int __cdecl toupper(int);
-extern "C" int __cdecl _stricmp(const char*,const char*);
 int __cdecl FUN_00408b20(const char*,const char*);
-long __cdecl FUN_00eca6d3(const char*);
 extern "C" int __cdecl sscanf(const char*,const char*,...);
-extern "C" void* __cdecl fnv_zlib_memset(void*,int,unsigned int);
 struct LayoutString {
     char* text; unsigned short length, capacity;
     LayoutString() { text=0; SetLength(0); SetMaxLength(0); }
@@ -3304,7 +3292,7 @@ struct LayoutString {
     unsigned int Size() const { return Length()+1; }
     int StrCmp(const char* other, bool ignoreCase) const {
         int result;
-        if(other && Get()) result=ignoreCase ? _stricmp(Get(),other) : FUN_00408b20(Get(),other);
+        if(other && Get()) result=ignoreCase ? fnv::crt::stricmp(Get(),other) : FUN_00408b20(Get(),other);
         else if(!other && !Get()) result=0;
         else result=(other==0)*2-1;
         return result;
@@ -3419,7 +3407,7 @@ __forceinline char* AllocateText(unsigned int count) {
     unsigned int size=1;
     size*=count;
     char* text=(char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a17390::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    fnv_zlib_memset(text,0,size);
+    std::memset(text,0,size);
     return text;
 }
 struct FUN_00a16da0_shell : FontManager {  };
@@ -3528,8 +3516,8 @@ LayoutBlock* FUN_00a17390_shell::ParseLayout(LayoutString& source, LayoutResult*
                         if(paramName=="FACE") {
                             for(int number=0;number<8;++number) {
                                 bool found=false;
-                                if(!_stricmp(attributeValue.Get(),GetFontFile(number))) found=true;
-                                else if(number+1==FUN_00eca6d3(attributeValue.Get())) found=true;
+                                if(!fnv::crt::stricmp(attributeValue.Get(),GetFontFile(number))) found=true;
+                                else if(number+1==std::atoi(attributeValue.Get())) found=true;
                                 if(found) {
                                     format.SetFont(number);
                                     break;
@@ -3794,15 +3782,11 @@ void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 unsigned int LayoutLength(const char*);
 unsigned int LayoutCapacity(unsigned int,unsigned int);
-extern "C" void* __cdecl memcpy(void*,const void*,unsigned int);
 inline void* LayoutCopy(void* destination,const void* source,unsigned int size) {return memcpy(destination,source,size);}
 namespace TextLayout {
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" char* __cdecl strcpy(char*,const char*);
-extern "C" int __cdecl FUN_00ec65a6(char*,unsigned int,const char*);
 extern "C" int __cdecl sprintf(char*,const char*,...);
-extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
-extern "C" void* __cdecl FUN_00ec7230(void*,const void*,unsigned int);
 extern char DAT_010950a8[];
 struct Memory {
  void FUN_00aa4060(void*);
@@ -3811,7 +3795,7 @@ __forceinline char* AllocateText(unsigned int count) {
  unsigned int size=1;
  size*=count;
  char* text=(char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::TextLayout::Memory *>(&::g_memoryManager))))->FUN_00aa3e40(size);
- FUN_00ec61c0(text,0,size);
+ std::memset(text,0,size);
  return text;
 }
 struct Manager {  };
@@ -4012,7 +3996,7 @@ void Font::FUN_00a12fb0(const char* input,Layout* layout) {
      pathSlot13[strlen(pathSlot13)-1]=0;
      if(number==7) {
       char originalPath[260];
-      FUN_00ec65a6(originalPath,260,pathSlot13);
+      fnv::crt::strcpy_s(originalPath,260,pathSlot13);
       ::FUN_00406d00(pathSlot13,260,DAT_010950a8,originalPath);
      }
      reinterpret_cast<::fnv_00a1aee0::FUN_00a1aee0_shell *>(this)->LoadIconFromPath(pathSlot13);
@@ -4073,7 +4057,7 @@ void Font::FUN_00a12fb0(const char* input,Layout* layout) {
      if(hyphenSlot42) {
       hyphenSlot42=false;
       capacity+=4;outputSlot60=(char*)reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::TextLayout::Memory *>(&::g_memoryManager))))->Reallocate(outputSlot60,capacity);
-      FUN_00ec7230(&outputSlot60[breakOffsetSlot0+2],&outputSlot60[breakOffsetSlot0],outputLengthSlot0-breakOffsetSlot0);
+      std::memmove(&outputSlot60[breakOffsetSlot0+2],&outputSlot60[breakOffsetSlot0],outputLengthSlot0-breakOffsetSlot0);
       outputSlot60[breakOffsetSlot0+1]='\n';outputSlot60[breakOffsetSlot0]='-';
       outputLengthSlot0+=2;insertedSlot12+=2;
       glyphSlot1=&data->glyphs[45];
@@ -4794,7 +4778,6 @@ StringItemList::~StringItemList()
 }
 }  // namespace fnv_00a1bb10
 
-double __cdecl FUN_00ec9130(double, double);
 
 struct SStr {
     char* pString;
@@ -4892,7 +4875,7 @@ inline NiPoint3* GetVerts(NiGeometryData* d) { NiPoint3* p = d->m_pkVertex; retu
 inline unsigned short GetCount(NiGeometryData* d) { return d->m_usVertices; }
 
 inline int Max(int a, int b) { return a > b ? a : b; }
-__forceinline double FMod75(const float& f) { return (float)FUN_00ec9130(f, ::InventorySelection::DAT_0102f0f8); }
+__forceinline double FMod75(const float& f) { return (float)std::fmod(f, ::InventorySelection::DAT_0102f0f8); }
 __forceinline void TabAdvance(float& x) { float remainder = x; float input = (float)FMod75(remainder); x = ::DAT_010731a8 - input + x; }
 
 struct FontX : public Font {

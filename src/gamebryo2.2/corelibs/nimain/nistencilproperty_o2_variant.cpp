@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -38,8 +39,6 @@ bool EqBase::FUN_00a6f070(NiObject* pkObject)
         return true;
     return false;
 }
-
-extern "C" unsigned int __cdecl strlen(const char*);
 
 // @fnv 0x00a6f2d0
 char* FUN_00a6f2d0(const char* name, int stencil)

@@ -1,6 +1,8 @@
 // fallout/interface/menus/vatsmenu.cpp: VATSMenuX, VATSMenu, Vec2Tmp, StandIn and more (58 functions)
 
 #include <new>
+#include <cstdio>
+#include <cstdlib>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AimPlayer.h"
@@ -1671,10 +1673,8 @@ extern bool xDAT_011a0b68;
 extern int xDAT_011db180;
 
 bool xFUN_00702450(int aiID);
-extern "C" int FUN_00ec7d40(int aiValue);
 void xFUN_00705780();
 unsigned char xFUN_007f5050(int aiAction, int a2);
-int sprintf(char* apBuffer, const char* apFormat, ...);
 
 struct VATSMenu007ef830 : VATSMenu
 {
@@ -6694,7 +6694,6 @@ struct AimMenu
     int FUN_007f3bf0(int);
     void FUN_007f3070();
 };
-int FUN_00ec7d40(int);
 // Updates the current aim limb selection based on aim mode, input stick state, and target body data, cycling through limbs on key input.
 // @fnv 0x007f3070
 void AimMenu::FUN_007f3070()
@@ -6725,7 +6724,7 @@ void AimMenu::FUN_007f3070()
         horizontal8 = reinterpret_cast<::FUN_00a23390_t *>((input5))->GetAxisState(0, 7);
         vertical3 = reinterpret_cast<::FUN_00a23390_t *>((input5))->GetAxisState(0, 8);
         int maximum26 = 32767;
-        if (FUN_00ec7d40(vertical3) < maximum26 / 4 && FUN_00ec7d40(horizontal8) < maximum26 / 4)
+        if (::std::abs(vertical3) < maximum26 / 4 && ::std::abs(horizontal8) < maximum26 / 4)
             stickReset = true;
         bool left9 = true;
         if (horizontal8 > 0)
@@ -6735,7 +6734,7 @@ void AimMenu::FUN_007f3070()
         direction19 = rotation18.FUN_004b4500(direction19);
         reinterpret_cast<::FUN_004a0c10_s *>(&(direction19))->FUN_004a0c10();
         if (stickReset &&
-            (FUN_00ec7d40(vertical3) > maximum26 * 3 / 4 || FUN_00ec7d40(horizontal8) > maximum26 * 3 / 4))
+            (::std::abs(vertical3) > maximum26 * 3 / 4 || ::std::abs(horizontal8) > maximum26 * 3 / 4))
         {
             float bestAngle50 = ::DAT_0106b158;
             float bestDistance11 = ::DAT_01016970;
@@ -8399,7 +8398,7 @@ void VATSMenuX::Update()
                 m_bStateFlag10 = 1;
             }
         }
-        else if (FUN_00ec7d40(iRightXNum) < 0x21f1 && FUN_00ec7d40(iRightYTmp) < 0x21f1)
+        else if (::std::abs(iRightXNum) < 0x21f1 && ::std::abs(iRightYTmp) < 0x21f1)
         {
             if (::fnv_007f4c00::FUN_007f4c00())
             {
@@ -8451,7 +8450,7 @@ void VATSMenuX::Update()
         ::ApplyPerkModifiers(0x2f, (::Actor *)((*reinterpret_cast<::ActorX * *>(&::_g_thePlayer))), &fPerkB);
         if (fPerkB > 0)
         {
-            sprintf(acBufferOut70, "%s\n %s:%d %s:%.2f", reinterpret_cast<::FUN_0055d520_shell *>(((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))->FUN_0055d520(), (*reinterpret_cast<::SettingX *>(&::g_011d50b0)).String(),
+            ::std::sprintf(acBufferOut70, "%s\n %s:%d %s:%.2f", reinterpret_cast<::FUN_0055d520_shell *>(((*reinterpret_cast<::ActorX * *>(&::DAT_011f21cc))))->FUN_0055d520(), (*reinterpret_cast<::SettingX *>(&::g_011d50b0)).String(),
                     (int)fHealthOut44, (*reinterpret_cast<::SettingX *>(&::g_011d396c)).String(), fChanceX73);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[29]))->FUN_00a01350(0xfc4, (char *)(acBufferOut70), 1);
         }

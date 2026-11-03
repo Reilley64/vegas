@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsysboxemitter.cpp: NiPSysEmitter, NiPSysBoxEmitter, EmitterHack, BoxViewer and more (13 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/FUN_00c31af0.h"
 #include "fnv/decl/FUN_00c31b80_This.h"
 #include "fnv/decl/FUN_00c31c90_shell.h"
@@ -256,7 +257,6 @@ void __cdecl FUN_00c20160()
 }
 
 namespace fnv_00c201d0 {
-int __cdecl rand();
 
 struct NiPoint3
 {
@@ -290,9 +290,9 @@ struct BoxEmitterInit : NiPSysBoxEmitter
 // @fnv 0x00c201d0
 void BoxEmitterInit::FUN_00c201d0(const ThreeByThreeMatrix& kRot, NiPoint3& kPos, NiPoint3& kWorldPosition)
 {
-    float fX = rand() / ::DAT_01029790;
-    float fY = rand() / ::DAT_01029790;
-    float fZ = rand() / ::DAT_01029790;
+    float fX = std::rand() / ::DAT_01029790;
+    float fY = std::rand() / ::DAT_01029790;
+    float fZ = std::rand() / ::DAT_01029790;
     kPos = NiPoint3((fZ - 0.5f) * width, (fY - 0.5f) * height, (fX - 0.5f) * depth);
     kPos = kRot * kPos;
     kWorldPosition = NiPoint3(kRot.m_aRows[0].Dot(kWorldPosition),

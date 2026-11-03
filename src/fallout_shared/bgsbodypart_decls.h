@@ -3,6 +3,8 @@
 #define FNV_BGSBODYPART_DECLS_H
 
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -19,7 +21,6 @@
 #include "fnv/symbols_00489000.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_011c3000.h"
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 class TESFileFormVersion
 {
@@ -167,8 +168,6 @@ class FUN_005e3be0
     FUN_005e3be0();
     ~FUN_005e3be0();
 };
-extern "C" void* memset(void*, int, unsigned int);
-
 class BGSBodyPart
 {
   public:

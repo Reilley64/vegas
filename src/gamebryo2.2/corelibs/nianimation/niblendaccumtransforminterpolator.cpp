@@ -1,5 +1,6 @@
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
 #include "fnv/decl/DataA38.h"
@@ -473,12 +474,11 @@ void FUN_00a3a6b0(Self* self, int unused, Arr* strs)
 }
 }  // namespace fnv_00a3a6b0
 
-void _fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 // Copies a file path from the source buffer into the destination buffer using the given sizes and returns the destination pointer.
 // @fnv 0x00a574b0
 char* CopyFilePath(char* pcDestination, unsigned int uiDestinationSize, const char* pcSource, unsigned int uiSourceSize)
 {
-    _fnv_CopyFilePath(pcDestination, uiDestinationSize, pcSource, uiSourceSize);
+    fnv::crt::strncpy_s(pcDestination, uiDestinationSize, pcSource, uiSourceSize);
     return pcDestination;
 }
 

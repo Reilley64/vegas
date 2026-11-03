@@ -1,6 +1,7 @@
 
 // tesobjectrefr_ctx2_variant.cpp: context variant of src/fallout_shared/tesobjectrefr.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -42,7 +43,6 @@
 #include "tesobjectrefr_decls.h"
 void* FUN_0056a8c0();
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct LoadFile
 {
     bool ReadID(unsigned int*);

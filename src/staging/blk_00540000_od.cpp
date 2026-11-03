@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -554,8 +555,6 @@ struct FUN_005408e0 : Date
 {
     ~FUN_005408e0();
 };
-void* __cdecl memset(void* dst, int value, unsigned int count);
-
 struct FUN_00540940_Class
 {
     void* InitBuffer(unsigned int size);
@@ -1082,7 +1081,6 @@ void FUN_00558600_Class::FUN_00558600(int* a, int* b, int* c, int* d, int* e, in
 }
 
 void* __cdecl operator new(unsigned int);
-extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int value, unsigned int count);
 extern int DAT_0102f3e8;
 struct FUN_00559b40
 {
@@ -1106,7 +1104,7 @@ FUN_00559b40* FUN_00559b40::Init(int aiCount)
         size = count * 4;
         pAlloc = (int*)::FUN_00401000(size);
         data = pAlloc;
-        _fnv_zlib_memset(data, 0, count * 4);
+        std::memset(data, 0, count * 4);
     }
     return this;
 }

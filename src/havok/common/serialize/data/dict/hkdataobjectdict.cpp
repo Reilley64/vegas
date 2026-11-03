@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/DataObjectHandle.h"
@@ -10005,7 +10006,6 @@ hkNameRefDC96 hkNameDC96::FUN_00dc9640(const char* name)
 }  // namespace fnv_00dc9640
 
 namespace fnv_00dc9d10 {
-extern "C" void* __cdecl fnv_zlib_memset(void* pvDest, int iValue, unsigned int iCount);
 extern "C" void _ReadWriteBarrier(void);
 
 class hkMemoryAllocatorDC9D;
@@ -10053,7 +10053,7 @@ template <class T> class hkArrayDC9D
         T* pDst = m_data + m_iElementCount;
         _ReadWriteBarrier();
         if (iNumToFill > 0)
-            fnv_zlib_memset(pDst, fill, iNumToFill);
+            std::memset(pDst, fill, iNumToFill);
         m_iElementCount = n;
     }
 };

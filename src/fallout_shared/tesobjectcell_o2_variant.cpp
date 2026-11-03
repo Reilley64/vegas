@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobjectcell_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectcell.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/CollectionView.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -63,8 +64,6 @@ void FUN_00b5a9a0_List::FUN_00b5a9a0(FUN_00b5a9a0_Node* node)
     }
 }
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
-void* __cdecl _fnv_zlib_memset(void* ptr, int value, unsigned int count);
 
 struct FUN_00bb39e0_shell
 {
@@ -83,9 +82,9 @@ void FUN_00bb39e0_shell::FUN_00bb39e0(const void* src, unsigned int count)
         {
             if (count >= 192)
                 count = 192;
-            _memmove(m_08, src, count * 4);
+            std::memmove(m_08, src, count * 4);
             if (count < 192)
-                _fnv_zlib_memset((char*)m_08 + count * 4, 0, (192 - count) * 4);
+                std::memset((char*)m_08 + count * 4, 0, (192 - count) * 4);
         }
     }
 }

@@ -1,6 +1,7 @@
 // fallout_shared/tesobjectweap.cpp: TESObjectWEAP, TransHolder, Weapon, WeaponCopyAccess and more (72 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -1719,8 +1720,6 @@ struct Weapon
     void Save();
 };
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-TESObjectWEAP* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned int);
 struct StringCopyAccess : BSStringT<char> {
 };
 struct StackWord { unsigned int word; };
@@ -1734,7 +1733,7 @@ struct WeaponCopyAccess : TESObjectWEAP {
 // @fnv 0x00522020
 void WeaponCopyAccess::CopyFromWeapon(unsigned int id)
 {
-    WeaponCopyAccess* source = (WeaponCopyAccess*)FUN_00ec43fb(id, 0, &(*reinterpret_cast<unsigned char *>(&::DAT_01183028)), &(*reinterpret_cast<unsigned char *>(&::DAT_01183998)), 0);
+    WeaponCopyAccess* source = (WeaponCopyAccess*)dynamic_cast<::TESObjectWEAP *>(reinterpret_cast<::TESForm *>(id));
     if (source == 0) return;
     {
         reinterpret_cast<::FormCloneOperation *>((this))->FUN_004851b0((*(void * *)&(const ::StackWord &)(*(StackWord*)&id)));
@@ -2541,7 +2540,6 @@ struct WeaponCompareAccess : TESObjectWEAP {
 };
 struct WeaponStringCompare {
 };
-int __cdecl memcmp(const void*, const void*, unsigned int);
 // Compares this weapon against another TESObjectWEAP across many fields and accessors, returning true on the first difference or when the form is not a weapon.
 // @fnv 0x00522590
 bool WeaponCompareAccess::IsDifferentFrom(TESForm* form) {

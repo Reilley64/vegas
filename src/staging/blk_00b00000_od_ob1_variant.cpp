@@ -6,6 +6,9 @@
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -345,7 +348,6 @@ class B02670Task
 
     void CompleteTask();
 };
-void FUN_00ec7c56();
 unsigned int FUN_00b10730(unsigned int a, unsigned int b, unsigned int c);
 struct FUN_00b0e510_pair
 {
@@ -386,7 +388,6 @@ class FUN_00b0e510_cls
     FUN_00b0e510_pair* FUN_00b0e510(FUN_00b0e510_pair* out, unsigned int a0, unsigned int a1, unsigned int a2,
                                     unsigned int a3);
 };
-extern void __cdecl FUN_00ec7c56();
 struct FUN_00b10490_class
 {
     int first;
@@ -413,8 +414,6 @@ struct Mat3
     Mat3();
     Mat3 Multiply(const Mat3& rhs) const;
 };
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 extern double DAT_010a4d90;
 struct RotationMatrix
 {
@@ -677,7 +676,7 @@ VecIterStandIn& VecIterStandIn::FUN_00b105b0(int off)
     {
         if (!(Has_container()))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -686,7 +685,7 @@ VecIterStandIn& VecIterStandIn::FUN_00b105b0(int off)
     {
         if (!(m_ptr + off <= Getmycont()->m_last && m_ptr + off >= Getmycont()->m_pHeadNode))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -700,7 +699,6 @@ struct Element470
 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18;
 };
-extern void FUN_00ec7c56();
 // Genuine VC9 secure iterator/auxiliary-container accessors. No scalar
 // uninitialized-read tricks from the historical near match are retained.
 struct Container470;
@@ -743,12 +741,12 @@ struct Iterator470 : IteratorBase470
 Iterator470& Iterator470::FUN_00b0eb30()
 {
     if (!IsContainerSet())
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (false);
     if (!(pointer < static_cast<const Vector470*>(GetContainer())->last))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (false);
@@ -757,7 +755,6 @@ Iterator470& Iterator470::FUN_00b0eb30()
 }
 
 void __cdecl operator delete(void*);
-void FUN_00ec7c56();
 struct FUN_00b10e90;
 struct TreeEntry
 {
@@ -810,7 +807,7 @@ struct VectorStorage : StorageBase
     __forceinline TreeEntry& operator[](unsigned int index)
     {
         if (!(index < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
     void FUN_00b1fca0()
@@ -1028,7 +1025,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -1101,7 +1097,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -1111,12 +1107,12 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -1125,7 +1121,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -1189,7 +1185,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -1382,7 +1378,7 @@ FUN_00b0dce0::FUN_00b0dce0() : DceVal()
 }
 
 // VS2008 SP1 retail (_SECURE_SCL=1, no iterator debugging) std::vector<char>::resize(size_type, char)
-void FUN_00ec7c56();  // _invalid_parameter_noinfo
+  // _invalid_parameter_noinfo
 int FUN_00ec7ce3(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _Count);  // memmove_s
 
 struct VcInputTag
@@ -1518,7 +1514,7 @@ struct VcConstIter : VcIterBase
     {  // test for iterator equality
         if (!(this->_Has_container() && this->_Same_container(_Right)))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -1593,7 +1589,7 @@ inline VcConstIter::VcConstIter(char* _Ptr, const VcContBase* _Pvector)
 {  // construct with pointer _Ptr
     if (!(_Pvector != 0 && ((VcVec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((VcVec*)_Pvector)->_Mylast))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1606,7 +1602,7 @@ inline VcConstIter& VcConstIter::FUN_00b10670(int _Off)
 {  // increment by integer
     if (!(this->_Has_container()))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1614,7 +1610,7 @@ inline VcConstIter& VcConstIter::FUN_00b10670(int _Off)
     if (!(_Myptr + _Off <= ((VcVec*)(this->_Getmycont()))->_Mylast &&
           _Myptr + _Off >= ((VcVec*)(this->_Getmycont()))->_Myfirst))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1668,7 +1664,7 @@ struct CItQ_aceeb0
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -1728,7 +1724,7 @@ struct VecQ_aceeb0
 inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -1781,7 +1777,7 @@ struct CItQ_aceeb0
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -1842,7 +1838,7 @@ struct VecQ_aceeb0
 inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -1908,7 +1904,7 @@ struct CItQ_ab9bc0
     int operator-(const CItQ_ab9bc0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -1969,7 +1965,7 @@ struct VecQ_ab9bc0
 inline CItQ_ab9bc0::CItQ_ab9bc0(ElQ_ab9bc0* _Ptr, const VecQ_ab9bc0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -2303,7 +2299,6 @@ bool B0E9Vec::FUN_00b0e9c0(unsigned int capacity)
 }
 
 namespace iterb0e {
-void FUN_00ec7c56();
 struct IxContainer;
 struct IxProxy
 {
@@ -2350,14 +2345,14 @@ IxConstIterator& IxConstIterator::FUN_00b0ec20()
 {
     if (!this->_Has_container())
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
     } while (0);
     if (!(_Myptr < ((IxVector*)this->_Getmycont())->_Mylast))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -3591,7 +3586,6 @@ void RecordVector::FUN_00b0fc00(VectorPosition where, unsigned int count, const 
 }
 }  // namespace fnv_00b0fc00
 
-void __cdecl InvalidParameterNoInfoX104F0();
 struct ContainerBaseAuxX104F0
 {
 };
@@ -3647,13 +3641,13 @@ class FUN_00b104f0_It : public IteratorBaseAuxX104F0
 FUN_00b104f0_It& FUN_00b104f0_It::FUN_00b104f0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoX104F0();
+        std::abort();
     do
     {
     } while (0);
     if (!(_Myptr + _Off <= ((VectorX104F0*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorX104F0*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoX104F0();
+        std::abort();
     do
     {
     } while (0);
@@ -3661,8 +3655,6 @@ FUN_00b104f0_It& FUN_00b104f0_It::FUN_00b104f0(int _Off)
     return *this;
 }
 
-double FUN_00ec9f30(double);
-double FUN_00eca060(double);
 
 inline Mat3 Mat3::Multiply(const Mat3& rhs) const
 {
@@ -3692,10 +3684,10 @@ void Mat3Rot::FUN_00b12c00(float a, float b)
     float fSinY;
     float cs;
     float fSZ;
-    fCY = (float)((double)(float)FUN_00ec9f30((float)(a / DAT_010a4d90)));
-    fSinY = (float)((double)(float)FUN_00eca060((float)(a / DAT_010a4d90)));
-    cs = (float)((double)(float)FUN_00ec9f30((float)(b / DAT_010a4d90)));
-    fSZ = (float)((double)(float)FUN_00eca060((float)(b / DAT_010a4d90)));
+    fCY = (float)((double)(float)::std::cos((float)(a / DAT_010a4d90)));
+    fSinY = (float)((double)(float)::std::sin((float)(a / DAT_010a4d90)));
+    cs = (float)((double)(float)::std::cos((float)(b / DAT_010a4d90)));
+    fSZ = (float)((double)(float)::std::sin((float)(b / DAT_010a4d90)));
     rot.m00 = fCY * cs;
     rot.m01 = fCY * fSZ;
     rot.m02 = -fSinY;
@@ -3732,7 +3724,6 @@ FUN_00b13040_class FUN_00b13040_class::FUN_00b13040(const FUN_00b13040_class& pt
 }
 
 namespace fnv_00b13100 {
-void FUN_00ec7c56();
 extern "C" double __cdecl FUN_00ec6054(double);
 extern "C" double __cdecl FUN_00ec9f30(double);
 extern "C" double __cdecl FUN_00eca060(double);
@@ -3848,7 +3839,7 @@ template <class T> struct ConfigVector
     {
         if (!(_Pos < size()))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return *(_Myfirst + _Pos);
     }
@@ -3929,7 +3920,6 @@ void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, co
 }  // namespace fnv_00b13100
 
 namespace fnv_00b13820 {
-void FUN_00ec7c56();
 
 template <class T> struct NodeVec
 {
@@ -3950,7 +3940,7 @@ template <class T> struct NodeVec
         {
             if (!(pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         return *(first + pos);
@@ -4007,7 +3997,6 @@ struct CheckedRange
     unsigned int begin;
     unsigned int end;
 };
-void FUN_00ec7c56();
 
 inline void FUN_00b16950(unsigned int a, unsigned int b, unsigned int c, unsigned int d, RangeTag e)
 {
@@ -4080,13 +4069,13 @@ void FUN_00b138c0(CheckedRange* p)
     unsigned int hi = p->end;
     unsigned int firstB = 0;
     if (!p || p->begin > hi || hi > p->end)
-        FUN_00ec7c56();
+        std::abort();
     firstB = p->owner;
     unsigned int loTmp = hi;
     unsigned int mc = p->begin;
     unsigned int second = 0;
     if (!p || p->begin > mc || mc > p->end)
-        FUN_00ec7c56();
+        std::abort();
     second = p->owner;
     unsigned int mc5 = mc;
     FUN_00b16950(second, mc5, firstB, loTmp, tag);
@@ -4846,7 +4835,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -5341,7 +5329,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -5727,7 +5714,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -6298,7 +6284,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -6960,7 +6945,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -7477,7 +7461,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -8172,7 +8155,6 @@ char* ByteFillHost::FUN_00b0f3c0(char* _Ptr, unsigned int _Count, const char& _V
 }
 }  // namespace fnv_00b0f3c0
 
-void __cdecl InvalidParameterNoInfoX10670();
 struct ContainerBaseAuxX10670
 {
 };
@@ -8222,13 +8204,13 @@ class FUN_00b10670_It : public IteratorBaseAuxX10670
 FUN_00b10670_It& FUN_00b10670_It::FUN_00b10670(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoX10670();
+        std::abort();
     do
     {
     } while (0);
     if (!(_Myptr + _Off <= ((VectorX10670*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorX10670*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoX10670();
+        std::abort();
     do
     {
     } while (0);
@@ -8385,7 +8367,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -8393,7 +8374,7 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _BidIt1, class _BidIt2, class _InOutItCat>
@@ -8817,7 +8798,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -8852,7 +8832,7 @@ inline _OutIt _Copy_backward_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOu
     int _Off = _Last - _First;
     _OutIt _Result = _Dest - _Off;
     if (_Off > 0)
-        memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _Iter> inline typename iterator_traitsS<_Iter>::iterator_category _Iter_catS(const _Iter&)
@@ -9303,7 +9283,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -9798,7 +9777,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -10106,7 +10084,7 @@ inline _FwdIt _Uninit_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc&, _S
     unsigned int _Count = (unsigned int)(_Last - _First);
     _FwdIt _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt>
@@ -10285,7 +10263,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -10672,7 +10649,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -11169,7 +11145,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -11467,7 +11442,7 @@ inline _Ty2 _Uninit_copyS(_Ty1 _First, _Ty1 _Last, _Ty2 _Dest, _Scalar_ptr_itera
     unsigned int _Count = (unsigned int)(_Last - _First);
     _Ty2 _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt, class _Alloc>
@@ -11517,8 +11492,6 @@ unsigned char* __cdecl FUN_00b10d60(unsigned char* _First, unsigned char* _Last,
 
 extern double DAT_010a4d90;
 
-double __cdecl FUN_00ec9f30(double value);
-double __cdecl FUN_00eca060(double value);
 
 struct S_00b134d0_Mat : FUN_00b12af0_shell
 {
@@ -11550,8 +11523,8 @@ void S_00b134d0_Mat::FUN_00b134d0(float angle)
     S_00b134d0_Mat kRotationBasis;
     ::FUN_00b12af0((::FUN_00b12af0_shell *)&(kRotationBasis));
 
-    float fCos = +((float)FUN_00ec9f30((double)(float)(angle / DAT_010a4d90)));
-    float fSin = +((float)FUN_00eca060((double)(float)(angle / DAT_010a4d90)));
+    float fCos = +((float)::std::cos((double)(float)(angle / DAT_010a4d90)));
+    float fSin = +((float)::std::sin((double)(float)(angle / DAT_010a4d90)));
 
     kRotationBasis.m00 = fCos;
     kRotationBasis.m01 = 0.0f;
@@ -11706,7 +11679,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12191,7 +12163,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12686,7 +12657,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12721,7 +12691,7 @@ inline _OutIt _Copy_backward_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOu
     int _Off = _Last - _First;
     _OutIt _Result = _Dest - _Off;
     if (_Off > 0)
-        memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _Iter> inline typename iterator_traitsS<_Iter>::iterator_category _Iter_catS(const _Iter&)
@@ -13172,7 +13142,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13558,7 +13527,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13827,7 +13795,7 @@ inline _Ty2 _Uninit_copyS(_Ty1 _First, _Ty1 _Last, _Ty2 _Dest, _Scalar_ptr_itera
     unsigned int _Count = (unsigned int)(_Last - _First);
     _Ty2 _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt, class _Alloc>
@@ -13994,7 +13962,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -14029,7 +13996,7 @@ inline _OutIt _Copy_backward_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOu
     int _Off = _Last - _First;
     _OutIt _Result = _Dest - _Off;
     if (_Off > 0)
-        memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _Iter> inline typename iterator_traitsS<_Iter>::iterator_category _Iter_catS(const _Iter&)
@@ -14674,7 +14641,6 @@ template struct VectorLike<int>;
 }  // namespace fnv_00b0e730
 
 namespace fnv_00b16950 {
-void __cdecl FUN_00ec7c56();
 void* __cdecl FUN_00b16b60(void* first, void* last, unsigned n, unsigned char cat);
 inline void DeadBig()
 {
@@ -14694,7 +14660,7 @@ void* __cdecl FUN_00b16950(void* a, void* b, void* c, void* d, unsigned char cat
     void* h1;
     void* h2;
     if (!(Has(c) && Same(c, a)))
-        FUN_00ec7c56();
+        std::abort();
     unsigned c0 = (unsigned)((int*)d - (int*)b);
     void* pL5 = d;
     void* pF = b;
@@ -14747,7 +14713,7 @@ struct CItQ_ab9bc0
     int operator-(const CItQ_ab9bc0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -14805,7 +14771,7 @@ struct VecQ_ab9bc0
 inline CItQ_ab9bc0::CItQ_ab9bc0(ElQ_ab9bc0* _Ptr, const VecQ_ab9bc0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -14862,7 +14828,7 @@ struct CItQ_aceeb1
     int operator-(const CItQ_aceeb1& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -14919,7 +14885,7 @@ struct VecQ_aceeb1
 inline CItQ_aceeb1::CItQ_aceeb1(ElQ_aceeb1* _Ptr, const VecQ_aceeb1* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -14983,8 +14949,8 @@ struct MatrixOwner
 void MatrixOwner::FUN_00b12d50(float angle, float x, float y, float z)
 {
     M3_00b12af0 rot;
-    float s = (double)(float)FUN_00eca060((double)(float)(angle / DAT_010a4d90));
-    float CD = (double)(float)FUN_00ec9f30((double)(float)(angle / DAT_010a4d90));
+    float s = (double)(float)::std::sin((double)(float)(angle / DAT_010a4d90));
+    float CD = (double)(float)::std::cos((double)(float)(angle / DAT_010a4d90));
     float TQ = 1.0f - CD;
     float u = x;
     float v = y;

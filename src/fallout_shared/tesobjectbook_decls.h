@@ -3,6 +3,7 @@
 #define FNV_TESOBJECTBOOK_DECLS_H
 
 #include <malloc.h>
+#include <cstring>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
@@ -268,7 +269,6 @@ enum Section
     kSectionBook = 2
 };
 }
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 class TESFile
 {
   public:

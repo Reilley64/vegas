@@ -1,6 +1,7 @@
 #ifndef TESWORLDSPACE_PACKET_H
 #define TESWORLDSPACE_PACKET_H
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CellView.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -197,5 +198,4 @@ class TESFullName
   public:
     void SetFullName(const char*);
 };
-extern "C" void* memset(void*, int, unsigned int);
 extern float DAT_01031920;

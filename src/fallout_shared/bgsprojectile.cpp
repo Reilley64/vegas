@@ -1,5 +1,6 @@
 // fallout_shared/bgsprojectile.cpp: BGSProjectile, BGSProjectileFloatNode, ProjShell, ProjectileSave (22 functions)
 
+#include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -433,7 +434,6 @@ struct FUN_004fdd80_field
     virtual bool FUN_004fdd80_v4(void* pObject);
 };
 
-int _memcmp(const void* pLeft, const void* pRight, unsigned int nCount);
 
 struct FUN_004fdd80_shell : public BGSProjectile
 {
@@ -453,7 +453,7 @@ bool FUN_004fdd80_shell::IsNotEqual(TESForm* apCompare)
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pcomp))
         return true;
 
-    if (_memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(this) + 0x60),
+    if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<char*>(this) + 0x60),
                 ((::BSSimpleList< ::TESRace *> *)(::FUN_004ea950((int)(reinterpret_cast<TESDataHandler*>(pcomp))))), 0x54) != 0)
         return true;
 

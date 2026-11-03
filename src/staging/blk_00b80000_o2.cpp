@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSBatchRenderer__GeometryGroup.h"
@@ -3170,7 +3172,6 @@ void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, cons
 
 extern int DAT_010b0674;
 extern int DAT_010b066c;
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct ShaderArgument_00b8d3a0
 {
@@ -3198,13 +3199,13 @@ void ShaderController_00b8d3a0::ConfigureAndRunShader()
     first.source = &(*reinterpret_cast<int *>(&::str_010b0158));
     first.flags = 0;
     first.count = 0;
-    FUN_00ec61c0(first.components, 0, sizeof(first.components));
+    std::memset(first.components, 0, sizeof(first.components));
 
     ShaderArgument_00b8d3a0 second;
     second.source = &DAT_010b0674;
     second.flags = 0;
     second.count = 0;
-    FUN_00ec61c0(second.components, 0, sizeof(second.components));
+    std::memset(second.components, 0, sizeof(second.components));
 
     ConfigureShader_00b8d3a0 configure = reinterpret_cast<ConfigureShader_00b8d3a0>(vtable[0x13c / 4]);
     configure(this, &first, &second, &DAT_010b066c, &(*reinterpret_cast<int *>(&::str_010a93ec)), &(*reinterpret_cast<int *>(&::str_010a93cc)));
@@ -3214,7 +3215,6 @@ void ShaderController_00b8d3a0::ConfigureAndRunShader()
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b8d620_frame
 {
@@ -3325,18 +3325,17 @@ void FUN_00b8d620_cls::InitAlphaMultShader()
     FUN_00b8d620_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "imagespace\\1x\\p\\copy.p.hlsl";
     f.unk04 = "ALPHAMULT";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
+    std::memset((char*)&f + 0x10, 0, 0x3c);
     this->v4F((char*)&f.unk4C, &f, "ALPHAMULT", "vs_1_1", "ps_2_0");
     this->v53();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b8d770_frame
 {
@@ -3451,10 +3450,10 @@ void FUN_00b8d770_cls::CreateBlendShader()
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
     f.unk10 = 0;
-    FUN_00ec61c0((char*)&f + 0x14, 0, 0x38);
+    std::memset((char*)&f + 0x14, 0, 0x38);
     f.unk4C = "imagespace\\2x\\p\\blend.p.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     this->v4F(&f, (char*)&f.unk4C, "BLEND", "vs_1_1", "ps_2_0");
     this->v53();
 }
@@ -3669,7 +3668,6 @@ void S_00b8d8c0_Cls::FUN_00b8d8c0()
 }
 }  // namespace fnv_00b8d8c0
 
-extern "C" void __cdecl ShaderStringInit(void* buf, int zero, unsigned int cap);
 
 struct ShaderBuildFrame
 {
@@ -3780,12 +3778,12 @@ void FUN_00b8da00_cls::InitBlur3Shader()
     ShaderBuildFrame f;
     f.m_pcProgramName = "imagespace\\1x\\v\\base.v.hlsl";
     f.m_uiNameHash = 0;
-    ShaderStringInit(f.m_buf1, 0, 0x44);
+    std::memset(f.m_buf1, 0, 0x44);
     f.m_pszFile = "imagespace\\2x\\p\\blur2.p.hlsl";
     f.m_pszProfile = "TEXTAP";
     f.m_pBuildData = &DAT_01063f30;
     f.m_uiValue1 = 0;
-    ShaderStringInit(f.m_buf2, 0, 0x3c);
+    std::memset(f.m_buf2, 0, 0x3c);
     this->v4F(&f.m_pcProgramName, &f.m_pszFile, "BLUR3", "vs_1_1", "ps_2_a");
     this->v53();
 }
@@ -4002,7 +4000,6 @@ void S_00b8db50_Cls::FUN_00b8db50()
 }
 }  // namespace fnv_00b8db50
 
-extern "C" void __cdecl ZeroBlock(void* p, int value, unsigned int size);
 
 struct SS0
 {
@@ -4147,17 +4144,16 @@ void FUN_00b8dca0_cls::CreateBlur7Shader()
     SS0 s0;
     s1.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
     s1.unk04 = 0;
-    ZeroBlock(&s1.unk08, 0, 0x44);
+    std::memset(&s1.unk08, 0, 0x44);
     s0.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     s0.unk04 = "TEXTAP";
     s0.unk08 = &DAT_01063f00;
     s0.unk0C = 0;
-    ZeroBlock(&s0.unk10, 0, 0x3c);
+    std::memset(&s0.unk10, 0, 0x3c);
     this->v4F(&s1, &s0, "BLUR7", "vs_1_1", "ps_2_a");
     this->v53();
 }
 
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b8ddf0_frame
 {
@@ -4268,12 +4264,12 @@ void FUN_00b8ddf0_cls::CreateBlur9Shader()
     FUN_00b8ddf0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     f.unk04 = "TEXTAP";
     f.unk08 = (const char*)&DAT_01063ee8;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
+    std::memset((char*)&f + 0x10, 0, 0x3c);
     this->v4F((char*)&f.unk4C, &f, "BLUR9", "vs_1_1", "ps_2_a");
     this->v53();
 }
@@ -4490,7 +4486,6 @@ void S_00b8df40_Cls::InitBlur11Shader()
 }
 }  // namespace fnv_00b8df40
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B8E090Macro
 {
@@ -4603,18 +4598,17 @@ void B8E090ImageSpaceEffect::CreateBlur13Shaders()
     B8E090ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";
     kVertexDelta.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
+    std::memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
     B8E090ShaderFile kPixel;
     kPixel.m_pcFile = "imagespace\\2x\\p\\blur2.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "TEXTAP";
     kPixel.m_akMacros[0].m_pcDefinition = "13";
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     CreateShaders(&kVertexDelta, &kPixel, "BLUR13", "vs_1_1", "ps_2_a");
     SetupShaders();
 }
 
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b8e1e0_frame
 {
@@ -4725,12 +4719,12 @@ void FUN_00b8e1e0_cls::InitBlur15Shader()
     FUN_00b8e1e0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "imagespace\\2x\\p\\blur2.p.hlsl";
     f.unk04 = "TEXTAP";
     f.unk08 = "15";
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
+    std::memset((char*)&f + 0x10, 0, 0x3c);
     this->v4F((char*)&f.unk4C, &f, "BLUR15", "vs_1_1", "ps_2_a");
     this->v53();
 }
@@ -4781,7 +4775,6 @@ Shader* Shader::DestroyShader(unsigned char flags)
     return this;
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B8F080Macro
 {
@@ -4894,18 +4887,17 @@ void B8F080ImageSpaceEffect::CreateCopyShaders()
     B8F080ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";
     kVertexDelta.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
+    std::memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
     B8F080ShaderFile kPixel;
     kPixel.m_pcFile = "imagespace\\1x\\p\\copy.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "TWO_TARGETS";
     kPixel.m_akMacros[0].m_pcDefinition = "";
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     CreateShaders(&kVertexDelta, &kPixel, "COPYRT1", "vs_1_1", "ps_2_0");
     SetupShaders();
 }
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b8f220_cls
 {
@@ -5001,17 +4993,16 @@ void FUN_00b8f220_cls::InitStencilCopyShader()
     unsigned int f[0x26];
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
-    FUN_00ec61c0(&f[0x15], 0, 0x44);
+    std::memset(&f[0x15], 0, 0x44);
     f[0] = (unsigned int)"imagespace\\1x\\p\\copy.p.hlsl";
     f[1] = 0;
-    FUN_00ec61c0(&f[2], 0, 0x44);
+    std::memset(&f[2], 0, 0x44);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "STENCILCOPY", "vs_1_1", r);
     this->v14c();
 }
 
 extern char DAT_01011584;
-extern "C" void FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b8f3d0_frame
@@ -5123,19 +5114,18 @@ void FUN_00b8f3d0_cls::CreateStencilCopyNoTexNoDepth()
     FUN_00b8f3d0_frame f;
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "imagespace\\1x\\p\\copy.p.hlsl";
     f.unk04 = "NOTEX";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
+    std::memset((char*)&f + 0x10, 0, 0x3c);
     unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v4F(&f.unk4C, &f, "STENCILCOPYNOTEXNODEPTH", "vs_1_1", r);
     this->v53();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b8f590_frame
 {
@@ -5248,15 +5238,14 @@ void FUN_00b8f590_cls::FUN_00b8f590()
     f.unk04 = "NOTEX";
     f.unk08 = (const char*)&DAT_01011584;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3c);
+    std::memset((char*)&f + 0x10, 0, 0x3c);
     f.unk4C = 0;
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     this->v4F(&f, (char*)&f.unk4C, "NULL", "vs_1_1", 0);
     this->v53();
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B8F850Macro
 {
@@ -5372,18 +5361,17 @@ void B8F850ImageSpaceEffect::CreateDepthOfFieldShaders()
     kVertexDelta.m_akMacros[0].m_pcDefinition = "";
     kVertexDelta.m_akMacros[1].m_pcName = 0;
     kVertexDelta.m_akMacros[1].m_pcDefinition = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[2], 0, sizeof(kVertexDelta) - 0x14);
+    std::memset(&kVertexDelta.m_akMacros[2], 0, sizeof(kVertexDelta) - 0x14);
     B8F850ShaderFile kPixel;
     kPixel.m_pcFile = "imagespace\\2x\\p\\DepthOfField.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = 0;
     kPixel.m_akMacros[0].m_pcDefinition = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1], 0, sizeof(kPixel) - 0xc);
+    std::memset(&kPixel.m_akMacros[1], 0, sizeof(kPixel) - 0xc);
     CreateShaders(&kVertexDelta, &kPixel, "DOF", "vs_1_1", "ps_2_0");
     SetupShaders();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct ShaderSourceB
 {
@@ -5510,12 +5498,12 @@ void FUN_00b8f9a0_cls::InitRadialBlurShader()
     f.a.m_08 = (const char*)&DAT_01011584;
     f.a.m_0c = 0;
     f.a.m_10 = 0;
-    FUN_00ec61c0(f.a.m_14, 0, 0x38);
+    std::memset(f.a.m_14, 0, 0x38);
 
     f.b.m_00 = "imagespace\\2x\\p\\RadialBlur.p.hlsl";
     f.b.m_04 = 0;
     f.b.m_08 = 0;
-    FUN_00ec61c0(f.b.m_0c, 0, 0x40);
+    std::memset(f.b.m_0c, 0, 0x40);
 
     this->v4F(&f.a, &f.b, "RBLUR", "vs_1_1", "ps_2_0");
     this->v53();
@@ -5523,7 +5511,6 @@ void FUN_00b8f9a0_cls::InitRadialBlurShader()
 
 namespace fnv_00b8faf0 {
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct ShaderSourceB
 {
@@ -5641,14 +5628,14 @@ void FUN_00b8faf0_cls::CreateRadialBlurShader()
     f.hi.m_08 = (const char*)&DAT_01011584;
     f.hi.m_0c = 0;
     f.hi.m_10 = 0;
-    FUN_00ec61c0(f.hi.m_14, 0, 0x38);
+    std::memset(f.hi.m_14, 0, 0x38);
 
     f.lo.m_00 = "imagespace\\2x\\p\\RadialBlur.p.hlsl";
     f.lo.m_04 = "NUM_STEPS";
     f.lo.m_08 = "6.0f";
     f.lo.m_0c = 0;
     f.lo.m_10 = 0;
-    FUN_00ec61c0(f.lo.m_14, 0, 0x38);
+    std::memset(f.lo.m_14, 0, 0x38);
 
     this->v4F(&f.hi, &f.lo, "RBLURM", "vs_1_1", "ps_2_0");
     this->v53();
@@ -5656,7 +5643,6 @@ void FUN_00b8faf0_cls::CreateRadialBlurShader()
 }  // namespace fnv_00b8faf0
 
 namespace fnv_00b8fc50 {
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern int DAT_01011584;
 struct FUN_00b8fc50_cls
 {
@@ -5756,13 +5742,13 @@ void FUN_00b8fc50_cls::FUN_00b8fc50()
     f[0x15] = (unsigned int)&DAT_01011584;
     f[0x16] = 0;
     f[0x17] = 0;
-    FUN_00ec61c0(&f[0x18], 0, 0x38);
+    std::memset(&f[0x18], 0, 0x38);
     f[0] = (unsigned int)"imagespace\\2x\\p\\RadialBlur.p.hlsl";
     f[1] = (unsigned int)"NUM_STEPS";
     f[2] = (unsigned int)"10.0f";
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     this->v13c((void*)&f[0x13], (void*)&f[0], "RBLURH", "vs_1_1", "ps_2_0");
     this->v14c();
 }
@@ -5770,7 +5756,6 @@ void FUN_00b8fc50_cls::FUN_00b8fc50()
 
 namespace fnv_00b8fdb0 {
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct ShaderSourceB
 {
@@ -5888,14 +5873,14 @@ void FUN_00b8fdb0_cls::CreateDepthOfFieldMaskShader()
     f.hi.m_08 = (const char*)&DAT_01011584;
     f.hi.m_0c = 0;
     f.hi.m_10 = 0;
-    FUN_00ec61c0(f.hi.m_14, 0, 0x38);
+    std::memset(f.hi.m_14, 0, 0x38);
 
     f.lo.m_00 = "imagespace\\2x\\p\\DepthOfField.p.hlsl";
     f.lo.m_04 = "MASK";
     f.lo.m_08 = (const char*)&DAT_01011584;
     f.lo.m_0c = 0;
     f.lo.m_10 = 0;
-    FUN_00ec61c0(f.lo.m_14, 0, 0x38);
+    std::memset(f.lo.m_14, 0, 0x38);
 
     this->v4F(&f.hi, &f.lo, "DOFMASK", "vs_1_1", "ps_2_0");
     this->v53();
@@ -6086,7 +6071,6 @@ void FUN_00b916f0_Object::InitializeShader()
 }
 }  // namespace fnv_00b916f0
 
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 
 struct FUN_00b91830_src
 {
@@ -6195,16 +6179,15 @@ void FUN_00b91830_cls::CreateMapShader()
     hi.unk00 = "imagespace\\1x\\v\\base.v.hlsl";
     hi.unk04 = 0;
     hi.unk08 = 0;
-    FUN_00ec61c0(hi.unk0C, 0, 0x40);
+    std::memset(hi.unk0C, 0, 0x40);
     lo.unk00 = "imagespace\\2x\\p\\map_P20.p.hlsl";
     lo.unk04 = 0;
     lo.unk08 = 0;
-    FUN_00ec61c0(lo.unk0C, 0, 0x40);
+    std::memset(lo.unk0C, 0, 0x40);
     this->v4F(&hi, &lo, "MAP", "vs_1_1", "ps_2_0");
     this->v53();
 }
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 struct FUN_00b91970_cls
 {
     virtual void v00();
@@ -6300,11 +6283,11 @@ void FUN_00b91970_cls::InitMenuBGShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\menuBG.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"imagespace\\1x\\p\\menuBG.p.hlsl";
     f[1] = 0;
     f[2] = 0;
-    FUN_00ec61c0(&f[3], 0, 0x40);
+    std::memset(&f[3], 0, 0x40);
     this->v13c((void*)&f[0x13], (void*)&f[0], "MENUBG", "vs_2_0", "ps_2_0");
     this->v14c();
 }
@@ -6362,7 +6345,6 @@ FUN_00b91a40::FUN_00b91a40()
     reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B91AB0Macro
 {
@@ -6480,11 +6462,11 @@ void B91AB0ImageSpaceEffect::CreateCopyUnpackShaders()
     B91AB0ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";
     kVertexDelta.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
+    std::memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
     B91AB0ShaderFile kPixel;
     kPixel.m_pcFile = "imagespace\\1x\\p\\copy.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[0].m_pcDefinition, 0, sizeof(kPixel) - 8);
+    std::memset(&kPixel.m_akMacros[0].m_pcDefinition, 0, sizeof(kPixel) - 8);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "COPYUNPACK", "vs_1_1", pcPSVersion);
     SetupShaders();
@@ -6632,7 +6614,6 @@ void FUN_00b91bf0_Object::InitMotionBlurShader()
 }
 }  // namespace fnv_00b91bf0
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b91d60_cls
 {
@@ -6729,19 +6710,18 @@ void FUN_00b91d60_cls::InitNoiseScrollAndBlendShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"imagespace\\2x\\p\\noise_P20.p.hlsl";
     f[1] = (unsigned int)"SCROLL_AND_BLEND";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "NOISESCROLLANDBLEND", "vs_1_1", r);
     this->v14c();
 }
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b91eb0_cls
 {
@@ -6838,13 +6818,13 @@ void FUN_00b91eb0_cls::InitNoiseNormalMapShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"imagespace\\2x\\p\\noise_P20.p.hlsl";
     f[1] = (unsigned int)"NORMALMAP";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "NOISENORMALMAP", "vs_1_1", r);
     this->v14c();
@@ -7216,7 +7196,6 @@ class FUN_00b92450_cls : public SpawnPrimary_b7231, public SpawnSecondary_b7231
 FUN_00b92450_cls::~FUN_00b92450_cls()
 {}
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B92700Macro
 {
@@ -7334,20 +7313,19 @@ void B92700WaterEffect::CreateClearSimulationShaders()
     B92700ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "water\\2_ab\\v\\displace.v.hlsl";
     kVertexDelta.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x8);
+    std::memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x8);
     B92700ShaderFile kPixel;
     kPixel.m_pcFile = "water\\2_ab\\p\\displace.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "CLEAR_SIMULATION";
     kPixel.m_akMacros[0].m_pcDefinition = 0;
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "WATERDISPLACEMENTCLEARSIMULATION", "vs_1_1", pcPSVersion);
     SetupShaders();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b92850_frame
@@ -7458,12 +7436,12 @@ void FUN_00b92850_cls::InitWaterDisplacementTexOffset()
     FUN_00b92850_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "TEXCOORD_OFFSET";
     f.unk08 = 0;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3C);
+    std::memset((char*)&f + 0x10, 0, 0x3C);
     unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTTEXOFFSET", "vs_1_1", r);
     this->v53();
@@ -7496,7 +7474,6 @@ struct FUN_00b929a0_obj
     int m_38;
 };
 int __cdecl FUN_00b4f380(int x);
-void __cdecl FUN_00ec61c0(void* p, int z, unsigned int n);
 class FUN_00b929a0_cls
 {
   public:
@@ -7601,19 +7578,18 @@ void FUN_00b929a0_cls::InitWadingRippleShader()
     f.s1.b = "RIPPLE_MAKER_WADING";
     f.s1.c = 0;
     f.s1.d = 0;
-    FUN_00ec61c0(&f.o1, 0, sizeof(f.o1));
+    std::memset(&f.o1, 0, sizeof(f.o1));
     f.s2.a = "water\\2_ab\\p\\displace.p.hlsl";
     f.s2.b = "RIPPLE_MAKER_WADING";
     f.s2.c = 0;
     f.s2.d = 0;
-    FUN_00ec61c0(&f.o2, 0, sizeof(f.o2));
+    std::memset(&f.o2, 0, sizeof(f.o2));
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v4f(&f.s1, &f.s2, "WATERDISPLACEMENTWADINGRIPPLE", "vs_1_1", r);
     this->v53();
 }
 }  // namespace fnv_00b929a0
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B92AF0Macro
 {
@@ -7733,19 +7709,18 @@ void B92AF0WaterEffect::CreateRainRippleShaders()
     kVertexDelta.m_akMacros[0].m_pcName = "RIPPLE_MAKER_RAIN";
     kVertexDelta.m_akMacros[0].m_pcDefinition = 0;
     kVertexDelta.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
+    std::memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
     B92AF0ShaderFile kPixel;
     kPixel.m_pcFile = "water\\2_ab\\p\\displace.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "RIPPLE_MAKER_RAIN";
     kPixel.m_akMacros[0].m_pcDefinition = 0;
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "WATERDISPLACEMENTRAINRIPPLE", "vs_1_1", pcPSVersion);
     SetupShaders();
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B92C40Macro
 {
@@ -7865,20 +7840,19 @@ void B92C40WaterEffect::CreateWadingHeightmapShaders()
     kVertexDelta.m_akMacros[0].m_pcName = "HEIGHTMAP_WADING";
     kVertexDelta.m_akMacros[0].m_pcDefinition = 0;
     kVertexDelta.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
+    std::memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
     B92C40ShaderFile kPixel;
     kPixel.m_pcFile = "water\\2_ab\\p\\displace.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "HEIGHTMAP_WADING";
     kPixel.m_akMacros[0].m_pcDefinition = 0;
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "WATERDISPLACEMENTWADINGHEIGHTMAP", "vs_1_1", pcPSVersion);
     SetupShaders();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b92e00_frame
@@ -7989,18 +7963,17 @@ void FUN_00b92e00_cls::FUN_00b92e00()
     FUN_00b92e00_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "HEIGHTMAP_RAIN";
     f.unk08 = 0;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3C);
+    std::memset((char*)&f + 0x10, 0, 0x3C);
     unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTRAINHEIGHTMAP", "vs_1_1", r);
     this->v53();
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B92F50Macro
 {
@@ -8118,19 +8091,18 @@ void B92F50WaterEffect::CreateDisplacementShaders()
     B92F50ShaderFile kVertexDelta;
     kVertexDelta.m_pcFile = "water\\2_ab\\v\\displace.v.hlsl";
     kVertexDelta.m_akMacros[0].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
+    std::memset(&kVertexDelta.m_akMacros[0].m_pcDefinition, 0, sizeof(kVertexDelta) - 8);
     B92F50ShaderFile kPixel;
     kPixel.m_pcFile = "water\\2_ab\\p\\displace.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "BLEND_HEIGHTMAPS";
     kPixel.m_akMacros[0].m_pcDefinition = 0;
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "WATERDISPLACEMENTBLENDHEIGHTMAPS", "vs_1_1", pcPSVersion);
     SetupShaders();
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 struct B930A0Macro
 {
@@ -8250,20 +8222,19 @@ void B930A0WaterEffect::CreateSmoothHeightmapShaders()
     kVertexDelta.m_akMacros[0].m_pcName = "HEIGHTMAP_SMOOTH";
     kVertexDelta.m_akMacros[0].m_pcDefinition = 0;
     kVertexDelta.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
+    std::memset(&kVertexDelta.m_akMacros[1].m_pcDefinition, 0, sizeof(kVertexDelta) - 0x10);
     B930A0ShaderFile kPixel;
     kPixel.m_pcFile = "water\\2_ab\\p\\displace.p.hlsl";
     kPixel.m_akMacros[0].m_pcName = "HEIGHTMAP_SMOOTH";
     kPixel.m_akMacros[0].m_pcDefinition = 0;
     kPixel.m_akMacros[1].m_pcName = 0;
-    fnv_zlib_memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
+    std::memset(&kPixel.m_akMacros[1].m_pcDefinition, 0, sizeof(kPixel) - 0x10);
     const char* pcPSVersion = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     CreateShaders(&kVertexDelta, &kPixel, "WATERSMOOTHHEIGHTMAP", "vs_1_1", pcPSVersion);
     SetupShaders();
 }
 
 extern char DAT_01011584;
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 extern "C" int FUN_00b4f380(int a);
 
 struct FUN_00b931f0_frame
@@ -8374,18 +8345,17 @@ void FUN_00b931f0_cls::FUN_00b931f0()
     FUN_00b931f0_frame f;
     f.unk4C = "water\\2_ab\\v\\displace.v.hlsl";
     f.unk50 = 0;
-    FUN_00ec61c0((char*)&f + 0x54, 0, 0x44);
+    std::memset((char*)&f + 0x54, 0, 0x44);
     f.unk00 = "water\\2_ab\\p\\displace.p.hlsl";
     f.unk04 = "NORMALS";
     f.unk08 = 0;
     f.unk0C = 0;
-    FUN_00ec61c0((char*)&f + 0x10, 0, 0x3C);
+    std::memset((char*)&f + 0x10, 0, 0x3C);
     unsigned int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v4F(&f.unk4C, &f, "WATERDISPLACEMENTNORMALS", "vs_1_1", r);
     this->v53();
 }
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93340_cls
 {
@@ -8483,13 +8453,13 @@ void FUN_00b93340_cls::InitWaterSpectrumShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
     f[1] = (unsigned int)"WATER_SPECTRUM";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTWATERSPECTRUM", "vs_1_1", r);
     this->v14c();
@@ -8945,7 +8915,6 @@ void S_00b93670_cls::InitHorizontalButterflyShader()
 }
 }  // namespace fnv_00b93670
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b939c0_cls
 {
@@ -9042,20 +9011,19 @@ void FUN_00b939c0_cls::InitVerticalButterflyShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
     f[1] = (unsigned int)"VERTICAL_BUTTERFLY";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTVERTICALBUTTERFLY", "vs_1_1", r);
     this->v14c();
 }
 
 namespace fnv_00b93b10 {
-void __cdecl FUN_00ec61c0(void* apDest, int aiValue, unsigned int auiSize);
 int __cdecl FUN_00b4f380(int aiValue);
 
 struct ShaderSourceA
@@ -9177,14 +9145,14 @@ void FUN_00b93b10_cls::FUN_00b93b10()
     source.m_00 = "imagespace\\1x\\v\\base.v.hlsl";
     source.m_04 = 0;
     source.m_08 = 0;
-    FUN_00ec61c0(source.m_0c, 0, 0x40);
+    std::memset(source.m_0c, 0, 0x40);
 
     sourceB.m_00 = "water\\2_ab\\p\\waterhmap.p.hlsl";
     sourceB.m_04 = "HORIZONTAL_SCRAMBLE";
     sourceB.m_08 = 0;
     sourceB.m_0c = 0;
     sourceB.m_10 = 0;
-    FUN_00ec61c0(sourceB.m_14, 0, 0x38);
+    std::memset(sourceB.m_14, 0, 0x38);
 
     int flags = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v79(&source, &sourceB, "FFTHORIZONTALSCRAMBLE", "vs_1_1", flags);
@@ -9192,7 +9160,6 @@ void FUN_00b93b10_cls::FUN_00b93b10()
 }
 }  // namespace fnv_00b93b10
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93c60_cls
 {
@@ -9289,13 +9256,13 @@ void FUN_00b93c60_cls::InitVerticalScrambleShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
     f[1] = (unsigned int)"VERTICAL_SCRAMBLE";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTVERTICALSCRAMBLE", "vs_1_1", r);
     this->v14c();
@@ -9477,7 +9444,6 @@ void FUN_00b93db0_Object::FUN_00b93db0()
 }
 }  // namespace fnv_00b93db0
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b93f00_cls
 {
@@ -9574,19 +9540,18 @@ void FUN_00b93f00_cls::CreateFilterShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
     f[1] = (unsigned int)"FILTER";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTFILTER", "vs_1_1", r);
     this->v14c();
 }
 
-extern void* FUN_00ec61c0(void* p, int c, unsigned int n);
 extern const char* FUN_00b4f380(bool b);
 struct S_00b94050_A
 {
@@ -9728,21 +9693,20 @@ void S_00b94050_Obj::InitDisplayNormalsShaders()
     a.path = "imagespace\\1x\\v\\base.v.hlsl";
     a.unk04 = 0;
     a.unk08 = 0;
-    FUN_00ec61c0(&a.unk0c, 0, 0x40);
+    std::memset(&a.unk0c, 0, 0x40);
     S_00b94050_B b;
     b.path = "water\\2_ab\\p\\waterhmap.p.hlsl";
     b.define = "DISPLAY_NORMALS";
     b.unk08 = 0;
     b.unk0c = 0;
     b.unk10 = 0;
-    FUN_00ec61c0(&b.unk14, 0, 0x38);
+    std::memset(&b.unk14, 0, 0x38);
     const char* prof = ::NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     FUN_x13c(&a, &b, "FFTDISPLAYNORMALS", "vs_1_1", prof);
     FUN_x14c();
 }
 
 namespace fnv_00b942f0 {
-extern "C" void __cdecl FUN_00ec61c0(void* p, unsigned int v, unsigned int n);
 extern "C" unsigned int __cdecl FUN_00b4f380(int a);
 
 struct FUN_00b942f0_frame
@@ -9884,20 +9848,19 @@ void FUN_00b942f0_cls::InitWaterHmapDisplayAmplitude()
     f.unk4C = "imagespace\\1x\\v\\base.v.hlsl";
     f.unk50 = 0;
     f.unk54 = 0;
-    FUN_00ec61c0((char*)&f.unk58, 0, 0x40);
+    std::memset((char*)&f.unk58, 0, 0x40);
     f.unk00 = "water\\2_ab\\p\\waterhmap.p.hlsl";
     f.unk04 = "DISPLAY_AMPLITUDE";
     f.unk08 = 0;
     f.unk0C = 0;
     f.unk10 = 0;
-    FUN_00ec61c0((char*)&f.unk14, 0, 0x38);
+    std::memset((char*)&f.unk14, 0, 0x38);
     unsigned int r = FUN_00b4f380(1);
     this->v4F((char*)&f.unk4C, (char*)&f, "FFTDISPLAYAMPLITUDE", "vs_1_1", r);
     this->v53();
 }
 }  // namespace fnv_00b942f0
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" int FUN_00b4f380(int a);
 struct FUN_00b94440_cls
 {
@@ -9995,13 +9958,13 @@ void FUN_00b94440_cls::InitWaterHeightShader()
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
     f[0x15] = 0;
-    FUN_00ec61c0(&f[0x16], 0, 0x40);
+    std::memset(&f[0x16], 0, 0x40);
     f[0] = (unsigned int)"water\\2_ab\\p\\waterhmap.p.hlsl";
     f[1] = (unsigned int)"DISPLAY_WATER_HEIGHT";
     f[2] = 0;
     f[3] = 0;
     f[4] = 0;
-    FUN_00ec61c0(&f[5], 0, 0x38);
+    std::memset(&f[5], 0, 0x38);
     int r = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v13c((void*)&f[0x13], (void*)&f[0], "FFTDISPLAYWATERHEIGHT", "vs_1_1", r);
     this->v14c();
@@ -11916,7 +11879,6 @@ struct Renderer
     void InitBuffers();
 };
 extern "C" char str_010b0158[], str_010b22e0[], str_010a93ec[];
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 int __cdecl FUN_00b4f380(int);
 // @fnv 0x00b8f710
 void Renderer::InitBuffers()
@@ -11925,16 +11887,15 @@ void Renderer::InitBuffers()
     BufferDescriptor secondaryDesc;
     primary.label = str_010b0158;
     primary.flag = 0;
-    FUN_00ec61c0(&primary.field08, 0, 68);
+    std::memset(&primary.field08, 0, 68);
     secondaryDesc.label = (*reinterpret_cast<char (*)[]>(&::fnv_00b92390::DAT_010b0820));
     secondaryDesc.flag = 0;
-    FUN_00ec61c0(&secondaryDesc.field08, 0, 68);
+    std::memset(&secondaryDesc.field08, 0, 68);
     int resource = ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1)));
     this->v79(&primary, &secondaryDesc, str_010b22e0, str_010a93ec, resource);
     this->v83();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 extern "C" char str_010a93cc[];
 extern "C" char str_010a93ec[];
@@ -12102,12 +12063,12 @@ void FUN_00b8ff10_class::FUN_00b8ff10()
     local1.unk08 = (void*)&DAT_01011584;
     local1.unk0c = 0;
 
-    FUN_00ec61c0(&local1.unk10, 0, 0x3c);
+    std::memset(&local1.unk10, 0, 0x3c);
 
     local2.unk00 = str_010b3550;
     local2.unk04 = 0;
 
-    FUN_00ec61c0(&local2.unk08, 0, 0x44);
+    std::memset(&local2.unk08, 0, 0x44);
 
     v79(&local1, &local2, str_010b3544, str_010a93ec, str_010a93cc);
     v83();
@@ -14685,7 +14646,6 @@ struct Cam_af60
     int unk7c;
     float m_80;
 };
-extern "C" int __cdecl _isnan(double);
 struct Renderer_af60
 {
     int unk00;
@@ -14836,7 +14796,7 @@ void Renderer_af60::UpdateVisibility(int idx, Cam_af60* cam, bool abUseRadius, f
                 dist = CalcDist(a, dir, abUseRadius);
             }
         }
-    } while (((a && dist >= maxDist) || (e && e->m_20 >= maxDist)) && !_isnan(dist));
+    } while (((a && dist >= maxDist) || (e && e->m_20 >= maxDist)) && !std::isnan(dist));
 }
 }  // namespace fnv_00b9af60
 
@@ -20810,7 +20770,7 @@ void B8EE90CinematicShader::FUN_00b8ee90()
     B92700ShaderFile kVertexShader;
     kVertexShader.m_pcFile = "imagespace\\1x\\v\\base.v.hlsl";
     kVertexShader.m_akMacros[0].m_pcName = 0;
-    FUN_00ec61c0(&kVertexShader.m_akMacros[0].m_pcDefinition, 0, 0x44);
+    std::memset(&kVertexShader.m_akMacros[0].m_pcDefinition, 0, 0x44);
 
     B92700ShaderFile kPixelShader = {
         "imagespace\\2x\\p\\cinematic.p.hlsl", "TINT", "", "SATURATION", "", "BRIGHT", "", "CONTRAST", "", 0};

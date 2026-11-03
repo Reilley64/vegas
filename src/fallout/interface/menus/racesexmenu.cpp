@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActiveEffectCollection.h"
 #include "fnv/decl/AlchemyItem.h"
@@ -5275,7 +5276,6 @@ struct TexturePointer
     ~TexturePointer();
     operator void*();
 };
-extern "C" unsigned int __cdecl strlen(const char*);
 int __cdecl _mbsnicmp(const char*, const char*, unsigned int);
 struct AppearanceMenu
 {

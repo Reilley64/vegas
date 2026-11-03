@@ -3,6 +3,8 @@
 #define EFFECTSETTING_MATCH_H
 
 #include <stddef.h>
+#include <cstring>
+#include <malloc.h>
 class TESFile;
 class TESForm;
 class TESSound;
@@ -324,7 +326,5 @@ template <int n> struct EndianSizeTag
 {
 };
 void BSEndian(unsigned int*, EndianSizeTag<4>);
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 int __cdecl Warning(const char*, ...);
 #endif

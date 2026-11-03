@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
 #include "fnv/decl/BigState.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/ContainerD082.h"
@@ -394,8 +395,6 @@ void D0BD00Controller::OffsetEntries(float offset)
     for (int i = 0; i < track->m_iNumberOfEntries; i++)
         track->m_entries[i].m_uiCommandId = track->m_entries[i].m_uiCommandId + offset;
 }
-
-extern "C" double fabs(double);
 
 struct FUN_00d0bd30_q {
     int unk00;

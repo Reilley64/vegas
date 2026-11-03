@@ -1,6 +1,8 @@
 // fallout_shared/magic/effectitemlist.cpp: EffectItemList, EILStandIn, EffectListCmp, EffectItemListFind and more (28 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdio>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/Callees.h"
@@ -141,22 +143,20 @@ int FUN_004065e0(EffectItemList_shell* pthis)
     return eresult;
 }
 
-double __cdecl FUN_00ec6940(double);
 
 // @fnv 0x00406ce0
 float __cdecl FUN_00406ce0(float afValue)
 {
-    return static_cast<float>(FUN_00ec6940(afValue));
+    return static_cast<float>(std::floor(afValue));
 }
 
-int __cdecl _vsprintf_s(char*, int, const char*, char*);
 
 // Calls _vsprintf_s to format the variadic arguments following apFormat into apString1 using aiSize as the buffer size.
 // @fnv 0x00406d00
 int __cdecl FUN_00406d00(char* apString1, int aiSize, const char* apFormat, ...)
 {
     char* vList = (char*)(&apFormat + 1);
-    return _vsprintf_s(apString1, aiSize, apFormat, vList);
+    return std::vsnprintf(apString1, aiSize, apFormat, vList);
 }
 
 
@@ -191,12 +191,11 @@ EI* HX::FUN_00406ee0(unsigned char aiIndex)
     return 0;
 }
 
-int __cdecl FUN_00ec6cc4(char*, const char*, char*);
 
 // @fnv 0x00407000
 int __cdecl FUN_00407000(char* apString1, const char* apFormat, char* aList)
 {
-    return FUN_00ec6cc4(apString1, apFormat, aList);
+    return std::vsprintf(apString1, apFormat, aList);
 }
 
 class RecursiveSpinLock
@@ -960,7 +959,6 @@ struct Player
     double _ref_008bec80();
 };
 bool FUN_00406d70(int, int);
-float floor(float);
 int strcat_s(char*, unsigned int, const char*);
 struct Description : ListBase
 {

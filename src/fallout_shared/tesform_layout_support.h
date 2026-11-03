@@ -3,6 +3,7 @@
 #define FNV_UNIT_TESFORM_LAYOUT_SUPPORT_H
 
 #include <stddef.h>
+#include <malloc.h>
 class Actor;
 class EffectSetting;
 class TESForm;
@@ -173,7 +174,6 @@ class TESFullNameLoader
   public:
     static void LoadFullNameChunk(TESFullName* apName, TESFile* apFile);
 };
-extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID
 {
     CHUNK_ID_EDID_ID = 0x44494445,

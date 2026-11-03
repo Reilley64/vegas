@@ -1,5 +1,6 @@
 // fallout_shared/region system/tesregiondatamap.cpp: TESRegionDataMap, RegionMapMerge (11 functions)
 
+#include <cmath>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -288,7 +289,6 @@ struct RegionMapMerge : TESRegionDataMap
     virtual void SetRegionMapName(const char* name);
     void MergeMapData(RegionMapMerge* data, void* context);
 };
-float __cdecl floor(float value);
 
 // @fnv 0x004f4000
 void RegionMapMerge::MergeMapData(RegionMapMerge* apOther, void* context)

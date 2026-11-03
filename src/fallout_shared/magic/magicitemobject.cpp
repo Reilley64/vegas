@@ -185,12 +185,11 @@ struct FUN_005054b0_shell
 
 extern int DAT_011830e8;
 
-MagicItemObject* __cdecl FUN_00ec43fb(TESForm* arg, int a, int* b, int* c, int d);
 
 // @fnv 0x0040c930
 void FUN_005054b0_shell::FUN_0040c930(TESForm* pForm)
 {
-    MagicItemObject* result = FUN_00ec43fb(pForm, 0, &DAT_01183028, &DAT_011830e8, 0);
+    MagicItemObject* result = dynamic_cast<::MagicItemObject *>(reinterpret_cast<::TESForm *>(pForm));
     if (!result)
         return;
 

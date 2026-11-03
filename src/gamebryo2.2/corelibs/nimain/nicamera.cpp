@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nicamera.cpp: NiCamera, ComparableCamera, CamLook, ScreenCamera and more (20 functions)
 
+#include <cstring>
 #include "fnv/decl/A5a260Object.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a59f00_cls.h"
@@ -1009,7 +1010,6 @@ void S00a70ba0_Cam::UpdateWorldToCamera()
     }
 }
 
-extern "C" void* __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int count);
 
 struct FUN_00a5ac90_Obj
 {
@@ -1034,7 +1034,7 @@ void FUN_00a70f60_Obj::FUN_00a70f60(NiCamera* destination, int second)
 
     reinterpret_cast<::NiAVObject *>((reinterpret_cast<FUN_00a5ac90_Obj*>(source)))->FUN_00a5ac90((::NiAVObject *)(destination), (*(::CloningProcess *)(second)));
 
-    FUN_00ec44d0(reinterpret_cast<char*>(&destination->m_afWorldToCamera), reinterpret_cast<char*>(&source->m_afWorldToCamera), 0x40);
+    std::memmove(reinterpret_cast<char*>(&destination->m_afWorldToCamera), reinterpret_cast<char*>(&source->m_afWorldToCamera), 0x40);
 
     FUN_00a70f60_FloatBits* sourceTranslate =
         reinterpret_cast<FUN_00a70f60_FloatBits*>(&source->m_kWorldSpaceTransform.m_kTranslation.x);

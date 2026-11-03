@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niscreenelementsdata.cpp: NiScreenElementsData, NiScreenElementsDataShell (10 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -215,8 +216,6 @@ class RgbaColor
     {}
 };
 
-extern void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct NiMemorySystem
 {
@@ -261,13 +260,13 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         unsigned short usNewMaxPolygons = m_usMaxPQuantity + m_usPGrowBy;
         NiScreenElementsData__Polygon* pkNewPolygons =
             (NiScreenElementsData__Polygon*)FUN_00aa1070(usNewMaxPolygons * sizeof(NiScreenElementsData__Polygon));
-        FUN_00ec44d0(pkNewPolygons, m_akPolygon, m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
+        std::memmove(pkNewPolygons, m_akPolygon, m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
         FUN_00aa10f0(m_akPolygon);
         m_akPolygon = pkNewPolygons;
 
         unsigned short* pusNewIndexer = (unsigned short*)FUN_00aa1070(usNewMaxPolygons * sizeof(unsigned short));
-        FUN_00ec44d0(pusNewIndexer, m_ausPIndexer, m_usMaxPQuantity * sizeof(unsigned short));
-        FUN_00ec61c0(pusNewIndexer + m_usMaxPQuantity, 0xff,
+        std::memmove(pusNewIndexer, m_ausPIndexer, m_usMaxPQuantity * sizeof(unsigned short));
+        std::memset(pusNewIndexer + m_usMaxPQuantity, 0xff,
                      (usNewMaxPolygons - m_usMaxPQuantity) * sizeof(unsigned short));
         FUN_00aa10f0(m_ausPIndexer);
         m_ausPIndexer = pusNewIndexer;
@@ -301,14 +300,14 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
 
         NiPoint3* akNewPolygon = new NiPoint3[usNewMaxVertices];
         unsigned int uiVertexBytes = m_usMaxVQuantity * sizeof(NiPoint3);
-        FUN_00ec44d0(akNewPolygon, m_pkVertex, uiVertexBytes);
+        std::memmove(akNewPolygon, m_pkVertex, uiVertexBytes);
         delete[] m_pkVertex;
         m_pkVertex = akNewPolygon;
 
         if (m_pkNormal)
         {
             NiPoint3* y = new NiPoint3[usNewMaxVertices];
-            FUN_00ec44d0(y, m_pkNormal, uiVertexBytes);
+            std::memmove(y, m_pkNormal, uiVertexBytes);
             delete[] m_pkNormal;
             m_pkNormal = y;
             for (unsigned short i = m_usMaxVQuantity; i < usNewMaxVertices; i++)
@@ -325,7 +324,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         {
             RgbaColor* pkNewColors;
             pkNewColors = new RgbaColor[usNewMaxVertices];
-            FUN_00ec44d0(pkNewColors, m_pkColor, m_usMaxVQuantity * sizeof(RgbaColor));
+            std::memmove(pkNewColors, m_pkColor, m_usMaxVQuantity * sizeof(RgbaColor));
             delete[] m_pkColor;
             m_pkColor = pkNewColors;
         }
@@ -337,7 +336,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
             unsigned int uiTextureBytes = m_usMaxVQuantity * sizeof(NiPoint2);
             for (unsigned short i = 0; i < usTextureSetCount; i++)
             {
-                FUN_00ec44d0(newTextures + i * m_usVertices, m_pkTexture + i * m_usVertices, uiTextureBytes);
+                std::memmove(newTextures + i * m_usVertices, m_pkTexture + i * m_usVertices, uiTextureBytes);
             }
             delete[] m_pkTexture;
             m_pkTexture = newTextures;
@@ -357,7 +356,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
         unsigned short usNewMaxIndices = (usIndexGrowCount + 1) * m_usIGrowBy + m_usMaxIQuantity;
 
         unsigned short* pusNewTriList = (unsigned short*)FUN_00aa1070(usNewMaxIndices * sizeof(unsigned short));
-        FUN_00ec44d0(pusNewTriList, m_pusTriList, m_usMaxIQuantity * sizeof(unsigned short));
+        std::memmove(pusNewTriList, m_pusTriList, m_usMaxIQuantity * sizeof(unsigned short));
         FUN_00aa10f0(m_pusTriList);
         m_pusTriList = pusNewTriList;
         m_usMaxIQuantity = usNewMaxIndices;
@@ -366,7 +365,7 @@ unsigned int NiScreenElementsDataShell::FUN_00a87ae0(unsigned short usVertexCoun
     unsigned short* pusTriListOut = &m_pusTriList[pkPolygon->m_usTriangleIndexOffset];
     if (pusTriangleList)
     {
-        FUN_00ec44d0(pusTriListOut, pusTriangleList, 3 * (unsigned int)usTriangleCount * sizeof(unsigned short));
+        std::memmove(pusTriListOut, pusTriangleList, 3 * (unsigned int)usTriangleCount * sizeof(unsigned short));
         for (unsigned int i = 0; i < 3 * (unsigned int)usTriangleCount; i++)
         {
             pusTriListOut[i] = pusTriangleList[i] + pkPolygon->m_usVertexOffset;
@@ -465,7 +464,7 @@ FUN_00a881e0::FUN_00a881e0(bool bWantNormals, bool bWantColors, unsigned short u
     m_akPolygon =
         (NiScreenElementsData__Polygon*)FUN_00aa1070(m_usMaxPQuantity * sizeof(NiScreenElementsData__Polygon));
     m_ausPIndexer = (unsigned short*)FUN_00aa1070(m_usMaxPQuantity * sizeof(unsigned short));
-    FUN_00ec61c0(m_ausPIndexer, 0xff, m_usMaxPQuantity * sizeof(unsigned short));
+    std::memset(m_ausPIndexer, 0xff, m_usMaxPQuantity * sizeof(unsigned short));
 
     m_usMaxVQuantity = (unsigned short)(iMaxVQuantity > 0 ? iMaxVQuantity : 1);
     m_usVGrowBy = (unsigned short)(iVGrowBy > 0 ? iVGrowBy : 1);

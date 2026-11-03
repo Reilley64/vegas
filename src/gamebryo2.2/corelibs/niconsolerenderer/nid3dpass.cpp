@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (53 functions)
 
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ElemPtrArray.h"
@@ -794,7 +796,6 @@ unsigned char DummyStruct::FUN_00e7f7f0(unsigned int a1, unsigned int a2)
 }
 }  // namespace fnv_00e7f7f0
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
 struct MyCls
 {
     char _pad[0x28];
@@ -815,7 +816,7 @@ void MyCls::SetBuffer(unsigned int uiSize, unsigned int a1, void* pData, bool bC
         ::FUN_00aa10f0(m30);
         void* p = ::FUN_00aa1070(uiSize);
         m30 = p;
-        _memmove(p, pData, uiSize);
+        std::memmove(p, pData, uiSize);
     }
     else
     {
@@ -2575,7 +2576,6 @@ struct StagePtr
 extern "C" unsigned int DAT_0126f734;
 extern "C" StagePtr DAT_0126f730;
 extern "C" void __cdecl FUN_00fde350();
-extern "C" int __cdecl atexit(void(__cdecl*)());
 struct StageArrayStorage_e7fea0
 {
     void* m_pVtbl;
@@ -2594,7 +2594,7 @@ void StageArrayStorage_e7fea0::Set(unsigned int index, const StagePtr& value)
     {
         DAT_0126f734 |= 1;
         DAT_0126f730.m_pObject = 0;
-        atexit(FUN_00fde350);
+        std::atexit(FUN_00fde350);
     }
     if (index >= m_usSize)
     {
@@ -2634,7 +2634,6 @@ extern float DAT_0126f700;
 extern float DAT_0126f704;
 extern float DAT_0126f708;
 extern float DAT_0126f70c;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 // For modes 1–6, combines indexed floats from m and the block at DAT_0126f6c4, writes to DAT_0126f6d0–DAT_0126f70c, and returns false otherwise.
 // @fnv 0x00e7df90
 bool FUN_00e7df90(int mode, float* m)

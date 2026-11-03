@@ -1,6 +1,7 @@
 // fallout_shared/bsanimgroupsequence.cpp: BSAnimGroupSequence, TaskQueueInterface, TargetClass, SoundPlaybackManager (20 functions)
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_0043b370_cls.h"
@@ -754,10 +755,10 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                     play3 = true;
                 else if (time5 >= previous && time5 < current4)
                     play3 = true;
-                if (play3 && _strnicmp("Sound: ", text_2, 7))
+                if (play3 && fnv::crt::strnicmp("Sound: ", text_2, 7))
                 {
                     play3 = false;
-                    if (!_strnicmp("Enum: StopSounds ", text_2, 17))
+                    if (!fnv::crt::strnicmp("Enum: StopSounds ", text_2, 17))
                     {
                         char* suffix6 = 0;
                         char nodeName5[32];
@@ -782,7 +783,7 @@ bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
                         if (node9)
                             reinterpret_cast<::FUN_00ad8570_S *>((::FUN_00453a70()))->FUN_00ad8570((int)(node9), 1.0f, 0x40000000);
                     }
-                    else if (!_strnicmp("Enum: HitShader", text_2, 15))
+                    else if (!fnv::crt::strnicmp("Enum: HitShader", text_2, 15))
                         reinterpret_cast<::ThisCls_cls *>((::_g_thePlayer))->FUN_00962290((::ArgCls_cls *)(reference));
                 }
                 TESSound* sound2 = 0;

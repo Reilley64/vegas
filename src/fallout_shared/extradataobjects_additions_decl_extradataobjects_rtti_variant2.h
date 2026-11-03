@@ -4,6 +4,7 @@
 
 // Canonical callable identities from IDENTITIES.md. Settings named by
 // JohnnyGuitarNVSE GameSettingCollection.hpp and JIP settings_enum.h.
+#include <cstring>
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_0043d000.h"
 #include "fnv/symbols_011c3000.h"
@@ -92,8 +93,6 @@ void __cdecl operator delete(void* pointer);
 
 void* __cdecl operator new[](unsigned int size);
 void __cdecl operator delete[](void* pointer);
-extern "C" void* __cdecl memcpy(void* destination, const void* source, unsigned int size);
-
 // Public names/layout: JohnnyGuitarNVSE BGSQuestObjective.hpp; its cpp
 // explicitly annotates SetOwner as GAME00437730. No implementation copied.
 class TESQuest;

@@ -7,6 +7,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout/ai/combat/combatutilities.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatutilities.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_004fd420_shell.h"
 #include "fnv/decl/LowProcess.h"
@@ -157,7 +158,6 @@ struct __declspec(align(16)) FUN_004a3c20_shell
 };
 
 
-float cos(float a);
 
 
 // @fnv 0x009a6e90

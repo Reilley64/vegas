@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00aa09c0_cls.h"
 #include "fnv/decl/NiColor.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -57,7 +58,6 @@ struct NiRangeLODData
     void CopyTo(NiRangeLODData* pkDest, CloningProcess* kCloning);
 };
 
-extern "C" void* __cdecl _memmove(void* dst, const void* src, unsigned int size);
 
 // @fnv 0x00a97ba0
 void NiRangeLODData::CopyTo(NiRangeLODData* pkDest, CloningProcess* kCloning)
@@ -65,7 +65,7 @@ void NiRangeLODData::CopyTo(NiRangeLODData* pkDest, CloningProcess* kCloning)
     pkDest->m_kCenter = this->m_kCenter;
     pkDest->m_kWorldCenter = this->m_kWorldCenter;
     pkDest->SetRangeCount(this->m_uiRangeCount);
-    _memmove(pkDest->m_pRanges, this->m_pRanges, this->m_uiRangeCount << 4);
+    std::memmove(pkDest->m_pRanges, this->m_pRanges, this->m_uiRangeCount << 4);
 }
 
 
@@ -84,7 +84,7 @@ void NiRangeLODData::SetRangeCount(unsigned int uiNumRanges)
         }
         NiRangeLODData_Range* pkNewRanges = (NiRangeLODData_Range*)::FUN_00aa1070(uiNumRanges << 4);
         if (m_pRanges)
-            _memmove(pkNewRanges, m_pRanges,
+            std::memmove(pkNewRanges, m_pRanges,
                      ((int)m_uiRangeCount < (int)uiNumRanges ? m_uiRangeCount : uiNumRanges) << 4);
         ::FUN_00aa10f0(m_pRanges);
         m_pRanges = pkNewRanges;
@@ -195,7 +195,7 @@ NiRangeLODData* CopyRangeLODData(NiRangeLODData* self, int)
         pkData = 0;
     pkData->m_kCenter = self->m_kCenter;
     pkData->SetRangeCount(self->m_uiRangeCount);
-    _memmove(pkData->m_pRanges, self->m_pRanges, self->m_uiRangeCount * 16);
+    std::memmove(pkData->m_pRanges, self->m_pRanges, self->m_uiRangeCount * 16);
     return pkData;
 }
 

@@ -3,6 +3,8 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a5dbe0_shell.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -461,8 +463,6 @@ void Prop::FUN_00a7e7b0(NiStreamImpl& stream)
     m_usFlags |= 8;
 }
 
-extern "C" double __cdecl sqrt(double x);
-
 class NiMemManagerA7E
 {
   public:
@@ -652,8 +652,6 @@ void PropTarget::FUN_00a7e890(StrArr* array)
     unsigned int uiFlags = m_usFlags & 7;
     array->Add(::FUN_00a7db60("m_eMode", uiFlags));
 }
-
-extern "C" unsigned int __cdecl strlen(const char* s);
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 

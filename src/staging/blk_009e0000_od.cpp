@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorQueryOwner.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -204,7 +205,6 @@ FUN_009f29a0::FUN_009f29a0()
     m_18 = 0;
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int len);
 
 struct FUN_009f8fa0_Class
 {
@@ -220,12 +220,12 @@ void FUN_009f8fa0_Class::CopyElements(char* apDest, char* apSource, unsigned int
     if (apDest < apSource)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(apDest + i * 0x34, apSource + i * 0x34, 0x34);
+            std::memmove(apDest + i * 0x34, apSource + i * 0x34, 0x34);
     }
     else if (apDest > apSource)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(apDest + i * 0x34, apSource + i * 0x34, 0x34);
+            std::memmove(apDest + i * 0x34, apSource + i * 0x34, 0x34);
     }
 }
 

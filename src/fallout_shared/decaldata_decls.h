@@ -2,6 +2,7 @@
 #ifndef DECALDATA_DECLS_H
 #define DECALDATA_DECLS_H
 
+#include <cstring>
 class TESFile;
 struct ImpactDecalData
 {
@@ -18,5 +19,4 @@ class DecalData
     void Copy(DecalData* source);
     void Load(TESFile* file);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #endif

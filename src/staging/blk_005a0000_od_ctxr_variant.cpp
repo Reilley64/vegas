@@ -2,6 +2,7 @@
 // blk_005a0000_od_ctxr_variant.cpp: rename variant for 0x005a7d40 (integration 2026-10-30): the unit's skeleton with FUN_00680890 renamed, whose names are bound elsewhere.
 // src/staging/blk_005a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstring>
 #include "fnv/decl/ActList.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -237,7 +238,6 @@ struct FUN_005a7b00_Class
     unsigned int m_24;
     void InitializeFromRecord(unsigned int id);
 };
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 class TESForm
 {
   public:

@@ -1,6 +1,8 @@
 // fallout_shared/teseffectshader.cpp: TESEffectShader, EffectShaderData, EffectShaderShell, ShaderSettings and more (26 functions)
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B5081D0Actor.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -176,8 +178,6 @@ void TESEffectShader::InitItem()
     SetInitializationState(true);
 }
 
-extern "C" void* __cdecl _alloca(unsigned int size);
-
 struct FUN_00507040Class
 {
     bool FUN_00507040(unsigned int mask);
@@ -335,7 +335,6 @@ struct FUN_005e79a0_t
 {
 };
 
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005063d0Shell : public TESEffectShader
 {
     bool FUN_005063d0(TESForm* apCompare);
@@ -356,7 +355,7 @@ bool FUN_005063d0Shell::FUN_005063d0(TESForm* apCompare)
         return true;
     if (m_kHolesTexture.CompareWithBase((BaseFormComponent*)((FUN_005063b0Class*)pOtherShader)->GetFieldAt164()))
         return true;
-    if (_memcmp(&Data, ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pOtherShader))->GetConditions())), sizeof(EffectShaderData)))
+    if (std::memcmp(&Data, ((::EffectShaderData *)(reinterpret_cast<::BGSCameraPath *>((pOtherShader))->GetConditions())), sizeof(EffectShaderData)))
         return true;
     return false;
 }

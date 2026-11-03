@@ -5,6 +5,7 @@
 
 // @fnv 0x00a44350
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSAnimNote.h"
 #include "fnv/decl/C4BF0AnimNote.h"
 #include "fnv/decl/FUN_00a5d3a0.h"
@@ -452,8 +453,6 @@ struct S00a44430_Str
 {
     int m_kHandle;
 };
-int FUN_00ec8a19(const char*, const char*, int);
-int FUN_00ecc7b0(char*, const char*, int);
 extern const char str_01097dc4[];
 
 struct S00a44430_Obj : TextKeyHandlerBase
@@ -474,7 +473,7 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
 {
     bool bret = reinterpret_cast<::BSAnimNote *>(this)->FUN_00a44930((const ::TimedTextEntry *)(apTextKey));
     const char* ptext = (const char*)*(void**)((char*)apTextKey + 4);
-    if (FUN_00ec8a19(ptext, str_01097dc4, 6) == 0)
+    if (std::strncmp(ptext, str_01097dc4, 6) == 0)
     {
         ptext += 6;
         if (*ptext == ' ' && (ptext[1] == 'R' || ptext[1] == 'L'))
@@ -487,7 +486,7 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
         {
             ++ptext;
             int gainBuf[1];
-            FUN_00ecc7b0((char*)gainBuf, ptext, 4);
+            std::strncpy((char*)gainBuf, ptext, 4);
             S00a44430_Str gainStr;
             reinterpret_cast<::MyStr *>(&(gainStr))->AssignString((const char*)gainBuf);
             if (!reinterpret_cast<::FUN_00a88c00_shell *>(&(gainStr))->FUN_00a88c00(&m_14))
@@ -497,9 +496,9 @@ bool S00a44430_Obj::FUN_00a44430(const char* apTextKey)
             if (bret && *ptext == ' ')
             {
                 ++ptext;
-                if (FUN_00ec8a19(ptext, (*reinterpret_cast<const char (*)[]>(&::DAT_010477f4)), 5) == 0)
+                if (std::strncmp(ptext, (*reinterpret_cast<const char (*)[]>(&::DAT_010477f4)), 5) == 0)
                     m_18 = 1;
-                if (FUN_00ec8a19(ptext, str_010639ec, 4) == 0)
+                if (std::strncmp(ptext, str_010639ec, 4) == 0)
                     m_18 = 2;
             }
         }

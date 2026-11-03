@@ -2,6 +2,7 @@
 #ifndef FNV_NAVMESHINFOSEARCH_DECLS_H
 #define FNV_NAVMESHINFOSEARCH_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_0042e2a0_shell.h"
@@ -197,5 +198,4 @@ class NavMeshInfoSearch : public AStarSearch<const NavMeshInfo*, TESObjectREFR*>
     DoorAccessData m_kDoorAccessData;
 };
 typedef AStarOpenList<const NavMeshInfo*, TESObjectREFR*> NavMeshInfoQueue;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #endif

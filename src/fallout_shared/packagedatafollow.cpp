@@ -4,6 +4,7 @@
 
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_0067ad20_Class.h"
 #include "fnv/decl/fnv_00503210__Unk.h"
 #include "fnv/decl/fnv_0067f600__FUN_0067f600_shell.h"
@@ -42,7 +43,6 @@ FUN_0067c040_shell* FUN_0067c040_shell::Construct(float afValue)
     return this;
 }
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct BipedModelForm
 {
 };

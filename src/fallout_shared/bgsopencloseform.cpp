@@ -1,5 +1,6 @@
 // fallout_shared/bgsopencloseform.cpp: BGSOpenCloseForm, AIThreadManager (8 functions)
 
+#include <cstring>
 #include "fnv/decl/C47AAF0Player.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0041e660_class.h"
@@ -285,7 +286,6 @@ struct ObstacleManager
     void Open(Ref*);
     void Close(Ref*);
 };
-int CompareEvent(const char*, const char*);
 // @fnv 0x0047ac70
 void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
 {
@@ -293,7 +293,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
     if (ref && sequence)
     {
         handled = ::FUN_0047ab40((::Ref_47ab40 *)(ref), (::NamedObject_47ab40 *)(sequence));
-        if (!CompareEvent((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Open"))
+        if (!std::strcmp((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Open"))
         {
             handled = true;
             ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x10000);
@@ -315,7 +315,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
                     reinterpret_cast<::ObstMgr0dc0 *>((((::ObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0((::TESObjectREFR *)(ref));
             }
         }
-        else if (!CompareEvent((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Close"))
+        else if (!std::strcmp((*(::EventString *)(reinterpret_cast<::TESTopicInfoData *>((sequence))->GetLinkToList())), "Close"))
         {
             handled = true;
             ::FUN_005ac750((::TESForm *)(ref), (::ExtraDataList *)(::EventExtra *)(((::EventExtra *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))), 0x20000);

@@ -4,6 +4,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
@@ -514,7 +517,6 @@ struct FUN_004d4de0_Class
 {
     void* FUN_004d4de0(unsigned int);
 };
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 extern int DAT_01020944;
 struct FUN_004d4e40_Class
 {
@@ -744,8 +746,6 @@ bhkShape* FUN_004d8630_Class::GetShape()
     return ((::bhkShape *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(p ? ((FUN_004d8670_Class*)p)->GetListNext() : 0))));
 }
 }  // namespace fnv_004d8630
-
-void* __cdecl memset(void* dest, int value, unsigned int count);
 
 struct FUN_004d8fa0_Class
 {
@@ -1256,8 +1256,6 @@ void* InitNameTable(void* pThis)
 }
 }  // namespace fnv_004d5c80
 
-
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 
 // Iterates DAT_011c6d50, calls FUN_004d5dd0(1) on each non-null entry, then zeroes the 43-entry array with memset.
 // @fnv 0x004d5d50
@@ -2610,7 +2608,6 @@ struct DisplayInfo4de1
 };
 
 extern int(* DAT_00fdf2f0)(const char*, unsigned long, DisplayDevice4de1*, unsigned long);
-int __cdecl FUN_00ec9d4a(const char* pcFormat, ...);
 extern bool DAT_01189484;
 extern float DAT_01189488;
 extern float DAT_01189490;
@@ -2670,7 +2667,7 @@ void InitEyefinityDisplayInfo()
     }
     else
     {
-        FUN_00ec9d4a("Eyefinity configuration query failed for display index %i.\n", iPrimaryDisplay);
+        ::std::printf("Eyefinity configuration query failed for display index %i.\n", iPrimaryDisplay);
     }
 }
 
@@ -3986,7 +3983,6 @@ typedef int (*EFDisplayMapConfigGet)(int iAdapterIndex, int* piNumMap, EFDisplay
                                      EFDisplayTarget** ppkTarget, int iOptions);
 
 void ClearAndFreePointer(void* pointer);
-void* FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
 
 // Loads the AMD Eyefinity DLL, queries the SLS map and display modes for the given adapter, and fills the output display and Eyefinity info arrays.
 // @fnv 0x004dd2c0
@@ -4028,7 +4024,7 @@ int FUN_004dd2c0(int iDisplayIndex, EFEyefinityInfo* pkEyefinityInfo, int* piNum
     EFMode* pkModesBase = 0;
     EFSLSMap kSLSMap;
     kSLSMap.iAdapterIndex = 0;
-    FUN_00ec61c0(&kSLSMap.iSLSMapIndex, 0, sizeof(kSLSMap) - sizeof(kSLSMap.iAdapterIndex));
+    ::std::memset(&kSLSMap.iSLSMapIndex, 0, sizeof(kSLSMap) - sizeof(kSLSMap.iAdapterIndex));
     EFDisplayInfo* pkCurrentOld = 0;
     int jTmp = 0;
     int iGoodMaskNext = 0;

@@ -3,6 +3,7 @@
 #define FNV_TASK_NIGEOMETRY_DECLS_H
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/Cls_a64ea0.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -257,7 +258,6 @@ class NiPoint3
     float x, y, z;
     static const NiPoint3 ZERO;
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 #pragma intrinsic(memcpy)
 class NiBound
 {

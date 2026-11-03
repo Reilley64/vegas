@@ -6,6 +6,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -62,7 +63,6 @@ struct FUN_00a3ea40_cls
 struct P03MM
 {
 };
-void* _memmove(void* d, const void* s, unsigned int n);
 struct Vec3S
 {
     float x, y, z;
@@ -223,7 +223,6 @@ struct TempArrayElement
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
     }
 };
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 struct BezFloatKey
 {
@@ -1398,7 +1397,6 @@ struct VertexRecord
     }
 };
 // MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 // Linear position key: time + position (16 bytes).
 struct AnimKeyBase
@@ -2695,7 +2693,6 @@ class FUN_00a30540_cls
     A30540Entry* m_pEntries;
     void FUN_00a30540();
 };
-extern "C" int __cdecl strcmp(const char* s1, const char* s2);
 struct FUN_00a305e0_cls
 {
     const char* m_00;
@@ -3218,9 +3215,9 @@ bool FUN_00a2ccd0(float fTime, BoolKeyS*& pkKeys, unsigned int& uiNumKeys)
     if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOldKeys), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(BoolKeyS)))
     {
         BoolKeyS* pkNewKeys = new BoolKeyS[uiNumKeys + 1];
-        _memmove(pkNewKeys, pkOldKeys, uiIndex * sizeof(BoolKeyS));
+        std::memmove(pkNewKeys, pkOldKeys, uiIndex * sizeof(BoolKeyS));
         if (uiNumKeys > uiIndex)
-            _memmove(&pkNewKeys[uiIndex + 1], &pkOldKeys[uiIndex], (uiNumKeys - uiIndex) * sizeof(BoolKeyS));
+            std::memmove(&pkNewKeys[uiIndex + 1], &pkOldKeys[uiIndex], (uiNumKeys - uiIndex) * sizeof(BoolKeyS));
         bool bValue = GenInterpBool(fTime, pkOldKeys, 5, uiNumKeys, sizeof(BoolKeyS));
         BoolKeyS* pkKey = &pkNewKeys[uiIndex];
         pkKey->time = fTime;
@@ -3265,7 +3262,6 @@ A28F00Elem* __cdecl FUN_00a28f00(unsigned int ItemUpdateArray)
 }
 
 
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 
 FUN_00a289b0_Vec4* __cdecl SampleKeyedVec4(FUN_00a289b0_Vec4* out, float t, char* keys, void* arg4, unsigned int count,
@@ -3311,9 +3307,9 @@ bool FUN_00a28f50(float t, RotKeyS*& pkKeys, unsigned int& uiNumKeys)
     if (::NiAnimationKeyA3D::FindKeyIndex(t, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiInsertAt)), sizeof(TCBRotKeyS)))
     {
         TCBRotKeyS* pkNewKeys = new TCBRotKeyS[uiNumKeys + 1];
-        _memmove(pkNewKeys, pkOld, uiInsertAt * sizeof(TCBRotKeyS));
+        std::memmove(pkNewKeys, pkOld, uiInsertAt * sizeof(TCBRotKeyS));
         if (uiNumKeys > uiInsertAt)
-            _memmove(&pkNewKeys[uiInsertAt + 1], &pkOld[uiInsertAt], (uiNumKeys - uiInsertAt) * sizeof(TCBRotKeyS));
+            std::memmove(&pkNewKeys[uiInsertAt + 1], &pkOld[uiInsertAt], (uiNumKeys - uiInsertAt) * sizeof(TCBRotKeyS));
 
         QuatS kQuat;
         SampleKeyedVec4((FUN_00a289b0_Vec4*)&kQuat, t, (char*)pkOld, (void*)2, uiNumKeys, sizeof(TCBRotKeyS));
@@ -3393,9 +3389,9 @@ bool FUN_00a2a390(float fTime, TimedRotationKey*& pkKeys, unsigned int& uiNumKey
     if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkOld), uiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(TimedRotationKey)))
     {
         TimedRotationKey* pkNew = new TimedRotationKey[uiNumKeys + 1];
-        _memmove(pkNew, pkOld, uiIndex * sizeof(TimedRotationKey));
+        std::memmove(pkNew, pkOld, uiIndex * sizeof(TimedRotationKey));
         if (uiNumKeys > uiIndex)
-            _memmove(&pkNew[uiIndex + 1], &pkOld[uiIndex], (uiNumKeys - uiIndex) * sizeof(TimedRotationKey));
+            std::memmove(&pkNew[uiIndex + 1], &pkOld[uiIndex], (uiNumKeys - uiIndex) * sizeof(TimedRotationKey));
 
         RotKeyQuat kQuat;
         FUN_00a298f0(&kQuat, fTime, pkOld, 1, uiNumKeys, sizeof(TimedRotationKey));
@@ -3446,9 +3442,9 @@ bool FUN_00a2ac30(float fTime, ColorKey** ppkKeys, unsigned int* puiNumKeys)
     if (::NiAnimationKeyA3D::FindKeyIndex(fTime, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)pkKeys), *puiNumKeys, (*(unsigned int *)(&uiIndex)), sizeof(ColorKey)))
     {
         ColorKey* pkNew = new ColorKey[*puiNumKeys + 1];
-        _memmove(pkNew, pkKeys, uiIndex * sizeof(ColorKey));
+        std::memmove(pkNew, pkKeys, uiIndex * sizeof(ColorKey));
         if (*puiNumKeys > uiIndex)
-            _memmove(&pkNew[uiIndex + 1], &pkKeys[uiIndex], (*puiNumKeys - uiIndex) * sizeof(ColorKey));
+            std::memmove(&pkNew[uiIndex + 1], &pkKeys[uiIndex], (*puiNumKeys - uiIndex) * sizeof(ColorKey));
         ColorKeyValue kValue;
         SampleKeyedVec4(&kValue, fTime, pkKeys, 1, *puiNumKeys, sizeof(ColorKey));
         ColorKey& kKey = pkNew[uiIndex];
@@ -3501,9 +3497,9 @@ bool __cdecl FUN_00a2c1b0(float time, FUN_00a2bdb0** keys, unsigned* count)
     if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(::TCBKeyS *)((TCBKeyS*)oldKeys), *count, (*(unsigned int *)(&index)), 64))
     {
         FUN_00a2bdb0* newKeys = new FUN_00a2bdb0[*count + 1];
-        _memmove(newKeys, oldKeys, index * sizeof(FUN_00a2bdb0));
+        std::memmove(newKeys, oldKeys, index * sizeof(FUN_00a2bdb0));
         if (*count > index)
-            _memmove(newKeys + index + 1, oldKeys + index, (*count - index) * sizeof(FUN_00a2bdb0));
+            std::memmove(newKeys + index + 1, oldKeys + index, (*count - index) * sizeof(FUN_00a2bdb0));
         QuatA value = SampleKeyedVec4(time, oldKeys, 3, *count, 64);
         FUN_00a2bdb0& key = newKeys[index];
         key.time = time;
@@ -3573,9 +3569,9 @@ bool FUN_00a2c890(float time, ScalarKeyA2** keys, unsigned int* count)
     if (::NiAnimationKeyA3D::FindKeyIndex(time, (::NiAnimationKeyA3D *)(old), *count, (*(unsigned int *)(&index)), 28))
     {
         ScalarKeyA2* result = new ScalarKeyA2[*count + 1];
-        _memmove(result, old, index * sizeof(ScalarKeyA2));
+        std::memmove(result, old, index * sizeof(ScalarKeyA2));
         if (*count > index)
-            _memmove(result + index + 1, old + index, (*count - index) * sizeof(ScalarKeyA2));
+            std::memmove(result + index + 1, old + index, (*count - index) * sizeof(ScalarKeyA2));
         float value = GetValueAtTime(time, old, 3, *count, 28);
         ScalarKeyA2& key = result[index];
         key.time = time;
@@ -3666,9 +3662,9 @@ bool FUN_00a2d000(float t, QuatKey** pKeys, unsigned int* pCount)
     {
         unsigned int count = *pCount + 1;
         QuatKey* newKeys = new QuatKey[count];
-        _memmove(newKeys, keys, idx * sizeof(QuatKey));
+        std::memmove(newKeys, keys, idx * sizeof(QuatKey));
         if (*pCount > idx)
-            _memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(QuatKey));
+            std::memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(QuatKey));
         QuatR q = FUN_00a298f0(t, keys, 5, *pCount, sizeof(QuatKey));
         QuatKey& key = newKeys[idx];
         key.time = t;
@@ -3724,9 +3720,9 @@ bool __cdecl FUN_00a2d6c0(float fTime, A2D6C0RotKey*& pkKeys, unsigned int& uiNu
     {
         A2D6C0RotKey* pkNew;
         pkNew = new A2D6C0RotKey[uiNumKeys + 1];
-        _memmove(pkNew, pkOld, uiInsert * sizeof(A2D6C0RotKey));
+        std::memmove(pkNew, pkOld, uiInsert * sizeof(A2D6C0RotKey));
         if (uiNumKeys > uiInsert)
-            _memmove(&pkNew[uiInsert + 1], &pkOld[uiInsert], (uiNumKeys - uiInsert) * sizeof(A2D6C0RotKey));
+            std::memmove(&pkNew[uiInsert + 1], &pkOld[uiInsert], (uiNumKeys - uiInsert) * sizeof(A2D6C0RotKey));
         A2D6C0Quaternion kQuat = SampleKeyedVec4(fTime, pkOld, 5, uiNumKeys, sizeof(A2D6C0RotKey));
         A2D6C0RotKey* pkKey = &pkNew[uiInsert];
         pkKey->m_fTime = fTime;

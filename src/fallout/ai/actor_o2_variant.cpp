@@ -3,6 +3,8 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -699,7 +701,6 @@ void FUN_00c7d890_cls::FUN_00c7d890()
     _0 = 0;
 }
 
-void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 
 // @fnv 0x00c7f900
 void FUN_00c7f900(char* dst, char* src, unsigned int count)
@@ -710,12 +711,12 @@ void FUN_00c7f900(char* dst, char* src, unsigned int count)
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(dst + i * 8, src + i * 8, 8);
+            std::memmove(dst + i * 8, src + i * 8, 8);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(dst + i * 8, src + i * 8, 8);
+            std::memmove(dst + i * 8, src + i * 8, 8);
     }
 }
 
@@ -1528,7 +1529,6 @@ void RagController::FUN_00c75580(unsigned char enabled)
     }
 }
 
-extern "C" double __cdecl sqrt(double x);
 extern float DAT_011b02e4;
 struct NodeC
 {

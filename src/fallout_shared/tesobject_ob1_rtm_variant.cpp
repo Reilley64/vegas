@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobject_ob1_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/tesobject.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include <cstdio>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags_shell.h"
 #include "fnv/decl/ControllerOwner.h"
@@ -472,7 +473,6 @@ inline bool operator!=(const BxString& _Left, const char* _Right)
     return !(_Left == _Right);
 }
 struct GvFileHandle;
-extern "C" int __cdecl fseek(GvFileHandle* _File, long _Offset, int _Origin);
 void FUN_00ac6430(int code, BxString message);
 }
 
@@ -492,7 +492,7 @@ bool SeekBinaryFile::FUN_00ac53a0(long offset)
     {
         return false;
     }
-    if (skac53::fseek(pFile, offset, 0) != 0)
+    if (std::fseek((std::FILE *)(pFile), offset, 0) != 0)
     {
         skac53::FUN_00ac6430(7, kPath);
         reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();

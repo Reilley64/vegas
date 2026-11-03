@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -65,12 +66,11 @@ void GlobalObject_00869f00::InitFromGlobal()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 
-extern "C" void __cdecl FUN_00ecbc5b(char* apString, int aiSize);
 
 // @fnv 0x00730490
 void FUN_00730490(char* apString, int aiSize)
 {
-    FUN_00ecbc5b(apString, aiSize);
+    fnv::crt::strlwr_s(apString, aiSize);
 }
 
 struct BSS

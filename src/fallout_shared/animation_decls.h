@@ -14,6 +14,7 @@
 // Still unit-local because no canonical header exists: NiNode, NiAVObject, NiControllerManager, NiControllerSequence,
 // NiUpdateData, AnimSequenceBase, AnimIdle, KFModel, TESBoundObject.
 // first-definition-wins type index shows them (not the renamed canonical text).
+#include <cstring>
 #include "fnv/decl/FUN_0043fa80_s.h"
 #include "fnv/decl/FUN_0048fb20_Class.h"
 #include "fnv/decl/SeqA34f20.h"
@@ -166,7 +167,6 @@ class ModelLoader
 extern const char* DAT_01199bcc[];
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-extern "C" void* memset(void*, int, unsigned int);
 int Warning(const char*, ...);
 enum ANIM_GROUP_ACTION
 {

@@ -1,6 +1,8 @@
 // fallout_shared/pathfinding/navmesh.cpp: NavMesh, ActorMover, BGSCameraPath, TESEffectShader and more (97 functions)
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/B42FA60Allocator.h"
 #include "fnv/decl/FUN_0040f6e0_class.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -1166,7 +1168,6 @@ unsigned int Arr16::FUN_00691b60(Elem16* apElement)
     return idx;
 }
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern const char $SG3635[];
 
 struct FUN_00691de0_shell
@@ -1547,7 +1548,6 @@ FUN_0068ed70::~FUN_0068ed70()
 }
 }  // namespace fnv_0068ed70
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_0042fb60_shell
 {
@@ -1586,12 +1586,12 @@ void FUN_0042fb60_shell::FUN_0042fb60(char* pDst, char* pSrc, unsigned int n)
     if ((unsigned int)pDst < (unsigned int)pSrc)
     {
         for (unsigned int i = 0; i < n; ++i)
-            FUN_00ec7230(pDst + i * 4, pSrc + i * 4, 4);
+            std::memmove(pDst + i * 4, pSrc + i * 4, 4);
     }
     else if ((unsigned int)pDst > (unsigned int)pSrc)
     {
         for (int i = (int)n - 1; i >= 0; --i)
-            FUN_00ec7230(pDst + i * 4, pSrc + i * 4, 4);
+            std::memmove(pDst + i * 4, pSrc + i * 4, 4);
     }
 }
 
@@ -1927,7 +1927,6 @@ extern const char DAT_0106a2c8[];
 extern const char DAT_0106a260[];
 extern const char DAT_0106a1f0[];
 
-int __cdecl FUN_00ec7595(double);
 double __cdecl FUN_00408840(float);
 
 struct NavMeshView
@@ -2309,19 +2308,19 @@ bool NavMeshView::Validate(int a0)
 
     for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(verts))->GetName())); i++)
     {
-        if (FUN_00ec7595(verts.FUN_006a1440(i)->x) == 0 || FUN_00408840(verts.FUN_006a1440(i)->x) > DAT_0106ab98)
+        if (std::isfinite(verts.FUN_006a1440(i)->x) == 0 || FUN_00408840(verts.FUN_006a1440(i)->x) > DAT_0106ab98)
         {
             ::FUN_005b5e40();
             hadError = true;
             break;
         }
-        if (FUN_00ec7595(verts.FUN_006a1440(i)->y) == 0 || FUN_00408840(verts.FUN_006a1440(i)->y) > DAT_0106ab98)
+        if (std::isfinite(verts.FUN_006a1440(i)->y) == 0 || FUN_00408840(verts.FUN_006a1440(i)->y) > DAT_0106ab98)
         {
             ::FUN_005b5e40();
             hadError = true;
             break;
         }
-        if (FUN_00ec7595(verts.FUN_006a1440(i)->z) == 0 || FUN_00408840(verts.FUN_006a1440(i)->z) > DAT_0106ab98)
+        if (std::isfinite(verts.FUN_006a1440(i)->z) == 0 || FUN_00408840(verts.FUN_006a1440(i)->z) > DAT_0106ab98)
         {
             ::FUN_005b5e40();
             hadError = true;

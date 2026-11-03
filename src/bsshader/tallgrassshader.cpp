@@ -1,6 +1,7 @@
 // bsshader/tallgrassshader.cpp: TallGrassShader, Self, ShaderRegister, TallGrassPrograms and more (25 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AAF40Updater.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -1457,7 +1458,6 @@ void S_00ba92c0_Prop::FUN_00ba92c0(S_00ba92c0_Stream& kStream)
     S_00ba92c0_BinRead(kStream.m_pkBin, &unk30, 4);
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct GrassThreadMemory
 {
     int unk000;
@@ -1809,21 +1809,21 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[0].macros[0] = "VS_2_0";
     vertex[0].macros[1] = 0;
     vertex[0].macros[2] = 0;
-    fnv_zlib_memset(&vertex[0].macros[3], 0, 60);
+    std::memset(&vertex[0].macros[3], 0, 60);
     vertex[1].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[1].macros[0] = "VS_2_0";
     vertex[1].macros[1] = 0;
     vertex[1].macros[2] = "VERTLIT";
     vertex[1].macros[3] = "";
     vertex[1].macros[4] = 0;
-    fnv_zlib_memset(&vertex[1].macros[5], 0, 52);
+    std::memset(&vertex[1].macros[5], 0, 52);
     vertex[2].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[2].macros[0] = "VS_2_0";
     vertex[2].macros[1] = 0;
     vertex[2].macros[2] = "FIT_TO_SLOPE";
     vertex[2].macros[3] = "";
     vertex[2].macros[4] = 0;
-    fnv_zlib_memset(&vertex[2].macros[5], 0, 52);
+    std::memset(&vertex[2].macros[5], 0, 52);
     vertex[3].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[3].macros[0] = "VS_2_0";
     vertex[3].macros[1] = 0;
@@ -1832,14 +1832,14 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[3].macros[4] = "FIT_TO_SLOPE";
     vertex[3].macros[5] = "";
     vertex[3].macros[6] = 0;
-    fnv_zlib_memset(&vertex[3].macros[7], 0, 44);
+    std::memset(&vertex[3].macros[7], 0, 44);
     vertex[4].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[4].macros[0] = "VS_2_0";
     vertex[4].macros[1] = 0;
     vertex[4].macros[2] = "PTLIGHT";
     vertex[4].macros[3] = "";
     vertex[4].macros[4] = 0;
-    fnv_zlib_memset(&vertex[4].macros[5], 0, 52);
+    std::memset(&vertex[4].macros[5], 0, 52);
     vertex[5].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[5].macros[0] = "VS_2_0";
     vertex[5].macros[1] = 0;
@@ -1848,7 +1848,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[5].macros[4] = "VERTLIT";
     vertex[5].macros[5] = "";
     vertex[5].macros[6] = 0;
-    fnv_zlib_memset(&vertex[5].macros[7], 0, 44);
+    std::memset(&vertex[5].macros[7], 0, 44);
     vertex[6].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[6].macros[0] = "VS_2_0";
     vertex[6].macros[1] = 0;
@@ -1857,7 +1857,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[6].macros[4] = "FIT_TO_SLOPE";
     vertex[6].macros[5] = "";
     vertex[6].macros[6] = 0;
-    fnv_zlib_memset(&vertex[6].macros[7], 0, 44);
+    std::memset(&vertex[6].macros[7], 0, 44);
     vertex[7].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[7].macros[0] = "VS_2_0";
     vertex[7].macros[1] = 0;
@@ -1883,7 +1883,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[8].macros[2] = "PROJ_SHADOW";
     vertex[8].macros[3] = "";
     vertex[8].macros[4] = 0;
-    fnv_zlib_memset(&vertex[8].macros[5], 0, 52);
+    std::memset(&vertex[8].macros[5], 0, 52);
     vertex[9].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[9].macros[0] = "VS_2_0";
     vertex[9].macros[1] = 0;
@@ -1892,7 +1892,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[9].macros[4] = "PROJ_SHADOW";
     vertex[9].macros[5] = "";
     vertex[9].macros[6] = 0;
-    fnv_zlib_memset(&vertex[9].macros[7], 0, 44);
+    std::memset(&vertex[9].macros[7], 0, 44);
     vertex[10].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[10].macros[0] = "VS_2_0";
     vertex[10].macros[1] = 0;
@@ -1901,7 +1901,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[10].macros[4] = "PROJ_SHADOW";
     vertex[10].macros[5] = "";
     vertex[10].macros[6] = 0;
-    fnv_zlib_memset(&vertex[10].macros[7], 0, 44);
+    std::memset(&vertex[10].macros[7], 0, 44);
     vertex[11].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[11].macros[0] = "VS_2_0";
     vertex[11].macros[1] = 0;
@@ -1929,7 +1929,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[12].macros[4] = "PROJ_SHADOW";
     vertex[12].macros[5] = "";
     vertex[12].macros[6] = 0;
-    fnv_zlib_memset(&vertex[12].macros[7], 0, 44);
+    std::memset(&vertex[12].macros[7], 0, 44);
     vertex[13].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[13].macros[0] = "VS_2_0";
     vertex[13].macros[1] = 0;
@@ -1993,7 +1993,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[16].macros[2] = "BILLBOARD";
     vertex[16].macros[3] = "";
     vertex[16].macros[4] = 0;
-    fnv_zlib_memset(&vertex[16].macros[5], 0, 52);
+    std::memset(&vertex[16].macros[5], 0, 52);
     vertex[17].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[17].macros[0] = "VS_2_0";
     vertex[17].macros[1] = 0;
@@ -2002,7 +2002,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[17].macros[4] = "FIT_TO_SLOPE";
     vertex[17].macros[5] = "";
     vertex[17].macros[6] = 0;
-    fnv_zlib_memset(&vertex[17].macros[7], 0, 44);
+    std::memset(&vertex[17].macros[7], 0, 44);
     vertex[18].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[18].macros[0] = "VS_2_0";
     vertex[18].macros[1] = 0;
@@ -2011,7 +2011,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[18].macros[4] = "PTLIGHT";
     vertex[18].macros[5] = "";
     vertex[18].macros[6] = 0;
-    fnv_zlib_memset(&vertex[18].macros[7], 0, 44);
+    std::memset(&vertex[18].macros[7], 0, 44);
     vertex[19].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[19].macros[0] = "VS_2_0";
     vertex[19].macros[1] = 0;
@@ -2037,7 +2037,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[20].macros[2] = "SHADOWMAP";
     vertex[20].macros[3] = "";
     vertex[20].macros[4] = 0;
-    fnv_zlib_memset(&vertex[20].macros[5], 0, 52);
+    std::memset(&vertex[20].macros[5], 0, 52);
     vertex[21].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[21].macros[0] = "VS_2_0";
     vertex[21].macros[1] = 0;
@@ -2046,7 +2046,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[21].macros[4] = "FIT_TO_SLOPE";
     vertex[21].macros[5] = "";
     vertex[21].macros[6] = 0;
-    fnv_zlib_memset(&vertex[21].macros[7], 0, 44);
+    std::memset(&vertex[21].macros[7], 0, 44);
     vertex[22].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[22].macros[0] = "VS_2_0";
     vertex[22].macros[1] = 0;
@@ -2055,7 +2055,7 @@ void TallGrassPrograms::FUN_00baafc0()
     vertex[22].macros[4] = "BILLBOARD";
     vertex[22].macros[5] = "";
     vertex[22].macros[6] = 0;
-    fnv_zlib_memset(&vertex[22].macros[7], 0, 44);
+    std::memset(&vertex[22].macros[7], 0, 44);
     vertex[23].source = "tallgrass\\1x\\v\\lowDetail.v.hlsl";
     vertex[23].macros[0] = "VS_2_0";
     vertex[23].macros[1] = 0;

@@ -7,6 +7,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
 #include <new>
+#include <cerrno>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/Agent.h"
 #include "fnv/decl/B0E9Vec.h"
 #include "fnv/decl/B0Vector.h"
@@ -742,7 +746,6 @@ struct RecordVector
     int metadata0, metadata4, metadata8;
     StringRecord *first, *last;
 };
-void __cdecl FUN_00ec7c56();
 struct FUN_00b0d490_Class
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -804,14 +807,12 @@ struct FUN_00b0d5f0_Class
 
     void InitBoundingBoxCorners();
 };
-void __cdecl FUN_00ec7c56();
 struct FUN_00b0eca0_t
 {
     int a;
     int b;
     bool FUN_00b0eca0(FUN_00b0eca0_t* p);
 };
-void __cdecl FUN_00ec7c56(void);
 struct FUN_00b10430_Arg
 {
     int unk00;
@@ -935,8 +936,6 @@ void Cont::FUN_00b04db0(const Mat& m)
     }
 }
 
-extern "C" int* __cdecl FUN_00ec85e3();
-extern "C" char* __cdecl FUN_00ecdb42(int e);
 inline void Dead8()
 {
     int d0;
@@ -975,11 +974,10 @@ struct FUN_00b09480 : FUN_00b096a0
 // @fnv 0x00b09480
 FUN_00b09480::FUN_00b09480(const FUN_0044a4c0& msg, bool bErrno)
     : FUN_00b096a0(FUN_00ad4210(FUN_00ad42e0(FUN_00ad4210(msg, " ["),
-                                             bErrno ? FUN_0044a4c0(FUN_00ecdb42(*FUN_00ec85e3())) : FUN_0044a4c0("")),
+                                             bErrno ? FUN_0044a4c0(::std::strerror(*(&errno))) : FUN_0044a4c0("")),
                                 "]"))
 {}
 
-void FUN_00ec7c56();
 
 struct MyVector
 {
@@ -997,7 +995,7 @@ struct MyVector
     {
         if ((_Mylast - _Myfirst) <= idx)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -1023,7 +1021,6 @@ int* MyClass::FUN_00b0b4b0()
     return m_vec.empty() ? 0 : m_vec[0];
 }
 
-void FUN_00ec7c56();
 
 namespace std {
 template <typename T> class vector
@@ -1050,7 +1047,7 @@ template <typename T> class vector
     {
         if (size() <= i)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -1336,7 +1333,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 namespace std {
 class exception
 {
@@ -1381,7 +1377,7 @@ struct V3B
 };
 inline void CopyV(V3Q& d, const BVecQ& s)
 {
-    FUN_00ec44d0(&d, &s, 0xc);
+    ::std::memmove(&d, &s, 0xc);
 }
 struct ExtQ
 {
@@ -1547,7 +1543,7 @@ bool SpdCompQ::FUN_00b044a0(const float* pTransform, int nSeed, bool bStrips)
             if (pTransform)
             {
                 MatQ mat;
-                FUN_00ec44d0(&mat, pTransform, 0x40);
+                ::std::memmove(&mat, pTransform, 0x40);
                 reinterpret_cast<::Geometry366 *>((m_p4))->FUN_00b2fc50((const ::Matrix366 &)(mat));
                 reinterpret_cast<::S00b28280_Leaf *>((m_p8))->FUN_00b28280((const ::Matrix4f &)(mat));
                 reinterpret_cast<::Geometry366 *>((m_p60))->FUN_00b2fc50((const ::Matrix366 &)(mat));
@@ -1978,8 +1974,6 @@ struct StrF
         return 16 <= uiRes ? kBx.pPtr : kBx.acBuf;
     }
 };
-extern "C" int* __cdecl FUN_00ec85e3();
-extern "C" char* __cdecl FUN_00ecdb42(int);
 void FUN_00ec7894(void* p, void* t);
 extern char DAT_0116f904;
 struct CIdvException
@@ -2072,7 +2066,7 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                     else
                     {
                         throw std::exception((*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("only read %d of %d from %s [%s]"), (const char *)(count), length, path,
-                                                          FUN_00ecdb42(*FUN_00ec85e3()))))
+                                                          ::std::strerror(*(&errno)))))
                                                  .c_str());
                     }
                     delete file_cswij;
@@ -2081,13 +2075,13 @@ bool SpdLoadQ::FUN_00b05420(const char* path)
                 else
                 {
                     throw std::exception(
-                        (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("file seek failed on '%s' [%s]"), path, FUN_00ecdb42(*FUN_00ec85e3())))).c_str());
+                        (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("file seek failed on '%s' [%s]"), path, ::std::strerror(*(&errno))))).c_str());
                 }
             }
             else
             {
                 throw std::exception(
-                    (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("failed to load file '%s' [%s]"), path, FUN_00ecdb42(*FUN_00ec85e3())))).c_str());
+                    (*(::fnv_00b05420::StrF *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("failed to load file '%s' [%s]"), path, ::std::strerror(*(&errno))))).c_str());
             }
         }
     }
@@ -3717,14 +3711,13 @@ struct CamR
 extern float DAT_011ad11c;
 extern float DAT_011ad120;
 extern const float DAT_010a4d88;
-float __cdecl FUN_00ec9610(double d);
 inline float RadToDeg(float fRad)
 {
     return fRad * (double)57.29578f;
 }
 inline float VAsin(float f)
 {
-    return FUN_00ec9610(f);
+    return ::std::asin(f);
 }
 struct SpdTreeQ
 {
@@ -6296,8 +6289,6 @@ void S00b092a0_cls::FUN_00b092a0(S00b092a0_Reader* r)
 }
 
 unsigned int __cdecl _strlen(const char* s);
-void* __cdecl memcpy(void*, const void*, unsigned int);
-void* __cdecl memmove(void*, const void*, unsigned int);
 int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
@@ -6555,8 +6546,6 @@ inline SpdString operator+(const SpdString& s, const SpdString& r)
 }
 
 int* __cdecl _errno();
-char* __cdecl strerror(int nError);
-
 struct SpdException
 {
     int unk04;
@@ -6708,11 +6697,9 @@ void SpdWindReader::FUN_00b097e0(SpdParser* pParser)
     } while (nToken != 0x2af9);
 }
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);
-void __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
 {
@@ -6897,7 +6884,7 @@ struct String : public StringVal
     const char& operator[](unsigned int uiOff) const
     {
         if (!(uiOff <= m_uiSize))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -6988,7 +6975,6 @@ struct String : public StringVal
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-extern "C" char* __cdecl strcpy(char* pcDst, const char* pcSrc);
 struct FUN_00b09ef0 : public String
 {
     FUN_00b09ef0(String strName);
@@ -7404,11 +7390,9 @@ struct StringB0A2A0 : public StringValB0A2A0
     unsigned int m_uiSize;
     unsigned int m_uiRes;
 };
-void __cdecl FUN_00ec7c56();
-void* __cdecl memcpy(void* pvDst, const void* pvSrc, unsigned int ItemUpdateArray);
 inline void CopyFloat3B0A2A0(float* pDst, const float* pSrc)
 {
-    memcpy(pDst, pSrc, 12);
+    ::std::memmove(pDst, pSrc, 12);
 }
 struct CollisionObjectB0A2A0
 {
@@ -7431,7 +7415,7 @@ struct CollisionVectorB0A2A0
     CollisionObjectB0A2A0& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -7759,7 +7743,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -7832,7 +7815,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -7842,12 +7825,12 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -7856,7 +7839,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -7916,7 +7899,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -7994,7 +7977,6 @@ short FUN_00b0a9a0_Tree::FUN_00b0a9a0(short m_sIndex)
 }
 }  // namespace fnv_00b0a9a0
 
-void __cdecl FUN_00ec7c56();
 template <class T> struct VectorB0AA20
 {
     void* m_pkProxy;
@@ -8014,7 +7996,7 @@ template <class T> struct VectorB0AA20
     const T& operator[](unsigned int uiPos) const
     {
         if (!(uiPos < size()))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -8147,8 +8129,6 @@ struct Vec3f
         return f[i];
     }
 };
-extern "C" double atan2(double y, double x);
-double FUN_00ec9610(double v);
 struct SelfAd00
 {
     int m00;
@@ -8258,7 +8238,7 @@ void SelfAd00::FUN_00b0ad00(OutAd00* out, float param)
         angRad4 = (float)(double)(float)atan2(t7, t9);
         deg4 = angRad4 * 57.295780181884766;
         t2 = vc7[2];
-        asinRad = (float)(double)(float)FUN_00ec9610(t2);
+        asinRad = (float)(double)(float)::std::asin(t2);
         negDeg8 = -(float)(asinRad * 57.295780181884766);
         if (m18 == 1)
         {
@@ -8365,7 +8345,6 @@ struct S0b
     unsigned char ucMin;
     void FUN_00b0b1d0(I0b* pArg, short sLod);
 };
-void __cdecl InvalidParameterNoInfoB530();
 struct AuxB530;
 class ContainerBaseAuxAllocB530
 {
@@ -8392,7 +8371,7 @@ template <class T> class VectorB530 : public VectorValB530
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB530();
+            std::abort();
         do
         {
         } while (0);
@@ -8449,7 +8428,6 @@ float* FUN_00b0b530_Tree::FUN_00b0b530()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB5B0();
 struct AuxB5B0;
 class ContainerBaseAuxAllocB5B0
 {
@@ -8476,7 +8454,7 @@ template <class T> class VectorB5B0 : public VectorValB5B0
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB5B0();
+            std::abort();
         do
         {
         } while (0);
@@ -8545,7 +8523,6 @@ float* FUN_00b0b5b0_Tree::FUN_00b0b5b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB630();
 struct AuxB630;
 class ContainerBaseAuxAllocB630
 {
@@ -8572,7 +8549,7 @@ template <class T> class VectorB630 : public VectorValB630
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB630();
+            std::abort();
         do
         {
         } while (0);
@@ -8647,7 +8624,6 @@ float* FUN_00b0b630_Tree::FUN_00b0b630()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB6B0();
 struct AuxB6B0;
 class ContainerBaseAuxAllocB6B0
 {
@@ -8674,7 +8650,7 @@ template <class T> class VectorB6B0 : public VectorValB6B0
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB6B0();
+            std::abort();
         do
         {
         } while (0);
@@ -8755,7 +8731,6 @@ float* FUN_00b0b6b0_Tree::FUN_00b0b6b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB730();
 struct AuxB730;
 class ContainerBaseAuxAllocB730
 {
@@ -8782,7 +8757,7 @@ template <class T> class VectorB730 : public VectorValB730
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB730();
+            std::abort();
         do
         {
         } while (0);
@@ -8869,7 +8844,6 @@ float* FUN_00b0b730_Tree::FUN_00b0b730()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB7B0();
 struct AuxB7B0;
 class ContainerBaseAuxAllocB7B0
 {
@@ -8896,7 +8870,7 @@ template <class T> class VectorB7B0 : public VectorValB7B0
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB7B0();
+            std::abort();
         do
         {
         } while (0);
@@ -9001,7 +8975,6 @@ float* FUN_00b0b7b0_Tree::FUN_00b0b7b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-void __cdecl InvalidParameterNoInfoB8B0();
 struct AuxB8B0;
 class ContainerBaseAuxAllocB8B0
 {
@@ -9028,7 +9001,7 @@ template <class T> class VectorB8B0 : public VectorValB8B0
     T& operator[](unsigned int uiPos)
     {
         if (!(uiPos < size()))
-            InvalidParameterNoInfoB8B0();
+            std::abort();
         do
         {
         } while (0);
@@ -9191,9 +9164,6 @@ unsigned char* FUN_00b0b8b0_Tree::FUN_00b0b8b0()
     return m_kValues.empty() ? 0 : &m_kValues[0];
 }
 
-extern "C" double __cdecl atan2(double, double);
-
-double __cdecl FUN_00ec9610(double);
 inline int IndexZero()
 {
     return 0;
@@ -9281,7 +9251,7 @@ void TreeRuntime::FUN_00b0bc00(TreeOutput* output, short forcedLod)
     angle7 = (double)(float)atan2((double)posTmp, (double)result7);
     angleVal = angle7 * 57.295780181884766;
     pointX = reinterpret_cast<float*>(&pos1)[IndexTwo()];
-    resultVal = (double)(float)FUN_00ec9610(pointX);
+    resultVal = (double)(float)::std::asin(pointX);
     angle5 = -(float)(resultVal * 57.295780181884766);
     index_ = 0;
     while (index_ < FUN_00b08710())
@@ -9569,8 +9539,6 @@ inline float Lerp0c(float t, float a, float b)
 {
     return a + (b - a) * t;
 }
-extern "C" double __cdecl FUN_00ec6cde(double);
-extern "C" double __cdecl FUN_00ec9ac0(double, double);
 // @fnv 0x00b0c8d0
 void __cdecl FUN_00b0c8d0(float a, unsigned short n, float fLimit, float fMin, float fExp, float fBase, float* pOut1,
                           float* pOut2, short* pIdx1, short* pIdx2)
@@ -9596,7 +9564,7 @@ void __cdecl FUN_00b0c8d0(float a, unsigned short n, float fLimit, float fMin, f
                     i_++;
                 _us = (unsigned short)i_;
                 f6 = (1.0f - a) - _us * fStep4;
-                if (_us == 0 || _us == n || (float)FUN_00ec6cde(f6) > fLimit)
+                if (_us == 0 || _us == n || (float)::std::fabs(f6) > fLimit)
                 {
                     *pOut1 = fBase;
                     *pIdx1 = (short)((1.0f - a) * n);
@@ -9609,12 +9577,12 @@ void __cdecl FUN_00b0c8d0(float a, unsigned short n, float fLimit, float fMin, f
                 f4 = 1.0f - (fB - fMin) / (1.0f - fMin);
                 f4 = f4 < 1.0 ? f4 : 1.0f;
                 *pIdx1 = _us - 1;
-                f5 = (float)(double)(float)FUN_00ec9ac0((float)(1.0f - f4), fExp);
+                f5 = (float)(double)(float)::std::pow((float)(1.0f - f4), fExp);
                 *pOut1 = Lerp0c(f5, fBase, 255.0f);
                 fTmp = fB / (1.0f - fMin);
                 fTmp = fTmp < 1.0 ? fTmp : 1.0f;
                 *pIdx2 = _us;
-                f2c5 = (float)(double)(float)FUN_00ec9ac0((float)(1.0f - fTmp), fExp);
+                f2c5 = (float)(double)(float)::std::pow((float)(1.0f - fTmp), fExp);
                 *pOut2 = Lerp0c(f2c5, fBase, 255.0f);
             }
         }
@@ -9864,7 +9832,7 @@ FUN_00b02ef0::FUN_00b02ef0()
 inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -10026,7 +9994,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -10099,7 +10066,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10109,12 +10076,12 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10123,7 +10090,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10187,7 +10154,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10323,7 +10290,7 @@ struct VecQ_acda90
 inline CItQ_acda90::CItQ_acda90(ElQ_acda90* _Ptr, const VecQ_acda90* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -10452,7 +10419,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -10525,7 +10491,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10535,12 +10501,12 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10549,7 +10515,7 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10609,7 +10575,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -10665,12 +10631,12 @@ class FUN_00b0ebb0_Iterator : public _Vector_const_iteratorS<ElemEBB0>
 ElemEBB0& FUN_00b0ebb0_Iterator::FUN_00b0ebb0() const
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoS();
+        std::abort();
     do
     {
     } while (0);
     if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-        InvalidParameterNoInfoS();
+        std::abort();
     do
     {
     } while (0);
@@ -10810,7 +10776,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -10883,14 +10848,14 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -10947,7 +10912,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -11007,7 +10972,6 @@ bool FUN_00b06180_Reader::FUN_00b06180()
 namespace fnv_00b06090 {
 void __cdecl operator delete(void* _Ptr) throw();
 namespace bufb060 {
-void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
@@ -11611,7 +11575,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         this->_Set_container(_Pvector);
@@ -11622,14 +11586,14 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         {
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         _Myptr += _Off;
@@ -11640,7 +11604,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         do
@@ -11657,7 +11621,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         return _Myptr - _Right._Myptr;
@@ -11817,7 +11781,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         do
@@ -13642,7 +13606,6 @@ void SpeedTreeRelease::FUN_00b03b30()
     Pad8();
 }
 
-extern "C" void __cdecl _invalid_parameter_noinfo();
 
 struct TreeContainer;
 struct TreeAux
@@ -13688,7 +13651,7 @@ struct TreeConstIterator : TreeIteratorBase
     {
         if (!(IsContainerSet() && SameContainer(other)))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return ptr == other.ptr;
     }
@@ -13806,7 +13769,7 @@ inline TreeConstIterator::TreeConstIterator(float* p, const TreeContainer* conta
     if (!(container != 0 && ((const TreeFloatVector*)container)->first <= p &&
           p <= ((const TreeFloatVector*)container)->last))
     {
-        _invalid_parameter_noinfo();
+        std::abort();
     }
     SetContainer(container);
     ptr = p;
@@ -14509,7 +14472,6 @@ struct String
 };
 }
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 struct IdvException
 {
     virtual ~IdvException();
@@ -14607,7 +14569,7 @@ FUN_00b036d0::FUN_00b036d0(FUN_00b036d0* pNewInstance)
     try
     {
         reinterpret_cast<::VecQ_acad60 *>((m38))->FUN_00b0ddc0((const int &)((const void *const &)(this)));
-        FUN_00ec44d0(a70, pNewInstance->a70, 0x30);
+        ::std::memmove(a70, pNewInstance->a70, 0x30);
         *m30 = *m30 + 1;
         m34 = new ((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))) WrapQ;
         m34->pTree = pNewInstance;
@@ -14745,7 +14707,6 @@ template <class _Elem, class _Traits, class _Ax> class basic_string : public _St
 typedef basic_string<char, char_traits<char>, allocator<char> > string;
 }
 
-extern "C" void __cdecl _invalid_parameter_noinfo(void);
 namespace stdb07 {
 template <class _Ty> class vector
 {
@@ -14760,7 +14721,7 @@ template <class _Ty> class vector
             if (!(_Pos < size()))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             }
             do
             {

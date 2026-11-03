@@ -1,6 +1,7 @@
 // havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp: hkVector4, hkMatrix3, hkTransform, Owner and more (89 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/BevelHull.h"
 #include "fnv/decl/CB2FC0Object.h"
 #include "fnv/decl/Centroid352.h"
@@ -1722,8 +1723,6 @@ float FUN_00d75390_cls::GetMass() {
     return m_08->m_1a4;
 }
 
-extern "C" double __cdecl pow(double base, double exponent);
-
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 
@@ -3085,8 +3084,6 @@ bool S00d75fc0_Grid::FUN_00d75fc0(const hkVec4* apPosition)
     }
     return c->Find(cell.key);
 }
-
-extern "C" double fabs(double);
 
 struct S00d78b90_Node {
     virtual void Release(int flags);

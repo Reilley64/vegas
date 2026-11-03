@@ -1,6 +1,7 @@
 #ifndef NICONSOLEIBMANAGER_DECLS_H
 #define NICONSOLEIBMANAGER_DECLS_H
 
+#include <cstring>
 #include "fnv/symbols_00a29000.h"
 #include "NiRefObject.h"
 
@@ -85,6 +86,4 @@ class NiD3DDefaultShader
 {
   public:
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);
 #endif

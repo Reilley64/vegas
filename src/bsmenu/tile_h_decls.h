@@ -3,6 +3,9 @@
 #define FNV_TILE_H_DECLS_H
 
 #include <windows.h>
+#include <cctype>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a0c190.h"
@@ -22,10 +25,6 @@ class NiFixedString
 
 extern float DAT_01094c4c;
 extern const char DAT_01093f80[];
-extern "C" int __cdecl _stricmp(const char*, const char*);
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
-extern "C" int __cdecl tolower(int);
-
 class Tile
 {
     static bool IsSpecialTileName(const char*);

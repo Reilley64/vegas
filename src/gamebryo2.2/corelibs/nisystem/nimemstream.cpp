@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nisystem/nimemstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/nimemstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa1d30_cls.h"
 #include "fnv/symbols_00aa1000.h"
@@ -27,7 +28,6 @@ void NiMemStream::FUN_00aa2d70(int iNumBytes)
     }
 }
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00aa2dd0
 unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes)
@@ -47,13 +47,13 @@ unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, un
             newSize = (oldEnd - freeSpace) + numBytes;
 
         void* newBuffer = ::FUN_00aa1070(newSize);
-        _memmove(newBuffer, *(void**)(pThis + 0x10), *(unsigned int*)(pThis + 0x18));
+        std::memmove(newBuffer, *(void**)(pThis + 0x10), *(unsigned int*)(pThis + 0x18));
         ::FUN_00aa10f0(*(void**)(pThis + 0x10));
         *(void**)(pThis + 0x10) = newBuffer;
         *(unsigned int*)(pThis + 0x1c) = newSize;
     }
 
-    _memmove((char*)*(void**)(pThis + 0x10) + *(unsigned int*)(pThis + 0x14), data, numBytes);
+    std::memmove((char*)*(void**)(pThis + 0x10) + *(unsigned int*)(pThis + 0x14), data, numBytes);
     *(unsigned int*)(pThis + 0x14) += numBytes;
     if (*(unsigned int*)(pThis + 0x14) > *(unsigned int*)(pThis + 0x18))
         *(unsigned int*)(pThis + 0x18) = *(unsigned int*)(pThis + 0x14);
@@ -62,7 +62,6 @@ unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, un
 }
 
 namespace fnv_00aa2e60 {
-extern "C" void* __cdecl _memmove(void* dest, const void* src, unsigned int size);
 
 struct NiMemStream
 {
@@ -79,7 +78,7 @@ unsigned int FUN_00aa2e60(NiMemStream* stream, void* dest, unsigned int count)
     unsigned int available = stream->m_kRayEnd - stream->m_pos;
     if (count > available)
         count = available;
-    _memmove(dest, stream->m_kRayStart + stream->m_pos, count);
+    std::memmove(dest, stream->m_kRayStart + stream->m_pos, count);
     stream->m_pos += count;
     return count;
 }
@@ -98,7 +97,7 @@ unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* apBuffer, unsigned
     if (uiCopied > uiAvailable)
         uiCopied = uiAvailable;
     char* pBufferBase = *(char**)((char*)pStream + 0x10);
-    _memmove(apBuffer, pBufferBase + uiPosition, uiCopied);
+    std::memmove(apBuffer, pBufferBase + uiPosition, uiCopied);
     *(unsigned int*)((char*)pStream + 0x14) += uiCopied;
     ::SwapBufferBySizes((char *)(apBuffer), auiLength, (const unsigned int *)(apArgA), (unsigned int)(apArgB));
     return uiCopied;
@@ -114,7 +113,7 @@ unsigned int __cdecl FUN_00aa2f20(NiMemStream* pStream, const void* pSrc, unsign
     if (uSize <= 0)
         return 0;
     void* pBuffer = ::FUN_00aa1070(uSize);
-    _memmove(pBuffer, pSrc, uSize);
+    std::memmove(pBuffer, pSrc, uSize);
     ::SwapBufferBySizes((char *)(pBuffer), uSize, (const unsigned int *)(pA), (unsigned int)(pB));
     unsigned int uRet = ::FUN_00aa2dd0((::NiMemStream *)(((S_00aa2dd0*)pStream)), (void *)(pBuffer), (const void *)(uSize), {});
     ::FUN_00aa10f0(pBuffer);
@@ -148,7 +147,6 @@ void NiMemStream::SetSwapMode(bool bDoSwap)
 }
 }  // namespace fnv_00aa2f80
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 unsigned int FUN_00aa2dd0(NiMemStream* pThis, void* unused, const void* data, unsigned int numBytes);
 unsigned int __cdecl FUN_00aa2ec0(NiMemStream* pStream, void* pData, unsigned int uLen, void* pA, void* pB);
 

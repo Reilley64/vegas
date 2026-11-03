@@ -2,6 +2,7 @@
 #ifndef NIDYNAMICGEOMETRYGROUP_DECLS_H
 #define NIDYNAMICGEOMETRYGROUP_DECLS_H
 
+#include <cstring>
 void* __cdecl _NiMalloc(unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 class NiGeometryGroup
@@ -24,7 +25,7 @@ template <class T> class DynamicMapBase
     DynamicMapBase() : size(37), count(0)
     {
         table = _NiMalloc(37 * 4);
-        fnv_zlib_memset(table, 0, size * 4);
+        std::memset(table, 0, size * 4);
     }
 };
 template <class T> class DynamicMap : public DynamicMapBase<T>

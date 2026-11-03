@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/C37E00Box.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -76,8 +77,6 @@ bool ColorProperty::FUN_00c38090(const ColorPropertyBase* pkObject)
     }
     return bEqual;
 }
-
-extern "C" double __cdecl fabs(double);
 
 class Pt
 {
@@ -853,8 +852,6 @@ bool FrustQ::FUN_00c378c0(const Pt3Q& kPt)
         return false;
     return true;
 }
-
-extern "C" double fabs(double);
 
 struct Vec3
 {

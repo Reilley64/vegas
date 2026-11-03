@@ -4,6 +4,13 @@
 
 #include <windows.h>
 #include <new>
+#include <cctype>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AF1430.h"
 #include "fnv/decl/BSGameSound.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -44,7 +51,6 @@
 #include "../../include/layout_support.h"
 
 extern int DAT_010a42b4;
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 
 struct FUN_00af30a0_Class
 {
@@ -69,7 +75,7 @@ void* FUN_00af30a0_Class::FUN_00af30a0()
     m_iValueAt90 = 0;
     m_cValueAt94 = 0;
     m_cValueAt95 = 0;
-    _fnv_zlib_memset((char*)&this->m_acCharacterBuffer, 0, 0x80);
+    std::memset((char*)&this->m_acCharacterBuffer, 0, 0x80);
     return this;
 }
 
@@ -84,7 +90,6 @@ bool FUN_00ae8dc0_Class::IsEqual(int a, int b)
     return a == b;
 }
 
-extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 // Returns -1 if stream is null, otherwise calls _fseek with stream, offset and pad as the whence argument.
 // @fnv 0x00aea180
@@ -92,7 +97,7 @@ long __cdecl FUN_00aea180(void* stream, long offset, int whence, int iWhenceArg)
 {
     if (!stream)
         return -1;
-    return _fseek(stream, offset, iWhenceArg);
+    return std::fseek((std::FILE *)(stream), offset, iWhenceArg);
 }
 
 extern int DAT_010a39d8;
@@ -144,7 +149,6 @@ void FUN_00aeaab0_Class::FUN_00aeaab0()
     *(int*)((char*)this + 0x44) = 0;
 }
 
-extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 // Returns -1 if stream is null, otherwise calls _fseek with stream, offset and pad as the whence argument.
 // @fnv 0x00af1cf0
@@ -152,7 +156,7 @@ long __cdecl FUN_00af1cf0(void* stream, long offset, int whence, int iWhenceArg)
 {
     if (!stream)
         return -1;
-    return _fseek(stream, offset, iWhenceArg);
+    return std::fseek((std::FILE *)(stream), offset, iWhenceArg);
 }
 
 extern int DAT_010a4288;
@@ -343,7 +347,7 @@ FUN_00aea1b0_Class::FUN_00aea1b0_Class()
     *(int*)((char*)this + 0x38) = 0;
     *(int*)((char*)this + 0x3c) = 0;
     *(int*)((char*)this + 0xa0) = 0;
-    _fnv_zlib_memset((char*)this + 0x40, 0, 0x60);
+    std::memset((char*)this + 0x40, 0, 0x60);
 }
 
 extern int DAT_010a3b7c;
@@ -424,7 +428,7 @@ void* FUN_00af1d20_Class::FUN_00af1d20()
 {
     *(int*)((char*)this + 0x2d4) = 0;
     *(int*)((char*)this + 0x2d8) = 0;
-    _fnv_zlib_memset(this, 0, 0x2d0);
+    std::memset(this, 0, 0x2d0);
     *(char*)((char*)this + 0x2dc) = 0;
     *(int*)((char*)this + 0x2d0) = 0;
     return this;
@@ -541,7 +545,7 @@ FUN_00ae7b40_Class::FUN_00ae7b40_Class(int aiCount)
     pItems = ::FUN_00aa1070(size7);
     int size2 = iCount * 4;
     void* tmp = pItems;
-    _fnv_zlib_memset(tmp, 0, size2);
+    std::memset(tmp, 0, size2);
 }
 
 struct FUN_00ae7bc0_Class
@@ -563,7 +567,7 @@ FUN_00ae7bc0_Class::FUN_00ae7bc0_Class(int count)
     m_data = ::FUN_00aa1070(uiAllocSize);
     unsigned int size2 = m_uiItemCount << 2;
     void* p2 = m_data;
-    _fnv_zlib_memset(p2, 0, size2);
+    std::memset(p2, 0, size2);
 }
 
 struct FUN_00ae7c40_Class
@@ -581,19 +585,17 @@ void* FUN_00ae7c40_Class::InitBuffer(int size)
     ((int*)this)[2] = (int)::FUN_00aa1070(s3);
     int s2 = ((int*)this)[1] << 2;
     void* p2 = *(void**)((int*)this + 2);
-    _fnv_zlib_memset(p2, 0, s2);
+    std::memset(p2, 0, s2);
     return this;
 }
 
-size_t __cdecl _strlen(const char* s);
 int __cdecl _strnicmp(const char* s1, const char* s2, size_t n);
-int __cdecl _strcpy_s(char* dst, size_t size, const char* src);
 
 // Strips a drive prefix and a leading "data\" from source, then copies the remainder into destination with _strcpy_s.
 // @fnv 0x00af4310
 void CopyRelativeDataPath(const char* source, char* destination, size_t size)
 {
-    size_t length = _strlen(source);
+    size_t length = std::strlen(source);
     if (length > 3 && source[1] == ':')
     {
         source += 3;
@@ -604,7 +606,7 @@ void CopyRelativeDataPath(const char* source, char* destination, size_t size)
         source += 5;
         length -= 5;
     }
-    _strcpy_s(destination, size, source);
+    fnv::crt::strcpy_s(destination, size, source);
 }
 
 struct FUN_00afd8b0_Class
@@ -682,7 +684,7 @@ long FUN_00aeabf0(void* stream, long offset, int whence, int iOrigin)
 {
     if (!stream)
         return -1;
-    return _fseek(stream, offset, iOrigin);
+    return std::fseek((std::FILE *)(stream), offset, iOrigin);
 }
 
 struct FUN_00aefd90_Class
@@ -1452,7 +1454,6 @@ void S_00aeaa10_Cls::FUN_00aeaa10(const S_00aeaa10_P3* pPos)
     }
 }
 
-void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
 struct MMStub
 {
 };
@@ -1638,7 +1639,7 @@ FUN_00aeae10::FUN_00aeae10()
     unk208 = 0;
     unk224 = 0;
     unk218 = ::NiPoint3::ZERO;
-    _fnv_zlib_memset(&unk1A4, 0, sizeof(Stub1A4));
+    std::memset(&unk1A4, 0, sizeof(Stub1A4));
     void* p = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MMStub *>(&::g_memoryManager))))->FUN_00aa3e40(0x12);
     unk1A4.pBuf = p;
     unk1C8 = 0;
@@ -1779,8 +1780,6 @@ extern float g_fSndReverb2;
 extern const SndGuid g_GUID_SndFX;
 extern const SndGuid g_IID_SndFXParams;
 
-void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
-void* __cdecl SndMemSet(void* dst, int c, unsigned int n);
 
 class FUN_00aec530_cls
 {
@@ -1950,17 +1949,17 @@ void FUN_00aec530_cls::FUN_00aec530()
                 data4 = m_pData;
                 bResult = m_pBinaryStream->uiHeadSize;
                 flagJ = m_pBinaryStream->pHead;
-                SndMemCopy(flagJ, data4, bResult);
+                std::memmove(flagJ, data4, bResult);
                 data4 += m_pBinaryStream->uiHeadSize;
                 gateVal = m_pBinaryStream->uiBodySize;
                 bVal = m_pBinaryStream->pBody;
-                SndMemCopy(bVal, data4, gateVal);
+                std::memmove(bVal, data4, gateVal);
                 data4 += m_pBinaryStream->uiBodySize;
                 hashA = m_pBinaryStream->uiTailSize;
                 gammaA = m_pBinaryStream->pTail;
-                SndMemCopy(gammaA, data4, hashA);
+                std::memmove(gammaA, data4, hashA);
                 handleA = (char*)(m_pBinaryStream->uiTailSize + *(volatile unsigned int*)&m_pBinaryStream->pTail);
-                SndMemSet(handleA, 0, gap);
+                std::memset(handleA, 0, gap);
                 m_pBinaryStream->uiTailSize = m_pBinaryStream->uiTailSize + gap;
             }
             if (m_iValueAt14 < 0x96 &&
@@ -2018,7 +2017,7 @@ void FUN_00aec530_cls::FUN_00aec530()
                 {
                     id8 = m_uiSize;
                     holder7 = m_pBinaryStream->pHead;
-                    SndMemCopy(head2, holder7, id8);
+                    std::memmove(head2, holder7, id8);
                     m_pBinaryStream->uiPos = m_uiSize;
                     m_pBinaryStream->iState = 1;
                 }
@@ -2028,7 +2027,7 @@ void FUN_00aec530_cls::FUN_00aec530()
                     found2 = head2 + m_pBinaryStream->uiHeadSize;
                     iter4 = m_pBinaryStream->uiHeadSize;
                     indexX = m_pBinaryStream->pHead;
-                    SndMemCopy(head2, indexX, iter4);
+                    std::memmove(head2, indexX, iter4);
                     m_pBinaryStream->uiPos = 0;
                     m_pBinaryStream->uiTailPos = m_pBinaryStream->uiHeadSize;
                     m_pBinaryStream->iState = 2;
@@ -2038,7 +2037,7 @@ void FUN_00aec530_cls::FUN_00aec530()
             {
                 endA = m_uiSize;
                 element4 = m_pData;
-                SndMemCopy(head2, element4, endA);
+                std::memmove(head2, element4, endA);
             }
             m_pBuffer8->Unlock(buf, countB, 0, 0);
             if (m_pData != 0)
@@ -2576,7 +2575,6 @@ int S_00af01e0_Cls::FUN_00af01e0(float afScale)
     return hr >= 0;
 }
 
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 
 struct AF0320WaveFormat
@@ -2730,7 +2728,7 @@ void AF0320Sound::SeekToPosition(unsigned int uiPositionMs)
         return;
     }
     AF0320WaveFormat kFormat;
-    fnv_zlib_memset(&kFormat, 0, 18);
+    std::memset(&kFormat, 0, 18);
     m_pCacheEntry->GetFormat(&kFormat, 18, 0);
     int iRate = (int)(kFormat.nAvgBytesPerSec / 1000.0);
     m_pCacheEntry->SetCurrentPosition(uiPositionMs * iRate);
@@ -2944,8 +2942,6 @@ struct S_00af1c00_Obj
     virtual void v48();
     virtual int v4c(void*, void*, int, int);
 };
-void __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-void __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct S_00af1c00_cls
 {
     int unk00;
@@ -3063,9 +3059,9 @@ bool S_00af1c00_cls::FUN_00af1c00(int aiOffset, unsigned int a2, unsigned int au
         return false;
     void* dst = p1;
     if (apSource)
-        FUN_00ec44d0(dst, apSource + aiOffset, auiSize);
+        std::memmove(dst, apSource + aiOffset, auiSize);
     else
-        FUN_00ec61c0(dst, 0, auiSize);
+        std::memset(dst, 0, auiSize);
     m_19c->v4c(p1, p9, 0, 0);
     return true;
 }
@@ -3475,8 +3471,6 @@ void FUN_00af2db0_cls::UpdateSteamRunningFlag()
     }
 }
 
-extern "C" int __cdecl toupper(int c);
-
 // @fnv 0x00af3c40
 int __cdecl WildcardMatch(const char* pcString, const char* pcPattern)
 {
@@ -3597,7 +3591,6 @@ bool HasWildcardChars(const char* pcString)
     return false;
 }
 
-int __cdecl FUN_00ec3bad(int value);
 struct AllocatorToken
 {
     unsigned char state;
@@ -3614,7 +3607,7 @@ void FUN_00afd920_Class::UpdateValue()
     AllocatorToken allocator = {};
     AllocatorToken copy = allocator;
     FUN_00afd920_Class* self = this;
-    self->value = FUN_00ec3bad(self->value);
+    self->value = fnv::crt::byteswap_ulong(self->value);
 }
 
 struct AFD980Value
@@ -3646,7 +3639,6 @@ struct FUN_00afdb80_cls
     void FUN_00afdb80();
 };
 
-unsigned int* __cdecl FUN_00ec3bad(unsigned int* value);
 
 // @fnv 0x00afdb80
 void FUN_00afdb80_cls::FUN_00afdb80()
@@ -3654,7 +3646,7 @@ void FUN_00afdb80_cls::FUN_00afdb80()
     Flag flag_ = {};
     bool copy = flag_.m_kPointB;
     unsigned int** pValue = &m_08;
-    *pValue = FUN_00ec3bad(*pValue);
+    *pValue = ((unsigned int *)(std::uintptr_t)(fnv::crt::byteswap_ulong((std::uint32_t)(std::uintptr_t)(*pValue))));
 }
 
 struct FUN_00afdc00_Item
@@ -4139,7 +4131,6 @@ void SoundObj::FUN_00aefda0(float maxDist, float minDist)
 
 extern const double DAT_010a3e68;
 extern const double DAT_010a3e60;
-double FUN_00ecbc80(double);
 struct AudioAttenuation
 {
     int unk00;
@@ -4284,13 +4275,13 @@ struct AudioAttenuation
 void AudioAttenuation::SetAttenuationValues(unsigned short ausFirst, unsigned short ausSecond, unsigned short ausThird,
                                             unsigned short ausFourth, unsigned short ausFifth)
 {
-    first = (unsigned short)(ausFirst ? (float)FUN_00ecbc80((float)(ausFirst / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
+    first = (unsigned short)(ausFirst ? (float)std::log10((float)(ausFirst / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
     second =
-        (unsigned short)(ausSecond ? (float)FUN_00ecbc80((float)(ausSecond / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
-    third = (unsigned short)(ausThird ? (float)FUN_00ecbc80((float)(ausThird / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
+        (unsigned short)(ausSecond ? (float)std::log10((float)(ausSecond / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
+    third = (unsigned short)(ausThird ? (float)std::log10((float)(ausThird / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
     fourth =
-        (unsigned short)(ausFourth ? (float)FUN_00ecbc80((float)(ausFourth / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
-    fifth = (unsigned short)(ausFifth ? (float)FUN_00ecbc80((float)(ausFifth / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
+        (unsigned short)(ausFourth ? (float)std::log10((float)(ausFourth / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
+    fifth = (unsigned short)(ausFifth ? (float)std::log10((float)(ausFifth / 100.0)) * DAT_010a3e68 : DAT_010a3e60);
 }
 
 class CAF0290SoundBuffer
@@ -5108,7 +5099,7 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
 
             if (!(bool)(uiFlags10 & 0x100000 ? 1 : 0))
             {
-                _fnv_zlib_memset(&kFormat, 0, sizeof(kFormat));
+                std::memset(&kFormat, 0, sizeof(kFormat));
                 dwPos = 0;
                 bReleased = false;
                 pBuffer->GetCurrentPosition(&dwPos, 0);
@@ -5260,9 +5251,6 @@ extern "C" int(* xmmioRead)(void* h, char* pch, int cch);
 extern "C" unsigned int(* xmmioAscend)(void* h, xMMCKINFO* pck, unsigned int uFlags);
 extern "C" unsigned int(* xmmioGetInfo)(void* h, xMMIOINFO* pInfo, unsigned int uFlags);
 extern "C" unsigned int(* xmmioAdvance)(void* h, xMMIOINFO* pInfo, unsigned int uFlags);
-extern "C" char* __cdecl xStrstr(char* s, const char* sub);
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int n, const char* src);
-extern "C" void* __cdecl xMemcpy(void* d, const void* s, unsigned int n);
 struct xAudioPtr
 {
     xAudio* p;
@@ -5315,7 +5303,6 @@ struct xGameSound
     bool FUN_00aeb270();
 };
 
-int __cdecl FUN_00ec3bad(int value);
 struct Marker
 {
     char b;
@@ -5335,11 +5322,11 @@ void FUN_00afdb20_Class::FUN_00afdb20()
     Marker c0 = {};
     Marker f0 = c0;
     int* ptr0 = &m_08;
-    *ptr0 = FUN_00ec3bad(*ptr0);
+    *ptr0 = fnv::crt::byteswap_ulong(*ptr0);
     Marker e0 = {};
     Marker f1 = e0;
     int* ptr1 = &m_0c;
-    *ptr1 = FUN_00ec3bad(*ptr1);
+    *ptr1 = fnv::crt::byteswap_ulong(*ptr1);
 }
 
 
@@ -5448,7 +5435,6 @@ struct ObjC
     char* m_18;
     char* m_1c;
 };
-int __cdecl FUN_00ecadb8();
 struct AED080_Cls
 {
     virtual void v00();
@@ -5623,7 +5609,7 @@ bool AED080_Cls::FUN_00aed080(bool p)
         {
             p = true;
             int n = this->m_14c;
-            this->m_19c->SetCurrentPosition((unsigned int)FUN_00ecadb8() % (unsigned int)(n - 1));
+            this->m_19c->SetCurrentPosition((unsigned int)std::rand() % (unsigned int)(n - 1));
         }
         else
         {
@@ -5849,7 +5835,6 @@ extern const char DAT_010a4168[], DAT_010a4130[], DAT_010a40f0[], DAT_010a40b0[]
 
 extern const char DAT_010a3ffc[], DAT_010a3fc0[], DAT_010a3f84[], DAT_010a3f48[], DAT_010a3f0c[], DAT_010a3ed0[];
 
-extern void __cdecl FUN_00ec65a6(char*, U32, const char*);
 
 class AudioBuffer
 {
@@ -6193,9 +6178,9 @@ bool xGameSound::FUN_00aeb270()
         if (reinterpret_cast<::AudioBuffer *>(this)->FUN_00aebff0())
             return reinterpret_cast<::FUN_00ae9c50_s *>(this)->SetFlagState(true);
     }
-    qSVM = xStrstr(m_acInputFilePath, ".mp3");
+    qSVM = std::strstr(m_acInputFilePath, ".mp3");
     if (!qSVM)
-        qSVM = xStrstr(m_acInputFilePath, ".ogg");
+        qSVM = std::strstr(m_acInputFilePath, ".ogg");
     if (qSVM)
     {
         qSVM[1] = 'w';
@@ -6204,7 +6189,7 @@ bool xGameSound::FUN_00aeb270()
     }
     m_iUnk1cc = 0;
     qSuoDt = 0;
-    FUN_00ec61c0(&qzzQr, 0, 0x48);
+    std::memset(&qzzQr, 0, 0x48);
     qzzQr.fccIOProc = 0x564157;
     qzzQr.pIOProc = ((long (&)(char *, unsigned int, long, long))::AudioFileOp);
     qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
@@ -6213,7 +6198,7 @@ bool xGameSound::FUN_00aeb270()
         ::FUN_005b5e40();
         if ((xFlags(m_kFlags).u & 0x400000) || (xFlags(m_kFlags).u & 0x100000))
         {
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\UI\\RADIO\\TEMP_radioassetmissing.wav");
+            fnv::crt::strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\UI\\RADIO\\TEMP_radioassetmissing.wav");
             reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
             qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
             if (!qdqWL)
@@ -6221,7 +6206,7 @@ bool xGameSound::FUN_00aeb270()
         }
         else if (xFlags(m_kFlags).u & 4)
         {
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\TEMP_Missing_Voice_Asset.wav");
+            fnv::crt::strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\TEMP_Missing_Voice_Asset.wav");
             reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
             qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
             if (!qdqWL)
@@ -6231,7 +6216,7 @@ bool xGameSound::FUN_00aeb270()
         {
             m_kFlags.u &= ~0x2000000;
             m_kFlags.u &= ~0x4000000;
-            strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\silent_lp.wav");
+            fnv::crt::strcpy_s(m_acInputFilePath, 0x40, "Data\\Sound\\FX\\silent_lp.wav");
             reinterpret_cast<::BSGameSound *>(this)->LoadFromFilename(1);
             qdqWL = xmmioOpen(m_acInputFilePath, &qzzQr, 0x10000);
             if (!qdqWL)
@@ -6295,7 +6280,7 @@ bool xGameSound::FUN_00aeb270()
     }
     m_uiDescFlags |= 0x2a0;
     m_uiBufferBytes = m_uiValue5;
-    xMemcpy(xFmtPtr(m_pDataFormat).p, &qsSDDgz, 0x10);
+    std::memmove(xFmtPtr(m_pDataFormat).p, &qsSDDgz, 0x10);
     m_pDataFormat.p->cbSize = 0;
     qnuVZg = 0;
     qvyWyw = 0;
@@ -6511,40 +6496,40 @@ void AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     switch (result5)
                     {
                     case 0x8878000a:
-                        FUN_00ec65a6(message11, 255, DAT_010a4168);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a4168);
                         break;
                     case 0x88780064:
-                        FUN_00ec65a6(message11, 255, DAT_010a4130);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a4130);
                         break;
                     case 0x887800b4:
-                        FUN_00ec65a6(message11, 255, DAT_010a40f0);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a40f0);
                         break;
                     case 0x8878001e:
-                        FUN_00ec65a6(message11, 255, DAT_010a40b0);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a40b0);
                         break;
                     case 0x887800be:
-                        FUN_00ec65a6(message11, 255, DAT_010a4074);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a4074);
                         break;
                     case 0x88780032:
-                        FUN_00ec65a6(message11, 255, DAT_010a4038);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a4038);
                         break;
                     case 0x80070057:
-                        FUN_00ec65a6(message11, 255, DAT_010a3ffc);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3ffc);
                         break;
                     case 0x80040110:
-                        FUN_00ec65a6(message11, 255, DAT_010a3fc0);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3fc0);
                         break;
                     case 0x8007000e:
-                        FUN_00ec65a6(message11, 255, DAT_010a3f84);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3f84);
                         break;
                     case 0x887800aa:
-                        FUN_00ec65a6(message11, 255, DAT_010a3f48);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3f48);
                         break;
                     case 0x80004001:
-                        FUN_00ec65a6(message11, 255, DAT_010a3f0c);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3f0c);
                         break;
                     default:
-                        FUN_00ec65a6(message11, 255, DAT_010a3ed0);
+                        fnv::crt::strcpy_s(message11, 255, DAT_010a3ed0);
                         break;
                     }
                     ::FUN_005b5e40();
@@ -6557,7 +6542,7 @@ void AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                     copySize_2 = m_bufferBytes;
                     copySrc7 = src7;
                     copyDst7 = dst44_2;
-                    FUN_00ec44d0(copyDst7, copySrc7, copySize_2);
+                    std::memmove(copyDst7, copySrc7, copySize_2);
                     source0->m_buffer->Unlock(src7, src1Bytes2, src3, src2Bytes3);
                 }
                 m_duplicate->Unlock(dst44_2, temp3, dst32, dst2Bytes3);
@@ -6596,19 +6581,19 @@ void AudioBuffer::FUN_00af0630(AudioBuffer* apSource, bool notify)
                         local35 = m_copyState->byteCount;
                         copySrc_ = source0->m_copyState->bytes;
                         copyDst_ = m_copyState->bytes;
-                        FUN_00ec44d0(copyDst_, copySrc_, local35);
+                        std::memmove(copyDst_, copySrc_, local35);
                     }
                     {
                         local40 = m_copyState->segmentSize;
                         copySrc2_2 = source0->m_copyState->segments;
                         local37 = m_copyState->segments;
-                        FUN_00ec44d0(local37, copySrc2_2, local40);
+                        std::memmove(local37, copySrc2_2, local40);
                     }
                     {
                         local78 = m_copyState->thirdSize;
                         local69 = source0->m_copyState->third;
                         local49 = m_copyState->third;
-                        FUN_00ec44d0(local49, local69, local78);
+                        std::memmove(local49, local69, local78);
                     }
                 }
                 m_uiContentCount = 0;
@@ -6634,13 +6619,13 @@ void PathList::FUN_00afdda0(const char* path)
 {
     if (path)
     {
-        size_t length = _strlen(path);
+        size_t length = std::strlen(path);
         bool appendSlash = path[length - 1] != 0x5c;
-        size_t allocationSize = _strlen(path) + appendSlash + 1;
+        size_t allocationSize = std::strlen(path) + appendSlash + 1;
         char* buf = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afdda0::MemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(allocationSize);
         char* copyBuffer = buf;
         char* buffer = copyBuffer;
-        _strcpy_s(buffer, allocationSize, path);
+        fnv::crt::strcpy_s(buffer, allocationSize, path);
         if (appendSlash)
         {
             copyBuffer[length] = 0x5c;
@@ -6783,11 +6768,11 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
 {
     if (name)
     {
-        unsigned int length = _strlen(name) + 1;
-        strcpy_s(fileName, length, name);
+        unsigned int length = std::strlen(name) + 1;
+        fnv::crt::strcpy_s(fileName, length, name);
     }
     else
-        _fnv_zlib_memset(fileName, 0, 260);
+        std::memset(fileName, 0, 260);
     unk1dc = 0;
     unk19c = 0;
     unk1a0 = 0;
@@ -6799,7 +6784,7 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
     unk208 = 0;
     flag224 = 0;
     position218 = ::NiPoint3::ZERO;
-    _fnv_zlib_memset(&unk1a4, 0, 0x24);
+    std::memset(&unk1a4, 0, 0x24);
     void* allocation = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<Allocate114*>(&g_memoryManager)))->FUN_00aa3e40(0x12);
     unk1b4 = reinterpret_cast<unsigned int>(allocation);
     unk1c8 = 0;
@@ -6812,11 +6797,6 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
     unk22c = 0;
 }
 
-extern "C" int __cdecl _splitpath_s(const char* source, char* drive, unsigned int driveSize, char* directory,
-                                    unsigned int directorySize, char* filename, unsigned int filenameSize,
-                                    char* extension, unsigned int extensionSize);
-extern "C" int __cdecl _makepath_s(char* result, unsigned int resultSize, const char* drive, const char* directory,
-                                   const char* filename, const char* extension);
 // @fnv 0x00af4070
 void __cdecl FUN_00af4070(char* result, const char* source)
 {
@@ -6831,7 +6811,7 @@ void __cdecl FUN_00af4070(char* result, const char* source)
         char _Dir[256];
         char _Fname[256];
         char _Ext[256];
-        _splitpath_s(source, _Drive, 3, _Dir, 256, _Fname, 256, _Ext, 256);
+        fnv::crt::splitpath_s(source, _Drive, 3, _Dir, 256, _Fname, 256, _Ext, 256);
         if (!(::g_uiMatchFlags & 2))
         {
             _Drive[0] = 0;
@@ -6839,10 +6819,10 @@ void __cdecl FUN_00af4070(char* result, const char* source)
         }
         if (!(::g_uiMatchFlags & 4))
             _Ext[0] = 0;
-        _makepath_s(result, 260, _Drive, _Dir, _Fname, _Ext);
+        fnv::crt::makepath_s(result, 260, _Drive, _Dir, _Fname, _Ext);
     }
     else
-        strcpy_s(result, 260, source);
+        fnv::crt::strcpy_s(result, 260, source);
 }
 
 

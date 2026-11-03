@@ -99,7 +99,6 @@ FUN_0058dc10::~FUN_0058dc10()
 
 extern const char DAT_011862fc[];
 
-void* __cdecl FUN_00ec43fb(int arg, int zero, const void* data1, const void* data2, int zero2);
 
 struct FUN_005054b0_shell
 {
@@ -145,7 +144,7 @@ struct FUN_0058dd10_shell : public TESForm
 void FUN_0058dd10_shell::FUN_0058dd10(int arg)
 {
     FUN_0058dd10_shell* source =
-        reinterpret_cast<FUN_0058dd10_shell*>(FUN_00ec43fb(arg, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183028)), DAT_011862fc, 0));
+        reinterpret_cast<FUN_0058dd10_shell*>(dynamic_cast<::BGSImpactData *>(reinterpret_cast<::TESForm *>(arg)));
 
     if (source == 0)
         return;

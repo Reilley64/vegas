@@ -4,6 +4,7 @@
 
 // @fnv 0x00aa1ab0
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/C00be0ad0.h"
 #include "fnv/decl/DBBCBC0Target.h"
@@ -975,7 +976,6 @@ void* Ee9b10_Owner::LookupAndVisit(const char* name, Ee9b10_Visitor* visitor)
 
 namespace fnv_00ee9bf0 {
 void* __cdecl FUN_00aa1070(unsigned int);
-void* __cdecl FUN_00ec61c0(void*, unsigned int, unsigned int);
 
 struct S_00ee9bf0_Base
 {
@@ -998,7 +998,7 @@ struct S_00ee9bf0_B
         unk0c = 0x25;
         unk14 = 0;
         unk10 = FUN_00aa1070(0x94);
-        FUN_00ec61c0(unk10, 0, unk0c * 4);
+        std::memset(unk10, 0, unk0c * 4);
     }
 };
 struct S_00ee9bf0_C : S_00ee9bf0_B
@@ -1042,8 +1042,6 @@ FUN_00ee9bf0::FUN_00ee9bf0(void* a, unsigned char b, unsigned char c)
 }
 }  // namespace fnv_00ee9bf0
 
-extern "C" int __cdecl strcmp(const char*, const char*);
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct KeyObj
 {
@@ -1095,7 +1093,7 @@ bool RemoveMissingKeys(KeyObj* apKeyObj, FUN_00ee90f0_cls* apEntryList)
 {
     unsigned char flags[0x400];
     unsigned int count = apEntryList->m_uiItemCount;
-    FUN_00ec61c0(flags, 0, 0x400);
+    std::memset(flags, 0, 0x400);
 
     for (unsigned int i = 0; i < apKeyObj->CountKeys(); ++i)
     {
@@ -1540,7 +1538,6 @@ bool NiGPUProgramCacheE93::LoadCacheFile()
     return false;
 }
 
-extern "C" size_t strlen(const char*);
 bool __cdecl FUN_00aa1bb0(const char* h);
 
 struct StreamObj : public NiFile

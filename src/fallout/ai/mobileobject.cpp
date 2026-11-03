@@ -1,6 +1,7 @@
 // fallout/ai/mobileobject.cpp: MobileObject, Actor, TESObjectREFR, VTableHelper and more (95 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/AimController_c70060.h"
@@ -5519,8 +5520,6 @@ struct FUN_00440460_S
 struct SetLoc_S
 {
 };
-int _FNV_IsNaN(double);
-int _FNV_Finite(double);
 extern double DAT_0108a7a0;
 extern unsigned int DAT_011e054c;
 
@@ -6012,14 +6011,14 @@ bhkCharacterController* FUN_0092f260_shell::FUN_0092f260(float afDeltaTime, NiPo
         afDeltaTime /= ::FUN_00716440();
 
     NiPoint3 pos = *((TopicH*)this)->GetAddTopicList();
-    !_FNV_IsNaN(arDeltaMove->x) && !_FNV_IsNaN(arDeltaMove->y) && !_FNV_IsNaN(arDeltaMove->z);
+    !std::isnan(arDeltaMove->x) && !std::isnan(arDeltaMove->y) && !std::isnan(arDeltaMove->z);
 
     float fanglex = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).x;
     float fangley = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).y;
     float fanglez = (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(((MobileObject*)this)))->GetData())).z;
-    if (fanglex == ::_DAT_010231b0 || _FNV_IsNaN(fanglex) || !_FNV_Finite(fanglex) || fangley == ::_DAT_010231b0 ||
-        _FNV_IsNaN(fangley) || !_FNV_Finite(fangley) || fanglez == ::_DAT_010231b0 || _FNV_IsNaN(fanglez) ||
-        !_FNV_Finite(fanglez))
+    if (fanglex == ::_DAT_010231b0 || std::isnan(fanglex) || !std::isfinite(fanglex) || fangley == ::_DAT_010231b0 ||
+        std::isnan(fangley) || !std::isfinite(fangley) || fanglez == ::_DAT_010231b0 || std::isnan(fanglez) ||
+        !std::isfinite(fanglez))
     {
         ::FUN_005b5e40();
         ((TESAngleHelper*)this)->SetReferencePosition(NiPoint3Ex(0, 0, 0));
@@ -13618,7 +13617,6 @@ float ActorObject::FUN_009344d0(const char* apSoundName, SoundRef* apSoundRef, u
 }  // namespace fnv_009344d0
 
 namespace fnv_0092ed60 {
-extern "C" void* __cdecl FNV_DynamicCast(void*, long, void*, void*, int);
 
 class FNVPoly
 {
@@ -14112,7 +14110,7 @@ void FNVCurrent::FUN_0092ed60(bool refresh)
             }
             else if (refresh)
             {
-                void* mobile = FNV_DynamicCast(index, 0, &(*reinterpret_cast<int *>(&::DAT_01184920)), &::SaveInitialData85A520::DAT_011a0e88, 0);
+                void* mobile = dynamic_cast<::MagicProjectile *>(reinterpret_cast<::MobileObject *>(index));
                 if (mobile)
                 {
 
@@ -14147,7 +14145,7 @@ void FNVCurrent::FUN_0092ed60(bool refresh)
                 }
                 else if (refresh)
                 {
-                    void* mobile2 = FNV_DynamicCast(index, 0, &(*reinterpret_cast<int *>(&::DAT_01184920)), &::SaveInitialData85A520::DAT_011a0e88, 0);
+                    void* mobile2 = dynamic_cast<::MagicProjectile *>(reinterpret_cast<::MobileObject *>(index));
                     if (mobile2)
                     {
 

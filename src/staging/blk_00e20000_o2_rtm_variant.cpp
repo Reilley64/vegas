@@ -4,6 +4,7 @@
 
 // src/staging/blk_00e20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CompressedChunk.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -1801,7 +1802,6 @@ extern "C" unsigned int be_arg_src_e2f9(void);
 volatile unsigned int g_be_sink_e2f9;
 static unsigned int SwapByteOrder(unsigned int x);
 void call_byteswap_e2f9(void);
-extern "C" double __cdecl fabs(double);
 inline float S00e311f0_abs(float x)
 {
     float result = (float)fabs(x);

@@ -2,6 +2,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/A23D40Input.h"
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActiveEffect.h"
@@ -33750,7 +33753,6 @@ struct Obj2
     Obj2Vtbl* vtbl;
 };
 extern FUN_004615a0_This* DAT_011c3f2c;
-unsigned int __cdecl strlen(const char* s);
 struct This954
 {
     unsigned int unk000;
@@ -34474,7 +34476,7 @@ unsigned short This954::FUN_00954d40(int aiFlags)
         x = (FUN_00609c70_shell*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
         group += reinterpret_cast<::SaveTrackedOwner *>((x))->GetSaveSize((int)(this));
         idx = reinterpret_cast<::FUN_0055d520_shell *>((((FUN_0055d520_shell*)this)))->FUN_0055d520();
-        proj = (unsigned char)(strlen(idx) + 1);
+        proj = (unsigned char)(std::strlen(idx) + 1);
         group += 1 + proj;
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_00954d40::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x2c)
         {
@@ -37510,8 +37512,6 @@ bool PlayerCharacter_StandIn::AddMagicItem(MagicItem* apItem)
 
     return badded;
 }
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct MagicItemListStandin
 {
@@ -58408,7 +58408,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
         }
         if (FUN_00ec7d40(axisY) < FUN_00ec7d40(axisX))
         {
-            DAT_011a3b3c = FUN_00ec7d40(axisX) * DAT_0108b048;
+            DAT_011a3b3c = std::abs(axisX) * DAT_0108b048;
             if (axisX < 0)
                 flags3 |= 4;
             else
@@ -58420,7 +58420,7 @@ void InputPlayer::FUN_009466d0(float dt, bool paused)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(0);
             else if (axisY > 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(1);
-            DAT_011a3b3c = FUN_00ec7d40(axisY) * DAT_0108b048;
+            DAT_011a3b3c = std::abs(axisY) * DAT_0108b048;
         }
         if (DAT_011a3b3c > ::g_01012070)
             DAT_011a3b3c = 1.0f;

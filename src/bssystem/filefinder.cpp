@@ -1,6 +1,8 @@
 // bssystem/filefinder.cpp: FileFinder, Loader_S (12 functions)
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00446dc0_Class.h"
 #include "fnv/decl/FUN_00b01bc0_class.h"
@@ -102,9 +104,9 @@ FileFinder::FILE_LOCATION FileFinder::GetFileLocation(char* fileName, char* file
     }
 
     if (fileName[0] == '\\')
-        strcpy_s(path, 260, fileName + 1);
+        fnv::crt::strcpy_s(path, 260, fileName + 1);
     else
-        strcpy_s(path, 260, fileName);
+        fnv::crt::strcpy_s(path, 260, fileName);
 
     result = (FILE_LOCATION)((unsigned int)(reinterpret_cast<::FUN_00afe220_shell *>(this)->FUN_00afe220(path, flags, archiveType)));
     if (result == NOTFOUND)
@@ -114,17 +116,12 @@ FileFinder::FILE_LOCATION FileFinder::GetFileLocation(char* fileName, char* file
     }
     else if (filePath)
     {
-        strcpy_s(filePath, 260, path);
+        fnv::crt::strcpy_s(filePath, 260, path);
     }
     return result;
 }
 
 bool __cdecl FUN_00af6320(int, int);
-int __cdecl FUN_00ecbf05(const char*, int);
-unsigned int __cdecl _strlen(const char*);
-int __cdecl __strnicmp(const char*, const char*, unsigned int);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
-int __cdecl _strcat_s(char*, unsigned int, const char*);
 struct PathArr_S
 {
     void* pVtbl;
@@ -138,7 +135,7 @@ struct PathArr_S
 };
 __forceinline unsigned int StrLenFI(const char* s)
 {
-    unsigned int n = _strlen(s);
+    unsigned int n = std::strlen(s);
     return n;
 }
 struct FinderCalls_S
@@ -154,7 +151,7 @@ int FUN_00afe220_shell::FUN_00afe220(char* apFilePath, unsigned int aiFlags, uns
     if (!DAT_011acdf8 || DAT_011acdf9)
         aiFlags = 0;
     if (reinterpret_cast<::FUN_00b01bc0_class *>((reinterpret_cast<FinderCalls_S*>(this)))->IsFlag2Clear(aiFlags, aiArchiveType) &&
-        FUN_00ecbf05(apFilePath, 0) != -1)
+        fnv::crt::access(apFilePath, 0) != -1)
         return 1;
     if (reinterpret_cast<::FUN_00b01be0_Class *>((reinterpret_cast<FinderCalls_S*>(this)))->IsFlag4Clear(aiFlags, aiArchiveType))
     {
@@ -162,13 +159,13 @@ int FUN_00afe220_shell::FUN_00afe220(char* apFilePath, unsigned int aiFlags, uns
         for (unsigned int uiIndex = 0; uiIndex < uiPathCount; uiIndex++)
         {
             const char* pcPrefix = reinterpret_cast<PathArr_S*>(this)->pData[uiIndex];
-            if (pcPrefix && __strnicmp(apFilePath, pcPrefix, StrLenFI(pcPrefix)))
+            if (pcPrefix && fnv::crt::strnicmp(apFilePath, pcPrefix, StrLenFI(pcPrefix)))
             {
-                _strcpy_s(acFullPath, 0x104, pcPrefix);
-                _strcat_s(acFullPath, 0x104, apFilePath);
-                if (FUN_00ecbf05(acFullPath, 0) != -1)
+                fnv::crt::strcpy_s(acFullPath, 0x104, pcPrefix);
+                fnv::crt::strcat_s(acFullPath, 0x104, apFilePath);
+                if (fnv::crt::access(acFullPath, 0) != -1)
                 {
-                    _strcpy_s(apFilePath, 0x104, acFullPath);
+                    fnv::crt::strcpy_s(apFilePath, 0x104, acFullPath);
                     return 1;
                 }
             }
@@ -261,7 +258,6 @@ struct _FILETIME
     unsigned int dwLowDateTime;
     unsigned int dwHighDateTime;
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct FileEntryTmp
 {
     virtual void f0();
@@ -275,7 +271,7 @@ struct FileEntryTmp
 // @fnv 0x00afe7d0
 bool __cdecl FUN_00afe7d0(const char* apFileName, _FILETIME& arFileTime, unsigned int aiMode)
 {
-    _fnv_zlib_memset(&arFileTime, 0, 8);
+    std::memset(&arFileTime, 0, 8);
     FileEntryTmp* pkEntry = ((::fnv_00afe7d0::FileEntryTmp *)(::fnv_00af6160::FindArchiveForFile(apFileName, aiMode)));
     if (pkEntry)
         apFileName = pkEntry->f6();
@@ -292,9 +288,6 @@ struct MM
 {
 };
 bool __cdecl FUN_00b01af0(const char*);
-unsigned int __cdecl strlen(const char*);
-const char* __cdecl strrchr(const char*, int);
-void* __cdecl _memmove(void*, const void*, unsigned int);
 void __cdecl strcat_s(char*, unsigned int, const char*);
 template <class T> class BSSimpleList
 {
@@ -331,7 +324,7 @@ inline void* __cdecl operator new[](unsigned int n)
 }
 inline void CopyQ(char* d, const char* s, unsigned int n)
 {
-    _memmove(d, s, n);
+    std::memmove(d, s, n);
 }
 inline void CatQ(char* d, unsigned int n, const char* s)
 {
@@ -374,7 +367,6 @@ BSSimpleList<Actor*>* __cdecl FUN_00afe5b0(const char* path, const char* name, i
     return list7;
 }
 
-char* __cdecl strstr(const char*, const char*);
 struct FinderMemory : MemoryManager
 {
 };

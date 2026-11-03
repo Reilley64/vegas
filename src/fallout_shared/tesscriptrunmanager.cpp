@@ -1,5 +1,6 @@
 // fallout_shared/tesscriptrunmanager.cpp: ScriptRunner, ScriptExecutor (11 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00414220_shell.h"
@@ -149,8 +150,6 @@ bool ScriptExecutor::Run(Script* script, TESObjectREFR* reference, ScriptLocals*
     ::WaitForSingleObjectEx((long *)(void *)(&g_scriptRunLock));
     return result;
 }
-
-void* __cdecl memset(void*, int, unsigned int);
 
 // Zeroes out all fields of the object pointed to by pThis and returns pThis.
 // @fnv 0x005e0c60

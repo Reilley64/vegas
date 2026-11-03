@@ -5,6 +5,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShaderBloodSplatter.h"
@@ -1514,7 +1516,6 @@ bool FUN_00ba13b0_Class::UpdateScaledValue(int unused)
     return true;
 }
 
-extern "C" int __cdecl rand();
 
 struct BBA13D0CurvePoint
 {
@@ -1529,7 +1530,7 @@ extern BBA13D0CurvePoint g_akBA13D0Curve[];
 float __cdecl FUN_00ba13d0(float fMean, float fDeviation)
 {
     int i = 0;
-    float fRand = (float)(rand() / ::DAT_01029790);
+    float fRand = (float)(std::rand() / ::DAT_01029790);
     float fValue;
     if (fRand >= 0.5f)
     {
@@ -2254,7 +2255,6 @@ void FUN_00ba50d0()
     }
 }
 
-extern "C" void* FUN_00ec61c0(void*, int, unsigned int);
 struct ShaderProgram
 {
     virtual void Reserved();
@@ -2284,7 +2284,7 @@ struct ShaderRequest
     {
         options.unk00 = 0;
         options.unk04 = 0;
-        FUN_00ec61c0(options.parameters, 0, 64);
+        std::memset(options.parameters, 0, 64);
     }
 };
 struct ParticleShader
@@ -2448,8 +2448,6 @@ Obj_b10008* FUN_00ba82a0_cls::FUN_00ba82a0(int arg)
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(p), (::BSSP_stub4 *)(arg), {});
     return p;
 }
-
-extern "C" int __cdecl strncmp(const char*, const char*, unsigned int);
 
 struct NiRTTI_S
 {
@@ -7223,7 +7221,6 @@ void BB3880Owner::NotifyObject(BB3880Callback pfnCallback, void* pvData)
 }
 
 namespace fnv_00bb3950 {
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 
 struct S_00bb3950_Pool
 {
@@ -7257,7 +7254,7 @@ struct FUN_00bb3950 : S_00bb3950_Base
 FUN_00bb3950::FUN_00bb3950()
 {
     unk08 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00bb3950::S_00bb3950_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(0x300);
-    FUN_00ec61c0(unk08, 0, 0x300);
+    std::memset(unk08, 0, 0x300);
     unk0c = 0.0f;
     unk10 = 0.0f;
     unk14 = 0.0f;
@@ -14542,7 +14539,6 @@ bool nbb::Owner::FUN_00bb12e0(Root248* apRoot)
 }
 
 namespace ShaderInit {
-extern "C" void* FUN_00ec61c0(void*, int, unsigned int);
 extern const char DAT_010b9178[], DAT_010b9174[], DAT_010b915c[], DAT_010b914c[], DAT_010b9138[], DAT_010b9128[], DAT_010b9118[], DAT_010b8afc[];
 struct Macro
 {
@@ -14563,7 +14559,7 @@ void Initialize(const char** row, const char* path)
     row[0] = path;
     row[1] = 0;
     row[2] = 0;
-    FUN_00ec61c0(row + 3, 0, 64);
+    std::memset(row + 3, 0, 64);
 }
 void Initialize(const char** row, const char* path, const char* a)
 {
@@ -14572,7 +14568,7 @@ void Initialize(const char** row, const char* path, const char* a)
     row[2] = ::DAT_01011584;
     row[3] = 0;
     row[4] = 0;
-    FUN_00ec61c0(row + 5, 0, 56);
+    std::memset(row + 5, 0, 56);
 }
 void Initialize(VertexShaderRequest& row, const char* path, const char* a, const char* b)
 {
@@ -14583,7 +14579,7 @@ void Initialize(VertexShaderRequest& row, const char* path, const char* a, const
     row.values[4] = ::DAT_01011584;
     row.values[5] = 0;
     row.values[6] = 0;
-    FUN_00ec61c0(row.parameters, 0, 48);
+    std::memset(row.parameters, 0, 48);
 }
 struct Program
 {
@@ -15357,8 +15353,6 @@ struct FFTBuffers
     TextureHandle permutation;
     void FUN_00ba1ac0(int, int);
 };
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 inline float LocalSin(float x)
 {
     return (float)sin(x);
@@ -15373,7 +15367,7 @@ void FFTBuffers::FUN_00ba1ac0(int count, int stages)
     short* indices = new short[count];
     int i;
     int j = 0;
-    FUN_00ec61c0(order, 0, count * sizeof(float));
+    std::memset(order, 0, count * sizeof(float));
     BufferDevice* device = ((::TextureView *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(permutation))->FUN_00ba3780()))->GetObject()->device();
     for (i = 0; i < count; i++)
         order[i] = (float)(i + 0.5) / count;
@@ -15396,13 +15390,13 @@ void FFTBuffers::FUN_00ba1ac0(int count, int stages)
     for (i = 0; i < count; i++)
         indices[i] = (short)(order[i] * 65535.0);
     device->Lock(0, &z, 0, 0);
-    FUN_00ec44d0(z.data, indices, count * 2);
+    std::memmove(z.data, indices, count * 2);
     device->Unlock(0);
     delete[] order;
     delete[] indices;
     device = ((::TextureView *)(reinterpret_cast<::FUN_00ba3780_struct *>(&(coefficients))->FUN_00ba3780()))->GetObject()->device();
     float* table = new float[count << 6];
-    FUN_00ec61c0(table, 0, count << 8);
+    std::memset(table, 0, count << 8);
     int span = 1;
     for (int stage = 0; stage < stages; stage++)
     {
@@ -15435,7 +15429,7 @@ void FFTBuffers::FUN_00ba1ac0(int count, int stages)
         }
     }
     device->Lock(0, &z, 0, 0);
-    FUN_00ec44d0(z.data, table, count << 8);
+    std::memmove(z.data, table, count << 8);
     device->Unlock(0);
     delete[] table;
 }
@@ -16072,7 +16066,6 @@ struct Renderer
     virtual void v2();
     virtual int Select(unsigned int);
 };
-void* FUN_00ec44d0(void*, const void*, unsigned int);
 struct Shader
 {
     int unk00;
@@ -16177,7 +16170,7 @@ void Shader::FUN_00bb1f60(Geometry* geometry, int unused1, int unused2, PassInfo
     int isMaterial = IsMaterial(material);
     material = isMaterial ? material : 0;
     const void* materialConstants = material->Constants();
-    FUN_00ec44d0(constants, materialConstants, 768);
+    std::memmove(constants, materialConstants, 768);
     ::DAT_0120065C = material->U() * ::DAT_01200608;
     ::DAT_0120066C = material->V() * ::DAT_0120060c;
     ::DAT_01200660 = material->Values()->ambient;
@@ -17596,7 +17589,6 @@ struct Shader2760
     void FUN_00bb2760(Input2760* input);
 };
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Sets up shader state from input camera and geometry, then submits the geometry to the active render passes.
 // @fnv 0x00bb2760
@@ -17624,7 +17616,7 @@ void Shader2760::FUN_00bb2760(Input2760* input)
             DAT_011FA0D0 = Vec4(0.0f, 0.0f, 0.0f, 0.0f);
     }
     const void* m = camera->GetMatrix();
-    _memmove(&matrix, m, 0x300);
+    std::memmove(&matrix, m, 0x300);
     DAT_0120065C = camera->GetData()->value18 * DAT_01200608;
     DAT_0120066C = camera->GetData()->value1C * DAT_0120060c;
     DAT_01200660 = camera->GetData()->value14;
@@ -17650,9 +17642,7 @@ extern double DAT_010b7f40;
 extern double DAT_010b7f30;
 
 
-extern "C" int __cdecl rand();
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 
 
@@ -18686,10 +18676,10 @@ void Spectrum::FUN_00ba20e0()
     int iOffset;
     for (int row = 0; row < DAT_01200054 + 1; ++row)
     {
-        fnv_zlib_memset(radius[row], 0, DAT_01200054 * 4 + 1);
-        fnv_zlib_memset(amplitude[row], 0, DAT_01200054 * 4 + 1);
+        std::memset(radius[row], 0, DAT_01200054 * 4 + 1);
+        std::memset(amplitude[row], 0, DAT_01200054 * 4 + 1);
         if (row < DAT_01200054)
-            fnv_zlib_memset(radius[row], 0, DAT_01200054 * 4);
+            std::memset(radius[row], 0, DAT_01200054 * 4);
     }
     if (DAT_01200059)
     {
@@ -18719,7 +18709,7 @@ void Spectrum::FUN_00ba20e0()
                 {
                     scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480((float)this, x));
                     sample = ::FUN_00ba13d0(0, 1);
-                    float phase = rand() / DAT_01029790;
+                    float phase = std::rand() / DAT_01029790;
                     phase = phase * 2 * 3.1415927410125732;
                     phase = sin(phase);
                     amplitude[row][col] = sample * scale * phase;
@@ -18742,7 +18732,7 @@ void Spectrum::FUN_00ba20e0()
                 radius[row][col] = rv;
                 scale = (x == 0 && y == 0) ? 0 : sqrt(::FUN_00ba1480((float)this, x));
                 sample = ::FUN_00ba13d0(0, 1);
-                float phase = rand() / DAT_01029790;
+                float phase = std::rand() / DAT_01029790;
                 phase = phase * 2 * 3.1415927410125732;
                 phase = sin(phase);
                 amplitude[row][col] = sample * scale * phase;

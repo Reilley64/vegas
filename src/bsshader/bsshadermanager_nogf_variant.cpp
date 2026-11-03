@@ -4,6 +4,8 @@
 // unit once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_00a59d30_C.h"
@@ -50,10 +52,7 @@
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
-extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 class NiRTTI;
 class NiRenderer;
 class BSFileEntry;
@@ -737,7 +736,6 @@ inline bool IsExactB(Shader* s, RTTIStub* r)
     bool b = s->vfn_8() == r;
     return b;
 }
-extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager
 {
@@ -889,9 +887,7 @@ class PixelOwner
 
 int FUN_004dc060(int);
 
-double FUN_00ec6940(double);
 
-double FUN_00ec6940(double);
 
 class NiGlobalStringTable
 {
@@ -1503,7 +1499,7 @@ void FUN_00b55bb0()
 
             unsigned char shade;
 
-            shade = ToByte((float)FUN_00ec6940((double)staged18));
+            shade = ToByte((float)std::floor((double)staged18));
 
             *pixel++ = shade;
             *pixel++ = shade;

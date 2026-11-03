@@ -1,6 +1,7 @@
 // fallout_shared/bgsplaceablewater.cpp: BGSPlaceableWater (21 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -306,7 +307,6 @@ void FUN_004fc490_shell::FUN_004fc490(bool abValue)
 struct FUN_005e79a0_t
 {
 };
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 extern char DAT_01183028;
 struct FUN_004fc8c0_shell : public BGSPlaceableWater
 {

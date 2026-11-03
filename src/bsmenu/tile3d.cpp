@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -637,7 +638,6 @@ struct TileX
     NiNode* GetNiNode();
 };
 
-extern "C" char* __cdecl strstr(const char*, const char*);
 struct ModelPath
 {
     char* buffer;
@@ -721,7 +721,6 @@ struct Tile3DCalc
     NiNode* CreateTileNode();
 };
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct AnimString
 {
     char* text;

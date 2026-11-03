@@ -1,6 +1,8 @@
 // bsmain/queuedfiles.cpp: QueuedFile, ObjectC3 (10 functions)
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_006f74f0_cls.h"
 #include "fnv/decl/FUN_00c3c590.h"
@@ -49,8 +51,6 @@ struct FUN_00c3cee0_shell : public QueuedFileEntry
 struct MemoryManager
 {
 };
-unsigned int __cdecl _strlen(const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 // Copies apName into a newly allocated buffer stored in pFileName, using strlen(apName)+1 bytes.
 // @fnv 0x00c3cee0
 void FUN_00c3cee0_shell::FUN_00c3cee0(char* apName)
@@ -60,11 +60,11 @@ void FUN_00c3cee0_shell::FUN_00c3cee0(char* apName)
     {
         char* p;
         char* dst;
-        uiLen = _strlen(apName) + 1;
+        uiLen = std::strlen(apName) + 1;
         p = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(uiLen);
         pFileName = p;
         dst = pFileName;
-        _strcpy_s(dst, uiLen, apName);
+        fnv::crt::strcpy_s(dst, uiLen, apName);
     }
 }
 

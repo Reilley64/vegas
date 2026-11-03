@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderPass.h"
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/symbols_00406000.h"
@@ -201,8 +203,6 @@ void BranchShader::FUN_00bd3280()
     }
 }
 
-char* __cdecl FUN_00ecdd16(double value, int digits, char* buffer);
-extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
 class NiD3DGPUProgramCache
 {
   public:
@@ -249,51 +249,51 @@ void Frond::CreateShaderConstantMaps()
 {
     char specMultBuf[0x160];
     Entry shaderEntries[10];
-    FUN_00ecdd16((double)DAT_011adbcc, 12, specMultBuf);
+    fnv::crt::gcvt((double)DAT_011adbcc, 12, specMultBuf);
     shaderEntries[0].f00 = "lighting\\1x\\p\\base.p.hlsl";
     shaderEntries[0].f04 = 0;
-    _fnv_zlib_memset(&shaderEntries[0].f08, 0, 0x44);
+    std::memset(&shaderEntries[0].f08, 0, 0x44);
     shaderEntries[1].f00 = "lighting\\1x\\p\\ambDiffDirTexture.p.hlsl";
     shaderEntries[1].f04 = "VC";
     shaderEntries[1].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[1].f0c = 0;
-    _fnv_zlib_memset(&shaderEntries[1].t10, 0, 0x3c);
+    std::memset(&shaderEntries[1].t10, 0, 0x3c);
     shaderEntries[2].f00 = "lighting\\1x\\p\\ambDiffDirTexture.p.hlsl";
     shaderEntries[2].f04 = "VC";
     shaderEntries[2].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[2].f0c = 0;
-    _fnv_zlib_memset(&shaderEntries[2].t10, 0, 0x3c);
+    std::memset(&shaderEntries[2].t10, 0, 0x3c);
     shaderEntries[3].f00 = "lighting\\1x\\p\\ambDiffDirAndPt.p.hlsl";
     shaderEntries[3].f04 = 0;
-    _fnv_zlib_memset(&shaderEntries[3].f08, 0, 0x44);
+    std::memset(&shaderEntries[3].f08, 0, 0x44);
     shaderEntries[4].f00 = "lighting\\1x\\p\\diffuseDir.p.hlsl";
     shaderEntries[4].f04 = 0;
-    _fnv_zlib_memset(&shaderEntries[4].f08, 0, 0x44);
+    std::memset(&shaderEntries[4].f08, 0, 0x44);
     shaderEntries[5].f00 = "lighting\\1x\\p\\diffusePt.p.hlsl";
     shaderEntries[5].f04 = 0;
-    _fnv_zlib_memset(&shaderEntries[5].f08, 0, 0x44);
+    std::memset(&shaderEntries[5].f08, 0, 0x44);
     shaderEntries[6].f00 = "lighting\\1x\\p\\base.p.hlsl";
     shaderEntries[6].f04 = "TEX";
     shaderEntries[6].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[6].f0c = (int)"VC";
     shaderEntries[6].t10 = (int)(*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[6].t14 = 0;
-    _fnv_zlib_memset(&shaderEntries[6].t18, 0, 0x34);
+    std::memset(&shaderEntries[6].t18, 0, 0x34);
     shaderEntries[7].f00 = "lighting\\1x\\p\\specularDir.p.hlsl";
     shaderEntries[7].f04 = "SPECMULT";
     shaderEntries[7].f08 = specMultBuf;
     shaderEntries[7].f0c = 0;
-    _fnv_zlib_memset(&shaderEntries[7].t10, 0, 0x3c);
+    std::memset(&shaderEntries[7].t10, 0, 0x3c);
     shaderEntries[8].f00 = "lighting\\1x\\p\\specularPt.p.hlsl";
     shaderEntries[8].f04 = "SPECMULT";
     shaderEntries[8].f08 = specMultBuf;
     shaderEntries[8].f0c = 0;
-    _fnv_zlib_memset(&shaderEntries[8].t10, 0, 0x3c);
+    std::memset(&shaderEntries[8].t10, 0, 0x3c);
     shaderEntries[9].f00 = "lighting\\1x\\p\\base.p.hlsl";
     shaderEntries[9].f04 = "FOG";
     shaderEntries[9].f08 = (*reinterpret_cast<float (*)[]>((void *)&::DAT_01011584));
     shaderEntries[9].f0c = 0;
-    _fnv_zlib_memset(&shaderEntries[9].t10, 0, 0x3c);
+    std::memset(&shaderEntries[9].t10, 0, 0x3c);
     const char* profile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     char shaderPathBuf[0x104];
     char psoNameBuf[0x104];

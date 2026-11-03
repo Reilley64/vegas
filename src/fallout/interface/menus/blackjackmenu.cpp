@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -4263,7 +4264,6 @@ struct BJCard
     ~BJCard();
     BJCard& operator=(const BJCard&);
 };
-int __cdecl FUN_00ec7d40(int);
 struct BJDeck
 {
     int unk00;
@@ -4474,7 +4474,7 @@ int BJDeck::DrawCard(void* hand, bool useSkill, bool split)
         int lowIndex3 = 0;
         int best_ = total6;
         int low2 = total6;
-        int trials9 = FUN_00ec7d40(unk68 - 5);
+        int trials9 = std::abs(unk68 - 5);
         int indices[5];
         for (int fill2 = 0; fill2 < trials9; fill2++)
             indices[fill2] = ((int)(::GetRandomNumberInRange(0, count)));

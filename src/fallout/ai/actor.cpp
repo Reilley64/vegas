@@ -2,6 +2,11 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A4F0Menu.h"
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActionPoints.h"
@@ -47804,7 +47809,6 @@ extern const double DAT_01023128;
 void* FUN_00553300(unsigned int n);
 int FUN_004ade00(int aActionDetail, int b);
 
-int FUN_00ec7750(int aActionDetail, const char* s);
 int strcat_s(char* buf, unsigned int n, const char* s);
 
 // @fnv 0x0087e130
@@ -47894,7 +47898,7 @@ void Projectile::InitRagdollController(void* p0, unsigned char bDeleteExisting, 
                         }
                     }
                 }
-                if (FUN_00ec7750(effectNode6->V130(), "Prime") != 0)
+                if (((int)(std::uintptr_t)(::std::strstr((char *)(effectNode6->V130()), "Prime"))) != 0)
                 {
                     reinterpret_cast<::FUN_005c6b40_Class *>((m_ac))->FUN_005c6b40(1);
                     reinterpret_cast<::FUN_0087ea60_Class *>((m_ac))->FUN_0087ea60(0);
@@ -79407,7 +79411,6 @@ struct NiFixedStringD
     operator const char*() const;
 };
 int __cdecl _mbsnicmp(const unsigned char* s1, const unsigned char* s2, unsigned int n);
-long __cdecl FUN_00eca6d3(const char* str);
 extern char DAT_01084e64[];  // "DismemberedLimb"
 struct NiAVObjectD
 {
@@ -79678,8 +79681,6 @@ bool WorkerView::HasSkinBoneInList(NiAVObject* object, int flag)
 
 // Actor: gather the limb-bone nodes of a model subtree into the fixed MAX_LIMB_BONES table
 // (reset on the outermost call), warning when the table overflows.
-
-extern "C" void* __cdecl memset(void* pvDest, int iValue, unsigned int ItemUpdateArray);
 
 class B6FF0Node;
 
@@ -80456,7 +80457,6 @@ class GlobalObject_0040c150
 {
   public:
 };
-char* __cdecl FUN_00ec7750(const char* haystack, const char* needle);
 
 struct FUN_008b78c0_shell : public Actor
 {
@@ -80493,13 +80493,13 @@ void FUN_008b78c0_shell::UpdateHurtReaction(bool force)
         if (!seq || !(const char*)(*(::fnv_008b78c0::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((seq))->GetLinkToList())))
             return;
         const char* name = (*(::fnv_008b78c0::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((seq))->GetLinkToList()));
-        if (FUN_00ec7750(name, "Hurt\\"))
+        if (::std::strstr((char *)(name), "Hurt\\"))
             hurt = true;
-        if (FUN_00ec7750(name, "Toddler\\"))
+        if (::std::strstr((char *)(name), "Toddler\\"))
             hasToddler = true;
-        if (FUN_00ec7750(name, "Child\\"))
+        if (::std::strstr((char *)(name), "Child\\"))
             child = true;
-        if (FUN_00ec7750(name, "Female\\"))
+        if (::std::strstr((char *)(name), "Female\\"))
             bFemale = true;
     }
     bool isHurt = FUN_008b7b70((Struct_008b7b70*)this);
@@ -92283,7 +92283,6 @@ void ActorNodeLoader::FUN_008d4210()
     }
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 
 struct FUN_008d6000_Class
@@ -92341,7 +92340,7 @@ void AddTimedEntry(unsigned int auiKey1, unsigned int auiKey2)
             FUN_008d6000_Class* tmp4;
             if (mem)
             {
-                fnv_zlib_memset(mem, 0, size5);
+                ::std::memset(mem, 0, size5);
                 tmp4 = (FUN_008d6000_Class*)mem;
             }
             else
@@ -99893,7 +99892,6 @@ struct Lock89
 struct Manager89
 {
 };
-int __cdecl FUN_00ec7750(const char*, const char*);
 struct Scene89
 {
 };
@@ -122115,7 +122113,6 @@ extern AlarmCalendar DAT_011de7b8;
 struct AlarmManager
 {
 };
-int __cdecl sprintf(char*, const char*, ...);
 struct AlarmHost
 {
     virtual void v0();
@@ -122384,7 +122381,7 @@ void AlarmHost::FUN_008c0460(TESObjectREFR* target, bool selfOnly, int unused)
         }
         if (!reinterpret_cast<::FUN_009ebab0_host *>((extra))->GetRaceListSize())
         {
-            sprintf(pItem, "%s  attacking %s no one cared", reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), reinterpret_cast<::FUN_0055d520_shell *>((((AlarmHost*)target)))->FUN_0055d520());
+            ::std::sprintf(pItem, "%s  attacking %s no one cared", reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), reinterpret_cast<::FUN_0055d520_shell *>((((AlarmHost*)target)))->FUN_0055d520());
             ::FUN_00703c00(pItem, {});
         }
         else if (!selfOnly)
@@ -125155,7 +125152,6 @@ void EActor::FUN_0088e8d0(float elapsed, ERequest* event)
 }  // namespace fnv_0088e8d0
 
 namespace fnv_00899200 {
-extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 struct ZForm
 {
     virtual void formVirtual();
@@ -125953,7 +125949,7 @@ void ZActor::FUN_00899200(bool arg1, bool abFindTarget)
                 TESForm* form = ::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(5));
                 if (form)
                 {
-                    caster.setMagic((MagicItem*)FUN_00ec43fb(form, 0, &::DAT_01183028, &::DAT_01183140, 0));
+                    caster.setMagic((MagicItem*)dynamic_cast<::MagicItem *>(reinterpret_cast<::TESForm *>(form)));
                     ZActor* magicTarget = vatsEntry->target;
                     caster.setTarget(magicTarget ? &magicTarget->unk94 : 0);
                     if (reinterpret_cast<::CastingCheck *>(&(caster))->TryCast((::TESBoundObject *)(0)))
@@ -137736,7 +137732,6 @@ struct MActor : MRef, MAvo
 };
 
 int __cdecl FUN_005f2440(unsigned short);
-float __cdecl floor(float);
 void __cdecl FUN_006890b0(MCell*, float, const char*, MPt, MPt, float, int, int);
 MAudio* __cdecl FUN_00453a70();
 
@@ -138251,7 +138246,7 @@ void ActorD::UpdateDismemberedLimbs()
             continue;
         if (_mbsnicmp((const unsigned char*)pNameTmp, (const unsigned char*)DAT_01084e64, 15))
             continue;
-        long lPartB = FUN_00eca6d3(pNameTmp + 15);
+        long lPartB = ::std::atoi(pNameTmp + 15);
         ::FUN_00c69ee0((::NiAVObject *)(::NiAVObjectD *)((NiAVObjectD*)pChild), 1, 1);
         pRootB->RemoveChildAt(i);
         aUsDismembered |= 1 << lPartB;
@@ -138886,7 +138881,6 @@ float ResistanceTarget::FUN_008c40e0(MagicCaster* caster, MagicItem* item, Activ
 
 namespace fnv_008c1010 {
 extern int DAT_011841cc, DAT_011846d4;
-extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 
 struct FactionFormView1010
 {
@@ -142614,7 +142608,7 @@ bool Actor89::FUN_00881d30()
             Extra89* earlyExtra = ((::Extra89 *)(reinterpret_cast<::ExtraDataList *>((((::Extra89 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
             if (earlyExtra)
             {
-                if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() && v21c() && FUN_00ec7750(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), "Lily"))
+                if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() && v21c() && ((int)(std::uintptr_t)(::std::strstr((char *)(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520()), "Lily"))))
                     process->v160(((void *)(reinterpret_cast<::Target *>((earlyExtra))->FUN_004c8c10(5, 0))), v1d0(), 1);
                 else
                     process->v160(((void *)(reinterpret_cast<::Target *>((earlyExtra))->FUN_004c8c10(5, 0))), 0, 1);
@@ -142683,7 +142677,7 @@ bool Actor89::FUN_00881d30()
     Extra89* extra6 = ((::Extra89 *)(reinterpret_cast<::ExtraDataList *>((((::Extra89 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
     if (extra6)
     {
-        if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() && FUN_00ec7750(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(), "Lily") && v21c())
+        if (reinterpret_cast<::MiddleHighProcess *>(this)->IsActorInCombat() && ((int)(std::uintptr_t)(::std::strstr((char *)(reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520()), "Lily"))) && v21c())
         {
             Base89* base = ((::Base89 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
             reinterpret_cast<::CreatureEquipment *>((base))->FUN_005f9e00((::TESObjectREFR *)(::Actor89 *)(this), 1, 1, 1);
@@ -145452,7 +145446,6 @@ struct Sub88
     int unk00, unk04, unk08;
 };
 
-void __cdecl FUN_00ec623a(char*, char*, void*, void*);
 struct V310View : DeathSlots192
 {
     virtual void slot192(), slot193(), slot194(), slot195();
@@ -146060,7 +146053,7 @@ void KillActor::FUN_0089d900(::Actor* arg1, float arg2)
             if (reinterpret_cast<::FUN_004f8960_shell *>((((KillSupport::ThisProc2*)this)))->FUN_004f8960() == 6)
             {
                 ;
-                KillSupport::FUN_00ec623a(buf, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((void *)(reinterpret_cast<::FUN_0055d520_shell *>((((KillSupport::This55*)this)))->FUN_0055d520())),
+                ::std::sprintf(buf, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((void *)(reinterpret_cast<::FUN_0055d520_shell *>((((KillSupport::This55*)this)))->FUN_0055d520())),
                                           ((void *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::KillSupport::Glob1e24 *>(&::g_011d1e24))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(buf), 0, (int)(&(*reinterpret_cast<char *>((void *)&::DAT_01049638))), 0, ::DAT_010162c0, 0);
             }

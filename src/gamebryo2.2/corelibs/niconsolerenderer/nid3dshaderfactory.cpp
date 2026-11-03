@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -80,7 +82,7 @@ NiShaderFactory* NiD3DShaderFactory::Create()
         shaderStorage->m_hashSize = 0x3b;
         shaderStorage->m_unused = 0;
         shaderStorage->m_hashTable = ::FUN_00aa1070(0xec);
-        fnv_zlib_memset(shaderStorage->m_hashTable, 0, shaderStorage->m_hashSize * 4);
+        std::memset(shaderStorage->m_hashTable, 0, shaderStorage->m_hashSize * 4);
         shaderStorage->m_sState = true;
         shaderStorage->m_ppVirtualMethodTable = &DAT_010f0c80;
         shaderMap = shaderStorage;
@@ -97,7 +99,7 @@ NiShaderFactory* NiD3DShaderFactory::Create()
         libraryStorage->m_hashSize = 0x25;
         libraryStorage->m_unused = 0;
         libraryStorage->m_hashTable = ::FUN_00aa1070(0x94);
-        fnv_zlib_memset(libraryStorage->m_hashTable, 0, libraryStorage->m_hashSize * 4);
+        std::memset(libraryStorage->m_hashTable, 0, libraryStorage->m_hashSize * 4);
         libraryStorage->m_sState = false;
         libraryStorage->m_ppVirtualMethodTable = &DAT_010f0ca0;
         m_pShaderLibraryStorage = libraryStorage;
@@ -1028,8 +1030,6 @@ void ShaderFactoryShell::FUN_00e92470()
     }
 }
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
-extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
 
 class BE92910RefObject
@@ -1105,7 +1105,7 @@ void FUN_00e92910_cls::SetEntryNameAndObject(BE92910Entry* pkEntry, const char* 
         unsigned int uiLen = strlen(pcName) + 1;
         char* pcCopy = (char*)::FUN_00aa1070(uiLen);
         pkEntry->m_pcName = pcCopy;
-        strcpy_s(pcCopy, uiLen, pcName);
+        fnv::crt::strcpy_s(pcCopy, uiLen, pcName);
     }
     else
     {

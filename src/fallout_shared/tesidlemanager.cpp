@@ -1,6 +1,7 @@
 // fallout_shared/tesidlemanager.cpp: IdleAnimationManager, IdleAnimationDirectoryEntry, IdleCleanup (22 functions)
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
@@ -183,10 +184,10 @@ void IdleAnimationDirectoryEntry::SetWeaponFiles(BSSimpleList<const char*>* file
                     if (basename)
                     {
                         ++basename;
-                        if (!CRT::_stricmp(basename, fnv_idle_1hp_left) ||
-                            !CRT::_stricmp(basename, fnv_idle_1hp_fast_left) ||
-                            !CRT::_stricmp(basename, fnv_idle_1hm_left) ||
-                            !CRT::_stricmp(basename, fnv_idle_1hm_fast_left))
+                        if (!fnv::crt::stricmp(basename, fnv_idle_1hp_left) ||
+                            !fnv::crt::stricmp(basename, fnv_idle_1hp_fast_left) ||
+                            !fnv::crt::stricmp(basename, fnv_idle_1hm_left) ||
+                            !fnv::crt::stricmp(basename, fnv_idle_1hm_fast_left))
                             weapon = ANIM_GROUP_WEAPON_ENUM_AGW_NONE;
                     }
                 }

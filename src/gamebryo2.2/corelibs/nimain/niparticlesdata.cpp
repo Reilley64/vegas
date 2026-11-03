@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niparticlesdata.cpp: NiParticlesData, Candidate, ParticleViewData, ParticlesEquality and more (14 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -919,7 +920,6 @@ struct StreamIn
     BinStream* kReadStream;
 };
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00ec61c0(void* p, int val, unsigned int n);
 struct A67EA0_shell
 {
 };
@@ -1161,7 +1161,7 @@ void ParticlesLoadView::FUN_00a96cf0(StreamIn* stream)
         if (value.flag != 0)
         {
             m_pucTextureIndices = (unsigned char*)FUN_00aa1070((unsigned int)m_usVertices);
-            FUN_00ec61c0(m_pucTextureIndices, 0, (unsigned int)m_usVertices);
+            std::memset(m_pucTextureIndices, 0, (unsigned int)m_usVertices);
         }
         kReadStream = stream->kReadStream;
         kReadStream->Read(&m_ucSubTextureOffsetCount, 1, 1);

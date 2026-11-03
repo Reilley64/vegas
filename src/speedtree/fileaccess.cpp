@@ -2,6 +2,7 @@
 // src/speedtree/fileaccess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/fileaccess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdlib>
 struct FUN_00b3ede0_shell
 {
     void* p;
@@ -12,7 +13,6 @@ struct FUN_00b3ede0_shell
     void* FUN_00b3ede0();
 };
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 // Checks the block has room for alloc bytes, calls FUN_00ec7c56 if not, advances p twice and returns the pointer at used+alloc.
 // @fnv 0x00b3ede0
@@ -21,7 +21,7 @@ void* FUN_00b3ede0_shell::FUN_00b3ede0()
     unsigned int alloc = *(unsigned int*)this;
     FUN_00b3ede0_shell* block = (FUN_00b3ede0_shell*)((char*)this + 4);
     if (alloc >= (block->size - block->used))
-        FUN_00ec7c56();
+        std::abort();
     void* result = (void*)((unsigned int)block->used + alloc);
     p = (void*)((unsigned int)p + 4);
     p = (void*)((unsigned int)p + 4);
@@ -49,7 +49,6 @@ struct FUN_00b3ed20_range
     unsigned int m_uEnd;
 };
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b3ed20_cls
 {
@@ -78,7 +77,7 @@ float FUN_00b3ed20_cls::FUN_00b3ed20()
     FUN_00b3ed20_range* p2 = &m_range;
     if (idx >= p2->m_uEnd - p2->m_uBase)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     float* ptr = (float*)(p2->m_uBase + idx);
     m_nCursor = m_nCursor + 4;
@@ -109,7 +108,7 @@ void* S_00b3ed80::GetNextElement()
     unsigned int offset = m_nOffset;
     S_00b3ed80_Array* pArray = &m_ppData;
     if (offset >= (unsigned int)((char*)pArray->m_pRecordEnd - (char*)pArray->m_pData))
-        FUN_00ec7c56();
+        std::abort();
     void** element = (void**)((char*)pArray->m_pData + offset);
     m_nOffset = m_nOffset + 4;
     return *element;

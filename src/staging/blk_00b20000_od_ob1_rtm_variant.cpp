@@ -4,6 +4,7 @@
 
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdlib>
 #include "fnv/decl/B2EVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0044a450.h"
@@ -1134,7 +1135,6 @@ struct AsHeap
     void* FUN_00aa3e40(unsigned int _Size);
     void FUN_00aa4060(void* _Ptr);
 };
-void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct AsNonscalarTag
 {
@@ -1394,7 +1394,7 @@ struct AsVector : AsContainer
 inline AsConstIterator::AsConstIterator(AsElem* _Ptr, const AsContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((AsVector*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((AsVector*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     this->_Set_container(_Pvector);
     _Myptr = _Ptr;
 }

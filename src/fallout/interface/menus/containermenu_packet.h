@@ -2,6 +2,7 @@
 #ifndef CONTAINERMENU_PACKET_H
 #define CONTAINERMENU_PACKET_H
 
+#include <cstring>
 #include "fnv/decl/FUN_0040e500_shell.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
 #include "fnv/decl/FUN_00600ab0_shell.h"
@@ -95,6 +96,5 @@ class TESResponse
   public:
 };
 extern char* DAT_011a2224;
-extern "C" unsigned __cdecl strlen(const char*);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned);
 #endif

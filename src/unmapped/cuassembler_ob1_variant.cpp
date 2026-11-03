@@ -4,13 +4,12 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FUN_0044a970_Cls.h"
 #include "fnv/decl/StrA.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_011f6000.h"
-extern "C" unsigned int __cdecl strlen(const char* pStr);
-
 extern "C" int __cdecl memcpy_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 namespace std {
 struct _Secure_char_traits_tag;

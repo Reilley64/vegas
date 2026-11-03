@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_00cb20b0_shell.h"
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/Matrix4V.h"
@@ -348,7 +349,6 @@ static __forceinline float scalarIdentity(float x)
 {
     return x;
 }
-extern "C" double __cdecl fabs(double);
 struct S00de8910_Work_b10903
 {
     hkVector4 invDetVec;

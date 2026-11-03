@@ -2,6 +2,8 @@
 #ifndef FNV_TESRACE_TYPES_H
 #define FNV_TESRACE_TYPES_H
 
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -348,7 +350,6 @@ public:
 public:
     ::TESHair *GetHair();
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 class TESBoundObject;
 class TESObjectREFR
 {
@@ -363,7 +364,6 @@ class TaskQueueInterface
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 int __cdecl strcat_s(char*, unsigned int, const char*);
-extern "C" const char* __cdecl strrchr(const char*, int);
 class NiAVObject;
 class GarbageCollectorObjectPtr
 {

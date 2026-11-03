@@ -3,6 +3,7 @@
 #define FNV_EFFECTITEM_DECLS_H
 
 
+#include <cstring>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_004046b0_cls.h"
@@ -49,8 +50,6 @@ class BGSImpactData__IMPACT_DATA_DATA
   public:
     void Endian();
 };
-
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 
 class MagicCaster;
 class MagicItem;

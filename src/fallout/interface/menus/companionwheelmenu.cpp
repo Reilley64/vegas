@@ -1,6 +1,9 @@
 // fallout/interface/menus/companionwheelmenu.cpp: CompanionWheelMenu, Foo, WheelHost, InteractionMenu and more (30 functions)
 
 #include <new>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSDefaultObjectManager.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -421,7 +424,6 @@ void FUN_007562b0_shell::ToggleRelatedTopic()
 }  // namespace fnv_007562b0
 
 float __cdecl FUN_00755660(float value);
-int __cdecl _FUN_00ec7d40(int value);
 
 extern char $SG3295[];
 extern double DAT_01071e20;
@@ -471,7 +473,7 @@ void FUN_00755480_shell::UpdateTileTimerAndInputAngle()
             {
                 if (!((FUN_00755680_shell*)((::MagicCaster *)(::fnv_004b7210::FUN_004b7210())))->FUN_00755680())
                 {
-                    if (_FUN_00ec7d40(DAT_011d8a5e) > 0x1EA9 || _FUN_00ec7d40(DAT_011d8a74) > 0x1EA9)
+                    if (std::abs(DAT_011d8a5e) > 0x1EA9 || std::abs(DAT_011d8a74) > 0x1EA9)
                     {
                         bSufficientMagnitude = true;
                         fInputVectorX = DAT_011d8a5c;
@@ -1224,7 +1226,6 @@ struct InputState
 struct MessageSetting
 {
 };
-int sprintf(char*, const char*, ...);
 struct InteractionMenu
 {
     unsigned int unk00;
@@ -1580,7 +1581,6 @@ struct CInterface_757690
 struct CRandom_757690
 {
 };
-unsigned __cdecl FUN_00ec6130(int);
 struct CWheelMenu_757690
 {
     void SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
@@ -1633,7 +1633,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
             if (shift == ::_DAT_01012060)
             {
                 shift =
-                    (float)((double)FUN_00ec6130(::FUN_00559450((int *)&(text))) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CRandom_757690 *>(&::originalRuntimeFloatSetting1229))))))) * DAT_01017b70);
+                    (float)((double)std::strlen((const char *)(::FUN_00559450((int *)&(text)))) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CRandom_757690 *>(&::originalRuntimeFloatSetting1229))))))) * DAT_01017b70);
             }
             *(unsigned*)((char*)this + 0x78) = (unsigned)((double)((unsigned int)(::FUN_00457fe0())) + shift);
         }
@@ -3508,7 +3508,7 @@ void InteractionMenu::UpdateCompanionInteraction()
         else if (aTarget && aTarget->GetLock() && player2 == (*reinterpret_cast<::InteractionActor * *>(&::_g_thePlayer)) && reinterpret_cast<::FUN_0047c850 *>((aTarget->GetLock()))->EvaluateCondition())
         {
             char message[200];
-            sprintf(message, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((aTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MessageSetting *>(&::g_011cf594))))->GetMenuTitle())));
+            std::sprintf(message, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((aTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MessageSetting *>(&::g_011cf594))))->GetMenuTitle())));
             ::DispatchMessageToSink((int)(message), 0, 0, 0, ::DAT_010162c0, 0);
         }
     }

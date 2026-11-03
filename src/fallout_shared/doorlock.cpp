@@ -1,5 +1,6 @@
 // fallout_shared/doorlock.cpp: DoorAccessData, Copy9, LockAccess (15 functions)
 
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/Arr16.h"
@@ -300,8 +301,6 @@ struct FUN_00996800_shell : public DoorAccessData
 {
     void FUN_00996800();
 };
-
-void* __cdecl memset(void*, int, unsigned int);
 
 // If the int at offset 0x1fdc is nonzero, zeroes the first 0x1fdc bytes of the object and resets that int to 0.
 // @fnv 0x00996800

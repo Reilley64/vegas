@@ -2,6 +2,8 @@
 #ifndef BSSHADER_COMPILE_DECLS_H
 #define BSSHADER_COMPILE_DECLS_H
 
+#include <cstdio>
+#include "runtime/crt.h"
 #include "fnv/symbols_00406000.h"
 #include "fnv/symbols_00af5000.h"
 #include "fnv/symbols_00afe000.h"
@@ -18,13 +20,7 @@
 class IMemoryHeap;
 #include "MemoryManager.h"
 
-extern "C" void __security_check_cookie(unsigned int);
-extern "C" int strcpy_s(char*, unsigned int, const char*);
-extern "C" int strcat_s(char*, unsigned int, const char*);
 struct _iobuf;
-extern "C" _iobuf* fopen(const char*, const char*);
-extern "C" unsigned int fwrite(const void*, unsigned int, unsigned int, _iobuf*);
-extern "C" int fclose(_iobuf*);
 struct _D3DXMACRO
 {
     const char* Name;
@@ -93,5 +89,4 @@ extern const unsigned char DAT_010bc828[];
 extern const unsigned char DAT_010bc82c[];
 extern const unsigned char DAT_010bc860[];
 extern const unsigned char DAT_010bc868[];
-void FUN_00ec8660();
 #endif

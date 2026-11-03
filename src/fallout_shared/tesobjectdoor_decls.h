@@ -2,6 +2,7 @@
 #ifndef TESOBJECTDOOR_DECLS_H
 #define TESOBJECTDOOR_DECLS_H
 
+#include <malloc.h>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/DownloadableContentManager.h"
@@ -857,6 +858,5 @@ void FUN_00600920(int);
 void FUN_00600940(bool);
 void FUN_00705830(TESObjectREFR*, int, int);
 void ApplyPerkModifiers(int, Actor*, float*);
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

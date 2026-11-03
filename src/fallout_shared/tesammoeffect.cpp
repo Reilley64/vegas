@@ -1,6 +1,8 @@
 // fallout_shared/tesammoeffect.cpp: TESAmmoEffect, AmmoEffectDesc (8 functions)
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/Callees.h"
@@ -95,10 +97,6 @@ class ContainerItemExtraFileData
   public:
 };
 
-extern "C" void __cdecl _alloca_probe_16();
-extern "C" void __security_check_cookie(unsigned int);
-
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 // Constructs a TESAmmoEffect: zeroes effectData and sets the form type to kAmmoEffectForm.
 // @fnv 0x00599c40
@@ -223,14 +221,11 @@ class GetCurrentAmmoVTable
     virtual void* GetMusicSource2();
 };
 
-extern "C" void* __cdecl __RTDynamicCast(void*, long, void*, void*, int);
 
 struct FUN_00599d70_shell : public TESAmmoEffect
 {
     bool LoadAmmoEffect(TESFile*);
 };
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct TESFormVtbl
 {
@@ -390,8 +385,6 @@ float ComputeAmmoEffectValue(int iEffectType, AmmoEffectList* pEffectList, float
     delete sorted;
     return fResult;
 }
-
-extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int ItemUpdateArray);
 
 struct FUN_00599fc0_shell : public TESAmmoEffect
 {

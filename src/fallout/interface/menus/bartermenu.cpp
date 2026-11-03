@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdint>
+#include <cstdlib>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorGoldQuery.h"
 #include "fnv/decl/ActorSoundStub.h"
@@ -1644,7 +1646,6 @@ struct S_0072ed00_Settings
 struct S_0072ed00_Item : InventoryEntry
 {
 };
-int __cdecl FUN_00ec7d40(int);
 
 // @fnv 0x0072ed00
 float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
@@ -1664,11 +1665,11 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
         amount *= isEquip ? 1.0f : ((S_0072ed00_Settings*)DAT_011d8fa4)->unk94;
         if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 > 0)
         {
-            amount = (1.0 - FUN_00ec7d40(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0) * amount;
+            amount = (1.0 - std::abs(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0) * amount;
         }
         else if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 < 0)
         {
-            amount = (FUN_00ec7d40(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0 + 1.0) * amount;
+            amount = (std::abs(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0 + 1.0) * amount;
         }
         ::ApplyPerkModifiers(0x11, (::Actor *)(::_g_thePlayer), ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())), &amount);
         if (FUN_00408860(amount) > 1.0)
@@ -1683,11 +1684,11 @@ float __cdecl FUN_0072ed00(S_0072ed00_Tile* tile, S_0072ed00_Item* item)
         amount *= isEquip ? 1.0f : ((S_0072ed00_Settings*)DAT_011d8fa4)->unk98;
         if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 > 0)
         {
-            amount = (FUN_00ec7d40(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0 + 1.0) * amount;
+            amount = (std::abs(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0 + 1.0) * amount;
         }
         else if (((S_0072ed00_Settings*)DAT_011d8fa4)->unk88 < 0)
         {
-            amount = (1.0 - FUN_00ec7d40(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0) * amount;
+            amount = (1.0 - std::abs(((S_0072ed00_Settings*)DAT_011d8fa4)->unk88) / 100.0) * amount;
         }
         if (FUN_00408860(amount) > 1.0)
             amount = ::InventoryStackRecord::RoundToNearestStep(amount, 1.0f);
@@ -2800,7 +2801,6 @@ struct ItemTransferManager
 {
 };
 
-extern "C" const char* __cdecl FUN_00ec7d40(int aiValue);
 void __cdecl FUN_004d5e10(int aiID, const char* apText);
 
 struct SoundPlaybackHandle
@@ -2874,7 +2874,7 @@ void BarterMenuImpl::CompleteBarterTransaction()
 
     InventoryChangesStandIn* pChanges = 0;
     int iAmount5 = ::FUN_00406d90(::FUN_00406ce0(((BarterMenuGlobals*)DAT_011d8fa4)->unk84));
-    FUN_004d5e10(0x27, FUN_00ec7d40(iAmount5));
+    FUN_004d5e10(0x27, ((const char *)(std::uintptr_t)(std::abs(iAmount5))));
 
     if (m_barterTotal > 0.0)
     {

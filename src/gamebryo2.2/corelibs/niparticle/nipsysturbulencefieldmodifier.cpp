@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdlib>
 // @fnv 0x00c273c0
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/FUN_00c32120_cls.h"
@@ -206,7 +207,6 @@ void FUN_00c27700_class::ReadFloatAndComputeInverse(void* object)
 
 // FUN_00c274c0: NiPSysTurbulenceFieldModifier::Update - random velocity kick
 // for every particle within the field's maximum distance.
-int __cdecl FUN_00ecadb8();
 
 struct TPoint3
 {
@@ -339,7 +339,7 @@ struct TPSysData
 
 inline float SymmetricRandom()
 {
-    return (float)(2.0 * FUN_00ecadb8() / DAT_01029790 - 1.0);
+    return (float)(2.0 * std::rand() / DAT_01029790 - 1.0);
 }
 
 struct TTurbulenceModifier
@@ -391,7 +391,6 @@ void TTurbulenceModifier::FUN_00c274c0(float fTime, TPSysData* pkData)
 }
 
 #include <math.h>
-extern "C" int __cdecl rand();
 
 struct NiPoint3
 {
@@ -555,7 +554,7 @@ inline float NiPoint3::Length() const
 
 inline float C273D0SymmetricRandom()
 {
-    return (float)(rand() * 2.0 / ::DAT_01029790 - 1.0);
+    return (float)(std::rand() * 2.0 / ::DAT_01029790 - 1.0);
 }
 
 struct C273D0Point3
@@ -678,9 +677,9 @@ void NiPSysTurbulenceFieldModifierDerived::UpdateTurbulence(float fTime, NiPSysD
                 if (!m_bEnableMaxDistance || fDist <= m_fDistanceLimit)
                 {
                     NiPoint3 kRandom;
-                    kRandom.x = (float)((rand() * 2.0 / 32767.0) - 1.0);
-                    kRandom.y = (float)((rand() * 2.0 / 32767.0) - 1.0);
-                    kRandom.z = (float)((double)((double)((rand() * 2.0 / 32767.0) - 1.0)));
+                    kRandom.x = (float)((std::rand() * 2.0 / 32767.0) - 1.0);
+                    kRandom.y = (float)((std::rand() * 2.0 / 32767.0) - 1.0);
+                    kRandom.z = (float)((double)((double)((std::rand() * 2.0 / 32767.0) - 1.0)));
 
                     float fFactor = ReadScalar() / (1.0f + m_fFieldAttenuation * fDist);
 

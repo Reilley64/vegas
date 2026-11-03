@@ -2,6 +2,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/DBBCBC0Target.h"
 #include "fnv/decl/FUN_00e58780_Class.h"
 #include "fnv/decl/FUN_00e587b0_Class.h"
@@ -186,7 +188,6 @@ void NiD3DShaderProgram::SetShaderCode(unsigned int uiSize, void* pvCode)
 }  // namespace fnv_00be0ab0
 
 int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" unsigned int strlen(const char*);
 struct FUN_00e95cf0_Holder
 {
     void FUN_00e95cf0(const char* pcEntryPoint);
@@ -277,7 +278,6 @@ void* NiD3DHLSLVertexShader::DestroyVertexShader(unsigned int flags)
 }
 
 namespace fnv_00e95e20 {
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct NiD3DHLSLVertexShader
 {
     char _pad[0x3c];
@@ -297,7 +297,7 @@ void NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
         {
             uiLen = strlen(pcEntryPoint);
             pcNewEntryPoint = (char*)::FUN_00aa1070(uiLen + 1);
-            _strcpy_s(pcNewEntryPoint, uiLen + 1, pcEntryPoint);
+            fnv::crt::strcpy_s(pcNewEntryPoint, uiLen + 1, pcEntryPoint);
             m_pcShaderEntryPoint = pcNewEntryPoint;
         }
         else
@@ -309,7 +309,6 @@ void NiD3DHLSLVertexShader::FUN_00e95e20(const char* pcEntryPoint)
 }  // namespace fnv_00e95e20
 
 namespace fnv_00e95e80 {
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct NiD3DHLSLVertexShader
 {
     char _pad[0x40];
@@ -329,7 +328,7 @@ void NiD3DHLSLVertexShader::FUN_00e95e80(const char* pcShaderTarget)
             unsigned int uiLen;
             uiLen = strlen(pcShaderTarget) + 1;
             pcNewShaderTarget = (char*)::FUN_00aa1070(uiLen);
-            _strcpy_s(pcNewShaderTarget, uiLen, pcShaderTarget);
+            fnv::crt::strcpy_s(pcNewShaderTarget, uiLen, pcShaderTarget);
             m_pcShaderProfile = pcNewShaderTarget;
         }
     }
@@ -376,10 +375,9 @@ extern "C" long D3DXCompileShader(const char* pSrcData, unsigned int SrcDataLen,
                                             unsigned long Flags, ID3DXBuffer** ppShader, ID3DXBuffer** ppErrorMsgs,
                                             ID3DXConstantTable** ppConstantTable);
 int __cdecl strcpy_s(char*, unsigned int, char*);
-void* _memmove(void*, const void*, unsigned int);
 inline void NiMemcpy(void* pvDest, const void* pvSrc, unsigned int ItemUpdateArray)
 {
-    _memmove(pvDest, pvSrc, ItemUpdateArray);
+    std::memmove(pvDest, pvSrc, ItemUpdateArray);
 }
 
 struct NiD3DShaderProgramCreatorHLSL
@@ -454,8 +452,6 @@ struct FUN_00be09e0_shell
 };
 
 extern const char $SG3295[];
-extern "C" int __cdecl strcmp(const char* psz1, const char* psz2);
-int __cdecl _strcpy_s(char* str, unsigned int numberOfElements, const char* source);
 
 // @fnv 0x00be09e0
 void FUN_00be09e0_shell::FUN_00be09e0(const char* pszName)
@@ -484,10 +480,9 @@ void FUN_00be09e0_shell::FUN_00be09e0(const char* pszName)
         m_pkShaderProgramName = (char*)::FUN_00aa1070(uiNewLen);
     }
 
-    _strcpy_s(m_pkShaderProgramName, uiNewLen, pszName);
+    fnv::crt::strcpy_s(m_pkShaderProgramName, uiNewLen, pszName);
 }
 
-int _strcpy_s(char*, unsigned int, const char*);
 
 struct FUN_00be0920_shell
 {
@@ -523,7 +518,7 @@ void FUN_00be0920_shell::FUN_00be0920(const char* pszName)
         if (!m_pcName)
             m_pcName = static_cast<char*>(::FUN_00aa1070(uiNewLen));
 
-        _strcpy_s(m_pcName, uiNewLen, pszName);
+        fnv::crt::strcpy_s(m_pcName, uiNewLen, pszName);
     }
 }
 
@@ -1075,7 +1070,6 @@ int FnvCpu_FUN_00e95ee0_CpuObject::FUN_00e95ee0()
     return value;
 }
 
-void __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int ItemUpdateArray);
 
 struct HLSLCreator_b10814
 {
@@ -1125,7 +1119,7 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
     void* pvCode = FUN_00aa1070(uiCodeSize);
     unsigned int uiSize = ((ID3DXBuffer*)pvBuffer)->GetBufferSize();
     void* pBytecodeData = ((ID3DXBuffer*)pvBuffer)->GetBufferPointer();
-    FUN_00ec44d0(pvCode, pBytecodeData, uiSize);
+    std::memmove(pvCode, pBytecodeData, uiSize);
 
     pkShader->SetName(pcShaderName);
     pkShader->SetShaderProgramFile(0);

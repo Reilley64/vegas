@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cmath>
+#include <cstdlib>
 #include "fnv/decl/B2EVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -110,7 +112,6 @@ NiPoint3& NiPoint3::FUN_00b2a1c0(const NiPoint3& other)
     return *this;
 }
 
-unsigned int __cdecl FUN_00ec7c56();
 
 struct FUN_00b393b0_Class
 {
@@ -126,7 +127,7 @@ int FUN_00b393b0_Class::GetVtblAndValue(int pOut)
     *(int*)pOut = 0;
     *(int*)((char*)pOut + 4) = v;
     if (!this)
-        FUN_00ec7c56();
+        std::abort();
     *(int*)pOut = *(int*)this;
     return pOut;
 }
@@ -151,7 +152,6 @@ FUN_00b3c4b0_class* FUN_00b3c4b0_class::FUN_00b3c4b0(int a)
     return this;
 }
 
-double __cdecl FUN_00ec6054(double);
 
 struct FUN_00b3c5a0_class
 {
@@ -166,7 +166,7 @@ float FUN_00b3c5a0_class::FUN_00b3c5a0()
     float fSumSquares = 0.0f;
     for (int i = 0; i < count; ++i)
         fSumSquares += data[i] * data[i];
-    return FUN_00ec6054(fSumSquares);
+    return std::sqrt(fSumSquares);
 }
 
 struct FUN_00b3c600_class
@@ -691,14 +691,14 @@ SpanPair* FUN_00b2e250_cls::FUN_00b2e250(SpanPair* out, int iUnused, unsigned in
     a.a = 0;
     if (this == 0 || m_0c > uiIndex1 || uiIndex1 > m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     a.a = m_00;
     a.b = uiIndex1;
     b.a = 0;
     if (this == 0 || m_0c > uiIndex2 || uiIndex2 > m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     b.a = m_00;
     b.b = uiIndex2;
@@ -757,14 +757,14 @@ ProbePair FUN_00b335c0_cls::FUN_00b335c0(unsigned int auiUnused, unsigned int a3
         result.m_00 = 0;
         if (this == 0 || this->m_0c > a3 || a3 > this->m_10)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         result.m_00 = this->unk00;
         result.m_04 = a3;
         key.m_00 = 0;
         if (this == 0 || this->m_0c > a5 || a5 > this->m_10)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         key.m_00 = this->unk00;
         key.m_04 = a5;
@@ -833,14 +833,14 @@ FUN_00b33af0_pair* FUN_00b33af0_cls::FUN_00b33af0(FUN_00b33af0_pair* out, unsign
     p9.a = 0;
     if (this == 0 || this->m_0c > a || a > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p9.a = this->m_00;
     p9.b = a;
     p2.a = 0;
     if (this == 0 || this->m_0c > b || b > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p2.a = this->m_00;
     p2.b = b;
@@ -865,7 +865,6 @@ struct Hldr0044
     void Init(unsigned int* p);
 };
 
-extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
 
 // @fnv 0x00b35f00
 extern "C" void __cdecl FUN_00b35f00(unsigned int n)
@@ -884,7 +883,7 @@ extern "C" void __cdecl FUN_00b35f00(unsigned int n)
             tmp = 0;
             h.Init(&tmp);
             h.m_iWordAt00 = (int)&DAT_010176f8;
-            FUN_00ec7894(&h, &DAT_01140ef8);
+            throw h;
         }
     }
 
@@ -1278,7 +1277,7 @@ unsigned int FNV_00b3efe0_Obj::GetElementAtOffset()
     FNV_00b3efe0_Buffer* base = &unk04;
     if (off >= (base->unk10 - base->unk0c))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     unsigned int* elem = (unsigned int*)(base->unk0c + off);
     return *elem;
@@ -1376,11 +1375,10 @@ struct PtrVector
 void*& PtrVector::FUN_00b31230(unsigned int uiPos)
 {
     if (uiPos >= (unsigned int)(m_ppLast - m_ppFirst))
-        FUN_00ec7c56();
+        std::abort();
     return m_ppFirst[uiPos];
 }
 
-unsigned int FUN_00ec7c56();
 
 struct FUN_00b2ac30_t
 {
@@ -1393,13 +1391,11 @@ struct FUN_00b2ac30_t
 bool FUN_00b2ac30_t::FUN_00b2ac30(FUN_00b2ac30_t* other)
 {
     if (!(static_cast<bool>(static_cast<int>(m_00 != 0)) && static_cast<bool>(static_cast<int>(m_00 == other->m_00))))
-        FUN_00ec7c56();
+        std::abort();
     return static_cast<bool>(static_cast<int>(m_04 == other->m_04));
 }
 
 
-double __cdecl FUN_00ec9f30(double value);
-double __cdecl FUN_00eca060(double value);
 
 struct Mat
 {
@@ -1426,8 +1422,8 @@ void Mat::FUN_00b273d0(float angle)
     float fCos;
     float fSin;
     ::FUN_00b12af0((::FUN_00b12af0_shell *)&(rot));
-    fCos = (float)(double)(float)FUN_00ec9f30((double)(float)(angle / DAT_010a4d90));
-    fSin = (float)(double)(float)FUN_00eca060((double)(float)(angle / DAT_010a4d90));
+    fCos = (float)(double)(float)std::cos((double)(float)(angle / DAT_010a4d90));
+    fSin = (float)(double)(float)std::sin((double)(float)(angle / DAT_010a4d90));
     rot.m00 = fCos;
     rot.m01 = fSin;
     rot.m02 = 0.0f;
@@ -1578,13 +1574,13 @@ ProbePair S_B33030::FUN_00b33030(ProbePair first, ProbePair last)
 
         _First.m_00 = 0;
         if (this == 0 || this->m_pHeadNode > first.m_04 || first.m_04 > this->m_last)
-            FUN_00ec7c56();
+            std::abort();
         _First.m_00 = this->unk00[0];
         _First.m_04 = first.m_04;
 
         _Last.m_00 = 0;
         if (this == 0 || this->m_pHeadNode > last.m_04 || last.m_04 > this->m_last)
-            FUN_00ec7c56();
+            std::abort();
         _Last.m_00 = this->unk00[0];
         _Last.m_04 = last.m_04;
 

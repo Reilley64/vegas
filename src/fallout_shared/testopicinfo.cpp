@@ -1763,7 +1763,6 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(reinterpret_cast<::TESForm *>((static_cast<TopicInfoCopy*>(topic)))->GetInitialized());
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct ScriptOps : Script
 {
 };

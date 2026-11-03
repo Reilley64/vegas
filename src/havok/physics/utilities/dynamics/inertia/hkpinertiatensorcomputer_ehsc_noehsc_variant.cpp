@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/inertia/hkpinertiatensorcomputer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 struct Object
 {
 };
@@ -860,7 +861,6 @@ struct S00cf0f40_Arr
         m_iElementCount = n;
     }
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 inline void S00cf0f40_Swap4(void* p)
 {
     unsigned int t;

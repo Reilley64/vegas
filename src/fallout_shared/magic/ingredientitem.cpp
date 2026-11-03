@@ -1,5 +1,6 @@
 // fallout_shared/magic/ingredientitem.cpp: IngredientItem, LCItem (14 functions)
 
+#include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -358,8 +359,6 @@ void FUN_0040a040_cls::FUN_0040a040(unsigned int aFlag)
         m_70 = obj->m_a0;
     }
 }
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct LCFile
 {

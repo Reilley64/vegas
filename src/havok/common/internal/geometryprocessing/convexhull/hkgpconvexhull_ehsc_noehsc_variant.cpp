@@ -6,6 +6,7 @@
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cmath>
 #include "fnv/decl/BevelHull.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/Centroid352.h"
@@ -1260,7 +1261,6 @@ struct FUN_00d75390_cls
     DiagState* m_08;
     float GetMass();
 };
-extern "C" double __cdecl pow(double base, double exponent);
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 struct FUN_00d75440_cls

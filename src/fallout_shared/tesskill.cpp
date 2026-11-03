@@ -2,6 +2,8 @@
 // src/fallout_shared/tesskill.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesskill.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -139,8 +141,6 @@ void FUN_00617fc0_shell::FUN_00617fc0()
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
 }
 }  // namespace fnv_00617fc0
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 typedef int CHUNK_ID;
 
@@ -412,7 +412,6 @@ bool TESSkill::FUN_00618130(TESFile* apFile)
 }
 
 extern char DAT_01186518;
-void* FUN_00ec43fb(void*, int, void*, void*, int);
 class Elem
 {
   public:
@@ -443,7 +442,7 @@ class FormC
 // @fnv 0x00618390
 void FormC::CopyFrom(void* pOther)
 {
-    FormC* pSource = (FormC*)FUN_00ec43fb(pOther, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01186518, 0);
+    FormC* pSource = (FormC*)dynamic_cast<::TESSkill *>(reinterpret_cast<::TESForm *>(pOther));
     if (!pSource)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pOther);
@@ -485,7 +484,6 @@ struct SkillV : public FUN_005e79a0_t
     bool FUN_00618430(TESForm*);
 };
 
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x00618430
 bool SkillV::FUN_00618430(TESForm* apCompare)
@@ -501,7 +499,7 @@ bool SkillV::FUN_00618430(TESForm* apCompare)
         return true;
     }
 
-    if (_memcmp(data, reinterpret_cast<TESRegion*>(pOther)->GetDiffuseColor(), sizeof(data)) != 0)
+    if (std::memcmp(data, reinterpret_cast<TESRegion*>(pOther)->GetDiffuseColor(), sizeof(data)) != 0)
     {
         return true;
     }

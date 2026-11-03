@@ -5,6 +5,9 @@
 
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include "fnv/decl/FUN_00b17e90_cls.h"
 #include "fnv/decl/FUN_00b2e1b0_class.h"
 #include "fnv/decl/FUN_00b2e330_It.h"
@@ -418,7 +421,7 @@ template <class T> struct Vector : ValueBase<T>
         if (n == 0)
             return false;
         else if (0xffffffffu / sizeof(T) < n)
-            ::FUN_00ec7c56();
+            std::abort();
         else
         {
             first = valueAlloc.allocate(n);
@@ -442,7 +445,7 @@ template <class T> struct Vector : ValueBase<T>
         int operator-(const ConstIterator& other) const
         {
             if (aux != other.aux)
-                ::FUN_00ec7c56();
+                std::abort();
             return ptr - other.ptr;
         }
     };
@@ -461,7 +464,7 @@ template <class T> struct Vector : ValueBase<T>
         Iterator& operator+=(int n)
         {
             if (!aux)
-                ::FUN_00ec7c56();
+                std::abort();
             ptr += n;
             return *this;
         }
@@ -493,7 +496,7 @@ template <class T> struct Vector : ValueBase<T>
     __forceinline T& operator[](unsigned int index)
     {
         if (index >= (unsigned int)(last - first))
-            ::FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -555,7 +558,7 @@ struct FUN_00b31350 : ValueBase<Lengths>
         if (n == 0)
             return false;
         else if (0xffffffffu / sizeof(Lengths) < n)
-            ::FUN_00ec7c56();
+            std::abort();
         else
         {
             unkc = (unsigned int)valueAlloc.allocate(n);
@@ -577,7 +580,7 @@ struct FUN_00b31350 : ValueBase<Lengths>
     __forceinline Lengths& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((Lengths*)unk10 - (Lengths*)unkc))
-            ::FUN_00ec7c56();
+            std::abort();
         return ((Lengths*)unkc)[index];
     }
 
@@ -615,7 +618,7 @@ struct FUN_00b31ad0 : ValueBase<Strips>
         if (n == 0)
             return false;
         else if (0xffffffffu / sizeof(Strips) < n)
-            ::FUN_00ec7c56();
+            std::abort();
         else
         {
             unkc = (unsigned int)valueAlloc.allocate(n);
@@ -637,7 +640,7 @@ struct FUN_00b31ad0 : ValueBase<Strips>
     __forceinline Strips& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((Strips*)unk10 - (Strips*)unkc))
-            ::FUN_00ec7c56();
+            std::abort();
         return ((Strips*)unkc)[index];
     }
 
@@ -675,7 +678,7 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
         if (n == 0)
             return false;
         else if (0xffffffffu / sizeof(unsigned int) < n)
-            ::FUN_00ec7c56();
+            std::abort();
         else
         {
             unkc = (unsigned int)valueAlloc.allocate(n);
@@ -697,7 +700,7 @@ struct FUN_00b311b0 : ValueBase<unsigned int>
     __forceinline unsigned int& operator[](unsigned int index)
     {
         if (index >= (unsigned int)((unsigned int*)unk10 - (unsigned int*)unkc))
-            ::FUN_00ec7c56();
+            std::abort();
         return ((unsigned int*)unkc)[index];
     }
 
@@ -825,7 +828,6 @@ void Mesh::FUN_00b2ed70(bool preserve)
 }
 }
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
 struct Matrix366
 {
     float m[4][4];
@@ -924,7 +926,7 @@ void Geometry366::FUN_00b2fc50(const Matrix366& matrix)
         vertex2 = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>(this)->FUN_00b30f80(i);
         point2.Set(vertex2[0], vertex2[1], vertex2[2]);
         point2 = point2 * matrix;
-        _memmove(vertex2, &point2, 12);
+        ::std::memmove(vertex2, &point2, 12);
         if (normals)
         {
             if (!normalData.empty())
@@ -932,7 +934,7 @@ void Geometry366::FUN_00b2fc50(const Matrix366& matrix)
                 normal = reinterpret_cast<::PointOwner *>(this)->FUN_00b31020(i);
                 point2.Set(normal[0], normal[1], normal[2]);
                 point2 = point2 * matrix;
-                _memmove(normal, &point2, 12);
+                ::std::memmove(normal, &point2, 12);
             }
         }
     }
@@ -992,7 +994,7 @@ struct S_0060b3f0
     __forceinline float& operator[](unsigned n)
     {
         if (!(n < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[n];
     }
 };
@@ -1030,7 +1032,7 @@ struct AuxFloatArray
     __forceinline float& operator[](unsigned n)
     {
         if (!(n < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[n];
     }
 };
@@ -1061,7 +1063,7 @@ struct ByteArray
     __forceinline unsigned char& operator[](unsigned n)
     {
         if (!(n < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[n];
     }
 };
@@ -1220,7 +1222,6 @@ struct RandomTag
 struct CheckedTag
 {
 };
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
 template <class I, class O> inline RandomTag IterRandom(const I&, const O&)
 {
     RandomTag cat;
@@ -1278,9 +1279,9 @@ template <class T> struct ConstIterT : RandomIterator<T>
     ConstIterT<T>& FUN_00b2e330(int n)
     {
         if (!this->IsContainerSet())
-            FUN_00ec7c56();
+            std::abort();
         if (!(ptr + n <= GetContainer()->last && ptr + n >= GetContainer()->first))
-            FUN_00ec7c56();
+            std::abort();
         ptr += n;
         return *this;
     }
@@ -1292,7 +1293,7 @@ template <class T> struct ConstIterT : RandomIterator<T>
     bool Equal(const ConstIterT<T>& r) const
     {
         if (!(this->cont == r.cont))
-            FUN_00ec7c56();
+            std::abort();
         return ptr == r.ptr;
     }
     bool FUN_00b16830(const ConstIterT<T>& r) const
@@ -1302,7 +1303,7 @@ template <class T> struct ConstIterT : RandomIterator<T>
     ConstIterT(unsigned int* p, const VectorContainer* c)
     {
         if (!(c != 0 && ((UIntVecT<T>*)c)->first <= p && p <= ((UIntVecT<T>*)c)->last))
-            FUN_00ec7c56();
+            std::abort();
         this->SetContainer(c);
         this->ptr = p;
     }
@@ -1538,7 +1539,7 @@ struct VecQ_acad60
 inline CItQ_acad60::CItQ_acad60(char* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -2124,7 +2125,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         this->_Set_container(_Pvector);
@@ -2136,14 +2137,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         {
             if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (*_Myptr);
@@ -2158,14 +2159,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         {
             if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         ++_Myptr;
@@ -2183,14 +2184,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         {
             if (!(_Myptr > ((_Myvec*)(this->_Getmycont()))->_Myfirst))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         --_Myptr;
@@ -2208,7 +2209,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         {
@@ -2216,7 +2217,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
                   _Myptr + _Off >= ((_Myvec*)(this->_Getmycont()))->_Myfirst))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         _Myptr += _Off;
@@ -2242,7 +2243,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (_Myptr - _Right._Myptr);
@@ -2257,7 +2258,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (_Myptr == _Right._Myptr);
@@ -2272,7 +2273,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (_Myptr < _Right._Myptr);
@@ -2639,7 +2640,7 @@ template <class _Ty, class _Ax> class vector : public _Vector_val<_Ty, _Ax>
             if (!(_Pos < size()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (*(_Myfirst + _Pos));
@@ -2650,7 +2651,7 @@ template <class _Ty, class _Ax> class vector : public _Vector_val<_Ty, _Ax>
             if (!(_Pos < size()))
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             };
         };
         return (*(_Myfirst + _Pos));
@@ -3009,7 +3010,7 @@ void Target::FUN_00b2fdc0(unsigned short index, unsigned int value, unsigned sho
         unsigned int position = index;
         CheckedVector<CheckedUnsignedShortVector>* count = &shorts;
         if (position >= (unsigned int)(count->last - count->first))
-            FUN_00ec7c56();
+            std::abort();
         unsigned int row = columns + 1;
         CheckedUnsignedShortVector* vector = &count->first[position];
         vector->FUN_00b337f0(row, 0);
@@ -3018,18 +3019,18 @@ void Target::FUN_00b2fdc0(unsigned short index, unsigned int value, unsigned sho
         unsigned int position = index;
         CheckedVector<CheckedUnsignedShortVector>* count = &shorts;
         if (position >= (unsigned int)(count->last - count->first))
-            FUN_00ec7c56();
+            std::abort();
         CheckedUnsignedShortVector* vector = &count->first[position];
         unsigned int row = columns;
         if (row >= (unsigned int)(vector->last - vector->first))
-            FUN_00ec7c56();
+            std::abort();
         vector->first[row] = amount;
     }
     {
         unsigned int position = index;
         CheckedVector<IntVector>* count = &values;
         if (position >= (unsigned int)(count->last - count->first))
-            FUN_00ec7c56();
+            std::abort();
         {
             unsigned int cache0;
             unsigned int cache1;
@@ -3063,18 +3064,18 @@ void Target::FUN_00b2fdc0(unsigned short index, unsigned int value, unsigned sho
         unsigned int position = index;
         CheckedVector<IntVector>* count = &values;
         if (position >= (unsigned int)(count->last - count->first))
-            FUN_00ec7c56();
+            std::abort();
         IntVector* vector = &count->first[position];
         unsigned int row = columns;
         if (row >= (unsigned int)(vector->last - vector->first))
-            FUN_00ec7c56();
+            std::abort();
         vector->first[row] = value;
     }
     {
         unsigned int position = index;
         CheckedVector<unsigned int>* count = &counts;
         if (position >= (unsigned int)(count->last - count->first))
-            FUN_00ec7c56();
+            std::abort();
         SlotRef(count->first[position]) += amount - 2;
     }
 }
@@ -3323,7 +3324,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -3396,22 +3396,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -3472,7 +3472,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -3557,7 +3557,6 @@ typedef unsigned short U16;
 typedef unsigned int U32;
 void* __cdecl operator new[](U32 bytes);
 unsigned int __cdecl FUN_00ec7c56();
-void* __cdecl FUN_00ec44d0(void* dest, const void* src, U32 length);
 template <class T> struct DataVector
 {
     U32 metadata00;
@@ -3573,7 +3572,7 @@ template <class T> struct DataVector
     __forceinline T& operator[](U32 i)
     {
         if (i >= size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };
@@ -3683,7 +3682,7 @@ unsigned char GeometryProcessor::FUN_00b30800(U16 index)
                     _interpolatedPosition.Set(Blend(original->x, transformed[0], factor5),
                                               Blend(original->y, transformed[1], factor5),
                                               Blend(original->z, transformed[2], factor5));
-                    FUN_00ec44d0((Vec3*)(&outputPositions[0] + vertexId * 3), &_interpolatedPosition, 12);
+                    ::std::memmove((Vec3*)(&outputPositions[0] + vertexId * 3), &_interpolatedPosition, 12);
                     processedVertices[vertexId] = 1;
                 }
             }
@@ -3768,7 +3767,7 @@ inline CIter::CIter(int* p, const Vec* v)
     {
         if (!(v != 0 && v->first <= p && p <= v->last))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
     }
     SetContainer(v);
@@ -4011,7 +4010,6 @@ VectorStorage& VectorStorage::FUN_00b36330(const VectorStorage& _Right)
 
 #include <stdlib.h>
 namespace fnv_00b2af80 {
-extern "C" __int64 __cdecl _time64(__int64*);
 struct ArrayElement
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
@@ -4055,7 +4053,7 @@ template <class T> struct LocalVector
     __forceinline T& operator[](unsigned n)
     {
         if (n >= unsigned(last - first))
-            FUN_00ec7c56();
+            std::abort();
         return first[n];
     }
 };
@@ -4116,7 +4114,7 @@ struct StateVector
 inline StateIterator::StateIterator(int* p, StateVector* v) : owner(0)
 {
     if (!v || p < v->first || p > v->last)
-        FUN_00ec7c56();
+        std::abort();
     owner = v->proxy;
     current = p;
 }
@@ -4218,7 +4216,7 @@ void Target::FUN_00b2af80(float elapsed)
     reinterpret_cast<::fnv_00b2c130::MainC *>(this)->FUN_00b2c130();
     if (!flag)
         FUN_00b2c890(elapsed);
-    srand((unsigned)_time64(0));
+    srand((unsigned)::std::time(0));
 }
 }  // namespace fnv_00b2af80
 

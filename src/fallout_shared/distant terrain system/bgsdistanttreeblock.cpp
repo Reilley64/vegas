@@ -2,6 +2,7 @@
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BB7290Owner.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -1418,7 +1419,6 @@ struct Lod77Mgr
 };
 
 
-int __cdecl FUN_00ec8a19(const char* a, const char* b, int c);
 void* __cdecl FUN_00afdf00(char* path, int mode, unsigned int size);
 
 // Builds the TreeTypes.lst mesh path and the tree LOD texture path, loads both, then populates the LOD containers and steps their elements.
@@ -1439,7 +1439,7 @@ void __cdecl LoadTreeLodResources(Fake076* self)
     }
 
     texName = "TreeDeadLOD.dds";
-    if (!FUN_00ec8a19(self->GetStr(), "DLC4", 4))
+    if (!std::strncmp(self->GetStr(), "DLC4", 4))
     {
         texName = "TreeSwampLOD.dds";
     }

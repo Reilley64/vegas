@@ -6,6 +6,8 @@
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A237F0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -295,7 +297,6 @@ struct InputManagerClose
     InputDevice* mouse;
     void ShutdownInput();
 };
-extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 struct ControlsIniLoader : public FUN_00a24f60_Class
@@ -3870,7 +3871,6 @@ struct FUN_00a252d0_cls
 
     void SetEnabled(unsigned char enable);
 };
-void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
 struct FUN_00a25810_Target
 {
     int m_00;
@@ -6033,7 +6033,6 @@ inline void* operator new(unsigned int size)
     return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
 }
 
-extern "C" long __cdecl FUN_00eca6d3(const char* s);
 
 struct IDI8
 {
@@ -6112,7 +6111,7 @@ __forceinline Elem2* NewZeroedElem2()
 {
     unsigned int uiSizeVal = 0x24;
     void* pMemory = reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSizeVal);
-    return (Elem2*)(pMemory ? (FUN_00ec61c0(pMemory, 0, uiSizeVal), pMemory) : 0);
+    return (Elem2*)(pMemory ? (std::memset(pMemory, 0, uiSizeVal), pMemory) : 0);
 }
 
 // @fnv 0x00a22660
@@ -6166,7 +6165,7 @@ Mgr* Mgr::FUN_00a22660(int arg)
         cb = 0xa;
         if (RegQueryValueExA(hKeyStep, "MouseSensitivity", 0, &typeIn, (unsigned char*)acValueResult, &cb) == 0)
         {
-            this->m1b50 = (unsigned char)FUN_00eca6d3(acValueResult);
+            this->m1b50 = (unsigned char)std::atoi(acValueResult);
         }
         RegCloseKey(hKeyStep);
     }
@@ -6175,8 +6174,8 @@ Mgr* Mgr::FUN_00a22660(int arg)
     SwapMouseButton(this->m1b4c);
     this->m1b54 = GetDoubleClickTime();
 
-    FUN_00ec61c0(&this->m1b60[0], 0, 0x20);
-    FUN_00ec61c0(&this->m1af8[0], 0, 0x2c);
+    std::memset(&this->m1b60[0], 0, 0x20);
+    std::memset(&this->m1af8[0], 0, 0x2c);
     this->m1af8[0] = 0x2c;
 
     if (SettingIs((*reinterpret_cast<unsigned char (*)[]>(&::g_011f35e8)), true))
@@ -6213,9 +6212,9 @@ Mgr* Mgr::FUN_00a22660(int arg)
         this->m30->SetDataFormat(&DAT_01100aac);
     }
 
-    FUN_00ec61c0(&this->m34[0], 0, 0x500);
-    FUN_00ec61c0(&this->m18f8[0], 0, 0x200);
-    FUN_00ec61c0(&this->m1b24[0], 0, 0x28);
+    std::memset(&this->m34[0], 0, 0x500);
+    std::memset(&this->m18f8[0], 0, 0x200);
+    std::memset(&this->m1b24[0], 0, 0x28);
     this->m1b90 = 0;
     this->m1b91 = 0;
 

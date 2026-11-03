@@ -1,5 +1,6 @@
 // fallout_shared/bgssleepdeprevation.cpp: BGSSleepDeprevationStage (11 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSHungerStage.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -296,8 +297,6 @@ void FUN_004022b0_Host::CopyFromSleepDeprivationStage(TESForm* apCopy)
     ::__memcpy(((void *)(reinterpret_cast<::BGSCameraPath *>((((HF*)this)))->GetConditions())), ((void *)(reinterpret_cast<::BGSCameraPath *>((((HF*)pcopy)))->GetConditions())), 8);
 }
 }  // namespace fnv_004022b0
-
-extern "C" int __cdecl memcmp(const void* pvA, const void* pvB, unsigned int uiSize);
 
 class B402310Stage
 {

@@ -4,6 +4,11 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B44F890Collection.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1173,8 +1178,6 @@ struct FUN_00c43620_Class {
 struct FUN_00c43850_Class {
     void FUN_00c43850(void* dst, unsigned int size);
 };
-extern "C" char* __cdecl _strchr(const char*, int);
-extern "C" int __cdecl _strcpy_s(char*, unsigned int, const char*);
 // @fnv 0x00c43da0
 void __cdecl CopyMainNameFromPath(int param_1, char* pDest)
 {
@@ -1182,10 +1185,10 @@ void __cdecl CopyMainNameFromPath(int param_1, char* pDest)
     if (pDest) {
         const char* path = *(const char**)((char*)param_1 + 8);
         if (path) {
-            const char* colon = _strchr(path, ':');
+            const char* colon = std::strchr((char *)(path), ':');
             if (colon) name = colon + 1;
         }
-        _strcpy_s(pDest, 0x40, name);
+        fnv::crt::strcpy_s(pDest, 0x40, name);
     }
 }
 
@@ -1286,7 +1289,6 @@ void FUN_00c46830_class::Load(NiStream* stream)
     ::CallAnimCallback((::FUN_00a3da50_Owner *)(::SStream *)(reinterpret_cast<SStream*>(stream)), (int)(reinterpret_cast<SObj*>(this + 0x18)));
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_00c4a640_class {
     void FUN_00c4a640(char* dst, char* src, unsigned int count);
 };
@@ -1297,10 +1299,10 @@ void FUN_00c4a640_class::FUN_00c4a640(char* dst, char* src, unsigned int count)
         return;
     if (dst < src) {
         for (unsigned int i = 0; i < count; i++)
-            FUN_00ec7230(dst + i * 100, src + i * 100, 100);
+            std::memmove(dst + i * 100, src + i * 100, 100);
     } else if (dst > src) {
         for (int i = (int)count - 1; i >= 0; i--)
-            FUN_00ec7230(dst + i * 100, src + i * 100, 100);
+            std::memmove(dst + i * 100, src + i * 100, 100);
     }
 }
 
@@ -3332,8 +3334,6 @@ public:
     bool HasTrailingSuffix();
 };
 
-extern "C" int __cdecl FUN_00ec6130(const char* s);
-extern "C" int __cdecl FUN_00eca6d3(const char* s);
 
 // @fnv 0x00c43be0
 bool FUN_00c43be0_cls::HasTrailingSuffix()
@@ -3341,7 +3341,7 @@ bool FUN_00c43be0_cls::HasTrailingSuffix()
     bool found3 = false;
     char* name = m_08;
     char* p4 = name;
-    int len4 = FUN_00ec6130(p4);
+    int len4 = std::strlen(p4);
     int i = 1;
     while (((p4[len4 - i] >= 0x30 && p4[len4 - i] <= 0x39) || p4[len4 - i] == 0x23 || p4[len4 - i] == 0x40) && (unsigned int)i <= (unsigned int)len4) {
         i++;
@@ -3350,7 +3350,7 @@ bool FUN_00c43be0_cls::HasTrailingSuffix()
     if (*p4 != 0) {
         found3 = true;
     }
-    m_b0 = FUN_00eca6d3(p4);
+    m_b0 = std::atoi(p4);
     return found3;
 }
 
@@ -3363,9 +3363,6 @@ struct FUN_00c43e00_Obj {
     char* m_pStr;
 };
 
-extern "C" char* __cdecl FNV_StrChr(const char* s, int c);
-extern "C" unsigned int __cdecl FNV_StrLen(const char* s);
-extern "C" void __cdecl FNV_CopyPath(char* dest, unsigned int destSize, const char* src, unsigned int count);
 
 // Copies the object's string into pDest up to the first ':' (or the whole string), null-terminating it; clears pDest if the string is null.
 // @fnv 0x00c43e00
@@ -3376,9 +3373,9 @@ void __cdecl CopyStringBeforeColon(FUN_00c43e00_Obj* pObj, char* pDest)
         *pDest = 0;
         const char* pStr = pObj->m_pStr;
         if (pStr) {
-            const char* pColon = FNV_StrChr(pStr, ':');
-            nLen = pColon ? (unsigned int)(pColon - pStr) : FNV_StrLen(pStr);
-            FNV_CopyPath(pDest, nLen + 1, pStr, nLen);
+            const char* pColon = std::strchr((char *)(pStr), ':');
+            nLen = pColon ? (unsigned int)(pColon - pStr) : std::strlen(pStr);
+            fnv::crt::strncpy_s(pDest, nLen + 1, pStr, nLen);
             pDest[nLen] = 0;
         }
     }
@@ -3782,23 +3779,17 @@ struct S_00aa4060_Class
 extern "C" void* DAT_00fdf1c4;
 
 extern "C" void __cdecl FUN_00ae9290();
-extern "C" void FUN_00ec5fce(
-    void* object,
-    int elementSize,
-    int count,
-    void (__cdecl *callback)()
-);
 
 // @fnv 0x00c46420
 void* S_00c46420_Class::FUN_00c46420(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_00ec5fce(
+        fnv::crt::vector_destructor(
             this,
             4,
             reinterpret_cast<int*>(this)[-1],
-            FUN_00ae9290
+            (void (*)(void *))(FUN_00ae9290)
         );
 
         if (flags & 1)
@@ -5639,7 +5630,6 @@ struct FUN_00a5ecb0 {
  FUN_00a5ecb0(unsigned int);
 };
 struct WorkerMemory {  };
-void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 struct WorkerTask { unsigned int value; };
 struct WorkerTaskManager {  };
 struct FUN_00c503d0 : FUN_00a5ecb0 {
@@ -5655,7 +5645,7 @@ FUN_00c503d0::FUN_00c503d0() : FUN_00a5ecb0(0) {
     data = (unsigned int*)allocated;
     unsigned int result = count * 4;
     void* destination = data;
-    FUN_00ec61c0(destination,-1,result);
+    std::memset(destination,-1,result);
     WorkerTask* storage = (WorkerTask*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c503d0::WorkerMemory *>(&::g_memoryManager))))->FUN_00aa3e40(4);
     WorkerTask* size = storage ? (storage->value = 0, storage) : 0;
     task = size;
@@ -6807,7 +6797,6 @@ void FUN_00c5d0a0_cls::CopyVec4AndHelper(FUN_00c5d0a0_cls* apOther, int aiArg) {
 }
 
 typedef void* HKEY_t;
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 
 struct RegSetting {
     int unk00;
@@ -6917,7 +6906,7 @@ bool RegStore::WriteSetting(RegSetting* pSetting)
             uiSize = ((unsigned int)(reinterpret_cast<::FUN_00c32fb0_cls *>((pSetting))->GetFormatSize()));
             iType7 = ::FUN_00c33090((const char *)((int)pName4));
             if (iType7 == 1) {
-                strcpy_s(acName, 64, pName4);
+                fnv::crt::strcpy_s(acName, 64, pName4);
                 acName[0] = 's';
                 pName4 = acName;
             }
@@ -6934,7 +6923,6 @@ typedef struct HKEY__* HKEY;
 typedef unsigned long DWORD;
 typedef unsigned char BYTE;
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 
 struct Setting {
     int unk00;
@@ -6990,7 +6978,7 @@ bool RegSettingCollection::ReadFromRegistry(Setting* pSetting) {
                 dwSize3 = ((unsigned int)(reinterpret_cast<::FUN_00c32fb0_cls *>((pSetting))->GetFormatSize()));
                 kDwType = GetStateResult((int*)pSetting);
                 if (kDwType == 1) {
-                    strcpy_s(shortName6, 0x40, pName4);
+                    fnv::crt::strcpy_s(shortName6, 0x40, pName4);
                     shortName6[0] = 's';
                     pName4 = shortName6;
                     strBuf_[0] = 0;
@@ -7843,9 +7831,6 @@ struct FUN_00c5fb80_pool
 };
 
 
-unsigned int __cdecl FUN_00c5fb80_strlen(const char* s);
-void __cdecl FUN_00c5fb80_copyPrefix(char* dst, unsigned int len, const char* src);
-char* __cdecl FUN_00c5fb80_appendTail(char* dst, unsigned int len, const char* src);
 
 // Allocates a buffer sized for the record's prefix plus the suffix, copies the prefix if present, appends the suffix and returns the result.
 // @fnv 0x00c5fb80
@@ -7855,15 +7840,15 @@ char* __cdecl ConcatPrefixAndSuffix(FUN_00c5fb80_rec* rec, const char* suffix)
     char* prefix = pre.m_p;
     unsigned int prefixLen2;
     if (prefix != 0)
-        prefixLen2 = FUN_00c5fb80_strlen(prefix);
+        prefixLen2 = std::strlen(prefix);
     else
         prefixLen2 = 0;
-    unsigned int total = prefixLen2 + FUN_00c5fb80_strlen(suffix) + 1;
+    unsigned int total = prefixLen2 + std::strlen(suffix) + 1;
     char* allocated4 = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<FUN_00c5fb80_pool*>(&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(total)));
     char* buf3 = allocated4;
     if (prefix != 0)
-        FUN_00c5fb80_copyPrefix(buf3, total, prefix);
-    return FUN_00c5fb80_appendTail(buf3, total, suffix);
+        fnv::crt::strcpy_s(buf3, total, prefix);
+    return ((char *)(std::uintptr_t)(fnv::crt::strcat_s(buf3, total, suffix)));
 }
 
 extern void* DAT_010c32c4;
@@ -8150,7 +8135,6 @@ struct Slot462f0 { Ref462f0* p;  };
 extern Ref462f0* DAT_01202e14;
 extern unsigned int DAT_01202e18;
 void __cdecl FUN_00fdd690();
-int __cdecl FUN_00ec658f(void (__cdecl*)());
 struct Target462f0 {
  void* vtable;
  Slot462f0* data;
@@ -8194,7 +8178,7 @@ void Target462f0::SetSlot(unsigned int index, const Slot462f0& aSlot) {
    Ref462f0* previous;
    InterlockedIncrement(&j->references);
   }
-  FUN_00ec658f(FUN_00fdd690);
+  std::atexit(FUN_00fdd690);
  }
  if (index >= size) {
   size = index + 1;
@@ -9130,7 +9114,6 @@ struct FUN_00c47b50Class {
 
 };
 
-extern "C" double __cdecl FUN_00ec6cde(double);
 
 // @fnv 0x00c47b50
 void FUN_00c47b50Class::UpdateRecords(FUN_00c47b50Arg* arg, int unused)
@@ -9172,7 +9155,7 @@ void FUN_00c47b50Class::UpdateRecords(FUN_00c47b50Arg* arg, int unused)
     {
         float records;
         records = reinterpret_cast<::FUN_004b6190_shell *>(&(v))->DotProduct(&position) - fStack_8;
-    if ((float)FUN_00ec6cde((double)records) > 5.0) {
+    if ((float)std::fabs((double)records) > 5.0) {
         FUN_00c47b50Record* r1 = &first.m_pData[index];
         r1->m60 = 0x3f;
     } else {
@@ -9880,7 +9863,6 @@ struct GraphHeap {
 };
 struct GraphMemory {  };
 extern char DAT_010c1e44[];
-void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct ControlGraph {
     bool ready;
     int unk04, unk08, unk0c, unk10;
@@ -9958,7 +9940,7 @@ void ControlGraph::FUN_00c49850() {
                 break;
             }
         }
-        fnv_zlib_memset(local26, 0, stackCapacity7 * sizeof(int));
+        std::memset(local26, 0, stackCapacity7 * sizeof(int));
         local26[0] = 0;
         groups_[0] = 0;
         depth5 = 1;
@@ -10309,8 +10291,6 @@ bool __cdecl FUN_00c511f0(FUN_00c511f0_cls* obj)
 // `mov edx,[p] / fld [edx] / fdivr [ebp+8]` instead of the mirrored
 // `fld [ebp+8] / mov edx,[p] / fdiv [edx]`.
 struct C52020Dev;
-
-double tan(double);
 
 struct NiFrustum {
     NiFrustum(bool);
@@ -11224,9 +11204,6 @@ void FUN_00c49f10_Obj::FUN_00c49f10() {
     }
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" char* __cdecl strstr(const char*, const char*);
-
 struct RangeNameObj {
     int unk00;
     int unk04;
@@ -11256,12 +11233,12 @@ void RangeNameObj::FUN_00c45670()
     const char* pcDash = strstr(pcStr, "-");
     if (pcDash) {
         if (pcDash != pcStr)
-            iMin = FUN_00eca6d3(pcStr);
+            iMin = std::atoi(pcStr);
         pcStr = pcDash + 1;
         if (*pcStr)
-            iMax_2 = FUN_00eca6d3(pcStr);
+            iMax_2 = std::atoi(pcStr);
     } else if (*pcStr) {
-        iMin = FUN_00eca6d3(pcStr);
+        iMin = std::atoi(pcStr);
         iMax_2 = iMin;
     }
     int iLow6;

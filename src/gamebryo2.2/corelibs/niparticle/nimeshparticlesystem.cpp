@@ -5,6 +5,7 @@
 
 // @fnv 0x00c21e10
 #include <new>
+#include <cstdio>
 #include "fnv/decl/BSMultiBoundNode.h"
 #include "fnv/decl/FUN_00a80580_cls.h"
 #include "fnv/decl/FUN_00c1add0_cls.h"
@@ -322,7 +323,6 @@ struct NiStream
     char m_acInputFilePath[260];
 };
 
-int __cdecl sprintf(char* buffer, const char* format, ...);
 
 struct FUN_00c21960_shell
 {
@@ -357,7 +357,7 @@ void FUN_00c21960_shell::CheckUnsupportedMeshParticle(NiStream& stream)
             pdude = "Please";
         }
 
-        sprintf(acMessage, "File %s contains a mesh particle system! %s remove it.", pname, pdude);
+        std::sprintf(acMessage, "File %s contains a mesh particle system! %s remove it.", pname, pdude);
 
         if (DAT_011ac2ac)
         {

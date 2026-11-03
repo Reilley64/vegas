@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstring>
+#include "runtime/crt.h"
 // @fnv 0x00a94820
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
@@ -106,9 +108,6 @@ struct NiExtraDataFUN_00a7b330_shell
 };
 
 void* __cdecl _NiMalloc(unsigned int);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
-extern "C" unsigned int __cdecl strlen(const char*);
-
 // @fnv 0x00a94880
 void FUN_00a94880_shell::CopyStringsExtraData(NiStringsExtraData* pDest, void* pCloning)
 {
@@ -128,7 +127,7 @@ void FUN_00a94880_shell::CopyStringsExtraData(NiStringsExtraData* pDest, void* p
             {
                 uiLen = strlen(m_ppcValue[i]) + 1;
                 ((char**)pDest->m_ppData)[i] = (char*)_NiMalloc(uiLen);
-                _strcpy_s(((char**)pDest->m_ppData)[i], uiLen, m_ppcValue[i]);
+                fnv::crt::strcpy_s(((char**)pDest->m_ppData)[i], uiLen, m_ppcValue[i]);
             }
             else
             {
@@ -535,8 +534,6 @@ void NiStringsExtraDataA949::FUN_00a949f0(NiStreamA949& kStream)
     for (unsigned int i = 0; i < m_uiSize; i++)
         reinterpret_cast<::FUN_00a64160_cls *>(&(kStream))->FUN_00a64160(m_ppcValue[i]);
 }
-
-extern "C" int __cdecl strcmp(const char* pcA, const char* pcB);
 
 class StrsExtraA947
 {

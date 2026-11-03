@@ -1,5 +1,7 @@
 // fallout_shared/teschallenge_decls.h: declares TESForm, TESScriptableForm, TESDescription, TESFullName, BGSMessageIcon and more
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -327,7 +329,5 @@ class TESFile
     bool IsEndianConversionRequired();
     bool NextChunk();
 };
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
-extern "C" void* memset(void*, int, unsigned int);

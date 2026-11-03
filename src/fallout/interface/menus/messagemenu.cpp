@@ -1,6 +1,8 @@
 // fallout/interface/menus/messagemenu.cpp: DelStandIn, MessageMenu, MessageMenuHandler, KeyMenu and more (28 functions)
 
 #include <new>
+#include <cctype>
+#include <cstdlib>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C764930ListMenu.h"
@@ -546,7 +548,6 @@ void MessageMenuHandler::FUN_007aaf80(void* first, void* second, void* third)
     FUN_007ab0a0(first, second, third, ::FUN_0044a670((const char *)(third)));
 }
 
-void __cdecl FUN_00ec7c56(void);
 
 struct FUN_007aafb0_Class
 {
@@ -565,7 +566,7 @@ int FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
 {
     if (arg > unk14)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
 
     do
@@ -720,7 +721,6 @@ struct KeyString
     KeyString(const char*);
     ~KeyString();
 };
-extern "C" int __cdecl toupper(int);
 struct KeyedList
 {
     virtual void Slot0();

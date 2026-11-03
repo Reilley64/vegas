@@ -7348,7 +7348,6 @@ void Actor909::FUN_00909c90(Actor909* pkTarget)
     }
 }
 
-extern "C" void* __cdecl FUN_00ec43fb(int, int, const char*, const char*, int);
 
 struct FUN_0090c360_res
 {
@@ -7525,7 +7524,7 @@ void FUN_0090c360_cls::FUN_0090c360(SpellItem* spell, float t)
         return;
     }
     {
-        FUN_0090c360_res* r = (FUN_0090c360_res*)FUN_00ec43fb((int)spell, 0, &(*reinterpret_cast<char *>(&::DAT_01184920)), &DAT_011846d4, 0);
+        FUN_0090c360_res* r = (FUN_0090c360_res*)dynamic_cast<::Actor *>(reinterpret_cast<::MobileObject *>((int)spell));
         if (r)
         {
             if (t > ::DAT_01012640)

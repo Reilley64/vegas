@@ -9,6 +9,7 @@
 // src/staging/blk_00ca0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <new>
+#include <cstring>
 #include "fnv/decl/BC87850RefObject.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C68E30Owner.h"
@@ -10741,10 +10742,9 @@ class NiFixedString
 };
 
 static float DAT_011b1864 = 6.9991255f;
-void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 __forceinline void* S00ca5da0_Memcpy(void* dst, const void* src, unsigned int n)
 {
-    return FUN_00ec44d0(dst, src, n);
+    return std::memmove(dst, src, n);
 }
 
 union __declspec(align(16)) DisplayVector

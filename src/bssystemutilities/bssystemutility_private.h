@@ -2,6 +2,7 @@
 #define BSSYSTEMUTILITY_PRIVATE_H
 
 
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_00442550_shell.h"
 #include "fnv/decl/FUN_00af2db0_cls.h"
 #include "fnv/decl/FnvEmptyThiscall_Class.h"
@@ -84,6 +85,5 @@ FNVVTableSlot8* FUN_00af34f0();
 FNVVTableSlot8* GetInitObj();
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void __cdecl fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 
 #endif

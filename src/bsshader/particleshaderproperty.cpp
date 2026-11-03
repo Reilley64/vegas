@@ -5,6 +5,8 @@
 
 // @fnv 0x00ba7f10
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a673d0_shell.h"
@@ -62,7 +64,6 @@ void ParticleShaderProperty::FUN_00ba7f20(NiTPrimitiveArray<char*, NiTMallocInte
 
 extern int DAT_01200424;
 int __cdecl GetFloatQuadTable();
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager
 {
 };
@@ -247,7 +248,7 @@ FUN_00ba7f70::FUN_00ba7f70() : kArray(10, 10)
     pParticleBuffer = 0;
     unsigned int iparticleCount = ParticleShader::GetShaderParticleCount();
     pParticles = new BoundDataBlock[iparticleCount];
-    _fnv_zlib_memset(pParticles, 0, iparticleCount * sizeof(BoundDataBlock));
+    std::memset(pParticles, 0, iparticleCount * sizeof(BoundDataBlock));
     ++DAT_01200424;
     this->unk58 = 0x18;
     this->unk1c = 0x11;
@@ -563,11 +564,10 @@ inline void CopyPoint(PickVector& dst, const PickVector& src)
 {
     dst = src;
 }
-unsigned int __cdecl FUN_00ecadb8();
 
 inline float RandSigned()
 {
-    volatile float r = (float)((double)(int)FUN_00ecadb8() * 2.0 / DAT_01029790 - ::g_01012070);
+    volatile float r = (float)((double)(int)std::rand() * 2.0 / DAT_01029790 - ::g_01012070);
     return r;
 }
 
@@ -822,7 +822,7 @@ void EmitterPick::PickParticle(int aiIndex)
     {
         for (;;)
         {
-            unsigned int r = FUN_00ecadb8();
+            unsigned int r = std::rand();
             e = m_ppArr[r % m_usElementCount];
             if (e == 0)
                 continue;
@@ -834,9 +834,9 @@ void EmitterPick::PickParticle(int aiIndex)
         if (s != 0)
         {
             unsigned int n = s->m_pCtx->m_uiCount;
-            PickObj* pObj = s->m_ppObjs[FUN_00ecadb8() % n];
+            PickObj* pObj = s->m_ppObjs[std::rand() % n];
             PickObj* pAltObj = pObj->m_pAlt;
-            float t = (float)((int)FUN_00ecadb8() / 32767.0);
+            float t = (float)((int)std::rand() / 32767.0);
             float fLerpS = 1.0f - t;
             a = AddPoint(scratch.work.point(), MulPoint(scratch.left, pObj->m_pos8c, t),
                          MulPoint(scratch.other.point(), pAltObj->m_pos8c, fLerpS));
@@ -852,7 +852,7 @@ void EmitterPick::PickParticle(int aiIndex)
         }
         PickShape* pShape = e->m_pB8;
         unsigned short cnt = pShape->m_usElementCount;
-        unsigned int uiRemainder = FUN_00ecadb8() % cnt;
+        unsigned int uiRemainder = std::rand() % cnt;
         pShape = e->m_pB8;
         if (pShape == 0)
             goto L_0353;

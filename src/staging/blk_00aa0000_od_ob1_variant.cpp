@@ -7,6 +7,10 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/B65CD70Vector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -102,7 +106,6 @@ struct FUN_00aa4290_Class
 {
     void* AllocateBuffer(unsigned int size, unsigned int pad);
 };
-extern "C" void __cdecl free(void*);
 struct FUN_00aa42c0_class
 {
     void FreePointer(void* p, int dummy);
@@ -248,7 +251,6 @@ struct FUN_00aaa6e0_Class
     int m4;
     void SetFlags(unsigned int flags, int unused);
 };
-void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int len);
 struct FUN_00aa47e0_Class
 {
     int m0;
@@ -267,7 +269,6 @@ struct FUN_00aba370_s
     unsigned int m_14;
     void FUN_00aba370(unsigned int pos, unsigned char b);
 };
-void __cdecl FUN_00ec7c56();
 struct FUN_00abbeb0_Class
 {
     int m0;
@@ -277,7 +278,6 @@ struct FUN_00abbeb0_Class
     unsigned int m10;
     FUN_00abbeb0_Class* FUN_00abbeb0(unsigned int size, FUN_00abbeb0_Class* p);
 };
-void FUN_00ec7c56();
 struct FUN_00abbf00_Class
 {
     int m0;
@@ -612,7 +612,6 @@ struct FUN_00aa8ca0_cls
 
     FUN_00aa8ca0_cls* FUN_00aa8ca0(int a1, int a2, int a3, int a4);
 };
-extern "C" void __cdecl FUN_00ec61c0(void* p, int value, unsigned int size);
 extern "C" void FUN_00eccec5(int code);
 struct FUN_00aa8dd0_slot
 {
@@ -2114,7 +2113,6 @@ void __cdecl FUN_00ab45f0(char* first, unsigned int count, void* value)
     }
 }
 
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxB9F1
 {
 };
@@ -2171,14 +2169,13 @@ class FUN_00ab9f10_It : public IteratorBaseAuxB9F1
 FUN_00ab9f10_It& FUN_00ab9f10_It::FUN_00ab9f10()
 {
     if (!(this->_Has_container()))
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr < ((VectorB9F1*)this->_Getmycont())->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     ++_Myptr;
     return *this;
 }
 
-void FUN_00ec7c56();
 struct Element12
 {
     unsigned int x, y, z;
@@ -2283,7 +2280,7 @@ struct ConstIterator : IteratorOwner
     inline bool operator==(const ConstIterator& other) const
     {
         if (!(hasContainer() && sameContainer(other)))
-            FUN_00ec7c56();
+            std::abort();
         return current == other.current;
     }
     inline bool operator!=(const ConstIterator& other) const
@@ -2357,7 +2354,7 @@ inline void IteratorOwner::set(const Container0* container)
 inline ConstIterator::ConstIterator(Element12* ptr, const Container0* container)
 {
     if (container == 0 || container->first0c > ptr || ptr > container->last10)
-        FUN_00ec7c56();
+        std::abort();
     set(container);
     current = ptr;
 }
@@ -2373,9 +2370,9 @@ void Container0::FUN_00aba7b0(unsigned int count, Element12 value)
 inline ConstIterator& ConstIterator::FUN_00ac0dc0(int n)
 {
     if (!hasContainer())
-        FUN_00ec7c56();
+        std::abort();
     if (!(current + n <= GetShapeContainer()->last10 && current + n >= GetShapeContainer()->first0c))
-        FUN_00ec7c56();
+        std::abort();
     current += n;
     return *this;
 }
@@ -2392,8 +2389,6 @@ struct MemoryStatusAA3880
     unsigned __int64 ullAvailVirtual;
     unsigned __int64 ullAvailExtendedVirtual;
 };
-extern "C" __declspec(noreturn) void __cdecl exit(int iCode);
-extern "C" void __cdecl FUN_00ec61c0(void* pvDst, int iValue, unsigned int uiSize);
 struct MemoryManagerAA3880
 {
     void* Allocate(unsigned int uiSize);
@@ -2413,7 +2408,7 @@ struct TableBaseAA3880
         if (ItemUpdateArray)
         {
             m_ppvData = (void**)AllocateAA3880(m_uiCount * sizeof(void*));
-            FUN_00ec61c0(m_ppvData, 0, m_uiCount * sizeof(void*));
+            ::std::memset(m_ppvData, 0, m_uiCount * sizeof(void*));
         }
     }
     virtual ~TableBaseAA3880();
@@ -2453,7 +2448,7 @@ FUN_00aa3880::FUN_00aa3880()
     : m_bShaderEnabled(false), m_sCount(0), m_sIndex(0), m_iFlags(0), m_iActive(0), m_bEnableState(true),
       m_bVisible(true), m_iFirst(0), m_iSecond(0), m_iThird(0)
 {
-    FUN_00ec61c0(m_apSlots, 0, sizeof(m_apSlots));
+    ::std::memset(m_apSlots, 0, sizeof(m_apSlots));
     MemoryStatusAA3880 kStatus;
     kStatus.dwLength = sizeof(kStatus);
     if (GlobalMemoryStatusEx(&kStatus) && kStatus.ullAvailPageFile < 0x20000000)
@@ -2694,8 +2689,6 @@ void* S00aa8950_Obj::FUN_00aa8950(unsigned int flags)
     }
     return this;
 }
-
-extern "C" unsigned int __cdecl strlen(const char*);
 
 namespace std {
 template <class E> struct char_traits;
@@ -3067,7 +3060,6 @@ inline void DC()
 {
     int a[5];
 }
-extern void __cdecl FUN_00ec7c56();
 struct AAStr
 {
     int unk00;
@@ -3089,7 +3081,7 @@ struct AAStr
     char& at(unsigned int index)
     {
         if (size < index)
-            FUN_00ec7c56();
+            std::abort();
         return (res >= 16 ? ptr : (char*)&ptr)[index];
     }
 };
@@ -3129,7 +3121,7 @@ struct AAElem
     AAItem& at(unsigned int index)
     {
         if (index >= size())
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -4775,7 +4767,7 @@ void FUN_00aadde0_cls::FUN_00aadde0(int a)
 inline CItQ_aadf50_aadf50::CItQ_aadf50_aadf50(FUN_006593e0* _Ptr, const VecQ_aadf50* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -4876,7 +4868,7 @@ struct VecQ
 inline CItQ::CItQ(ElQ* _Ptr, const VecQ* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -4894,7 +4886,6 @@ ItQ VecQ::FUN_00aae200(CItQ _First_arg, CItQ _Last_arg)
     return _First;
 }
 
-void __cdecl InvalidParameterNoInfoXAECB0();
 struct ContainerBaseAuxXAECB0
 {
 };
@@ -4958,10 +4949,10 @@ class FUN_00aaecb0_It : public IteratorBaseAuxXAECB0
 FUN_00aaecb0_It& FUN_00aaecb0_It::FUN_00aaecb0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXAECB0();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXAECB0*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXAECB0*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXAECB0();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -6904,7 +6895,7 @@ struct VecQ_ab0b60
 inline CItQ_ab0b60_ab0b60::CItQ_ab0b60_ab0b60(ElQ_ab0b60* _Ptr, const VecQ_ab0b60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -6922,7 +6913,6 @@ void VecQ_ab0b60::FUN_00ab0b60(unsigned int _Newsize, ElQ_ab0b60 _Val)
 }
 }  // namespace fnv_00ab0b60
 
-void __cdecl InvalidParameterNoInfoXB2150();
 struct ContainerBaseAuxXB2150
 {
 };
@@ -6974,10 +6964,10 @@ class FUN_00ab2150_It : public IteratorBaseAuxXB2150
 FUN_00ab2150_It& FUN_00ab2150_It::FUN_00ab2150(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXB2150();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXB2150*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXB2150*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXB2150();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -7088,7 +7078,7 @@ struct VecQ_ab2f50
 inline CItQ_ab2f50_ab2f50::CItQ_ab2f50_ab2f50(ElQ_ab2f50* _Ptr, const VecQ_ab2f50* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -7199,7 +7189,7 @@ struct VecQ_ab3130
 inline CItQ_ab3130_ab3130::CItQ_ab3130_ab3130(ElQ* _Ptr, const VecQ_ab3130* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -7778,7 +7768,6 @@ void InsertVector::FUN_00ab3a40(InsertIterator where, unsigned int count, const 
     }
 }
 
-void __cdecl InvalidParameterNoInfoXB4310();
 struct ContainerBaseAuxXB4310
 {
 };
@@ -7849,13 +7838,13 @@ class FUN_00ab4310_It : public IteratorBaseAuxXB4310
 FUN_00ab4310_It& FUN_00ab4310_It::FUN_00ab4310(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXB4310();
+        std::abort();
     do
     {
     } while (0);
     if (!(_Myptr + _Off <= ((VectorXB4310*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXB4310*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXB4310();
+        std::abort();
     do
     {
     } while (0);
@@ -7863,7 +7852,6 @@ FUN_00ab4310_It& FUN_00ab4310_It::FUN_00ab4310(int _Off)
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoX10670();
 struct ContainerBaseAuxX10670
 {
 };
@@ -7913,13 +7901,13 @@ class FUN_00ab43d0_It : public IteratorBaseAuxX10670
 FUN_00ab43d0_It& FUN_00ab43d0_It::FUN_00ab43d0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoX10670();
+        std::abort();
     do
     {
     } while (0);
     if (!(_Myptr + _Off <= ((VectorX10670*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorX10670*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoX10670();
+        std::abort();
     do
     {
     } while (0);
@@ -7927,8 +7915,6 @@ FUN_00ab43d0_It& FUN_00ab43d0_It::FUN_00ab43d0(int _Off)
     return *this;
 }
 
-extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
-extern void __cdecl FUN_00ec7c56();
 struct Vec2
 {
     union
@@ -8021,7 +8007,7 @@ template <class T> struct Sequence
     T& operator[](unsigned int index) const
     {
         if (index >= static_cast<unsigned int>(end - begin))
-            FUN_00ec7c56();
+            std::abort();
         return begin[index];
     }
     T* First()
@@ -8206,7 +8192,7 @@ inline void ResizeWords(SeqWord* dest, unsigned int count)
 }
 inline void CopyBytes(void* dest, const void* source, unsigned int size)
 {
-    FUN_00ec44d0(dest, source, size);
+    ::std::memmove(dest, source, size);
 }
 inline void CopyString(CStringInfo* dest, const CStringInfo* source)
 {
@@ -8266,7 +8252,6 @@ struct CopyCollection
     }
     void FUN_00ab46f0(const CopyCollection*);
 };
-void __cdecl FUN_00ec7c56();
 
 struct NiP3
 {
@@ -8364,7 +8349,7 @@ inline MeshIterator::MeshIterator(NiP3* ptr, OutCont* container)
 {
     owner = 0;
     if (!container || ptr < container->first || ptr > container->last)
-        FUN_00ec7c56();
+        std::abort();
     owner = container->proxy;
     pos = ptr;
 }
@@ -8382,7 +8367,7 @@ struct ContP
     NiP3& operator[](unsigned i)
     {
         if (i >= Size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };
@@ -8400,7 +8385,7 @@ struct ContI
     Idx3& operator[](unsigned i)
     {
         if (i >= Size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };
@@ -8418,7 +8403,7 @@ struct ContQ
     Q16& operator[](int i)
     {
         if ((unsigned)i >= (unsigned)Size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };
@@ -8444,7 +8429,7 @@ struct ContK
     Kf& operator[](unsigned i)
     {
         if (i >= Size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };
@@ -8530,7 +8515,7 @@ struct VecA_ab5ce0
     ElA_ab5ce0& operator[](unsigned int _Pos)
     {
         if (!(_Pos < size()))
-            FUN_00ec7c56();
+            std::abort();
         return *(_Myfirst + _Pos);
     }
 };
@@ -8550,7 +8535,7 @@ struct VecB_ab5ce0
     ElB_ab5ce0& operator[](unsigned int _Pos)
     {
         if (!(_Pos < size()))
-            FUN_00ec7c56();
+            std::abort();
         return *(_Myfirst + _Pos);
     }
 };
@@ -8740,7 +8725,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -8813,14 +8797,14 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -8920,9 +8904,6 @@ void FUN_00ab9dc0_Vector::FUN_00ab9dc0()
 }
 }  // namespace fnv_00ab9dc0
 
-void __cdecl FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);
 template <class T> struct StdAllocator
 {
@@ -9026,7 +9007,7 @@ struct TriString : StringValue
     char& operator[](unsigned int offset)
     {
         if (!(offset <= length))
-            FUN_00ec7c56();
+            std::abort();
         return pointer()[offset];
     }
     void resize(unsigned int count)
@@ -9192,7 +9173,6 @@ void MaterialBuffer::FUN_00ab9eb0(unsigned int count)
     FUN_00abb060(count, Material());
 }
 
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxXB9F80
 {
 };
@@ -9252,14 +9232,13 @@ class FUN_00ab9f80_It : public IteratorBaseAuxXB9F80
 FUN_00ab9f80_It& FUN_00ab9f80_It::FUN_00ab9f80()
 {
     if (!(this->_Has_container()))
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr < ((VectorXB9F80*)this->_Getmycont())->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     ++_Myptr;
     return *this;
 }
 
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxXB9FF0
 {
 };
@@ -9321,14 +9300,13 @@ class FUN_00ab9ff0_It : public IteratorBaseAuxXB9FF0
 FUN_00ab9ff0_It& FUN_00ab9ff0_It::FUN_00ab9ff0()
 {
     if (!(this->_Has_container()))
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr < ((VectorXB9FF0*)this->_Getmycont())->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     ++_Myptr;
     return *this;
 }
 
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxXBA060
 {
 };
@@ -9447,9 +9425,9 @@ void CopyCollection::FUN_00ab46f0(const CopyCollection* source)
 FUN_00aba060_It& FUN_00aba060_It::FUN_00aba060()
 {
     if (!(this->_Has_container()))
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr < ((VectorXBA060*)this->_Getmycont())->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     ++_Myptr;
     return *this;
 }
@@ -9948,7 +9926,7 @@ struct CItQ_ab9bc0
     int operator-(const CItQ_ab9bc0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -10006,7 +9984,7 @@ struct VecQ_ab9bc0
 inline CItQ_ab9bc0::CItQ_ab9bc0(ElQ_ab9bc0* _Ptr, const VecQ_ab9bc0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10097,7 +10075,7 @@ struct VecQ_aba5d0
 inline CItQ_aba5d0_aba5d0::CItQ_aba5d0_aba5d0(ElQ_aba5d0* _Ptr, const VecQ_aba5d0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10199,7 +10177,7 @@ struct VecQ_abaaa0
 inline CItQ_abaaa0_abaaa0::CItQ_abaaa0_abaaa0(ElQ_abaaa0* _Ptr, const VecQ_abaaa0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10281,7 +10259,7 @@ struct VecQ_abac80
 inline CItQ_abac80::CItQ_abac80(ElQ_abac80* _Ptr, const VecQ_abac80* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10382,7 +10360,7 @@ struct VecQ_abad80
 inline CItQ_abad80_abad80::CItQ_abad80_abad80(ElQ_abad80* _Ptr, const VecQ_abad80* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10488,7 +10466,7 @@ struct VecQ_abb280
 inline CItQ_abb280::CItQ_abb280(ElQ_abb280* _Ptr, const VecQ_abb280* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10595,7 +10573,7 @@ struct VecQ_abb5f0
 inline CItQ_abb5f0::CItQ_abb5f0(ElQ_abb5f0* _Ptr, const VecQ_abb5f0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10714,7 +10692,7 @@ struct VecQ_abb700
 inline CItQ_abb700_abb700::CItQ_abb700_abb700(FUN_0065ed70* _Ptr, const VecQ_abb700* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -10768,7 +10746,6 @@ struct S00abb930_RandTag
 
 S00abb930_Elem* __cdecl FUN_00ac18c0(S00abb930_Elem* first, S00abb930_Elem* last, S00abb930_Elem* dest,
                                      S00abb930_RandTag, S00abb930_PtrTag, S00abb930_RangeTag);
-void __cdecl FUN_00ec7c56();
 
 struct S00abb930_Iter
 {
@@ -10868,14 +10845,14 @@ S00abb930_Iter S00abb930_Vec::FUN_00abb930(S00abb930_Iter pFirst, S00abb930_Iter
     S00abb930_Iter it;
     it.m_proxy = 0;
     if (this == 0 || m_0c > pFirst.m_ptr || pFirst.m_ptr > m_10)
-        FUN_00ec7c56();
+        std::abort();
     it.m_proxy = m_00;
     it.m_ptr = pFirst.m_ptr;
 
     S00abb930_Iter last;
     last.m_proxy = 0;
     if (this == 0 || m_0c > pLast.m_ptr || pLast.m_ptr > m_10)
-        FUN_00ec7c56();
+        std::abort();
     last.m_proxy = m_00;
     last.m_ptr = pLast.m_ptr;
 
@@ -10987,7 +10964,7 @@ struct VecQ_abbae0
 inline CItQ_abbae0_abbae0::CItQ_abbae0_abbae0(FUN_0065edd0* _Ptr, const VecQ_abbae0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -11103,7 +11080,7 @@ struct VecQ
 inline CItQ::CItQ(ElQ* _Ptr, const VecQ* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -11218,7 +11195,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -11291,22 +11267,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -11363,7 +11339,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         do
         {
         } while (0);
@@ -11419,9 +11395,9 @@ class FUN_00abbf50_Iterator : public _Vector_const_iteratorS<ElemBF50>
 ElemBF50& FUN_00abbf50_Iterator::FUN_00abbf50() const
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoS();
+        std::abort();
     if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-        InvalidParameterNoInfoS();
+        std::abort();
     return (*_Myptr);
 }
 }  // namespace fnv_00abbf50
@@ -12146,7 +12122,7 @@ struct VecQ_ab0d50
 inline CItQ_ab0d50_ab0d50::CItQ_ab0d50_ab0d50(ElQ* _Ptr, const VecQ_ab0d50* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -12303,7 +12279,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12798,7 +12773,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13185,7 +13159,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13220,7 +13193,7 @@ inline _OutIt _Copy_backward_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOu
     int _Off = _Last - _First;
     _OutIt _Result = _Dest - _Off;
     if (_Off > 0)
-        memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _Iter> inline typename iterator_traitsS<_Iter>::iterator_category _Iter_catS(const _Iter&)
@@ -13605,7 +13578,7 @@ struct VecQ_ab9bc0
 inline CItQ_ab9bc0::CItQ_ab9bc0(ElQ_ab9bc0* _Ptr, const VecQ_ab9bc0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -13732,7 +13705,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -13805,14 +13777,14 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -13921,7 +13893,6 @@ inline float FGSqrt(float x)
     return sqrt(x);
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 struct FGView
 {
@@ -13996,7 +13967,6 @@ template <class A> inline void FGDestroyRange(typename A::pointer begin, typenam
 {
     FGDestroyRange(begin, end, allocator, FGCategory(begin, end));
 }
-void FUN_00ec7c56();
 struct FGVector : FGVal<float>
 {
     float* first;
@@ -14008,7 +13978,7 @@ struct FGVector : FGVal<float>
             if (!(index < (unsigned int)(last - first)))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -14132,7 +14102,7 @@ struct FGSmall
 {
     void zero()
     {
-        _fnv_zlib_memset(this, 0, 16);
+        ::std::memset(this, 0, 16);
     }
 
     union
@@ -14368,12 +14338,11 @@ template <int N> __forceinline void UnusedInlineLocals()
     int locals[N];
 }
 
-double FUN_00ec6054(double x);
 void __cdecl ReportAssertionViolation(const char* file, int line);
 
 inline double FgSqrtf(float value)
 {
-    return (float)FUN_00ec6054(value);
+    return (float)::std::sqrt(value);
 }
 inline float FgSqrt(float value)
 {
@@ -14381,7 +14350,7 @@ inline float FgSqrt(float value)
 }
 inline float FgSqrt(unsigned int value)
 {
-    return (float)FUN_00ec6054((double)value);
+    return (float)::std::sqrt((double)value);
 }
 inline float SquareFloat(float x)
 {
@@ -17606,7 +17575,6 @@ S_0065eb90* __cdecl FUN_00ab4520(S_0065eb90* _First, S_0065eb90* _Last, S_0065eb
 }  // namespace fnv_00ab4520
 
 namespace fnv_00ab5ec0 {
-void __cdecl FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);
@@ -17712,7 +17680,7 @@ struct TriString : StringValue
     char& operator[](unsigned int offset)
     {
         if (!(offset <= length))
-            FUN_00ec7c56();
+            std::abort();
         return pointer()[offset];
     }
     void resize(unsigned int count)
@@ -17755,7 +17723,6 @@ struct TriString : StringValue
         return 16 <= capacity ? storage.heap : storage.small;
     }
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct TriHeader
 {
     unsigned int vertices, triangles, quads, materials, shapes, texcoords;
@@ -17830,7 +17797,7 @@ template <class T> struct ConstIterator : IteratorOwner
     ConstIterator(T* pointer, const CheckedBuffer<T>* container)
     {
         if (container == 0 || container->first > pointer || pointer > container->last)
-            FUN_00ec7c56();
+            std::abort();
         owner = container->auxiliary;
         current = pointer;
     }
@@ -17862,7 +17829,7 @@ template <class T> struct CheckedBuffer
     T& operator[](unsigned int index)
     {
         if (index >= (unsigned int)(last - first))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -18071,7 +18038,7 @@ struct FUN_00aba0d0 : VectorVal<char>
     char& operator[](unsigned int index)
     {
         if (index >= (unsigned int)(last - first))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -18080,7 +18047,7 @@ void __cdecl FUN_00ac6430(int, TriString);
 bool __cdecl FUN_00ab5ec0(const TriString& filename, Geometry* geometry)
 {
     TriHeader triHeader;
-    fnv_zlib_memset(&triHeader, 0, 56);
+    ::std::memset(&triHeader, 0, 56);
     FUN_00ac5490 reader("FRTRI003");
     if (!reader.FUN_00ac5540(filename, 0))
         return false;
@@ -18278,7 +18245,6 @@ struct StorageV7 : HeapBlockV7
     __forceinline ~StorageV7()
     {}
 };
-void FUN_00ec7c56();
 struct ImageDataV7 : StorageV7
 {
     int unk08;
@@ -18296,7 +18262,7 @@ struct ImageDataV7 : StorageV7
             if (!(pos < size()))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -20502,9 +20468,6 @@ void WordInsert::Vector::FUN_00abc320(Iterator _Where, unsigned int _Count, cons
 }
 
 extern "C" int __cdecl memcpy_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-void __cdecl FUN_00ec7c56();
-double __cdecl FUN_00ec6940(double);
 
 namespace TriWriterRework {
 inline void __cdecl GameFree(void* p)
@@ -20652,7 +20615,7 @@ template <class T, class A = Allocator<T> > struct Vector : WriterVectorVal<T, A
             if (!(pos < size()))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -20664,7 +20627,7 @@ template <class T, class A = Allocator<T> > struct Vector : WriterVectorVal<T, A
             if (!(pos < size()))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -20888,7 +20851,7 @@ class FUN_0044a4c0 : public StringVal<char, allocator<char> >
             if (!(off <= mysize))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -21075,7 +21038,7 @@ bool __cdecl FUN_00ab7f40(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
     } hdr;
     unsigned int total;
     unsigned int el;
-    fnv_zlib_memset(hdr.bytes, 0, 0x38);
+    ::std::memset(hdr.bytes, 0, 0x38);
     hdr.counts[0] = reinterpret_cast<::FaceGenTriData *>((t))->FUN_0065a5a0();
     hdr.counts[1] = t->v18.size();
     hdr.counts[2] = t->v30.size();
@@ -21191,9 +21154,9 @@ bool __cdecl FUN_00ab7f40(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
         for (k = 0; k < hdr.counts[0]; k++)
         {
             short s[3];
-            s[0] = (short)FUN_00ec6940(t->vc0[el].verts[k].x * scale + 0.5);
-            s[1] = (short)FUN_00ec6940(t->vc0[el].verts[k].y * scale + 0.5);
-            s[2] = (short)FUN_00ec6940(t->vc0[el].verts[k].z * scale + 0.5);
+            s[0] = (short)::std::floor(t->vc0[el].verts[k].x * scale + 0.5);
+            s[1] = (short)::std::floor(t->vc0[el].verts[k].y * scale + 0.5);
+            s[2] = (short)::std::floor(t->vc0[el].verts[k].z * scale + 0.5);
             if (!w->Write(s, 2, 3))
                 return false;
         }
@@ -21231,8 +21194,6 @@ bool __cdecl FUN_00ab7f40(TriWriterRework::Writer* w, TriWriterRework::Tri* t)
 
 extern char DAT_010a2d3c;
 extern void* DAT_010a2c38;
-void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 inline void __cdecl GameFree(void* p)
@@ -21427,7 +21388,7 @@ template <class E, class Tr, class A> class basic_string : public StringVal<E, A
             if (!(off <= mysize))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -21584,7 +21545,7 @@ struct TextureChannel
             if (!(i < count()))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -21653,7 +21614,7 @@ struct Images
             if (!(i < count()))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }

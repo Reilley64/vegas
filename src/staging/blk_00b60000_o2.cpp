@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/B9B3D0Shader.h"
 #include "fnv/decl/B9F30Owner.h"
@@ -643,7 +645,6 @@ struct FUN_00b6f460_class
 {
     void LoadAndSetAdditional(NiStream* kStream);
 };
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
 struct FUN_00b71ad0_class
 {
     void CopySourceData(const void* src);
@@ -1355,8 +1356,6 @@ FnvB60280Owner* FnvB60280Owner::FUN_00b60280(FnvB60280Ref* pNew)
     return this;
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 void* __cdecl FUN_00aa1070(unsigned int);
 
 struct ManagedRef
@@ -1428,7 +1427,7 @@ void FUN_00b604b0_class::AssignString(AssignedString* out, const char* input, Re
         unsigned int length = strlen(input) + 1;
         char* buffer = static_cast<char*>(FUN_00aa1070(length));
         out->text = buffer;
-        strcpy_s(buffer, length, input);
+        fnv::crt::strcpy_s(buffer, length, input);
     }
     else
     {
@@ -5796,7 +5795,6 @@ struct FUN_00b7e300_pool
 {
 };
 
-extern void FUN_00ec5fce(void* pData, int stride, int count, void(__cdecl* fnDestroy)(void*));
 extern void __cdecl FUN_0045cec0(void* pElement);
 
 // Sets the vtable, then frees the m_pData array with its element destructor and releases the block.
@@ -5808,7 +5806,7 @@ void FUN_00b7e300_cls::DestroyDataArray()
     if (pData != 0)
     {
         int count = ((int*)pData)[-1];  // element count stored in the block header
-        FUN_00ec5fce(pData, 4, count, FUN_0045cec0);
+        fnv::crt::vector_destructor(pData, 4, count, FUN_0045cec0);
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00b7e300::FUN_00b7e300_pool *>(&::g_memoryManager))))->FUN_00aa4060(pData - 1);
     }
 }
@@ -8840,7 +8838,6 @@ void FUN_00b61570(unsigned int a, unsigned int b)
 }
 
 void* __cdecl FUN_00aa1070(unsigned int);
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 extern int DAT_010ade50;
 struct B617FloatPart
 {
@@ -8894,7 +8891,7 @@ FUN_00b617f0::FUN_00b617f0()
     hashSize = 0x65;
     count = 0;
     hashTable = FUN_00aa1070(0x194);
-    FUN_00ec61c0(hashTable, 0, hashSize * 4);
+    std::memset(hashTable, 0, hashSize * 4);
     vtable = &DAT_010ade50;
 }
 
@@ -13584,7 +13581,6 @@ struct B61IOManager
 };
 extern unsigned char DAT_011ad86c;
 extern void(__cdecl* DAT_011f91e8)(const char*);
-void* __cdecl FUN_00ec44d0(void* pvDst, const void* pvSrc, unsigned int uiSize);
 class B61Stream
 {
   public:
@@ -14151,10 +14147,10 @@ B61Entry* __cdecl FUN_00b61980(const char** ppcName)
                 for (int iRow = 0; iRow < usCopies; iRow++)
                 {
                     long pObj = iRow * usVerts;
-                    FUN_00ec44d0(&pkVertex[pObj], n, usVerts * sizeof(B61Vec3));
-                    FUN_00ec44d0(&pkNormal[pObj], pkSrcNormal, usVerts * sizeof(B61Vec3));
-                    FUN_00ec44d0(&pkColor[pObj], pkSrcColor, usVerts * sizeof(B61Color));
-                    FUN_00ec44d0(&pkTexture[pObj], pkSrcTexture, usVerts * sizeof(B61UV));
+                    std::memmove(&pkVertex[pObj], n, usVerts * sizeof(B61Vec3));
+                    std::memmove(&pkNormal[pObj], pkSrcNormal, usVerts * sizeof(B61Vec3));
+                    std::memmove(&pkColor[pObj], pkSrcColor, usVerts * sizeof(B61Color));
+                    std::memmove(&pkTexture[pObj], pkSrcTexture, usVerts * sizeof(B61UV));
                     for (int i = 0; i < usVerts; i++)
                         pkNumbers[i + pObj].f = (float)iRow;
                     for (int j = 0; j < *pusLengths; j++)

@@ -1,6 +1,7 @@
 // fallout_shared/pathfinding/navmesh_util.cpp: NavMesh, std, CircularArc, ASC and more (100 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/AdjBuilder.h"
 #include "fnv/decl/B120Array.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -439,7 +440,6 @@ struct FUN_0069b310_S
     EH* data;
     unsigned int AppendElement(const EH* v);
 };
-float __cdecl cos(float);
 
 struct FUN_006a04e0_helper : public SineCosine
 {

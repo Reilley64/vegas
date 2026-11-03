@@ -3,6 +3,8 @@
 #define FNV_TESDATAHANDLER_FILES_H
 
 #include <windows.h>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -254,14 +256,11 @@ struct FormTypeDescription
     const char* name;
     unsigned int data[2];
 };
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
 
 int strcat_s(char*, unsigned int, const char*);
-char* strchr(char*, int);
 int FUN_00ec4835(const void*, const void*, unsigned int);
-extern "C" void* memcpy(void*, const void*, unsigned int);
 extern "C" int* _errno();
 
 extern "C" int _mbsnicmp(const unsigned char*, const unsigned char*, unsigned int);

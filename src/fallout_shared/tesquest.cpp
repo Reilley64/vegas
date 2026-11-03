@@ -1,6 +1,7 @@
 // fallout_shared/tesquest.cpp: TESQuest, PlayerQuestData, FakeQuest, QuestSaveSize and more (39 functions)
 
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -660,7 +661,6 @@ struct FakeQuest
     void FUN_0060c660();
     void* FUN_0060c630(unsigned int);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void __cdecl _security_check_cookie(unsigned int);
 extern "C" unsigned int DAT_011c16bc;
 struct TaskQueueInterface

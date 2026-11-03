@@ -4,6 +4,8 @@
 
 #include <string.h>
 // Converts forward slashes to backslashes, removes repeated backslashes after the first two characters, and returns whether either change occurred.
+#include <cstring>
+#include "runtime/crt.h"
 // @fnv 0x00aa2a00
 #include "fnv/symbols_00aa2000.h"
 bool FUN_00aa2a00(char* path)
@@ -38,20 +40,18 @@ bool FUN_00aa2a00(char* path)
     return changed;
 }
 
-char* __cdecl FUN_00ec7750(char*, const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 // Replaces each backslash-dot-backslash sequence with a backslash by shifting the tail left, then rescans.
 // @fnv 0x00aa2a70
 void __cdecl RemoveDotSlash(char* pcPath)
 {
     const char acSlashDotSlash[4] = "\\.\\";
-    char* pcDotSlash = FUN_00ec7750(pcPath, acSlashDotSlash);
+    char* pcDotSlash = std::strstr(pcPath, acSlashDotSlash);
     while (pcDotSlash)
     {
         const char* pcAfterDot = pcDotSlash + 2;
         unsigned int uiLen = strlen(pcDotSlash);
-        _strcpy_s(pcDotSlash, uiLen, pcAfterDot);
-        pcDotSlash = FUN_00ec7750(pcPath, acSlashDotSlash);
+        fnv::crt::strcpy_s(pcDotSlash, uiLen, pcAfterDot);
+        pcDotSlash = std::strstr(pcPath, acSlashDotSlash);
     }
 }
 

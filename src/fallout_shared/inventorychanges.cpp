@@ -1,6 +1,7 @@
 // fallout_shared/inventorychanges.cpp: Inventory, InventoryChanges, Target, TESBipedModelForm and more (144 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActionOwner.h"
 #include "fnv/decl/ActorBaseTarget.h"
@@ -8376,7 +8377,6 @@ struct Ref4d1440
     virtual void v3f();
     virtual bool IsActor();
 };
-int __cdecl FUN_00ec7d40(int);
 struct Inv4d1440 : public InventoryChanges
 {
     Cont4d1440* FUN_004bffb0();
@@ -8411,7 +8411,7 @@ void Inv4d1440::FUN_004d1440()
             if (!HasExtraDataWithValue(index))
             {
                 List4d1440 list;
-                reinterpret_cast<::TESLeveledList *>(&(levItem->leveledList))->PopulateContainerWithLeveledItems(level, FUN_00ec7d40(pEntry->count), (::TESContainer *)(::List4d1440 *)(&list), 0);
+                reinterpret_cast<::TESLeveledList *>(&(levItem->leveledList))->PopulateContainerWithLeveledItems(level, std::abs(pEntry->count), (::TESContainer *)(::List4d1440 *)(&list), 0);
                 if (pEntry && pEntry->m_pExtraData && reinterpret_cast<::BSFaceGenKeyframe *>((pEntry->m_pExtraData))->GetTime() != 1.0)
                 {
                     reinterpret_cast<::fnv_00482090::FUN_00482090_shell *>(&(list))->FUN_00482090(reinterpret_cast<::BSFaceGenKeyframe *>((pEntry->m_pExtraData))->GetTime());
@@ -13129,7 +13129,6 @@ struct InvInventory
     InvBaseList* FUN_004bffb0();
     void FUN_004d1960();
 };
-int FUN_00ec7d40(int);
 // Iterates base and changed inventory items, attaching scripts to their extra data and creating new extras as needed.
 // @fnv 0x004d1960
 void InvInventory::FUN_004d1960()
@@ -13140,7 +13139,7 @@ void InvInventory::FUN_004d1960()
         InvBaseItem* base26 = *((::fnv_004d1960::InvBaseItem **)(new ((void *)(node)) ::Vec3()));
         InvScript* script1 = ((::fnv_004d1960::InvScript *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(base26->form))));
         int number73 = base26->count;
-        int count17 = FUN_00ec7d40(number73);
+        int count17 = std::abs(number73);
         if (script1 && count17 > 0)
         {
             FUN_004bc550_Inventory* item = ((::fnv_004d1960::FUN_004bc550_Inventory *)(reinterpret_cast<::FUN_004bfba0_shell *>(this)->FUN_004bfba0((::TESBoundObject *)(base26->form), 1, 0)));
@@ -13222,7 +13221,7 @@ void InvInventory::FUN_004d1960()
         InvForm* formB22 = ((::fnv_004d1960::InvForm *)(reinterpret_cast<::Twin_0044ddc0 *>((itemB5))->GetName()));
         InvScript* scriptB46 = ((::fnv_004d1960::InvScript *)(::fnv_004826d0::FUN_004826d0((::fnv_004826d0::TESForm *)(formB22))));
         int numberB11 = ((int)(reinterpret_cast<::Callees *>((itemB5))->FUN_00726070()));
-        int countB11 = FUN_00ec7d40(numberB11);
+        int countB11 = std::abs(numberB11);
         if (scriptB46 && countB11 > 0)
         {
             if (itemB5 && !((::fnv_004d1960::InvScript *)(reinterpret_cast<::FUN_004bde40_shell *>((itemB5))->FUN_004bde40())))

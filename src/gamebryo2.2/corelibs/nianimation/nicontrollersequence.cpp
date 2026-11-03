@@ -6,6 +6,11 @@
 // @fnv 0x00a31730
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -355,8 +360,6 @@ struct RefBase
     {}
 };
 
-extern "C" unsigned int __cdecl strlen(const char* s);
-void __cdecl FUN_00ec65a6(char* c, unsigned int b, const char* a);
 
 struct FUN_00a307c0_entry
 {
@@ -414,7 +417,7 @@ void FUN_00a307c0_cls::GetEntryText(unsigned int uiIndex, char* out)
         }
         else
         {
-            FUN_00ec65a6(out, nameLen, name);
+            fnv::crt::strcpy_s(out, nameLen, name);
         }
     }
 }
@@ -572,7 +575,6 @@ void S_00a30880_Foo::ReleaseItems()
     }
 }
 
-extern "C" double __cdecl fmod(double, double);
 struct SequenceA30970 : NiObject
 {
     char* name08;
@@ -1735,7 +1737,6 @@ extern const char str_0109655c[];
 struct S_00a31140_Allocator
 {
 };
-extern "C" void __cdecl FUN_00ec623a(void*, const char*, const char*, const char*);
 // @fnv 0x00a31140
 void* __cdecl FormatStringWithType(const char* pcText, void* arg2)
 {
@@ -1767,7 +1768,7 @@ void* __cdecl FormatStringWithType(const char* pcText, void* arg2)
     default:
         break;
     }
-    FUN_00ec623a(esi, str_0109655c, pcText, eax);
+    std::sprintf((char *)(esi), str_0109655c, pcText, eax);
     return esi;
 }
 
@@ -2962,7 +2963,6 @@ extern const char DAT_01096564;
 extern void* DAT_01096444;
 void __cdecl FUN_00fdad60();
 void __cdecl FUN_00fdad80();
-extern "C" int __cdecl atexit(void(__cdecl*)());
 void* __cdecl FUN_00aa13e0(unsigned int);
 struct NiMultiTargetTransformController : Controller31910
 {
@@ -3041,7 +3041,7 @@ static const char* MorphType31910()
     {
         DAT_011f36c8 |= 1;
         DAT_011f36c4 = ::NiGlobalStringTable::AddString(&DAT_01096564);
-        atexit(FUN_00fdad60);
+        std::atexit(FUN_00fdad60);
     }
     return DAT_011f36c4;
 }
@@ -3153,7 +3153,7 @@ bool Sequence31910::FUN_00a31910(Node31910* target, Node31910* root, int unused)
     {
         DAT_011f36d0 |= 1;
         DAT_011f36cc = ::NiGlobalStringTable::AddString(&::DAT_0101e460);
-        atexit(FUN_00fdad80);
+        std::atexit(FUN_00fdad80);
     }
     for (unsigned int i = 0; i < count; i++)
     {
@@ -4554,16 +4554,16 @@ bool FUN_00a34480_cls::AssignControllers(void* apObjectName, FUN_00a34480_obj* a
     char objectName[260];
     char propertyName[260];
     char controllerID[260];
-    FUN_00ec65a6(objectName, 260, (const char*)apObjectName);
+    fnv::crt::strcpy_s(objectName, 260, (const char*)apObjectName);
     propertyName[0] = 0;
     controllerID[0] = 0;
     char* split = strchr(objectName, '\n');
     if (split)
     {
-        FUN_00ec65a6(propertyName, 260, split + 1);
+        fnv::crt::strcpy_s(propertyName, 260, split + 1);
         *split = 0;
         split = strchr(propertyName, '\n');
-        FUN_00ec65a6(controllerID, 260, split + 1);
+        fnv::crt::strcpy_s(controllerID, 260, split + 1);
         *split = 0;
     }
     Controller33130* controller = (Controller33130*)apController;

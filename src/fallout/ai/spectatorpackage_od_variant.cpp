@@ -1678,12 +1678,11 @@ struct FUN_009f7500_class
     void FUN_009f7500(void*);
 };
 extern int DAT_011a5fd8;
-extern void* __cdecl FUN_00ec43fb(void*, int, int*, int*, int);
 // @fnv 0x009f7500
 void FUN_009f7500_class::FUN_009f7500(void* param_2)
 {
     reinterpret_cast<::PackageCopy *>(this)->CopyFromPackage((::TESForm *)(param_2));
-    FUN_009f7500_class* other = (FUN_009f7500_class*)FUN_00ec43fb(param_2, 0, &DAT_01183028, &DAT_011a5fd8, 0);
+    FUN_009f7500_class* other = (FUN_009f7500_class*)dynamic_cast<::SpectatorPackage *>(reinterpret_cast<::TESForm *>(param_2));
     if (other != 0)
     {
         field80 = other->field80;

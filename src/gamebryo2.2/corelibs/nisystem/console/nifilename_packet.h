@@ -2,10 +2,7 @@
 #ifndef NIFILENAME_PACKET_H
 #define NIFILENAME_PACKET_H
 
-extern "C" int __cdecl _splitpath_s(const char*, char*, unsigned int, char*, unsigned int, char*, unsigned int, char*,
-                                    unsigned int);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
+#include "runtime/crt.h"
 extern const char DAT_010a47b0[];  // "\\*" search suffix
 class FileNameComponents
 {

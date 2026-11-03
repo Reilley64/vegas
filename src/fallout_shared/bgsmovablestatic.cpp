@@ -1,5 +1,6 @@
 // fallout_shared/bgsmovablestatic.cpp: BGSMovableStatic, MovableRecord, MovableStaticFormComparison (11 functions)
 
+#include <malloc.h>
 #include "fnv/decl/DialogueItem.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
@@ -233,7 +234,6 @@ void* Unk004fc170::DestroyIfFlagged(unsigned int flags)
 FUN_004fbac0::~FUN_004fbac0()
 {}
 
-extern "C" void* __cdecl _alloca(unsigned int);
 class TESFile
 {
   public:

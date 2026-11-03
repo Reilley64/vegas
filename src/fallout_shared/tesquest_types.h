@@ -2,6 +2,7 @@
 #ifndef TESQUEST_TYPES_H
 #define TESQUEST_TYPES_H
 
+#include <malloc.h>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
@@ -213,7 +214,6 @@ class BGSLoadFormBuffer
     FormChangeMask GetChangeFlags(unsigned int mask);
     FormChangeMask GetOldChangeFlags(unsigned int mask);
 };
-extern "C" void* __cdecl _alloca(unsigned int size);
 union SETTING_VALUE
 {
     bool b;

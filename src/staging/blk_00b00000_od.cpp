@@ -3,6 +3,11 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <cwchar>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -787,7 +792,6 @@ void B02670Task::CompleteTask()
     }
 }
 
-void FUN_00ec7c56();
 
 struct FUN_00b0e510_pair
 {
@@ -831,7 +835,6 @@ class FUN_00b0e510_cls
                                     unsigned int a3);
 };
 
-extern void __cdecl FUN_00ec7c56();
 
 struct FUN_00b10490_class
 {
@@ -852,7 +855,7 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     lo.m_00 = 0;
     if (this == 0 || this->m_0c > a1 || a1 > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -862,7 +865,7 @@ FUN_00b0e510_pair* FUN_00b0e510_cls::FUN_00b0e510(FUN_00b0e510_pair* out, unsign
     hi.m_00 = 0;
     if (this == 0 || this->m_0c > a3 || a3 > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -888,7 +891,7 @@ bool FUN_00b10490_class::FUN_00b10490(const FUN_00b10490_class* rhs)
 {
     if (!((unsigned char)(int)(first != 0) && (unsigned char)(int)(first == rhs->first)))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -900,7 +903,6 @@ struct FUN_00b108e0_pool
 {
 };
 
-extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 struct FUN_00b108e0_err
 {
@@ -958,8 +960,6 @@ Mat3 Mat3::Multiply(const Mat3& rhs) const
     return result;
 }
 
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 struct RotationMatrix
 {
     float m00, m01, m02, m10, m11, m12, m20, m21, m22;
@@ -1207,7 +1207,6 @@ namespace fnv_00b00980 {
 extern unsigned int DAT_011f826c;
 extern CRITICAL_SECTION DAT_011f8254;
 void __cdecl FUN_00fdc3f0();
-int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
 // Initializes the critical section once, then calls the stored callback with a, b, c under the lock, returning 1 if no callback is set.
 // @fnv 0x00b00980
@@ -1219,7 +1218,7 @@ unsigned char __cdecl CallLockedCallback(int a, int b, int c)
     {
         DAT_011f826c |= 1;
         InitializeCriticalSection(&DAT_011f8254);
-        FUN_00ec658f(FUN_00fdc3f0);
+        std::atexit(FUN_00fdc3f0);
     }
     EnterCriticalSection(&DAT_011f8254);
     if (DAT_011f8250 != 0)
@@ -1236,7 +1235,6 @@ unsigned char __cdecl CallLockedCallback(int a, int b, int c)
 }
 }  // namespace fnv_00b00980
 
-void* _memmove(void* pDst, const void* pSrc, unsigned int uiSize);
 struct BufferPos
 {
     char* pcData;
@@ -1263,7 +1261,7 @@ unsigned int FUN_00b01800_shell::FUN_00b01800(void* pDst, unsigned int uiSize)
         if (uiAvail > 0)
         {
             BufferPos kPos = {m_pString + m_uiBufferPos, 0};
-            _memmove(pDst, kPos.pcData, uiAvail);
+            std::memmove(pDst, kPos.pcData, uiAvail);
             pDst = (char*)pDst + uiAvail;
             uiSize -= uiAvail;
             uiDone = uiAvail;
@@ -1283,7 +1281,7 @@ unsigned int FUN_00b01800_shell::FUN_00b01800(void* pDst, unsigned int uiSize)
     }
     {
         BufferPos kSrc = {m_pString + m_uiBufferPos, 0};
-        _memmove(pDst, kSrc.pcData, uiSize);
+        std::memmove(pDst, kSrc.pcData, uiSize);
     }
     m_uiBufferPos += uiSize;
     return uiDone + uiSize;
@@ -1339,7 +1337,6 @@ void StripBuilder::BuildStripIndices(unsigned short ausStripId, StripDestination
     }
 }
 
-extern "C" void FUN_00ec7894(void* err2, const char* msg);
 
 // @fnv 0x00b16b00
 int* FUN_00b16b00(unsigned int count, int aiUnused)
@@ -1356,9 +1353,6 @@ int* FUN_00b16b00(unsigned int count, int aiUnused)
     }
     return (int*)::FUN_00401000(count << 2);
 }
-
-extern "C" unsigned int __cdecl wcslen(const wchar_t* s);
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int size);
 
 struct Pad36
 {
@@ -1408,9 +1402,6 @@ WStr& WStr::Append(const wchar_t* awcText)
     return *this;
 }
 
-unsigned int strlen(const char* s);
-const char* strrchr(const char* s, int c);
-void* memcpy(void* d, const void* s, unsigned int n);
 int strcpy_s(char* d, unsigned int n, const char* s);
 
 struct DirFileTime
@@ -1892,7 +1883,6 @@ void FUN_00b15600_cls::FUN_00b15600()
     m_14 = 0;
 }
 
-extern "C" int __cdecl strcat_s(char* d, unsigned int n, const char* s);
 struct _FILETIME
 {
     unsigned long dwLowDateTime;
@@ -1936,8 +1926,8 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
     int countB;
     bool value;
     strcpy_s(next, 260, root);
-    strcat_s(next, 260, directory);
-    strcat_s(next, 260, "*.*");
+    fnv::crt::strcat_s(next, 260, directory);
+    fnv::crt::strcat_s(next, 260, "*.*");
     state = FindFirstFileA(next, &data5);
     if (state == -1)
         return 0;
@@ -1955,8 +1945,8 @@ int DirectoryArchive::FUN_00b01590(const char* root, const char* directory, cons
         if ((data5.dwFileAttributes & 0x10) && data5.cFileName[0] != '.')
         {
             strcpy_s(next, 260, directory);
-            strcat_s(next, 260, data5.cFileName);
-            strcat_s(next, 260, "\\");
+            fnv::crt::strcat_s(next, 260, data5.cFileName);
+            fnv::crt::strcat_s(next, 260, "\\");
             count3 += FUN_00b01590(root, next, since);
         }
         else if (value)

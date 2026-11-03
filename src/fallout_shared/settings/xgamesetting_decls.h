@@ -3,6 +3,7 @@
 #define FNV_XGAMESETTING_DECLS_H
 
 
+#include <malloc.h>
 #include "fnv/decl/FUN_004f8940_class.h"
 #include "fnv/decl/FUN_004f8960_shell.h"
 #include "fnv/decl/FUN_004f8a30_shell2.h"
@@ -55,7 +56,5 @@ class GameSettingCollection : public SettingCollectionMap<Setting>
     // Actor::IsFleeing(bool) candidate is incompatible with this call site.
 };
 
-
-extern "C" void* __cdecl _alloca(unsigned int size);
 
 #endif

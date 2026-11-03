@@ -1,5 +1,6 @@
 // fallout_shared/tesobject_decls.h: declares BGSDehydrationStage, TESResponse, TESObjectREFR, TESFile, TESBoundPoint and more
 
+#include <malloc.h>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags_shell.h"
 #include "fnv/decl/ControllerOwner.h"
@@ -620,7 +621,6 @@ class TESObjectDOOR : public TESBoundObject
     NiNode* Create3DModel(TESObjectREFR*);
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 template <class T> class NiPointer
 {

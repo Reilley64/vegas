@@ -1,6 +1,9 @@
 // fallout_shared/teswater.cpp: BGSPlaceableWater, TESObjectCELL, WaterZoneManager, Owner and more (135 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A_00885520.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/Animation.h"
@@ -464,12 +467,11 @@ BSShaderAccumulator* FUN_004e2190_shell::FUN_004e2190()
     return (BSShaderAccumulator*)(const char*)(*(BSStringT<char>*)&this->m_cBuffer40A[24]);
 }
 
-double __cdecl FUN_00ec9e10(double);
 
 // @fnv 0x004e4450
 float __cdecl FUN_004e4450(float _X)
 {
-    return static_cast<float>(FUN_00ec9e10(_X));
+    return static_cast<float>(::std::ceil(_X));
 }
 
 
@@ -1182,7 +1184,6 @@ void __cdecl FUN_004eced0(unsigned int auiAmount)
     ::BSRenderStateManager::SetColorWriteMask(7, (::BSRENDERSTATE_LOCK)(0));
 }
 
-extern void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_004ed110_shell
 {
@@ -1193,7 +1194,7 @@ struct FUN_004ed110_shell
 // @fnv 0x004ed110
 void* FUN_004ed110_shell::CopyFrom(const void* apSource)
 {
-    _memmove(this, apSource, 0x40);
+    ::std::memmove(this, apSource, 0x40);
     return this;
 }
 
@@ -3293,8 +3294,8 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     float fThreshold = 4096.0f;
     if (((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui == 3)
         fThreshold = 3072.0f;
-    m_fFirstWorldspaceValue = fThreshold - FUN_00ec7d40(iGridDeltaX);
-    m_fSecondWorldspaceValue = fThreshold - FUN_00ec7d40(iDeltaY);
+    m_fFirstWorldspaceValue = fThreshold - ::std::abs(iGridDeltaX);
+    m_fSecondWorldspaceValue = fThreshold - ::std::abs(iDeltaY);
     bool bIsLoading = false;
     bIsLoading = reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10();
     if (m_fFirstWorldspaceValue > 0.0 && m_fSecondWorldspaceValue > 0.0 && !bIsLoading)
@@ -3354,7 +3355,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     m_iGridHeight = iSecondValue;
     DAT_011f9634 = DAT_011f962c;
     DAT_011f962c = NiPoint2((iFirstValue + 0.5) * 4096.0, (iSecondValue + 0.5) * 4096.0);
-    if (reinterpret_cast<::FUN_00452df0_class *>((void *)&(DAT_011f9634))->FUN_00452df0((float *)&(DAT_011f4980)) || FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
+    if (reinterpret_cast<::FUN_00452df0_class *>((void *)&(DAT_011f9634))->FUN_00452df0((float *)&(DAT_011f4980)) || ::std::abs(iGridDeltaX) > 1 || ::std::abs(iDeltaY) > 1)
         DAT_011f9634 = DAT_011f962c;
     DAT_011f94ac = ::FUN_00452e70(false);
     DAT_011c3c0c = true;
@@ -3372,7 +3373,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
         if (!((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>(this)->GetHitSound())))
             reinterpret_cast<::WS458200_Shell *>(this)->FUN_00458200((::WS458200_World *)(((::TESWorldSpace *)(new ((void *)(((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)((*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))))) ::Vec3()))));
         bool bMovedFar = false;
-        if (FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
+        if (::std::abs(iGridDeltaX) > 1 || ::std::abs(iDeltaY) > 1)
             bMovedFar = true;
         if (((::bhkWorld *)(::FUN_00451010())))
         {
@@ -3398,7 +3399,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
             reinterpret_cast<::fnv_004581e0::FUN_004581e0_Class *>(this)->FUN_004581e0((int)("Loading Area (unloaded cells)..."));
             bIsLoadingMenu = true;
         }
-        if (FUN_00ec7d40(iGridDeltaX) > 1 || FUN_00ec7d40(iDeltaY) > 1)
+        if (::std::abs(iGridDeltaX) > 1 || ::std::abs(iDeltaY) > 1)
             reinterpret_cast<::fnv_00457be0::OwnerProxy *>(this)->FUN_00457be0(0);
         if (((::bhkWorld *)(::FUN_00451010())))
             reinterpret_cast<::C00c66300 *>((((::bhkWorld *)(::FUN_00451010()))))->FUN_00c66300();

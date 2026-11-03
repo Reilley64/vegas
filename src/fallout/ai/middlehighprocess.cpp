@@ -1,6 +1,9 @@
 // fallout/ai/middlehighprocess.cpp: MiddleHighProcess, FurnitureProcess, MiddleHighProcessStandIn, ActorPackage_GetTarget_Helper and more (180 functions)
 
 #include <new>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/Actor467.h"
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
@@ -27676,7 +27679,6 @@ struct ListObj;
 struct TimeGlobal
 {
 };
-int FUN_00ecadb8();
 
 struct ExtraObj
 {
@@ -28176,7 +28178,7 @@ void ProcObj::FUN_00929960(ActV* apActor, bool abForce)
                                 i194 = saved;
                                 if (saved == 0)
                                 {
-                                    int rA = (int)((unsigned int)FUN_00ecadb8() % (unsigned int)count2);
+                                    int rA = (int)((unsigned int)std::rand() % (unsigned int)count2);
                                     i194 = *list7.FUN_00877a30(rA);
                                     i190 = rA;
                                 }
@@ -28184,7 +28186,7 @@ void ProcObj::FUN_00929960(ActV* apActor, bool abForce)
                                 {
                                     while (saved == i194 && (unsigned int)count2 > 1)
                                     {
-                                        int r2 = (int)((unsigned int)FUN_00ecadb8() % (unsigned int)count2);
+                                        int r2 = (int)((unsigned int)std::rand() % (unsigned int)count2);
                                         i194 = *list7.FUN_00877a30(r2);
                                         i190 = r2;
                                     }
@@ -35398,7 +35400,6 @@ struct xProcess
     void FUN_00927000(xBuf* buf);
 };
 
-int __cdecl xStrcmp(const char* a, const char* b);
 
 // Reads xProcess save data from buf, restores fields, and applies furniture, equipment, and effect state to the associated actor.
 // @fnv 0x00927000
@@ -35476,7 +35477,7 @@ void xProcess::FUN_00927000(xBuf* buf)
             void* qxQHW = ((void *)(reinterpret_cast<::Target *>((pkData))->FUN_004c8c10(5, 0)));
             SetEquipped(qxQHW, qsSDDgz->Get3D(), 0);
             void* qAhbO = m_114 ? ((void *)(reinterpret_cast<::Twin_0044ddc0 *>((m_114))->GetName())) : 0;
-            if (m_114 && qsSDDgz->Get3D() && (!qsSDDgz->IsPlayerTeammate() || !xStrcmp(reinterpret_cast<::FUN_0055d520_shell *>((qsSDDgz))->FUN_0055d520(), "Lily")))
+            if (m_114 && qsSDDgz->Get3D() && (!qsSDDgz->IsPlayerTeammate() || !((int)(std::uintptr_t)(std::strstr((char *)(reinterpret_cast<::FUN_0055d520_shell *>((qsSDDgz))->FUN_0055d520()), "Lily")))))
             {
                 reinterpret_cast<::fnv_00571760::Actor *>((qsSDDgz))->FUN_00571760((::fnv_00571760::TESObjectWEAP *)(qAhbO));
                 ((::xLog *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qsSDDgz))->GetBaseTexture()))->Log168(0);
@@ -35499,7 +35500,7 @@ void xProcess::FUN_00927000(xBuf* buf)
                 }
             }
             else if (m_114 && qsSDDgz->Get3D() && qsSDDgz->IsPlayerTeammate() &&
-                     xStrcmp(reinterpret_cast<::FUN_0055d520_shell *>((qsSDDgz))->FUN_0055d520(), "Lily"))
+                     ((int)(std::uintptr_t)(std::strstr((char *)(reinterpret_cast<::FUN_0055d520_shell *>((qsSDDgz))->FUN_0055d520()), "Lily"))))
             {
                 xNpc* pkNpc = ((::xNpc *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((qsSDDgz))->FUN_007af430()));
                 reinterpret_cast<::CreatureEquipment *>((pkNpc))->FUN_005f9e00((::TESObjectREFR *)(qsSDDgz), 1, 1, 0);

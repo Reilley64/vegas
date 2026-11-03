@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectarma.cpp: TESObjectARMA, ArmaCompare (12 functions)
 
+#include <cstring>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
@@ -159,8 +160,6 @@ class TESObjectARMA : public TESForm
     void ResetFormData();
     void InitItem();
 };
-
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 
 // Zeroes the ARMA's data block with memset.
 // @fnv 0x00512010
@@ -530,7 +529,6 @@ void FUN_00512840_shell::FUN_00512840()
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
 }
 
-extern int __cdecl _memcmp(const void* a, const void* b, unsigned int n);
 struct FUN_005e79a0_t
 {
 };
@@ -546,7 +544,7 @@ bool ArmaCompare::FUN_00512940(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;
-    if (_memcmp(&data, &pcomp->data, sizeof(data)))
+    if (std::memcmp(&data, &pcomp->data, sizeof(data)))
         return true;
     return false;
 }

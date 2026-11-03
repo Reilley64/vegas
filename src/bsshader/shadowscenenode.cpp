@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/B9BB10Effect.h"
 #include "fnv/decl/B9DBE0Fader.h"
 #include "fnv/decl/BA01A0Owner.h"
@@ -653,7 +655,6 @@ GlobalObjectO2_00a7b610* FUN_00b5e590()
     return &g_011f9e80;
 }
 
-void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
 // @fnv 0x00cb9930
 void FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
 {
@@ -662,12 +663,12 @@ void FUN_00cb9930(void* self, int, unsigned* dst, unsigned* src, unsigned count)
         if (dst < src)
         {
             for (unsigned i = 0; i < count; i++)
-                FUN_00ec7230(&dst[i], &src[i], 4);
+                std::memmove(&dst[i], &src[i], 4);
         }
         else if (dst > src)
         {
             for (int i = count - 1; i >= 0; i--)
-                FUN_00ec7230(&dst[i], &src[i], 4);
+                std::memmove(&dst[i], &src[i], 4);
         }
     }
 }
@@ -4889,7 +4890,6 @@ public:
 struct MemMgr5
 {
 };
-void __cdecl FUN_00ec6f20(void* base, int count, int size, int(__cdecl* cmp)(const void*, const void*));
 
 struct Obj5;
 template <class T> struct S5_LArr
@@ -5264,7 +5264,7 @@ bool __cdecl FUN_00b5dac0(Obj5* obj, S5_C* apList, bool a3, bool abTestBound)
             }
         }
         if (count > 0)
-            FUN_00ec6f20(out, count, 4, ((int (&)(const void *, const void *))::CompareFloatAtOffsetC));
+            std::qsort(out, count, 4, ((int (&)(const void *, const void *))::CompareFloatAtOffsetC));
         out[count] = 0;
         ::CheckBoundAndChildren((::AV5 *)(obj), apList, out, a3);
         reinterpret_cast<::SHStub *>((ctx))->FUN_00aa5610(out);
@@ -9427,7 +9427,6 @@ ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
 }
 
 namespace fnv_00b5f9b0 {
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct CullProcess;
 struct CullObject;
 struct CullObject
@@ -9907,7 +9906,7 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
         if (reinterpret_cast<::FUN_00c5b5d0_class *>((manager))->FUN_00c5b5d0() > 0)
         {
             pSavedFlags = (bool*)reinterpret_cast<::FUN_00aa54a0_s *>((heap))->FUN_00aa54a0(reinterpret_cast<::FUN_00c5b5d0_class *>((manager))->FUN_00c5b5d0(), ::DAT_010a2720);
-            FUN_00ec61c0(pSavedFlags, 0, reinterpret_cast<::FUN_00c5b5d0_class *>((manager))->FUN_00c5b5d0());
+            std::memset(pSavedFlags, 0, reinterpret_cast<::FUN_00c5b5d0_class *>((manager))->FUN_00c5b5d0());
         }
         for (unsigned int i = 0; i < reinterpret_cast<::FUN_00c5b5d0_class *>((manager))->FUN_00c5b5d0(); ++i)
         {

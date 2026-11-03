@@ -6,6 +6,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C89AC0_Owner.h"
 #include "fnv/decl/C9FC00Object.h"
@@ -21017,7 +21018,6 @@ int __cdecl FUN_00cc0850(int owner, int* apEntry)
     return 0;
 }
 
-extern "C" void FUN_00ec5fce(void*, unsigned int, unsigned int, const void*);
 extern "C" void FUN_004381b0();
 struct FUN_00a5d3d0 {
     virtual void dummy();
@@ -21039,7 +21039,7 @@ FUN_00cc1520::~FUN_00cc1520() {
         TlsGuard_t guard((*reinterpret_cast<::TlsBlock_t *>(&::fnv_00c9bef0::g_tlsBlock)).m_2b4);
         if (m_pName) {
             char* header = m_pName - 4;
-            FUN_00ec5fce(m_pName, 4, *reinterpret_cast<unsigned int*>(header), &FUN_004381b0);
+            fnv::crt::vector_destructor(m_pName, 4, *reinterpret_cast<unsigned int*>(header), (void (*)(void *))(&FUN_004381b0));
             reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(header);
         }
         if (m_pEntryData) {

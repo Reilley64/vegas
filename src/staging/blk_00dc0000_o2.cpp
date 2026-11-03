@@ -5,6 +5,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/DD7F10Pool.h"
 #include "fnv/decl/DD8FE0_Stream.h"
@@ -3052,7 +3053,6 @@ void FUN_00dd9d20_Object::FUN_00dd9d20()
 }
 }  // namespace fnv_00dd9d20
 
-double FUN_00ecdf2d(const char* s, char** end);
 // Skips whitespace, reads a numeric token from the stream with commas turned into dots, and returns it as a float, or -1.0f if no token starts.
 // @fnv 0x00dcc3b0
 static float FUN_00dcc3b0(TokenReader* stream)
@@ -3087,7 +3087,7 @@ static float FUN_00dcc3b0(TokenReader* stream)
     stream->skip(n);
     ((char*)buf.w)[n] = 0;
     if (n > 0)
-        return (float)FUN_00ecdf2d((char*)buf.w, 0);
+        return (float)std::strtod((char*)buf.w, 0);
     return -1.0f;
 }
 float MatchCaller(TokenReader* s)

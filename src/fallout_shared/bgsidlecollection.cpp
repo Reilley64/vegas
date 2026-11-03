@@ -1,5 +1,7 @@
 // fallout_shared/bgsidlecollection.cpp: BGSIdleCollection, StandIn, IdleCollectionStandIn (14 functions)
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -179,8 +181,6 @@ void FUN_004797c0_shell::FUN_004797c0()
 }
 }  // namespace fnv_004797c0
 
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
-
 struct BGSIdleCollection_shell : BGSIdleCollection
 {
     bool IsDifferentFrom(BaseFormComponent* other);
@@ -263,8 +263,6 @@ struct FUN_004799f0_shell : BaseFormComponent
     float m_fIdleChance;          // +0x0c
     void FUN_004799f0();
 };
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 // @fnv 0x004799f0
 void FUN_004799f0_shell::FUN_004799f0()

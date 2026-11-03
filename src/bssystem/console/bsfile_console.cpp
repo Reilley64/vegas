@@ -1,5 +1,6 @@
 // bssystem/console/bsfile_console.cpp: BSFile (6 functions)
 
+#include <cstring>
 #include "fnv/decl/FUN_00aa16d0_cls.h"
 #include "fnv/decl/TextString.h"
 #include "fnv/symbols_010a2000.h"
@@ -236,7 +237,6 @@ FUN_00b00260::FUN_00b00260(const char* pPath, int mode, unsigned int bufferSize,
 }
 
 #include <windows.h>
-void* fnv_zlib_memset(void* dst, int c, int n);
 
 class B003C0File
 {
@@ -269,7 +269,7 @@ SYSTEMTIME B003C0File::GetLastWriteTime()
     SYSTEMTIME localTime2;
     if (!(bool)(int)(m_handle != 0))
     {
-        fnv_zlib_memset(&localTime2, 0, sizeof(localTime2));
+        std::memset(&localTime2, 0, sizeof(localTime2));
         return localTime2;
     }
     WIN32_FIND_DATAA findData;

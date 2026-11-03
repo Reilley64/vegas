@@ -8,6 +8,7 @@
 // src/havok/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/convexagent/spheresphere/hkpspheresphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
 #include "fnv/symbols_010c4000.h"
 #include "fnv/symbols_01268000.h"
 extern "C" void __cdecl FUN_00d3f6a0(void* a, void* b, void* c, void* d);
@@ -135,8 +136,6 @@ struct S_00d3f780_Obj
 // ---------------------------------------------------------------------------
 // the game's globals
 // ---------------------------------------------------------------------------
-
-extern "C" double __cdecl sqrt(double);
 
 // ---------------------------------------------------------------------------
 // sphere against sphere: reports the contact to the owner and keeps the

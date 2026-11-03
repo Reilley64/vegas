@@ -1,6 +1,8 @@
 // fallout_shared/magic/magicitem.cpp: MagicItem, MagicStatus, UnloadMagic, MagicLabel (18 functions)
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00403db0_shell.h"
@@ -281,8 +283,8 @@ void MagicItem::Preload(bool immediate)
                                 }
                                 modelPaths.node = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(modelPaths.node))->FUN_00726070()));
                             }
-                            modelPaths.base = strrchr(modelPaths.filename, '\\');
-                            if (modelPaths.base && !_strnicmp(modelPaths.base + 1, "Skeleton", 8))
+                            modelPaths.base = ((const char *)(std::strrchr((char *)(modelPaths.filename), '\\')));
+                            if (modelPaths.base && !fnv::crt::strnicmp(modelPaths.base + 1, "Skeleton", 8))
                             {
                                 BSSimpleList<const char*>* files =
                                     ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(modelPaths.filename), false, false, 0)));
@@ -333,7 +335,7 @@ void MagicItem::Preload(bool immediate)
 // @fnv 0x0040ab30
 char* FUN_0040ab30(char* pcString, int cChar)
 {
-    return (char*)strrchr((const char*)pcString, cChar);
+    return (char*)((const char *)(std::strrchr((char *)((const char*)pcString), cChar)));
 }
 
 struct FUN_0040c110_obj
@@ -407,7 +409,6 @@ struct FUN_0040ab70_shell : public MagicItem
 };
 
 void operator delete(void*);
-const char* strrchr(const char*, int);
 
 struct FUN_0040b800_shell
 {
@@ -607,8 +608,8 @@ void FUN_0040ab70_shell::PreloadModels()
                                 }
                                 pcreatureFileList = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(pcreatureFileList))->FUN_00726070()));
                             }
-                            plastBackSlash = strrchr(pfilename, '\\');
-                            if (plastBackSlash && !_strnicmp(plastBackSlash + 1, "Skeleton", 8))
+                            plastBackSlash = ((const char *)(std::strrchr((char *)(pfilename), '\\')));
+                            if (plastBackSlash && !fnv::crt::strnicmp(plastBackSlash + 1, "Skeleton", 8))
                             {
                                 BSSimpleList<const char*>* pkfList =
                                     ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(pfilename), false, false, 0)));
@@ -739,8 +740,8 @@ void UnloadMagic::FUN_0040b800(bool immediate)
                                 }
                                 modelNode29 = ((::BSSimpleList<const char *> *)(reinterpret_cast<::Callees *>((void *)(modelNode29))->FUN_00726070()));
                             }
-                            fileName12 = strrchr(modelPath6, '\\');
-                            if (fileName12 && !_strnicmp(fileName12 + 1, "Skeleton", 8))
+                            fileName12 = ((const char *)(std::strrchr((char *)(modelPath6), '\\')));
+                            if (fileName12 && !fnv::crt::strnicmp(fileName12 + 1, "Skeleton", 8))
                             {
                                 BSSimpleList<const char*>* files =
                                     ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>(((*reinterpret_cast<::UnloadLoader * *>(&::g_modelLoader))))->FUN_00447330((char *)(modelPath6), false, false, 0)));

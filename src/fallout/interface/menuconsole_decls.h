@@ -2,6 +2,8 @@
 #ifndef FNV_MENUCONSOLE_DECLS_H
 #define FNV_MENUCONSOLE_DECLS_H
 
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_00473180_shell.h"
 #include "fnv/decl/FUN_0055d520_shell.h"
@@ -50,9 +52,6 @@
 #include "menuconsole_support.h"
 #include "ScriptHeaderData.h"
 
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-extern "C" int __cdecl sscanf(const char*, const char*, ...);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 int __cdecl strcat_s(char*, unsigned int, const char*);
 int __cdecl _mbsicmp(const unsigned char*, const unsigned char*);

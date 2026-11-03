@@ -3,6 +3,7 @@
 #define LANDTEXTURE_MATCH_H
 
 #include <stddef.h>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -308,5 +309,4 @@ class TESFile
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 #endif

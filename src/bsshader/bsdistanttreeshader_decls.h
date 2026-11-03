@@ -18,7 +18,6 @@
 
 class NiRenderer;
 extern "C" void* fnv_zlib_memset(void*, int, unsigned long);
-extern "C" void __security_check_cookie(unsigned int);
 
 class NiMemObjectAllocation
 {

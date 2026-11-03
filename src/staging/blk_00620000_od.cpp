@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/AlignedVector.h"
@@ -191,7 +193,6 @@
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern int DAT_0104e510;
 
 struct FUN_006318b0_Class
@@ -2344,7 +2345,6 @@ FUN_00622870_Class* FUN_00622870_Class::FUN_00622870(unsigned short count, unsig
     return this;
 }
 
-char* __cdecl FUN_00ec7750(char* haystack, const char* needle);
 struct FUN_00624d70_Class
 {
     void ExtractTes4Prefix(char* path);
@@ -2353,9 +2353,9 @@ struct FUN_00624d70_Class
 // @fnv 0x00624d70
 void FUN_00624d70_Class::ExtractTes4Prefix(char* path)
 {
-    char* found = FUN_00ec7750(path, "TES4");
+    char* found = std::strstr(path, "TES4");
     if (!found)
-        found = FUN_00ec7750(path, "tes4");
+        found = std::strstr(path, "tes4");
     if (found)
     {
         unsigned int prefixLength = found - path;
@@ -2580,11 +2580,10 @@ void FUN_00632e30()
         DAT_011cc694 = (int)new FUN_00632ec0;
 }
 
-int __cdecl GetRandomNumber();
 // @fnv 0x006397b0
 int FUN_006397b0()
 {
-    return GetRandomNumber();
+    return std::rand();
 }
 
 struct Base0_620

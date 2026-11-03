@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -96,7 +97,6 @@ short __cdecl FindIndexByKey(S_00cdd390_Table* pSearchEntries, const void* pKey,
     return -1;
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 template <class T> struct Array
 {
     T* data;
@@ -121,7 +121,7 @@ struct Hierarchy
 void __cdecl MarkHierarchyDescendants(Hierarchy* hierarchy, int root, unsigned char* flags, unsigned char finalValue)
 {
     if (root > 0)
-        fnv_zlib_memset(flags, 0, root);
+        std::memset(flags, 0, root);
     flags[root] = 1;
     for (int i = root + 1; i < hierarchy->count; ++i)
     {
@@ -344,7 +344,6 @@ S_00cde450_Router* __cdecl FUN_00c85750();
 
 struct S_00cde450_ByteArr;
 struct S_00cde450_UShortArr;
-void __cdecl FUN_00ec61c0(void* dst, int value, int size);
 
 struct S_00cde450_UShortArr
 {
@@ -381,7 +380,7 @@ static __forceinline void S_00cde450_SetSize(S_00cde450_ByteArr& a, int n)
         a.m_iElementCount = n;
         return;
     }
-    FUN_00ec61c0(p, 0, diff);
+    std::memset(p, 0, diff);
     a.m_iElementCount = n;
 }
 

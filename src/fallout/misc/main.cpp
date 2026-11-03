@@ -2,6 +2,10 @@
 #include <windows.h>
 #include <shellapi.h>
 #include <new>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A6A0Sun.h"
 #include "fnv/decl/AIThreadManager.h"
 #include "fnv/decl/ActorReferenceArray.h"
@@ -787,7 +791,6 @@ void FUN_0086d490_class::impl(const NiPoint3_local& arPoint)
 
 int __cdecl FUN_004da670(int, int);
 const char* __cdecl FUN_0086d580();
-int __cdecl sprintf(char*, const char*, ...);
 
 // Calls FUN_004da670 with pThis[2] and pThis[3]; on failure formats an error message with FUN_0086d580, shows a MessageBoxA and calls ExitProcess(0).
 // @fnv 0x0086d500
@@ -796,7 +799,7 @@ void FUN_0086d500(int* pThis)
     char buf[512];
     if (!::fnv_004da670::FUN_004da670(pThis[2], pThis[3]))
     {
-        sprintf(buf, "Failed to initialize renderer.\n%s", FUN_0086d580());
+        std::sprintf(buf, "Failed to initialize renderer.\n%s", FUN_0086d580());
         MessageBoxA(0, buf, "Fallout", 0);
         ExitProcess(0);
     }
@@ -6470,7 +6473,6 @@ int __cdecl FUN_0086bcc0(...);
 int __cdecl FUN_00404eb0(...);
 int __cdecl FUN_00404f70(...);
 
-int __cdecl FUN_00ecc071(...);
 int __cdecl FUN_006ff880(...);
 int __cdecl FUN_005e0200(...);
 Receiver86* __cdecl FUN_0044f560(...);
@@ -6690,7 +6692,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                         if ((arguments5[argumentIndex33] != 0) && (*arguments5[argumentIndex33] == 0x2d))
                         {
                             option6 = arguments5[argumentIndex33] + 1;
-                            if (FUN_00ecc071(option6, &UNK_010829b4) == 0)
+                            if (fnv::crt::wcsicmp((const wchar_t *)(option6), (const wchar_t *)(&UNK_010829b4)) == 0)
                             {
                                 reinterpret_cast<::FUN_006ff880_Class *>((((::Receiver86 *)(::FUN_006ff580()))))->FUN_006ff880(0);
                             }
@@ -7400,7 +7402,6 @@ struct HandlerInit
 };
 extern int DAT_011a2ffc;
 int* FUN_0086d480();
-extern "C" unsigned int __cdecl strlen(const char*);
 struct PointInit
 {
     float x, y, z;
@@ -11321,7 +11322,6 @@ struct SLSetting
 {
 };
 
-long __cdecl SLStrToLong(const char* apString);
 
 
 // Resolves the starting cell from a name or the starting-cell INI settings, positions the player there, and warns if the cell cannot be found.
@@ -11358,8 +11358,8 @@ void __cdecl FUN_00876dd0(const char* apCellName, SLPoint3* apPos)
     }
     else if (strlen(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011dee8c))))->GetMenuTitle()))) && strlen(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011debc4))))->GetMenuTitle()))))
     {
-        int m_iGridPositionX = SLStrToLong(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011dee8c))))->GetMenuTitle())))))));
-        int iCellY8 = SLStrToLong(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011debc4))))->GetMenuTitle())))))));
+        int m_iGridPositionX = std::atoi(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011dee8c))))->GetMenuTitle())))))));
+        int iCellY8 = std::atoi(((const char *)(::FUN_00464f30((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SLSetting *>(&::g_011debc4))))->GetMenuTitle())))))));
         SLWorldSpace* pWorldA = *((::SLWorldSpace **)(new ((void *)((*reinterpret_cast<::SLDataHandler * *>(&::g_dataHandler))->GetWorldSpaces())) ::Vec3()));
         SLWorldSpaceList* pIter_ = (*reinterpret_cast<::SLDataHandler * *>(&::g_dataHandler))->GetWorldSpaces();
         while (pIter_ && !pIter_->IsEmpty())
@@ -13503,7 +13503,6 @@ struct IDirectInput8A
 };
 extern const unsigned char DAT_01100ebc[];
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct JoystickCounts
 {
     unsigned int axes, buttons;
@@ -13855,7 +13854,7 @@ int FUN_00a24830(const DIDEVICEINSTANCEA* instance, void* context)
     device->SetCooperativeLevel(GetActiveWindow(), 6);
     device->SetDataFormat(DAT_01100ebc);
     DIDEVCAPS* caps = &manager->caps[manager->count];
-    _fnv_zlib_memset(caps, 0, 0x2c);
+    std::memset(caps, 0, 0x2c);
     manager->caps[manager->count].dwSize = 0x2c;
     device->GetCapabilities(&manager->caps[manager->count]);
     manager->counters[manager->count].axes = 0;

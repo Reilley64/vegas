@@ -1,5 +1,6 @@
 // bscore/oei_io_thread.cpp: IO_Thread (2 functions)
 
+#include <cstdio>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00442550_shell.h"
@@ -29,13 +30,13 @@ unsigned int OEI::IO::IO_Thread::ThreadProc()
             quit = true;
             break;
         case IRT_SEEK:
-            request->result.result_int = fseek(request->m_pFile, request->m_uiSize, request->m_eSeekWhence);
+            request->result.result_int = std::fseek((std::FILE *)(request->m_pFile), request->m_uiSize, request->m_eSeekWhence);
             break;
         case IRT_READ:
-            request->result.result_unsigned_int = fread(request->m_pBuffer, 1, request->m_uiSize, request->m_pFile);
+            request->result.result_unsigned_int = std::fread(request->m_pBuffer, 1, request->m_uiSize, (std::FILE *)(request->m_pFile));
             break;
         case IRT_WRITE:
-            request->result.result_unsigned_int = fwrite(request->m_pBuffer, 1, request->m_uiSize, request->m_pFile);
+            request->result.result_unsigned_int = std::fwrite(request->m_pBuffer, 1, request->m_uiSize, (std::FILE *)(request->m_pFile));
             break;
         }
         if (quit)

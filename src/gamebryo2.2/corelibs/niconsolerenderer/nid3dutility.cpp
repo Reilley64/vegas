@@ -1,14 +1,12 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-extern unsigned int __cdecl __splitpath_s(const char* filename, char* drive, unsigned int driveMax, char* dir,
-                                          unsigned int dirMax, char* fname, unsigned int fnameMax, char* ext,
-                                          unsigned int extMax);
 
 // Splits pcFilename into drive, directory, file name and extension buffers via __splitpath_s and returns true.
+#include "runtime/crt.h"
 // @fnv 0x00e983f0
 bool __cdecl FUN_00e983f0(const char* pcPath, char* pcDriveOut, char* pcDirOut, char* pcFnameOut, char* pcExtOut)
 {
-    __splitpath_s(pcPath, pcDriveOut, 3, pcDirOut, 0x104, pcFnameOut, 0x104, pcExtOut, 0x100);
+    fnv::crt::splitpath_s(pcPath, pcDriveOut, 3, pcDirOut, 0x104, pcFnameOut, 0x104, pcExtOut, 0x100);
     return true;
 }
 
@@ -29,7 +27,7 @@ bool __cdecl FUN_00e98430(const char* pcFilename, char* pcDest, unsigned int uiD
     SplitPathOutputBuffers buffers;
     unsigned int uiLen;
 
-    __splitpath_s(pcFilename, (char*)&buffers.driveStorage, 3, buffers.dir, 0x104, buffers.fname, 0x100, buffers.ext,
+    fnv::crt::splitpath_s(pcFilename, (char*)&buffers.driveStorage, 3, buffers.dir, 0x104, buffers.fname, 0x100, buffers.ext,
                   0x100);
 
     uiLen = strlen(buffers.ext);

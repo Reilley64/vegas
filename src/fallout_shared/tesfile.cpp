@@ -2,6 +2,11 @@
 
 #include <windows.h>
 #include <new>
+#include <cerrno>
+#include <cstdio>
+#include <cstring>
+#include <malloc.h>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFile.h"
@@ -328,7 +333,6 @@ int FUN_0041c460(BaseExtraList* apExtraList)
 }
 
 extern float DAT_01019dd4;
-void* __cdecl memset(void*, int, size_t);
 int FUN_00471400(void*);
 
 class RecursiveSpinLock
@@ -450,8 +454,6 @@ FUN_00470710::FUN_00470710(const char* ppath, const char* pfilename, NiFile::Ope
 }
 
 int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl strchr(char*, int);
-int __cdecl FUN_00ec862c(const char*, const char*);
 void __cdecl FUN_00461300();
 
 struct VirtualDeletable
@@ -487,7 +489,6 @@ struct FUN_00471f80_shell : public TESFile
     void ResetFileState(bool);
 };
 
-void* __cdecl memset(void*, int, unsigned int);
 extern int DAT_010a2480;
 
 struct DummyVtbl
@@ -742,7 +743,6 @@ struct FUN_004738a0_shell : public TESFile
     bool CheckFileVersion();
 };
 
-int __cdecl _sprintf(char*, const char*, ...);
 
 namespace fnv_anon_tesfile {}
 using namespace fnv_anon_tesfile;
@@ -762,7 +762,7 @@ bool FUN_004738a0_shell::CheckFileVersion()
         bretval = true;
         ::FUN_0043b2b0(false);
         char pMessage[260];
-        _sprintf(pMessage, "File %s is a higher version than this EXE can load.", ((const char *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList())));
+        std::sprintf(pMessage, "File %s is a higher version than this EXE can load.", ((const char *)(reinterpret_cast<::BGSCameraPath *>(this)->GetShotList())));
         ::FUN_005b5e40();
         ::FUN_0043b2b0(true);
     }
@@ -1109,13 +1109,12 @@ void* FUN_00473930_Class::FUN_00473930()
     return *(void**)((char*)this + 0x420);
 }
 
-extern __int64 __cdecl FUN_00ec3bf0(__int64);
 // Replaces the value at p with the result of FUN_00ec3bf0 applied to it.
 // @fnv 0x004717f0
 void __cdecl FUN_004717f0(__int64* pValue)
 {
     __int64* q = pValue;
-    *q = FUN_00ec3bf0(*q);
+    *q = fnv::crt::byteswap_uint64(*q);
 }
 
 struct FUN_00471870_shell : public TESFile
@@ -1343,7 +1342,6 @@ bool FUN_00472d30_shell::ReadChunkHeader()
 }
 }  // namespace fnv_00472d30
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct BSStr
 {
 };
@@ -2232,7 +2230,6 @@ unsigned int FUN_00473180_shell::FUN_00473180(void* buffer, unsigned int size)
     return 0;
 }
 
-int* __cdecl FUN_00ec85e3();
 extern const char DAT_0101a174[];
 
 // @fnv 0x00473110
@@ -2242,7 +2239,7 @@ TES_RETURN_CODE FUN_00473110_shell::WriteToFile(void* buffer, unsigned int size)
     {
         if (m_pFile->FUN_00473180(buffer, size) < size)
         {
-            int error = *FUN_00ec85e3();
+            int error = *(&errno);
             m_eReturnCode = TES_RETURN_CODE_TES_ERROR_WRITE_FAILURE;
             ::FUN_005b5e40();
             return m_eReturnCode;
@@ -2636,7 +2633,7 @@ bool FUN_00471130_shell::FUN_00471130()
                 );
             return false;
         }
-        if (FUN_00ec862c(szTempname, szFilename))
+        if (std::rename(szTempname, szFilename))
         {
             FUN_00461300();
             *(int*)this = 9;
@@ -3577,7 +3574,6 @@ void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
     }
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 int FUN_004720a0(char*);
 extern int DAT_010a2480;
 struct SeekFile

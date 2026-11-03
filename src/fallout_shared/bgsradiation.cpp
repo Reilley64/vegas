@@ -1,5 +1,6 @@
 // fallout_shared/bgsradiation.cpp: BGSRadiationStage (10 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -263,7 +264,6 @@ void FUN_00591d30_t::CopyFrom(TESForm* apCopy)
 struct FUN_005e79a0_t
 {
 };
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_00591d90_shell : BGSRadiationStage
 {
     bool FUN_00591d90(TESForm* apCompare);
@@ -276,7 +276,7 @@ bool FUN_00591d90_shell::FUN_00591d90(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pOtherStage))
         return true;
-    if (_memcmp(((BGSCameraPath*)this)->GetConditions(), ((BGSCameraPath*)pOtherStage)->GetConditions(), 8))
+    if (std::memcmp(((BGSCameraPath*)this)->GetConditions(), ((BGSCameraPath*)pOtherStage)->GetConditions(), 8))
         return true;
     return false;
 }

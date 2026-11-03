@@ -1,5 +1,6 @@
 // fallout/ai/combat/combatmanager.cpp: CombatFlagHolder, CombatBox, CombatManager, CombatNodeArray and more (37 functions)
 
+#include <cstring>
 #include "fnv/decl/Actor8A7.h"
 #include "fnv/decl/ActorMergeData.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -3080,8 +3081,6 @@ bool ThreatManager::IsThreatWithinLimits(ThreatActor* actor, ThreatActor* target
         return false;
     return true;
 }
-
-extern "C" void* __cdecl memset(void* dest, int c, unsigned int count);
 
 
 class BaseProcess

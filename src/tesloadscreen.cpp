@@ -400,7 +400,6 @@ void LoadScreenA6C::CopyLoadScreenData(TESForm* pkForm)
 }
 
 extern char DAT_01186260;
-void* FUN_00ec43fb(void*, int, void*, void*, int);
 class ListX
 {
   public:
@@ -429,7 +428,7 @@ class FormT
 // @fnv 0x005a6d30
 bool FormT::FUN_005a6d30(void* pOther)
 {
-    FormT* pOtherForm = (FormT*)FUN_00ec43fb(pOther, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01186260, 0);
+    FormT* pOtherForm = (FormT*)dynamic_cast<::TESLoadScreen *>(reinterpret_cast<::TESForm *>(pOther));
     if (!pOtherForm)
         return true;
     ListX* it = &pOtherForm->kList;

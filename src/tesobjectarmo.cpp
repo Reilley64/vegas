@@ -1,6 +1,7 @@
 // tesobjectarmo.cpp: TESObjectARMO, ArmorSerializer, ArmorCopy, TESObjectARMOFoley and more (15 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -55,8 +56,6 @@
 #include "fnv/symbols_005b5000.h"
 #include "tesobjectarmo_decls.h"
 #include "tesobjectarmo_load.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 // @fnv 0x00512e10
 void TESObjectARMO::ResetFormData()
 {

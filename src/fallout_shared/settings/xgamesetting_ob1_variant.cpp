@@ -4,6 +4,8 @@
 // to their real unit once identified.
 
 #include <windows.h>
+#include <cmath>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -437,8 +439,6 @@ void* __cdecl FUN_00c4bb40(NiObjectC4BB* pkObject)
     return pvData;
 }
 
-int __cdecl FUN_00ec65a6(char* dst, unsigned size, const char* src);
-int __cdecl FUN_00ec6bd2(char* dst, unsigned size, const char* src);
 static __forceinline void DeadQ3()
 {
     int dq[3];
@@ -502,11 +502,11 @@ void __cdecl FUN_00c4bbc0(NamedQ* pObj, const char* pcPath)
     PathQ kKPath(pcPath);
     char acBuf[0x100];
     if (pcOld_)
-        FUN_00ec65a6(acBuf, 0x100, pcOld_);
+        fnv::crt::strcpy_s(acBuf, 0x100, pcOld_);
     else
         acBuf[0] = 0;
-    FUN_00ec6bd2(acBuf, 0x100, "_:");
-    FUN_00ec6bd2(acBuf, 0x100, kKPath.m_szName);
+    fnv::crt::strcat_s(acBuf, 0x100, "_:");
+    fnv::crt::strcat_s(acBuf, 0x100, kKPath.m_szName);
     pObj->SetName(FixStrQ(acBuf));
 }
 
@@ -664,10 +664,9 @@ struct Plane
         return reinterpret_cast<::FUN_004b6190_shell *>((void *)&(normal))->DotProduct((void *)&(p)) - distance;
     }
 };
-double __cdecl _fabs(double);
 inline double Abs(float value)
 {
-    return (float)_fabs(value);
+    return (float)std::fabs(value);
 }
 // @fnv 0x00c4bf40
 void __cdecl FUN_00c4bf40(Source* source, Plane* plane, NiCamera* dest)

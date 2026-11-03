@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A_00885520.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorDeletionQueue.h"
@@ -6217,7 +6218,6 @@ extern float DAT_011e0798;
 extern float DAT_011a3b3c, DAT_011a3b40;
 void FUN_00961d50();
 extern "C" void* FUN_00ec43fb(void*, int, void*, void*, int);
-extern "C" int FUN_00ec7d40(int);
 extern bool DAT_011e0bc1;
 extern const char DAT_0108b064[], DAT_0108b050[];
 extern const double DAT_0108b048;
@@ -6958,11 +6958,11 @@ void TickPlayer::FUN_0093e860(float elapsed)
         axisX = reinterpret_cast<::FUN_00a23390_t *>((input))->GetAxisState(0, 7);
         axisZ = reinterpret_cast<::FUN_00a23390_t *>((input))->GetAxisState(0, 9);
         axisY = reinterpret_cast<::FUN_00a23390_t *>((input))->GetAxisState(0, 8);
-        if (FUN_00ec7d40(axisX) < 0x1ea9)
+        if (std::abs(axisX) < 0x1ea9)
             axisX = 0;
-        if (FUN_00ec7d40(axisY) < 0x1ea9)
+        if (std::abs(axisY) < 0x1ea9)
             axisY = 0;
-        if (FUN_00ec7d40(axisZ) < 0x21f1)
+        if (std::abs(axisZ) < 0x21f1)
             axisZ = 0;
         axisX = axisX * 100 / 0x7fff;
         axisY = axisY * 100 / 0x7fff;
@@ -6977,13 +6977,13 @@ axesDone:
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(3);
             else if (axisX < 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(2);
-            DAT_011a3b40 = (float)(FUN_00ec7d40(axisX) * (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011e0964)))))));
+            DAT_011a3b40 = (float)(std::abs(axisX) * (double)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::MSetting *>(&::g_011e0964)))))));
             if (DAT_011a3b40 > ::DAT_01016ff0)
                 DAT_011a3b40 = DAT_01016088;
         }
-        if (FUN_00ec7d40(axisY) < FUN_00ec7d40(axisX))
+        if (std::abs(axisY) < std::abs(axisX))
         {
-            DAT_011a3b3c = (float)(FUN_00ec7d40(axisX) * DAT_0108b048);
+            DAT_011a3b3c = (float)(std::abs(axisX) * DAT_0108b048);
             if (axisX < 0)
                 animGroup |= 4;
             else
@@ -6995,7 +6995,7 @@ axesDone:
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(0);
             else if (axisY > 0)
                 reinterpret_cast<::OSInputGlobals *>((input))->FUN_00a24280(1);
-            DAT_011a3b3c = (float)(FUN_00ec7d40(axisY) * DAT_0108b048);
+            DAT_011a3b3c = (float)(std::abs(axisY) * DAT_0108b048);
         }
     }
     TickEquip* currentEquip = unk68->vf148();

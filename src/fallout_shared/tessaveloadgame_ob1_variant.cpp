@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tessaveloadgame.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
@@ -298,8 +299,6 @@ FUN_00c3ec80::FUN_00c3ec80(unsigned int a, unsigned int b, unsigned int c)
     unk10 = c;
     unk14 = new (&g_memoryManager) FUN_00c42180(a);
 }
-
-extern "C" void* __cdecl memset(void* pvDest, int iValue, unsigned int uiSize);
 
 class MemoryManagerC4
 {

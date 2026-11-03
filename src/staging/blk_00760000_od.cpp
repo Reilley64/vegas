@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cctype>
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -1621,7 +1622,6 @@ class HKAudio
   public:
 };
 
-int FUN_00ec86e1(int iChar);
 
 class HKMenu
 {
@@ -1666,7 +1666,7 @@ void HKMenu::UpdateHighlight()
     if (m_bShowing)
     {
         reinterpret_cast<::FUN_00768020_holder *>(this)->FUN_00768020();
-        if (!FUN_00ec86e1(reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4)[iPos + 7]))
+        if (!std::isalpha(reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4)[iPos + 7]))
         {
             m_bShowing = false;
             m_pkLastTile = 0;
@@ -1717,7 +1717,7 @@ void HKMenu::UpdateHighlight()
     if (pkNodeTmp)
     {
         const char* pcText = reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::HKScreen * *>(&::g_pGame))->m_pkTextTile))->FUN_00a011f0(0xfc4);
-        while (FUN_00ec86e1(pcText[iPos - 1]))
+        while (std::isalpha(pcText[iPos - 1]))
             iPos--;
         for (unsigned int k = 1; !bFound && k < m_uiWordLength; k++)
         {
@@ -1739,7 +1739,7 @@ void HKMenu::UpdateHighlight()
                     iY2 = (int)reinterpret_cast<::TileListBoxCalls *>((pkLine))->GetFloat(0xfa2);
                 }
             }
-            else if (!FUN_00ec86e1(pcText[iPos + k]))
+            else if (!std::isalpha(pcText[iPos + k]))
             {
                 bFound = true;
                 k = m_uiWordLength - k;

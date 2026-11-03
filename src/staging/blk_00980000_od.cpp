@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorAvoidanceDataArray.h"
 #include "fnv/decl/ActorMover.h"
@@ -1719,7 +1720,6 @@ FUN_0098f8e0_Class* FUN_0098f8e0_Class::FUN_0098f8e0()
     return this;
 }
 
-extern "C" void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_0098f960_class
 {
     void FUN_0098f960(char* dst, char* src, unsigned int count);
@@ -1732,12 +1732,12 @@ void FUN_0098f960_class::FUN_0098f960(char* dst, char* src, unsigned int count)
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(dst + i * 0x68, src + i * 0x68, 0x68);
+            std::memmove(dst + i * 0x68, src + i * 0x68, 0x68);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(dst + i * 0x68, src + i * 0x68, 0x68);
+            std::memmove(dst + i * 0x68, src + i * 0x68, 0x68);
     }
 }
 

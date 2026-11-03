@@ -1,5 +1,6 @@
 // bgsencounterzone.cpp: BGSEncounterZone, TESObjectREFR, ZoneComparison, EncounterZoneCopy (24 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -44,8 +45,6 @@
 #include "fnv/symbols_011ca000.h"
 #include "fnv/symbols_011de000.h"
 #include "bgsencounterzone_decls.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 // Sets the form type to 0x61 and then runs the constructor's initialization routine.
 // @fnv 0x00525c40
 BGSEncounterZone::BGSEncounterZone()
@@ -559,7 +558,6 @@ void FUN_005264a0_shell::FUN_005264a0(BGSLoadFormBuffer* apLoadGameBuffer)
     }
 }
 
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 struct ZoneBaseComparison
 {
 };

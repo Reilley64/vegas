@@ -5,6 +5,7 @@
 
 // @fnv 0x00eacd20
 #include <new>
+#include <cstring>
 #include "fnv/decl/BA81100Object.h"
 #include "fnv/decl/ClaimCls.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -33,8 +34,6 @@ void* __cdecl FUN_00eacd20()
 }
 
 extern "C" void* __cdecl _NiMalloc(unsigned int);
-extern "C" unsigned int __cdecl strlen(const char*);
-
 // Allocates a string sized from pcPrefix and formats it as "<pcPrefix> = <mode name>" based on eMode, returning the buffer.
 // @fnv 0x00eacef0
 char* FUN_00eacef0(const char* pcPrefix, unsigned int eMode)
@@ -1863,7 +1862,6 @@ extern const char str_010f19c8[];
 extern const char str_010f19b0[];
 extern const char str_0109b2ec[];
 
-extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl FUN_00aa1070(unsigned int size);
 
 // Obtains a buffer sized from name length and formats name into it using the mode-selected format string.

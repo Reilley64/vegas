@@ -2,6 +2,8 @@
 #ifndef BSSIMPLEARRAY_H
 #define BSSIMPLEARRAY_H
 
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ArrQ0cd50.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/FUN_006e3c90_cls.h"
@@ -24,7 +26,7 @@ template <>
 // @fnv 0x00A0CB90
 unsigned int BSSimpleArray<Tile::Value*, 8>::BinarySearch(Tile::Value*& value, BSSimpleArrayCompare compare)
 {
-    void* found = bsearch(&value, pBuffer, iSize, sizeof(Tile::Value*), compare);
+    void* found = std::bsearch(&value, pBuffer, iSize, sizeof(Tile::Value*), compare);
     if (found == 0)
         return 0xFFFFFFFF;
     unsigned int index = (static_cast<char*>(found) - reinterpret_cast<char*>(pBuffer)) / sizeof(Tile::Value*);
@@ -274,12 +276,12 @@ void BSSimpleArray<Tile::Value*, 8>::UpdateEntryValue(Tile::Value** destination,
     if (destination < source)
     {
         for (unsigned int index = 0; index < count; index = index + 1)
-            FUN_00ec7230(destination + index, source + index, sizeof(Tile::Value*));
+            std::memmove(destination + index, source + index, sizeof(Tile::Value*));
     }
     else if (destination > source)
     {
         for (int index = count - 1; index >= 0; index = index - 1)
-            FUN_00ec7230(destination + index, source + index, sizeof(Tile::Value*));
+            std::memmove(destination + index, source + index, sizeof(Tile::Value*));
     }
 }
 // Candidate address 006e5330, 91 bytes; both external operations have complete-span evidence.

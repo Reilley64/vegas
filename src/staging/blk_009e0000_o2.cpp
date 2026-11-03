@@ -6,6 +6,7 @@
 #include <objbase.h>
 #include <d3d9.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00401000.h"
@@ -36,7 +37,6 @@ int GetValueFromOffset8(int a, int aiUnused, int* piOut)
     return 0;
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int value, int size);
 
 struct FUN_009f9a30_class
 {
@@ -46,7 +46,7 @@ struct FUN_009f9a30_class
 // @fnv 0x009f9a30
 void FUN_009f9a30_class::FUN_009f9a30()
 {
-    _fnv_zlib_memset(this, 0, 0x48);
+    std::memset(this, 0, 0x48);
     *(int*)((char*)this + 0x28) = 1;
     *(int*)((char*)this + 0x20) = 1;
 }
@@ -2435,8 +2435,6 @@ int FUN_009f9cd0(int a)
 }
 }  // namespace fnv_009f9cd0
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 struct AllocSysInfo
 {
     unsigned long dwOemId;
@@ -2589,8 +2587,6 @@ int FnvCpu_FUN_009fd0f0_CpuObject::FUN_009fd0f0()
 {
     return value;
 }
-
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct Vector4f
 {
@@ -3013,8 +3009,6 @@ struct SampleProperties
     void* pbBuffer;
     int cbBuffer;
 };
-
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
 
 // Copies a subset of MediaSample fields into a SampleProperties struct at pDest, clearing the 0x20 sample flag and zeroing pMediaType when the 0x8 flag is unset.
 // @fnv 0x009fa960
@@ -4047,7 +4041,6 @@ long FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
 }
 }  // namespace fnv_009fc7e0
 
-extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
 
 struct FUN_009fcee0
@@ -4131,7 +4124,7 @@ FUN_009fc890::FUN_009fc890(int objectName, void* apOwnerFilter, int* lock, int* 
         m_pName = new wchar_t[len];
         if (m_pName)
         {
-            FUN_00ec44d0(m_pName, name, len * sizeof(wchar_t));
+            std::memmove(m_pName, name, len * sizeof(wchar_t));
         }
     }
 }
@@ -4319,8 +4312,6 @@ int CompareWideStrings(const wchar_t* p, const wchar_t* q)
     return 0;
 }
 }  // namespace fnv_009fd030
-
-extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int size);
 
 // Allocates a CoTaskMemAlloc'd copy of psz, writes the pointer to ppszReturn, and returns HRESULT.
 // @fnv 0x009fd0a0
@@ -5923,7 +5914,6 @@ struct GraphLock
         LeaveCriticalSection(m_lock);
     }
 };
-void* __cdecl _memmove(void*, const void*, unsigned int);
 // Locks the filter, updates m_graph and m_sink from graph, and replaces m_name with a copy of name.
 // @fnv 0x009f9e50
 int SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wchar_t* name)
@@ -5949,7 +5939,7 @@ int SetGraphAndName(GraphFilter* self, GraphUnknown* graph, const wchar_t* name)
         unsigned int n = ((unsigned int)(::FUN_009fd080((const unsigned short *)(name)))) + 1;
         self->m_name = new wchar_t[n];
         if (self->m_name)
-            _memmove(self->m_name, name, n * 2);
+            std::memmove(self->m_name, name, n * 2);
     }
     return 0;
 }

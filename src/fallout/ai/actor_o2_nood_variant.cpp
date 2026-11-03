@@ -5,6 +5,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdint>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -596,7 +598,6 @@ struct FUN_00cdb400 {
     static void operator delete(void*);
 };
 typedef FUN_00cdb400 SkinState;
-int __cdecl FUN_00ec7750(const char*, const char*);
 extern float DAT_01267c7c, DAT_01267c88, DAT_01267c94, DAT_01267ca0;
 extern float DAT_01267cac, DAT_01267cb8, DAT_01267cc4, DAT_01267cd0;
 extern float DAT_01267cdc, DAT_01267ce8, DAT_01267cf4, DAT_01267d00;
@@ -829,7 +830,7 @@ void SceneOwner::FUN_00c7e9a0(Argument* sourceInput, const char* requestedName) 
                 BoneTransformData* skeleton = GetCached()->skeleton;
                 for (int bone = 0; bone < skeleton->boneCount; ++bone) {
                     const char* boneName = skeleton->GetBone(bone).Name();
-                    if (FUN_00ec7750(boneName, "Head")) headBone = bone;
+                    if (((int)(std::uintptr_t)(std::strstr((char *)(boneName), "Head")))) headBone = bone;
                 }
                 if (skin) {
                     state = new SkinState(skin);
@@ -3598,7 +3599,6 @@ void __cdecl hkaSkeletonMapper::FUN_00ce3a00(const hkQsTransform* poseAModelSpac
 // ---- Gamebryo / game helpers ----
 void* __cdecl NiMalloc(unsigned int size);
 void __cdecl NiFree(void* p);
-void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
 
 struct MM {
 };
@@ -3829,7 +3829,7 @@ struct NiTMapBaseStub {
         unsigned int uiSize = sizeof(NiTMapItemStub*) * m_uiHashSize;
         m_ppkHashTable = static_cast<NiTMapItemStub**>(NiMalloc(uiSize));
         unsigned int bytes = m_uiHashSize * sizeof(NiTMapItemStub*);
-        _fnv_zlib_memset(m_ppkHashTable, 0, bytes);
+        std::memset(m_ppkHashTable, 0, bytes);
     }
     virtual ~NiTMapBaseStub()
     {

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -14559,8 +14560,6 @@ class SettingT_GameSettingCollection_
 };
 
 int __cdecl FUN_00406d30(char*, unsigned int, const char*);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-
 struct BoundRes
 {
 };

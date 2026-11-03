@@ -1,6 +1,7 @@
 #ifndef FNV_BSMENU_TILE_H
 #define FNV_BSMENU_TILE_H
 
+#include "runtime/crt.h"
 #pragma optimize("", off)
 #include "Tile__FloatAction.h"
 #include "tile_h_decls.h"
@@ -16,7 +17,7 @@ float Tile__FloatAction::GetStoredFloatValue()
 // @fnv 0x00a0d180
 bool Tile__MenuStringMap::IsKeysEqual(const char* left, const char* right)
 {
-    return _stricmp(left, right) == 0;
+    return fnv::crt::stricmp(left, right) == 0;
 }
 
 // @fnv 0x00a0bb00

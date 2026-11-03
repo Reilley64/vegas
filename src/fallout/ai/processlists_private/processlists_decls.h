@@ -4,6 +4,7 @@
 #define FNV_PROCESSLISTS_PRIVATE_DECLS_H
 
 
+#include <cmath>
 #include "fnv/decl/AlarmPackageData.h"
 #include "fnv/decl/FUN_00c67aa0_Class.h"
 #include "fnv/decl/Owner.h"
@@ -117,8 +118,6 @@ class bhkWorld
 
 extern float DAT_011e0e2c;
 extern double DAT_0108c160;
-extern "C" int FNV_IsNaN(double);
-extern "C" int FNV_Finite(double);
 class Actor;
 class Crime
 {

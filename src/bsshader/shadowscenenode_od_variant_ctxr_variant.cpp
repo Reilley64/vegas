@@ -3,6 +3,7 @@
 // src/bsshader/shadowscenenode_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/shadowscenenode.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CamLook.h"
@@ -165,7 +166,6 @@ struct Target2180
 {
     FUN_00a712f0* FUN_007c2180();
 };
-extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned int);
 
 struct UpdateObject;
 struct UpdateList
@@ -468,7 +468,6 @@ struct UpdateOwner
     void FUN_006056f0(UpdateObject* object);
 };
 extern unsigned DAT_0101f5f8;
-extern "C" int __cdecl strncmp_r006056f0(const char*, const char*, unsigned);
 // @fnv 0x006056f0
 void UpdateOwner::FUN_006056f0(UpdateObject* object)
 {
@@ -509,7 +508,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                             {
                                 count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
                                 key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
-                                if (key && !strncmp_r006056f0(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
+                                if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                                 {
                                     if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
                                     {
@@ -532,7 +531,7 @@ void UpdateOwner::FUN_006056f0(UpdateObject* object)
                         {
                             count = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((root))->FUN_00a59d30(2)));
                             key = ((::UpdateObject *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned int *>(&::g_011f4a5c))), (::NiObject *)(count))));
-                            if (key && !strncmp_r006056f0(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
+                            if (key && !fnv::crt::strnicmp(((::UpdateObject *)(reinterpret_cast<::TESTopicInfoData *>((key))->GetLinkToList()))->FUN_0043b1b0(), &(*reinterpret_cast<char *>((void *)&::g_011d348c_arg1)), 4))
                             {
                                 if (::MatchGeometryVertices((::Geometry *)(root), (::Geometry *)(node), ::fnv_00c88020::DAT_01016248, true, 0))
                                 {

@@ -6,6 +6,8 @@
 // src/staging/blk_00ec0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/EC1060File.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -219,7 +221,6 @@ struct FUN_00ec1b80_Class
     int m_0008;
     void Initialize();
 };
-unsigned int __cdecl _strlen(const char* s);
 int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 struct FUN_00ec1cc0_Class
 {
@@ -800,10 +801,6 @@ struct MovieBoolSetting
     bool value;
 };
 
-unsigned int __cdecl _strlen(const char* s);
-char* __cdecl _strcpy(char* dst, const char* src);
-char* __cdecl MovieStrtok(char* s, const char* delim);
-int __cdecl MovieStricmp(const char* a, const char* b);
 
 extern const char g_movieExt[];
 extern const char g_movieWarnFmt[];
@@ -1259,18 +1256,18 @@ void MoviePlayerA::FUN_00ec2760(const char* list)
     ScopedAllocTag tag(tidTmp3);
     Lock();
     unsigned int size;
-    size = _strlen(list) + 1;
+    size = std::strlen(list) + 1;
     char* buf2 = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    _strcpy(buf2, list);
-    char* tok_2 = MovieStrtok(buf2, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
+    std::strcpy(buf2, list);
+    char* tok_2 = std::strtok(buf2, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
     bool first = true;
     unk3c = 0;
     while (tok_2)
     {
         if (!unk21 && CanQueue(first))
         {
-            ext2 = tok_2 + _strlen(tok_2) - 3;
-            if (MovieStricmp(ext2, g_movieExt) == 0)
+            ext2 = tok_2 + std::strlen(tok_2) - 3;
+            if (fnv::crt::stricmp(ext2, g_movieExt) == 0)
             {
                 bool* setting =
                     &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)) ? &(*reinterpret_cast<::MovieBoolSetting *>(&::g_0126fac8)).value : (*(bool*)& DAT_01202800 = false, (bool*)&DAT_01202800);
@@ -1281,7 +1278,7 @@ void MoviePlayerA::FUN_00ec2760(const char* list)
                 ::FUN_005b5e40();
             }
         }
-        tok_2 = MovieStrtok(0, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
+        tok_2 = std::strtok(0, (*reinterpret_cast<const char (*)[]>(&::fnv_00ac9790::DAT_01063cd8)));
     }
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MovieMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(buf2);
     unk21 = 0;

@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Anim490.h"
 #include "fnv/decl/AnimSwap.h"
@@ -1011,7 +1013,6 @@ TESModelTextureSwap* GetBipedModelTextureSwap(TESForm* form, TESObjectREFR* refr
 
 extern int DAT_0101d274;
 void* __cdecl operator new(unsigned int);
-void* _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_0048b3e0_t
 {
     int* vtbl;
@@ -1034,7 +1035,7 @@ FUN_0048b3e0_t::FUN_0048b3e0_t(int aiCount)
         size = count << 2;
         p3 = ::FUN_00401000(size);
         data = p3;
-        _fnv_zlib_memset(data, 0, count << 2);
+        std::memset(data, 0, count << 2);
     }
 }
 
@@ -1125,7 +1126,6 @@ struct FUN_0049f990_class : FUN_0049f8f0_class
     int mc;
     void FUN_0049f990(unsigned int requested, unsigned int saved);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern int $SG6245;
 struct FUN_00486fa0_Class
 {
@@ -1313,7 +1313,6 @@ void __cdecl FUN_004858f0(unsigned int a, unsigned char ucValue)
 }
 
 int __cdecl strcpy_s(char*, unsigned int, char*);
-unsigned int __cdecl _strlen(const char*);
 
 struct FUN_00486ae0_Class
 {
@@ -1327,7 +1326,7 @@ void FUN_00486ae0_Class::SetString(int* a, char* pcString, int iValue)
     unsigned int size;
     if (*(unsigned char*)((char*)this + 0x10) != 0)
     {
-        size = _strlen(pcString) + 1;
+        size = std::strlen(pcString) + 1;
         a[1] = (int)::FUN_00aa1070(size);
         strcpy_s((char*)a[1], size, pcString);
     }
@@ -1482,12 +1481,11 @@ struct ExtraData
 struct Reference
 {
 };
-extern "C" FormEntry* __cdecl func_0x00ec43fb(void*, unsigned int, void*, void*, unsigned int);
 // Looks up a FormEntry from source, then returns its model value or a value computed from reference's extra data via FUN_00481190.
 // @fnv 0x00480e60
 unsigned int __cdecl FUN_00480e60(void* source, Reference* reference)
 {
-    FormEntry* form4 = func_0x00ec43fb(source, 0, &(*reinterpret_cast<unsigned char *>(&::DAT_01183028)), &DAT_01183978, 0);
+    FormEntry* form4 = ((FormEntry *)(dynamic_cast<::TESBipedModelForm *>(reinterpret_cast<::TESForm *>(source))));
     if (form4 == 0)
         return 0;
     if (reference == 0)
@@ -3807,7 +3805,6 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
     }
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct TESFile
 {
 public:

@@ -1,5 +1,6 @@
 // fallout_shared/bgshunger.cpp: BGSHungerStage, BGSHungerStage_copy (11 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -311,8 +312,6 @@ void FUN_00591e10_shell::InitDehydrationStage()
 
 extern char DAT_01183028;
 
-void* __cdecl FUN_00ec43fb(void* a, unsigned int b, void* c, void* d, unsigned int e);
-int __cdecl FUN_00ec4835(void* a, void* b, unsigned int c);
 
 class FUN_00401c50_cls : public BGSHungerStage
 {
@@ -323,7 +322,7 @@ class FUN_00401c50_cls : public BGSHungerStage
 // @fnv 0x00401c50
 bool FUN_00401c50_cls::FUN_00401c50(void* pOther)
 {
-    BGSHungerStage* r = (BGSHungerStage*)FUN_00ec43fb(pOther, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01183028, 0);
+    BGSHungerStage* r = (BGSHungerStage*)dynamic_cast<::TESForm *>(reinterpret_cast<::TESForm *>(pOther));
     if (r == 0)
     {
         return true;
@@ -332,7 +331,7 @@ bool FUN_00401c50_cls::FUN_00401c50(void* pOther)
     {
         return true;
     }
-    if (FUN_00ec4835(((::HungerStageData *)(reinterpret_cast<::BGSCameraPath *>((this))->GetConditions())), ((::HungerStageData *)(reinterpret_cast<::BGSCameraPath *>((r))->GetConditions())), 8) != 0)
+    if (std::memcmp(((::HungerStageData *)(reinterpret_cast<::BGSCameraPath *>((this))->GetConditions())), ((::HungerStageData *)(reinterpret_cast<::BGSCameraPath *>((r))->GetConditions())), 8) != 0)
     {
         return true;
     }

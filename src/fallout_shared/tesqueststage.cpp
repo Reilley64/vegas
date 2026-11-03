@@ -1,6 +1,7 @@
 // fallout_shared/tesqueststage.cpp: PlayerQuestData, TESQuest, StageHolder (15 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
@@ -45,7 +46,6 @@
 #include "tesqueststage_decls.h"
 #include <malloc.h>
 
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 extern "C" const char DAT_0104af30[];
 
 // @fnv 0x0060f6a0

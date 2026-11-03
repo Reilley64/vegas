@@ -6,6 +6,7 @@
 // src/havok/physics/utilities/serialize/hkpphysicsdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/serialize/hkpphysicsdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cstring>
 #include "fnv/decl/BodyCollection.h"
 #include "fnv/decl/Container64.h"
 #include "fnv/decl/FUN_00c90b80.h"
@@ -508,7 +509,6 @@ struct HostType
     ArrayType m_0c;
     void FUN_00d4c2d0(ClientType*, unsigned char);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct Value
 {
 };

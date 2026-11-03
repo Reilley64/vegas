@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00cfbd60_cls.h"
@@ -229,7 +230,6 @@ extern "C"
     __m128 _mm_sub_ps(__m128 a, __m128 b);
     void _mm_store_ps(float* p, __m128 a);
 }
-extern "C" double fabs(double);
 struct ClosestPointResult
 {
     float distSq;

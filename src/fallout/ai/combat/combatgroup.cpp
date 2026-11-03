@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -3553,8 +3554,6 @@ void* CombatGroupS::FUN_00989880(ActorS* pActor, float afRadius)
     LocalResult16 tResult;
     return ((void *)(reinterpret_cast<::B9897F0List *>((((GroupRef00989880*)this)))->FUN_009897f0((::B9897F0Point *)(((int)(reinterpret_cast<::FUN_00575650_Class *>((((ActorRef00989880*)pActor)))->FUN_00575650((::FUN_00575650_Result *)(void *)(&tResult))))), afRadius, (::B9897F0Ref *)(pActor))));
 }
-
-extern "C" void* _alloca(unsigned int size);
 
 class NiPoint3_ext
 {

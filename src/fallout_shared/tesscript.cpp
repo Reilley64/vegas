@@ -1,6 +1,7 @@
 // fallout_shared/tesscript.cpp: Script, ScriptLocals, DelStandIn, ScriptInitOwner and more (82 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActList.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -348,8 +349,6 @@ Script::Script()
     InitializeComponent();
 }
 
-void* __cdecl memset(void*, int, unsigned int);
-
 __declspec(thread) extern char tls_pad[0x268];
 
 // Clears the script's data fields and TLS state, then sets the form type to 0x11.
@@ -383,8 +382,6 @@ struct FUN_005aa420_shell : public Script
 {
     void CopyFromScript(Script*);
 };
-
-void* __cdecl memcpy(void*, const void*, unsigned int);
 
 struct G2
 {
@@ -620,9 +617,6 @@ void FUN_005aa420_shell::CopyFromScript(Script* apScriptToCopy)
 
     SetInitializationState(reinterpret_cast<::TESForm *>((void *)(apScriptToCopy))->GetInitialized());
 }
-
-unsigned int __cdecl strlen(const char*);
-void* __cdecl memcpy(void*, const void*, unsigned int);
 
 // Frees the stored string, then copies newText into a newly allocated buffer (or clears it when newText is null).
 // @fnv 0x005abe50
@@ -2461,8 +2455,6 @@ void __cdecl WriteReferenceLists(BGSSaveFormBuffer* buffer)
 
     reinterpret_cast<::ActorTaskManager *>(&((*reinterpret_cast<::RecursiveSpinLock *>(&::g_011cacf8))))->WaitForTasksDuringRendering();
 }
-
-unsigned int __cdecl strlen(const char*);
 
 struct ScriptCompareOwner : public Script
 {

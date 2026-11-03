@@ -2,6 +2,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -341,7 +344,6 @@ bool IsLegacyAutosaveFileName(const char** apFileName)
 struct MemoryManagerStatic
 {
 };
-unsigned int __cdecl _strlen(const char*);
 struct FUN_008465b0_stub
 {
     char* name;
@@ -369,7 +371,7 @@ FUN_008465b0_stub::FUN_008465b0_stub(const char* pcName, int p)
     f28 = 0;
     f34 = p;
     ::FUN_00403d30(blk, 0, 8);
-    unsigned int len = _strlen(pcName);
+    unsigned int len = std::strlen(pcName);
     char* buf = (char*)::FUN_00401000(len + 1);
     name = buf;
     ::TaskQueueInterface::CopyStringToBuffer(name, len + 1, pcName);
@@ -474,8 +476,6 @@ struct GlobalObject_0045cfe0
 {
 };
 int __cdecl strcat_s(char*, unsigned int, const char*);
-int __cdecl FUN_00ecbf05(const char*, int);
-int __cdecl FUN_00ec862c(const char*, const char*);
 struct MgrShell
 {
 };
@@ -515,14 +515,14 @@ void BGSSaveLoadManager::FUN_00850100(SaveLoadHeader* header, int abRotate)
                 strcat_s(bufD_, 260, ".bak");
             ::TaskQueueInterface::CopyStringToBuffer(_bufE, 260, bufD_);
             strcat_s(_bufE, 260, ".bak");
-            if (FUN_00ecbf05(bufD_, 0) != -1)
+            if (fnv::crt::access(bufD_, 0) != -1)
             {
-                if (FUN_00ecbf05(_bufE, 0) != -1)
+                if (fnv::crt::access(_bufE, 0) != -1)
                     DeleteFileA(_bufE);
-                FUN_00ec862c(bufD_, _bufE);
+                std::rename(bufD_, _bufE);
             }
         }
-        FUN_00ec862c(bufB, bufC4);
+        std::rename(bufB, bufC4);
         ::TaskQueueInterface::CopyStringToBuffer(bufB, 260, bufC4);
     }
 }

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstdlib>
 #include "fnv/decl/AE8150_List.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSAudioMgr.h"
@@ -39,12 +40,11 @@
 #include "fnv/symbols_010a3000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
-extern "C" int __cdecl FUN_00ec7d40(int);
 
 // @fnv 0x0072fa80
 int __cdecl FUN_0072fa80(int param_1)
 {
-    return FUN_00ec7d40(param_1);
+    return std::abs(param_1);
 }
 
 struct BSAudioManager
@@ -1851,7 +1851,6 @@ FUN_00ae8650_cls* FUN_00ae8650_cls::FUN_00ae8650()
     return this;
 }
 
-extern "C" int __cdecl atexit(void(__cdecl*)());
 void __cdecl FUN_00fdbfd0();
 extern int DAT_011f6ef0;
 struct FUN_00ad90e0_shell

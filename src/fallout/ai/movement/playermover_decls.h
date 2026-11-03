@@ -2,6 +2,7 @@
 #ifndef FNV_PLAYERMOVER_DECLS_H
 #define FNV_PLAYERMOVER_DECLS_H
 
+#include <cmath>
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004301b0_shell.h"
@@ -94,7 +95,6 @@ class TESActorBaseData
 namespace std {
 float abs(float);
 }
-float cos(float);
 class PlayerMoverProcess
 {
   public:

@@ -1,5 +1,6 @@
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00c1aee0_cls.h"
@@ -558,7 +559,6 @@ void SpawnModifierX::FUN_00c23db0(float afTime, float fTime, unsigned short usOl
     }
 }
 
-extern "C" int __cdecl rand();
 extern "C" const double DAT_01028338;
 extern "C" const float DAT_011aeb34;
 
@@ -743,7 +743,7 @@ struct PSys
 
 static inline float UnitRandom()
 {
-    return (float)(rand() / ::DAT_01029790);
+    return (float)(std::rand() / ::DAT_01029790);
 }
 
 static inline void FastSinCos(float f, float& sine, float& cosine)

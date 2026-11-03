@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsoleibmanager.cpp: IndexBufferManager (1 function)
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -49,7 +50,7 @@ COMBaseInterface* IndexBufferManager::PackBuffer(const unsigned short* pusIndice
         void* pvLockedData = 0;
         if (pkIB->Lock(0, uiSize, &pvLockedData, 0) >= 0)
         {
-            fnv_zlib_memcpy(pvLockedData, pusIndices, uiSize);
+            std::memmove(pvLockedData, pusIndices, uiSize);
             pkIB->Unlock();
         }
         else

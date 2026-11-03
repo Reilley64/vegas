@@ -1,13 +1,13 @@
 // tesobjectarmo_load.h: declares TESFileFormVersion, TESFullNameLoader, TESObjectARMOOldBipedModel, TESObjectARMOOldData
 #ifndef TESOBJECTARMO_LOAD_H
 #define TESOBJECTARMO_LOAD_H
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_00472840_impl.h"
 #include "fnv/decl/FUN_00512810_holder.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/symbols_00487000.h"
 #include "TESFile.h"
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 class TESFileFormVersion

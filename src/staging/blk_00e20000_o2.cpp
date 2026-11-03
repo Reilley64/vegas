@@ -3,6 +3,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cmath>
+#include <ctime>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/CompressedChunk.h"
@@ -2850,12 +2852,11 @@ void FUN_00e3f370_cls::ReleaseItems()
 // Without /GL the cdecl stack parameter forces "mov eax,[esp+4]" first,
 // which the original does not have.
 
-__int64 __cdecl __time64(__int64* t);
 
 // @fnv 0x00e29900
 static __int64 FUN_00e29900(__int64* t)
 {
-    return __time64(t);
+    return std::time((std::time_t *)(t));
 }
 
 __int64* volatile g_ptr;
@@ -2924,7 +2925,6 @@ unsigned char __cdecl ScaleToByte(float fMin, float fScaledValue, float fValue)
     return (unsigned char)(((fValue - fMin) / (fScaledValue - fMin)) * 255.0);
 }
 
-extern "C" double __cdecl fabs(double);
 inline float S00e311f0_abs(float x)
 {
     float result = (float)fabs(x);
@@ -4590,7 +4590,6 @@ extern "C"
     __m128 _mm_add_ss(__m128 a, __m128 b);
     __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
     void _mm_store_ss(float* p, __m128 a);
-    double __cdecl fabs(double x);
 }
 
 struct HullFace;

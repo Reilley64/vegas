@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nipoint3.cpp: NiColor, NiPoint3 (4 functions)
 
+#include <cstring>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "nipoint3_stream.h"
@@ -19,8 +20,6 @@ void NiColor::SaveBinary(NiStream& stream)
     stream.output->Write(&g);
     stream.output->Write(&b);
 }
-
-extern "C" unsigned int __cdecl strlen(char const*);
 
 struct NiPoint3
 {

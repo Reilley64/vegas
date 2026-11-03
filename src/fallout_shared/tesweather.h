@@ -5,6 +5,7 @@
 #ifndef FNV_TESWEATHER_UNIT_H
 #define FNV_TESWEATHER_UNIT_H
 
+#include <cstring>
 #include "layout_support.h"
 #include "BaseFormComponent.h"
 #include "TESForm.h"
@@ -17,7 +18,6 @@ class TESWeather;
 class TESWeather__WeatherSound;
 class TESWeather__WeatherSoundList;
 
-extern "C" void* memset(void* dst, int val, unsigned int size);
 void __cdecl operator delete(void* ptr);
 
 class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent

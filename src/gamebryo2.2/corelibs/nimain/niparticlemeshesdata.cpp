@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/Candidate.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -589,8 +590,6 @@ void A98BF0ParticleMeshesData::RemoveParticleMesh(unsigned short usParticle)
     reinterpret_cast<::Candidate *>(this)->FUN_00a964c0(usParticle);
 }
 
-extern "C" double __cdecl fabs(double);
-
 struct NiPoint3_a98
 {
     float x, y, z;
@@ -668,15 +667,6 @@ struct MeshNode_a98
     int unk9C;
     Mesh_a98** m_ppChildren;
 };
-
-inline float fabsf(float _X)
-{
-    return ((float)fabs((double)_X));
-}
-inline float fabs(float _X)
-{
-    return (fabsf(_X));
-}
 
 struct FUN_00a98c90_shell
 {

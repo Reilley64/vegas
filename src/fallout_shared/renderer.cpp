@@ -1,6 +1,10 @@
 // fallout_shared/renderer.cpp: Renderer, SettingS (13 functions)
 
 #include <windows.h>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
@@ -74,13 +78,12 @@ bool Renderer::CanRender()
     return !DAT_011c70e9 || ((bool)(::fnv_005d4a40::FUN_005d4a40()));
 }
 
-double __cdecl FUN_00ec9ac0(double, double);
 
 // Returns the result of FUN_00ec9ac0(_X, _Y) cast to float.
 // @fnv 0x004dd150
 float __cdecl FUN_004dd150(float _X, float _Y)
 {
-    return (float)FUN_00ec9ac0(_X, _Y);
+    return (float)std::pow(_X, _Y);
 }
 
 struct S_004ed780
@@ -208,8 +211,6 @@ struct TgtOps : public FUN_004da650_shell
 
 extern GlobalObject2_004a4a40 g_011c72c0;
 
-char* __cdecl FUN_00ec6380(char*, char const*);
-int __cdecl __stricmp(char const*, char const*);
 
 // @fnv 0x004da570
 bool __cdecl FUN_004da570()
@@ -226,14 +227,14 @@ bool __cdecl FUN_004da570()
                 void* position = ((void *)(reinterpret_cast<::BaseProcess *>((target))->GetCurrentProcessData()));
             }
 
-            if (__stricmp(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011c72c0))->GetMenuTitle())), pcMenuState) != 0)
+            if (fnv::crt::stricmp(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011c72c0))->GetMenuTitle())), pcMenuState) != 0)
                 return true;
         }
     }
 
     ::FUN_004046f0(buffer, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)));
-    FUN_00ec6380(buffer, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011c72c0))->GetMenuTitle())));
-    FUN_00ec6380(buffer, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)));
+    std::strcat(buffer, ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011c72c0))->GetMenuTitle())));
+    std::strcat(buffer, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)));
     reinterpret_cast<::Setting *>(&(g_011c72c0))->FUN_005e0190(buffer);
     return false;
 }
@@ -417,9 +418,6 @@ struct Rect4
     int c;
     int d;
 };
-void* __cdecl FUN_00ec9a47(const char*, const char*);
-extern "C" int __cdecl _fclose(void*);
-int __cdecl FUN_00ec9774(void*, const char*, ...);
 struct G7790
 {
     SETTING_VALUE* Bool();
@@ -1306,7 +1304,6 @@ int __cdecl FUN_009fead6(int, int*);
 int __cdecl FUN_009feae8(int*, unsigned int*);
 int __cdecl FUN_009feae2(int*, unsigned int*);
 int __cdecl FUN_009febd8(void*, int*);
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct DriverVersion
 {
     int version;
@@ -1525,7 +1522,6 @@ extern G1690 DAT_011c7b20;
 extern G1690 DAT_011c7b6c;
 extern G1690 DAT_011c7ac4;
 extern G1690 DAT_011c7b48;
-void __cdecl FUN_00ec9907(void*);
 struct FloatSetting;
 extern SettingT_GameSettingCollection_ DAT_011c752c;
 
@@ -1579,10 +1575,10 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
     DAT_011c6fc4 = aiHeight;
     char buf21[260];
     ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
-    void* file32 = FUN_00ec9a47(buf21, (const char*)&DAT_0102156c);
+    void* file32 = std::fopen(buf21, (const char*)&DAT_0102156c);
     if (file32 != 0)
     {
-        _fclose(file32);
+        std::fclose((std::FILE *)(file32));
     }
     ::DAT_011c6fb0 = ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c7628))))->i;
     (*reinterpret_cast<int *>(&::DAT_0118947c)) = reinterpret_cast<::TESObjectCELL *>(&(DAT_011c73dc))->GetCellStandValue();
@@ -1678,10 +1674,10 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
             int ft = ((int)(::BSShaderManager::GetRenderModeName()));
             (void)ft;
             ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
-            file32 = FUN_00ec9a47(buf21, (const char*)&DAT_01021568);
+            file32 = std::fopen(buf21, (const char*)&DAT_01021568);
             if (file32 != 0)
             {
-                FUN_00ec9774(file32, (const char*)&DAT_01021518, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i);
+                std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021518, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&(DAT_011c73f4))))->i);
             }
             reinterpret_cast<::FUN_004de2d0_StandIn *>(&(DAT_011c7790))->FUN_004de2d0(0);
             (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) = 0;
@@ -1824,7 +1820,7 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
         {
             queryStatusV22 = FUN_009fea2a();
             driverVersionV52.version = 0;
-            fnv_zlib_memset(&driverVersionV52.unk04, 0, 0x88);
+            std::memset(&driverVersionV52.unk04, 0, 0x88);
             driverVersionV52.version = 0x1008c;
             queryStatusV22 = FUN_009fead0(0, &driverVersionV52.version);
             if (queryStatusV22 != 0)
@@ -1971,50 +1967,50 @@ int __cdecl FUN_004da670(int aiWidth, int aiHeight)
     ::FUN_004dc2d0(((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c71ac))))->f);
     int t1404 = ((int)(::BSShaderManager::GetRenderModeName()));
     ::FUN_00406d00(buf21, 260, "%sRendererInfo.txt", ((char *)(::FUN_004dc110())));
-    file32 = FUN_00ec9a47(buf21, (const char*)&DAT_01021568);
+    file32 = std::fopen(buf21, (const char*)&DAT_01021568);
     if (file32 != 0)
     {
-        FUN_00ec9774(file32, (const char*)&DAT_01021450, spells117, spells218);
-        FUN_00ec9774(file32, (const char*)&DAT_01021434, t1404);
-        FUN_00ec9774(file32, (const char*)&DAT_01021418, sub13013->fcc & 0xffff);
-        FUN_00ec9774(file32, (const char*)&DAT_010213fc, sub13013->fc4 & 0xffff);
-        FUN_00ec9774(file32, (const char*)&DAT_010213e0, ((int)(::NiD3DGPUProgramCache::GetVertexShaderProfile())));
-        FUN_00ec9774(file32, (const char*)&DAT_010213c4, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(0))));
-        FUN_00ec9774(file32, (const char*)&DAT_010213a8, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1))));
-        FUN_00ec9774(file32, (const char*)&DAT_0102138c, (int)wval40);
-        FUN_00ec9774(file32, (const char*)&DAT_01021368,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021450, spells117, spells218);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021434, t1404);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021418, sub13013->fcc & 0xffff);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213fc, sub13013->fc4 & 0xffff);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213e0, ((int)(::NiD3DGPUProgramCache::GetVertexShaderProfile())));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213c4, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(0))));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010213a8, ((int)(::NiD3DGPUProgramCache::GetPixelShaderProfile(1))));
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_0102138c, (int)wval40);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021368,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f94a4)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_0102134c,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_0102134c,
                      ::DAT_011f94a6 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021330, b12 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021314,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021330, b12 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021314,
                      DAT_011c70ea ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010212f8,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010212f8,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f941f)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010212dc,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010212dc,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f941e)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010212c0,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010212c0,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f9422)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010212a4,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010212a4,
                      ((bool)(::FUN_004dc0a0())) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021284,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021284,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f91a3)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021268,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021268,
                      ::DAT_011f9440 ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_0102124c,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_0102124c,
                      ((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c7b20))->GetBoolValue())) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021230,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021230,
                      ((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c7b6c))->GetBoolValue())) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_01021214,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021214,
                      ((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c7ac4))->GetBoolValue())) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010211f8,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211f8,
                      ((bool)(reinterpret_cast<::GlobalObject_0045cf30 *>(&(DAT_011c7b48))->GetBoolValue())) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010211dc, DAT_011c70cc);
-        FUN_00ec9774(file32, (const char*)&DAT_010211c0,
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211dc, DAT_011c70cc);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211c0,
                      (*reinterpret_cast<unsigned char *>(&::DAT_011f9421)) ? (const char*)&DAT_01021388 : (const char*)&DAT_01021384);
-        FUN_00ec9774(file32, (const char*)&DAT_010211a4, ::FUN_00b7faf0());
-        FUN_00ec9774(file32, (const char*)&DAT_01021188, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004da670::SettingT_GameSettingCollection_ *>(&::g_011c3ea4))))))->i);
-        FUN_00ec9907(file32);
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_010211a4, ::FUN_00b7faf0());
+        std::fprintf((std::FILE *)(file32), (const char*)&DAT_01021188, ((::fnv_004da670::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_004da670::SettingT_GameSettingCollection_ *>(&::g_011c3ea4))))))->i);
+        std::fclose((std::FILE *)(file32));
     }
     ::DAT_011f9190 = DAT_011c76c0.Bool()->b ? ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7488))))->f : ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7170))))->f;
     ::DAT_011f918c = ((::fnv_004da670::Setting_S *)&(::FUN_00403e20((float *)&(DAT_011c7574))))->f;

@@ -3,6 +3,8 @@
 #define FNV_BSSIMPLEARRAY_PRIVATE_DECLS_H
 
 
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FUN_006e3c90_cls.h"
 #include "fnv/decl/FUN_00761540_cls.h"
 #include "fnv/decl/FUN_007883b0.h"
@@ -12,8 +14,6 @@
 #include "fnv/symbols_0106c000.h"
 typedef int(__cdecl* BSSimpleArrayCompare)(const void*, const void*);
 // Canonical placeholder for the runtime copy routine at 0x00ec7230 (_memmove is 0x00ec44d0).
-void* __cdecl FUN_00ec7230(void*, const void*, unsigned int);
-extern "C" void* __cdecl bsearch(const void*, const void*, unsigned int, unsigned int, BSSimpleArrayCompare);
 
 template <class T, unsigned int N> class BSSimpleArray
 {

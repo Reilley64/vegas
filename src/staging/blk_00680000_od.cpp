@@ -3,6 +3,9 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSSimpleArray42f8a0.h"
@@ -452,8 +455,6 @@ unsigned int FUN_00695370_class::GetArrFlags()
     return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr))->GetName()));
 }
 
-extern "C" void* __cdecl memset(void* dst, int value, unsigned int count);
-
 // @fnv 0x00695390
 void* __cdecl MemsetWrapper(void* dst, int value, unsigned int count)
 {
@@ -476,7 +477,6 @@ int* FUN_0069ad40_class::InitializeWithGlobal(int param)
     return reinterpret_cast<int*>(this);
 }
 
-void __cdecl FUN_00ec6f20(int, int, int, int);
 
 struct FUN_0069aeb0_class
 {
@@ -490,7 +490,7 @@ struct FUN_0069aeb0_class
 // @fnv 0x0069aeb0
 void FUN_0069aeb0_class::FUN_0069aeb0(int a)
 {
-    FUN_00ec6f20(f4, f8, 2, a);
+    std::qsort((void *)(f4), f8, 2, (int (*)(const void *, const void *))(a));
 }
 
 // @fnv 0x0069b1b0
@@ -976,7 +976,6 @@ void* FUN_00691ea0_class::FUN_006917a0(unsigned int flags)
     return this;
 }
 
-extern "C" void* __cdecl memset(void* dst, int value, unsigned int count);
 extern int SG6701;
 struct FUN_006918c0_class
 {
@@ -1505,7 +1504,6 @@ void CLS_0069efd0::CallVirtualMethod()
     (p2 ? p2->f(1) : 0);
 }
 
-void* __cdecl FUN_00ec7230(char*, const char*, unsigned int);
 
 struct FUN_00692480
 {
@@ -1520,12 +1518,12 @@ void FUN_00692480::Method(char* dst, char* src, unsigned int count)
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(dst + i * 8, src + i * 8, 8);
+            std::memmove(dst + i * 8, src + i * 8, 8);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(dst + i * 8, src + i * 8, 8);
+            std::memmove(dst + i * 8, src + i * 8, 8);
     }
 }
 
@@ -1562,7 +1560,6 @@ int FUN_006925b0_class::AppendSlot()
     return iCount - 1;
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_006928a0_class
 {
     void FUN_006928a0(char* a, char* b, unsigned int c);
@@ -1576,12 +1573,12 @@ void FUN_006928a0_class::FUN_006928a0(char* pDst, char* pSrc, unsigned int c)
     if (pDst < pSrc)
     {
         for (unsigned int i = 0; i < c; ++i)
-            FUN_00ec7230(pDst + i * 0x28, pSrc + i * 0x28, 0x28);
+            std::memmove(pDst + i * 0x28, pSrc + i * 0x28, 0x28);
     }
     else if (pDst > pSrc)
     {
         for (int i = c - 1; i >= 0; --i)
-            FUN_00ec7230(pDst + i * 0x28, pSrc + i * 0x28, 0x28);
+            std::memmove(pDst + i * 0x28, pSrc + i * 0x28, 0x28);
     }
 }
 
@@ -2889,7 +2886,6 @@ struct S_0069d9a0_cls
     void* FUN_0069d9a0(unsigned int flags);
 };
 
-extern "C" void FUN_00ec5fce(void* object, int elementSize, int count, void (S_0069d9a0_cls::*callback)());
 
 
 // @fnv 0x0069d9a0

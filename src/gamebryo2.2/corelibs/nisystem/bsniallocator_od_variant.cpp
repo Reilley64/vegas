@@ -4,14 +4,14 @@
 // src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 struct MemoryManager
 {
     unsigned int Size(const void*);
 };
-void* _memmove(void* dst, const void* src, unsigned int n);
-void* _realloc(void* ptr, unsigned int size);
 
 struct FUN_00aa4200_Helper
 {
@@ -29,13 +29,13 @@ void* FUN_00aa4200_Helper::FUN_00aa4200(void* old, unsigned int size, unsigned i
         result2 = reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManager*)this)))->FUN_00aa3e40(size);
         if (oldSize > size)
             oldSize = size;
-        _memmove(result2, old, oldSize);
+        std::memmove(result2, old, oldSize);
         reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)this)))->FUN_00aa4060(old);
     }
     else
     {
         void* tmp = old;
-        tmp = _realloc(tmp, size);
+        tmp = std::realloc(tmp, size);
         result2 = tmp;
     }
     return result2;

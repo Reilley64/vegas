@@ -7,6 +7,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <commctrl.h>
+#include <cstring>
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
@@ -259,7 +260,6 @@ struct FUN_004d4de0_Class
 {
     void* FUN_004d4de0(unsigned int);
 };
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 extern int DAT_01020944;
 struct FUN_004d4e40_Class
 {
@@ -380,7 +380,6 @@ struct FUN_004d8560_StandIn
 {
     void* GetInnerVirtualResult();
 };
-void* __cdecl memset(void* dest, int value, unsigned int count);
 struct FUN_004d8fa0_Class
 {
     int* m_p0;
@@ -529,7 +528,6 @@ struct FUN_004d5b60
     int value;
     FUN_004d5b60(int index, int number, int extra);
 };
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 void __cdecl ClearGlobalArray(void);
 int __cdecl FUN_004d5e00();
 struct FUN_004d9070

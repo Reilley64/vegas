@@ -1,6 +1,7 @@
 // fallout_shared/pathfinding/pathfind.cpp: Pathing, ActorDeletionQueue, PathBuilder, ArrHelper and more (87 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Array6daf.h"
 #include "fnv/decl/AvoidNodeList.h"
@@ -678,7 +679,6 @@ void* FUN_006d04e0_shell::FUN_006d04e0()
     return this;
 }
 
-void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
 struct FUN_006d0730_shell
 {
@@ -695,7 +695,7 @@ void FUN_006d0730_shell::FUN_006d0730(void* pDest, void const* pSource, unsigned
         unsigned int i = 0;
         for (; i < count; ++i)
         {
-            FUN_00ec7230((char*)pDest + i * 0x18, (char const*)pSource + i * 0x18, 0x18);
+            std::memmove((char*)pDest + i * 0x18, (char const*)pSource + i * 0x18, 0x18);
         }
     }
     else if (pDest > pSource)
@@ -703,7 +703,7 @@ void FUN_006d0730_shell::FUN_006d0730(void* pDest, void const* pSource, unsigned
         int i = (int)count - 1;
         for (; i >= 0; --i)
         {
-            FUN_00ec7230((char*)pDest + i * 0x18, (char const*)pSource + i * 0x18, 0x18);
+            std::memmove((char*)pDest + i * 0x18, (char const*)pSource + i * 0x18, 0x18);
         }
     }
 }
@@ -898,7 +898,6 @@ struct FUN_006d0540_shell
 // @fnv 0x006d0540
 void FUN_006d0540_shell::FUN_006d0540(void* dst, void* src, unsigned int count)
 {
-    extern void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
     if (count <= 0)
         return;
@@ -906,12 +905,12 @@ void FUN_006d0540_shell::FUN_006d0540(void* dst, void* src, unsigned int count)
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230((char*)dst + i * 0x30, (char*)src + i * 0x30, 0x30);
+            std::memmove((char*)dst + i * 0x30, (char*)src + i * 0x30, 0x30);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230((char*)dst + i * 0x30, (char*)src + i * 0x30, 0x30);
+            std::memmove((char*)dst + i * 0x30, (char*)src + i * 0x30, 0x30);
     }
 }
 
@@ -942,7 +941,6 @@ void* S006d0510::FUN_006d0510(unsigned int flags)
     return this;
 }
 
-void* __cdecl FUN_00ec7230(void*, void const*, unsigned int);
 
 struct FUN_006d07d0_shell
 {
@@ -957,12 +955,12 @@ void FUN_006d07d0_shell::FUN_006d07d0(void* a, void* b, unsigned int c)
     if (a < b)
     {
         for (unsigned int i = 0; i < c; ++i)
-            FUN_00ec7230((char*)a + i, (char*)b + i, 1);
+            std::memmove((char*)a + i, (char*)b + i, 1);
     }
     else if (a > b)
     {
         for (int i = c - 1; i >= 0; --i)
-            FUN_00ec7230((char*)a + i, (char*)b + i, 1);
+            std::memmove((char*)a + i, (char*)b + i, 1);
     }
 }
 

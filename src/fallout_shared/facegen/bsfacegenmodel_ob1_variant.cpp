@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/facegen/bsfacegenmodel.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00456650_shell.h"
@@ -43,7 +44,6 @@
 #include "fnv/symbols_011de000.h"
 #include "bsfacegenmodel_decls.h"
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);

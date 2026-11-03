@@ -2836,14 +2836,13 @@ void FUN_007dfd20_cls::FUN_007dfd20(Dummy007_obj* apObj, unsigned int* apOut)
 struct FUN_00408da0_obj
 {
 };
-FUN_00408da0_obj* __cdecl FUN_00ec43fb(int a, int b, const char* c, const char* d, int e);
 
 // Resolves the objects referenced by *pA and *pB via FUN_00ec43fb and passes their FUN_00408da0 results to FUN_00404dc0.
 // @fnv 0x007e0480
 void __cdecl FUN_007e0480(int* pA, int* pB)
 {
-    ::FUN_00404dc0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((FUN_00ec43fb(*pA, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183158, 0)))->FUN_00408da0()))),
-                 (const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((FUN_00ec43fb(*pB, 0, (*reinterpret_cast<char (*)[]>(&::DAT_01183028)), DAT_01183158, 0)))->FUN_00408da0()))));
+    ::FUN_00404dc0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00408da0_obj *)(dynamic_cast<::TESFullName *>(reinterpret_cast<::TESForm *>(*pA))))))->FUN_00408da0()))),
+                 (const char *)(void *)(((void *)(reinterpret_cast<::FUN_00408da0_Class *>((((FUN_00408da0_obj *)(dynamic_cast<::TESFullName *>(reinterpret_cast<::TESForm *>(*pB))))))->FUN_00408da0()))));
 }
 
 struct Text

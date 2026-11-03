@@ -1,6 +1,7 @@
 // fallout_shared/bgsheadpart.cpp: BGSHeadPart, Deleter, HeadPartInit (13 functions)
 
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00471d60_shell.h"
@@ -35,14 +36,11 @@
 #include "fnv/symbols_01183000.h"
 #include "fnv/symbols_011c1000.h"
 extern "C" void ref_008256d0();
-extern "C" void ref_00ec43fb();
 extern "C" void ref_0063f7b0();
 extern "C" void ref_00726c60();
 extern "C" void ref_00485110();
-extern "C" void ref_00ec5ec0();
 extern "C" void ref_0048a7b0();
 extern "C" void ref_005e7790();
-extern "C" void ref_00ec408c();
 extern "C" unsigned char data_011863b8[];
 extern "C" unsigned char data_010465ec[];
 
@@ -336,8 +334,6 @@ struct FUN_005e7530_shell : public BGSHeadPart
 {
     bool FUN_005e7530(TESFile*);
 };
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct TESForm_vtable_helper : public BGSHeadPart
 {

@@ -1,5 +1,6 @@
 // fallout_shared/niformarray.cpp: NiFormArray (3 functions)
 
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -20,7 +21,7 @@ void NiFormArray::SetFormAtIndex(unsigned int index, TESForm* form)
         unsigned int newSize = m_uiSize + 1;
         if (m_uiMaxSize < newSize)
             SetSize(newSize + m_uiGrowBy);
-        FUN_00ec7230(m_pBase + index + 1, m_pBase + index, (m_uiSize - index) * sizeof(TESForm*));
+        std::memmove(m_pBase + index + 1, m_pBase + index, (m_uiSize - index) * sizeof(TESForm*));
         ++m_uiSize;
         m_uiESize = m_uiSize;
         m_pBase[index] = form;

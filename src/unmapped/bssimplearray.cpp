@@ -2,6 +2,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstring>
 #include "fnv/decl/Array6cff.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/B49F8F0Allocator.h"
@@ -626,7 +627,6 @@ void FUN_008454f0::Clear(bool freeStorage)
 }
 }  // namespace fnv_008454f0
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_006dc6e0_Class
 {
@@ -641,14 +641,14 @@ void FUN_006dc6e0_Class::FUN_006dc6e0(char* pDst, char* pSrc, unsigned int count
     if (pDst < pSrc)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(pDst + i * 0xc, pSrc + i * 0xc, 0xc);
+            std::memmove(pDst + i * 0xc, pSrc + i * 0xc, 0xc);
     }
     else
     {
         if (pDst > pSrc)
         {
             for (int i = (int)count - 1; i >= 0; --i)
-                FUN_00ec7230(pDst + i * 0xc, pSrc + i * 0xc, 0xc);
+                std::memmove(pDst + i * 0xc, pSrc + i * 0xc, 0xc);
         }
     }
 }

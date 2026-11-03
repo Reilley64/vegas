@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1422,7 +1423,6 @@ FUN_00433830::~FUN_00433830()
     ::FUN_00433750((::ListNode *)(::ListX *)(&m_kEntryList));
 }
 
-extern "C" void _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_00438820_Class
 {
     void* vtbl;
@@ -1443,7 +1443,7 @@ FUN_00438820_Class::FUN_00438820_Class(int aiCount)
         unsigned int size = count * 4;
         void* p3 = ::FUN_00401000(size);
         data = p3;
-        _fnv_zlib_memset(data, 0, count * 4);
+        ::std::memset(data, 0, count * 4);
     }
 }
 

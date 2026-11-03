@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CircularArc.h"
@@ -1157,7 +1159,6 @@ struct FUN_006a6340_class : FUN_006a6550_class
 {
     void* FUN_006a6340(int flags);
 };
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_006a6370_class
 {
     int* p;
@@ -1615,8 +1616,6 @@ struct S_006b3d90
 {
     void* FUN_006b3d90();
 };
-void* memset(void* dest, int value, unsigned int count);
-
 struct FUN_006b3de0_Class
 {
     void* FUN_006b3de0();
@@ -1743,7 +1742,6 @@ void* FUN_006b7eb0_t::FUN_006b7eb0(int aiCount)
     return this;
 }
 
-void* __cdecl memset(void* dest, int value, unsigned int count);
 struct FUN_006b8060_class
 {
     void* FUN_006b8060(int size);
@@ -1760,7 +1758,6 @@ void* FUN_006b8060_class::FUN_006b8060(int size)
     return this;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_006b8160_class
 {
     int* vtbl;
@@ -2257,7 +2254,6 @@ struct FUN_006a20a0
     int FUN_006a2001(int a);
     void FUN_006a20a1(unsigned int requested, unsigned int savedSize);
 };
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_006a2270_class
 {
@@ -2273,12 +2269,12 @@ void FUN_006a2270_class::FUN_006a2270(char* dst, char* src, unsigned int count)
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(dst + i * 0x3c, src + i * 0x3c, 0x3c);
+            ::std::memmove(dst + i * 0x3c, src + i * 0x3c, 0x3c);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(dst + i * 0x3c, src + i * 0x3c, 0x3c);
+            ::std::memmove(dst + i * 0x3c, src + i * 0x3c, 0x3c);
     }
 }
 
@@ -4019,7 +4015,6 @@ void FUN_006ad2f0_cls::SetPackedField(unsigned short uiFieldIndex, unsigned shor
 }
 
 extern float runtimeInitializationFloat2848;
-float floor(float x);
 
 // @fnv 0x006ad3b0
 unsigned int FUN_006ad3b0(float value, bool roundDown, bool roundNear)

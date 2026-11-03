@@ -2,18 +2,18 @@
 // src/fallout_shared/pathfinding/navmeshbounds.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshbounds.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_0069ccf0_class.h"
 #include "fnv/decl/FUN_0076b610_Class.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00407000.h"
-int __cdecl FUN_00ec3bad(int);
 // Replaces the integer pointed to by p with the result of calling FUN_00ec3bad on its current value.
 // @fnv 0x00401080
 void FUN_00401080(int* piValue)
 {
     int* q = piValue;
-    *q = FUN_00ec3bad(*q);
+    *q = fnv::crt::byteswap_ulong(*q);
 }
 
 struct Vec3i

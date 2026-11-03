@@ -2,6 +2,7 @@
 // src/havok/common/base/memory/util/hkmemutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/util/hkmemutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/symbols_00d2c000.h"
 void __cdecl CopyMemoryBackward(void*, void*, unsigned int);
 
@@ -100,12 +101,11 @@ void __cdecl CopyMemoryBackward(void* apDest, void* apSource, unsigned int size)
 }
 
 namespace fnv_00d2caa0 {
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00d2caa0
 void __cdecl FUN_00d2caa0(void* dst, void* src, unsigned int size)
 {
-    _memmove(dst, src, size);
+    std::memmove(dst, src, size);
 }
 }  // namespace fnv_00d2caa0
 

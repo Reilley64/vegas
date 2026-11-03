@@ -20,6 +20,7 @@
 // The helper returns its first argument, which is what pins that argument
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
+#include <cmath>
 #include "fnv/symbols_01012000.h"
 struct Cls_c7f4e0
 {
@@ -44,8 +45,6 @@ static __declspec(noinline) void* FUN_00c7f4a0(void* out, void* self, int count)
 
 #include <xmmintrin.h>
 #include <math.h>
-extern "C" double fabs(double x);
-
 struct hkBool_c7f5
 {
     char m_cBooleanValue;
@@ -84,8 +83,6 @@ hkBool_c7f5 hkVector4_c7f5::FUN_00c7f520(float eps) const
     }
     return false;
 }
-
-extern "C" double fabs(double x);
 
 struct hkBool_c7f5b
 {

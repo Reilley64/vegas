@@ -1,5 +1,9 @@
 // speedtree/libspline_source/idvspline.cpp: Script, SplineSampler (12 functions)
 
+#include <cctype>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FNVTokenParser.h"
 #include "fnv/decl/FUN_00594cd0_Class.h"
 #include "fnv/decl/FUN_00594d20_Class.h"
@@ -485,12 +489,12 @@ double ExpressionEvaluator::Eval(const char* data, TESObjectREFR* reference, TES
             if (IsIntegerString(token.text))
             {
                 Value.Type = 0;
-                Value.m_lIntegerValue = atol(token.text);
+                Value.m_lIntegerValue = std::atol(token.text);
             }
             else if (::FUN_004b12d0((char *)(token.text)))
             {
                 Value.Type = 1;
-                Value.m_dFloatingPointValue = atof(token.text);
+                Value.m_dFloatingPointValue = std::atof(token.text);
             }
             else
             {
@@ -538,20 +542,16 @@ failure:
     return 0.0;
 }
 
-extern "C" int __cdecl _strlen(const char*);
-extern "C" int __cdecl _sscanf(const char*, const char*, ...);
-int __cdecl FUN_00ec8965(int);
 
 // @fnv 0x00b37f50
 const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken)
 {
-    while (FUN_00ec8965((int)*pInput))
+    while (std::isspace((int)*pInput))
         pInput++;
-    _sscanf(pInput, "%s", pToken);
-    return pInput + _strlen(pToken);
+    std::sscanf(pInput, "%s", pToken);
+    return pInput + std::strlen(pToken);
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct Host00b3b050
 {
     int m0;
@@ -565,7 +565,7 @@ Host00b3b050* Host00b3b050::FUN_00b3b050(int aiValue, int* piValue)
     m0 = 0;
     m1 = aiValue;
     if (piValue == 0)
-        FUN_00ec7c56();
+        std::abort();
     m0 = *piValue;
     return this;
 }
@@ -737,8 +737,6 @@ void FUN_00b3b9d0_shell::FUN_00b3b9d0(int aiValue)
 }
 
 extern "C" char DAT_010a57e8;
-int __cdecl FUN_00ec6da0(const char*, const char*);
-long __cdecl FUN_00eca6d3(const char*);
 struct InputB37
 {
     int pad;
@@ -766,33 +764,33 @@ void HostB37::FUN_00b37cc0(InputB37* input)
     const char* _cursor = input->capacity >= 16 ? input->data.ptr : input->data.text;
     char token[256];
     _cursor = FUN_00b37f50(_cursor, token);
-    if (FUN_00ec6da0(token, &DAT_010a57e8) == 0)
+    if (std::strcmp(token, &DAT_010a57e8) == 0)
     {
         _cursor = FUN_00b37f50(_cursor, token);
-        x = (float)atof(token);
+        x = (float)std::atof(token);
         _cursor = FUN_00b37f50(_cursor, token);
-        y = (float)atof(token);
+        y = (float)std::atof(token);
         _cursor = FUN_00b37f50(_cursor, token);
-        z = (float)atof(token);
+        z = (float)std::atof(token);
         _cursor = FUN_00b37f50(_cursor, token);
         if (token[0] == '{')
         {
             _cursor = FUN_00b37f50(_cursor, token);
-            int count8 = FUN_00eca6d3(token);
+            int count8 = std::atoi(token);
             for (int i5 = 0; i5 < count8; i5++)
             {
                 VecB37 second3, first4;
                 float value2;
                 _cursor = FUN_00b37f50(_cursor, token);
-                second3.x = (float)atof(token);
+                second3.x = (float)std::atof(token);
                 _cursor = FUN_00b37f50(_cursor, token);
-                second3.y = (float)atof(token);
+                second3.y = (float)std::atof(token);
                 _cursor = FUN_00b37f50(_cursor, token);
-                first4.x = (float)atof(token);
+                first4.x = (float)std::atof(token);
                 _cursor = FUN_00b37f50(_cursor, token);
-                first4.y = (float)atof(token);
+                first4.y = (float)std::atof(token);
                 _cursor = FUN_00b37f50(_cursor, token);
-                value2 = (float)atof(token);
+                value2 = (float)std::atof(token);
                 reinterpret_cast<::OwnerB380 *>(this)->FUN_00b380e0(&second3, &first4, value2);
             }
         }
@@ -806,7 +804,6 @@ struct FUN_0044d6c0_class
     int m2;
     void* FUN_00ec78f1(void*** ppArg);
 };
-extern "C" __declspec(noreturn) void __CxxThrowException(void* pException, void* apThrowInfo);
 // Throws an exception if a*0x30 would overflow an unsigned int, otherwise calls operator new with a*0x30 bytes.
 // @fnv 0x00b3b540
 void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
@@ -819,7 +816,7 @@ void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
         FUN_0044d6c0_class e5;
         e5.FUN_00ec78f1(&p);
         e5.m0 = (int)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
-        __CxxThrowException(&e5, (void*)&(*reinterpret_cast<const char *const *>(&::DAT_01140ef8)));
+        throw e5;
     }
     ::FUN_00401000(aiCount * 0x30);
 }
@@ -866,7 +863,6 @@ FUN_00b377c0::FUN_00b377c0(int a0) : m0(), m1(), m2(), m3(), m4()
     reinterpret_cast<::FUN_00b1c7a0_cls *>(this)->FUN_00b1c7a0((*(const ::FUN_00b1c7a0_cls *)(a0)));
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b3f130_shell
 {
@@ -940,7 +936,7 @@ float SplineSampler::Sample(float a1)
         Sub54& v2 = m_vec;
         if ((unsigned int)idxTmp >= (unsigned int)(v2.m_last - v2.m_pHeadNode))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         VecElem& elem9 = v2.m_pHeadNode[idxTmp];
         val4 = elem9.unk04;

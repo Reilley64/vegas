@@ -1,12 +1,12 @@
 // fallout_shared/bgsvoicetype_decls.h: declares TESFile, TESForm, BGSVoiceType
 #ifndef BGSVOICETYPE_DECLS_H
 #define BGSVOICETYPE_DECLS_H
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/S00485110.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
-extern "C" void* __cdecl _alloca(unsigned int);
 class TESFile
 {
   public:

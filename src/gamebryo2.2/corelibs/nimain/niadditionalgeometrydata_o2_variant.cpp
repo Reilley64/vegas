@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BA72DB0Data.h"
@@ -610,8 +611,6 @@ FUN_00a746e0::FUN_00a746e0(int a1, int a2, int a3, int a4, int a5, int a6, int a
 {}
 
 // Equality of two byte buffers: same size and identical contents.
-
-extern "C" int __cdecl memcmp(const void* pvBuf1, const void* pvBuf2, unsigned int uiSize);
 
 class A2440Buffer
 {

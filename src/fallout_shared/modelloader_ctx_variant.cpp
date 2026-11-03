@@ -1,6 +1,7 @@
 
 // modelloader_ctx_variant.cpp: context variant of src/fallout_shared/modelloader.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <cstring>
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/FUN_0043caa0_shell.h"
 #include "fnv/decl/FUN_0043caf0_shell.h"
@@ -133,8 +134,6 @@ class MyFileEntry
 
 int FUN_0043c410();
 void FUN_0043c3f0(unsigned int);
-extern "C" char* strstr(const char*, const char*);
-
 class CQueuedTexture
 {
   public:

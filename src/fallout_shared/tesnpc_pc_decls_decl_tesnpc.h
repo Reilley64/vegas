@@ -9,6 +9,9 @@
 // Unit-local on purpose (canonical headers lack members the matched functions call; listed for the header owner):
 //     GetDataSizeAdjustment/ReadTypedData; TESObjectREFR/Actor lack the non-virtual helpers and typed slots used here.
 //   NiPointer, BSSimpleArray: out-of-line ctor/operator= calls (canonical versions are inline or have no ctor).
+#include <cstdio>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorSpellView.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/B441420Owner.h"
@@ -609,7 +612,6 @@ class TESTopic
   public:
 };
 BSAudio* GetAudioSystem();
-extern "C" int sprintf(char*, const char*, ...);
 class ContainerItemExtra
 {
   public:
@@ -985,8 +987,6 @@ class TESNPCFileAccess : public TESFileFormVersion
   public:
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 void __cdecl operator delete[](void*);
@@ -1227,7 +1227,6 @@ class TESSaveLoadGame
 {
   public:
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 class BGSListForm
 {
   public:

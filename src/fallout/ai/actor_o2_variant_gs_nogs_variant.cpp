@@ -6,6 +6,7 @@
 // src/fallout/ai/actor_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/actor.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -945,7 +946,6 @@ struct RagController
     }
     void FUN_00c75580(unsigned char enabled);
 };
-extern "C" double __cdecl sqrt(double x);
 extern float DAT_011b02e4;
 struct NodeC
 {

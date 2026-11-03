@@ -1,5 +1,6 @@
 // fallout_shared/teleportdata.cpp: BaseProcess, QuantityData, Thing, RefHandle and more (22 functions)
 #include <new>
+#include <cmath>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -481,8 +482,6 @@ struct FUN_0043a590_shell : public TeleportableReference
     bool FUN_0043a590(TESForm*);
 };
 
-int __cdecl FUN_00ec7595(double x);
-int __cdecl FUN_00ec75b1(double x);
 
 struct TeleportFormTypeName
 {
@@ -510,14 +509,14 @@ bool FUN_0043a590_shell::FUN_0043a590(TESForm* form)
         m_pLinkedDoorReference = 0;
         return false;
     }
-    if (!FUN_00ec7595(position.x) || !FUN_00ec7595(position.y) || !FUN_00ec7595(position.z) ||
-        FUN_00ec75b1(position.x) || FUN_00ec75b1(position.y) || FUN_00ec75b1(position.z))
+    if (!std::isfinite(position.x) || !std::isfinite(position.y) || !std::isfinite(position.z) ||
+        std::isnan(position.x) || std::isnan(position.y) || std::isnan(position.z))
     {
         ::FUN_005b5e40();
         position = NiPoint3::ZERO;
     }
-    if (!FUN_00ec7595(rotation.x) || !FUN_00ec7595(rotation.y) || !FUN_00ec7595(rotation.z) ||
-        FUN_00ec75b1(rotation.x) || FUN_00ec75b1(rotation.y) || FUN_00ec75b1(rotation.z))
+    if (!std::isfinite(rotation.x) || !std::isfinite(rotation.y) || !std::isfinite(rotation.z) ||
+        std::isnan(rotation.x) || std::isnan(rotation.y) || std::isnan(rotation.z))
     {
         ::FUN_005b5e40();
         rotation = NiPoint3::ZERO;

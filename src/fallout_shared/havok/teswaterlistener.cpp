@@ -2,6 +2,8 @@
 // src/fallout_shared/havok/teswaterlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/teswaterlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -164,12 +166,11 @@ float FUN_00630aa0(float value)
     return ExpFloat(value);
 }
 
-extern "C" double __cdecl _exp(double);
 
 // @fnv 0x00630ac0
 float ExpFloat(float value)
 {
-    return static_cast<float>(_exp(value));
+    return static_cast<float>(std::exp(value));
 }
 
 extern float _gModifierZero;
@@ -1489,7 +1490,6 @@ struct EventWater
     int unk44;
     void* reference;
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 void* __cdecl operator new(unsigned int);
 struct WaterManager
 {
@@ -2018,7 +2018,7 @@ bool WaterManager::FUN_0062f900(EventWater* event)
             {
                 size = sizeof(WaterRecord);
                 allocationX = ::FUN_00401000(size);
-                record3 = allocationX ? (fnv_zlib_memset(allocationX, 0, size), (WaterRecord*)allocationX) : 0;
+                record3 = allocationX ? (std::memset(allocationX, 0, size), (WaterRecord*)allocationX) : 0;
                 record3->reference = s;
                 record3->body = a;
                 record3->water = eb;

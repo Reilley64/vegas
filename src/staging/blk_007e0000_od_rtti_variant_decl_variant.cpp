@@ -8,6 +8,8 @@
 // their real unit once its classes are.
 // src/staging/blk_007e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -265,7 +267,6 @@ struct FUN_007e0d80_shell : Flt
     void FUN_00438470(FUN_007e0d80_shell* other);
     FUN_007e0d80_shell* AppendString(FUN_007e0d80_shell* other);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 int FUN_007e1970();
 int __cdecl FUN_007e65a0();
 struct SysMgr
@@ -1079,7 +1080,6 @@ struct IntSetting
 struct StringSetting
 {
 };
-extern "C" int __cdecl rand();
 struct FUN_007ffec0
 {
     int unk000;

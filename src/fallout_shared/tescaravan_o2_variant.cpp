@@ -2,6 +2,7 @@
 // src/fallout_shared/tescaravan_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tescaravan.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -33,8 +34,6 @@ class BGSImpactData
 {
   public:
 };
-extern "C" void* memset(void* dst, int val, unsigned int size);
-
 // Adjustor thunk (MSVC this-adjusting thunk for a secondary base sub-object).
 // The secondary base sits at offset 0x3c inside the derived object, so the
 // thunk rewinds 'this' to the start of the derived object and tail-jumps to

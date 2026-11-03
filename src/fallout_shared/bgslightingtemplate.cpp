@@ -1,5 +1,6 @@
 // fallout_shared/bgslightingtemplate.cpp: BGSLightingTemplate, SwapBlock, LightingDelete, LightingTemplateInit and more (11 functions)
 
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -232,7 +233,6 @@ void LightingTemplateInit::FUN_005269c0()
     SetInitializationState(true);
 }
 
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct LightingComparison : public BGSLightingTemplate
 {
     bool FUN_00526a50(TESForm*);
@@ -244,7 +244,7 @@ bool LightingComparison::FUN_00526a50(TESForm* form)
     BGSLightingTemplate* other = dynamic_cast<BGSLightingTemplate*>(form);
     if (!other)
         return true;
-    if (_memcmp(&Data, &other->Data, sizeof(InteriorData)))
+    if (std::memcmp(&Data, &other->Data, sizeof(InteriorData)))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(other))
         return true;

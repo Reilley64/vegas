@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hkmatrix3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/symbols_00cd5000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
@@ -584,7 +585,6 @@ void S00cd4cc0_M::FUN_00cd4cc0(const float* apVec)
     c2.set(apVec[1], -apVec[0], 0.0f);
 }
 
-extern "C" double __cdecl fabs(double);
 extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_load_ss(const float* p);

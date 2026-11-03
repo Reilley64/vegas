@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/C_00aa0dc0.h"
@@ -964,8 +966,6 @@ void FUN_00a80fc0_class::FUN_00a80fc0() {
 
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
-extern "C" double __cdecl fabs(double);
-
 // Computes the angle of the vector (x, y) using a polynomial approximation of atan, handling zero and quadrant cases.
 // @fnv 0x00a811f0
 float __cdecl FUN_00a811f0(float y, float x)
@@ -1572,7 +1572,6 @@ FUN_00a8bd20::FUN_00a8bd20() {
     }
 }
 
-extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 
 struct FUN_00a8bdf0_cls {
     void (* m_00)(FUN_00a8bdf0_cls* self, unsigned char* out);
@@ -1597,7 +1596,7 @@ void FUN_00a8bdf0_cls::FUN_00a8bdf0(unsigned char* dst, unsigned int a2, unsigne
     if (count > 0) {
         unsigned int n = count;
         do {
-            FUN_00ec44d0(dst, src, size);
+            std::memmove(dst, src, size);
             dst += m_0c;
             src += 0x10;
         } while (--n != 0);
@@ -2802,7 +2801,6 @@ void CustomBlockDecoder::DecodePaletteBlock(unsigned char* pDest)
     }
 }
 
-void __cdecl _memmove(void*,const void*,unsigned int);
 struct NiBinaryStream {
  void* vtable;
  unsigned int position;
@@ -2930,7 +2928,7 @@ void RleDecoder::Decode(NiBinaryStream& stream,unsigned char* dest,unsigned int 
   if(run<n) n=run;
   if(repeat) {
    for(unsigned int j=0;j<n;++j) {
-    _memmove(dest,&value0,stride);
+    std::memmove(dest,&value0,stride);
     dest+=stride;
    }
   } else {
@@ -3695,7 +3693,6 @@ struct SkinInstance {
         unsigned int count, NiPoint3* dstPos, NiPoint3* dstNorm,
         NiPoint3* dstTan, NiPoint3* dstBin, unsigned int stride) const;
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 // Applies per-bone weighted transforms to positions, normals, tangents and binormals, accumulating results into the destination arrays.
 // @fnv 0x00a855f0
 void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* normals,
@@ -3716,10 +3713,10 @@ void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* norma
             const NiPoint3* tangents = normals + count;
             const NiPoint3* binormals = tangents + count;
             if (stride == sizeof(NiPoint3)) {
-                _fnv_zlib_memset(dstPos, 0, count * sizeof(NiPoint3));
-                _fnv_zlib_memset(dstNorm, 0, count * sizeof(NiPoint3));
-                _fnv_zlib_memset(dstTan, 0, count * sizeof(NiPoint3));
-                _fnv_zlib_memset(dstBin, 0, count * sizeof(NiPoint3));
+                std::memset(dstPos, 0, count * sizeof(NiPoint3));
+                std::memset(dstNorm, 0, count * sizeof(NiPoint3));
+                std::memset(dstTan, 0, count * sizeof(NiPoint3));
+                std::memset(dstBin, 0, count * sizeof(NiPoint3));
             } else {
                 NiPoint3* p = dstPos;
                 NiPoint3* n = dstNorm;
@@ -3768,8 +3765,8 @@ void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* norma
             return;
         }
         if (stride == sizeof(NiPoint3)) {
-            _fnv_zlib_memset(dstPos, 0, count * sizeof(NiPoint3));
-            _fnv_zlib_memset(dstNorm, 0, count * sizeof(NiPoint3));
+            std::memset(dstPos, 0, count * sizeof(NiPoint3));
+            std::memset(dstNorm, 0, count * sizeof(NiPoint3));
         } else {
             NiPoint3* p = dstPos;
             NiPoint3* n = dstNorm;
@@ -3806,7 +3803,7 @@ void SkinInstance::FUN_00a855f0(const NiPoint3* positions, const NiPoint3* norma
         return;
     }
     if (stride == sizeof(NiPoint3)) {
-        _fnv_zlib_memset(dstPos, 0, count * sizeof(NiPoint3));
+        std::memset(dstPos, 0, count * sizeof(NiPoint3));
     } else {
         NiPoint3* p = dstPos;
         for (unsigned int i = 0; i < count; ++i) {

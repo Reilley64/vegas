@@ -6,6 +6,7 @@
 #ifndef FNV_LOWPROCESS_H
 #define FNV_LOWPROCESS_H
 
+#include <cstdio>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/C42CE30.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
@@ -396,8 +397,6 @@ class LowProcessTimer
   public:
     bool IsBoundItem();
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-
 #include "lowprocess_types_PatrolActorPackageData.h"
 class BGSListForm : public TESForm
 {

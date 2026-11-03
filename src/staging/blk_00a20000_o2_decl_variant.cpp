@@ -6,6 +6,7 @@
 // src/staging/blk_00a20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -2665,7 +2666,6 @@ class FUN_00a30540_cls
     A30540Entry* m_pEntries;
     void FUN_00a30540();
 };
-extern "C" int __cdecl strcmp(const char* s1, const char* s2);
 struct FUN_00a305e0_cls
 {
     const char* m_00;

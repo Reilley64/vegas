@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/Array6d0.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BGSSaveGameBuffer.h"
@@ -130,7 +131,6 @@
 #include "fnv/symbols_0106c000.h"
 #include "../../include/layout_support.h"
 
-void* __cdecl FUN_00ec7230(char*, char const*, unsigned int);
 
 struct FUN_006c8bd0_Class
 {
@@ -145,12 +145,12 @@ void FUN_006c8bd0_Class::FUN_006c8bd0(const char* dst, const char* src, unsigned
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(const_cast<char*>(dst) + i * 16, src + i * 16, 16);
+            std::memmove(const_cast<char*>(dst) + i * 16, src + i * 16, 16);
     }
     else if (dst > src)
     {
         for (long i = count - 1; i >= 0; --i)
-            FUN_00ec7230(const_cast<char*>(dst) + i * 16, src + i * 16, 16);
+            std::memmove(const_cast<char*>(dst) + i * 16, src + i * 16, 16);
     }
 }
 
@@ -1587,12 +1587,12 @@ void FUN_006dbf20_Class::FUN_006dbf20(char* dst, char* src, unsigned int count)
         if ((unsigned int)dst < (unsigned int)src)
         {
             for (unsigned int i = 0; i < count; ++i)
-                FUN_00ec7230(dst + i * 0x54, src + i * 0x54, 0x54);
+                std::memmove(dst + i * 0x54, src + i * 0x54, 0x54);
         }
         else if ((unsigned int)dst > (unsigned int)src)
         {
             for (int i = (int)count - 1; i >= 0; --i)
-                FUN_00ec7230(dst + i * 0x54, src + i * 0x54, 0x54);
+                std::memmove(dst + i * 0x54, src + i * 0x54, 0x54);
         }
     }
 }
@@ -1657,12 +1657,12 @@ void FUN_006c0010_Class::FUN_006c0010(void* apDest, void* apSource, unsigned int
     if (apDest < apSource)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230((char*)apDest + i * 0x1c, (const char*)apSource + i * 0x1c, 0x1c);
+            std::memmove((char*)apDest + i * 0x1c, (const char*)apSource + i * 0x1c, 0x1c);
     }
     else if (apDest > apSource)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230((char*)apDest + i * 0x1c, (const char*)apSource + i * 0x1c, 0x1c);
+            std::memmove((char*)apDest + i * 0x1c, (const char*)apSource + i * 0x1c, 0x1c);
     }
 }
 
@@ -1754,7 +1754,6 @@ FUN_006dc370_Class* FUN_006dc370_Class::FUN_006dc370()
     return this;
 }
 
-void* __cdecl FUN_00ec7230(char* dst, char const* src, unsigned int count);
 struct FUN_006dc640_Class
 {
     void FUN_006dc640(char* dst, char* src, unsigned int count);
@@ -1768,12 +1767,12 @@ void FUN_006dc640_Class::FUN_006dc640(char* apDest, char* apSource, unsigned int
     if ((unsigned int)apDest < (unsigned int)apSource)
     {
         for (unsigned int i = 0; i < count; i++)
-            FUN_00ec7230(apDest + i * 32, apSource + i * 32, 32);
+            std::memmove(apDest + i * 32, apSource + i * 32, 32);
     }
     else if ((unsigned int)apDest > (unsigned int)apSource)
     {
         for (int i = (int)count - 1; i >= 0; i--)
-            FUN_00ec7230(apDest + i * 32, apSource + i * 32, 32);
+            std::memmove(apDest + i * 32, apSource + i * 32, 32);
     }
 }
 

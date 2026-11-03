@@ -2,6 +2,7 @@
 #ifndef FNV_A3D_QUEST_H
 #define FNV_A3D_QUEST_H
 
+#include <malloc.h>
 #include "fnv_a3d_form_types.h"
 class TESQuest;
 class PlayerQuestData;
@@ -201,7 +202,6 @@ class BGSLoadFormBuffer
     int ReadElementCount();
 };
 void __cdecl LogWarning(const char* message, ...);
-extern "C" void* __cdecl _alloca(unsigned int size);
 union SETTING_VALUE
 {
     bool b;

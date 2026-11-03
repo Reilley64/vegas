@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/AudioHandle.h"
 #include "fnv/decl/DBA7F0Ref.h"
 #include "fnv/decl/DBABE0Binding.h"
@@ -1154,7 +1155,6 @@ struct ParamP
     void* object;
     int member;
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct ValueWorld
 {
     virtual void dummy0();

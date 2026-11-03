@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cmath>
+#include <cstdlib>
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/FUN_00b40430_cls.h"
@@ -27,7 +29,6 @@ float FUN_00b14ae0_class::FUN_00b14ae0(int id, float a, float b)
     return result;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b15170
 {
@@ -42,7 +43,7 @@ struct FUN_00b15170
 char* FUN_00b15170::GetElement(unsigned int uiIndex)
 {
     if (uiIndex >= (unsigned int)(m_10 - m_0c))
-        FUN_00ec7c56();
+        std::abort();
     return m_0c + uiIndex;
 }
 
@@ -65,7 +66,6 @@ float FUN_00b2a180::Dot(const NiPoint3& point)
     return a * point.x + b * point.y + c * point.z;
 }
 
-double __cdecl FUN_00ec6054(double);
 struct FUN_00b12790_class
 {
     float x, y, z;
@@ -78,7 +78,7 @@ void FUN_00b12790_class::FUN_00b12790()
     float fSumOfSquares;
     float fInvSquareRoot;
     fSumOfSquares = x * x + y * y + z * z;
-    fInvSquareRoot = 1.0f / (float)FUN_00ec6054((double)fSumOfSquares);
+    fInvSquareRoot = 1.0f / (float)std::sqrt((double)fSumOfSquares);
     x *= fInvSquareRoot;
     y *= fInvSquareRoot;
     z *= fInvSquareRoot;
@@ -104,7 +104,6 @@ NiPoint3* FUN_00b0cff0_class::ScaleSwizzled(NiPoint3* output, float factor)
     return output;
 }
 
-extern double __cdecl FUN_00eca190(double value);
 struct This : FUN_00b2a180
 {
     float FUN_00b12720(const NiPoint3& point);
@@ -118,7 +117,7 @@ float This::FUN_00b12720(const NiPoint3& point)
         value = -1.0f;
     if (value > 1.0f)
         value = 1.0f;
-    return (float)FUN_00eca190(value);
+    return (float)std::acos(value);
 }
 
 struct State
@@ -396,7 +395,6 @@ Vec* MyThis::ProjectOntoLine(Vec* out, Vec* a, Vec* pLineStart, Vec* c)
     return out;
 }
 
-extern unsigned int __cdecl FUN_00ec7c56(void);
 
 struct NiPoint3x
 {
@@ -484,14 +482,14 @@ bool S_00b14280_This::IsPointClearOfEntries(const NiPoint3x& aPoint, unsigned in
     {
         b = &((S_00b14280_State*)DAT_011f8bf4)->m_entries;
         if (index >= (unsigned int)(b->m_kRayEnd - b->m_pRayStart))
-            FUN_00ec7c56();
+            std::abort();
         en7 = &b->m_pRayStart[index];
         r7 = (en7->m_ucLowNibble > en7->m_ucHighNibble) ? en7->m_ucLowNibble : en7->m_ucHighNibble;
         r7 = r7 * ((S_00b14280_State*)DAT_011f8bf4)->m_threshold;
         for (i = 0; i < (unsigned int)(list->m_kRayEnd - list->m_pRayStart) && ok5; i++)
         {
             if (i >= (unsigned int)(list->m_kRayEnd - list->m_pRayStart))
-                FUN_00ec7c56();
+                std::abort();
             p5 = &list->m_pRayStart[i];
             RunSeventhVirtualOperation = &(*p5)->m_pos;
             if (aPoint.x < RunSeventhVirtualOperation->x + r7 && aPoint.x > RunSeventhVirtualOperation->x - r7 &&
@@ -520,7 +518,6 @@ struct FacingTint
     void FUN_00b40210(Vec* point, Vec* other, float t);
 };
 
-extern double __cdecl FUN_00ec9f30(double value);
 
 // @fnv 0x00b40210
 void FacingTint::FUN_00b40210(Vec* point, Vec* other, float t)
@@ -537,7 +534,7 @@ void FacingTint::FUN_00b40210(Vec* point, Vec* other, float t)
     other->FUN_00b13040(&goal, point);
     reinterpret_cast<::FUN_00b12790_class *>(&(goal))->FUN_00b12790();
     basis.radians = ((This*)&sample)->FUN_00b12720(*(NiPoint3*)&goal);
-    length = (float)(double)(float)FUN_00ec9f30(basis.radians);
+    length = (float)(double)(float)std::cos(basis.radians);
     scale = (float)((length + 1.0) * DAT_01011588) * (1.0f - t) + t;
     reinterpret_cast<::FUN_00b404c0_cls *>((this))->FUN_00b404c0((const ::FUN_00b28440_Class *)(::Vec *)(((::Vec *)(reinterpret_cast<::FUN_00b0cff0_class *>((((::Vec *)(reinterpret_cast<::FUN_00b40430_cls *>((this))->FUN_00b40430((float *)(::Vec *)(&scaled))))))->ScaleSwizzled((::NiPoint3 *)(::Vec *)(&dest), scale)))), 1);
 }

@@ -2,6 +2,8 @@
 #ifndef FNV_BGSCAMERASHOT_DECLS_H
 #define FNV_BGSCAMERASHOT_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/CameraState.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_009ca410_shell.h"
@@ -62,7 +64,5 @@ struct CameraShotLegacyData
     unsigned int flags;
     float playerMult, globalMult, maxTime, minTime;
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

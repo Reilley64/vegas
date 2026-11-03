@@ -1,6 +1,7 @@
 // fallout/misc/taskqueueinterface.cpp: TaskQueueInterface, Holder, Host, TaskQueueProxy and more (69 functions)
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -304,13 +305,12 @@ class TaskQueueInterface
 };
 #endif
 
-extern "C" int strcpy_s(char* apDestination, unsigned int auiSize, const char* apSource);
 unsigned int gm_GetCurrentThreadId();
 
 // @fnv 0x00406d30
 void TaskQueueInterface::CopyStringToBuffer(char* apBuffer, unsigned int auiSize, const char* apSource)
 {
-    strcpy_s(apBuffer, auiSize, apSource);
+    fnv::crt::strcpy_s(apBuffer, auiSize, apSource);
 }
 
 // @fnv 0x005c3420

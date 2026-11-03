@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSLoadFormBuffer.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -225,7 +227,6 @@ void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
     ((unsigned char*)this)[2] = (unsigned char)iElementIndex;
 }
 
-extern "C" void* memset(void*, int, unsigned int);
 extern int DAT_011a2428[];
 extern unsigned int DAT_011de3e0;
 extern unsigned char DAT_011de360[];
@@ -843,7 +844,6 @@ void SavedStats::LoadStats()
 
 #include <windows.h>
 int GameStrcat(char* dst, unsigned int size, const char* src);
-int FUN_00ecbf05(const char* path, int mode);
 
 struct BSFile
 {
@@ -958,7 +958,7 @@ void DumpTextAndOpen(const char* baseName)
     char path[260];
     ::TaskQueueInterface::CopyStringToBuffer(path, 260, baseName);
     GameStrcat(path, 260, ".txt");
-    if (FUN_00ecbf05(path, 0) != -1)
+    if (fnv::crt::access(path, 0) != -1)
         DeleteFileA(path);
     reinterpret_cast<::TESPackage *>(&(writer))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(new BSFile(path, 1, 0x4000, false)));
     reinterpret_cast<::SavedStats *>(&(writer))->LoadStats();
@@ -968,7 +968,6 @@ void DumpTextAndOpen(const char* baseName)
 }
 
 namespace fnv_00853e10 {
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 int xStrcat(char*, unsigned int, const char*);
 int xMbsnicmp(const char*, const char*, unsigned int);
@@ -1134,7 +1133,7 @@ void SaveLoadStatsDump::FUN_00853e10()
             {
                 char qpia[0x3e8];
                 qpia[0] = *"";
-                _fnv_zlib_memset(qpia + 1, 0, sizeof(qpia) - 1);
+                std::memset(qpia + 1, 0, sizeof(qpia) - 1);
                 xForm* qZWI;
                 char qQGWBE[0x3e8];
                 int qkJsUdT;

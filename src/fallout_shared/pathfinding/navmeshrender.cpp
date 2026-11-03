@@ -1,6 +1,7 @@
 // fallout_shared/pathfinding/navmeshrender.cpp: NavMeshObstacleManager, ObstacleTask, NavRenderX, RenderTask and more (12 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -825,7 +826,6 @@ struct NavRenderX
     CellMapX kMap;
     void FUN_006a37a0(CellX* apCell, bool abUpdate);
 };
-extern "C" void* __cdecl memcpy(void* apDst, const void* apSrc, unsigned int auiSize);
 extern float xfCoverWidth, xfCoverScale, xfCoverOffset, xfCoverWidth2;
 struct WorldObject : public NiAVObject
 {

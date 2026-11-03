@@ -6,6 +6,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -8025,7 +8026,6 @@ struct FUN_00e69b40_shell {
     unsigned int GetEntry(unsigned int index);
 };
 struct Outer;
-extern "C" void* memmove(void* dst, const void* src, unsigned int n);
 struct SixIntegerRecord {
     int d00; int d04; int d08; int d0c; int d10; int d14;
 };
@@ -8111,7 +8111,6 @@ struct S00e8f360_Mgr {
     unsigned int m_indexBufferSize;
     S00e8f360_IB* EnsureIndexBuffer(unsigned int minQuads, unsigned int quadCount, bool populate, unsigned int usage, unsigned int pool);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct IDirect3DDevice9Like;
 struct D3DINDEXBUFFER_DESC_L
 {
@@ -8279,7 +8278,6 @@ struct FUN_00e9ec90 {
     static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 static const void* kNull = 0;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 struct S00e8fa80_Node {
     volatile unsigned int key;

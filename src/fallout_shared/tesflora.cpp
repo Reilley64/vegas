@@ -2,6 +2,7 @@
 // src/fallout_shared/tesflora.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesflora.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <malloc.h>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -136,8 +137,6 @@ void S_005085b0_Sec::FUN_005085b0()
     reinterpret_cast<::FUN_0048b720_Cls *>((((S_005085b0_D*)((char*)this - 0xc))))->ResolveIngredient((::FUN_00485b60_Cls *)(::S_005085b0_Sec *)((S_005085b0_D*)((char*)this - 0xc)));
     reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 }
-
-extern "C" void* __cdecl _alloca(unsigned int uiSize);
 
 struct FloraFile
 {
@@ -328,7 +327,6 @@ bool FloraFull::FUN_00508610(FloraFile* pkFile)
 
 extern int DAT_01189f7c;
 
-void* __cdecl FUN_00ec43fb(void* apObject, long alDelta, void* apSourceType, void* apTargetType, long abFlag);
 
 struct FUN_005089d0_cls
 {
@@ -339,7 +337,7 @@ struct FUN_005089d0_cls
 bool FUN_005089d0_cls::FUN_005089d0(void* apObject)
 {
     void* pFound;
-    pFound = FUN_00ec43fb(apObject, 0, &DAT_01183028, &DAT_01189f7c, 0);
+    pFound = dynamic_cast<::TESFlora *>(reinterpret_cast<::TESForm *>(apObject));
     if (pFound == 0)
     {
         return true;

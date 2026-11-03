@@ -6,6 +6,7 @@
 // original image, so it is only declared here.
 
 // arg1: the six float vector
+#include <cmath>
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00d72030_cls.h"
 #include "fnv/decl/MatrixProduct.h"
@@ -2603,7 +2604,6 @@ extern "C" __m128 _mm_mul_ps(__m128, __m128);
 extern "C" __m128 _mm_sub_ps(__m128, __m128);
 extern "C" __m128 _mm_add_ss(__m128, __m128);
 extern "C" void _mm_store_ss(float*, __m128);
-extern "C" double sqrt(double);
 extern float DAT_010d33e0[];
 extern float DAT_010d33d8[];
 extern float DAT_010d33e4;

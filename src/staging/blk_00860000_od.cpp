@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/Actor8c30.h"
 #include "fnv/decl/ActorExtraShell.h"
@@ -7050,7 +7051,6 @@ struct SSMenuState
 
 
 int FUN_00e7bd20(SSFormat* pkFormat);
-int FUN_00ec623a(char* pcBuffer, const char* pcFormat, ...);
 SSMenuState* FUN_004de490();
 
 // Captures the back buffer, converts it to a 24-bit BMP, writes it to a file, and optionally notifies the user.
@@ -7148,7 +7148,7 @@ void SaveScreenshot(const char* pcPath)
         if (!pcPath)
         {
             char acMessage[260];
-            FUN_00ec623a(acMessage, "ScreenShot: File '%s' created.", acPathCur);
+            ::std::sprintf(acMessage, "ScreenShot: File '%s' created.", acPathCur);
             ::DispatchMessageToSink((int)(acMessage), 0, (int)(0), (int)(0), 2.0f, 0);
             *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) + 1;
             reinterpret_cast<::FUN_008798e0_shell *>((FUN_004de490()))->OpenAtPosition();

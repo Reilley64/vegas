@@ -2,6 +2,7 @@
 #ifndef TESIMAGESPACEMODIFIER_DECLS_H
 #define TESIMAGESPACEMODIFIER_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/FORenderedMenu.h"
 #include "fnv/decl/FUN_0043d450_Owner.h"
 #include "fnv/decl/FUN_004f5d90_shell.h"
@@ -45,7 +46,6 @@ void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete(void*);
 void __cdecl operator delete[](void*);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 template <int N> struct EndianSizeTag
 {
 };

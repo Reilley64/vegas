@@ -2,10 +2,9 @@
 // src/gamebryo2.2/corelibs/nimain/niviewerstrings.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niviewerstrings.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00aa1000.h"
-extern "C" size_t __cdecl strlen(const char*);
-
 // Allocates len+5 bytes and formats "%s = %c" from str and c into the new buffer, returning it.
 // @fnv 0x00a7d3d0
 void* __cdecl FormatStringAssignment(const char* str, char cValue)
@@ -15,8 +14,6 @@ void* __cdecl FormatStringAssignment(const char* str, char cValue)
     ::NiSprintf(pcBuffer, len + 5, "%s = %c", str, cValue);
     return pcBuffer;
 }
-
-extern "C" size_t strlen(const char*);
 
 
 // Allocates a buffer sized from strlen(name) plus 0xf and writes "%s = %d" with name and value into it, returning the buffer.

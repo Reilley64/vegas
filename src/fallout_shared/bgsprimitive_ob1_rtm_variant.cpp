@@ -1,6 +1,7 @@
 // src/fallout_shared/bgsprimitive_ob1_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout_shared/bgsprimitive.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /Od /Ob1 /Oy- /GS /EHsc /Gy /GF (unit lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton.
 
+#include <cmath>
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_004a51d0_shell.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -14,7 +15,6 @@
 #include "fnv/symbols_00a5b000.h"
 #include "bgsprimitive_decls.h"
 
-double __cdecl fabs(double);
 struct S00c365f0_Vec : NiPoint3
 {
 };
@@ -30,7 +30,7 @@ struct S00c365f0_Mat
 };
 inline float S00c365f0_fabsf(float _X)
 {
-    return ((float)fabs((double)_X));
+    return ((float)std::fabs((double)_X));
 }
 inline float S00c365f0_Abs(float _X)
 {

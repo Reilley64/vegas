@@ -1,5 +1,11 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
 #include <new>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <malloc.h>
+#include "runtime/crt.h"
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/ActorTaskManager.h"
@@ -12532,7 +12538,6 @@ struct UpdData
 struct FUN_005672c0_shell
 {
 };
-int __cdecl FUN_00ec6da0(const char*, const char*);
 
 // @fnv 0x00563d80
 bool FUN_00563d80_shell::FUN_00563d80(NiControllerManager* apManager, char* apSequence, float afPosition)
@@ -12545,7 +12550,7 @@ bool FUN_00563d80_shell::FUN_00563d80(NiControllerManager* apManager, char* apSe
     for (unsigned int n = 0; n < isequenceCount; ++n)
     {
         BSAnimGroupSequence* pSequence = ((::fnv_00563d80::BSAnimGroupSequence *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((apManager))->FUN_00495d20(n)));
-        if (pSequence && !FUN_00ec6da0((*(::fnv_00563d80::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pSequence)))->GetLinkToList())), apSequence))
+        if (pSequence && !::std::strcmp((*(::fnv_00563d80::NiFixedStr *)(reinterpret_cast<::TESTopicInfoData *>((((SeqObj*)pSequence)))->GetLinkToList())), apSequence))
         {
             float foffset;
             UpdData UpdateData;
@@ -23495,7 +23500,6 @@ struct DebugForm
     virtual const char* name();
 };
 struct FUN_00406f90_this;
-int sprintf(char*, const char*, ...);
 struct DebugReference
 {
     DebugForm* GetParentCell();
@@ -23508,12 +23512,12 @@ void DebugReference::FUN_0055d540(FUN_00406f90_this* out)
     worldText[0] = 0;
     DebugForm* object = ((::DebugForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()));
     if (object)
-        sprintf(worldText, " to %s form '%s' (%08X)", ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((object))->FUN_00440e30())), object->name(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0())));
+        ::std::sprintf(worldText, " to %s form '%s' (%08X)", ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((object))->FUN_00440e30())), object->name(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((object))->FUN_0084e3a0())));
     char objectText[260];
     objectText[0] = 0;
     DebugForm* world = ((::DebugForm *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()));
     if (world)
-        sprintf(objectText, " in WorldSpace '%s' (%08X)", world->name(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0())));
+        ::std::sprintf(objectText, " in WorldSpace '%s' (%08X)", world->name(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((world))->FUN_0084e3a0())));
     StrMem cellText;
     DebugForm* cell = ((::DebugForm *)(reinterpret_cast<::LowProcess *>(this)->GetTarget()));
     if (cell)
@@ -24134,7 +24138,6 @@ struct InitReference
     void FUN_0055d760();
 };
 int FUN_00ec7595(double);
-int FUN_00ec75b1(double);
 struct InitEventManager
 {
 };
@@ -27491,9 +27494,6 @@ struct Type79
     int unk04, unk08;
 };
 Inventory79* FUN_004bf220(Actor79*);
-const char* FUN_00ec6e30(const char*, int);
-int FUN_00ec7ec0(const char*, const char*, int);
-int FUN_00ec7750(const char*, const char*);
 void* operator new(unsigned int);
 void operator delete(void*);
 // @fnv 0x005659f0
@@ -27516,8 +27516,8 @@ void Actor79::FUN_005659f0()
     if (base->FUN_00401170() == 42 || base->FUN_00401170() == 43)
     {
         const char* model3 = reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath();
-        const char* slash4 = FUN_00ec6e30(model3, 92);
-        if (slash4 && FUN_00ec7ec0(slash4 + 1, "Skeleton", 8))
+        const char* slash4 = ((const char *)(::std::strrchr((char *)(model3), 92)));
+        if (slash4 && fnv::crt::strnicmp(slash4 + 1, "Skeleton", 8))
             ::FUN_005b5e40();
         race16 = ((void *)(reinterpret_cast<::fnv_008a1760::FUN_008a1760_shell *>((actor19))->FUN_008a1760()));
     }
@@ -27690,7 +27690,7 @@ void Actor79::FUN_005659f0()
             Base79* weapon51 = item2 ? ((::fnv_005659f0::Base79 *)(reinterpret_cast<::Twin_0044ddc0 *>((item2))->GetName())) : 0;
             process39->SetItem(inventory4 ? ((::fnv_005659f0::Item79 *)(reinterpret_cast<::Target *>((inventory4))->FUN_004c8c10(5, 0))) : 0, Parent(), 0);
             Actor79* actorRef3 = IsActor() ? this : 0;
-            bool special40 = IsActor() && reinterpret_cast<::MiddleHighProcess *>((actorRef3))->IsActorInCombat() && FUN_00ec7750(reinterpret_cast<::FUN_0055d520_shell *>((actorRef3))->FUN_0055d520(), "Lily");
+            bool special40 = IsActor() && reinterpret_cast<::MiddleHighProcess *>((actorRef3))->IsActorInCombat() && ((int)(std::uintptr_t)(::std::strstr((char *)(reinterpret_cast<::FUN_0055d520_shell *>((actorRef3))->FUN_0055d520()), "Lily")));
             if (IsActor() && (WeaponDrawn() || special40) && weapon51)
             {
                 Actor79* unusedActor15 = this;
@@ -27917,7 +27917,6 @@ extern char DAT_0102ffe4[];
 extern char DAT_0102ffbc[];
 extern char DAT_0102ff94[];
 int FUN_00406d50(char*, unsigned int, const char*);
-int __cdecl FUN_00ec623a(char*, const char*, ...);
 struct Ref62
 {
     virtual void v0();
@@ -28107,9 +28106,9 @@ AnimationSet62* Ref62::FUN_00566970(int animationType)
             }
             if (suffix52 && *suffix52)
             {
-                FUN_00ec623a(slash24, DAT_01016f90, suffix52);
+                ::std::sprintf(slash24, DAT_01016f90, suffix52);
                 reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
-                FUN_00ec623a(slash24, DAT_01016f80, suffix52);
+                ::std::sprintf(slash24, DAT_01016f80, suffix52);
                 reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(path10), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
             }
             ::TaskQueueInterface::CopyStringToBuffer(slash24, 260 - (slash24 - path10), DAT_01016f74);
@@ -28150,9 +28149,9 @@ AnimationSet62* Ref62::FUN_00566970(int animationType)
             }
             if (playerSuffix62 && *playerSuffix62)
             {
-                FUN_00ec623a(firstSlash30, DAT_01016f90, playerSuffix62);
+                ::std::sprintf(firstSlash30, DAT_01016f90, playerSuffix62);
                 reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
-                FUN_00ec623a(firstSlash30, DAT_01016f80, playerSuffix62);
+                ::std::sprintf(firstSlash30, DAT_01016f80, playerSuffix62);
                 reinterpret_cast<::AnimLoader445 *>(((*reinterpret_cast<::fnv_00566970::Manager62 * *>(&::g_modelLoader))))->MakeList((char *)(firstPath5), (char *)(reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath()), (int)(result));
             }
             ::TaskQueueInterface::CopyStringToBuffer(firstSlash30, 260 - (firstSlash30 - firstPath5), DAT_01016f74);
@@ -28278,7 +28277,6 @@ void FUN_00567c50_cls::FUN_00567c50()
     }
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct MarkerPoint
 {
     float x, y, z;
@@ -34076,8 +34074,6 @@ struct Scene577
 };
 extern TES577* DAT_011dea10;
 extern char DAT_01030ed8;
-int __cdecl FUN_00ec7595(double);
-int __cdecl FUN_00ec75b1(double);
 // @fnv 0x00577450
 void __cdecl FUN_00577450(Param577* apParam, unsigned flags)
 {
@@ -34094,8 +34090,8 @@ void __cdecl FUN_00577450(Param577* apParam, unsigned flags)
                 bool j = false;
                 bool p = false;
                 Point577 h = source->FUN_0045bb80();
-                if (!FUN_00ec7595(h.x) || !FUN_00ec7595(h.y) || !FUN_00ec7595(h.z) || FUN_00ec75b1(h.x) ||
-                    FUN_00ec75b1(h.y) || FUN_00ec75b1(h.z))
+                if (!::std::isfinite(h.x) || !::std::isfinite(h.y) || !::std::isfinite(h.z) || ::std::isnan(h.x) ||
+                    ::std::isnan(h.y) || ::std::isnan(h.z))
                     j = true;
                 else if (reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
                 {
@@ -46294,13 +46290,13 @@ void InitReference::FUN_0055d760()
     if (base && reinterpret_cast<::FUN_00440d80_shell *>((base))->FUN_00440d80())
         SetSpecial(true);
     if (!FUN_00ec7595(position.x) || !FUN_00ec7595(position.y) || !FUN_00ec7595(position.z) ||
-        FUN_00ec75b1(position.x) || FUN_00ec75b1(position.y) || FUN_00ec75b1(position.z))
+        ::std::isnan(position.x) || ::std::isnan(position.y) || ::std::isnan(position.z))
     {
         ::FUN_005b5e40();
         position = (*reinterpret_cast<::InitVector *>((void *)&::NiPoint3::ZERO));
     }
-    if (!FUN_00ec7595(rotation.x) || !FUN_00ec7595(rotation.y) || !FUN_00ec7595(rotation.z) ||
-        FUN_00ec75b1(rotation.x) || FUN_00ec75b1(rotation.y) || FUN_00ec75b1(rotation.z))
+    if (!::std::isfinite(rotation.x) || !::std::isfinite(rotation.y) || !::std::isfinite(rotation.z) ||
+        ::std::isnan(rotation.x) || ::std::isnan(rotation.y) || ::std::isnan(rotation.z))
     {
         ::FUN_005b5e40();
         rotation = (*reinterpret_cast<::InitVector *>((void *)&::NiPoint3::ZERO));
@@ -47615,8 +47611,6 @@ class TESForm;
 struct EqTypeDescriptor;
 extern EqTypeDescriptor DAT_01183028;
 extern EqTypeDescriptor DAT_01183978;
-extern "C" void* __cdecl FUN_00ec43fb(void* object, long displacement, const EqTypeDescriptor* sourceType,
-                                      const EqTypeDescriptor* targetType, int isReference);
 
 class EqFormView
 {
@@ -48283,7 +48277,7 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
                 {
                     TESForm* pkWorn = ((::fnv_0088db20::TESForm *)(reinterpret_cast<::FUN_0088e0f0_shell *>((pkBiped))->FUN_0088e0f0(j)));
                     TESBipedModelForm* pkWornBiped =
-                        (TESBipedModelForm*)FUN_00ec43fb(pkWorn, 0, &DAT_01183028, &DAT_01183978, 0);
+                        (TESBipedModelForm*)dynamic_cast<::TESBipedModelForm *>(reinterpret_cast<::TESForm *>(pkWorn));
                     if (pkWornBiped && reinterpret_cast<::TESBipedModelForm *>((pkWornBiped))->HasBipedModel((::BIPED_OBJECT)(i), 0, (::BGSBipedModelList *)(0)) &&
                         ((EqFormView*)pkWorn)->FUN_00401170() != 0xc)
                     {
@@ -48675,8 +48669,6 @@ void Ref57b240::FUN_0057b240(bool bIncrement)
 struct SaveOrderTypeDescriptor;
 extern SaveOrderTypeDescriptor DAT_01183028;
 extern SaveOrderTypeDescriptor DAT_011841cc;
-extern "C" void* __cdecl FNV_DynamicCast(void* object, long displacement, const void* sourceType,
-                                         const void* targetType, int isReference);
 class SaveOrderCell;
 class SaveOrderForm
 {
@@ -48734,7 +48726,7 @@ bool SaveOrderReference::FUN_0055e250(SaveOrderForm* pForm)
     if (::FUN_005548a0(((FormTypeAccess*)pForm)->FUN_00401170()))
     {
         SaveOrderChildCell* pChildCell =
-            (SaveOrderChildCell*)FNV_DynamicCast(pForm, 0, &DAT_01183028, &(*reinterpret_cast<::SaveOrderTypeDescriptor *>(&::DAT_0118ac2c)), 0);
+            (SaveOrderChildCell*)dynamic_cast<::TESChildCell *>(reinterpret_cast<::TESForm *>(pForm));
         SaveOrderCell* pOtherCell = pChildCell->GetParentCell();
         if (pOtherCell == GetParentCell())
         {
@@ -48756,7 +48748,7 @@ bool SaveOrderReference::FUN_0055e250(SaveOrderForm* pForm)
             case 0x40:
             case 0x69: {
                 SaveOrderReference* pRef =
-                    (SaveOrderReference*)FNV_DynamicCast(pForm, 0, &DAT_01183028, &DAT_011841cc, 0);
+                    (SaveOrderReference*)dynamic_cast<::TESObjectREFR *>(reinterpret_cast<::TESForm *>(pForm));
                 if (reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>(this)->FUN_005653d0())
                 {
                     if (pRef && !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((((SaveOrderReference*)pRef)))->FUN_005653d0())

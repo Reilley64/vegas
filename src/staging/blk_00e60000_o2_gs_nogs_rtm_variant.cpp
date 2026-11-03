@@ -5,6 +5,8 @@
 // src/staging/blk_00e60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -6069,7 +6071,6 @@ struct NiDX9RenderTargetInfo
 struct SearchIndex
 {
 };
-extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
 class DepthStencilSearch
 {
@@ -7368,7 +7369,6 @@ static inline __m128 Sum3(__m128 a, __m128 b)
 void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out);
 extern "C"
 {
-    double __cdecl fabs(double x);
 }
 struct S00e67ae0_HullFace;
 struct S00e67ae0_HullEdge

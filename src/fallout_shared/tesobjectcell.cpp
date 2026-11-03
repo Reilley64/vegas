@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/Arr86.h"
@@ -3373,7 +3374,6 @@ void Map62d0::FUN_00559120(MapItem62d0*& pos, void*& key, Helper62d0& val)
     pos = 0;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 struct ScrapHeapBuffer
 {
     ScrapHeapBuffer();
@@ -6202,8 +6202,6 @@ FUN_00557d50::FUN_00557d50()
 
 extern int DAT_0102f358;
 void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl memset(void*, int, unsigned int);
-
 struct FUN_00558eb0
 {
     int* pvt;
@@ -6250,8 +6248,6 @@ FUN_00558da0_S* FUN_00558da0_S::FUN_00558da0(int param_2)
 }
 
 void* __cdecl _NiMalloc(unsigned int aSize);
-void* __cdecl memset(void* aDest, int aVal, unsigned int aSize);
-
 // Sets the vtable, stores aCount and zeroes a newly allocated aCount*4-byte buffer.
 // @fnv 0x005590b0
 void* FUN_005590b0_s::InitArray(unsigned int aCount)
@@ -10563,7 +10559,6 @@ void FUN_00542040_cls::FUN_00542040(SaveFile* file)
 
 extern int DAT_01183028;
 extern int DAT_01183fb4;
-void* __cdecl FNV_DynamicCast(void* obj, int vfDelta, void* srcType, void* dstType, int isRef);
 
 struct CellDataBlock;
 struct PtrPair
@@ -10649,7 +10644,7 @@ struct CellState
 // @fnv 0x00543ab0
 void CellState::CopyFromCell(TESForm* form)
 {
-    CellState* cell = (CellState*)FNV_DynamicCast(form, 0, (void*)&DAT_01183028, (void*)&DAT_01183fb4, 0);
+    CellState* cell = (CellState*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form));
     if (!cell)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0((TESForm*)cell);
@@ -21857,7 +21852,7 @@ bool CellOwnerCheck::FUN_00546ee0(TESActorBase* apActorBase)
     TESForm* powner = ((DoorCell*)this)->GetOwner();
     if (powner)
     {
-        CellOwnerNPCView* pnpc = (CellOwnerNPCView*)FUN_00ec43fb(powner, 0, &DAT_01183028, &DAT_01183a1c, 0);
+        CellOwnerNPCView* pnpc = (CellOwnerNPCView*)dynamic_cast<::TESNPC *>(reinterpret_cast<::TESForm *>(powner));
         if (pnpc)
         {
             if (pnpc == (CellOwnerNPCView*)apActorBase)
@@ -21865,7 +21860,7 @@ bool CellOwnerCheck::FUN_00546ee0(TESActorBase* apActorBase)
         }
         else
         {
-            TESFaction* pfaction = (TESFaction*)FUN_00ec43fb(powner, 0, &DAT_01183028, &DAT_01184704, 0);
+            TESFaction* pfaction = (TESFaction*)dynamic_cast<::TESFaction *>(reinterpret_cast<::TESForm *>(powner));
             if (pfaction)
             {
                 int irank = reinterpret_cast<::FUN_00546ac0_shell *>(this)->FUN_00546ac0();
@@ -22415,7 +22410,6 @@ __if_not_exists(DAT_01184704)
 {
     extern const type_info DAT_01184704;
 }
-extern "C" void* __cdecl _FNV_DynamicCast(void*, long, const void*, const void*, int);
 __if_not_exists(_g_thePlayer)
 {
     extern void* _g_thePlayer;
@@ -22667,7 +22661,7 @@ bool TrespassCellView::FUN_00546da0(Actor* apActor)
     {
         if (((void *)(reinterpret_cast<::FUN_00546aa0_shell *>((((TrespassGlobalView*)this)))->FUN_00546aa0())) || !((TrespassActorView*)apActor)->V218())
             return bHasResultObj;
-        TrespassNpcView* pnpc = (TrespassNpcView*)_FNV_DynamicCast(powner, 0, &DAT_01183028, &DAT_01183a1c, 0);
+        TrespassNpcView* pnpc = (TrespassNpcView*)dynamic_cast<::TESNPC *>(reinterpret_cast<::TESForm *>(powner));
         if (pnpc)
         {
             if (pnpc != (TrespassNpcView*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TrespassReferenceView*)apActor)))->FUN_007af430())))
@@ -22675,7 +22669,7 @@ bool TrespassCellView::FUN_00546da0(Actor* apActor)
         }
         else
         {
-            TESFaction* pfaction = (TESFaction*)_FNV_DynamicCast(powner, 0, &DAT_01183028, &(*reinterpret_cast<const ::type_info *>(&::fnv_00546ee0::DAT_01184704)), 0);
+            TESFaction* pfaction = (TESFaction*)dynamic_cast<::TESFaction *>(reinterpret_cast<::TESForm *>(powner));
             if (pfaction)
             {
                 int irank = reinterpret_cast<::FUN_00546ac0_shell *>((((TrespassRankView*)this)))->FUN_00546ac0();
@@ -23012,7 +23006,6 @@ struct CellCompareView : public TESObjectCELL
     bool FUN_00543c50(TESForm* apCompare);
 };
 
-extern int __cdecl _memcmp(const void* left, const void* right, unsigned int count);
 
 // Returns true when a checked cell field, data block, image space modifier list, or component comparison reports a difference.
 // @fnv 0x00543c50
@@ -23060,7 +23053,7 @@ bool CellCompareView::FUN_00543c50(TESForm* apCompare)
         pdata = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((this))->FUN_00544600()));
         pCompareData = ((::InteriorCellData *)(reinterpret_cast<::FUN_00544600_shell *>((((TESObjectCELL*)pCompareCell)))->FUN_00544600()));
 
-        if (pdata && pCompareData && _memcmp(pdata, pCompareData, 0x2c) != 0)
+        if (pdata && pCompareData && std::memcmp(pdata, pCompareData, 0x2c) != 0)
         {
             return true;
         }
@@ -23073,7 +23066,7 @@ bool CellCompareView::FUN_00543c50(TESForm* apCompare)
         pdata = ((::ExteriorCellData *)(reinterpret_cast<::FUN_005445d0_shell *>((this))->FUN_005445d0()));
         pCompareData = ((::ExteriorCellData *)(reinterpret_cast<::FUN_005445d0_shell *>((((TESObjectCELL*)pCompareCell)))->FUN_005445d0()));
 
-        if (pdata && pCompareData && _memcmp(pdata, pCompareData, 0xc) != 0)
+        if (pdata && pCompareData && std::memcmp(pdata, pCompareData, 0xc) != 0)
         {
             return true;
         }

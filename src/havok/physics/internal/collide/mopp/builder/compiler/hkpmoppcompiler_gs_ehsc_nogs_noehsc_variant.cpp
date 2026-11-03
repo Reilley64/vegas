@@ -6,6 +6,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <xmmintrin.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/BufferRequirements.h"
 #include "fnv/decl/FUN_00dd50f0_cls.h"
 #include "fnv/decl/FUN_00dd5150_cls.h"
@@ -95,7 +96,6 @@ struct Destination
 };
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct FourFloatVector
 {
     __m128 q;
@@ -153,7 +153,7 @@ template <class T> struct MergeArray
     {
         _ReadWriteBarrier();
         if (num > 0)
-            FUN_00ec61c0(p, 0xcd, num * sizeof(T));
+            std::memset(p, 0xcd, num * sizeof(T));
     }
     void init()
     {

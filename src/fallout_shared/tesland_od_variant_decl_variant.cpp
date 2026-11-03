@@ -5,6 +5,7 @@
 
 // src/fallout_shared/tesland_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesland.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -1348,7 +1349,6 @@ struct FUN_00534780_Class {
 };
 extern int FNV_RTTI_TESObjectLAND;
 extern "C" void* __cdecl FNV_DynamicCast(void*, int, const void*, const void*, int);
-void* __cdecl memcpy(void*, const void*, unsigned int);
 struct LandCopyData {
     void* nodes;
     NiPoint3** vertices;
@@ -1836,7 +1836,6 @@ struct Config53 {
  Texture53* primary[4]; Texture53** textures[4];
 };
 struct TES53 {  };
-void* __cdecl memcpy(void*,const void*,unsigned int);
 struct Worker53 {
  int unk00; int unk04; int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c; int unk20; int unk24;
  Config53* config;

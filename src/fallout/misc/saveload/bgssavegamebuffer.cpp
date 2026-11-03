@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/FUN_00853570_shell.h"
 #include "fnv/decl/FUN_008660b0_shell.h"
@@ -370,7 +371,6 @@ struct FUN_0083fb10_shell
     void FUN_0083fb10(BGSSaveFormBuffer* apBuffer);
 };
 
-unsigned int __cdecl _strlen(const char*);
 struct FUN_00865e70_shell : BGSSaveGameBuffer
 {
     void FUN_00865e70(const char* apString, unsigned int aiUnusedMetaDataArg);
@@ -405,7 +405,7 @@ void FUN_0083fb10_shell::FUN_0083fb10(BGSSaveFormBuffer* apBuffer)
 // @fnv 0x00865e70
 void FUN_00865e70_shell::FUN_00865e70(const char* apString, unsigned int aiUnusedMetaDataArg)
 {
-    unsigned short usLength = apString ? _strlen(apString) : 0;
+    unsigned short usLength = apString ? std::strlen(apString) : 0;
     unsigned short usSavedLength = usLength;
     WriteAtOffset(&usLength, 2, 0);
     if (usSavedLength)

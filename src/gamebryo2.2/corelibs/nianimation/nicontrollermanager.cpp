@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A1450OwnedArray.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AnimationSequence.h"
@@ -99,7 +100,6 @@ int __cdecl FUN_00a2d610()
 
 
 void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 
 __forceinline void init_map(int* map, int size)
 {
@@ -108,7 +108,7 @@ __forceinline void init_map(int* map, int size)
     map[3] = 0;
     void* mem = _NiMalloc(size * 4);
     map[2] = reinterpret_cast<int>(mem);
-    _fnv_zlib_memset(mem, 0, map[1] * 4);
+    std::memset(mem, 0, map[1] * 4);
     map[0] = reinterpret_cast<int>(&(*reinterpret_cast<int *>(&::DAT_0109618c)));
 }
 
@@ -669,7 +669,6 @@ void* NiTFixedStringMap_NiAVObject___::FUN_00a2eb40(unsigned int auiFlags)
 
 namespace fnv_00a2efa0 {
 void* __cdecl _NiMalloc(unsigned int);
-void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern void* DAT_0109619c;
 extern void* DAT_01096258;
 extern void* DAT_01096260;
@@ -754,7 +753,7 @@ struct NiTMapStandin
         m_uiHashSize = uiHashSize;
         m_uiCount = 0;
         m_ppHashTable = _NiMalloc(uiHashSize * 4);
-        fnv_zlib_memset(m_ppHashTable, 0, m_uiHashSize * 4);
+        std::memset(m_ppHashTable, 0, m_uiHashSize * 4);
         m_kItemCount = 0;
         m_ppVirtualMethodTable = (void**)&DAT_01096260;
     }
@@ -2228,7 +2227,6 @@ void FUN_00a2eb80::operator delete(void* p)
 
 extern "C" void _ReadWriteBarrier(void);
 void* __cdecl FUN_00aa1070(unsigned int size) throw();
-void* __cdecl FUN_00ec61c0(void* p, int value, unsigned int size) throw();
 
 struct MgrPoolStub
 {
@@ -2309,7 +2307,7 @@ struct MgrStrMapBase
         m_uiHashSize = 0x25;
         m_uiCount = 0;
         m_ppkHashTable = FUN_00aa1070(m_uiHashSize * 4);
-        FUN_00ec61c0(m_ppkHashTable, 0, m_uiHashSize * 4);
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * 4);
         m_ucPad60 = 0;
     }
 };

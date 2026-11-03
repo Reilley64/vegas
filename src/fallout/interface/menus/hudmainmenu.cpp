@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
@@ -1720,7 +1721,6 @@ struct StartMenu
     const char* GetMenuTitle();
 };
 extern HUDMainMenu* g_pHudMainMenuInstance;
-int __cdecl _sprintf(char* buffer, const char* format, ...);
 
 // Computes radiation magnitude from the player's resistance and perk modifiers, formats it, and sets the info label and value tiles.
 // @fnv 0x00778990
@@ -1733,7 +1733,7 @@ void __cdecl UpdateRadiationInfo(int aiRadiationAmount, int aiInfoLabel, int aiI
     ::ApplyPerkModifiers(0x1a, (::Actor *)((*reinterpret_cast<::fnv_00778990::PC7d * *>(&::_g_thePlayer))), &feffectivenessMult);
     fresistance *= feffectivenessMult;
     fmodifiedMagnitude = aiRadiationAmount * fresistance;
-    _sprintf(str, "%i",
+    ::std::sprintf(str, "%i",
              (fmodifiedMagnitude > ::_DAT_01012060 && fmodifiedMagnitude < 1.0) ? 1 : (int)fmodifiedMagnitude);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((g_pHudMainMenuInstance->m_pTiles[aiInfoLabel]))->FUN_00a01350(4036, (char *)(str), true);
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((g_pHudMainMenuInstance->m_pTiles[aiInfoValue]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00778990::StartMenu *>(&::g_011d30c0))))->GetMenuTitle()))), true);
@@ -4563,7 +4563,6 @@ struct HMTimer
 {
 };
 
-int __cdecl sprintf(char*, const char*, ...);
 
 struct FUN_007701e0_shell : public HUDMainMenu
 {
@@ -4609,7 +4608,7 @@ void FUN_007701e0_shell::UpdateTargetInfo(HMTarget* apTarget)
         ::ApplyPerkModifiers(0x2f, (::Actor *)(::_g_thePlayer), &fShowInfo);
         if (fShowInfo > 0.0)
         {
-            sprintf(acBuffer, "%s\n %s:%d %s:%.2f", reinterpret_cast<::FUN_0055d520_shell *>((apTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d50b0))->GetMenuTitle())), (int)fCurrentAmountNext,
+            ::std::sprintf(acBuffer, "%s\n %s:%d %s:%.2f", reinterpret_cast<::FUN_0055d520_shell *>((apTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d50b0))->GetMenuTitle())), (int)fCurrentAmountNext,
                     ((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d396c))->GetMenuTitle())), fPlayerDist);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((HUDMainMenu_pme->m_pTiles[23]))->FUN_00a01350(0xfc4, (char *)(acBuffer), true);
         }

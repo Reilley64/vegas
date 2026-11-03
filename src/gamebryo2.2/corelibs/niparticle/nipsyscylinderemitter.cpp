@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsyscylinderemitter.cpp: NiPSysCylinderEmitter, NiPSysCylinderEmitterX (7 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/FUN_00c31af0.h"
 #include "fnv/decl/FUN_00c31db0_cls.h"
 #include "fnv/decl/NiPSysBoxEmitterWrapper.h"
@@ -178,7 +179,6 @@ void FUN_00c1fca0_cls::LoadCylinderEmitter(NiStream& stream)
 }
 
 namespace fnv_00c1fa50 {
-extern "C" int __cdecl rand(void);
 
 extern float NI_TWO_PI_F;
 
@@ -195,7 +195,7 @@ struct ThreeByThreeMatrix
 
 inline float RandomFloat0To1()
 {
-    return (float)(rand() / 32767.0);
+    return (float)(std::rand() / 32767.0);
 }
 
 inline void NiSinCos(float fAngleDifference, float& fSin, float& fCos)

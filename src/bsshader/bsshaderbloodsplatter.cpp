@@ -1,6 +1,7 @@
 // bsshader/bsshaderbloodsplatter.cpp: BSShaderBloodSplatter, BloodShader (17 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendOwner.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -131,23 +132,23 @@ void BSShaderBloodSplatter::InitializeShaderData()
     SplatterShaderInfo vertex;
     vertex.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     vertex.macros[0].Name = 0;
-    fnv_zlib_memset(&vertex.macros[0].Definition, 0, 68);
+    std::memset(&vertex.macros[0].Definition, 0, 68);
     SplatterShaderInfo pixel;
     pixel.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     pixel.macros[0].Name = 0;
-    fnv_zlib_memset(&pixel.macros[0].Definition, 0, 68);
+    std::memset(&pixel.macros[0].Definition, 0, 68);
     SplatterShaderInfo flareVertexShader;
     flareVertexShader.file = "BloodSplatter\\BloodSplatter.v.hlsl";
     flareVertexShader.macros[0].Name = "FLARE";
     flareVertexShader.macros[0].Definition = "";
     flareVertexShader.macros[1].Name = 0;
-    fnv_zlib_memset(&flareVertexShader.macros[1].Definition, 0, 60);
+    std::memset(&flareVertexShader.macros[1].Definition, 0, 60);
     SplatterShaderInfo flarePixelShader;
     flarePixelShader.file = "BloodSplatter\\BloodSplatter.p.hlsl";
     flarePixelShader.macros[0].Name = "FLARE";
     flarePixelShader.macros[0].Definition = "";
     flarePixelShader.macros[1].Name = 0;
-    fnv_zlib_memset(&flarePixelShader.macros[1].Definition, 0, 60);
+    std::memset(&flarePixelShader.macros[1].Definition, 0, 60);
     char shaderPath[260];
     char outputFile[260];
     ::FUN_00be0c00(vertex.file, shaderPath);

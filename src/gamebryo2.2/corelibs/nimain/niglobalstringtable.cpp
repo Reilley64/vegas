@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niglobalstringtable.cpp: NiGlobalStringTable, NiPlaybackFile (3 functions)
 
+#include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
 #include "fnv/decl/StringTable169.h"
@@ -50,7 +51,7 @@ char* NiGlobalStringTable::AddString(const char* s)
     allocation[0] = 1;
     allocation[1] = len;
     char* handle = result;
-    fnv_zlib_memcpy(result, s, len + 1);
+    std::memmove(result, s, len + 1);
     reinterpret_cast<::ThreadedTable *>((DAT_011f42c0))->FUN_00a5b5a0(&handle, len);
     LeaveCriticalSection((char*)DAT_011f42c0 + 0x2080);
     *(unsigned*)(pTlsData + 0x2b4) = uiOldTlsValue;
@@ -81,7 +82,7 @@ bool NiPlaybackFile::FindString(const char* name, bool silent, bool preload, boo
     if (!reinterpret_cast<::EC2DF0Registry *>(((*reinterpret_cast<::NiPlaybackManager * *>(&::DAT_0126fac4))))->GetNameByKey((unsigned int)(name), acPath))
     {
         strcpy(acPath, "Data\\Video\\");
-        FUN_00ec6380(acPath, name);
+        std::strcat(acPath, name);
     }
     local.uiFlags = 0;
     if (preload || force)

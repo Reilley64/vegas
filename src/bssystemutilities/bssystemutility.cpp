@@ -1,5 +1,7 @@
 // bssystemutilities/bssystemutility.cpp: BSSystemUtility (12 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00442550_shell.h"
 #include "fnv/decl/FUN_00af2db0_cls.h"
@@ -27,7 +29,7 @@ void BSSystemUtility::Destroy()
     FUN_00af34f0()->vfn_08();
     GetInitObj()->vfn_08();
 
-    fnv_zlib_memset((char*)&this->storage, 0, 0x80);
+    std::memset((char*)&this->storage, 0, 0x80);
     this->storage[144] = 0;
     *((unsigned int*)((char*)this + 0x90)) = 0;
     *((unsigned int*)((char*)this + 0x84)) = 0;
@@ -49,7 +51,7 @@ void BSSystemUtility::Initialize(const char* pcFilePath, const char* pcArg, unsi
             length = 0x7f;
         else
             length = count;
-        fnv_CopyFilePath((char*)&this->storage, length + 1, pcFilePath, length);
+        fnv::crt::strncpy_s((char*)&this->storage, length + 1, pcFilePath, length);
     }
 
     FUN_00af3850()->vfn_04();

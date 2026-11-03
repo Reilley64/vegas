@@ -1,5 +1,6 @@
 // bgsimpactdataset.cpp: BGSImpactDataSet, SomeClass, ImpactDataSetCopy, BGSImpactDataSet_Cmp and more (25 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -33,8 +34,6 @@
 #include "fnv/symbols_00837000.h"
 #include "fnv/symbols_011c3000.h"
 #include "bgsimpactdataset_decls.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 // @fnv 0x0058e810
 BGSImpactDataSet::BGSImpactDataSet()
 {
@@ -451,7 +450,6 @@ struct NiTMap
 {
 };
 
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 struct FUN_0058f5c0_shell
 {
@@ -499,7 +497,7 @@ bool FUN_0058f5c0_shell::IsImpactSwapDifferent(ImpactSwap* apSwap)
         }
     }
 
-    if (_memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x30),
+    if (std::memcmp(reinterpret_cast<const void*>(reinterpret_cast<const char*>(this) + 0x30),
                 reinterpret_cast<const void*>(reinterpret_cast<const char*>(apSwap) + 0x30), 0x12c) != 0)
         return true;
 
@@ -703,7 +701,6 @@ bool BGSImpactDataSet_Cmp::FUN_0058eb90(TESForm* apCompare)
     return false;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, size_t);
 struct ImpactSwapMaps
 {
     MapX* m_pData[12];

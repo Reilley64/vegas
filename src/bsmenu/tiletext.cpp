@@ -1,5 +1,6 @@
 // bsmenu/tiletext.cpp: TileText, FontManager, TextNode, TextTile (4 functions)
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_009ff600_shell.h"
@@ -72,14 +73,13 @@ struct TGF
 struct TAN
 {
 };
-int __cdecl FUN_00ec6da0(const char*, const char*);
 // @fnv 0x00a225b0
 Tile* FUN_00a225b0_shell::FUN_00a225b0(int aiTrait, float afValue, char* axString)
 {
     if (aiTrait == 0xfc4)
     {
         char* strValue = ((FUN_00a011f0_shell*)this)->FUN_00a011f0(0xfc4);
-        if (!strValue || (strValue && !FUN_00ec6da0(axString, strValue)))
+        if (!strValue || (strValue && !std::strcmp(axString, strValue)))
         {
             reinterpret_cast<::FUN_00a07530_shell *>((((TAN*)this)))->FUN_00a07530(2);
             return (Tile*)(void*)this;

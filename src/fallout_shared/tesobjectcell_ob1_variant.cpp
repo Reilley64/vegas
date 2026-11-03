@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/CollectionView.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -39,21 +40,19 @@ void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 NiAVObject* FUN_0054f4f0();
 
-double __cdecl FUN_00ec6cde(double);
-double __cdecl FUN_00ec9f30(double);
 
 inline double NiAbs(float fValue)
 {
-    return (float)FUN_00ec6cde(fValue);
+    return (float)std::fabs(fValue);
 }
 inline float NiFunc(float fValue)
 {
-    return (float)FUN_00ec9f30(fValue);
+    return (float)std::cos(fValue);
 }
 
 __forceinline double AbsRef(const float& value)
 {
-    return (float)FUN_00ec6cde(value);
+    return (float)std::fabs(value);
 }
 __forceinline float ComputeAbs(const float& y)
 {

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nipixeldata.cpp: NiPixelData, NiPixelDataSerialization, NiPixelDataLoad, NiPixelDataEq (13 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -96,9 +97,9 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
 
     reinterpret_cast<::FUN_00a8f010_cls *>(this)->AllocateBuffers(m_uiMipmapLevels, faces, offsets[m_uiMipmapLevels]);
     unsigned int uiTableBytes = m_uiMipmapLevels * sizeof(unsigned int);
-    fnv_zlib_memcpy(m_puiWidth, widths, uiTableBytes);
-    fnv_zlib_memcpy(m_puiHeight, heights, uiTableBytes);
-    fnv_zlib_memcpy(m_puiOffsetInBytes, offsets, (m_uiMipmapLevels + 1) * sizeof(unsigned int));
+    std::memmove(m_puiWidth, widths, uiTableBytes);
+    std::memmove(m_puiHeight, heights, uiTableBytes);
+    std::memmove(m_puiOffsetInBytes, offsets, (m_uiMipmapLevels + 1) * sizeof(unsigned int));
     m_uiRevID = 1;
 }
 
@@ -537,9 +538,9 @@ void NiPixelDataLoad::FUN_00a7c470(NiStreamLoad& stream)
     reinterpret_cast<::FUN_00a8f010_cls *>(this)->AllocateBuffers(m_uiMipmapLevels, m_uiFaces, auiOffsetInBytes[m_uiMipmapLevels]);
 
     unsigned int uiMipmapArrayBytes = m_uiMipmapLevels * sizeof(unsigned int);
-    fnv_zlib_memcpy(m_puiWidth, auiWidth, uiMipmapArrayBytes);
-    fnv_zlib_memcpy(m_puiHeight, auiHeight, uiMipmapArrayBytes);
-    fnv_zlib_memcpy(m_puiOffsetInBytes, auiOffsetInBytes, (m_uiMipmapLevels + 1) * sizeof(unsigned int));
+    std::memmove(m_puiWidth, auiWidth, uiMipmapArrayBytes);
+    std::memmove(m_puiHeight, auiHeight, uiMipmapArrayBytes);
+    std::memmove(m_puiOffsetInBytes, auiOffsetInBytes, (m_uiMipmapLevels + 1) * sizeof(unsigned int));
 
     unsigned char* pixels = m_pucPixels;
     stream.Read(pixels, m_puiOffsetInBytes[m_uiMipmapLevels] * m_uiFaces, 1);

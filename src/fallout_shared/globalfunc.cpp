@@ -1,6 +1,8 @@
 // fallout_shared/globalfunc.cpp: BipedNodeNames, NiAVObject, ActorMover, PathingGraphNode and more (110 functions)
 
 #include <new>
+#include <cmath>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -400,7 +402,7 @@ bool HandleUnparentedObjectNode(NiNode* object)
                     object->RemoveNthObject(i);
                     return true;
                 }
-                else if (!_strnicmp(name, "FadeNode ", 9))
+                else if (!fnv::crt::strnicmp(name, "FadeNode ", 9))
                     return HandleUnparentedObjectNode(child->GetAsNiNode());
             }
         }
@@ -538,20 +540,18 @@ bool bhkWorld::QPickCountOverride()
     return DAT_012677a3;
 }
 
-double __cdecl FUN_00ec9010(double);
 
 // @fnv 0x004b1460
 float FUN_004b1460(float _X)
 {
-    return static_cast<float>(FUN_00ec9010(_X));
+    return static_cast<float>(std::atan(_X));
 }
 
-double __cdecl FUN_00ec9130(double, double);
 
 // @fnv 0x004b1520
 float __cdecl FUN_004b1520(float _X, float _Y)
 {
-    return (float)FUN_00ec9130((double)_X, (double)_Y);
+    return (float)std::fmod((double)_X, (double)_Y);
 }
 
 class NiPick
@@ -831,12 +831,11 @@ float __cdecl FUN_004b5510(float _X)
     return FUN_004b5530(_X);
 }
 
-double __cdecl FUN_00ec9610(double);
 
 // @fnv 0x004b5530
 float FUN_004b5530(float value)
 {
-    return static_cast<float>(FUN_00ec9610(value));
+    return static_cast<float>(std::asin(value));
 }
 
 float __cdecl FUN_004b5590(float, float);
@@ -2624,7 +2623,6 @@ struct Mgr6220
 };
 
 template <class T> unsigned int BSStringLength(const T*);
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 // Looks up the named sequence on obj's controller manager and returns the value of the first entry whose name starts with prefix, else 0.
 // @fnv 0x004b6220
@@ -2647,7 +2645,7 @@ float GetAnimValueByPrefix(NiObj6220* obj, const char* name, const char* prefix)
                 for (unsigned int i4 = 0; i4 < aCount; i4++)
                 {
                     const char* s4 = *((::FixedStr6220 *)(reinterpret_cast<::BaseProcess *>(&(entries3[i4]))->GetCurrentProcessData()));
-                    if (s4 && !_strnicmp(s4, prefix, len))
+                    if (s4 && !fnv::crt::strnicmp(s4, prefix, len))
                         return reinterpret_cast<::CombatTargetTimestamp *>(&(entries3[i4]))->FUN_006a7f50();
                 }
             }

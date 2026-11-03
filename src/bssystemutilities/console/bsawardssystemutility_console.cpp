@@ -1,5 +1,7 @@
 // bssystemutilities/console/bsawardssystemutility_console.cpp: IdleSystem, DownloadableContentManager (12 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -135,8 +137,6 @@ bool FUN_00af2420_class::FUN_00af2420(int value)
     return true;
 }
 
-unsigned int __cdecl _strlen(const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct FUN_00af2f80_class
 {
     char _pad[12];
@@ -146,9 +146,9 @@ struct FUN_00af2f80_class
 // @fnv 0x00af2f80
 bool FUN_00af2f80_class::CopyBufferIfNotEmpty(char* pDest)
 {
-    if (_strlen(_buf) > 0)
+    if (::std::strlen(_buf) > 0)
     {
-        _strcpy_s(pDest, 32, _buf);
+        fnv::crt::strcpy_s(pDest, 32, _buf);
         return true;
     }
     return false;

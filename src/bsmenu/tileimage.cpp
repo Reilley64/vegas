@@ -1,6 +1,8 @@
 // bsmenu/tileimage.cpp: TileImage, FileFinder, BGSTextureSet, NiNode and more (7 functions)
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_004bc320_shell.h"
 #include "fnv/decl/FUN_009ff600_shell.h"
@@ -117,8 +119,6 @@ struct FileFinder
         return ::g_fileFinder;
     }
 };
-int _strcpy_s(char*, unsigned int, const char*);
-int _strcat_s(char*, unsigned int, const char*);
 namespace L {
 struct Setting
 {
@@ -195,8 +195,8 @@ void ResolveTexturePath(const char* apFilename, float* afScale, float afZoom, ch
         return;
     float aspect = Interface::GetInterfaceFloat();
     *afScale = 1.0f;
-    _strcpy_s(axOut, 260, "Data\\Textures\\");
-    _strcat_s(axOut, 260, apFilename);
+    fnv::crt::strcpy_s(axOut, 260, "Data\\Textures\\");
+    fnv::crt::strcat_s(axOut, 260, apFilename);
     L::NiTexturePtr sptex;
     L::NiFixedString path(axOut);
     ::FindTextureByPath(path.m_kHandle, (::NiTexture **)(::L::NiTexturePtr *)(&sptex));
@@ -206,16 +206,16 @@ void ResolveTexturePath(const char* apFilename, float* afScale, float afZoom, ch
         {
             if (*afScale != 1.0)
             {
-                _strcpy_s(axOut, 260, "Data\\Textures\\");
-                _strcat_s(axOut, 260, apFilename);
+                fnv::crt::strcpy_s(axOut, 260, "Data\\Textures\\");
+                fnv::crt::strcat_s(axOut, 260, apFilename);
                 if (FileFinder::GetSingleton()->GetFileLocation(axOut, 0, 6, 0xffffffff))
                     *afScale = 1.0f;
                 else
-                    _strcpy_s(axOut, 260, ((L::Setting*)&g_011d33f0)->GetString());
+                    fnv::crt::strcpy_s(axOut, 260, ((L::Setting*)&g_011d33f0)->GetString());
             }
             else
             {
-                _strcpy_s(axOut, 260, ((L::Setting*)&g_011d33f0)->GetString());
+                fnv::crt::strcpy_s(axOut, 260, ((L::Setting*)&g_011d33f0)->GetString());
             }
         }
     }
@@ -364,9 +364,7 @@ class FileFinder
         return (*reinterpret_cast<::fnv_00a1fa20::FileFinder * *>(&::g_fileFinder));
     }
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void __cdecl ResolveTexturePath(const char*, float&, float, char*);
-char* __cdecl FUN_00ec7750(const char*, const char*);
 class OMTexPtr
 {
   public:
@@ -410,7 +408,7 @@ void __cdecl LoadTextureForFile(const char* apFilename, float& afScale, OMTexPtr
     {
         char acTexturePath[1024];
         acTexturePath[0] = 0;
-        _fnv_zlib_memset(acTexturePath + 1, 0, 0x3ff);
+        std::memset(acTexturePath + 1, 0, 0x3ff);
         ResolveTexturePath(apFilename, afScale, afZoom, acTexturePath);
         if (acTexturePath[0])
         {
@@ -423,7 +421,7 @@ void __cdecl LoadTextureForFile(const char* apFilename, float& afScale, OMTexPtr
                 ((GO*)&aspTexture)->operator=(((::fnv_00a1fa20::NiSourceTexture *)(::NiSourceTexture::Create((const ::NiFixedString &)(path), (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTexture::TextureFormatPreferences *>(&::DAT_011a9598))), true, false))));
                 if (aspTexture)
                 {
-                    if (!FUN_00ec7750(acTexturePath, "oading\\load_"))
+                    if (!std::strstr((char *)(acTexturePath), "oading\\load_"))
                         ::TextureFileEntrySetter::SetTexture((NiTexture*)(OMTex*)aspTexture, (const ::BSFileEntry *)(const ::fnv_00a1fa20::BSFileEntry *)(0));
                 }
                 else

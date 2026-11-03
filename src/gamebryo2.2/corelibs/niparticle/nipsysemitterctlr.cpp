@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitterctlr.cpp: NiPSysEmitterCtlr, NiBoolData, ThisStruct, Host and more (39 functions)
 
 #include <windows.h>
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -91,7 +92,7 @@ void NiPSysEmitterCtlr::CopyMemberData(NiPSysEmitterCtlr* destination, CloningPr
     }
 
     if ((destination->m_uiObjectFlags & 0x6) == 0 && destination->m_fPhase == 0.0f)
-        destination->m_fPhase = GetRandomNumber() / DAT_01029790 * ::g_d100;
+        destination->m_fPhase = std::rand() / DAT_01029790 * ::g_d100;
 }
 
 struct NiSingleInterpControllerBase
@@ -759,7 +760,7 @@ void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
     }
 
     if ((m_uiObjectFlags & 0x6) == 0 && m_fPhase == 0.0f)
-        m_fPhase = GetRandomNumber() / DAT_01029790 * ::g_d100;
+        m_fPhase = std::rand() / DAT_01029790 * ::g_d100;
 
     NiInterpolator* active = static_cast<NiInterpolator*>(stream.GetLoadedObject());
     NiInterpolator* old = m_spVisibilityInterpolator.m_pObject;

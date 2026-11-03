@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/NiPSysDataWriter.h"
 #include "fnv/decl/NiPSysData_StandIn.h"
 #include "fnv/decl/NiPSysData_View.h"
@@ -435,7 +436,6 @@ struct S_00c26000_Strip : S_00c26000_Base
 };
 
 void* FUN_00aa1070(unsigned int size);
-void* FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 // Copies the base strip and its fields into dest, then allocates and deep-copies the item array from unk7c into dest->unk7c.
 // @fnv 0x00c26000
@@ -459,7 +459,7 @@ void S_00c26000_Strip::CloneStrip(S_00c26000_Strip* dest, S_00c26000_Proc* proc)
         items[i].unk14 = unk7c[i].unk14;
         items[i].unk18 = unk7c[i].unk18;
         items[i].unk00 = FUN_00aa1070(items[i].unk10 * 0x84);
-        FUN_00ec44d0(items[i].unk00, unk7c[i].unk00, unk7c[i].unk04 * 0x84);
+        std::memmove(items[i].unk00, unk7c[i].unk00, unk7c[i].unk04 * 0x84);
     }
     dest->unk7c = items;
 }

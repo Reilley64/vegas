@@ -7,6 +7,8 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
@@ -458,7 +460,6 @@ struct FUN_00a80fc0_class
 };
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
-extern "C" double __cdecl fabs(double);
 float __cdecl FUN_00a811f0(float y, float x);
 extern int DAT_0109e32c;
 struct FUN_00a81760_obj
@@ -1719,7 +1720,6 @@ struct FUN_00a81ba0
 };
 typedef FUN_00a81ba0 OutputRecord;
 
-void __cdecl _memmove(void*, const void*, unsigned int);
 
 struct HolderArray
 {
@@ -1904,7 +1904,7 @@ bool GeometryBuilder::FUN_00a84980(SourceGeometry* source, SkinBuildData* other,
                 {
                     for (unsigned int j = i; j < count - 1; ++j)
                     {
-                        _memmove(&result[j], &result[j + 1], sizeof(OutputRecord));
+                        std::memmove(&result[j], &result[j + 1], sizeof(OutputRecord));
                         outputs[j] = outputs[j + 1];
                         indices[j] = indices[j + 1];
                         changes[j] = changes[j + 1];

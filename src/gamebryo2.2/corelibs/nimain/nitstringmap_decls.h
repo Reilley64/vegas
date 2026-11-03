@@ -2,9 +2,9 @@
 #define FNV_NITSTRINGMAP_DECLS_H
 
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/symbols_00aa1000.h"
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 class NiShader;
 
 template <class T_Key, class T_Value> class NiTMapItem

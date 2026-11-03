@@ -5,6 +5,7 @@
 
 // src/staging/blk_00b60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/NiRenderer.h"
@@ -344,7 +345,6 @@ struct ClipManager
     ClipRenderData* renderer;
     void FUN_00b7be00(unsigned int state);
 };
-extern "C" void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 
 // @fnv 0x00b7be00
 void ClipManager::FUN_00b7be00(unsigned int state)
@@ -391,7 +391,7 @@ void ClipManager::FUN_00b7be00(unsigned int state)
             ClipRenderer::DevWrap* w1 = &r1->wrap;
             for (; i < 6; ++i)
                 w1->SetClipPlane(i, &transformed[i].x);
-            FUN_00ec44d0(clip->cachedPlanes, transformed, sizeof(transformed));
+            std::memmove(clip->cachedPlanes, transformed, sizeof(transformed));
             clip->cacheValid = true;
         }
         else

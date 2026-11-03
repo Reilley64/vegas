@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
@@ -520,8 +521,6 @@ struct FUN_00906570_Class
     Iterator9065* FUN_00449f80(unsigned int, void**, void*);
     bool AdvanceRequest(Request9065*, void**, void*, bool);
 };
-extern "C" void* __cdecl memset(void* pvDest, int iValue, unsigned int ItemUpdateArray);
-
 class NiTMapItem913;
 
 class FUN_00913810

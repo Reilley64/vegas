@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/speedtree/libspline_source/idvspline.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdlib>
 #include "fnv/decl/FNVTokenParser.h"
 #include "fnv/decl/FUN_00594c80_cls.h"
 #include "fnv/decl/FUN_00594cd0_Class.h"
@@ -39,7 +40,6 @@ extern "C" int __cdecl _strlen(const char*);
 extern "C" int __cdecl _sscanf(const char*, const char*, ...);
 int __cdecl FUN_00ec8965(int);
 const char* __cdecl FUN_00b37f50(const char* pInput, char* pToken);
-unsigned int __cdecl FUN_00ec7c56(void);
 struct Host00b3b050
 {
     int m0;
@@ -124,7 +124,6 @@ struct HostB37
     void FUN_00b37cc0(InputB37*);
 };
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 namespace std {
 template <class _Ty> __forceinline const _Ty& max(const _Ty& _Left, const _Ty& _Right)
@@ -171,7 +170,7 @@ struct SplinePointVector
     {
         if (i >= (unsigned int)size())
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return m_pHeadNode[i];
     }
@@ -242,7 +241,6 @@ FUN_00b3c4b0_class IdvSpline::FUN_00b38b50(float t)
     return result;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct TreeB3B;
 
@@ -289,7 +287,7 @@ struct TreeConstIterB3B : TreeIterBaseB3B
     bool operator==(const TreeConstIterB3B& right) const
     {
         if (!(IsContainerSet() && SameContainer(right)))
-            FUN_00ec7c56();
+            std::abort();
         return ptr == right.ptr;
     }
     bool operator!=(const TreeConstIterB3B& right) const
@@ -393,7 +391,7 @@ struct TreeB3B
 inline void TreeIterBaseB3B::SetContainer(const TreeB3B* cont)
 {
     if (cont == 0)
-        FUN_00ec7c56();
+        std::abort();
     aux = cont->aux;
 }
 
@@ -424,7 +422,6 @@ inline void Dead3()
     int d1;
     int d2;
 }
-unsigned int __cdecl FUN_00ec7c56();
 void FUN_00ec7894(void* p, void* t);
 struct FUN_0044a4c0
 {
@@ -518,7 +515,7 @@ struct TreeQ
 inline IterQ::IterQ(NodeQ* p, const TreeQ* t) : _Myaux(0), _Ptr(p)
 {
     if (!(t != 0))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = t->_Myownedaux;
 }
 // @fnv 0x00acf120
@@ -852,10 +849,10 @@ struct MapIter_b37a
     MapIter_b37a& FUN_00b3b100()
     {
         if (_Mycont == 0)
-            FUN_00ec7c56();
+            std::abort();
         if (_Ptr->_Isnil)
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         else if (!_Ptr->_Right->_Isnil)
         {
@@ -910,7 +907,7 @@ struct Map_b37a
 inline MapIter_b37a::MapIter_b37a(Node_b37a* _Pnode, const Map_b37a* _Plist) : _Mycont(0), _Ptr(_Pnode)
 {
     if (_Plist == 0)
-        FUN_00ec7c56();
+        std::abort();
     _Mycont = _Plist->_Myownedproxy;
 }
 
@@ -954,7 +951,7 @@ template <class T> struct VectorB380
     T& at(unsigned index)
     {
         if (index >= unsigned(m10 - m0c))
-            FUN_00ec7c56();
+            std::abort();
         return m0c[index];
     }
     void FUN_00b39100(const T&);
@@ -1439,7 +1436,7 @@ struct FUN_00b3b050
     bool equal(const FUN_00b3b050& other) const
     {
         if (!(hasContainer() && sameContainer(other)))
-            FUN_00ec7c56();
+            std::abort();
         return node == other.node;
     }
 };
@@ -1741,7 +1738,6 @@ inline void Dead21()
     int d20;
 }
 
-unsigned int __cdecl FUN_00ec7c56();
 struct StrQ
 {
     int m[7];
@@ -1789,7 +1785,7 @@ struct FUN_00b3b050
     bool operator==(const FUN_00b3b050& r) const
     {
         if (!(_Has_container() && _Same_container(r)))
-            FUN_00ec7c56();
+            std::abort();
         return _Ptr == r._Ptr;
     }
 };
@@ -2103,7 +2099,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -2176,22 +2171,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -2252,7 +2247,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -2396,9 +2391,9 @@ class FUN_00b3b090_Iterator : public _Tree_const_iteratorS<ValT>
 const ValT& FUN_00b3b090_Iterator::FUN_00b3b090() const
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoS();
+        std::abort();
     if (!(_Ptr != ((_Myt*)(this->_Getmycont()))->_Myhead))
-        InvalidParameterNoInfoS();
+        std::abort();
     return (_Ptr->_Myval);
 }
 
@@ -2545,7 +2540,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -2618,22 +2612,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -2694,7 +2688,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -2822,13 +2816,13 @@ class FUN_00b3b440_Iterator : public _Tree_const_iteratorS<ValT>
 void FUN_00b3b440_Iterator::FUN_00b3b440()
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoS();
+        std::abort();
     if (_Myt::_Isnil(_Ptr))
     {
         _Ptr = _Myt::_Right(_Ptr);
         if (_Myt::_Isnil(_Ptr))
         {
-            InvalidParameterNoInfoS();
+            std::abort();
         }
     }
     else if (!_Myt::_Isnil(_Myt::_Left(_Ptr)))
@@ -2840,7 +2834,7 @@ void FUN_00b3b440_Iterator::FUN_00b3b440()
             _Ptr = _Pnode;
         if (_Myt::_Isnil(_Ptr))
         {
-            InvalidParameterNoInfoS();
+            std::abort();
         }
         else
             _Ptr = _Pnode;
@@ -4022,7 +4016,7 @@ template <class Value> struct EraseTree
         const_iterator(_Nodeptr _Pnode, const EraseTree* _Plist) : _Ptr(_Pnode)
         {
             if (_Plist == 0)
-                FUN_00ec7c56();
+                std::abort();
             this->_Set_container(_Plist);
         }
         _Nodeptr _Mynode() const
@@ -4032,11 +4026,11 @@ template <class Value> struct EraseTree
         void Increment()
         {
             if (!_Has_container())
-                FUN_00ec7c56();
+                std::abort();
             _Nodeptr _Node = _Ptr;
             if (_Isnil(_Node))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             else if (!_Isnil(_Right(_Ptr)))
             {
@@ -4272,7 +4266,6 @@ template <class Value> typename EraseTree<Value>::iterator EraseTree<Value>::FUN
 
 template EraseTree<int>::iterator EraseTree<int>::FUN_00b3bd80(EraseTree<int>::const_iterator);
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 static const float kStep = 1.0f / 499.0f;
 
@@ -4343,7 +4336,7 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
                 SplineVec* samples;
                 samples = &m_vec;
                 if ((unsigned int)idx >= (unsigned int)(samples->m_kRayEnd - samples->m_kRayStart))
-                    FUN_00ec7c56();
+                    std::abort();
                 FUN_00b3c500* next;
                 next = &samples->m_kRayStart[idx];
                 pItem = next->f04;
@@ -4354,12 +4347,12 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
                 unsigned long pCurr = 1 + idx;
                 SplineVec* index = &m_vec;
                 if ((unsigned int)pCurr >= (unsigned int)(index->m_kRayEnd - index->m_kRayStart))
-                    FUN_00ec7c56();
+                    std::abort();
                 FUN_00b3c500* nextIndex = &index->m_kRayStart[pCurr];
                 SplineVec* pVec4;
                 pVec4 = &m_vec;
                 if ((unsigned int)idx >= (unsigned int)(pVec4->m_kRayEnd - pVec4->m_kRayStart))
-                    FUN_00ec7c56();
+                    std::abort();
                 FUN_00b3c500* v0 = &pVec4->m_kRayStart[idx];
                 pItem = LerpF(v0->f04, nextIndex->f04, fraction);
             }
@@ -4437,7 +4430,6 @@ inline void Dead3()
     int d1;
     int d2;
 }
-unsigned int __cdecl FUN_00ec7c56();
 void FUN_00ec7894(void* p, void* t);
 struct FUN_0044a4c0
 {
@@ -4532,7 +4524,7 @@ struct TreeQ
 inline IterQ::IterQ(NodeQ* p, const TreeQ* t) : _Myaux(0), _Ptr(p)
 {
     if (!(t != 0))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = t->_Myownedaux;
 }
 // @fnv 0x00b3ac00
@@ -4759,7 +4751,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -4832,22 +4823,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -4908,7 +4899,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -5036,10 +5027,10 @@ class FUN_00b3b100_Iterator : public _Tree_const_iteratorS<ValB100>
 void FUN_00b3b100_Iterator::FUN_00b3b100()
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoS();
+        std::abort();
     if (_Myt::_Isnil(_Ptr))
     {
-        InvalidParameterNoInfoS();
+        std::abort();
     }
     else if (!_Myt::_Isnil(_Myt::_Right(_Ptr)))
         _Ptr = _Myt::_Min(_Myt::_Right(_Ptr));
@@ -5324,7 +5315,7 @@ struct SplinePointVector : SplineVecBase
     __forceinline SplinePoint& operator[](unsigned int index) throw()
     {
         if (!(index < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -5337,7 +5328,7 @@ struct SampledVector : SplinePointVector
     __forceinline SplinePoint& operator[](unsigned int index) throw()
     {
         if (!(index < size()))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };

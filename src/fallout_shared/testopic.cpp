@@ -1,6 +1,8 @@
 // fallout_shared/testopic.cpp: TESTopic, NavShell2, TopicFlagStandIn, TopicSaver and more (49 functions)
 
 #include <new>
+#include <ctime>
+#include <malloc.h>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -686,12 +688,11 @@ bool IsFlag20Set(char* pThis)
     return (bool)(pThis[0x25] & 0x20);
 }
 
-__int64 __cdecl __time64(__int64*);
 
 // @fnv 0x0061b9d0
 __int64 __cdecl GetTime64(__int64* pTime)
 {
-    return __time64(pTime);
+    return std::time((std::time_t *)(pTime));
 }
 
 // @fnv 0x0061b9f0
@@ -932,7 +933,6 @@ struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 struct TESTopic_shell
 {
     bool SetStringIfDifferent(const char*);

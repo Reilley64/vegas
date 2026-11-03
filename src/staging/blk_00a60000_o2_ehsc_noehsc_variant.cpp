@@ -6,6 +6,7 @@
 // src/staging/blk_00a60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cctype>
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -110,7 +111,6 @@ struct NiDirectionalLight
 {
     void FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& proc);
 };
-extern "C" int __cdecl tolower(int);
 struct NiCullingProperty
 {
 };
@@ -1828,7 +1828,6 @@ struct NiPixelChannelsA776
     unsigned char m_ucBlueBits;
     unsigned char m_ucAlphaBits;
 };
-extern "C" int __cdecl tolower(int);
 struct A5FC10Stub
 {
 };

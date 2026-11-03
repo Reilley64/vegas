@@ -5,6 +5,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include <cmath>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -596,7 +597,6 @@ struct AdjDerived : AdjPrimaryBase, AdjSecondaryBase
 AdjDerived::AdjDerived()
 {}
 
-extern "C" double __cdecl fabs(double);
 class S00d67a50_Shape377
 {
   public:

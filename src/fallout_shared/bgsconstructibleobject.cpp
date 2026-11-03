@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsconstructibleobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsconstructibleobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <malloc.h>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -134,7 +135,6 @@ class TESFile
     bool NextChunk();
     bool GetChunkData(unsigned int*);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 class BGSListForm;
 class TESBoundObject;
 class TESFile;
@@ -418,7 +418,6 @@ bool FUN_004f96f0_cobj::FUN_004f96f0(TESFile* apFile)
 
 extern char DAT_01189c78;
 
-void* __cdecl FUN_00ec43fb(unsigned int, unsigned int, void*, void*, unsigned int);
 
 struct FUN_0051af50_cls
 {
@@ -482,7 +481,7 @@ struct FUN_004f9b80_cls
 // @fnv 0x004f9b80
 void FUN_004f9b80_cls::FUN_004f9b80(unsigned int a1)
 {
-    void* r = FUN_00ec43fb(a1, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01189c78, 0);
+    void* r = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>(a1));
     if (r == 0)
     {
     }
@@ -670,7 +669,7 @@ struct ConstructibleComparison : FUN_004f96f0_cobj
 // @fnv 0x004f9c10
 bool ConstructibleComparison::FUN_004f9c10(void* apCompare)
 {
-    void* pcomp = FUN_00ec43fb((unsigned int)apCompare, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01189c78, 0);
+    void* pcomp = dynamic_cast<::BGSConstructibleObject *>(reinterpret_cast<::TESForm *>((unsigned int)apCompare));
     if (!pcomp)
         return true;
     if (reinterpret_cast<::FUN_0051afb0_shell *>((((BoundObjectComparison*)this)))->FUN_0051afb0((::TESForm *)(pcomp)))

@@ -1,6 +1,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FUN_004381b0_shell.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -615,7 +617,6 @@ struct NiGlobalStringTable
 };
 void* __cdecl _NiMalloc(unsigned int);
 void __cdecl _NiFree(void*);
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 struct FixStr
 {
@@ -684,7 +685,7 @@ unsigned int FUN_00e81f10_shell::FUN_00e81f10(char* pszKey, unsigned int uiExtra
         e->m_bFlag0 = true;
         _NiFree(e->m_pConstantData);
         e->m_pConstantData = _NiMalloc(uiConstantDataSize);
-        _memmove(e->m_pConstantData, pvDataSource, uiConstantDataSize);
+        std::memmove(e->m_pConstantData, pvDataSource, uiConstantDataSize);
     }
     else
     {
@@ -1422,7 +1423,6 @@ unsigned int FUN_00e82b40(FUN_00e84b60_prog* prog, void* entry, unsigned int typ
 void* __cdecl FUN_00aa13e0(unsigned int);
 void __cdecl FUN_00aa10f0(void*);
 void* __cdecl FUN_00aa1070(unsigned int);
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 inline void* operator new(unsigned int, void* location)
 {
     return location;
@@ -1584,7 +1584,7 @@ unsigned int ShaderConstantMap_83650::FUN_00e83650(const char* shader, unsigned 
         entry->ownsData = true;
         FUN_00aa10f0(entry->data);
         entry->data = FUN_00aa1070(elementSize);
-        FUN_00ec44d0(entry->data, data, elementSize);
+        std::memmove(entry->data, data, elementSize);
     }
     else
     {
@@ -2113,9 +2113,6 @@ unsigned int FUN_00e84d00(FUN_00e84b60_prog* pkProgram, NiShaderConstantMapEntry
 }
 }  // namespace fnv_00e84d00
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" double __cdecl cos(double);
-
 class NiPoint3_ext : public NiPoint3
 {
   public:
@@ -2342,7 +2339,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
 {
     NiPoint3 point;
     LightMappingWorkspace work;
-    fnv_zlib_memset(&work.identity, 0, sizeof(work.identity));
+    std::memset(&work.identity, 0, sizeof(work.identity));
     work.identity.m[3][3] = 1.0f;
     work.identity.m[2][2] = 1.0f;
     work.identity.m[1][1] = 1.0f;
@@ -2890,7 +2887,7 @@ bool __cdecl FillLightConstantData(void* apConstantData, unsigned int uiConstant
         return false;
     }
     default:
-        fnv_zlib_memset(apConstantData, 0, uiConstantDataSize);
+        std::memset(apConstantData, 0, uiConstantDataSize);
         return false;
     }
 }
@@ -3504,10 +3501,6 @@ struct __declspec(align(16)) Vec4
     float x, y, z, w;
 };
 extern float DAT_01099378;
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
-extern "C" double __cdecl tan(double);
-
 struct Entry
 {
     unsigned int u00, u04, u08, u0c, type, u14, index;

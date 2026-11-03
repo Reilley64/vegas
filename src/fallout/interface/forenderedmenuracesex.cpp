@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSImpactData.h"
@@ -681,7 +682,6 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
     return reinterpret_cast<::RenderedMenu7fb7 *>(this)->FUN_007fb790((void *)(abDown), (float *)(a2), (float *)(a3));
 }
 
-int __cdecl FUN_00ecadb8();
 
 
 struct TimerSource
@@ -827,7 +827,7 @@ void FUN_007feb80_cls::Update(float afValue)
     if ((double)(afValue - m_f150) > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::TimerSource *>(&::g_011db5b4)))))))
     {
         m_f150 = afValue;
-        m_f154 = (float)((FUN_00ecadb8() % 1000) * ::DAT_01016978);
+        m_f154 = (float)((std::rand() % 1000) * ::DAT_01016978);
     }
     if (m_b158 != 0)
     {
@@ -847,7 +847,6 @@ struct IntSource
 {
 };
 
-int __cdecl FUN_00ecadb8();
 
 struct Timer
 {
@@ -868,7 +867,7 @@ void Timer::FUN_007fec30(float now)
     if (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSource *>(&::g_011db520)))))) + ::g_01012070 < unk160)
     {
         unk158 = false;
-        unk168 = (float)(FUN_00ecadb8() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
+        unk168 = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSource *>(&::g_011db4f8))))))) + now;
     }
 }
 
@@ -1094,7 +1093,6 @@ struct xFarObj
 struct xShadow
 {
 };
-int xRand();
 
 static const char s_szScreen[] = "Screen";
 static const char s_szSexBtn[] = "SexBtn:0";
@@ -1128,7 +1126,7 @@ void xRenderedMenu::Init()
 {
     float qahtre;
     m_158 = false;
-    m_168 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockSource *>(&::g_timeGlobal))))->FUN_00825c00() + xRand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
+    m_168 = (double)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::ClockSource *>(&::g_timeGlobal))))->FUN_00825c00() + std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::xIntSetting *>(&::g_011db4f8))))));
     m_164 = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011db4d0))))));
     xColorA qHXYKT(0.0f, 0.0f, 0.0f, 0.0f);
     if (reinterpret_cast<::SystemColorManager *>((((::xColorMgr *)(::FUN_00718b60()))))->GetColor(3, (::NiColor &)(qHXYKT)))

@@ -1,5 +1,7 @@
 // fallout_shared/facegen/bsfacegenmorphdata.cpp: BSFaceGenMorphDataHead, DifferentialArray, HolderDb0, BSFaceGenMorphDataHair (26 functions)
 
+#include <cstdlib>
+#include "runtime/crt.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00456650_shell.h"
 #include "fnv/decl/FUN_00656fd0_shell.h"
@@ -25,14 +27,12 @@
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_011d5000.h"
 #include "bsfacegenmorphdata_decls.h"
-void __cdecl FUN_00ec7c56();
 struct V_006578b0
 {
     int pad[3];
     unsigned int* first;
     unsigned int* FUN_006578b0(unsigned int _Pos);
 };
-int __cdecl FUN_00ec7ce3(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 
 // Copies count bytes from first to dest and returns dest advanced by count.
 // @fnv 0x00660270
@@ -41,7 +41,7 @@ char* __cdecl FUN_00660270(const char* first, const char* last, char* dest)
     unsigned int count = last - first;
     char* result = dest + count;
     if (count > 0)
-        FUN_00ec7ce3(dest, count, first, count);
+        fnv::crt::memmove_s(dest, count, first, count);
     return result;
 }
 
@@ -59,14 +59,13 @@ void __cdecl FUN_00662760()
     (*reinterpret_cast<::BSFadeNode * *>(&::fnv_00653460::DAT_011d5b8c)) = new BSFadeNode((char const*)&g_011d37c8_arg1);
 }
 
-void __cdecl FUN_00ec7c56();
 
 // Bounds-checks _Pos against the array size, then returns the DifferentialEntry at data[3] + _Pos * 0x34.
 // @fnv 0x00662860
 DifferentialEntry* DifferentialArray::FUN_00662860(unsigned int _Pos)
 {
     if (_Pos >= ((unsigned int)(::GetEntryCount((int *)this))))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -414,7 +413,7 @@ BSFaceGenMorphDataHead::BSFaceGenMorphDataHead(FaceGenTriData* tri)
 unsigned int* V_006578b0::FUN_006578b0(unsigned int _Pos)
 {
     if (_Pos >= (unsigned int)((unsigned int)(reinterpret_cast<::FUN_00662820_shell *>((reinterpret_cast<FaceGenMatrix<float>*>(this)))->FUN_00662820())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);

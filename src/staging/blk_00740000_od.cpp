@@ -2,6 +2,7 @@
 // src/staging/blk_00740000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdlib>
 #include "fnv/decl/BGSQuestObjective.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CMenu.h"
@@ -756,7 +757,6 @@ struct CaravanCard
 {
 };
 typedef int(__cdecl* CaravanCompare)(const void*, const void*);
-int __cdecl FUN_00ec7d40(int);
 struct PointerArray
 {
     virtual ~PointerArray();
@@ -1750,7 +1750,7 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                 return openingValue36;
             }
 
-            local_94Value52 = FUN_00ec7d40(
+            local_94Value52 = std::abs(
                 (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)((int)&hand)))))->FUN_006a7ad0(0))))))))->GetProcessInteger()) + -6);
             reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(0);
             local_a4Value36 = 0;
@@ -1758,13 +1758,13 @@ CaravanDecision CaravanOwner::FUN_0074fdc0()
                  local_a4Value36 = local_a4Value36 + 1)
             {
 
-                if ((FUN_00ec7d40(
+                if ((std::abs(
                         (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)((int)&hand)))))->FUN_006a7ad0(local_a4Value36))))))))->GetProcessInteger()) +
                         -6)) < local_94Value52)
                 {
                     reinterpret_cast<::FUN_00600ab0_shell *>(&(openingValue36))->FUN_00600ab0(local_a4Value36);
 
-                    local_94Value52 = FUN_00ec7d40(
+                    local_94Value52 = std::abs(
                         (reinterpret_cast<::MiddleLowProcess *>((((CaravanCard*)(*(((void **)(reinterpret_cast<::S3e60 *>((((PointerArray*)((void*)((int)&hand)))))->FUN_006a7ad0(local_a4Value36))))))))->GetProcessInteger()) +
                         -6);
                 }

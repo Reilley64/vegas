@@ -1,6 +1,7 @@
 // bsshader/watershader.cpp: WaterShader, MaterialShader, WaterShaderLoader, WaterShaderReleaser and more (12 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -30,7 +31,6 @@
 #include "fnv/symbols_011ff000.h"
 #include "fnv/symbols_0126f000.h"
 #include "watershader_decls.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #pragma intrinsic(memset)
 
 // Creates the vertex and pixel shader constant maps once, registers their constants and stores the resulting handles in globals.
@@ -1002,7 +1002,7 @@ inline void InitWaterVertexBase(WaterShaderDesc& desc)
     desc.kMacros[0].Definition = 0;
     desc.kMacros[1].Name = 0;
     desc.kMacros[1].Definition = 0;
-    fnv_zlib_memset(&desc.kMacros[2], 0, 56);
+    std::memset(&desc.kMacros[2], 0, 56);
 }
 
 inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
@@ -1011,7 +1011,7 @@ inline void InitWaterVertexVariant(WaterShaderDesc& desc, const char* macro)
     desc.kMacros[0].Name = macro;
     desc.kMacros[0].Definition = "";
     desc.kMacros[1].Name = 0;
-    fnv_zlib_memset(&desc.kMacros[1].Definition, 0, 60);
+    std::memset(&desc.kMacros[1].Definition, 0, 60);
 }
 
 class WaterShaderMemScope

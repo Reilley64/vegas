@@ -5,6 +5,7 @@
 
 // src/bsshader/lighting30shader_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/lighting30shader.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <cstring>
 #include "fnv/symbols_00b79000.h"
 #include "fnv/symbols_00e76000.h"
 #include "fnv/symbols_00ee6000.h"
@@ -79,7 +80,6 @@ struct S00bbe6b0_Cam
 };
 
 
-void* FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 struct S00bbe6b0_Renderer
 {
@@ -139,13 +139,13 @@ void S00bbe6b0_Renderer::FUN_00bbe6b0(S00bbe6b0_Src* src, unsigned int id, int f
                 ::FUN_00ee6de0(&res, &world, &(id - 0x1c4 <= 3 ? pair->first : pair->second)->world);
                 mat = res;
                 ::FUN_00ee6dd4();
-                FUN_00ec44d0(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170)), &mat, 0x40);
+                std::memmove(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_01201170)), &mat, 0x40);
             }
         }
     }
     if ((*reinterpret_cast<::S00bbe6b0_Setting * *>(&::ConstantMaps::DAT_012010b8))->bEnabled && flag)
     {
         S00bbe6b0_Identity(&mat);
-        FUN_00ec44d0(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_012012b0)), &mat, 0x40);
+        std::memmove(&(*reinterpret_cast<::S00bbe6b0_Mat *>(&::ConstantMaps::DAT_012012b0)), &mat, 0x40);
     }
 }

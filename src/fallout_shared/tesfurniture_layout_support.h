@@ -2,6 +2,7 @@
 #ifndef FNV_LAYOUT_SUPPORT_H
 #define FNV_LAYOUT_SUPPORT_H
 #include <stddef.h>
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -190,7 +191,6 @@ class TESFullNameLoader
 {
   public:
 };
-extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID
 {
     CHUNK_ID_MODL_ID = 0x4c444f4d,

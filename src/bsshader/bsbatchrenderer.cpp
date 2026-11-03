@@ -1,5 +1,6 @@
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -3139,7 +3140,6 @@ void S00b99c90_Shell::AddPassToGroup(RenderPass99* pkPass, unsigned int uiPassEn
 }
 
 namespace fnv_00b9a5b0 {
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 extern const void* DAT_010b7dc8[];
 
@@ -3165,7 +3165,7 @@ struct MapBase
             unsigned int s;
         };
         S sz = {hashSize * sizeof(void*)};
-        fnv_zlib_memset(buckets, 0, sz.s);
+        std::memset(buckets, 0, sz.s);
     }
     ~MapBase();
 };

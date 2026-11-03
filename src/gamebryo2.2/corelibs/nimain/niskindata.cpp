@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niskindata.cpp: NiSkinData, FakeSkin, SkinDataLike, SkinDataBounds and more (11 functions)
 
 #include <new>
+#include <cstdio>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/Bound88.h"
@@ -604,7 +605,6 @@ extern "C" const char DAT_0109e644[];
 extern "C" const char DAT_0109e60c[];
 extern "C" const char DAT_0109e600[];
 }
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct SkinLoadStream : SkinStream
 {
     int unk254;

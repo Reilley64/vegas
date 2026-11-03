@@ -3,6 +3,8 @@
 #define FNV_BGSSAVELOADHEADER_DECLS_H
 
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_004381b0_shell.h"
 #include "fnv/decl/FUN_00846490_t.h"
 #include "fnv/decl/FUN_0084ff90_shell.h"
@@ -70,12 +72,9 @@ class NiMemObject
     static void* operator new(unsigned int size);
 };
 
-int __cdecl FUN_00ecbf05(const char* path, int mode);
 extern int(__cdecl* DAT_00fdf0d4)(char* path);
 extern char* DAT_011a2224;
 
-extern "C" unsigned int __cdecl strlen(const char* string);
 extern "C" void* __cdecl fnv_zlib_memset(void* destination, int value, unsigned int size);
-extern "C" void __security_check_cookie(unsigned int cookie);
 
 #endif

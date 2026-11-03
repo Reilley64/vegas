@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysboundupdatemodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00c25e00_cls.h"
 #include "fnv/decl/FUN_00c319e0_cls.h"
@@ -599,7 +600,6 @@ template <class T> inline T kBoundsMaximum(const T& a, const T& b)
 {
     return a > b ? a : b;
 }
-extern "C" double __cdecl sqrt(double);
 struct BoundPoint : NiPoint3
 {
     BoundPoint(float a, float b, float c)
@@ -785,7 +785,6 @@ struct NiPSysData
     short unk52;
     float* m_pfSizes;
 };
-extern "C" double __cdecl sqrt(double);
 struct BoundUpdateModifier
 {
     void* m_vptr;

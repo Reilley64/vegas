@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niparticle/nipsyssphereemitter.cpp: NiPSysSphereEmitter, PSysSphereEmitter (10 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/FUN_00c31b80_This.h"
 #include "fnv/decl/FUN_00c31db0_cls.h"
 #include "fnv/decl/NiPSysBoxEmitterWrapper.h"
@@ -251,7 +252,6 @@ FUN_00c31af0::FUN_00c31af0() : S_00c31af0_Base()
     unk54 = 0;
 }
 
-extern "C" int __cdecl rand();
   // sin table, 512 entries
   // cos table, 512 entries
 extern float g_fTwoPi;
@@ -276,7 +276,7 @@ struct SphereEmitter00c1fe20 : NiPSysSphereEmitter
 
 static inline float UnitRandom()
 {
-    return (float)(rand() / 32767.0);
+    return (float)(std::rand() / 32767.0);
 }
 
 // @fnv 0x00c1fe20

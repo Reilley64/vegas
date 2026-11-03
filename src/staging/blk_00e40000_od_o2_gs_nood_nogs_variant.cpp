@@ -5,6 +5,7 @@
 
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/ObbQueryDetail__ObbMachine.h"
@@ -84,7 +85,6 @@ union __declspec(intrin_type) __declspec(align(16)) __m128
 extern "C"
 {
     __m128 _mm_and_ps(__m128 a, __m128 b);
-    double __cdecl sqrt(double);
 }
 
 extern const __m128 DAT_01017d10;

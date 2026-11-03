@@ -3,6 +3,9 @@
 // with declarations corrected to what the original code does (tileimage_private.h: int strcat_s(char*, unsigned int, const char*); -> extern "C" int __cdecl strcat_s(char*, unsigned in). Move the function to its real unit once
 // that unit declares it this way.
 
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_0044a970_Cls.h"
 #include "fnv/decl/FUN_004bc320_shell.h"
 #include "fnv/decl/FUN_00a00f30_shell.h"
@@ -49,8 +52,6 @@ struct FileFinder
         return ::g_fileFinder;
     }
 };
-int _strcpy_s(char*, unsigned int, const char*);
-int _strcat_s(char*, unsigned int, const char*);
 namespace L {
 struct Setting
 {
@@ -120,14 +121,8 @@ struct NiTexturePtr
 }
 
 typedef unsigned int size_t;
-extern "C" int __cdecl strcmp(const char*, const char*);
-extern "C" size_t __cdecl strlen(const char*);
-extern "C" char* __cdecl strrchr(const char*, int);
-extern "C" char* __cdecl strtok(char*, const char*);
-extern "C" double __cdecl atof(const char*);
 void* __cdecl operator new(size_t);
 void __cdecl operator delete(void*);
-extern "C" void* __cdecl memcpy(void*, const void*, size_t);
 inline unsigned int BSStringLength(const char* p)
 {
     return strlen(p);
@@ -273,7 +268,6 @@ AtlasFile* FUN_00afdf00(const char*, int, unsigned int);
 
 void* __cdecl operator new(size_t);
 void __cdecl operator delete(void*);
-extern "C" int __cdecl memcmp(const void*, const void*, size_t);
 extern "C" int __cdecl memcpy_s(void*, size_t, const void*, size_t);
 extern "C" int __cdecl memmove_s(void*, size_t, const void*, size_t);
 namespace std {
@@ -677,14 +671,14 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
 {
     char line5[1024];
     char filename9[260];
-    _strcpy_s(filename9, 260, "Data\\Textures\\");
+    fnv::crt::strcpy_s(filename9, 260, "Data\\Textures\\");
     AtlasFile* fileA = 0;
     if (definition && image && (texture || bounds))
     {
         const char* slashTmp = strrchr(image, '\\');
         bool foundImage = false;
         bool foundDefinition4 = false;
-        _strcat_s(filename9, 260, definition);
+        fnv::crt::strcat_s(filename9, 260, definition);
         image = slashTmp ? slashTmp + 1 : image;
         for (AtlasNode* nodeB = &(*reinterpret_cast<::AtlasNode *>(&::fnv_00a00a30::DAT_011f3350)); nodeB && nodeB->entry; nodeB = nodeB->next)
         {
@@ -728,11 +722,11 @@ void FUN_00a06dd0(const char* definition, const char* image, AtlasString* textur
                     reinterpret_cast<::TextString *>(&(entry5->texture))->FUN_004037f0(str.c_str(), 0);
                     for (int i3 = 0; i3 < 2; i3++)
                         strtok(0, " ,\t");
-                    entry5->rect.left = (float)atof(strtok(0, " ,\t"));
-                    entry5->rect.top = (float)atof(strtok(0, " ,\t"));
+                    entry5->rect.left = (float)::std::atof(strtok(0, " ,\t"));
+                    entry5->rect.top = (float)::std::atof(strtok(0, " ,\t"));
                     strtok(0, " ,");
-                    entry5->rect.right = (float)atof(strtok(0, " ,\t"));
-                    entry5->rect.bottom = (float)atof(strtok(0, " ,\t"));
+                    entry5->rect.right = (float)::std::atof(strtok(0, " ,\t"));
+                    entry5->rect.bottom = (float)::std::atof(strtok(0, " ,\t"));
                     entry5->rect.right += entry5->rect.left;
                     entry5->rect.bottom += entry5->rect.top;
                     if (!strcmp(entry5->image.c_str(), image))

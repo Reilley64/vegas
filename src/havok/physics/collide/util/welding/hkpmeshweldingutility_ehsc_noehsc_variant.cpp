@@ -6,6 +6,7 @@
 // src/havok/physics/collide/util/welding/hkpmeshweldingutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/welding/hkpmeshweldingutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cmath>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -500,7 +501,6 @@ template <typename T, typename L> inline void quickSort(T* pArr, int size, L cmp
     if (size > 1)
         FUN_00ddeb70(pArr, 0, size - 1, cmpLess);
 }
-extern "C" double __cdecl fabs(double);
 __declspec(noinline) ComparisonResult __cdecl AreZDiffering(const S_00ddecf0_Key& a, const S_00ddecf0_Key& b) throw()
 {
     float delta = a.b - b.b;
@@ -590,7 +590,6 @@ extern "C"
     __m128 _mm_rsqrt_ss(__m128);
     __m128 _mm_cmpeq_ss(__m128, __m128);
     __m128 _mm_andnot_ps(__m128, __m128);
-    double __cdecl fabs(double);
 }
 
 extern char DAT_010d7f80;

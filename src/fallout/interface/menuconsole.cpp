@@ -1,5 +1,6 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
+#include <cstring>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
@@ -782,7 +783,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 {
                     char filename[128];
                     filename[0] = ""[0];
-                    fnv_zlib_memset(filename + 1, 0, 127);
+                    std::memset(filename + 1, 0, 127);
                     sscanf(text, "bat %s", filename);
                     if (!strlen(filename))
                         ::FUN_00703c00("You must enter a filename.", {});
@@ -790,7 +791,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     {
                         char primaryName[260];
                         primaryName[0] = ""[0];
-                        fnv_zlib_memset(primaryName + 1, 0, 259);
+                        std::memset(primaryName + 1, 0, 259);
                         {
                             struct BatchFileState
                             {
@@ -800,7 +801,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                             {
                                 char alternateName[260];
                                 alternateName[0] = ""[0];
-                                fnv_zlib_memset(alternateName + 1, 0, 259);
+                                std::memset(alternateName + 1, 0, 259);
                                 strcat_s(primaryName, 260, filename);
                                 batch.file = new BSFile(primaryName, NiFile::READ_ONLY, 16384, false);
                                 batch.filenameLength = ::FUN_0044a670(filename);
@@ -863,7 +864,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     {
                         char filename[128];
                         filename[0] = ""[0];
-                        fnv_zlib_memset(filename + 1, 0, 127);
+                        std::memset(filename + 1, 0, 127);
                         sscanf(text, "rbat %s", filename);
                         if (!strlen(filename))
                             ::FUN_00703c00("No filename specified; recording cancelled.", {});

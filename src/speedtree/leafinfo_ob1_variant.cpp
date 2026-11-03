@@ -5,6 +5,7 @@
 
 // src/speedtree/leafinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 #include "fnv/decl/FUN_00b3ed20_cls.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
 #include "fnv/decl/S_00b3ed80.h"
@@ -126,8 +127,6 @@ struct S00b3d1b0_Str : std::string
 };
 
 extern "C" int* __cdecl _errno();
-extern "C" char* __cdecl strerror(int);
-
 struct S00b3d1b0_ErrBase
 {
     void** vtable;

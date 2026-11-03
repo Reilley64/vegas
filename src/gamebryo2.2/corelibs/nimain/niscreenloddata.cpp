@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niscreenloddata.cpp: NiScreenLODData, Fake, Holder, LodPart_cls and more (17 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_008b42e0_shell.h"
 #include "fnv/decl/FUN_00a991d0_shell.h"
 #include "fnv/decl/FUN_00aa09a0.h"
@@ -120,7 +121,6 @@ void Holder::UpdateWorldBound(NiLODNode* pkLOD)
 }
 }  // namespace fnv_00a961a0
 
-void* _memmove(void*, const void*, unsigned int);
 
 struct FUN_00a95d60_shell : public NiScreenLODData
 {
@@ -145,7 +145,7 @@ void FUN_00a95d60_shell::SetProportionCount(unsigned int count)
         {
             unsigned int uiCopyCount =
                 *(int*)((char*)this + 0x28) < (int)count ? *(int*)((char*)this + 0x28) : (int)count;
-            _memmove(pfNewProportions, *(float**)((char*)this + 0x2c), uiCopyCount * 4);
+            std::memmove(pfNewProportions, *(float**)((char*)this + 0x2c), uiCopyCount * 4);
         }
         ::FUN_00aa10f0(*(float**)((char*)this + 0x2c));
         *(float**)((char*)this + 0x2c) = pfNewProportions;
@@ -571,7 +571,6 @@ struct FUN_00a96030_cls
     void* CloneWithBounds(unsigned int unused);
 };
 
-void* FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 void* InitializeScreenLODData();
 void SetProportionCount(unsigned int count);
 
@@ -595,7 +594,7 @@ void* FUN_00a96030_cls::CloneWithBounds(unsigned int unused)
     result->m_08.center = m_08.center;
     result->m_08.radius = radius;
     ((FUN_00a95d60_shell*)result)->SetProportionCount(m_28);
-    FUN_00ec44d0(result->m_2c, m_2c, m_28 * 4);
+    std::memmove(result->m_2c, m_2c, m_28 * 4);
     return result;
 }
 
@@ -648,7 +647,7 @@ void* FUN_00a95f40_cls::Clone()
     dst->m_10 = m_10;
     dst->m_14 = fValue;
     reinterpret_cast<FUN_00a95d60_shell*>(dst)->SetProportionCount(m_28);
-    _memmove(dst->m_2c, m_2c, m_28 * 4);
+    std::memmove(dst->m_2c, m_2c, m_28 * 4);
     return dst;
 }
 

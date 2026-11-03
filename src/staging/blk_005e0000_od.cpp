@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSGameSound.h"
@@ -1647,7 +1649,6 @@ struct FUN_005efb30_class
     unsigned int mc;
     void FUN_005efb30(unsigned int requested, unsigned int savedSize);
 };
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_005efdd0_class
 {
     void FUN_005efdd0(char* a, char* b, unsigned int count);
@@ -1661,16 +1662,15 @@ void FUN_005efdd0_class::FUN_005efdd0(char* pDest, char* pSrc, unsigned int coun
     if (pDest < pSrc)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(pDest + i * 2, pSrc + i * 2, 2);
+            std::memmove(pDest + i * 2, pSrc + i * 2, 2);
     }
     else if (pDest > pSrc)
     {
         for (int i = (int)count - 1; i >= 0; --i)
-            FUN_00ec7230(pDest + i * 2, pSrc + i * 2, 2);
+            std::memmove(pDest + i * 2, pSrc + i * 2, 2);
     }
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_005efe70_shell
 {
@@ -1708,16 +1708,15 @@ void FUN_005efe70_shell::FUN_005efe70(char* pDest, char* pSrc, unsigned int c)
     if (pDest < pSrc)
     {
         for (unsigned int i = 0; i < c; ++i)
-            FUN_00ec7230(pDest + i * 0x38, pSrc + i * 0x38, 0x38);
+            std::memmove(pDest + i * 0x38, pSrc + i * 0x38, 0x38);
     }
     else if (pDest > pSrc)
     {
         for (int i = c - 1; i >= 0; --i)
-            FUN_00ec7230(pDest + i * 0x38, pSrc + i * 0x38, 0x38);
+            std::memmove(pDest + i * 0x38, pSrc + i * 0x38, 0x38);
     }
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int count);
 struct FUN_005eff10_class
 {
     void FUN_005eff10(char* dst, const char* src, unsigned int count);
@@ -1731,12 +1730,12 @@ void FUN_005eff10_class::FUN_005eff10(char* dst, const char* src, unsigned int c
     if (dst < src)
     {
         for (unsigned int i = 0; i < count; i++)
-            FUN_00ec7230(dst + i * 6, src + i * 6, 6);
+            std::memmove(dst + i * 6, src + i * 6, 6);
     }
     else if (dst > src)
     {
         for (int i = (int)count - 1; i >= 0; i--)
-            FUN_00ec7230(dst + i * 6, src + i * 6, 6);
+            std::memmove(dst + i * 6, src + i * 6, 6);
     }
 }
 
@@ -2960,7 +2959,6 @@ struct Entry
 
 
 bool __cdecl CheckDist(SndForm* form, Pt3 pos3, float f);
-double __cdecl StrToD(const char* s);
 
 struct FUN_005f2b60_cls
 {
@@ -3023,7 +3021,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     {
                         char* pStr7 = ((::StrHolder *)(reinterpret_cast<::BaseProcess *>(&(pArrVal[pEntry7->data.u & 0xff]))->GetCurrentProcessData()))->GetStr();
                         unsigned int uOff_2 = (pEntry7->data.u & 0xffffff00) >> 8;
-                        fVal8 = (float)StrToD(pStr7 + uOff_2 + 0x11);
+                        fVal8 = (float)std::atof(pStr7 + uOff_2 + 0x11);
                     }
                     reinterpret_cast<::FUN_00ad8570_S *>((((::AudioMgr *)(::FUN_00453a70()))))->FUN_00ad8570((int)(ref->GetNode()), fVal8, 0x40000000);
                     break;
@@ -3142,7 +3140,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                         {
                             char* pStr6 = ((::StrHolder *)(reinterpret_cast<::BaseProcess *>(&(pArr2[pEntry7->data.u & 0xff]))->GetCurrentProcessData()))->GetStr();
                             unsigned int uOff5 = (pEntry7->data.u & 0xffffff00) >> 8;
-                            float fShake3 = (float)StrToD(pStr6 + uOff5 + 0x12);
+                            float fShake3 = (float)std::atof(pStr6 + uOff5 + 0x12);
                             if (fShake3 > ::_DAT_01012060)
                                 ::UpdateDistanceFade(fShake3, (*(const ::NiPoint3 *)(ref->GetPos())));
                         }

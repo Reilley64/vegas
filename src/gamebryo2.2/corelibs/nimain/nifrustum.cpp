@@ -2,10 +2,9 @@
 // src/gamebryo2.2/corelibs/nimain/nifrustum.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifrustum.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00aa1000.h"
-extern "C" unsigned int strlen(const char*);
-
 struct NiFrustum
 {
     float m_fLeftBound;

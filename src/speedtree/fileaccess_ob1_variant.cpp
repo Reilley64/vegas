@@ -5,6 +5,7 @@
 
 // src/speedtree/fileaccess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/fileaccess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdlib>
 #include "fnv/decl/S_00aadeb0_Class.h"
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
 #include "fnv/symbols_01017000.h"
@@ -17,7 +18,6 @@ struct FUN_00b3ede0_shell
     unsigned int size;
     void* FUN_00b3ede0();
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct Vector3D
 {
     float m_fComponents[3];
@@ -36,7 +36,6 @@ struct FUN_00b3ed20_range
     unsigned int m_uBase;
     unsigned int m_uEnd;
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b3ed20_cls
 {
     unsigned int m_nCursor;
@@ -137,7 +136,7 @@ struct Buf_00b3ee40
     char& at(unsigned int i)
     {
         if (i >= size())
-            FUN_00ec7c56();
+            std::abort();
         return first[i];
     }
 };

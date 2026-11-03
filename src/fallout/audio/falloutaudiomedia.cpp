@@ -1,6 +1,7 @@
 // fallout/audio/falloutaudiomedia.cpp: FalloutAudioMedia, FAMThread (30 functions)
 
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/BSFile.h"
 #include "fnv/decl/FUN_00591a40_class.h"
 #include "fnv/decl/FUN_00595cb0_shell.h"
@@ -216,12 +217,11 @@ float FUN_0082ffd0(float _X)
     return FUN_0082fff0(_X);
 }
 
-double __cdecl FUN_00ecbc80(double);
 
 // @fnv 0x0082fff0
 float __cdecl FUN_0082fff0(float value)
 {
-    return static_cast<float>(FUN_00ecbc80(value));
+    return static_cast<float>(std::log10(value));
 }
 
 // If aiMusicType is non-null, plays it as music media using its random entry, FUN_00830050 and FUN_00830080 values.

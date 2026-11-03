@@ -1,6 +1,7 @@
 // bsshader/tileshader.cpp: TileShader, TileStandin, TileShaderS, PassShader (18 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -451,7 +452,6 @@ public:
     bool Initialize();
 };
 extern const char $SG3295[];
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct TileShaderDef_bca0d0
 {
     const char* pFile;
@@ -494,17 +494,17 @@ void FUN_00bca0d0_shell::CreateTileVertexShaders()
     TileShaderDef_bca0d0 kDefs[3];
     kDefs[0].pFile = "tile\\tile.v.hlsl";
     kDefs[0].kMacros[0].Name = 0;
-    _fnv_zlib_memset(&kDefs[0].kMacros[0].Definition, 0, 0x44);
+    std::memset(&kDefs[0].kMacros[0].Definition, 0, 0x44);
     kDefs[1].pFile = "tile\\tile.v.hlsl";
     kDefs[1].kMacros[0].Name = "TEXSCROLL";
     kDefs[1].kMacros[0].Definition = $SG3295;
     kDefs[1].kMacros[1].Name = 0;
-    _fnv_zlib_memset(&kDefs[1].kMacros[1].Definition, 0, 0x3c);
+    std::memset(&kDefs[1].kMacros[1].Definition, 0, 0x3c);
     kDefs[2].pFile = "tile\\tile.v.hlsl";
     kDefs[2].kMacros[0].Name = "VC";
     kDefs[2].kMacros[0].Definition = $SG3295;
     kDefs[2].kMacros[1].Name = 0;
-    _fnv_zlib_memset(&kDefs[2].kMacros[1].Definition, 0, 0x3c);
+    std::memset(&kDefs[2].kMacros[1].Definition, 0, 0x3c);
     char acName[260];
     char acPath[260];
     for (int i = 0; i < 3; i++)
@@ -1445,17 +1445,17 @@ void FUN_00bca240_shell::CreateTilePixelShaders()
     TileShaderDef_bca240 kDefs[3];
     kDefs[0].pFile = "tile\\tile.p.hlsl";
     kDefs[0].kMacros[0].Name = 0;
-    _fnv_zlib_memset(&kDefs[0].kMacros[0].Definition, 0, 0x44);
+    std::memset(&kDefs[0].kMacros[0].Definition, 0, 0x44);
     kDefs[1].pFile = "tile\\tile.p.hlsl";
     kDefs[1].kMacros[0].Name = "ALPHAMAP";
     kDefs[1].kMacros[0].Definition = "";
     kDefs[1].kMacros[1].Name = 0;
-    _fnv_zlib_memset(&kDefs[1].kMacros[1].Definition, 0, 0x3c);
+    std::memset(&kDefs[1].kMacros[1].Definition, 0, 0x3c);
     kDefs[2].pFile = "tile\\tile.p.hlsl";
     kDefs[2].kMacros[0].Name = "VC";
     kDefs[2].kMacros[0].Definition = "";
     kDefs[2].kMacros[1].Name = 0;
-    _fnv_zlib_memset(&kDefs[2].kMacros[1].Definition, 0, 0x3c);
+    std::memset(&kDefs[2].kMacros[1].Definition, 0, 0x3c);
     const char* pPixelShaderProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
     for (int i = 0; i < 3; i++)
     {

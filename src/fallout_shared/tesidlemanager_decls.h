@@ -3,6 +3,8 @@
 #define TESIDLEMANAGER_DECLS_H
 
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_00447850_shell.h"
 #include "fnv/decl/FUN_004d6170_shell.h"
 #include "fnv/decl/FUN_005ff1d0_shell.h"
@@ -324,12 +326,9 @@ class TaskQueueInterface
     static void CopyStringToBuffer(char*, unsigned int, const char*);
 };
 void FUN_00406d50(char*, unsigned int, const char*);
-char* strrchr(const char* string, int character);
 namespace CRT {
 extern "C" char* strrchr(const char* string, int character);
-extern "C" int _stricmp(const char* left, const char* right);
 }
-extern "C" char* strstr(const char* string, const char* substring);
 int strcat_s(char* destination, unsigned int size, const char* source);
 extern "C" const char fnv_idle_1hm_fast_left[];
 extern "C" const char fnv_idle_1hm_left[];

@@ -2,6 +2,8 @@
 // src/unmapped/debugtexttexture.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextpages/debugtexttexture.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
+#include "runtime/crt.h"
 // @fnv 0x00470bb0
 int __cdecl FUN_00470bb0()
 {
@@ -59,8 +61,6 @@ struct PathStr
     char* FUN_0043b1b0();
 };
 
-int __cdecl FUN_00ec7ec0(const char* a, const char* b, unsigned int n);
-char* __cdecl FUN_00ec7690(const char* s, int c);
 
 struct FUN_0071dca0_cls
 {
@@ -77,10 +77,10 @@ bool FUN_0071dca0_cls::HasMenusPath(PathSource* src)
         {
             if (src->v9C()->FUN_0043b1b0() != 0)
             {
-                char* pSegment = FUN_00ec7690(src->v9C()->FUN_0043b1b0(), 0x5c);
+                char* pSegment = std::strchr((char *)(src->v9C()->FUN_0043b1b0()), 0x5c);
                 while (pSegment != 0)
                 {
-                    if (FUN_00ec7ec0(pSegment, "\\menus", 6) == 0)
+                    if (fnv::crt::strnicmp(pSegment, "\\menus", 6) == 0)
                     {
                         bFound = true;
                         pSegment = 0;
@@ -88,7 +88,7 @@ bool FUN_0071dca0_cls::HasMenusPath(PathSource* src)
                     else
                     {
                         pSegment = pSegment + 1;
-                        pSegment = FUN_00ec7690(pSegment, 0x5c);
+                        pSegment = std::strchr((char *)(pSegment), 0x5c);
                     }
                 }
             }

@@ -1,5 +1,7 @@
 // fallout_shared/ragdolldata.cpp: RagDollData, RagDollDataEx, RagDollRefUpdater, RagDollWalker and more (17 functions)
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0043fa80_s.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -237,7 +239,6 @@ struct Call_439090
     bool operator==(const Call_439090& a) const;
 };
 
-int _memcmp(const void*, const void*, unsigned int);
 
 struct FUN_004d9780_shell
 {
@@ -255,7 +256,7 @@ bool FUN_004d9780_shell::FUN_004d9780(FUN_004d9780_shell* apCompare)
         return true;
     if (reinterpret_cast<::NiPlane *>((void *)&(const ::Call_439090 &)(*(Call_439090*)((char*)this + 8)))->operator==((const ::NiPlane &)(*(Call_439090*)((char*)apCompare + 8))))
         return true;
-    if (m_ucValue && _memcmp(m_pTransformEntry, apCompare->m_pTransformEntry, m_ucValue * 0x1c))
+    if (m_ucValue && std::memcmp(m_pTransformEntry, apCompare->m_pTransformEntry, m_ucValue * 0x1c))
         return true;
     return false;
 }

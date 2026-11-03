@@ -5,6 +5,7 @@
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/C00be0ad0.h"
 #include "fnv/decl/CpuObject.h"
@@ -484,7 +485,6 @@ class FUN_00ee9a60_cls : public SpawnedRoot
     NiFixedString m_s3;
     unsigned int m_mapHead;
 };
-extern "C" int __cdecl strcmp(const char*, const char*);
 void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct KeyObj
 {
@@ -759,7 +759,6 @@ class NiGPUProgramCacheE93 : public FixedStringMap
     bool m_bAutoWrite;
     bool m_bLoadComplete;
 };
-extern "C" size_t strlen(const char*);
 bool __cdecl FUN_00aa1bb0(const char* h);
 struct StreamObj : public NiFile
 {

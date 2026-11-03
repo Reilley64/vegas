@@ -4,6 +4,7 @@
 #ifndef FNV_BSSHADERNOLIGHTING_LOCAL_H
 #define FNV_BSSHADERNOLIGHTING_LOCAL_H
 
+#include <cstring>
 #include "fnv/decl/FUN_00be1750_shell.h"
 #include "fnv/decl/XRenderer.h"
 #include "fnv/symbols_00406000.h"
@@ -91,7 +92,6 @@ struct BSNoLightingShaderConfig
     const char* path;
     _D3DXMACRO macros[9];
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 template <class T> inline void AssignShader(NiPointer<T>& dest, T* value)
 {

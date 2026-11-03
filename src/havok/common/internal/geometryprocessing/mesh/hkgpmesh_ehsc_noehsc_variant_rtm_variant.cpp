@@ -8,6 +8,8 @@
 // src/havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/mesh/hkgpmesh.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/EdgeWalker.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -1028,7 +1030,6 @@ struct FUN_00e19cf0_cls
 
     HullTriangle* CreateTriangle(HullVertex* a, HullVertex* b, HullVertex* c);
 };
-extern "C" double __cdecl sqrt(double);
 extern float DAT_010d51c4;
 extern int DAT_010eb000;
 extern int DAT_011bdee0;
@@ -1177,7 +1178,6 @@ struct FUN_00e22970_Cls
     void AppendItems(void* apArg1, const FUN_00e22970_Item* apSrc, int aCount);
 };
 void __cdecl FUN_00c908c0(void* apArg1, FUN_00e22970_Cls* apThis, int aCapacity, int aElemSize);
-extern "C" void* __cdecl memcpy(void* apDst, const void* apSrc, unsigned int aCount);
 struct FUN_00e229f0_cls
 {
     int* m_data;

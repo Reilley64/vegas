@@ -1,6 +1,7 @@
 // fallout_shared/tescaravan.cpp: TESCaravanCard, TESCaravanMoney, TESCaravanDeck, Holder and more (32 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSMultiBoundRoom.h"
 #include "fnv/decl/Callees.h"
@@ -52,8 +53,6 @@ class BGSImpactData
 {
   public:
 };
-
-extern "C" void* memset(void* dst, int val, unsigned int size);
 
 // @fnv 0x0059a370
 TESCaravanCard::TESCaravanCard()
@@ -723,7 +722,6 @@ extern "C"
     extern char DAT_01183028[];
 }
 
-void* __cdecl FUN_00ec43fb(unsigned int, unsigned int, unsigned int, unsigned int, int);
 
 struct FUN_0059b680_sub
 {
@@ -763,7 +761,7 @@ class FUN_0059b680_cls : public FUN_0059b680_base
 // @fnv 0x0059b680
 void FUN_0059b680_cls::FUN_0059b680(int a1)
 {
-    void* p = FUN_00ec43fb(a1, 0, (unsigned int)DAT_01183028, (unsigned int)DAT_0118c5e4, 0);
+    void* p = dynamic_cast<::TESCaravanMoney *>(reinterpret_cast<::TESForm *>(a1));
     if (p == 0)
     {
     }
@@ -862,12 +860,11 @@ struct FUN_0059bd50_cls
     void LoadDeckData(void* arg);
 };
 
-L1c* __cdecl FUN_00ec43fb(void* arg, int a2, const char* a3, const char* a4, int a5);
 
 // @fnv 0x0059bd50
 void FUN_0059bd50_cls::LoadDeckData(void* arg)
 {
-    L1c* rec = FUN_00ec43fb(arg, 0, DAT_01183028, DAT_0118643c, 0);
+    L1c* rec = ((L1c *)(dynamic_cast<::TESCaravanDeck *>(reinterpret_cast<::TESForm *>(arg))));
     if (rec == 0)
     {
     }
@@ -924,7 +921,6 @@ FUN_0059a4f0::~FUN_0059a4f0()
 
 namespace fnv_0059ac20 {
 extern char DAT_01183028;
-void* FUN_00ec43fb(void*, int, void*, void*, int);
 class StrB
 {
   public:
@@ -1000,7 +996,7 @@ class DstF
 // @fnv 0x0059ac20
 void DstF::CopyFrom(FormA* pForm)
 {
-    SrcF* pSrc = (SrcF*)FUN_00ec43fb(pForm, 0, &DAT_01183028, &(*reinterpret_cast<char *>(&::fnv_0059acd0::DAT_0118c5c4)), 0);
+    SrcF* pSrc = (SrcF*)dynamic_cast<::TESCaravanCard *>(reinterpret_cast<::TESForm *>(pForm));
     if (!pSrc)
         return;
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(pSrc);
@@ -1012,7 +1008,6 @@ void DstF::CopyFrom(FormA* pForm)
 }  // namespace fnv_0059ac20
 
 namespace fnv_0059acd0 {
-extern "C" void* __cdecl FNV_DynamicCast(void* pObj, int vfDelta, void* pSrcType, void* pTargetType, int isRef);
 extern "C" void* DAT_01183028;
 extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 

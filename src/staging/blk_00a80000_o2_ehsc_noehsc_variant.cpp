@@ -7,6 +7,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/C_00aa0dc0.h"
@@ -410,7 +411,6 @@ struct FUN_00a80fc0_class {
 };
 extern float DAT_011ab3f8;
 static const float kPi = 3.1415927f;
-extern "C" double __cdecl fabs(double);
 float __cdecl FUN_00a811f0(float y, float x);
 extern int DAT_0109e32c;
 struct FUN_00a81760_obj

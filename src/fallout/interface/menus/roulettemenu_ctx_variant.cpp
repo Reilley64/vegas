@@ -4,6 +4,7 @@
 // src/fallout/interface/menus/roulettemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/roulettemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cstring>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CloneSourceA5d6.h"
 #include "fnv/decl/CombatState.h"
@@ -9774,7 +9775,6 @@ class SettingT_GameSettingCollection_
 {
   public:
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct BoundRes
 {
 };
@@ -9936,7 +9936,6 @@ struct Big
     void InitRouletteWheel();
 };
 
-void* __cdecl fnv_zlib_memset(void*, int, int);
 
 // @fnv 0x007bed70
 bool RouletteState::FUN_007bed70(int number)
@@ -9954,7 +9953,7 @@ bool RouletteState::FUN_007bed70(int number)
     NiPoint3 l = reinterpret_cast<BetGeometry*>(&unk006c)[number].position;
     unsigned int e = sizeof(RouletteBetEntry);
     void* j = ::FUN_00401000(e);
-    RouletteBetEntry* ba = j ? (fnv_zlib_memset(j, 0, e), static_cast<RouletteBetEntry*>(j)) : 0;
+    RouletteBetEntry* ba = j ? (std::memset(j, 0, e), static_cast<RouletteBetEntry*>(j)) : 0;
     ba->amount = unk3fe8;
     ba->number = number;
     ba->strip = unk3fe0;

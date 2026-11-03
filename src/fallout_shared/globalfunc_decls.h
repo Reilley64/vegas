@@ -2,6 +2,8 @@
 #ifndef FNV_GLOBALFUNC_DECLS_H
 #define FNV_GLOBALFUNC_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/FUN_009611e0_shell.h"
 #include "fnv/decl/FUN_00a59d30_C.h"
@@ -95,7 +97,6 @@ LANGUAGE GetConfiguredLanguage();
 template <class T> unsigned int BSStringLength(const T*);
 int strcat_s(char*, unsigned int, const char*);
 extern "C" int memcpy_s(void*, unsigned int, const void*, unsigned int);
-extern "C" unsigned int strlen(const char*);
 extern const char* DAT_01189038[4];
 extern const char* DAT_01188f84[5];
 
@@ -381,7 +382,6 @@ const NiFixedString& FUN_004b5f60();
 const NiFixedString& FUN_004b5f70();
 const NiFixedString& FUN_004b5f80();
 const NiFixedString& FUN_004b5f90();
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
 
 class TESObjectLIGH;
 class EffectSetting

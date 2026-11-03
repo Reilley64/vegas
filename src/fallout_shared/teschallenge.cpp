@@ -1,6 +1,7 @@
 // fallout_shared/teschallenge.cpp: TESChallenge, ChallengeManager (16 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -440,7 +441,6 @@ struct FUN_005e79a0_t
 {
 };
 
-extern "C" int _memcmp(const void*, const void*, unsigned int);
 
 struct FUN_005f56b0_shell
 {
@@ -454,7 +454,7 @@ bool FUN_005f56b0_shell::IsNotEqual(TESForm* apCompare)
     TESChallenge* pcomp = dynamic_cast<TESChallenge*>(apCompare);
     if (!pcomp)
         return true;
-    if (_memcmp(&((TESChallenge*)this)->data, ((TESQuest*)pcomp)->GetConditions(), 0x18) != 0)
+    if (std::memcmp(&((TESChallenge*)this)->data, ((TESQuest*)pcomp)->GetConditions(), 0x18) != 0)
         return true;
     if (((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>((((TESChallenge*)this)))->FUN_00407820())) != ((::TESForm *)(reinterpret_cast<::FUN_00407820_shell *>((pcomp))->FUN_00407820())))
         return true;

@@ -4,6 +4,7 @@
 
 // src/havok/common/internal/convexhull/hkplaneequationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkplaneequationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_00d74d40_cls.h"
 #include "fnv/decl/S00d76120_cls.h"
 #include "fnv/decl/enumeration_rework__PlaneHull.h"
@@ -54,7 +55,6 @@ extern "C"
     __m128 _mm_load_ss(const float*);
     __m128 _mm_set_ss(float);
     void _mm_store_ss(float*, __m128);
-    double fabs(double);
 }
 extern const float DAT_010c4990;
 typedef __m128 hkQuadReal;

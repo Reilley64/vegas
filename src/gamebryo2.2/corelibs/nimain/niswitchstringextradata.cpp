@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/niswitchstringextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niswitchstringextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -245,8 +247,6 @@ void FUN_00a93a60_shell::FUN_00a93a60(StrArr* apViewerStrings)
     }
 }
 
-extern "C" int __cdecl strcmp(const char*, const char*);
-
 class A93680Strings
 {
   public:
@@ -296,7 +296,6 @@ struct StrListObj
     void CopyStringList(StrListObj* dst, void* arg2);
 };
 
-void __cdecl FUN_00ec65a6(void* dst, unsigned int size, void* src);
 
 // @fnv 0x00a937a0
 void StrListObj::CopyStringList(StrListObj* dst, void* arg2)
@@ -332,7 +331,7 @@ void StrListObj::CopyStringList(StrListObj* dst, void* arg2)
             } while (cChar != 0);
             unsigned int uiLen = (unsigned int)(p - base);
             dst->m_ppStrings[i] = (char*)FUN_00aa1070(uiLen + 1);
-            FUN_00ec65a6(dst->m_ppStrings[i], uiLen + 1, m_ppStrings[i]);
+            fnv::crt::strcpy_s((char *)(dst->m_ppStrings[i]), uiLen + 1, (const char *)(m_ppStrings[i]));
         }
         else
         {

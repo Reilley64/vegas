@@ -1,6 +1,9 @@
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/AA1F10BinaryStream.h"
@@ -158,7 +161,7 @@ void NiStream::SetStreamPath(const char* path)
     if (path != 0 && path[0] != '\0')
     {
         char* destination = m_acFilePathBuffer;
-        fnv_CopyFilePath(destination, 0x104, path, 0x103);
+        fnv::crt::strncpy_s(destination, 0x104, path, 0x103);
         ::FUN_00aa2a00(destination);
     }
     else
@@ -213,7 +216,7 @@ bool NiStream::GetLastLoadedFilePath(char* buffer, unsigned int size)
 {
     if (DAT_011f4780)
     {
-        fnv_CopyFilePath(buffer, 0x104, m_acFilePathBuffer, 0x103);
+        fnv::crt::strncpy_s(buffer, 0x104, m_acFilePathBuffer, 0x103);
         DAT_011f4780 = false;
         return true;
     }
@@ -1246,9 +1249,6 @@ void RemovePostProcess(S_00a63540_PostProcess apPostProcess)
 }
 }  // namespace fnv_00a63540
 
-extern "C" int __cdecl strcpy_s(char* destination, unsigned int size, const char* source);
-extern "C" char* __cdecl strtok_s(char* text, const char* delimiters, char** context);
-extern long __cdecl FUN_00eca6d3(const char* text);
 
 // Copies text into a 16-byte buffer, splits it on '.' with strtok_s, and packs each token's FUN_00eca6d3 value into a 32-bit integer.
 // @fnv 0x00a63630
@@ -1257,15 +1257,15 @@ unsigned int __cdecl FUN_00a63630(const char* text)
     char buffer[16];
     char* context;
 
-    strcpy_s(buffer, 16, text);
+    fnv::crt::strcpy_s(buffer, 16, text);
     int shift = 24;
     unsigned int value = 0;
-    char* token = strtok_s(buffer, ".", &context);
+    char* token = fnv::crt::strtok_s(buffer, ".", &context);
     while (token)
     {
-        value |= (unsigned int)(FUN_00eca6d3(token) << shift);
+        value |= (unsigned int)(std::atoi(token) << shift);
         shift -= 8;
-        token = strtok_s(0, ".", &context);
+        token = fnv::crt::strtok_s(0, ".", &context);
     }
     return value;
 }
@@ -1598,7 +1598,7 @@ struct S_00a63be0_Stream
 // @fnv 0x00a63be0
 bool S_00a63be0_Stream::OpenFile(const char* apFilePath)
 {
-    strcpy_s(m_acInputFilePath, 0x104, apFilePath);
+    fnv::crt::strcpy_s(m_acInputFilePath, 0x104, apFilePath);
     ::FUN_00aa2a00(m_acInputFilePath);
     if (m_acInputFilePath && m_acInputFilePath[0])
     {
@@ -1618,7 +1618,7 @@ bool S_00a63be0_Stream::OpenFile(const char* apFilePath)
     }
     delete f;
     m_uiNativeThreadId = 1;
-    strcpy_s(m_acSecondPathBuffer, 0x104, "Cannot open file.");
+    fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "Cannot open file.");
     return false;
 }
 
@@ -2200,8 +2200,6 @@ void FUN_00a63ee0_shell::FUN_00a63ee0()
 }  // namespace fnv_00a63ee0
 
 namespace fnv_00a640b0 {
-int strcpy_s(char* dest, unsigned int size, const char* src);
-void _fnv_CopyFilePath(char* dest, unsigned int destSize, const char* src, unsigned int count);
 
 class NiFile
 {
@@ -2236,11 +2234,11 @@ class NiStreamLoadStandIn
 // @fnv 0x00a640b0
 bool NiStreamLoadStandIn::FUN_00a640b0(const char* name)
 {
-    strcpy_s(m_acInputFilePath, 0x104, name);
+    fnv::crt::strcpy_s(m_acInputFilePath, 0x104, name);
     ::FUN_00aa2a00(m_acInputFilePath);
     if (m_acInputFilePath && m_acInputFilePath[0])
     {
-        _fnv_CopyFilePath(m_acPath, 0x104, m_acInputFilePath, 0x103);
+        fnv::crt::strncpy_s(m_acPath, 0x104, m_acInputFilePath, 0x103);
         ::FUN_00aa2a00(m_acPath);
     }
     else
@@ -3380,8 +3378,6 @@ void FUN_00a647f0_shell::LoadGroups()
 }
 }  // namespace fnv_00a647f0
 
-extern "C" unsigned int __cdecl strlen(const char* pcStr);
-
 struct NiBinaryStreamStandIn
 {
     virtual void v00();
@@ -4330,7 +4326,6 @@ void FUN_00a65300(FUN_00a65300_holder* s)
 
 namespace fnv_00a65400 {
 extern "C" char* __cdecl strstr(const char* pStr, const char* pSub);
-extern "C" int __cdecl strcpy_s(char* pDest, unsigned int uiSize, const char* pSrc);
 int __cdecl FUN_00404d80(char* pDest, unsigned int uiSize, const char* pSrc);
 
 struct NiBinaryStreamStandIn
@@ -4400,7 +4395,7 @@ bool NiStreamImpl::ReadNifHeader()
     if (!strstr(acBuffer, "File Format"))
     {
         m_uiNativeThreadId = 2;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "Not a NIF file");
+        fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "Not a NIF file");
         return false;
     }
     m_pUnderlyingStream->SetEndianSwap(false);
@@ -4408,13 +4403,13 @@ bool NiStreamImpl::ReadNifHeader()
     if (m_uiNifVersion < g_uiNifMinVersion_011a9b08)
     {
         m_uiNativeThreadId = 3;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "NIF version is too old.");
+        fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "NIF version is too old.");
         return false;
     }
     if (m_uiNifVersion > ::DAT_011a9b0c)
     {
         m_uiNativeThreadId = 4;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "Unknown NIF version.");
+        fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "Unknown NIF version.");
         return false;
     }
     m_ucEndian = 1;
@@ -4435,7 +4430,7 @@ bool NiStreamImpl::ReadNifHeader()
     if (StreamFileInfo < g_uiNifMinUserVersion_011f478c)
     {
         m_uiNativeThreadId = 3;
-        strcpy_s(m_acSecondPathBuffer, 0x104, "NIF user defined version is too old.");
+        fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "NIF user defined version is too old.");
         return false;
     }
     if (StreamFileInfo > ::DAT_011a9b10)
@@ -4683,8 +4678,6 @@ void ObjectLoadStream::LoadTopObjects()
 
 namespace fnv_00a65800 {
 extern "C" int __cdecl strcmp(const char* pA, const char* pB);
-extern "C" int __cdecl strcpy_s(char* pDest, unsigned int uiSize, const char* pSrc);
-extern "C" int __cdecl strcat_s(char* pDest, unsigned int uiSize, const char* pSrc);
 
 
 struct NiBinaryStreamRt
@@ -4823,14 +4816,14 @@ bool NiStreamRt::LoadRTTIAndObjects()
         if (m_uiNifVersion < 0x14010001 && strcmp(acClassName, "NiControllerManager") == 0)
         {
             m_uiNativeThreadId = 3;
-            strcpy_s(m_acSecondPathBuffer, 0x104, "Older files may not contain animation data. Reexport required.");
+            fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, "Older files may not contain animation data. Reexport required.");
             return false;
         }
         if (!reinterpret_cast<::A54440Hash *>(((*reinterpret_cast<::fnv_00a65800::LoaderMap * *>(&::DAT_011f4784))))->FUN_00a53c30((::A54440Manager *)(acClassName), (::A54440Manager **)(ppkCreate[i])))
         {
             m_uiNativeThreadId = 5;
-            strcpy_s(m_acSecondPathBuffer, 0x104, acClassName);
-            strcat_s(m_acSecondPathBuffer, 0x104, ": cannot find create function.");
+            fnv::crt::strcpy_s(m_acSecondPathBuffer, 0x104, acClassName);
+            fnv::crt::strcat_s(m_acSecondPathBuffer, 0x104, ": cannot find create function.");
             ppkCreate[i] = 0;
         }
         if (acClassName[0] == 'b' && acClassName[1] == 'h' && strcmp(acClassName, "bhkConvexListShape") == 0)
@@ -5500,7 +5493,6 @@ void* Holder66070::FUN_00a66070(unsigned int flags)
 }  // namespace fnv_00a66070
 
 namespace fnv_00a660a0 {
-extern "C" void* fnv_zlib_memset(void* dst, int c, int n);
 
 class A660A0Heap
 {
@@ -5528,7 +5520,7 @@ class A660A0MapBase : public A660A0Object
         m_uiCount = 0;
         unsigned int uiSize = sizeof(void*) * m_uiHashSize;
         m_ppkHashTable = static_cast<void**>(::FUN_00aa1070(uiSize));
-        fnv_zlib_memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
         m_bValueAt0C = false;
     }
     virtual ~A660A0MapBase();
@@ -5594,7 +5586,6 @@ extern int DAT_0109bd90;
 extern int DAT_0109bdcc;
 extern int DAT_0109bf6c;
 extern int DAT_0109bf74;
-void* __cdecl _fnv_zlib_memset(void* pDst, int iValue, unsigned int uiSize);
 
 struct VPtr_a66150
 {
@@ -5691,7 +5682,7 @@ struct MapBase_a66150 : VPtr_a66150
         m_uiCount = 0;
         unsigned int uiSize = sizeof(void*) * m_uiHashSize;
         m_ppkHashTable = (void**)::FUN_00aa1070(uiSize);
-        _fnv_zlib_memset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
+        std::memset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
     }
 };
 
@@ -6514,7 +6505,7 @@ bool NiStreamLoader::FUN_00a664e0()
     if (!reinterpret_cast<::A54440Hash *>((void *)((*reinterpret_cast<::fnv_00a664e0::NiTStringTemplateMap< ::fnv_00a664e0::NiTPointerMap<const char *, ::fnv_00a664e0::NiShader *>, ::fnv_00a664e0::NiShader *> * *>(&::DAT_011f4784))))->FUN_00a53c30((::A54440Manager *)(className), (::A54440Manager **)(creation.factory)))
     {
         error = 5;
-        strcpy_s(errorMessage, 260, className);
+        fnv::crt::strcpy_s(errorMessage, 260, className);
         strcat_s(errorMessage, 260, ": cannot find create function.");
         return false;
     }
@@ -6531,7 +6522,6 @@ bool NiStreamLoader::FUN_00a664e0()
 }  // namespace fnv_00a664e0
 
 namespace fnv_00a665f0 {
-void* __cdecl FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
 
 struct RtNiRTTI
 {
@@ -6612,7 +6602,7 @@ class RtMapBase
         m_uiCount = 0;
         unsigned int uiSize = sizeof(RtMapItem*) * m_uiHashSize;
         m_ppkHashTable = (RtMapItem**)::FUN_00aa1070(uiSize);
-        FUN_00ec61c0(m_ppkHashTable, 0, m_uiHashSize * sizeof(RtMapItem*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(RtMapItem*));
     }
     virtual void v00();
     virtual unsigned int KeyToHashIndex(const char* pcKey) const;

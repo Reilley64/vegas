@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_00424940_shell.h"
 #include "fnv/decl/FUN_004381b0_shell.h"
 #include "fnv/decl/FUN_0055d520_shell.h"
@@ -71,7 +73,7 @@ SaveLoadFile* FUN_00850030_shell::FUN_00850030(char* apFileName, bool abWrite, i
 
     if (abWrite)
     {
-        if (FUN_00ecbf05(pfullFileName, 0) != -1)
+        if (fnv::crt::access(pfullFileName, 0) != -1)
             DeleteFileA(pfullFileName);
     }
 
@@ -82,7 +84,6 @@ SaveLoadFile* FUN_00850030_shell::FUN_00850030(char* apFileName, bool abWrite, i
     return pfile;
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct LGB : public BGSLoadGameBuffer
 {
@@ -102,7 +103,7 @@ int __cdecl ReadSaveHeader(SaveLoadFile* apFile)
     unsigned int iresult;
     char pheaderString[260];
     pheaderString[0] = 0;
-    _fnv_zlib_memset(&pheaderString[1], 0, sizeof(pheaderString) - 1);
+    std::memset(&pheaderString[1], 0, sizeof(pheaderString) - 1);
     iresult = apFile->Read(pheaderString, strlen(DAT_011a2224));
     if (iresult == 0)
         return 0;
@@ -163,7 +164,6 @@ struct HeaderPixels
 {
     virtual ~HeaderPixels();
 };
-void* FUN_00ec61c0(void*, int, unsigned int);
 int FUN_00406d50(char*, unsigned int, const char*);
 // @fnv 0x0084d4b0
 void FUN_0084d4b0(HeaderFile* file)
@@ -182,7 +182,7 @@ void FUN_0084d4b0(HeaderFile* file)
     int width2 = wide6 ? 512 : 432;
     char screenshotPath_2[260];
     screenshotPath_2[0] = 0;
-    FUN_00ec61c0(screenshotPath_2 + 1, 0, 259);
+    std::memset(screenshotPath_2 + 1, 0, 259);
     if (*(*reinterpret_cast<::HeaderSetting *>(&::g_011de2fc)).FUN_00408d60())
     {
         ::TaskQueueInterface::CopyStringToBuffer(screenshotPath_2, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::HeaderSetting *>(&::g_011c3f74))))->GetMenuTitle())));

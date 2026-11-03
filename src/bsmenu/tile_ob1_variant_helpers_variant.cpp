@@ -2,6 +2,9 @@
 // approved helpers of fnv_asm_helpers.h, which src/bsmenu/tile_ob1_variant.cpp cannot include without changing its accepted functions.
 // Same flags (/MT /Od /Oy- /GS /EHsc /Gy /Ob1); declarations copied from that unit's skeleton.
 #include <windows.h>
+#include <cmath>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -914,7 +917,6 @@ struct TileWork {
  void FUN_00a0b520();
 };
 inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b) { return a > b ? a : b; }
-void* __cdecl memcpy(void*, const void*, unsigned int);
 void* operator new(unsigned int size);
 void operator delete(void* memory);
 struct ReuseString {
@@ -1617,12 +1619,6 @@ struct S_00a04150_Class {
 #include <math.h>
 namespace fnv_00a09410 {
 void* __cdecl operator new(unsigned,void*);
-int __cdecl FUN_00ec6da0(const char*, const char*);
-unsigned int __cdecl strlen(const char*);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
-double __cdecl FUN_00ec6940(double);
-double __cdecl FUN_00ec9e10(double);
-double __cdecl fabs(double);
 struct P03MM { void* Allocate(unsigned int); void Deallocate(void*); };
 __forceinline int GetMemoryContext() { return (*reinterpret_cast<int *>(&::currentAllocationContext)); }
 __forceinline void SetMemoryContext(int value) { (*reinterpret_cast<int *>(&::currentAllocationContext))=value; }
@@ -1677,9 +1673,9 @@ struct EvalTile {
 struct TraitLookup {  };
 __forceinline float Minimum(float a,float b) { return a<b?a:b; }
 __forceinline float Maximum(float a,float b) { return a>b?a:b; }
-__forceinline float FloorValue(float a) { return (float)FUN_00ec6940(a); }
-__forceinline float CeilValue(float a) { return (float)FUN_00ec9e10(a); }
-__forceinline float AbsValue(float a) { return (float)fabs(a); }
+__forceinline float FloorValue(float a) { return (float)std::floor(a); }
+__forceinline float CeilValue(float a) { return (float)std::ceil(a); }
+__forceinline float AbsValue(float a) { return (float)std::fabs(a); }
 __forceinline double RoundMultiple(float a,const float& b) { float quotient=a/b; return ((int)quotient+(quotient-(int)quotient<0.5?0:1))*b; }
 struct EvalValue {
  int m_iValueId; EvalTile* pTile; float fValue; char* pString; EvalAction* actions;
@@ -1739,11 +1735,11 @@ void EvalValue::FUN_00a09410(bool update) {
   switch(operationX) {
    case 2000:
     if(text3) {
-     lengthVal3=strlen(text3);
-     changedVal3=!pString || FUN_00ec6da0(String(),text3);
+     lengthVal3=std::strlen(text3);
+     changedVal3=!pString || std::strcmp(String(),text3);
      if(pString) { oldText4=pString; reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09410::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(oldText4); pString=0; }
      newText=(char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a09410::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(lengthVal3+1); pString=newText;
-     strcpy_s(String(),lengthVal3+1,text3);
+     fnv::crt::strcpy_s(String(),lengthVal3+1,text3);
     } else fValue=operandTmp;
     break;
    case 2001: fValue+=operandTmp; break;
@@ -1788,7 +1784,7 @@ void EvalValue::FUN_00a09410(bool update) {
   digits2=numberTmp==0;
   for(remaining=numberTmp;remaining;remaining/=10) ++digits2;
   if(numberTmp<0) ++digits2;
-  if(!pString || (pString && strlen(String())!=digits2)) {
+  if(!pString || (pString && std::strlen(String())!=digits2)) {
    oldNumberTextTmp=pString; reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a09410::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(oldNumberTextTmp);
    newNumberText_=(char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a09410::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(digits2+1); pString=newNumberText_;
   }
@@ -1807,25 +1803,18 @@ void EvalValue::FUN_00a09410(bool update) {
 struct Input02D40 { unsigned int m00; char* m04; };
 typedef unsigned short U16_02D40;
 extern char str_01094a64[], str_01094a4c[];
-extern "C" char* __cdecl FUN_00ec7750(const char*, const char*);
-extern "C" char* __cdecl FUN_00ec7690(const char*, int);
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
-extern "C" int __cdecl FUN_00ec8d5f(char*, unsigned int, const char*, unsigned int);
-extern "C" int __cdecl FUN_00ec65a6(char*, unsigned int, const char*);
-extern "C" char* __cdecl FUN_00ecc5f8(char*, const char*, char**);
-extern "C" unsigned int __cdecl FUN_00ec6130(const char*);
 __forceinline void* __cdecl operator new[](unsigned size) { return reinterpret_cast<::MemoryManagerStandIn *>((((TilePool_ac80*)&(*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager)))))->FUN_00aa3e40(size); }
 __forceinline void __cdecl operator delete[](void* data) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00a0d220_pool *>(&::g_memoryManager))))->FUN_00aa4060(data); }
-__forceinline int RenderCopyData(char* dest, unsigned capacity, const char* source) { return FUN_00ec65a6(dest, capacity, source); }
+__forceinline int RenderCopyData(char* dest, unsigned capacity, const char* source) { return fnv::crt::strcpy_s(dest, capacity, source); }
 __forceinline void CopyPrefix(char* dest, const char* source, const char* begin) {
     unsigned length = begin - source;
-    FUN_00ec8d5f(dest, length + 1, source, length);
+    fnv::crt::strncpy_s(dest, length + 1, source, length);
 }
 __forceinline void CopyMiddle(char* dest, const char* begin, unsigned skip, const char* next) {
     unsigned length = next - begin - skip;
-    FUN_00ec8d5f(dest, length + 1, begin + skip, length);
+    fnv::crt::strncpy_s(dest, length + 1, begin + skip, length);
 }
-template<class T> __forceinline unsigned StringLength(const T* text) { return FUN_00ec6130(text); }
+template<class T> __forceinline unsigned StringLength(const T* text) { return std::strlen(text); }
 __forceinline unsigned CapacityMaximum(unsigned a, unsigned b) { return a > b ? a : b; }
 struct StrMem {
     union {
@@ -1890,32 +1879,32 @@ struct Record02D40 {
 // @fnv 0x00a02d40
 bool __cdecl FUN_00a02d40(Input02D40* arg) {
     char* source3 = arg->m04;
-    char* begin_2 = FUN_00ec7750(source3, str_01094a64);
+    char* begin_2 = std::strstr((char *)(source3), str_01094a64);
     if (begin_2) {
         StrMem i;
         unsigned int h = arg->m00 + 1;
         char* p9 = new char[h];
-        FUN_00ec61c0(p9, 0, h);
+        std::memset(p9, 0, h);
         CopyPrefix(p9, source3, begin_2);
         reinterpret_cast<::TextString *>(&(i))->FUN_004037f0(p9, 0x4000);
         bool a = false;
         while (!a) {
             StrMem tokenA;
-            unsigned int skip = FUN_00ec7690(begin_2, '>') - begin_2 + 1;
-            FUN_00ec61c0(p9, 0, h);
+            unsigned int skip = std::strchr((char *)(begin_2), '>') - begin_2 + 1;
+            std::memset(p9, 0, h);
             char* context_2;
-            FUN_00ecc5f8(begin_2, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)), &context_2);
-            ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&tokenA), str_01094a4c, FUN_00ecc5f8(0, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)), &context_2));
+            fnv::crt::strtok_s(begin_2, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)), &context_2);
+            ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&tokenA), str_01094a4c, fnv::crt::strtok_s(0, (*reinterpret_cast<char (*)[]>(&::fnv_00ac9790::DAT_01021184)), &context_2));
             Record02D40* record = ((::Record02D40 *)(::GetOrLoadXML(tokenA.String(), 0)));
             i.FUN_00404820(record->m04);
             delete record;
-            char* next9 = FUN_00ec7750(begin_2 + skip, str_01094a64);
-            FUN_00ec61c0(p9, 0, h);
+            char* next9 = std::strstr((char *)(begin_2 + skip), str_01094a64);
+            std::memset(p9, 0, h);
             if (next9) {
                 CopyMiddle(p9, begin_2, skip, next9);
                 begin_2 = next9;
             } else {
-                FUN_00ec65a6(p9, h, begin_2 + skip);
+                fnv::crt::strcpy_s(p9, h, begin_2 + skip);
                 a = true;
             }
             i.FUN_00404820(p9);

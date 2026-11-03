@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -2987,7 +2989,6 @@ void CountEntityAndClearRecurse(C67260CollisionObject* pkObject, C67260Context* 
     pkContext->bRecurse = false;
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct BodyView : hkReferencedObject
 {
     int unk00;
@@ -3085,14 +3086,13 @@ void WorldView::ReleaseBodies()
                 if (bodies[i])
                     reinterpret_cast<::hkReferencedObjectC905 *>((bodies[i]))->FUN_00c905b0();
             }
-            FUN_00ec61c0(bodies, 0, count * sizeof(BodyView*));
+            std::memset(bodies, 0, count * sizeof(BodyView*));
             count = 0;
         }
     }
 }
 
 namespace fnv_00c67df0 {
-void* _fnv_zlib_memset(void*, int, unsigned int);
 extern unsigned int DAT_0126fd98;
 struct ThreadContext
 {
@@ -3336,7 +3336,7 @@ void PendingWorld::ProcessPendingItems()
                 if (items[index])
                     reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)items[index])))->FUN_00c905b0();
             }
-            _fnv_zlib_memset(items, 0, count * sizeof(PendingItem*));
+            std::memset(items, 0, count * sizeof(PendingItem*));
             count = 0;
         }
     }
@@ -7353,8 +7353,6 @@ void FUN_00c6d3c0()
     }
 }
 
-extern "C" double __cdecl sqrt(double dValue);
-
 inline float BC6D6B0Sqrtf(float fValue)
 {
     return (float)sqrt(fValue);
@@ -10064,7 +10062,6 @@ bool FUN_00c74990_cls::LookupValue(unsigned int key, unsigned short* pusValue)
     return false;
 }
 
-void* FUN_00ec7230(void* pvDst, const void* pvSrc, unsigned int uiSize);
 
 struct C749F0Entry
 {
@@ -10093,12 +10090,12 @@ void CopyEntries(C749F0Entry* pkDst, const C749F0Entry* pkSrc, unsigned int Item
         if (pkDst < pkSrc)
         {
             for (unsigned int i = 0; i < ItemUpdateArray; i++)
-                FUN_00ec7230(&pkDst[i], &pkSrc[i], sizeof(C749F0Entry));
+                std::memmove(&pkDst[i], &pkSrc[i], sizeof(C749F0Entry));
         }
         else if (pkDst > pkSrc)
         {
             for (int i = ItemUpdateArray - 1; i >= 0; i--)
-                FUN_00ec7230(&pkDst[i], &pkSrc[i], sizeof(C749F0Entry));
+                std::memmove(&pkDst[i], &pkSrc[i], sizeof(C749F0Entry));
         }
     }
 }
@@ -13134,7 +13131,6 @@ struct ConstraintItem : public hkReferencedObject
     EntityWithCC* m_18;
 };
 
-extern "C" void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 
 struct WorldImpl : public FUN_00c6b320_Base
 {
@@ -13193,7 +13189,7 @@ void FUN_00c67850_Class::ProcessConstraints()
                     reinterpret_cast<::hkReferencedObjectC905 *>((self->GetAt(i)))->FUN_00c905b0();
                 }
             }
-            _fnv_zlib_memset(self->m_ppData, 0, self->m_uiItemCount * 4);
+            std::memset(self->m_ppData, 0, self->m_uiItemCount * 4);
             self->m_uiItemCount = 0;
         }
     }
@@ -15492,9 +15488,6 @@ void __cdecl FUN_00c6b5e0()
     static_cast<::NiCollisionObject *>(nullptr)->SetSceneObject({});
 }
 
-extern "C" double __cdecl fabs(double);
-extern "C" double __cdecl acos(double);
-
 inline float AH_fabsf(float _X)
 {
     return ((float)fabs((double)_X));
@@ -16138,7 +16131,6 @@ inline WorldObjectC67* GetEntityC67(const OffsetKindRecord* c)
         return (WorldObjectC67*)((char*)c + c->offset);
     return 0;
 }
-void* _fnv_zlib_memset(void*, int, unsigned int);
 // Processes up to 3000 entity entries via the processor, clears a flag on each entry's user data, releases references, and zeroes the entry array.
 // @fnv 0x00c679a0
 void World::ClearEntries()
@@ -16163,7 +16155,7 @@ void World::ClearEntries()
                 }
                 reinterpret_cast<::hkReferencedObjectC905 *>((((hkReferencedObject*)entries[i])))->FUN_00c905b0();
             }
-            _fnv_zlib_memset(entries, 0, count * 4);
+            std::memset(entries, 0, count * 4);
             count = 0;
         }
     }
@@ -17570,9 +17562,6 @@ void S00c6e050_Obj::FUN_00c6e050(volatile int a, volatile int b)
     ::FUN_00a29680();
 }
 
-extern "C" double __cdecl acos(double);
-extern "C" double __cdecl fabs(double);
-
 // Returns acos(fValue), except returns 0.0f when |fValue| is at least 1 and positive, and pi when it is at least 1 and not positive.
 // @fnv 0x00c74a70
 float ClampedAcos(float fValue)
@@ -17948,7 +17937,6 @@ void ReleasePooledEntry(PooledEntry_c7be* pkEntry)
 
 #include <xmmintrin.h>
 namespace fnv_00c69010 {
-extern "C" void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct ConstructorPhysics;
 struct ConstructorParent : FUN_00c87c30_owner
 {
@@ -18236,15 +18224,15 @@ FUN_00c69010::FUN_00c69010(ConstructorArgument* argument)
     ThreadMemoryScope scope;
     ++::DAT_012677a4;
     buffer2c = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(12000);
-    _fnv_zlib_memset(buffer2c, 0, 12000);
+    std::memset(buffer2c, 0, 12000);
     buffer34 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(800);
-    _fnv_zlib_memset(buffer34, 0, 800);
+    std::memset(buffer34, 0, 800);
     buffer3c = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(400);
-    _fnv_zlib_memset(buffer3c, 0, 400);
+    std::memset(buffer3c, 0, 400);
     buffer44 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(800);
-    _fnv_zlib_memset(buffer44, 0, 800);
+    std::memset(buffer44, 0, 800);
     buffer4c = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(12000);
-    _fnv_zlib_memset(buffer4c, 0, 12000);
+    std::memset(buffer4c, 0, 12000);
     float minimum = MinValue(::DAT_01267b38, 1.0f);
     ::DAT_01267b38 = minimum;
     list90.FUN_00c67f20();
@@ -21052,10 +21040,9 @@ FUN_00c76030::~FUN_00c76030()
 
 extern volatile float DAT_01267b50;
 extern float DAT_012677ac, DAT_011afe68, DAT_01267b14, DAT_01267b20;
-double FUN_00ec9e10(double);
 inline float ceilf_(float _X)
 {
-    return ((float)FUN_00ec9e10((double)_X));
+    return ((float)std::ceil((double)_X));
 }
 struct C66A00Res
 {
@@ -26074,7 +26061,6 @@ void FNV_C68DE0_OWNER::FUN_00c68de0()
 }  // namespace fnv_00c68de0
 
 namespace fnv_00c6aac0 {
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 
 struct hkAllocatorStub
@@ -26252,7 +26238,7 @@ void FUN_00c6aac0_Owner::FUN_00c6aac0()
                 if (m_pDataAtOffset94[i])
                     reinterpret_cast<::hkReferencedObjectC905 *>((m_pDataAtOffset94[i]))->FUN_00c905b0();
             }
-            fnv_zlib_memset(m_pDataAtOffset94, 0, m_pendingCount * 4);
+            std::memset(m_pDataAtOffset94, 0, m_pendingCount * 4);
             m_pendingCount = 0;
         }
     }

@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -141,7 +143,6 @@ void FUN_00a3ea40_cls::UpdateIfFlagged()
 }
 
 struct P03MM { void* Allocate(unsigned int); };
-void* _memmove(void* d, const void* s, unsigned int n);
 struct Vec3S { float x, y, z; };
 struct Vec3R : Vec3S { Vec3R() {} };
 struct TCBKeyS {
@@ -166,9 +167,9 @@ bool FUN_00a282a0(float afTime, TCBKeyS** pKeys, unsigned int* pCount)
     unsigned int idx;
     if (FindKeyIndex(afTime, old, *pCount, &idx, sizeof(TCBKeyS))) {
     TCBKeyS* keys = new TCBKeyS[*pCount + 1];
-    _memmove(keys, old, idx * sizeof(TCBKeyS));
+    std::memmove(keys, old, idx * sizeof(TCBKeyS));
     if (*pCount > idx)
-        _memmove(&keys[idx + 1], &old[idx], (*pCount - idx) * sizeof(TCBKeyS));
+        std::memmove(&keys[idx + 1], &old[idx], (*pCount - idx) * sizeof(TCBKeyS));
     Vec3R v = GetKeyPosAtTime(afTime, old, 2, *pCount, sizeof(TCBKeyS));
     TCBKeyS* cur = &keys[idx];
     cur->time = afTime;
@@ -610,7 +611,6 @@ TempArrayElement* __cdecl AllocateTempArray(unsigned int count)
 }
 
 
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 
@@ -637,9 +637,9 @@ bool FUN_00a27080(float fTime, BezFloatKey*& pkKeys, unsigned int& uiNumKeys)
     {
 
     BezFloatKey* pkNewKeys = new BezFloatKey[uiNumKeys + 1];
-    _memmove(pkNewKeys, pkOld, uiInsertIndex * 16);
+    std::memmove(pkNewKeys, pkOld, uiInsertIndex * 16);
     if (uiNumKeys > uiInsertIndex)
-        _memmove((char*)pkNewKeys + uiInsertIndex * 16 + 16, (char*)pkOld + uiInsertIndex * 16,
+        std::memmove((char*)pkNewKeys + uiInsertIndex * 16 + 16, (char*)pkOld + uiInsertIndex * 16,
                  (uiNumKeys - uiInsertIndex) * 16);
 
     float fValue = GenInterpFloat(fTime, pkOld, 2, uiNumKeys, 16);
@@ -2096,7 +2096,6 @@ VertexRecord* __cdecl CreateVertexRecords(int v, unsigned int count)
 }
 
 // MemoryManager, P03MM, Vec3S, Vec3R come from the pack header.
-void* _memmove(void* d, const void* s, unsigned int n);
 struct TCBKeyS;
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 Vec3R GetKeyPosAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
@@ -2121,9 +2120,9 @@ bool InsertLinPosKey(float t, LinPosKey** pKeys, unsigned int* pCount)
     unsigned int idx;
     if (FindKeyIndex(t, (TCBKeyS*)keys, *pCount, &idx, sizeof(LinPosKey))) {
         LinPosKey* newKeys = new LinPosKey[*pCount + 1];
-        _memmove(newKeys, keys, idx * sizeof(LinPosKey));
+        std::memmove(newKeys, keys, idx * sizeof(LinPosKey));
         if (*pCount > idx)
-            _memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(LinPosKey));
+            std::memmove(&newKeys[idx + 1], &keys[idx], (*pCount - idx) * sizeof(LinPosKey));
         Vec3R v = GetKeyPosAtTime(t, (TCBKeyS*)keys, 1, *pCount, sizeof(LinPosKey));
         LinPosKey* k = &newKeys[idx];
         k->time = t;
@@ -3645,7 +3644,6 @@ struct KeyPair8 {
 
 bool FindKeyIndex(float t, TCBKeyS* keys, unsigned int count, unsigned int* idx, unsigned int stride);
 float GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
-void* _memmove(void* d, const void* s, unsigned int n);
 
 // @fnv 0x00a2d260
 bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
@@ -3657,10 +3655,10 @@ bool InsertKeyPair(float afTime, KeyPair8** pKeys, unsigned int* pCount)
         unsigned int newCount = *pCount + 1;
         KeyPair8* newData = new KeyPair8[newCount];
         
-        _memmove(newData, data, idx * 8);
+        std::memmove(newData, data, idx * 8);
         if (*pCount > idx)
         {
-            _memmove(newData + idx + 1, data + idx, (*pCount - idx) * 8);
+            std::memmove(newData + idx + 1, data + idx, (*pCount - idx) * 8);
         }
 
         float v = GetValueAtTime(afTime, (TCBKeyS*)data, 5, *pCount, 8);
@@ -3772,7 +3770,6 @@ extern unsigned int DAT_011f36a8;
 struct ObjA00a2;
 extern ObjA00a2* DAT_011f36a4;
 extern "C" void __cdecl FUN_00fdad30(void);
-int __cdecl FUN_00ec658f(void (__cdecl* pfn)(void));
 
 struct ObjA00a2 {
     long m_uiRefCount;
@@ -3800,7 +3797,7 @@ void ArrA00a2::FUN_00a2e680(unsigned int uiIndex, PtrA00a2& aPtr)
     if (!(DAT_011f36a8 & 1)) {
         DAT_011f36a8 |= 1;
         DAT_011f36a4 = 0;
-        FUN_00ec658f(FUN_00fdad30);
+        std::atexit(FUN_00fdad30);
     }
     if (uiIndex >= m_usMax) {
         m_usMax = (unsigned short)(uiIndex + 1);
@@ -3912,8 +3909,6 @@ void FUN_00a30540_cls::FUN_00a30540()
         }
     }
 }
-
-extern "C" int __cdecl strcmp(const char* s1, const char* s2);
 
 struct FUN_00a305e0_cls {
     const char* m_00;
@@ -4454,7 +4449,6 @@ struct FloatKey {
     static void* operator new[](unsigned int n) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(n); }
 };
 
-void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 float __cdecl GetValueAtTime(float t, TCBKeyS* keys, int type, unsigned int count, unsigned int stride);
 
 // @fnv 0x00a2a620
@@ -4465,9 +4459,9 @@ bool __cdecl FUN_00a2a620(float t, TCBKeyS** pKeys, unsigned int* puiCount)
     if (FindKeyIndex(t, old, *puiCount, &idx, 8)) {
         unsigned int newCount = *puiCount + 1;
         FloatKey* dst = new FloatKey[newCount];
-        FUN_00ec44d0(dst, old, idx * 8);
+        std::memmove(dst, old, idx * 8);
         if (*puiCount > idx) {
-            FUN_00ec44d0(dst + idx + 1, (FloatKey*)old + idx, (*puiCount - idx) * 8);
+            std::memmove(dst + idx + 1, (FloatKey*)old + idx, (*puiCount - idx) * 8);
         }
         float v = GetValueAtTime(t, old, 1, *puiCount, 8);
         FloatKey* key = &dst[idx];
@@ -4521,9 +4515,9 @@ bool InsertBezPosKey(float t, BezPosKey** pKeys, unsigned int* puiCount) {
     unsigned int idx;
     if (FindKeyIndex(t, (TCBKeyS*)oldKeys, *puiCount, &idx, sizeof(BezPosKey))) {
         BezPosKey* newKeys = new BezPosKey[*puiCount + 1];
-        _memmove(newKeys, oldKeys, idx * sizeof(BezPosKey));
+        std::memmove(newKeys, oldKeys, idx * sizeof(BezPosKey));
         if (*puiCount > idx)
-            _memmove(&newKeys[idx + 1], &oldKeys[idx], (*puiCount - idx) * sizeof(BezPosKey));
+            std::memmove(&newKeys[idx + 1], &oldKeys[idx], (*puiCount - idx) * sizeof(BezPosKey));
         Vec3R pos = GetKeyPosAtTime(t, (TCBKeyS*)oldKeys, 3, *puiCount, sizeof(BezPosKey));
         BezPosKey& key = newKeys[idx];
         key.time = t;
@@ -4551,7 +4545,6 @@ struct InsertPositionKey {
 
 bool FindKeyIndex(float, InsertPositionKey*, unsigned int, unsigned int*, unsigned int);
 Vec3R GetKeyPosAtTime(float, InsertPositionKey*, int, unsigned int, unsigned int);
-void* FUN_00ec44d0(void*, const void*, unsigned int);
 
 // @fnv 0x00a2d4a0
 bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
@@ -4559,9 +4552,9 @@ bool FUN_00a2d4a0(float time, InsertPositionKey*& keys, unsigned int& count) {
     unsigned int index;
     if (FindKeyIndex(time, old, count, &index, 16)) {
         InsertPositionKey* pNewKeys = new InsertPositionKey[count + 1];
-        FUN_00ec44d0(pNewKeys, old, index * sizeof(InsertPositionKey));
+        std::memmove(pNewKeys, old, index * sizeof(InsertPositionKey));
         if (count > index) {
-            FUN_00ec44d0(pNewKeys + index + 1, old + index, (count - index) * sizeof(InsertPositionKey));
+            std::memmove(pNewKeys + index + 1, old + index, (count - index) * sizeof(InsertPositionKey));
         }
         Vec3R position = GetKeyPosAtTime(time, old, 5, count, 16);
         InsertPositionKey* pInsertedKey = &pNewKeys[index];

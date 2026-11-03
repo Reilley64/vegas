@@ -1,5 +1,8 @@
 // bsshader/bsshader.cpp: Zero4, ShaderDerived (27 functions)
 
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -47,9 +50,6 @@ BSShader::BSShader()
 
 #include "bsshader_compile_decls.h"
 
-extern void _strcat_s(char*, unsigned, const char*);
-extern void __splitpath_s(const char*, char*, unsigned, char*, unsigned, char*, unsigned, char*, unsigned);
-extern void FUN_00ec825b(char*, unsigned, const char*, const char*, const char*, const char*);
 
 // @fnv 0x00be0c00
 void FUN_00be0c00(const char* path, char* result)
@@ -61,10 +61,10 @@ void FUN_00be0c00(const char* path, char* result)
     char szBaseDir[0x104];
     if (result)
     {
-        __splitpath_s(path, drive, 0x10, dir, 0x104, name, 0x80, ext, 8);
-        __splitpath_s(DAT_011f9308, drive, 0x10, szBaseDir, 0x104, 0, 0, 0, 0);
-        _strcat_s(szBaseDir, 0x104, dir);
-        FUN_00ec825b(result, 0x104, drive, szBaseDir, name, ext);
+        fnv::crt::splitpath_s(path, drive, 0x10, dir, 0x104, name, 0x80, ext, 8);
+        fnv::crt::splitpath_s(DAT_011f9308, drive, 0x10, szBaseDir, 0x104, 0, 0, 0, 0);
+        fnv::crt::strcat_s(szBaseDir, 0x104, dir);
+        fnv::crt::makepath_s(result, 0x104, drive, szBaseDir, name, ext);
     }
 }
 
@@ -78,10 +78,10 @@ void __cdecl BuildCachePath(char* apCachePath, const char* apFileName, const cha
         char* ppath = (*reinterpret_cast<char (*)[260]>(&::DAT_011f9200));
         if (!(*reinterpret_cast<char (*)[260]>(&::DAT_011f9200))[0])
             ppath = DAT_011f9308;
-        strcpy_s(apCachePath, 260, ppath);
+        fnv::crt::strcpy_s(apCachePath, 260, ppath);
         if (DAT_011f941e)
-            strcat_s(apCachePath, 260, "HDR.");
-        strcat_s(apCachePath, 260, apCacheName);
+            fnv::crt::strcat_s(apCachePath, 260, "HDR.");
+        fnv::crt::strcat_s(apCachePath, 260, apCacheName);
     }
 }
 
@@ -788,8 +788,6 @@ struct FUN_00be1750_shell : public BSShader
     NiD3DPixelShader* FUN_00be1750(char*, void*, char*, char*);
 };
 
-int FUN_00ec8a19(const char*, const char*, unsigned int);
-int FUN_00ecda70(_iobuf*);
 struct NiD3DGPUProgramCache
 {
     static const char* GetPixelShaderProfile(bool);
@@ -946,7 +944,7 @@ struct ShaderDevice_be1750
 };
 template <unsigned int _Size> inline int ShaderStrCat_be1750(char (&_Dest)[_Size], const char* _Source)
 {
-    return strcat_s(_Dest, _Size, _Source);
+    return fnv::crt::strcat_s(_Dest, _Size, _Source);
 }
 struct FUN_00be08f0
 {
@@ -1040,7 +1038,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
             const char* ppath = (*reinterpret_cast<char (*)[260]>(&::DAT_011f9200));
             if (0 == ppath || 0 == *ppath)
             {
-                strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 0x104, (const char*)DAT_010bc860);
+                fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 0x104, (const char*)DAT_010bc860);
                 ::BuildCachePath(pcachepath, apFilename, apCacheName);
             }
             bCacheExists = ::fnv_00afe7d0::FUN_00afe7d0(pcachepath, (::fnv_00afe7d0::_FILETIME &)(kcacheFile), 0x20);
@@ -1072,7 +1070,7 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
             pMacroDefines = phdrmacro;
         }
         const char* pProfile = apTarget;
-        if (FUN_00ec8a19(apTarget, "ps_2_0", 4) == 0)
+        if (std::strncmp(apTarget, "ps_2_0", 4) == 0)
         {
             pProfile = NiD3DGPUProgramCache::GetPixelShaderProfile(true);
             if (!pProfile)
@@ -1151,11 +1149,11 @@ NiD3DPixelShader* FUN_00be1750_shell::FUN_00be1750(char* apFilename, void* apMac
             }
             if (hResult == 0 && pCompiledCode)
             {
-                _iobuf* pOutFile = fopen(pcachepath, (const char*)DAT_0106e798);
+                _iobuf* pOutFile = ((_iobuf *)(std::fopen(pcachepath, (const char*)DAT_0106e798)));
                 uiShaderSize = pCompiledCode->GetBufferSize();
-                fwrite(pCompiledCode->GetBufferPointer(), uiShaderSize, 1, pOutFile);
-                FUN_00ecda70(pOutFile);
-                fclose(pOutFile);
+                std::fwrite(pCompiledCode->GetBufferPointer(), uiShaderSize, 1, (std::FILE *)(pOutFile));
+                std::fflush((std::FILE *)(pOutFile));
+                std::fclose((std::FILE *)(pOutFile));
                 ::HasFileInArchives(pcachepath);
                 pshaderbuffer = (unsigned int*)pCompiledCode->GetBufferPointer();
             }
@@ -2011,7 +2009,7 @@ inline bool IsEmptyDirectory(const char* path)
 }
 inline void Cat(char* d, unsigned n, const char* s)
 {
-    strcat_s(d, n, s);
+    fnv::crt::strcat_s(d, n, s);
 }
 extern "C" void* memset(void*, int, unsigned int);
 class FileView;
@@ -2071,7 +2069,7 @@ FUN_00be0b30* FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* p
         {
             if (IsEmptyDirectory((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200))))
             {
-                strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 260, (const char*)DAT_010bc860);
+                fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_011f9200)), 260, (const char*)DAT_010bc860);
                 ::BuildCachePath(cachePath, source, shaderName);
             }
             cacheExists = ::fnv_00afe7d0::FUN_00afe7d0(cachePath, (::fnv_00afe7d0::_FILETIME &)(ftCacheTime), 32);
@@ -2172,12 +2170,12 @@ FUN_00be0b30* FUN_00be0fe0(const char* source, _D3DXMACRO* macros, const char* p
         }
         if (!lCompileStatus && pCompiledShader)
         {
-            _iobuf* pOutputFile = fopen(cachePath, (const char*)DAT_0106e798);
+            _iobuf* pOutputFile = ((_iobuf *)(std::fopen(cachePath, (const char*)DAT_0106e798)));
             if (pOutputFile)
             {
                 bytecodeSize = pCompiledShader->GetBufferSize();
-                fwrite(pCompiledShader->GetBufferPointer(), bytecodeSize, 1, pOutputFile);
-                fclose(pOutputFile);
+                std::fwrite(pCompiledShader->GetBufferPointer(), bytecodeSize, 1, (std::FILE *)(pOutputFile));
+                std::fclose((std::FILE *)(pOutputFile));
                 ::HasFileInArchives(cachePath);
             }
             else

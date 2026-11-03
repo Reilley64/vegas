@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -79,7 +80,6 @@ struct P03MM
 {
 };
 void* _NiMalloc(unsigned int);
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct SdmBase
 {
     unsigned int m_uiValueCount;
@@ -88,7 +88,7 @@ struct SdmBase
     __forceinline SdmBase(unsigned int n) : m_uiValueCount(n), m_uiX(0)
     {
         m_data = _NiMalloc(0x94);
-        _fnv_zlib_memset(m_data, 0, m_uiValueCount * 4);
+        std::memset(m_data, 0, m_uiValueCount * 4);
     }
     virtual ~SdmBase()
     {}

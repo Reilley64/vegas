@@ -1,6 +1,7 @@
 // tesobjecttree.cpp: TESObjectTREE, BSShaderTextureSet, BGSImpactData, BSFadeNode and more (45 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/Arr86.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1520,7 +1521,6 @@ template <class T> class SpPtr
     ~SpPtr();
     SpPtr& operator=(const SpPtr&);
 };
-void* memcpy(void*, const void*, unsigned int);
 class TreeObj
 {
   public:

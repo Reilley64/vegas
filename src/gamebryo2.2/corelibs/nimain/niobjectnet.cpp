@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/niobjectnet.cpp: NiObjectNET, ShortArray, MorphTarget, bhkSphereShape and more (26 functions)
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -60,7 +62,7 @@ bool NiObjectNET::ResizeExtraData(unsigned short usCapacity)
 
     m_usMaxSize = usCapacity;
     NiExtraData** pNewExtraData = (NiExtraData**)::FUN_00aa1070(usCapacity * sizeof(NiExtraData*));
-    fnv_zlib_memcpy(pNewExtraData, m_ppExtraData, m_usExtraDataCount * sizeof(NiExtraData*));
+    std::memmove(pNewExtraData, m_ppExtraData, m_usExtraDataCount * sizeof(NiExtraData*));
     ::FUN_00aa10f0(m_ppExtraData);
     m_ppExtraData = pNewExtraData;
     LeaveCriticalSection(&(*reinterpret_cast<char *>(&::DAT_011f4380)));
@@ -501,7 +503,6 @@ struct FUN_00a5c290_shell : public NiObjectNET
 
 extern "C" unsigned int __cdecl strlen(const char*);
 
-int strcpy_s(char*, unsigned int, const char*);
 struct NiGlobalStringTable
 {
 };
@@ -589,7 +590,7 @@ void FUN_00a5c290_shell::FUN_00a5c290(NiObjectNET* pkDest, CloningProcess* kClon
         {
             iNameLen = strlen(m_kName.m_kHandle) + 2;
             pcSuffixedName = (char*)::FUN_00aa1070(iNameLen);
-            strcpy_s(pcSuffixedName, iNameLen, m_kName.m_kHandle);
+            fnv::crt::strcpy_s(pcSuffixedName, iNameLen, m_kName.m_kHandle);
             pcSuffixedName[iNameLen - 2] = kCloning->m_bExactType;
             pcSuffixedName[iNameLen - 1] = 0;
             FSH kName;
@@ -1138,9 +1139,7 @@ struct RTTISource
     virtual void V1();
     virtual const RTTIName* GetRTTI() const;
 };
-char* FUN_00ec7750(const char*, const char*);
 char* CopyFilePath(char*, unsigned int, const char*, unsigned int);
-int _strcat_s(char*, unsigned int, const char*);
 
 // When the shader filename is empty, derives a name from RTTI and an index, sets it, then returns FUN_00a5ba40's result.
 // @fnv 0x00a5bca0
@@ -1155,14 +1154,14 @@ bool FUN_00a5bca0_shell::SetExtraDataName(NiExtraData* pkExtra)
         {
             char pcSuffix[6];
             NiSprintf(pcSuffix, 6, "ED%03d", this->m_usExtraDataCount);
-            const char* pcSubstr = FUN_00ec7750(pcRTTI, "ExtraData");
+            const char* pcSubstr = std::strstr((char *)(pcRTTI), "ExtraData");
             unsigned int uiStrLength = 0;
             if (pcSubstr > pcRTTI)
                 uiStrLength = pcSubstr - pcRTTI;
             unsigned int uiLen = uiStrLength + strlen(pcSuffix) + 1;
             char* pcGeneratedKey = (char*)::FUN_00aa1070(uiLen);
             CopyFilePath(pcGeneratedKey, uiLen, pcRTTI, uiStrLength);
-            _strcat_s(pcGeneratedKey, uiLen, pcSuffix);
+            fnv::crt::strcat_s(pcGeneratedKey, uiLen, pcSuffix);
             ::AssignFixedString((char *)(((NamedObj*)pkExtra)), (int)&(const ::BSFadeNode &)(BSFadeNode(pcGeneratedKey)), {});
             ::FUN_00aa10f0(pcGeneratedKey);
         }

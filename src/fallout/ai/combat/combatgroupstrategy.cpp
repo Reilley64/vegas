@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatgroupstrategy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroupstrategy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cctype>
+#include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/B989700List.h"
 #include "fnv/decl/Callees.h"
@@ -298,7 +300,6 @@ struct TaskQueueInterface
     static void __cdecl CopyStringToBuffer(char* buffer, unsigned int size, const char* name);
 };
 
-int __cdecl FUN_00eca7f4(int character);
 
 
 // Copies apName into a 260-byte buffer, lowercases it, then compares it against four names and returns the matching index's value or 0.
@@ -312,7 +313,7 @@ int FUN_00990250(const char* apName)
     pChar = psearchName;
     while (*pChar)
     {
-        *pChar = static_cast<char>(FUN_00eca7f4(*pChar));
+        *pChar = static_cast<char>(std::toupper(*pChar));
         ++pChar;
     }
 
@@ -1222,7 +1223,6 @@ bool Strategy990d60::IsGroupTargetsSpread(GroupOps* pGroupOps, Data990d60* data)
     return true;
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct Centroid990640
 {
     float x, y, z;

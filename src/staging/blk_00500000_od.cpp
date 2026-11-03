@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -360,20 +361,18 @@ struct FUN_005103a0_class
     void FUN_005103a0(const char* a, const char* b);
 };
 
-extern "C" int __cdecl _memcmp(const void* s1, const void* s2, unsigned int n);
 
 // @fnv 0x005104b0
 void __cdecl FUN_005104b0(const void* apFirst, const void* apSecond, unsigned int auiLength)
 {
-    _memcmp(apFirst, apSecond, auiLength);
+    ::std::memcmp(apFirst, apSecond, auiLength);
 }
 
-extern "C" void* __cdecl FUN_00eca2e0(void* p, int c, size_t n);
 
 // @fnv 0x005104d0
 void __cdecl FUN_005104d0(void* p, size_t n, char* pcValue)
 {
-    FUN_00eca2e0(p, *pcValue, n);
+    ::std::memset(p, *pcValue, n);
 }
 
 struct ArrSI

@@ -2,6 +2,7 @@
 // src/staging/blk_00ea0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -194,7 +195,6 @@ struct FnvD3DDevice
 };
 
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00ebf7d0
 FnvD3DTexture* __cdecl CreateZeroedTexture(FnvD3DDevice* device, int format, int unused, unsigned int bytesPerPixel,
@@ -220,7 +220,7 @@ FnvD3DTexture* __cdecl CreateZeroedTexture(FnvD3DDevice* device, int format, int
             rowSize5 = width * bytesPerPixel;
             for (y4 = 0; y4 < height; y4++)
             {
-                fnv_zlib_memset(row, 0, rowSize5);
+                std::memset(row, 0, rowSize5);
                 row += lockedRect3.Pitch;
             }
             texture->UnlockRect(0);
@@ -232,7 +232,6 @@ FnvD3DTexture* __cdecl CreateZeroedTexture(FnvD3DDevice* device, int format, int
 struct GridAllocator : Standin_011f6238
 {
 };
-void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int bytes);
 
 // Allocates a tiled texture object, computes tile grid counts and edge sizes, creates a texture per tile, and frees everything if any tile creation fails.
 // @fnv 0x00ebf8e0
@@ -253,7 +252,7 @@ Struct_00ebfd20* __cdecl CreateTiledTexture(void* device, unsigned int width, un
     pitch = (Struct_00ebfd20*)reinterpret_cast<::MemoryManagerStandIn *>((((GridAllocator*)&(*reinterpret_cast<::Standin_011f6238 *>(&::g_memoryManager)))))->FUN_00aa3e40(0x48 + i * 4);
     if (!pitch)
         return 0;
-    FUN_00ec61c0(pitch, 0, 0x48);
+    std::memset(pitch, 0, 0x48);
     pitch->unk40 = (Interface_00ebfd20**)((char*)pitch + 0x48);
     pitch->unk00 = (int)device;
     pitch->unk20 = i;

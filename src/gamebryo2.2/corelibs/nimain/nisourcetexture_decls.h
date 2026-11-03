@@ -15,7 +15,6 @@
 #include "NiFixedString.h"
 
 bool __cdecl FUN_00aa1a30(const char*, int);
-extern "C" void __security_check_cookie(unsigned int);
 
 #define FNV_NIMEMOBJECT_H
 class NiMemObject

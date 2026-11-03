@@ -7,6 +7,7 @@
 // unit once identified.
 // src/staging/blk_00dc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -285,12 +286,7 @@ __declspec(noinline) int __cdecl FUN_00dd6510(const __m128* normal, VecArr_00dd6
 }
 int __cdecl FUN_00dd6c10(VecArr_00dd6c10* vectors, int* first, int* second, PlanePoint* q, PlanePoint* p);
 
-extern "C" double __cdecl fabs(double);
 #pragma intrinsic(fabs)
-inline float fabsf(float x)
-{
-    return (float)fabs((double)x);
-}
 extern "C" __m128 _mm_mul_ss(__m128, __m128);
 
 

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nigeometrybufferdata.cpp: NiGeometryBufferData, RendererData, NiSlotSetE8E (8 functions)
 
 #include <cstddef>
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_010f0000.h"
@@ -172,8 +173,6 @@ void Holder_00e8f040::SetComPointer(FakeCOM_00e8f040* apCom)
     unkC = 0;
 }
 
-extern "C" void* __cdecl MemMoveE8E(void* pvDest, const void* pvSrc, unsigned int uiSize);
-extern "C" void* __cdecl MemSetE8E(void* pvDest, int iValue, unsigned int uiSize);
 
 class NiMemManagerE8E
 {
@@ -226,8 +225,8 @@ void NiSlotSetE8E::FUN_00e8ef10(unsigned int uiNewSize)
 
     if (uiNewSize < m_uiSize)
     {
-        MemMoveE8E(ppvNewSlots, m_ppvSlots, uiNewSize * sizeof(void*));
-        MemMoveE8E(puiNewFlags, m_puiFlags, uiNewSize * sizeof(unsigned int));
+        std::memmove(ppvNewSlots, m_ppvSlots, uiNewSize * sizeof(void*));
+        std::memmove(puiNewFlags, m_puiFlags, uiNewSize * sizeof(unsigned int));
         if (m_pkListener)
         {
             for (unsigned int i = uiNewSize; i < m_uiSize; i++)
@@ -236,10 +235,10 @@ void NiSlotSetE8E::FUN_00e8ef10(unsigned int uiNewSize)
     }
     else
     {
-        MemMoveE8E(ppvNewSlots, m_ppvSlots, m_uiSize * sizeof(void*));
-        MemMoveE8E(puiNewFlags, m_puiFlags, m_uiSize * sizeof(unsigned int));
-        MemSetE8E(ppvNewSlots + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(void*));
-        MemSetE8E(puiNewFlags + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(unsigned int));
+        std::memmove(ppvNewSlots, m_ppvSlots, m_uiSize * sizeof(void*));
+        std::memmove(puiNewFlags, m_puiFlags, m_uiSize * sizeof(unsigned int));
+        std::memset(ppvNewSlots + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(void*));
+        std::memset(puiNewFlags + m_uiSize, 0, (uiNewSize - m_uiSize) * sizeof(unsigned int));
     }
 
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiMemManagerE8E *>(&::g_memoryManager))))->FUN_00aa4060(m_ppvSlots);

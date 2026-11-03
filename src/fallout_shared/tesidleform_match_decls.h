@@ -2,6 +2,8 @@
 #ifndef FNV_TESIDLEFORM_H
 #define FNV_TESIDLEFORM_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_004226e0_shell.h"
 #include "fnv/decl/FUN_004516b0_shell.h"
 #include "fnv/decl/FUN_00472660_shell.h"
@@ -210,8 +212,6 @@ class FUN_005a71d0
     unsigned int parent;
     unsigned int previous;
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
 class TESDataHandler
 {
   public:

@@ -2,6 +2,7 @@
 #define FNV_NISTREAM_CPP_DECLS_H
 
 // which this folder resolves case-insensitively to the niobject.h unit file: take the canonical include/NiObject.h and skip that file.
+#include "runtime/crt.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
 #include "fnv/decl/FUN_00aa2d60_cls.h"
@@ -18,8 +19,6 @@
 #include "nistream_types_NiBinaryStream.h"
 
 class NiTexture;
-extern "C" void __cdecl fnv_CopyFilePath(char* destination, unsigned int destinationSize, const char* source,
-                                         unsigned int sourceSize);
 extern "C" void(* fnv_EnterCriticalSection)(void* section);
 extern "C" void(* fnv_LeaveCriticalSection)(void* section);
 

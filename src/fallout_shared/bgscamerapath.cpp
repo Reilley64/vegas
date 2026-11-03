@@ -1,6 +1,8 @@
 // fallout_shared/bgscamerapath.cpp: BGSCameraPath, CameraPathCompare, CameraPathClone, CameraPath and more (24 functions)
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -192,9 +194,7 @@ void BGSCameraPath::SetPathArray(NiFormArray* paths)
     }
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 // @fnv 0x0058a9e0
 bool BGSCameraPath::Load(TESFile* file)
 {
@@ -588,8 +588,6 @@ void CameraPath_58a680::CopyFromForm(TESForm* apForm)
         reinterpret_cast<::Callees *>(&(m_kCameraShotList))->FUN_00905820((void *)&(e));
     }
 }
-
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct FormCompareStub
 {

@@ -1,6 +1,8 @@
 // fallout_shared/tescontainer.cpp: TESContainer, InventoryItemEntry, DelStandIn, ContainerOperation and more (31 functions)
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ActorBaseTarget.h"
 #include "fnv/decl/AddInventory.h"
 #include "fnv/decl/AmmoOwner.h"
@@ -1039,7 +1041,6 @@ struct ObjectReference
 struct ContainerNode
 {
 };
-int __cdecl FUN_00ec7d40(int);
 struct FUN_00481e10_shell
 {
     float FUN_00481e10(unsigned char);
@@ -1058,7 +1059,7 @@ float FUN_00481e10_shell::FUN_00481e10(unsigned char flag)
         node = ((::ContainerNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (reinterpret_cast<::FUN_00440d80_shell *>((reinterpret_cast<ObjectReference*>(entry->object)))->FUN_00440d80())
             continue;
-        sum = static_cast<float>((double)FUN_00ec7d40(entry->count) * ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(entry->object), flag))) + sum);
+        sum = static_cast<float>((double)std::abs(entry->count) * ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(entry->object), flag))) + sum);
     }
     return sum;
 }

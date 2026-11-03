@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00c31ff0.h"
@@ -490,8 +491,6 @@ void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkD
         }
     }
 }
-
-extern "C" double __cdecl sqrt(double);
 
 inline void* operator new(unsigned int, void* p)
 {

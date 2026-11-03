@@ -9,6 +9,7 @@
 // base object.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FUN_00a66960_cls.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00e8b000.h"
@@ -109,7 +110,6 @@ bool FUN_00e8bfa0(Outer* apOuter, unsigned int uiIndex)
     return false;
 }
 
-void* _memmove(void*, const void*, unsigned int);
 // Copies count blocks of size bytes from src to dst, advancing dst by stride and src by size each time.
 // @fnv 0x00e8c090
 void CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned int size, unsigned int count)
@@ -118,13 +118,12 @@ void CopyStridedElements(char* apDest, char* src, unsigned int stride, unsigned 
         return;
     unsigned int cnt = count;
     do {
-        _memmove(apDest, src, size);
+        std::memmove(apDest, src, size);
         apDest += stride;
         src += size;
     } while (--cnt);
 }
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
 struct VTBL_00e8c0d0 { char _pad[0x30]; int (*fn)(void*); };
 struct OBJ_00e8c0d0 { VTBL_00e8c0d0* v; };
 struct S_00e8c0d0
@@ -141,7 +140,7 @@ struct S_00e8c0d0
 // @fnv 0x00e8c0d0
 bool S_00e8c0d0::CopyAndRelease(void* apObj)
 {
-    _memmove(m_dst, m_src, m_iElementCount);
+    std::memmove(m_dst, m_src, m_iElementCount);
     m_dst = 0;
     m_iElementCount = 0;
     LeaveCriticalSection(m_cs);
@@ -207,7 +206,6 @@ struct Holder_e8bff0 {
     virtual void slot28() = 0;
     virtual int read(unsigned int type, unsigned int length, unsigned int* out, unsigned int flags) = 0;
 };
-void __cdecl FUN_00ec44d0(void* p, unsigned int out, unsigned int n);
 struct Owner_e8bff0 {
     void*& Data() { return *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x40); }
     unsigned int& Capacity() { return *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x44); }
@@ -230,7 +228,7 @@ void* Owner_e8bff0::FUN_00e8bff0(Holder_e8bff0* source, unsigned int type, unsig
         Capacity() = length;
     }
     if ((flags & 0x3000) == 0)
-        FUN_00ec44d0(Data(), out, length);
+        std::memmove(Data(), (const void *)(out), length);
     return Data();
 }
 
@@ -428,7 +426,7 @@ VertexRecord* Renderer::FUN_00e8c1e0(NiGeometryData* data, Class87d40* transform
     }
     if (unlock) {
         VertexBuffer* buffer = record->buffer;
-        _memmove(locked, staging, lockedSize);
+        std::memmove(locked, staging, lockedSize);
         locked = 0;
         lockedSize = 0;
         LeaveCriticalSection(&criticalSection);

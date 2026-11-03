@@ -8,6 +8,7 @@
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/D9B0Container.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -2247,7 +2248,6 @@ float xFUN_004dfea0();
 struct xShapeX
 {
 };
-const char* xFUN_00ec7750(const char*, const char*);
 struct xIntSetting
 {
 };
@@ -2327,7 +2327,7 @@ void xEffect::FUN_0066c160(float afTime)
     xRef* PREF = ((::fnv_0066c160::xRef *)(reinterpret_cast<::FUN_0066d7c0_cls *>(this)->FUN_0066d7c0()));
     if (!PREF || !PREF->FUN_94())
         return;
-    const char* PTAG = xFUN_00ec7750(((const char *)(reinterpret_cast<::FUN_00b0d5d0_Class *>((((::fnv_0066c160::StringProvider *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((m_e4).operator->()))->FUN_0084e3a0()))))->GetUnk68())), "~CF");
+    const char* PTAG = ((const char *)(std::strstr((char *)(((const char *)(reinterpret_cast<::FUN_00b0d5d0_Class *>((((::fnv_0066c160::StringProvider *)(reinterpret_cast<::FUN_0084e3a0_Class *>(((m_e4).operator->()))->FUN_0084e3a0()))))->GetUnk68()))), "~CF")));
     int LEVEL;
     if (PTAG)
         LEVEL = PTAG[3] - '0';

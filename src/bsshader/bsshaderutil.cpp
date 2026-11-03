@@ -1,5 +1,6 @@
 // bsshader/bsshaderutil.cpp: BSShaderRenderUtility (7 functions)
 
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/CameraState4E9.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -238,7 +239,6 @@ void __cdecl FUN_00b6bfc0(void* pkCamera, PointerList6b& kList, Accumulator6b* p
 namespace fnv_00b6bbd0 {
 #include <d3d9.h>
 
-void _memmove(void* destination, const void* source, unsigned int size);
 
 class NiPixelFormat
 {
@@ -472,7 +472,7 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
         destinationSurface->LockRect(&lockedRect, 0, 0);
         if (d3dFormat == 21)
         {
-            _memmove(pixels->m_pucPixels + pixels->m_puiOffset[level], lockedRect.pBits,
+            std::memmove(pixels->m_pucPixels + pixels->m_puiOffset[level], lockedRect.pBits,
                      pixels->m_puiHeight[level] * lockedRect.Pitch);
             unsigned char* pPixelData = pixels->m_pucPixels + pixels->m_puiOffset[level];
             unsigned int bytes = pixels->m_puiWidth[level] * pixels->m_puiHeight[level] * 4;
@@ -489,7 +489,7 @@ NiTexture* FUN_00b6bbd0(NiTexture* texture, const NiPixelFormat* pixelFormat)
             unsigned int rows = pixels->m_puiHeight[level];
             if (rows < 4)
                 rows = 4;
-            _memmove(pPixelData, lockedRect.pBits, (rows * lockedRect.Pitch) / 4);
+            std::memmove(pPixelData, lockedRect.pBits, (rows * lockedRect.Pitch) / 4);
         }
         destinationSurface->UnlockRect();
         destinationSurface->Release();

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_0041fd00_shell.h"
 #include "fnv/decl/FUN_0067ad20_Class.h"
 #include "fnv/decl/FUN_0067dad0_shell.h"
@@ -195,7 +196,6 @@ void FUN_0067c6c0_shell::FUN_0067c6c0(int item)
     reinterpret_cast<PackageEventActionData*>(&this->caster)->InitItem((::TESForm *)(item));
 }
 
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 struct Date
 {
     unsigned char b;

@@ -5,6 +5,7 @@
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00cc0630.h"
@@ -2184,7 +2185,6 @@ __declspec(noinline) void __cdecl FUN_00e0c8e0(void* stream, void* agg, int a, f
     ext_show(stream, ((AggObj*)agg)->unk08, a, f);
 }
 
-void* __cdecl fnv_zlib_memset(void* dst, int c, int n);
 
 struct RootArg
 {
@@ -2430,7 +2430,7 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
             if (iCount < bars)
             {
                 int n = bars - iCount;
-                fnv_zlib_memset(p, 0x20, n);
+                std::memset(p, 0x20, n);
                 p += n;
                 pos = n + iCount;
             }
@@ -2441,13 +2441,13 @@ void __cdecl FUN_00e0fec0(int aStream, void* apArray, int aiThreadCount, int aiS
             if (pos < iCount)
             {
                 int n2 = iCount - pos;
-                fnv_zlib_memset(p, 0x20, n2);
+                std::memset(p, 0x20, n2);
                 p += n2;
             }
             if (iCount < 0x28)
             {
                 int n3 = (int)(((unsigned int)(0x27 - iCount)) >> 2) + 1;
-                fnv_zlib_memset(p, 9, n3);
+                std::memset(p, 9, n3);
                 p += n3;
             }
             *p = 0;

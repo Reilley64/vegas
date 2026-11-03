@@ -2,6 +2,7 @@
 #ifndef FNV_ACTIVEFFECT_LOCAL_H
 #define FNV_ACTIVEFFECT_LOCAL_H
 
+#include <cmath>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00404390_shell.h"
@@ -229,7 +230,6 @@ class GlobalObject_0040e0b0 : public SettingT_GameSettingCollection_
 {
 };
 extern GlobalObject_0040e0b0 g_011d17dc;
-extern "C" double floor(float);
 class ActiveEffectCasterDispatch
 {
   public:

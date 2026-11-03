@@ -2,23 +2,24 @@
 // src/havok/common/base/container/string/hkstring.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/container/string/hkstring.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/fnv_00cb0c50__SStringPtr.h"
 #include "fnv/symbols_00cb1000.h"
-extern "C" void __cdecl FUN_00ecc7b0(char* dest, const char* src, int count);
 
 // @fnv 0x00cb10b0
 void __cdecl CopyIfNonEmpty(char* dest, const char* src, int count)
 {
     if (count)
-        FUN_00ecc7b0(dest, src, count);
+        std::strncpy(dest, src, count);
 }
 
-void __cdecl FUN_00ec8d33(int a, int b, int c);
 
 // @fnv 0x00cb10f0
 void __cdecl CallWithZeroMiddleArg(int aiFirst, int aiThird)
 {
-    FUN_00ec8d33(aiFirst, 0, aiThird);
+    std::strtoul((const char *)(aiFirst), 0, aiThird);
 }
 
 struct BSAudio;
@@ -38,11 +39,10 @@ void __cdecl FUN_00cb13c0(int aiAudio)
     ::CallSwappedArgs((unsigned int)((BSAudio*)aiAudio), *(int*)((char*)FUN_00c85750() + 0x10));
 }
 
-double __cdecl FUN_00ecdf2d(unsigned int value, int mode);
 // @fnv 0x00cb1110
 float __cdecl ConvertToFloat(unsigned int value)
 {
-    return FUN_00ecdf2d(value, 0);
+    return std::strtod((const char *)(value), 0);
 }
 
 class hkBool
@@ -252,57 +252,51 @@ void __cdecl FUN_00cb0f50(int a, int b, int c, int d)
 }
 
 namespace fnv_00cb1140 {
-extern "C" char* __cdecl _strchr(const char* s, int c);
 
 // @fnv 0x00cb1140
 char* __cdecl FUN_00cb1140(const char* s, int c)
 {
-    return _strchr(s, c);
+    return std::strchr((char *)(s), c);
 }
 }  // namespace fnv_00cb1140
 
 namespace fnv_00cb1150 {
-extern "C" const char* __cdecl FUN_00ec6e30(const char* str, int c);
 
 // @fnv 0x00cb1150
 const char* __cdecl FUN_00cb1150(const char* str, int c)
 {
-    return FUN_00ec6e30(str, c);
+    return ((const char *)(std::strrchr((char *)(str), c)));
 }
 }  // namespace fnv_00cb1150
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 // @fnv 0x00cb1260
 void* __cdecl FUN_00cb1260(void* dst, const void* src, unsigned int count)
 {
-    return _memmove(dst, src, count);
+    return std::memmove(dst, src, count);
 }
 
-void* __cdecl FUN_00ec7230(char* a, const char* b, int c);
 // @fnv 0x00cb1270
 void* __cdecl FUN_00cb1270(char* a, const char* b, int c)
 {
-    return FUN_00ec7230(a, b, c);
+    return std::memmove(a, b, c);
 }
 
-extern void __cdecl FUN_00ec61c0(void* dest, int value, unsigned int count);
 
 // @fnv 0x00cb1280
 void __cdecl FUN_00cb1280(void* dest, int value, unsigned int count)
 {
-    FUN_00ec61c0(dest, value, count);
+    std::memset(dest, value, count);
 }
 
 #include <stdarg.h>
-extern "C" int __cdecl FUN_00ecddf1(char* buf, unsigned int n, const char* fmt, va_list args);
 
 // @fnv 0x00cb0f60
 int __cdecl Vsnprintf(char* buf, int n, const char* fmt, ...)
 {
     va_list args;
     va_start(args, fmt);
-    int ret = FUN_00ecddf1(buf, n, fmt, args);
+    int ret = std::vsnprintf(buf, n, fmt, args);
     va_end(args);
     return ret;
 }

@@ -1,6 +1,9 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderprogramfactory.cpp: NiD3DShaderProgramFactory, ProgFactoryDirs, ShaderEntryOwner (26 functions)
 
 #include <windows.h>
+#include <cctype>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -36,7 +39,7 @@ const char* NiD3DShaderProgramFactory::GetNextName(void*& apPosition)
 bool NiD3DShaderProgramFactory::RegisterCreator(const char* pcName, NiD3DShaderProgramCreator* creator)
 {
     char lower[256];
-    if (!pcName || strchr(pcName, '.'))
+    if (!pcName || ((const char *)(std::strchr((char *)(pcName), '.'))))
         return false;
     for (unsigned int i = 0; i < 256; ++i)
     {
@@ -135,7 +138,6 @@ ShaderBufferRecord* NiD3DShaderProgramFactory_00e93060::FUN_00e93060(const char*
 struct P03MM
 {
 };
-extern "C" void* __cdecl _fnv_zlib_memset(void* dst, int value, unsigned int size);
 extern int DAT_010f0eb0;
 extern int DAT_010f0f50;
 
@@ -150,7 +152,7 @@ void CreateCreatorMap()
         p[3] = 0;
         int* data = (int*)::FUN_00aa1070(0x94);
         p[2] = (int)data;
-        _fnv_zlib_memset((void*)data, 0, 4 * p[1]);
+        std::memset((void*)data, 0, 4 * p[1]);
         *(char*)(p + 4) = 1;
         p[0] = (int)&DAT_010f0f50;
         (*reinterpret_cast<::NiTStringTemplateMap< ::NiTPointerMap<const char *, ::NiShader *>, ::NiShader *> * *>(&::DAT_0126fa14)) = (CreatorMap*)p;
@@ -436,9 +438,6 @@ void FUN_00e92f70(int param_1)
     DAT_0126fa18 = 0;
 }
 
-extern "C" int __cdecl strcmp(const char*, const char*);
-extern "C" unsigned int __cdecl strlen(const char*);
-int strcpy_s(char* dst, unsigned int size, const char* src);
 struct DirNode
 {
     DirNode* m_pkNext;
@@ -489,7 +488,7 @@ void ProgFactoryDirs::AddDirectory(const char* pcDir)
     if (!pcDir || strcmp(pcDir, "") == 0)
         return;
     char acDir[260];
-    strcpy_s(acDir, 260, pcDir);
+    fnv::crt::strcpy_s(acDir, 260, pcDir);
     for (unsigned int i = 0; i < strlen(acDir); i++)
     {
         if (acDir[i] == '/')
@@ -504,14 +503,13 @@ void ProgFactoryDirs::AddDirectory(const char* pcDir)
     }
     unsigned int len = strlen(acDir) + 1;
     char* p = (char*)::FUN_00aa1070(len);
-    strcpy_s(p, len, acDir);
+    fnv::crt::strcpy_s(p, len, acDir);
     m_kDirs.AddHead(p);
 }
 
 namespace fnv_00e93bb0 {
 extern "C" int __cdecl strcmp(const char*, const char*);
 extern "C" size_t __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
 
 struct BSBatchRenderer__GeometryGroup;
 
@@ -554,7 +552,7 @@ void NiD3DShaderProgramFactory_Shell::RemoveDirectoryEntry(const char* pcDirecto
         return;
 
     char acPath[260];
-    strcpy_s(acPath, 260, pcDirectory);
+    fnv::crt::strcpy_s(acPath, 260, pcDirectory);
 
     for (unsigned int i = 0; i < strlen(acPath); i++)
     {
@@ -690,7 +688,6 @@ void* __cdecl FUN_00e938e0(void* pkDesc, void* pkRenderer, const char* pcLibName
     return pkShader;
 }
 
-extern "C" void* __cdecl MemSet_00e93ad0(void* dst, int value, unsigned int size);
 
 class NiRefObject
 {
@@ -727,7 +724,7 @@ template <class TVAL> class ShaderMapBase : public NiMemObject_00e93ad0
         m_uiCount = 0;
         unsigned int uiSize = sizeof(void*) * m_uiHashSize;
         m_ppkHashTable = (void**)::FUN_00aa1070(uiSize);
-        MemSet_00e93ad0(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
     }
     virtual ~ShaderMapBase();
 
@@ -952,7 +949,6 @@ ShaderArg* FUN_00e93850(const char* p0, const char* p1, const char* apCreatorNam
 }  // namespace fnv_00e93850
 
 bool __cdecl FUN_00aa1a30(const char* pcName, int eMode);
-extern "C" int __cdecl FUN_00ec65a6(char* d, unsigned int n, const char* s);
 struct ShPF_Node
 {
     ShPF_Node* m_pkNext;
@@ -998,7 +994,7 @@ bool FindShaderProgramFile(const char* pcShaderName, char* pcResolvedPath, unsig
 {
     if (FUN_00aa1a30(pcShaderName, 0))
     {
-        FUN_00ec65a6(pcResolvedPath, uiBufferLength, pcShaderName);
+        fnv::crt::strcpy_s(pcResolvedPath, uiBufferLength, pcShaderName);
         return true;
     }
     if (!ShPF_Get())
@@ -1043,7 +1039,6 @@ struct FUN_00a53c30_Map
 {
 };
 
-char __cdecl FUN_00ec67aa(int c);
 
 // Looks up a value in DAT_0126fa14 using the lowercased extension, or the filename when no extension is extracted.
 // @fnv 0x00e932f0
@@ -1066,7 +1061,7 @@ void* __cdecl FUN_00e932f0(const char* pcFilename)
         source = pcFilename;
     for (index = 0; index < 0x100; ++index)
     {
-        char converted = FUN_00ec67aa(source[index]);
+        char converted = std::tolower(source[index]);
         acFileExt[index] = converted;
 
         if (converted == 0)

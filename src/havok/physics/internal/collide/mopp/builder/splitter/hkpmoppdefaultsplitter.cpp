@@ -2,6 +2,7 @@
 // src/havok/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/splitter/hkpmoppdefaultsplitter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/SortedList.h"
 #include "fnv/decl/TimedEntryCollection.h"
 #include "fnv/symbols_00cbf000.h"
@@ -1585,7 +1586,6 @@ __declspec(noinline) float ScorerObj::FUN_00e0a850(SearchCtx* c)
     return result;
 }
 
-extern "C" double fabs(double);
 __declspec(noinline) float ScorerObj::FUN_00e0a6c0(SearchCtx* c)
 {
     float d = (float)(c->index - c->pos);

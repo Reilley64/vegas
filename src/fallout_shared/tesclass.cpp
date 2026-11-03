@@ -1,5 +1,6 @@
 // fallout_shared/tesclass.cpp: TESClass, ActorValue, ClassComparison (15 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -392,7 +393,6 @@ void* S_005f66e0::DestroyIfFlagged(unsigned int flags)
 FUN_005f6710::~FUN_005f6710()
 {}
 
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 class ClassDataAccess : public TESClass
 {
@@ -414,7 +414,7 @@ bool ClassComparison::FUN_005f6cf0(TESForm* other)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pClass))
         return true;
-    if (_memcmp(&data, ((::TESClassData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<ClassDataAccess*>(pClass)))->FUN_005d43c0())), sizeof(TESClassData)))
+    if (std::memcmp(&data, ((::TESClassData *)(reinterpret_cast<::FUN_005d43c0_ *>((static_cast<ClassDataAccess*>(pClass)))->FUN_005d43c0())), sizeof(TESClassData)))
         return true;
     return false;
 }

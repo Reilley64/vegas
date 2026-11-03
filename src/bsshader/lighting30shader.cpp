@@ -1,6 +1,7 @@
 // bsshader/lighting30shader.cpp: SM3ShaderLoader, Shadow, Lighting, MapOwner and more (36 functions)
 
 #include <windows.h>
+#include <cstdio>
 #include "fnv/decl/BoneHost.h"
 #include "fnv/decl/C0BC90Shader.h"
 #include "fnv/decl/E7DE90Owner.h"
@@ -2133,7 +2134,6 @@ public:
     static const char *GetVertexShaderProfile();
 };
 
-int __cdecl sprintf(char* pBuffer, const char* pFormat, ...);
 int __cdecl FUN_004dc060(bool bArg);
 
 
@@ -2210,7 +2210,7 @@ void SM3ShaderLoader::FUN_00bba5d0()
     char szFour[3] = "4";
     char szTwenty[3] = "20";
     char szShadowMode[2];
-    sprintf(szShadowMode, "%i", (*reinterpret_cast<int *>(&::DAT_011f91b0)));
+    std::sprintf(szShadowMode, "%i", (*reinterpret_cast<int *>(&::DAT_011f91b0)));
     kDescs[29].kMacros[2].Definition = szShadowMode;
     kDescs[30].kMacros[0].Definition = szShadowMode;
     kDescs[31].kMacros[0].Definition = szShadowMode;

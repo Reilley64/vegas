@@ -2,6 +2,7 @@
 // src/staging/blk_005c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cmath>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -79,12 +80,11 @@ float FUN_005dc440(float value)
     return FUN_005dc460(value);
 }
 
-extern "C" double __cdecl FUN_00eca920(double);
 
 // @fnv 0x005dc460
 float FUN_005dc460(float value)
 {
-    return static_cast<float>(FUN_00eca920(value));
+    return static_cast<float>(std::log(value));
 }
 
 struct FUN_005dd520_class

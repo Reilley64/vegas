@@ -2,6 +2,7 @@
 #ifndef FNV_MAGICTARGET_DECLS_H
 #define FNV_MAGICTARGET_DECLS_H
 
+#include <cstdio>
 #include "fnv/decl/ActiveEffectUpdateShell.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -288,7 +289,6 @@ class ImageSpaceModifierInstanceForm
 {
   public:
 };
-extern "C" int sprintf(char*, const char*, ...);
 extern "C" int _mbsicmp(const unsigned char*, const unsigned char*);
 class TESResponse
 {

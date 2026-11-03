@@ -3,6 +3,7 @@
 #define LANDTEXTURE_MATCH_H
 
 #include <stddef.h>
+#include <malloc.h>
 class TESFile;
 class TESGrass;
 class BGSTextureSet;
@@ -305,6 +306,5 @@ class TESFile
     bool GetChunkData(unsigned int*);
     bool NextChunk();
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 int __cdecl Warning(const char*, ...);
 #endif

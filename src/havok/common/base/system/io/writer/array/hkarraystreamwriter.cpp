@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/writer/array/hkarraystreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/array/hkarraystreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00d06000.h"
@@ -572,7 +573,6 @@ namespace fnvc_adapt {
 extern "C" hkMemoryRouterD46B& __cdecl FUN_00c85750() throw();
 }
 void __cdecl FUN_00c908c0(hkMemoryAllocatorD46B& kAlloc, void* apvArray, int aiNumElements, int iSizeElem) throw();
-extern "C" void* __cdecl fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiSize) throw();
 
 class hkArrayD46B
 {
@@ -609,7 +609,7 @@ class hkArrayD46B
             m_iElementCount = n;
             return;
         }
-        fnv_zlib_memset(pDst, fill, iEntryIndex);
+        std::memset(pDst, fill, iEntryIndex);
         m_iElementCount = n;
     }
     void popBack()

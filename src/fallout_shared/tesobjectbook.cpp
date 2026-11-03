@@ -1,5 +1,6 @@
 // fallout_shared/tesobjectbook.cpp: TESObjectBOOK, TESObjectMISC, TESObjectBOOK_GetSaveSize, Actor and more (16 functions)
 
+#include <cstring>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -1230,7 +1231,6 @@ void Actor::FUN_0095e6f0(int action)
     }
 }
 
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 class BookComparison : public TESObjectBOOK
 {
   public:
@@ -1246,7 +1246,7 @@ bool BookComparison::FUN_00514f50(TESForm* other)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(book))
         return true;
-    if (_memcmp(&Data, ((::BookData *)(::FUN_00514f30((int)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
+    if (std::memcmp(&Data, ((::BookData *)(::FUN_00514f30((int)(static_cast<BookComparison*>(book))))), sizeof(BookData)))
         return true;
     return false;
 }

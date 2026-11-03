@@ -1,6 +1,7 @@
 // fallout_shared/tesconditionitem.cpp: TESConditionItem, ConditionSerializer (11 functions)
 
 #include <new>
+#include <cstdio>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/C81110Header.h"
 #include "fnv/decl/FUN_00440e30_This.h"
@@ -232,13 +233,13 @@ void TESConditionItem::InitItem(TESForm* owner)
                     text = reinterpret_cast<::FUN_00619d00_shell *>((quest))->FindQuestForTopicInfo(topic);
                 BSStringT<char> info;
                 reinterpret_cast<::FUN_0061e2b0_shell *>((topic))->BuildResponseText(info, false);
-                FUN_00eca38d(buffer, 0x410, DAT_0104cae0, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((topic))->FUN_0084e3a0())), ((NiPointer<NiNode>*)&info)->operator->(),
+                std::snprintf(buffer, 0x410, DAT_0104cae0, ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((topic))->FUN_0084e3a0())), ((NiPointer<NiNode>*)&info)->operator->(),
                              text ? text->vfn_138() : ::DAT_01011584, text ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((text))->FUN_0084e3a0())) : 0,
                              quest ? quest->GetEditorID() : ::DAT_01011584, quest ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((quest))->FUN_0084e3a0())) : 0);
             }
             else
             {
-                FUN_00eca38d(buffer, 0x410, DAT_01069440, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((owner))->FUN_00440e30())), owner->GetEditorID(),
+                std::snprintf(buffer, 0x410, DAT_01069440, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((owner))->FUN_00440e30())), owner->GetEditorID(),
                              ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((owner))->FUN_0084e3a0())));
             }
             ::FUN_005b5e40();
@@ -312,7 +313,6 @@ void FUN_00681170_shell::SwapEndianAndProcess()
 struct S_006815c0
 {
 };
-int __cdecl _memcmp(const void*, const void*, int);
 struct S_006815d0
 {
     bool IsDifferentFrom(TESConditionItem* apCompare);
@@ -321,7 +321,7 @@ struct S_006815d0
 // @fnv 0x006815d0
 bool S_006815d0::IsDifferentFrom(TESConditionItem* apCompare)
 {
-    if (_memcmp(((void *)(new ((void *)(((S_006815c0*)apCompare))) ::Vec3())), this, 0x1C))
+    if (std::memcmp(((void *)(new ((void *)(((S_006815c0*)apCompare))) ::Vec3())), this, 0x1C))
         return true;
     return false;
 }

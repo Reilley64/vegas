@@ -8,6 +8,7 @@
 // to their real unit once identified.
 // src/staging/blk_00e40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
@@ -42,8 +43,6 @@ static inline __m128 Dot3_e4b570(__m128 p)
     return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
 }
 int __cdecl FUN_00e4b570(const __m128* point, const __m128* verts, float* out);
-
-extern "C" double __cdecl sqrt(double);
 
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" void _mm_store_ps(float*, __m128);

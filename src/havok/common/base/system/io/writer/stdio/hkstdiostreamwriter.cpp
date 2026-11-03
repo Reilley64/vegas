@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/writer/stdio/hkstdiostreamwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/writer/stdio/hkstdiostreamwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdio>
 // @fnv 0x00d2bef0
 #include "fnv/decl/FUN_00d2be50.h"
 #include "fnv/symbols_0102e000.h"
@@ -11,7 +12,6 @@ void FUN_00d2bef0(char* p)
     *p = 1;
 }
 
-extern "C" long __cdecl _fseek(void* stream, long offset, int whence);
 
 struct FUN_00d2bf00_class
 {
@@ -23,7 +23,7 @@ struct FUN_00d2bf00_class
 // @fnv 0x00d2bf00
 bool FUN_00d2bf00_class::Seek(long offset, int whence)
 {
-    return _fseek(m8, offset, whence) != 0;
+    return std::fseek((std::FILE *)(m8), offset, whence) != 0;
 }
 
 extern int DAT_010ce6f4;
@@ -42,16 +42,14 @@ void FUN_00d2bfb0_class::FUN_00d2bfb0()
     vtbl = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-void __cdecl FUN_00ecda70(void*);
 // @fnv 0x00d2bec0
 void FUN_00d2bec0(void* self, int)
 {
     void* p = *(void**)((char*)self + 8);
     if (p)
-        FUN_00ecda70(p);
+        std::fflush((std::FILE *)(p));
 }
 
-long __cdecl _ftell(void*);
 struct FUN_00d2bf20_class
 {
     char m0[8];
@@ -61,7 +59,7 @@ struct FUN_00d2bf20_class
 // @fnv 0x00d2bf20
 long FUN_00d2bf20_class::FUN_00d2bf20()
 {
-    return _ftell(m8);
+    return std::ftell((std::FILE *)(m8));
 }
 
 struct FUN_00d2bf30
@@ -120,7 +118,6 @@ void* Candidate::OpenFile(const char* fileName)
     return this;
 }
 
-int __cdecl FUN_00ecb086(char* buf, int size, int count, void* stream);
 
 struct FUN_00d2be80_cls
 {
@@ -137,7 +134,7 @@ int FUN_00d2be80_cls::ReadBytes(char* apBuffer, int aiCount)
     void* stream = m8;
     if (stream != 0)
     {
-        int result = FUN_00ecb086(apBuffer, 1, aiCount, stream);
+        int result = std::fwrite(apBuffer, 1, aiCount, (std::FILE *)(stream));
         if (result <= 0)
         {
             reinterpret_cast<::FUN_00d2be50 *>(this)->Close();

@@ -7,6 +7,11 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <mmsystem.h>
+#include <cctype>
+#include <cmath>
+#include <cstring>
+#include <cwchar>
+#include "runtime/crt.h"
 #include "fnv/decl/AudioMgr_adac30.h"
 #include "fnv/decl/BSGameSound.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -48,7 +53,6 @@
 #include "fnv/symbols_01202000.h"
 #include "../../include/layout_support.h"
 extern int DAT_010a42b4;
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_00af30a0_Class
 {
     void* vtbl;
@@ -830,7 +834,6 @@ struct S_00aeaa10_Cls
     S_00aeaa10_Obj* obj;
     void FUN_00aeaa10(const S_00aeaa10_P3* p);
 };
-void* __cdecl _fnv_zlib_memset(void* p, int c, int n);
 struct MMStub
 {
 };
@@ -1951,7 +1954,6 @@ struct S_00af1c00_Obj
     virtual void v48();
     virtual int v4c(void*, void*, int, int);
 };
-void __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 void __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct S_00af1c00_cls
 {
@@ -2350,9 +2352,7 @@ struct FUN_00af2db0_cls
     FUN_00af2db0_Notify m_pfnNotify;
     void UpdateSteamRunningFlag();
 };
-extern "C" int __cdecl toupper(int c);
 bool HasWildcardChars(const char* s);
-int __cdecl FUN_00ec3bad(int value);
 struct AllocatorToken
 {
     unsigned char state;
@@ -2746,7 +2746,6 @@ struct SoundObj
 };
 extern const double DAT_010a3e68;
 extern const double DAT_010a3e60;
-double FUN_00ecbc80(double);
 struct AudioAttenuation
 {
     int unk00;
@@ -3308,7 +3307,6 @@ FUN_00ae9360::FUN_00ae9360()
     ::FUN_00ae95e0((char *)this);
 }
 
-extern "C" double __cdecl sqrt(double);
 inline float SqrtA810(float f)
 {
     return (float)sqrt(f);
@@ -3782,7 +3780,7 @@ struct AudioBuffer
             nSize = this->m1ac;
         p = reinterpret_cast<::MemoryManagerStandIn *>((((Mgr*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(nSize);
         this->m1c8 = p;
-        _fnv_zlib_memset(this->GetBuffer(), 0, nSize);
+        std::memset(this->GetBuffer(), 0, nSize);
         this->m34 = this->m1b4->dwSamplesPerSec;
         this->m15a = this->m34;
         this->m14 = this->m1dc / (2 * this->m22c->Channels()) / (this->m34 / 1000);
@@ -4074,7 +4072,6 @@ FUN_00aeafb0::~FUN_00aeafb0()
 struct VolumeCurve
 {
 };
-double __cdecl FUN_00ecbc80(double);
 struct VolumeBuffer
 {
     virtual int slot0();
@@ -4231,7 +4228,7 @@ bool BSWin32GameSound::FUN_00aed660(float volume)
         if (!IsFlag10Set(0x200) && IsFlag10Set(0x10000) && !IsFlag08Set(0x1000))
             volume = 0.00001f;
         volume = volume < 9.999999747378752e-06 ? 0.00001f : volume;
-        attenuationTmp = (int)((float)FUN_00ecbc80(volume) * 2000.0);
+        attenuationTmp = (int)((float)std::log10(volume) * 2000.0);
         attenuationTmp -= attenuation18 + attenuation1c + attenuation20;
         if (reinterpret_cast<::BSGameSound *>(this)->HasSoundFlagTwo() || reinterpret_cast<::BSGameSound *>(this)->CanStartPlayback())
             attenuationTmp -= attenuation1e;
@@ -4651,10 +4648,6 @@ void P010Object::FUN_00aef090(float x, float y, float z)
     }
 }
 
-extern "C" char* __cdecl strcpy(char* dst, const char* src);
-extern "C" char* __cdecl strstr(const char* s, const char* sub);
-extern "C" int __cdecl tolower(int c);
-
 struct OggFile
 {
     virtual ~OggFile();
@@ -4947,17 +4940,16 @@ bool OggStream::FUN_00af1e00(const char* name)
     return true;
 }
 
-extern "C" unsigned short __cdecl FUN_00ec3bda(unsigned short value);
 
 inline void NiEndianSwap(unsigned int& uiValue, Flag kFlag)
 {
     unsigned int* puiValue = &uiValue;
-    *puiValue = FUN_00ec3bad(*puiValue);
+    *puiValue = fnv::crt::byteswap_ulong(*puiValue);
 }
 inline void NiEndianSwap(unsigned short& usValue, Flag kFlag)
 {
     unsigned short* pusValue = &usValue;
-    *pusValue = FUN_00ec3bda(*pusValue);
+    *pusValue = fnv::crt::byteswap_ushort(*pusValue);
 }
 
 struct ArchiveHeader
@@ -5002,12 +4994,10 @@ inline void operator delete[](void* p)
     reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
-unsigned int FUN_00ecdb00(const unsigned short*);
-void FUN_00ec44d0(void*, const void*, unsigned int);
 
 inline void CopyChars(unsigned short* destination, const unsigned short* source, unsigned int size)
 {
-    FUN_00ec44d0(destination, source, size);
+    std::memmove(destination, source, size);
 }
 
 struct WideString
@@ -5022,7 +5012,7 @@ struct WideString
 bool WideString::FUN_00afff50(const unsigned short* input, unsigned int reserve)
 {
     unsigned int a;
-    a = input ? FUN_00ecdb00(input) : 0;
+    a = input ? std::wcslen((const wchar_t *)(input)) : 0;
     unsigned int newSize = a > reserve ? a : reserve;
     unsigned short* required;
     if (newSize <= capacity)
@@ -5269,7 +5259,6 @@ struct Setting_01017720_011f96a0
     int vtable;
     unsigned int value;
 };
-extern void* __cdecl _memmove(void*, const void*, unsigned int);
 struct OutputAF;
 struct AudioAF
 {
@@ -5374,11 +5363,11 @@ inline void FreeAF(void* p)
 }
 inline void ZeroAF(void* dest, unsigned int size)
 {
-    _fnv_zlib_memset(dest, 0, size);
+    std::memset(dest, 0, size);
 }
 inline void CopyAF(void* dest, const void* source, unsigned int size)
 {
-    _memmove(dest, source, size);
+    std::memmove(dest, source, size);
 }
 struct AF1430
 {
@@ -5548,7 +5537,7 @@ bool AF1430::FUN_00af1430()
                     src2Bytes = 0;
                     CNA = 0;
                     srcn8 = 0;
-                    _fnv_zlib_memset(&desc, 0, 0x24);
+                    std::memset(&desc, 0, 0x24);
                     desc.size = 0x24;
                     if (Flags() & 1)
                         desc.flags = 0x40;
@@ -5636,7 +5625,6 @@ struct AudioVec
 };
 AudioVec __cdecl FUN_004a3760(float, const AudioVec&);
 
-extern "C" double __cdecl fabs(double);
 __forceinline float Absolute(float value)
 {
     return float(fabs(value));

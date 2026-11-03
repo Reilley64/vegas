@@ -2,6 +2,7 @@
 // src/bsshader/bstexturemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/bsshader/bstexturemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -247,7 +248,6 @@ struct FUN_00b6dd80
     NiPointer<Resource> other;
     FUN_00b6dd80();
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 template <class T> struct BaseArray
 {
@@ -545,7 +545,7 @@ FUN_00b97a80::FUN_00b97a80() : m_kArray(0x74, 1)
     m_f30C = 0.0f;
     m_f310 = 0.0f;
     m_f314 = 0.0f;
-    fnv_zlib_memset(&unk014, 0, 0x98);
+    std::memset(&unk014, 0, 0x98);
     reinterpret_cast<::ImageSpaceManagerHelper *>(this)->FUN_00b977d0();
 }
 

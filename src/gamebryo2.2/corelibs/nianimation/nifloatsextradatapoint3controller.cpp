@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nifloatsextradatapoint3controller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/C_00e8f010.h"
 #include "fnv/decl/FUN_00a572d0.h"
 #include "fnv/decl/FUN_00a66960_cls.h"
@@ -338,7 +340,6 @@ void Ctlr4edd::UpdateController(const float& fTime)
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 #include <windows.h>
-extern "C" double __cdecl fabs(double);
 struct D3DVERTEXBUFFER_DESC { unsigned Format, Type, Usage, Pool, Size, FVF; };
 struct IDirect3DVertexBuffer9 {
     virtual void v00(); virtual void v04(); virtual void v08();
@@ -405,7 +406,6 @@ struct VertexBufferLockInfo {
     IDirect3DVertexBuffer9* GetSize() const { return (IDirect3DVertexBuffer9*)lockArg1; }
 };
 
-extern void __cdecl FUN_00ec44d0(void*, unsigned, unsigned);
 
 struct VertexRenderer {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -550,7 +550,7 @@ VertexBufferLockInfo* VertexRenderer::FUN_00e8c820(VertexSource* source, unsigne
     }
     if (needsUnlock) {
         IDirect3DVertexBuffer9* hardwareBuffer = resource->buffer;
-        FUN_00ec44d0(lockedPtr, lockArg, lockedState);
+        std::memmove(lockedPtr, (const void *)(lockArg), lockedState);
         lockedPtr = 0;
         lockedState = 0;
         LeaveCriticalSection(&lock);

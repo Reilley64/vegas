@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00a58000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -210,8 +211,6 @@ void S_00a59a30_Matrix3::LoadFromStream(S_00a59a30_Stream& kStream)
     }
 }
 
-extern "C" double __cdecl acos(double dValue);
-
 extern const float g_fA58510Pi;
 
 // Returns acos(fValue) when fValue is between -1 and 1, 0.0 when it is 1 or above, and g_fA58510Pi when it is -1 or below.
@@ -229,8 +228,6 @@ float __cdecl AcosClamped(float fValue)
 }
 
 extern float DAT_0109afc4;
-
-extern "C" double __cdecl fabs(double value);
 
 class FUN_00a598a0_cls {
 public:

@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00d23000.h"
 #include "fnv/symbols_00da1000.h"
@@ -45,7 +46,6 @@ extern "C"
     __m128 _mm_mul_ss(__m128, __m128);
     __m128 _mm_load_ss(const float*);
     void _mm_store_ss(float*, __m128);
-    double sqrt(double);
     void _ReadWriteBarrier();
 }
 struct Vector
@@ -203,7 +203,6 @@ extern "C"
     __m128 _mm_and_ps(__m128, __m128);
     __m128 _mm_cmplt_ps(__m128, __m128);
     int _mm_movemask_ps(__m128);
-    double fabs(double);
 }
 static __forceinline float root(float f)
 {

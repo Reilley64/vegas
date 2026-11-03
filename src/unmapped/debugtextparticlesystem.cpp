@@ -5,6 +5,7 @@
 
 // @fnv 0x00ca34b0
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/CA0E60Array.h"
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -157,7 +158,6 @@ struct MemoryRouter
 };
 extern "C" MemoryRouter& FUN_00c85750();
 const char* __cdecl FUN_00cb1410(const char*);
-extern "C" void FUN_00ec8d5f(char*, unsigned int, const char*, unsigned int);
 struct hkStringPtr
 {
     const char* text;
@@ -640,7 +640,7 @@ static __forceinline float vectorLength4(const __m128& v)
 }
 static __forceinline void copyName(char* d, const char* s)
 {
-    FUN_00ec8d5f(d, 41, s, 40);
+    fnv::crt::strncpy_s(d, 41, s, 40);
 }
 // Builds an hkaSkeleton rig from scene nodes and attachments, computing parent links, relative transforms, bone names, and shape-derived attachment positions.
 // @fnv 0x00ca21c0

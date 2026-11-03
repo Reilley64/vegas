@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nidevimageconverter.cpp: NiDevImageConverter, Converter, NiDevImageConverterStandIn, ImageConverterBase and more (34 functions)
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A62190PixelFormat.h"
 #include "fnv/decl/Conv.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -53,7 +55,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
     {
         for (unsigned face = 0; face < faces; ++face)
             for (unsigned level = uiFirstLevel; level <= uiLastLevel; ++level)
-                fnv_zlib_memcpy(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
+                std::memmove(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
         if (src.m_spPalette)
         {
             if (!dst.m_spPalette)
@@ -93,7 +95,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
                 return false;
             for (unsigned face = 0; face < faces; ++face)
                 for (unsigned level = uiFirstLevel; level <= uiLastLevel; ++level)
-                    fnv_zlib_memcpy(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
+                    std::memmove(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
             if (!src.m_spPalette)
                 return false;
             if (!dst.m_spPalette)
@@ -127,7 +129,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
                 return false;
             for (unsigned face = 0; face < faces; ++face)
                 for (unsigned level = uiFirstLevel; level <= uiLastLevel; ++level)
-                    fnv_zlib_memcpy(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
+                    std::memmove(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
             if (!src.m_spPalette)
                 return false;
             unsigned paletteCount;
@@ -156,7 +158,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
                 return false;
             for (unsigned face = 0; face < faces; ++face)
                 for (unsigned level = uiFirstLevel; level <= uiLastLevel; ++level)
-                    fnv_zlib_memcpy(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
+                    std::memmove(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
             if (!src.m_spPalette)
                 return false;
             if (!dst.m_spPalette)
@@ -192,7 +194,7 @@ bool NiDevImageConverter::ConvertMipLevel(NiPixelData& dst, const NiPixelData& s
                 return false;
             for (unsigned face = 0; face < faces; ++face)
                 for (unsigned level = uiFirstLevel; level <= uiLastLevel; ++level)
-                    fnv_zlib_memcpy(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
+                    std::memmove(dst.GetPixels(level, face), src.GetPixels(level, face), src.GetSizeInBytes(level));
             if (!src.m_spPalette)
                 return false;
             unsigned paletteCount;
@@ -2294,7 +2296,6 @@ FUN_00a7b110::FUN_00a7b110()
     readers.AddHead(new FUN_00a8c190);
 }
 
-extern "C" void __cdecl FUN_00ec65a6(char* dst, unsigned int size, const char* src);
 
 struct NiPathStandIn
 {
@@ -2387,7 +2388,7 @@ bool NiDevImageConverterStandIn::FUN_00a77ae0(const char* pcFilename)
 {
     char acStandardFilename[0x104];
     NiTListIterator kIter = m_kImageReaderList.GetHeadPos();
-    FUN_00ec65a6(acStandardFilename, 0x104, pcFilename);
+    fnv::crt::strcpy_s(acStandardFilename, 0x104, pcFilename);
     ::FUN_00aa2a00(acStandardFilename);
     NiFilenameStandIn kFileName(acStandardFilename);
     while (kIter)
@@ -2411,7 +2412,6 @@ bool NiDevImageConverterStandIn::FUN_00a77ae0(const char* pcFilename)
 }
 
 namespace fnv_00a77bd0 {
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 class NiFile
 {
   public:
@@ -3069,7 +3069,7 @@ bool Converter::ReadFileWithReader(const char* apPath, int& a2, int& a3, int& a4
 {
     ReaderNode* node = head;
     char acFilePath[260];
-    _strcpy_s(acFilePath, 260, apPath);
+    fnv::crt::strcpy_s(acFilePath, 260, apPath);
     ::FUN_00aa2a00(acFilePath);
     FileName fileNameParts(acFilePath);
     while (node)
@@ -3367,7 +3367,7 @@ MipPixelData* MipImageConverter::FUN_00a7ae60(const char** ppcFileNames, unsigne
             return 0;
         }
 
-        fnv_zlib_memcpy(pkDest->GetPixels(i), pkSrc->GetPixels(0), uiSize);
+        std::memmove(pkDest->GetPixels(i), pkSrc->GetPixels(0), uiSize);
 
         if (i == 0 && ((bool)(reinterpret_cast<::FUN_00a77940_shell *>((void *)&(kFormat))->FUN_00a77940())))
             reinterpret_cast<::Owner *>((pkDest))->FUN_00a76a60((::Item *)(pkSrc->m_pColorEntries));
@@ -3743,7 +3743,7 @@ void __cdecl FUN_00a7a160(unsigned int uiWidth, unsigned int uiHeight, unsigned 
         }
         else if (kSrcBits.m_uiRedMask == 0xFFu)
         {
-            fnv_zlib_memcpy(pDst, pSrc, uiWidth * uiHeight * 3);
+            std::memmove(pDst, pSrc, uiWidth * uiHeight * 3);
         }
     }
 }
@@ -3754,7 +3754,6 @@ struct Format_a7a1f0
     int unk04;
 };
 
-void __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int size);
 
 // @fnv 0x00a7a1f0
 void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int unused, unsigned char* destination,
@@ -3779,7 +3778,7 @@ void __cdecl FUN_00a7a1f0(unsigned int width, unsigned int height, unsigned int 
     }
     else if (format->unk00 == 0xff)
     {
-        FUN_00ec44d0(destination, source, width * height * 3);
+        std::memmove(destination, source, width * height * 3);
     }
 }
 

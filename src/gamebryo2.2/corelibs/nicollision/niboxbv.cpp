@@ -5,6 +5,7 @@
 // Returns the constant value 1.
 // @fnv 0x00b6f470
 #include <new>
+#include <cmath>
 #include "fnv/decl/ColorContainer.h"
 #include "fnv/decl/FNVRegion.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -272,7 +273,6 @@ bool FUN_00ea3c50(float length, const void* a, const void* b, const void* c, con
     return true;
 }
 
-extern "C" double __cdecl fabs(double);
 struct V3
 {
     float x, y, z;
@@ -2050,7 +2050,6 @@ struct ReworkBox
         return geometry.extents;
     }
 };
-extern "C" double __cdecl fabs(double);
 inline float ReworkAbs(float fValue)
 {
     return float(fabs(fValue));
@@ -3471,7 +3470,6 @@ struct SweepBox
         return geometry.extents;
     }
 };
-extern "C" double __cdecl fabs(double);
 inline float NiAbs(float fValue)
 {
     return float(fabs(fValue));

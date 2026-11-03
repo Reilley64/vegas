@@ -3,6 +3,8 @@
 #define FNV_BSGAMESOUND_DECLS_H
 
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/symbols_011f6000.h"
 class MersenneTwister
 {
@@ -106,8 +108,6 @@ class BSAudioManager
     }
     static BSAudioManager& GetRandomGenerator();
 };
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 class BSAudio;
 class BSAudio
 {

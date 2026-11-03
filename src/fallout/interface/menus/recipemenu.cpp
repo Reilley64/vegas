@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -264,7 +265,6 @@ bool IsThresholdDifferent(TESChallenge* apChallenge)
     return false;
 }
 
-void __cdecl FUN_00ec6f20(int, int, int, int);
 struct FUN_00729970_shell
 {
     int m_kPointA;
@@ -275,7 +275,7 @@ struct FUN_00729970_shell
 // @fnv 0x00729970
 void FUN_00729970_shell::FUN_00729970(int aiParam)
 {
-    FUN_00ec6f20(m_kPointB, m_iThirdValue, 4, aiParam);
+    std::qsort((void *)(m_kPointB), m_iThirdValue, 4, (int (*)(const void *, const void *))(aiParam));
 }
 
 struct FUN_00729fb0_shell

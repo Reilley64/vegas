@@ -1959,7 +1959,6 @@ FUN_005e9590::~FUN_005e9590()
 }
 
 
-void* __cdecl FUN_00ec43fb(int, unsigned int, const char*, const char*, unsigned int);
 
 struct FUN_005eb1b0_entry
 {
@@ -2009,7 +2008,7 @@ void FUN_005eb1b0_cls::FUN_005eb1b0(int a1)
     void* result;
 
     v18();
-    _copy = (FUN_005eb1b0_cls*)FUN_00ec43fb(a1, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183028)), ::DAT_011861dc, 0);
+    _copy = (FUN_005eb1b0_cls*)dynamic_cast<::BGSPerk *>(reinterpret_cast<::TESForm *>(a1));
     if (_copy == 0)
     {
         return;

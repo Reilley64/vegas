@@ -1,6 +1,8 @@
 // fallout_shared/bipedanim.cpp: BipedAnim, BipedAnimWeap, FaceLoader, BipedAnimHelper (75 functions)
 
 #include <new>
+#include <cstdint>
+#include "runtime/crt.h"
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -397,7 +399,7 @@ BIPED_OBJECT BipedAnim::GetBipedObjectFromShaderProperty(NiAVObject* object, BSS
         skinMatch.slot = (BIPED_OBJECT)2;
         int i = 0;
         for (i = 0; i < 5; ++i)
-            if (skinMatch.name && !_strnicmp(skinMatch.name, DAT_01188c38[i], ::FUN_0044a670(DAT_01188c38[i])))
+            if (skinMatch.name && !fnv::crt::strnicmp(skinMatch.name, DAT_01188c38[i], ::FUN_0044a670(DAT_01188c38[i])))
                 break;
         switch (i)
         {
@@ -662,13 +664,12 @@ void FUN_004ad270(void* p)
     FUN_004ad1d0(p);
 }
 
-void __cdecl _fnv_CopyFilePath(char* dst, unsigned int dstSize, const char* src, unsigned int count);
 
 // Copies count characters from src to dst via _fnv_CopyFilePath, passing count + 1 as the destination size.
 // @fnv 0x004add50
 void __cdecl FUN_004add50(char* dst, const char* src, unsigned int count)
 {
-    _fnv_CopyFilePath(dst, count + 1, src, count);
+    fnv::crt::strncpy_s(dst, count + 1, src, count);
 }
 
 struct FUN_004add70_shell : public NiNode
@@ -1520,7 +1521,6 @@ struct HandleVectorProbe
 {
     void FUN_004afc50(const NiPointer<NiAVObject>&);
 };
-extern int __cdecl FUN_00ec7ec0(const char*, const char*, const char*);
 extern const char DAT_0101f8d8[];
 extern const char DAT_0101f890[];
 extern const char DAT_0101f840[];
@@ -1557,8 +1557,8 @@ void __cdecl FUN_004ade40(NiNode* source, NiAVObject* object, NiAVObject* notify
                         reinterpret_cast<::FUN_004adda0_shell *>((geometry))->SetBone(i, source);
                         if (report)
                         {
-                            if (node && !FUN_00ec7ec0((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(object))->GetLinkToList())), (const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList())),
-                                                      ((const char *)(::FUN_0044a670((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList())))))))
+                            if (node && !fnv::crt::strnicmp((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(object))->GetLinkToList())), (const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList())),
+                                                      (std::size_t)(std::uintptr_t)(((const char *)(::FUN_0044a670((const char*)(*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(bones[i]))->GetLinkToList()))))))))
                             {
                                 ::FUN_005b5e40();
                             }
@@ -2090,7 +2090,7 @@ NiAVObject* BipedAnim::AttachBipedModel(NiNode* model, NiNode* parent, BIPED_OBJ
                 continue;
             }
             if (firstPerson && BIPED_OBJECT_TEXT(skinned.child) &&
-                !_strnicmp(BIPED_OBJECT_TEXT(skinned.child), DAT_01188b98[2], ::FUN_0044a670(DAT_01188b98[2])))
+                !fnv::crt::strnicmp(BIPED_OBJECT_TEXT(skinned.child), DAT_01188b98[2], ::FUN_0044a670(DAT_01188b98[2])))
             {
                 ((BipedChildArray*)&removed)->Add(skinned.child);
                 model->RemoveObject(skinned.child);

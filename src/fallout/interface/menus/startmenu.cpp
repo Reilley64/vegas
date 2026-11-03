@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -3672,7 +3674,6 @@ struct TutorialState
 {
 };
 class InterfaceManager;
-unsigned int __cdecl FUN_00ec8d08(const char* apString, char** appEnd, int aiRadix);
 void __cdecl FUN_00af59e0();
 void __cdecl FUN_004581c0(bool abFlag);
 // @fnv 0x007d32b0
@@ -3680,7 +3681,7 @@ void __cdecl StartCharacterGeneration()
 {
     TESQuest* pcharGenQuest;
     char* pstopString;
-    unsigned int icharGenQuest = FUN_00ec8d08(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MenuSetting_r7d32b0 *>(&::g_011dac00))))->GetMenuTitle())), &pstopString, 16);
+    unsigned int icharGenQuest = std::strtol(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::MenuSetting_r7d32b0 *>(&::g_011dac00))))->GetMenuTitle())), &pstopString, 16);
     TESForm* pform = ::FUN_004839c0(icharGenQuest);
     TESNPC* pplayerBase;
     pcharGenQuest = 0;
@@ -4128,7 +4129,6 @@ struct ConfigEntry
 extern char DAT_011a0960;
 extern char DAT_011a0980;
 
-ConfigEntry* FUN_00ec43fb(int a1, int a2, void* a3, void* a4, int a5);
 struct StartMenu;
 struct SMCall
 {
@@ -4139,7 +4139,7 @@ struct SMCall
 // @fnv 0x007cfdc0
 void ApplyConfigEntry(void* a0, int a1)
 {
-    ConfigEntry* entry = FUN_00ec43fb(a1, 0, &DAT_011a0960, &DAT_011a0980, 0);
+    ConfigEntry* entry = ((ConfigEntry *)(dynamic_cast<::StartMenu::UserOption *>(reinterpret_cast<::StartMenu::Option *>(a1))));
     if (entry != 0)
     {
         if (entry->m_14 != entry->m_18)
@@ -7951,7 +7951,6 @@ struct Menu_007d69f0
 };
 
 
-void __cdecl FUN_00ecacb2(char* dst, void* src, unsigned int size);
 
 // @fnv 0x007d69f0
 void __cdecl FUN_007d69f0()
@@ -7988,7 +7987,7 @@ void __cdecl FUN_007d69f0()
         {
             void* e = reinterpret_cast<::FUN_00b008d0_StandIn *>((pItem2))->FUN_00b008d0();
             char j[0x104];
-            FUN_00ecacb2(j, e, 0x104);
+            std::strncpy(j, (const char *)(e), 0x104);
             p = j;
             reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::fnv_007d69f0::Menu_007d69f0 * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(0, p, (int (*)(BoxItem *, BoxItem *))(0), (const char *)(0));
         }
@@ -8947,7 +8946,6 @@ void SM4bc0::FUN_007d4bc0()
 }
 
 namespace fnv_007d4c50 {
-char* __cdecl FUN_00ecacb2(char* dest, const char* src, unsigned int count);
 struct DLCEntry
 {
 };
@@ -8967,7 +8965,7 @@ void __cdecl FUN_007d4c50(int index, int count, int unused, DLCEntry* entry)
     {
         const char* name = ((const char *)(reinterpret_cast<::FUN_00b008d0_StandIn *>((entry))->FUN_00b008d0()));
         char buffer[128];
-        FUN_00ecacb2(buffer, name, 128);
+        std::strncpy(buffer, name, 128);
         char* text = buffer;
         reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::fnv_007d4c50::StartMenuDLC * *>(&::fnv_007d0700::DAT_011daac0))->m_kOptionIndexList))->FUN_00764430(0, text, (int (*)(BoxItem *, BoxItem *))(int (*)(ListBoxItem<int> *, ListBoxItem<int> *))(0), 0);
     }

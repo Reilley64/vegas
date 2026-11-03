@@ -3,6 +3,7 @@
 #define LOADSCREEN_MATCH_H
 
 #include <stddef.h>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -320,5 +321,4 @@ class TESFile
     bool NextChunk();
     bool IsEndianConversionRequired();
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 #endif

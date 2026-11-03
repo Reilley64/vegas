@@ -2,6 +2,8 @@
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -568,7 +570,6 @@ struct E4F0Block256 {
 
 struct RgbaColor;
 
-extern "C" int __cdecl FUN_00ecddf1(char* buf, unsigned int n, const char* fmt, char* args);
 
 struct E4F0DebugText {
     E4F0Block256 m_block00;
@@ -648,7 +649,7 @@ struct E4F0DebugText {
 int E4F0DebugText::PrintFormattedLine(int iX, int iLine, int iFlags, const char* pcFormat, char* pArgs, const RgbaColor* pkColor)
 {
     char acBuffer2[200];
-    FUN_00ecddf1(acBuffer2, 200, pcFormat, pArgs);
+    std::vsnprintf(acBuffer2, 200, pcFormat, pArgs);
     int iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acBuffer2, (float)iX, (float)m_aiLineY[iLine], iFlags, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
     return iResult;
 }
@@ -721,7 +722,6 @@ struct A0E5C0Block {
     int unkFC;
 };
 
-int FUN_00ecddf1(char* pcBuffer, unsigned int uiSize, const char* pcFormat, char* pArgs);
 
 class A0E5C0DebugText {
 public:
@@ -803,7 +803,7 @@ public:
 int A0E5C0DebugText::PrintFormattedAtSlot(int iSlot, int m_iPayloadInteger, const char* pcFormat, char* pArgs, const RgbaColor* pkColor) {
     int iResult;
     char acText[200];
-    FUN_00ecddf1(acText, sizeof(acText), pcFormat, pArgs);
+    std::vsnprintf(acText, sizeof(acText), pcFormat, pArgs);
     iResult = reinterpret_cast<::A0F8Self *>(this)->FUN_00a0f8b0(acText, (float)m_aiX[iSlot], (float)m_aiY[iSlot], m_iPayloadInteger, -1, -1.0f, 0, (::A0F8Color *)(pkColor));
     m_aiY[iSlot] += m_iLineHeight;
     return iResult;
@@ -960,7 +960,6 @@ int FUN_00a10630_shell::FindDebugTextResult(float fX, float fY, int iFlags) {
 #include "fnv_asm_helpers.h"   // project x87 helpers (fnv_SinCos, fnv_FloatToInt), kept last so earlier code is unchanged
 
 #include <string.h>
-extern "C" void __cdecl FUN_00ecc7b0(char* destination, const char* source, unsigned int limit);
 struct SearchString {
     const char* data;
     unsigned short length;
@@ -1007,7 +1006,7 @@ bool SearchText::FUN_00a103e0(char* destination, float x, float y, int flags)
                     SearchPointer** copyEntry = &dynamicEntries[i];
                     {
                     const char* source = (*copyEntry)->value->text.data;
-                    FUN_00ecc7b0(destination, source, 2046);
+                    std::strncpy(destination, source, 2046);
                     }
                 }
                 }
@@ -1027,7 +1026,7 @@ bool SearchText::FUN_00a103e0(char* destination, float x, float y, int flags)
                 SearchString* text = &entries[j].text;
                 if ((text->length == 65535 ? (lengthData = text->data, strlen(lengthData)) : text->length) != 0) {
                     const char* source = entries[j].text.data;
-                    FUN_00ecc7b0(destination, source, 2046);
+                    std::strncpy(destination, source, 2046);
                 }
                 }
                 }

@@ -5,6 +5,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdint>
+#include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -17,7 +19,6 @@
 #include "fnv/decl/NiGPUProgramOwner.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
-void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
 
 struct FUN_00bd8750_cls
 {
@@ -40,8 +41,8 @@ struct FUN_00bd8a70_cls
 // @fnv 0x00bd8a70
 void FUN_00bd8a70_cls::FUN_00bd8a70()
 {
-    fnv_zlib_memset(m_18, 0, (unsigned int)m_10 * 4);
-    fnv_zlib_memset(m_14, 0, (unsigned int)m_10 << 4);
+    std::memset(m_18, (int)(std::uintptr_t)(0), (unsigned int)m_10 * 4);
+    std::memset(m_14, (int)(std::uintptr_t)(0), (unsigned int)m_10 << 4);
 
     for (int iIndex = 0; iIndex < (int)m_10; ++iIndex)
         *(float*)((char*)m_14 + iIndex * 16 + 8) = -10.0f;

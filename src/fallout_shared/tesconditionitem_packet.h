@@ -2,6 +2,7 @@
 #ifndef TESCONDITIONITEM_PACKET_H
 #define TESCONDITIONITEM_PACKET_H
 
+#include <cstdio>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00440e30_This.h"
 #include "fnv/decl/FUN_00569b80_shell.h"
@@ -362,7 +363,5 @@ class TESDataHandler
 {
   public:
 };
-extern "C" int sprintf(char*, const char*, ...);
-int FUN_00eca38d(char*, unsigned int, const char*, ...);
 extern const char DAT_0104cae0[], DAT_01069378[], DAT_010693d8[], DAT_01069440[], DAT_01069458[], DAT_010694b0[];
 #endif

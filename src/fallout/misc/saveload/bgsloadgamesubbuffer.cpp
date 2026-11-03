@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgsloadgamesubbuffer.cpp: BGSLoadGameSubBuffer, LoadGameSubBufferQueue, SubBufferMap, Holder and more (20 functions)
 
+#include <cstring>
 #include "fnv/decl/AnimSelf.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -56,8 +57,6 @@
 
 extern unsigned int __cdecl GetEncodedIntegerSize(unsigned int value);
 extern void __cdecl WriteEncodedInteger(char* destination, unsigned int value);
-extern "C" void* __cdecl memcpy(void* destination, const void* source, unsigned int size);
-
 typedef LockFreeMap<TESObjectREFR*, BSTreeNode*>::ThreadSafeHashTableNode QueuedHashListNode;
 typedef LockFreeMap<TESObjectREFR*, BSTreeNode*>::ThreadSafePointer<QueuedHashListNode> QueuedMarkedPointer;
 

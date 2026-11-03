@@ -1,5 +1,6 @@
 // The class header lives in include/; a plain "BGSEntryPointFunction.h" resolves to this folder's
 // bgsentrypointfunction.h (case-insensitive lookup), which declares a different class.
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSFaceGenKeyframe.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -422,7 +423,6 @@ struct FUN_00413f40_shell
 {
 };
 
-unsigned int __cdecl _strlen(const char*);
 
 struct FUN_005e6e50_obj
 {
@@ -568,7 +568,7 @@ void FUN_005e6e50_obj::FUN_005e6e50()
 {
     reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
     unsigned int z = 0;
-    if (m_kChoiceText && _strlen(m_kChoiceText))
+    if (m_kChoiceText && ::std::strlen(m_kChoiceText))
         ::FUN_004856f0((void *)(0x32465045), m_kChoiceText, (void *)(::FUN_0044a670(m_kChoiceText) + 1));
     ::FUN_00485950((void *)(0x33465045), *(unsigned short*)((char*)this + 0x5c));
     reinterpret_cast<::FUN_005abe00 *>((((::FUN_005abe00_shell *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<FUN_00413f40_shell*>(this)))->GetLinkToList()))))->ProcessHeader();

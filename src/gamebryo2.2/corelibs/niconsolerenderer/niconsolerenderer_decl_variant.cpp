@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/C_00e8f010.h"
 #include "fnv/decl/DepthStencilSearch.h"
@@ -11173,7 +11174,6 @@ struct Node {
     }
 
 };
-extern "C" void* __cdecl memset(void*,int,unsigned int);
 void* NiMalloc(unsigned int);
 struct RendererBase {
  virtual void BaseVirtual();

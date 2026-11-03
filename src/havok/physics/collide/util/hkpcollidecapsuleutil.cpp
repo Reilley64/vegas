@@ -2,6 +2,7 @@
 // src/havok/physics/collide/util/hkpcollidecapsuleutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/util/hkpcollidecapsuleutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/symbols_00cd5000.h"
 #include "fnv/symbols_00d22000.h"
 #include "fnv/symbols_01011000.h"
@@ -33,17 +34,6 @@ extern "C"
     __m128 _mm_load_ss(float const* p);
     void _mm_store_ss(float* p, __m128 a);
     __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    double __cdecl sqrt(double);
-    double __cdecl fabs(double);
-}
-
-inline float sqrt(float _X)
-{
-    return ((float)sqrt((double)(_X)));
-}
-inline float fabs(float _X)
-{
-    return ((float)fabs((double)(_X)));
 }
 
 

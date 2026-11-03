@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_004dc540_shell.h"
 #include "fnv/decl/FUN_0060c120_cls.h"
 #include "fnv/decl/FUN_00a463e0_Holder.h"
@@ -448,7 +449,6 @@ FUN_00a4f820::FUN_00a4f820() : m_kNames(1, 1)
     m_iFlags = 0;
 }
 
-void* FUN_00ec61c0(void* pDest, int iValue, int iCount);
 
 struct FUN_00a6d220
 {
@@ -476,7 +476,7 @@ struct MapBase_a4d
         m_uiCount = 0;
         unsigned int uiSize = sizeof(void*) * m_uiHashSize;
         m_ppkHashTable = (void**)FUN_00aa1070(uiSize);
-        FUN_00ec61c0(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(void*));
     }
     virtual void v00();
     unsigned int m_uiHashSize;

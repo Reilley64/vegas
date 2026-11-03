@@ -1,6 +1,7 @@
 // bsshader/debugshader.cpp: BloodSplatterBeamShader, SpeedTreeFrondShaderX, DebugShaderLoader, DebugShaderInit and more (15 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -330,7 +331,6 @@ struct ShaderDescX
     ShaderMacroX kMacros[9];
 };
 
-void* FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
 
 class NiD3DGPUProgramCache
 {
@@ -356,19 +356,19 @@ void SpeedTreeFrondShaderX::CreateShaders()
     kVertexShaders[0].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[0].kMacros[0].Name = 0;
     kVertexShaders[0].kMacros[0].Definition = 0;
-    FUN_00ec61c0(&kVertexShaders[0].kMacros[1], 0, 0x40);
+    std::memset(&kVertexShaders[0].kMacros[1], 0, 0x40);
     kVertexShaders[1].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[1].kMacros[0].Name = "FOG";
     kVertexShaders[1].kMacros[0].Definition = "";
     kVertexShaders[1].kMacros[1].Name = 0;
     kVertexShaders[1].kMacros[1].Definition = 0;
-    FUN_00ec61c0(&kVertexShaders[1].kMacros[2], 0, 0x38);
+    std::memset(&kVertexShaders[1].kMacros[2], 0, 0x38);
     kVertexShaders[2].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[2].kMacros[0].Name = "PT";
     kVertexShaders[2].kMacros[0].Definition = "";
     kVertexShaders[2].kMacros[1].Name = 0;
     kVertexShaders[2].kMacros[1].Definition = 0;
-    FUN_00ec61c0(&kVertexShaders[2].kMacros[2], 0, 0x38);
+    std::memset(&kVertexShaders[2].kMacros[2], 0, 0x38);
     kVertexShaders[3].pFile = "speedtree\\frond.v.hlsl";
     kVertexShaders[3].kMacros[0].Name = "PT";
     kVertexShaders[3].kMacros[0].Definition = "";
@@ -376,17 +376,17 @@ void SpeedTreeFrondShaderX::CreateShaders()
     kVertexShaders[3].kMacros[1].Definition = "";
     kVertexShaders[3].kMacros[2].Name = 0;
     kVertexShaders[3].kMacros[2].Definition = 0;
-    FUN_00ec61c0(&kVertexShaders[3].kMacros[3], 0, 0x30);
+    std::memset(&kVertexShaders[3].kMacros[3], 0, 0x30);
     kPixelShaders[0].pFile = "speedtree\\frond.p.hlsl";
     kPixelShaders[0].kMacros[0].Name = 0;
     kPixelShaders[0].kMacros[0].Definition = 0;
-    FUN_00ec61c0(&kPixelShaders[0].kMacros[1], 0, 0x40);
+    std::memset(&kPixelShaders[0].kMacros[1], 0, 0x40);
     kPixelShaders[1].pFile = "speedtree\\frond.p.hlsl";
     kPixelShaders[1].kMacros[0].Name = "FOG";
     kPixelShaders[1].kMacros[0].Definition = "";
     kPixelShaders[1].kMacros[1].Name = 0;
     kPixelShaders[1].kMacros[1].Definition = 0;
-    FUN_00ec61c0(&kPixelShaders[1].kMacros[2], 0, 0x38);
+    std::memset(&kPixelShaders[1].kMacros[2], 0, 0x38);
     char acPath[260];
     char acName[260];
 
@@ -468,7 +468,7 @@ void DebugShaderLoader::LoadDebugShaders()
     vertexDesc.pFile = "imagespace\\1x\\v\\base_old.v.hlsl";
     vertexDesc.kMacros[0].Name = 0;
     vertexDesc.kMacros[0].Definition = 0;
-    FUN_00ec61c0(&vertexDesc.kMacros[1], 0, 64);
+    std::memset(&vertexDesc.kMacros[1], 0, 64);
     FUN_00be0c00(vertexDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG.vso");
     m_spTreeVertexShader = ((::NiD3DVertexShader *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)this, (::_D3DXMACRO *)(path), (const char *)(vertexDesc.kMacros), "vs_1_1")));
@@ -477,7 +477,7 @@ void DebugShaderLoader::LoadDebugShaders()
     pixelDesc.pFile = "imagespace\\1x\\p\\copy.p.hlsl";
     pixelDesc.kMacros[0].Name = 0;
     pixelDesc.kMacros[0].Definition = 0;
-    FUN_00ec61c0(&pixelDesc.kMacros[1], 0, 64);
+    std::memset(&pixelDesc.kMacros[1], 0, 64);
     FUN_00be0c00(pixelDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG00.pso");
     m_spPixelShaderVariants[0] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, pixelDesc.kMacros, (char *)(profile), name);
@@ -487,7 +487,7 @@ void DebugShaderLoader::LoadDebugShaders()
     maskedPixelDesc.kMacros[0].Name = "CHANNELMASK";
     maskedPixelDesc.kMacros[0].Definition = "";
     maskedPixelDesc.kMacros[1].Name = 0;
-    FUN_00ec61c0(&maskedPixelDesc.kMacros[1].Definition, 0, 60);
+    std::memset(&maskedPixelDesc.kMacros[1].Definition, 0, 60);
     FUN_00be0c00(maskedPixelDesc.pFile, path);
     ::FUN_00406d00(name, 260, "DEBUG01.pso");
     m_spPixelShaderVariants[1] = reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750(path, maskedPixelDesc.kMacros, (char *)(profile), name);

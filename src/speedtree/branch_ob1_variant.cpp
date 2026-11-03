@@ -5,6 +5,9 @@
 
 // src/speedtree/branch.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/branch.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/CoordinateWriter.h"
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "fnv/decl/FUN_00b12b50_class.h"
@@ -54,7 +57,6 @@ struct FUN_00b14ae0_class
 {
     float FUN_00b14ae0(int id, float a, float b);
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b15170
 {
     char m_00[0xc];
@@ -214,7 +216,6 @@ struct MyThis
     float a, b, c;
     Vec* ProjectOntoLine(Vec* out, Vec* a, Vec* b, Vec* c);
 };
-extern unsigned int __cdecl FUN_00ec7c56(void);
 struct NiPoint3x
 {
     float x, y, z;
@@ -338,7 +339,7 @@ struct OutputIterator
     int operator-(const OutputIterator& other) const
     {
         if (!owner || owner != other.owner)
-            FUN_00ec7c56();
+            std::abort();
         return position - other.position;
     }
     OutputIterator& operator+=(int offset);
@@ -407,7 +408,7 @@ struct CreationValuesVector
 inline OutputIterator::OutputIterator(CreationValues* ptr, CreationValuesVector* object) : owner(0), position(ptr)
 {
     if (!object || ptr < object->first || ptr > object->last)
-        FUN_00ec7c56();
+        std::abort();
     owner = object->owner;
 }
 
@@ -416,12 +417,12 @@ inline OutputIterator& OutputIterator::operator+=(int offset)
     IteratorProxy* proxy = owner;
     CreationValuesVector* container = proxy ? proxy->container : 0;
     if (!container)
-        FUN_00ec7c56();
+        std::abort();
     CreationValues* candidate = position + offset;
     CreationValues* lower = container->first;
     CreationValues* upper = container->last;
     if (candidate < lower || candidate > upper)
-        FUN_00ec7c56();
+        std::abort();
     position = candidate;
     return *this;
 }
@@ -553,19 +554,15 @@ void FUN_00b151a0_class::FUN_00b151a0()
     }
 }
 
-extern double __cdecl FUN_00eca060(double);
-extern double __cdecl FUN_00ec9f30(double);
 extern double __cdecl FUN_00eca190(double);
-extern double __cdecl FUN_00ec9ac0(double, double);
-extern double __cdecl fabs(double);
 extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
 inline float BranchPower(float a, float b)
 {
-    return (float)(double)(float)FUN_00ec9ac0(a, b);
+    return (float)(double)(float)std::pow(a, b);
 }
 inline float BranchAbsolute(float a)
 {
-    return ((float)fabs((double)a));
+    return ((float)std::fabs((double)a));
 }
 inline float BranchFalloff(float p)
 {
@@ -745,13 +742,11 @@ struct BranchConfigList
     BranchConfig*& GetElement(unsigned int index)
     {
         if (index >= (unsigned int)(end - begin))
-            FUN_00ec7c56();
+            std::abort();
         return begin[index];
     }
 };
 extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
-extern double __cdecl FUN_00ec9ac0(double, double);
-extern double __cdecl fabs(double);
 extern float DAT_010a54a0, DAT_010a549c, DAT_010a5498;
 struct FUN_00b10dc0;
 struct BranchChild
@@ -775,7 +770,7 @@ struct BranchIterator
     int operator-(const BranchIterator& other) const
     {
         if (!proxy || proxy != other.proxy)
-            FUN_00ec7c56();
+            std::abort();
         return position - other.position;
     }
 };
@@ -829,7 +824,7 @@ struct BranchChildren
 inline BranchIterator::BranchIterator(BranchChild* p, BranchChildren* v) : proxy(0), position(p)
 {
     if (!v || v->begin > p || p > v->end)
-        FUN_00ec7c56();
+        std::abort();
     proxy = v->unk00;
 }
 struct BranchLeaves
@@ -878,8 +873,8 @@ inline BranchMatrix BranchMatrix::Multiply(const BranchMatrix& a)
 }
 inline void BranchMatrix::SetRotationAxisAngle(float angle, BranchPoint axis)
 {
-    float sine = (float)FUN_00eca060((float)(angle / DAT_010a4d90));
-    float cosine = (float)FUN_00ec9f30((float)(angle / DAT_010a4d90));
+    float sine = (float)std::sin((float)(angle / DAT_010a4d90));
+    float cosine = (float)std::cos((float)(angle / DAT_010a4d90));
     float complement = 1.0f - cosine;
     float x = axis.x, y = axis.y, z = axis.z;
     m00 = complement * x * x + cosine;
@@ -895,8 +890,8 @@ inline void BranchMatrix::SetRotationAxisAngle(float angle, BranchPoint axis)
 inline void BranchMatrix::FUN_00b12d50(float angle, BranchPoint axis)
 {
     BranchMatrix rotation;
-    float sine = (float)FUN_00eca060((float)(angle / DAT_010a4d90));
-    float cosine = (float)FUN_00ec9f30((float)(angle / DAT_010a4d90));
+    float sine = (float)std::sin((float)(angle / DAT_010a4d90));
+    float cosine = (float)std::cos((float)(angle / DAT_010a4d90));
     float complement = 1.0f - cosine;
     float x = axis.x, y = axis.y, z = axis.z;
     rotation.m00 = complement * x * x + cosine;
@@ -913,10 +908,10 @@ inline void BranchMatrix::FUN_00b12d50(float angle, BranchPoint axis)
 inline void BranchMatrix::FUN_00b12c00(float first, float second)
 {
     BranchMatrix rotation;
-    float c1 = (float)FUN_00ec9f30((float)(first / DAT_010a4d90));
-    float s1 = (float)FUN_00eca060((float)(first / DAT_010a4d90));
-    float c2 = (float)FUN_00ec9f30((float)(second / DAT_010a4d90));
-    float s2 = (float)FUN_00eca060((float)(second / DAT_010a4d90));
+    float c1 = (float)std::cos((float)(first / DAT_010a4d90));
+    float s1 = (float)std::sin((float)(first / DAT_010a4d90));
+    float c2 = (float)std::cos((float)(second / DAT_010a4d90));
+    float s2 = (float)std::sin((float)(second / DAT_010a4d90));
     rotation.m00 = c1 * c2;
     rotation.m01 = c1 * s2;
     rotation.m02 = -s1;
@@ -933,7 +928,6 @@ struct S_00b13a40_Elem
     unsigned char m_flag;
 };
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct S_00b13a40_Vec
 {
@@ -951,7 +945,7 @@ struct S_00b13a40_Vec
     {
         if (i >= Size())
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return *(S_00b13a40_Elem*)(m_pRayStart + i * 0x54);
     }
@@ -1057,7 +1051,7 @@ struct ConstIndexIterator : IndexIteratorBase
             if (!(owner != 0 && same_container(other)))
             {
                 {
-                    FUN_00ec7c56();
+                    std::abort();
                 }
             }
         }
@@ -1147,7 +1141,7 @@ inline ConstIndexIterator::ConstIndexIterator(unsigned* ptr, IndexSet* object)
         if (!(object != 0 && object->first <= ptr && ptr <= object->last))
         {
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
     }
@@ -1160,7 +1154,7 @@ inline ConstIndexIterator& ConstIndexIterator::operator+=(int offset)
         if (!(has_container()))
         {
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
     }
@@ -1168,7 +1162,7 @@ inline ConstIndexIterator& ConstIndexIterator::operator+=(int offset)
         if (!(position + offset <= get_container()->last && position + offset >= get_container()->first))
         {
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
     }
@@ -1223,7 +1217,7 @@ struct Vec54
     inline void* at(unsigned index)
     {
         if (index >= size())
-            FUN_00ec7c56();
+            std::abort();
         return m_0c + index * 0x54;
     }
 };
@@ -1359,7 +1353,7 @@ struct IndexList
     inline int at(unsigned index)
     {
         if (index >= size())
-            FUN_00ec7c56();
+            std::abort();
         return begin[index];
     }
 };
@@ -1386,7 +1380,7 @@ inline bool emptyB()
 inline int atB(unsigned i)
 {
     if (i >= sizeB())
-        FUN_00ec7c56();
+        std::abort();
     return i[DAT_011f8c24];
 }
 struct IntVecG
@@ -1402,7 +1396,7 @@ struct IntVecG
     inline int& operator[](unsigned _Pos)
     {
         if (!(_Pos < size()))
-            FUN_00ec7c56();
+            std::abort();
         return *(_Myfirst + _Pos);
     }
 };
@@ -1458,7 +1452,7 @@ struct ReferenceListNode
     inline ObjectRef& at(unsigned i)
     {
         if (i >= size())
-            FUN_00ec7c56();
+            std::abort();
         return begin[i];
     }
 };
@@ -1581,25 +1575,21 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
 }
 }  // namespace fnv_00b13c10
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 
 struct RingSettings
 {
     int unk00, unk04;
     float strength;
 };
-double __cdecl FUN_00ec9f30(double);
 double __cdecl FUN_00ec6054(double);
 double __cdecl FUN_00ec6cde(double);
-double __cdecl FUN_00ec9ac0(double, double);
-double __cdecl FUN_00eca060(double);
 inline double ringCos(float a)
 {
-    return (float)FUN_00ec9f30(a);
+    return (float)std::cos(a);
 }
 inline double ringSin(float a)
 {
-    return (float)FUN_00eca060(a);
+    return (float)std::sin(a);
 }
 
 struct RingPoint
@@ -1678,10 +1668,10 @@ struct RingModifier
             {
                 float fAngleWeight = 1.0f - fTimeSinceScaleStart / fImpulseRadiusSquared;
                 float fAngleExponent = fAngleFalloff;
-                fAngleWeight = (float)FUN_00ec9ac0(fAngleWeight, fAngleExponent);
+                fAngleWeight = (float)std::pow(fAngleWeight, fAngleExponent);
                 float fTimeWeight = fRemaining / fDuration;
                 float fTimeExponent = fTimeFalloff;
-                fTimeWeight = (float)FUN_00ec9ac0(fTimeWeight, fTimeExponent);
+                fTimeWeight = (float)std::pow(fTimeWeight, fTimeExponent);
                 fResult = fWaterLevelItem * fAngleWeight * fTimeWeight;
             }
         }
@@ -1701,7 +1691,7 @@ struct RingModifiers
     RingModifier& operator[](unsigned int index)
     {
         if (index >= (unsigned int)(last - first))
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -1804,7 +1794,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
         qhxpxJd->radius = reinterpret_cast<::FUN_00b37ad0_class *>(((material->radius).operator->()))->FUN_00b37ad0(0.0f) * length;
         float qfTOqo = reinterpret_cast<::FUN_00b37ad0_class *>(((material->variation).operator->()))->FUN_00b37ad0(0.0f) * thickness;
         float qbGYp = BranchDegrees(reinterpret_cast<::This *>(&(qhxpxJd->direction))->FUN_00b12720((const ::NiPoint3 &)(DAT_011f8c08)));
-        float qSuoDt = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbGYp)));
+        float qSuoDt = BranchFalloff((float)(double)(float)std::fabs((float)(DAT_01066808 - qbGYp)));
         BranchPoint qkbsJ = qhxpxJd->direction.FUN_00b12810(DAT_011f8c08);
         reinterpret_cast<::FUN_00b12790_class *>(&(qkbsJ))->FUN_00b12790();
         float qdqWL = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(0.0f) - 0.5) * 2.0 * -1.0;
@@ -1854,7 +1844,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
             qGfbX->matrix = qpqRa->matrix;
             qGfbX->direction = DAT_011f8c40.FUN_00b12890(qGfbX->matrix);
             float qbXcw = BranchDegrees(reinterpret_cast<::This *>(&(qGfbX->direction))->FUN_00b12720((const ::NiPoint3 &)(DAT_011f8c08)));
-            float qRqUtp = BranchFalloff((float)(double)(float)fabs((float)(DAT_01066808 - qbXcw)));
+            float qRqUtp = BranchFalloff((float)(double)(float)std::fabs((float)(DAT_01066808 - qbXcw)));
             BranchPoint qArxcFu = qGfbX->direction.FUN_00b12810(DAT_011f8c08);
             reinterpret_cast<::FUN_00b12790_class *>(&(qArxcFu))->FUN_00b12790();
             float qsTDDg = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(qZAdkzg) - 0.5) * 2.0 * -1.0;
@@ -2040,7 +2030,7 @@ void RingOwner::FUN_00b14450(RingGeometry* geometry, float amount, float fade, i
             RingPoint kIntersectionOffset(delta4.x - kPosition.x, delta4.y - kPosition.y, delta4.z - kPosition.z);
             reinterpret_cast<::FUN_00b12790_class *>(&(kIntersectionOffset))->FUN_00b12790();
             direction3 = kIntersectionOffset;
-            FUN_00ec44d0(&kPosition, &delta4, sizeof(kPosition));
+            std::memmove(&kPosition, &delta4, sizeof(kPosition));
         }
         reinterpret_cast<::FUN_00b300c0_cls *>((builder))->FUN_00b300c0((const float *)(const ::PlainPoint *)(&kPosition));
         reinterpret_cast<::FUN_00b30020_Class *>((builder))->FUN_00b30020((float *)(&color));
@@ -2200,7 +2190,7 @@ struct VecQ_acda90
 inline CItQ_acda90::CItQ_acda90(ElQ_acda90* _Ptr, const VecQ_acda90* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -2309,7 +2299,7 @@ struct VecQ_acad60
 inline CItQ_acad60::CItQ_acad60(int* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -2468,7 +2458,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
         memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -2541,22 +2530,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -2617,7 +2606,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -2758,7 +2747,6 @@ inline float difference(float a, float b)
 {
     return a - b;
 }
-extern "C" double __cdecl pow(double, double);
 struct ParticleFalloff
 {
     float unk00;
@@ -2774,7 +2762,7 @@ float ParticleFalloff::FUN_00b14980(float a, float b)
 {
     float result2 = 0.0f;
     float loTmp;
-    float x = (float)(double)(float)fabs((double)(float)(a - (loTmp = unk00)));
+    float x = (float)(double)(float)std::fabs((double)(float)(a - (loTmp = unk00)));
     if (x > ::runtimeInitializationFloat2066)
     {
         if (a < loTmp)
@@ -2786,7 +2774,7 @@ float ParticleFalloff::FUN_00b14980(float a, float b)
             loTmp = loTmp + ::runtimeInitializationFloat4160;
         }
     }
-    x = (float)(double)(float)fabs((double)(float)difference(a, loTmp));
+    x = (float)(double)(float)std::fabs((double)(float)difference(a, loTmp));
     if (x < unk04)
     {
         float d8 = unk0c - b;

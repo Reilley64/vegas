@@ -1,6 +1,7 @@
 // bsshader/particleshader.cpp: ParticleShader, ShaderState (12 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/CloneSourceA5d6.h"
@@ -1170,7 +1171,6 @@ NiObject* __cdecl FUN_00ba64e0()
     return reinterpret_cast<NiObject*>(DAT_012003f4);
 }
 
-extern void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct ParticleMemoryManager
 {
@@ -1368,7 +1368,7 @@ FUN_00ba53f0::FUN_00ba53f0(NiD3DVertexDeclaration* apVertexDeclaration)
         (*reinterpret_cast<unsigned int *>(&::DAT_012003ec)) = count;
     }
     particles = new Particle[count];
-    FUN_00ec61c0(particles, 0, count * 48);
-    FUN_00ec61c0(&unk84, 0, 80);
+    std::memset(particles, 0, count * 48);
+    std::memset(&unk84, 0, 80);
 }
 }

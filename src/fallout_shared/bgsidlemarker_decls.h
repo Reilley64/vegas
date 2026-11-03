@@ -3,6 +3,8 @@
 #define FNV_BGSIDLEMARKER_DECLS_H
 
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/FUN_0067ffa0_cls.h"
@@ -98,8 +100,6 @@ template <int N> struct EndianSizeTag
 
 void* __cdecl operator new[](unsigned int size);
 void __cdecl operator delete[](void* pointer);
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
-extern "C" void* __cdecl _alloca(unsigned int size);
 #pragma intrinsic(_alloca)
 
 extern unsigned int BGSQuestPerkEntry_vtbl;

@@ -5,6 +5,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <cmath>
 #include "fnv/symbols_010d5000.h"
 struct FUN_00db0920
 {
@@ -53,7 +54,6 @@ extern "C"
 
 extern "C"
 {
-    double __cdecl fabs(double _X);
 }
 extern "C++"
 {

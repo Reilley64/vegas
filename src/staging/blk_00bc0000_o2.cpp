@@ -3,6 +3,9 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -1694,7 +1697,6 @@ void S_00bc0920_Class::CallVTableSlots13cAnd140()
     this->vtbl->unk140(this);
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void* dst, int value, unsigned int size);
 
 struct ShaderObject
 {
@@ -1733,7 +1735,7 @@ struct ShaderDesc
     {
         kInfo.iCount = 0;
         kInfo.iFlags = 0;
-        fnv_zlib_memset(kInfo.acData, 0, sizeof(kInfo.acData));
+        std::memset(kInfo.acData, 0, sizeof(kInfo.acData));
     }
 };
 
@@ -3968,7 +3970,6 @@ void FUN_00bc4640_cls::FUN_00bc4640()
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct BeamDesc
 {
     const char* file;
@@ -3977,7 +3978,7 @@ struct BeamDesc
     char arguments[64];
     BeamDesc(const char* name) : file(name), count(0), flags(0)
     {
-        FUN_00ec61c0(arguments, 0, 64);
+        std::memset(arguments, 0, 64);
     }
 };
 struct BeamPtr
@@ -4065,7 +4066,6 @@ void TargetBeam::FUN_00bc4680()
     pixel.Assign(((::RefObject *)(reinterpret_cast<::FUN_00be1750_shell *>(this)->FUN_00be1750((char *)(sourcePath), &pixelDesc.count, (char *)(profile), (char *)(binaryPath)))));
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct CountedRef
 {
     virtual void unused();
@@ -4208,7 +4208,7 @@ FUN_00bc4830::FUN_00bc4830(CountedRef* pSource)
     first.clear();
     second.clear();
     value = 0.0f;
-    FUN_00ec61c0(matrix, 0, 0x40);
+    std::memset(matrix, 0, 0x40);
 }
 
 
@@ -5918,7 +5918,6 @@ extern const char str_010bbb1c[];
 extern const char str_010bbb08[];
 extern const char str_010bbaf8[];
 extern const char str_010bbae8[];
-void* __cdecl FUN_00ec61c0(void* dst, int val, unsigned int n);
 
 struct Elem540
 {
@@ -5964,21 +5963,21 @@ void FUN_00bd0540_class::InitRefObjects()
     arrA[0].f04 = str_010bbb30;
     arrA[0].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[0].f0c = 0;
-    FUN_00ec61c0(&arrA[0].f10, 0, 0x3c);
+    std::memset(&arrA[0].f10, 0, 0x3c);
     arrA[1].f00 = str_010bbb38;
     arrA[1].f04 = str_010bbb30;
     arrA[1].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[1].f0c = str_010bbb2c;
     arrA[1].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[1].f14 = 0;
-    FUN_00ec61c0(&arrA[1].f18, 0, 0x34);
+    std::memset(&arrA[1].f18, 0, 0x34);
     arrA[2].f00 = str_010bbb38;
     arrA[2].f04 = str_010bbb28;
     arrA[2].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[2].f0c = str_010bbb20;
     arrA[2].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[2].f14 = 0;
-    FUN_00ec61c0(&arrA[2].f18, 0, 0x34);
+    std::memset(&arrA[2].f18, 0, 0x34);
     arrA[3].f00 = str_010bbb38;
     arrA[3].f04 = str_010bbb30;
     arrA[3].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -5987,7 +5986,7 @@ void FUN_00bd0540_class::InitRefObjects()
     arrA[3].f14 = str_010bbb1c;
     arrA[3].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[3].f1c = 0;
-    FUN_00ec61c0(&arrA[3].f20, 0, 0x2c);
+    std::memset(&arrA[3].f20, 0, 0x2c);
     arrA[4].f00 = str_010bbb38;
     arrA[4].f04 = str_010bbb28;
     arrA[4].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -5996,7 +5995,7 @@ void FUN_00bd0540_class::InitRefObjects()
     arrA[4].f14 = str_010bbb1c;
     arrA[4].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[4].f1c = 0;
-    FUN_00ec61c0(&arrA[4].f20, 0, 0x2c);
+    std::memset(&arrA[4].f20, 0, 0x2c);
     arrA[5].f00 = str_010bbb38;
     arrA[5].f04 = str_010bbb28;
     arrA[5].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -6005,34 +6004,34 @@ void FUN_00bd0540_class::InitRefObjects()
     arrA[5].f14 = str_010bbb1c;
     arrA[5].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[5].f1c = 0;
-    FUN_00ec61c0(&arrA[5].f20, 0, 0x2c);
+    std::memset(&arrA[5].f20, 0, 0x2c);
     arrA[6].f00 = str_010bbb38;
     arrA[6].f04 = str_010bbb28;
     arrA[6].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[6].f0c = str_010bbb2c;
     arrA[6].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrA[6].f14 = 0;
-    FUN_00ec61c0(&arrA[6].f18, 0, 0x34);
+    std::memset(&arrA[6].f18, 0, 0x34);
 
     arrB[0].f00 = str_010bbb08;
     arrB[0].f04 = str_010bbb30;
     arrB[0].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[0].f0c = 0;
-    FUN_00ec61c0(&arrB[0].f10, 0, 0x3c);
+    std::memset(&arrB[0].f10, 0, 0x3c);
     arrB[1].f00 = str_010bbb08;
     arrB[1].f04 = str_010bbb30;
     arrB[1].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[1].f0c = str_010bbb2c;
     arrB[1].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[1].f14 = 0;
-    FUN_00ec61c0(&arrB[1].f18, 0, 0x34);
+    std::memset(&arrB[1].f18, 0, 0x34);
     arrB[2].f00 = str_010bbb08;
     arrB[2].f04 = str_010bbb28;
     arrB[2].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[2].f0c = str_010bbb20;
     arrB[2].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[2].f14 = 0;
-    FUN_00ec61c0(&arrB[2].f18, 0, 0x34);
+    std::memset(&arrB[2].f18, 0, 0x34);
     arrB[3].f00 = str_010bbb08;
     arrB[3].f04 = str_010bbb30;
     arrB[3].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -6041,7 +6040,7 @@ void FUN_00bd0540_class::InitRefObjects()
     arrB[3].f14 = str_010bbb1c;
     arrB[3].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[3].f1c = 0;
-    FUN_00ec61c0(&arrB[3].f20, 0, 0x2c);
+    std::memset(&arrB[3].f20, 0, 0x2c);
     arrB[4].f00 = str_010bbb08;
     arrB[4].f04 = str_010bbb28;
     arrB[4].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -6050,7 +6049,7 @@ void FUN_00bd0540_class::InitRefObjects()
     arrB[4].f14 = str_010bbb1c;
     arrB[4].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[4].f1c = 0;
-    FUN_00ec61c0(&arrB[4].f20, 0, 0x2c);
+    std::memset(&arrB[4].f20, 0, 0x2c);
     arrB[5].f00 = str_010bbb08;
     arrB[5].f04 = str_010bbb28;
     arrB[5].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
@@ -6059,14 +6058,14 @@ void FUN_00bd0540_class::InitRefObjects()
     arrB[5].f14 = str_010bbb1c;
     arrB[5].f18 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[5].f1c = 0;
-    FUN_00ec61c0(&arrB[5].f20, 0, 0x2c);
+    std::memset(&arrB[5].f20, 0, 0x2c);
     arrB[6].f00 = str_010bbb08;
     arrB[6].f04 = str_010bbb28;
     arrB[6].f08 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[6].f0c = str_010bbb2c;
     arrB[6].f10 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     arrB[6].f14 = 0;
-    FUN_00ec61c0(&arrB[6].f18, 0, 0x34);
+    std::memset(&arrB[6].f18, 0, 0x34);
 
     for (int i = 0; i < 7; i++)
     {
@@ -9495,7 +9494,6 @@ void FUN_00bc5050_class::FUN_00bc5050()
     vf52();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct ShaderRef_bc5070 : RefObject
 {
     void IncRefCount()
@@ -9517,7 +9515,7 @@ struct Config_bc5070
     {
         filename = path;
         flags = 0;
-        FUN_00ec61c0(macros, 0, 0x44);
+        std::memset(macros, 0, 0x44);
     }
 };
 struct FUN_00bc5070_shell
@@ -9573,7 +9571,6 @@ void FUN_00bc5070_shell::LoadVolumetricFogShaders()
     }
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 struct ShaderMacro
 {
@@ -9636,13 +9633,13 @@ void VolumetricFog::CreatePixelShaders()
     FogShaderDesc shaderDescs[2];
     shaderDescs[0].filename = "vfog\\VolumetricFog.p.hlsl";
     shaderDescs[0].macros[0].Name = 0;
-    fnv_zlib_memset(&shaderDescs[0].macros[0].Definition, 0, 0x44);
+    std::memset(&shaderDescs[0].macros[0].Definition, 0, 0x44);
 
     shaderDescs[1].filename = "vfog\\VolumetricFog.p.hlsl";
     shaderDescs[1].macros[0].Name = "SINGLE_PASS";
     shaderDescs[1].macros[0].Definition = "";
     shaderDescs[1].macros[1].Name = 0;
-    fnv_zlib_memset(&shaderDescs[1].macros[1].Definition, 0, 0x3c);
+    std::memset(&shaderDescs[1].macros[1].Definition, 0, 0x3c);
 
     for (int i = 0; i < 2; ++i)
     {
@@ -9862,7 +9859,6 @@ FUN_00bcd4a0::~FUN_00bcd4a0()
         passes[i].clear();
 }
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct PixelRef
 {
     virtual void Destroy();
@@ -9894,7 +9890,6 @@ struct PixelPtr
         }
     }
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct Macro
 {
     const char* name;
@@ -9973,28 +9968,28 @@ void PixelLoader::FUN_00bcd7c0()
     desc[0].macros[0] = "PARALLAX";
     desc[0].macros[1] = "";
     desc[0].macros[2] = 0;
-    fnv_zlib_memset(&desc[0].macros[3], 0, 60);
+    std::memset(&desc[0].macros[3], 0, 60);
     desc[1].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[1].macros[0] = "PARALLAX";
     desc[1].macros[1] = "";
     desc[1].macros[2] = "OPT";
     desc[1].macros[3] = "";
     desc[1].macros[4] = 0;
-    fnv_zlib_memset(&desc[1].macros[5], 0, 52);
+    std::memset(&desc[1].macros[5], 0, 52);
     desc[2].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[2].macros[0] = "PARALLAX";
     desc[2].macros[1] = "";
     desc[2].macros[2] = "SI";
     desc[2].macros[3] = "";
     desc[2].macros[4] = 0;
-    fnv_zlib_memset(&desc[2].macros[5], 0, 52);
+    std::memset(&desc[2].macros[5], 0, 52);
     desc[3].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[3].macros[0] = "PARALLAX";
     desc[3].macros[1] = "";
     desc[3].macros[2] = "PROJ_SHADOW";
     desc[3].macros[3] = "";
     desc[3].macros[4] = 0;
-    fnv_zlib_memset(&desc[3].macros[5], 0, 52);
+    std::memset(&desc[3].macros[5], 0, 52);
     desc[4].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[4].macros[0] = "PARALLAX";
     desc[4].macros[1] = "";
@@ -10003,14 +9998,14 @@ void PixelLoader::FUN_00bcd7c0()
     desc[4].macros[4] = "PROJ_SHADOW";
     desc[4].macros[5] = "";
     desc[4].macros[6] = 0;
-    fnv_zlib_memset(&desc[4].macros[7], 0, 44);
+    std::memset(&desc[4].macros[7], 0, 44);
     desc[5].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[5].macros[0] = "LIGHTS";
     desc[5].macros[1] = "2";
     desc[5].macros[2] = "PARALLAX";
     desc[5].macros[3] = "";
     desc[5].macros[4] = 0;
-    fnv_zlib_memset(&desc[5].macros[5], 0, 52);
+    std::memset(&desc[5].macros[5], 0, 52);
     desc[6].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[6].macros[0] = "LIGHTS";
     desc[6].macros[1] = "2";
@@ -10019,7 +10014,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[6].macros[4] = "SI";
     desc[6].macros[5] = "";
     desc[6].macros[6] = 0;
-    fnv_zlib_memset(&desc[6].macros[7], 0, 44);
+    std::memset(&desc[6].macros[7], 0, 44);
     desc[7].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[7].macros[0] = "LIGHTS";
     desc[7].macros[1] = "2";
@@ -10028,7 +10023,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[7].macros[4] = "PROJ_SHADOW";
     desc[7].macros[5] = "";
     desc[7].macros[6] = 0;
-    fnv_zlib_memset(&desc[7].macros[7], 0, 44);
+    std::memset(&desc[7].macros[7], 0, 44);
     desc[8].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[8].macros[0] = "LIGHTS";
     desc[8].macros[1] = "2";
@@ -10046,7 +10041,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[9].macros[2] = "PARALLAX";
     desc[9].macros[3] = "";
     desc[9].macros[4] = 0;
-    fnv_zlib_memset(&desc[9].macros[5], 0, 52);
+    std::memset(&desc[9].macros[5], 0, 52);
     desc[10].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[10].macros[0] = "SPECULAR";
     desc[10].macros[1] = "";
@@ -10055,7 +10050,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[10].macros[4] = "SI";
     desc[10].macros[5] = "";
     desc[10].macros[6] = 0;
-    fnv_zlib_memset(&desc[10].macros[7], 0, 44);
+    std::memset(&desc[10].macros[7], 0, 44);
     desc[11].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[11].macros[0] = "SPECULAR";
     desc[11].macros[1] = "";
@@ -10064,7 +10059,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[11].macros[4] = "PROJ_SHADOW";
     desc[11].macros[5] = "";
     desc[11].macros[6] = 0;
-    fnv_zlib_memset(&desc[11].macros[7], 0, 44);
+    std::memset(&desc[11].macros[7], 0, 44);
     desc[12].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[12].macros[0] = "SPECULAR";
     desc[12].macros[1] = "";
@@ -10082,7 +10077,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[13].macros[2] = "PARALLAX";
     desc[13].macros[3] = "";
     desc[13].macros[4] = 0;
-    fnv_zlib_memset(&desc[13].macros[5], 0, 52);
+    std::memset(&desc[13].macros[5], 0, 52);
     desc[14].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[14].macros[0] = "LIGHTS";
     desc[14].macros[1] = "2";
@@ -10091,7 +10086,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[14].macros[4] = "SI";
     desc[14].macros[5] = "";
     desc[14].macros[6] = 0;
-    fnv_zlib_memset(&desc[14].macros[7], 0, 44);
+    std::memset(&desc[14].macros[7], 0, 44);
     desc[15].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[15].macros[0] = "LIGHTS";
     desc[15].macros[1] = "2";
@@ -10100,7 +10095,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[15].macros[4] = "PROJ_SHADOW";
     desc[15].macros[5] = "";
     desc[15].macros[6] = 0;
-    fnv_zlib_memset(&desc[15].macros[7], 0, 44);
+    std::memset(&desc[15].macros[7], 0, 44);
     desc[16].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[16].macros[0] = "LIGHTS";
     desc[16].macros[1] = "2";
@@ -10118,7 +10113,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[17].macros[2] = "PARALLAX";
     desc[17].macros[3] = "";
     desc[17].macros[4] = 0;
-    fnv_zlib_memset(&desc[17].macros[5], 0, 52);
+    std::memset(&desc[17].macros[5], 0, 52);
     desc[18].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[18].macros[0] = "LIGHTS";
     desc[18].macros[1] = "3";
@@ -10127,7 +10122,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[18].macros[4] = "SI";
     desc[18].macros[5] = "";
     desc[18].macros[6] = 0;
-    fnv_zlib_memset(&desc[18].macros[7], 0, 44);
+    std::memset(&desc[18].macros[7], 0, 44);
     desc[19].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[19].macros[0] = "LIGHTS";
     desc[19].macros[1] = "3";
@@ -10136,7 +10131,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[19].macros[4] = "PROJ_SHADOW";
     desc[19].macros[5] = "";
     desc[19].macros[6] = 0;
-    fnv_zlib_memset(&desc[19].macros[7], 0, 44);
+    std::memset(&desc[19].macros[7], 0, 44);
     desc[20].file = "lighting\\2x\\p\\AD.p.hlsl";
     desc[20].macros[0] = "LIGHTS";
     desc[20].macros[1] = "3";
@@ -10154,38 +10149,38 @@ void PixelLoader::FUN_00bcd7c0()
     desc[21].macros[2] = "PARALLAX";
     desc[21].macros[3] = "";
     desc[21].macros[4] = 0;
-    fnv_zlib_memset(&desc[21].macros[5], 0, 52);
+    std::memset(&desc[21].macros[5], 0, 52);
     desc[22].file = "lighting\\2x\\p\\DiffusePt.p.hlsl";
     desc[22].macros[0] = "LIGHTS";
     desc[22].macros[1] = "3";
     desc[22].macros[2] = "PARALLAX";
     desc[22].macros[3] = "";
     desc[22].macros[4] = 0;
-    fnv_zlib_memset(&desc[22].macros[5], 0, 52);
+    std::memset(&desc[22].macros[5], 0, 52);
     desc[23].file = "lighting\\2x\\p\\Texture.p.hlsl";
     desc[23].macros[0] = "PARALLAX";
     desc[23].macros[1] = "";
     desc[23].macros[2] = 0;
-    fnv_zlib_memset(&desc[23].macros[3], 0, 60);
+    std::memset(&desc[23].macros[3], 0, 60);
     desc[24].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[24].macros[0] = "PARALLAX";
     desc[24].macros[1] = "";
     desc[24].macros[2] = 0;
-    fnv_zlib_memset(&desc[24].macros[3], 0, 60);
+    std::memset(&desc[24].macros[3], 0, 60);
     desc[25].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[25].macros[0] = "PARALLAX";
     desc[25].macros[1] = "";
     desc[25].macros[2] = "PROJ_SHADOW";
     desc[25].macros[3] = "";
     desc[25].macros[4] = 0;
-    fnv_zlib_memset(&desc[25].macros[5], 0, 52);
+    std::memset(&desc[25].macros[5], 0, 52);
     desc[26].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[26].macros[0] = "POINT";
     desc[26].macros[1] = "";
     desc[26].macros[2] = "PARALLAX";
     desc[26].macros[3] = "";
     desc[26].macros[4] = 0;
-    fnv_zlib_memset(&desc[26].macros[5], 0, 52);
+    std::memset(&desc[26].macros[5], 0, 52);
     desc[27].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[27].macros[0] = "NUM_PT_LIGHTS";
     desc[27].macros[1] = "2";
@@ -10194,7 +10189,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[27].macros[4] = "PARALLAX";
     desc[27].macros[5] = "";
     desc[27].macros[6] = 0;
-    fnv_zlib_memset(&desc[27].macros[7], 0, 44);
+    std::memset(&desc[27].macros[7], 0, 44);
     desc[28].file = "lighting\\2x\\p\\Specular.p.hlsl";
     desc[28].macros[0] = "NUM_PT_LIGHTS";
     desc[28].macros[1] = "3";
@@ -10203,7 +10198,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[28].macros[4] = "PARALLAX";
     desc[28].macros[5] = "";
     desc[28].macros[6] = 0;
-    fnv_zlib_memset(&desc[28].macros[7], 0, 44);
+    std::memset(&desc[28].macros[7], 0, 44);
     desc[29].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[29].macros[0] = "SPECULAR";
     desc[29].macros[1] = "";
@@ -10212,7 +10207,7 @@ void PixelLoader::FUN_00bcd7c0()
     desc[29].macros[4] = "PARALLAX";
     desc[29].macros[5] = "";
     desc[29].macros[6] = 0;
-    fnv_zlib_memset(&desc[29].macros[7], 0, 44);
+    std::memset(&desc[29].macros[7], 0, 44);
     desc[30].file = "lighting\\2x\\p\\ADTS.p.hlsl";
     desc[30].macros[0] = "SPECULAR";
     desc[30].macros[1] = "";
@@ -10508,7 +10503,6 @@ struct FeatureObject
 
 
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 
 
@@ -10594,7 +10588,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[0].variant = 0;
 
-    fnv_zlib_memset(&descriptors[0].suffix, 0, 60);
+    std::memset(&descriptors[0].suffix, 0, 60);
 
     descriptors[1].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
@@ -10608,7 +10602,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[1].selection = 0;
 
-    fnv_zlib_memset(&descriptors[1].support, 0, 52);
+    std::memset(&descriptors[1].support, 0, 52);
 
     descriptors[2].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
@@ -10622,7 +10616,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[2].selection = 0;
 
-    fnv_zlib_memset(&descriptors[2].support, 0, 52);
+    std::memset(&descriptors[2].support, 0, 52);
 
     descriptors[3].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS_p_hlsl));
 
@@ -10640,7 +10634,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[3].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[3].p08, 0, 44);
+    std::memset(&descriptors[3].p08, 0, 44);
 
     descriptors[4].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
@@ -10654,7 +10648,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[4].selection = 0;
 
-    fnv_zlib_memset(&descriptors[4].support, 0, 52);
+    std::memset(&descriptors[4].support, 0, 52);
 
     descriptors[5].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
@@ -10672,7 +10666,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[5].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[5].p08, 0, 44);
+    std::memset(&descriptors[5].p08, 0, 44);
 
     descriptors[6].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
@@ -10686,7 +10680,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[6].selection = 0;
 
-    fnv_zlib_memset(&descriptors[6].support, 0, 52);
+    std::memset(&descriptors[6].support, 0, 52);
 
     descriptors[7].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_AD_p_hlsl));
 
@@ -10704,7 +10698,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[7].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[7].p08, 0, 44);
+    std::memset(&descriptors[7].p08, 0, 44);
 
     descriptors[8].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_DiffusePt_p_hlsl));
 
@@ -10718,7 +10712,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[8].selection = 0;
 
-    fnv_zlib_memset(&descriptors[8].support, 0, 52);
+    std::memset(&descriptors[8].support, 0, 52);
 
     descriptors[9].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_DiffusePt_p_hlsl));
 
@@ -10732,7 +10726,7 @@ void FeatureManager::LoadAllFeatures()
 
     descriptors[9].selection = 0;
 
-    fnv_zlib_memset(&descriptors[9].support, 0, 52);
+    std::memset(&descriptors[9].support, 0, 52);
 
     descriptors[10].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
@@ -10745,7 +10739,7 @@ void FeatureManager::LoadAllFeatures()
     descriptors[10].suffix = 0;
     descriptors[10].selection = 0;
 
-    fnv_zlib_memset(&descriptors[10].support, 0, 52);
+    std::memset(&descriptors[10].support, 0, 52);
 
     descriptors[11].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
@@ -10758,7 +10752,7 @@ void FeatureManager::LoadAllFeatures()
     descriptors[11].suffix = 0;
     descriptors[11].selection = 0;
 
-    fnv_zlib_memset(&descriptors[11].support, 0, 52);
+    std::memset(&descriptors[11].support, 0, 52);
 
     descriptors[12].name = &(*reinterpret_cast<char *>((void *)&::shader_lighting_2x_p_ADTS10_p_hlsl));
 
@@ -10775,7 +10769,7 @@ void FeatureManager::LoadAllFeatures()
     descriptors[12].support = 0;
     descriptors[12].fallback = 0;
 
-    fnv_zlib_memset(&descriptors[12].p08, 0, 44);
+    std::memset(&descriptors[12].p08, 0, 44);
 
     if (DAT_011f91c0 >= 2)
     {
@@ -15515,21 +15509,21 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[0].macros[0] = "PARALLAX";
     descriptors[0].macros[1] = "";
     descriptors[0].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[0].macros[3], 0, 60);
+    std::memset(&descriptors[0].macros[3], 0, 60);
     descriptors[1].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[1].macros[0] = "PARALLAX";
     descriptors[1].macros[1] = "";
     descriptors[1].macros[2] = "PROJ_SHADOW";
     descriptors[1].macros[3] = "";
     descriptors[1].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[1].macros[5], 0, 52);
+    std::memset(&descriptors[1].macros[5], 0, 52);
     descriptors[2].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[2].macros[0] = "LIGHTS";
     descriptors[2].macros[1] = "2";
     descriptors[2].macros[2] = "PARALLAX";
     descriptors[2].macros[3] = "";
     descriptors[2].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[2].macros[5], 0, 52);
+    std::memset(&descriptors[2].macros[5], 0, 52);
     descriptors[3].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[3].macros[0] = "LIGHTS";
     descriptors[3].macros[1] = "2";
@@ -15538,14 +15532,14 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[3].macros[4] = "PROJ_SHADOW";
     descriptors[3].macros[5] = "";
     descriptors[3].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[3].macros[7], 0, 44);
+    std::memset(&descriptors[3].macros[7], 0, 44);
     descriptors[4].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[4].macros[0] = "SPECULAR";
     descriptors[4].macros[1] = "";
     descriptors[4].macros[2] = "PARALLAX";
     descriptors[4].macros[3] = "";
     descriptors[4].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[4].macros[5], 0, 52);
+    std::memset(&descriptors[4].macros[5], 0, 52);
     descriptors[5].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[5].macros[0] = "SPECULAR";
     descriptors[5].macros[1] = "";
@@ -15554,7 +15548,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[5].macros[4] = "PROJ_SHADOW";
     descriptors[5].macros[5] = "";
     descriptors[5].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[5].macros[7], 0, 44);
+    std::memset(&descriptors[5].macros[7], 0, 44);
     descriptors[6].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[6].macros[0] = "SPECULAR";
     descriptors[6].macros[1] = "";
@@ -15563,7 +15557,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[6].macros[4] = "PARALLAX";
     descriptors[6].macros[5] = "";
     descriptors[6].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[6].macros[7], 0, 44);
+    std::memset(&descriptors[6].macros[7], 0, 44);
     descriptors[7].file = "lighting\\2x\\v\\ADTS.v.hlsl";
     descriptors[7].macros[0] = "SPECULAR";
     descriptors[7].macros[1] = "";
@@ -15581,7 +15575,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[8].macros[2] = "PARALLAX";
     descriptors[8].macros[3] = "";
     descriptors[8].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[8].macros[5], 0, 52);
+    std::memset(&descriptors[8].macros[5], 0, 52);
     descriptors[9].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[9].macros[0] = "LIGHTS";
     descriptors[9].macros[1] = "2";
@@ -15590,14 +15584,14 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[9].macros[4] = "PROJ_SHADOW";
     descriptors[9].macros[5] = "";
     descriptors[9].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[9].macros[7], 0, 44);
+    std::memset(&descriptors[9].macros[7], 0, 44);
     descriptors[10].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[10].macros[0] = "LIGHTS";
     descriptors[10].macros[1] = "3";
     descriptors[10].macros[2] = "PARALLAX";
     descriptors[10].macros[3] = "";
     descriptors[10].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[10].macros[5], 0, 52);
+    std::memset(&descriptors[10].macros[5], 0, 52);
     descriptors[11].file = "lighting\\2x\\v\\AD.v.hlsl";
     descriptors[11].macros[0] = "LIGHTS";
     descriptors[11].macros[1] = "3";
@@ -15606,45 +15600,45 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[11].macros[4] = "PROJ_SHADOW";
     descriptors[11].macros[5] = "";
     descriptors[11].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[11].macros[7], 0, 44);
+    std::memset(&descriptors[11].macros[7], 0, 44);
     descriptors[12].file = "lighting\\2x\\v\\DiffusePt.v.hlsl";
     descriptors[12].macros[0] = "LIGHTS";
     descriptors[12].macros[1] = "2";
     descriptors[12].macros[2] = "PARALLAX";
     descriptors[12].macros[3] = "";
     descriptors[12].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[12].macros[5], 0, 52);
+    std::memset(&descriptors[12].macros[5], 0, 52);
     descriptors[13].file = "lighting\\2x\\v\\DiffusePt.v.hlsl";
     descriptors[13].macros[0] = "LIGHTS";
     descriptors[13].macros[1] = "3";
     descriptors[13].macros[2] = "PARALLAX";
     descriptors[13].macros[3] = "";
     descriptors[13].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[13].macros[5], 0, 52);
+    std::memset(&descriptors[13].macros[5], 0, 52);
     descriptors[14].file = "lighting\\2x\\v\\Texture.v.hlsl";
     descriptors[14].macros[0] = "PARALLAX";
     descriptors[14].macros[1] = "";
     descriptors[14].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[14].macros[3], 0, 60);
+    std::memset(&descriptors[14].macros[3], 0, 60);
     descriptors[15].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[15].macros[0] = "PARALLAX";
     descriptors[15].macros[1] = "";
     descriptors[15].macros[2] = 0;
-    FUN_00ec61c0(&descriptors[15].macros[3], 0, 60);
+    std::memset(&descriptors[15].macros[3], 0, 60);
     descriptors[16].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[16].macros[0] = "PARALLAX";
     descriptors[16].macros[1] = "";
     descriptors[16].macros[2] = "PROJ_SHADOW";
     descriptors[16].macros[3] = "";
     descriptors[16].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[16].macros[5], 0, 52);
+    std::memset(&descriptors[16].macros[5], 0, 52);
     descriptors[17].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[17].macros[0] = "POINT";
     descriptors[17].macros[1] = "";
     descriptors[17].macros[2] = "PARALLAX";
     descriptors[17].macros[3] = "";
     descriptors[17].macros[4] = 0;
-    FUN_00ec61c0(&descriptors[17].macros[5], 0, 52);
+    std::memset(&descriptors[17].macros[5], 0, 52);
     descriptors[18].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[18].macros[0] = "NUM_PT_LIGHTS";
     descriptors[18].macros[1] = "2";
@@ -15653,7 +15647,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[18].macros[4] = "PARALLAX";
     descriptors[18].macros[5] = "";
     descriptors[18].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[18].macros[7], 0, 44);
+    std::memset(&descriptors[18].macros[7], 0, 44);
     descriptors[19].file = "lighting\\2x\\v\\Specular.v.hlsl";
     descriptors[19].macros[0] = "NUM_PT_LIGHTS";
     descriptors[19].macros[1] = "3";
@@ -15662,7 +15656,7 @@ void ParallaxShader::CreateParallaxShaders()
     descriptors[19].macros[4] = "PARALLAX";
     descriptors[19].macros[5] = "";
     descriptors[19].macros[6] = 0;
-    FUN_00ec61c0(&descriptors[19].macros[7], 0, 44);
+    std::memset(&descriptors[19].macros[7], 0, 44);
 
     char sourceName[260];
     char binaryName[260];
@@ -16589,7 +16583,6 @@ void hkObjBCE8::FUN_00bce8f0()
     reinterpret_cast<::FUN_00b71b90_class *>(this)->FUN_00b71b90();
 }
 
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 extern const char DAT_010bb95c;
 extern const char DAT_010aeb34;
 extern const char DAT_010aeb54;
@@ -16671,7 +16664,7 @@ void ShaderManager::InitShaderPrograms()
     entries[0].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[0].arg01 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[0].arg02 = 0;
-    FUN_00ec61c0(&entries[0].arg03, 0, 60);
+    std::memset(&entries[0].arg03, 0, 60);
     // Shader variant 1
     entries[1].filename = &DAT_010aebf4;
     entries[1].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16679,7 +16672,7 @@ void ShaderManager::InitShaderPrograms()
     entries[1].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[1].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[1].arg04 = 0;
-    FUN_00ec61c0(&entries[1].arg05, 0, 52);
+    std::memset(&entries[1].arg05, 0, 52);
     // Shader variant 2
     entries[2].filename = &DAT_010aebf4;
     entries[2].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
@@ -16687,7 +16680,7 @@ void ShaderManager::InitShaderPrograms()
     entries[2].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
     entries[2].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[2].arg04 = 0;
-    FUN_00ec61c0(&entries[2].arg05, 0, 52);
+    std::memset(&entries[2].arg05, 0, 52);
     // Shader variant 3
     entries[3].filename = &DAT_010aebf4;
     entries[3].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16697,7 +16690,7 @@ void ShaderManager::InitShaderPrograms()
     entries[3].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
     entries[3].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[3].arg06 = 0;
-    FUN_00ec61c0(&entries[3].arg07, 0, 44);
+    std::memset(&entries[3].arg07, 0, 44);
     // Shader variant 4
     entries[4].filename = &DAT_010aebf4;
     entries[4].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16705,7 +16698,7 @@ void ShaderManager::InitShaderPrograms()
     entries[4].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[4].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[4].arg04 = 0;
-    FUN_00ec61c0(&entries[4].arg05, 0, 52);
+    std::memset(&entries[4].arg05, 0, 52);
     // Shader variant 5
     entries[5].filename = &DAT_010aebf4;
     entries[5].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16715,7 +16708,7 @@ void ShaderManager::InitShaderPrograms()
     entries[5].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[5].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[5].arg06 = 0;
-    FUN_00ec61c0(&entries[5].arg07, 0, 44);
+    std::memset(&entries[5].arg07, 0, 44);
     // Shader variant 6
     entries[6].filename = &DAT_010aebf4;
     entries[6].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16725,7 +16718,7 @@ void ShaderManager::InitShaderPrograms()
     entries[6].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
     entries[6].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[6].arg06 = 0;
-    FUN_00ec61c0(&entries[6].arg07, 0, 44);
+    std::memset(&entries[6].arg07, 0, 44);
     // Shader variant 7
     entries[7].filename = &DAT_010aebf4;
     entries[7].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16748,7 +16741,7 @@ void ShaderManager::InitShaderPrograms()
     entries[8].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[8].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[8].arg04 = 0;
-    FUN_00ec61c0(&entries[8].arg05, 0, 52);
+    std::memset(&entries[8].arg05, 0, 52);
     // Shader variant 9
     entries[9].filename = &DAT_010aeb54;
     entries[9].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16758,7 +16751,7 @@ void ShaderManager::InitShaderPrograms()
     entries[9].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[9].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[9].arg06 = 0;
-    FUN_00ec61c0(&entries[9].arg07, 0, 44);
+    std::memset(&entries[9].arg07, 0, 44);
     // Shader variant 10
     entries[10].filename = &DAT_010aeb54;
     entries[10].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16768,7 +16761,7 @@ void ShaderManager::InitShaderPrograms()
     entries[10].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
     entries[10].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[10].arg06 = 0;
-    FUN_00ec61c0(&entries[10].arg07, 0, 44);
+    std::memset(&entries[10].arg07, 0, 44);
     // Shader variant 11
     entries[11].filename = &DAT_010aeb54;
     entries[11].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16791,7 +16784,7 @@ void ShaderManager::InitShaderPrograms()
     entries[12].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[12].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[12].arg04 = 0;
-    FUN_00ec61c0(&entries[12].arg05, 0, 52);
+    std::memset(&entries[12].arg05, 0, 52);
     // Shader variant 13
     entries[13].filename = &DAT_010aeb54;
     entries[13].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16801,7 +16794,7 @@ void ShaderManager::InitShaderPrograms()
     entries[13].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[13].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[13].arg06 = 0;
-    FUN_00ec61c0(&entries[13].arg07, 0, 44);
+    std::memset(&entries[13].arg07, 0, 44);
     // Shader variant 14
     entries[14].filename = &DAT_010aeb54;
     entries[14].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16811,7 +16804,7 @@ void ShaderManager::InitShaderPrograms()
     entries[14].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_PROJ_SHADOW));
     entries[14].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[14].arg06 = 0;
-    FUN_00ec61c0(&entries[14].arg07, 0, 44);
+    std::memset(&entries[14].arg07, 0, 44);
     // Shader variant 15
     entries[15].filename = &DAT_010aeb54;
     entries[15].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SKIN));
@@ -16834,7 +16827,7 @@ void ShaderManager::InitShaderPrograms()
     entries[16].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[16].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[16].arg04 = 0;
-    FUN_00ec61c0(&entries[16].arg05, 0, 52);
+    std::memset(&entries[16].arg05, 0, 52);
     // Shader variant 17
     entries[17].filename = &DAT_010aeb34;
     entries[17].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16844,7 +16837,7 @@ void ShaderManager::InitShaderPrograms()
     entries[17].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[17].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[17].arg06 = 0;
-    FUN_00ec61c0(&entries[17].arg07, 0, 44);
+    std::memset(&entries[17].arg07, 0, 44);
     // Shader variant 18
     entries[18].filename = &DAT_010aeb34;
     entries[18].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16852,7 +16845,7 @@ void ShaderManager::InitShaderPrograms()
     entries[18].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[18].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[18].arg04 = 0;
-    FUN_00ec61c0(&entries[18].arg05, 0, 52);
+    std::memset(&entries[18].arg05, 0, 52);
     // Shader variant 19
     entries[19].filename = &DAT_010aeb34;
     entries[19].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16862,7 +16855,7 @@ void ShaderManager::InitShaderPrograms()
     entries[19].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[19].arg05 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[19].arg06 = 0;
-    FUN_00ec61c0(&entries[19].arg07, 0, 44);
+    std::memset(&entries[19].arg07, 0, 44);
     // Shader variant 20
     entries[20].filename = &DAT_010aeb70;
     entries[20].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16870,7 +16863,7 @@ void ShaderManager::InitShaderPrograms()
     entries[20].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[20].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[20].arg04 = 0;
-    FUN_00ec61c0(&entries[20].arg05, 0, 52);
+    std::memset(&entries[20].arg05, 0, 52);
     // Shader variant 21
     entries[21].filename = &DAT_010aeb70;
     entries[21].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16880,7 +16873,7 @@ void ShaderManager::InitShaderPrograms()
     entries[21].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[21].arg05 = 0;
     entries[21].arg06 = 0;
-    FUN_00ec61c0(&entries[21].arg07, 0, 44);
+    std::memset(&entries[21].arg07, 0, 44);
     // Shader variant 22
     entries[22].filename = &DAT_010aeb70;
     entries[22].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16888,7 +16881,7 @@ void ShaderManager::InitShaderPrograms()
     entries[22].arg02 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[22].arg03 = &(*reinterpret_cast<char *>((void *)&::DAT_01011584));
     entries[22].arg04 = 0;
-    FUN_00ec61c0(&entries[22].arg05, 0, 52);
+    std::memset(&entries[22].arg05, 0, 52);
     // Shader variant 23
     entries[23].filename = &DAT_010aeb70;
     entries[23].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_LIGHTS));
@@ -16898,7 +16891,7 @@ void ShaderManager::InitShaderPrograms()
     entries[23].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[23].arg05 = 0;
     entries[23].arg06 = 0;
-    FUN_00ec61c0(&entries[23].arg07, 0, 44);
+    std::memset(&entries[23].arg07, 0, 44);
     // Shader variant 24
     entries[24].filename = &DAT_010aeb70;
     entries[24].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SPECULAR));
@@ -16908,7 +16901,7 @@ void ShaderManager::InitShaderPrograms()
     entries[24].arg04 = &(*reinterpret_cast<const char *>((void *)&::shader_FACEGENBLEND));
     entries[24].arg05 = 0;
     entries[24].arg06 = 0;
-    FUN_00ec61c0(&entries[24].arg07, 0, 44);
+    std::memset(&entries[24].arg07, 0, 44);
     // Shader variant 25
     entries[25].filename = &DAT_010aeb70;
     entries[25].arg00 = &(*reinterpret_cast<const char *>((void *)&::shader_SPECULAR));
@@ -17020,7 +17013,6 @@ struct NiFrustum
     NiFrustum(bool bOrtho);
 };
 
-extern "C" double __cdecl tan(double);
 inline float tanf(float _X)
 {
     return (float)tan((double)_X);
@@ -18130,7 +18122,6 @@ done:
 }
 
 // FUN_00bc2660: thiscall, /MT /O2 /GS /EHsc /Gy, 2 float stack args, returns void
-float __cdecl FUN_00ec9e10(double x);
 int __cdecl FUN_00ec62c0();
 
 class FUN_00bc2660_cls
@@ -18245,7 +18236,7 @@ void FUN_00bc2660_cls::FUN_00bc2660(float a1, float a2)
     m_070 = m_070 + a1;
     float t1 = a2 - m_084;
     float x = t1 / m_144;
-    volatile float t3v = FUN_00ec9e10(x);
+    volatile float t3v = std::ceil(x);
     float t3 = t3v;
     m_084 = t3 * m_144 + m_084;
     int n = (int)t3;
@@ -20163,7 +20154,6 @@ int Shader_00bd9f00::FUN_00bd9f00(NiGeometry* pkGeometry, unsigned short* puiPas
 }
 
 namespace fnv_00bc0c90 {
-extern "C" double __cdecl FUN_00ec9e10(double);
 
 struct Vec2A
 {
@@ -20277,13 +20267,13 @@ FUN_00bc0c90::FUN_00bc0c90(CountedRef* apSource)
         DAT_01201f50 = (DAT_011f91c0 < 2 ? 0 : 0xa0) + 0x4b;
     }
     float fVal = (float)DAT_01201f50 * 0.25;
-    unsigned int count = (unsigned int)(float)FUN_00ec9e10(fVal);
+    unsigned int count = (unsigned int)(float)std::ceil(fVal);
     count *= 4;
     BoltAllocElem* p = new BoltAllocElem[count];
     *(void**)&value = p;
-    fnv_zlib_memset(p, 0, count * sizeof(BoltAllocElem));
-    fnv_zlib_memset(&unk128, 0, 0x40);
-    fnv_zlib_memset(&matrix[1], 0, 0xa0);
+    std::memset(p, 0, count * sizeof(BoltAllocElem));
+    std::memset(&unk128, 0, 0x40);
+    std::memset(&matrix[1], 0, 0xa0);
 }
 }  // namespace fnv_00bc0c90
 
@@ -21260,11 +21250,6 @@ static __forceinline float Lower(float a, float b)
 static __forceinline float Upper(float a, float b)
 {
     return a > b ? a : b;
-}
-extern "C" double __cdecl sqrt(double);
-inline float sqrtf(float value)
-{
-    return (float)sqrt((double)value);
 }
 struct Vec3
 {
@@ -23898,9 +23883,6 @@ afterLighting:
 }
 }  // namespace fnv_00bdf790
 
-extern "C" int __cdecl rand(void);
-extern "C" double __cdecl fabs(double);
-
 inline void BoltScale(float& x, float& y, double s)
 {
     x *= s;
@@ -24073,10 +24055,10 @@ void ShellBC::FUN_00bc20a0(int row, int col, int previous, int next)
     dir.y *= speed;
     dir.z *= speed;
     float ratio = (float)col / width;
-    float random = (float)(rand() / 32767.0);
+    float random = (float)(std::rand() / 32767.0);
     points[index].x = (float)(dir.x + a.x + unk148 * random - unk148 * 0.5);
     points[index].y = dir.y + a.y;
-    random = (float)(rand() / 32767.0);
+    random = (float)(std::rand() / 32767.0);
     points[index].z = (float)(dir.z + a.z + unk148 * random - unk148 * 0.5);
     dir.x = unk64 * ratio - points[index].x;
     dir.y = unk6c * ratio - points[index].z;
@@ -24734,7 +24716,6 @@ struct C04Vec
     C04Vec(float a, float b, float c) : x(a), y(b), z(c)
     {}
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00ba8e50
 {
     FUN_00ba8e50();
@@ -24832,9 +24813,9 @@ FUN_00bc1d40::FUN_00bc1d40()
     field178 = 0;
     unsigned int count = ::FUN_00bc0b40();
     field060 = new Vec[count];
-    _fnv_zlib_memset(field060, 0, count * sizeof(Vec));
+    std::memset(field060, 0, count * sizeof(Vec));
     for (unsigned int i = 0; i < 40; ++i)
-        randomValues[i] = rand() / 32767.0;
+        randomValues[i] = std::rand() / 32767.0;
     ++::DAT_01201f64;
     field188 = 0;
     field18c = 1;

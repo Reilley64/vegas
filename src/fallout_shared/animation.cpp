@@ -1,6 +1,9 @@
 // fallout_shared/animation.cpp: TESAnimGroup, Animation, AnimSequenceMultiple, TaskQueueInterface and more (156 functions)
 
 #include <new>
+#include <cctype>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/AnimationSequence.h"
@@ -3938,9 +3941,6 @@ struct S_00490400_Anim : public Animation
     void FUN_00490400(BSSimpleList<const char*>* apFileList);
 };
 
-extern "C" int __cdecl _strnicmp(const char* pcA, const char* pcB, unsigned int ItemUpdateArray);
-extern "C" int __cdecl tolower(int c);
-
 struct NiTextKeyStub
 {
     float m_fTime;
@@ -3981,7 +3981,7 @@ char AnimSequenceStub::FUN_00495e40(float* pfOutTime)
     for (unsigned int i4 = 0; i4 < kUiNumKeys; i4++)
     {
         const char* pcText9 = pkKeys6[i4].GetText();
-        if (pcText9 && !_strnicmp(pcText9, pcPrefixVal, uiPrefixLen))
+        if (pcText9 && !fnv::crt::strnicmp(pcText9, pcPrefixVal, uiPrefixLen))
         {
             if (pfOutTime)
                 *pfOutTime = reinterpret_cast<::CombatTargetTimestamp *>((void *)&(pkKeys6[i4]))->FUN_006a7f50();
@@ -4264,8 +4264,6 @@ struct BNObjectList
     BNObject*& GetAt(void* apPos);
 };
 
-extern "C" char* __cdecl strrchr(const char* apString, int aiChar);
-char* __cdecl BNStrcat(char* apDest, const char* apSrc);
 char* __cdecl BNStrchr(char* apString, int aiChar);
 
 struct BNLookup
@@ -4324,10 +4322,10 @@ BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
         {
             ::FUN_004046f0(pSuffix4, "Up");
             pSuffix4 = BNStrchr(pName3, '_');
-            BNStrcat(acBufferX, pSuffix4);
+            std::strcat(acBufferX, pSuffix4);
         }
         else
-            BNStrcat(acBufferX, "Up");
+            std::strcat(acBufferX, "Up");
         pName3 = acBufferX;
         break;
     case 6:
@@ -4337,10 +4335,10 @@ BNObject* BNLookup::FindObjectByNameVariant(BNObject* apObject, int aiVariant)
         {
             ::FUN_004046f0(pSuffix4, "Down");
             pSuffix4 = BNStrchr(pName3, '_');
-            BNStrcat(acBufferX, pSuffix4);
+            std::strcat(acBufferX, pSuffix4);
         }
         else
-            BNStrcat(acBufferX, "Down");
+            std::strcat(acBufferX, "Down");
         pName3 = acBufferX;
         break;
     }
@@ -6012,8 +6010,6 @@ struct SequenceInterface : BSAnimGroupSequence
 {
     FUN_00495f30_shell* FUN_00700300();
 };
-int __cdecl FUN_00ec7ec0(signed char* sequenceData, int actionId, unsigned int trackCount);
-char __cdecl FUN_00ec67aa(int character);
 
 struct AnimationInterface : Animation
 {
@@ -6039,11 +6035,11 @@ char AnimationInterface::FUN_00495f50(int sequenceIndex, int actionId, float* ou
     for (unsigned int i = 0; i < static_cast<unsigned int>(entries); ++i)
     {
         signed char* object = key[i].FUN_00717e50()->FUN_0043b1b0();
-        if (object != 0 && FUN_00ec7ec0(object, actionId, trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
+        if (object != 0 && fnv::crt::strnicmp((const char *)(object), (const char *)(actionId), trackCount) == 0 && tracks <= reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50())
         {
             if (outTime != 0)
                 *outTime = reinterpret_cast<::CombatTargetTimestamp *>(&(key[i]))->FUN_006a7f50();
-            return FUN_00ec67aa(object[trackCount]);
+            return std::tolower(object[trackCount]);
         }
     }
     return 0;

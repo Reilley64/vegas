@@ -1,6 +1,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/D7Owner.h"
@@ -1159,7 +1161,6 @@ struct FUN_00d75390_cls {
     DiagState* m_08;
     float GetMass();
 };
-extern "C" double __cdecl pow(double base, double exponent);
 extern const double DAT_010d35e8;
 extern const double DAT_010d35e0;
 struct FUN_00d75440_cls {
@@ -3117,8 +3118,6 @@ extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" double fabs(double x);
-
 struct __declspec(align(16)) S_00d7a200_V4 {
     float x, y, z, w;
 };
@@ -5086,8 +5085,6 @@ extern "C" __m128 __cdecl _mm_add_ss(__m128 a, __m128 b);
 extern "C" __m128 __cdecl _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 extern "C" __m128 __cdecl _mm_xor_ps(__m128 a, __m128 b);
 extern "C" void __cdecl _mm_store_ss(float* p, __m128 a);
-extern "C" void* __cdecl memcpy(void* d, const void* s, unsigned int n);
-
 extern double DAT_01032980;
 
 struct __declspec(align(16)) S_00d827b0_Sign {
@@ -5646,7 +5643,6 @@ extern "C" __m128 _mm_load_ss(const float*);
 static __forceinline __m128 HullBroadcast(float f) { __m128 v=_mm_load_ss(&f); return _mm_shuffle_ps(v,v,0); }
 extern "C" void _mm_store_ss(float*, __m128);
 extern "C" void _mm_store_ps(float*, __m128);
-extern "C" double __cdecl fabs(double);
 struct HullAllocator {
     virtual void v00();
     __declspec(nothrow) virtual void* BlockAlloc(int iSize) throw();
@@ -5928,7 +5924,6 @@ extern "C" __m128 _mm_load_ss(const float*);
 extern "C" __m128 _mm_load_ps1(const float*);
 extern "C" void _mm_store_ss(float*,__m128);
 extern "C" float _mm_cvtss_f32(__m128);
-extern "C" double __cdecl sqrt(double);
 extern const __m128 DAT_010c7160;
 struct MessageStream {
     int unk00, unk04, unk08;
@@ -6252,7 +6247,6 @@ __m128 _mm_load_ss(const float* a);
 
 void _mm_store_ss(float* p, __m128 a);
 
-double sqrt(double);
 }
 
 
@@ -6859,7 +6853,6 @@ __m128 _mm_add_ss(__m128,__m128);
 __m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
 __m128 _mm_load_ss(const float*);
 void _mm_store_ss(float*,__m128);
-double fabs(double);
 }
 struct ClipStream {
     int unk00,unk04,unk08;
@@ -9607,8 +9600,6 @@ __m128 _mm_setzero_ps();
 __m128 _mm_set_ss(float);
 __m128 _mm_load_ss(const float*);
 void _mm_store_ss(float*, __m128);
-double fabs(double);
-void* memcpy(void*,const void*,unsigned int);
 }
 extern const char str_010d3748[];
 

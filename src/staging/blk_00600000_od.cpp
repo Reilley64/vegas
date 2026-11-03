@@ -3,6 +3,9 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cctype>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BaseProcess.h"
@@ -513,7 +516,6 @@ FUN_006010a0_Class* FUN_006010a0_Class::FUN_006010a0(int a, unsigned char b)
     return this;
 }
 
-void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_00601100_cls
 {
     void* vtbl;
@@ -636,7 +638,6 @@ unsigned int FUN_0060bd90_cls::FUN_0060bd90(unsigned int uiIndex, unsigned int b
     return uiIndex;
 }
 
-extern "C" void* __cdecl FUN_00ec7ce3(void* dst, unsigned int dstSize, void* src, unsigned int srcSize);
 
 // @fnv 0x0060c290
 void* __cdecl FUN_0060c290(char* apSource, char* pDest, char* pEnd)
@@ -644,7 +645,7 @@ void* __cdecl FUN_0060c290(char* apSource, char* pDest, char* pEnd)
     int nCount = (pDest - apSource) >> 2;
     void* pResult4 = (void*)(pEnd - nCount * 4);
     if (nCount > 0)
-        FUN_00ec7ce3(pResult4, nCount * 4, apSource, nCount * 4);
+        fnv::crt::memmove_s(pResult4, nCount * 4, apSource, nCount * 4);
     return pResult4;
 }
 
@@ -964,7 +965,6 @@ FUN_0061c120::FUN_0061c120(unsigned int size, unsigned int max)
 }
 }  // namespace fnv_0061c120
 
-void* __cdecl FUN_00ec7ce3(void* dst, unsigned int dstSize, void* src, unsigned int srcSize);
 
 // Computes the element count between param_1 and param_2, copies that many 4-byte elements from param_1 to param_3, and returns the end pointer in param_3.
 // @fnv 0x0060c3c0
@@ -974,7 +974,7 @@ void* __cdecl FUN_0060c3c0(void* pBegin, void* pEnd, void* pDest)
     void* result = (char*)pDest + count * 4;
     if (count > 0)
     {
-        FUN_00ec7ce3(pDest, count << 2, pBegin, count << 2);
+        fnv::crt::memmove_s(pDest, count << 2, pBegin, count << 2);
     }
     return result;
 }
@@ -1949,8 +1949,6 @@ FUN_0061fae0::~FUN_0061fae0()
 {
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
 }
-
-extern "C" int __cdecl tolower(int);
 
 class StringHashTable
 {

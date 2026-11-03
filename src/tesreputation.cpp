@@ -1,5 +1,6 @@
 // tesreputation.cpp: TESReputation, ReputationTracker, Reputation, ReputationUpdate and more (25 functions)
 
+#include <cstring>
 #include "fnv/decl/B616890Menu.h"
 #include "fnv/decl/B616A20Meter.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -912,7 +913,6 @@ void Host615730::FUN_00615730(int kind, float delta)
     v18(2);
 }
 
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 struct ReputationCompareEntry : TESReputation
 {
@@ -925,7 +925,7 @@ bool ReputationCompareEntry::FUN_00616570(TESForm* other)
     TESReputation* pOtherReputation = dynamic_cast<TESReputation*>(other);
     if (!pOtherReputation)
         return true;
-    if (_memcmp(&data, ((::ReputationLimitData *)(reinterpret_cast<::PackedByteIntRecord *>((static_cast<ReputationCompareEntry*>(pOtherReputation)))->Endian())),
+    if (std::memcmp(&data, ((::ReputationLimitData *)(reinterpret_cast<::PackedByteIntRecord *>((static_cast<ReputationCompareEntry*>(pOtherReputation)))->Endian())),
                 sizeof(ReputationLimitData)) != 0)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270(pOtherReputation))

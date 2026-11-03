@@ -2,6 +2,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdint>
+#include "runtime/crt.h"
 #include "fnv/decl/AIFormFlags.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/Actor884750.h"
@@ -626,7 +629,7 @@ void ProcessLists::AdvanceProcessLists(float time)
     DAT_011e0e2c = time;
     if (DAT_011e0e2c > DAT_0108c160)
         DAT_011e0e2c = 0.0f;
-    if (FNV_IsNaN(DAT_011e0e2c) || !FNV_Finite(DAT_011e0e2c))
+    if (std::isnan(DAT_011e0e2c) || !std::isfinite(DAT_011e0e2c))
         DAT_011e0e2c = 0.0f;
 }
 
@@ -2558,12 +2561,11 @@ void FUN_00977cb0_shell::StartActorDialogue(int eaction, TESObjectREFR* apObject
 }  // namespace fnv_00977cb0
 
 namespace fnv_008661e0 {
-extern "C" void* __cdecl FUN_00ec7ce3(void*, unsigned int, const void*, unsigned int);
 
 // @fnv 0x008661e0
 void* __cdecl FUN_008661e0(void* apDest, unsigned int aiDestSize, const void* apSrc, unsigned int aiCount)
 {
-    return FUN_00ec7ce3(apDest, aiDestSize, apSrc, aiCount);
+    return ((void *)(std::uintptr_t)(fnv::crt::memmove_s(apDest, aiDestSize, apSrc, aiCount)));
 }
 }  // namespace fnv_008661e0
 

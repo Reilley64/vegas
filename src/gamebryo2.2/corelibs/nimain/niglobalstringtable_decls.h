@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <string.h>
+#include <cstring>
 #include "fnv/decl/EC2DF0Registry.h"
 #include "fnv/decl/MovieSignalState.h"
 #include "fnv/decl/StringTable169.h"
@@ -62,9 +63,7 @@ class NiPlaybackFile
     char pad[28];
     unsigned state;
 };
-char* FUN_00ec6380(char*, const char*);
 int FUN_00ec923c(const char*, NiPlaybackStat*);
 extern "C" __declspec(dllimport) void* BinkOpen(const char*, unsigned);
 #endif
 
-extern "C" void* fnv_zlib_memcpy(void*, const void*, unsigned);

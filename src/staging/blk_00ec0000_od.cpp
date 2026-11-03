@@ -3,6 +3,9 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cstdint>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00438af0_Class.h"
@@ -66,7 +69,6 @@ int FUN_00ec1c90_class::AreStringsEqualIgnoreCase(const char* pcStringA, const c
     return !::NiStricmp(pcStringA, pcStringB);
 }
 
-extern int __cdecl __stricmp(const char*, const char*);
 
 struct FUN_00ec1dc0_Class
 {
@@ -77,7 +79,7 @@ struct FUN_00ec1dc0_Class
 // @fnv 0x00ec1dc0
 int FUN_00ec1dc0_Class::IsStringEqualIgnoreCase(const char* pcStringA, const char* pcStringB)
 {
-    return !__stricmp(pcStringA, pcStringB);
+    return !fnv::crt::stricmp(pcStringA, pcStringB);
 }
 
 struct FUN_00ec1f20Class
@@ -440,8 +442,6 @@ void FUN_00ec1b80_Class::Initialize()
     ::FUN_00aa10f0((void*)m_0008);
 }
 
-unsigned int __cdecl _strlen(const char* s);
-int __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
 
 struct FUN_00ec1cc0_Class
 {
@@ -454,10 +454,10 @@ void FUN_00ec1cc0_Class::AssignString(void* apTarget, const char* apString, int 
 {
     if (*(unsigned char*)((char*)this + 0x10))
     {
-        unsigned int uiLen = _strlen(apString) + 1;
+        unsigned int uiLen = std::strlen(apString) + 1;
         *(void**)((char*)apTarget + 4) = ::FUN_00aa1070(uiLen);
         void* dest = *(void**)((char*)apTarget + 4);
-        _strcpy_s((char*)dest, uiLen, apString);
+        fnv::crt::strcpy_s((char*)dest, uiLen, apString);
     }
     else
     {
@@ -1073,8 +1073,6 @@ struct S_00ec2d80_Class
 };
 
 
-char* __cdecl FUN_00ec6130(int a);
-void __cdecl FUN_00ec65a6(char* a, char* b, int c);
 
 // @fnv 0x00ec2d80
 void S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
@@ -1087,18 +1085,17 @@ void S_00ec2d80_Class::FUN_00ec2d80(int a, int b)
     char* k;
     char* j;
 
-    oB = FUN_00ec6130(b);
+    oB = ((char *)(std::uintptr_t)(std::strlen((const char *)(b))));
     n = ((char *)(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ec2d80::S_00aa3e40_Class *>(&::g_memoryManager))))->FUN_00aa3e40((unsigned int)(oB + 1))));
     p = n;
 
-    FUN_00ec65a6(p, oB + 1, b);
+    fnv::crt::strcpy_s(p, (std::size_t)(std::uintptr_t)(oB + 1), (const char *)(b));
     this->m_0040.AddOrUpdate(a, p);
 }
 }  // namespace fnv_00ec2d80
 
 // Look up the file name registered under a key and copy it into a MAX_PATH buffer.
 
-extern "C" int __cdecl strcpy_s(char* pcDest, unsigned int uiSize, const char* pcSrc);
 
 class EC2DF0NameMap
 {
@@ -1140,7 +1137,7 @@ bool EC2DF0Registry::GetNameByKey(unsigned int uiKey, char* pcPath)
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kNames))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(pcFile)))
     {
         const char* pcSource = pcFile;
-        strcpy_s(pcPath, 260, pcSource);
+        fnv::crt::strcpy_s(pcPath, 260, pcSource);
         return true;
     }
     return false;

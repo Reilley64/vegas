@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Builder.h"
@@ -393,13 +395,11 @@ void FUN_00c3bb90(const char* src)
 }
 
 namespace fnv_00c3bbe0 {
-char* __cdecl _strcpy_s(char* dest, unsigned int size, const char* src);
-char* __cdecl _strcat_s(char* dest, unsigned int size, const char* src);
 // @fnv 0x00c3bbe0
 void __cdecl FUN_00c3bbe0(const char* pcSuffix)
 {
-    _strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, &(*reinterpret_cast<char *>(&::DAT_01202fa0)));
-    _strcat_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, pcSuffix);
+    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, &(*reinterpret_cast<char *>(&::DAT_01202fa0)));
+    fnv::crt::strcat_s((*reinterpret_cast<char (*)[260]>(&::DAT_01202b48)), 260, pcSuffix);
 }
 }  // namespace fnv_00c3bbe0
 
@@ -415,14 +415,12 @@ void __cdecl FUN_00c3bc30(const char* pcSuffix)
 }
 
 namespace fnv_00c3bc80 {
-void __cdecl _strcpy_s(char* dst, unsigned int, const char* src);
-void __cdecl _strcat_s(char* dst, unsigned int, const char* src);
 // Copies DAT_01202fa0 into DAT_01202938, then appends src to that buffer.
 // @fnv 0x00c3bc80
 void __cdecl FUN_00c3bc80(const char* pcSuffix)
 {
-    _strcpy_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, (*reinterpret_cast<char (*)[256]>(&::DAT_01202fa0)));
-    _strcat_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, pcSuffix);
+    fnv::crt::strcpy_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, (*reinterpret_cast<char (*)[256]>(&::DAT_01202fa0)));
+    fnv::crt::strcat_s((*reinterpret_cast<char (*)[256]>(&::DAT_01202938)), 0x104, pcSuffix);
 }
 }  // namespace fnv_00c3bc80
 
@@ -849,7 +847,6 @@ void* FUN_00c42f00_Class::FUN_00c3f130(unsigned int flags)
     return this;
 }
 
-int __cdecl FUN_00ec6130(int value);
 
 struct FUN_00c32fb0_cls
 {
@@ -884,7 +881,7 @@ int FUN_00c32fb0_cls::GetFormatSize()
         case 's':
             if ((this != 0 ? this->m_04 : 0) != 0)
             {
-                result = FUN_00ec6130(this != 0 ? this->m_04 : 0) + 1;
+                result = std::strlen((const char *)(this != 0 ? this->m_04 : 0)) + 1;
             }
             break;
         default:
@@ -1369,8 +1366,6 @@ void FUN_00c3a620_cls::FUN_00c3a620()
 }
 }  // namespace fnv_00c3a620
 
-extern "C" unsigned int __cdecl strlen(const char*);
-
 
 void __cdecl strcpy_s(char* dst, unsigned int dstsz, const char* src);
 void __cdecl strcat_s(char* dst, unsigned int dstsz, const char* src);
@@ -1431,8 +1426,6 @@ void __cdecl LoadObjectLoadersFromIni(const char* dir)
     }
 }
 
-extern "C" char* __cdecl strrchr(const char* s, int c);
-extern "C" int __cdecl _strnicmp(const char* a, const char* b, unsigned int n);
 
 // Copies path into a buffer, splits off extension and trailing underscore suffix, and writes a DATA\-prefixed or plain path plus suffix and extension to out.
 // @fnv 0x00c3b7e0
@@ -1459,7 +1452,7 @@ void __cdecl BuildDataPath(char* outPath, const char* srcPath, const char* suffi
         if (underscore7)
             *underscore7 = 0;
         *dot3 = 0;
-        if (*name != '\\' && name[1] != ':' && _strnicmp(name, "data", 4))
+        if (*name != '\\' && name[1] != ':' && fnv::crt::strnicmp(name, "data", 4))
         {
             strcpy_s(outPath, 260, "DATA\\");
             strcat_s(outPath, 260, name);
@@ -1609,14 +1602,12 @@ void __cdecl FUN_00c3c280()
     }
 }
 
-extern "C" void* fnv_zlib_memset(void* pvDest, int iValue, int iSize);
 
 typedef void* C3C2B0HWND;
 
 extern int(* g_pfnC3C2B0GetClassName)(C3C2B0HWND hWnd, char* pcClassName, int m_iMaximumCount);
 extern int(* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iMaximumCount);
 
-int C3C2B0StrCmp(const char* pcA, const char* pcB);
 
 // EnumChildWindows callback: finds the "Cancel" button.
 // Searches a window: if it is a Button whose text is non-empty and not "Cancel", stores it through lParam and returns false; otherwise returns true.
@@ -1627,11 +1618,11 @@ int FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
     if (hWnd)
     {
         char acText[260];
-        fnv_zlib_memset(acText, 0, 260);
-        if (g_pfnC3C2B0GetClassName(hWnd, acText, 260) && !C3C2B0StrCmp(acText, "Button"))
+        std::memset(acText, 0, 260);
+        if (g_pfnC3C2B0GetClassName(hWnd, acText, 260) && !fnv::crt::stricmp(acText, "Button"))
         {
-            fnv_zlib_memset(acText, 0, 260);
-            if (g_pfnC3C2B0GetWindowText(hWnd, acText, 260) && acText[0] && !C3C2B0StrCmp(acText, "Cancel"))
+            std::memset(acText, 0, 260);
+            if (g_pfnC3C2B0GetWindowText(hWnd, acText, 260) && acText[0] && !fnv::crt::stricmp(acText, "Cancel"))
             {
                 C3C2B0HWND* phFoundButton = (C3C2B0HWND*)lParam;
                 *phFoundButton = hWnd;

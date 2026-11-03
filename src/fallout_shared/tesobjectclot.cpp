@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobjectclot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesobjectclot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <malloc.h>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_0041fd00_shell.h"
@@ -444,8 +445,6 @@ void* FUN_00515580_shell::DestroyIfFlagged(unsigned int flags)
 // @fnv 0x005155b0
 FUN_005155b0_cls::~FUN_005155b0_cls()
 {}
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct RecordReader
 {

@@ -1,6 +1,7 @@
 // fallout_shared/tesconditionfunctions.cpp: BGSQuestObjective, Script, IdleAnimationManager, TESQuest and more (272 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/Actor87.h"
 #include "fnv/decl/ActorValueUtility.h"
 #include "fnv/decl/Anim490.h"
@@ -5741,7 +5742,6 @@ struct TLSConsoleData
 };
 
 void DebugLog(const char*, ...);
-int FUN_00ec7d40(int);
 int FNV_GetFormType(TESForm*);
 
 struct FUN_008256d0_list
@@ -5770,7 +5770,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     {
         if (pobject)
         {
-            *afReturnValue = FUN_00ec7d40(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pobject));
+            *afReturnValue = std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pobject));
         }
         else if (pform && FNV_GetFormType(pform) == 0x55)
         {
@@ -5781,7 +5781,7 @@ bool FUN_0059d8e0(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
                 TESForm* pEntryForm = *((::TESForm **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
                 pCurrentElementNext = ((::fnv_0059d8e0::FUN_008256d0_list *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
                 if (pEntryForm->IsActor_InEditor())
-                    *afReturnValue += FUN_00ec7d40(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pEntryForm));
+                    *afReturnValue += std::abs(reinterpret_cast<::FUN_004c8f30_shell *>((pchange))->FUN_004c8f30((int)pEntryForm));
             }
         }
     }

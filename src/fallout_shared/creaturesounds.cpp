@@ -1,6 +1,7 @@
 // fallout_shared/creaturesounds.cpp: CreatureSoundCollection (14 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -39,7 +40,6 @@ class CreatureSoundCollection
     BSSimpleList<SoundListEntry*>* m_pSoundListsByType[22];
 };
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 

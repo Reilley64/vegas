@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/Animation90.h"
 #include "fnv/decl/B41B120ExtraList.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -955,7 +957,6 @@ void FUN_00853340::Init()
 }
 }  // namespace fnv_00853340
 
-void* __cdecl memset(void* dst, int c, unsigned int n);
 extern int DAT_0107ec88;
 
 struct FUN_00844590
@@ -980,7 +981,6 @@ FUN_00844590::FUN_00844590(unsigned int ItemUpdateArray)
     ::FUN_00403d30(m_pData, 0, m_uiCount * 4);
 }
 
-void* __cdecl memset(void* dest, int value, unsigned int count);
 struct FUN_00844690_class
 {
     void* vtbl;
@@ -1027,8 +1027,6 @@ FUN_00844870_Cls* FUN_00844870_Cls::FUN_00844870(int count)
     return this;
 }
 }  // namespace fnv_00844870
-
-void* __cdecl memset(void* dest, int c, unsigned int count);
 
 struct FUN_00844970_class
 {
@@ -1209,7 +1207,6 @@ struct FUN_0084b510_class
 {
     void* FUN_0084b510(unsigned int flags);
 };
-void* __cdecl memset(void* dest, int c, unsigned int count);
 struct FUN_0084b650_t
 {
     int* vtbl;
@@ -1240,7 +1237,6 @@ void* FUN_0084b650_t::FUN_0084b650(int aiCount)
     return this;
 }
 
-void* __cdecl memset(void* dst, int value, unsigned int count);
 extern int DAT_0107f4e8;
 struct FUN_0084b750
 {
@@ -1444,7 +1440,6 @@ struct FUN_00853090_class
     void FUN_008533e0();
     void* FUN_00853090(unsigned int flags);
 };
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_008530c0_obj
 {
     int* vtbl;
@@ -1541,7 +1536,6 @@ struct FUN_00854cb0_class
 {
     void* FUN_00854cb0(unsigned int flags);
 };
-void* __cdecl memset(void* dest, int value, unsigned int size);
 extern int DAT_01080454;
 struct FUN_00854ce0_class
 {
@@ -2971,7 +2965,6 @@ unsigned int FUN_00859120_cls::ClearRefrFlag(TESForm* pForm, unsigned int flags)
     return flags;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 extern char DAT_01080864;
 
 struct BinaryRecord36
@@ -3803,7 +3796,6 @@ void FUN_0085fe80_cls::SetPair(FUN_0085fe80_pair aPair)
 
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-void* __cdecl memset(void*, int, unsigned int);
 struct SaveMemberA
 {
     int a, b, c, d;
@@ -5214,8 +5206,8 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
     if (!parent)
         parent = location->alternate;
     void* form2 = ::FUN_004839c0(parent);
-    RestoreForm* cellTmp = (RestoreForm*)FUN_00ec43fb(form2, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01183fb4, 0);
-    RestoreForm* world = (RestoreForm*)FUN_00ec43fb(form2, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &(*reinterpret_cast<char *>(&::DAT_01183fd0)), 0);
+    RestoreForm* cellTmp = (RestoreForm*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form2));
+    RestoreForm* world = (RestoreForm*)dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>(form2));
     int x6 = 0, y4 = 0;
     int count9;
     int i;
@@ -5269,8 +5261,6 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
     }
     return object5;
 }
-
-void* memset(void* dst, int val, unsigned int size);
 
 struct FileTimeStamp
 {
@@ -6105,7 +6095,6 @@ struct FUN_0085fed0_Class
     void FUN_0085fed0(FUN_0085fed0_Object* object, int value, char* buffer, char const* suffix, unsigned int flag);
 };
 
-int __cdecl __strnicmp(char const*, char const*, unsigned int);
 
 extern char const $SG3295[];
 extern char const DAT_0107fae0[];
@@ -6143,7 +6132,7 @@ void FUN_0085fed0_Class::FUN_0085fed0(FUN_0085fed0_Object* object, int value, ch
             bool isSave = false;
             char* name = FUN_0040ab30(object->GetName(), 0x5c) + 1;
 
-            if (__strnicmp(name, ::fnv_008607e0::DAT_010806a8, 5))
+            if (fnv::crt::strnicmp(name, ::fnv_008607e0::DAT_010806a8, 5))
                 isSave = true;
 
             if (isSave)

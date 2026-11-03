@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
@@ -3436,7 +3437,6 @@ struct TaskQueueInterface
 };
 
 int strcat_s(char*, unsigned int, const char*);
-int _sprintf(char*, const char*, ...);
 void _ref_00ec408c(unsigned int);
 
 extern unsigned int __security_cookie;
@@ -3478,12 +3478,12 @@ bool ResolveSettingString(const char* apString, char* apValueOut)
         }
         else if (xstr[0] == 'i' || xstr[0] == 'I')
         {
-            _sprintf(xstr, "%i", *((int *)&(::FUN_0043d4d0((int *)(static_cast<GlobalObject_0045cfe0*>(psetting))))));
+            std::sprintf(xstr, "%i", *((int *)&(::FUN_0043d4d0((int *)(static_cast<GlobalObject_0045cfe0*>(psetting))))));
             ::FUN_004046f0(apValueOut, xstr);
         }
         else if (xstr[0] == 'f' || xstr[0] == 'F')
         {
-            _sprintf(xstr, "%i", *((float *)&(::FUN_00403e20((float *)(static_cast<Setting_S*>(psetting))))));
+            std::sprintf(xstr, "%i", *((float *)&(::FUN_00403e20((float *)(static_cast<Setting_S*>(psetting))))));
             ::FUN_004046f0(apValueOut, xstr);
         }
         else if (xstr[0] == 'b' || xstr[0] == 'B')

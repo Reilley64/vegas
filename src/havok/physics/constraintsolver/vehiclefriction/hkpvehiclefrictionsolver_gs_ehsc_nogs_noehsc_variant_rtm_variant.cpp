@@ -9,6 +9,7 @@
 
 #include <xmmintrin.h>
 
+#include <cmath>
 struct CurveInput
 {
     __m128 points[2];
@@ -30,8 +31,6 @@ struct CurveOutput
     CurveBlock blocks[2];
 };
 
-extern "C" double pow(double, double);
-extern "C" double fabs(double);
 extern "C" const double DAT_010ec9e0;
 
 static __m128 HSum(__m128 m)

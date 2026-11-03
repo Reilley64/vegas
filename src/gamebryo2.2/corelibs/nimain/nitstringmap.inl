@@ -1,4 +1,5 @@
 
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
 #include "fnv/symbols_00aa1000.h"
 #include "nitstringmap_decls.h"
@@ -68,7 +69,7 @@ void NiTStringTemplateMap<NiTPointerMap<const char*, int>, int>::SetValue(NiTMap
         unsigned int length = strlen(key) + 1;
         item->m_key = (char*)::FUN_00aa1070(length);
         char* copy = (char*)item->m_key;
-        strcpy_s(copy, length, key);
+        fnv::crt::strcpy_s(copy, length, key);
     }
     else
         item->m_key = key;

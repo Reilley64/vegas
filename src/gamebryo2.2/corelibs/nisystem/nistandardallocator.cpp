@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // Swaps two adjacent ints at a and b when the pointers differ.
+#include <cstring>
 // @fnv 0x00aa3530
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa3760_cls.h"
@@ -354,8 +355,6 @@ fwd_body:
 
 unsigned int __cdecl ReadUInt32(void* pMemory);
 void* __cdecl FUN_00aa1250(void* pvMemory, unsigned int stSizeInBytes, unsigned int stAlignment);
-extern "C" void* __cdecl memcpy(void* dst, const void* src, unsigned int n);
-
 struct StdAllocator
 {
     virtual ~StdAllocator();
@@ -428,7 +427,6 @@ void* StdAllocator::FUN_00aa31b0(void* pvMemory, unsigned int& stSizeInBytes, un
 struct MM
 {
 };
-void* _fnv_zlib_memset(void* pvDest, int iValue, int iCount);
 
 // Allocates memory via the memory manager, applying alignment for type 0xe and zeroing the returned block.
 // @fnv 0x00aa33a0
@@ -458,7 +456,7 @@ void* FUN_00aa33a0(void* pvMem, unsigned int* puiSize, unsigned char* pucAlign, 
             pNewMem = 0;
         }
     }
-    return _fnv_zlib_memset(pNewMem, 0, *puiSize);
+    return std::memset(pNewMem, 0, *puiSize);
 }
 
 #include <windows.h>
@@ -512,5 +510,5 @@ void* FUN_00aa3300(unsigned int puiSize, unsigned char* pucAlign, int iType, int
         ((unsigned char*)pvNew)[-1] = ucOffset;
     }
     puiSize = *(unsigned int*)puiSize;
-    return _fnv_zlib_memset(pvNew, 0, puiSize);
+    return std::memset(pvNew, 0, puiSize);
 }

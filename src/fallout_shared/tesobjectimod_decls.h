@@ -2,13 +2,13 @@
 #ifndef FNV_TESOBJECTIMOD_DECLS_H
 #define FNV_TESOBJECTIMOD_DECLS_H
 
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/symbols_00472000.h"
 #include "fnv/symbols_00487000.h"
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
 class TESFile;

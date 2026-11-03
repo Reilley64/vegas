@@ -1,5 +1,6 @@
 // fallout_shared/tescasinochips.cpp: TESCasinoChips, TESCasino, IntFieldContainer, CasinoAccess and more (24 functions)
 
+#include <cstring>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
@@ -176,8 +177,6 @@ struct TESCasinoChips_shell
 {
     void* Destroy(unsigned int flags);
 };
-
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 
 struct FUN_00504620_shell
 {
@@ -460,8 +459,6 @@ void FUN_00504280_shell::FUN_00504280()
 
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680*>(this)))->FUN_00485680();
 }
-
-extern "C" void* __cdecl memset(void* destination, int value, size_t count);
 
 struct FUN_00504640_shell
 {

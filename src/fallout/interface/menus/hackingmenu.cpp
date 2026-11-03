@@ -3,6 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cctype>
+#include <cstdint>
+#include <cstring>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/B766A50Menu.h"
@@ -964,8 +967,6 @@ void HackingMenuV::FUN_0076a3f0()
 
 extern int DAT_011a0104;
 extern char* DAT_011a0100;
-int __cdecl FUN_00ec7690(int, int);
-int __cdecl FUN_00ec86e1(int);
 
 struct FUN_0076a670_cls
 {
@@ -976,12 +977,12 @@ struct FUN_0076a670_cls
 void FUN_0076a670_cls::FUN_0076a670(int a1, const char* pcSource)
 {
     int idx = 1;
-    int r6 = FUN_00ec7690(DAT_011a0104, pcSource[0]);
+    int r6 = ((int)(std::uintptr_t)(std::strchr((char *)(DAT_011a0104), pcSource[0])));
     if (r6 != 0)
     {
         while (1)
         {
-            if (pcSource[idx] == 0 || FUN_00ec86e1(pcSource[idx]) != 0)
+            if (pcSource[idx] == 0 || std::isalpha(pcSource[idx]) != 0)
             {
                 idx = 1;
                 break;
@@ -2047,7 +2048,6 @@ FUN_0076b300::FUN_0076b300(const char* name, char* parent, const char* path, int
 }
 
 // Adapted from prior contributor's code (credited in packet.json)
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl FUN_00afdf20(const char*, unsigned int, unsigned int, unsigned int);
 extern char str_01072a34[];
 extern char str_01072a00[];
@@ -2477,7 +2477,6 @@ struct InterfaceManager
 };
 
 bool FUN_00702450(int iMenuID);
-int FUN_00ec86e1(int iChar);
 
 struct HackingState
 {
@@ -2687,11 +2686,11 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
             case 4: {
                 int iSavedIndex = m_iCursorIndex;
                 bool bWord = (m_pkCursorTile && reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4))
-                                 ? (FUN_00ec86e1(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]) ? 1 : 0)
+                                 ? (std::isalpha(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]) ? 1 : 0)
                                  : 0;
                 m_iCursorIndex -= 0x11;
                 while (bWord && reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue() >= 7 &&
-                       FUN_00ec86e1(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]))
+                       std::isalpha(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]))
                     m_iCursorIndex -= 0x11;
                 if (reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue() < 7)
                 {
@@ -2726,11 +2725,11 @@ bool HackingMenu::HandleKey(int iKey, int iUnused)
             case 3: {
                 int iSavedIndex = m_iCursorIndex;
                 bool bWord = (m_pkCursorTile && reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4))
-                                 ? (FUN_00ec86e1(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]) ? 1 : 0)
+                                 ? (std::isalpha(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]) ? 1 : 0)
                                  : 0;
                 m_iCursorIndex += 0x11;
                 while (bWord && reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue() != -1 &&
-                       FUN_00ec86e1(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]))
+                       std::isalpha(reinterpret_cast<::FUN_00a011f0_shell *>((m_pkCursorTile))->FUN_00a011f0(0xfc4)[reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue()]))
                     m_iCursorIndex += 0x11;
                 if (reinterpret_cast<::FUN_00769700_cls *>(this)->GetScaledValue() == -1)
                 {
@@ -4590,7 +4589,6 @@ struct HackPlayer
     virtual void slot484();
     virtual void Reward(int);
 };
-int FUN_00ec86e1(int);
 struct HackMenu
 {
     unsigned int unk000;
@@ -4682,7 +4680,7 @@ void HackMenu::FUN_00766b80(int aiButtonIndex, HackTile* tile)
         {
             reinterpret_cast<::FUN_00ad8830_shell *>(&(select))->FUN_00ad8830(false);
             unsigned int matched = reinterpret_cast<::FUN_00768a10_shell *>(this)->CountMatchingChars(word, password);
-            if (!FUN_00ec86e1(*word) && ::FUN_0044a670(word) > 1)
+            if (!std::isalpha(*word) && ::FUN_0044a670(word) > 1)
             {
                 HackString c[3];
                 unsigned int j;

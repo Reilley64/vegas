@@ -5,6 +5,7 @@
 // src/havok/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/convex/convexvertices/hkpconvexverticesshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
@@ -671,8 +672,6 @@ void _mm_store_ss(float*,__m128);
 }
 
 
-
-extern "C" double __cdecl sqrt(double) throw();
 
 
 

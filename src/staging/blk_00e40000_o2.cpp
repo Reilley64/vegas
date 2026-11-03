@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CB0StringPtr.h"
@@ -1443,7 +1445,6 @@ float* __cdecl SetValueAndReturn(float* pOut, float fValue, FUN_00e533c0_cls* pO
     return pOut;
 }
 
-double __cdecl FUN_00ec6940(double value);
 
 struct FourComponentVector {
     float x, y, z, w;
@@ -1458,10 +1459,10 @@ FourComponentVector::FourComponentVector(float a, float b, float c, float d)
 FourComponentVector FourComponentVector::FUN_00e53440() const
 {
     return FourComponentVector(
-        static_cast<float>(FUN_00ec6940(x)),
-        static_cast<float>(FUN_00ec6940(y)),
-        static_cast<float>(FUN_00ec6940(z)),
-        static_cast<float>(FUN_00ec6940(w)));
+        static_cast<float>(std::floor(x)),
+        static_cast<float>(std::floor(y)),
+        static_cast<float>(std::floor(z)),
+        static_cast<float>(std::floor(w)));
 }
 
 struct FUN_00e53580_cls {
@@ -3392,10 +3393,6 @@ Stand_e58d90* Stand_e58d90::InitArray(int aiCount, int a2)
     return this;
 }
 
-extern "C" double __cdecl sqrt(double);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
-
 static inline float QSqrt(float v) { return (float)sqrt(v); }
 
 // @fnv 0x00e52a70
@@ -5121,7 +5118,6 @@ char* FnvCpu_FUN_00e49bb0_CpuObject::FUN_00e49bb0()
     return reinterpret_cast<char*>(this) + 48;
 }
 
-extern double __cdecl FUN_00ec9e10(double x);
 
 namespace Components {
 struct FUN_00e53160 {
@@ -5134,10 +5130,10 @@ struct ComponentVector {
     float x, y, z, w;
     Components::FUN_00e53160 FUN_00e534c0() const;
 };
-inline float ConvertComponent(float x) { return (float)FUN_00ec9e10(x); }
+inline float ConvertComponent(float x) { return (float)std::ceil(x); }
 inline float ConvertEarly(float x, volatile float& temp) {
     temp = x;
-    temp = (float)FUN_00ec9e10(temp);
+    temp = (float)std::ceil(temp);
     return temp;
 }
 // Converts the x, y, z, w fields of a ComponentVector to Components::FUN_00e53160 via ConvertComponent and ConvertEarly.
@@ -5206,7 +5202,6 @@ float __cdecl FUN_00e552f0(int n,int p,CurveArray& apKnots,PointArray& apPoints,
     return FUN_00e54ba0(apPoints.data[i],FUN_00e533a0(fAlphaLeft,temp[iLeftIdx+1]).FUN_00e53260(FUN_00e533a0(1.0f-fAlphaLeft,temp[iLeftIdx-1])));
 }
 
-void* _fnv_zlib_memset(void*,int,int);
 struct MarkHeap {
  virtual void v0(); virtual void v1(); virtual void v2();
  virtual void* Allocate(int&);
@@ -5234,7 +5229,7 @@ template<class T> struct MarkArray:MarkStorage<T> {
   T* p=count ? heap.reserve<T>(count) : 0;
   int flags=count ? count : (int)0x80000000;
   own(p,count,flags);
-  if(size>0) _fnv_zlib_memset(data,initial,size);
+  if(size>0) std::memset(data,initial,size);
  }
  __forceinline void release() {
   MarkHeap* heap=(MarkHeap*)FUN_00c85750()->m_pAllocator;
@@ -5247,7 +5242,6 @@ template<class T> struct MarkArray:MarkStorage<T> {
 struct MarkBounds { float* data; };
 int FindFloatInterval(int,int,float,MarkBounds*);
 bool* IsSampleBoundary(bool*,int,MarkBounds*,int);
-void* _fnv_zlib_memset(void*,int,int);
 // Marks the bounds intervals containing each point (shrunk by epsilon); writes 0 to output if any IsSampleBoundary sample is unmarked, else 1.
 // @fnv 0x00e57490
 bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBounds* points,float epsilon) {

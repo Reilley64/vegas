@@ -1,6 +1,7 @@
 // fallout_shared/tesworldspace.cpp: TESWorldSpace, TESObjectCELL, TESRegion, InterfaceManager and more (90 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSProjectile.h"
@@ -314,8 +315,6 @@ public:
     float ComputeMagnitude() const;
 };
 
-int __cdecl _FNV_Finite(double);
-int __cdecl _FNV_IsNaN(double);
 
 // @fnv 0x00587440
 int __cdecl FUN_00587440(const NiPoint3* aCoord)
@@ -323,8 +322,8 @@ int __cdecl FUN_00587440(const NiPoint3* aCoord)
     int icellx;
     int icelly;
 
-    if (!_FNV_Finite(aCoord->x) || !_FNV_Finite(aCoord->y) || !_FNV_Finite(aCoord->z) || _FNV_IsNaN(aCoord->x) ||
-        _FNV_IsNaN(aCoord->y) || _FNV_IsNaN(aCoord->z))
+    if (!std::isfinite(aCoord->x) || !std::isfinite(aCoord->y) || !std::isfinite(aCoord->z) || std::isnan(aCoord->x) ||
+        std::isnan(aCoord->y) || std::isnan(aCoord->z))
     {
         return 0x7fff7fff;
     }

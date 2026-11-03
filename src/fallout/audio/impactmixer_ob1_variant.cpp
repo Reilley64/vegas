@@ -5,6 +5,7 @@
 
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1229,7 +1230,6 @@ struct FilterData
 extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
                                    void(__cdecl* constructor)(void*));
 extern void __cdecl FUN_004a7800(void* value);
-extern void* __cdecl FUN_00ec44d0(void* target, const void* source, unsigned int bytes);
 extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
 struct FilterArray
 {
@@ -1401,7 +1401,7 @@ CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardEx
             _filters[index7] = *nearFilter;
     }
     unsigned short* pData6 = new unsigned short[36];
-    FUN_00ec44d0(pData6, &(*reinterpret_cast<unsigned char *>(&::DAT_010c2c38)), 0x48);
+    std::memmove(pData6, &(*reinterpret_cast<unsigned char *>(&::DAT_010c2c38)), 0x48);
     CollisionGenerator* shape2 = new CollisionGenerator(8, verticesX, 0, _filters, 0, 0, 0, 12, pData6);
     shape2->slot0e8();
     return shape2;

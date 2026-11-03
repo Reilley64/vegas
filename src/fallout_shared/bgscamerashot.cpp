@@ -1,6 +1,7 @@
 // fallout_shared/bgscamerashot.cpp: BGSCameraShot, CameraShot, ShotThis, Shot (16 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/CameraState.h"
@@ -223,7 +224,6 @@ struct FUN_0058c020_shell
 {
     bool FUN_0058c020(TESForm*);
 };
-int _memcmp(const void*, const void*, unsigned int);
 // @fnv 0x0058c020
 bool FUN_0058c020_shell::FUN_0058c020(TESForm* apCompare)
 {
@@ -232,7 +232,7 @@ bool FUN_0058c020_shell::FUN_0058c020(TESForm* apCompare)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(pCameraShot))
         return true;
-    if (_memcmp(reinterpret_cast<char*>(this) + 0x38, reinterpret_cast<char*>(&pCameraShot->Data), 0x28))
+    if (std::memcmp(reinterpret_cast<char*>(this) + 0x38, reinterpret_cast<char*>(&pCameraShot->Data), 0x28))
         return true;
     return false;
 }

@@ -1,6 +1,7 @@
 
 // tesobjectcell_ctx2_variant.cpp: context variant of src/fallout_shared/tesobjectcell.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <malloc.h>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/CollectionView.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -241,7 +242,6 @@ void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
     }
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 struct CellFile

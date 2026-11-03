@@ -1,4 +1,6 @@
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BaseWrap.h"
 #include "fnv/decl/C27120Class.h"
@@ -590,8 +592,6 @@ struct FUN_00a2fbe0_shell : public NiMultiTargetTransformController
     void UpdateTargets(NiUpdateData*);
 };
 
-extern "C" double __cdecl fabs(double);
-
 struct QuatHelper_a2fbe0
 {
 };
@@ -1178,8 +1178,6 @@ void FUN_00a304b0_cls::FUN_00a304b0(FUN_00a304b0_arr* pArr)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pArr))->SetAt(usIndex, (*(char * *)(&pItem)));
 }
-
-extern "C" int __cdecl strcmp(const char* pcA, const char* pcB);
 
 struct BA2FD60Item
 {

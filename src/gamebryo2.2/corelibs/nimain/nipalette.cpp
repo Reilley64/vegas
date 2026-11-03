@@ -6,6 +6,7 @@
 // @fnv 0x00a8b070
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -316,7 +317,6 @@ struct A8b110Listener
     virtual void v53();
     virtual void v54(void* p);
 };
-void __cdecl FUN_00ec44d0(void* dst, void* src, unsigned int size);
 
 struct A8b110Owner
 {
@@ -341,7 +341,7 @@ void* A8b110Owner::FUN_00a8b110(unsigned char a1, unsigned int a2, void* pSrc)
     vtable = (void*)&DAT_0109f3fc;
     m_10 = 1;
     m_14 = new A8b110Elem[a2];
-    FUN_00ec44d0(m_14, pSrc, m_0C * 4);
+    std::memmove(m_14, pSrc, m_0C * 4);
     m_18 = 0;
     if ((*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer)))
     {
@@ -674,7 +674,7 @@ void* A8b080Owner::FUN_00a8b080(const A8b080Owner& src)
     this->m_0C = src.m_0C;
     this->m_10 = 1;
     this->m_14 = new PaletteElement[this->m_0C];
-    FUN_00ec44d0(this->m_14, src.m_14, src.m_0C * 4);
+    std::memmove(this->m_14, src.m_14, src.m_0C * 4);
     this->m_18 = 0;
     if ((*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer)))
         (*reinterpret_cast<::A8b110Listener * *>(&::NiRenderer::ms_pRenderer))->v54(this);

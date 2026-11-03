@@ -3,6 +3,7 @@
 // polymorphic classes (Tile). The skeleton of src/fallout/interface/menus/companionwheelmenu.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include <cstdio>
 #include "fnv/decl/BGSDefaultObjectManager.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSAudio.h"
@@ -762,7 +763,6 @@ struct InputState
 struct MessageSetting
 {
 };
-int sprintf(char*, const char*, ...);
 struct InteractionMenu
 {
     unsigned int unk00;

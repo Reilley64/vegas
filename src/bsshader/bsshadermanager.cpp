@@ -1,6 +1,9 @@
 // bsshader/bsshadermanager.cpp: BSShaderManager, NiFixedString, SkyShaderProperty, StringHashMapBase (31 functions)
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderBloodSplatter.h"
 #include "fnv/decl/BSShaderNoLighting.h"
 #include "fnv/decl/BloodSplatterBeamShader.h"
@@ -93,12 +96,6 @@
 #include "fnv/symbols_01272000.h"
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
-
-extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
-extern "C" char* __cdecl strrchr(const char*, int);
-extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 
 class NiRTTI;
 class NiRenderer;
@@ -312,7 +309,7 @@ void BSShaderManager::BuildTexturePath(char* acOutPath, const char* acInputPath,
 {
     char filename[260];
     char extension[10];
-    strcpy_s(filename, 260, acInputPath);
+    fnv::crt::strcpy_s(filename, 260, acInputPath);
     acOutPath[0] = 0;
     char* dot = strrchr(filename, '.');
     char* pcSlash = strrchr(filename, '\\');
@@ -321,11 +318,11 @@ void BSShaderManager::BuildTexturePath(char* acOutPath, const char* acInputPath,
         pcUnderscore = 0;
     if (dot)
     {
-        strcpy_s(extension, 10, dot);
+        fnv::crt::strcpy_s(extension, 10, dot);
         if (pcUnderscore)
             *pcUnderscore = 0;
         *dot = 0;
-        if (abAddDataPrefix && filename[0] != '\\' && filename[1] != ':' && _strnicmp(filename, "data", 4))
+        if (abAddDataPrefix && filename[0] != '\\' && filename[1] != ':' && fnv::crt::strnicmp(filename, "data", 4))
             ::FUN_00406d00(acOutPath, 260, "Data\\%s%s%s", filename, suffix, extension);
         else
             ::FUN_00406d00(acOutPath, 260, "%s%s%s", filename, suffix, extension);
@@ -2685,8 +2682,6 @@ void __cdecl UpdateShaderProperty(AVObj* obj, bool abUnused, bool abFlag8, bool 
 }
 
 void* __cdecl NiMalloc(unsigned int);
-extern "C" unsigned int __cdecl strlen(const char*);
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct MemoryManager
 {
     void* Allocate(unsigned int);
@@ -2711,7 +2706,7 @@ StringHashMapBase::StringHashMapBase()
     unsigned int uiBytes = m_uiCount;
     uiBytes += uiBytes;
     uiBytes += uiBytes;
-    _fnv_zlib_memset(m_apBuckets, 0, uiBytes);
+    std::memset(m_apBuckets, 0, uiBytes);
     m_bShaderEnabled = 1;
 }
 struct ShaderMap : StringHashMapBase
@@ -2737,7 +2732,7 @@ FUN_00b7ff40::FUN_00b7ff40(int aiPackageIndex)
         ::FUN_00406d00(acBuffer, 100, "Data\\Shaders\\shaderpackage%03i.sdp", aiPackageIndex);
         unsigned int uiLength = strlen(acBuffer) + 1;
         m_name = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiLength);
-        strcpy_s(m_name, uiLength, acBuffer);
+        fnv::crt::strcpy_s(m_name, uiLength, acBuffer);
     }
 }
 
@@ -2879,7 +2874,6 @@ void __cdecl CopyMaterialPropertyRecursive(Walker* apWalker)
     }
 }
 
-extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
 extern unsigned char DAT_011f94d8;
 extern unsigned char DAT_011f94e4;
 // Sets DAT_011f91c0 and DAT_011f91d8 from a0/a1, then classifies a4 as ATI, NV, or IG and stores the result in DAT_011f91bc.
@@ -2910,7 +2904,7 @@ void __cdecl DetectGpuVendor(unsigned int a0, unsigned int a1, bool abForceLow, 
     }
     if (bHighLevel && a3 != 0 && apVendorName != 0)
     {
-        if (_strnicmp(apVendorName, "ati", 3) == 0)
+        if (fnv::crt::strnicmp(apVendorName, "ati", 3) == 0)
         {
             if (a5 > 0x60)
             {
@@ -2929,7 +2923,7 @@ void __cdecl DetectGpuVendor(unsigned int a0, unsigned int a1, bool abForceLow, 
             DAT_011ad870 = 0x15;
             DAT_011f94b8 = 2;
         }
-        else if (_strnicmp(apVendorName, "nv", 2) == 0)
+        else if (fnv::crt::strnicmp(apVendorName, "nv", 2) == 0)
         {
             if (a5 > 0x60)
             {
@@ -2947,7 +2941,7 @@ void __cdecl DetectGpuVendor(unsigned int a0, unsigned int a1, bool abForceLow, 
             }
             DAT_011f94b8 = 1;
         }
-        else if (_strnicmp(apVendorName, "ig", 2) == 0)
+        else if (fnv::crt::strnicmp(apVendorName, "ig", 2) == 0)
         {
             if (a5 > 0x60)
             {
@@ -4167,7 +4161,6 @@ struct AccumPointerInit
         }
     }
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 __forceinline void ClearCallbackTables()
 {
     memset(DAT_011f9f40 + 0, 0, 8);
@@ -4463,14 +4456,12 @@ struct NiBinaryExtraData : NiObject
 };
 extern const char DAT_010ad7a8[];
 extern const char DAT_010ad730[];
-extern "C" void* memmove(void*, const void*, unsigned int);
-extern "C" void* FUN_00ec61c0(void*, int, unsigned int);
 // Copies tangent and binormal data from extra data when present; otherwise computes per-vertex vectors from UVs and normals and updates geometry data.
 // @fnv 0x00b54b60
 NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
 {
     if (apGeometry->GetName())
-        _strnicmp(apGeometry->GetName(), DAT_0102bf34, 4);
+        fnv::crt::strnicmp(apGeometry->GetName(), DAT_0102bf34, 4);
     NativeB66810* result = new NativeB66810(true);
     NiBinaryExtraData* pExtraData =
         static_cast<NiBinaryExtraData*>(((::NiObject *)(reinterpret_cast<::NiAVObject *>((apGeometry))->GetExtraData(NiFixedString(DAT_010ad7a8)))));
@@ -4508,7 +4499,7 @@ NativeB66810* __cdecl FUN_00b54b60(NiGeometry* apGeometry)
     }
     NiPoint3* pTangentAccum = new NiPoint3[2 * count];
     NiPoint3* pBinormalAccum = pTangentAccum + count;
-    FUN_00ec61c0(pTangentAccum, 0, 2 * count * sizeof(NiPoint3));
+    std::memset(pTangentAccum, 0, 2 * count * sizeof(NiPoint3));
     NiPoint3* replacement = new NiPoint3[3 * count];
     NiPoint3* binormals = replacement + count;
     NiPoint3* tangents = replacement + 2 * count;

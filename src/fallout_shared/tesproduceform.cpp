@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -86,7 +87,6 @@ void TESProduceForm::FUN_0048b610(BaseFormComponent* apCopyFC)
     ((FUN_0048b670_shell*)this)->CopyFromSource((void*)((char*)pCopy + 8));
 }
 
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 struct ProduceFormData : BaseFormComponent
 {
     void* pIngredient;

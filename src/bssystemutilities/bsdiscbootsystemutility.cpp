@@ -1,5 +1,6 @@
 // bssystemutilities/bsdiscbootsystemutility.cpp: BSDiscBootSystemUtility (3 functions)
 
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -10,7 +11,6 @@
 
 typedef void(* DestroyFn)(BSDiscBootSystemUtility*);
 
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 // @fnv 0x00af3ae0
 void BSDiscBootSystemUtility::Destroy()
@@ -22,7 +22,7 @@ void BSDiscBootSystemUtility::Initialize(const char* titleID, unsigned int paren
     ((DestroyFn)m_ppVirtualMethodTable[2])(this);
     if (titleID)
     {
-        strcpy_s(m_acTitleID, 0x40, titleID);
+        fnv::crt::strcpy_s(m_acTitleID, 0x40, titleID);
     }
     m_uiParentalLevel = parentalLevel;
 }

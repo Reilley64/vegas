@@ -1,6 +1,7 @@
 // fallout/interface/menus/containermenu.cpp: ContainerMenu, MenuStateTarget, MenuLogic, ContainerValue and more (40 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActorSoundStub.h"
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/ActorX.h"
@@ -175,7 +176,7 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
     ((SaveLoadFile*)pFile)->SetFilePosition(0);
     char signature[260];
     signature[0] = 0;
-    fnv_zlib_memset(signature + 1, 0, 259);
+    std::memset(signature + 1, 0, 259);
     ((SaveLoadFile*)pFile)->Read(signature, strlen(DAT_011a2224));
     if (FUN_00408b20(signature, DAT_011a2224))
         return;
@@ -3532,7 +3533,6 @@ struct BoolSetting539
 struct FloatSetting539
 {
 };
-extern "C" unsigned int __cdecl strlen(const char*);
 struct ActorAccess539
 {
 };

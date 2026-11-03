@@ -9,6 +9,7 @@
 // src/staging/blk_00cc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <new>
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ConstraintBuilder.h"
 #include "fnv/decl/D51Writer.h"
@@ -303,7 +304,6 @@ struct __declspec(align(16)) PoseVector {
     }
 };
 struct PoseQuaternion {PoseVector vector; void FUN_00c66320(const PoseQuaternion&,const PoseQuaternion&);};
-extern "C" void __security_check_cookie(unsigned int);
 struct QuaternionProduct {__m128 quad;};
 __declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a,const PoseQuaternion& b) {
     unsigned int cookie=__security_cookie;
@@ -318,7 +318,6 @@ __declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a,c
     QuaternionProduct result;
     result.quad=_mm_shuffle_ps(xyz,_mm_unpackhi_ps(xyz,real),0xc4);
     vector.value=result.quad;
-    __security_check_cookie(cookie);
 }
 struct PoseTransform {
     PoseVector translation;
@@ -4026,9 +4025,6 @@ float _mm_cvtss_f32(__m128);
 __m128 _mm_load_ss(const float*);
 void _mm_store_ss(float*, __m128);
 }
-extern "C" double __cdecl fabs(double);
-extern "C" double __cdecl sqrt(double);
-
 struct MotionData {
     __m128 orientation;
     __m128 direction;
@@ -5038,8 +5034,6 @@ extern "C" unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
 extern "C" void _ReadBarrier(void);
 extern "C" void _WriteBarrier(void);
-extern "C" double __cdecl sqrt(double);
-
  // (0,0,0,1)
  // -0.5 splat
  // sign mask xyz
@@ -5655,8 +5649,6 @@ struct hkBool
 };
 
 
-extern "C" double __cdecl acos(double);
-extern "C" double __cdecl fabs(double);
 __declspec(noinline) float __cdecl ClampedAcos(float x)
 {
     if ((float)fabs(x)>=1.0f) return x<0.0f ? ::DAT_0102b3c8 : 0.0f;

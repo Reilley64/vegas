@@ -1,5 +1,6 @@
 // fallout_shared/decaldata.cpp: DecalData (6 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -43,7 +44,6 @@ struct FUN_005932e0_shell
     bool Compare(void* apCompare);
 };
 
-extern int __cdecl _memcmp(const void*, const void*, int);
 
 // Returns true if apCompare is null or the first 0x24 bytes differ from this; otherwise returns false.
 // @fnv 0x005932e0
@@ -51,7 +51,7 @@ bool FUN_005932e0_shell::Compare(void* apCompare)
 {
     if (apCompare == 0)
         return true;
-    if (_memcmp(this, apCompare, 0x24) != 0)
+    if (std::memcmp(this, apCompare, 0x24) != 0)
         return true;
     return false;
 }

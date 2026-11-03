@@ -6,6 +6,7 @@
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstdlib>
 #include "fnv/decl/A237F0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -295,7 +296,6 @@ struct InputManagerClose
     InputDevice* mouse;
     void ShutdownInput();
 };
-extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
 extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 struct ControlsIniLoader : public FUN_00a24f60_Class

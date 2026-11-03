@@ -1,6 +1,8 @@
 // havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp: QhkVector4, BigSolver, BoundsMesh, TriangleChecker and more (160 functions)
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
@@ -1962,7 +1964,6 @@ HullTriangle* FUN_00e19cf0_cls::CreateTriangle(HullVertex* pVertexA, HullVertex*
     return t;
 }
 
-extern "C" double __cdecl sqrt(double);
 extern float DAT_010d51c4;
 extern int DAT_010eb000;
 extern int DAT_011bdee0;
@@ -2141,8 +2142,6 @@ struct FUN_00e22970_Cls {
 
     void AppendItems(void* apArg1, const FUN_00e22970_Item* apSrc, int aCount);
 };
-
-extern "C" void* __cdecl memcpy(void* apDst, const void* apSrc, unsigned int aCount);
 
 // Grows the item array if needed, copies aCount 0x30-byte items from apSrc to the end, and updates the count.
 // @fnv 0x00e22970
@@ -18432,8 +18431,6 @@ S00e24650_Edge EdgeWalker::FUN_00e23df0(S00e24650_Edge input,unsigned int vertex
     return input;
 }
 
-extern "C" double __cdecl fabs(double);
-
 struct __declspec(align(16)) Vec4A {
     float x, y, z, w;
     const char* FUN_00c7f520(void* a, float c);
@@ -18647,8 +18644,6 @@ int E13B00This::FUN_00e13b00(float afMinDot, float afMaxWDiff, bool a3)
 }
 
 extern "C" void _WriteBarrier();
-extern "C" double __cdecl fabs(double);
-
 
 struct __declspec(align(16)) CollapsePosition {
     float x,y,z,w;

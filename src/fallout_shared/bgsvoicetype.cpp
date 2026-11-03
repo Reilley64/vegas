@@ -123,7 +123,6 @@ struct FUN_005f00a0
 FUN_005f00a0::~FUN_005f00a0()
 {}
 
-extern "C" void* __cdecl FUN_00ec43fb(void* p, long vf, void* src, void* tgt, int isRef);
 extern char DAT_01186318;
 struct FUN_004851b0_call
 {
@@ -136,7 +135,7 @@ struct FUN_005f02a0_shell : BGSDehydrationStage
 // @fnv 0x005f02a0
 void FUN_005f02a0_shell::FUN_005f02a0(TESForm* form)
 {
-    FUN_005f00d0* src = (FUN_005f00d0*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01186318, 0);
+    FUN_005f00d0* src = (FUN_005f00d0*)dynamic_cast<::BGSVoiceType *>(reinterpret_cast<::TESForm *>(form));
     if (!src)
     {
         return;

@@ -1,5 +1,6 @@
 // bsshader/bsdistanttreeshader.cpp: ZTree, This, BSDistantTreeShaderPasses, GeomShader (14 functions)
 
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/E7DEF0TextureStage.h"
@@ -91,7 +92,6 @@ struct FUN_00bb6060_shell : public BSDistantTreeShader
     void FUN_00bb6060();
 };
 
-void* fnv_zlib_memset(void*, int, int);
 struct ShMacro
 {
     const char* Name;
@@ -147,19 +147,19 @@ void FUN_00bb6060_shell::FUN_00bb6060()
     vertexShaderParams.macros[0].Name = "DTTEST";
     vertexShaderParams.macros[0].Definition = "";
     vertexShaderParams.macros[1].Name = 0;
-    fnv_zlib_memset(&vertexShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&vertexShaderParams.macros[1].Definition, 0, 0x3c);
     pixelShaderParams.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParams.macros[0].Name = "DTTEST";
     pixelShaderParams.macros[0].Definition = "";
     pixelShaderParams.macros[1].Name = 0;
-    fnv_zlib_memset(&pixelShaderParams.macros[1].Definition, 0, 0x3c);
+    std::memset(&pixelShaderParams.macros[1].Definition, 0, 0x3c);
     pixelShaderParamsSilhouette.pFile = "distanttree\\DistantTree.p.hlsl";
     pixelShaderParamsSilhouette.macros[0].Name = "DTTEST";
     pixelShaderParamsSilhouette.macros[0].Definition = "";
     pixelShaderParamsSilhouette.macros[1].Name = "SILHOUETTE";
     pixelShaderParamsSilhouette.macros[1].Definition = "";
     pixelShaderParamsSilhouette.macros[2].Name = 0;
-    fnv_zlib_memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 0x34);
+    std::memset(&pixelShaderParamsSilhouette.macros[2].Definition, 0, 0x34);
 
     char* pThis = (char*)this;
     FUN_00be0c00(vertexShaderParams.pFile, cacheName);
@@ -255,8 +255,6 @@ FUN_00bb6300::~FUN_00bb6300()
     FreeTreeMemory(instances);
     decl = 0;
 }
-
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int size);
 
 extern unsigned int DAT_012007b8;
 

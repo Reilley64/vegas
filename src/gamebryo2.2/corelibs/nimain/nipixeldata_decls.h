@@ -3,6 +3,7 @@
 #define FNV_NIPIXELDATA_DECLS_H
 
 
+#include <cstring>
 #include "fnv/decl/FUN_00a8f010_cls.h"
 #include "fnv/symbols_00a7b000.h"
 class NiObject
@@ -61,6 +62,5 @@ class NiPixelData : public NiObject
                 unsigned int faces) throw();
 };
 
-extern "C" void* __cdecl fnv_zlib_memcpy(void* destination, const void* source, unsigned int size);
 
 #endif

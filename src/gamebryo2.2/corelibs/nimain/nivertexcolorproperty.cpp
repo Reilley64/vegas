@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00a5c200.h"
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -174,8 +175,6 @@ void* FUN_00a5f210_cls::FUN_00a5f210(unsigned int a1)
         return this;
     }
 }
-
-extern "C" unsigned int __cdecl strlen(const char* s);
 
 void* __cdecl NiMalloc(unsigned int size);
 

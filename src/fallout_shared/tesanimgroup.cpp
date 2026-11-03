@@ -1,5 +1,9 @@
 // fallout_shared/tesanimgroup.cpp: TESAnimGroup, BSAnimGroupSequence, TESAnimGroupDestructionView, Holder (35 functions)
 
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BaseProcess.h"
@@ -229,7 +233,6 @@ struct FUN_005f3780_shell : public TESAnimGroup
     float FUN_005f3780(int);
 };
 
-int __cdecl _FNV_IsNaN(double);
 
 struct AnimGroupInfo_011977d8
 {
@@ -253,7 +256,7 @@ float FUN_005f3780_shell::FUN_005f3780(int groupAction)
     }
     if (times)
     {
-        if (_FNV_IsNaN(times[groupAction]))
+        if (std::isnan(times[groupAction]))
         {
             ::FUN_005b5e40();
             return 0.0f;
@@ -265,29 +268,27 @@ float FUN_005f3780_shell::FUN_005f3780(int groupAction)
 
 template <typename T> unsigned int __cdecl BSStringLength(const T* str);
 
-const char* __cdecl _strrchr(const char*, int);
-int __cdecl __strnicmp(const char*, const char*, unsigned int);
 
 
 // @fnv 0x005f38d0
 void __cdecl FUN_005f38d0(const char* apModelName, unsigned int* aeMove, unsigned int* aeWeapon, bool* abPowerArmor)
 {
     unsigned int n;
-    const char* plastSlash = _strrchr(apModelName, '\\');
+    const char* plastSlash = ((const char *)(std::strrchr((char *)(apModelName), '\\')));
     *abPowerArmor = false;
     *aeMove = 0;
     *aeWeapon = 0;
     if (plastSlash)
     {
         plastSlash = plastSlash + 1;
-        if (__strnicmp(plastSlash, "PA", ::FUN_0044a670("PA")) == 0)
+        if (fnv::crt::strnicmp(plastSlash, "PA", ::FUN_0044a670("PA")) == 0)
         {
             *abPowerArmor = true;
             plastSlash += ::FUN_0044a670("PA");
         }
         for (n = 1; n < 4; ++n)
         {
-            if (__strnicmp(plastSlash, DAT_01197794[n], ::FUN_0044a670(DAT_01197794[n])) == 0)
+            if (fnv::crt::strnicmp(plastSlash, DAT_01197794[n], ::FUN_0044a670(DAT_01197794[n])) == 0)
             {
                 *aeMove = n;
                 plastSlash += ::FUN_0044a670(DAT_01197794[n]);
@@ -296,7 +297,7 @@ void __cdecl FUN_005f38d0(const char* apModelName, unsigned int* aeMove, unsigne
         }
         for (n = 1; n < 12; ++n)
         {
-            if (__strnicmp(plastSlash, DAT_011977a4[n], ::FUN_0044a670(DAT_011977a4[n])) == 0)
+            if (fnv::crt::strnicmp(plastSlash, DAT_011977a4[n], ::FUN_0044a670(DAT_011977a4[n])) == 0)
             {
                 *aeWeapon = n;
                 break;
@@ -584,12 +585,8 @@ struct BaseFormComponent
     virtual bool IsEqualToBase(BaseFormComponent*);
 };
 
-int __strnicmp(const char* str1, const char* str2, int count);
-const char* _strrchr(const char* str, int ch);
 template <class T> unsigned int BSStringLength(const T* str);
 char* strchr(char* str, int ch);
-double atof(const char* str);
-long atol(const char* str);
 
 struct NiFixedStringEx : NiFixedString
 {
@@ -659,7 +656,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
     bool bpowerArmor = false;
     ANIM_GROUP_MOVE_ENUM eanimMove = ANIM_GROUP_MOVE_ENUM_AGM_NONE;
     ANIM_GROUP_WEAPON_ENUM eanimWeapon = ANIM_GROUP_WEAPON_ENUM_AGW_NONE;
-    const char* plastSlash = _strrchr(apModelName, '\\');
+    const char* plastSlash = ((const char *)(std::strrchr((char *)(apModelName), '\\')));
     ::FUN_0043b2b0(true);
     const char* paccumName = (*(const ::fnv_005f3a20::NiFixedStringEx *)(reinterpret_cast<::FUN_006c9900_shell *>((void *)(apSequence))->FUN_006c9900()));
     int iaccumIndex = -1;
@@ -705,7 +702,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                 ::FUN_005b5e40();
                 bshowWarning = true;
             }
-            else if (!__strnicmp(keyText, "prn:", 4))
+            else if (!fnv::crt::strnicmp(keyText, "prn:", 4))
             {
                 if (((const char*)keyText)[4] != ' ')
                     reinterpret_cast<::BGSCameraPath *>((panimGroup))->AssignParentPath((::BGSCameraPath *)(keyText + 4));
@@ -721,44 +718,44 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                 {
                     if (*ptoken == '\r')
                         ptoken = TESAnimGroup::FindNextLine(ptoken);
-                    if (!__strnicmp(ptoken, ::g_kTextKeyA, ::FUN_0044a670(::g_kTextKeyA)))
+                    if (!fnv::crt::strnicmp(ptoken, ::g_kTextKeyA, ::FUN_0044a670(::g_kTextKeyA)))
                     {
                         if (!((char)(reinterpret_cast<::FOPipboyManager *>((panimGroup))->IsUnk28Set())))
                             reinterpret_cast<::MiddleHighProcess *>((panimGroup))->FUN_00929260(ptoken[2]);
                     }
-                    else if (!__strnicmp(ptoken, "BlendIn:", 8))
+                    else if (!fnv::crt::strnicmp(ptoken, "BlendIn:", 8))
                     {
                         if (ptoken[8] != ' ')
-                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(atol(ptoken + 8));
+                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(std::atoi(ptoken + 8));
                         else
-                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(atol(ptoken + 9));
+                            reinterpret_cast<::S7f *>((panimGroup))->SetValue(std::atoi(ptoken + 9));
                     }
-                    else if (!__strnicmp(ptoken, "BlendOut:", 9))
+                    else if (!fnv::crt::strnicmp(ptoken, "BlendOut:", 9))
                     {
                         if (ptoken[9] != ' ')
-                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(atol(ptoken + 9));
+                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(std::atoi(ptoken + 9));
                         else
-                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(atol(ptoken + 10));
+                            reinterpret_cast<::FUN_005f4b90_Class *>((panimGroup))->SetByteAtOffset2B(std::atoi(ptoken + 10));
                     }
-                    else if (!__strnicmp(ptoken, "Blend:", 6))
+                    else if (!fnv::crt::strnicmp(ptoken, "Blend:", 6))
                     {
                         if (ptoken[6] != ' ')
-                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(atol(ptoken + 6));
+                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(std::atoi(ptoken + 6));
                         else
-                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(atol(ptoken + 7));
+                            reinterpret_cast<::FUN_005f4b70_Class *>((panimGroup))->FUN_005f4b70(std::atoi(ptoken + 7));
                     }
-                    else if (!__strnicmp(ptoken, "Decal:", 6))
+                    else if (!fnv::crt::strnicmp(ptoken, "Decal:", 6))
                     {
                         if (ptoken[6] != ' ')
-                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(atol(ptoken + 6));
+                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(std::atoi(ptoken + 6));
                         else
-                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(atol(ptoken + 7));
+                            reinterpret_cast<::FUN_008bf4e0_cls *>((panimGroup))->set(std::atoi(ptoken + 7));
                     }
-                    else if (!__strnicmp(ptoken, "Sound:", ::FUN_0044a670("Sound:")) ||
-                             !__strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
+                    else if (!fnv::crt::strnicmp(ptoken, "Sound:", ::FUN_0044a670("Sound:")) ||
+                             !fnv::crt::strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
                     {
                         bool benum = false;
-                        if (!__strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
+                        if (!fnv::crt::strnicmp(ptoken, "Enum:", ::FUN_0044a670("Enum:")))
                             benum = true;
                         if (panimGroup)
                         {
@@ -834,9 +831,9 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                     reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
                                     reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (unsigned int)(openSound));
                                     if (vol && *vol)
-                                        reinterpret_cast<::FUN_005f2ac0_cls *>((panimGroup))->SetRecordValue(m_uiSoundEntryCount, atof(vol));
+                                        reinterpret_cast<::FUN_005f2ac0_cls *>((panimGroup))->SetRecordValue(m_uiSoundEntryCount, std::atof(vol));
                                     if (pitch)
-                                        reinterpret_cast<::FUN_005f2b20_Class *>((panimGroup))->SetEntryFloat(m_uiSoundEntryCount, atof(pitch));
+                                        reinterpret_cast<::FUN_005f2b20_Class *>((panimGroup))->SetEntryFloat(m_uiSoundEntryCount, std::atof(pitch));
                                 }
                                 else
                                 {
@@ -865,14 +862,14 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                 if (action == -1)
                                     break;
                                 if (m == 2 && iactionIndex == 1 &&
-                                    !__strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                    !fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
                                                 ::FUN_0044a670(::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                     iactionIndex = action = (ANIM_GROUP_ACTION)3;
                                 if ((*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType == 5 && iactionIndex == 2 &&
-                                    !__strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                    !fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
                                                 ::FUN_0044a670(::PTR_s_Start_01199a50[3][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                     iactionIndex = action = (ANIM_GROUP_ACTION)3;
-                                if (!__strnicmp(ptoken, ::PTR_s_Start_01199a50[action][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
+                                if (!fnv::crt::strnicmp(ptoken, ::PTR_s_Start_01199a50[action][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType],
                                                 ::FUN_0044a670(::PTR_s_Start_01199a50[action][(*reinterpret_cast<fnv_005f3a20::AnimGroupInfo (*)[]>(&::DAT_011977d8))[m].iSequenceType])))
                                 {
                                     if (!panimGroup)

@@ -6,6 +6,7 @@
 // src/staging/blk_00c80000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/A50Cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C89AC0_Owner.h"
@@ -824,7 +825,6 @@ class GlobalObjectO2_00a7b610
   public:
     const char* name;
 };
-int _strcpy_s(char*, unsigned int, const char*);
 class MemoryManager
 {
   public:
@@ -845,7 +845,7 @@ void KeyData::FUN_00c9bbb0(StrArr* strings)
         ::FUN_00406d00(buffer, 64, "Key%d: %.4f, %.4f, %.4f", i, kKey.x, kKey.y, kKey.z);
         unsigned int length = strlen(buffer) + 1;
         char* copy = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(length);
-        _strcpy_s(copy, length, buffer);
+        fnv::crt::strcpy_s(copy, length, buffer);
         strings->Append(copy);
     }
 }

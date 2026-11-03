@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstring>
 // @fnv 0x00d32b20
 #include "fnv/decl/FUN_00cfbd60_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -487,7 +488,6 @@ struct Callback
     virtual void OnValueChange(unsigned int identifier, void* data);
 };
 
-void __cdecl FUN_00ec44d0(void* target, const void* input, unsigned int byteCount);
 
 struct Container
 {
@@ -704,7 +704,7 @@ void Container::FUN_00d33600(void* unusedA, void* unusedB, char* source, Callbac
     void* output = *reinterpret_cast<void**>(source + 0x3080);
     if (output != 0)
     {
-        FUN_00ec44d0(output, destination + 4, 0x1008);
+        std::memmove(output, destination + 4, 0x1008);
     }
 }
 // Copies first, second, alpha, beta, gamma, delta, epsilon, zeta and 48 bytes of coefficients from other, and returns *this.
@@ -801,7 +801,7 @@ FUN_00d33670::FUN_00d33670(const LargeOutput& src)
     SmallState* pExtra = state.copyScalars(src.state);
     memcpy(pExtra, &src.state.extra, sizeof(state.extra));
     if (src.data)
-        FUN_00ec44d0(data, src.data, sizeof(data));
+        std::memmove(data, src.data, sizeof(data));
 }
 
 #include <xmmintrin.h>

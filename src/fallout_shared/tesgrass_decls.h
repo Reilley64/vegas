@@ -2,6 +2,7 @@
 #ifndef FNV_TESGRASS_DECLS_H
 #define FNV_TESGRASS_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "layout_support.h"
 #include "BaseFormComponent.h"
@@ -106,5 +107,4 @@ class BGSImpactData
     void* m_pSecondaryImpactSound;
     char ImpactDecalInfo[36];
 };
-extern "C" void* __cdecl memset(void* data, int value, unsigned int size);
 #endif

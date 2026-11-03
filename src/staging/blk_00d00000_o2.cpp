@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00c9ce00.h"
@@ -133,7 +134,6 @@ struct AllocHolder
 };
 
 AllocHolder* FUN_00c85750();
-extern "C" void __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int size);
 
 struct FUN_00d06c30_cls
 {
@@ -148,7 +148,7 @@ extern "C" void __cdecl FUN_00d06c30(FUN_00d06c30_cls* self, unsigned int newCap
     AllocHolder* holder = FUN_00c85750();
     SpawnedAllocator* alloc = holder->m_pAllocator;
     char* newBuf = (char*)alloc->Alloc(newCap * elemSize);
-    FUN_00ec44d0(newBuf, self->m_pData, self->m_usElementCount * elemSize);
+    std::memmove(newBuf, self->m_pData, self->m_usElementCount * elemSize);
     if ((self->m_usCap & 0x8000) == 0)
     {
         unsigned int size = (self->m_usCap & 0x3fff) * elemSize;

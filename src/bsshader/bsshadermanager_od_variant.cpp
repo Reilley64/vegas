@@ -3,6 +3,8 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FUN_0046e8e0_This.h"
 #include "fnv/decl/FUN_0046eb00_Class.h"
 #include "fnv/decl/FUN_0046eb20_Class.h"
@@ -30,10 +32,7 @@
 #include "bsshadermanager_decls.h"
 #include <stddef.h>
 extern "C" int __cdecl strcpy_s(char*, size_t, const char*);
-extern "C" char* __cdecl strrchr(const char*, int);
 extern "C" int __cdecl _strnicmp(const char*, const char*, size_t);
-extern "C" double __cdecl sin(double);
-extern "C" double __cdecl cos(double);
 class NiRTTI;
 class NiRenderer;
 class BSFileEntry;

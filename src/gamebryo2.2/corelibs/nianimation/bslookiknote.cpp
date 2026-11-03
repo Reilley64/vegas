@@ -5,6 +5,7 @@
 
 // @fnv 0x00a43f70
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSAnimNote.h"
 #include "fnv/decl/C4BF0AnimNote.h"
 #include "fnv/decl/FUN_00a44830_cls.h"
@@ -557,9 +558,6 @@ A43FF0Interp* A43FF0Interp::FUN_00a43ff0(void* pvCloning)
     pkClone->m_pUserData = m_pUserData;
     return pkClone;
 }
-
-extern "C" int __cdecl strncmp(const char* s1, const char* s2, unsigned int n);
-extern "C" char* __cdecl strncpy(char* dest, const char* src, unsigned int n);
 
 class NiFixedString
 {

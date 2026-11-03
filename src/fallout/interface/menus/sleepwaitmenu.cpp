@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/sleepwaitmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/sleepwaitmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cctype>
 #include "fnv/decl/Calendar.h"
 #include "fnv/decl/CalendarProxy.h"
 #include "fnv/decl/Callees.h"
@@ -553,8 +554,6 @@ struct SwMenuRoot
 struct SwInterface
 {
 };
-extern "C" int __cdecl toupper(int c);
-
 struct SwSoundHandle
 {
     int unk00, unk04, unk08;

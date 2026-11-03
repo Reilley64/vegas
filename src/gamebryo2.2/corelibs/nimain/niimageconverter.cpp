@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A8Class.h"
 #include "fnv/decl/FUN_00a7c030.h"
 #include "fnv/decl/FUN_00a8ae50.h"
@@ -184,14 +186,13 @@ struct FileNameComponents
 struct NiGlobalStringTable
 {
 };
-int strcpy_s(char*, unsigned int, const char*);
 // @fnv 0x00a76960
 void FUN_00a76960(char** apszSource, char** apszDest)
 {
     if (::DAT_011f4a78)
     {
         FileNameComponents kName(*apszSource);
-        strcpy_s(kName.m_acTail, 0x100, ::DAT_011f4a78);
+        fnv::crt::strcpy_s(kName.m_acTail, 0x100, ::DAT_011f4a78);
         char acBuf[0x104];
         ::FUN_00aa29d0();
         char* pcOldString = *apszDest;
@@ -333,7 +334,6 @@ struct FUN_00a76c10_shell : public NiImageConverter
     NiPixelData* FUN_00a76c10(void*, void*, NiPixelData*, bool);
 };
 
-void* _memmove(void* dst, const void* src, unsigned int size);
 struct BSFadeNode
 {
     static void* __cdecl operator new(unsigned int size);
@@ -387,7 +387,7 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
             unsigned int uiMaxLevel = pkOptDest->m_uiMipmapLevels;
             for (unsigned int uiMip = 0; uiMip < uiMaxLevel; uiMip++)
             {
-                _memmove(pkOptDest->m_pucPixels + pkOptDest->m_puiOffsetInBytes[uiMip],
+                std::memmove(pkOptDest->m_pucPixels + pkOptDest->m_puiOffsetInBytes[uiMip],
                          kSrc.m_pucPixels + kSrc.m_puiOffsetInBytes[uiMip],
                          kSrc.m_puiOffsetInBytes[uiMip + 1] - kSrc.m_puiOffsetInBytes[uiMip]);
             }
@@ -524,8 +524,6 @@ void __cdecl FUN_00aa29d0(void)
 }
 
 #include <string.h>
-int _strcpy_s(char*, unsigned int, const char*);
-void _fnv_CopyFilePath(char*, unsigned int, const char*, unsigned int);
 
 struct FileNameComponents
 {
@@ -538,7 +536,7 @@ struct FileNameComponents
     FileNameComponents(const char* pcPath);
     void SetExt(const char* pcExt)
     {
-        _strcpy_s(m_acExtension, 0x100, pcExt);
+        fnv::crt::strcpy_s(m_acExtension, 0x100, pcExt);
     }
 };
 
@@ -555,7 +553,7 @@ char* GetPathWithExtension(const char* pcPath)
     }
     else
     {
-        _fnv_CopyFilePath(pcDest, 0x104, pcPath, strlen(pcPath));
+        fnv::crt::strncpy_s(pcDest, 0x104, pcPath, strlen(pcPath));
     }
     return pcDest;
 }

@@ -13,6 +13,7 @@
 
 
 // one byte flag holder (the helper's "bDoSwap" argument)
+#include <cstdlib>
 #include "fnv/decl/TESObjectCELL.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00406000.h"
@@ -49,8 +50,6 @@ struct LodSetting
 };
 extern LodCell* g_pkLastCell_011c3f04;
 extern int g_iLastLod_011c3f00;
-extern "C" int __cdecl abs(int i);
-
 struct LodGrid
 {
     char pad00[0x24];

@@ -8,6 +8,7 @@
 // src/staging/blk_00cc0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ConstraintBuilder.h"
 #include "fnv/decl/D51Writer.h"
@@ -906,7 +907,6 @@ struct PoseQuaternion
     PoseVector vector;
     void FUN_00c66320(const PoseQuaternion&, const PoseQuaternion&);
 };
-extern "C" void __security_check_cookie(unsigned int);
 struct QuaternionProduct
 {
     __m128 quad;
@@ -926,7 +926,6 @@ __declspec(noinline) void PoseQuaternion::FUN_00c66320(const PoseQuaternion& a, 
     QuaternionProduct result;
     result.quad = _mm_shuffle_ps(xyz, _mm_unpackhi_ps(xyz, real), 0xc4);
     vector.value = result.quad;
-    __security_check_cookie(cookie);
 }
 struct PoseTransform
 {
@@ -3915,7 +3914,6 @@ void CylinderInitOwner::FUN_00ccd8c0(ParamSrc* p)
     v47(p);
 }
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned);
 
 void* __cdecl FUN_00aa13e0(unsigned);
 
@@ -4344,7 +4342,7 @@ void ExtendedMeshBuilder::FUN_00ccc980(ExtendedMeshInput* input)
 
             unsigned byteCount = 2 * indices.size;
 
-            FUN_00ec44d0(copiedIndices, indices.data, byteCount);
+            std::memmove(copiedIndices, indices.data, byteCount);
 
             void* allocation = reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(24);
 

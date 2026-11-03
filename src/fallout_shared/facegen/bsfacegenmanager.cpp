@@ -1,6 +1,9 @@
 // fallout_shared/facegen/bsfacegenmanager.cpp: BSFaceGenManager, FGModelCache, BSFaceGenModelMap_t, TESRace and more (111 functions)
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -213,9 +216,9 @@ char* BSFaceGenManager::BuildFaceGenPartPath(char* dest, int part)
 {
     ::FUN_004046f0(dest, DAT_0104aad0);
     if (part > -1 && part < 2)
-        FUN_00ec6380(dest, DAT_0119b734[part]);
+        ::std::strcat(dest, DAT_0119b734[part]);
     else
-        FUN_00ec6380(dest, DAT_0119b734[0]);
+        ::std::strcat(dest, DAT_0119b734[0]);
     return dest;
 }
 
@@ -399,13 +402,12 @@ void* FUN_00651630(FaceGenMatrix<float>* pThis)
 }
 }  // namespace fnv_00651630
 
-void FUN_ehvec_ctor(void*, unsigned int, int, void*, void*);
 void FUN_ctor();
 
 // @fnv 0x00651670
 void* FUN_00651670(void* p)
 {
-    FUN_ehvec_ctor(p, 0x20, 2, &FUN_ctor, &((void (&)())::FUN_00449680));
+    fnv::crt::vector_constructor(p, 0x20, 2, (void (*)(void *))(&FUN_ctor), (void (*)(void *))(&((void (&)())::FUN_00449680)));
     return p;
 }
 
@@ -463,12 +465,11 @@ FUN_006516e0::FUN_006516e0()
 
 void __cdecl FUN_00657960();
 void __cdecl FUN_006579d0();
-void compiler_eh_vector_destructor_iterator(void*, unsigned int, int, void(__cdecl*)(), void(__cdecl*)());
 
 // @fnv 0x006517e0
 void* DestroyVectorElements(void* pThis)
 {
-    compiler_eh_vector_destructor_iterator(pThis, 0x18, 4, FUN_00657960, FUN_006579d0);
+    fnv::crt::vector_constructor(pThis, 0x18, 4, (void (*)(void *))(FUN_00657960), (void (*)(void *))(FUN_006579d0));
     return pThis;
 }
 
@@ -1088,7 +1089,6 @@ struct OpaqueDataBlock
 {
     char pad[0x3c];
 };
-unsigned int FUN_00ec7c56();
 struct FUN_00657a50_shell
 {
     char pad[0xc];
@@ -1100,7 +1100,7 @@ struct FUN_00657a50_shell
 OpaqueDataBlock* FUN_00657a50_shell::FUN_00657a50(unsigned int uiIndex)
 {
     if (!(uiIndex < ::FUN_00657a30((const ::_vec_60 *)this)))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -1306,8 +1306,6 @@ float FUN_00652440(FaceGenData*, int, int);
 void FUN_00652140();
 void FUN_00652190();
 int FUN_00653880(BSS*, int, unsigned char, const char*);
-unsigned int _strlen(const char*);
-int __strnicmp(const char*, const char*, unsigned int);
 struct NodeCalls
 {
     virtual void v000();
@@ -1587,8 +1585,8 @@ void ApplyFaceGenTextures(NiAVObject* apNode, FaceGenData* arNpcData)
                 icompress = 0;
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pchild), false, false);
             }
-            else if (__strnicmp(*(NiFixedStringConv*)&(*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList())),
-                                *(NiFixedStringConv*)&hair, _strlen(*(NiFixedStringConv*)&hair)) == 0 ||
+            else if (fnv::crt::strnicmp(*(NiFixedStringConv*)&(*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList())),
+                                *(NiFixedStringConv*)&hair, ::std::strlen(*(NiFixedStringConv*)&hair)) == 0 ||
                      ::FUN_009a3830((const int *)&((*(::fnv_00655fa0::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((((NiAVObjectHelper*)pchild)))->GetLinkToList()))), (const int *)&(headAccessory)))
             {
                 ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(pchild), false, false);
@@ -4976,7 +4974,6 @@ unsigned int FUN_0065c490_cls::FUN_0065c490()
     return total;
 }
 
-void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void (*dtor)());
 
 struct FUN_006516a0_class
 {
@@ -4986,7 +4983,7 @@ struct FUN_006516a0_class
 // @fnv 0x006516a0
 void FUN_006516a0_class::FUN_006516a0()
 {
-    FUN_0065ee50_Helper(this, 0x20, 2, ((void (&)())::FUN_00449680));
+    fnv::crt::vector_destructor(this, 0x20, 2, (void (*)(void *))(((void (&)())::FUN_00449680)));
 }
 
 struct FaceGenCoordElement
@@ -5133,7 +5130,6 @@ struct HashB8
     int a;
     int b;
 };
-char* __cdecl strchr(char* apStr, int aiChar);
 
 // @fnv 0x00653a10
 const char* __cdecl FUN_00653a10(BSStr* aStr, const char* apModel)
@@ -5811,7 +5807,6 @@ struct S_0044ac20_class
 {
 };
 
-unsigned int FUN_00ec7c56();
 
 // @fnv 0x0065da80
 int FUN_0065e000_class::FUN_0065da80(int value, int pBounds)
@@ -5822,7 +5817,7 @@ int FUN_0065e000_class::FUN_0065da80(int value, int pBounds)
         static_cast<unsigned int>(value) >
             static_cast<unsigned int>(reinterpret_cast<S_0065da80_bounds*>(pBounds)->unk10))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -6086,14 +6081,14 @@ struct FUN_00659190_class
 FUN_00659190_class* FUN_00659190_class::FUN_00659190()
 {
     if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())
-        FUN_00ec7c56();
+        std::abort();
 
     do
     {
     } while (0);
 
     if (unk04 >= *reinterpret_cast<unsigned int*>(((unsigned char *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980())) + 0x10))
-        FUN_00ec7c56();
+        std::abort();
 
     do
     {

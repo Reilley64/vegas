@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/B6B100Manager.h"
 #include "fnv/decl/BSRenderedTexture.h"
 #include "fnv/decl/BSShader.h"
@@ -8233,7 +8234,6 @@ void C16400Shader::FUN_00c16400()
 extern int _DAT_012024fc;
 extern int _DAT_012024f8;
 extern char UNK_00fdd3b0;
-void __cdecl FUN_00ec658f(void*);
 
 struct FUN_00c1d8b0_class
 {
@@ -8254,7 +8254,7 @@ void FUN_00c1d8b0_class::FUN_00c1d8b0(unsigned int index, RefObject** value)
     {
         _DAT_012024fc |= one;
         _DAT_012024f8 = 0;
-        FUN_00ec658f(&UNK_00fdd3b0);
+        std::atexit((void (*)())(&UNK_00fdd3b0));
     }
 
     if (index >= m_usSize)

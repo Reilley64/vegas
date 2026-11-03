@@ -5,6 +5,7 @@
 #ifndef FNV_TESWEATHER_DECLS_H
 #define FNV_TESWEATHER_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/B8AD00Header.h"
 #include "fnv/decl/FUN_00581fb0_Class.h"
 #include "fnv/decl/S_00462230.h"
@@ -37,7 +38,6 @@ class TESWeather__WeatherSound
     TESWeather__WeatherSound();
 };
 void* __cdecl operator new(unsigned int);
-extern "C" void* memset(void* dst, int val, unsigned int size);
 void __cdecl operator delete(void* ptr);
 
 class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent

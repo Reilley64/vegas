@@ -3,6 +3,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaList.h"
@@ -141,7 +143,6 @@ public:
 class ShaderPassRenderer { public: static unsigned int Create(unsigned int); };
 class NiObject;
 class NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
-extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
 extern const char DAT_010ee6c8[];
 extern const char DAT_010ee688[];
@@ -676,7 +677,6 @@ typedef void (__cdecl *CopyMsgFn)(const char*, ...);
 struct FUN_00e6f840_shell {
     bool CopySurface(RenderCopyData* src, RenderCopyData* dst, CpRectNi* srcRect, CpRectNi* dstRect, int filter);
 };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e76c30_Info {
     int eType;                     // +0x00
     unsigned short usComps;        // +0x04
@@ -693,7 +693,6 @@ struct FUN_00e76c30_Info {
     unsigned int pad28;
     unsigned char* pucDest;        // +0x2c
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e79f40_Stream {
     unsigned int pad0;
     unsigned short type;
@@ -732,7 +731,6 @@ struct FUN_00e6c690_shell
 {
     char* GetDepthDeviceDescription();
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e76500_shell
 {
     unsigned int pad[7];
@@ -1978,7 +1976,6 @@ public:
     T* operator->() const { return m_pObject; }
 };
 struct FmtObj { int unk00; int unk04; int unk08; int unk0c; int unk10; };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct Holder {
     int unk000;
     int unk004;
@@ -8079,8 +8076,6 @@ struct StreamCopyInfo {
     unsigned int unk28;
     unsigned char* destination;
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct PackShortInfo {
     int eType;
     unsigned short usComps;
@@ -8097,7 +8092,6 @@ struct PackShortInfo {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77590_Info {
     int eType;
     unsigned short usComps;
@@ -8114,7 +8108,6 @@ struct FUN_00e77590_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00e77950_Info {
     int eType;
     unsigned short usComps;
@@ -8131,7 +8124,6 @@ struct FUN_00e77950_Info {
     unsigned int pad28;
     unsigned char* pucDest;
 };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77eb0_Info {
     int eType;
     unsigned short usComps;
@@ -8189,7 +8181,6 @@ struct FUN_00e78be0_cls {
 
     void FUN_00e78be0() throw();
 };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e79370_Info {
     unsigned short usDestComps;
     unsigned short pad02;
@@ -10788,7 +10779,6 @@ struct ByteVertexConversion {
     unsigned char* destination;
 
 };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct FUN_00e77b50_Info {
     int eType;
     unsigned short usComps;
@@ -10831,7 +10821,6 @@ struct ColorStream {
     unsigned int unk14, srcStride, elemSize, dstStride, unk24, unk28;
     unsigned char* dst;
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct D3DMATRIX_Custom {
     float _11, _12, _13, _14;
     float _21, _22, _23, _24;
@@ -11198,7 +11187,6 @@ struct Node {
     }
 
 };
-extern "C" void* __cdecl memset(void*,int,unsigned int);
 void* NiMalloc(unsigned int);
 struct RendererBase {
  virtual void BaseVirtual();
@@ -11596,7 +11584,7 @@ template<int Tag> struct RendererMapBase {
  unsigned int bucketCount; void* buckets; unsigned int itemCount;
  RendererMapBase(unsigned int n) throw() : bucketCount(n), itemCount(0) {
   buckets=NiMalloc(n*4);
-  _fnv_zlib_memset(buckets,0,bucketCount*4);
+  std::memset(buckets,0,bucketCount*4);
  }
 };
 template<int Tag> struct RendererMap : RendererMapBase<Tag> {
@@ -18554,8 +18542,6 @@ struct ShaderDeclStandIn
     bool SetEntry(unsigned int uiEntry, unsigned int uiRegister, unsigned int eInput, unsigned int eType, unsigned int uiStream);
 };
 void* __cdecl _memmove(void*, const void*, unsigned int);
-void* _fnv_zlib_memset(void*, int, unsigned int);
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 void* __cdecl _memmove(void*, const void*, unsigned int);
 static inline void S00e783b0_Pad(unsigned char* pucPad, unsigned short usCopy)
 {
@@ -18563,7 +18549,6 @@ static inline void S00e783b0_Pad(unsigned char* pucPad, unsigned short usCopy)
         *pucPad++ = 0;
     }
 }
-void* memcpy(void*,const void*,unsigned int);
 struct Stream78 {
  unsigned short type, unk02;
  unsigned short components, unk06;
@@ -18639,7 +18624,6 @@ public:
     virtual long GetDirect3D(void**);
     virtual long GetDeviceCaps(D3DCapsStandIn*);
 };
-extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
 void __cdecl FUN_00e7f830(int);
 void __cdecl FUN_00e7f840(int);
@@ -20855,7 +20839,6 @@ unsigned int unk60c;
 public:
     ::VBEntry *FUN_00e8c570(::C_00e8f010 *, unsigned short, const ::TwoComponentVector *, const float *, const unsigned int *, unsigned int, ::VBEntry *, void *);
 };
-extern "C" void* __cdecl memset(void*,int,unsigned int);
 extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 struct InitAdapterList;
 struct InitRenderer;
@@ -25570,7 +25553,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     if (!format) {
         format = ((unsigned int)(reinterpret_cast<::TexFormatList *>((formats))->FindFormatValue(windowed, bitsPerPixel)));
         if (format == 0) {
-            fnv_CopyFilePath(DAT_011f4648, 256, DAT_010ed800, 255);
+            fnv::crt::strncpy_s(DAT_011f4648, 256, DAT_010ed800, 255);
             ::FUN_00a29680();
             return false;
         }
@@ -25580,12 +25563,12 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     if (!depthFormat) {
         depthFormat = ((unsigned int)(reinterpret_cast<::RendererE7B *>((formats))->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8)));
         if (!depthFormat) {
-            fnv_CopyFilePath(DAT_011f4648, 256, DAT_010ed778, 255);
+            fnv::crt::strncpy_s(DAT_011f4648, 256, DAT_010ed778, 255);
             ::FUN_00a29680();
             return false;
         }
     }
-    _fnv_zlib_memset(out, 0, 56);
+    std::memset(out, 0, 56);
     out->width = width;
     out->height = height;
     out->format = d3dFormat;

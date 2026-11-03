@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_00a42f80_cls.h"
@@ -559,7 +560,6 @@ struct NodeA35
     int c;
 };
 void* __cdecl FUN_00aa1070(unsigned int);
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct TargetA35
 {
     int unk00;
@@ -592,7 +592,7 @@ void TargetA35::FUN_00a35a80(unsigned short n, unsigned short m)
         for (unsigned short i = 0; i < n; ++i)
             InterlockedIncrement(&entries[i].refs);
         nodes = (NodeA35**)FUN_00aa1070(sizeof(NodeA35*) * m);
-        FUN_00ec61c0(nodes, 0, sizeof(NodeA35*) * m);
+        std::memset(nodes, 0, sizeof(NodeA35*) * m);
         for (unsigned short i = 0; i < m; ++i)
             nodes[i] = new NodeA35();
     }

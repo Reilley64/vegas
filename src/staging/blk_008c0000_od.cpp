@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1397,13 +1398,12 @@ struct FUN_008c8110_Class
     unsigned char m_00[0x18];
     FUN_008c7270_Class m_18;
 };
-void FUN_0065ee50_Helper(void* p, unsigned int size, int count, void(__cdecl* cb)(void));
 void __cdecl FUN_008c7270_Cb(void);
 // Calls FUN_0065ee50_Helper on m_18 with size 0xc, count 3 and callback FUN_008c7270_Cb.
 // @fnv 0x008c8110
 void FUN_008c8110_Class::FUN_008c8110()
 {
-    FUN_0065ee50_Helper(&m_18, 0xc, 3, FUN_008c7270_Cb);
+    fnv::crt::vector_destructor(&m_18, 0xc, 3, (void (*)(void *))(FUN_008c7270_Cb));
 }
 
 struct Date
@@ -1931,8 +1931,6 @@ struct SpawnedElemB
     unsigned int m_08;
 };
 
-extern "C" void SpawnedArrayCtor(void* pBase, unsigned int elemSize, unsigned int count, void (*ctor)(void*),
-                                           void (*dtor)(void*));
 
 void SpawnedElemB_Ctor(void* p)
 {}
@@ -1956,7 +1954,7 @@ struct FUN_008c71d0_cls
 // @fnv 0x008c71d0
 FUN_008c71d0_cls* FUN_008c71d0_cls::FUN_008c71d0()
 {
-    SpawnedArrayCtor(m_18, 12, 3, SpawnedElemB_Ctor, SpawnedElemB_Dtor);
+    fnv::crt::vector_constructor(m_18, 12, 3, SpawnedElemB_Ctor, SpawnedElemB_Dtor);
     for (int i = 0; i < 3; i++)
     {
         m_00[i] = 0;

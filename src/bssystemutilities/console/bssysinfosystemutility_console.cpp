@@ -1,5 +1,6 @@
 
 // bssystemutilities/console/bssysinfosystemutility_console.cpp: BSSysInfoSystemUtility (1 function)
+#include "runtime/crt.h"
 #include "fnv/symbols_011c3000.h"
 struct SystemLocaleState
 {
@@ -8,7 +9,6 @@ struct SystemLocaleState
 };
 
 extern unsigned int gCachedLanguage;
-extern "C" int __cdecl _strnicmp(const char* left, const char* right, unsigned int count);
 
 class BSSysInfoSystemUtility
 {
@@ -27,7 +27,7 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
             pEnglishName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
         else
             pEnglishName = 0;
-        if (_strnicmp(pEnglishName, "ENGLISH", 7) == 0)
+        if (fnv::crt::strnicmp(pEnglishName, "ENGLISH", 7) == 0)
         {
             gCachedLanguage = 0;
         }
@@ -38,7 +38,7 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
                 pFrenchName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
             else
                 pFrenchName = 0;
-            if (_strnicmp(pFrenchName, "FRENCH", 6) == 0)
+            if (fnv::crt::strnicmp(pFrenchName, "FRENCH", 6) == 0)
             {
                 gCachedLanguage = 2;
             }
@@ -49,7 +49,7 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
                     pItalianName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                 else
                     pItalianName = 0;
-                if (_strnicmp(pItalianName, "ITALIAN", 7) == 0)
+                if (fnv::crt::strnicmp(pItalianName, "ITALIAN", 7) == 0)
                 {
                     gCachedLanguage = 4;
                 }
@@ -60,7 +60,7 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
                         pGermanName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                     else
                         pGermanName = 0;
-                    if (_strnicmp(pGermanName, "GERMAN", 6) == 0)
+                    if (fnv::crt::strnicmp(pGermanName, "GERMAN", 6) == 0)
                     {
                         gCachedLanguage = 1;
                     }
@@ -71,7 +71,7 @@ unsigned int BSSysInfoSystemUtility::GetRandomGenerator(void)
                             pSpanishName = (*reinterpret_cast<::SystemLocaleState *>(&::g_011c3cb4)).language;
                         else
                             pSpanishName = 0;
-                        if (_strnicmp(pSpanishName, "SPANISH", 7) == 0)
+                        if (fnv::crt::strnicmp(pSpanishName, "SPANISH", 7) == 0)
                             gCachedLanguage = 3;
                     }
                 }

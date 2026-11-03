@@ -6,6 +6,7 @@
 // @fnv 0x00b887b0
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/D3DRenderStateGroup.h"
 #include "fnv/decl/E7DE90Owner.h"
 #include "fnv/decl/FUN_00bb0180_shell.h"
@@ -2334,7 +2335,6 @@ void Shader::FUN_00b89d80(float apRenderArg)
 }
 
 #include <stdlib.h>
-void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 struct NiD3DGPUProgramCache
 {
@@ -2423,7 +2423,7 @@ void SkyShader::FUN_00b874f0()
     shader0[0] = "sky\\v\\sky.v.hlsl";
     shader0[1] = 0;
     shader0[2] = 0;
-    fnv_zlib_memset(shader0 + 3, 0, 64);
+    std::memset(shader0 + 3, 0, 64);
     FUN_00be0c00(shader0[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKY.vso");
     NiRefObject* next0 =
@@ -2442,7 +2442,7 @@ void SkyShader::FUN_00b874f0()
     shader1[2] = 0;
     shader1[3] = 0;
     shader1[4] = 0;
-    fnv_zlib_memset(shader1 + 5, 0, 56);
+    std::memset(shader1 + 5, 0, 56);
     FUN_00be0c00(shader1[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYT.vso");
     NiRefObject* next1 =
@@ -2463,7 +2463,7 @@ void SkyShader::FUN_00b874f0()
     shader2[4] = 0;
     shader2[5] = 0;
     shader2[6] = 0;
-    fnv_zlib_memset(shader2 + 7, 0, 48);
+    std::memset(shader2 + 7, 0, 48);
     FUN_00be0c00(shader2[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYMM.vso");
     NiRefObject* next2 =
@@ -2483,7 +2483,7 @@ void SkyShader::FUN_00b874f0()
     shader16[4] = 0;
     shader16[5] = 0;
     shader16[6] = 0;
-    fnv_zlib_memset(shader16 + 7, 0, 48);
+    std::memset(shader16 + 7, 0, 48);
     FUN_00be0c00(shader16[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSTARS.vso");
     NiRefObject* next3 =
@@ -2502,7 +2502,7 @@ void SkyShader::FUN_00b874f0()
     shader4[2] = 0;
     shader4[3] = 0;
     shader4[4] = 0;
-    fnv_zlib_memset(shader4 + 5, 0, 56);
+    std::memset(shader4 + 5, 0, 56);
     FUN_00be0c00(shader4[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYOCC.vso");
     NiRefObject* next4 =
@@ -2523,7 +2523,7 @@ void SkyShader::FUN_00b874f0()
     shader5[4] = 0;
     shader5[5] = 0;
     shader5[6] = 0;
-    fnv_zlib_memset(shader5 + 7, 0, 48);
+    std::memset(shader5 + 7, 0, 48);
     FUN_00be0c00(shader5[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYCLOUDS.vso");
     NiRefObject* next5 =
@@ -2553,7 +2553,7 @@ void SkyShader::FUN_00b874f0()
     shader7[0] = "sky\\p\\sky.p.hlsl";
     shader7[1] = 0;
     shader7[2] = 0;
-    fnv_zlib_memset(shader7 + 3, 0, 64);
+    std::memset(shader7 + 3, 0, 64);
     FUN_00be0c00(shader7[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKY.pso");
     NiRefObject* next7 =
@@ -2572,7 +2572,7 @@ void SkyShader::FUN_00b874f0()
     shader8[2] = 0;
     shader8[3] = 0;
     shader8[4] = 0;
-    fnv_zlib_memset(shader8 + 5, 0, 56);
+    std::memset(shader8 + 5, 0, 56);
     FUN_00be0c00(shader8[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYTEX.pso");
     NiRefObject* next8 =
@@ -2593,7 +2593,7 @@ void SkyShader::FUN_00b874f0()
     shader9[4] = 0;
     shader9[5] = 0;
     shader9[6] = 0;
-    fnv_zlib_memset(shader9 + 7, 0, 48);
+    std::memset(shader9 + 7, 0, 48);
     FUN_00be0c00(shader8[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYTEXFADE.pso");
     NiRefObject* next9 =
@@ -2613,7 +2613,7 @@ void SkyShader::FUN_00b874f0()
     shader10[2] = 0;
     shader10[3] = 0;
     shader10[4] = 0;
-    fnv_zlib_memset(shader10 + 5, 0, 56);
+    std::memset(shader10 + 5, 0, 56);
     FUN_00be0c00(shader10[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSUNOCCL.pso");
     NiRefObject* next10 =
@@ -2632,7 +2632,7 @@ void SkyShader::FUN_00b874f0()
     shader11[2] = 0;
     shader11[3] = 0;
     shader11[4] = 0;
-    fnv_zlib_memset(shader11 + 5, 0, 56);
+    std::memset(shader11 + 5, 0, 56);
     FUN_00be0c00(shader11[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSHORIZFADE.pso");
     NiRefObject* next11 =
@@ -2653,7 +2653,7 @@ void SkyShader::FUN_00b874f0()
     shader12[4] = 0;
     shader12[5] = 0;
     shader12[6] = 0;
-    fnv_zlib_memset(shader12 + 7, 0, 48);
+    std::memset(shader12 + 7, 0, 48);
     FUN_00be0c00(shader12[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYFAR.vso");
     NiRefObject* next12 =
@@ -2685,7 +2685,7 @@ void SkyShader::FUN_00b874f0()
     shader14[2] = 0;
     shader14[3] = 0;
     shader14[4] = 0;
-    fnv_zlib_memset(shader14 + 5, 0, 56);
+    std::memset(shader14 + 5, 0, 56);
     FUN_00be0c00(shader14[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYQUADSI.vso");
     NiRefObject* next14 =
@@ -2705,7 +2705,7 @@ void SkyShader::FUN_00b874f0()
     shader15[2] = numberBuffer;
     shader15[3] = 0;
     shader15[4] = 0;
-    fnv_zlib_memset(shader15 + 5, 0, 56);
+    std::memset(shader15 + 5, 0, 56);
     FUN_00be0c00(shader15[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSI.pso");
     NiRefObject* next15 =
@@ -2726,7 +2726,7 @@ void SkyShader::FUN_00b874f0()
     shader3[4] = 0;
     shader3[5] = 0;
     shader3[6] = 0;
-    fnv_zlib_memset(shader3 + 7, 0, 48);
+    std::memset(shader3 + 7, 0, 48);
     FUN_00be0c00(shader3[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSISUN.pso");
     NiRefObject* next16 =
@@ -2747,7 +2747,7 @@ void SkyShader::FUN_00b874f0()
     shader17[4] = 0;
     shader17[5] = 0;
     shader17[6] = 0;
-    fnv_zlib_memset(shader17 + 7, 0, 48);
+    std::memset(shader17 + 7, 0, 48);
     FUN_00be0c00(shader17[0], sourceName);
     FUN_00406d00(compiledName, 260, "SKYSICLOUDS.pso");
     NiRefObject* next17 =

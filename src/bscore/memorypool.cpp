@@ -1,5 +1,6 @@
 // bscore/memorypool.cpp: MemoryPool (13 functions)
 
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_00aa6650_Class.h"
@@ -291,7 +292,6 @@ struct FUN_00aa6800
     ~FUN_00aa6800();
 };
 
-void* _fnv_zlib_memset(void* dest, int value, unsigned int count);
 
 struct PoolInfo
 {
@@ -326,7 +326,7 @@ struct FUN_00aa6d00_holder
 PoolInfo FUN_00aa6d00_holder::GetPoolInfo()
 {
     PoolInfo info;
-    _fnv_zlib_memset(&info, 0, sizeof(PoolInfo));
+    std::memset(&info, 0, sizeof(PoolInfo));
     info.f0 = m0;
     info.f1 = m4c * 2 + 0x80;
     info.f2 = m40;

@@ -7,6 +7,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <cmath>
 #include "fnv/decl/BoxPointInsertion.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/FUN_004b4ab0_Class.h"
@@ -56,7 +57,6 @@ extern "C"
 }
 extern "C"
 {
-    double __cdecl fabs(double _X);
 }
 extern "C++"
 {
@@ -202,7 +202,6 @@ extern "C"
     __m128 _mm_movelh_ps(__m128, __m128);
     __m128 _mm_movehl_ps(__m128, __m128);
 }
-extern "C" double __cdecl sqrt(double);
 static __forceinline float sqrtf(float x)
 {
     return (float)sqrt(x);

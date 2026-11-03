@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nishaderconstantmap.cpp: NiShaderConstantMap (10 functions)
 
+#include <cstdlib>
+#include "runtime/crt.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -676,17 +678,17 @@ bool NiShaderConstantMap::ParseConstantName(const char* key, char* name, unsigne
     char buffer[260];
     if (sizeof(buffer) > size + 1)
         return false;
-    strcpy_s(buffer, sizeof(buffer), key);
-    strcpy_s(name, sizeof(buffer), key);
+    fnv::crt::strcpy_s(buffer, sizeof(buffer), key);
+    fnv::crt::strcpy_s(name, sizeof(buffer), key);
     char* suffix = strchr(buffer, '_');
     if (suffix && isdigit(suffix[1]) && suffix[2] == 0)
     {
         char* context;
-        char* prefix = strtok_s(buffer, "_", &context);
-        char* number = strtok_s(0, "_", &context);
+        char* prefix = fnv::crt::strtok_s(buffer, "_", &context);
+        char* number = fnv::crt::strtok_s(0, "_", &context);
         if (number)
         {
-            extra = FUN_00eca6d3(number);
+            extra = std::atoi(number);
             strcpy_s(name, size, prefix);
         }
     }

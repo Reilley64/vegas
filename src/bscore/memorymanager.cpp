@@ -1,6 +1,7 @@
 // bscore/memorymanager.cpp: MemoryManager, TESQuest, TESActorBaseData, Actor and more (21 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -458,7 +459,6 @@ inline void DestroyMemoryPools()
         DAT_011f67b8[i] = 0;
     }
 }
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00aa3a40
 {
     bool unk00;
@@ -487,7 +487,7 @@ FUN_00aa3a40::~FUN_00aa3a40()
     FUN_00aa5950();
     reinterpret_cast<::TESForm *>(this)->ClearData();
     DestroyMemoryPools();
-    fnv_zlib_memset(unk0C, 0, 0x108);
+    std::memset(unk0C, 0, 0x108);
     unk00 = false;
     if (unk08)
     {

@@ -2,6 +2,8 @@
 #ifndef BIPEDANIM_DECLS_H
 #define BIPEDANIM_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSXFlags.h"
@@ -959,8 +961,6 @@ class Interface
     static void SetHUDVisible(bool);
     static void InitGunScope(TESModel*);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 template <class T> class NiTNewInterface
 {
 };
@@ -1001,7 +1001,6 @@ class NiSkinInstance : public NiObject
 const NiFixedString& FUN_004ab220();
 NiAVObject* FUN_004ade00(NiNode*, const NiFixedString&);
 void FUN_004add50(char*, const char*, unsigned int);
-extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 template <class T> unsigned int BSStringLength(const T*);
 
 class InventoryChanges

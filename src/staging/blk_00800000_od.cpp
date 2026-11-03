@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorDeletionQueue.h"
@@ -2559,7 +2560,6 @@ void EquipVisibility::UpdateEquipmentVisibility()
 
 struct FloatSetting;
 struct IntegerSetting;
-extern "C" int __cdecl FUN_00ecadb8();
 
 struct FUN_00800870_Class
 {
@@ -2738,7 +2738,7 @@ void FUN_00800870_Class::UpdateProgress(float value)
     if (*((float *)&(::FUN_00403e20((float *)(::FloatSetting *)(&(*reinterpret_cast<::FloatSetting *>(&::g_011db6e4)))))) + ::g_01012070 < progress)
     {
         active = 0;
-        next = (float)(FUN_00ecadb8() % *((int *)&(::FUN_0043d4d0((int *)(::IntegerSetting *)(&(*reinterpret_cast<::IntegerSetting *>(&::g_011db75c))))))) + value;
+        next = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)(::IntegerSetting *)(&(*reinterpret_cast<::IntegerSetting *>(&::g_011db75c))))))) + value;
     }
 }
 

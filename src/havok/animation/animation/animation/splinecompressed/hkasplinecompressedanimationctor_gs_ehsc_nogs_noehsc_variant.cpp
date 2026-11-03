@@ -6,6 +6,7 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cmath>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -908,7 +909,6 @@ struct Se31d50_Anim
     static void FUN_00e31180(const float* f, int numTracks, int numFrames, int first, int track, Se31d50_VecArr& a);
 };
 
-extern "C" double __cdecl fabs(double);
 __declspec(noinline) Se31d50_Vector4 Se31d50_Anim::FUN_00e31410(const Se31d50_VecArr& data)
 {
     Se31d50_Vector4 mean;

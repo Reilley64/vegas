@@ -5,6 +5,7 @@
 
 // @fnv 0x00a3dab0
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a3dd00_class.h"
 #include "fnv/decl/FUN_00a3e9a0_cls.h"
@@ -826,8 +827,6 @@ void FNV_Writer::WriteToStream(FNV_NiStream* pStream)
     pStream->f12(unk18);
     pStream->f12(unk1c);
 }
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 class NiRefObject
 {

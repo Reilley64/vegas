@@ -7,6 +7,10 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B00C20Pool.h"
 #include "fnv/decl/B44F890Collection.h"
@@ -3599,7 +3603,6 @@ struct FUN_00c5d0a0_cls
     void CopyVec4AndHelper(FUN_00c5d0a0_cls* a1, int a2);
 };
 typedef void* HKEY_t;
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 struct RegSetting
 {
     int unk00;
@@ -3689,7 +3692,6 @@ struct RegStore
 typedef struct HKEY__* HKEY;
 typedef unsigned long DWORD;
 typedef unsigned char BYTE;
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 struct Setting
 {
     int unk00;
@@ -7613,7 +7615,6 @@ S_00c4aca0_Obj* S_00c4aca0_Self::FUN_00c4aca0(int arg)
     return p;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct ItemW
 {
     int a, b, c;
@@ -7680,7 +7681,7 @@ void ArrW::FUN_00c4e760(unsigned int uiIndex, bool bShrink)
     m_uiSize--;
 }
 
-extern "C" char* __cdecl FUN_00ec7750(const char* pcString, const char* pcSearch);  // strstr
+  // strstr
 
 struct BoneRootRTTI
 {
@@ -7800,7 +7801,7 @@ void __cdecl FUN_00c52c30(BoneRootNode* pkNode, BoneRootSet* pkSet)
         if (pkString)
         {
             const char* pcValue = pkString->GetValue();
-            if (pcValue && FUN_00ec7750(pcValue, "BSBoneLOD#BoneRoot#"))
+            if (pcValue && std::strstr((char *)(pcValue), "BSBoneLOD#BoneRoot#"))
             {
                 reinterpret_cast<::NiStreamLinkIDSetShell *>((pkSet))->AppendLinkID((unsigned int *)&(pkNode));
                 return;
@@ -9222,7 +9223,6 @@ struct S_00c42960_Owner
     }
 };
 
-void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int n);
 
 struct S_00c42960
 {
@@ -9244,7 +9244,7 @@ void S_00c42960::FUN_00c42960()
     S_00c42960_Scope scope2(6);
     unsigned int n9 = m_pSharedOwner->GetCounter()->GetCount() * 3;
     S_00c42960_Slot* p = new S_00c42960_Slot[n9];
-    FUN_00ec44d0(p, m_pSharedOwner->GetArray(), n9 * 4);
+    std::memmove(p, m_pSharedOwner->GetArray(), n9 * 4);
     S_00c42960_Node* headR = 0;
     unsigned int cnt2 = 0;
     while (m_pHead)
@@ -9487,9 +9487,6 @@ void S00c43b90_t::FUN_00c43b90(NiUpdateData& data)
     }
 }
 
-int __cdecl FUN_00ec6da0(const char*, const char*);
-char* __cdecl FUN_00ec6370(char*, const char*);
-int __cdecl FUN_00eca4a6(const char*, const char*, ...);
 
 union SettingValue
 {
@@ -9590,11 +9587,11 @@ bool IniCollection::FUN_00c44280(IniSetting* setting)
                 switch (type6)
                 {
                 case 6:
-                    if (FUN_00ec6da0(key17, "LANGUAGE") == 0)
+                    if (std::strcmp(key17, "LANGUAGE") == 0)
                     {
                         count = GetPrivateProfileStringA("General", "sLanguage", (*reinterpret_cast<::LanguageSetting *>(&::g_011c3cb4)).GetString(), language,
                                                          256, filename);
-                        FUN_00ec6370(key17, language);
+                        std::strcpy(key17, language);
                     }
                     {
                         count = GetPrivateProfileStringA(key17, section2, setting ? setting->value.string : 0,
@@ -9615,7 +9612,7 @@ bool IniCollection::FUN_00c44280(IniSetting* setting)
                     ::FUN_00406d00(defaultValue3, 256, "%f", setting->GetReal());
                     count = GetPrivateProfileStringA(key17, section2, defaultValue3, value2, 256, filename);
                     if (count)
-                        success3 = FUN_00eca4a6(value2, "%f", &setting->value.real) == 1;
+                        success3 = std::sscanf(value2, "%f", &setting->value.real) == 1;
                 }
                 break;
                 case 7: {
@@ -9623,7 +9620,7 @@ bool IniCollection::FUN_00c44280(IniSetting* setting)
                     if (count)
                     {
                         unsigned int red, green2, blue3;
-                        success3 = FUN_00eca4a6(value2, "%u,%u,%u", &red, &green2, &blue3) == 3;
+                        success3 = std::sscanf(value2, "%u,%u,%u", &red, &green2, &blue3) == 3;
                         setting->value.color = MakeIniColor(red, green2, blue3, 255);
                     }
                 }
@@ -9633,7 +9630,7 @@ bool IniCollection::FUN_00c44280(IniSetting* setting)
                     if (count)
                     {
                         unsigned int red, green2, blue3, alpha;
-                        success3 = FUN_00eca4a6(value2, "%u,%u,%u,%u", &red, &green2, &blue3, &alpha) == 4;
+                        success3 = std::sscanf(value2, "%u,%u,%u,%u", &red, &green2, &blue3, &alpha) == 4;
                         setting->value.color = MakeIniColor(red, green2, blue3, alpha);
                     }
                 }
@@ -11791,7 +11788,6 @@ void S00c4db20_Self::FUN_00c4db20()
 
 // Reconstruction of 0x00c4e1e0
 typedef unsigned int size_t;
-extern "C" void* memmove(void*, const void*, size_t);
 void* __cdecl NiMalloc(unsigned int);
 
 struct MMgr
@@ -14881,10 +14877,9 @@ SPQ FUN_00c5c290_cls::FUN_00c5c290()
 }
 }  // namespace fnv_00c5c290
 
-double __cdecl FUN_00ec9130(double x, double y);
 inline float FMod(float x, float y)
 {
-    return ((float)FUN_00ec9130((double)x, (double)y));
+    return ((float)std::fmod((double)x, (double)y));
 }
 extern float DAT_010c2d4c;
 
@@ -18052,7 +18047,7 @@ void FUN_00c53030_Shell::FUN_00c53030(TreeNode* group, CollectionSink* collector
                                 loadedChild = strlen(kIter) + 1;
                                 allocatedBuffer = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((MemoryMgr*)&DAT_011f6238)))->FUN_00aa3e40(loadedChild);
                                 child = allocatedBuffer;
-                                strcpy_s(child, loadedChild, kIter);
+                                fnv::crt::strcpy_s(child, loadedChild, kIter);
                                 token = strtok_s(child, "#", &slot);
                                 if (token && !strcmp(token, "BSBoneLOD"))
                                 {
@@ -19074,7 +19069,6 @@ inline Vec3 Vec3::FUN_004b3800(const Vec3& v) const
     return Vec3(y * v.z - z * v.y, z * v.x - x * v.z, x * v.y - y * v.x);
 }
 void* FUN_00aa1070(unsigned int);
-void* FUN_00ec44d0(void*, const void*, unsigned int);
 extern const unsigned short DAT_010c2d10[];
 // @fnv 0x00c5a0f0
 MeshRoot* FUN_00c5a0f0(const Vec3& start, const Vec3& end, float width, float height, const Color4* shaftColor,
@@ -19115,7 +19109,7 @@ MeshRoot* FUN_00c5a0f0(const Vec3& start, const Vec3& end, float width, float he
             colors[i2] = *tipColor;
     }
     unsigned short* indices_10 = (unsigned short*)FUN_00aa1070(48);
-    FUN_00ec44d0(indices_10, DAT_010c2d10, 48);
+    std::memmove(indices_10, DAT_010c2d10, 48);
     Mesh* meshTmp = new Mesh(6, verticesX3, 0, colors, 0, 0, 0, 8, indices_10);
     meshTmp->Update();
     rootNode4->AttachChildInAvailableSlot(meshTmp, true);
@@ -20796,15 +20790,13 @@ void ProcessOwner_j61::FUN_00c50610(void* context)
     Finish();
 }
 
-double __cdecl FUN_00eca060(double);
-double __cdecl FUN_00ec9f30(double);
 inline float SphereCosValue(float angle)
 {
-    return static_cast<float>(FUN_00eca060(static_cast<double>(angle)));
+    return static_cast<float>(std::sin(static_cast<double>(angle)));
 }
 inline float SphereSinValue(float angle)
 {
-    return static_cast<float>(FUN_00ec9f30(static_cast<double>(angle)));
+    return static_cast<float>(std::cos(static_cast<double>(angle)));
 }
 inline float SphereCos(float angle)
 {

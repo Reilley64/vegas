@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nisystem/console/nifile_console.cpp: NiFile, NiBinaryStream (9 functions)
 
 #include <windows.h>
+#include <cstdio>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FileTransferCallbacks.h"
 #include "fnv/symbols_00aa1000.h"
@@ -15,7 +17,7 @@ NiFile::~NiFile()
     if (m_bGood && m_pFile)
     {
         Flush();
-        fclose(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
     }
     ::FUN_00aa10f0(m_pBuffer);
 }
@@ -65,8 +67,6 @@ unsigned int NiBinaryStream::GetLine(char* buffer, unsigned int maxChars)
     return total;
 }
 
-int __cdecl _ftell(void*);
-int __cdecl _fseek(void*, int, int);
 struct S_00aa15f0
 {
     unsigned char _pad[0x24];
@@ -76,12 +76,12 @@ struct S_00aa15f0
 // @fnv 0x00aa15f0
 int S_00aa15f0::GetFileSize()
 {
-    int cur = _ftell(_f);
+    int cur = std::ftell((std::FILE *)(_f));
     if (cur < 0)
         return 0;
-    _fseek(_f, 0, 2);
-    int len = _ftell(_f);
-    _fseek(_f, cur, 0);
+    std::fseek((std::FILE *)(_f), 0, 2);
+    int len = std::ftell((std::FILE *)(_f));
+    std::fseek((std::FILE *)(_f), cur, 0);
     return len < 0 ? 0 : len;
 }
 
@@ -94,7 +94,6 @@ extern const char kModeReadBinary[];
 
 typedef struct _iobuf FILE;
 
-extern "C" int __cdecl FUN_00ec9a5e(FILE** ppFile, const char* name, const char* mode);
 
 struct NiBinaryStreamBase
 {
@@ -132,7 +131,7 @@ FUN_00aa14d0_cls::FUN_00aa14d0_cls(const char* name, unsigned int mode, unsigned
         openMode = (*reinterpret_cast<const char (*)[]>((void *)&::DAT_0106e798));
     else
         openMode = "ab";
-    int bOpened = (FUN_00ec9a5e(&m_pFile, name, openMode) == 0 && m_pFile != 0) ? 1 : 0;
+    int bOpened = (fnv::crt::fopen_s((std::FILE **)(&m_pFile), name, openMode) == 0 && m_pFile != 0) ? 1 : 0;
     m_bGood = (unsigned char)bOpened;
     m_uiBufferAllocSize = bufSize;
     m_uiBufferReadSize = 0;
@@ -185,7 +184,7 @@ void FUN_00aa16d0_cls::FUN_00aa16d0(unsigned int offset, unsigned int whence)
     m_bGood = ((int)(::NiFile::RequestFileAccess((const char *)(m_pFile), offset, whence))) == 0;
     if (m_bGood)
     {
-        m_uiTotalFileSize = _ftell(m_pFile);
+        m_uiTotalFileSize = std::ftell((std::FILE *)(m_pFile));
         m_uiStreamFlags = m_uiTotalFileSize;
     }
 }
@@ -241,7 +240,6 @@ unsigned char __cdecl FUN_00aa1650(char* path)
     return CreateDirectoryA(path, 0) != 0;
 }
 
-int __cdecl _fclose(void*);
 struct P03MM
 {
 };
@@ -275,7 +273,7 @@ FUN_00aa18c0::~FUN_00aa18c0()
     if (m_bGood && m_pFile)
     {
         reinterpret_cast<::NiFile *>((((NiFileFlushExposer*)(void*)this)))->Flush();
-        _fclose(m_pFile);
+        std::fclose((std::FILE *)(m_pFile));
     }
     ::FUN_00aa10f0(m_pBuffer);
 }

@@ -1,6 +1,7 @@
 // fallout_shared/extradataobjects.cpp: DelStandIn, ExtraFactionChanges, BSExtraData, ExtraLeveledItem and more (293 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/AX.h"
 #include "fnv/decl/Anim490.h"
 #include "fnv/decl/B930700Actor.h"
@@ -254,7 +255,7 @@ void ExtraGuardedRefData::AddGuardingActor(Actor* actor)
 // @fnv 0x00431cc0
 bool ExtraLeveledItem::Compare(BSExtraData* extra)
 {
-    ExtraLeveledItem* item = static_cast<ExtraLeveledItem*>(__RTDynamicCast(extra, 0, &DAT_01183b2c, &DAT_01184680, 0));
+    ExtraLeveledItem* item = static_cast<ExtraLeveledItem*>(dynamic_cast<::ExtraLeveledItem *>(reinterpret_cast<::BSExtraData *>(extra)));
     if (!item)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(extra))
@@ -2545,8 +2546,6 @@ FUN_004326c0::FUN_004326c0(TESWorldSpace* apWorld, TESObjectCELL* apIntCell, con
 }
 }  // namespace fnv_004326c0
 
-extern "C" int memcmp(const void*, const void*, unsigned int);
-
 struct ExtraPackageStartLocation : BSExtraData
 {
     ExtraPackageStartLocation(unsigned char aEtype);
@@ -3026,7 +3025,6 @@ class ExtraStartingPosition : public BSExtraData
     bool FUN_00430850(BSExtraData*);
 };
 
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // Casts apCompare to ExtraStartingPosition, returns true if the cast fails, the base Compare succeeds, or the 0x18 bytes at offset 0xC differ; otherwise false.
 // @fnv 0x00430850
@@ -3037,12 +3035,11 @@ bool ExtraStartingPosition::FUN_00430850(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (_memcmp((char*)this + 0xC, (char*)pComp + 0xC, 0x18) != 0)
+    if (std::memcmp((char*)this + 0xC, (char*)pComp + 0xC, 0x18) != 0)
         return true;
     return false;
 }
 
-extern "C" void* __cdecl _FNV_DynamicCast(void* p, int, void*, void*, int);
 extern int DAT_011845b8;
 
 struct ActorValueInfo
@@ -3060,7 +3057,7 @@ struct ExtraAudioBuoyMarker : BSExtraData
 bool ExtraAudioBuoyMarker::FUN_00431710(BSExtraData* apCompare)
 {
     ExtraAudioBuoyMarker* pComp =
-        (ExtraAudioBuoyMarker*)_FNV_DynamicCast(apCompare, 0, &DAT_01183b2c, &DAT_011845b8, 0);
+        (ExtraAudioBuoyMarker*)dynamic_cast<::ExtraAudioBuoyMarker *>(reinterpret_cast<::BSExtraData *>(apCompare));
     if (!pComp)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>((this))->IsDifferentFrom(apCompare))
@@ -3170,7 +3167,6 @@ bool ExtraRadius::FUN_00436bd0(BSExtraData* apCompare)
 class ExtraRadioData;
 
 extern int DAT_011841e8;
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 struct ExtraRadioData : BSExtraData
 {
@@ -3186,7 +3182,7 @@ bool ExtraRadioData::CompareRadioData(BSExtraData* apCompare)
         return true;
     if (reinterpret_cast<::FUN_0040f700_shell *>(this)->IsDifferentFrom(apCompare))
         return true;
-    if (_memcmp((char*)this + 0xc, (char*)pComp + 0xc, 0x10) != 0)
+    if (std::memcmp((char*)this + 0xc, (char*)pComp + 0xc, 0x10) != 0)
         return true;
     return false;
 }
@@ -4851,7 +4847,7 @@ void* __cdecl FUN_00ec43fb(int a1, int a2, void* a3, void* a4, int a5);
 // @fnv 0x00431450
 bool FUN_00431450_cls::FUN_00431450(int a1)
 {
-    FUN_00431450_cls* p = (FUN_00431450_cls*)FUN_00ec43fb(a1, 0, &DAT_01183b2c, &DAT_011845fc, 0);
+    FUN_00431450_cls* p = (FUN_00431450_cls*)dynamic_cast<::ExtraMapMarker *>(reinterpret_cast<::BSExtraData *>(a1));
     if (p == 0)
     {
         return true;
@@ -5124,8 +5120,6 @@ FUN_00433d10_shell* FUN_00433d10_shell::FUN_00433d10(unsigned int flags)
 }
 
 
-void* FUN_00ec43fb(void* a, void* b, char* c, char* d, unsigned int e);
-int FUN_00ec4835(void* a, void* b, unsigned int c);
 
 class FUN_004341e0_cls;
 
@@ -5158,7 +5152,7 @@ bool FUN_004341e0_cls::FUN_004341e0(void* a1)
     void* item8;
     void* res5;
 
-    other = (FUN_004341e0_cls*)FUN_00ec43fb(a1, 0, &DAT_01183b2c, &DAT_01184ea4, 0);
+    other = (FUN_004341e0_cls*)dynamic_cast<::ExtraDecalRefs *>(reinterpret_cast<::BSExtraData *>(a1));
     if (other == 0)
     {
         return true;
@@ -5176,7 +5170,7 @@ bool FUN_004341e0_cls::FUN_004341e0(void* a1)
         {
             return true;
         }
-        if (FUN_00ec4835(res5, item8, 0x1c) != 0)
+        if (std::memcmp(res5, item8, 0x1c) != 0)
         {
             return true;
         }
@@ -5220,13 +5214,12 @@ struct FUN_004342b0_shell
     ItemList_004342b0 entries;
     void LoadItemsFromArchive(void* archive);
 };
-Results_004342b0* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 // @fnv 0x004342b0
 void FUN_004342b0_shell::LoadItemsFromArchive(void* archive)
 {
-    Results_004342b0* result = FUN_00ec43fb(archive, 0, &::DAT_01183b2c, &::DAT_01184ea4, 0);
+    Results_004342b0* result = ((fnv_004342b0::Results_004342b0 *)(dynamic_cast<::ExtraDecalRefs *>(reinterpret_cast<::BSExtraData *>(archive))));
     if (result == 0)
     {
         return;
@@ -5276,13 +5269,11 @@ struct FUN_00434620_cls
     bool FUN_00434620(unsigned int a1);
 };
 
-FUN_00434620_rec* __cdecl FUN_00ec43fb(unsigned int a1, unsigned int a2, void* a3, void* a4, unsigned int a5);
-int __cdecl FUN_00ec4835(void* a1, void* a2, unsigned int a3);
 
 // @fnv 0x00434620
 bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
 {
-    FUN_00434620_rec* rec = FUN_00ec43fb(uiKey, 0, &DAT_01183b2c, &DAT_01183fec, 0);
+    FUN_00434620_rec* rec = ((fnv_00434620::FUN_00434620_rec *)(dynamic_cast<::ExtraReflectedRefs *>(reinterpret_cast<::BSExtraData *>(uiKey))));
     if (rec == 0)
     {
         return true;
@@ -5300,7 +5291,7 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
         {
             return true;
         }
-        if (FUN_00ec4835(y4, x7, 8) != 0)
+        if (std::memcmp(y4, x7, 8) != 0)
         {
             return true;
         }
@@ -5345,7 +5336,7 @@ bool ExtraReflectorRefs::FUN_00434bb0(BSExtraData* apCompare)
         S_00434bb0_Item* found5 = ((::S_00434bb0_Item *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(item->key))));
         if (!found5)
             return true;
-        if (FUN_00ec4835(found5, item, 8))
+        if (std::memcmp(found5, item, 8))
             return true;
         n = ((::S_00434bb0_Node *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
     }
@@ -5732,12 +5723,11 @@ struct FUN_00438330_cls
     void FUN_00438330(BSExtraData* a1);
 };
 
-extern "C" void* __cdecl FUN_00ec43fb(BSExtraData* a1, int a2, char* a3, char* a4, int a5);
 
 // @fnv 0x00438330
 void FUN_00438330_cls::FUN_00438330(BSExtraData* pExtraData)
 {
-    FUN_00438330_cls* pSource = (FUN_00438330_cls*)FUN_00ec43fb(pExtraData, 0, &DAT_01183b2c, &DAT_01184078, 0);
+    FUN_00438330_cls* pSource = (FUN_00438330_cls*)dynamic_cast<::ExtraSpecialRenderFlags *>(reinterpret_cast<::BSExtraData *>(pExtraData));
     if (pSource == 0)
     {
     }
@@ -6431,13 +6421,12 @@ struct FNVLoadHost : FUN_00434d90_standin
     void LoadEntriesFromBlock(void* input);
 };
 extern unsigned char DAT_01184010;
-extern FNVLoadBlock* __cdecl FUN_00ec43fb(void* input, int unused, const void* sourceA, const void* sourceB, int mode);
 
 // @fnv 0x00434c80
 void FNVLoadHost::LoadEntriesFromBlock(void* input)
 {
     ContNode* node;
-    FNVLoadBlock* block = FUN_00ec43fb(input, 0, &DAT_01183b2c, &DAT_01184010, 0);
+    FNVLoadBlock* block = ((FNVLoadBlock *)(dynamic_cast<::ExtraReflectorRefs *>(reinterpret_cast<::BSExtraData *>(input))));
     if (!block)
         return;
     FUN_00434d90();

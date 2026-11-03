@@ -5,6 +5,9 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BC87850RefObject.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -10350,19 +10353,17 @@ void* FUN_00cb0a70_Class::FUN_00cb0a70(int a)
     return this;
 }
 
-int __cdecl FUN_00ec6cc4(char*, const char*, char*);
 // @fnv 0x00cb0f80
 void __cdecl FUN_00cb0f80(char* a, const char* b, char* c)
 {
-    FUN_00ec6cc4(a, b, (char*)&c);
+    std::vsprintf(a, b, (char*)&c);
 }
 
-extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 
 // @fnv 0x00cb0fd0
 int __cdecl FUN_00cb0fd0(const char* s1, const char* s2, unsigned int count)
 {
-    return FUN_00ec8a19(s1, s2, count);
+    return std::strncmp(s1, s2, count);
 }
 
 namespace fnv_00cb0fe0 {
@@ -15004,7 +15005,6 @@ void Owner9bd0::FUN_00ca9bd0(Rec9bd0* apRecord, Key9bd0 key)
 }
 
 // 0x00cabcd0  340 B  /MT /O2 /GS /EHsc /Gy  - HSV ramp helper.
-extern double FUN_00ec6940(double);
 struct ColorOutput
 {
     float* value;
@@ -15035,7 +15035,7 @@ static __declspec(noinline) void HsvToRgb(float* apRed, float afHue, float afSat
     else
     {
         afHue = afHue * 6.0;
-        i = (int)(float)FUN_00ec6940(afHue);
+        i = (int)(float)std::floor(afHue);
     }
     f = afHue - i;
     p = afValue * (1.0f - afSaturation);

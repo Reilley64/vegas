@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/breakable/hkpbreakableconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00d00000.h"
@@ -505,7 +506,6 @@ extern "C"
     __m128 _mm_load_ss(float const*);
     __m128 _mm_setr_ps(float, float, float, float);
     __m128 _mm_set_ps1(float);
-    double __cdecl sqrt(double);
 }
 
 

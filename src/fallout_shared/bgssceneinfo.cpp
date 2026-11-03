@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
@@ -1017,7 +1018,6 @@ struct StatDetector
 extern StatUnique DAT_011c5b30;
 
 extern StatTextureCount DAT_011c5a90;
-int __cdecl strncmp(const char*, const char*, unsigned int);
 struct SceneStatistics
 {
     int unk00;
@@ -1041,7 +1041,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
         if (node3)
         {
             if (((::fnv_004a82d0::SceneName *)(reinterpret_cast<::TESTopicInfoData *>((node3))->GetLinkToList()))->FUN_0043b1b0() &&
-                !strncmp(((::fnv_004a82d0::SceneName *)(reinterpret_cast<::TESTopicInfoData *>((node3))->GetLinkToList()))->FUN_0043b1b0(), "FurnitureMarker", 15))
+                !fnv::crt::strnicmp(((::fnv_004a82d0::SceneName *)(reinterpret_cast<::TESTopicInfoData *>((node3))->GetLinkToList()))->FUN_0043b1b0(), "FurnitureMarker", 15))
                 return;
             if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_01202de8))), (::NiAVObject *)(node3)))
             {

@@ -3,6 +3,7 @@
 #define FNV_NIFORMARRAY_DECLS_H
 
 
+#include <cstring>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "layout_support.h"
 
@@ -40,6 +41,5 @@ class NiFormArray : public NiTLargePrimitiveArray<TESForm*>
 
 
 // The canonical _memmove binding names a different runtime entry point.
-void* __cdecl FUN_00ec7230(void* destination, const void* source, unsigned int size);
 
 #endif

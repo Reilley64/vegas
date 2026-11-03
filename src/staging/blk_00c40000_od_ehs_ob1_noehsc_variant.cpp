@@ -6,6 +6,7 @@
 // src/staging/blk_00c40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B44F890Collection.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -4901,7 +4902,6 @@ public:
 // `mov edx,[p] / fld [edx] / fdivr [ebp+8]` instead of the mirrored
 // `fld [ebp+8] / mov edx,[p] / fdiv [edx]`.
 struct C52020Dev;
-double tan(double);
 struct NiFrustum {
     NiFrustum(bool);
     float m_fLeftBound;

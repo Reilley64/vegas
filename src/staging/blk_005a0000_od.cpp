@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ActList.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -613,8 +614,6 @@ bool SubChallenge::IsNotEqual(void* input)
     return false;
 }
 }  // namespace fnv_005a8910
-
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 
 class TESForm
 {

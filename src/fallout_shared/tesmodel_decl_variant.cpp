@@ -5,6 +5,8 @@
 
 // src/fallout_shared/tesmodel.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/tesmodel.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -570,9 +572,6 @@ struct DestructionStageChunk
     TESForm* debris;
     unsigned int debrisCount;
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 // @fnv 0x004781e0
 void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
 {

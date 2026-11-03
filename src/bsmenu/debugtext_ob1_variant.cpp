@@ -1,6 +1,7 @@
 // bsmenu/debugtext_ob1_variant.cpp: MgrQ, TextList, AudioManager, A0F8Self and more (21 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/ArrayStub.h"
 #include "fnv/decl/B408A80String.h"
@@ -1295,7 +1296,6 @@ void FUN_00a1c800()
     reinterpret_cast<::AE91F0Map *>(&((*reinterpret_cast<::FUN_00a1c800_MapB *>(&::fnv_00a1ca20::DAT_011f34f4))))->ClearAll();
 }
 
-void* __cdecl FUN_00ec61c0(void*,int,unsigned);
 extern long (* DecrementD)(void*);
 extern long (* IncrementD)(void*);
 inline long DecD(void* p) { return DecrementD(p); }
@@ -1412,8 +1412,8 @@ FUN_00a0db40::FUN_00a0db40() {
   lines[i].lifetime=DAT_01012054;
  }
  unk2280=0;
- FUN_00ec61c0(first,0,12);
- FUN_00ec61c0(second,0,12);
+ std::memset(first,0,12);
+ std::memset(second,0,12);
 }
 
 inline void DeadQ3(){int a[3];}

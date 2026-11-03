@@ -6,6 +6,9 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdint>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AHSeqOwner.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -215,12 +218,11 @@ void FUN_00a540a0::Init()
     NiFreeAlias(p);
 }
 
-extern "C" char* __cdecl _strcat_s(char* destination, unsigned int destinationSize, const char* source);
 
 // @fnv 0x00a574e0
 char* __cdecl SafeStrcat(char* destination, unsigned int destinationSize, const char* source)
 {
-    _strcat_s(destination, destinationSize, source);
+    fnv::crt::strcat_s(destination, destinationSize, source);
     return destination;
 }
 
@@ -335,7 +337,6 @@ void* __cdecl FUN_00a51e10()
 }
 
 void* __cdecl NiMalloc(unsigned int);
-void* __cdecl fnv_zlib_memset(void* dst, void* src, unsigned int size);
 
 struct FUN_00a54060_class : NiTMapBaseStub
 {
@@ -353,7 +354,7 @@ void* FUN_00a54060_class::InitBuffer(unsigned int size)
     m_vtbl = (int)&DAT_0109a264;
     m_p = 0;
     m_data = NiMalloc(size * 4);
-    fnv_zlib_memset(m_data, 0, m_iElementCount * 4);
+    std::memset(m_data, (int)(std::uintptr_t)(0), m_iElementCount * 4);
     return this;
 }
 
@@ -450,7 +451,6 @@ unsigned int FUN_00a5b270(const char* pcString, unsigned int uiLength)
     return h % 513;
 }
 
-extern "C" unsigned int __cdecl _strcpy_s(char* dst, unsigned int size, const char* src);
 struct NiGlobalStringTable
 {
     static char* __cdecl AddString(const char*);
@@ -459,7 +459,7 @@ struct NiGlobalStringTable
 void __cdecl FUN_00a57500(NiFixedString* apString)
 {
     char path[0x104];
-    _strcpy_s(path, sizeof(path), apString->m_kHandle);
+    fnv::crt::strcpy_s(path, sizeof(path), apString->m_kHandle);
     ::FUN_00aa2a00(path);
     const char* old = apString->m_kHandle;
     if (old != path)
@@ -5582,7 +5582,7 @@ NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySiz
     {
         unsigned int uiLen = strlen(pcName) + 1;
         m_pcName = (char*)NiMalloc(uiLen);
-        _strcpy_s(m_pcName, uiLen, pcName);
+        fnv::crt::strcpy_s(m_pcName, uiLen, pcName);
     }
     else
     {
@@ -5774,7 +5774,6 @@ char* StringTable169::FUN_00a5b300(const char* key, unsigned int length)
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl NiFreeAlias(void*);
-extern "C" void* __cdecl memmove(void* dst, const void* src, unsigned int n);
 struct ExtraName
 {
     const char* handle;

@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshinfomap.cpp: NavMeshInfoMap, WorkerNavMap, std, NavMeshInfo and more (26 functions)
 
+#include <malloc.h>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -236,7 +237,6 @@ struct FUN_006b5d80_shell : public NavMeshInfoMap
     bool LoadNavMeshInfoMap(TESFile*);
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct NavMeshVertexMap
 {
 };

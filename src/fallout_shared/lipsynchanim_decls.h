@@ -3,6 +3,7 @@
 #define FNV_LIPSYNCHANIM_DECLS_H
 
 
+#include <cstring>
 #include "fnv/decl/FUN_00462d80_shell.h"
 #include "fnv/decl/FUN_004d5080_Class.h"
 #include "fnv/decl/FUN_004d5a90_Class.h"
@@ -96,14 +97,12 @@ class LipSyncAnimation
 };
 
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl operator delete(void*);
 
 class NiBinaryStream
 {
   public:
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 bool __cdecl FUN_004d5880(NiBinaryStream*, char*, unsigned int);
 
 #endif

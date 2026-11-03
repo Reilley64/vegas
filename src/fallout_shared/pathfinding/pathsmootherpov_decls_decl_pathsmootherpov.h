@@ -1,6 +1,7 @@
 #ifndef PATHSMOOTHERPOV_DECLS_H
 #define PATHSMOOTHERPOV_DECLS_H
 
+#include <cmath>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AvoidNodes__Search.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
@@ -295,8 +296,6 @@ class PathingRequest
 {
   public:
 };
-float cos(float);
-
 typedef AStarNode<PathSmootherPOVAvoidanceNode, NavMeshEdgeSegment> POVNode;
 template <class N, class L> class AStarSearch
 {

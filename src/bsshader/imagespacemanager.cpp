@@ -1,5 +1,7 @@
 // bsshader/imagespacemanager.cpp: ImageSpaceManager, Derived, Host, ImageSpaceManager_b8b and more (60 functions)
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/B94520Cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -269,7 +271,6 @@ BSRenderedTexture* ImageSpaceManager::GetDepthRenderedTexture()
     return ((::BSRenderedTexture *)(reinterpret_cast<::FUN_00ba3770_struct *>((void *)&(depth))->FUN_00ba3770()));
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00b8b9a0
 void ImageSpaceManager::BeginParamModifiers()
@@ -338,7 +339,7 @@ void ImageSpaceManager::BeginParamModifiers()
     m_eDepthOfFieldTargetMode = (ImageSpaceEffectDepthOfField__DepthOfFieldMode)3;
     m_bMenuBackgroundBlendEnabled = false;
     m_fMenuBackgroundBlendTarget = 0.0f;
-    fnv_zlib_memset(m_kModifierParameterData, 0, sizeof(m_kModifierParameterData));
+    std::memset(m_kModifierParameterData, 0, sizeof(m_kModifierParameterData));
 }
 
 struct FUN_00b8af10_shell : public ImageSpaceManager
@@ -570,10 +571,10 @@ void InitTVShader(Obj_00b8c0e0* pObj, int)
     ShaderInitBlock_00b8c0e0 psBlock;
     vsBlock.name = "imagespace\\1x\\v\\base.v.hlsl";
     vsBlock.zero = 0;
-    fnv_zlib_memset(vsBlock.pad, 0, 0x44);
+    std::memset(vsBlock.pad, 0, 0x44);
     psBlock.name = "imagespace\\2x\\p\\tv.p.hlsl";
     psBlock.zero = 0;
-    fnv_zlib_memset(psBlock.pad, 0, 0x44);
+    std::memset(psBlock.pad, 0, 0x44);
     pObj->vt->fn_13c(pObj, &vsBlock, &psBlock, "TV", "vs_1_1", "ps_2_0");
     pObj->vt->fn_14c(pObj);
 }
@@ -596,9 +597,7 @@ void FUN_00b8b1e0(const int* aiValues)
 
 void FUN_00b8b200(bool value);
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
-extern "C" void* __cdecl _memmove(void*, const void*, unsigned int);
 extern ImageSpaceModifierParameterData DAT_011ff940;
 extern float DAT_012003d0;
 
@@ -609,7 +608,7 @@ void FUN_00b8b500(void* thisPtr, int aiUnused)
     char* pSource = *(char**)((char*)thisPtr + 0xb0);
     if (pSource)
     {
-        _memmove((char*)thisPtr + 0x14, pSource, 0x98);
+        std::memmove((char*)thisPtr + 0x14, pSource, 0x98);
         ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
@@ -617,12 +616,12 @@ void FUN_00b8b500(void* thisPtr, int aiUnused)
     pSource = *(char**)((char*)thisPtr + 0xac);
     if (pSource)
     {
-        _memmove((char*)thisPtr + 0x14, pSource, 0x98);
+        std::memmove((char*)thisPtr + 0x14, pSource, 0x98);
         ::DAT_01202400 = 0.0f;
         DAT_012003d0 = 0.0f;
         return;
     }
-    _memmove((char*)thisPtr + 0x14, &DAT_011ff940, 0x98);
+    std::memmove((char*)thisPtr + 0x14, &DAT_011ff940, 0x98);
     ::DAT_01202400 = 0.0f;
     DAT_012003d0 = 0.0f;
 }
@@ -731,10 +730,10 @@ void RegisterSunbeamsShader(FUN_00b8bf10_Obj* self, int unused)
     FUN_00b8bf10_Desc b;
     a.file = "imagespace\\1x\\v\\base.v.hlsl";
     a.flags = 0;
-    fnv_zlib_memset(&a.r0, 0, 0x44);
+    std::memset(&a.r0, 0, 0x44);
     b.file = "imagespace\\2x\\p\\sunbeams.p.hlsl";
     b.flags = 0;
-    fnv_zlib_memset(&b.r0, 0, 0x44);
+    std::memset(&b.r0, 0, 0x44);
     reinterpret_cast<FUN_00b8bf10_Add>(self->vt[0x13c / 4])(self, &a, &b, "Sunbeams", "vs_1_1", "ps_2_a");
     reinterpret_cast<FUN_00b8bf10_Fin>(self->vt[0x14c / 4])(self);
 }
@@ -1275,8 +1274,6 @@ struct NiPosGlobal_b8b7d0
     Vec3_b8b7d0 m8c;
 };
 
-extern "C" double __cdecl sqrt(double);
-
 
 struct FUN_00b8b7d0_cls
 {
@@ -1302,7 +1299,6 @@ void FUN_00b8b7d0_cls::FUN_00b8b7d0(float afParam0, int aiParam1, float afParam2
     reinterpret_cast<::B8B060Request *>(this)->SetIfHigherPriority(afParam0, aiParam1, dist, dist, afParam2, t, (*(const ::B8B060Pair *)((int*)&pos)));
 }
 
-extern "C" void FUN_00ec61c0(void* a, unsigned int b, unsigned int c);
 extern "C" void* FUN_00e7f5d0();
 
 class ISPassCore
@@ -1447,14 +1443,14 @@ void FUN_00b8bdb0_cls::InitScanBlendPass()
     unsigned int f[0x26];
     f[0x13] = (unsigned int)"imagespace\\1x\\v\\base.v.hlsl";
     f[0x14] = 0;
-    FUN_00ec61c0(&f[0x15], 0, 0x44);
+    std::memset(&f[0x15], 0, 0x44);
     f[0] = (unsigned int)"imagespace\\2x\\p\\scanlines_blend.p.hlsl";
     f[1] = (unsigned int)"BLURSRC1";
     f[2] = 0;
     f[3] = (unsigned int)"VATS";
     f[4] = 0;
     f[5] = 0;
-    FUN_00ec61c0(&f[6], 0, 0x34);
+    std::memset(&f[6], 0, 0x34);
     this->v13c((void*)&f[0x13], (void*)&f[0], "IFVATSSCANBLEND", "vs_1_1", "ps_2_0");
     this->v14c();
     ISPassHolder* a = (ISPassHolder*)this->m_5c;
@@ -2135,11 +2131,6 @@ void FUN_00b8d020_class::FUN_00b8d020()
 }
 
 #include <math.h>
-extern "C" double __cdecl sqrt(double);
-extern "C" double __cdecl fabs(double);
-
-extern "C" void* __cdecl memmove(void*, const void*, unsigned);
-
 struct Vec2
 {
     float x, y;

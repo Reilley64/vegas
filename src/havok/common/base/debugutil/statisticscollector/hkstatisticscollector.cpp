@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstring>
 #include "fnv/decl/FnvCpu_FUN_00d470d0_CpuObject.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_00d06000.h"
@@ -89,7 +90,6 @@ struct AllocHolder
 };
 
 AllocHolder* __cdecl FUN_00c85750();
-void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 
 struct GrowBuf
 {
@@ -113,7 +113,7 @@ void __cdecl FUN_00d06cb0(GrowBuf* buf, unsigned int elemSize)
 
     AllocHolder* holder = FUN_00c85750();
     void* newData = holder->m_pAllocator->Alloc(newCount * elemSize);
-    FUN_00ec44d0(newData, buf->m_pData, (unsigned int)buf->m_uCap * elemSize);
+    std::memmove(newData, buf->m_pData, (unsigned int)buf->m_uCap * elemSize);
 
     if ((buf->m_uiObjectFlags & 0x8000u) == 0)
     {

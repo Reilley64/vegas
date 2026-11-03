@@ -2,6 +2,7 @@
 // src/fallout/misc/main_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/fallout/misc/main.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
+#include <cstdio>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -61,7 +62,6 @@
 
 #include <stdio.h>
 int __cdecl strcat_s(char*, unsigned int, const char*);
-char* __cdecl FUN_00ecc104(char*, int, FILE*);
 struct PluginListEntry
 {
 };
@@ -88,7 +88,7 @@ bool PluginListReader::FUN_00872430(const char* pDir, const char* pName)
         pFile = fopen(acPath, DAT_01082cb8);
         if (pFile)
         {
-            while (FUN_00ecc104(acLine, 512, pFile))
+            while (std::fgets(acLine, 512, (std::FILE *)(pFile)))
             {
                 unsigned int uiLen = ::FUN_0044a670(acLine);
                 if (acLine[0] != '#' && uiLen > 1)

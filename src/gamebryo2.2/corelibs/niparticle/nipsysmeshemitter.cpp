@@ -5,6 +5,7 @@
 
 // @fnv 0x00c1f4f0
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
@@ -207,7 +208,6 @@ struct NiSkinInstance
     int m_kPointB;
 };
 
-int __cdecl GetRandomNumber(void);
 
 struct FUN_00c1f5f0_shell : NiPSysMeshEmitter
 {
@@ -641,19 +641,19 @@ void MeshEmitter_c1cf50::ComputeEmitterParticleTransform(NiAVObject* geometry, N
         arVelocity = reinterpret_cast<::M_004b4500 *>(&(transform.rotation))->FUN_004b4500((const ::NiPoint3 *)(const ::NiPoint3b *)(&arVelocity));
         break;
     case 1:
-        arVelocity.x = (GetRandomNumber() * 2.0 / DAT_01029790) - 1.0;
-        arVelocity.y = (GetRandomNumber() * 2.0 / DAT_01029790) - 1.0;
-        arVelocity.z = (GetRandomNumber() * 2.0 / DAT_01029790) - 1.0;
+        arVelocity.x = (std::rand() * 2.0 / DAT_01029790) - 1.0;
+        arVelocity.y = (std::rand() * 2.0 / DAT_01029790) - 1.0;
+        arVelocity.z = (std::rand() * 2.0 / DAT_01029790) - 1.0;
         reinterpret_cast<::FUN_004a0c10_s *>(&(arVelocity))->FUN_004a0c10();
         {
-            float random = (float)(GetRandomNumber() / DAT_01029790);
+            float random = (float)(std::rand() / DAT_01029790);
             float magnitude = speed + speedVariation * (random - DAT_01011588);
             arVelocity *= magnitude;
         }
         break;
     case 2: {
         NiPoint3b v = reinterpret_cast<::M_004b4500 *>(&(transform.rotation))->FUN_004b4500((const ::NiPoint3 *)(const ::NiPoint3b *)(&direction));
-        float random = (float)(GetRandomNumber() / DAT_01029790);
+        float random = (float)(std::rand() / DAT_01029790);
         float magnitude = speed + speedVariation * (random - DAT_01011588);
         reinterpret_cast<::FUN_004a0c10_s *>(&(v))->FUN_004a0c10();
         arVelocity = v * magnitude;
@@ -1132,10 +1132,9 @@ struct SkinInst
     int unk00, unk04;
     SkinContainer* container;
 };
-extern int __cdecl FUN_00ecadb8();
 inline float UnitRandom()
 {
-    return float(double(FUN_00ecadb8()) / DAT_01029790);
+    return float(double(std::rand()) / DAT_01029790);
 }
 struct Point3
 {
@@ -1218,7 +1217,6 @@ bool SkinEmitter::GetRandomEmitterParticle(SkinInst* skin, SkinGeometry* geometr
 }
 }  // namespace fnv_00c1dec0
 
-int __cdecl FUN_00ecadb8();
 void __cdecl FUN_00525340(NiPoint3*);
 NiPoint3 __cdecl FUN_004a3760(float, const NiPoint3&);
 
@@ -1342,7 +1340,7 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
         return false;
 
     unsigned short usPartitions = ((MySkinInstance*)pkSkinInstance)->m_pkSkinMeshPartition->m_usPartitions;
-    float fRand = (float)(FUN_00ecadb8() / DAT_01029790);
+    float fRand = (float)(std::rand() / DAT_01029790);
     unsigned int uiPartition = (unsigned int)(fRand * (int)usPartitions);
     int iMaxPartition = (int)usPartitions - 1;
     if ((int)uiPartition >= iMaxPartition)
@@ -1375,7 +1373,7 @@ bool EmitterAccessor::FUN_00c1e4e0(NiSkinInstance* pkSkinInstance, NiGeometry* p
         usV2 = pkPartition->m_pusTriList[3 * uiTriangle + 2];
     }
 
-    switch (FUN_00ecadb8() % 3)
+    switch (std::rand() % 3)
     {
     case 1:
         usV0 = usV1;
@@ -1688,7 +1686,6 @@ bool FUN_00c1d6b0_cls::IsEquivalent(FUN_00c1d6b0_cls* other)
 }
 
 #include <math.h>
-extern int __cdecl FUN_00ecadb8(void);
 struct C1d9e0_Emitter : MeshEmitter_c1cf50
 {
     bool PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity);
@@ -1696,7 +1693,7 @@ struct C1d9e0_Emitter : MeshEmitter_c1cf50
 // @fnv 0x00c1d9e0
 bool C1d9e0_Emitter::PickRandomVertex(NiGeometry* pkGeometry, NiPoint3& kPosition, NiPoint3& kMotionVelocity)
 {
-    int iRandomIndex = FUN_00ecadb8();
+    int iRandomIndex = std::rand();
     char* data = pkGeometry->unkb8;
     unsigned short count = *(unsigned short*)(data + 8);
     iRandomIndex %= count;
@@ -1875,7 +1872,7 @@ bool MeshEmitterCandidate::PickEmitterParticle(NiGeometry* geometry, MeshPoint& 
         unsigned int triangleCount = (reinterpret_cast<GetTriangleCountFn>(
             (reinterpret_cast<void**>(reinterpret_cast<GeometryLayout*>(geometry)->modelData->vtable))[42]))(
             reinterpret_cast<GeometryLayout*>(geometry)->modelData);
-        unsigned int triangleIndex = static_cast<unsigned int>(GetRandomNumber()) % triangleCount;
+        unsigned int triangleIndex = static_cast<unsigned int>(std::rand()) % triangleCount;
         unsigned short vertex2;
         int triangleAttempts = 0;
         do
@@ -1891,7 +1888,7 @@ bool MeshEmitterCandidate::PickEmitterParticle(NiGeometry* geometry, MeshPoint& 
             triangleAttempts += 1;
         } while (triangleAttempts < 6);
 
-        switch (GetRandomNumber() % 3)
+        switch (std::rand() % 3)
         {
         case 1:
             vertex0 = vertex1;
@@ -1916,7 +1913,7 @@ bool MeshEmitterCandidate::PickEmitterParticle(NiGeometry* geometry, MeshPoint& 
         return false;
 
     found_line:
-        float fRatio = static_cast<float>(GetRandomNumber()) / DAT_01029790;
+        float fRatio = static_cast<float>(std::rand()) / DAT_01029790;
         unsigned short vertexCount = reinterpret_cast<GeometryLayout*>(geometry)->modelData->vertexCount;
         unsigned int seg = static_cast<unsigned int>(static_cast<float>(vertexCount - 1) * fRatio);
         vertex0 = static_cast<unsigned short>(seg);
@@ -1945,7 +1942,7 @@ bool MeshEmitterCandidate::PickEmitterParticle(NiGeometry* geometry, MeshPoint& 
 
     if (reinterpret_cast<EmitterLayout*>(this)->emissionType == 4)
     {
-        float fRatio = static_cast<float>(GetRandomNumber()) / DAT_01029790;
+        float fRatio = static_cast<float>(std::rand()) / DAT_01029790;
         position = v0 + (v1 - v0) * fRatio;
     }
 
@@ -2342,7 +2339,7 @@ bool MeshEmitterCandidate::EmitFromMesh(NiGeometry* geometry, MeshPoint& positio
             unsigned int triangleCount = (reinterpret_cast<GetTriangleCountFn>(
                 (reinterpret_cast<void**>(reinterpret_cast<GeometryLayout*>(geometry)->modelData->vtable))[42]))(
                 (reinterpret_cast<GeometryLayout*>(geometry)->modelData));
-            unsigned int triangleIndex = static_cast<unsigned int>(GetRandomNumber()) % triangleCount;
+            unsigned int triangleIndex = static_cast<unsigned int>(std::rand()) % triangleCount;
             if (triangleIndex == triangleCount)
                 triangleIndex = triangleCount - 1;
             unsigned short vertex0, vertex1, vertex2;
@@ -2386,8 +2383,8 @@ bool MeshEmitterCandidate::EmitFromMesh(NiGeometry* geometry, MeshPoint& positio
             {
                 MeshPoint edgeA = v1 - v0;
                 MeshPoint edgeB = v2 - v0;
-                float scaleA = FUN_00c1ced0(static_cast<float>(GetRandomNumber()) / DAT_01029790);
-                float scaleB = static_cast<float>(GetRandomNumber()) / DAT_01029790;
+                float scaleA = FUN_00c1ced0(static_cast<float>(std::rand()) / DAT_01029790);
+                float scaleB = static_cast<float>(std::rand()) / DAT_01029790;
                 position = edgeA + (scaleA * (edgeB * scaleB - edgeA) + v0);
             }
             reinterpret_cast<::MeshEmitter_c1cf50 *>(this)->ComputeEmitterParticleTransform((::NiAVObject *)(geometry), (::NiPoint3b &)(position), (::NiPoint3b &)(velocity));
@@ -2784,7 +2781,7 @@ void FUN_00c1f5f0_shell::FUN_00c1f5f0(NiPoint3& kPosition, NiPoint3& kMotionVelo
         return;
 
     {
-        float fRandom = GetRandomNumber() / DAT_01029790;
+        float fRandom = std::rand() / DAT_01029790;
         uiEmitterIndex = (unsigned int)(fRandom * uiGeometryEmitterCount);
     }
 
@@ -2851,7 +2848,7 @@ bool MeshReconstruction::FUN_00c1e080(NiSkinInstance* apSkinInstance, NiGeometry
     if (!group)
         return false;
     unsigned short groupCount = group->groupCount;
-    int groupIndex = (unsigned int)(float(double(GetRandomNumber()) / DAT_01029790) * (int)groupCount);
+    int groupIndex = (unsigned int)(float(double(std::rand()) / DAT_01029790) * (int)groupCount);
     if (groupIndex >= (int)groupCount - 1)
         groupIndex = groupCount - 1;
     MeshParticleSample* sample = &reinterpret_cast<MeshParticleGroup*>(apSkinInstance->m_kPointB)->samples[groupIndex];

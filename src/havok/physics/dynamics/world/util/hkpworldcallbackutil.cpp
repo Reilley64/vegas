@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FUN_00c91120.h"
 #include "fnv/decl/FUN_00c91140_Class.h"
 #include "fnv/decl/World_RemovePhantomBatch.h"
@@ -216,7 +217,6 @@ struct Reference
 struct World
 {
 };
-void* FUN_00ec61c0(void*, int, unsigned);
 struct Owner
 {
     virtual void method0();
@@ -296,7 +296,7 @@ void Owner::ClearReferences()
                 }
                 reinterpret_cast<::hkReferencedObjectC905 *>((references[i]))->FUN_00c905b0();
             }
-            FUN_00ec61c0(references, 0, count * 4);
+            std::memset(references, 0, count * 4);
             count = 0;
         }
     }

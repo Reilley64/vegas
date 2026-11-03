@@ -1,5 +1,6 @@
 // fallout_shared/gridarray.cpp: GridArray (7 functions)
 
+#include <cstdlib>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_00401000.h"
@@ -100,7 +101,6 @@ bool FUN_004b9f10_shell::ShiftToCell(int aiX, int aiY)
         return false;
 }
 
-int FUN_00ec7d40(int);
 struct FUN_004b9f70_shell : GridArray
 {
     void ShiftGrid(int x, int y);
@@ -113,7 +113,7 @@ void FUN_004b9f70_shell::ShiftGrid(int aiShiftX, int aiShiftY)
     unsigned int i = 0;
     iHorizontalPixelCenterObj += aiShiftX;
     iCenterPixelY += aiShiftY;
-    if ((unsigned int)FUN_00ec7d40(aiShiftX) >= uiDimension || (unsigned int)FUN_00ec7d40(aiShiftY) >= uiDimension)
+    if ((unsigned int)std::abs(aiShiftX) >= uiDimension || (unsigned int)std::abs(aiShiftY) >= uiDimension)
     {
         DetachAllCells();
         return;

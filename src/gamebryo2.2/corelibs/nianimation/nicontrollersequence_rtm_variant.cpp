@@ -5,6 +5,10 @@
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -213,8 +217,6 @@ struct RefBase
     virtual void Release()
     {}
 };
-extern "C" unsigned int __cdecl strlen(const char* s);
-void __cdecl FUN_00ec65a6(char* c, unsigned int b, const char* a);
 struct FUN_00a307c0_entry
 {
     unsigned int unk00;
@@ -357,7 +359,6 @@ struct S_00a30880_Foo : S_00a30880_Base
 
     void ReleaseItems();
 };
-extern "C" double __cdecl fmod(double, double);
 struct SequenceA30970 : NiObject
 {
     char* name08;
@@ -1652,7 +1653,6 @@ extern const char DAT_01096564;
 extern void* DAT_01096444;
 void __cdecl FUN_00fdad60();
 void __cdecl FUN_00fdad80();
-extern "C" int __cdecl atexit(void(__cdecl*)());
 struct NiMultiTargetTransformController : Controller31910
 {
     virtual void V00();
@@ -3132,7 +3132,7 @@ void LegacySequence::FUN_00a352f0(NiStream& stream)
                 const char* name = tags[i].name;
                 unsigned int bytes = strlen(name) + 1;
                 char* copy = (char*)FUN_00aa1070(bytes);
-                FUN_00ec65a6(copy, bytes, name);
+                fnv::crt::strcpy_s(copy, bytes, name);
                 if (i >= names.length)
                     names.length = (unsigned short)(i + 1);
                 names.data[i] = copy;

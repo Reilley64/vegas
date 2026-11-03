@@ -2,15 +2,13 @@
 // src/staging/blk_00ae0000_od_ob1.cpp - STAGING flag-variant unit created 2026-10-17: functions whose bytes need /Od /Ob1 WITHOUT /GF (00afb190 pushes a
 // non-pooled "Data\\" copy, so it is not from archive.cpp, which is /GF). Not a real source path.
 
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_011ac000.h"
 #include "../../include/layout_support.h"
 
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
-int __cdecl _strcat_s(char*, unsigned int, const char*);
-int __cdecl FUN_00ecbf05(const char* path, int mode);
 struct FUN_00afb190_entry
 {
     unsigned int uiHashLow;
@@ -43,9 +41,9 @@ bool FUN_00afb190_shell::FUN_00afb190(FUN_00afb190_entry* entry, const char* nam
     {
         if (name)
         {
-            _strcpy_s(path, 0x104, "Data\\");
-            _strcat_s(path, 0x104, name);
-            if (FUN_00ecbf05(path, 0) != -1)
+            fnv::crt::strcpy_s(path, 0x104, "Data\\");
+            fnv::crt::strcat_s(path, 0x104, name);
+            if (fnv::crt::access(path, 0) != -1)
             {
                 entry->SetOffset(0);
                 return true;

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AssociatedItemCopyEntry.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -212,7 +213,6 @@ struct SelectedRecord
     int y;
     int z;
 };
-void __cdecl FUN_00ec6f20(int, int, int, int);
 struct SelectionPredicate
 {
 };
@@ -230,7 +230,7 @@ bool RecordSelector::SelectRecord(void* context, int flags, SelectedRecord* outp
         return false;
     int index = 0;
     (*reinterpret_cast<void * *>(&::g_011dcc58)) = context;
-    FUN_00ec6f20((int)entries, count, sizeof(SelectedRecord), (int)&((int (&)(const void *, const void *))::FUN_00828b20));
+    std::qsort((void *)((int)entries), count, sizeof(SelectedRecord), (int (*)(const void *, const void *))((int)&((int (&)(const void *, const void *))::FUN_00828b20)));
     index = 0;
     while (index < count && !reinterpret_cast<::SummonCreatureEffectHelper *>((((SelectionPredicate*)this)))->FUN_00828f00(flags, (::NiPoint3 *)(::SelectedRecord *)(&entries[index])))
     {

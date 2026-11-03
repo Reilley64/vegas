@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3drenderstategroup.cpp: D3DRenderStateGroup, RenderOwner, StateGroup, StateGroupE7F5 (12 functions)
 
+#include <cstring>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FUN_00e7ef80_List.h"
 #include "fnv/decl/FUN_00e7efc0_List.h"
@@ -130,7 +131,6 @@ struct Owner00b8d460
     void FUN_00b8d460();
 };
 
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 extern "C" char str_010b5c70;
 extern "C" char str_010b5c64;
 
@@ -270,12 +270,12 @@ void RenderOwner::ApplyRenderState()
     RenderBuffer currentBuffer;
     currentBuffer.typeInfo = &str_010b0158;
     currentBuffer.state = 0;
-    FUN_00ec61c0(&currentBuffer.state08, 0, 0x44);
+    std::memset(&currentBuffer.state08, 0, 0x44);
 
     RenderBuffer fallbackBuffer;
     fallbackBuffer.typeInfo = &str_010b5c70;
     fallbackBuffer.state = 0;
-    FUN_00ec61c0(&fallbackBuffer.state08, 0, 0x44);
+    std::memset(&fallbackBuffer.state08, 0, 0x44);
 
     reinterpret_cast<ApplyState>(virtualTable[0x13c / sizeof(void*)])(this, &currentBuffer, &fallbackBuffer,
                                                                       &str_010b5c64, &str_010a93ec, &str_010a93cc);

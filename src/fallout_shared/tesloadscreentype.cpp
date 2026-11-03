@@ -1,5 +1,6 @@
 // fallout_shared/tesloadscreentype.cpp: TESLoadScreenType, ScalarStandIn, LoadScreenTypeData_FUN (7 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -67,7 +68,6 @@ struct FUN_005a7630_shell
 struct ScriptS
 {
 };
-int __cdecl _memcmp(const void*, const void*, unsigned int);
 struct FUN_005e79a0_t
 {
 };
@@ -83,7 +83,7 @@ bool FUN_005a76f0_shell::FUN_005a76f0(TESForm* apCompare)
     TESLoadScreenType* pcomp = dynamic_cast<TESLoadScreenType*>(apCompare);
     if (!pcomp)
         return true;
-    if (_memcmp(&this->_pad[0x18], ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)pcomp)))->GetConditions())), 0x58))
+    if (std::memcmp(&this->_pad[0x18], ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)pcomp)))->GetConditions())), 0x58))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270(pcomp))
         return true;

@@ -3,6 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FUN_0044a4c0.h"
 #include "fnv/decl/Target18.h"
 #include "fnv/decl/VecAlloc.h"
@@ -88,7 +91,6 @@ FUN_0065d6e0_class::~FUN_0065d6e0_class()
     ((FUN_0064df10_helper*)((char*)this + 4))->deallocate(p, 1);
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_00b1db00_class
 {
     int i0;
@@ -103,12 +105,11 @@ struct FUN_00b1db00_class
 unsigned int FUN_00b1db00_class::FUN_00b1db00(unsigned int uiIndex)
 {
     if (uiIndex >= (unsigned int)((i10 - ic) / 56))
-        FUN_00ec7c56();
+        std::abort();
     return uiIndex * 56 + (unsigned int)ic;
 }
 
 namespace fnv_00b1ff00 {
-extern "C" unsigned int __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b1ff00_class
 {
@@ -122,12 +123,11 @@ struct FUN_00b1ff00_class
 int FUN_00b1ff00_class::FUN_00b1ff00(FUN_00b1ff00_class* other)
 {
     if (!static_cast<bool>(static_cast<int>(this->x != 0)) || !static_cast<bool>(static_cast<int>(this->x == other->x)))
-        FUN_00ec7c56();
+        std::abort();
     return (this->y - other->y) / 0x38;
 }
 }  // namespace fnv_00b1ff00
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b30fd0_class
 {
@@ -141,7 +141,7 @@ unsigned int FUN_00b30fd0_class::FUN_00b30fd0(unsigned int uiIndex)
     unsigned int count = uiIndex << 1;
     char* p = (char*)this + 0x100;
     if (count >= (*(int*)(p + 0x10) - *(int*)(p + 0xc)) >> 2)
-        FUN_00ec7c56();
+        std::abort();
     return *(unsigned int*)(p + 0xc) + count * 4;
 }
 
@@ -154,12 +154,11 @@ struct FUN_00b319a0_class
     int m_10;
     int FUN_00b319a0(int n);
 };
-unsigned int __cdecl FUN_00ec7c56();
 // @fnv 0x00b319a0
 int FUN_00b319a0_class::FUN_00b319a0(int uiIndex)
 {
     if (uiIndex >= (unsigned int)((m_10 - m_iThirdValue) / 24))
-        FUN_00ec7c56();
+        std::abort();
     return uiIndex * 24 + m_iThirdValue;
 }
 
@@ -568,7 +567,6 @@ struct FUN_00ec78f1_t
     int m4;
     void* FUN_00ec78f1(int* out);
 };
-void FUN_00ec7894(FUN_00ec78f1_t* info, const char* fmt);
 void* __cdecl operator new(unsigned int);
 
 // Clamps n to 0 when not positive, reports an error if n exceeds the max element count, then allocates n*0x38 bytes.
@@ -588,7 +586,7 @@ void* __cdecl FUN_00b23980(unsigned int n)
                 o.FUN_00ec78f1(&zero);
             }
             o.m0 = (unsigned int)&(*reinterpret_cast<int *>(&::DAT_010176f8));
-            FUN_00ec7894(&o, (const char*)&::DAT_01140ef8);
+            throw o;
         }
     }
     return ::FUN_00401000(n * 0x38);
@@ -626,7 +624,6 @@ void __cdecl CopyObjects(CopyableStateBlock* apDest, unsigned int auiCount, cons
     }
 }
 
-__declspec(noreturn) void FUN_00ec7894(void*, void*);
 struct BadAlloc
 {
     int vt;
@@ -644,7 +641,7 @@ int* FUN_0044d670(unsigned int n)
     {
         BadAlloc e;
         e.FUN_0044d6c0(0);
-        FUN_00ec7894(&e, &::DAT_01140ef8);
+        throw e;
     }
     return (int*)FUN_00401000(n * 4);
 }
@@ -665,7 +662,6 @@ FUN_00b12af0_shell* FUN_00b12af0(FUN_00b12af0_shell* apMatrix)
     return apMatrix;
 }
 
-int __cdecl FUN_00ec6cc4(char* dst, char const* fmt, char* args);
 
 struct FmtCtx
 {
@@ -708,13 +704,12 @@ FUN_0044a4c0_Str* __cdecl FUN_00b18860(FUN_0044a4c0_Str* out, char const* fmt, .
     char* ap4;
     ctx.flags = 0;
     ap4 = reinterpret_cast<char*>(&fmt) + sizeof(fmt);
-    FUN_00ec6cc4(buf2, fmt, ap4);
+    ::std::vsprintf(buf2, fmt, ap4);
     new ((void *)(out)) ::FUN_0044a4c0(buf2);
     ctx.flags |= 1;
     return out;
 }
 
-void __cdecl _memmove(void*, const void*, unsigned int);
 
 struct Vec_00b1c6d0
 {
@@ -747,7 +742,7 @@ struct Class_00b1c6d0
 void Class_00b1c6d0::FUN_00b1c6d0(Geo_00b1c6d0* geo, char cTex, const float* pTexCoords, bool bFlip)
 {
     float afCoords[8];
-    _memmove(afCoords, pTexCoords, 32);
+    ::std::memmove(afCoords, pTexCoords, 32);
     if (bFlip)
     {
         for (int i = 1; i < 8; i += 2)
@@ -856,7 +851,7 @@ int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
 
     if (this == 0 || ic > q || q > p10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
 
     *out = i0;
@@ -916,7 +911,6 @@ bool Pool_00b1f920::FUN_00b1f920(unsigned int aiNodeCount)
 
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-__declspec(noreturn) void __cdecl __CxxThrowException(void* a, unsigned int b);
 struct FUN_0044d6c0_class
 {
     void* m_iWordAt00;
@@ -939,7 +933,7 @@ void* __cdecl FUN_00b23aa0(unsigned int n)
             z0 = 0;
             e2.FUN_00ec78f1(&z0);
             e2.m_iWordAt00 = &(*reinterpret_cast<int *>(&::DAT_010176f8));
-            __CxxThrowException(&e2, (unsigned int)&::DAT_01140ef8);
+            throw e2;
         }
     }
     return ::FUN_00401000(n * 0x18);
@@ -1266,7 +1260,6 @@ struct V3b244a0
     float z;
 };
 
-void FUN_00ec7894(int a, int b);
 
 // Stores *src into each of count V3b244a0 elements starting at dest; the catch handler calls FUN_00ec7894(0, 0).
 // @fnv 0x00b244a0
@@ -1301,7 +1294,7 @@ void __cdecl FUN_00b244a0(V3b244a0* dest, unsigned int count, const V3b244a0* sr
         {
         }
 
-        FUN_00ec7894(0, 0);
+        throw;
     }
 }
 
@@ -1378,7 +1371,6 @@ struct AllocationException
     unsigned int reserved2;
     void FUN_00ec78f1(unsigned int* value);
 };
-void FUN_00ec7894(void* exception, void* info);
 
 // Allocates a 12-byte-per-element array of count items, throwing AllocationException on overflow.
 // @fnv 0x00b23bb0
@@ -1392,7 +1384,7 @@ void* __cdecl FUN_00b23bb0(unsigned int count)
         AllocationException exception;
         exception.FUN_00ec78f1(&empty);
         exception.vtable = (unsigned int)&(*reinterpret_cast<unsigned int *>(&::DAT_010176f8));
-        FUN_00ec7894(&exception, &(*reinterpret_cast<unsigned int *>(&::DAT_01140ef8)));
+        throw exception;
     }
     return ::FUN_00401000(count * 12);
 }

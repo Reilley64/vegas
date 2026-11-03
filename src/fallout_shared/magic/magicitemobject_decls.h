@@ -1,5 +1,6 @@
 // fallout_shared/magic/magicitemobject_decls.h: declares TESFile, TESForm, TESFullName, EffectItemList, MagicItem and more
 
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -171,4 +172,3 @@ class MagicItemObject : public TESForm, public MagicItem
     virtual void InitItem();
     virtual bool Load(TESFile*);
 };
-extern "C" void* memset(void*, int, unsigned int);

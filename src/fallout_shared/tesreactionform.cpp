@@ -381,7 +381,6 @@ struct ReactionListOps_bd50
 };
 
 extern int DAT_01186b30;
-void* __cdecl FUN_00ec43fb(TESForm* form, unsigned int a, void* b, void* c, unsigned int d);
 
 struct FUN_0048bd50_shell : public TESReactionForm
 {
@@ -391,7 +390,7 @@ struct FUN_0048bd50_shell : public TESReactionForm
 // @fnv 0x0048bd50
 void FUN_0048bd50_shell::CopyReactionList(TESForm* form)
 {
-    ReactionListOps_bd50* p = (ReactionListOps_bd50*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<int *>(&::DAT_01183040)), &DAT_01186b30, 0);
+    ReactionListOps_bd50* p = (ReactionListOps_bd50*)dynamic_cast<::TESReactionForm *>(reinterpret_cast<::BaseFormComponent *>(form));
     if (p == 0)
     {
         return;

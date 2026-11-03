@@ -1,5 +1,6 @@
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/ActorMover.h"
@@ -939,7 +940,6 @@ void MyHost::FUN_00993b30(MyItem* pkItem, unsigned int key, MyVal val)
     pkItem->f8 = val;
 }
 
-extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 extern int DAT_0107ec68;
 
 struct FUN_008442a0_shell
@@ -963,7 +963,6 @@ int FUN_008442a0_shell::FUN_008442a0(int aiCount)
     return (int)this;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 extern int DAT_0107ed1c;
 
 struct FUN_00844db0_shell

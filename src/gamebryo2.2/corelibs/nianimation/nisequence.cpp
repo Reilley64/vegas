@@ -5,6 +5,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdlib>
+#include "runtime/crt.h"
 // @fnv 0x00a47a10
 #include "fnv/decl/FUN_00a478f0.h"
 #include "fnv/decl/NiStream.h"
@@ -96,7 +98,6 @@ struct S_00a47ae0_Obj : S_00a47ae0_Base
 extern "C" unsigned int DAT_011f3f44;
 extern "C" void* DAT_011f3f40;
 
-void __cdecl FUN_00ec658f(void(__cdecl* apFunc)());
 void __cdecl FUN_00fdae10();
 
 struct RefObject
@@ -143,7 +144,7 @@ void FUN_00a47470_cls::SetItem(unsigned int aiIndex, RefObject** appValue)
     {
         DAT_011f3f44 |= 1;
         DAT_011f3f40 = 0;
-        FUN_00ec658f(FUN_00fdae10);
+        std::atexit(FUN_00fdae10);
     }
 
     if (aiIndex >= m_uCount)
@@ -192,7 +193,6 @@ void FUN_00a47470_cls::SetItem(unsigned int aiIndex, RefObject** appValue)
     }
 }
 
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 struct AHNameArray
 {
@@ -269,7 +269,7 @@ unsigned int AHSeqOwner::AddSeq(const char* pcName, S_00a47ae0_Rc* pkSeq)
     unsigned int uiIndex = m_kNames.GetSize();
     unsigned int uiLen = strlen(pcName) + 1;
     char* pcCopy = (char*)FUN_00aa1070(uiLen);
-    strcpy_s(pcCopy, uiLen, pcName);
+    fnv::crt::strcpy_s(pcCopy, uiLen, pcName);
     m_kNames.SetAtGrow(uiIndex, (char*)pcCopy);
     m_kSeqs.SetAtGrow(uiIndex, pkSeq);
     return uiIndex;

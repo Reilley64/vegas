@@ -2,6 +2,7 @@
 #ifndef FNV_VALUEMODIFIEREFFECT_DECLS_H
 #define FNV_VALUEMODIFIEREFFECT_DECLS_H
 
+#include <cstdio>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_007df210_shell.h"
@@ -356,8 +357,6 @@ class Interface
 {
   public:
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-
 class BaseProcess
 {
   public:

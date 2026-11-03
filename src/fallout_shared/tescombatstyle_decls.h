@@ -1,12 +1,11 @@
 // fallout_shared/tescombatstyle_decls.h: declares StatsChunkData, TESCombatStyle, NiAVObject, BGSHungerStage, CombatStyleAccess and more
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSMultiBoundRoom.h"
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/symbols_00505000.h"
 #include "TESForm.h"
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct UnsignedIntArray16
 {
     unsigned int data[16];

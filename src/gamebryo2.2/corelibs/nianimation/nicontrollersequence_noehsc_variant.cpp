@@ -6,6 +6,8 @@
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/A31500Item.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -195,7 +197,6 @@ struct RefBase
     virtual void Release()
     {}
 };
-extern "C" unsigned int __cdecl strlen(const char* s);
 void __cdecl FUN_00ec65a6(char* c, unsigned int b, const char* a);
 struct FUN_00a307c0_entry
 {
@@ -339,7 +340,6 @@ struct S_00a30880_Foo : S_00a30880_Base
 
     void ReleaseItems();
 };
-extern "C" double __cdecl fmod(double, double);
 struct SequenceA30970 : NiObject
 {
     char* name08;

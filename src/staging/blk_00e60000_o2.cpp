@@ -4,6 +4,10 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -2206,7 +2210,6 @@ int FUN_00e67660_cls::FUN_00e67660(FnvNode67* apNode, int aiArg, int* apiCount, 
     return iResult;
 }
 
-void* __cdecl _memmove(void*, const void*, unsigned);
 struct CopyDesc
 {
     int format, type;
@@ -2309,14 +2312,14 @@ void __cdecl FUN_00e68150(CopyPixels* pSourcePixels, unsigned level, CopySurface
         unsigned char* dst = (unsigned char*)locked.bits;
         for (unsigned i = 0; i < height; ++i)
         {
-            _memmove(dst, src, copySize);
+            std::memmove(dst, src, copySize);
             dst += locked.pitch;
             src += rowSize;
         }
     }
     else
     {
-        _memmove(locked.bits,
+        std::memmove(locked.bits,
                  pSourcePixels->pixels + pSourcePixels->offsets[level] +
                      pSourcePixels->offsets[pSourcePixels->levels] * face,
                  rowSize * height);
@@ -9104,7 +9107,6 @@ struct SearchIndex
 {
 };
 
-extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
 
 class DepthStencilSearch
@@ -9608,12 +9610,10 @@ __forceinline bool IsBumpFormatQ(int eFormat)
            eFormat == 0x3d || eFormat == 0x3e || eFormat == 0x43;
 }
 
-int __cdecl FUN_00ec65a6(char* pcDest, unsigned int uiDestSize, const char* pcSrc);
 int __cdecl FUN_00aa1360(const char* s1, const char* s2);
 NiFileQ* __cdecl FUN_00aa1a20(const char* pcName, int eMode, unsigned int uiBufferSize);
 void* __cdecl FUN_00aa1070(unsigned int uiSize);
 void __cdecl FUN_00aa10f0(void* pvMem);
-void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
 long FUN_00ee6e22(const void* pvSrc, unsigned int uiSize, D3DXImageInfoQ* pkInfo);
 __declspec(noalias) long FUN_00ee6e1c(void* pkDevice, const void* pvSrc, unsigned int uiSize,
                                                 D3DBaseTextureQ** ppkTexture);
@@ -9714,7 +9714,7 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
     if (!pkFile)
     {
         char acStandardFilename[260];
-        FUN_00ec65a6(acStandardFilename, 260, pcFilename);
+        fnv::crt::strcpy_s(acStandardFilename, 260, pcFilename);
         ::FUN_00aa2a00(acStandardFilename);
 
         NiFilenameQ kFilename;
@@ -9815,13 +9815,13 @@ bool NiDX9SourceTextureDataQ::LoadFromFilename(const char* pcFilename, NiDX9Rend
                     {
                         unsigned char* pucNewBuffer =
                             (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(static_cast<MemoryManagerQ&>(::g_memoryManager)))->FUN_00aa3e40(uiSize);
-                        FUN_00ec44d0(pucNewBuffer, pucBuffer, 0x80);
+                        std::memmove(pucNewBuffer, pucBuffer, 0x80);
                         DDSFileHeaderQ* pkNewHeader = (DDSFileHeaderQ*)pucNewBuffer;
                         pkNewHeader->dwWidth = info.Width;
                         pkNewHeader->dwHeight = info.Height;
                         pkNewHeader->dwMipMapCount = group2.mipCount;
                         pkNewHeader->m_uiPitchOrLinearSize = info.Width * info.Height;
-                        FUN_00ec44d0(pucNewBuffer + 0x80, group3.data, uiSize - 0x80);
+                        std::memmove(pucNewBuffer + 0x80, group3.data, uiSize - 0x80);
                         reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pucBuffer);
                         pucBuffer = pucNewBuffer;
                     }
@@ -10874,20 +10874,19 @@ void __cdecl FUN_00e683d0(TextureAccessor* source, unsigned int level, CopySurfa
         unsigned char* write = (unsigned char*)locked.bits;
         for (unsigned int i = 0; i < rows; ++i)
         {
-            _memmove(write, read, copySize);
+            std::memmove(write, read, copySize);
             write += locked.pitch;
             read += rowSize;
         }
     }
     else
     {
-        _memmove(locked.bits, source->data + source->offsets[level] + source->offsets[source->mipCount] * face,
+        std::memmove(locked.bits, source->data + source->offsets[level] + source->offsets[source->mipCount] * face,
                  rows * rowSize);
     }
     surface->UnlockRect();
 }
 
-void* __cdecl FUN_00ec61c0(void* p, int c, unsigned int n);
 
 struct RTInfoZ : NiDX9RenderTargetInfo
 {
@@ -10943,7 +10942,7 @@ FUN_00e7b260* ModeItemInit::FUN_00e7b260(S00e7b590_D3D* apD3D, int aiAdapter, D3
     modes.bucketCount = 37;
     modes.count = 0;
     modes.buckets = FUN_00aa1070(sizeof(void*) * modes.bucketCount);
-    FUN_00ec61c0(modes.buckets, 0, sizeof(void*) * modes.bucketCount);
+    std::memset(modes.buckets, 0, sizeof(void*) * modes.bucketCount);
     *(int**)&modes = &DAT_010eec7c;
     self->key = eAdapterFormat;
     self->fullscreenSupported = bFullscreen;
@@ -11184,7 +11183,7 @@ SwapChainBufferData* __cdecl FUN_00e7d6b0(DeviceE7D6B0* pkDevice, PresentParamsE
                                           Ni2DBufferStub** ppkBuffer)
 {
     SwapChainBufferData* pkThis = new SwapChainBufferData;
-    _memmove(&pkThis->m_kParams, pkParams, sizeof(PresentParamsE7D6B0));
+    std::memmove(&pkThis->m_kParams, pkParams, sizeof(PresentParamsE7D6B0));
     pkThis->m_pkDevice = pkDevice;
     pkDevice->AddRef();
     D3DSurfaceDesc_e7d250 kDesc;
@@ -11531,7 +11530,6 @@ void FUN_00e61d30(const S00e61d30_TriVerts* tri, float* out)
 
 extern "C"
 {
-    double __cdecl fabs(double x);
 }
 
 struct S00e67ae0_HullFace;

@@ -3,6 +3,7 @@
 #define TESMODELTEXTURESWAP_WORKER_DECLS_H
 
 
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -314,7 +315,6 @@ class TESModel
     virtual void SetModelFilePath(const char*);
     static void LoadModelData(TESModel*, TESFile*);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
 class TESModelTextureSwap

@@ -4,6 +4,9 @@
 // different object; same declarations as tile.cpp. Move them to their real unit once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AAOwner.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/AGOwner.h"
@@ -495,7 +498,6 @@ struct FUN_00a03da0_shell : public Tile {
     Tile* FUN_00a03da0(char*);
 };
 
-int __cdecl FUN_00ec6da0(char const*, char const*);
 
 struct TileChildNode {
     TileChildNode* m_pkNext;
@@ -530,7 +532,7 @@ Tile* FUN_00a03da0_shell::FUN_00a03da0(char* apName)
     while (xelem && apName) {
         Tile* ptile = ((TileChildList*)((char*)this + 4))->GetNext(xelem);
         if (((TileNameString*)((char*)ptile + 0x20))->c_str() &&
-            !FUN_00ec6da0(((TileNameString*)((char*)ptile + 0x20))->c_str(), apName)) {
+            !::std::strcmp(((TileNameString*)((char*)ptile + 0x20))->c_str(), apName)) {
             return ptile;
         } else {
             Tile* pchild = ((FUN_00a03da0_shell*)ptile)->FUN_00a03da0(apName);
@@ -1601,7 +1603,6 @@ void TileWork::FUN_00a0b520() {
 }
 
 inline unsigned int BSStringCapacityMaximum(unsigned int a, unsigned int b) { return a > b ? a : b; }
-void* __cdecl memcpy(void*, const void*, unsigned int);
 void* operator new(unsigned int size);
 void operator delete(void* memory);
 struct ReuseString {
@@ -2358,7 +2359,6 @@ extern const char DAT_01094970[];
 extern const char DAT_01094934[];
 extern const char DAT_01094904[];
 extern const char DAT_010948dc[];
-unsigned int __cdecl FUN_00ec6130(const char*);
 // @fnv 0x00a01e20
 XmlNode* __cdecl FUN_00a01e20(const char* filename, const char* source, unsigned int sourceLength)
 {
@@ -2548,7 +2548,7 @@ XmlNode* __cdecl FUN_00a01e20(const char* filename, const char* source, unsigned
                     aState = 4;
                 } else {
                     if (value5[0] != 0) {
-                        for (tokenLength3 = FUN_00ec6130(value5) - 1;
+                        for (tokenLength3 = ::std::strlen(value5) - 1;
                              (unsigned int)tokenLength3 >= 0 && (unsigned char)value5[tokenLength3] <= ' ';
                              tokenLength3--) {
                         }
@@ -4061,7 +4061,6 @@ struct UITile {
 enum { TilePathLayout = 1 / (sizeof(UITile) == 0x2c) };
 enum { TileChildrenLayout = 1 / (sizeof(TileChildren) == 0xc) };
 
-int FUN_00ec68e4(const char* pcA, const char* pcB);
 
 // @fnv 0x00a08b20
 UITile* FUN_00a08b20(UITile* pTile, const char* pcPath)
@@ -4103,7 +4102,7 @@ UITile* FUN_00a08b20(UITile* pTile, const char* pcPath)
             while (kPos2)
             {
                 UITile* pChild = pTile->GetParent()->GetNext(kPos2);
-                if (pChild->GetName() && !FUN_00ec68e4(pChild->GetName(), acName))
+                if (pChild->GetName() && !fnv::crt::stricmp(pChild->GetName(), acName))
                 {
                     pResultTmp = pChild;
                     break;
@@ -4135,8 +4134,6 @@ UITile* FUN_00a08b20(UITile* pTile, const char* pcPath)
 }
 
 }
-
-extern "C" double __cdecl fabs(double);
 
 class NiAVObject;
 struct FadeTile {
@@ -4696,7 +4693,6 @@ void C00a033b0::FUN_00a033b0(R_Menu* a1)
 }
 }  // namespace fnv_00a033b0
 
-int __cdecl FUN_00ec6da0(const char*,const char*);
 struct RenderAtlasSetting { int unk00; const char* pValue; __forceinline const char* GetValue() { return this ? pValue : 0; } };
 extern RenderAtlasSetting g_011f3368;
 
@@ -5192,9 +5188,9 @@ bool RenderTile::FUN_00a04640(bool clear) {
                 color9.b=(float)(reinterpret_cast<::TileListBoxCalls *>(this)->GetFloat(0xfb4)/255.0);
             }
             if(SpeechFailure()) {
-                if(FUN_00ec6da0(Name(),"lb_highlight_box")==0) {
+                if(::std::strcmp(Name(),"lb_highlight_box")==0) {
                     color9.r=renderSpeechRed; color9.g=0.0f; color9.b=0.0f; alphaB=0.2f;
-                } else if(Parent() && FUN_00ec6da0(Parent()->Name(),"lb_highlight_box")==0) {
+                } else if(Parent() && ::std::strcmp(Parent()->Name(),"lb_highlight_box")==0) {
                     color9.r=renderSpeechRed; color9.g=0.0f; color9.b=0.0f; alphaB=1.0f;
                 }
             }

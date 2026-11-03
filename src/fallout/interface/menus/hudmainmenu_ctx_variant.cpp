@@ -1,6 +1,7 @@
 
 // hudmainmenu_ctx_variant.cpp: context variant of src/fallout/interface/menus/hudmainmenu.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <cstring>
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
@@ -1031,7 +1032,6 @@ struct SubtitleRecord
     SubtitleRecord();
 };
 void* __cdecl operator new(unsigned int);
-extern "C" unsigned int __cdecl strlen(const char*);
 template <class T> struct SubtitleArray
 {
     void* table;

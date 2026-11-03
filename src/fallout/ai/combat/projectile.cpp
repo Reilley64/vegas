@@ -1,6 +1,7 @@
 // fallout/ai/combat/projectile.cpp: Projectile, BGSProjectile, Holder, PlayerCharacter and more (71 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/Actor87.h"
 #include "fnv/decl/ActorDeletionQueue.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -4164,7 +4165,6 @@ bool __cdecl CanProjectileHit(RefObj* ref, CdBody* body, int unused, ProjData* d
 }
 }  // namespace fnv_009c2c80
 
-float cos(float);
 class NiPoint3Ex
 {
   public:

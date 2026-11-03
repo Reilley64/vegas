@@ -5,6 +5,7 @@
 
 // src/staging/blk_00500000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstring>
 #include "../../include/layout_support.h"
 struct FUN_00505c20_class
 {
@@ -314,7 +315,6 @@ struct FUN_00519500_class
     bool HasEntry(int a);
 };
 void* __cdecl NiMalloc(unsigned int size);
-void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_00519b20
 {
     void* ConstructArray(unsigned int n);

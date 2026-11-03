@@ -3,6 +3,8 @@
 #define EFFECTSETTING_MATCH_H
 
 #include <stddef.h>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004046b0_cls.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -327,8 +329,6 @@ class TESFullNameLoader
 template <int n> struct EndianSizeTag
 {
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #endif
 
 double FUN_00408820(float value);

@@ -5,6 +5,7 @@
 #include <winsock2.h>
 #include <windows.h>
 #include <new>
+#include <cstdint>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00cb1600.h"
@@ -83,8 +84,6 @@ bool* FUN_00da2db0_cls::FUN_00da2db0(bool* pOut)
     return pOut;
 }
 
-extern "C" int FUN_00ee6d5c(int, int, int, int);
-extern "C" int __cdecl FUN_00ee6d50(void);
 
 struct FUN_00da2e60_cls
 {
@@ -100,10 +99,10 @@ int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
     int r;
     if (m_pSocket != -1)
     {
-        r = FUN_00ee6d5c(m_pSocket, a, b, 0);
+        r = send(m_pSocket, (const char *)(a), b, 0);
         if (r > 0 && r != -1)
             return r;
-        if (FUN_00ee6d50() != 0x2733)
+        if (WSAGetLastError() != 0x2733)
         {
             void** vft = *(void***)this;
             void(* fn)(void*) = (void(*)(void*))vft[4];
@@ -113,7 +112,6 @@ int FUN_00da2e60_cls::FUN_00da2e60(int a, int b)
     return 0;
 }
 
-int FUN_00ee6d4a(int, int, int);
 
 struct FUN_00da2de0_class
 {
@@ -145,7 +143,7 @@ int FUN_00da2de0_class::FUN_00da2de0()
 {
     this->f4();
 
-    int result = FUN_00ee6d4a(2, 1, 0);
+    int result = socket(2, 1, 0);
     bool success = result == -1;
     m_pSocket = result;
     return success;
@@ -157,11 +155,10 @@ struct FUN_00da2f90_cls
     int m_pSocket;
     bool FUN_00da2f90(int a, int b, int c);
 };
-extern "C" int FUN_00ee6d7a(int, int, int, int);
 // @fnv 0x00da2f90
 bool FUN_00da2f90_cls::FUN_00da2f90(int aiArg1, int aiArg2, int c)
 {
-    return FUN_00ee6d7a(m_pSocket, aiArg1, aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
+    return WSAAsyncSelect(m_pSocket, (HWND)(aiArg1), aiArg2, ((c & 3) | ((c & 0xc) << 2))) != 0;
 }
 
 // FUN_00ee6d9e: 6-byte 'jmp [IAT]' forwarder to WSOCK32 ordinal 21 (setsockopt, stdcall, 5 args).
@@ -172,8 +169,6 @@ int FUN_00ee6d9e(unsigned int s, int level, int optname, const char* optval, int
     return setsockopt(s, level, optname, optval, optlen);
 }
 
-extern "C" int FUN_00ee6d56(int, void*, int, int);
-extern "C" int __cdecl FUN_00ee6d50(void);
 
 struct FUN_00da2e10_cls
 {
@@ -200,12 +195,12 @@ int FUN_00da2e10_cls::Read(void* buf, int len)
 {
     if (m_pSocket != -1)
     {
-        int res = FUN_00ee6d56(m_pSocket, buf, len, 0);
+        int res = recv(m_pSocket, (char *)(buf), len, 0);
         if (res > 0 && res != -1)
         {
             return res;
         }
-        if (FUN_00ee6d50() != 0x2733)
+        if (WSAGetLastError() != 0x2733)
         {
             v4();
         }
@@ -249,7 +244,6 @@ void FUN_00cbbd40_cls::FUN_00cbbd40()
     m_8 = 0x80000000;
 }
 
-extern "C" int FUN_00ee6d80(unsigned int s, long lCmd, unsigned long* pulArg);
 
 class SocketDA2F
 {
@@ -276,7 +270,7 @@ bool SocketDA2F::SetNonBlocking(bool m_bCombatItemSearchActive)
 
     ulNonBlocking = (*pBlocking == 0);
 
-    int result = FUN_00ee6d80(m_uiSocket, 0x8004667e, const_cast<unsigned long*>(&ulNonBlocking));
+    int result = ioctlsocket(m_uiSocket, 0x8004667e, const_cast<unsigned long*>(&ulNonBlocking));
 
     return !!result;
 }
@@ -325,11 +319,6 @@ void InitWinsock()
     }
 }
 
-extern "C" int FUN_00ee6d74(int);
-extern "C" int FUN_00ee6d6e(const char*);
-extern "C" int FUN_00ee6d68(const char*);
-extern "C" int FUN_00ee6d62(int, void*, int);
-extern "C" int __cdecl FUN_00ee6d50(void);
 
 static __declspec(noinline) bool* FUN_00da2eb0(int c, bool* out)
 {
@@ -381,15 +370,15 @@ int SocketConnector::FUN_00da2ec0(const char* host, int port)
     IPv4SocketAddress target;
     ::FUN_00cb1280(&target, 0, sizeof(target));
     target.family = 2;
-    target.port = (unsigned short)FUN_00ee6d74(port);
+    target.port = (unsigned short)htons(port);
 
     if (*FUN_00da2eb0(host[0], (bool*)&port))
     {
-        target.address = FUN_00ee6d6e(host);
+        target.address = inet_addr(host);
     }
     else
     {
-        HostEntry* pHostEntry = (HostEntry*)FUN_00ee6d68(host);
+        HostEntry* pHostEntry = (HostEntry*)((int)(std::uintptr_t)(gethostbyname(host)));
         if (!pHostEntry)
             return 1;
         ::FUN_00cb1260(&target.address, pHostEntry->addresses[0], pHostEntry->address_length);
@@ -397,10 +386,10 @@ int SocketConnector::FUN_00da2ec0(const char* host, int port)
 
     if (socket == -1 && reinterpret_cast<::FUN_00da2de0_class *>(this)->FUN_00da2de0())
         return 1;
-    int iResult = FUN_00ee6d62(socket, &target, sizeof(target));
+    int iResult = connect(socket, (const sockaddr *)(&target), sizeof(target));
     if (iResult != -1)
         goto success;
-    if (FUN_00ee6d50() == 0x2733)
+    if (WSAGetLastError() == 0x2733)
         goto success;
     onConnectionFailure();
     return 1;
@@ -408,7 +397,6 @@ success:
     return 0;
 }
 
-unsigned short FUN_00ee6d74(unsigned short usHostShort);
 int FUN_00ee6d98(unsigned int s, const void* pvName, int iNameLen);
 int FUN_00ee6d92(unsigned int s, int iBacklog);
 int FUN_00ee6d8c(char* pcName, int iNameLen);
@@ -498,7 +486,7 @@ int hkBsdSocketDA30::FUN_00da30d0(int iPort) throw()
     sockaddr_inDA30 kName;
     kName.sin_family = 2;
     kName.sin_addr = 0;
-    kName.sin_port = FUN_00ee6d74((unsigned short)iPort);
+    kName.sin_port = htons((unsigned short)iPort);
 
     int iOn = 1;
     ::FUN_00ee6d9e(m_pSocket, 0xffff, 4, (const char *)(const void *)((const void*)&iOn), sizeof(int));

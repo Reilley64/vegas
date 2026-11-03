@@ -1,6 +1,7 @@
 // bscore/bssimplelist.cpp: TargetClass, ObsList, GList, ActList and more (39 functions)
 
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/ActorValueModifierList.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -768,8 +769,6 @@ bool TopicS::HasCur()
     cur = reinterpret_cast<Cur*>(reinterpret_cast<char*>(this) + 0xc);
     return (cur && *((int *)(new ((void *)(cur)) ::Vec3())) != 0) ? 1 : 0;
 }
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct ItemChangeList : BSSimpleList<InventoryStackRecord*>
 {

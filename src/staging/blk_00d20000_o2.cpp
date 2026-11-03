@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/D338e0Owner.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -61,7 +62,6 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void* __cdecl fopen(const char*, const char*);
 
 struct FUN_00d2be30
 {
@@ -74,7 +74,7 @@ struct FUN_00d2be30
 // @fnv 0x00d2be30
 void FUN_00d2be30::SetFile(const char* acPath, const char* acMode)
 {
-    m_8 = fopen(acPath, acMode);
+    m_8 = std::fopen(acPath, acMode);
 }
 
 extern int DAT_010ce930;

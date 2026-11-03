@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_0045bb20_cls.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -942,7 +943,6 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
     return found;
 }
 
-extern "C" void* memcpy(void* dst, const void* src, unsigned int n);
 struct NiPoint3
 {
     float x, y, z;

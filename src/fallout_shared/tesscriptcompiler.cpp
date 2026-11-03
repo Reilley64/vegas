@@ -1,6 +1,10 @@
 // fallout_shared/tesscriptcompiler.cpp: ScriptCompiler, BGSCameraPath, S7f, S5a and more (36 functions)
 
 #include <new>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00461700_shell.h"
@@ -164,8 +168,6 @@ S5a* S5a::ValidateScriptNameTables()
     return this;
 }
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 struct ScriptVariableData
 {
     char m_auiShapeKeys[0x200];
@@ -190,12 +192,11 @@ ScriptVariableData* ScriptVariableData::Reset()
     return this;
 }
 
-void __cdecl FUN_00ec8d33(int a, int b, int c);
 
 // @fnv 0x005afe10
 void __cdecl FUN_005afe10(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00ec8d33(aiArg1, aiArg2, aiArg3);
+    std::strtoul((const char *)(aiArg1), (char **)(aiArg2), aiArg3);
 }
 
 // Advances *apOffset past tab, space and comma characters in apExpLine, stopping at the first other character.
@@ -260,8 +261,6 @@ void TESDataHandler::ClearHairList()
         pList->_ref_0063f7b0();
     }
 }
-
-void* __cdecl memset(void* dst, int c, unsigned int n);
 
 struct FUN_005af370_shell
 {
@@ -442,8 +441,6 @@ struct SL
     unsigned char _padding[8];
 };
 
-void* __cdecl memset(void*, int, unsigned int);
-
 extern char $SG3295[];
 extern int _data_011c16bc;
 
@@ -525,9 +522,6 @@ FUN_005ae5c0::~FUN_005ae5c0()
     ::FUN_00401030(pOutput);
 }
 }  // namespace fnv_005ae5c0
-
-extern "C" int __cdecl isalnum(int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct ScriptLineBuffer
 {
@@ -798,8 +792,6 @@ struct Mgr
 };
 
 void* __cdecl FUN_00ec43fb(void* obj, int vfdelta, void* src, void* dst, int isRef);
-int __cdecl FUN_00ec7ec0(char* s, ScriptRefHolder* p, int idx);
-int __cdecl FUN_00ec89e9(int c);
 
 struct TESForm
 {
@@ -908,10 +900,10 @@ bool CompilerCtx::ResolveReference(ScriptRefHolder* apRef)
     while (cur != 0 && ((void *)(new ((void *)(cur)) ::Vec3())) != 0)
     {
         item = (Item*)((void *)(new ((void *)(cur)) ::Vec3()));
-        if (FUN_00ec7ec0(((char *)(::FUN_00559450((int *)&(item->m_18)))), apRef, idx) == 0)
+        if (fnv::crt::strnicmp(((char *)(::FUN_00559450((int *)&(item->m_18)))), (const char *)(apRef), idx) == 0)
         {
             cA = ((char *)(::FUN_00559450((int *)&(item->m_18))))[idx];
-            if (FUN_00ec89e9(cA) == 0 && cA != '-' && cA != '_')
+            if (std::isalnum(cA) == 0 && cA != '-' && cA != '_')
             {
                 if (item->flag != 0)
                 {
@@ -1044,7 +1036,6 @@ struct Compile95
     int unk18;
     unsigned int line;
 };
-unsigned int __cdecl FUN_00ec6130(const char*);
 struct Parser95
 {
     int ParseLine(Compile95*);
@@ -1052,7 +1043,7 @@ struct Parser95
 // @fnv 0x005aeed0
 int Parser95::ParseLine(Compile95* pCompile)
 {
-    if (pCompile->offset >= FUN_00ec6130(pCompile->input))
+    if (pCompile->offset >= std::strlen(pCompile->input))
         return 65535;
     Line95* line8 = new Line95;
     line8->number = pCompile->line + 1;
@@ -1208,7 +1199,6 @@ int ScriptBlockScanner::ScanBlockLines(CStringArgument* apData, unsigned int* ap
 }
 
 // CRT isalnum in the game image
-int __cdecl FUN_00ec86e1(int c);
 
 typedef bool(__cdecl* ScriptParseFunctionB15)(unsigned short usParamCount, void* pParams,
                                               FUN_005af370_shell* pkLineBuffer, CStringArgument* pkData);
@@ -1244,7 +1234,7 @@ int FUN_005b1570_Class::CompileScriptLine(CStringArgument* pkData, unsigned int*
     uiOutOffset = 0;
     for (uiIndex = 0; uiIndex < uiLength; uiIndex++)
     {
-        if (FUN_00ec86e1(pInput[uiIndex]) || pInput[uiIndex] == '"')
+        if (std::isalpha(pInput[uiIndex]) || pInput[uiIndex] == '"')
         {
             ScriptVariableData kWord;
             kWord.Reset();
@@ -1842,9 +1832,6 @@ void Owner5AE6C0::ClearList()
 }
 
 void __cdecl ReportScriptError(CStringArgument* a, const char* fmt, ...);
-extern "C" char* strchr(char* s, int c);
-extern "C" int isalnum(int c);
-extern "C" int isalpha(int c);
 extern "C" void* _FNV_DynamicCast(void* obj, int a, void* src, void* dst, int b);
 struct ScriptFuncDef
 {

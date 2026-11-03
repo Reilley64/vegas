@@ -1,6 +1,7 @@
 
 // bgsentrypointfunction_ctx_variant.cpp: context variant of src/fallout_shared/bgsentrypointfunction.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -19,8 +20,6 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_00487000.h"
 #include "BGSEntryPointFunction.h"
-
-extern "C" void* __cdecl memset(void* dest, int c, size_t count);
 
 class TESFile;
 class ScriptVariableInfo

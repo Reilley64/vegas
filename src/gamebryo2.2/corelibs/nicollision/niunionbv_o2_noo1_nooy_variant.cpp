@@ -17,6 +17,7 @@
 // evidence - NiGPUProgram is 12 bytes and NiD3DShaderProgram is 44
 // bytes, with m_uiProgramCodeSize at offset 20.
 //
+#include <cstring>
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/S_00e9cb10_Obj.h"
@@ -527,8 +528,6 @@ void FUN_00e9ed50_cls::FUN_00e9ed50(NiStream& kStream)
 
 typedef unsigned int u32;
 typedef unsigned short u16;
-
-extern "C" unsigned int __cdecl strlen(const char* s);
 
 template <class T> class NiTPrimitiveArray
 {

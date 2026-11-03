@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/D60590Object.h"
 #include "fnv/decl/DBA7F0Ref.h"
 #include "fnv/decl/DataClassMemberAccess.h"
@@ -228,7 +229,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int val, int n);
 
 struct hkCharArray
 {
@@ -259,7 +259,7 @@ struct hkCharArray
             m_iElementCount = n;
             return;
         }
-        _fnv_zlib_memset(p, 0, num);
+        std::memset(p, 0, num);
         m_iElementCount = n;
     }
     __forceinline void setSizeUnchecked(int n)
@@ -770,7 +770,6 @@ struct S_dbefc0_Router
         return *unk0c;
     }
 };
-void* __cdecl FUN_00ec61c0(void* dst, int value, unsigned int count);
 
 static __forceinline S_dbefc0_Heap& S_dbefc0_GetHeap()
 {
@@ -802,7 +801,7 @@ struct S_dbefc0_Bytes
             size = n;
             return;
         }
-        FUN_00ec61c0(p, 0, diff);
+        std::memset(p, 0, diff);
         size = n;
     }
     __forceinline void SetSizeAndGrow(int n)
@@ -854,7 +853,6 @@ struct Rec_00dbf0d0
     void PackBitsToBytes(unsigned char* dest);
 };
 
-void __cdecl fnv_memset_00ec61c0(void* dest, int ch, int count);
 
 // @fnv 0x00dbf0d0
 void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
@@ -883,7 +881,7 @@ void Rec_00dbf0d0::PackBitsToBytes(unsigned char* dest)
         while (delta > 0)
         {
             int chunk = delta;
-            fnv_memset_00ec61c0(dst, 0, chunk);
+            std::memset(dst, 0, chunk);
             dst += chunk;
             delta -= chunk;
         }

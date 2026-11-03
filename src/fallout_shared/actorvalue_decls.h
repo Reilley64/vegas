@@ -1,5 +1,6 @@
 // fallout_shared/actorvalue_decls.h: declares TESFile, TESFullNameLoader, BaseFormComponent, TESForm, TESFullName and more
 
+#include <malloc.h>
 #include "fnv/decl/Entry5890.h"
 #include "fnv/decl/FUN_00401290_Class.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -214,7 +215,6 @@ class TESFullNameLoader
 {
   public:
 };
-extern "C" void* __cdecl _alloca(size_t auiBytes);
 enum CHUNK_ID
 {
     CHUNK_ID_EDID_ID = 0x44494445,

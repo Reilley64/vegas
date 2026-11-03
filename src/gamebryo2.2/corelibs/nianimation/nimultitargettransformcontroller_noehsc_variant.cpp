@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa1000.h"
@@ -71,7 +72,6 @@ class MemoryManager
 };
 
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 
 inline void* operator new(unsigned int n)
 {
@@ -136,7 +136,7 @@ void Controller::FUN_00a2feb0(unsigned short n)
         m_pkBlendInterpolators[i].IncRefCount();
 
     m_ppTargetObjects = (void**)::FUN_00aa1070((unsigned int)n * 4);
-    fnv_zlib_memset(m_ppTargetObjects, 0, (unsigned int)n * 4);
+    std::memset(m_ppTargetObjects, 0, (unsigned int)n * 4);
 }
 
 struct MMDealloc : public MemoryManager
@@ -201,5 +201,5 @@ void FUN_00a30160_cls::FUN_00a30160()
         } while (i < m_usNumTargets);
     }
 
-    fnv_zlib_memset(m_ppTargetObjects, 0, m_usNumTargets * 4);
+    std::memset(m_ppTargetObjects, 0, m_usNumTargets * 4);
 }

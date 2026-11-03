@@ -2,6 +2,7 @@
 // to their real unit once identified.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/C_00e8f010.h"
 #include "fnv/decl/DrawOwner715.h"
@@ -13796,7 +13797,6 @@ struct Node
         operator_delete_sized(pvMem, uiSize);
     }
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 void* NiMalloc(unsigned int);
 struct RendererBase
 {

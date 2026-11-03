@@ -1,6 +1,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/BooleanKey.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a5d3d0.h"
@@ -965,7 +967,7 @@ FnvTextureData* FnvTextureData::AllocateData(FnvTextureReference* texture)
     map1->m_uiHashSize = 0x25;
     map1->m_uiCount = 0;
     map1->m_items = _NiMalloc(0x94);
-    fnv_zlib_memset(map1->m_items, 0, map1->m_uiHashSize * 4);
+    std::memset(map1->m_items, 0, map1->m_uiHashSize * 4);
     map1->m_ppVirtualMethodTable = reinterpret_cast<void**>(&(*reinterpret_cast<unsigned char *>(&::DAT_010f02d0)));
 
     FnvMap* map2 = &m_map2;
@@ -973,7 +975,7 @@ FnvTextureData* FnvTextureData::AllocateData(FnvTextureReference* texture)
     map2->m_uiHashSize = 0x25;
     map2->m_uiCount = 0;
     map2->m_items = _NiMalloc(0x94);
-    fnv_zlib_memset(map2->m_items, 0, map2->m_uiHashSize * 4);
+    std::memset(map2->m_items, 0, map2->m_uiHashSize * 4);
     map2->m_ppVirtualMethodTable = reinterpret_cast<void**>(&(*reinterpret_cast<unsigned char *>(&::DAT_010f02d0)));
 
     FnvMap* map3 = &m_map3;
@@ -981,7 +983,7 @@ FnvTextureData* FnvTextureData::AllocateData(FnvTextureReference* texture)
     map3->m_uiHashSize = 0x25;
     map3->m_uiCount = 0;
     map3->m_items = _NiMalloc(0x94);
-    fnv_zlib_memset(map3->m_items, 0, map3->m_uiHashSize * 4);
+    std::memset(map3->m_items, 0, map3->m_uiHashSize * 4);
     map3->m_ppVirtualMethodTable = reinterpret_cast<void**>(&(*reinterpret_cast<unsigned char *>(&::DAT_010f02d0)));
 
     m_pkTexture = texture;
@@ -1583,7 +1585,6 @@ struct NiShader
                                                unsigned int, unsigned int);
 };
 
-int __cdecl GetRandomNumber();
 extern double DAT_0102dfe0;
 extern double DAT_0109ed88;
 
@@ -1599,19 +1600,19 @@ void NiShader::SetRandomColorRenderStates(unsigned int arg1, unsigned int arg2, 
     unsigned char third;
     unsigned int color;
 
-    iRandom = GetRandomNumber();
+    iRandom = std::rand();
     value = (float)iRandom / DAT_0109ed88;
     value *= DAT_0102dfe0;
     first = (unsigned char)(int)value;
     first = (unsigned char)(0x80 - first);
 
-    iRandom = GetRandomNumber();
+    iRandom = std::rand();
     value = (float)iRandom / DAT_0109ed88;
     value *= DAT_0102dfe0;
     second = (unsigned char)(int)value;
     second = (unsigned char)(0x80 - second);
 
-    iRandom = GetRandomNumber();
+    iRandom = std::rand();
     value = (float)iRandom / DAT_0109ed88;
     value *= DAT_0102dfe0;
     third = (unsigned char)(int)value;
@@ -2408,7 +2409,6 @@ void* FUN_00e90b10_shell::GetTextureData(Texture* pkTexture, bool* pbChanged, bo
 }  // namespace fnv_00e90b10
 
 namespace fnv_00e91590 {
-void* memcpy(void* dst, const void* src, unsigned int size) throw();
 
 struct RefObj
 {
@@ -3701,7 +3701,7 @@ struct Renderer_e91590 : RendererBase
     Renderer_e91590(int adapter, CreateDesc* desc) : RendererBase(adapter)
     {
         m_b1114 = false;
-        memcpy(&m_kCreateDesc, desc, sizeof(CreateDesc));
+        std::memmove(&m_kCreateDesc, desc, sizeof(CreateDesc));
     }
     static void* operator new(unsigned int sz)
     {
@@ -4450,7 +4450,6 @@ void NiPersistentSrcTextureRendererData_s::FUN_00e91730(NiStream& stream)
     FUN_00a984b0(stream);
 }
 
-extern "C" int __cdecl rand();
 struct Transform807
 {
     float rotation[3][3];
@@ -4472,9 +4471,9 @@ void Emitter807::FUN_00e90760(void* a1, void* apUnused1, void* apUnused2, void* 
 {
     Transform807 transform = *apTransform;
     float fJitter = params->spread * double(0.1f);
-    transform.x += float((rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
-    transform.y += float((rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
-    transform.z += float((rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
+    transform.x += float((std::rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
+    transform.y += float((std::rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
+    transform.z += float((std::rand() * 2.0) / ::DAT_01029790 - 1.0) * fJitter;
     reinterpret_cast<::FUN_00e807d0_shell *>(this)->FUN_00e807d0(a1, (void *)(0), (void *)(0), a4, a5, a6, (void *)(&transform), (void *)(params));
 }
 
@@ -5786,8 +5785,6 @@ PixelProxy* OwnerProxy::FUN_00e8fe10(TextureProxy* source, int multisample)
     texture = result;
     return format;
 }
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 enum TextureSurfaceFormat
 {

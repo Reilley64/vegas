@@ -3,6 +3,7 @@
 #define FNV_ASTRA_NIFILE_H
 
 #include <stddef.h>
+#include <cstdio>
 #include "fnv/symbols_00aa1000.h"
 struct _iobuf;
 typedef _iobuf FILE;
@@ -42,5 +43,4 @@ class NiFile : public NiBinaryStream
 public:
     static unsigned int RequestFileAccess(const char *, unsigned int, unsigned int);
 };
-extern "C" int __cdecl fclose(FILE*);
 #endif

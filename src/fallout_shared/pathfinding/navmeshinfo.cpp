@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshinfo.cpp: NavMeshInfo, NavMeshInfoSaveShell, NavInfo (15 functions)
 
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/FUN_00438690.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -68,8 +69,6 @@ class TESFile
 template <int N> struct EndianSizeTag
 {
 };
-extern "C" void* __cdecl memcpy(void* destination, const void* source, unsigned int size);
-
 class TESObjectREFR;
 class Pathing
 {

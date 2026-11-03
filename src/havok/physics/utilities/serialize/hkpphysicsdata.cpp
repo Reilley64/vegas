@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BodyCollection.h"
 #include "fnv/decl/Container64.h"
 #include "fnv/decl/FUN_00c90b80.h"
@@ -707,8 +708,6 @@ void HostType::FUN_00d4c2d0(ClientType* client, unsigned char ubFlag)
         array->m_iElementCount++;
     }
 }
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 struct Value
 {

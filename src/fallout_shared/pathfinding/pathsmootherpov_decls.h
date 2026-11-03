@@ -2,6 +2,7 @@
 #ifndef PATHSMOOTHERPOV_DECLS_H
 #define PATHSMOOTHERPOV_DECLS_H
 
+#include <cmath>
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -293,7 +294,6 @@ class PathingRequest
     bool FUN_00505c00();
     float FUN_00507e10();
 };
-float cos(float);
 float FUN_004e44b0(float);
 void WrapValueToRange(float&, float, float);
 

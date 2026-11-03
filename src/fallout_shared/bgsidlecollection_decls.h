@@ -2,6 +2,7 @@
 #ifndef FALLOUT_SHARED_BGSIDLECOLLECTION_DECLS_H
 #define FALLOUT_SHARED_BGSIDLECOLLECTION_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/FUN_008b2010_shell.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00479000.h"
@@ -45,5 +46,4 @@ template <int N> struct EndianSizeTag
 };
 void* operator new[](unsigned int);
 void operator delete[](void*);
-extern "C" void* memset(void*, int, unsigned int);
 #endif

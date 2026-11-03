@@ -1,6 +1,7 @@
 // fallout/ai/middlelowprocess.cpp: MiddleLowProcess, StandIn, Holder, ProcStandIn (24 functions)
 
 #include <new>
+#include <cstdio>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -1998,7 +1999,6 @@ struct Queue
 };
 
 
-int FUN_00ec623a(char* buf, const char* fmt, ...);
 
 struct ProcStandIn
 {
@@ -2724,7 +2724,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                 case 4:
                     if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is sleeping with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                        std::sprintf(acBuffer, "%s is sleeping with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
                                      ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
                         ::FUN_00703c00(acBuffer, {});
                     }
@@ -2732,7 +2732,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                 case 5:
                     if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is eating with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                        std::sprintf(acBuffer, "%s is eating with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
                                      ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
                         ::FUN_00703c00(acBuffer, {});
                     }
@@ -2835,7 +2835,7 @@ void ProcStandIn::FUN_0092d050(Ref* apRef)
                     }
                     if (((::fnv_0092d050::Ref *)(::fnv_00703180::FUN_00703180())) == pActor)
                     {
-                        FUN_00ec623a(acBuffer, "%s is done with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
+                        std::sprintf(acBuffer, "%s is done with %s", reinterpret_cast<::FUN_0055d520_shell *>((pActor))->FUN_0055d520(),
                                      ((const char *)(::FUN_00464f30((*reinterpret_cast<int (*)[]>((void *)&::g_packageTypeNames))[reinterpret_cast<struct ::FUN_0041ca90 *>((GetAssignedPackage()))->get()]))));
                         ::FUN_00703c00(acBuffer, {});
                     }

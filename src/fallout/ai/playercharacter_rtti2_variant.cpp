@@ -5,6 +5,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/A23D40Input.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorAddSpell.h"
@@ -16417,7 +16419,6 @@ void PlayerCharacter_StandIn::FUN_008c2090(MagicItem* item, int count)
 {}
 void MagicTarget_StandIn::UpdateEffectsByFlags(MagicItem* item)
 {}
-extern "C" void* __cdecl _alloca(unsigned int);
 struct MagicItemListStandin
 {
     unsigned int ItemsInList();
@@ -35646,7 +35647,6 @@ struct DataLookup
 {
 };
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct PositionSource
 {
 

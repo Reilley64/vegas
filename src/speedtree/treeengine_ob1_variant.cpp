@@ -6,6 +6,9 @@
 // src/speedtree/treeengine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/treeengine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/B2AE90_Object.h"
 #include "fnv/decl/B2EVector.h"
 #include "fnv/decl/B30Owner.h"
@@ -157,7 +160,6 @@ struct FUN_00b3d720_Class
 };
 extern float DAT_010a587c;
 
-void FUN_00ec5fce(void* self, unsigned int elemSize, unsigned int count, void* dtor);
 void FUN_00b33370();
 
 struct S00b2b490_Guard
@@ -190,7 +192,7 @@ void* S00b2b490_Elem::FUN_00b2b490(unsigned int flags)
     int u6;
     if (flags & 2)
     {
-        FUN_00ec5fce(this, 0x18, *((unsigned int*)this - 1), FUN_00b33370);
+        fnv::crt::vector_destructor(this, 0x18, *((unsigned int*)this - 1), (void (*)(void *))(FUN_00b33370));
         if (flags & 1)
         {
             ::FUN_00401030((char*)this - 4);
@@ -214,8 +216,6 @@ void* S00b2b490_Elem::FUN_00b2b490(unsigned int flags)
 
 extern const char* DAT_011ad36c;
 void FUN_00ec7c56();
-unsigned int __cdecl strlen(const char*);
-
 struct SptAllocator
 {
     SptAllocator()
@@ -582,7 +582,6 @@ inline void* operator new(unsigned int, void* _Where) throw()
 inline void operator delete(void*, void*) throw()
 {}
 namespace shutb2b9 {
-void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     _Ptr->~T();
@@ -1190,7 +1189,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         this->_Set_container(_Pvector);
@@ -1201,14 +1200,14 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         {
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         _Myptr += _Off;
@@ -1219,7 +1218,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         do
@@ -1236,7 +1235,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         return _Myptr - _Right._Myptr;
@@ -1396,7 +1395,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
         return *(_Myfirst + _Pos);
@@ -1895,7 +1894,6 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
 }
 
 namespace fnv_00b2c130 {
-void __cdecl FUN_00ec7c56();
 
 struct Elem
 {
@@ -1967,7 +1965,7 @@ struct FUN_00b17db0 : VB
     Elem*& operator[](unsigned int i)
     {
         if (i >= size())
-            FUN_00ec7c56();
+            std::abort();
         return m_pRayStart[i];
     }
     Iter begin()
@@ -2829,7 +2827,6 @@ struct FUN_00b09480 : RuntimeError
     }
 };
 extern int DAT_01170384;
-extern void FUN_00ec7c56();
 struct Reader : ElementIterator
 {
 };
@@ -2869,7 +2866,7 @@ struct FlareVector
     __forceinline Flare*& operator[](unsigned int index)
     {
         if (index >= size())
-            FUN_00ec7c56();
+            std::abort();
         return first[index];
     }
 };
@@ -3414,7 +3411,6 @@ void LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
 extern const char str_010a54cc[];
 extern char DAT_01170384;
 
-extern "C" void FUN_00ec7894(void* pException, void* apThrowInfo);
 
 struct S00b2c790_Error
 {
@@ -3570,6 +3566,6 @@ void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
     {
         S2bde0_Str text4(str_010a54cc);
         new ((void *)&(error2)) ::FUN_00b09480((*(const ::FUN_0044a4c0 *)(&text4)), 0);
-        FUN_00ec7894(&error2, &DAT_01170384);
+        throw error2;
     }
 }

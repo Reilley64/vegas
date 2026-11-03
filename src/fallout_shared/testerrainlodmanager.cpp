@@ -1,6 +1,7 @@
 // fallout_shared/testerrainlodmanager.cpp: free functions (11 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/B3CA80Owner.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSFaceGenNiNode.h"
@@ -89,12 +90,11 @@ float FUN_0057dd70(float value)
     return FUN_0057dd90(value);
 }
 
-extern "C" double __cdecl FUN_00eca590(double);
 
 // @fnv 0x0057dd90
 float FUN_0057dd90(float value)
 {
-    return static_cast<float>(FUN_00eca590(value));
+    return static_cast<float>(std::tan(value));
 }
 
 extern int DAT_011ca444;

@@ -2,6 +2,7 @@
 #ifndef TESLOADSCREENTYPE_DECLS_H
 #define TESLOADSCREENTYPE_DECLS_H
 
+#include <malloc.h>
 #include "fnv/decl/fnv_004861f0__Form_004861f0.h"
 #include "TESForm.h"
 class LoadScreenTypeData
@@ -25,6 +26,5 @@ class TESLoadScreenType : public TESForm
     LoadScreenTypeData data;
     bool Load(TESFile* file);
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

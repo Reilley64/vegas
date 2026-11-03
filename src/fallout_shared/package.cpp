@@ -1,6 +1,9 @@
 // fallout_shared/package.cpp: TESPackage, TESFormStub, Package, PHost and more (140 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSDehydrationStage.h"
 #include "fnv/decl/BGSIdleCollection.h"
@@ -2420,7 +2423,6 @@ struct TESPackageVt
     virtual void v75();
     virtual const char* GetEditorID();
 };
-int __cdecl sprintf(char*, const char*, ...);
 
 // @fnv 0x006777b0
 void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
@@ -2681,7 +2683,7 @@ void FUN_006777b0_shell::ComputePackageFlags(TESObjectREFR* apLinkedRef)
     if (flags18 == 0xffffffff)
     {
         char message[260];
-        sprintf(message, "Package '%s' is not a valid package because it is missing necessary Target Or Location Info.",
+        ::std::sprintf(message, "Package '%s' is not a valid package because it is missing necessary Target Or Location Info.",
                 ((const char *)(::FUN_00464f30((int)(((TESPackageVt*)this)->GetEditorID())))));
         flags18 = 0;
         ((TESPackageEx*)this)->SetPackageType(6);
@@ -3330,8 +3332,6 @@ namespace std {
 double abs(float afValue);
 }
 
-int _FNV_Finite(double adValue);
-int sprintf(char* apBuffer, const char* apFormat, ...);
 
 class FUN_00676e40_Package : public TESPackage
 {
@@ -3451,9 +3451,9 @@ bool FUN_00676e40_Package::IsActorInPackageRadius(FO::MobileObject* apMobileObje
     if (((::fnv_00676e40::FO::Actor *)(::fnv_00703180::FUN_00703180())) == apActor)
     {
         float fdist = reinterpret_cast<::FUN_00589850_Class *>((void *)&(dist))->FUN_00589850();
-        if (_FNV_Finite(fdist))
+        if (::std::isfinite(fdist))
         {
-            sprintf(message, "radius %d distance %.02f", m_iSearchRadius, fdist);
+            ::std::sprintf(message, "radius %d distance %.02f", m_iSearchRadius, fdist);
             ::FUN_0040fbe0();
         }
     }
@@ -7792,7 +7792,6 @@ void PackageCopy::CopyFromPackage(TESForm* form)
     flags18 = reinterpret_cast<::FUN_009611e0_shell *>((((PackageAccessor*)p)))->FUN_009611e0();
 }
 
-extern "C" void* _alloca(unsigned int);
 struct PkgFile
 {
     void ReadChunkInt(unsigned int*);

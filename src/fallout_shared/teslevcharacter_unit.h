@@ -2,6 +2,8 @@
 #ifndef FNV_TESLEVCHARACTER_UNIT_H
 #define FNV_TESLEVCHARACTER_UNIT_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/FUN_0048a7b0_shell.h"
 #include "fnv/decl/Owner487a60.h"
 #include "fnv/decl/TmpEndian.h"
@@ -130,8 +132,6 @@ class LeveledObject
     ContainerItemExtra* extra;
 };
 extern LeveledObject* DAT_011c8e64;
-extern "C" void* memset(void*, int, unsigned int);
 void* operator new(unsigned int);
-extern "C" void* _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

@@ -1,5 +1,6 @@
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C326B0Modifier.h"
 #include "fnv/decl/C32900Controller.h"
@@ -632,8 +633,6 @@ bool FUN_00c28d00_cls::FUN_00c28d00(void* a1)
     return reinterpret_cast<::NiPSysColliderStandin *>((reinterpret_cast<FUN_00c32680_Obj*>(this)))->FUN_00c32680((const char *)(a1));
 }
 
-extern "C" double __cdecl fabs(double);
-extern "C" double __cdecl pow(double, double);
 inline float absf(float x)
 {
     return (float)fabs(x);

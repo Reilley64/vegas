@@ -2,6 +2,7 @@
 #ifndef FNV_PACKAGELIST_DECLS_H
 #define FNV_PACKAGELIST_DECLS_H
 
+#include <cstdio>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/ComparisonOwner.h"
@@ -540,7 +541,6 @@ public:
     int GetDayOfMonth();
 };
 bool IsHourInRange(int, int, float);
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 class Script
 {
   public:

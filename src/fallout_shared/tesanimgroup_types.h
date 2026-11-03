@@ -3,6 +3,7 @@
 #define FNV_TESANIMGROUP_TYPES_H
 
 #include <stddef.h>
+#include <cstring>
 #include "fnv/symbols_01197000.h"
 class NiMemObject
 {
@@ -423,8 +424,7 @@ class TESAnimGroup : public NiRefObject
     static char* FindNextLine(char*);
     void SetSoundsFromSequence(NiControllerSequence*);
 };
-extern "C" char* __cdecl strchr(const char*, int);  // CRT strchr, canonical _strchr = 0x00EC7690
-char* __cdecl strchr(char*, int);                   // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
+                   // C++ <string.h> overload, ?strchr@@YAPADPADH@Z = 0x0043B9D0
 struct TESAnimGroupActionEntry
 {
     ANIM_GROUP_ACTION_TYPE action;

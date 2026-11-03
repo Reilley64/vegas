@@ -1,6 +1,7 @@
 #ifndef BSFACEGENMORPHDATA_DECLS_H
 #define BSFACEGENMORPHDATA_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0065cc30_class.h"
 #include "fnv/symbols_00404000.h"
@@ -14,7 +15,6 @@
 void* __cdecl operator new(unsigned int);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete(void*);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern const char DAT_01065e40[];
 extern const char DAT_01065dd0[];
 extern const char DAT_01065d60[];

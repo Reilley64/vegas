@@ -1,6 +1,8 @@
 // fallout_shared/extradatalist.cpp: ExtraDataList, Owner, DelStandIn, ExtraPatrolRefData and more (578 functions)
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorAVResetShell.h"
 #include "fnv/decl/ActorMover.h"
@@ -381,8 +383,6 @@ bool FUN_0040f700_shell::IsDifferentFrom(BSExtraData* apCompare)
 }
 
 extern int DAT_01014300;
-void* __cdecl memset(void*, int, unsigned int);
-
 // Sets pThis[0] to the address of DAT_01014300, clears pThis[1], zeroes 0x15 bytes at offset 8, and returns pThis.
 // @fnv 0x0040f740
 void* FUN_0040f740(int* pThis)
@@ -410,8 +410,6 @@ void __cdecl FUN_0040f7d0(void* apList, int aeType)
         (*reinterpret_cast<void * (*)[147]>(&::tls_buffer))[aeType] = 0;
     }
 }
-
-void* __cdecl memset(void*, int, unsigned int);
 
 __declspec(thread) int tls_pad_0;
 __declspec(thread) int tls_pad_4;
@@ -5256,12 +5254,11 @@ void FUN_00458b50(void* pThis)
 }
 }  // namespace fnv_00458b50
 
-double __cdecl FUN_00ec9f30(double);
 
 // @fnv 0x004e4490
 float __cdecl FUN_004e4490(float _X)
 {
-    return static_cast<float>(FUN_00ec9f30(_X));
+    return static_cast<float>(std::cos(_X));
 }
 
 namespace fnv_004fd3c0 {
@@ -5776,7 +5773,6 @@ bool FUN_0056af40_shell::FUN_0056af40()
 }
 }  // namespace fnv_0056af40
 
-float __cdecl cos(float);
 
 // @fnv 0x005b9e80
 float FUN_005b9e80(float fRadians)
@@ -22171,7 +22167,6 @@ struct ArrSI
 };
 
 void __cdecl ResetTlsBufferIfListMatches(const BaseExtraList*);
-void* __cdecl memset(void*, int, unsigned int);
 // Locks g_011c3920, resets the TLS buffer, optionally deletes each extra in the list or clears pHead, then zeroes iFlags and unlocks.
 // @fnv 0x0040fae0
 void FUN_0040fae0_shell::FUN_0040fae0(bool abDelete)

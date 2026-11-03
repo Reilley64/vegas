@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niskininstance.cpp: NiSkinInstance, SkinGraph, NiSkinInstanceStub, SkinInstanceW and more (8 functions)
 
+#include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -414,7 +415,6 @@ struct Root
     virtual void v5c();
     virtual void Describe(Strings*);
 };
-extern "C" void __cdecl SortNames(void*, unsigned int, unsigned int, int(__cdecl*)(const void*, const void*));
 struct BonePtr
 {
     Named* p;
@@ -462,7 +462,7 @@ void Skin::FUN_00a86920(Strings* apStrings)
             ppBoneNames[index] = (char*)::FUN_00aa1070(strlen(szBoneName) + 1);
             strcpy(ppBoneNames[index], szBoneName);
         }
-        SortNames(ppBoneNames, uiBoneCount, 4, ((int (&)(const void *, const void *))::FUN_00a86280));
+        std::qsort(ppBoneNames, uiBoneCount, 4, ((int (&)(const void *, const void *))::FUN_00a86280));
         for (unsigned int index = 0; index < uiBoneCount; ++index)
         {
             char szIndex[10];

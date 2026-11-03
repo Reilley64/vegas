@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -4264,7 +4265,6 @@ struct ImgMgr
 };
 int __cdecl FUN_004e4680();
 float __cdecl FUN_004e44b0(float value);
-float __cdecl cos(float value);
 struct Self
 {
     int f00[27];

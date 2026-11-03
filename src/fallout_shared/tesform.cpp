@@ -1,6 +1,7 @@
 // fallout_shared/tesform.cpp: TESForm, TESValueForm, TESFile, BGSSaveLoadChangesMap and more (128 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSSimpleArrayActor.h"
 #include "fnv/decl/Callees.h"
@@ -2615,7 +2616,6 @@ void FUN_00485530_shell::InitGroupForm(GroupEntry* apOutGroupFORM, GroupData* ap
     }
 }
 
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
 int DAT_0101ca98;
 
 struct FUN_00486990_shell

@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/A3B0Controller.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/Actor8A7.h"
@@ -1200,7 +1201,6 @@ struct CombatThreatEntry
 {
     char m0[20];
 };
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 struct FUN_009a3b20_Class
 {
     void CopyCombatThreatEntries(CombatThreatEntry* a, CombatThreatEntry* b, unsigned int c);
@@ -1215,12 +1215,12 @@ void FUN_009a3b20_Class::CopyCombatThreatEntries(CombatThreatEntry* apDest, Comb
     if (apDest < apSrc)
     {
         for (unsigned int i = 0; i < auiCount; i++)
-            FUN_00ec7230((char*)(apDest + i), (const char*)(apSrc + i), 20);
+            std::memmove((char*)(apDest + i), (const char*)(apSrc + i), 20);
     }
     else if (apDest > apSrc)
     {
         for (int i = (int)auiCount - 1; i >= 0; i--)
-            FUN_00ec7230((char*)(apDest + i), (const char*)(apSrc + i), 20);
+            std::memmove((char*)(apDest + i), (const char*)(apSrc + i), 20);
     }
 }
 

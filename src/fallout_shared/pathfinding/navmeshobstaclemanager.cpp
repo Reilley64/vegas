@@ -1,5 +1,7 @@
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/B00C20Pool.h"
@@ -2625,8 +2627,6 @@ class BSAudio
   public:
     SoundPlaybackHandle GetSoundHandleByEditorID(const char* name, unsigned int flags);
 };
-int __stricmp(const char* a, const char* b);
-const char* FUN_00ec7750(const char* s, const char* sub);
 extern const double DAT_01074f60;
 
 struct FUN_00799dc0_class
@@ -2706,7 +2706,7 @@ void FUN_00799dc0_class::UpdateMapHighlight()
         while (pos)
         {
             Tile* pTile = ((::Tile *)(reinterpret_cast<::ListStandIn *>(&(m_pMapTile->m_kList))->FUN_0057cbe0((int **)&(pos))));
-            if (reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfaa) == DAT_01074f60 && !FUN_00ec7750(pTile->FUN_00700300(), " Marker"))
+            if (reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(0xfaa) == DAT_01074f60 && !((const char *)(std::strstr((char *)(pTile->FUN_00700300()), " Marker"))))
             {
                 NiPoint2 kPos(reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(DAT_011da350), reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(DAT_011da34c));
                 float fDist = 0.0f;
@@ -2727,7 +2727,7 @@ void FUN_00799dc0_class::UpdateMapHighlight()
         if (pBest != m_pHighlighted)
         {
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIPipBoyHighlight", 0x121)))->FUN_00ad8830(false);
-            if (__stricmp(reinterpret_cast<::FUN_00a011f0_shell *>((pBest))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1)), "Companion"))
+            if (fnv::crt::stricmp(reinterpret_cast<::FUN_00a011f0_shell *>((pBest))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1)), "Companion"))
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTile40))->FUN_00a01350(::FUN_00a00940("_Title", -1), (char *)(reinterpret_cast<::FUN_00a011f0_shell *>((pBest))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1))),
                                true);
             m_pHighlighted = pBest;

@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A64330Obj.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -8633,7 +8634,6 @@ void Target::FUN_00e8b630() {
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
 extern "C" void* __cdecl FUN_00aa1070(unsigned int);
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct Observer {
     virtual void Slot0();
     virtual void Slot1();
@@ -8663,7 +8663,7 @@ MapProcessor* MapProcessor::FUN_00e8bae0(void* context, Observer* observer) {
     bucketCount = 37;
     itemCount = 0;
     buckets = FUN_00aa1070(148);
-    FUN_00ec61c0(buckets, 0, bucketCount * sizeof(void*));
+    std::memset(buckets, 0, bucketCount * sizeof(void*));
     vtable = &DAT_010efdf8;
     field18 = 0;
     field10 = 0;
@@ -8673,7 +8673,7 @@ MapProcessor* MapProcessor::FUN_00e8bae0(void* context, Observer* observer) {
     observer1c = observer;
     observer->Slot1();
     field38 = 0;
-    FUN_00ec61c0(data3c, 0, sizeof(data3c));
+    std::memset(data3c, 0, sizeof(data3c));
     reinterpret_cast<::FUN_00e8b170_cls *>(this)->FUN_00e8b170();
     return this;
 }
@@ -8873,7 +8873,6 @@ void Owner::DeactivateActiveItem(Record* record) {
 }
 }  // namespace fnv_00e8bd40
 
-void* __cdecl NiMemset(void* dst, int val, unsigned int size);
 void* __cdecl NiMalloc(unsigned int size);
 
 extern volatile long DAT_011f4400;
@@ -8900,7 +8899,7 @@ struct MapBaseStub {
         m_uiCount = 0;
         unsigned int size = sizeof(void*) * m_uiHashSize;
         m_ppkHashTable = (void**)NiMalloc(size);
-        NiMemset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
+        std::memset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
     }
     virtual void MapV0();
     void RemoveAll();
@@ -11372,7 +11371,6 @@ struct FUN_00e69b40_shell {
     unsigned int GetEntry(unsigned int index);
 };
 struct Outer;
-extern "C" void* memmove(void* dst, const void* src, unsigned int n);
 struct SixIntegerRecord {
     int d00; int d04; int d08; int d0c; int d10; int d14;
 };
@@ -11615,8 +11613,6 @@ fill:
     m_indexBufferSize = size;
     return buffer;
 }
-
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct IDirect3DDevice9Like;
 
@@ -12002,7 +11998,6 @@ FUN_00e9ec90::~FUN_00e9ec90() {
 }
 
 static const void* kNull = 0;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void _ReadWriteBarrier();
 void* FUN_00aa13e0(unsigned int size);
 

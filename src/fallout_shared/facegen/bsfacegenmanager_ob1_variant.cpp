@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/facegen/bsfacegenmanager.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdlib>
 #include "fnv/decl/FG_00659100_cls.h"
 #include "fnv/decl/FUN_0064dda0_cls.h"
 #include "fnv/decl/FUN_0065dfd0_class.h"
@@ -57,7 +58,6 @@ static __forceinline void DeadQ11()
 {
     int dq[11];
 }
-void FUN_00ec7c56();
 
 struct ContainerBase
 {
@@ -121,7 +121,7 @@ inline CoordConstIter::CoordConstIter(float* ptr, const ContainerBase* pVec)
 {
     m_aux = 0;
     if (!(pVec != 0 && ((const CoordVec*)pVec)->m_pHeadNode <= ptr && ptr <= ((const CoordVec*)pVec)->m_last))
-        FUN_00ec7c56();
+        std::abort();
     m_aux = pVec->m_ownedAux;
     m_ptr = ptr;
 }

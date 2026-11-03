@@ -1,6 +1,7 @@
 // fallout_shared/tesfaction.cpp: TESFaction, Holder, DelStandIn, FakeFaction and more (36 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BaseProcess.h"
@@ -61,8 +62,6 @@
 #include "fnv/symbols_009e3000.h"
 #include "fnv/symbols_011c3000.h"
 #include "tesfaction_decls.h"
-
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 // @fnv 0x005fc840
 void TESFaction::ClearData()

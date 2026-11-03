@@ -1,5 +1,7 @@
 // fallout/ai/combat/combatprocedureattackmelee.cpp: CombatProcedureAttackMelee, This, MeleeProc, CombatAttackHelper and more (57 functions)
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/AnimSequenceStub.h"
 #include "fnv/decl/AnimationInterface.h"
@@ -3625,7 +3627,6 @@ struct MeleeDebugOutput
     virtual void Slot10();
     virtual void Print(int, int, const char*, ...);
 };
-void* FUN_00ec61c0(void*, int, unsigned);
 extern const char DAT_01090e78[], DAT_01090e6c[], DAT_01090e64[], DAT_01090e5c[], DAT_01090e4c[],
     DAT_01090e40[], DAT_01090e30[];
 extern const char DAT_01090e20[], DAT_01090e10[], DAT_01090e04[], DAT_01090df8[],
@@ -3655,7 +3656,7 @@ void MeleeDebugProcedure::PrintDebugInfo(MeleeDebugOutput* output, int x, int y)
     short sMovementFlags = ((short)(reinterpret_cast<::FUN_008846e0_shell *>((actor))->GetVtbl20Result()));
     char description[100];
     description[0] = DAT_01011584[0];
-    FUN_00ec61c0(description + 1, 0, 99);
+    std::memset(description + 1, 0, 99);
     switch (moveState)
     {
     case 2:

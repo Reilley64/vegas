@@ -3,13 +3,11 @@
 #define FNV_OEI_IO_THREAD_DECLS_H
 
 #include <windows.h>
+#include <cstdio>
 #include "fnv/symbols_011f6000.h"
 #include "BSThread.h"
 
 struct _iobuf;
-extern "C" int __cdecl fseek(_iobuf*, long, int);
-extern "C" unsigned int __cdecl fread(void*, unsigned int, unsigned int, _iobuf*);
-extern "C" unsigned int __cdecl fwrite(const void*, unsigned int, unsigned int, _iobuf*);
 extern "C" void(* fnv_EnterCriticalSection)(_RTL_CRITICAL_SECTION*);
 extern "C" void(* fnv_LeaveCriticalSection)(_RTL_CRITICAL_SECTION*);
 

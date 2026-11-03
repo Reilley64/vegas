@@ -1,6 +1,7 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorBaseInitItemView.h"
 #include "fnv/decl/ActorBaseSaveView.h"
@@ -3918,7 +3919,6 @@ void ProcessHost::FUN_0060a890(int pObject)
 }
 }  // namespace fnv_0060a890
 
-void __cdecl FUN_00ec7c56();
 
 struct FaceCoordinateRange
 {
@@ -3948,7 +3948,7 @@ FaceCoordinateCursor* FaceCoordinateCursor::Advance(int count)
 {
     if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -3956,7 +3956,7 @@ FaceCoordinateCursor* FaceCoordinateCursor::Advance(int count)
 
     if (current + count > ((::FaceCoordinateRange *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980()))->end || current + count < ((::FaceCoordinateRange *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980()))->begin)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -7017,7 +7017,6 @@ struct Field
 struct Player
 {
 };
-void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct Shell
 {
     char pad[52];
@@ -7041,7 +7040,7 @@ void Shell::FUN_00606540(Ref* ref, Biped* biped, bool force)
         }
         reinterpret_cast<::BipedAnim *>((biped))->UpdateRaceSex((::TESRace *)(void *)(reinterpret_cast<::Callees *>(&(field))->FUN_00726070()), {});
     }
-    Ref* actor = (Ref*)FUN_00ec43fb(ref, 0, &::DAT_011841cc, &::DAT_011846d4, 0);
+    Ref* actor = (Ref*)dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(ref));
     if (actor && ((::fnv_00606540::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())))
     {
         bool valid = true;

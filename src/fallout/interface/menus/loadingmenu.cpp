@@ -1,6 +1,7 @@
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
 #include <new>
+#include <cctype>
 #include "fnv/decl/AnimTile.h"
 #include "fnv/decl/BEC16D0MoviePlayerThread.h"
 #include "fnv/decl/Callees.h"
@@ -2063,8 +2064,6 @@ struct FUN_0078a280_shell : public LoadingMenu
 {
     void UpdateLoadingScreenText(bool);
 };
-
-extern "C" int __cdecl tolower(int);
 
 struct LoadScreenNode_r8a280
 {

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/AlchemyItem.h"
@@ -457,7 +458,6 @@ struct UIntArrayX
     unsigned int* GetAt(unsigned int auiIndex);
 };
 
-extern "C" int xIsNaN(double adValue);
 
 struct TreeModelX
 {
@@ -524,7 +524,7 @@ void TreeModelX::FUN_00667470()
         for (int qJDuOZ = 0; qJDuOZ < qSVM; qJDuOZ++)
         {
             Point3X qpia = qxQHW[qJDuOZ];
-            if (xIsNaN(qpia.x) || xIsNaN(qpia.y) || xIsNaN(qpia.z))
+            if (std::isnan(qpia.x) || std::isnan(qpia.y) || std::isnan(qpia.z))
             {
                 qxQHW[qJDuOZ] = (*reinterpret_cast<const ::Point3X *>((void *)&::DAT_011a9484));
             }

@@ -2,6 +2,7 @@
 #ifndef BIPEDANIM_DECLS_H
 #define BIPEDANIM_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/B4AEE60Owner.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -972,8 +973,6 @@ class Interface
     static void SetHUDVisible(bool);
     static void InitGunScope(TESModel*);
 };
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-
 template <class T> class NiTNewInterface
 {
 };

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/traitselectmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/traitselectmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdlib>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0070ec70_class.h"
 #include "fnv/decl/FUN_00a01290_shell.h"
@@ -554,7 +555,6 @@ Tile* __cdecl FUN_007e7b60()
     return 0;
 }
 
-int __cdecl FUN_00ec7d40(int value);
 extern short DAT_011d8a62;
 struct FUN_00755680_shell
 {
@@ -644,12 +644,12 @@ void TraitScrollMenu::UpdateScrollAnimation()
     {
         if ((((void *)(::fnv_004b7210::FUN_004b7210())), FUN_004b71d0()) && !static_cast<FUN_00755680_shell*>(((void *)(::fnv_004b7210::FUN_004b7210())))->FUN_00755680())
         {
-            if (FUN_00ec7d40(DAT_011d8a5e) > 7849)
+            if (std::abs(DAT_011d8a5e) > 7849)
             {
                 overrideFlag3 = true;
                 horizontal = DAT_011d8a5e;
             }
-            if (FUN_00ec7d40(DAT_011d8a62) > 8689)
+            if (std::abs(DAT_011d8a62) > 8689)
             {
                 bVertical = true;
                 vertical = DAT_011d8a62;

@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Calendar.h"
@@ -347,13 +348,12 @@ struct StatisticalArray
     int m_base;
     int FUN_00662890(unsigned int);
 };
-unsigned int __cdecl FUN_00ec7c56();
 // Bounds-checks index a against the array count, then returns m_base plus a times 0x38.
 // @fnv 0x00662890
 int StatisticalArray::FUN_00662890(unsigned int uiIndex)
 {
     if (uiIndex >= ((unsigned int)(reinterpret_cast<::FUN_0065cc30_class *>(this)->FUN_0065cc30())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);

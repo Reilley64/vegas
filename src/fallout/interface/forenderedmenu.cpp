@@ -1,6 +1,7 @@
 // fallout/interface/forenderedmenu.cpp: FORenderedMenu, MenuStub, FOPipboyManager, HOLDER and more (44 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -955,7 +956,6 @@ struct SettingIntCollection_
 {
 };
 
-int FUN_00ecadb8();
 
 struct DistortMenuView : public FORenderedMenu
 {
@@ -970,7 +970,7 @@ void DistortMenuView::UpdateDistortTimer(float dt)
     if (((::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011db520))))))->f + ::g_01012070 < m_fDistortVerticalScale)
     {
         m_bShudderActive = 0;
-        m_fDistortTimeRemaining = (float)(FUN_00ecadb8() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingIntCollection_ *>(&::g_011db4f8))))))) + dt;
+        m_fDistortTimeRemaining = (float)(std::rand() % *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingIntCollection_ *>(&::g_011db4f8))))))) + dt;
     }
 }
 

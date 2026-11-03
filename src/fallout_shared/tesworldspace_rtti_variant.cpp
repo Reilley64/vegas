@@ -549,7 +549,7 @@ bool WorldX::FUN_00584be0(FormX* pkForm)
     switch (pkForm->FUN_00401170())
     {
     case 0x39: {
-        CellX* pkCell = (CellX*)FUN_00ec43fb(pkForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_01183fb4, 0);
+        CellX* pkCell = (CellX*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(pkForm));
         WorldX* pkWorld = pkCell ? ((::WorldX *)(reinterpret_cast<::TESObjectCELL *>((pkCell))->GetParentWorldSpace())) : 0;
         if (pkWorld == this)
             bResult = true;

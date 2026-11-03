@@ -1,5 +1,7 @@
 // bssystemutilities/bssystemutilitiesstrings.cpp: BSSystemUtilitiesStrings (4 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -59,9 +61,6 @@ struct P03MM : public MemoryManager
 {
 };
 
-unsigned int _strlen(const char*);
-void* _fnv_zlib_memset(void*, int, unsigned int);
-int _strcpy_s(char*, unsigned int, const char*);
 
 struct FUN_00af36e0_shell
 {
@@ -84,12 +83,12 @@ void FUN_00af36e0_shell::SetStringAt(unsigned int index, const char* pcStr)
     }
     if (pcStr)
     {
-        len = _strlen(pcStr) + 1;
+        len = std::strlen(pcStr) + 1;
         void* pAllocated = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(len);
         m_pStringFunctions[index] = (char*)pAllocated;
         void* pZeroed = m_pStringFunctions[index];
-        _fnv_zlib_memset(pZeroed, 0, len);
+        std::memset(pZeroed, 0, len);
         void* pNewString = m_pStringFunctions[index];
-        _strcpy_s((char*)pNewString, len, pcStr);
+        fnv::crt::strcpy_s((char*)pNewString, len, pcStr);
     }
 }

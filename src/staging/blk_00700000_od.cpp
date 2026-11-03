@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlphaInterface.h"
@@ -388,20 +389,18 @@ void FUN_0071aa60_class::FUN_0071aa60(bool value)
     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x35) = value;
 }
 
-extern "C" void __cdecl FUN_00ecb849(int, int, int);
 
 // @fnv 0x0071cfd0
 void __cdecl FUN_0071cfd0(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00ecb849(aiArg1, aiArg2, aiArg3);
+    fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
 
-void __cdecl FUN_00ecba8e(int a, int b, int c);
 
 // @fnv 0x0071cff0
 void __cdecl FUN_0071cff0(int aiArg1, int aiArg2, int aiArg3)
 {
-    FUN_00ecba8e(aiArg1, aiArg2, aiArg3);
+    fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
 
 struct FUN_0071d010_Class

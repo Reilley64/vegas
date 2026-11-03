@@ -2,6 +2,7 @@
 #ifndef FNV_NIFIXEDSTRING_FACEGEN_H
 #define FNV_NIFIXEDSTRING_FACEGEN_H
 
+#include <cstring>
 #include "fnv/decl/FGOwner.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
 #include "fnv/decl/FUN_0061cc40_shell.h"
@@ -150,7 +151,6 @@ FaceGenTextureFile* FUN_00659780(const char*);
 extern float DAT_01065b9c;
 extern float DAT_01065b98;
 struct NiPoint3StartupTable;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 void* __cdecl operator new[](unsigned int);
 void __cdecl operator delete[](void*);
 #endif

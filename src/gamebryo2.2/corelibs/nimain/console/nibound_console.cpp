@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiAGDObject.h"
 #include "fnv/decl/NiPoint3.h"
@@ -335,8 +336,6 @@ struct Vec88
     }
 };
 
-
-extern "C" double __cdecl sqrt(double);
 
 struct Bound88
 {

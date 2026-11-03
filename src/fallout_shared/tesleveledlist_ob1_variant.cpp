@@ -3,6 +3,8 @@
 // byte only under /MT /Od /Ob1 /Oy- /GS /EHsc /Gy /GF (unit src/fallout_shared/tesleveledlist.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/C42CE30.h"
 #include "fnv/decl/FUN_0040e7f0_owner.h"
 #include "fnv/decl/FUN_0040eb90_shell.h"
@@ -40,7 +42,6 @@
 #include "fnv/symbols_010a2000.h"
 #include "fnv/symbols_01204000.h"
 #include "tesleveledlist_decls.h"
-extern "C" double __cdecl floor(double value);
 extern "C" int __cdecl _ftol2_sse();
 
 extern const char str_010c3570[];
@@ -61,8 +62,6 @@ class NiViewerStringsArray
 {
   public:
 };
-
-extern "C" unsigned int __cdecl strlen(const char* s);
 
 class NiPoint3
 {

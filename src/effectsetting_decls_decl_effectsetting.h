@@ -3,6 +3,8 @@
 #define EFFECTSETTING_MATCH_H
 
 #include <stddef.h>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/EndianSwappableData.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004046b0_cls.h"
@@ -349,7 +351,5 @@ class TESFullNameLoader
 template <int n> struct EndianSizeTag
 {
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #endif
 

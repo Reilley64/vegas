@@ -1,6 +1,7 @@
 // fallout_shared/tesweather.cpp: TESWeather, TESWeather__WeatherSoundList, TESWeather__WeatherSound, WeatherSave and more (13 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/B8AD00Header.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -451,8 +452,6 @@ void WeatherSave::FUN_005813d0()
     }
     reinterpret_cast<::Holder *>((reinterpret_cast<FUN_00485680_shell*>(this)))->FUN_00485680();
 }
-
-extern "C" int memcmp(const void* buf1, const void* buf2, unsigned int count);
 
 class TESRegionData;
 

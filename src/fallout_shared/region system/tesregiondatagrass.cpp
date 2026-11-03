@@ -1,6 +1,7 @@
 // fallout_shared/region system/tesregiondatagrass.cpp: TESRegionDataGrass, GrassRegion, RegionSaveShell, GrassMergeRegion (6 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Controller.h"
@@ -232,7 +233,6 @@ void RegionSaveShell::WriteRegionSaveChunk()
 struct GrassMergeList
 {
 };
-float __cdecl floor(float value);
 struct GrassMergeRegion : TESRegionData
 {
     virtual void v1();

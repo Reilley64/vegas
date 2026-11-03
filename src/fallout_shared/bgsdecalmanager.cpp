@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSRenderedTexture.h"
@@ -1124,7 +1126,6 @@ void FUN_004a3fe0_shell::FUN_004a3fe0(void* pObject, int b, char c)
     bsrandom_singleton::MersenneTwister::GetRandomGenerator()->AddGeometryDecal(pObject, b, c);
 }
 
-void __cdecl FUN_00ec6f20(int, int, int, int);
 struct FUN_0049f560_Holder
 {
     int _00;
@@ -1136,7 +1137,7 @@ struct FUN_0049f560_Holder
 // @fnv 0x0049f560
 void FUN_0049f560_Holder::CallWithTwelve(int a1)
 {
-    FUN_00ec6f20(_04, _08, 12, a1);
+    std::qsort((void *)(_04), _08, 12, (int (*)(const void *, const void *))(a1));
 }
 
 void __cdecl FUN_004a0010();
@@ -2499,8 +2500,8 @@ bool XMgr::FUN_004a1a70(XRef* ref)
     if (ref->m28)
     {
         pName4 = (const char*)((::XList *)(reinterpret_cast<::TESTopicInfoData *>((ref->m28))->GetLinkToList()))->FUN_0043b1b0();
-        if (pName4 != 0 && (FUN_00ec8a19(pName4, DAT_0101e484, 10) == 0 || FUN_00ec8a19(pName4, DAT_0101e47c, 5) == 0 ||
-                            FUN_00ec8a19(pName4, DAT_0101e474, 7) == 0 || FUN_00ec8a19(pName4, DAT_0101e468, 9) == 0 ||
+        if (pName4 != 0 && (std::strncmp(pName4, DAT_0101e484, 10) == 0 || std::strncmp(pName4, DAT_0101e47c, 5) == 0 ||
+                            std::strncmp(pName4, DAT_0101e474, 7) == 0 || std::strncmp(pName4, DAT_0101e468, 9) == 0 ||
                             FUN_00ec8a19(pName4, DAT_0101e460, 5) == 0 || FUN_00ec8a19(pName4, DAT_0101e450, 15) == 0))
             return true;
         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_011f4a20))), (::NiAVObject *)(ref->m28)) && !reinterpret_cast<::FUN_00456630_helper *>((ref->m28))->FUN_00456610())

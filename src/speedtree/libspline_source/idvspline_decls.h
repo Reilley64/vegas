@@ -3,6 +3,8 @@
 #define IDVSPLINE_DECLS_H
 
 #include <stddef.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FNVTokenParser.h"
 #include "fnv/decl/FUN_00594c80_cls.h"
 #include "fnv/decl/FUN_00594cd0_Class.h"
@@ -98,7 +100,4 @@ struct IdvSplineInputCursor
     int consumed;
     const char* data;
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-extern "C" long __cdecl atol(const char*);
-extern "C" double __cdecl atof(const char*);
 #endif

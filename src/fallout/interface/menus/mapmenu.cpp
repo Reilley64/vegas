@@ -1,6 +1,7 @@
 // fallout/interface/menus/mapmenu.cpp: MapMenu, Interface, InsertBox, TileImage and more (116 functions)
 
 #include <new>
+#include "runtime/crt.h"
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/B93BE30ProcessManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -592,7 +593,6 @@ extern bool DAT_011da36d;
 extern int DAT_011da360;
 extern SettingT_GameSettingCollection_* DAT_011a03e4[];
 int sprintf_s(char*, unsigned int, const char*, ...);
-int _stricmp(const char*, const char*);
 void FUN_00798840();
 void FUN_00798710();
 
@@ -5651,7 +5651,7 @@ void MapMenuClick::FUN_00796fd0(int aiID, Tile* apTarget)
             }
         }
         else if (m_iMapDisplayMode == 0x21 && !reinterpret_cast<::FUN_00a01230_shell *>((m_pTiles[11]))->IsTraitNonZero(0xfaf) &&
-                 _stricmp(reinterpret_cast<::FUN_00a011f0_shell *>((apTarget))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1)), "Companion"))
+                 fnv::crt::stricmp(reinterpret_cast<::FUN_00a011f0_shell *>((apTarget))->FUN_00a011f0(::FUN_00a00940("_LocationName", -1)), "Companion"))
         {
             ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d48e8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
         }

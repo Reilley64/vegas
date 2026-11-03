@@ -3,6 +3,7 @@
 // polymorphic classes (TESDialoguePackageData, TESPackageData). The skeleton of src/fallout_shared/packagedatadialogue.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include <cstring>
 #include "packagedatadialogue_decls_rtti_variant.h"
 void __cdecl Deallocate(void*);
 namespace p07 {
@@ -69,7 +70,6 @@ struct FUN_0067b100_Class
     void FUN_0067b100();
 };
 typedef FUN_0067b100_Class FunctionObject;
-void* memset(void*, int, unsigned int);
 bool _FUN_00401500();
 void _FUN_00485990(int, void*, unsigned int);
 struct FUN_0067b630_cls

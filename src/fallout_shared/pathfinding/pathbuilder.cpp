@@ -1,6 +1,7 @@
 // fallout_shared/pathfinding/pathbuilder.cpp: PathBuilder, PathBuilderCore, CheckLineOfSightFilterWater, NavMeshSearchLOSArray and more (60 functions)
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -1598,8 +1599,6 @@ struct FloatSetting
 };
 
 
-extern "C" void __cdecl qsort(void* base, unsigned int num, unsigned int width,
-                              int(__cdecl* compare)(const void*, const void*));
 
 // @fnv 0x006d4120
 int __cdecl CollectNearbyEdges(PathActor* apActor, unsigned int auiMax, EdgeHandleList* apOut)
@@ -1655,7 +1654,7 @@ int __cdecl CollectNearbyEdges(PathActor* apActor, unsigned int auiMax, EdgeHand
     {
         return 0;
     }
-    qsort(((::EdgeCandidate *)(reinterpret_cast<::FUN_006b3120_shell *>(&(kEdges))->GetElementAt(0))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kEdges))->GetName())), 0x20, ((int (&)(const void *, const void *))::CompareCoverSortItems));
+    ::std::qsort(((::EdgeCandidate *)(reinterpret_cast<::FUN_006b3120_shell *>(&(kEdges))->GetElementAt(0))), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kEdges))->GetName())), 0x20, ((int (&)(const void *, const void *))::CompareCoverSortItems));
     unsigned int uiCount5 = ::FUN_0042f5a0(auiMax, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kEdges))->GetName())));
     for (unsigned int j = 0; j < uiCount5; j++)
     {

@@ -1,5 +1,6 @@
 // fallout_shared/magic/effectitem.cpp: EffectItem, EffectItemList, ScriptEffect, Setting and more (52 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSDebris.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
@@ -119,12 +120,11 @@ bool __cdecl HasEffectArchetypeFlag(int aiIndex, unsigned int aiFlag)
     return (DAT_01183328[aiIndex].uiFlags & aiFlag) != 0;
 }
 
-void* __cdecl _fnv_zlib_memset(void* apDest, int aiValue, unsigned int aCount);
 
 // @fnv 0x00403d30
 void __cdecl FUN_00403d30(void* apDest, int aiValue, unsigned int aCount)
 {
-    _fnv_zlib_memset(apDest, aiValue, aCount);
+    std::memset(apDest, aiValue, aCount);
 }
 
 struct FUN_00403db0_shell : public EffectItem
@@ -447,12 +447,11 @@ Script* FUN_004045e0_shell::GetScriptFromEffectSetting()
 }
 }  // namespace fnv_004045e0
 
-char* __cdecl _strcpy(char*, const char*);
 
 // @fnv 0x004046f0
 void __cdecl FUN_004046f0(char* apStrDest, const char* apStrSource)
 {
-    _strcpy(apStrDest, apStrSource);
+    std::strcpy(apStrDest, apStrSource);
 }
 
 struct S4eb0
@@ -515,12 +514,11 @@ void FUN_00404f70_shell::FUN_00404f70()
 }
 }  // namespace fnv_00404f70
 
-unsigned int __cdecl _strlen(const char*);
 
 // @fnv 0x0044a670
 unsigned int __cdecl FUN_0044a670(const char* apString)
 {
-    return _strlen(apString);
+    return std::strlen(apString);
 }
 
 namespace fnv_005f5f80 {

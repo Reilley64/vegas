@@ -7,6 +7,8 @@
 // to their real unit once identified.
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00b2ac30_t.h"
@@ -61,7 +63,6 @@ struct FUN_00b403a0_t : CIdvCamera
 {
     CIdvCamera& CloneCamera();
 };
-void FUN_00ec7c56();
 struct FUN_00b40800_t
 {
     int pos;
@@ -414,7 +415,6 @@ struct FUN_00b40000_class
 };
 // VC9 (Dinkumware, _SECURE_SCL=1) vector / vector<bool> subset, transcribed
 // into namespace stl so the checker can compile it without <vector>.
-extern "C" void __cdecl _invalid_parameter_noinfo(void);
 inline void* operator new(unsigned int, void* _Where) throw()
 {
     return _Where;
@@ -612,7 +612,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
@@ -621,11 +621,11 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (*_Myptr);
     }
@@ -633,11 +633,11 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         ++_Myptr;
         return (*this);
@@ -646,12 +646,12 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr + _Off <= ((_Myvec*)(this->_Getmycont()))->_Mylast &&
               _Myptr + _Off >= ((_Myvec*)(this->_Getmycont()))->_Myfirst))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         _Myptr += _Off;
         return (*this);
@@ -665,7 +665,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (_Myptr - _Right._Myptr);
     }
@@ -673,7 +673,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (_Myptr == _Right._Myptr);
     }
@@ -813,7 +813,7 @@ template <class _Ty, class _Ax = allocator<_Ty> > class vector : public _Vector_
     {
         if (!(_Pos < size()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (*(_Myfirst + _Pos));
     }
@@ -889,7 +889,7 @@ template <class _Sizet, class _Difft, class _MycontTy> class _Vb_iter_base : pub
     {
         if (!(_Mypvbool != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         this->_Set_container(_Mypvbool);
     }
@@ -935,11 +935,11 @@ class _Vb_reference : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
     {
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(this->_My_actual_offset() < ((_MycontTy*)this->_Getmycont())->_Mysize))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (this->_Myptr);
     }
@@ -977,20 +977,20 @@ class _Vb_const_iterator : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
             return (*this);
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (_Off < 0)
         {
             if (!(this->_My_actual_offset() >= ((size_type)-_Off)))
             {
-                _invalid_parameter_noinfo();
+                std::abort();
             }
         }
         else
         {
             if (!((this->_My_actual_offset() + _Off) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
             {
-                _invalid_parameter_noinfo();
+                std::abort();
             }
         }
         if (_Off < 0 && this->_Myoff < 0 - (size_type)_Off)
@@ -1021,11 +1021,11 @@ class _Vb_const_iterator : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
     {
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!((this->_My_actual_offset() + 1) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (this->_Myoff < _VBITS - 1)
             ++this->_Myoff;
@@ -1324,7 +1324,7 @@ struct CItQ_aceeb0
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -1381,7 +1381,7 @@ struct VecQ_aceeb0
 inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -2097,7 +2097,6 @@ struct VbXlen
 {
     void FUN_00b429d0() const;
 };
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxB42
 {
 };
@@ -2147,7 +2146,7 @@ inline WordIteratorB42::WordIteratorB42(unsigned int* _Ptr, const WordVectorB42*
 {
     _Myaux = 0;
     if (_Pvector == 0 || _Pvector->_Myfirst > _Ptr || _Ptr > _Pvector->_Mylast)
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -2843,11 +2842,11 @@ inline P133Pair const& P133ConstIter::FUN_00b2ab50() const
 {
     if (!(this->_Has_container()))
     {
-        _invalid_parameter_noinfo();
+        std::abort();
     }
     if (!(ptr < ((P133Pairs*)this->_Getmycont())->last))
     {
-        _invalid_parameter_noinfo();
+        std::abort();
     }
     return *ptr;
 }
@@ -2949,7 +2948,6 @@ VBeginQ_00b41a50::iterator VBeginQ_00b41a50::FUN_00b41a50()
     return (iterator((_Myvec.begin())._Myptr, this));
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct TrimCharAllocatorBase
 {
 };
@@ -3117,7 +3115,7 @@ struct TrimConstIterator : TrimIteratorBase
     bool operator==(const TrimConstIterator& _Right) const
     {
         if (!(_Has_container() && _Myaux == _Right._Myaux))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr == _Right._Myptr;
     }
     bool operator!=(const TrimConstIterator& _Right) const
@@ -3172,24 +3170,24 @@ struct TrimWords : TrimContainer
     unsigned int& operator[](unsigned int _Pos)
     {
         if (!(_Pos < size()))
-            FUN_00ec7c56();
+            std::abort();
         return *(_Myfirst + _Pos);
     }
 };
 inline TrimConstIterator::TrimConstIterator(unsigned int* _Ptr, const TrimContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((TrimWords*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((TrimWords*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Set_container(_Pvector);
     _Myptr = _Ptr;
 }
 inline TrimConstIterator& TrimConstIterator::FUN_00b2e330(int _Off)
 {
     if (!_Has_container())
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + _Off <= ((TrimWords*)_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((TrimWords*)_Getmycont())->_Myfirst))
-        FUN_00ec7c56();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }

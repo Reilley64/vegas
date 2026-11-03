@@ -1,5 +1,6 @@
 // fallout_shared/tesimagespacemodifier.cpp: TESImageSpaceModifier, RgbaColor, ImageSpaceModifierEffectData, NiColorInterpolator and more (37 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FORenderedMenu.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -776,7 +777,6 @@ struct FUN_005310b0_shell
     bool FUN_005310b0(TESForm* form);
 };
 
-int __cdecl _memcmp(const void* left, const void* right, unsigned int count);
 void* __cdecl FUN_00ec43fb(void* object, unsigned int type, void* data, const void* typeInfo, unsigned char option);
 
 struct FUN_00531490_shell
@@ -1304,70 +1304,70 @@ bool FUN_005310b0_shell::FUN_005310b0(TESForm* form)
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FUN_005e79a0_t*>(this)))->FUN_00485270(reinterpret_cast<TESForm*>(imageSpaceModifier)))
         return true;
 
-    if (_memcmp(reinterpret_cast<char*>(this) + 0x20, reinterpret_cast<char*>(imageSpaceModifier) + 0x20, 0xf4))
+    if (std::memcmp(reinterpret_cast<char*>(this) + 0x20, reinterpret_cast<char*>(imageSpaceModifier) + 0x20, 0xf4))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x6fc),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x6fc),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x6fc),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd4) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x700),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x700),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x700),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd8) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x704),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x704),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x704),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xd0) * 0x14))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x708),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x708),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x708),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x10c) * 0x14))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x70c),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x70c),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x70c),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xdc) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x710),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x710),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x710),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xe0) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x714),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x714),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x714),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xe4) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x718),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x718),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x718),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x104) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x71c),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x71c),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x71c),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x108) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x720),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x720),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x720),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf4) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x724),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x724),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x724),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xf8) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x728),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x728),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x728),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xfc) * 8))
         return true;
 
-    if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x72c),
+    if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x72c),
                 *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x72c),
                 *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x110) * 8))
         return true;
@@ -1376,7 +1376,7 @@ bool FUN_005310b0_shell::FUN_005310b0(TESForm* form)
     {
         for (j = 0; j < 2; ++j)
         {
-            if (_memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x654 + i * 8 + j * 4),
+            if (std::memcmp(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x654 + i * 8 + j * 4),
                         *reinterpret_cast<void**>(reinterpret_cast<char*>(imageSpaceModifier) + 0x654 + i * 8 + j * 4),
                         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x28 + i * 8 + j * 4) * 8))
                 return true;
@@ -1636,7 +1636,7 @@ struct TESImageSpaceModifierCopy : TESImageSpaceModifier
 void TESImageSpaceModifierCopy::FUN_00530160(TESForm* form)
 {
     unsigned int count;
-    TESImageSpaceModifier* source = (TESImageSpaceModifier*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &_DAT_011862b8, 0);
+    TESImageSpaceModifier* source = (TESImageSpaceModifier*)dynamic_cast<::TESImageSpaceModifier *>(reinterpret_cast<::TESForm *>(form));
     if (!source)
         return;
     reinterpret_cast<::xSkyX *>((source))->CacheObjectValues();

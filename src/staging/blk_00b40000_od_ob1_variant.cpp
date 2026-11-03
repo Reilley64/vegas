@@ -5,6 +5,7 @@
 
 // src/staging/blk_00b40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BitTrim.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -47,7 +48,6 @@ struct CIdvCamera
 };
 struct FUN_00ec7c56_t
 {
-    static void FUN_00ec7c56();
 };
 struct FUN_00b42980
 {
@@ -67,7 +67,6 @@ struct FUN_00b403a0_t : CIdvCamera
 {
     CIdvCamera& CloneCamera();
 };
-void FUN_00ec7c56();
 struct FUN_00b40800_t
 {
     int pos;
@@ -320,13 +319,13 @@ VecIter8StandIn& VecIter8StandIn::FUN_00b42ce0(int off)
     {
         if (!(Has_container()))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
     }
     {
         if (!(m_ptr + off <= Getmycont()->m_last && m_ptr + off >= Getmycont()->m_pHeadNode))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
     }
     m_ptr += off;
@@ -397,7 +396,7 @@ inline It8::It8(E8* p, V8* v)
 {
     cont = 0;
     if (v == 0 || v->first > p || p > v->last)
-        FUN_00ec7c56_t::FUN_00ec7c56();
+        std::abort();
     cont = v->proxy;
     ptr = p;
 }
@@ -452,7 +451,6 @@ void FUN_00b40000_class::FUN_00b40000(Sub_b40000* apSub)
 
 // VC9 (Dinkumware, _SECURE_SCL=1) vector / vector<bool> subset, transcribed
 // into namespace stl so the checker can compile it without <vector>.
-extern "C" void __cdecl _invalid_parameter_noinfo(void);
 inline void* operator new(unsigned int, void* _Where) throw()
 {
     return _Where;
@@ -651,7 +649,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
@@ -660,11 +658,11 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (*_Myptr);
     }
@@ -672,11 +670,11 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         ++_Myptr;
         return (*this);
@@ -685,12 +683,12 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(_Myptr + _Off <= ((_Myvec*)(this->_Getmycont()))->_Mylast &&
               _Myptr + _Off >= ((_Myvec*)(this->_Getmycont()))->_Myfirst))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         _Myptr += _Off;
         return (*this);
@@ -704,7 +702,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (_Myptr - _Right._Myptr);
     }
@@ -712,7 +710,7 @@ template <class _Ty, class _Alloc> class _Vector_const_iterator : public _Iterat
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (_Myptr == _Right._Myptr);
     }
@@ -852,7 +850,7 @@ template <class _Ty, class _Ax = allocator<_Ty> > class vector : public _Vector_
     {
         if (!(_Pos < size()))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (*(_Myfirst + _Pos));
     }
@@ -928,7 +926,7 @@ template <class _Sizet, class _Difft, class _MycontTy> class _Vb_iter_base : pub
     {
         if (!(_Mypvbool != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         this->_Set_container(_Mypvbool);
     }
@@ -974,11 +972,11 @@ class _Vb_reference : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
     {
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!(this->_My_actual_offset() < ((_MycontTy*)this->_Getmycont())->_Mysize))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         return (this->_Myptr);
     }
@@ -1016,20 +1014,20 @@ class _Vb_const_iterator : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
             return (*this);
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (_Off < 0)
         {
             if (!(this->_My_actual_offset() >= ((size_type)-_Off)))
             {
-                _invalid_parameter_noinfo();
+                std::abort();
             }
         }
         else
         {
             if (!((this->_My_actual_offset() + _Off) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
             {
-                _invalid_parameter_noinfo();
+                std::abort();
             }
         }
         if (_Off < 0 && this->_Myoff < 0 - (size_type)_Off)
@@ -1060,11 +1058,11 @@ class _Vb_const_iterator : public _Vb_iter_base<_Sizet, _Difft, _MycontTy>
     {
         if (!(this->_Has_container() && this->_Myptr != 0))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (!((this->_My_actual_offset() + 1) <= ((_MycontTy*)this->_Getmycont())->_Mysize))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
         if (this->_Myoff < _VBITS - 1)
             ++this->_Myoff;
@@ -1421,7 +1419,7 @@ struct CItQ_aceeb0
     int operator-(const CItQ_aceeb0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -1489,11 +1487,10 @@ void V8::FUN_00b417b0(const E8& v)
 inline CItQ_aceeb0::CItQ_aceeb0(ElQ_aceeb0* _Ptr, const VecQ_aceeb0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
-void __cdecl InvalidParameterNoInfoX41D40();
 struct ContainerBaseAuxX41D40
 {
 };
@@ -1544,9 +1541,9 @@ class FUN_00b41d40_It : public IteratorBaseAuxX41D40
 FUN_00b41d40_It& FUN_00b41d40_It::FUN_00b41d40()
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoX41D40();
+        std::abort();
     if (!(_Myptr < ((VectorX41D40*)this->_Getmycont())->_Mylast))
-        InvalidParameterNoInfoX41D40();
+        std::abort();
     ++_Myptr;
     return *this;
 }
@@ -1685,7 +1682,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -1758,22 +1754,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -1830,7 +1826,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -1901,9 +1897,9 @@ class FUN_00b420f0_Reference : public _Vb_iter_baseS<vector_boolS>
 unsigned int* FUN_00b420f0_Reference::FUN_00b420f0() const
 {
     if (!(this->_Has_container() && this->_Myptr != 0))
-        InvalidParameterNoInfoS();
+        std::abort();
     if (!(this->_My_actual_offset() < ((vector_boolS*)this->_Getmycont())->_Mysize))
-        InvalidParameterNoInfoS();
+        std::abort();
     return (this->_Myptr);
 }
 
@@ -2324,7 +2320,6 @@ void VbXlen::FUN_00b429d0() const
     throw std::length_error(str_010a5950);
 }
 
-void __cdecl FUN_00ec7c56();
 struct ContainerBaseAuxB42
 {
 };
@@ -2374,7 +2369,7 @@ inline WordIteratorB42::WordIteratorB42(unsigned int* _Ptr, const WordVectorB42*
 {
     _Myaux = 0;
     if (_Pvector == 0 || _Pvector->_Myfirst > _Ptr || _Ptr > _Pvector->_Mylast)
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -2409,16 +2404,16 @@ BoolIteratorB42& BoolIteratorB42::FUN_00b42a60(int _Off)
     if (_Off == 0)
         return *this;
     if (!(this->_Has_container() && this->_Myptr != 0))
-        FUN_00ec7c56();
+        std::abort();
     if (_Off < 0)
     {
         if (!(_My_actual_offset() >= (unsigned int)-_Off))
-            FUN_00ec7c56();
+            std::abort();
     }
     else
     {
         if (!(_My_actual_offset() + _Off <= ((BoolVectorB42*)this->_Getmycont())->_Mysize))
-            FUN_00ec7c56();
+            std::abort();
     }
     if (_Off < 0 && this->_Myoff < 0 - (unsigned int)_Off)
     {
@@ -3899,11 +3894,11 @@ inline P133Pair const& P133ConstIter::FUN_00b2ab50() const
 {
     if (!(this->_Has_container()))
     {
-        _invalid_parameter_noinfo();
+        std::abort();
     }
     if (!(ptr < ((P133Pairs*)this->_Getmycont())->last))
     {
-        _invalid_parameter_noinfo();
+        std::abort();
     }
     return *ptr;
 }

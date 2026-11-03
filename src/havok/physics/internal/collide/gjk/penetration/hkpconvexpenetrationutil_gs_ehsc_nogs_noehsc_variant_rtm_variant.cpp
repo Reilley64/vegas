@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/havok/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/gjk/penetration/hkpconvexpenetrationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FanSpace__FanBuilder.h"
 #include "fnv/decl/FloatPair.h"
@@ -378,7 +379,6 @@ extern "C" __m128 _mm_andnot_ps(__m128, __m128);
 extern "C" __m128 _mm_and_ps(__m128, __m128);
 extern "C" __m128 _mm_xor_ps(__m128, __m128);
 extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" double fabs(double);
 extern "C" __m128 _mm_setzero_ps();
 extern "C" __m128 _mm_set_ss(float);
 void __cdecl FUN_00cd7530(const void* g, void* a, void* b, void* c, void* out);

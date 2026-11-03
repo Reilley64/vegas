@@ -1,6 +1,7 @@
 // fallout_shared/bgsdehydration_decls.h: declares BGSTerrainManager, WaitableObject
 
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/FUN_009611e0_shell.h"
 class BGSTerrainManager
 {
@@ -8,7 +9,6 @@ class BGSTerrainManager
 public:
     unsigned int GetMinLevel();
 };
-double FUN_00ec6054(double value);
 float ConvertDoubleResult(float value);
 unsigned long WaitForSingleObjectEx(long* value);
 class WaitableObject

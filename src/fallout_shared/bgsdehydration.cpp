@@ -1,6 +1,8 @@
 // fallout_shared/bgsdehydration.cpp: BGSDehydrationStage, BGSHungerStage, WaitableObject, TESForm and more (45 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdio>
 #include "fnv/decl/ActionCaller.h"
 #include "fnv/decl/ActorInventoryQueryViews__ActorQuery.h"
 #include "fnv/decl/ActorX.h"
@@ -318,7 +320,7 @@ void WaitableObject::FUN_00401970()
 // @fnv 0x004019d0
 float ConvertDoubleResult(float value)
 {
-    return static_cast<float>(FUN_00ec6054(value));
+    return static_cast<float>(std::sqrt(value));
 }
 // @fnv 0x004013e0
 bool TESForm::GetInitialized() const
@@ -1377,7 +1379,7 @@ struct LightController : TESObjectLIGH
 unsigned char LightController::FUN_004fde40(unsigned int first, unsigned int second, bool allow, unsigned int param4,
                                             unsigned int param5)
 {
-    void* lightSource = FUN_00ec43fb(second, 0, &::DAT_011841cc, &::DAT_011846d4, 0);
+    void* lightSource = dynamic_cast<::Actor *>(reinterpret_cast<::TESObjectREFR *>(second));
     ResolvedLight* linkedLight = static_cast<ResolvedLight*>(FUN_00ec43fb(first, 0, &::DAT_011841cc, &DAT_01189dbc, 0));
     if (lightSource && linkedLight)
     {
@@ -4318,7 +4320,6 @@ struct AASound
 };
 
 
-int FUN_00ec623a(char* pcBuffer, const char* pcFormat, ...);
 
 class AAHandler
 {
@@ -4368,7 +4369,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     {
         if (((char)(reinterpret_cast<::TESCreature *>(this)->GetCreatureType())) != 6)
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d210c))))->GetMenuTitle())));
+            std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d210c))))->GetMenuTitle())));
             ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSurprisedIcon), (int)(0), 2.0f, 0);
         }
         return false;
@@ -4378,7 +4379,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         AAFaction* pkFaction = pkActorVal->GetCrimeFaction();
         if (!pkFaction || !reinterpret_cast<::Unk_0097fa10 *>((pkFaction))->FUN_0097fa10((::Actor *)(::AAActor *)((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))) || reinterpret_cast<::FUN_00894d60_shell *>((((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))))->FUN_00894d60())
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2538))))->GetMenuTitle())));
+            std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2538))))->GetMenuTitle())));
             ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSadIcon), (int)(0), 2.0f, 0);
             return false;
         }
@@ -4406,7 +4407,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     {
         if (!pkActorVal->IsIncapacitated() && ((::AAProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActorVal))->GetBaseTexture()))->IsArrested())
         {
-            FUN_00ec623a(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2394))))->GetMenuTitle())));
+            std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2394))))->GetMenuTitle())));
             ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSadIcon), (int)(0), 2.0f, 0);
             return false;
         }

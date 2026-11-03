@@ -2,6 +2,7 @@
 #ifndef BGSSAVELOADMANAGER_DECLS_H
 #define BGSSAVELOADMANAGER_DECLS_H
 
+#include "runtime/crt.h"
 #include "fnv/decl/BSAudioManager.h"
 #include "fnv/decl/FUN_004f8960_shell.h"
 #include "fnv/decl/FUN_00525430_Class.h"
@@ -74,7 +75,6 @@ class TESFile
 };
 int __cdecl strcat_s(char*, unsigned int, const char*);
 char* __cdecl FUN_00c3bc20();
-int __cdecl FUN_00ecbf05(const char*, int);
 extern const char g_011dece4_arg1[];
 extern const char DAT_01082d70[];
 extern const char DAT_01082d88[];

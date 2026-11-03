@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaList.h"
@@ -141,7 +143,6 @@ public:
 class ShaderPassRenderer { public: static unsigned int Create(unsigned int); };
 class NiObject;
 class NiStream { public:  static int RegisterObjectLoader(const char*,NiObject* (*)()); };
-extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
 
 extern const char DAT_010ee6c8[];
@@ -380,7 +381,7 @@ void FUN_00e69ad0(const char* path)
 {
     if (path)
     {
-        fnv_CopyFilePath((char*)DAT_011f4648, 0x100, path, 0xff);
+        fnv::crt::strncpy_s((char*)DAT_011f4648, 0x100, path, 0xff);
     }
     else
     {
@@ -1737,7 +1738,6 @@ bool FUN_00e6f840_shell::CopySurface(RenderCopyData* pSource, RenderCopyData* pD
     return true;
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct FUN_00e76c30_Info {
     int eType;                     // +0x00
@@ -1768,7 +1768,7 @@ unsigned int FUN_00e76c30(FUN_00e76c30_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             uiTotal += pkInfo->uiDestSize;
             pucDest += pkInfo->uiDestStride;
         }
@@ -1814,7 +1814,6 @@ unsigned int FUN_00e76c30(FUN_00e76c30_Info* pkInfo)
     return uiTotal;
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 struct FUN_00e79f40_Stream {
     unsigned int pad0;
@@ -1843,7 +1842,7 @@ int FUN_00e79f40(FUN_00e79f40_Stream* pStream)
     char* dst = pStream->dst;
     if (src == 0) {
         for (unsigned short i = 0; i < pStream->count; i++) {
-            _fnv_zlib_memset(dst, 0xff, pStream->elemSize);
+            std::memset(dst, 0xff, pStream->elemSize);
             dst += pStream->dstStride;
             total += pStream->elemSize;
         }
@@ -1909,7 +1908,6 @@ struct FUN_00e6c690_shell
 };
 
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00e6c690
 char* FUN_00e6c690_shell::GetDepthDeviceDescription()
@@ -1920,7 +1918,7 @@ char* FUN_00e6c690_shell::GetDepthDeviceDescription()
     unsigned int* value = reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x5c8);
 
     output[0] = 0;
-    _fnv_zlib_memset(buffer, 0, sizeof(buffer));
+    std::memset(buffer, 0, sizeof(buffer));
 
     DepthDevice* device = DAT_0126f0d8;
     DepthDeviceTable* table = device->table;
@@ -3358,7 +3356,6 @@ public:
     T* operator->() const { return m_pObject; }
 };
 struct FmtObj { int unk00; int unk04; int unk08; int unk0c; int unk10; };
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct Holder {
     int unk000;
     int unk004;
@@ -3829,7 +3826,7 @@ bool Holder::InitFormats() {
         }
         if (m_apkFormat[i]) {
             m_aspPixelData[i] = new NiPixelData(4, 4, *(const NiPixelFormat*)m_apkFormat[i], 1, 1);
-            _fnv_zlib_memset(m_aspPixelData[i]->GetPixels(), 0xff, m_aspPixelData[i]->m_uiPixelStride * 16);
+            std::memset(m_aspPixelData[i]->GetPixels(), 0xff, m_aspPixelData[i]->m_uiPixelStride * 16);
         }
     }
     if (!m_apkFormat[0]) return false;
@@ -10737,7 +10734,6 @@ struct StreamCopyInfo {
     unsigned int unk28;
     unsigned char* destination;
 };
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00e77010
 unsigned int __cdecl CopyVertexStream(StreamCopyInfo* stream)
@@ -10749,7 +10745,7 @@ unsigned int __cdecl CopyVertexStream(StreamCopyInfo* stream)
 
     if (!source) {
         for (unsigned short vertex = 0; vertex < stream->vertexCount; ++vertex) {
-            _fnv_zlib_memset(destination, 0, stream->bytesPerVertex);
+            std::memset(destination, 0, stream->bytesPerVertex);
             destination += stream->outputStride;
             bytesWritten += stream->bytesPerVertex;
         }
@@ -10796,7 +10792,6 @@ unsigned int __cdecl CopyVertexStream(StreamCopyInfo* stream)
     return bytesWritten;
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct PackShortInfo {
     int eType;
@@ -10827,7 +10822,7 @@ unsigned int PackShortVertexData(PackShortInfo* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             pucDest += pkInfo->uiDestStride;
             uiSize += pkInfo->uiDestSize;
         }
@@ -10873,7 +10868,6 @@ unsigned int PackShortVertexData(PackShortInfo* pkInfo)
     return uiSize;
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 struct FUN_00e77590_Info {
     int eType;
@@ -10904,7 +10898,7 @@ unsigned int FUN_00e77590(FUN_00e77590_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             uiTotal += pkInfo->uiDestSize;
             pucDest += pkInfo->uiDestStride;
         }
@@ -10950,7 +10944,6 @@ unsigned int FUN_00e77590(FUN_00e77590_Info* pkInfo)
     return uiTotal;
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 struct FUN_00e77950_Info {
     int eType;
@@ -10981,7 +10974,7 @@ unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             pucDest += pkInfo->uiDestStride;
             uiTotal += pkInfo->uiDestSize;
         }
@@ -11001,7 +10994,7 @@ unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo)
             for (j = 0; j < usComps; j++)
                 *pucOut++ = (unsigned char)*pfIn++;
             if (j < 4)
-                _fnv_zlib_memset(pucOut, 0, (unsigned short)(4 - j));
+                std::memset(pucOut, 0, (unsigned short)(4 - j));
             pucDest += pkInfo->uiDestStride;
             uiTotal += pkInfo->uiDestSize;
         }
@@ -11016,7 +11009,7 @@ unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo)
             for (j = 0; j < usComps; j++)
                 *pucOut++ = (unsigned char)*pfIn++;
             if (j < 4)
-                _fnv_zlib_memset(pucOut, 0, (unsigned short)(4 - j));
+                std::memset(pucOut, 0, (unsigned short)(4 - j));
             pfSrc = (float*)((char*)pfSrc + pkInfo->uiSrcStride);
             pucDest += pkInfo->uiDestStride;
             uiTotal += pkInfo->uiDestSize;
@@ -11025,7 +11018,6 @@ unsigned int FUN_00e77950(FUN_00e77950_Info* pkInfo)
     return uiTotal;
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct FUN_00e77eb0_Info {
     int eType;
@@ -11056,7 +11048,7 @@ unsigned int FUN_00e77eb0(FUN_00e77eb0_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             pucDest += pkInfo->uiDestStride;
             uiSize += pkInfo->uiDestSize;
         }
@@ -11077,7 +11069,7 @@ unsigned int FUN_00e77eb0(FUN_00e77eb0_Info* pkInfo)
             for (j = 0; j < usComps; j++)
                 *pucOut++ = (unsigned char)*psIn++;
             if (j < 4)
-                _fnv_zlib_memset(pucOut, 0, (unsigned short)(4 - j));
+                std::memset(pucOut, 0, (unsigned short)(4 - j));
             uiSize += pkInfo->uiDestSize;
             pucDest += pkInfo->uiDestStride;
         }
@@ -11092,7 +11084,7 @@ unsigned int FUN_00e77eb0(FUN_00e77eb0_Info* pkInfo)
             for (j = 0; j < usComps; j++)
                 *pucOut++ = (unsigned char)*psIn++;
             if (j < 4)
-                _fnv_zlib_memset(pucOut, 0, (unsigned short)(4 - j));
+                std::memset(pucOut, 0, (unsigned short)(4 - j));
             uiSize += pkInfo->uiDestSize;
             psSrc = (unsigned short*)((char*)psSrc + pkInfo->uiSrcStride);
             pucDest += pkInfo->uiDestStride;
@@ -11113,7 +11105,7 @@ int __cdecl CopyStreamElements(FUN_00e79f40_Stream* pkInfo)
         unsigned short i = 0;
         if (i < pkInfo->count) {
             do {
-                _fnv_zlib_memset(pucDest, 0, pkInfo->elemSize);
+                std::memset(pucDest, 0, pkInfo->elemSize);
                 totalSize += pkInfo->elemSize;
                 pucDest += pkInfo->dstStride;
                 ++i;
@@ -11145,7 +11137,7 @@ int __cdecl CopyStreamElements(FUN_00e79f40_Stream* pkInfo)
                     } while (--remain != 0);
                 }
                 if (copied < 4)
-                    _fnv_zlib_memset(pWrite, 0, (unsigned short)(4 - copied));
+                    std::memset(pWrite, 0, (unsigned short)(4 - copied));
                 totalSize += pkInfo->elemSize;
                 pucDest += pkInfo->dstStride;
                 ++i;
@@ -11169,7 +11161,7 @@ int __cdecl CopyStreamElements(FUN_00e79f40_Stream* pkInfo)
                     } while (--remain != 0);
                 }
                 if (copied < 4)
-                    _fnv_zlib_memset(pWrite, 0, (unsigned short)(4 - copied));
+                    std::memset(pWrite, 0, (unsigned short)(4 - copied));
                 totalSize += pkInfo->elemSize;
                 pucSource += pkInfo->srcStride;
                 pucDest += pkInfo->dstStride;
@@ -11305,7 +11297,6 @@ void FUN_00e78be0_cls::FUN_00e78be0() throw()
     reinterpret_cast<::FUN_00ee88d0_cls *>(this)->FUN_00ee88d0_cls::~FUN_00ee88d0_cls();
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct FUN_00e79370_Info {
     unsigned short usDestComps;
@@ -11337,7 +11328,7 @@ unsigned int FUN_00e79370(FUN_00e79370_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             uiTotal += pkInfo->uiDestSize;
             pucDest += pkInfo->uiDestStride;
         }
@@ -11400,7 +11391,7 @@ unsigned __cdecl NormalizeVertexStream(NormalizedStream* pStream) {
     unsigned char* dst = pStream->dest;
     if (!src) {
         for (unsigned short i = 0; i < pStream->vertices; ++i) {
-            _fnv_zlib_memset(dst, 0, pStream->elementSize);
+            std::memset(dst, 0, pStream->elementSize);
             dst += pStream->destStride;
             a += pStream->elementSize;
         }
@@ -14854,7 +14845,7 @@ unsigned int ConvertVertexComponents(FUN_00e76c30_Info* info)
     unsigned short* indices = info->pusRemap;
     if (!source) {
         for (unsigned short row = 0; row < info->usVerts; ++row) {
-            _fnv_zlib_memset(output, 0, info->uiDestSize);
+            std::memset(output, 0, info->uiDestSize);
             total += info->uiDestSize;
             output += info->uiDestStride;
         }
@@ -14898,7 +14889,6 @@ unsigned int ConvertVertexComponents(FUN_00e76c30_Info* info)
     return total;
 }
 
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 struct ByteVertexConversion {
 
@@ -14948,7 +14938,7 @@ unsigned int __cdecl ConvertVertexFormat(ByteVertexConversion* info) {
 
         for (unsigned short i = 0; i < info->count; i++) {
 
-            FUN_00ec61c0(destination, 0, info->destinationSize);
+            std::memset(destination, 0, info->destinationSize);
 
             destination += info->destinationStride;
 
@@ -15016,7 +15006,6 @@ unsigned int __cdecl ConvertVertexFormat(ByteVertexConversion* info) {
 
 }
 
-void* _fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct FUN_00e77b50_Info {
     int eType;
@@ -15047,7 +15036,7 @@ unsigned int FUN_00e77b50(FUN_00e77b50_Info* pkInfo)
     {
         for (unsigned short i = 0; i < pkInfo->usVerts; i++)
         {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             pucDest += pkInfo->uiDestStride;
             uiTotal += pkInfo->uiDestSize;
         }
@@ -15071,7 +15060,7 @@ unsigned int FUN_00e77b50(FUN_00e77b50_Info* pkInfo)
                 s += 4;
             }
             if (j < 4)
-                _fnv_zlib_memset(d, 0, (unsigned short)(4 - j));
+                std::memset(d, 0, (unsigned short)(4 - j));
             uiTotal += pkInfo->uiDestSize;
             pucDest += pkInfo->uiDestStride;
         }
@@ -15089,7 +15078,7 @@ unsigned int FUN_00e77b50(FUN_00e77b50_Info* pkInfo)
                 s += 4;
             }
             if (j < 4)
-                _fnv_zlib_memset(d, 0, (unsigned short)(4 - j));
+                std::memset(d, 0, (unsigned short)(4 - j));
             uiTotal += pkInfo->uiDestSize;
             pucSrc += pkInfo->uiSrcStride;
             pucDest += pkInfo->uiDestStride;
@@ -15115,7 +15104,7 @@ unsigned int __cdecl PackByteElements(PackByteInfo* pInfo) {
     unsigned char* dst=pInfo->dest;
     if (!src) {
         for(unsigned short i=0;i<pInfo->count;i++) {
-            _fnv_zlib_memset(dst,0,pInfo->elementSize);
+            std::memset(dst,0,pInfo->elementSize);
             dst+=pInfo->destStride;
             size+=pInfo->elementSize;
         }
@@ -15130,7 +15119,7 @@ unsigned int __cdecl PackByteElements(PackByteInfo* pInfo) {
             unsigned char* out=dst;
             unsigned short j;
             for(j=0;j<comps;j++) *out++=(unsigned char)*in++;
-            if(j<4) _fnv_zlib_memset(out,0,(unsigned short)(4-j));
+            if(j<4) std::memset(out,0,(unsigned short)(4-j));
             size+=pInfo->elementSize;
             dst+=pInfo->destStride;
         }
@@ -15140,7 +15129,7 @@ unsigned int __cdecl PackByteElements(PackByteInfo* pInfo) {
             unsigned char* out=dst;
             unsigned short j;
             for(j=0;j<comps;j++) *out++=(unsigned char)*in++;
-            if(j<4) _fnv_zlib_memset(out,0,(unsigned short)(4-j));
+            if(j<4) std::memset(out,0,(unsigned short)(4-j));
             size+=pInfo->elementSize;
             src=(unsigned int*)((unsigned char*)src+pInfo->sourceStride);
             dst+=pInfo->destStride;
@@ -15149,7 +15138,6 @@ unsigned int __cdecl PackByteElements(PackByteInfo* pInfo) {
     return size;
 }
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 inline unsigned short minimum(unsigned short a, unsigned short b) { return a > b ? b : a; }
 struct ByteFloatStream {
  unsigned short lastComponent, unk02, type, unk06, vertices, unk0a;
@@ -15167,7 +15155,7 @@ unsigned __cdecl ConvertByteFloatStream(ByteFloatStream* pStream) {
  unsigned char* dest = pStream->dest;
  if (!source) {
   for (unsigned short i=0; i<pStream->vertices; ++i) {
-   fnv_zlib_memset(dest,0,pStream->elementSize);
+   std::memset(dest,0,pStream->elementSize);
    dest += pStream->destStride;
    total += pStream->elementSize;
   }
@@ -15221,7 +15209,6 @@ struct ColorStream {
     unsigned char* dst;
 };
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00e7a0a0
 unsigned int ConvertColorStream(ColorStream* pStream) {
@@ -15232,7 +15219,7 @@ unsigned int ConvertColorStream(ColorStream* pStream) {
     unsigned int written = 0;
     if (!src) {
         for (i = 0; i < pStream->count; i++) {
-            _fnv_zlib_memset(dst, 255, pStream->elemSize);
+            std::memset(dst, 255, pStream->elemSize);
             dst += pStream->dstStride;
             written += pStream->elemSize;
         }
@@ -15884,8 +15871,6 @@ void E71E40::RemoveItemsFromMap(FUN_00e744b0_Src* p) {
 
 }
 
-extern "C" void* __cdecl memset(void*,int,unsigned int);
-
 void* NiMalloc(unsigned int);
 struct RendererBase {
  virtual void BaseVirtual();
@@ -16283,7 +16268,7 @@ template<int Tag> struct RendererMapBase {
  unsigned int bucketCount; void* buckets; unsigned int itemCount;
  RendererMapBase(unsigned int n) throw() : bucketCount(n), itemCount(0) {
   buckets=NiMalloc(n*4);
-  _fnv_zlib_memset(buckets,0,bucketCount*4);
+  std::memset(buckets,0,bucketCount*4);
  }
 };
 template<int Tag> struct RendererMap : RendererMapBase<Tag> {
@@ -17026,7 +17011,7 @@ unsigned int __cdecl ConvertNormalizedShortsToFloats(NormalizedStream* pStream)
     unsigned char* pucDest = pStream->dest;
     if (!pucSrc) {
         for (unsigned short i = 0; i < pStream->vertices; i++) {
-            _fnv_zlib_memset(pucDest, 0, pStream->elementSize);
+            std::memset(pucDest, 0, pStream->elementSize);
             pucDest += pStream->destStride;
             uiBytesWritten += pStream->elementSize;
         }
@@ -18732,7 +18717,6 @@ void __cdecl FUN_00e752a0() {
     static_cast<::FUN_00e74a40_shell *>(nullptr)->AddGeometryToBatch({});
 }
 
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 struct StridedDataTransfer {
     int unk00;
     unsigned short usType;
@@ -18761,7 +18745,7 @@ unsigned int CopyIndexedRows(StridedDataTransfer* pkData)
     {
         for (unsigned short i = 0; i < pkData->m_usPassCountLocal; i++)
         {
-            FUN_00ec61c0(pucDst, 0, pkData->uiSize);
+            std::memset(pucDst, 0, pkData->uiSize);
             pucDst += pkData->uiDstStride;
             uiTotal += pkData->uiSize;
         }
@@ -18777,7 +18761,7 @@ unsigned int CopyIndexedRows(StridedDataTransfer* pkData)
             unsigned char* d = pucDst;
             unsigned short k;
             for (k = 0; k < usCopyLen; k++) *d++ = *s++;
-            if (k < 4) FUN_00ec61c0(d, 0, (unsigned short)(4 - k));
+            if (k < 4) std::memset(d, 0, (unsigned short)(4 - k));
             uiTotal += pkData->uiSize;
             pucDst += pkData->uiDstStride;
         }
@@ -18790,7 +18774,7 @@ unsigned int CopyIndexedRows(StridedDataTransfer* pkData)
             unsigned char* d = pucDst;
             unsigned short k;
             for (k = 0; k < usCopyLen; k++) *d++ = *s++;
-            if (k < 4) FUN_00ec61c0(d, 0, (unsigned short)(4 - k));
+            if (k < 4) std::memset(d, 0, (unsigned short)(4 - k));
             uiTotal += pkData->uiSize;
             pucSrc += pkData->uiSrcStride;
             pucDst += pkData->uiDstStride;
@@ -20878,7 +20862,6 @@ bool S00e76450_Obj::FUN_00e76450(unsigned int x, unsigned int y, int aiUnused, i
     return true;
 }
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 
 // Copies or zeroes count destination elements using strides and optional indices, then returns the accumulated element sizes.
 // @fnv 0x00e78f80
@@ -20892,7 +20875,7 @@ unsigned int __cdecl FUN_00e78f80(Stream_e78910* apStream)
     {
         for (unsigned short i = 0; i < apStream->count; ++i)
         {
-            FUN_00ec61c0(dest, 0, apStream->elemSize);
+            std::memset(dest, 0, apStream->elemSize);
             dest += apStream->dstStride;
             total += apStream->elemSize;
         }
@@ -20903,7 +20886,7 @@ unsigned int __cdecl FUN_00e78f80(Stream_e78910* apStream)
         {
             const char* p = source + indices[i] * apStream->srcStride;
             ++i;
-            FUN_00ec44d0(dest, p, apStream->unk14);
+            std::memmove(dest, p, apStream->unk14);
             dest += apStream->dstStride;
             total += apStream->elemSize;
         }
@@ -20954,7 +20937,7 @@ unsigned int __cdecl FUN_00e78f80(Stream_e78910* apStream)
     default:
         for (i = 0; i < apStream->count; ++i)
         {
-            FUN_00ec44d0(dest, source, apStream->unk14);
+            std::memmove(dest, source, apStream->unk14);
             dest += dstStride;
             total += elemSize;
             source += srcStride;
@@ -20994,7 +20977,7 @@ unsigned int FUN_00e79760(PixRow_00e79760* r)
 
   if (base == 0) {
     for (unsigned short i = 0; i < r->m_uiItemCount; i++) {
-      FUN_00ec61c0(dst, 0, r->m_rowSize);
+      std::memset(dst, 0, r->m_rowSize);
       dst += r->m_dstStride;
       total += r->m_rowSize;
     }
@@ -24477,8 +24460,6 @@ bool ShaderDeclStandIn::SetEntry(unsigned int uiEntry, unsigned int uiRegister, 
     return SetEntryFull(uiStream, uiEntry, uiRegister, eInput, eType, usage, index, 0);
 }
 
-void* __cdecl _memmove(void*, const void*, unsigned int);
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 // Copies component data into pucDest, zero-fills remaining components, and returns the accumulated destination size.
 // @fnv 0x00e771f0
@@ -24495,7 +24476,7 @@ unsigned int CopyPackedVerts(PackShortInfo* pkInfo)
 
     if (!pucSrc) {
         for (v = 0; v < pkInfo->usVerts; v++) {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->uiDestSize);
+            std::memset(pucDest, 0, pkInfo->uiDestSize);
             pucDest += pkInfo->uiDestStride;
             uiTotal += pkInfo->uiDestSize;
         }
@@ -24511,7 +24492,7 @@ unsigned int CopyPackedVerts(PackShortInfo* pkInfo)
         usIdx = 0;
         for (; v < pkInfo->usVerts; v++) {
             const unsigned char* pucVert = pucSrc + pusRemap[usIdx++] * pkInfo->uiSrcStride;
-            _memmove(pucDest, pucVert, usMinComps * 2);
+            std::memmove(pucDest, pucVert, usMinComps * 2);
             pusFill = (unsigned short*)(pucDest + usMinComps * 2);
             for (c = usMinComps; c < usMaxComps; c++)
                 *pusFill++ = 0;
@@ -24520,7 +24501,7 @@ unsigned int CopyPackedVerts(PackShortInfo* pkInfo)
         }
     } else {
         for (; v < pkInfo->usVerts; v++) {
-            _memmove(pucDest, pucSrc, usMinComps * 2);
+            std::memmove(pucDest, pucSrc, usMinComps * 2);
             pusFill = (unsigned short*)(pucDest + usMinComps * 2);
             for (c = usMinComps; c < usMaxComps; c++)
                 *pusFill++ = 0;
@@ -24532,8 +24513,6 @@ unsigned int CopyPackedVerts(PackShortInfo* pkInfo)
     return uiTotal;
 }
 
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 static inline void S00e783b0_Pad(unsigned char* pucPad, unsigned short usCopy)
 {
@@ -24553,7 +24532,7 @@ unsigned int __cdecl FUN_00e783b0(StreamCopyInfo* pkInfo)
 
     if (pucSrc == 0) {
         for (unsigned short k = 0; k < pkInfo->vertexCount; k++) {
-            _fnv_zlib_memset(pucDest, 0, pkInfo->bytesPerVertex);
+            std::memset(pucDest, 0, pkInfo->bytesPerVertex);
             pucDest += pkInfo->outputStride;
             uiBytesWritten += pkInfo->bytesPerVertex;
         }
@@ -24574,7 +24553,7 @@ unsigned int __cdecl FUN_00e783b0(StreamCopyInfo* pkInfo)
         for (; i < pkInfo->vertexCount; i++) {
             unsigned char* pucIn = pucSrc + pusRemap[j] * pkInfo->sourceStride;
             j++;
-            _memmove(pucDest, pucIn, usCopyBytes);
+            std::memmove(pucDest, pucIn, usCopyBytes);
             S00e783b0_Pad(pucDest + usCopyBytes, usCopyBytes);
             uiBytesWritten += pkInfo->bytesPerVertex;
             pucDest += pkInfo->outputStride;
@@ -24583,7 +24562,7 @@ unsigned int __cdecl FUN_00e783b0(StreamCopyInfo* pkInfo)
     }
 
     for (; i < pkInfo->vertexCount; i++) {
-        _memmove(pucDest, pucSrc, usCopyBytes);
+        std::memmove(pucDest, pucSrc, usCopyBytes);
         S00e783b0_Pad(pucDest + usCopyBytes, usCopyBytes);
         pucSrc += pkInfo->sourceStride;
         pucDest += pkInfo->outputStride;
@@ -24637,7 +24616,6 @@ unsigned int FUN_00e78a70(Stream_e78910* apStream)
     return uiBytesWritten;
 }
 
-void* memcpy(void*,const void*,unsigned int);
 struct Stream78 {
  unsigned short type, unk02;
  unsigned short components, unk06;
@@ -24662,7 +24640,7 @@ unsigned int FUN_00e78e30(Stream78* pkInfo) {
  unsigned short usVert;
  if(!pucSrc) {
   for(usVert=0;usVert<pkInfo->vertices;usVert++) {
-   _fnv_zlib_memset(pucDest,0,pkInfo->elementSize);
+   std::memset(pucDest,0,pkInfo->elementSize);
    uiTotalBytes+=pkInfo->elementSize;
    pucDest+=pkInfo->destStride;
   }
@@ -24704,7 +24682,7 @@ unsigned int __cdecl DecodeVertexData(NormalizedStream* apStream)
     {
         for (unsigned short i = 0; i < apStream->vertices; ++i)
         {
-            _fnv_zlib_memset(dest, 0, apStream->elementSize);
+            std::memset(dest, 0, apStream->elementSize);
             dest += apStream->destStride;
             bytes += apStream->elementSize;
         }
@@ -24967,7 +24945,6 @@ public:
     virtual long GetDirect3D(void**);
     virtual long GetDeviceCaps(D3DCapsStandIn*);
 };
-extern "C" int fnv_CopyFilePath(char*,unsigned int,const char*,unsigned int);
 extern char DAT_011f4648[256];
 void __cdecl FUN_00e7f830(int);
 void __cdecl FUN_00e7f840(int);
@@ -25662,13 +25639,13 @@ bool Renderer_e6c240::FUN_00e6c240(void* pkDevice)
 {
     if (m_pDirect3DDevice->GetDeviceCaps(&m_kDeviceCapabilities) < 0)
     {
-        fnv_CopyFilePath(DAT_011f4648, 0x100, "Creation failed: Could not query device caps", 0xff);
+        fnv::crt::strncpy_s(DAT_011f4648, 0x100, "Creation failed: Could not query device caps", 0xff);
         ::FUN_00a29680();
         return false;
     }
     if (m_kDeviceCapabilities.MaxTextureBlendStages < 2 || m_kDeviceCapabilities.MaxSimultaneousTextures < 2)
     {
-        fnv_CopyFilePath(DAT_011f4648, 0x100, "Creation failed: Device does not support single-pass multi-texture", 0xff);
+        fnv::crt::strncpy_s(DAT_011f4648, 0x100, "Creation failed: Device does not support single-pass multi-texture", 0xff);
         ::FUN_00a29680();
         return false;
     }
@@ -27655,8 +27632,6 @@ bool ThisObj::BuildPacketEntries(void* a1, void* pkModel, Arg3* pkArg3, void* pk
     return bResult;
 }
 
-extern "C" void* __cdecl memset(void*,int,unsigned int);
-extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 struct InitAdapterList;
 struct InitRenderer;
 struct InitPresent {
@@ -28920,7 +28895,7 @@ struct InitRenderer {
 // @fnv 0x00e76210
 GraphicsRenderer* GraphicsRenderer::Create(unsigned int auiArg1,unsigned int auiArg2,unsigned int auiArg3,unsigned int auiArg4,unsigned int auiArg5,unsigned int auiArg6,unsigned int auiArg7,unsigned int auiArg8,unsigned int auiArg9,unsigned int auiArg10,unsigned int auiArg11,unsigned int auiArg12,unsigned int auiArg13,unsigned int auiArg14,unsigned int auiArg15) {
  if (ShaderPassRenderer::Create(auiArg15) == ~0u) {
-  fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee6c8,255);
+  fnv::crt::strncpy_s(DAT_011f4648,256,DAT_010ee6c8,255);
   ::FUN_00a29680();
   return 0;
  }
@@ -28943,23 +28918,23 @@ bool InitRenderer::FUN_00e72e60(unsigned width,unsigned height,unsigned options,
  FUN_00e69a60();
  field5c4=adapterIndex; field3bc=deviceWindow; field3c0=focusWindow;
  if (!::SetModeFlags(deviceChoice,(int *)(unsigned int *)(&field5c8),&field5cc)) {
-  fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); ::FUN_00a29680(); return false;
+  fnv::crt::strncpy_s(DAT_011f4648,256,DAT_010ee20c,255); ::FUN_00a29680(); return false;
  }
  if(options&0x40) field5cc|=2;
  if(options&0x20) field5cc|=4;
  adapter=(*reinterpret_cast<::InitAdapterList * *>(&::g_0126f0e8))->GetAt(field5c4);
- if(!adapter) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee1a0,255); ::FUN_00a29680(); return false; }
+ if(!adapter) { fnv::crt::strncpy_s(DAT_011f4648,256,DAT_010ee1a0,255); ::FUN_00a29680(); return false; }
  buffer=adapter->GetBuffer(field5c8);
- if(!buffer) { fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee20c,255); ::FUN_00a29680(); return false; }
+ if(!buffer) { fnv::crt::strncpy_s(DAT_011f4648,256,DAT_010ee20c,255); ::FUN_00a29680(); return false; }
  InitPresent present;
  void* color;
  void* depth;
- FUN_00ec61c0(&present,0,sizeof(present));
+ std::memset(&present,0,sizeof(present));
  while(true) {
   ::FUN_00a29680();
   InitBuffer* pBuffer=(*reinterpret_cast<::InitAdapterList * *>(&::g_0126f0e8))->GetAt(field5c4)->GetBuffer2(field5c8);
   if(!pBuffer) {
-   fnv_CopyFilePath(DAT_011f4648,256,DAT_010ee0e8,255); ::FUN_00a29680();
+   fnv::crt::strncpy_s(DAT_011f4648,256,DAT_010ee0e8,255); ::FUN_00a29680();
   } else if(reinterpret_cast<::PresentationRenderer *>(this)->FUN_00e6bf50((void *)(field3bc),width,height,options,p12,p8,p9,aiBackBufferCountOut,p11,p14,p10,(::PresentationParameters *)(::InitPresent *)(&present))) {
    aiBackBufferCountOut=present.backBufferCount;
    InitDisplay displayMode;
@@ -29172,8 +29147,6 @@ int __cdecl FUN_00e78880(StreamE788* pkStream)
 }
 
 struct CopyFill { int value; };
-void* __cdecl FUN_00ec61c0(void* destination, int value, unsigned int count);
-void* __cdecl FUN_00ec44d0(void* destination, const void* source, unsigned int count);
 
 struct CopyStreamData {
     int unk00;
@@ -29201,7 +29174,7 @@ int __cdecl FUN_00e78d50(CopyStreamData* apStreamData) {
 
     if (source == (char*)zero.value) {
         for (unsigned short index = 0; index < apStreamData->unk08; ++index) {
-            FUN_00ec61c0(destination, zero.value, apStreamData->unk1C);
+            std::memset(destination, zero.value, apStreamData->unk1C);
             destination += apStreamData->unk20;
             total += apStreamData->unk1C;
         }
@@ -29211,7 +29184,7 @@ int __cdecl FUN_00e78d50(CopyStreamData* apStreamData) {
             unsigned int index=zero.value;
             do {
             char* input = source + indices[(unsigned short)index++] * apStreamData->unk18;
-            FUN_00ec44d0(destination, input, apStreamData->unk1C);
+            std::memmove(destination, input, apStreamData->unk1C);
             destination += apStreamData->unk20;
             total += apStreamData->unk1C;
             } while ((unsigned short)index < apStreamData->unk08);
@@ -29221,7 +29194,7 @@ int __cdecl FUN_00e78d50(CopyStreamData* apStreamData) {
         if (0 < apStreamData->unk08) {
             unsigned int index=zero.value;
             do {
-            FUN_00ec44d0(destination, source, apStreamData->unk1C);
+            std::memmove(destination, source, apStreamData->unk1C);
             source += apStreamData->unk18;
             destination += apStreamData->unk20;
             total += apStreamData->unk1C;
@@ -32386,7 +32359,6 @@ namespace RendererReset {
 
 
 
-extern "C" void* __cdecl FUN_00ec61c0(void*,int,unsigned int);
 
 
 
@@ -32417,11 +32389,11 @@ void FUN_00e6b990();};
 
 // Resets selected renderer fields, clears four state, counter, and ref entries, sets the matrix to identity, and writes values to DAT_0126efd8.
 // @fnv 0x00e6b990
-void Renderer::FUN_00e6b990(){unk288=0;FUN_00ec61c0(&unk28c,0,0x130);
+void Renderer::FUN_00e6b990(){unk288=0;std::memset(&unk28c,0,0x130);
 
 
 
-unk5e4=1.0f;unk3bc=0;b3c4=false;ResetColors();unk688=100.0f;FUN_00ec61c0(&matrix,0,64);matrix.data[0]=matrix.data[5]=matrix.data[10]=matrix.data[15]=1.0f;unk620=0;unk624=0;memset(&unk6cc,0,24);unk6cc=0;unk6d0=0;unk6d4=1;unk6d8=1;unk6dc=0.0f;unk6e0=1.0f;
+unk5e4=1.0f;unk3bc=0;b3c4=false;ResetColors();unk688=100.0f;std::memset(&matrix,0,64);matrix.data[0]=matrix.data[5]=matrix.data[10]=matrix.data[15]=1.0f;unk620=0;unk624=0;memset(&unk6cc,0,24);unk6cc=0;unk6d0=0;unk6d4=1;unk6d8=1;unk6dc=0.0f;unk6e0=1.0f;
 
 
 
@@ -32429,7 +32401,7 @@ for(unsigned int i=0;i<4;++i){states[i].Clear();counters[i]=0;refs[i].Clear();}
 
 
 
-unk96c=unk95c=unk94c=0.0f;unk97c=1.0f;unk880=22;unk888=0;unk88c=0;unk8bc=0;unk8c0=0;unk8c4=0;unk8b8=0;unk8c8=0;unk8ac=0;unk8b0=0;unk8b4=0;unka80=0;unka84=0;unka88=0;unka90=0;wA8c=0;unka94=0;unk280=0;unk284=0;FUN_00ec61c0((*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8)),0,118);
+unk96c=unk95c=unk94c=0.0f;unk97c=1.0f;unk880=22;unk888=0;unk88c=0;unk8bc=0;unk8c0=0;unk8c4=0;unk8b8=0;unk8c8=0;unk8ac=0;unk8b0=0;unk8b4=0;unka80=0;unka84=0;unka88=0;unka90=0;wA8c=0;unka94=0;unk280=0;unk284=0;std::memset((*reinterpret_cast<unsigned char (*)[118]>((void *)&::DAT_0126efd8)),0,118);
 
 
 
@@ -32686,7 +32658,6 @@ struct ScrTargetGroup {
     virtual ScrRendererData* GetRenderTargetBuffer(unsigned int uiIndex);
 };
 
-void* _memmove(void*, const void*, unsigned int);
 
 struct ScrDX9Renderer {
     virtual void vf00();
@@ -32828,7 +32799,7 @@ NiPixelData* ScrDX9Renderer::FUN_00e6f4e0(const ScrRect* pkScreenRect, ScrTarget
     unsigned char* pucSrc = (unsigned char*)kLock.pBits;
     for (unsigned int i = 0; i < uiHeight; i++)
     {
-        _memmove(pucDest, pucSrc, uiRowBytes);
+        std::memmove(pucDest, pucSrc, uiRowBytes);
         pucSrc += kLock.Pitch;
         pucDest += uiRowBytes;
     }

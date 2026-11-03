@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
@@ -2663,7 +2664,6 @@ void TextureOwner::FUN_00b5ef90(const RefPtr_b9fcc0& value)
     }
 }
 
-extern void* __cdecl FUN_00ec61c0(void* dest, int value, unsigned int count);
 extern void* __cdecl FUN_00aa1070(unsigned int size);
 
 struct MapBase_00b585c0
@@ -2675,7 +2675,7 @@ struct MapBase_00b585c0
     MapBase_00b585c0(unsigned int size) : hashSize(size), allocatorCount(0)
     {
         hashTable = static_cast<void**>(FUN_00aa1070(hashSize * sizeof(void*)));
-        FUN_00ec61c0(hashTable, 0, hashSize * sizeof(void*));
+        std::memset(hashTable, 0, hashSize * sizeof(void*));
     }
     virtual ~MapBase_00b585c0()
     {}
@@ -2696,7 +2696,6 @@ Map_00b585c0* __cdecl FUN_00b585c0()
 }
 
 void* __cdecl NiMallocB58(unsigned int uiSize);
-extern "C" void* __cdecl MemSetB58(void* pvDest, int iValue, unsigned int uiSize);
 
 struct NiTMapItemB58;
 
@@ -2709,7 +2708,7 @@ class NiTMapBaseB58
         m_uiCount = 0;
         unsigned int uiSize = sizeof(NiTMapItemB58*) * m_uiHashSize;
         m_ppkHashTable = (NiTMapItemB58**)NiMallocB58(uiSize);
-        MemSetB58(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemB58*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemB58*));
     }
     virtual ~NiTMapBaseB58();
 

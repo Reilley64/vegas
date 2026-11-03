@@ -6,6 +6,8 @@
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A89210IntsExtraData.h"
@@ -356,7 +358,6 @@ struct FUN_00c60950_class : NiPSysModifier_00c31950
 {
     void FUN_00c60950(NiStream* stream);
 };
-size_t _strlen(const char*);
 struct P03MM
 {
     void* Allocate(unsigned int);
@@ -428,7 +429,6 @@ struct FUN_00c63330 : NiPSysPositionModifier
     FUN_00c63330();
 };
 int strcpy_s(char* dst, unsigned int size, const char* src);
-size_t strlen(const char*);
 struct MemoryManagerAllocHelper
 {
     void* Allocate(unsigned int);
@@ -2197,11 +2197,10 @@ void Collector62::FUN_00c62200(AVObj62* pkObj)
     }
 }
 
-int __cdecl FUN_00ecadb8();
 
 inline float UnitRandom()
 {
-    return (float)(FUN_00ecadb8() / DAT_01029790);
+    return (float)(std::rand() / DAT_01029790);
 }
 
 class FUN_00c62390_cls
@@ -2279,7 +2278,6 @@ void FUN_00c62390_cls::FUN_00c62390(void* a1, void* a2)
 }
 
 namespace fnv_00c625f0 {
-extern int __cdecl FUN_00ecadb8(void);
 float FUN_004579e0(float);
 
 class NiPoint3
@@ -2498,7 +2496,7 @@ void EmitterSampler::FUN_00c625f0(EmitterObject* object, NiPoint3& position, NiP
     if (geometry)
     {
         unsigned short count = geometry->modelData->GetVertexCount();
-        int index = (unsigned int)((double)count * (float)(FUN_00ecadb8() / ::DAT_01029790));
+        int index = (unsigned int)((double)count * (float)(std::rand() / ::DAT_01029790));
         if (index == count)
             index--;
         position = geometry->GetVertices()[index];
@@ -2788,7 +2786,6 @@ struct MM630
     void* Allocate(unsigned int);
 };
 
-long __cdecl FUN_00eca6d3(const char* s);
 
 struct StrMem
 {
@@ -2802,7 +2799,7 @@ struct StrMem
     }
     unsigned int GetLength() const
     {
-        return m_usLen == 0xffff ? (unsigned int)_strlen(GetText()) : (unsigned int)m_usLen;
+        return m_usLen == 0xffff ? (unsigned int)std::strlen(GetText()) : (unsigned int)m_usLen;
     }
     ~StrMem()
     {
@@ -3060,7 +3057,7 @@ bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
             StrMem str4("DecalPlacementVectorGroup");
             const char* suffix3 = (const char*)p->GetMesh();
             suffix3 += str4.GetLength();
-            int idx = (int)FUN_00eca6d3(suffix3);
+            int idx = (int)std::atoi(suffix3);
             if ((int)extra->m10 < 8 && idx < 8 && extra->m14[idx] == 0)
             {
                 VecGroup* pv = new VecGroup();
@@ -3672,7 +3669,6 @@ FUN_00c63b40::~FUN_00c63b40()
 }
 }  // namespace fnv_00c63b40
 
-extern "C" int __cdecl rand();
 struct V3Op : V3
 {
     V3Op ApplyScaled(float f) const;
@@ -3783,7 +3779,7 @@ inline void Dead6()
 }
 inline float Rand01()
 {
-    return rand() / 32767.0;
+    return std::rand() / 32767.0;
 }
 // @fnv 0x00c62470
 void FUN_00c62390_cls::FUN_00c62470(void* a, void* b, void* c)

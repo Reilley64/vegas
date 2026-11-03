@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -2550,7 +2551,6 @@ struct FUN_006ff920 : public FUN_006ff970_Class
 {
     FUN_006ff920(int a1, int a2);
 };
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_006e3e70_Class
 {
@@ -2565,12 +2565,12 @@ void FUN_006e3e70_Class::FUN_006e3e70(char* pDst, char* pSrc, unsigned int c)
     if (pDst < pSrc)
     {
         for (unsigned int i = 0; i < c; ++i)
-            FUN_00ec7230(pDst + i * 0x24, pSrc + i * 0x24, 0x24);
+            std::memmove(pDst + i * 0x24, pSrc + i * 0x24, 0x24);
     }
     else if (pDst > pSrc)
     {
         for (int i = c - 1; i >= 0; --i)
-            FUN_00ec7230(pDst + i * 0x24, pSrc + i * 0x24, 0x24);
+            std::memmove(pDst + i * 0x24, pSrc + i * 0x24, 0x24);
     }
 }
 
@@ -2848,7 +2848,6 @@ FUN_006f4f90_Class::FUN_006f4f90_Class(int aiFirst, int aiSecond)
 }
 }  // namespace fnv_006f4f90
 
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 struct FUN_006f98c0_Class2
 {
     void* m_vtbl;
@@ -2876,7 +2875,7 @@ FUN_006f98c0_Class2::FUN_006f98c0_Class2(int count)
         unsigned int size = m_uiItemCount * 4;
         void* buf = operator new(size);
         m_data = buf;
-        _fnv_zlib_memset(m_data, 0, m_uiItemCount * 4);
+        std::memset(m_data, 0, m_uiItemCount * 4);
     }
 }
 
@@ -3142,7 +3141,7 @@ FUN_006f9a00::FUN_006f9a00(int iSize)
         unsigned int uiBytes = m_uiLogicalSize * 4;
         void* pData2 = operator new(uiBytes);
         m_pData = pData2;
-        _fnv_zlib_memset(m_pData, 0, m_uiLogicalSize * 4);
+        std::memset(m_pData, 0, m_uiLogicalSize * 4);
     }
 }
 

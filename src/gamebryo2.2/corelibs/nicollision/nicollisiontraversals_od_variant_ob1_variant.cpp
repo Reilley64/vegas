@@ -7,6 +7,7 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 #include "fnv/decl/Builder.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
@@ -208,7 +209,6 @@ struct FloatMatrix3
     Pt rows[3];
     NiPoint3 FUN_004b4500(const NiPoint3* p);
 };
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
 struct Host
 {
     int u00;

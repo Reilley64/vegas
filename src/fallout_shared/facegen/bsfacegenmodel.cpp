@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmodel.cpp: BSFaceGenModel, FaceGenTriData, DelStandIn, FileSizeInfo and more (43 functions)
 
+#include <cstdlib>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
@@ -495,7 +496,6 @@ unsigned int FUN_0065c700(const _Vec12* pVec)
     return pVec->_Mylast - pVec->_Myfirst;
 }
 
-void __cdecl FUN_00ec7c56();
 
 // Bounds-checks _Pos against FUN_0065c700() and returns the NiPoint3 element at that index from the array at data[3].
 // @fnv 0x0065c720
@@ -503,7 +503,7 @@ NiPoint3& FaceGenTriData::FUN_0065c720(unsigned int uiIndex)
 {
     if (uiIndex >= ::FUN_0065c700((const ::_Vec12 *)this))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1052,13 +1052,12 @@ struct EGMMorphList
     int _base;
     int GetMorphEntry(unsigned int);
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 // Bounds-checks idx against the morph count, then returns the address of the entry at idx (stride 0x1c) from _base.
 // @fnv 0x00657c20
 int EGMMorphList::GetMorphEntry(unsigned int idx)
 {
     if (idx >= ((unsigned int)(reinterpret_cast<::FUN_00657c00_shell *>(this)->GetCount())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);

@@ -5,6 +5,7 @@
 
 // src/fallout/interface/menus/hackingmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/hackingmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -1056,7 +1057,6 @@ struct FUN_0076b300 : FUN_00759eb0
     FUN_0076b300(const char*, char*, const char*, int, unsigned char);
 };
 // Adapted from prior contributor's code (credited in packet.json)
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern "C" void* __cdecl FUN_00afdf20(const char*, unsigned int, unsigned int, unsigned int);
 extern char str_01072a34[];
 extern char str_01072a00[];

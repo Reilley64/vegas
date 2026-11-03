@@ -1,6 +1,8 @@
 // fallout/audio/falloutradio.cpp: FalloutRadio, RadioConvTask, FalloutAudioMedia, Interface and more (61 functions)
 
 #include <new>
+#include <cstdint>
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -1905,7 +1907,6 @@ struct Player
     virtual void v124();
     virtual const Vec3& Position();
 };
-int FUN_00ec7750(const char*, const char*);
 void FUN_00705210(const char*, Sound, Vec3, Player*, bool);
 // Updates the radio station state: plays or stops sounds, sets volume, handles voice tracks and resets the current sound when idle.
 // @fnv 0x008331c0
@@ -1972,7 +1973,7 @@ void UpdateRadio(bool force)
             kindB = ::FUN_0044a670(((const char *)(::FUN_00559450((int *)(((::RadioUpdate::String *)(new ((void *)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse())))) ::Vec3())))))));
             hasSound3 = kindB > 2 && reinterpret_cast<::FUN_00700270_class *>((((::RadioUpdate::Info *)(::FUN_00460140((int)(((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))))))->operator==(0);
             if (!hasSound3 && ((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())) &&
-                FUN_00ec7750(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430())))), DAT_0107ce2c))
+                ((int)(std::uintptr_t)(std::strstr((char *)(::FUN_00511840((char *)(((::RadioUpdate::SoundForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RadioUpdate::Entry *)(reinterpret_cast<::DialogueItem *>((track))->GetActiveResponse()))))->FUN_007af430()))))), DAT_0107ce2c))))
                 hasSound3 = true;
         }
         unsigned int age = ((::RadioUpdate::Manager *)(::FUN_00453a70()))->FUN_0063d040() - (*reinterpret_cast<::RadioUpdate::Station * *>(&::DAT_011dd42c))->state.elapsed;

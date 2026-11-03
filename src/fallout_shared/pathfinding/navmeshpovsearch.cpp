@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A06F0Key.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -392,7 +393,6 @@ bool S3e60::FUN_006a1400(unsigned int auiFlag)
     return ((bool)(reinterpret_cast<::FUN_006a1490_class *>((void *)this)->FUN_006a1490(auiFlag)));
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct S2f760
 {
     char pad[0x30];

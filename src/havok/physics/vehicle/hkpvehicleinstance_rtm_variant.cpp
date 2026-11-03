@@ -5,6 +5,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
 #include "fnv/decl/FUN_00d2b2b0_class.h"
@@ -1744,8 +1745,6 @@ extern "C" void _mm_store_ss(float*, __m128);
 struct SimdScalar { __m128 q; SimdScalar(float f) : q(_mm_load_ss(&f)) {} __m128 broadcast() const { return _mm_shuffle_ps(q,q,0); } };
 inline __m128 multiplyScalar(const SimdScalar& f, __m128 v) { return _mm_mul_ps(f.broadcast(),v); }
 struct VectorTemp { __m128 q; };
-extern "C" double __cdecl sqrt(double);
-
 struct hkpVehicleWheelParams {
     float m_fSphereRadius;
     float m_fViscosityFriction;

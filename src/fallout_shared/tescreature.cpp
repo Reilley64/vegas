@@ -1,6 +1,8 @@
 // fallout_shared/tescreature.cpp: TESCreature, DelStandIn, ActorValue, StandIn and more (45 functions)
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/ActorBaseSaveView.h"
 #include "fnv/decl/ActorSpellView.h"
 #include "fnv/decl/B50F600Ref.h"
@@ -1636,7 +1638,6 @@ void Host_5f7c20::Init()
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
-extern "C" void* _alloca(unsigned int);
 void* operator new(unsigned int);
 void operator delete(void*);
 struct CreatureRecordFile
@@ -3415,7 +3416,6 @@ void Actor::ApplyEffectToBodyParts(Effect* effect, int type, int part, void* sou
 
 extern "C" char DAT_01183a00;
 extern "C" void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct S47f190
 {
 };

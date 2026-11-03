@@ -1,5 +1,6 @@
 // fallout_shared/settings/xgamesetting.cpp: GameSettingCollection, StrArr (9 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -165,7 +166,6 @@ unsigned int StrArr::FUN_00c4c8d0(char*& element)
     }
 }
 
-char* __cdecl FUN_00ec7750(const char* key, const char* name);
 
 // @fnv 0x00c4bd20
 int __cdecl FUN_00c4bd20(Setting* setting)
@@ -176,7 +176,7 @@ int __cdecl FUN_00c4bd20(Setting* setting)
     const char* p = n;
     if (p)
     {
-        dst = FUN_00ec7750(p, "_:");
+        dst = std::strstr((char *)(p), "_:");
         if (dst)
         {
             dst += 2;

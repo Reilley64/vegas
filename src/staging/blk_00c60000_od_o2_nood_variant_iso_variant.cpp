@@ -9,6 +9,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A89210IntsExtraData.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -467,7 +469,6 @@ struct FUN_00c63330 : NiPSysPositionModifier
     FUN_00c63330();
 };
 int strcpy_s(char* dst, unsigned int size, const char* src);
-size_t strlen(const char*);
 struct MemoryManagerAllocHelper
 {
     void* Allocate(unsigned int);
@@ -2318,14 +2319,9 @@ extern "C"
     __m128 _mm_sub_ps(__m128, __m128);
     __m128 _mm_sub_ss(__m128, __m128);
 }
-extern "C" double __cdecl cos(_In_ double _X);
 extern "C" inline float cosf(_In_ float _X)
 {
     return ((float)cos((double)_X));
-}
-inline float __cdecl cos(_In_ float _X)
-{
-    return (cosf(_X));
 }
 struct FxRTTI
 {
@@ -4143,7 +4139,6 @@ struct CharacterProbeLocal
     float height;
     void FUN_00c6e820();
 };
-extern "C" double __cdecl atan(double);
 __forceinline float AimMin(float a, float b)
 {
     return a < b ? a : b;

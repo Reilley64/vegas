@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niquaternion.cpp: NiQuaternion, RgbaColor, NiQuaternionA6E (15 functions)
 
+#include <cmath>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00a58000.h"
 #include "fnv/symbols_00aa1000.h"
@@ -203,9 +204,6 @@ struct FUN_00a6e4a0_shell : public NiQuaternion
     void FUN_00a6e4a0(NiStream& kStream);
 };
 
-extern "C" double __cdecl sqrt(double);
-extern "C" double __cdecl acos(double);
-
 static const float epsilon = 0.001f;
 
 struct FUN_00a6de50_shell
@@ -256,8 +254,6 @@ void FUN_00a6de50_shell::GetAngleAndAxis(float* angle, float* axis)
     axis[1] = invLength * m_fVectorZ;
     axis[2] = invLength * m_fScalarPart;
 }
-
-extern "C" double __cdecl fabs(double x);
 
 inline float NiAbsA6E(float fValue)
 {

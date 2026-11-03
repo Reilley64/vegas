@@ -1,6 +1,8 @@
 // fallout_shared/tesrace.cpp: TESRace, Obj, RaceCleanup, RaceReset and more (42 functions)
 
 #include <new>
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSExplosion.h"
@@ -238,7 +240,7 @@ bool TESRace::GetBipedObjectModelPath(TESNPC* npc, BIPED_OBJECT part, char* out)
     if (npc && npc == reinterpret_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((::_g_thePlayer))->FUN_007af430()))) && (sex == 1 || sex == 2))
     {
         const char* extension =
-            strrchr(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(&m_kHeadPartTextures[index][sex])))->FUN_00408da0())), '.');
+            ((const char *)(std::strrchr((char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((reinterpret_cast<TESFullName*>(&m_kHeadPartTextures[index][sex])))->FUN_00408da0()))), '.')));
         char* dot = FUN_0040ab30(out, '.');
         if (dot && extension)
         {
@@ -669,7 +671,6 @@ int FUN_00614630()
     return DAT_0119b4e4;
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 extern "C" void __cdecl _security_check_cookie(unsigned int);
 
 struct BSStr
@@ -1193,7 +1194,6 @@ void RaceReset::ResetRaceData()
     m_pYoungerRace = 0;
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 struct SaveComponent611e50
 {
 };
@@ -1443,7 +1443,6 @@ struct RaceComparer : TESRace
     bool IsDifferentFrom(TESForm*);
     TESEyes* FUN_00613870(unsigned);
 };
-int FUN_00ec4835(const void*, const void*, unsigned);
 // Compares this race against another TESRace field by field and returns true as soon as any difference is found.
 // @fnv 0x006131c0
 bool RaceComparer::IsDifferentFrom(TESForm* form)
@@ -1453,7 +1452,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pOtherRace)))
         return true;
-    if (FUN_00ec4835(&Data, ((::RaceDefinitionData *)(reinterpret_cast<::FUN_00613790_shell *>((pOtherRace))->FUN_00613790())), 36))
+    if (std::memcmp(&Data, ((::RaceDefinitionData *)(reinterpret_cast<::FUN_00613790_shell *>((pOtherRace))->FUN_00613790())), 36))
         return true;
     if (m_pOlderRace != pOtherRace->m_pOlderRace)
         return true;

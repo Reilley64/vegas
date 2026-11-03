@@ -7,6 +7,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -6045,7 +6046,6 @@ struct NiDX9RenderTargetInfo
 struct SearchIndex
 {
 };
-extern "C" int __cdecl abs(int v);
 extern unsigned int DAT_011bf140[];
 class DepthStencilSearch
 {

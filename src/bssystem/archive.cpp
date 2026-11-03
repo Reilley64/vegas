@@ -1,6 +1,11 @@
 // bssystem/archive.cpp: S_af9, NP_afc, ArchiveStand, CompressedArchiveFile and more (114 functions)
 
 #include <windows.h>
+#include <cctype>
+#include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AA1AC0Class.h"
 #include "fnv/decl/DirectoryArchive.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -49,9 +54,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f8000.h"
 #include "fnv/symbols_01272000.h"
-extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
-extern "C" int __cdecl _strlwr_s(char*, unsigned int);
 extern "C" const char kDataPrefix[];
 extern "C" const char kTexturePrefix[];
 
@@ -64,9 +66,9 @@ unsigned int __cdecl GetPathHash(const char* pcPath, bool includeTextures)
         current += 3;
     if (*current == '\\')
         ++current;
-    if (_strnicmp(current, kDataPrefix, 5) == 0)
+    if (fnv::crt::strnicmp(current, kDataPrefix, 5) == 0)
         current += 5;
-    if (includeTextures && _strnicmp(current, kTexturePrefix, 9) == 0)
+    if (includeTextures && fnv::crt::strnicmp(current, kTexturePrefix, 9) == 0)
         current += 9;
     return (unsigned int)(current - pcPath);
 }
@@ -78,9 +80,9 @@ bool __cdecl CleanPath(const char* path, char* output, unsigned int outputSize)
     output[0] = 0;
     {
         unsigned int offset = GetPathHash(path, false);
-        strcat_s(output, outputSize, path + offset);
+        fnv::crt::strcat_s(output, outputSize, path + offset);
     }
-    _strlwr_s(output, outputSize);
+    fnv::crt::strlwr_s(output, outputSize);
     return result;
 }
 
@@ -550,13 +552,12 @@ bool __cdecl FUN_00af6320(int a1, int a2)
     return ((int)(::fnv_00af6160::FindArchiveForFile((const char *)(a1), a2)));
 }
 
-unsigned int __cdecl _strlen(const char*);
 
 // Computes the string length, then passes a pointer to its last three characters to LookupExtensionType and returns that result.
 // @fnv 0x00af7d80
 int __cdecl FUN_00af7d80(const char* pcString)
 {
-    unsigned int len = _strlen(pcString);
+    unsigned int len = std::strlen(pcString);
     return ((int)(::fnv_00af7db0::LookupExtensionType(pcString + len - 3)));
 }
 
@@ -910,10 +911,6 @@ struct FileNameHash
     unsigned int uiCRC;
 };
 
-extern "C" int __cdecl _splitpath_s(const char*, char*, unsigned int, char*, unsigned int, char*, unsigned int, char*,
-                                    unsigned int);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" unsigned int __cdecl strlen(const char*);
 void __cdecl ComputeNameHash(char*, char*, FileNameHash*);
 
 // Splits a path into drive, directory, file and extension, hashes the file name with its extension and the directory path into the two output hashes.
@@ -931,11 +928,11 @@ void __cdecl HashPathComponents(const char* apString, FileNameHash* arDirHash, F
     pfile[0] = '\0';
     pext[0] = '\0';
 
-    _splitpath_s(apString, pdrive, 16, pdir, 260, pfile, 260, pext, 16);
+    fnv::crt::splitpath_s(apString, pdrive, 16, pdir, 260, pfile, 260, pext, 16);
     ComputeNameHash(pfile, pext, arFileHash);
 
-    strcpy_s(pfile, 260, pdrive);
-    strcat_s(pfile, 260, pdir);
+    fnv::crt::strcpy_s(pfile, 260, pdrive);
+    fnv::crt::strcat_s(pfile, 260, pdir);
 
     if (pfile[0] == '\0')
     {
@@ -952,10 +949,6 @@ void __cdecl HashPathComponents(const char* apString, FileNameHash* arDirHash, F
     ComputeNameHash(pfile, 0, arDirHash);
 }
 
-extern "C" int __cdecl _splitpath_s(const char*, char*, unsigned int, char*, unsigned int, char*, unsigned int, char*,
-                                    unsigned int);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" unsigned int __cdecl strlen(const char*);
 void __cdecl ComputeNameHash(const char*, const char*, void*);
 
 struct FUN_00afd390_class
@@ -981,7 +974,7 @@ void* FUN_00afd390_class::FUN_00afd390(const char* path, int mode)
                     dir[0] = '\0';
                     fname[0] = '\0';
                     ext[0] = '\0';
-                    _splitpath_s(path, drive, 16, dir, 260, fname, 260, ext, 16);
+                    fnv::crt::splitpath_s(path, drive, 16, dir, 260, fname, 260, ext, 16);
                     if (mode == 0)
                     {
                         pExt = ext;
@@ -989,8 +982,8 @@ void* FUN_00afd390_class::FUN_00afd390(const char* path, int mode)
                     }
                     else
                     {
-                        strcpy_s(fname, 260, drive);
-                        strcat_s(fname, 260, dir);
+                        fnv::crt::strcpy_s(fname, 260, drive);
+                        fnv::crt::strcat_s(fname, 260, dir);
                         if (fname[0] == '\0')
                         {
                             fname[0] = '.';
@@ -1012,7 +1005,6 @@ void* FUN_00afd390_class::FUN_00afd390(const char* path, int mode)
 }
 
 extern char* DAT_011f8158;
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 struct MemoryManagerAllocHelper
 {
     void* Allocate(unsigned int);
@@ -1024,14 +1016,14 @@ void __cdecl FUN_00af4490(bool abInvalidate, const char* apInvalidationFile)
     DAT_011acdf9 = abInvalidate;
     if (apInvalidationFile)
     {
-        unsigned int ilistSize = _strlen(apInvalidationFile) + 1;
+        unsigned int ilistSize = std::strlen(apInvalidationFile) + 1;
         {
             char* pBuf = (char*)reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemoryManagerAllocHelper*>(&::g_memoryManager)))->FUN_00aa3e40(ilistSize);
             DAT_011f8158 = pBuf;
         }
         {
             char* pDst = DAT_011f8158;
-            _strcpy_s(pDst, ilistSize, apInvalidationFile);
+            fnv::crt::strcpy_s(pDst, ilistSize, apInvalidationFile);
         }
     }
 }
@@ -1227,8 +1219,6 @@ struct P03MM
 {
     void* Allocate(unsigned int);
 };
-unsigned int __cdecl _strlen(const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
 extern char DAT_011f8050[];
 extern char* DAT_011f815c;
 extern unsigned int DAT_011f8164;
@@ -1243,13 +1233,13 @@ void __cdecl FUN_00af43a0(bool abUseArchives, char* apMasterFilePath, char* apAr
     DAT_011acdf8 = abUseArchives;
     if (apArchiveList)
     {
-        ilistSize = _strlen(apArchiveList) + 1;
+        ilistSize = std::strlen(apArchiveList) + 1;
         pEmpty = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&::g_memoryManager)))->FUN_00aa3e40(ilistSize);
         DAT_011f815c = pEmpty;
         {
             {
                 char* pDest = DAT_011f815c;
-                _strcpy_s(pDest, ilistSize, apArchiveList);
+                fnv::crt::strcpy_s(pDest, ilistSize, apArchiveList);
             }
         }
     }
@@ -1260,14 +1250,13 @@ void __cdecl FUN_00af43a0(bool abUseArchives, char* apMasterFilePath, char* apAr
         *DAT_011f815c = 0;
     }
     if (apMasterFilePath)
-        _strcpy_s(DAT_011f8050, 0x104, apMasterFilePath);
+        fnv::crt::strcpy_s(DAT_011f8050, 0x104, apMasterFilePath);
     else
-        _strcpy_s(DAT_011f8050, 0x104, DAT_010a433a);
+        fnv::crt::strcpy_s(DAT_011f8050, 0x104, DAT_010a433a);
     DAT_011f8164 = aiFileBufferSize;
 }
 
 namespace fnv_00af7db0 {
-int __cdecl _stricmp(const char*, const char*);
 struct ExtEntry_00af7db0
 {
     char acExt[4];
@@ -1295,7 +1284,7 @@ unsigned int __cdecl LookupExtensionType(const char* apExt)
     {
         uiMid = (uiStep - iCmp) >> 1;
         uiHigh = iCmp + uiMid;
-        uiLow = _stricmp(apExt, (*reinterpret_cast<fnv_00af7db0::ExtEntry_00af7db0 (*)[]>(&::fnv_00af4550::DAT_011ace08))[uiHigh].acExt);
+        uiLow = fnv::crt::stricmp(apExt, (*reinterpret_cast<fnv_00af7db0::ExtEntry_00af7db0 (*)[]>(&::fnv_00af4550::DAT_011ace08))[uiHigh].acExt);
         if (uiLow > 0)
             iCmp = uiHigh;
         else if (uiLow < 0)
@@ -1679,7 +1668,6 @@ void* FUN_00afcd60_shell::FUN_00afcd60(void* p, unsigned int count)
 }
 }  // namespace fnv_00afcd60
 
-extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 
 // Skips a leading backslash and, if the path starts with "Data\" or "data\", advances past that prefix; returns the resulting path pointer.
 // @fnv 0x00b014b0
@@ -1687,14 +1675,12 @@ const char* __cdecl SkipDataPrefix(const char* path)
 {
     if (*path == '\\')
         ++path;
-    if (FUN_00ec8a19(path, "Data\\", 5) == 0 || FUN_00ec8a19(path, "data\\", 5) == 0)
+    if (std::strncmp(path, "Data\\", 5) == 0 || std::strncmp(path, "data\\", 5) == 0)
         path += 5;
     return path;
 }
 
 namespace fnv_00af5700 {
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-int __cdecl _stricmp(const char*, const char*);
 struct FileFinder
 {
     int GetFileLocation(char* apFileName, char* apPath, unsigned int auiArchiveType, unsigned int auiFlags);
@@ -1713,7 +1699,7 @@ bool __cdecl FUN_00af5700(char* apFileName)
     char acPath[260];
     if (!DAT_011f8160)
         return false;
-    strcpy_s(acPath, 260, apFileName);
+    fnv::crt::strcpy_s(acPath, 260, apFileName);
     if (!(g_fileFinder ? g_fileFinder->GetFileLocation(apFileName, acPath, 1, 0xffffffff) : 0))
         return false;
     ArchiveListNode* pnode = DAT_011f8160;
@@ -1723,7 +1709,7 @@ bool __cdecl FUN_00af5700(char* apFileName)
         if (parchive)
         {
             const char* pArchiveName = parchive->FileName();
-            if (!_stricmp(pArchiveName, acPath))
+            if (!fnv::crt::stricmp(pArchiveName, acPath))
             {
                 ::fnv_00af5550::RemoveArchiveFile((::fnv_00af5550::MyArchiveFile *)(parchive));
                 return true;
@@ -2199,7 +2185,6 @@ void FUN_00afcdc0_StandIn::FUN_00afcdc0()
 
 namespace fnv_00af5320 {
 struct _RTL_CRITICAL_SECTION;
-int __stricmp(const char*, const char*);
 
 class BSRefCountedSI
 {
@@ -2266,7 +2251,7 @@ Archive* __cdecl FindArchiveByName(const char* apName)
     while (pNode)
     {
         ArchivePtr<Archive> m_pArchive(pNode->spItem);
-        if (m_pArchive && !__stricmp(GetArchiveName(m_pArchive), apName))
+        if (m_pArchive && !fnv::crt::stricmp(GetArchiveName(m_pArchive), apName))
         {
             LeaveCriticalSection(&DAT_011f8170);
             return m_pArchive;
@@ -2882,7 +2867,6 @@ bool FUN_00affd80_t::SetBufferSize(unsigned int auiSize)
 
 namespace fnv_00af96d0 {
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 struct MemMgrStand
 {
@@ -3080,7 +3064,7 @@ struct ArcStand : public ArcStream
     }
     inline void CopyName(char* apDest, const char* apSrc)
     {
-        strcpy_s(apDest, 0x100, apSrc);
+        fnv::crt::strcpy_s(apDest, 0x100, apSrc);
     }
     char* FUN_00af96d0(unsigned int auiFolder, unsigned int auiFile);
 };
@@ -3967,7 +3951,6 @@ LookupArchive* __cdecl FindArchiveByKey(const FileNameHash* key, unsigned int ty
     return 0;
 }
 
-extern "C" char* __cdecl strrchr(const char*, int);
 struct ArchiveRef : RefObj
 {
     __forceinline void Retain()
@@ -4038,7 +4021,7 @@ void __cdecl FUN_00af6ba0(LNode* entries, const char* path, const char* director
         return;
     path = SkipDataPrefix(path);
     char buffer[260];
-    strcpy_s(buffer, 260, directory);
+    fnv::crt::strcpy_s(buffer, 260, directory);
     char* last = strrchr(buffer, '\\');
     if (last)
         last[1] = 0;
@@ -4576,8 +4559,6 @@ void ArchiveNames::FreeNames(bool abKeepFileNames)
 }
 }  // namespace fnv_00af92f0
 
-extern "C" void __cdecl FUN_00ecbc5b(char*, unsigned int);
-extern int __cdecl _stricmp(const char*, const char*);
 extern const char DAT_010a4518[];
 struct MemoryManagerDealloc
 {
@@ -4615,15 +4596,15 @@ inline int FileNameHash::Compare(FileNameHash* rhs)
 }
 inline unsigned int TextLength(const char* text)
 {
-    return _strlen(text);
+    return std::strlen(text);
 }
 inline void CopyText(char* dst, unsigned int size, const char* src)
 {
-    _strcpy_s(dst, size, src);
+    fnv::crt::strcpy_s(dst, size, src);
 }
 inline void LowerText(char* dst, unsigned int size)
 {
-    FUN_00ecbc5b(dst, size);
+    fnv::crt::strlwr_s(dst, size);
 }
 // @fnv 0x00af9c50
 bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
@@ -4670,16 +4651,16 @@ bool S_af9::FindHashEntry(int pKey, int* piIndex, int pPath)
                 if (pPath && DAT_011f8154 && ((ArchiveSearch*)this)->HasNames())
                 {
                     char path[260];
-                    _splitpath_s((const char*)pPath, 0, 0, path, 260, 0, 0, 0, 0);
+                    fnv::crt::splitpath_s((const char*)pPath, 0, 0, path, 260, 0, 0, 0, 0);
                     const char* y = ((ArchiveSearch*)this)->GetString(x);
                     char* w = new char[TextLength(y) + 1];
                     char* v = new char[TextLength(path) + 1];
-                    CopyText(w, _strlen(y) + 1, y);
-                    CopyText(v, _strlen(path) + 1, path);
-                    v[_strlen(v) - 1] = 0;
-                    LowerText(w, _strlen(w) + 1);
-                    LowerText(v, _strlen(v) + 1);
-                    if (_stricmp(w, v))
+                    CopyText(w, std::strlen(y) + 1, y);
+                    CopyText(v, std::strlen(path) + 1, path);
+                    v[std::strlen(v) - 1] = 0;
+                    LowerText(w, std::strlen(w) + 1);
+                    LowerText(v, std::strlen(v) + 1);
+                    if (fnv::crt::stricmp(w, v))
                     {
                         ::FUN_005b5e40();
                         result = false;
@@ -4721,19 +4702,16 @@ extern MM97 DAT_011f6238;
 extern char DAT_010a454c[];
 inline void Copy97(char* d, unsigned int n, const char* s)
 {
-    strcpy_s(d, n, s);
+    fnv::crt::strcpy_s(d, n, s);
 }
-void __cdecl FUN_00ecbc5b(char*, unsigned int);
 inline void Lower97(char* d, unsigned int n)
 {
-    FUN_00ecbc5b(d, n);
+    fnv::crt::strlwr_s(d, n);
 }
 inline unsigned int Length97(const char* s)
 {
     return strlen(s);
 }
-extern "C" char* __cdecl strtok_s(char*, const char*, char**);
-extern "C" int __cdecl _stricmp(const char*, const char*);
 struct Archive97
 {
     int unk000;
@@ -4901,18 +4879,18 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
             if (path && DAT_011f8154 && (unsigned char)((flags & 2) ? 1 : 0))
             {
                 char filename4[260];
-                _splitpath_s(path, 0, 0, 0, 0, filename4, 260, 0, 0);
+                fnv::crt::splitpath_s(path, 0, 0, 0, 0, filename4, 260, 0, 0);
                 const char* original27 = reinterpret_cast<::fnv_00af96d0::ArcStand *>(this)->FUN_00af96d0(group, middle91);
                 char* left22 = new char[Length97(original27) + 1];
                 char* right19 = new char[Length97(filename4) + 1];
                 Copy97(left22, Length97(original27) + 1, original27);
                 Copy97(right19, Length97(filename4) + 1, filename4);
                 char* context20;
-                strtok_s(left22, ".", &context20);
-                strtok_s(right19, DAT_010a454c, &context20);
+                fnv::crt::strtok_s(left22, ".", &context20);
+                fnv::crt::strtok_s(right19, DAT_010a454c, &context20);
                 Lower97(left22, Length97(left22) + 1);
                 Lower97(right19, Length97(right19) + 1);
-                if (_stricmp(left22, right19))
+                if (fnv::crt::stricmp(left22, right19))
                 {
                     ::FUN_005b5e40();
                     found5 = false;
@@ -4927,13 +4905,10 @@ bool Archive97::FUN_00afa120(unsigned int group, Hash97* hash, unsigned int* pui
 }  // namespace fnv_00afa120
 
 namespace fnv_00afad00 {
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 template <unsigned int N> inline int strcat_s(char (&dest)[N], const char* src)
 {
-    return strcat_s(dest, N, src);
+    return fnv::crt::strcat_s(dest, N, src);
 }
-int __cdecl FUN_00ecbf05(const char*, int);
 extern const char DAT_010a4580[];
 extern char DAT_011f8050[];
 extern const char DAT_010a4346[];
@@ -5091,9 +5066,9 @@ int ThisAD::ClearMatchedEntries()
                         continue;
                     }
                 }
-                strcpy_s(buf, 260, DAT_010a4580);
+                fnv::crt::strcpy_s(buf, 260, DAT_010a4580);
                 strcat_s(buf, this->GetString(i));
-                handle = FUN_00ecbf05(buf, 0);
+                handle = fnv::crt::access(buf, 0);
                 if (handle != -1)
                 {
                     SubAD* sub;
@@ -5137,7 +5112,6 @@ int ThisAD::ClearMatchedEntries()
 }
 }  // namespace fnv_00afad00
 
-extern "C" int __cdecl _strnicmp(const char*, const char*, unsigned int);
 
 struct FUN_00afb520_base
 {
@@ -5299,10 +5273,9 @@ FUN_00afb520_cls::~FUN_00afb520_cls()
     }
 }
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 __forceinline void RenderCopyData(void* dest, const void* source, unsigned int size)
 {
-    FUN_00ec44d0(dest, source, size);
+    std::memmove(dest, source, size);
 }
 struct ArchiveRead : ArchiveStub
 {
@@ -5981,15 +5954,8 @@ extern const char DAT_010a4398[];
 extern const char DAT_010a43a8[];
 extern const char* DAT_011f8158;
 extern const char* DAT_011f815c;
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl _stricmp(const char*, const char*);
-extern "C" int __cdecl fopen_s(_iobuf**, const char*, const char*);
-extern "C" int __cdecl feof(_iobuf*);
-extern "C" char* __cdecl fgets(char*, int, _iobuf*);
 extern "C" char* __cdecl strstr(const char*, const char*);
-extern "C" int __cdecl _access(const char*, int);
-extern "C" char* __cdecl strtok_s(char*, const char*, char**);
 struct ArchiveRef
 {
     virtual void slot0();
@@ -6082,11 +6048,11 @@ inline void ArchiveFree(void* const& data)
 }
 inline int CopyPath(char* dest, unsigned int size, const char* source)
 {
-    return strcpy_s(dest, size, source);
+    return fnv::crt::strcpy_s(dest, size, source);
 }
 inline int AppendPath(char* dest, unsigned int size, const char* source)
 {
-    return strcat_s(dest, size, source);
+    return fnv::crt::strcat_s(dest, size, source);
 }
 inline unsigned long TextLength(const char* text)
 {
@@ -6119,7 +6085,7 @@ bool __cdecl FUN_00af4550()
                             unsigned int minimum = i;
                             for (unsigned int j = i + 1; j < 26; j++)
                             {
-                                if (_stricmp(DAT_011ace08[j].name, DAT_011ace08[minimum].name) < 0)
+                                if (fnv::crt::stricmp(DAT_011ace08[j].name, DAT_011ace08[minimum].name) < 0)
                                     minimum = j;
                             }
                             if (i != minimum)
@@ -6135,12 +6101,12 @@ bool __cdecl FUN_00af4550()
                         CopyPath(zz2, kSound, DAT_011f815c);
                         ::FUN_00406d00(pResponse, 260, "%sPlugins.txt", ::DAT_010a433a + 1);
                         flags = 0;
-                        fopen_s(&flags, pResponse, "r");
+                        fnv::crt::fopen_s((std::FILE **)(&flags), pResponse, "r");
                         if (flags)
                         {
-                            while (!feof(flags))
+                            while (!std::feof((std::FILE *)(flags)))
                             {
-                                fgets(extra, 260, flags);
+                                std::fgets(extra, 260, (std::FILE *)(flags));
                                 if (extra[0] != '#' && extra[0] && extra[0] != '\n')
                                 {
                                     char* ext = strstr(extra, ".esp");
@@ -6148,10 +6114,10 @@ bool __cdecl FUN_00af4550()
                                         ext = strstr(extra, ".esm");
                                     if (ext)
                                     {
-                                        strcpy_s(ext, 260 - (ext - extra), ".bsa");
-                                        strcpy_s(pInfo, 260, DAT_010a4398);
-                                        strcat_s(pInfo, 260, extra);
-                                        if (_access(pInfo, 0) != -1)
+                                        fnv::crt::strcpy_s(ext, 260 - (ext - extra), ".bsa");
+                                        fnv::crt::strcpy_s(pInfo, 260, DAT_010a4398);
+                                        fnv::crt::strcat_s(pInfo, 260, extra);
+                                        if (fnv::crt::access(pInfo, 0) != -1)
                                         {
                                             if (zz2[TextLength(zz2) - 2] == '\n')
                                                 zz2[TextLength(zz2) - 2] = 0;
@@ -6164,7 +6130,7 @@ bool __cdecl FUN_00af4550()
                         }
                         pItem = zz2;
                         time = zz2;
-                        strtok_s(time, ",", &zz2);
+                        fnv::crt::strtok_s(time, ",", &zz2);
                         while (*time)
                         {
                             while (*time == ' ' || *time == '\t' || *time == '\n')
@@ -6189,7 +6155,7 @@ bool __cdecl FUN_00af4550()
                             else
                                 pForm = false;
                             time = zz2;
-                            strtok_s(time, DAT_010a43a8, &zz2);
+                            fnv::crt::strtok_s(time, DAT_010a43a8, &zz2);
                         }
                         ArchiveFree((void*)pItem);
                         zz = GetTickCount() - zz;
@@ -6212,7 +6178,6 @@ struct FileNameHash
     unsigned char unk00, unk01, unk02, unk03;
     unsigned int unk04;
 };
-int __cdecl FUN_00ec67aa(int);
 extern char DAT_011acfbc[6][10];
 // Hashes a name (and optional extension) into out's bytes and hash field, using FUN_00ec67aa per character and matching the extension against DAT_011acfbc.
 // @fnv 0x00afd4e0
@@ -6221,7 +6186,7 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
     const unsigned char* p;
     unsigned int hash4;
     int c3;
-    out->unk03 = (unsigned char)FUN_00ec67aa(name[0]);
+    out->unk03 = (unsigned char)std::tolower(name[0]);
     out->unk04 = 0;
     hash4 = 0;
     if (!out->unk03)
@@ -6236,10 +6201,10 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
     {
         unsigned int count8 = 5;
         const unsigned char* endVal = p + 4;
-        out->unk03 = (unsigned char)FUN_00ec67aa(p[2]);
+        out->unk03 = (unsigned char)std::tolower(p[2]);
         while (*endVal)
         {
-            c3 = FUN_00ec67aa(*p);
+            c3 = std::tolower(*p);
             hash4 = c3 + (hash4 << 6) + (hash4 << 16) - hash4;
             ++count8;
             ++p;
@@ -6247,8 +6212,8 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
         }
         out->unk02 = (unsigned char)count8;
         out->unk04 = hash4;
-        out->unk01 = (unsigned char)FUN_00ec67aa(p[0]);
-        out->unk00 = (unsigned char)FUN_00ec67aa(p[1]);
+        out->unk01 = (unsigned char)std::tolower(p[0]);
+        out->unk00 = (unsigned char)std::tolower(p[1]);
     }
     else if (p[0] && p[1])
     {
@@ -6256,7 +6221,7 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
         const unsigned char* aEnd2 = p + 2;
         while (*aEnd2)
         {
-            c3 = FUN_00ec67aa(*p);
+            c3 = std::tolower(*p);
             hash4 = c3 + (hash4 << 6) + (hash4 << 16) - hash4;
             ++count4;
             ++p;
@@ -6264,14 +6229,14 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
         }
         out->unk02 = (unsigned char)count4;
         out->unk04 = hash4;
-        out->unk01 = (unsigned char)FUN_00ec67aa(p[0]);
-        out->unk00 = (unsigned char)FUN_00ec67aa(p[1]);
+        out->unk01 = (unsigned char)std::tolower(p[0]);
+        out->unk00 = (unsigned char)std::tolower(p[1]);
     }
     else
     {
         if (p[0])
         {
-            out->unk00 = (unsigned char)FUN_00ec67aa(p[0]);
+            out->unk00 = (unsigned char)std::tolower(p[0]);
             out->unk02 = 2;
         }
         else
@@ -6289,7 +6254,7 @@ void __cdecl ComputeNameHash(const unsigned char* name, const unsigned char* ext
         hash4 = 0;
         while (*p)
         {
-            c3 = FUN_00ec67aa(*p);
+            c3 = std::tolower(*p);
             *dest6 = (char)c3;
             ++dest6;
             hash4 = c3 + (hash4 << 6) + (hash4 << 16) - hash4;
@@ -6327,9 +6292,6 @@ extern const char DAT_010a4444[];
 extern const char DAT_010a443c[];
 extern const char DAT_010a4434[];
 extern const char DAT_010a442c[];
-int __cdecl strcpy_s(char*, unsigned int, const char*);
-unsigned int __cdecl strlen(const char*);
-const char* __cdecl FUN_00ec7750(const char*, const char*);
 struct OpenRef
 {
     virtual void v0();
@@ -6537,13 +6499,13 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
         return 0;
     char found3[260];
     char resolved2[260];
-    strcpy_s(found3, 260, path);
+    fnv::crt::strcpy_s(found3, 260, path);
     if (!(g_fileFinder ? g_fileFinder->Find(path, found3, 1, -1) : 0))
         return 0;
     if (reinterpret_cast<::FUN_00b011b0_shell *>((GetOpenPaths()))->FUN_00b011b0((int)found3))
         GetOpenPaths()->Resolve(found3, resolved2);
     else
-        strcpy_s(resolved2, 260, found3);
+        fnv::crt::strcpy_s(resolved2, 260, found3);
     PluginFile* archive5 = new PluginFile(resolved2, 0x40000, 0, option);
     if (!archive5 || !archive5->IsGood() || archive5->IsBad())
     {
@@ -6553,19 +6515,19 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
     if (!DAT_011f8160)
         SetOpenNode(new OpenNode);
     int rank4 = 0;
-    if (path && strlen(path) > 0)
+    if (path && std::strlen(path) > 0)
     {
-        if (FUN_00ec7750(path, "Fallo"))
+        if (((const char *)(std::strstr((char *)(path), "Fallo"))))
             rank4 = 0;
-        else if (FUN_00ec7750(path, "DeadM"))
+        else if (((const char *)(std::strstr((char *)(path), "DeadM"))))
             rank4 = 1;
-        else if (FUN_00ec7750(path, "Hones"))
+        else if (((const char *)(std::strstr((char *)(path), "Hones"))))
             rank4 = 2;
-        else if (FUN_00ec7750(path, "Lones"))
+        else if (((const char *)(std::strstr((char *)(path), "Lones"))))
             rank4 = 3;
-        else if (FUN_00ec7750(path, "OldWo"))
+        else if (((const char *)(std::strstr((char *)(path), "OldWo"))))
             rank4 = 4;
-        else if (FUN_00ec7750(path, "Updat"))
+        else if (((const char *)(std::strstr((char *)(path), "Updat"))))
             rank4 = 5;
         else
         {
@@ -6585,19 +6547,19 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
         while (node5 && (PluginFile*)node5->item)
         {
             const char* existing3 = ((PluginFile*)node5->item)->Name();
-            if (existing3 && strlen(existing3) > 0)
+            if (existing3 && std::strlen(existing3) > 0)
             {
-                if (FUN_00ec7750(existing3, DAT_010a442c))
+                if (((const char *)(std::strstr((char *)(existing3), DAT_010a442c))))
                     inserted7 = true;
-                else if (FUN_00ec7750(existing3, DAT_010a4434))
+                else if (((const char *)(std::strstr((char *)(existing3), DAT_010a4434))))
                     inserted7 = true;
-                else if (FUN_00ec7750(existing3, DAT_010a443c) && rank4 > 1)
+                else if (((const char *)(std::strstr((char *)(existing3), DAT_010a443c))) && rank4 > 1)
                     inserted7 = true;
-                else if (FUN_00ec7750(existing3, DAT_010a4444) && rank4 > 2)
+                else if (((const char *)(std::strstr((char *)(existing3), DAT_010a4444))) && rank4 > 2)
                     inserted7 = true;
-                else if (FUN_00ec7750(existing3, DAT_010a444c) && rank4 > 3)
+                else if (((const char *)(std::strstr((char *)(existing3), DAT_010a444c))) && rank4 > 3)
                     inserted7 = true;
-                else if (FUN_00ec7750(existing3, DAT_010a4454) && rank4 > 3)
+                else if (((const char *)(std::strstr((char *)(existing3), DAT_010a4454))) && rank4 > 3)
                     inserted7 = true;
             }
             if (inserted7)
@@ -6619,7 +6581,6 @@ PluginFile* __cdecl FUN_00af4be0(const char* path, unsigned short types, bool op
 }  // namespace fnv_00af4be0
 
 namespace fnv_00af67d0 {
-extern "C" int __cdecl strcpy_s(char* pcDst, unsigned int uiSize, const char* pcSrc);
 class NiRefObject
 {
   public:
@@ -6718,7 +6679,7 @@ bool __cdecl FUN_00af67d0(unsigned int uiIndex, ArchiveFileEntry* pkEntry, char*
         const char* pcSource = ((const char *)(reinterpret_cast<::FUN_00af9ba0_shell *>(((spCurrent).operator->()))->FUN_00af9ba0((unsigned int)(pkEntry))));
         if (pcSource)
         {
-            strcpy_s(pcOutput, 260, pcSource);
+            fnv::crt::strcpy_s(pcOutput, 260, pcSource);
             bHasPath = true;
         }
         spCurrent->Unlock();
@@ -6738,7 +6699,6 @@ inline void* __cdecl operator new[](unsigned int n)
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00af7060::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(n);
 }
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 struct ArcCS
 {
     void* p0;
@@ -6782,11 +6742,11 @@ inline unsigned int CombinedLength(const char* prefix, const char* name)
 }
 inline void CopyPath(char* dest, unsigned int size, const char* src)
 {
-    strcpy_s(dest, size, src);
+    fnv::crt::strcpy_s(dest, size, src);
 }
 inline void AppendPath(char* dest, unsigned int size, const char* src)
 {
-    strcat_s(dest, size, src);
+    fnv::crt::strcat_s(dest, size, src);
 }
 void* __cdecl operator new(unsigned int);
 struct PathNode
@@ -7470,19 +7430,14 @@ struct PoolY
 };
 extern PoolY DAT_011f6238;
 extern bool DAT_011f8154;
-extern "C" int __cdecl FUN_00ec7f1e(const char* path, char* drive, unsigned int drvsz, char* dir, unsigned int dirsz,
-                                    char* fname, unsigned int fnsz, char* ext, unsigned int extsz);
-extern "C" unsigned int __cdecl FUN_00ec6130(const char* s);
-extern "C" int __cdecl FUN_00ec65a6(char* dst, unsigned int sz, const char* src);
 extern "C" int __cdecl FUN_00ecbc5b(char* s, unsigned int sz);
-extern "C" char* __cdecl FUN_00ec68e4(const char* a, const char* b);
 inline void* AllocNY(unsigned int n)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa3e40(n + 1);
 }
 inline void CopyStrY(char* d, unsigned int n, const char* s)
 {
-    FUN_00ec65a6(d, n, s);
+    fnv::crt::strcpy_s(d, n, s);
 }
 inline void LowerY(char* s, unsigned int n)
 {
@@ -7510,7 +7465,7 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
     {
         char szDirX[0x104];
         char szFile7[0x104];
-        FUN_00ec7f1e(pPath, 0, 0, szDirX, 0x104, szFile7, 0x104, 0, 0);
+        fnv::crt::splitpath_s(pPath, 0, 0, szDirX, 0x104, szFile7, 0x104, 0, 0);
         int iA4, iB3;
         if (reinterpret_cast<::S_af9 *>(this)->FUN_00af9bf0(a1, a2, &iA4, (int)(&iB3), 0))
         {
@@ -7526,17 +7481,17 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
             void* q_ewlv;
             pDirName_mcmb = reinterpret_cast<::fnv_00af94c0::ArcStream *>(this)->GetString(iA4);
             pFileName_zpqwby = reinterpret_cast<::fnv_00af96d0::ArcStand *>(this)->FUN_00af96d0(iA4, iB3);
-            t_elydin = (char*)AllocNY(FUN_00ec6130(pDirName_mcmb));
+            t_elydin = (char*)AllocNY(std::strlen(pDirName_mcmb));
             pDirCopyX_lvyahv = t_elydin;
-            t_szknnb = (char*)AllocNY(FUN_00ec6130(pFileName_zpqwby));
+            t_szknnb = (char*)AllocNY(std::strlen(pFileName_zpqwby));
             pFileCopyTmp_lun = t_szknnb;
-            CopyStrY(pDirCopyX_lvyahv, FUN_00ec6130(pDirName_mcmb), pDirName_mcmb);
-            CopyStrY(pFileCopyTmp_lun, FUN_00ec6130(pFileName_zpqwby), pFileName_zpqwby);
-            LowerY(pDirCopyX_lvyahv, FUN_00ec6130(pDirCopyX_lvyahv));
-            LowerY(pFileCopyTmp_lun, FUN_00ec6130(pFileCopyTmp_lun));
-            LowerY(szDirX, FUN_00ec6130(szDirX));
-            LowerY(szFile7, FUN_00ec6130(szFile7));
-            if (FUN_00ec68e4(pDirCopyX_lvyahv, szDirX))
+            CopyStrY(pDirCopyX_lvyahv, std::strlen(pDirName_mcmb), pDirName_mcmb);
+            CopyStrY(pFileCopyTmp_lun, std::strlen(pFileName_zpqwby), pFileName_zpqwby);
+            LowerY(pDirCopyX_lvyahv, std::strlen(pDirCopyX_lvyahv));
+            LowerY(pFileCopyTmp_lun, std::strlen(pFileCopyTmp_lun));
+            LowerY(szDirX, std::strlen(szDirX));
+            LowerY(szFile7, std::strlen(szFile7));
+            if (((char *)(std::uintptr_t)(fnv::crt::stricmp(pDirCopyX_lvyahv, szDirX))))
             {
                 q_pddrt = pDirCopyX_lvyahv;
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_pddrt);
@@ -7544,7 +7499,7 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_cyqb);
                 return pDirName_mcmb;
             }
-            if (FUN_00ec68e4(pFileCopyTmp_lun, szFile7))
+            if (((char *)(std::uintptr_t)(fnv::crt::stricmp(pFileCopyTmp_lun, szFile7))))
             {
                 q_u = pDirCopyX_lvyahv;
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00afa8e0::PoolY *>(&::g_memoryManager))))->FUN_00aa4060(q_u);
@@ -7559,8 +7514,6 @@ const char* ArcY::GetPathComponent(int a1, int a2, const char* pPath)
 }  // namespace fnv_00afa8e0
 
 namespace fnv_00afb300 {
-void __cdecl FUN_00ec65a6(char* d, unsigned int n, const char* s);
-void __cdecl FUN_00ec44d0(void* d, const void* s, unsigned int n);
 extern unsigned int DAT_011f8164;
 struct RefBase
 {
@@ -7638,7 +7591,7 @@ FUN_00afb300::FUN_00afb300(const char* name, Archive* arch, unsigned int off, un
 {
     DebugCheck();
     if (name)
-        FUN_00ec65a6(pFileName, 0x104, name);
+        fnv::crt::strcpy_s(pFileName, 0x104, name);
     m_pBuffer = 0;
     m_pArchive.FUN_00afd1b0(arch);
     m_uiFileIndex = off;
@@ -7653,7 +7606,7 @@ FUN_00afb300::FUN_00afb300(const char* name, Archive* arch, unsigned int off, un
         if (m_pArchive->IsFlag())
         {
             unsigned char len = m_pBuffer[m_uiPos];
-            FUN_00ec44d0(pFileName, Cur(), len);
+            std::memmove(pFileName, Cur(), len);
             pFileName[len] = 0;
             m_uiPos = len + m_uiPos + 1;
             m_uiBufferSize = len + 1;
@@ -7677,9 +7630,6 @@ extern "C"
 {
 }
 
-unsigned int __cdecl strlen(const char*);
-int __cdecl _strcpy_s(char*, unsigned int, const char*);
-const char* __cdecl _strrchr(const char*, int);
 
 const char* __cdecl SkipDataPrefix(const char*);
 
@@ -7854,7 +7804,7 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
 {
     int index = 0;
     path = SkipDataPrefix(path);
-    unsigned int len5 = strlen(path);
+    unsigned int len5 = std::strlen(path);
     if (flags == 0xffff && (signed char)path[len5 - 1] != '\\')
     {
         flags = ::FUN_00af7d80(path);
@@ -7896,11 +7846,11 @@ bool __cdecl ResolveArchivePath(const char* path, char* dest, unsigned int flags
 
         const char* resolvedName4 = ResolveNameInline(*spFoundArchive2, pEntry, index);
 
-        _strcpy_s(dest, 260, path);
-        char* pSlash_ = (char*)_strrchr(dest, '\\');
+        fnv::crt::strcpy_s(dest, 260, path);
+        char* pSlash_ = (char*)((const char *)(std::strrchr((char *)(dest), '\\')));
         if (pSlash_)
         {
-            _strcpy_s(pSlash_ + 1, 260 - (pSlash_ - dest) - 1, resolvedName4);
+            fnv::crt::strcpy_s(pSlash_ + 1, 260 - (pSlash_ - dest) - 1, resolvedName4);
         }
         else
         {
@@ -8080,7 +8030,6 @@ struct RecursiveMutex
 
 
 extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 extern "C" char* __cdecl strrchr(const char*, int);
 struct LNode;
 extern LNode* DAT_011f8160;
@@ -8500,12 +8449,12 @@ bool FUN_00af7800(const char* path, char* output, unsigned mask)
 
         const char* replacementVal = reinterpret_cast<::fnv_00af96d0::ArcStand *>(((archiveTmp).operator->()))->FUN_00af96d0(directoryIndex, aBestA);
 
-        strcpy_s(output, 260, path);
+        fnv::crt::strcpy_s(output, 260, path);
 
         char* slash3 = strrchr(output, '\\');
 
         if (slash3)
-            strcpy_s(slash3 + 1, 260 - (slash3 - output) - 1, replacementVal);
+            fnv::crt::strcpy_s(slash3 + 1, 260 - (slash3 - output) - 1, replacementVal);
 
         else
             return false;
@@ -8535,7 +8484,6 @@ inline void* operator new(unsigned int, void* memory)
     return memory;
 }
 extern const char DAT_010a445c[];
-extern "C" char* __cdecl strstr(const char*, const char*);
 BSFile* __cdecl FUN_00afdf00(const char*, int, unsigned int);
 struct FUN_00afd390
 {
@@ -8681,7 +8629,6 @@ struct ArcInflateReadState
     unsigned char* m_pNextOutputByte;
     unsigned int m_uiAvailableOutputBytes;
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 int __cdecl FUN_00b44000(ArcInflateReadState* state, int flush);
 int __cdecl FUN_00b45db0(ArcInflateReadState* state);
 struct DecompReadFile : public CompressedArchiveFile

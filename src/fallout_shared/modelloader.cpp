@@ -2,6 +2,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdio>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoInventory.h"
@@ -747,7 +750,6 @@ struct _LogStub0043bd00
     virtual void vfn_14(int, const char*, int, int, int);
 };
 
-int __cdecl _sprintf(char*, const char*, ...);
 bool __cdecl IsHeapLoggerPresent();
 _LogStub0043bd00* __cdecl FUN_0043bd00();
 
@@ -2432,7 +2434,6 @@ FUN_004496a0_shell* FUN_004496a0_shell::FUN_004496a0(int a, int b, int c)
 }
 }  // namespace fnv_004496a0
 
-int __cdecl FUN_00ec6da0(const char*, const char*);
 
 struct FUN_004496d0_shell
 {
@@ -2443,7 +2444,7 @@ struct FUN_004496d0_shell
 // @fnv 0x004496d0
 bool FUN_004496d0_shell::IsGreaterOrEqual(const char* pcLeft, const char* pcRight)
 {
-    return FUN_00ec6da0(pcLeft, pcRight) >= 0;
+    return std::strcmp(pcLeft, pcRight) >= 0;
 }
 
 namespace fnv_004497c0 {
@@ -2466,7 +2467,6 @@ FUN_004497c0_shell* FUN_004497c0_shell::FUN_004497c0(int aiArg1, int aiArg2, int
 }
 }  // namespace fnv_004497c0
 
-int __cdecl FUN_00ec6da0(const char* a, const char* b);
 
 struct FUN_00449880_Class
 {
@@ -2477,7 +2477,7 @@ struct FUN_00449880_Class
 // @fnv 0x00449880
 bool FUN_00449880_Class::FUN_00449880(const char* pcStringA, const char* pcStringB)
 {
-    return FUN_00ec6da0(pcStringA, pcStringB) == 0;
+    return std::strcmp(pcStringA, pcStringB) == 0;
 }
 
 extern int DAT_01017288;
@@ -9075,7 +9075,7 @@ void FUN_0043bb80_shell::DestroyLoadedFile()
     if (*reinterpret_cast<int*>(this) != 0)
     {
         char szMessage[260];
-        _sprintf(szMessage, "%s ref object at mem %i being destroyed with %i references\r\n", pFileName, this,
+        std::sprintf(szMessage, "%s ref object at mem %i being destroyed with %i references\r\n", pFileName, this,
                  *reinterpret_cast<int*>(this));
         if (IsHeapLoggerPresent())
         {
@@ -9282,7 +9282,6 @@ struct FUN_006ebde0_shell
 struct FUN_00443190_shell
 {
 };
-unsigned int __cdecl _strlen(const char*);
 struct GridArray
 {
 };
@@ -9390,7 +9389,7 @@ void FUN_00443270_shell::FUN_00443270(File_443270* pFile, bool bAll)
                                ((int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((GridArray*)pVal)))->GetName())), pKey);
                     ::FUN_005b5e40();
                     if (pFile)
-                        pFile->Write(acBuf, _strlen(acBuf) + 1);
+                        pFile->Write(acBuf, std::strlen(acBuf) + 1);
                 }
             }
         }
@@ -13586,7 +13585,6 @@ bool QueueWalker::ProcessEntry(int index, int arg, NP_0092c820* dest)
 }  // namespace fnv_00906af0
 
 extern "C" int __cdecl FUN_00aa1a20(unsigned int, unsigned int, unsigned int);
-extern "C" void __cdecl FUN_00ec65a6(void*, unsigned int, unsigned int);
 
 class SpawnedObject
 {
@@ -13668,7 +13666,7 @@ bool FUN_00c3a8a0_cls::FUN_00c3a8a0(unsigned int a1, unsigned int a2)
     if (a2 != 0)
     {
         void* e = &m_e0;
-        FUN_00ec65a6(e, 0x104, a1);
+        fnv::crt::strcpy_s((char *)(e), 0x104, (const char *)(a1));
         ::NormalizePathSeparators((char *)(void *)(&m_e0));
         result = reinterpret_cast<::NiStream *>(this)->Load((::NiBinaryStream *)(a2));
         SpawnedObject* p1 = (SpawnedObject*)a2;
@@ -16200,7 +16198,6 @@ void FUN_00445570_cls::FUN_00445570(unsigned int a1)
 
 int strcat_s(char*, unsigned int, const char*);
 int _strnicmp(const char*, const char*, unsigned int);
-int sprintf(char*, const char*, ...);
 struct AnimList
 {
     char* item;
@@ -16429,11 +16426,11 @@ void AnimLoader445::QueueModelAnimations(TESModel* model, int priority, int queu
                     p = DAT_011977a4[::DAT_0118a838[((::Weapon445 *)(reinterpret_cast<::FUN_008a1710_shell *>((actorCast))->FUN_008a1710()))->GetType()]];
                     if (p && *p)
                     {
-                        sprintf(extraList, "\\%sHolster.KF", p);
+                        std::sprintf(extraList, "\\%sHolster.KF", p);
                         i = MakeList(a, idleSlash, 0);
                         reinterpret_cast<::ModelLoader *>(this)->QueueFileList((::BSSimpleList<const char *> *)(i), (::IO_TASK_PRIORITY)(priority), (::QueuedFile *)(queued), 0);
                         delete i;
-                        sprintf(extraList, "\\PA%sHolster.KF", p);
+                        std::sprintf(extraList, "\\PA%sHolster.KF", p);
                         i = MakeList(a, idleSlash, 0);
                         reinterpret_cast<::ModelLoader *>(this)->QueueFileList((::BSSimpleList<const char *> *)(i), (::IO_TASK_PRIORITY)(priority), (::QueuedFile *)(queued), 0);
                         delete i;

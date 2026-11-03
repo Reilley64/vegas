@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysemitter.cpp: NiPSysEmitter, Emitter (9 functions)
 
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00a698a0_class.h"
@@ -233,15 +234,14 @@ bool FUN_00c226a0_cls::Equals(FUN_00c226a0_cls* other)
 void FUN_00d070a0(int, int)
 {}
 
-extern int __cdecl FUN_00ecadb8();
 extern float DAT_011aeae8;
 inline float RandomFloat0To1()
 {
-    return (float)(FUN_00ecadb8() / 32767.0);
+    return (float)(std::rand() / 32767.0);
 }
 inline float NiSymmetricRandom()
 {
-    return (float)(2.0 * FUN_00ecadb8() / 32767.0 - 1.0);
+    return (float)(2.0 * std::rand() / 32767.0 - 1.0);
 }
 class NiPoint3
 {
@@ -491,7 +491,7 @@ void Emitter::FUN_00c220c0(float fTime, unsigned short usNumParticles, const flo
         if (pfSizes)
             pfSizes[usNew] = 1.0f;
         if (pucTex)
-            pucTex[usNew] = FUN_00ecadb8() % ucTexCount;
+            pucTex[usNew] = std::rand() % ucTexCount;
         pkInfo->m_fZValue = fTime - pkInfo->m_fXValue;
         reinterpret_cast<::FUN_00c1aee0_cls *>((m_pkTarget))->FUN_00c1aee0(usNew);
     }

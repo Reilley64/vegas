@@ -2,6 +2,7 @@
 #define IMAGESPACESHADERHDR_SUPPORT_H
 
 
+#include <cstring>
 struct ImageSpaceShaderHDRMacroItem
 {
     const char* name;
@@ -15,7 +16,6 @@ struct ImageSpaceShaderHDRMacro
 };
 
 extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 extern unsigned char g_HDRDoTest;
 
 class ImageSpaceShaderHDRInterface

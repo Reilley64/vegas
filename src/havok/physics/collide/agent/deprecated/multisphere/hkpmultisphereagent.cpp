@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/S_00d431b0.h"
 #include "fnv/symbols_00c90000.h"
@@ -930,8 +931,6 @@ void FUN_00d44cc0(int a1, int a2, int a3, int a4)
 }
 
 extern "C" __m128 _mm_xor_ps(__m128 _A, __m128 _B);
-extern "C" void* __cdecl memcpy(void* _Dst, const void* _Src, unsigned int _Size);
-
 
 union __declspec(align(16)) S_00d45160_Vec
 {

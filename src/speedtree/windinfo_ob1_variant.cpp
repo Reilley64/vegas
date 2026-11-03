@@ -51,7 +51,6 @@ struct S00b408b0_Exc
     int m18;
 };
 
-void FUN_00ec7894(void* obj, void* info);
 
 struct S00b408b0_Big
 {
@@ -175,7 +174,7 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
         default: {
             S00b408b0_Str msg("malformed general wind information");
             S00b408b0_Exc ex(msg, 0);
-            FUN_00ec7894(&ex, &DAT_01170384);
+            throw ex;
             break;
         }
         }

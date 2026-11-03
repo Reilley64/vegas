@@ -1,5 +1,6 @@
 // fallout_shared/bgsexplosion.cpp: BGSExplosion, EffectSetting, ScalarHelper, BGSExplosionCompare and more (22 functions)
 
+#include <cstring>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTalkingActivator.h"
@@ -302,8 +303,6 @@ bool FUN_00477950_shell::HasAnyFlags(unsigned int mask)
 struct FUN_005e79a0_t
 {
 };
-
-extern "C" int memcmp(const void*, const void*, unsigned int);
 
 struct EffectSettingShell : EffectSetting
 {

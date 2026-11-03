@@ -6,6 +6,7 @@
 
 // @fnv 0x00a4ef60
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00a38ef0_Class.h"
 #include "fnv/decl/FUN_00a3c390.h"
 #include "fnv/decl/FUN_00a3c500_shell.h"
@@ -266,7 +267,6 @@ void ControllerStub::FUN_00a4f1e0(StreamStub* stream)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((stream))->SetAt(index, (*(char * *)(&value)));
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct NiGlobalStringTable
 {
     static char* AddString(const char*);

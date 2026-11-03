@@ -2,6 +2,7 @@
 // src/fallout_shared/tesidleform_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesidleform.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_004226e0_shell.h"
@@ -38,7 +39,6 @@ class LowProcess
   public:
     TESObjectREFR* GetActiveCombatTarget();
 };
-extern "C" char* __cdecl strrchr(const char* string, int character);
 template <int N> struct EndianSizeTag
 {
 };

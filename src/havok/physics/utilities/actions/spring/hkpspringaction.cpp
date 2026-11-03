@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/symbols_01013000.h"
 #include "fnv/symbols_0101e000.h"
@@ -16,7 +17,6 @@ int* __cdecl FUN_00cf4ef0()
     return &(*reinterpret_cast<int *>(&::g_01269168));
 }
 
-void* __cdecl _fnv_zlib_memset(void* pvDst, int iValue, unsigned int uiNumBytes);
 
 struct hkShape00D4F0
 {
@@ -98,7 +98,7 @@ FUN_00d4f000::FUN_00d4f000() throw()
     char* pcBegin = (char*)&m_sB0;
     char* pcEnd = (char*)&m_sB0;
     if (pcBegin < pcEnd)
-        _fnv_zlib_memset(pcBegin, 0, pcEnd - pcBegin);
+        std::memset(pcBegin, 0, pcEnd - pcBegin);
 }
 
 struct FUN_00cf4d80

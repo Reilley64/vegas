@@ -7,6 +7,7 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysvortexfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_0063c8a0_shell.h"
 #include "fnv/decl/MyPoint439180.h"
@@ -18,8 +19,6 @@ void* __cdecl FUN_00c26810();
 
 // FUN_00c26de0: NiPSysFieldModifier-style Update with attenuation - per-particle
 // force from FUN_00c26820, scaled by magnitude * dt / dist^attenuation.
-extern "C" double __cdecl pow(double, double);
-
 struct TPoint3
 {
     float x, y, z;

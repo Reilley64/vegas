@@ -3,6 +3,7 @@
 #define FNV_TESOBJECTANIO_DECLS_H
 
 
+#include <malloc.h>
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
@@ -13,7 +14,6 @@
 #include "fnv/symbols_00472000.h"
 #include "fnv/symbols_00483000.h"
 #include "fnv/symbols_00485000.h"
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 
 class TESFileFormVersion

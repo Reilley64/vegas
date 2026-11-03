@@ -2,6 +2,8 @@
 #ifndef BSANIMGROUPSEQUENCE_DECLS_H
 #define BSANIMGROUPSEQUENCE_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00495f30_shell.h"
@@ -375,6 +377,4 @@ class BSAnimGroupSequence : public NiControllerSequence
 };
 extern const float DAT_01023850;
 const NiFixedString& FUN_004ef990();
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
-extern "C" char* strchr(const char*, int);
 #endif

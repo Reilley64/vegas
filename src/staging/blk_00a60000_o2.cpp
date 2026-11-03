@@ -5,6 +5,9 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cctype>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A72720StreamSet.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -56,7 +59,6 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 
 struct FUN_00a61590_class
 {
@@ -67,7 +69,7 @@ struct FUN_00a61590_class
 // @fnv 0x00a61590
 void* FUN_00a61590_class::ClearAndReset()
 {
-    _fnv_zlib_memset(this, 0, 0xb24);
+    std::memset(this, 0, 0xb24);
     *(int*)((char*)this + 0xb24) = 0;
     return this;
 }
@@ -278,8 +280,6 @@ void NiDirectionalLight::FUN_00a7d6a0(NiDirectionalLight* dst, CloningProcess& p
     *reinterpret_cast<float*>(reinterpret_cast<char*>(dst) + 0xf8) =
         *reinterpret_cast<float*>(reinterpret_cast<char*>(this) + 0xf8);
 }
-
-extern "C" int __cdecl tolower(int);
 
 // Hashes the lowercased characters of str (stopping before a trailing 3-character extension after a dot) and returns the hash modulo 713.
 // @fnv 0x00a61530
@@ -1207,7 +1207,6 @@ struct TLSHeap_b9725
 };
 
 void* __cdecl ClearAndReset();
-void* __cdecl _fnv_zlib_memset(void* p, int c, unsigned int n);
 void Init_b9725(void* p, unsigned int size, int count, void* cb);
 
 // Allocates two blocks via the TLS heap, zeroes the first and initializes the second with Init_b9725, storing both in globals and restoring the TLS field.
@@ -1219,7 +1218,7 @@ void FUN_00a61ad0()
     char* obj = (char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a61ad0::TLSHeap_b9725 *>(&::g_memoryManager))))->FUN_00aa3e40(0xfa8);
     if (obj != 0)
     {
-        _fnv_zlib_memset(obj, 0, 0xfa4);
+        std::memset(obj, 0, 0xfa4);
         *(int*)(obj + 0xfa4) = 0;
         (*reinterpret_cast<void * *>(&::DAT_011f4468)) = obj;
     }
@@ -3525,7 +3524,6 @@ void Q67530Cls::FillOutRec674(OutRec674* out)
 }
 
 void* __cdecl NiMallocA6F(unsigned int uiSize) throw();
-extern "C" void* __cdecl MemSetA6F(void* pvDest, int iValue, unsigned int uiSize);
 
 struct NiTMapItemA6F;
 
@@ -3538,7 +3536,7 @@ class NiTMapBaseA6F
         m_uiCount = 0;
         unsigned int uiSize = sizeof(NiTMapItemA6F*) * m_uiHashSize;
         m_ppkHashTable = (NiTMapItemA6F**)NiMallocA6F(uiSize);
-        MemSetA6F(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemA6F*));
+        std::memset(m_ppkHashTable, 0, m_uiHashSize * sizeof(NiTMapItemA6F*));
     }
     virtual ~NiTMapBaseA6F() throw();
 
@@ -3701,8 +3699,6 @@ void __cdecl FUN_00a776b0(unsigned int uiWidth, unsigned int uiHeight, unsigned 
         }
     }
 }
-
-extern "C" int __cdecl tolower(int);
 
 // @fnv 0x00a614d0
 bool __cdecl FUN_00a614d0(const char* a, const char* b)
@@ -5258,7 +5254,6 @@ NiPixelData* __cdecl CreateCheckerboardTexture(const CheckerColor& color0, const
 }
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-void __cdecl FUN_00ec65a6(char* dst, unsigned int count, const char* src);
 
 struct FUN_00a63980_Out
 {
@@ -5285,7 +5280,7 @@ void FUN_00a63980_Class::FUN_00a63980(FUN_00a63980_Out* dst, const char* src, un
     {
         unsigned int size = strlen(src) + 1;
         dst->unk04 = (char*)FUN_00aa1070(size);
-        FUN_00ec65a6(dst->unk04, size, src);
+        fnv::crt::strcpy_s(dst->unk04, size, src);
     }
     else
     {

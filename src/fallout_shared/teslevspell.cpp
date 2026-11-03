@@ -4,6 +4,8 @@
 
 
 #include <new>
+#include <cstdint>
+#include <malloc.h>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -53,7 +55,6 @@ void TESLevSpell::FUN_0050bcd0(TESForm* apCopy)
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(apCopy);
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
 enum ENUM_FORM_ID
 {
 };
@@ -509,7 +510,7 @@ unsigned int FUN_0050bf90_cls::FUN_0050bf90(void* a1, unsigned short a2)
     reinterpret_cast<::LeveledSpellList *>((this))->SelectLeveledSpell(a1, a2, &zz, &word, 1);
     if (zz != 0)
     {
-        aa = FUN_00ec43fb(zz, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183060)), 0);
+        aa = ((unsigned int)(std::uintptr_t)(dynamic_cast<::SpellItem *>(reinterpret_cast<::TESForm *>(zz))));
     }
     return aa;
 }
@@ -571,7 +572,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         unsigned int foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =
-            (FUN_0050bf90_cls*)FUN_00ec43fb(chosen->form, 0, &DAT_01183028, &DAT_01187818, 0);
+            (FUN_0050bf90_cls*)((unsigned int)(std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
         if (selectedEntry != 0 && recurse != 0)
         {
             unsigned short recursiveCount;

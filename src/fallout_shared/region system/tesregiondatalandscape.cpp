@@ -1,5 +1,6 @@
 // fallout_shared/region system/tesregiondatalandscape.cpp: TESRegionDataLandscape, ThisT (15 functions)
 
+#include <cmath>
 #include "fnv/decl/FUN_00408da0_Class.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/FUN_0048e2e0.h"
@@ -349,8 +350,6 @@ template <class T> class BSStringT
     BSStringT();
     ~BSStringT();
 };
-
-float __cdecl floor(float);
 
 struct ThisT
 {

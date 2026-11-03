@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FUN_00a5d450_class.h"
 #include "fnv/decl/FUN_00a62a40_this.h"
 #include "fnv/decl/S_0060ba10.h"
@@ -84,7 +85,6 @@ enum FogFunction
     FOG_VERTEX_ALPHA = 2
 };
 
-extern "C" unsigned int __cdecl strlen(const char*);
 void* __cdecl NiMalloc(unsigned int);
 
 // Allocates a string of strlen(pcPrefix)+20 bytes and formats pcPrefix with the name of the given fog function.

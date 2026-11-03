@@ -2,6 +2,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <windows.h>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0f60_cls.h"
 #include "fnv/decl/FUN_00aa63c0.h"
@@ -961,7 +962,6 @@ void FUN_00ba3190()
 
 void __cdecl FUN_00ba2d70();
 void __cdecl FUN_00ba3030();
-void FUN_00ec5fce(void*, unsigned int, int, void(__cdecl*)());
 
 struct LinearTaskRecord
 {
@@ -987,7 +987,7 @@ struct LinearTaskGroup
     LinearTaskRecord tasks[3];
     __forceinline ~LinearTaskGroup()
     {
-        FUN_00ec5fce(tasks, sizeof(LinearTaskRecord), 3, FUN_00ba2d70);
+        fnv::crt::vector_destructor(tasks, sizeof(LinearTaskRecord), 3, (void (*)(void *))(FUN_00ba2d70));
     }
 };
 
@@ -996,7 +996,7 @@ struct RenderTaskGroup
     RenderTaskRecord tasks[24];
     __forceinline ~RenderTaskGroup()
     {
-        FUN_00ec5fce(tasks, sizeof(RenderTaskRecord), 24, FUN_00ba3030);
+        fnv::crt::vector_destructor(tasks, sizeof(RenderTaskRecord), 24, (void (*)(void *))(FUN_00ba3030));
     }
 };
 

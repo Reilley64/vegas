@@ -5,6 +5,9 @@
 
 // src/staging/blk_00a00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstring>
+#include <stdexcept>
+#include "runtime/crt.h"
 #include "fnv/decl/A0D2A0_StringMap.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -52,8 +55,6 @@ struct FUN_00a11d80_Class
     void InitAndClear();
     void* DestroyIfFlagged(unsigned int flags);
 };
-void __cdecl FUN_00ec30b0();
-int __cdecl _FUN_00ec7c66(void* dst, unsigned int size, const void* src, unsigned int count);
 struct _Secure_char_traits_tag
 {
     char _Dummy;
@@ -465,13 +466,12 @@ FUN_00a0bc80::FUN_00a0bc80()
     unk3C = 0;
 }
 
-void __cdecl FUN_00ec30e8();
 struct StrTraitsB
 {
     static char* copy_s(char* _First1, unsigned int _Size_in_bytes, const char* _First2, unsigned int _Count,
                         _Secure_char_traits_tag _Tg)
     {
-        _FUN_00ec7c66(_First1, _Size_in_bytes, _First2, _Count);
+        fnv::crt::memcpy_s(_First1, _Size_in_bytes, _First2, _Count);
         return _First1;
     }
     static void assign(char& _Left, const char& _Right)
@@ -525,12 +525,12 @@ struct StrB
 StrB& StrB::FUN_00a0c570(const StrB& _Right, unsigned int _Roff, unsigned int _Count)
 {
     if (_Right.size() < _Roff)
-        FUN_00ec30e8();
+        throw std::out_of_range("invalid string position");
     unsigned int _Num = _Right.size() - _Roff;
     if (_Num < _Count)
         _Count = _Num;
     if (::g_010173f0 - _Mysize <= _Count || _Mysize + _Count < _Mysize)
-        FUN_00ec30b0();
+        throw std::length_error("string too long");
     if (0 < _Count && _Grow(_Num = _Mysize + _Count))
     {
         StrTraitsHelperB::copy_s(_Myptr() + _Mysize, _Myres - _Mysize, _Right._Myptr() + _Roff, _Count);
@@ -587,8 +587,6 @@ FUN_00a1bc70::FUN_00a1bc70(unsigned int a1, unsigned int a2, unsigned int a3, un
     m_10.m_0c = 0x23;
     CallStep(a2, 0);
 }
-
-extern "C" int __cdecl memcmp(const void* a, const void* b, unsigned int n);
 
 struct CharTraitsQ
 {

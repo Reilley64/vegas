@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/ConvexVertsQ_d59200.h"
 #include "fnv/decl/D762F0Owner.h"
 #include "fnv/decl/ExpandShape.h"
@@ -1695,7 +1697,6 @@ struct S00cf0f40_Arr
     }
 };
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 inline void S00cf0f40_Swap4(void* p)
 {
     unsigned int t;
@@ -2471,9 +2472,6 @@ extern "C"
     __m128 _mm_andnot_ps(__m128, __m128);
     __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 }
-
-extern "C" double __cdecl sqrt(double);
-extern "C" double __cdecl fabs(double);
 
 static __forceinline float Square(float x)
 {

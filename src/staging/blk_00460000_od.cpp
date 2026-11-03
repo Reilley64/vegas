@@ -3,6 +3,8 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/AttachmentHandler.h"
 #include "fnv/decl/B200Owner.h"
@@ -249,13 +251,12 @@ void FUN_0046dce0_class::FUN_0046dce0(float value)
     *(float*)((char*)this + 0x24) = value;
 }
 
-void __cdecl FUN_00ec825b(char* p, unsigned int a, char const* b, char const* c, char const* d, char const* e);
 
 // Calls FUN_00ec825b, passing through p, a, b, c, d and e unchanged.
 // @fnv 0x0046e850
 void __cdecl FUN_0046e850(char* p, unsigned int a, char const* b, char const* c, char const* d, char const* e)
 {
-    FUN_00ec825b(p, a, b, c, d, e);
+    fnv::crt::makepath_s(p, a, b, c, d, e);
 }
 
 struct FUN_0046e880_Class
@@ -2795,7 +2796,6 @@ struct Setting_47ab40
 {
     SETTING_VALUE_47ab40* Bool();
 };
-int FUN_00ec6da0(const char*, const char*);
 
 struct NiNode_47ab40;
 struct World_47ab40
@@ -2987,7 +2987,7 @@ bool FUN_0047ab40(Ref_47ab40* ref, NamedObject_47ab40* obj)
     bool result = false;
     if (ref && obj)
     {
-        if (!FUN_00ec6da0((*(::NiFixedString_47ab40 *)(reinterpret_cast<::TESTopicInfoData *>((obj))->GetLinkToList())), "Open") || !FUN_00ec6da0((*(::NiFixedString_47ab40 *)(reinterpret_cast<::TESTopicInfoData *>((obj))->GetLinkToList())), "Close"))
+        if (!std::strcmp((*(::NiFixedString_47ab40 *)(reinterpret_cast<::TESTopicInfoData *>((obj))->GetLinkToList())), "Open") || !std::strcmp((*(::NiFixedString_47ab40 *)(reinterpret_cast<::TESTopicInfoData *>((obj))->GetLinkToList())), "Close"))
             result = true;
         if (!(*reinterpret_cast<::Setting_47ab40 *>(&::g_011c4c64)).Bool()->b && result && !(*reinterpret_cast<::Setting_47ab40 *>(&::g_011c4c64)).Bool()->b)
         {

@@ -1,5 +1,6 @@
 // fallout_shared/mediaset.cpp: MediaSet, MediaSetLoad, MediaSetBattle, MediaSetCopy and more (22 functions)
 
+#include <malloc.h>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -151,8 +152,6 @@ void FUN_007d9ec0(BSStringT<char>* apString)
 {
     apString->BSStringT<char>::~BSStringT<char>();
 }
-
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct BSStringTChar
 {

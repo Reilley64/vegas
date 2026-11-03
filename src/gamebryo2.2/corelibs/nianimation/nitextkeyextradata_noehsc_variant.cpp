@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nitextkeyextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstring>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
@@ -94,7 +95,6 @@ struct FUN_00a46b50_cls
 
     FUN_00a46b50_cls* FUN_00a46b50();
 };
-extern "C" unsigned int __cdecl strlen(const char*);
 struct StrArray
 {
     void* m_vtbl;

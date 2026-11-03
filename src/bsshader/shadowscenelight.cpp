@@ -1,5 +1,7 @@
 // bsshader/shadowscenelight.cpp: ShadowSceneLight, RemovalList, NiRefObject, LightView and more (22 functions)
 
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CamLook.h"
@@ -70,7 +72,6 @@
 #include "fnv/symbols_0126f000.h"
 #include "shadowscenelight_decls.h"
 
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 __forceinline void ShadowMatrixIdentity(D3DXMATRIX& m)
 {
     m._12 = m._13 = m._14 = m._21 = m._23 = m._24 = m._31 = m._32 = m._34 = m._41 = m._42 = m._43 = 0.0f;
@@ -107,7 +108,7 @@ ShadowSceneLight::ShadowSceneLight()
     m_fShadowParameter1 = 0.0f;
     m_fShadowParameter2 = 1.0f;
     m_bShadowFrustumInitialized = false;
-    fnv_zlib_memset(m_afShadowFrustumData, 0, sizeof(m_afShadowFrustumData));
+    std::memset(m_afShadowFrustumData, 0, sizeof(m_afShadowFrustumData));
 }
 
 struct Node_00b9e770
@@ -457,12 +458,6 @@ void FUN_00b9fba0_s::FUN_00b9fba0()
     }
     reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(self + 0xe0)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
     *reinterpret_cast<int*>(self + 0x138) = *reinterpret_cast<int*>(self + 0xe0);
-}
-
-extern "C" double __cdecl sqrt(double);
-inline float __cdecl sqrt(float _X)
-{
-    return (float)sqrt((double)_X);
 }
 
 struct V3
@@ -3183,7 +3178,6 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
 }
 }  // namespace fnv_00b9f780
 
-extern "C" double __cdecl sqrt(double);
 static inline float ShadowUpdateSqrt(float value)
 {
     return static_cast<float>(sqrt(static_cast<double>(value)));

@@ -3,6 +3,9 @@
 #define NISHADERCONSTANTMAP_DECLS_H
 
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0109b000.h"
@@ -129,12 +132,8 @@ class NiShaderConstantMap
     static unsigned int ms_uiShaderConstantMapEntryCount;
     static unsigned int ms_uiConstantMapEntryCount;
 };
-extern "C" int strcpy_s(char*, unsigned int, const char*);
 // The mutable-source C++ overload is distinct from the CRT entry point.
 int strcpy_s(char*, unsigned int, char*);
-extern "C" char* strchr(char*, int);
 extern "C" int isdigit(int);
-extern "C" char* strtok_s(char*, const char*, char**);
-long FUN_00eca6d3(const char*);
 
 #endif

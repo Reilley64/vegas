@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/decl/NiPlane.h"
 #include "fnv/decl/S_00e9cb10_Obj.h"
@@ -395,8 +396,6 @@ NiBoundingVolume* __cdecl CreateBoundingVolumeAndCall(void* apArg)
     reinterpret_cast<FUN_00e9e780_Virtual*>(result)->Call(apArg);
     return result;
 }
-
-extern "C" size_t __cdecl strlen(const char*);
 
 class E9E7D0StrArray
 {

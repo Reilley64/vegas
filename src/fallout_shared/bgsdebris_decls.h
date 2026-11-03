@@ -2,6 +2,7 @@
 #ifndef BGSDEBRIS_DECLS_H
 #define BGSDEBRIS_DECLS_H
 
+#include <malloc.h>
 #include "fnv/decl/C4442C0Queue.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_005b5000.h"
@@ -17,7 +18,6 @@ class FileEntryList
     void Load(TESFile*, TESForm*, const char*);
 };
 extern const char DAT_01024988[];
-extern "C" void* _alloca(unsigned int);
 class DebrisModelEntry
 {
   public:

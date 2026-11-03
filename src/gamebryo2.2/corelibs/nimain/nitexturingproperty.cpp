@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nitexturingproperty.cpp: Holder, NiTexturingProperty, Map, MyThis and more (44 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00462d80_shell.h"
@@ -348,8 +349,6 @@ bool FUN_00a6c6a0(EqObj* self, int, EqObj* other)
     }
     return true;
 }
-
-extern "C" size_t __cdecl strlen(const char*);
 
 // Allocates a string and formats prefix with a texture address-mode suffix selected by mode, defaulting to UNKNOWN!!!.
 // @fnv 0x00a69b90

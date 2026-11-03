@@ -301,7 +301,6 @@ struct ExtraSpecialRenderFlags
                 // 0x84e3a0
       // 0x41fd00
 };
-extern "C" void* __cdecl __RTDynamicCast(void* inptr, long vfdelta, void* srcType, void* targetType, int isReference);
 struct LoadFlags
 {
     unsigned int uiFlags;

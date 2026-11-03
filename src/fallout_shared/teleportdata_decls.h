@@ -1,6 +1,8 @@
 // fallout_shared/teleportdata_decls.h: declares DoorTeleportLoadData, BaseProcess, DoorTeleportSpaceReceiver, DoorTeleportSpaceOwner, DoorCell and more
 #ifndef FNV_TELEPORTDATA_DECLS_H
 #define FNV_TELEPORTDATA_DECLS_H
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FUN_00544390_shell.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
@@ -16,7 +18,6 @@
 #include "TESForm.h"
 #include "NiPoint3.h"
 #include "TESFile.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct DoorTeleportLoadData
 {
     TESObjectREFR* door;
@@ -62,8 +63,6 @@ class TESFormTypeView
 extern "C"
 {
     void FNV_DynamicCast(void);
-    void FNV_Finite(void);
-    void FNV_IsNaN(void);
     extern const char FNV_NoDoor[];
     extern const char FNV_InvalidDoor[];
     extern const char FNV_BadLocation[];

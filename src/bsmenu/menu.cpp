@@ -4,6 +4,8 @@
 #include <string.h>
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_0045cee0_shell.h"
@@ -1056,7 +1058,6 @@ struct FUN_00a1ddb0_shell : public Menu
 };
 
 
-int __cdecl FUN_00ec6da0(char const*, char const*);
 
 struct NiGlobalStringTable
 {
@@ -1102,7 +1103,7 @@ struct NiFixedStringL
             return true;
         if (!p || !m_kHandle)
             return false;
-        return !FUN_00ec6da0(m_kHandle, p);
+        return !std::strcmp(m_kHandle, p);
     }
 };
 
@@ -1271,7 +1272,6 @@ FUN_00a1bbd0::~FUN_00a1bbd0()
 }
 
 namespace fnv_00a1cb80 {
-extern "C" void* __cdecl fnv_zlib_memset(void* dst, int val, unsigned int size);
 
 struct IMemoryHeap
 {
@@ -1552,7 +1552,7 @@ int LoadMasterMenuFiles()
 
     while (found9)
     {
-        fnv_zlib_memset(pathBuffer6, 0, kBufSize);
+        std::memset(pathBuffer6, 0, kBufSize);
 
         xml2 = strstr(_cur_ptr, ".xml");
         endPtr = xml2 + 4;
@@ -1595,8 +1595,6 @@ struct CompressedEntry
 extern int DAT_01095574;
 extern const char DAT_01095548[];
 extern const char DAT_01095528[];
-void* __cdecl FUN_00ec61c0(void* apDst, int aiValue, unsigned int auiSize);
-int __cdecl FUN_00ec65a6(char* apDst, unsigned int auiSize, const char* apSrc);
 
 struct MapItem
 {
@@ -1795,8 +1793,8 @@ bool WriteCompressedEntryArchive()
                                 char filename[128];
                                 {
                                     const char* name = names.GetAt(i);
-                                    FUN_00ec61c0(filename, 0, 128);
-                                    FUN_00ec65a6(filename, 128, name);
+                                    std::memset(filename, 0, 128);
+                                    fnv::crt::strcpy_s(filename, 128, name);
                                     a = b->Write(filename, 128);
                                     if (a != 128)
                                         f = false;

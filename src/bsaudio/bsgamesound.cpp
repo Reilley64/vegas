@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <objbase.h>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00ad7150_shell.h"
 #include "fnv/decl/FUN_00aea210_Class.h"
@@ -107,7 +109,7 @@ bool BSGameSound::HasMaster(const char* filename, bool resolve)
     if (!filename)
         return false;
     if (pFilename != filename)
-        strcpy_s(pFilename, 260, filename);
+        fnv::crt::strcpy_s(pFilename, 260, filename);
     BSAudio::GetRandomGenerator().vfn_18(pFilename);
     void(__cdecl * pfnCallback)(char*) = BSAudio::GetRandomGenerator().GetCallback();
     unsigned int iLength = strlen(pFilename);
@@ -611,7 +613,6 @@ void BSWin32Audio::Shutdown()
 }
 
 extern "C" char DAT_010a3b10, DAT_010a3ae0, DAT_010a3a78, DAT_010a3a38, DAT_010a39f8, DAT_01100fa4;
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct Heap
 {
 };
@@ -716,7 +717,7 @@ void C::SetWindow(int aiWindow)
         *(int*)capsdata = 96;
         iResult = com->caps(capsdata);
         reinterpret_cast<::FUN_00aea590_shell *>(this)->FUN_00aea590(iResult, (int)(&DAT_010a3a78));
-        FUN_00ec61c0(&desc, 0, 36);
+        std::memset(&desc, 0, 36);
         desc.size = 36;
         desc.flags = 145;
         iResult = com->create(&desc, &buffer, 0);
@@ -738,7 +739,6 @@ void C::SetWindow(int aiWindow)
     FUN_00ad7020(0);
 }
 
-extern "C" int __cdecl strcat_s(char*, unsigned int, const char*);
 
 struct AudioPathFixer
 {
@@ -752,8 +752,8 @@ void AudioPathFixer::FUN_00aea640(char* apName)
     if (apName && ((apName[0] == 102 && apName[1] == 120) ||
                    (apName[0] == 115 && apName[1] == 111 && apName[2] == 110 && apName[3] == 103)))
     {
-        strcpy_s(acBuffer, 260, apName);
-        strcpy_s(apName, 260, "data\\sound\\");
-        strcat_s(apName, 260, acBuffer);
+        fnv::crt::strcpy_s(acBuffer, 260, apName);
+        fnv::crt::strcpy_s(apName, 260, "data\\sound\\");
+        fnv::crt::strcat_s(apName, 260, acBuffer);
     }
 }

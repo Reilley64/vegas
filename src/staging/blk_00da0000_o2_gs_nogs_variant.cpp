@@ -7,6 +7,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cstdio>
 #include "fnv/decl/BDBA270Array.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -846,7 +847,6 @@ void drive_db0dc0(void)
 }
 
 #include <string.h>
-int __cdecl FUN_00eca38d(char*, unsigned int, const char*, ...);
 struct SymbolInfoBuffer
 {
     unsigned int size, address, symbolSize, flags, maxNameLength;
@@ -912,7 +912,7 @@ void StackTracer::FUN_00da2990(unsigned int* addresses, int count, void(__cdecl*
         line.size = 24;
         functions->lineFromAddress(process, address, &displacement, &line);
         char buffer[2048];
-        FUN_00eca38d(buffer, 2048, "%s(%i):'%s'\n", line.fileName, line.lineNumber, symbol.name);
+        std::snprintf(buffer, 2048, "%s(%i):'%s'\n", line.fileName, line.lineNumber, symbol.name);
         output(buffer, context);
     }
 }

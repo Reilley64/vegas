@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/niskinpartition.cpp: NiAccumulator, Partition, Holder, MyCls and more (36 functions)
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
@@ -445,8 +447,6 @@ void S_00a82050_Class::FUN_00a82050(int aiKey, float afValue)
 // The helper and the comparison routine are declared but never defined, so the
 // checker binds both call targets from the original's own bytes.
 
-extern "C" void* __cdecl FNV_search_821f0(const void* key, const void* base, unsigned int count, unsigned int size,
-                                          int(__cdecl* cmp)(const void*, const void*));
 
 
 // One record of the list that is handed in: the 16-bit key sits at +0 and the
@@ -503,7 +503,7 @@ char FNV_This_821f0::ContainsAllValues(FNV_Arg_821f0* pArg)
             // the store of the scratch slot below the whole argument-push
             // chain, i.e. right in front of the call.
             unsigned int uiSearchCount = m_uCount;
-            if (FNV_search_821f0(&key, m_pusData, uiSearchCount, 2, ((int (&)(const void *, const void *))::FUN_00a81b80)) == 0)
+            if (std::bsearch(&key, m_pusData, uiSearchCount, 2, ((int (&)(const void *, const void *))::FUN_00a81b80)) == 0)
                 return 0;
         }
     }
@@ -947,7 +947,6 @@ inline bool Degenerate(const unsigned short* indices)
         return true;
     return false;
 }
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int) throw();
 
 struct SkinGeom
 {
@@ -1047,7 +1046,7 @@ struct SkinMap
     SkinMap() throw() : size(37), count(0)
     {
         buckets = (SkinMapNode**)::FUN_00aa1070(size * sizeof(SkinMapNode*));
-        fnv_zlib_memset(buckets, 0, size * sizeof(SkinMapNode*));
+        std::memset(buckets, 0, size * sizeof(SkinMapNode*));
     }
     __declspec(nothrow) int Lookup(int key) throw()
     {
@@ -1923,8 +1922,6 @@ struct ScriptProgram
 struct MemoryManager
 {
 };
-void __cdecl FUN_00ec6f20(void*, unsigned int, unsigned int,
-                          int(__cdecl*)(const unsigned short*, const unsigned short*));
 template <class T> struct BoneArray
 {
     T* data;
@@ -2028,7 +2025,7 @@ void BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
                                     set->Add(bone);
                             }
                         }
-                        FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                        std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                     }
                 }
                 if (!found)
@@ -2044,7 +2041,7 @@ void BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
                                 set->Add(bone);
                         }
                     }
-                    FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                    std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                     sets->Add(set);
                 }
             }
@@ -2073,7 +2070,7 @@ void BuildBoneLODControllerSets(ScriptProgram* mesh, BoneWeights* weights,
                         }
                     }
                 }
-                FUN_00ec6f20(set->data, set->count, 2, FUN_00a81b80);
+                std::qsort(set->data, set->count, 2, (int (*)(const void *, const void *))(FUN_00a81b80));
                 unsigned int index = 0;
                 while (index < sets->count)
                 {
@@ -2199,14 +2196,12 @@ void ListMerge::Merge(const ListMerge* pkOther)
 
 namespace SkinWeights {
 
-__declspec(nothrow) void* FUN_00ec61c0(void*, int, unsigned int) throw();
 
 struct Weight
 {
     unsigned int bone;
     float weight;
 };
-__declspec(nothrow) void FUN_00ec6f20(void*, unsigned int, unsigned int, int (*)(const void*, const void*)) throw();
 
 struct Group
 {
@@ -2307,7 +2302,7 @@ struct WeightMap
         bucketsCount = 37;
         count = 0;
         buckets = (Node**)::FUN_00aa1070(37 * 4);
-        FUN_00ec61c0(buckets, 0, bucketsCount * 4);
+        std::memset(buckets, 0, bucketsCount * 4);
         table = &(*reinterpret_cast<::SkinWeights::MapVTable *>(&::fnv_00a82cf0::DAT_0109e52c));
     }
 
@@ -2533,7 +2528,7 @@ bool Processor::ReduceGroupWeights(Geometry* geometry, unsigned char maxTriangle
         Group* group = &groups[corner];
         if (group->count > maxVertex)
         {
-            FUN_00ec6f20(group->entries, group->count, 8, ((int (&)(const void *, const void *))::CompareFloatDescending));
+            std::qsort(group->entries, group->count, 8, ((int (&)(const void *, const void *))::CompareFloatDescending));
             group->count = maxVertex;
             reinterpret_cast<::NormalizedWeights *>((group))->NormalizeWeights();
         }

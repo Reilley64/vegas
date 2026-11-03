@@ -1,5 +1,7 @@
 // bsshader/shaderbuffer.cpp: ShaderBufferCollection, SpawnedObject (5 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -67,8 +69,8 @@ ShaderBufferCollection::~ShaderBufferCollection()
 // @fnv 0x00b97c10
 void InitializeShaderBufferTables()
 {
-    fnv_zlib_memset(DAT_011ffa30, -1, 0x3fc);
-    fnv_zlib_memset(DAT_011ff9d8, 0, 0x54);
+    std::memset(DAT_011ffa30, -1, 0x3fc);
+    std::memset(DAT_011ff9d8, 0, 0x54);
     DAT_011ffa4c = 0;
     DAT_011ffa68 = 1;
     DAT_011ffa8c = 2;
@@ -96,7 +98,6 @@ struct FUN_00aa4060_Manager
 
 
 extern void FUN_0045cec0(void* object);
-extern void FUN_00ec5fce(void* base, unsigned int elementSize, unsigned int count, void (*destructor)(void*));
 
 struct FUN_00b7e2b0_Class
 {
@@ -118,7 +119,7 @@ void* FUN_00b7e2b0_Class::Destroy(unsigned char flags)
         void* allocation = static_cast<char*>(base) - 4;
         unsigned int count = *reinterpret_cast<unsigned int*>(allocation);
 
-        FUN_00ec5fce(base, 4, count, FUN_0045cec0);
+        fnv::crt::vector_destructor(base, 4, count, FUN_0045cec0);
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager))))->FUN_00aa4060(allocation);
     }
 
@@ -136,9 +137,6 @@ class ShaderLookupTable
   public:
 };
 
-void FNVRegisterEntry(void* found, void* name, unsigned int flags);
-void FNVClearRange(void* object, unsigned int value, unsigned int size);
-void FNVSetOwner(void* object, unsigned int size, void* owner);
 
 class SpawnedObject
 {
@@ -223,16 +221,16 @@ SpawnedObject* SpawnedObject::FUN_00b7fa40(void* apOwner, void* apName, unsigned
         {
             void* found = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00b7fa40::ShaderLookupTable *>(&::g_memoryManager))))->FUN_00aa3e40(auiKey);
             m_104 = found;
-            FNVRegisterEntry(found, apName, m_100);
+            std::memmove(found, apName, m_100);
             goto done;
         }
     }
     m_104 = 0;
 done:
-    FNVClearRange(this, 0, 0x100);
+    std::memset(this, 0, 0x100);
     if (apOwner != 0)
     {
-        FNVSetOwner(this, 0x100, apOwner);
+        fnv::crt::strcpy_s((char *)(this), 0x100, (const char *)(apOwner));
     }
     return this;
 }

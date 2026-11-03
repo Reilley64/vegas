@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
 #include "fnv/decl/FUN_00a6d220.h"
@@ -491,8 +492,6 @@ void NiPathControllerView::ReadFromStream(NiStream* stream)
     reinterpret_cast<::FUN_00a645b0_cls *>((stream))->FUN_00a645b0();
 }
 
-extern "C" double __cdecl fmod(double, double);
-extern "C" double __cdecl fabs(double);
 inline float PathRemainder(float x, float y)
 {
     return (float)fmod(x, y);

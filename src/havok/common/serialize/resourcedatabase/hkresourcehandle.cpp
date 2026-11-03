@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BufferOwner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -854,7 +855,6 @@ void S00e2e3f0_Obj::FUN_00e2e3f0()
     m_uiItemCount = 0;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 extern "C" int __cdecl FUN_00cb0fa0(const char*, const char*);
 struct String839
 {

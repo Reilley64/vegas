@@ -1,6 +1,7 @@
 #ifndef FNV_IMAGESPACESHADERBLUR_H
 #define FNV_IMAGESPACESHADERBLUR_H
 
+#include <cstring>
 #include "fnv/decl/FUN_00a41520_cls.h"
 #include "fnv/symbols_011f9000.h"
 #include "imagespaceshaderblur_blur_reload_support.h"
@@ -16,7 +17,7 @@ void ImageSpaceBlurShader::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -28,7 +29,7 @@ void ImageSpaceBlurShader::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "3";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR3T";
     }
@@ -41,7 +42,7 @@ void ImageSpaceBlurShader::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "3";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR3";
     }
@@ -66,7 +67,7 @@ void ImageSpaceShaderVariant4::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -78,7 +79,7 @@ void ImageSpaceShaderVariant4::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "5";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR5T";
     }
@@ -91,7 +92,7 @@ void ImageSpaceShaderVariant4::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "5";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR5";
     }
@@ -116,7 +117,7 @@ void ImageSpaceShaderVariant5::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -128,7 +129,7 @@ void ImageSpaceShaderVariant5::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "7";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR7T";
     }
@@ -141,7 +142,7 @@ void ImageSpaceShaderVariant5::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "7";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR7";
     }
@@ -166,7 +167,7 @@ void ImageSpaceShaderVariant6::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -178,7 +179,7 @@ void ImageSpaceShaderVariant6::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "9";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR9T";
     }
@@ -191,7 +192,7 @@ void ImageSpaceShaderVariant6::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "9";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR9";
     }
@@ -216,7 +217,7 @@ void ImageSpaceShaderVariant1::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -228,7 +229,7 @@ void ImageSpaceShaderVariant1::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "11";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR11T";
     }
@@ -241,7 +242,7 @@ void ImageSpaceShaderVariant1::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "11";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR11";
     }
@@ -266,7 +267,7 @@ void ImageSpaceShaderVariant2::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -278,7 +279,7 @@ void ImageSpaceShaderVariant2::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "13";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR13T";
     }
@@ -291,7 +292,7 @@ void ImageSpaceShaderVariant2::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "13";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR13";
     }
@@ -316,7 +317,7 @@ void ImageSpaceShaderVariant3::SetupShader()
     BSShaderManager::BSShaderMacro vertexShader;
     vertexShader.pcPath = "imagespace\\1x\\v\\base.v.hlsl";
     vertexShader.kMacros[0].Name = 0;
-    fnv_zlib_memset(&vertexShader.kMacros[0].Definition, 0, 68);
+    std::memset(&vertexShader.kMacros[0].Definition, 0, 68);
     BSShaderManager::BSShaderMacro pixelShader;
     const char* shaderName;
     if ((*reinterpret_cast<::Setting *>(&::g_011f94f8)).uValue.b)
@@ -328,7 +329,7 @@ void ImageSpaceShaderVariant3::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "15";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR15T";
     }
@@ -341,7 +342,7 @@ void ImageSpaceShaderVariant3::SetupShader()
         shader.kMacros[1].Name = "TEXTAP";
         shader.kMacros[1].Definition = "15";
         shader.kMacros[2].Name = 0;
-        fnv_zlib_memset(&shader.kMacros[2].Definition, 0, 52);
+        std::memset(&shader.kMacros[2].Definition, 0, 52);
         pixelShader = shader;
         shaderName = "BPBLUR15";
     }

@@ -1,6 +1,7 @@
 // fallout_shared/teswaterform.cpp: TESWaterForm, BGSPlaceableWater, WaterShaderSettings, Holder and more (27 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -562,7 +563,6 @@ struct FUN_0057ff10_texture
     virtual bool operator==(FUN_0057ff10_texture*);
 };
 
-extern int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 // @fnv 0x0057ff10
 bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
@@ -582,7 +582,7 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (this->m_ucOpacity != pcomp->m_ucOpacity)
         return true;
 
-    if (_memcmp(reinterpret_cast<::FUN_0057eef0_shell *>(this)->FUN_0057eef0(), reinterpret_cast<::FUN_0057eef0_shell *>((pcomp))->FUN_0057eef0(), 0xc4) != 0)
+    if (std::memcmp(reinterpret_cast<::FUN_0057eef0_shell *>(this)->FUN_0057eef0(), reinterpret_cast<::FUN_0057eef0_shell *>((pcomp))->FUN_0057eef0(), 0xc4) != 0)
         return true;
 
     if (((FUN_0057ff10_texture*)&this->m_kNoiseMapTexture)->operator==((FUN_0057ff10_texture*)&pcomp->m_kNoiseMapTexture))
@@ -597,7 +597,7 @@ bool FUN_0057ff10_shell::FUN_0057ff10(TESForm* apCompare)
     if (((FUN_0057fed0*)this)->GetMember() != ((FUN_0057fed0*)pcomp)->GetMember())
         return true;
 
-    if (_memcmp((char*)&this->m_apWaterForms, (char*)&pcomp->m_apWaterForms, 0xc) != 0)
+    if (std::memcmp((char*)&this->m_apWaterForms, (char*)&pcomp->m_apWaterForms, 0xc) != 0)
         return true;
 
     return false;

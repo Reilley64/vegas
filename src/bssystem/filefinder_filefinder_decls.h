@@ -2,6 +2,7 @@
 #ifndef FNV_FILEFINDER_FILEFINDER_DECLS_H
 #define FNV_FILEFINDER_FILEFINDER_DECLS_H
 
+#include "runtime/crt.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00af5000.h"
 #include "fnv/symbols_011f6000.h"
@@ -43,7 +44,6 @@ class FileFinder
     static FILE_LOCATION __cdecl Exist(const char*, char*, unsigned int, unsigned int);
     FILE_LOCATION GetFileLocation(char*, char*, unsigned int, unsigned int);
 };
-extern "C" int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 class MemoryManager
 {

@@ -1,5 +1,6 @@
 // fallout_shared/teslight.cpp: TESObjectLIGH, TESFullName, Owner, LightLoader and more (29 functions)
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSDehydrationStage.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -92,7 +93,6 @@ class TESSound : public TESForm
 #include "teslight_r2d_types_TESObjectLIGH.h"
 #include "teslight_scene.h"
 
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 extern "C" const char DAT_01029064[];
 
 // Returns the reference's model node, or a new NiSortAdjustNode when the model name is empty or the node has no children.
@@ -1460,7 +1460,6 @@ struct LightComponentComparison
 struct LightDataAccess
 {
 };
-extern "C" int __cdecl _memcmp(const void*, const void*, unsigned int);
 
 struct LightComparison : TESObjectLIGH
 {
@@ -1478,7 +1477,7 @@ bool LightComparison::FUN_0050d120(TESForm* form)
         return true;
     if (m_pGameSound != ((::TESSound *)(reinterpret_cast<::FUN_004036b0_Class *>((reinterpret_cast<LightSoundAccess*>(pOtherLight)))->FUN_004036b0())))
         return true;
-    if (_memcmp(&data, ((::LightSourceData *)(reinterpret_cast<::FUN_0050d100_shell *>((reinterpret_cast<LightDataAccess*>(pOtherLight)))->FUN_0050d100())), sizeof(data)))
+    if (std::memcmp(&data, ((::LightSourceData *)(reinterpret_cast<::FUN_0050d100_shell *>((reinterpret_cast<LightDataAccess*>(pOtherLight)))->FUN_0050d100())), sizeof(data)))
         return true;
     if (GetFieldB4Float(reinterpret_cast<char*>(this)) != GetFieldB4Float(reinterpret_cast<char*>(pOtherLight)))
         return true;

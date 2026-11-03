@@ -6,6 +6,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nipathinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/FUN_00a3ce20_shell.h"
 #include "fnv/decl/FUN_00a3dd40.h"
 #include "fnv/decl/FUN_00a3e680_shell.h"
@@ -535,7 +536,6 @@ static __forceinline void FNV_WriteField(FNV_WriteStream* pWriter, void* pData, 
     int r = pWriter->m_pfn(pWriter, pData, n, &n, 1);
     pWriter->m_uiItemCount += r;
 }
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 class NiRefObject
 {
   public:

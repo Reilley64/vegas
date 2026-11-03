@@ -231,12 +231,11 @@ struct FUN_0040c510_cls
     void FUN_0040c510(TESForm* form);
 };
 
-FUN_0040c510_cls* __cdecl FUN_00ec43fb(TESForm* form, int a2, const char* a3, const char* a4, int a5);
 
 // @fnv 0x0040c510
 void FUN_0040c510_cls::FUN_0040c510(TESForm* form)
 {
-    FUN_0040c510_cls* rec = FUN_00ec43fb(form, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183028)), DAT_0118395c, 0);
+    FUN_0040c510_cls* rec = ((FUN_0040c510_cls *)(dynamic_cast<::MagicItemForm *>(reinterpret_cast<::TESForm *>(form))));
     if (rec == 0)
     {
         return;

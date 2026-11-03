@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/symbols_00aa0000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00e93000.h"
@@ -19,11 +20,10 @@ extern "C" long D3DXAssembleShaderFromFileA(const char* pSrcFile, const void* pD
                                                       ID3DXBuffer** ppErrorMsgs);
 
 int strcpy_s(char* dst, unsigned int size, char* src);
-void* memcpy(void* dst, const void* src, unsigned int size);
 
 inline void NiMemcpy(void* d, const void* s, unsigned int n)
 {
-    memcpy(d, s, n);
+    std::memmove(d, s, n);
 }
 
 struct ShaderLoader
@@ -97,8 +97,6 @@ bool ShaderLoader::AssembleShaderFile(const char* pcFile, void** ppvBytecode, un
 
 extern "C" long FUN_00ee6e52(const char*, unsigned int, const void*, void*, unsigned int, ID3DXBuffer**,
                                        ID3DXBuffer**);
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
-
 inline void Move266(void* d, const void* s, unsigned int n)
 {
     memmove(d, s, n);

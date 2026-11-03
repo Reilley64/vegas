@@ -7,6 +7,11 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
 #include <new>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <malloc.h>
+#include "runtime/crt.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/AudioManagerUpdate.h"
 #include "fnv/decl/AudioWorker.h"
@@ -873,7 +878,6 @@ FUN_00ad90e0::FUN_00ad90e0()
     paused = false;
 }
 
-extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct PoolX
 {
 };
@@ -937,7 +941,7 @@ inline const unsigned char* GetName()
 }
 inline void ClearX(void* p, unsigned n)
 {
-    FUN_00ec61c0(p, 0, n);
+    std::memset(p, 0, n);
 }
 inline void DbgX()
 {
@@ -1189,7 +1193,6 @@ IdentifierState FUN_00ae5870_t::FUN_00ae5870(const char* pName, unsigned int uiF
 extern int DAT_010a3368;
 extern int DAT_010a3328, DAT_010a3348;
 extern "C" void __cdecl FUN_00a1bbd0();
-void FUN_0065ee50_Helper(void*, unsigned int, int, void(__cdecl*)());
 struct StackView
 {
     int offset_00, offset_04, offset_08, offset_0c;
@@ -1266,7 +1269,7 @@ struct ArrayView
     int offset_00, offset_04, offset_08, offset_0c, offset_10, offset_14;
     ~ArrayView()
     {
-        FUN_0065ee50_Helper(this, 12, 2, FUN_00a1bbd0);
+        fnv::crt::vector_destructor(this, 12, 2, (void (*)(void *))(FUN_00a1bbd0));
     }
 };
 struct FUN_00ad93f0
@@ -2264,7 +2267,6 @@ class AudioManagerD570
     void FUN_00add570(const char* pcName, unsigned int uiFlags);
 };
 
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 struct SndHandleQ
 {
     int m_uiSoundID;
@@ -8806,8 +8808,6 @@ struct SettingQ
     void* m_pVtbl;
     int m_iValue;
 };
-extern "C" void* _fnv_zlib_memset(void*, int, unsigned int);
-int __cdecl FUN_00ec65a6(char*, unsigned int, const char*);
 struct Vec3
 {
     float x, y, z;
@@ -9325,12 +9325,12 @@ __forceinline void DebugInfo::SetName(Param2Ada* sound)
     if (sound->name)
     {
         char* dst = pSelf;
-        FUN_00ec65a6(dst, 0x104, sound->name);
+        fnv::crt::strcpy_s(dst, 0x104, sound->name);
     }
     else
     {
         char* dst = pSelf;
-        FUN_00ec65a6(dst, 0x104, "NotTESSound");
+        fnv::crt::strcpy_s(dst, 0x104, "NotTESSound");
     }
 }
 __forceinline bool ReadDebugSetting()
@@ -9473,7 +9473,7 @@ void ThisClsAda::FUN_00ada5d0(int param1, Param2Ada* param2)
                 (const ::S *)(::TempInfo *)(&TempInfo(param2->v4(), param2->v10(), param2->Read04(), param2->Read08(), param2->Read14())));
         if (flag11_2)
         {
-            _fnv_zlib_memset(&descB_, 0, 0x23c);
+            std::memset(&descB_, 0, 0x23c);
             if (descB_.pSelf != descB_.name)
                 descB_.pSelf = descB_.name;
             descB_.SetName(param2);
@@ -9635,7 +9635,7 @@ void OwnerQ3::FUN_00add6f0(const char* pPath, int iFlags, int iArg)
     int iID_2 = m_iNextID++;
     SndHandleQ kHandle3(iID_2);
     char acPath3[0x104];
-    strcpy_s(acPath3, 0x104, pPath);
+    fnv::crt::strcpy_s(acPath3, 0x104, pPath);
     GetAudioQ3()->Normalize(acPath3);
     unsigned int uiHash3 = ::BSGameSound::ComputeSoundNameHash(acPath3);
     if (FUN_00add480(uiHash3, true))
@@ -9701,7 +9701,6 @@ inline void DeadM()
 {
     int a[7];
 }
-extern "C" int __cdecl rand();
 struct SoundQ
 {
     virtual ~SoundQ();
@@ -9810,7 +9809,7 @@ SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
         }
         else if (IsAltQ(SoundAssetTmp, alt))
         {
-            if (pMatch && bRandom5 && rand() % 3 == 0)
+            if (pMatch && bRandom5 && std::rand() % 3 == 0)
             {
                 pSaved = pMatch;
                 pSavedPrev = pPrev_;
@@ -9820,7 +9819,7 @@ SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
         }
         pNodeB = pNodeB ? pNodeB->next : 0;
     }
-    if (bRandom5 && pSaved && pMatch && rand() % 2 == 0)
+    if (bRandom5 && pSaved && pMatch && std::rand() % 2 == 0)
     {
         pMatch = pSaved;
         pPrev_ = pSavedPrev;
@@ -9838,11 +9837,6 @@ SoundQ* OwnerQ2::FUN_00add1e0(unsigned int id, int alt, unsigned int flags)
     return pResult;
 }
 
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" char* __cdecl strcpy(char*, const char*);
-extern "C" int __cdecl sprintf(char*, const char*, ...);
-extern "C" char* __cdecl strcat(char*, const char*);
-extern "C" char* __cdecl strstr(const char*, const char*);
 extern char str_010a36c0[];
 extern char str_010a36b4[];
 extern char str_010a36a8[];
@@ -10314,7 +10308,7 @@ DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
                 {
                     description.fullName = description.fullNameBuffer;
                 }
-                strcpy_s(_copy, 260, description.GetName());
+                fnv::crt::strcpy_s(_copy, 260, description.GetName());
                 last2 = strstr(_copy, ::DAT_01013444);
                 while (last2 && strstr(last2 + 1, ::DAT_01013444))
                 {
@@ -10323,7 +10317,7 @@ DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
                 }
                 if (last2 && last2[1] != 0)
                 {
-                    strcpy_s(description.GetName(), 260, last2);
+                    fnv::crt::strcpy_s(description.GetName(), 260, last2);
                 }
                 else
                 {
@@ -10356,7 +10350,7 @@ DebugList* AudioSystem::FUN_00ae5ff0(unsigned int filter)
                             (currentSound6->IsPlaying() ? str_01063958 : ::str_010639ec), description.currentTime,
                             description.maxTime);
                 }
-                strcpy_s(buffer_, 260, formatted);
+                fnv::crt::strcpy_s(buffer_, 260, formatted);
             }
             else
             {

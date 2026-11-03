@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdio>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -233,7 +234,6 @@ void BuildLodMeshPath(char* pcBuffer, FakeWorld006faad0* a2, int iLevel, short s
                iLevel, sX, sY);
 }
 
-int __cdecl _sprintf(char*, const char*, ...);
 struct FakeFab
 {
     virtual void f0();
@@ -318,7 +318,7 @@ struct FakeFab
 // @fnv 0x006fab70
 void __cdecl BuildLodNormalTexturePath(char* pBuffer, FakeFab* pNameSource, int iLevel, short iX, short iY)
 {
-    _sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Normals\\%s.n.Level%i.X%i.Y%i.dds", pNameSource->GetStr(),
+    std::sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Normals\\%s.n.Level%i.X%i.Y%i.dds", pNameSource->GetStr(),
              pNameSource->GetStr(), iLevel, iX, iY);
 }
 
@@ -501,12 +501,11 @@ struct FakeObj
     virtual void v75();
     virtual const char* GetStr();
 };
-int __cdecl _sprintf(char*, const char*, ...);
 // Formats a landscape LOD diffuse texture path from the object's string, level, and X/Y coordinates into buf.
 // @fnv 0x006fab20
 void __cdecl BuildLODDiffuseTexturePath(char* pBuffer, FakeObj* obj, int level, short x, short y)
 {
-    _sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Diffuse\\%s.n.Level%i.X%i.Y%i.dds", obj->GetStr(),
+    std::sprintf(pBuffer, "Data\\Textures\\Landscape\\LOD\\%s\\Diffuse\\%s.n.Level%i.X%i.Y%i.dds", obj->GetStr(),
              obj->GetStr(), level, x, y);
 }
 
@@ -1107,18 +1106,18 @@ void TerrainTask::UpdateTerrainLODNames()
         if (!m_bDisabled58)
         {
             char szFile[260];
-            _sprintf(szFile, (const char*)NiFixedString("Terrain LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
+            std::sprintf(szFile, (const char*)NiFixedString("Terrain LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                      iY, iX + iLevel - 1, iY + iLevel - 1);
             ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref48))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c)))))
             {
-                _sprintf(szFile, (const char*)NiFixedString("Water LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
+                std::sprintf(szFile, (const char*)NiFixedString("Water LOD | Level %i | Cells (%i,%i)-(%i,%i)"), iLevel, iX,
                          iY, iX + iLevel - 1, iY + iLevel - 1);
                 ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref4c))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }
             if (((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50)))))
             {
-                _sprintf(szFile, (const char*)NiFixedString("Water LOD w/ refl.) | Level %i | Cells (%i,%i)-(%i,%i)"),
+                std::sprintf(szFile, (const char*)NiFixedString("Water LOD w/ refl.) | Level %i | Cells (%i,%i)-(%i,%i)"),
                          iLevel, iX, iY, iX + iLevel - 1, iY + iLevel - 1);
                 ::AssignFixedString((char *)(((::LoadedNode *)(::FUN_00559450((int *)&(m_ref50))))), (int)&(const ::NiFixedString &)(NiFixedString(szFile)), {});
             }

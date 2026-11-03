@@ -1,6 +1,9 @@
 // fallout/ai/highprocess.cpp: HighProcess, HighProcessStandIn, Process, HighProcessHack and more (352 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
 #include "fnv/decl/A.h"
 #include "fnv/decl/AIFormFlags.h"
 #include "fnv/decl/A_00885520.h"
@@ -32151,7 +32154,6 @@ struct FollowProcess
 struct FollowSetting
 {
 };
-extern "C" int _FNV_Finite(double);
 struct FollowPackagePrediction
 {
 };
@@ -32323,7 +32325,7 @@ void FollowProcess::FUN_008e0f80(FollowRef* actor, bool complete, int direction,
     if (actor->controller && reinterpret_cast<::ActorMover *>((actor->controller))->HasActiveMovement())
     {
         float controllerDistance = reinterpret_cast<::StandIn_009dcc50 *>((actor->controller))->FUN_009dcc50();
-        distance_2 = _FNV_Finite(controllerDistance) ? ::FUN_00404010(distance_2, controllerDistance) : distance_2;
+        distance_2 = ::std::isfinite(controllerDistance) ? ::FUN_00404010(distance_2, controllerDistance) : distance_2;
     }
     bool specialTarget8 = targetActorVal && reinterpret_cast<::FUN_004938e0_shell *>((targetActorVal))->FUN_004938e0();
     float radius4 = 0.0f;
@@ -39399,7 +39401,6 @@ struct CellMap63
 {
 };
 extern char DAT_01088220[];
-int __cdecl FUN_00ec623a(char*, const char*, ...);
 struct Process63
 {
     virtual void v0();
@@ -40133,7 +40134,7 @@ void Process63::FUN_008ed420(Actor63* actor, const Vec63* overridePosition, floa
             if (((::fnv_008ed420::Actor63 *)(::fnv_00703180::FUN_00703180())) == actor)
             {
                 char message[300];
-                FUN_00ec623a(message, DAT_01088220, reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(), position18.x, position18.y);
+                ::std::sprintf(message, DAT_01088220, reinterpret_cast<::FUN_0055d520_shell *>((actor))->FUN_0055d520(), position18.x, position18.y);
                 ::FUN_00703c00(message, {});
             }
         }
@@ -52201,7 +52202,6 @@ struct Actor59
     Base59* FUN_007af430();
 };
 float __cdecl FUN_00408840(float);
-unsigned int __cdecl FUN_00ecadb8();
 struct Process59
 {
     virtual void v0();
@@ -52795,7 +52795,7 @@ void Process59::UpdateIdleProcess(Actor59* actor, Actor59* reference)
                 timer = -1.0f;
                 break;
             case 0: {
-                unsigned int randomIndex = FUN_00ecadb8() % count17;
+                unsigned int randomIndex = ::std::rand() % count17;
                 currentIdle = *idles33.FUN_00877a30(randomIndex);
                 idleIndex = randomIndex;
                 if (currentIdle)

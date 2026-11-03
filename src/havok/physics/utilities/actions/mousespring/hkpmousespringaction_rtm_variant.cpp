@@ -4,6 +4,7 @@
 
 // src/havok/physics/utilities/actions/mousespring/hkpmousespringaction.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/actions/mousespring/hkpmousespringaction.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_005616d0_Owner.h"
 #include "fnv/decl/FUN_00561800_Class.h"
 #include "fnv/decl/FUN_00c7f750_shell.h"
@@ -529,8 +530,6 @@ struct RigidBodyExt : FUN_00ca86c0_class
 
     void FUN_00ca0c40(const hkVector4* point, hkVector4* outVel);
 };
-
-extern "C" double __cdecl sqrt(double);
 
 typedef void(__cdecl* MouseSpringCallback)(hkpMouseSpringAction*, const hkStepInfo&, const hkVector4&);
 

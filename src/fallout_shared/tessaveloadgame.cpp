@@ -2,6 +2,12 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/B88B7F0Process.h"
@@ -458,12 +464,11 @@ void FUN_00858700::DoIt(void* arg)
 }
 }  // namespace fnv_00858700
 
-extern "C" void __cdecl FUN_00ecbf20(void*, void*);
 
 // @fnv 0x00860e00
 void FUN_00860e00(void* apFirst, void* apSecond)
 {
-    FUN_00ecbf20(apFirst, apSecond);
+    std::strpbrk((char *)(apFirst), (const char *)(apSecond));
 }
 
 struct FUN_00861610_Class
@@ -859,7 +864,6 @@ struct FormTypeInfo_s
     int a;
     int b;
 };
-int sprintf(char*, const char*, ...);
 struct Flt
 {
     operator unsigned int();
@@ -968,7 +972,7 @@ bool FUN_00858730_shell::FUN_00858730(TESForm* apForm)
             if (FNV_GetFormType(apForm) != formHeader.type)
             {
                 char pmessageA[260];
-                sprintf(
+                std::sprintf(
                     pmessageA,
                     "Load Error: Form with ID %08X was saved with form type %s, but currently has form type %s.  Its loading will be skipped.",
                     ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apForm))->FUN_0084e3a0())), (*reinterpret_cast<fnv_00858730::FormTypeInfo_s (*)[]>((void *)&::FNV_FormTypeNames))[formHeader.type].pName, ((const char *)(reinterpret_cast<::FUN_00440e30_This *>((((Fake440e30*)apForm)))->FUN_00440e30())));
@@ -1283,8 +1287,6 @@ void FUN_00861780_StandIn::Add(TESForm* form)
 }
 }  // namespace fnv_00861780
 
-int __cdecl _FNV_Finite(double);
-int __cdecl _FNV_IsNaN(double);
 struct FUN_00862430_vec
 {
     float x, y, z;
@@ -1297,8 +1299,8 @@ struct FUN_00862430_cls
 // @fnv 0x00862430
 bool FUN_00862430_cls::HasInvalidComponents(FUN_00862430_vec* pVec)
 {
-    if (!_FNV_Finite(pVec->x) || !_FNV_Finite(pVec->y) || !_FNV_Finite(pVec->z) || _FNV_IsNaN(pVec->x) ||
-        _FNV_IsNaN(pVec->y) || _FNV_IsNaN(pVec->z))
+    if (!std::isfinite(pVec->x) || !std::isfinite(pVec->y) || !std::isfinite(pVec->z) || std::isnan(pVec->x) ||
+        std::isnan(pVec->y) || std::isnan(pVec->z))
         return true;
     return false;
 }
@@ -3754,8 +3756,6 @@ struct SaveSetting
     const char* String();
 };
 int strcat_s(char*, unsigned int, const char*);
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
-int FUN_00ec862c(const char*, const char*);
 struct FileFinderStub
 {
     static int Exist(const char*, char*, unsigned int, unsigned int);
@@ -3822,7 +3822,7 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
                 {
                     if (FileFinderStub::Exist(destination3, 0, 0, -1))
                         DeleteFileA(destination3);
-                    FUN_00ec862c(source_, destination3);
+                    std::rename(source_, destination3);
                 }
             }
         }
@@ -3837,10 +3837,10 @@ SaveFile* SaveOwner::OpenSaveFile(SaveFile* file, const char* name, unsigned int
             char* tail2 = FUN_0040ab30(file->GetName(), 92) + 1;
             ::TaskQueueInterface::CopyStringToBuffer(shortName, 260, tail2);
             lengthX = ::FUN_0044a670(shortName);
-            if (lengthX > 4 && !_strnicmp(shortName + lengthX - 4, ".ess", 4))
+            if (lengthX > 4 && !fnv::crt::strnicmp(shortName + lengthX - 4, ".ess", 4))
                 shortName[lengthX - 4] = 0;
             reinterpret_cast<::C857950 *>(this)->FUN_00857950((int *)(file), 0);
-            if (!_strnicmp(shortName, "Save ", 5) || FUN_004812f0(shortName, "autosave"))
+            if (!fnv::crt::strnicmp(shortName, "Save ", 5) || FUN_004812f0(shortName, "autosave"))
                 result2 = OpenSaveFile(0, 0, 0);
             else
                 result2 = OpenSaveFile(0, shortName, 0);
@@ -4233,7 +4233,7 @@ unsigned int Changes::UpdateFormFlags(Form* form, unsigned int flags)
 {
     flags = reinterpret_cast<::FUN_00859120_cls *>(this)->ClearRefrFlag((::TESForm *)(form), flags);
     Reference* reference = (Reference*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &::DAT_011841cc, 0);
-    Cell* cell = (Cell*)FUN_00ec43fb(form, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &::DAT_01183fb4, 0);
+    Cell* cell = (Cell*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form));
     if (cell)
     {
         if ((flags & 0x80000000) && !((int)(reinterpret_cast<::FUN_00555bc0_shell *>((cell))->FindSeenData())))
@@ -5880,8 +5880,6 @@ struct SaveFilePath
     virtual void slot5();
     virtual const char* Path();
 };
-extern int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
-extern int __cdecl FUN_00eca6d3(const char*);
 struct SavePrefix
 {
 };
@@ -5899,14 +5897,14 @@ bool SaveNameParser::ParseSaveName(SaveFilePath* file, int* piNumber, char* loca
         const char* filename = ::FUN_0040ab30((char *)(file->Path()), '\\') + 1;
         const char* time = ::FUN_004812f0(filename, DAT_01081aec);
         const char* separator_2 = ::FUN_004812f0(filename, DAT_010345e0);
-        if (!time || !separator_2 || FUN_00ec8a19(filename, DAT_010806a8, 5))
+        if (!time || !separator_2 || std::strncmp(filename, DAT_010806a8, 5))
             return false;
         if (piNumber)
         {
             unsigned int length = separator_2 - (filename + 5);
             ::FUN_004add50((char *)(buffer), (const char *)(const void *)(filename + 5), length);
             buffer[length] = 0;
-            *piNumber = FUN_00eca6d3(buffer);
+            *piNumber = std::atoi(buffer);
         }
         if (location || playingTime)
         {
@@ -6123,7 +6121,6 @@ extern char* DAT_011a2224;
 extern const char g_quicksaveName[];
 extern const char DAT_0107fae0[];
 extern const char headerLabel[];
-int CompareSaveName(const char*, const char*);
 struct PlayerHeader
 {
 };
@@ -6591,8 +6588,8 @@ void Repair624::FUN_008624e0(Ref624* reference)
                 void* form = ((void *)(reinterpret_cast<::FUN_0041b320_shell *>((((::Extra624 *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041b320()));
                 if (form)
                 {
-                    void* parentCell = (void*)FUN_00ec43fb((unsigned int)form, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183fb4)), 0);
-                    void* parentWorld = (void*)FUN_00ec43fb((unsigned int)form, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183fd0)), 0);
+                    void* parentCell = (void*)((int)(std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
+                    void* parentWorld = (void*)((int)(std::uintptr_t)(dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
                     if (parentCell || parentWorld)
                         ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(reference), (::fnv_00573800::MoveCell *)(parentCell), (::fnv_00573800::MoveWorld *)(parentWorld));
                 }
@@ -7605,7 +7602,6 @@ struct FUN_0085a2e0_Class
 };
 
 extern const char DAT_010809a0[];
-extern int __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 struct IDSource0085a2e0
 {
 };
@@ -7860,7 +7856,7 @@ void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
     if (!reinterpret_cast<::FUN_0047c850 *>((reinterpret_cast<FormCall0085a2e0*>(this)))->EvaluateCondition())
         ::FUN_005b5e40();
     changes->HasFormChanges(form, true);
-    int bIsCell = FUN_00ec43fb(form, 0, &typeid(TESForm), &typeid(TESObjectCELL), 0);
+    int bIsCell = ((int)(std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form))));
     if (reinterpret_cast<::FUN_004077c0_shell *>((void *)(form))->FUN_004077c0() || bIsCell)
     {
         reinterpret_cast<FormIdOne0085a2e0*>(form)->SetFormID(
@@ -7876,7 +7872,6 @@ void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
     }
 }
 
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct NiBinaryStream
 {
     virtual void v00();
@@ -7889,7 +7884,6 @@ struct NiBinaryStream
 extern char* DAT_011a2224;
 extern const char DAT_01081bbc[];
 extern const char DAT_01081b50[];
-extern "C" int __cdecl FUN_00ec8a19(const char*, const char*, unsigned int);
 void CopyByteToOffset80(char*);
 struct SaveLoadManager
 {
@@ -8015,13 +8009,13 @@ unsigned int SaveHeaderReader::FUN_00860e20(NiBinaryStream* stream, bool loadIde
         return 0;
     if (header[0])
     {
-        if (FUN_00ec8a19(header, DAT_01081bbc, 4) == 0)
+        if (std::strncmp(header, DAT_01081bbc, 4) == 0)
         {
             stream->Seek(0xd000, (*reinterpret_cast<unsigned int *>(&::DAT_010a2480)));
             fileOffset = 0xd000;
             reinterpret_cast<::FUN_00857ba0_shell *>(this)->ReadFromStream(stream, header, ::FUN_0044a670(DAT_011a2224));
         }
-        if (FUN_00ec8a19(header, DAT_011a2224, ::FUN_0044a670(DAT_011a2224)) != 0)
+        if (std::strncmp(header, DAT_011a2224, ::FUN_0044a670(DAT_011a2224)) != 0)
             return 0;
     }
     else
@@ -8440,7 +8434,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
     unsigned int _play3 = ((unsigned int)(reinterpret_cast<::fnv_00851cb0::S00851cd0 *>(((*reinterpret_cast<::PlayerHeader * *>(&::_g_thePlayer))))->GetField790()));
     unsigned int _heading = _f + _c0 + _image + 36;
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&_heading), 4);
-    if (!reinterpret_cast<::FUN_0047c850 *>(this)->EvaluateCondition() && (!name || (!CompareSaveName(name, "quicksave") && !CompareSaveName(name, "autosave"))))
+    if (!reinterpret_cast<::FUN_0047c850 *>(this)->EvaluateCondition() && (!name || (!((int)(std::uintptr_t)(std::strstr((char *)(name), "quicksave"))) && !((int)(std::uintptr_t)(std::strstr((char *)(name), "autosave"))))))
     {
         unsigned int saveNumber = ((unsigned int)(reinterpret_cast<::FUN_00862370_class *>(this)->GetOrCreatePointer()));
         reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&saveNumber), 4);
@@ -9033,7 +9027,7 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
     TESObjectREFR85A520* parent = (TESObjectREFR85A520*)_FNV_DynamicCast(form, 0, &::DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_011841cc)), 0);
     if (!parent)
     {
-        SaveCell85A520* cell = (SaveCell85A520*)_FNV_DynamicCast(form, 0, &::DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183fb4)), 0);
+        SaveCell85A520* cell = (SaveCell85A520*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form));
         if (cell)
         {
             if (flags & 0)

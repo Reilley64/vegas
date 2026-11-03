@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nidefaultavobjectpalette.cpp: NiDefaultAVObjectPalette, Map, PaletteOwner, PaletteShell and more (18 functions)
 
 #include <new>
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -320,7 +322,6 @@ void __cdecl FUN_00a6e8e0(S_00a6e8e0_Object* object, S_00a6e8e0_Palette* palette
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
 extern "C" void* __cdecl FUN_00aa1070(unsigned int size);
-extern "C" void* __cdecl FUN_00ec61c0(void* buffer, int value, unsigned int size);
 struct PaletteBase
 {
     void* vtable;
@@ -343,7 +344,7 @@ struct PaletteHash
         capacity = 37;
         count = 0;
         buckets = FUN_00aa1070(148);
-        FUN_00ec61c0(buckets, 0, capacity * 4);
+        std::memset(buckets, 0, capacity * 4);
         vtable = &DAT_0109618c;
     }
 };
@@ -713,7 +714,6 @@ struct ViewerMemoryManager
 {
     void* Allocate(unsigned int uiSize) throw();
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct ViewerStrings
 {
     void** m_ppVirtualMethodTable;
@@ -820,7 +820,6 @@ extern int DAT_0109ca18;
 
 void* __cdecl NiMalloc(unsigned int);
 void __cdecl FUN_00aa10f0(void*);
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct Key
 {
     const char* text;
@@ -864,7 +863,7 @@ struct Map
         size = 37;
         count = 0;
         buckets = (Item**)NiMalloc(148);
-        fnv_zlib_memset(buckets, 0, size * 4);
+        std::memset(buckets, 0, size * 4);
         vtable = &DAT_0109ca18;
     }
     void FUN_00aa01f0();

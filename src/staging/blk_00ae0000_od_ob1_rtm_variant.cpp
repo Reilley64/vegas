@@ -5,6 +5,7 @@
 // src/staging/blk_00ae0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cctype>
 #include "fnv/decl/AF1430.h"
 #include "fnv/decl/BSGameSound.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -2339,7 +2340,6 @@ struct FUN_00af2db0_cls
     FUN_00af2db0_Notify m_pfnNotify;
     void UpdateSteamRunningFlag();
 };
-extern "C" int __cdecl toupper(int c);
 bool HasWildcardChars(const char* pcString);
 int __cdecl FUN_00ec3bad(int value);
 struct AllocatorToken

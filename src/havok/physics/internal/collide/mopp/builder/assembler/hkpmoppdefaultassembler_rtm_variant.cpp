@@ -5,6 +5,7 @@
 // src/havok/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/builder/assembler/hkpmoppdefaultassembler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cstring>
 #include "fnv/decl/E06490Stack.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00e06d70_Class.h"
@@ -1543,7 +1544,6 @@ struct CodeCopySource : FUN_00e065f0
 };
 static int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
 int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct ObjectWriter
 {
     int unk00;

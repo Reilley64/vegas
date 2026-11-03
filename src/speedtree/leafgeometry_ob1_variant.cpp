@@ -5,6 +5,8 @@
 
 // src/speedtree/leafgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/FUN_0065f240.h"
 #include "fnv/decl/FloatVec.h"
 #include "fnv/decl/GroupBuilder.h"
@@ -46,7 +48,6 @@ struct FUN_00b27870_Class
 
     const float* CopyLodData(unsigned int& aiFloatCount);
 };
-void* __cdecl _memmove(void* dest, const void* src, unsigned int count);
 struct FUN_00b28720_Class
 {
     int unk00;
@@ -260,11 +261,10 @@ struct FUN_00449fd0 : VectorStorage
     }
     inline float& operator[](unsigned int n);
 };
-void __cdecl FUN_00ec7c56();
 inline float& FUN_00449fd0::operator[](unsigned int n)
 {
     if (n >= (unsigned int)(last - first))
-        FUN_00ec7c56();
+        std::abort();
     return first[n];
 }
 struct LeafRecord
@@ -430,14 +430,14 @@ void S00b28280_Leaf::FUN_00b28280(const Matrix4f& cTransform)
                 pLeafVertex4 = pLodA->m_ppFloatData + j_ * 3;
                 Vector3D cCoord6(pLeafVertex4[0], pLeafVertex4[1], pLeafVertex4[2]);
                 cCoord6 = (*(::Vector3D *)(reinterpret_cast<::S *>(&(cCoord6))->FUN_00b05000((::V *)&(cTransform), {})));
-                _memmove(pLeafVertex4, &cCoord6, 12);
+                std::memmove(pLeafVertex4, &cCoord6, 12);
 
                 if (m_bValueAt00)
                 {
                     float* kPLeafNormal = pLodA->m_pLeafNormals + j_ * 3;
                     Vector3D cNormal5(kPLeafNormal[0], kPLeafNormal[1], kPLeafNormal[2]);
                     cNormal5 = (*(::Vector3D *)(reinterpret_cast<::S *>(&(cNormal5))->FUN_00b05000((::V *)&(cTransform), {})));
-                    _memmove(kPLeafNormal, &cNormal5, 12);
+                    std::memmove(kPLeafNormal, &cNormal5, 12);
                 }
             }
         }
@@ -450,7 +450,6 @@ void S00b28280_Leaf::FUN_00b28280(const Matrix4f& cTransform)
     }
 }
 
-void __cdecl FUN_00ec7c56();
 struct Vec3B28480
 {
     Vec3B28480()
@@ -496,7 +495,7 @@ struct LeafVectorB28480
     const LeafB28480& operator[](unsigned int uiPos) const
     {
         if (!(uiPos < size()))
-            FUN_00ec7c56();
+            std::abort();
         return *(m_pkFirst + uiPos);
     }
 };
@@ -631,7 +630,6 @@ struct LeafSettings
     }
 };
 
-void* __cdecl FUN_00ec44d0(void* apDest, const void* apSrc, unsigned int auiSize);
 
 struct LeafBuilder
 {
@@ -703,13 +701,13 @@ void LeafBuilder::FUN_00b288f0(LeafData* apOut, unsigned short ausIndex, int aiU
                     akCopyCur[2] = akRows[2];
                     akCopyCur[3] = akRows[3];
                     float* pDest = ppMatrices[ausIndex] + usRowCount * 16 * i + j * 16;
-                    FUN_00ec44d0(pDest, &akCopyCur[0], 0xc);
+                    std::memmove(pDest, &akCopyCur[0], 0xc);
                     pDest += 4;
-                    FUN_00ec44d0(pDest, &akCopyCur[1], 0xc);
+                    std::memmove(pDest, &akCopyCur[1], 0xc);
                     pDest += 4;
-                    FUN_00ec44d0(pDest, &akCopyCur[2], 0xc);
+                    std::memmove(pDest, &akCopyCur[2], 0xc);
                     pDest += 4;
-                    FUN_00ec44d0(pDest, &akCopyCur[3], 0xc);
+                    std::memmove(pDest, &akCopyCur[3], 0xc);
                     pDest += 4;
                 }
             }
@@ -801,7 +799,6 @@ struct SLeafLod
     float* m_pOrigCoordCenterCoords;
 };
 
-void* memcpy(void* pDest, const void* pSrc, unsigned int uiSize);
 
 class CLeafGeometryWind
 {
@@ -845,7 +842,7 @@ void CLeafGeometryWind::FUN_00b29190(unsigned short usLod)
             cPos = (*(::leafwind::Vector3D *)(reinterpret_cast<::S *>((void *)&(cPos))->FUN_00b05000((::V *)&(WindEngine::GetWindMatrix(ucWindMatrix)), {})));
             cNewPos.Set(Interpolate(pOrigCoord[0], cPos[0], fWeight), Interpolate(pOrigCoord[1], cPos[1], fWeight),
                         Interpolate(pOrigCoord[2], cPos[2], fWeight));
-            memcpy(pLod->m_pFloatArrayAt18 + i * 3, &cNewPos, 12);
+            std::memmove(pLod->m_pFloatArrayAt18 + i * 3, &cNewPos, 12);
         }
     }
 }

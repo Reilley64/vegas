@@ -2,6 +2,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cerrno>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -4032,10 +4034,7 @@ void FUN_0046f090_shell::CallVirtualSlot6()
     inner.f6();
 }
 
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
-
-int* __cdecl FUN_00ec85e3();
 extern double DAT_01019de8;
 
 struct TESFile_Helper
@@ -4125,7 +4124,7 @@ bool FUN_00470ca0_t::OpenFile(char* ppath, char* pfilename, int accessmode, bool
         stream->Seek(1, 0);
         if (!::FUN_008905f0((bool *)(stream)))
         {
-            switch (*FUN_00ec85e3())
+            switch (*(&errno))
             {
             case 2:
                 error = 2;

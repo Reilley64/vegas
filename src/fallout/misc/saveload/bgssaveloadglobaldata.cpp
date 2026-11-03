@@ -1,6 +1,9 @@
 // fallout/misc/saveload/bgssaveloadglobaldata.cpp: SaveGameLoader (23 functions)
 
 #include <new>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -975,8 +978,6 @@ class LLD_LoadingMenu
 };
 int FNV_GetFormType(TESForm*);
 void __cdecl FUN_0084cbd0(const char*, ...);
-char* __cdecl FUN_00ec7750(const char*, const char*);
-unsigned int __cdecl FUN_00ec8d08(const char*, char**, int);
 class PlayerCharacter;
 class TESDataHandler;
 class BGSSaveLoadGame;
@@ -1072,7 +1073,7 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
                          ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))))->FUN_00408da0())),
                          ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3()))))->FUN_0084e3a0())));
             if (((LLD_FullNameLen*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))->GetModelLength() > 8 &&
-                FUN_00ec7750(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))))->FUN_00408da0())), "Patch04Debug"))
+                std::strstr((char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((LLD_FullName*)((char*)((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3())) + 0x30))))->FUN_00408da0()))), "Patch04Debug"))
             {
                 *(LLD_Quest**)((char*)::_g_thePlayer + 0xe4c) = ((::LLD_Quest *)(new ((void *)(pIter)) ::Vec3()));
                 break;
@@ -1080,7 +1081,7 @@ void LoadPlayerLocation(BGSLoadGameBuffer* apLoadGameBuffer)
             pIter = ((::BSSimpleList< ::LLD_Quest *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         }
         reinterpret_cast<::FUN_0095f530_shell *>((((LLD_PlayerCharacter*)::_g_thePlayer)))->FUN_0095f530((::TESObjectREFR *)(false), (::TESObjectREFR *)(0xff));
-        isafeMarkerID = FUN_00ec8d08(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::LLD_SettingT< ::LLD_INISettingCollection> *>(&::g_011de25c))))->GetMenuTitle())), 0, 16);
+        isafeMarkerID = std::strtol(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::LLD_SettingT< ::LLD_INISettingCollection> *>(&::g_011de25c))))->GetMenuTitle())), 0, 16);
         pref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(isafeMarkerID));
         if (pref)
         {
@@ -1350,12 +1351,11 @@ void __cdecl SaveImageSpaceModifierInstances(int pBuffer)
 }
 
 #include <stdarg.h>
-void __cdecl FUN_00ecbe60(const char* fmt, va_list args);
 
 // @fnv 0x0084cbd0
 void __cdecl FUN_0084cbd0(const char* apFormat, ...)
 {
     va_list args;
     va_start(args, apFormat);
-    FUN_00ecbe60(apFormat, args);
+    std::vprintf(apFormat, args);
 }

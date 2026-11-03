@@ -3,6 +3,7 @@
 
 // Placeholder declarations
 
+#include <cstring>
 #include "fnv/decl/FUN_00e98710_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa1000.h"
@@ -95,7 +96,6 @@ void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStreamIndex)
     }
 }
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct NiGeometryGroup
 {
     void RemoveObject(NiGeometryBufferData*);
@@ -117,7 +117,7 @@ void NiDynamicGeometryGroup::FUN_00e950f0(NiGeometryData* pkData)
     {
         NiGeometryGroup::RemoveObject(pkBuffData);
         if (*(void**)((char*)pkBuffData + 0x28))
-            _fnv_zlib_memset(*(void**)((char*)pkBuffData + 0x28), 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
+            std::memset(*(void**)((char*)pkBuffData + 0x28), 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
         delete (Deleter*)pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x34) = 0;
     }
@@ -132,7 +132,6 @@ struct NiScreenTexture;
 struct NiSkinInstance;
 struct NiVBChip;
 
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct NiGeometryGroup
 {
     void RemoveObject(NiGeometryBufferData*);
@@ -158,7 +157,7 @@ void NiDynamicGeometryGroup::FUN_00e95140(NiGeometryData* pkData)
     {
         NiGeometryGroup::RemoveObject(pkBuffData);
         if (pkBuffData->m_ppkVertexBuffers)
-            _fnv_zlib_memset(pkBuffData->m_ppkVertexBuffers, 0, pkBuffData->m_uiRegisterStreamCount * 4);
+            std::memset(pkBuffData->m_ppkVertexBuffers, 0, pkBuffData->m_uiRegisterStreamCount * 4);
         delete pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x28) = 0;
     }
@@ -174,7 +173,6 @@ struct NiDynamicGeometryGroup : NiGeometryGroup
 {
     void FUN_00e95190(NiGeometryData* pkData);
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct DeleteHelper
 {
     virtual ~DeleteHelper();
@@ -188,7 +186,7 @@ void NiDynamicGeometryGroup::FUN_00e95190(NiGeometryData* pkData)
         RemoveObject(pkBuffData);
         void* p = *(void**)((char*)pkBuffData + 0x28);
         if (p)
-            _fnv_zlib_memset(p, 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
+            std::memset(p, 0, *(unsigned int*)((char*)pkBuffData + 0x20) * 4);
         delete (DeleteHelper*)pkBuffData;
         *(NiGeometryBufferData**)((char*)pkData + 0x1c) = 0;
     }
@@ -203,7 +201,6 @@ struct NiScreenTexture;
 struct NiSkinInstance;
 struct NiVBChip;
 void FUN_00e94ee0(NiGeometryBufferData* pkBuffData, unsigned int uiStream);
-void* _fnv_zlib_memset(void*, int, unsigned int);
 struct BufEntry
 {
     int unk00;

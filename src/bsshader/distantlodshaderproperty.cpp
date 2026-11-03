@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B4F9A0ShaderManager.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -2079,8 +2080,6 @@ inline void* operator new(unsigned int n)
 {
     return Resource::operator new(n);
 }
-
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 
 
 __forceinline bool IsKindOfType(NiObject* p, const NiRTTI* type)

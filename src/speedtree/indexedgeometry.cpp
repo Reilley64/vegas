@@ -2,6 +2,7 @@
 // src/speedtree/indexedgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/indexedgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdlib>
 #include "fnv/decl/IndexSet.h"
 #include "fnv/decl/Outer_b33110.h"
 #include "fnv/decl/PbContainer.h"
@@ -41,7 +42,6 @@ void FUN_00b30190_shell::FUN_00b30190(const float* afValues)
     ((FloatVec*)((char*)this + 0xb8))->PushBack(afValues[2]);
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct Vec28
 {
     char _pad[12];
@@ -65,7 +65,7 @@ void Cls::FUN_00b306d0(unsigned short ausValue)
     unsigned int idx = ausValue;
     Vec28* vec = &mVec;
     if (idx >= (unsigned int)(vec->_last - vec->_first))
-        FUN_00ec7c56();
+        std::abort();
     vec->_first[idx] = 0;
 }
 
@@ -348,7 +348,6 @@ void K::FUN_00b331c0()
     f14 = 0;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 
 struct InnerVec
 {
@@ -467,29 +466,29 @@ void TargetClass::ClearOuter()
     ScratchFrame buf5;
     for (i = 0; (a7 = &m_outer, i < (unsigned int)(a7->_last - a7->_first)); ++i)
     {
-        for (jL = 0; (B = &m_outer, (void)(i < (unsigned int)(B->_last - B->_first) || FUN_00ec7c56()),
+        for (jL = 0; (B = &m_outer, (void)(i < (unsigned int)(B->_last - B->_first) || (std::abort(), (unsigned int)0)),
                      jL < (unsigned int)((PG = B->_first + i)->_last - PG->_first));
              ++jL)
         {
             C4 = &m_outer;
             if (i >= (unsigned int)(C4->_last - C4->_first))
-                FUN_00ec7c56();
+                std::abort();
             cQ = C4->_first + i;
             if (jL >= (unsigned int)(cQ->_last - cQ->_first))
-                FUN_00ec7c56();
+                std::abort();
             _v = cQ->_first[jL];
             FUN_00401030(_v);
             D5 = &m_outer;
             if (i >= (unsigned int)(D5->_last - D5->_first))
-                FUN_00ec7c56();
+                std::abort();
             bS = D5->_first + i;
             if (jL >= (unsigned int)(bS->_last - bS->_first))
-                FUN_00ec7c56();
+                std::abort();
             bS->_first[jL] = 0;
         }
         r = &m_outer;
         if (i >= (unsigned int)(r->_last - r->_first))
-            FUN_00ec7c56();
+            std::abort();
         reinterpret_cast<::IndexSet *>((((FUN_00b32350_shell*)(r->_first + i))))->FUN_00b32350();
     }
     reinterpret_cast<::Vec *>((((FUN_00b32120_shell*)&m_outer)))->FUN_00b32120();

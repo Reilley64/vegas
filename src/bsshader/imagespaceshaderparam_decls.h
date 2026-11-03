@@ -2,13 +2,13 @@
 #ifndef IMAGESPACESHADERPARAM_DECLS_H
 #define IMAGESPACESHADERPARAM_DECLS_H
 
+#include <cstring>
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
 #include "layout_support.h"
 #include "NiRefObject.h"
 #include "MemoryManager.h"
-extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned int);
 class GraphicsRenderer;
 class NiD3DShaderConstantMap;
 

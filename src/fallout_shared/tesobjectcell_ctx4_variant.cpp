@@ -2,6 +2,7 @@
 // tesobjectcell_ctx4_variant.cpp: context variant of src/fallout_shared/tesobjectcell.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSImpactData.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Cls.h"
@@ -286,8 +287,6 @@ struct Manager
 
 extern char DAT_0102ece8, DAT_0102ec58, DAT_0102ebd0, DAT_0102eb60, DAT_0102eb10, DAT_01183028, DAT_0118a8d0;
 
-unsigned int FUN_00ec6130(const char*);
-extern "C" void* __cdecl __RTDynamicCast(void*, int, void*, void*, int);
 
 struct Cell : Reference
 {
@@ -315,7 +314,7 @@ void Cell::FUN_00542d40()
             reinterpret_cast<::TESFullName *>(&(editorName))->SetFullName((const char *)(0));
         reinterpret_cast<::TESForm *>(this)->SetInitializationState(1);
 
-        if (((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(editorName))->FUN_00408da0())) && FUN_00ec6130(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(editorName))->FUN_00408da0()))) > 33)
+        if (((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(editorName))->FUN_00408da0())) && std::strlen(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(editorName))->FUN_00408da0()))) > 33)
             ::FUN_005b5e40();
 
         ::FUN_0043b2b0(0);

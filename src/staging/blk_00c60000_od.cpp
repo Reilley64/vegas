@@ -2,6 +2,8 @@
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A89210IntsExtraData.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -812,7 +814,6 @@ void FUN_00c60950_class::FUN_00c60950(NiStream* stream)
     reinterpret_cast<::FUN_00a698a0_class *>((((RgbaColor*)((char*)this + 0x38))))->FUN_00a698a0((void *)&(*stream));
 }
 
-size_t _strlen(const char*);
 struct P03MM
 {
 };
@@ -824,7 +825,7 @@ struct FUN_00c62090_Class
 // @fnv 0x00c62090
 char* FUN_00c62090_Class::BuildAttachTypeString(const char* name, int type)
 {
-    unsigned int size = _strlen(name) + 0x10;
+    unsigned int size = std::strlen(name) + 0x10;
     char* buffer = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(size);
     char* result = buffer;
     switch (type)
@@ -983,7 +984,6 @@ FUN_00c63330::FUN_00c63330()
 }
 
 int strcpy_s(char* dst, unsigned int size, const char* src);
-size_t strlen(const char*);
 struct MemoryManagerAllocHelper
 {
 };
@@ -1380,7 +1380,6 @@ struct A46BB0Object
 {
 };
 
-int __cdecl __stricmp(const char*, const char*);
 
 struct FUN_00c64980_Class : A46BB0Object
 {
@@ -1401,7 +1400,7 @@ bool FUN_00c64980_Class::FUN_00c64980(A46BB0Object* apOther)
             {
                 void* b = *(void**)((char*)p + 8);
                 void* c = *(void**)((char*)this + 8);
-                return __stricmp((const char*)c, (const char*)b) == 0;
+                return fnv::crt::stricmp((const char*)c, (const char*)b) == 0;
             }
         }
     }

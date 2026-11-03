@@ -7,6 +7,7 @@
 // to their real unit once identified.
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0044a450.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -3102,7 +3103,6 @@ struct BxVector
 }
 using namespace buyUShort;
 // Independent helper model informed by the supplied VC9 matching notes.
-extern "C" int __cdecl FUN_00ec7ce3(void*, unsigned int, const void*, unsigned int);
 namespace backward_model {
 struct CheckedRange
 {
@@ -4290,7 +4290,7 @@ template <class I, class O, class A> inline O copy(I first, I last, O dest, A&, 
     unsigned int count = (unsigned int)(last - first);
     O result = dest + count;
     if (count > 0)
-        FUN_00ec7ce3(dest, count * sizeof(*first), first, count * sizeof(*first));
+        fnv::crt::memmove_s(dest, count * sizeof(*first), first, count * sizeof(*first));
     return result;
 }
 }

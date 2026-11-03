@@ -1,5 +1,7 @@
 // fallout_shared/tescombatstyle.cpp: TESCombatStyle (10 functions)
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSMultiBoundRoom.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -49,10 +51,7 @@ void TESCombatStyle::ResetFormData()
         memset(&m_kUnsignedIntArray16, 0, 0x40);
     }
 }
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
-
 class TESForm;
 class TESCombatStyle;
 

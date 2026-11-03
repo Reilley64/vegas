@@ -5,6 +5,7 @@
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 #include <new>
+#include <cmath>
 #include "fnv/decl/Archive.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BufferOwner.h"
@@ -1984,7 +1985,6 @@ extern "C"
     __m128 _mm_sub_ps(__m128, __m128);
     __m128 _mm_xor_ps(__m128, __m128);
 }
-extern "C" double __cdecl sqrt(double);
 static __forceinline float localSqrt(float x)
 {
     return (float)sqrt((double)x);

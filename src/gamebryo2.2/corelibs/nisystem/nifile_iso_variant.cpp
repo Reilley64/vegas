@@ -3,6 +3,8 @@
 
 
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/FUN_00aa14d0_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00aa2000.h"
@@ -157,8 +159,6 @@ void RelativeSeekFile::FUN_00aa1a90(int distance)
 }
 }
 
-extern "C" unsigned int __cdecl strlen(const char* str);
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
 
 extern bool(__cdecl* DAT_011ac22c)(const char*);
 
@@ -172,7 +172,7 @@ bool __cdecl FUN_00aa1bb0(const char* pcPath)
         return false;
 
     char acPath[0x104];
-    strcpy_s(acPath, 0x104, pcPath);
+    fnv::crt::strcpy_s(acPath, 0x104, pcPath);
     ::FUN_00aa2a00(acPath);
 
     unsigned int n = 0;

@@ -1,6 +1,7 @@
 // fallout_shared/tesweatherlist.cpp: TESWeatherList, WeatherEntry (10 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/Class005a6b10.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -216,7 +217,6 @@ struct BSSimpleListTESRaceSize
 };
 
 bool _ref_008256d0(void* pObject);
-int __cdecl _memcmp(const void* pDest, const void* pSrc, unsigned int uiSize);
 
 struct FUN_00582690_shell : public TESWeatherList
 {
@@ -256,7 +256,7 @@ bool FUN_00582690_shell::IsDifferentFrom(TESWeatherList* apCompareWL)
 
         for (pCompNode = apCompareWL; !bFound && pCompNode != 0; pCompNode = ((::BSSimpleList< ::WeatherEntry *> *)(reinterpret_cast<::Callees *>((pCompNode))->FUN_00726070())))
         {
-            bFound = (_memcmp(((::WeatherEntry *)(new ((void *)(pThisNode)) ::Vec3())), ((::WeatherEntry *)(new ((void *)(pCompNode)) ::Vec3())), 0xc) == 0);
+            bFound = (std::memcmp(((::WeatherEntry *)(new ((void *)(pThisNode)) ::Vec3())), ((::WeatherEntry *)(new ((void *)(pCompNode)) ::Vec3())), 0xc) == 0);
         }
 
         if (!bFound)

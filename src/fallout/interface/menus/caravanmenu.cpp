@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/ActorGoldQuery.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSQuestObjective.h"
@@ -21413,7 +21414,6 @@ struct E_OSGlobals
 };
 struct E_Fn
 {
-    static int __cdecl FUN_00ec7d40(int v);
     static float __cdecl FUN_00408840(float v);
 };
 extern const double DAT_010718f0 = 7849.0;
@@ -22960,9 +22960,9 @@ void CaravanGame::FUN_00741500()
                             reinterpret_cast<::FUN_00a012d0_t *>((rootTile))->FUN_00a012d0(DAT_011d9170,
                                                    (float)MinInt(FUN_00647b70(wagerValue + diff, 0), wagerMax), false);
                             reinterpret_cast<::FUN_00a01290_shell *>((rootTile))->SetTraitAndReset(::FUN_00a01860("_SetInCode"), 1.0f);
-                            if (E_Fn::FUN_00ec7d40(diff) < 5)
+                            if (std::abs(diff) < 5)
                             {
-                                scrollPos = E_Fn::FUN_00ec7d40(diff);
+                                scrollPos = std::abs(diff);
                                 state = diff > 0 ? 5 : 6;
                             }
                             else

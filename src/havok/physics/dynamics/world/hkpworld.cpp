@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/C66A00This.h"
 #include "fnv/decl/C91World.h"
 #include "fnv/decl/CbfOwner.h"
@@ -5457,7 +5458,6 @@ struct Guard676 {
 };
 
 extern GC676* FUN_00c85ef0(GC676* out, Elem676* obj, void* rtti);
-extern void* FUN_00ec61c0(void* dst, int value, unsigned int size);
 
 struct BoolC68BF0 {
     char m_cBooleanValue;
@@ -6811,7 +6811,7 @@ body_cont:
                 }
                 reinterpret_cast<::hkReferencedObjectC905 *>((m_aiIndexedValues[i]))->FUN_00c905b0();
             }
-            FUN_00ec61c0(m_aiIndexedValues, 0, m_uiItemCount * 4);
+            ::std::memset(m_aiIndexedValues, 0, m_uiItemCount * 4);
             m_uiItemCount = 0;
         }
     }

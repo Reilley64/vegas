@@ -9,6 +9,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
 #include <new>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/B00C20Pool.h"
 #include "fnv/decl/B44F890Collection.h"
@@ -6702,7 +6703,6 @@ struct S_00c4aca0_Self
 {
     S_00c4aca0_Obj* FUN_00c4aca0(int arg);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct ItemW
 {
     int a, b, c;
@@ -9621,7 +9621,6 @@ struct S00c4db20_Self
 };
 // Reconstruction of 0x00c4e1e0
 typedef unsigned int size_t;
-extern "C" void* memmove(void*, const void*, size_t);
 void* __cdecl NiMalloc(unsigned int);
 struct MMgr
 {

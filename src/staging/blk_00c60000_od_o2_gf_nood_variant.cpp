@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstring>
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A89210IntsExtraData.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -406,7 +407,6 @@ struct FUN_00c63330 : NiPSysPositionModifier
     FUN_00c63330();
 };
 int strcpy_s(char* dst, unsigned int size, const char* src);
-size_t strlen(const char*);
 struct MemoryManagerAllocHelper
 {
 };

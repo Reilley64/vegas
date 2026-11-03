@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nisystem/bsniallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aa4200_Helper.h"
 #include "fnv/decl/MemoryManager.h"
@@ -107,7 +108,6 @@ struct NiAllocGlobal
 };
 
 
-void FUN_00ec61c0(unsigned int p, int zero, unsigned int v);
 
 // @fnv 0x00aa2370
 unsigned int AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlignByte, int aiAlignMode,
@@ -127,11 +127,10 @@ unsigned int AllocateAlignedBuffer(unsigned int* puiSize, unsigned char* pucAlig
     {
         r = ((unsigned int)(reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::NiAllocGlobal *>(&::g_memoryManager))))->Allocate(*puiSize, (const char *)(a5), a6, (const char *)(a7))));
     }
-    FUN_00ec61c0(r, 0, *puiSize);
+    std::memset((void *)(r), 0, *puiSize);
     return r;
 }
 
-extern "C" void* __cdecl MemSetAA2(void* pvDest, int iValue, unsigned int uiSize);
 
 class MemoryManagerAA2
 {
@@ -172,7 +171,7 @@ void* AllocateZeroedMemory(unsigned int& stSizeInBytes, unsigned int& stAlignmen
     {
         pvMem = reinterpret_cast<::MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAA2 *>(&::g_memoryManager))))->Allocate(stSizeInBytes, pcFile, iLine, pcFunction);
     }
-    MemSetAA2(pvMem, 0, stSizeInBytes);
+    std::memset(pvMem, 0, stSizeInBytes);
     return pvMem;
 }
 

@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nigeometrydata.cpp: NiGeometryData, NiGeometryDataRecovered, NiGeometryDataCmp, GeomData and more (36 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/A72720StreamSet.h"
@@ -885,7 +886,6 @@ struct MemoryHeap
 {
 };
 
-void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
 
 struct NormalVec
 {
@@ -919,7 +919,7 @@ void GeomNormals::EnsureNormals(bool bZero)
     }
     if (bZero)
     {
-        FUN_00ec61c0(m_pkNormal, 0, m_usVertices * uiMul * 12);
+        std::memset(m_pkNormal, 0, m_usVertices * uiMul * 12);
     }
 }
 
@@ -2362,7 +2362,6 @@ __forceinline void ReadPoint2EA0(StreamEA0& stream, void* data, unsigned int cou
     reader->BinaryRead(data, count, 4);
 }
 
-void* FUN_00ec61c0(void* pvDest, int iValue, unsigned int uiSize);
 typedef void*(* CtorStubEA0)(void*);
 extern "C" void _vector_constructor_iterator(void* apvArray, unsigned int uiElemSize, int iCount,
                                                        CtorStubEA0 pfnCtor);
@@ -2442,7 +2441,7 @@ void GeomEA0::ReadBinary(StreamEA0& kStream)
             m_pkVertex = new Point3EA0[m_usVertices];
         }
         if (kStream.m_uiUserVersion >= 0x13 && !m_bVerticesDirty)
-            FUN_00ec61c0(m_pkVertex, 0, m_usVertices * 12);
+            std::memset(m_pkVertex, 0, m_usVertices * 12);
         else
             ReadEA0(kStream, m_pkVertex, m_usVertices * 12, 4);
     }

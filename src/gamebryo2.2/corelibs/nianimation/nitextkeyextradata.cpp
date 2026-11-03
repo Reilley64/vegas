@@ -4,6 +4,7 @@
 
 
 // Returns the address of the global pointer g_011f3f28.
+#include <cstring>
 // @fnv 0x00a46b60
 #include "fnv/decl/A46TextKeyExtraData.h"
 #include "fnv/decl/A5d470Class.h"
@@ -190,7 +191,6 @@ FUN_00a46b50_cls* FUN_00a46b50_cls::FUN_00a46b50()
     return this;
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct StrArray
 {
     void* m_vtbl;

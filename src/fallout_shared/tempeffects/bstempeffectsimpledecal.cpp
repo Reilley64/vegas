@@ -1,6 +1,7 @@
 // fallout_shared/tempeffects/bstempeffectsimpledecal.cpp: BSTempEffectSimpleDecal, NiPoint3, DecalStub, DecalHolder and more (27 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/BSFaceGenKeyframe.h"
 #include "fnv/decl/BSShaderManager.h"
 #include "fnv/decl/DecalListManager.h"
@@ -433,7 +434,6 @@ struct GlobalObject_004a4a40
 extern int DAT_0119c298;
 extern float DAT_0119c29c;
 
-float cos(float);
 double FUN_0068b050(double param_1, float param_2);
 
 struct DecalData

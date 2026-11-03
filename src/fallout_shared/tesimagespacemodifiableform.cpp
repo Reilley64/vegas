@@ -77,7 +77,6 @@ void FUN_00487450_shell::FUN_00487450()
 }
 
 extern int DAT_01186ae8;
-extern "C" void* FUN_00ec43fb(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
 
 class SpawnedHelper
 {
@@ -94,7 +93,7 @@ class FUN_00487570_cls
 void FUN_00487570_cls::FUN_00487570(unsigned int a1)
 {
     SpawnedHelper* pHelper =
-        (SpawnedHelper*)FUN_00ec43fb(a1, 0, (unsigned int)&(*reinterpret_cast<int *>(&::DAT_01183040)), (unsigned int)&DAT_01186ae8, 0);
+        (SpawnedHelper*)dynamic_cast<::TESImageSpaceModifiableForm *>(reinterpret_cast<::BaseFormComponent *>(a1));
     if (pHelper == 0)
     {
     }

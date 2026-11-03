@@ -2,6 +2,7 @@
 // src/fallout_shared/tesobjectarma_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectarma.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
@@ -149,7 +150,6 @@ class TESObjectARMA : public TESForm
     void ResetFormData();
     void InitItem();
 };
-extern "C" void* __cdecl memset(void* destination, int value, unsigned int size);
 struct TESObjectARMO
 {
     TESObjectARMO();

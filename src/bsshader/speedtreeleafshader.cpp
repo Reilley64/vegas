@@ -1,5 +1,6 @@
 // bsshader/speedtreeleafshader.cpp: SpeedTreeLeafShader (5 functions)
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00bb1c10.h"
@@ -40,7 +41,7 @@ struct SpeedTreeLeafShaderColor
 SpeedTreeLeafShader::SpeedTreeLeafShader() : BSShader()
 {
     m_iPassId = 9;
-    fnv_zlib_memset(m_afShaderConstants, 0, sizeof(m_afShaderConstants));
+    std::memset(m_afShaderConstants, 0, sizeof(m_afShaderConstants));
     reinterpret_cast<SpeedTreeLeafShaderColor&>(DAT_01200638) = SpeedTreeLeafShaderColor(1, 1, 1, 1);
     reinterpret_cast<SpeedTreeLeafShaderColor&>(DAT_01200648) = SpeedTreeLeafShaderColor(1, 1, 1, 1);
     reinterpret_cast<SpeedTreeLeafShaderColor&>(DAT_01200658) = SpeedTreeLeafShaderColor(0, 0, 0, 0);

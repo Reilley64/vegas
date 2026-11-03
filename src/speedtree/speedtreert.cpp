@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/CB28.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00aca270.h"
@@ -493,7 +495,6 @@ void FUN_00b084f0(unsigned char param_1)
     DAT_011f8b78 = param_1;
 }
 
-void __cdecl _memmove(void* dst, const void* src, unsigned int size);
 void __cdecl AssignString(const char* s);
 
 struct CSpeedTreeRT_GetBoundingBox
@@ -507,7 +508,7 @@ void CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
     if (afBounds)
     {
         void* src = *(void**)((char*)this + 0x40);
-        _memmove(afBounds, src, 0x18);
+        ::std::memmove(afBounds, src, 0x18);
     }
     else
     {
@@ -770,8 +771,8 @@ void __cdecl FUN_00b06b70(float* pPosition, float* pDirection)
         *(int*)&cCameraDirection.x = DAT_011f8eac;
         *(int*)&cCameraDirection.y = DAT_011f8eb0;
         *(int*)&cCameraDirection.z = DAT_011f8eb4;
-        _memmove(pPosition, &cCameraPos, 0xc);
-        _memmove(pDirection, &cCameraDirection, 0xc);
+        ::std::memmove(pPosition, &cCameraPos, 0xc);
+        ::std::memmove(pDirection, &cCameraDirection, 0xc);
     }
     else
     {
@@ -982,16 +983,15 @@ void FUN_00b09f70_Class::FUN_00b09f70()
 struct P03MM
 {
 };
-unsigned int _strlen(const char* s);
 
 // Allocates nLength4 + 1 bytes from _g_memoryManager, copies pOrig into the new buffer with _memmove, and returns the copy.
 // @fnv 0x00b0d7c0
 char* DuplicateString(const char* pOrig)
 {
-    unsigned int nLength4 = _strlen(pOrig);
+    unsigned int nLength4 = ::std::strlen(pOrig);
     char* pResult = static_cast<char*>(reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(nLength4 + 1));
     char* pCopy = pResult;
-    _memmove(pCopy, pOrig, nLength4 + 1);
+    ::std::memmove(pCopy, pOrig, nLength4 + 1);
     return pCopy;
 }
 
@@ -1082,14 +1082,13 @@ struct std_string
     void assign(const char*, unsigned int);
 };
 extern std_string DAT_011f8ba4;
-unsigned int _strlen(const char*);
 
 // Computes the length of s and assigns that many characters from s into DAT_011f8ba4.
 // @fnv 0x00b09270
 void __cdecl AssignString(const char* pcString)
 {
     char buf[0x40];
-    unsigned int len = _strlen(pcString);
+    unsigned int len = ::std::strlen(pcString);
     DAT_011f8ba4.assign(pcString, len);
 }
 
@@ -1330,7 +1329,6 @@ struct RecordVector
     int metadata0, metadata4, metadata8;
     StringRecord *first, *last;
 };
-void __cdecl FUN_00ec7c56();
 struct FUN_00b0d490_Class
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -1346,7 +1344,7 @@ char* FUN_00b0d490_Class::FUN_00b0d490(unsigned int index)
     RecordVector* data = &records;
     if (index >= static_cast<unsigned int>(data->last - data->first))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1488,7 +1486,6 @@ void FUN_00b0d5f0_Class::InitBoundingBoxCorners()
     }
 }
 
-void __cdecl FUN_00ec7c56();
 
 struct FUN_00b0eca0_t
 {
@@ -1503,7 +1500,7 @@ bool FUN_00b0eca0_t::FUN_00b0eca0(FUN_00b0eca0_t* apOther)
 {
     if (!static_cast<bool>(static_cast<int>(a != 0)) || !static_cast<bool>(static_cast<int>(a == apOther->a)))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -1511,7 +1508,6 @@ bool FUN_00b0eca0_t::FUN_00b0eca0(FUN_00b0eca0_t* apOther)
     return b == apOther->b;
 }
 
-void __cdecl FUN_00ec7c56(void);
 
 struct FUN_00b10430_Arg
 {
@@ -1538,7 +1534,7 @@ FUN_00b10430_Class* FUN_00b10430_Class::FUN_00b10430(unsigned int index, FUN_00b
 
     if (range == 0 || range->unk0C > index || index > range->unk10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
 
     do

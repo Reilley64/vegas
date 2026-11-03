@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/navmeshobstaclemanager_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -55,7 +56,6 @@
 #include "fnv/symbols_00aa1000.h"
 #include "navmeshobstaclemanager_decls.h"
 
-void __cdecl FUN_00ec61c0(void* p, int fill, unsigned int size);
 int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
 struct ArrayHolderBase
@@ -70,7 +70,7 @@ struct ArrayHolderBase
         m_04 = 0x25;
         m_0C = 0;
         m_08 = FUN_00aa1070(m_04 * 4);
-        FUN_00ec61c0(m_08, 0, m_04 * 4);
+        std::memset(m_08, 0, m_04 * 4);
         m_10 = true;
     }
 };

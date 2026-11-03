@@ -4,6 +4,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFaceGenEyeData.h"
 #include "fnv/decl/BSFaceGenKeyframeMultiple.h"
@@ -1444,7 +1447,6 @@ int S_0064dac0::FUN_0064dac0(int a, int b)
            *(int*)(*(int*)((char*)this + 0x5C) + a * 4);
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0064db20_Class
 {
     void* GetEntryAt(unsigned int a);
@@ -1454,7 +1456,7 @@ struct FUN_0064db20_Class
 void* FUN_0064db20_Class::GetEntryAt(unsigned int auiIndex)
 {
     if (auiIndex >= reinterpret_cast<::FUN_0064dc30_class *>((((FUN_0064db00_class*)this)))->FUN_0064dc30())
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -1915,7 +1917,6 @@ void* FUN_0065b3e0_Holder::GetPointerByFlag(bool abUseSecond)
     return abUseSecond ? m_14 : m_10;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0065cc70_Holder
 {
     int m_iWordAt00;
@@ -1929,7 +1930,7 @@ struct FUN_0065cc70_Holder
 int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
 {
     if (uiIndex >= ((FUN_0065cc50_Class*)this)->FUN_0065cc50())
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -1939,7 +1940,6 @@ int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
 struct TextureBasis
 {
 };
-unsigned int __cdecl FUN_00ec7c56();
 struct Holder : TextureBasis
 {
     int FUN_0065cec0(unsigned int);
@@ -1948,7 +1948,7 @@ struct Holder : TextureBasis
 int Holder::FUN_0065cec0(unsigned int auiIndex)
 {
     if (auiIndex >= ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(this)->FUN_0065cea0())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -2446,7 +2446,6 @@ FUN_0065edd0_class::~FUN_0065edd0_class()
 }  // namespace fnv_0065edd0
 
 void FUN_0065f060();
-void FUN_0065ee50_Helper(void*, unsigned int, int, void (*)());
 struct FUN_0065ee50_S
 {
     char m_auiShapeKeys[16];
@@ -2466,7 +2465,7 @@ void* FUN_0065ed00_class::FUN_0065ed00(unsigned int flags)
 // @fnv 0x0065ee50
 void FUN_0065ee50_S::FUN_0065ee50()
 {
-    FUN_0065ee50_Helper((void*)((char*)&this->m_aiIndexedValues), 24, 3, FUN_0065f060);
+    fnv::crt::vector_destructor((void*)((char*)&this->m_aiIndexedValues), 24, 3, (void (*)(void *))(FUN_0065f060));
 }
 
 struct S_0065f2e0
@@ -2580,7 +2579,6 @@ struct FUN_0065fa80_Holder
     FUN_0065fb10_Class m_iWordAt04;
     FUN_0065fa80_Holder& FUN_0065fa80(const FUN_0065fa80_Holder& other);
 };
-int __cdecl FUN_00ec7ce3(void* a1, unsigned int a2, void* a3, unsigned int a4);
 // @fnv 0x0065fe60
 char* FUN_0065fe60(char* pBegin, char* pEnd, char* pDest)
 {
@@ -2589,7 +2587,7 @@ char* FUN_0065fe60(char* pBegin, char* pEnd, char* pDest)
         int size = pEnd - pBegin;
         end = pDest + size;
         if (size > 0)
-            FUN_00ec7ce3(pDest, size, pBegin, size);
+            fnv::crt::memmove_s(pDest, size, pBegin, size);
     }
     return end;
 }
@@ -2744,7 +2742,6 @@ void FUN_00657e60_Class::FUN_00657e60()
 struct H_0060b3b0
 {
 };
-int __cdecl _memcmp(const void* a, const void* b, unsigned int n);
 // @fnv 0x00658160
 bool FUN_00657880_class::FUN_00658160(int other)
 {
@@ -2753,7 +2750,7 @@ bool FUN_00657880_class::FUN_00658160(int other)
         return false;
     if (*(unsigned int*)((char*)this + 0x18) == 0 || *(unsigned int*)((char*)this + 0x1c) == 0)
         return true;
-    return _memcmp(((float *)(reinterpret_cast<::V_006578b0 *>((void *)(((H_0060b3b0*)this)))->FUN_006578b0(0))), ((float *)(reinterpret_cast<::V_006578b0 *>((void *)(((H_0060b3b0*)other)))->FUN_006578b0(0))),
+    return ::std::memcmp(((float *)(reinterpret_cast<::V_006578b0 *>((void *)(((H_0060b3b0*)this)))->FUN_006578b0(0))), ((float *)(reinterpret_cast<::V_006578b0 *>((void *)(((H_0060b3b0*)other)))->FUN_006578b0(0))),
                    (*(unsigned int*)((char*)this + 0x18) << 2) * *(unsigned int*)((char*)this + 0x1c)) == 0;
 }
 
@@ -3090,7 +3087,6 @@ struct FUN_00658ad0_class
 };
 
 int __cdecl strcpy_s(char*, unsigned int, char*);
-int __cdecl strlen(char*);
 extern unsigned int _data_011c16bc;
 
 // @fnv 0x00658ad0
@@ -3098,7 +3094,7 @@ void FUN_00658ad0_class::AssignString(FUN_00658ad0_arg* arg, char* source, GO go
 {
     if (*((unsigned char*)this + 0x10) != 0)
     {
-        int length = strlen(source) + 1;
+        int length = ::std::strlen(source) + 1;
         arg->m_iWordAt04 = (char*)::FUN_00aa1070((unsigned int)length);
         strcpy_s(arg->m_iWordAt04, (unsigned int)length, source);
     }
@@ -4036,7 +4032,6 @@ struct FUN_0064dda0_target
     char pad_00[0x10];
     unsigned int m_10;
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0064dda0_cls
 {
     unsigned int m_iWordAt00;
@@ -4052,19 +4047,18 @@ void FUN_0064dbd0_Class::FUN_0064dbd0()
 unsigned int FUN_0064dda0_cls::FUN_0064dda0()
 {
     if (!((unsigned char)(reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
     if (m_iWordAt04 >= ((::FUN_0064dda0_target *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980()))->m_10)
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
     return m_iWordAt04;
 }
 
-unsigned int __cdecl FUN_00ec7c56(void);
 struct S_0064ddf0_Container
 {
     int unk00;
@@ -4100,14 +4094,14 @@ S_0064ddf0_Iter* S_0064ddf0_Iter::Increment()
 {
     if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
     } while (0);
     if (!((unsigned int)ptr < ((::S_0064ddf0_Container *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980()))->end))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -4663,7 +4657,7 @@ int FUN_006580b0_cls::GetEntryOffset(FUN_006580b0_cls* other)
 {
     if (reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0() == 0 || reinterpret_cast<::FUN_004b0460_class *>(this)->FUN_004b0460((const void **)(other)) == 0)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     do
     {
@@ -4730,7 +4724,6 @@ struct Hldr0044
     int m_8;
 };
 
-extern "C" void FUN_00ec7894(Hldr0044* p, void* dat);
 extern "C" void __cdecl FUN_00401000(int scaled);
 extern "C" int DAT_01140ef8;
 
@@ -5674,7 +5667,6 @@ struct FUN_0065dae0_target
     char pad_00[0x10];
     unsigned int m_10;
 };
-unsigned int __cdecl FUN_00ec7c56(void);
 struct FUN_0065dae0_cls
 {
     unsigned int m_iWordAt00;
@@ -5694,12 +5686,12 @@ void* Holder65cf50::CopyDataAfterCallback(void* pDest, int iUnused)
 FUN_0065dae0_cls* FUN_0065dae0_cls::FUN_0065dae0()
 {
     if (!((unsigned char)(reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0())))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
     if (m_iWordAt04 >= ((::FUN_0065dae0_target *)(reinterpret_cast<::S_0060b980 *>(this)->FUN_0060b980()))->m_10)
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -5740,7 +5732,7 @@ bool FUN_0065dfd0_class::FUN_0065dfd0(int b)
 bool S_0065e1a0::FUN_0065e1a0(S_0065e1a0* other)
 {
     if (!reinterpret_cast<::FUN_005ca4f0_shell *>(this)->FUN_005ca4f0() || !reinterpret_cast<::FUN_004b0460_class *>(this)->FUN_004b0460((const void **)(other)))
-        FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -5904,7 +5896,6 @@ class FUN_0065e670_cls
 
 extern "C" char DAT_01140ef8;
 int __cdecl FUN_00401000(unsigned int size);
-void FUN_00ec7894(FUN_0065e670_cls* obj, char* msg);
 
 // @fnv 0x0065e670
 void __cdecl FUN_0065e670(unsigned int count, int unused)
@@ -6311,8 +6302,6 @@ void* __cdecl AllocateChecked(unsigned int count)
 
 extern void FUN_0065f060();
 extern void FUN_0065fc10();
-void FUN_00ecaebb(void* dst, void* src, unsigned int size, unsigned int count, void (*copyCtor)(),
-                            void (*dtor)());
 
 struct FUN_0065fab0_cls
 {
@@ -6331,7 +6320,7 @@ FUN_0065fab0_cls* FUN_0065fab0_cls::FUN_0065fab0(FUN_0065fab0_cls* apSource)
     m_iWordAt04 = apSource->m_iWordAt04;
     m_8 = apSource->m_8;
     m_iThirdValue = apSource->m_iThirdValue;
-    FUN_00ecaebb((char*)this + 0x10, (char*)apSource + 0x10, 0x18, 3, FUN_0065fc10, FUN_0065f060);
+    fnv::crt::vector_copy_constructor((char*)this + 0x10, (char*)apSource + 0x10, 0x18, 3, (void (*)(void *, void *))(FUN_0065fc10), (void (*)(void *))(FUN_0065f060));
     return this;
 }
 
@@ -6997,7 +6986,7 @@ extern "C" void __cdecl FUN_00658c10(int aiValue, int aiUnused)
         if (0xFFFFFFFFu / (unsigned)aiValue < 60)
         {
             reinterpret_cast<::FUN_0044d6c0_class *>(&(h))->FUN_0044d6c0((void **)(0));
-            FUN_00ec7894(&h, &DAT_01140ef8);
+            throw h;
         }
     }
 
@@ -7015,7 +7004,7 @@ void __cdecl FUN_0065e3a0(int aiCount, int)
     {
         FUN_0044d6c0_class holder;
         holder.FUN_0044d6c0(0);
-        FUN_00ec7894((Hldr0044*)&holder, (void*)&DAT_01140ef8);
+        throw *((Hldr0044*)&holder);
     }
     FUN_00401000(aiCount << 3);
 }
@@ -7629,7 +7618,7 @@ FUN_0065fc10::FUN_0065fc10(FUN_0065fc10& arSource) : FUN_0065d3a0(*(FUN_006815c0
         catch (...)
         {
             reinterpret_cast<::FUN_00657f60_class *>(this)->FUN_00657f60();
-            FUN_00ec7894(0, 0);
+            throw;
         }
     }
 }
@@ -7982,7 +7971,6 @@ void* FUN_0065ec70_class::FUN_0065ec70(unsigned int flags)
 }
 }  // namespace fnv_0065ec70
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct GridStorage
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;

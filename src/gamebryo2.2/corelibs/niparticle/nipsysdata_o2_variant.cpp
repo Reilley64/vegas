@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C31F10ParticleInfo.h"
@@ -40,7 +41,6 @@
 #include "MemoryManager.h"
 #include "nipsysdata_stream.h"
 void* _NiMalloc(unsigned int size);
-extern "C" void* fnv_zlib_memset(void* dst, int value, unsigned long size);
 
 struct FUN_00a67c00
 {
@@ -511,7 +511,6 @@ __declspec(noinline) Point3ParameterData::Point3ParameterData() throw()
 
 void* _NiMalloc(unsigned int size) throw();
 void _NiFreeAlias(void*) throw();
-extern "C" void* __cdecl _fnv_zlib_memcpy(void* dst, const void* src, unsigned int size) throw();
 
 class RgbaColor
 {
@@ -569,20 +568,20 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
 
     NiPoint3* pkVertex = new ParticlePoint[m_usVertices];
     unsigned int uiVertexSize = sizeof(NiPoint3) * m_usVertices;
-    _fnv_zlib_memcpy(pkVertex, m_pkVertex, uiVertexSize);
+    std::memmove(pkVertex, m_pkVertex, uiVertexSize);
 
     NiPoint3* pkNormal = 0;
     if (m_pkNormal)
     {
         pkNormal = new ParticlePoint[m_usVertices];
-        _fnv_zlib_memcpy(pkNormal, m_pkNormal, uiVertexSize);
+        std::memmove(pkNormal, m_pkNormal, uiVertexSize);
     }
 
     RgbaColor* pkColor = 0;
     if (m_pkColor)
     {
         pkColor = new RgbaColor[m_usVertices];
-        _fnv_zlib_memcpy(pkColor, m_pkColor, sizeof(RgbaColor) * m_usVertices);
+        std::memmove(pkColor, m_pkColor, sizeof(RgbaColor) * m_usVertices);
     }
 
     reinterpret_cast<::GeomData_S *>((pkDest))->FUN_00a670c0(m_usVertices, pkVertex, pkNormal, pkColor, (::NiPoint2 *)(void *)(0), 0, (unsigned short)(0));
@@ -591,17 +590,17 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     if (m_pkRotations)
     {
         pkRotations = new ParticleRotation[m_usVertices];
-        _fnv_zlib_memcpy(pkRotations, m_pkRotations, sizeof(NiQuaternion) * m_usVertices);
+        std::memmove(pkRotations, m_pkRotations, sizeof(NiQuaternion) * m_usVertices);
     }
     pkDest->SetRotations(pkRotations);
 
     float* pfSizes = (float*)_NiMalloc(sizeof(float) * m_usVertices);
     unsigned int uiFloatSize = sizeof(float) * m_usVertices;
-    _fnv_zlib_memcpy(pfSizes, m_pfSizes, uiFloatSize);
+    std::memmove(pfSizes, m_pfSizes, uiFloatSize);
     reinterpret_cast<::FUN_00a96460_class *>((pkDest))->FUN_00a96460(pfSizes);
 
     float* pfRadii = (float*)_NiMalloc(sizeof(float) * m_usVertices);
-    _fnv_zlib_memcpy(pfRadii, m_pfRadii, uiFloatSize);
+    std::memmove(pfRadii, m_pfRadii, uiFloatSize);
     reinterpret_cast<::FUN_00a96440_class *>((pkDest))->SetField(pfRadii);
 
     pkDest->m_usActive = m_usActive;
@@ -609,28 +608,28 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     if (m_pfRotationAngles)
     {
         float* pfRotationAngles = (float*)_NiMalloc(sizeof(float) * m_usVertices);
-        _fnv_zlib_memcpy(pfRotationAngles, m_pfRotationAngles, uiFloatSize);
+        std::memmove(pfRotationAngles, m_pfRotationAngles, uiFloatSize);
         reinterpret_cast<::FUN_00a96480_Class *>((pkDest))->FUN_00a96480(pfRotationAngles);
     }
 
     if (m_pkRotationAxes)
     {
         NiPoint3* pkRotationAxes = new ParticlePoint[m_usVertices];
-        _fnv_zlib_memcpy(pkRotationAxes, m_pkRotationAxes, sizeof(NiPoint3) * m_usVertices);
+        std::memmove(pkRotationAxes, m_pkRotationAxes, sizeof(NiPoint3) * m_usVertices);
         reinterpret_cast<::FUN_00a968c0_shell *>((pkDest))->SetPointer(pkRotationAxes);
     }
 
     if (m_pucTextureIndices)
     {
         unsigned char* pucTextureIndices = (unsigned char*)_NiMalloc(sizeof(unsigned char) * m_usVertices);
-        _fnv_zlib_memcpy(pucTextureIndices, m_pucTextureIndices, sizeof(unsigned char) * m_usVertices);
+        std::memmove(pucTextureIndices, m_pucTextureIndices, sizeof(unsigned char) * m_usVertices);
         reinterpret_cast<::FUN_00a964a0_Class *>((pkDest))->FUN_00a964a0(pucTextureIndices);
     }
 
     if (m_pkSubTextureOffsets)
     {
         RgbaColor* pkSubTextureOffsets = (RgbaColor*)_NiMalloc(sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
-        _fnv_zlib_memcpy(pkSubTextureOffsets, m_pkSubTextureOffsets, sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
+        std::memmove(pkSubTextureOffsets, m_pkSubTextureOffsets, sizeof(RgbaColor) * m_ucSubTextureOffsetCount);
         ::FUN_00a968e0((char *)(pkDest), (int)(pkSubTextureOffsets), (void *)(m_ucSubTextureOffsetCount), {});
     }
 
@@ -638,7 +637,7 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     if (m_pkParticleInfo)
     {
         pkParticleInfo = new Point3ParameterData[m_usVertices];
-        _fnv_zlib_memcpy(pkParticleInfo, m_pkParticleInfo, sizeof(Point3ParameterData) * m_usVertices);
+        std::memmove(pkParticleInfo, m_pkParticleInfo, sizeof(Point3ParameterData) * m_usVertices);
     }
     pkDest->ReplaceParticleInfo(pkParticleInfo);
 
@@ -646,7 +645,7 @@ void NiPSysData_View::FUN_00c24f20(NiPSysData_View* pkDest, void* kCloning)
     if (m_pfRotationSpeeds)
     {
         pfRotationSpeeds = (float*)_NiMalloc(sizeof(float) * m_usVertices);
-        _fnv_zlib_memcpy(pfRotationSpeeds, m_pfRotationSpeeds, sizeof(float) * m_usVertices);
+        std::memmove(pfRotationSpeeds, m_pfRotationSpeeds, sizeof(float) * m_usVertices);
     }
     pkDest->ReplaceParticleRotationSpeeds(pfRotationSpeeds);
 
@@ -723,7 +722,7 @@ void S00c25340_Data::FUN_00c25340(NiStream& stream)
     else if (m_pfRotationAngles)
     {
         m_pfRotationSpeeds = (float*)_NiMalloc(m_usVertices * 4);
-        fnv_zlib_memset(m_pfRotationSpeeds, 0, m_usVertices * 4);
+        std::memset(m_pfRotationSpeeds, 0, m_usVertices * 4);
     }
     if (stream.m_kHeader.uiVersion < 0x13)
     {

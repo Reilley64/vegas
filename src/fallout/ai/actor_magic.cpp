@@ -1,6 +1,7 @@
 // fallout/ai/actor_magic.cpp: Actor, ActorStandIn, SummonOwner, Controller and more (40 functions)
 
 #include <new>
+#include <cstdio>
 #include "fnv/decl/ActionOwner.h"
 #include "fnv/decl/ActorSoundStub.h"
 #include "fnv/decl/ActorX.h"
@@ -5392,7 +5393,6 @@ struct Actor5610 : Virtual5610<215>
 struct UI5610
 {
 };
-extern "C" int FUN_00ec623a(char*, const char*, ...);
 struct Owner5610
 {
     static void UpdateStageChange(void*, int, float, float);
@@ -5418,23 +5418,23 @@ void Owner5610::UpdateStageChange(void* apActor, int aiValueIndex, float oldValu
             char buffer[256];
             if (delta > 0.0)
             {
-                FUN_00ec623a(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d2f40)))))->GetMenuTitle())));
+                std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d2f40)))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
             }
             else
             {
-                FUN_00ec623a(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4b7c)))))->GetMenuTitle())));
+                std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4b7c)))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
             }
             if (newStage)
             {
-                FUN_00ec623a(buffer, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d3ebc)))))->GetMenuTitle())),
+                std::sprintf(buffer, &(*reinterpret_cast<char *>((void *)&::DAT_01012058)), ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d3ebc)))))->GetMenuTitle())),
                              ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((Sound5610*)((char*)((::Spell5610 *)(reinterpret_cast<::BGSTerrainManager *>((newStage))->GetMinLevel())) + 0x18))))->FUN_00408da0())));
                 ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba64_arg1))), (int)(0), 2.0f, false);
             }
             else
             {
-                FUN_00ec623a(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4fd8)))))->GetMenuTitle())));
+                std::sprintf(buffer, ((const char *)(reinterpret_cast<::StartMenu *>((((Setting5610*)&(*reinterpret_cast<char *>(&::g_011d4fd8)))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(buffer), 0, (int)(&(*reinterpret_cast<char *>((void *)&::g_011cba00_arg1))), (int)(0), 2.0f, false);
             }
             reinterpret_cast<::MagicTarget *>((((Target5610*)((char*)actor + 0x94))))->UpdateActiveEffects(0.0f);
@@ -5718,7 +5718,6 @@ struct Actor5890 : Slots216
     Target5890 target;
     Values5890 values;
 };
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct Entry5890
 {
     static void __cdecl UpdateStageTransition(Values5890*, int, float, float);
@@ -7856,7 +7855,6 @@ class Setting
   public:
 };
 
-int FUN_00ec623a(char* pszBuffer, const char* pszFormat, ...);
 
 
 // When the player's sleep deprivation stage changes, remove the old stage spell, cast the new one, and show a message sink notification.
@@ -7887,27 +7885,27 @@ void OnSleepDeprivationStageChanged(ActorValueOwner* pOwner, int eAV, float fOld
 
             if (fTimeSinceScaleStart > 0.0)
             {
-                FUN_00ec623a(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d2fac))))->GetMenuTitle())));
+                std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d2fac))))->GetMenuTitle())));
                 ::DispatchMessageToSink(
                     (int)(aAcBuffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f, false);
             }
             else
             {
-                FUN_00ec623a(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d33b4))))->GetMenuTitle())));
+                std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d33b4))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(aAcBuffer), 0,
                                       (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0), 2.0f,
                                       false);
             }
             if (pNewStageB)
             {
-                FUN_00ec623a(aAcBuffer, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d3ebc))))->GetMenuTitle())),
+                std::sprintf(aAcBuffer, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d3ebc))))->GetMenuTitle())),
                              ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::ns8c5b10::SpellItem *)(reinterpret_cast<::BGSTerrainManager *>((pNewStageB))->GetMinLevel()))))->FUN_00408da0())));
                 ::DispatchMessageToSink(
                     (int)(aAcBuffer), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_in_pain.dds"), (int)(0), 2.0f, false);
             }
             else
             {
-                FUN_00ec623a(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d40d8))))->GetMenuTitle())));
+                std::sprintf(aAcBuffer, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::ns8c5b10::Setting *>(&::g_011d40d8))))->GetMenuTitle())));
                 ::DispatchMessageToSink((int)(aAcBuffer), 0,
                                       (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"), (int)(0), 2.0f,
                                       false);

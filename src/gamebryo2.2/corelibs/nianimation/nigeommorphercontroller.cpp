@@ -2,6 +2,7 @@
 // gamebryo2.2/corelibs/nianimation/nigeommorphercontroller.cpp
 // NiGeomMorpherController: morph-target interpolator management.
 #include <new>
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Bound88.h"
 #include "fnv/decl/C27120Class.h"
@@ -638,7 +639,6 @@ struct GMSelf
             pkItems[i].m_fWeight = f;
     }
 };
-void* _fnv_zlib_memset(void*, int, unsigned int);
 
 // @fnv 0x00a3aa10
 void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
@@ -671,7 +671,7 @@ void FUN_00a3aa10_shell::UpdateMorphWeights(float fTime)
         self->SetWeight(uiIndex, fFrac);
     }
     if (!self->m_bHasRegionData)
-        _fnv_zlib_memset(pkVerts, 0, sizeof(NiPoint3) * iVertexDataArraySize);
+        std::memset(pkVerts, 0, sizeof(NiPoint3) * iVertexDataArraySize);
     bupdate = false;
     for (uiIndex = 0; uiIndex < uiNumTargets; uiIndex++)
     {

@@ -1,5 +1,7 @@
 // fallout_shared/magic/alchemyitem.cpp: AlchemyItem, AlchemySave, AlchemyItemMagic (26 functions)
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -569,7 +571,6 @@ bool H0050fb90::FUN_0050fb90()
 }
 
 struct TESFile;
-extern "C" void* __cdecl _alloca(unsigned int);
 struct FUN_00401660_t
 {
 };
@@ -1075,7 +1076,6 @@ void AlchemySave::FUN_00402f90()
 
 extern int DAT_011830cc;
 void* __cdecl FUN_00ec43fb(int, int, int*, int*, int);
-int __cdecl FUN_00ec4835(void*, unsigned int, int);
 
 struct FUN_00403590_sub
 {
@@ -1106,7 +1106,7 @@ bool FUN_00403590_cls::FUN_00403590(int aParam)
     {
         return true;
     }
-    if (FUN_00ec4835((char*)this + 0x88, ((FUN_00403590_sub*)(pObject + 0x30))->v28(), 0x14) != 0)
+    if (std::memcmp((char*)this + 0x88, (const void *)(((FUN_00403590_sub*)(pObject + 0x30))->v28()), 0x14) != 0)
     {
         return true;
     }

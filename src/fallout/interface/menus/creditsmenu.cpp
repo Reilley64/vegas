@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/BGSSaveLoadFileEntry.h"
 #include "fnv/decl/BSFile.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -911,7 +913,6 @@ CreditNode* CreditsQuadRenderer::FUN_00760cf0(CreditTextureSource* apSource, int
     return pNodeCur;
 }
 
-void* FUN_00ec61c0(void*, int, unsigned int);
 struct CreditPathPrefix
 {
     char text[6];
@@ -1529,7 +1530,6 @@ struct CreditFontManager
 struct CreditBackgrounds
 {
 };
-int FUN_00eca6d3(const char*);
 struct CreditMenu
 {
     int unk00;
@@ -1565,7 +1565,7 @@ void CreditMenu::FUN_0075fb90()
         wacky = true;
     char path_40[260];
     reinterpret_cast<CreditPathPrefix&>(path_40) = *reinterpret_cast<const CreditPathPrefix*>(DAT_010724e8);
-    FUN_00ec61c0(path_40 + 6, 0, 254);
+    std::memset(path_40 + 6, 0, 254);
     int language6 = FUN_004b7220();
     FUN_00406d50(path_40, 260, FUN_004b7650(language6));
     FUN_00406d50(path_40, 260, DAT_01013444);
@@ -1623,24 +1623,24 @@ void CreditMenu::FUN_0075fb90()
                 {
                 case 'X':
                     if (buffer[cursor + 2] == '+')
-                        x += FUN_00eca6d3(&buffer[cursor + 3]);
+                        x += std::atoi(&buffer[cursor + 3]);
                     else if (buffer[cursor + 2] == '-')
-                        x -= FUN_00eca6d3(&buffer[cursor + 3]);
+                        x -= std::atoi(&buffer[cursor + 3]);
                     else
-                        x = FUN_00eca6d3(&buffer[cursor + 2]);
+                        x = std::atoi(&buffer[cursor + 2]);
                     break;
                 case 'Y':
                     if (buffer[cursor + 2] == '+')
-                        y -= FUN_00eca6d3(&buffer[cursor + 3]);
+                        y -= std::atoi(&buffer[cursor + 3]);
                     else if (buffer[cursor + 2] == '-')
-                        y += FUN_00eca6d3(&buffer[cursor + 3]);
+                        y += std::atoi(&buffer[cursor + 3]);
                     else
-                        y = FUN_00eca6d3(&buffer[cursor + 2]);
+                        y = std::atoi(&buffer[cursor + 2]);
                     break;
                 case 'I': {
-                    int imageWidth7 = FUN_00eca6d3(&buffer[cursor + 2]);
-                    int imageHeight = FUN_00eca6d3(&buffer[cursor + 7]);
-                    float alpha_11 = FUN_00eca6d3(&buffer[cursor + 12]) / 255.0;
+                    int imageWidth7 = std::atoi(&buffer[cursor + 2]);
+                    int imageHeight = std::atoi(&buffer[cursor + 7]);
+                    float alpha_11 = std::atoi(&buffer[cursor + 12]) / 255.0;
                     cursor += 16;
                     reinterpret_cast<::HostA *>(this)->WriteTextUntilDelimiter((::OutputA *)&(token_10));
                     CreditSceneNode* image6 = ((::CreditSceneNode *)(reinterpret_cast<::CreditsQuadRenderer *>(this)->FUN_00760cf0((::CreditTextureSource *)&(token_10), imageWidth7, imageHeight, alpha_11)));
@@ -1662,10 +1662,10 @@ void CreditMenu::FUN_0075fb90()
                     face8 = ((::CreditFont *)(reinterpret_cast<::fnv_005bd5c0::FUN_005bd5c0_shell *>((((::CreditFontManager *)(::FontManager::Instance()))))->FUN_005bd5c0({})));
                     break;
                 case 'C':
-                    color.r = FUN_00eca6d3(&buffer[cursor + 2]) / 255.0;
-                    color.g = FUN_00eca6d3(&buffer[cursor + 6]) / 255.0;
-                    color.b = FUN_00eca6d3(&buffer[cursor + 10]) / 255.0;
-                    color.a = FUN_00eca6d3(&buffer[cursor + 14]) / 255.0;
+                    color.r = std::atoi(&buffer[cursor + 2]) / 255.0;
+                    color.g = std::atoi(&buffer[cursor + 6]) / 255.0;
+                    color.b = std::atoi(&buffer[cursor + 10]) / 255.0;
+                    color.a = std::atoi(&buffer[cursor + 14]) / 255.0;
                     break;
                 case 'B': {
                     cursor += 2;
@@ -1809,7 +1809,7 @@ bool __cdecl FUN_0075f2a0()
     {
         reinterpret_cast<::FUN_00a1dc70_shell *>((pMenu6))->FUN_00a1dc70((::TileMenu *)(void *)(FUN_00ec43fb(pTileX, 0, &DAT_0119f4cc, &DAT_0119f49c, 0)), false);
         CreditsCreateState* pCreditsMenu =
-            reinterpret_cast<CreditsCreateState*>(FUN_00ec43fb(pMenu6, 0, &DAT_0119f34c, &DAT_011a0034, 0));
+            reinterpret_cast<CreditsCreateState*>(dynamic_cast<::CreditsMenu *>(reinterpret_cast<::Menu *>(pMenu6)));
         if (!reinterpret_cast<::FUN_0073af60_shell *>((pCreditsMenu))->FUN_0073af60())
         {
             ::FUN_005b5e40(

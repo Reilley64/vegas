@@ -1,6 +1,8 @@
 // gamebryo2.2/corelibs/nimain/nioldscreenspace.cpp: NiScreenPolygon, NiScreenGeometry, Holder, HolderBase and more (45 functions)
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/ComparableCamera.h"
@@ -47,7 +49,6 @@
 #include "fnv/symbols_0109f000.h"
 #include "fnv/symbols_011f5000.h"
 #include "fnv/symbols_011f6000.h"
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 #pragma intrinsic(memset)
 #include "nioldscreenspace_decls.h"
 // Zeroes the properties array, then assigns the contents of other into this object.
@@ -1109,7 +1110,6 @@ void FUN_00a90640_cls::AddPropsFromSource(PropSrc* pSource)
 extern "C" void* g_011f5e74;
 extern "C" unsigned int g_011f5e78;
 extern "C" void __cdecl FUN_00fdb140(void);
-extern "C" int __cdecl FUN_00ec658f(void(__cdecl*)(void));
 
 struct FUN_00a908b0_cls
 {
@@ -1128,7 +1128,7 @@ void FUN_00a908b0_cls::AssignElement(unsigned int uiIndex, ElemBase** ppElem)
     {
         g_011f5e78 |= 1;
         g_011f5e74 = 0;
-        FUN_00ec658f(FUN_00fdb140);
+        std::atexit(FUN_00fdb140);
     }
     if (uiIndex >= m_usSize)
     {
@@ -2092,7 +2092,6 @@ void CameraA91F::FUN_00a91f00(NiStream& kStream)
     reinterpret_cast<::HolderBase *>(&(m_kArrayB))->FUN_00a2e620();
 }
 
-extern "C" void* __cdecl FUN_00ec44d0(void* pvDest, const void* pvSrc, unsigned int uiSize);
 
 class A72BB0_StreamBase
 {
@@ -2245,7 +2244,7 @@ bool A72BB0_DataStreamOwner::FUN_00a72bb0(unsigned int uiIndex, void* pvData, un
             pkStream->m_bSmallOwner = m_usVertexCount < 0x40;
             void* pvBuffer = pkStream->Allocate(uiSize);
             if (pvData)
-                FUN_00ec44d0(pvBuffer, pvData, uiSize);
+                std::memmove(pvBuffer, pvData, uiSize);
             pkStream->SetBuffer(pvBuffer, 0);
             pvData = pvBuffer;
         }

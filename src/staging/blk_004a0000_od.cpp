@@ -4,6 +4,9 @@
 
 #include <windows.h>
 #include <new>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -571,8 +574,6 @@ void FUN_004b4ab0_Class::FUN_004b4ab0(int a, int b)
 {
     FUN_004b4ad0(a, b);
 }
-
-extern "C" double __cdecl atan2(double, double);
 
 // Returns the atan2 of a and b, computed in double precision and cast back to float.
 // @fnv 0x004b5590
@@ -1177,7 +1178,6 @@ unsigned int FUN_004a8b00(BGSBodyPart* apObject)
     return pc ? ((Mid*)pc)->v14() : 0;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004a97e0_Class
 {
     void* m_vtbl;
@@ -1200,7 +1200,6 @@ void* FUN_004a97e0_Class::FUN_004a97e0(unsigned int a)
 }
 
 extern int DAT_0101ed4c;
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004a98e0_class
 {
     int FUN_004a98e0(int count);
@@ -1231,7 +1230,6 @@ void* FUN_004a9a00_Class::FUN_004a9a00(unsigned int flags)
     return this;
 }
 
-void* __cdecl memset(void* p, int c, unsigned int n);
 struct FUN_004a9c50_class
 {
     void* vtbl;
@@ -1345,8 +1343,6 @@ struct FUN_004afbf0_class
 {
     void* FUN_004afbf0(unsigned int);
 };
-void* __cdecl memset(void*, int, unsigned int);
-
 struct FUN_004b0030_Class
 {
     void* vtbl;
@@ -1747,7 +1743,6 @@ FUN_004a5280* FUN_004a4f80(const float* afValues, unsigned int ui)
     return p;
 }
 
-void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int size);
 
 struct FUN_004a9b50_Class
 {
@@ -1762,12 +1757,12 @@ void FUN_004a9b50_Class::CopyBlocks(char* apDest, char* apSource, unsigned int c
     if (apDest < apSource)
     {
         for (unsigned int i = 0; i < count; ++i)
-            FUN_00ec7230(apDest + i * 64, apSource + i * 64, 64);
+            std::memmove(apDest + i * 64, apSource + i * 64, 64);
     }
     else if (apDest > apSource)
     {
         for (long i = (long)count - 1; i >= 0; --i)
-            FUN_00ec7230(apDest + i * 64, apSource + i * 64, 64);
+            std::memmove(apDest + i * 64, apSource + i * 64, 64);
     }
 }
 
@@ -1853,7 +1848,6 @@ struct FUN_004a9e00_Class
     void FUN_004a9e00(unsigned int requested, unsigned int savedSize);
 };
 extern int DAT_0101ede0;
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004a9ef0_Class
 {
     void* m_vtbl;
@@ -1883,7 +1877,6 @@ FUN_004a9ef0_Class* FUN_004a9ef0_Class::FUN_004a9ef0(int aiCount)
     return this;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004aa080_t
 {
     void* FUN_004aa080(int a);
@@ -1913,7 +1906,6 @@ void* FUN_004aa080_t::FUN_004aa080(int aiCount)
     return this;
 }
 
-void* __cdecl memset(void*, int, unsigned int);
 struct FUN_004aff30_Class
 {
     void* m_vtbl;
@@ -2957,8 +2949,6 @@ FUN_006815c0* __cdecl CreateElementArray(FUN_004b4910_Source* source)
 
 // Log a heading and the machine's computer name.
 
-extern "C" int __cdecl sprintf(char* pcBuffer, const char* pcFormat, ...);
-
 
 
 // Retrieves the computer name, logs the heading, then logs a formatted "Computer Name: %s" line using the prepared script message.
@@ -3236,7 +3226,6 @@ struct Base_4ba280
 };
 
 void FUN_004bc4c0();
-void* __cdecl memset(void*, int, unsigned int);
 extern char DAT_01189184;
 
 struct FUN_004ba280 : Base_4ba280

@@ -2,6 +2,9 @@
 // src/staging/blk_00a00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstring>
+#include <stdexcept>
+#include "runtime/crt.h"
 #include "fnv/decl/A0D2A0_StringMap.h"
 #include "fnv/decl/AE91F0Map.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -155,8 +158,6 @@ FUN_00a1e400_class* FUN_00a1e400_class::FUN_00a1e400(int flags)
 }
 }  // namespace fnv_00a1e400
 
-void __cdecl FUN_00ec30b0();
-int __cdecl _FUN_00ec7c66(void* dst, unsigned int size, const void* src, unsigned int count);
 struct _Secure_char_traits_tag
 {
     char _Dummy;
@@ -181,7 +182,7 @@ StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
     if (_Inside(apChars))
         return (*(::StrA *)&(reinterpret_cast<::StrB *>(this)->FUN_00a0c570((const ::StrB &)(*this), apChars - (16 <= _Myres ? _Bx._Ptr : _Bx._Buf), auiCount)));
     if (::g_010173f0 - _Mysize <= auiCount || _Mysize + auiCount < _Mysize)
-        FUN_00ec30b0();
+        throw std::length_error("string too long");
     unsigned int uiNewSize;
     char acReserved[44];
     if (0 < auiCount && reinterpret_cast<::FUN_0044a8d0_Class *>(this)->FUN_0044a8d0(uiNewSize = _Mysize + auiCount, false))
@@ -194,7 +195,7 @@ StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
                 unsigned int uiTailSize;
                 pDest = (16 <= _Myres ? _Bx._Ptr : _Bx._Buf) + (uiTailSize = _Myres - _Mysize, _Mysize);
                 _Tag2 = _Tag;
-                _FUN_00ec7c66(pDest, uiTailSize, apChars, auiCount);
+                fnv::crt::memcpy_s(pDest, uiTailSize, apChars, auiCount);
                 char cNul = 0;
                 _Mysize = uiNewSize;
                 (16 <= _Myres ? _Bx._Ptr : _Bx._Buf)[uiNewSize] = cNul;
@@ -204,7 +205,6 @@ StrA& StrA::FUN_00a0c430(const char* apChars, unsigned int auiCount)
     return *this;
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int c, unsigned int n);
 extern int DAT_01094e1c;
 struct FUN_00a0d5f0_class
 {
@@ -228,11 +228,10 @@ FUN_00a0d5f0_class* FUN_00a0d5f0_class::FUN_00a0d5f0(unsigned int size)
     m_data = ::FUN_00aa1070(iAllocationSize);
     memsetSize = m_iElementCount << 2;
     data2 = m_data;
-    _fnv_zlib_memset(data2, 0, memsetSize);
+    std::memset(data2, 0, memsetSize);
     return this;
 }
 
-void* _fnv_zlib_memset(void* dest, int val, unsigned int size);
 extern int DAT_01094e9c;
 struct FUN_00a0d8e0
 {
@@ -253,7 +252,7 @@ FUN_00a0d8e0::FUN_00a0d8e0(int count)
     m_data = ::FUN_00aa1070(sz3);
     int sz2 = m_uiItemCount << 2;
     void* p2 = m_data;
-    _fnv_zlib_memset(p2, 0, sz2);
+    std::memset(p2, 0, sz2);
 }
 
 struct FUN_00a1c080_Class
@@ -315,7 +314,6 @@ FUN_00a1e450_Class::FUN_00a1e450_Class(unsigned short size, unsigned short x)
 }
 
 extern int DAT_010955e4;
-void* __cdecl _fnv_zlib_memset(void*, int, unsigned int);
 struct FUN_00a1eaa0
 {
     int* vtbl;
@@ -338,10 +336,9 @@ FUN_00a1eaa0::FUN_00a1eaa0(int aiCount)
     data = (int*)::FUN_00aa1070(size);
     size2 = count << 2;
     p3 = data;
-    _fnv_zlib_memset(p3, 0, size2);
+    std::memset(p3, 0, size2);
 }
 
-void* __cdecl fnv_zlib_memset(void* dest, int c, unsigned int size);
 struct FUN_00a1ede0
 {
     int* m_vtbl;
@@ -361,7 +358,7 @@ FUN_00a1ede0::FUN_00a1ede0(int count)
     m_data = ::FUN_00aa1070(sz2);
     int sz1 = m_uiItemCount << 2;
     void* p5 = m_data;
-    fnv_zlib_memset(p5, 0, sz1);
+    std::memset(p5, 0, sz1);
 }
 
 extern int DAT_0109568c;
@@ -420,7 +417,7 @@ FUN_00a0d710_class* FUN_00a0d710_class::FUN_00a0d710(unsigned int size)
     m_data = ::FUN_00aa1070(a);
     c = m_iElementCount << 2;
     b = m_data;
-    _fnv_zlib_memset(b, 0, c);
+    std::memset(b, 0, c);
     return this;
 }
 

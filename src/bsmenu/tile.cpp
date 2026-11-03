@@ -1,6 +1,10 @@
 // bsmenu/tile.cpp: Tile, Tile__FloatAction, LoadingMenu, TileListBoxCalls and more (86 functions)
 
 #include <windows.h>
+#include <cctype>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -282,8 +286,6 @@ int __cdecl ParseTextAndParams(const char* apText, char* apParam)
     return FUN_00a01860(text);
 }
 
-const char* __cdecl strrchr(const char*, int);
-long __cdecl FUN_00eca6d3(const char*);
 
 // Finds the last '_' in apTraitName and returns FUN_00eca6d3 of the text after it, -1 if that text is empty, or 0 if there is no '_'.
 // @fnv 0x00a01a20
@@ -291,7 +293,7 @@ int __cdecl FUN_00a01a20(const char* apTraitName)
 {
     const char* plast_ = strrchr(apTraitName, '_');
     if (plast_) {
-        return *(plast_ + 1) ? FUN_00eca6d3(plast_ + 1) : -1;
+        return *(plast_ + 1) ? std::atoi(plast_ + 1) : -1;
     } else {
         return 0;
     }
@@ -671,7 +673,6 @@ struct FUN_00a01000_shell : public Tile {
 struct MemoryManager {  };
 struct P09Value { int m_uiSoundID; void* pParent; float fValue; void* p0c; void* p10; };
 void __cdecl FUN_00fda2a0();
-int __cdecl _atexit(void (__cdecl*)());
 struct P09Traits {
     unsigned int BinarySearch(P09Value*&, int (__cdecl*)(const void*, const void*));
     void InsertInSortedOrder(P09Value*&, int (__cdecl*)(const void*, const void*));
@@ -695,7 +696,7 @@ void* FUN_00a01000_shell::GetOrCreateTraitValue(int aiTrait)
         DAT_011f3394 = 0.0f;
         DAT_011f3398 = 0;
         DAT_011f339c = 0;
-        _atexit(FUN_00fda2a0);
+        std::atexit(FUN_00fda2a0);
     }
     unsigned int uifoundIndex = (unsigned int)-1;
     DAT_011f338c = aiTrait;
@@ -964,7 +965,6 @@ void FUN_00a07dc0_shell::RemoveFadeItemsForTile(int aiTrait)
 }
 }  // namespace fnv_00a07dc0
 
-int __cdecl __stricmp(const char*, const char*);
 struct P03Node { P03Node* next; P03Node* prev; Tile* data; };
 // Recursively searches apTarget and its linked child tiles for one whose name matches apName case-insensitively, returning the match or null.
 // @fnv 0x00a08f20
@@ -978,7 +978,7 @@ Tile* __cdecl FindTileByName(Tile* apTarget, const char* apName)
         const char* pTileName = *(const char**)((char*)apTarget + 0x20);
         if (pTileName) {
             const char* pTileName2 = *(const char**)((char*)apTarget + 0x20);
-            if (!__stricmp(pTileName2, apName))
+            if (!fnv::crt::stricmp(pTileName2, apName))
                 return apTarget;
         }
     }
@@ -1148,7 +1148,6 @@ void OH2TileTemplate::ClearList()
 }  // namespace fnv_00a0ab70
 
 struct NiGlobalStringTable { static char* __cdecl AddString(const char*); };
-int __cdecl FUN_00ec6da0(const char*, const char*);
 struct TileTemplate_00a0af10 { char* m_kName; };
 struct TemplateList_00a0af10 { TileTemplate_00a0af10* pItem; TemplateList_00a0af10* pNext; };
 
@@ -1193,7 +1192,7 @@ TileTemplate_00a0af10* BuildStorage_00a0af10::FindTemplateByName(const char* pNa
         else if (!pOther || !nm)
             bEqual = false;
         else
-            bEqual = FUN_00ec6da0(nm, pOther) == 0;
+            bEqual = std::strcmp(nm, pOther) == 0;
         if (bEqual)
         {
             pResult = pNode->pItem;
@@ -1316,7 +1315,6 @@ void* FUN_00a0a0b0_shell::FUN_00a0a0b0(int aiBaseTrait, int aiID)
     return ((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>(this)->FUN_00a00f30(FUN_00a01860(strValueName))));
 }
 
-int __cdecl _atexit(void (__cdecl*)());
 void __cdecl FUN_00fda290();
 extern void (*DAT_00fdf05c)(void*);
 extern void (*DAT_00fdf100)(void*);
@@ -1346,7 +1344,7 @@ void* FUN_00a00f30_shell::FUN_00a00f30(int aiTrait)
         DAT_011f337c = 0.0f;
         DAT_011f3380 = 0;
         DAT_011f3384 = 0;
-        _atexit(FUN_00fda290);
+        std::atexit(FUN_00fda290);
     }
     unsigned int uifoundIndex = 0xffffffff;
     DAT_011f3374 = aiTrait;
@@ -2425,9 +2423,6 @@ UpdateTreeNode* UpdateTreeNode::FUN_00a037e0(int trait, float value, int unused)
 }
 
 namespace fnv_00a0a300 {
-int __cdecl FUN_00ec6da0(const char*, const char*);
-unsigned int __cdecl strlen(const char*);
-int __cdecl strcpy_s(char*, unsigned int, const char*);
 
 struct TileValueStr {
     int m_iValueId;
@@ -2446,18 +2441,18 @@ void TileValueStr::SetString(const char* apString, bool abUpdate)
     char* pNew3;
     char* pDest4;
     bool kBChanged = (!pString && apString) || (pString && !apString) ||
-                    (pString && apString && (pCur = pString, FUN_00ec6da0(pCur, apString)));
+                    (pString && apString && (pCur = pString, std::strcmp(pCur, apString)));
     if (pString) {
         pOld = pString;
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pOld);
         pString = 0;
     }
     if (apString) {
-        uiLen6 = strlen(apString);
+        uiLen6 = std::strlen(apString);
         pNew3 = (char*)reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(uiLen6 + 1);
         pString = pNew3;
         pDest4 = pString;
-        strcpy_s(pDest4, uiLen6 + 1, apString);
+        fnv::crt::strcpy_s(pDest4, uiLen6 + 1, apString);
     }
     fValue = 0.0f;
     if (abUpdate)
@@ -2465,8 +2460,6 @@ void TileValueStr::SetString(const char* apString, bool abUpdate)
     reinterpret_cast<::fnv_00a09410::EvalValue *>(this)->FUN_00a09410(kBChanged);
 }
 }  // namespace fnv_00a0a300
-
-extern "C" int __cdecl tolower(int c);
 
 struct FUN_00a0d1b0_cls {
     int unk00;

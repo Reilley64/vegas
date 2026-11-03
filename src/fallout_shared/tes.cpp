@@ -3,6 +3,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstdio>
+#include <cstring>
+#include <ctime>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorTaskManager.h"
@@ -4227,7 +4230,6 @@ struct MobileObjectCellAccess
 struct S451cd0
 {
 };
-int _sprintf(char*, const char*, ...);
 
 struct TES_00451a50
 {
@@ -4281,7 +4283,7 @@ void TES_00451a50::FUN_00451a50(int aiGridX, int aiGridY, int aiCellX, int aiCel
         reinterpret_cast<::FUN_00454b90_shell *>((((S454b90*)this)))->AddCellToBuffer(pcell);
         return;
     }
-    _sprintf(pmessage, "Loading cell...%s (%i, %i) (%08X)", ((S451cb0*)pcell)->FUN_00451cb0(),
+    std::sprintf(pmessage, "Loading cell...%s (%i, %i) (%08X)", ((S451cb0*)pcell)->FUN_00451cb0(),
              reinterpret_cast<::TESObjectCELL *>((((CellH*)pcell)))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((((CellH*)pcell)))->GetCellGridY(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C_0084e3a0*)pcell)))->FUN_0084e3a0())));
     ((GridCellArrayStandin*)m_pGridCells)->SetCellAt(aiGridX, aiGridY, pcell);
     ((GridCellArray_Target*)m_pGridCells)->FUN_004ba960(m_pLandRootNode, aiGridX, aiGridY);
@@ -4665,7 +4667,6 @@ bool FUN_00452ed0_shell::FUN_00452ed0()
 }
 }  // namespace fnv_00452ed0
 
-void* __cdecl _FUN_00ec7230(void*, void*, unsigned int);
 
 struct FUN_00454fc0_shell
 {
@@ -4762,7 +4763,7 @@ void FUN_00454fc0_shell::CompactQueuedCells()
 
             if (bqueuedArea && ilastNonQueuedPos != 0)
             {
-                _FUN_00ec7230(&m_ppCellBufferB[ilastNonQueuedPos + 1], &m_ppCellBufferB[ilastNonQueuedPos],
+                std::memmove(&m_ppCellBufferB[ilastNonQueuedPos + 1], &m_ppCellBufferB[ilastNonQueuedPos],
                               (i - ilastNonQueuedPos) * 4);
                 m_ppCellBufferB[ilastNonQueuedPos] = pcell;
                 i = ilastNonQueuedPos + 1;
@@ -11101,7 +11102,6 @@ extern unsigned int batchCellIndex, batchCellCount;
 extern const char* batchLogFile;
 extern BatchWorldNode* batchWorlds;
 int __cdecl BatchCompare(const char*, const char*, unsigned int);
-int __cdecl BatchClock();
 
 // Iterates through batch worlds and cells, moving the player to each and logging performance stats based on the specified mode.
 // @fnv 0x004556d0
@@ -11197,7 +11197,7 @@ void BatchTES::FUN_004556d0(int mode)
             if (mode == 9)
                 again = true;
             BatchCell* cell = 0;
-            int start = BatchClock();
+            int start = std::clock();
             INPUT input;
             input.type = INPUT_MOUSE;
             input.mi.dwFlags = MOUSEEVENTF_MOVE;
@@ -11329,7 +11329,7 @@ void BatchTES::FUN_004556d0(int mode)
                 reinterpret_cast<::B93BE30ProcessManager *>(((*reinterpret_cast<::BatchPlayer * *>(&::_g_thePlayer))))->FUN_0093be30((::B93BE30Request *)(destination5));
                 reinterpret_cast<::FUN_0093bea0_cls *>(((*reinterpret_cast<::BatchPlayer * *>(&::_g_thePlayer))))->FUN_0093bea0();
                 reinterpret_cast<::FUN_00456520_Class *>(((*reinterpret_cast<::BatchIO * *>(&::DAT_01202d98))))->FUN_00456520();
-                int finish3 = BatchClock();
+                int finish3 = std::clock();
                 float elapsed = (finish3 - start) / 1000.0;
                 BatchSettings settings8;
                 ::FUN_00878160((char*)&settings8, true, true, true);

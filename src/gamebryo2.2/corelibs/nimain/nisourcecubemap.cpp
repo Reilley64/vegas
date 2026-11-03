@@ -4,6 +4,8 @@
 
 #include <windows.h>
 #include <new>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/AlphaPropInit_cls.h"
 #include "fnv/decl/ControllerA606.h"
 #include "fnv/decl/FUN_00a5fca0_cls.h"
@@ -1235,9 +1237,6 @@ void ShaderPass_a60::EnsureProgramCreated()
     }
 }
 
-extern "C" unsigned int __cdecl strlen(const char* s);
-extern "C" void* __cdecl memset(void* d, int v, unsigned int n);
-
 struct S00a60cc0_Ref
 {
     virtual void v00();
@@ -1261,7 +1260,6 @@ struct S00a60cc0_Loader
 };
 
 void* __cdecl FUN_00aa1070(unsigned int size);
-int __cdecl FUN_00ec65a6(char* dst, unsigned int n, const char* src);
 bool __cdecl FUN_00aa1a30(const char* p, int a);
 
 static __forceinline void S00a60cc0_ReleaseAll(S00a60cc0_Ref** res)
@@ -1367,7 +1365,6 @@ void* CubeCleanup::FUN_00a61250(unsigned int flags)
 }
 
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
-void __cdecl FUN_00ec44d0(void*, const void*, unsigned int) throw();
 struct PixelFormat
 {
     unsigned int unk00;
@@ -1475,7 +1472,7 @@ void S00a60cc0_Target::LoadResources(char* apName0, char* apName1, char* apName2
         char* src = names[idx];
         unsigned int len = strlen(src) + 1;
         char* copy = (char*)FUN_00aa1070(len);
-        FUN_00ec65a6(copy, len, src);
+        fnv::crt::strcpy_s(copy, len, src);
         ::FUN_00aa2a00(copy);
         void* tmp = ((void *)(::GetPathWithExtension(copy)));
         reinterpret_cast<::fnv_00aa2540::NiSearchPath *>((apLoader))->SetPath((const char *)(tmp));
@@ -1543,7 +1540,7 @@ void CubeHost::FUN_00a60940(Pixels* a, Pixels* b, Pixels* c, Pixels* d, Pixels* 
             Pixels* dst = pixels.ptr;
             unsigned int size = facePtrs[face].ptr->Size(level);
             unsigned char* source = facePtrs[face].ptr->SourceData(level);
-            FUN_00ec44d0(dst->Data(level, face), source, size);
+            std::memmove(dst->Data(level, face), source, size);
         }
     }
     PixelPtr* cursor = facePtrs + 6;

@@ -925,7 +925,7 @@ unsigned int __cdecl FUN_00489540(void* apForm)
 {
     void* result;
 
-    result = ::FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &::DAT_011831e8, 0);
+    result = dynamic_cast<::TESModel *>(reinterpret_cast<::TESForm *>(apForm));
     if (result == 0)
     {
         result = ::FUN_00481010((::TESForm*)apForm, (::TESObjectREFR*)::FNV_DynamicCast(apForm, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)),

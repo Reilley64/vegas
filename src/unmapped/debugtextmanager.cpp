@@ -2,6 +2,7 @@
 // src/unmapped/debugtextmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/debug/debugtextmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/FUN_005e50f0_Obj.h"
 #include "fnv/decl/NiNode.h"
@@ -978,7 +979,6 @@ void This8022::FUN_008022c0()
     }
 }
 
-void FUN_00ec61c0(void*, int, unsigned int);
 struct RegisteredPage
 {
     char name[68];
@@ -1003,7 +1003,7 @@ void PageReporter::FUN_00802880(void(__cdecl* report)(const char*))
 {
     char buffer[512];
     buffer[0] = 0;
-    FUN_00ec61c0(buffer + 1, 0, 511);
+    std::memset(buffer + 1, 0, 511);
     for (int page = 0; page < count; page += 5)
     {
         buffer[0] = 0;

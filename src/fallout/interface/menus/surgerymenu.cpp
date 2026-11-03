@@ -1,6 +1,8 @@
 // fallout/interface/menus/surgerymenu.cpp: SurgeryMenu, AnimOwner, MenuX, PainMenu and more (31 functions)
 
 #include <new>
+#include <cstdio>
+#include "runtime/crt.h"
 #include "fnv/decl/AnimationSequence.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSDefaultObjectManager.h"
@@ -3462,8 +3464,6 @@ struct BoneWoundList
 {
     void FUN_005ae3d0(BoneWound*&);
 };
-extern "C" int sprintf(char*, const char*, ...);
-extern "C" int _strnicmp(const char*, const char*, unsigned);
 
 // Updates bone wound animations on the host by matching bone names, computing a blend factor from the limb tier, and applying it to each wound entry.
 // @fnv 0x007e4920
@@ -3508,7 +3508,7 @@ void __cdecl UpdateBoneWounds(BoneHost* host)
                 BoneBlock* block = ((::BoneBlock *)(reinterpret_cast<::FUN_007e4fc0_shell *>((sequence5))->FUN_007e4fc0(j)));
                 if (((int)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((sequence5))->FUN_004937a0(j))))
                 {
-                    if (_strnicmp(nameSize5, (*(::BoneText *)(new ((void *)(block)) ::Vec3())).FUN_0043b1b0(), 6))
+                    if (fnv::crt::strnicmp(nameSize5, (*(::BoneText *)(new ((void *)(block)) ::Vec3())).FUN_0043b1b0(), 6))
                         reinterpret_cast<::Holder *>((sequence5))->FUN_00a32b80(j);
                     else if (!previous_2 || previous_2->dirty == 1)
                     {

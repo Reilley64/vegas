@@ -454,7 +454,6 @@ struct FNV_NodeIter
 
 extern char DAT_01186b14;
 
-void* __cdecl FUN_00ec43fb(unsigned int a, unsigned int b, void* c, void* d, unsigned int e);
 
 struct FUN_00489e40_cls
 {
@@ -466,7 +465,7 @@ struct FUN_00489e40_cls
 // @fnv 0x00489e40
 bool FUN_00489e40_cls::HasAnyMismatchedEntry(unsigned int arg)
 {
-    char* p = (char*)FUN_00ec43fb(arg, 0, &DAT_01183040, &DAT_01186b14, 0);
+    char* p = (char*)dynamic_cast<::TESModelList *>(reinterpret_cast<::BaseFormComponent *>(arg));
     if (p == 0)
     {
         return true;

@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00b3f030_Class.h"
@@ -50,7 +51,6 @@ CIdvCamera& CIdvCamera::FUN_00b402d0(CIdvCamera const& src)
 
 struct FUN_00ec7c56_t
 {
-    static void FUN_00ec7c56();
 };
 
 struct FUN_00b42980
@@ -67,7 +67,7 @@ FUN_00b42980& FUN_00b42980::Set(unsigned int v, FUN_00b42980 const& src)
     a = 0;
     if (!(&src && ((unsigned int*)&src)[3] <= v && v <= ((unsigned int*)&src)[4]))
     {
-        FUN_00ec7c56_t::FUN_00ec7c56();
+        std::abort();
     }
     a = src.a;
     b = v;
@@ -99,7 +99,6 @@ CIdvCamera& FUN_00b403a0_t::CloneCamera()
     return *p;
 }
 
-void FUN_00ec7c56();
 
 struct FUN_00b40800_t
 {
@@ -116,7 +115,7 @@ char FUN_00b40800_t::GetNextChar()
     pos = pos + 1;
     int* p = &this->pad;
     if ((unsigned int)idx >= (unsigned int)(p[4] - p[3]))
-        FUN_00ec7c56();
+        std::abort();
     return *(char*)(p[3] + idx);
 }
 
@@ -460,7 +459,7 @@ FUN_00b42be0_cls* FUN_00b42be0_cls::FUN_00b42be0(FUN_00b42be0_cls* src)
     m_08 = s;
     if (r == 0)
     {
-        FUN_00ec7c56_t::FUN_00ec7c56();
+        std::abort();
     }
     m_00 = (unsigned int*)*r;
     return this;
@@ -478,7 +477,7 @@ class FUN_00b420a0_cls
 int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
 {
     if (!((bool)(int)(m_obj.a != 0) && (bool)(int)(m_obj.a == arg.a)))
-        FUN_00ec7c56();
+        std::abort();
     return (m_obj.b - arg.b) >> 2;
 }
 

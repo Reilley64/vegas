@@ -5,6 +5,7 @@
 
 // @fnv 0x00e91780
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/ConsoleRendererShaders.h"
@@ -424,8 +425,6 @@ inline bool IsKindOf_s(const NiRTTI* pkRTTI, NiObj_s* pkObject)
     return false;
 }
 
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
-
 // @fnv 0x00a982f0
 bool PSTRData_s::FUN_00a982f0(NiObj_s* pkObject)
 {
@@ -824,7 +823,6 @@ struct TextureLoad
     void LoadTextureData(LoadStream&);
 };
 extern bool DAT_011f5f00;
-void* __cdecl memcpy(void*, const void*, unsigned int);
 // @fnv 0x00e917e0
 void TextureLoad::LoadTextureData(LoadStream& stream)
 {

@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadchangesmap.cpp: BGSSaveLoadChangesMap, CombatTargetMap, FormChangeRecord, DelStandIn (17 functions)
 
+#include <cstring>
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFlags.h"
@@ -313,8 +314,6 @@ void FUN_00845960_shell::SetCombatTargetQuantity(unsigned int formID, unsigned i
 }
 
 extern int DAT_0107eda8;
-void* __cdecl memset(void* dest, int c, unsigned int count);
-
 struct FUN_00845b90_shell
 {
     int* vtable_;

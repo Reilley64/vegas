@@ -2,6 +2,7 @@
 // Fallout: New Vegas - original source reconstruction.
 // Original: platforms/common/code/fallout/ai/sandboxpackage.cpp
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/B479FB0IdleList.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSIdleCollection.h"
@@ -368,7 +369,6 @@ struct Setting_S
 {
     float* Float();
 };
-int GetRandomNumber();
 
 struct NiPoint3POD
 {
@@ -727,7 +727,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
         int iIndex;
         SandboxProcedureData ritem;
         int iactorEnergy;
-        irandom = GetRandomNumber() % itotalProb;
+        irandom = std::rand() % itotalProb;
         for (i = 0; i < inumTargets; i++)
         {
             SandBoxChoiceListItem_ext* item = static_cast<SandBoxChoiceListItem_ext*>(&m_kProcedureList.GetAt(i));
@@ -2126,7 +2126,6 @@ void SbActorPackageData::ScanSandboxTargets(SbActor* apActor)
     }
 }
 
-int __cdecl FUN_00ec7d40(int);
 
 struct FUN_009f41f0_owner
 {
@@ -2219,7 +2218,7 @@ float FUN_009f41f0_owner::FUN_009f41f0(float f1, float f2)
     cK = (char)f2;
     cW = (char)((f2 - cA) * DAT_01012638);
     c6 = (char)(((f2 - cA) * DAT_01012638 - (float)c2) * DAT_01012638);
-    fres = (float)FUN_00ec7d40((int)cK - (int)cA);
+    fres = (float)std::abs((int)cK - (int)cA);
     if (cW > c2)
     {
         fres += (int)cW - (int)c2;

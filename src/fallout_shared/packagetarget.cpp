@@ -1,5 +1,6 @@
 // fallout_shared/packagetarget.cpp: PackageTargetRecord, LocationDescriptor, Script, SaveDataStub (21 functions)
 
+#include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/C857A10Buffer.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
@@ -312,8 +313,6 @@ struct FormValueEntry
     int iValue;
     float m_fTargetValue;
 };
-extern "C" void* __cdecl memset(void* dest, int value, unsigned int count);
-
 struct FUN_006802f0_shell : PackageTargetRecord
 {
     void FUN_006802f0(int chunk);

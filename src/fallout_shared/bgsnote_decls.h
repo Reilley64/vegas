@@ -2,6 +2,7 @@
 #ifndef FNV_BGSNOTE_DECLS_H
 #define FNV_BGSNOTE_DECLS_H
 
+#include <malloc.h>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
 #include "fnv/decl/FUN_00472660_shell.h"
@@ -241,6 +242,5 @@ class TESFullNameLoader
 {
   public:
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

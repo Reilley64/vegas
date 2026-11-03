@@ -1,5 +1,7 @@
 // speedtree/librandom_source/robertdavies_random.cpp: Random, PosGen, Normal (30 functions)
 
+#include <cmath>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BoolIteratorB42.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -11,8 +13,6 @@
 #include "robertdavies_random_types_Normal.h"
 #include <stdexcept>
 
-extern "C" double __cdecl fabs(double);
-extern "C" double __cdecl exp(double);
 extern double RandomSeed;
 extern "C" float randomXi;
 extern "C" float* randomSx;
@@ -1159,7 +1159,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)

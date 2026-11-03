@@ -5,6 +5,7 @@
 // src/fallout/ai/combat/combatgroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatgroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <malloc.h>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -2384,7 +2385,6 @@ struct ActorRef00989880
 struct GroupRef00989880
 {
 };
-extern "C" void* _alloca(unsigned int size);
 class NiPoint3_ext
 {
   public:

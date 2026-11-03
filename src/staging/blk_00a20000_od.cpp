@@ -3,6 +3,10 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/A237F0Object.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -513,7 +517,6 @@ char FUN_00a25da0_Class::FUN_00a25da0()
     return 0;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e20_Class
 {
@@ -525,12 +528,11 @@ void FUN_00a25e20_Class::FUN_00a25e20(int* a, int* b, void* src)
 {
     int size = 4;
     int* dst2 = (int*)*a;
-    _memmove(dst2, &src, size);
+    std::memmove(dst2, &src, size);
     *b += size;
     *a += size;
 }
 
-void* __cdecl _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25e70_Class
 {
@@ -542,12 +544,11 @@ void FUN_00a25e70_Class::FUN_00a25e70(int* apBufferPtr, int* b, int aiValue)
 {
     int count = 1;
     int* dst = (int*)*apBufferPtr;
-    _memmove(dst, &aiValue, count);
+    std::memmove(dst, &aiValue, count);
     *b += count;
     *apBufferPtr += count;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int count);
 
 struct FUN_00a25ec0_Class
 {
@@ -560,12 +561,11 @@ void FUN_00a25ec0_Class::FUN_00a25ec0(int* a, int* b, void* src)
     int* dst;
     int size_2 = 4;
     dst = (int*)*a;
-    _memmove(dst, &src, size_2);
+    std::memmove(dst, &src, size_2);
     *b = *b + size_2;
     *a = *a + size_2;
 }
 
-void* _memmove(void* dst, const void* src, unsigned int n);
 
 struct FUN_00a25f10_Class
 {
@@ -577,7 +577,7 @@ void FUN_00a25f10_Class::CopyBytesToBuffer(int* pBufferPtr, int* b, void* src)
 {
     int nA = 2;
     void* dst = (void*)*pBufferPtr;
-    _memmove(dst, &src, nA);
+    std::memmove(dst, &src, nA);
     *b += nA;
     *pBufferPtr += nA;
 }
@@ -674,9 +674,6 @@ struct InputManagerClose
     InputDevice* mouse;
     void ShutdownInput();
 };
-extern "C" long __cdecl strtol(const char* str, char** endptr, int base);
-extern "C" int __cdecl strcpy_s(char* dst, unsigned int size, const char* src);
-extern "C" int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 
 
 struct ControlsIniLoader : public FUN_00a24f60_Class
@@ -695,9 +692,9 @@ void ControlsIniLoader::LoadControlsFromIni()
     unsigned int key;
     char* end;
     const char* iniName;
-    strcpy_s(path2, 0x104, DAT_01202fa0);
+    fnv::crt::strcpy_s(path2, 0x104, DAT_01202fa0);
     iniName = DAT_011a2ff8;
-    strcat_s(path2, 0x104, iniName);
+    fnv::crt::strcat_s(path2, 0x104, iniName);
     for (i6 = 0; i6 < 28; i6++)
     {
         size_2 = 0x40;
@@ -4613,7 +4610,6 @@ void InputManagerClose::ShutdownInput()
     }
 }
 
-void __cdecl FUN_00ec61c0(void* dst, int value, unsigned int size);
 
 // @fnv 0x00a252d0
 void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
@@ -4635,7 +4631,7 @@ void FUN_00a252d0_cls::SetEnabled(unsigned char enable)
     }
     m_flags &= 0xfffffffe;
     m_18F4 = 0;
-    FUN_00ec61c0((char*)&this->m_0C[10], 0, 0x500);
+    std::memset((char*)&this->m_0C[10], 0, 0x500);
 }
 
 struct FUN_00a25810_Target
@@ -4692,7 +4688,6 @@ unsigned char FUN_00a25870()
     return DAT_011f3630;
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int size);
 struct InputPair
 {
     int unk00;
@@ -4761,7 +4756,7 @@ FUN_00a259b0::FUN_00a259b0()
         keys[i] = 0;
     unk68 = 0;
     unk04 = 0;
-    _fnv_zlib_memset(buf08, 0, 0x1c);
+    std::memset(buf08, 0, 0x1c);
     unk24 = 0;
     unk50 = 0;
     unk6c = 0;
@@ -4776,8 +4771,8 @@ FUN_00a259b0::FUN_00a259b0()
     unk86 = 0;
     unk87 = 1;
     unk88 = 0;
-    _fnv_zlib_memset(buf3b8, 0, 0x13ec0);
-    _fnv_zlib_memset(buf8c, 0, 0x320);
+    std::memset(buf3b8, 0, 0x13ec0);
+    std::memset(buf8c, 0, 0x320);
     unk14278 = 0;
     unk3b4 = 0;
 }
@@ -4956,7 +4951,6 @@ struct FUN_00a25df0_cls
 void FUN_00a25df0_cls::FUN_00a25df0()
 {}
 
-void __cdecl FUN_00ec44d0(int a, int b, int c);
 
 class FUN_00a25f60_cls
 {
@@ -4968,7 +4962,7 @@ class FUN_00a25f60_cls
 void FUN_00a25f60_cls::FUN_00a25f60(int* p1, int* p2, int aiArg, int aiDelta)
 {
     int value = *p1;
-    FUN_00ec44d0(value, aiArg, aiDelta);
+    std::memmove((void *)(value), (const void *)(aiArg), aiDelta);
     *p2 = *p2 + aiDelta;
     *p1 = *p1 + aiDelta;
 }
@@ -5009,7 +5003,6 @@ struct TwoShorts
 };
 
 
-double __cdecl FUN_00eca060(double v);
 
 struct FUN_00a26a50_cls
 {
@@ -5038,7 +5031,7 @@ unsigned short FUN_00a26410_cls::ClampOrDispatchValue(FUN_00a26410_arg* a, unsig
 unsigned short FUN_00a26a50_cls::FUN_00a26a50(unsigned int* puiValue, unsigned int angle)
 {
     unsigned short usResult;
-    usResult = (unsigned short)((double)*puiValue * (FUN_00eca060((double)angle * DAT_01023128) + ::g_01012070) /
+    usResult = (unsigned short)((double)*puiValue * (std::sin((double)angle * DAT_01023128) + ::g_01012070) /
                                 ::DAT_01011590);
     int iRemainder = angle % 360;
     if (iRemainder >= 0 && iRemainder < 180)
@@ -5112,7 +5105,7 @@ void InputPoller::FUN_00a23010()
         DAT_011f35c8 = false;
     for (i = 0; i < m_18f4; i++)
     {
-        _memmove(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].previous,
+        std::memmove(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].previous,
                  reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 80);
         result = reinterpret_cast<PollingDevice**>(&m_000c)[i]->Acquire();
         if (result == 0 || result == 1)
@@ -5123,12 +5116,12 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 0, 80);
+            std::memset(reinterpret_cast<DeviceStatePair*>(&m_0034)[i].current, 0, 80);
         }
     }
     if (m_002c)
     {
-        _memmove(&m_19f8, &m_18f8, 256);
+        std::memmove(&m_19f8, &m_18f8, 256);
         result = reinterpret_cast<PollingDevice*>(m_002c)->Acquire();
         if (result == 0 || result == 1)
         {
@@ -5137,13 +5130,13 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(&m_18f8, 0, 256);
+            std::memset(&m_18f8, 0, 256);
         }
     }
     if (m_0030)
     {
-        _memmove(&m_1b38, &m_1b24, 20);
-        FUN_00ec61c0(&m_1b58, 0, 8);
+        std::memmove(&m_1b38, &m_1b24, 20);
+        std::memset(&m_1b58, 0, 8);
         result = reinterpret_cast<PollingDevice*>(m_0030)->Acquire();
         if (result == 0 || result == 1)
         {
@@ -5152,7 +5145,7 @@ void InputPoller::FUN_00a23010()
         }
         else
         {
-            FUN_00ec61c0(&m_1b24, 0, 20);
+            std::memset(&m_1b24, 0, 20);
         }
         reinterpret_cast<FnvEmpty_00a232c0*>(this)->FUN_00a232c0();
     }
@@ -5186,7 +5179,6 @@ struct EventQueue
 struct EventMemory
 {
 };
-extern "C" void* __cdecl fnv_zlib_memset(void*, int, unsigned int);
 struct Controller
 {
     int unk0000;
@@ -6968,7 +6960,7 @@ void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, 
     }
     unsigned int size = 36;
     void* memory = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::EventMemory *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    RumbleEvent* event3 = memory ? (fnv_zlib_memset(memory, 0, size), (RumbleEvent*)memory) : 0;
+    RumbleEvent* event3 = memory ? (std::memset(memory, 0, size), (RumbleEvent*)memory) : 0;
     event3->a = a;
     event3->b = b;
     event3->value = value;
@@ -6985,7 +6977,6 @@ void Controller::FUN_00a255b0(float left, float right, int a, int b, int value, 
     ::FUN_00ee820a();
 }
 
-int __cdecl FUN_00ec68e4(const char* name, unsigned int a1);
 
 class FUN_00a261a0_cls
 {
@@ -7006,7 +6997,7 @@ int FUN_00a261a0_cls::FUN_00a261a0(unsigned int a1)
     for (; i < 4; i++)
     {
         const char* name = names[i];
-        if (FUN_00ec68e4(name, a1) == 0)
+        if (fnv::crt::stricmp(name, (const char *)(a1)) == 0)
         {
             break;
         }
@@ -7620,9 +7611,9 @@ void S_00a22e10_Cls::FUN_00a22e10()
     int i;
     char szPath[0x104];
     char buf[0x40];
-    strcpy_s(szPath, 0x104, (*reinterpret_cast<char (*)[]>(&::DAT_01202fa0)));
+    fnv::crt::strcpy_s(szPath, 0x104, (*reinterpret_cast<char (*)[]>(&::DAT_01202fa0)));
     const char* dir = ::DAT_011a2ff8;
-    strcat_s(szPath, 0x104, dir);
+    fnv::crt::strcat_s(szPath, 0x104, dir);
     for (i = 0; i < 0x1c; i++)
     {
         sprintf_s(buf, 0x40, "%08X", reinterpret_cast<::FUN_00a24f10_Class *>((this))->FUN_00a24f10(i));

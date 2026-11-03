@@ -6,6 +6,12 @@
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cwchar>
+#include <exception>
+#include "runtime/crt.h"
 #include "fnv/decl/AC27Vector.h"
 #include "fnv/decl/Ace750Self.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -174,7 +180,6 @@ struct FUN_00ad3f50_class
 {
     char* FUN_00ad3f50(char* p, char* end);
 };
-void __cdecl free(void*);
 struct FUN_00ad41c0_Class
 {
     void FUN_00ad41c0();
@@ -328,7 +333,6 @@ struct FUN_00ac1720_pool
 {
     void* FUN_00aa3e40(unsigned int size);
 };
-extern "C" void FUN_00ec7894(void* err2, const char* msg);
 struct FUN_00ac1720_err
 {
     void* m_vptr;
@@ -1017,7 +1021,6 @@ struct FUN_00acb850_cls
 
     void FUN_00acb850(int a, int b);
 };
-extern "C" int __cdecl FUN_00ec7c66(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 struct SecureCharTraitsTag
 {
     char unk00;
@@ -2335,7 +2338,6 @@ struct AllocBase12
 };
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
-extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 struct ErrorException12
 {
@@ -2671,7 +2673,7 @@ inline ConstIterator12::ConstIterator12(Record12* _Ptr, const Container12* _Pvec
         if (!(_Pvector != 0 && ((Vector12*)_Pvector)->first <= _Ptr && _Ptr <= ((Vector12*)_Pvector)->last))
         {
             {
-                FUN_00ec7c56();
+                std::abort();
             }
         }
     }
@@ -2922,7 +2924,7 @@ template <class T> struct VectorDataT : FUN_00ad33c0
 inline Iterator::Iterator(unsigned int* p, const AuxContainer* c)
 {
     if (!(c && ((const VectorData*)c)->first <= p && p <= ((const VectorData*)c)->last))
-        FUN_00ec7c56();
+        std::abort();
     set_container(c);
     pointer = p;
 }
@@ -3430,7 +3432,6 @@ FUN_00ac0ab0_Vector::pointer FUN_00ac0ab0_Vector::FUN_00ac0ab0(pointer _Ptr, siz
     return (_Ptr + _Count);
 }
 
-void __cdecl InvalidParameterNoInfoXC0B80();
 struct ContainerBaseAuxXC0B80
 {
 };
@@ -3487,15 +3488,14 @@ class FUN_00ac0b80_It : public IteratorBaseAuxXC0B80
 FUN_00ac0b80_It& FUN_00ac0b80_It::FUN_00ac0b80(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0B80();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0B80*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0B80*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0B80();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC0C40();
 struct ContainerBaseAuxXC0C40
 {
 };
@@ -3555,15 +3555,14 @@ class FUN_00ac0c40_It : public IteratorBaseAuxXC0C40
 FUN_00ac0c40_It& FUN_00ac0c40_It::FUN_00ac0c40(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0C40();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0C40*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0C40*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0C40();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC0D00();
 struct ContainerBaseAuxXC0D00
 {
 };
@@ -3625,15 +3624,14 @@ class FUN_00ac0d00_It : public IteratorBaseAuxXC0D00
 FUN_00ac0d00_It& FUN_00ac0d00_It::FUN_00ac0d00(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0D00();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0D00*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0D00*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0D00();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC0DC0();
 struct ContainerBaseAuxXC0DC0
 {
 };
@@ -3685,15 +3683,14 @@ class FUN_00ac0dc0_It : public IteratorBaseAuxXC0DC0
 FUN_00ac0dc0_It& FUN_00ac0dc0_It::FUN_00ac0dc0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0DC0();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0DC0*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0DC0*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0DC0();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC0E80();
 struct ContainerBaseAuxXC0E80
 {
 };
@@ -3746,15 +3743,14 @@ class FUN_00ac0e80_It : public IteratorBaseAuxXC0E80
 FUN_00ac0e80_It& FUN_00ac0e80_It::FUN_00ac0e80(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0E80();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0E80*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0E80*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0E80();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC0F40();
 struct ContainerBaseAuxXC0F40
 {
 };
@@ -3805,15 +3801,14 @@ class FUN_00ac0f40_It : public IteratorBaseAuxXC0F40
 FUN_00ac0f40_It& FUN_00ac0f40_It::FUN_00ac0f40(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC0F40();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC0F40*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC0F40*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC0F40();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXC1000();
 struct ContainerBaseAuxXC1000
 {
 };
@@ -3863,10 +3858,10 @@ class FUN_00ac1000_It : public IteratorBaseAuxXC1000
 FUN_00ac1000_It& FUN_00ac1000_It::FUN_00ac1000(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXC1000();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXC1000*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXC1000*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXC1000();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -4121,7 +4116,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -4620,7 +4614,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -5117,7 +5110,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -5612,7 +5604,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -5620,7 +5611,7 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _BidIt1, class _BidIt2, class _InOutItCat>
@@ -5993,7 +5984,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -6028,7 +6018,7 @@ inline _OutIt _Copy_backward_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOu
     int _Off = _Last - _First;
     _OutIt _Result = _Dest - _Off;
     if (_Off > 0)
-        memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Result, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _Iter> inline typename iterator_traitsS<_Iter>::iterator_category _Iter_catS(const _Iter&)
@@ -6380,7 +6370,6 @@ void FUN_00ac14e0(void* a0, void* a1, int a2)
 
 void __cdecl operator delete(void* _Ptr) throw();
 namespace ucpyac15 {
-void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -6537,7 +6526,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -6705,7 +6694,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -7153,7 +7142,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -7167,7 +7156,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -7177,7 +7166,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -7191,7 +7180,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -7211,7 +7200,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -7393,7 +7382,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -9126,7 +9115,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -9513,7 +9501,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -9900,7 +9887,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -10400,7 +10386,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -10787,7 +10772,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -11279,7 +11263,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -11666,7 +11649,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12125,7 +12107,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -12512,7 +12493,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13883,7 +13863,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -13891,10 +13870,9 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -13967,22 +13945,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -14043,7 +14021,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -14543,7 +14521,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -14812,7 +14789,7 @@ inline _Ty2 _Uninit_copyS(_Ty1 _First, _Ty1 _Last, _Ty2 _Dest, _Scalar_ptr_itera
     unsigned int _Count = (unsigned int)(_Last - _First);
     _Ty2 _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt, class _Alloc>
@@ -14971,7 +14948,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -15326,7 +15302,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -15681,7 +15656,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -16012,7 +15986,6 @@ Elem38* FUN_00ac3ce0(Elem38* first, Elem38* last, Elem38* dest, S00ac3ce0_Alloc<
 namespace fnv_00ac4f00 {
 void __cdecl operator delete(void* _Ptr) throw();
 namespace bfopen {
-void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -16169,7 +16142,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -16337,7 +16310,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -16785,7 +16758,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -16799,7 +16772,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -16809,7 +16782,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -16823,7 +16796,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -16843,7 +16816,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -17025,7 +16998,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -17092,7 +17065,6 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
 };
 struct GvFileHandle;
-extern "C" GvFileHandle* __cdecl fopen(const char* _Filename, const char* _Mode);
 void FUN_00ac6430(int code, BxString message);
 }
 using namespace bfopen;
@@ -17108,7 +17080,7 @@ struct GvBinaryFile
 bool GvBinaryFile::FUN_00ac4f00(const BxString& path)
 {
     reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
-    pFile = fopen(path.c_str(), "a+b");
+    pFile = ((fnv_00ac4f00::bfopen::GvFileHandle *)(::std::fopen(path.c_str(), "a+b")));
     if (pFile == 0)
     {
         FUN_00ac6430(4, path);
@@ -17280,7 +17252,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -17600,7 +17571,7 @@ inline _Ty2 _Uninit_copyS(_Ty1 _First, _Ty1 _Last, _Ty2 _Dest, _Scalar_ptr_itera
     unsigned int _Count = (unsigned int)(_Last - _First);
     _Ty2 _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt, class _Alloc>
@@ -17691,7 +17662,6 @@ void __cdecl Q::FUN_00ac6850()
 
 namespace fnv_00ac71f0 {
 namespace sanac7 {
-void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -17843,7 +17813,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -18011,7 +17981,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -18121,7 +18091,6 @@ BxString FUN_00ac71f0(const BxString& name)
 }
 }  // namespace fnv_00ac71f0
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 void __cdecl FUN_00ec30e8();
 extern "C" int __cdecl FUN_00ec4835(const void*, const void*, unsigned int);
 struct FnvAllocator
@@ -18221,7 +18190,7 @@ struct FnvString : FnvStringBase
     }
     __forceinline static unsigned int length(const char* text)
     {
-        return FUN_00ec6130(const_cast<char*>(text));
+        return ::std::strlen(const_cast<char*>(text));
     }
     __forceinline int compare(const char* text)
     {
@@ -18715,7 +18684,6 @@ inline bool EqInt(const int& l, const int& r)
 {
     return l == r;
 }
-bool FUN_00ec3241();
 struct FUN_00ac9df0_Q;
 struct FUN_00aca9a0
 {
@@ -18740,7 +18708,7 @@ struct FUN_00ac9df0_Q : virtual IosQ
 };
 inline FUN_00ad0210::~FUN_00ad0210()
 {
-    if (!FUN_00ec3241())
+    if (!(std::uncaught_exceptions() > 0))
         _Myostr->FUN_00ad03e0();
 }
 // @fnv 0x00ac9df0
@@ -20336,7 +20304,7 @@ inline CMutIter::CMutIter(int* p, const ContainerBase* v)
     {
         if (!(v != 0 && ((Vec*)v)->first <= p && p <= ((Vec*)v)->last))
         {
-            _invalid_parameter_noinfo();
+            std::abort();
         }
     }
     set_container(v);
@@ -20570,7 +20538,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -20578,10 +20545,9 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -20654,22 +20620,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -20730,7 +20696,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -20842,7 +20808,6 @@ inline void Dead21()
     int d20;
 }
 
-unsigned int __cdecl FUN_00ec7c56();
 struct StrQ
 {
     int m[7];
@@ -20890,7 +20855,7 @@ struct FUN_00ad1a50
     bool operator==(const FUN_00ad1a50& r) const
     {
         if (!(_Has_container() && _Same_container(r)))
-            FUN_00ec7c56();
+            std::abort();
         return _Ptr == r._Ptr;
     }
 };
@@ -21645,7 +21610,6 @@ void C970::FUN_00acc970()
     reinterpret_cast<::FUN_00acb6b0_cls *>((((FUN_00ace030_class*)this)))->FUN_00acb6b0();
 }
 
-int FUN_00ecd5bf(int c, void* f);
 struct FUN_00accef0_Tr
 {
     static int eof()
@@ -21672,7 +21636,7 @@ struct FUN_00accef0_Tr
 typedef FUN_00accef0_Tr TrF;
 inline bool UngetcQ(const char& ch, void* f)
 {
-    return FUN_00ecd5bf((unsigned char)ch, f) != -1;
+    return ::std::ungetc((unsigned char)ch, (std::FILE *)(f)) != -1;
 }
 struct FUN_00accef0_FB
 {
@@ -21728,7 +21692,6 @@ int FUN_00accef0_FB::FUN_00accef0(int meta)
 }
 
 namespace vecacd {
-void FUN_00ec7c56();
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 
 struct VdNonscalarTag
@@ -21935,7 +21898,7 @@ struct VcConstIterator : VcIterBase
     int operator-(const VcConstIterator& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -22074,17 +22037,17 @@ struct VcVector : VcContainer
 inline VcConstIterator::VcConstIterator(VcElem* _Ptr, const VcContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((VcVector*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((VcVector*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     this->_Set_container(_Pvector);
     _Myptr = _Ptr;
 }
 inline VcConstIterator& VcConstIterator::operator+=(int _Off)
 {
     if (!this->_Has_container())
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + _Off <= ((VcVector*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VcVector*)this->_Getmycont())->_Myfirst))
-        FUN_00ec7c56();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -22108,7 +22071,6 @@ struct _iobuf
     int _bufsiz;
     char* _tmpfname;
 };
-extern "C" int __cdecl fclose(struct _iobuf* _File);
 void __cdecl operator delete(void* pv);
 
 template <class _Ty> class allocatorDEB0
@@ -22286,7 +22248,7 @@ class basic_filebufDEB0 : public basic_streambufDEB0
         {
             if (!_Endwrite())
                 _Ans = 0;
-            if (fclose(_Myfile) != 0)
+            if (::std::fclose((std::FILE *)(_Myfile)) != 0)
                 _Ans = 0;
         }
         _Init(0, _Closefl);
@@ -22562,7 +22524,6 @@ bool IstrQ::FUN_00ace390(bool _Noskip)
 
 namespace fnv_00acea50 {
 namespace vecace {
-void FUN_00ec7c56();
 struct VcElem
 {
     int unk00;
@@ -22617,7 +22578,7 @@ struct VcConstIterator : VcIterBase
     int operator-(const VcConstIterator& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -22657,17 +22618,17 @@ struct VcVector : VcContainer
 inline VcConstIterator::VcConstIterator(VcElem* _Ptr, const VcContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((VcVector*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((VcVector*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     this->_Set_container(_Pvector);
     _Myptr = _Ptr;
 }
 inline VcConstIterator& VcConstIterator::operator+=(int _Off)
 {
     if (!this->_Has_container())
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + _Off <= ((VcVector*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VcVector*)this->_Getmycont())->_Myfirst))
-        FUN_00ec7c56();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -22815,7 +22776,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -22823,10 +22783,9 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
-void __cdecl InvalidParameterNoInfoS();
 struct _Iterator_base_universalS
 {
 };
@@ -22899,22 +22858,22 @@ template <class _Ty> class _Vector_const_iteratorS : public _RanitS<_Ty>
     _Vector_const_iteratorS(_Tptr _Ptr, const _Container_base_auxS* _Pvector)
     {
         if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     _Ty& operator*() const
     {
         if (!(this->_Has_container()))
-            InvalidParameterNoInfoS();
+            std::abort();
         if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*_Myptr);
     }
     bool operator==(const _Myt& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (_Myptr == _Right._Myptr);
     }
     bool operator!=(const _Myt& _Right) const
@@ -22975,7 +22934,7 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
     reference operator[](size_type _Pos)
     {
         if (!(_Pos < size()))
-            InvalidParameterNoInfoS();
+            std::abort();
         return (*(_Myfirst + _Pos));
     }
     iterator begin()
@@ -23162,7 +23121,6 @@ inline void Dead31()
     int d29;
     int d30;
 }
-unsigned int __cdecl FUN_00ec7c56();
 struct StrQ
 {
     int m[7];
@@ -23230,7 +23188,7 @@ struct VecQ
 inline CItQ::CItQ(ElemQ* _Ptr, const VecQ* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -23250,7 +23208,6 @@ void VecQ::FUN_00acf580(unsigned int _Newsize, ElemQ _Val)
 
 namespace fnv_00acffe0 {
 namespace vecacf {
-void FUN_00ec7c56();
 struct VcElem
 {
     int unk00;
@@ -23304,7 +23261,7 @@ struct VcConstIterator : VcIterBase
     int operator-(const VcConstIterator& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -23344,17 +23301,17 @@ struct VcVector : VcContainer
 inline VcConstIterator::VcConstIterator(VcElem* _Ptr, const VcContainer* _Pvector)
 {
     if (!(_Pvector != 0 && ((VcVector*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((VcVector*)_Pvector)->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     this->_Set_container(_Pvector);
     _Myptr = _Ptr;
 }
 inline VcConstIterator& VcConstIterator::operator+=(int _Off)
 {
     if (!this->_Has_container())
-        FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + _Off <= ((VcVector*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VcVector*)this->_Getmycont())->_Myfirst))
-        FUN_00ec7c56();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -23376,7 +23333,6 @@ inline void Dead2()
     int d0;
     int d1;
 }
-bool FUN_00ec3241();
 struct OstrQ
 {
     void FUN_00ad03e0();
@@ -23395,7 +23351,7 @@ struct FUN_00ad02f0 : FUN_00aca9a0
 FUN_00ad02f0::~FUN_00ad02f0()
 {
     Dead2();
-    if (!FUN_00ec3241())
+    if (!(std::uncaught_exceptions() > 0))
         _Myostr->FUN_00ad03e0();
 }
 }  // namespace fnv_00ad02f0
@@ -23945,7 +23901,6 @@ void ByteVector::FUN_00ad10e0(ByteInsertIterator where, unsigned int count, cons
 
 namespace fnv_00ad1a90 {
 namespace erasead1 {
-void FUN_00ec7c56();
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -24102,7 +24057,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -24270,7 +24225,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -24608,24 +24563,24 @@ template <class T> struct GvConstIterator : GvIterBase
     GvConstIterator(T* _Ptr, const GvContainer* _Pvector)
     {
         if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
-            FUN_00ec7c56();
+            std::abort();
         this->_Set_container(_Pvector);
         _Myptr = _Ptr;
     }
     GvConstIterator& operator+=(int _Off)
     {
         if (!this->_Has_container())
-            FUN_00ec7c56();
+            std::abort();
         if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
               _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
-            FUN_00ec7c56();
+            std::abort();
         _Myptr += _Off;
         return *this;
     }
     int operator-(const GvConstIterator& _Right) const
     {
         if (!(this->_Has_container() && this->_Same_container(_Right)))
-            FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -24852,7 +24807,6 @@ template <class T> inline T* SbAllocate(unsigned int count, T*)
     }
     return (T*)::FUN_00401000(count * sizeof(T));
 }
-int FUN_00ec7c66(void* dst, unsigned int dstSize, const void* src, unsigned int count);
 struct SbSecureTag
 {
 };
@@ -24860,7 +24814,7 @@ struct SbTraits
 {
     static char* _Copy_s(char* first1, unsigned int size, const char* first2, unsigned int count)
     {
-        FUN_00ec7c66(first1, size, first2, count);
+        fnv::crt::memcpy_s(first1, size, first2, count);
         return first1;
     }
 };
@@ -26296,7 +26250,6 @@ FUN_00ad33c0::FUN_00ad33c0(GvAlloc<char> _Al) : _Alaux(_Al)
 }
 }  // namespace fnv_00ad33c0
 
-void __cdecl InvalidParameterNoInfoXD35E0();
 struct ContainerBaseAuxXD35E0
 {
 };
@@ -26352,15 +26305,14 @@ class FUN_00ad35e0_It : public IteratorBaseAuxXD35E0
 FUN_00ad35e0_It& FUN_00ad35e0_It::FUN_00ad35e0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXD35E0();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXD35E0*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXD35E0*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXD35E0();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXD36A0();
 struct ContainerBaseAuxXD36A0
 {
 };
@@ -26410,15 +26362,14 @@ class FUN_00ad36a0_It : public IteratorBaseAuxXD36A0
 FUN_00ad36a0_It& FUN_00ad36a0_It::FUN_00ad36a0(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXD36A0();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXD36A0*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXD36A0*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXD36A0();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXD3750();
 struct ContainerBaseAuxXD3750
 {
 };
@@ -26481,15 +26432,14 @@ class FUN_00ad3750_It : public IteratorBaseAuxXD3750
 FUN_00ad3750_It& FUN_00ad3750_It::FUN_00ad3750(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXD3750();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXD3750*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXD3750*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXD3750();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
 
-void __cdecl InvalidParameterNoInfoXD3810();
 struct ContainerBaseAuxXD3810
 {
 };
@@ -26544,10 +26494,10 @@ class FUN_00ad3810_It : public IteratorBaseAuxXD3810
 FUN_00ad3810_It& FUN_00ad3810_It::FUN_00ad3810(int _Off)
 {
     if (!(this->_Has_container()))
-        InvalidParameterNoInfoXD3810();
+        std::abort();
     if (!(_Myptr + _Off <= ((VectorXD3810*)this->_Getmycont())->_Mylast &&
           _Myptr + _Off >= ((VectorXD3810*)this->_Getmycont())->_Myfirst))
-        InvalidParameterNoInfoXD3810();
+        std::abort();
     _Myptr += _Off;
     return *this;
 }
@@ -27207,7 +27157,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -27215,7 +27164,7 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _
     int _Off = _Last - _First;
     _OutIt _Result = _Dest + _Off;
     if (_Off > 0)
-        memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Off * sizeof(*_First), &*_First, _Off * sizeof(*_First));
     return _Result;
 }
 template <class _BidIt1, class _BidIt2, class _InOutItCat>
@@ -27890,7 +27839,6 @@ FUN_00ad5770_Q& FUN_00ad5770(FUN_00ad5770_Q& _Istr, StrQ& _Str, const char _Deli
 
 namespace fnv_00ad5b00 {
 extern "C" int __cdecl memcpy_s(void*, unsigned, const void*, unsigned);
-extern "C" int __cdecl memmove_s(void*, unsigned, const void*, unsigned);
 void __cdecl operator delete(void*);
 void* __cdecl operator new(unsigned);
 struct ErrBase
@@ -28241,7 +28189,7 @@ void FUN_00ad5bd0(S00ad5bd0_Elem* arr, unsigned int count, int flag)
         {
             start->FUN_00ad6a30(0);
         }
-        FUN_00ec7894(0, 0);
+        throw;
     }
 }
 
@@ -28296,7 +28244,6 @@ void __cdecl FUN_00ad5cc0(S00ad5cc0_Elem* first, unsigned int count, const S00ad
 
 namespace fnv_00ad5ec0 {
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 
@@ -28755,7 +28702,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -29142,7 +29088,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -29391,7 +29336,6 @@ ElemMOVE* __cdecl FUN_00ad6040(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 
 namespace fnv_00ad6800 {
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 
 namespace std {
 
@@ -29472,7 +29416,7 @@ template <> struct char_traits<char> : _Char_traits_base
     static _Elem* __cdecl _Move_s(_Elem* _First1, unsigned int _Size_in_bytes, const _Elem* _First2,
                                   unsigned int _Count)
     {
-        memmove_s(_First1, _Size_in_bytes, _First2, _Count);
+        fnv::crt::memmove_s(_First1, _Size_in_bytes, _First2, _Count);
         return _First1;
     }
 };
@@ -30117,7 +30061,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -30437,7 +30380,7 @@ inline _Ty2 _Uninit_copyS(_Ty1 _First, _Ty1 _Last, _Ty2 _Dest, _Scalar_ptr_itera
     unsigned int _Count = (unsigned int)(_Last - _First);
     _Ty2 _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt, class _Alloc>
@@ -30761,7 +30704,6 @@ struct File
     char* _tmpfname;
 };
 extern "C" int __cdecl fclose(File*);
-extern "C" unsigned int __cdecl fwrite(const void*, unsigned int, unsigned int, File*);
 extern "C" void __cdecl _invalid_parameter_noinfo();
 
 struct EmptyAlloc
@@ -30841,7 +30783,7 @@ struct Str : StrBase
 StrIter::StrIter(char* ptr, const Str* owner)
 {
     if (!(owner != 0 && ptr != 0 && owner->myptr() <= ptr && ptr <= owner->myptr() + owner->mysize))
-        _invalid_parameter_noinfo();
+        std::abort();
     cont = owner;
     p = ptr;
 }
@@ -30851,7 +30793,7 @@ char& StrIter::operator*() const
     if (cont != (const void*)-4)
     {
         if (!(p < ((const Str*)cont)->myptr() + ((const Str*)cont)->mysize))
-            _invalid_parameter_noinfo();
+            std::abort();
     }
     return *p;
 }
@@ -31011,7 +30953,7 @@ class BufBase
                     wrotesome = false;
                 case cv_partial: {
                     unsigned count = (unsigned)(dest - &*str.begin());
-                    if (0 < count && count != fwrite(&*str.begin(), 1, count, myfile))
+                    if (0 < count && count != ::std::fwrite(&*str.begin(), 1, count, (std::FILE *)(myfile)))
                         return false;
                     if (!wrotesome)
                         return true;
@@ -31140,7 +31082,6 @@ struct CvtQ
         return do_unshift(_State, _First2, _Last2, _Mid2);
     }
 };
-extern "C" unsigned int __cdecl FUN_00ecb086(const void*, unsigned int, unsigned int, void*);
 // @fnv 0x00acfcd0
 bool S_00acfb90_Class::FUN_00acfcd0()
 {
@@ -31160,7 +31101,7 @@ bool S_00acfb90_Class::FUN_00acfcd0()
                 *(bool*)((char*)this + 0x41) = false;
             case 1: {
                 unsigned int _Count = _Dest - &*_Str.begin();
-                if (0 < _Count && _Count != FUN_00ecb086(&*_Str.begin(), 1, _Count, unk4c))
+                if (0 < _Count && _Count != ::std::fwrite(&*_Str.begin(), 1, _Count, (std::FILE *)(unk4c)))
                     return false;
                 if (!*(bool*)((char*)this + 0x41))
                     return true;
@@ -31598,7 +31539,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -31906,7 +31846,7 @@ inline _FwdIt _Uninit_copyS(_InIt _First, _InIt _Last, _FwdIt _Dest, _Alloc&, _S
     unsigned int _Count = (unsigned int)(_Last - _First);
     _FwdIt _Result = _Dest + _Count;
     if (_Count > 0)
-        memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
+        fnv::crt::memmove_s(&*_Dest, _Count * sizeof(*_First), &*_First, _Count * sizeof(*_First));
     return (_Result);
 }
 template <class _InIt, class _FwdIt>
@@ -32217,7 +32157,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -32532,7 +32471,7 @@ struct CharTraits
     }
     static char* _Move_s(char* pcFirst1, unsigned int uiSizeInBytes, const char* pcFirst2, unsigned int ItemUpdateArray)
     {
-        memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
+        fnv::crt::memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
         return pcFirst1;
     }
     static void assign(char& cLeft, const char& cRight)
@@ -33096,8 +33035,6 @@ namespace fnv_00ac43b0 {
 
 typedef unsigned int u32;
 
-extern "C" void FUN_00ec7894(void*, const char*);
-unsigned int __cdecl FUN_00ec7c56();
 
 struct PoolAdapter : FUN_00ac1720_pool
 {
@@ -33194,7 +33131,7 @@ struct Str43B0
     char& operator[](u32 _Off)
     {
         if (!(_Off <= m_Mysize))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -33218,7 +33155,7 @@ struct Str43B0
     char const& operator[](u32 _Off) const
     {
         if (!(_Off <= m_Mysize))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -33242,7 +33179,7 @@ struct Buf43B0 : VecVal43B0
     char* begin()
     {
         if (!((m_last - m_pHeadNode) != 0))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -33251,7 +33188,7 @@ struct Buf43B0 : VecVal43B0
     char& operator[](unsigned int i)
     {
         if (!((m_last - m_pHeadNode) > i))
-            FUN_00ec7c56();
+            std::abort();
         do
         {
         } while (0);
@@ -33326,7 +33263,6 @@ bool C43B0::FUN_00ac43b0(Str43B0 name)
 namespace fnv_00ac9bd0 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);
 unsigned int __cdecl FUN_00ec7c56();
 namespace std {
@@ -33357,7 +33293,7 @@ struct CharTraits
     }
     static char* _Move_s(char* pcFirst1, unsigned int uiSizeInBytes, const char* pcFirst2, unsigned int ItemUpdateArray)
     {
-        memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
+        fnv::crt::memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
         return pcFirst1;
     }
     static void assign(char& cLeft, const char& cRight)
@@ -34086,7 +34022,6 @@ basic_filebuf* basic_filebuf::FUN_00acfab0(const char* _Filename, int _Mode, int
 namespace fnv_00ad5490 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 void* __cdecl operator new(unsigned int uiSize);
 unsigned int __cdecl FUN_00ec7c56();
 namespace std {
@@ -34117,7 +34052,7 @@ struct CharTraits
     }
     static char* _Move_s(char* pcFirst1, unsigned int uiSizeInBytes, const char* pcFirst2, unsigned int ItemUpdateArray)
     {
-        memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
+        fnv::crt::memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
         return pcFirst1;
     }
     static void assign(char& cLeft, const char& cRight)
@@ -34536,7 +34471,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -34851,7 +34785,7 @@ struct CharTraits
     }
     static char* _Move_s(char* pcFirst1, unsigned int uiSizeInBytes, const char* pcFirst2, unsigned int ItemUpdateArray)
     {
-        memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
+        fnv::crt::memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
         return pcFirst1;
     }
     static void assign(char& cLeft, const char& cRight)
@@ -36868,7 +36802,6 @@ inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, random_access_
                _Range_checked_iterator_tagS());
     return _Result;
 }
-extern "C" int __cdecl memmove_s(void* _Dst, unsigned int _DstSize, const void* _Src, unsigned int _MaxCount);
 template <class _InIt, class _OutIt, class _InOutItCat>
 inline _OutIt _Copy_optS(_InIt _First, _InIt _Last, _OutIt _Dest, _InOutItCat, _Scalar_ptr_iterator_tagS,
                          _Range_checked_iterator_tagS)
@@ -37183,7 +37116,7 @@ struct CharTraits
     }
     static char* _Move_s(char* pcFirst1, unsigned int uiSizeInBytes, const char* pcFirst2, unsigned int ItemUpdateArray)
     {
-        memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
+        fnv::crt::memmove_s(pcFirst1, uiSizeInBytes, pcFirst2, ItemUpdateArray);
         return pcFirst1;
     }
     static void assign(char& cLeft, const char& cRight)
@@ -37745,7 +37678,7 @@ struct VecQ_acad60
 inline CItQ_acad60::CItQ_acad60(char* _Ptr, const VecQ_acad60* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -37802,7 +37735,7 @@ struct CItQ_acb3c0
     int operator-(const CItQ_acb3c0& other) const
     {
         if (!(IsContainerSet() && SameContainer(other)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - other._Myptr;
     }
     CItQ_acb3c0& operator+=(int distance);
@@ -37869,16 +37802,16 @@ inline void CItQ_acb3c0::SetContainer(const VecQ_acb3c0* owner)
 inline CItQ_acb3c0::CItQ_acb3c0(ElQ_acb3c0* _Ptr, const VecQ_acb3c0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     SetContainer(_Pvector);
     _Myptr = _Ptr;
 }
 inline CItQ_acb3c0& CItQ_acb3c0::operator+=(int distance)
 {
     if (!IsContainerSet())
-        ::FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + distance <= GetContainer()->_Mylast && _Myptr + distance >= GetContainer()->_Myfirst))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myptr += distance;
     return *this;
 }
@@ -37903,7 +37836,7 @@ inline CatQ_acb880 Cat_acb880()
 }
 inline void CopyS2_acb880(char* _First1, unsigned int _Size, const char* _First2, unsigned int _Count, CatQ_acb880)
 {
-    ::FUN_00ec7c66(_First1, _Size, _First2, _Count);
+    fnv::crt::memcpy_s(_First1, _Size, _First2, _Count);
 }
 inline void CopyS_acb880(char* _First1, unsigned int _Size, const char* _First2, unsigned int _Count)
 {
@@ -38109,7 +38042,7 @@ void FUN_00ad3450_cls::FUN_00ad3450()
         if (!this->has())
         {
             ((void)0);
-            ::FUN_00ec7c56();
+            std::abort();
         }
     }
     if (m_04->m_45 != 0)
@@ -38119,7 +38052,7 @@ void FUN_00ad3450_cls::FUN_00ad3450()
         {
             {
                 ((void)0);
-                ::FUN_00ec7c56();
+                std::abort();
             }
         }
         return;
@@ -38145,7 +38078,7 @@ void FUN_00ad3450_cls::FUN_00ad3450()
     {
         {
             ((void)0);
-            ::FUN_00ec7c56();
+            std::abort();
         }
     }
     else
@@ -38175,7 +38108,7 @@ struct StrQ
     const char& operator[](unsigned int _Off) const
     {
         if (_Off > _Mysize)
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr()[_Off];
     }
 };
@@ -38350,12 +38283,12 @@ struct FileGuard
     ~FileGuard()
     {
         if (fp)
-            fclose(fp);
+            ::std::fclose((std::FILE *)(fp));
     }
     void Close()
     {
         if (fp)
-            fclose(fp);
+            ::std::fclose((std::FILE *)(fp));
         fp = 0;
     }
     _iobuf* get() const
@@ -38405,24 +38338,24 @@ template <class T> struct HexConstIterator : ucpyac15::GvIterBase
     {
         if (!(container != 0 && ((HexVectorView<T>*)container)->_Myfirst <= ptr &&
               ptr <= ((HexVectorView<T>*)container)->_Mylast))
-            ::FUN_00ec7c56();
+            std::abort();
         this->_Set_container(container);
         _Myptr = ptr;
     }
     HexConstIterator& operator+=(int offset)
     {
         if (!this->_Has_container())
-            ::FUN_00ec7c56();
+            std::abort();
         if (!(_Myptr + offset <= ((HexVectorView<T>*)this->_Getmycont())->_Mylast &&
               _Myptr + offset >= ((HexVectorView<T>*)this->_Getmycont())->_Myfirst))
-            ::FUN_00ec7c56();
+            std::abort();
         _Myptr += offset;
         return *this;
     }
     bool operator==(const HexConstIterator& other) const
     {
         if (!(this->_Has_container() && this->_Same_container(other)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr == other._Myptr;
     }
     bool operator!=(const HexConstIterator& other) const
@@ -38432,7 +38365,7 @@ template <class T> struct HexConstIterator : ucpyac15::GvIterBase
     int operator-(const HexConstIterator& other) const
     {
         if (!(this->_Has_container() && this->_Same_container(other)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - other._Myptr;
     }
 };
@@ -38510,7 +38443,7 @@ template <class T> struct HexVectorView : ucpyac15::GvVectorVal<T>
             if (!(pos < size()))
             {
                 (void)0;
-                ::FUN_00ec7c56();
+                std::abort();
             }
         }
         return *(_Myfirst + pos);
@@ -38562,7 +38495,7 @@ struct HexByteVector : ucpyac15::GvVector<char>
     __forceinline const char& operator[](unsigned int pos) const
     {
         if (!(pos < size()))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myfirst[pos];
     }
     void FUN_00acae90()
@@ -38654,7 +38587,7 @@ struct CItQ_acab30
     int operator-(const CItQ_acab30& other) const
     {
         if (!(_Myaux != 0 && _Myaux == other._Myaux))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - other._Myptr;
     }
     CItQ_acab30& operator+=(int offset);
@@ -38717,16 +38650,16 @@ struct VecQ_acab30
 inline CItQ_acab30::CItQ_acab30(ElQ_acab30* _Ptr, const VecQ_acab30* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
 inline CItQ_acab30& CItQ_acab30::operator+=(int offset)
 {
     if (!_Myaux)
-        ::FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + offset <= GetOwner()->_Mylast && _Myptr + offset >= GetOwner()->_Myfirst))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myptr += offset;
     return *this;
 }
@@ -38768,7 +38701,7 @@ struct CopyTraitsB80
     typedef char char_type;
     static char* _Copy_s(char* dst, unsigned int size, const char* src, unsigned int count)
     {
-        ::FUN_00ec7c66(dst, size, src, count);
+        fnv::crt::memcpy_s(dst, size, src, count);
         return dst;
     }
 };
@@ -38874,8 +38807,6 @@ int SBQ_acbb80::FUN_00acbb80(int _Meta)
     }
 }
 
-extern "C" int __cdecl FUN_00ecb65a(void* f, long off, int way);
-extern "C" int __cdecl FUN_00ecd735(void* f, __int64* pos);
 struct PosQ
 {
     int m_Myoff;
@@ -38933,7 +38864,7 @@ struct SeekString : ucpyac15::BxStringVal
         {
             if (!(s != 0 && p != 0 && s->data() <= p && p <= s->data() + s->length))
             {
-                ::FUN_00ec7c56();
+                std::abort();
             }
             owner = s;
             pointer = p;
@@ -38944,11 +38875,11 @@ struct SeekString : ucpyac15::BxStringVal
             {
                 if (!has_container())
                 {
-                    ::FUN_00ec7c56();
+                    std::abort();
                 }
                 if (!(pointer < owner->data() + owner->length))
                 {
-                    ::FUN_00ec7c56();
+                    std::abort();
                 }
             }
             return *pointer;
@@ -38982,8 +38913,6 @@ struct SeekCodecvt
         return const_cast<SeekCodecvt*>(this)->do_unshift(state, begin, end, next);
     }
 };
-extern "C" unsigned int __cdecl fwrite(const void*, unsigned int, unsigned int, _iobuf*);
-
 struct SeekTraits
 {
     static int eof()
@@ -39040,8 +38969,8 @@ PosQ FileSeekView::FUN_00acd5b0(int off, int way, int mode)
     __int64 fpos;
     if (gptr() == &_Mychar && way == 1 && _Pcvt == 0)
         off -= 1;
-    if (_Myfile == 0 || !reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfcd0() || (off != 0 || way != 1) && FUN_00ecb65a(_Myfile, off, way) != 0 ||
-        FUN_00ecd735(_Myfile, &fpos) != 0)
+    if (_Myfile == 0 || !reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfcd0() || (off != 0 || way != 1) && ::std::fseek((std::FILE *)(_Myfile), off, way) != 0 ||
+        ::std::fgetpos((std::FILE *)(_Myfile), (std::fpos_t *)(&fpos)) != 0)
         return PosQ(DAT_010f1e40);
     if (gptr() == &_Mychar)
         setg(&_Mychar, &_Mychar + 1, &_Mychar + 1);
@@ -39049,7 +38978,6 @@ PosQ FileSeekView::FUN_00acd5b0(int off, int way, int mode)
 }
 
 namespace rework_acda90 {
-void FUN_00ec7c56();
 struct ElQ_acda90
 {
     int m[6];
@@ -39121,7 +39049,7 @@ struct VecQ_acda90
 inline CItQ_acda90::CItQ_acda90(ElQ_acda90* _Ptr, const VecQ_acda90* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -39163,7 +39091,7 @@ struct ConstCharPosition : FUN_00ad36a0_It
     int operator-(const ConstCharPosition& other) const
     {
         if (!(_Has_container() && sameOwner(other)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - other._Myptr;
     }
     ConstCharPosition& advance(int offset);
@@ -39210,17 +39138,17 @@ inline ConstCharPosition::ConstCharPosition(ElemXD36A0* pointer, const CharVecto
 {
     _Myaux = 0;
     if (!(owner != 0 && owner->_Myfirst <= pointer && pointer <= owner->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = owner->_Myownedaux;
     _Myptr = pointer;
 }
 inline ConstCharPosition& ConstCharPosition::advance(int offset)
 {
     if (!_Has_container())
-        ::FUN_00ec7c56();
+        std::abort();
     if (!(_Myptr + offset <= ((VectorXD36A0*)_Getmycont())->_Mylast &&
           _Myptr + offset >= ((VectorXD36A0*)_Getmycont())->_Myfirst))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myptr += offset;
     return *this;
 }
@@ -39280,7 +39208,7 @@ struct CItQ_acf7d0
     int operator-(const CItQ_acf7d0& _Right) const
     {
         if (!(_Has() && _Same(_Right)))
-            ::FUN_00ec7c56();
+            std::abort();
         return _Myptr - _Right._Myptr;
     }
 };
@@ -39338,7 +39266,7 @@ struct VecQ_acf7d0
 inline CItQ_acf7d0::CItQ_acf7d0(ElQ_acf7d0* _Ptr, const VecQ_acf7d0* _Pvector) : _Myaux(0)
 {
     if (!(_Pvector != 0 && _Pvector->_Myfirst <= _Ptr && _Ptr <= _Pvector->_Mylast))
-        ::FUN_00ec7c56();
+        std::abort();
     _Myaux = _Pvector->_Myownedaux;
     _Myptr = _Ptr;
 }
@@ -39432,7 +39360,7 @@ struct EraseIteratorView
     bool operator==(const EraseIteratorView& other) const
     {
         if (!(has_owner() && same_owner(other)))
-            ::_invalid_parameter_noinfo();
+            std::abort();
         return cursor == other.cursor;
     }
     bool FUN_00ac0460(const EraseIteratorView& other) const
@@ -39465,7 +39393,6 @@ vecacd::VcIterator EraseVectorView::FUN_00ad0110(vecacd::VcConstIterator first, 
 
 void __cdecl operator delete(void* _Ptr) throw();
 namespace bfopenrw {
-void FUN_00ec7c56();
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -39623,7 +39550,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         do
         {
@@ -39791,7 +39718,7 @@ struct BxString : public BxStringVal
     {
         if (!(_Off <= _Mysize))
         {
-            FUN_00ec7c56();
+            std::abort();
         }
         return _Myptr()[_Off];
     }
@@ -40240,7 +40167,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Pvector != 0 && ((GvVector<T>*)_Pvector)->_Myfirst <= _Ptr &&
                   _Ptr <= ((GvVector<T>*)_Pvector)->_Mylast))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40254,7 +40181,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!this->_Has_container())
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40264,7 +40191,7 @@ template <class T> struct GvConstIterator : GvIterBase
             if (!(_Myptr + _Off <= ((GvVector<T>*)this->_Getmycont())->_Mylast &&
                   _Myptr + _Off >= ((GvVector<T>*)this->_Getmycont())->_Myfirst))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40278,7 +40205,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40298,7 +40225,7 @@ template <class T> struct GvConstIterator : GvIterBase
         {
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40480,7 +40407,7 @@ template <class T> struct GvVector : GvVectorVal<T>
         {
             if (!(_Pos < size()))
             {
-                FUN_00ec7c56();
+                std::abort();
             }
             do
             {
@@ -40698,7 +40625,7 @@ struct S5540_String : S5540_StringVal
     }
     static unsigned int length(const char* ptr)
     {
-        return FUN_00ec6130(const_cast<char*>(ptr));
+        return ::std::strlen(const_cast<char*>(ptr));
     }
     int compare(const char* ptr) const
     {
@@ -41076,7 +41003,7 @@ struct FUN_00ac5f00 : ByteVectorVal
 inline ByteIterator::ByteIterator(unsigned char* p, const AuxContainer* c)
 {
     if (!(c && ((const FUN_00ac5f00*)c)->first <= p && p <= ((const FUN_00ac5f00*)c)->last))
-        ::FUN_00ec7c56();
+        std::abort();
     do
     {
     } while (0);
@@ -41284,7 +41211,7 @@ template <class K> struct Tree : TreeValues<K>
         bool operator==(const ConstIterator& other) const
         {
             if (!(this->hasContainer() && this->sameContainer(other)))
-                ::FUN_00ec7c56();
+                std::abort();
             return pointer == other.pointer;
         }
         Node* getNode() const
@@ -41528,7 +41455,7 @@ struct FUN_00ad1a50 : _Iterator_base_auxS
     FUN_00ad1a50(int node, const _Container_base_auxS* owner) : m_q(node)
     {
         if (owner == 0)
-            ::FUN_00ec7c56();
+            std::abort();
         this->_Set_container(owner);
     }
     __forceinline int& Node()
@@ -41538,7 +41465,7 @@ struct FUN_00ad1a50 : _Iterator_base_auxS
     bool operator==(const FUN_00ad1a50& r) const
     {
         if (!(this->_Has_container() && this->_Same_container(r)))
-            ::FUN_00ec7c56();
+            std::abort();
         return m_q == r.m_q;
     }
 };
@@ -41694,8 +41621,6 @@ bool FUN_00ac87b0(QString* pStr, const QString& a2, List87b0* a3)
 
 typedef _iobuf FILE;
 extern "C" int __cdecl fputc(int, FILE*);
-extern "C" unsigned int __cdecl fwrite(const void*, unsigned int, unsigned int, FILE*);
-
 struct CvtC9F0
 {
     virtual void v00();
@@ -41930,45 +41855,8 @@ int FBC9F0::FUN_00acc9f0(int _Meta)
 }
 
 extern "C" int __cdecl fgetc(struct _iobuf* _File);
-extern "C" int __cdecl ungetc(int _Ch, struct _iobuf* _File);
-extern "C" void* __cdecl memset(void* _Dst, int _Val, unsigned int _Size);
 static const int acd100_EOF = -1;
 void __cdecl invalid_parameter();
-inline int __cdecl acd100_memcpy_s(void* _Destination, unsigned _DestSize, const void* _Source, unsigned _Count)
-{
-    if (_Count == 0)
-        return 0;
-    if (_Count > 0x7fffffffU)
-    {
-        invalid_parameter();
-        return 34;
-    }
-    if (_DestSize > 0x7fffffffU)
-    {
-        invalid_parameter();
-        return 34;
-    }
-    if ((const char*)_Destination < (const char*)_Source + _Count &&
-        (const char*)_Source < (const char*)_Destination + _Count)
-    {
-        invalid_parameter();
-        return 22;
-    }
-    if (_Destination == 0)
-    {
-        invalid_parameter();
-        return 22;
-    }
-    if (_Source == 0 || _DestSize < _Count)
-    {
-        memset(_Destination, 0, _DestSize);
-        invalid_parameter();
-        return _Source == 0 ? 22 : 34;
-    }
-    for (unsigned _Index = 0; _Index < _Count; ++_Index)
-        ((char*)_Destination)[_Index] = ((const char*)_Source)[_Index];
-    return 0;
-}
 int __cdecl move_bytes(void*, unsigned, const void*, unsigned);
 void __cdecl operator delete(void*) throw();
 struct ByteAllocator
@@ -42222,7 +42110,7 @@ int LocalFilebuf::FUN_00acd100()
             case 3:
                 if (_Str.size() < sizeof(char))
                     break;
-                acd100_memcpy_s(&_Ch, sizeof(char), &*_Str.begin(), sizeof(char));
+                fnv::crt::memcpy_s(&_Ch, sizeof(char), &*_Str.begin(), sizeof(char));
                 return (unsigned char)_Ch;
             default:
                 return acd100_EOF;
@@ -42812,16 +42700,9 @@ class bad_alloc : public exception
 };
 }
 extern "C" void __cdecl _invalid_parameter_noinfo();
-extern "C" unsigned int __cdecl strlen(const char*);
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl memmove(void*, const void*, unsigned int);
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-extern "C" const void* __cdecl memchr(const void*, int, unsigned int);
 extern "C" int __cdecl wmemcmp(const wchar_t*, const wchar_t*, unsigned int);
-extern "C" unsigned int __cdecl wcslen(const wchar_t*);
 extern "C" int __cdecl wmemcpy_s(wchar_t*, unsigned int, const wchar_t*, unsigned int);
 extern "C" int __cdecl wmemmove_s(wchar_t*, unsigned int, const wchar_t*, unsigned int);
 extern "C" const wchar_t* __cdecl wmemchr(const wchar_t*, wchar_t, unsigned int);
@@ -44650,7 +44531,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(_Pvector != 0 && ((_Myvec*)_Pvector)->_Myfirst <= _Ptr && _Ptr <= ((_Myvec*)_Pvector)->_Mylast))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         this->_Set_container(_Pvector);
@@ -44662,14 +44543,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         {
             if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         return (*_Myptr);
@@ -44684,14 +44565,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         {
             if (!(_Myptr < ((_Myvec*)(this->_Getmycont()))->_Mylast))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         ++_Myptr;
@@ -44709,14 +44590,14 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         {
             if (!(_Myptr > ((_Myvec*)(this->_Getmycont()))->_Myfirst))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         --_Myptr;
@@ -44734,7 +44615,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container()))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         {
@@ -44742,7 +44623,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
                   _Myptr + _Off >= ((_Myvec*)(this->_Getmycont()))->_Myfirst))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         _Myptr += _Off;
@@ -44768,7 +44649,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         return (_Myptr - _Right._Myptr);
@@ -44783,7 +44664,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         return (_Myptr == _Right._Myptr);
@@ -44798,7 +44679,7 @@ class _Vector_const_iterator : public _Ranit<_Ty, typename _Alloc::difference_ty
             if (!(this->_Has_container() && this->_Same_container(_Right)))
             {
                 ((void)0);
-                ::_invalid_parameter_noinfo();
+                std::abort();
             };
         };
         return (_Myptr < _Right._Myptr);
@@ -45518,7 +45399,6 @@ FUN_00ad3150::FUN_00ad3150(const FUN_00ad3150& source) : StringVectorStorage(sou
     }
 }
 
-extern "C" int __cdecl FUN_00ecd7a3(void*, const __int64*);
 struct FilePositionView : PosQ
 {
     FilePositionView(int off) : PosQ(off)
@@ -45547,8 +45427,8 @@ FilePositionView SeekPositionView::FUN_00acd760(FilePositionView pos, int mode)
 {
     __int64 position = pos.file_position();
     long offset = (long)pos - (long)position;
-    if (_Myfile == 0 || !reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfcd0() || FUN_00ecd7a3(_Myfile, &position) != 0 ||
-        offset != 0 && FUN_00ecb65a(_Myfile, offset, 1) != 0 || FUN_00ecd735(_Myfile, &position) != 0)
+    if (_Myfile == 0 || !reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfcd0() || ::std::fsetpos((std::FILE *)(_Myfile), (const std::fpos_t *)(&position)) != 0 ||
+        offset != 0 && ::std::fseek((std::FILE *)(_Myfile), offset, 1) != 0 || ::std::fgetpos((std::FILE *)(_Myfile), (std::fpos_t *)(&position)) != 0)
         return FilePositionView(DAT_010f1e40);
     _State = pos.state();
     if (gptr() == &_Mychar)

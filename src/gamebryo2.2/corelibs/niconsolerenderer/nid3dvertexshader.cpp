@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/FUN_00e69970_shell.h"
 #include "fnv/symbols_00e92000.h"
 #include "fnv/symbols_011f5000.h"
@@ -40,8 +41,6 @@ void FUN_00e89ad0(int value)
 {
     ::fnv_00e92ee0::FUN_00e92ee0((::fnv_00e92ee0::NiD3DVertexShader *)(value));
 }
-
-extern "C" void* __cdecl memmove(void* pvDest, const void* pvSrc, unsigned int uiSize);
 
 
 class CE89C70Device
@@ -1412,7 +1411,6 @@ struct IDirect3DDevice9
     IDirect3DDevice9Vtbl* lpVtbl;
 };
 
-void* __cdecl FUN_00ec44d0(void* dst, const void* src, unsigned int count);
 
 struct NiShaderConstantMapEntry
 {
@@ -1485,7 +1483,7 @@ bool NiD3DShaderProgramLike::UploadConstants(NiShaderConstantMapEntry* pkEntry, 
     int eType = (*reinterpret_cast<int (*)[]>(&::DAT_011f5fc4))[uiFlags & 0xff];
     if ((uiFlags & 0xf0000000) == 0x20000000 && pkEntry->m_pConstantData)
     {
-        FUN_00ec44d0(pkEntry->m_pConstantData, pvDataSource, pkEntry->m_uiValue5);
+        std::memmove(pkEntry->m_pConstantData, pvDataSource, pkEntry->m_uiValue5);
         return true;
     }
     if (eType == 1)

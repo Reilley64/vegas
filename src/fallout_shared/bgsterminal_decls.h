@@ -2,6 +2,8 @@
 #ifndef BGSTERMINAL_DECLS_H
 #define BGSTERMINAL_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -35,8 +37,6 @@ class BGSTerminal;
 class TerminalMenuItem;
 class ScriptVariableInfo;
 class ScriptReferencedObject;
-extern "C" void* memset(void*, int, unsigned int);
-extern "C" void* _alloca(unsigned int);
 void* __cdecl operator new(unsigned int);
 void __cdecl operator delete(void*);
 template <class T> class BSStringT

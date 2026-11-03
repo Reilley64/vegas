@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/E06490Stack.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00e06d70_Class.h"
@@ -3259,8 +3260,6 @@ int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, F
 {
     return FUN_00e08380(tree, source, refs, destination);
 }
-
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct ObjectWriter
 {

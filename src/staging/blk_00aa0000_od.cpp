@@ -3,6 +3,10 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
+#include <stdexcept>
+#include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -33,7 +37,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void* __cdecl _malloc(unsigned int);
 
 struct FUN_00aa4290_Class
 {
@@ -44,12 +47,10 @@ struct FUN_00aa4290_Class
 // @fnv 0x00aa4290
 void* FUN_00aa4290_Class::AllocateBuffer(unsigned int size, unsigned int pad)
 {
-    void* buffer = _malloc(size);
+    void* buffer = std::malloc(size);
     void* result = buffer;
     return result;
 }
-
-extern "C" void __cdecl free(void*);
 
 struct FUN_00aa42c0_class
 {
@@ -495,7 +496,6 @@ void FUN_00aaa6e0_Class::SetFlags(unsigned int flags, int unused)
     unused = 0;
 }
 
-void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int len);
 struct FUN_00aa47e0_Class
 {
     int m0;
@@ -518,7 +518,7 @@ FUN_00aa47e0_Class* FUN_00aa47e0_Class::FUN_00aa47e0(unsigned int count)
         bytes = m4 * 4;
         p5 = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
         m8 = p5;
-        _fnv_zlib_memset(m8, 0, m4 * 4);
+        std::memset(m8, 0, m4 * 4);
     }
     return this;
 }
@@ -533,7 +533,6 @@ struct FUN_00aba370_s
     unsigned int m_14;
     void FUN_00aba370(unsigned int pos, unsigned char b);
 };
-void __cdecl FUN_00ec7c56();
 
 struct FUN_00abbeb0_Class
 {
@@ -552,14 +551,13 @@ FUN_00abbeb0_Class* FUN_00abbeb0_Class::FUN_00abbeb0(unsigned int size, FUN_00ab
     m0 = 0;
     if (!(p && p->mC <= size && size <= p->m10))
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     m0 = p->m0;
     m4 = size;
     return this;
 }
 
-void FUN_00ec7c56();
 
 struct FUN_00abbf00_Class
 {
@@ -574,7 +572,7 @@ char FUN_00abbf00_Class::Matches(FUN_00abbf00_Class* other)
 {
     if (!static_cast<bool>(static_cast<int>(this->m0 != 0)) ||
         !static_cast<bool>(static_cast<int>(this->m0 == other->m0)))
-        FUN_00ec7c56();
+        std::abort();
     return static_cast<char>(static_cast<int>(this->m4 == other->m4));
 }
 
@@ -1177,7 +1175,6 @@ extern FUN_00fdf054_t DAT_00fdf054;
 extern FUN_00fdf05c_t DAT_00fdf05c;
 extern FUN_00fdf100_t DAT_00fdf100;
 
-int __cdecl FUN_00ec658f(void(__cdecl*)(void));
 void __cdecl FUN_00fdb2b0(void);
 
 struct FUN_00aa7300_Obj
@@ -1192,7 +1189,7 @@ void FUN_00aa7370(void)
     {
         DAT_011f6bec = DAT_011f6bec | 1;
         DAT_00fdf054(&DAT_011f6bd4);
-        FUN_00ec658f(FUN_00fdb2b0);
+        std::atexit(FUN_00fdb2b0);
     }
 
     DAT_00fdf05c(&DAT_011f6bd4);
@@ -1336,8 +1333,6 @@ FUN_00aa8ca0_cls* FUN_00aa8ca0_cls::FUN_00aa8ca0(int a1, int a2, int a3, int a4)
     return this;
 }
 
-extern "C" void __cdecl FUN_00ec61c0(void* p, int value, unsigned int size);
-extern "C" void FUN_00eccec5(int code);
 
 struct FUN_00aa8dd0_slot
 {
@@ -1392,7 +1387,7 @@ void FUN_00aa8dd0_cls::InitializeSlots()
 {
     m_30 = v12(m_14, m_1c);
     if (m_30 == 0)
-        FUN_00eccec5(0);
+        std::exit(0);
     m_2044 = (char*)&this->m_buf44[8184];
     int stride3 = 0x40;
     int i;
@@ -1401,8 +1396,8 @@ void FUN_00aa8dd0_cls::InitializeSlots()
         m_slots[i].m_flag = 0;
         m_slots[i].m_ptr = (char*)&this->m_buf44 + i * stride3 * 8;
     }
-    FUN_00ec61c0(m_buf44, 0, 0x2000);
-    FUN_00ec61c0(m_buf2048, 0, 8);
+    std::memset(m_buf44, 0, 0x2000);
+    std::memset(m_buf2048, 0, 8);
 }
 
 struct FUN_00aa9d00_cls
@@ -1612,14 +1607,14 @@ FnvAbaf60Iter* FnvAbaf60Owner::FUN_00abaf60(FnvAbaf60Iter* pOut, FnvAbaf60Iter a
     FnvAbaf60Iter itA;
     itA.m_pBase = 0;
     if (!this || this->m_i0c > aBegin.m_uiPosition || aBegin.m_uiPosition > this->m_i10)
-        FUN_00ec7c56();
+        std::abort();
     itA.m_pBase = this->m_pBase;
     itA.m_uiPosition = aBegin.m_uiPosition;
 
     FnvAbaf60Iter itB;
     itB.m_pBase = 0;
     if (!this || this->m_i0c > aEnd.m_uiPosition || aEnd.m_uiPosition > this->m_i10)
-        FUN_00ec7c56();
+        std::abort();
     itB.m_pBase = this->m_pBase;
     itB.m_uiPosition = aEnd.m_uiPosition;
 
@@ -1740,14 +1735,14 @@ FUN_00abc180_Pair FUN_00abc180_cls::FUN_00abc180(unsigned int auiUnused, unsigne
     p9.p = 0;
     if (this == 0 || mC > auiIndexA || auiIndexA > m10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p9.p = m0;
     p9.i = auiIndexA;
     p2.p = 0;
     if (this == 0 || mC > auiIndexB || auiIndexB > m10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p2.p = m0;
     p2.i = auiIndexB;
@@ -2077,7 +2072,6 @@ void __cdecl DestroyMemoryPools()
     }
 }
 
-extern "C" void __cdecl _Xlen(void);
 
 class S_00aadeb0_Class
 {
@@ -2296,14 +2290,14 @@ FUN_00aba9a0_pair* FUN_00aba9a0_cls::FUN_00aba9a0(FUN_00aba9a0_pair* out, unsign
     p9.a = 0;
     if (this == 0 || this->m_0c > a || a > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p9.a = this->m_00;
     p9.b = a;
     p2.a = 0;
     if (this == 0 || this->m_0c > b || b > this->m_10)
     {
-        FUN_00ec7c56();
+        std::abort();
     }
     p2.a = this->m_00;
     p2.b = b;
@@ -2324,7 +2318,6 @@ FUN_00aba9a0_pair* FUN_00aba9a0_cls::FUN_00aba9a0(FUN_00aba9a0_pair* out, unsign
 }
 
 
-void* FUN_00ec5fce(void* base, unsigned int size, unsigned int count, void(__cdecl* destructor)(void*));
 void __cdecl FUN_0055a2d0(void* element);
 
 struct VectorOwnedItem
@@ -2341,7 +2334,7 @@ void* VectorOwnedItem::FUN_00aa8850(unsigned int flags)
 {
     if (flags & 2)
     {
-        FUN_00ec5fce(this, 12, ((unsigned int*)this)[-1], FUN_0055a2d0);
+        fnv::crt::vector_destructor(this, 12, ((unsigned int*)this)[-1], FUN_0055a2d0);
         if (flags & 1)
             reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060((char*)this - 4);
         return (char*)this - 4;
@@ -2352,7 +2345,6 @@ void* VectorOwnedItem::FUN_00aa8850(unsigned int flags)
     return this;
 }
 
-void __cdecl FUN_00ec61c0(char* dst, int value, int size);
 
 class FUN_00aae180_cls
 {
@@ -2376,7 +2368,7 @@ S_00aadeb0_Class* S_00aadeb0_Class::AppendChars(unsigned int count, unsigned cha
     __declspec(align(4)) unsigned char zero;
 
     if (::g_010173f0 - m_14 <= count)
-        _Xlen();
+        throw std::length_error("string too long");
     if (count > 0)
     {
         newsize = m_14 + count;
@@ -2402,7 +2394,7 @@ void FUN_00aae180_cls::FUN_00aae180(int offset, int aiSize, char value)
     else
     {
         char tmp;
-        FUN_00ec61c0((m_18 >= 0x10 ? m_04 : (char*)&this->m_04) + offset, tmp = value, aiSize);
+        std::memset((m_18 >= 0x10 ? m_04 : (char*)&this->m_04) + offset, tmp = value, aiSize);
     }
 }
 
@@ -2719,7 +2711,6 @@ extern unsigned int DAT_011f6bd0;
 extern _RTL_CRITICAL_SECTION DAT_011f6bb8;
 
 void __cdecl FUN_00fdb2a0();
-int FUN_00ec658f(void(__cdecl* fn)());
 
 // Initializes the lock on first call, then under the lock calls FUN_00aa6f90 on each non-null entry of the 256-entry table DAT_011f67b8.
 // @fnv 0x00aa7030
@@ -2729,7 +2720,7 @@ void FUN_00aa7030()
     {
         DAT_011f6bd0 |= 1;
         InitializeCriticalSection(&DAT_011f6bb8);
-        FUN_00ec658f(FUN_00fdb2a0);
+        std::atexit(FUN_00fdb2a0);
     }
     DAT_00fdf05c(&DAT_011f6bb8);
     for (unsigned int i = 0; i < 0x100; i++)

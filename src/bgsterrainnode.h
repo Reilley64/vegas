@@ -9,6 +9,7 @@
 #define FNV_BGSTERRAINNODE_LOCAL_H
 
 
+#include <cstring>
 #include "fnv/decl/FUN_009611e0_shell.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_005b5000.h"
@@ -75,8 +76,6 @@ class AutoMemContext
     ~AutoMemContext();
 };
 
-
-extern "C" void* memset(void* pDestination, int cValue, unsigned int uSize);
 
 enum BGSTerrainNode__PARENT_POSITION
 {

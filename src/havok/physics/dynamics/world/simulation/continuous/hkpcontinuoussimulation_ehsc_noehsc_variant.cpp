@@ -6,6 +6,7 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <windows.h>
+#include <cmath>
 #include "fnv/decl/AdvanceSimulation.h"
 #include "fnv/decl/C761F0Character.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -273,7 +274,6 @@ struct D0BD00Controller {
 
     void OffsetEntries(float offset);
 };
-extern "C" double fabs(double);
 struct FUN_00d0bd30_q {
     int unk00;
     int unk04;

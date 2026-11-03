@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpgravitygun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpgravitygun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cmath>
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00ca88e0_cls.h"
@@ -230,8 +231,6 @@ hkDerivedE463* hkDerivedE463::DestroyAndFree(unsigned int uiFlags) throw()
     return this;
 }
 }  // namespace fnv_00e46340
-
-extern "C" double __cdecl fabs(double);
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {

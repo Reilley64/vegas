@@ -3,6 +3,7 @@
 // polymorphic classes (TESForm, TESWorldSpace). The skeleton of src/fallout_shared/tesworldspace.cpp with those classes made polymorphic; move the functions to
 // their real unit once its classes are.
 
+#include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSProjectile.h"
 #include "fnv/decl/CellView.h"
@@ -26,7 +27,6 @@
 #include "fnv/symbols_011c4000.h"
 #include "tesworldspace_packet_rtti2_tesworldspace.h"
 
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 struct S00585250_WorldData
 {
     virtual void v0();

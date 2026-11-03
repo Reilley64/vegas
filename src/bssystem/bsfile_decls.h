@@ -2,6 +2,8 @@
 #ifndef FNV_BSFILE_PRIVATE_DECLS_H
 #define FNV_BSFILE_PRIVATE_DECLS_H
 
+#include <cstdio>
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_011f6000.h"
@@ -60,11 +62,6 @@ class NiFile
     unsigned int FileRead(void*, unsigned int);
 };
 
-extern "C" int __cdecl _fclose_nolock(_iobuf* stream);
-extern "C" int __cdecl fopen_s(_iobuf**, const char*, const char*);
-extern "C" long __cdecl ftell(_iobuf*);
-extern "C" int __cdecl fseek(_iobuf*, long, int);
-int __cdecl FUN_00ecbf05(const char* path, int mode);
 
 class BSFile : public NiFile
 {

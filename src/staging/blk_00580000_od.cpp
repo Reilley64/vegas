@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/BGSCameraShot.h"
 #include "fnv/decl/BSMultiBoundRoom.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -447,7 +448,6 @@ struct FUN_00589090_Cls
 {
     void* FUN_00589090(unsigned int flags);
 };
-void __cdecl memset(void* dst, int val, unsigned int count);
 struct FUN_005890c0
 {
     int* pVTable;
@@ -970,7 +970,6 @@ bool AudioMarkerData_589600::LoadFromFile(TESFile* apFile)
 }
 
 void* __cdecl operator new(unsigned int size);
-void __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int count);
 struct ContainerItemExtra
 {
     void* pVTable;
@@ -998,7 +997,7 @@ void* ContainerItemExtra::InitContainerItemExtra(int count)
         unsigned int sz3 = this->iCount * 4;
         void* p2 = ::FUN_00401000(sz3);
         this->pItem = p2;
-        _fnv_zlib_memset(this->pItem, 0, this->iCount * 4);
+        std::memset(this->pItem, 0, this->iCount * 4);
     }
     return this;
 }
@@ -1754,7 +1753,6 @@ FUN_0058bd30::FUN_0058bd30() : node60(0), node64(0), node6c(0), node70(0)
     unk76 = false;
 }
 
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
 struct FNVKeywordEntry
 {
     unsigned char flag0;

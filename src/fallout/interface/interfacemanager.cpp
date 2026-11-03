@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include <cstdlib>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -9637,7 +9638,6 @@ extern int DAT_01203b58[];
 extern float DAT_01203350[];
 extern int DAT_01203f58[];
 extern float DAT_01203750[];
-extern "C" int __cdecl rand(void);
 float __cdecl EvaluateQuinticPolynomial(float value);
 
 // @fnv 0x00c5d320
@@ -9649,13 +9649,13 @@ void __cdecl ApplyNoise(float input)
         for (nIndex = 0; nIndex < 256; ++nIndex)
         {
             DAT_01203b58[nIndex] = nIndex;
-            DAT_01203350[nIndex] = float((rand() % 512) - 256) / ::DAT_010231d8;
+            DAT_01203350[nIndex] = float((::std::rand() % 512) - 256) / ::DAT_010231d8;
         }
 
         while (--nIndex)
         {
             int saved = DAT_01203b58[nIndex];
-            int other = rand() % 256;
+            int other = ::std::rand() % 256;
             DAT_01203b58[nIndex] = DAT_01203b58[other];
             DAT_01203b58[other] = saved;
         }

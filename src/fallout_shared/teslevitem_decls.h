@@ -2,6 +2,8 @@
 #ifndef TESLEVITEM_DECLS_H
 #define TESLEVITEM_DECLS_H
 
+#include <cstring>
+#include <malloc.h>
 #include "fnv/decl/Owner487a60.h"
 #include "fnv/decl/TmpEndian.h"
 #include "fnv/symbols_0043d000.h"
@@ -56,6 +58,4 @@ class TESLevItem : public TESForm
     virtual void InitItem();
 };
 extern LeveledObject* DAT_011c8f1c;
-extern "C" void* __cdecl memset(void*, int, unsigned int);
-extern "C" void* __cdecl _alloca(unsigned int);
 #endif

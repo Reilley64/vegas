@@ -4,6 +4,7 @@
 
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/D76250Shape.h"
 #include "fnv/decl/FUN_00d74d40_cls.h"
 #include "fnv/decl/FUN_00d76990_Class.h"
@@ -711,8 +712,6 @@ Axis* volatile probeAxes;
 Axis* volatile probeOutput;
 volatile float probeSink;
 void runProbe();
-
-extern "C" double sqrt(double);
 
 extern "C"
 {

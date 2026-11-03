@@ -6,6 +6,7 @@
 // src/havok/common/serialize/util/hkserializeutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/util/hkserializeutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cstring>
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/DBA7F0Ref.h"
 #include "fnv/decl/DbbOwner.h"
@@ -544,7 +545,6 @@ struct SmallBool
         return value != 0;
     }
 };
-void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 void __cdecl FUN_00cb1280(void*, int, int);
 inline unsigned int reverseWord(unsigned int word)
 {
@@ -602,7 +602,7 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
     reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(out.version))->FUN_00cb0c10(0);
     ::FUN_00d2cab0();
     char bytes[128];
-    FUN_00ec61c0(bytes, 0, 128);
+    std::memset(bytes, 0, 128);
     reader->mark(128);
     int count = reader->read(bytes, 128);
     reader->rewind();

@@ -2,6 +2,7 @@
 // src/speedtree/leafgeometry.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/speedtree/leafgeometry.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/symbols_00b0d000.h"
 #include "fnv/symbols_01012000.h"
 struct LeafLod
@@ -61,7 +62,6 @@ struct FUN_00b27870_Class
     const float* CopyLodData(unsigned int& aiFloatCount);
 };
 
-void* __cdecl _memmove(void* dest, const void* src, unsigned int count);
 
 // @fnv 0x00b27870
 const float* FUN_00b27870_Class::CopyLodData(unsigned int& auiOffset)
@@ -71,7 +71,7 @@ const float* FUN_00b27870_Class::CopyLodData(unsigned int& auiOffset)
 
     if (pSearchEntries != 0 && m_ppFloatData != 0 && m_ppFloatData[0] != 0 && m_pCopiedLodData != 0)
     {
-        _memmove(pSearchEntries, m_ppFloatData[0], nLodSize * sizeof(float));
+        std::memmove(pSearchEntries, m_ppFloatData[0], nLodSize * sizeof(float));
         pSearchEntries += nLodSize;
         auiOffset = pSearchEntries - m_pCopiedLodData;
     }

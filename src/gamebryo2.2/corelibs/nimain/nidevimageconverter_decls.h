@@ -3,6 +3,7 @@
 #define NIDEVIMAGECONVERTER_DECLS_H
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/Conv.h"
 #include "fnv/decl/FUN_00a77960_shell.h"
 #include "fnv/decl/Owner.h"
@@ -201,7 +202,6 @@ class NiDevImageConverter
     unsigned char m_base[0x77c];
     PixelDataExpander m_kPixelDataExpander;
 };
-extern "C" void* __cdecl fnv_zlib_memcpy(void*, const void*, unsigned);
 typedef void(__cdecl* PixelConvertFunc)(unsigned, unsigned, unsigned, unsigned char*, const NiPalette*,
                                         const NiDevImageConverter::PixelFormatBitLayout&, const unsigned char*,
                                         const NiDevImageConverter::PixelFormatBitLayout&);

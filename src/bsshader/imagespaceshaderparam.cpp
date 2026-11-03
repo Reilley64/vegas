@@ -1,5 +1,6 @@
 // bsshader/imagespaceshaderparam.cpp: ImageSpaceShaderParam (9 functions)
 
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -92,7 +93,7 @@ void ImageSpaceShaderParam::FUN_00b8a7e0()
 // @fnv 0x00b8a8b0
 void ImageSpaceShaderParam::CopyParamData(int index, const float* data, unsigned int size)
 {
-    fnv_zlib_memcpy(m_pfPixelShaderConstants + index * 4, data, size);
+    std::memmove(m_pfPixelShaderConstants + index * 4, data, size);
 }
 
 // @fnv 0x00b8a7c0

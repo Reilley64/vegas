@@ -6,6 +6,7 @@
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <new>
+#include <cmath>
 #include "fnv/decl/FUN_005616d0_Owner.h"
 #include "fnv/decl/FUN_00561800_Class.h"
 #include "fnv/decl/FUN_00c86420_Class.h"
@@ -1409,7 +1410,6 @@ class HostCA8B
 
 #include <xmmintrin.h>
 #include <math.h>
-extern "C" double __cdecl sqrt(double);
 static inline float CA8Sqrtf(float x)
 {
     return ((float)sqrt((double)x));

@@ -1,6 +1,7 @@
 // fallout_shared/bgsterminal.cpp: BGSTerminal, TermHack, PlayerCharacter, TerminalCleanup and more (31 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/ACTIView.h"
 #include "fnv/decl/ActiV511.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -764,8 +765,6 @@ struct TerminalCleanup
     void FUN_004ffc90();
 };
 
-extern "C" void* memcpy(void*, const void*, unsigned int);
-
 struct TerminalPasswordAccess
 {
 };
@@ -784,8 +783,6 @@ struct BGSTerminalEx : BGSTerminal
 {
     void CopyFromTerminal(TESForm* apForm);
 };
-
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct TerminalStringCmp
 {

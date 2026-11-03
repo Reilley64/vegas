@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/niplane.cpp: NiSphere, NiPlane (4 functions)
+#include <cstring>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "niplane_decls.h"
@@ -24,7 +25,6 @@ void NiSphere::SaveBinary(NiStream& stream)
     stream.output->Write(&radius);
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
 struct FUN_00a69a60_Owner
 {
     float m_f0;

@@ -1,6 +1,8 @@
 // bsshader/tallgrassshaderproperty.cpp: TallGrassShaderProperty, Holder, PointerMap (9 functions)
 
 #include <windows.h>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -298,7 +300,6 @@ struct NiTStringPointerMap_00e93020
 struct NiVBSet
 {
 };
-void* __cdecl _memmove(void*, const void*, unsigned int);
 
 // Looks up a cached grass group for the cell, creating and attaching a new one to the node when none has remaining capacity, and returns its remaining count.
 // @fnv 0x00b62bd0
@@ -320,7 +321,7 @@ unsigned short __cdecl GetOrCreateGrassGroup(IntegerDataBlock* apGrassParam, int
     {
         pGrassCache = new FUN_00b617f0();
         pGrassCache->m_spCachedGeometry = (NiGPUProgram*)pcachedGeom;
-        _memmove(pGrassCache, apGrassParam, 0x20);
+        std::memmove(pGrassCache, apGrassParam, 0x20);
         reinterpret_cast<::HashTableBase *>((((NiVBSet*)((::NiTMapBase< ::NiTPointerAllocator<unsigned int>, unsigned long, ::TallGrassShaderProperty::TallGrassCacheData *> *)(::fnv_00b61170::GetArrayHolder())))))->InsertOrUpdate(apGrassParam->m_iWordAt04, (unsigned int)(pGrassCache));
     }
     pCurrentElementNext = &pGrassCache->m_kNode;
@@ -514,8 +515,6 @@ struct GrassGroupStub
 };
 
 int __cdecl PackFloatPairToInt(float* apPos);
-void __cdecl FUN_00ecada6(int aiSeed);
-int __cdecl FUN_00ecadb8();
 
 inline float FloorF(float f)
 {
@@ -547,18 +546,18 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
         {
             if (auiCount <= 0)
                 break;
-            FUN_00ecada6(PackFloatPairToInt(apPositions[iIndex]));
+            std::srand(PackFloatPairToInt(apPositions[iIndex]));
             float afInstance[4];
             afInstance[0] = apPositions[iIndex][0];
             afInstance[1] = apPositions[iIndex][1];
             afInstance[2] = apPositions[iIndex][2];
-            float fRand = FUN_00ecadb8() / 65534.0 - 1.0;
+            float fRand = std::rand() / 65534.0 - 1.0;
             afInstance[3] = (1.0 - apParam->m_10 + apParam->m_10 * 0.5 * fRand) * apScales[iIndex];
             if (afInstance[3] >= 1.0)
                 afInstance[3] = 0.99f;
             else if (afInstance[3] < 0.0)
                 afInstance[3] = 0.0;
-            float fRand2 = FUN_00ecadb8() / 32767.0 * 2.0 - 1.0;
+            float fRand2 = std::rand() / 32767.0 * 2.0 - 1.0;
             float fValue = apParam->m_iThirdValue * fRand2 * 100.0;
             afInstance[3] = FloorF(fValue) + afInstance[3];
             reinterpret_cast<::FUN_00bd8550_Class *>((pGroup))->PushEntry(afInstance, (int)(apKey));
@@ -576,7 +575,6 @@ void __cdecl PopulateGrassInstances(void* apKey, int aiCellX, int aiCellY, NiNod
 }
 
 namespace fnv_00b61170 {
-void __cdecl FUN_00ec61c0(void* p, int fill, unsigned int size);
 int __cdecl FUN_00ec658f(void(__cdecl* fn)());
 
 struct ArrayHolderBase
@@ -590,7 +588,7 @@ struct ArrayHolderBase
         m_04 = 0x25;
         m_0C = 0;
         m_08 = ::FUN_00aa1070(m_04 * 4);
-        FUN_00ec61c0(m_08, 0, m_04 * 4);
+        std::memset(m_08, 0, m_04 * 4);
     }
 };
 

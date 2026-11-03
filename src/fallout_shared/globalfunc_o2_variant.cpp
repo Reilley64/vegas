@@ -4,6 +4,7 @@
 // src/fallout_shared/globalfunc_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/globalfunc.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/BC87850RefObject.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -1443,7 +1444,6 @@ void BeamPassShader::FUN_00ba59e0()
     spRenderPass->SetRenderState(0xe, 0, true);
 }
 
-void* __cdecl FUN_00ec44d0(void*, const void*, unsigned int);
 struct Vec3
 {
     union
@@ -1775,7 +1775,7 @@ void Obj::FUN_00ba5ee0(Arg* arg)
         unkc8 = 1.0f / source->unk138;
         if (!DAT_012003ec)
             DAT_012003ec = DAT_011f91c0 >= 2 ? 78 : 26;
-        FUN_00ec44d0(unk70, source->unk60, DAT_012003ec * 48);
+        std::memmove(unk70, source->unk60, DAT_012003ec * 48);
     }
     void* data = geom->unk20 ? geom->unk20 : &(*reinterpret_cast<int *>(&::g_defaultBound));
     int extra = geom->unkb8->unk34;

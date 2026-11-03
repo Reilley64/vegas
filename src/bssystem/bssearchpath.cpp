@@ -2,6 +2,7 @@
 // src/bssystem/bssearchpath.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bssystem/bssearchpath.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "runtime/crt.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00b01c20.h"
 #include "fnv/decl/fnv_00aa24f0__FUN_00aa24f0_cls.h"
@@ -192,7 +193,6 @@ struct FUN_00b01390_cls
     bool CopyPathOnce(char* out, int unused);
 };
 
-int __cdecl FUN_00ec65a6(char* dst, unsigned int size, const char* src);
 
 // @fnv 0x00b01390
 bool FUN_00b01390_cls::CopyPathOnce(char* out, int unused)
@@ -200,7 +200,7 @@ bool FUN_00b01390_cls::CopyPathOnce(char* out, int unused)
     switch (m_uiItemCount)
     {
     case 0:
-        FUN_00ec65a6(out, 0x104, m_path);
+        fnv::crt::strcpy_s(out, 0x104, m_path);
         m_uiItemCount = m_uiItemCount + 1;
         return true;
     }

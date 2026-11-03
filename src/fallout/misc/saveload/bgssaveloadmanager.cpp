@@ -1,5 +1,7 @@
 // fallout/misc/saveload/bgssaveloadmanager.cpp: BGSSaveLoadManager, PathManager, Interface, FakeSaveMgr and more (39 functions)
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BSAudioManager.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
@@ -103,12 +105,10 @@ template <class T> unsigned int __cdecl BSStringLength(const T* text);
 template <> unsigned int __cdecl BSStringLength<char>(const char* text);
 
 extern "C" int __cdecl _mbsnicmp(const char* left, const char* right, unsigned int count);
-extern "C" char* __cdecl strchr(const char* text, int character);
 extern "C" const char g_autosaveName[];
 extern "C" const char g_scrubChars[];
 extern "C" const char g_versionInfoFormat[];
 extern "C" const char g_dateTimeFormat[];
-extern "C" void* __cdecl fnv_zlib_memset(void* destination, int value, unsigned int size);
 
 struct FNVSystemTime
 {
@@ -179,9 +179,9 @@ void BGSSaveLoadManager::GetFNVVersionInfo(char* output, unsigned int capacity)
     FNVGetVersionInfoLocals locals;
 
     locals.versionPrefix[0] = ::DAT_01011584[0];
-    fnv_zlib_memset(locals.versionPrefix + 1, 0, 0x103);
+    std::memset(locals.versionPrefix + 1, 0, 0x103);
     locals.dateTime[0] = ::DAT_01011584[0];
-    fnv_zlib_memset(locals.dateTime + 1, 0, 0x103);
+    std::memset(locals.dateTime + 1, 0, 0x103);
     locals.dateTimeSize = 0x104;
     g_fnvDateFunction(locals.versionPrefix, &locals.dateTimeSize);
     g_fnvSystemTimeFunction(&locals.time);
@@ -226,7 +226,7 @@ void BGSSaveLoadManager::GetSaveDirectory(char* pcPath)
     ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bb80())));
     ((int(*)(char*))DAT_00fdf0d4)(((char *)(::FUN_00c3bbd0())));
     ((int(*)(char*))DAT_00fdf0d4)(FUN_00c3bc20());
-    if (FUN_00ecbf05(pcPath, 0) == -1)
+    if (fnv::crt::access(pcPath, 0) == -1)
     {
         char defaultIni[260];
         TaskQueueInterface::CopyStringToBuffer(defaultIni, 260, DAT_01082d70);

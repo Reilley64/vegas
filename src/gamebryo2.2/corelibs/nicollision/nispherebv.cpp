@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include <cmath>
+#include <cstring>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
@@ -388,7 +390,6 @@ bool SphereBVLite::CheckSweptSphereOverlap(float fTime, const BoundVolLite& kBV0
     return fCenterDistSqr <= fRadiusSumSqr;
 }
 
-extern "C" unsigned int __cdecl strlen(const char*);
 extern const char str_010f18a4[];
 extern const char str_010f1898[];
 extern const char str_010f1884[];
@@ -708,7 +709,6 @@ ObjB0* ReadObjB0(NiStream& kStream)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" double sqrt(double);
 struct V3
 {
     float x, y, z;

@@ -1,6 +1,7 @@
 // fallout_shared/tesleveledlist.cpp: TESLeveledList, TESFile, NiRefObject, TmpEndian and more (46 functions)
 
 #include <new>
+#include <cmath>
 #include "fnv/decl/BSFaceGenKeyframe.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0040e7f0_owner.h"
@@ -48,7 +49,6 @@
 #include "fnv/symbols_01204000.h"
 #include "tesleveledlist_decls.h"
 
-extern "C" double __cdecl floor(double value);
 extern "C" int __cdecl _ftol2_sse();
 
 // @fnv 0x00487740
@@ -349,7 +349,6 @@ struct FUN_00488350_shell : public TESLeveledList
     void AddLeveledItemsToContainer(TESObjectREFR*, TESContainer*);
 };
 
-float __cdecl floor(float);
 
 // Reads the reference's level multiplier and all-below flag, computes a level from its level, and adds leveled list items to the container.
 // @fnv 0x00488350
@@ -1659,7 +1658,6 @@ FUN_00c60d50_shell* __cdecl FUN_00c610a0(void)
 }
 }  // namespace fnv_00c610a0
 
-extern "C" void* __cdecl FUN_00ec43fb(void* in, int vfDelta, void* srcType, void* targetType, int isReference);
  /* .?AVBaseFormComponent@@ */
 extern char DAT_01186c1c[]; /* .?AVTESLeveledList@@ */
 
@@ -1696,7 +1694,7 @@ class FUN_004887a0_cls : public TESLeveledList
 // @fnv 0x004887a0
 void FUN_004887a0_cls::FUN_004887a0(void* apSource)
 {
-    TESLeveledList* src3 = (TESLeveledList*)FUN_00ec43fb(apSource, 0, &(*reinterpret_cast<char (*)[]>(&::DAT_01183040)), &DAT_01186c1c, 0);
+    TESLeveledList* src3 = (TESLeveledList*)dynamic_cast<::TESLeveledList *>(reinterpret_cast<::BaseFormComponent *>(apSource));
     if (src3 == 0)
     {
         return;

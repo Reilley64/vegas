@@ -3,6 +3,7 @@
 #define MAPMENU_DECLS_H
 
 #include <stddef.h>
+#include "runtime/crt.h"
 #include "fnv/decl/ButtonDevice.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -729,7 +730,6 @@ class InterfaceManager
 void FUN_00798840();
 void FUN_00798710();
 extern "C" int sprintf_s(char*, size_t, const char*, ...);
-extern "C" int _stricmp(const char*, const char*);
 template <class T> class NiPointer
 {
   public:

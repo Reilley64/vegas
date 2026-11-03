@@ -1,6 +1,9 @@
 // effectsetting.cpp: EffectSetting, EndianSwappableData, EffectSettingList, EffT (41 functions)
 
 #include <new>
+#include <cmath>
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -206,20 +209,18 @@ double FUN_00408820(float fValue)
     return std::abs(fValue);
 }
 
-double __cdecl _fabs(double);
 
 // @fnv 0x00408860
 float FUN_00408860(float afValue)
 {
-    return (float)_fabs((double)afValue);
+    return (float)::std::fabs((double)afValue);
 }
 
-int __cdecl FUN_00ec6da0(const char*, const char*);
 
 // @fnv 0x00408b20
 int __cdecl FUN_00408b20(const char* apString1, const char* apString2)
 {
-    return FUN_00ec6da0(apString1, apString2);
+    return ::std::strcmp(apString1, apString2);
 }
 
 struct FUN_004ee4b0_shell : public EffectSetting
@@ -361,14 +362,13 @@ struct S
     void FUN_00407230();
     void* DestroyIfFlagged(unsigned int);
 };
-extern "C" short __cdecl FUN_00ec3bda(short);
 
 // Replaces the short value pointed to by p with the result of FUN_00ec3bda applied to it.
 // @fnv 0x00407a90
 void __cdecl FUN_00407a90(short* psValue)
 {
     short* tmp = psValue;
-    *tmp = FUN_00ec3bda(*tmp);
+    *tmp = fnv::crt::byteswap_ushort(*tmp);
 }
 
 struct FUN_00408550_Cls
@@ -848,12 +848,11 @@ struct EffT
     ListT m_a0;
     bool IsDifferentFrom(void* param);
 };
-void* __cdecl FUN_00ec43fb(void* a1, int a2, int* a3, int* a4, int a5);
 
 // @fnv 0x004082f0
 bool EffT::IsDifferentFrom(void* pObject)
 {
-    EffT* other = (EffT*)FUN_00ec43fb(pObject, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_011837c4)), 0);
+    EffT* other = (EffT*)dynamic_cast<::EffectSetting *>(reinterpret_cast<::TESForm *>(pObject));
     if (other == 0)
         return 1;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(pObject)))

@@ -3,6 +3,8 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <new>
+#include <cstdlib>
+#include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -1235,7 +1237,6 @@ FUN_00537d40::~FUN_00537d40()
 {
 }
 
-int __cdecl FUN_00ec7d40(int v);
 void __cdecl CompressSaveLoadRecord();
 int FUN_00535ae0();
 struct FUN_0084e3a0_Class { int FUN_0084e3a0(); };
@@ -5348,7 +5349,7 @@ void This538110::FUN_00538110()
         w_ = a1[0];
         wVal = 0;
         for (i = 0; i < 0x441; i++) {
-            if (FUN_00ec7d40(a1[i] - w_) >= 0x80) {
+            if (std::abs(a1[i] - w_) >= 0x80) {
                 wVal = 1;
                 if (a1[i] > w_)
                     B.m_04[i] = (char)0x7f;
@@ -5521,8 +5522,6 @@ bool LandLD::FUN_0053db20()
     }
     return true;
 }
-
-extern "C" void* __cdecl memset(void* dst, int val, unsigned int size);
 
 
 class TESLandTexture {

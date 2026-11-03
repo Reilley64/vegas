@@ -7,6 +7,8 @@
 #ifndef FNV_MAGICITEM_DECLS_H
 #define FNV_MAGICITEM_DECLS_H
 
+#include <cstring>
+#include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_00403db0_shell.h"
 #include "fnv/decl/FUN_00403f80_shell.h"
@@ -198,7 +200,5 @@ class TaskQueueInterface
 };
 int strcat_s(char*, unsigned int, const char*);
 char* FUN_0040ab30(char*, int);
-extern "C" const char* strrchr(const char*, int);
-extern "C" int _strnicmp(const char*, const char*, unsigned int);
 extern "C" void FormHeapFreeAndLog(const void*);
 #endif

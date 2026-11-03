@@ -1,6 +1,8 @@
 // fallout_shared/aiformulas.cpp: AIFormulas (22 functions)
 
 #include <new>
+#include <cmath>
+#include <cstdlib>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorValueOwner.h"
 #include "fnv/decl/B6040D0NPC.h"
@@ -94,7 +96,6 @@ void __cdecl GetSkillAttributeAndBase(int aiSkill, int* aiPrimaryAttribute, floa
     *afBase = *reinterpret_cast<float*>(((::SETTING_VALUE *)&(::FUN_00403e20((float *)(DAT_0119b17c[aiSkill])))));
 }
 
-void __cdecl FUN_00ec6f20(int a, int b, int c, int d);
 struct FUN_006c8980_stand
 {
     int pad;
@@ -106,7 +107,7 @@ struct FUN_006c8980_stand
 // @fnv 0x006c8980
 void FUN_006c8980_stand::FUN_006c8980(int fn)
 {
-    FUN_00ec6f20(a, b, 0x10, fn);
+    std::qsort((void *)(a), b, 0x10, (int (*)(const void *, const void *))(fn));
 }
 
 struct ActorValue
@@ -682,7 +683,6 @@ extern SettingT<GameSettingCollection> originalRuntimeFloatSetting89;
 struct GlobalObject2_0040c150
 {
 };
-double FUN_00ec9ac0(double, double);
 // @fnv 0x00642ed0
 int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDamage, float afCurrentHealth, int a1c,
                                 int aiPercent, bool a24, int a28, bool abApplyAttackBonus, bool abApplyDeduction,
@@ -766,7 +766,7 @@ int __cdecl ComputeDamageResult(int aiLevel, int aiBaseDamage, int a10, int aiDa
     maximum3 = abMaxHealth ? ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting101))))->f * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))->f
                            : ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting87))))->f;
     ratio2 = FUN_00404010((maximum3 - afCurrentHealth) / maximum3, 0.0f);
-    ratio2 = FUN_00ec9ac0(ratio2, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting102))))->f);
+    ratio2 = std::pow(ratio2, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting102))))->f);
     adjusted = ratio2;
     if (!flagA && aiBonusType != 1)
         adjusted = ratio2 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting90))))->f;

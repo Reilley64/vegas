@@ -7,6 +7,7 @@
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cmath>
 #include "fnv/decl/FUN_0063c8a0_shell.h"
 #include "fnv/decl/FieldMod.h"
 #include "fnv/decl/TESCombatStyle.h"
@@ -94,7 +95,6 @@ struct ParticleSystem
     Particle* particles;
 };
 
-extern "C" double __cdecl pow(double, double);
 inline float NiPow(float fBase, float fExponent)
 {
     return (float)pow(fBase, fExponent);

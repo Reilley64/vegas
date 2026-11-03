@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00e98710_cls.h"
@@ -205,7 +206,6 @@ void NiGeometryGroup::FUN_00e94db0(NiGeometryData* pkData)
 }  // namespace fnv_00e94db0
 
 void* __cdecl NiMalloc(unsigned int size);
-void* __cdecl _fnv_zlib_memset(void* dest, int value, unsigned int size);
 
 struct GeometryBase
 {
@@ -226,7 +226,7 @@ struct GeometryMap
         bucketCount = 37;
         itemCount = 0;
         buckets = NiMalloc(148);
-        _fnv_zlib_memset(buckets, 0, bucketCount * 4);
+        std::memset(buckets, 0, bucketCount * 4);
         table = &DAT_010f0fb4;
     }
 };

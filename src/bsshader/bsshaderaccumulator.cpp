@@ -1,6 +1,7 @@
 // bsshader/bsshaderaccumulator.cpp: BSShaderAccumulator, AccumWIP, AccumS, Candidate and more (38 functions)
 
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AlphaList.h"
 #include "fnv/decl/BB97550Shader.h"
@@ -3930,7 +3931,6 @@ struct FUN_00b9a5b0
 void* __cdecl FUN_00aa1070(unsigned);
 void* __cdecl FUN_00aa13e0(unsigned);
 extern void* DAT_010adfd8[];
-void* __cdecl FUN_00ec61c0(void*, int, unsigned);
 struct Map16
 {
     void** vtable;
@@ -3944,7 +3944,7 @@ struct Map16
         count = 0;
         table = FUN_00aa1070(148);
         unsigned bytes = size * 4;
-        FUN_00ec61c0(table, 0, bytes);
+        std::memset(table, 0, bytes);
         vtable = DAT_010adfd8;
     }
     ~Map16();

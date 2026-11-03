@@ -4,6 +4,7 @@
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <windows.h>
+#include <cstring>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/BSFaceGenEyeData.h"
 #include "fnv/decl/BSFaceGenKeyframeMultiple.h"
@@ -1141,7 +1142,6 @@ struct FUN_00658ad0_class
     void AssignString(FUN_00658ad0_arg* arg, char* source, GO value);
 };
 int __cdecl strcpy_s(char*, unsigned int, char*);
-int __cdecl strlen(char*);
 extern unsigned int _data_011c16bc;
 struct FUN_00658bb0 : FUN_00658d30_class
 {

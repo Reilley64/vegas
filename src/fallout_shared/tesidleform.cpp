@@ -1,6 +1,7 @@
 // fallout_shared/tesidleform.cpp: TESIdleForm, IdleCopy, IdleFormDetach, IdleInit (29 functions)
 
 #include <new>
+#include <cstring>
 #include "fnv/decl/B408A80String.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/Callees.h"
@@ -61,8 +62,6 @@ public:
 public:
     void SetCurrentCombatTarget(::TESObjectREFR *);
 };
-
-extern "C" char* __cdecl strrchr(const char* string, int character);
 
 // @fnv 0x005fe3b0
 void TESIdleForm::ResetFormData(void)

@@ -4808,7 +4808,7 @@ bool FUN_005dc090(const ScriptParameter* apParameters, const char* apCompiledPar
                   Script* apScript, ScriptLocals* apScriptLocals,
                   double& afReturnValue, unsigned int& auiOffset)
 {
-    unsigned int estage = 0;
+    std::uintptr_t estage = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &estage))
         return false;
     return ::fnv_005a2910::FUN_005a2910((::fnv_005a2910::ActorS *)(apRefObject), (void *)(estage), 0, afReturnValue);
@@ -6133,7 +6133,7 @@ bool __cdecl FUN_005d1a50(const ScriptParameter* parameters, const char* scriptD
 
 
 // @fnv 0x005d1a70
-bool FUN_005d1a70(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, unsigned int opcodeOffset)
+bool FUN_005d1a70(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, std::uintptr_t opcodeOffset)
 {
     ::fnv_005a30c0::FUN_005a30c0(thisObject, (void *)(0), (void *)(0), (*(double *)(opcodeOffset)));
     return true;
@@ -6148,7 +6148,7 @@ void FUN_005d2630(void* a, void* b, void* c, void* d, void* e, void* f, void* g)
 
 
 // @fnv 0x005d4c40
-void __cdecl FUN_005d4c40(int a, int b, int c, int d, int e, int f, int g)
+void __cdecl FUN_005d4c40(int a, int b, std::intptr_t c, int d, int e, int f, std::intptr_t g)
 {
     ::FUN_005a3af0((::TESObjectREFR *)(c), (void *)(0), (void *)(0), (*(double *)(g)));
 }
@@ -6953,7 +6953,7 @@ bool __cdecl FUN_005d2130(const ScriptParameter* parameters, const char* scriptD
     TESObjectREFR* reference, TESObjectREFR* container, Script* script,
     ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    unsigned int shader = 0;
+    std::uintptr_t shader = 0;
     float time = -1.0f;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, reference, container,
                      script, locals, &shader, &time))
@@ -9562,7 +9562,7 @@ public:
 // @fnv 0x005b7660
 bool FUN_005b7660(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    unsigned int force = 0;
+    std::uintptr_t force = 0;
     unsigned int weather = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, &force, &weather))
         return false;
@@ -10554,7 +10554,7 @@ bool __cdecl FUN_005da630(const ScriptParameter* apParameters, const char* apCom
 {
     if (((bool)(::fnv_005d4a40::FUN_005d4a40())))
     {
-        unsigned int pmessage = 0;
+        std::uintptr_t pmessage = 0;
         ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &pmessage);
         ::InitTutorialMenu((::TESForm *)(pmessage), 0);
     }
@@ -10865,7 +10865,7 @@ bool FUN_005bd300(const ScriptParameter* parameters, const char* scriptData, TES
     char buffer[0x200];
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, thisObject, container, script, locals, buffer))
         return false;
-    int formID = 0;
+    std::intptr_t formID = 0;
     ::std::sscanf(buffer, "%x", &formID);
     if (formID)
     {
@@ -11077,7 +11077,7 @@ bool FUN_005b5690(const ScriptParameter* scriptParameter, const char* formatStri
                  TESObjectREFR* actorRef, TESObjectREFR* actorRef2, Script* script,
                  ScriptLocals* scriptLocals, double& result, unsigned int& opcode)
 {
-    int iItem = 0;
+    std::intptr_t iItem = 0;
     TESObjectREFR* pItem_2 = 0;
     int iCount8 = 0;
     bool bItemFoundTmp;
@@ -13021,7 +13021,7 @@ bool FUN_005d4480(const ScriptParameter* apParameters, const char* apCompiledPar
 // @fnv 0x005d4c60
 bool __cdecl FUN_005d4c60(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double* afReturnValue, unsigned int* auiOffset)
 {
-    int iAction;
+    std::intptr_t iAction;
     iAction = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, (unsigned int*)auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iAction)) {
         return false;
@@ -13348,14 +13348,14 @@ bool FUN_005d7a30(const ScriptParameter* parameter, const char* format,
                   double& result, unsigned int& resultCode)
 {
     int a;
-    int b;
+    std::intptr_t b;
     int c;
-    int d;
-    int e;
+    std::intptr_t d;
+    std::intptr_t e;
     int f;
     int g;
     int h;
-    int i;
+    std::intptr_t i;
 
     d = 0;
     i = 0;
@@ -13402,7 +13402,7 @@ bool FUN_005d90a0(const ScriptParameter* parameter, const char* scriptName,
 {
     result = 0.0;
 
-    int count = 0;
+    std::intptr_t count = 0;
     float objectType = 1.0f;
     int numericID = 1;
     int healthScale = 0;
@@ -13854,7 +13854,7 @@ bool FUN_005db3f0(const ScriptParameter* param, const char* name,
 // @fnv 0x005db600
 bool __cdecl FUN_005db600(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
-    unsigned int uiArg = 0;
+    std::uintptr_t uiArg = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &uiArg))
         return false;
     return ::FUN_005a5580(apRefObject, (void *)(uiArg), (void *)(0), (*(double *)(&afReturnValue)));
@@ -14676,7 +14676,7 @@ bool __cdecl FUN_00594dc0(const ScriptParameter* parameters, const char* compile
 {
     bool bResult = true;
     unsigned int iParam1 = 0;
-    unsigned int iParam2 = 0;
+    std::uintptr_t iParam2 = 0;
     if (!ExtractArgs(parameters, compiledParams, &offset,
         reference, container, script, locals, &iParam1, &iParam2))
         return false;
@@ -14912,7 +14912,7 @@ bool __cdecl FUN_005b4b80(const ScriptParameter* parameters, const char* scriptD
     TESObjectREFR* container, TESObjectREFR* scriptOwner, Script* script,
     ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    unsigned int value = 0;
+    std::uintptr_t value = 0;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, container, scriptOwner,
                      script, locals, &value))
         return false;
@@ -16160,7 +16160,7 @@ bool FUN_005bd660(const ScriptParameter* parameters, const char* scriptData, TES
 bool Helper_5accb0(int a, int b, int c, int d, int e, int f, int g, int* out);
 
 // @fnv 0x005bd8a0
-bool __cdecl FUN_005bd8a0(int p1, int p2, int p3, int p4, int p5, int p6, int p7, int p8)
+bool __cdecl FUN_005bd8a0(int p1, int p2, std::intptr_t p3, int p4, int p5, int p6, std::intptr_t p7, int p8)
 {
     int out = 0;
     if (Helper_5accb0(p1, p2, p8, p3, p4, p5, p6, &out) == false) {
@@ -16834,7 +16834,7 @@ bool FUN_005c0300(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7
 bool FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, char* out);
 
 // @fnv 0x005c08a0
-bool __cdecl FUN_005c08a0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8) {
+bool __cdecl FUN_005c08a0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8) {
     char flag;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &flag)) {
         return false;
@@ -16845,7 +16845,7 @@ bool __cdecl FUN_005c08a0(int a1, int a2, int a3, int a4, int a5, int a6, int a7
 bool __cdecl FUN_005accb0(int first, int second, int last, int third, int fourth, int fifth, int sixth, signed char* extracted);
 
 // @fnv 0x005c0960
-bool __cdecl FUN_005c0960(int first, int second, int third, int fourth, int fifth, int sixth, int seventh, int last)
+bool __cdecl FUN_005c0960(int first, int second, std::intptr_t third, int fourth, int fifth, int sixth, std::intptr_t seventh, int last)
 {
     signed char component;
     if (!FUN_005accb0(first, second, last, third, fourth, fifth, sixth, &component))
@@ -17231,7 +17231,7 @@ bool __cdecl FUN_005c1710(
 bool FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8);
 
 // @fnv 0x005c1ce0
-bool FUN_005c1ce0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+bool FUN_005c1ce0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8)
 {
     int local = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &local)) {
@@ -17421,7 +17421,7 @@ class B9Obj { public:  };
 bool __cdecl FUN_005accb0(int a, int b, int c, int d, int e, int f, int g, int* p8, int* p9, int* p10, int* p11);
 
 // @fnv 0x005c4a70
-bool __cdecl FUN_005c4a70(int a8, int a0c, int a10, int a14, int a18, int a1c, double* a20, int a24)
+bool __cdecl FUN_005c4a70(int a8, int a0c, std::intptr_t a10, int a14, int a18, int a1c, double* a20, int a24)
 {
     *a20 = 0.0;
     int l4 = 0;
@@ -17612,7 +17612,7 @@ bool FUN_005c67e0(C5C67E0ParamInfo* pkParamInfo, void* pvScriptData, C5C67E0Ref*
 
 
 // @fnv 0x005c6820
-void FUN_005c6820(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void FUN_005c6820(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7)
 {
     ::fnv_0059d320::FUN_0059d320((::TESObjectREFR *)(a3), (void *)(0), (void *)(0), (*(double *)(a7)));
 }
@@ -17677,8 +17677,8 @@ bool FUN_005c7590(const ScriptParameter* parameters, const char* scriptData,
                   TESObjectREFR* thisObject, TESObjectREFR* container, Script* script,
                   ScriptLocals* locals, double& result, unsigned int* opcodeOffset)
 {
-    unsigned int secondValue = 0;
-    unsigned int firstValue = 0;
+    std::uintptr_t secondValue = 0;
+    std::uintptr_t firstValue = 0;
     if (!ExtractArgs(parameters, scriptData, opcodeOffset, thisObject, container, script, locals,
                      &firstValue, &secondValue))
         return false;
@@ -18775,7 +18775,7 @@ bool __cdecl FUN_005cdf50(void* a1, void* a2, void* a3, void* a4, void* a5, void
 bool FUN_005accb0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int* out);
 
 // @fnv 0x005ce060
-bool FUN_005ce060(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7) {
+bool FUN_005ce060(int a0, int a1, std::intptr_t a2, int a3, int a4, int a5, std::intptr_t a6, int a7) {
     int out = 0;
     if (!FUN_005accb0(a0, a1, a7, a2, a3, a4, a5, &out)) {
         return false;
@@ -18862,7 +18862,7 @@ bool FUN_005ce9f0()
 // @fnv 0x005cea90
 bool __cdecl FUN_005cea90(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
-    int iValue = 0;
+    std::intptr_t iValue = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iValue))
         return false;
     return ::fnv_005a2440::FUN_005a2440(apRefObject, (void *)(iValue), (void *)(0), afReturnValue);
@@ -19342,13 +19342,13 @@ bool FUN_005d0ba0(unsigned int a0, unsigned int a1, ScriptTargetObj* a2, unsigne
 
 
 // @fnv 0x005d0e10
-void FUN_005d0e10(int a1, int a2, int a3, int a4, int a5, int a6, int a7) {
+void FUN_005d0e10(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7) {
     ::FUN_005a2ba0((::TESObjectREFR *)(a3), (void *)(0), (void *)(0), (*(double *)(a7)));
 }
 
 
 // @fnv 0x005d1150
-void FUN_005d1150(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+void FUN_005d1150(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7)
 {
     ::fnv_005a3870::FUN_005a3870((void *)(a3), (void *)(0), (void *)(0), (*(double *)(a7)));
 }
@@ -20236,7 +20236,7 @@ extern int DAT_011dea3c;
 bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, float* a8);
 
 // @fnv 0x005d23d0
-bool FUN_005d23d0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+bool FUN_005d23d0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, int a7, int a8)
 {
     float f = 0.0f;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &f)) {
@@ -20970,7 +20970,7 @@ bool __cdecl FUN_005accb0(void* a1, void* a2, void* a3, void* a4, void* a5, void
 // @fnv 0x005d4d30
 bool __cdecl FUN_005d4d30(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6, void* a7, void* a8)
 {
-    unsigned int local = 0;
+    std::uintptr_t local = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &local)) {
         return false;
     }
@@ -22463,7 +22463,7 @@ bool __cdecl FUN_005d7430(const ScriptParameter* parameters, const char* scriptD
 
 bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8);
 // @fnv 0x005d7540
-bool __cdecl FUN_005d7540(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8) {
+bool __cdecl FUN_005d7540(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8) {
     int local = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &local)) {
         return false;
@@ -22595,7 +22595,7 @@ bool FUN_005d8100(int a1, int a2, NiCallbackHost* a3, int a4, int a5, int a6, in
 bool FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned int* out);
 
 // @fnv 0x005d82a0
-bool FUN_005d82a0(int a1, int a2, int a3, int a4, int a5, int a6, int unk20, int a8)
+bool FUN_005d82a0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, int unk20, int a8)
 {
     unsigned int result = 0;
     if (FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &result) == 0) {
@@ -23297,7 +23297,7 @@ bool __cdecl FUN_005db660(const ScriptParameter* apParameters, const char* apCom
 extern bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, unsigned int* a8);
 
 // @fnv 0x005db6f0
-bool __cdecl FUN_005db6f0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+bool __cdecl FUN_005db6f0(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8)
 {
     unsigned int local = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &local)) {
@@ -23309,7 +23309,7 @@ bool __cdecl FUN_005db6f0(int a1, int a2, int a3, int a4, int a5, int a6, int a7
 bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* pOut);
 
 // @fnv 0x005db750
-bool __cdecl FUN_005db750(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8) {
+bool __cdecl FUN_005db750(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8) {
     int out = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &out)) {
         return false;
@@ -23320,7 +23320,7 @@ bool __cdecl FUN_005db750(int a1, int a2, int a3, int a4, int a5, int a6, int a7
 bool FUN_005accb0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int* out);
 
 // @fnv 0x005db7b0
-bool FUN_005db7b0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+bool FUN_005db7b0(int a0, int a1, std::intptr_t a2, int a3, int a4, int a5, std::intptr_t a6, int a7)
 {
     int local = 0;
     if (!FUN_005accb0(a0, a1, a7, a2, a3, a4, a5, &local)) {
@@ -23332,7 +23332,7 @@ bool FUN_005db7b0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7
 extern bool FUN_005accb0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int* pLocal);
 
 // @fnv 0x005db810
-bool FUN_005db810(int a0, int a1, int a2, int a3, int a4, int a5, int a6, int a7)
+bool FUN_005db810(int a0, int a1, std::intptr_t a2, int a3, int a4, int a5, std::intptr_t a6, int a7)
 {
     int local = 0;
     if (!FUN_005accb0(a0, a1, a7, a2, a3, a4, a5, &local)) {
@@ -23840,7 +23840,7 @@ bool __cdecl FUN_005ddf10(const ScriptParameter* apParameters, const char* apCom
 {
     int uStack_8 = 0;
     float uStack_c = 0.0f;
-    int iStack_10 = 0;
+    std::intptr_t iStack_10 = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &iStack_10, &uStack_8, &uStack_c))
         return false;
     if (uStack_8 >= 0 && uStack_8 <= 1) {
@@ -24467,7 +24467,7 @@ extern bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned in
 // @fnv 0x005dfe30
 bool __cdecl FUN_005dfe30(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* reference, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
-    unsigned int parsedArgument;
+    std::uintptr_t parsedArgument;
     unsigned int actionFlag = 1;
     if (!ExtractArgs(parameters, scriptData, &opcodeOffset, reference, container, script, locals, &parsedArgument)) {
         return false;
@@ -25471,7 +25471,7 @@ struct SkyQ {
 SkyQ* FUN_0046dd00();
 // @fnv 0x005b7590
 bool FUN_005b7590(void* paramInfo, void* scriptData, void* thisObj, void* containingObj, void* scriptObj, void* eventList, double* result, unsigned int* opcodeOffsetPtr) {
-  int iValue = 0;
+  std::intptr_t iValue = 0;
   int iFlag_xafirk = 0;
   if (!FUN_005accb0(paramInfo, scriptData, opcodeOffsetPtr, thisObj, containingObj, scriptObj, eventList, &iValue, &iFlag_xafirk))
     return false;
@@ -29394,7 +29394,7 @@ bool __cdecl FUN_005be4f0(void* pvParamInfo, void* pvScriptData, void* pvThisObj
 bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8);
 
 // @fnv 0x005be6e0
-unsigned char __cdecl FUN_005be6e0(int arg_8h, int arg_ch, int arg_10h, int arg_14h, int arg_18h, int arg_1ch, int arg_20h, int arg_24h) {
+unsigned char __cdecl FUN_005be6e0(int arg_8h, int arg_ch, std::intptr_t arg_10h, int arg_14h, int arg_18h, int arg_1ch, std::intptr_t arg_20h, int arg_24h) {
     int var_4h;
 
     var_4h = 0;
@@ -43477,7 +43477,7 @@ bool __cdecl FUN_005db290(int paramInfo, int scriptData, TESObjectREFR* thisObj,
 bool __cdecl FUN_005accb0(int, int, int, int, int, int, int, int*);
 
 // @fnv 0x005db540
-bool __cdecl FUN_005db540(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
+bool __cdecl FUN_005db540(int a1, int a2, std::intptr_t a3, int a4, int a5, int a6, std::intptr_t a7, int a8)
 {
     int local = 0;
     if (!FUN_005accb0(a1, a2, a8, a3, a4, a5, a6, &local))
@@ -46286,7 +46286,7 @@ bool FUN_005be760(const ScriptParameter* scriptParameter,
                   double& result,
                   unsigned int* argument)
 {
-    int start = 0;
+    std::intptr_t start = 0;
     int end = -1000;
 
     if (!ExtractArgs(scriptParameter, format, argument, object, reference,
@@ -46954,7 +46954,7 @@ bool __cdecl FUN_005cf0f0(
     double& afReturnValue,
     unsigned int& auiOffset)
 {
-    unsigned int pCasinoObjectCur;
+    std::uintptr_t pCasinoObjectCur;
     int iFirstCasinoValue;
     int iOtherCasinoValue;
     int iMinWinnings;
@@ -47902,7 +47902,7 @@ bool __cdecl FUN_005d5230(
     double& result,
     unsigned int& opcodeOffset)
 {
-    int eventId = 0;
+    std::intptr_t eventId = 0;
     if (!ExtractArgs(parameters, compiledParams, &opcodeOffset,
                      reference, container, script, locals, &eventId)) {
         return false;
@@ -48096,7 +48096,7 @@ bool __cdecl FUN_005d74e0(
     double* result,
     unsigned int* opcodeOffset)
 {
-    unsigned int extractedValue = 0;
+    std::uintptr_t extractedValue = 0;
     if (!FUN_005accb0(parameters, commandText, opcodeOffset, reference,
                        containingReference, script, locals, &extractedValue)) {
         return false;
@@ -51779,7 +51779,7 @@ public:
 // @fnv 0x005d83d0
 bool __cdecl FUN_005d83d0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
-    int value;
+    std::intptr_t value;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &value))
     {
         return false;
@@ -51791,7 +51791,7 @@ bool __cdecl FUN_005d83d0(const ScriptParameter* apParameters, const char* apCom
 // @fnv 0x005db4e0
 bool __cdecl FUN_005db4e0(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
 {
-    unsigned int uStack_8 = 0;
+    std::uintptr_t uStack_8 = 0;
     if (!ExtractArgs(apParameters, apCompiledParams, &auiOffset, apRefObject, apContainer, apScript, apScriptLocals, &uStack_8))
         return false;
     return ::fnv_005a53e0::FUN_005a53e0(apRefObject, (void*)uStack_8, 0, afReturnValue);
@@ -51809,7 +51809,7 @@ bool FUN_005accb0(int a0, int a1, int a2, int a3, int a4, int a5, int a6, unsign
 void FUN_00703c00(const char* fmt, unsigned int v);
 
 // @fnv 0x005d0d30
-bool FUN_005d0d30(int p0, int p1, int p2, int p3, int p4, int p5, int p6, int p7) {
+bool FUN_005d0d30(int p0, int p1, std::intptr_t p2, int p3, int p4, int p5, int p6, int p7) {
     unsigned int wordSlot = 0;
     Actor* obj1 = dynamic_cast<Actor*>((TESObjectREFR*)p2);
     if (obj1 != 0) {

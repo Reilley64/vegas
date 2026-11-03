@@ -11,6 +11,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
 #include "havok/hkpTriSampledHeightFieldCollection.h"
+#include "havok/hkpSampledHeightFieldShape.h"
 
 struct FUN_00d263f0_t
 {
@@ -135,12 +136,6 @@ void* FUN_00d26450_Obj::FUN_00d26450()
     return unk18;
 }
 
-class hkpSampledHeightFieldShape : public hkpShape
-{
-  public:
-    int m_unk10;
-};
-
 struct S_d264d0_Coll : public hkpTriSampledHeightFieldCollection
 {
     hkpSampledHeightFieldShape* FUN_00d26450();
@@ -156,7 +151,7 @@ __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
 // @fnv 0x00d264d0
 void S_d264d0_Coll::FUN_00d264d0(unsigned int key, unsigned short value)
 {
-    unsigned int count = ((::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->m_unk10;
+    unsigned int count = ((::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->m_iXResolution;
     unsigned int idx = ((count - 1) * (key >> 16) + ((key >> 1) & 0x7fff)) * 2 | (key & 1);
     m_kWeldingInfo.m_data[idx] = value;
 }
@@ -315,47 +310,55 @@ struct FUN_00d267c0_Alloc
 };
 
 
-struct FUN_00d267c0_t : FUN_00d26450_S
+struct FUN_00d267c0_Router
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    FUN_00d267c0_Alloc* m_pStreamAllocator;
+};
+
+struct FUN_00d267c0_t : hkpTriSampledHeightFieldCollection
 {
     void FUN_00d267c0(int mode);
 };
 
-// Resizes the internal buffer to the computed index when mode is not 6, otherwise frees the buffer and resets its state fields.
+// Resizes the welding info array to the computed index when mode is not 6, otherwise frees the array and resets its state fields.
 // @fnv 0x00d267c0
 void FUN_00d267c0_t::FUN_00d267c0(int mode)
 {
     if (mode != 6)
     {
-        char* o = (char*)reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450();
-        int idx = (2 * *(int*)(o + 0x14) - 2) * (*(int*)(o + 0x10) - 1);
-        char* arr = (char*)this + 0x24;
-        char* cur = (char*)::FUN_00c85750();
-        if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
+        hkpSampledHeightFieldShape* o = static_cast<hkpSampledHeightFieldShape*>(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450());
+        int idx = (2 * o->m_iZResolution - 2) * (o->m_iXResolution - 1);
+        hkArray<hkUint16>* arr = &m_kWeldingInfo;
+        FUN_00d267c0_Router* cur = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750());
+        if ((arr->m_iCapacityState & 0x3fffffff) < idx)
         {
-            ::FUN_00c908c0((::SpawnedObject *)(*(int*)(cur + 0x10)), (::SpawnedArray *)((int)arr), idx, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(cur->m_pStreamAllocator), (::SpawnedArray *)(arr), idx, 2);
         }
-        cur = (char*)::FUN_00c85750();
-        int alloc = *(int*)(cur + 0x10);
-        int a = *(int*)(arr + 8) & 0x3fffffff;
+        cur = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750());
+        FUN_00d267c0_Alloc* alloc = cur->m_pStreamAllocator;
+        int a = arr->m_iCapacityState & 0x3fffffff;
         if (a < idx)
         {
             int m = a * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)((int)arr), idx < m ? m : idx, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(arr), idx < m ? m : idx, 2);
         }
-        *(int*)(arr + 4) = idx;
+        arr->m_iElementCount = idx;
     }
     else
     {
-        char* cur = (char*)::FUN_00c85750();
-        FUN_00d267c0_Alloc* alloc = *(FUN_00d267c0_Alloc**)(cur + 0x10);
-        int a = *(int*)((char*)this + 0x2c);
-        *(int*)((char*)this + 0x28) = 0;
+        FUN_00d267c0_Alloc* alloc = static_cast<FUN_00d267c0_Router*>(::FUN_00c85750())->m_pStreamAllocator;
+        int a = m_kWeldingInfo.m_iCapacityState;
+        m_kWeldingInfo.m_iElementCount = 0;
         if (!(a & 0x80000000))
         {
-            alloc->Free(*(void**)((char*)this + 0x24), (a & 0x3fffffff) * 2);
+            alloc->Free(m_kWeldingInfo.m_data, (a & 0x3fffffff) * 2);
         }
-        *(int*)((char*)this + 0x24) = 0;
-        *(unsigned int*)((char*)this + 0x2c) = 0x80000000;
+        m_kWeldingInfo.m_data = 0;
+        m_kWeldingInfo.m_iCapacityState = (int)0x80000000;
     }
 }
 

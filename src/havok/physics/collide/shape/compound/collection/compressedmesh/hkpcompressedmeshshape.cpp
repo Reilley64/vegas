@@ -132,7 +132,7 @@ void FUN_00e3cd20_Class::FUN_00e3cd20(float afScale, hkVector4* a2, hkVector4* a
 
 extern "C" void _ReadWriteBarrier(void);
 
-const void* DAT_010d0fc4[];
+extern const void* DAT_010d0fc4[];
 
 struct FUN_00d59710
 {
@@ -297,6 +297,22 @@ int StripsShapeE3CEB0::GetNumTriangles()
     return iRemainingIndices / 3 + iStripTriangles;
 }
 
+struct E3D060BigTriangle
+{
+    unsigned short unk00[6];
+    unsigned short m_material;
+    unsigned short unk0E;
+};
+
+struct E3D060Chunk
+{
+    unsigned char unk00[0x34];
+    unsigned short* m_materials;
+    unsigned char unk38[0x0C];
+    unsigned short m_reference;
+    unsigned char unk46[0x0A];
+};
+
 struct FUN_00e3d060_Owner
 {
     unsigned int unk00;
@@ -326,10 +342,10 @@ struct FUN_00e3d060_Owner
     unsigned int unk60;
     unsigned int unk64;
     unsigned int unk68;
-    unsigned int m_pAttributeTable;
+    E3D060BigTriangle* m_pAttributeTable;
     unsigned int unk70;
     unsigned int unk74;
-    unsigned int m_pSubAttributeData;
+    E3D060Chunk* m_pSubAttributeData;
     void SetAttribute(unsigned long instanceMask, unsigned short attributeValue);
 };
 
@@ -342,17 +358,17 @@ void FUN_00e3d060_Owner::SetAttribute(unsigned long instanceMask, unsigned short
     if (!shiftResult)
     {
         unsigned int shapeOffset = m_pShapeData & instanceMask;
-        *(unsigned short*)((char*)m_pAttributeTable + shapeOffset * 16 + 12) = attributeValue;
+        m_pAttributeTable[shapeOffset].m_material = attributeValue;
     }
     else
     {
         unsigned int indexOffset = m_pIndexData & instanceMask;
         unsigned int index = shiftResult - 1;
-        unsigned short entry = *(unsigned short*)((char*)m_pSubAttributeData + index * 80 + 0x44);
+        unsigned short entry = m_pSubAttributeData[index].m_reference;
         if (entry != 0xFFFF)
             index = entry;
-        unsigned int attributeEntryOffset = *(unsigned int*)((char*)m_pSubAttributeData + index * 80 + 0x34);
-        *(unsigned short*)((char*)attributeEntryOffset + indexOffset * 2) = attributeValue;
+        unsigned short* attributeEntry = m_pSubAttributeData[index].m_materials;
+        attributeEntry[indexOffset] = attributeValue;
     }
 }
 
@@ -1311,7 +1327,7 @@ Triangle* Mesh::FUN_00e3d3f0(unsigned int key, BufferRef buffer)
         _mm_store_ps(&transform.y.x, _mm_load_ps(&DAT_01268380.x));
         _mm_store_ps(&transform.z.x, _mm_load_ps(&DAT_01268390.x));
         _mm_store_ps(&transform.translation.x, _mm_load_ps(&DAT_012683a0.x));
-        ConvexShape* shape = bufv ? ((::ConvexShape *)(new ((void *)(bufv->)) ::FUN_00d59710(radius))) : 0;
+        ConvexShape* shape = bufv ? ((::ConvexShape *)(new ((void *)(bufv.p)) ::FUN_00d59710(radius))) : 0;
         ConvexPiece* pieces = convexPieces.m_data;
         if (pieces[index].transform != 0xffff)
         {

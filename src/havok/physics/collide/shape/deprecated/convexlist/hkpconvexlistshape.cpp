@@ -4,6 +4,7 @@
 
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -13,7 +14,21 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexListShape.h"
 
-struct FUN_00d5e2e0_Class
+#include "havok/hkpShapeContainer.h"
+
+// hkpConvexListShape with its hkpShapeContainer base, which starts 0x14 bytes into the shape.
+struct ConvexListShapeMI : hkpConvexShape, hkpShapeContainer
+{
+    hkReal m_fMaximumRadius;
+    char pad1C[0x4];
+    hkVector4 m_kAabbHalfExtents;
+    hkVector4 m_kAabbCenter;
+    hkBool m_bUseCachedAabb;
+    char pad41[0x3];
+    hkArray<hkpConvexShape*> m_kChildShapes;
+};
+
+struct FUN_00d5e2e0_Class : hkpShapeContainer
 {
     int GetNextKey(int key);
 };
@@ -22,35 +37,49 @@ struct FUN_00d5e2e0_Class
 int FUN_00d5e2e0_Class::GetNextKey(int key)
 {
     ++key;
-    if (key >= *(int*)((char*)this + 0x34))
+    if (key >= static_cast<ConvexListShapeMI*>(static_cast<hkpShapeContainer*>(this))->m_kChildShapes.m_iElementCount)
         key = -1;
     return key;
 }
 
-// Iterates the objects in the array at offset 0x44 up to the count at 0x48, calling each object's virtual method at vtable offset 0x2c and summing the results.
+struct ConvexListChildD5E1
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual int v2c();
+};
+
+// Iterates the child shapes, calling each one's virtual method at vtable offset 0x2c and summing the results.
 // @fnv 0x00d5e190
-int SumVirtualResults(void* self)
+int SumVirtualResults(ConvexListShapeMI* self)
 {
     int iTotal = 0;
     int i = 0;
-    char* p = (char*)self;
-    if (*(int*)(p + 0x48) > 0)
+    if (self->m_kChildShapes.m_iElementCount > 0)
     {
         do
         {
-            void* pObject = *(void**)(*(int*)(p + 0x44) + i * 4);
-            int(* fn)(void*) = *(int(**)(void*))(*(int*)pObject + 0x2c);
-            iTotal += fn(pObject);
+            ConvexListChildD5E1* pObject = reinterpret_cast<ConvexListChildD5E1*>(self->m_kChildShapes.m_data[i]);
+            iTotal += pObject->v2c();
             i++;
-        } while (i < *(int*)(p + 0x48));
+        } while (i < self->m_kChildShapes.m_iElementCount);
     }
     return iTotal;
 }
 
 // @fnv 0x00d5e2f0
-int FUN_00d5e2f0(char* self, int edx, int key, int pad)
+hkpConvexShape* FUN_00d5e2f0(hkpShapeContainer* self, int edx, int key, int pad)
 {
-    return ((int*)((int*)self)[0xc])[key];
+    return static_cast<ConvexListShapeMI*>(self)->m_kChildShapes.m_data[key];
 }
 
 void __cdecl FUN_00d5e7c0();
@@ -648,7 +677,7 @@ class hkContainerD5E7
 class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
 {
   public:
-    FUN_00d5e750(void* a, void* b) throw();
+    FUN_00d5e750(void* a, int b) throw();
     virtual ~FUN_00d5e750() throw();
 
 
@@ -656,10 +685,10 @@ class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
 };
 
 // @fnv 0x00d5e750
-FUN_00d5e750::FUN_00d5e750(void* a, void* b) throw() : hkShapeD5E7(0x16)
+FUN_00d5e750::FUN_00d5e750(void* a, int b) throw() : hkShapeD5E7(0x16)
 {
     m_vScale = 1.0f;
-    reinterpret_cast<::ConvexList *>(this)->SetChildren((::hkpConvexShape **)(a), (int)(b));
+    reinterpret_cast<::ConvexList *>(this)->SetChildren((::hkpConvexShape **)(a), b);
     reinterpret_cast<::hkpConvexListShapeD5E3 *>(this)->UpdateCachedAabb(1);
 }
 
@@ -817,7 +846,6 @@ void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
 }
 
 #include <windows.h>
-#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
 unsigned __int64 __cdecl __rdtsc(void);

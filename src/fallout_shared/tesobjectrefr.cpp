@@ -18738,10 +18738,10 @@ struct WorldReference
     virtual void v75();
     virtual void v76();
     virtual void v77();
-    virtual bool v78(WorldPoint*, WorldPoint*, void**, int);
+    virtual bool v78(WorldPoint*, WorldPoint*, void**, void*);
     void FUN_00575700(WorldPoint);
     void FUN_00562020();
-    bool FUN_00561ef0(int);
+    bool FUN_00561ef0(void*);
 };
 
 struct SettingsHolder
@@ -37376,14 +37376,14 @@ NiPoint3* TESRecipe::FUN_00572500(NiPoint3* result, float angle)
     return result;
 }
 // @fnv 0x00561ef0
-bool WorldReference::FUN_00561ef0(int flags)
+bool WorldReference::FUN_00561ef0(void* apCell)
 {
     WorldPoint start;
     WorldPoint end;
     new ((void *)&(start)) ::Vec3();
     new ((void *)&(end)) ::Vec3();
     void* result = 0;
-    if (v78(&start, &end, &result, flags))
+    if (v78(&start, &end, &result, apCell))
     {
         ReferenceObject* object = 0;
         SecondaryObject* secondary = 0;

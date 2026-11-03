@@ -1762,7 +1762,7 @@ void RigidBodyS::CopyBodyToClone(RigidBodyS* dest, CloningProcess* c)
     if (s != 1.0f)
         reinterpret_cast<::ScaleOwner *>((body))->FUN_00c8cdf0(s);
     body->unk28 = unk08->unk210;
-    reinterpret_cast<::WorldObjectView *>(this)->FUN_00c85900((int)(dest), (int)(c));
+    reinterpret_cast<::WorldObjectView *>(this)->FUN_00c85900(reinterpret_cast<std::intptr_t>(dest), reinterpret_cast<std::intptr_t>(c));
     dest->unk10 = (dest->unk10 | unk10) & 0xfffffc07;
     CloneNode* n = &list;
     if (WFlag13(unk08) || c->scale != 1.0f)

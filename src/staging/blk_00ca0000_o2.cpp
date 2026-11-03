@@ -1595,11 +1595,11 @@ struct SceneNode_cls : SceneLookupBase_cls
 
 struct SceneWalker_cls
 {
-    void TraverseSceneNode(SceneNode_cls* node, int a2, int a3);
+    void TraverseSceneNode(SceneNode_cls* node, void* a2, void* a3);
 };
 
 // @fnv 0x00ca1f00
-void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, int a2, int a3)
+void SceneWalker_cls::TraverseSceneNode(SceneNode_cls* node, void* a2, void* a3)
 {
     if (node == 0)
         return;

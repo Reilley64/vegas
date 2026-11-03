@@ -2,6 +2,7 @@
 // src/staging/blk_005e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -4356,15 +4357,15 @@ struct FUN_005e50f0_Obj
     int unk28;
     int unk2C;
     int unk30;
-    int unk34[16];
-    int GetValueByIndex(int index);
+    std::intptr_t unk34[16];
+    std::intptr_t GetValueByIndex(int index);
 };
 
 // Returns unk34[index] when index is between 0 and 14, otherwise returns 0.
 // @fnv 0x005e50f0
-int FUN_005e50f0_Obj::GetValueByIndex(int index)
+std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (index > -1 && index < 15)
         result = unk34[index];
     return result;

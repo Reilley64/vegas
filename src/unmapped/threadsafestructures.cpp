@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/C44D510Cache.h"
 #include "fnv/decl/Callees.h"
@@ -145,7 +146,7 @@ template <class T> class ThreadInterfaceManager
 
 struct FUN_0044c920 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -164,14 +165,14 @@ FUN_0044c920::FUN_0044c920(unsigned int auiSlotCount, unsigned int auiBucketCoun
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[auiSlotCount * 3];
+    m_pSlots = new std::uintptr_t[auiSlotCount * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
 
 struct FUN_0044c760_class : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -193,7 +194,7 @@ FUN_0044c760_class::FUN_0044c760_class(unsigned int auiSlotCount, unsigned int a
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[3 * auiSlotCount];
+    m_pSlots = new std::uintptr_t[3 * auiSlotCount];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
@@ -201,7 +202,7 @@ FUN_0044c760_class::FUN_0044c760_class(unsigned int auiSlotCount, unsigned int a
 
 struct FUN_006ec660 : InterfacedClass
 {
-    int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -222,7 +223,7 @@ FUN_006ec660::FUN_006ec660(unsigned int auiSlotCount, unsigned int auiBucketCoun
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new int[auiSlotCount * 3];
+    m_pSlots = new std::uintptr_t[auiSlotCount * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(auiSlotCount);
 }
@@ -253,7 +254,7 @@ struct FUN_0044b500 : public InterfacedClass
     LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry* m_pHead;
     LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry* m_pTail;
     void* m_pIntegerData;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>* m_pManager;
     int m_iArrayLength;
     int unk1C;
@@ -271,7 +272,7 @@ FUN_0044b500::FUN_0044b500(unsigned int numBuckets, void* value)
     m_pHead = new LockFreeQueue<NiPointer<QueuedReference> >::LockFreeQueueEntry;
     m_pTail = m_pHead;
     m_pIntegerData = value;
-    m_pSlots = new unsigned int[numBuckets * 2];
+    m_pSlots = new std::uintptr_t[numBuckets * 2];
     m_pManager = new ThreadInterfaceManager<FUN_0044b500_LockFreeQueueInterface>(numBuckets);
 }
 
@@ -280,7 +281,7 @@ extern int DAT_0108864c;
 struct FUN_00906160
 {
     InterfacedClass m_interface;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -303,7 +304,7 @@ FUN_00906160::FUN_00906160(int a, unsigned int auiBucketCount, int aiParam)
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
@@ -321,7 +322,7 @@ struct Iteration
 struct FUN_0044b8d0_Class
 {
     void* vfptr;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     int unk0c, unk10, unk14, unk18, unk1c;
     RecursiveSpinLock lock;
@@ -359,7 +360,7 @@ void FUN_0044c000_cls::FUN_0044c000(unsigned int uiValue, unsigned int b, unsign
 
 struct FUN_0044c270 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -379,7 +380,7 @@ FUN_0044c270::FUN_0044c270(unsigned int a, unsigned int auiBucketCount, int aiPa
     m_iArrayLength = 0;
     m_uiBuckets = auiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = aiParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
@@ -425,7 +426,7 @@ struct TSManager
 struct TSHashTable
 {
     void* vtbl;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     TSNodePtr* m_pBuckets;
     int m_iParam;
@@ -459,7 +460,7 @@ struct QueueIter44c640
 struct Queue44c640
 {
     void* vfptr;
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     void* unk0C;
     void* unk10;
@@ -519,7 +520,7 @@ struct CleanupBaseDtor
 
 struct FUN_0044cae0_cls : CleanupBaseDtor
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     void* m_pBuckets;
 
@@ -563,11 +564,11 @@ void TSHashTable::FUN_0044c480(bool bNoRecreate)
     m_iArrayLength = 0;
     for (unsigned int i = 0; i < m_uiBuckets; i++)
     {
-        TSNode* pNode = ((::TSNode *)(::ClearLowBit((int *)&(m_pBuckets[i]))));
+        TSNode* pNode = ((::TSNode *)(::ClearLowBit(&(m_pBuckets[i]))));
         reinterpret_cast<::FUN_006665a0_shell *>(&(m_pBuckets[i]))->FUN_006665a0();
         while (pNode)
         {
-            TSNode* next = ((::TSNode *)(::ClearLowBit((int *)&(pNode->m_next))));
+            TSNode* next = ((::TSNode *)(::ClearLowBit(&(pNode->m_next))));
             reinterpret_cast<::FUN_006665a0_shell *>(&(pNode->m_next))->FUN_006665a0();
             pNode->unk04 = 0;
             reinterpret_cast<::Dispatch *>(this)->FUN_0044dde0((unsigned int *)(pNode));
@@ -699,7 +700,7 @@ bool FUN_0044de20_cls::IsFlagSet()
 
 struct FUN_006661e0 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -716,7 +717,7 @@ FUN_006661e0::~FUN_006661e0()
 
 struct FUN_006ec870 : InterfacedClass
 {
-    int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -808,8 +809,8 @@ void FUN_0044f200_Class::FilterListByQueueData()
 {
     AutoMemHelper guard5(6, true, ::kThreadSafeStructuresSourceFile, 0x362);
     int numSlots = ((FUN_0044f220_Queue*)p)->FUN_0044f3e0() * 3;
-    unsigned int* pArray = new unsigned int[numSlots];
-    ::__memcpy(pArray, ((FUN_0044f220_Queue*)p)->m_pData, numSlots * 4);
+    std::uintptr_t* pArray = new std::uintptr_t[numSlots];
+    ::__memcpy(pArray, ((FUN_0044f220_Queue*)p)->m_pData, numSlots * sizeof(std::uintptr_t));
     FUN_0044f220_Node* pTail = 0;
     int iCount2 = 0;
     while (((FUN_0044f220_Class*)this)->m_pHead != 0)
@@ -819,7 +820,7 @@ void FUN_0044f200_Class::FilterListByQueueData()
         bool found4 = false;
         for (unsigned int i2 = 0; i2 < (unsigned int)numSlots; ++i2)
         {
-            if ((unsigned int)pEntry2 == pArray[i2])
+            if (reinterpret_cast<std::uintptr_t>(pEntry2) == pArray[i2])
             {
                 found4 = true;
                 break;
@@ -844,7 +845,7 @@ void FUN_0044f200_Class::FilterListByQueueData()
 
 struct FUN_00665cb0 : InterfacedClass
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;
@@ -864,7 +865,7 @@ FUN_00665cb0::FUN_00665cb0(unsigned int a, unsigned int uiBucketCount, int iPara
     m_iArrayLength = 0;
     m_uiBuckets = uiBucketCount;
     m_pBuckets = new CF_0081c630[m_uiBuckets];
-    m_pSlots = new unsigned int[a * 3];
+    m_pSlots = new std::uintptr_t[a * 3];
     m_iParam = iParam;
     m_pManager = new ThreadInterfaceManager<LockFreeQueue<bhkRigidBody*>::QueueDeleteManagerTag>(a);
 }
@@ -876,7 +877,7 @@ struct HashBase44c1e0
 };
 struct HashMap44c1e0 : HashBase44c1e0
 {
-    unsigned int* m_pSlots;
+    std::uintptr_t* m_pSlots;
     unsigned int m_uiBuckets;
     CF_0081c630* m_pBuckets;
     int m_iParam;

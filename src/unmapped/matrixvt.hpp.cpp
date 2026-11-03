@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FG_00659100_cls.h"
 #include "fnv/decl/FUN_00629ab0_shell.h"
 #include "fnv/decl/FUN_0064dda0_cls.h"
@@ -87,7 +88,7 @@ S_00658260_A S_00658260_Owner::BuildScaledValues(float scale)
     S_00658260_A a(m18, m1c);
     S_00658260_G aa;
     S_00658260_C it;
-    for (reinterpret_cast<::FUN_0065fd10_class *>(this)->FUN_0065fd10((::FUN_0065e000_class *)(::S_00658260_B *)(&x)), reinterpret_cast<::_Dummy_0044a170 *>(&(a))->FUN_0044a170((::_Out_0044a170 *)(void *)(&it)); reinterpret_cast<::FUN_0065dfd0_class *>(&(x))->FUN_0065dfd0(((::S_00658260_F *)(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(this)->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(::S_00658260_F *)(&info))))); reinterpret_cast<::FG_00659100_cls *>(&(x))->FUN_00659100((::FG_00659100_pair *)(::S_00658260_D *)(&ent), 0), reinterpret_cast<::S_006590c0 *>(&(it))->CopyPairTo(&arr, 0))
+    for (reinterpret_cast<::FUN_0065fd10_class *>(this)->FUN_0065fd10((::FUN_0065e000_class *)(::S_00658260_B *)(&x)), reinterpret_cast<::_Dummy_0044a170 *>(&(a))->FUN_0044a170((::_Out_0044a170 *)(void *)(&it)); reinterpret_cast<::FUN_0065dfd0_class *>(&(x))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065fd40::FUN_0065fd40_class *>(this)->FUN_0065fd40((::fnv_0065fd40::FUN_0065e000_class *)(::S_00658260_F *)(&info)))); reinterpret_cast<::FG_00659100_cls *>(&(x))->FUN_00659100((::FG_00659100_pair *)(::S_00658260_D *)(&ent), 0), reinterpret_cast<::S_006590c0 *>(&(it))->CopyPairTo(&arr, 0))
     {
         *it.Slot() = (float)(*((float *)(reinterpret_cast<::FUN_0064dda0_cls *>(&(x))->FUN_0064dda0())) * scale);
     }
@@ -120,7 +121,7 @@ Mgr* Mgr::ScaleAll(float scale)
     Iterator iter;
     Cursor key;
     Cursor currentPos;
-    for (reinterpret_cast<::_Dummy_0044a170 *>((this))->FUN_0044a170((::_Out_0044a170 *)(::Iterator *)(&iter)); reinterpret_cast<::FUN_0065dfd0_class *>(&(iter))->FUN_0065dfd0(((void *)(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>((this))->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::Cursor *)(&key))))); reinterpret_cast<::S_006590c0 *>(&(iter))->CopyPairTo(&currentPos, 0))
+    for (reinterpret_cast<::_Dummy_0044a170 *>((this))->FUN_0044a170((::_Out_0044a170 *)(::Iterator *)(&iter)); reinterpret_cast<::FUN_0065dfd0_class *>(&(iter))->FUN_0065dfd0(reinterpret_cast<std::intptr_t>(reinterpret_cast<::fnv_0065f550::FUN_0065f550_Class *>((this))->CallWithSelf((::fnv_0065f550::_Out_0044a170 *)(::Cursor *)(&key)))); reinterpret_cast<::S_006590c0 *>(&(iter))->CopyPairTo(&currentPos, 0))
     {
         *iter.FUN_0064dbd0() *= scale;
     }

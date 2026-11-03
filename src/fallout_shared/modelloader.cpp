@@ -2278,11 +2278,11 @@ struct C_00449210
     virtual void v0();
     virtual void v1();
     E_00449210** arr;
-    void FUN_00449210(int idx, int val);
+    void FUN_00449210(int idx, void* val);
 };
 // Calls FUN_00449240 on the element at idx with val, then calls v1().
 // @fnv 0x00449210
-void C_00449210::FUN_00449210(int aiIndex, int val)
+void C_00449210::FUN_00449210(int aiIndex, void* val)
 {
     ::FUN_00449240((::LockedReceiver *)(arr[aiIndex]), (::ReceiverArgument)(val));
     v1();
@@ -6184,10 +6184,11 @@ FUN_0044cc10::FUN_0044cc10()
     m_iThirdValue = 0;
 }
 
+// Reads a tagged pointer-sized word and returns it with the low tag bit cleared.
 // @fnv 0x0044dec0
-int ClearLowBit(int* piValue)
+std::intptr_t ClearLowBit(void* pValue)
 {
-    return *piValue & 0xfffffffe;
+    return *static_cast<std::intptr_t*>(pValue) & ~std::intptr_t(1);
 }
 
 struct FUN_0044df00Class
@@ -9191,7 +9192,7 @@ S0044afe0* S0044afe0::FUN_0044afe0(KFModel* apModel)
 }  // namespace fnv_0044afe0
 
 namespace fnv_00528ce0 {
-int ClearLowBit(int*);
+std::intptr_t ClearLowBit(void*);
 struct FUN_0044df00Class
 {
     char* FUN_0044df00();
@@ -10448,7 +10449,7 @@ struct FUN_00529000_Class
     void FUN_00529000();
 };
 
-int ClearLowBit(int*);
+std::intptr_t ClearLowBit(void*);
 
 struct FUN_009066d0_Class : public FUN_00529000_Class
 {

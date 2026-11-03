@@ -297,8 +297,8 @@ void ThisCls::FUN_00852080(int unused)
                             ::ReadSaveFileHeader(pSaveData, entry3);
                             reinterpret_cast<::FUN_006ea330_shell *>((entry3))->FUN_006ea330();
                             reinterpret_cast<::fnv_00851f60::FUN_00851f60_Class *>((((InfoLike*)info8)))->FUN_00851f60("-SAVE-");
-                            if (((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)))) != 0 && ((int)(::FUN_0044a670(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))))) != 0)
-                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90(((char *)(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)))));
+                            if (::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)) != 0 && ((int)(::FUN_0044a670(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3))))) != 0)
+                                reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90(::FUN_007d6970((::BGSSaveLoadFileEntry *)(entry3)));
                             else
                                 reinterpret_cast<::fnv_00851f90::FUN_00851f90_class *>((((InfoLike*)info8)))->FUN_00851f90("Location");
                             ::FUN_00406d00(

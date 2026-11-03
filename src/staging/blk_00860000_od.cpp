@@ -1972,7 +1972,7 @@ struct BSFadeNodeResult2 : public BSFadeNodeResult
 // @fnv 0x0086a050
 float __cdecl FUN_0086a050(BSFadeNode* node)
 {
-    BSFadeNodeResult2* p = (BSFadeNodeResult2*)node->FUN_009ad610();
+    BSFadeNodeResult2* p = (BSFadeNodeResult2*)(std::uintptr_t)node->FUN_009ad610();
     if (p != 0 && p->vfn_100())
     {
         return p->vfn_420();
@@ -2321,7 +2321,7 @@ void FUN_0086ce40_class::InitAudioCallbacks()
 
     reinterpret_cast<TESRecipe*>(::FUN_00453a70())->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<intptr_t>(&SoundPlaybackManager::ResolveSoundFile)));
 
-    reinterpret_cast<::FUN_0061cc40_shell *>((reinterpret_cast<TESRecipe*>(::FUN_00453a70())))->FUN_0061cc40(reinterpret_cast<int>(&((void (&)())::FindDialogueFile)));
+    reinterpret_cast<::FUN_0061cc40_shell *>((reinterpret_cast<TESRecipe*>(::FUN_00453a70())))->FUN_0061cc40((int)reinterpret_cast<std::uintptr_t>(&((void (&)())::FindDialogueFile)));
 
     reinterpret_cast<::Twin_0086cf00 *>((reinterpret_cast<BGSMessage*>(::FUN_00453a70())))->SetD3DPixelShader((::GeometryRelatedType *const)(reinterpret_cast<BGSMenuIcon*>(&((void (&)())::ApplySoundFormToGameSound))));
 
@@ -3195,7 +3195,7 @@ void FUN_00876a20_shell::FUN_00876a20(FUN_00876a20_arg* apArg)
 {
     bool bOld = (*reinterpret_cast<bool *>(&::DAT_011a9604));
     (*reinterpret_cast<bool *>(&::DAT_011a9604)) = false;
-    reinterpret_cast<::CameraState4E9 *>((apArg))->SetFromCamera((*(const ::Camera4E9 *)(FUN_00874690())));
+    reinterpret_cast<::CameraState4E9 *>((apArg))->SetFromCamera((*(const ::Camera4E9 *)(std::uintptr_t)(FUN_00874690())));
     reinterpret_cast<::FUN_00b65ec0_cls *>((((::FUN_00876a20_out *)(::FUN_00559450((int *)&(unk94))))))->FUN_00b65ec0();
     (*reinterpret_cast<bool *>(&::DAT_011a9604)) = bOld;
 }
@@ -3231,7 +3231,7 @@ void* FUN_00877d50_Class::FUN_00877d50(unsigned int flags)
 FUN_00877ac0_cls::~FUN_00877ac0_cls()
 {
     FUN_00877ac0_iter it;
-    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)&(it)))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((std::intptr_t)&(it)))
     {
     }
 }
@@ -4205,7 +4205,7 @@ FUN_0086c160::FUN_0086c160(void* aiArg1, void* aiArg2)
     acca0.FUN_0066b0d0(new FUN_00a712f0);
     if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Global_p161 *>(&::g_011c3ea4)))))) > 1)
     {
-        ::FUN_0087b8d0((unsigned int)(&timer28), (unsigned int)(&timer60));
+        ::FUN_0087b8d0((unsigned int)(std::uintptr_t)(&timer28), (unsigned int)(std::uintptr_t)(&timer60));
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer28))->SignalAtOffset();
         reinterpret_cast<::FUN_0086c600_shell *>(&(timer60))->SignalAtOffset();
     }
@@ -7050,9 +7050,9 @@ SSMenuState* FUN_004de490();
 // @fnv 0x00878860
 void SaveScreenshot(const char* pcPath)
 {
-    SSRenderer* pkRendererVal = ((::SSRenderer *)(::FUN_004bc3f0()));
+    SSRenderer* pkRendererVal = ((::SSRenderer *)(std::uintptr_t)(::FUN_004bc3f0()));
     SSFormat kFormatRes;
-    SSDevice* pkDevicePos = ((::SSDevice *)(reinterpret_cast<::FUN_004dc020_Class *>((pkRendererVal))->FUN_004dc020()));
+    SSDevice* pkDevicePos = ((::SSDevice *)(std::uintptr_t)(reinterpret_cast<::FUN_004dc020_Class *>((pkRendererVal))->FUN_004dc020()));
     kFormatRes = pkRendererVal->GetFormatSource()->DeallocateSound();
     int iFormatTotal = FUN_00e7bd20(&kFormatRes);
     SSSurface* pkSurfaceInfo;
@@ -7565,15 +7565,15 @@ FUN_0087dcb0::~FUN_0087dcb0()
         if (!((unsigned char)(reinterpret_cast<::FUN_004077c0_shell *>((((H*)this)))->FUN_004077c0())))
         {
             reinterpret_cast<::FUN_0093a660_class *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_0093a660((std::intptr_t)(this));
-            reinterpret_cast<::FUN_00967350_shell *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00967350((int)(this));
+            reinterpret_cast<::FUN_00967350_shell *>((((H*)(*reinterpret_cast<void * *>(&::_g_thePlayer)))))->FUN_00967350((int)(std::uintptr_t)(this));
             reinterpret_cast<::FUN_0096e6f0_shell *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->RemoveActor((::Actor *)(void *)(this));
             ::FUN_0087fd20((::FUN_0087fd20_Class *)(((H*)this)));
-            reinterpret_cast<::FUN_00906050_Class *>((((H*)&(*reinterpret_cast<int *>(&::fnv_008a20d0::g_011f11e0)))))->FUN_00906050((int)(this));
-            reinterpret_cast<::F8660Owner *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00978660((unsigned int)(this));
+            reinterpret_cast<::FUN_00906050_Class *>((((H*)&(*reinterpret_cast<int *>(&::fnv_008a20d0::g_011f11e0)))))->FUN_00906050((int)(std::uintptr_t)(this));
+            reinterpret_cast<::F8660Owner *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00978660((unsigned int)(std::uintptr_t)(this));
             if (!((unsigned char)(reinterpret_cast<::FUN_004226e0_shell *>((((H*)(*reinterpret_cast<void * *>(&::g_dataHandler)))))->FUN_004226e0())))
             {
                 reinterpret_cast<::MagicTarget *>(this)->DispelAllEffects();
-                ::FUN_0066e100((unsigned int)(this));
+                ::FUN_0066e100((unsigned int)(std::uintptr_t)(this));
                 reinterpret_cast<::fnv_0092ed60::FNVCurrent *>((((H*)this)))->FUN_0092ed60(1);
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((((H*)this)))->FUN_00881680(0);
                 reinterpret_cast<::fnv_00976680::Host *>((((H*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_00976680((::fnv_00976680::Obj *)(void *)(this));

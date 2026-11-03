@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class SaveLoadFile;
 enum SIZE_TYPE;
 namespace fnv_00845d80 { struct FUN_00846330_shell; }
@@ -13,7 +15,7 @@ int *FUN_00845b30(int *, ::FUN_00845b30_arg);
 // 0x00845cc0
 void FUN_00845cc0(const char *, ...);
 // 0x00845d00
-void ForwardToShell(::FUN_00846330_shell *, int, int);
+void ForwardToShell(::FUN_00846330_shell *, std::intptr_t, int);
 // 0x00845d20
 void ReadFileIntoBuffer(::SaveLoadFile *, unsigned int *, unsigned int);
 // 0x00845d80

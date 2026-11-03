@@ -1211,11 +1211,11 @@ struct FUN_00989010_t
 };
 struct FUN_0099b8b0_shell : FUN_00989010_t
 {
-    void FUN_0099b8b0(int a, int b);
+    void FUN_0099b8b0(std::intptr_t a, int b);
 };
 // Calls SetTripleAndValue with the two arguments, then writes 0 to the field at offset 0x10 of this object.
 // @fnv 0x0099b8b0
-void FUN_0099b8b0_shell::FUN_0099b8b0(int a, int b)
+void FUN_0099b8b0_shell::FUN_0099b8b0(std::intptr_t a, int b)
 {
     reinterpret_cast<::StandIn_00989010 *>(this)->SetTripleAndValue((::ThreeInts_00989010 *)(a), b);
     *(int*)((char*)this + 0x10) = 0;

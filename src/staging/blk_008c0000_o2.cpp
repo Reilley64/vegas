@@ -2336,7 +2336,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
         else
             ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(&m_pUserData->m_kValue)), (*(const ::hkVector4 *)(&kRot)));
     }
-    unsigned int uiType = reinterpret_cast<::FUN_00457880_Class *>(((*reinterpret_cast<::Grid_8cc740 * *>(&::g_TES))))->FUN_00457880((int)&(kPos));
+    unsigned int uiType = reinterpret_cast<::FUN_00457880_Class *>(((*reinterpret_cast<::Grid_8cc740 * *>(&::g_TES))))->FUN_00457880((std::intptr_t)&(kPos));
     switch (uiType)
     {
     case 0:
@@ -2352,7 +2352,7 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
     m_iActive = 1;
     reinterpret_cast<::Object *>(this)->FUN_008cfad0(reinterpret_cast<::NiPoint3 *>((void *)&(m_pUserData->m_kValue))->ComputeMagnitude(), (*(int *)&(const ::NiPoint3 &)(kPos)), 0, uiType, {}, {});
     if (m_pkController && m_pkController->GetEffect())
-        reinterpret_cast<::FUN_008d0600_s *>((m_pkController->GetEffect()))->FUN_008d0600((int)&(kPos), 0);
+        reinterpret_cast<::FUN_008d0600_s *>((m_pkController->GetEffect()))->FUN_008d0600((int)(std::uintptr_t)&(kPos), 0);
     if (m_pkController)
     {
         if (((::Emitter18_8cc740 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())))
@@ -2361,15 +2361,15 @@ void Owner_8cc740::FUN_008cc740(const NiPoint3& kPos, const NiPoint3& kWorldPosi
             m_pkController->m_kSink.SetActive(0);
             reinterpret_cast<::CastingCheck *>(&(m_pkController->m_kSink))->TryCast((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
         }
-        if (((::Emitter30_8cc740 *)(::FUN_009ee040((char *)this))))
+        if (((::Emitter30_8cc740 *)(std::uintptr_t)(::FUN_009ee040((char *)this))))
         {
-            m_pkController->m_kSink.Attach(((::Emitter30_8cc740 *)(::FUN_009ee040((char *)this))));
+            m_pkController->m_kSink.Attach(((::Emitter30_8cc740 *)(std::uintptr_t)(::FUN_009ee040((char *)this))));
             m_pkController->m_kSink.SetActive(0);
             reinterpret_cast<::CastingCheck *>(&(m_pkController->m_kSink))->TryCast((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
         }
-        if (((::Emitter18_8cc740 *)(reinterpret_cast<::FUN_004f9bf0_shell *>(this)->FUN_004f9bf0())))
+        if (((::Emitter18_8cc740 *)(std::uintptr_t)(reinterpret_cast<::FUN_004f9bf0_shell *>(this)->FUN_004f9bf0())))
         {
-            m_pkController->m_kSink.Attach(((::Emitter18_8cc740 *)(reinterpret_cast<::FUN_004f9bf0_shell *>(this)->FUN_004f9bf0())));
+            m_pkController->m_kSink.Attach(((::Emitter18_8cc740 *)(std::uintptr_t)(reinterpret_cast<::FUN_004f9bf0_shell *>(this)->FUN_004f9bf0())));
             m_pkController->m_kSink.SetActive(0);
             reinterpret_cast<::CastingCheck *>(&(m_pkController->m_kSink))->TryCast((::TESBoundObject *)(void *)(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>(this)->FUN_007af430()))));
         }
@@ -2480,7 +2480,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
     {
         Node8* root = v1d0();
         if (actor && actor->v428())
-            reinterpret_cast<::FUN_008d0600_s *>((actor->v428()))->FUN_008d0600((int)(victim->v1f4()), 1);
+            reinterpret_cast<::FUN_008d0600_s *>((actor->v428()))->FUN_008d0600((int)(std::uintptr_t)(victim->v1f4()), 1);
         state->victim = victim;
         if (victim)
             reinterpret_cast<::MyActor008A5300 *>((victim))->CallProcessAt778();
@@ -2505,7 +2505,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
                     offset = *v1f4() + (offset * DAT_01085c58);
                     hkVector4 position;
                     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&position)), (*(const ::fnv_004a3e00::NiPoint3 *)(&offset)));
-                    ::SetCollisionScale((::SceneNode *)(scene), (unsigned int)&(position), setting, (::MaterialSelector *)(0));
+                    ::SetCollisionScale((::SceneNode *)(scene), (unsigned int)(std::uintptr_t)&(position), setting, (::MaterialSelector *)(0));
                 }
             }
         }
@@ -2513,7 +2513,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
         Link8* linked = 0;
         Node8* victimScene;
         if (victim == (*reinterpret_cast<::Ref8 * *>(&::_g_thePlayer)))
-            victimScene = ((::Node8 *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::Ref8 * *>(&::_g_thePlayer))))->FUN_00950bb0(0)));
+            victimScene = ((::Node8 *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::Ref8 * *>(&::_g_thePlayer))))->FUN_00950bb0(0)));
         else
             victimScene = ((::Node8 *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((victim))->FUN_0043fcd0()));
         float range = DAT_010231a0;
@@ -2556,7 +2556,7 @@ void Ref8::FUN_008cba30(const NiPoint3* start, const NiPoint3* end, Ref8* victim
             FUN_006240d0 bound;
             hkVector4 center;
             ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&center)), (*(const ::fnv_004a3e00::NiPoint3 *)(start)));
-            reinterpret_cast<::FUN_008a50f0_class *>(&(bound))->FUN_008a50f0((int)&(center));
+            reinterpret_cast<::FUN_008a50f0_class *>(&(bound))->FUN_008a50f0((int)(std::uintptr_t)&(center));
             reinterpret_cast<::fnv_008a50d0::bhkCharacterController *>(&(bound))->FUN_008a50d0(::g_011c72ac_arg1);
             Link8* candidate = 0;
             if (overrideHit)

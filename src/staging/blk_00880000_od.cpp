@@ -2234,7 +2234,7 @@ bool SubActor::FUN_00884b50()
     if (this->v218())
     {
         B5512Target* pTarget = this->m_pFlagTarget ? this->m_pFlagTarget->v8b() : 0;
-        if (pTarget && ::FUN_0067a560((int)(pTarget)))
+        if (pTarget && ::FUN_0067a560((std::intptr_t)(pTarget)))
         {
             result = true;
         }

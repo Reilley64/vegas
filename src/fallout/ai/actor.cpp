@@ -111423,19 +111423,19 @@ struct Thing
 {
     char pad[0x68];
     Obj* m_obj;
-    int FUN_00881510();
+    std::intptr_t FUN_00881510();
 };
 
 // Returns m_obj->get() (0 if m_obj is null), replaced by FUN_005d43c0()->FUN_0041cb10() when that result is non-null and its FUN_00678610() is true.
 // @fnv 0x00881510
-int Thing::FUN_00881510()
+std::intptr_t Thing::FUN_00881510()
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (m_obj != 0)
-        result = (int)m_obj->get();
+        result = (std::intptr_t)m_obj->get();
     if (result != 0 && reinterpret_cast<::TESPackage *>((((Obj*)result)))->IsPackageBlockingGreeting())
     {
-        result = ((int)(reinterpret_cast<::FUN_0041cb10_shell *>((((::Sub *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cb10()));
+        result = ((std::intptr_t)(reinterpret_cast<::FUN_0041cb10_shell *>((((::Sub *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cb10()));
     }
     return result;
 }

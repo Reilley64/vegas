@@ -3744,7 +3744,7 @@ TESObjectREFR* FUN_00675980_shell::FUN_00675980()
 }
 
 // @fnv 0x0067a560
-bool FUN_0067a560(int pObject)
+bool FUN_0067a560(std::intptr_t pObject)
 {
     return (*(int*)(pObject + 0x1c) & 0x40000) ? true : false;
 }

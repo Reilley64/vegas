@@ -2225,7 +2225,7 @@ void FUN_0085efc0_Class::FUN_0085efc0(DummyPointerMap* pMap, unsigned int uiKey,
     TESSaveLoadGame* q = ((::TESSaveLoadGame *)(reinterpret_cast<::FUN_0085ef80_class *>((((FUN_0085ef80_shell*)this)))->AllocateWithPrefix(usIndex)));
     TESSaveLoadGame* p = q + 2;
     reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame*)this)))->FUN_008579e0((void*)p, usIndex);
-    reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)pMap)))->FUN_00844700(uiKey, (unsigned int)q);
+    reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)pMap)))->FUN_00844700(uiKey, (unsigned int)(std::uintptr_t)q);
 }
 // Allocates value + 2 bytes, copies the 2-byte value to the start of the block, and returns the block.
 // @fnv 0x0085ef80
@@ -2584,7 +2584,7 @@ int ScanRefsInRange(void* owner, unsigned int begin, unsigned int end)
     {
         if (::FUN_0084bcd0(i, (::BGSSaveFormBuffer *)(::RefScanBuffer *)(&_buf)))
         {
-            ::ForwardToShell((::FUN_00846330_shell *)(owner), (int)(&i), 4);
+            ::ForwardToShell((::FUN_00846330_shell *)(owner), (std::intptr_t)(&i), 4);
             reinterpret_cast<::FUN_00865c40_shell *>(&(_buf))->FUN_00865c40((::FUN_00846330_shell *)(owner));
             reinterpret_cast<::FUN_00847db0_shell *>(&(_buf))->FUN_00847db0();
             iHits++;
@@ -3473,7 +3473,7 @@ void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firs
         if (token)
         {
             char* start = token - 8;
-            token = ((char *)(reinterpret_cast<::FUN_00491040_shell *>((dataB))->FUN_00491040((int)(start))));
+            token = ((char *)(reinterpret_cast<::FUN_00491040_shell *>((dataB))->FUN_00491040((int)(std::uintptr_t)(start))));
         }
         process->RestoreSavedState(savedState4, token);
     }
@@ -5243,7 +5243,7 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
     object5->Reset();
     RestoredActor* actor = (RestoredActor*)FUN_00ec43fb(object5, 0, &DAT_011841cc, &DAT_011846d4, 0);
     if (actor)
-        reinterpret_cast<::CellPlaceStub *>((actor))->SetPlacement((int)(world), (::TESObjectCELL *)(cellTmp), (::CellPlaceVec *)(::RestoreVector *)(object5->Position()), ((::RestoreVector *)(reinterpret_cast<::TESRecipe *>((object5))->GetData()))->z);
+        reinterpret_cast<::CellPlaceStub *>((actor))->SetPlacement((int)(std::uintptr_t)(world), (::TESObjectCELL *)(cellTmp), (::CellPlaceVec *)(::RestoreVector *)(object5->Position()), ((::RestoreVector *)(reinterpret_cast<::TESRecipe *>((object5))->GetData()))->z);
     else
     {
         (*(::RestoreAction *)(reinterpret_cast<::FUN_005d43c0_ *>((object5))->FUN_005d43c0())).SetPositionExtraData();
@@ -5875,7 +5875,7 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
                     if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((RefView*)pkRef)))->GetTarget())))
                         reinterpret_cast<::fnv_0054ca90::Cell *>((((CellView*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((RefView*)pkRef)))->GetTarget())))))->FUN_0054ca90((::fnv_0054ca90::Ref *)(pkRef));
                     ((RefView*)pkRef)->SetParentCell(0);
-                    reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::s85ac30::ProcessLists * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(pkRef));
+                    reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::s85ac30::ProcessLists * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(std::uintptr_t)(pkRef));
                     ((RefView*)pkRef)->Update3D(0, 1);
                 }
             }

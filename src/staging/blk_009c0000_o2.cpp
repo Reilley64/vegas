@@ -546,7 +546,7 @@ bool xActor::FUN_009c40c0()
     float DIST = 3.402823466e+38F;
     RES = RES | reinterpret_cast<::fnv_009c5af0::FUN_009c5af0_shell *>(this)->GetWaterPlaneIntersection((::fnv_009c5af0::Proxy *)(::xPick *)(&PICK), &DIST);
     if (RES)
-        RES = ::FUN_009c0d80((::Scene *)(::xPick *)(&PICK), (::Controller *)(::xActor *)(this), (int)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (float *)(0), 1, DIST) != 0;
+        RES = ::FUN_009c0d80((::Scene *)(::xPick *)(&PICK), (::Controller *)(::xActor *)(this), (int)(std::uintptr_t)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))), (float *)(0), 1, DIST) != 0;
     if (RES)
         reinterpret_cast<::FUN_009795c0_shell *>(this)->FUN_009795c0(0.0f);
     return RES;

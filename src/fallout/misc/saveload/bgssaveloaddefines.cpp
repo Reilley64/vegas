@@ -340,7 +340,7 @@ public:
 };
 
 // @fnv 0x00845d00
-void ForwardToShell(FUN_00846330_shell* apShell, int aiArg1, int aiArg2)
+void ForwardToShell(FUN_00846330_shell* apShell, std::intptr_t aiArg1, int aiArg2)
 {
     apShell->WriteToFile((const void *)(aiArg1), aiArg2);
 }

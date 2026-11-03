@@ -695,7 +695,7 @@ bool TargetClass::FUN_00906c10(int a, void** b, QHeadPtrDest* apHeadDest)
     bool bResult = false;
     while (true)
     {
-        bResult = reinterpret_cast<::SearchWorker *>((this))->ProcessNode(a, (int)(*b));
+        bResult = reinterpret_cast<::SearchWorker *>((this))->ProcessNode(a, (int)(std::uintptr_t)(*b));
         if (bResult)
         {
             if (::ClearLowBit((int *)&(this->m_18)))

@@ -333,7 +333,7 @@ Biped* PlayerCharacter::FUN_00950b00(bool firstPerson)
 {
     if (firstPerson)
         return *(Biped**)((char*)this + 0x68c);
-    return ((::Biped *)(::FUN_005d9f90((char *)this)));
+    return ((::Biped *)(std::uintptr_t)(::FUN_005d9f90((char *)this)));
 }
 
 struct FUN_0095f6a0_Class
@@ -2243,8 +2243,8 @@ void RestorePlayer::RestorePlayerLocation(bool travel)
                 player3->InitializeForCell(cell2_2);
                 InitializeForCell(cell2_2);
             }
-            RestoreNode* third_ = ((::RestoreNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)));
-            RestoreNode* first5 = ((::RestoreNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(true)));
+            RestoreNode* third_ = ((::RestoreNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(false)));
+            RestoreNode* first5 = ((::RestoreNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(this)->FUN_00950bb0(true)));
             reinterpret_cast<::FUN_00440460_S *>((third_))->FUN_00440460((const ::V3 *)&(savedPosition));
             reinterpret_cast<::FUN_00440460_S *>((first5))->FUN_00440460((const ::V3 *)&(savedPosition));
             ::FUN_00c6bd00((::TreeNode_cls *)(third_), true);
@@ -4156,7 +4156,7 @@ struct Owner
 void Owner::FUN_0095f6c0(float delta)
 {
     InputState* input = ((::InputState *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::InputManager * *>(&::g_osGlobals))))->FUN_00877720()));
-    unsigned char pressed = ((void *)(reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(27, 1))) != 0;
+    unsigned char pressed = ((void *)(std::uintptr_t)(reinterpret_cast<::HotkeyWheelDisplay *>((input))->SetHotkeyItem(27, 1))) != 0;
     if (pressed)
         ::fnv_00705ad0::FUN_00705ad0(0);
     int status = ::fnv_00705a90::GetLODMultTypeIfKeySet();
@@ -4183,7 +4183,7 @@ void Owner::FUN_0095f6c0(float delta)
         }
         else if ((pressed || first) && mode == 0)
         {
-            ActorRef* actor = ((::ActorRef *)(::FlaggedData::GetPlayerValue()));
+            ActorRef* actor = ((::ActorRef *)(std::uintptr_t)(::FlaggedData::GetPlayerValue()));
             if (actor)
             {
                 if (((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca27c)) || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca280)))
@@ -4201,7 +4201,7 @@ void Owner::FUN_0095f6c0(float delta)
                             actor->FUN_SLOT48(4);
                         pressed = false;
                         DAT_011e0d5c = true;
-                        reinterpret_cast<::FUN_004213c0_impl *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_004213c0((int)(actor), (int)(this));
+                        reinterpret_cast<::FUN_004213c0_impl *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->FUN_004213c0((int)(std::uintptr_t)(actor), (int)(std::uintptr_t)(this));
                         reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Quest *)(reinterpret_cast<::FUN_005d43c0_ *>((actor))->FUN_005d43c0()))))->RemoveExtra(124);
                     }
                 }
@@ -4253,7 +4253,7 @@ void Obj::ApplyFormPayload(Form* form, int unused)
     if (node)
     {
         unk88.vf14(node ? &node->payload18 : 0, form, 0);
-        reinterpret_cast<::MagicTargetUpd *>(&(unk94))->UpdateEffectsByFlags((unsigned int)(node ? &node->payload18 : 0));
+        reinterpret_cast<::MagicTargetUpd *>(&(unk94))->UpdateEffectsByFlags((unsigned int)(std::uintptr_t)(node ? &node->payload18 : 0));
     }
 }
 

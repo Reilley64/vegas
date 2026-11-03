@@ -1835,7 +1835,7 @@ void FUN_009acd00_Class::FUN_009acd00()
     void* p = ((void*(*)(void*))(*(void***)this)[0x1d0 / 4])(this);
     if (p != 0)
     {
-        void* c = ((void *)(reinterpret_cast<::TESRegionDataMap *>((((KFModel*)((TESWorldSpace*)((void *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGame*)g_TES)))->GetHitSound())))->GetWorldTerrainManager())))->GetRegionMapName()));
+        void* c = ((void *)(reinterpret_cast<::TESRegionDataMap *>((((KFModel*)((TESWorldSpace*)((void *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGame*)(std::uintptr_t)g_TES)))->GetHitSound())))->GetWorldTerrainManager())))->GetRegionMapName()));
         if (c != 0)
         {
             ((void(*)(void*, void*, int))(*(void***)c)[0xdc / 4])(c, p, 1);
@@ -3664,7 +3664,7 @@ class FUN_009b2e30_cls
 // @fnv 0x009b2e30
 FUN_009b2e30_cls* FUN_009b2e30_cls::FUN_009b2e30(int a)
 {
-    reinterpret_cast<::FUN_0062e230_shell *>(this)->FUN_0062e230((unsigned int)(&unk0c), a, 0x80);
+    reinterpret_cast<::FUN_0062e230_shell *>(this)->FUN_0062e230((std::uintptr_t)(&unk0c), a, 0x80);
     return this;
 }
 
@@ -4588,10 +4588,10 @@ void PRef::UpdateNodePlacement()
         PNode* node7 = GetNode3D();
         if (node7)
         {
-            ::FUN_00c6a040((int)(node7), 0, 1, 1);
+            ::FUN_00c6a040((int)(std::uintptr_t)(node7), 0, 1, 1);
             PUpdateData updateData3(0.0f, false, false);
             node7->Update(updateData3);
-            ::FUN_00c6a040((int)(node7), 1, 1, 1);
+            ::FUN_00c6a040((int)(std::uintptr_t)(node7), 1, 1, 1);
             PPoint3 pt;
             reinterpret_cast<::FUN_00439f50_class *>((((::PTransformHolder *)(::FUN_00461130((std::intptr_t)(node7))))))->FUN_00439f50(1, (::NiPoint3 *)&(pt));
             reinterpret_cast<::MyPoint439180 *>((void *)&(const ::PPoint3 &)(pt))->FUN_00439180(reinterpret_cast<::FUN_009669c0_Class *>(this)->FUN_009669c0());
@@ -5199,7 +5199,7 @@ void S_9a54a0_Class::AddOrUpdateItem(void* pForm, float b, float c, float d, flo
     else
     {
         pItem = new Item_009a5530(pForm, b, c, d, e);
-        reinterpret_cast<::FUN_00844700_Class *>((((Map_009a5530*)this)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Form_009a5530*)pForm)))->FUN_0084e3a0())), (unsigned int)pItem);
+        reinterpret_cast<::FUN_00844700_Class *>((((Map_009a5530*)this)))->FUN_00844700(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Form_009a5530*)pForm)))->FUN_0084e3a0())), (unsigned int)(std::uintptr_t)pItem);
     }
     if (*(*reinterpret_cast<::Setting_009a5530 *>(&::g_011f1ba0)).Bool())
     {
@@ -5804,7 +5804,7 @@ TargetRef* __cdecl CreateProjectileRef(void* form, TargetRef* source, TargetRef*
         if (source && source->IsProjectile())
         {
             TargetRef* projectile = source;
-            owner = ((::TargetRef *)(::FUN_00874480((char *)(projectile))));
+            owner = ((::TargetRef *)(std::uintptr_t)(::FUN_00874480((char *)(projectile))));
             if (owner == (*reinterpret_cast<::TargetRef * *>(&::_g_thePlayer)))
             {
                 TargetRef* actor = source;
@@ -6138,7 +6138,7 @@ class Owner9AF
 // @fnv 0x009afcc0
 void MatchContext::UpdateMatchingActors()
 {
-    void* playerResult = ((void *)(reinterpret_cast<::S009b0e00 *>(this)->FindOrCreateItem((int)((*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer))), 0, true)));
+    void* playerResult = ((void *)(reinterpret_cast<::S009b0e00 *>(this)->FindOrCreateItem((int)(std::uintptr_t)((*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer))), 0, true)));
     if (((::MatchList *)(::FUN_00559450((int *)&(entries)))))
     {
         for (int index3 = 0; index3 < ((intptr_t)(reinterpret_cast<::Callees *>((((::MatchArray *)(reinterpret_cast<::Owner9AF *>((((::MatchList *)(::FUN_00559450((int *)&(entries))))))->GetFirstListItem()))))->FUN_00726070())); ++index3)
@@ -6157,7 +6157,7 @@ void MatchContext::UpdateMatchingActors()
                 bool lowRank = base2 ? ::FUN_00517670((::TESDataHandler *)(base2)) < 4 : false;
                 void* result = 0;
                 if (actor != (*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer)) && actor != excluded)
-                    result = ((void *)(reinterpret_cast<::S009b0e00 *>(this)->FindOrCreateItem((int)(actor), 0, lowRank)));
+                    result = ((void *)(reinterpret_cast<::S009b0e00 *>(this)->FindOrCreateItem((int)(std::uintptr_t)(actor), 0, lowRank)));
                 else if (actor == (*reinterpret_cast<::MatchRef * *>(&::_g_thePlayer)))
                     result = playerResult;
                 if (result && actor->IsActor() && reinterpret_cast<::FUN_009b0f80_Actor *>(this)->GetCachedValue() > 0.0)
@@ -6719,7 +6719,7 @@ void Obj082::ProcessHits()
                         {
                             Obj082* zero;
                             if (amount == (*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer)))
-                                zero = ((::fnv_009b00a0::Obj082 *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer))))->FUN_00950bb0(0)));
+                                zero = ((::fnv_009b00a0::Obj082 *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_009b00a0::Obj082 * *>(&::_g_thePlayer))))->FUN_00950bb0(0)));
                             else
                                 zero = amount->GetNode();
                             ::FUN_00c6a350((::NiAVObject *)(zero), 1, 1, 0, 1);
@@ -8686,7 +8686,7 @@ void HitDamage::FUN_009b5a30(bool skipBlock)
         else if (attacker == (*reinterpret_cast<::fnv_009b5a30::HitActor * *>(&::_g_thePlayer)) && !target->Dead(0))
             ::FUN_00709c80(negatedTmp);
         if (attacker && reinterpret_cast<::MiddleHighProcess *>((attacker))->IsActorInCombat())
-            ::AddTimedEntry((unsigned int)(attacker), 9);
+            ::AddTimedEntry((unsigned int)(std::uintptr_t)(attacker), 9);
     }
     else if (negatedTmp)
     {

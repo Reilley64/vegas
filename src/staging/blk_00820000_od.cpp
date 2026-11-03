@@ -2277,7 +2277,7 @@ void __cdecl PlayWeaponSound(Weap* apWeapon, VObj1d0* apSource, ListObj* apListO
             else
             {
                 sndA = reinterpret_cast<::FUN_005215a0_shell *>((apWeapon))->FUN_005215a0(b83d);
-                sndB = ((::TESSound *)(reinterpret_cast<::FUN_00522440_shell *>((apWeapon))->GetValueByFlag(b83d)));
+                sndB = ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::FUN_00522440_shell *>((apWeapon))->GetValueByFlag(b83d)));
             }
             bool a86 = ::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(sndA), (*(::NiPoint3 *)&(const ::Vec3 &)(jvec)), yf50);
             bool b85 = ::SoundPlaybackManager::CanPlaySoundAt((::TESSound *)(sndB), (*(::NiPoint3 *)&(const ::Vec3 &)(jvec)), cf4c);

@@ -369,7 +369,7 @@ struct PathBuilder
 // @fnv 0x009dfd50
 void* PathBuilder::FUN_009dfd50()
 {
-    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(this)->FUN_006e8f40((int)((char*)m_8 - 1))));
+    return ((void *)(reinterpret_cast<::FUN_006e8f40_shell *>(this)->FUN_006e8f40((int)(std::uintptr_t)((char*)m_8 - 1))));
 }
 
 struct InventoryStackRecord
@@ -478,7 +478,7 @@ public:
 TESObjectREFR* GetReferenceFromObject(NiAVObject* object)
 {
     TESObjectREFR* reference = 0;
-    NiAVObject* converted = ((::NiAVObject *)(::FUN_00c7fa90((::S_Obj *)(object))));
+    NiAVObject* converted = ((::NiAVObject *)(std::uintptr_t)(::FUN_00c7fa90((::S_Obj *)(object))));
     if (converted)
         reference = ::FUN_0056f930(converted);
     return reference;
@@ -1833,7 +1833,7 @@ void DialogueCameraX::FUN_009c7240()
                 }
                 else
                 {
-                    (*reinterpret_cast<::CamDataX * *>(&::DAT_011f21dc)) = ((::CamDataX *)(reinterpret_cast<::FUN_0058bb50_shell *>(((*reinterpret_cast<::CamMgrX * *>(&::DAT_011ca700))))->FUN_0058bb50((unsigned int)((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))), (unsigned int)(qJDuOZ->pActor))));
+                    (*reinterpret_cast<::CamDataX * *>(&::DAT_011f21dc)) = ((::CamDataX *)(reinterpret_cast<::FUN_0058bb50_shell *>(((*reinterpret_cast<::CamMgrX * *>(&::DAT_011ca700))))->FUN_0058bb50((unsigned int)(std::uintptr_t)((*reinterpret_cast<::RefX * *>(&::DAT_011f21f0))), (unsigned int)(std::uintptr_t)(qJDuOZ->pActor))));
                 }
                 if ((*reinterpret_cast<::CamDataX * *>(&::DAT_011f21dc)))
                 {
@@ -3359,7 +3359,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                 ::FUN_005ac750((::TESForm *)(pImpacts), (::ExtraDataList *)(::ProjectileImpact::ImpExtraList *)(((::ProjectileImpact::ImpExtraList *)(reinterpret_cast<::FUN_005d43c0_ *>((apTarget))->FUN_005d43c0()))), 0x100);
         }
         int iMaterial = aiMaterial;
-        ImpImpact* pImpactTmp = pImpacts ? ((::ProjectileImpact::ImpImpact *)(reinterpret_cast<::FUN_00522ba0_obj *>((pImpacts))->FUN_00522ba0(iMaterial))) : 0;
+        ImpImpact* pImpactTmp = pImpacts ? ((::ProjectileImpact::ImpImpact *)(std::uintptr_t)(reinterpret_cast<::FUN_00522ba0_obj *>((pImpacts))->FUN_00522ba0(iMaterial))) : 0;
         if (pImpactTmp)
         {
             void* m_pDecalData = pImpactTmp->FUN_006733e0();
@@ -3394,7 +3394,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             int iMaterialIndex = ((::ProjectileImpact::ImpHit *)(reinterpret_cast<::FUN_0062e150_cls *>((((::ProjectileImpact::ImpHitList *)(reinterpret_cast<::TESTopicInfoData *>(&(kResultsVal))->GetLinkToList()))))->FUN_0062e150(i)))->iMaterialIndex;
                             if (iMaterialIndex != -1)
                             {
-                                ImpMaterial* pMaterial = ((::ProjectileImpact::ImpMaterial *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(pSurfaceInfo))))))));
+                                ImpMaterial* pMaterial = ((::ProjectileImpact::ImpMaterial *)(std::uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(pSurfaceInfo))))))));
                                 if (!pMaterial)
                                     continue;
                                 ImpMaterialSet* pSet = pMaterial->FUN_vtcc();
@@ -3403,7 +3403,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                             }
                             else
                             {
-                                ImpMaterial* pSingle = ((::ProjectileImpact::ImpMaterial *)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(pSurfaceInfo))))))));
+                                ImpMaterial* pSingle = ((::ProjectileImpact::ImpMaterial *)(std::uintptr_t)(::FUN_004a3a40((::TESObjectREFR *)(void *)(((void *)(::FUN_00559450((int *)(pSurfaceInfo))))))));
                                 if (!pSingle)
                                     continue;
                                 iSurfaceMaterialCur = reinterpret_cast<::FUN_006205a0_Class *>((pSingle))->FUN_006205a0();
@@ -3426,7 +3426,7 @@ void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* 
                                 }
                                 else
                                 {
-                                    pAttach = ((::ProjectileImpact::ImpAttach *)(::FUN_00c7fa90((::S_Obj *)(pSurfaceInfo))));
+                                    pAttach = ((::ProjectileImpact::ImpAttach *)(std::uintptr_t)(::FUN_00c7fa90((::S_Obj *)(pSurfaceInfo))));
                                 }
                                 void* pGeometryRef = ((void *)(::FUN_0056f930((::NiAVObject *)(pAttach))));
                                 if (!bHasAnimation &&

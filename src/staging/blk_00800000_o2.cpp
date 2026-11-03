@@ -660,7 +660,7 @@ xProj::xProj(int a, int b, int c, int d, xP3 kP1, xP3 kP2, void* apE, xOwner* ap
     m_b0 = 1.0f;
     m_c0 = 0;
     if (apE)
-        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(apE));
+        reinterpret_cast<::fnv_00570f70::Obj570 *>(this)->FUN_00570f70((int)(std::uintptr_t)(apE));
     else
         reinterpret_cast<::XRef *>(this)->FUN_0081e570(0);
     reinterpret_cast<::TESObjectREFR *>(this)->ResetProjectileIdleAnimation();

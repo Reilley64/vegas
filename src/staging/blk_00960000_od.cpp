@@ -2872,7 +2872,7 @@ bool PKRef::FUN_00962950(void* apRoot)
     {
         PKRecord* pRecordA = ((::PKRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::PKResults *)(reinterpret_cast<::BGSCameraPath *>((g_pPKPick))->GetConditions()))))->FUN_00968670(0)));
         PKPoint3 kNormal = *((::PKPoint3 *)(reinterpret_cast<::FUN_004610d0_shell *>((pRecordA))->GetExtraDataList()));
-        if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
+        if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
             bBlocked = true;
     }
     if (!bBlocked)
@@ -2882,7 +2882,7 @@ bool PKRef::FUN_00962950(void* apRoot)
         {
             PKRecord* pRecordA = ((::PKRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::PKResults *)(reinterpret_cast<::BGSCameraPath *>((g_pPKPick))->GetConditions()))))->FUN_00968670(0)));
             PKPoint3 kNormal = *((::PKPoint3 *)(reinterpret_cast<::FUN_004610d0_shell *>((pRecordA))->GetExtraDataList()));
-            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
+            if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
                 bBlocked = true;
         }
         if (!bBlocked)
@@ -2892,7 +2892,7 @@ bool PKRef::FUN_00962950(void* apRoot)
             {
                 PKRecord* pRecordA = ((::PKRecord *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::PKResults *)(reinterpret_cast<::BGSCameraPath *>((g_pPKPick))->GetConditions()))))->FUN_00968670(0)));
                 PKPoint3 kNormal = *((::PKPoint3 *)(reinterpret_cast<::FUN_004610d0_shell *>((pRecordA))->GetExtraDataList()));
-                if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
+                if (reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kDir3))->DotProduct((void *)&(kNormal)) > 0.0 && !::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(::PKFormSet *)(&(*reinterpret_cast<::PKFormSet *>(&::g_011f4aa0))), (const ::fnv_0045bad0::NiObject *)(std::uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((pRecordA->GetObject()))->FUN_009611e0())))))
                     bBlocked = true;
             }
         }
@@ -7782,7 +7782,7 @@ int CombatController::FUN_00967da0()
         ActorCombatGroup* a = ((::fnv_00967da0::ActorCombatGroup *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>(((*reinterpret_cast<::fnv_00967da0::CombatGroupManager * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00968670(groupIndex)));
         if (a == 0 || a == eb || a == cf)
             continue;
-        if (!((unsigned char)(reinterpret_cast<::FUN_009865b0_shell *>((a))->FUN_009865b0((int)(this)))))
+        if (!((unsigned char)(reinterpret_cast<::FUN_009865b0_shell *>((a))->FUN_009865b0((int)(std::uintptr_t)(this)))))
             continue;
 
         // p: allowed; a: group; f: nearest; b: groupSize; ba: preserve; k: reference; l: bestCandidate
@@ -7938,7 +7938,7 @@ int CombatController::FUN_00967da0()
                 if (kind == 0x18)
                 {
                     TargetForm* targetedForm = form;
-                    reinterpret_cast<::FUN_009f84d0_class *>((targetedForm))->FUN_009f84d0((unsigned int)(reinterpret_cast<CombatActor*>((*reinterpret_cast<::EngineRoot * *>(&::_g_thePlayer)))));
+                    reinterpret_cast<::FUN_009f84d0_class *>((targetedForm))->FUN_009f84d0((unsigned int)(std::uintptr_t)(reinterpret_cast<CombatActor*>((*reinterpret_cast<::EngineRoot * *>(&::_g_thePlayer)))));
                     reinterpret_cast<::p076::Shell *>((ref))->FUN_008a6ce0(0, 0);
                 }
                 else if (kind == 0x16)

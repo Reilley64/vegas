@@ -337,7 +337,7 @@ void OwnerB09::FUN_009b0920(RefB09* pRef)
 void S_009b0c90::FUN_009b0c90(const NiPoint3& p)
 {
     hkVec4S_9b0c90 v;
-    reinterpret_cast<::fnv_009b0cf0::FUN_009b0cf0_class *>(this)->FUN_009b0cf0((int)&((*(::hkVec4S_9b0c90 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(v), (const ::fnv_004a3e00::NiPoint3 &)(p))))));
+    reinterpret_cast<::fnv_009b0cf0::FUN_009b0cf0_class *>(this)->FUN_009b0cf0((int)(std::uintptr_t)&((*(::hkVec4S_9b0c90 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(v), (const ::fnv_004a3e00::NiPoint3 &)(p))))));
 }
 
 typedef __m128 ContactVector369;

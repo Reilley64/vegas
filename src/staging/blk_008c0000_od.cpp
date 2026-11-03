@@ -204,9 +204,10 @@ int FlaggedData::FUN_008c2e30()
     return ContainsAnyFlag(4);
 }
 
+struct FUN_008c5000_item;
 struct FUN_008c5000_shell
 {
-    int FUN_008c5000(int);
+    FUN_008c5000_item* FUN_008c5000(int);
     int IsNonZero(int arg);
 };
 
@@ -775,7 +776,7 @@ FUN_008d0270_Class* FUN_008d0270_Class::FUN_008d0270()
     return this;
 }
 
-void __cdecl CallWithParam(int);
+void __cdecl CallWithParam(std::intptr_t);
 
 struct FUN_008d1130_Class : FUN_008d1160_Class
 {
@@ -788,7 +789,7 @@ FUN_008d1130_Class* FUN_008d1130_Class::FUN_008d1130(unsigned int flags)
 {
     FUN_008d1160();
     if (flags & 1)
-        CallWithParam((int)this);
+        CallWithParam((std::intptr_t)this);
     return this;
 }
 
@@ -965,7 +966,7 @@ void __cdecl FUN_008d68d0()
         }
         if (DAT_011e00e0[i])
         {
-            void* p = (void*)DAT_011e00e0[i];
+            void* p = (void*)(std::uintptr_t)DAT_011e00e0[i];
             ::FUN_00401030(p);
             DAT_011e00e0[i] = 0;
         }
@@ -1071,7 +1072,7 @@ struct FUN_008d17d0_Class
 // @fnv 0x008d17d0
 void FUN_008d17d0_Class::FUN_008d17d0(BGSAcousticSpace* dst, void* arg)
 {
-    reinterpret_cast<::FUN_0040e500_shell *>((dst))->SetValue((int)(((::TESSound *)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(this)))))));
+    reinterpret_cast<::FUN_0040e500_shell *>((dst))->SetValue((int)(std::uintptr_t)(((::TESSound *)(std::uintptr_t)(::GetField38((char *)(reinterpret_cast<TESTopicInfo*>(this)))))));
     reinterpret_cast<FUN_00929240_Class*>(dst)->FUN_00929240(
         reinterpret_cast<BSFaceGenMorphData*>(this)->FUN_00508120());
     reinterpret_cast<::NiTimeControllerCM *>((reinterpret_cast<CloneableObj*>(this)))->FUN_00a6cfe0((::NiTimeController *)(::CloneableObj *)(reinterpret_cast<CloneableObj*>(dst)), (*(::CloningProcess *)(arg)));
@@ -2960,7 +2961,7 @@ unsigned char Player::RenderActiveAction(void* unused)
         reinterpret_cast<::FUN_0043fa80_s *>((renderer))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&state->configuration30)));
         reinterpret_cast<::FUN_00440490_shell *>((renderer))->FUN_00440490((float)(((double)(reinterpret_cast<::FUN_009cdae0_shell *>((renderer))->GetFloatAt64())) / reinterpret_cast<::FUN_008d01e0_Class *>((void *)(pAction))->FUN_008d01e0()));
         GameContext* ctx = ((::GameContext *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
-        ::FUN_00b5b1c0((::ShadowSceneNode *)(ctx), (int)(renderer), {});
+        ::FUN_00b5b1c0((::ShadowSceneNode *)(ctx), 0, (::NiAVObject *)(renderer));
         pAction->apply(renderer, 1);
         reinterpret_cast<::ShadowSceneNode *>((ctx))->AddObject((::NiAVObject *)(renderer));
         ActiveItem* active = state->active;
@@ -3688,17 +3689,17 @@ int ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotat
         *pOutRotate = DAT_011a9448;
         return 0;
     }
-    AnimTimeSource* source7 = ((NiAVObject*)DAT_011e0110[index])->GetObject3D();
+    AnimTimeSource* source7 = ((NiAVObject*)(std::uintptr_t)DAT_011e0110[index])->GetObject3D();
     if (index != 0)
     {
         float sourceTime = reinterpret_cast<::TESActorBaseData *>((source7))->GetHealthRegeneration();
         NiUpdateData data3(sourceTime, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(data3));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(std::uintptr_t)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(data3));
     }
-    ThreeByThreeMatrix rotate5 = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)DAT_011e0110[index])))));
+    ThreeByThreeMatrix rotate5 = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)(std::uintptr_t)DAT_011e0110[index])))));
     NiUpdateData update2(time, true, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(update2));
-    *pOutRotate = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)((*(::ThreeByThreeMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(rotate5))->FUN_004b45b0({})))))->operator+((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)DAT_011e0110[index]))))));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((NiAVObject*)(std::uintptr_t)DAT_011e0110[index])))->FUN_00a59c60((std::intptr_t)&(update2));
+    *pOutRotate = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)((*(::ThreeByThreeMatrix *)(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(rotate5))->FUN_004b45b0({})))))->operator+((*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((NiAVObject*)(std::uintptr_t)DAT_011e0110[index]))))));
     return DAT_011e00e0[index];
 }
 
@@ -4928,7 +4929,7 @@ void FUN_008d6f50_Class::FUN_008d6f50(std::intptr_t pCamera)
     }
     else
     {
-        reinterpret_cast<::FUN_0041fd00_shell *>((((MagicCaster*)((char*)this + 8))))->FUN_0041fd00((int)(NiCamera*)pCamera);
+        reinterpret_cast<::FUN_0041fd00_shell *>((((MagicCaster*)((char*)this + 8))))->FUN_0041fd00((int)(std::uintptr_t)(NiCamera*)pCamera);
         ((S694a0*)((char*)this + 8))->FUN_00a694a0((void*)&((NiCamera*)pCamera)->GetViewFrustum());
     }
     reinterpret_cast<::FUN_0096bbc0_cls *>(&((*reinterpret_cast<::ProcessLists *>(&::g_011e0e80))))->ProcessMobileObjects((::FUN_0096bbc0_list *)(void *)(this));
@@ -4938,7 +4939,7 @@ void FUN_008d6f50_Class::FUN_008d6f50(std::intptr_t pCamera)
 // @fnv 0x008d6bb0
 void FUN_008d6bb0_owner::CreateMultiBoundNode(SceneArg* arg)
 {
-    reinterpret_cast<::FUN_0041fd00_shell *>(&(holder))->FUN_0041fd00((int)(arg));
+    reinterpret_cast<::FUN_0041fd00_shell *>(&(holder))->FUN_0041fd00((int)(std::uintptr_t)(arg));
     reinterpret_cast<::S694a0 *>(&(holder))->FUN_00a694a0(arg->GetData());
     pShape = new BSMultiBoundShape;
     pMultiBound = new BSMultiBound;
@@ -5323,7 +5324,7 @@ bool MovementController::UpdateAnimation(AnimationOutput* output)
         float scale = reinterpret_cast<::FUN_004b6190_shell *>(&(state->direction))->DotProduct((void *)&(aRotation));
         NiPoint3 normal7 = FUN_004a3760(2.0f, FUN_004a3760(scale, state->direction) - aRotation);
         reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::NiPoint3 &)(aRotation))->FUN_0063c8a0((void *)&(normal7));
-        reinterpret_cast<::Owner5615 *>((output))->FUN_005615d0((int)&(const ::NiPoint3 &)(FUN_004a3760(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting650)))))) * speed, aRotation)));
+        reinterpret_cast<::Owner5615 *>((output))->FUN_005615d0((std::intptr_t)&(const ::NiPoint3 &)(FUN_004a3760(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting *>(&::originalRuntimeFloatSetting650)))))) * speed, aRotation)));
         RotationMatrix matrix9;
         reinterpret_cast<::ThreeByThreeMatrix *>(&(getNode()->FUN_00461130()))->Inverse((::ThreeByThreeMatrix &)(matrix9));
         NiPoint3 normal = matrix9.FUN_004b4500(state->direction);
@@ -6229,8 +6230,8 @@ bool SceneProjectile::FUN_008cdaf0(SceneOutput* owner)
     {
         owner->FUN_00626cb0(UpdateToken(4, GetCachedValue(), 0).value);
     }
-    reinterpret_cast<::Owner5615 *>((owner))->FUN_005615d0((int)&(unk88->position));
-    ResourceUpdate* resource = ((::ResourceUpdate *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(::SceneNode *)(((::SceneNode *)(reinterpret_cast<::FUN_00620b80_shell *>((owner))->GetReferenceFlags()))))));
+    reinterpret_cast<::Owner5615 *>((owner))->FUN_005615d0((std::intptr_t)&(unk88->position));
+    ResourceUpdate* resource = ((::ResourceUpdate *)(::bhkCollisionObject::GetFromRigidBody((const ::hkpRigidBody *)(::SceneNode *)(((::SceneNode *)(std::uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((owner))->GetReferenceFlags()))))));
     if (resource)
         reinterpret_cast<::fnv_00573ed0::_dummy_4d9fa0 *>((resource))->FUN_00573ed0(true);
     return true;

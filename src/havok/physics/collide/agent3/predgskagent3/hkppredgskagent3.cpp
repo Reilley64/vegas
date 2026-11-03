@@ -58,7 +58,17 @@ struct ResultData
     char unk09;
     char unk0A;
     unsigned char unk0B;
-    int unk0C;
+    union
+    {
+        int unk0C;
+        struct
+        {
+            unsigned char unk0C_0;
+            unsigned char unk0D;
+            unsigned char unk0E;
+            unsigned char unk0F;
+        };
+    };
 };
 // Calls one of two handlers on result based on record->type, clears status[2] and some result flags, then returns result advanced by an aligned size.
 // @fnv 0x00d418d0
@@ -74,7 +84,7 @@ void* __cdecl DispatchInputRecord(InputData* input, unsigned char* status, Resul
     status[2] = 0;
     result->unk0B &= 0xEF;
     result->unk0C = 0;
-    unsigned int size = (unsigned char)*((char*)result + 0x0D) + 4 * (unsigned char)*((char*)result + 0x0E);
+    unsigned int size = result->unk0D + 4 * result->unk0E;
     size += (unsigned char)result->unk0C;
     return (char*)result + ((size * 2 + 0x1F) & 0xFFFFFFF0);
 }
@@ -418,7 +428,13 @@ struct Request
 };
 struct Cache
 {
+    struct ContactPoint
+    {
+        unsigned char m_data[8];
+    };
+
     unsigned char countA, countB, contacts, flags;
+    ContactPoint m_contactPoints[1];  // `contacts` of them, followed by the vertex ids
 };
 struct OutputStack
 {
@@ -498,7 +514,7 @@ void* __cdecl FUN_00d41a30(Request* input, unsigned char* status, ResultData* re
             workspace.radiusB = shapeB->radius;
             *(__m128*)&workspace.separation = *(const __m128*)separation;
             AlignedVec* vertices = workspace.vertices;
-            unsigned short* indices = (unsigned short*)((char*)cache + 4 + cache->contacts * 8);
+            unsigned short* indices = (unsigned short*)(cache->m_contactPoints + cache->contacts);
             float threshold = workspace.radiusA + workspace.tolerance + workspace.radiusB;
             workspace.threshold = threshold * threshold;
             shapeA->GetIndexedVertices(indices, cache->countA, vertices);

@@ -254,7 +254,8 @@ struct ItemList
 };
 struct ItemListContainer
 {
-    char pad[8];
+    char pad[0x4];
+    int unk04;
     ItemList items;
     ~ItemListContainer();
     char pad9[0x17];
@@ -7227,7 +7228,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
 
             while (itemIter2 && !itemIter2->FUN_008256d0())
             {
-                if (reinterpret_cast<int*>(*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))[1] == 1 &&
+                if ((*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(iter)->m_item)))->unk04 == 1 &&
                     (*((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item)))->unk20 == 1)
                 {
                     reinterpret_cast<VATSMenu*>(DAT_011db0d4)->m_pTargetChance = *((::ItemListContainer **)(&reinterpret_cast<::SimpleListNodeView*>(itemIter2)->m_item));

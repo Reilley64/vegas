@@ -24,11 +24,18 @@ struct HeadPart
     int unk1c;
 };
 
+struct Target
+{
+    int Handle(void* apValue);
+};
+
+// The mid-phase viewer's world listener part, at +0x20 after hkReferencedObject and hkProcess (HeadPart).
 struct FirstBase
 {
     int unk00;
     int unk04;
     void FUN_00d6a250(Receiver* apReceiver);
+    int HandleWithSelfOffset(Target* apTarget);
 };
 
 struct SecondBase
@@ -45,11 +52,18 @@ struct Receiver
 {
 };
 
-// Passes the enclosing FullObject (this minus 0x20) to the receiver's ClearValue.
+// Passes the enclosing FullObject to the receiver's ClearValue.
 // @fnv 0x00d6a250
 void FirstBase::FUN_00d6a250(Receiver* apReceiver)
 {
-    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue(((FullObject*)((char*)this - 0x20)));
+    reinterpret_cast<::SearchArray *>((apReceiver))->ClearValue(static_cast<FullObject*>(this));
+}
+
+// @fnv 0x00d6a220
+int FirstBase::HandleWithSelfOffset(Target* apTarget)
+{
+    SecondBase* listener = static_cast<FullObject*>(this);
+    return apTarget->Handle(listener);
 }
 
 struct S_00d6a750_Element
@@ -199,9 +213,16 @@ struct RefObj
     short m_sReferenceCount;
 };
 
-struct Obj : RefObj
+// The viewer's hkProcess part.
+struct ObjProcess
 {
-    int pad[12];
+    void* vtbl;
+    int unk04[5];
+};
+
+struct Obj : RefObj, ObjProcess
+{
+    int pad[6];
     Obj* FUN_00d6a280(int);
 };
 
@@ -216,7 +237,7 @@ inline void* hkAlloc(int n)
 void* __cdecl FUN_00d6a810(int a)
 {
     Obj* o = ((Obj*)hkAlloc(sizeof(Obj)))->FUN_00d6a280(a);
-    return o ? (char*)o + 8 : 0;
+    return static_cast<ObjProcess*>(o);
 }
 }  // namespace fnv_00d6a810
 
@@ -232,30 +253,6 @@ void FUN_00d6a850()
     DAT_01269024 = ((void *)(reinterpret_cast<::S_00dd9380 *>(((*reinterpret_cast<::Registry_00dd9380 * *>(&::DAT_01269cd0))))->FUN_00dd9380(DAT_010d22e0, reinterpret_cast<intptr_t>(((void (&)())::fnv_00d6a810::FUN_00d6a810)))));
 }
 
-struct Target
-{
-    int Handle(void* apValue);
-};
-
-struct FUN_00d6a220_cls
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-
-    int HandleWithSelfOffset(Target* apTarget);
-};
-
-// @fnv 0x00d6a220
-int FUN_00d6a220_cls::HandleWithSelfOffset(Target* apTarget)
-{
-    return apTarget->Handle(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0);
-}
 
 struct S_d6a280_Elem;
 

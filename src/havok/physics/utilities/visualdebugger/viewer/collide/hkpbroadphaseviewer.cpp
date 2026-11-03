@@ -15,22 +15,6 @@ struct Container
 {
     int ClearValue(void* value);
 };
-struct Owner
-{
-    int FUN_00d6a910(Container* container);
-};
-// Passes a pointer to this+8 (or null when this equals 0x20) to container->ClearValue and returns its result.
-// @fnv 0x00d6a910
-int Owner::FUN_00d6a910(Container* container)
-{
-    void* value;
-    if ((char*)this - 0x20)
-        value = (char*)this + 8;
-    else
-        value = 0;
-    return container->ClearValue(value);
-}
-
 struct FUN_00dd9380_StandIn
 {
 };
@@ -52,9 +36,11 @@ struct Target
 {
 };
 
-struct FUN_00d6a8e0_cls
+// The broad-phase viewer: hkReferencedObject and hkProcess (0x20 bytes), then its world listener part
+// (FUN_00d6a8e0_cls) and its entity listener part.
+struct BroadPhaseViewerHead
 {
-    int unk00;
+    void* m_vtbl;
     int unk04;
     int unk08;
     int unk0c;
@@ -62,15 +48,37 @@ struct FUN_00d6a8e0_cls
     int unk14;
     int unk18;
     int unk1c;
+};
+struct FUN_00d6a8e0_cls
+{
+    void* m_vtbl;
+    void* m_context;
 
     void CallTargetWithSelfOffset(Target* apTarget);
+    int FUN_00d6a910(Container* container);
+};
+struct BroadPhaseViewerEntityListener
+{
+    void* m_vtbl;
+};
+struct BroadPhaseViewer : BroadPhaseViewerHead, FUN_00d6a8e0_cls, BroadPhaseViewerEntityListener
+{
 };
 
-// Passes a pointer derived from this (this+8, or null when this-0x20 is null) to apTarget's FUN_00c93920.
+// Passes the viewer's entity listener part to container->ClearValue and returns its result.
+// @fnv 0x00d6a910
+int FUN_00d6a8e0_cls::FUN_00d6a910(Container* container)
+{
+    BroadPhaseViewerEntityListener* listener = static_cast<BroadPhaseViewer*>(this);
+    return container->ClearValue(listener);
+}
+
+// Passes the viewer's entity listener part to apTarget's FUN_00c93920.
 // @fnv 0x00d6a8e0
 void FUN_00d6a8e0_cls::CallTargetWithSelfOffset(Target* apTarget)
 {
-    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)(((char*)this - 0x20) != 0 ? (char*)&this->unk08 : 0));
+    BroadPhaseViewerEntityListener* listener = static_cast<BroadPhaseViewer*>(this);
+    reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((apTarget))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(listener));
 }
 
 // ---------------------------------------------------------------------------

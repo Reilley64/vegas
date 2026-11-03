@@ -96,6 +96,7 @@ struct PhysicsContextListener54
 struct PhysicsContextListener58
 {
     void* m_vtbl;
+    PhysicsContext* context();
 };
 struct PhysicsContextListener5c
 {
@@ -124,6 +125,10 @@ struct PhysicsContext : PhysicsContextRefObject, PhysicsContextProcessPart, Phys
     int m_worldCount;
 };
 inline PhysicsContext* PhysicsContextProcessPart::context()
+{
+    return static_cast<PhysicsContext*>(this);
+}
+inline PhysicsContext* PhysicsContextListener58::context()
 {
     return static_cast<PhysicsContext*>(this);
 }
@@ -278,45 +283,12 @@ void FUN_00cd2040_Class::ForwardToTarget(void* value)
         reinterpret_cast<::Debugger836 *>((target))->UntrackObject(value);
 }
 
-struct Prefix
+struct CD2260Object;
+// The context's world deletion listener part.
+struct Secondary : PhysicsContextListener58
 {
-    virtual void slot();
-    unsigned int f04;
-    unsigned int f08;
-    unsigned int f0c;
-    unsigned int f10;
-    unsigned int f14;
-    unsigned int f18;
-    unsigned int f1c;
-    unsigned int f20;
-    unsigned int f24;
-    unsigned int f28;
-    unsigned int f2c;
-    unsigned int f30;
-    unsigned int f34;
-    unsigned int f38;
-    unsigned int f3c;
-    unsigned int f40;
-    unsigned int f44;
-    unsigned int f48;
-    unsigned int f4c;
-    unsigned int f50;
-    unsigned int f54;
-    int FUN_00cd2260(int value);
+    void FUN_00cd2460(CD2260Object* world);
 };
-struct FUN_00cd2460_class;
-struct Secondary
-{
-    virtual int FUN_00cd2460(int value);
-};
-struct FUN_00cd2460_class : Prefix, Secondary
-{
-};
-// @fnv 0x00cd2460
-int Secondary::FUN_00cd2460(int value)
-{
-    return reinterpret_cast<Prefix*>(reinterpret_cast<char*>(this) - sizeof(Prefix))->FUN_00cd2260(value);
-}
 
 struct PointerArray
 {
@@ -990,6 +962,13 @@ void CD2260World::FUN_00cd2260(CD2260Object* object)
         reinterpret_cast<::S_00cd2080_Class *>(this)->FUN_00cd2080((::S_00cd2080_Param *)(object));
         m_kTrackedObjects.removeAt(index);
     }
+}
+
+// Removes the deleted world from the context.
+// @fnv 0x00cd2460
+void Secondary::FUN_00cd2460(CD2260Object* world)
+{
+    reinterpret_cast<CD2260World*>(context())->FUN_00cd2260(world);
 }
 
 struct CD22Listener

@@ -9099,7 +9099,7 @@ bool Self99::FUN_0099ebe0(void* arg, Out99* output, int mode)
         Ref99* best20 = 0;
         float bestDist18 =
             *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434)))))) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Set99 *>(&::originalRuntimeFloatSetting434))))));
-        Map99* map30 = ((::Map99 *)(::FUN_00461110((int)((*reinterpret_cast<::Collection99 * *>(&::DAT_011c95c8))))));
+        Map99* map30 = ((::Map99 *)(::FUN_00461110((std::intptr_t)((*reinterpret_cast<::Collection99 * *>(&::DAT_011c95c8))))));
         void* iter11 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((map30))->GetFirstPos();
         while (iter11)
         {

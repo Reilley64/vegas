@@ -85,7 +85,7 @@ Sun::Sun()
 }
 
 // @fnv 0x00461110
-int FUN_00461110(int param_1)
+std::intptr_t FUN_00461110(std::intptr_t param_1)
 {
     return param_1 + 0x78;
 }

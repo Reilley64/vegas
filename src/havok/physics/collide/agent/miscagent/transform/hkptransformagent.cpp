@@ -4,6 +4,8 @@
 
 #include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpCdBody.h"
+#include "havok/hkpTransformShape.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -110,30 +112,12 @@ int FUN_00d42a60_class::FUN_00d42a60() {
     return method(unk0c);
 }
 
-struct hkVector4 { float x, y, z, w; };
-struct __declspec(align(16)) hkTransform {
+struct __declspec(align(16)) TransformD42cf0 {
     hkVector4 col0;
     hkVector4 col1;
     hkVector4 col2;
     hkVector4 trans;
-    hkTransform(const void* rot, const hkVector4& t);
-};
-struct Body {
-    char pad[0x14];
-    int unk14;
-    char pad2[0x18];
-    hkVector4 unk30;
-};
-struct Source {
-    Body* body;
-    int unk04;
-    const void* rot;
-};
-struct Input {
-    int unk00;
-    int unk04;
-    hkTransform* xf;
-    Source* src;
+    TransformD42cf0(const void* motion, const hkTransform& shapeTransform);
 };
 struct Collector {
     virtual void v00();
@@ -141,25 +125,27 @@ struct Collector {
     virtual void v08();
     virtual void v0c();
     virtual void v10();
-    virtual int Process(Input* in, const void* a, const void* b, void* c, void* d);
+    virtual int Process(hkpCdBody* in, const void* a, const void* b, void* c, void* d);
 };
+// The transform agent.
 struct Caster {
-    int unk00;
-    int unk04;
-    int unk08;
-    Collector* coll;
-    int ProcessSource(Source* s, const void* a, const void* b, void* c, void* d);
+    const void* m_vtable;
+    unsigned short m_memSizeAndFlags;
+    short m_referenceCount;
+    void* m_contactMgr;  // +0x8
+    Collector* coll;     // +0xc, the child agent
+    int ProcessSource(hkpCdBody* s, const void* a, const void* b, void* c, void* d);
 };
 // @fnv 0x00d42cf0
-int Caster::ProcessSource(Source* pSource, const void* aiArg1, const void* aiArg2, void* aiArg3, void* aiArg4)
+int Caster::ProcessSource(hkpCdBody* pSource, const void* aiArg1, const void* aiArg2, void* aiArg3, void* aiArg4)
 {
-    Body* body = pSource->body;
-    hkTransform xf(pSource->rot, body->unk30);
-    Input in;
-    in.xf = &xf;
-    in.src = pSource;
-    in.unk00 = body->unk14;
-    in.unk04 = 0;
+    const hkpTransformShape* body = static_cast<const hkpTransformShape*>(pSource->m_pCollisionShape);
+    TransformD42cf0 xf(pSource->m_pMotionState, body->m_kMotionTransform);
+    hkpCdBody in;
+    in.m_pMotionState = &xf;
+    in.m_parent = pSource;
+    in.m_pCollisionShape = body->m_pContainedShape.m_pContainedShape;
+    in.m_uiCollisionShapeKey = 0;
     return coll->Process(&in, aiArg1, aiArg2, aiArg3, aiArg4);
 }
 
@@ -380,11 +366,11 @@ struct Collector_d43620 {
 };
 
 struct Caster_d43620 {
-    int FUN_00d43620(const void* a, ::Source* b, const Input_d43620* in, void* c, void* d);
+    int FUN_00d43620(const void* a, ::hkpCdBody* b, const Input_d43620* in, void* c, void* d);
 };
 
 // @fnv 0x00d43620
-int Caster_d43620::FUN_00d43620(const void* aiArg1, ::Source* aiArg2, const Input_d43620* apInput, void* aiValue1, void* aiValue2)
+int Caster_d43620::FUN_00d43620(const void* aiArg1, ::hkpCdBody* aiArg2, const Input_d43620* apInput, void* aiValue1, void* aiValue2)
 {
     Input_d43620 rev = *apInput;
     rev.m_dir = _mm_xor_ps(apInput->m_dir, DAT_010c44d0);
@@ -507,57 +493,46 @@ void FnvCpu_FUN_00d42a50_CpuOwner::FUN_00d42a50(int arg0)
 }
 
 extern char DAT_010cf280[];
+// The transform agent, 0x10 bytes on 32-bit.
 struct Header {
     const char* tag;
     unsigned short byteCount;
     unsigned short format;
-    int userValue;
-    int result;
+    void* userValue;  // +0x8, the contact manager
+    void* result;     // +0xc, the child agent
 };
 
-struct Meta {int unk00; int unk04; int unk08; int sequence;};
-struct Root {
-    int unk00; int unk04; int unk08; int unk0c; int unk10;
-    Meta* volatile meta;
-    int unk18; int unk1c; int unk20; int unk24; int unk28; int unk2c;
-    int portion30;
-};
-struct DataHandle{int handle;DataHandle(int n):handle(n) {}};
-struct InputA { Root* root; int unk04; int data; };
-struct Path {int unk00; int unk04; int unk08; int subIndex;};
-struct InputB {Path* path;};
-struct InputC {const hkpCollisionDispatcher* state; int unk04;int unk08;int unk0c;int unk10;int tableFlag;};
+struct DataHandle{const void* handle;DataHandle(const void* p):handle(p) {}};
+// The transform body.
+struct InputA : hkpCdBody {};
+struct InputB { const hkpShape* path; };
+struct InputC {const hkpCollisionDispatcher* state; int unk04;int unk08;const void* m_filter;const void* m_convexListFilter;int tableFlag;};
 __declspec(align(16)) struct WorkArea {
     void* entries[44];
     void CopyFrom(struct DataHandle data);
-    void FUN_00cb2240(struct DataHandle data, int* portion);
+    void FUN_00cb2240(struct DataHandle data, const hkTransform* transform);
 };
-struct CallbackArgs {
-    Meta* meta;
-    int zero;
-    WorkArea* workspace;
-    InputA* source;
-};
-typedef int (__cdecl *Handler)(CallbackArgs*,InputB*,InputC*,int);
-// Allocates a 16-byte Header, fills tag/format/userValue, runs workspace setup, selects a handler by kind from a table and stores its return in header->result.
+typedef void* (__cdecl *Handler)(hkpCdBody*,InputB*,InputC*,void*);
+// Allocates the transform agent, fills its vtable, reference count and contact manager, builds the child body from the transform shape's child and
+// the combined transform, and stores the agent the dispatcher creates for it.
 // @fnv 0x00d42a70
-Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput,InputC* pStateInput,int value) {
-    Header* header = static_cast<Header*>(hkMemoryRouter::getInstance().heap().blockAlloc(16));
-    header->byteCount=16;
+Header* __cdecl BuildHeaderAndDispatchHandler(InputA* pSource,InputB* pPathInput,InputC* pStateInput,void* value) {
+    Header* header = static_cast<Header*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(Header)));
+    header->byteCount=sizeof(Header);
     header->format=1;
     header->userValue=value;
     header->tag=DAT_010cf280;
-    Root* root=pSource->root;
-    Meta* meta=root->meta;
+    const hkpTransformShape* root=static_cast<const hkpTransformShape*>(pSource->m_pCollisionShape);
+    hkpShape* meta=root->m_pContainedShape.m_pContainedShape;
     WorkArea workspace;
-    workspace.CopyFrom(DataHandle(pSource->data));
-    workspace.FUN_00cb2240(DataHandle(pSource->data),&root->portion30);
-    CallbackArgs callbackArgs = {meta,0,&workspace,pSource};
-    Path* path=pPathInput->path;
+    workspace.CopyFrom(DataHandle(pSource->m_pMotionState));
+    workspace.FUN_00cb2240(DataHandle(pSource->m_pMotionState),&root->m_kMotionTransform);
+    hkpCdBody callbackArgs = {meta,0,&workspace,pSource};
+    const hkpShape* path=pPathInput->path;
     bool flag=pStateInput->tableFlag!=0;
     const hkpCollisionDispatcher* data=pStateInput->state;
-    int subIndex=path->subIndex;
-    int iSequence=meta->sequence;
+    int subIndex=path->m_type;
+    int iSequence=meta->m_type;
     const signed char (*pKindTable)[32]=flag ? data->m_agent2TypesPred : data->m_agent2Types;
     unsigned char kind=pKindTable[iSequence][subIndex];
     Handler handler=reinterpret_cast<Handler>(data->m_agent2Func[kind].m_createFunc);

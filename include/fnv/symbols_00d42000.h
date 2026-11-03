@@ -23,7 +23,7 @@ namespace fnv_00d42800 { ::fnv_00d42800::D42800Agent *FUN_00d42800(const ::fnv_0
 // 0x00d42960
 void FUN_00d42960(::Agent *);
 // 0x00d42a70
-::Header *BuildHeaderAndDispatchHandler(::InputA *, ::InputB *, ::InputC *, int);
+::Header *BuildHeaderAndDispatchHandler(::InputA *, ::InputB *, ::InputC *, void *);
 // 0x00d42d60
 void DispatchClosestPoints(const ::S_00d42d60_CdBody &, const ::S_00d42d60_CdBody &, const ::S_00d42d60_Input &, ::S_00d42d60_Collector *, ::S_00d42d60_Collector *);
 // 0x00d42e50

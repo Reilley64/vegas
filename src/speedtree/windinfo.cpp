@@ -139,7 +139,7 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
     S00b408b0_Vec c;
     S00b408b0_Vec e;
     S00b408b0_Prep();
-    int tok = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
+    int tok = reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement();
     do
     {
         switch (tok)
@@ -172,6 +172,6 @@ void S00b408b0_Obj::FUN_00b408b0(S00b408b0_Reader* r)
             break;
         }
         }
-        tok = ((int)(reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement()));
+        tok = reinterpret_cast<::S_00b3ed80 *>((r))->GetNextElement();
     } while (tok != 1012);
 }

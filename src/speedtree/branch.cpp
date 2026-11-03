@@ -4,6 +4,7 @@
 
 
 #include <cmath>
+#include "result_slot.h"
 #include <cstdlib>
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "fnv/decl/FUN_00b3f130_shell.h"
@@ -429,9 +430,9 @@ struct S_00b14280_Entry
 
 struct S_00b14280_Entries
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     S_00b14280_Entry* m_pRayStart;
     S_00b14280_Entry* m_kRayEnd;
 };
@@ -1281,9 +1282,9 @@ struct S_00b13a40_Elem
 
 struct S_00b13a40_Vec
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     char* m_pRayStart;
     char* m_kRayEnd;
 
@@ -1576,9 +1577,9 @@ namespace fnv_00b13c10 {
 // FUN_00b13c10 v1 - worker20 full transcription (from worker2 v1 head + tail blocks 5-8)
 struct Vec54
 {
-    int m_00;
-    int m_04;
-    int m_08;
+    void* m_00;
+    void* m_04;
+    void* m_08;
     char* m_0c;
     char* m_10;
     inline unsigned size()
@@ -1661,7 +1662,7 @@ struct ResObj
 };
 struct FUN_00b40070 : ResObj
 {
-    FUN_00b40070(int a, int b, int c);
+    FUN_00b40070(void* a, int b, int c);
 };
 struct ResHolder
 {
@@ -1710,8 +1711,8 @@ struct G4Obj
 };
 struct Host : Owner
 {
-    inline bool IsPointClearOfEntries(int a, int b, void* c);
-    void FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7);
+    inline bool IsPointClearOfEntries(const NiPoint3* a, int b, void* c);
+    void FUN_00b13c10(void* p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7);
 };
 struct IndexList
 {
@@ -1789,7 +1790,7 @@ struct LocalPoint : NiPoint3
 };
 inline MathPoint interpolate(MathPoint* a, MathPoint* b, float f)
 {
-    return (*(::fnv_00b13c10::MathPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((b))->AddVector((float *)&(const ::fnv_00b13c10::MathPoint &)(a->FUN_00b13040(*b).ScaleSwizzled(f)), {})));
+    return (*(::fnv_00b13c10::MathPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((b))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::fnv_00b13c10::MathPoint &)(a->FUN_00b13040(*b).ScaleSwizzled(f)))));
 }
 struct Settings
 {
@@ -1831,7 +1832,7 @@ struct ReferenceListNode
         return begin[i];
     }
 };
-inline bool Host::IsPointClearOfEntries(int a, int b, void* c)
+inline bool Host::IsPointClearOfEntries(const NiPoint3* a, int b, void* c)
 {
     bool allowed = true;
     if (!((Vec54*)&DAT_011f8bf4->unk10)->empty())
@@ -1842,9 +1843,9 @@ inline bool Host::IsPointClearOfEntries(int a, int b, void* c)
         for (unsigned i = 0; i < ((ReferenceListNode*)c)->size() && allowed; ++i)
         {
             NiPoint3* pos = (NiPoint3*)&((ReferenceListNode*)c)->at(i)->m_04;
-            if (((NiPoint3*)a)->x < pos->x + radius && ((NiPoint3*)a)->x > pos->x - radius &&
-                ((NiPoint3*)a)->y < pos->y + radius && ((NiPoint3*)a)->y > pos->y - radius &&
-                ((NiPoint3*)a)->z < pos->z + radius && ((NiPoint3*)a)->z > pos->z - radius)
+            if (a->x < pos->x + radius && a->x > pos->x - radius &&
+                a->y < pos->y + radius && a->y > pos->y - radius &&
+                a->z < pos->z + radius && a->z > pos->z - radius)
                 allowed = false;
         }
     }
@@ -1853,7 +1854,7 @@ inline bool Host::IsPointClearOfEntries(int a, int b, void* c)
     return allowed;
 }
 // @fnv 0x00b13c10
-void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7)
+void Host::FUN_00b13c10(void* p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4, float p5, int p6, void* p7)
 {
     if (!((Vec54*)&DAT_011f8bf4->unk10)->empty())
     {
@@ -1907,7 +1908,7 @@ void Host::FUN_00b13c10(int p0, float p1, Link* p2, MathPoint* p3, MathPoint* p4
             float vZ = p1;
             if (((Settings*)DAT_011f8bf4)->enabled != 0)
             {
-                vZ = ::FUN_00b15110((::Link *)((int)p2));
+                vZ = ::FUN_00b15110(p2);
                 vZ = vZ + (1.0f - vZ) * p1;
                 vZ = vZ * vZ * vZ;
                 scale7 = (float)(1.0 - ((Settings*)DAT_011f8bf4)->factor) * (1.0f - vZ) + vZ;
@@ -2169,7 +2170,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                 indices[vertex] = column + (first + (material->sides + 1));
                 vertex++;
             }
-            reinterpret_cast<::Target *>((mesh))->FUN_00b2fdc0(0, (unsigned int)(indices), index);
+            reinterpret_cast<::Target *>((mesh))->FUN_00b2fdc0(0, (unsigned short *)(indices), index);
             mesh->groups++;
         }
         FUN_00b130a0* qhxpxJd = entries;
@@ -2177,8 +2178,8 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
         float qSVM = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(0.0f);
         float qrEZrs = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(0.0f);
         qhxpxJd->matrix = transform;
-        BranchPoint qsSDDgz = (*(::BranchPoint *)(reinterpret_cast<::FUN_00b12b50_class *>((void *)&(transform))->TransformVector((float *)&(axis), {})));
-        reinterpret_cast<::MatrixOwner *>(&(qhxpxJd->matrix))->FUN_00b12d50(base, (*(float *)&(const ::BranchPoint &)(qsSDDgz)), {}, {});
+        BranchPoint qsSDDgz = (*(::BranchPoint *)(reinterpret_cast<::FUN_00b12b50_class *>((void *)&(transform))->TransformVector((float *)&ResultSlot(Float3{}), (const float *)&(axis))));
+        reinterpret_cast<::MatrixOwner *>(&(qhxpxJd->matrix))->FUN_00b12d50(base, qsSDDgz.x, qsSDDgz.y, qsSDDgz.z);
         reinterpret_cast<::Mat3Rot *>(&(qhxpxJd->matrix))->FUN_00b12c00(config + qrEZrs, qSVM);
         qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
         qhxpxJd->radius = reinterpret_cast<::FUN_00b37ad0_class *>(((material->radius).operator->()))->FUN_00b37ad0(0.0f) * length;
@@ -2189,7 +2190,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
         reinterpret_cast<::FUN_00b12790_class *>(&(qkbsJ))->FUN_00b12790();
         float qdqWL = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(0.0f) - 0.5) * 2.0 * -1.0;
         BranchMatrix qnuVZg;
-        reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qdqWL * managed * qbGYp * qSuoDt, (*(float *)&(const ::BranchPoint &)(qkbsJ)), {}, {});
+        reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qdqWL * managed * qbGYp * qSuoDt, qkbsJ.x, qkbsJ.y, qkbsJ.z);
         qhxpxJd->matrix = qhxpxJd->matrix.Multiply(qnuVZg);
         qhxpxJd->direction = DAT_011f8c40.FUN_00b12890(qhxpxJd->matrix);
         if (mesh && level == 0)
@@ -2238,7 +2239,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
             BranchPoint qArxcFu = qGfbX->direction.FUN_00b12810(DAT_011f8c08);
             reinterpret_cast<::FUN_00b12790_class *>(&(qArxcFu))->FUN_00b12790();
             float qsTDDg = (reinterpret_cast<::FUN_00b37ad0_class *>(((material->noise).operator->()))->FUN_00b37ad0(qZAdkzg) - 0.5) * 2.0 * -1.0;
-            reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qsTDDg * managed * qbXcw * qRqUtp, (*(float *)&(const ::BranchPoint &)(qArxcFu)), {}, {});
+            reinterpret_cast<::RotationMatrix *>(&(qnuVZg))->SetRotationAxisAngle(qsTDDg * managed * qbXcw * qRqUtp, qArxcFu.x, qArxcFu.y, qArxcFu.z);
             qGfbX->matrix = qGfbX->matrix.Multiply(qnuVZg);
             float qBCzzXA = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(qZAdkzg);
             float qxQHW = reinterpret_cast<::SplineSampler *>(((material->orientation).operator->()))->Sample(qZAdkzg);
@@ -2327,7 +2328,7 @@ void FUN_00b10dc0::FUN_00b11050(unsigned int seed, float scale, int level, const
                 if (qzzQr)
                 {
                     reinterpret_cast<::fnv_00b13100::Effect *>(this)->FUN_00b13100((::fnv_00b13100::ParentNode *)(::FUN_00b10dc0 *)(this), scale, level, (*(const ::fnv_00b13100::Vector3 *)(&qJDuOZ)), qxWmVch, (*(const ::fnv_00b13100::FloatMatrix3 *)(&entries[qHVMR.idx].matrix)), (*(const ::fnv_00b13100::Vector3 *)(&entries[qHVMR.idx])),
-                                 (int)(context), qQMZREG, id);
+                                 (void *)(context), qQMZREG, id);
                 }
                 else
                 {

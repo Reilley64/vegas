@@ -1241,9 +1241,9 @@ struct VecElem
 
 struct Sub54
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     VecElem* m_pHeadNode;
     VecElem* m_last;
     int unk14;
@@ -1342,9 +1342,9 @@ struct FUN_00b3c4b0_class
 
 struct SplinePointVector
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     FUN_00b3c4b0_class* m_pHeadNode;
     FUN_00b3c4b0_class* m_last;
     FUN_00b3c4b0_class* m_kRayEnd;
@@ -5243,9 +5243,9 @@ static const float kStep = 1.0f / 499.0f;
 
 struct SplineVec
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     FUN_00b3c500* m_kRayStart;
     FUN_00b3c500* m_kRayEnd;
     FUN_00b3c500* m_eos;

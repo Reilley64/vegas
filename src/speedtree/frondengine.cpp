@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "result_slot.h"
+#include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -226,9 +228,9 @@ namespace fnv_00b20c30 { namespace vecdb20c { struct VdElemW; } }
 
 struct FUN_00b1ec70_class
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     int* p;
     int* q;
     int* r;
@@ -629,9 +631,9 @@ FUN_00b18b20::FUN_00b18b20()
 
 struct FUN_00b1fe80_helper
 {
-    int m0;
-    int m4;
-    int m8;
+    void* m0;
+    void* m4;
+    void* m8;
     int* mC;
     int* m10;
     int* m14;
@@ -675,9 +677,9 @@ struct FUN_00b20c30_class
 
 struct FUN_00b1f650_class
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     void* pc;
     void* pe;
     void* pp;
@@ -1086,10 +1088,11 @@ FUN_0044a4c0_Str* __cdecl FUN_00b18860(FUN_0044a4c0_Str* out, char const* fmt, .
 {
     FmtCtx ctx;
     char buf2[0x400];
-    char* ap4;
+    va_list ap4;
     ctx.flags = 0;
-    ap4 = reinterpret_cast<char*>(&fmt) + sizeof(fmt);
+    va_start(ap4, fmt);
     ::std::vsprintf(buf2, fmt, ap4);
+    va_end(ap4);
     new ((void *)(out)) ::FUN_0044a4c0(buf2);
     ctx.flags |= 1;
     return out;
@@ -1189,13 +1192,13 @@ StringHolder* StringHolder::FUN_00b1d100()
 
 struct S00b1dd80_Obj
 {
-    unsigned int i0;
-    unsigned int i4;
-    unsigned int i8;
-    unsigned int ic;
-    unsigned int p10;
+    void* i0;
+    void* i4;
+    void* i8;
+    char* ic;
+    char* p10;
 
-    int* FUN_00b1dd80(int* out, int* p, unsigned int q);
+    void** FUN_00b1dd80(void** out, void* p, char* q);
 };
 
 
@@ -3651,9 +3654,9 @@ struct RQ;
 
 struct ByteVec
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     char* pFirst;
     char* pLast;
 };
@@ -3724,31 +3727,31 @@ struct Frond
 void Frond::FUN_00b18340(Parser* p)
 {
     DeadTop();
-    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     do
     {
         switch (iToken)
         {
         case 0x32ca:
-            i48 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i48 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32cb:
-            i38 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i38 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32cc:
-            i3c = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i3c = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32cd:
             reinterpret_cast<::Host *>(this)->FUN_00b18f60((::FUN_00b37880 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
             break;
         case 0x32ce:
-            i44 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i44 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32cf:
             b4c = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((p))->FUN_00b06180();
             break;
         case 0x32d1:
-            i68 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i68 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32d2:
             f6c = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
@@ -3763,19 +3766,19 @@ void Frond::FUN_00b18340(Parser* p)
             f78 = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x36b7:
-            i7c = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i7c = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x36b8:
-            i80 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            i80 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x32d0: {
             kTex.FUN_00b1e2f0();
-            int iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            int iCount = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             for (int i = 0; i < iCount; i++)
             {
                 TexQ kInfo;
-                iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
-                iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+                iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
+                iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
                 do
                 {
                     switch (iToken)
@@ -3799,19 +3802,19 @@ void Frond::FUN_00b18340(Parser* p)
                         kInfo.fD = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
                         break;
                     default:
-                        throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond texture information (token %d)"), (const char *)(iToken)))),
+                        throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond texture information (token %d)", iToken))),
                                            false);
                     }
-                    iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+                    iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
                 } while (iToken != 0x36b1);
                 kTex.FUN_00b1e1e0(kInfo);
             }
             break;
         }
         default:
-            throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond info (token %d)"), (const char *)(iToken)))), false);
+            throw FUN_00b09480((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond info (token %d)", iToken))), false);
         }
-        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x32c9);
     DeadEnd();
 }
@@ -3836,9 +3839,9 @@ struct ElemS
 
 struct VecS
 {
-    int m_alloc0;
-    int m_alloc1;
-    int m_alloc2;
+    void* m_alloc0;
+    void* m_alloc1;
+    void* m_alloc2;
     ElemS* m_pBegin;
     ElemS* m_pRecordEnd;
     unsigned int size() const;
@@ -3901,7 +3904,7 @@ void MeshS::FUN_00b1aed0(unsigned short usId, int iBase, VecS* pkVec)
                 pusIdx[k5] = (unsigned short)(i * 2 * (pkVec->m_pRecordEnd - pkVec->m_pBegin) + iBase + j);
                 k5++;
             }
-            reinterpret_cast<::Target *>((m_pkTarget))->FUN_00b2fdc0(usId, (unsigned int)(pusIdx), usNum);
+            reinterpret_cast<::Target *>((m_pkTarget))->FUN_00b2fdc0(usId, (unsigned short *)(pusIdx), usNum);
             m_pkTarget->AddBatch();
         }
     }
@@ -4020,7 +4023,7 @@ void FUN_00b1b960_class::FUN_00b1b960(unsigned int uiLod, int iOffset, LodGrid* 
                 }
             }
         }
-        reinterpret_cast<::Target *>((m_pEntryObject))->FUN_00b2fdc0((unsigned short)uiLod, (unsigned int)(pIndices_gg), (unsigned short)uiNumIndicesws);
+        reinterpret_cast<::Target *>((m_pEntryObject))->FUN_00b2fdc0((unsigned short)uiLod, (unsigned short *)(pIndices_gg), (unsigned short)uiNumIndicesws);
         m_pEntryObject->Inc();
     }
 }
@@ -7780,8 +7783,8 @@ void S00b1e5d0_Obj::FUN_00b1e5d0()
         this->FUN_00b1fe80();
     }
     {
-        int v = this->m0;
-        FUN_00401030((void*)v);
+        void* v = this->m0;
+        FUN_00401030(v);
     }
 }
 
@@ -8335,7 +8338,7 @@ void FUN_00b1ec70_class::FUN_00b1ec70()
 
 // Shifts the 0x38-byte elements after q down, drops the last one (p10 -= 0x38), and returns out holding i0 and q; calls FUN_00ec7c56 if q is out of range.
 // @fnv 0x00b1dd80
-int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
+void** S00b1dd80_Obj::FUN_00b1dd80(void** out, void* p, char* q)
 {
     int u0;
     int u1;
@@ -8364,7 +8367,7 @@ int* S00b1dd80_Obj::FUN_00b1dd80(int* out, int* p, unsigned int q)
     int u24;
 
     ::fnv_00b23760::FUN_00b23760((::fnv_00b23760::cpyb237::GvElem *)(q + 0x38), (::fnv_00b23760::cpyb237::GvElem *)(p10), (::fnv_00b23760::cpyb237::GvElem *)(q));
-    reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)(p10 - 0x38)), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(int *)((int*)p10));
+    reinterpret_cast<::fnv_00b1ebc0::FUN_00b1ebc0 *>(this)->FUN_00b1ebc0_Destroy((::fnv_00b1ebc0::vecdb1eb::VdElemV *)(p10 - 0x38), (::fnv_00b1ebc0::vecdb1eb::VdElemV *)(p10));
     p10 -= 0x38;
 
     *out = 0;
@@ -25415,9 +25418,9 @@ struct PointQ
 };
 struct PointVecQ
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     PointQ* m_pHeadNode;
     PointQ* m_last;
     PointQ* m_kRayEnd;
@@ -28855,9 +28858,9 @@ struct SBranchList : addb18::GvVector<BranchPoint>
 
 struct SBranchVec
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     SBranchList* m_pHeadNode;
     SBranchList* m_last;
     SBranchList* m_kRayEnd;
@@ -29042,22 +29045,22 @@ void FrondBuilder::FUN_00b19ad0(FrondInput* input)
                 FrondPoint left2, right8;
                 if (i == input->size() - 1 && input->size() > 0)
                 {
-                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)), {})));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)))));
                     right8 = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
                 }
                 else if (i > 0 && i < input->size() - 1)
                 {
                     FrondPoint prior;
-                    prior = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)), {})));
-                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)), {})));
-                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(left2))->AddVector((float *)&(prior), {}))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
+                    prior = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::FrondPoint &)(directionX[i - 1].ScaleSwizzled(input->width)))));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)))));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(left2))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(prior)))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
                     prior = (*input)[i].FUN_00b13040(directionX[i - 1].ScaleSwizzled(input->width));
                     right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
-                    right8 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(right8))->AddVector((float *)&(prior), {}))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
+                    right8 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(right8))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(prior)))).ScaleSwizzled(::fnv_00c88020::DAT_01016248);
                 }
                 else
                 {
-                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)), {})));
+                    left2 = (*(::FrondPoint *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*input)[i]))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::FrondPoint &)(direction.ScaleSwizzled(input->width)))));
                     right8 = (*input)[i].FUN_00b13040(direction.ScaleSwizzled(input->width));
                 }
                 float v3 = i / (input->size() - 1.0);
@@ -30168,7 +30171,11 @@ void Processor::FUN_00b1c850()
         if (s > fraction * maximum)
         {
             reinterpret_cast<::AppendGuideVector *>(&(tmp))->FUN_00b1db40((const ::addb18::GvElem &)(entries[j]));
-            reinterpret_cast<::S00b1dd80_Obj *>(&(entries))->FUN_00b1dd80((*(int * *)&(const ::dtorb181::GvConstIterator< ::SFrondGuideEntry> &)(entries.begin() + j)), {}, {});
+            {
+                ::dtorb181::GvConstIterator< ::SFrondGuideEntry> where = entries.begin() + j;
+                void* erased[2];
+                reinterpret_cast<::S00b1dd80_Obj *>(&(entries))->FUN_00b1dd80(erased, *(void**)&where, (char*)where._Myptr);
+            }
             --j;
         }
         else
@@ -30531,8 +30538,8 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
                 Vector3 point7 = positions3[vertex].FUN_00b12890(current2X);
                 Vector3 priority_2 = positions3[vertex].FUN_00b12890(previousA);
                 Vector3 midPoint =
-                    (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*(Vector3*)&(*frond)[guide])))->AddVector((float *)&(const ::Vector3 &)((*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&(priority_2), {}))).ScaleSwizzled(0.5f)), {})));
-                Vector3 tangentsB = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&(priority_2), {})));
+                    (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&((*(Vector3*)&(*frond)[guide])))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::Vector3 &)((*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(priority_2)))).ScaleSwizzled(0.5f)))));
+                Vector3 tangentsB = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point7))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(priority_2))));
                 reinterpret_cast<::FUN_00b12790_class *>(&(tangentsB))->FUN_00b12790();
                 reinterpret_cast<::FUN_00b300c0_cls *>((geometry))->FUN_00b300c0((const float *)&(midPoint));
                 TexCoord uvB;
@@ -30541,7 +30548,7 @@ void B1FrondBuilder::FUN_00b1b000(FrondInput* frond)
                 reinterpret_cast<::CoordinateWriter *>((geometry))->FUN_00b301f0((const float *)&(uvB), (unsigned short)frond->layer);
                 Vector3 normal_0 = normals[vertex].FUN_00b12890(current2X);
                 Vector3 priorNormal = normals[vertex].FUN_00b12890(previousA);
-                Vector3 localA = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(normal_0))->AddVector((float *)&(priorNormal), {}))).ScaleSwizzled(0.5f);
+                Vector3 localA = (*(::Vector3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(normal_0))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(priorNormal)))).ScaleSwizzled(0.5f);
                 reinterpret_cast<::FUN_00b12790_class *>(&(localA))->FUN_00b12790();
                 Color4 colorSlot5;
                 colorSlot5.r = colorSlot5.g = colorSlot5.b = colorSlot5.a = 1.0f;
@@ -31217,9 +31224,9 @@ E93Q* FUN_00b23c10(E93Q* F, E93Q* L, E93Q* D)
 
 template <typename T> struct MyVector
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     T* m_pHeadNode;
     T* m_last;
     T* m_kRayEnd;
@@ -31836,9 +31843,9 @@ struct FrondGuide;
 
 template <class T> struct FrondVector
 {
-    int allocatorState;
-    int growth;
-    int reserved;
+    void* allocatorState;
+    void* growth;
+    void* reserved;
     T* begin;
     T* end;
     T* capacity;
@@ -31916,7 +31923,7 @@ void FrondEngine::FUN_00b18fd0(FrondGeometry* output, void* context)
         }
     }
     if (vertexCount > 65535)
-        throw frondstd::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)(vertexLimitMessage), (const char *)(65535)))));
+        throw frondstd::runtime_error((*(::FUN_0044a4c0 *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), vertexLimitMessage, 65535))));
     reinterpret_cast<::VectorSet *>((geometry))->FUN_00b2fb30(geometryType);
     switch (mode)
     {

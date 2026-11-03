@@ -227,7 +227,7 @@ struct FUN_00b2daf0_shell : CTreeEngine
 // @fnv 0x00b2daf0
 void FUN_00b2daf0_shell::FUN_00b2daf0(ElementIterator* a)
 {
-    *(int*)((char*)this + 0x54) = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
+    *(int*)((char*)this + 0x54) = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
 }
 
 namespace std {
@@ -787,9 +787,9 @@ struct SptFilename
 
 struct CTreeFileAccessBuffer
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     char* m_kRayStart;
     char* m_kRayEnd;
     unsigned int size() const
@@ -821,7 +821,7 @@ struct CTreeFileAccessImpl : ElementIterator
     SptString FUN_00b3ee40()
     {
         SptString value;
-        int length = ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
+        int length = reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement();
         for (int i = 0; i < length; ++i)
             value.AppendChars(1, m_buffer[m_pos++]);
         return SptString(value);
@@ -2156,7 +2156,7 @@ struct S2bde0_Tree
 void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
 {
     int iCount;
-    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
+    int iToken = reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
     do
     {
         switch (iToken)
@@ -2171,7 +2171,7 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
                 break;
             }
         case 0x7d5: {
-            iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
+            iCount = reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
             reinterpret_cast<::FUN_00b2c0c0_shell *>(this)->InitSeed(iCount);
             break;
         }
@@ -2199,7 +2199,7 @@ void S2bde0_Tree::FUN_00b2bde0(S2bde0_Parser* p)
         default:
             throw FUN_00b09480("malformed general tree information", false);
         }
-        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement()));
+        iToken = reinterpret_cast<::S_00b3ed80 *>((((ElementIterator*)p)))->GetNextElement();
     } while (iToken != 0x3eb);
     DeadEnd();
 }
@@ -2561,9 +2561,9 @@ struct FUN_00b09480 : FUN_00b096a0
 };
 struct ByteVec
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     char* pFirst;
     char* pLast;
 };
@@ -2597,27 +2597,27 @@ void Tree::FUN_00b2cbc0(Parser* p)
 {
     DeadTop();
     int iCount = 0;
-    int iLevel = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iLevel = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     iLodCount = iLevel;
     delete[] pLods;
     pLods = new LodQ[iLodCount];
-    int iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iTok = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     while (iTok != 0x1b59)
     {
         if (iCount >= iLodCount)
             throw FUN_00b09480("too many leaf lod levels", false);
         if (iTok != 0x1b5a)
             throw FUN_00b09480("malformed leaf lod data", false);
-        iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iTok = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
         while (iTok != 0x1b5b)
         {
             if (iTok != 0x1b5c)
                 throw FUN_00b09480("malformed leaf lod data", false);
             reinterpret_cast<::IndexSet *>(&(pLods[iCount]))->FUN_00b15390((const unsigned int &)((const int &)(((int)(::FUN_00b405c0((::Parser *)(p)))))));
-            iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            iTok = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
         }
         iCount++;
-        iTok = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iTok = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     }
     bLodsLoaded = true;
 }
@@ -3052,14 +3052,14 @@ void TreeEngineB2D090::FUN_00b2d090(TreeFileAccess* pFile)
 {
     for (unsigned int i = 0; i < m_vTextureControls.size(); ++i)
     {
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15002)
+        if (reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement() != 15002)
             throw IdvFileError("malformed texture controls", false);
         m_vTextureControls.atA(i)->m_bFlag = reinterpret_cast<::fnv_00b059e0::FUN_00b06090 *>((pFile))->FUN_00b06180();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15003)
+        if (reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement() != 15003)
             throw IdvFileError("malformed texture controls", false);
         m_vTextureControls[i]->m_fValue = reinterpret_cast<::FUN_00b3ed20_cls *>((pFile))->FUN_00b3ed20();
     }
-    if (((int)(reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement())) != 15001)
+    if (reinterpret_cast<::S_00b3ed80 *>((pFile))->GetNextElement() != 15001)
         throw IdvFileError("malformed texture controls", false);
 }
 }
@@ -3226,77 +3226,77 @@ void FlareEngine::FUN_00b2d2e0(Reader* reader)
 {
     for (unsigned int index = 0; index < flares.size(); ++index)
     {
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e82)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e82)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value24 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e83)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e83)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
-        flares[index]->value28 = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e84)
+        flares[index]->value28 = reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement();
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e84)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value2c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e85)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e85)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value30 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e86)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e86)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value34 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e87)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e87)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value38 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e88)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e88)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         flares[index]->value3c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e89)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e89)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value40 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8a)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e8a)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value44 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8b)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e8b)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
             throw error;
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value48 = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
-        if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e8c)
+        if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e8c)
         {
             FUN_0044a4c0 message("malformed flare info");
             FUN_00b09480 error(message, 0);
@@ -3304,7 +3304,7 @@ void FlareEngine::FUN_00b2d2e0(Reader* reader)
         }
         ((::fnv_00b2d2e0::Flare *)&(reinterpret_cast<::PtrVector *>(&(flares))->FUN_00b31230(index)))->value4c = reinterpret_cast<::FUN_00b3ed20_cls *>((reader))->FUN_00b3ed20();
     }
-    if (((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement())) != 0x3e81)
+    if (reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement() != 0x3e81)
     {
         FUN_0044a4c0 message("malformed flare info");
         FUN_00b09480 error(message, 0);
@@ -3519,7 +3519,7 @@ bool CTreeEngineImpl::FUN_00b2b550(CTreeFileAccessImpl* file)
 {
     bool bSuccess = false;
 
-    int strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+    int strBuf9 = reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement();
     if (strBuf9 != 0x3e8)
     {
         throw SptError("missing begin_file token", false);
@@ -3531,7 +3531,7 @@ bool CTreeEngineImpl::FUN_00b2b550(CTreeFileAccessImpl* file)
         throw SptError("not a valid SpeedTree SPT file", false);
     }
 
-    strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+    strBuf9 = reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement();
     do
     {
         switch (strBuf9)
@@ -3548,7 +3548,7 @@ bool CTreeEngineImpl::FUN_00b2b550(CTreeFileAccessImpl* file)
         default:
             throw SptError("malformed SpeedTree SPT file", false);
         }
-        strBuf9 = ((int)(reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement()));
+        strBuf9 = reinterpret_cast<::S_00b3ed80 *>((file))->GetNextElement();
     } while (strBuf9 != 0x3e9);
 
     if (!((CTreeFileAccessImpl*)file)->EndOfFile() && ((int)(reinterpret_cast<::FNV_00b3efe0_Obj *>((((CTreeFileAccessImpl*)file)))->GetElementAtOffset())) == 0x1b58)
@@ -3728,13 +3728,13 @@ struct LodInfoReader : CTreeEngine
 void LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
 {
     DeadTop();
-    int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
+    int token = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
     do
     {
         switch (token)
         {
         case 0x232f:
-            this->unk78 = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
+            this->unk78 = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
             break;
         case 0x2330:
             this->unkF4 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
@@ -3745,7 +3745,7 @@ void LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
                 this->unkFC = ::DAT_0101e2bc;
             break;
         case 0x2333:
-            this->unkD8 = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()));
+            this->unkD8 = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement();
             break;
         case 0x2334:
             this->unkF8 = reinterpret_cast<::FUN_00b3ed20_cls *>((static_cast<S2bde0_Parser*>(static_cast<void*>(a))))->FUN_00b3ed20();
@@ -3759,7 +3759,7 @@ void LodInfoReader::FUN_00b2ceb0(ElementIterator* a)
         default:
             throw LodErrorDetail::FUN_00b09480("malformed engine lod data", false);
         }
-    } while ((token = ((int)(reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()))) != 0x232e);
+    } while ((token = reinterpret_cast<::S_00b3ed80 *>((a))->GetNextElement()) != 0x232e);
 }
 
 extern const char str_010a54cc[];
@@ -3907,14 +3907,14 @@ void S2bde0_Tree::FUN_00b2c790(S2bde0_Parser* parser)
     TreeClear();
     reinterpret_cast<::IndexSet *>((TreeSub(this)))->FUN_00b32350();
 
-    count_2 = ((int)(reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement()));
+    count_2 = reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement();
     for (index4 = 0; index4 < count_2; ++index4)
     {
         item5 = ((int)(::FUN_00b3f8e0((::Parser *)(::ElementIterator *)(reinterpret_cast<ElementIterator*>(parser)))));
         reinterpret_cast<::IndexSet *>((TreeSub(this)))->FUN_00b15390((*(const unsigned int *)(&item5)));
     }
 
-    branchCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement()));
+    branchCount = reinterpret_cast<::S_00b3ed80 *>((reinterpret_cast<ElementIterator*>(parser)))->GetNextElement();
     if (branchCount != 0x3f7)
     {
         S2bde0_Str text4(str_010a54cc);

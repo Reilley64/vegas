@@ -238,7 +238,7 @@ struct S00b3d1b0_Src
 {
     int ReadToken()
     {
-        return ((int)(reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement()));
+        return reinterpret_cast<::S_00b3ed80 *>(this)->GetNextElement();
     }
     LeafPoint GetVector3();
     S00b3d1b0_Str FUN_00b3ee40();
@@ -289,7 +289,7 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
             m_2c = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3001:
-            m_34 = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
+            m_34 = reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement();
             break;
         case 3002:
             m_30 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
@@ -316,11 +316,11 @@ void S00b3d1b0_Obj::FUN_00b3d1b0(S00b3d1b0_Src* src)
             m_28 = reinterpret_cast<::FUN_00b3ed20_cls *>((src))->FUN_00b3ed20();
             break;
         case 3008:
-            m_iThirdValue = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
+            m_iThirdValue = reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement();
             break;
         case 1009: {
             aTag = src->ReadToken();
-            count = ((int)(reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement()));
+            count = reinterpret_cast<::S_00b3ed80 *>((src))->GetNextElement();
             m_10.clear();
             m_10.resize(count);
             for (i = 0; i < count; ++i)

@@ -1,4 +1,5 @@
 #include "fnv/decl/FUN_00b0cf90_class.h"
+#include "result_slot.h"
 #include "fnv/decl/FUN_00b12790_class.h"
 #include "fnv/decl/FUN_00b2a180.h"
 #include "fnv/decl/FUN_00b2abc0_It.h"
@@ -196,11 +197,11 @@ struct Scene
     {
         return blend70;
     }
-    void FUN_00b2a210(int output, Record* records, int count);
+    void FUN_00b2a210(void* output, Record* records, int count);
 };
 
 // @fnv 0x00b2a210
-void Scene::FUN_00b2a210(int output, Record* records, int count)
+void Scene::FUN_00b2a210(void* output, Record* records, int count)
 {
     if (state38 == 1 && flags74 != 0)
     {
@@ -251,7 +252,7 @@ void Scene::FUN_00b2a210(int output, Record* records, int count)
                                              (weight * DAT_011ad168[j].scale.y) * origin20[1],
                                              (weight * DAT_011ad168[j].scale.z) * origin20[2]);
                             reinterpret_cast<::NiPoint3 *>(&(result5))->FUN_00b2a1c0(
-                                (*(const ::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(pos29))->AddVector((float *)&(const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(combined5))->AddVector((float *)&(attenuation), {}))).ScaleSwizzled(falloff)), {}))))));
+                                (*(const ::NiPoint3 *)(&(*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(pos29))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::Vec3 &)((*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>(&(combined5))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(attenuation)))).ScaleSwizzled(falloff))))))));
                         }
                     }
                 }
@@ -303,9 +304,9 @@ struct FUN_00b09480 : FUN_00b096a0
 
 struct ByteVec
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     char* pFirst;
     char* pLast;
 };
@@ -339,20 +340,20 @@ struct LightQ
 void LightQ::FUN_00b2a940(Parser* p)
 {
     DeadTop();
-    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     do
     {
         switch (iToken)
         {
         case 0x1f42:
-            iMode = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            iMode = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1f43:
             for (int i = 0; i < 13; i++)
                 afA[i] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x1f44:
-            iCount = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            iCount = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1f45:
             for (int j = 0; j < 13; j++)
@@ -362,10 +363,10 @@ void LightQ::FUN_00b2a940(Parser* p)
             fScale = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x1f47:
-            iX = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            iX = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1f48:
-            iY = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            iY = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1f49:
             for (int k = 0; k < 13; k++)
@@ -374,7 +375,7 @@ void LightQ::FUN_00b2a940(Parser* p)
         default:
             throw FUN_00b09480("malformed lighting information", false);
         }
-        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x1f41);
 }
 #include "generated/data/speedtree/lightingengine_ob1_variant.inc"

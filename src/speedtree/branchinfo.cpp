@@ -81,15 +81,15 @@ struct FUN_00b3f310
     float unk44;
     float unk48;
     float unk4c;
-    int unk50;
+    S_00b3f310_Item* unk50;
     S_00b3f310_Item* unk54;
     S_00b3f310_Item* unk58;
-    int unk5c;
+    S_00b3f310_Item* unk5c;
     S_00b3f310_Item* unk60;
     S_00b3f310_Item* unk64;
     S_00b3f310_Item* unk68;
     S_00b3f310_Item* unk6c;
-    int unk70;
+    S_00b3f310_Item* unk70;
     FUN_00b3f310();
 };
 
@@ -199,9 +199,9 @@ struct FUN_00b09480 : FUN_00b096a0
 
 struct ByteVec
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     char* pFirst;
     char* pLast;
 };
@@ -234,46 +234,46 @@ BranchQ* FUN_00b3f8e0(Parser* p)
 {
     DeadTop();
     BranchQ* pBranch = new BranchQ;
-    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     if (iToken != 0x3f8)
         throw FUN_00b09480("malformed branch data", false);
-    iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     do
     {
         switch (iToken)
         {
         case 0x1770:
-            reinterpret_cast<::setb3f::SxOwner *>((pBranch))->FUN_00b3fc80((::setb3f::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::setb3f::SxOwner *>((pBranch))->FUN_00b3fc80((::setb3f::SxObj *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1771:
-            reinterpret_cast<::ClsB3FCF0 *>((pBranch))->FUN_00b3fcf0((::SubObj_b3f *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::ClsB3FCF0 *>((pBranch))->FUN_00b3fcf0((::SubObj_b3f *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1772:
-            reinterpret_cast<::fnv_00b3fd60::set00b3fd60::SxOwner *>((pBranch))->FUN_00b3fd60((::fnv_00b3fd60::set00b3fd60::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::fnv_00b3fd60::set00b3fd60::SxOwner *>((pBranch))->FUN_00b3fd60((::fnv_00b3fd60::set00b3fd60::SxObj *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1773:
-            reinterpret_cast<::FUN_00b3fdd0_class *>((pBranch))->FUN_00b3fdd0((::FUN_00b37880_class *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::FUN_00b3fdd0_class *>((pBranch))->FUN_00b3fdd0((::FUN_00b37880_class *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1781:
-            reinterpret_cast<::FUN_00b40000_class *>((pBranch))->FUN_00b40000((::Sub_b40000 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::FUN_00b40000_class *>((pBranch))->FUN_00b40000((::Sub_b40000 *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1774:
-            reinterpret_cast<::fnv_00b3fe40::set00b3fe40::SxOwner *>((pBranch))->FUN_00b3fe40((::fnv_00b3fe40::set00b3fe40::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::fnv_00b3fe40::set00b3fe40::SxOwner *>((pBranch))->FUN_00b3fe40((::fnv_00b3fe40::set00b3fe40::SxObj *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1775:
-            reinterpret_cast<::fnv_00b3feb0::set00b3feb0::SxOwner *>((pBranch))->FUN_00b3feb0((::fnv_00b3feb0::set00b3feb0::SxObj *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::fnv_00b3feb0::set00b3feb0::SxOwner *>((pBranch))->FUN_00b3feb0((::fnv_00b3feb0::set00b3feb0::SxObj *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1776:
-            reinterpret_cast<::FUN_00b3ff20_Class *>((pBranch))->FUN_00b3ff20((::FUN_00b37880 *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::FUN_00b3ff20_Class *>((pBranch))->FUN_00b3ff20((::FUN_00b37880 *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1777:
-            reinterpret_cast<::OwnerB3ff90 *>((pBranch))->FUN_00b3ff90((::FUN_00b37880_class *)(((int)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()))));
+            reinterpret_cast<::OwnerB3ff90 *>((pBranch))->FUN_00b3ff90((::FUN_00b37880_class *)(reinterpret_cast<::B13970Self *>((p))->FUN_00b13970()));
             break;
         case 0x1778:
-            pBranch->iA = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            pBranch->iA = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1779:
-            pBranch->iB = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            pBranch->iB = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x177a:
             pBranch->afF[0] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
@@ -291,15 +291,15 @@ BranchQ* FUN_00b3f8e0(Parser* p)
             pBranch->afF[4] = reinterpret_cast<::FUN_00b3ed20_cls *>((p))->FUN_00b3ed20();
             break;
         case 0x177f:
-            pBranch->bA = ((unsigned char)(reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++))) != 0;
+            pBranch->bA = *reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++) != 0;
             break;
         case 0x1780:
-            pBranch->bB = ((unsigned char)(reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++))) != 0;
+            pBranch->bB = *reinterpret_cast<::FUN_00b15170 *>(&(p->kData))->GetElement(p->uiPos++) != 0;
             break;
         default:
             throw FUN_00b09480("malformed general branch information", false);
         }
-        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x3f9);
     return pBranch;
 }

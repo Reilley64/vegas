@@ -41,7 +41,7 @@ public:
     // 0x00a87020
     void DisableEntry(unsigned int);
     // 0x00b2fdc0
-    void FUN_00b2fdc0(unsigned short, unsigned int, unsigned short);
+    void FUN_00b2fdc0(unsigned short, unsigned short *, unsigned short);
     // 0x00b690d0
     void FUN_00b690d0(::StrArr *);
     // 0x00b90670

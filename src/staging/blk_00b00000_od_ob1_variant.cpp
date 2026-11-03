@@ -3866,12 +3866,12 @@ inline void DeadEnd()
 }
 struct Effect
 {
-    void FUN_00b13100(ParentNode*, float, unsigned int, const Vector3&, float, const FloatMatrix3&, const Vector3&, int,
+    void FUN_00b13100(ParentNode*, float, unsigned int, const Vector3&, float, const FloatMatrix3&, const Vector3&, void*,
                       float, int);
 };
 // @fnv 0x00b13100
 void Effect::FUN_00b13100(ParentNode* node, float amount, unsigned int index, const Vector3& position, float time,
-                          const FloatMatrix3& rotation, const Vector3& axis, int flags, float speed, int mode)
+                          const FloatMatrix3& rotation, const Vector3& axis, void* flags, float speed, int mode)
 {
     Config* profile = DAT_011f8c58[index];
     float arc = 60.0f;

@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/fnv_0044a730__FUN_0044a730_cls.h"
+#include "result_slot.h"
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "fnv/decl/FUN_00b304f0_cls.h"
 #include "fnv/decl/MyThis.h"
@@ -225,9 +226,9 @@ struct Agent
 void Agent::FUN_00b3ea10(Context* context, Vec3 point, float extent, Bounds* bounds)
 {
     Vec3 lowerAA = point.FUN_00b13040(first.ScaleSwizzled(extent));
-    Vec3 kUpperA = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&(const ::Vec3 &)(first.ScaleSwizzled(extent)), {})));
+    Vec3 kUpperA = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::Vec3 &)(first.ScaleSwizzled(extent)))));
     Vec3 lowerB6 = point.FUN_00b13040(second.ScaleSwizzled(extent));
-    Vec3 upperB4 = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&(const ::Vec3 &)(second.ScaleSwizzled(extent)), {})));
+    Vec3 upperB4 = (*(::Vec3 *)(reinterpret_cast<::FUN_00b0cf90_class *>((void *)&(point))->AddVector((float *)&ResultSlot(Float3{}), (const float *)&(const ::Vec3 &)(second.ScaleSwizzled(extent)))));
     Scr::Touch();
     context->count = 0;
     for (unsigned short index3 = 0; index3 < (unsigned short)(context->points.Size() / 3); ++index3)
@@ -235,14 +236,14 @@ void Agent::FUN_00b3ea10(Context* context, Vec3 point, float extent, Bounds* bou
         const float* input = reinterpret_cast<::fnv_00b30f80::ptb30::PtOwner *>((context))->FUN_00b30f80(index3);
         Vec3 value2;
         Fill(&value2, input);
-        Vec3 projectedA7 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&(lowerAA), (::Vec *)&(kUpperA), (::Vec *)&(value2), {})));
+        Vec3 projectedA7 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&ResultSlot(Float3{}), (::Vec *)&(lowerAA), (::Vec *)&(kUpperA), (::Vec *)&(value2))));
         Vec2 uv5;
         uv5.x = reinterpret_cast<::V3cdd0 *>((void *)&(lowerAA))->FUN_00b04d40((const ::V3cdd0 *)&(projectedA7)) / (extent * 2.0f);
         if (bounds)
         {
             uv5.x = bounds->MapX(uv5.x);
         }
-        Vec3 projectedB2 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&(lowerB6), (::Vec *)&(upperB4), (::Vec *)&(value2), {})));
+        Vec3 projectedB2 = (*(::Vec3 *)(reinterpret_cast<::MyThis *>(this)->ProjectOntoLine((::Vec *)&ResultSlot(Float3{}), (::Vec *)&(lowerB6), (::Vec *)&(upperB4), (::Vec *)&(value2))));
         uv5.y = reinterpret_cast<::V3cdd0 *>((void *)&(lowerB6))->FUN_00b04d40((const ::V3cdd0 *)&(projectedB2)) / (extent * 2.0f);
         if (bounds)
         {
@@ -303,7 +304,7 @@ struct FrondInfo
 // @fnv 0x00b3e750
 void FrondInfo::FUN_00b3e750(ChunkReader* reader)
 {
-    int token = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
+    int token = reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement();
     do
     {
         switch (token)
@@ -323,8 +324,8 @@ void FrondInfo::FUN_00b3e750(ChunkReader* reader)
             break;
         }
         default:
-            throw IdvFileError((*(std::basic_string<char, std::char_traits<char>, std::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)("malformed frond info (token %d)"), (const char *)(token)))));
+            throw IdvFileError((*(std::basic_string<char, std::char_traits<char>, std::allocator<char>> *)(::FUN_00b18860((::FUN_0044a4c0_Str *)&ResultSlot(StringSlot{}), "malformed frond info (token %d)", token))));
         }
-        token = ((int)(reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement()));
+        token = reinterpret_cast<::S_00b3ed80 *>((reader))->GetNextElement();
     } while (token != 0x4651);
 }

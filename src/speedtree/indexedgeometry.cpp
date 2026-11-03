@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdlib>
+#include "result_slot.h"
 #include "fnv/decl/IndexSet.h"
 #include "fnv/decl/Outer_b33110.h"
 #include "fnv/decl/PbContainer.h"
@@ -393,9 +394,9 @@ struct InnerVec
 
 struct OuterVec
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     InnerVec* _first;
     InnerVec* _last;
     InnerVec* _end;
@@ -3492,9 +3493,9 @@ struct CheckedUnsignedShortVector : CheckedVector<unsigned short>
     void FUN_00b337f0(unsigned int count, unsigned short value);
 };
 
-struct IntVector : CheckedVector<unsigned int>
+struct IntVector : CheckedVector<unsigned short*>
 {
-    void FUN_00b333e0(unsigned int count, unsigned int value);
+    void FUN_00b333e0(unsigned int count, unsigned short* value);
 };
 
 struct Target
@@ -3513,7 +3514,7 @@ struct Target
     CheckedVector<unsigned int> counts;
     CheckedVector<CheckedUnsignedShortVector> shorts;
     CheckedVector<IntVector> values;
-    void FUN_00b2fdc0(unsigned short index, unsigned int value, unsigned short amount);
+    void FUN_00b2fdc0(unsigned short index, unsigned short* value, unsigned short amount);
 };
 
 __forceinline unsigned int& SlotRef(unsigned int& r)
@@ -3522,7 +3523,7 @@ __forceinline unsigned int& SlotRef(unsigned int& r)
 }
 
 // @fnv 0x00b2fdc0
-void Target::FUN_00b2fdc0(unsigned short index, unsigned int value, unsigned short amount)
+void Target::FUN_00b2fdc0(unsigned short index, unsigned short* value, unsigned short amount)
 {
     {
         unsigned int position = index;
@@ -4255,7 +4256,7 @@ unsigned char GeometryProcessor::FUN_00b30800(U16 index)
                     Vec3* original = (Vec3*)(&originalPositions[0] + vertexId * 3);
                     transformed.Set(original->x, original->y, original->z);
                     U16 pose3 = transformIndices[vertexId];
-                    transformed = (*(::Vec3 *)(reinterpret_cast<::S *>(&(transformed))->FUN_00b05000((::V *)(Matrix(pose3)), {})));
+                    transformed = (*(::Vec3 *)(reinterpret_cast<::S *>(&(transformed))->FUN_00b05000((::V *)&ResultSlot(Float3{}), (::M *)(Matrix(pose3)))));
                     _interpolatedPosition.Set(Blend(original->x, transformed[0], factor5),
                                               Blend(original->y, transformed[1], factor5),
                                               Blend(original->z, transformed[2], factor5));
@@ -5219,9 +5220,9 @@ struct Record
 };
 struct RecordArray
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     Record* first;
     Record* last;
     Record* end;

@@ -94,9 +94,9 @@ struct FUN_00b09480 : FUN_00b096a0
 
 struct ByteVec
 {
-    int i0;
-    int i4;
-    int i8;
+    void* i0;
+    void* i4;
+    void* i8;
     char* pFirst;
     char* pLast;
 };
@@ -143,13 +143,13 @@ struct LeafQ
 LeafQ* FUN_00b405c0(Parser* p)
 {
     LeafQ* pLeaf = new LeafQ;
-    int iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+    int iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     do
     {
         switch (iToken)
         {
         case 0x1b5e:
-            pLeaf->i14 = ((int)(reinterpret_cast<::FUN_00b3ede0_shell *>((p))->FUN_00b3ede0()));
+            pLeaf->i14 = reinterpret_cast<::FUN_00b3ede0_shell *>((p))->FUN_00b3ede0();
             break;
         case 0x1b5f:
             pLeaf->b10 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar()));
@@ -167,7 +167,7 @@ LeafQ* FUN_00b405c0(Parser* p)
             pLeaf->f44 = ((unsigned char)(reinterpret_cast<::FUN_00b40800_t *>((p))->GetNextChar())) / 255.0;
             break;
         case 0x1b65:
-            pLeaf->i48 = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+            pLeaf->i48 = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
             break;
         case 0x1b67:
             pLeaf->SetA(p->GetVector3());
@@ -178,7 +178,7 @@ LeafQ* FUN_00b405c0(Parser* p)
         default:
             throw FUN_00b09480("malformed billboard leaf", false);
         }
-        iToken = ((int)(reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement()));
+        iToken = reinterpret_cast<::S_00b3ed80 *>((p))->GetNextElement();
     } while (iToken != 0x1b5d);
     DeadEnd();
     return pLeaf;

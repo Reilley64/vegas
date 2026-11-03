@@ -6,8 +6,6 @@
 #include <cstddef>
 #include <xmmintrin.h>
 #include "generated/data/vtables.h"
-#include "fnv/decl/SphereTriangleAgent.h"
-#include "fnv/decl/SphereTriangleProcessReceiver.h"
 #include "fnv/symbols_00cd7000.h"
 #include "fnv/symbols_00d38000.h"
 #include "fnv/symbols_0104d000.h"
@@ -115,10 +113,10 @@ struct D38AC0Data
     char unk05;
     char unk06;
     char unk07;
-    int unk08;
+    void* unk08;
 };
 // @fnv 0x00d38ac0
-void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
+void __cdecl FUN_00d38ac0(void* first, void* second, void* third, void* fourth)
 {
     D38AC0Data data;
     data.unk08 = fourth;
@@ -127,26 +125,6 @@ void __cdecl FUN_00d38ac0(void* first, void* second, void* third, int fourth)
     ::FUN_00d38130((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), third, (*(::hkpCdBodyPairCollector *)(&data)));
 }
 
-struct CpuCallData
-{
-    void* descriptor;
-    float bound;
-    unsigned int value;
-};
-struct CpuObject
-{
-    void FUN_00d38e90(void*, void*, unsigned int, unsigned int);
-};
-// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d38390.
-// @fnv 0x00d38e90
-void CpuObject::FUN_00d38e90(void* first, void* second, unsigned int third, unsigned int fourth)
-{
-    CpuCallData data;
-    data.value = fourth;
-    data.bound = ::DAT_0104da48;
-    data.descriptor = &DAT_010ce7fc;
-    reinterpret_cast<::SphereTriangleAgent *>(this)->FUN_00d38390((const ::CollisionBody *)(second), (const ::CollisionBody *)(first), (const ::CollisionInput *)(third), (::ContactCollector *)(::CpuCallData *)(&data));
-}
 
 struct FUN_00d37e10_sub
 {
@@ -200,13 +178,13 @@ struct CallbackState
 {
     const void* type;
     bool completed;
-    unsigned context;
+    void* context;
 };
 
 
 struct Operation
 {
-    void FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context);
+    void FUN_00d38a80(const void* first, const void* second, const void* third, void* context);
 };
 
 // Stand-in for the 12-byte record the callee receives by pointer.
@@ -216,7 +194,7 @@ struct FUN_00d38ed0_Local
 {
     const char* unk00;
     float unk04;
-    int unk08;
+    void* unk08;
 };
 
 // Global float loaded with `fld dword ptr [0x104da48]`.
@@ -227,7 +205,7 @@ struct FUN_00d38ed0_Local
 // the last one being a pointer to the record built on the stack.
 
 // @fnv 0x00d38ed0
-void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void __cdecl FUN_00d38ed0(const void* aiArg1, const void* aiArg2, const void* aiArg3, void* aiArg4)
 {
     FUN_00d38ed0_Local local;
 
@@ -235,7 +213,7 @@ void __cdecl FUN_00d38ed0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
     local.unk08 = aiArg4;
     local.unk00 = (*reinterpret_cast<char (*)[]>(&::DAT_010ce7fc));
 
-    ::FUN_00d386c0((*(const ::S00d386c0_CdBody *)(aiArg2)), (*(const ::S00d386c0_CdBody *)(aiArg1)), (*(const ::S00d386c0_CollisionInput *)(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
+    ::FUN_00d386c0((*static_cast<const ::S00d386c0_CdBody *>(aiArg2)), (*static_cast<const ::S00d386c0_CdBody *>(aiArg1)), (*static_cast<const ::S00d386c0_CollisionInput *>(aiArg3)), (*(::S00d386c0_CdPointCollector *)(&local)));
 }
 
 #include "fnv/symbols_simd.h"
@@ -279,54 +257,6 @@ struct Simplex
     DimNibbles m_dims;
 };
 
-struct AgentBase
-{
-};
-
-struct Agent : AgentBase
-{
-    void FUN_00d38f10(int a, int b, int c, Simplex* s);
-};
-
-// @fnv 0x00d38f10
-void Agent::FUN_00d38f10(int a, int b, int c, Simplex* s)
-{
-    SimplexVertex* v = s->m_kRayEnd;
-    float oldDistance = s->m_fClosestPointDistanceSquared;
-    reinterpret_cast<::SphereTriangleProcessReceiver *>(this)->FUN_00d38b00((*(const ::ProcessBody *)(b)), (*(const ::ProcessBody *)(a)), (*(const struct struct ::ProcessInput *)(c)), (*(::ProcessOutput *)(s)));
-    for (; v < s->m_kRayEnd; v++)
-    {
-        const __m128* pb = &v->m_kPointB;
-        __m128 w = _mm_shuffle_ps(*pb, *pb, 0xff);
-        v->m_kPointA = _mm_add_ps(_mm_mul_ps(w, v->m_kPointB), v->m_kPointA);
-        v->m_kPointB = _mm_xor_ps(v->m_kPointB, DAT_010c4c00);
-    }
-    if (oldDistance != s->m_fClosestPointDistanceSquared)
-    {
-        __m128* n = &s->m_vHitNormal;
-        *n = _mm_xor_ps(*n, DAT_010c4c00);
-        {
-            unsigned char t = s->m_dims.m_ucLowNibble;
-            s->m_dims.m_ucLowNibble = s->m_dims.m_ucHighNibble;
-            s->m_dims.m_ucHighNibble = t;
-        }
-        {
-            unsigned char t = s->m_ucDimensionA;
-            s->m_ucDimensionA = s->m_ucDimensionB;
-            s->m_ucDimensionB = t;
-        }
-        int last = s->m_ucDimensionA + s->m_ucDimensionB - 1;
-        unsigned short t0 = s->m_ids[0];
-        s->m_ids[0] = s->m_ids[last];
-        s->m_ids[last] = t0;
-        if ((s->m_ucDimensionA & s->m_ucDimensionB) == 2)
-        {
-            unsigned short t1 = s->m_ids[1];
-            s->m_ids[1] = s->m_ids[2];
-            s->m_ids[2] = t1;
-        }
-    }
-}
 
 struct hkVector4f
 {
@@ -442,13 +372,13 @@ struct hkpMultiSphereTriangleAgent : S_00d37e60_TriAgent
 };
 // Initialises a CallbackState with the given context and vtable, then calls FUN_00d37ed0 with the reordered arguments and the callback.
 // @fnv 0x00d38a80
-void Operation::FUN_00d38a80(unsigned first, unsigned second, unsigned third, unsigned context)
+void Operation::FUN_00d38a80(const void* first, const void* second, const void* third, void* context)
 {
     CallbackState callback;
     callback.context = context;
     callback.completed = false;
     callback.type = (*reinterpret_cast<const unsigned int (*)[]>(&::DAT_010ce81c));
-    reinterpret_cast<::hkpMultiSphereTriangleAgent *>(this)->FUN_00d37ed0((*(const ::hkpCdBody *)(second)), (*(const ::hkpCdBody *)(first)), (const void *)(third), (*(::hkpCdBodyPairCollector *)(&callback)));
+    reinterpret_cast<::hkpMultiSphereTriangleAgent *>(this)->FUN_00d37ed0((*static_cast<const ::hkpCdBody *>(second)), (*static_cast<const ::hkpCdBody *>(first)), third, (*(::hkpCdBodyPairCollector *)(&callback)));
 }
 
 // @fnv 0x00d37ed0
@@ -656,6 +586,27 @@ float threshold = input->tolerance + radiusSum;
     }
 }
 
+struct CpuCallData
+{
+    void* descriptor;
+    float bound;
+    void* value;
+};
+struct CpuObject
+{
+    void FUN_00d38e90(void*, void*, const void*, void*);
+};
+// Builds a CpuCallData from fourth, DAT_0104da48 and DAT_010ce7fc, then forwards second, first and third to FUN_00d38390.
+// @fnv 0x00d38e90
+void CpuObject::FUN_00d38e90(void* first, void* second, const void* third, void* fourth)
+{
+    CpuCallData data;
+    data.value = fourth;
+    data.bound = ::DAT_0104da48;
+    data.descriptor = &DAT_010ce7fc;
+    reinterpret_cast<::SphereTriangleAgent *>(this)->FUN_00d38390((const ::CollisionBody *)(second), (const ::CollisionBody *)(first), static_cast<const ::CollisionInput *>(third), (::ContactCollector *)(::CpuCallData *)(&data));
+}
+
 
 template<class T> class ProcessValue {
     T value;
@@ -851,6 +802,55 @@ void SphereTriangleProcessReceiver::FUN_00d38b00(const ProcessBody& a, const Pro
             record->name = "Et";
             record->setTime();
             monitor.end = reinterpret_cast<char*>(record + 1);
+        }
+    }
+}
+
+struct AgentBase
+{
+};
+
+struct Agent : AgentBase
+{
+    void FUN_00d38f10(const void* a, const void* b, const void* c, Simplex* s);
+};
+
+// @fnv 0x00d38f10
+void Agent::FUN_00d38f10(const void* a, const void* b, const void* c, Simplex* s)
+{
+    SimplexVertex* v = s->m_kRayEnd;
+    float oldDistance = s->m_fClosestPointDistanceSquared;
+    reinterpret_cast<::SphereTriangleProcessReceiver *>(this)->FUN_00d38b00((*static_cast<const ::ProcessBody *>(b)), (*static_cast<const ::ProcessBody *>(a)), (*static_cast<const ::ProcessInput *>(c)), (*(::ProcessOutput *)(s)));
+    for (; v < s->m_kRayEnd; v++)
+    {
+        const __m128* pb = &v->m_kPointB;
+        __m128 w = _mm_shuffle_ps(*pb, *pb, 0xff);
+        v->m_kPointA = _mm_add_ps(_mm_mul_ps(w, v->m_kPointB), v->m_kPointA);
+        v->m_kPointB = _mm_xor_ps(v->m_kPointB, DAT_010c4c00);
+    }
+    if (oldDistance != s->m_fClosestPointDistanceSquared)
+    {
+        __m128* n = &s->m_vHitNormal;
+        *n = _mm_xor_ps(*n, DAT_010c4c00);
+        {
+            unsigned char t = s->m_dims.m_ucLowNibble;
+            s->m_dims.m_ucLowNibble = s->m_dims.m_ucHighNibble;
+            s->m_dims.m_ucHighNibble = t;
+        }
+        {
+            unsigned char t = s->m_ucDimensionA;
+            s->m_ucDimensionA = s->m_ucDimensionB;
+            s->m_ucDimensionB = t;
+        }
+        int last = s->m_ucDimensionA + s->m_ucDimensionB - 1;
+        unsigned short t0 = s->m_ids[0];
+        s->m_ids[0] = s->m_ids[last];
+        s->m_ids[last] = t0;
+        if ((s->m_ucDimensionA & s->m_ucDimensionB) == 2)
+        {
+            unsigned short t1 = s->m_ids[1];
+            s->m_ids[1] = s->m_ids[2];
+            s->m_ids[2] = t1;
         }
     }
 }

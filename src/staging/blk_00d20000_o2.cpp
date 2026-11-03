@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstddef>
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -4038,11 +4039,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     {
         unsigned char* cur = (unsigned char*)(*(unsigned int*)((char*)tlsblk + 4));
         *(const char**)cur = DAT_010ced28;
-        __asm
-        {
-            rdtsc
-            mov dword ptr[stamped], eax
-        }
+        stamped = (unsigned int)__rdtsc();
         *(unsigned int*)(cur + 4) = stamped;
         *(unsigned int*)((char*)tlsblk + 4) = (unsigned int)cur + 0xc;
     }
@@ -4086,11 +4083,7 @@ int FUN_00d365d0(A1Rec* a1, int a2, int a3, int a4, int a5)
     {
         unsigned char* cur2 = (unsigned char*)(*(unsigned int*)((char*)tlsblk2 + 4));
         *(const char**)cur2 = DAT_010c41f8;
-        __asm
-        {
-            rdtsc
-            mov dword ptr[stamped], eax
-        }
+        stamped = (unsigned int)__rdtsc();
         *(unsigned int*)(cur2 + 4) = stamped;
         *(unsigned int*)((char*)tlsblk2 + 4) = (unsigned int)cur2 + 0xc;
     }
@@ -4373,10 +4366,7 @@ struct S00d386c0_TimerCommand
     __forceinline void setTime()
     {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = (unsigned int)__rdtsc();
         m_uiStartTicks = ticks;
     }
 };
@@ -4812,10 +4802,7 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  if(event<profile->end) {
   event->name=DAT_010ceeec;
   unsigned int ticks;
-  __asm {
-   rdtsc
-   mov dword ptr[ticks], eax
-  }
+  ticks = (unsigned int)__rdtsc();
   event->ticks=ticks;
   profile->next=event+1;
  }
@@ -4885,10 +4872,7 @@ unsigned short* FUN_00d39390(Pair* pair,Header* header,unsigned short* ids,FourF
  if(event<profile->end) {
    event->name=DAT_010c41f8;
    unsigned int ticks;
-   __asm {
-    rdtsc
-    mov dword ptr[ticks], eax
-   }
+   ticks = (unsigned int)__rdtsc();
   event->ticks=ticks;
    profile->next=event+1;
  }

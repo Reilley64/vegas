@@ -3,6 +3,7 @@
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
 #include "../../include/layout_support.h"
+#include <intrin.h>
 #include <xmmintrin.h>
 #include <new>
 #include <windows.h>
@@ -2288,10 +2289,7 @@ __forceinline void setTime();
 void StringCursor::CommandTimingEntry::setTime()
 {
 hkUint32 ticks;
-__asm{
-rdtsc
-mov dword ptr[ticks],eax
-}
+ticks = (unsigned int)__rdtsc();
 m_uiStartTicks=ticks;
 }
 

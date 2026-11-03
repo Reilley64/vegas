@@ -5702,10 +5702,7 @@ struct S00d94a80_TimerCmd {
     __forceinline void setTime()
     {
         unsigned int ticks;
-        __asm {
-            rdtsc
-            mov dword ptr[ticks], eax
-        }
+        ticks = (unsigned int)__rdtsc();
         m_uiStartTicks = ticks;
     }
 };

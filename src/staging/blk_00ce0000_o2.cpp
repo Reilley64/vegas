@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <intrin.h>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
@@ -4960,10 +4961,7 @@ struct ClockX {
             ClockEventX* event=(ClockEventX*)current;
             event->tag=tag;
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             current=(char*)(event+1);
         }
@@ -4973,10 +4971,7 @@ struct ClockX {
             ClockListX* event=(ClockListX*)current;
             event->tag=tag; event->split=split;
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             current=(char*)(event+1);
         }
@@ -5030,10 +5025,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             event->tag="LtMapPoseLocalSpace";
             event->split="Stinit";
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             timer.current=(char*)(event+1);
         }
@@ -5045,10 +5037,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             event->tag="StsimpleMappings";
             
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             timer.current=(char*)(event+1);
         }
@@ -5076,10 +5065,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             event->tag="StchainMappings";
             
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             timer.current=(char*)(event+1);
         }
@@ -5130,10 +5116,7 @@ void __cdecl MapperX::FUN_00ce3090(const PoseX* original,PoseX* output,const sho
             event->tag="lt";
             
             unsigned ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = (unsigned int)__rdtsc();
             event->stamp=ticks;
             timer.current=(char*)(event+1);
         }

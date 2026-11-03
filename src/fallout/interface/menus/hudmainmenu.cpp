@@ -4719,16 +4719,16 @@ float __cdecl GetActorValueWithPerkModifiers(MobileObject* pMobileObject, Actor*
     float baseValue = FUN_00404010(((ActorStand*)pActor)->avOwner.GetActorValue(76), 0.0f);
     BaseProcess* proc = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pMobileObject))->GetBaseTexture()));
     TESObjectREFR_GetFlags_Helper* target = proc->GetRef();
-    unsigned int result;
+    uintptr_t result;
     if (target != 0)
     {
-        result = ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((target))->m_pItemObject));
+        result = ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((target))->m_pItemObject));
     }
     else
     {
         result = DAT_011ca278;
     }
-    unsigned int modFlags = result;
+    uintptr_t modFlags = result;
     float fPenalty = 0.0f;
     ::ApplyPerkModifiers(58, (Actor*)pMobileObject, modFlags, pActor, &fPenalty);
     float fAdd = 0.0f;

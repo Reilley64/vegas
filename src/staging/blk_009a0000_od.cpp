@@ -8052,11 +8052,11 @@ struct FUN_009b4020 : Base_9bd5c0
     int unk148;
     int unk14c;
     int unk150;
-    FUN_009b4020(Tgt_9bd5c0* a, Tgt_9bd5c0* b, int c, NiPoint3 pos, float f1, float f2);
+    FUN_009b4020(Tgt_9bd5c0* a, Tgt_9bd5c0* b, intptr_t c, NiPoint3 pos, float f1, float f2);
 };
 
 // @fnv 0x009bd5c0
-Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, intptr_t a3, int a4)
+Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, intptr_t a3, intptr_t a4)
 {
     Base_9bd5c0* obj = 0;
     if (a1)

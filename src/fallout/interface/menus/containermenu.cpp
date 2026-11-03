@@ -1963,7 +1963,7 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
     XList_0075d6b0* extra = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))) ? *((::XList_0075d6b0 **)(&reinterpret_cast<::SimpleListNodeView*>(((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0;
     if (ok)
     {
-        ::FUN_009bd5c0((::Tgt_9bd5c0 *)(::CurrentItem *)(((::CurrentItem *)(reinterpret_cast<::Thing *>((((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))))->GetOrFallback((int)(0))))), (::Tgt_9bd5c0 *)(to8), (intptr_t)(from4), (int)(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))));
+        ::FUN_009bd5c0((::Tgt_9bd5c0 *)(::CurrentItem *)(((::CurrentItem *)(reinterpret_cast<::Thing *>((((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))))->GetOrFallback((int)(0))))), (::Tgt_9bd5c0 *)(to8), (intptr_t)(from4), (intptr_t)(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject))));
         ((List_0075d6b0*)&m_kContainerItems)->FUN_005ae3d0(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)));
         to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->m_pItemObject)), extra, count, 0, 0, 0, 0, 0, 1, 0);
         return;
@@ -2736,8 +2736,8 @@ struct Cls75eac0
     intptr_t m_60;
     intptr_t m_64;
     intptr_t m_68;
-    int m_6c;
-    int m_70;
+    intptr_t m_6c;
+    intptr_t m_70;
     int m_74;
     int m_78;
     int m_7c;
@@ -3153,7 +3153,7 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
             ((MenuC28B75*)DAT_011d93f8)->FUN_0075c280((intptr_t)pCachedForm);
             if (processBaseObject != 0)
             {
-                if (reinterpret_cast<::FUN_004c8f30_shell *>((((::Inv75 *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)((void*)((void *)(reinterpret_cast<::InventoryEntryFields *>((processBaseObject))->m_pItemObject)))) == 0)
+                if (reinterpret_cast<::FUN_004c8f30_shell *>((((::Inv75 *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)((void*)((void *)(reinterpret_cast<::InventoryEntryFields *>((processBaseObject))->m_pItemObject)))) == 0)
                 {
                     ((::ActorProc75 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((ProcGet75*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->GetBaseTexture()))->vfn_0168(0);
                 }
@@ -3787,7 +3787,7 @@ class xCont
     virtual void v92();
     virtual void v93();
     virtual void v94();
-    virtual void AddItem(unsigned int a, void* b, int c, bool d, int e, void* f, int g, int h, int i, int j);
+    virtual void AddItem(uintptr_t a, void* b, int c, bool d, int e, void* f, int g, int h, int i, int j);
 };
 class xPlayer
 {
@@ -4073,7 +4073,7 @@ void FUN_0075da60(xTile* pTile, xItem* pItem)
         xContMenu->m_iTotal += iTransferred;
         xContMenu->m_bDone = !reinterpret_cast<::fnv_0075e0b0::FUN_0075e0b0_shell *>((xContMenu))->FUN_0075e0b0((::fnv_0075e0b0::Actor_75e0b0 *)(pActor), iTransferred);
     }
-    xContMenu->m_pkCont->AddItem(((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((pItem))->m_pItemObject)), ((::xInner *)(::FUN_00559450((int *)(pItem)))) ? *((::xExtra **)(&reinterpret_cast<::SimpleListNodeView*>(((::xInner *)(::FUN_00559450((int *)(pItem)))))->m_item)) : 0, ((int)(reinterpret_cast<::InventoryEntryFields *>((pItem))->m_iCountChange)),
+    xContMenu->m_pkCont->AddItem(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((pItem))->m_pItemObject)), ((::xInner *)(::FUN_00559450((int *)(pItem)))) ? *((::xExtra **)(&reinterpret_cast<::SimpleListNodeView*>(((::xInner *)(::FUN_00559450((int *)(pItem)))))->m_item)) : 0, ((int)(reinterpret_cast<::InventoryEntryFields *>((pItem))->m_iCountChange)),
                                  xContMenu->m_iMode == 2, 0, (*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer)), 0, 0, 1, 0);
 }
 
@@ -4951,7 +4951,7 @@ void ThiS::FUN_007019e0(ObjRef* apObjRef)
             reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::Loader * *>(&::g_modelLoader))))->FUN_00447080(d->GetSwapName(), 0, 1, 0, 0, 0);
     }
     reinterpret_cast<::HotkeyWheelUpdate *>(this)->FUN_007017b0();
-    reinterpret_cast<::ActorSoundStub *>((((PlayerObj*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((int)(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->m_pItemObject))), 1, 0);
+    reinterpret_cast<::ActorSoundStub *>((((PlayerObj*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((intptr_t)(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->m_pItemObject))), 1, 0);
     f24 = 0;
     ObjRef* aRef = b;
     ObjRef* aCopyP = aRef;

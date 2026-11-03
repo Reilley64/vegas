@@ -1200,7 +1200,7 @@ extern int DAT_011d9f34;
 extern float DAT_01072e3c, DAT_01073af0;
 extern double DAT_01073ae8, DAT_01073ae0;
 extern const char DAT_0106eb24[], DAT_01073aac[];
-void* FUN_00479430(Form*);
+int FUN_00479430(Form*);
 void FUN_00406d50(char*, unsigned int, const char*);
 struct Menu
 {
@@ -1327,7 +1327,7 @@ void Menu::UpdateItemDisplay(int action, Tile* changed)
             char path[260];
             ::TaskQueueInterface::CopyStringToBuffer(path, 260, DAT_0106eb24);
             unsigned int prefixLengthSlot0 = ::FUN_0044a670(path);
-            FUN_00406d50(path, 260, ::fnv_00479540::GetMenuIconName((int)(FUN_00479430(((::InventorySelection::Form *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))))));
+            FUN_00406d50(path, 260, ::fnv_00479540::GetMenuIconName((FUN_00479430(((::InventorySelection::Form *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::InventorySelection::Item * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))))));
             if (::FUN_0044a670(path) > prefixLengthSlot0)
             {
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*icon->tile.FUN_0073ac90())))->FUN_00a01350(0xfcc, (char *)(path), 1);
@@ -1704,7 +1704,7 @@ class VTTarget
 class VTAction
 {
   public:
-    VTAction(VTForm* pkTargetNum, VTTile* pkTile);
+    VTAction(VTForm* pkTargetNum, int count);
     int unk00;
     int unk04;
     int unk08;
@@ -2469,7 +2469,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             if (((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) && !*((::fnv_00780140::VTItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))->m_item)))
             {
                 VTCombat* pkCombat = ((::fnv_00780140::VTCombat *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::fnv_00780140::VTPlayer *)((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer))))));
-                reinterpret_cast<::ChangesShell *>((pkCombat))->AddItemExtraData((::BoundShell *)(::fnv_00780140::VTForm *)(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))), (int)(((::fnv_00780140::VTTile *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange))),
+                reinterpret_cast<::ChangesShell *>((pkCombat))->AddItemExtraData((::BoundShell *)(::fnv_00780140::VTForm *)(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))), (reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange),
                                            (intptr_t)((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer))), (::ExtraShell *)(0), (::ExtraNodeShell **)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))));
             }
             ::FUN_00784710((::Entry78 *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))), 1);
@@ -2516,13 +2516,13 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             VTForm* pkTargetNum = ((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject));
             if (!pkTargetNum || !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc))
                 break;
-            VTAction* pkAction = new VTAction(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject)), ((::fnv_00780140::VTTile *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange)));
+            VTAction* pkAction = new VTAction(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject)), reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange);
             VTProcess* pkProcess = ((::fnv_00780140::VTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->GetBaseTexture()));
             VTWeapon* pkWeaponOut = ((::fnv_00780140::VTWeapon *)(reinterpret_cast<::FUN_006044c0_shell *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_006044c0()));
             VTAnim* pkAnimOut = ((::fnv_00780140::VTAnim *)(reinterpret_cast<::FUN_008a1710_shell *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_008a1710()));
             pkProcess->PerformAction(pkAction);
             reinterpret_cast<::CombatProcedure *>((pkProcess->GetActionList(0)))->Initialize({});
-            reinterpret_cast<::ActorSoundStub *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->PlayActorSound((int)(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))), 1, 0);
+            reinterpret_cast<::ActorSoundStub *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->PlayActorSound((intptr_t)(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))), 1, 0);
             int iType = (pkWeaponOut && !((bool)(reinterpret_cast<::FUN_004938c0_class *>((pkWeaponOut))->GetByteAt384()))) ? 0 : 2;
             bool bLeft = reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((pkProcess->GetWeaponInfo(2)))->HasEffect({});
             ((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))->PlayAttack(pkAnimOut, iType, bLeft, 0);
@@ -2572,8 +2572,8 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
             else
             {
-                if ((std::intptr_t)((::fnv_00780140::VTTile *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange)) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
-                    ::CreateQuantityMenu((int)(((::fnv_00780140::VTTile *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange))), DropInventoryItem, 0x7fffffff);
+                if ((std::intptr_t)reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))
+                    ::CreateQuantityMenu((reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange), DropInventoryItem, 0x7fffffff);
                 else
                     DropInventoryItem(1);
                 reinterpret_cast<::FUN_00950030_shell *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_00950030();
@@ -3051,7 +3051,7 @@ void FUN_00782a90()
         cn = ((::ProcObj *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((PlayerShell*)::_g_thePlayer)))->GetBaseTexture()))->q82();
         ck = 0;
         if (cn)
-            ck = (int)(reinterpret_cast<::InventoryEntryFields *>(cn)->m_pItemObject);
+            ck = (intptr_t)(reinterpret_cast<::InventoryEntryFields *>(cn)->m_pItemObject);
         else
             ck = ((intptr_t)(::FUN_004839c0(0x1f4)));
         bn = 0.0f;

@@ -1958,7 +1958,7 @@ void __cdecl UpdateBarterQuantity(int iCount)
         ::FUN_0072ed00((::S_0072ed00_Tile *)(pkTile), (::S_0072ed00_Item *)((*reinterpret_cast<::fnv_0072f6f0::QtyItem * *>(&::DAT_011d8fa8)))) *
         ((*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_pkActiveList == &(*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_kMerchantList ? 1 : -1) * iCount;
     reinterpret_cast<::ActorSoundStub *>(((*reinterpret_cast<::fnv_0072f6f0::QtyPlayer * *>(&::_g_thePlayer))))->PlayActorSound(
-        (int)(((::fnv_0072f6f0::QtyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_0072f6f0::QtyItem * *>(&::DAT_011d8fa8))))->m_pItemObject))),
+        (intptr_t)(((::fnv_0072f6f0::QtyForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_0072f6f0::QtyItem * *>(&::DAT_011d8fa8))))->m_pItemObject))),
         (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_pkActiveList == &(*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->m_kPlayerList, 0);
     if (reinterpret_cast<::FUN_00a01230_shell *>((pkTile))->IsTraitNonZero(::DAT_011d8fb4))
         (*reinterpret_cast<::fnv_0072f6f0::QtyBarterMenu * *>(&::DAT_011d8fa4))->DecrementEntryCount(iCount);
@@ -2899,7 +2899,7 @@ void BarterMenuImpl::CompleteBarterTransaction()
     reinterpret_cast<::FileMatchList *>(&(m_playerItems))->RemoveAll();
     unk11c = 1;
 
-    if (pWeapon3 && !reinterpret_cast<::FUN_004c8f30_shell *>((((::fnv_0072fd10::InventoryChangesStandIn *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::fnv_0072fd10::TESObjectREFR *)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(((::TESBoundObject *)(pWeapon3->m_type)))))
+    if (pWeapon3 && !reinterpret_cast<::FUN_004c8f30_shell *>((((::fnv_0072fd10::InventoryChangesStandIn *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::fnv_0072fd10::TESObjectREFR *)((TESObjectREFR*)(*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(((::TESBoundObject *)(pWeapon3->m_type)))))
         ((::fnv_0072fd10::ProcessStandIn *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_0072fd10::ActorStandIn * *>(&::_g_thePlayer))))->GetBaseTexture()))->SetCurrentArmor(0);
 }
 }  // namespace fnv_0072fd10
@@ -2938,8 +2938,8 @@ struct FUN_007306d0_cls
     intptr_t m_60;
     intptr_t m_64;
     intptr_t m_68;
-    int m_6c;
-    int m_70;
+    intptr_t m_6c;
+    intptr_t m_70;
 
     void FUN_007306d0();
 };

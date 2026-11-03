@@ -768,7 +768,7 @@ struct InterfaceStub
     virtual void v92();
     virtual void v93();
     virtual void v94();
-    virtual void Repair(int, int, int, int, int, int, int, int, int, int);
+    virtual void Repair(intptr_t, intptr_t, int, int, int, int, int, int, int, int);
     virtual void v96();
     virtual void v97();
     virtual void v98();
@@ -981,9 +981,9 @@ void FUN_007b5b40_cls::HandleRepairMenuAction(int aiActionId, ClickTile* apTarge
             if (list.Selected() != (ItemStub*)(*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760)) && reinterpret_cast<::FUN_00a01230_shell *>((tiles[9]))->IsTraitNonZero(0xfa3))
             {
                 ItemStub* item5 = list.Selected();
-                int base = ((::FormStub *)(::FUN_00559450((int *)(item5)))) ? *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FormStub *)(::FUN_00559450((int *)(item5)))))->m_item)) : 0;
+                intptr_t base = ((::FormStub *)(::FUN_00559450((int *)(item5)))) ? *((intptr_t *)(&reinterpret_cast<::SimpleListNodeView*>(((::FormStub *)(::FUN_00559450((int *)(item5)))))->m_item)) : 0;
                 reinterpret_cast<::RepairAction *>(this)->ApplyRepair((::HealthOwner *)(item5));
-                (*reinterpret_cast<::InterfaceStub * *>(&::_g_thePlayer))->Repair(((int)(reinterpret_cast<::InventoryEntryFields *>((item5))->m_pItemObject)), base, 1, 0, 0, 0, 0, 0, 1, 0);
+                (*reinterpret_cast<::InterfaceStub * *>(&::_g_thePlayer))->Repair(((intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item5))->m_pItemObject)), base, 1, 0, 0, 0, 0, 0, 1, 0);
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::AudioPlaybackHandle &)(((::AudioMgr *)(::FUN_00453a70()))->GetSoundByEditorID("UIRepairWeapon", 0x121, 0)))->FUN_00ad8830({});
                 reinterpret_cast<::RList71a5 *>(&(list))->RemoveTile((::LBTileObj *)(list.SelectedIndex()));
                 if (reinterpret_cast<::FUN_0071ae60_shell *>(&(list))->FUN_0071ae60() == 1 || reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true) >= 99.0)

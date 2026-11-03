@@ -779,7 +779,7 @@ struct FUN_004f2770_Class
     virtual void v05c();
     virtual void v05d();
     virtual void v05e();
-    virtual void SendItemModEvent(unsigned int ItemUpdateArray, TESForm* pForm, bool b1, bool b2, bool b3, bool b4, bool b5,
+    virtual void SendItemModEvent(uintptr_t ItemUpdateArray, TESForm* pForm, bool b1, bool b2, bool b3, bool b4, bool b5,
                                   bool b6, bool b7, bool b8);
     virtual void v060();
     virtual void v061();
@@ -963,7 +963,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
                     (const char*)*pEntry ? *(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*pEntry))->m_item : 0;
                 if (reinterpret_cast<::EqMenu *>(this)->FUN_00783af0((::EqEntry *)(pEntry)))
                 {
-                    (*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))->SendItemModEvent((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)pEntry)))->m_pItemObject), pForm,
+                    (*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))->SendItemModEvent((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)pEntry)))->m_pItemObject), pForm,
                                                    true, false, false, false, false, false, true, false);
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007838a0::BSSoundHandleEx &)(((::fnv_007838a0::BSAudio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIItemGunsSmallUp ", 0x121)))->FUN_00ad8830(false);
                     reinterpret_cast<::RList71a5 *>((((ItemModListW*)&m_kItemList)))->RemoveTile((::LBTileObj *)(((ItemModListW*)&m_kItemList)->v1()));
@@ -982,7 +982,7 @@ void ItemModMenuW::HandleItemModMenuClick(int tileID, Tile* clickedTile)
         if (DAT_011d9f40 == 1)
         {
             reinterpret_cast<::FUN_0088c650_shell *>(((*reinterpret_cast<::fnv_007838a0::FUN_004f2770_Class * *>(&::_g_thePlayer))))->FUN_0088c650(
-                (::TESBoundObject *)(((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))->m_pItemObject))), (int)((reinterpret_cast<::InventoryEntryFields *>(((ContNode*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
+                (::TESBoundObject *)(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((((TESObjectREFR_GetFlags_Helper*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58)))))->m_pItemObject))), (int)((reinterpret_cast<::InventoryEntryFields *>(((ContNode*)(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
                 (::ExtraDataList *)(*(TESForm**)&reinterpret_cast<::SimpleListNodeView*>(((B006815c0*)(const char*)*(*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->m_item), true, false, true);
             reinterpret_cast<::Holder_70 *>(((*reinterpret_cast<::fnv_007838a0::ItemEntry * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdc70();
             DAT_011d9f40 = 0;
@@ -1389,7 +1389,7 @@ void FUN_00784710(Entry78* pEntry, bool b)
         if ((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)) && b && reinterpret_cast<::FUN_004bddd0_shell *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bddd0(false))
         {
             reinterpret_cast<::InvEntry_bdb40 *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->FUN_004bdb40();
-            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((int)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), ((int)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
+            reinterpret_cast<::s88c790::Actor *>(((*reinterpret_cast<::Player78 * *>(&::_g_thePlayer))))->FUN_0088c790((intptr_t)(((::Form78 *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_pItemObject))), ((int)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58))))->m_iCountChange)),
                                        (intptr_t)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data78 *)(::FUN_00559450((int *)((*reinterpret_cast<::Entry78 * *>(&::fnv_007846a0::DAT_011d9f58)))))))->m_item))), 0, 0, 1);
             DAT_011d9f40 = 1;
         }

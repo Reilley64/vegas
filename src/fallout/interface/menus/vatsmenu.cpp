@@ -4163,7 +4163,7 @@ void Owner7::UpdateLimbHighlight()
         FormX* formTmp;
         formTmp = ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt148();
         uintptr_t typeC5;
-        typeC5 = formTmp ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((formTmp))->m_pItemObject)) : 0;
+        typeC5 = formTmp ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((formTmp))->m_pItemObject)) : 0;
         bool flag4;
         flag4 = false;
         if (((VTarget*)*list6->FUN_006815c0())->f04 == 2 || ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt1a8() || typeC5 == 0 ||
@@ -4202,7 +4202,7 @@ void Owner7::UpdateLimbHighlight()
                 FormX* formC3;
                 formC3 = ((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt148();
                 uintptr_t typeC4;
-                typeC4 = formC3 ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((formC3))->m_pItemObject)) : 0;
+                typeC4 = formC3 ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((formC3))->m_pItemObject)) : 0;
                 if (((::fnv_007f07a0::ProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_007f07a0::ActorX * *>(&::_g_thePlayer))))->GetBaseTexture()))->vt1a8() || typeC4 == 0 || ::FUN_006450c0((::TESObjectWEAP *)(((FormX*)typeC4))))
                 {
                     if ((savedNodeA != 0 && node7 == savedNodeA) || (savedNodeA == 0 && ((::BSSimpleList<ItemListContainer*> *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070())) == 0))
@@ -6966,7 +6966,7 @@ bool VATSLookup::FUN_007f7280(unsigned int index, bool byPosition)
 void MenuX::HandleInput(int key, int held)
 {
     RefX* item = ((::InputProcessX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::PlayerX * *>(&::_g_thePlayer))))->GetBaseTexture()))->v82();
-    uintptr_t flags = item ? ((unsigned int)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)) : 0;
+    uintptr_t flags = item ? ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->m_pItemObject)) : 0;
     if (left)
     {
         if (FUN_007f4bb0())
@@ -7206,7 +7206,7 @@ void TargetSelectHelper::SelectTarget(bool abReverse)
     float bestAngle2 = (float)(abReverse ? -360 : 360);
 
     FormX* pEquippedA = ((::ProcessX *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<PlayerCharacter*>((*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))))->GetBaseTexture()))->GetEquippedWeapon();
-    uintptr_t flags = (pEquippedA != 0) ? reinterpret_cast<unsigned int>(((::WeaponX *)(reinterpret_cast<::InventoryEntryFields *>((pEquippedA))->m_pItemObject))) : 0;
+    uintptr_t flags = (pEquippedA != 0) ? reinterpret_cast<uintptr_t>(((::WeaponX *)(reinterpret_cast<::InventoryEntryFields *>((pEquippedA))->m_pItemObject))) : 0;
 
     while (iter && !iter->FUN_008256d0())
     {

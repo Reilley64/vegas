@@ -3760,7 +3760,7 @@ float SurgeryView::UpdateWoundInteraction()
             reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected)->m_item))))))))),
                                   (*(float *)(&q.x)), (*(float *)(&q.y)), 0.00001f);
             reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen(
-                    (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
+                    (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(i)->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
                     (*(float *)(&ba.x)), (*(float *)(&ba.y)), 0.00001f);
             q.y = 1.0f - q.y;
             ba.y = 1.0f - ba.y;
@@ -3775,10 +3775,10 @@ float SurgeryView::UpdateWoundInteraction()
             {
                 ScreenPoint k;
                 ScreenPoint l;
-                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected)->m_item))))))))),
+                reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen((*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected)->m_item))))))))),
                                       (*(float *)(&k.x)), (*(float *)(&k.y)), 0.00001f);
                 reinterpret_cast<::ScreenCamera *>((((Projection*)((ProjectionPtr&)(*reinterpret_cast<NiPointer<NiNode>*>(&::g_011dadb4))))))->ProjectToScreen(
-                        (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((int)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
+                        (*(const ::NiPoint3 *)(((void *)(::FUN_0045bb80((intptr_t)(((HitValue*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::HitRef *)(reinterpret_cast<::Callees *>(((*((::WoundEntry **)(&reinterpret_cast<::SimpleListNodeView*>(((::WoundNode *)(reinterpret_cast<::Callees *>((i))->FUN_00726070())))->m_item)))->bHitDetected))->FUN_00726070())))->m_item))))))))),
                         (*(float *)(&l.x)), (*(float *)(&l.y)), 0.00001f);
                 k.y = 1.0f - k.y;
                 l.y = 1.0f - l.y;

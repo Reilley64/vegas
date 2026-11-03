@@ -14,16 +14,16 @@
 #include "fnv/symbols_010ce000.h"
 struct FUN_00d37690_Class
 {
-    void ForwardToFunction(int a, int b, int c, int d);
+    void ForwardToFunction(void* a, void* b, const void* c, void* d);
 };
 
 // @fnv 0x00d37690
-void FUN_00d37690_Class::ForwardToFunction(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d37690_Class::ForwardToFunction(void* aiArg1, void* aiArg2, const void* aiArg3, void* aiArg4)
 {
     ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(aiArg1)), (*(const ::S_00d374f0_CdBody *)(aiArg2)), aiArg3, (::S_00d374f0_Collector *)(aiArg4));
 }
 
-void FUN_00d378a0(int a, int b, int c, int d);
+void FUN_00d378a0(void* a, void* b, void* c, void* d);
 
 struct FUN_00cfbbe0_Arg
 {
@@ -41,7 +41,7 @@ struct FUN_00cfbbe0_Class
 
 // Builds two FUN_00cfbbe0_Arg descriptors from function pointers and flags and passes each to FUN_00cfbbe0 with size arguments 0x12/0x18 and 0x18/0x12.
 // @fnv 0x00d377d0
-void FUN_00d377d0(int pClass)
+void FUN_00d377d0(void* pClass)
 {
     FUN_00cfbbe0_Class* p = (FUN_00cfbbe0_Class*)pClass;
     FUN_00cfbbe0_Arg arg;
@@ -117,18 +117,18 @@ struct S_00d37860_Collector : S_00d37860_Base
 void FUN_00d37860(void* a, void* b, void* c, int filter)
 {
     S_00d37860_Collector collector(filter);
-    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(b)), (*(const ::S_00d374f0_CdBody *)(a)), (int)(c), (::S_00d374f0_Collector *)(::S_00d37860_Collector *)(&collector));
+    ::FUN_00d374f0((*(const ::S_00d374f0_CdBody *)(b)), (*(const ::S_00d374f0_CdBody *)(a)), c, (::S_00d374f0_Collector *)(::S_00d37860_Collector *)(&collector));
 }
 
 struct Payload
 {
     const char* name;
     float value;
-    int id;
+    void* id;
 };
 // Builds a Payload from DAT_010ce7fc, DAT_0104da48 and d, then passes it with b, a and c to FUN_00d37280.
 // @fnv 0x00d378a0
-void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId)
+void FUN_00d378a0(void* aiArg1, void* aiArg2, void* aiArg3, void* aiId)
 {
     Payload p;
     p.name = (*reinterpret_cast<const char (*)[]>(&::DAT_010ce7fc));
@@ -264,7 +264,7 @@ struct S_00d37740_Object
 
 
 // @fnv 0x00d37740
-void FUN_00d37740(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void FUN_00d37740(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
     S_00d37740_Object* obj = static_cast<S_00d37740_Object*>(::FUN_00c85750());
     S_00d376b0_Class* result = obj->unk10->FUN_00d37740_Method(0x20);
@@ -310,7 +310,7 @@ struct FUN_00d376b0_cls
 };
 
 // @fnv 0x00d37780
-void* FUN_00d37780_impl(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void* FUN_00d37780_impl(void* aiArg1, void* aiArg2, void* aiArg3, void* aiArg4)
 {
     AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     Allocator* alloc = pAllocHolder->m_pAllocator;
@@ -462,7 +462,7 @@ struct S_00d374f0_Collector {
 };
 
 // @fnv 0x00d374f0
-void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB, int input, S_00d374f0_Collector* collector)
+void FUN_00d374f0(const S_00d374f0_CdBody& bodyA, const S_00d374f0_CdBody& bodyB, const void* input, S_00d374f0_Collector* collector)
 {
     S_00d374f0_Timer("TtmultiRay-cnvx-getPen");
     const S_00d374f0_MultiRayShape* msA = (const S_00d374f0_MultiRayShape*)bodyA.m_pCollisionShape;
@@ -598,7 +598,7 @@ void Agent378::FUN_00d378e0(Body378* a, Body378* b, void* input, ContactBuffer37
 }
 
 // Moved from hkpmultirayconvexagent_rtm_variant.cpp (VEGAS-15).
-void FUN_00d378a0(int aiArg1, int aiArg2, int aiArg3, int aiId);
+void FUN_00d378a0(void* aiArg1, void* aiArg2, void* aiArg3, void* aiId);
 
 
 extern "C" unsigned __int64 __rdtsc();

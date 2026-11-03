@@ -3790,11 +3790,11 @@ void NiNode::FUN_00c44e70(NiUpdateData& aUpdateData, unsigned int uiFlags)
 
 struct Unk_C44EA0
 {
-    void FUN_00c44ea0(float*, unsigned int);
+    void FUN_00c44ea0(float*, std::uintptr_t);
 };
 // Calls FUN_00c44ed0 with the float pointed to by a, then FUN_00a5e1f0 with a and b.
 // @fnv 0x00c44ea0
-void Unk_C44EA0::FUN_00c44ea0(float* pfValue, unsigned int b)
+void Unk_C44EA0::FUN_00c44ea0(float* pfValue, std::uintptr_t b)
 {
     reinterpret_cast<::StandNode *>(this)->FUN_00c44ed0(*pfValue);
     ::FUN_00a5e1f0((::NiNode *)this, (std::intptr_t)(pfValue), (*(::NiUpdateData *)(b)), {});
@@ -5713,12 +5713,12 @@ struct FUN_004570d0_node
 
 struct FUN_004570d0_cls
 {
-    bool FUN_004570d0(void* a1, int a2, int a3, float f);
+    bool FUN_004570d0(void* a1, std::intptr_t a2, int a3, float f);
 };
 
 // If a1 is non-null, forwards it to the manager's node or, failing that, to every node in the grid, returning whether any call succeeded.
 // @fnv 0x004570d0
-bool FUN_004570d0_cls::FUN_004570d0(void* a1, int aiArg2, int aiArg3, float afValue)
+bool FUN_004570d0_cls::FUN_004570d0(void* a1, std::intptr_t aiArg2, int aiArg3, float afValue)
 {
     bool result = false;
     if (a1 != 0)
@@ -5787,7 +5787,7 @@ int FUN_00457620_cls::FUN_00457620(const float* pos)
     {
         if (((unsigned char)(reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00457620::FUN_00457620_gridowner * *>(&::g_TES))))->IsCellBuffered(cell5, false))))
         {
-            return ((int)(reinterpret_cast<::fnv_0053f0e0::TESObjectLAND *>((((::fnv_00457620::FUN_00457620_nodeowner *)(reinterpret_cast<::S00546fb0_Cell *>((((FUN_00457620_cellhost*)cell5)))->FUN_00546fb0()))))->FUN_0053f0e0(*(const ::fnv_0053f0e0::NiPoint3 *)pos)));
+            return ((std::intptr_t)(reinterpret_cast<::fnv_0053f0e0::TESObjectLAND *>((((::fnv_00457620::FUN_00457620_nodeowner *)(reinterpret_cast<::S00546fb0_Cell *>((((FUN_00457620_cellhost*)cell5)))->FUN_00546fb0()))))->FUN_0053f0e0(*(const ::fnv_0053f0e0::NiPoint3 *)pos)));
         }
     }
     return 0;
@@ -6389,7 +6389,7 @@ void ModelCloneOwner::AddCloneEntry(NiObject* apObject)
     ModelCloneNode* pIter6 = pCloneList;
     while (pIter6)
     {
-        if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::ModelPtr &)(pIter6->m_pRenderedNodeEntry))->operator==((int)(apObject)))
+        if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::ModelPtr &)(pIter6->m_pRenderedNodeEntry))->operator==((std::intptr_t)(apObject)))
             return;
         pIter6 = ((::ModelCloneNode *)(reinterpret_cast<::Twin_0044ddc0 *>((pIter6))->GetName()));
     }
@@ -6490,7 +6490,7 @@ int FUN_0045aba0_cls::FindMatchingNode(void* pKey, ObjC* pObj)
         node = m_b0;
         while (node != 0)
         {
-            if (reinterpret_cast<::_FUN_00822510_Class *>((node))->operator==((int)(pKey)))
+            if (reinterpret_cast<::_FUN_00822510_Class *>((node))->operator==((std::intptr_t)(pKey)))
             {
                 result = 1;
                 break;
@@ -6889,9 +6889,9 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                             if (nxt != 0)
                             {
                                 reinterpret_cast<::FUN_0045c4a0_class *>((nxt))->ClearField40();
-                                if (((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_004f9bf0_shell *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_0045c4c0_cls *>((nxt))->FUN_0045c4c0()))))->FUN_004f9bf0())) != 0)
+                                if (((::fnv_0045bc80::Obj *)(std::uintptr_t)(reinterpret_cast<::FUN_004f9bf0_shell *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_0045c4c0_cls *>((nxt))->FUN_0045c4c0()))))->FUN_004f9bf0())) != 0)
                                 {
-                                    reinterpret_cast<::FUN_00c47980_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_004f9bf0_shell *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_0045c4c0_cls *>((nxt))->FUN_0045c4c0()))))->FUN_004f9bf0()))))->InitFromArg((::FUN_00c47980_arg *)(0));
+                                    reinterpret_cast<::FUN_00c47980_cls *>((((::fnv_0045bc80::Obj *)(std::uintptr_t)(reinterpret_cast<::FUN_004f9bf0_shell *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_0045c4c0_cls *>((nxt))->FUN_0045c4c0()))))->FUN_004f9bf0()))))->InitFromArg((::FUN_00c47980_arg *)(0));
                                 }
                             }
                         }
@@ -6912,17 +6912,17 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
         Obj* base;
         std::intptr_t ret;
         Obj* node;
-        if (((Obj*)::FUN_0070ec90((char*)this)) != 0)
+        if (((Obj*)(std::uintptr_t)::FUN_0070ec90((char*)this)) != 0)
         {
             node = 0;
-            base = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))));
+            base = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)(std::uintptr_t)::FUN_0070ec90((char*)this))))->GetField()))))));
             ret = 0;
             while (0 != base)
             {
-                ret = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->DereferenceIfNotNull((int **)(base))));
+                ret = ((std::intptr_t)(reinterpret_cast<::FUN_007b52d0_cls *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)(std::uintptr_t)::FUN_0070ec90((char*)this))))->GetField()))))->DereferenceIfNotNull((int **)(base))));
                 if (base != 0)
                 {
-                    node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((std::intptr_t)(base))));
+                    node = *(Obj**)((::fnv_0045bc80::Obj *)(reinterpret_cast<::FUN_006317a0_struct *>((((::fnv_0045bc80::Obj *)(reinterpret_cast<struct ::FUN_005a8080 *>((((Obj*)(std::uintptr_t)::FUN_0070ec90((char*)this))))->GetField()))))->AddEight((std::intptr_t)(base))));
                     Obj* lst = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))));
                     std::uintptr_t nxtL = 0;
                     while (lst != 0)
@@ -6944,7 +6944,7 @@ void ThisC::FUN_0045bc80(unsigned char a1, unsigned char a2)
                 }
                 base = (Obj*)ret;
             }
-            node = ((Obj*)::FUN_0070ec90((char*)this))->FUN_006733e0();
+            node = ((Obj*)(std::uintptr_t)::FUN_0070ec90((char*)this))->FUN_006733e0();
             if (node != 0)
             {
                 Obj* lst2 = ((::fnv_0045bc80::Obj *)(::FUN_00559450((int *)(reinterpret_cast<Obj*>(reinterpret_cast<List24OwnerView*>(node)->kList24)))));
@@ -7108,7 +7108,7 @@ void FUN_0045c9e0_shell::FUN_0045c9e0(int x, int y, bool flag)
                       : 0;
             if (obj)
             {
-                FUN_00441130_shell* target = ((::fnv_0045c9e0::FUN_00441130_shell *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30((int)(((void *)(::FUN_00438220()))))));
+                FUN_00441130_shell* target = ((::fnv_0045c9e0::FUN_00441130_shell *)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_00438220()))))));
                 target->FUN_00441130(0x34, !flag);
             }
         }
@@ -8880,7 +8880,7 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
             }
         }
         reinterpret_cast<::MultiBoundManagerB5D *>((ReloadGetMain(0)))->FUN_00b5d180();
-        reinterpret_cast<::fnv_00b5cbd0::ShadowSceneNode_Self *>((ReloadGetMain(0)))->FUN_00b5cbd0(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00454450::ReloadPlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(0))));
+        reinterpret_cast<::fnv_00b5cbd0::ShadowSceneNode_Self *>((ReloadGetMain(0)))->FUN_00b5cbd0(((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00454450::ReloadPlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(0))));
     }
     if (interior)
     {
@@ -8926,7 +8926,7 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
     if (sceneTmp && !((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((sceneTmp))->GetFakeExterior())))
     {
         reinterpret_cast<::ThisCls *>((texture))->FUN_0063ddb0((::ParamObj *)(void *)(((void *)(reinterpret_cast<::MagicCaster_shell *>((texture))->FUN_0044edb0()))));
-        reinterpret_cast<::ThisCls *>((texture))->FUN_0063ddb0((::ParamObj *)(void *)(((void *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((texture))->FUN_00825c00()))));
+        reinterpret_cast<::ThisCls *>((texture))->FUN_0063ddb0((::ParamObj *)(void *)(((void *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((texture))->FUN_00825c00()))));
     }
     reinterpret_cast<::FUN_00451cf0_shell *>(this)->FUN_00451cf0();
     reinterpret_cast<::FUN_00455400_tes *>(this)->UpdateSkyModeForCell((::TESObjectCELL *)(0));
@@ -8940,10 +8940,10 @@ void ReloadManager::FUN_00454450(ReloadPoint* point)
         ReloadContext context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 3434);
         ReloadNode node3(0);
         (*reinterpret_cast<::fnv_00454450::TileReloadContext * *>(&::g_TES))->FUN_004568c0(reinterpret_cast<::FUN_00454b50_shell *>((name))->FUN_00454b50(), node3, 1, 0);
-        reinterpret_cast<::NiColorInterpolator *>((((::fnv_00454450::ReloadZone *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_00454450::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(((void *)(::FUN_00559450((int *)&(node3))))));
+        reinterpret_cast<::NiColorInterpolator *>((((::fnv_00454450::ReloadZone *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_00454450::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(((void *)(::FUN_00559450((int *)&(node3))))));
     }
     else
-        reinterpret_cast<::NiColorInterpolator *>((((::fnv_00454450::ReloadZone *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_00454450::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(0));
+        reinterpret_cast<::NiColorInterpolator *>((((::fnv_00454450::ReloadZone *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_00454450::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(0));
     reloadFinished = true;
     (*reinterpret_cast<::fnv_00454450::ReloadPair *>(&::DAT_011f962c)) = ReloadPair((gridX + 0.5) * 4096.0, (gridY + 0.5) * 4096.0);
     (*reinterpret_cast<::fnv_00454450::ReloadPair *>(&::DAT_011f9634)) = (*reinterpret_cast<::fnv_00454450::ReloadPair *>(&::DAT_011f962c));
@@ -9432,11 +9432,11 @@ void WS458200_Shell::FUN_00458200(WS458200_World* apWorld)
             AutoMemContext kMemContext(0x1d, true, DAT_01017874, 0x1751);
             NiPointer<NiSourceTexture> spTexture(0);
             reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::WS458200_TES * *>(&::g_TES))))->FUN_004568c0(reinterpret_cast<::FUN_00454b50_shell *>((void *)(apWorld))->FUN_00454b50(), (::TexPtr< ::NiSourceTexture> &)(spTexture), true, true);
-            reinterpret_cast<::NiColorInterpolator *>((((::WS458200_Sky *)(::FUN_0070ec90((char *)((*reinterpret_cast<::WS458200_TES * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(::NiSourceTexture *)(spTexture));
+            reinterpret_cast<::NiColorInterpolator *>((((::WS458200_Sky *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::WS458200_TES * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(::NiSourceTexture *)(spTexture));
         }
         else
         {
-            reinterpret_cast<::NiColorInterpolator *>((((::WS458200_Sky *)(::FUN_0070ec90((char *)((*reinterpret_cast<::WS458200_TES * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(::NiSourceTexture *)(0));
+            reinterpret_cast<::NiColorInterpolator *>((((::WS458200_Sky *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::WS458200_TES * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(::NiSourceTexture *)(0));
         }
         ::FUN_004583f0(!reinterpret_cast<::TESWorldSpace *>((apWorld))->IsFlag4C20Set());
     }
@@ -9572,14 +9572,14 @@ void SaveBlockOwner::WriteSaveBlock()
     unsigned short count = 0;            // Serialized 16-bit block length placeholder.
     unsigned char* initialPosition = 0;  // Location where the block length is backfilled.
     // Beginning of the range measured for diagnostic logging.
-    unsigned char* blockSizePosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+    unsigned char* blockSizePosition = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (*(*reinterpret_cast<::SaveLogSetting *>(&::g_011de4e8)).FUN_00408d60())
-        blockSizePosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        blockSizePosition = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned int blockType = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&blockType, 4);
-        initialPosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        initialPosition = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         reinterpret_cast<::FUN_008579b0_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&count, 2);
     }
     node = reinterpret_cast<SaveEntryNode*>(((::SaveItemList *)(reinterpret_cast<::FUN_0050d100_shell *>(this)->FUN_0050d100())));
@@ -9603,7 +9603,7 @@ void SaveBlockOwner::WriteSaveBlock()
         reinterpret_cast<::FUN_008579b0_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&::fnv_00563f30::DAT_011c3c08, 4);
     if (*(*reinterpret_cast<::SaveLogSetting *>(&::g_011de4e8)).FUN_00408d60())
     {
-        unsigned char* finalPosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* finalPosition = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         SaveFormRecord* record = ((::SaveFormRecord *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame))))->GetHitSound()));
         if (record)
         {
@@ -9618,7 +9618,7 @@ void SaveBlockOwner::WriteSaveBlock()
     if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
     {
         unsigned char* uiTimestamp;
-        unsigned char* endPosition = ((unsigned char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
+        unsigned char* endPosition = ((unsigned char *)(std::uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((static_cast<SaveWriter*>((*reinterpret_cast<::SaveState * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00()));
         uiTimestamp = initialPosition;
         if (endPosition > uiTimestamp + 65535)
             ::FUN_005b5e40();
@@ -10755,7 +10755,7 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             hadCell = true;
             reinterpret_cast<::CellTarget *>((cellB))->FUN_00552bd0(true);
             ::B4F9A0ShaderManager::ClearAllCachedStates();
-            reinterpret_cast<::fnv_00b5cbd0::ShadowSceneNode_Self *>((ReloadGetMain(0)))->FUN_00b5cbd0(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::ReloadPlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(0))));
+            reinterpret_cast<::fnv_00b5cbd0::ShadowSceneNode_Self *>((ReloadGetMain(0)))->FUN_00b5cbd0(((void *)(std::uintptr_t)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::ReloadPlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(0))));
         }
         if (!reinterpret_cast<::fnv_00454bd0::TES *>(this)->ContainsCell((::TESObjectCELL *)(destination)))
         {
@@ -10836,10 +10836,10 @@ void ReloadManager::AttachScene(ReloadScene* destination, ReloadPoint* position)
             ReloadContext context(29, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 3188);
             ReloadNode node3(0);
             reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::TileReloadContext * *>(&::g_TES))))->FUN_004568c0(reinterpret_cast<::FUN_004543a0_Class *>((cellB))->FUN_004543a0(), (::TexPtr< ::NiSourceTexture> &)(node3), 1, 0);
-            reinterpret_cast<::NiColorInterpolator *>((((::ReloadZone *)(::FUN_0070ec90((char *)((*reinterpret_cast<::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(((void *)(::FUN_00559450((int *)&(node3))))));
+            reinterpret_cast<::NiColorInterpolator *>((((::ReloadZone *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(((void *)(::FUN_00559450((int *)&(node3))))));
         }
         else
-            reinterpret_cast<::NiColorInterpolator *>((((::ReloadZone *)(::FUN_0070ec90((char *)((*reinterpret_cast<::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(0));
+            reinterpret_cast<::NiColorInterpolator *>((((::ReloadZone *)(std::uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::TileReloadContext * *>(&::g_TES))))))))->SetColorData((::NiColorData *)(void *)(0));
         if (!reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::ReloadMode * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
             reinterpret_cast<::fnv_006c39c0::FUN_006c39c0_shell *>((((::ReloadPathing *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c39c0();
     }
@@ -10853,7 +10853,7 @@ bool S457d70::FUN_00457d70(bool abFlag1, Form457* apForm, bool abFlag2)
     {
         if (::Interface::IsGamePaused() && !((bool)(::FUN_00458140())))
         {
-            ::UpdateIfEnabled((int)(apForm));
+            ::UpdateIfEnabled((std::intptr_t)(apForm));
             return false;
         }
         if (reinterpret_cast<::fnv_00451530::FUN_00451530_shell *>(this)->FUN_00451530())
@@ -11404,7 +11404,7 @@ void BatchTES::FUN_004556d0(int mode)
                     {
                         if (reinterpret_cast<::ActorMover *>((entry30))->GetCurrentMoveModeType())
                             memory2 += ::FUN_005b5e40();
-                        entry30 = ((::BatchMemory *)(reinterpret_cast<::BGSMessageInitAccess *>((entry30))->GetIconFormID()));
+                        entry30 = ((::BatchMemory *)(std::uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((entry30))->GetIconFormID()));
                     }
                     memory2 >>= 20;
                     // The original initializes three diagnostic counters without reading them.
@@ -12108,13 +12108,13 @@ void TextureLoader::FUN_0045a370()
 {
     AutoMemHelper context(7, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TES.cpp", 7152);
     if (*((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d14c4))))->GetMenuTitle())))
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d14c4))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d14c4))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
     if (*((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011cebb0))))->GetMenuTitle())))
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011cebb0))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011cebb0))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
     if (*((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d12c0))))->GetMenuTitle())))
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d12c0))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d12c0))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
     if (*((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d0ce4))))->GetMenuTitle())))
-        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d0ce4))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
+        reinterpret_cast<::QueueHelper *>(((*reinterpret_cast<::fnv_0045a370::QueueHelper * *>(&::g_modelLoader))))->FUN_00444040((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011d0ce4))))->GetMenuTitle()))), 5, 0, 0, true, true, false);
     if (*((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0045a370::SettingT_GameSettingCollection_ *>(&::g_011cfd40))))->GetMenuTitle())))
     {
         char path[260];
@@ -13034,7 +13034,7 @@ struct SlotEntry
 
 struct HolderNode
 {
-    int unk00;
+    HolderNode* unk00;
     int unk04;
     void* holder;
 };
@@ -13052,7 +13052,7 @@ struct Holder
 inline void* const& NextHolder(HolderNode*& pos)
 {
     void* const& element = pos->holder;
-    pos = (HolderNode*)pos->unk00;
+    pos = pos->unk00;
     return element;
 }
 

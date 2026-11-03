@@ -259,7 +259,7 @@ struct GlobalObject_0044fae0
     GlobalObject_0044fae0();
     ~GlobalObject_0044fae0();
 public:
-    void FUN_004538a0(int);
+    void FUN_004538a0(std::intptr_t);
 };
 struct PM4
 {
@@ -404,10 +404,10 @@ struct T006ebd10
 struct S006ebd10
 {
     T006ebd10* p;
-    void FUN_006ebd10(int a);
+    void FUN_006ebd10(std::intptr_t a);
 };
 // @fnv 0x006ebd10
-void S006ebd10::FUN_006ebd10(int a)
+void S006ebd10::FUN_006ebd10(std::intptr_t a)
 {
     reinterpret_cast<::FUN_006eb6b0_cls *>((p))->FUN_006eb6b0(a);
 }
@@ -892,7 +892,8 @@ void Holder_6eb850::FUN_006eb850()
         Obj_6eb890* a;
         a = ptr;
         b = a;
-        b ? ((int)(reinterpret_cast<::Tmp_006eb890 *>((b))->FUN_006eb890(1))) : 0;
+        if (b)
+            reinterpret_cast<::Tmp_006eb890 *>((b))->FUN_006eb890(1);
     }
 }
 extern int DAT_0106d63c;
@@ -905,7 +906,7 @@ struct FUN_006ebda0_shell
 // @fnv 0x006ebda0
 void FUN_006ebda0_shell::FUN_006ebda0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106d63c;
+    *reinterpret_cast<void**>(this) = &DAT_0106d63c;
 }
 
 struct S006ebe00
@@ -932,14 +933,14 @@ struct G00559a40
 };
 struct S006ebf60
 {
-    int f;
-    S006ebf60* FUN_006ebf60(int);
+    char* f;
+    S006ebf60* FUN_006ebf60(char*);
 };
 // Stores a into f and, when a is non-zero, calls FUN_0040f6e0 on the object at a+0x14; returns this.
 // @fnv 0x006ebf60
-S006ebf60* S006ebf60::FUN_006ebf60(int aiValue)
+S006ebf60* S006ebf60::FUN_006ebf60(char* apValue)
 {
-    f = aiValue;
+    f = apValue;
     if (f != 0)
         reinterpret_cast<::FUN_0040f6e0_class *>((((G00559a40*)(f + 0x14))))->FUN_0040f6e0();
     return this;
@@ -1133,7 +1134,7 @@ int ManagerView::FUN_006ea350()
         {
             PathingSearchRayCast rayCast;
             reinterpret_cast<::PathingSearchRayCast *>(&(rayCast))->ProcessRayCast((::RayCastParam *)(first.FUN_00877a30(i)), (::PathingSolutionExt *)(second.FUN_00877a30(i)));
-            total += ((int)(reinterpret_cast<::EffectSetting *>(&(rayCast))->GetHitSound()));
+            total += ((int)(std::uintptr_t)(reinterpret_cast<::EffectSetting *>(&(rayCast))->GetHitSound()));
             if (total > 10)
                 break;
         }
@@ -4694,7 +4695,7 @@ void FUN_006ebc70_shell::FUN_006ebc70()
 // @fnv 0x006eb310
 void B6EB310Manager::FUN_006eb310()
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((int)(g_acB6EB310Name));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((std::intptr_t)(g_acB6EB310Name));
     switch (m_eAnimationState)
     {
     case 0:
@@ -5514,7 +5515,7 @@ void FUN_006ebcd0_shell::FUN_006ebcd0()
 // @fnv 0x006eb3b0
 void B6EB3B0Manager::FUN_006eb3b0()
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((int)(g_acB6EB3B0Name));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_kLock))->FUN_004538a0((std::intptr_t)(g_acB6EB3B0Name));
     switch (m_eAnimationState)
     {
         break;
@@ -5545,7 +5546,8 @@ void Shell_006eb980::FUN_006eb980()
     reinterpret_cast<::fnv_006eac40::FUN_006eac40_Holder *>((m0))->FUN_006eac40();
     Obj_006eb980_obj* QQ = m0;
     Obj_006eb980_obj* PP2 = QQ;
-    PP2 != 0 ? ((int)(reinterpret_cast<::Tmp_006eb890 *>((PP2))->FUN_006eb890(1))) : 0;
+    if (PP2 != 0)
+        reinterpret_cast<::Tmp_006eb890 *>((PP2))->FUN_006eb890(1);
     m0 = 0;
 }
 
@@ -7199,7 +7201,7 @@ void FUN_006ebcf0_cls::CallInner()
 // @fnv 0x006eb440
 void DrainManager::Drain()
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(timer))->FUN_004538a0((int)(taskName));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(timer))->FUN_004538a0((std::intptr_t)(taskName));
     EnterTasks(this);
     active = true;
     ((FUN_006eb670_Holder*)this)->FUN_006eb670(false);
@@ -7359,7 +7361,7 @@ struct FUN_006eb6b0_cls_ctxr2 : public PathManagerImpl
 // @fnv 0x006eb6b0
 void FUN_006eb6b0_cls_ctxr2::FUN_006eb6b0(int id)
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>((reinterpret_cast<BSSpinLock_r006eb6b0*>(reinterpret_cast<char*>(this) + 0xc38)))->FUN_004538a0((int)("PathManagerImpl::CancelCurrentPathsAndPause"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>((reinterpret_cast<BSSpinLock_r006eb6b0*>(reinterpret_cast<char*>(this) + 0xc38)))->FUN_004538a0((std::intptr_t)("PathManagerImpl::CancelCurrentPathsAndPause"));
     PathingRequest* ref;
     int outA2;
     PathWorkList list3;
@@ -8868,7 +8870,7 @@ struct FUN_006eae40_shell
 // @fnv 0x006eae40
 void FUN_006eae40_shell::FUN_006eae40()
 {
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_lockC38))->FUN_004538a0((int)("PathManagerImpl::Update"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(m_lockC38))->FUN_004538a0((std::intptr_t)("PathManagerImpl::Update"));
     switch (m_stateC24)
     {
     case 1:

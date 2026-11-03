@@ -3097,7 +3097,7 @@ struct S4868f0_host
 // @fnv 0x004868f0
 void S4868f0_host::FUN_004868f0(std::uintptr_t a)
 {
-    ::FUN_00406f60((::FUN_00406f90_this *)(a), "%s Form '%s' (%08X)", ((unsigned int)(reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((unsigned int)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
+    ::FUN_00406f60((::FUN_00406f90_this *)(a), "%s Form '%s' (%08X)", ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00440e30_This *>(this)->FUN_00440e30())), ((unsigned int)(reinterpret_cast<::FUN_00401280_Class *>(this)->FUN_00401280())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
 }
 
 extern char DAT_011841cc;

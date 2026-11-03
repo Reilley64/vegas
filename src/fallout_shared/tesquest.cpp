@@ -1190,7 +1190,7 @@ void TESQuest::Revert(BGSLoadFormBuffer* buffer)
         m_ucEnabled = 0;
     }
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000U)))->FUN_004280f0(0x40000000U) && m_pScriptLocals)
-        reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((m_pScriptLocals))->Method((int)(buffer));
+        reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((m_pScriptLocals))->Method((std::intptr_t)(buffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x20000000U)))->FUN_004280f0(0x20000000U))
     {
         BSSimpleList<BGSQuestObjective*>* objectives = &m_kObjectives;

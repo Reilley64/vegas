@@ -225,7 +225,7 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                                                                    fnv_tesidlemanager_idle_anims);
                             supplied = new IdleAnimationDirectoryEntry(directory);
                             supplied->SetWeaponFiles(((::BSSimpleList<const char *> *)(reinterpret_cast<::FUN_00447850_shell *>((g_modelLoader))->FUN_00447850(files, 0))));
-                            reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(buffer), supplied);
+                            reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((std::uintptr_t)(buffer), supplied);
                             result = supplied;
                             return result;
                         }
@@ -235,7 +235,7 @@ IdleAnimationDirectoryEntry* IdleAnimationManager::ClearIdleData(const char* dir
                     fallback->SetWeaponFiles(
                         ((::BSSimpleList<const char *> *)(reinterpret_cast<::fnv_00447330::FUN_00447330_shell *>((g_modelLoader))->FUN_00447330((char *)(directory), true, false, ANIM_GROUP_WEAPON_ENUM_AGW_NONE))));
                     DAT_011cb71c = false;
-                    reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((unsigned int)(directory), fallback);
+                    reinterpret_cast<::TMapStandIn *>(this)->InsertOrUpdate((std::uintptr_t)(directory), fallback);
                     result = fallback;
                 }
             }

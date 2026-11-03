@@ -1426,7 +1426,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int);
+    GO(std::intptr_t);
     operator unsigned int() const;
     ~GO();
 };
@@ -1443,7 +1443,7 @@ void FUN_004aad00_shell::InitBoneSlots(NiAVObject* pBone)
 
     for (i = 0; i < 5; ++i)
     {
-        GO bone(reinterpret_cast<int>(::FUN_004aae30(pBone, (::NiFixedString *)(DAT_01188b74[i]))));
+        GO bone(reinterpret_cast<std::intptr_t>(::FUN_004aae30(pBone, (::NiFixedString *)(DAT_01188b74[i]))));
 
         if (bone.operator unsigned int() && reinterpret_cast<NiAVObject*>(bone.operator unsigned int())->IsSceneNode())
         {

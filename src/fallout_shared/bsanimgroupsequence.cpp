@@ -201,7 +201,7 @@ struct FUN_004eec20_shell
 // @fnv 0x004eec20
 NiObject* FUN_004eec20_shell::FUN_004eec20(CloningProcess* arCloneData)
 {
-    return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((unsigned int)(arCloneData))));
+    return ((::NiObject *)(reinterpret_cast<::FUN_00a344f0_cls *>((((FUN_00a344f0_shell*)this)))->FUN_00a344f0((std::uintptr_t)(arCloneData))));
 }
 
 struct NiTPrimitiveArray_char_ptr;

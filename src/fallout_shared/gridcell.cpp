@@ -1392,7 +1392,7 @@ void Grid::FUN_004baf10()
             pCam9 = ((::GCell *)(reinterpret_cast<::GridCellArray *>(this)->Get(i, julietz59_2)))->pCell;
             if (pCam9)
             {
-                iResult = reinterpret_cast<::FUN_005477f0_Class *>((pCam9))->FUN_005477f0((int)(&pTexVal), (int)(&pInfo9));
+                iResult = reinterpret_cast<::FUN_005477f0_Class *>((pCam9))->FUN_005477f0((std::intptr_t)(&pTexVal), (std::intptr_t)(&pInfo9));
                 if (pTexVal && pInfo9 && pInfo9->iFlag)
                 {
                     pTailB = ((::Obj *)(reinterpret_cast<::ActorMover *>((pTexVal))->GetCurrentMoveModeType()));

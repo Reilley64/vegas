@@ -1506,7 +1506,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
         while (hair && ((::RaceListItem *)((void *)(hair))))
         {
-            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(hair)))))->FUN_0084e3a0())))))))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(std::uintptr_t)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(hair)))))->FUN_0084e3a0())))))))
                 return true;
             hair = ((::RaceList *)(reinterpret_cast<::Callees *>((hair))->FUN_00726070()));
         }
@@ -1517,7 +1517,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
         while (pEyesList && ((::RaceListItem *)((void *)(pEyesList))))
         {
-            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(pEyesList)))))->FUN_0084e3a0())))))))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(std::uintptr_t)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(pEyesList)))))->FUN_0084e3a0())))))))
                 return true;
             pEyesList = ((::RaceList *)(reinterpret_cast<::Callees *>((pEyesList))->FUN_00726070()));
         }

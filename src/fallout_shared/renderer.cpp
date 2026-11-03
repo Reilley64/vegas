@@ -1761,7 +1761,7 @@ std::intptr_t __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     (*reinterpret_cast<unsigned char *>(&::DAT_011f94a9)) = DAT_011c75b0.Bool()->b;
     (*reinterpret_cast<unsigned char *>(&::DAT_011f9422)) = (!(*reinterpret_cast<unsigned char *>(&::DAT_011f941e)) && DAT_011c7768.Bool()->b) ? 1 : 0;
     (*reinterpret_cast<unsigned char *>(&::DAT_011f91a3)) = DAT_011c73a4.Bool()->b;
-    ::DetectGpuVendor(::DAT_01189468, ::DAT_0118946c, DAT_011c74e0.Bool()->b, (int)(spells117), (const char *)(spells218), wval40);
+    ::DetectGpuVendor(::DAT_01189468, ::DAT_0118946c, DAT_011c74e0.Bool()->b, (int)(std::uintptr_t)(spells117), (const char *)(spells218), wval40);
     if (FUN_004dc060(0) < 5)
     {
         reinterpret_cast<::FUN_004de2d0_StandIn *>(&(DAT_011c71dc))->FUN_004de2d0(0);

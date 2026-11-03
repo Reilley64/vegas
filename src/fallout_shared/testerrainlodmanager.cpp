@@ -978,7 +978,7 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                 if (bOnLand)
                     reinterpret_cast<::fnv_0053fa10::TESObjectLAND *>((pkLand))->FUN_0053fa10((const ::fnv_0053fa10::LandscapeColorData *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::fnv_0053fa10::RgbaColor *)(::fnv_0057de00::FUN_00414430_Color *)(&kColor));
                 else
-                    reinterpret_cast<::xWorldC *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_00457520((const ::xPt3C *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (int)(&kColor));
+                    reinterpret_cast<::xWorldC *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_00457520((const ::xPt3C *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (std::intptr_t)(&kColor));
                 float fLuminanceNum = kColor.r * 0.31 + kColor.g * 0.37 + kColor.b * 0.32;
                 kOffsetOld = kPosPos - akStart;
                 DAT_011ca43c[usCountOld] = kPosPos;

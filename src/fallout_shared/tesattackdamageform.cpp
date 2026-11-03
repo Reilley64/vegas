@@ -96,7 +96,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
     } templateSelection;
     {
         TESCreature defaultCreature;
-        reinterpret_cast<::FUN_008126e0_shell *>(&(defaultCreature))->SetWhich((int)(((::TESCombatStyle *)(::FUN_00505000()))));
+        reinterpret_cast<::FUN_008126e0_shell *>(&(defaultCreature))->SetWhich((std::intptr_t)(((::TESCombatStyle *)(::FUN_00505000()))));
         templateSelection.creature = 0;
         if (!reinterpret_cast<::FUN_0047cdd0_shell *>(this)->FUN_0047cdd0())
             templateSelection.creature =

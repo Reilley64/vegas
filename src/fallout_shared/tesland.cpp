@@ -3071,7 +3071,7 @@ struct LocalObj53a5e0 {
 };
 
 struct FUN_0053a5e0_cls {
-    int FUN_0053a5e0(int arg);
+    int FUN_0053a5e0(std::intptr_t arg);
 };
 
 struct FUN_0053a7a0_Tbl {
@@ -5006,7 +5006,7 @@ bool Host53e210::FUN_0053e210(std::intptr_t a) {
 }
 
 // @fnv 0x0053a5e0
-int FUN_0053a5e0_cls::FUN_0053a5e0(int arg) {
+int FUN_0053a5e0_cls::FUN_0053a5e0(std::intptr_t arg) {
     LocalObj53a5e0 local;
     local.m54 = 0;
     new ((void *)&(local)) ::FUN_0053a510();

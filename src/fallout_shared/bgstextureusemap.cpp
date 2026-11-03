@@ -248,7 +248,7 @@ void FUN_004aa720_shell::AddEntry(int aiKey, int aiValue, int aiItem)
         {
             p = new FUN_004aa830;
 
-            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<char*>(this) + 4)))->FUN_00844700(static_cast<unsigned int>(aiKey), reinterpret_cast<unsigned int>(p));
+            reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(reinterpret_cast<char*>(this) + 4)))->FUN_00844700(static_cast<unsigned int>(aiKey), reinterpret_cast<std::uintptr_t>(p));
 
             reinterpret_cast<GO_operator*>(p)->operator=(reinterpret_cast<void*>(aiKey));
 

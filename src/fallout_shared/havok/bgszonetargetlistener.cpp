@@ -64,7 +64,7 @@ void BGSZoneTargetListener::SetFlags(int flags, bool set)
 }  // namespace fnv_00620760
 
 // @fnv 0x0087e9b0
-void CallWithParam(int param)
+void CallWithParam(std::intptr_t param)
 {
     ::FUN_00553380((void *)(param));
 }

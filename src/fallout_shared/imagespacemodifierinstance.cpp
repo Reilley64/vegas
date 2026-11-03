@@ -761,7 +761,7 @@ struct _Call_a5d3a0
 struct GO
 {
     void* m_pObject;
-    GO(int);
+    GO(std::intptr_t);
 };
 struct FUN_00529540 : public _Call_a5d3a0
 {
@@ -776,7 +776,7 @@ struct FUN_00529540 : public _Call_a5d3a0
 
 // @fnv 0x00529540
 FUN_00529540::FUN_00529540(float afStrength, float afStartTime, NiAVObject* apTarget)
-    : fWaterLevelItem((m_ppVirtualMethodTable = DAT_0102d1cc, afStrength)), m_spTargetObject((int)apTarget)
+    : fWaterLevelItem((m_ppVirtualMethodTable = DAT_0102d1cc, afStrength)), m_spTargetObject((std::intptr_t)apTarget)
 {
     m_fStartTime = afStartTime;
 }
@@ -1086,7 +1086,7 @@ void ImageSpaceModifierInstanceRB::FUN_0052a330()
 
             reinterpret_cast<::FUN_00b8b760_cls *>((reinterpret_cast<ImageSpaceManagerAccess*>(pmanager)))->FUN_00b8b760(
                 fWaterLevelItem, m_fRampUp, fStart, m_fRampDown, m_fRampDownStart,
-                (int)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())))->FUN_0043d450()))));
+                (std::intptr_t)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(reinterpret_cast<NiAVObject*>(m_spTargetObject.operator unsigned int())))->FUN_0043d450()))));
         }
         else
         {

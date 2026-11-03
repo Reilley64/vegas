@@ -414,8 +414,8 @@ void FUN_005ed360_shell::FUN_005ed360(const GrabIK_DATA& arSource)
         delete (void*)*((Arr*)((char*)this + 4))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 4))))->Clear(true);
 
-    this->m_kGrabArmData.SetSize(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())), true);
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 4))))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 4))))->GetName())), true);
+    this->m_kGrabArmData.SetSize(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())), true);
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 4))))->FUN_006f2290(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 4))))->GetName())), true);
 
     for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())); ui++)
         ((FUN_0069ccf0_obj*)((char*)this + 0x14))->FUN_0069ccf0(ui) =

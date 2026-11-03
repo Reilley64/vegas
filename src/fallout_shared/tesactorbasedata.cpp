@@ -1945,7 +1945,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
             ref->reset(0, 1);
         }
         if (::FUN_00559450((int *)(((::fnv_0047ce10::StateShell *)(::GetPathManager())))))
-            reinterpret_cast<::S006ebd10 *>((((::fnv_0047ce10::StateShell *)(::GetPathManager()))))->FUN_006ebd10(((int)(reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData())));
+            reinterpret_cast<::S006ebd10 *>((((::fnv_0047ce10::StateShell *)(::GetPathManager()))))->FUN_006ebd10(((std::intptr_t)(reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->GetContainerChangeData())));
         reinterpret_cast<::ExtraDataList *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->RemoveExtraDataType0x15();
         reinterpret_cast<::BaseExtraList_0041af50 *>((((::fnv_0047ce10::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((ref))->FUN_005d43c0()))))->FUN_0041af50();
         if (ref->isOther())

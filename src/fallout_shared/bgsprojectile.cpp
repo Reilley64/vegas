@@ -136,7 +136,7 @@ void BGSProjectile::InitItem()
     {
         ::ResolveFormID((unsigned int *)&(formID), GetFile(-1));
         reinterpret_cast<::FUN_00810570_shell *>((reinterpret_cast<EffectSetting*>(this)))->SetAssociatedActorValue(
-            (int)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
+            (std::intptr_t)dynamic_cast<TESSound*>(::FUN_004839c0(formID)));
     }
     formID = (unsigned int)(std::uintptr_t)((::Tile *)(reinterpret_cast<::MagicProjectile *>((reinterpret_cast<InterfaceManager*>(this)))->FUN_004fd400()));
     if (formID)

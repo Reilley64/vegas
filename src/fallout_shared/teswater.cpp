@@ -4487,7 +4487,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                         ::FUN_00406d00(
                             buf, 256,
                             "WATER: Can not render water group at height %f using water type %s. You are using too many water groups : %d",
-                            reinterpret_cast<::Twin_0084d030 *>((void *)&(g4->plane1))->GetStoredFloatValue(), g4->water->GetEditorID(), ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((WCountList*)&groups)))->GetName())));
+                            reinterpret_cast<::Twin_0084d030 *>((void *)&(g4->plane1))->GetStoredFloatValue(), g4->water->GetEditorID(), ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((WCountList*)&groups)))->GetName())));
                         ::FUN_005b5e40();
                         g4->b5d = false;
                     }
@@ -7877,7 +7877,7 @@ void WSystem::UpdateRegions()
     reinterpret_cast<::FUN_00a59c60_cls *>(&(c))->FUN_00a59c60((::std::intptr_t)&(l));
     NiPoint3 e((*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().x, (*reinterpret_cast<::fnv_004e9550::WPlayer * *>(&::_g_thePlayer))->GetPosition().y, b);
     reinterpret_cast<::CamLook *>(&(c))->SetLookAt((const ::CamPoint &)(e), (const ::CamPoint &)(::DAT_011a9478));
-    reinterpret_cast<::FUN_004a0dd0_cls *>((((WRenderer*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)&(c))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((((WRenderer*)::FUN_0043c4b0())))->FUN_004a0dd0((::std::intptr_t)(::FUN_004a0d10((char *)&(c))));
     DAT_011ff375 = true;
     Culler9550 cf(0);
     reinterpret_cast<::FUN_0041fd00_shell *>(&(cf))->FUN_0041fd00((::std::intptr_t)(&c));
@@ -9777,7 +9777,7 @@ void WaterPassOwner::FUN_004eb220(WaterPass* pass)
     if (!((void *)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<WaterPassTES*>(g_TES)))->GetPrevPath())) && enabled)
         FUN_006fd1c0();
     ::FUN_00b6b8d0(7, reinterpret_cast<::BSRenderedTexture *>((static_cast<WaterPassTexture*>(pass->texture)))->GetGroup());
-    reinterpret_cast<::FUN_004a0dd0_cls *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(static_cast<WaterPassTexture*>(pass->target)))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((std::intptr_t)(::FUN_004a0d10((char *)(static_cast<WaterPassTexture*>(pass->target)))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_004eb220::WaterPassThread *)(::TaskThreadManager::GetSingleton()))), (void *)(1), pass->index + 1, {});
     reinterpret_cast<::CameraState4E9 *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)((void *)&(pass->plane))).x, (*(const ::NiPoint3 *)((void *)&(pass->plane))).y,
@@ -10086,7 +10086,7 @@ void Water197::UpdateWaterRendering()
     if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((Player197*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())) && memory)
         FUN_006fd1c0();
     ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7ad4))))))))->GetGroup()))));
-    reinterpret_cast<::FUN_004a0dd0_cls *>((((RendererOps197*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44))))))))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((((RendererOps197*)::FUN_0043c4b0())))->FUN_004a0dd0((std::intptr_t)(::FUN_004a0d10((char *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44))))))))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::System197 *)(::TaskThreadManager::GetSingleton()))), (void *)(1), ::fnv_004e21b0::DAT_011c7a6c + 1, {});
     if (enabled && reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::Actor197 * *>(&::_g_thePlayer))))->FUN_004eaf60())
         reinterpret_cast<::TaskQueueInterface *>((((Node197*)(*reinterpret_cast<::Actor197 * *>(&::_g_thePlayer))->GetNode(0))))->QueueActorDisarm({});
@@ -10221,7 +10221,7 @@ void WaterPass::FUN_004ebbe0()
     if (!((void *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TesOps * *>(&::g_TES))))->GetPrevPath())) && enabled2)
         FUN_006fd1c0();
     ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7c2c))))))))->GetGroup()))));
-    reinterpret_cast<::FUN_004a0dd0_cls *>((((RenderOps*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7cbc))))))))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((((RenderOps*)::FUN_0043c4b0())))->FUN_004a0dd0((std::intptr_t)(::FUN_004a0d10((char *)(((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7cbc))))))))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::ThreadWater *)(::TaskThreadManager::GetSingleton()))), (void *)(1), ::fnv_004e21b0::DAT_011c7a70 + 1, {});
     NiPoint3 normal(0, 0, 1);
     NiPoint3 point(0, 0, reinterpret_cast<::BGSProjectile *>((void *)(((::WorldOps *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TesOps * *>(&::g_TES))))->GetHitSound()))))->GetExplosionProximity());
@@ -11138,7 +11138,7 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
                            0x1209);
     if (!::FUN_004e2160() || !(Texture*)pass->target)
         return;
-    reinterpret_cast<::FUN_004a0dd0_cls *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(((Texture*)pass->target)))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->FUN_004a0dd0((std::intptr_t)(::FUN_004a0d10((char *)(((Texture*)pass->target)))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_004ec800::RenderHelper *)(::TaskThreadManager::GetSingleton()))), (void *)(1), pass->count + 1, {});
     reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target.object)));
     DAT_011f9614 = NiPoint2(reinterpret_cast<::FUN_00812870_t *>((pass->camera))->GetUnka4(), reinterpret_cast<::LowProcess *>((pass->camera))->GetCurrentDetectionAmount());
@@ -11347,7 +11347,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
     reinterpret_cast<::FUN_00440460_S *>(&(h))->FUN_00440460((const ::V3 *)&(camera->FUN_0045bb80()));
     reinterpret_cast<::FUN_0043fa80_s *>(&(h))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&camera->FUN_00461130())));
     reinterpret_cast<::FUN_00440490_shell *>(&(h))->FUN_00440490(reinterpret_cast<::FUN_008d01e0_Class *>((void *)(camera))->FUN_008d01e0());
-    reinterpret_cast<::FUN_004a0dd0_cls *>((reinterpret_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)&(h))));
+    reinterpret_cast<::FUN_004a0dd0_cls *>((reinterpret_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((std::intptr_t)(::FUN_004a0d10((char *)&(h))));
     reinterpret_cast<::FUN_00507700_cls *>(&(h))->FUN_00507700(reinterpret_cast<::NiCamera *>((void *)(camera))->GetMaxFarNearRatio());
     reinterpret_cast<::NiCamera *>(&(h))->UpdateViewFrustum((const ::NiFrustum &)((*(const ::fnv_004ecb60::NiFrustum *)&(reinterpret_cast<::NiCamera *>((void *)(camera))->GetViewFrustum()))));
     NiUpdateData s(0.0f, false, false);

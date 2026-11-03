@@ -2618,7 +2618,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 break;
             }
             default:
-                canReuse = !::FUN_0062c3c0((::Refr62C3C0 *)(reference), (unsigned int)(h));
+                canReuse = !::FUN_0062c3c0((::Refr62C3C0 *)(reference), (std::uintptr_t)(h));
                 break;
             }
             if (canReuse)

@@ -75,7 +75,7 @@ void BGSDecalNode::FUN_004ee4d0(NiAVObject* apAVObj, bool abFirstAvailableSlot)
 struct GO
 {
     void* p;
-    GO(int a);
+    GO(std::intptr_t a);
     ~GO();
 };
 struct FUN_004ee5d0_shell
@@ -225,7 +225,7 @@ void TargetHost::CallVirtualAndForward(VirtParam* pVirtParam, void* b)
 // @fnv 0x004ee4f0
 void DecalNode::RemoveEffect(void* apEffect)
 {
-    GO tmp((int)apEffect);
+    GO tmp((std::intptr_t)apEffect);
     reinterpret_cast<::ListReader *>(((*(BSSimpleList**)((char*)this + 0xac))))->FUN_00631620((const ::NodeValue &)(tmp));
 }
 
@@ -421,7 +421,7 @@ void FUN_004ee610_cls::FUN_004ee610(std::intptr_t a1)
         while (node != 0 && !reinterpret_cast<::ObsList *>((node))->FUN_004a4460())
         {
             {
-                GO local((int)((::BSTempEffect *)(::FUN_00559450((int *)(((::FUN_004ee610_view *)((void *)(node)))))))->v38());
+                GO local((std::intptr_t)((::BSTempEffect *)(::FUN_00559450((int *)(((::FUN_004ee610_view *)((void *)(node)))))))->v38());
                 if (((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))
                 {
                     reinterpret_cast<::S_00a59e00 *>((reinterpret_cast<FUN_004ee610_view*>(((::BSTempEffect *)(::FUN_00559450((int *)(reinterpret_cast<FUN_004ee610_view*>(&local))))))))->FUN_00a59e00((::S_00a59e00_Arg *)(a1));

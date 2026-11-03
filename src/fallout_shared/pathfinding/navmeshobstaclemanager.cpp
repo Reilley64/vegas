@@ -500,7 +500,7 @@ class GlobalObject_0044fae0
     ~GlobalObject_0044fae0();
     char m_acData[0x18];
 public:
-    void FUN_004538a0(int);
+    void FUN_004538a0(std::intptr_t);
 };
 class FUN_006c5fc0
 {
@@ -2161,7 +2161,7 @@ void FUN_006c39c0_shell::FUN_006c39c0()
 {
     unsigned int iProcessedTaskCount;
     unsigned int iBackgroundTaskCount;
-    reinterpret_cast<::GlobalObject_0044fae0 *>((((ATM*)this)))->FUN_004538a0((int)("NavMeshObstacleManager::ForceUpdate()"));
+    reinterpret_cast<::GlobalObject_0044fae0 *>((((ATM*)this)))->FUN_004538a0((std::intptr_t)("NavMeshObstacleManager::ForceUpdate()"));
     iProcessedTaskCount = reinterpret_cast<::NavMeshObstacleManager *>((((NMOM*)this)))->GetProcessedTaskCount();
     iBackgroundTaskCount = reinterpret_cast<::NavMeshObstacleManager *>((((NMOM*)this)))->GetBackgroundTaskCount();
     while (iProcessedTaskCount != iBackgroundTaskCount)
@@ -6297,7 +6297,7 @@ void C006c3640::FUN_006c3640()
     AutoMemHelper mem(0x2e, true, &DAT_0106c3f0, 0x508);
     if (!*((SettingShell*)&(*reinterpret_cast<char *>(&::g_011d73e4)))->FUN_00408d60())
         return;
-    reinterpret_cast<::GlobalObject_0044fae0 *>(this)->FUN_004538a0((int)(&DAT_0106c498));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(this)->FUN_004538a0((std::intptr_t)(&DAT_0106c498));
     reinterpret_cast<::TESForm *>(&(timer))->ClearData();
     bool changed = false;
     time -= reinterpret_cast<::Twin_0084d030 *>((((TimeShell*)&(*reinterpret_cast<char *>(&::g_timeGlobal)))))->GetStoredFloatValue();

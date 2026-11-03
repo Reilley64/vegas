@@ -606,11 +606,11 @@ struct FUN_006078e0_s
 };
 struct FUN_008126e0_shell
 {
-    void SetWhich(int aiWhich);
+    void SetWhich(std::intptr_t aiWhich);
 };
 
 // @fnv 0x008126e0
-void FUN_008126e0_shell::SetWhich(int aiWhich)
+void FUN_008126e0_shell::SetWhich(std::intptr_t aiWhich)
 {
     *(int*)((char*)this + 0x140) = aiWhich;
 }

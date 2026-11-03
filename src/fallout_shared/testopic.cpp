@@ -544,8 +544,8 @@ void __cdecl CreateDefaultTopics()
                 (*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->SetEditorID((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID);
                 reinterpret_cast<::TESFullName *>(&((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic->fullName))->SetFullName(
                     ((const char *)(::FUN_00464f30((std::intptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID)))));
-                reinterpret_cast<::FUN_00461780_cls *>(((*reinterpret_cast<::DataHandlerEx * *>(&::g_dataHandler))))->Method((int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic));
-                reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((unsigned int)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID), (TESGlobal*)(*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic);
+                reinterpret_cast<::FUN_00461780_cls *>(((*reinterpret_cast<::DataHandlerEx * *>(&::g_dataHandler))))->Method((std::intptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic));
+                reinterpret_cast<::TMapStandIn *>((DAT_011c54c8))->InsertOrUpdate((std::uintptr_t)((*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].editorID), (TESGlobal*)(*reinterpret_cast<TopicDefaultEntry * (*)[]>(&::fnv_0061a270::DAT_0119a43c))[i][j].topic);
             }
         }
     }

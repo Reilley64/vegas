@@ -10418,12 +10418,12 @@ struct xTESC
 class xWorldC
 {
   public:
-    bool FUN_00457520(const xPt3C* pPos, int i);
+    bool FUN_00457520(const xPt3C* pPos, std::intptr_t i);
 };
 
 // Truncates pPos to cell coordinates, checks if the containing cell is loaded, and returns whether the cell's test at pPos passes.
 // @fnv 0x00457520
-bool xWorldC::FUN_00457520(const xPt3C* pPos, int i)
+bool xWorldC::FUN_00457520(const xPt3C* pPos, std::intptr_t i)
 {
     int qrEZrs = ::FUN_00406d90(pPos->x);
     int qsSDDgz = ::FUN_00406d90(pPos->y);

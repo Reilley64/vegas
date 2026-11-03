@@ -265,9 +265,9 @@ class LoadingMenu
     BSSimpleList<BGSPerkEntry*>* currentCandidate;
     unsigned char _padToTime[4];
     unsigned int nextTipTime;
-    unsigned char _padToExtra[4];
-    unsigned int extraCandidates;
-    char _padToUsFlags_pad1ec[4];
+    unsigned int m_uiTipTimer;
+    TESForm* pLocation;
+    void* m_pTileShaderState;
     void* m_pAlternateTileShaderState;
     char m_kFirstDate[12];
     char m_kSecondDate[12];

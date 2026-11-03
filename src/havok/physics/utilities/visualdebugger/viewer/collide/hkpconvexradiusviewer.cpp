@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkpEntity.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/CollectorStandIn.h"
@@ -133,17 +134,72 @@ struct D68FC0Object : D68FC0Primary, D68FC0Listener
     virtual void FUN_00d68fc0();
 };
 
-struct Target
+struct ConvexRadiusViewer;
+struct FUN_00d68aa0_item_list;
+
+// The convex radius viewer: hkReferencedObject, its hkProcess part at +0x08 (display handler at +0x18), its world
+// listener part at +0x20 (Outer, Sub), its entity listener parts at +0x28 (FUN_00d68aa0_cls) and +0x2c
+// (FUN_00d68940_cls), then the per-world data at +0x30.
+struct ConvexRadiusViewerRefObject
 {
+    void* m_vtbl;
+    int m_memSizeAndRefCount;
 };
-struct Outer
+struct ConvexRadiusViewerProcess
+{
+    void* m_vtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    void* m_displayHandler;
+    int unk14;
+};
+struct ConvexRadiusViewerWorldListener
+{
+    void* m_vtbl;
+    void* m_context;
+    ConvexRadiusViewer* viewer();
+};
+struct ConvexRadiusViewerEntityListener
+{
+    void* m_vtbl;
+    ConvexRadiusViewer* viewer();
+};
+struct ConvexRadiusViewerEntityListener2
+{
+    void* m_vtbl;
+    ConvexRadiusViewer* viewer();
+};
+struct ConvexRadiusViewer : ConvexRadiusViewerRefObject, ConvexRadiusViewerProcess, ConvexRadiusViewerWorldListener,
+                            ConvexRadiusViewerEntityListener, ConvexRadiusViewerEntityListener2
+{
+    FUN_00d68aa0_item_list** m_worldData;
+};
+inline ConvexRadiusViewer* ConvexRadiusViewerWorldListener::viewer()
+{
+    return static_cast<ConvexRadiusViewer*>(this);
+}
+inline ConvexRadiusViewer* ConvexRadiusViewerEntityListener::viewer()
+{
+    return static_cast<ConvexRadiusViewer*>(this);
+}
+inline ConvexRadiusViewer* ConvexRadiusViewerEntityListener2::viewer()
+{
+    return static_cast<ConvexRadiusViewer*>(this);
+}
+
+// The display id the viewer gives an entity's geometry: the address of the entity's collidable plus 3.
+static inline char* ConvexRadiusDisplayId(const void* collidable)
+{
+    uintptr_t id = reinterpret_cast<uintptr_t>(collidable) + 3;
+    return reinterpret_cast<char*>(id);
+}
+
+struct Outer : ConvexRadiusViewerWorldListener
 {
     void FUN_00d69000();
 };
-struct Base
-{
-};
-struct Sub
+struct Sub : ConvexRadiusViewerWorldListener
 {
     void FUN_00d69160(void* value);
 };
@@ -181,17 +237,17 @@ struct FUN_00d68940_target
     virtual void vSlot4(void* a, void* b, void* c);
 };
 
-struct FUN_00d68940_cls
+struct FUN_00d68940_cls : ConvexRadiusViewerEntityListener2
 {
-    void DispatchToTarget(char* a1);
+    void DispatchToTarget(hkpEntity* entity);
 };
 
-// Calls vSlot4 on the target object stored 0x14 bytes before this, passing a1+0xf0, a1+0x13 and DAT_01269010.
+// Calls vSlot4 on the viewer's display handler, passing the entity's transform, its display id and DAT_01269010.
 // @fnv 0x00d68940
-void FUN_00d68940_cls::DispatchToTarget(char* pData)
+void FUN_00d68940_cls::DispatchToTarget(hkpEntity* entity)
 {
-    FUN_00d68940_target* target = *(FUN_00d68940_target**)((char*)this - 0x14);
-    target->vSlot4(pData + 0xf0, pData + 0x13, DAT_01269010);
+    FUN_00d68940_target* target = static_cast<FUN_00d68940_target*>(viewer()->m_displayHandler);
+    target->vSlot4(&entity->m_pMotionState.m_kMotionState.m_kMotionTransform, ConvexRadiusDisplayId(&entity->m_kCollidable), DAT_01269010);
 }
 
 struct FUN_00d68aa0_req
@@ -220,18 +276,10 @@ struct FUN_00d68aa0_mgr
     virtual void v05(void* a, void* b, int c);
 };
 
-struct FUN_00d68aa0_owner
-{
-};
-
 extern void* DAT_01269010;
 
-struct FUN_00d68aa0_cls
+struct FUN_00d68aa0_cls : ConvexRadiusViewerEntityListener
 {
-    void* unk00;
-    void* unk04;
-    FUN_00d68aa0_item_list** m_08;
-
     void RemoveItem(FUN_00d68aa0_req* a1);
 };
 
@@ -242,15 +290,16 @@ void FUN_00d68aa0_cls::RemoveItem(FUN_00d68aa0_req* pRequest)
     {
         return;
     }
-    int idx = reinterpret_cast<::FUN_00d68a70_class *>((((FUN_00d68aa0_owner*)((char*)this - 0x28))))->FindKeyIndex(pRequest->m_08);
+    ConvexRadiusViewer* v = viewer();
+    int idx = reinterpret_cast<::FUN_00d68a70_class *>(v)->FindKeyIndex(pRequest->m_08);
     if (idx < 0)
     {
         return;
     }
-    FUN_00d68aa0_item_list* list = m_08[idx];
-    FUN_00d68aa0_mgr* mgr = *(FUN_00d68aa0_mgr**)((char*)this - 0x10);
-    pRequest = (FUN_00d68aa0_req*)((char*)pRequest + 0x13);
-    mgr->v05(pRequest, DAT_01269010, 0);
+    FUN_00d68aa0_item_list* list = v->m_worldData[idx];
+    FUN_00d68aa0_mgr* mgr = static_cast<FUN_00d68aa0_mgr*>(v->m_displayHandler);
+    char* id = ConvexRadiusDisplayId(&pRequest->m_10);
+    mgr->v05(id, DAT_01269010, 0);
 
     int i = 0;
     int n = list->m_08;
@@ -259,7 +308,7 @@ void FUN_00d68aa0_cls::RemoveItem(FUN_00d68aa0_req* pRequest)
         void** p = list->m_04;
         do
         {
-            if (*p == (void*)pRequest)
+            if (*p == (void*)id)
             {
                 goto found;
             }
@@ -444,7 +493,7 @@ void D68FC0Object::FUN_00d68fc0()
 // @fnv 0x00d69000
 void Outer::FUN_00d69000()
 {
-    reinterpret_cast<::FUN_00d68e60_cls *>((((Target*)((char*)this - 0x20))))->FUN_00d68e60({});
+    reinterpret_cast<::FUN_00d68e60_cls *>(viewer())->FUN_00d68e60({});
 }
 
 // @fnv 0x00d68e60
@@ -660,7 +709,7 @@ struct Phantom_d65f : Base_d65f, Listener_d65f, Watch2_d65f
 // @fnv 0x00d69160
 void Sub::FUN_00d69160(void* value)
 {
-    Base* base = reinterpret_cast<Base*>(reinterpret_cast<char*>(this) - 0x20);
+    ConvexRadiusViewer* base = viewer();
     int result = reinterpret_cast<::FUN_00d68a70_class *>((base))->FindKeyIndex(value);
     if (result >= 0)
         reinterpret_cast<::Phantom_d65f *>((base))->FUN_00d69010(result);
@@ -1256,11 +1305,11 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
     }
     if (arr.size > 0)
     {
-        char* name = (char*)a2 + 0x13;
+        char* name = ConvexRadiusDisplayId(&a2->unk10);
         S_00d68c00_List* list = &item->list;
         hkMemoryRouter* r = &hkMemoryRouter::getInstance();
         if (list->size == (list->cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(r->m_heap), (::AudioStream *)(list), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(r->m_heap), (::AudioStream *)(list), sizeof(char*));
         char** p = list->data + list->size;
         for (int k = 0; k < 1; k++)
             p[k] = name;
@@ -1280,7 +1329,7 @@ void S_00d68c00_Sub::FUN_00d68c00(S_00d68c00_Arg* a2) throw()
     hkMemoryAllocator& heap = hkMemoryRouter::getInstance().heap();
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
-        heap.bufFree(arr.data, (arr.cap & 0x3fffffff) * 4);
+        heap.bufFree(arr.data, (arr.cap & 0x3fffffff) * (int)sizeof(S_00d68c00_Elem*));
 }
 }  // namespace fnv_00d68c00
 

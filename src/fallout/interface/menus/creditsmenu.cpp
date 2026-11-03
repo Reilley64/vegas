@@ -4,6 +4,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -1826,7 +1827,7 @@ bool __cdecl FUN_0075f2a0()
         }
         return true;
     }
-    else if (pMenu6 && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenu6))->FUN_00726070())))
+    else if (pMenu6 && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenu6))->tile)))
     {
         delete pMenu6;
     }

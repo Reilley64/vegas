@@ -4,6 +4,7 @@
 
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -10297,7 +10298,7 @@ RouletteTile* __cdecl FUN_007bbe20(RoulettePlayerStandIn* casino, int bet, int a
     }
     else
     {
-        if (DAT_011da878 && ((::MenuMethods *)(reinterpret_cast<::Callees *>((((MenuMethods*)DAT_011da878)))->FUN_00726070())))
+        if (DAT_011da878 && ((::MenuMethods *)(reinterpret_cast<::MenuFields *>((((MenuMethods*)DAT_011da878)))->tile)))
             delete (MenuVirtual*)DAT_011da878;
     }
     return 0;

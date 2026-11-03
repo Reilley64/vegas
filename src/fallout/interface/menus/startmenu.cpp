@@ -3,6 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/list_box_fields.h"
 #include <windows.h>
 #include <new>
@@ -5406,7 +5407,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
     {
         SMTile* pChild5 = ((::SMTile *)(reinterpret_cast<::ListStandIn *>(&(pRootX->kChildren))->FUN_0057cbe0((int **)&(pPos))));
         SMMenu* pOpenMenu = pChild5 ? ((::SMMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((pChild5))->FUN_00a03c90())) : 0;
-        if (pOpenMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((pOpenMenu))->FUN_00726070())))
+        if (pOpenMenu && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pOpenMenu))->tile)))
         {
             int iMode = ((int)(reinterpret_cast<::ActorMover *>((pOpenMenu))->GetCurrentMoveModeType()));
             if ((iMode == 8 || iMode == 2) && reinterpret_cast<::TileListBoxCalls *>((pChild5))->GetFloat(0xfa7) != 6008.0)
@@ -5433,7 +5434,7 @@ bool __cdecl InitStartMenu(bool abNewGame, bool abFlag)
         ::fnv_00a04500::FUN_00a04500();
         return true;
     }
-    else if (pMenu2 && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenu2))->FUN_00726070())))
+    else if (pMenu2 && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenu2))->tile)))
     {
         delete pMenu2;
     }

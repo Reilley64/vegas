@@ -3,6 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
 #include <cstdint>
 #include <windows.h>
@@ -3140,27 +3141,27 @@ void __cdecl FUN_00703610()
         if (pstat)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pinv)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (prepair)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pitemmod)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pmap)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         ::fnv_00704f50::FUN_00704f50();
         if (((bool)(::IsStartMenuFlag1Set())))

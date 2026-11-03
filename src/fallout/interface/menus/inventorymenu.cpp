@@ -198,7 +198,7 @@ void InventoryMenu::UpdateDialog()
                                            (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
                                            (const char *)("UIVATSInsufficientAP"), 2.0f, false);
                 }
-                else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
+                else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                          (ms_pActionPointSource &&
                           ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((ms_pActionPointSource))->m_pItemObject))->GetFormType() == TESForm::kArmor))
                 {
@@ -234,7 +234,7 @@ void InventoryMenu::UpdateDialog()
             m_pTiles[20]->Set(0xfa3, 1);
             m_pTiles[22]->Set(0xfa3, 1);
         }
-        for (iIndex = 0; !bHotkeySelected && !reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(ms_iKeyringOpenTileID) &&
+        for (iIndex = 0; !bHotkeySelected && !reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(ms_iKeyringOpenTileID) &&
                          iIndex < reinterpret_cast<::CombatProcedureActivateObject *>(&(m_kMenuData))->FUN_006e4ba0();
              ++iIndex)
         {
@@ -338,7 +338,7 @@ Tile* InventoryMenu::Create()
     }
     else
     {
-        if (ms_pInventoryMenu && ((::Tile *)(reinterpret_cast<::Callees *>((ms_pInventoryMenu))->FUN_00726070())))
+        if (ms_pInventoryMenu && ((::Tile *)(reinterpret_cast<::MenuFields *>((ms_pInventoryMenu))->tile)))
             delete ms_pInventoryMenu;
     }
     return 0;
@@ -2424,8 +2424,8 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         if (m_iMode != m_uiSoundID - 0x18)
         {
             int iOldMode = m_iMode;
-            if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
-                reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 0);
+            if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
+                reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 0);
             reinterpret_cast<::FUN_00781b10_shell *>(this)->ClearActionPointSource();
             UpdateCurrentValue();
             m_iMode = m_uiSoundID - 0x18;
@@ -2476,7 +2476,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         }
         break;
     case 29:
-        if ((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)) && !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID) &&
+        if ((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)) && !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID) &&
             ((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))->FUN_00401170() != 0x29)
         {
             bool bResume = false;
@@ -2487,7 +2487,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                     if ((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)) && reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bcdb0(1) == 0.0)
                         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810)))))->GetMenuTitle()))), 2, (int)(0), (const char *)("UIVATSInsufficientAP"),
                                               2.0f, 0);
-                    else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
+                    else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                              ((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))->FUN_00401170() == 0x19)
                         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 2, (int)(0), (const char *)("UIVATSInsufficientAP"),
                                               2.0f, 0);
@@ -2514,7 +2514,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         else if (((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject))->FUN_00401170() == 0x29)
         {
             VTForm* pkTargetNum = ((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject));
-            if (!pkTargetNum || !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc))
+            if (!pkTargetNum || !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc))
                 break;
             VTAction* pkAction = new VTAction(((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject)), ((::fnv_00780140::VTTile *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_iCountChange)));
             VTProcess* pkProcess = ((::fnv_00780140::VTProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->GetBaseTexture()));
@@ -2534,7 +2534,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         if (!reinterpret_cast<::HotkeyWheelDisplay *>(&(m_kSelection))->GetVisible())
         {
             UpdateCurrentValue();
-            reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 1);
+            reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 1);
             reinterpret_cast<::ListBoxImpl *>(&(m_kCallbackList))->ApplyFilter((bool (*)(void *))(IsNotFormType2E));
             reinterpret_cast<::LBList_7314c0 *>(&(m_kCallbackList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(FUN_00780c00), -1, 0x7fffffff);
             reinterpret_cast<::FUN_00781b10_shell *>(this)->ClearActionPointSource();
@@ -2547,7 +2547,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
         break;
     case 10:
         UpdateCurrentValue();
-        reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 0);
+        reinterpret_cast<::Tile *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(::InventoryMenu::ms_iKeyringOpenTileID, 0);
         reinterpret_cast<::ListBoxImpl *>(&(m_kCallbackList))->ApplyFilter((bool (*)(void *))(FUN_00782620));
         reinterpret_cast<::LBList_7314c0 *>(&(m_kCallbackList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(FUN_00780c00), -1, 0x7fffffff);
         ::FUN_007800c0();
@@ -2558,7 +2558,7 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             VTPoint3 kPos = (*reinterpret_cast<::fnv_00780140::VTPoint3 *>((void *)&::NiPoint3::ZERO));
             VTForm* pkRefOut = ((::fnv_00780140::VTForm *)(reinterpret_cast<::InventoryEntryFields *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->m_pItemObject));
             VTItemData* pkItem = ((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))) ? *((::fnv_00780140::VTItemData **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_00780140::VTItemNode *)(::FUN_00559450((int *)((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)))))))->m_item)) : 0;
-            if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
+            if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_00780140::VTSoundHandle &)(((::fnv_00780140::VTAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIVATSInsufficientAP", 0x121)))->FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
                 ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d47a4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);

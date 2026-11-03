@@ -2,6 +2,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
 #include <cstdint>
 #include <windows.h>
@@ -11410,7 +11411,7 @@ bool FUN_007e9200()
         reinterpret_cast<::Menu *>((qSVM))->SetMenuVisibility(0);
         return true;
     }
-    else if (qSVM && ((::VATSCreateTileX *)(reinterpret_cast<::Callees *>((qSVM))->FUN_00726070())))
+    else if (qSVM && ((::VATSCreateTileX *)(reinterpret_cast<::MenuFields *>((qSVM))->tile)))
     {
         delete qSVM;
     }
@@ -12861,7 +12862,7 @@ Tile* FUN_0076bfe0()
             (int)(reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4017) / 2.0) - 35;
         ::g_pHudMainMenuInstance->m_iHudValueThirdAfterUpdateList = 70;
         pMenuTileN->Set(4003, 1);
-        reinterpret_cast<::Callees *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00726070();
+        reinterpret_cast<::MenuFields *>((((MenuStub*)::g_pHudMainMenuInstance)))->tile;
         ::fnv_00a04200::FUN_00a04200(false);
         // The texture is held through the NiRefObject reference count that NiNode exposes here.
         NiPointer<NiNode> spCompassAlphaB(0);
@@ -12905,7 +12906,7 @@ Tile* FUN_0076bfe0()
     }
     else
     {
-        if (pMenuXB && ((std::intptr_t)(reinterpret_cast<::Callees *>((pMenuXB))->FUN_00726070())))
+        if (pMenuXB && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenuXB))->tile)))
             delete pMenuXB;
     }
     reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();

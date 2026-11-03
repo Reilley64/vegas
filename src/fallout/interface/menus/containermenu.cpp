@@ -3,6 +3,7 @@
 #include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
 #include "fallout/interface/dialogue_response_fields.h"
 #include <new>
@@ -2771,7 +2772,7 @@ void Cls75eac0::Update()
     if (m_fc != 0 && ((unsigned int)(::FUN_00457fe0())) > (unsigned int)m_fc)
     {
         m_fc = 0;
-        TileObj* tile = (TileObj*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::Callees *>((((MenuObj*)DAT_011d93f8)))->FUN_00726070()), ::DAT_010721f4)));
+        TileObj* tile = (TileObj*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::MenuFields *>((((MenuObj*)DAT_011d93f8)))->tile), ::DAT_010721f4)));
         if (tile != 0)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(DAT_01011584), true);
@@ -3653,7 +3654,7 @@ void MenuDeadline539::ShowMessageWithSound(StrMem strMessage, BSSoundHandleEx so
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(strMessage))->FUN_004048e0())) > 0 &&
         (*(*reinterpret_cast<::BoolSetting539 *>(&::g_011d8928)).FUN_00408d60() || (actor && ::FUN_008c1bc0((int)(((ActorAccess539*)actor))))))
     {
-        TextTile539* tile = (TextTile539*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::Callees *>((((MenuRoot539*)DAT_011d93f8)))->FUN_00726070()), DAT_010721f4)));
+        TextTile539* tile = (TextTile539*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::MenuFields *>((((MenuRoot539*)DAT_011d93f8)))->tile), DAT_010721f4)));
         if (tile)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(strMessage))))), true);
         duration3 = (float)::FUN_00ad8b30((unsigned int *)&(soundHandle));

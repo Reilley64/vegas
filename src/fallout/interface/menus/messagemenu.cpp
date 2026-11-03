@@ -1151,7 +1151,7 @@ void MsgMenu::PopulateFromMessageData()
     float fTheTextHeight = 0.0f;
     float fButtonsWidth = 0.0f;
     float fWidths = 0.0f;
-    float fHorBuf = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szHorBuf));
+    float fHorBuf = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szHorBuf));
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(pMessagePtr->kSound))->FUN_004048e0())) > 0 &&
         reinterpret_cast<::GO *>((void *)&(const ::MessageMenuSetup::MsgSound &)(((::MessageMenuSetup::MsgAudio *)(::FUN_00453a70()))->FUN_00ad7550(((const char *)(::FUN_00559450((int *)&(pMessagePtr->kSound)))), 0x121)))->IsNotEqual(-1))
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::MessageMenuSetup::MsgSound &)(((::MessageMenuSetup::MsgAudio *)(::FUN_00453a70()))->FUN_00ad7550(((const char *)(::FUN_00559450((int *)&(pMessagePtr->kSound)))), 0x121)))->FUN_00ad8830(0);
@@ -1259,8 +1259,8 @@ void MsgMenu::PopulateFromMessageData()
     {
         fWidths = ::FUN_00404010(fIconHeightIn, fTheTextHeight);
         fWidths = ::FUN_00404010(fWidths, fButtonsWidth);
-        fWidths = ::FUN_0040ebd0(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth)));
-        fWidths = ::FUN_00404010(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMinMenuWidth)));
+        fWidths = ::FUN_0040ebd0(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth)));
+        fWidths = ::FUN_00404010(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szMinMenuWidth)));
     }
     else
     {
@@ -1269,8 +1269,8 @@ void MsgMenu::PopulateFromMessageData()
     }
     reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[0]))->FUN_00a012d0(0xfb1, fWidths, true);
     ::DAT_0119f348 = pMessagePtr->iType == 0x17;
-    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 0);
-    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0xfa3, 1);
+    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(0x1772, 0);
+    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(0xfa3, 1);
     if (!((bool)(::GetByteAtOffset56((char *)(pMessagePtr)))))
     {
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[0]))->FUN_00a012d0(0xfa9, 0.0f, true);

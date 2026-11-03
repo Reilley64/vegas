@@ -5,6 +5,7 @@
 #include "fnv/tls.h"
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cctype>
 #include <cstdint>
@@ -718,18 +719,18 @@ void __cdecl UpdateD766AA0Menu()
     if (g_pkD766AA0Menu)
     {
         FUN_007ffe40();
-        reinterpret_cast<::FUN_00a012d0_t *>((((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070()))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
         if (reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())
         {
             if (((BSAudio*)reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())->GetSynchTime() ==
-                ((::NiNode *)(reinterpret_cast<::TileFields *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->renderedNode)))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((TileD766*)((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile)))))->renderedNode)))
             {
                 FORenderedTerminal* pkTerminal =
                     dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu());
                 reinterpret_cast<::FUN_007ffaf0_shell *>((pkTerminal))->FUN_007ffaf0();
             }
         }
-        reinterpret_cast<::Tile *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((TileD766*)((::TileNU *)(reinterpret_cast<::MenuFields *>((g_pkD766AA0Menu))->tile)))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pkD766AA0Menu))->FUN_00a1d910();
         ::DAT_011d95c0 = ((unsigned int)(::FUN_00457fe0())) + 8000;
     }
@@ -1033,7 +1034,7 @@ struct HackingMenuDecomp : HackingMenu
 void HackingMenuDecomp::UpdateFade()
 {
     static float delay = reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<Resources**>(reinterpret_cast<char*>(this) + 0x11c))))->GetFloat(::FUN_00a00940(&str_01072108, -1));
-    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero({}))
+    if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x1c4) == 4 && reinterpret_cast<::FUN_00a01230_shell *>((((::Widget *)(reinterpret_cast<::MenuFields *>(this)->tile))))->IsTraitNonZero({}))
     {
         return;
     }

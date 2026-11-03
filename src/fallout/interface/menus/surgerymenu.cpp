@@ -2841,14 +2841,14 @@ void PickMenu::UpdateLockpick(bool abForcing)
     static int iMaxXBoxMag = ::FUN_00a00940(s_szMaxXBoxMag, -1);
     static int iMouseMinPercent = ::FUN_00a00940(s_szMouseMinPercent, -1);
     static int iMouseMaxPercent = ::FUN_00a00940(s_szMouseMaxPercent, -1);
-    float fMinResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinResistanceTime);
-    float fMaxResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxResistanceTime);
-    float fMinMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinMagnitude);
-    float fMaxMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxMagnitude);
-    float fSampleMinXBoxMag = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMinXBoxMag);
-    float fMaxXBoxMagCount = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMaxXBoxMag);
-    float fMouseMinLocal = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMouseMinPercent) / 100.0;
-    float fMouseMax = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(iMouseMaxPercent) / 100.0;
+    float fMinResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinResistanceTime);
+    float fMaxResistance = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxResistanceTime);
+    float fMinMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinMagnitude);
+    float fMaxMagnitude = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxMagnitude);
+    float fSampleMinXBoxMag = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMinXBoxMag);
+    float fMaxXBoxMagCount = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMaxXBoxMag);
+    float fMouseMinLocal = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMouseMinPercent) / 100.0;
+    float fMouseMax = reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(iMouseMaxPercent) / 100.0;
     if (abForcing)
     {
         bForcing = true;
@@ -2857,7 +2857,7 @@ void PickMenu::UpdateLockpick(bool abForcing)
         float fMagnitudeVal;
         float fMouseNew;
         ::ComputeInjuryEffectScalars(&fResistanceTimeLocal, &fMagnitudeVal, &fMouseNew,
-                                   reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(DAT_011dad9c) / 100.0, fLockLevel / 100.0,
+                                   reinterpret_cast<::TileListBoxCalls *>((((::LockpickResistance::PickTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(DAT_011dad9c) / 100.0, fLockLevel / 100.0,
                                    DAT_011dea3c->kValues.GetActorValue(0x25));
         fResistanceTimeLocal = ::LinearInterpolate(fMinResistance, fMaxResistance, 0.0f, 1.0f, fResistanceTimeLocal);
         float fShakeXVal = ApplyNoise(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::LockpickResistance::PickTimer *>(&::g_timeGlobal))))->FUN_00825c00() * 0.00025f);

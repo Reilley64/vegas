@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
 #include "fallout/interface/list_box_fields.h"
 #include "fnv/effect_item_fields.h"
@@ -1242,7 +1243,7 @@ Tile* FUN_007da2c0()
     }
     else
     {
-        if (StatsMenu::ms_pInventoryMenu && ((std::intptr_t)(reinterpret_cast<::Callees *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->FUN_00726070())))
+        if (StatsMenu::ms_pInventoryMenu && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((((MenuH*)StatsMenu::ms_pInventoryMenu)))->tile)))
             delete (VDtor*)StatsMenu::ms_pInventoryMenu;
     }
     return 0;

@@ -5,6 +5,7 @@
 #include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorMover.h"
@@ -989,16 +990,16 @@ void RefreshF57EA0TerminalMenu()
     if (g_pF57EA0TerminalMenu)
     {
         ::FUN_007ffe40();
-        reinterpret_cast<::FUN_00a012d0_t *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
+        reinterpret_cast<::FUN_00a012d0_t *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
         if (reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu() &&
             reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu()->GetSceneNode() ==
-                ((::NiNode *)(reinterpret_cast<::TileFields *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->renderedNode)))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->renderedNode)))
         {
             FORenderedTerminal* pkTerminal =
                 dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu());
             reinterpret_cast<::FUN_007ffaf0_shell *>((pkTerminal))->FUN_007ffaf0();
         }
-        reinterpret_cast<::Tile *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->Set(0x1772, 1);
+        reinterpret_cast<::Tile *>((((::F57EA0Tile *)(reinterpret_cast<::MenuFields *>((g_pF57EA0TerminalMenu))->tile))))->Set(0x1772, 1);
         reinterpret_cast<::FUN_00a1d910_shell *>((g_pF57EA0TerminalMenu))->FUN_00a1d910();
     }
 }

@@ -3,6 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/list_box_fields.h"
 #include <cstdint>
 #include <new>
@@ -2648,7 +2649,7 @@ Tile* __cdecl FUN_00796b90()
         DAT_011da368->Menu::SetMenuVisibility(true);
         return menuTile;
     }
-    else if (DAT_011da368 && ((::Tile *)(reinterpret_cast<::Callees *>((DAT_011da368))->FUN_00726070())))
+    else if (DAT_011da368 && ((::Tile *)(reinterpret_cast<::MenuFields *>((DAT_011da368))->tile)))
     {
         delete DAT_011da368;
     }
@@ -2977,7 +2978,7 @@ void FUN_0079aba0()
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((DAT_011da368->m_pTiles[12]))->FUN_00a01350(TraitID("_Title_5"), (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d3210))))->GetMenuTitle()))), true);
             reinterpret_cast<::fnv_00a09410::EvalValue *>((((::Tile::Value *)(reinterpret_cast<::FUN_00a00f30_shell *>((DAT_011da368->m_pTiles[12]))->FUN_00a00f30(DAT_011da354)))))->FUN_00a09410(true);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::TileFloatList *>((DAT_011da368->m_pTiles[17]))->FUN_00a03eb0(0x24)))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d4aec))))->GetMenuTitle()))), true);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Tile *)(reinterpret_cast<::Callees *>((DAT_011da368))->FUN_00726070()))))->FUN_00a03da0((char *)("MM_Headline_Title"))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d21e4))))->GetMenuTitle()))), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Tile *)(reinterpret_cast<::MenuFields *>((DAT_011da368))->tile))))->FUN_00a03da0((char *)("MM_Headline_Title"))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d21e4))))->GetMenuTitle()))), true);
         }
         reinterpret_cast<::MapMenu *>((((MenuRefresh*)DAT_011da368)))->FUN_0079af30();
     }

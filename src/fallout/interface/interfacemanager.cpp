@@ -2,6 +2,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include "fallout/interface/inventory_fields.h"
 #include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
@@ -3214,7 +3215,7 @@ void FUN_0070c4a0_shell::UpdateInterface()
                     char strName[16];
                     ::FUN_00406d00(strName, 0x10, "%s%c", "_PCButton_",
                                reinterpret_cast<::sa238a0::CharTable *>((((Ctl*)((::InputManager *)(reinterpret_cast<::FUN_00877720_shell *>((g_osGlobals))->FUN_00877720())))))->FUN_00a238a0(iraw_key, 0xff));
-                    prefTile = ((::fnv_0070c4a0::TileH *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::fnv_0070c4a0::TileH *)(reinterpret_cast<::Callees *>((pmenu))->FUN_00726070()))))->FUN_00a03da0(
+                    prefTile = ((::fnv_0070c4a0::TileH *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::fnv_0070c4a0::TileH *)(reinterpret_cast<::MenuFields *>((pmenu))->tile))))->FUN_00a03da0(
                         (char *)(reinterpret_cast<::FUN_00a011f0_shell *>((((::fnv_0070c4a0::TileH *)(reinterpret_cast<::Callees *>((pmenu))->FUN_00726070()))))->FUN_00a011f0(::FUN_00a01860(strName))))));
                     if (prefTile && reinterpret_cast<::FUN_00a01230_shell *>((prefTile))->IsTraitNonZero(0xfa3))
                     {

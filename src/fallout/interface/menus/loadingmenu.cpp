@@ -2,6 +2,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cctype>
@@ -2994,7 +2995,7 @@ Tile* __cdecl CreateLoadingMenuTile(TESForm* form, bool refresh, bool visible)
         reinterpret_cast<LoadingMenu*>((*reinterpret_cast<::LoadingMenuCreateMenu * *>(&::BSSystemUtility::s_iUpdateEnabled)))->m_pTiles[33]->Set(0xfa9, 0);
         return existing;
     }
-    else if (tile && reinterpret_cast<::Callees *>((tile))->FUN_00726070())
+    else if (tile && reinterpret_cast<::MenuFields *>((tile))->tile)
     {
         delete tile;
     }

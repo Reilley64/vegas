@@ -9,7 +9,6 @@
 class NiMemObject
 {
   public:
-    void* operator new(unsigned int size);
 };
 
 class NiRefObject : public NiMemObject

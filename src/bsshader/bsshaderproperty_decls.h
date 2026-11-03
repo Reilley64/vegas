@@ -7,7 +7,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "MemoryManager.h"
 
-void __cdecl operator delete(void*);
 class NiGeometry;
 class ShadowSceneLight;
 
@@ -16,10 +15,6 @@ class ShadowSceneLight;
 struct BSShaderPropertyLightSlot
 {
     ShadowSceneLight* light;
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 class BSShaderProperty
@@ -55,10 +50,6 @@ class BSShaderProperty::ShaderPassEntry
     void SetGeometry(NiGeometry* value)
     {
         m_pShaderGeometry = value;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
 };
 

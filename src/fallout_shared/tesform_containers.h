@@ -149,8 +149,4 @@ typedef BSTCaseInsensitiveStringMap<TESForm*> TESFormEditorIDMap;
 typedef NiTLargePrimitiveArray<TESForm*> TESFormAlteredArray;
 typedef NiTMapItem<const char*, TESForm*> TESFormEditorIDMapItem;
 
-// Global allocation/deallocation are declarations only. The covered new
-// expressions emit the allocation and exception cleanup naturally.
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* memory);
 #endif

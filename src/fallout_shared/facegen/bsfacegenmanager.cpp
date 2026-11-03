@@ -295,7 +295,6 @@ void* FUN_0064fd80(void* pThis)
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 struct FUN_00650170_thiscall
@@ -487,8 +486,6 @@ struct AutoMemContext
 struct Sol
 {
     char pad[0x10];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Sol();
 };
 struct SolPtr
@@ -508,8 +505,6 @@ struct GO45CFE0
 {
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 BSFaceGenManager* FUN_00650ea0(void*);
 
 struct BSFaceGenManager_006519f0
@@ -2012,8 +2007,6 @@ class NiPixelFormat
 class NiPixelData
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pMem, unsigned int);
     NiPixelData(unsigned int uiWidth, unsigned int uiHeight, const NiPixelFormat& kFormat, unsigned int uiMipmapLevels,
                 unsigned int uiNumFaces);
     void FUN_006516c0(bool bValue);
@@ -2023,8 +2016,6 @@ class NiPixelData
 class FaceGenAlphaProperty
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* pMem, unsigned int);
     FaceGenAlphaProperty();
     char data[0x1c];
 };
@@ -3449,8 +3440,6 @@ struct SpObst
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00650100 : BSFadeNode
 {
@@ -4307,7 +4296,6 @@ void __cdecl FUN_00651ab0()
     }
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_00651b00_class
 {
@@ -5432,8 +5420,6 @@ struct NiExtraData
     int unk40;
     int unk44;
     int unk48;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a75650 : NiExtraData
 {

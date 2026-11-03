@@ -582,10 +582,6 @@ unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
 }
 
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S00dc5f30_Tag
 {

@@ -75,7 +75,6 @@ public:
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct CloningProcess
 {
@@ -89,7 +88,7 @@ struct FUN_00a920b0_shell : NiVectorExtraData
 // @fnv 0x00a920b0
 NiObject* FUN_00a920b0_shell::FUN_00a920b0(CloningProcess& kCloning)
 {
-    NiVectorExtraData* pkObject = (NiVectorExtraData*)BSFadeNode::operator new(sizeof(NiVectorExtraData));
+    NiVectorExtraData* pkObject = (NiVectorExtraData*)::operator new(sizeof(NiVectorExtraData));
     if (pkObject)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraData*)pkObject)))->FUN_00a7b2e0();

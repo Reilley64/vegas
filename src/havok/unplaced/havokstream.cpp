@@ -2,6 +2,7 @@
 // src/havok/unplaced/havokstream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/havokstream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/C626680Array.h"
@@ -406,7 +407,7 @@ struct FUN_00626000
     unsigned int counter;
     unsigned int state;
     FUN_00626000(int index);
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return FUN_0056d280(size);
     }
@@ -1053,7 +1054,7 @@ struct StreamObject : StreamBase
     BSFile* file;
     bool ownsFile;
     StreamObject(void* path);
-    static __forceinline void* operator new(unsigned int size)
+    static __forceinline void* operator new(std::size_t size)
     {
         return FUN_0056d280(size);
     }

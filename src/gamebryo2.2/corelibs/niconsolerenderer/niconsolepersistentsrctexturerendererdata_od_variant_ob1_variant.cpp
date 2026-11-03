@@ -52,8 +52,6 @@ struct BSMultiBound
 {
     void* b[4];
     BSMultiBound();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct FUN_00c35f50_class
 {
@@ -63,7 +61,6 @@ struct FUN_00c35f50_class
 extern int _data_011c16bc;
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct Obj

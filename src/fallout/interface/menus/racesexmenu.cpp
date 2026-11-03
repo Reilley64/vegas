@@ -944,8 +944,6 @@ struct GlobalObject_0045cf30
 {
     unsigned char* Bool();
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct FUN_007ac9f0
 {
     int unk000;

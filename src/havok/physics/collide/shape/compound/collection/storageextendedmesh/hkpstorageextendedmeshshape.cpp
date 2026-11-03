@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/Container.h"
@@ -268,12 +269,6 @@ __declspec(noinline) FUN_00d49c40::FUN_00d49c40(hkFinishLoadedObjectFlagD4A1 fla
 __declspec(noinline) FUN_00d4a170::FUN_00d4a170(hkFinishLoadedObjectFlagD4A1 flag) throw()
 {}
 
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
-inline void operator delete(void*, void*) throw()
-{}
 
 struct hkpTrianglesSubpartD4A1
 {
@@ -974,10 +969,6 @@ hkpExtendedMeshShapeTrianglesSubpartD4AB& hkpExtendedMeshShapeTrianglesSubpartD4
 }
 
 namespace fnv_00d4ad60 {
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 struct FUN_00d1df70
 {
@@ -1559,10 +1550,6 @@ Derived::Derived()
 #include <xmmintrin.h>
 namespace fnv_00d56500 {
 
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 typedef float hkReal;
 typedef signed char hkInt8;

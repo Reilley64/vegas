@@ -69,10 +69,6 @@ struct El
     std::string s;
     int unk;
     std::vector<unsigned int> v;
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 namespace std {

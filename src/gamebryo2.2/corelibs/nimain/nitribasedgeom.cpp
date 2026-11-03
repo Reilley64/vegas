@@ -1,4 +1,5 @@
 // gamebryo2.2/corelibs/nimain/nitribasedgeom.cpp: BSTextureSet, NiGeometry, NiTriBasedGeom (5 functions)
+#include <new>
 #include "fnv/decl/FUN_0051d1c0.h"
 #include "fnv/decl/S_0051d080.h"
 #include "fnv/symbols_00aa1000.h"
@@ -44,7 +45,6 @@ void FUN_0051d060(DummyClass* _this, StackByte aByteValue)
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, size_t);
 };
 
 

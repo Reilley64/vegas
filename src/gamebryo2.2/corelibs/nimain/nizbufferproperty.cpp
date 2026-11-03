@@ -100,8 +100,6 @@ struct CloningProcess;
 class A5F510Property
 {
   public:
-    static void* operator new(unsigned int stSize);
-    static void operator delete(void* p);
 
     __declspec(nothrow) A5F510Property();
     virtual void vfunc00();

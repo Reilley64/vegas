@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ce0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -447,10 +448,6 @@ void S00cfac20_Grp::FUN_00cfac20(S00cfac20_Builder* b, S00cfac20_Ray* rays, int 
 
 typedef unsigned short hkUint16;
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct hkVector4
 {

@@ -361,9 +361,6 @@ void* FUN_006e8fc0_Class::FUN_006e8fc0()
 namespace fnv_006e8fe0 {
 struct PathingGraphNode
 {
-    void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
-    void* operator new(unsigned int, const void*);
 };
 
 struct Dummy_006e8f80
@@ -813,7 +810,6 @@ void FUN_006f4b90_Class::FUN_006f4b90()
 }
 }  // namespace fnv_006f4b90
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_006f4bb0_Class
 {
@@ -1224,7 +1220,6 @@ void* FUN_006e1250_Class::FUN_006e1250(unsigned int auiFlags)
     return this;
 }
 
-void* __cdecl operator new(unsigned int, void*);
 struct FUN_006e1280_Class
 {
     void FUN_006e1280(char* a1, unsigned int a2);
@@ -1565,7 +1560,6 @@ bool FUN_006ec390_Class::FUN_006ec390(int aiArg)
     return result;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_006ec410_Helper
 {
@@ -4229,8 +4223,6 @@ struct Child80_s
     int unkac;
     Child80_s();
 };
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 
 struct PathObj_s
 {
@@ -4514,8 +4506,6 @@ class FUN_006e9570_cls
     int m_iFlags;
 };
 
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct FUN_006f4cd0
 {
     int unk00;
@@ -4636,8 +4626,6 @@ struct FUN_006ec2e0_Class
     bool PopHead(FUN_006ec2e0_Out* a1);
 };
 
-void* operator new(unsigned int size, void* where);
-void operator delete(void* p, void* where);
 
 class FUN_006ec4b0_item
 {
@@ -4923,8 +4911,6 @@ struct FUN_006edd30_shell
     PointerList_006edd30 paths;
     void FUN_006edd30(const Position_006edd30* start, const Position_006edd30* finish);
 };
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* ptr, void* place);
 struct FUN_006ee050_Size28 : public FUN_006ee050_Class
 {
     int extra0c;
@@ -4965,8 +4951,6 @@ struct Heap_006ee070
     void* Allocate(unsigned int size, unsigned int flags);
 };
 
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void* p, void* where);
 
 struct FUN_006ee070_obj
 {
@@ -6361,8 +6345,6 @@ int S_006f9c20::AddElement(const S_006f9c20_Elem* pElem)
     return iIndex;
 }
 
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* p, void* place);
 
 class FNVElem_cls
 {
@@ -9373,12 +9355,6 @@ FUN_006f2b30::FUN_006f2b30()
 }
 }  // namespace fnv_006f2b30
 
-inline void* __cdecl operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 
 class C6F3280Bound
 {
@@ -10598,8 +10574,6 @@ void PathSmoother::FUN_006ed850()
     reinterpret_cast<::fnv_006ee5d0::FUN_006ee5d0_Class *>(this)->CreateNavMeshEdges();
 }
 
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* object, void* place);
 
 struct Allocator_006edc40
 {
@@ -11212,7 +11186,6 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 
-void __cdecl operator delete(void*, void*);
 
 // Places a2 instances of FUN_006e2210 into the memory block at a1 by calling the constructor at each offset.
 // @fnv 0x006e9700
@@ -11571,8 +11544,6 @@ struct NiNode
     unsigned unka4;
     unsigned unka8;
     NiNode(unsigned short);
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
 };
 struct Ptr490
 {

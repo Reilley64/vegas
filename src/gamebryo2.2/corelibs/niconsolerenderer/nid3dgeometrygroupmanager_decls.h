@@ -5,7 +5,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class Direct3DDeviceInterface
 {

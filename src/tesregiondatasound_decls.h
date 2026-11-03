@@ -11,10 +11,6 @@
 #include "fnv/symbols_00485000.h"
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_011c3000.h"
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 class TESFile
 {
   public:

@@ -81,7 +81,7 @@ unsigned int NiD3DShaderInterface::InitializeShaderRenderer(GraphicsRenderer* re
         factory->vfn_70(renderer);
     if (!::DAT_0126fa10)
     {
-        Program* p = (Program*)NiMemObject::operator new(28);
+        Program* p = (Program*)::operator new(28);
         ::DAT_0126fa10 = p ? ((::Program *)(new ((void *)(p)) ::FUN_00e93ad0())) : 0;
         if (!::DAT_0126fa10)
             ::FUN_00a29680();

@@ -1967,14 +1967,6 @@ struct BoneLODControllerArray : BoneArray<unsigned short>
     {
         return ((Holder*)this)->ContainsSortedSubset((const Holder*)other);
     }
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* ptr)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(ptr);
-    }
     ~BoneLODControllerArray()
     {
         ::FUN_00aa10f0(data);

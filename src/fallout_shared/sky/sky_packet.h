@@ -87,7 +87,6 @@ template <class T> class SettingT : public SettingT_GameSettingCollection_
 {
 };
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting76;
-void* operator new(unsigned int);
 class Sky
 {
   public:

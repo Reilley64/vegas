@@ -2,6 +2,7 @@
 // src/staging/blk_00d60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -447,10 +448,6 @@ int FUN_00d68820()
 }
 }  // namespace fnv_00d68820
 
-inline void* operator new(unsigned int, void* pvMem)
-{
-    return pvMem;
-}
 
 struct hkFinishLoadedObjectFlagD6A
 {
@@ -2748,7 +2745,7 @@ class hkReferencedObjectD62
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectD62* b =
             static_cast<hkReferencedObjectD62*>(hkRouterD62::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));

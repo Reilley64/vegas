@@ -156,7 +156,6 @@ class PackageList
 const char kModelTextureSwapInitWarning[] =
     "MASTERFILE: Failed to find texture set (%08X) in model texture swap init for form '%s' (%08X).";
 
-void __cdecl operator delete(void* pointer);
 
 class NiAVObject;
 class NiNode;
@@ -351,7 +350,6 @@ class TaskQueueInterface
 public:
     void QueueActorDisarm(bool);
 };
-void* __cdecl operator new(unsigned int);
 class NiFixedString
 {
   public:

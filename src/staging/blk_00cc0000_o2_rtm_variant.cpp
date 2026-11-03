@@ -1,6 +1,7 @@
 // src/staging/blk_00cc0000_o2_rtm_variant.cpp - variant unit created 2026-11-01 by rtm_route.py: community reworks of src/staging/blk_00cc0000_o2.cpp that match byte for byte only
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with) and /MT /O2 /GS /EHsc /Gy (unit lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton.
 
+#include <cstddef>
 #include <windows.h>
 #include <math.h>
 
@@ -222,13 +223,11 @@ struct FUN_00cc1ab0_class
 {
     void DestroyAndFreeAlias();
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00cc1f60_Class
 {
     void* FUN_00cc1f60(bool flag);
 };
 void __cdecl FUN_00cc2ac0();
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00cc2b40_class
 {
     FUN_00cc2b40_class* FUN_00cc2b40(int flag);
@@ -252,7 +251,6 @@ struct FUN_00cc8920_shell : FUN_009ba5f0_shell
     FUN_00cc8920_shell* FUN_00cc8920(int a);
 };
 void __cdecl FUN_00cc8ce0();
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00cc8da0_Class
 {
     FUN_00cc8da0_Class* FUN_00cc8da0(bool b);
@@ -268,13 +266,11 @@ struct FUN_00ccc420_class
 {
     void* FUN_00ccc420(int);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00ccc720_holder
 {
     void FUN_00ccc720();
     void* DestroyHolder(int arg);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00ccd150_cls
 {
     FUN_00ccd150_cls* FUN_00ccd150(int flags);
@@ -375,11 +371,9 @@ struct FUN_00cce990
     unsigned int m_uiData1;
     unsigned int m_uiData2;
     FUN_00cce990();
-    static void* __cdecl operator new(unsigned int size);
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct FUN_00ccf060_stub
 {
@@ -397,7 +391,6 @@ extern int DAT_010c955c;
 extern int DAT_012685ac;
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct S_00cb79d0_Base
 {
@@ -1131,7 +1124,6 @@ struct FUN_00cc1d80_object
     void* unk1c;
     void* unk20;
     FUN_00cc1d80_object();
-    static void* __cdecl operator new(unsigned int bytes);
 };
 struct BCC1F80AllocTagScope
 {
@@ -1301,7 +1293,6 @@ class SpawnedThing
     unsigned int unk18;
     unsigned int unk1C;
     unsigned int unk20;
-    static void* operator new(unsigned int size);
     SpawnedThing();
 };
 class FUN_00cc22a0_cls
@@ -1309,19 +1300,11 @@ class FUN_00cc22a0_cls
   public:
     void* CreateAndAttach(unsigned int arg);
 };
-void* SpawnedThing::operator new(unsigned int size)
-{
-    return FUN_00aa13e0(size);
-}
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct RefObject24_b9018
 {
     char m00[0x18];
     RefObject24_b9018();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct TlsBlock_t
 {
@@ -1523,7 +1506,6 @@ class SpawnedObject_t
     unsigned int m_10;
     unsigned int m_14;
 
-    void* operator new(unsigned int size);
     SpawnedObject_t();
 };
 struct FUN_00cc2480_cls
@@ -2011,10 +1993,6 @@ struct CC2F90Child
 {
     CC2F90Child();
 
-    static void* operator new(CC2F90size_t, void* pvMem)
-    {
-        return pvMem;
-    }
 };
 struct CC2F90Owner
 {
@@ -2913,10 +2891,6 @@ struct OwnerBase
     unsigned int m_04;
     unsigned int m_08;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct ChainA_cls : public OwnerBase
 {
@@ -3150,7 +3124,7 @@ struct S_00cc4b90_RefObj
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     virtual ~S_00cc4b90_RefObj();
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         S_00cc4b90_RefObj* b = static_cast<S_00cc4b90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
@@ -3274,7 +3248,6 @@ struct CC5930_Base
     unsigned int m_uiRefCount;
     unsigned int m_uiData08;
     CC5930_Base();
-    static void* __cdecl operator new(unsigned int size);
 };
 struct CC5930_Obj : CC5930_Base
 {
@@ -4177,8 +4150,6 @@ class BCC8770CloningProcess;
 class BCC8770RefObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     BCC8770RefObject();
     virtual ~BCC8770RefObject();
@@ -4349,8 +4320,6 @@ class CC90D0RefObject
     CC90D0RefObject();
     virtual ~CC90D0RefObject();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -4402,7 +4371,6 @@ struct FUN_00cc9640 : bhkConstraint
 extern int DAT_010c8b0c;
 struct PhysicsAllocator
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct PhysicsReference
 {
@@ -4445,8 +4413,6 @@ class CC9940Root
   public:
     CC9940Root();
     virtual ~CC9940Root();
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     unsigned int m_uiRefCount;
     unsigned int m_uiValue1;
 };
@@ -5007,8 +4973,6 @@ class CCA1B0RefObject
     CCA1B0RefObject();
     virtual ~CCA1B0RefObject();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -5110,8 +5074,6 @@ class CCAA80Object
   public:
     CCAA80Object();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk00;
     int unk04;
@@ -5611,7 +5573,6 @@ extern int DAT_010ca5c4;
 extern int DAT_010ca4dc;
 struct AllocationBase
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct S_00c87c30_Base
 {
@@ -6028,10 +5989,6 @@ struct CCB730Child
     float m_f38;
     float m_f3C;
 
-    static void* operator new(CCB730size_t, void* pvMem)
-    {
-        return pvMem;
-    }
 };
 struct CCB730Owner
 {
@@ -6049,10 +6006,6 @@ struct FunObjBase_b9645
     FunObjBase_b9645();
     virtual void unk00();
     unsigned int m_04;
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FunObj_b9645 : public FunObjBase_b9645
 {
@@ -6719,10 +6672,6 @@ struct FUN_00ccd100
     unsigned int dataA;
     unsigned int dataB;
     FUN_00ccd100();
-    static void* __cdecl operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
 };
 extern "C" void _ReadWriteBarrier(void);
 struct S_00ccd330_Arg
@@ -7194,10 +7143,6 @@ struct RefObject20_b9084
 {
     char m00[0x14];
     RefObject20_b9084();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FUN_00ccdd70_arg
 {
@@ -9771,13 +9716,13 @@ class CC5AE0Helper
     CC5AE0Helper();
     virtual ~CC5AE0Helper();
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         CC5AE0Helper* p = static_cast<CC5AE0Helper*>(CC5AE0GetMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         CC5AE0GetMemoryRouter().heap().ReleaseBlock(p, nbytes);
     }
@@ -10258,8 +10203,6 @@ struct __declspec(novtable) ReferenceRoot78
 {
     unsigned int unk04;
     unsigned int unk08;
-    static void* __cdecl operator new(unsigned int size);
-    static void __cdecl operator delete(void*);
     virtual ~ReferenceRoot78();
     ReferenceRoot78()
     {
@@ -10305,8 +10248,6 @@ class CC69D0RefObject
     CC69D0RefObject();
     virtual ~CC69D0RefObject();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -10348,10 +10289,6 @@ struct Child_00cc6ab0
     unsigned int m_0c;
     unsigned int m_10;
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 
     Child_00cc6ab0() : m_08(1), m_0c(0), m_10(0)
     {
@@ -10413,7 +10350,7 @@ class CC77E0Child
     CC77E0Child();
     virtual ~CC77E0Child();
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         void* p = hkMemoryRouterCC77().heap().AllocateMemoryBlock(uiSize);
         static_cast<CC77E0Child*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
@@ -10532,7 +10469,7 @@ BCC7F30Router* BCC7F30GetRouter();
 class BCC7F30ReferencedObject
 {
   public:
-    void* operator new(unsigned int uiNumBytes)
+    void* operator new(std::size_t uiNumBytes)
     {
         BCC7F30ReferencedObject* pkObject =
             static_cast<BCC7F30ReferencedObject*>(BCC7F30GetRouter()->heap().AllocateMemoryBlock(uiNumBytes));
@@ -10841,13 +10778,13 @@ class CC9890Helper
     CC9890Helper();
     virtual ~CC9890Helper();
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         CC9890Helper* p = static_cast<CC9890Helper*>(CC9890GetMemoryRouter().heap().AllocateMemoryBlock(nbytes));
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         CC9890GetMemoryRouter().heap().ReleaseBlock(p, nbytes);
     }
@@ -11139,12 +11076,6 @@ struct CCADB0Child
     float m_f38;
     float m_f3C;
 
-    static void* operator new(CCADB0size_t uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CCADB0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {}
 };
 struct CCADB0Owner
 {
@@ -11172,12 +11103,6 @@ struct BccObj : S_00c87c30_Base
         m_14 = 0;
         DAT_01268678 += 1;
     }
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* p)
-    {}
 };
 struct BccOwner
 {
@@ -11461,8 +11386,6 @@ class CCDE60Object
     CCDE60Object();
     virtual ~CCDE60Object();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;
@@ -11562,7 +11485,7 @@ struct AllocTagScopeCCD
 class ReferencedObjectCCD
 {
   public:
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         ReferencedObjectCCD* pkObject =
             static_cast<ReferencedObjectCCD*>(GetMemoryCCD()->heap().AllocateMemoryBlock(uiSize));
@@ -11823,10 +11746,6 @@ class CCE860MemoryManager
 {
   public:
 };
-inline void __cdecl operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::CCE860MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 class CCE860Data
 {
   public:
@@ -12105,10 +12024,6 @@ class CCFFD0Settings
         m_iCapacityAndFlags = 0x80000000;
     }
 
-    static void* operator new(unsigned int uiSize, void* pvMem) throw()
-    {
-        return pvMem;
-    }
 
     void* m_pUserData;
     float m_fScale;
@@ -12502,10 +12417,6 @@ struct C200125Object : C200125Base
     unsigned int unk08;
     unsigned int m_0c;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     C200125Object()
     {
@@ -13064,10 +12975,6 @@ struct FUN_00cd3410
 
     FUN_00cd3410(unsigned int param);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct Defaults
 {
     float strength, damping, gain, recovery, maxVelocity, u14, u18, u1c, u20, u24, u28, u2c;
@@ -13402,10 +13309,6 @@ struct S_54d0_Node : S_54d0_Poly, S_54d0_Child
     unsigned int m_uiValue1;
     unsigned int m_uiData1;
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_54d0_Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 
     S_54d0_Node()
     {
@@ -13506,14 +13409,6 @@ class bhkFixedConstraint : public bhkGenericConstraint
         ++DAT_01268624;
     }
     virtual ~bhkFixedConstraint();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* pointer, unsigned int size)
-    {
-        FUN_00aa1460(pointer, size);
-    }
 };
 struct FUN_00d53d90 : S_00cc4b90_RefObj
 {
@@ -14254,10 +14149,6 @@ struct PhysicsNode
     unsigned int m_flags;
     unsigned int m_data;
     void FUN_00c87c30();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     PhysicsNode()
     {
         reinterpret_cast<::FUN_00c87c30_t *>(this)->FUN_00c87c30();
@@ -14341,12 +14232,6 @@ struct CCE1C0Child
     CCE1C0Array<CCE1C0Vec> m_arr08;
     CCE1C0Array<CCE1C0Vec> m_arr14;
 
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CCE1C0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {}
 };
 struct CCE1C0Owner
 {
@@ -14685,10 +14570,6 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 struct CC1290Object
 {
 
-    void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     CC1290Object()
     {
@@ -14916,10 +14797,6 @@ struct LoadString
     void* value;
     LoadString();
     ~LoadString();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LoadMM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct LoadElem
 {
@@ -14931,18 +14808,10 @@ struct LoadGroup
     LoadElem* data;
     LoadGroup() : count(0), data(0)
     {}
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LoadMM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct LoadGroupPtr
 {
     LoadGroup* value;
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LoadMM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct LoadStream278
 {
@@ -15117,10 +14986,6 @@ struct CC3D60Object : CC3D60Base
     unsigned int unk08;
     unsigned int m_0c;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     CC3D60Object()
     {
@@ -15252,14 +15117,14 @@ class hkReferencedObjectCC3
   public:
     virtual ~hkReferencedObjectCC3();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectCC3* b =
             static_cast<hkReferencedObjectCC3*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         ((hkMemoryRouterCC3*)FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
     }
@@ -15360,10 +15225,6 @@ struct CC42A0Object : CC42A0Base
     unsigned int unk08;
     unsigned int m_0c;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     CC42A0Object()
     {
@@ -15517,10 +15378,6 @@ struct Interface4D40
 class Object4D40 : public PolyBase4D40, public Interface4D40
 {
   public:
-    static void* operator new(unsigned int uiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManager4D40 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     Object4D40()
     {
         Interface4D40* self = this;
@@ -15648,13 +15505,13 @@ struct FUN_00d4f2a0
     int unk00;
     unsigned short m_us4;
     FUN_00d4f2a0();
-    void* operator new(unsigned int, unsigned int n)
+    void* operator new(std::size_t, unsigned int n)
     {
         void* b = FUN_00c85750()->heap().AllocateMemoryBlock(n);
         ((FUN_00d4f2a0*)b)->m_us4 = (unsigned short)n;
         return b;
     }
-    void operator delete(void*, unsigned int)
+    void operator delete(void*, std::size_t)
     {}
 };
 struct S00cc6030_Cls
@@ -15825,10 +15682,6 @@ struct CacheValue : CacheValueVbase, CacheValueFields, CacheValueMid
         m_pData = 0;
         m_uiSize = 0;
         m_uiFinalFlags = 0x80000000;
-    }
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<CC7970_Allocator*>(&(*reinterpret_cast<::FUN_00cc2a00_alloc *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
     }
 };
 struct CacheOwner
@@ -16181,7 +16034,7 @@ struct CcEE60Data
     int unk0C;
     EE60Xf m_kMotionTransform;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         unsigned char* p = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::EE60MemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(nbytes + 16);
         unsigned char offset = (unsigned char)(16 - ((unsigned int)p & 15));
@@ -16706,14 +16559,6 @@ class FUN_00cd7e80
   public:
     char pad[0x14];
     FUN_00cd7e80(FUN_00cce290* data);
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* p)
-    {
-        FUN_00aa1460(p);
-    }
 };
 struct FUN_00cdb290
 {
@@ -17379,10 +17224,6 @@ class FUN_00cc7e50
     FUN_00cc7e50();
     virtual ~FUN_00cc7e50();
 
-    static void operator delete(void* pvMem, unsigned int uiSize)
-    {
-        operator_delete_sized(pvMem, uiSize);
-    }
 
     int unk04;
     int unk08;
@@ -17393,7 +17234,6 @@ struct FUN_00cc9dd0
     FUN_00cc9dd0();
     virtual ~FUN_00cc9dd0();
 
-    static void operator delete(void* p, unsigned int size);
 
     int unk04;
     int unk08;
@@ -17408,10 +17248,6 @@ struct FUN_00ccbb50
     int unk0c;
     int unk10;
     ~FUN_00ccbb50();
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 class FUN_00ccc720 : public NiRefObject
 {
@@ -19121,7 +18957,7 @@ struct ConstraintRecord
     unsigned int unk14, unk18, unk1c;
     ConstraintRecord() : type(27), size(32)
     {}
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(n);
     }
@@ -19692,7 +19528,7 @@ struct FUN_00d4f0f0
     int unk48;
     int unk4C;
 
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         S_00cc4b90_Router* r = FUN_00c85750();
         FUN_00d4f0f0* b = (FUN_00d4f0f0*)r->heap().AllocateMemoryBlock(n);
@@ -21393,7 +21229,7 @@ struct Property
         type = 0x18;
         size = 0x40;
     }
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(n);
     }

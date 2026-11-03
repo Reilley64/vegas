@@ -292,7 +292,6 @@ struct FUN_00cac120_cls {
     void FUN_00cadb00();
 
     FUN_00cac120_cls* FUN_00cac120(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00cadb00, then if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize, and returns this.
@@ -2898,7 +2897,6 @@ typedef S00cae900_TraitBool<false> S00cae900_TypeIsClass;
 template <typename T> struct S00cae900_IsPodType : public S00cae900_TraitBool<false> {};
 template <> struct S00cae900_IsPodType<S00cae900_Vec> : public S00cae900_TraitBool<true> {};
 struct S00cae900_PlacementNewArg;
-inline void* operator new(size_t, S00cae900_PlacementNewArg* p) { return p; }
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsPod) {}
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsClass) {
     for (int i = 0; i < n; ++i) {

@@ -5,6 +5,7 @@
 
 // src/bsaudio/bsaudiomanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsaudio/bsaudiomanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -889,28 +890,16 @@ struct StrSetX
 struct Ent8
 {
     int a, b;
-    static void* operator new[](unsigned n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct FUN_00ae8650
 {
     int m[8];
     FUN_00ae8650();
-    static void* operator new(unsigned n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct FUN_00ae77d0
 {
     int m[19];
     FUN_00ae77d0();
-    static void* operator new(unsigned n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct ListX
 {
@@ -1297,10 +1286,6 @@ struct H70
 {
     char* v;
 };
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-}
 
 class SetObj_70
 {
@@ -1342,10 +1327,6 @@ struct BSSoundInfo70
     {
         reinterpret_cast<::BSSoundInfo *>(this)->BSSoundInfo::~BSSoundInfo();
     }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 };
 
 struct BSSoundMsg70
@@ -1355,10 +1336,6 @@ struct BSSoundMsg70
     ~BSSoundMsg70()
     {
         FUN_00ae86d0();
-    }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa4060(p);
     }
 };
 
@@ -2710,14 +2687,6 @@ class FUN_00ae6f50 : public BaseObj_b5112
     int m_30;
     unsigned int m_34;
     FUN_00ae6f50(int value);
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemoryManagerAllocHelper*)&::g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static __forceinline void operator delete(void* memory)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(memory);
-    }
 };
 }
 
@@ -4986,10 +4955,6 @@ struct SoundMessageRecord
         int d;
         FUN_00ae86d0();
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct Stack75f0 : BottomlessStack
@@ -5099,14 +5064,6 @@ struct FUN_00ae8650
         m_fFrequency = 0.0f;
         m_fPan = 0.0f;
     }
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ae76b0::MemoryManager_ae76b0 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p)
-    {
-        (*reinterpret_cast<::fnv_00ae76b0::MemoryManager_ae76b0 *>(&::g_memoryManager)).FUN_00aa4060(p);
-    }
     FUN_00ae8650* GetNext() const
     {
         return m_pNext;
@@ -5170,14 +5127,6 @@ template <class T> struct BSSimpleList
     ~BSSimpleList()
     {
         reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
-    }
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ae81e0::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* block)
-    {
-        (*reinterpret_cast<::fnv_00ae81e0::MemoryManagerAllocHelper *>(&::g_memoryManager)).Deallocate(block);
     }
 
     int Count()
@@ -5323,10 +5272,6 @@ struct MapItem8F70
 class MapBase8F70
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManager8F70 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBase8F70()
     {
         reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
@@ -5389,10 +5334,6 @@ struct MapItem9060
 class MapBase9060
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManager9060 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBase9060()
     {
         reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
@@ -5663,10 +5604,6 @@ struct FUN_00ae8af0
         return m0;
     }
     ~FUN_00ae8af0();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct MapQ
 {
@@ -8080,10 +8017,6 @@ struct Msg_00ae5a50
         Set10(0);
         Set14(0);
     }
-    static inline void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemPool_00ae5a50*)&(*reinterpret_cast<char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-    }
 };
 
 struct RefObj_00ae5a50
@@ -8559,10 +8492,6 @@ struct FUN_00ae86d0
     {
         if (m_pReferencedObject)
             FUN_00c45830(m_pReferencedObject);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae7550::Pool_ae7550 *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     FUN_00ae86d0* GetNext() const
     {
@@ -9194,14 +9123,6 @@ struct BSSoundInfoC
 struct AllocatorAda
 {
 };
-inline void* operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((AllocatorAda*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-}
-inline void operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(((*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager))))->FUN_00aa4060(p);
-}
 struct MemContext
 {
     int saved;
@@ -9574,7 +9495,7 @@ struct NodeQ4
     int unk4;
     WrapQ4* pData;
 };
-inline void* operator new(unsigned int, PoolX& kMgr)
+inline void* operator new(std::size_t, PoolX& kMgr)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(kMgr))->FUN_00aa3e40(0x38);
 }
@@ -9857,19 +9778,11 @@ extern char str_010a3524[];
 extern char str_010a352c[];
 extern char str_010a3534[];
 extern char str_01063958[];
-inline void* operator new[](unsigned int size) throw()
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
 struct SoundNode;
 struct DebugList
 {
     SoundNode* item;
     DebugList* next;
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
     DebugList()
     {
         item = 0;
@@ -9891,10 +9804,6 @@ struct DebugList
             tail->next = new DebugList(value);
         else
             tail->item = value;
-    }
-    static void operator delete(void* block)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MemoryManager*)&(*reinterpret_cast<::MemoryManager * *>(&::g_memoryManager)))))->FUN_00aa4060(block);
     }
     ~DebugList()
     {
@@ -10022,10 +9931,6 @@ struct DebugList
 };
 struct SoundNode
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     SoundNode()
     {
         index = 0;

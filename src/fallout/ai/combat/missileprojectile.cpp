@@ -332,7 +332,6 @@ FUN_009ba570::FUN_009ba570()
     m.d = 0;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009ba5c0_shell
 {

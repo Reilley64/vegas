@@ -175,9 +175,7 @@ struct LoadArrayB
     LoadB* FUN_006dad90(unsigned int);
 };
 
-void* __cdecl operator new(unsigned int);
 
-void __cdecl operator delete(void*);
 
 struct CombatLoadState
 {

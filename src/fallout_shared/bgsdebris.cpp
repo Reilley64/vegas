@@ -220,7 +220,6 @@ DebrisModelEntry* BGSDebris::AddDebrisModel(char chance, const char* path, char 
     return 0;
 }
 
-void* __cdecl operator new(unsigned int);
 template <class T> unsigned int __cdecl BSStringLength(T const*);
 
 class TaskQueueInterface
@@ -358,11 +357,6 @@ void* __cdecl FUN_00aa13e0(unsigned int);
 struct DebrisObj
 {
     char b[0x24];
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
     DebrisObj(void* a1, float f, void* m, int z, Vec3* pos, Vec3* v1, Vec3* v2, Vec3* v3, float s, int z1, int z2);
 };
 

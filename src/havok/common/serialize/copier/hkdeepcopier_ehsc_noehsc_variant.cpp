@@ -6,6 +6,7 @@
 // src/havok/common/serialize/copier/hkdeepcopier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/copier/hkdeepcopier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb18f0_t.h"
 #include "fnv/decl/FUN_00cb1930_t.h"
@@ -15,10 +16,6 @@
 #include "fnv/decl/fnv_00cb1870__hkMapBaseCB18.h"
 #include "fnv/symbols_00cb1000.h"
 #include "fnv/symbols_011b7000.h"
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct hkMemAlloc
 {

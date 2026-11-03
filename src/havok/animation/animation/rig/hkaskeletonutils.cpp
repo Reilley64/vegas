@@ -2,6 +2,7 @@
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -695,7 +696,7 @@ struct Property
     unsigned short size, unk12;
     int unk14, unk18, unk1c;
     __m128 vector;
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         AllocationService* service = reinterpret_cast<AllocationService*>(FUN_00c85750());
         return service->allocator->Allocate(bytes);

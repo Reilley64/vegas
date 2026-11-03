@@ -5,6 +5,7 @@
 
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cstring>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -106,7 +107,6 @@ struct FUN_0063a3c0_cls
     int unk04;
 
     FUN_0063a3c0_cls* FUN_0063a3c0(unsigned int auiFlags);
-    static void operator delete(void* apMemory) throw();
 };
 struct NiPoint3
 {
@@ -1160,39 +1160,18 @@ struct NiPoint3_ext : NiPoint3
     NiPoint3_ext();
 };
 
-inline void* operator new(unsigned int, void* location)
-{
-    return location;
-}
-inline void operator delete(void*, void*)
-{}
-inline void* operator new[](unsigned int, void* location)
-{
-    return location;
-}
-inline void operator delete[](void*, void*)
-{}
 struct MemoryManager
 {
 };
-inline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-}
 struct Point3
 {
     float x;
     float y;
     float z;
-    static void operator delete[](void*);
     __forceinline Point3()
     {}
     __forceinline Point3(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    static __forceinline void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     __forceinline Point3 operator+(const Point3& o) const
     {
         return Point3(o.x + x, o.y + y, o.z + z);
@@ -1221,11 +1200,6 @@ struct FilterData
     unsigned int flags;
     unsigned int subsystem;
 
-    static __forceinline void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void*);
 };
 extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
                                    void(__cdecl* constructor)(void*));
@@ -1234,11 +1208,6 @@ extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
 struct FilterArray
 {
     FilterData values[8];
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void*);
     __forceinline FilterArray()
     {
         FUN_00401050(values, 16, 8, FUN_004a7800);
@@ -1356,11 +1325,6 @@ struct CollisionGenerator : CollisionShape
     unsigned int unkb8;
     unsigned int unkbc;
     unsigned int unkc0;
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void*);
     CollisionGenerator(unsigned int count, Point3* vertices, int unused, FilterData* _filters, int a, int b, int c,
                        int d, void* data);
 };

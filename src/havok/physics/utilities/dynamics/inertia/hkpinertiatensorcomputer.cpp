@@ -4200,10 +4200,6 @@ struct CapsuleMassBody
 };
 struct CapsuleMassElement
 {
-    static __forceinline void* operator new(size_t, void* p)
-    {
-        return p;
-    }
     CapsuleMassBody properties;
     CapsuleMassTransform transform;
     __forceinline CapsuleMassElement() : transform(true)

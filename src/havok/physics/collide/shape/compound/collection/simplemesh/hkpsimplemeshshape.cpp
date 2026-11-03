@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/simplemesh/hkpsimplemeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -195,10 +196,6 @@ FUN_00dfcfd0::~FUN_00dfcfd0()
 
 
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct hkVector4E3C4
 {

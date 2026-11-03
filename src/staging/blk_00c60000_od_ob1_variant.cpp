@@ -5,6 +5,8 @@
 
 // src/staging/blk_00c60000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cstdlib>
 #include <cstring>
@@ -269,12 +271,10 @@ struct FUN_00c65680_Class
 struct FUN_00c600c0_class
 {
     void* FUN_00c600c0(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c613a0_Class
 {
     void* FUN_00c617e0(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 extern "C" void NiFree(void*);
 struct MemoryManager
@@ -294,7 +294,6 @@ struct FUN_00c632f0_class
 {
     void* FUN_00c632f0(unsigned int flags);
 };
-void __cdecl operator delete(void*, int);
 struct CloningProcess;
 struct NiPSysModifierCopy : NiPSysModifier
 {
@@ -313,7 +312,6 @@ struct FUN_00c63970_class : NiPSysModifier_00c31950
     void FUN_00c63970(void* stream);
 };
 void __cdecl FUN_00c63b40(void* p);
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64610_Class
 {
     void FUN_00c63b40();
@@ -403,7 +401,6 @@ struct FUN_00c61b10
     char m_iWordAt00[0x6c];
     FUN_00c61b10();
     ~FUN_00c61b10();
-    static void* operator new(unsigned int size);
 };
 FUN_00c61b10* FUN_00c61e70();
 extern "C" void* __cdecl NiMalloc(unsigned int);
@@ -507,14 +504,12 @@ struct FUN_00c60a10_Class
 
     bool FUN_00c60a10(NiObject*);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c60d10_Class
 {
     void* FUN_00c60d10(unsigned int flags);
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct FUN_00c612b0_Class : NiAVObject, A51BF0Base
 {
@@ -549,7 +544,6 @@ struct FUN_00c63900_class : NiPSysModifierStub
 {
     void LoadModifierData(NiStream& stream);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c31750_Class
 {
 };
@@ -586,7 +580,6 @@ struct FUN_00c64dc0_Class
     int m_10;
     FUN_0043ba10_shell* FUN_00c64dc0(unsigned int a);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c64e70_Class
 {
     void FUN_00c64e70();
@@ -597,10 +590,6 @@ struct SpawnedObject_b9118
 {
     char m00[0x60];
     SpawnedObject_b9118();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 class C61330Base
 {
@@ -837,10 +826,6 @@ struct PositionModifierObject_b9439
 {
     char m00[0x3c];
     PositionModifierObject_b9439();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct Pad32
 {
@@ -1687,10 +1672,6 @@ struct FUN_00c64640
     V3 a[8];
     V3 b[8];
     FUN_00c64640();
-    static void* operator new(unsigned n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolX *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct BaseX
 {
@@ -1747,12 +1728,6 @@ struct FUN_00c64640
     Pt3Y m_akA[8];
     Pt3Y m_akB[8];
     FUN_00c64640();
-    static void* operator new(unsigned int uiSize)
-    {
-        int aiD[5];
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c64270::MemMgrY *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pv);
 };
 struct BaseY
 {
@@ -1924,10 +1899,6 @@ extern char str_010c3610[];
 struct NiFixedString
 {
     char* m_pData;
-    __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c616c0::MemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
     __forceinline NiFixedString(const char* s)
     {
         if (s == 0)
@@ -2817,10 +2788,6 @@ struct NameHolder
         else
             m_pChar = ::NiGlobalStringTable::AddString(s);
     }
-    __forceinline static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c63c30::MM630 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 
 struct Vec3
@@ -2912,10 +2879,6 @@ struct VecGroup
             normal[i].f[2] = ZERO.f[2];
         }
     }
-    __forceinline static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c63c30::MM630 *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 
 extern int DAT_010a0d24, DAT_010c38ac;
@@ -2959,7 +2922,7 @@ struct TESObjectDoorController : ExtraBinary
         for (int i = 0; i < 8; i++)
             groups[i] = 0;
     }
-    static void* operator new(unsigned n)
+    static void* operator new(std::size_t n)
     {
         unsigned size = n ? n : 1;
         unsigned alignment = 4;
@@ -3102,7 +3065,6 @@ bool __cdecl FUN_00c63c30(ObjC63* obj, ObjC63* root)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int);
 };
 class FUN_00a5d3a0 : public BSFaceGenMorphData
 {
@@ -3160,10 +3122,6 @@ class C649F0_Object : public FUN_00a5d3a0
 {
   public:
     C649F0_Sub m_08;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     virtual void vf00();
 };
 // @fnv 0x00c649f0
@@ -3302,10 +3260,6 @@ struct C64e70Elem
     C64e70Str m_target;
     ~C64e70Elem()
     {}
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct C64e70Array
@@ -3365,13 +3319,6 @@ struct FUN_00c64d10
     int m_pHeadNode;
     int m_iSecondInteger;
     FUN_00c64d10(int first, int second);
-    static void* operator new(unsigned int size)
-    {
-        int unused[4];
-        (void)unused;
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c65490::C65490_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p);
 };
 struct C65490_List
 {
@@ -3407,12 +3354,6 @@ struct AtpRef
         else
             m_uiFilterValue = ((int)(::NiGlobalStringTable::AddString(s)));
     }
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c65530::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {}
 };
 
 
@@ -3437,10 +3378,6 @@ class NiFixedString
             return;
         char* block = (char*)m_pcString - 8;
         InterlockedDecrement((long*)block);
-    }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00c655d0::FixedStringAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 // @fnv 0x00c655d0
@@ -3820,10 +3757,6 @@ struct ExtraDataBase850
     void* m_pcName;
     void* m_pNext;
     ExtraDataBase850(const NiFixedString& kName);
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct ExtraData850 : ExtraDataBase850
 {
@@ -3870,20 +3803,8 @@ struct NiFixedString
             m_handle = ::NiGlobalStringTable::AddString(text);
     }
 
-    static void* operator new(unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c618f0::Pool_11f6238 *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
 
-    static void operator delete(void* p)
-    {
-        FUN_00401030(p);
-    }
 
-    static void operator delete(void* p, unsigned int size)
-    {
-        FUN_00401030(p);
-    }
 };
 
 

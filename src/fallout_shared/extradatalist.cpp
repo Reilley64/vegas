@@ -1858,8 +1858,6 @@ struct FUN_00418d50_shell : public ExtraDataList
     ExtraStartingPosition* GetOrCreateStartingPosition(TESObjectREFR*);
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct ExtraStartingPosition : public BSExtraData
 {
@@ -2034,8 +2032,6 @@ struct FUN_0041aa20_shell : public ExtraDataList
     void SetWornState(bool, bool);
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 class ExtraWorn : public BSExtraData
 {
@@ -2088,7 +2084,6 @@ struct FUN_0041ab70_shell : public ExtraDataList
     void FUN_0041ab70(bool);
 };
 
-void* __cdecl operator new(unsigned int);
 
 class ExtraCannotWear : public BSExtraData
 {
@@ -2941,7 +2936,6 @@ struct FUN_0041d280_shell : public ExtraDataList
     void SetLeveledItemIndex(int);
 };
 
-void* __cdecl operator new(unsigned int);
 
 class ExtraLeveledItem : public BSExtraData
 {
@@ -3057,7 +3051,6 @@ struct FUN_0041da40_shell : public ExtraDataList
     void FUN_0041da40(TESObjectREFR*);
 };
 
-void* __cdecl operator new(unsigned int);
 void* FUN_00433300(void*);
 
 struct ExtraEnableStateParent_0041da40 : public BSExtraData
@@ -3223,7 +3216,6 @@ struct FUN_0041e160_shell : public ExtraDataList
     void SetCellWaterType(TESWaterForm*);
 };
 
-void* __cdecl operator new(unsigned int);
 void* FUN_0040f370(void* pThis);
 
 struct ExtraCellWaterType : public BSExtraData
@@ -3295,7 +3287,6 @@ struct FUN_0041e440_shell : public ExtraDataList
     void FUN_0041e440(TESObjectREFR*);
 };
 
-void* __cdecl operator new(unsigned int);
 void* FUN_00433640(void*);
 
 struct ExtraLinkedRef_dummy : public BSExtraData
@@ -3384,7 +3375,6 @@ struct FUN_0041ece0_shell : public ExtraDataList
     void SetTextOverride(char*);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct DummyExtra0x53 : public BSExtraData
 {
@@ -3439,7 +3429,6 @@ struct FUN_0041edd0_shell : public ExtraDataList
     void FUN_0041edd0(TESObjectREFR*);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct ReferenceFloatEntry
 {
@@ -3737,7 +3726,6 @@ struct FUN_00421310_shell : public ExtraDataList
     void EnsureGuardedRefData(Actor*);
 };
 
-void* __cdecl operator new(unsigned int);
 void FUN_00430f30(void*);
 
 class ExtraGuardedRefData : public BSExtraData
@@ -3815,7 +3803,6 @@ struct FUN_00421540_shell : public ExtraDataList
     void FUN_00421540(int);
 };
 
-void* __cdecl operator new(unsigned int);
 void* ExtraLevCreaModifierCtor(void*);
 
 struct ExtraLevCreaModifier_00421540 : public BSExtraData
@@ -3979,7 +3966,6 @@ struct FUN_00421e40_shell : public ExtraDataList
     void FUN_00421e40(TESObjectREFR*);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct ExtraMultiBoundRef_00435510 : public BSExtraData
 {
@@ -4214,7 +4200,6 @@ struct FUN_00422350_shell : public ExtraDataList
     void SetRadiation(float);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct ExtraRadiation_00422350 : public BSExtraData
 {
@@ -5024,7 +5009,6 @@ struct FUN_0042e760_shell : public ExtraDataList
     void FUN_0042e760();
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct ExtraFactionChanges : public BSExtraData
 {
@@ -11054,7 +11038,6 @@ void FUN_0041be10_Class::SetExtraState(unsigned char state)
 }  // namespace fnv_0041be10
 
 namespace fnv_0041c390 {
-void* __cdecl operator new(unsigned int);
 struct FUN_0040f1b0_shell : BSExtraData
 {
     void* m_pCellImpactSwapValue;
@@ -14901,7 +14884,6 @@ bool S_0041dc20_Cls::FUN_0041dc20()
 
 // ExtraDataList: add an item to the type-0x3A extra's list, creating that extra on first use.
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class E000Item;
 
@@ -16905,10 +16887,6 @@ void ExtraList::WriteToSave()
 }
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete[](void*);
 namespace loader {
 struct File
 {
@@ -17221,8 +17199,6 @@ struct Plane
     int unkf0;
     int unkf4;
     int unkf8;
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*, unsigned int);
     Plane();
 };
 struct PatrolValue
@@ -18000,8 +17976,6 @@ struct ExtraSoundX : BSExtraData
 {
     SoundHandle41a kHandle;
     ExtraSoundX(SoundHandle41a);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct SoundExtraList41a : BaseExtraList
@@ -18205,8 +18179,6 @@ struct WorkerExtraList : BaseExtraList
 {
     void FUN_0041f650(TESObjectREFR* ref, bool enabled);
 };
-void* __cdecl operator new(unsigned int uiSize);
-void __cdecl operator delete(void* pvMem);
 
 class C420160Values
 {

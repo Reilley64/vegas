@@ -3364,7 +3364,6 @@ struct Loader
 {
     unsigned position();
 };
-void* __cdecl operator new(unsigned);
 struct Loaded
 {
     int unk00;
@@ -3812,8 +3811,6 @@ void Cls::FUN_008cf440(int a1, int a2)
 }
 }  // namespace fnv_008cf440
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct SpinLock_931710
 {

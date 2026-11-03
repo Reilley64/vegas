@@ -1069,24 +1069,12 @@ struct ShutdownHandle
     {
         CloseHandle(handle);
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct ShutdownCriticalSection
 {
     ~ShutdownCriticalSection()
     {
         DeleteCriticalSection(this);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 // @fnv 0x00aa81d0
@@ -1825,7 +1813,6 @@ struct VectorBadAlloc
     bool ownsMessage;
     VectorBadAlloc(const char*);
 };
-void* __cdecl operator new(unsigned int);
 extern "C" inline ShortPoint* __cdecl FUN_0065f9e0(unsigned int _Count, int)
 {
     if (_Count <= 0)
@@ -2085,11 +2072,6 @@ struct FnvElem
     int m54;
 };
 
-__forceinline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-void operator delete(void*, void*) throw();
 
 extern "C" void __cdecl FUN_0065eb50(void* p);
 
@@ -2597,10 +2579,6 @@ void __cdecl NiFree4A60(void* pvMem);
 struct MemoryManager4A60
 {
 };
-inline void __cdecl operator delete[](void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManager4A60 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 
 struct MapItem4A60
 {
@@ -2612,10 +2590,6 @@ struct MapItem4A60
 class MapBase4A60
 {
   public:
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManager4A60 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
     virtual ~MapBase4A60()
     {
         if (m_ppkHashTable)
@@ -5531,8 +5505,6 @@ struct PoolX
     void FUN_00aa4060(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
-inline void operator delete(void*, void*)
-{}
 struct FUN_00aaec10
 {
     char b[0x3c];
@@ -5600,8 +5572,6 @@ struct PoolX
     void FUN_00aa4060(void* p);
 };
 extern "C" PoolX g_pool_011f6238;
-inline void operator delete(void*, void*)
-{}
 struct FUN_00aaec10
 {
     char b[0x3c];
@@ -6694,8 +6664,6 @@ void Ab0a30Owner::FUN_00ab0a30(int a0)
 
 namespace fnv_00ab0a80 {
 void __cdecl FUN_0064df10(void*, unsigned int);
-inline void __cdecl operator delete(void*, void*)
-{}
 struct AuxCont;
 struct ContainerBase
 {
@@ -6993,8 +6961,6 @@ struct FUN_0065ecd0_class
         new ((void *)&(sub)) ::FUN_0065fb10((const ::FUN_0065fb10 &)(o.sub));
     }
 };
-inline void operator delete(void*, void*)
-{}
 // @fnv 0x00ab2490
 void FUN_00ab2490(FUN_0065ecd0_class* first, unsigned int count, const FUN_0065ecd0_class& val)
 {
@@ -7231,7 +7197,6 @@ struct AllocationFailure : AllocationExceptionBase
     AllocationFailure(const char* _Message) throw() : AllocationExceptionBase(_Message)
     {}
 };
-void* __cdecl operator new(unsigned int);
 extern "C" inline char* __cdecl AllocateChecked(unsigned int _Count, int)
 {
     if (_Count <= 0)
@@ -8905,7 +8870,6 @@ void FUN_00ab9dc0_Vector::FUN_00ab9dc0()
 }
 }  // namespace fnv_00ab9dc0
 
-void __cdecl operator delete(void*);
 template <class T> struct StdAllocator
 {
     StdAllocator() throw()
@@ -9434,8 +9398,6 @@ FUN_00aba060_It& FUN_00aba060_It::FUN_00aba060()
 }
 
 namespace fnv_00aba0d0 {
-inline void __cdecl operator delete(void*, void*)
-{}
 struct AbaAux
 {
     explicit AbaAux(const void* container) : container(container)
@@ -10727,10 +10689,6 @@ struct S00abb930_Elem
     {
         reinterpret_cast<::fnv_0065ed70::FUN_0065ed70 *>(this)->fnv_0065ed70::FUN_0065ed70::~FUN_0065ed70();
     }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S00abb930_Pool*>(&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 
 struct S00abb930_RangeTag
@@ -11475,7 +11433,6 @@ struct AllocationError
     int ownsMessage;
     AllocationError(const char* = 0);
 };
-void* __cdecl operator new(unsigned int);
 inline Vec3Item* __cdecl FUN_0065e310(unsigned int _Count, int)
 {
     if (_Count <= 0)
@@ -17578,7 +17535,6 @@ S_0065eb90* __cdecl FUN_00ab4520(S_0065eb90* _First, S_0065eb90* _Last, S_0065eb
 namespace fnv_00ab5ec0 {
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
-void __cdecl operator delete(void*);
 template <class T> struct StdAllocator
 {
     StdAllocator() throw()
@@ -18759,7 +18715,6 @@ struct FnvBadAlloc : FnvException
     virtual ~FnvBadAlloc() throw()
     {}
 };
-extern void* __cdecl operator new(unsigned int);
 
 template <class T> inline T* __cdecl FUN_0064e430(unsigned int count, T*)
 {
@@ -18993,16 +18948,6 @@ void FnvBlockVector::FUN_00abd2e0(FnvBlockIterator _Where, unsigned int _Count, 
 }
 }  // namespace fnv_00abd2e0
 
-__forceinline void* operator new(unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
-__forceinline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
-void operator delete(void*);
-void operator delete[](void*);
 struct IOSemaphore
 {
     long initialCount;
@@ -19207,7 +19152,6 @@ void ReworkModel::FUN_00aad140(int idx, ReworkPair* bases)
     }
 }
 
-void __cdecl operator delete(void*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
 struct SecureTraitsTag
@@ -19924,7 +19868,6 @@ void EntryVector::FUN_00aae3a0(int owner_ai, Entry* where_tmoy, unsigned int cou
     }
 }
 
-void __cdecl operator delete(void*);
 namespace Ab2e70Detail {
 struct SecureTag
 {

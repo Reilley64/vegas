@@ -5,6 +5,7 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/hkaabbtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/hkaabbtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/BuildTree.h"
 #include "fnv/decl/FUN_00d9a4d0_Class.h"
 #include "fnv/decl/HandlePool_d9c4.h"
@@ -892,7 +893,6 @@ struct Source840 {
 struct Node840 { int unk00,unk04,unk08; union { int key; unsigned short children[2]; }; unsigned short flags,escape; };
 struct ParentAlias840 {Node840* value;};
 struct Task840 {
-    static __forceinline void* operator new(unsigned int, void* destination) { return destination; }
     Bounds840 bounds;
     unsigned short start,unused22;
     int count;

@@ -554,7 +554,6 @@ void CombatThreatRecord::FUN_009a5e50()
 struct GlobalObject_00869f00
 {
 };
-void __cdecl operator delete(void*);
 struct FUN_009a3850_Class : public GlobalObject_00869f00
 {
     void* FUN_009a3850(unsigned int flags);
@@ -2215,8 +2214,6 @@ int FUN_009a3910_cls::FUN_009a3910()
     return (this->m_0c > 0x400) ? (int)(this->m_0c + 0x400) : (int)(this->m_0c << 1);
 }
 
-void* __cdecl operator new(unsigned int count, void* place);
-void __cdecl operator delete(void* ptr, void* place);
 struct FUN_009a3d90
 {
     int timestamp;
@@ -4627,8 +4624,6 @@ bool FUN_009bec50_Class::FUN_009bec50(float value)
     return false;
 }
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct E9A3A80Entry
 {
@@ -5229,7 +5224,6 @@ class PathingAvoidNodeArray
     unsigned int capacity;
     void* allocatorVtable;
     unsigned int allocatorState;
-    static void* operator new(unsigned int);
     PathingAvoidNodeArray();
 };
 struct AvoidanceActor
@@ -5795,7 +5789,6 @@ struct FUN_0066e010 : TargetExtra
 struct TargetQueue
 {
 };
-void* __cdecl operator new(unsigned int);
 
 // Creates a new projectile reference from a form, source and parent, scales it, attaches extra data, links it to the parent and updates or queues it.
 // @fnv 0x009ac9c0

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00b20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <cstdlib>
 #include "runtime/crt.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -2763,12 +2764,6 @@ record_model::FUN_00b2e680* __cdecl FUN_00b2e500(record_model::FUN_00b2e680* _Fi
     return _Result;
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -7651,12 +7646,6 @@ asgnb36::AsVector* __cdecl FUN_00b35f60(asgnb36::AsVector* _First, asgnb36::AsVe
 }  // namespace fnv_00b35f60
 
 namespace fnv_00b361b0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -7712,12 +7701,6 @@ void FUN_00b361b0(ElemQ* first, unsigned int n, const ElemQ& val)
 }  // namespace fnv_00b361b0
 
 namespace fnv_00b368d0 {
-inline void* __cdecl operator new(size_t, void* p) throw()
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
 struct S00b368d0_Buf
 {
     void* p;
@@ -7786,12 +7769,6 @@ S00b368d0_Elem* __cdecl FUN_00b368d0(S00b368d0_Elem* first, S00b368d0_Elem* last
 }  // namespace fnv_00b368d0
 
 namespace fnv_00b369f0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     FUN_00401030(p);
@@ -7872,12 +7849,6 @@ ElemQ* __cdecl FUN_00b369f0(ElemQ* first, ElemQ* last, ElemQ* dest, AlQ& al, Swa
 }  // namespace fnv_00b369f0
 
 namespace fnv_00b36bf0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     FUN_00401030(p);
@@ -7963,12 +7934,6 @@ ElemQ* __cdecl FUN_00b36bf0(ElemQ* first, ElemQ* last, ElemQ* dest, AlQ& al, Swa
 }  // namespace fnv_00b36bf0
 
 namespace fnv_00b36d70 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     FUN_00401030(p);
@@ -10283,12 +10248,6 @@ record_model::FUN_00b2e680* __cdecl FUN_00b3e520(record_model::FUN_00b2e680* _Fi
 }  // namespace fnv_00b3e520
 
 namespace fnv_00b3e5b0 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrQ
 {
     void* p;
@@ -12203,7 +12162,6 @@ namespace fnv_00b3c3f0 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 unsigned int __cdecl FUN_00ec7c56();
 namespace std {
 class bad_alloc
@@ -12518,7 +12476,6 @@ void* MakeError_b3c3()
 }  // namespace fnv_00b3c3f0
 
 namespace fnv_00b326e0 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace valb326 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -13473,7 +13430,6 @@ FUN_00b326e0::FUN_00b326e0(GvAlloc<unsigned short> _Al) : GvAuxBase<GvAlloc<unsi
 }  // namespace fnv_00b326e0
 
 namespace fnv_00b35a90 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace cpyb35a {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -14485,7 +14441,6 @@ FUN_00b311b0::FUN_00b311b0(unsigned int n) : FUN_00b326e0(AllocQ())
     reinterpret_cast<::IntVector *>(this)->FUN_00b32600(n, (const int &)((const void *const &)((void*)0)));
 }
 
-void __cdecl operator delete(void*) throw();
 
 struct ScalarTag31
 {
@@ -16253,7 +16208,6 @@ void TrTree::FUN_00b3a050(TrNode* _Rootnode)
 }  // namespace fnv_00b3a050
 
 namespace fnv_00b3d830 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace vct3d830 {
 void FUN_00ec7c56();
 template <class T> inline void GvDestroyOne(T* _Ptr)
@@ -17358,12 +17312,6 @@ template <class T> struct Constructed
 {
     T value;
     Constructed(const T& source) : value(source)
-    {}
-    static void* operator new(unsigned int, void* storage)
-    {
-        return storage;
-    }
-    static void operator delete(void*, void*)
     {}
 };
 template <class T, class V> inline void constructOne(T* dest, const V& value)

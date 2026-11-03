@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/collector/kdtreecollector/hkpkdtreecollidableraycaster.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/symbols_010c4000.h"
@@ -168,7 +169,6 @@ FUN_00d979f0_cls* FUN_00d979f0_cls::ResetFields() throw()
 
 // Scalar deleting destructor of a small polymorphic Havok helper with an empty destructor.
 
-void __cdecl operator delete(void* pvMem);
 
 class FUN_00d979a0
 {
@@ -179,16 +179,6 @@ class FUN_00d979a0
     virtual ~FUN_00d979a0()
     {}
 
-    static void* operator new(size_t, void* p)
-    {
-        return p;
-    }
-    static void operator delete(void*, void*)
-    {}
-    static void operator delete(void* p)
-    {
-        ::operator delete(p);
-    }
 
     int m_iData;
 };

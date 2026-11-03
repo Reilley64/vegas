@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00bb0540
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BSShader.h"
 #include "fnv/decl/D3DRenderStateGroup.h"
@@ -53,7 +55,6 @@ void FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 }
 
 void* __cdecl FUN_00bb0550();
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00bb0a50_shell
 {
     void* DestroyIfFlagged(int flags);
@@ -233,7 +234,6 @@ struct SpawnedBase
 struct SpawnedObject : SpawnedBase
 {
     SpawnedObject();
-    static void* operator new(unsigned int size);
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -431,7 +431,7 @@ struct ConstantMap
     int unk08[0x44 / 4 - 2];
 
     ConstantMap(void* pkRenderer, int iType);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }

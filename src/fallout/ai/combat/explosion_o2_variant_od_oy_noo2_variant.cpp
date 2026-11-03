@@ -455,10 +455,6 @@ struct FUN_00cbc550_class
     int unk34;
     int unk38;
     int unk3c;
-    static void* __cdecl operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     FUN_00cbc550_class();
 };
 struct FUN_00cbca20_class

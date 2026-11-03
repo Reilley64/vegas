@@ -11,7 +11,6 @@
 #include "fnv/symbols_00537000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011a9000.h"
-void* operator new[](size_t);
 class NiPoint3
 {
   public:

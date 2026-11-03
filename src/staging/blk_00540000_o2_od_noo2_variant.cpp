@@ -5,6 +5,7 @@
 
 // src/staging/blk_00540000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <cstddef>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_00454380_Class.h"
@@ -231,14 +232,13 @@ struct ParticleSystem
     unsigned int fieldc0;
     unsigned int fieldc4;
     unsigned int fieldc8;
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00553300(n);
     }
 };
 struct FUN_00c99ff0 : ParticleSystem
 {
-    static void operator delete(void*);
     FUN_00c99ff0(FUN_00c681c0*, FUN_006815c0*, FUN_006815c0*);
 };
 struct FUN_00554590

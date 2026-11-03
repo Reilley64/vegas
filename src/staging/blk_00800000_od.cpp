@@ -344,7 +344,6 @@ void FUN_00800d10_class::AppendValue(int value)
     *(int*)((char*)this + 0x240) += 1;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_00802bf0_Class
 {
@@ -543,7 +542,6 @@ struct ConcussionEffect
     char data[0x4c];
     ConcussionEffect(MagicCaster*, MagicItem*, EffectItem*);
 };
-void* __cdecl operator new(unsigned int);
 
 // Allocates and constructs a ConcussionEffect from the given MagicCaster, MagicItem and EffectItem.
 // @fnv 0x0080bff0
@@ -552,8 +550,6 @@ ConcussionEffect* CreateConcussionEffect(MagicCaster* a, MagicItem* pItem, Effec
     return new ConcussionEffect(a, pItem, pEffect);
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct FUN_0080d6b0_t
 {
     char pad[0x48];

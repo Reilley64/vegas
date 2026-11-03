@@ -411,8 +411,6 @@ FUN_0078e0f0::~FUN_0078e0f0()
     reinterpret_cast<::MultiBoundManagerB5D *>((((FUN_00b5ddb0_self*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->FUN_00b5d180();
 }
 
-void* operator new(unsigned int size, void* place);
-void operator delete(void* object, void* place);
 
 struct Elem_788
 {

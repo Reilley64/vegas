@@ -5,6 +5,7 @@
 // RemoveValueAt - drops slot <index> of the eight-slot table held by
 // FUN_00db0920: the last slot in use is moved into the hole and the used-slot
 // counter goes down by one.
+#include <new>
 #include <xmmintrin.h>
 #include <cmath>
 #include "fnv/symbols_010d5000.h"
@@ -2087,10 +2088,6 @@ extern const double DAT_010d5378;
 
 struct NFeature
 {
-    __forceinline static void* operator new(size_t, void* p)
-    {
-        return p;
-    }
     unsigned char type, sub;
     unsigned short id;
     NFeature() : id(0)

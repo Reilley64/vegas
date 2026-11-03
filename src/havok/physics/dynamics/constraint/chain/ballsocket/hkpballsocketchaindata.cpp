@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -462,10 +463,6 @@ struct hkpBallSocketChainDataConstraintInfo
 struct ChainPlacement
 {
 };
-inline void* operator new(size_t, ChainPlacement* pointer)
-{
-    return pointer;
-}
 template <class T> struct PortBodyArray
 {
     T* m_data;

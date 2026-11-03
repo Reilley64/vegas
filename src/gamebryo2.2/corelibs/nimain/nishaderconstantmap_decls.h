@@ -121,10 +121,6 @@ class NiShaderConstantMap
             m_kConstantName = other.m_kConstantName;
             return *this;
         }
-        static void* operator new[](unsigned int size) throw()
-        {
-            return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-        }
     };
     static void InitializePoint3();
     static bool ParseConstantName(const char*, char*, unsigned int, unsigned int&);

@@ -203,7 +203,6 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 #include <xmmintrin.h>
 #include <windows.h>
 extern "C" void _ReadWriteBarrier();
-inline void* operator new(size_t, void* ptr) { return ptr; }
 
 struct FlagByte {
     char value;
@@ -1156,7 +1155,6 @@ struct MotionPacket : ExportPacket {
     unsigned short firstEntityIdx;
     int unk38;
     FlagByte applyForces;
-    __forceinline void* operator new(size_t, void* p) { return p; }
     __forceinline MotionPacket(const DynamicsPacket& src, const JobHeader& hdr)
         : ExportPacket(src, 0x40, hdr, 11) {
         firstEntityIdx = 0;
@@ -1168,7 +1166,6 @@ struct MotionPacket : ExportPacket {
 
 struct BroadPacket : DynamicsPacket {
     unsigned short numIslands;
-    __forceinline void* operator new(size_t, void* p) { return p; }
     __forceinline BroadPacket(const DynamicsPacket& src, JobHeader* hdr)
         : DynamicsPacket(12, 48, src, MODE_DISABLED) {
         header = hdr;

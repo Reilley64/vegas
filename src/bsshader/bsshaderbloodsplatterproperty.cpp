@@ -226,8 +226,6 @@ void Self::ForEachChild(Callback apCallback, int arg)
 
 struct Item
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     Item();
     int unk00;
     int unk04;

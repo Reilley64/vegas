@@ -390,7 +390,6 @@ struct FUN_00588b00_shell : public TESWorldSpace
     void* GetOrCreateCellOffsetData(TESFile*);
 };
 
-void* __cdecl operator new(unsigned int);
 
 class NiPoint2
 {
@@ -536,7 +535,6 @@ template <class T> struct BSSimpleList
     T item;
     BSSimpleList<T>* next;
     ~BSSimpleList();
-    void operator delete(void*);
 };
 struct ATM
 {
@@ -1569,8 +1567,6 @@ struct GO
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_00c5a9d0 : A51BF0Base
@@ -3720,8 +3716,6 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
 
 namespace fnv_00583560 {
 extern "C" void* _alloca(unsigned int);
-void* operator new(unsigned int);
-void operator delete(void*);
 class File583
 {
   public:

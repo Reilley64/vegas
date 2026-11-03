@@ -568,8 +568,6 @@ struct Renderer
 };
 struct FUN_00aa13e0
 {  // allocator base: supplies the class operator new
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a712f0 : FUN_00aa13e0
 {  // camera object, size 0x114
@@ -1045,8 +1043,6 @@ struct SortNode
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int sz);
-    static void operator delete(void*, unsigned int);
 };
 class NiSortAdjustNode : public NiMemObject
 {

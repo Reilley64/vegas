@@ -2,6 +2,7 @@
 // src/staging/blk_00900000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -448,7 +449,7 @@ struct SpawnedObject_b9530
 {
     char m00[8];
     SpawnedObject_b9530(int a);
-    static void* operator new(unsigned int size, void* heap)
+    static void* operator new(std::size_t size, void* heap)
     {
         return FUN_006e6da0(size, heap);
     }

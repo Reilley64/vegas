@@ -2,6 +2,7 @@
 // src/fallout/ai/bsplayerdistancecheckcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/bsplayerdistancecheckcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/BSFaceGenMorphData.h"
 #include "fnv/decl/FUN_00439ef0_class.h"
 #include "fnv/decl/FUN_008d17d0_Class.h"
@@ -33,14 +34,11 @@ const NiRTTI* const* FUN_008d1610_shell::GetNiRTTI()
 struct BSPlayerDistanceCheckController
 {
     virtual ~BSPlayerDistanceCheckController();
-    static void __cdecl operator delete(void* p, unsigned int size);
     void* ScalarDeletingDestructor(unsigned int flags);
 };
 
 struct TESObjectDoorController
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     TESObjectDoorController();
     void* vtable;
     unsigned int references;

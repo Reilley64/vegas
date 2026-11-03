@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nioldanimationconverter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ControllerOwner.h"
@@ -136,7 +137,7 @@ struct LcObject
     }
 };
 
-inline void* operator new(unsigned int, void* pv, int)
+inline void* operator new(std::size_t, void* pv, int)
 {
     return pv;
 }

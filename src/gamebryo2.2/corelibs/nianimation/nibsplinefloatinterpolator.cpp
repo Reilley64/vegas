@@ -111,7 +111,6 @@ public:
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 extern int DAT_010997f4;
 struct FUN_00a50c20Cls
@@ -125,7 +124,7 @@ struct FUN_00a50c20Cls
 // @fnv 0x00a50c20
 FUN_00a50c20Cls* FUN_00a50c20Cls::Clone(CloningProcess& kCloning)
 {
-    FUN_00a50c20Cls* pkObject = (FUN_00a50c20Cls*)BSFadeNode::operator new(0x24);
+    FUN_00a50c20Cls* pkObject = (FUN_00a50c20Cls*)::operator new(0x24);
     if (pkObject)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)pkObject)))->FUN_00a57f20((void *)(0), (void *)(0));

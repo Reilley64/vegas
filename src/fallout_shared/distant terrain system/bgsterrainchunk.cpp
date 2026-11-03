@@ -683,8 +683,6 @@ struct FUN_0043d410
 };
 struct TESObjectDoorController
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Obj006fac;
 struct Ref006fac

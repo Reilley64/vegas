@@ -24,8 +24,6 @@ class ContainerItemExtra
 {
   public:
     unsigned int data[3];
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     ContainerItemExtra();
     bool Load(TESFile*);
 };

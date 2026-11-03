@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FnvBounds.h"
 #include "fnv/decl/PhantomBounds.h"
@@ -31,10 +32,6 @@ inline AudioMgr* audio()
 }
 
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkIntArray
 {
@@ -377,7 +374,6 @@ struct FUN_00d1fe70_cls
     int m_20;
 
     FUN_00d1fe70_cls* FUN_00d1fe70(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the m_p18 array, resets its state, restores the vtable, and optionally frees this when acFlags bit 0 is set.

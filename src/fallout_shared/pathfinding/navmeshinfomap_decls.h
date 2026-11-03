@@ -33,8 +33,6 @@ template <int N> struct EndianSizeTag
 {
     char value;
 };
-void* operator new(unsigned int);
-void operator delete(void*);
 class MemoryManager
 {
   public:

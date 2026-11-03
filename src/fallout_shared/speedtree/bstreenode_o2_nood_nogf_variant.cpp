@@ -1151,10 +1151,6 @@ struct FUN_00a5ecb0
     unsigned int unka4;
     unsigned int unka8;
     FUN_00a5ecb0(int initial);
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FUN_0051cf00
 {
@@ -1204,10 +1200,6 @@ struct FUN_0051cf00
     unsigned int unkac;
     unsigned int unkb0;
     FUN_0051cf00();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FUN_006694e0
 {
@@ -1215,10 +1207,6 @@ struct FUN_006694e0
     FUN_006694e0();
     ~FUN_006694e0();
     void FUN_0066b0d0(void* p);
-    static void* operator new[](unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
 };
 struct FUN_0066b640
 {
@@ -1260,10 +1248,6 @@ struct FUN_0066b640
     virtual void v8c(void*);
     unsigned int unk04, unk08, unk0c, unk10;
     FUN_0066b640();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct FUN_0066b120 : FUN_00b4e150
 {
@@ -1686,14 +1670,6 @@ class NiNodeC8C
     int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8;
 
     NiNodeC8C(int iInitial);
-    __declspec(restrict) static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void* p)
-    {
-        FUN_00aa1460(p);
-    }
 };
 
 class ParentC8C

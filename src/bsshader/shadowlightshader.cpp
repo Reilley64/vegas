@@ -515,10 +515,6 @@ struct GO
     void* p;
     GO();
     ~GO();
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 
 // Allocates an array of count GO objects via GO::operator new[] and returns the pointer.
@@ -4081,7 +4077,6 @@ namespace fnv_00b7a380 {
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int auiSize);
 };
 
 struct FUN_00e76700_desc

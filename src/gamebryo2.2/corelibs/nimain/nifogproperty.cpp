@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nifogproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifogproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_00a5d450_class.h"
@@ -133,10 +134,6 @@ struct CalleeA5d7a0
 
 void* __cdecl FUN_00aa13e0(unsigned int);
 
-void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 // @fnv 0x00a99f60
 void* MyClass::FUN_00a99f60(int arg)
@@ -175,10 +172,6 @@ struct NiFogProperty : NiProperty
     float m_fFogDepth;
     NiColor m_kFogTint;
 
-    static void* operator new(unsigned int, void* memory)
-    {
-        return memory;
-    }
 
     __forceinline NiFogProperty()
     {

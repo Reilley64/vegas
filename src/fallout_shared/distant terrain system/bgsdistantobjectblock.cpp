@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/Callees.h"
@@ -1475,8 +1476,6 @@ struct NewObj
     unsigned int unk50;
     unsigned int unk54;
     NewObj(void* owner, void* apOutput, int asX, int asY, void* apWorld, int a6, int a7, int a8);
-    static void* operator new(unsigned int sz);
-    static void operator delete(void*, unsigned int);
 };
 
 struct BlockLoader
@@ -1690,8 +1689,6 @@ struct NewObj
     unsigned int unk50;
     unsigned int unk54;
     NewObj(void* owner, void* apOutput, int asX, int asY, void* apWorld, int a6, int a7, int a8);
-    static void* operator new(unsigned int sz);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_006f6d10_shell
@@ -1810,11 +1807,11 @@ struct MmTexturing
 struct MmAlpha
 {
     MmAlpha();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }
-    static void operator delete(void* pvMem, unsigned int)
+    static void operator delete(void* pvMem, std::size_t)
     {
         MmFree(pvMem);
     }
@@ -2151,8 +2148,6 @@ struct GtFlags
 struct GtProperty
 {
     char pad[0x1c];
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
     GtProperty();
 };
 struct GtShaderProp

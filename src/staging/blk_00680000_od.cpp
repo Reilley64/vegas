@@ -1054,7 +1054,6 @@ void* FUN_00692080_class::FUN_00692080(unsigned int flags)
 }
 }  // namespace fnv_00692080
 
-void __cdecl operator delete(void*);
 struct FUN_00691b40_class
 {
     void* FUN_006920b0(unsigned int flags);
@@ -1069,7 +1068,6 @@ void* FUN_00691b40_class::FUN_006920b0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 void FUN_00691bf0();
 struct FUN_006920e0_class
 {
@@ -1331,7 +1329,6 @@ struct FUN_0069cd10_class
     int m_iWordAt00;
     FUN_0069cd10_class* FUN_0069cd10();
 };
-void __cdecl operator delete(void*);
 
 struct FUN_0069d0c0_class
 {
@@ -1348,7 +1345,6 @@ void* FUN_0069d0c0_class::FUN_0069d0c0(unsigned int flags)
     return this;
 }
 
-void* __cdecl operator new(unsigned int, void*);
 struct Unk69d0f0
 {
     void FUN_0069d0f0(void* p, unsigned int n);
@@ -2444,8 +2440,6 @@ struct FUN_00692000_class
     int AddData(FUN_00692000_data* source);
 };
 
-void* __cdecl operator new(unsigned int uiSize, void* pvMem);
-void __cdecl operator delete(void* pvObject, void* pvMem);
 
 struct B692320Entry
 {
@@ -2500,9 +2494,6 @@ void B692320Allocator::ConstructEntries(B692320Entry* pkArray, unsigned int Item
         new (&pkArray[i]) B692320Entry;
 }
 
-void* __cdecl operator new(unsigned int, void*);
-inline void __cdecl operator delete(void*, void*)
-{}
 
 struct PathLocItem
 {
@@ -2566,8 +2557,6 @@ void PathLocItemArray::ConstructItems(PathLocItem* items, unsigned int count)
     }
 }
 
-void* operator new(unsigned int size, void* place);
-void operator delete(void* object, void* place);
 
 struct PairCell
 {
@@ -2715,11 +2704,6 @@ struct Obj_b9971
     int m_08;
     int m_0c;
     Obj_b9971();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00401000(size);
-    }
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_0069b8a0_cls
@@ -2739,7 +2723,6 @@ Obj_b9971* FUN_0069b8a0_cls::CreateObj()
     return new Obj_b9971();
 }
 
-void __cdecl operator delete(void*, void*);
 struct NiBound
 {
     unsigned int unk00, unk04, unk08;
@@ -3533,7 +3516,6 @@ FUN_0069b840::~FUN_0069b840()
 
 namespace fnv_0069f010 {
 
-void* operator new(unsigned int n);
 void* __cdecl FUN_00aa13e0(unsigned int n);
 void* __cdecl FUN_00401000(unsigned int n);
 
@@ -3583,8 +3565,6 @@ struct ObjX
     int unk00a4;
     int unk00a8;
     ObjX(int a);
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
 };
 struct ObjY
 {
@@ -3596,8 +3576,6 @@ struct ObjY
     int unk0014;
     int unk0018;
     ObjY();
-    static void* operator new(unsigned int n);
-    static void operator delete(void*, unsigned int);
     ObjY* FUN_004391c0();
 };
 struct GRes2

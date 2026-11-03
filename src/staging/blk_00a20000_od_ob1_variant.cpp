@@ -5,6 +5,7 @@
 
 // src/staging/blk_00a20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <cstddef>
 #include <windows.h>
 #include <cstdlib>
 #include <cstring>
@@ -5973,11 +5974,6 @@ struct FUN_00a26240
 };
 struct PoolDelQ
 {
-    __forceinline void operator delete(void* p)
-    {
-        int aiD[3];
-        reinterpret_cast<::FNV_MemoryManager *>((((PoolQ*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 };
 struct FUN_00a25b00 : PoolDelQ
 {
@@ -6028,10 +6024,6 @@ struct MemMgr
 {
 };
 
-inline void* operator new(unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr*)&(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-}
 
 
 struct IDI8
@@ -6244,7 +6236,7 @@ struct S_00a25920_Pool
 struct S_00a25920_Obj
 {
     int unk00;
-    static __forceinline void* operator new(unsigned int)
+    static __forceinline void* operator new(std::size_t)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(((S_00a25920_Pool&)(*reinterpret_cast<::NiAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(0x14280);
     }
@@ -6268,10 +6260,6 @@ void FUN_00a25880()
     ((FUN_00a25de0_Class*)(*reinterpret_cast<::S_00a25920_Obj * *>(&::DAT_011f3634Q)))->FUN_00a25de0();
 }
 
-__forceinline void __cdecl operator delete(void* memory)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAllocator *>(&::g_memoryManager))))->FUN_00aa4060(memory);
-}
 
 // @fnv 0x00a26240
 FUN_00a26240::~FUN_00a26240()

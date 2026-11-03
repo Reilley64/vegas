@@ -665,10 +665,6 @@ struct MergeSet : Holder
         ::FUN_00aa10f0(m_pusData);
     }
 
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct MergeItems

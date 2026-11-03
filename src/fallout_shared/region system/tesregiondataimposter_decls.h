@@ -75,7 +75,5 @@ class TESObjectREFR : public TESForm
 template <int N> struct EndianSizeTag
 {
 };
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* data);
 
 #endif

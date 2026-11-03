@@ -980,7 +980,6 @@ class BoltShader : public BSShader
     BoltShader(NiD3DVertexDeclaration*);
     BSShader* CreateShader();
     void UpdateShaderConstants();
-    static void* operator new(unsigned int);
     // const NiRTTI* __cdecl BoltShader::*()
     // BoltShader
     // void __cdecl BoltShader::*()

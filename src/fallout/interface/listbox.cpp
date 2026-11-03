@@ -2291,8 +2291,6 @@ struct FUN_007a6310_Elem8
     FUN_007a6310_Elem8();
 };
 
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void* p, void* where);
 
 struct FUN_007a6310_cls
 {
@@ -6038,7 +6036,6 @@ bool D7580ListBox::FUN_007d7580()
 }
 
 namespace fnv_007d7da0 {
-void* __cdecl operator new(unsigned int);
 struct ItemTile;
 struct ItemValue
 {

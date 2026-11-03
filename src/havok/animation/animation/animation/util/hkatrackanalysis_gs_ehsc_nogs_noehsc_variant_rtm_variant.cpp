@@ -7,6 +7,7 @@
 
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
 #include "fnv/decl/FUN_00cc02d0_cls.h"
@@ -524,10 +525,6 @@ class TrackQuaternion
 class TrackTransform
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* memory)
-    {
-        return memory;
-    }
     TrackVector translation;
     TrackQuaternion rotation;
     TrackVector scale;

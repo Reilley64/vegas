@@ -1,5 +1,6 @@
 // bgscamerapathmanager.cpp: CameraPathManager (8 functions)
 
+#include <new>
 #include "fnv/decl/CameraPath.h"
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_00440d80_shell.h"
@@ -19,7 +20,6 @@
 #include "fnv/symbols_00600000.h"
 #include "fnv/symbols_011e0000.h"
 #include "CameraPathManager.h"
-void* __cdecl operator new(unsigned int);
 
 // Constructs a NiTPrimitiveArray<BGSCameraPath*> by forwarding maxSize and growBy to the NiTArray base constructor.
 // @fnv 0x0058bc30
@@ -231,8 +231,6 @@ struct SceneNode
     int unkA4;
     int unkA8;
     SceneNode(unsigned short childCount);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int size);
 };
 
 

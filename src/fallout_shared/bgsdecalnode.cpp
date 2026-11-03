@@ -41,7 +41,6 @@ struct BGSDecalNode
     BGSDecalNode();
     virtual ~BGSDecalNode();
     void* DestroyDecalNode(unsigned int);
-    static void operator delete(void* p, unsigned int size);
 };
 
 // Calls FUN_004ee1e0 on this, frees the node with operator delete when flags has bit 0 set, and returns this.
@@ -281,8 +280,6 @@ struct A51BF0Base : public NiObject
 {
     char storage[0xb4];
 
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_004ee050 : public A51BF0Base

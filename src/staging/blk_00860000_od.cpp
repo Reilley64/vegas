@@ -2,6 +2,7 @@
 // src/staging/blk_00860000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -1350,8 +1351,6 @@ GlobalObject_0087d420* GlobalObject_0087d420::FUN_0087d450(unsigned int flags)
     return this;
 }
 
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* p);
 struct BGSSaveLoadManager
 {
 };
@@ -2476,7 +2475,6 @@ GlobalObject_0087d2c0* GlobalObject_0087d2c0::FUN_0087d2f0(unsigned int flags)
     return this;
 }
 
-extern void* __cdecl operator new(unsigned int, void*);
 
 struct FUN_0087d3d0_Class
 {
@@ -2681,7 +2679,6 @@ struct FUN_00866ff0_cls
     FUN_00866ff0_cls();
 };
 
-void* operator new(unsigned int size) throw();
 
 ScopeGuardCtx::~ScopeGuardCtx()
 {}
@@ -3253,8 +3250,6 @@ struct B877BE0Item
 
 struct B877BE0Node
 {
-    static void* operator new(unsigned int uiSize, void* pvWhere);
-    static void operator delete(void* pvMem, void* pvWhere);
 
     B877BE0Node();
 
@@ -3907,7 +3902,6 @@ struct FUN_0086c620
 class BSShaderAccumulator
 {
   public:
-    static void* operator new(unsigned int);
     BSShaderAccumulator(int, unsigned int, unsigned int);
     int unk000;
     int unk004;
@@ -4083,7 +4077,6 @@ public:
 class FUN_00a712f0
 {
   public:
-    static void* operator new(unsigned int);
     FUN_00a712f0();
     int unk000;
     int unk004;
@@ -6306,7 +6299,7 @@ struct Controller
     int unk24;
     int unk28;
     int unk2c;
-    static void* operator new(unsigned int);
+    static void* operator new(std::size_t);
     static void operator delete(void*);
     Controller();
 };
@@ -7001,8 +6994,6 @@ class SSImage
   public:
     SSImage(unsigned int uiWidth, unsigned int uiHeightRes, SSFormat* pkFormat, bool bA, bool bB);
     virtual ~SSImage();
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     unsigned int unk04[28];
 };
 

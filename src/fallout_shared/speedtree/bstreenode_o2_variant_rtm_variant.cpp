@@ -6,6 +6,8 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BC6C330HavokCollision.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -339,7 +341,6 @@ struct BSFadeNode
 {
     void* vf;
     char pad[16];
-    static void* __cdecl operator new(unsigned int);
     BSFadeNode()
     {
         FUN_00c6b910(this);
@@ -472,10 +473,6 @@ struct C8CA60Child
 {
     C8CA60Child();
 
-    static void* operator new(C8CA60size_t, void* pvMem)
-    {
-        return pvMem;
-    }
 };
 struct C8CA60Owner
 {
@@ -656,8 +653,6 @@ struct FUN_00cb78b0 : S_00cb78b0_Base
 };
 struct S_00cb79d0_Base
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     S_00cb79d0_Base();
     virtual void v00();
     int unk04;
@@ -1261,7 +1256,6 @@ struct S_00caaf40_Obj
     int unk08;
     int unk0c;
     int unk10;
-    static void* operator new(unsigned int);
     S_00caaf40_Obj();
 };
 struct S_00caaf40
@@ -1377,7 +1371,7 @@ struct FUN_00d22590
     int unk38;
     int unk3C;
     FUN_00d22590(int a, int b, float c);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         FUN_00d22590* p = (FUN_00d22590*)FUN_00c85750()->Alloc(size);
         p->unk04 = (short)size;

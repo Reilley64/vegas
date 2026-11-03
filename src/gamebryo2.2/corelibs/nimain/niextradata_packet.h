@@ -103,7 +103,6 @@ inline void ReadCount(NiStream& stream, unsigned int& count)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int) throw();
 };
 class NiBinaryExtraData : public NiExtraData, public NiMemObject
 {

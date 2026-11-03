@@ -124,14 +124,6 @@ struct Thing_b9704
     unsigned int unk100;
     unsigned int unk104;
     Thing_b9704(unsigned int a1, unsigned int a2, Thing_b9704* a3);
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((S00b7fd90_Alloc*)&(*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager)))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Manager *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct S00b7fd90_cls

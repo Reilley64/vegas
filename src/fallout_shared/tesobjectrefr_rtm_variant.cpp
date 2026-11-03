@@ -35,8 +35,6 @@ class NonActorMagicTarget : public BSExtraData, public ExtraBase2
 {
   public:
     NonActorMagicTarget(Owner* o);
-    void* operator new(unsigned int s);
-    void operator delete(void* p);
     int unk10, unk14, unk18, unk1c, unk20, unk24;
 };
 struct ExtraList

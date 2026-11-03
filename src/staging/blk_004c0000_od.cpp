@@ -2737,14 +2737,10 @@ void FUN_004def20()
         ((FUN_0066b0d0_Helper*)&(*reinterpret_cast<NiPointer<NiTexture> (*)[]>(&::g_spDebrisNormalMap))[i])->FUN_0066b0d0(0);
 }
 
-void* __cdecl operator new(unsigned int uiSize);
-void __cdecl operator delete(void* pvMem);
 
 class C4DF040Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 };
 
 class C4DF040Point3

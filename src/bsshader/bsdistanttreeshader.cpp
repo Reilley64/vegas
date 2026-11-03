@@ -412,10 +412,6 @@ struct DistantTreeInstance
             DAT_012007b8 = ::DAT_011f91c0 >= 2 ? 114 : 40;
         return DAT_012007b8;
     }
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 struct DistantTreeFogColors
@@ -674,10 +670,6 @@ struct FUN_00bb6c30
     int unkf0;
     int unkf4;
     int unkf8;
-    static void* operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
     FUN_00bb6c30(TreeVertexDecl*);
     void FUN_00bb64a0();
 };
@@ -1199,7 +1191,6 @@ extern unsigned int DAT_012007b8;
 
 struct Obj
 {
-    static void* operator new(unsigned int size);
     Obj(int a, int b);
     virtual void Slot0();
     virtual void DeleteThis();

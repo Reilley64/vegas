@@ -57,12 +57,6 @@ struct Node_cls
     int unk80;
     int unk84;
     Node_cls();
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p) throw()
-    {}
 };
 
 struct Mid_cls

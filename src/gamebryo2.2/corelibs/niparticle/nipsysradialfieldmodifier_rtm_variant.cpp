@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nipsysradialfieldmodifier.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/NiPSysFieldModifierImpl.h"
 #include "fnv/decl/NiPSysParticle.h"
@@ -218,10 +219,6 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 {
-    static void* operator new(unsigned int, void* where) throw()
-    {
-        return where;
-    }
     float m30;
     RadialFieldObject_00c285d0()
     {

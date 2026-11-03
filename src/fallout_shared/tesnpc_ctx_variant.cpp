@@ -1,6 +1,7 @@
 
 // tesnpc_ctx_variant.cpp: context variant of src/fallout_shared/tesnpc.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
 #include "fnv/decl/ActorSpellView.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/B441420Owner.h"
@@ -793,8 +794,6 @@ struct FUN_004037b0
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a6aa40 : NiMemObject
 {

@@ -1413,7 +1413,6 @@ struct Bound052;
 struct Avoid052
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
-    static void* operator new(unsigned int);
     Avoid052();
 };
 struct Bound052

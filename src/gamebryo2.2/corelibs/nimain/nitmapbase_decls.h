@@ -96,7 +96,6 @@ class TESFullName : public BaseFormComponent
     BSStringT<char> m_kName;
     TESFullName();
 };
-void operator delete(void* pointer);
 class NavMeshInfo
 {
   public:

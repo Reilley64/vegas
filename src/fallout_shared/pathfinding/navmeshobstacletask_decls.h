@@ -2,6 +2,7 @@
 #ifndef NAVMESHOBSTACLETASK_DECLS_H
 #define NAVMESHOBSTACLETASK_DECLS_H
 
+#include <new>
 #include "fnv/decl/TESForm.h"
 #include "fnv/decl/Twin_0044ddc0.h"
 #include "fnv/symbols_0040f000.h"
@@ -125,8 +126,6 @@ class AutoMemContext
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NavMesh : public NiMemObject
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/hkpvehicleinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/hkpvehicleinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -1549,10 +1550,6 @@ FUN_00e39300_class& FUN_00e39300_class::FUN_00e39300(const FUN_00e39300_class* s
     return *this;
 }
 
-inline void* operator new(size_t, void* pvWhere)
-{
-    return pvWhere;
-}
 class hkMemoryAllocatorE39
 {
   public:

@@ -2,6 +2,7 @@
 // src/fallout/magic/bhktelekinesislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhktelekinesislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00629ab0_shell.h"
 #include "fnv/decl/FUN_0096a350_class.h"
 #include "fnv/decl/FUN_00b4dec0_shell.h"
@@ -281,7 +282,7 @@ struct FNV_807c50
 
     // The game's own heap helper; the class-scope allocation function is
     // what the original's "push 0x10 / call 0x807bf0" pair is.
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return (void*)(long)GetTopicResult((int)n);
     }

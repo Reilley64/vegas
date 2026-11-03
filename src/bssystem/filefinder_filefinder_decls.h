@@ -54,11 +54,6 @@ class BSFile : public NiFile
   public:
     char storage[340];
     BSFile(const char*, int, unsigned int, bool);
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void*);
 };
 class ArchiveManager
 {

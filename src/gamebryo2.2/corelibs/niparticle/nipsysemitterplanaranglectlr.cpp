@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2b550
+#include <new>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -115,12 +116,6 @@ struct S_00c2b580_TargetObj : S_00c2b580_Base
     int unk34;
     int unk38;
     int unk3C;
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void*, unsigned int) throw()
-    {}
     S_00c2b580_TargetObj() throw()
     {}
 };

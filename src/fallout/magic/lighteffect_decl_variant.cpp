@@ -367,8 +367,6 @@ class NiPointLight : public FUN_004bc1f0_S
     int unkf0;
     int unkf4;
     int unkf8;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     NiPointLight();
     void FUN_0050dd20(float);
 };

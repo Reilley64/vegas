@@ -161,8 +161,6 @@ NiPoint2* NiPoint2_Sub::Subtract(NiPoint2* pResult, const NiPoint2& aPoint) cons
     return pResult;
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 extern "C" void* FUN_00718c90(void*);
 

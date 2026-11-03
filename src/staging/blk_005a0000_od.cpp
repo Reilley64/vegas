@@ -675,7 +675,6 @@ bool FUN_005a7b60_cls::FUN_005a7b60(TESForm* pkForm)
     return false;
 }
 
-void __cdecl operator delete(void*);
 struct DeletingObject
 {
     void* Destroy(unsigned int flags);

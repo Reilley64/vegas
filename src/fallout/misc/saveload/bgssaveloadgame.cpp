@@ -1192,7 +1192,6 @@ void FUN_00848d90_shell::FUN_00848d90(bool abSet)
         m_flags &= ~1;
 }
 
-void* __cdecl operator new(unsigned int);
 void __cdecl FUN_008535e0();
 
 struct FUN_00846f30 : BGSSaveLoadGame
@@ -2652,7 +2651,6 @@ struct FinalizeMethods
 {
 };
 extern const char DAT_0107f048[], DAT_0107efd0[], DAT_0107efb0[];
-extern void* __cdecl operator new(unsigned int);
 UnloadFlags __cdecl FUN_00841120(UnloadFlags, UnloadFlags, unsigned int, bool);
 void __cdecl FUN_00848d10();
 void __cdecl FUN_00848d30();

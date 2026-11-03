@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/hkpdynamicsjobqueueutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 
 struct S_00d96530_Allocator
@@ -45,12 +46,6 @@ struct S_00d96530_Block
     int unk8;
     int unkC;
     S_00d96530_RelArray m_ppData;
-    void* operator new(size_t, void* p)
-    {
-        return p;
-    }
-    void operator delete(void*, void*)
-    {}
     S_00d96530_Block(int capacity) : m_ppData((char*)this + 0x20, capacity)
     {}
 };

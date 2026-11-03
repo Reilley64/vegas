@@ -181,10 +181,6 @@ struct SpawnedObject
     unsigned int unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
     unsigned int unkA0, unkA4, unkA8, unkAC, unkB0, unkB4, unkB8, unkBC;
 
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject();
 };

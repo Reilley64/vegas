@@ -517,7 +517,6 @@ Object* __cdecl FUN_00c1b7f0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 struct CloneSource
 {
@@ -3096,7 +3095,7 @@ class BSMultiBoundNode : public NiNodeC1B
 // @fnv 0x00c1b9e0
 BSFadeNode* CloneSource::FUN_00c1b9e0(unsigned int flags)
 {
-    void* memory = BSFadeNode::operator new(0x110);
+    void* memory = ::operator new(0x110);
     BSFadeNode* node;
     if (memory)
         node = ((::BSFadeNode *)(new ((void *)(((BSFadeNode*)memory))) ::FUN_00c1b5c0()));

@@ -640,7 +640,6 @@ void FUN_004b9d80_Class::FUN_004b9d80(void* pObject)
     reinterpret_cast<::FUN_006b8310_class *>((((Unk6b*)((char*)this + 0xc))))->FreeMemory(pObject);
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_004b9de0
 {
@@ -817,7 +816,6 @@ void FUN_004b9d30::Init()
     ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
 
-void __cdecl operator delete(void*);
 struct FUN_004a4410_Class
 {
     void* FUN_004a4410(unsigned int flags);
@@ -908,7 +906,6 @@ void* FUN_004afbc0_Class::FUN_004afbc0(unsigned int flags)
 }
 
 void FUN_004afc20(void*);
-void __cdecl operator delete(void*);
 struct FUN_004b0160_class
 {
     void FUN_004afc20();
@@ -2430,8 +2427,6 @@ struct ScanItem64
     int ClearToZero();
 };
 
-void* __cdecl operator new(unsigned int size, void* placement) throw();
-void __cdecl operator delete(void* p, void* placement) throw();
 
 struct FUN_004a9ab0_cls
 {
@@ -2787,8 +2782,6 @@ struct NiPoint2
 
 struct NiObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct NiAVObject : NiObject
@@ -3429,8 +3422,6 @@ struct FUN_004a7800
 };
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct NiObject
 {
@@ -3624,8 +3615,6 @@ struct Extra87
     int unk78;
     int unk7c;
     Extra87();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Mesh87
 {
@@ -3679,11 +3668,7 @@ struct Mesh87
     int unkbc;
     int unkc0;
     Mesh87(int, Vec87*, void*, Color87*, void*, int, int, int, unsigned short*);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
-void* operator new[](unsigned int);
-void operator delete[](void*);
 // Builds an 8-vertex box mesh from eight corner positions and a color, with 72 triangle indices, and optionally attaches extra data.
 // @fnv 0x004b2eb0
 Mesh87* CreateBoxMesh(const Vec87& aCorner0, const Vec87& aCorner1, const Vec87& aCorner2, const Vec87& aCorner3,
@@ -3800,8 +3785,6 @@ struct FUN_004a7800
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct BSShaderLightingProperty : NiMemObject
 {

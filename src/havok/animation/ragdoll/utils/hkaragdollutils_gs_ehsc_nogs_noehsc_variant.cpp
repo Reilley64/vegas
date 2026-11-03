@@ -5,6 +5,7 @@
 
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00cb0a60.h"
@@ -292,7 +293,7 @@ struct Skeleton : SkeletonHeader
     Array<int> localFrames;
     __forceinline Skeleton() throw()
     {}
-    __forceinline void* operator new(unsigned int bytes)
+    __forceinline void* operator new(std::size_t bytes)
     {
         SpawnedGlobal* holder = FUN_00c85750();
         SpawnedAllocator* allocator = holder->m_pAllocator;

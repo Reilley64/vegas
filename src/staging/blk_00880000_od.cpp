@@ -193,7 +193,6 @@ bool FUN_00891150_Class::FUN_00891150()
     return ((FUN_008c1be0_Class*)((char*)this + 0x10))->FUN_008c1be0(1) != 0;
 }
 
-void* operator new(unsigned int);
 
 
 struct TESObjectREFR;

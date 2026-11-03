@@ -3174,10 +3174,6 @@ void IndexRemap::RemapAndAccumulate(const hkArr& map, int n, hkArr& values)
 }
 }  // namespace fnv_00d282c0
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct S00cb5310_Sub;
 struct S00cb5310_Node;
 struct S00cb5310_Piece;
@@ -3478,10 +3474,6 @@ void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
 }
 
 namespace fnv_00cb5500 {
-inline void* __cdecl operator new(size_t, void* place)
-{
-    return place;
-}
 struct Entry
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -3945,10 +3937,6 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
 }
 
 namespace fnv_00cb5dd0 {
-inline void* __cdecl operator new(size_t, void* place)
-{
-    return place;
-}
 struct Producer;
 struct Actor;
 struct Heap
@@ -4555,10 +4543,6 @@ int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** count
 }
 
 namespace fnv_00cb4790 {
-inline void* __cdecl operator new(size_t, void* place)
-{
-    return place;
-}
 
 struct Entry;
 struct Cell

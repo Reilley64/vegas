@@ -305,10 +305,6 @@ struct FUN_00c3c4e0
     unsigned int unk10;
 
     FUN_00c3c4e0();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::PoolHolder *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct FUN_00c3c700_cls : public QueuedFile

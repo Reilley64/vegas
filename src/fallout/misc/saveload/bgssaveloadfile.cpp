@@ -54,8 +54,6 @@ class FNVFileSeek
 };
 
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class TaskQueueInterface
 {
   public:

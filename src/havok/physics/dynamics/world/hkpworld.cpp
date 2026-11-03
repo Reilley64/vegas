@@ -2376,8 +2376,6 @@ void* WorldWatchDogHolder::FUN_00c93570() {
     return m_pMemoryWatchDog;
 }
 
-inline void* __cdecl operator new(size_t, void* p) { return p; }
-inline void __cdecl operator delete(void*, void*) { }
 
 struct hkpPhantom;
 
@@ -4104,7 +4102,7 @@ hkListenerPairC982* hkListenerPairC982::DestroyAndMaybeFree(unsigned int uiFlags
 {
     this->hkListenerPairC982::~hkListenerPairC982();
     if (uiFlags & 1)
-        hkPrimaryC982::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 }  // namespace fnv_00c98260
@@ -4203,7 +4201,7 @@ hkListenerPairC983* hkListenerPairC983::FUN_00c98370(unsigned int uiFlags) throw
 {
     this->hkListenerPairC983::~hkListenerPairC983();
     if (uiFlags & 1)
-        hkPrimaryC983::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 }  // namespace fnv_00c98370
@@ -11843,7 +11841,7 @@ typedef void(__cdecl*TERF)(const char*s,void*errorReportObject); namespace TCE2{
 template<bool b>struct TrueOnlyTrait; template<>struct TrueOnlyTrait<true>; } template<class TYPE>class TRP{
 public:__forceinline TYPE*val()const throw(); __forceinline operator TYPE*()const; private:TYPE*vp4; }
 ; template<class TYPE>__forceinline TYPE*TRP<TYPE>::val()const throw(){ return vp4; }
-struct TPNA; inline void*operator new(TS4,TPNA*p){ return p; }
+struct TPNA; 
 template<bool N>struct TTB{ typedef TTB<N>type; enum{ result=N}
 ; } ; typedef TTB<true>TTIP;
 typedef TTB<false>TTIC; template<typename T>TB::CompileTimeFalseType operator==(const T&,const TTIP&)throw(); template<typename T>struct TIPT:public TTB<(sizeof(*static_cast<T*>(0)==*static_cast<const TTIP*>(0))==sizeof(TB::CompileTimeTrueType))>{ }
@@ -12290,8 +12288,8 @@ class TBPL{ public:virtual~TBPL()throw(); virtual void vs59()throw(); virtual vo
 class TE; class TCI2; class TSI1; class TBP;
 class TW; class TCD; struct TWDSI; class TBPHP;
 struct TCI; struct TPCO; extern const TC1 FUN_00d07830Class; class FUN_00d07830:public TCO{
-public:__forceinline void*__cdecl operator new(TS4 nbytes){ ; TRO*b=static_cast<TRO*>((*static_cast<TMR*>(::FUN_00c85750())).heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
-; return b; } __forceinline void*__cdecl operator new(TS4,void*p){
+public:__forceinline void*__cdecl operator new(std::size_t nbytes){ ; TRO*b=static_cast<TRO*>((*static_cast<TMR*>(::FUN_00c85750())).heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
+; return b; } __forceinline void*__cdecl operator new(std::size_t,void*p){
 return p; } inline TB isFixed()const throw(); virtual void vs9()const throw();
 protected:friend class TW; friend class TWOU; friend class TWCU; friend class TS2;
 friend class TCS; friend class TAMU; FUN_00d07830(TW*world)throw(); ~FUN_00d07830()throw();
@@ -12772,7 +12770,6 @@ TYPE m_kStorage;};
 class hkMemoryAllocator
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
 virtual void*AllocateMemoryBlock(int numBytes)=0;
 virtual void ReleaseBlock(void*p,int numBytes)=0;public:
 enum MemoryState
@@ -12787,7 +12784,6 @@ ValueWrapper<void*>m_next;};
 class NineIntegerRecord
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
 typedef hkMemoryAllocator Allocator_S;
 static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator_S&heap(){return*m_pStreamAllocator;}
 protected:
@@ -12804,7 +12800,7 @@ __forceinline hkBaseObject_S(){}
 class hkReferencedObject_S:public hkBaseObject_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
 public:
 enum
 {
@@ -12891,7 +12887,7 @@ class hkQsTransform_S;
 class hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4_S&v);
 __forceinline void set(hkReal_S x,hkReal_S y,hkReal_S z,hkReal_S w=0);
 __forceinline void SetAllComponents(hkSimdRealParameter x);
@@ -12923,7 +12919,7 @@ return m_vComponents;
 class hkQuaternion_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 inline void SetProduct(const hkQuaternion_S&q0,const hkQuaternion_S&q1);
 __forceinline const hkVector4_S&getImag()const;
 public:
@@ -12933,7 +12929,7 @@ void setFlippedRotation(const hkVector4_S&from);};
 class hkQsTransform_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4_S&getTranslation()const;
 __forceinline const hkQuaternion_S&getRotation()const;
 public:
@@ -13119,7 +13115,7 @@ class hkDebugDisplay:public hkReferencedObject_S,public hkSingleton<hkDebugDispl
 {
 friend class hkSingleton<hkDebugDisplay>;
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkDebugDisplay();
 ~hkDebugDisplay();
 void addDebugDisplayHandler(hkDebugDisplayHandler*debugDisplay);
@@ -13731,7 +13727,6 @@ public:
 
 class bhkRefObject {
 public:
-    static void* operator new(size_t size) { return FUN_00aa13e0(size); }
     const void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;

@@ -260,7 +260,6 @@ class NiTPrimitiveSet_float_ : public NiTSet_float_NiTMallocInterface_float___
 class NiPSysEmitterCtlr : public NiPSysModifierCtlr
 {
   public:
-    static void* operator new(unsigned int size);
     // base NiPSysModifierCtlr at +0x0, size 64
     NiPointer<NiInterpolator> m_spVisibilityInterpolator;  // +0x40, 4 bytes
     NiInterpolator* m_pEmitterActiveInterpolator;          // +0x44, 4 bytes

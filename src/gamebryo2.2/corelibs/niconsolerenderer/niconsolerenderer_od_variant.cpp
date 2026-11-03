@@ -15,7 +15,6 @@ struct RendererPacketEntry
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
 };
 class GraphicsRenderer : public NiMemObject
 {

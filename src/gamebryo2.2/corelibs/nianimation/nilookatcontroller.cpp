@@ -681,7 +681,6 @@ void Ctl::FUN_00a4cea0(StreamObj* stream)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(unsigned int uiSize);
 };
 
 struct FUN_00a6d220 : public BSFaceGenMorphData

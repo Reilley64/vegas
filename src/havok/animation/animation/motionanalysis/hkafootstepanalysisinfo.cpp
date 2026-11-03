@@ -2,6 +2,7 @@
 // src/havok/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/motionanalysis/hkafootstepanalysisinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
@@ -75,10 +76,6 @@ struct ObjRef
     }
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct ObjArray
 {

@@ -374,8 +374,6 @@ int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...)
     return 1;
 }
 
-inline void operator delete(void*, void*)
-{}
 
 struct S_00e5c370_Alloc;
 struct __declspec(align(16)) S_00e5c370_Vec

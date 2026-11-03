@@ -2,6 +2,7 @@
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/C87710HavokObject.h"
 #include "fnv/decl/FUN_00c903b0_class.h"
@@ -225,7 +226,7 @@ class hkRefObjCC06
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         hkRefObjCC06* b = static_cast<hkRefObjCC06*>(hkRouterCC06::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -344,7 +345,7 @@ hkStreamCC06* hkStreamCC06::DestroyStream(unsigned int uiFlags) throw()
 {
     this->hkStreamCC06::~hkStreamCC06();
     if (uiFlags & 1)
-        hkStreamCC06::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 }  // namespace fnv_00cc0690
@@ -468,7 +469,7 @@ template <class T> class hkArrayCC07
     int m_iElementCount;
     int m_iCapacityState;
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         hkRouterCC07::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -578,7 +579,7 @@ class hkRefObjD60B
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjD60B* b = static_cast<hkRefObjD60B*>(hkRouterD60B::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

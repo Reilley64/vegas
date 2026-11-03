@@ -2629,8 +2629,6 @@ struct TrimTile
 };
 extern double DAT_01072310, DAT_010356b0;
 int FUN_00406d50(char*, unsigned int, const char*);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct TrimMenu
 {
     int unk00;

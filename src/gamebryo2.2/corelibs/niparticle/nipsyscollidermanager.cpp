@@ -27,7 +27,6 @@ struct NiPSysPositionModifier
     void* vfn[6];
     int m_0x18;
     NiPSysPositionModifier();
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern int DAT_010c008c;
@@ -36,7 +35,7 @@ extern int DAT_010c008c;
 // @fnv 0x00c2d5b0
 NiPSysPositionModifier* __cdecl FUN_00c2d5b0()
 {
-    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(NiPSysPositionModifier::operator new(0x1c));
+    NiPSysPositionModifier* p = static_cast<NiPSysPositionModifier*>(::operator new(0x1c));
     if (p)
     {
         p->NiPSysPositionModifier::NiPSysPositionModifier();
@@ -534,7 +533,7 @@ struct FUN_00c2d550_cls
 // @fnv 0x00c2d550
 NiPSysPositionModifier* FUN_00c2d550_cls::CreatePositionModifier(CloningProcess& cp)
 {
-    NiPSysPositionModifier* pkNew = (NiPSysPositionModifier*)NiPSysPositionModifier::operator new(0x1c);
+    NiPSysPositionModifier* pkNew = (NiPSysPositionModifier*)::operator new(0x1c);
     if (pkNew != 0)
     {
         new ((void *)(reinterpret_cast<NiPSysPositionModifierBase_stub*>(pkNew))) ::NiPSysPositionModifier();

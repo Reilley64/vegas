@@ -5,6 +5,7 @@
 
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include <cstdlib>
@@ -754,7 +755,6 @@ Iterator470& Iterator470::FUN_00b0eb30()
     return *this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00b10e90;
 struct TreeEntry
 {
@@ -1248,14 +1248,7 @@ void FUN_00b0dc10_Vector::FUN_00b0dc10()
 
 struct DceAux;
 
-void __cdecl operator delete(void* p);
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
 
 struct DceCont;
 
@@ -1981,8 +1974,6 @@ ItQ_ab9bc0 VecQ_ab9bc0::FUN_00b0e880(CItQ_ab9bc0 _Where, const ElQ_ab9bc0& _Val)
 }
 }  // namespace fnv_00b0e880
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 namespace std {
 class exception
 {
@@ -2366,10 +2357,6 @@ struct MemoryAlloc
 {
     void* Allocate(unsigned int);
 };
-inline void* __cdecl operator new(unsigned int n)
-{
-    return reinterpret_cast<MemoryAlloc&>(g_memoryManager).Allocate(n);
-}
 struct AllocationBase
 {
     virtual ~AllocationBase() throw();
@@ -2708,13 +2695,6 @@ template <class T> inline T* __cdecl AllocateChecked(unsigned int _Count, T*)
 }
 
 namespace fnv_00b0f410 {
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
-void __cdecl operator delete(void*, void*);
 void allocationError();
 void lengthError();
 namespace std {
@@ -4531,7 +4511,6 @@ struct BadAllocB160 : ExceptionB160
     inline virtual ~BadAllocB160() throw()
     {}
 };
-void* __cdecl operator new(unsigned int);
 inline unsigned int* __cdecl FUN_00b16b00(unsigned int _Count, unsigned int)
 {
     if (_Count <= 0)
@@ -7826,12 +7805,6 @@ void __cdecl FUN_00b17a60(NodeD10** _First, NodeD10** _Last, CompareD10 _Pred)
 }  // namespace fnv_00b17a60
 
 namespace fnv_00b17c20 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct ElQ
 {
     int m[6];
@@ -7905,13 +7878,6 @@ void __cdecl FUN_00b17d10(NodeD10** _First, int _Hole, int _Top, NodeD10* _Val, 
 }
 
 namespace fnv_00b17db0 {
-void __cdecl operator delete(void*);
-inline void* __cdecl operator new(unsigned int, void* place)
-{
-    return place;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 
 struct AuxB
 {
@@ -14260,13 +14226,6 @@ bool FUN_00b00bc0_cls::FUN_00b00bc0(void** value)
 }
 
 namespace fnv_00b0e730 {
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
-void __cdecl operator delete(void*, void*);
 void allocationError();
 void lengthError();
 namespace std {
@@ -15412,8 +15371,6 @@ struct SplineCurve
     int unk80;
 
     SplineCurve(const std::string& text);
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 
 class FUN_00b17fd0

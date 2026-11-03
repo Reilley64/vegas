@@ -24,10 +24,6 @@ struct Node185
     {
         FUN_00ae83e0();
     }
-    static inline void operator delete(void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Memory185 *>(&::g_memoryManager))))->FUN_00aa4060(pointer);
-    }
 };
 void Node185::FUN_00ae83e0()
 {
@@ -54,10 +50,6 @@ template <class T> struct List_00a0cbe0
     {
         int u1, u2, u3;
         reinterpret_cast<::Node185 *>(this)->FUN_00ae83e0();
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Mem_00a0cbe0 *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
     bool IsEmpty()
     {

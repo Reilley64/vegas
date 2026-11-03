@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -1748,10 +1749,6 @@ void __cdecl FUN_00d45dd0(const S_00d45dd0_CdBody& bodyA, const S_00d45dd0_CdBod
     }
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct __declspec(align(16)) Vector228
 {
     float x, y, z, w;
@@ -2020,10 +2017,6 @@ struct SpawnedObject : SpawnedBase
     virtual void v1();
 };
 
-inline void* __cdecl operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 // Allocates a SpawnedObject via the holder's allocator, sets its size field to 0x14, and constructs it in place with the given arguments.
 // @fnv 0x00d45f30

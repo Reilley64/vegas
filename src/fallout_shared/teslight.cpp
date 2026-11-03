@@ -1,5 +1,6 @@
 // fallout_shared/teslight.cpp: TESObjectLIGH, TESFullName, Owner, LightLoader and more (29 functions)
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSDehydrationStage.h"
@@ -898,17 +899,10 @@ struct FUN_00a7d670
     unsigned int unkf8;
 
     FUN_00a7d670();
-    static __forceinline void* operator new(unsigned int size);
-    static __forceinline void operator delete(void*, unsigned int)
-    {}
     void FUN_0050dd20(float);
 };
 typedef FUN_00a7d670 Light;
 void* __cdecl FUN_00aa13e0(unsigned int);
-__forceinline void* FUN_00a7d670::operator new(unsigned int size)
-{
-    return FUN_00aa13e0(size);
-}
 struct Parent;
 struct Scene;
 struct Extra

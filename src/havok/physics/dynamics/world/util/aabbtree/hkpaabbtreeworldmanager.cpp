@@ -2193,7 +2193,6 @@ FUN_00d0b0d0::~FUN_00d0b0d0()
 }
 }  // namespace fnv_00d0b0d0
 
-inline void* operator new(size_t, void* location) { return location; }
 struct Target {
     int unk00;
 };

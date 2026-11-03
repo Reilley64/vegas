@@ -6,6 +6,7 @@
 // to their real unit once identified.
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/Matrix.h"
@@ -633,12 +634,6 @@ template <typename T> struct HkArrayElement
     __forceinline HkArrayElement()
     {}
     __forceinline HkArrayElement(const T& v) : value(v)
-    {}
-    static __forceinline void* operator new(size_t, void* p)
-    {
-        return p;
-    }
-    static __forceinline void operator delete(void*, void*)
     {}
 };
 

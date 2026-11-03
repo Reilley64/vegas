@@ -317,10 +317,6 @@ struct FUN_004703e0_class : public FUN_00464f40_class
 {
     void* FUN_004703e0(unsigned int flags);
 };
-void __cdecl operator delete(void* p)
-{
-    ::FUN_00aa10f0(p);
-}
 struct FUN_00470410_class : public FUN_00464f40_class
 {
     void* FUN_00470410(unsigned int flags);
@@ -1039,17 +1035,12 @@ struct SpawnedItem_b10003
     unsigned int unk10;
     unsigned int unk14;
     SpawnedItem_b10003();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00401000(size);
-    }
 };
 struct FUN_00478e90_This
 {
     int unk00;
     SpawnedItem_b10003** AllocateSpawnedItemArray(unsigned char count);
 };
-void* __cdecl operator new(unsigned int size);
 struct FUN_0048a3d0;
 typedef void(* CopyMethod)(FUN_0048a3d0*, const FUN_0048a3d0*);
 typedef void*(* ReleaseMethod)(FUN_0048a3d0*, int);

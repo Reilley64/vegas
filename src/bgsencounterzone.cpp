@@ -63,7 +63,6 @@ void BGSEncounterZone::ResetFormData()
 
 #include "bgsencounterzone_TESFile.h"
 #include <malloc.h>
-void* __cdecl operator new(unsigned int);
 class DataHandler
 {
   public:

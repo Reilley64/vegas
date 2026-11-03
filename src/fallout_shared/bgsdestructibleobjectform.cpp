@@ -2264,7 +2264,6 @@ struct FUN_00c3c590_QueuedFile
     FUN_00c3c590_QueuedFile(int);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00477780_shell : public ::BGSDestructibleObjectForm
 {

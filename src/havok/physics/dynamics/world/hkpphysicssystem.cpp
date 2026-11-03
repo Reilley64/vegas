@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/CA8890Object.h"
@@ -232,10 +233,6 @@ void hkObjD062::RemoveNullEntries()
 }
 
 typedef unsigned int Size64;
-inline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
 struct Shape64
 {
 };

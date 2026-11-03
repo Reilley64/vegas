@@ -1383,10 +1383,6 @@ struct CA92A0Element
     int unk08;
     int unk0C;
 
-    static void* operator new(size_t, void* p) throw()
-    {
-        return p;
-    }
 };
 
 struct CA92A0Array
@@ -2743,10 +2739,6 @@ struct FixedMotion181 : Motion181
 {
     FixedMotion181(const V181*, const V181*) throw();
 };
-inline void* operator new(size_t, void* memory) throw()
-{
-    return memory;
-}
 struct CInfo181
 {
     unsigned int userData;

@@ -301,7 +301,6 @@ struct FUN_006c07d0_shell : public NavMeshObstacleManager
     bool FUN_006c07d0();
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct BSWin32TaskletManager
 {
@@ -1372,7 +1371,6 @@ struct ObstacleData_shell
 };
 
 void FUN_006c5e70(int**);
-void __cdecl operator delete(void*);
 
 struct FUN_006c5e90_shell
 {
@@ -1851,8 +1849,6 @@ struct Obj_006c2210
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_006c23c0 : BSFadeNode
 {
@@ -4066,8 +4062,6 @@ struct Holder_c1190
     int unk14;
     int unk18;
     Holder_c1190();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 struct Task_c1190
 {
@@ -4767,8 +4761,6 @@ struct DebugSceneObject
     unsigned int unkA4;
     unsigned int unkA8;
     DebugSceneObject(unsigned short);
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct DebugAlphaProperty
 {
@@ -4780,8 +4772,6 @@ struct DebugAlphaProperty
     unsigned int unk14;
     unsigned int unk18;
     DebugAlphaProperty();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct DebugMaterialProperty
 {
@@ -4805,8 +4795,6 @@ struct DebugMaterialProperty
     unsigned int unk44;
     unsigned int unk48;
     DebugMaterialProperty();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct DebugObjectArray
 {
@@ -6402,11 +6390,6 @@ struct PtrX
 void* FUN_00aa13e0(unsigned n);
 struct NewX
 {
-    void* operator new(unsigned n)
-    {
-        return FUN_00aa13e0(n);
-    }
-    static void operator delete(void*, unsigned int);
     char pad[0x1c];
     NewX();
 };

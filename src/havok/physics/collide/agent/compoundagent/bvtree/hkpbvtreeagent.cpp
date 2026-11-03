@@ -2315,10 +2315,6 @@ struct SolSortState
 };
 extern void __cdecl QuickSortRange(unsigned*, int, int, SolSortState);
 struct SolPlace;
-inline void* operator new(size_t, SolPlace* p)
-{
-    return p;
-}
 struct SolPodTag
 {
 };

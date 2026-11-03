@@ -264,8 +264,6 @@ class NiPixelFormat
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class NiPixelData : public NiRefObject, public NiMemObject
 {

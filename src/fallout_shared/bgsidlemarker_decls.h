@@ -98,8 +98,6 @@ template <int N> struct EndianSizeTag
 {
 };
 
-void* __cdecl operator new[](unsigned int size);
-void __cdecl operator delete[](void* pointer);
 #pragma intrinsic(_alloca)
 
 extern unsigned int BGSQuestPerkEntry_vtbl;

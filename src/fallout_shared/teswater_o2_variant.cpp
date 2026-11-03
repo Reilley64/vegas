@@ -153,14 +153,6 @@ class B9F30Property
   public:
     B9F30Property(B9F30Geometry* pkGeometry, int m_iPassId, ...);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::B9F30MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem)
-    {
-        (*reinterpret_cast<::B9F30MemoryManager *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
 
     int unk00;
     int unk04;

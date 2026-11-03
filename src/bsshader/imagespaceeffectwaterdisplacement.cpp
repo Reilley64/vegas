@@ -2,6 +2,7 @@
 // src/bsshader/imagespaceeffectwaterdisplacement.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffectwaterdisplacement.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/BB97550Shader.h"
 #include "fnv/decl/BSRenderStateManager.h"
@@ -57,8 +58,6 @@ struct NiPoint4
 
 struct NiMemObject
 {
-    void* operator new(unsigned int size);
-    void operator delete(void* p, unsigned int size);
 };
 
 struct RenderTargetGroup
@@ -438,10 +437,6 @@ class ImageSpaceShaderParam
     int unk80;
     int unk84;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     ImageSpaceShaderParam();
     void CopyParamData(int a1, const float* a2, unsigned int a3);
 public:
@@ -801,10 +796,6 @@ class MemoryManager
 class MemObj
 {
   public:
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ba04c0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 class ImageSpaceEffectParam : public MemObj
 {

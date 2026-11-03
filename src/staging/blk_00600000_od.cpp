@@ -447,7 +447,6 @@ struct FUN_005ffbd0_cls
 {
     void* FUN_00600fa0(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 // Calls FUN_005ffbd0, then deletes this if flags has bit 0 set, and returns this.
 // @fnv 0x00600fa0
 void* FUN_005ffbd0_cls::FUN_00600fa0(unsigned int flags)
@@ -682,7 +681,6 @@ struct FUN_00618890_cls
     void FUN_006188c0();
     FUN_00618890_cls* FUN_00618890(unsigned int flags);
 };
-void __cdecl operator delete(void*);
 struct FUN_0061c090_class
 {
     void* FUN_0061c090(unsigned int flags);
@@ -697,7 +695,6 @@ void* FUN_0061c090_class::FUN_0061c090(unsigned int flags)
 }
 
 void FUN_00618940(void*);
-void __cdecl operator delete(void*);
 struct FUN_0061c0c0_class
 {
     void* FUN_0061c0c0(unsigned int flags);

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00ac0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cstdio>
 #include <cstdlib>
@@ -1802,12 +1803,6 @@ struct PoolX
 {
 };
 extern "C" PoolX g_pool_011f6238;
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct FUN_00ac05b0
 {
     char b[0x38];
@@ -2333,8 +2328,6 @@ struct AllocBase12
 {
     typedef Record12 value_type;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 struct ErrorException12
 {
@@ -2697,8 +2690,6 @@ FUN_00ac0640::FUN_00ac0640(const FUN_00ac0640& source) : Vector12(source.allocat
     }
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 void __cdecl length_error_helper();
 struct AllocationException
 {
@@ -6363,7 +6354,6 @@ void FUN_00ac14e0(void* a0, void* a1, int a2)
     FUN_00ac1bf0(w.unk24, w.unk2c, a2, w.unk35, w.unk36, w.unk37);
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 namespace ucpyac15 {
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
@@ -7491,7 +7481,6 @@ void __cdecl FUN_00ac16e0(char* first, unsigned int count, char* val, void* al)
 }
 
 namespace fnv_00ac1780 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace cpyac17 {
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
@@ -8591,8 +8580,6 @@ GvNamedEntry* FUN_00ac1780(GvNamedEntry* _First, GvNamedEntry* _Last, GvNamedEnt
 
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" int __cdecl memmove_s(void*, unsigned int, const void*, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 namespace std {
 struct input_iterator_tag
 {
@@ -12802,8 +12789,6 @@ void __cdecl FUN_00ac2290(FloatPair2290* first, unsigned int count, const FloatP
 }
 
 namespace fnv_00ac2440 {
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 namespace std {
 template <class E> struct char_traits
 {
@@ -13059,10 +13044,6 @@ struct Elem
         (void)a;
         (void)b;
         (void)c;
-    }
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ac2440::MM *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 template <class T> inline void construct_at(T* ptr, const T& val)
@@ -15928,10 +15909,6 @@ struct Elem38
     int unk34;
     Elem38(const Elem38& other);
     ~Elem38();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 inline void S00ac3ce0_Pad()
 {
@@ -15977,7 +15954,6 @@ Elem38* FUN_00ac3ce0(Elem38* first, Elem38* last, Elem38* dest, S00ac3ce0_Alloc<
 }
 
 namespace fnv_00ac4f00 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace bfopen {
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
@@ -19251,7 +19227,6 @@ int FUN_00aca7a0_Q::FUN_00aca7a0()
 }  // namespace fnv_00aca7a0
 
 namespace fnv_00acaa50 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace ctoraca {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -21151,7 +21126,6 @@ FnvIStringStream::FnvIStringStream(const fnvstd::string_stub& str, FUN_00acb4d0_
     : fnvstd::basic_istream_stub(&m_Stringbuffer), m_Stringbuffer(str, (int)mode | 1)
 {}
 
-void __cdecl operator delete(void* pv);
 
 template <class _Ty> class allocatorB610
 {
@@ -22063,7 +22037,6 @@ struct _iobuf
     int _bufsiz;
     char* _tmpfname;
 };
-void __cdecl operator delete(void* pv);
 
 template <class _Ty> class allocatorDEB0
 {
@@ -23611,7 +23584,6 @@ struct VectorBadAlloc
     VectorBadAlloc(const char*);
     virtual ~VectorBadAlloc();
 };
-void* __cdecl operator new(unsigned int);
 inline char* allocate_bytes(unsigned int _Count, char*)
 {
     if (_Count <= 0)
@@ -24905,7 +24877,6 @@ void SbStringBuf::FUN_00ad2500(const char* ptr, unsigned int count, int state)
 }
 
 namespace fnv_00ad2640 {
-void __cdecl operator delete(void*) throw();
 
 struct _Nonscalar_ptr_iterator_tag
 {
@@ -25286,7 +25257,6 @@ char GvIos::FUN_00ad30c0(char _Byte) const
 }
 
 namespace fnv_00ad33c0 {
-void __cdecl operator delete(void* _Ptr) throw();
 namespace auxad33 {
 template <class T> inline void GvDestroyOne(T* _Ptr)
 {
@@ -26538,7 +26508,6 @@ inline typename _Traits::char_type* copy_s(typename _Traits::char_type* _First1,
 }
 }
 
-void __cdecl operator delete(void*);
 template <class _Ty> class allocator
 {
   public:
@@ -27830,8 +27799,6 @@ FUN_00ad5770_Q& FUN_00ad5770(FUN_00ad5770_Q& _Istr, StrQ& _Str, const char _Deli
 
 namespace fnv_00ad5b00 {
 extern "C" int __cdecl memcpy_s(void*, unsigned, const void*, unsigned);
-void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned);
 struct ErrBase
 {
     static void Xlen();
@@ -28235,8 +28202,6 @@ void __cdecl FUN_00ad5cc0(S00ad5cc0_Elem* first, unsigned int count, const S00ad
 
 namespace fnv_00ad5ec0 {
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 namespace std {
 struct forward_iterator_tag
@@ -29658,7 +29623,6 @@ const typename basic_string<_Elem, _Traits, _Ax>::size_type basic_string<_Elem, 
 }  // namespace fnv_00ad6800
 
 namespace fnv_00ad68c0 {
-void __cdecl operator delete(void*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 struct SecureTag
 {
@@ -30528,7 +30492,6 @@ Elem* __cdecl FUN_00ac30c0(Elem* _First, Elem* _Last, Elem* _Dest, random_access
 }
 }  // namespace fnv_00ac30c0
 
-void __cdecl operator delete(void* pv);
 
 template <class _Ty> class allocatorE0D0
 {
@@ -31929,12 +31892,6 @@ struct PoolX
 {
 };
 extern "C" PoolX g_pool_011f6238;
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct FUN_00ac0530
 {
     char b[0x34];
@@ -32433,7 +32390,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -32876,12 +32832,6 @@ struct PoolX
 {
 };
 extern "C" PoolX g_pool_011f6238;
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct StrY
 {
     char b[0x1c];
@@ -32949,12 +32899,6 @@ struct PoolX
 {
 };
 extern "C" PoolX g_pool_011f6238;
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct FUN_00ac0530
 {
     char b[0x34];
@@ -33254,7 +33198,6 @@ bool C43B0::FUN_00ac43b0(Str43B0 name)
 namespace fnv_00ac9bd0 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -33545,8 +33488,6 @@ FUN_00ac9bd0::~FUN_00ac9bd0()
 
 namespace fnv_00acf900 {
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 struct Al
 {
@@ -34012,7 +33953,6 @@ basic_filebuf* basic_filebuf::FUN_00acfab0(const char* _Filename, int _Mode, int
 namespace fnv_00ad5490 {
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -34745,7 +34685,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -35176,14 +35115,6 @@ namespace fnv_00ad60c0 {
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 extern "C" void __cdecl _invalid_parameter_noinfo();
-void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned int);
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 namespace std {
 class exception
 {
@@ -35761,14 +35692,6 @@ namespace fnv_00ad61e0 {
 extern "C" unsigned int __cdecl strlen(const char*);
 extern "C" int __cdecl memcpy_s(void*, unsigned int, const void*, unsigned int);
 // VS2008 vector<string> assignment and its inline library helpers.
-void __cdecl operator delete(void*);
-void* __cdecl operator new(unsigned int);
-inline void* __cdecl operator new(unsigned int, void* _Where)
-{
-    return _Where;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 namespace std {
 class exception
 {
@@ -37076,7 +36999,6 @@ template <class _Ty> class vectorS : public _Vector_valS<_Ty>
 };
 extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
-void* __cdecl operator new(unsigned int uiSize);
 namespace std {
 class bad_alloc
 {
@@ -37507,12 +37429,6 @@ String* __cdecl FUN_00ad6690(String* _First, String* _Last, String* _Dest)
 }  // namespace fnv_00ad6690
 
 namespace fnv_00ad6e20 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 inline void FreeQ(void* p)
 {
     ::FUN_00401030(p);
@@ -39380,7 +39296,6 @@ vecacd::VcIterator EraseVectorView::FUN_00ad0110(vecacd::VcConstIterator first, 
     return a;
 }
 
-void __cdecl operator delete(void* _Ptr) throw();
 namespace bfopenrw {
 extern "C" unsigned int __cdecl strlen(const char* _Str);
 extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
@@ -40643,10 +40558,6 @@ inline void __cdecl S5540_Free(void* p)
 {
     reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager)))))->FUN_00aa4060(p);
 }
-inline void __cdecl operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((GvHeap*)&(*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-}
 struct S5540_AuxCont
 {
     const void* _Mycontainer;
@@ -41847,7 +41758,6 @@ extern "C" int __cdecl fgetc(struct _iobuf* _File);
 static const int acd100_EOF = -1;
 void __cdecl invalid_parameter();
 int __cdecl move_bytes(void*, unsigned, const void*, unsigned);
-void __cdecl operator delete(void*) throw();
 struct ByteAllocator
 {
     ByteAllocator()
@@ -45156,10 +45066,6 @@ struct E39_Element
 {
     int unk00;
     E39_String str;
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<fnv_00ac43b0::PoolAdapter*>(&(*reinterpret_cast<::FUN_00ac1720_pool *>(&::g_memoryManager)))))->FUN_00aa4060(p);
-    }
 };
 
 extern "C" inline void FUN_00ac34c0(void* item, void* arg)

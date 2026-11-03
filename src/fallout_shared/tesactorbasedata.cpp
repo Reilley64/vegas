@@ -200,7 +200,6 @@ class TESRegion
     NiColor* GetDiffuseColor();
 };
 
-void __cdecl operator delete(void*);
 bool _ref_008256d0(void*);
 void _ref_0063f7b0(void*);
 
@@ -2333,7 +2332,6 @@ class FactionReaction
     char m_ucRank;
 };
 
-void* __cdecl operator new(unsigned int);
 TESForm* __cdecl FUN_004839c0(unsigned int);
 
 struct TESActorBaseData_Shell : public TESActorBaseData

@@ -428,7 +428,6 @@ FUN_0067cc20::FUN_0067cc20(B67CC20Color kColor, B67CC20Info kInfo, B67CC20Range 
 
 // Copy the optional extra data from another object: create ours on demand, or drop it when the source is null.
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class D470Source;
 

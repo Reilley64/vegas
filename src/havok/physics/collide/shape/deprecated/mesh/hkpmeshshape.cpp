@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/mesh/hkpmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/symbols_00d06000.h"
@@ -326,10 +327,6 @@ struct Msh_dccf60_Shape : public Msh_dccf60_Ref
 class Msh_dccf60_Tri : public Msh_dccf60_Shape
 {
   public:
-    inline void* operator new(size_t, void* p)
-    {
-        return p;
-    }
     hkReal m_fSphereRadius;
     hkUint16 m_kWeldingInfo;
     hkUint8 m_eWeldingType;
@@ -611,10 +608,6 @@ void MeshGetAabb_dccdd0()
     ExpandAabbWithVertex(*g_meshIn0, *g_meshIn1, *g_meshIn2, *g_meshIn3);
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct S00dcd380_Flag
 {

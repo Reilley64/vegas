@@ -1145,10 +1145,6 @@ void CompressedChunk::FUN_00e3cd50(unsigned int i0, unsigned int i1, unsigned in
     getVertex(i2, error, v2);
 }
 
-inline void* operator new(size_t, void* memory)
-{
-    return memory;
-}
 
 struct __declspec(align(16)) Vector
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/CB1A90Owner.h"
@@ -7383,12 +7384,6 @@ class DCEEntryInit : public hkReferencedObjectDCE
 {
   public:
     __forceinline DCEEntryInit();
-    static void* operator new(size_t, void* storage)
-    {
-        return storage;
-    }
-    static void operator delete(void*, void*)
-    {}
 
     int m_iUnk08;
     int m_iUnk0C;

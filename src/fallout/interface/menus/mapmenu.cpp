@@ -5286,8 +5286,6 @@ struct InsertList
 {
     unsigned int first, last;
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct ListInserter
 {
     unsigned int unk00;

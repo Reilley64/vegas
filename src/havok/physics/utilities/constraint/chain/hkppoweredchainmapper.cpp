@@ -128,10 +128,6 @@ void hkSetE3A5::CollectSlotValues(int range, int slot, hkArrayE3A5<int>& out)
 struct FnPlacement
 {
 };
-inline void* operator new(size_t, FnPlacement* p)
-{
-    return p;
-}
 struct FnAllocator
 {
     virtual void reserved0();

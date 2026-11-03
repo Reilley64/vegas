@@ -56,7 +56,6 @@ void FUN_00b2bdc0_shell::FUN_00b2bdc0(float afValue44, float afValue40)
     *(float*)(this + 0x40) = afValue40;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00b2ae60_shell
 {
     void* DestroyIfFlagged(unsigned int flags);

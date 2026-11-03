@@ -67,7 +67,6 @@ struct CloningProcess
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
     virtual ~BSFadeNode();
 };
 struct NiPSysFieldModifier : BSFadeNode
@@ -81,7 +80,7 @@ struct NiPSysDragFieldModifier : NiPSysFieldModifier
 // @fnv 0x00c2c8d0
 NiPSysFieldModifier* NiPSysDragFieldModifier::FUN_00c2c8d0(CloningProcess& process)
 {
-    NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(BSFadeNode::operator new(0x40));
+    NiPSysFieldModifier* clone = static_cast<NiPSysFieldModifier*>(::operator new(0x40));
     if (clone)
     {
         new ((void *)(clone)) ::FUN_00c31ff0();
@@ -492,10 +491,6 @@ void FieldModStandIn::ApplyFieldModToParticles(float fTime, PSysDataStandIn* pkD
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct NiPoint3Helper : NiPoint3
 {

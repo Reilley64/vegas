@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nitransforminterpolator.cpp: NiTransformInterpolator, Holder, NiTransformInterpolatorCopy, InterpolatorF7B0 (26 functions)
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/DataA38.h"
@@ -374,13 +375,8 @@ struct FUN_00a40460_shell : public NiTransformInterpolator
     NiObject* FUN_00a40460(CloningProcess*);
 };
 
-inline void* operator new(unsigned int, void* pkMem)
-{
-    return pkMem;
-}
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a3fa30 : public NiTransformInterpolator
 {
@@ -394,7 +390,7 @@ struct NiTransformInterpolatorCopy
 // @fnv 0x00a40460
 NiObject* FUN_00a40460_shell::FUN_00a40460(CloningProcess* kCloning)
 {
-    NiTransformInterpolator* pkObject = new (BSFadeNode::operator new(sizeof(NiTransformInterpolator))) FUN_00a3fa30(0);
+    NiTransformInterpolator* pkObject = new (::operator new(sizeof(NiTransformInterpolator))) FUN_00a3fa30(0);
     ((NiTransformInterpolatorCopy*)this)->FUN_00a40360(pkObject, kCloning);
     return (NiObject*)pkObject;
 }
@@ -1119,10 +1115,6 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
 
 namespace fnv_00a403f0 {
 void* __cdecl FUN_00aa13e0(unsigned int size);
-inline void* __cdecl operator new(unsigned int, void* address)
-{
-    return address;
-}
 // @fnv 0x00a403f0
 FUN_00a3fa30* __cdecl FUN_00a403f0()
 {

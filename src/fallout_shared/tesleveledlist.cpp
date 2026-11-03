@@ -1289,7 +1289,6 @@ struct A51BF0Base
 {
     char padding[4];
 
-    static void* __cdecl operator new(unsigned int size);
 };
 
 struct Shell : public A51BF0Base
@@ -1647,7 +1646,6 @@ struct BSShaderAccumulator : FUN_00c60d50_shell
     int unk1c;
     int unk20;
     int unk24;
-    static void* __cdecl operator new(unsigned int size);
 };
 
 // Allocates and returns a new BSShaderAccumulator instance on the heap.

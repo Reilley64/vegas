@@ -118,7 +118,6 @@ struct MyInterp
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00a4b900_V
 {

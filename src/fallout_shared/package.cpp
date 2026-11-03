@@ -4031,7 +4031,6 @@ struct FUN_00671d30_shell : public TESPackage
     void FUN_00671d30(LocationDescriptor*);
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00670b30 : LocationDescriptor
 {
@@ -4079,7 +4078,6 @@ struct FUN_006708b0
     ~FUN_006708b0();
 };
 
-void __cdecl operator delete(void*);
 
 struct FUN_00670880_shell : FUN_006708b0
 {
@@ -7557,7 +7555,6 @@ FUN_0067b170_cls* FUN_0067b170_cls::FUN_0067b170()
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 struct FUN_0067f030
 {
     int kind;
@@ -13100,8 +13097,6 @@ class SaveLoad679
 {
   public:
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class FUN_0067f030
 {
   public:

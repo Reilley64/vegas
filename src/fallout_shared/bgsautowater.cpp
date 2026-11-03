@@ -667,8 +667,6 @@ unsigned int __cdecl GetCellCornerFlags(Cell* cell, Pt point)
 // Adapted from earlier contributor's unverified source; revised using official checker.
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiFixedString
 {

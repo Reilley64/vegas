@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nigpuprogramcache.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/AA1AC0Class.h"
@@ -61,7 +62,6 @@ struct SomeClass
 {
     void* FUN_00ee90b0(unsigned int);
 };
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00ee9ca0_shell
 {
     void* FUN_00ee9ca0(unsigned int flags);
@@ -71,13 +71,8 @@ struct FUN_00a5e3a0_Helper
 };
 struct NiStandardAllocator
 {
-    static void* __cdecl operator new(unsigned int);
     virtual void func();
 };
-void* __cdecl NiStandardAllocator::operator new(unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&g_memoryManager)))->FUN_00aa3e40(n);
-}
 struct FUN_00aa2200
 {
     NiStandardAllocator* object;
@@ -431,10 +426,6 @@ struct ItemWithDtor
     __forceinline ~ItemWithDtor() throw()
     {}
 
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 void ClearAndDeleteItem(ItemWithDtor* pItem);
 void __cdecl FreeBlock(void* p);
@@ -886,7 +877,6 @@ struct CacheRefVTable
 class RefObjBase
 {
   public:
-    static void* operator new(unsigned int);
     RefObjBase() throw() : m_vtbl(&(*reinterpret_cast<const ::CacheRefVTable *>(&::DAT_0101dce4))), m_uiRefCount(0)
     {
         InterlockedIncrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));

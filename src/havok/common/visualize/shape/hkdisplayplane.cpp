@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00c90000.h"
 struct __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -285,7 +286,7 @@ struct S_00de5110_Geometry
 
     S_00de5110_Geometry() throw()
     {}
-    static void* operator new(unsigned int n) throw()
+    static void* operator new(std::size_t n) throw()
     {
         return FUN_00c85750().heap().AllocateMemoryBlock(n);
     }

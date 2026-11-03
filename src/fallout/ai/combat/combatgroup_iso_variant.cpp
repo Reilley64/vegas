@@ -1861,8 +1861,6 @@ struct Obj8
     int m0;
     int m4;
     Obj8();
-    void* operator new(unsigned int size, void* where);
-    void operator delete(void* p, void* where);
 };
 struct Walker8
 {
@@ -2337,7 +2335,6 @@ struct AvoidanceVectorData
 struct PathingAvoidNodeArray
 {
     unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
-    static void* operator new(unsigned);
     PathingAvoidNodeArray();
 };
 struct AvoidSetting
@@ -3994,8 +3991,6 @@ struct RemovalArray : RemovalOperations
     unsigned int unk08;
     void FUN_0098ef10(unsigned int first, unsigned int count);
 };
-void* operator new(unsigned int uiSize, void* pvWhere);
-void operator delete(void* pvMem, void* pvWhere);
 class C98F840Element
 {
   public:
@@ -4458,8 +4453,6 @@ struct DebugMaterial
     int unk14;
     int unk18;
     DebugMaterial();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct DebugUpdate
 {
@@ -4571,8 +4564,6 @@ struct DebugNode
     int unka4;
     int unka8;
     DebugNode(int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct DebugNodePtr
 {
@@ -4581,22 +4572,6 @@ struct DebugNodePtr
 };
 void* FUN_00aa13e0(unsigned int);
 void FUN_00aa13f0(void*);
-__forceinline void* DebugNode::operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
-__forceinline void DebugNode::operator delete(void* p)
-{
-    FUN_00aa13f0(p);
-}
-__forceinline void* DebugMaterial::operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
-__forceinline void DebugMaterial::operator delete(void* p)
-{
-    FUN_00aa13f0(p);
-}
 struct DebugDetach
 {
 };
@@ -4916,17 +4891,7 @@ struct DebugBuilder
     int unk48;
     int unk4c;
     DebugBuilder(DebugPoint, float);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
-__forceinline void* DebugBuilder::operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
-__forceinline void DebugBuilder::operator delete(void* p)
-{
-    FUN_00aa13f0(p);
-}
 struct DebugBuilderPtr
 {
     DebugBuilder* ptr;
@@ -6199,15 +6164,8 @@ struct Shape
     unsigned int unk50;
 
     Shape();
-    static __forceinline void* operator new(unsigned int);
-    static __forceinline void operator delete(void*)
-    {}
 };
 void* FUN_00aa13e0(unsigned int);
-__forceinline void* Shape::operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
 struct ShapePtr
 {
     Shape* value;
@@ -7133,7 +7091,6 @@ struct LoadAnim
     int x4c;
     int x50;
     LoadAnim();
-    static void* operator new(unsigned int);
 };
 struct LoadPtr
 {

@@ -208,14 +208,6 @@ class Class0xa4
     int unka0;
 
     Class0xa4();
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    void operator delete(void* p)
-    {
-        ::g_memoryManager.Free(p);
-    }
 };
 
 class TaskArg1
@@ -510,11 +502,6 @@ struct RenderTaskThread : BSLinearTaskThread
         *(void**)this = &DAT_010b7f50;
         m_pTaskFunction = f;
     }
-    void* operator new(size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(s);
-    }
-    void operator delete(void*);
 };
 struct ThreadOwner
 {

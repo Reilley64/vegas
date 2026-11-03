@@ -85,7 +85,6 @@ struct FUN_00e60c30_cls {
     void* volatile m_p14;
 
     FUN_00e60c30_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Sets the vtable and a global pointer, then, if acFlags has bit 0 set, frees this object through the allocator obtained from FUN_00c85750.

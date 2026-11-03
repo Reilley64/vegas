@@ -9831,7 +9831,6 @@ struct FUN_009bacb0
     FUN_009bacb0(Projectile* projectile, void* parentRef);
 };
 
-void* __cdecl operator new(unsigned int size);
 
 struct HighProcessStandIn
 {
@@ -17336,7 +17335,6 @@ bool HighProcess::HasGroupEntry(ActorCombatGroup* group)
     return found;
 }
 
-void* operator new(unsigned int);
 struct FUN_0066e590
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
@@ -21883,8 +21881,6 @@ namespace fnv_009006a0 {
 struct SpawnedObject
 {
     SpawnedObject();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     int unk0000;
     int unk0004;
     int unk0008;
@@ -30201,8 +30197,6 @@ struct Query65
     int unka4;
     int unka8;
     int unkac;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     Query65();
 };
 struct Path65
@@ -30227,8 +30221,6 @@ struct Queue65
     virtual void v3();
     virtual bool Poll(Result65&);
     int unk04, unk08, unk0c, unk10, unk14, unk18;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     Queue65();
 };
 struct QueryPtr65
@@ -40462,7 +40454,6 @@ bool FUN_008ee220_cls::RunScriptCommand(TargetStub* apTarget, int aiArg)
     return bResult;
 }
 
-void* __cdecl operator new(unsigned int);
 struct SearchItem
 {
     unsigned int unk00;
@@ -55575,13 +55566,11 @@ struct PRMessageQueue
     int unk14;
     int unk18;
 
-    static void* __cdecl operator new(unsigned int auiSize);
     PRMessageQueue();
 };
 
 struct PRRequest
 {
-    static void* __cdecl operator new(unsigned int auiSize);
     PRRequest();
     char cData[0xb0];
 };
@@ -68810,7 +68799,6 @@ void Self::FUN_00902290(Ref* actor)
     }
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_008fe9e0_data
 {

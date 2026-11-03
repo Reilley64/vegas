@@ -20,14 +20,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
   public:
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int, int);
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 template <class T> class NiTMallocInterface
 {

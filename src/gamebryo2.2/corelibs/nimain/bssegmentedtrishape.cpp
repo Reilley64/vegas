@@ -271,14 +271,6 @@ struct EntryPod70
     int unk0c;
     int unk10;
 
-    static void* operator new[](unsigned int aSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(aSize);
-    }
-    static void operator delete[](void* apBlock)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(apBlock);
-    }
 };
 
 struct FUN_00a871a0_cls : Target
@@ -509,10 +501,6 @@ struct S_a873b0_Alloc
 };
 struct S_a873b0_E : Entry
 {
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a873b0::S_a873b0_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 static __forceinline void S_a873b0_BinRead(S_a873b0_Bin* bin, void* v, unsigned int bytes)
 {

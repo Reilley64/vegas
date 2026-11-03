@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
@@ -861,10 +862,6 @@ typedef ::vc_attributes::PreAttribute SA_Pre;
 class hkMemoryAllocator
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     virtual void* AllocateMemoryBlock(int numBytes) = 0;
     virtual void ReleaseBlock(void* p, int numBytes) = 0;
 
@@ -886,10 +883,6 @@ struct StringPointerTriple
 class NineIntegerRecord
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     typedef hkMemoryAllocator Allocator;
     static NineIntegerRecord& __cdecl GetMonitorStream();
     inline Allocator& heap()
@@ -945,7 +938,7 @@ class hkMatrix3;
 class hkVector4
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -974,7 +967,7 @@ class hkVector4
 class hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -994,7 +987,7 @@ class hkMatrix3
 class __declspec(align(16)) hkRotation : public hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1044,7 +1037,7 @@ inline const hkVector4& hkMatrix3::getColumn(int x) const
 class QuantizedBoundsData
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1130,7 +1123,7 @@ struct ConstraintSolverInfo
     };
     struct FloatAndHalfRecord
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1146,12 +1139,12 @@ struct ConstraintSolverInfo
                     p, sizeof(ConstraintSolverInfo::FloatAndHalfRecord));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -1210,7 +1203,7 @@ struct AngularMotorState
 struct ConstraintInstanceBuffer
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1233,7 +1226,7 @@ struct ConstraintInstanceBuffer
 class ContactImpulseInfo
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));

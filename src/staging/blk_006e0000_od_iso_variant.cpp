@@ -4,6 +4,7 @@
 
 // src/staging/blk_006e0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSFaceGenNiNode.h"
 #include "fnv/decl/BSMultiBoundSphere.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -314,7 +315,6 @@ struct FUN_006f4b60_Class
 {
     void* FUN_006f4b60();
 };
-void* __cdecl operator new(unsigned int);
 struct FUN_006f4bb0_Class
 {
     void* FUN_006f4bb0(int a1);
@@ -448,7 +448,6 @@ struct FUN_006e1250_Class
 {
     void* FUN_006e1250(unsigned int a1);
 };
-void* __cdecl operator new(unsigned int, void*);
 struct FUN_006e1280_Class
 {
     void FUN_006e1280(char* a1, unsigned int a2);
@@ -568,7 +567,6 @@ struct FUN_006ec390_Class
 {
     bool FUN_006ec390(int a1);
 };
-void __cdecl operator delete(void*);
 struct FUN_006ec410_Helper
 {
 };
@@ -1580,8 +1578,6 @@ struct Child80_s
     int unkac;
     Child80_s();
 };
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct PathObj_s
 {
     int unk00;
@@ -1814,8 +1810,6 @@ class FUN_006e9570_cls
     B6E9570Point3 m_kPathOffset;
     int m_iFlags;
 };
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct FUN_006f4cd0
 {
     int unk00;
@@ -1884,8 +1878,6 @@ struct FUN_006ec2e0_Class
     FUN_006ec2e0_Elem* head;
     bool PopHead(FUN_006ec2e0_Out* a1);
 };
-void* operator new(unsigned int size, void* where);
-void operator delete(void* p, void* where);
 class FUN_006ec4b0_item
 {
   public:
@@ -2084,8 +2076,6 @@ struct FUN_006edd30_shell
     PointerList_006edd30 paths;
     void FUN_006edd30(const Position_006edd30* start, const Position_006edd30* finish);
 };
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* ptr, void* place);
 struct FUN_006ee050_Size28 : public FUN_006ee050_Class
 {
     int extra0c;
@@ -2116,8 +2106,6 @@ struct Heap_006ee070
 {
     void* Allocate(unsigned int size, unsigned int flags);
 };
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void* p, void* where);
 struct FUN_006ee070_obj
 {
     char unk00[0x58];
@@ -3113,8 +3101,6 @@ struct S_006f9c20
     S_006f9c20_Elem* unk04;
     int AddElement(const S_006f9c20_Elem* a1);
 };
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* p, void* place);
 class FNVElem_cls
 {
   public:
@@ -4779,12 +4765,6 @@ class FUN_006f2630 : public Base6F2
     FUN_006f2630(unsigned int uiA, unsigned int uiB, Heap6F2* pkHeap);
     virtual ~FUN_006f2630();
 };
-inline void* __cdecl operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 class C6F3280Bound
 {
   public:
@@ -5513,8 +5493,6 @@ struct PathSmoother
 
     void FUN_006ed850();
 };
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* object, void* place);
 struct Allocator_006edc40
 {
     void* Allocate(unsigned int size, unsigned int flags);
@@ -5720,7 +5698,6 @@ struct Derived : PrimaryBase, SecondaryBase
 };
 Derived::Derived()
 {}
-void __cdecl operator delete(void*, void*);
 struct FUN_006ec130_Local
 {
     FUN_006ec130_Local();

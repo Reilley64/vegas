@@ -148,7 +148,6 @@ FUN_00a40520::FUN_00a40520(bool onlyUseHighestWeight, float weightThreshold, uns
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 extern const void* vftable_NiBlendFloatInterpolator[];
@@ -156,7 +155,7 @@ extern const void* vftable_NiBlendFloatInterpolator[];
 // @fnv 0x00a40580
 void* __cdecl CreateNiBlendFloatInterpolator()
 {
-    void* pInterpolator = BSFadeNode::operator new(0x34);
+    void* pInterpolator = ::operator new(0x34);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();

@@ -51,7 +51,7 @@ void NiD3DShaderFactory::InitializePoint3()
 {
     if (DAT_0126fa0c == 0)
     {
-        NiD3DShaderFactory* factory = static_cast<NiD3DShaderFactory*>(NiMemObject::operator new(0x100));
+        NiD3DShaderFactory* factory = static_cast<NiD3DShaderFactory*>(::operator new(0x100));
         NiShaderFactory* result;
         if (factory)
             result = factory->Create();
@@ -554,7 +554,6 @@ bool IsDefaultShader(class NiShader* pkShader)
     return false;
 }
 
-void __cdecl operator delete(void* p, unsigned int);
 
 
 struct FUN_00e92e30_shell : public NiD3DShaderFactory

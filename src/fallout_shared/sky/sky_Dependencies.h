@@ -9,6 +9,4 @@ class TESWeather
   public:
     float GetWeatherData(int data, float maximum, float minimum);
 };
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 #endif

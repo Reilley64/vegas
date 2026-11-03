@@ -128,12 +128,6 @@ struct Spawned_b02010
     unsigned int unk34;
     unsigned int unk38;
     Spawned_b02010();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::NiMemoryManager_b02010 *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void*)
-    {}
 };
 
 struct Owner_b02010

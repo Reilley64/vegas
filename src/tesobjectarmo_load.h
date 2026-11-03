@@ -8,8 +8,6 @@
 #include "fnv/decl/fnv_00403570__FUN_00403570_shell.h"
 #include "fnv/symbols_00487000.h"
 #include "TESFile.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class TESFileFormVersion
 {
   public:

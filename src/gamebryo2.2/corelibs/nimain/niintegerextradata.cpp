@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niintegerextradata.cpp: NiIntegerExtraData, ExtraDataOwner (7 functions)
 
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b300_shell.h"
@@ -41,7 +42,6 @@ void FUN_00a99c70_shell::FUN_00a99c70()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct NiExtraDataShell : NiExtraData
@@ -51,7 +51,7 @@ struct NiExtraDataShell : NiExtraData
 // @fnv 0x00a99cd0
 NiExtraData* FUN_00a99cd0()
 {
-    NiExtraData* pExtraData = static_cast<NiExtraData*>(BSFadeNode::operator new(0x10));
+    NiExtraData* pExtraData = static_cast<NiExtraData*>(::operator new(0x10));
     if (pExtraData)
     {
         reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraDataShell*>(pExtraData)))->FUN_00a7b2e0();
@@ -62,7 +62,6 @@ NiExtraData* FUN_00a99cd0()
     return 0;
 }
 
-void __cdecl operator delete(void*, unsigned int);
 struct FUN_00a99d00_shell
 {
     void* Destroy(unsigned int);

@@ -539,8 +539,6 @@ struct NewTextNode
     int unkA8;
 
     NewTextNode(unsigned);
-    static void* operator new(unsigned);
-    static void operator delete(void*);
 };
 
 struct NodePtr
@@ -618,8 +616,6 @@ struct TileExtra
         NameString extraName("Tileptr");
         AssignFixedString(extraName);
     }
-    static void* operator new(unsigned);
-    static void operator delete(void*);
 };
 
 const char* __cdecl FUN_00ec7750(const char*, const char*);

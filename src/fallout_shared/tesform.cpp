@@ -3630,14 +3630,6 @@ struct BoolBox
 struct Slot4
 {
     unsigned int value;
-    static void* operator new[](unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
-    static void operator delete[](void* p)
-    {
-        FUN_00401030(p);
-    }
 };
 
 // When FUN_00401500() is true, copies arg1 into a temporary array, calls FUN_00401080 on each element with false, then appends it.

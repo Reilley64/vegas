@@ -1544,10 +1544,6 @@ ShapeE36120* FUN_00e36120(float afHeight, float fRadius)
     return new CapsuleE36120(kTop, kBottom, fRadius, 0.0f);
 }
 
-inline void* operator new(size_t, void* pvMem) throw()
-{
-    return pvMem;
-}
 
 struct __declspec(align(16)) hkVector4E363
 {

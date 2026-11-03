@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
 #include "fnv/decl/FUN_00db0920_cls.h"
@@ -506,7 +507,6 @@ void __cdecl FUN_00d406c0(Input* a, Input* b, Parameters* parameters, Callback* 
 #include <cstddef>
 #include <intrin.h>
 #include "fnv/decl/BoxAgent.h"
-inline void* operator new(size_t, void* p) { return p; }
 
 
 

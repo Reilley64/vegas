@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include <cstring>
@@ -94,7 +95,6 @@
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 struct FUN_00b81290_class
 {
@@ -111,7 +111,6 @@ struct FUN_00b8d580_Class : public FUN_00b8d4d0_Class
 };
 void FUN_00c03a20();
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b91b50
 {
@@ -130,7 +129,6 @@ FUN_00b91b50* FUN_00b91b50::Method(bool abFree)
 
 void __cdecl FUN_00b92450();
 
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b924d0_class
 {
@@ -281,7 +279,6 @@ FUN_00b8d990::FUN_00b8d990()
 }  // namespace fnv_00b8d990
 
 void FUN_00c03a20();
-void __cdecl operator delete(void* p, unsigned int size);
 
 struct FUN_00b8daa0_class
 {
@@ -929,7 +926,6 @@ FUN_00b91780_shell* FUN_00b91780_shell::FUN_00b91780(bool abFree)
 }
 
 namespace fnv_00b917c0 {
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct ImageSpaceEffectShader
 {
     void* vtbl;
@@ -1162,7 +1158,6 @@ FUN_00b92180::FUN_00b92180()
 }  // namespace fnv_00b92180
 
 void FUN_00c03a20();
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00b92290_shell
 {
     FUN_00b92290_shell* FUN_00b92290(bool flag);
@@ -10560,14 +10555,6 @@ struct ISParam : ISEffectParam
     int unk84;
 
     ISParam();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct ParamArray
@@ -12980,7 +12967,6 @@ FUN_00b8d4d0::~FUN_00b8d4d0()
 
 struct Header6c
 {
-    static void* operator new(unsigned int n);
     virtual void h0();
     int hdr_00_4, hdr_00_8, hdr_00_c, hdr_00_10, hdr_00_14, hdr_00_18, hdr_00_1c, hdr_00_20, hdr_00_24, hdr_00_28,
         hdr_00_2c, hdr_00_30, hdr_00_34, hdr_00_38, hdr_00_3c, hdr_00_40, hdr_00_44, hdr_00_48, hdr_00_4c, hdr_00_50,
@@ -12991,10 +12977,6 @@ struct AllocSvc
 };
 struct NiMemObj
 {
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AllocSvc *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 struct ISEffect
 {
@@ -16100,10 +16082,6 @@ struct Elem_b11320
 {
     int unk00;
     ~Elem_b11320();
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(GetAllocFree()))->FUN_00aa4060(p);
-    }
 };
 struct Sub58_b9960
 {

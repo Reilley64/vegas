@@ -103,8 +103,6 @@ class UseWeaponActorPackageData : public ActorPackageData
 };
 
 
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* pointer);
 
 
 #endif

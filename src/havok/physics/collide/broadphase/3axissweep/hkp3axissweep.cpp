@@ -2,6 +2,7 @@
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
@@ -2025,7 +2026,6 @@ struct SweepEndpoint {
     SweepEndpoint(unsigned short val, unsigned short idx) : m_uiFilterValue(val), m_usIndex(idx) {}
 };
 
-inline void* operator new(size_t, void* p) { return p; }
 
 template <typename T>
 inline void S00d13950_constructWithCopy(T* p, int n, const T& t)
@@ -2163,7 +2163,6 @@ void SweepClass::FUN_00d13950(const SweepArray<SweepNode*>& nodes, SweepArray<Sw
 }
 
 namespace fnv_00d13bd0 {
-inline void* operator new(size_t, void* p) { return p; }
 struct SweepBase {
     const void** vtable;
     int unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
@@ -6292,7 +6291,6 @@ void S4ef0Owner::FUN_00d14ef0(const S4ef0Aabb& aabb,S4ef0Results& pairsOut) cons
  _querySingleAabb(aabb,0,&pairsOut,0,0);
 }
 
-inline void* __cdecl operator new(size_t, void* storage) { return storage; }
 
 static const __m128 batchSweepBias={65536.0f,65536.0f,65536.0f,65536.0f};
 

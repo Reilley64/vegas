@@ -137,7 +137,6 @@ Modifier* FUN_009375b0_shell::SetKeyAndValue(char key, float value)
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 void __cdecl FUN_00937fd0();
 
 // Calls FUN_00937fd0, then allocates an int array of DAT_011e0750 elements, zeroes it, and stores the pointer through pThis.

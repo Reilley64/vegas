@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/entity/hkpentity.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkpentity.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FNVWorldObject.h"
@@ -758,10 +759,6 @@ FUN_00c9d190::FUN_00c9d190(int flag)
     m_vtbl = &(*reinterpret_cast<int *>(&::DAT_010c6d54));
 }
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 class MotionGravityBase : public hkpKeyframedRigidMotion
 {
   public:

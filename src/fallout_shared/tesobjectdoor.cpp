@@ -2338,7 +2338,6 @@ void __cdecl PlaySoundForRef(unsigned int id)
 }
 }  // namespace fnv_00518cf0
 
-void* __cdecl operator new(unsigned int);
 
 struct ExtraFollower
 {

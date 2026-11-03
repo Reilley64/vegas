@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/predgskcylinderagent3/hkppredgskcylinderagent3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/Cls_dafcd0.h"
@@ -301,10 +302,6 @@ void d409d0_probe_caller(void)
     FUN_00d409d0(g_d409d0_vals, g_d409d0_slots);
 }
 
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 struct D40A10Holder
 {

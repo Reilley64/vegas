@@ -1319,7 +1319,6 @@ struct FUN_00cd2870_cls
 
 
     FUN_00cd2870_cls* FUN_00cd2870(unsigned int aFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // @fnv 0x00cd2870

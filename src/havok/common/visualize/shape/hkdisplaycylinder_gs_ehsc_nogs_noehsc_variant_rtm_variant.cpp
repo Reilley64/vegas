@@ -5,6 +5,7 @@
 // src/havok/common/visualize/shape/hkdisplaycylinder_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-31 by flag_proofs.py: contributor code for these functions matched byte for
 // byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/common/visualize/shape/hkdisplaycylinder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
+#include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_010c7000.h"
 void FUN_00d58500(int, int);
@@ -299,10 +300,6 @@ template <class T> struct List
 };
 struct Geometry
 {
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
     List<MathVector> vertices;
     List<Face> triangles;
 };

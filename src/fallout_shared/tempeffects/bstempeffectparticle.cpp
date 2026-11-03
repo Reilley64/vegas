@@ -534,8 +534,6 @@ struct Effect
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     int unk28, unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c;
     int unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Effect(World*, float, int, int);
     void AttachModel(void*, Matrix, Vec3, float, int);
 };
@@ -582,8 +580,6 @@ struct Block3
 };
 struct FUN_00c335d0
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p, unsigned int);
 };
 struct FUN_00456fc0_cls
 {

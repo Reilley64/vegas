@@ -7,6 +7,7 @@
 
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00d9be30_class.h"
 #include "fnv/decl/FUN_00e241a0_cls.h"
 #include "fnv/decl/HostE10.h"
@@ -507,12 +508,6 @@ class Sdedf10_Vector4
 class Sdedf10_Aabb
 {
   public:
-    __forceinline static void* __cdecl operator new(unsigned int, Sdedf10_PlacementArg* p) throw()
-    {
-        return p;
-    }
-    __forceinline static void __cdecl operator delete(void*, Sdedf10_PlacementArg*) throw()
-    {}
     __forceinline Sdedf10_Aabb()
     {}
     Sdedf10_Vector4 m_kMinimumCorner;

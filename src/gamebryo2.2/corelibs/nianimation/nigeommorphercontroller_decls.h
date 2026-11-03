@@ -20,14 +20,6 @@ class NiGeomMorpherController
             if (m_spControllerInterpolator)
                 m_spControllerInterpolator->DecRefCount();
         }
-        static void* operator new[](unsigned int size) throw()
-        {
-            return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-        }
-        static void operator delete[](void* p) throw()
-        {
-            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-        }
     };
     unsigned char padding[0x38];
     struct MorphData

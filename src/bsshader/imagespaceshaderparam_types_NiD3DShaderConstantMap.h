@@ -53,7 +53,6 @@ class NiD3DShaderConstantMap : public NiShaderConstantMap
     ShaderPassRenderer* m_pRenderState;     // +0x40, 4 bytes
     // IsExactKindOf
     // DynamicCast
-    static void* operator new(unsigned int size);
     NiD3DShaderConstantMap(GraphicsRenderer* renderer, unsigned int type);
     virtual unsigned int AddConstant(const char*, unsigned int, unsigned int, unsigned int, unsigned int, const char*,
                                      unsigned int, unsigned int, const void*, bool);

@@ -3,6 +3,8 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -568,7 +570,6 @@ struct GameSettingCollection
 struct FUN_00644350_Class
 {
 };
-void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_00644490_Class
 {
     void FUN_00644490(char* items, unsigned int count);
@@ -666,7 +667,6 @@ struct Dummy658130
     unsigned FUN_00658130();
 };
 void FUN_00658bd0(int a1, int a2, int a3);
-void __cdecl operator delete(void* p);
 struct FUN_00658bb0_Class
 {
     void FUN_00658bb0();
@@ -679,7 +679,6 @@ struct FUN_00658ea0_cls
 {
     void* FUN_00658ea0(unsigned int);
 };
-void __cdecl operator delete(void* p);
 struct FUN_00658ed0_Class
 {
     void FUN_00658e10();
@@ -702,7 +701,6 @@ struct FUN_006a68b0_Class
 {
     void FUN_006a68b0();
 };
-void __cdecl operator delete(void*);
 struct FUN_00659140_Class
 {
     void* FUN_00659140(unsigned int flags);
@@ -733,7 +731,6 @@ struct FUN_00659380_cls
 struct FUN_006593b0_class
 {
 };
-void __cdecl operator delete(void*);
 struct FUN_00659380_class
 {
     void* FUN_00659380(unsigned int flags);
@@ -891,7 +888,6 @@ struct Owner_0065eb60
     Sub_0065eed0 m_iWordAt04;
     Owner_0065eb60& FUN_0065eb60(const Owner_0065eb60&);
 };
-void __cdecl operator delete(void*);
 struct FUN_0065eca0_class
 {
     void* FUN_0065eca0(unsigned int flags);
@@ -900,7 +896,6 @@ struct FUN_0065ecd0_class
 {
     void* FUN_0065ecd0(unsigned int flags);
 };
-void __cdecl operator delete(void* p);
 struct FUN_0065ed00_class
 {
     void* FUN_0065ed00(unsigned int flags);
@@ -2169,8 +2164,8 @@ struct FUN_008c71b0
     unsigned int value;
     FUN_008c71b0(void* owner);
     ~FUN_008c71b0();
-    static void* operator new(unsigned int, unsigned int);
-    static void operator delete(void*, unsigned int);
+    static void* operator new(std::size_t, unsigned int);
+    static void operator delete(void*, std::size_t);
 };
 struct FUN_0065dc90 : FUN_006815c0
 {
@@ -2452,7 +2447,6 @@ struct S_0065e550_Err
     S_0065e550_Err(int code);
     ~S_0065e550_Err();
 };
-void* __cdecl operator new(unsigned int size);
 struct LengthErrB9739
 {
     virtual void v0();
@@ -2565,8 +2559,6 @@ struct S_0065ff90_Dest
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_0064ec10_obj
 {
@@ -2766,7 +2758,6 @@ class FUN_00657af0 : public E7AF0Base
     ~FUN_00657af0();
     void Clear();
 };
-void* __cdecl operator new(unsigned int uiSize);
 class C658CA0BadAlloc
 {
   public:
@@ -3370,8 +3361,7 @@ struct FUN_0065ea00_Class
     void FUN_0065ea00(void* a);
 };
 
-void* __cdecl operator new(unsigned int size, unsigned int allocation);
-void __cdecl operator delete(void* object, unsigned int allocation);
+void* __cdecl operator new(std::size_t size, unsigned int allocation);
 
 // @fnv 0x0065dc90
 FUN_0065dc90::FUN_0065dc90(FUN_0065de30 argument) : FUN_006815c0(), member(argument)

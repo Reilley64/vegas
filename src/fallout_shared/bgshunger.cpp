@@ -39,7 +39,6 @@ void BGSHungerStage::ClearData()
     ClearStageData(this);
 }
 
-void __cdecl operator delete(void*);
 
 struct RemoveStageLocals
 {
@@ -247,7 +246,6 @@ void* FUN_00401a90_StandIn::FUN_00401a90(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_005e78f0_t
 {
 };

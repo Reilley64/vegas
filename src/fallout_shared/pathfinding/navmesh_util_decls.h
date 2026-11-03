@@ -15,8 +15,6 @@
 #include "fnv/decl/FUN_006a0840_shell.h"
 #include "fnv/symbols_00558000.h"
 #include "fnv/symbols_0069b000.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 namespace std {
 float abs(float);
 }

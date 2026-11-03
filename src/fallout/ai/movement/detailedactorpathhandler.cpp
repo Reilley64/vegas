@@ -6709,7 +6709,6 @@ struct UpdateRequest
     int unka8;
     int unkac;
     UpdateRequest();
-    static void* operator new(unsigned);
 };
 struct UpdatePtr
 {
@@ -8332,7 +8331,6 @@ struct AvoidArray
     void* vtable;
     void* data;
     unsigned int size, capacity, grow, flags;
-    static void* operator new(unsigned int);
     AvoidArray();
 };
 struct AvoidSetting

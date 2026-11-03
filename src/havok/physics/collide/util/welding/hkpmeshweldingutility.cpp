@@ -327,10 +327,6 @@ bool* CheckSubQueries(bool* result, void* key, Iface* self)
 }
 
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct S_00ddeab0_Elem
 {

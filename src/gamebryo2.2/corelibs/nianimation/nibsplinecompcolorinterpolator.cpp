@@ -208,7 +208,6 @@ void NiBSplineCompColorInterpolator::FUN_00a519b0(NiTPrimitiveArray<char*, NiTMa
 static const float DAT_01099c2c = 3.402823466e+38f;
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a51ab0 : NiMemObject
 {

@@ -438,8 +438,6 @@ class ShaderLevelEE8
   public:
     ShaderLevelEE8() throw();
 
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     int unk00, unk04, unk08, unk0C, unk10, unk14, unk18;
     unsigned int m_uiLevel;

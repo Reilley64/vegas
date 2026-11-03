@@ -4,6 +4,8 @@
 
 // src/staging/blk_00d20000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cstdio>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -149,7 +151,6 @@ struct D28030UnionFind {
     void Union(int i, int j);
 };
 struct LinkedIndexArray { int** entries; int count; void FUN_00d280e0(); };
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 struct IndexBuffer { int* data; int size; unsigned capacityFlags; };
 struct IndexStorage { int* data; };
 struct AllocationManager { int unk00; int unk04; int unk08; int unk0C; void* allocator; };
@@ -565,8 +566,6 @@ class ObjD2C840 : public FUN_00d2c7e0 {
 public:
     virtual ~ObjD2C840();
     ObjD2C840(int count) : FUN_00d2c7e0(count) {}
-    static void* operator new(unsigned int, void* p) throw() { return p; }
-    static void operator delete(void*, void*) throw() {}
 };
 struct FUN_00d04350_Obj
 {
@@ -1043,13 +1042,13 @@ struct hkMemoryRouterB110 {
 hkMemoryRouterB110* __cdecl GetMemoryRouterB110();
 class hkReferencedObjectB110 {
 public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(GetMemoryRouterB110()->heap().AllocateMemoryBlock(static_cast<int>(nbytes)));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         hkReferencedObjectB110* b = static_cast<hkReferencedObjectB110*>(p);
         GetMemoryRouterB110()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -1151,14 +1150,14 @@ class hkReferencedObjectD2C9 {
 public:
     virtual ~hkReferencedObjectD2C9();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectD2C9* b = static_cast<hkReferencedObjectD2C9*>(RouterD2C9::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         RouterD2C9::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -1508,7 +1507,7 @@ struct FUN_00d36b20
     int unk14;
     int unk18;
 
-    static __forceinline void* operator new(unsigned int size) throw()
+    static __forceinline void* operator new(std::size_t size) throw()
     {
         AllocationManager* manager = FUN_00c85750();
         FUN_00d36b20* object = static_cast<FUN_00d36b20*>(static_cast<D36B70_Heap*>(manager->allocator)->AllocateMemoryBlock(size));

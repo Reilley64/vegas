@@ -29,7 +29,6 @@ struct FUN_00dfbe50_cls
 
 
     FUN_00dfbe50_cls* FUN_00dfbe50(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00e38bf0, then if bit 0 of acFlags is set frees this via the allocator from FUN_00c85750 using m_uSize, and returns this.

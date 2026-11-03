@@ -261,7 +261,6 @@ struct FUN_00dfdcf0_cls
     void FUN_00dfdc40();
 
     FUN_00dfdcf0_cls* FUN_00dfdcf0(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00dfdc40, and if acFlags has bit 0 set, frees this via the AudioAllocator from FUN_00c85750, then returns this.

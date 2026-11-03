@@ -384,7 +384,6 @@ struct NiPoint2
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
 };
 struct Obj44 : NiMemObject
 {
@@ -719,7 +718,6 @@ class B6F9570TreeLoader
 };
 struct Lod77Foo1
 {
-    static void* operator new(unsigned int);
     Lod77Foo1();
     int unk00;
     int unk04;
@@ -733,7 +731,6 @@ struct Lod77Foo1
 };
 struct Lod77Foo2
 {
-    static void* operator new(unsigned int);
     Lod77Foo2();
     int unk00;
     int unk04;

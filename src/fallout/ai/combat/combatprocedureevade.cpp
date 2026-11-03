@@ -105,7 +105,6 @@ FUN_009d5ad0::FUN_009d5ad0(int aiLocation)
     iLocation = aiLocation;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_009d5b10_shell : FUN_009d5b40_shell
 {
     void* DestroyIfFlagged(unsigned int flags);

@@ -1,5 +1,6 @@
 // fallout_shared/renderer.cpp: Renderer, SettingS (13 functions)
 
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include <cstdio>
@@ -1181,8 +1182,6 @@ struct ShaderInitializer
     int unk9f8;
     int unk9fc;
     ShaderInitializer();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Sub130
 {

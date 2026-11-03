@@ -954,10 +954,6 @@ struct RTEntry
     bool m_bIsCubeMap;
     int m_iMultiSample;
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::HeapManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct RTNode

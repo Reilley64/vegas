@@ -3,6 +3,7 @@
 // against, for verified matches whose own declarations clash with the unit's current types.
 // src/fallout_shared/distant terrain system/bgsterrainchunk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsterrainchunk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/AlchemyItem.h"
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSTerrainManager.h"
@@ -480,8 +481,6 @@ struct FUN_0043d410
 };
 struct TESObjectDoorController
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Obj006fac;
 struct Ref006fac

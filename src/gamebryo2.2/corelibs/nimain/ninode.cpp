@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/ninode.cpp: NiNode, ChildNode, ChildArray, NiPointLight and more (37 functions)
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/A5a260Object.h"
@@ -578,7 +579,6 @@ void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 // Calls FUN_00a5e930 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 0 set, and returns pThis.
@@ -1648,7 +1648,6 @@ class BA5EFA0ObjectArray : public BA5EFA0ChildArray
 class BA5EFA0AVObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     BA5EFA0AVObject() throw();
     virtual ~BA5EFA0AVObject();

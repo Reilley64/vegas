@@ -1,5 +1,6 @@
 // speedtree/libspline_source/idvspline.cpp: Script, SplineSampler (12 functions)
 
+#include <new>
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
@@ -797,13 +798,6 @@ void HostB37::FUN_00b37cc0(InputB37* input)
     }
 }
 
-struct FUN_0044d6c0_class
-{
-    int m0;
-    int m1;
-    int m2;
-    void* FUN_00ec78f1(void*** ppArg);
-};
 // Throws an exception if a*0x30 would overflow an unsigned int, otherwise calls operator new with a*0x30 bytes.
 // @fnv 0x00b3b540
 void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
@@ -812,11 +806,7 @@ void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
         aiCount = 0;
     else if (-1u / (unsigned int)aiCount < 0x30)
     {
-        void** p = 0;
-        FUN_0044d6c0_class e5;
-        e5.FUN_00ec78f1(&p);
-        e5.m0 = (int)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
-        throw e5;
+        throw std::bad_alloc();
     }
     ::FUN_00401000(aiCount * 0x30);
 }

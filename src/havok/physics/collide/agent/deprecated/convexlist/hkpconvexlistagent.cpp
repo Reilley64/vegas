@@ -441,10 +441,6 @@ struct hkArrayD33E
 
     hkArrayD33E() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
     {}
-    static void* operator new(size_t, void* p) throw()
-    {
-        return p;
-    }
 };
 
 struct hkObjD33E

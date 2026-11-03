@@ -18,8 +18,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 #include "NiRefObject.h"
 #undef NiPointer

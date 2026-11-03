@@ -46,13 +46,12 @@ GlobalObjectO2_00a7b618* __cdecl FUN_00c201c0()
 extern int DAT_010bda2c;
 struct BSFadeNode
 {
-    void* operator new(unsigned int);
 };
 // Allocates a 100-byte BSFadeNode, runs its constructor, zeroes the floats at offsets 0x58-0x60, sets its vtable, and returns it (or null).
 // @fnv 0x00c20350
 BSFadeNode* __cdecl FUN_00c20350()
 {
-    BSFadeNode* node = (BSFadeNode*)BSFadeNode::operator new(100);
+    BSFadeNode* node = (BSFadeNode*)::operator new(100);
     if (node)
     {
         new ((void *)(node)) ::FUN_00c31af0();
@@ -111,7 +110,6 @@ struct CloningProcess
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00c1ffa0_s
@@ -130,7 +128,7 @@ struct NiPSysBoxEmitter_shell
 // @fnv 0x00c202f0
 NiObject* NiPSysBoxEmitter_shell::Clone(CloningProcess& kCloning)
 {
-    BSFadeNode* pkObject = (BSFadeNode*)A51BF0Base::operator new(0x64);
+    BSFadeNode* pkObject = (BSFadeNode*)::operator new(0x64);
     if (pkObject)
     {
         new ((void *)(pkObject)) ::FUN_00c31af0();

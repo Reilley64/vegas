@@ -5,6 +5,7 @@
 
 // src/staging/blk_00c20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include <cstring>
@@ -190,7 +191,6 @@ struct FUN_00c3a130_Class
 {
     char FUN_00c3a130(void* arg);
 };
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3a140_Class
 {
     void FUN_00c39770();
@@ -300,7 +300,6 @@ extern char const g_01203108_arg0[];
 extern char const g_01204390_arg0[];
 extern char const g_01202e84_arg0[];
 extern char const g_01204388_arg0[];
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00c3ba80_Class
 {
     void FUN_00c3bab0();
@@ -1352,10 +1351,6 @@ void TextureLoader::FUN_00c3b5e0(const char* path)
     }
 }
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct QueuedFile : RefObject
 {
@@ -1632,10 +1627,6 @@ struct Child10
     int unk08;
     int unk0C;
     Child10(int count);
-    static void* operator new(unsigned int sz)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<PoolShell*>(&(*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(sz);
-    }
 };
 
 struct SmartRef
@@ -1657,15 +1648,7 @@ struct Pair8
     SmartRef unk04;
     Pair8() : unk00(0)
     {}
-    static void* operator new(unsigned int sz)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<PoolShell*>(&(*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(sz);
-    }
 };
-inline void* operator new[](unsigned int sz)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<PoolShell*>(&(*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(sz);
-}
 struct TwoInts
 {
     int first;
@@ -1755,14 +1738,6 @@ struct Item_c3f530
     int unk1C;
     int unk20;
     Item_c3f530(Owner_c3f530* owner, float* x, float* y, float* z);
-    void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct Owner_c3f530
@@ -3507,10 +3482,6 @@ struct MH
     void* vtbl;
     bool bStatic;
     MH(bool b);
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
 };
 
 MH::MH(bool b)
@@ -3639,14 +3610,6 @@ struct OwnArr
     unsigned m_uiItemCount;
     int m_0c;
     OwnArr();
-    static void* operator new(unsigned s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgr2*)&(*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager)))))->FUN_00aa3e40(s);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
     int Find(RefObj* o)
     {
         for (unsigned i = 0; i < m_uiItemCount; i++)
@@ -5082,10 +5045,6 @@ struct Item_00c3f7a0
     void* m_p0c;
     void* m_p10;
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     Item_00c3f7a0(void* p0, void* p4, void* p8);
 };
 
@@ -5180,14 +5139,6 @@ struct NodeC3
     {
         key = k;
         reinterpret_cast<::FUN_00c41050_Class *>(&(obj))->AssignRef((::S_0044dd60 **)&(v));
-    }
-    inline static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AllocC3 *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    inline static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::AllocC3 *>(&::g_memoryManager))))->FUN_00aa4060(p);
     }
 };
 struct KeyC3
@@ -5470,10 +5421,6 @@ template <class T> class NiPointerC3D4
     T* m_pObject;
 };
 
-inline void* operator new(unsigned int, NiPointerC3D4<RefObj_c3d4>* p)
-{
-    return p;
-}
 
 __forceinline void ConstructC3D4(NiPointerC3D4<RefObj_c3d4>* pkData, unsigned int ItemUpdateArray)
 {

@@ -292,7 +292,6 @@ FUN_00508e00::FUN_00508e00()
     SetInitializationState(true);
 }
 
-void operator delete(void*);
 
 struct FUN_00508eb0_obj
 {

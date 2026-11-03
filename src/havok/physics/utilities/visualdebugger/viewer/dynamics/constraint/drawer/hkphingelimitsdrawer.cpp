@@ -9,6 +9,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/constraint/drawer/hkphingelimitsdrawer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/CpuObject.h"
@@ -227,10 +228,6 @@ template <typename T> struct TypeSizeConstant
 class hkMemoryAllocator
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     virtual ~hkMemoryAllocator();
     virtual void* AllocateMemoryBlock(int numBytes) = 0;
     virtual void ReleaseBlock(void* p, int numBytes) = 0;
@@ -262,10 +259,6 @@ struct StringPointerTriple
 class NineIntegerRecord
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t, void* p)
-    {
-        return p;
-    }
     typedef hkMemoryAllocator Allocator;
     static inline NineIntegerRecord& getMemoryRouter() { return *static_cast<NineIntegerRecord*>(::FUN_00c85750()); }
     inline Allocator& heap()
@@ -292,7 +285,7 @@ class hkBaseObject
 class hkReferencedObject : public hkBaseObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -492,7 +485,7 @@ class hkQsTransform;
 class hkVector4
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -522,7 +515,7 @@ class hkVector4
 class hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -539,7 +532,7 @@ class hkMatrix3
 class __declspec(align(16)) hkRotation : public hkMatrix3
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -550,7 +543,7 @@ class __declspec(align(16)) hkRotation : public hkMatrix3
 class hkTransform
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -619,7 +612,7 @@ class hkpConstraintOwner;
 class hkpConstraintData : public hkReferencedObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -641,7 +634,7 @@ class hkpConstraintData : public hkReferencedObject
     }
     struct ConstraintInfo : public GenericConstraintAtomScheme
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -656,12 +649,12 @@ class hkpConstraintData : public hkReferencedObject
                 NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(hkpConstraintData::ConstraintInfo));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -712,7 +705,7 @@ class hkpConstraintInstance : public hkReferencedObject
     class SmallArraySerializeOverrideType
     {
       public:
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -728,12 +721,12 @@ class hkpConstraintInstance : public hkReferencedObject
                     p, sizeof(hkpConstraintInstance::SmallArraySerializeOverrideType));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }
@@ -775,7 +768,7 @@ class hkDebugDisplayHandler;
 class DebugDisplayHandlerHolder
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -792,7 +785,7 @@ class DebugDisplayHandlerHolder
 class ConstraintDrawer
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -840,7 +833,7 @@ class ConstraintDrawer
 class hkDisplayGeometry : public hkReferencedObject
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         hkReferencedObject* b = static_cast<hkReferencedObject*>(
@@ -865,7 +858,7 @@ class hkDisplaySemiCircle : public hkDisplayGeometry
 class HingeConstraintDrawer : public ConstraintDrawer
 {
   public:
-    __forceinline void* __cdecl operator new(hk_size_t nbytes)
+    __forceinline void* __cdecl operator new(std::size_t nbytes)
     {
         ;
         void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -880,12 +873,12 @@ class HingeConstraintDrawer : public ConstraintDrawer
             NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(HingeConstraintDrawer));
         }
     }
-    __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+    __forceinline void* __cdecl operator new(std::size_t n, void* p)
     {
         ;
         return p;
     }
-    __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+    __forceinline void* __cdecl operator new[](std::size_t, void* p)
     {
         return p;
     }
@@ -993,7 +986,7 @@ class hkpHingeLimitsData : public hkpConstraintData
   public:
     struct Atoms
     {
-        __forceinline void* __cdecl operator new(hk_size_t nbytes)
+        __forceinline void* __cdecl operator new(std::size_t nbytes)
         {
             ;
             void* obj = NineIntegerRecord::getMemoryRouter().heap().AllocateMemoryBlock(static_cast<int>(nbytes));
@@ -1008,12 +1001,12 @@ class hkpHingeLimitsData : public hkpConstraintData
                 NineIntegerRecord::getMemoryRouter().heap().ReleaseBlock(p, sizeof(hkpHingeLimitsData::Atoms));
             }
         }
-        __forceinline void* __cdecl operator new(hk_size_t n, void* p)
+        __forceinline void* __cdecl operator new(std::size_t n, void* p)
         {
             ;
             return p;
         }
-        __forceinline void* __cdecl operator new[](hk_size_t, void* p)
+        __forceinline void* __cdecl operator new[](std::size_t, void* p)
         {
             return p;
         }

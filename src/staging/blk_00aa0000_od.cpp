@@ -368,7 +368,6 @@ struct FUN_00aa45a0_Class
     unsigned int m_unknown;
     FUN_00aa45a0_vt** m_items;
     FUN_00aa45a0_vt* FindItemByArg(intptr_t arg);
-    FUN_00aa45a0_vt* FindItemByArg(int arg);
 };
 // @fnv 0x00aa45a0
 FUN_00aa45a0_vt* FUN_00aa45a0_Class::FindItemByArg(intptr_t arg)

@@ -3318,7 +3318,6 @@ struct FUN_00a5d320_Class
 struct FUN_00a5d430_Class
 {
     void FUN_00a5d430(uintptr_t param_1);
-    void FUN_00a5d430(unsigned int param_1);
 };
 
 // @fnv 0x00a5d430
@@ -3336,7 +3335,6 @@ struct NiVBSet
 struct FUN_00a5d450_class
 {
     void CreateVertexBufferSet(uintptr_t a, void* b);
-    void CreateVertexBufferSet(unsigned int a, void* b);
 };
 // Copies the stream members via CopyMembersStream, then copies m_p and m_f into dst.
 // @fnv 0x00a44850

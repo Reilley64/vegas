@@ -2389,7 +2389,6 @@ struct RaceLoadTarget : public TESRace
 template <int N> struct RaceLoadEndianTag
 {
 };
-extern "C" void* __cdecl _alloca(unsigned int);
 
 struct RaceLoadShortChunk
 {

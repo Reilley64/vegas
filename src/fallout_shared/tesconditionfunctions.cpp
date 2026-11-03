@@ -1,6 +1,7 @@
 // fallout_shared/tesconditionfunctions.cpp: BGSQuestObjective, Script, IdleAnimationManager, TESQuest and more (272 functions)
 
 #include <new>
+#include <string.h>
 #include <cstdlib>
 #include "fnv/decl/Actor87.h"
 #include "fnv/decl/ActorValueUtility.h"
@@ -6323,7 +6324,6 @@ public:
 public:
     ::BSSimpleList< ::BGSCameraShot *> *GetShotList();
 };
-int _strnicmp(const char*, const char*, unsigned int);
 void DebugLog(const char*, ...);
 struct FUN_0059ef60_TLS
 {

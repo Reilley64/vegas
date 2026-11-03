@@ -1,6 +1,7 @@
 // fallout_shared/tesfile.cpp: TESFile, TgtOps, TESFile_Standin, GroupWriter and more (87 functions)
 
 #include <windows.h>
+#include <string.h>
 #include <new>
 #include <cerrno>
 #include <cstdio>
@@ -454,7 +455,6 @@ FUN_00470710::FUN_00470710(const char* ppath, const char* pfilename, NiFile::Ope
         ::FUN_005b5e40();
 }
 
-int __cdecl strcat_s(char*, unsigned int, const char*);
 void __cdecl FUN_00461300();
 
 struct VirtualDeletable
@@ -1214,7 +1214,6 @@ struct FUN_00485d50_file
 {
 };
 bool FUN_00484b40(unsigned int formID);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_00472bc0_view
 {
@@ -1387,7 +1386,6 @@ struct FUN_00471400_shell : public TESFile
     int FUN_00471400();
 };
 
-extern "C" void* __cdecl _alloca(unsigned int);
 template <int N> struct EndianSizeTag
 {
 };
@@ -1531,7 +1529,6 @@ struct FUN_004721d0_shell : public TESFile
     bool FUN_004721d0();
 };
 
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct FUN_00472620_shell
 {
 };

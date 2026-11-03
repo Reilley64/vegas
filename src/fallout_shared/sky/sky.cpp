@@ -1,6 +1,8 @@
 // fallout_shared/sky/sky.cpp: Sky, ThisCls, TESObjectCELL, Host and more (61 functions)
 
 #include <cstdint>
+#include <cmath>
+#include <malloc.h>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B4F1050Region.h"
@@ -922,7 +924,6 @@ void* Cls_0063a080::FUN_0063a080(unsigned int flags)
 }
 
 namespace fnv_0063d0e0 {
-extern "C" void* __cdecl _alloca(unsigned int);
 struct Sky_Helper
 {
 };
@@ -2143,10 +2144,6 @@ struct FUN_00ad89e0_shell
 {
     bool FUN_00ad89e0(float afVolume);
 };
-struct std
-{
-    static float __cdecl abs(float afValue);
-};
 struct FUN_0063e0d0_shell
 {
     char pad[0x10];
@@ -2716,7 +2713,8 @@ void ThisCls::FUN_0063ddb0(ParamObj* pParamObj)
             flags7 = 0x21;
             if (pItem_2->m04 != 3)
                 flags7 |= 0x10;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&FUN_00453a70()->FUN_00ad73b0(pItem_2->m00, flags7))));
+            auto kHandle = FUN_00453a70()->FUN_00ad73b0(pItem_2->m00, flags7);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->operator=((*(const ::SoundPlaybackHandle *)(&kHandle)));
         }
 
         bool found2 = false;

@@ -1,6 +1,7 @@
 // fallout_shared/modelloader.cpp: DelStandIn, QueuedTreeModel, ModelLoader, QueuedHelmet and more (493 functions)
 
 #include <cstdint>
+#include <string.h>
 #include <windows.h>
 #include <new>
 #include <cstdio>
@@ -12604,7 +12605,6 @@ struct ModelLoaderHelper445
     void FUN_004457d0(TESModel* model, int a, int b, void* ref);
 };
 
-int strcat_s(char* dst, unsigned int size, const char* src);
 
 struct KFQueueOwner
 {
@@ -16208,8 +16208,6 @@ void FUN_00445570_cls::FUN_00445570(unsigned int a1)
 }
 }  // namespace fnv_00445570
 
-int strcat_s(char*, unsigned int, const char*);
-int _strnicmp(const char*, const char*, unsigned int);
 struct AnimList
 {
     char* item;

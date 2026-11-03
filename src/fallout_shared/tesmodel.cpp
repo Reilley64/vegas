@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "fnv/decl/FUN_00401660_Class.h"
+#include <string.h>
 #include "fnv/decl/FUN_00481110_shell.h"
 #include "fnv/decl/FUN_00487980_shell.h"
 #include "fnv/decl/FUN_004f9ef0_shell.h"
@@ -414,8 +415,6 @@ struct FUN_00489940_shell : public FileEntryList
 struct TESFile
 {
 };
-extern "C" void* __cdecl _alloca(unsigned int);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 // @fnv 0x00489940
 void FUN_00489940_shell::LoadChunkData(TESFile* file, TESForm* form, char* name)
 {
@@ -1316,7 +1315,7 @@ void __cdecl FUN_004781e0(BGSDestructibleObjectForm* component, TESFile* file)
                 }
                 case 0x54444d44:
                     reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();
-                    FUN_004893e0(pkData->stages[index]->replacementModel, file);
+                    FUN_004893e0(reinterpret_cast<TESModel*>(pkData->stages[index]->replacementModel), file);
                     break;
                 case 0x53444d44: {
                     reinterpret_cast<::FUN_00478570_holder *>((pkData->stages[index]))->EnsureB2_4fe();

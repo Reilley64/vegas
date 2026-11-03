@@ -174,7 +174,7 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
                     NiUpdateData data(reinterpret_cast<::FUN_00759450_shell *>((inactive))->FUN_00759450(), true, false);
                     reinterpret_cast<::FUN_00a59c60_cls *>((ref->GetNiNode_v()))->FUN_00a59c60((std::intptr_t)&(data));
                     controller->StopSequence(inactive, 0.0f);
-                    reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((int)((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(active))->GetLinkToList()))));
+                    reinterpret_cast<::fnv_00578a30::Thing *>((ref))->FUN_00578a30((std::intptr_t)((*(const ::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((void *)(active))->GetLinkToList())).m_kHandle));
                     ::FUN_00c6bd00((::TreeNode_cls *)(::NiNode *)(ref->GetNiNode_v()), true);
                 }
                 else
@@ -671,12 +671,13 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                             BSAudioSoundHandle h;
                             if (apActor == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
                             {
-                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=((*(const ::SoundPlaybackHandle *)(&reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {}))));
+                                auto kHandle = reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {});
+                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=((*(const ::SoundPlaybackHandle *)(&kHandle)));
                             }
                             else
                             {
-                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=(
-                                    (*(const ::SoundPlaybackHandle *)(&reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {}))));
+                                auto kHandle = reinterpret_cast<::FUN_00ad73b0_t *>((((BSAudio2*)::FUN_00453a70())))->FUN_00ad73b0(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((p28))->FUN_0084e3a0())), {});
+                                reinterpret_cast<::SoundPlaybackHandle *>(&(h))->operator=((*(const ::SoundPlaybackHandle *)(&kHandle)));
                                 NiPoint3 pt = *((RefV*)apRefr)->v1f4();
                                 reinterpret_cast<::FUN_00ad8b60_h *>(&(h))->FUN_00ad8b60(pt.x, pt.y, pt.z);
                             }

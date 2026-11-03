@@ -820,7 +820,6 @@ FUN_0059b940::~FUN_0059b940()
     reinterpret_cast<::FUN_0059b9c0_shell *>(this)->ClearListAndData();
 }
 
-extern const char DAT_01183028[];
 extern const char DAT_0118643c[];
 
 struct Itc
@@ -1009,8 +1008,6 @@ void DstF::CopyFrom(FormA* pForm)
 }  // namespace fnv_0059ac20
 
 namespace fnv_0059acd0 {
-extern "C" void* DAT_01183028;
-extern "C" int __cdecl memcmp(const void*, const void*, unsigned int);
 
 struct StrHelper_00408da0
 {
@@ -1037,7 +1034,7 @@ struct Class_0059acd0
 // @fnv 0x0059acd0
 bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 {
-    CardType_0059acd0* card = (CardType_0059acd0*)FNV_DynamicCast(apCard, 0, &DAT_01183028, &DAT_0118c5c4, 0);
+    CardType_0059acd0* card = (CardType_0059acd0*)dynamic_cast<::TESCaravanCard*>(reinterpret_cast<::TESForm*>(apCard));
     if (!card)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((this))->FUN_00485270((::TESForm *)(card)))
@@ -1055,6 +1052,8 @@ bool Class_0059acd0::IsDifferentFromCard(void* apCard)
 #include <string.h>
 struct CardListNode
 {
+    ::TESCaravanCard* m_item;
+    CardListNode* m_pkNext;
     int FUN_005ae380();
 };
 
@@ -1081,9 +1080,9 @@ bool TESCaravanDeckX::FUN_0059be50(TESForm* form)
     if (((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_005ae380() != ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()))->FUN_005ae380())
         return true;
     CardListNode* pNode = ((::CardListNode *)(reinterpret_cast<::ActorMover *>((((TESCaravanDeckX*)pDeck2)))->GetCurrentMoveModeType()));
-    while (pNode && ((::TESCaravanCard *)((void *)(pNode))))
+    while (pNode && pNode->m_item)
     {
-        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&(((::TESCaravanCard *)((void *)(pNode))))))
+        if (!reinterpret_cast<::RefList *>((((::CardListNode *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->FUN_005f65d0((void **)&pNode->m_item))
             return true;
         pNode = ((::CardListNode *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }

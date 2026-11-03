@@ -4,6 +4,7 @@
 
 
 #include <cstring>
+#include <string.h>
 #include "runtime/crt.h"
 #include "fnv/decl/FUN_00447850_shell.h"
 #include "fnv/decl/FUN_004d6170_shell.h"
@@ -329,7 +330,6 @@ class TaskQueueInterface
 };
 void FUN_00406d50(char*, unsigned int, const char*);
 namespace CRT {
-extern "C" char* strrchr(const char* string, int character);
 }
 int strcat_s(char* destination, unsigned int size, const char* source);
 extern "C" const char fnv_idle_1hm_fast_left[];

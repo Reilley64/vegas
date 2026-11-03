@@ -1,6 +1,7 @@
 // fallout_shared/tesobject.cpp: TESObject, TESBoundObject, SceneObjectLookup, TESFormList and more (81 functions)
 
 #include <cstdint>
+#include <string.h>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags.h"
@@ -3327,8 +3328,6 @@ void emit_insert(InsertVector_ob1_nogf<El>* p, V::const_iterator w, V::size_type
 
 namespace skac53 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
-extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -4477,7 +4476,6 @@ FUN_00ac0530_cls* FUN_00ac0530_cls::FUN_00ac0530(int a)
 
 // namespace fnv_00ac0530
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 
@@ -4792,7 +4790,6 @@ FUN_00ac05b0::FUN_00ac05b0(const FUN_00ac05b0& kOther)
 namespace fnv_00ac3df0 {
 namespace binac3 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -5173,8 +5170,6 @@ FUN_00ac3df0::FUN_00ac3df0(BxString name)
 
 namespace wrac52 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
-extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -6286,7 +6281,6 @@ bool GvBinaryFile::FUN_00ac5220(const void* data, unsigned int size, unsigned in
 namespace fnv_00ac6430 {
 namespace errac6 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -7176,7 +7170,6 @@ FUN_00acc8c0::~FUN_00acc8c0()
 {}
 
 namespace fnv_00ad3000 {
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 unsigned int __cdecl FUN_00ec7c56();
@@ -7470,7 +7463,6 @@ FUN_00ad3000::FUN_00ad3000(const FUN_00ad3000& kRight) : first(kRight.first), se
 // namespace fnv_00ad3000
 
 namespace fnv_00ad3e60 {
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 extern "C" int __cdecl memmove_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 unsigned int __cdecl FUN_00ec7c56();
@@ -7871,7 +7863,6 @@ void StrQ_ad6bb0::FUN_00ad6bb0(StrQ_ad6bb0& _Right)
     }
 }
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 
@@ -7894,7 +7885,6 @@ void __cdecl FUN_00ac34c0(IdName_ac34* pPtr, const IdName_ac34& kVal)
     ::new (pvPtr) IdName_ac34(kVal);
 }
 
-extern "C" unsigned int __cdecl strlen(const char* pcString);
 
 extern "C" int __cdecl memcpy_s(void* pvDst, unsigned int uiDstSize, const void* pvSrc, unsigned int ItemUpdateArray);
 
@@ -8645,7 +8635,6 @@ bool __cdecl FUN_00ac7f50(ParserStream* stream, ParserPairs* result, const FUN_0
 }
 
 namespace ac8parse {
-extern "C" unsigned strlen(const char*);
 template <class T> struct char_traits_ob1
 {
     static unsigned length(const T* p)
@@ -10626,8 +10615,6 @@ bool FaceBinaryReadReceiver::FUN_00ac5e00(void* data, unsigned int size, unsigne
 
 namespace plusad42 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
-extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -11715,8 +11702,6 @@ plusad42::BxString FUN_00ad4210(const plusad42::BxString& _Left, const char* _Ri
 
 namespace rdac52 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
-extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag
@@ -12827,8 +12812,6 @@ bool GvBinaryFile_SV::FUN_00ac52b0(void* data, unsigned int size, unsigned int c
 
 namespace plus2ad4 {
 void FUN_00ec7c56();
-extern "C" unsigned int __cdecl strlen(const char* _Str);
-extern "C" int __cdecl memcmp(const void* _Buf1, const void* _Buf2, unsigned int _Size);
 int FUN_00ec7c66(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
 struct BxSecureTag

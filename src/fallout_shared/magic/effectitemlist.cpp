@@ -1,6 +1,7 @@
 // fallout_shared/magic/effectitemlist.cpp: EffectItemList, EILStandIn, EffectListCmp, EffectItemListFind and more (28 functions)
 
 #include <new>
+#include <string.h>
 #include <cmath>
 #include <cstdio>
 #include "fnv/decl/BGSDebris.h"
@@ -962,7 +963,6 @@ struct Player
     double _ref_008bec80();
 };
 bool FUN_00406d70(int, int);
-int strcat_s(char*, unsigned int, const char*);
 struct Description : ListBase
 {
     virtual bool First();
@@ -1130,7 +1130,7 @@ void List::FUN_00405760(File* file, const char* name)
             reinterpret_cast<::TESFile *>((file))->NextChunk();
             if (reinterpret_cast<::S3c60 *>((effect))->HasFlag2() && ((int)(reinterpret_cast<::InterfaceManager *>((effect))->FUN_00586150())) == 0x36)
                 item = 0;
-            if (reinterpret_cast<::EffectItem *>((actorValue))->Load((::TESFile *)(file), name))
+            if (reinterpret_cast<::EffectItem *>((actorValue))->Load((::TESFile *)(file), (char *)name))
                 reinterpret_cast<::EffectItemList *>(this)->AddItem((::EffectItem *)(actorValue));
             else
             {
@@ -1146,7 +1146,7 @@ void List::FUN_00405760(File* file, const char* name)
     case 0x41445443:
         if (*(Item**)&DAT_011c33d4)
         {
-            reinterpret_cast<::EffectItem *>(((*(Item**)&DAT_011c33d4)))->Load((::TESFile *)(file), name);
+            reinterpret_cast<::EffectItem *>(((*(Item**)&DAT_011c33d4)))->Load((::TESFile *)(file), (char *)name);
             if (reinterpret_cast<::EffectItem *>(((*(Item**)&DAT_011c33d4)))->IsHostile())
                 count++;
         }

@@ -1,6 +1,7 @@
 // fallout_shared/tessaveloadgame.cpp: TESSaveLoadGame, NiTPointerMap_Standin, Holder, ChangesMap and more (142 functions)
 
 #include <windows.h>
+#include <string.h>
 #include <new>
 #include <cmath>
 #include <cstdint>
@@ -3759,7 +3760,6 @@ struct SaveSetting
 {
     const char* String();
 };
-int strcat_s(char*, unsigned int, const char*);
 struct FileFinderStub
 {
     static int Exist(const char*, char*, unsigned int, unsigned int);

@@ -1944,6 +1944,7 @@ bool BuildPathWithDoors(Location* start, Location* end, Result* result, int a4, 
 class LockExtraData_rtti;
 
 class TESActorBase_rtti;
+class TESForm_rtti;
 
 class DoorAccessData_rtti
 {
@@ -2182,7 +2183,7 @@ bool DoorLock5021c0_rtti::FUN_005021c0(Actor_rtti* ref, bool b)
             }
             if (fac && base)
             {
-                rank5 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)base + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction_rtti *)(fac), ref == (*reinterpret_cast<::Actor_rtti * *>(&::_g_thePlayer)));
+                rank5 = reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((TESActorBaseData*)((char*)base + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(fac), ref == (*reinterpret_cast<::Actor_rtti * *>(&::_g_thePlayer)));
                 if (rank5 < m_iLockLevel)
                     r7 = false;
             }

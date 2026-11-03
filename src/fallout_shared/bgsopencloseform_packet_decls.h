@@ -34,6 +34,7 @@ class TESBoundObject : public TESForm
 class NiFixedString
 {
   public:
+    const char* m_kHandle;
     operator const char*() const;
 };
 class NiTimeController;

@@ -1,3 +1,4 @@
+#include <cstddef>
 #include "fnv_asm_helpers.h"
 // src/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -125,54 +126,15 @@ struct LongRayVm
     LongRayBool m_bRayCastEnabled;
     float m_fEarlyOutHitFraction;
     void* m_kCollector;
-    int m_5c, m_60;
+    void* m_pOutput;
+    const void* m_pBody;
     const void* m_pShapeCollection;
     int m_iCurrentChunkId;
 
-    void FUN_00dd1f30(const LongRayQueryInt* query, const unsigned char* PC, LongRayQueryFloat* fq, int level);
     LongRayBool FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
                              void* collector);
 };
 
-// @fnv 0x00dd2df0
-LongRayBool LongRayVm::FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
-                                    void* collector)
-{
-    m_fEarlyOutHitFraction = 1.0f;
-    m_pShapeCollection = collection;
-    m_pMoppCode = code;
-    m_kCollector = collector;
-    const unsigned char* PC = code->m_data;
-    LongRayQueryInt query;
-    query.m_offset.setZero4();
-    _ReadWriteBarrier();
-    m_vRayDirectionVector = 1.0f / code->m_info.m_offset.w;
-    query.m_FtoBoxScale = (float)(code->m_info.m_offset.w * (1.0 / 65536.0));
-    {
-        LongRayQueryFloat fq;
-        fq.m_rayStart.setSub4(input.m_vFrom, code->m_info.m_offset);
-        fq.m_rayEnd.setSub4(input.m_vTo, code->m_info.m_offset);
-        fq.m_rayStart.mul4s(query.m_FtoBoxScale);
-        fq.m_rayEnd.mul4s(query.m_FtoBoxScale);
-
-        m_kRayCastVector = input;
-        m_bRayCastEnabled = false;
-        query.m_uiPropertyCount = 0;
-        query.m_iIndex = 0;
-        query.m_properties0 = 0;
-        m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
-        FUN_00dd1f30(&query, PC, &fq, 0);
-        return m_bRayCastEnabled;
-    }
-}
-
-extern void continueRayTraversal(LongRayVm*, const LongRayQueryInt*, const unsigned char*, LongRayQueryFloat*, int);
-__declspec(noinline) void LongRayVm::FUN_00dd1f30(const LongRayQueryInt* query, const unsigned char* PC,
-                                                  LongRayQueryFloat* fq, int level)
-{
-    LongRayQueryFloat ray = *fq;
-    continueRayTraversal(this, query, PC, &ray, level);
-}
 
 namespace LongRayTreeDetail {
 static __forceinline int readTriple(const unsigned char* q)
@@ -280,10 +242,13 @@ struct RayPair
 {
     hkVector4 ends[2];
 };
+struct Filter;
 struct RayInput
 {
     hkVector4 start;
     hkVector4 end;
+    unsigned int filterInfo;
+    Filter* filter;
 };
 struct RayState
 {
@@ -384,10 +349,6 @@ struct MoppMachine
     int unk18;
     int unk1c;
     RayInput ray;
-    int unk40;
-    Filter* filter;
-    int unk48;
-    int unk4c;
     char hit;
     float fraction;
     HitStack* stack;
@@ -544,7 +505,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromLower / (fromLower - toLower);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(state), code + skipLeft - skipRight, (::LongRayQueryFloat *)(::LongRayTreeDetail::RayPair *)(&branch), codeOffset);
+                FUN_00dd1f30(state, code + skipLeft - skipRight, &branch, codeOffset);
                 if (toUpper * fromUpper < 0.0)
                 {
                     float ratio = fromUpper / (fromUpper - toUpper);
@@ -569,7 +530,7 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
                     float ratio = fromUpper / (fromUpper - toUpper);
                     branch.ends[1].setInterpolate4(ray->ends[0], ray->ends[1], ratio);
                 }
-                reinterpret_cast<::LongRayVm *>(this)->FUN_00dd1f30((const ::LongRayQueryInt *)(state), code, (::LongRayQueryFloat *)(::LongRayTreeDetail::RayPair *)(&branch), codeOffset);
+                FUN_00dd1f30(state, code, &branch, codeOffset);
                 if (toLower * fromLower < 0.0)
                 {
                     float ratio = fromLower / (fromLower - toLower);
@@ -841,11 +802,12 @@ void MoppMachine::FUN_00dd1f30(const RayState* state, const unsigned char* code,
         }
     }
 }
+
 __forceinline void MoppMachine::GetHitDistance(unsigned key, const unsigned* properties)
 {
     __declspec(align(16)) char leafBuffer[512];
     Pair3Pool* leaf = container->getLeaf(key, leafBuffer);
-    if (filter && !filter->accept(&this->ray, leaf, container, key).value)
+    if (ray.filter && !ray.filter->accept(&this->ray, leaf, container, key).value)
         return;
     if (stack)
     {
@@ -867,5 +829,42 @@ __forceinline void MoppMachine::GetHitDistance(unsigned key, const unsigned* pro
         fraction = output->fraction;
     }
 }
+}
+
+// LongRayVm and MoppMachine are two views of the long-ray virtual machine.
+static_assert(offsetof(LongRayVm, m_bRayCastEnabled) == offsetof(LongRayTreeDetail::MoppMachine, hit));
+static_assert(offsetof(LongRayVm, m_iCurrentChunkId) == offsetof(LongRayTreeDetail::MoppMachine, keyMask));
+
+// @fnv 0x00dd2df0
+LongRayBool LongRayVm::FUN_00dd2df0(const void* collection, const LongRayCode* code, const LongRayInput& input,
+                                    void* collector)
+{
+    m_fEarlyOutHitFraction = 1.0f;
+    m_pShapeCollection = collection;
+    m_pMoppCode = code;
+    m_kCollector = collector;
+    const unsigned char* PC = code->m_data;
+    LongRayQueryInt query;
+    query.m_offset.setZero4();
+    _ReadWriteBarrier();
+    m_vRayDirectionVector = 1.0f / code->m_info.m_offset.w;
+    query.m_FtoBoxScale = (float)(code->m_info.m_offset.w * (1.0 / 65536.0));
+    {
+        LongRayQueryFloat fq;
+        fq.m_rayStart.setSub4(input.m_vFrom, code->m_info.m_offset);
+        fq.m_rayEnd.setSub4(input.m_vTo, code->m_info.m_offset);
+        fq.m_rayStart.mul4s(query.m_FtoBoxScale);
+        fq.m_rayEnd.mul4s(query.m_FtoBoxScale);
+
+        m_kRayCastVector = input;
+        m_bRayCastEnabled = false;
+        query.m_uiPropertyCount = 0;
+        query.m_iIndex = 0;
+        query.m_properties0 = 0;
+        m_iCurrentChunkId = (*PC == 0xd) ? -1 : 0;
+        reinterpret_cast<LongRayTreeDetail::MoppMachine*>(this)->FUN_00dd1f30(reinterpret_cast<const LongRayTreeDetail::RayState*>(&query), PC,
+                                                           reinterpret_cast<LongRayTreeDetail::RayPair*>(&fq), 0);
+        return m_bRayCastEnabled;
+    }
 }
 #include "generated/data/havok/physics/internal/collide/mopp/machine/hkpmopplongrayvirtualmachine_gs_ehsc_nogs_noehsc_variant_rtm_variant.inc"

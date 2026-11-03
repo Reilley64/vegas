@@ -308,6 +308,15 @@ void* __cdecl FUN_00c30600()
 }  // namespace fnv_00c30600
 
 
+struct FUN_00c270f0_Object
+{
+    int* vtbl;
+    char pad04[0x14 - 0x4];
+    float unk14;
+    float unk18;
+    char pad1c[0x34 - 0x1c];
+};
+
 // @fnv 0x00c270f0
 BSFadeNode* __cdecl FUN_00c270f0()
 {
@@ -315,15 +324,23 @@ BSFadeNode* __cdecl FUN_00c270f0()
     if (node)
     {
         new ((void *)(node)) class ::FUN_00a6d220();
-        *(float*)((char*)node + 0x18) = 0.0f;
-        *(int**)((char*)node + 0) = &(*reinterpret_cast<int *>(&::DAT_010be6b4));
-        *(float*)((char*)node + 0x14) = 0.0f;
+        FUN_00c270f0_Object* pObject = (FUN_00c270f0_Object*)(void*)node;
+        pObject->unk18 = 0.0f;
+        pObject->vtbl = &(*reinterpret_cast<int *>(&::DAT_010be6b4));
+        pObject->unk14 = 0.0f;
         return node;
     }
     return 0;
 }
 
 extern int DAT_010be8e4;
+
+struct FUN_00c283b0_Object
+{
+    void* vtbl;
+    char pad04[0x34 - 0x4];
+    float unk34;
+};
 
 // @fnv 0x00c283b0
 BSFadeNode* __cdecl FUN_00c283b0()
@@ -332,8 +349,9 @@ BSFadeNode* __cdecl FUN_00c283b0()
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a6d220();
-        *(float*)((char*)p + 0x34) = ::DAT_01015f5c;
-        *(void**)p = (void*)&DAT_010be8e4;
+        FUN_00c283b0_Object* pObject = (FUN_00c283b0_Object*)(void*)p;
+        pObject->unk34 = ::DAT_01015f5c;
+        pObject->vtbl = (void*)&DAT_010be8e4;
         return p;
     }
     return 0;
@@ -344,6 +362,19 @@ struct NiLODData
 {
     NiLODData();
 };
+struct FUN_00c2ba60_Object
+{
+    void* vtbl;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+};
 // @fnv 0x00c2ba60
 BSFadeNode* __cdecl FUN_00c2ba60()
 {
@@ -352,13 +383,14 @@ BSFadeNode* __cdecl FUN_00c2ba60()
     {
         NiLODData* pLodData = (NiLODData*)p;
         new ((void *)(pLodData)) struct ::FUN_00a5d3a0();
-        *(int*)((char*)p + 8) = 0;
-        *(int*)((char*)p + 12) = 0;
-        *(int*)((char*)p + 16) = 0;
-        *(int*)((char*)p + 24) = 0;
-        *(int*)((char*)p + 28) = 0;
-        *(int*)((char*)p + 32) = 0;
-        *(void**)p = (void*)&DAT_010bfd54;
+        FUN_00c2ba60_Object* pObject = (FUN_00c2ba60_Object*)(void*)p;
+        pObject->unk08 = 0;
+        pObject->unk0c = 0;
+        pObject->unk10 = 0;
+        pObject->unk18 = 0;
+        pObject->unk1c = 0;
+        pObject->unk20 = 0;
+        pObject->vtbl = (void*)&DAT_010bfd54;
     }
     else
     {
@@ -892,6 +924,16 @@ ParticleObjectFactoryType* CreateParticleObjectFactory()
 struct FUN_00c31720_This
 {
 };
+struct FUN_00c2a2b0_Object
+{
+    void* vtbl;
+    char pad04[0x18 - 0x4];
+    float unk18;
+    short unk1c;
+    float unk20;
+    short unk24;
+    float unk28;
+};
 
 // @fnv 0x00c2a2b0
 void* __cdecl FUN_00c2a2b0()
@@ -901,12 +943,13 @@ void* __cdecl FUN_00c2a2b0()
     {
         new ((void *)(((FUN_00c31720_This*)pObject))) ::NiPSysPositionModifier();
         float zero = 0.0f;
-        *(float*)((char*)pObject + 0x18) = zero;
-        *(float*)((char*)pObject + 0x20) = zero;
-        *(short*)((char*)pObject + 0x1c) = 0;
-        *(float*)((char*)pObject + 0x28) = zero;
-        *(void**)pObject = fnv_vftable_A4b0Cls;
-        *(short*)((char*)pObject + 0x24) = 0;
+        FUN_00c2a2b0_Object* pModifier = (FUN_00c2a2b0_Object*)pObject;
+        pModifier->unk18 = zero;
+        pModifier->unk20 = zero;
+        pModifier->unk1c = 0;
+        pModifier->unk28 = zero;
+        pModifier->vtbl = fnv_vftable_A4b0Cls;
+        pModifier->unk24 = 0;
         return pObject;
     }
     return NULL;
@@ -1296,6 +1339,12 @@ Host* Host::DestroyIfRequested(bool bFree)
     return this;
 }
 
+struct NiGlobalStringHeader
+{
+    long m_lRefCount;
+    unsigned int m_uiLength;
+};
+
 // Sets m_vptr, releases m_pData's header (unless DAT_0109b220), drops m_pEntryObject's refcount and destroys it at zero, then calls FUN_00a6d290.
 // @fnv 0x00c312a0
 void Host_data::FUN_00c312a0()
@@ -1306,7 +1355,7 @@ void Host_data::FUN_00c312a0()
     void* data = *(void* volatile*)&self->m_pData;
     if (data != ::DAT_0109b220)
     {
-        release((char*)data - 8);
+        release((NiGlobalStringHeader*)data - 1);
     }
     Host_refobj* obj = self->m_pEntryObject;
     if (obj != 0)

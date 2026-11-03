@@ -43,15 +43,18 @@
 #include "fnv/symbols_010cc000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
+#include "fnv/symbols_00cf9000.h"
+#include "havok/hkpApplyForcesStep.h"
+#include "havok/hkMemoryRouter.h"
 #include "havok/hkpSimulation.h"
 
 
 struct FUN_00cf87a0_Class {
-    void ForwardToGlobal(int a, int b, int c);
+    void ForwardToGlobal(void* a, void* b, void* c);
 };
 
 // @fnv 0x00cf87a0
-void FUN_00cf87a0_Class::ForwardToGlobal(int aiArg1, int aiArg2, int aiUnused)
+void FUN_00cf87a0_Class::ForwardToGlobal(void* aiArg1, void* aiArg2, void* aiUnused)
 {
     ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(aiArg1), (*(const ::InvalidateTimDetail::Input *)(aiArg2)));
 }
@@ -85,7 +88,7 @@ hkUint32 SimulationDerived::FUN_00cf8730(hkReal afDeltaTime) {
         vfn18();
     }
     if (m_uiSimulationType != 0) {
-        if (((int)(reinterpret_cast<::WorldWatchDogHolder *>((m_pOwningWorld))->FUN_00c93570()))) {
+        if (reinterpret_cast<::WorldWatchDogHolder *>((m_pOwningWorld))->FUN_00c93570()) {
             ::ProcessChildLoop((::ParamObj *)(m_pOwningWorld));
         }
     }
@@ -208,10 +211,9 @@ hkUint32 hkpSimulation_Derived::FUN_00cf8820()
     return 0;
 }
 
-extern "C" void CollectLinearCast();
 
 struct FUN_00cfa400_Obj {
-    void FUN_00cfa400(int a1, int a2, int a3, int a4);
+    void FUN_00cfa400(void* a1, int a2, void* a3, int a4);
 };
 
 namespace fnv_00cfa470 {
@@ -370,7 +372,6 @@ struct hkpEntity {
 };
 
 void __cdecl FUN_00d28680(const hkStepInfo* stepInfo, hkpEntity** entities, int numEntities, int offset);
-void __cdecl FUN_00cf9c60(hkpEntity** entities, int numEntities, hkpWorld* world);
 
 class hkpSimulationV : public hkpSimulation {
 public:
@@ -416,12 +417,12 @@ void hkpSimulationV::ResetSimulationState(hkpEntity** entities, int numEntities,
 
     if (auiResetFlags & RESET_TIM)
     {
-        FUN_00cf9c60(entities, numEntities, world);
+        ::FUN_00cf9c60((::Entity **)(entities), numEntities, (::Context *)(world));
     }
 
     if (auiResetFlags & RESET_AABB)
     {
-        reinterpret_cast<::FUN_00cfa400_Obj *>(this)->FUN_00cfa400((int)(entities), numEntities, (int)(world->m_pCollisionInput), 0);
+        reinterpret_cast<::FUN_00cfa400_Obj *>(this)->FUN_00cfa400(entities, numEntities, world->m_pCollisionInput, 0);
     }
     else if (auiResetFlags & RESET_TOI)
     {
@@ -946,7 +947,7 @@ extern "C" void ForwardToGlobal();
 
 struct S00cfa430_Data {
     char pad[0x78];
-    int unk78;
+    void* unk78;
 };
 
 struct MyObj : FUN_00cfa400_Obj {
@@ -1165,7 +1166,7 @@ int S00cf8a40_Obj::FUN_00cf8a40()
         S00cf8a40_TlsFn pTlsFn = (S00cf8a40_TlsFn)DAT_00fdf044;
         S00cf8a40_Stream* s = (S00cf8a40_Stream*)pTlsFn(::DAT_0126835c);
         s->timer(::g_D0FE00TimerPostSimCb);
-        ::fnv_00d01380::FUN_00d01380((::fnv_00d01380::World833 *)((int)m_node));
+        ::fnv_00d01380::FUN_00d01380((::fnv_00d01380::World833 *)(m_node));
         s = (S00cf8a40_Stream*)pTlsFn(::DAT_0126835c);
         s->timer(::DAT_010c41f8);
     }
@@ -1284,12 +1285,6 @@ struct MainObj {
  virtual void s20(); virtual void s24(); virtual void s28();
  virtual void Proc(void*, void*, int, Arr*, Arr*);
 };
-struct AllocX {
- virtual void a00(); virtual void a04(); virtual void a08(); virtual void a0c();
- virtual void Free(void*, u32);
- virtual void a14(); virtual void a18(); virtual void a1c(); virtual void a20();
- virtual bool Test(u32);
-};
 struct Stream { int unk0; char* pos; int unk8; char* cap; };
 struct TimerEvent { const char* tag; u32 stamp; u32 unk08; const char* subtag; };
 typedef void* (*TlsFn)(unsigned long);
@@ -1305,29 +1300,29 @@ static __forceinline void recordInto(const char* tag, volatile u32& t, TlsFn get
  Stream* s=(Stream*)get(::DAT_0126835c); TimerEvent* p=(TimerEvent*)s->pos;
  if((char*)p < s->cap){ p->tag=tag; _ReadWriteBarrier(); t=(u32)__rdtsc(); p->stamp=t; s->pos=(char*)&p->subtag; }
 }
-struct Arr { u32 data; int size; u32 cap; };
-static __forceinline u32 stackAlloc(int size){
- FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* h=static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
- u32 base=h->unk00; h->unk00=base+((size+127)&~127); return base;
+struct Arr { void* data; int size; u32 cap; };
+// Broad-phase handle pair: two handle pointers.
+const int kHandlePairSize = int(2 * sizeof(void*));
+static __forceinline char* stackAlloc(int size){
+ return (char*)hkMemoryRouter::getInstance().allocateStack((size+127)&~127);
 }
-static __forceinline void stackFree(u32 base){ static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750())->unk00=base; }
-static __forceinline void clear(Arr* a, AllocX* allocator){
+static __forceinline void stackFree(void* base){ hkMemoryRouter::getInstance().deallocateStack(base); }
+static __forceinline void clear(Arr* a, hkMemoryAllocator* allocator){
  a->size=0;
- if(!(a->cap&0x80000000)) allocator->Free((void*)a->data,(a->cap&0x3fffffff)*8);
+ if(!(a->cap&0x80000000)) allocator->bufFree(a->data,(a->cap&0x3fffffff)*kHandlePairSize);
  a->data=0; a->cap=0x80000000;
 }
 struct LocalArr {
- Arr arr; u32 saved;
+ Arr arr; void* saved;
  __forceinline void init(int count){
   arr.data=0; arr.size=0; arr.cap=0x80000000;
-  u32 base=stackAlloc(count*8);
+  char* base=stackAlloc(count*kHandlePairSize);
   arr.data=base; arr.cap=count|0x80000000; saved=base;
  }
  __forceinline void release(){
   if(saved==arr.data) {arr.size=0;}
   stackFree(saved);
-  FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* holder=static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
-  clear(&arr,(AllocX*)holder->allocator);
+  clear(&arr,hkMemoryRouter::getInstance().m_heap);
  }
 };
 struct Block16 { u32 f[4]; };
@@ -1556,28 +1551,28 @@ void __cdecl FUN_00cf9c60(Entity** apEntities, int aiCount, Context* apContext){
  record16(get,reinterpret_cast<volatile u32&>(rem));
  LocalArr arrA; arrA.init(apContext->count);
  LocalArr arrB; arrB.init(apContext->count);
- u32 pBoundsBuffer=stackAlloc(aiCount*32);
- u32 pPointersBuffer=stackAlloc(aiCount*4);
+ char* pBoundsBuffer=stackAlloc(aiCount*32);
+ char* pPointersBuffer=stackAlloc(aiCount*int(sizeof(void*)));
  recordInto(str_010cc60c,reinterpret_cast<volatile u32&>(rem),get);
  Entity** elems=apEntities;
  Block16* destination=(Block16*)pBoundsBuffer;
  rem=aiCount-1;
  if(rem>=0){
- int pointerDifference=(char*)pPointersBuffer-(char*)elems;
+ intptr_t pointerDifference=pPointersBuffer-(char*)elems;
  do {
   Entity* e=*elems;
   EntityData* data=&e->data;
   *(u32**)((char*)elems+pointerDifference)=&data->unk14;
   Block16* src=data->bounds;
-  if(src[0].f[0] > src[1].f[0]) FUN_00d1a330(apContext->ctx78, &e, 1);
+  if(src[0].f[0] > src[1].f[0]) ::FUN_00d1a330((const ::CollisionContext *)(apContext->ctx78), (::EntityNode *const *)(&e), 1);
   copyBounds((void*)destination,data->bounds,2);
   destination=(Block16*)((Block16*)destination+2);
   ++elems;
  } while(--rem>=0);
  }
  record12(::DAT_010cc5fc);
- u32 pointerBase=pPointersBuffer;
- apContext->main->Proc((void*)pointerBase,(void*)pBoundsBuffer,aiCount,&arrA.arr,&arrB.arr);
+ char* pointerBase=pPointersBuffer;
+ apContext->main->Proc(pointerBase,pBoundsBuffer,aiCount,&arrA.arr,&arrB.arr);
  stackFree(pointerBase);
  stackFree(pBoundsBuffer);
  if(arrA.arr.size+arrB.arr.size>0){
@@ -1586,9 +1581,8 @@ void __cdecl FUN_00cf9c60(Entity** apEntities, int aiCount, Context* apContext){
   record12(::DAT_010cc5e4);
   reinterpret_cast<::Dispatcher *>((apContext->ctx64))->DispatchPairs((::Pair *)(arrB.arr.data),arrB.arr.size);
   int size=arrA.arr.size;
-  FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder* holder=static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
-  AllocX* pAllocator=(AllocX*)holder->allocator;
-  if(!pAllocator->Test((u32)(size*5)<<7)){
+  hkMemoryAllocator* pAllocator=hkMemoryRouter::getInstance().m_heap;
+  if(!pAllocator->canAllocTotal(int((u32)(size*5)<<7))){
    ::FUN_00d88040(1);
    record12(str_01076f38);
    arrB.release(); arrA.release(); return;
@@ -1994,7 +1988,7 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
     holder = (Holder*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750());
     solver = holder->memory;
     if (!solver->available(resources.memory.max)) {
-        if (((int)(reinterpret_cast<::WorldWatchDogHolder *>((m_pOwningWorld))->FUN_00c93570()))) {
+        if (reinterpret_cast<::WorldWatchDogHolder *>((m_pOwningWorld))->FUN_00c93570()) {
             m_pOwningWorld->unlock();
             ::FUN_00d01bc0((::S_00d01bc0_Owner *)(m_pOwningWorld));
             ++m_pOwningWorld->lockCount;
@@ -2032,8 +2026,8 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
             void*& pEntityData = island->entities;
             int iEntityCount = (volatile int&)island->numEntities;
             void* firstData = (void*volatile&)island->entities;
-            result = FUN_00d28a30((SolverInfo*)(info + 1), info, &((SolverInfo*)(info + 1))->gravityPerFrame, firstData, iEntityCount, 0xe0);
-            FUN_00d1a330((island->world)->collisionInput78, pEntityData, island->numEntities);
+            result = ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(info + 1)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(info), {(const ::ApplyForcesStepPrivate::Vec *)(&((SolverInfo*)(info + 1))->gravityPerFrame)}, {(::ApplyForcesStepPrivate::Motion **)(firstData)}, iEntityCount, 0xe0);
+            ::FUN_00d1a330((const ::CollisionContext *)((island->world)->collisionInput78), (::EntityNode *const *)(pEntityData), island->numEntities);
             MonitorStream::get()->timer(::DAT_010c41f8, resources.singleEnd);
         } else {
             int count = island->numEntities;
@@ -2187,7 +2181,7 @@ unsigned int unk068;
 unsigned int unk06c;
 unsigned int unk070;
 unsigned int unk074;
-unsigned int unk078;
+void* unk078;
 unsigned int unk07c;
 unsigned int unk080;
 unsigned int unk084;
@@ -2371,7 +2365,7 @@ unsigned int unk038;
 unsigned int unk03c;
 unsigned int unk040;
 unsigned int unk044;
-unsigned int unk048;
+void* unk048;
 unsigned int unk04c;
 unsigned int unk050;
 unsigned int unk054;
@@ -2382,7 +2376,6 @@ struct S00cfa080_Obj {
  unsigned int unk00, unk04, unk08; W* m_pOwningWorld;
  void FUN_00cfa080(hkVector4* p);
 };
-extern "C" void __cdecl FUN_00cf9c60(unsigned int, unsigned int, W*);
 __forceinline void stampN(const char* name) {
  TraceState* t = (TraceState*)TlsGetValue(::DAT_0126835c);
  TraceEntry* e = t->m_next;
@@ -2424,7 +2417,7 @@ void S00cfa080_Obj::FUN_00cfa080(hkVector4* p) {
  hkArray<O*>* a = (hkArray<O*>*)&m_pOwningWorld->unk028;
  for (int i = 0; i < a->m_iElementCount; ++i) {
   O* e = a->m_data[i];
-  FUN_00cf9c60(e->unk048,e->unk04c,m_pOwningWorld);
+  ::FUN_00cf9c60((::Entity **)(e->unk048),e->unk04c,(::Context *)(m_pOwningWorld));
   if (::DAT_01269200 == 1) {
    done(m_pOwningWorld);
    stampEnd();
@@ -2760,8 +2753,8 @@ struct SimulationContext {
 };
 // Forwards the four arguments to FUN_00cf9480, passing CollectLinearCast as the callback.
 // @fnv 0x00cfa400
-void FUN_00cfa400_Obj::FUN_00cfa400(int a1, int a2, int a3, int a4) {
-    reinterpret_cast<::SimulationContext *>(this)->FUN_00cf9480((::Body **)(a1), a2, (::CollisionInput *)(a3), (void (*)(void *, Pair *, CollisionInput *, CollisionOutput *))(CollectLinearCast), a4);
+void FUN_00cfa400_Obj::FUN_00cfa400(void* a1, int a2, void* a3, int a4) {
+    reinterpret_cast<::SimulationContext *>(this)->FUN_00cf9480((::Body **)(a1), a2, (::CollisionInput *)(a3), (void (*)(void *, Pair *, CollisionInput *, CollisionOutput *))(&CollectLinearCast), a4);
 }
 // If flags & 2, calls FUN_00cf9480 with first, second, data->unk78 and ForwardToGlobal; if flags & 4, calls InitArrayEntries(first, second).
 // @fnv 0x00cfa430
@@ -2779,7 +2772,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
     PairMap visited;
     visited.data=0; visited.size=0; visited.mask=-1;
     MemoryRouter* router=(MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750()); Allocator* initialHeap=router->heap;
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(visited))->EnsureCapacity((int)(initialHeap),count);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(visited))->EnsureCapacity(reinterpret_cast<intptr_t>(initialHeap),count);
     __declspec(align(16)) CollisionOutput collisionOutput;
     collisionOutput.toiTime=3.402820018375656e38f;
     collisionOutput.owner=0;
@@ -2790,7 +2783,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
         Body* body=bodies[i];
         Collidable* root=&body->collidable;
         router=(MemoryRouter*)static_cast<FnvCpu_FUN_00cfa7a0_CpuAllocatorHolder*>(::FUN_00c85750()); Allocator* currentHeap=router->heap;
-        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(currentHeap)),(unsigned int)(root),0);
+        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(visited))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(currentHeap)),(uintptr_t)(root),0);
         reinterpret_cast<::ContainerD082 *>((root))->CopyAndSortGeometryList((*(::hkArrayD082< ::ItemD082> *)(&pairs)));
         for(int j=0;j<pairs.size;++j) {
             PairEntry* finalHeap=&pairs.data[j]; int key=finalHeap->key;
@@ -2801,7 +2794,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                 int owner;
                 if(collidable->type==5) owner=otherBody->root()->owner; else owner=collidable->owner;
                 collisionOutput.owner=owner;
-                ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
+                ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pair),(*(const ::InvalidateTimDetail::Input *)(input)));
                 callback(this,pair,input,&collisionOutput);
                 if(mode==1 && collisionOutput.firstFree!=collisionOutput.contacts) {
                     Vec4f angle; copySnapshot(angle,&body->motion.rotation1);
@@ -2850,7 +2843,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotated), nullptr, (const ::fnv_00c66320::__m128 *)((&turn)), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&body->motion.rotation1));
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&rotated));
                         updateTranslation(body);
-                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
+                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pair),(*(const ::InvalidateTimDetail::Input *)(input)));
                         callback(this,pair,input,&collisionOutput);
                         __m128 perpendicular=_mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(axis,axis,0xc9),normalZXY),
                                                        _mm_mul_ps(_mm_shuffle_ps(axis,axis,0xd2),normalYZX));
@@ -2865,18 +2858,18 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oriented), nullptr, (const ::fnv_00c66320::__m128 *)((&sideways)), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)((Quaternion*)&angle));
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&oriented));
                         updateTranslation(body);
-                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
+                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pair),(*(const ::InvalidateTimDetail::Input *)(input)));
                         callback(this,pair,input,&collisionOutput);
                         reinterpret_cast<::QuatResult *>(&(oriented))->FUN_00c74b70((const float *)(const ::Quaternion *)(&sideways),(const float *)(const ::Quaternion *)((Quaternion*)&angle));
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&oriented));
                         updateTranslation(body);
-                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
+                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pair),(*(const ::InvalidateTimDetail::Input *)(input)));
                         callback(this,pair,input,&collisionOutput);
                         input->tolerance=savedTolerance;
                         input->step->endTime=savedStart;
                         input->step->deltaTime=savedEnd;
                         body->motion.restore((const hkTransform*)&savedTransform);
-                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
+                        ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)(pair),(*(const ::InvalidateTimDetail::Input *)(input)));
                         callback(this,pair,input,&collisionOutput);
                     }
                 }
@@ -2976,13 +2969,12 @@ struct FNVAudioHolder_CFA5F0 {
     int unk00, unk04, unk08, unk0c;
     FNVAudio_CFA5F0* audio10;
 };
-extern "C" void __cdecl FUN_00cf9c60(int arg1,int arg2,FNVSIM_CFA5F0* simulation);
 
 struct FNVOwner_CFA5F0 {
-    void FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
+    void FUN_00cfa5f0(void* arg1,int arg2,FNVSIM_CFA5F0* sim, const int* values,int arg5);
 };
 // @fnv 0x00cfa5f0
-void FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const int* values,int arg5) {
+void FNVOwner_CFA5F0::FUN_00cfa5f0(void* arg1,int arg2,FNVSIM_CFA5F0* sim,const int* values,int arg5) {
     FNVState_CFA5F0 state;
     int* source = sim->stateSource78;
     memcpy(&state, source, 0x50);
@@ -2993,8 +2985,8 @@ void FNVOwner_CFA5F0::FUN_00cfa5f0(int arg1,int arg2,FNVSIM_CFA5F0* sim,const in
     state.input58 = values[2];
     state.input5c = values[3];
     ++sim->activeCount94;
-    FUN_00cf9c60(arg1,arg2,sim);
-    reinterpret_cast<::FUN_00cfa400_Obj *>(this)->FUN_00cfa400(arg1,arg2,(int)(&state),arg5);
+    ::FUN_00cf9c60((::Entity **)(arg1),arg2,(::Context *)(sim));
+    reinterpret_cast<::FUN_00cfa400_Obj *>(this)->FUN_00cfa400(arg1,arg2,&state,arg5);
     if (--sim->activeCount94 == 0 && !sim->flag9c) {
         if (sim->hasPending8c) reinterpret_cast<::FUN_00c91120 *>((sim))->ExecutePendingOperations();
         if (sim->statusa4 == 1 && sim->hasPending90) reinterpret_cast<::FUN_00c91140_Class *>((sim))->FUN_00c91140();

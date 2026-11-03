@@ -7,6 +7,7 @@
 
 // src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/util/hkprigidmotionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkpApplyForcesStep.h"
 #include <cstdint>
 
 #include <xmmintrin.h>
@@ -1409,30 +1410,6 @@ static __forceinline bool rotationMoved(Motion* motion, const DeactivationClass*
     _ReadWriteBarrier();
     return square > threshold;
 }
-template <class T> struct Ref
-{
-    T* p;
-    T* operator->() const
-    {
-        return p;
-    }
-    operator T*() const
-    {
-        return p;
-    }
-};
-struct MotionList
-{
-    Motion** p;
-    Motion* operator*() const
-    {
-        return *p;
-    }
-    void next()
-    {
-        ++p;
-    }
-};
 
 // @fnv 0x00d28a30
 extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterval* step, Ref<const Vec> gravity,

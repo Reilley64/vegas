@@ -7895,18 +7895,6 @@ void __cdecl FUN_00c911b0(void)
 {
 }
 
-namespace c912 {
-struct Alloc {
-    virtual void vfn0();
-    virtual void* AllocateMemoryBlock(int n);
-};
-struct Router {
-    int unk0; int unk4; int unk8; int unkc;
-    Alloc* unk10;
-    Alloc& heap() { return *unk10; }
-};
-}
-namespace c912 { inline Router* router() { return (Router*)::FUN_00c85750(); } }
 extern int DAT_010c6420;
 extern int DAT_010c6378;
 
@@ -7915,7 +7903,7 @@ struct CFB240ContactMgrFactory {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     void* operator new(size_t n) {
-        CFB240ContactMgrFactory* b = static_cast<CFB240ContactMgrFactory*>(c912::router()->heap().AllocateMemoryBlock(n));
+        CFB240ContactMgrFactory* b = static_cast<CFB240ContactMgrFactory*>(hkMemoryRouter::getInstance().heap().blockAlloc(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -8666,18 +8654,6 @@ struct Agent {
     CollisionObject* second;
 };
 struct CollisionAgentEntry { Agent* agent; CollisionObject* other; };
-struct OverlapAllocator {
-    virtual void unused00(); virtual void unused04();
-    virtual void unused08(); virtual void unused0c();
-    virtual void freeBlock(void*, int);
-};
-struct MemoryRouter {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    OverlapAllocator* heap;
-};
 
 void ResizeAudioStream(void*, void*, int);
 static __declspec(noinline) void __cdecl SyncOverlap(PhantomInterface* phantom, CollisionObject* other, CollisionFilter* filter) {
@@ -8710,16 +8686,15 @@ struct CallRet : hkpWorld {
     void FUN_00c91120();
 };
 __forceinline void releasePairs(PairArray& pairs) {
-MemoryRouter* router = (MemoryRouter*)::FUN_00c85750();
-OverlapAllocator* heap = router->heap;
+hkMemoryAllocator* heap = hkMemoryRouter::getInstance().m_heap;
 pairs.size=0;
-if ((pairs.capacityAndFlags & 0x80000000)==0) heap->freeBlock(pairs.data,(pairs.capacityAndFlags & 0x3fffffff)*sizeof(OverlapPair));
+if ((pairs.capacityAndFlags & 0x80000000)==0) heap->bufFree(pairs.data,(pairs.capacityAndFlags & 0x3fffffff)*sizeof(OverlapPair));
 }
 
 __forceinline void constructPairs(OverlapPair* p,int n) { for(int j=0;j<n;++j) ::new(p+j) OverlapPair; }
 __forceinline OverlapPair& expandOverlapPair(PairArray& pairs) {
-MemoryRouter* router = (MemoryRouter*)::FUN_00c85750();
-if (pairs.size == (pairs.capacityAndFlags & 0x3fffffff)) ResizeAudioStream(router->heap,&pairs,sizeof(OverlapPair));
+hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+if (pairs.size == (pairs.capacityAndFlags & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router->m_heap),(::AudioStream *)(void *)(&pairs),sizeof(OverlapPair));
 constructPairs(pairs.data+pairs.size,1);
 return pairs.data[pairs.size++];
 }
@@ -9332,14 +9307,6 @@ void Src_00c91c50::FUN_00c91c50(Dst_00c91c50* pOut)
     pOut->b_e0 = (this->i_1c0 != 0);
 }
 
-struct MatchAllocator {
-    virtual void v00();
-    virtual void* allocate(int size);
-};
-struct MatchRouter {
-    int unk00, unk04, unk08, unk0C;
-    MatchAllocator* heap;
-};
 struct FUN_00d065e0 {
     void* vtable;
     unsigned short memorySize;
@@ -9363,8 +9330,7 @@ struct FUN_00d065e0 {
     FUN_00d065e0() throw();
     static void* operator new(size_t size)
     {
-        MatchRouter* router = (MatchRouter*)::FUN_00c85750();
-        FUN_00d065e0* memory = (FUN_00d065e0*)router->heap->allocate(size);
+        FUN_00d065e0* memory = static_cast<FUN_00d065e0*>(hkMemoryRouter::getInstance().heap().blockAlloc(size));
         memory->memorySize = (unsigned short)size;
         return memory;
     }
@@ -9501,20 +9467,6 @@ struct TimerEntryC944 { const char* name; unsigned int ticks; unsigned int unk08
 struct TimerEntryC9442 { const char* name; unsigned int ticks; unsigned int unk08; const char* name2; };
 struct TimerBufferC944 { unsigned int unk00; void* current; unsigned int unk08; void* end; };
 
-struct AllocatorC944 {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void Deallocate(void* p, int size);
-};
-struct ThreadAlloc {
-    char* m_next;             // next free stack byte
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    AllocatorC944* m_pThreadAllocator;   // +0x10
-};
 
 
 class BroadPhaseC944 {
@@ -9567,22 +9519,20 @@ struct TempArray {
     int m_iCapacityState;    // +0x08
     char* m_original;
     TempArray(int count) : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000u) {
-        ThreadAlloc* storage = (ThreadAlloc*)::FUN_00c85750();
-        char* top = storage->m_next;
-        storage->m_next = top + ((count * sizeof(BroadPhaseC944HandlePair) + 127) & ~127);
-        m_data = (BroadPhaseC944HandlePair*)top;
+        char* top = static_cast<char*>(hkMemoryRouter::getInstance().allocateStack((count * int(sizeof(BroadPhaseC944HandlePair)) + 127) & ~127));
+        m_data = reinterpret_cast<BroadPhaseC944HandlePair*>(top);
         m_original = top;
         m_iCapacityState = count | 0x80000000u;
     }
     void releaseStack() {
         char* oldTop = m_original;
         if ((void*)oldTop == m_data) m_iElementCount = 0;
-        ((ThreadAlloc*)::FUN_00c85750())->m_next = oldTop;
+        hkMemoryRouter::getInstance().deallocateStack(oldTop);
     }
-    void releaseHeap(AllocatorC944& heap) {
+    void releaseHeap(hkMemoryAllocator& heap) {
         m_iElementCount = 0;
         if (!(m_iCapacityState & 0x80000000u))
-            heap.Deallocate(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(BroadPhaseC944HandlePair));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(BroadPhaseC944HandlePair));
         m_data = 0;
         m_iCapacityState = 0x80000000u;
     }
@@ -9716,7 +9666,7 @@ void WorldC944::UpdatePhantom(PhantomC944* apPhantom, int abProcessContacts)
     }
 
     arr.releaseStack();
-    arr.releaseHeap(*((ThreadAlloc*)::FUN_00c85750())->m_pThreadAllocator);
+    arr.releaseHeap(hkMemoryRouter::getInstance().heap());
 }
 
 extern "C" unsigned __int64 __rdtsc(void);

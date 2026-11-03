@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -269,26 +270,7 @@ FUN_00d543e0::~FUN_00d543e0() throw()
 {}
 }  // namespace fnv_00d543e0
 
-class hkMemoryAllocatorD548
-{
-  public:
-    virtual ~hkMemoryAllocatorD548() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD548
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD548* m_pStreamAllocator;
-    hkMemoryAllocatorD548& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 struct FUN_00d1df70
 {
@@ -304,7 +286,7 @@ class hkReferencedObjectD548
 
     static void operator delete(void* p) throw()
     {
-        static_cast<hkMemoryRouterD548*>(::FUN_00c85750())->heap().ReleaseBlock(p, static_cast<hkReferencedObjectD548*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkReferencedObjectD548*>(p)->m_usMemSizeAndFlags);
     }
 };
 
@@ -1120,11 +1102,6 @@ struct hkAabbq
     hkVector4q m_kMaximumCorner;
 };
 
-struct hkMoppAllocQ : public hkMemoryAllocatorD548
-{
-    virtual void unused0C() throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
 
 template <class T> struct hkArr
 {
@@ -1138,12 +1115,12 @@ template <class T> struct hkArr
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void _clearAndDeallocate(hkMemoryAllocatorD548& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            static_cast<hkMoppAllocQ&>(alloc).ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
         }
     }
 };
@@ -1244,7 +1221,7 @@ int hkMoppBvTreeShapeBaseQ::FUN_00d54810(const hkAabbq& aabbIn, unsigned int* hi
     hkMoppHitsQ machine;
     reinterpret_cast<::GridCell *>(&(machine))->FUN_00dd1da0((::GridSource *)(code), (::GridBounds *)(&aabb), &hitsArray);
     int numHits = machine.m_kHits->m_iElementCount;
-    hitsArray._clearAndDeallocate(static_cast<hkMemoryRouterD548*>(::FUN_00c85750())->heap());
+    hitsArray._clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     return numHits;
 }
 #include "generated/data/havok/physics/collide/shape/compound/tree/mopp/hkpmoppbvtreeshape.inc"

@@ -2,6 +2,7 @@
 // src/havok/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/query/multithreaded/collisionquery/cpu/hkpcpumoppaabbjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -54,27 +55,7 @@ struct S_00df7010_MonitorStream
     }
 };
 
-struct S_00df7010_Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct S_00df7010_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    S_00df7010_Allocator* m_pStreamAllocator;
-    S_00df7010_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct S_00df7010_HitArray
@@ -88,22 +69,22 @@ struct S_00df7010_HitArray
     {}
     ~S_00df7010_HitArray() throw()
     {
-        _clearAndDeallocate(static_cast<S_00df7010_Router*>(::FUN_00c85750())->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 
     int getCapacity() const
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void _clearAndDeallocate(S_00df7010_Allocator& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(unsigned int));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
-    void _pushBack(S_00df7010_Allocator& alloc, const unsigned int& e)
+    void _pushBack(hkMemoryAllocator& alloc, const unsigned int& e)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(unsigned int));
@@ -112,7 +93,7 @@ struct S_00df7010_HitArray
     }
     void AddBack(const unsigned int& e)
     {
-        _pushBack(static_cast<S_00df7010_Router*>(::FUN_00c85750())->heap(), e);
+        _pushBack(hkMemoryRouter::getInstance().heap(), e);
     }
 };
 

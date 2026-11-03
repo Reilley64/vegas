@@ -159597,7 +159597,6 @@ char* PickupSoundActorView::FUN_008adcf0(::TESBoundObject* apobjREFR, bool abPic
 
 void __cdecl FUN_00c74dd0(void*, const MatrixTransform*);
 int __cdecl FUN_00ec7750(const char*, const char*);
-extern "C" void* __cdecl FUN_00cb1280(void*,int,unsigned int);
 extern void* __cdecl FUN_00c74ea0(unsigned);
 extern void __cdecl FUN_00c74dd0(void*, void*);
 C74QsTransform* FUN_00c74dd0(C74QsTransform* out, const C74Transform* in);
@@ -159632,11 +159631,6 @@ __declspec(noinline) PoseTransform* FUN_00c74dd0(void* ptr,NiTransform_o2_nood_r
  output->translation=translation;
  output->scale.bits.quad=LoadScalar(&source->scale);
  return output;
-}
-__declspec(noinline) void FUN_00cb1260(void* to,const void* from,unsigned n) {
- unsigned char* dest=static_cast<unsigned char*>(to);
- const unsigned char* src=static_cast<const unsigned char*>(from);
- while(n--) *dest++=*src++;
 }
 // @fnv 0x00c79680
 void PoseOwner::FUN_00c79680() {

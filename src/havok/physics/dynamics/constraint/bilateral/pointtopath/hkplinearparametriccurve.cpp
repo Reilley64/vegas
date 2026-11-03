@@ -470,23 +470,7 @@ float FUN_00e47c30_cls::GetInterpolatedValue(float t) const
     return (t - i) * fInterval + m_iSlotIds[i];
 }
 
-struct MemoryManager
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void* allocateChunk(int* reqBytes);
-    virtual void deallocateChunk(void* p, int nbytes);
-};
 
-struct ThreadMemory
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    MemoryManager* m_pMemoryAllocator;
-};
 
 
 
@@ -499,16 +483,16 @@ struct CurveHelper : public hkpLinearParametricCurve
 // @fnv 0x00e47fa0
 void CurveHelper::CopyPoints(hkArray<hkVector4>& out) const
 {
-    MemoryManager* mgr = ((ThreadMemory*)::FUN_00c85750())->m_pMemoryAllocator;
+    hkMemoryAllocator* mgr = hkMemoryRouter::getInstance().m_heap;
     int cap = out.m_iCapacityState & 0x3fffffff;
     if (cap < this->m_kPoints.m_iElementCount)
     {
         if ((out.m_iCapacityState & 0x80000000) == 0)
         {
-            mgr->deallocateChunk(out.m_data, cap * sizeof(hkVector4));
+            mgr->bufFree(out.m_data, cap * sizeof(hkVector4));
         }
         int reqBytes = this->m_kPoints.m_iElementCount * sizeof(hkVector4);
-        out.m_data = (hkVector4*)mgr->allocateChunk(&reqBytes);
+        out.m_data = static_cast<hkVector4*>(mgr->bufAlloc(reqBytes));
         out.m_iCapacityState = reqBytes / 16;
     }
     int count = this->m_kPoints.m_iElementCount;
@@ -599,22 +583,6 @@ FUN_00e48030::FUN_00e48030() throw() : m_fSmoothingValue(0.01f), m_bClosedLoop(f
 
 
 extern "C" void _ReadWriteBarrier();
-struct Allocator
-{
-    virtual void dummy0();
-    virtual void* allocateChunk(int size);
-    virtual void dummy2();
-    virtual void* allocate(int* reqSize);
-    virtual void deallocate(void* ptr, int size);
-};
-struct CurveThreadMemory
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* m_pThreadAllocator;
-};
 extern "C" void* FUN_00e48030(void* p);
 class ScalarLane
 {
@@ -666,8 +634,7 @@ struct LinearParametricCurve : public hkReferencedObject
 };
 static __forceinline LinearParametricCurve* createCurve()
 {
-    CurveThreadMemory* memory = (CurveThreadMemory*)::FUN_00c85750();
-    void* chunk = memory->m_pThreadAllocator->allocateChunk(0x40);
+    void* chunk = hkMemoryRouter::getInstance().heap().blockAlloc(0x40);
     ((hkReferencedObject*)chunk)->m_usMemSizeAndFlags = 0x40;
     return (LinearParametricCurve*)((void *)(new ((void *)(chunk)) ::fnv_00e48030::FUN_00e48030()));
 }
@@ -679,16 +646,16 @@ template <class T> static __forceinline void arrCopy_e48090(T* dst, int start, c
     }
 }
 template <class T>
-static __forceinline void copyFromArray_e48090(hkArray<T>& self, Allocator* alloc, const hkArray<T>& a)
+static __forceinline void copyFromArray_e48090(hkArray<T>& self, hkMemoryAllocator* alloc, const hkArray<T>& a)
 {
     if ((self.m_iCapacityState & 0x3fffffff) < a.m_iElementCount)
     {
         if ((self.m_iCapacityState & 0x80000000) == 0)
         {
-            alloc->deallocate(self.m_data, (self.m_iCapacityState & 0x3fffffff) * int(sizeof(T)));
+            alloc->bufFree(self.m_data, (self.m_iCapacityState & 0x3fffffff) * int(sizeof(T)));
         }
         int numBytes = a.m_iElementCount * int(sizeof(T));
-        self.m_data = (T*)alloc->allocate(&numBytes);
+        self.m_data = static_cast<T*>(alloc->bufAlloc(numBytes));
         self.m_iCapacityState = numBytes / int(sizeof(T));
     }
     self.m_iElementCount = a.m_iElementCount;
@@ -920,7 +887,7 @@ LinearParametricCurve* LinearParametricCurve::FUN_00e48090()
     clone->m_bClosedLoop = this->m_bClosedLoop;
     clone->m_kVector4.set(m_kVector4.lane(0), m_kVector4.lane(1), m_kVector4.lane(2), 0.0f);
     copyFromArray_e48090(clone->m_fClosestPointDistanceSquared,
-                         ((CurveThreadMemory*)::FUN_00c85750())->m_pThreadAllocator,
+                         hkMemoryRouter::getInstance().m_heap,
                          this->m_fClosestPointDistanceSquared);
     clone->m_fSmoothingValue = this->m_fSmoothingValue;
     return clone;

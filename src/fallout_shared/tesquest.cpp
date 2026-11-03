@@ -1368,7 +1368,7 @@ void QuestSave::FUN_0060dd50(unsigned int flags)
 
 extern "C" char UNK_0104ad80[];
 extern "C" char UNK_0104adc0[];
-struct StreamReader
+struct StreamReader : FUN_008df040_shell
 {
 };
 struct QuestInput
@@ -1423,7 +1423,7 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             }
             else
             {
-                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), UNK_0104ad80, 0xfaf, ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010156a8)), UNK_0104ad80, 0xfaf, ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))->FUN_008df040());
             }
         }
         start = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_00825c00();
@@ -1540,10 +1540,10 @@ void QuestLoader::LoadQuestData(unsigned int flags, unsigned int extra)
             {
                 if (actual > start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_010154a0)), actual - (start + sizeRead), UNK_0104ad80, 0x1010,
-                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))->FUN_008df040());
                 else if (actual < start + sizeRead)
                     ::FUN_005b5e40((*reinterpret_cast<char (*)[]>(&::fnv_008d0bc0::DAT_01015440)), (start + sizeRead) - actual, UNK_0104ad80, 0x1010,
-                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008df040());
+                                 ((StreamReader*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))->FUN_008df040());
             }
         }
     }

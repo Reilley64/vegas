@@ -2619,23 +2619,17 @@ struct FormFileVtbl
     virtual const char* GetEditorID();
 };
 
-__if_not_exists(BGSVoiceType::BGSVoiceType)
+class BGSVoiceType
 {
-    class BGSVoiceType
-    {
-      public:
-        virtual void RTTIAnchor();
-    };
-}
+  public:
+    virtual void RTTIAnchor();
+};
 
-__if_not_exists(TESLevItem::TESLevItem)
+class TESLevItem
 {
-    class TESLevItem
-    {
-      public:
-        virtual void RTTIAnchor();
-    };
-}
+  public:
+    virtual void RTTIAnchor();
+};
 
 struct FormHelper
 {

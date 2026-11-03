@@ -88,7 +88,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
         BSSimpleList<BGSCameraShot*>* previous = 0;
         while (current && !current->IsEmpty())
         {
-            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((current->m_item));
+            ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((current->item));
             bool remove = false;
             if (reaction)
             {
@@ -109,7 +109,7 @@ void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
             {
                 if (previous)
                 {
-                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->m_item)));
+                    reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)((current->item)));
                     current = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                 }
                 else
@@ -136,9 +136,9 @@ void TESReactionForm::InitItem(TESForm* form)
         reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(reinterpret_cast<BaseProcess*>(this)->GetCurrentProcessData());
     BSSimpleList<BGSCameraShot*>* pFile = 0;
     pPrev = form ? form->GetFile(-1) : 0;
-    while (pList && (pList->m_item))
+    while (pList && (pList->item))
     {
-        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->m_item));
+        ReactionInfo* reaction = reinterpret_cast<ReactionInfo*>((pList->item));
         unsigned int formID = reaction->formID;
         ::ResolveFormID((unsigned int *)&(formID), pPrev);
         reaction->formID = reinterpret_cast<unsigned int>(::FUN_004839c0(formID));
@@ -343,9 +343,9 @@ void FUN_0048bb70_shell::WriteCameraShotList()
     BGSCameraShot* shot;
     ContainerItemExtraFileData data;
 
-    while (current && (current->m_item))
+    while (current && (current->item))
     {
-        shot = (current->m_item);
+        shot = (current->item);
 
         if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)((*reinterpret_cast<RefH**>(shot))))->FUN_00440d80())
         {
@@ -757,7 +757,7 @@ void TESReactionFormLoad::LoadReactions(unsigned int auiChangeFlags, BGSLoadForm
             reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray(&auiFormId, 4);
             int iFactionReaction;
             reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&iFactionReaction, 4);
-            ::FUN_0048bfc0((::BaseProcess *)this, (::Args_0048bfc0)(auiFormId));
+            ::FUN_0048bfc0((::BaseProcess *)this, ::Args_0048bfc0{(TESForm*)(std::uintptr_t)auiFormId, iFactionReaction});
         }
         if (reinterpret_cast<::FUN_00862110_cls *>(((*reinterpret_cast<::SaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_00862110())
         {

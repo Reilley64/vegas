@@ -239,24 +239,28 @@ void QueuedParents::FUN_00c3c570()
 
 struct FUN_00c3f6f0_Class
 {
+    char pad00[0x18];
+    long unk18;
     void FUN_00c3f6f0();
 };
 
 // @fnv 0x00c3f6f0
 void FUN_00c3f6f0_Class::FUN_00c3f6f0()
 {
-    InterlockedIncrement((volatile long*)((char*)this + 0x18));
+    InterlockedIncrement(&this->unk18);
 }
 
 struct FUN_00c3f710_Class
 {
+    char pad00[0xc];
+    long unk0c;
     void IncrementRefCount();
 };
 
 // @fnv 0x00c3f710
 void FUN_00c3f710_Class::IncrementRefCount()
 {
-    InterlockedIncrement((volatile long*)((char*)this + 0xc));
+    InterlockedIncrement(&this->unk0c);
 }
 
 struct FUN_00c3f730_Class
@@ -283,6 +287,11 @@ void FUN_00c3fc80_class::CallSecondVirtualMethod(void* apObject)
 
 struct FUN_00c35980_Class
 {
+    char pad00[0xec];
+    int unkec;
+    int unkf0;
+    int unkf4;
+    int unkf8;
     int FUN_00c35980();
 };
 
@@ -290,9 +299,9 @@ struct FUN_00c35980_Class
 // @fnv 0x00c35980
 int FUN_00c35980_Class::FUN_00c35980()
 {
-    if (*(int*)((char*)this + 0xec) || *(int*)((char*)this + 0xf4))
+    if (this->unkec || this->unkf4)
         return 2;
-    if (*(int*)((char*)this + 0xf0) || *(int*)((char*)this + 0xf8))
+    if (this->unkf0 || this->unkf8)
         return 1;
     return 0;
 }
@@ -568,23 +577,32 @@ void FUN_00c3fca0_Class::FUN_00c3fca0(void* apObject)
 
 struct FUN_00c3fe00_Class
 {
+    char pad00[0x4];
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
     void* FUN_00c3fe00(int a, int b, int c, int d);
 };
 // Stores the four arguments into the first four fields and zeroes the fields at offsets 0x10 through 0x20, returning this.
 // @fnv 0x00c3fe00
 void* FUN_00c3fe00_Class::FUN_00c3fe00(int aiField0, int aiField1, int aiField2, int aiField3)
 {
-    int* p4 = (int*)((char*)this + 0x14);
+    int* p4 = &this->unk14;
     *p4 = 0;
-    int* p2 = (int*)((char*)this + 0x18);
+    int* p2 = &this->unk18;
     *p2 = 0;
     *(int*)this = aiField0;
-    *(int*)((char*)this + 4) = aiField1;
-    *(int*)((char*)this + 8) = aiField2;
-    *(int*)((char*)this + 0xc) = aiField3;
-    *(int*)((char*)this + 0x10) = 0;
-    *(int*)((char*)this + 0x1c) = 0;
-    *(int*)((char*)this + 0x20) = 0;
+    this->unk04 = aiField1;
+    this->unk08 = aiField2;
+    this->unk0c = aiField3;
+    this->unk10 = 0;
+    this->unk1c = 0;
+    this->unk20 = 0;
     return this;
 }
 

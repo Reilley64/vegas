@@ -227,14 +227,16 @@ FUN_00bc3350_Class* FUN_00bc3350_Class::FUN_00bc3350(int aiFlags)
 
 struct FUN_00bc34a0_class
 {
+    char pad00[0x2c];
+    void * unk2c;
     void* FUN_00bc34a0(float* out);
 };
 
 // @fnv 0x00bc34a0
 void* FUN_00bc34a0_class::FUN_00bc34a0(float* out)
 {
-    *out = *(float*)((char*)*(void**)((char*)this + 0x2c) + 0xe0);
-    return *(void**)((char*)this + 0x2c);
+    *out = *(float*)((char*)this->unk2c + 0xe0);
+    return this->unk2c;
 }
 
 struct NiStream;
@@ -278,6 +280,9 @@ void* FUN_00bc3800_Class::FUN_00bc3800(int flags)
 
 struct FUN_00bc4980_class
 {
+    char pad[0x64];
+    char unk64;
+    char pad65[0xb];
     void FUN_00bc4980(void* p, char c);
 };
 
@@ -285,7 +290,7 @@ struct FUN_00bc4980_class
 void FUN_00bc4980_class::FUN_00bc4980(void* p, char c)
 {
     *(void**)((char*)this + 0x6c) = p;
-    *(char*)((char*)this + 0x64) = c;
+    this->unk64 = c;
 }
 
 void __cdecl FUN_00bc5320();
@@ -409,6 +414,8 @@ extern int DAT_010ba730;
 
 struct FUN_00bc2bd0_class
 {
+    char pad[0xbc];
+    char unkbc;
     int* FUN_00bc2bd0();
 };
 
@@ -563,16 +570,20 @@ extern float DAT_011ae618;
 extern float DAT_01201f2c;
 struct FUN_00bc0550_class
 {
+    char pad00[0x1c];
+    char * unk1c;
+    char pad20[0xc];
+    char * unk2c;
     char ApplyImageSpaceTextures(int);
 };
 // @fnv 0x00bc0550
 char FUN_00bc0550_class::ApplyImageSpaceTextures(int)
 {
-    char* pTileTexture = (char*)*(char**)((char*)this + 0x2c);
+    char* pTileTexture = (char*)this->unk2c;
     reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(pTileTexture + 0xc)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f40))));
-    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 0x10)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f48))));
-    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(*(char**)((char*)this + 0x2c) + 8)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::g_spBC0500Shared))));
-    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)*(char**)((char*)this + 0x1c);
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 0x10)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::DAT_01201f48))));
+    reinterpret_cast<::Holder00ba37f0 *>((((ImageSpaceTexture*)(*(char**)(this->unk2c + 8)))))->FUN_00ba37f0((::Tex00ba37f0 *)((*reinterpret_cast<::NiTexture * *>(&::g_spBC0500Shared))));
+    ImageSpaceShaderParam* p = (ImageSpaceShaderParam*)*(char**)this->unk1c;
     p->SetShaderConstantVector4(1, DAT_011ae614, DAT_01201f2c, DAT_011ae618, 0.0f);
     p->SetShaderConstantVector4(2, DAT_01201f30, DAT_01201f34, DAT_01201f38, DAT_01201f3c);
     return 0;
@@ -1036,12 +1047,14 @@ void FUN_00bc1cc0_class::FUN_00bc1cc0(float f1, float f2)
 
 struct FUN_00bc3240_class
 {
+    char pad00[0x2c];
+    int unk2c;
     void FUN_00bc3240(float* out);
 };
 // @fnv 0x00bc3240
 void FUN_00bc3240_class::FUN_00bc3240(float* out)
 {
-    *out = *reinterpret_cast<long*>(*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x2c) + 0xe4);
+    *out = *reinterpret_cast<long*>(this->unk2c + 0xe4);
 }
 
 // @fnv 0x00bc3340
@@ -3132,7 +3145,7 @@ int* FUN_00bc2bd0_class::FUN_00bc2bd0()
     *(int*)((char*)this + 0xb0) = _DAT_011f4270;
     *(int*)((char*)this + 0xb4) = _DAT_011f4274;
     *(float*)((char*)this + 0xb8) = 0.0f;
-    *(char*)((char*)this + 0xbc) = 0;
+    this->unkbc = 0;
     return (int*)this;
 }
 struct RefObj
@@ -15299,24 +15312,29 @@ bool FUN_00bc4600_shell::FUN_00bc4600()
 
 struct FUN_00bcd380_class
 {
+    char pad00[0x6c];
+    int unk6c;
     int FUN_00bcd380(int, int);
 };
 // @fnv 0x00bcd380
 int FUN_00bcd380_class::FUN_00bcd380(int, int)
 {
-    return *(int*)((char*)this + 0x6c);
+    return this->unk6c;
 }
 
 struct FUN_00bd0420_StandIn
 {
+    char pad00[0x6c];
+    int unk6c;
+    int unk70;
     int FUN_00bd0420(int edx, void* a, void* b);
 };
 // @fnv 0x00bd0420
 int FUN_00bd0420_StandIn::FUN_00bd0420(int edx, void* a, void* apUnused)
 {
     if (*(int*)((char*)a + 0xbc))
-        return *(int*)((char*)this + 0x70);
-    return *(int*)((char*)this + 0x6c);
+        return this->unk70;
+    return this->unk6c;
 }
 
 struct FUN_00e81880_shell

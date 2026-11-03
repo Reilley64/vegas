@@ -336,12 +336,14 @@ struct NiRenderer
 };
 struct FUN_00b66570_class
 {
+    char pad00[0x19c];
+    int unk19c;
     void FUN_00b66570();
 };
 // @fnv 0x00b66570
 void FUN_00b66570_class::FUN_00b66570()
 {
-    if (!*(int*)((char*)this + 0x19c))
+    if (!this->unk19c)
         ::fnv_00b65c60::FUN_00b65c60((::AccumWIP *)(void *)(this));
     *(int*)((char*)NiRenderer::ms_pRenderer + 0xc) = 0;
     ((NiAccumulator*)this)->ClearCamera();
@@ -602,20 +604,22 @@ struct BSShaderManagerRenderMode
 };
 struct FUN_00b66520_class
 {
+    char pad00[0x19c];
+    unsigned int unk19c;
     void ApplyRenderMode();
 };
 // @fnv 0x00b66520
 void FUN_00b66520_class::ApplyRenderMode()
 {
-    ::BSShaderManager::SetRenderMode(*(unsigned int*)((char*)this + 0x19c));
-    if (!*(int*)((char*)this + 0x19c))
+    ::BSShaderManager::SetRenderMode(this->unk19c);
+    if (!*(int*)&this->unk19c)
     {
         ::fnv_00b65ae0::FUN_00b65ae0((::AccumWIP *)(void *)(this));
         return;
     }
-    if ((*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)])
+    if ((*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[this->unk19c])
     {
-        (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[*(unsigned int*)((char*)this + 0x19c)](this);
+        (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[this->unk19c](this);
         return;
     }
     (*reinterpret_cast<void (*(*)[])(void *)>(&::DAT_011f9f40))[0](this);
@@ -643,6 +647,8 @@ public:
 };
 struct FUN_00b6f460_class
 {
+    char pad00[0xa4];
+    NiObject * unka4;
     void LoadAndSetAdditional(NiStream* kStream);
 };
 struct FUN_00b71ad0_class
@@ -11991,7 +11997,7 @@ void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
 {
     reinterpret_cast<::C_00b6f460 *>(this)->FUN_00b6f460(*(::NiStream *)kStream);
     NiObject* pkAdditional = (NiObject*)kStream->GetLoadedObject();
-    NiObject* old = *(NiObject**)((char*)this + 0xa4);
+    NiObject* old = this->unka4;
     if (old != pkAdditional)
     {
         if (old)
@@ -11999,7 +12005,7 @@ void FUN_00b6f460_class::LoadAndSetAdditional(NiStream* kStream)
             if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
                 old->v1();
         }
-        *(NiObject**)((char*)this + 0xa4) = pkAdditional;
+        this->unka4 = pkAdditional;
         if (pkAdditional)
             InterlockedIncrement((volatile long*)((char*)pkAdditional + 4));
     }

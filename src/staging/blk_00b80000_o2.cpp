@@ -202,6 +202,8 @@ extern int DAT_010b06c0;
 
 struct FUN_00b8d6c0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8d6c0_class* FUN_00b8d6c0(int flag);
 };
 
@@ -209,7 +211,7 @@ struct FUN_00b8d6c0_class
 FUN_00b8d6c0_class* FUN_00b8d6c0_class::FUN_00b8d6c0(int aiFlags)
 {
     *(void**)this = (void*)&DAT_010b06c0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b06a0;
+    this->unk6c = (void*)&DAT_010b06a0;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -245,13 +247,15 @@ extern int DAT_010b0a00;
 extern int DAT_010b09dc;
 struct FUN_00b8d950_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8d950_class* FUN_00b8d950(bool flag);
 };
 // @fnv 0x00b8d950
 FUN_00b8d950_class* FUN_00b8d950_class::FUN_00b8d950(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b0a00;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b09dc;
+    this->unk6c = (void*)&DAT_010b09dc;
     FUN_00c03a20();
     if ((int)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -305,13 +309,15 @@ extern int DAT_010b0d40;
 extern int DAT_010b0d1c;
 struct FUN_00b8dbf0_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8dbf0_Class* FUN_00b8dbf0(bool);
 };
 // @fnv 0x00b8dbf0
 FUN_00b8dbf0_Class* FUN_00b8dbf0_Class::FUN_00b8dbf0(bool abFree)
 {
     *(void**)this = &DAT_010b0d40;
-    *(void**)((char*)this + 0x6c) = &DAT_010b0d1c;
+    this->unk6c = &DAT_010b0d1c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -323,13 +329,15 @@ extern int DAT_010b0ec0;
 void FUN_00c03a20();
 struct FUN_00b8dd40_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b8dd40_class* FUN_00b8dd40(bool flag);
 };
 // @fnv 0x00b8dd40
 FUN_00b8dd40_class* FUN_00b8dd40_class::FUN_00b8dd40(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b0ec0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b0e9c;
+    this->unk6c = &DAT_010b0e9c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -341,6 +349,8 @@ extern int DAT_010b101c;
 
 struct FUN_00b8de90_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8de90_Class* FUN_00b8de90(bool);
 };
 
@@ -348,7 +358,7 @@ struct FUN_00b8de90_Class
 FUN_00b8de90_Class* FUN_00b8de90_Class::FUN_00b8de90(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b1040;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b101c;
+    this->unk6c = (void*)&DAT_010b101c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -361,6 +371,8 @@ extern "C" int DAT_010b11c0;
 
 struct FUN_00b8dfe0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8dfe0(bool b);
 };
 
@@ -368,7 +380,7 @@ struct FUN_00b8dfe0_class
 int* FUN_00b8dfe0_class::FUN_00b8dfe0(bool abFree)
 {
     *(int**)(this) = &DAT_010b11c0;
-    *(int**)((char*)this + 0x6c) = &DAT_010b119c;
+    this->unk6c = &DAT_010b119c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -405,13 +417,15 @@ extern int DAT_010b1320;
 void FUN_00c03a20();
 struct FUN_00b8e130_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8e130_class* FUN_00b8e130(bool flag);
 };
 // @fnv 0x00b8e130
 FUN_00b8e130_class* FUN_00b8e130_class::FUN_00b8e130(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b1340;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b1320;
+    this->unk6c = (void*)&DAT_010b1320;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -516,6 +530,8 @@ void FUN_00c03a20();
 
 struct FUN_00b8f120_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     void* FUN_00b8f120(unsigned char b);
 };
 
@@ -523,7 +539,7 @@ struct FUN_00b8f120_class
 void* FUN_00b8f120_class::FUN_00b8f120(unsigned char abFree)
 {
     *(int**)this = &DAT_010b2308;
-    *(int**)((char*)this + 0x6c) = &DAT_010b22e8;
+    this->unk6c = &DAT_010b22e8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -535,13 +551,15 @@ extern "C" int DAT_010b2490;
 void FUN_00c03a20();
 struct FUN_00b8f2b0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8f2b0(bool flag);
 };
 // @fnv 0x00b8f2b0
 void* FUN_00b8f2b0_class::FUN_00b8f2b0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b2490;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2470;
+    this->unk6c = (void*)&DAT_010b2470;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -552,13 +570,15 @@ extern int DAT_010b25f0;
 extern int DAT_010b2610;
 struct FUN_00b8f470_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8f470(bool);
 };
 // @fnv 0x00b8f470
 int* FUN_00b8f470_class::FUN_00b8f470(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b2610;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b25f0;
+    this->unk6c = &DAT_010b25f0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -613,13 +633,15 @@ void FUN_00c03a20();
 
 struct FUN_00b8f6d0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8f6d0(bool flag);
 };
 // @fnv 0x00b8f6d0
 void* FUN_00b8f6d0_class::FUN_00b8f6d0(bool abFree)
 {
     *(void**)this = &DAT_010b2920;
-    *(void**)((char*)this + 0x6c) = &DAT_010b28fc;
+    this->unk6c = &DAT_010b28fc;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -631,6 +653,8 @@ extern int DAT_010b2a98;
 
 struct FUN_00b8f7a0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b8f7a0(int arg);
 };
 
@@ -638,7 +662,7 @@ struct FUN_00b8f7a0_class
 int* FUN_00b8f7a0_class::FUN_00b8f7a0(int aiFlags)
 {
     *(int**)((char*)this + 0) = &DAT_010b2a98;
-    *(int**)((char*)this + 0x6c) = &DAT_010b2a74;
+    this->unk6c = &DAT_010b2a74;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -650,13 +674,15 @@ extern "C" int DAT_010b2c10;
 void FUN_00c03a20();
 struct FUN_00b8f8f0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8f8f0_class* FUN_00b8f8f0(bool flag);
 };
 // @fnv 0x00b8f8f0
 FUN_00b8f8f0_class* FUN_00b8f8f0_class::FUN_00b8f8f0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b2c10;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2bec;
+    this->unk6c = (void*)&DAT_010b2bec;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -734,13 +760,15 @@ FUN_00b8fa80_class::FUN_00b8fa80_class()
 
 struct FUN_00b8fba0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b8fba0(int flag);
 };
 // @fnv 0x00b8fba0
 void* FUN_00b8fba0_class::FUN_00b8fba0(int aiFlags)
 {
     *(void**)this = (void*)&DAT_010b2f50;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2f30;
+    this->unk6c = (void*)&DAT_010b2f30;
     FUN_00c03a20();
     if (aiFlags & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -770,13 +798,15 @@ FUN_00b8fbe0::FUN_00b8fbe0()
 void FUN_00c03a20();
 struct FUN_00b8fd00_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8fd00_Class* FUN_00b8fd00(bool flag);
 };
 // @fnv 0x00b8fd00
 FUN_00b8fd00_Class* FUN_00b8fd00_Class::FUN_00b8fd00(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b30e0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b30c0;
+    this->unk6c = (void*)&DAT_010b30c0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -808,13 +838,15 @@ FUN_00b8fd40::FUN_00b8fd40()
 
 struct FUN_00b8fe60_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8fe60_class* FUN_00b8fe60(bool b);
 };
 // @fnv 0x00b8fe60
 FUN_00b8fe60_class* FUN_00b8fe60_class::FUN_00b8fe60(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b3268;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b3244;
+    this->unk6c = (void*)&DAT_010b3244;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -847,6 +879,8 @@ FUN_00b8fea0::FUN_00b8fea0()
 
 struct FUN_00b8ffb0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b8ffb0_class* FUN_00b8ffb0(bool b);
 };
 
@@ -854,7 +888,7 @@ struct FUN_00b8ffb0_class
 FUN_00b8ffb0_class* FUN_00b8ffb0_class::FUN_00b8ffb0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b33f0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b33cc;
+    this->unk6c = (void*)&DAT_010b33cc;
     FUN_00c03a20();
     if ((unsigned char)abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -956,13 +990,15 @@ FUN_00b917c0::FUN_00b917c0()
 void FUN_00c03a20();
 struct FUN_00b918c0_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b918c0(bool flag);
 };
 // @fnv 0x00b918c0
 void* FUN_00b918c0_Class::FUN_00b918c0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b4de8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b4dc8;
+    this->unk6c = (void*)&DAT_010b4dc8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -994,13 +1030,15 @@ FUN_00b91900::FUN_00b91900()
 
 struct FUN_00b91a00_Class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b91a00(bool flag);
 };
 // @fnv 0x00b91a00
 void* FUN_00b91a00_Class::FUN_00b91a00(bool abFree)
 {
     *(void**)this = &DAT_010b4f80;
-    *(void**)((char*)this + 0x6c) = &DAT_010b4f60;
+    this->unk6c = &DAT_010b4f60;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1163,13 +1201,15 @@ FUN_00b92180::FUN_00b92180()
 void FUN_00c03a20();
 struct FUN_00b92290_shell
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b92290_shell* FUN_00b92290(bool flag);
 };
 // @fnv 0x00b92290
 FUN_00b92290_shell* FUN_00b92290_shell::FUN_00b92290(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b57d0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b57b0;
+    this->unk6c = (void*)&DAT_010b57b0;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1222,13 +1262,15 @@ FUN_00b92690::FUN_00b92690()
 void FUN_00c03a20();
 struct FUN_00b927a0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b927a0(bool b);
 };
 // @fnv 0x00b927a0
 void* FUN_00b927a0_class::FUN_00b927a0(bool abFree)
 {
     *(void***)this = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5cb8));
-    *(void**)((char*)this + 0x6c) = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5c94));
+    this->unk6c = &(*reinterpret_cast<void * *>(&::fnv_00b92690::DAT_010b5c94));
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1329,13 +1371,15 @@ extern int DAT_010b61f0;
 void FUN_00c03a20();
 struct FUN_00b92b90
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b92b90(bool b);
 };
 // @fnv 0x00b92b90
 FUN_00b92b90::FUN_00b92b90(bool abDelete)
 {
     *(void**)this = (void*)&DAT_010b61f0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b61d0;
+    this->unk6c = (void*)&DAT_010b61d0;
     FUN_00c03a20();
     if (abDelete & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1369,6 +1413,8 @@ extern int DAT_010b6548;
 
 struct FUN_00b92ea0_shell
 {
+    char pad00[0x6c];
+    int * unk6c;
     void* FUN_00b92ea0(bool flag);
 };
 
@@ -1377,7 +1423,7 @@ struct FUN_00b92ea0_shell
 void* FUN_00b92ea0_shell::FUN_00b92ea0(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b6548;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b6524;
+    this->unk6c = &DAT_010b6524;
     FUN_00c03a20();
     if (abFree & 1)
         operator delete(this, 0xd0);
@@ -1460,13 +1506,15 @@ extern int DAT_010b68a0;
 void FUN_00c03a20();
 struct FUN_00b93140_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93140(bool);
 };
 // @fnv 0x00b93140
 void* FUN_00b93140_class::FUN_00b93140(bool abFree)
 {
     *(void**)this = &DAT_010b68a0;
-    *(void**)((char*)this + 0x6c) = &DAT_010b687c;
+    this->unk6c = &DAT_010b687c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1545,13 +1593,15 @@ extern int DAT_010b6d70;
 void FUN_00c03a20();
 struct FUN_00b93710_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93710(bool flag);
 };
 // @fnv 0x00b93710
 void* FUN_00b93710_class::FUN_00b93710(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b6d90;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b6d70;
+    this->unk6c = (void*)&DAT_010b6d70;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1563,13 +1613,15 @@ extern int DAT_010b6f14;
 void FUN_00c03a20();
 struct FUN_00b93a60_shell
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b93a60_shell* FUN_00b93a60(bool flag);
 };
 // @fnv 0x00b93a60
 FUN_00b93a60_shell* FUN_00b93a60_shell::FUN_00b93a60(bool abFree)
 {
     *(int**)this = &DAT_010b6f38;
-    *(int**)((char*)this + 0x6c) = &DAT_010b6f14;
+    this->unk6c = &DAT_010b6f14;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1581,13 +1633,15 @@ extern int DAT_010b70d8;
 void FUN_00c03a20();
 struct FUN_00b93bb0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     void* FUN_00b93bb0(bool flag);
 };
 // @fnv 0x00b93bb0
 void* FUN_00b93bb0_class::FUN_00b93bb0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b70d8;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b70b8;
+    this->unk6c = (void*)&DAT_010b70b8;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1663,13 +1717,15 @@ FUN_00b93d40_class::FUN_00b93d40_class()
 
 struct FUN_00b93e50_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b93e50_class* FUN_00b93e50(bool b);
 };
 // @fnv 0x00b93e50
 FUN_00b93e50_class* FUN_00b93e50_class::FUN_00b93e50(bool abFree)
 {
     *(int**)this = &DAT_010b7418;
-    *(int**)((char*)this + 0x6c) = &DAT_010b73f4;
+    this->unk6c = &DAT_010b73f4;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1730,6 +1786,8 @@ extern int DAT_010b7720;
 
 struct FUN_00b940f0_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b940f0_class* FUN_00b940f0(bool flag);
 };
 
@@ -1737,7 +1795,7 @@ struct FUN_00b940f0_class
 FUN_00b940f0_class* FUN_00b940f0_class::FUN_00b940f0(bool abFree)
 {
     *(int**)this = &DAT_010b7720;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7700;
+    this->unk6c = &DAT_010b7700;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1748,13 +1806,15 @@ extern int DAT_010b78b8;
 extern int DAT_010b7898;
 struct FUN_00b94240_Class
 {
+    char pad00[0x6c];
+    int * unk6c;
     int* FUN_00b94240(bool b);
 };
 // @fnv 0x00b94240
 int* FUN_00b94240_Class::FUN_00b94240(bool abFree)
 {
     *(int**)this = &DAT_010b78b8;
-    *(int**)((char*)this + 0x6c) = &DAT_010b7898;
+    this->unk6c = &DAT_010b7898;
     FUN_00c03a20();
     if ((char)abFree & 1)
         operator delete(this, 0xd0);
@@ -1788,6 +1848,8 @@ void FUN_00c03a20();
 
 struct FUN_00b94390_class
 {
+    char pad00[0x6c];
+    int * unk6c;
     FUN_00b94390_class* FUN_00b94390(bool b);
 };
 
@@ -1795,7 +1857,7 @@ struct FUN_00b94390_class
 FUN_00b94390_class* FUN_00b94390_class::FUN_00b94390(bool abFree)
 {
     *reinterpret_cast<int**>(this) = &DAT_010b7a50;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b7a2c;
+    this->unk6c = &DAT_010b7a2c;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1807,13 +1869,15 @@ extern int DAT_010b7bcc;
 void FUN_00c03a20();
 struct FUN_00b944e0_class
 {
+    char pad00[0x6c];
+    void * unk6c;
     FUN_00b944e0_class* FUN_00b944e0(bool flag);
 };
 // @fnv 0x00b944e0
 FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 {
     *(void**)this = (void*)&DAT_010b7bf0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b7bcc;
+    this->unk6c = (void*)&DAT_010b7bcc;
     FUN_00c03a20();
     if (abFree & 1)
         ::FUN_00aa1460(this, 0xd0);
@@ -1822,13 +1886,15 @@ FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
 
 struct FUN_00b9cfd0_class
 {
+    char pad00[0x1a0];
+    void * unk1a0;
     void AssignRefCounted(void* p);
 };
 // Replaces the ref-counted pointer at offset 0x1a0, releasing the old object and incrementing the new one's reference count.
 // @fnv 0x00b9cfd0
 void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
 {
-    void* old = *(void**)((char*)this + 0x1a0);
+    void* old = this->unk1a0;
     if (old != apObject)
     {
         if (old)
@@ -1836,7 +1902,7 @@ void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
             if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
                 ((void(**)(void*)) * (void**)((char*)old + 0))[1](old);
         }
-        *(void**)((char*)this + 0x1a0) = apObject;
+        this->unk1a0 = apObject;
         if (apObject)
             InterlockedIncrement((volatile long*)((char*)apObject + 4));
     }
@@ -2308,6 +2374,8 @@ struct GlobalObjectO2_00b8a9e0
 };
 struct FUN_00b8cad0_class
 {
+    char pad00[0xac];
+    int unkac;
     void SetValue(int value);
 };
 // Stores value at offset 0xac of this object, saving and restoring the thread's memory context around the write.
@@ -2315,7 +2383,7 @@ struct FUN_00b8cad0_class
 void FUN_00b8cad0_class::SetValue(int value)
 {
     int old = ::g_tlsBlock.memoryContext;
-    *(int*)((char*)this + 0xac) = value;
+    this->unkac = value;
     ::g_tlsBlock.memoryContext = old;
 }
 

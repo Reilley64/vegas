@@ -278,15 +278,19 @@ int FUN_00c04d60_class::FUN_00c04d60()
 
 struct FUN_00c04d80_cls
 {
+    char pad[0x5];
+    char unk05;
+    char pad06[0x52];
+    char unk58;
     void SetByteValue(char v);
 };
 
 // @fnv 0x00c04d80
 void FUN_00c04d80_cls::SetByteValue(char acValue)
 {
-    if (acValue != *(char*)((char*)this + 0x58))
-        *(char*)((char*)this + 5) = 1;
-    *(char*)((char*)this + 0x58) = acValue;
+    if (acValue != this->unk58)
+        this->unk05 = 1;
+    this->unk58 = acValue;
 }
 
 namespace fnv_00c05160 {
@@ -314,13 +318,15 @@ extern char DAT_011f9422;
 
 struct FUN_00c05350_class
 {
+    char pad00[0x58];
+    int unk58;
     int FUN_00c05350();
 };
 
 // @fnv 0x00c05350
 int FUN_00c05350_class::FUN_00c05350()
 {
-    if (DAT_011f9422 && *(int*)((char*)this + 0x58))
+    if (DAT_011f9422 && this->unk58)
         return 1;
     return 0;
 }
@@ -414,12 +420,15 @@ void SetShaderConstantMapEntryFlags(int a)
 
 struct FUN_00c036e0_class
 {
+    char pad[0x5];
+    unsigned char unk05;
+    char pad06[0x56];
     void FUN_00c036e0(int a);
 };
 // @fnv 0x00c036e0
 void FUN_00c036e0_class::FUN_00c036e0(int a)
 {
-    *(unsigned char*)((char*)this + 5) = 1;
+    this->unk05 = 1;
     *(int*)((char*)this + 0x58) = a;
 }
 
@@ -583,12 +592,14 @@ void FUN_00c0d1b0_class::FUN_00c0d1b0()
 
 struct FUN_00c1a640_class
 {
+    char pad00[0xc4];
+    unsigned short unkc4;
     unsigned short FUN_00c1a640(unsigned short a);
 };
 // @fnv 0x00c1a640
 unsigned short FUN_00c1a640_class::FUN_00c1a640(unsigned short a)
 {
-    return ((unsigned short*)((char*)this + 0xc4))[0] = a;
+    return (&this->unkc4)[0] = a;
 }
 
 extern float DAT_011ae6cc;
@@ -1493,6 +1504,11 @@ unsigned char __cdecl FUN_00c03340()
 
 struct FUN_00c033c0
 {
+    char pad[0x58];
+    unsigned char unk58;
+    unsigned char unk59;
+    unsigned char unk5a;
+    char pad5b[0xd];
     FUN_00c033c0();
 };
 
@@ -1501,9 +1517,9 @@ FUN_00c033c0::FUN_00c033c0()
 {
     new ((void *)(((ImageSpaceEffect*)this))) class ::FUN_00ba4080();
     *(int*)this = 0x10bc8a4;
-    *(volatile unsigned char*)((char*)this + 0x58) = 0;
-    *(volatile unsigned char*)((char*)this + 0x59) = 0;
-    *(volatile unsigned char*)((char*)this + 0x5a) = 0;
+    this->unk58 = 0;
+    this->unk59 = 0;
+    this->unk5a = 0;
     *(volatile int*)((char*)this + 0x5c) = 0;
     *(volatile int*)((char*)this + 0x60) = 0;
     *(volatile int*)((char*)this + 0x64) = 0;

@@ -1,3 +1,13 @@
+#include <cstdint>
+#include <xmmintrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/symbols_011b3000.h"
+
+// g_D1A0E0Tables holds the byte offsets of an endpoint's min/max fields in a node (0 and 4); the generated data types it as char *.
+static inline int D1A0E0TableOffset(int i)
+{
+    return static_cast<int>(reinterpret_cast<uintptr_t>(::g_D1A0E0Tables[i]));
+}
 
 // src/havok/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/broadphase/3axissweep/hkp3axissweep.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
@@ -6,7 +16,84 @@
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00d06fb0_cls.h"
-#include "fnv/decl/S_00d112c0.h"
+// The 3-axis sweep as the axis0 candidate sweep (FUN_00d112c0) sees it; offsets are the 32-bit release's.
+typedef unsigned short hkUint16;
+typedef unsigned int hkUint32;
+struct S_00d112c0_EndPoint {
+    hkUint16 m_uiFilterValue;
+    hkUint16 m_usIndex;
+};
+struct S_00d112c0_Node {
+    hkUint16 m_min1, m_min2, m_max1, m_max2;
+    hkUint16 m_min0;
+    hkUint16 m_max0;
+    unsigned int m_handle;
+};
+struct S_00d112c0_Marker {
+    hkUint16 m_usIndex;
+    hkUint16 unk2;
+    const hkUint16* m_kNode;
+    int m_uiItemCount;
+    int m_iCapacityState;
+};
+struct S_00d112c0 {
+    int unk0;
+    int unk4;
+    int unk8;
+    int unkc;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    S_00d112c0_Node* m_kNodeCollection;
+    int unka4;
+    int unka8;
+    S_00d112c0_EndPoint* m_ep;
+    int unkb0;
+    int unkb4;
+    int unkb8;
+    int unkbc;
+    int unkc0;
+    int unkc4;
+    int unkc8;
+    int unkcc;
+    int m_iMarkerCount;
+    int m_markerShift;
+    S_00d112c0_Marker* m_pOverlappingMarkerInfo;
+    void FUN_00d112c0(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits);
+};
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d06000.h"
 #include "fnv/symbols_00d10000.h"
@@ -32,19 +119,24 @@ unsigned short MaxUnsignedShort(unsigned short ausLeft, unsigned short ausRight)
     return ausLeft > ausRight ? ausLeft : ausRight;
 }
 
-struct BSAudio { void* p; int a; int b; };
-struct UnkRet { int x; int y; };
+// The memory router FUN_00c85750 returns (hkMemoryRouter): the heap allocator is at 32-bit +0x10.
+struct BSAudio { char* m_stackCurrent; void* m_stack04; void* m_stack08; void* m_temp; ::AudioAllocator* m_heap; };
+// hkp3AxisSweep::hkpBpNode: the endpoint indices, then the handle at 32-bit +0xc.
+struct UnkRet { unsigned short m_endpoints[6]; void* m_handle; };
+// hkpBroadPhaseHandlePair.
+struct BroadPhaseHandlePairQ { void* m_a; void* m_b; };
+struct BroadPhaseHandlePairArrayQ { BroadPhaseHandlePairQ* m_data; int m_size; int m_capacityAndFlags; };
 // @fnv 0x00d11bc0
 void AppendPairToBuffer(UnkRet* apFirst, UnkRet* apSecond, void* apBuffer)
 {
     BSAudio* p = static_cast<BSAudio*>(::FUN_00c85750());
-    int* q = (int*)apBuffer;
-    if (q[1] == (q[2] & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(*(void**)((char*)p + 0x10)), (::AudioStream *)(apBuffer), 8);
-    int* e = (int*)((char*)q[0] + q[1] * 8);
-    q[1] = q[1] + 1;
-    e[0] = *(int*)((char*)apFirst + 0xc);
-    e[1] = *(int*)((char*)apSecond + 0xc);
+    BroadPhaseHandlePairArrayQ* q = static_cast<BroadPhaseHandlePairArrayQ*>(apBuffer);
+    if (q->m_size == (q->m_capacityAndFlags & 0x3fffffff))
+        ::ResizeAudioStream(p->m_heap, (::AudioStream *)(apBuffer), sizeof(BroadPhaseHandlePairQ));
+    BroadPhaseHandlePairQ* e = q->m_data + q->m_size;
+    q->m_size = q->m_size + 1;
+    e->m_a = apFirst->m_handle;
+    e->m_b = apSecond->m_handle;
 }
 
 // @fnv 0x00d10ad0
@@ -102,11 +194,11 @@ struct Container {
     Entry* entries;
     int count;
     int capacity;
-    void FUN_00d1a040(int indexOffset, int** remap);
+    void FUN_00d1a040(char* nodes, int** remap);
 };
 // Remaps each entry's index through remap, drops entries with negative mapping, writes kept positions into DAT_011b37a4 tables, and grows capacity if needed.
 // @fnv 0x00d1a040
-void Container::FUN_00d1a040(int indexOffset, int** remap) {
+void Container::FUN_00d1a040(char* nodes, int** remap) {
     Entry* src = entries;
     Entry* end = src + count;
     int kept = 0;
@@ -116,7 +208,7 @@ void Container::FUN_00d1a040(int indexOffset, int** remap) {
         if (mapped >= 0) {
             *dst = *src;
             dst->index = (unsigned short)mapped;
-            *(unsigned short*)((char*)(*reinterpret_cast<unsigned char * (*)[2]>(&::DAT_011b37a4))[src->type & 1] + mapped * 16 + indexOffset) = (unsigned short)kept;
+            *(unsigned short*)(nodes + mapped * 16 + ::DAT_011b37a4[src->type & 1]) = (unsigned short)kept;
             ++dst;
             ++kept;
         }
@@ -181,21 +273,11 @@ struct D1A0E0EntryArray {
         m_iElementCount = n;
     }
 
-    void FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap);
-public:
-    void GrowArrayCapacity(D1A0E0Allocator& alloc, int n)
-    {
-        const int cap = m_iCapacityState & 0x3fffffff;
-        if (cap < n) {
-            int cap2 = 2 * cap;
-            int newSize = (n < cap2) ? cap2 : n;
-            FUN_00c908c0(&alloc, this, newSize, sizeof(D1A0E0Entry));
-        }
-    }
+    void FUN_00d1a0e0(char* nodes, const D1A0E0IntArray& remap);
 };
 
 // @fnv 0x00d1a0e0
-void D1A0E0EntryArray::FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap)
+void D1A0E0EntryArray::FUN_00d1a0e0(char* nodes, const D1A0E0IntArray& remap)
 {
     D1A0E0Entry* end = m_data + m_iElementCount;
     int count = 0;
@@ -205,7 +287,7 @@ void D1A0E0EntryArray::FUN_00d1a0e0(int offset, const D1A0E0IntArray& remap)
         if (newIndex >= 0) {
             *dst = *src;
             dst->m_uiEdgeIndex = (unsigned short)newIndex;
-            *(unsigned short*)(g_D1A0E0Tables[src->m_flags & 1] + newIndex * 16 + offset) = (unsigned short)count;
+            *(unsigned short*)(nodes + newIndex * 16 + D1A0E0TableOffset(src->m_flags & 1)) = (unsigned short)count;
             dst++;
             count++;
         }
@@ -275,16 +357,6 @@ struct S_00d1a180_Axis {
     }
 
     void RemapEndPoints(char* nodes, const S_00d1a180_IntArray& remap);
-public:
-    void GrowArrayCapacity(S_00d1a180_Allocator& a, int n)
-    {
-        const int capacity = getCapacity();
-        if (capacity < n) {
-            int cap2 = 2 * capacity;
-            int newSize = (n < cap2) ? cap2 : n;
-            S_00d1a180_ArrayUtil::FUN_00c908c0(a, this, newSize, sizeof(S_00d1a180_EndPoint));
-        }
-    }
 };
 
 // @fnv 0x00d1a180
@@ -642,12 +714,12 @@ struct FUN_00d11da0_cls {
     int m_uiItemCount;
     unsigned int m_capFlags;
 
-    void InsertPair(unsigned int a1, unsigned int a2, unsigned short a3,
+    void InsertPair(const void* a1, unsigned int a2, unsigned short a3,
                       unsigned short a4, unsigned short* outIndex2, unsigned short* outIndex);
 };
 
 // @fnv 0x00d11da0
-void FUN_00d11da0_cls::InsertPair(unsigned int auiUnused, unsigned int auiValue, unsigned short ausKey2,
+void FUN_00d11da0_cls::InsertPair(const void* auiUnused, unsigned int auiValue, unsigned short ausKey2,
                                     unsigned short ausKey1, unsigned short* pausIndex2, unsigned short* pausIndex1)
 {
     int n = m_uiItemCount + 2;
@@ -699,8 +771,8 @@ struct S_00d138a0_Heap : BSAudio {
     void* unk10;
 };
 struct S_00d138a0_Pair {
-    int unk00;
-    int unk04;
+    uintptr_t unk00;  // handles, tagged with bit 0 for markers
+    uintptr_t unk04;
 };
 struct S_00d138a0_Array {
     S_00d138a0_Pair* unk00;
@@ -712,10 +784,10 @@ struct S_00d138a0_Node {
     int unk04;
     unsigned short unk08;
     unsigned short unk0a;
-    int unk0c;
+    uintptr_t unk0c;  // the handle, or a marker offset with bit 0 set
 };
 // @fnv 0x00d138a0
-void __cdecl CollectNodePairs(int unused, S_00d138a0_Node* node, int count, S_00d138a0_Array* out)
+void __cdecl CollectNodePairs(const void* unused, S_00d138a0_Node* node, int count, S_00d138a0_Array* out)
 {
     for (--count; count > 0; --count) {
         unsigned int limit = node->unk0a;
@@ -1393,14 +1465,6 @@ struct SmallArray {
             m_data[index] = m_data[m_iElementCount];
         }
     }
-public:
-    void _pushBack(Allocator& alloc, const unsigned short& val) {
-        if (m_iElementCount == (int)(m_iCapacityState & 0x3fffffff)) {
-            ResizeAudioStream(&alloc, this, sizeof(unsigned short));
-        }
-        constructWithCopy(m_data + m_iElementCount, 1, val);
-        m_iElementCount++;
-    }
 };
 
 struct TargetStruct {
@@ -1419,14 +1483,6 @@ struct BroadPhasePairArray : S_00d138a0_Array {
 
     S_00d138a0_Pair& AllocatePair() {
         return _expandOne(MemoryRouter::GetMonitorStream()->heap());
-    }
-public:
-    S_00d138a0_Pair& _expandOne(Allocator& alloc) {
-        if (unk04 == (int)(unk08 & 0x3fffffff)) {
-            ResizeAudioStream(&alloc, this, sizeof(S_00d138a0_Pair));
-            construct(unk00 + unk04, 1);
-        }
-        return unk00[unk04++];
     }
 };
 
@@ -1575,14 +1631,14 @@ struct EntryLocal {
     unsigned short m_00; unsigned short m_02;
 };
 struct Record {
-    int m_00; int m_04; int m_08; int m_0c;
+    int m_00; int m_04; int m_08; uintptr_t m_0c;
 };
 struct ObjX {
     int m_00;
     ShortVec m_04v;
 };
 struct PairLocal {
-    int m_00; int m_04;
+    uintptr_t m_00; uintptr_t m_04;
 };
 struct PairVec {
     PairLocal* m_00; int m_04; int m_08;
@@ -1657,7 +1713,7 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
         if ((other->m_0c & 1) == 0) {
             AllocHolderLocal* r = (AllocHolderLocal*)static_cast<BSAudio*>(::FUN_00c85750());
             if (out->m_04 == (out->m_08 & 0x3fffffff))
-                ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(out), 8);
+                ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(out), sizeof(PairLocal));
             AppendN(out, other, rec, 1);
             return;
         }
@@ -1665,7 +1721,7 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
         second = other;
     }
     int fidx = (int)((char*)first - (char*)idx->m_a0) >> 4;
-    ObjX* obj = (ObjX*)((second->m_0c & 0xfffffffe) + (int)idx->m_d8);
+    ObjX* obj = (ObjX*)(idx->m_d8 + (second->m_0c & ~(uintptr_t)1));
     if (flag != 0) {
         PushDynamic(&obj->m_04v, (unsigned short)fidx);
     } else {
@@ -1693,7 +1749,7 @@ void ThisCls::FUN_00d14a60(unsigned int* bits, PairVec* out, char flag)
     ThisCls* idx = this;
     EntryLocal* end = (EntryLocal*)idx->m_ac + idx->m_b0 - 1;
     EntryLocal* cur = (EntryLocal*)idx->m_ac + 1;
-    if ((unsigned int)cur < (unsigned int)end) {
+    if (cur < end) {
         do {
             int val = cur->m_02;
             int y = (1 << (val & 0x1f)) & (int)bits[val >> 5];
@@ -1728,7 +1784,7 @@ void ThisCls::FUN_00d14a60(unsigned int* bits, PairVec* out, char flag)
                 }
             }
             cur++;
-        } while ((unsigned int)cur < (unsigned int)end);
+        } while (cur < end);
     }
     FreeLocalVec(sv1);
     FreeLocalVec(sv2);
@@ -2363,8 +2419,8 @@ struct Elem {
     unsigned short m_usValue08;
     unsigned short m_usValue0A;
     int* h;
-    __forceinline int isMarker() const throw() { return (unsigned)h & 1; }
-    __forceinline struct Sub* getMarker(struct Sub* base) const throw() { return (struct Sub*)((char*)base + ((unsigned)h & ~1)); }
+    __forceinline int isMarker() const throw() { return (uintptr_t)h & 1; }
+    __forceinline struct Sub* getMarker(struct Sub* base) const throw() { return (struct Sub*)((char*)base + ((uintptr_t)h & ~1)); }
 };
 
 template <typename T>
@@ -2423,10 +2479,10 @@ struct Sweep {
     void FUN_00d15fc0();
     __forceinline void setNodeIndex(Elem& node, int i) throw() {
         int* const& h = node.h;
-        if (((unsigned)h & 1) == 0) {
+        if (((uintptr_t)h & 1) == 0) {
             *h = i;
         } else {
-            *(unsigned short*)((char*)m_d8 + ((unsigned)h & ~1)) = (unsigned short)i;
+            *(unsigned short*)((char*)m_d8 + ((uintptr_t)h & ~1)) = (unsigned short)i;
         }
     }
 };
@@ -2465,7 +2521,7 @@ i++; offset += sizeof(Elem);
 
     for (int i=1; i<m_kNodeCollection.GetLogicalSize(); i++) {
 int* h=m_kNodeCollection[i].h; Elem& node=m_kNodeCollection[i];
-if (((unsigned)node.h & 1)==0) *h=i; else node.getMarker(m_d8)->x=(unsigned short)i;
+if (((uintptr_t)node.h & 1)==0) *h=i; else node.getMarker(m_d8)->x=(unsigned short)i;
     }
 
     for (int j = 0; j < m_d0; j++) {
@@ -2513,7 +2569,7 @@ void SweepMerge::FUN_00d19e40(char* cells, int aiTotalCount, Endpoint* apRightSt
     for (;;) {
         if (leftValue > rightValue) {
             *out = *left;
-            unsigned int slot = (left->handle << 4) + (*reinterpret_cast<int (*)[2]>(&::g_D1A0E0Tables))[left->value & 1];
+            unsigned int slot = (left->handle << 4) + D1A0E0TableOffset(left->value & 1);
             *(unsigned short*)(cells + slot) = (unsigned short)index;
             --left;
             --out;
@@ -2521,7 +2577,7 @@ void SweepMerge::FUN_00d19e40(char* cells, int aiTotalCount, Endpoint* apRightSt
             leftValue = left->value;
         } else {
             *out = *right;
-            unsigned int slot = (right->handle << 4) + (*reinterpret_cast<int (*)[2]>(&::g_D1A0E0Tables))[right->value & 1];
+            unsigned int slot = (right->handle << 4) + D1A0E0TableOffset(right->value & 1);
             *(unsigned short*)(cells + slot) = (unsigned short)index;
             --right;
             rightValue = right->value;
@@ -2868,7 +2924,7 @@ struct SweepNodeX {
  unsigned int minimum;
  unsigned int maximum;
  unsigned short lowZ, highZ;
- unsigned int handle;
+ uintptr_t handle;
 };
 struct SweepGroupX {
  unsigned short node, flags;
@@ -2912,13 +2968,6 @@ struct SweepPairsX {
   new(data+size) SweepPairX(a,b);
   ++size;
  }
-public:
-    void push(unsigned int* a,unsigned int b) {
-  SweepRouterX* r=SweepRouterX::router();
-  if(size==(capacity&0x3fffffff)) ResizeAudioStream(r->heap,this,8);
-  new(data+size) SweepPairX(a,b);
-  ++size;
- }
 };
 struct SweepNodesX {
  SweepNodeX* data; int size; int capacity;
@@ -2926,13 +2975,6 @@ struct SweepNodesX {
   D1A0E0Allocator& a=SweepRouterX::router()->getHeap();
   int cap=capacity&0x3fffffff;
   if(cap<n) { int twice=cap*2; ::FUN_00c908c0((::SpawnedObject *)(::D1A0E0Allocator *)(&a),(::SpawnedArray *)(void *)(this),n<twice?twice:n,16); }
-  size=n;
- }
-public:
-    void SetSizeAndGrow(int n) {
-  D1A0E0Allocator& a=SweepRouterX::router()->getHeap();
-  int cap=capacity&0x3fffffff;
-  if(cap<n) { int twice=cap*2; FUN_00c908c0(&a,this,n<twice?twice:n,16); }
   size=n;
  }
 };
@@ -3040,7 +3082,7 @@ _ReadWriteBarrier();
  reinterpret_cast<::FUN_00d11960_cls *>(&(axes[0]))->FUN_00d11960(alloc->lowZ,alloc->highZ);
  reinterpret_cast<::FUN_00d11960_cls *>(&(axes[1]))->FUN_00d11960((unsigned short)alloc->minimum,(unsigned short)alloc->maximum);
  reinterpret_cast<::FUN_00d11960_cls *>(&(axes[2]))->FUN_00d11960((unsigned short)(alloc->minimum>>16),(unsigned short)(alloc->maximum>>16));
- ::FUN_00d10d10((::BpBoundNode *)this, (int)(q),(const ::BpBoundWords *)(count));
+ ::FUN_00d10d10((::BpBoundNode *)(q), count, (const ::BpBoundWords *)(alloc));
  if(base<(unsigned int)(count-1)) {
   *alloc=nodes.data[count-1];
   axes[0].data[alloc->lowZ].handle=(unsigned short)base;
@@ -3075,17 +3117,17 @@ _ReadWriteBarrier();
  nodes.SetSizeAndGrow(count-1);
 }
 
-struct CacheNode { unsigned short minY,minZ,maxY,maxZ,minX,maxX; unsigned int handle; };
+struct CacheNode { unsigned short minY,minZ,maxY,maxZ,minX,maxX; uintptr_t handle; };
 struct Alloc {
     virtual void v00();
     virtual void v04();
     virtual void v08();
     virtual void v0C();
-    virtual void Free(unsigned int* p, unsigned int size);
+    virtual void Free(void* p, unsigned int size);
 };
 
 struct Pool {
-    unsigned int m_ptr;
+    char* m_ptr;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0C;
@@ -3103,10 +3145,10 @@ struct ItemList {
 };
 
 struct Blk {
-    unsigned int a; // data pointer
+    CacheNode** a; // data pointer
     unsigned int b; // element count
     unsigned int c; // capacity and ownership flags
-    unsigned int d; // original local allocation
+    char* d; // original local allocation
 };
 
 struct CacheOwner {
@@ -3114,17 +3156,16 @@ struct CacheOwner {
     unsigned int unk28, unk2C, unk30, unk34, unk38, unk3C, unk40, unk44, unk48, unk4C;
     unsigned int unk50, unk54, unk58, unk5C, unk60, unk64, unk68, unk6C, unk70, unk74;
     unsigned int unk78, unk7C, unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
-    unsigned int m_a0;
+    CacheNode* m_a0;
 
     int unkA4, unkA8;
     SweepArray<SweepEndpoint> axis[3];
-    __declspec(noinline) void FUN_00d13950(Blk* array, unsigned int a2);
-    void FUN_00d15f10(ItemList* a1, unsigned int a2);
+    void FUN_00d15f10(ItemList* a1, void* a2);
 };
 
 // Fills a pool array with (item->m_14 << 4) + m_a0 per item, calls FUN_00d13950 with it and a2, then restores the pool pointer and frees the array.
 // @fnv 0x00d15f10
-void CacheOwner::FUN_00d15f10(ItemList* apItemList, unsigned int a2)
+void CacheOwner::FUN_00d15f10(ItemList* apItemList, void* a2)
 {
     CacheOwner* volatile self = this;
     Blk blk;
@@ -3133,57 +3174,28 @@ void CacheOwner::FUN_00d15f10(ItemList* apItemList, unsigned int a2)
     int i = 0;
     blk.b = (unsigned int)i;
     Pool* pool = reinterpret_cast<Pool*>(static_cast<BSAudio*>(::FUN_00c85750()));
-    unsigned int base = pool->m_ptr;
-    pool->m_ptr = base + ((n * 4 + 0x7f) & 0xffffff80u);
+    char* base = pool->m_ptr;
+    pool->m_ptr = base + ((n * sizeof(CacheNode*) + 0x7f) & ~size_t(0x7f));
     unsigned int flags = n | 0x80000000u;
-    blk.a = base;
+    CacheNode** arr = reinterpret_cast<CacheNode**>(base);
+    blk.a = arr;
     blk.c = flags;
-    unsigned int* arr = reinterpret_cast<unsigned int*>(base);
     blk.d = base;
 
     if (i < list->m_uiItemCount) {
       do {
-        unsigned int index=list->m_items[i]->m_14; unsigned int v = (index << 4) + self->m_a0; arr[i++] = v;
+        unsigned int index=list->m_items[i]->m_14; arr[i++] = self->m_a0 + index;
       } while(i < list->m_uiItemCount);
       blk.b = (unsigned int)i;
     }
-    CacheOwner* callSelf=self; reinterpret_cast<::SweepClass *>((callSelf))->FUN_00d13950((*(const ::SweepArray< ::SweepNode *> *)(&blk)), (::SweepArray< ::SweepEndpoint> *)(a2));
+    CacheOwner* callSelf=self; reinterpret_cast<::SweepClass *>((callSelf))->FUN_00d13950((*(const ::SweepArray< ::SweepNode *> *)(&blk)), static_cast<::SweepArray< ::SweepEndpoint> *>(a2));
     pool = reinterpret_cast<Pool*>(static_cast<BSAudio*>(::FUN_00c85750()));
     pool->m_ptr = base;
     Pool* pool2 = reinterpret_cast<Pool*>(static_cast<BSAudio*>(::FUN_00c85750()));
     Alloc* pAlloc = pool2->m_alloc;
     if ((flags & 0x80000000u) == 0) {
-        pAlloc->Free(arr, (flags & 0x3fffffffu) * 4);
+        pAlloc->Free(arr, (flags & 0x3fffffffu) * sizeof(CacheNode*));
     }
-}
-void CacheOwner::FUN_00d13950(Blk* input, unsigned int out) {
-    int n=(input->b+1)*2;
-    SweepArray<SweepEndpoint>* cache=(SweepArray<SweepEndpoint>*)out;
-    SweepEndpoint* storage=(SweepEndpoint*)(cache+3);
-    new(cache) SweepArray<SweepEndpoint>(storage,0,n);
-    new(cache+1) SweepArray<SweepEndpoint>(storage+n,0,n);
-    new(cache+2) SweepArray<SweepEndpoint>(storage+n*2,0,n);
-    SweepEndpoint sentry(0,0);
-    cache[0].pushBackUnchecked(sentry);
-    cache[1].pushBackUnchecked(sentry);
-    cache[2].pushBackUnchecked(sentry);
-    CacheNode* const* node=(CacheNode* const*)input->a;
-    for(int i=input->b-1;i>=0;--i,++node) {
-        cache[0].pushBackUnchecked(axis[0].m_data[(*node)->minX]);
-        cache[0].pushBackUnchecked(axis[0].m_data[(*node)->maxX]);
-        cache[1].pushBackUnchecked(axis[1].m_data[(*node)->minY]);
-        cache[1].pushBackUnchecked(axis[1].m_data[(*node)->maxY]);
-        cache[2].pushBackUnchecked(axis[2].m_data[(*node)->minZ]);
-        cache[2].pushBackUnchecked(axis[2].m_data[(*node)->maxZ]);
-    }
-    for(int j=0;j<3;++j) {
-        int count=cache[j].m_iElementCount-1;
-        if(count>1) ::FUN_00d19fa0((unsigned int *)(::SweepEndpoint *)(cache[j].m_data+1),0,count-1,(*(int *)&(const ::S00d13950_Less &)(S00d13950_Less())));
-    }
-    sentry.m_uiFilterValue=0xfffc;
-    cache[0].pushBackUnchecked(sentry);
-    cache[1].pushBackUnchecked(sentry);
-    cache[2].pushBackUnchecked(sentry);
 }
 
 #include <xmmintrin.h>
@@ -3208,7 +3220,7 @@ struct AxisArr {
     Entry4* m_data;
     int m_iElementCount;
     unsigned int m_capFlags;
-    void InsertPair(unsigned int a1, unsigned int a2, unsigned short a3, unsigned short a4, unsigned short* out2, unsigned short* out1);
+    void InsertPair(const void* a1, unsigned int a2, unsigned short a3, unsigned short a4, unsigned short* out2, unsigned short* out1);
 };
 struct Node16 {
     union { unsigned int f0; struct { unsigned short minY, minZ; }; };
@@ -3221,7 +3233,7 @@ struct NodesArr {
     int m_iElementCount;
     unsigned int m_capFlags;
 };
-struct Pair8 { int first; int second; };
+struct Pair8 { uintptr_t first; uintptr_t second; };
 struct PairArr {
     Pair8* m_data;
     int m_iElementCount;
@@ -3302,14 +3314,14 @@ void Sweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
     NodesArr* nodes = &m_kNodeCollection;
     Router* router = (Router*)static_cast<BSAudio*>(::FUN_00c85750());
     if (nodes->m_iElementCount == (int)(nodes->m_capFlags & 0x3fffffff)) {
-        ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(nodes), 0x10);
+        ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(nodes), sizeof(Node16));
     }
     Node16* node = nodes->m_data + nodes->m_iElementCount++;
     Node16* data = m_kNodeCollection.m_data;
-    m_axis0.InsertPair((unsigned int)data, oldSize, (unsigned short)mins.x, (unsigned short)maxs.x, &node->minX, &node->maxX);
-    m_axis1.InsertPair((unsigned int)data, oldSize, (unsigned short)mins.y, (unsigned short)maxs.y, &node->minY, &node->maxY);
-    m_axis2.InsertPair((unsigned int)data, oldSize, (unsigned short)mins.z, (unsigned short)maxs.z, &node->minZ, &node->maxZ);
-    ::FUN_00d10b30((::S00d10b30_Node *)this, (int)(data), (const ::S00d10b30_Bnd *)(oldSize));
+    m_axis0.InsertPair(data, oldSize, (unsigned short)mins.x, (unsigned short)maxs.x, &node->minX, &node->maxX);
+    m_axis1.InsertPair(data, oldSize, (unsigned short)mins.y, (unsigned short)maxs.y, &node->minY, &node->maxY);
+    m_axis2.InsertPair(data, oldSize, (unsigned short)mins.z, (unsigned short)maxs.z, &node->minZ, &node->maxZ);
+    ::FUN_00d10b30((::S00d10b30_Node *)(data), oldSize, (const ::S00d10b30_Bnd *)(node));
     node->fC = handle;
     *handle = oldSize;
     int nodeCount = m_kNodeCollection.m_iElementCount;
@@ -3346,15 +3358,15 @@ void Sweep::FUN_00d142b0(int* handle, Input* input, PairArr* outPairs) {
                         int diff1 = (int)n->f4 - (int)node->f0;
                         int diff2 = (int)node->f4 - (int)n->f0;
                         if (((diff1 | diff2) & 0x80008000) == 0) {
-                            int fc = (int)n->fC;
+                            uintptr_t fc = (uintptr_t)n->fC;
                             if ((fc & 1) == 0) {
                                 Router* pRouter3 = (Router*)static_cast<BSAudio*>(::FUN_00c85750());
                                 if (outPairs->m_iElementCount == (int)(outPairs->m_capFlags & 0x3fffffff)) {
-                                    ::ResizeAudioStream((::AudioAllocator *)(pRouter3->m_pStreamAllocator), (::AudioStream *)(outPairs), 8);
+                                    ::ResizeAudioStream((::AudioAllocator *)(pRouter3->m_pStreamAllocator), (::AudioStream *)(outPairs), sizeof(Pair8));
                                 }
                                 Pair8* dst = outPairs->m_data + outPairs->m_iElementCount;
                                 if (dst) {
-                                    dst->first = (int)handle;
+                                    dst->first = (uintptr_t)handle;
                                     dst->second = fc;
                                 }
                                 outPairs->m_iElementCount++;
@@ -4003,11 +4015,11 @@ struct AssignedSweep {
     int nodeCount;
     int unkD4;
     Node* nodes;
-    void FUN_00d193e0(RemovedHandleList*, int);
+    void FUN_00d193e0(RemovedHandleList*, void*);
 };
 // Removes the listed boxes by moving the last boxes into their slots, calls FUN_00d138a0 and FUN_00d13620, and remaps node index arrays.
 // @fnv 0x00d193e0
-void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, int arg2)
+void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, void* arg2)
 {
     int count = apRemoved->count;
     int total = boxes.size;
@@ -4084,10 +4096,10 @@ void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, int arg2)
             E[last]=i; E[i]=-1; --last; constructWithCopy(D.data + D.size, 1, i);
             ++D.size;
             int* r = current->ref;
-            if (!((unsigned)r & 1)) {
+            if (!((uintptr_t)r & 1)) {
                 *r = i;
             } else {
-                *(unsigned short*)((char*)nodes + ((unsigned)r & ~1u)) = (unsigned short)i;
+                *(unsigned short*)((char*)nodes + ((uintptr_t)r & ~(uintptr_t)1)) = (unsigned short)i;
                 continue;
             }
         } else {
@@ -4123,10 +4135,10 @@ void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, int arg2)
         pOverlapBoxes[iOverlapCount].loZ = 0xffff;
         FreeBuffer(pOverlapScratch, capI);
     }
-    ::CollectNodePairs((int)(this), (::S_00d138a0_Node *)(pSortedBoxes), count, (::S_00d138a0_Array *)(arg2));
-    reinterpret_cast<::C_00d13620 *>(this)->BuildBroadPhasePairs((::S_00d138a0_Node *)(pSortedBoxes), count, (::S_00d138a0_Node *)(pOverlapBoxes), iOverlapCount, 1, (*(::BroadPhasePairArray *)(arg2)));
-    reinterpret_cast<::fnv_00d1a040::Container *>(&(s_ac))->FUN_00d1a040((int)(boxes.data), (int **)(::Arr<int> *)(&view));
-    reinterpret_cast<::D1A0E0EntryArray *>(&(s_b8))->FUN_00d1a0e0((int)(boxes.data), (*(const ::D1A0E0IntArray *)(&view)));
+    ::CollectNodePairs(this, (::S_00d138a0_Node *)(pSortedBoxes), count, static_cast<::S_00d138a0_Array *>(arg2));
+    reinterpret_cast<::C_00d13620 *>(this)->BuildBroadPhasePairs((::S_00d138a0_Node *)(pSortedBoxes), count, (::S_00d138a0_Node *)(pOverlapBoxes), iOverlapCount, 1, *static_cast<::BroadPhasePairArray *>(arg2));
+    reinterpret_cast<::fnv_00d1a040::Container *>(&(s_ac))->FUN_00d1a040((char *)(boxes.data), (int **)(::Arr<int> *)(&view));
+    reinterpret_cast<::D1A0E0EntryArray *>(&(s_b8))->FUN_00d1a0e0((char *)(boxes.data), (*(const ::D1A0E0IntArray *)(&view)));
     reinterpret_cast<::S_00d1a180_Axis *>(&(s_c4))->RemapEndPoints((char *)(boxes.data), (*(const ::S_00d1a180_IntArray *)(&view)));
     if (nodeCount) {
         int twoN = count + count;
@@ -4152,11 +4164,6 @@ void AssignedSweep::FUN_00d193e0(RemovedHandleList* apRemoved, int arg2)
 }
 
 // Moved from hkp3axissweep_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
-#include "fnv/decl/FUN_00d11e80_cls.h"
-#include "fnv/decl/SweepClass.h"
-#include "fnv/decl/SweepMerge.h"
-#include "fnv/decl/fnv_00d11650__AxisSweep3.h"
-#include "fnv/decl/fnv_00d13bd0__FUN_00d13bd0.h"
 #include "fnv/symbols_01016000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0104e000.h"
@@ -4372,83 +4379,6 @@ int SweepCls::FUN_00d114e0(void* a1, const SweepAabb& aabb, int a3)
 // independently confirmed at the real caller; it is not allocation words.
 // Destination is16-byte aligned raw bit storage with caller padding.
 
-typedef unsigned short hkUint16;
-typedef unsigned int hkUint32;
-struct S_00d112c0_EndPoint {
-    hkUint16 m_uiFilterValue;
-    hkUint16 m_usIndex;
-};
-struct S_00d112c0_Node {
-    hkUint16 m_min1, m_min2, m_max1, m_max2;
-    hkUint16 m_min0;
-    hkUint16 m_max0;
-    unsigned int m_handle;
-};
-struct S_00d112c0_Marker {
-    hkUint16 m_usIndex;
-    hkUint16 unk2;
-    const hkUint16* m_kNode;
-    int m_uiItemCount;
-    int m_iCapacityState;
-};
-struct S_00d112c0 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    int unk90;
-    int unk94;
-    int unk98;
-    int unk9c;
-    S_00d112c0_Node* m_kNodeCollection;
-    int unka4;
-    int unka8;
-    S_00d112c0_EndPoint* m_ep;
-    int unkb0;
-    int unkb4;
-    int unkb8;
-    int unkbc;
-    int unkc0;
-    int unkc4;
-    int unkc8;
-    int unkcc;
-    int m_iMarkerCount;
-    int m_markerShift;
-    S_00d112c0_Marker* m_pOverlappingMarkerInfo;
-    void FUN_00d112c0(int numNodes, int key, const S_00d112c0_Node* aabb, hkUint16 skip, hkUint32* bits);
-};
 inline void flip(hkUint32* bits, int i) {
     int idx = i >> 5;
     bits[idx] ^= 1u << (i & 31);
@@ -4528,8 +4458,8 @@ struct Sweep8 {
     int m90; int m94; int m98; int m9c;
     Obj8* objs; int mA4; int mA8; End8* listA; int mB0; int mB4; End8* listB; int mB8dummy;
     int mC0; End8* listC; int mC8; int mCC; int mD0; int mD4; Mgr8* mgr; int mDC;
-    __forceinline void convert33(const unsigned int& addr, Bounds33& out) {
-VPair8* a1=(VPair8*)addr; Vec33 zero; zero.setZero();
+    __forceinline void convert33(const char* addr, Bounds33& out) {
+const VPair8* a1=(const VPair8*)addr; Vec33 zero; zero.setZero();
             Vec33 clamp; clamp.data=_mm_load_ps(DAT_011b3790);
             const Vec33& bias=*(const Vec33*)DAT_011b3770;
             Vec33 pw, qw;
@@ -4550,7 +4480,7 @@ VPair8* a1=(VPair8*)addr; Vec33 zero; zero.setZero();
             out.max[2] = u[2] | 1;
 
     }
-    __forceinline void axis34_0(Obj8* key, unsigned int r, Obj8& current, unsigned int lower, unsigned int upper, const unsigned int& a3, const unsigned int& a4) {
+    __forceinline void axis34_0(Obj8* key, unsigned int r, Obj8& current, unsigned int lower, unsigned int upper, void* a3, void* a4) {
 Obj8* ep=&current;
             // P1: listA, pos field f4 (offset 8), p lower, backward + equal tail
             {
@@ -4717,7 +4647,7 @@ Obj8* ep=&current;
             }
 
     }
-    __forceinline void axis34_1(Obj8* key, unsigned int r, Obj8& current, unsigned int lower, unsigned int upper, const unsigned int& a3, const unsigned int& a4) {
+    __forceinline void axis34_1(Obj8* key, unsigned int r, Obj8& current, unsigned int lower, unsigned int upper, void* a3, void* a4) {
 Obj8* ep=&current;
             // P4 backward: listB, pos field f0, p lower, backward + bwd-equal (4x u16 overlap test)
             {
@@ -4877,10 +4807,10 @@ Obj8* ep=&current;
 
     }
 
-    void FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4);
+    void FUN_00d12040(int** a0, const char* a1, int a2, void* volatile a3, void* volatile a4);
 };
 // @fnv 0x00d12040
-void Sweep8::FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volatile a3, unsigned int volatile a4)
+void Sweep8::FUN_00d12040(int** a0, const char* a1, int a2, void* volatile a3, void* volatile a4)
 {
     
     int** r;
@@ -4889,17 +4819,17 @@ void Sweep8::FUN_00d12040(int** a0, unsigned int a1, int a2, unsigned int volati
 
     if (r < res) {
         do {
-            Bounds33 bounds; convert33(const_cast<const unsigned int&>(a1), bounds);
+            Bounds33 bounds; convert33(a1, bounds);
             unsigned int pObj;
             Obj8* key;
             key = objs;
             pObj = **r;
             Obj8* ep;
             ep = key + pObj;
-            axis34_0(key,pObj,*ep,bounds.min[0],bounds.max[0],const_cast<const unsigned int&>(a3),const_cast<const unsigned int&>(a4));
-            axis34_1(key,pObj,*ep,bounds.min[1],bounds.max[1],const_cast<const unsigned int&>(a3),const_cast<const unsigned int&>(a4));
+            axis34_0(key,pObj,*ep,bounds.min[0],bounds.max[0],a3,a4);
+            axis34_1(key,pObj,*ep,bounds.min[1],bounds.max[1],a3,a4);
             {
- const unsigned int& added=const_cast<const unsigned int&>(a3); const unsigned int& removed=const_cast<const unsigned int&>(a4);
+ void* added=a3; void* removed=a4;
 
             // P7 backward: listC, pos field f1, p bounds.min[2], backward + bwd-equal (4x u16 overlap test, pairs f5/f4 + f2/f0)
             {
@@ -5112,13 +5042,12 @@ struct Axis154 {
     Entry* m_data;
     int m_iElementCount;
     unsigned int m_cap;
-    Entry* LowerBoundEntry(Entry*, Entry*, int);
     __forceinline void search(int low,int high,unsigned short& lower,unsigned short& upper) {
         Entry* base=m_data;
         Entry* last=base+m_iElementCount-2;
-        Entry* res=::LowerBoundEntry((::Entry *)this, base+1,(unsigned short)(last));
+        Entry* res=::LowerBoundEntry(base+1, last, (unsigned short)low);
         lower=(unsigned short)(res-base);
-        res=::LowerBoundEntry((::Entry *)this, base+1,(unsigned short)(last));
+        res=::LowerBoundEntry(base+1, last, (unsigned short)high);
         upper=(unsigned short)(res-(base+1));
     }
 
@@ -5277,15 +5206,6 @@ void Sweep154::FUN_00d154a0(Input154 input, Callback154 callback) {
         alloc2->ReleaseBlock(buf, (cap & 0x3fffffff) * 4);
 }
 
-__declspec(noinline) Entry* Axis154::LowerBoundEntry(Entry* first, Entry* last, int key) {
-    while (last-first > 16) {
-        Entry* middle=first+((last-first)>>1);
-        if (middle->key < (unsigned short)key) first=middle;
-        else last=middle;
-    }
-    while (first->key < (unsigned short)key) ++first;
-    return first;
-}
 }  // namespace fnv_00d154a0
 
 // @fnv 0x00d11000
@@ -5543,15 +5463,15 @@ void S159a0_Sweep::FUN_00d159a0(const S159a0_Aabb& aabb, PairArray& out)
         S159a0_Axis& ax = m_kAxisEndPoints[1];
         Endpoint* data = ax.m_data;
         Endpoint* last = data + ax.m_iElementCount - 2;
-        qn.m_usValue00 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)&(ax), (::Entry *)(::Endpoint *)(data + 1), (unsigned short)(last)))) - data);
-        qn.m_usValue04 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)&(ax), (::Entry *)(::Endpoint *)(data + 1), (unsigned short)(last)))) - 1 - data);
+        qn.m_usValue00 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)(data + 1), (::Entry *)(last), (unsigned short)aabbInt.m_kMinimumCorner[1]))) - data);
+        qn.m_usValue04 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)(data + 1), (::Entry *)(last), (unsigned short)aabbInt.m_kMaximumCorner[1]))) - 1 - data);
     }
     {
         S159a0_Axis& ax = m_kAxisEndPoints[2];
         Endpoint* data = ax.m_data;
         Endpoint* last = data + ax.m_iElementCount - 2;
-        qn.m_usValue02 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)&(ax), (::Entry *)(::Endpoint *)(data + 1), (unsigned short)(last)))) - data);
-        qn.m_usValue06 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)&(ax), (::Entry *)(::Endpoint *)(data + 1), (unsigned short)(last)))) - 1 - data);
+        qn.m_usValue02 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)(data + 1), (::Entry *)(last), (unsigned short)aabbInt.m_kMinimumCorner[2]))) - data);
+        qn.m_usValue06 = (unsigned short)(((::Endpoint *)(::LowerBoundEntry((::Entry *)(data + 1), (::Entry *)(last), (unsigned short)aabbInt.m_kMaximumCorner[2]))) - 1 - data);
     }
 
     querySingleAabbSub(b, bitField, bitField, qn, overlapping);
@@ -6161,15 +6081,7 @@ struct S4ef0Node {
  __forceinline int isMarker() const { return m_handle&1; }
 };
 struct S4ef0Marker { unsigned short m_usIndex,m_uiFilterValue; S4ef0ArrayBase<unsigned short> m_kMarkerIndices; };
-struct S4ef0Axis : S4ef0ArrayBase<Entry> { const Entry* LowerBoundEntry(const Entry* first,const Entry* last,unsigned short key) const; };
-__declspec(noinline) const Entry* S4ef0Axis::LowerBoundEntry(const Entry* start,const Entry* end,unsigned short value) const {
- while(end-start>16) {
-  const Entry* mid=start+((end-start)>>1);
-  if(mid->key<value) start=mid; else end=mid;
- }
- while(start->key<value) start++;
- return start;
-}
+struct S4ef0Axis : S4ef0ArrayBase<Entry> { };
 struct S4ef0Handle;
 struct S4ef0Collector { virtual void v0(); virtual float ReleaseCollector(unsigned int h,int i); };
 typedef S4ef0Array<S4ef0Pair,S4ef0HeapAlloc> S4ef0Results;
@@ -6275,14 +6187,14 @@ __forceinline void S4ef0Owner::_querySingleAabb(const S4ef0Aabb& aabb,int type,S
  {
   const S4ef0Axis& axis=m_kAxisEndPoints[1];
   const Entry* start=&axis[0];
-  refNode.m_usValue00=(unsigned short)(::LowerBoundEntry((::Entry *)&(axis), (::Entry *)(start+1),(unsigned short)(axis.end()-2))-start);
-  refNode.m_usValue04=(unsigned short)(::LowerBoundEntry((::Entry *)&(axis), (::Entry *)(start+1),(unsigned short)(axis.end()-2))-(start+1));
+  refNode.m_usValue00=(unsigned short)(::LowerBoundEntry(const_cast<::Entry *>(start+1), const_cast<::Entry *>(axis.end()-2), (unsigned short)aabbInt.m_kMinimumCorner[1])-start);
+  refNode.m_usValue04=(unsigned short)(::LowerBoundEntry(const_cast<::Entry *>(start+1), const_cast<::Entry *>(axis.end()-2), (unsigned short)aabbInt.m_kMaximumCorner[1])-(start+1));
  }
  {
   const S4ef0Axis& axis=m_kAxisEndPoints[2];
   const Entry* start=&axis[0];
-  refNode.m_usValue02=(unsigned short)(::LowerBoundEntry((::Entry *)&(axis), (::Entry *)(start+1),(unsigned short)(axis.end()-2))-start);
-  refNode.m_usValue06=(unsigned short)(::LowerBoundEntry((::Entry *)&(axis), (::Entry *)(start+1),(unsigned short)(axis.end()-2))-(start+1));
+  refNode.m_usValue02=(unsigned short)(::LowerBoundEntry(const_cast<::Entry *>(start+1), const_cast<::Entry *>(axis.end()-2), (unsigned short)aabbInt.m_kMinimumCorner[2])-start);
+  refNode.m_usValue06=(unsigned short)(::LowerBoundEntry(const_cast<::Entry *>(start+1), const_cast<::Entry *>(axis.end()-2), (unsigned short)aabbInt.m_kMaximumCorner[2])-(start+1));
  }
  querySingleAabbSub(object,bitField,refNode,type,pairsOut,nodesOut,collector);
 }
@@ -6772,7 +6684,7 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
         BatchSweepAllocator* al = h->allocObj;
         if ((oldKeys.capacity & (int)0x80000000) == 0) al->ReturnMemory( oldKeys.data, (oldKeys.capacity & 0x3fffffff) * 4);
     }
-    ::CollectNodePairs((int)(this), (::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Array *)(p3));
+    ::CollectNodePairs(this, (::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Array *)(p3));
     reinterpret_cast<::C_00d13620 *>(this)->BuildBroadPhasePairs((::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Node *)(sortedOld.data), cntC, 0, (*(::BroadPhasePairArray *)(p3)));
     {
         Holder* h = (Holder*)static_cast<BSAudio*>(::FUN_00c85750());
@@ -7251,7 +7163,7 @@ static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, P
         second = other;
     }
     int fidx = (int)((char*)first - (char*)idx->m_a0) >> 4;
-    ObjX* obj = (ObjX*)((second->m_0c & 0xfffffffe) + (int)idx->m_d8);
+    ObjX* obj = (ObjX*)(idx->m_d8 + (second->m_0c & ~(uintptr_t)1));
     if (flag != 0) {
         PushDynamic(&obj->m_04v, (unsigned short)fidx);
     } else {

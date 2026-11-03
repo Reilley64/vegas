@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
@@ -127,7 +128,7 @@ struct FnvNode
 
 struct FnvCtx
 {
-    unsigned char* unk00;
+    const hkpCollisionDispatcher* m_dispatcher;
     int unk04;
     int unk08;
     int unk0c;
@@ -141,28 +142,25 @@ void GetNodePairValue(FnvNode** ppA, FnvNode** ppB, FnvCtx* pCtx, int* pOutVal, 
     FnvNode* pNodeA = *ppA;
     FnvNode* pNodeB = *ppB;
     FnvCtx* pCtxLocal = pCtx;
-    unsigned char* pucBase = pCtxLocal->unk00;
+    const hkpCollisionDispatcher* dispatcher = pCtxLocal->m_dispatcher;
     int iIndexA = pNodeA->unk0c;
     int iIndexB = pNodeB->unk0c;
 
-    int iIndex = iIndexA * 32 + iIndexB;
-    int iValue = pCtx->unk14 ? (int)pucBase[0x12b0 + iIndex] : (int)pucBase[0xeb0 + iIndex];
+    const signed char (*agent3Types)[32] = pCtx->unk14 ? dispatcher->m_agent3TypesPred : dispatcher->m_agent3Types;
+    int iValue = (unsigned char)agent3Types[iIndexA][iIndexB];
 
-    int bOk = (*(int*)(pucBase + 0x16f0 + iValue * 80) == 2);
+    int bOk = (dispatcher->m_agent3Func[iValue].m_symmetric == hkpCollisionDispatcher::IS_NOT_SYMMETRIC_AND_FLIPPED);
     if (iValue == 1)
     {
-        int nQ = pucBase[(iIndexA + 13) * 32 + iIndexB];
-        int nR = nQ + 0x7c;
-        nR *= 5;
-        bOk = (*(volatile unsigned char*)&pucBase[nR * 4] != 0);
+        int nQ = (unsigned char)dispatcher->m_agent2Types[iIndexA][iIndexB];
+        bOk = (*(volatile const unsigned char*)&dispatcher->m_agent2Func[nQ].m_isFlipped != 0);
     }
 
     int iResult = iValue;
     *pOutFlag = bOk;
     if (bOk)
     {
-        int iIndexSwapped = iIndexB * 32 + iIndexA;
-        iResult = pCtx->unk14 ? (int)pucBase[0x12b0 + iIndexSwapped] : (int)pucBase[0xeb0 + iIndexSwapped];
+        iResult = (unsigned char)(pCtx->unk14 ? dispatcher->m_agent3TypesPred : dispatcher->m_agent3Types)[iIndexB][iIndexA];
     }
     *pOutVal = iResult;
 }
@@ -346,7 +344,7 @@ void __cdecl FUN_00cfeba0(FUN_00cfeba0_Obj* self, void** apCallbackTable, void* 
         }
 
         {
-            FUN_00cfeba0_Fn fn = *(FUN_00cfeba0_Fn*)((char*)(*apCallbackTable) + 0x16c8 + self->m_uiEdgeIndex * 80);
+            FUN_00cfeba0_Fn fn = reinterpret_cast<FUN_00cfeba0_Fn>(static_cast<const hkpCollisionDispatcher*>(*apCallbackTable)->m_agent3Func[self->m_uiEdgeIndex].m_updateFilterFunc);
             if (fn)
             {
                 fn(self, p, h1, h2, apCallbackTable, self->unk08, a3);
@@ -531,7 +529,7 @@ void __cdecl DispatchSlotCallback(FUN_00cfdc90_Obj* obj, float x, float y, void*
     case 4:
     case 8:
     case 12: {
-        FUN_00cfdc90_Fn fn = *(FUN_00cfdc90_Fn*)(*(char**)ctx + obj->slot * 80 + 0x16d4);
+        FUN_00cfdc90_Fn fn = reinterpret_cast<FUN_00cfdc90_Fn>((*static_cast<const hkpCollisionDispatcher* const*>(ctx))->m_agent3Func[obj->slot].m_warpTimeFunc);
         if (fn != 0)
         {
             fn(obj, &obj->unk20, x, y, ctx);
@@ -550,7 +548,7 @@ void __cdecl DispatchSlotCallback(FUN_00cfdc90_Obj* obj, float x, float y, void*
         {
             obj->unk18 = DAT_01012054;
         }
-        FUN_00cfdc90_Fn fn = *(FUN_00cfdc90_Fn*)(*(char**)ctx + obj->slot * 80 + 0x16d4);
+        FUN_00cfdc90_Fn fn = reinterpret_cast<FUN_00cfdc90_Fn>((*static_cast<const hkpCollisionDispatcher* const*>(ctx))->m_agent3Func[obj->slot].m_warpTimeFunc);
         if (fn != 0)
         {
             fn(obj, p, x, y, ctx);

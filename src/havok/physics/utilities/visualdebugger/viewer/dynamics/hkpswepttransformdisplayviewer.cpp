@@ -885,13 +885,12 @@ struct Self {
 };
 
 struct Owner : OwnerBase, Self {};
-struct DisplayPrefix { Disp* display; int unk1c, unk20, unk24; };
 // @fnv 0x00d642c0
 void Self::FUN_00d642c0(Arg* a)
 {
      
     if (a->unk10 == 0) return;
-     int idx = reinterpret_cast<::D63FF0Container *>((((hkpSweptTransformDisplayViewer*)((char*)this - sizeof(OwnerBase)))))->FindEntryIndex(a->unk08);
+     int idx = reinterpret_cast<::D63FF0Container *>(static_cast<OwnerBase*>(static_cast<Owner*>(this)))->FindEntryIndex(a->unk08);
     if (idx < 0) return;
     SweptArray<Shape*> list;
     Entry* e; e = unk08[idx];
@@ -928,17 +927,17 @@ void Self::FUN_00d642c0(Arg* a)
         __m128 p2r = _mm_sub_ps(a->position1,
             _mm_add_ps(_mm_mul_ps(_mm_shuffle_ps(w, w, 0xaa), _mm_load_ps(&m2.c0)), _mm_add_ps(_mm_mul_ps(_mm_load_ps(&m2.b0), _mm_shuffle_ps(w, w, 0x55)), _mm_mul_ps(_mm_load_ps(&m2.a0), _mm_shuffle_ps(w, w, 0)))));
                 _mm_store_ps(&m2.d0, p2r);
-        Disp* d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display; d->add(&list, &m1, id1, ::g_ptr_0x1268fd0, 0);
-        d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
+        Disp* d = static_cast<Owner*>(this)->display; d->add(&list, &m1, id1, ::g_ptr_0x1268fd0, 0);
+        d = static_cast<Owner*>(this)->display;
         d->tag(DAT_01268fd8, id1, ::g_ptr_0x1268fd0);
         hkUlong id2 = reinterpret_cast<hkUlong>(&a->unk10) + 2;
         b = &hkMemoryRouter::getInstance();
         if (ids->size == (ids->cap & 0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(b->m_heap), (::AudioStream *)(ids), sizeof(hkUlong));
         hkUlong* slot2 = ids->data + ids->size;
         for (int k = 0; k < 1; ++k) slot2[k] = id2; ++ids->size;
-        d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
+        d = static_cast<Owner*>(this)->display;
         d->add(&list, &m2, id2, ::g_ptr_0x1268fd0, 0);
-        d = ((DisplayPrefix*)((char*)this - sizeof(DisplayPrefix)))->display;
+        d = static_cast<Owner*>(this)->display;
         d->tag(DAT_01268fd4, id2, ::g_ptr_0x1268fd0);
     }
     for (int i = 0; i < list.m_iElementCount; i++) { Shape* s = (Shape*)list.m_data[i];

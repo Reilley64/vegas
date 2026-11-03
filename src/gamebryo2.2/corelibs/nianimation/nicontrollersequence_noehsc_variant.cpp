@@ -5,6 +5,7 @@
 
 // src/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nicontrollersequence.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include <new>
 #include <cstddef>
 #include <windows.h>
@@ -1480,9 +1481,9 @@ struct CloneString
         char* value = other.handle;
         if (handle != value)
         {
-            if (value != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (value != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedIncrement((long*)(value - 8));
-            if (handle != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (handle != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 InterlockedDecrement((long*)(handle - 8));
             handle = value;
         }
@@ -1515,7 +1516,7 @@ struct CloneSequence
 // @fnv 0x00a33570
 void CloneSequence::FUN_00a33570(CloneSequence* dest, void* context)
 {
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(dest), context);
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(dest), context);
     dest->name = name;
     dest->count = count;
     dest->growth = growth;
@@ -1681,11 +1682,11 @@ extern int(* DAT_00fdf1c0)(void*);
 struct String71
 {
     char* ptr;
-    String71() : ptr((char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    String71() : ptr((char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
     {}
     void Release()
     {
-        if (ptr != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+        if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
             DAT_00fdf1c4(ptr - 8);
     }
     String71& operator=(const String71& other)
@@ -1693,9 +1694,9 @@ struct String71
         if (ptr != other.ptr)
         {
             char* replacement = other.ptr;
-            if (replacement != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (replacement != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 DAT_00fdf1c0(replacement - 8);
-            if (ptr != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+            if (ptr != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
                 DAT_00fdf1c4(ptr - 8);
             ptr = replacement;
         }

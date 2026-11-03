@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendfloatinterpolator.cpp: NiBlendFloatInterpolator, NiBlendInterpolator, BlendFloatSource (12 functions)
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BlendCopy.h"
@@ -176,7 +178,7 @@ struct M76Obj
 // @fnv 0x00a405b0
 bool M76Obj::IsFloatValueEqual(M76Obj* pkObject)
 {
-    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (int)(pkObject), {}))
+    if (!::fnv_00a36fd0::FUN_00a36fd0((::fnv_00a36fd0::BlendS *)this, (intptr_t)(pkObject), {}))
         return false;
     M76Obj* pkDest = pkObject;
     if (m_fFloatValue != pkDest->m_fFloatValue)
@@ -258,7 +260,7 @@ void AppendFloatValueStrings(M76Obj* self, int, M76Arr* pkStrings)
 }
 }  // namespace fnv_00a408f0
 
-extern void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct CopyMembersArguments
 {
     NiBlendFloatInterpolator* destination;

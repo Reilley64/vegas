@@ -1,10 +1,11 @@
 #pragma once
+#include <cstdint>
 
 namespace fnv_00e91590 { struct CreateDesc; }
 namespace fnv_00e91590 { struct Renderer_e91590; }
 
 // 0x00e91590
-namespace fnv_00e91590 { ::fnv_00e91590::Renderer_e91590 *CreateRenderer(int, ::fnv_00e91590::CreateDesc *, bool); }
+namespace fnv_00e91590 { ::fnv_00e91590::Renderer_e91590 *CreateRenderer(intptr_t, ::fnv_00e91590::CreateDesc *, bool); }
 // 0x00e916d0
 namespace fnv_00e916d0 { void *FUN_00e916d0(); }
 // 0x00e91af0

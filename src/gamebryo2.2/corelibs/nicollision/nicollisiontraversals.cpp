@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/nicollisiontraversals.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00439ef0_class.h"
@@ -151,7 +152,7 @@ struct ItemOwner
 
 
 // @fnv 0x00e9c680
-bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner)
+bool __cdecl FUN_00e9c680(intptr_t a1, intptr_t a2, SpawnParam* p, ItemOwner* owner)
 {
     bool result = false;
     int idx = owner->m_uiEdgeIndex;
@@ -172,7 +173,7 @@ bool __cdecl FUN_00e9c680(int a1, int a2, SpawnParam* p, ItemOwner* owner)
         goto done;
     }
     {
-        int item = owner->m_pItems[idx];
+        intptr_t item = owner->m_pItems[idx];
         if (item == 0)
         {
             goto done;
@@ -264,11 +265,11 @@ struct SpawnParam
 
 
 // @fnv 0x00e9c6f0
-bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* owner)
+bool __cdecl FUN_00e9c6f0(intptr_t a1, intptr_t a2, SpawnParam* pSpawnParam, ItemOwner* owner)
 {
     if (pSpawnParam->unk08 == 0 && pSpawnParam->m_iType == 1)
     {
-        reinterpret_cast<::TexturePoolE993 *>(&(pSpawnParam->m_sub))->GetTexture((int)(owner));
+        reinterpret_cast<::TexturePoolE993 *>(&(pSpawnParam->m_sub))->GetTexture((intptr_t)(owner));
         return true;
     }
 
@@ -295,7 +296,7 @@ bool __cdecl FUN_00e9c6f0(int a1, int a2, SpawnParam* pSpawnParam, ItemOwner* ow
         {
             return true;
         }
-        int item = owner->m_pItems[i];
+        intptr_t item = owner->m_pItems[i];
         if (item != 0)
         {
             if (::FUN_00e9c490((::S_00e9c490_Pt *)(a1), (::S_00e9c490_Pt *)(a2), (::S_00e9c490_Ctx *)(pSpawnParam), (::S_00e9c490_Node *)(item)))
@@ -416,7 +417,7 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
     if (::RayIntersectsBound((::BoundedObject *)(node), (*(const ::Vector3 *)(pPoint1)), (*(const ::Vector3 *)(pPoint2))) || (ref && (unsigned char)(ref->unk30 >> 13) & 1))
     {
         if (ref)
-            return ::fnv_00e9c6f0::FUN_00e9c6f0((int)(pPoint1), (int)(pPoint2), (::fnv_00e9c6f0::SpawnParam *)(pContext), (::fnv_00e9c6f0::ItemOwner *)(node));
+            return ::fnv_00e9c6f0::FUN_00e9c6f0((intptr_t)(pPoint1), (intptr_t)(pPoint2), (::fnv_00e9c6f0::SpawnParam *)(pContext), (::fnv_00e9c6f0::ItemOwner *)(node));
         if (node->v7())
             return ::fnv_00e9b4f0::RaycastShape((const ::fnv_00e9b4f0::NiPoint3 *)(pPoint1), (const ::fnv_00e9b4f0::NiPoint3 *)(pPoint2), (::fnv_00e9b4f0::Options *)(pContext), (::fnv_00e9b4f0::Shape *)(node));
         if (DAT_0126fa65 && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f4a48))), (::NiAVObject *)(node)))
@@ -425,7 +426,7 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
             if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(pPoint2))->DotProduct((void *)&(d)) < DAT_01011d78)
                 return false;
             float len = d.FUN_00457990();
-            ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((int)(node))))->unk14 = len;
+            ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((intptr_t)(node))))->unk14 = len;
             return false;
         }
         if (DAT_0126fa64 && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_011f5f64))), (::NiAVObject *)(node)))
@@ -433,7 +434,7 @@ bool __cdecl FUN_00e9c490(S_00e9c490_Pt* pPoint1, S_00e9c490_Pt* pPoint2, S_00e9
             S_00e9c490_Pt d = (*(::S_00e9c490_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(node->unk8c))->FUN_00439ef0((::NiPoint3 *)&(*pPoint1), *(const ::NiPoint3 *)nullptr)));
             if (reinterpret_cast<::FUN_004b6190_shell *>((void *)(pPoint2))->DotProduct((void *)&(d)) < DAT_01011d78)
                 return false;
-            S_00e9c490_Entry* pEntry = ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((int)(node))));
+            S_00e9c490_Entry* pEntry = ((::S_00e9c490_Entry *)(reinterpret_cast<::TexturePoolE993 *>(&(pContext->unk18))->GetTexture((intptr_t)(node))));
             float len = d.FUN_00457990();
             pEntry->unk14 = len;
             if (pContext->unk08 == 1)
@@ -806,7 +807,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
     if (!triangles || (!positions && !positionBuffer.data))
     {
         Hit* hit;
-        hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((int)(geometry))));
+        hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((intptr_t)(geometry))));
         P3 offset = geometry->world.translation - *origin;
         float distance;
         float squared = offset.x * offset.x + offset.y * offset.y + offset.z * offset.z;
@@ -841,7 +842,7 @@ bool __cdecl RaycastGeometry(const P3* origin, const P3* direction, Pick* pick, 
                           (*(float *)(&b1)), (*(float *)(&b2))))
             continue;
         found = true;
-        Hit* hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((int)(geometry))));
+        Hit* hit = ((::Hit *)(reinterpret_cast<::TexturePoolE993 *>(&(pick->hits))->GetTexture((intptr_t)(geometry))));
         if (pick->coordinates == 1)
             intersection =
                 worldTransform.translation + worldTransform.rotation.Apply(intersection) * worldTransform.scale;
@@ -1067,7 +1068,7 @@ void OrientedBoxBound::ComputeFromPoints(unsigned short count, const NiPoint3* a
         mat[3] = mat[1];
         mat[6] = mat[2];
         mat[7] = mat[5];
-        reinterpret_cast<::TransformRecord *>((((ThreeByThreeMatrix*)mat)))->GetMatrix((unsigned int)(afEigenvalue), (float*)&m_akAxis0);
+        reinterpret_cast<::TransformRecord *>((((ThreeByThreeMatrix*)mat)))->GetMatrix((uintptr_t)(afEigenvalue), (float*)&m_akAxis0);
         afMin[0] = points[0].x - m_kCenter.x;
         afMin[1] = points[0].y - m_kCenter.y;
         afMin[2] = points[0].z - m_kCenter.z;
@@ -1512,7 +1513,7 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
             if (!::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(&localStart)), (*(const ::NiPoint3 *)(&localDirection)), (*(const ::NiPoint3 *)(&va)), (*(const ::NiPoint3 *)(&vb)), (*(const ::NiPoint3 *)(&vc)), frontOnly, (*(::NiPoint3 *)(&point)), (*(float *)(&distance)), (*(float *)(&u)), (*(float *)(&v))))
                 continue;
             anyHit = true;
-            QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((int)(shape))));
+            QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
             if (options->coordinateMode == 1)
             {
                 point = ScalePoint(xform.scale, xform.rotation.FUN_004b4500(point)).Added(xform.translation);
@@ -1636,7 +1637,7 @@ bool __cdecl IntersectShape(const Vec3* rayStart, const Vec3* rayDirection, Opti
         return anyHit;
     }
 
-    QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((int)(shape))));
+    QueryResult* result = ((::fnv_00e993d0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
     Vec3 delta = shape->world.translation - *rayStart;
     float squared = delta.y * delta.y + delta.x * delta.x + delta.z * delta.z;
     squared = sqrt(squared);
@@ -1945,7 +1946,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             }
             if (!positions.data)
             {
-                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((int)(shape))));
+                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
                 NiPoint3 offset = (*(::fnv_00e9b4f0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(shape->world.translation))->FUN_00439ef0((::NiPoint3 *)&(*rayStart), *(const ::NiPoint3 *)nullptr)));
                 result->distance = reinterpret_cast<::NiPoint3 *>((void *)&(offset))->ComputeMagnitude();
                 return true;
@@ -1973,7 +1974,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
             if (::RayTriangleIntersector::IntersectRayTriangle((*(const ::NiPoint3 *)(&localStart)), (*(const ::NiPoint3 *)(&localDirection)), (*(const ::NiPoint3 *)(&va)), (*(const ::NiPoint3 *)(&vb)), (*(const ::NiPoint3 *)(&vc)), frontOnly, (*(::NiPoint3 *)(&point)), (*(float *)(&distance)), (*(float *)(&u)), (*(float *)(&v))))
             {
                 anyHit = true;
-                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((int)(shape))));
+                QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
                 if (options->coordinateMode == 1)
                 {
                     point = ScalePoint(xform.scale, xform.rotation.FUN_004b4500(&point)).Added(xform.translation);
@@ -2096,7 +2097,7 @@ bool __cdecl RaycastShape(const NiPoint3* rayStart, const NiPoint3* rayDirection
     float along = rayDirection->y * normal.y + normal.x * rayDirection->x + normal.z * rayDirection->z;
     if (along < 0.0f)
         return false;
-    QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((int)(shape))));
+    QueryResult* result = ((::fnv_00e9b4f0::QueryResult *)(reinterpret_cast<::TexturePoolE993 *>(&(options->output))->GetTexture((intptr_t)(shape))));
     along = normal.x * normal.x + normal.y * normal.y + normal.z * normal.z;
     result->distance = (float)sqrt((double)along);
     if (options->unk08 == 1)

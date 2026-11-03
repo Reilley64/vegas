@@ -1,5 +1,6 @@
 // fallout_shared/tesnpc.cpp: TESNPC, ActorValue, TESActorBaseData, FR2MatrixVTCData and more (114 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A5D2C0Object.h"
@@ -1932,7 +1933,7 @@ struct NP
 extern BSFaceGenManager* DAT_011d59e8;
 // Returns FUN_00559450() of the NP at offset 0x119c of DAT_011d59e8, or of a default NP(0) when DAT_011d59e8 is null.
 // @fnv 0x006045f0
-int __cdecl GetFaceGenManagerValue()
+intptr_t __cdecl GetFaceGenManagerValue()
 {
     return ::FUN_00559450((int *)&((DAT_011d59e8 ? *(NP*)((char*)DAT_011d59e8 + 0x119c) : NP(0))));
 }

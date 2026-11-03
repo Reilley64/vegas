@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00c307c0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -74,7 +76,7 @@ template <class T, class A> struct NiTPrimitiveArray
 void FUN_00c30880(StrArr* pkStrings)
 {
     FUN_00c32f60(pkStrings);
-    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_012027b8))));
+    char* pcStr = ::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_012027b8))));
     unsigned int uiSize = pkStrings->m_usSize;
     unsigned int uiAlloc = pkStrings->m_usAlloc;
     typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*> > Arr;
@@ -158,7 +160,7 @@ void WorkerAirFriction::FUN_00c307e0(float value)
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class SpawnedObject
 {
@@ -185,12 +187,12 @@ class SpawnedObject
 class FUN_00c30830_cls
 {
   public:
-    SpawnedObject* CreateSpawnedObject(unsigned int arg);
+    SpawnedObject* CreateSpawnedObject(uintptr_t arg);
 };
 
 // Allocates a 0x40-byte SpawnedObject, initialises it, passes it to FUN_00c32de0 with arg, and returns it.
 // @fnv 0x00c30830
-SpawnedObject* FUN_00c30830_cls::CreateSpawnedObject(unsigned int arg)
+SpawnedObject* FUN_00c30830_cls::CreateSpawnedObject(uintptr_t arg)
 {
     SpawnedObject* obj = (SpawnedObject*)FUN_00aa13e0(0x40);
     if (obj != 0)

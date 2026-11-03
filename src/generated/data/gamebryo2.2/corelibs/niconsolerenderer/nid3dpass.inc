@@ -8,7 +8,7 @@ unsigned int DAT_011bf560 = 2u;
 namespace fnv_00e7dbc0 { int DAT_0126f5cc; }
 NiDSBListNode *DAT_0126f5d0;
 int DAT_0126f5d4;
-int DAT_0126f6c0;
+intptr_t DAT_0126f6c0;
 namespace fnv_00e7dc90 { ::fnv_00e7dc90::FNV_VirtualDevice *DAT_0126f6c4; }
 namespace fnv_00e7dc90 { ::fnv_00e7dc90::FNV_VirtualDevice *DAT_0126f6c8; }
 float DAT_0126f6d0;
@@ -30,8 +30,8 @@ float DAT_0126f70c;
 void *DAT_0126f710;
 void *DAT_0126f714;
 int DAT_0126f720;
-int DAT_0126f724;
-int DAT_0126f728;
+intptr_t DAT_0126f724;
+intptr_t DAT_0126f728;
 ::NiD3DPassPool *DAT_0126f72c;
 namespace fnv_00e7fb80 { StagePtr DAT_0126f730; }
 namespace fnv_00e7fb80 { unsigned int DAT_0126f734; }

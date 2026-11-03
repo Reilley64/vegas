@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
 #include "fnv/symbols_00a7d000.h"
@@ -24,7 +25,7 @@ void AppendElement(ObjHdr* apObj)
 {
     ObjHdr* pObj = apObj;
     ::FUN_00c32f60((::StrArr *)(pObj));
-    void* pValue = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<int *>(&::g_012027a0))))));
+    void* pValue = ((void *)(::FUN_00a7d330((const char *)((*reinterpret_cast<intptr_t *>(&::g_012027a0))))));
     unsigned int count = pObj->unkA;
     if (count >= pObj->unk8)
     {

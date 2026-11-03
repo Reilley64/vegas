@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c21720
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/CloneSourceA5d6.h"
 #include "fnv/decl/FUN_00a63460_shell.h"
@@ -172,7 +173,7 @@ void* Unk21730::DestroyIfFlagged(unsigned int auiFlags)
 {
     void* tmp = b;
     a = &DAT_0101fbcc;
-    ::FUN_004b0220((int)(tmp));
+    ::FUN_004b0220((intptr_t)(tmp));
     reinterpret_cast<::PositionState *>((((Holder31750*)this)))->FUN_00c31750();
     if (auiFlags & 1)
         ::FUN_00aa1460(this, 0x28);
@@ -387,10 +388,10 @@ struct MeshLookup
     unsigned int unk64;
     unsigned int unk68;
     unsigned int unk6c;
-    unsigned int unk70;
+    uintptr_t unk70;
     unsigned int unk74;
     unsigned int unk78;
-    unsigned int unk7c;
+    uintptr_t unk7c;
     unsigned int unk80;
     unsigned int unk84;
     unsigned int unk88;
@@ -830,7 +831,7 @@ class NiObjectC212
 class NiPSysModifierC212 : public NiObjectC212
 {
   public:
-    int unk04, unk08, unk0C, unk10, unk14;
+    intptr_t unk04, unk08, unk0C, unk10, unk14;
 };
 
 template <class T> class NiTPrimitiveArrayC212
@@ -1402,7 +1403,7 @@ class C21550PostLink : public NiPSysMeshUpdateModifierC212
 // @fnv 0x00c21550
 void C21550PostLink::FUN_00c21550(NiStream& stream)
 {
-    ::FUN_00a89af0((int)(reinterpret_cast<C21550LinkBase*>(this)));
+    ::FUN_00a89af0((intptr_t)(reinterpret_cast<C21550LinkBase*>(this)));
     C21550StreamView* streamView = reinterpret_cast<C21550StreamView*>(&stream);
     if (streamView->fileVersion <= 0x0A010000)
     {

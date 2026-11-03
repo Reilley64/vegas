@@ -8,7 +8,7 @@
 #include "fnv/symbols_01013000.h"
 
 // @fnv 0x00aa2d10
-int FUN_00aa2d10(int aiValue1, int aiValue2)
+int FUN_00aa2d10(intptr_t aiValue1, int aiValue2)
 {
     int r = ((int)(std::uintptr_t)(fnv::crt::getcwd((char *)(aiValue1), aiValue2)));
     r = !r;

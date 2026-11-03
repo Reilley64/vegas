@@ -472,7 +472,7 @@ void FUN_004afba0_class::UnlockAtOffset()
 }
 }  // namespace fnv_004afba0
 
-void __cdecl FUN_004b0220(int);
+void __cdecl FUN_004b0220(intptr_t);
 struct FUN_004afc20
 {
     void* vtbl;
@@ -1389,7 +1389,7 @@ struct S004b0220
 };
 // If param_1 is non-null, calls FUN_00667120 with 3 on it.
 // @fnv 0x004b0220
-void __cdecl FUN_004b0220(int pObject)
+void __cdecl FUN_004b0220(intptr_t pObject)
 {
     S004b0220* q;
     S004b0220* p;

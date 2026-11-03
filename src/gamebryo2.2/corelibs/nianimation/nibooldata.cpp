@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nibooldata.cpp: NiBoolData, NiBoolDataSaver (7 functions)
 
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -201,7 +202,7 @@ struct NiBoolDataSaver
 // @fnv 0x00a53b20
 void NiBoolDataSaver::SaveBoolData(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     WriteValue(stream, m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {

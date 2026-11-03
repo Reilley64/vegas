@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nibillboardnode_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/nibillboardnode.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include <cstring>
@@ -115,13 +116,13 @@ struct BaseNode
 };
 struct StandIn
 {
-    void FUN_00a7dab0(NiUpdateData&, unsigned int);
+    void FUN_00a7dab0(NiUpdateData&, uintptr_t);
 };
 // @fnv 0x00a7dab0
-void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, unsigned int uFlags)
+void StandIn::FUN_00a7dab0(NiUpdateData& UpdateData, uintptr_t uFlags)
 {
     *(float*)((char*)this + 0xb0) = UpdateData.m_fTime;
-    ::FUN_00a5e1f0((::NiNode *)(((BaseNode*)this)), (int)&(UpdateData), (*(::NiUpdateData *)(uFlags)), {});
+    ::FUN_00a5e1f0((::NiNode *)(((BaseNode*)this)), (intptr_t)&(UpdateData), (*(::NiUpdateData *)(uFlags)), {});
     ((void(**)(void*)) * (void***)this)[47](this);
 }
 }  // namespace fnv_00a7dab0
@@ -1013,7 +1014,7 @@ void BoardObject::FUN_00a7de40(const BoardObject* camera)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 
 struct BillboardCloneBaseCall
 {

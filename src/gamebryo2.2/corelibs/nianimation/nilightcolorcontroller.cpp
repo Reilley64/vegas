@@ -5,6 +5,7 @@
 
 // @fnv 0x00a461c0
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FUN_004bc280_S.h"
 #include "fnv/decl/FUN_00a495f0.h"
@@ -265,7 +266,7 @@ void Stand840::WriteToStream(NiStream& stream)
     out->_4 += out->_c(out, &_38, 2, &size, 1);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct RefObject
 {

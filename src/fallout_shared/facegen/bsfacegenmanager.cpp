@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmanager.cpp: BSFaceGenManager, FGModelCache, BSFaceGenModelMap_t, TESRace and more (111 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -2306,7 +2307,7 @@ struct FaceGenMgrView
 
 // Checks that the FaceGen manager and its implementation exist, then forwards param_1 to the implementation's TouchCachedModel and returns its result.
 // @fnv 0x00652040
-bool FUN_00652040(int aiArg)
+bool FUN_00652040(intptr_t aiArg)
 {
     lc1::AutoMemContext ctx(
         0x39, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\FaceGen\\BSFaceGenManager.cpp", 0x45a);

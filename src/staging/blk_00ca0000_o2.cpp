@@ -1,5 +1,6 @@
 
 // SSE_DECLARATIONS_DEFER_TO_SDK
+#include <cstdint>
 #include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
@@ -6773,7 +6774,7 @@ void* __cdecl FUN_00cba1c0()
 
 
 // @fnv 0x00cbbfb0
-void FUN_00cbbfb0(unsigned int a1)
+void FUN_00cbbfb0(uintptr_t a1)
 {
     DAT_01268418 = a1;
 }

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/niintegersextradata.cpp: NiIntegersExtraData, NiExtraDataSaveHelperShell (19 functions)
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -43,7 +44,7 @@ struct FUN_00c543e0_shell : NiAVObject
 // @fnv 0x00c543e0
 void FUN_00c543e0_shell::FUN_00c543e0()
 {
-    ::AssignFixedString((char *)this, (int)&(*DAT_012031c0), {});
+    ::AssignFixedString((char *)this, (intptr_t)&(*DAT_012031c0), {});
 }
 
 
@@ -60,13 +61,13 @@ int* FUN_00c54d60_shell::FUN_00c54d60()
 
 struct FUN_00c54030_shell
 {
-    int FUN_00c54030(int param_1);
+    intptr_t FUN_00c54030(int param_1);
 };
 
 // @fnv 0x00c54030
-int FUN_00c54030_shell::FUN_00c54030(int param_1)
+intptr_t FUN_00c54030_shell::FUN_00c54030(int param_1)
 {
-    return (int)this;
+    return (intptr_t)this;
 }
 
 struct FUN_00a7b290_shell
@@ -74,21 +75,21 @@ struct FUN_00a7b290_shell
 };
 struct FUN_00c54150_shell
 {
-    void FUN_00c54150(int param_1);
+    void FUN_00c54150(intptr_t param_1);
 };
 // @fnv 0x00c54150
-void FUN_00c54150_shell::FUN_00c54150(int param_1)
+void FUN_00c54150_shell::FUN_00c54150(intptr_t param_1)
 {
     reinterpret_cast<::MyOwner *>((((FUN_00a7b290_shell*)this)))->FUN_00a7b290((*(::NiStream *)(param_1)));
 }
 
 struct C00c541e0
 {
-    bool FUN_00c541e0(int);
+    bool FUN_00c541e0(intptr_t);
 };
 // Calls FUN_00a7b3d0 with the given int and returns its bool result.
 // @fnv 0x00c541e0
-bool C00c541e0::FUN_00c541e0(int a)
+bool C00c541e0::FUN_00c541e0(intptr_t a)
 {
     bool b = ((bool)(reinterpret_cast<::NiObject_00a7b3d0 *>(this)->FUN_00a7b3d0((::NiObject_00a7b3d0 *)(a))));
     return b;
@@ -117,8 +118,8 @@ void FUN_00c54660_shell::FUN_00c54660(NiStream& aStream)
 {
     color.SaveBinary(aStream);
     ::fnv_00a303a0::FUN_00a303a0((::fnv_00a303a0::Stream *)&(aStream), &fldC);
-    ::FUN_00a29550((int)&(aStream), (int)(&fldE));
-    ::FUN_00a29550((int)&(aStream), (int)(&fldE));
+    ::FUN_00a29550((intptr_t)&(aStream), (intptr_t)(&fldE));
+    ::FUN_00a29550((intptr_t)&(aStream), (intptr_t)(&fldE));
 }
 
 struct S_FUN_00c53fa0
@@ -151,7 +152,7 @@ struct S
 // @fnv 0x00c54810
 void S::FUN_00c54810()
 {
-    *(int*)this = (int)&::FNV_vtbl_NiTArrayBase;
+    *(intptr_t*)this = (intptr_t)&::FNV_vtbl_NiTArrayBase;
     void* p1 = ptr;
     void* p2 = p1;
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(p2);
@@ -170,7 +171,7 @@ void NiExtraDataSaveHelperShell::FUN_00c54170(NiStream& stream)
 {
     reinterpret_cast<::FUN_00a7b2c0_shell *>(this)->FUN_00a7b2c0(stream);
     unsigned int count = *(unsigned short*)((char*)this + 0x18);
-    ::FUN_0044adf0((::MiddleHighProcess *)&(stream), (int)&(count));
+    ::FUN_0044adf0((::MiddleHighProcess *)&(stream), (intptr_t)&(count));
     for (unsigned int i = 0; i < count; ++i)
         (*(FUN_00c54660_shell**)((char*)this + 0x10))[i].FUN_00c54660(stream);
 }
@@ -192,7 +193,7 @@ NiFixedString DAT_011f49e0;
 NiAVObject* FUN_00c54210()
 {
     NiAVObject* object = reinterpret_cast<NiAVObject*>(new FUN_00c53f10);
-    ::AssignFixedString((char *)(object), (int)&(DAT_011f49e0), {});
+    ::AssignFixedString((char *)(object), (intptr_t)&(DAT_011f49e0), {});
     return object;
 }
 
@@ -206,16 +207,16 @@ struct FUN_00c54040_cls
     unsigned int unk14;
     unsigned short count;
 
-    void FUN_00c54040(NiStream& stream, unsigned int flags);
+    void FUN_00c54040(NiStream& stream, uintptr_t flags);
 };
 
 struct S_00c54130
 {
-    void FUN_00c54130(int a);
+    void FUN_00c54130(intptr_t a);
 };
 
 // @fnv 0x00c54130
-void S_00c54130::FUN_00c54130(int a)
+void S_00c54130::FUN_00c54130(intptr_t a)
 {
     reinterpret_cast<::NiExtraData *>(this)->LinkObject((*(::NiStream *)(a)));
 }
@@ -356,7 +357,7 @@ void NiIntegersExtraData::LoadBinary(NiStream& stream)
 }
 // Calls FUN_00a7b330, then loops over count entries and passes each entry to FUN_00c54b70 on the stream's array at offset 0xc.
 // @fnv 0x00c54040
-void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, unsigned int flags)
+void FUN_00c54040_cls::FUN_00c54040(NiStream& stream, uintptr_t flags)
 {
     unsigned char pad[0x58];
     unsigned int i;
@@ -502,35 +503,35 @@ void FUN_00c542a0_shell::FUN_00c542a0(ViewerStringsArray* strings)
     char* animationType;
     char* aCurrentPos;
     char* aHeadingY;
-    int aNameValue;
+    intptr_t aNameValue;
     MarkerText_00c542a0 val;
 
     reinterpret_cast<::ExtraDataStrings *>(this)->FUN_00a7b580((::StrArr *)(strings));
 
     aNameValue = (*reinterpret_cast<int *>(&::g_012031c4));
     aRtti = ::FUN_00a7d330((const char *)(aNameValue));
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(aRtti));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(aRtti));
 
     iMarkers = count;
     pMark = FUN_00a7d510("iMarks", iMarkers);
-    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(pMark));
+    reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(pMark));
 
     for (aIndex = 0; aIndex < iMarkers; ++aIndex)
     {
         aPMarker = FUN_00a7d510("Mark", aIndex);
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(aPMarker));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(aPMarker));
 
         marker = &entries[aIndex];
         val.numberValue = marker->number;
         animationType = FUN_00a7d510(" Number", val.numberValue);
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(animationType));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(animationType));
 
         aCurrentPos = marker->pos.FUN_00a59af0(" Pos");
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(aCurrentPos));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(aCurrentPos));
 
         val.headingValue = (float)(marker->heading / 1000.0);
         aHeadingY = FUN_00a7d550(" Heading", val.headingValue);
-        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((int)&(aHeadingY));
+        reinterpret_cast<::S_0060ba10 *>((strings))->FUN_0096a610((intptr_t)&(aHeadingY));
     }
 }
 

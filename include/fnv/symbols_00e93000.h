@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiD3DShaderProgramCreator;
 struct Program;
@@ -13,7 +14,7 @@ namespace fnv_00e932f0 { void *FUN_00e932f0(const char *); }
 // 0x00e937c0
 void RemoveProgramFromMap(::Program *);
 // 0x00e93850
-namespace fnv_00e93850 { ::ShaderArg *FUN_00e93850(const char *, const char *, const char *, const char *, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int); }
+namespace fnv_00e93850 { ::ShaderArg *FUN_00e93850(const char *, const char *, const char *, const char *, uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int); }
 // 0x00e938e0
 void *FUN_00e938e0(void *, void *, const char *, const char *, void *, void *, void *);
 // 0x00e93d80

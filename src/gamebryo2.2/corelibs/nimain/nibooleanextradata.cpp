@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nibooleanextradata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -98,7 +99,7 @@ struct CloningProcess;
 
 struct S_00a9af40 : NiExtraData
 {
-    int unk0;
+    intptr_t unk0;
     int unk4;
     int unk8;
     bool unkC;
@@ -106,7 +107,7 @@ struct S_00a9af40 : NiExtraData
     S_00a9af40() throw()
     {
         reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();
-        unk0 = (int)&DAT_010a112c;
+        unk0 = (intptr_t)&DAT_010a112c;
         unkC = false;
     }
     S_00a9af40* FUN_00a9af40(CloningProcess* pkCloning);

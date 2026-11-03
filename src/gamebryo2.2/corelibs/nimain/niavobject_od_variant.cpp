@@ -4,6 +4,7 @@
 
 // src/gamebryo2.2/corelibs/nimain/niavobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/niavobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 #include "fnv/decl/DummyStruct_00631820.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/symbols_004b0000.h"
@@ -143,5 +144,5 @@ void ObjPtrArray::FUN_004afc80()
     {
         m_pBase = 0;
     }
-    ::FUN_004b0220((int)(pSaveBase));
+    ::FUN_004b0220((intptr_t)(pSaveBase));
 }

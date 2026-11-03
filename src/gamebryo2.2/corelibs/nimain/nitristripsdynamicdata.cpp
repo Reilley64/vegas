@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/nitristripsdynamicdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nitristripsdynamicdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/A76340StripsData.h"
 #include "fnv/decl/NiTriStripsDataA75F.h"
 #include "fnv/decl/NiTriStripsDataImpl__FUN_00a76040.h"
@@ -96,7 +97,7 @@ void* __cdecl FUN_00a923f0()
         char* pBytes = (char*)pNode;
         ::FUN_00a75e20((::NiTriBasedGeomData *)(((FUN_00a75e20_shell*)pBytes)));
         *(unsigned short*)(pBytes + 0x50) = 0;
-        *(int*)pBytes = (int)&DAT_0109fc54;
+        *(intptr_t*)pBytes = (intptr_t)&DAT_0109fc54;
         *(unsigned short*)(pBytes + 0x52) = 0;
         return pNode;
     }
@@ -113,7 +114,7 @@ void FUN_00a92490_shell::SetShortValue(short value)
 {
     *(short*)((char*)this + 0x52) = value;
     if (*(short*)((char*)this + 0x44))
-        *(short*)(*(unsigned int*)((char*)this + 0x48)) = value;
+        *(short*)(*(uintptr_t*)((char*)this + 0x48)) = value;
 }
 
 struct FUN_00a75dc0
@@ -486,7 +487,7 @@ struct NiTriStripsStandin
 // @fnv 0x00a92530
 void NiTriStripsStandin::FUN_00a92530(void* stream)
 {
-    reinterpret_cast<::A76340StripsData *>((this))->FUN_00a76340((*(::A76340Stream *)((unsigned int)stream)));
+    reinterpret_cast<::A76340StripsData *>((this))->FUN_00a76340((*(::A76340Stream *)((uintptr_t)stream)));
     NiStreamBufferStandin* pBuffer = *(NiStreamBufferStandin**)((char*)stream + 0x250);
     int written;
     {

@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nirotdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nirotdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/A5D6E0This.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -132,7 +133,7 @@ struct TimedRotationKey
     int a;
     int b;
     int c;
-    int d;
+    intptr_t d;
     int e;
     unsigned char f;
 };
@@ -891,7 +892,7 @@ struct RotDataLink_cls : public NiObject2
 // @fnv 0x00a48440
 void RotDataLink_cls::FUN_00a48440(NiStream2& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     NiStreamLoadBinary2(kStream, m_uiNumKeys);
     if (m_uiNumKeys > 0)
     {

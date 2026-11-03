@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/niblendcolorinterpolator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BlendCopy.h"
 #include "fnv/decl/BlendSerializer.h"
@@ -70,7 +71,7 @@ NiBlendColorInterpolator* __cdecl CreateBlendColorInterpolator()
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) class ::FUN_00a36890();
-        *(int*)pInterpolator = (int)&DAT_0109a58c;
+        *(intptr_t*)pInterpolator = (intptr_t)&DAT_0109a58c;
         *(int*)&pInterpolator->m_kColorValue = *(int*)&::DAT_011a9430;
         *(int*)((char*)pInterpolator + 0x34) = DAT_011a9434;
         *(int*)((char*)pInterpolator + 0x38) = DAT_011a9438;

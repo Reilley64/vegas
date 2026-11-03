@@ -129,7 +129,7 @@ class NiCriticalSectionA62
     int unk7C;
     ~NiCriticalSectionA62() throw()
     {
-        DeleteCriticalSection(&m_kCriticalSection);
+        DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_kCriticalSection));
     }
 };
 

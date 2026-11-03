@@ -2,6 +2,8 @@
 // src/gamebryo2.2/corelibs/nimain/nifogproperty.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/nifogproperty.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -132,7 +134,6 @@ struct CalleeA5d7a0
 {
 };
 
-void* __cdecl FUN_00aa13e0(unsigned int);
 
 
 // @fnv 0x00a99f60
@@ -164,7 +165,7 @@ void* MyClass::FUN_00a99f60(int arg)
     }
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int bytes);
+
 
 struct NiFogProperty : NiProperty
 {
@@ -401,11 +402,11 @@ struct FogViewer : PropertyBase
 void FogViewer::FUN_00a9a2a0(ViewerStrings* pViewerStrings)
 {
     reinterpret_cast<::FUN_00a62a40_this *>(this)->AppendString((::StrArr *)(pViewerStrings));
-    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::RTTIStub *>(&::g_011f5f34)).m_pcName)));
-    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d370("Enable", GetFog())));
-    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("Depth", m_fFogDepth)));
-    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(FormatFogFunction("Function", GetFogFunction())));
-    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_kFogTint))->GetFormattedString("Color")));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::RTTIStub *>(&::g_011f5f34)).m_pcName)));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::FUN_00a7d370("Enable", GetFog())));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((intptr_t)&(const char *const &)(::FUN_00a7d550("Depth", m_fFogDepth)));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((intptr_t)&(const char *const &)(FormatFogFunction("Function", GetFogFunction())));
+    reinterpret_cast<::S_0060ba10 *>((pViewerStrings))->FUN_0096a610((intptr_t)&(const char *const &)(reinterpret_cast<::NiColor *>((void *)&(m_kFogTint))->GetFormattedString("Color")));
 }
 
 class NiBinaryStreamA9A2

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dgpuprogramcache.cpp: NiD3DGPUProgramCache, NiFixedString, Holder, ShaderLoader8e (15 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -338,7 +339,7 @@ void __cdecl FUN_00aa1460(void* apMemory, unsigned int auiSize);
 
 struct FUN_00e8eb10_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     RefCounted* m_08;
     Holder m_0c;
@@ -360,7 +361,7 @@ FUN_00e8eb10_cls* FUN_00e8eb10_cls::Destroy(unsigned char acFlags)
             pRef->f1();
         }
     }
-    m_vptr = (int)&DAT_0101dce4;
+    m_vptr = (intptr_t)&DAT_0101dce4;
     InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
     if (acFlags & 1)
     {
@@ -683,7 +684,7 @@ bool ShaderLoader8e::LoadShaderProgram(ShaderStream8e* pkStream, const FixedStri
     *ppkProgram = 0;
     unsigned int uiCodeSize = 0;
     char acType[256];
-    ::FUN_00ee92d0((::S_00a8d8b0 *)this, (unsigned int)(pkStream), (unsigned int)(acType));
+    ::FUN_00ee92d0((::S_00a8d8b0 *)this, (uintptr_t)(pkStream), (uintptr_t)(acType));
 
     bool bVertex;
     if (FUN_00aa1360(acType, (*reinterpret_cast<const char * *>(&::g_0126fa48))) == 0)
@@ -787,7 +788,7 @@ bool WriteTextToFile(const char* pcFileName, const char* pcText)
 
 void* __cdecl FUN_00aa1070(unsigned int size);
 void __cdecl FUN_00aa10f0(void* p);
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct RefCountedBase
 {
@@ -949,9 +950,9 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             const char* ext = vfn60();
             ::NiSprintf(path, 0x104, "%s\\%s\\%s-V.%s", *stem, m_44, name, ext);
             ::NiSprintf(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
-            unsigned int len = strlen(text);
+            uintptr_t len = strlen(text);
             int tgt = m_24;
-            RefCountedBase* r = (RefCountedBase*)((void *)(::fnv_00e93850::FUN_00e93850(text, (const char *)(len), path, path, (unsigned int)("Main"), tgt, 0, 0, 0, 1)));
+            RefCountedBase* r = (RefCountedBase*)((void *)(::fnv_00e93850::FUN_00e93850(text, (const char *)(len), path, path, (uintptr_t)("Main"), tgt, 0, 0, 0, 1)));
             pObj.FUN_00a5f860(r);
         }
         else if (m_3c == 2)
@@ -960,8 +961,8 @@ RefCountedBase* S00e8eb80_Obj::FUN_00e8eb80(const char* name, const char* apSour
             const char* ext = vfn60();
             ::NiSprintf(path, 0x104, "%s\\%s\\%s-P.%s", *stem, m_44, name, ext);
             ::NiSprintf(text, srcLen + 0x208, "#line 2 \"%s\"\n%s", path, apSource);
-            unsigned int len = strlen(text);
-            int tgt = m_24;
+            uintptr_t len = strlen(text);
+            intptr_t tgt = m_24;
             RefCountedBase* r = (RefCountedBase*)::FUN_00e938e0(text, (void *)(len), path, path, (void *)("Main"), (void *)(tgt), (void *)(1));
             pObj.FUN_00a5f860(r);
         }

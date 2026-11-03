@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSPerk;
 class TESSound;
@@ -50,7 +51,7 @@ void FUN_00705870(int);
 // 0x007058e0
 namespace fnv_007058e0 { void FUN_007058e0(); }
 // 0x00705910
-namespace fnv_00705910 { int FUN_00705910(); }
+namespace fnv_00705910 { intptr_t FUN_00705910(); }
 // 0x00705950
 ::BSSimpleList< ::BGSPerk *> *FUN_00705950();
 // 0x00705990

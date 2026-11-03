@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a3dab0
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include <cstring>
@@ -315,7 +316,7 @@ struct FUN_00a3dc80_shell
 // @fnv 0x00a3dc80
 void FUN_00a3dc80_shell::FUN_00a3dc80(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>((((NiObject*)this)))->FUN_00a5d430((uintptr_t)&(kCloning));
     NiObject* pkPath = m_pPathObject.m_pObject;
     if (pkPath)
         pkPath->ProcessClone(kCloning);
@@ -1478,7 +1479,7 @@ bool NiPathInterpQ::UpdateTransform(float fTime, NiObjectNETQ* pkTarget, NiQuatT
         return false;
     float fPct = ::InterpolateKey(fTime, (const ::S00a26b40_Key *)(pkKeys), eType, uiNumKeys, (unsigned int *)&(m_uiPercentKeyCount), ucSize);
 
-    int iI1, iI2;
+    intptr_t iI1, iI2;
     reinterpret_cast<::PathInterpExt *>(this)->FindKeyPair(fPct, (unsigned int &)(iI1), (unsigned int &)(iI2), fPct);
 
     if (GetFollow())
@@ -1726,7 +1727,7 @@ struct PathBlend
 {
     FV3* FUN_00439e90(FV3*, const FV3*);
 };
-extern "C" void* __cdecl memcpy(void*, const void*, unsigned int);
+
 extern float DAT_011f3e40;
 extern unsigned int DAT_011f3e44;
 extern "C" double __cdecl atan(double);

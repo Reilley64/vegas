@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nioldscreenspace.cpp: NiScreenPolygon, NiScreenGeometry, Holder, HolderBase and more (45 functions)
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include <cstring>
@@ -116,7 +117,7 @@ void* __cdecl FUN_00a8ffc0()
         *puiField10 = 0;
         puiField10[1] = 0;
         puiField10[2] = 0;
-        *reinterpret_cast<unsigned*>(p) = reinterpret_cast<unsigned>(&::DAT_0109f914);
+        *reinterpret_cast<uintptr_t*>(p) = reinterpret_cast<uintptr_t>(&::DAT_0109f914);
         return p;
     }
     return 0;
@@ -134,7 +135,7 @@ struct NiScreenGeometry
 // @fnv 0x00a90040
 void* NiScreenGeometry::FUN_00a90040(unsigned int flags)
 {
-    *(int*)this = (int)&DAT_0109f81c;
+    *(intptr_t*)this = (intptr_t)&DAT_0109f81c;
     reinterpret_cast<::FUN_00a89760_cls *>((this))->FUN_00a89760_cls::~FUN_00a89760_cls();
     if (flags & 1)
         __Dummy_00b6fef0(this, 0xc4);
@@ -587,7 +588,7 @@ void* __cdecl FUN_00a90b20()
     return 0;
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct BaseA8F260
 {
@@ -777,7 +778,7 @@ struct HeapAllocator
 
 struct FUN_00a902e0_cls
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int m_04;
     void* m_08;
     void* m_0c;
@@ -801,7 +802,7 @@ FUN_00a902e0_cls* FUN_00a902e0_cls::FUN_00a902e0(unsigned char acFlags)
             {
                 p = (FUN_00a902e0_cls*)((char*)p - 20);
                 void* a = p->m_08;
-                p->m_vptr00 = (int)&DAT_0109f814;
+                p->m_vptr00 = (intptr_t)&DAT_0109f814;
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(a);
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p->m_0c);
                 reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p->m_10);
@@ -815,7 +816,7 @@ FUN_00a902e0_cls* FUN_00a902e0_cls::FUN_00a902e0(unsigned char acFlags)
     }
 
     void* a = m_08;
-    m_vptr00 = (int)&DAT_0109f814;
+    m_vptr00 = (intptr_t)&DAT_0109f814;
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(a);
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(m_0c);
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::HeapAllocator *>(&::g_memoryManager))))->FUN_00aa4060(m_10);
@@ -940,7 +941,7 @@ bool ScrGeomData::IsEqual(const ScrGeomData* pkOther)
     return true;
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct GlobalAlloc_a905c0
 {
@@ -980,15 +981,15 @@ struct OwnerCls_a905c0
     unsigned int unk04;
     void* m_08;
 
-    SpawnedObj_a905c0* CreateSpawnedObj(unsigned int arg);
+    SpawnedObj_a905c0* CreateSpawnedObj(uintptr_t arg);
 };
 
 // Allocates a SpawnedObj_a905c0, initializes it with arg, then stores a sub-object created from m_08 into m_08 and returns it.
 // @fnv 0x00a905c0
-SpawnedObj_a905c0* OwnerCls_a905c0::CreateSpawnedObj(unsigned int arg)
+SpawnedObj_a905c0* OwnerCls_a905c0::CreateSpawnedObj(uintptr_t arg)
 {
     SpawnedObj_a905c0* p = new SpawnedObj_a905c0();
-    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((unsigned int)(p), (void *)(arg));
+    reinterpret_cast<::FUN_00a5d450_class *>(this)->CreateVertexBufferSet((uintptr_t)(p), (void *)(arg));
     void* pAlloc = reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::GlobalAlloc_a905c0 *>(&::g_memoryManager))))->FUN_00aa3e40(0x1c);
     p->m_08 = pAlloc ? ((void *)(new ((void *)(((Sub_a905c0*)pAlloc))) ::NiScreenPolygon((*(const ::NiScreenPolygon *)(m_08))))) : 0;
     return p;
@@ -1060,7 +1061,7 @@ struct FUN_00a90640_cls
 // @fnv 0x00a90640
 void FUN_00a90640_cls::AddPropsFromSource(PropSrc* pSource)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     unsigned int n = reinterpret_cast<::FUN_00a63460_shell *>((pSource))->FUN_00a63460();
     if (n == 0)
         return;
@@ -1806,7 +1807,7 @@ struct FUN_00a90f70_poly : NiObject
 // @fnv 0x00a90f70
 void FUN_00a90f70_poly::FUN_00a90f70(SaveStream& kStream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     SaveStream& s = kStream;
     SaveRaw(s, &m_usVertices, 2);
     for (unsigned short i = 0; i < m_usVertices; i++)
@@ -3106,7 +3107,7 @@ struct SequenceOwner : public ClonerBase
 // @fnv 0x00a916a0
 void SequenceOwner::FUN_00a916a0(SequenceOwner* pkDest, CloningProcess& kCloning) throw()
 {
-    reinterpret_cast<::FUN_00a70f60_Obj *>(this)->FUN_00a70f60((::NiCamera *)(pkDest), (int)&(kCloning));
+    reinterpret_cast<::FUN_00a70f60_Obj *>(this)->FUN_00a70f60((::NiCamera *)(pkDest), (intptr_t)&(kCloning));
 
     reinterpret_cast<::NiTObjectArrayA47 *>(&(pkDest->m_kSequencesA))->FUN_00a47770(m_kSequencesA.GetSize());
     pkDest->m_kSequencesA.SetGrowBy(m_kSequencesA.GetGrowBy());

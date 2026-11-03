@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/EqBase.h"
 #include "fnv/decl/FUN_00a5c200.h"
@@ -888,7 +889,7 @@ bool NiShadeProperty::FUN_00a9a5b0(NiObject* pkObject)
 }
 }  // namespace fnv_00a9a5b0
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct RefCountedProperty
 {

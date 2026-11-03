@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CloneableObj.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -419,7 +420,7 @@ void A36590Controller::FUN_00a36590(A36590Object* pkObject, int iUnused)
     reinterpret_cast<::FUN_00a364b0_cls *>((pkNode))->FUN_00a364b0((*(::V3 *)&(const ::A36590QuatTransform &)(kTransform)), {}, {});
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 class NiTransformInitA
 {

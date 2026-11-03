@@ -1,6 +1,8 @@
 // with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
 
 
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -233,7 +235,7 @@ struct FUN_00e69b40_shell {
     unsigned int count;
     unsigned int pad24;
     unsigned int* entries;
-    unsigned int GetEntry(unsigned int index);
+    uintptr_t GetEntry(unsigned int index);
 };
 unsigned int GetValueForIndex(unsigned int uiIndex);
 struct NiPoint3 { float x, y, z; public:
@@ -540,7 +542,7 @@ struct S_00e69a20
 	DepthDevice* dev;
 	bool CreateDepthStencilBuffer(Ni2DBuffer* a, NiPixelFormat const* b, unsigned int c);
 };
-extern "C" char* __cdecl strcat_s(char* dest, unsigned int size, const char* src);
+
 struct FUN_00e69c00_shell {
     char pad[0x5cc];
     unsigned int flags;
@@ -1925,7 +1927,7 @@ struct FUN_00e69a60_obj20 {
 };
 struct FUN_00e69a60_obj14 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererListNode
 {
     void* m_pListObject;
@@ -3837,7 +3839,7 @@ struct ResourceParameters {
     unsigned int unk08;
 };
 extern const char DAT_010edbb8[];
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct RendererBridge {
     RendererStateSlot* State(unsigned int idx) {
         return reinterpret_cast<RendererStateSlot*>(reinterpret_cast<char*>(this) + 0x700 + 0x58 * idx);
@@ -8037,7 +8039,7 @@ struct ShaderStreamInfo {
     bool m_bStreamFlag;
     unsigned int m_uiStreamIndex;
     ShaderStreamMapping* m_pkEntryArray;
-    unsigned int m_uiStride;
+    uintptr_t m_uiStride;
 };
 class NiDX9ShaderDeclStub {
 public:
@@ -20423,7 +20425,7 @@ struct NewObj {
 };
 struct Map610 {
 };
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 struct C_00e8f010;
 struct TwoComponentVector;
 struct VBEntry;
@@ -25109,7 +25111,7 @@ struct PresentationParameters {
     unsigned swapEffect;
     void* window;
     int windowed, enableDepth;
-    unsigned depthFormat;
+    uintptr_t depthFormat;
     unsigned long flags;
     unsigned refreshRate, interval;
 };
@@ -25516,12 +25518,12 @@ struct PresentationRenderer {
     PresentationFormats* displayFormats;
     PresentationFormats* formats;
     bool FUN_00e6bf50(void* window, unsigned width, unsigned height, unsigned flags, unsigned backCount,
-                      unsigned format, unsigned depthFormat, unsigned count, unsigned swap,
+                      unsigned format, uintptr_t depthFormat, unsigned count, unsigned swap,
                       unsigned refresh, unsigned interval, PresentationParameters* out);
 };
 // @fnv 0x00e6bf50
 bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned height, unsigned flags, unsigned backCount,
-    unsigned format, unsigned depthFormat, unsigned count, unsigned swap,
+    unsigned format, uintptr_t depthFormat, unsigned count, unsigned swap,
     unsigned refresh, unsigned interval, PresentationParameters* out)
 {
     bool windowed;
@@ -25542,7 +25544,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     unsigned d3dFormat;
     d3dFormat = MapIndexToValue(format);
     if (!depthFormat) {
-        depthFormat = ((unsigned int)(reinterpret_cast<::RendererE7B *>((formats))->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8)));
+        depthFormat = ((uintptr_t)(reinterpret_cast<::RendererE7B *>((formats))->FUN_00e7b0f0(GetValueForIndex(format), d3dFormat, bitsPerPixel, flags & 8)));
         if (!depthFormat) {
             fnv::crt::strncpy_s(DAT_011f4648, 256, DAT_010ed778, 255);
             ::FUN_00a29680();
@@ -25590,7 +25592,7 @@ bool PresentationRenderer::FUN_00e6bf50(void* window, unsigned width, unsigned h
     previousRefreshRate = out->refreshRate;
     if (out->windowed) out->refreshRate = 0;
     else {
-        if (!((unsigned int)(reinterpret_cast<::Owner *>((displayFormats))->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)))) {
+        if (!((uintptr_t)(reinterpret_cast<::Owner *>((displayFormats))->FUN_00e7b190(GetValueForIndex(MapCodeToIndex(out->format)), out->width, out->height, &out->refreshRate)))) {
             FUN_00e69ad0(DAT_010ed69c);
             ::FUN_00a29680();
             return false;
@@ -26542,15 +26544,15 @@ struct ResetRenderer {
 bool ResetRenderer::FUN_00e736b0() {
  reinterpret_cast<::ControllerMapE8B *>((manager3))->FUN_00e8be20(); reinterpret_cast<::Owner8F6D0 *>((manager2))->FUN_00e8f6d0(); reinterpret_cast<::This_cd60 *>((manager1))->FUN_00e8cd60();
  FUN_00e7cc50((int*)device,1); FUN_00e7cc50((int*)device,2); FUN_00e7cc50((int*)device,3);
- long (*decrement)(long volatile*)=InterlockedDecrement;
+ long (*decrement)(long volatile*)= [](volatile long* p) { return InterlockedDecrement(p); };
  ResetNode* pos=geometry.First();
  while(pos) { const char* key; ResetObject* obj=0; reinterpret_cast<::FUN_00e6e630_cls *>(&(geometry))->AdvanceIterator((::MapItemNode **)&(pos),(unsigned int *)&(key),(::MapValueObject **)&(obj)); ResetObject* object=obj;
  object->Buffer(0)->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5d8)))->Lost();
  ResetFlagState* other=object->OtherBuffer(); if(other && other->data) { ResetObject* data=other->data->Cast(&(*reinterpret_cast<::ResetRTTI *>(&::g_0126f5ac))); if(data) data->Lost(); }
  if(!decrement((long*)&object->refs)) object->Destroy(); }
- { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map1)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
- { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map2)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
- { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); key->unk24=0; if(value) value->Delete(1); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map3)))->InsertOrUpdate((unsigned)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map1.First(); while(iter) { ResetGeometry* key; ResetObject* value; map1.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map1)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map2.First(); while(iter) { ResetGeometry* key; ResetObject* value; map2.Next(iter,key,value); ReleaseGeometry(key); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map2)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
+ { ResetNode* iter=map3.First(); while(iter) { ResetGeometry* key; ResetObject* value; map3.Next(iter,key,value); key->unk24=0; if(value) value->Delete(1); reinterpret_cast<::HashTableBase *>((((NiVBSet*)&map3)))->InsertOrUpdate((uintptr_t)key,(unsigned int)(0)); } }
  ::FUN_00e7cec0();
  { ResetResourceNode* iter=resources; while(iter) { ResetResourceList::Next(iter)->LostResource(); } }
  manager->Run();
@@ -26665,7 +26667,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 }
             }
         }
-        if (!::FUN_00e8bfa0((::Outer *)(manager), (unsigned int)(data)))
+        if (!::FUN_00e8bfa0((::Outer *)(manager), (uintptr_t)(data)))
             return 0;
         buffer = (Buffer767*)((FUN_00e69b40_shell*)data)->GetEntry(stream);
         mask = 0xfff;
@@ -26721,7 +26723,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
                 if (!(mask & 8)) continue;
                 break;
             }
-            ::ConvertGeometryData((unsigned short)this, (::NiGeometryData *)(vertexCount), (unsigned int)(geometry), (::E7Skin *)(skinInstance), (::E7Descriptor *)(skin), (unsigned int)(entry), (void *)(entries->m_uiStride), (bool)(output), (*(unsigned int *)&(const ::Extra767 &)(inputs6.extra)));
+            ::ConvertGeometryData((unsigned short)this, (::NiGeometryData *)(vertexCount), (uintptr_t)(geometry), (::E7Skin *)(skinInstance), (::E7Descriptor *)(skin), (uintptr_t)(entry), (void *)(entries->m_uiStride), (bool)(output), (*(unsigned int *)&(const ::Extra767 &)(inputs6.extra)));
         }
     }
     if (skinned)
@@ -26730,7 +26732,7 @@ Buffer767* Shader767::FUN_00e76770(Geometry767* geometry, SkinProcessor767* skin
     return buffer;
 }
 
-void* __cdecl FUN_00aa1420(unsigned int size);
+
 void __cdecl FUN_00e78bd0(void* element);
 void FUN_00401050(void* buffer, unsigned int elementSize, unsigned int count, void (__cdecl* ctor)(void*));
 struct OuterSlot { OuterSlot() throw();

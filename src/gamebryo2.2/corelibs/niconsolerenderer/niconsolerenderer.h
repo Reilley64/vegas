@@ -2,6 +2,7 @@
 #ifndef FNV_NICONSOLERENDERER_H
 #define FNV_NICONSOLERENDERER_H
 
+#include <cstdint>
 #include <windows.h>
 #include "fnv/decl/FUN_0084e3a0_Class.h"
 #include "fnv/decl/Twin_0044ddc0.h"
@@ -12,7 +13,7 @@
 #pragma optimize("", off)
 
 // @fnv 0x004dee10
-unsigned int GraphicsRenderer::GetRenderTargetWidth()
+uintptr_t GraphicsRenderer::GetRenderTargetWidth()
 {
     struct HeightLocals
     {
@@ -25,11 +26,11 @@ unsigned int GraphicsRenderer::GetRenderTargetWidth()
     local.array = ((NiConsoleRendererGroupVTable*)local.group)->slot44(0);
     if (local.array == 0)
         return 0;
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((local.array))->GetName()));
+    return ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((local.array))->GetName()));
 }
 
 // @fnv 0x004dee70
-unsigned int GraphicsRenderer::GetRenderTargetHeight()
+uintptr_t GraphicsRenderer::GetRenderTargetHeight()
 {
     struct WidthLocals
     {
@@ -42,7 +43,7 @@ unsigned int GraphicsRenderer::GetRenderTargetHeight()
     local.caster = ((NiConsoleRendererWidthGroupVTable*)local.group)->slot44(0);
     if (local.caster == 0)
         return 0;
-    return (unsigned int)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((local.caster))->FUN_0084e3a0()));
+    return (uintptr_t)((::MagicItem *)(reinterpret_cast<::FUN_0084e3a0_Class *>((local.caster))->FUN_0084e3a0()));
 }
 
 #pragma optimize("", on)
@@ -56,12 +57,12 @@ bool GraphicsRenderer::BeginUsingRenderTargetGroup(NiRenderTargetGroup* group, u
         ::FUN_00a29680();
         return false;
     }
-    EnterCriticalSection(&m_acRendererDataC);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_acRendererDataC));
     bool result = ((NiConsoleRendererPacketVTable*)this)->BeginGroup(group, clear);
     if (result)
         m_bRendererFlagA = true;
     else
-        LeaveCriticalSection(&m_acRendererDataC);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_acRendererDataC));
     return result;
 }
 // @fnv 0x00a6fa30

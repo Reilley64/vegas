@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00a4cf50
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a57640_shell.h"
 #include "fnv/decl/FUN_00a6d290.h"
@@ -99,21 +100,21 @@ void FUN_00a4d100(NiTPrimitiveArray<char*, NiTMallocInterface<char*> >* pkString
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(uIdx, pszStr);
 }
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FloatInterpOwner
 {
-    void* CreateFloatInterpController(int arg);
+    void* CreateFloatInterpController(intptr_t arg);
 };
 
 // @fnv 0x00a4d080
-void* FloatInterpOwner::CreateFloatInterpController(int arg)
+void* FloatInterpOwner::CreateFloatInterpController(intptr_t arg)
 {
     NiFloatInterpController* obj = (NiFloatInterpController*)FUN_00aa13e0(0x38);
     if (obj != 0)
     {
         reinterpret_cast<::FUN_00a57640_shell *>((obj))->FUN_00a57640();
-        *(int*)obj = (int)&DAT_01098ccc;
+        *(intptr_t*)obj = (intptr_t)&DAT_01098ccc;
     }
     else
     {
@@ -292,7 +293,7 @@ struct FUN_00a4d030_cls
 // @fnv 0x00a4d030
 FUN_00a4d030_cls* FUN_00a4d030_cls::FUN_00a4d030(unsigned char acFlags)
 {
-    *(volatile int*)&m_vptr = (int)&DAT_01098ccc;
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&DAT_01098ccc;
     a4d030_Counted* pCounted = *(a4d030_Counted* volatile*)&m_pCounted;
     if (pCounted != 0)
     {

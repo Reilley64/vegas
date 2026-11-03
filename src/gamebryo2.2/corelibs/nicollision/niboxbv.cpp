@@ -4,6 +4,7 @@
 
 // Returns the constant value 1.
 // @fnv 0x00b6f470
+#include <cstdint>
 #include <new>
 #include <cmath>
 #include "fnv/decl/ColorContainer.h"
@@ -187,7 +188,7 @@ bool FUN_00ea3950(float afLength, const void* pA, const void* pB, const void* pC
 
 struct FUN_00ea0820
 {
-    int v0, v1, v2, v3;
+    intptr_t v0, v1, v2, v3;
     int v10, v11, v12, v13, v14, v15, v16, v17, v18;
     float f34, f38, f3c;
     FUN_00ea0820(const NiPoint3& b, const NiPoint3& a, const NiPoint3& c, const NiPoint3& d, const NiPoint3& e);
@@ -197,7 +198,7 @@ struct FUN_00ea0820
 FUN_00ea0820::FUN_00ea0820(const NiPoint3& aPoint1, const NiPoint3& aPoint2, const NiPoint3& aPoint3,
                            const NiPoint3& aPoint4, const NiPoint3& aPoint5)
 {
-    v0 = (int)&DAT_010f1814;
+    v0 = (intptr_t)&DAT_010f1814;
     v1 = *(int*)&aPoint2;
     v2 = *(int*)((char*)&aPoint2 + 4);
     v3 = *(int*)((char*)&aPoint2 + 8);
@@ -223,13 +224,13 @@ struct Ea07Owner
 {
     int m_00;
     Ea07Sub m_04;
-    void FUN_00ea07e0(int a);
+    void FUN_00ea07e0(intptr_t a);
 };
 
 // @fnv 0x00ea07e0
-void Ea07Owner::FUN_00ea07e0(int a)
+void Ea07Owner::FUN_00ea07e0(intptr_t a)
 {
-    ::FUN_00a89af0((int)(this));
+    ::FUN_00a89af0((intptr_t)(this));
     reinterpret_cast<::FUN_00eae5d0_cls *>(&(m_04))->WriteToStream((::NiStream *)(a));
 }
 
@@ -1932,7 +1933,7 @@ bool FUN_00ea2030(float fTime, const CenteredPointBounds* pBox, const void* pVel
 
     BoxSphereIsect kIsect;
     new ((void *)&(kIsect)) ::FUN_00eb3890_cls((::BEB3890Body *)(pBox), (::BEB3890Body *)(pSphere), fTime, ::AngularDashpotApplyD4DCB0::DAT_01017d00, ::DAT_010141cc, 0x20);
-    ::FUN_00eae6e0((::VTableObject *)&(kIsect), (int)(pVel0));
+    ::FUN_00eae6e0((::VTableObject *)&(kIsect), (intptr_t)(pVel0));
     bool bIntersecting;
     if (reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(kIsect))->FUN_00be0aa0() == 3 || reinterpret_cast<::FnvCpu_FUN_00be0aa0_CpuObject *>(&(kIsect))->FUN_00be0aa0() == 2)
         bIntersecting = true;

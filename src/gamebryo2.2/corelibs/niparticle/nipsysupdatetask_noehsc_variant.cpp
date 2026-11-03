@@ -8,6 +8,7 @@
 #include <new>
 #include <cstddef>
 #include <windows.h>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a311e0_s.h"
@@ -186,7 +187,7 @@ struct Elem_c25 : FUN_00a5d3d0
     void* DestroyElements(unsigned int uiFlags);
 };
 
-extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
+
 struct C25990Elem
 {
     void* m_vf;

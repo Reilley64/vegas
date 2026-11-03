@@ -2,6 +2,7 @@
 // src/staging/blk_00840000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -458,11 +459,11 @@ struct FUN_0084e3a0_Class
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
-    int FUN_0084e3a0();
+    intptr_t FUN_0084e3a0();
 };
 
 // @fnv 0x0084e3a0
-int FUN_0084e3a0_Class::FUN_0084e3a0()
+intptr_t FUN_0084e3a0_Class::FUN_0084e3a0()
 {
     return m_iThirdValue;
 }

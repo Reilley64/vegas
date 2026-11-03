@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nicollision/niobbleaf.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nicollision/niobbleaf.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_004a0c10_s.h"
 #include "fnv/decl/FUN_004b6190_shell.h"
 #include "fnv/decl/NiTransform.h"
@@ -32,12 +33,12 @@ struct S_00eb8250_Edges
     void* m_e2;
 };
 
-int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* tri, S_00eb8250_Pt* n, float d, int p3, float p4, int p5,
-                         int p6);
+int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* tri, S_00eb8250_Pt* n, float d, intptr_t p3, float p4, intptr_t p5,
+                         intptr_t p6);
 
 // Computes the triangle's normal and plane offset, then tests it against all three edge pairs via FUN_00eb7dc0, OR-ing the results.
 // @fnv 0x00eb8250
-int __cdecl FUN_00eb8250(S_00eb8250_Edges* e, S_00eb8250_Tri* tri, int p3, float p4, int p5, int p6)
+int __cdecl FUN_00eb8250(S_00eb8250_Edges* e, S_00eb8250_Tri* tri, intptr_t p3, float p4, intptr_t p5, intptr_t p6)
 {
     S_00eb8250_Pt u, v, n;
     u.x = tri->m_kPointB->x - tri->m_kPointA->x;
@@ -312,8 +313,8 @@ struct S_00eb8790_Node
     virtual void v0();
     virtual bool isLeaf();
     virtual void v2();
-    virtual int FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
-                             int a5, int depth, int stampA, int stampB, int a9);
+    virtual int FUN_00eb8790(S_00eb8790_Node* other, intptr_t a1, intptr_t a2, S_00eb8790_Body* bodyA, S_00eb8790_Body* bodyB,
+                             int a5, int depth, int stampA, int stampB, intptr_t a9);
 
 
     S_00eb8790_Volume m_iBufferSize;  // 04
@@ -323,8 +324,8 @@ struct S_00eb8790_Node
 };
 
 // @fnv 0x00eb8790
-int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb8790_Body* bodyA,
-                                  S_00eb8790_Body* bodyB, int a5, int depth, int stampA, int stampB, int a9)
+int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, intptr_t a1, intptr_t a2, S_00eb8790_Body* bodyA,
+                                  S_00eb8790_Body* bodyB, int a5, int depth, int stampA, int stampB, intptr_t a9)
 {
     if (stampA != m_stamp)
     {
@@ -351,11 +352,11 @@ int S_00eb8790_Node::FUN_00eb8790(S_00eb8790_Node* other, int a1, int a2, S_00eb
                 return result;
             return 0;
         }
-        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (int)(bodyA), (int)(bodyB), (bool *)(a9));
+        return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (intptr_t)(bodyA), (intptr_t)(bodyB), (bool *)(a9));
     }
     if (a5 < 0 && depth < 0)
         return reinterpret_cast<::FNV_PhysObj *>(this)->FUN_00eb85d0((::FNV_PhysObj *)(other), (::FNV_Shape *)(a1), (::FNV_Shape *)(a2), (::FNV_Shape *)(bodyA), (::FNV_Shape *)(bodyB), (unsigned char *)(a9));
-    return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (int)(bodyA), (int)(bodyB), (bool *)(a9));
+    return reinterpret_cast<::OBBLeaf *>(this)->FUN_00eb9b00((::OBBLeaf *)(other), a1, a2, (intptr_t)(bodyA), (intptr_t)(bodyB), (bool *)(a9));
 }
 
 // ComputeBarycentric: barycentric-style solve over three edge vectors from a base point.
@@ -561,7 +562,7 @@ int FUN_00eb8930_cls::FUN_00eb8930(Vec3* a1, Vec3* a2, Rec* apRec, unsigned char
     *pOutHit = ok;
     if (ok == 0)
         return 0;
-    Node* n = ((::Node *)(reinterpret_cast<::TexturePoolE993 *>(&(apRec->m_18))->GetTexture((int)(apObj5))));
+    Node* n = ((::Node *)(reinterpret_cast<::TexturePoolE993 *>(&(apRec->m_18))->GetTexture((intptr_t)(apObj5))));
     n->m_08 = point;
     n->m_14 = t;
     if (apRec->m_31 != 0)
@@ -1009,8 +1010,8 @@ FUN_00eb6b90::FUN_00eb6b90(S_eb6b90_Root* pkRoot, unsigned short* pusTriList, S_
 
 // Clips barycentric coordinates to the positive octant and updates the bound and point when a nearer candidate is found.
 // @fnv 0x00eb7dc0
-int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* apTriangle, S_00eb8250_Pt* apNormal, float d, int p3,
-                         float p4, volatile int apNearestDistance, int apHitPoint)
+int __cdecl FUN_00eb7dc0(void* a, void* b, S_00eb8250_Tri* apTriangle, S_00eb8250_Pt* apNormal, float d, intptr_t p3,
+                         float p4, volatile intptr_t apNearestDistance, intptr_t apHitPoint)
 {
     float t;
     struct Geometry
@@ -1203,12 +1204,12 @@ int ComputeContactTime(PhysObj_eb83b0* apObjA, PhysObj_eb83b0* apObjB, float* pf
     Point3 vContactA, vContactB;
     Point3 relativeVelocity;
     relativeVelocity = pInfoA->velocity - *velocityB;
-    int hitA = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, (int)&(relativeVelocity),
-                            duration, (int)(&timeA), (int)(&vContactA));
+    int hitA = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjA->m_8c, (S_00eb8250_Tri*)&apObjB->m_8c, (intptr_t)&(relativeVelocity),
+                            duration, (intptr_t)(&timeA), (intptr_t)(&vContactA));
     float timeB = 3.402823466e+38F;
     relativeVelocity = *velocityB - pInfoA->velocity;
-    int hitB = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, (int)&(relativeVelocity),
-                            duration, (int)(&timeB), (int)(&vContactB));
+    int hitB = ::FUN_00eb8250((S_00eb8250_Edges*)&apObjB->m_8c, (S_00eb8250_Tri*)&apObjA->m_8c, (intptr_t)&(relativeVelocity),
+                            duration, (intptr_t)(&timeB), (intptr_t)(&vContactB));
     if (hitA)
     {
         if (hitB)

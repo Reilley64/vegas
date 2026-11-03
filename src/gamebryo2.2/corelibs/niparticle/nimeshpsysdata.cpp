@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/niparticle/nimeshpsysdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -298,7 +299,7 @@ struct NiMeshPSysData_00c30920 : NiObject
 // @fnv 0x00c30920
 void NiMeshPSysData_00c30920::FUN_00c30920(CloningProcess& kCloning)
 {
-    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00a5d430_Class *>(this)->FUN_00a5d430((uintptr_t)&(kCloning));
     m_pMeshNode->ProcessClone(kCloning);
 }
 

@@ -2,6 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-long DAT_011f5ea0;
-long DAT_011f5ea4;
-long DAT_011f5ea8;
+intptr_t DAT_011f5ea0;
+intptr_t DAT_011f5ea4;
+intptr_t DAT_011f5ea8;

@@ -1,4 +1,5 @@
 
+#include <cstdint>
 #include "fnv/decl/ListX.h"
 #include "fnv/decl/fnv_00445370__FUN_00445370_cls.h"
 #include "fnv/symbols_006f9000.h"
@@ -16,5 +17,5 @@ void NiTMap<TESGlobal*, bool>::NewItem() {
 template<>
 // @fnv 0x0048eff0
 void NiTMap<unsigned int, CombatThreatRecord*>::NewItem(void* item) {
-    reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(this)->FUN_00445370((unsigned int)(item), 1);
+    reinterpret_cast<::fnv_00445370::FUN_00445370_cls *>(this)->FUN_00445370((uintptr_t)(item), 1);
 }

@@ -2,6 +2,7 @@
 // src/staging/blk_00640000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -310,7 +311,7 @@ struct FUN_0064db00_class
 
 struct FUN_0064db50_class
 {
-    void FUN_0064db50(int a, int b);
+    void FUN_0064db50(int a, intptr_t b);
 };
 
 struct FUN_0064dbd0_Class
@@ -1918,11 +1919,11 @@ struct FUN_0065cc70_Holder
     int m_iWordAt04;
     int m_8;
     int m_C;
-    int FUN_0065cc70(unsigned int param);
+    intptr_t FUN_0065cc70(unsigned int param);
 };
 // Bounds-checks param against the holder's count, then returns the int stored at offset 0xc plus param.
 // @fnv 0x0065cc70
-int FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
+intptr_t FUN_0065cc70_Holder::FUN_0065cc70(unsigned int uiIndex)
 {
     if (uiIndex >= ((FUN_0065cc50_Class*)this)->FUN_0065cc50())
         std::abort();
@@ -1937,10 +1938,10 @@ struct TextureBasis
 };
 struct Holder : TextureBasis
 {
-    int FUN_0065cec0(unsigned int);
+    intptr_t FUN_0065cec0(unsigned int);
 };
 // @fnv 0x0065cec0
-int Holder::FUN_0065cec0(unsigned int auiIndex)
+intptr_t Holder::FUN_0065cec0(unsigned int auiIndex)
 {
     if (auiIndex >= ((unsigned int)(reinterpret_cast<::FUN_0065cea0_class *>(this)->FUN_0065cea0())))
         std::abort();
@@ -4001,7 +4002,7 @@ class FUN_0064dcf0_cls
     void ApplyToCopy(int a1, const Vector4f* a2);
 };
 // @fnv 0x0064db50
-void FUN_0064db50_class::FUN_0064db50(int aiArg1, int aiArg2)
+void FUN_0064db50_class::FUN_0064db50(int aiArg1, intptr_t aiArg2)
 {
     reinterpret_cast<::FUN_0064dcf0_cls *>(this)->ApplyToCopy(aiArg1, (const ::Vector4f *)(aiArg2));
 }

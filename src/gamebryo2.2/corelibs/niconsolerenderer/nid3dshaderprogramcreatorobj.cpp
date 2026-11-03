@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/symbols_00aa0000.h"
@@ -8,7 +9,7 @@
 #include "fnv/symbols_00e93000.h"
 // Allocates a buffer of size b, copies a into it, stores the pointer and size in c and d, and returns false with an error if a or b is zero.
 // @fnv 0x00e98370
-bool CopyShaderBuffer(int apSource, int uiSize, int* pOutBuffer, int* pOutSize, int* e, int* f, int g)
+bool CopyShaderBuffer(intptr_t apSource, int uiSize, int* pOutBuffer, int* pOutSize, int* e, int* f, int g)
 {
     *pOutBuffer = 0;
     *pOutSize = 0;
@@ -17,7 +18,7 @@ bool CopyShaderBuffer(int apSource, int uiSize, int* pOutBuffer, int* pOutSize, 
     if (apSource != 0 && uiSize != 0)
     {
         void* pBuffer = FUN_00aa1070((unsigned int)uiSize);
-        *pOutBuffer = (int)pBuffer;
+        *pOutBuffer = (intptr_t)pBuffer;
         memmove(pBuffer, (const void*)apSource, (unsigned int)uiSize);
         *pOutSize = uiSize;
         return true;

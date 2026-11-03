@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class BGSMoviePlayer;
 class GlobalObjectO2_00a7b610;
@@ -36,7 +37,7 @@ extern int (*DAT_0126f0e0)(unsigned int, void *(***)(unsigned int));
 // 0x0126f0e8
 extern "C" extern void *g_0126f0e8;
 // 0x0126f0ec
-extern int DAT_0126f0ec;
+extern intptr_t DAT_0126f0ec;
 // 0x0126f0f0
 extern ::GlobalObjectO2_00a7b610 g_0126f0f0;
 // 0x0126f0f8
@@ -72,7 +73,7 @@ extern ::CriticalSectionE7CF DAT_0126f600;
 // 0x0126f680
 extern "C" extern unsigned int DAT_0126f680[];
 // 0x0126f6c0
-extern int DAT_0126f6c0;
+extern intptr_t DAT_0126f6c0;
 // 0x0126f6c4
 namespace fnv_00e7dc90 { extern ::fnv_00e7dc90::FNV_VirtualDevice *DAT_0126f6c4; }
 // 0x0126f6c8
@@ -88,13 +89,13 @@ namespace fnv_00e7f2b0 { extern ::fnv_00e7f2b0::D3DRenderStateGroup *DAT_0126f71
 // 0x0126f71c
 namespace fnv_00e7f2b0 { extern ::fnv_00e7f2b0::NiD3DRenderStateEntry *DAT_0126f71c; }
 // 0x0126f728
-extern int DAT_0126f728;
+extern intptr_t DAT_0126f728;
 // 0x0126f72c
 extern "C" extern ::NiD3DPassPool *DAT_0126f72c;
 // 0x0126f738
 extern void (*DAT_0126f738[])(void *, void *, unsigned int, unsigned int, unsigned int);
 // 0x0126f74c
-extern int DAT_0126f74c;
+extern intptr_t DAT_0126f74c;
 // 0x0126f750
 extern char *DAT_0126f750;
 // 0x0126f754

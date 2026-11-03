@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct NiColor;
 
@@ -7,7 +8,7 @@ void GetLayerColor(unsigned int, ::NiColor &);
 // 0x00c84740
 bool FUN_00c84740(unsigned int, unsigned int);
 // 0x00c84cc0
-void FUN_00c84cc0(int *, unsigned int);
+void FUN_00c84cc0(int *, uintptr_t);
 // 0x00c84cd0
 void FUN_00c84cd0(int, void *);
 // 0x00c84ec0

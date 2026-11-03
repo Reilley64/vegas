@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "fnv/symbols_00aa1000.h"
 #include "fnv/decl/FUN_00c32d80.h"
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -85,7 +86,7 @@ void FUN_00c2a260(StrArr* pkStrings)
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((pkStrings))->SetAt(iCount, pStr);
 }
 
-void* __cdecl FUN_00aa13e0(unsigned int);
+
 
 struct SpawnedObject
 {

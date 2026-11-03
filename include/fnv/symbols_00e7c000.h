@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class CE7C500PixelFormat;
 struct PixelTemplate;
@@ -7,7 +8,7 @@ struct S_00e7c610_Object;
 // 0x00e7c1e0
 ::PixelTemplate &GetPixelTemplateForFormat(int, ::PixelTemplate &);
 // 0x00e7c500
-::CE7C500PixelFormat *CreatePixelFormat(int);
+::CE7C500PixelFormat *CreatePixelFormat(intptr_t);
 // 0x00e7c610
 void FUN_00e7c610(float *, ::S_00e7c610_Object *);
 // 0x00e7cc50

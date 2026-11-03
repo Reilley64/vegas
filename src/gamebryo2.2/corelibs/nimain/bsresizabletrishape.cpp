@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nimain/bsresizabletrishape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00a74480.h"
 #include "fnv/decl/FUN_00a744a0.h"
@@ -101,11 +102,11 @@ struct FUN_00a74480_holder
 };
 struct FUN_00a86dd0
 {
-    FUN_00a86dd0(unsigned int);
+    FUN_00a86dd0(uintptr_t);
 };
 // Calls the base constructor with a, installs the vtable pointer, and zeroes the field at offset 0xC4.
 // @fnv 0x00a86dd0
-FUN_00a86dd0::FUN_00a86dd0(unsigned int a)
+FUN_00a86dd0::FUN_00a86dd0(uintptr_t a)
 {
     new ((void *)(((FUN_00a74480_holder*)this))) ::FUN_00a74480((::NiTriBasedGeomData *)(a));
     *(void**)this = (void*)&DAT_0109e704;
@@ -312,7 +313,7 @@ void FUN_00a86f50_shell::FUN_00a86f50(StrArr* strings)
 
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, value);
 
-    value = ::FUN_00a7d510(str_0109e800, (unsigned int)(_c4));
+    value = ::FUN_00a7d510(str_0109e800, (uintptr_t)(_c4));
     index = strings->_0a;
     count = strings->_08;
 

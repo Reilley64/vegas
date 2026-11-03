@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niparticle/nipsysmodifierctlr.cpp: NiPSysModifierCtlr, NiPSysModifierCtlrRuntime, ModifierControllerStandin (9 functions)
 
+#include <cstdint>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FUN_00a38fe0_shell.h"
 #include "fnv/decl/FUN_00a39030_cls.h"
@@ -193,9 +194,9 @@ struct FUN_00c314a0_cls
 FUN_00c314a0_cls* FUN_00c314a0_cls::Destroy(unsigned char acFlags)
 {
     int(* pfnFree)(void*) = DAT_00fdf1c4;
-    *(volatile int*)&m_vptr = (int)&(*reinterpret_cast<int *>(&::NiPSysModifierCtlr_vtable));
+    *(volatile intptr_t*)&m_vptr = (intptr_t)&(*reinterpret_cast<int *>(&::NiPSysModifierCtlr_vtable));
     char* pName = *(char* volatile*)&m_kTargetModifierName;
-    if (pName != (char*)(*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if (pName != (char*)(*reinterpret_cast<intptr_t *>(&::DAT_0109b220)))
     {
         pfnFree(pName - 8);
     }
@@ -283,7 +284,7 @@ struct ModifierControllerStandin : ControllerStandin
 // @fnv 0x00c31590
 void ModifierControllerStandin::FUN_00c31590(NiStream& stream)
 {
-    ::FUN_00a89af0((int)this);
+    ::FUN_00a89af0((intptr_t)this);
     if (target_2c)
         reinterpret_cast<::NiParticleSystem *>(this)->FindModifier();
 }

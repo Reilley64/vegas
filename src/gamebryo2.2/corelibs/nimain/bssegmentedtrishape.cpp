@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00a86fe0
+#include <cstdint>
+#include "fnv/symbols_00aa1000.h"
 #include <new>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a744a0.h"
@@ -86,7 +88,7 @@ struct Entry
 };
 struct Target
 {
-    int unk00;
+    intptr_t unk00;
     int unk04;
     int unk08;
     int unk0c;
@@ -302,7 +304,7 @@ void FUN_00a871a0_cls::CopyEntries(Target* apDst, unsigned int aFlag)
 }
 
 
-void* __cdecl FUN_00aa13e0(unsigned int size);
+
 
 struct FUN_00a744a0_shell
 {
@@ -325,7 +327,7 @@ Target* FUN_00a87340_cls::CreateTarget(unsigned int volatile flags)
     if (obj != 0)
     {
         new ((void *)(reinterpret_cast<FUN_00a744a0_shell*>(obj))) ::FUN_00a744a0();
-        obj->unk00 = (int)&::DAT_0109e834;
+        obj->unk00 = (intptr_t)&::DAT_0109e834;
         obj->entries = 0;
         obj->unkC8 = 0;
         obj->active = 0;

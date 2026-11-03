@@ -5,6 +5,6 @@
 #pragma comment(linker, "/alternatename:?DAT_011f4400@@3HA=?ms_lObjectCount@NiRefObject@@2IA")
 
 ::NiTMapBaseStub *DAT_0126fa14;
-int DAT_0126fa18;
-int DAT_0126fa1c;
-int DAT_0126fa20;
+intptr_t DAT_0126fa18;
+intptr_t DAT_0126fa1c;
+intptr_t DAT_0126fa20;

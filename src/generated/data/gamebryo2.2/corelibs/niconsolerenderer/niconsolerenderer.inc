@@ -121,7 +121,7 @@ void *DAT_0126f0d4;
 void *(*g_0126f0dc)(unsigned int);
 unsigned int DAT_0126f0e4;
 void *g_0126f0e8;
-int DAT_0126f0ec;
+intptr_t DAT_0126f0ec;
 unsigned int DAT_0126f0f8;
 void *DAT_0126f108[256];
 unsigned int DAT_0126f508[18];

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/ninode.cpp: NiNode, ChildNode, ChildArray, NiPointLight and more (37 functions)
 
+#include <cstdint>
 #include <new>
 #include <windows.h>
 #include "fnv/decl/A54440Hash.h"
@@ -41,7 +42,7 @@
 // @fnv 0x00a5e560
 NiAVObject* NiNode::GetObjectByName(const NiFixedString& name)
 {
-    NiAVObject* result = ((::NiAVObject *)(reinterpret_cast<::fnv_00a59e20::NiAVObject *>(this)->FUN_00a59e20((int)&(name))));
+    NiAVObject* result = ((::NiAVObject *)(reinterpret_cast<::fnv_00a59e20::NiAVObject *>(this)->FUN_00a59e20((intptr_t)&(name))));
     if (result)
         return result;
     for (unsigned int i = 0; i < m_kChildList.m_usArraySize; ++i)
@@ -76,7 +77,7 @@ void NiNode::CopyMemberData(NiNode* target, CloningProcess& process)
 // @fnv 0x00a5db60
 void NiNode::UpdatePropertiesDownwardPass(NiPropertyState* state)
 {
-    reinterpret_cast<::FUN_00a5a140_cls *>(this)->FUN_00a5a140((int)(state));
+    reinterpret_cast<::FUN_00a5a140_cls *>(this)->FUN_00a5a140((intptr_t)(state));
     NiPropertyState* pLocalState = 0;
     reinterpret_cast<::fnv_00a5a170::FUN_00a5a170_cls *>(this)->FUN_00a5a170((::fnv_00a5a170::A170Set *)(state), true, (::fnv_00a5a170::A170Set **)&(pLocalState));
     for (unsigned int i = 0; i < m_kChildList.m_usArraySize; ++i)
@@ -306,11 +307,11 @@ struct FUN_00a5db30_shell : public NiNode
 // @fnv 0x00a5db30
 void FUN_00a5db30_shell::FUN_00a5db30()
 {
-    int* pParent = *(int**)&this->m_pParentNode;
-    (*(void(**)(void*))(*(int*)this + 0xbc))(this);
+    void* pParent = this->m_pParentNode;
+    (*(void(**)(void*))(*(void***)this + 0xbc / 4))(this);
     if (pParent)
     {
-        (*(void(**)(void*))(*pParent + 0xfc))(pParent);
+        (*(void(**)(void*))(*(void***)pParent + 0xfc / 4))(pParent);
     }
 }
 
@@ -540,7 +541,7 @@ struct FUN_00a5e3a0_Helper
 };
 
 // @fnv 0x00a5e3a0
-void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
+void FUN_00a5e3a0(NiAVObject* pThis, intptr_t, NiPropertyState*& pkState)
 {
     NiPropertyState* pkParentState = 0;
 
@@ -552,7 +553,7 @@ void FUN_00a5e3a0(NiAVObject* pThis, int, NiPropertyState*& pkState)
     FUN_00a5e3a0_Helper* pkParent = *(FUN_00a5e3a0_Helper**)&pThis->m_pParentNode;
     if (pkParent)
     {
-        ::FUN_00a5e3a0((::NiAVObject *)(pkParent), (int)&(pkParentState), *(::NiPropertyState * *)nullptr);
+        ::FUN_00a5e3a0((::NiAVObject *)(pkParent), (intptr_t)&(pkParentState), *(::NiPropertyState * *)nullptr);
     }
     else
     {
@@ -1481,7 +1482,7 @@ template <class T> class NiTArrayA5E
         m_pBase[uiIndex] = element;
     }
 
-    unsigned int SetAtGrow(unsigned int uiIndex, const T& element)
+    uintptr_t SetAtGrow(uintptr_t uiIndex, const T& element)
     {
         if (uiIndex >= m_usMaxSize)
             reinterpret_cast<::NiTObjectArrayA47 *>(this)->FUN_0060bef0(uiIndex + m_usGrowBy);
@@ -1499,12 +1500,12 @@ class NiObjectA5E : public NiRefObjectA5E
 class FUN_00a5ebe0_Array : public NiTArrayA5E<NiPointerA5E<NiObjectA5E> >
 {
   public:
-    unsigned int FUN_00a5ebe0(unsigned int uiIndex, const NiPointerA5E<NiObjectA5E>& element);
+    uintptr_t FUN_00a5ebe0(uintptr_t uiIndex, const NiPointerA5E<NiObjectA5E>& element);
 };
 
 // Inserts a non-null element at uiIndex, shifting existing entries up by one and returning the index, or ~0 if the element is null.
 // @fnv 0x00a5ebe0
-unsigned int FUN_00a5ebe0_Array::FUN_00a5ebe0(unsigned int uiIndex, const NiPointerA5E<NiObjectA5E>& element)
+uintptr_t FUN_00a5ebe0_Array::FUN_00a5ebe0(uintptr_t uiIndex, const NiPointerA5E<NiObjectA5E>& element)
 {
     if (element == NiPointerA5E<NiObjectA5E>(0))
         return (unsigned int)~0;
@@ -1590,14 +1591,14 @@ void FUN_00a5edc0_cls::FUN_00a5edc0(NiRefObject* apArg, NiRefObject* apRefObject
 {
     if (apRefObject)
     {
-        long(* pfnIncRef)(volatile long*) = InterlockedIncrement;
-        long(* pfnDecRef)(volatile long*) = InterlockedDecrement;
+        long(* pfnIncRef)(volatile long*) = [](volatile long* p) { return InterlockedIncrement(p); };
+        long(* pfnDecRef)(volatile long*) = [](volatile long* p) { return InterlockedDecrement(p); };
         volatile long* rc = (volatile long*)&apRefObject->m_uiRefCount;
         pfnIncRef(rc);
         reinterpret_cast<::FUN_00a59d00_shell *>((apRefObject))->SetParent((::NiNode *)(void *)(this));
         NiRefObject* pRefObject = apRefObject;
         pfnIncRef(rc);
-        reinterpret_cast<::FUN_00a5ebe0_Array *>(&(m_sub))->FUN_00a5ebe0((unsigned int)(apArg), (*(const ::NiPointerA5E< ::NiObjectA5E> *)(&pRefObject)));
+        reinterpret_cast<::FUN_00a5ebe0_Array *>(&(m_sub))->FUN_00a5ebe0((uintptr_t)(apArg), (*(const ::NiPointerA5E< ::NiObjectA5E> *)(&pRefObject)));
         if (pfnDecRef(rc) == 0)
         {
             apRefObject->DeleteThis();
@@ -2152,7 +2153,7 @@ struct NiRefA
 struct S00a5e690_sub
 {
     unsigned int m_u00;
-    void __declspec(noinline) FUN_00869260(NiRefA*& out, unsigned int index);
+    void __declspec(noinline) FUN_00869260(NiRefA*& out, uintptr_t index);
 };
 
 struct S00a5e690_Obj
@@ -2201,23 +2202,23 @@ struct S00a5e690_Obj
     unsigned short m_unkA4;
     unsigned short m_usEffectiveSize;
 
-    void GetChild(unsigned int index, NiRefA** out);
+    void GetChild(uintptr_t index, NiRefA** out);
 };
 
-void S00a5e690_sub::FUN_00869260(NiRefA*& out, unsigned int index)
+void S00a5e690_sub::FUN_00869260(NiRefA*& out, uintptr_t index)
 {
     out = reinterpret_cast<NiRefA*>(index);
 }
 
 // Returns the child at index via out, releasing the previous value and any temporary reference.
 // @fnv 0x00a5e690
-void S00a5e690_Obj::GetChild(unsigned int index, NiRefA** out)
+void S00a5e690_Obj::GetChild(uintptr_t index, NiRefA** out)
 {
     if (index < m_usEffectiveSize)
     {
         unsigned int iIndex = index;
         NiRefA* n = m_children[iIndex];
-        long(* incFn)(volatile long*) = InterlockedIncrement;
+        long(* incFn)(volatile long*) = [](volatile long* p) { return InterlockedIncrement(p); };
         if (n != 0)
         {
             incFn(&n->m_uiRefCount);

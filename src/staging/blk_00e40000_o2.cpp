@@ -1,5 +1,6 @@
 // staging/blk_00e40000_o2.cpp: KnotVector, ThunkDerived, FourComponentVector, Quat4 and more (195 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -423,7 +424,7 @@ FUN_00e4af80* FUN_00e4af80::Set(int aiValue)
 }
 
 struct FUN_00e58b10_class {
-    void FUN_00e58b10(int a, int b, int c);
+    void FUN_00e58b10(intptr_t a, intptr_t b, intptr_t c);
 };
 void FUN_00e5c540(int, int);
 // @fnv 0x00e5c5d0
@@ -3849,7 +3850,7 @@ struct E58E80Object {
     void CopyFrom(int setting);
 };
 // @fnv 0x00e58e80
-E87E0Matrix* FUN_00e58e80(int setting, int unused, E58E80Object* object, const E87E0Matrix& right) {
+E87E0Matrix* FUN_00e58e80(intptr_t setting, intptr_t unused, E58E80Object* object, const E87E0Matrix& right) {
     object->CopyFrom(setting);
     E87E0Matrix* matrix = reinterpret_cast<E87E0Matrix*>(object);
     matrix->FUN_00e587e0(right);
@@ -4114,7 +4115,7 @@ struct FUN_00e58a20_cls {
     void FUN_00e58a20(SampleField* volatile input, SampleField* weights, SampleField* output);
 };
 // @fnv 0x00e58b10
-void FUN_00e58b10_class::FUN_00e58b10(int a, int aiArg2, int aiArg3)
+void FUN_00e58b10_class::FUN_00e58b10(intptr_t a, intptr_t aiArg2, intptr_t aiArg3)
 {
     float v = 0.0f;
     reinterpret_cast<::FUN_00e58820_cls *>((((FUN_00e58b10_class*)a)))->FillWithValue(&v);

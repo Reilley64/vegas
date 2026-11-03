@@ -1,7 +1,8 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_00a66960_cls {
 public:
     // 0x00a66960
-    int FUN_00a66960(int);
+    intptr_t FUN_00a66960(int);
 };

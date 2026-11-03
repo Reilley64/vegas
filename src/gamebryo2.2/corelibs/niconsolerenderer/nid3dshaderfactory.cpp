@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dshaderfactory.cpp: NiD3DShaderFactory, ShaderFactoryView, TMapHolder, FakeCls and more (46 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -208,7 +209,7 @@ char* FUN_00e91f20_shell::FUN_00e91f20(void** kIter)
     NiD3DShaderProgramFactory* pkSPFactory = ((::fnv_00e91f20::NiD3DShaderProgramFactory *)(::FUN_00e92eb0()));
     if (!pkSPFactory)
         return 0;
-    return ((char *)(::FUN_00e92fe0((::Lst *)(pkSPFactory), (int)(kIter), {})));
+    return ((char *)(::FUN_00e92fe0((::Lst *)(pkSPFactory), (intptr_t)(kIter), {})));
 }
 }  // namespace fnv_00e91f20
 
@@ -1194,7 +1195,7 @@ void ShaderFactoryShutdown::FUN_00e92dc0()
     m_pShaderMapStorage = 0;
     m_pShaderLibraryStorage = 0;
     m_pOwnerShader = 0;
-    DeleteCriticalSection(m_kShaderMap);
+    DeleteCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(m_kShaderMap));
     reinterpret_cast<::FUN_00aa05a0 *>(this)->FUN_00aa05a0::~FUN_00aa05a0();
 }
 
@@ -1774,7 +1775,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
     if (!pkShader)
     {
         void* pCriticalSection = &m_kShaderMap;
-        EnterCriticalSection(pCriticalSection);
+        EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
         ShaderLibraryProducer* pkLibrary = GetVertexShaderConstantInterface();
         pkShader = AcquireShader(pcName, uiImplementation);
         if (!pkShader)
@@ -1792,7 +1793,7 @@ ShaderLibrary* ShaderFactory::FUN_00e920a0(const char* pcName, unsigned int uiIm
                 pkLibrary = GetPixelShaderConstantInterface();
             }
         }
-        LeaveCriticalSection(pCriticalSection);
+        LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(pCriticalSection));
     }
     if (bReportFailure && !pkShader)
         ::FUN_00aa0020(1, 0, UNK_010f0b54, pcName, uiImplementation);
@@ -1840,14 +1841,14 @@ struct FUN_00e92330_cls
     virtual FUN_00e92330_item* GetNext();
     unsigned int unk04[31];
     FUN_00e92330_critsec m_lock;
-    bool FUN_00e92330(unsigned int a1);
+    bool FUN_00e92330(uintptr_t a1);
 };
 
 typedef FUN_00e92330_item*(* FUN_00e92330_match)(FUN_00e92330_cls*, unsigned int, unsigned int);
 
 // Checks whether the collection contains the item identified by a1, using a virtual Match lookup and a Test predicate under a critical section.
 // @fnv 0x00e92330
-bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
+bool FUN_00e92330_cls::FUN_00e92330(uintptr_t apItem)
 {
     if (apItem == 0)
     {
@@ -1858,16 +1859,16 @@ bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
     void** pMatchSlot = pVTable + 3;
     unsigned int ref = ((unsigned int)(reinterpret_cast<::Dummy_00cc0760 *>((((FUN_00e92330_arg*)apItem)))->FUN_00cc0760()));
     FUN_00e92330_item* r = ((FUN_00e92330_match)*pMatchSlot)(this, key, ref);
-    if (!(r && (unsigned int)r == apItem))
+    if (!(r && (uintptr_t)r == apItem))
     {
         unsigned int key2 = *((unsigned int *)&(reinterpret_cast<::FUN_00a62660_cls *>((((FUN_00e92330_arg*)apItem)))->FUN_00a62660()));
         r = ((FUN_00e92330_match)(*(void***)this)[3])(this, key2, 0xffffffff);
-        if (!(r && (unsigned int)r == apItem))
+        if (!(r && (uintptr_t)r == apItem))
         {
             return false;
         }
     }
-    EnterCriticalSection(&m_lock);
+    EnterCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     FUN_00e92330_item* pItem = GetFirst();
     bool result = false;
     while (pItem)
@@ -1879,7 +1880,7 @@ bool FUN_00e92330_cls::FUN_00e92330(unsigned int apItem)
         }
         pItem = GetNext();
     }
-    LeaveCriticalSection(&m_lock);
+    LeaveCriticalSection(reinterpret_cast<LPCRITICAL_SECTION>(&m_lock));
     return result;
 }
 

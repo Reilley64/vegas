@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /Ob1 (unit src/gamebryo2.2/corelibs/nimain/niintegersextradata.cpp lists /MT /Od /Oy- /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -526,7 +527,7 @@ struct NiGlobalStringTable
 
 struct NiFS
 {
-    int handle;
+    intptr_t handle;
 
 
     __forceinline NiFS(char const* s)
@@ -534,7 +535,7 @@ struct NiFS
         if (s == 0)
             handle = (*reinterpret_cast<int *>(&::DAT_0109b220));
         else
-            handle = (int)::NiGlobalStringTable::AddString(s);
+            handle = (intptr_t)::NiGlobalStringTable::AddString(s);
     }
 };
 
@@ -619,7 +620,7 @@ void FUN_00c54b70_cls::FUN_00c54850(unsigned int uiMaxSize)
     m_08 = (unsigned short)uiMaxSize;
     if (uiMaxSize > 0)
     {
-        unk00[1] = (unsigned int)((::NiIntStreamEntryC *)(::FUN_00c54bc0(m_08)));
+        unk00[1] = (uintptr_t)((::NiIntStreamEntryC *)(::FUN_00c54bc0(m_08)));
 
         for (i = 0; i < m_0a; i++)
             ((NiIntStreamEntryC*)unk00[1])[i] = pSaveBase[i];

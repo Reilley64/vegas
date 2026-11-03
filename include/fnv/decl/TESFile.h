@@ -14,6 +14,8 @@ public:
     unsigned int GetOffset();
     // 0x00470b90
     ::BSSimpleList< ::_ULARGE_INTEGER *> *GetMasterDataList();
+    // 0x00470c70
+    bool FUN_00470c70(int, int);
     // 0x00471c20
     bool IsMasterFile();
     // 0x00471ca0

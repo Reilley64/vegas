@@ -3,5 +3,5 @@
 struct FUN_00852fa0_class {
 public:
     // 0x00852fa0
-    int FUN_00852fa0(int);
+    void *FUN_00852fa0(int);
 };

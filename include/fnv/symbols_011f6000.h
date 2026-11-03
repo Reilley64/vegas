@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class GlobalObjectO2_00a7b610;
 class MemoryPool;
@@ -40,7 +41,7 @@ extern ::Twin_008d0360 *g_011f6078;
 // 0x011f6080
 extern ::HolderB3718 *DAT_011f6080;
 // 0x011f6088
-extern int DAT_011f6088[];
+extern intptr_t DAT_011f6088[];
 // 0x011f6108
 extern int DAT_011f6108;
 // 0x011f610c
@@ -48,7 +49,7 @@ extern unsigned char DAT_011f610c;
 // 0x011f610d
 extern unsigned char DAT_011f610d;
 // 0x011f6114
-extern int DAT_011f6114;
+extern void (*DAT_011f6114)();
 // 0x011f6118
 extern void *DAT_011f6118;
 // 0x011f6229

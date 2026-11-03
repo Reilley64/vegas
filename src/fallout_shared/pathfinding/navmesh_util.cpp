@@ -1074,11 +1074,11 @@ struct FUN_006967c0_shell
 {
     int f0;
     char pad[32];
-    int f24;
-    int FUN_006967c0(int a, int b);
+    intptr_t f24;
+    intptr_t FUN_006967c0(int a, int b);
 };
 // @fnv 0x006967c0
-int FUN_006967c0_shell::FUN_006967c0(int a, int b)
+intptr_t FUN_006967c0_shell::FUN_006967c0(int a, int b)
 {
     int t = b * f0 + a;
     return (t << 4) + f24;

@@ -10,5 +10,5 @@ int DAT_011f8250;
 namespace fnv_00b00980 { unsigned int DAT_011f826c; }
 int DAT_011f8af0;
 int DAT_011f8af4;
-int DAT_011f8af8[16];
-int DAT_011f8b38[16];
+void* DAT_011f8af8[16];
+void* DAT_011f8b38[16];

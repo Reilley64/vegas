@@ -20,6 +20,6 @@ void FUN_00869560(::Arr *, ::FUN_008693f0_Class *);
 // 0x008696c0
 void FUN_008696c0(void *);
 // 0x00869840
-int AllocateUIntArray(unsigned int);
+void **AllocateUIntArray(unsigned int);
 // 0x00869f30
 void RunModeSwitch(int);

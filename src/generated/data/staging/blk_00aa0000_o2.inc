@@ -5,11 +5,11 @@
 unsigned char DAT_011ac222 = 1;
 long long DAT_011f6068;
 long long DAT_011f6070;
-int DAT_011f6088[16];
+intptr_t DAT_011f6088[16];
 FUN_00aa2080_callback DAT_011f60c8[16];
 int DAT_011f6108;
 unsigned char DAT_011f610c;
 unsigned char DAT_011f610d;
-int DAT_011f6110;
-int DAT_011f6114;
+void (*DAT_011f6110)();
+void (*DAT_011f6114)();
 unsigned char DAT_011f6229;

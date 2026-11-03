@@ -118,7 +118,6 @@ struct FUN_00405230_Class
 };
 
 extern int DAT_01012298;
-void __cdecl FUN_004055d0(int, char);
 
 struct FUN_00405570_cls
 {
@@ -515,7 +514,7 @@ struct FUN_004055d0 : public FUN_00405600_class
 FUN_00405570_cls* FUN_00405570_cls::InitFromGlobal(int a, char b)
 {
     new ((void *)this) ::FUN_004055d0(a, b);
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01012298);
+    *reinterpret_cast<void**>(this) = &DAT_01012298;
     return this;
 }
 // Calls the base constructor with a, installs the vtable from DAT_01012238, and stores b at offset 0x10.
@@ -541,7 +540,7 @@ struct FUN_00405630_s
 void* FUN_00405600_class::FUN_00405600(int param_2)
 {
     reinterpret_cast<::FUN_00405630_s *>(this)->Init(param_2);
-    *(int*)this = (int)&DAT_01012258;
+    *(void**)this = &DAT_01012258;
     return this;
 }
 // Sets the vtable, stores count, allocates count*4 zeroed bytes into data and returns this.
@@ -575,7 +574,7 @@ struct FUN_004056a0
 // @fnv 0x004056a0
 FUN_004056a0::FUN_004056a0()
 {
-    *(int*)this = (int)&DAT_01012508;
+    *(void**)this = &DAT_01012508;
     hostile = 0;
 }
 
@@ -610,7 +609,7 @@ struct FUN_00408da0_Class
 // @fnv 0x00408da0
 int* FUN_00408da0_Class::FUN_00408da0()
 {
-    return ((Flt*)((char*)this + 4))->operator unsigned int() ? (int*)((Flt*)((char*)this + 4))->operator unsigned int()
+    return ((Flt*)((char*)this + 4))->operator unsigned int() ? (int*)(uintptr_t)((Flt*)((char*)this + 4))->operator unsigned int()
                                                               : (int*)&$SG3295;
 }
 
@@ -949,9 +948,9 @@ float EffectList405c::FUN_00405c00(int iArchetype, int m_eRange, int m_eAssociat
         Item405c* pkItem = *((::Item405c **)(new ((void *)(pkList)) ::Vec3()));
         if (pkItem)
         {
-            Setting405c* pkSetting = ((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()));
+            Setting405c* pkSetting = ((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()));
             if (reinterpret_cast<::EffectSetting *>((pkSetting))->GetArchetype() == iArchetype &&
-                (m_eAssociatedActorValue == 0x4D || !reinterpret_cast<::S3c60 *>((pkSetting))->HasFlag2() || ((int)(reinterpret_cast<::InterfaceManager *>((pkSetting))->FUN_00586150())) == m_eAssociatedActorValue) &&
+                (m_eAssociatedActorValue == 0x4D || !reinterpret_cast<::S3c60 *>((pkSetting))->HasFlag2() || ((int)(uintptr_t)(reinterpret_cast<::InterfaceManager *>((pkSetting))->FUN_00586150())) == m_eAssociatedActorValue) &&
                 (m_eRange == 3 || reinterpret_cast<::FUN_0084e3a0_Class *>((pkItem))->FUN_0084e3a0() == m_eRange))
             {
                 float m_fElapsedTime =
@@ -1116,7 +1115,7 @@ void EffectItemList4056::FUN_004056d0()
         EffectItem4056* pkItem = ((::EffectItem4056 *)(new ((void *)(pkList)) ::Vec3()));
         if (pkItem)
         {
-            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffectSetting4056 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()))))->FUN_0084e3a0()));
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffectSetting4056 *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()))))->FUN_0084e3a0()));
             ::FUN_00485910(0x44494645, auiFormId);
             reinterpret_cast<::FUN_004040b0_shell *>((pkItem))->Save();
         }
@@ -1151,7 +1150,7 @@ bool NodQ::FUN_00405e80(int iType)
     while (pNode_aqd && !bFound_jw)
     {
         ItmQ* pItem = *((::ItmQ **)(new ((void *)(pNode_aqd)) ::Vec3()));
-        if (pItem && ((int)(reinterpret_cast<::fnv_004045e0::FUN_004045e0_shell *>((pItem))->GetScriptFromEffectSetting())) == iType && !reinterpret_cast<::EffectItem *>((pItem))->IsDetrimental())
+        if (pItem && ((int)(uintptr_t)(reinterpret_cast<::fnv_004045e0::FUN_004045e0_shell *>((pItem))->GetScriptFromEffectSetting())) == iType && !reinterpret_cast<::EffectItem *>((pItem))->IsDetrimental())
             bFound_jw = true;
         pNode_aqd = static_cast<NodQ*>(((::LstQ *)(reinterpret_cast<::Callees *>((pNode_aqd))->FUN_00726070())));
     }
@@ -1301,7 +1300,7 @@ struct AssociatedForm40df
 
 struct FUN_00480ad0_shell
 {
-    bool HasFlag(unsigned int);
+    bool HasFlag(const FUN_00480ad0_shell*);
 };
 
 // @fnv 0x0040dfa0
@@ -1310,10 +1309,10 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
     if (timer1 == 0 || timer2 == 0)
         return false;
 
-    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x20000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x20000))
+    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x20000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x20000))
     {
-        TESForm* interval1 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00())))))->FUN_005f5f80();
-        TESForm* interval2 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00())))))->FUN_005f5f80();
+        TESForm* interval1 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00())))))->FUN_005f5f80();
+        TESForm* interval2 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00())))))->FUN_005f5f80();
 
         TESBipedModelForm* result2 = dynamic_cast<TESBipedModelForm*>(interval1);
         TESBipedModelForm* result1 = dynamic_cast<TESBipedModelForm*>(interval2);
@@ -1321,11 +1320,11 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
         if (result2 != 0 && result1 != 0)
         {
             return reinterpret_cast<FUN_00480ad0_shell*>(result2)->HasFlag(
-                reinterpret_cast<unsigned int>(result1));
+                reinterpret_cast<FUN_00480ad0_shell*>(result1));
         }
     }
 
-    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x10000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x10000))
+    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x10000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x10000))
         return true;
 
     return false;

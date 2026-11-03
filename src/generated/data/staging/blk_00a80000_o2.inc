@@ -8,7 +8,7 @@ float epsilon = 0.001f;
 float DAT_011ab3f8 = 1.5707964f;
 float g_fRadiansPerRevolution = 6.2831855f;
 int DAT_011f5b84;
-int DAT_011f5e44;
+intptr_t DAT_011f5e44;
 unsigned int DAT_011f5e48;
 int DAT_011f5e4c;
 unsigned short DAT_011f5f7e;

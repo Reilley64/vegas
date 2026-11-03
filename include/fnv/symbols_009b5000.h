@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_009b5650 { struct BooleanFloatQuery; }
 namespace n9b { struct Ctx; }
 namespace n9b { struct Info; }
@@ -16,14 +18,14 @@ struct Thing9b58d0;
 // 0x009b5050
 void SetContextInfo(::n9b::Ctx *, ::n9b::Info *);
 // 0x009b5120
-void FUN_009b5120(int, int, int, int, unsigned char, int, int);
+void FUN_009b5120(std::intptr_t, std::intptr_t, std::intptr_t, std::intptr_t, unsigned char, std::intptr_t, int);
 // 0x009b5170
 void InitHitData(::BooleanFloatQuery *, ::ActorHit *, ::ActorHit *, ::RefHit *, unsigned char);
 // 0x009b5650
 namespace fnv_009b5650 { void InitFromObjects(::fnv_009b5650::BooleanFloatQuery *, void *, void *, void *, void *); }
 // 0x009b5720
-void FUN_009b5720(::FUN_009b5a30_Class *, int, int, float);
+void FUN_009b5720(::FUN_009b5a30_Class *, void *, void *, float);
 // 0x009b5770
-void InitCombatThing(::CombatThing *, int, int, ::ActorStub *, float);
+void InitCombatThing(::CombatThing *, void *, void *, ::ActorStub *, float);
 // 0x009b58d0
 void FUN_009b58d0(::Thing9b58d0 *, int, ::Actor9b58d0 *, float, ::Struct9b58d0 *);

@@ -2253,7 +2253,7 @@ struct Iter : CIter
 {
     Iter(Elem** p, FUN_00b17db0* v)
     {
-        reinterpret_cast<::FUN_00b42980 *>(this)->Set((unsigned int)(p), (*(const ::FUN_00b42980 *)(v)));
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set(p, (*(const ::FUN_00b42980 *)(v)));
     }
     Iter()
     {}

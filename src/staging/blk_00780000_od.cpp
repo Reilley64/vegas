@@ -298,7 +298,7 @@ void __cdecl FUN_007832a0_class::FUN_007832a0(FUN_004bddd0_t* a)
 {
     if (a != 0 && reinterpret_cast<::FUN_004bddd0_shell *>((a))->FUN_004bddd0(false))
     {
-        int flags = static_cast<int>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((a))->GetName())));
+        int flags = static_cast<int>(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((a))->GetName())));
         reinterpret_cast<G2*>(reinterpret_cast<char*>(InventoryMenu::ms_pInventoryMenu) + 0x11c)->AddHead(&flags);
     }
 }
@@ -402,7 +402,7 @@ FUN_0078e0f0::~FUN_0078e0f0()
     ((ShadowSceneNode*)NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))
         ->v58((*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int());
 
-    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeDetachHelper*)(NiNode*)(unsigned int)(*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int())))->FUN_00572160();
+    reinterpret_cast<::FUN_00572160_shell *>((((NiNodeDetachHelper*)(NiNode*)(uintptr_t)(*reinterpret_cast<::GO *>(&::g_011da24c)).operator unsigned int())))->FUN_00572160();
 
     (*reinterpret_cast<::GO *>(&::g_011da24c)).operator=(0);
     (*reinterpret_cast<::GO *>(&::g_011da224)).operator=(0);

@@ -570,7 +570,7 @@ void InvOwner::AddOrUpdateEntryCount(int aiCount)
 
     if (pEntry3)
     {
-        reinterpret_cast<::CombatProcedure *>((pEntry3))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((pEntry3))->FUN_00726070())) + aiCount));
+        reinterpret_cast<::CombatProcedure *>((pEntry3))->Initialize((::CombatController *)(intptr_t)(((int)(uintptr_t)(reinterpret_cast<::Callees *>((pEntry3))->FUN_00726070())) + aiCount));
     }
     else
     {

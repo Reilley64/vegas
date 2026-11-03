@@ -969,11 +969,11 @@ extern char* DAT_011a0100;
 
 struct FUN_0076a670_cls
 {
-    void FUN_0076a670(int a1, const char* s);
+    void FUN_0076a670(intptr_t a1, const char* s);
 };
 
 // @fnv 0x0076a670
-void FUN_0076a670_cls::FUN_0076a670(int a1, const char* pcSource)
+void FUN_0076a670_cls::FUN_0076a670(intptr_t a1, const char* pcSource)
 {
     int idx = 1;
     int r6 = ((int)(std::uintptr_t)(std::strchr((char *)(DAT_011a0104), pcSource[0])));

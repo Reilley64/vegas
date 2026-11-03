@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 struct ProbeTarget;
 
 struct FUN_00856300_cls {

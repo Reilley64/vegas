@@ -304,7 +304,7 @@ struct TaskQueueInterface
 
 // Copies apName into a 260-byte buffer, lowercases it, then compares it against four names and returns the matching index's value or 0.
 // @fnv 0x00990250
-int FUN_00990250(const char* apName)
+void* FUN_00990250(const char* apName)
 {
     char psearchName[260];
     char* pChar;

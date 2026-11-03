@@ -160,7 +160,7 @@ struct FUN_009e9b20_Class
 {
     virtual void v0();
     virtual int Write(unsigned int size);
-    int m_iWordAt04;
+    intptr_t m_iWordAt04;
     int m_8;
     int m_iThirdValue;
     void InitBuffer(unsigned int requested, unsigned int savedSize);
@@ -231,7 +231,7 @@ void FUN_009f8fa0_Class::CopyElements(char* apDest, char* apSource, unsigned int
 
 struct FUN_009f90f0_Class
 {
-    unsigned int m_iWordAt04;
+    uintptr_t m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
     virtual ~FUN_009f90f0_Class();
@@ -451,7 +451,7 @@ class FUN_009e99a0_cls
     unsigned int m_uiUnk08;
     unsigned int m_uiUnk0C;
 
-    int FUN_009e99a0(unsigned int value);
+    int FUN_009e99a0(uintptr_t value);
 };
 
 class FUN_009eb620_cls
@@ -655,9 +655,9 @@ bool S_009eb8a0_Cls::FUN_009eb8a0()
         else
         {
             bool bAllValid = true;
-            while (pList && ((::S_009eb8a0_Obj *)(new ((void *)(pList)) ::Vec3())) && bAllValid)
+            while (pList && (((pList))->m_item) && bAllValid)
             {
-                S_009eb8a0_Obj* o = ((::S_009eb8a0_Obj *)(new ((void *)(pList)) ::Vec3()));
+                S_009eb8a0_Obj* o = (((pList))->m_item);
                 if (!o->v8b(0))
                     bAllValid = false;
                 pList = ((::BSSimpleList< ::S_009eb8a0_Obj *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -1510,7 +1510,7 @@ FUN_009eb660::~FUN_009eb660()
         pB6 = m38;
         while (pB6 != 0 && !pB6->FUN_008256d0())
         {
-            node5 = (ItemCls*)*((void **)(new ((void *)(pB6)) ::Vec3()));
+            node5 = (ItemCls*)*((void **)(((::Vec3 *)(void *)(pB6))));
             if (!reinterpret_cast<::FUN_009722e0_shell *>(&((*reinterpret_cast<::GlobalCls *>(&::g_011e0e80))))->IsActorInOtherList((::Actor *)(node5), (::FUN_009722e0_member *)(::FUN_009eb660 *)(this)))
                 reinterpret_cast<::FUN_0047eb90_Class *>((node5))->FUN_0047eb90(0);
             pB6 = ((::ListNode *)(reinterpret_cast<::Callees *>((pB6))->FUN_00726070()));
@@ -1529,7 +1529,7 @@ FUN_009eb660::~FUN_009eb660()
         pA3 = ((::ListNode *)(reinterpret_cast<::ActorQueryOwner *>(&((*reinterpret_cast<::GlobalCls *>(&::g_011e0e80))))->FindDialogueSpeakers((::TESObjectREFR *)(::FUN_009eb660 *)(this), 1)));
         while (pA3 != 0)
         {
-            item6 = (ItemCls*)*((void **)(new ((void *)(pA3)) ::Vec3()));
+            item6 = (ItemCls*)*((void **)(((::Vec3 *)(void *)(pA3))));
             if (reinterpret_cast<::ActorStandIn008a *>((item6))->FUN_008a61b0())
                 reinterpret_cast<::fnv_00881680::FUN_00881680_shell *>((item6))->FUN_00881680(0);
             destB_ = ((::DestCls *)(reinterpret_cast<::FUN_0041cf00_shell *>((((::MidCls *)(reinterpret_cast<::FUN_005d43c0_ *>((item6))->FUN_005d43c0()))))->FUN_0041cf00()));
@@ -2155,11 +2155,12 @@ Vec Pather::GetPathPoint(Ref* ref)
     }
     if (reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610())
         reinterpret_cast<::Pather9F6 *>(this)->BuildPathRequest((*(::NiPoint39F6 *)&(const ::fnv_009f6900::Vec &)(ref->Position())), (*(::NiPoint39F6 *)&(const ::fnv_009f6900::Vec &)(destination)), (::TESObjectCELL9F6 *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))), (::TESWorldSpace9F6 *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((ref))->FUN_00575d70()))));
-    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610() && index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(route))->GetName())))
+    if (!reinterpret_cast<::FUN_0076b610_Class *>(&(route))->FUN_0076b610() && index < ((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(route))->GetName())))
     {
         Waypoint waypoint((*(::fnv_009f6900::Waypoint *)(reinterpret_cast<::FUN_009a3280_shell *>(&(route))->FUN_009a3280(index))));
         index = index + 1;
-        result = (*(::fnv_009f6900::Vec *)&(reinterpret_cast<::TaskQueueInterface *>(&(waypoint))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        ::NiPoint3 kPoint;
+        result = (*(::fnv_009f6900::Vec *)&(reinterpret_cast<::TaskQueueInterface *>(&(waypoint))->QueueActorAnimationTask(kPoint)));
     }
     else
     {
@@ -2226,7 +2227,7 @@ void FUN_009e9b20_Class::InitBuffer(unsigned int requested, unsigned int savedSi
     }
 }
 // @fnv 0x009e99a0
-int FUN_009e99a0_cls::FUN_009e99a0(unsigned int value)
+int FUN_009e99a0_cls::FUN_009e99a0(uintptr_t value)
 {
     int iIndex = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00845460()));
     reinterpret_cast<::ArrX *>(this)->ConstructElements_009e9a50((struct ::FUN_006e6da0 *)(::FUN_009e99a0_Entry *)(m_pEntries + iIndex), 1);

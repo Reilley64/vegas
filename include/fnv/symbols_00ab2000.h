@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace ImageReaderTypes { template <class, class, class> class basic_string; }
 namespace ImageReaderTypes { template <class> class allocator; }
 namespace ImageReaderTypes { template <class> struct char_traits; }
@@ -17,7 +19,7 @@ struct ShortPoint;
 // 0x00ab22e0
 ::ShortPoint *FUN_00ab22e0(::ShortPoint *, ::ShortPoint *, ::ShortPoint *);
 // 0x00ab2380
-void FUN_00ab2380(int, int, int, unsigned char);
+void FUN_00ab2380(std::intptr_t, std::intptr_t, std::intptr_t, unsigned char);
 // 0x00ab23c0
 void FUN_00ab23c0(char *, unsigned int, const ::FillElem6 *);
 // 0x00ab2490

@@ -1211,11 +1211,11 @@ struct FUN_00989010_t
 };
 struct FUN_0099b8b0_shell : FUN_00989010_t
 {
-    void FUN_0099b8b0(int a, int b);
+    void FUN_0099b8b0(std::intptr_t a, int b);
 };
 // Calls SetTripleAndValue with the two arguments, then writes 0 to the field at offset 0x10 of this object.
 // @fnv 0x0099b8b0
-void FUN_0099b8b0_shell::FUN_0099b8b0(int a, int b)
+void FUN_0099b8b0_shell::FUN_0099b8b0(std::intptr_t a, int b)
 {
     reinterpret_cast<::StandIn_00989010 *>(this)->SetTripleAndValue((::ThreeInts_00989010 *)(a), b);
     *(int*)((char*)this + 0x10) = 0;
@@ -4762,7 +4762,7 @@ void ArrayProxy::FUN_009a32a0(unsigned int count, bool shrink)
         }
         else
         {
-            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0((char *)(count), size);
+            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0(count, size);
             capacity = count;
         }
         reinterpret_cast<::fnv_006dbe40::FUN_006dbe40_Class *>(this)->ConstructInPlace((::fnv_006dbe40::FUN_006d3200 *)(::ElementProxy *)(data + size), count - size);
@@ -4774,7 +4774,7 @@ void ArrayProxy::FUN_009a32a0(unsigned int count, bool shrink)
         size = count;
         if (shrink && count <= (capacity >> 2))
         {
-            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0((char *)(count), count);
+            reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0(count, count);
             capacity = count;
         }
     }

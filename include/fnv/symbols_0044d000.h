@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 #include <cstdint>
 
@@ -11,7 +12,7 @@ namespace fnv_0044d580 { void FUN_0044d580(void *, void *, void *, void *); }
 // 0x0044d5b0
 void FUN_0044d5b0(unsigned int);
 // 0x0044d600
-void FUN_0044d600(::Value, ::Value, int);
+void FUN_0044d600(::Value, ::Value, intptr_t);
 // 0x0044d670
 int *FUN_0044d670(unsigned int);
 // 0x0044dd60

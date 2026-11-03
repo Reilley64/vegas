@@ -136,6 +136,16 @@
 #include "fnv/symbols_011d6000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+
 struct S006949d0
 {
     void* GetAt(int);
@@ -240,7 +250,7 @@ struct FUN_0049faf0
 
 struct FUN_006a19e0
 {
-    int m;
+    void* m;
     void Init();
 };
 
@@ -278,7 +288,7 @@ struct FUN_006a1b20_class
 };
 
 // @fnv 0x006a1b00
-void __cdecl CallMethodOnObject(int pObject, int b)
+void __cdecl CallMethodOnObject(intptr_t pObject, int b)
 {
     ((FUN_006a1b20_class*)pObject)->MatchesPair(b);
 }
@@ -335,7 +345,7 @@ struct AX
 // @fnv 0x006a2850
 AX* AX::FUN_006a2850()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106b44c);
+    *reinterpret_cast<void**>(this) = &DAT_0106b44c;
     this->FUN_006b3eb0(0, 0);
     return this;
 }
@@ -348,20 +358,20 @@ struct FUN_006dc440_class
 // @fnv 0x006a2880
 FUN_006dc440_class* FUN_006dc440_class::FUN_006a2880()
 {
-    *(int*)this = (int)&DAT_0106b460;
+    *(void**)this = &DAT_0106b460;
     reinterpret_cast<::FUN_006dc440_Class *>((this))->FUN_006dc440(0, 0);
     return this;
 }
 
-extern "C" void* __cdecl Reallocate(void* p, int size);
+extern "C" void* __cdecl Reallocate(void* p, size_t size);
 
 struct FUN_006a28b0_Class
 {
-    void* FUN_006a28b0(int m, int n);
+    void* FUN_006a28b0(intptr_t m, int n);
 };
 
 // @fnv 0x006a28b0
-void* FUN_006a28b0_Class::FUN_006a28b0(int m, int n)
+void* FUN_006a28b0_Class::FUN_006a28b0(intptr_t m, int n)
 {
     return Reallocate((void*)m, n * 8);
 }
@@ -427,7 +437,7 @@ struct S006d0420
 // @fnv 0x006a67a0
 S006d0420* S006d0420::FUN_006a67a0(int a)
 {
-    *(int*)this = (int)&DAT_0106b5c0;
+    *(void**)this = &DAT_0106b5c0;
     reinterpret_cast<::FUN_0069b940_class *>(this)->FUN_0069b940(a, a);
     return this;
 }
@@ -468,7 +478,7 @@ struct FUN_006a85b0_Class
 // @fnv 0x006a85b0
 void FUN_006a85b0_Class::FUN_006a85b0()
 {
-    *(int*)this = (int)&DAT_0106b688;
+    *(void**)this = &DAT_0106b688;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)this)))->Clear(true);
 }
 }  // namespace fnv_006a85b0
@@ -485,7 +495,7 @@ struct FUN_006a8a00 : AX
 // @fnv 0x006a8a00
 AX* FUN_006a8a00::Init()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&::fnv_006a85b0::DAT_0106b688);
+    *reinterpret_cast<void**>(this) = &::fnv_006a85b0::DAT_0106b688;
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -522,7 +532,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006b42a0
 void GlobalObject_00869f00::FUN_006b42a0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106ba94;
+    *reinterpret_cast<const void**>(this) = &DAT_0106ba94;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006b42a0
@@ -539,7 +549,7 @@ struct FUN_006b4670_class
 // @fnv 0x006b4670
 AX* FUN_006b4670_class::FUN_006b4670()
 {
-    *(int*)this = (int)&::fnv_006b42a0::DAT_0106ba94;
+    *(void**)this = &::fnv_006b42a0::DAT_0106ba94;
     ((AX*)this)->FUN_006b3eb0(0, 0);
     return (AX*)this;
 }
@@ -566,14 +576,14 @@ struct FUN_00aa5410_Helper
 
 struct FUN_006b9400_Class
 {
-    int FUN_006b9400();
+    void* FUN_006b9400();
 };
 
 // @fnv 0x006b9400
-int FUN_006b9400_Class::FUN_006b9400()
+void* FUN_006b9400_Class::FUN_006b9400()
 {
     ((FUN_00aa5410_Helper*)this)->InitWithAlignedSize(0x4800);
-    return (int)this;
+    return this;
 }
 
 struct NiPoint3
@@ -625,7 +635,7 @@ struct FUN_006bf670_Class
 // @fnv 0x006bf670
 int* FUN_006bf670_Class::FUN_006bf670(int aiIndex)
 {
-    return (int*)((char*)*(int*)((char*)this + 4) + aiIndex * 0x1c);
+    return (int*)(*(char**)((char*)this + 4) + aiIndex * 0x1c);
 }
 
 namespace fnv_006bf690 {
@@ -658,7 +668,7 @@ void GlobalObject_00869f00::Clear(bool b)
 // @fnv 0x006bf6c0
 void GlobalObject_00869f00::FUN_006bf6c0()
 {
-    *(int*)this = (int)&::fnv_006bf690::DAT_0106c2e8;
+    *(void**)this = &::fnv_006bf690::DAT_0106c2e8;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006bf6c0
@@ -674,7 +684,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006bf710
 void GlobalObject_00869f00::FUN_006bf710()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&::DAT_0106c2fc);
+    *reinterpret_cast<void**>(this) = &::DAT_0106c2fc;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006bf710
@@ -832,11 +842,14 @@ NiPoint3& FUN_006a0520_class::FUN_006a0520(const NiPoint3& o)
 
 struct S006a1460
 {
-    bool FUN_006a1460(int a);
+    bool FUN_006a1460(intptr_t a);
 };
 struct FUN_006a19b0
 {
     int* m_iWordAt00;
+    intptr_t m_pData;
+    int m_iSize;
+    int m_iCapacity;
     void FUN_006a2310(int, int);
     FUN_006a19b0(int);
 };
@@ -852,20 +865,20 @@ struct FUN_006a1aa0_class
     int m_iWordAt00;
     void* m_iWordAt04;
     int m_8;
-    int FindMatchingEntry(int b, unsigned int a, unsigned char (*cb)(int, int));
+    int FindMatchingEntry(intptr_t b, unsigned int a, unsigned char (*cb)(intptr_t, intptr_t));
 };
 // @fnv 0x006a1460
-bool S006a1460::FUN_006a1460(int a)
+bool S006a1460::FUN_006a1460(intptr_t a)
 {
-    return reinterpret_cast<::FUN_006a1aa0_class *>(this)->FindMatchingEntry(a, 0, (unsigned char (*)(int, int))(((void (&)())::FUN_006a1b80))) != -1;
+    return reinterpret_cast<::FUN_006a1aa0_class *>(this)->FindMatchingEntry(a, 0, (unsigned char (*)(intptr_t, intptr_t))(((void (&)())::FUN_006a1b80))) != -1;
 }
 
 // @fnv 0x006a1aa0
-int FUN_006a1aa0_class::FindMatchingEntry(int b, unsigned int uiStartIndex, unsigned char (*cb)(int, int))
+int FUN_006a1aa0_class::FindMatchingEntry(intptr_t b, unsigned int uiStartIndex, unsigned char (*cb)(intptr_t, intptr_t))
 {
     for (unsigned int i = uiStartIndex; i < m_8; i++)
     {
-        if (m_iWordAt04 && cb((int)m_iWordAt04 + i * 8, b))
+        if (m_iWordAt04 && cb((intptr_t)m_iWordAt04 + i * 8, b))
             return i;
     }
     return -1;
@@ -1052,11 +1065,11 @@ struct FUN_006a1cf0_shell
 
 struct FUN_006a1fb0_class
 {
-    void UnlinkFromList(int param_1);
+    void UnlinkFromList(intptr_t param_1);
 };
 // Unlinks the node at param_1 from its doubly linked list by patching the neighbours' next/prev pointers, then clears its own pointers.
 // @fnv 0x006a1fb0
-void FUN_006a1fb0_class::UnlinkFromList(int pNode)
+void FUN_006a1fb0_class::UnlinkFromList(intptr_t pNode)
 {
     if (*(void**)((char*)pNode + 0x58))
         *(void**)(*(void**)((char*)pNode + 0x58)) = *(void**)((char*)pNode + 0x5c);
@@ -1125,7 +1138,7 @@ extern int DAT_011d6e2c;
 void FUN_006a29a0()
 {
     if (DAT_011d6e2c)
-        delete (FUN_006a29f0*)DAT_011d6e2c;
+        delete (FUN_006a29f0*)(intptr_t)DAT_011d6e2c;
     DAT_011d6e2c = 0;
 }
 
@@ -1327,10 +1340,10 @@ FUN_006a8700_Class* FUN_006a8700_Class::FUN_006a8700()
 
 struct FUN_006a8a30_class
 {
-    void FUN_006a8a30(int base, unsigned int count);
+    void FUN_006a8a30(intptr_t base, unsigned int count);
 };
 // @fnv 0x006a8a30
-void FUN_006a8a30_class::FUN_006a8a30(int base, unsigned int count)
+void FUN_006a8a30_class::FUN_006a8a30(intptr_t base, unsigned int count)
 {
     for (int i = 0; i < count; ++i)
     {
@@ -1442,7 +1455,7 @@ void FUN_006a1700_class::FUN_006a1700()
 // @fnv 0x006a19e0
 void FUN_006a19e0::Init()
 {
-    m = (int)&DAT_0106b410;
+    m = &DAT_0106b410;
     reinterpret_cast<::NavMeshSearchLOSArray *>((((FUN_0049faf0*)this)))->FUN_0049faf0(1);
 }
 
@@ -1727,17 +1740,21 @@ struct FUN_006b81f0_class
 };
 struct FUN_006b7eb0_t
 {
+    void* m_pVtbl;
+    int m_iCapacity;
+    void* m_pData;
+    int m_iSize;
     void* FUN_006b7eb0(int a);
 };
 // @fnv 0x006b7eb0
 void* FUN_006b7eb0_t::FUN_006b7eb0(int aiCount)
 {
-    *reinterpret_cast<void**>(this) = &DAT_0106c194;
-    reinterpret_cast<int*>(this)[1] = aiCount;
-    reinterpret_cast<int*>(this)[3] = 0;
-    unsigned int n = reinterpret_cast<int*>(this)[1] << 2;
-    reinterpret_cast<int*>(this)[2] = (int)::FUN_00aa1070(n);
-    ::FUN_00403d30(reinterpret_cast<void*>(reinterpret_cast<int*>(this)[2]), 0, reinterpret_cast<int*>(this)[1] << 2);
+    m_pVtbl = &DAT_0106c194;
+    m_iCapacity = aiCount;
+    m_iSize = 0;
+    unsigned int n = m_iCapacity << 2;
+    m_pData = ::FUN_00aa1070(n);
+    ::FUN_00403d30(m_pData, 0, m_iCapacity << 2);
     return this;
 }
 
@@ -1944,7 +1961,9 @@ struct S006bb540
 // @fnv 0x006bb540
 NiPoint3Ex S006bb540::SubtractFromC()
 {
-    return (*(::NiPoint3Ex *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((NiPoint3Ex*)&m_C)))->FUN_00439ef0-((::NiPoint3 *)&(m_iWordAt00), *(const ::NiPoint3 *)nullptr)));
+    NiPoint3Ex kResult;
+    reinterpret_cast<::FUN_00439ef0_class *>(&m_C)->FUN_00439ef0((::NiPoint3 *)&kResult, *(const ::NiPoint3 *)&m_iWordAt00);
+    return kResult;
 }
 
 struct NiBound
@@ -2247,7 +2266,7 @@ FUN_006bff30_Class* FUN_006bff30_Class::FUN_006bff30()
 struct FUN_006a20a0
 {
     void* m_iWordAt00;
-    int m_iWordAt04;
+    intptr_t m_iWordAt04;
     int m_8;
     int m_iThirdValue;
     int FUN_006a2001(int a);
@@ -2279,25 +2298,25 @@ void FUN_006a2270_class::FUN_006a2270(char* dst, char* src, unsigned int count)
 
 struct FUN_006a26d0_class
 {
-    void ConstructItems(int a, int b);
+    void ConstructItems(intptr_t a, int b);
 };
 // @fnv 0x006a2310
 void FUN_006a19b0::FUN_006a2310(int a, int b)
 {
-    ((int*)this)[1] = 0;
-    ((int*)this)[2] = 0;
-    ((int*)this)[3] = 0;
+    m_pData = 0;
+    m_iSize = 0;
+    m_iCapacity = 0;
     if ((unsigned int)b > (unsigned int)a)
         a = b;
     if ((unsigned int)a > 0)
     {
-        ((int*)this)[1] = ((int(*)(FUN_006a19b0*, int))((int*)m_iWordAt00)[1])(this, a);
-        ((int*)this)[3] = a;
+        m_pData = ((intptr_t(*)(FUN_006a19b0*, int))((void**)m_iWordAt00)[1])(this, a);
+        m_iCapacity = a;
     }
     if ((unsigned int)b > 0)
     {
-        ((FUN_006a26d0_class*)this)->ConstructItems(((int*)this)[1], b);
-        ((int*)this)[2] = b;
+        ((FUN_006a26d0_class*)this)->ConstructItems(m_pData, b);
+        m_iSize = b;
     }
 }
 
@@ -2305,7 +2324,7 @@ struct FUN_006a2470_class
 {
     virtual int Dummy();
     virtual int Write(unsigned int size);
-    void ConstructPendingItems(int a, int b);
+    void ConstructPendingItems(intptr_t a, int b);
     int iSize;
     int iPosition;
     int iDataLength;
@@ -2341,21 +2360,23 @@ void FUN_006a2470_class::FUN_006a2470(unsigned int requested, unsigned int saved
 }
 
 namespace fnv_006a64e0 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 struct FUN_006a64e0_class
 {
     int* m_p;
+    int m_iCapacity;
+    void* m_pData;
+    int m_iSize;
     FUN_006a64e0_class* ConstructIntArray(int arg);
 };
 // @fnv 0x006a64e0
 FUN_006a64e0_class* FUN_006a64e0_class::ConstructIntArray(int aiCount)
 {
     m_p = (int*)" hj";
-    *(int*)((char*)this + 4) = aiCount;
-    *(int*)((char*)this + 12) = 0;
-    int n = *(int*)((char*)this + 4) << 2;
-    *(int*)((char*)this + 8) = (int)::FUN_00aa1070((unsigned int)n);
-    memset(*(void**)((char*)this + 8), 0, (unsigned int)*(int*)((char*)this + 4) << 2);
+    m_iCapacity = aiCount;
+    m_iSize = 0;
+    int n = m_iCapacity << 2;
+    m_pData = ::FUN_00aa1070((unsigned int)n);
+    memset(m_pData, 0, (unsigned int)m_iCapacity << 2);
     return this;
 }
 }  // namespace fnv_006a64e0
@@ -2390,7 +2411,7 @@ struct FUN_006b3f40_Class
 // @fnv 0x006a1860
 void* Dummy_0061bf20::FUN_006a1860()
 {
-    *(int*)this = (int)&DAT_0106b3e8;
+    *(void**)this = &DAT_0106b3e8;
     reinterpret_cast<::FUN_006b3f40_Class *>(this)->FUN_006b3f40(0, 0);
     return this;
 }
@@ -2490,10 +2511,10 @@ struct FUN_006bc940_class
 unsigned int FUN_006bc940_class::FUN_006bc940()
 {
     unsigned int result = 0;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)flags + 0x20))))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)flags + 0x20))))->GetName())); ++i)
         result =
             MaxUnsigned(result, ((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((mesh->GetTriangle(reinterpret_cast<::FUN_005eeda0_this *>((((DA00694f80*)((char*)flags + 0x20))))->GetBufferEntry(i))))->GetBits13To15())));
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)flags + 0x30))))->GetName())); ++j)
+    for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)flags + 0x30))))->GetName())); ++j)
         result =
             MaxUnsigned(result, ((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((mesh->GetTriangle(((EdgeArr*)((char*)flags + 0x30))->FUN_006a1440(j))))->GetBits13To15())));
     return result;
@@ -2532,11 +2553,11 @@ struct Elem3660
 };
 struct Holder3660
 {
-    int m_iWordAt04;
+    Elem3660* m_iWordAt04;
     int m_8;
     int m_iThirdValue;
     virtual void v0();
-    virtual int v1(unsigned int);
+    virtual Elem3660* v1(unsigned int);
     void FUN_006a2130(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_006a2a20
@@ -2683,7 +2704,7 @@ extern int DAT_011d6e2c;
 // @fnv 0x006a2920
 void FUN_006a2920()
 {
-    DAT_011d6e2c = (int)new FUN_006a2a20;
+    DAT_011d6e2c = (int)(intptr_t)new FUN_006a2a20;
 }
 
 struct FUN_006a69b0_Class
@@ -2694,7 +2715,7 @@ struct FUN_006a69b0_Class
     int m_iThirdValue;
     virtual int v0();
     virtual int v1(int);
-    void ConstructParams(int, int);
+    void ConstructParams(intptr_t, int);
     void FUN_006a69b0(unsigned int a, unsigned int b);
 };
 // Sets the stored string pointer to SG6202, then calls FUN_006a69b0 with the same argument twice.
@@ -2738,7 +2759,7 @@ struct FUN_006abe40_Class
 void* FUN_006abe40_Class::ReallocateArray(void* pSource, int count)
 {
     void* dst = reinterpret_cast<::FUN_00aa54a0_s *>((((ScrapHeap2*)*(void**)((char*)this + 0x10))))->FUN_00aa54a0(count * 0xc, DAT_010a2720);
-    ::__memcpy(dst, pSource, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) * 0xc);
+    ::__memcpy(dst, pSource, ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) * 0xc);
     reinterpret_cast<::SHStub *>((((ScrapHeap2*)*(void**)((char*)this + 0x10))))->FUN_00aa5610(pSource);
     return dst;
 }
@@ -2748,18 +2769,18 @@ struct FUN_006967f0
 };
 struct FUN_006bebd0_class
 {
-    int m_iWordAt00;
+    ::Ov2* m_pOwner;
     int m_iWordAt04;
-    int m_8;
+    char* m_8;
     void FUN_006bebd0();
 };
 // @fnv 0x006bebd0
 void FUN_006bebd0_class::FUN_006bebd0()
 {
-    if (*(int*)((char*)this->m_8 + 0x1c))
+    if (*(int*)(m_8 + 0x1c))
     {
-        reinterpret_cast<::Ov2 *>((((FUN_006967f0*)*(int*)((char*)this + 0))))->FUN_006967f0(*(unsigned short*)((char*)this->m_8 + 0x18),
-                   *(int*)((char*)this->m_8 + 0x18) + *(int*)((char*)this->m_8 + 0x1c) -
+        m_pOwner->FUN_006967f0(*(unsigned short*)(m_8 + 0x18),
+                   *(int*)(m_8 + 0x18) + *(int*)(m_8 + 0x1c) -
                        1);
     }
 }
@@ -2772,8 +2793,8 @@ struct S006bf170
 // @fnv 0x006bf170
 unsigned int S006bf170::FindIndexByValue(unsigned short ausValue)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); i++)
-        if (*(unsigned short*)*(unsigned int*)((Arr*)((char*)this + 0x1c))->GetAt(i) == ausValue)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); i++)
+        if (*(unsigned short*)(uintptr_t)*((Arr*)((char*)this + 0x1c))->GetAt(i) == ausValue)
             return i;
     return (unsigned int)-1;
 }
@@ -2827,14 +2848,14 @@ struct S006bfdd0
 struct S006bf730
 {
     int m_iWordAt00;
-    int m_iWordAt04;
+    char* m_iWordAt04;
     unsigned int FUN_006bf730(const S006bfc40& o);
 };
 struct FUN_006bfdd0_class
 {
     virtual void v0();
-    virtual unsigned int Write(unsigned int);
-    unsigned int iSize;
+    virtual void* Write(unsigned int);
+    void* iSize;
     unsigned int iPosition;
     unsigned int iDataLength;
     void FUN_006bfe70(unsigned int requested, unsigned int savedSize);
@@ -2874,14 +2895,14 @@ void FUN_006a1890_class::FUN_006a1890()
 
 struct FUN_006a1f70_class
 {
-    int FUN_006a1f70();
+    void* FUN_006a1f70();
 };
 
 // @fnv 0x006a1f70
-int FUN_006a1f70_class::FUN_006a1f70()
+void* FUN_006a1f70_class::FUN_006a1f70()
 {
     ((FUN_00aa5410_Helper*)this)->InitWithAlignedSize(0xd000);
-    return (int)this;
+    return this;
 }
 
 struct FUN_00692480
@@ -2982,23 +3003,23 @@ struct FUN_006a8a80 : public FUN_006a7b10
 
 struct FUN_006b9540_class
 {
-    void UnlinkFromNeighbors(int param_1);
+    void UnlinkFromNeighbors(intptr_t param_1);
 };
 
 // Unlinks the node at param_1 from its previous and next neighbours, then clears both neighbour pointers.
 // @fnv 0x006b9540
-void FUN_006b9540_class::UnlinkFromNeighbors(int pNode)
+void FUN_006b9540_class::UnlinkFromNeighbors(intptr_t pNode)
 {
-    if (*(int*)(pNode + 0x14) != 0)
+    if (*(intptr_t*)(pNode + 0x14) != 0)
     {
-        **(int**)(pNode + 0x14) = *(int*)(pNode + 0x18);
+        **(intptr_t**)(pNode + 0x14) = *(intptr_t*)(pNode + 0x18);
     }
-    if (*(int*)(pNode + 0x18) != 0)
+    if (*(intptr_t*)(pNode + 0x18) != 0)
     {
-        *(int*)(*(int*)(pNode + 0x18) + 0x14) = *(int*)(pNode + 0x14);
+        *(intptr_t*)(*(intptr_t*)(pNode + 0x18) + 0x14) = *(intptr_t*)(pNode + 0x14);
     }
-    *(int*)(pNode + 0x14) = 0;
-    *(int*)(pNode + 0x18) = 0;
+    *(intptr_t*)(pNode + 0x14) = 0;
+    *(intptr_t*)(pNode + 0x18) = 0;
 }
 
 struct FUN_006bbc30_ScrapHeap
@@ -3031,7 +3052,7 @@ struct FUN_006be660_class
 // @fnv 0x006be660
 void FUN_006be660_class::FUN_006be660()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x1c)))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 0x1c)))->GetName())); ++i)
     {
         if (reinterpret_cast<unsigned char*>(
                 reinterpret_cast<Arr*>(reinterpret_cast<char*>(this) + 0x1c)->GetAt(i)[0])[2])
@@ -3080,7 +3101,7 @@ void FUN_006be770_class::FUN_006be770()
         reinterpret_cast<FUN_00693bd0_class*>(m_00->GetTriangle((unsigned short)i))->FUN_00693bd0(m_44 + 1);
     }
 
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&m_08->m_30)))->GetName())); ++j)
+    for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(&m_08->m_30)))->GetName())); ++j)
     {
         NavMeshTriangle* triangle = m_00->GetTriangle(m_08->m_30.FUN_006a1440(j));
 
@@ -3100,7 +3121,7 @@ struct FUN_006bf2d0_class
 // @fnv 0x006bf2d0
 bool FUN_006bf2d0_class::FUN_006bf2d0(NiPoint3* p)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)m_8 + 0x20))))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)m_8 + 0x20))))->GetName())); i++)
     {
         if (::fnv_006c3570::FUN_006c3570((::fnv_006c3570::NiPoint3 *)&(*p), (::fnv_006c3570::Flt *)&(*(void**)&m_iWordAt04), ::g_011c72ac_arg1, 32.0f))
             return true;
@@ -3454,8 +3475,8 @@ struct FUN_006a1500_cls
     MemberA_6a1500 m_04;
     MemberB_6a1500 m_14;
     MemberC_6a1500 m_1ff4;
-    int m_2048;
-    int m_204c;
+    void* m_2048;
+    void* m_204c;
     int m_2050;
     char m_2054;
 
@@ -3481,10 +3502,10 @@ struct S6a21c0_helper
 struct FUN_006a1920_cls
 {
     virtual void v0();
-    virtual int v1(int a);
-    int m_iWordAt04;
+    virtual void* v1(int a);
+    void* m_iWordAt04;
     int m_8;
-    void* m_iThirdValue;
+    int m_iThirdValue;
     int FUN_006a1920();
 };
 
@@ -3505,7 +3526,7 @@ struct FUN_006a1a50_cls
 int FUN_006a1a50_cls::FUN_006a1a50(const FUN_006a1a50_pair* src)
 {
     unsigned int idx = ((int)(reinterpret_cast<::S5460 *>(this)->FUN_00845460()));
-    reinterpret_cast<::FUN_006a2470_class *>(this)->ConstructPendingItems((int)(m_04 + idx), 1);
+    reinterpret_cast<::FUN_006a2470_class *>(this)->ConstructPendingItems((intptr_t)(m_04 + idx), 1);
     m_04[idx] = *src;
     return idx;
 }
@@ -3513,11 +3534,11 @@ int FUN_006a1a50_cls::FUN_006a1a50(const FUN_006a1a50_pair* src)
 struct FUN_006a21c0_class
 {
     virtual void v0();
-    virtual int v4(int value);
+    virtual intptr_t v4(int value);
     virtual int v8(int value);
-    virtual int vc(int value1, int value2);
+    virtual intptr_t vc(intptr_t value1, int value2);
 
-    int m_iWordAt04;
+    intptr_t m_iWordAt04;
     int m_8;
     int m_iThirdValue;
 
@@ -3532,13 +3553,13 @@ int FUN_006a1920_cls::FUN_006a1920()
         {
             int t = 4;
             m_iWordAt04 = v1(t);
-            m_iThirdValue = (void*)t;
+            m_iThirdValue = t;
         }
         else
         {
-            void* p = (void*)((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>((reinterpret_cast<S5460*>(this)))->FUN_009a3910()));
-            reinterpret_cast<::FUN_006a21c0_class *>((reinterpret_cast<S6a21c0_helper*>(this)))->FUN_006a21c0((int)(p), m_8);
-            m_iThirdValue = p;
+            int n = reinterpret_cast<::FUN_009a3910_cls *>((reinterpret_cast<S5460*>(this)))->FUN_009a3910();
+            reinterpret_cast<::FUN_006a21c0_class *>((reinterpret_cast<S6a21c0_helper*>(this)))->FUN_006a21c0(n, m_8);
+            m_iThirdValue = n;
         }
     }
     m_8 = m_8 + 1;
@@ -3556,7 +3577,7 @@ void FUN_006a21c0_class::FUN_006a21c0(int value, int flag)
         }
         else
         {
-            int newValue = v4(value);
+            intptr_t newValue = v4(value);
             reinterpret_cast<::FUN_006a2270_class *>(this)->FUN_006a2270((char *)(newValue), (char *)(m_iWordAt04), flag);
             ::FUN_006a8500((::DummyClass_006a8500 *)this);
             m_iWordAt04 = newValue;
@@ -3583,7 +3604,7 @@ PendingItem::PendingItem()
 
 // Constructs b PendingItem objects in place in the array at a.
 // @fnv 0x006a23a0
-void FUN_006a2470_class::ConstructPendingItems(int apItems, int aiCount)
+void FUN_006a2470_class::ConstructPendingItems(intptr_t apItems, int aiCount)
 {
     for (unsigned int i = 0; i < (unsigned int)aiCount; i++)
     {
@@ -3634,7 +3655,7 @@ struct S_006a26d0_Item
 
 // Placement-constructs count S_006a26d0_Item objects at base + i * 16.
 // @fnv 0x006a26d0
-void FUN_006a26d0_class::ConstructItems(int base, int count)
+void FUN_006a26d0_class::ConstructItems(intptr_t base, int count)
 {
     for (unsigned int i = 0; i < (unsigned int)count; i++)
     {
@@ -3840,7 +3861,7 @@ struct ImageSpaceEffectParam
 
 
 // @fnv 0x006a68f0
-void FUN_006a69b0_Class::ConstructParams(int aiBaseAddress, int aiCount)
+void FUN_006a69b0_Class::ConstructParams(intptr_t aiBaseAddress, int aiCount)
 {
     for (unsigned int i = 0; i < (unsigned int)aiCount; ++i)
     {
@@ -3948,7 +3969,7 @@ struct FUN_006aa620 : public FUN_006a7b10
 // @fnv 0x006aa620
 FUN_006aa620::FUN_006aa620()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106b830);
+    *reinterpret_cast<void**>(this) = &DAT_0106b830;
 
     new ((void *)(reinterpret_cast<FUN_006aa620_CallTarget*>(reinterpret_cast<unsigned char*>(this) + 0x2070))) ::FUN_00633c90((::G00559a40 *)(0));
 
@@ -4271,10 +4292,10 @@ SearchNode* FUN_006a1cf0_shell::FUN_006a1cf0()
             }
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&kConnections)))->Clear(false);
             GetConnections(pCurrentNode, &kConnections);
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&kConnections)))->GetName())); i++)
+            for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&kConnections)))->GetName())); i++)
             {
-                SearchNode* pNode = (SearchNode*)*((Arr*)&kConnections)->GetAt(i);
-                reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpenList))->UnlinkFromList((int)(pNode));
+                SearchNode* pNode = (SearchNode*)(uintptr_t)*((Arr*)&kConnections)->GetAt(i);
+                reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpenList))->UnlinkFromList((intptr_t)(pNode));
                 if (pCurrentNode->pParent == pNode)
                     return 0;
                 pNode->pParent = pCurrentNode;
@@ -4498,7 +4519,8 @@ FUN_006b4790_cls::~FUN_006b4790_cls()
     {
         Ref58_b9491* a = m_58;
         Ref58_b9491* b5 = a;
-        b5 ? ((int)(reinterpret_cast<::FUN_006b4850_t *>((b5))->FUN_006b4850(1))) : 0;
+        if (b5)
+            reinterpret_cast<::FUN_006b4850_t *>((b5))->FUN_006b4850(1);
     }
 }
 
@@ -6593,8 +6615,8 @@ struct FUN_006b8d90
     SubA m_04;
     SubB m_14;
     SubC m_1ff4;
-    int m_2048;
-    int m_204c;
+    void* m_2048;
+    void* m_204c;
     int m_2050;
     unsigned char m_2054;
 
@@ -6816,10 +6838,6 @@ void __cdecl FUN_006b9940(FUN_006b9940_cls* a1, FUN_006b9940_cls* a2, FUN_006b99
     ::FUN_004019b0(reinterpret_cast<::FUN_004b6190_shell *>(&(v3c4))->DotProduct(&v3c4));
 }
 
-namespace std {
-float abs(float);
-}
-
 struct NiPoint2
 {
     float x;
@@ -6899,7 +6917,7 @@ struct FUN_006ba7e0_cls
 
 
 // @fnv 0x006ba7e0
-bool __cdecl FUN_006ba7e0(unsigned int uiIndexA, FUN_006ba7e0_cls* a2, unsigned int uiIndexB, FUN_006ba7e0_cls* a4,
+bool __cdecl FUN_006ba7e0(uintptr_t uiIndexA, FUN_006ba7e0_cls* a2, uintptr_t uiIndexB, FUN_006ba7e0_cls* a4,
                           NiPoint3* out)
 {
     float t_;
@@ -7078,8 +7096,8 @@ FUN_006bc330::~FUN_006bc330()
 
 struct EdgeA
 {
-    int v0;
-    int v1;
+    void* v0;
+    void* v1;
 };
 
 struct EdgeArrayA
@@ -7165,7 +7183,7 @@ public:
 // @fnv 0x006a9200
 FUN_006a9200::FUN_006a9200()
 {
-    *(int*)this = (int)&DAT_0106b78c;
+    *(void**)this = &DAT_0106b78c;
     new ((void *)(((BaseS*)((char*)this + 0x2070)))) ::Vec3();
     new ((void *)(((BaseS*)((char*)this + 0x2084)))) ::Vec3();
     *(int*)((char*)this + 0x2058) = 0;
@@ -7174,7 +7192,7 @@ FUN_006a9200::FUN_006a9200()
 // @fnv 0x006a8a80
 FUN_006a8a80::FUN_006a8a80() : FUN_006a7b10()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106b6fc);
+    *reinterpret_cast<void**>(this) = &DAT_0106b6fc;
 
     new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<char*>(this) + 0x2074))) ::Vec3();
     new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(reinterpret_cast<char*>(this) + 0x2080))) ::Vec3();
@@ -7227,7 +7245,7 @@ bool PathTriangleCheck::FUN_006bec40(PathNode* pNodeA, PathNode* pNodeB, PathNod
     Vec3 kCenter4 = (kA + kB9 + kC2) * 0.33333f;
     float fDist;
 
-    for (unsigned int i4 = 0; i4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodeArray))->GetName())); i4++)
+    for (unsigned int i4 = 0; i4 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kNodeArray))->GetName())); i4++)
     {
         PathNode* pNode4 = kNodeArray.GetAt(i4);
         Vec3 kPoint7 = (*(const ::Vec3 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((pNodes))->FUN_0068f0a0(pNode4->usIndex)));
@@ -7298,14 +7316,14 @@ struct FUN_006bf4d0_cls
 // @fnv 0x006bde50
 void FUN_006bde50::DoWork()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); i++)
     {
-        void* actor = (void*)(*(unsigned int*)((Arr*)((char*)this + 0x1c))->GetAt(i));
+        void* actor = (void*)(uintptr_t)(*((Arr*)((char*)this + 0x1c))->GetAt(i));
         if (!((unsigned char*)actor)[2])
             continue;
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); j++)
+        for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x1c))))->GetName())); j++)
         {
-            void* other = (void*)(*(unsigned int*)((Arr*)((char*)this + 0x1c))->GetAt(j));
+            void* other = (void*)(uintptr_t)(*((Arr*)((char*)this + 0x1c))->GetAt(j));
             if (((unsigned char*)other)[6])
                 continue;
             if (!((unsigned char*)other)[3] && !((unsigned char*)other)[4])
@@ -7325,17 +7343,17 @@ void Graph006bdf50::JoinAdjacentEdges()
     unsigned int i;
     EdgeA* first4;
     unsigned int j2;
-    int b;
+    void* b;
     EdgeA* second7;
-    int a4;
+    void* a4;
     EdgeA* created5;
 
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
+    for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
     {
         first4 = edges.GetAt(i);
         if (!reinterpret_cast<::FUN_006be0c0_Class *>((first4))->FUN_006be0c0())
             continue;
-        for (j2 = i + 1; j2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); j2++)
+        for (j2 = i + 1; j2 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); j2++)
         {
             second7 = edges.GetAt(j2);
             if (!reinterpret_cast<::FUN_006be0c0_Class *>((second7))->FUN_006be0c0())
@@ -7364,9 +7382,9 @@ void Graph006bdf50::JoinAdjacentEdges()
             {
                 continue;
             }
-            if (reinterpret_cast<::FUN_006bde50 *>(this)->CanAddEdge((void *)(a4), (void *)(b)))
+            if (reinterpret_cast<::FUN_006bde50 *>(this)->CanAddEdge(a4, b))
             {
-                created5 = ((::EdgeA *)(reinterpret_cast<::FUN_006bf4d0_cls *>(this)->CreateObject((void *)(a4), (void *)(b), 0)));
+                created5 = ((::EdgeA *)(reinterpret_cast<::FUN_006bf4d0_cls *>(this)->CreateObject(a4, b, 0)));
                 reinterpret_cast<::FUN_00438690 *>(&(edges))->FUN_007cb2e0((unsigned int *)&(created5));
             }
         }
@@ -7559,7 +7577,7 @@ struct FUN_006a14b0
 };
 struct Proc006a20
 {
-    void ConstructArray(int base, int count);
+    void ConstructArray(intptr_t base, int count);
 };
 // Sets the vtbl to DAT_0106b3d4, calls FUN_006a20a0(0, 0), and returns this.
 // @fnv 0x006a16d0
@@ -7581,7 +7599,7 @@ void FUN_006a20a0::FUN_006a20a1(unsigned int requested, unsigned int savedSize)
     }
     if (requested > 0)
     {
-        m_iWordAt04 = ((int(*)(void*, int))(*(void***)this)[1])(this, requested);
+        m_iWordAt04 = ((intptr_t(*)(void*, int))(*(void***)this)[1])(this, requested);
         m_iThirdValue = requested;
     }
     if (savedSize > 0)
@@ -7609,7 +7627,7 @@ void FUN_006a1720_class::FUN_006a1720(unsigned int requested, bool shrink)
             reinterpret_cast<::fnv_009f6540::FUN_009f6540_Class *>(this)->FUN_009f6540(requested, m_iElementCount);
             m_pRayCursor = requested;
         }
-        reinterpret_cast<::Proc006a20 *>(this)->ConstructArray((int)(m_data + m_iElementCount), requested - m_iElementCount);
+        reinterpret_cast<::Proc006a20 *>(this)->ConstructArray((intptr_t)(m_data + m_iElementCount), requested - m_iElementCount);
         m_iElementCount = requested;
     }
     else if (requested < m_iElementCount)
@@ -7624,13 +7642,13 @@ void FUN_006a1720_class::FUN_006a1720(unsigned int requested, bool shrink)
     }
     else
     {
-        reinterpret_cast<::Proc006a20 *>(this)->ConstructArray((int)(m_data + m_iElementCount), requested - m_iElementCount);
+        reinterpret_cast<::Proc006a20 *>(this)->ConstructArray((intptr_t)(m_data + m_iElementCount), requested - m_iElementCount);
         m_iElementCount = requested;
     }
 }
 // Placement-constructs count FUN_006a14b0 objects at 16-byte intervals starting from base.
 // @fnv 0x006a2000
-void Proc006a20::ConstructArray(int base, int count)
+void Proc006a20::ConstructArray(intptr_t base, int count)
 {
     for (unsigned int index = 0; index < (unsigned int)count; ++index)
     {
@@ -7772,7 +7790,7 @@ void WorkerArray::FUN_006a8750(unsigned int requested, bool shrink)
             reinterpret_cast<::FUN_009a3c50_cls *>(this)->UpdateThreat(requested, size);
             capacity = requested;
         }
-        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((int)(data + size), requested - size);
+        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((intptr_t)(data + size), requested - size);
         size = requested;
     }
     else if (requested < size)
@@ -7787,7 +7805,7 @@ void WorkerArray::FUN_006a8750(unsigned int requested, bool shrink)
     }
     else
     {
-        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((int)(data + size), requested - size);
+        reinterpret_cast<::FUN_006a8a30_class *>(this)->FUN_006a8a30((intptr_t)(data + size), requested - size);
         size = requested;
     }
 }
@@ -7875,10 +7893,10 @@ SearchNode* PathSearch::FUN_006b3a30()
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(connections))->Clear(false);
         GetConnections(pCurrentNode, reinterpret_cast<ConnectionArray*>(&connections));
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(connections))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(connections))->GetName())); ++i)
         {
             SearchNode* neighbor = *connections.FUN_00877a30(i);
-            reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpenList))->UnlinkFromList((int)(neighbor));
+            reinterpret_cast<::FUN_006a1fb0_class *>(&(kOpenList))->UnlinkFromList((intptr_t)(neighbor));
             if (pCurrentNode->pParent == neighbor)
                 return 0;
             neighbor->pParent = pCurrentNode;
@@ -7941,7 +7959,7 @@ void Holder3660::FUN_006a2130(unsigned int requested, unsigned int savedSize)
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::Array64 *>(this)->FUN_006a2630((::ResizeElement64 *)(::Elem3660 *)((Elem3660*)m_iWordAt04), savedSize);
+        reinterpret_cast<::Array64 *>(this)->FUN_006a2630((::ResizeElement64 *)m_iWordAt04, savedSize);
         m_8 = savedSize;
     }
 }
@@ -7970,7 +7988,7 @@ bool FUN_006b3cb0_cls::CopyNodeListToArrays(FUN_006b3cb0_node* head, FUN_006b3cb
         *pItemArray->FUN_006a1440(i6) = node7->m_08;
         if (i6 > 0)
         {
-            reinterpret_cast<::FUN_006b3910_S *>((((::FUN_006b3cb0_pt *)(reinterpret_cast<::DummyArr *>((pPointArray))->GetBufferElementAddress(i6 - 1)))))->FUN_006b3910({});
+            reinterpret_cast<::FUN_006b3910_S *>((((::FUN_006b3cb0_pt *)(reinterpret_cast<::DummyArr *>((pPointArray))->GetBufferElementAddress(i6 - 1)))))->FUN_006b3910((const ::FUN_006b3910_S *)(void *)&(node7->m_14));
         }
         node7 = node7->m_54;
         i6 = i6 - 1;
@@ -8048,7 +8066,7 @@ SearchNode9180* Search9180::FindPathStep()
 {
     ConnectionArray9180 connections;
     SearchNode9180* previous = (SearchNode9180*)m_204c;
-    m_204c = (int)((::SearchNode9180 *)(reinterpret_cast<::FUN_00996ce0_Class *>((((OpenNodes9180*)&m_1ff4)))->PopNode()));
+    m_204c = ((::SearchNode9180 *)(reinterpret_cast<::FUN_00996ce0_Class *>((((OpenNodes9180*)&m_1ff4)))->PopNode()));
     if (!m_204c)
         return 0;
     m_2048 = m_204c;
@@ -8062,16 +8080,16 @@ SearchNode9180* Search9180::FindPathStep()
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(connections))->Clear(false);
         GetConnections((SearchNode9180*)m_204c, &connections);
-        for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(connections))->GetName())); ++i)
+        for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(connections))->GetName())); ++i)
         {
             SearchNode9180* node = connections.FUN_00877a30(i);
-            reinterpret_cast<::FUN_006b9540_class *>((((OpenNodes9180*)&m_1ff4)))->UnlinkFromNeighbors((int)(node));
+            reinterpret_cast<::FUN_006b9540_class *>((((OpenNodes9180*)&m_1ff4)))->UnlinkFromNeighbors((intptr_t)(node));
             if (((SearchNode9180*)m_204c)->parent == node)
                 return 0;
             node->parent = (SearchNode9180*)m_204c;
             reinterpret_cast<::S_006b94a0_Table *>((((OpenNodes9180*)&m_1ff4)))->InsertNode((::S_006b94a0_Node *)(node));
             if (reinterpret_cast<::TimeoutTimer *>((node))->FUN_006b9130() < reinterpret_cast<::TimeoutTimer *>((((SearchNode9180*)m_2048)))->FUN_006b9130())
-                m_2048 = (int)node;
+                m_2048 = node;
         }
         if (m_2054)
         {
@@ -8083,9 +8101,9 @@ SearchNode9180* Search9180::FindPathStep()
             }
         }
         previous = (SearchNode9180*)m_204c;
-        m_204c = (int)((::SearchNode9180 *)(reinterpret_cast<::FUN_00996ce0_Class *>((((OpenNodes9180*)&m_1ff4)))->PopNode()));
+        m_204c = ((::SearchNode9180 *)(reinterpret_cast<::FUN_00996ce0_Class *>((((OpenNodes9180*)&m_1ff4)))->PopNode()));
     }
-    m_204c = (int)previous;
+    m_204c = previous;
     return 0;
 }
 
@@ -8231,7 +8249,7 @@ bool IntersectLineCircle(Circle* circle, const Line* pLine, Result* result)
     Hit* firstSlot0 = &result->first;
     Hit* secondSlot21 = &result->second;
     Line lineSlot1(*pLine);
-    reinterpret_cast<::FUN_006bb510_shell *>(&(lineSlot1))->AddToPoints((::NiPoint3 *)&(const ::CircleIntersection::Vec3 &)((*(::CircleIntersection::Vec3 *)(reinterpret_cast<::P3 *>((circle))->FUN_004a0bd0({})))));
+    reinterpret_cast<::FUN_006bb510_shell *>(&(lineSlot1))->AddToPoints((::NiPoint3 *)&(const ::CircleIntersection::Vec3 &)((*(::CircleIntersection::Vec3 *)(reinterpret_cast<::P3 *>((circle))->FUN_004a0bd0(&PointSlot<::P3>(PointResult{}))))));
     float radiusSlot20 = 1.0f;
     reinterpret_cast<::FUN_004941c0_shell *>(&(lineSlot1.start))->ScaleByInverse(circle->radius);
     reinterpret_cast<::FUN_004941c0_shell *>(&(lineSlot1.end))->ScaleByInverse(circle->radius);
@@ -8668,10 +8686,10 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
 {
     output = pOutput;
     input = pInput;
-    int cursor;
+    ::FUN_006947e0_node* cursor;
     {
         BuildIdsScope names;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->annotationCollection))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->annotationCollection))->GetName())); ++i)
         {
             int entry;
             {
@@ -8679,7 +8697,7 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
                 reinterpret_cast<::FUN_006bc870_shell *>((((BuildName*)&bounds.mC)))->CopyFromNavMeshEdge((void *)(((::FUN_006bc8b0 *)(reinterpret_cast<::FUN_006bf670_Class *>(&(input->annotationCollection))->FUN_006bf670(i)))));
                 reinterpret_cast<::FUN_006bc870_shell *>((((BuildName*)&bounds.m0)))->CopyFromNavMeshEdge((void *)(&((::FUN_006bc8b0 *)(reinterpret_cast<::FUN_006bf670_Class *>(&(input->annotationCollection))->FUN_006bf670(i)))->mC));
                 bounds.processed = false;
-                entry = reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((int)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt)));
+                entry = reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((intptr_t)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt)));
                 if (entry != -1)
                 {
                     if (names.FUN_00719b20(&entry, 0, ((void (&)())::FUN_009a3830)) == -1)
@@ -8689,12 +8707,12 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
                 }
                 else
                 {
-                    if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->alternate))->FindIndexIf((int)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
+                    if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->alternate))->FindIndexIf((intptr_t)((BuildName*)&bounds.m0), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
                     {
                         reinterpret_cast<::FUN_0069b310_S *>(&(catalog->alternate))->AppendElement((const ::EH *)(const ::BuildName *)((BuildName*)&bounds.m0));
                     }
                 }
-                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((int)((BuildName*)&bounds.mC), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
+                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(catalog->primary))->FindIndexIf((intptr_t)((BuildName*)&bounds.mC), 0, (bool (*)(FUN_0049f7d0_elem *, int))(((void (&)(void *, int))::CallWithInt))) == -1)
                 {
                     reinterpret_cast<::FUN_0069b310_S *>(&(catalog->primary))->AppendElement((const ::EH *)(const ::BuildName *)((BuildName*)&bounds.mC));
                 }
@@ -8702,18 +8720,18 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
         }
         if (!reinterpret_cast<::FUN_0076b610_Class *>(&(names))->FUN_0076b610())
         {
-            reinterpret_cast<::FUN_00729970_shell *>(&(names))->FUN_00729970((int)(&(*reinterpret_cast<const int *>(&::FUN_006bfb30))));
-            for (int i = (int)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(names))->GetName())) - 1; i >= 0; --i)
+            reinterpret_cast<::FUN_00729970_shell *>(&(names))->FUN_00729970((intptr_t)(&(*reinterpret_cast<const int *>(&::FUN_006bfb30))));
+            for (int i = (int)((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(names))->GetName())) - 1; i >= 0; --i)
             {
                 reinterpret_cast<::FUN_0061bf70_Class *>(&(catalog->primary))->FUN_0061bf70(*names.FUN_00877a30(i, true), {});
             }
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->idCollection))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->idCollection))->GetName())); ++i)
         {
             BuildValue* value = output->FUN_005582f0(*((unsigned short *)&(reinterpret_cast<::FUN_005eeda0_this *>(&(input->idCollection))->GetBufferEntry(i))));
             reinterpret_cast<::FUN_00519270_shell *>((value))->ClearFlags(0x20);
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->componentCollection))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->componentCollection))->GetName())); ++i)
         {
             BuildValue* value = output->FUN_005582f0(input->componentCollection.FUN_006a1440(i)->objectId);
             reinterpret_cast<::FUN_00519270_shell *>((value))->ClearFlags(0x100);
@@ -8733,7 +8751,7 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
         {
             reinterpret_cast<::FUN_00691570_shell *>((output->FUN_005582f0((unsigned short)id)))->FUN_00691570(0x20);
         }
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->componentCollection))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(input->componentCollection))->GetName())); ++i)
         {
             BuildValue* value = output->FUN_005582f0(input->componentCollection.FUN_006a1440(i)->objectId);
             reinterpret_cast<::FUN_00693bd0_class *>((value))->FUN_00693bd0((unsigned int)((unsigned short)(reinterpret_cast<::FUN_00699790_shell *>((value))->GetBits13To15())) - 1);
@@ -8742,12 +8760,12 @@ bool BuildProcess::Build(BuildOutput* pOutput, BuildInput* pInput, BuildCatalog*
         {
             reinterpret_cast<::FUN_0049c250_shell *>((output->manager))->FUN_0049c250((unsigned short)id);
         }
-        for (cursor = ((int)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(input->valueCollection))->GetFirstPos())); cursor != 0;)
+        for (cursor = ((::FUN_006947e0_node *)(reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>(&(input->valueCollection))->GetFirstPos())); cursor != 0;)
         {
             unsigned short identifier;
             {
                 NiPointer<ObstacleData> tag(0);
-                reinterpret_cast<::FUN_006947e0_cls *>(&(input->valueCollection))->FUN_006947e0((::FUN_006947e0_node **)(int *)(&cursor), &identifier, (::FUN_006947e0_owner *)(void *)(&tag));
+                reinterpret_cast<::FUN_006947e0_cls *>(&(input->valueCollection))->FUN_006947e0(&cursor, &identifier, (::FUN_006947e0_owner *)(void *)(&tag));
                 output->manager->FUN_006946a0(identifier, tag);
             }
         }
@@ -8815,7 +8833,7 @@ struct AdjBuilder
 // @fnv 0x006bca20
 void AdjBuilder::CollectLinkedTriangles(AdjEntryArray* apOut)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pSource->kIndices))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pSource->kIndices))->GetName())); i++)
     {
         AdjTriangle* pTri = pMesh->GetTriangle(*((unsigned short *)&(reinterpret_cast<::FUN_005eeda0_this *>(&(pSource->kIndices))->GetBufferEntry(i))));
         reinterpret_cast<::FUN_00519270_shell *>((pTri))->ClearFlags(0x100);
@@ -8827,10 +8845,10 @@ void AdjBuilder::CollectLinkedTriangles(AdjEntryArray* apOut)
                 if (uiLinked >= ::FUN_00558200((char *)(pMesh)))
                     continue;
                 AdjTriangle* pLinked = pMesh->GetTriangle((unsigned short)uiLinked);
-                if (reinterpret_cast<::FUN_0069b240_Holder *>(&(pSource->kIndices))->FindMatchingIndex((int)(&uiLinked), 0, (bool (*)(unsigned short *, int))(((int (&)(const void *, const void *))::FUN_0069b2a0))) == -1)
+                if (reinterpret_cast<::FUN_0069b240_Holder *>(&(pSource->kIndices))->FindMatchingIndex((intptr_t)(&uiLinked), 0, (bool (*)(unsigned short *, intptr_t))(((int (&)(const void *, const void *))::FUN_0069b2a0))) == -1)
                 {
                     bool bFound = false;
-                    for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName())); k++)
+                    for (unsigned int k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName())); k++)
                     {
                         if (apOut->GetAt(k)->m_usTriangleID == uiLinked)
                         {
@@ -8840,7 +8858,7 @@ void AdjBuilder::CollectLinkedTriangles(AdjEntryArray* apOut)
                     }
                     if (!bFound)
                     {
-                        unsigned int uiIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName()));
+                        unsigned int uiIndex = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apOut))->GetName()));
                         reinterpret_cast<::H2 *>((apOut))->FUN_006a8890(uiIndex + 1, true);
                         apOut->GetAt(uiIndex)->m_usTriangleID = (unsigned short)uiLinked;
                         reinterpret_cast<::FUN_00691570_shell *>((pLinked))->FUN_00691570(0x100);
@@ -8949,7 +8967,7 @@ struct HostB60
 void HostB60::BuildNavMeshEdges()
 {
     int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(p8->m_kNavMeshTriangleList))->GetName())); ++i)
+    for (i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(p8->m_kNavMeshTriangleList))->GetName())); ++i)
     {
         TriX* tri = (TriX*)mesh->GetTriangle(reinterpret_cast<::FUN_005eeda0_this *>(&(p8->m_kNavMeshTriangleList))->GetBufferEntry(i));
         int j;
@@ -8970,7 +8988,7 @@ void HostB60::BuildNavMeshEdges()
             }
             else
             {
-                if (reinterpret_cast<::FUN_0069b240_Holder *>(&(p8->m_kNavMeshTriangleList))->FindMatchingIndex((int)&(const unsigned short &)(reinterpret_cast<::FUN_0068f2c0_shell *>((tri))->FUN_0068f2c0(j)), 0, (bool (*)(unsigned short *, int))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) == -1)
+                if (reinterpret_cast<::FUN_0069b240_Holder *>(&(p8->m_kNavMeshTriangleList))->FindMatchingIndex((intptr_t)&(const unsigned short &)(reinterpret_cast<::FUN_0068f2c0_shell *>((tri))->FUN_0068f2c0(j)), 0, (bool (*)(unsigned short *, intptr_t))(((bool (&)(const unsigned short &, const unsigned short &))::AreWideCharsEqual))) == -1)
                 {
                     cls = 2;
                     flagE = true;
@@ -9013,7 +9031,7 @@ void HostB60::BuildNavMeshEdges()
                 }
                 if (cls == 3)
                 {
-                    reinterpret_cast<::S006997b0 *>((((MeshX*)mesh)))->FUN_006997b0(reinterpret_cast<::FUN_005eeda0_this *>(&(p8->m_kNavMeshTriangleList))->GetBufferEntry(i), (int)&ed->f1c);
+                    reinterpret_cast<::S006997b0 *>((((MeshX*)mesh)))->FUN_006997b0(reinterpret_cast<::FUN_005eeda0_this *>(&(p8->m_kNavMeshTriangleList))->GetBufferEntry(i), (intptr_t)&ed->f1c);
                 }
                 if (cls == 4)
                 {
@@ -9228,7 +9246,7 @@ struct Processor74
 // @fnv 0x006bd540
 void Processor74::SplitCrossingEdges()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++i)
     {
         Edge74* first6 = edges.FUN_00877a30(i);
         if (first6->type != 1)
@@ -9237,7 +9255,7 @@ void Processor74::SplitCrossingEdges()
         Vertex74* b10 = first6->end;
         Vec74* pa51 = ((::Vec74 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((mesh))->FUN_0068f0a0(a2->index)));
         Vec74* pb32 = ((::Vec74 *)(reinterpret_cast<::FUN_0068f0a0_shell *>((mesh))->FUN_0068f0a0(b10->index)));
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++j)
+        for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); ++j)
         {
             Edge74* second23 = edges.FUN_00877a30(j);
             if (second23->type != 3 && second23->type != 4)
@@ -9255,25 +9273,25 @@ void Processor74::SplitCrossingEdges()
                 bool splitFirst21 = false;
                 bool splitSecond20 = false;
                 Vertex74* intersection6;
-                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pc21))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pc21))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = c5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pd20))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pd20))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = d5;
                     splitFirst21 = true;
                     splitSecond20 = false;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pa51))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pa51))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = a2;
                     splitFirst21 = false;
                     splitSecond20 = true;
                 }
-                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pb32))->FUN_00439ef0((::NiPoint3 *)&(crossing2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < tolerance8)
+                else if (reinterpret_cast<::FUN_00595c80_shell *>((void *)&(const ::Vec74 &)((*(::Vec74 *)(reinterpret_cast<::FUN_00439ef0_class *>((pb32))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(crossing2))))))->GetSquaredXYLength() < tolerance8)
                 {
                     intersection6 = b10;
                     splitFirst21 = false;
@@ -9441,7 +9459,7 @@ struct S6bdcb0Owner
 // @fnv 0x006bdcb0
 void S6bdcb0Owner::FUN_006bdcb0()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(kItems))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(kItems))->GetName())); i++)
     {
         if (reinterpret_cast<::FUN_006bf340_Class *>(this)->FUN_006bf340((unsigned char **)(kItems.GetAt(i))))
         {
@@ -9504,7 +9522,7 @@ struct NavMeshGen_6be830
 // @fnv 0x006be830
 void NavMeshGen_6be830::ApplyEdgeSplits()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->arr30))->GetName())); ++i)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->arr30))->GetName())); ++i)
     {
         if (this->arr30.GetAt(i)->m_8 != 0xFFFF && this->arr30.GetAt(i)->m_kPointA != 0xFFFF)
         {
@@ -9575,7 +9593,7 @@ struct EdgeUpdater120
 void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
 {
     IndexArray120 removed;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
     {
         if ((*edges.FUN_00877a30(i))->type == 4 && (*edges.FUN_00877a30(i))->triangle != 65535)
         {
@@ -9588,7 +9606,7 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
             reinterpret_cast<::FUN_006bc870_shell *>((void *)&(const ::EH &)(record.first))->CopyFromNavMeshEdge((void *)&((*edges.FUN_00877a30(i))->second));
             record.active = true;
             reinterpret_cast<::S006bf730 *>(&(owner->records))->FUN_006bf730((*(const ::S006bfc40 *)(&record)));
-            unsigned int index = reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((int)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt));
+            unsigned int index = reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((intptr_t)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt));
             if (index != -1)
             {
                 if (removed.FUN_00719b20(&index, 0, ((unsigned int (&)(const int *, const int *))::FUN_009a3830)) == -1)
@@ -9596,17 +9614,17 @@ void EdgeUpdater120::UpdateEdgeRecords(RecordArray120* arrays)
             }
             else
             {
-                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(arrays[1]))->FindIndexIf((int)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
+                if (reinterpret_cast<::FUN_0049f7d0_cls *>(&(arrays[1]))->FindIndexIf((intptr_t)(&record), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
                     reinterpret_cast<::FUN_0069b310_S *>(&(arrays[1]))->AppendElement((const ::EH *)(::EdgeRecord120 *)(&record));
             }
-            if (reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((int)(reinterpret_cast<EdgeRecord120*>(&record.second)), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
+            if (reinterpret_cast<::FUN_0049f7d0_cls *>((arrays))->FindIndexIf((intptr_t)(reinterpret_cast<EdgeRecord120*>(&record.second)), 0, (bool (*)(FUN_0049f7d0_elem *, int))(CallWithInt)) == -1)
                 reinterpret_cast<::FUN_0069b310_S *>((arrays))->AppendElement((const ::EH *)(::EdgeRecord120 *)(reinterpret_cast<EdgeRecord120*>(&record.second)));
         }
     }
     if (!reinterpret_cast<::FUN_0076b610_Class *>(&(removed))->FUN_0076b610())
     {
-        reinterpret_cast<::FUN_00729970_shell *>(&(removed))->FUN_00729970((int)(FUN_006bfb30));
-        for (int j = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(removed))->GetName())) - 1; j >= 0; j--)
+        reinterpret_cast<::FUN_00729970_shell *>(&(removed))->FUN_00729970((intptr_t)(FUN_006bfb30));
+        for (int j = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(removed))->GetName())) - 1; j >= 0; j--)
             reinterpret_cast<::FUN_0061bf70_Class *>((arrays))->FUN_0061bf70(*removed.FUN_00877a30(j), 1);
     }
 }
@@ -9660,7 +9678,7 @@ bool FUN_006bde50::CanAddEdge(void* pVertexA, void* pVertexB)
         if (!reinterpret_cast<::FUN_006bf220_cls *>((((S_006bf1d0*)this)))->FUN_006bf220((void *)&((const NiPoint3&)midpoint)))
             return false;
     }
-    for (unsigned int i = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(((EdgeHost*)this)->edges))->GetName())) - 1; i != -1; --i)
+    for (unsigned int i = ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((EdgeHost*)this)->edges))->GetName())) - 1; i != -1; --i)
     {
         if (((*((EdgeHost*)this)->edges.FUN_00877a30(i))->a == pVertexA &&
              (*((EdgeHost*)this)->edges.FUN_00877a30(i))->b == pVertexB) ||
@@ -9827,12 +9845,12 @@ using ns6b::V3;
 // @fnv 0x006ba6e0
 bool __cdecl FUN_006ba6e0(const V3& aStart, const V3& aEnd, const V3& cStart, const V3& cEnd, V3* out)
 {
-    V3 es = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aEnd))->FUN_00439ef0((::NiPoint3 *)&(aStart), *(const ::NiPoint3 *)nullptr)));
-    V3 gt = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cEnd))->FUN_00439ef0((::NiPoint3 *)&(cStart), *(const ::NiPoint3 *)nullptr)));
+    V3 es = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(aStart))));
+    V3 gt = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(cStart))));
     float yx = es.x * gt.y - es.y * gt.x;
     if (yx == ::_DAT_01012060)
         return false;
-    V3 o1 = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cStart))->FUN_00439ef0((::NiPoint3 *)&(aStart), *(const ::NiPoint3 *)nullptr)));
+    V3 o1 = (*(::ns6b::V3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(cStart))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(aStart))));
     float k1 = o1.x * es.y - o1.y * es.x;
     float ox = k1 / yx;
     if (ox < ::_DAT_01012060 || ox > 1.0)
@@ -9840,7 +9858,7 @@ bool __cdecl FUN_006ba6e0(const V3& aStart, const V3& aEnd, const V3& cStart, co
     float nB = o1.x * gt.y - o1.y * gt.x;
     ox = nB / yx;
     if (out)
-        *out = (*(::ns6b::V3 *)(reinterpret_cast<::Point3Offset *>((void *)&(aStart))->ProjectileLaunched((::NiPoint3 *)&(const ::ns6b::V3 &)(ns6b::FUN_004a3760(ox, es)), {})));
+        *out = (*(::ns6b::V3 *)(reinterpret_cast<::Point3Offset *>((void *)&(aStart))->ProjectileLaunched(&PointSlot<::NiPoint3>(PointResult{}), (::NiPoint3 *)&(const ::ns6b::V3 &)(ns6b::FUN_004a3760(ox, es)))));
     return true;
 }
 
@@ -12694,15 +12712,15 @@ struct FUN_006b8f40_cls
     int unk2000, unk2004, unk2008, unk200C, unk2010, unk2014, unk2018, unk201C, unk2020, unk2024, unk2028, unk202C,
         unk2030, unk2034, unk2038, unk203C;
     int unk2040, unk2044;
-    int m_2048;
-    int unk204C;
+    void* m_2048;
+    void* unk204C;
     int unk2050;
     unsigned char m_2054;
-    bool ProcessWithFallback(int a1, int a2, bool a3);
+    bool ProcessWithFallback(intptr_t a1, intptr_t a2, bool a3);
 };
 
 // @fnv 0x006b8f40
-bool FUN_006b8f40_cls::ProcessWithFallback(int a1, int a2, bool abUseFallback)
+bool FUN_006b8f40_cls::ProcessWithFallback(intptr_t a1, intptr_t a2, bool abUseFallback)
 {
     bool ok;
     void* q;
@@ -12718,7 +12736,7 @@ bool FUN_006b8f40_cls::ProcessWithFallback(int a1, int a2, bool abUseFallback)
         else if (abUseFallback)
         {
             ok = false;
-            p = (void*)m_2048;
+            p = m_2048;
         }
         else
         {
@@ -13024,7 +13042,7 @@ struct S006bede0_Obj
 bool Host120::BuildTrianglesFromEdgePairs()
 {
     bool changed = false;
-    for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
+    for (unsigned i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); i++)
     {
         Edge120* first = *edges.FUN_00877a30(i);
         if (!reinterpret_cast<::FUN_006be0c0_Class *>((first))->FUN_006be0c0())
@@ -13032,7 +13050,7 @@ bool Host120::BuildTrianglesFromEdgePairs()
         Vertex120* shared;
         Vertex120* outer1;
         Vertex120* outer2;
-        for (unsigned j = i + 1; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); j++)
+        for (unsigned j = i + 1; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); j++)
         {
             Edge120* second = *edges.FUN_00877a30(j);
             if (!reinterpret_cast<::FUN_006be0c0_Class *>((second))->FUN_006be0c0())
@@ -13066,7 +13084,7 @@ bool Host120::BuildTrianglesFromEdgePairs()
             else
                 continue;
             bool done = false;
-            for (unsigned k = j + 1; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); k++)
+            for (unsigned k = j + 1; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(edges))->GetName())); k++)
             {
                 Edge120* third = *edges.FUN_00877a30(k);
                 if (!reinterpret_cast<::FUN_006be0c0_Class *>((third))->FUN_006be0c0())
@@ -13147,7 +13165,9 @@ bool S006bede0_Obj::FUN_006bede0(unsigned short const* apIndexA, unsigned short 
     S006bede0_Vec t1;
     S006bede0_Vec t2;
     S006bede0_Vec t7;
-    reinterpret_cast<::FUN_0045bb20_cls *>(&((*(::S006bede0_Vec *)(reinterpret_cast<::Point3Offset *>(&((*(::S006bede0_Vec *)(reinterpret_cast<::Point3Offset *>(&(pa4))->ProjectileLaunched((::NiPoint3 *)(::S006bede0_Vec *)(&t2), (::NiPoint3 *)(::S006bede0_Vec *)(&pb4))))))->ProjectileLaunched({}, {})))))->ApplyScaled({}, {});
+    reinterpret_cast<::Point3Offset *>(&(pa4))->ProjectileLaunched((::NiPoint3 *)(&t2), (::NiPoint3 *)(&pb4));
+    reinterpret_cast<::Point3Offset *>(&(t2))->ProjectileLaunched((::NiPoint3 *)(&t1), (::NiPoint3 *)(&pc2));
+    reinterpret_cast<::FUN_0045bb20_cls *>(&(t1))->ApplyScaled((::FUN_0045bb20_target *)(&t7), ::DAT_0106c2e0);
     return reinterpret_cast<::FUN_006bf220_cls *>(this)->FUN_006bf220((void *)&(t7));
 }
 
@@ -13594,14 +13614,14 @@ class B6BFDD0Allocator
 unsigned int S006bf730::FUN_006bf730(const S006bfc40& o)
 {
     unsigned int r = reinterpret_cast<::FUN_006bfd40_cls *>((((S006bfd40*)this)))->FUN_006bfd40();
-    reinterpret_cast<::B6BFDD0Allocator *>((((S006bfdd0*)this)))->ConstructEntries((::B6BFDD0Entry *)(void *)((char*)this->m_iWordAt04 + r * 0x1c), 1);
-    ((S006bfc40*)((char*)this->m_iWordAt04 + r * 0x1c))->FUN_006bfc40(o);
+    reinterpret_cast<::B6BFDD0Allocator *>((((S006bfdd0*)this)))->ConstructEntries((::B6BFDD0Entry *)(void *)(this->m_iWordAt04 + r * 0x1c), 1);
+    ((S006bfc40*)(this->m_iWordAt04 + r * 0x1c))->FUN_006bfc40(o);
     return r;
 }
 // @fnv 0x006bfe70
 void FUN_006bfdd0_class::FUN_006bfe70(unsigned int requested, unsigned int savedSize)
 {
-    iSize = 0;
+    iSize = nullptr;
     iPosition = 0;
     iDataLength = 0;
     if (savedSize > requested)
@@ -13740,12 +13760,16 @@ bool Host::FUN_006ac8b0(NiPoint3* a1, NiPoint3* a2, NavMesh* apNavMesh, NiPoint3
     FUN_006dd0d0 o138(&s, &this->m_20a4);
     if (!FUN_006d7350(plA, *(PathingLocation*)&o138, 0, 0))
         return false;
-    FUN_006dd0d0 o110(&(((PtOp&)this->m_20e4) - ptr), &plA);
-    FUN_006dd0d0 odc(&(((PtOp&)s) - ptr), (PathingLocation*)&o138);
+    NiPoint3 kBackA = ((PtOp&)this->m_20e4) - ptr;
+    FUN_006dd0d0 o110(&kBackA, &plA);
+    NiPoint3 kBackB = ((PtOp&)s) - ptr;
+    FUN_006dd0d0 odc(&kBackB, (PathingLocation*)&o138);
     if (!FUN_006d7350(*(PathingLocation*)&o110, *(PathingLocation*)&odc, 0, 0))
         return false;
-    FUN_006dd0d0 o6c(&(((PtOp&)this->m_20e4) + ptr), &plA);
-    FUN_006dd0d0 dst6(&(((PtOp&)s) + ptr), (PathingLocation*)&o138);
+    NiPoint3 kForwardA = ((PtOp&)this->m_20e4) + ptr;
+    FUN_006dd0d0 o6c(&kForwardA, &plA);
+    NiPoint3 kForwardB = ((PtOp&)s) + ptr;
+    FUN_006dd0d0 dst6(&kForwardB, (PathingLocation*)&o138);
     if (!FUN_006d7350(*(PathingLocation*)&o6c, *(PathingLocation*)&dst6, 0, 0))
         return false;
     {
@@ -13758,7 +13782,7 @@ bool Host::FUN_006ac8b0(NiPoint3* a1, NiPoint3* a2, NavMesh* apNavMesh, NiPoint3
         if (!bTmp)
             return false;
         bool j;
-        j = reinterpret_cast<::NavMesh *>((((::fnv_006ac8b0::Ret559 *)(::FUN_00559450((int *)&(b171Tmp))))))->FindHeightOnTriangle({}, *(const ::NiPoint3 *)nullptr, *(float *)nullptr, {}, {});
+        j = reinterpret_cast<::NavMesh *>((((::fnv_006ac8b0::Ret559 *)(::FUN_00559450((int *)&(b171Tmp))))))->FindHeightOnTriangle(cellRes, *(const ::NiPoint3 *)(void *)&(hpt), sq2Info, ::DAT_0106b158, ::DAT_0106b158);
         if (::_DAT_01012060 > sq2Info && (s.z - this->m_20e4.z) > ::_DAT_01012060)
         {
             NiPoint3 kTheIter;

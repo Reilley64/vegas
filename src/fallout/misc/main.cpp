@@ -5858,7 +5858,7 @@ class A237F0Object
     int unk28;
     void* m_pResource;
 
-    int FUN_00a237f0(int iKey);
+    int FUN_00a237f0(intptr_t iKey);
 };
 
 struct FUN_00a23820_tmp
@@ -5903,7 +5903,7 @@ class FUN_00a23820_cls
     int FUN_00a23820(int* out);
 };
 // @fnv 0x00a237f0
-int A237F0Object::FUN_00a237f0(int iKey)
+int A237F0Object::FUN_00a237f0(intptr_t iKey)
 {
     if (m_pResource && reinterpret_cast<::FUN_00a23820_cls *>(this)->FUN_00a23820((int *)(iKey)) == 1)
         return 1;
@@ -6766,7 +6766,7 @@ int FUN_0086a850(unsigned int param_1, unsigned int param_2, unsigned int param_
                                           windowRect0.right - windowRect0.left, windowRect0.bottom - windowRect0.top, 0,
                                           0, param_1, 0);
                 globalsAllocation7 = (Receiver86*)::FUN_00401000(0xa4);
-                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160(window1, param_1))) : 0;
+                newGlobals20 = globalsAllocation7 ? ((::Receiver86 *)(new ((void *)(globalsAllocation7)) ::FUN_0086c160((void *)(std::uintptr_t)(window1), (void *)(std::uintptr_t)(param_1)))) : 0;
                 (*reinterpret_cast<unsigned char * *>(&::g_osGlobals)) = (unsigned char*)newGlobals20;
                 reinterpret_cast<::FUN_00404f00_shell *>(&(memoryContext11))->FUN_00404f00(0xd, 1, (char *)(void *)(&(*reinterpret_cast<unsigned char *>((void *)&::DAT_010829c4))), 0x9f8);
                 interfaceAllocation2 = (Receiver86*)::FUN_00401000(8);
@@ -10928,7 +10928,7 @@ void FrameRenderer::FUN_00875fd0(void* unused, void* renderer, void* scene, void
         ::DAT_011add08 = renderScale;
     }
     (*reinterpret_cast<void * *>(&::DAT_011f917c)) = ((::BSFaceGenNiNode *)(::FUN_0045c670()))->GetAnimationData();
-    ::FUN_00b55ac0((int)(scene), (int)(renderer), (int)(target));
+    ::FUN_00b55ac0(scene, renderer, target);
     if ((*reinterpret_cast<::fnv_00875fd0::AccumulatorPointer *>(&::g_011deb38)).FUN_00559450())
     {
         reinterpret_cast<::FOVATSEffectManager_008019d0 *>((((::fnv_00875fd0::RenderEffectManager *)(::fnv_00705910::FUN_00705910()))))->FUN_008019d0();

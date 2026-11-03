@@ -1660,7 +1660,7 @@ struct FUN_004a5100
 {
     virtual void v0();
     virtual void v1(int);
-    virtual void v2(int);
+    virtual void v2(intptr_t);
     int unk04;
     char pad08[0x2c];
     FUN_004a5100();

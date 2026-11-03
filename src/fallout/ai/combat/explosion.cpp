@@ -3379,7 +3379,7 @@ struct FUN_00576870_cls
 {
     int unk00;
     FUN_0057c400_shell m_sub;
-    Base1* FUN_00576870(int a);
+    Base1* FUN_00576870(intptr_t a);
 };
 struct Derived : Base1, Base2
 {
@@ -3387,7 +3387,7 @@ struct Derived : Base1, Base2
 
 // Calls m_sub.FUN_0057c400(a) and returns the result cast to Derived*.
 // @fnv 0x00576870
-Base1* FUN_00576870_cls::FUN_00576870(int a)
+Base1* FUN_00576870_cls::FUN_00576870(intptr_t a)
 {
     return static_cast<Derived*>(((::Base2 *)(reinterpret_cast<::Holder0057c400 *>(&(m_sub))->FUN_0057c400(a))));
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 #include <cstdint>
 
@@ -25,7 +26,7 @@ public:
     // 0x00867ca0
     int FUN_00867ca0();
     // 0x00881510
-    int FUN_00881510();
+    std::intptr_t FUN_00881510();
     // 0x00a64010
     void WriteData();
 };

@@ -3,5 +3,5 @@
 struct FUN_00622290_cls {
 public:
     // 0x00622290
-    int FUN_00622290(int, int, int);
+    intptr_t FUN_00622290(int, int, int);
 };

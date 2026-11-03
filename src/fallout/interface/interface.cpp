@@ -1,5 +1,6 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
@@ -2922,7 +2923,7 @@ void FUN_00703810(bool abVisible)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && (unsigned char)((char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((FakeTile*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_00586150())))->FUN_0056c7f0()))))->QueueActorDisarm(!abVisible);
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((FakeTile*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_00586150())))->renderedNode))))->QueueActorDisarm(!abVisible);
     }
 }
 }  // namespace fnv_00703810
@@ -3858,7 +3859,7 @@ bool __cdecl FUN_00706130(int m_uiSoundID)
         {
             B706130Pick* pkPick = new B706130Pick;
             reinterpret_cast<RenderedMenuTileView*>(pkPick)->pTile = pkTile;
-            reinterpret_cast<::NiPick *>((pkPick))->FUN_00705fc0(((::B706130Node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTile))->FUN_0056c7f0())));
+            reinterpret_cast<::NiPick *>((pkPick))->FUN_00705fc0(((::B706130Node *)(reinterpret_cast<::TileFields *>((pkTile))->renderedNode)));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::B706130Manager *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(pkPick));
         }
         return true;
@@ -4678,15 +4679,15 @@ void UpdateVisibility(VisibilityTile* tile, bool show, bool alternate, bool queu
             else
                 _second->Set(0x1779, 0);
         }
-        if (_child && ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_child)))->FUN_0056c7f0())))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_child)))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0xfa3) == 0.0 ||
+        if (_child && ((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_child)))->renderedNode)))
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_child)))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0xfa3) == 0.0 ||
                                reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0x1779) == 0.0);
-        if (_second && ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_second)))->FUN_0056c7f0())))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_second)))->FUN_0056c7f0()))))->QueueActorDisarm(show || reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0xfa3) == 0.0 ||
+        if (_second && ((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_second)))->renderedNode)))
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_second)))->renderedNode))))->QueueActorDisarm(show || reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0xfa3) == 0.0 ||
                                reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0x1779) == 0.0);
     }
-    if (((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0())))
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1779) == 0.0);
+    if (((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode)))
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1779) == 0.0);
 }
 
 struct NiNodeCull
@@ -4724,13 +4725,13 @@ void UpdateMenuTileVisibility()
                 pChildA2->Set(0x1779, 1);
             if (pChildB5)
                 pChildB5->Set(0x1779, 1);
-            if (((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile2))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile2))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0x1779) == 0.0);
-            if (pChildA2 && ((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildA2))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildA2))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0xfa3) == 0.0 ||
+            if (((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pTile2))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pTile2))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0x1779) == 0.0);
+            if (pChildA2 && ((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildA2))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildA2))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0xfa3) == 0.0 ||
                                                   reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0x1779) == 0.0);
-            if (pChildB5 && ((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildB5))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildB5))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0xfa3) == 0.0 ||
+            if (pChildB5 && ((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildB5))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildB5))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0xfa3) == 0.0 ||
                                                   reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0x1779) == 0.0);
         }
     }
@@ -6700,7 +6701,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     int cellX17;
 
     if (DAT_011da368 == 0 ||
-        reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0() == 0 ||
+        reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode == 0 ||
         !::FUN_007a1750())
         return;
 
@@ -6953,7 +6954,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     reinterpret_cast<::FUN_00a5a040_Class *>((pMesh14))->FUN_00a5a040();
 
     static_cast<C55*>(reinterpret_cast<void*>(
-                          reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))
+                          reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode))
         ->v055(pMesh14, 1);
     reinterpret_cast<::FUN_007a1400_class *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_007a1400(0x20);
 
@@ -6977,7 +6978,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     new ((void *)&(mk8c26)) ::NiUpdateData(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((static_cast<ChainObj*>(
         reinterpret_cast<void*>(
-            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
+            reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
     reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
     if (::FUN_007a1750() == 0)
     {
@@ -7078,7 +7079,7 @@ bool FUN_00705ec0(void* arg)
             ::fnv_00a04200::FUN_00a04200(0);
             SpawnedObject* obj = new SpawnedObject();
             reinterpret_cast<RenderedMenuTileView*>(obj)->pTile = v;
-            reinterpret_cast<::NiPick *>((obj))->FUN_00705fc0(((void *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((v))->FUN_0056c7f0())));
+            reinterpret_cast<::NiPick *>((obj))->FUN_00705fc0(((void *)(reinterpret_cast<::TileFields *>((v))->renderedNode)));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_00705ec0::IMHelper *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(obj));
         }
         return true;

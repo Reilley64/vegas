@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/AnimationSequence.h"
@@ -1701,11 +1702,11 @@ void SpecialBookMenuX::InitMenu()
     {
         for (unsigned int iItem = 0; iItem < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].displays))->GetName())); iItem++)
         {
-            ((::BkDisplay *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].displays))->FUN_006a7ad0(iItem)))->m_cb(((::BkDisplay *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].displays))->FUN_006a7ad0(iItem))));
+            ((::BkDisplay *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].displays)), iItem)))->m_cb(((::BkDisplay *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].displays)), iItem))));
         }
         for (unsigned int iButton = 0; iButton < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_groups[iGroup].buttons))->GetName())); iButton++)
         {
-            ((::BkButton *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].buttons))->FUN_006a7ad0(iButton)))->m_cb4(((::BkButton *)(reinterpret_cast<::S3e60 *>(&(m_groups[iGroup].buttons))->FUN_006a7ad0(iButton))));
+            ((::BkButton *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].buttons)), iButton)))->m_cb4(((::BkButton *)(SimpleArrayItem<void *>((void *)(&(m_groups[iGroup].buttons)), iButton))));
         }
     }
 }
@@ -1995,7 +1996,7 @@ void BookMenu::HandleKey(unsigned int key, int unused)
                 FUN_006815c0 direction1;
                 NiPick pick(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(pick))->SetByteAtOffset17(1);
-                pick.FUN_00705fc0(((void *)(::FUN_00559450((int *)&(((::BookButton *)(reinterpret_cast<::S3e60 *>(&(groups[pageIndex].buttons))->FUN_006a7ad0(i)))->object)))));
+                pick.FUN_00705fc0(((void *)(::FUN_00559450((int *)&(((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i)))->object)))));
                 reinterpret_cast<::CombatProcedure *>(&(pick))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(pick))->SetByteAtOffset30(1);
                 reinterpret_cast<::CameraWindowRay *>((((BookScene*)((void *)(::FUN_00559450((int *)(((RawBookPtr*)&::g_011daa9c))))))))->MapScreenToRay(mouseX, mouseY, (*(::NiPoint3 *)(&origin20)), (*(::NiPoint3 *)(&direction1)), (const ::NiRenderTargetGroup *)(0));
@@ -2005,7 +2006,7 @@ void BookMenu::HandleKey(unsigned int key, int unused)
                     void* hit = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::BookPickResult *)(reinterpret_cast<::BGSCameraPath *>(&(pick))->GetConditions()))))->FUN_00968670({})));
                     if (hit)
                     {
-                        ((::BookButton *)(reinterpret_cast<::S3e60 *>(&(groups[pageIndex].buttons))->FUN_006a7ad0(i)))->activate(((::BookButton *)(reinterpret_cast<::S3e60 *>(&(groups[pageIndex].buttons))->FUN_006a7ad0(i))));
+                        ((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i)))->activate(((::BookButton *)(SimpleArrayItem<void *>((void *)(&(groups[pageIndex].buttons)), i))));
                         break;
                     }
                 }

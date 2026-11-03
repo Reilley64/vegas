@@ -1,5 +1,6 @@
 // fallout/interface/menus/startmenu.cpp: StartMenu, BGSSaveLoadUI, StartMenu_Wrap, ListBox_Option and more (184 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <windows.h>
@@ -3037,8 +3038,8 @@ struct FUN_005b6cb0_Class
 void FUN_007d0bf0()
 {
     void* p = ((void *)(::fnv_004b7210::FUN_004b7210()));
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007d0bf0::NiAVObject *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMH*)p)->FUN_00586150()))->FUN_0056c7f0()))))->QueueActorDisarm(true);
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007d0bf0::NiAVObject *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::fnv_007d0bf0::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((IMH*)p)))->FUN_0045cd60()))))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007d0bf0::NiAVObject *)(reinterpret_cast<::TileFields *>((((IMH*)p)->FUN_00586150()))->renderedNode))))->QueueActorDisarm(true);
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007d0bf0::NiAVObject *)(reinterpret_cast<::TileFields *>((((::fnv_007d0bf0::Tile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((IMH*)p)))->FUN_0045cd60()))))->renderedNode))))->QueueActorDisarm(true);
     reinterpret_cast<::fnv_00713fb0::MenuMgr *>((((IMH*)p)))->RenderMenu(0, 0);
     reinterpret_cast<::FUN_005b6cb0_Class *>((((FUN_005b6cb0_Class*)(*reinterpret_cast<::fnv_007d0bf0::BSAudio * *>(&::g_osGlobals)))))->FUN_005b6cb0();
 }
@@ -8658,8 +8659,8 @@ void StartMenuInit::FUN_007cbaf0(bool inGame, bool forceReload)
         reinterpret_cast<::fnv_007d61e0::FUN_007d61e0_shell *>((((MenuOpsLocal*)this)))->FadeTile(0, 1, 0x80000000, -1.0f);
         reinterpret_cast<::fnv_007d74f0::FUN_007d74f0_shell *>((((OptionListAccess*)&m_kFirstOptionListBox)))->FUN_007d74f0(1);
         reinterpret_cast<::fnv_007d3aa0::StartMenu_Wrap *>(this)->ApplyUserOptions();
-        if (((::fnv_007cbaf0::NiAVObject *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileAccess*)m_pTiles[13])))->FUN_0056c7f0())))
-            reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007cbaf0::NiAVObject *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileAccess*)m_pTiles[13])))->FUN_0056c7f0()))))->FUN_00440490(1.333299994468689f);
+        if (((::fnv_007cbaf0::NiAVObject *)(reinterpret_cast<::TileFields *>((((TileAccess*)m_pTiles[13])))->renderedNode)))
+            reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007cbaf0::NiAVObject *)(reinterpret_cast<::TileFields *>((((TileAccess*)m_pTiles[13])))->renderedNode))))->FUN_00440490(1.333299994468689f);
         else
             ::FUN_005b5e40();
         for (int j = 0; j < 10; ++j)

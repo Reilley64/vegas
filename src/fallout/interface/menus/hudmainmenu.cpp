@@ -1,5 +1,6 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
@@ -7329,7 +7330,7 @@ void BreathHUD::FUN_0077e4f0()
     {
         BreathUpdate update(0.0f, true, false);
         reinterpret_cast<::fnv_00a328b0::SeqExt *>((sequence))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() + fraction * (reinterpret_cast<::FUN_00759450_shell *>((sequence))->FUN_00759450() - reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100()), false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(update));
     }
 }
 
@@ -7419,10 +7420,10 @@ void CompassHUD::UpdateCompassMarkers()
                 float angle2 =
                     ::GetDirectionAngle((const ::NiPoint3 *)&(const ::fnv_0077e750::CompassPoint &)(*(CompassPoint*)reference_2->GetPos() - *(CompassPoint*)(*reinterpret_cast<::fnv_0077e750::CompassReference * *>(&::_g_thePlayer))->GetPos()));
                 float angle5 = ::GetDirectionAngle((const ::NiPoint3 *)&(const ::fnv_0077e750::CompassPoint &)(((::fnv_0077e750::CompassCameraModel *)(reinterpret_cast<::BSFaceGenNiNode *>((((CompassCamera*)((::FovSource *)(::FUN_0045c670())))))->GetAnimationData()))->FUN_0045bba0()));
-                reinterpret_cast<::NiAVObject *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->SetLocalRotation(angle5 - angle2, 0.0f, 1.0f, 0.0f);
+                reinterpret_cast<::NiAVObject *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::TileFields *>((h))->renderedNode))))->SetLocalRotation(angle5 - angle2, 0.0f, 1.0f, 0.0f);
                 CompassUpdate updated5;
                 new ((void *)&(updated5)) ::NiUpdateData(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(updated5));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::TileFields *>((h))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(updated5));
             }
         }
     }
@@ -12878,7 +12879,7 @@ Tile* FUN_0076bfe0()
         ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->vfdc((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)), true);
         fShadowRadiusXB = reinterpret_cast<::Twin_0084d030 *>((((::NiBoundStub *)(reinterpret_cast<::FUN_0043d450_Owner *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;
         reinterpret_cast<::SSN_b5 *>((::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->FUN_00b5ca70((::Node_b5 *)(::NiNode *)((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))), fShadowRadiusXB);
-        pBreathNodeYA = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((::g_pHudMainMenuInstance->m_pTiles[72]))->FUN_0056c7f0()));
+        pBreathNodeYA = ((::NiNode *)(reinterpret_cast<::TileFields *>((::g_pHudMainMenuInstance->m_pTiles[72]))->renderedNode));
         pController27 = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a5c570((const ::MyRTTI *)(::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
         reinterpret_cast<::NiAVObject *>((pBreathNodeYA))->SetLocalRotation(-1.5707964f, 1.0f, 0.0f, 0.0f);
         NiUpdateData kUpdateBreath2(0.0f, true, false);

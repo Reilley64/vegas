@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "fnv/simple_array_item.h"
 #include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
@@ -1249,13 +1250,13 @@ void __cdecl FUN_007917a0()
     {
         for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->GetName())); k++)
         {
-            FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->FUN_006a7ad0(k)));
+            FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].objects)), k)));
             FUN_00791a80_shell* doomed = object;
             doomed ? doomed->FUN_00791a80(1) : 0;
         }
         for (l = 0; l < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->GetName())); l++)
         {
-            FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations))->FUN_006a7ad0(l)));
+            FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->groups[menu].allocations)), l)));
             ::FUN_00401030(allocation);
         }
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->groups[menu].objects))->Clear(1);
@@ -1263,13 +1264,13 @@ void __cdecl FUN_007917a0()
     }
     for (j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->GetName())); j++)
     {
-        FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->FUN_006a7ad0(j)));
+        FUN_00791a80_shell* object = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1a4)), j)));
         FUN_00791a80_shell* doomed = object;
         doomed ? doomed->FUN_00791a80(1) : 0;
     }
     for (m = 0; m < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->GetName())); m++)
     {
-        FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(reinterpret_cast<::S3e60 *>(&(((ResetView*)DAT_011da2c8)->list1b4))->FUN_006a7ad0(m)));
+        FUN_00791a80_shell* allocation = *((::FUN_00791a80_shell **)(SimpleArrayItem<void *>((void *)(&(((ResetView*)DAT_011da2c8)->list1b4)), m)));
         ::FUN_00401030(allocation);
     }
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(((ResetView*)DAT_011da2c8)->list1a4))->Clear(1);
@@ -2640,27 +2641,26 @@ void FUN_00795e20_cls::FUN_00795e20()
                 iLevel = (*reinterpret_cast<::Player_007927a0 * *>(&::_g_thePlayer))->avOwner.GetValue(reinterpret_cast<::FUN_00794d30_shell *>((((G_WM*)DAT_011da2c8)))->FUN_00794d30());
             for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr64))->GetName())); i++)
             {
-                int x = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i)))->u18;
-                reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr64))->FUN_006a7ad0(i);
+                int x = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr64)), i)))->u18;
             }
             if (0)
             {
             }
             for (unsigned int j = 0; j < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(((G_WM*)DAT_011da2c8)->arr74))->GetName())); j++)
             {
-                int iRequiredLevel = ((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->level;
-                if (((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj)
-                    reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(reinterpret_cast<::S3e60 *>(&(((G_WM*)DAT_011da2c8)->arr74))->FUN_006a7ad0(j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
+                int iRequiredLevel = ((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->level;
+                if (((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj)
+                    reinterpret_cast<::TaskQueueInterface *>((((::Lvl_WM *)(SimpleArrayItem<void *>((void *)(&(((G_WM*)DAT_011da2c8)->arr74)), j)))->obj))->QueueActorDisarm(iLevel < iRequiredLevel);
             }
         }
         for (unsigned int iIndex = 0; iIndex < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].b))->GetName())); iIndex++)
-            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].b))->FUN_006a7ad0(iIndex))));
+            ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].b)), iIndex))));
         for (unsigned int k1 = 0; k1 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pairs[idx].a))->GetName())); k1++)
-            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(pairs[idx].a))->FUN_006a7ad0(k1))));
+            ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(pairs[idx].a)), k1))));
         for (unsigned int k2 = 0; k2 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1b4))->GetName())); k2++)
-            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2)))->pfn0(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1b4))->FUN_006a7ad0(k2))));
+            ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2)))->pfn0(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1b4)), k2))));
         for (unsigned int k3 = 0; k3 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(arr1a4))->GetName())); k3++)
-            ((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3)))->pfn4(((::Cb_WM *)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(k3))));
+            ((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3)))->pfn4(((::Cb_WM *)(SimpleArrayItem<void *>((void *)(&(arr1a4)), k3))));
     }
 }
 
@@ -2935,7 +2935,7 @@ void InputMenu::HandleButton(int button, int unused)
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
                 local38019.FUN_00705fc0(
-                    (void*)(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))))->object.operator unsigned int());
+                    (void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))->object.operator unsigned int());
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
                 reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
@@ -2945,8 +2945,8 @@ void InputMenu::HandleButton(int button, int unused)
                     void* local799449 = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Hit *)(reinterpret_cast<::BGSCameraPath *>(&(local38019))->GetConditions()))))->FUN_00968670({})));
                     if (local799449)
                     {
-                        (*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))))
-                            ->click(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(groups[mode].objects))->FUN_006a7ad0(local610845))));
+                        (*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))))
+                            ->click(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(groups[mode].objects)), local610845))));
                         break;
                     }
                 }
@@ -2957,7 +2957,7 @@ void InputMenu::HandleButton(int button, int unused)
                 Vec3 local282417;
                 NiPick local38019(0, 8);
                 reinterpret_cast<::FUN_00458b30_class *>(&(local38019))->SetByteAtOffset17(true);
-                local38019.FUN_00705fc0((void*)(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))))->object.operator unsigned int());
+                local38019.FUN_00705fc0((void*)(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->object.operator unsigned int());
                 reinterpret_cast<::CombatProcedure *>(&(local38019))->Initialize((::CombatController *)(0));
                 reinterpret_cast<::FUN_00792780_Class *>(&(local38019))->SetByteAtOffset30(true);
                 reinterpret_cast<::CameraWindowRay *>((((CameraRay*)(*reinterpret_cast<::Flt *>(&::g_011da2f4)).operator unsigned int())))->MapScreenToRay(local879956, local866269, (::NiPoint3 &)(local960365), (::NiPoint3 &)(local282417), (const ::NiRenderTargetGroup *)(false));
@@ -2967,7 +2967,7 @@ void InputMenu::HandleButton(int button, int unused)
                     void* local799449 = ((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::Hit *)(reinterpret_cast<::BGSCameraPath *>(&(local38019))->GetConditions()))))->FUN_00968670({})));
                     if (local799449)
                     {
-                        (*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))))->click(*((::ClickNode **)(reinterpret_cast<::S3e60 *>(&(arr1a4))->FUN_006a7ad0(local966572))));
+                        (*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))))->click(*((::ClickNode **)(SimpleArrayItem<void *>((void *)(&(arr1a4)), local966572))));
                         break;
                     }
                 }

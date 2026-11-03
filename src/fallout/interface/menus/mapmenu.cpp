@@ -1,5 +1,6 @@
 // fallout/interface/menus/mapmenu.cpp: MapMenu, Interface, InsertBox, TileImage and more (116 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
@@ -387,7 +388,7 @@ void MapMenu::OpenMap()
     if (DAT_011da368)
     {
         NiAVObject* node =
-            ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[4]))->FUN_0056c7f0())) ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[4]))->FUN_0056c7f0()))))->FUN_0045bc00(0))) : 0;
+            ((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[4]))->renderedNode)) ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[4]))->renderedNode))))->FUN_0045bc00(0))) : 0;
         TileShaderProperty* property =
             node ? reinterpret_cast<TileShaderProperty*>(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))))) : 0;
         if (property && reinterpret_cast<::FUN_009c8640_shell *>((property))->FUN_009c8640())
@@ -403,7 +404,7 @@ void MapMenu::UpdateMapPosition()
 {
     if (DAT_011da368)
     {
-        NiNode* localNode = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[2]))->FUN_0056c7f0()));
+        NiNode* localNode = ((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[2]))->renderedNode));
         if (!localNode)
             return;
         for (unsigned int i = 0; i < localNode->FUN_0043b480(); ++i)
@@ -423,8 +424,8 @@ void MapMenu::UpdateMapPosition()
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(DAT_011da368->m_kMapMarkerTiles))->Clear(true);
         DAT_011da368->m_uiMapMarkerCount = 0;
         DAT_011da368->m_pMapTile = 0;
-        NiAVObject* node = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0()))
-                               ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0()))))->FUN_0045bc00(0)))
+        NiAVObject* node = ((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode))
+                               ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode))))->FUN_0045bc00(0)))
                                : 0;
         TileShaderProperty* property =
             node ? reinterpret_cast<TileShaderProperty*>(((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))))) : 0;
@@ -2633,8 +2634,8 @@ Tile* __cdecl FUN_00796b90()
         DAT_011da368->m_kNoteListBox.ClearSelection(false);
         DAT_011da368->m_kChallengeListBox.Initialize(DAT_011da368->m_pTiles[19], "MM_ListMarkerTemplate");
         DAT_011da368->m_kMapMarkerListBox.Initialize(DAT_011da368->m_pTiles[10], "MM_ListMarkerTemplate");
-        NiAVObject* object = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0()))
-                                 ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0()))))->FUN_0045bc00(0)))
+        NiAVObject* object = ((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode))
+                                 ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode))))->FUN_0045bc00(0)))
                                  : 0;
         TileShaderProperty* property = object ? (TileShaderProperty*)((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(((unsigned int)(::FUN_00438220()))))) : 0;
         if (property)
@@ -3356,7 +3357,7 @@ void WaveMenu::UpdateWaveAnimation()
     const int interval5 = 10;
     char buffer_[64];
     NiAVObject* object =
-        ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0())) ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((DAT_011da368->m_pTiles[16]))->FUN_0056c7f0()))))->FUN_0045bc00(0))) : 0;
+        ((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode)) ? ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::NiNode *)(reinterpret_cast<::TileFields *>((DAT_011da368->m_pTiles[16]))->renderedNode))))->FUN_0045bc00(0))) : 0;
     WaveProperty* property = object ? (WaveProperty*)((::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(((unsigned int)(::FUN_00438220()))))) : 0;
     if (!property)
         return;
@@ -4669,7 +4670,7 @@ void ZoomMenu::FUN_0079c5a0(bool inward, float factor)
     reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(DAT_011da35c, scale2, true);
     if (page == 32)
     {
-        ZoomNode* nodeB = reinterpret_cast<ZoomNode*>(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0())));
+        ZoomNode* nodeB = reinterpret_cast<ZoomNode*>(((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode)));
         unsigned int gridA = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ZoomInt *>(&::g_011c63cc))))));
         for (unsigned int index_ = 0; nodeB && index_ < gridA * gridA; index_++)
         {

@@ -1,5 +1,6 @@
 // fallout/interface/menus/messagemenu.cpp: DelStandIn, MessageMenu, MessageMenuHandler, KeyMenu and more (28 functions)
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
@@ -276,7 +277,7 @@ void ClearAllElements()
     for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->GetName())); i++)
     {
         Elem_007aa480* p;
-        unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->FUN_006a7ad0(i)));
+        unsigned int v = ((unsigned int)(SimpleArrayItem<unsigned int>((void *)(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c)))), i)));
         p = reinterpret_cast<Elem_007aa480*>(v);
         p ? p->Destroy(true) : 0;
     }
@@ -304,7 +305,7 @@ void CleanupGlobalObject()
     unsigned int u;
     if (((int)(::GetCurrentArrayElement())))
     {
-        u = ((unsigned int)(reinterpret_cast<::S3e60 *>(&((*reinterpret_cast<::fnv_007aa530::GlobalObject_007ab590 *>(&::g_011da53c))))->FUN_006a7ad0((*reinterpret_cast<int *>(&::DAT_011da4f4)))));
+        u = ((unsigned int)(SimpleArrayItem<unsigned int>((void *)(&((*reinterpret_cast<::fnv_007aa530::GlobalObject_007ab590 *>(&::g_011da53c)))), (*reinterpret_cast<int *>(&::DAT_011da4f4)))));
         Elem_007aa530* p;
         unsigned int v = u;
         p = reinterpret_cast<Elem_007aa530*>(v);
@@ -1416,7 +1417,7 @@ void FUN_007aa5c0()
         {
             if ((*((MessageQueueComparisonArray*)&::g_011da53c)->FUN_00877a30(i))->m_uiMessageFlags == uiID)
             {
-                FUN_007aa500* pEntry = (FUN_007aa500*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&::g_011da53c)))->FUN_006a7ad0(i)));
+                FUN_007aa500* pEntry = (FUN_007aa500*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&::g_011da53c)), i)));
                 delete pEntry;
                 reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)&::g_011da53c)))->FUN_006bf8f0(i--, true);
             }
@@ -1461,16 +1462,16 @@ void FUN_007aae70()
     ibuttonClicked = ::ConsumeByteAtE4();
     if (ibuttonClicked != ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->GetName())) - 1)
     {
-        reinterpret_cast<::FUN_005ac1e0_shell *>((((PerkActivationEntry*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->FUN_006a7ad0(ibuttonClicked))))
+        reinterpret_cast<::FUN_005ac1e0_shell *>((((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))
             ->pScript))->FUN_005ac1e0(
-                ((PerkActivationEntry*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->FUN_006a7ad0(ibuttonClicked))))->pRef,
+                ((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))->pRef,
                 (::ScriptLocals *)(::fnv_007aae70::ScriptLocals *)(0), 0, false);
     }
     else
     {
         icount = ::GetExtraDataShort(
-            ((PerkActivationEntry*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->FUN_006a7ad0(ibuttonClicked))))->pRef);
-        ((TESObjectREFR_acc*)((PerkActivationEntry*)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->FUN_006a7ad0(ibuttonClicked))))
+            ((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))->pRef);
+        ((TESObjectREFR_acc*)((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))
              ->pRef)
             ->Activate((TESObjectREFR*)(*reinterpret_cast<::fnv_007aae70::PC7d * *>(&::_g_thePlayer)), false, 0, icount);
     }

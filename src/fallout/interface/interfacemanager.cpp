@@ -1,5 +1,6 @@
 // fallout/interface/interfacemanager.cpp: InterfaceManager, ConsoleManager, IFH, BSAudioManager and more (208 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <windows.h>
@@ -1665,7 +1666,7 @@ bool __cdecl FUN_00717990()
 
     int top = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetTopEnterStackEntry();
     Menu* menu = ((::Menu *)(::FUN_00a09030(top)));
-    NiNode* node = menu ? ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile_Access*)menu)))->FUN_0056c7f0())) : 0;
+    NiNode* node = menu ? ((::NiNode *)(reinterpret_cast<::TileFields *>((((Tile_Access*)menu)))->renderedNode)) : 0;
 
     if (node != 0 && (std::uintptr_t)node == (*(BSAudio**)((*reinterpret_cast<char* *>(&::DAT_011d8a80)) + 0x16c))->GetSynchTime())
         return true;
@@ -2666,20 +2667,20 @@ void FUN_0070c4a0_shell::UpdateInterface()
         if (!::fnv_00703d50::FUN_00703d50())
         {
             ((IMX*)this)->b7d = false;
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMX*)this)->t28))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::TileFields *>((((IMX*)this)->t28))->renderedNode))))->QueueActorDisarm(true);
             reinterpret_cast<::Tile *>((((IMX*)this)->t28))->Set(0xfa3, 0);
         }
         else
         {
             ((IMX*)this)->b7d = true;
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMX*)this)->t28))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::TileFields *>((((IMX*)this)->t28))->renderedNode))))->QueueActorDisarm(false);
             reinterpret_cast<::Tile *>((((IMX*)this)->t28))->Set(0xfa3, 1);
         }
     }
     else if (((IMX*)this)->mode != 1)
     {
         ((IMX*)this)->b7d = true;
-        reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMX*)this)->t28))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::TileFields *>((((IMX*)this)->t28))->renderedNode))))->QueueActorDisarm(false);
         reinterpret_cast<::Tile *>((((IMX*)this)->t28))->Set(0xfa3, 1);
     }
     bool bmenuModeButtonDisabled =
@@ -2839,12 +2840,12 @@ void FUN_0070c4a0_shell::UpdateInterface()
         }
         else if (::Interface::IsInterfaceActive() && !::FUN_0070edf0())
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMX*)this)->t28))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::TileFields *>((((IMX*)this)->t28))->renderedNode))))->QueueActorDisarm(true);
             reinterpret_cast<::Tile *>((((IMX*)this)->t28))->Set(0xfa3, 0);
         }
         else
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((IMX*)this)->t28))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_0070c4a0::NiAVH *)(reinterpret_cast<::TileFields *>((((IMX*)this)->t28))->renderedNode))))->QueueActorDisarm(false);
             reinterpret_cast<::Tile *>((((IMX*)this)->t28))->Set(0xfa3, 1);
         }
         ((IMX*)this)->FUN_007118d0();
@@ -6224,7 +6225,7 @@ void IMStandIn::UpdateFocusTarget()
         FUN_00715860(ptarget, 0xfc3, 1);
         if (!::FUN_004b71d0() || m_flag7d)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_00715ca0::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((m_tile28))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_00715ca0::NiNode *)(reinterpret_cast<::TileFields *>((m_tile28))->renderedNode))))->QueueActorDisarm(true);
             reinterpret_cast<::Tile *>((m_tile28))->Set(0xfa3, 0);
         }
         m_flagED = 0;
@@ -7887,7 +7888,7 @@ void FUN_0070b8f0_shell::UpdateStartMenuState()
         m_uiContentCount = 5;
         if (!FUN_004b71d0() || m_7d)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((RgbaColor*)m_tile)))->FUN_0056c7f0())))))->QueueActorDisarm(false);
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObject*)((::NiNode *)(reinterpret_cast<::TileFields *>((((RgbaColor*)m_tile)))->renderedNode)))))->QueueActorDisarm(false);
             reinterpret_cast<::Tile *>((((Tile_Set_Helper*)m_tile)))->Set(0xfa3, 1);
         }
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileHelper*)m_tile)))->FUN_00a01350(0xfcc, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0070b8f0::GlobalObject_0040c150 *>(&::g_011d475c))))->GetMenuTitle()))), true);
@@ -8100,16 +8101,16 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
         Tile_Helper* pcomputerMenu = reinterpret_cast<Tile_Helper*>(((::fnv_007134d0::MenuBase_007134d0 *)(::FUN_00a09030(0x421))));
         Tile_Helper* praceSexMenu = reinterpret_cast<Tile_Helper*>(((::fnv_007134d0::MenuBase_007134d0 *)(::FUN_00a09030(0x40c))));
         Tile_Helper* phackingMenu = reinterpret_cast<Tile_Helper*>(((::fnv_007134d0::MenuBase_007134d0 *)(::FUN_00a09030(0x41f))));
-        if (pcomputerMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0())) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+        if (pcomputerMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode)) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->QueueActorDisarm(true);
         else
             pcomputerMenu = 0;
-        if (praceSexMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0())) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+        if (praceSexMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode)) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode))))->QueueActorDisarm(true);
         else
             praceSexMenu = 0;
-        if (phackingMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0())) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+        if (phackingMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode)) && !reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode))))->QueueActorDisarm(true);
         else
             phackingMenu = 0;
         if (!*((unsigned char*)this + 0x148))
@@ -8127,12 +8128,12 @@ void FUN_007134d0_shell::FUN_007134d0(BSCullingProcess* apCuller, bool abPipboyV
             (::NiCamera *)(::fnv_007134d0::Camera_007134d0 *)(reinterpret_cast<SceneRoot_007134d0*>(pscene_graph)->GetAnimationData()),
             (::BSShaderAccumulator *)(::fnv_007134d0::Accum_007134d0 *)((Accum_007134d0*)(unsigned int)*reinterpret_cast<Flt_Helper*>((char*)this + 0x8c)), false);
         reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<FUN_004a0fd0_shell*>(apCuller)))->FUN_004a0fd0(0);
-        if (pcomputerMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0())) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pcomputerMenu))->FUN_0056c7f0()))))->QueueActorDisarm(false);
-        if (praceSexMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0())) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((praceSexMenu))->FUN_0056c7f0()))))->QueueActorDisarm(false);
-        if (phackingMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0())) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0()))))->FUN_00456610())
-            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((phackingMenu))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+        if (pcomputerMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode)) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((pcomputerMenu))->renderedNode))))->QueueActorDisarm(false);
+        if (praceSexMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode)) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((praceSexMenu))->renderedNode))))->QueueActorDisarm(false);
+        if (phackingMenu && ((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode)) && reinterpret_cast<::FUN_00456630_helper *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode))))->FUN_00456610())
+            reinterpret_cast<::TaskQueueInterface *>((((::fnv_007134d0::AVObject_007134d0 *)(reinterpret_cast<::TileFields *>((phackingMenu))->renderedNode))))->QueueActorDisarm(false);
         if (reinterpret_cast<::FUN_007079f0_shell *>((reinterpret_cast<FUN_007079f0_shell*>(this)))->FUN_007079f0() && !::Interface::IsInterfaceActive())
             ::UpdateMenuTileVisibility();
         if (*g_011d8ab0.GetLifeStateControlFlag())
@@ -10354,15 +10355,15 @@ void Manager::FUN_0070b240()
     reinterpret_cast<::Tile *>((c))->Set(0xfb3, 255);
     reinterpret_cast<::Tile *>((c))->Set(0xfb4, 255);
     reinterpret_cast<::RenderTile *>((c))->FUN_00a04640(true);
-    root->AttachChildInAvailableSlot(((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0())), true);
-    reinterpret_cast<::FUN_004bc1f0_S *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_004bc1f0(0.0f, -1.0f, 0.0f);
-    reinterpret_cast<::FUN_00a5a040_Class *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_00a5a040();
+    root->AttachChildInAvailableSlot(((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((c))->renderedNode)), true);
+    reinterpret_cast<::FUN_004bc1f0_S *>((((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((c))->renderedNode))))->FUN_004bc1f0(0.0f, -1.0f, 0.0f);
+    reinterpret_cast<::FUN_00a5a040_Class *>((((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((c))->renderedNode))))->FUN_00a5a040();
     NiUpdateDataH l;
     new ((void *)&(l)) ::NiUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((c))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(l));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((c))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(l));
     cursor = c;
     FUN_007118d0();
-    reinterpret_cast<::TaskQueueInterface *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((cursor))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    reinterpret_cast<::TaskQueueInterface *>((((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((cursor))->renderedNode))))->QueueActorDisarm(true);
     first = new Accumulator;
     reinterpret_cast<::SSN *>((first))->FUN_0070b760(1);
     second = new Accumulator;
@@ -10373,7 +10374,7 @@ void Manager::FUN_0070b240()
     ::fnv_00771700::FUN_00771700(4);
     if (e)
         reinterpret_cast<::Tile *>((e))->Set(0xfa3, 0);
-    reinterpret_cast<::TaskQueueInterface *>((((::cursor_init::SceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((cursor))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    reinterpret_cast<::TaskQueueInterface *>((((::cursor_init::SceneNode *)(reinterpret_cast<::TileFields *>((cursor))->renderedNode))))->QueueActorDisarm(true);
     reinterpret_cast<::Tile *>((cursor))->Set(0xfa3, 0);
     reinterpret_cast<::RenderTile *>((cursor))->FUN_00a04640(true);
     initialized = true;
@@ -11216,7 +11217,7 @@ void IMH::SetSafeZone(int value)
     {
         this->tile = ((::TileProxy *)(reinterpret_cast<::fnv_00a01b00::TileLoader *>((((::TileProxy *)(reinterpret_cast<::InterfaceManager *>((this))->FUN_00586150()))))->FUN_00a01b00({})));
         reinterpret_cast<::Tile *>((this->tile))->Set(0xfa3, 1);
-        reinterpret_cast<::AlphaInterface *>((this))->SetNodeAlpha((::AlphaNode *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((this->tile))->FUN_0056c7f0()))), 1.0f, 0.0f);
+        reinterpret_cast<::AlphaInterface *>((this))->SetNodeAlpha((::AlphaNode *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::TileFields *>((this->tile))->renderedNode))), 1.0f, 0.0f);
     }
     else if (this->tile != 0)
     {
@@ -11316,12 +11317,12 @@ void FUN_007151b0_shell::UpdateTilePosition(float afX, float afY)
 {
     static FUN_006815c0 kLast;
 
-    kPos = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::NiAVObject *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_0043c490()));
+    kPos = (*(class ::FUN_006815c0 *)&(reinterpret_cast<::NiAVObject *>((((::FUN_0043c490_node *)(reinterpret_cast<::TileFields *>((pTile))->renderedNode))))->FUN_0043c490()));
     kPos.x = ::InterfaceManager::UpdateInterfaceState() * afX - ::InterfaceManager::UpdateInterfaceState() / ::DAT_01011590;
     kPos.z = FUN_00715da0() * -afY + FUN_00715da0() / ::DAT_01011590;
-    reinterpret_cast<::FUN_00440460_S *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00440460((const ::V3 *)(const class ::FUN_006815c0 *)(&kPos));
+    reinterpret_cast<::FUN_00440460_S *>((((::FUN_0043c490_node *)(reinterpret_cast<::TileFields *>((pTile))->renderedNode))))->FUN_00440460((const ::V3 *)(const class ::FUN_006815c0 *)(&kPos));
     FUN_0043d410 kUpdateData(0.0f, false, false);
-    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
+    reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0043c490_node *)(reinterpret_cast<::TileFields *>((pTile))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(kUpdateData));
 
     FUN_006815c0 kComputedPos;
     kComputedPos.x = (kPos.x + 3.0) * (((double)(::FUN_00706e50())) / ::InterfaceManager::UpdateInterfaceState()) + ((double)(::FUN_00706e50())) / ::DAT_01011590;
@@ -11337,7 +11338,7 @@ void FUN_007151b0_shell::UpdateTilePosition(float afX, float afY)
             m_bDecalsEnabled = true;
             if (reinterpret_cast<::FUN_00424940_shell *>(this)->FUN_00424940() == 2)
             {
-                reinterpret_cast<::TaskQueueInterface *>((((::FUN_0043c490_node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+                reinterpret_cast<::TaskQueueInterface *>((((::FUN_0043c490_node *)(reinterpret_cast<::TileFields *>((pTile))->renderedNode))))->QueueActorDisarm(false);
                 reinterpret_cast<::Tile *>((pTile))->Set(0xfa3, 1);
             }
         }
@@ -13196,7 +13197,7 @@ PickTile* IMView::FUN_007126c0(bool bAny)
     reinterpret_cast<::TaskQueueInterface *>((((::fnv_007126c0::PickCursor *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)this)))))->QueueActorDisarm(true);
     PickNode* pkRootLoc = (PickNode*)((::fnv_007126c0::PickScene *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950()));
     if (m_pkController && ((bool)(::IsStartMenuFlag1Set())))
-        pkRootLoc = ((::fnv_007126c0::PickNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::fnv_007126c0::PickTile *)(::FUN_00a09030((int)(((void *)(reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry()))))))))->FUN_0056c7f0()));
+        pkRootLoc = ((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((((::fnv_007126c0::PickTile *)(::FUN_00a09030((int)(((void *)(reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry()))))))))->renderedNode));
     NiPick kPickOut(0, 8);
     reinterpret_cast<::FUN_00632d20_shell *>(&(kPickOut))->FUN_00632d20(false);
     reinterpret_cast<::FUN_00458b30_class *>(&(kPickOut))->SetByteAtOffset17(true);
@@ -13240,14 +13241,14 @@ PickTile* IMView::FUN_007126c0(bool bAny)
             {
                 if (!reinterpret_cast<::fnv_00716910::FUN_00716910_shell *>(this)->FUN_00716910((::fnv_00716910::Tile_shell *)(pkTileTmp)))
                     continue;
-                if (reinterpret_cast<::FUN_00a01230_shell *>((pkTileTmp))->IsTraitNonZero(0xfae) && ((::fnv_007126c0::PickNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTileTmp))->FUN_0056c7f0())))
+                if (reinterpret_cast<::FUN_00a01230_shell *>((pkTileTmp))->IsTraitNonZero(0xfae) && ((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((pkTileTmp))->renderedNode)))
                 {
                     bool bScaled = reinterpret_cast<::TileListBoxCalls *>((((::fnv_007126c0::PickValue *)(reinterpret_cast<::Callees *>((((::fnv_007126c0::PickValueNode *)(reinterpret_cast<::FUN_00a03c90_shell *>((pkTileTmp))->FUN_00a03c90()))))->FUN_00726070()))))->GetFloat({}) == 112.0f ? 1 : 0;
-                    reinterpret_cast<::FUN_004add70_shell *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTileTmp))->FUN_0056c7f0()))))->FUN_004add70();
-                    if (((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTileTmp))->FUN_0056c7f0()))))->FUN_0045bc00(0))))
+                    reinterpret_cast<::FUN_004add70_shell *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((pkTileTmp))->renderedNode))))->FUN_004add70();
+                    if (((void *)(reinterpret_cast<::S_FUN_0045bc00 *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((pkTileTmp))->renderedNode))))->FUN_0045bc00(0))))
                     {
                         PickProperty* pkProperty =
-                            ((::fnv_007126c0::PickProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007126c0::PickAVObject *)(reinterpret_cast<::NiNode *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTileTmp))->FUN_0056c7f0()))))->GetAt(0)))))->FUN_00a59d30(::FUN_00438220())));
+                            ((::fnv_007126c0::PickProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007126c0::PickAVObject *)(reinterpret_cast<::NiNode *>((((::fnv_007126c0::PickNode *)(reinterpret_cast<::TileFields *>((pkTileTmp))->renderedNode))))->GetAt(0)))))->FUN_00a59d30(::FUN_00438220())));
                         if (pkProperty)
                         {
                             PickRect pDataToSerialize = *((::fnv_007126c0::PickRect *)(reinterpret_cast<::FUN_0050d100_shell *>((pkProperty))->FUN_0050d100()));
@@ -13917,7 +13918,7 @@ void CursorX::FUN_007118d0()
     InputMgrX* pInput2 = (InputMgrX*)((::InputManager *)(reinterpret_cast<::FUN_00877720_shell *>((g_osGlobals))->FUN_00877720()));
     if ((!FUN_004b71d0() || b7d) && !((int)(reinterpret_cast<::FUN_00711e00_StandIn *>((pInput2))->FUN_00711e00())))
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->QueueActorDisarm(0);
+        reinterpret_cast<::TaskQueueInterface *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::TileFields *>((tile28))->renderedNode))))->QueueActorDisarm(0);
         reinterpret_cast<::Tile *>((tile28))->Set(0xfa3, 1);
         int iX = 0;
         int iY = 0;
@@ -13946,13 +13947,13 @@ void CursorX::FUN_007118d0()
                 fScale *= reinterpret_cast<::FloatValueReader *>((pInput2))->FUN_00711de0() + (abs(iX) + abs(iY)) / reinterpret_cast<::fnv_00711dc0::FUN_00711dc0 *>((pInput2))->GetFloat();
             }
         }
-        Pt3 kPos8 = *((::fnv_007118d0::Pt3 *)&(reinterpret_cast<::NiAVObject *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->FUN_0043c490()));
+        Pt3 kPos8 = *((::fnv_007118d0::Pt3 *)&(reinterpret_cast<::NiAVObject *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::TileFields *>((tile28))->renderedNode))))->FUN_0043c490()));
         kPos8.x = ::FUN_00404010(::FUN_00711e20() - 2.0,
                                ::FUN_0040ebd0(::FUN_00711e40() - 2.0, iX * ::InterfaceManager::UpdateInterfaceState() / 1280.0 * fScale + kPos8.x));
         kPos8.y = reinterpret_cast<::TileListBoxCalls *>((tile28))->GetFloat(0xfad) * ::DAT_0106f290;
         kPos8.z = ::FUN_00404010(::GetNegativeHalfValue() + 1.0,
                                ::FUN_0040ebd0(::GetHalfValue() + 1.0, kPos8.z - iY * ::FUN_00715da0() / 960.0f * fScale));
-        reinterpret_cast<::FUN_00440460_S *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->FUN_00440460((const ::V3 *)(::fnv_007118d0::Pt3 *)(&kPos8));
+        reinterpret_cast<::FUN_00440460_S *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::TileFields *>((tile28))->renderedNode))))->FUN_00440460((const ::V3 *)(::fnv_007118d0::Pt3 *)(&kPos8));
         if (pos2c.x != kPos8.x || pos2c.z != kPos8.z)
         {
             pos2c = kPos8;
@@ -13962,7 +13963,7 @@ void CursorX::FUN_007118d0()
             f40 = ::FUN_00706e20() / 2.0 - ::FUN_00706e20() / ::FUN_00715da0() * pos2c.z;
         }
         NiUpdateData kRot6(0.0f, false, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile28))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&kRot6));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007118d0::NodeX *)(reinterpret_cast<::TileFields *>((tile28))->renderedNode))))->FUN_00a59c60((std::intptr_t)(&kRot6));
     }
 }
 }  // namespace fnv_007118d0
@@ -14266,7 +14267,7 @@ void TileModelsUpdateEntry::FUN_00713e20()
     {
         TileModelsUpdateDetail::TileView* ptile =
             *((TileModelsUpdateDetail::UpdateList*)&g_011d8b44)->FUN_00877a30(iTileIndex);
-        TileModelsUpdateDetail::Model* pmodel = ptile ? ((::TileModelsUpdateDetail::Model *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((ptile))->FUN_0056c7f0())) : 0;
+        TileModelsUpdateDetail::Model* pmodel = ptile ? ((::TileModelsUpdateDetail::Model *)(reinterpret_cast<::TileFields *>((ptile))->renderedNode)) : 0;
         if (pmodel)
         {
             TileModelsUpdateDetail::UpdateData updateData;

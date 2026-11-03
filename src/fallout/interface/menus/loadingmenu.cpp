@@ -1,5 +1,6 @@
 // fallout/interface/menus/loadingmenu.cpp: LoadingMenu, BSAudio, LoadingMenuStandIn, LoadingMenuX and more (71 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
@@ -232,7 +233,7 @@ void LoadingMenu::SetLoadingScreenVisible(int visible)
 {
     NiGeometry* object;
     RgbaColor* pColors = ((::RgbaColor *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<NiGeometryData*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60()));
-    NiNode* node = pColors ? ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pColors))->FUN_0056c7f0())) : 0;
+    NiNode* node = pColors ? ((::NiNode *)(reinterpret_cast<::TileFields *>((pColors))->renderedNode)) : 0;
     object = 0;
     // object is deliberately initialized after obtaining the node.
     if (node)
@@ -1285,11 +1286,11 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
 
     ((::fnv_007890e0::NiRendererV *)(::FUN_0043c4b0()))->SetBackgroundColor(&(*reinterpret_cast<int *>(&::DAT_011a9bd0)));
 
-    if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0())))
+    if (((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode)))
     {
-        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0()))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->FUN_00440490(reinterpret_cast<::FUN_00450410_Class *>(&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))->FUN_00450410());
         reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[11])))->FUN_00a012d0(0x1004, *((float *)&(::FUN_00403e20((float *)(((Setting_S*)&(*reinterpret_cast<::GlobalObject_0044f440 *>(&::originalRuntimeFloatSetting1218))))))), true);
-        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[11]))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[11]))))->renderedNode))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
     }
     else
     {
@@ -1303,19 +1304,19 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
         NiNodeV* pnode;
         Tile3D* p3dtile;
 
-        pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide01"));
+        pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))->GetObjectByName(NiFixedString("Slide01"));
         pnode = pav->IsSceneNode();
         if (pnode)
         {
             *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
-            pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))
+            pnode = (NiNodeV*)((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))
                         ->GetObjectByName(NiFixedString("Slide02"));
             *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((((::fnv_007890e0::NiAVObjectV *)(reinterpret_cast<::S_FUN_0045bc00 *>((pnode))->FUN_0045bc00(0)))))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
         else
         {
             *(NiProperty**)((char*)this + 0x1ec) = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
-            pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))->GetObjectByName(NiFixedString("Slide02"));
+            pav = ((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))->GetObjectByName(NiFixedString("Slide02"));
             *(NiProperty**)&this->m_pAlternateTileShaderState = ((::fnv_007890e0::NiProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((pav))->FUN_00a59d30(((unsigned int)(::FUN_00438220())))));
         }
 
@@ -1328,14 +1329,14 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
             reinterpret_cast<::LoadingMenu *>((((LoadingMenuH*)this)))->UpdateLoadingScreenTip();
         }
 
-        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->FUN_00440490(DAT_01073f20);
-        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
+        reinterpret_cast<::FUN_00440490_shell *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->FUN_00440490(DAT_01073f20);
+        reinterpret_cast<::NiAVObject *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->SetLocalRotation(1.5707964f, 1.0f, 0.0f, 0.0f);
         reinterpret_cast<::FUN_00a012d0_t *>(((this->m_pTiles[0])))->FUN_00a012d0(0x1004, ((double)(::Interface::GetFourthInterfaceFloat())) / ((double)(::Interface::GetThirdInterfaceFloat())), true);
 
         p3dtile = (Tile3D*)(this->m_pTiles[0]);
         reinterpret_cast<::FUN_00a20cc0_t *>((p3dtile))->FUN_00a20cc0("Left");
         data.FUN_0043d410(0.0f, true, false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((p3dtile))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(data));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((p3dtile))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(data));
         ((FUN_0078cc50_shell*)this)->FUN_0078cc50();
         *(unsigned int*)((char*)this + 0x1e4) = 0;
     }
@@ -1362,7 +1363,7 @@ void FUN_007890e0_shell::InitLoadingMenu(TESForm* apLocation)
     }
 
     this->m_uiFirstStateValue = 0;
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((Tile3D*)(this->m_pTiles[0]))))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_007890e0::NiNodeV *)(reinterpret_cast<::TileFields *>((((Tile3D*)(this->m_pTiles[0]))))->renderedNode))))->QueueActorDisarm(true);
 }
 }  // namespace fnv_007890e0
 
@@ -2613,7 +2614,7 @@ void FUN_00789820_shell::FUN_00789820()
             FUN_00830660();
             DAT_011dd300 = 0.6f;
             DAT_011dd338 = 0.6f;
-            reinterpret_cast<::TaskQueueInterface *>((((NiAVObjectS*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((RgbaColor*)((LoadingMenu*)this)->m_pTiles[0])))->FUN_0056c7f0())))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((NiAVObjectS*)((::NiNode *)(reinterpret_cast<::TileFields *>((((RgbaColor*)((LoadingMenu*)this)->m_pTiles[0])))->renderedNode)))))->QueueActorDisarm(true);
             reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)->m_pTiles[32]))->FUN_00a012d0(0xfa9, 0.0f, true);
             reinterpret_cast<::FUN_00a012d0_t *>((((LoadingMenu*)this)->m_pTiles[33]))->FUN_00a012d0(0xfa9, 255.0f, true);
             reinterpret_cast<::BEC16D0MoviePlayerThread *>((DAT_0126fac4))->FUN_00ec16d0((void *)(((const char *)(reinterpret_cast<::StartMenu *>((((SettingT_GameSettingCollection_*)&g_011de740)))->GetMenuTitle()))), 0, -1, 0, 0, 0.0f);
@@ -2689,7 +2690,7 @@ void FUN_00789820_shell::FUN_00789820()
                         ((LoadingMenu*)this)->SetFloatFlag(7, false);
                     }
                     NiUpdateData data(0.0f, true, false);
-                    reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((RgbaColor*)p3dtile)))->FUN_0056c7f0())))))->FUN_00a59c60((std::intptr_t)&(data));
+                    reinterpret_cast<::FUN_00a59c60_cls *>((((NN_00605d70*)((::NiNode *)(reinterpret_cast<::TileFields *>((((RgbaColor*)p3dtile)))->renderedNode)))))->FUN_00a59c60((std::intptr_t)&(data));
                 }
                 else
                 {
@@ -3331,7 +3332,7 @@ void FUN_0078ce10_shell::SetTileAlpha(Tile* pkTile, float fAlpha)
     fAlpha = FUN_00404010(fAlpha, 0.0f);
     if (((TileVT*)pkTile)->GetType() == 0x388)
     {
-        reinterpret_cast<::FUN_0078cf10_Class *>(this)->SetAlphaRecursive((::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileImage3D*)pkTile)))->FUN_0056c7f0()))), fAlpha);
+        reinterpret_cast<::FUN_0078cf10_Class *>(this)->SetAlphaRecursive((::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::TileFields *>((((TileImage3D*)pkTile)))->renderedNode))), fAlpha);
         return;
     }
     if (pkTile == m_pkInvertedTile)

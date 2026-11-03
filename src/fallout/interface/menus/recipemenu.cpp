@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/recipemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/recipemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -262,7 +263,7 @@ bool IsThresholdDifferent(TESChallenge* apChallenge)
 {
     if (DAT_0119fbf4 == -1)
         return false;
-    else if (reinterpret_cast<::LowProcess *>((apChallenge))->GetPackageObjectType() != (int)((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArray*)FUN_00726f10())))->FUN_006a7ad0(DAT_0119fbf4))))
+    else if (reinterpret_cast<::LowProcess *>((apChallenge))->GetPackageObjectType() != (int)((unsigned int)(SimpleArrayItem<unsigned int>((void *)(((BSSimpleArray*)FUN_00726f10())), DAT_0119fbf4))))
         return true;
     return false;
 }
@@ -2952,7 +2953,7 @@ void CategoryMenu::OnAction(int action, RcTile* tile)
             DAT_0119fbf4 = -1;
         if (DAT_0119fbf4 != -1)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles[1]))->FUN_00a01350(
-                0xfc4, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::CategoryChallenge *)(reinterpret_cast<::S3e60 *>((((CategoryArray*)FUN_00726f10())))->FUN_006a7ad0(DAT_0119fbf4)))->fullName))->FUN_00408da0()))), true);
+                0xfc4, (char *)(((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::CategoryChallenge *)(SimpleArrayItem<void *>((void *)(((CategoryArray*)FUN_00726f10())), DAT_0119fbf4)))->fullName))->FUN_00408da0()))), true);
         else
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles[1]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&(g_011d2088))->GetMenuTitle()))), true);
         list6C.SetSelected(list6C.GetTile(0, false));

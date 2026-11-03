@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/racesexmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/racesexmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
@@ -1112,7 +1113,7 @@ Tile* __cdecl GetOrCreateMenuTile(int param)
             FUN_007ac9f0* pRenderData = new FUN_007ac9f0;
             reinterpret_cast<::MiddleHighProcess *>((pRenderData))->AssignEffectShader((::TESEffectShader *)(param));
             reinterpret_cast<RenderedMenuTileView*>(pRenderData)->pTile = tile;
-            ((NiPick*)pRenderData)->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileNode*)tile)))->FUN_0056c7f0())));
+            ((NiPick*)pRenderData)->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::TileFields *>((((TileNode*)tile)))->renderedNode)));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((Im7181*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)((std::intptr_t)pRenderData));
         }
     }

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/computersmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/computersmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -991,7 +992,7 @@ void RefreshF57EA0TerminalMenu()
         reinterpret_cast<::FUN_00a012d0_t *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->FUN_00a012d0(0xfc1, ::DAT_01016264, true);
         if (reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu() &&
             reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu()->GetSceneNode() ==
-                ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->FUN_0056c7f0())))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((::F57EA0Tile *)(reinterpret_cast<::Callees *>((g_pF57EA0TerminalMenu))->FUN_00726070()))))->renderedNode)))
         {
             FORenderedTerminal* pkTerminal =
                 dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->GetActiveRenderedMenu());

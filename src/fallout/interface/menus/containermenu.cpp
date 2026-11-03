@@ -1,5 +1,6 @@
 // fallout/interface/menus/containermenu.cpp: ContainerMenu, MenuStateTarget, MenuLogic, ContainerValue and more (40 functions)
 
+#include "fnv/simple_array_item.h"
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
 #include <new>
@@ -4779,7 +4780,7 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
         MenuInventory* _inventory = ((::fnv_0075c280::MenuInventory *)(reinterpret_cast<::FUN_0075cc70_shell *>(((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer))))->FUN_0075cc70()));
         otherList.Clear();
         for (unsigned int iA = 0; iA < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((_inventory))->GetName())); iA++)
-            reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA)))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA))))))->GetTargetFullName(),
+            reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(*((::fnv_0075c280::FUN_004bc550 **)(SimpleArrayItem<void *>((void *)(_inventory), iA)))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::fnv_0075c280::FUN_004bc550 **)(SimpleArrayItem<void *>((void *)(_inventory), iA))))))->GetTargetFullName(),
                                    (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
         if (filter)
             reinterpret_cast<::FUN_0075cc90_cls *>(this)->AttachAndDeliver(filter, ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer)))))), &m_kList);

@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/hackingmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/hackingmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cctype>
@@ -720,7 +721,7 @@ void __cdecl UpdateD766AA0Menu()
         if (reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())
         {
             if (((BSAudio*)reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu())->GetSynchTime() ==
-                ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->FUN_0056c7f0())))
+                ((::NiNode *)(reinterpret_cast<::TileFields *>((((TileD766*)((::TileNU *)(reinterpret_cast<::Callees *>((g_pkD766AA0Menu))->FUN_00726070())))))->renderedNode)))
             {
                 FORenderedTerminal* pkTerminal =
                     dynamic_cast<FORenderedTerminal*>(reinterpret_cast<::InterfaceManager *>(((*reinterpret_cast<::InterfaceManager * *>(&::g_pGame))))->GetActiveRenderedMenu());
@@ -3632,7 +3633,7 @@ void FUN_0076a510_shell::FUN_0076a540()
             r = new FTerminalPX;
         }
         reinterpret_cast<RenderedMenuTileView*>(r)->pTile = pTile;
-        reinterpret_cast<::NiPick *>((((FTerminalPX*)r)))->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile))->FUN_0056c7f0())));
+        reinterpret_cast<::NiPick *>((((FTerminalPX*)r)))->FUN_00705fc0(((::NiNode *)(reinterpret_cast<::TileFields *>((pTile))->renderedNode)));
     }
 }
 

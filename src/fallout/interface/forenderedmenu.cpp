@@ -1,5 +1,6 @@
 // fallout/interface/forenderedmenu.cpp: FORenderedMenu, MenuStub, FOPipboyManager, HOLDER and more (44 functions)
 
+#include "fallout/interface/tile_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -631,11 +632,11 @@ void FUN_007fc8d0_shell::FUN_007fc8d0()
     Tile* pmessage = (Tile*)((::Menu *)(::FUN_00a09030(0x3f8)));
     Tile* ptutorial = (Tile*)((::Menu *)(::FUN_00a09030(0x423)));
     if (*(unsigned char*)&this->m_bMenuLightAttached)
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pquantity2))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((pquantity2))->renderedNode))))->QueueActorDisarm(false);
     if (*(unsigned char*)&this->m_bMenuLightVisible)
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pmessage))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((pmessage))->renderedNode))))->QueueActorDisarm(false);
     if (*(unsigned char*)&this->m_bMenuLightShadowed)
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((ptutorial))->FUN_0056c7f0()))))->QueueActorDisarm(false);
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((ptutorial))->renderedNode))))->QueueActorDisarm(false);
 }
 
 struct S_007fb2b0
@@ -937,21 +938,21 @@ void FUN_007fc790_shell::UpdateMenuVisibility()
         pMenu = (Tile*)((::Menu *)(::FUN_00a09030(0x423)));
 
         (*(unsigned char*)&this->m_bMenuLightAttached) =
-            pOtherMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pOtherMenu))->FUN_0056c7f0())))->FUN_00456610() : 0;
+            pOtherMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::TileFields *>((pOtherMenu))->renderedNode)))->FUN_00456610() : 0;
 
         (*(unsigned char*)&this->m_bMenuLightVisible) =
-            m_pTerminal ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((m_pTerminal))->FUN_0056c7f0())))->FUN_00456610() : 0;
+            m_pTerminal ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::TileFields *>((m_pTerminal))->renderedNode)))->FUN_00456610() : 0;
 
-        (*(unsigned char*)&this->m_bMenuLightShadowed) = pMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pMenu))->FUN_0056c7f0())))->FUN_00456610() : 0;
+        (*(unsigned char*)&this->m_bMenuLightShadowed) = pMenu ? !((FUN_00456630_helper*)((::NiNode *)(reinterpret_cast<::TileFields *>((pMenu))->renderedNode)))->FUN_00456610() : 0;
 
         if ((*(unsigned char*)&this->m_bMenuLightAttached))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pOtherMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((pOtherMenu))->renderedNode))))->QueueActorDisarm(true);
 
         if ((*(unsigned char*)&this->m_bMenuLightVisible))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((m_pTerminal))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((m_pTerminal))->renderedNode))))->QueueActorDisarm(true);
 
         if ((*(unsigned char*)&this->m_bMenuLightShadowed))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pMenu))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((pMenu))->renderedNode))))->QueueActorDisarm(true);
     }
 }
 
@@ -2278,16 +2279,16 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
     bool oldTile23 = false;
     if (tile16)
     {
-        oldTile23 = reinterpret_cast<::FUN_00456630_helper *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile16))->FUN_0056c7f0()))))->FUN_00456610();
-        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile16))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+        oldTile23 = reinterpret_cast<::FUN_00456630_helper *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((tile16))->renderedNode))))->FUN_00456610();
+        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((tile16))->renderedNode))))->QueueActorDisarm(true);
     }
     Obj82* object4 = ((::Obj82 *)(::FUN_00706d10()));
     bool oldObject25 = object4 ? reinterpret_cast<::FUN_00456630_helper *>((object4))->FUN_00456610() : false;
     if (object4)
         reinterpret_cast<::TaskQueueInterface *>((object4))->QueueActorDisarm(true);
     Menu82* menu1 = ((::Menu82 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Manager82 * *>(&::g_pHudMainMenuInstance))))->FUN_00726070()));
-    bool oldMenu21 = reinterpret_cast<::FUN_00456630_helper *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->FUN_0056c7f0()))))->FUN_00456610();
-    reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->FUN_0056c7f0()))))->QueueActorDisarm(true);
+    bool oldMenu21 = reinterpret_cast<::FUN_00456630_helper *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->renderedNode))))->FUN_00456610();
+    reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->renderedNode))))->QueueActorDisarm(true);
     if (this != ((::Rendered82 *)(::fnv_00705990::FUN_00705990())))
         reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(::FUN_00559450((int *)&(root))))))->QueueActorDisarm(false);
     reinterpret_cast<::FUN_007fc790_shell *>(this)->UpdateMenuVisibility();
@@ -2299,9 +2300,9 @@ void Rendered82::FUN_007fba00(void* pRenderArg1, void* pRenderArg2, Target82* pS
     reinterpret_cast<::FUN_004a0fd0_shell *>((render4))->FUN_004a0fd0((::NiNode *)(void *)(0));
     if (this != ((::Rendered82 *)(::fnv_00705990::FUN_00705990())))
         reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(::FUN_00559450((int *)&(root))))))->QueueActorDisarm(true);
-    reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->FUN_0056c7f0()))))->QueueActorDisarm(oldMenu21);
+    reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((((::Tile82 *)(reinterpret_cast<::FUN_00a03d40_shell *>((menu1))->FUN_00a03d40()))))->renderedNode))))->QueueActorDisarm(oldMenu21);
     if (tile16)
-        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile16))->FUN_0056c7f0()))))->QueueActorDisarm(oldTile23);
+        reinterpret_cast<::TaskQueueInterface *>((((::Obj82 *)(reinterpret_cast<::TileFields *>((tile16))->renderedNode))))->QueueActorDisarm(oldTile23);
     if (object4)
         reinterpret_cast<::TaskQueueInterface *>((object4))->QueueActorDisarm(oldObject25);
     ::BSRenderedTexture::EndAllAndResetRendererState();

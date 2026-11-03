@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/creditsmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/creditsmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
@@ -1577,7 +1578,7 @@ void CreditMenu::FUN_0075fb90()
     root.FUN_0066b0d0(new CreditSceneNode(0));
     reinterpret_cast<::FUN_00440460_S *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00440460((const ::V3 *)&(const ::CreditPoint &)(CreditPoint(0.0f, 0.0f, -1020.0f)));
     ::FUN_004a0370((char *)(((::GlobalView *)(::FUN_004bc3f0()))));
-    ((::CreditSceneNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))->Attach(((::CreditSceneNode *)(::FUN_00559450((int *)&(root)))), true);
+    ((::CreditSceneNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))->Attach(((::CreditSceneNode *)(::FUN_00559450((int *)&(root)))), true);
     CreditMaterial* material6 = new CreditMaterial;
     reinterpret_cast<::FUN_0049ed90_shell *>((material6))->FUN_0049ed90(true);
     reinterpret_cast<::FUN_00439410_cls *>((((::CreditSceneNode *)(::FUN_00559450((int *)&(root))))))->FUN_00439410((::ArgObject *)(material6));
@@ -1816,7 +1817,7 @@ bool __cdecl FUN_0075f2a0()
         }
         if ((double)::FUN_004dc200() / (double)((int)(::FUN_004dc1f0())) != 0.75)
         {
-            NiNode* pNode = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pCreditsMenu->m_pFirstTile))->FUN_0056c7f0()));
+            NiNode* pNode = ((::NiNode *)(reinterpret_cast<::TileFields *>((pCreditsMenu->m_pFirstTile))->renderedNode));
             NiPoint3 kPos = reinterpret_cast<::NiAVObject *>((pNode))->FUN_0043c490();
             kPos.x = (float)((double)kPos.x + 214.0);
             reinterpret_cast<::FUN_00440460_S *>((pNode))->FUN_00440460((const ::V3 *)&(kPos));

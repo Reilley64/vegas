@@ -4,6 +4,8 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
+#include "fallout/interface/tile_fields.h"
 #include <new>
 #include "fnv/decl/ActorGoldQuery.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -678,19 +680,19 @@ void __cdecl UpdateRepairMenuTile(RSTile* apTile, RSItem* apItem)
         return;
 
     int iCost = GetLevelAdjustedMult((*reinterpret_cast<::RSRepairMenu * *>(&::fnv_007b82c0::DAT_011da7f0))->iSkill, reinterpret_cast<::FUN_004bcdb0_shell *>((apItem))->FUN_004bcdb0(true),
-                                     ::FUN_0048e8a0((::TESForm *)(::RSItemForm *)(((::RSItemForm *)(reinterpret_cast<::Twin_0044ddc0 *>((apItem))->GetName())))));
+                                     ::FUN_0048e8a0((::TESForm *)(::RSItemForm *)(((::RSItemForm *)(reinterpret_cast<::InventoryEntryFields *>((apItem))->m_pItemObject)))));
     float fAlpha4 = (iCost > 0 && iCost <= reinterpret_cast<::ActorGoldQuery *>(((*reinterpret_cast<::RSPlayer * *>(&::_g_thePlayer))))->FUN_00891d70()) ? 255.0f : 128.0f;
     reinterpret_cast<::Tile *>((apTile))->Set(0xfaa, 0x11);
     reinterpret_cast<::Tile *>((apTile))->Set(DAT_011da7e4, iCost);
     (*reinterpret_cast<::RSRepairMenu * *>(&::fnv_007b82c0::DAT_011da7f0))->iTotalCost += iCost;
-    reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(reinterpret_cast<::Callees *>(&(apTile->kChildren))->FUN_00726070()))))))->FUN_00a012d0(0xfa9, fAlpha4, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<::TileChildNode *>(reinterpret_cast<::TileFields *>(apTile)->childTail)->tile))->FUN_00a012d0(0xfa9, fAlpha4, true);
     reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::TileFloatList *>((apTile))->FUN_00a03eb0(0x12)))))->FUN_00a012d0(0xfa9, fAlpha4, true);
-    reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->FUN_00a012d0(0xfa9, fAlpha4, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((reinterpret_cast<::TileChildNode *>(reinterpret_cast<::TileFields *>(apTile)->childHead)->tile))->FUN_00a012d0(0xfa9, fAlpha4, true);
     reinterpret_cast<::Tile *>((apTile))->Set(0xfa3, reinterpret_cast<::TileListBoxCalls *>((apTile))->GetFloat(0xfac) >= 0.0);
     reinterpret_cast<::FUN_00a012d0_t *>((((::RSTile *)(reinterpret_cast<::TileFloatList *>((apTile))->FUN_00a03eb0(0x12)))))->FUN_00a012d0(0xfb1, reinterpret_cast<::FUN_004bcdb0_shell *>((apItem))->FUN_004bcdb0(true) * (double)0.6f, true);
     reinterpret_cast<::Tile *>((apTile))->Set(DAT_011da7dc, fAlpha4 == 255.0);
     if (reinterpret_cast<::FUN_004bddd0_shell *>((apItem))->FUN_004bddd0(false))
-        reinterpret_cast<::Tile *>((((::RSTile *)(reinterpret_cast<::FUN_006317a0_struct *>(&(apTile->kChildren))->AddEight((int)(((void *)(::FUN_00559450((int *)&(apTile->kChildren))))))))))->Set(0xfa3, 1);
+        reinterpret_cast<::Tile *>((reinterpret_cast<::TileChildNode *>(reinterpret_cast<::TileFields *>(apTile)->childHead)->tile))->Set(0xfa3, 1);
 }
 
 struct RepairMenuView

@@ -791,6 +791,8 @@ struct FUN_007b9000
 };
 struct PC7d
 {
+    char pad[0x630];
+    void* unk630;
 };
 struct FUN_007b8d30_t : public Menu_007a8b10
 {
@@ -851,7 +853,7 @@ FUN_007b8d30_t::FUN_007b8d30_t()
     iValue3FF8 = 0;
     fScrollX = 0.0f;
     fScrollY = 0.0f;
-    pPlayerData = ((void *)(reinterpret_cast<::FUN_007b8f10_Class *>(((*reinterpret_cast<::fnv_007b8d30::PC7d * *>(&::_g_thePlayer))))->GetField630()));
+    pPlayerData = ((void *)((*reinterpret_cast<::fnv_007b8d30::PC7d * *>(&::_g_thePlayer))->unk630));
 }
 }  // namespace fnv_007b8d30
 

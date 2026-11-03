@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/inventory_fields.h"
 #include <new>
 #include "fnv/decl/AGOwner.h"
 #include "fnv/decl/ActorValueOwner.h"
@@ -982,7 +983,7 @@ void FUN_007b5b40_cls::HandleRepairMenuAction(int aiActionId, ClickTile* apTarge
                 ItemStub* item5 = list.Selected();
                 int base = ((::FormStub *)(::FUN_00559450((int *)(item5)))) ? *((int *)(&reinterpret_cast<::SimpleListNodeView*>(((::FormStub *)(::FUN_00559450((int *)(item5)))))->m_item)) : 0;
                 reinterpret_cast<::RepairAction *>(this)->ApplyRepair((::HealthOwner *)(item5));
-                (*reinterpret_cast<::InterfaceStub * *>(&::_g_thePlayer))->Repair(((int)(reinterpret_cast<::Twin_0044ddc0 *>((item5))->GetName())), base, 1, 0, 0, 0, 0, 0, 1, 0);
+                (*reinterpret_cast<::InterfaceStub * *>(&::_g_thePlayer))->Repair(((int)(reinterpret_cast<::InventoryEntryFields *>((item5))->m_pItemObject)), base, 1, 0, 0, 0, 0, 0, 1, 0);
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::AudioPlaybackHandle &)(((::AudioMgr *)(::FUN_00453a70()))->GetSoundByEditorID("UIRepairWeapon", 0x121, 0)))->FUN_00ad8830({});
                 reinterpret_cast<::RList71a5 *>(&(list))->RemoveTile((::LBTileObj *)(list.SelectedIndex()));
                 if (reinterpret_cast<::FUN_0071ae60_shell *>(&(list))->FUN_0071ae60() == 1 || reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::HealthOwner * *>(&::fnv_007b6fb0::DAT_011da760))))->FUN_004bcdb0(true) >= 99.0)

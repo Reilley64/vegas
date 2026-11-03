@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/chargenmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/chargenmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/menu_fields.h"
 #include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -387,7 +388,7 @@ void __cdecl FUN_007537b0()
             }
             reinterpret_cast<::LBList_7314c0 *>((((Proxy_7314c0*)((char*)DAT_011d920c + 0x58))))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(void *)((void*)FUN_00754530), 0, 0x7fffffff);
         }
-        reinterpret_cast<::Tile *>((((Proxy_700320*)reinterpret_cast<::Callees *>((((Proxy_726070*)DAT_011d920c)))->FUN_00726070())))->Set({}, {});
+        reinterpret_cast<::Tile *>((((Proxy_700320*)reinterpret_cast<::MenuFields *>((((Proxy_726070*)DAT_011d920c)))->tile)))->Set({}, {});
         reinterpret_cast<::FUN_00a1d910_shell *>((((Proxy_a1d910*)DAT_011d920c)))->FUN_00a1d910();
     }
 }

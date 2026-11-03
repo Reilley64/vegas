@@ -514,6 +514,8 @@ struct CameraHelper
 };
 struct ManagerHelper
 {
+    char pad[0xb4];
+    struct CameraHelper* unkB4;
 };
 struct InterfaceHelper
 {
@@ -532,7 +534,7 @@ void FUN_007948d0()
         return;
     reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     ManagerHelper* manager = ((::ManagerHelper *)(::FUN_0045c670()));
-    CameraHelper* camera = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((manager))->GetProcessInteger()));
+    CameraHelper* camera = ((::CameraHelper *)(manager->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((camera))->FUN_00c4f270(true);
     unsigned int localNode = (unsigned int)(*reinterpret_cast<::Flt *>(&::g_011da2f4));
     ::UpdateCameraFrustum((::NiCamera *)(localNode), 0.65f);
@@ -2004,7 +2006,7 @@ void __cdecl FUN_007c9ca0()
     {
         reinterpret_cast<::S148c0 *>((((::RendererHelper *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
         ManagerHelper* mgr = ((::ManagerHelper *)(::FUN_0045c670()));
-        CameraHelper* cam = ((::CameraHelper *)(reinterpret_cast<::MiddleLowProcess *>((mgr))->GetProcessInteger()));
+        CameraHelper* cam = ((::CameraHelper *)(mgr->unkB4));
         reinterpret_cast<::FUN_00c4f270_Class *>((cam))->FUN_00c4f270(true);
         unsigned int scene = (*reinterpret_cast<::Flt *>(&::g_011daa9c));
         ::UpdateCameraFrustum((::NiCamera *)(scene), 0.15f);

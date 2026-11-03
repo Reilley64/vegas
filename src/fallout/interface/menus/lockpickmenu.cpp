@@ -405,6 +405,8 @@ struct ProcBase
 
 struct ObjB
 {
+    char pad[0xb4];
+    void* unkB4;
 };
 
 struct ObjC
@@ -440,7 +442,7 @@ void __cdecl FUN_0078e7c0()
     }
     reinterpret_cast<::S148c0 *>((reinterpret_cast<ProcBase*>(((void *)(::FUN_0043c4b0())))))->FUN_007148c0({}, {});
     v6 = ((void *)(::FUN_0045c670()));
-    v1c3 = ((void *)(reinterpret_cast<::MiddleLowProcess *>((reinterpret_cast<ObjB*>(v6)))->GetProcessInteger()));
+    v1c3 = ((void *)((reinterpret_cast<ObjB*>(v6))->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((reinterpret_cast<ObjC*>(v1c3)))->FUN_00c4f270(1);
     v18 = ((void *)(::FUN_00559450((int *)(reinterpret_cast<SingletonGetter*>(&(*reinterpret_cast<char *>(&::g_011da224)))))));
     ::UpdateCameraFrustum((::NiCamera *)(v18), ::g_011db5ec_arg1);

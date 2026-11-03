@@ -9952,6 +9952,8 @@ struct Scene
 };
 struct Owner
 {
+    char pad[0xb4];
+    struct Scene* unkB4;
 };
 struct Holder
 {
@@ -9968,7 +9970,7 @@ void FUN_007bbcf0()
 {
     reinterpret_cast<::S148c0 *>((((::fnv_007bbcf0::S148c0 *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     Owner* pOwner = ((::fnv_007bbcf0::Owner *)(::FUN_0045c670()));
-    Scene* scene = ((::fnv_007bbcf0::Scene *)(reinterpret_cast<::MiddleLowProcess *>((pOwner))->GetProcessInteger()));
+    Scene* scene = ((::fnv_007bbcf0::Scene *)(pOwner->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((scene))->FUN_00c4f270(1);
     void* owner = ((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_007bbcf0::Holder *>(&::g_011da8d0))))));
     ::UpdateCameraFrustum((::NiCamera *)(owner), ::g_011db5ec_arg1);

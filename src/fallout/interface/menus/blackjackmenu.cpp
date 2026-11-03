@@ -378,6 +378,8 @@ struct Accum_00733500
 };
 struct Node_00733500
 {
+    char pad[0xb4];
+    struct Accum_00733500* unkB4;
 };
 struct Mgr_00733500
 {
@@ -396,7 +398,7 @@ void __cdecl FUN_00733500()
 {
     ((::S148c0 *)(::FUN_0043c4b0()))->FUN_007148c0(0, 4);
     Node_00733500* pPlayerNode = ((::Node_00733500 *)(::FUN_0045c670()));
-    Accum_00733500* pAccumulator = ((::Accum_00733500 *)(reinterpret_cast<::MiddleLowProcess *>((pPlayerNode))->GetProcessInteger()));
+    Accum_00733500* pAccumulator = ((::Accum_00733500 *)(pPlayerNode->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((pAccumulator))->FUN_00c4f270(1);
     AnimIdle* pCamera = (*reinterpret_cast<::NiPointer< ::AnimIdle> *>(&::g_011d90bc));
     ::UpdateCameraFrustum((::NiCamera *)(pCamera), g_011db5ec_arg1);

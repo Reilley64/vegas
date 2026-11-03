@@ -7016,7 +7016,7 @@ void InventoryListBox::PopulateInventoryList(InventoryOwner* owner, bool(__cdecl
                 unsigned int i;
                 Tile* a;
                 int p = 0;
-                int h = ((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()));
+                int h = ((int)(entry->count));
                 do
                 {
                     s = dynamic_cast<TESFullName*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));

@@ -1172,6 +1172,10 @@ struct FUN_00a1ddb0_owner
 
 struct FUN_0044ddc0_sub
 {
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 
 class FUN_004037b0_tmp
@@ -1197,7 +1201,7 @@ struct FUN_0076ad50_cls
 void FUN_0076ad50_cls::BuildHackingGuessTemplate()
 {
     FUN_00a1ddb0_res* p = ((::FUN_00a1ddb0_res *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>(((*reinterpret_cast<::FUN_00a1ddb0_owner * *>(&::g_pkD766AA0Menu))))->FUN_00a1ddb0((::Tile *)(m110), (char *)("hacking_guess_template"), (::Tile *)(void *)(0))));
-    reinterpret_cast<::Tile *>((p))->Set(0xfac, ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m174))->GetName())));
+    reinterpret_cast<::Tile *>((p))->Set(0xfac, ((int)(m174.size)));
     reinterpret_cast<::FUN_004ed8c0_shell *>(&(m174))->FUN_004ed8c0((int *)(::FUN_00a1ddb0_res **)(&p));
     {
         FUN_004037b0_tmp nameBuf;
@@ -1233,13 +1237,13 @@ unsigned int Context::FUN_00769520(FUN_007687d0* input)
     }
     else
     {
-        unsigned int best = ((unsigned int)(reinterpret_cast<::Callees *>((input))->FUN_00726070()));
-        for (unsigned int outer = 0; outer < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++outer)
+        unsigned int best = ((unsigned int)(input->count));
+        for (unsigned int outer = 0; outer < ((std::uintptr_t)(input->count)); ++outer)
         {
             if (((int)(reinterpret_cast<::FUN_0076ae90_cls *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FUN_0076ae90())) == minimum)
             {
                 unsigned int worst = 0;
-                for (unsigned int inner = 0; inner < ((std::uintptr_t)(reinterpret_cast<::Callees *>((input))->FUN_00726070())); ++inner)
+                for (unsigned int inner = 0; inner < ((std::uintptr_t)(input->count)); ++inner)
                 {
                     unsigned char results[32];
                     if (reinterpret_cast<::Struct0076ae30 *>(&(((::Entry *)(::FUN_00559450((int *)(input))))[outer]))->FindByteIndices(inner, results) == minimum)

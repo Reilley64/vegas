@@ -288,6 +288,15 @@ void LoadingMenu::RefreshLoadingScreen()
     reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[15]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>((reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011d2358)))->GetMenuTitle()))), true);
 }
 
+// The fields of BSSimpleArray<TESLoadScreen*, 1024>.
+struct LoadScreenArrayFields
+{
+    void* vtable;
+    TESLoadScreen** data;
+    unsigned int size;
+    unsigned int capacity;
+};
+
 // Picks random load screens from array into candidates until the candidate count reaches the game-setting count, removing each picked entry.
 // @fnv 0x0078adc0
 void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadScreens)
@@ -298,10 +307,10 @@ void LoadingMenu::SelectLoadScreens(BSSimpleArray<TESLoadScreen*, 1024>& aLoadSc
     else if (extraCandidates && !((bool)(::FUN_0078a930())))
         count = FUN_0042f5a0(count, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)(reinterpret_cast<SettingT_GameSettingCollection_*>(&g_011da108)))))->u);
     unsigned int maximum = reinterpret_cast<BSSimpleList<BGSMusicType::MusicTrack*>*>(&candidates)->ItemsInList();
-    while (maximum < count && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)))->GetName())))
+    while (maximum < count && ((std::uintptr_t)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)))
     {
         unsigned int index =
-            FUN_005a00a0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&aLoadScreens)))->GetName())));
+            FUN_005a00a0(((unsigned int)(reinterpret_cast<LoadScreenArrayFields*>(&aLoadScreens)->size)));
         if (IsLoadScreenValid(
                 reinterpret_cast<TESLoadScreen*>(reinterpret_cast<NiFormArray*>(&aLoadScreens)->FUN_00877a30(index))))
         {
@@ -1836,6 +1845,13 @@ extern int DAT_011da170;
 struct BGSSaveFormBuffer
 {
 };
+// The leading fields of BGSQuestObjective.
+struct QuestObjectiveFields
+{
+    void* vtable;
+    int objectiveId;
+};
+
 // @fnv 0x0078d6b0
 void SaveLoadScreenData(BGSSaveFormBuffer* apSaveGameBuffer)
 {
@@ -1844,7 +1860,7 @@ void SaveLoadScreenData(BGSSaveFormBuffer* apSaveGameBuffer)
     bool bLocationSpecificOnly;
     FUN_0078d670();
     pquest = *(void**)&g_011da168 ? (void*)((std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((*(void**)&g_011da168))->FUN_0044edb0())) : 0;
-    iElementIndex = *(void**)&g_011da168 ? (unsigned int)reinterpret_cast<::Callees *>((*(void**)&g_011da168))->FUN_00726070() : 0;
+    iElementIndex = *(void**)&g_011da168 ? (unsigned int)reinterpret_cast<::QuestObjectiveFields *>(*(void**)&g_011da168)->objectiveId : 0;
     reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pquest), 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&iElementIndex, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&DAT_011da16c, 4, 0);

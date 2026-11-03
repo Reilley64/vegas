@@ -227,7 +227,7 @@ DialogMenu::DialogState DialogMenu::BeginDialogueResponse(bool usePrefix)
                 BSSimpleList<MenuTopic*>* pNewTopicList =
                     reinterpret_cast<BSSimpleList<MenuTopic*>*>(new BSSimpleList<TESTopic*>);
                 MenuTopic* pNextTopic =
-                    new MenuTopic(((::TESQuest *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((reinterpret_cast<DialogueItem*>(topic)))->FUN_00825c00())),
+                    new MenuTopic(((::TESQuest *)((reinterpret_cast<DialogueItem*>(topic))->pQuest)),
                                   reinterpret_cast<TESTopic*>(((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((reinterpret_cast<TESResponse*>(topic)))->FUN_0045cd60()))), follow,
                                   m_pDialogueSpeaker, false);
                 reinterpret_cast<::TopicS *>((pNextTopic))->HasCur();
@@ -398,7 +398,7 @@ void DialogMenu::UpdateDialog()
             if (DAT_011d9594 == 0)
                 DAT_011d9594 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
             if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00() - DAT_011d9594 >= 500.0)
-                ::ResetActorState((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESForm*>(m_pDialogueSpeaker)))->FUN_0084e3a0()))), true);
+                ::ResetActorState((void *)(std::uintptr_t)(reinterpret_cast<TESForm*>(m_pDialogueSpeaker)->iFormID), true);
         }
         else
         {

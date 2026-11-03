@@ -81,6 +81,8 @@ class TaskQueueInterface
 class DialogueItem
 {
   public:
+    char pad[0x14];
+    class TESQuest* pQuest;
     TESObjectREFR* FUN_005e3fa0();
 };
 class SettingT_GameSettingCollection_

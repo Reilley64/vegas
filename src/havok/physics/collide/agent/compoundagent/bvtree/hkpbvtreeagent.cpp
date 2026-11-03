@@ -122,21 +122,6 @@ void __cdecl ApplyTransformToTarget(Holder* apFirst, Holder* apSecond, ValueSour
     apFirst->m_pFlagTarget->Apply(&kTransform, apValue->m_fAmount, apContext);
 }
 
-struct Built
-{
-    int field00;
-    short field04;
-    int field08;
-    void FUN_00d2f980(int);
-};
-// Allocates a 0x40-byte Built from the global allocator, sets its field04 to 0x40, and calls FUN_00d2f980 with arg4.
-// @fnv 0x00d2f9d0
-void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
-{
-    Built* pBuilt = static_cast<Built*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-    pBuilt->field04 = 0x40;
-    pBuilt->FUN_00d2f980(arg4);
-}
 
 
 // Calls FUN_00d30f50, passing along all five arguments unchanged.
@@ -797,6 +782,22 @@ FUN_00d2f980::FUN_00d2f980(int p) : S_00d2f980_Mid(p)
     m20 = m30;
 }
 
+struct Built
+{
+    int field00;
+    short field04;
+    int field08;
+    void FUN_00d2f980(int);
+};
+// Allocates a FUN_00d2f980-sized Built from the global allocator, records its size in field04, and calls FUN_00d2f980 with arg4.
+// @fnv 0x00d2f9d0
+void __cdecl FUN_00d2f9d0(int aiUnused1, int aiUnused2, int aiUnused3, int arg4)
+{
+    Built* pBuilt = static_cast<Built*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2f980)));
+    pBuilt->field04 = sizeof(::FUN_00d2f980);
+    pBuilt->FUN_00d2f980(arg4);
+}
+
 extern "C" void _ReadWriteBarrier(void);
 extern "C" unsigned __int64 __rdtsc(void);
 #include <windows.h>
@@ -1236,7 +1237,7 @@ struct SpawnedObject
 };
 
 
-// Allocates a 0x40-byte object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
+// Allocates a FUN_00d2f980-sized object and calls FUN_00d2f980 with a4; unless the first m_a0 is less than the second, it then calls the destructor; returns the object.
 // @fnv 0x00d2fa40
 SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner, int aiUnused, int a4)
 {
@@ -1244,12 +1245,12 @@ SpawnedObject* FUN_00d2fa40(FloatOwner* apFirstOwner, FloatOwner* apSecondOwner,
     FloatSub* pSecondSub = apSecondOwner->m_08;
     if (pFirstSub->m_a0 < pSecondSub->m_a0)
     {
-        SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-        obj->m_04 = 0x40;
+        SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2f980)));
+        obj->m_04 = sizeof(::FUN_00d2f980);
         return ((::fnv_00d2fa40::SpawnedObject *)(new ((void *)(obj)) struct ::FUN_00d2f980(a4)));
     }
-    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x40));
-    obj->m_04 = 0x40;
+    SpawnedObject* obj = static_cast<SpawnedObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(::FUN_00d2f980)));
+    obj->m_04 = sizeof(::FUN_00d2f980);
     new ((void *)(obj)) struct ::FUN_00d2f980(a4);
     obj->SpawnedObject::~SpawnedObject();
     return obj;

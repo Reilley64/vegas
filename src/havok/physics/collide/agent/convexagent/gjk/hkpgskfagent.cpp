@@ -127,19 +127,19 @@ struct FUN_00dabf10
     void* m_pVtbl;
     char m_b0[44];
     int m_i0;
-    FUN_00dabf10(int, int, int);
+    FUN_00dabf10(intptr_t, intptr_t, intptr_t);
     ~FUN_00dabf10();
 };
 
 struct FUN_00dacbd0 : FUN_00dabf10
 {
-    FUN_00dacbd0(int a, int b, int c);
+    FUN_00dacbd0(intptr_t a, intptr_t b, intptr_t c);
     ~FUN_00dacbd0();
 };
 
 // Initializes the derived object: sets its vtable pointer to DAT_010d5224 and clears m_i0 after the base constructor runs.
 // @fnv 0x00dacbd0
-FUN_00dacbd0::FUN_00dacbd0(int a, int b, int c) : FUN_00dabf10(a, b, c)
+FUN_00dacbd0::FUN_00dacbd0(intptr_t a, intptr_t b, intptr_t c) : FUN_00dabf10(a, b, c)
 {
     m_pVtbl = &DAT_010d5224;
     m_i0 = 0;
@@ -295,13 +295,13 @@ inline void* allocateAgentDACC(int nbytes)
 
 struct GskInitDACC : FUN_00dacbd0
 {
-    FUN_00dabf10* FUN_00dacbd0(int, int, int);
-    FUN_00dabf10* FUN_00dabf10(int, int, int);
+    FUN_00dabf10* FUN_00dacbd0(intptr_t, intptr_t, intptr_t);
+    FUN_00dabf10* FUN_00dabf10(intptr_t, intptr_t, intptr_t);
 };
 
 // If c is nonzero, allocates 0x80 bytes and calls FUN_00dacbd0; otherwise allocates 0x30 bytes and calls FUN_00dabf10; returns the constructed object.
 // @fnv 0x00dacc00
-FUN_00dabf10* __cdecl FUN_00dacc00(int a, int b, int unused, int c)
+FUN_00dabf10* __cdecl FUN_00dacc00(intptr_t a, intptr_t b, intptr_t unused, intptr_t c)
 {
     if (c)
         return ((::FUN_00dabf10 *)(new ((void *)(static_cast<GskInitDACC*>(allocateAgentDACC(0x80)))) ::FUN_00dacbd0(a, b, c)));

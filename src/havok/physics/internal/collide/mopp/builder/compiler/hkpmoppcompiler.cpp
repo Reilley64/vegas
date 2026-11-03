@@ -98,11 +98,11 @@ struct Destination
     __m128 unk50;
     unsigned int unk60;
     unsigned char unk64;
-    void CopyFromSourceData(unsigned int srcAddress);
+    void CopyFromSourceData(uintptr_t srcAddress);
 };
 // Copies x, y, z, a 16-byte vector, a 32-bit value and a byte from the SourceData at srcAddress into this object's unk40 to unk64 fields.
 // @fnv 0x00dd4c70
-void Destination::CopyFromSourceData(unsigned int srcAddress)
+void Destination::CopyFromSourceData(uintptr_t srcAddress)
 {
     const SourceData* src = (const SourceData*)srcAddress;
     unk40 = src->x;

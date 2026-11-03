@@ -38,7 +38,7 @@ struct FUN_009ba5f0_shell
 };
 struct FUN_00c89c80_obj
 {
-    void CopyFromSource(unsigned int uiMaxSize);
+    void CopyFromSource(void* pDest);
 };
 struct MemoryManager
 {

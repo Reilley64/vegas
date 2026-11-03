@@ -542,7 +542,7 @@ S_cbde40_Base* S_cbde40::FUN_00cbde40(bool* created)
         }
         unk0c = r;
         if (unk08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((unsigned int)(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(unk0c ? (S_cbde40_Obj*)((char*)unk0c - 4) : 0));
     }
     return unk0c;
 }

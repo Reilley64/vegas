@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class CollisionAgentContext;
 class hkpCdBody;
 class hkpCdBodyPairCollector;
@@ -9,7 +11,7 @@ struct Input_d2e9;
 struct RegistryOwner;
 
 // 0x00d44280
-namespace fnv_00d44280 { void AllocateAndInitBlock(int, int, int, int); }
+namespace fnv_00d44280 { void AllocateAndInitBlock(intptr_t, intptr_t, intptr_t, intptr_t); }
 // 0x00d442c0
 namespace fnv_00d442c0 { ::fnv_00d442c0::D442C0Agent *FUN_00d442c0(const void *, const void *, const void *, void *); }
 // 0x00d44310

@@ -62,12 +62,12 @@ struct FUN_00dabf10
     void* m_pVtbl;
     char m_b0[44];
     int m_i0;
-    FUN_00dabf10(int, int, int);
+    FUN_00dabf10(intptr_t, intptr_t, intptr_t);
     ~FUN_00dabf10();
 };
 struct FUN_00dacbd0 : FUN_00dabf10
 {
-    FUN_00dacbd0(int a, int b, int c);
+    FUN_00dacbd0(intptr_t a, intptr_t b, intptr_t c);
     ~FUN_00dacbd0();
 };
 struct hkSlotDACB

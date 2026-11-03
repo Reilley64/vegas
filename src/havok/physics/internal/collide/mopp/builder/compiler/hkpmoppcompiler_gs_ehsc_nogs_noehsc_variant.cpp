@@ -93,7 +93,7 @@ struct Destination
     __m128 unk50;
     unsigned int unk60;
     unsigned char unk64;
-    void CopyFromSourceData(unsigned int srcAddress);
+    void CopyFromSourceData(uintptr_t srcAddress);
 };
 
 extern "C" void _ReadWriteBarrier(void);

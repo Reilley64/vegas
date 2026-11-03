@@ -479,7 +479,7 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
     }
     else
     {
-        ::FUN_00d4de30((int)&(in), out);
+        ::FUN_00d4de30((intptr_t)&(in), out);
 
         if (m_bRemoveWhenBroken)
         {

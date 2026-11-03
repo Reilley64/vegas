@@ -41,11 +41,11 @@ struct FUN_009ba5f0_shell
 
 struct FUN_00c89c80_obj
 {
-    void CopyFromSource(unsigned int uiMaxSize);
+    void CopyFromSource(void* pDest);
 };
 
 // @fnv 0x00c89c80
-void FUN_00c89c80_obj::CopyFromSource(unsigned int pDest)
+void FUN_00c89c80_obj::CopyFromSource(void* pDest)
 {
     if (this && *(void**)((char*)this + 8))
     {

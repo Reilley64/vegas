@@ -5139,7 +5139,7 @@ S_ca9f40_Base* S_ca9f40::GetOrCreateBase(bool* created)
         }
         unk0c = r;
         if (unk08)
-            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((unsigned int)(unk0c ? (S_ca9f40_Counters*)((char*)unk0c - 4) : 0));
+            reinterpret_cast<::FUN_00c89c80_obj *>(this)->CopyFromSource((void*)(unk0c ? (S_ca9f40_Counters*)((char*)unk0c - 4) : 0));
     }
     return unk0c;
 }

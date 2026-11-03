@@ -570,7 +570,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         unsigned int foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =
-            (FUN_0050bf90_cls*)((unsigned int)(std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
+            (FUN_0050bf90_cls*)((std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
         if (selectedEntry != 0 && recurse != 0)
         {
             unsigned short recursiveCount;

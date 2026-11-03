@@ -305,7 +305,7 @@ struct FUN_00688730_shell
 CtlV* FUN_00688730_shell::GetNextIfSet()
 {
     if ((unsigned int)(*(Flt*)((char*)this + 0xb8)))
-        return ((::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)(((CtlV*)(unsigned int)(*(Flt*)((char*)this + 0xb8)))))));
+        return ((::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)((*(CtlV**)((char*)this + 0xb8))))));
     return 0;
 }
 

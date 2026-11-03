@@ -2210,7 +2210,7 @@ BSAnimGroupSequence* FUN_0048f450_shell::GetSequenceByIndex(char aiSequenceIndex
         iTargetIndex = aiSequenceIndex;
     else
         iTargetIndex = ::DialogueRandom() % ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)m_pSingleSequence)))->GetName()));
-    listIt = (void*)(unsigned int)*(Flt*)m_pSingleSequence;
+    listIt = *(void**)(m_pSingleSequence);
     while (listIt)
     {
         pForwardSequence = *(BSAnimGroupSequence**)((int *)(reinterpret_cast<::FUN_006317a0_struct *>((((FUN_006317a0_struct*)m_pSingleSequence)))->AddEight((std::intptr_t)listIt)));
@@ -2442,14 +2442,14 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
     {
         NiPointer<AnimIdle> spseq(((AnimSequenceBase_Helper*)panimSeq)->vfn_04(-1));
         NiPoint3 interpDelta = NiPoint3::ZERO;
-        for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->FUN_0084e3a0())); ++n)
+        for (unsigned int n = 0; n < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(((*(AnimIdle_Helper**)(&spseq))))->FUN_0084e3a0())); ++n)
         {
-            if (((int)(reinterpret_cast<::fnv_00494210::FUN_00494210_cls *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->GetItemIconFormID(n))) ==
-                ((int)(std::uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((((TESChallenge*)(unsigned int)(*(Flt*)&spseq))))->FUN_005f5f80())))
+            if (((int)(reinterpret_cast<::fnv_00494210::FUN_00494210_cls *>(((*(AnimIdle_Helper**)(&spseq))))->GetItemIconFormID(n))) ==
+                ((int)(std::uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>(((*(TESChallenge**)(&spseq))))->FUN_005f5f80())))
             {
-                NiInterpolator* pinterp = ((::fnv_00493d50::NiInterpolator *)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>((((AnimIdle_Helper*)(unsigned int)(*(Flt*)&spseq))))->FUN_004937a0(n)));
-                float fstartTime = reinterpret_cast<::FUN_00759450_shell *>((((FUN_00759450_shell*)(unsigned int)(*(Flt*)&spseq))))->FUN_00759450();
-                float fstopTime = reinterpret_cast<::FUN_00508100_shell *>((((FUN_00508100_shell*)(unsigned int)(*(Flt*)&spseq))))->FUN_00508100();
+                NiInterpolator* pinterp = ((::fnv_00493d50::NiInterpolator *)(reinterpret_cast<::fnv_004937a0::FUN_004937a0_shell *>(((*(AnimIdle_Helper**)(&spseq))))->FUN_004937a0(n)));
+                float fstartTime = reinterpret_cast<::FUN_00759450_shell *>(((*(FUN_00759450_shell**)(&spseq))))->FUN_00759450();
+                float fstopTime = reinterpret_cast<::FUN_00508100_shell *>(((*(FUN_00508100_shell**)(&spseq))))->FUN_00508100();
                 NiQuatTransform quatStart;
                 NiQuatTransform quatStop;
                 pinterp->vfn_35(fstartTime, 0, &quatStart);
@@ -2713,7 +2713,7 @@ void FUN_00497040_shell::FUN_00497040(Animation* apAnimation)
     {
         if (!(unsigned int)*(Flt*)((char*)this + 0x18) ||
             ((unsigned int)*(Flt*)((char*)this + 0x18),
-             ((std::intptr_t)(reinterpret_cast<::LowProcess *>((((NiControllerSequence*)(unsigned int)*(Flt*)((char*)this + 0x18))))->GetActiveCombatTarget()))) == 0)
+             ((std::intptr_t)(reinterpret_cast<::LowProcess *>(((*(NiControllerSequence**)((char*)this + 0x18))))->GetActiveCombatTarget()))) == 0)
         {
             *(int*)((char*)this + 8) = 3;
             if (*(HA**)((char*)this + 0x34) && reinterpret_cast<::FUN_008a7570_shell *>(((*(HA**)((char*)this + 0x34))))->FUN_008a7570() == 0xd)
@@ -3329,8 +3329,8 @@ bool Holder::FUN_00498230(void* apActor)
 {
     if (FUN_00498290(this))
     {
-        reinterpret_cast<::LowProcess *>((((LowProcess*)(unsigned int)*(Flt*)((char*)this + 0x124))))->SetCurrentBoundObject((::TESBoundObject *)(apActor));
-        reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)apActor)))->FUN_008a73e0(0xD, (::fnv_008a73e0::BSAnimGroupSequence *)(void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>((((AnimIdle*)(unsigned int)*(Flt*)((char*)this + 0x124))))->FUN_00490e40()));
+        reinterpret_cast<::LowProcess *>(((*(LowProcess**)((char*)this + 0x124))))->SetCurrentBoundObject((::TESBoundObject *)(apActor));
+        reinterpret_cast<::fnv_008a73e0::FUN_008a73e0_shell *>((((HA*)apActor)))->FUN_008a73e0(0xD, (::fnv_008a73e0::BSAnimGroupSequence *)(void *)(reinterpret_cast<::fnv_00490e40::FUN_00490e40_shell *>(((*(AnimIdle**)((char*)this + 0x124))))->FUN_00490e40()));
         return true;
     }
     return false;
@@ -3354,7 +3354,7 @@ bool FUN_004985b0_Owner::IsFlaggedAsTwo()
 {
     if ((unsigned int)*(Flt*)((char*)this + 0x124) == 0)
         return 0;
-    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(unsigned int)*(Flt*)((char*)this + 0x124))))->GetName())) == 2;
+    return ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*(TESObjectREFR_GetFlags_Helper**)((char*)this + 0x124))))->GetName())) == 2;
 }
 }  // namespace fnv_004985b0
 
@@ -3767,8 +3767,8 @@ bool FUN_00490e60_shell::ShouldQueueAnimations()
     {
         bqueueAnims = false;
     }
-    else if ((NiNode*)(unsigned int)*(Flt*)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) ||
-             (NiNode*)(unsigned int)*(Flt*)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) ||
+    else if (*(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(false))) ||
+             *(NiNode**)((char*)this + 8) == ((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))->FUN_00950bb0(true))) ||
              reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_00490e60::_FUN_00822510_Class &)(*(const _FUN_00822510_Class*)((char*)this + 8)))->operator==(((int)(::fnv_00490f80::FUN_00490f80((char *)((*reinterpret_cast<::fnv_00490e60::PC_00605d70 * *>(&::_g_thePlayer))))))))
     {
         if (!Interface::IsMenuActive((Interface::enumMenus)0x40c, 0))
@@ -3815,7 +3815,7 @@ struct FUN_0048f720_shell
 // @fnv 0x0048f720
 char FUN_0048f720_shell::FindSequenceIndex(BSAnimGroupSequence* apSeq)
 {
-    void* listIt = (void*)(unsigned int)*(Flt*)m_pSingleSequence;
+    void* listIt = *(void**)(m_pSingleSequence);
     char iIndex = 0;
     while (listIt)
     {
@@ -3852,7 +3852,7 @@ unsigned short FUN_00497100_shell::FUN_00497100()
     v += 4;
     v += 1;
     if ((unsigned int)*(Flt*)((char*)this + 0x18))
-        v += (unsigned short)(unsigned short)reinterpret_cast<::FUN_004efb10_shell *>((((FUN_004efb10_shell*)((unsigned int)*(Flt*)((char*)this + 0x18)))))->FUN_004efb10() +
+        v += (unsigned short)(unsigned short)reinterpret_cast<::FUN_004efb10_shell *>(((*(FUN_004efb10_shell**)((char*)this + 0x18))))->FUN_004efb10() +
              1;
     return v;
 }

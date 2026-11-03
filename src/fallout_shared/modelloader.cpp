@@ -5396,7 +5396,7 @@ bool LookupModelAndGetFlags(Map62d0* self, GetAtArgs aLookupArgs)
     {
         *aLookupArgs.aspModel = (void*)((unsigned int)*(Flt*)&entry + 8);
         aLookupArgs.out->FUN_0044b300(
-            ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)(unsigned int)*(Flt*)aLookupArgs.aspModel)))->GetName())));
+            ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(((*(TESObjectREFR_GetFlags_Helper**)(aLookupArgs.aspModel))))->GetName())));
         bFound = true;
     }
     ::fnv_00652190::FUN_00652190();
@@ -7507,7 +7507,7 @@ void FUN_00440780_shell::FUN_00440780()
     if (::FUN_00449110((int*)this) && reinterpret_cast<::FUN_0043caa0_shell *>((((IOTask*)this)))->FUN_0043caa0() && !::FUN_00449130((int*)this))
     {
         if (*(Flt*)((char*)this + 0x2c) && !*(Flt*)((char*)this + 0x30))
-            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper*)((char*)this + 0x30))))->FUN_0044aed0((::WaitableObject *)(void *)(((::fnv_00440780::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)(((CtlV*)(unsigned int)*(Flt*)((char*)this + 0x2c))))))));
+            reinterpret_cast<::NP_0044aed0 *>((((SetterHelper*)((char*)this + 0x30))))->FUN_0044aed0((::WaitableObject *)(void *)(((::fnv_00440780::CtlV *)(::fnv_004a8a90::FUN_004a8a90((char *)((*(CtlV**)((char*)this + 0x2c))))))));
         bool bbackgroundClone = false;
         if (*(Flt*)((char*)this + 0x30) && *(TESObjectREFR**)((char*)this + 0x28) != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)) &&
             reinterpret_cast<::TESCallHelper *>(((*reinterpret_cast<::fnv_00440780::TES * *>(&::g_TES))))->IsCellBuffered((::TESObjectCELL *)(::fnv_00440780::TESObjectCELL *)(((::fnv_00440780::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((ActorS*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget()))), false) &&
@@ -7770,7 +7770,7 @@ void FUN_00440ba0_shell::FUN_00440ba0()
         if ((unsigned int)*(Flt*)((char*)this + 0x30))
             g_modelLoader->UpdateReferenceNode(
                 *(TESObjectREFR**)((char*)this + 0x28),
-                (NiNode*)((BSFaceGenModelExtraData*)(unsigned int)*(Flt*)((char*)this + 0x30))->GetModelFilePath());
+                (NiNode*)(*(BSFaceGenModelExtraData**)((char*)this + 0x30))->GetModelFilePath());
         reinterpret_cast<::AttachmentHandler *>(((*reinterpret_cast<::fnv_00440ba0::TES * *>(&::g_TES))))->FUN_00451ef0(
             (::AttachRef *)(*(TESObjectREFR**)((char*)this + 0x28)),
             (::AttachCell *)(::fnv_00440ba0::TESObjectCELL *)((TESObjectCELL*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)*(TESObjectREFR**)((char*)this + 0x28))))->GetTarget()))), (::AttachRef *)(void *)(this), false);
@@ -8637,7 +8637,7 @@ void BackgroundCloneThread::RunBackgroundClone()
             {
                 ::FUN_00442510((::FUN_00442510_Cl *)(::fnv_00442350::FUN_00442510_Cl *)((FUN_00442510_Cl*)this));
                 ::FUN_0040fbe0();
-                QueuedReference* pqueuedRef = (QueuedReference*)(unsigned int)*(Flt*)&spqueuedReference;
+                QueuedReference* pqueuedRef = *(QueuedReference**)(&spqueuedReference);
                 int estate = reinterpret_cast<::FUN_0084e3a0_Class *>((pqueuedRef))->FUN_0084e3a0();
                 if (!::FUN_00449130((int*)pqueuedRef) && reinterpret_cast<::FUN_00449190_cls *>((((FUN_00449190_cls*)pqueuedRef)))->SetState(estate, 3))
                 {
@@ -8856,15 +8856,15 @@ bool FUN_004446a0_shell::QueueKFModelLoad(char* apKFFileName, int aePriority, Qu
         if (apParent)
         {
             FUN_00528cb0::FUN_0044cbf0 spqueuedKF(new FUN_0043e210(pkfModel, aePriority));
-            reinterpret_cast<::QueuedFile *>((((QHeadLocal*)(unsigned int)*(Flt*)&spqueuedKF)))->SetParent(apParent);
-            ((QueuedFile*)(unsigned int)*(Flt*)&spqueuedKF)->vfn_28();
+            reinterpret_cast<::QueuedFile *>(((*(QHeadLocal**)(&spqueuedKF))))->SetParent(apParent);
+            (*(QueuedFile**)(&spqueuedKF))->vfn_28();
             return true;
         }
         return false;
     }
     FUN_00528cb0::FUN_0044cbf0 spqueuedKF(new FUN_0043e0f0(apKFFileName, aePriority));
-    reinterpret_cast<::QueuedFile *>((((QHeadLocal*)(unsigned int)*(Flt*)&spqueuedKF)))->SetParent(apParent);
-    ((QueuedFile*)(unsigned int)*(Flt*)&spqueuedKF)->vfn_20();
+    reinterpret_cast<::QueuedFile *>(((*(QHeadLocal**)(&spqueuedKF))))->SetParent(apParent);
+    (*(QueuedFile**)(&spqueuedKF))->vfn_20();
     return true;
 }
 }  // namespace fnv_004446a0
@@ -9056,14 +9056,14 @@ void FUN_00447a40_shell::FUN_00447a40(char* apFileName, int aePriority, QueuedFi
         if (apParent)
         {
             QHeadPtr spqueuedFaceGenFile((std::intptr_t)new FUN_004420b0(*(Flt*)&m_pLoadedFile, aePriority));
-            reinterpret_cast<::QueuedFile *>((((QHeadLocal*)(unsigned int)*(Flt*)&spqueuedFaceGenFile)))->SetParent(apParent);
-            ((IOTask*)(unsigned int)*(Flt*)&spqueuedFaceGenFile)->vfn_28();
+            reinterpret_cast<::QueuedFile *>(((*(QHeadLocal**)(&spqueuedFaceGenFile))))->SetParent(apParent);
+            (*(IOTask**)(&spqueuedFaceGenFile))->vfn_28();
         }
         return;
     }
     QHeadPtr spqueuedFaceGenFile((std::intptr_t)new FUN_00441f80(apFileName, aePriority, aeFileIndex));
-    reinterpret_cast<::QueuedFile *>((((QHeadLocal*)(unsigned int)*(Flt*)&spqueuedFaceGenFile)))->SetParent(apParent);
-    ((IOTask*)(unsigned int)*(Flt*)&spqueuedFaceGenFile)->vfn_20();
+    reinterpret_cast<::QueuedFile *>(((*(QHeadLocal**)(&spqueuedFaceGenFile))))->SetParent(apParent);
+    (*(IOTask**)(&spqueuedFaceGenFile))->vfn_20();
 }
 }  // namespace fnv_00447a40
 
@@ -9190,7 +9190,7 @@ bool ModelLoaderStand_00448cc0::ProcessQueuedTasks()
             int iCount = 0;
             QueueObj kTask(0);
             if (reinterpret_cast<::FUN_0044b8d0_Class *>((m_pPrimaryTaskProcessor))->ProcessIteration((::Iteration *)(::fnv_00448cc0::FUN_0044cc10 *)(&kTaskList), (unsigned int *)(int *)(&iCount), (std::intptr_t)(&kTask), true))
-                ((QueuedTask_00448cc0*)(unsigned int)*(Flt*)&kTask)->Run();
+                (*(QueuedTask_00448cc0**)(&kTask))->Run();
         }
         return reinterpret_cast<::FUN_006ebde0_shell *>((((FUN_006ebde0_shell*)&kTaskList)))->FUN_006ebde0();
     }

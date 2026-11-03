@@ -767,7 +767,7 @@ struct Flt
 // @fnv 0x005fe0f0
 char* FUN_005fe0f0_shell::FUN_005fe0f0()
 {
-    return (unsigned int)(*(Flt*)((char*)this + 0x4c)) ? (char*)(unsigned int)(*(Flt*)((char*)this + 0x4c)) : (char*)"";
+    return (unsigned int)(*(Flt*)((char*)this + 0x4c)) ? *(char**)((char*)this + 0x4c) : (char*)"";
 }
 }  // namespace fnv_005fe0f0
 

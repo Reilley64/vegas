@@ -133,7 +133,7 @@ struct FUN_004a8070_shell
 // @fnv 0x004a8070
 int FUN_004a8070_shell::GetScriptText()
 {
-    return ((int)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)((unsigned int)(*(Flt*)((char*)this + 0xb8))))))->GetIconFormID()));
+    return ((int)(reinterpret_cast<::BGSMessageInitAccess *>(((*(Script**)((char*)this + 0xb8))))->GetIconFormID()));
 }
 
 extern unsigned char DAT_0118868c;
@@ -290,7 +290,7 @@ struct This_004a8050
 // @fnv 0x004a8050
 void* This_004a8050::GetNextProc()
 {
-    return ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)(unsigned int)*(Flt*)((char*)this + 0xB8))))->FUN_0045cd60()));
+    return ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>(((*(Proc_S**)((char*)this + 0xB8))))->FUN_0045cd60()));
 }
 
 extern int DAT_0101ecec;

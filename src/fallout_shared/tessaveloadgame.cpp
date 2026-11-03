@@ -6589,8 +6589,8 @@ void Repair624::FUN_008624e0(Ref624* reference)
                 void* form = ((void *)(reinterpret_cast<::FUN_0041b320_shell *>((((::Extra624 *)(reinterpret_cast<::FUN_005d43c0_ *>((reference))->FUN_005d43c0()))))->FUN_0041b320()));
                 if (form)
                 {
-                    void* parentCell = (void*)((int)(std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
-                    void* parentWorld = (void*)((int)(std::uintptr_t)(dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
+                    void* parentCell = (void*)((std::uintptr_t)(dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
+                    void* parentWorld = (void*)((std::uintptr_t)(dynamic_cast<::TESWorldSpace *>(reinterpret_cast<::TESForm *>((unsigned int)form))));
                     if (parentCell || parentWorld)
                         ::fnv_00573800::FUN_00573800((::fnv_00573800::MoveRef *)(reference), (::fnv_00573800::MoveCell *)(parentCell), (::fnv_00573800::MoveWorld *)(parentWorld));
                 }

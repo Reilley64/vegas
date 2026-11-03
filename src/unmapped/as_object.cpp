@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_004623f0_shell.h"
@@ -132,6 +133,8 @@ struct FUN_00452440_shell
 };
 struct BSSimpleList
 {
+    TESObjectREFR* m_item;
+    BSSimpleList* m_pkNext;
     bool FUN_008256d0();
     void FUN_0063f7b0();
 };
@@ -185,6 +188,11 @@ struct S00551440
 };
 struct TESObjectCELL
 {
+    char pad00[0x64];
+    NavMeshCollection* m_pNavMeshArray;
+    char pad68[0x40];
+    unsigned short m_usA8;
+    unsigned short m_usAA;
     void CellRefLockEnter();
     void RemoveNonPersistentRefs();
 };
@@ -197,8 +205,8 @@ void TESObjectCELL::RemoveNonPersistentRefs()
         BSSimpleList* pPrevNode;
         NavMeshCollection* pNavMeshArray;
         CellRefLockEnter();
-        *(unsigned short*)((char*)this + 0xa8) = 0;
-        *(unsigned short*)((char*)this + 0xaa) = 0;
+        m_usA8 = 0;
+        m_usAA = 0;
         {
             BSSimpleList* pNode;
             bool bOldAllow = reinterpret_cast<::FUN_004623f0_shell *>((g_BGSSaveLoadGame))->FUN_004623f0(false);
@@ -207,7 +215,7 @@ void TESObjectCELL::RemoveNonPersistentRefs()
             pPrevNode = 0;
             while (pNode && !pNode->FUN_008256d0())
             {
-                TESObjectREFR* pRef = *((::TESObjectREFR **)(new ((void *)(pNode)) ::Vec3()));
+                TESObjectREFR* pRef = pNode->m_item;
                 if (!reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((pRef))->FUN_005653d0() &&
                     (!((TESForm*)pRef)->GetFile(-1) || ((TESForm*)pRef)->GetFile(-1)->IsMasterFile()))
                 {
@@ -232,13 +240,13 @@ void TESObjectCELL::RemoveNonPersistentRefs()
                     bool bPrint = true;
                     if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((g_BGSSaveLoadGame))->FUN_0042ce10() &&
                         ((Class_0084a700*)g_BGSSaveLoadGame)->HasChangeForForm(pRef, CF845(8)) &&
-                        reinterpret_cast<::WorldReference *>((((S00561ef0*)pRef)))->FUN_00561ef0((int)(this)))
+                        reinterpret_cast<::WorldReference *>((((S00561ef0*)pRef)))->FUN_00561ef0(this))
                         bPrint = false;
                     if (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430())) && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430()))->FNV_GetFormType() == 0x23)
                     {
                         FUN_00452440_shell* pBase = (FUN_00452440_shell*)((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((P01ObjA*)pRef)))->FUN_007af430()));
                         if (pBase->FUN_00452440())
-                            reinterpret_cast<::fnv_00558ba0::FUN_00558ba0_shell *>(this)->FUN_00558ba0((int)(pRef));
+                            reinterpret_cast<::fnv_00558ba0::FUN_00558ba0_shell *>(this)->FUN_00558ba0(reinterpret_cast<std::intptr_t>(pRef));
                     }
                     if (bPrint && pRef != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
                         ::FUN_00867f90((::GcRef *)(pRef));
@@ -262,7 +270,7 @@ void TESObjectCELL::RemoveNonPersistentRefs()
                 pLand = 0;
             }
         }
-        pNavMeshArray = ((::NavMeshCollection *)(::FUN_0070ec90((char *)(((EffectSetting*)this)))));
+        pNavMeshArray = m_pNavMeshArray;
         if (pNavMeshArray)
         {
             AutoMemHelper memHelper(

@@ -554,7 +554,7 @@ struct WorldObjectView
     virtual void v43();
     virtual void v44();
     virtual CollisionResult* GetResult(unsigned char* used);
-    void FUN_00c85900(int a, int b);
+    void FUN_00c85900(std::intptr_t a, std::intptr_t b);
 };
 struct NiRTTI
 {

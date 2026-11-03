@@ -53,7 +53,7 @@ namespace fnv_00703e10 { void FUN_00703e10(); }
 // 0x00703e80
 namespace fnv_00703e80 { bool FUN_00703e80(const char *, const char *, const char *, void *, int, int, float, float, const char *, ...); }
 // 0x00703f10
-bool FUN_00703f10(int, int, int, int, int, int, int, float, float, int, ...);
+bool FUN_00703f10(const char *, const char *, const char *, const char *, void *, int, int, float, float, const char *, ...);
 // 0x00703fa0
 char ConsumeByteAtE4();
 // 0x00703fe0

@@ -5,6 +5,7 @@
 
 // @fnv 0x00ca34b0
 #include <cstddef>
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/CA0E60Array.h"
@@ -123,7 +124,8 @@ Special* Special::FUN_00ca2aa0(unsigned int flags)
     reinterpret_cast<::fnv_00ca2140::FUN_00ca2140 *>(this)->fnv_00ca2140::FUN_00ca2140::~FUN_00ca2140();
     if ((flags & 1) && this)
     {
-        unsigned char shift = *((unsigned char*)this - 1);
+        // The aligned allocation stores its alignment shift in the byte before the object.
+        unsigned char shift = reinterpret_cast<const unsigned char*>(this)[-1];
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::Allocator *>(&::g_memoryManager))))->FUN_00aa4060((char*)this - shift);
     }
     return this;
@@ -159,7 +161,7 @@ struct hkStringPtr
     void FUN_00cb0a60();
     ~hkStringPtr()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00(reinterpret_cast<std::intptr_t>(this));
     }
     void operator=(const char*);
 };
@@ -371,7 +373,7 @@ struct Transform
         ShapeVector translated;
         translated.setRotated(a.rotation, b.translation, false);
         translation.setAdd(a.translation, translated);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)(&a.rotation), (const ::fnv_00c66320::__m128 *)(const ::Rotation *)(&b.rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)(&a.rotation), (const ::fnv_00c66320::__m128 *)(&b.rotation));
         scale.value = _mm_mul_ps(b.scale.value, a.scale.value);
     }
 };
@@ -555,10 +557,10 @@ struct SceneNode
     int unk1C, unk20, unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
     int unk60, unk64, unk68, unk6C, unk70;
-    unsigned int taggedName;
+    std::uintptr_t taggedName;
     __forceinline const char* getName() const
     {
-        return (const char*)(taggedName & ~1u);
+        return (const char*)(taggedName & ~std::uintptr_t(1));
     }
     int unk78, unk7C, unk80, unk84, unk88, unk8C;
     int unk90, unk94, unk98, unk9C, unkA0, unkA4, unkA8, unkAC;
@@ -688,7 +690,7 @@ Rig* BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attach
             }
             else
                 reinterpret_cast<::S_00ce5070_QsTransform *>(&(rig->transforms.data[i]))->FUN_00ce5070((*(const ::S_00ce5070_Transform *)(&node->transform)));
-            const char* text = (const char*)(node->taggedName & ~1u);
+            const char* text = (const char*)(node->taggedName & ~std::uintptr_t(1));
             if (text)
             {
                 hkStringPtr& boneName = rig->names.data[i];
@@ -727,11 +729,11 @@ Rig* BuildRigFromNodes(NodeList* nodes, NodeList* sorted, AttachmentList* attach
                 position = center;
             }
             if (4 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             if (6 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             if (1 == shape->kind)
-                position.value.m128_f32[0] = shape->getRadius() * 2.0;
+                position.value[0] = shape->getRadius() * 2.0;
             char name[45];
             if (node->getName())
             {
@@ -1225,7 +1227,7 @@ struct Storage
 struct Builder
 {
     void* vtable;
-    unsigned handle;
+    void* handle;
     unsigned count;
     unsigned capacity;
     Builder();
@@ -1474,7 +1476,7 @@ __forceinline Builder::~Builder()
     vtable = &DAT_0104e190;
     if (handle)
     {
-        ((VecTable*)vtable)->free(this, (void*)handle);
+        ((VecTable*)vtable)->free(this, handle);
         handle = 0;
         count = capacity = 0;
     }
@@ -1580,7 +1582,7 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
     {
         ScratchVec left(64);
         RightScratchVec right(64);
-        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), (int)(&left), (int)(&right));
+        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), &left, &right);
         if (right.count == 0)
             continue;
         bool reused = false;
@@ -1602,12 +1604,12 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
         if (reused)
             continue;
         Builder temp;
-        ::CollectMixedTypeNodes((::CA1080_NodeList *)this, (::CA1080_PtrArray *)(::TempArray<void *> *)(&left));
+        ::CollectMixedTypeNodes((::CA1080_NodeList *)(::TempArray<void *> *)(&left), (::CA1080_PtrArray *)(&temp));
         Item* entry = new Item;
         if (FUN_00cea030(&left, &right) != PreparationFailed)
         {
             entry->source = original.data[outer];
-            entry->scene = ((void *)(::BuildRigFromNodes((::NodeList *)this, (::NodeList *)(::TempArray<void *> *)(&left), (::AttachmentList *)(::TempArray<void *> *)(&right))));
+            entry->scene = ((void *)(::BuildRigFromNodes((::NodeList *)(::TempArray<void *> *)(&left), (::NodeList *)(::TempArray<void *> *)(&right), (::AttachmentList *)(&temp))));
             if (entry->scene)
                 entry->collection = FUN_00cea810(entry->scene, &left, &right);
             if (entry->collection)

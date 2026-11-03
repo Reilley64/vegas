@@ -753,9 +753,9 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR*
                             BSStringT<char> str;
                             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720(pForm),
                                          ((const char *)(reinterpret_cast<::StartMenu *>((((SettingObj*)&(*reinterpret_cast<char *>(&::g_011d424c)))))->GetMenuTitle())));
-                            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
-                                                   (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
-                                                   (int)(0), 2.0f, false);
+                            ::DispatchMessageToSink((const char *)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
+                                                   (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
+                                                   (const char *)(0), 2.0f, false);
                             reinterpret_cast<::FUN_00950030_shell *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->FUN_00950030();
                             ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::Actor * *>(&::_g_thePlayer))))->GetBaseTexture()))->v352(1, 0, 0);
                             ::fnv_00704af0::FUN_00704af0();

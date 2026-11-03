@@ -62,28 +62,14 @@ NiRenderedTexture* NiRenderedTexture::Create(const NiFixedString& name, unsigned
     return texture;
 }
 
-// Declarations needed
-// InterlockedDecrement might be needed if not in headers, but let's assume it is or use a helper if needed.
-// The error log didn't complain about InterlockedDecrement, only LONG.
-
-
-// Need to declare InterlockedDecrement if it's not found.
-// extern "C" long __cdecl InterlockedDecrement(long*);
-
 // @fnv 0x00a7fd30
 void* DestroyRenderedTexture(NiRenderedTexture* self, int, unsigned char flags)
 {
-    void* p30 = *(void**)&self->m_spRenderTargetBuffer.m_pObject;
-    if (p30)
+    Ni2DBuffer* buffer = self->m_spRenderTargetBuffer.m_pObject;
+    if (buffer)
     {
-        // InterlockedDecrement((long*)((char*)p30 + 4))
-        // The assembly uses a call to an address.
-        // If I use InterlockedDecrement, it matches the semantics.
-        if (InterlockedDecrement((long*)((char*)p30 + 4)) == 0)
-        {
-            void** vtbl = *(void***)p30;
-            ((void(*)(void*))vtbl[1])(p30);
-        }
+        if (InterlockedDecrement((long*)&buffer->m_uiRefCount) == 0)
+            buffer->DeleteThis();
     }
 
     void* p24 = *(void**)&self->m_pTextureRendererData;
@@ -125,9 +111,9 @@ struct FUN_00a7fbe0_shell : public NiRenderedTexture
 // @fnv 0x00a7fbe0
 unsigned int FUN_00a7fbe0_shell::FUN_00a7fbe0()
 {
-    void* p = *reinterpret_cast<void**>(&this->m_spRenderTargetBuffer.m_pObject);
-    if (p)
-        return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(p) + 8);
+    Ni2DBuffer* buffer = m_spRenderTargetBuffer.m_pObject;
+    if (buffer)
+        return buffer->m_uiImageWidth;
     return 0;
 }
 
@@ -139,10 +125,9 @@ struct FUN_00a7fbf0_shell : public NiRenderedTexture
 // @fnv 0x00a7fbf0
 unsigned int FUN_00a7fbf0_shell::FUN_00a7fbf0()
 {
-    NiRenderedTexture* this_ = static_cast<NiRenderedTexture*>(this);
-    void* ptr = *reinterpret_cast<void**>(&this_->m_spRenderTargetBuffer.m_pObject);
-    if (ptr)
-        return *reinterpret_cast<unsigned int*>(reinterpret_cast<unsigned char*>(ptr) + 0xc);
+    Ni2DBuffer* buffer = m_spRenderTargetBuffer.m_pObject;
+    if (buffer)
+        return buffer->m_uiImageHeight;
     return 0;
 }
 

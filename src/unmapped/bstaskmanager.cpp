@@ -59,7 +59,7 @@ bool FUN_00c3fca0_Class::FUN_0044e050(InputValues* input)
     if (((Controller*)this)->valid(reinterpret_cast<::FUN_0044e0d0_Class *>((input))->GetValue64()))
     {
         ::WaitForSingleObjectEx(unk54 + item);
-        ::WaitForSingleObjectEx(&unk58);
+        ::WaitForSingleObjectEx(const_cast<long*>(&unk58));
         return true;
     }
     return false;

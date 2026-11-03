@@ -7921,7 +7921,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
         if (((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((pTarget))->FUN_00437bd0())) || pTarget->GetHasKnockedState() || reinterpret_cast<::FUN_004f8960_shell *>((pTarget))->FUN_004f8960() == 6)
         {
             sprintf(szLine, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((pTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingActivationText *>(&::g_011d210c))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(szLine), 0, (int)("Interfac\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f,
+            ::DispatchMessageToSink((const char *)(szLine), 0, (const char *)("Interfac\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (const char *)(0), 2.0f,
                         false);
             return false;
         }
@@ -7932,7 +7932,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                 reinterpret_cast<::FUN_00894d60_shell *>((static_cast<PlayerActivationQueries*>(::_g_thePlayer)))->FUN_00894d60())
             {
                 sprintf(szLine, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((pTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingActivationText *>(&::g_011d2538))))->GetMenuTitle())));
-                ::DispatchMessageToSink((int)(szLine), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), 2.0f,
+                ::DispatchMessageToSink((const char *)(szLine), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0), 2.0f,
                             false);
                 return false;
             }
@@ -8014,7 +8014,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
                         if (!pTarget->GetHasKnockedState() && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pTarget))->GetBaseTexture()))->HasCaughtPlayerPickpocketing())
                         {
                             sprintf(szLine, "%s %s", reinterpret_cast<::FUN_0055d520_shell *>((pTarget))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingActivationText *>(&::g_011d2394))))->GetMenuTitle())));
-                            ::DispatchMessageToSink((int)(szLine), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0),
+                            ::DispatchMessageToSink((const char *)(szLine), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (const char *)(0),
                                         2.0f, false);
                             return false;
                         }
@@ -8210,7 +8210,7 @@ bool TESNPCActivate::FUN_00607990(TESObjectREFR* apTargetRef, TESObjectREFR* apA
         {
             char szMessage[200];
             sprintf(szMessage, "%s %s", ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingActivationText *>(&::g_011cf594))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(szMessage), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(szMessage), 0, (const char *)(0), (const char *)(0), 2.0f, false);
             return false;
         }
         return true;

@@ -8,12 +8,14 @@ struct AlphaColor
 };
 struct FUN_006a7d30_shell
 {
+    char pad0000[0x1ff4];
+    AlphaColor m_kAlpha;
     void FUN_006a7d30(float f);
 };
 // @fnv 0x006a7d30
 void FUN_006a7d30_shell::FUN_006a7d30(float afValue)
 {
-    reinterpret_cast<::FUN_0052ce20_shell *>((((AlphaColor*)((char*)this + 0x1ff4))))->FUN_0052ce20(afValue);
+    reinterpret_cast<::FUN_0052ce20_shell *>(&m_kAlpha)->FUN_0052ce20(afValue);
 }
 
 struct CombatTargetTimestamp
@@ -32,13 +34,14 @@ extern int DAT_0106b660;
 
 struct GlobalObject_00869f00
 {
+    void* vfptr;
     void FUN_006a7f90();
 };
 
 // @fnv 0x006a7f90
 void GlobalObject_00869f00::FUN_006a7f90()
 {
-    *(int*)this = (int)&DAT_0106b660;
+    vfptr = &DAT_0106b660;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 

@@ -1865,8 +1865,8 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
         ActivateObject* destination = ((::ActivateObject *)(reinterpret_cast<::Selector *>(this)->FindRandomSelection((::Reference *)(reference), (int)(activator))));
         if (!destination)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011c9384)))))->GetMenuTitle()))), 0,
-                                  (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0, 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011c9384)))))->GetMenuTitle()))), 0,
+                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), 0, 2.0f, 0);
             return false;
         }
         FUN_00519810(reference, destination);
@@ -1901,8 +1901,8 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                         if (statePart1 &&
                             (reinterpret_cast<::LockExtraData *>((statePart1->extra))->GetLockLevel((::TESObjectREFR *)(reference)) == 5 || reinterpret_cast<::LockExtraData *>((statePart1->extra))->MeetsMinimumLockLevel()))
                         {
-                            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
-                                                  (int)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f,
+                            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
+                                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f,
                                                   0);
                             FUN_00706f30(18);
                         }
@@ -1945,7 +1945,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                     char message[256];
                     ::FUN_00406d00(message, 255, ((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d5110)))))->GetMenuTitle())),
                                  ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(lockA->key->name))->FUN_00408da0())));
-                    ::DispatchMessageToSink((int)(message), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_key.dds"), 0, 2.0f,
+                    ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_key.dds"), 0, 2.0f,
                                           0);
                     ((ActivateObject*)DAT_011c9350)->FUN_00573170((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)), 0, 0, 1);
                     DAT_011c9350 = 0;
@@ -1962,8 +1962,8 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                     if (statePart4 &&
                         (reinterpret_cast<::LockExtraData *>((statePart4->extra))->GetLockLevel((::TESObjectREFR *)(reference)) == 5 || reinterpret_cast<::LockExtraData *>((statePart4->extra))->MeetsMinimumLockLevel()))
                     {
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
-                                              (int)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f, 0);
+                        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011d276c)))))->GetMenuTitle()))), 0,
+                                              (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), 0, 2.0f, 0);
                         FUN_00706f30(18);
                     }
                     else

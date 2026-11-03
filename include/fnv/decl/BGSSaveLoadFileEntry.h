@@ -15,5 +15,5 @@ public:
     // 0x00846b30
     bool IsSaveEntryValid();
     // 0x00851ef0
-    void *FUN_00851ef0();
+    unsigned int FUN_00851ef0();
 };

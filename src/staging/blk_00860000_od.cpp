@@ -1236,10 +1236,10 @@ void FUN_00872df0(unsigned char value)
     DAT_011f9fc5 = value;
 }
 
-extern int DAT_01204368;
+extern void* DAT_01204368;
 void __cdecl FUN_00877960();
 // @fnv 0x00877950
-int __cdecl FUN_00877950()
+void* __cdecl FUN_00877950()
 {
     FUN_00877960();
     return DAT_01204368;
@@ -1579,13 +1579,13 @@ struct FUN_008779f0
     char data[0x114];
     FUN_008779f0();
 };
-extern int DAT_01204368;
+extern void* DAT_01204368;
 // Allocates a FUN_008779f0 instance and stores it in DAT_01204368 if that global is currently null.
 // @fnv 0x00877960
 void FUN_00877960()
 {
     if (!DAT_01204368)
-        DAT_01204368 = (int)new FUN_008779f0;
+        DAT_01204368 = new FUN_008779f0;
 }
 
 extern int DAT_01082f04;
@@ -7140,7 +7140,7 @@ void SaveScreenshot(const char* pcPath)
         {
             char acMessage[260];
             ::std::sprintf(acMessage, "ScreenShot: File '%s' created.", acPathCur);
-            ::DispatchMessageToSink((int)(acMessage), 0, (int)(0), (int)(0), 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(acMessage), 0, (const char *)(0), (const char *)(0), 2.0f, 0);
             *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SSCounter *>(&::g_011df124)))))) + 1;
             reinterpret_cast<::FUN_008798e0_shell *>((FUN_004de490()))->OpenAtPosition();
         }

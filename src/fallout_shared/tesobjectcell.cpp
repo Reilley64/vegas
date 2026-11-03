@@ -5782,15 +5782,15 @@ namespace fnv_00558ba0 {
 struct BGSPerkEntry
 {
     virtual ~BGSPerkEntry();
-    int GetInnerValue();
+    std::intptr_t GetInnerValue();
 };
 struct FUN_00558ba0_shell : public TESObjectCELL
 {
-    void FUN_00558ba0(int mask);
+    void FUN_00558ba0(std::intptr_t mask);
 };
 extern TESObjectCELL* _g_thePlayer;
 // @fnv 0x00558ba0
-void FUN_00558ba0_shell::FUN_00558ba0(int mask)
+void FUN_00558ba0_shell::FUN_00558ba0(std::intptr_t mask)
 {
     BGSPerkEntry* item3 = 0;
     BSSimpleList<BGSPerkEntry*>* list = ((::BSSimpleList< ::fnv_00558ba0::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>((this))->FUN_009604f0()));

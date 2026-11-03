@@ -74,25 +74,110 @@
 #include "fnv/symbols_01202000.h"
 #include "fnv/symbols_01203000.h"
 #include "fnv/symbols_01204000.h"
+#include "SettingT.h"
+class GlobalObject_0040c150 : public SettingT<GameSettingCollection>
+{
+  public:
+    GlobalObject_0040c150(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_0040e0b0 : public SettingT<GameSettingCollection>
+{
+  public:
+    GlobalObject_0040e0b0(const char* key, float value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_0044f440 : public SettingT<INISettingCollection>
+{
+  public:
+    GlobalObject_0044f440(const char* key, float value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_0045cf30 : public SettingT<INISettingCollection>
+{
+  public:
+    GlobalObject_0045cf30(const char* key, int value) : SettingT(key, value != 0)
+    {
+    }
+};
+class GlobalObject_0045cfe0 : public SettingT<INISettingCollection>
+{
+  public:
+    GlobalObject_0045cfe0(const char* key, int value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_0045d060 : public SettingT<SettingCollection_011f35a4>
+{
+  public:
+    GlobalObject_0045d060(const char* key, float value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_004a4a40 : public SettingT<SettingCollection_011f35a4>
+{
+  public:
+    GlobalObject_004a4a40(const char* key, int value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_004de2f0 : public SettingT<SettingCollection_011f35a4>
+{
+  public:
+    GlobalObject_004de2f0(const char* key, int value) : SettingT(key, value != 0)
+    {
+    }
+};
+class GlobalObject_004de370 : public SettingT<INIPrefSettingCollection>
+{
+  public:
+    GlobalObject_004de370(const char* key, float value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_00632ee0 : public SettingT<SettingCollection_011cc694>
+{
+  public:
+    GlobalObject_00632ee0(const char* key, float value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_00633000 : public SettingT<SettingCollection_011cc694>
+{
+  public:
+    GlobalObject_00633000(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_00709f00 : public SettingT<INIPrefSettingCollection>
+{
+  public:
+    GlobalObject_00709f00(const char* key, int value) : SettingT(key, value != 0)
+    {
+    }
+};
+class GlobalObject_00719c00 : public SettingT<INIPrefSettingCollection>
+{
+  public:
+    GlobalObject_00719c00(const char* key, int value) : SettingT(key, value)
+    {
+    }
+};
+class GlobalObject_00877f10 : public SettingT<SettingCollection_01204368>
+{
+  public:
+    GlobalObject_00877f10(const char* key, const char* value) : SettingT(key, value)
+    {
+    }
+};
 class GlobalObject_004037b0
 {
   public:
     GlobalObject_004037b0();
     ~GlobalObject_004037b0();
-    char storage[4];
-};
-class GlobalObject_0040c150
-{
-  public:
-    GlobalObject_0040c150(const char*, const char*);
-    ~GlobalObject_0040c150();
-    char storage[4];
-};
-class GlobalObject_0040e0b0
-{
-  public:
-    GlobalObject_0040e0b0(const char*, float);
-    ~GlobalObject_0040e0b0();
     char storage[4];
 };
 class GlobalObject_0041a250
@@ -115,39 +200,11 @@ class GlobalObject_0044dee0
     ~GlobalObject_0044dee0();
     char storage[4];
 };
-class GlobalObject_0044f440
-{
-  public:
-    GlobalObject_0044f440(const char*, float);
-    ~GlobalObject_0044f440();
-    char storage[4];
-};
 class GlobalObject_0044fae0
 {
   public:
     GlobalObject_0044fae0();
     ~GlobalObject_0044fae0();
-    char storage[4];
-};
-class GlobalObject_0045cf30
-{
-  public:
-    GlobalObject_0045cf30(const char*, int);
-    ~GlobalObject_0045cf30();
-    char storage[4];
-};
-class GlobalObject_0045cfe0
-{
-  public:
-    GlobalObject_0045cfe0(const char*, int);
-    ~GlobalObject_0045cfe0();
-    char storage[4];
-};
-class GlobalObject_0045d060
-{
-  public:
-    GlobalObject_0045d060(const char*, float);
-    ~GlobalObject_0045d060();
     char storage[4];
 };
 class GlobalObject_0045d260
@@ -168,13 +225,6 @@ class GlobalObject_0048f200
   public:
     GlobalObject_0048f200();
     ~GlobalObject_0048f200();
-    char storage[4];
-};
-class GlobalObject_004a4a40
-{
-  public:
-    GlobalObject_004a4a40(const char*, int);
-    ~GlobalObject_004a4a40();
     char storage[4];
 };
 class GlobalObject_004a9bf0
@@ -226,20 +276,6 @@ class GlobalObject_004d5c80
     ~GlobalObject_004d5c80();
     char storage[4];
 };
-class GlobalObject_004de2f0
-{
-  public:
-    GlobalObject_004de2f0(const char*, int);
-    ~GlobalObject_004de2f0();
-    char storage[4];
-};
-class GlobalObject_004de370
-{
-  public:
-    GlobalObject_004de370(const char*, float);
-    ~GlobalObject_004de370();
-    char storage[4];
-};
 class GlobalObject_004ee810
 {
   public:
@@ -287,20 +323,6 @@ class GlobalObject_00631850
   public:
     GlobalObject_00631850(int);
     ~GlobalObject_00631850();
-    char storage[4];
-};
-class GlobalObject_00632ee0
-{
-  public:
-    GlobalObject_00632ee0(const char*, float);
-    ~GlobalObject_00632ee0();
-    char storage[4];
-};
-class GlobalObject_00633000
-{
-  public:
-    GlobalObject_00633000(const char*, const char*);
-    ~GlobalObject_00633000();
     char storage[4];
 };
 class GlobalObject_00633c90
@@ -377,13 +399,6 @@ class GlobalObject_006ffcf0
     GlobalObject_006ffcf0(int, int, int, int);
     char storage[4];
 };
-class GlobalObject_00709f00
-{
-  public:
-    GlobalObject_00709f00(const char*, int);
-    ~GlobalObject_00709f00();
-    char storage[4];
-};
 class GlobalObject_00709f80
 {
   public:
@@ -395,13 +410,6 @@ class GlobalObject_00719b80
   public:
     GlobalObject_00719b80();
     ~GlobalObject_00719b80();
-    char storage[4];
-};
-class GlobalObject_00719c00
-{
-  public:
-    GlobalObject_00719c00(const char*, int);
-    ~GlobalObject_00719c00();
     char storage[4];
 };
 class GlobalObject_0072ce30
@@ -527,13 +535,6 @@ class GlobalObject_00869f00
   public:
     GlobalObject_00869f00(int, int);
     ~GlobalObject_00869f00();
-    char storage[4];
-};
-class GlobalObject_00877f10
-{
-  public:
-    GlobalObject_00877f10(const char*, const char*);
-    ~GlobalObject_00877f10();
     char storage[4];
 };
 class GlobalObject_00878030

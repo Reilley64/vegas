@@ -13,7 +13,6 @@
 #include "fnv/decl/FileMatchList.h"
 #include "fnv/decl/PatrolActorPackageData.h"
 #include "fnv/decl/RegionSource.h"
-#include "fnv/decl/Vec3.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
 #include "fnv/decl/fnv_00503210__Unk.h"
 #include "fnv/symbols_00401000.h"
@@ -23,6 +22,14 @@
 #include "fnv/symbols_005b5000.h"
 #include "fnv/symbols_011c3000.h"
 #include "tesregiondatasound_decls.h"
+#include "fnv/decl/FUN_004615d0_shell.h"
+#include "fnv/symbols_00944000.h"
+
+struct Arg_004727f0
+{
+    int* out;
+};
+
 // @fnv 0x004f4860
 bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
 {
@@ -38,7 +45,7 @@ bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
         unsigned int unused = 0;
         {
             unsigned int id = 0;
-            ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+            ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
             if (id)
             {
                 if (file->IsEndianConversionRequired())
@@ -54,14 +61,14 @@ bool TESRegionDataSound::LoadRegionSoundData(TESFile* file)
     }
     case 0x49534452: {
         unsigned int id = 0;
-        ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+        ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
         if (id)
             incidental = id;
         break;
     }
     case 0x42534452: {
         unsigned int id = 0;
-        ::ReadChunkInt((::TESFile *)(file), (::Arg_004727f0)(&id));
+        ::ReadChunkInt((::TESFile *)(file), ::Arg_004727f0{reinterpret_cast<int*>(&id)});
         reinterpret_cast<::Callees *>((reinterpret_cast<BSSimpleList<ScriptVariableInfo*>*>(&Battle)))->FUN_00905820(
             (void *)&(reinterpret_cast<ScriptVariableInfo* const&>(id)));
         break;
@@ -142,10 +149,6 @@ int FUN_00944480_shell::IntInRange(int aiMin, int aiMax)
 template <int N> struct EndianSizeTag
 {
 };
-struct Arg_004727f0
-{
-    int* out;
-};
 // Reads a 4-byte chunk value into a.out and byte-swaps it when endian conversion is required; returns whether the read succeeded.
 // @fnv 0x004727f0
 bool ReadChunkInt(TESFile* self, Arg_004727f0 aChunkArg)
@@ -205,14 +208,14 @@ struct MediaSet;
 struct C0084e3a0
 {
 };
-struct S004f4350
+struct S004f4350 : TESRegionDataSound
 {
     void SetMediaSet(MediaSet* ms);
 };
 // @fnv 0x004f4350
 void S004f4350::SetMediaSet(MediaSet* pMediaSet)
 {
-    *(unsigned int*)((char*)this + 0x14) = pMediaSet ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C0084e3a0*)pMediaSet)))->FUN_0084e3a0())) : 0;
+    incidental = pMediaSet ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((C0084e3a0*)pMediaSet)))->FUN_0084e3a0())) : 0;
 }
 
 struct F4390_standin
@@ -367,9 +370,9 @@ void F4BD0Owner::ClearItems()
 {
     F4BD0List* pkList = &m_kUnsortedGeometryList;
     F4BD0Item* pkItem = 0;
-    while (pkList && *((::F4BD0Item **)(new ((void *)(pkList)) ::Vec3())))
+    while (pkList && pkList->m_pkItem)
     {
-        pkItem = *((::F4BD0Item **)(new ((void *)(pkList)) ::Vec3()));
+        pkItem = pkList->m_pkItem;
         pkList->RemoveHead();
         delete pkItem;
         pkList = &m_kUnsortedGeometryList;
@@ -406,6 +409,8 @@ FUN_004f4520_cls::~FUN_004f4520_cls()
 
 template <class T> struct RegionListAccess
 {
+    T m_item;
+    RegionListAccess* m_pkNext;
     unsigned int FUN_005ae380();
     T& FUN_006815c0();
     RegionListAccess* FUN_00726070();
@@ -431,9 +436,9 @@ void RegionSoundWriter::WriteRegionSoundData()
     if (count)
     {
         RegionListAccess<unsigned int>* node = (RegionListAccess<unsigned int>*)&Battle;
-        for (unsigned int i = 0; node && ((unsigned int)(new ((void *)(node)) ::Vec3())) && i < count; i++)
+        for (unsigned int i = 0; node && node->m_item && i < count; i++)
         {
-            ::FUN_00485910(0x42534452, ((unsigned int)(new ((void *)(node)) ::Vec3())));
+            ::FUN_00485910(0x42534452, node->m_item);
             node = ((::RegionListAccess<unsigned int> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         }
     }
@@ -443,9 +448,9 @@ void RegionSoundWriter::WriteRegionSoundData()
     {
         RegionListAccess<RegionSoundEntry*>* records = (RegionListAccess<RegionSoundEntry*>*)&Sounds;
         RegionSoundEntry* node = new RegionSoundEntry[count];
-        for (unsigned int i = 0; records && ((::RegionSoundEntry *)(new ((void *)(records)) ::Vec3())) && i < count; i++)
+        for (unsigned int i = 0; records && records->m_item && i < count; i++)
         {
-            sound = ((::RegionSoundEntry *)(new ((void *)(records)) ::Vec3()));
+            sound = records->m_item;
             node[i] = *sound;
             records = ((::RegionListAccess< ::RegionSoundEntry *> *)(reinterpret_cast<::Callees *>((records))->FUN_00726070()));
         }
@@ -557,4 +562,45 @@ Obj4480* S004::CreateObj4480()
 {
     Obj4480* result = new Obj4480(this);
     return result;
+}
+
+struct FUN_004f4f90_node : BSSimpleList<unsigned int>
+{
+    void FUN_00905330(const unsigned int& item);
+    void FUN_005ae3d0(unsigned int* out);
+};
+
+struct FUN_004f4f90_shell : TESRegionDataSound
+{
+    TESForm* FUN_004f4f90();
+};
+
+// @fnv 0x004f4f90
+TESForm* FUN_004f4f90_shell::FUN_004f4f90()
+{
+    unsigned int found;
+    FUN_004f4f90_node* node7 = (FUN_004f4f90_node*)&Battle;
+    found = 0;
+    if (node7 != 0 && node7->item != 0)
+    {
+        while (node7 != 0 && node7->item != 0)
+        {
+            if (((int)(::GetRandomNumberInRange(0, 3))) == 0 || found == 0)
+            {
+                found = node7->item;
+            }
+            node7 = ((::FUN_004f4f90_node *)(reinterpret_cast<::Callees *>((node7))->FUN_00726070()));
+        }
+    }
+    else
+    {
+        return 0;
+    }
+    if (found != 0)
+    {
+        ((FUN_004f4f90_node*)&Battle)->FUN_00905330(found);
+        ((FUN_004f4f90_node*)&Battle)->FUN_005ae3d0(&found);
+        return ::FUN_004839c0(found);
+    }
+    return 0;
 }

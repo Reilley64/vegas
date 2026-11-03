@@ -301,6 +301,7 @@ class EffectSetting : public TESForm, public TESModel, public TESDescription, pu
     int FUN_004088c0();
     int QueueAssociatedItem();
     int NormalizeEffectLoadedCount();
+    void FUN_00407300();
 public:
     int GetArchetype();
 };

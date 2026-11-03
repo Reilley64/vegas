@@ -172,17 +172,17 @@ void InventoryMenu::UpdateDialog()
             {
                 if (ms_pActionPointSource && reinterpret_cast<::FUN_004bcdb0_shell *>((ms_pActionPointSource))->FUN_004bcdb0(true) == 0.0)
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810))))->GetMenuTitle()))), 0,
-                                           (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                           (int)("UIVATSInsufficientAP"), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810))))->GetMenuTitle()))), 0,
+                                           (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                           (const char *)("UIVATSInsufficientAP"), 2.0f, false);
                 }
                 else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::Tile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                          (ms_pActionPointSource &&
                           ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((ms_pActionPointSource))->GetName()))->GetFormType() == TESForm::kArmor))
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18))))->GetMenuTitle()))), 0,
-                                           (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                           (int)("UIVATSInsufficientAP"), 2.0f, false);
+                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18))))->GetMenuTitle()))), 0,
+                                           (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                           (const char *)("UIVATSInsufficientAP"), 2.0f, false);
                 }
                 else
                 {
@@ -1593,11 +1593,11 @@ void Menu75b::FUN_00780d60()
     if ((((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0)))) || ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::FUN_004839c0(0xccef2)))) &&
         ((Gp75*)::_g_thePlayer)->emb.v2(0x10) == ((Gp75*)::_g_thePlayer)->emb.v7(0x10))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
     }
     else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName())) == ((unsigned int)(::BGSDefaultObjectManager::GetDefaultObjectByIndex((::DEFAULT_OBJECT)(0x15)))) && !FUN_00780f70())
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2af0))))->IsDLCAvailable()))), 0, (const char *)(0), (const char *)(0), 2.0f, false);
     }
     else if (!reinterpret_cast<::FUN_004bddd0_shell *>((((Sh004bddd0*)(*reinterpret_cast<void * *>(&::InventoryMenu::ms_pActionPointSource)))))->FUN_004bddd0(false))
     {
@@ -2463,11 +2463,11 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
                 if (!::FUN_004b71d0())
                 {
                     if ((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource)) && reinterpret_cast<::FUN_004bcdb0_shell *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bcdb0(1) == 0.0)
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810)))))->GetMenuTitle()))), 2, (int)(0), (int)("UIVATSInsufficientAP"),
+                        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3810)))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)("UIVATSInsufficientAP"),
                                               2.0f, 0);
                     else if (!reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventorySelection::DAT_011d9ebc) ||
                              ((::fnv_00780140::VTForm *)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->GetName()))->FUN_00401170() == 0x19)
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 2, (int)(0), (int)("UIVATSInsufficientAP"),
+                        ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)("UIVATSInsufficientAP"),
                                               2.0f, 0);
                     else
                     {
@@ -2519,9 +2519,9 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             ::FUN_007800c0();
         }
         else
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 0,
-                                  (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                                  (int)("UIVATSInsufficientAP"), 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((VTSetting*)&(*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d1e18)))))->GetMenuTitle()))), 0,
+                                  (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
+                                  (const char *)("UIVATSInsufficientAP"), 2.0f, 0);
         break;
     case 10:
         UpdateCurrentValue();
@@ -2539,15 +2539,15 @@ void VTMenu::FUN_00780140(int m_uiSoundID, VTTile* pkTile)
             if (reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->IsTraitNonZero(::InventoryMenu::ms_iKeyringOpenTileID))
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_00780140::VTSoundHandle &)(((::fnv_00780140::VTAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIVATSInsufficientAP", 0x121)))->FUN_00ad8830(false);
             else if (pkRefOut->IsDeleted())
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d47a4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d47a4))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, 0);
             else if (reinterpret_cast<::FUN_008a7570_shell *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_008a7570() != -1 && reinterpret_cast<::FUN_004bddd0_shell *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_004bddd0(0))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d22c8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d22c8))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, 0);
             else if (reinterpret_cast<::OwnerObject *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_009337b0())
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d43e4))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d43e4))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, 0);
             else if (pkItem && reinterpret_cast<::FUN_00418b10_shell *>((pkItem))->FUN_00418b10() && reinterpret_cast<::FUN_00418ab0_shell *>((pkItem))->FUN_00418ab0(0))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d31f8))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d31f8))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, 0);
             else if (!reinterpret_cast<::fnv_009614b0::Player *>((((VTPlayer*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_009614b0((::fnv_009614b0::Bound *)(pkRefOut), (::fnv_009614b0::V3 *)(::fnv_00780140::VTPoint3 *)(&kPos), 1, 1))
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00780140::VTSetting *>(&::g_011d3d30))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, 0);
             else
             {
                 if ((int)((::fnv_00780140::VTTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_00780140::VTTarget * *>(&::InventoryMenu::ms_pActionPointSource))))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00780140::VTCounter *>(&::g_011d2418)))))))

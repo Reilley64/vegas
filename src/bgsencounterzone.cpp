@@ -129,7 +129,7 @@ void BGSEncounterZone::InitItem()
             unsigned int formID;
             TESForm* owner;
         } ownerResolution;
-        ownerResolution.formID = (unsigned int)Data.m_pOwnerForm;
+        ownerResolution.formID = static_cast<unsigned int>(reinterpret_cast<std::uintptr_t>(Data.m_pOwnerForm));
         ::ResolveFormID((unsigned int *)&(ownerResolution.formID), GetFile(-1));
         ownerResolution.owner = ::FUN_004839c0(ownerResolution.formID);
         if (!ownerResolution.owner)
@@ -147,6 +147,8 @@ class ExtraDataList
 class TESWorldSpace
 {
   public:
+    char pad[0xd0];
+    BGSEncounterZone* m_pEncounterZone;
 };
 class TESObjectREFR
 {
@@ -166,7 +168,7 @@ BGSEncounterZone* TESObjectREFR::FindEncounterZone()
         if (!zone)
         {
             if (((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70())))
-                zone = ((::BGSEncounterZone *)(reinterpret_cast<::FUN_00458400_cls *>((void *)(((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))))->GetFieldD0()));
+                zone = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()))->m_pEncounterZone;
         }
     }
     return zone;
@@ -257,7 +259,7 @@ void FUN_00525e70::Save()
     powner = this->Data.m_pOwnerForm;
     if (powner)
     {
-        *(unsigned int*)((char*)this + 0x18) = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((powner))->FUN_0084e3a0()));
+        Data.m_pOwnerForm = reinterpret_cast<TESForm*>(static_cast<std::uintptr_t>(static_cast<unsigned int>(reinterpret_cast<::FUN_0084e3a0_Class *>((powner))->FUN_0084e3a0())));
     }
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(Data))->FUN_00503210();
@@ -268,69 +270,31 @@ void FUN_00525e70::Save()
     reinterpret_cast<::Holder *>((reinterpret_cast<S00485680*>(this)))->FUN_00485680();
 }
 
-struct FUN_00526070_shell
+struct FUN_00526070_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_00526070(unsigned int arg);
 };
 // @fnv 0x00526070
 void FUN_00526070_shell::FUN_00526070(unsigned int arg)
 {
-    *(unsigned int*)((char*)this + 0x20) = arg;
-    v18(0x80000000);
+    GameData.m_uiDetachTime = arg;
+    MarkAsModified(0x80000000);
 }
 
-struct FUN_005260a0_shell
+struct FUN_005260a0_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_005260a0(unsigned int arg);
 };
 // @fnv 0x005260a0
 void FUN_005260a0_shell::FUN_005260a0(unsigned int uiValue)
 {
-    *(unsigned int*)((char*)this + 0x24) = uiValue;
-    if (*(unsigned int*)((char*)this + 0x20) != 0)
+    GameData.m_uiFirstValueAfterDetachTime = uiValue;
+    if (GameData.m_uiDetachTime != 0)
     {
-        if (*(unsigned int*)((char*)this + 0x24) - *(unsigned int*)((char*)this + 0x20) > ((unsigned int)(::fnv_00526100::FUN_00526100())))
-            *(unsigned int*)((char*)this + 0x28) = uiValue;
+        if (GameData.m_uiFirstValueAfterDetachTime - GameData.m_uiDetachTime > ((unsigned int)(::fnv_00526100::FUN_00526100())))
+            GameData.DetachTimeRecord = uiValue;
     }
-    v18(0x80000000);
+    MarkAsModified(0x80000000);
 }
 
 namespace fnv_00526100 {
@@ -351,50 +315,31 @@ struct FUN_00546af0_shell
 {
     unsigned int FUN_00546af0();
 };
-struct FUN_00526120_shell
+struct FUN_00526120_shell : BGSEncounterZone
 {
     bool FUN_00526120(FUN_00546af0_shell* other);
 };
-// Returns false if the value at offset 0x28 is zero, otherwise returns whether other's FUN_00546af0() result is below that value.
+// Returns false if the detach time record is zero, otherwise returns whether other's FUN_00546af0() result is below it.
 // @fnv 0x00526120
 bool FUN_00526120_shell::FUN_00526120(FUN_00546af0_shell* other)
 {
-    if (*(unsigned int*)((char*)this + 0x28) == 0)
+    if (GameData.DetachTimeRecord == 0)
         return false;
     unsigned int v = other->FUN_00546af0();
-    if (v < *(unsigned int*)((char*)this + 0x28))
+    if (v < GameData.DetachTimeRecord)
         return true;
     return false;
 }
 
-struct FUN_00526160_shell
+struct FUN_00526160_shell : BGSEncounterZone
 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual void v8();
-    virtual void v9();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18(unsigned int f);
     void FUN_00526160(unsigned short arg);
 };
 // @fnv 0x00526160
 void FUN_00526160_shell::FUN_00526160(unsigned short arg)
 {
-    *(unsigned short*)((char*)this + 0x2c) = arg;
-    v18(0x80000000);
+    GameData.m_usDetachRecordValue = arg;
+    MarkAsModified(0x80000000);
 }
 
 struct FUN_00526160_s
@@ -434,7 +379,7 @@ bool FUN_005262a0(BGSEncounterZone* apZone)
         }
         else
         {
-            unsigned int next = ((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apZone)))->FUN_007af430()));
+            unsigned int next = apZone->GameData.m_uiDetachTime;
             if (next)
             {
                 unsigned int now = (*reinterpret_cast<::Calendar *>(&::g_011de7b8)).GetGameHoursPassed();
@@ -450,14 +395,14 @@ bool FUN_005262a0(BGSEncounterZone* apZone)
     return result;
 }
 
-struct FUN_00526320_shell
+struct FUN_00526320_shell : BGSEncounterZone
 {
     bool FUN_00526320();
 };
 // @fnv 0x00526320
 bool FUN_00526320_shell::FUN_00526320()
 {
-    return (*(signed char*)((char*)this + 0x1e) & 1) ? true : false;
+    return (Data.cFlags & 1) ? true : false;
 }
 
 struct FormChangeMask
@@ -482,12 +427,12 @@ void FUN_00526410::SaveGame(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned char ctempFlags;
     reinterpret_cast<::FakeForm *>((reinterpret_cast<S00484d60*>(this)))->SaveIfChanged(apSaveGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         ctempFlags = *(signed char*)&this->Data.cFlags & 1;
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&ctempFlags, 1, 0);
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(static_cast<int>(0x80000000)))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)&this->GameData, 0x10, 0);
     }
@@ -511,8 +456,8 @@ struct FUN_00526570_shell : BGSEncounterZone
 // @fnv 0x00526570
 void FUN_00526570_shell::RevertAndClearIfChanged(BGSLoadFormBuffer* pLoadBuffer)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<unsigned int>(pLoadBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00526570::FormChangeMask &)(pLoadBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(reinterpret_cast<std::uintptr_t>(pLoadBuffer));
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_00526570::FormChangeMask &)(pLoadBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(static_cast<int>(0x80000000)))
         memset((char*)&this->GameData, 0, 0x10);
 }
 }  // namespace fnv_00526570
@@ -536,14 +481,14 @@ void FUN_005264a0_shell::FUN_005264a0(BGSLoadFormBuffer* apLoadGameBuffer)
 
     TESForm::LoadGame(apLoadGameBuffer);
 
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         ctempFlags = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&ctempFlags), 1);
         this->Data.cFlags = (this->Data.cFlags & ~1) | (this->Data.cFlags & 1);
     }
 
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(static_cast<int>(0x80000000)))
     {
         if (apLoadGameBuffer->GetVersion() >= 8)
         {

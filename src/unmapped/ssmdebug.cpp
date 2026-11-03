@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/FUN_00420ba0_Class.h"
 #include "fnv/decl/FUN_00483c70_shell.h"
 #include "fnv/decl/FUN_004aaf10_shell.h"
@@ -353,7 +354,7 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
             reinterpret_cast<::FUN_00420ba0_Class *>((pkDead))->FUN_00420ba0(0);
             reinterpret_cast<::fnv_005de0a0::FUN_005de0a0_shell *>((pkDead))->FUN_005de0a0(0x400, 0);
         }
-        reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::GcManager * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(pkRef));
+        reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::GcManager * *>(&::g_modelLoader))))->FUN_00445570(reinterpret_cast<std::uintptr_t>(pkRef));
         reinterpret_cast<::FUN_00483c70_shell *>((pkRef))->FUN_00483c70();
         if (reinterpret_cast<::FUN_00549580_shell *>((((::GcBaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkRef))->FUN_007af430()))))->FUN_00549580())
         {
@@ -371,12 +372,12 @@ void __cdecl FUN_00867f90(GcRef* pkRef)
             }
             else
             {
-                reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de8bc))))->FUN_008693c0((int)(&pkRef));
+                reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de8bc))))->FUN_008693c0(reinterpret_cast<std::intptr_t>(&pkRef));
             }
         }
         else
         {
-            reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de874))))->FUN_008693c0((int)(&pkRef));
+            reinterpret_cast<::FUN_008693c0_shell *>(&((*reinterpret_cast<::GcRefList *>(&::g_011de874))))->FUN_008693c0(reinterpret_cast<std::intptr_t>(&pkRef));
         }
     }
 }

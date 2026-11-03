@@ -4472,6 +4472,7 @@ struct NiUpdateData
     bool b3;
     bool b4;
 public:
+    NiUpdateData() = default;
     NiUpdateData(float, bool, bool);
 };
 struct NiNode : NiAVObject
@@ -152340,7 +152341,6 @@ struct RagdollUpdateController {
 };
 extern void* DAT_010c4ddc;
 extern const float DAT_010c4df8;
-extern const float DAT_01022958;
 struct RefTarget {
     virtual void unused();
     virtual void destroy();
@@ -153239,7 +153239,6 @@ void __cdecl NiFree(void* p);
 
 struct MM {
 };
-extern MM _g_memoryManager;
 typedef __m128 ReviewedVector;
 struct ReviewedRTTI { const char* name; ReviewedRTTI* parent; };
 struct ReviewedNode {
@@ -153306,7 +153305,7 @@ struct ReviewedRecord {
     ReviewedVector transform2;
     unsigned short index;
     static void* operator new(std::size_t size) {
-        unsigned char* allocation = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(DAT_011f6238))->FUN_00aa3e40(size + 16);
+        unsigned char* allocation = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size + 16);
         unsigned char adjustment = 16 - ((unsigned int)allocation & 15);
         allocation += adjustment;
         allocation[-1] = adjustment;
@@ -153869,7 +153868,7 @@ void AnimationOwner::FUN_00c7e3b0()
     for (unsigned int i = 0; i < records.m_uiSize; ++i) {
         BoneRecord* r = records.m_pBase[i];
         if (r)
-            reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
+            reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(reinterpret_cast<char*>(r) - reinterpret_cast<unsigned char*>(r)[-1]);
     }
     records.RemoveAll();
 
@@ -154006,6 +154005,32 @@ class hkVector4CDA
     }
     void SetRotatedDirection(const hkQuaternionCDA& q, const hkVector4CDA& dir);
     void setRotatedInverseDir(const hkQuaternionCDA& q, const hkVector4CDA& dir);
+};
+class hkQuaternionCDA
+{
+  public:
+    hkVector4CDA m_vec;
+
+    __forceinline void SetConjugate(const hkQuaternionCDA& q)
+    {
+        m_vec.m_vComponents = _mm_xor_ps(q.m_vec.m_vComponents, DAT_010c4c00);
+    }
+    __declspec(noinline) void SetProduct(const hkQuaternionCDA& q0, const hkQuaternionCDA& q1)
+    {
+        __m128 a = q0.m_vec.m_vComponents;
+        __m128 b = q1.m_vec.m_vComponents;
+        __m128 cross = _mm_sub_ps(
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
+            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2))));
+        __m128 aw = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 bw = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 3, 3, 3));
+        __m128 imag = _mm_add_ps(_mm_mul_ps(bw, a), _mm_add_ps(_mm_mul_ps(aw, b), cross));
+        __m128 prod = _mm_mul_ps(b, a);
+        __m128 dot = _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(2, 2, 2, 2)),
+                                _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(1, 1, 1, 1)), prod));
+        __m128 real = _mm_sub_ps(prod, _mm_shuffle_ps(dot, dot, 0));
+        m_vec.m_vComponents = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), _MM_SHUFFLE(3, 0, 1, 0));
+    }
 };
 class hkQsTransformCDA
 {
@@ -154357,6 +154382,24 @@ struct Quat {
     __forceinline void SetConjugate(const Quat& q) { m_vec.bits.quad = _mm_xor_ps(q.m_vec.bits.quad, ::DAT_010c4c00); }
     void FUN_00c66320(const Quat* a, const Quat* b);
 };
+static __forceinline ::__m128 LoadScalar(const float* f) { ::__m128 t=_mm_load_ss(f); return _mm_shuffle_ps(t,t,0); }
+__forceinline ::__m128 Dot3(const V4& a, const V4& b) {
+    ::__m128 p = _mm_mul_ps(a.bits.quad, b.bits.quad);
+    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
+}
+__forceinline void RotateDir(V4& out, const Quat& quat, const V4& dir, bool inverse) {
+    V4 qreal; qreal.bits.quad = _mm_shuffle_ps(quat.m_vec.bits.quad, quat.m_vec.bits.quad, 0xff);
+    V4 q2minus1; q2minus1.bits.quad = _mm_add_ps(_mm_mul_ps(qreal.bits.quad, qreal.bits.quad), ::DAT_010c71e0);
+    V4 ret; ret.setMul4(dir, q2minus1);
+    ::__m128 d = Dot3(dir, quat.m_vec);
+    V4 dd; dd.bits.quad = _mm_mul_ps(_mm_shuffle_ps(d, d, 0), quat.m_vec.bits.quad);
+    ret.add4(dd);
+    V4 cr;
+    if (inverse) cr.setCross(dir, quat.m_vec); else cr.setCross(quat.m_vec, dir);
+    V4 crw; crw.setMul4(cr, qreal);
+    ret.add4(crw);
+    out.setAdd4(ret, ret);
+}
 struct PoseTransform { V4 translation; Quat rotation; V4 scale;
  __forceinline PoseTransform& operator=(const PoseTransform& rhs) { translation=rhs.translation; rotation.m_vec=rhs.rotation.m_vec; scale=rhs.scale; return *this; }
  __forceinline void SetConjugate(const PoseTransform& t) {
@@ -154673,7 +154716,7 @@ struct XObj
 void FUN_00c7d810_Cls::FUN_00c7d810()
 {
     Xform nitrans = *(Xform*)((char*)(*(void**)((char*)this + 0x58)) + 0x68);
-    nitrans.rot = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_00c7d810::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)((char*)this + 0x60)))->operator+((const ::ThreeByThreeMatrix &)(nitrans.rot));
+    *reinterpret_cast<::ThreeByThreeMatrix *>(&(nitrans.rot)) = reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::fnv_00c7d810::ThreeByThreeMatrix &)(*(ThreeByThreeMatrix*)((char*)this + 0x60)))->operator+((const ::ThreeByThreeMatrix &)(nitrans.rot));
     nitrans.s = 1.0f;
     ::FUN_00c74dd0((::C74QsTransform *)(void *)((char*)this + 0x10), (const ::C74Transform *)(void *)(&nitrans));
     reinterpret_cast<::PoseOwner *>(this)->FUN_00c79680();
@@ -155448,13 +155491,29 @@ void __cdecl FUN_00cb9650(FUN_00cb9650_Object* object)
         }
     }
 }
+struct RagControllerState
+{
+    char pad000[0x43];
+    unsigned char controlFlag;
+    char pad044[0xb1 - 0x44];
+    unsigned char activeFlag;
+    char pad0b2[0xb3 - 0xb2];
+    unsigned char stateFlag;
+    char pad0b4[0x120 - 0xb4];
+    __m128 poseA;
+    unsigned char dirtyA;
+    char pad131[0x170 - 0x131];
+    __m128 poseB;
+    unsigned char dirtyB;
+};
 // @fnv 0x00c75580
 void RagController::FUN_00c75580(unsigned char enabled)
 {
+    RagControllerState* self = reinterpret_cast<RagControllerState*>(this);
     int state;
-    if (controlFlag() == 0)
+    if (self->controlFlag == 0)
     {
-        if (activeFlag() != 0 && enabled != 0)
+        if (self->activeFlag != 0 && enabled != 0)
         {
             state = 1;
         }
@@ -155465,15 +155524,15 @@ void RagController::FUN_00c75580(unsigned char enabled)
     }
     else
     {
-        state = stateFlag();
+        state = self->stateFlag;
     }
-    stateFlag() = (unsigned char)state;
+    self->stateFlag = (unsigned char)state;
     if (enabled == 0)
     {
-        poseA() = ::DAT_010c71b0;
-        poseB() = ::DAT_010c71b0;
-        dirtyB() = 1;
-        dirtyA() = 1;
+        self->poseA = ::DAT_010c71b0;
+        self->poseB = ::DAT_010c71b0;
+        self->dirtyB = 1;
+        self->dirtyA = 1;
     }
 }
 
@@ -157293,7 +157352,6 @@ struct ArrowScale
 struct ArrowMemory
 {
 };
-extern ArrowMemory _g_memoryManager;
 struct ArrowPoint
 {
     float x, y, z;
@@ -157475,7 +157533,7 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
             n3 = differenceD;
             q = reinterpret_cast<::NiPoint3 *>((void *)&(n3))->ComputeMagnitude();
         }
-        vertexAllocation2 = (ArrowPoint*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(60);
+        vertexAllocation2 = (ArrowPoint*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(60);
         pForm2 = vertexAllocation2 ? (ConstructPoints(vertexAllocation2), vertexAllocation2) : 0;
         connections = pForm2;
         originJ.x = 0;
@@ -157495,7 +157553,7 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         connections[4] = left5;
         if (!color)
             color = &(*reinterpret_cast<::ArrowColor *>(&::DAT_012032f8));
-        constructionResult = (ArrowColor*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(96);
+        constructionResult = (ArrowColor*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(96);
         aColorResult = constructionResult ? (ConstructColors(constructionResult), constructionResult) : 0;
         normalizedC = aColorResult;
         normalizedC[0] = *color;
@@ -157515,7 +157573,7 @@ ArrowGeometry* __cdecl FUN_00c59a50(const ArrowPoint& direction, const ArrowColo
         c.b = 0;
         c.a = 1;
         normalizedC[4] = c;
-        connectionResult4 = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(6);
+        connectionResult4 = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(6);
         vertexResult = connectionResult4;
         vertexResult[0] = 1;
         vertexResult[1] = 0;
@@ -159285,24 +159343,6 @@ void* __cdecl _fnv_zlib_memset(void* dst, int val, unsigned int n);
 
 extern "C" {
 }
-static __forceinline ::__m128 LoadScalar(const float* f) { ::__m128 t=_mm_load_ss(f); return _mm_shuffle_ps(t,t,0); }
-__forceinline ::__m128 Dot3(const V4& a, const V4& b) {
-    ::__m128 p = _mm_mul_ps(a.bits.quad, b.bits.quad);
-    return _mm_add_ss(_mm_shuffle_ps(p, p, 0xaa), _mm_add_ss(_mm_shuffle_ps(p, p, 0x55), p));
-}
-__forceinline void RotateDir(V4& out, const Quat& quat, const V4& dir, bool inverse) {
-    V4 qreal; qreal.bits.quad = _mm_shuffle_ps(quat.m_vec.bits.quad, quat.m_vec.bits.quad, 0xff);
-    V4 q2minus1; q2minus1.bits.quad = _mm_add_ps(_mm_mul_ps(qreal.bits.quad, qreal.bits.quad), ::DAT_010c71e0);
-    V4 ret; ret.setMul4(dir, q2minus1);
-    ::__m128 d = Dot3(dir, quat.m_vec);
-    V4 dd; dd.bits.quad = _mm_mul_ps(_mm_shuffle_ps(d, d, 0), quat.m_vec.bits.quad);
-    ret.add4(dd);
-    V4 cr;
-    if (inverse) cr.setCross(dir, quat.m_vec); else cr.setCross(quat.m_vec, dir);
-    V4 crw; crw.setMul4(cr, qreal);
-    ret.add4(crw);
-    out.setAdd4(ret, ret);
-}
 struct MatrixNine { float xx,xy,xz,yx,yy,yz,zx,zy,zz; };
 struct NiTransform_o2_nood_rtm { MatrixNine rotation; float x,y,z,scale; public:
     ::NiTransform_o2_nood_rtm operator*(const ::NiTransform_o2_nood_rtm &) const;
@@ -159367,8 +159407,6 @@ __declspec(noinline) void Quat::FUN_00c66320(const Quat* a,const Quat* b) {
     FUN_00cb1260(this,&result,sizeof(result));
 }
 
-struct ReviewedMemory {  };
-extern ReviewedMemory DAT_011f6238;
 inline bool IsKindOfType(const ReviewedRTTI* target, ReviewedNode* object) {
     return object && object->IsKindOfType(target);
 }
@@ -159632,35 +159670,6 @@ struct PoseState_o2_gs_nogs
     void FUN_00cda4c0();
 };
 
-
-
-
-class hkQuaternionCDA
-{
-  public:
-    hkVector4CDA m_vec;
-
-    __forceinline void SetConjugate(const hkQuaternionCDA& q)
-    {
-        m_vec.m_vComponents = _mm_xor_ps(q.m_vec.m_vComponents, DAT_010c4c00);
-    }
-    __declspec(noinline) void SetProduct(const hkQuaternionCDA& q0, const hkQuaternionCDA& q1)
-    {
-        __m128 a = q0.m_vec.m_vComponents;
-        __m128 b = q1.m_vec.m_vComponents;
-        __m128 cross = _mm_sub_ps(
-            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 1, 0, 2)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 0, 2, 1))),
-            _mm_mul_ps(_mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 0, 2, 1)), _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 1, 0, 2))));
-        __m128 aw = _mm_shuffle_ps(a, a, _MM_SHUFFLE(3, 3, 3, 3));
-        __m128 bw = _mm_shuffle_ps(b, b, _MM_SHUFFLE(3, 3, 3, 3));
-        __m128 imag = _mm_add_ps(_mm_mul_ps(bw, a), _mm_add_ps(_mm_mul_ps(aw, b), cross));
-        __m128 prod = _mm_mul_ps(b, a);
-        __m128 dot = _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(2, 2, 2, 2)),
-                                _mm_add_ss(_mm_shuffle_ps(prod, prod, _MM_SHUFFLE(1, 1, 1, 1)), prod));
-        __m128 real = _mm_sub_ps(prod, _mm_shuffle_ps(dot, dot, 0));
-        m_vec.m_vComponents = _mm_shuffle_ps(imag, _mm_unpackhi_ps(imag, real), _MM_SHUFFLE(3, 0, 1, 0));
-    }
-};
 
 __forceinline void hkVector4CDA::SetRotatedDirection(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
 {

@@ -146,9 +146,9 @@ void* FUN_00c9d490_Class::FUN_00c9d490(int flags)
 }
 
 // @fnv 0x00c9c020
-int FUN_00c9c020(int param_1)
+void* FUN_00c9c020(hkpEntity* entity)
 {
-    return param_1 + 0xac;
+    return &entity->m_eSmallArraySerializeOverrideType;
 }
 
 struct CpuObject
@@ -158,7 +158,7 @@ struct CpuObject
 // @fnv 0x00c9c030
 char* CpuObject::FUN_00c9c030()
 {
-    return reinterpret_cast<char*>(this) + 172;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpEntity*>(this)->m_eSmallArraySerializeOverrideType);
 }
 
 namespace fnv_00c9c3f0 {
@@ -169,7 +169,7 @@ struct CpuObject
 // @fnv 0x00c9c3f0
 char* CpuObject::FUN_00c9c3f0()
 {
-    return reinterpret_cast<char*>(this) + 180;
+    return reinterpret_cast<char*>(&reinterpret_cast<hkpEntity*>(this)->m_kSlaveConstraints);
 }
 }  // namespace fnv_00c9c3f0
 
@@ -627,8 +627,8 @@ MotionStateObject* MotionStateObject::FUN_00c9d100(int enabled)
     if (enabled != 0)
     {
         *reinterpret_cast<volatile float*>(&enabled) = 1.0f;
-        *reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 0x11e) =
-            static_cast<unsigned short>(enabled >> 16);
+        reinterpret_cast<hkpMotion*>(this)->m_fGravityFactor =
+            static_cast<hkHalf>(enabled >> 16);
     }
     m_ppVirtualMethodTable = &DAT_010c6bec;
     return this;
@@ -1045,6 +1045,8 @@ struct S00c92a80_Obj
     virtual void v14();
     virtual void v18();
     virtual void v1c(int a, int b, void* c, void* d, int n);
+    int unk04[5];
+    float m_f18;  // +0x18
 };
 
 struct __declspec(align(16)) S00c92a80_Range
@@ -1074,8 +1076,8 @@ struct S00c92a80_cls
 // @fnv 0x00c92a80
 void S00c92a80_cls::FUN_00c92a80(int a0, int a1)
 {
-    float b = *(float*)((char*)obj + 0x18);
-    float a = *(float*)((char*)obj + 0x18);
+    float b = obj->m_f18;
+    float a = obj->m_f18;
     S00c92a80_Range r(b, a);
     obj->v1c(a0, a1, this, &r, 1);
 }
@@ -1116,6 +1118,15 @@ void c9bfd0_caller(c9bfd0_base* self)
     (void)FUN_00c9bfd0(self, c9bfd0_out_val());
 }
 
+// hkpSimulationIsland bit fields in the byte at +0x26.
+struct IslandActivationBits
+{
+    char pad00[0x26];
+    unsigned char m_isInActiveIslandsArray : 2;
+    unsigned char m_activeMark : 2;
+    unsigned char m_tmpActiveMark : 2;
+    unsigned char m_inIntegrateJob : 2;
+};
 struct FUN_00c9bff0_Class
 {
     int unk00;
@@ -1183,7 +1194,7 @@ unsigned char* FUN_00c9bff0_Class::FUN_00c9bff0(unsigned char* out)
         *out = 0;
         return out;
     }
-    *out = (((unsigned char*)m_cc)[0x26] >> 2) & 3;
+    *out = static_cast<IslandActivationBits*>(m_cc)->m_activeMark;
     return out;
 }
 
@@ -2049,7 +2060,7 @@ class FinishableBase
     {
         if (flag.m_bFinishing)
         {
-            PackedHalf* scale = (PackedHalf*)((char*)this + 0x11e);
+            PackedHalf* scale = reinterpret_cast<PackedHalf*>(&reinterpret_cast<hkpMotion*>(this)->m_fGravityFactor);
             *scale = 1.0f;
         }
     }

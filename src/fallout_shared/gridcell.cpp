@@ -1431,7 +1431,7 @@ void Grid::FUN_004baf10()
 
     if (bAllEmpty7)
     {
-        ::FUN_00451570((void *)(((unsigned int)(reinterpret_cast<::CLS_004bc240 *>((((::Holder *)(::GetDefaultFullMaskTextureProperty()))))->FUN_004bc240()))));
+        ::FUN_00451570((void *)(((std::uintptr_t)(reinterpret_cast<::CLS_004bc240 *>((((::Holder *)(::GetDefaultFullMaskTextureProperty()))))->FUN_004bc240()))));
         return;
     }
     else if (bAllLoaded7)
@@ -1492,7 +1492,7 @@ void Grid::FUN_004baf10()
     ObjPtr spMeshB(new RTex(0x63, 1, 0x2f7));
     reinterpret_cast<::FUN_004a0fd0_shell *>(&(kVis))->FUN_004a0fd0((::NiNode *)(::Obj *)(spMeshB.operator->()));
     reinterpret_cast<::_Dummy_004bc4a0 *>(((spMeshB).operator->()))->SetAccumulate(false);
-    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((unsigned int)(reinterpret_cast<::BSRenderedTexture *>(((spRT).operator->()))->GetGroup()))));
+    ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((std::uintptr_t)(reinterpret_cast<::BSRenderedTexture *>(((spRT).operator->()))->GetGroup()))));
     ::FUN_00b6bee0(spData_.operator->(), m_pMenuLightParameters.operator->(), (::BSShaderAccumulator *)(::VisArray *)(&kVis));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::Obj *)(spData_.operator->()), (::BSShaderAccumulator *)(::Obj *)(spMeshB.operator->()), 0);
     ::BSRenderedTexture::EndAllAndResetRendererState();

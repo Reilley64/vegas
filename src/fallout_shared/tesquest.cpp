@@ -304,7 +304,7 @@ BGSQuestObjective* TESQuest::GetObjective(unsigned int index)
     while (search.objectives && !search.objectives->IsEmpty())
     {
         BGSQuestObjective* objective = (search.objectives->m_item);
-        if (objective && ((unsigned int)(reinterpret_cast<::Callees *>((objective))->FUN_00726070())) == index)
+        if (objective && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((objective))->FUN_00726070())) == index)
             return objective;
         search.objectives = ((::BSSimpleList< ::BGSQuestObjective *> *)(reinterpret_cast<::Callees *>((search.objectives))->FUN_00726070()));
     }
@@ -1829,7 +1829,7 @@ void QuestShell::FUN_0060d720()
         m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((((::ScriptX *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->FUN_005abf60();
     }
 
-    ::FUN_00619b60((int)(this));
+    ::FUN_00619b60((std::intptr_t)(this));
     reinterpret_cast<::TESQuest *>(this)->SetEnabled(reinterpret_cast<::FUN_0060d8d0_shell *>(this)->HasFlag0x10());
     reinterpret_cast<::FUN_0060ca30_shell *>(this)->FUN_0060ca30(false);
     reinterpret_cast<::FUN_0060caf0_shell *>(this)->FUN_0060caf0(false);

@@ -80,7 +80,7 @@ bool GameSettingCollection::ReadSetting(Setting& setting)
 bool GameSettingCollection::ReadSetting(TESFile* file, const char* key)
 {
     bool result = false;
-    reinterpret_cast<::FUN_004f8a60_class *>(this)->SetField108((int)(file));
+    reinterpret_cast<::FUN_004f8a60_class *>(this)->SetField108((std::intptr_t)(file));
     {
         Setting* setting = ((::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>(this)->FUN_004f8a30((std::intptr_t)(((const char *)(::FUN_00464f30((std::intptr_t)(key))))))));
         if (setting)
@@ -151,9 +151,9 @@ struct Holder004f8800 : Base00404fd0
 unsigned int Holder004f8800::AddGameSettingsStrings(NiTPrimitiveArray_unsigned_int_* apStrings)
 {
     unsigned int I;
-    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(const unsigned int &)((unsigned int)::FUN_00a7d330("GameSettings")));
+    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((unsigned int)::FUN_00a7d330("GameSettings")));
     I = FUN_00404fd0(apStrings);
-    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(const unsigned int &)((unsigned int)FUN_00a7d510("Total GameSettings", I)));
+    reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(const unsigned int &)((unsigned int)FUN_00a7d510("Total GameSettings", I)));
     return I;
 }
 
@@ -884,7 +884,7 @@ void __cdecl FUN_00c4bf40(Source* source, Plane* plane, NiCamera* dest)
     reinterpret_cast<::FUN_004a0c10_s *>(&(direction6))->FUN_004a0c10();
     NiPoint3R axis7 = FUN_004a3760((float)(2.0 * reinterpret_cast<::FUN_004b6190_shell *>((void *)&(plane->normal))->DotProduct((void *)&(direction6))), plane->normal) - direction6;
     NiMatrix3R matrix;
-    reinterpret_cast<::FUN_00476980_S *>(&(matrix))->FUN_00476980((int)&(axisA), (int)&(axis7), (int)&(axis2));
+    reinterpret_cast<::FUN_00476980_S *>(&(matrix))->FUN_00476980((std::intptr_t)&(axisA), (std::intptr_t)&(axis7), (std::intptr_t)&(axis2));
     dest->position = reflected6;
     dest->rotation = matrix;
     dest->scale = Abs(source->scale);

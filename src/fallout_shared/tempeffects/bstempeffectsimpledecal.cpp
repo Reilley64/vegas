@@ -393,7 +393,7 @@ void FUN_0068b220_shell::FUN_0068b220()
     {
         int i;
 
-        for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xf8)))->GetName())); ++i)
+        for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0xf8)))->GetName())); ++i)
         {
             delete reinterpret_cast<Date*>(
                 reinterpret_cast<Arr*>(reinterpret_cast<unsigned char*>(this) + 0xf8)->GetAt(i)[0]);
@@ -632,7 +632,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
         }
         pDecalTarget = ((::DecalTarget *)(reinterpret_cast<::FUN_009611e0_shell *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_009611e0()));
         if (pDecalTarget)
-            reinterpret_cast<::FUN_004ee560_shell *>((pDecalTarget))->FUN_004ee560((int)(this));
+            reinterpret_cast<::FUN_004ee560_shell *>((pDecalTarget))->FUN_004ee560((std::intptr_t)(this));
     }
     return changed;
 }
@@ -1907,7 +1907,7 @@ bool DecalBuilder::AddDecalGeometry(int count, int* paiIndices, DecalPoint* poin
         }
         else
         {
-            for (unsigned jA = 0; jA < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(vertices))->GetName())); ++jA)
+            for (unsigned jA = 0; jA < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(vertices))->GetName())); ++jA)
             {
                 if (::AreVectorsEqual((const float *)(const ::DecalPoint *)(&points[i]), (const float *)(vertices.FUN_00877a30(jA)), 0.01f))
                 {
@@ -2200,7 +2200,7 @@ struct Param
 struct Sub28
 {
     int dummy;
-    void FUN_0066b0d0(int);
+    void FUN_0066b0d0(std::intptr_t);
 };
 struct StrObj
 {
@@ -2443,7 +2443,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
             }
             reinterpret_cast<::ResizeMesh *>(this)->ResizeMeshBuffers();
             tValue0 = ((int)(reinterpret_cast<::B68CA90Builder *>(this)->FUN_0068ca90()));
-            m_28.FUN_0066b0d0(((int)(::CreateB68CA10Object(tValue0))));
+            m_28.FUN_0066b0d0(((std::intptr_t)(::CreateB68CA10Object(tValue0))));
             if (((void *)(::FUN_00559450((int *)&(m_28)))))
             {
                 m_kNodeCollection[0].p = 0;

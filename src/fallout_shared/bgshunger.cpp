@@ -296,7 +296,7 @@ void FUN_00591e10_shell::InitDehydrationStage()
         reinterpret_cast<::S_00462230 *>((reinterpret_cast<FUN_005a71d0*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00462230();
     }
 
-    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<int>(this) + 0x18), 8);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(this) + 0x18), 8);
 
     if (((bool)(::FUN_00401500())))
     {

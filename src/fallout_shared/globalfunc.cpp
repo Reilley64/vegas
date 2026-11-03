@@ -1029,13 +1029,13 @@ void __cdecl FUN_004b6740(NiAVObject* apObject, char* data)
     if ((*(unsigned int*)(data + 0x18) & 1) && FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_0126817c)), apObject))
         return;
     if ((*(unsigned int*)(data + 0x18) & 2) &&
-        FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), (NiAVObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName()))))
+        FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_011f9140)), (NiAVObject*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName()))))
         return;
-    if ((*(unsigned int*)(data + 0x18) & 2) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())) &&
-        ((BSFadeNode*)((TESTopicInfoData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
+    if ((*(unsigned int*)(data + 0x18) & 2) && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())) &&
+        ((BSFadeNode*)((TESTopicInfoData*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
             ->FUN_0043b1b0() &&
         !FUN_00408b20(
-            (const char*)((BSFadeNode*)((TESTopicInfoData*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
+            (const char*)((BSFadeNode*)((TESTopicInfoData*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR*)apObject)))->GetName())))->GetLinkToList())
                 ->FUN_0043b1b0(),
             "Arrow"))
         return;
@@ -2511,7 +2511,7 @@ void FUN_004b68a0(ArrSI* object, FUN_004b68a0_data* data)
         FUN_0043b300(reinterpret_cast<const NiRTTI*>(&(*reinterpret_cast<const void *const *>(&::g_011f9140))), reinterpret_cast<NiAVObject*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))))
         return;
 
-    if ((data->field_18 & 2) && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())) &&
+    if ((data->field_18 & 2) && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())) &&
         reinterpret_cast<BSFadeNode*>(reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((object))->GetName())))->GetLinkToList())
             ->FUN_0043b1b0())
     {
@@ -2566,7 +2566,7 @@ void __cdecl ProcessObjectMatch(NiAVObject* object, FUN_004b6a00_data* data)
 
     if (data->field_18 & 2)
     {
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
         {
             if (reinterpret_cast<BSFadeNode*>(
                     reinterpret_cast<TESTopicInfoData*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(object)))->GetName())))
@@ -2799,7 +2799,7 @@ int FUN_004b6b60(NiAVObject* pkRoot, void* pvUserData)
     kContext.pUserData = pvUserData;
     kContext.pAuxiliaryData = reinterpret_cast<void*>(-1);
     ::FUN_00c68900((::S_00c68900_Node *)(pkRoot), (::S_00c68900_Context *)(::CollisionObjectCountContext *)(&kContext), (void (*)(void *, S_00c68900_Context *))(((void (&)(NiCollisionObject *, CollisionObjectCountContext *))::fnv_004b6bc0::FUN_004b6bc0)));
-    return reinterpret_cast<int>(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<int>(kContext.pAuxiliaryData) : -1;
+    return (int)(std::uintptr_t)(kContext.pAuxiliaryData) != -1 ? reinterpret_cast<int>(kContext.pAuxiliaryData) : -1;
 }
 
 class FUN_004b6ce0_cls
@@ -3671,7 +3671,7 @@ bool __cdecl IsBoundVisible(NiBound* pkBound, NiCamera* pkCamera)
 
     if (s_pkLastCamera != pkCamera || s_uiLastFrame != reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00())
     {
-        reinterpret_cast<::SearchObject *>(&(g_kFrustumPlanes))->FUN_00a755d0((unsigned int)(pkCamera));
+        reinterpret_cast<::SearchObject *>(&(g_kFrustumPlanes))->FUN_00a755d0((std::uintptr_t)(pkCamera));
         s_uiLastFrame = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobalS *>(&::g_timeGlobal))))->FUN_00825c00();
         s_pkLastCamera = pkCamera;
     }
@@ -4338,7 +4338,7 @@ void FUN_00ba5de0(OutBa* a1, int unused)
         c = (p->f1c == 0x11);
     }
     unsigned int mask = (c != 0) ? 0xffffffffu : 0u;
-    InBa* sel = (InBa*)(mask & (unsigned int)p);
+    InBa* sel = (InBa*)(mask & (unsigned int)(std::uintptr_t)p);
     int arr[8];
     arr[0] = 7;
     arr[1] = 1;
@@ -4492,11 +4492,11 @@ struct FUN_00c86800_Table
 
 struct FUN_00c86800_Class : S86870
 {
-    void FUN_00c86800(int a1, FUN_00c86800_Table* a2);
+    void FUN_00c86800(std::intptr_t a1, FUN_00c86800_Table* a2);
 };
 
 // @fnv 0x00c86800
-void FUN_00c86800_Class::FUN_00c86800(int a1, FUN_00c86800_Table* a2)
+void FUN_00c86800_Class::FUN_00c86800(std::intptr_t a1, FUN_00c86800_Table* a2)
 {
     char key;
     FUN_00c86800_Link* link = (FUN_00c86800_Link*)GetLink(&key);
@@ -4992,7 +4992,7 @@ void FUN_00c871c0_cls::FUN_00c871c0(bool flag)
         if (p != 0)
         {
             unsigned char len = (unsigned char)p[-1];
-            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00c871c0_pool *>(&::g_memoryManager))))->FUN_00aa4060((void *)((int)(p - len)));
+            reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00c871c0_pool *>(&::g_memoryManager))))->FUN_00aa4060((void *)((std::intptr_t)(p - len)));
         }
         m_0c = 0;
     }
@@ -5918,7 +5918,7 @@ AllocatedNode* FUN_00c87010_cls::FUN_00c87010(FUN_00c86800_Table* p)
     ScopedAllocationMode mode;
     FUN_00c876f0();
     AllocatedNode* node = new AllocatedNode();
-    FUN_00c86800((int)node, p);
+    FUN_00c86800((std::intptr_t)node, p);
     FUN_00c87700();
     return node;
 }
@@ -6115,7 +6115,7 @@ class __declspec(align(16)) Aligned7100
     static void* operator new(std::size_t uiSize)
     {
         unsigned char* pucMem = (unsigned char*)reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManager7100 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize + 0x10);
-        unsigned char ucOffset = (unsigned char)(0x10 - ((unsigned int)pucMem & 0xf));
+        unsigned char ucOffset = (unsigned char)(0x10 - ((unsigned int)(std::uintptr_t)pucMem & 0xf));
         pucMem += ucOffset;
         pucMem[-1] = ucOffset;
         return pucMem;

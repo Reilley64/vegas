@@ -344,7 +344,7 @@ void FUN_0058c4d0_shell::FUN_0058c4d0()
     reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_obj*)((char*)this + 0x18))))->WriteToBuffer((char *)(0x4C444F4D), (void *)(0x54444F4D));
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0058c3c0_shell *>((((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))))->FUN_0058c3c0();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x38)), 0x28);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x38)), 0x28);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0058c3c0_shell *>((((BGSCameraShot__CAMERA_SHOT_DATA*)((char*)this + 0x38))))->FUN_0058c3c0();
     ((FUN_00487450_shell*)((char*)this + 0x30))->FUN_00487450();
@@ -726,7 +726,7 @@ void ShotThis::SetupCamera(void* param1, int iMode)
     void* myFoundPtr;
     if (model.FUN_0048cee0())
     {
-        m_spPositionNode.FUN_0066b0d0((void*)((int)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((::g_modelLoader))->FUN_00447080((char *)(model.vfn_14()), 0, 1, 1, 0, 0))));
+        m_spPositionNode.FUN_0066b0d0((void*)((std::intptr_t)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((::g_modelLoader))->FUN_00447080((char *)(model.vfn_14()), 0, 1, 1, 0, 0))));
     }
     myFoundPtr = ((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))
                      ? ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<int *>(&::g_011f4a18))), (::NiObject *)(void *)((void*)((int)(reinterpret_cast<::S_FUN_0045bc00 *>((((::CamNodeX *)(::FUN_00559450((int *)&(m_spPositionNode))))))->FUN_0045bc00(0)))))))

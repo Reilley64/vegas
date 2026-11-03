@@ -771,7 +771,7 @@ ProjResult* ProjShell::CreateOrClone(ProjRef* apRef, bool abVal)
                 ProjNiObject* p3D = Get3D(apRef);
                 if (p3D && reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::ProjDataHandler * *>(&::g_dataHandler))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((apRef))->FUN_0084e3a0()))) && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>(((*reinterpret_cast<::ProjSaveLoad * *>(&::g_BGSSaveLoadGame))))->FUN_0042ce10())
                 {
-                    pResult4 = ((::ProjResult *)(reinterpret_cast<::FUN_004b0ba0_cls *>((((::ProjCache *)(::GetOrCreateInstance(true)))))->FUN_004b0ba0((unsigned int)(p3D))));
+                    pResult4 = ((::ProjResult *)(reinterpret_cast<::FUN_004b0ba0_cls *>((((::ProjCache *)(::GetOrCreateInstance(true)))))->FUN_004b0ba0((std::uintptr_t)(p3D))));
                 }
                 if (!pResult4)
                 {

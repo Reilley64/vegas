@@ -326,7 +326,7 @@ struct FUN_004a9600_shell
 // @fnv 0x004a9600
 void* FUN_004a9600_shell::FUN_004a9600(void* arg)
 {
-    reinterpret_cast<::FUN_004a98e0_class *>(this)->FUN_004a98e0((int)(arg));
+    reinterpret_cast<::FUN_004a98e0_class *>(this)->FUN_004a98e0((std::intptr_t)(arg));
     m_0000 = (int)&DAT_0101ed0c;
     return this;
 }
@@ -438,7 +438,7 @@ extern GlobalObject2_0045cfe0 g_011c5c04;
 int FUN_004a9050()
 {
     int iValue = *((int *)&(::FUN_0043d4d0((int *)&(g_011c5b20))));
-    if (!((int)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)g_TES)))->GetPrevPath())))
+    if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)g_TES)))->GetPrevPath())))
     {
         TESWorldSpace* pworld = ((::TESWorldSpace *)(reinterpret_cast<::EffectSetting *>((((TESSaveLoadGame*)g_TES)))->GetHitSound()));
         TESWorldSpace* pLODworld;
@@ -572,7 +572,7 @@ void FUN_004a8230_shell::ResetAndProcessNode(NiNode* node, bool includeAddonNode
     reinterpret_cast<::FUN_00438af0_Class *>(&(g_011c5be8))->FUN_00438af0();
     reinterpret_cast<::FUN_00438af0_Class *>(&(g_011c5ad0))->FUN_00438af0();
 
-    if (includeAddonNodes && DAT_0118868d && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011c5ab4))->GetName())) == 0)
+    if (includeAddonNodes && DAT_0118868d && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011c5ab4))->GetName())) == 0)
         reinterpret_cast<::LoadScenes *>((this))->LoadSceneModels();
 
     ::FUN_00403d30((char*)this + 4, 0, 0x40);
@@ -626,7 +626,7 @@ void NavMeshSearchLOSArray::InsertAt(unsigned int index, const SearchRecord& val
         unsigned int fresh = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>((((S5460*)this)))->FUN_009a3910()));
         SearchRecord* newCapacity = Allocate(fresh);
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(newCapacity), (char *)(data), index);
-        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(newCapacity + index), 1);
+        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((std::intptr_t)(newCapacity + index), 1);
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(::SearchRecord *)(newCapacity + index + 1), (char *)(::SearchRecord *)(data + index), count - index);
         ::FUN_006a8500((::DummyClass_006a8500 *)this);
         data = newCapacity;
@@ -635,7 +635,7 @@ void NavMeshSearchLOSArray::InsertAt(unsigned int index, const SearchRecord& val
     else
     {
         reinterpret_cast<::FUN_004a9b50_Class *>(this)->CopyBlocks((char *)(::SearchRecord *)(data + index + 1), (char *)(::SearchRecord *)(data + index), count - index);
-        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((int)(data + index), 1);
+        reinterpret_cast<::FUN_004a9ab0_cls *>(this)->ConstructScanItems((std::intptr_t)(data + index), 1);
     }
     count = count + 1;
     data[index] = value;
@@ -889,7 +889,7 @@ void SceneCounter::AccumulateSceneStats(SceneOwner* owner)
                 unsigned int j2 = ((unsigned short)(reinterpret_cast<::FUN_004a8090_shell *>((b))->CallTargetV36()));
                 if (((int)(reinterpret_cast<::FUN_0049ec60 *>((b))->GetNext())))
                     e2 += j2 * 12;
-                if (((int)(reinterpret_cast<::This_004a8050 *>((b))->GetNextProc())))
+                if (((std::intptr_t)(reinterpret_cast<::This_004a8050 *>((b))->GetNextProc())))
                     e2 += j2 * 16;
                 if (((int)(reinterpret_cast<::FUN_004a8030_shell *>((b))->FUN_004a8030())))
                     e2 += j2 * 12;
@@ -1050,7 +1050,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 StatExtra* extra = (StatExtra*)((void *)(::FUN_00653270((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_01202de8))), (::NiObject *)(node3))));
                 int index = ::FUN_009ee040((char *)(extra));
                 if (index >= 0 && index < (int)reinterpret_cast<::BSFaceGenMorphData *>((DAT_011c3f2c))->DynamicCast() &&
-                    index < ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((StatMap*)&g_011c5ab4)))->GetName())))
+                    index < ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((StatMap*)&g_011c5ab4)))->GetName())))
                 {
                     for (int i = 0; i < 16; i++)
                     {
@@ -1199,7 +1199,7 @@ void SceneStatistics::AccumulateSceneStatistics(StatObject* object, int* output,
                 if (particle)
                 {
                     StatObject* manager = ((::fnv_004a82d0::StatObject *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
-                    if (manager && ((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (int)(particle), {}))))
+                    if (manager && ((std::intptr_t)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(manager), (int)(particle), {}))))
                         counts[12]++;
                 }
             }
@@ -1273,7 +1273,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
         reinterpret_cast<::LowProcess *>((scene))->SetCurrentCombatTarget((::TESObjectREFR *)(cell));
         reinterpret_cast<::FUN_004a8230_shell *>((scene))->ResetAndProcessNode(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0(), addons, false);
         reinterpret_cast<::SceneCounter *>((scene))->AccumulateSceneStats((::SceneOwner *)(cell));
-        reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((int)(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), (int)(cell), 0);
+        reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((std::intptr_t)(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), (std::intptr_t)(cell), 0);
         map.FUN_005ae3d0(scene);
     }
     else
@@ -1292,7 +1292,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
                     FUN_004a7c40* cell2 = new FUN_004a7c40;
                     reinterpret_cast<::LowProcess *>((cell2))->SetCurrentCombatTarget((::TESObjectREFR *)(scene2));
                     reinterpret_cast<::FUN_004a8230_shell *>((cell2))->ResetAndProcessNode(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0(), addons, false);
-                    reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((int)(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0()), (int)(scene2), 0);
+                    reinterpret_cast<::FUN_004aa3d0_shell *>(&(list))->SetValueAndCall((std::intptr_t)(reinterpret_cast<::FUN_00545cb0_shell *>((scene2))->FUN_00545cb0()), (std::intptr_t)(scene2), 0);
                     reinterpret_cast<::SceneCounter *>((cell2))->AccumulateSceneStats((::SceneOwner *)(scene2));
                     map.FUN_005ae3d0(cell2);
                 }
@@ -1465,7 +1465,7 @@ int __cdecl FUN_004a9240(Node* node)
     if (node == 0)
         return 0;
     int count = 0;
-    switch (((int)(::fnv_0043b230::FUN_0043b230((const char *)(node)))))
+    switch (((int)(std::uintptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(node)))))
     {
     case 3:
         return 1;

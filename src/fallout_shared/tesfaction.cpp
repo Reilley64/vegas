@@ -240,7 +240,7 @@ struct Dummy_0048bf50
 // @fnv 0x005fd3b0
 int FUN_005fd3b0_shell::FUN_005fd3b0(TESFaction* pFaction)
 {
-    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)static_cast<TESReactionForm *>(this))))->FindValueByKey((int)(pFaction));
+    return reinterpret_cast<::FUN_0048bf50_cls *>((((Dummy_0048bf50*)static_cast<TESReactionForm *>(this))))->FindValueByKey((std::intptr_t)(pFaction));
 }
 
 struct Sub005fd430
@@ -516,7 +516,7 @@ void FUN_005fd5c0_shell::FUN_005fd5c0(unsigned int aiFlags)
     reinterpret_cast<::PC7d *>((((FUN_0051b070_shell*)this)))->FUN_00484c20(aiFlags);
     ((S24*)((char*)this + 0x24))->WriteReactionList(aiFlags);
     if (aiFlags & 2)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((unsigned int)((char*)this + 0x34)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((((PC7d*)this)))->FUN_00484ce0((void *)((std::uintptr_t)((char*)this + 0x34)), 4);
 }
 
 struct TESFormStub
@@ -745,7 +745,7 @@ void FUN_005fd210_shell::FUN_005fd210(TESForm* apCopy)
             return;
         reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
         __memcpy((char*)&this->data, ::FUN_006a9540((char *)(((NiAVObject*)faction))), 4);
-        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)this)))->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)faction)))))));
+        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)this)))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)faction)))))));
         ClearReactions();
         pDestRankList = ((::BSSimpleList< ::FactionRankPresentation *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
         {

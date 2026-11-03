@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiFixedString;
 class NiPoint3;
@@ -13,7 +14,7 @@ struct Mgr;
 // 0x0057d0a0
 namespace TerrainLOD { void FUN_0057d0a0(::TerrainLOD::Point3, ::TerrainLOD::Point3, float); }
 // 0x0057d4f0
-void FUN_0057d4f0(::Mgr *, int, ::NiPoint3, ::NiPoint3, float, float, float);
+void FUN_0057d4f0(::Mgr *, std::intptr_t, ::NiPoint3, ::NiPoint3, float, float, float);
 // 0x0057dd70
 float FUN_0057dd70(float);
 // 0x0057de00

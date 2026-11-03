@@ -323,6 +323,6 @@ void FUN_006174d0_shell::CopyResponse(TESResponse* apCopy)
 {
     __memcpy(this, &(*(::BSStringT<char> *)((void *)(((DialogueResponse*)apCopy)))), 24);
     reinterpret_cast<::TextString *>(&(s))->FUN_004037f0(apCopy->GetDialogueText(), 0);
-    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apCopy)))->FUN_007af430()))));
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apCopy)))->FUN_007af430()))));
     ((TESRecipe*)this)->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<::ActorMover *>((((BSThread*)apCopy)))->GetCurrentMoveModeType()));
 }

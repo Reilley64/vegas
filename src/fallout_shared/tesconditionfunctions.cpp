@@ -2151,7 +2151,7 @@ bool __cdecl FUN_0059f3c0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         pnpc = reinterpret_cast<TESActorBase*>(((::fnv_0059f3c0::TESObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<TESObject*>(apRefObject)))->FUN_007af430())));
     }
-    if (pnpc && pnpc->GetSex() == reinterpret_cast<int>(apParam1))
+    if (pnpc && pnpc->GetSex() == (int)(std::uintptr_t)(apParam1))
     {
         afReturnValue = 1.0;
     }
@@ -4857,7 +4857,7 @@ bool FUN_005a5270(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
         {
             void* pprocess = ((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TESH*)pactor)))->GetBaseTexture()));
             pweapon = ((IC * (*)(void*))(*(void***)pprocess)[0x52])(pprocess);
-            if (pweapon && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapon)))->GetName())) != DAT_011ca278)
+            if (pweapon && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapon)))->GetName())) != DAT_011ca278)
                 *afReturnValue = reinterpret_cast<::FUN_004bcdb0_shell *>((pweapon))->FUN_004bcdb0(true);
             else
                 *afReturnValue = g_d100;
@@ -4923,7 +4923,7 @@ bool __cdecl FUN_0059cf50(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (apRefObject)
     {
         *afReturnValue = 0.0;
-        if ((reinterpret_cast<::TESForm *>((((RefH*)apRefObject)))->GetDisabled() && !::fnv_005aa680::FUN_005aa680((::Actor *)((int)apRefObject))) ||
+        if ((reinterpret_cast<::TESForm *>((((RefH*)apRefObject)))->GetDisabled() && !::fnv_005aa680::FUN_005aa680((::Actor *)((std::intptr_t)apRefObject))) ||
             ::fnv_005aa630::FUN_005aa630((Actor*)apRefObject))
             *afReturnValue = 1.0;
     }
@@ -6567,17 +6567,17 @@ bool __cdecl FUN_0059d610(TESObject* reference, TESObject* actor1, TESObject* ac
     pnpc1 = 0;
     if (reference)
     {
-        if (((FNV_GetFormTypeHelper*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
+        if (((FNV_GetFormTypeHelper*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
         {
-            pnpc1 = (TESNPC*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
+            pnpc1 = (TESNPC*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         }
     }
     pnpc2 = 0;
     if (actor1)
     {
-        if (((FNV_GetFormTypeHelper*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
+        if (((FNV_GetFormTypeHelper*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430())))->_FNV_GetFormType() == 0x2a)
         {
-            pnpc2 = (TESNPC*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430()));
+            pnpc2 = (TESNPC*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor1))->FUN_007af430()));
         }
     }
     if (pnpc1 && pnpc2 && pnpc1->GetSex() == pnpc2->GetSex())
@@ -7621,7 +7621,7 @@ class BaseProcess
     virtual void GetActorFaceGenData();
     virtual InventoryStackRecord* GetActiveWeapon();
 };
-int _FNV_GetFormType(unsigned int);
+int _FNV_GetFormType(std::uintptr_t);
 void _DebugLog(const char*, ...);
 
 // @fnv 0x005a05e0
@@ -7636,8 +7636,8 @@ bool __cdecl FUN_005a05e0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     {
         InventoryStackRecord* pweapdata = ((BaseProcess*)((void *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((TES*)pactor)))->GetBaseTexture())))->GetActiveWeapon();
         TESObjectWEAP* pweap = 0;
-        if (pweapdata && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName())) && _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()))) == 0x28)
-            pweap = (TESObjectWEAP*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()));
+        if (pweapdata && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName())) && _FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()))) == 0x28)
+            pweap = (TESObjectWEAP*)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pweapdata)))->GetName()));
         if (!pweap)
             pweap = (TESObjectWEAP*)::DAT_011ca278;
         if (pweap)
@@ -11465,7 +11465,7 @@ bool __cdecl FUN_0059f240(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
 namespace fnv_0059f300 {
 extern unsigned int __tls_index;
-extern int _FNV_GetFormType(unsigned int form);
+extern int _FNV_GetFormType(std::uintptr_t form);
 extern void __cdecl _DebugLog(const char* format, double value);
 
 struct TESObject
@@ -11489,9 +11489,9 @@ bool __cdecl FUN_0059f300(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject)
     {
-        if (_FNV_GetFormType(((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()))) == 0x2b)
+        if (_FNV_GetFormType(((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()))) == 0x2b)
         {
-            pcreature = (TESCreature*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()));
+            pcreature = (TESCreature*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefObject)))->FUN_007af430()));
         }
     }
 
@@ -11808,7 +11808,7 @@ bool __cdecl FUN_005a0800(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         pactor = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(p3d)))->FUN_0043fcd0()));
 
         proot = reinterpret_cast<NiAVObject*>(
-            ((::fnv_005a0800::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((reinterpret_cast<FUN_00571550_shell*>(p3d)))->FUN_00571530((::fnv_00571530::NiAVObject *)(pactor), (::fnv_00571530::NiFixedString *)(reinterpret_cast<int>(((::fnv_005a0800::NiFixedString *)(::FUN_005a07f0()))))))));
+            ((::fnv_005a0800::Model *)(reinterpret_cast<::fnv_00571530::FUN_00571530_shell *>((reinterpret_cast<FUN_00571550_shell*>(p3d)))->FUN_00571530((::fnv_00571530::NiAVObject *)(pactor), (::fnv_00571530::NiFixedString *)(reinterpret_cast<std::intptr_t>(((::fnv_005a0800::NiFixedString *)(::FUN_005a07f0()))))))));
 
         if (!proot || ::fnv_00c6b860::FUN_00c6b860((::fnv_00c6b860::FUN_00c6b860_Object *)(::fnv_005a0800::Model *)(reinterpret_cast<Model*>(proot)), 0))
             afReturnValue = 1.0;
@@ -13308,7 +13308,7 @@ bool __cdecl FUN_005a1ee0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
         Actor* pTarget = reinterpret_cast<Actor*>(apParam1);
         if (pActor && pTarget)
         {
-            afReturnValue = reinterpret_cast<::FUN_008a81e0_Class *>((reinterpret_cast<FUN_008a81e0_shell*>(pActor)))->FUN_008a81e0((int)(pTarget));
+            afReturnValue = reinterpret_cast<::FUN_008a81e0_Class *>((reinterpret_cast<FUN_008a81e0_shell*>(pActor)))->FUN_008a81e0((std::intptr_t)(pTarget));
 
             if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
             {
@@ -14448,7 +14448,7 @@ struct FUN_005a3e10_TLSData
 extern int __tls_index;
 
 void __cdecl _DebugLog(const char* format, double value);
-int FUN_00573110(int thisPointer);
+int FUN_00573110(std::intptr_t thisPointer);
 
 struct FUN_005a3e10_VirtualActor
 {
@@ -14527,7 +14527,7 @@ bool __cdecl FUN_005a3e10(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     if (reinterpret_cast<FUN_005a3e10_VirtualActor*>(apRefObject)->IsEssentialActor())
     {
         Actor* pactor = reinterpret_cast<Actor*>(apRefObject);
-        afReturnValue = static_cast<double>(FUN_00573110(reinterpret_cast<int>(pactor)));
+        afReturnValue = static_cast<double>(FUN_00573110(reinterpret_cast<std::intptr_t>(pactor)));
     }
 
     if ((*reinterpret_cast<::fnv_005a3e10::FUN_005a3e10_TLSData *>(&::g_tlsBlock)).debugLogEnabled)
@@ -15287,7 +15287,7 @@ bool __cdecl FUN_005a5460(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject && ((FUN_005a5460_StandIn*)apRefObject)->IsEssentialActor())
     {
-        afReturnValue = reinterpret_cast<::xActor *>((((FUN_005a5460_StandIn*)apRefObject)))->FUN_008bd830((int)(ptargetRef), 1.5707963705062866f);
+        afReturnValue = reinterpret_cast<::xActor *>((((FUN_005a5460_StandIn*)apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 1.5707963705062866f);
     }
 
     if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
@@ -15384,7 +15384,7 @@ bool __cdecl FUN_005a54f0(TESObjectREFR* apRefObject, void* apParam1, void* apPa
 
     if (apRefObject && ((FUN_005a54f0_Object*)apRefObject)->FUN_005a54f0_check())
     {
-        afReturnValue = reinterpret_cast<::xActor *>((((FUN_008bd830_Caller*)apRefObject)))->FUN_008bd830((int)(ptargetRef), 4.71238899f);
+        afReturnValue = reinterpret_cast<::xActor *>((((FUN_008bd830_Caller*)apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 4.71238899f);
     }
 
     if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)))
@@ -15481,7 +15481,7 @@ bool __cdecl FUN_005a5610(TESObjectREFR* apRefObject, void* apParam1, void* apPa
     ptargetRef = static_cast<TESObjectREFR*>(apParam1);
 
     if (apRefObject && reinterpret_cast<VirtualActor*>(apRefObject)->IsEssentialActor())
-        afReturnValue = ((double)(reinterpret_cast<::xActor *>((reinterpret_cast<VirtualActor*>(apRefObject)))->FUN_008bd830((int)(ptargetRef), 0.0f)));
+        afReturnValue = ((double)(reinterpret_cast<::xActor *>((reinterpret_cast<VirtualActor*>(apRefObject)))->FUN_008bd830((std::intptr_t)(ptargetRef), 0.0f)));
 
     if ((*reinterpret_cast<unsigned char (*)[617]>(&::g_tlsBlock))[0x268])
         _DebugLog("VATSFrontAreaFree >> %.2f", afReturnValue);
@@ -16127,7 +16127,7 @@ bool __cdecl IsWeaponSkillType(TESObjectREFR* reference, void* aiSkillType, void
     {
         weapon = ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<P01ObjA*>(reference)))->FUN_007af430()));
     }
-    if (weapon == 0 && reinterpret_cast<int>(aiSkillType) == 45)
+    if (weapon == 0 && reinterpret_cast<std::intptr_t>(aiSkillType) == 45)
     {
         result = 1.0;
     }
@@ -16135,7 +16135,7 @@ bool __cdecl IsWeaponSkillType(TESObjectREFR* reference, void* aiSkillType, void
     {
         return false;
     }
-    if (weapon != 0 && reinterpret_cast<int>(aiSkillType) == ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<FUN_008d85e0_Obj*>(weapon)))->GetUnk15C())))
+    if (weapon != 0 && (int)(std::uintptr_t)(aiSkillType) == ((int)(reinterpret_cast<::FUN_008d85e0_Class *>((reinterpret_cast<FUN_008d85e0_Obj*>(weapon)))->GetUnk15C())))
     {
         result = 1.0;
     }
@@ -16549,7 +16549,7 @@ bool __cdecl FUN_005a3b20(TESObjectREFR* reference, void* pAction, void* pUnused
 {
     result = 0.0;
     void* action = pAction;
-    result = reinterpret_cast<::FUN_00963ce0_StandIn *>(((*reinterpret_cast<::fnv_005a3b20::PlayerCharacter * *>(&::_g_thePlayer))))->HasAction((int)(action));
+    result = reinterpret_cast<::FUN_00963ce0_StandIn *>(((*reinterpret_cast<::fnv_005a3b20::PlayerCharacter * *>(&::_g_thePlayer))))->HasAction((std::intptr_t)(action));
     if (::bConditionFunctionDebug)
     {
         DebugLog("IsActionInList >> %0.2f", result);
@@ -18623,12 +18623,12 @@ bool FUN_005a0f90(ActorC* apActor, FormC* apVictim, void* aiCrimeType, double& r
     {
         if (e > -1 && e < 5)
         {
-            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((int)(pActor), (int)(pVictim), (int)(pActor), e, 0, -1))
+            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((std::intptr_t)(pActor), (std::intptr_t)(pVictim), (std::intptr_t)(pActor), e, 0, -1))
                 result = 1;
         }
         else
         {
-            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((int)(pActor), (int)(pVictim), (int)(pActor), -1, 0, -1))
+            if (reinterpret_cast<::S_972600_Lists *>(&((*reinterpret_cast<::fnv_005a0f90::CrimeC *>(&::g_011e0e80))))->HasMatchingCrime((std::intptr_t)(pActor), (std::intptr_t)(pVictim), (std::intptr_t)(pActor), -1, 0, -1))
                 result = 1;
         }
     }
@@ -19207,7 +19207,7 @@ class VatsH
 bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
 {
     afHeight = 0;
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a25f0::VatsH *>(&::g_011f2250))))->GetName())) == 4)
+    if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_005a25f0::VatsH *>(&::g_011f2250))))->GetName())) == 4)
     {
         TgtH* pTarget = ((::fnv_005a25f0::TgtH *)(reinterpret_cast<::ListHolder *>(&((*reinterpret_cast<::fnv_005a25f0::VatsH *>(&::g_011f2250))))->FUN_009c71c0()));
         if (pTarget && ::FUN_0066dde0(pTarget->m0))
@@ -19229,7 +19229,7 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
                         BodyPartH* pBodyPart = ((::fnv_005a25f0::BodyPartH *)(reinterpret_cast<::FUN_005e5130_Class *>((pBPData))->FUN_005e5130(fB)));
                         if (pBodyPart)
                         {
-                            LimbH* pLimb = ((::fnv_005a25f0::LimbH *)(::FUN_004aae30((::NiAVObject *)(::fnv_005a25f0::NodeH *)(a->Get3D()), (::NiFixedString *)(((int)(::fnv_0043b230::FUN_0043b230((const char *)(pBodyPart))))))));
+                            LimbH* pLimb = ((::fnv_005a25f0::LimbH *)(::FUN_004aae30((::NiAVObject *)(::fnv_005a25f0::NodeH *)(a->Get3D()), (::NiFixedString *)(((std::intptr_t)(::fnv_0043b230::FUN_0043b230((const char *)(pBodyPart))))))));
                             if (pLimb)
                             {
                                 kPos = *((::fnv_005a25f0::Pt *)(::FUN_0045bb80((std::intptr_t)(pLimb))));
@@ -19590,7 +19590,7 @@ bool FUN_005a2910(ActorS* apActor, void* aiStage, void* apUnused, double& result
     if (apActor->IsActor())
     {
         ActorS* pActor = apActor;
-        if (((int)(reinterpret_cast<::TESEffectShader *>((pActor))->GetAddonModels())) == iStage)
+        if (((int)(std::uintptr_t)(reinterpret_cast<::TESEffectShader *>((pActor))->GetAddonModels())) == iStage)
             result = 1;
     }
     if ((*reinterpret_cast<::fnv_005a2910::TlsData *>(&::g_tlsBlock)).bDebug)
@@ -22545,7 +22545,7 @@ bool __cdecl FUN_005a1210(TESObjectREFR* reference, void* apUnused1, void* apUnu
                                     int targetType = target->type;
                                     if (targetType == 3)
                                     {
-                                        unsigned int flagIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName())) + 1;
+                                        unsigned int flagIndex = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName())) + 1;
                                         if (flagIndex < 7)
                                             result = flagResults[flagIndex];
                                     }
@@ -22615,7 +22615,7 @@ bool FUN_005a0b60(Obj* obj, int aiUnused1, int aiUnused2, double* out)
     }
     if (sel != 0)
     {
-        if (((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((sel))->GetBaseTexture())) != 0)
+        if (((std::intptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((sel))->GetBaseTexture())) != 0)
         {
             if (((::fnv_005a0b60::Sub *)(reinterpret_cast<::FUN_009344a0_shell *>((sel))->FUN_009344a0())) != 0)
             {
@@ -22745,8 +22745,8 @@ bool FUN_0059f630(TESObjectREFR* apRefObject, void* apParam1, void* apParam2, do
     TESForm* pfac = 0;
     if (apParam1 && _FNV_GetFormType((TESForm*)apParam1) == 8)
         pfac = (TESForm*)apParam1;
-    if ((int)apRefObject == ::fnv_005a38e0::DAT_011cab04 &&
-        (int)pfac == ::fnv_005a38e0::DAT_011cab00)
+    if ((int)(std::uintptr_t)apRefObject == ::fnv_005a38e0::DAT_011cab04 &&
+        (int)(std::uintptr_t)pfac == ::fnv_005a38e0::DAT_011cab00)
     {
         *afReturnValue = ::fnv_005a38e0::DAT_011cab08;
     }

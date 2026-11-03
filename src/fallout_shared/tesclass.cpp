@@ -248,7 +248,7 @@ struct FUN_005f7150_shell
 void FUN_005f7150_shell::SaveForm(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     unsigned int i;
-    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((unsigned int)apSaveGameBuffer));
+    reinterpret_cast<::FakeForm *>((((FUN_00484d60_holder*)this)))->SaveIfChanged((::BGSSaveFormBuffer *)((std::uintptr_t)apSaveGameBuffer));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)apSaveGameBuffer)->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         for (i = 0; i < 4; ++i)

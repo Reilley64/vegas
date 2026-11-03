@@ -48,7 +48,7 @@ bool TESLevCreature::Load(TESFile* file)
                 if (file->IsEndianConversionRequired())
                     reinterpret_cast<::TmpEndian *>(&(leveledEntry))->SwapEndian();
                 DAT_011c8eec =
-                    (LeveledEntry*)((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(leveledEntry.level, leveledEntry.count, (int)(leveledEntry.form), (int)(0))));
+                    (LeveledEntry*)((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(leveledEntry.level, leveledEntry.count, (std::intptr_t)(leveledEntry.form), (int)(0))));
                 break;
             }
             case 0x44454f43:

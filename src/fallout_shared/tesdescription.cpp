@@ -331,11 +331,11 @@ void TermHack::FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor)
         {
         case 0:
         case 1:
-            ::FUN_00709470(3, (int)(apRef), 0, 0, 1);
+            ::FUN_00709470(3, (std::intptr_t)(apRef), 0, 0, 1);
             break;
         case 2:
         case 3:
-            ::FUN_00709470(2, (int)(apRef), 0, 0, 1);
+            ::FUN_00709470(2, (std::intptr_t)(apRef), 0, 0, 1);
             break;
         case 4: {
             BSStringT_char kMsg;

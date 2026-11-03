@@ -8,7 +8,7 @@ class Tile;
 // 0x00704000
 void FUN_00704000();
 // 0x00704010
-char FUN_00704010(const char *, int, int, int, ...);
+char FUN_00704010(const char *, int, int, std::intptr_t, ...);
 // 0x00704140
 namespace fnv_00704140 { int FUN_00704140(); }
 // 0x00704170

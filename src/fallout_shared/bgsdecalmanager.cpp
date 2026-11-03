@@ -1141,11 +1141,11 @@ struct FUN_0049f560_Holder
     int _00;
     int _04;
     int _08;
-    void CallWithTwelve(int);
+    void CallWithTwelve(std::intptr_t);
 };
 // Calls FUN_00ec6f20 with the holder's _04 and _08 fields, the constant 12, and a1.
 // @fnv 0x0049f560
-void FUN_0049f560_Holder::CallWithTwelve(int a1)
+void FUN_0049f560_Holder::CallWithTwelve(std::intptr_t a1)
 {
     std::qsort((void *)(_04), _08, 12, (int (*)(const void *, const void *))(a1));
 }
@@ -1236,7 +1236,7 @@ struct FUN_004a0350_shell
 // @fnv 0x004a0030
 void BGSDecalManager::RenderDecals()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)))->GetName())) > 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<ParentSpaceNode, 1024>*>(&m_kSimpleDecalList)))->GetName())) > 0)
     {
         ::FUN_004a0370((char *)(FUN_0043c4b0()));
         struct IteratorState
@@ -2346,7 +2346,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
                 DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
                 if (pHitTmp)
                 {
-                    reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (int)(&kHitPos), (int)(&kHitNormal));
+                    reinterpret_cast<::TileSetHelper *>((DAT_011c57e0))->SetTileSetValues(i, (std::intptr_t)(&kHitPos), (std::intptr_t)(&kHitNormal));
                     reinterpret_cast<::FUN_004a0c10_s *>(&(kHitNormal))->FUN_004a0c10();
                     void* m_pShaderGeometry = ((void *)(::FUN_0056f930((::NiAVObject *)(pHitTmp))));
                     if (pHitTmp->FUN_004a19d0() || !m_pShaderGeometry ||
@@ -3022,7 +3022,7 @@ bool DWork::FUN_004a2070(DArg* arg)
                                                arg->normal, arg->scale, arg->rotation, arg->unk6c));
                         bool accepted = false;
                         ((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))->Virtual8c();
-                        if (((int)(reinterpret_cast<::TESQuest *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->GetScriptLocalData())) > 0)
+                        if (((std::intptr_t)(reinterpret_cast<::TESQuest *>((((::fnv_004a2070::DObj *)(::FUN_00559450((int *)&(decal))))))->GetScriptLocalData())) > 0)
                         {
                             if (!arg->skin)
                             {

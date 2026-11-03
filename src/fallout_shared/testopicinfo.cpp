@@ -145,7 +145,7 @@ void TESTopicInfo::SetOwnerTopic(TESTopic* owner)
 {
     if (owner && reinterpret_cast<::FUN_00619a70_shell *>(this)->FUN_00619a70() != kInvalidTopicInfoIndex)
     {
-        QuestDialogueInfo* questInfo = ((::QuestDialogueInfo *)(reinterpret_cast<::FUN_00619c50_shell *>((owner))->FindTopicByInfoID((unsigned int)(this))));
+        QuestDialogueInfo* questInfo = ((::QuestDialogueInfo *)(reinterpret_cast<::FUN_00619c50_shell *>((owner))->FindTopicByInfoID((std::uintptr_t)(this))));
         if (questInfo)
         {
             TopicInfoArray* infoArray = ((::TopicInfoArray *)(reinterpret_cast<::BaseProcess *>((questInfo))->GetCurrentProcessData()));
@@ -320,7 +320,7 @@ struct FUN_0061cc60_node
 struct FUN_0061cc60_holder
 {
     FUN_0061cc60_node* head;
-    void AddNode(int a);
+    void AddNode(std::intptr_t a);
 };
 struct RecursiveSpinLock
 {
@@ -602,11 +602,11 @@ void FUN_0061c330_shell::RemoveAllLists()
 
 struct FUN_0061cc40_shell
 {
-    void FUN_0061cc40(int askilllevel);
+    void FUN_0061cc40(std::intptr_t askilllevel);
 };
 
 // @fnv 0x0061cc40
-void FUN_0061cc40_shell::FUN_0061cc40(int askilllevel)
+void FUN_0061cc40_shell::FUN_0061cc40(std::intptr_t askilllevel)
 {
     reinterpret_cast<int*>(this)[10] = askilllevel;
 }
@@ -617,7 +617,7 @@ struct FUN_0061cc90_shell : TESResponse
 };
 // If head is null, stores a as the head node; otherwise forwards a to head->AppendResponse.
 // @fnv 0x0061cc60
-void FUN_0061cc60_holder::AddNode(int pNode)
+void FUN_0061cc60_holder::AddNode(std::intptr_t pNode)
 {
     if (head == 0)
     {
@@ -748,9 +748,9 @@ TESResponseList* TESTopicInfo::DuplicateResponseList(TESResponseList* pResponseL
                 responseReader.response->Load(responseReader.file);
                 responseReader.response->InitItem(this);
                 if (pResponseList)
-                    reinterpret_cast<::FUN_0061cc60_holder *>((pResponseList))->AddNode((int)(responseReader.response));
+                    reinterpret_cast<::FUN_0061cc60_holder *>((pResponseList))->AddNode((std::intptr_t)(responseReader.response));
                 else
-                    reinterpret_cast<::FUN_0061cc60_holder *>(&((*reinterpret_cast<::TESResponseList *>(&::g_011cc07c))))->AddNode((int)(responseReader.response));
+                    reinterpret_cast<::FUN_0061cc60_holder *>(&((*reinterpret_cast<::TESResponseList *>(&::g_011cc07c))))->AddNode((std::intptr_t)(responseReader.response));
                 break;
             case 0x314d414e:  // NAM1 reader.response text
                 if (responseReader.response)
@@ -819,9 +819,9 @@ void FUN_0061cb60_shell::FUN_0061cb60(TESResponse* head)
         TESResponse* response = new TESResponse;
         ((FUN_006174d0_shell*)response)->CopyResponse(head);
         if (previous)
-            reinterpret_cast<::FUN_0061cc40_shell *>((((TESRecipe*)previous)))->FUN_0061cc40((int)response);
+            reinterpret_cast<::FUN_0061cc40_shell *>((((TESRecipe*)previous)))->FUN_0061cc40((std::intptr_t)response);
         else
-            reinterpret_cast<::FUN_0061cc60_holder *>(this)->AddNode((int)(response));
+            reinterpret_cast<::FUN_0061cc60_holder *>(this)->AddNode((std::intptr_t)(response));
         previous = response;
         head = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((head))->FUN_0045cd60()));
     }
@@ -1472,7 +1472,7 @@ bool FUN_0061d820_shell::CheckGroupForm(FormRecordHeader* apGroupFORM, bool abAl
 
 struct TopicLinkLists
 {
-    void CopyLinksFrom(int unused, TopicLinkLists* source);
+    void CopyLinksFrom(std::intptr_t unused, TopicLinkLists* source);
 };
 // @fnv 0x0061e180
 void TESTopicInfo::SetTopicInfoData(TESTopicInfoData* data)
@@ -1481,7 +1481,7 @@ void TESTopicInfo::SetTopicInfoData(TESTopicInfoData* data)
     {
         if (!m_pResponseData)
             m_pResponseData = new TESTopicInfoData;
-        reinterpret_cast<::TopicLinkLists *>((m_pResponseData))->CopyLinksFrom((int)(this), (::TopicLinkLists *)(data));
+        reinterpret_cast<::TopicLinkLists *>((m_pResponseData))->CopyLinksFrom((std::intptr_t)(this), (::TopicLinkLists *)(data));
     }
     else
     {
@@ -1496,7 +1496,7 @@ void TESTopicInfo::SetTopicInfoData(TESTopicInfoData* data)
 
 // Clears this object's link lists, then copies the source's from-list, to-list and follow-up-list items into them.
 // @fnv 0x0061c210
-void TopicLinkLists::CopyLinksFrom(int unused, TopicLinkLists* source)
+void TopicLinkLists::CopyLinksFrom(std::intptr_t unused, TopicLinkLists* source)
 {
     if (!source)
         return;
@@ -1729,7 +1729,7 @@ void TopicInfoCopy::FUN_0061e330(TESForm* form)
     {
         TESResponse* copy = new TESResponse;
         reinterpret_cast<::FUN_006174d0_shell *>((static_cast<ResponseCopy*>(copy)))->CopyResponse(response);
-        reinterpret_cast<::FUN_0061cc60_holder *>((reinterpret_cast<::TESTopicInfo *>(this)->DuplicateResponseList((::TESResponseList *)(0))))->AddNode((int)(copy));
+        reinterpret_cast<::FUN_0061cc60_holder *>((reinterpret_cast<::TESTopicInfo *>(this)->DuplicateResponseList((::TESResponseList *)(0))))->AddNode((std::intptr_t)(copy));
         response = ((::TESResponse *)(reinterpret_cast<::FUN_0045cd60_shell *>((response))->FUN_0045cd60()));
     }
     reinterpret_cast<::FUN_0061cfd0_shell *>(this)->FUN_0061cfd0((char *)(((const char *)(::FUN_00559450((int *)(((::BSStringT<char> *)(reinterpret_cast<::FUN_004610d0_shell *>((static_cast<TopicInfoCopy*>(topic)))->GetExtraDataList()))))))));

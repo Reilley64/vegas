@@ -871,7 +871,7 @@ void ActorValueInfoCopy::FUN_00670430(TESForm* form)
     if (!pSource)
         return;
     m_pName = pSource->m_pName;
-    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)&m_cAbbreviation))->CallAndReturnSelf((int)&(*(BSStringTCharAssign*)&pSource->m_cAbbreviation));
+    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)&m_cAbbreviation))->CallAndReturnSelf((std::intptr_t)&(*(BSStringTCharAssign*)&pSource->m_cAbbreviation));
     uFlags = pSource->uFlags;
     m_pDerivedValueFunction = pSource->m_pDerivedValueFunction;
     m_pActorValueMapping = pSource->m_pActorValueMapping;

@@ -197,5 +197,5 @@ void FUN_005054b0_shell::FUN_0040c930(TESForm* pForm)
 
     m30.vfn_34(result ? static_cast<MagicItem *>(result) : 0);
 
-    reinterpret_cast<::B5B10Owner *>(&(m3c))->CopyItemsFromList((::EffectItemList *)(result ? reinterpret_cast<int>(reinterpret_cast<char*>(result) + 0x3C) : 0));
+    reinterpret_cast<::B5B10Owner *>(&(m3c))->CopyItemsFromList((::EffectItemList *)(result ? reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(result) + 0x3C) : 0));
 }

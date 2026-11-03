@@ -190,7 +190,7 @@ bool QueryObject::FUN_004793d0(int argument)
     void* found = FUN_00ec43fb(argument, 0, (*reinterpret_cast<const char (*)[]>(&::DAT_01183040)), DAT_01183290, 0);
     if (found == 0)
         return true;
-    if (((int)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((int)(reinterpret_cast<::Callees *>((((LookupObject*)found)))->FUN_00726070())))
+    if (((int)(std::uintptr_t)(reinterpret_cast<::Callees *>(this)->FUN_00726070())) != ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((LookupObject*)found)))->FUN_00726070())))
         return true;
     return false;
 }
@@ -212,7 +212,7 @@ void FUN_00479380_cls::SetFromLookup(int a1)
     }
     else
     {
-        reinterpret_cast<::CombatProcedure *>((this))->Initialize((::CombatController *)(((int)(reinterpret_cast<::Callees *>((obj))->FUN_00726070()))));
+        reinterpret_cast<::CombatProcedure *>((this))->Initialize((::CombatController *)(((std::intptr_t)(reinterpret_cast<::Callees *>((obj))->FUN_00726070()))));
     }
 }
 

@@ -214,8 +214,8 @@ struct FUN_0051b0a0_shell
 void FUN_0051b0a0_shell::LoadForm(unsigned int aiFlags, BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>((reinterpret_cast<TESFormStub*>(this)))->FUN_00484c50(aiFlags,
-                                                                    reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<unsigned int>(apLoadGameBuffer));
+                                                                    reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
+    reinterpret_cast<::fnv_0048ea10::TESValueForm *>((reinterpret_cast<TESValueFormStub*>(reinterpret_cast<char*>(this) + 0x74)))->FUN_0048ea10(aiFlags, reinterpret_cast<std::uintptr_t>(apLoadGameBuffer));
 }
 
 struct CallHelper
@@ -307,7 +307,7 @@ void FUN_0051af50_shell::FUN_0051af50(TESForm* apCopy)
     TESObjectMISC* pmisc = dynamic_cast<TESObjectMISC*>(apCopy);
     if (!pmisc)
         return;
-    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
+    ((TESObjectMISC*)this)->SetLoopingSound((::TESSound *)(((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pmisc)))->FUN_008cdd90()))));
     reinterpret_cast<::FormCloneOperation *>((((FUN_005e78f0_t*)this)))->FUN_004851b0(apCopy);
 }
 
@@ -361,7 +361,7 @@ bool FUN_0051afb0_shell::FUN_0051afb0(TESForm* apCompare)
     TESObjectMISC* pcomp = dynamic_cast<TESObjectMISC*>(apCompare);
     if (!pcomp)
         return true;
-    if (((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
+    if (((std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(this)->FUN_008cdd90())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>((((FUN_008cdd90_shell*)pcomp)))->FUN_008cdd90())))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((((FUN_005e79a0_t*)this)))->FUN_00485270((TESForm*)pcomp))
         return true;

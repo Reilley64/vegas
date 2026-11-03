@@ -673,7 +673,7 @@ void FUN_00484d00_shell::FUN_00484d00(void* buffer, unsigned int size)
 
 struct FUN_008586a0_class
 {
-    void ForwardToFUN_00857b50(int a, int b, int c);
+    void ForwardToFUN_00857b50(std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 
 struct FUN_00862370_class
@@ -1208,10 +1208,10 @@ struct FUN_009756c0_class
 };
 struct FUN_00858570_class
 {
-    void LoadTempEffectsList(int apFile);
+    void LoadTempEffectsList(std::intptr_t apFile);
 };
 // @fnv 0x00858570
-void FUN_00858570_class::LoadTempEffectsList(int apFile)
+void FUN_00858570_class::LoadTempEffectsList(std::intptr_t apFile)
 {
     void* ptempBuffer = ((void *)(reinterpret_cast<::SaveProcessLists *>((((FUN_009755b0_class*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->FUN_009755b0()));
     ((FUN_008586a0_class*)this)->FUN_00857b50(apFile, &ptempBuffer, 4);
@@ -1221,7 +1221,7 @@ void FUN_00858570_class::LoadTempEffectsList(int apFile)
             reinterpret_cast<::FUN_008558a0 *>((((FUN_008558a0_class*)*(void**)((char*)this + 0x44))))->SetExtraDataString((int)(ptempBuffer), "Temp Effects List");
         void* ptempBuffer2 = ((FUN_00858600_class*)this)->FUN_00858600(ptempBuffer);
         reinterpret_cast<::PLTempEffectSaver *>((((FUN_009756c0_class*)&(*reinterpret_cast<int *>(&::g_011e0e80)))))->SaveTempEffects();
-        reinterpret_cast<::FUN_008586a0_class *>((((FUN_008586a0_class*)this)))->ForwardToFUN_00857b50(apFile, (int)(ptempBuffer2), (int)ptempBuffer);
+        reinterpret_cast<::FUN_008586a0_class *>((((FUN_008586a0_class*)this)))->ForwardToFUN_00857b50(apFile, (std::intptr_t)(ptempBuffer2), (std::intptr_t)ptempBuffer);
         reinterpret_cast<::fnv_00858700::FUN_00858700 *>((((FUN_00858700_class*)this)))->DoIt(ptempBuffer2);
     }
 }
@@ -1359,7 +1359,7 @@ struct FUN_00857b50_slg : TESSaveLoadGame
 };
 // Calls FUN_00857b50 with the three integer arguments a, b and c.
 // @fnv 0x008586a0
-void FUN_008586a0_class::ForwardToFUN_00857b50(int a, int b, int c)
+void FUN_008586a0_class::ForwardToFUN_00857b50(std::intptr_t a, std::intptr_t b, std::intptr_t c)
 {
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(a), (const char *)(b), c);
 }
@@ -1795,7 +1795,7 @@ class TESSaveLoadGame
   public:
     void* FUN_00858600(unsigned int);
     void FUN_00858700(void*);
-    void FUN_00857a10(int, int);
+    void FUN_00857a10(std::intptr_t, int);
     void FUN_00858480(BSFile*);
 };
 
@@ -1827,15 +1827,15 @@ void TESSaveLoadGame::FUN_00858480(BSFile* apFile)
             {
                 iglobalID2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pglobal))->FUN_0084e3a0()));
                 fvalue6 = reinterpret_cast<::FUN_00526ac0_shell *>((pglobal))->FUN_00526ac0();
-                this->FUN_00857a10(reinterpret_cast<int>(&iglobalID2), 4);
+                this->FUN_00857a10(reinterpret_cast<std::intptr_t>(&iglobalID2), 4);
                 reinterpret_cast<::FUN_008579b0_shell *>((this))->FUN_008579b0(&fvalue6, 4);
             }
         }
         pglobals4 = ((::fnv_anon_00858480::GlobalListNode *)(reinterpret_cast<::Callees *>((pglobals4))->FUN_00726070()));
     }
 
-    reinterpret_cast<::FUN_008586a0_class *>((reinterpret_cast<FUN_008586a0_class*>(this)))->ForwardToFUN_00857b50(reinterpret_cast<int>(apFile),
-                                                                       reinterpret_cast<int>(ptempBuffer2), isize9);
+    reinterpret_cast<::FUN_008586a0_class *>((reinterpret_cast<FUN_008586a0_class*>(this)))->ForwardToFUN_00857b50(reinterpret_cast<std::intptr_t>(apFile),
+                                                                       reinterpret_cast<std::intptr_t>(ptempBuffer2), isize9);
 
     reinterpret_cast<::fnv_00858700::FUN_00858700 *>((this))->DoIt(ptempBuffer2);
 
@@ -1916,7 +1916,7 @@ void TESSaveLoadGame_standin::WriteFormIDArrays(BSFile* apFile)
     unsigned int uiCount2;
 
     isize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pLoadingFormRecordHeader))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<int>(apFile)), (const char *)(reinterpret_cast<int>(&isize)), 4);
+    reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<std::intptr_t>(apFile)), (const char *)(reinterpret_cast<std::intptr_t>(&isize)), 4);
 
     {
         unsigned int i;
@@ -1926,12 +1926,12 @@ void TESSaveLoadGame_standin::WriteFormIDArrays(BSFile* apFile)
             unsigned int iformID;
 
             iformID = *m_pLoadingFormRecordHeader->GetAt(i);
-            reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<int>(apFile)), (const char *)(reinterpret_cast<int>(&iformID)), 4);
+            reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<std::intptr_t>(apFile)), (const char *)(reinterpret_cast<std::intptr_t>(&iformID)), 4);
         }
     }
 
     uiCount2 = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_pSavingFormIDEntry))->FUN_0084e3a0()));
-    reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<int>(apFile)), (const char *)(reinterpret_cast<int>(&uiCount2)), 4);
+    reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<std::intptr_t>(apFile)), (const char *)(reinterpret_cast<std::intptr_t>(&uiCount2)), 4);
 
     {
         unsigned int i;
@@ -1941,7 +1941,7 @@ void TESSaveLoadGame_standin::WriteFormIDArrays(BSFile* apFile)
             unsigned int iformID;
 
             iformID = *m_pSavingFormIDEntry->GetAt(i);
-            reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<int>(apFile)), (const char *)(reinterpret_cast<int>(&iformID)), 4);
+            reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(reinterpret_cast<std::intptr_t>(apFile)), (const char *)(reinterpret_cast<std::intptr_t>(&iformID)), 4);
         }
     }
 
@@ -2768,7 +2768,7 @@ struct FUN_00863a60_Class
     FUN_00863a60_Node** nodes;
     int count;
 
-    void FUN_00863a60(unsigned char key, int value);
+    void FUN_00863a60(unsigned char key, std::intptr_t value);
 };
 
 // Empty inline virtual stub; the class's first vtable slot, defined with no body.
@@ -2792,7 +2792,7 @@ inline void* FUN_00863a60_Class::vf14()
     return 0;
 }
 
-void FUN_00863a60_Class::FUN_00863a60(unsigned char key, int value)
+void FUN_00863a60_Class::FUN_00863a60(unsigned char key, std::intptr_t value)
 {
     int counter = this->vf04(key);
     FUN_00863a60_Node* node = this->nodes[counter];
@@ -3289,7 +3289,7 @@ void FUN_00855a20_This::AddReferenceRecord(const FUN_006815c0* apRecord)
     if (!found4)
     {
         bucket6 = new FUN_0096a2d0;
-        reinterpret_cast<::FUN_00863a60_Class *>((references))->FUN_00863a60(id8, (int)(bucket6));
+        reinterpret_cast<::FUN_00863a60_Class *>((references))->FUN_00863a60(id8, (std::intptr_t)(bucket6));
     }
     reinterpret_cast<::FUN_00470440 *>((bucket6))->FUN_007a7eb0((::BGSPerkEntry *)(record), (int (*)(BGSPerkEntry *, BGSPerkEntry *))(CompareByIndex5));
 }
@@ -4239,7 +4239,7 @@ unsigned int Changes::UpdateFormFlags(Form* form, unsigned int flags)
     Cell* cell = (Cell*)dynamic_cast<::TESObjectCELL *>(reinterpret_cast<::TESForm *>(form));
     if (cell)
     {
-        if ((flags & 0x80000000) && !((int)(reinterpret_cast<::FUN_00555bc0_shell *>((cell))->FindSeenData())))
+        if ((flags & 0x80000000) && !((std::intptr_t)(reinterpret_cast<::FUN_00555bc0_shell *>((cell))->FindSeenData())))
             flags &= 0x7fffffff;
         if (!reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
         {
@@ -6352,7 +6352,7 @@ int* Stub8622Self::InitMaxValue()
     unsigned int nValue;
     while (apTargetLight && !FUN_008256d0(apTargetLight))
     {
-        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(int*)((void *)((void *)(((Stub8622Lt*)apTargetLight))))), (int)(&nValue), (char *)(0), (const char *)(0), 0);
+        reinterpret_cast<::FUN_0085fed0_Class *>((((Stub8622Ext*)this)))->FUN_0085fed0((::FUN_0085fed0_Object *)(*(int*)((void *)((void *)(((Stub8622Lt*)apTargetLight))))), (std::intptr_t)(&nValue), (char *)(0), (const char *)(0), 0);
         if (nValue > nMax)
         {
             nMax = nValue;
@@ -7064,7 +7064,7 @@ bool Worker::TryDequeue(Ptr* output)
             Node* value2 = next;
             Node* volatile* location = &queue->tail;
             bool success3 =
-                InterlockedCompareExchange((volatile long*)location, (long)value2, (long)tailNode) == (long)tailNode;
+                InterlockedCompareExchange((volatile long*)location, (long)value2, (long)tailNode) == (long)(std::uintptr_t)tailNode;
             continue;
         }
         {
@@ -7093,7 +7093,7 @@ bool Worker::TryDequeue(Ptr* output)
             Node* value = next;
             Node* volatile* location4 = &queue->head;
             bool successTmp =
-                InterlockedCompareExchange((volatile long*)location4, (long)value, (long)expected) == (long)expected;
+                InterlockedCompareExchange((volatile long*)location4, (long)value, (long)expected) == (long)(std::uintptr_t)expected;
             if (successTmp)
             {
                 int A5KzC;
@@ -7423,12 +7423,12 @@ struct Host58030
     Field58030* f44;
     int FUN_00858600(int id);
     void FUN_00858700(int x);
-    void FUN_00858030(int aParam);
+    void FUN_00858030(std::intptr_t aParam);
 };
 
 // Writes save data for the player, world, process lists, sky, HUD, interface, and regions into the save stream.
 // @fnv 0x00858030
-void Host58030::FUN_00858030(int aParam)
+void Host58030::FUN_00858030(std::intptr_t aParam)
 {
     int v48;
 
@@ -7842,7 +7842,7 @@ struct FormSlot77_0085a2e0
     virtual void slot74();
     virtual void slot75();
     virtual void slot76();
-    virtual void Call(unsigned int);
+    virtual void Call(std::uintptr_t);
 };
 struct DeferredAdd0085a2e0
 {
@@ -7865,7 +7865,7 @@ void FUN_0085a2e0_Class::FUN_0085a2e0(TESForm* form)
     {
         reinterpret_cast<FormIdTwo0085a2e0*>(form)->SetFormID(0, 1);
         reinterpret_cast<::FUN_00483c70_shell *>((reinterpret_cast<FormCall0085a2e0*>(form)))->FUN_00483c70();
-        reinterpret_cast<FormSlot77_0085a2e0*>(form)->Call(reinterpret_cast<unsigned int>(DAT_01011584));
+        reinterpret_cast<FormSlot77_0085a2e0*>(form)->Call(reinterpret_cast<std::uintptr_t>(DAT_01011584));
         if (!reinterpret_cast<::RefList *>(&(deferred))->FUN_005f65d0((void **)&(reinterpret_cast<BGSNote*&>(form))))
             reinterpret_cast<DeferredAdd0085a2e0*>(&deferred)->FUN_005ae3d0(reinterpret_cast<BGSNote**>(&form));
     }
@@ -8049,7 +8049,7 @@ unsigned int SaveHeaderReader::FUN_00860e20(NiBinaryStream* stream, bool loadIde
             char messageBuffer[520];
             (sprintf)(messageBuffer, DAT_01081b50, majorVersion, minorVersion, 0, 125);
             reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<SaveLoadManager*>((*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_004534f0(1);
-            char response = ::FUN_00704010(messageBuffer, 1, 5, (int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d34f8))))->GetMenuTitle()))), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3684))))->GetMenuTitle())), 0);
+            char response = ::FUN_00704010(messageBuffer, 1, 5, (std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d34f8))))->GetMenuTitle()))), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3684))))->GetMenuTitle())), 0);
             reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<SaveLoadManager*>((*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_004534f0(0);
             if (response == 2)
                 result = -1;
@@ -8576,7 +8576,7 @@ struct Cls56
     Obj44* m_44;
     void FUN_0085a520(Obj56*, int);
     void FUN_00858700(void*);
-    bool FUN_00856ca0(int, int, unsigned char);
+    bool FUN_00856ca0(int, std::intptr_t, unsigned char);
 };
 // The callee address is unknown; the original source declared it on its local TESObjectREFR view without one.
 struct RefrCellLookup_861f20
@@ -8623,7 +8623,7 @@ void TESSaveLoadGame_861f20::FUN_00861f20(int aiType)
         {
             char acName[260];
             ::FUN_00406d00(acName, 260, "Test All Cells %i.ess", DAT_011de500);
-            reinterpret_cast<::Cls56 *>(this)->FUN_00856ca0(0, (int)(acName), 1);
+            reinterpret_cast<::Cls56 *>(this)->FUN_00856ca0(0, (std::intptr_t)(acName), 1);
         }
         DAT_011de500++;
     }
@@ -8631,7 +8631,7 @@ void TESSaveLoadGame_861f20::FUN_00861f20(int aiType)
 
 // Checks the path when saving, writes the header and plugin list, processes map entries, and releases the file when saving.
 // @fnv 0x00856ca0
-bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
+bool Cls56::FUN_00856ca0(int aiFileHandle, std::intptr_t apSavePath, unsigned char p2)
 {
     void* mapPos;
     FormObj* pForm;
@@ -8670,9 +8670,9 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
         seekPos = (int)((unsigned int)(::FUN_004720a0((char *)(pForm))));
     }
     rTmp = 0;
-    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&rTmp), 4);
-    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&rTmp), 4);
-    reinterpret_cast<::fnv_00858030::Host58030 *>(this)->FUN_00858030((int)(pForm));
+    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&rTmp), 4);
+    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&rTmp), 4);
+    reinterpret_cast<::fnv_00858030::Host58030 *>(this)->FUN_00858030((std::intptr_t)(pForm));
     recs = 0;
     mapPos = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((m_00))->GetFirstPos();
     while (mapPos)
@@ -8694,12 +8694,12 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
                 ((FUN_008579e0_shell*)(*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))->FUN_008579e0(&wordBuf, 4);
                 recData.b = wordBuf.b2;
                 recData.d = wordBuf.b3;
-                reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)(*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&recData), 10);
+                reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)(*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&recData), 10);
                 recs++;
-                reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&wordBuf), 2);
+                reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&wordBuf), 2);
                 if ((unsigned short)wordBuf.u)
                 {
-                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)(m_14), (unsigned short)wordBuf.u);
+                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)(m_14), (unsigned short)wordBuf.u);
                 }
                 if (m_44)
                 {
@@ -8715,18 +8715,18 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
                     recData.b = ((FUN_00401170_s*)obj)->FUN_00401170();
                     *(int*)&recData.c0 = ((::ChangeValidation::Changes*)this)
                                              ->UpdateFormFlags((::ChangeValidation::Form*)obj, *(int*)&recData.c0);
-                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)(*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&recData), 10);
+                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)(*reinterpret_cast<::LoadingHelper00855220 * *>(&::g_TESSaveLoadGame)))))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&recData), 10);
                     recs++;
                     reinterpret_cast<::FUN_00857230_shell *>((((EffectSetting*)this)))->SetSound((TESSound*)&recData);
                     unsigned short soundVal = obj->Vu(*(int*)&recData.c0);
                     soundVal += ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(obj), *(int*)&recData.c0)));
-                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&soundVal), 2);
+                    reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&soundVal), 2);
                     if (soundVal)
                     {
                         void* tempObj = reinterpret_cast<::SaveMemory *>(this)->FUN_00858600(soundVal);
                         FUN_0085a520(obj, *(int*)&recData.c0);
                         obj->Vw(*(int*)&recData.c0);
-                        ((::FUN_008586a0_class*)this)->ForwardToFUN_00857b50((int)pForm, (int)tempObj, soundVal);
+                        ((::FUN_008586a0_class*)this)->ForwardToFUN_00857b50((std::intptr_t)pForm, (std::intptr_t)tempObj, soundVal);
                         reinterpret_cast<::fnv_00858700::FUN_00858700 *>(this)->DoIt(tempObj);
                     }
                     reinterpret_cast<::FUN_00857230_shell *>((((EffectSetting*)this)))->SetSound(0);
@@ -8738,7 +8738,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
             }
         }
     }
-    ((::fnv_00858570::FUN_00858570_class*)this)->LoadTempEffectsList((int)pForm);
+    ((::fnv_00858570::FUN_00858570_class*)this)->LoadTempEffectsList((std::intptr_t)pForm);
     filePos2 = 0;
     if (!reinterpret_cast<::FUN_0047c850 *>((((FUN_00485d50_slg*)this)))->EvaluateCondition())
     {
@@ -8748,8 +8748,8 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
     if (!reinterpret_cast<::FUN_0047c850 *>((((FUN_00485d50_slg*)this)))->EvaluateCondition())
     {
         pForm->Vf(seekPos, (int)(*reinterpret_cast<unsigned int *>(&::DAT_010a2480)));
-        reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&filePos2), 4);
-        reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&recs), 4);
+        reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&filePos2), 4);
+        reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((std::intptr_t)pForm), (const char *)((std::intptr_t)&recs), 4);
     }
     if (m_44)
     {
@@ -9072,9 +9072,9 @@ void SaveHandler85A520::FUN_0085a520(SaveForm85A520* form, unsigned int flags)
         SaveMobile85A520* mobile = (SaveMobile85A520*)_FNV_DynamicCast(parent, 0, &(*reinterpret_cast<int *>(&::DAT_011841cc)), &(*reinterpret_cast<int *>(&::DAT_01184920)), 0);
         if (mobile && ((::SaveInitialData85A520::SaveProcess85A520 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture())))
         {
-            if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::SaveInitialData85A520::SaveProcess85A520 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture()))))->FUN_0045cd60())) == 0)
+            if (((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::SaveInitialData85A520::SaveProcess85A520 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture()))))->FUN_0045cd60())) == 0)
                 ::FUN_005b5e40();
-            else if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::SaveInitialData85A520::SaveProcess85A520 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture()))))->FUN_0045cd60())) == 1)
+            else if (((int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::SaveInitialData85A520::SaveProcess85A520 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture()))))->FUN_0045cd60())) == 1)
                 ::FUN_005b5e40();
         }
     }
@@ -9448,7 +9448,7 @@ void Main::FUN_00855ba0(const char* filename)
     char buffer[520];
     ::FUN_00406d00(buffer, 520, &DAT_01080670, &DAT_01080414, &DAT_0108041c, &DAT_01044aec, &DAT_01063d04, &(*reinterpret_cast<char *>((void *)&::g_011d4e34_arg1)),
                  &DAT_01080428);
-    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
 
     void* position = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((map))->GetFirstPos();
     while (position)
@@ -9468,7 +9468,7 @@ void Main::FUN_00855ba0(const char* filename)
 
         ::FUN_00406d00(buffer, 520, &DAT_010803e4, typeNameSlot0);
         unsigned __int64 lengthSlot33 = ::FUN_0044a670(buffer);
-        reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+        reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
         Stats statsSlot13;
 
         while (node)
@@ -9508,7 +9508,7 @@ void Main::FUN_00855ba0(const char* filename)
                     ::FUN_00406d00(buffer, 520, &DAT_01080648, entry->id, entry->size, *(unsigned int*)&entry->flags0,
                                  entry->version, &DAT_0108063c, descriptionSlot0);
 
-                reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+                reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
             }
 
             node = ((::ChangeReport::Node *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -9517,7 +9517,7 @@ void Main::FUN_00855ba0(const char* filename)
         ::FUN_00406d00(buffer, 520, &DAT_010805d8, typeNameSlot0, statsSlot13.count, typeNameSlot0, statsSlot13.total,
                      typeNameSlot0, statsSlot13.smallest, typeNameSlot0, statsSlot13.largest, typeNameSlot0,
                      (float)statsSlot13.total / statsSlot13.count);
-        reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+        reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
 
         if (statsSlot13.largest > allSlot12.largest)
             allSlot12.largest = statsSlot13.largest;
@@ -9527,7 +9527,7 @@ void Main::FUN_00855ba0(const char* filename)
         allSlot12.count += statsSlot13.count;
     }
 
-    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(&DAT_010805c4));
+    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(&DAT_010805c4));
     UnknownNode* unknownNodeSlot24 = others;
     while (unknownNodeSlot24)
     {
@@ -9535,7 +9535,7 @@ void Main::FUN_00855ba0(const char* filename)
         if (unknown)
         {
             ::FUN_00406d00(buffer, 520, &DAT_01080254, unknown->size, unknown->value);
-            reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+            reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
             allSlot12.total += unknown->size;
         }
         unknownNodeSlot24 = ((::ChangeReport::UnknownNode *)(reinterpret_cast<::Callees *>((unknownNodeSlot24))->FUN_00726070()));
@@ -9543,7 +9543,7 @@ void Main::FUN_00855ba0(const char* filename)
 
     ::FUN_00406d00(buffer, 520, &DAT_01080570, allSlot12.count, allSlot12.total, allSlot12.smallest, allSlot12.largest,
                  (float)allSlot12.total / allSlot12.count);
-    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (int)(buffer));
+    reinterpret_cast<::FUN_00856300_cls *>(this)->FUN_00856300((::ProbeTarget *)(::ChangeReport::File *)(&fileSlot15), (std::intptr_t)(buffer));
 }
 
 }

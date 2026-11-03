@@ -507,7 +507,7 @@ void FUN_0057d0a0(Point3 position, Point3 direction, float scale)
                     if (row != 0 && row != 4 && column != 0 && column != 4 &&
                         farDistanceSlot0 > reinterpret_cast<::ThisC *>((cellSlot17))->FUN_0054fb70((::Pt2 *)(::TerrainLOD::Point3 *)(&position)))
                     {
-                        ::FUN_0057d4f0((::Mgr *)(cellSlot17), (int)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(position)), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(direction)), nearDistanceSlot2, farDistanceSlot0,
+                        ::FUN_0057d4f0((::Mgr *)(cellSlot17), (std::intptr_t)((*reinterpret_cast<::TerrainLOD::TerrainNode * *>(&::DAT_011ca438))), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(position)), (*(::NiPoint3 *)&(const ::TerrainLOD::Point3 &)(direction)), nearDistanceSlot2, farDistanceSlot0,
                                      scale);
                         skip = false;
                     }
@@ -615,7 +615,7 @@ float __cdecl FUN_0057dd70(float);
 int __cdecl PackFloatPairToInt(float*);
 
 // @fnv 0x0057d4f0
-void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDir, float afParam1, float afRadius,
+void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiPoint3 akDir, float afParam1, float afRadius,
                           float afFov)
 {
     int iQuad;
@@ -637,7 +637,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
     int iStart4 = FUN_0057ce60();
     int iDelta = iStart4 * 2;
     int iCount2 = 8;
-    if (apMgr == 0 || ((int)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetParentWorldSpace())) == 0 || ((::Obj30 *)(reinterpret_cast<::S00546fb0_Cell *>((apMgr))->FUN_00546fb0())) == 0)
+    if (apMgr == 0 || ((std::intptr_t)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetParentWorldSpace())) == 0 || ((::Obj30 *)(reinterpret_cast<::S00546fb0_Cell *>((apMgr))->FUN_00546fb0())) == 0)
         return;
     float fScaleF4 = reinterpret_cast<::FUN_005471e0_shell *>((apMgr))->FUN_005471e0();
     Obj30* pData30 = ((::Obj30 *)(reinterpret_cast<::S00546fb0_Cell *>((apMgr))->FUN_00546fb0()));

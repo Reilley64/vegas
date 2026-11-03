@@ -941,7 +941,7 @@ struct FUN_006055d0_class
 {
     void FUN_006055d0(int a);
 };
-extern "C" void __cdecl FUN_00ec3205(int);
+extern "C" void __cdecl FUN_00ec3205(std::intptr_t);
 
 struct FUN_00aca4b0_class
 {
@@ -954,7 +954,7 @@ void FUN_00aca4b0_class::FUN_00aca4b0()
 {
     vtbl = &(*reinterpret_cast<void * *>(&::DAT_010a2fa4));
     vtbl = &(*reinterpret_cast<void * *>(&::DAT_010a2f9c));
-    FUN_00ec3205((int)this);
+    FUN_00ec3205((std::intptr_t)this);
 }
 
 struct S_4029f0
@@ -1101,7 +1101,7 @@ NiNode* TESObjectDOOR::Create3DModel(TESObjectREFR* reference)
                 TESObjectDoorController* doorController = new TESObjectDoorController;
                 reinterpret_cast<::FUN_00929240_Class *>((doorController))->FUN_00929240(
                     ((::SETTING_VALUE *)&(::FUN_00403e20((float *)(((SettingT_GameSettingCollection_*)&originalRuntimeFloatSetting35)))))->f);
-                reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)doorController)))->SetValue((int)((TESSound*)&((void (&)(NiAVObject *))::FUN_00518f80)));
+                reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)doorController)))->SetValue((std::intptr_t)((TESSound*)&((void (&)(NiAVObject *))::FUN_00518f80)));
                 doorController->SetTarget(node);
             }
             NiExtraData* extra = node->GetExtraData(FUN_00448a80());
@@ -1202,7 +1202,7 @@ void FUN_0050ece0_class::FUN_0050ece0()
 {
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0050ed30_class *>(&(bound))->FUN_0050ed30();
-    ::AppendChunk((unsigned int)((char*)0x444e424f), (char*)&bound, 0xc);
+    ::AppendChunk((std::uintptr_t)((char*)0x444e424f), (char*)&bound, 0xc);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_0050ed30_class *>(&(bound))->FUN_0050ed30();
 }
@@ -2588,7 +2588,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
     {
         if (reinterpret_cast<::FUN_0050d4a0_shell *>((((ObjectOps*)this)))->FUN_0050d4a0() && reference)
             reinterpret_cast<::TESForm *>((((RefOps*)reference)))->SetCollisionDisabled(true);
-        if (!forceClone && ((int)(reinterpret_cast<::Callees *>((((NodeOps*)h)))->FUN_00726070())) == 1)
+        if (!forceClone && ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((NodeOps*)h)))->FUN_00726070())) == 1)
         {
             bool canReuse = false;
             switch (((ObjectOps*)this)->FUN_00401170())
@@ -2679,7 +2679,7 @@ NiAVObject* CloneObject17::FUN_0050ee50(TESObjectREFR* reference, bool forceClon
                 {
                     reinterpret_cast<::NP_0044aed0 *>((((ModelPointerOps*)&model)))->FUN_0044aed0((::WaitableObject *)(::fnv_0050ee50::Model *)(new Model(filename, p)));
                     reinterpret_cast<::FUN_0092c870_shell *>((((::fnv_0050ee50::Model *)(::FUN_00559450((int *)(((ModelPointerOps*)&model)))))))->FUN_0092c870();
-                    if (!((bool)(reinterpret_cast<::S_447010 *>(((*reinterpret_cast<::fnv_0050ee50::LoaderOps * *>(&::g_modelLoader))))->CallFoo((int)(filename), (int)(((::fnv_0050ee50::Model *)(::FUN_00559450((int *)(((ModelPointerOps*)&model))))))))))
+                    if (!((bool)(reinterpret_cast<::S_447010 *>(((*reinterpret_cast<::fnv_0050ee50::LoaderOps * *>(&::g_modelLoader))))->CallFoo((std::intptr_t)(filename), (std::intptr_t)(((::fnv_0050ee50::Model *)(::FUN_00559450((int *)(((ModelPointerOps*)&model))))))))))
                     {
                         Model* pFailedModel = ((::fnv_0050ee50::Model *)(::FUN_00559450((int *)(((ModelPointerOps*)&model)))));
                         reinterpret_cast<::NP_0044aed0 *>((((ModelPointerOps*)&model)))->FUN_0044aed0((::WaitableObject *)(::fnv_0050ee50::Model *)(0));
@@ -2779,7 +2779,7 @@ void ModelForm0050fbf0::FUN_0050fbf0(PlayerCharacter* apPlayer)
             bool bRelease = true;
             ModelPtr0050fbf0 modelPtr(0);
             if (reinterpret_cast<::FUN_004472a0_shell *>(((*reinterpret_cast<::ModelLoader0050fbf0 * *>(&::g_modelLoader))))->FUN_004472a0((char *)(acScaledPath5), (void *)&(modelPtr)) &&
-                ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((LoadedModel0050fbf0*)modelPtr)))->GetName())) > 0)
+                ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((LoadedModel0050fbf0*)modelPtr)))->GetName())) > 0)
                 bRelease = false;
             if (bRelease)
             {
@@ -2935,19 +2935,19 @@ void InsertVector::Insert(InsertIterator _Where, unsigned int _Count, const Inse
         try
         {
             _Ptr = FUN_0064e480(first, _Where.pointer, _Newvec);
-            _Ptr = ((::InsertValue *)(reinterpret_cast<::FUN_0064e340_class *>(this)->FUN_0064e340((int)(_Ptr), _Count, (int)&(_Val))));
+            _Ptr = ((::InsertValue *)(reinterpret_cast<::FUN_0064e340_class *>(this)->FUN_0064e340((std::intptr_t)(_Ptr), _Count, (std::intptr_t)&(_Val))));
             reinterpret_cast<::FUN_0064e480_Class *>(this)->FUN_0064e480(_Where.pointer, last, _Ptr);
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((int)(_Newvec), (int)(_Ptr));
+            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((std::intptr_t)(_Newvec), (std::intptr_t)(_Ptr));
             reinterpret_cast<::FUN_0064df10_helper *>(&(allocator))->deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += ((unsigned int)(reinterpret_cast<::FUN_0064dc30_class *>(this)->FUN_0064dc30()));
         if (first != 0)
         {
-            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((int)(first), (int)(last));
+            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((std::intptr_t)(first), (std::intptr_t)(last));
             reinterpret_cast<::FUN_0064df10_helper *>(&(allocator))->deallocate(first, end - first);
         }
         end = _Newvec + _Capacity;
@@ -2960,11 +2960,11 @@ void InsertVector::Insert(InsertIterator _Where, unsigned int _Count, const Inse
         reinterpret_cast<::FUN_0064e480_Class *>(this)->FUN_0064e480(_Where.pointer, last, _Where.pointer + _Count);
         try
         {
-            reinterpret_cast<::FUN_0064e340_class *>(this)->FUN_0064e340((int)(last), _Count - (last - _Where.pointer), (int)&(_Tmp));
+            reinterpret_cast<::FUN_0064e340_class *>(this)->FUN_0064e340((std::intptr_t)(last), _Count - (last - _Where.pointer), (std::intptr_t)&(_Tmp));
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((int)(_Where.pointer + _Count), (int)(last + _Count));
+            reinterpret_cast<::FUN_0064dee0_Class *>(this)->ForwardToHelper((std::intptr_t)(_Where.pointer + _Count), (std::intptr_t)(last + _Count));
             throw;
         }
         last += _Count;
@@ -8337,14 +8337,14 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Newvec), (int)(_Ptr));
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((std::intptr_t)(_Newvec), (std::intptr_t)(_Ptr));
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Myfirst), (int)(_Mylast));
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((std::intptr_t)(_Myfirst), (std::intptr_t)(_Mylast));
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -8361,7 +8361,7 @@ void ItemVector::FUN_00abeb00(const_iterator _Where, size_type _Count, Insertion
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((int)(_Where._Myptr + _Count), (int)(_Mylast + _Count));
+            reinterpret_cast<::FUN_0065dd90_Class *>(this)->FUN_0065dd90((std::intptr_t)(_Where._Myptr + _Count), (std::intptr_t)(_Mylast + _Count));
             throw;
         }
         _Mylast += _Count;
@@ -8459,7 +8459,7 @@ class FUN_0044a4c0 : public BxStringVal
     }
     int FUN_00ac9da0(const FUN_0044a4c0& right) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (int)(right.data()), right.size());
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (std::intptr_t)(right.data()), right.size());
     }
     int FUN_00ac6100(unsigned int off, unsigned int count, const char* text, unsigned int size) const
     {
@@ -8472,7 +8472,7 @@ class FUN_0044a4c0 : public BxStringVal
     }
     int compare(const char* s) const
     {
-        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (int)(s), BxStrTraits::length(s));
+        return reinterpret_cast<::FUN_00ac6100_cls *>((void *)this)->FUN_00ac6100(0, length, (std::intptr_t)(s), BxStrTraits::length(s));
     }
 };
 
@@ -9691,14 +9691,14 @@ void PairInsertionVector<T>::FUN_00abe310(GvConstIterator<T> _Where, unsigned in
         }
         catch (...)
         {
-            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Newvec), (int)(_Ptr));
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((std::intptr_t)(_Newvec), (std::intptr_t)(_Ptr));
             this->_Alval.deallocate(_Newvec, _Capacity);
             throw;
         }
         _Count += size();
         if (_Myfirst != 0)
         {
-            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((int)(_Myfirst), (int)(_Mylast));
+            reinterpret_cast<::FUN_0065dc60Class *>(this)->FUN_0065dc60((std::intptr_t)(_Myfirst), (std::intptr_t)(_Mylast));
             this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
@@ -13975,7 +13975,7 @@ struct VersionedDataBlock : virtual InputIos
 {
     VersionedDataBlock(InputStreambuf<char>* buffer, bool standard = false) : count(0)
     {
-        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((int)(buffer), standard);
+        reinterpret_cast<::FNV_ad0470_class *>(this)->FUN_00ad0470((std::intptr_t)(buffer), standard);
     }
     virtual ~VersionedDataBlock()
     {}
@@ -14050,7 +14050,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
 {
     InputFilebuf(_iobuf_ob1* _File = 0) : InputStreambuf<C>()
     {
-        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(_File), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(NewFile)));
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((std::intptr_t)(_File), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(NewFile)));
     }
     virtual ~InputFilebuf();
     void* codec;
@@ -14098,7 +14098,7 @@ template <class C> struct InputFilebuf : InputStreambuf<C>
         _iobuf_ob1* opened;
         if (file != 0 || (opened = OpenStream(name, mode, prot)) == 0)
             return 0;
-        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((int)(opened), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(OpenFile)));
+        reinterpret_cast<::S_00acfb90_Class *>(this)->FUN_00acfc10((std::intptr_t)(opened), (*(int *)&(const ::input_ctor::InputFilebuf<char>::InitKind &)(OpenFile)));
         initializeCodec((Codec*)&UseCodec(getloc()));
         return this;
     }

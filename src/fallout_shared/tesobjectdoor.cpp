@@ -761,7 +761,7 @@ void __cdecl FUN_00518f80(unsigned int uiRefId)
                 if (pHighProcess)
                 {
                     if (pHighProcess->vfn_610() != 4)
-                        reinterpret_cast<::FUN_00519020_Class *>(((*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer))))->SetField688((int)(ref));
+                        reinterpret_cast<::FUN_00519020_Class *>(((*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer))))->SetField688((std::intptr_t)(ref));
                 }
             }
         }
@@ -1866,7 +1866,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
     ActivateLock* lockA = ((::ActivateLock *)(reinterpret_cast<::FUN_00569160_shell *>((reference))->FUN_00569160()));
     if (!teleport && reinterpret_cast<::FUN_005194d0_shell_base *>(this)->FUN_005194d0())
     {
-        ActivateObject* destination = ((::ActivateObject *)(reinterpret_cast<::Selector *>(this)->FindRandomSelection((::Reference *)(reference), (int)(activator))));
+        ActivateObject* destination = ((::ActivateObject *)(reinterpret_cast<::Selector *>(this)->FindRandomSelection((::Reference *)(reference), (std::intptr_t)(activator))));
         if (!destination)
         {
             ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>((((ActivateSetting*)&(*reinterpret_cast<::Setting *>(&::g_011c9384)))))->GetMenuTitle()))), 0,
@@ -1911,7 +1911,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                             FUN_00706f30(18);
                         }
                         else
-                            ::fnv_00705830::FUN_00705830((int)(reference), 0, 0);
+                            ::fnv_00705830::FUN_00705830((std::intptr_t)(reference), 0, 0);
                         return false;
                     }
                     else if (!hasSkeleton)
@@ -1974,7 +1974,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                         FUN_00706f30(18);
                     }
                     else
-                        ::fnv_00705830::FUN_00705830((int)(reference), 0, 0);
+                        ::fnv_00705830::FUN_00705830((std::intptr_t)(reference), 0, 0);
                     return false;
                 }
                 else if (!hasSkeleton)
@@ -2003,7 +2003,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
     }
     if (teleport && actor)
     {
-        if (!reinterpret_cast<::PlayerCharacter *>((((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->IsSleepingOrResting() && !((int)(reinterpret_cast<::FUN_0045cd60_shell *>((process1))->FUN_0045cd60())) && process1->State() != 4)
+        if (!reinterpret_cast<::PlayerCharacter *>((((ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->IsSleepingOrResting() && !((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((process1))->FUN_0045cd60())) && process1->State() != 4)
         {
             if (((::ActivateObject *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())) && reference && reference->Node())
             {
@@ -2022,7 +2022,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
                     for (int i = 0; i < 4; ++i)
                         reinterpret_cast<::BSAudio *>((((::ActivateAudio *)(::FUN_00453a70()))))->Update(0);
             }
-            reinterpret_cast<::FUN_008fe960_cls *>((process1))->FUN_008fe960((int)(actor), (int)(reference), true);
+            reinterpret_cast<::FUN_008fe960_cls *>((process1))->FUN_008fe960((std::intptr_t)(actor), (std::intptr_t)(reference), true);
             if (actor == (ActivateObject*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))
                 return true;
             else
@@ -2042,7 +2042,7 @@ bool DoorActivation::ActivateDoor(ActivateObject* reference, ActivateObject* act
         }
         else
         {
-            reinterpret_cast<::Reference *>((activator))->FUN_00575830((::Position *)(((int)(reinterpret_cast<::BaseProcess *>((teleport))->GetCurrentProcessData()))));
+            reinterpret_cast<::Reference *>((activator))->FUN_00575830((::Position *)(((std::intptr_t)(reinterpret_cast<::BaseProcess *>((teleport))->GetCurrentProcessData()))));
             if (cell && reinterpret_cast<::TESCallHelper *>((((ActivateDetection*)(*reinterpret_cast<::ActivateDetection * *>(&::g_TES)))))->IsCellBuffered((::TESObjectCELL *)(cell), 0))
             {
                 reinterpret_cast<::FUN_005757d0_shell *>((activator))->FUN_005757d0(((::ActivateVector *)(::FUN_00460140((std::intptr_t)(teleport))))->z);

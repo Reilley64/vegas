@@ -359,7 +359,7 @@ void FUN_00582380_shell::WriteWeatherList(void* apDest)
             for (unsigned int i = 0; i < ItemUpdateArray; i++)
                 reinterpret_cast<::Class005a6b10 *>(&(pEntries[i]))->FUN_005a6b10();
         }
-        ::AppendChunk((unsigned int)(apDest), pEntries, ItemUpdateArray * sizeof(WeatherSaveEntry));
+        ::AppendChunk((std::uintptr_t)(apDest), pEntries, ItemUpdateArray * sizeof(WeatherSaveEntry));
         if (((bool)(::FUN_00401500())))
         {
             for (unsigned int j = 0; j < ItemUpdateArray; j++)

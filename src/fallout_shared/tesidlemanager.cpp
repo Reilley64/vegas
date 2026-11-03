@@ -366,7 +366,7 @@ NiFormArray* FUN_00600630_shell::GetIdleFormArray(TESForm* apIdleDir)
 
 
 // @fnv 0x00600900
-void FUN_00600900(int param)
+void FUN_00600900(std::intptr_t param)
 {
     (*reinterpret_cast<int *>(&::fnv_tesidlemanager_used_item)) = param;
 }

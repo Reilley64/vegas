@@ -349,7 +349,7 @@ void FUN_0050a1d0_shell::FUN_0050a1d0()
     reinterpret_cast<::FUN_004891d0_cls *>((((FUN_004891d0_shell*)((char*)this + 0x30))))->WriteToBuffer((char *)(0x4c444f4d), (void *)(0x54444f4d));
     if (::FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x48)), 0x20);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x48)), 0x20);
     if (::FUN_00401500())
         ((TESGrass__GRASS_DATA*)((char*)this + 0x48))->ResetGrassData();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();

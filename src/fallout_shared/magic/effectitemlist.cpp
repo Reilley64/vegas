@@ -824,7 +824,7 @@ unsigned char EffectItemListFind::FindEffectItemIndex(int aiFormID)
     EffectItemNode* cur = this ? &node : 0;
     while (cur != 0)
     {
-        if (aiFormID == (int)*((::EffectItem **)((void *)(cur))))
+        if (aiFormID == (std::intptr_t)*((::EffectItem **)((void *)(cur))))
         {
             return idx3;
         }
@@ -909,7 +909,7 @@ void FaceGenCache::FUN_0064fe80(FaceGenLog* apLog)
         {
             FaceGenStr kLine;
             ::FUN_00406f60((::FUN_00406f90_this *)(::FaceGenStr *)(&kLine), "FACEGEN:\t%3d\t%s\t%iKB\t%iKB\r\n",
-                         ((int)(reinterpret_cast<::Callees *>((((FaceGenModel*)((FaceGenEntry*)spEntry3)->m_pRenderedNodeEntry)))->FUN_00726070())) - 1, pKey2,
+                         ((int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((FaceGenModel*)((FaceGenEntry*)spEntry3)->m_pRenderedNodeEntry)))->FUN_00726070())) - 1, pKey2,
                          reinterpret_cast<::FUN_0065c110_t *>((((FaceGenModel*)((FaceGenEntry*)spEntry3)->m_pRenderedNodeEntry)))->GetEGMSize() >> 10,
                          reinterpret_cast<::FUN_0065c490_cls *>((((FaceGenModel*)((FaceGenEntry*)spEntry3)->m_pRenderedNodeEntry)))->FUN_0065c490() >> 10);
             ::FUN_005b5e40();
@@ -1128,7 +1128,7 @@ void List::FUN_00405760(File* file, const char* name)
         {
             actorValue = new Item(effect);
             reinterpret_cast<::TESFile *>((file))->NextChunk();
-            if (reinterpret_cast<::S3c60 *>((effect))->HasFlag2() && ((int)(reinterpret_cast<::InterfaceManager *>((effect))->FUN_00586150())) == 0x36)
+            if (reinterpret_cast<::S3c60 *>((effect))->HasFlag2() && ((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((effect))->FUN_00586150())) == 0x36)
                 item = 0;
             if (reinterpret_cast<::EffectItem *>((actorValue))->Load((::TESFile *)(file), (char *)name))
                 reinterpret_cast<::EffectItemList *>(this)->AddItem((::EffectItem *)(actorValue));

@@ -180,5 +180,5 @@ void FUN_00474f70_shell::FUN_00474f70(BaseFormComponent* apCopyFC)
     BGSBipedModelList* pCopyFC = dynamic_cast<BGSBipedModelList*>(apCopyFC);
     if (!pCopyFC)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)((unsigned int)((::BSSimpleList< ::BGSBipedModelList> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSBipedModelList>*)pCopyFC)))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)((std::uintptr_t)((::BSSimpleList< ::BGSBipedModelList> *)(reinterpret_cast<::Callees *>((((BSSimpleList<BGSBipedModelList>*)pCopyFC)))->FUN_00726070()))));
 }

@@ -191,7 +191,7 @@ bool EffectItem::Load(TESFile* file, const char* actorEffect)
 // @fnv 0x00403e80
 bool FUN_00403e80_shell::FUN_00403e80()
 {
-    return (int)((InterfaceManager*)this)->FUN_00586150() != -1;
+    return (int)(std::uintptr_t)((InterfaceManager*)this)->FUN_00586150() != -1;
 }
 
 struct FUN_00403ee0_shell : public EffectItem
@@ -748,9 +748,9 @@ struct FUN_00404f90_shell
 // @fnv 0x00404f90
 void FUN_00404f90_shell::RemoveSettingFromMap(ArrSI* apSetting)
 {
-    if (apSetting && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())))
+    if (apSetting && ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())))
     {
-        reinterpret_cast<::NiTMap_S *>(&(_map))->RemoveKey(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())));
+        reinterpret_cast<::NiTMap_S *>(&(_map))->RemoveKey(((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apSetting))->GetName())));
     }
 }
 

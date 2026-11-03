@@ -530,7 +530,7 @@ void Obj409::FUN_00409ce0()
 {
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
-    ::AppendChunk((unsigned int)(v9()), &m_70, 8);
+    ::AppendChunk((std::uintptr_t)(v9()), &m_70, 8);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>(&(m_70))->FUN_00503210();
 }

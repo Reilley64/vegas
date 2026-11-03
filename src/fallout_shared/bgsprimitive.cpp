@@ -414,7 +414,7 @@ struct FUN_00c33730_shell
 FUN_00c335d0* FUN_00c33730_shell::FUN_00c33730(CloningProcess& kCloning)
 {
     FUN_00c335d0* pkObject = new FUN_00c335d0;
-    reinterpret_cast<::FUN_00c337c0_State *>(this)->CopyStateTo((::FUN_00c337c0_State *)(pkObject), (unsigned int)&(kCloning));
+    reinterpret_cast<::FUN_00c337c0_State *>(this)->CopyStateTo((::FUN_00c337c0_State *)(pkObject), (std::uintptr_t)&(kCloning));
     return pkObject;
 }
 
@@ -612,11 +612,11 @@ unsigned char FUN_00c38020_shell::FUN_00c38020(int aiArg)
 
 struct FUN_00c4f6c0_shell
 {
-    void FUN_00c4f6c0(int, int);
+    void FUN_00c4f6c0(std::intptr_t, int);
 };
 
 // @fnv 0x00c4f6c0
-void FUN_00c4f6c0_shell::FUN_00c4f6c0(int, int)
+void FUN_00c4f6c0_shell::FUN_00c4f6c0(std::intptr_t, int)
 {}
 
 struct FUN_00c4f550_shell
@@ -1320,11 +1320,11 @@ void* FUN_00c4f9a0_shell::GetSelf(void* apUnused)
 
 struct FUN_00c4fab0_shell
 {
-    void FUN_00c4fab0(int a);
+    void FUN_00c4fab0(std::intptr_t a);
 };
 
 // @fnv 0x00c4fab0
-void FUN_00c4fab0_shell::FUN_00c4fab0(int a)
+void FUN_00c4fab0_shell::FUN_00c4fab0(std::intptr_t a)
 {
     reinterpret_cast<::A5D6E0This *>(this)->AppendCameraPathEntries((::NiTArray< ::BGSCameraPath *, ::NiTMallocInterface< ::BGSCameraPath *>> *)(a));
 }
@@ -1371,14 +1371,14 @@ void* __cdecl FUN_004a4e90(int eType, NiPoint3* apPoint, RgbaColor* apTextColor)
     {
     case 3: {
         NiPoint2 extents = reinterpret_cast<::NiPoint2 *>((void *)&(const ::NiPoint2_helper &)(NiPoint2_helper(apPoint->x, apPoint->z)))->operator*(::DAT_010162c0);
-        return ((void *)(::FUN_004a4f80((const float *)(::NiPoint2 *)(&extents), (unsigned int)(apTextColor))));
+        return ((void *)(::FUN_004a4f80((const float *)(::NiPoint2 *)(&extents), (std::uintptr_t)(apTextColor))));
     }
     case 1: {
         NiPoint3 extents = *(NiPoint3_helper*)apPoint * ::DAT_010162c0;
-        return ((void *)(::CreatePrimitiveBox((::Point3 *)(::NiPoint3 *)(&extents), (int)(apTextColor))));
+        return ((void *)(::CreatePrimitiveBox((::Point3 *)(::NiPoint3 *)(&extents), (std::intptr_t)(apTextColor))));
     }
     case 2:
-        return ((void *)(::fnv_004a5100::FUN_004a5100_create(apPoint->x, (int)(apTextColor))));
+        return ((void *)(::fnv_004a5100::FUN_004a5100_create(apPoint->x, (std::intptr_t)(apTextColor))));
     default:
         return 0;
     }
@@ -1541,11 +1541,11 @@ struct S_C4F420
     char _pad[0xFC];
     int m_fc;
     int m_100;
-    void CopyFields(S_C4F420* a, int b);
+    void CopyFields(S_C4F420* a, std::intptr_t b);
 };
 // Copies m_fc and m_100 from this object into the object pointed to by a.
 // @fnv 0x00c4f420
-void S_C4F420::CopyFields(S_C4F420* apTarget, int aiUnused)
+void S_C4F420::CopyFields(S_C4F420* apTarget, std::intptr_t aiUnused)
 {
     apTarget->m_fc = this->m_fc;
     apTarget->m_100 = this->m_100;
@@ -1668,7 +1668,7 @@ struct FUN_004a5100
 };
 // Allocates a FUN_004a5100, calls v2(a) and SetRadius(f), sets the field at offset 4 to 2, and returns it.
 // @fnv 0x004a5100
-FUN_004a5100* FUN_004a5100_create(float afValue, int aiArg)
+FUN_004a5100* FUN_004a5100_create(float afValue, std::intptr_t aiArg)
 {
     FUN_004a5100* p = new FUN_004a5100;
     p->v2(aiArg);
@@ -1775,18 +1775,18 @@ void FUN_00c38220_shell::AddPropertyNames(NiTPrimitiveArray_unsigned_int_* array
     char unused[0x20];
     char* denter;
 
-    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0(reinterpret_cast<int>(array));
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0(reinterpret_cast<std::intptr_t>(array));
 
     char const* volatile property = (*reinterpret_cast<const char *const *>(&::g_01202820));
     void* propertyId = ((void *)(::FUN_00a7d330(property)));
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(propertyId)));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((std::intptr_t)&(reinterpret_cast<unsigned int const&>(propertyId)));
 
     denter =
         reinterpret_cast<::NiPoint3 *>((reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x0c)))->FUN_00a59af0("Center");
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(denter)));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((std::intptr_t)&(reinterpret_cast<unsigned int const&>(denter)));
 
     char* halfExtents = reinterpret_cast<::NiPoint3 *>((reinterpret_cast<NiPoint3_FUN_00a59af0_helper*>(reinterpret_cast<char*>(this) + 0x18)))->FUN_00a59af0("Half Extents");
-    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((int)&(reinterpret_cast<unsigned int const&>(halfExtents)));
+    reinterpret_cast<::S_0060ba10 *>((array))->FUN_0096a610((std::intptr_t)&(reinterpret_cast<unsigned int const&>(halfExtents)));
 }
 }  // namespace fnv_00c38220
 
@@ -1814,7 +1814,7 @@ FUN_00c4f460* FUN_00c4f6c0_shell::FUN_00c4f620(int arg)
 {
     FUN_00c4f460* object = new FUN_00c4f460(*(int*)((char*)this + 0xc0));
 
-    reinterpret_cast<::FUN_00c4f6c0_shell *>((this))->FUN_00c4f6c0((int)object, arg);
+    reinterpret_cast<::FUN_00c4f6c0_shell *>((this))->FUN_00c4f6c0((std::intptr_t)object, arg);
 
     return object;
 }
@@ -2705,7 +2705,7 @@ struct FUN_00c4fe30_cls
 // @fnv 0x00c4fe30
 void FUN_00c4fe30_cls::InitNode(NodeArgB9733* pNode)
 {
-    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((int)(pNode));
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((std::intptr_t)(pNode));
     unsigned int data[5];
     unsigned int unk[4];
     void* g = DAT_01203108;
@@ -3710,14 +3710,14 @@ struct C_00c36580
 // @fnv 0x00c36580
 void C_00c36580::FUN_00c36580(Obj_0096a610* value)
 {
-    reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((int)value));
+    reinterpret_cast<::fnv_00c38220::FUN_00c38220_shell *>(this)->AddPropertyNames((::fnv_00c38220::NiTPrimitiveArray_unsigned_int_ *)((std::intptr_t)value));
 
     int src = (*reinterpret_cast<int *>(&::g_01202818));
     unsigned int first = (unsigned int)((int)(::FUN_00a7d330((const char *)(src))));
-    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((int)&(first));
+    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((std::intptr_t)&(first));
 
     unsigned int second = ((unsigned int)(reinterpret_cast<::FloatMatrix3 *>(&(unk24))->ToString("Axis")));
-    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((int)&(second));
+    reinterpret_cast<::S_0060ba10 *>((value))->FUN_0096a610((std::intptr_t)&(second));
 }
 
 // Previous geometry reconstruction credited to another contributor.
@@ -4714,7 +4714,7 @@ struct C4F390_Owner
 FUN_00c4f8e0* C4F390_Owner::FUN_00c4f390(CloningProcess& cloning)
 {
     FUN_00c4f8e0* clone = new FUN_00c4f8e0;
-    reinterpret_cast<::S_C4F420 *>(this)->CopyFields((::S_C4F420 *)(clone), (int)&(cloning));
+    reinterpret_cast<::S_C4F420 *>(this)->CopyFields((::S_C4F420 *)(clone), (std::intptr_t)&(cloning));
     return clone;
 }
 

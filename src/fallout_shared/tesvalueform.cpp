@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_00576d30_shell.h"
 #include "fnv/decl/FUN_005be5c0_shell.h"
@@ -1014,7 +1015,7 @@ void TESValueForm::FUN_0048e7f0(BaseFormComponent* component)
     TESValueForm* form = dynamic_cast<TESValueForm*>(component);
     if (!form)
         return;
-    SetFormValue(((unsigned int)(reinterpret_cast<::Callees *>((form))->FUN_00726070())));
+    SetFormValue(((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((form))->FUN_00726070())));
 }
 
 namespace fnv_0048e9b0 {
@@ -1062,11 +1063,11 @@ struct TESSaveLoadGame
 
 struct TESValueForm
 {
-    void FUN_0048ea10(unsigned int a, unsigned int b);
+    void FUN_0048ea10(unsigned int a, std::uintptr_t b);
 };
 
 // @fnv 0x0048ea10
-void TESValueForm::FUN_0048ea10(unsigned int a, unsigned int b)
+void TESValueForm::FUN_0048ea10(unsigned int a, std::uintptr_t b)
 {
     if (a & 2)
         reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0048ea10::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 4, 4);
@@ -1319,7 +1320,7 @@ bool FUN_0048e840_shell::FUN_0048e840(BaseFormComponent* other)
     TESValueForm* form = dynamic_cast<TESValueForm*>(other);
     if (!form)
         return true;
-    if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<TESValueForm*>(this)))->FUN_00726070())) != ((unsigned int)(reinterpret_cast<::Callees *>((form))->FUN_00726070())))
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<TESValueForm*>(this)))->FUN_00726070())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((form))->FUN_00726070())))
         return true;
     return false;
 }

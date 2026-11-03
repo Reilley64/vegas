@@ -824,7 +824,7 @@ TESAnimGroup* FUN_005f3a20(NiControllerSequenceEx* apSequence, const char* apMod
                                     unsigned int m_uiSoundEntryCount = ((unsigned int)(reinterpret_cast<::BGSCameraPath *>((panimGroup))->GetPrevPath()));
                                     reinterpret_cast<::FUN_005f2820_shell *>((panimGroup))->FUN_005f2820(m_uiSoundEntryCount + 1);
                                     reinterpret_cast<::FUN_005f29f0_Class *>((panimGroup))->SetValueAtIndex(m_uiSoundEntryCount, time);
-                                    reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (unsigned int)(openSound));
+                                    reinterpret_cast<::FUN_005f2a30_Class *>((panimGroup))->SetEntryValue(m_uiSoundEntryCount, (std::uintptr_t)(openSound));
                                     if (vol && *vol)
                                         reinterpret_cast<::FUN_005f2ac0_cls *>((panimGroup))->SetRecordValue(m_uiSoundEntryCount, std::atof(vol));
                                     if (pitch)

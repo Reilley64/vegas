@@ -601,7 +601,7 @@ void FUN_0059ba80_shell::FUN_0059ba80()
     }
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
-    reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)((int)((char*)this + 0x28)), 4);
+    reinterpret_cast<::SDSaveForm *>(this)->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x28)), 4);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::fnv_00503210::Unk *>((((BipedModelForm*)((char*)this + 0x28))))->FUN_00503210();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();
@@ -771,7 +771,7 @@ void FUN_0059b680_cls::FUN_0059b680(int a1)
         reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(p);
         m_8c.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(0))->V5());
         m_ac.V6(((FUN_0059b680_sub*)reinterpret_cast<::FUN_0059b270_shell *>((((FUN_0059b270_shell*)p)))->FUN_0059b270(1))->V5());
-        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((int)(((FUN_00401170_shell*)a1)->FUN_00401170()));
+        reinterpret_cast<::FUN_004f15a0_shell *>(this)->FUN_004f15a0((std::intptr_t)(((FUN_00401170_shell*)a1)->FUN_00401170()));
     }
 }
 }  // namespace fnv_0059b680

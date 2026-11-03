@@ -171,11 +171,11 @@ void* BSDismemberSkinInstance::FUN_006885e0(unsigned int flags)
 
 struct FUN_00685e60_shell
 {
-    void FUN_00685e60(unsigned int, unsigned int);
+    void FUN_00685e60(std::uintptr_t, unsigned int);
 };
 
 // @fnv 0x00685e60
-void FUN_00685e60_shell::FUN_00685e60(unsigned int a, unsigned int b)
+void FUN_00685e60_shell::FUN_00685e60(std::uintptr_t a, unsigned int b)
 {
     *(unsigned int*)(this + 0x0C) = a;
     *(unsigned int*)(this + 0x08) = b;
@@ -1214,7 +1214,7 @@ void A8660Path::FinalizePath()
         return;
     if (!m_bForced)
     {
-        if (((unsigned int)(reinterpret_cast<::Callees *>(((m_spSecondary).operator->()))->FUN_00726070())) > 1 && ((unsigned int)(reinterpret_cast<::Callees *>(((m_spPrimary).operator->()))->FUN_00726070())) > 1)
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((m_spSecondary).operator->()))->FUN_00726070())) > 1 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>(((m_spPrimary).operator->()))->FUN_00726070())) > 1)
         {
             A8660Controller* pkController = ((::A8660Controller *)(reinterpret_cast<::FUN_00688730_shell *>(((m_spPrimary).operator->()))->GetNextIfSet()));
             if (pkController && pkController->IsActive())
@@ -1314,7 +1314,7 @@ void ThisObj::BuildSkinPartitions()
     ctrl150LocalAG = 0;
     (void)p144LocalEF;
     (void)z140LocalBM;
-    data38LocalAM = (void*)((int)(reinterpret_cast<::LowProcess *>((((XD8Obj*)((void *)(reinterpret_cast<::TESRegionDataMap *>((((SkinMid*)skinInstLocalAA)))->GetRegionMapName())))))->GetTarget()));
+    data38LocalAM = (void*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((((XD8Obj*)((void *)(reinterpret_cast<::TESRegionDataMap *>((((SkinMid*)skinInstLocalAA)))->GetRegionMapName())))))->GetTarget()));
     if (data38LocalAM == 0)
         return;
     cntFcLocalBB = (int)reinterpret_cast<::FUN_0047d370_shell *>((((ChainObj*)p144LocalEF)))->FUN_0047d370();
@@ -1381,9 +1381,9 @@ void ThisObj::BuildSkinPartitions()
     arrE8LocalFA = 0;
     arr10cLocalAB = new Pt3Arr[cntFcLocalBB];
     arrE8LocalFA = (Pt3Obj*)new ArrayPoint[cntFcLocalBB];
-    ::FUN_00a85510((int)(((SkinMid*)skinInstLocalAA)), (int)(&s1LocalBB), (int)(&s4LocalAA), (int)(&s5LocalAF), (int)(&s2LocalAK), cntFcLocalBB, (int)(arr10cLocalAB), (int)(arrE8LocalFA));
+    ::FUN_00a85510((std::intptr_t)(((SkinMid*)skinInstLocalAA)), (std::intptr_t)(&s1LocalBB), (std::intptr_t)(&s4LocalAA), (std::intptr_t)(&s5LocalAF), (std::intptr_t)(&s2LocalAK), cntFcLocalBB, (std::intptr_t)(arr10cLocalAB), (std::intptr_t)(arrE8LocalFA));
     xD8LocalDC = ((void *)(reinterpret_cast<::TESRegionDataMap *>((((SkinMid*)skinInstLocalAA)))->GetRegionMapName()));
-    data38LocalAM = (void*)((int)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetTarget()));
+    data38LocalAM = (void*)((std::intptr_t)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetTarget()));
     z140LocalBM = ((int)(reinterpret_cast<::LowProcess *>((((XD8Obj*)xD8LocalDC)))->GetActiveCombatTarget()));
     arr198LocalAB = new Obj4c[z140LocalBM];
     for (int jValueBA = 0; jValueBA < z140LocalBM; jValueBA = jValueBA + 1)
@@ -1662,7 +1662,7 @@ void ThisObj::BuildSkinPartitions()
     if (count194LocalBA > 0)
     {
         x18cLocalCE = new Obj18c;
-        reinterpret_cast<::FUN_00685e60_shell *>((x18cLocalCE))->FUN_00685e60((unsigned int)(arr54LocalAD), count194LocalBA);
+        reinterpret_cast<::FUN_00685e60_shell *>((x18cLocalCE))->FUN_00685e60((std::uintptr_t)(arr54LocalAD), count194LocalBA);
     }
     if ((int)word14LocalBL > 0)
     {
@@ -1852,7 +1852,7 @@ void DDecal::BuildDecalGeometry()
     normals_17 = 0;
     positions_6 = new DPoint[sourceVertexCount_3];
     normals_17 = new DPoint[sourceVertexCount_3];
-    reinterpret_cast<::Class87d40 *>((skin_1))->ForwardActorBaseData(((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))), (int)(positions_6), (int)(normals_17), 0, 0, 12);
+    reinterpret_cast<::Class87d40 *>((skin_1))->ForwardActorBaseData(((::DGeometryData *)(::fnv_005495f0::FUN_005495f0((const char *)(((::DGeometry *)(::FUN_00559450((int *)&(geometry)))))))), (std::intptr_t)(positions_6), (std::intptr_t)(normals_17), 0, 0, 12);
     skinData_1 = ((::DSkinData *)(reinterpret_cast<::TESRegionDataMap *>((skin_1))->GetRegionMapName()));
     bones_53 = ((::DBone *)(reinterpret_cast<::LowProcess *>((skinData_1))->GetTarget()));
     boneCount_4 = ((int)(reinterpret_cast<::LowProcess *>((skinData_1))->GetActiveCombatTarget()));
@@ -2032,7 +2032,7 @@ void DDecal::BuildDecalGeometry()
     if (selectedCount_12 > 0)
     {
         newPartition_14 = new DNewPartition;
-        reinterpret_cast<::FUN_00685e60_shell *>((newPartition_14))->FUN_00685e60((unsigned int)(outputPartitions_22), selectedCount_12);
+        reinterpret_cast<::FUN_00685e60_shell *>((newPartition_14))->FUN_00685e60((std::uintptr_t)(outputPartitions_22), selectedCount_12);
     }
     if (outputVertexCount_4 > 0)
     {
@@ -2388,7 +2388,7 @@ struct ObjD
     int df34;
     int df38;
     int df3c;
-    ObjD(ObjC* c, int x, int* arr, Entry4* textObj, int n);
+    ObjD(ObjC* c, std::intptr_t x, int* arr, Entry4* textObj, int n);
     void FUN_004addc0(void* p);
 };
 struct ObjE
@@ -2469,7 +2469,7 @@ void DDecal::CreateDecalGeometry(DGeometry* geom, unsigned short ausVertexCount,
                 kIter[j].w = (unsigned short)vertexMap[j];
         }
     }
-    ObjD* arr1 = new ObjD(textObj, ((int)(reinterpret_cast<::MagicCaster_shell *>((count))->FUN_0044edb0())), partList, kIter, skin);
+    ObjD* arr1 = new ObjD(textObj, ((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((count))->FUN_0044edb0())), partList, kIter, skin);
     if (apNewPartition)
     {
         arr1->FUN_004addc0(apNewPartition);
@@ -2778,7 +2778,7 @@ struct Sub4
 {
     Sub4(int a);
     ~Sub4() throw();
-    void Reset(unsigned int a);
+    void Reset(std::uintptr_t a);
     unsigned int unk00;
 };
 
@@ -2829,7 +2829,7 @@ FUN_00683900_cls::FUN_00683900_cls(int a1, float a2, const Aux30* a3, Obj4* a4, 
     m_1c.unk0c = 0;
     m_1c.Reset(0);
     m_1c.unk08 = 0;
-    m_2c.Reset((unsigned int)a4);
+    m_2c.Reset((std::uintptr_t)a4);
     m_30.Reset(((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((a4))->FUN_009611e0())));
     m_38 = a5;
     m_44 = a6;

@@ -402,7 +402,7 @@ void FUN_0058e450_shell::FUN_0058e450()
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<unsigned char*>(this) + 0x30)), 0x18);
 
     if (((bool)(::FUN_00401500())))
     {

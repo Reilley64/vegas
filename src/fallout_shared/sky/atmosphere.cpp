@@ -466,7 +466,7 @@ void Atm::UpdateAtmosphere(Node* node, float f)
                                         {
                                             if (!(((::fnv_006335d0::Fog *)(::FUN_00559450((int *)&(unk08))))))
                                                 return;
-                                            if ((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer)) != 0 && ((int)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->GetTarget())) &&
+                                            if ((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer)) != 0 && ((std::intptr_t)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->GetTarget())) &&
                                                 ((::fnv_006335d0::Info *)(::FUN_0045bb80((std::intptr_t)(((void *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_006335d0::BSFaceGenNiNode *)(((::fnv_006335d0::BSFaceGenNiNode *)(::FUN_0045c670()))))))))))->unk08 <
                                                     reinterpret_cast<::FUN_0057b0a0_shell *>(((*reinterpret_cast<::fnv_006335d0::Probe * *>(&::_g_thePlayer))))->FUN_0057b0a0())
                                             {

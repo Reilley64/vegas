@@ -353,7 +353,7 @@ struct OutList
 // @fnv 0x005ec500
 void FUN_005ec500_shell::AddMatchingTargetsToList(void* apListToFill)
 {
-    if (((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((QObjOps*)this)))->FUN_007af430())) != 1)
+    if (((int)(std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((QObjOps*)this)))->FUN_007af430())) != 1)
         return;
     ListOps* pMasterList = (ListOps*)((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
     RegionObjectEntry* pTarget = 0;
@@ -479,7 +479,7 @@ struct FUN_005ec280_shell
 // @fnv 0x005ec280
 void FUN_005ec280_shell::FUN_005ec280()
 {
-    ::FUN_00485910(0x4a424f51, (int)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
+    ::FUN_00485910(0x4a424f51, (int)(std::uintptr_t)(((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<RegionObjectEntry*>*)this)))->FUN_00726070()))));
     ::FUN_004856f0((void *)(0x4d414e4e), (void *)(reinterpret_cast<::FUN_005ec330_shell *>((((FUN_005ec330_shell*)this)))->GetPromptText()),
                                      (void *)(reinterpret_cast<::FUN_005ec310_shell *>((((FUN_005ec310_shell*)this)))->GetLength() + 1));
     BSSimpleList<RegionObjectEntry*>* list = ((::BSSimpleList< ::RegionObjectEntry *> *)(reinterpret_cast<::NonActorMagicTarget *>((((BGSQuestObjective*)this)))->GetActiveEffectList()));
@@ -592,7 +592,7 @@ void FUN_005ec5d0_shell::FUN_005ec5d0(QUEST_OBJECTIVE_STATE aeNewState)
                 reinterpret_cast<::TESQuest *>((powner))->SetEnabled(true);
                 if (!::FUN_005cbb50(reinterpret_cast<char*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))
                 {
-                    reinterpret_cast<::Obj_009529d0 *>((reinterpret_cast<Obj_009529d0*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_009529d0(reinterpret_cast<int>(powner));
+                    reinterpret_cast<::Obj_009529d0 *>((reinterpret_cast<Obj_009529d0*>((*reinterpret_cast<::fnv_005ec5d0::PlayerCharacter * *>(&::_g_thePlayer)))))->FUN_009529d0(reinterpret_cast<std::intptr_t>(powner));
                 }
             }
 

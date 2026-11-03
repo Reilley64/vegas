@@ -104,7 +104,7 @@ void TESAmmo::InitItem()
     {
         ::ResolveFormID((unsigned int *)&(locals.formID), GetFile(-1));
         ((MiddleLowProcess*)this)
-            ->SetProcessInteger((int)dynamic_cast<BGSProjectile*>(::FUN_004839c0(locals.formID)));
+            ->SetProcessInteger((std::intptr_t)dynamic_cast<BGSProjectile*>(::FUN_004839c0(locals.formID)));
         if (!((MiddleLowProcess*)this)->GetProcessInteger())
         {
             ::FUN_005b5e40();

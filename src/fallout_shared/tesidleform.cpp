@@ -668,7 +668,7 @@ void FUN_005fea50_shell::FUN_005fea50()
         reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(reinterpret_cast<char*>(this) + 0x38)), 8);
+        (const void *)(reinterpret_cast<std::intptr_t>(reinterpret_cast<char*>(this) + 0x38)), 8);
 
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005fea20_shell *>((reinterpret_cast<IdleAnimationData*>(reinterpret_cast<char*>(this) + 0x38)))->SwapEndian();
@@ -923,7 +923,7 @@ FUN_005fe180::~FUN_005fe180()
     {
         if (((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget())))
         {
-            reinterpret_cast<::FUN_005ff5d0_class *>((((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->FUN_005ff5d0((unsigned int)(this));
+            reinterpret_cast<::FUN_005ff5d0_class *>((((::IdleParent *)(reinterpret_cast<::LowProcess *>(this)->GetActiveCombatTarget()))))->FUN_005ff5d0((std::uintptr_t)(this));
         }
         else
         {

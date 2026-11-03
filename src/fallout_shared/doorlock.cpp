@@ -1918,7 +1918,7 @@ bool BuildPathWithDoors(Location* start, Location* end, Result* result, std::int
             node.unk08 = ((void *)(reinterpret_cast<::InteriorCellLookup *>((infos.FUN_00877a30(0)))->FUN_006b77b0()));
             node.unk00 = ((void *)(::FUN_00690800((const ::NavMeshInfo *)(infos.FUN_00877a30(0))))) != 0;
             reinterpret_cast<::FUN_006cf4c0_Array *>((result))->FUN_006cf4c0(node);
-            for (unsigned i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(doors))->GetName())); ++i)
+            for (unsigned i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(doors))->GetName())); ++i)
             {
                 if (doors.FUN_00877a30(i))
                 {

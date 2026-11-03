@@ -115,7 +115,7 @@ void FUN_00474bc0_shell::CompareAmmo(BaseFormComponent* apCompareFC)
     if (m_pAmmo)
     {
         void* oldAmmo = m_pAmmo;
-        ::ResolveFormID((unsigned int *)(void **)(&oldAmmo), (::TESFile *)(((int)(reinterpret_cast<::TESForm *>((reinterpret_cast<ComparisonInfo*>(apCompareFC)))->GetFile(-1)))));
+        ::ResolveFormID((unsigned int *)(void **)(&oldAmmo), (::TESFile *)(((std::intptr_t)(reinterpret_cast<::TESForm *>((reinterpret_cast<ComparisonInfo*>(apCompareFC)))->GetFile(-1)))));
         m_pAmmo = ((void *)(::FUN_004839c0((unsigned int)(std::uintptr_t)(oldAmmo))));
         if (m_pAmmo && reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x29 &&
             reinterpret_cast<AmmoRecord*>(m_pAmmo)->FUN_00401170() != 0x55)

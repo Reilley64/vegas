@@ -1204,7 +1204,7 @@ void ABD_47d220::CopyFromActorBaseData(BaseFormComponent* apCopyFC)
     reinterpret_cast<::S47 *>((((S47*)this)))->FUN_0047dea0(reinterpret_cast<::FUN_0047d3d0_shell *>((((FUN_0047d3d0_shell*)pCopy)))->FUN_0047d3d0());
     reinterpret_cast<::fnv_0047ca20::FUN_0047ca20_shell *>((((ABDHelper_47d220*)this)))->CopyFactionRanks(pCopy);
     reinterpret_cast<::BGSDehydrationStage *>((((ABDHelper_47d220*)this)))->FUN_0050f9a0((::SpellItem *)(::TESLevItem *)((TESLevItem*)reinterpret_cast<::BGSTerrainManager *>((((BGSTerrainManager*)pCopy)))->GetMinLevel()));
-    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((unsigned int)pCopy->GetVoiceType()));
+    reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((RegionPointList*)this)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)((std::uintptr_t)pCopy->GetVoiceType()));
     reinterpret_cast<::TESRecipe *>((((TESRecipe*)this)))->SetRequiredSkill((::ActorValue::Index)(reinterpret_cast<::ActorMover *>((((BSThread*)pCopy)))->GetCurrentMoveModeType()));
     ((TESActorBaseData*)this)->actorData.m_usField16 = pCopy->actorData.m_usField16;
 }
@@ -1955,7 +1955,7 @@ void OwnerShell::FUN_0047ce10(RefShell* ref)
         }
         void* oldbase2 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
         void* newbase = ((void *)(::FUN_0047d130((::TESActorBase *)(oldbase2), (::TESActorBase *)(base6))));
-        reinterpret_cast<::Ref56B0 *>((ref))->FUN_0056b020((int)(oldbase2), (int)(base6));
+        reinterpret_cast<::Ref56B0 *>((ref))->FUN_0056b020((std::intptr_t)(oldbase2), (std::intptr_t)(base6));
         reinterpret_cast<::Fn575690 *>((ref))->FUN_00575690(newbase);
         reinterpret_cast<::FUN_00565730_shell *>((ref))->FUN_00565730();
         InvShell* inventory = ((::fnv_0047ce10::InvShell *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(ref))));

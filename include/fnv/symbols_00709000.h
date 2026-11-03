@@ -5,7 +5,7 @@
 struct NiCamera;
 
 // 0x00709470
-void FUN_00709470(int, int, int, int, int);
+void FUN_00709470(int, std::intptr_t, int, int, int);
 // 0x007094f0
 namespace s7094f0 { void FUN_007094f0(); }
 // 0x00709840
@@ -31,7 +31,7 @@ bool FUN_00709bc0();
 // 0x00709c00
 bool FUN_00709c00();
 // 0x00709c20
-void FUN_00709c20(int);
+void FUN_00709c20(std::intptr_t);
 // 0x00709c60
 void FUN_00709c60(bool);
 // 0x00709c80

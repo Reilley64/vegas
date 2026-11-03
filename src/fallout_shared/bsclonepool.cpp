@@ -69,11 +69,11 @@ struct SpawnedObject
 class FUN_004b0ba0_cls
 {
   public:
-    unsigned int FUN_004b0ba0(unsigned int arg);
+    unsigned int FUN_004b0ba0(std::uintptr_t arg);
 };
 
 // @fnv 0x004b0ba0
-unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
+unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(std::uintptr_t arg)
 {
     unsigned int result2;
     unsigned int found8 = 0;
@@ -93,7 +93,7 @@ unsigned int FUN_004b0ba0_cls::FUN_004b0ba0(unsigned int arg)
         while (result2 == 0 && p3 != 0 && !reinterpret_cast<::ObsList *>((((SpawnedObject*)p3)))->FUN_004a4460())
         {
             unsigned int r = ((unsigned int)(::FUN_00559450((int *)(((SpawnedObject*)((unsigned int *)((void *)(((SpawnedObject*)p3)))))))));
-            if (r != 0 && ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
+            if (r != 0 && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((SpawnedObject*)r)))->FUN_00726070())) == 1)
                 result2 = r;
             p3 = ((unsigned int)(reinterpret_cast<::Callees *>((((SpawnedObject*)p3)))->FUN_00726070()));
         }

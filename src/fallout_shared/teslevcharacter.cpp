@@ -80,7 +80,7 @@ bool TESLevCharacter::Load(TESFile* file)
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890((char *)(void *)(&levelEntry), 12);
                 if (file->IsEndianConversionRequired())
                     reinterpret_cast<::TmpEndian *>((((LeveledObject*)&levelEntry)))->SwapEndian();
-                DAT_011c8e64 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(levelEntry.level, levelEntry.count, (int)(levelEntry.form), (int)(0))));
+                DAT_011c8e64 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(levelEntry.level, levelEntry.count, (std::intptr_t)(levelEntry.form), (int)(0))));
                 break;
             }
             case 0x44454f43:

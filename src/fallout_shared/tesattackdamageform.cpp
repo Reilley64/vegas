@@ -199,7 +199,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
             reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::TESIdleForm *)((TESIdleForm*)templateSelection.creature->GetVoiceType()));
             reinterpret_cast<::fnv_0047e1c0::S47b *>(this)->SetClampedValue(templateSelection.creature->GetHealthRegeneration());
             reinterpret_cast<::FUN_005fbdb0_shell *>(this)->FUN_005fbdb0(((unsigned char)(templateSelection.creature->GetCreatureType())));
-            reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((int)(((::BGSListForm *)(::GetField158((std::intptr_t)(templateSelection.creature))))));
+            reinterpret_cast<::FUN_005f8bd0_Helper *>(this)->Set((std::intptr_t)(((::BGSListForm *)(::GetField158((std::intptr_t)(templateSelection.creature))))));
             SetCombatStyle(templateSelection.creature->GetCombatStyle());
         }
         if (reinterpret_cast<::FUN_0047cd40_shell *>(this)->FUN_0047cd40((*(int *)&(const ::TESActorBaseData::TEMPLATE_USE_FLAG &)(USE_STATS))))

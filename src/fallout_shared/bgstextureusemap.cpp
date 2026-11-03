@@ -33,16 +33,16 @@
 #include "fnv/symbols_011f4000.h"
 struct FUN_004aa3d0_shell
 {
-    void FUN_004aa3d0(int a, char b);
-    void SetValueAndCall(int a, int b, char c);
+    void FUN_004aa3d0(std::intptr_t a, char b);
+    void SetValueAndCall(std::intptr_t a, std::intptr_t b, char c);
 };
 
-void FUN_004aa3d0_shell::FUN_004aa3d0(int a, char b)
+void FUN_004aa3d0_shell::FUN_004aa3d0(std::intptr_t a, char b)
 {}
 
 // Stores b into the object's first field and forwards a and c to FUN_004aa3d0.
 // @fnv 0x004aa3a0
-void FUN_004aa3d0_shell::SetValueAndCall(int aiArg, int aiValue, char c)
+void FUN_004aa3d0_shell::SetValueAndCall(std::intptr_t aiArg, std::intptr_t aiValue, char c)
 {
     *(int*)this = aiValue;
     FUN_004aa3d0(aiArg, c);
@@ -313,7 +313,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
     if (((::LLD_Cell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())))
     {
         inner5 = ((::LLD_Cell *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath()));
-        this->SetValueAndCall(reinterpret_cast<int>(reinterpret_cast<::FUN_00545cb0_shell *>((inner5))->FUN_00545cb0()), reinterpret_cast<int>(inner5), a1);
+        this->SetValueAndCall(reinterpret_cast<std::intptr_t>(reinterpret_cast<::FUN_00545cb0_shell *>((inner5))->FUN_00545cb0()), reinterpret_cast<std::intptr_t>(inner5), a1);
     }
     else
     {
@@ -329,7 +329,7 @@ void FUN_004aabb0_shell::FUN_004aabb0(char a1)
                 if (outer->m0)
                 {
                     cell = outer->m0;
-                    this->SetValueAndCall(reinterpret_cast<int>(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), reinterpret_cast<int>(cell), a1);
+                    this->SetValueAndCall(reinterpret_cast<std::intptr_t>(reinterpret_cast<::FUN_00545cb0_shell *>((cell))->FUN_00545cb0()), reinterpret_cast<std::intptr_t>(cell), a1);
                 }
             }
         }
@@ -731,7 +731,7 @@ void TextureWalker::FUN_004aa3d0(NiAVObject* obj, bool b)
                 for (unsigned int i = 0; i < count; i++)
                 {
                     NiAVObject* child = ((::fnv_004aa3d0::NiAVObject *)(reinterpret_cast<::NiNode *>((node))->GetAt(i)));
-                    reinterpret_cast<::FUN_004aa3d0_shell *>(this)->FUN_004aa3d0((int)(child), b);
+                    reinterpret_cast<::FUN_004aa3d0_shell *>(this)->FUN_004aa3d0((std::intptr_t)(child), b);
                 }
             }
             if (bSet)

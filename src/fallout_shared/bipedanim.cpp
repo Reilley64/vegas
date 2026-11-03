@@ -1694,7 +1694,7 @@ class B4AEE60ModelLoader
 class B4AEE60Owner
 {
   public:
-    void RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pkRequest, int iSlot);
+    void RequestModelLoad(int iParamA, std::intptr_t iParamB, B4AEE60Request* pkRequest, int iSlot);
 
     int unk00;
     int unk04;
@@ -1720,7 +1720,7 @@ void C4AEDE0Queue::QueueItem(int iA, int iB, int iC)
 
 // If the request has no result yet, starts a model load for the given slot when its handle is valid, otherwise completes the request with null.
 // @fnv 0x004aee60
-void B4AEE60Owner::RequestModelLoad(int iParamA, int iParamB, B4AEE60Request* pkRequest, int iSlot)
+void B4AEE60Owner::RequestModelLoad(int iParamA, std::intptr_t iParamB, B4AEE60Request* pkRequest, int iSlot)
 {
     if (((void *)(::FUN_00559450((int *)(pkRequest)))))
         return;
@@ -2379,7 +2379,7 @@ void BipedLoadAccess::UpdateBipedObjects(bool force)
                 if (reinterpret_cast<::FUN_004ad010_shell *>((weapon))->IsFlag4Set() && this == ((::BipedAnim *)(reinterpret_cast<::PlayerCharacter *>((((PlayerLoadAccess*)::_g_thePlayer)))->FUN_00950b00(false))))
                 {
                     if (!reinterpret_cast<::FUN_004ad030_shell *>((((WeapLoadAccess*)weapon)))->GetFlag() || mods)
-                        ::FUN_00709c20((int)(((::TESModel *)(reinterpret_cast<::FUN_00504e60_shell *>((weapon))->FUN_00504e60()))));
+                        ::FUN_00709c20((std::intptr_t)(((::TESModel *)(reinterpret_cast<::FUN_00504e60_shell *>((weapon))->FUN_00504e60()))));
                 }
             }
             else
@@ -2555,7 +2555,7 @@ void BipedAnim::FUN_004abd30(IO_TASK_PRIORITY priority, NiPointer<QueuedHelmet>&
                 if (IsSlotHidden((BIPED_OBJECT)i) && (*reinterpret_cast<::SettingT< ::INISettingCollection> *>(&::g_011c5ef0)).Bool()->b && ((bool)(::FUN_0043faf0())) &&
                     CanLoadHiddenBipedObjects())
                 {
-                    reinterpret_cast<::B4AEE60Owner *>(this)->RequestModelLoad((*(int *)&(priority)), (int)(file), (::B4AEE60Request *)&(pHelmetQueueEntry), (*(int *)&(const ::BIPED_OBJECT &)((BIPED_OBJECT)i)));
+                    reinterpret_cast<::B4AEE60Owner *>(this)->RequestModelLoad((*(int *)&(priority)), (std::intptr_t)(file), (::B4AEE60Request *)&(pHelmetQueueEntry), (*(int *)&(const ::BIPED_OBJECT &)((BIPED_OBJECT)i)));
                 }
                 else
                 {
@@ -2594,7 +2594,7 @@ struct Holder_o2
 // @fnv 0x00a5bc40
 bool Holder_o2::FUN_00a5bc40(const NiFixedString& kName, NiTexture* pkTex)
 {
-    if ((int)kName.data == (*reinterpret_cast<int *>(&::DAT_0109b220)))
+    if ((int)(std::uintptr_t)kName.data == (*reinterpret_cast<int *>(&::DAT_0109b220)))
         return false;
     if (!pkTex)
         return false;

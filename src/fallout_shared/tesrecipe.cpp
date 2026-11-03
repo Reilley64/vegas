@@ -87,7 +87,7 @@ void TESRecipe::InitItem()
         if (!category)
             ::FUN_005b5e40();
         else
-            reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType((int)(category));
+            reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType((std::intptr_t)(category));
     }
     compList = ((::BSSimpleList< ::QuantityData *> *)(reinterpret_cast<struct ::FUN_005a8080 *>(this)->GetField()));
     component = 0;

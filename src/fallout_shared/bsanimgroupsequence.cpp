@@ -289,13 +289,13 @@ struct TargetClass
 {
     char _pad[0x40];
     NiControllerManager* field40;
-    int FUN_004eedd0(int, int);
+    int FUN_004eedd0(std::intptr_t, int);
 };
 // Returns the result of FUN_00a31910 with a1 and the value GetStringAtOffset returns for a2 on field40.
 // @fnv 0x004eedd0
-int TargetClass::FUN_004eedd0(int a1, int a2)
+int TargetClass::FUN_004eedd0(std::intptr_t a1, int a2)
 {
-    return ((int)(reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(a1), (::Node31910 *)(((int)(::fnv_00537bd0::GetStringAtOffset((const char *)(field40))))), {})));
+    return ((int)(reinterpret_cast<::Sequence31910 *>(this)->FUN_00a31910((::Node31910 *)(a1), (::Node31910 *)(((std::intptr_t)(::fnv_00537bd0::GetStringAtOffset((const char *)(field40))))), {})));
 }
 
 unsigned short __cdecl FUN_004efaa0();
@@ -387,7 +387,7 @@ struct FUN_004ee9f0 : A51BF0Base
 
 // Constructs a GO from 0, passes arg1 and arg2 to FUN_00a35700, then assigns a new FUN_004ee9f0 built from the GO's value to target.
 // @fnv 0x004eeb60
-void __cdecl AssignNewObjectFromValue(int arg1, int arg2, GO* target)
+void __cdecl AssignNewObjectFromValue(std::intptr_t arg1, int arg2, GO* target)
 {
     {
         GO value(0);
@@ -728,7 +728,7 @@ char* FindSoundChar(char*, int);
 bool __cdecl PlaySequenceSounds(SeqSound* sequence, TESObjectREFR* reference)
 {
     bool result2 = false;
-    if (sequence && ((int)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 1)
+    if (sequence && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((sequence))->GetActiveCombatTarget())) == 1)
     {
         float previous = reinterpret_cast<::FUN_00507b00Class *>((sequence))->GetField4C();
         float current4 = reinterpret_cast<::TESObjectREFR *>((sequence))->GetScale();

@@ -83,7 +83,7 @@ struct FUN_004ee5d0_shell
 };
 struct FUN_004ee560_shell
 {
-    void FUN_004ee560(int a);
+    void FUN_004ee560(std::intptr_t a);
 };
 struct PropHelper
 {
@@ -209,7 +209,7 @@ struct DecalNode
     void RemoveEffect(void* apEffect);
 };
 // @fnv 0x004ee560
-void FUN_004ee560_shell::FUN_004ee560(int aiValue)
+void FUN_004ee560_shell::FUN_004ee560(std::intptr_t aiValue)
 {
     GO g(0);
     reinterpret_cast<::TargetHost *>((((FUN_004ee5d0_shell*)this)))->CallVirtualAndForward((::VirtParam *)(aiValue), &g);

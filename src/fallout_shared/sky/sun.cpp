@@ -1050,7 +1050,7 @@ void FUN_00641830_shell::UpdateSun(Sky* apSky, float afSecondsPassed)
             reinterpret_cast<::FUN_00416870_t *>((((P3*)&ksundirection)))->FUN_00416870(-fxNewAim, reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting84)))))->FUN_00450410(),
                       reinterpret_cast<::FUN_00450410_Class *>((((GlobalObject_0044f440*)&(*reinterpret_cast<::fnv_00641830::Setting_S *>(&::originalRuntimeFloatSetting85)))))->FUN_00450410());
             reinterpret_cast<::FUN_004a0c10_s *>((((H::NiPoint3*)&ksundirection)))->FUN_004a0c10();
-            reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((int)&ksundirection));
+            reinterpret_cast<::FUN_004769c0_shell *>((((FUN_00476980_S*)&newSunRot)))->FUN_004769c0(0, (float *)((std::intptr_t)&ksundirection));
             reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_0043fa80((const ::ThreeByThreeMatrix &)(newSunRot));
             reinterpret_cast<::FUN_004bc280_S *>((((FUN_004bc280_S*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->FUN_004bc280((const ::C3 *)(const ::fnv_00641830::C3 *)(((::fnv_00641830::C3 *)(::FUN_004ea950((std::intptr_t)(((TESDataHandler*)apSky)))))));
             reinterpret_cast<::fnv_004bc2e0::NiDynamicEffect *>((((NiPointLight*)(unsigned int)*(Flt*)((char*)this + 0x1c))))->SetEffectColor((const ::fnv_004bc2e0::NiColor &)(*((::fnv_00641830::NiPoint3 *)(reinterpret_cast<::TESObjectTREE *>((((TESObjectTREE*)apSky)))->GetData()))));

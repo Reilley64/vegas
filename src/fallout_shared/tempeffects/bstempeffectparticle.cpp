@@ -542,7 +542,7 @@ struct Manager
 {
 };
 // @fnv 0x006890b0
-Effect* __cdecl FUN_006890b0(World* world, float duration, int kind, Vec3 rotation, Vec3 position, float scale,
+Effect* __cdecl FUN_006890b0(World* world, float duration, std::intptr_t kind, Vec3 rotation, Vec3 position, float scale,
                              int flags, int extra)
 {
     Effect* pEffect = 0;
@@ -772,7 +772,7 @@ void Effect::AttachModel(Parent* apParent, Mat rotation, Vec position, float afS
         success = reinterpret_cast<::FUN_0045aba0_cls *>(((*reinterpret_cast<::fnv_00689310::WorldMgr * *>(&::g_TES))))->FindMatchingNode(loaded6, (::ObjC *)(::fnv_00689310::Ptr *)(&model));
     if (!success)
     {
-        if (((unsigned int)(reinterpret_cast<::Callees *>((((Obj*)loaded6)))->FUN_00726070())) <= 2)
+        if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((((Obj*)loaded6)))->FUN_00726070())) <= 2)
             model = loaded6;
         else if (flags & 2)
         {
@@ -1293,7 +1293,7 @@ class ParticleUpdate
 bool ParticleUpdate::UpdateTransform(float time)
 {
     bool result = reinterpret_cast<::FUN_006828a0_shell *>(this)->FUN_006828a0(time);
-    if (parent && ((unsigned int)(reinterpret_cast<::Callees *>((void *)((parent).operator->()))->FUN_00726070())) == 1)
+    if (parent && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((void *)((parent).operator->()))->FUN_00726070())) == 1)
         parent = 0;
     if (object && parent)
     {

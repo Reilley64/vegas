@@ -205,7 +205,7 @@ class MemberPtr
   public:
     MemberPtr(int p);
     ~MemberPtr();
-    void FUN_0066b0d0(int p);
+    void FUN_0066b0d0(std::intptr_t p);
     int m_p;
 };
 
@@ -448,7 +448,7 @@ struct EffectRegistry
 void FUN_006833b0();
 struct DebrisEffect : FUN_00682c40
 {
-    void SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool b10);
+    void SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool b10);
 };
 class DebrisNode;
 
@@ -900,10 +900,10 @@ FUN_00682b00::FUN_00682b00(TESObjectCELL* cell, float duration, const char* name
     scene.z = 0.0f;
     float active = reinterpret_cast<::NiPoint3 *>(&(scene))->ComputeMagnitude();
     reinterpret_cast<::ThreeByThreeMatrix *>(&(existing))->FUN_00a59780(FUN_004b5550(scene.x, scene.y), 0.0f, -FUN_004b5550(owner, active));
-    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris((int)(p4), (int)(p5), (int)(&existing), (int)(p7), (int)(p8), f, flag);
+    reinterpret_cast<::DebrisEffect *>(this)->SpawnDebris((std::intptr_t)(p4), (std::intptr_t)(p5), (std::intptr_t)(&existing), (std::intptr_t)(p7), (std::intptr_t)(p8), f, flag);
 }
 // @fnv 0x00682d10
-void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9, bool abUseQueue)
+void DebrisEffect::SpawnDebris(std::intptr_t a4, std::intptr_t a5, std::intptr_t a6, std::intptr_t a7, std::intptr_t a8, float f9, bool abUseQueue)
 {
     reinterpret_cast<::Twin_007e6580 *>(this)->SetIsForegroundEffect(false);
     SceneObject* update = ((::SceneObject *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::ModelService * *>(&::g_modelLoader))))->FUN_00447080((char *)(m_1c), 0, true, false, false, false)));
@@ -917,7 +917,7 @@ void DebrisEffect::SpawnDebris(int a4, int a5, int a6, int a7, int a8, float f9,
     else
     {
         CloneContext clone(1.0f);
-        m_18.FUN_0066b0d0((int)((::SceneObject *)(reinterpret_cast<::A5D2C0Object *>((update))->FUN_00a5d2c0((::A5D2C0CloningProcess &)(clone)))));
+        m_18.FUN_0066b0d0((std::intptr_t)((::SceneObject *)(reinterpret_cast<::A5D2C0Object *>((update))->FUN_00a5d2c0((::A5D2C0CloningProcess &)(clone)))));
     }
     if (!((::SceneObject *)(::FUN_00559450((int *)&(static_cast<ScenePointer&>(m_18))))) || !((::CellContext *)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())))
         return;

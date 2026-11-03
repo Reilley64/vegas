@@ -58,7 +58,7 @@ void AlchemyItem::InitItem()
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), ((TESForm*)this)->GetFile(-1));
-        reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(dynamic_cast<SpellItem*>(::FUN_004839c0(formID))));
         if (!FUN_004030b0())
         {
             ::FUN_005b5e40();
@@ -1062,7 +1062,7 @@ struct AlchemySave : AlchPrimBase, AlchSaveBase
 void AlchemySave::FUN_00402f90()
 {
     FormStub* oldItem = ((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()));
-    reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::AlchemyItem *>(this)->FUN_004030b0()))))->FUN_0084e3a0())) : 0));
     FormStub* pOldSound = ((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()));
     reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(::FormStub *)(((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8())) ? (FormStub*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::FormStub *)(reinterpret_cast<::FUN_009acce0_shell *>(this)->GetFieldC8()))))->FUN_0084e3a0())) : 0));
     if (((bool)(::FUN_00401500())))
@@ -1070,7 +1070,7 @@ void AlchemySave::FUN_00402f90()
     ::AppendChunk(s24(), &data, 0x14);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00403720_shell *>(&(data))->SwapEndian();
-    reinterpret_cast<::FUN_00874460_cls *>(this)->set((int)(oldItem));
+    reinterpret_cast<::FUN_00874460_cls *>(this)->set((std::intptr_t)(oldItem));
     reinterpret_cast<::AlchemyItem *>(this)->SetSound((::TESSound *)(pOldSound));
 }
 

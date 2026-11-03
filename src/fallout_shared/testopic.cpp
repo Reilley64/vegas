@@ -224,8 +224,8 @@ QuestDialogueInfo* FUN_006195d0_shell::GetOrCreateQuestInfo(TESQuest* apQuest, b
         pList = ((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
         if (pQuestInfo->bInitialized)
         {
-            if ((!pQuestInfo->pQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->pQuest))->FUN_0084e3a0())) != (unsigned int)apQuest) &&
-                (!pQuestInfo->m_pAlternateQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->m_pAlternateQuest))->FUN_0084e3a0())) != (unsigned int)apQuest))
+            if ((!pQuestInfo->pQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->pQuest))->FUN_0084e3a0())) != (unsigned int)(std::uintptr_t)apQuest) &&
+                (!pQuestInfo->m_pAlternateQuest || ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pQuestInfo->m_pAlternateQuest))->FUN_0084e3a0())) != (unsigned int)(std::uintptr_t)apQuest))
             {
                 pQuestInfo = 0;
             }
@@ -1226,7 +1226,7 @@ bool FUN_00618aa0_t::FUN_00618aa0(::TESFile* pFile)
             if (pLastQuestInfo)
             {
                 int IdxJustAdded;
-                if ((IdxJustAdded = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
+                if ((IdxJustAdded = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName())) - 1) >= 0)
                 {
                     ((PSNArr*)((char*)pLastQuestInfo + 0x1c))->GetAt(IdxJustAdded).c = m_iIndex;
                     int size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)pLastQuestInfo + 0x1c))))->GetName()));
@@ -1405,17 +1405,17 @@ void SortTopicList(bool abSortByPriority, BSSimpleList<TESTopic*>* apTopicList)
     while (pCurrentElementNext && (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(pCurrentElementNext)))))))
     {
         bool badvanced = false;
-        if (((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070()))))
+        if (((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070()))))
         {
             TESTopic* ptopic1 = (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(pCurrentElementNext))))));
             TESTopic* ptopic2 =
-                (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())))))))));
+                (*(TESTopic**)((::BSSimpleList< ::TESTopic *> *)((void *)(((TESTopicInfoData*)(((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())))))))));
             if (::FUN_0061a450(ptopic1, ptopic2, abSortByPriority))
             {
                 if (plastlist)
                 {
                     reinterpret_cast<::ItemChangeListNode *>((((VATS_CommandList*)plastlist)))->FUN_00905330((::InventoryStackRecord *const &)((VATSCommand* const&)ptopic1));
-                    pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(plastlist))))->FUN_00726070())));
+                    pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(plastlist))))->FUN_00726070())));
                 }
                 else
                 {
@@ -1428,7 +1428,7 @@ void SortTopicList(bool abSortByPriority, BSSimpleList<TESTopic*>* apTopicList)
         if (!badvanced)
         {
             plastlist = pCurrentElementNext;
-            pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((int)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())));
+            pCurrentElementNext = ((BSSimpleList<TESTopic*>*)((std::intptr_t)(reinterpret_cast<::Callees *>((void *)(((GridArray*)(pCurrentElementNext))))->FUN_00726070())));
         }
     }
     while (!_ref_008256d0(&sortlist))
@@ -1529,7 +1529,7 @@ class FUN_00935a40_cls
     FUN_00935a40_cls* m_pFirstNode;
 
 
-    bool HasEntryWithKey(int key);
+    bool HasEntryWithKey(std::intptr_t key);
 };
 // Picks a TESTopicInfo from the topic's quest info lists, honoring conditions, history, filters and random selection, and reports deferred info via deferred.
 // Scans quest topic info for dialogue candidates, applies link and history checks, and may return a deferred or randomly selected candidate.
@@ -1584,7 +1584,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
                 if (pTopicInfo && reinterpret_cast<::TopicFlagStandIn *>((pTopicInfo))->FUN_0061aef0() && speaker->IsMobileObject())
                 {
                     MobileObject* mobileSpeaker = static_cast<MobileObject*>(speaker);
-                    if (reinterpret_cast<::FUN_00935a40_cls *>((mobileSpeaker))->HasEntryWithKey((int)(pTopicInfo)))
+                    if (reinterpret_cast<::FUN_00935a40_cls *>((mobileSpeaker))->HasEntryWithKey((std::intptr_t)(pTopicInfo)))
                         bAllowed = false;
                 }
                 if (pTopicInfo && bAllowed && reinterpret_cast<::FUN_0061e600_t *>((pTopicInfo))->FUN_0061e600(bDeferred, 0, speaker, listener))
@@ -1709,7 +1709,7 @@ TESTopicInfo* TESTopic::FindMatchingTopicInfo(const TESTopic* originalTopic, boo
 
 // Walks the entry list reached through FUN_00574900/FUN_005e3fa0/FUN_005d43c0/FUN_0042efe0 and returns true if any entry's unk00 equals key.
 // @fnv 0x00935a40
-bool FUN_00935a40_cls::HasEntryWithKey(int key)
+bool FUN_00935a40_cls::HasEntryWithKey(std::intptr_t key)
 {
     FUN_00935a40_cls* res = 0;
     if (((bool)(::FUN_00574900((const unsigned char *)(this)))))
@@ -2214,7 +2214,7 @@ TESTopicInfo* FUN_0061af30(TESTopicInfo* input, bool& deferredResult, TESObjectR
             if (info && reinterpret_cast<::TopicFlagStandIn *>((info))->FUN_0061aef0() && speaker->IsMobileObject())
             {
                 MobileObject* mobile = (MobileObject*)speaker;
-                if (reinterpret_cast<::FUN_00935a40_cls *>((mobile))->HasEntryWithKey((int)(info)))
+                if (reinterpret_cast<::FUN_00935a40_cls *>((mobile))->HasEntryWithKey((std::intptr_t)(info)))
                     allowed = false;
             }
             if (info && allowed && reinterpret_cast<::FUN_0061e600_t *>((info))->FUN_0061e600(deferred, 0, speaker, listener))

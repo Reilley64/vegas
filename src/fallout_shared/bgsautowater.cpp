@@ -607,12 +607,12 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
         for (int boundary = 0; boundary < 4; boundary++)
         {
             if (boundary == 0 || boundary == 1)
-                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((int)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c800)));
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c800)));
             else
-                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((int)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c7b0)));
-            for (int pair = 0; pair < ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())); pair += 2)
+                reinterpret_cast<::FUN_0049f560_Holder *>(&(_list1.FUN_00558dd0(boundary)))->CallWithTwelve((std::intptr_t)(((bool (&)(const MeshPoint &, const MeshPoint &))::FUN_0049c7b0)));
+            for (int pair = 0; pair < ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())); pair += 2)
             {
-                if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())) > pair + 1)
+                if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(_list1.FUN_00558dd0(boundary)))->GetName())) > pair + 1)
                 {
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair)));
                     reinterpret_cast<::fnv_0049f210::FUN_0049f210_class *>((DAT_011c57ac))->AddItem((const ::fnv_0049f210::NiPoint3 &)(_list1.FUN_00558dd0(boundary).FUN_006a1440(pair + 1)));

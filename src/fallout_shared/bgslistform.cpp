@@ -338,7 +338,7 @@ struct FUN_00590080_shell : public BGSListForm
 // @fnv 0x00590080
 void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(reinterpret_cast<unsigned int>(apSaveGameBuffer)));
+    reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(reinterpret_cast<std::uintptr_t>(apSaveGameBuffer)));
     if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         BSSimpleList<TESForm*>* pCurrentElementNext =

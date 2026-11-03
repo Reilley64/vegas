@@ -164,7 +164,7 @@ void FUN_005e92d0_shell::FUN_005e92d0(TESActorBase* apSpeaker)
 
 struct FUN_005e9130_shell : BGSNote
 {
-    void FUN_005e9130(int a1);
+    void FUN_005e9130(std::intptr_t a1);
 };
 // @fnv 0x005e8900
 void BGSNote::InitItem()
@@ -203,7 +203,7 @@ void BGSNote::InitItem()
         noteRef.id = (unsigned int)FUN_005e9100();
         ::ResolveFormID((unsigned int *)&(noteRef.id), GetFile(-1));
         noteRef.form = dynamic_cast<TESSound*>(::FUN_004839c0(noteRef.id));
-        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)(noteRef.form));
+        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)(noteRef.form));
         if (!noteRef.form)
             ::FUN_005b5e40();
     }
@@ -304,7 +304,7 @@ bool BGSNote::Load(TESFile* file)
                 {
                     unsigned int id = 0;
                     file->GetChunkData(&id);
-                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)((TESSound*)id));
+                    reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)((TESSound*)id));
                 }
                 break;
             case 1:
@@ -348,7 +348,7 @@ bool BGSNote::Load(TESFile* file)
 
 // If GetNoteType returns 0, stores a1 at offset 0x6c of this object.
 // @fnv 0x005e9130
-void FUN_005e9130_shell::FUN_005e9130(int a1)
+void FUN_005e9130_shell::FUN_005e9130(std::intptr_t a1)
 {
     if (reinterpret_cast<::FUN_005e8d40_shell *>(this)->GetNoteType() == 0)
         *(int*)((char*)this + 0x6c) = a1;
@@ -370,10 +370,10 @@ struct Fake9190
 };
 struct FUN_005e9190_shell : BGSNote
 {
-    void FUN_005e9190(int);
+    void FUN_005e9190(std::intptr_t);
 };
 // @fnv 0x005e9190
-void FUN_005e9190_shell::FUN_005e9190(int a)
+void FUN_005e9190_shell::FUN_005e9190(std::intptr_t a)
 {
     if (reinterpret_cast<::FUN_005e8d40_shell *>(this)->GetNoteType() == 2)
         ((Fake9190*)m_pText)->f2(a);
@@ -693,13 +693,13 @@ void BGSNoteCopy::CopyFromNote(TESForm* apForm)
     switch (cType)
     {
     case 0:
-        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((int)(pSource->FUN_005e9100()));
+        reinterpret_cast<::FUN_005e9130_shell *>(this)->FUN_005e9130((std::intptr_t)(pSource->FUN_005e9100()));
         break;
     case 1:
         reinterpret_cast<::FUN_005e9200_shell *>(this)->FUN_005e9200(reinterpret_cast<::BGSNote *>((pSource))->GetNoteDescription());
         break;
     case 2:
-        reinterpret_cast<::FUN_005e9190_shell *>(this)->FUN_005e9190((int)(pSource->GetNoteTexture()));
+        reinterpret_cast<::FUN_005e9190_shell *>(this)->FUN_005e9190((std::intptr_t)(pSource->GetNoteTexture()));
         break;
     case 3:
         reinterpret_cast<::FUN_005e9270_shell *>(this)->FUN_005e9270(pSource->FUN_005e9240());

@@ -1636,10 +1636,10 @@ struct S148c0
     virtual void F97() = 0;
     virtual void F98() = 0;
     virtual void F99(int, int, int, int, int, int) = 0;
-    void FUN_004e9c90(int, int, int, int, int, int);
+    void FUN_004e9c90(std::intptr_t, std::intptr_t, std::intptr_t, std::intptr_t, std::intptr_t, std::intptr_t);
 };
 // @fnv 0x004e9c90
-void S148c0::FUN_004e9c90(int aiArg1, int aiArg2, int aiArg3, int aiArg4, int aiArg5, int aiArg6)
+void S148c0::FUN_004e9c90(std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3, std::intptr_t aiArg4, std::intptr_t aiArg5, std::intptr_t aiArg6)
 {
     if (!reinterpret_cast<::S_004a0e10 *>(this)->FUN_004a0e10((std::intptr_t)("SetCameraData"), 1))
         return;
@@ -1977,7 +1977,7 @@ void FUN_004e5640_shell::SetBitFlagsOnListItems()
 
         if (current)
         {
-            object = *reinterpret_cast<void**>(reinterpret_cast<void*>(reinterpret_cast<::FUN_006317a0_struct *>(&(go))->AddEight(reinterpret_cast<int>(current))));
+            object = *reinterpret_cast<void**>(reinterpret_cast<void*>(reinterpret_cast<::FUN_006317a0_struct *>(&(go))->AddEight(reinterpret_cast<std::intptr_t>(current))));
 
             *reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(object) + 0xac) = 1 << count;
 
@@ -2014,11 +2014,11 @@ struct AutoMemHelper
 
 struct TESWaterSystem_shell
 {
-    BSRenderedTexture* CreateRenderedTexture(unsigned int value);
+    BSRenderedTexture* CreateRenderedTexture(std::uintptr_t value);
 };
 
 // @fnv 0x004e7680
-BSRenderedTexture* TESWaterSystem_shell::CreateRenderedTexture(unsigned int value)
+BSRenderedTexture* TESWaterSystem_shell::CreateRenderedTexture(std::uintptr_t value)
 {
     AutoMemHelper tempMemContext(0x1d, true, ::fnv_004eaa00::DAT_0102301c, 0xb91);
     return new BSRenderedTexture(value);
@@ -2419,7 +2419,7 @@ void Cls5140::DetachRef(Ref5140* apRef, std::intptr_t aiUnused, Target5140* apTa
                         Prop5140* tex = prop;
                         tex->spTex = 0;
                     }
-                    if (!((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(pOwner->kList))->GetName())))
+                    if (!((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(pOwner->kList))->GetName())))
                     {
                         Owner5140* pDel = pOwner;
                         Owner5140* pDel2 = pDel;
@@ -2717,7 +2717,7 @@ void Worker::UpdateWaterSettings(Context* context)
         Reference* reference = *((::Reference **)(reinterpret_cast<::ListStandIn *>(&(context->list))->FUN_0057cbe0((int **)(void **)(&position))));
         Water* water = ((::Water *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         if (reference && ((((::Form *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && ::FUN_00450ff0((void *)(((::Form *)(reinterpret_cast<::LowProcess *>((reference))->GetTarget()))))) ||
-                          (water && water->FUN_004e32c0() && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))))
+                          (water && water->FUN_004e32c0() && !((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))))
         {
             SceneObject* object = ((::SceneObject *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(reference))));
             if (object)
@@ -2728,7 +2728,7 @@ void Worker::UpdateWaterSettings(Context* context)
                     base = property;
                 if (base)
                 {
-                    if (((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))
+                    if (((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))
                         base->settings.FUN_006e5cc0(&context->settings);
                     else if (context->enabled)
                         base->settings.FUN_006e5cc0(&(*reinterpret_cast<::Settings *>(&::g_011c7ad4)));
@@ -2742,7 +2742,7 @@ void Worker::UpdateWaterSettings(Context* context)
     {
         Property* pObjectProperty = ((::Property *)(reinterpret_cast<::FUN_00a59d30_C *>((static_cast<SceneObject*>(((void *)(::FUN_00559450((int *)&(context->object)))))))->FUN_00a59d30(3)));
         Property* base2 = pObjectProperty;
-        if (((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))
+        if (((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Player * *>(&::g_TES))))->GetPrevPath())))
             base2->settings.FUN_006e5cc0(&context->settings);
         else if (context->enabled)
             base2->settings.FUN_006e5cc0(&(*reinterpret_cast<::Settings *>(&::g_011c7ad4)));
@@ -2783,7 +2783,7 @@ bool FUN_004e62e0_cls::FUN_004e62e0(TESObjectREFR* aRef, void* aParam)
         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(void *)(&(*reinterpret_cast<char *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(void *)(((void *)(reinterpret_cast<::NiNode *>((reinterpret_cast<SceneNodeOps*>(node)))->GetAt(0))))))
         {
             void* w = ((void *)(reinterpret_cast<::NiNode *>((reinterpret_cast<SceneNodeOps*>(node)))->GetAt(0)));
-            return ((int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<SceneValue3*>(
+            return ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<SceneValue3*>(
                        ((void *)(::fnv_0043b230::FUN_0043b230((const char *)(reinterpret_cast<SceneValue2*>(((void *)(reinterpret_cast<::BSFaceGenNiNode *>((reinterpret_cast<SceneValue*>(w)))->GetAnimationData()))))))))))->GetName())) == 1;
         }
         else
@@ -3271,7 +3271,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     }
     if (reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         reinterpret_cast<::fnv_00628da0::LoadedAreaBound *>((((LoadedAreaBound*)m_spLoadedAreaBound)))->FUN_00628da0();
-    reinterpret_cast<::fnv_006271b0::Owner *>((((LoadedAreaBound*)m_spLoadedAreaBound)))->FUN_006271b0((::fnv_006271b0::Cell *)(::TESObjectCELL *)(((::TESObjectCELL *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(this)->FUN_00457070()))), (int)(m_pGridCells));
+    reinterpret_cast<::fnv_006271b0::Owner *>((((LoadedAreaBound*)m_spLoadedAreaBound)))->FUN_006271b0((::fnv_006271b0::Cell *)(::TESObjectCELL *)(((::TESObjectCELL *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(this)->FUN_00457070()))), (std::intptr_t)(m_pGridCells));
     if (!(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))
         return 0;
     if (iFirstValue == 0x7fffffff || iSecondValue == 0x7fffffff)
@@ -3283,7 +3283,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
             m_iGridWidth = iFirstValue;
             m_iGridHeight = iSecondValue;
         }
-        reinterpret_cast<::S457d70 *>(this)->FUN_00457d70(1, (::Form457 *)((int)m_pContainingWorldspace), 0);
+        reinterpret_cast<::S457d70 *>(this)->FUN_00457d70(1, (::Form457 *)((std::intptr_t)m_pContainingWorldspace), 0);
         reinterpret_cast<::Shell451 *>(this)->FUN_004515a0((::Point451 *)(location), false);
         return 1;
     }
@@ -3342,7 +3342,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
     bool bIsLoadingMenu = Interface::IsGamePaused();
     if (!bIsLoadingMenu && DAT_011c9618->CallVirtual17() && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
     {
-        reinterpret_cast<::fnv_004581e0::FUN_004581e0_Class *>(this)->FUN_004581e0((int)("Loading Area (queued cells)..."));
+        reinterpret_cast<::fnv_004581e0::FUN_004581e0_Class *>(this)->FUN_004581e0((std::intptr_t)("Loading Area (queued cells)..."));
         bIsLoadingMenu = true;
     }
     int iGridX = position.x >> 12;
@@ -3401,7 +3401,7 @@ int TES::FindCellAtPosition(const NiPoint3* location, bool updatePhysics)
         }
         if (!bIsLoadingMenu && !reinterpret_cast<::fnv_00452ed0::FUN_00452ed0_shell *>(this)->FUN_00452ed0() && !reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
-            reinterpret_cast<::fnv_004581e0::FUN_004581e0_Class *>(this)->FUN_004581e0((int)("Loading Area (unloaded cells)..."));
+            reinterpret_cast<::fnv_004581e0::FUN_004581e0_Class *>(this)->FUN_004581e0((std::intptr_t)("Loading Area (unloaded cells)..."));
             bIsLoadingMenu = true;
         }
         if (::std::abs(iGridDeltaX) > 1 || ::std::abs(iDeltaY) > 1)
@@ -4316,7 +4316,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                     WBase* obj = ((::fnv_004e21b0::WBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
                     if (ref && ref->Get3D() &&
                         ((((::fnv_004e21b0::WCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())) && ::FUN_00450ff0((void *)(((::fnv_004e21b0::WCell *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))))) ||
-                         (obj->IsA() && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))) &&
+                         (obj->IsA() && !((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))) &&
                         ((!reinterpret_cast<::FUN_00456630_helper *>((ref->Get3D()))->FUN_00456610() && reinterpret_cast<::FUN_004e62e0_cls *>(this)->FUN_004e62e0((::TESObjectREFR *)(ref), actor)) || force))
                     {
                         if (!g4->b5d)
@@ -4326,7 +4326,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                             b = true;
                             if (!((bool)(::FUN_004e2180())))
                             {
-                                if (((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
+                                if (((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
                                     g4->b5f = true;
                                 else if (g4->b5c)
                                     DAT_011c7a66 = true;
@@ -4344,7 +4344,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                                 B = true;
                             }
                         }
-                        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())) && *(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7a90)).Get() &&
+                        if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())) && *(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7a90)).Get() &&
                             (reinterpret_cast<::FUN_00452440_shell *>((obj))->FUN_00452440() || *(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7aa8)).Get() || obj->IsF()))
                         {
                             g4->b60 = true;
@@ -4357,7 +4357,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                         {
                             WNode* n = node;
                             WTex* tex = ((::fnv_004e21b0::WTex *)(reinterpret_cast<::AlchemyItem *>((n))->FUN_004030b0()));
-                            if (tex && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((tex))->GetBaseTexture())) == 13)
+                            if (tex && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((tex))->GetBaseTexture())) == 13)
                             {
                                 WShaderProp* raw = ((::fnv_004e21b0::WShaderProp *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)));
                                 WShaderProp* pMat4 = raw;
@@ -4375,7 +4375,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                         {
                             WNode* n = node;
                             WTex* tex = ((::fnv_004e21b0::WTex *)(reinterpret_cast<::AlchemyItem *>((n))->FUN_004030b0()));
-                            if (tex && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((tex))->GetBaseTexture())) == 13)
+                            if (tex && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((tex))->GetBaseTexture())) == 13)
                             {
                                 WShaderProp* raw = ((::fnv_004e21b0::WShaderProp *)(reinterpret_cast<::FUN_00a59d30_C *>((node))->FUN_00a59d30(3)));
                                 WShaderProp* pMat4 = raw;
@@ -4434,7 +4434,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
 
     if (b || DAT_011c7a66 || DAT_011c7a67)
     {
-        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
+        if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
         {
             if (DAT_011c7a66)
             {
@@ -4469,7 +4469,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                         {
                             g4->i9c = m_uiItemCount;
                             m_uiItemCount++;
-                            if (*(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7c00)).Get() || ((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
+                            if (*(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7c00)).Get() || ((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
                                 RenderReflect(actor, g4, false);
                             else
                                 RenderReflect(actor, g4, true);
@@ -4495,7 +4495,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
             }
             aPos3 = next;
         }
-        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
+        if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e21b0::WSys * *>(&::g_TES))))->GetPrevPath())))
         {
             if (DAT_011c7a66 && !((bool)(::FUN_004e2180())))
                 FinishReflect();
@@ -4559,9 +4559,9 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                 if (g4->b5d && *(*reinterpret_cast<::fnv_004e21b0::WSetting *>(&::g_011c7bbc)).Get() && g4->b5e && !((bool)(::FUN_004e2180())))
                 {
                     if (first)
-                        ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((((WTexObj*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->GetGroup()))));
+                        ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(((std::intptr_t)(reinterpret_cast<::BSRenderedTexture *>((((WTexObj*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->GetGroup()))));
                     else
-                        ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((((WTexObj*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->GetGroup()))));
+                        ::FUN_00b6b8d0(0, (::NiRenderTargetGroup *)(((std::intptr_t)(reinterpret_cast<::BSRenderedTexture *>((((WTexObj*)((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))))))->GetGroup()))));
                     SetupDepth(((void *)(::FUN_00559450((int *)&(g4->pa8)))), g4, first, g4->usac);
                     ::fnv_00b988e0::FUN_00b988e0();
                     DAT_011c7a74 = *(int*)&g4->usac;
@@ -4569,7 +4569,7 @@ void FUN_004e21b0_cls::UpdateWaterGroups(WActor* actor, bool force)
                     reinterpret_cast<::ImageSpaceShaderParam *>(&(off))->AllocateShaderConstants(0, 1);
                     reinterpret_cast<::ImageSpaceShaderParam *>(&(off))->SetShaderConstantVector4(0, 1.0f, 0.0f, 0.0f, 1.0f);
                     ::FUN_00b98180(2, 0xff, *(int*)&g4->usac, 0);
-                    reinterpret_cast<::ImageSpaceManagerB8C *>((((::fnv_004e21b0::WDrawer *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b8c730((unsigned int)(((::fnv_004e21b0::WRenderer *)(::FUN_004a0e90()))), ((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))), (::SourceB8C *)(::fnv_004e21b0::WOffscreen *)(&off), (void *)(0), {});
+                    reinterpret_cast<::ImageSpaceManagerB8C *>((((::fnv_004e21b0::WDrawer *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b8c730((std::uintptr_t)(((::fnv_004e21b0::WRenderer *)(::FUN_004a0e90()))), ((void *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e21b0::WPtr *>(&::g_011c7b68)))))), (::SourceB8C *)(::fnv_004e21b0::WOffscreen *)(&off), (void *)(0), {});
                     FinishDepth(g4, g4->usac);
                     ::BSRenderedTexture::EndAllAndResetRendererState();
                     first = false;
@@ -5250,10 +5250,10 @@ bool Owner::FUN_004e4730(Object* object, const Vector* origin, Matrix* rotation)
         FUN_004e3590(added, object);
         reinterpret_cast<::ScriptList *>(&(added->objects))->FUN_0076b660((unsigned int *)(::PlaneRegistry::Object **)(&object));
         if (beforeB)
-            reinterpret_cast<::FUN_007b5330_Class *>(&(records))->FUN_007b5330((int)(beforeB), (int *)(::PlaneRegistry::Record **)(&added));
+            reinterpret_cast<::FUN_007b5330_Class *>(&(records))->FUN_007b5330((std::intptr_t)(beforeB), (int *)(::PlaneRegistry::Record **)(&added));
         else
             reinterpret_cast<::FUN_004ed8c0_shell *>(&(records))->FUN_004ed8c0((int *)(::PlaneRegistry::Record **)(&added));
-        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::PlaneRegistry::World * *>(&::g_TES))))->GetPrevPath())) && ((::PlaneRegistry::Water *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::PlaneRegistry::World * *>(&::g_TES))))->GetHitSound())) &&
+        if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::PlaneRegistry::World * *>(&::g_TES))))->GetPrevPath())) && ((::PlaneRegistry::Water *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::PlaneRegistry::World * *>(&::g_TES))))->GetHitSound())) &&
             ::IsApproximatelyEqual(reinterpret_cast<::BGSProjectile *>((((::PlaneRegistry::Water *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::PlaneRegistry::World * *>(&::g_TES))))->GetHitSound()))))->GetExplosionProximity(), reinterpret_cast<::Twin_0084d030 *>(&(added->first))->GetStoredFloatValue(),
                                  ::DAT_01013ea4))
             added->active = true;
@@ -5826,13 +5826,13 @@ Reference61* Main61::CreateWaterReference(Node61* geometry, World61* world, Node
         shader82->enabled = 1;
         if (extra)
             shader82->extra = 1;
-        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((int)(((void *)(::FUN_00438220()))));
+        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(::FUN_00438220()))));
         reinterpret_cast<::FUN_00439410_cls *>((geometry))->FUN_00439410((::ArgObject *)(shader82));
         reinterpret_cast<::FUN_00a5a040_Class *>((geometry))->FUN_00a5a040();
         ::BSShaderManager::UpdateObjectTypeRecurse((::NiAVObject *)(geometry), 0, 0);
         Material61* material11 = new Material61;
         reinterpret_cast<::fnv_0049ee30::NiObjectNET *>((material11))->FUN_0049ee30(3);
-        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((int)(((void *)(::FUN_005d9660()))));
+        reinterpret_cast<::ExtraOwnerB *>((geometry))->FUN_00a5b230((std::intptr_t)(((void *)(::FUN_005d9660()))));
         reinterpret_cast<::FUN_00439410_cls *>((geometry))->FUN_00439410((::ArgObject *)(material11));
         reinterpret_cast<::Fn575690 *>((reference2))->FUN_00575690(((void *)(reinterpret_cast<::fnv_00580330::FUN_00580330_shell *>((((::fnv_004e4c80::Cell61 *)(reinterpret_cast<::FUN_005860c0_shell *>((world))->FUN_005860c0()))))->FUN_00580330())));
         Node61* node15 = new Node61;
@@ -6078,7 +6078,7 @@ bool WaterSystem5370::RemoveWaterRef(TESObjectREFR* apRef, const NiPoint3* apPos
                                     pRawProp->unk138 = 0;
                                     pRawProp->unk144 = 0;
                                 }
-                                if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(pGroup->m_kWaterReferences))->GetName())))
+                                if (!((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)&(pGroup->m_kWaterReferences))->GetName())))
                                 {
                                     m_kWaterZoneList.RemovePos(pos5);
                                     delete pGroup;
@@ -6184,7 +6184,7 @@ void Cls58a0::ClearTextureAndShaderTextures(Owner58a0* apOwner, int aiUnused1, i
                     Shader58a0* shader7;
                     Geom58a0* pGeom = (Geom58a0*)nodeB;
                     shader7 = ((::Shader58a0 *)(reinterpret_cast<::AlchemyItem *>((pGeom))->FUN_004030b0()));
-                    if (shader7 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((shader7))->GetBaseTexture())) == 0xd)
+                    if (shader7 && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((shader7))->GetBaseTexture())) == 0xd)
                     {
                         Prop5140* prop9 = ((::Prop5140 *)(reinterpret_cast<::FUN_00a59d30_C *>((nodeB))->FUN_00a59d30(3)));
                         Prop5140* shadeProp9 = prop9;
@@ -6349,7 +6349,7 @@ struct Target5c80
 // @fnv 0x004e5c80
 void Target5c80::AddObjectToEntry(void* location, Object5c80* object, float distance)
 {
-    if (!location && !((int)(reinterpret_cast<::LowProcess *>((object))->GetTarget())))
+    if (!location && !((std::intptr_t)(reinterpret_cast<::LowProcess *>((object))->GetTarget())))
         return;
     void* found;
     Entry5c80* current = ((::Entry5c80 *)(reinterpret_cast<::WaterZoneManager *>(this)->GetWaterZone((::TESObjectREFR *)(location), (::TESObjectREFR *)(object), distance)));
@@ -6613,7 +6613,7 @@ bool WaterCleanup::ReleaseWaterResources(bool release, bool keep)
                                 s = kRef;
                                 GeometryFUN_004030b0* geom9;
                                 geom9 = ((::fnv_004e6620::GeometryFUN_004030b0 *)(reinterpret_cast<::AlchemyItem *>((s))->FUN_004030b0()));
-                                if (geom9 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((geom9))->GetBaseTexture())) == 13)
+                                if (geom9 && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((geom9))->GetBaseTexture())) == 13)
                                 {
                                     WaterProperty* j;
                                     j = ((::fnv_004e6620::WaterProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((kRef))->FUN_00a59d30(3)));
@@ -6979,7 +6979,7 @@ struct FUN_004e8160_shell
 Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnused, float fSize)
 {
     void* pkMGeometry = FUN_004e7730(fSize, 0x200, 1, 1, 1);
-    Node4e8* pkANode = ((::Node4e8 *)(reinterpret_cast<::fnv_004e7680::TESWaterSystem_shell *>(this)->CreateRenderedTexture((unsigned int)(pkMGeometry))));
+    Node4e8* pkANode = ((::Node4e8 *)(reinterpret_cast<::fnv_004e7680::TESWaterSystem_shell *>(this)->CreateRenderedTexture((std::uintptr_t)(pkMGeometry))));
     NiPoint3 kPos(0.0f, 0.0f, 0.0f);
     if ((*reinterpret_cast<::Player4e8 * *>(&::_g_thePlayer)))
         reinterpret_cast<::FUN_00440460_S *>((pkANode))->FUN_00440460((const ::V3 *)(const ::NiPoint3 *)(((const ::NiPoint3 *)(reinterpret_cast<::TESTopicInfo *>(((*reinterpret_cast<::Player4e8 * *>(&::_g_thePlayer))))->GetAddTopicList()))));
@@ -6998,7 +6998,7 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
         {
             Geom4e8* pkFTemp = pkGeom;
             Type4e8* pkType = ((::Type4e8 *)(reinterpret_cast<::AlchemyItem *>((pkFTemp))->FUN_004030b0()));
-            if (pkType && ((unsigned int)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkType))->GetBaseTexture())) == 0xd)
+            if (pkType && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkType))->GetBaseTexture())) == 0xd)
             {
                 Prop4e8* pkProp = ((::Prop4e8 *)(reinterpret_cast<::FUN_00a59d30_C *>((pkGeom))->FUN_00a59d30(3)));
                 Prop4e8* pkProp2 = pkProp;
@@ -7006,7 +7006,7 @@ Node4e8* FUN_004e8160_shell::CreateWaterShaderNode(Water4e8* pkWater, int iUnuse
             }
         }
     }
-    if (((unsigned int)(reinterpret_cast<::BGSCameraPath *>((((TES4e8*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())))
+    if (((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((((TES4e8*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())))
         pkShader->sp13c.FUN_006e5cc0(pkWater->sp54);
     else if (pkWater->b5c)
         pkShader->sp13c.FUN_006e5cc0((SpRef4e8&)(*reinterpret_cast<::Settings *>(&::g_011c7ad4)));
@@ -7334,7 +7334,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
             (*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64)).Set(((::fnv_004e8ec0::WObj *)(reinterpret_cast<::TESWaterStub *>(this)->FUN_004ed290())));
             ::fnv_004e8510::DAT_011fffec = true;
         }
-        ::FUN_00b6b8d0(6, (::NiRenderTargetGroup *)(((int)(reinterpret_cast<::BSRenderedTexture *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64))))))))->GetGroup()))));
+        ::FUN_00b6b8d0(6, (::NiRenderTargetGroup *)(((std::intptr_t)(reinterpret_cast<::BSRenderedTexture *>((((::fnv_004e8ec0::WObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_004e8ec0::WObjPtr *>(&::g_011c7b64))))))))->GetGroup()))));
         if (DAT_011ad832)
             Refresh();
         if (!::FUN_004e9510())
@@ -7425,7 +7425,7 @@ void FUN_004e8ec0_cls::UpdateWaterObjects()
                 reinterpret_cast<::fnv_006db840::BSSimpleArray *>(&((*reinterpret_cast<::fnv_004e8ec0::WSet *>(&::DAT_011ada00))))->InsertAtEnd((*(const ::NiPoint2 *)(val)));
                 reinterpret_cast<::fnv_006db840::BSSimpleArray *>(&((*reinterpret_cast<::fnv_004e8ec0::WSet *>(&::DAT_011ada10))))->InsertAtEnd((*(const ::NiPoint2 *)(&val->unk8)));
             }
-            if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_004e8ec0::WSet *>(&::DAT_011ada00))))->GetName())))
+            if (((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_004e8ec0::WSet *>(&::DAT_011ada00))))->GetName())))
             {
                 m_fPackageValue = 0.0f;
             }
@@ -7906,7 +7906,7 @@ void WSystem::UpdateRegions()
                         {
                             WGeometry* s = geometry;
                             WShader* f = ((::fnv_004e9550::WShader *)(reinterpret_cast<::AlchemyItem *>((s))->FUN_004030b0()));
-                            if (f && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((f))->GetBaseTexture())) == 13)
+                            if (f && ((int)(::std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((f))->GetBaseTexture())) == 13)
                             {
                                 WProperty* _base = ((::fnv_004e9550::WProperty *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3)));
                                 WProperty* i = _base;
@@ -7970,8 +7970,8 @@ class CameraState4E9
 // @fnv 0x004e9bb0
 void CameraState4E9::SetFromCamera(const Camera4E9& kCamera)
 {
-    reinterpret_cast<::S148c0 *>(this)->FUN_004e9c90((int)&(kCamera.GetViewPort()), (int)&(const ::Point4E9 &)(kCamera.GetWorldForwardVector()), (int)&(const ::Point4E9 &)(kCamera.GetWorldTranslation()),
-        (int)&(const ::Point4E9 &)(kCamera.GetWorldUpVector()), (int)&((*(const ::Frustum4E9 *)&(reinterpret_cast<::NiCamera *>((void *)&(kCamera))->GetViewFrustum()))), ((unsigned int)(::FUN_004a0d10((char *)&(kCamera)))));
+    reinterpret_cast<::S148c0 *>(this)->FUN_004e9c90((std::intptr_t)&(kCamera.GetViewPort()), (std::intptr_t)&(const ::Point4E9 &)(kCamera.GetWorldForwardVector()), (std::intptr_t)&(const ::Point4E9 &)(kCamera.GetWorldTranslation()),
+        (std::intptr_t)&(const ::Point4E9 &)(kCamera.GetWorldUpVector()), (std::intptr_t)&((*(const ::Frustum4E9 *)&(reinterpret_cast<::NiCamera *>((void *)&(kCamera))->GetViewFrustum()))), ((std::uintptr_t)(::FUN_004a0d10((char *)&(kCamera)))));
 }
 
 namespace fnv_004e9d40 {
@@ -8643,7 +8643,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                         RefActor* ref = ((::fnv_004e9d40::RefActor *)(reinterpret_cast<::ListStandIn *>(&(state->refs))->FUN_0057cbe0((int **)(void **)(&iter))));
                         F* form = ((::fnv_004e9d40::F *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
                         if (ref && ((((::fnv_004e9d40::RN *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget())) && ::FUN_00450ff0((void *)(((::fnv_004e9d40::RN *)(reinterpret_cast<::LowProcess *>((ref))->GetTarget()))))) ||
-                                    (form && form->FUN_004e32c0() && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())))))
+                                    (form && form->FUN_004e32c0() && !((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())))))
                         {
                             N* root = 0;
                             N* object = ((::fnv_004e9d40::N *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(ref))));
@@ -8662,7 +8662,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                     reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(((::fnv_004e9d40::N *)(reinterpret_cast<::StrOwner *>((((::fnv_004e9d40::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetBaseTexture()))))->FUN_007fa950()))));
                                 }
                                 if (!special && (*(*reinterpret_cast<::fnv_004e9d40::Setting *>(&::g_011c7cc0)).FUN_00408d60() ||
-                                                 (form && reinterpret_cast<::fnv_004ea8b0::BGSPlaceableWater *>((form))->FUN_004ea8b0() && !d && !((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())))))
+                                                 (form && reinterpret_cast<::fnv_004ea8b0::BGSPlaceableWater *>((form))->FUN_004ea8b0() && !d && !((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())))))
                                 {
                                     d = true;
                                     for (unsigned int i = 0; i < ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011c63cc))))))->ui; ++i)
@@ -8684,13 +8684,13 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                     if (data)
                                     {
                                         unsigned char loaded = ::FUN_006fd150();
-                                        if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && loaded)
+                                        if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && loaded)
                                         {
                                             ::FUN_006fd1a0();
                                             if (form && reinterpret_cast<::fnv_004ea8d0::BGSPlaceableWater *>((form))->FUN_004ea8d0() && !c)
                                             {
                                                 c = true;
-                                                if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
+                                                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
                                                     ((::fnv_004e9d40::N *)(reinterpret_cast<::FUN_004ea9a0_Class *>((data))->FUN_004ea9a0())))
                                                     reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(((::fnv_004e9d40::N *)(reinterpret_cast<::FUN_004ea9a0_Class *>((data))->FUN_004ea9a0()))));
                                             }
@@ -8698,14 +8698,14 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                             if (form && reinterpret_cast<::fnv_004ea8f0::BGSPlaceableWater *>((form))->FUN_004ea8f0() && !e)
                                             {
                                                 e = true;
-                                                if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
+                                                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
                                                     ((::fnv_004e9d40::N *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((data))->FUN_004ea9c0())))
                                                     reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(((::fnv_004e9d40::N *)(reinterpret_cast<::fnv_004ea9c0::GlobalNodeAccessor *>((data))->FUN_004ea9c0()))));
                                             }
                                             if (form && reinterpret_cast<::fnv_004ea910::BGSPlaceableWater *>((form))->FUN_004ea910() && !b)
                                             {
                                                 b = true;
-                                                if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
+                                                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && ((::fnv_004e9d40::CellOwner *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetHitSound())) &&
                                                     ((::fnv_004e9d40::N *)(reinterpret_cast<::FUN_004ea9e0_Class *>((data))->FUN_004ea9e0())))
                                                     reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(((::fnv_004e9d40::N *)(reinterpret_cast<::FUN_004ea9e0_Class *>((data))->FUN_004ea9e0()))));
                                             }
@@ -8721,8 +8721,8 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                         {
                                             RefActor* item = ((::fnv_004e9d40::ListEntry *)((void *)(list)))->ref;
                                             if (item->v1d0() && !reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(map))->FUN_00853130((::std::uintptr_t)(item), (*(::fnv_00853130::CombatThreatRecord * *)(&item))) &&
-                                                (((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) ||
-                                                 (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && !reinterpret_cast<::FUN_00564e60_shell *>((item))->FUN_00564e60())))
+                                                (((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) ||
+                                                 (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && !reinterpret_cast<::FUN_00564e60_shell *>((item))->FUN_00564e60())))
                                             {
                                                 reinterpret_cast<::ScriptList *>(&(state->nodes))->FUN_0076b660((unsigned int *)&(const ::fnv_004e9d40::RenderBase *const &)(item->v1d0()));
                                                 reinterpret_cast<::FUN_00844700_Class *>(&(map))->FUN_00844700((::std::uintptr_t)(item), (::std::uintptr_t)(item));
@@ -8731,7 +8731,7 @@ void Target::FUN_004e9d40(void* input, State* state, bool special)
                                         list = ((::fnv_004e9d40::RefList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                                     }
                                 }
-                                if (!((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && !special && form && reinterpret_cast<::FUN_00452440_shell *>((form))->FUN_00452440())
+                                if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::fnv_004e9d40::RefActor * *>(&::g_TES))))->GetPrevPath())) && !special && form && reinterpret_cast<::FUN_00452440_shell *>((form))->FUN_00452440())
                                 {
                                     RefList2* list = (RefList2*)::FUN_004e3260();
                                     while (list && !list->FUN_008256d0())
@@ -10083,7 +10083,7 @@ void Water197::UpdateWaterRendering()
     if (!((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7ad4)))))))
         (*reinterpret_cast<::Handle197 *>(&::g_011c7ad4)).FUN_0066b0d0(((::Texture197 *)(reinterpret_cast<::Pool *>((((::Manager197 *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((::Renderer197 *)(::FUN_004a0e90()))), 9, 0, 0, 0))));
     bool memory = (unsigned char)FUN_006fd150() && !*(*reinterpret_cast<::Bool197 *>(&::g_011c7c00)).FUN_00408d60();
-    if (!((int)(reinterpret_cast<::BGSCameraPath *>((((Player197*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())) && memory)
+    if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((Player197*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())) && memory)
         FUN_006fd1c0();
     ::FUN_00b6b8d0(7, (::NiRenderTargetGroup *)(void *)(((void *)(reinterpret_cast<::BSRenderedTexture *>((((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7ad4))))))))->GetGroup()))));
     reinterpret_cast<::FUN_004a0dd0_cls *>((((RendererOps197*)::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44))))))))));
@@ -10100,7 +10100,7 @@ void Water197::UpdateWaterRendering()
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::Texture197 *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44))))))), (::BSShaderAccumulator *)(::Texture197 *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7cb8))))))), 0);
     FUN_004eb510(0);
     ::BSRenderedTexture::EndAllAndResetRendererState();
-    if (!((int)(reinterpret_cast<::BGSCameraPath *>((((Player197*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())) && memory)
+    if (!((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>((((Player197*)(*reinterpret_cast<::Player * *>(&::g_TES)))))->GetPrevPath())) && memory)
         FUN_006fd1e0();
     ((::Renderer197 *)(::FUN_004a0e90()))->SetColor(oldColor);
     (*reinterpret_cast<::Handle197 *>(&::g_011c7b44)).FUN_0066b0d0(0);
@@ -11371,7 +11371,7 @@ void WaterPass::RenderWaterGroup(NiCamera* camera, WaterSurface* group, int unus
                 {
                     WaterGeometry* geometry = static_cast<WaterGeometry*>(object);
                     WaterGeometryData* data = ((::fnv_004ecb60::WaterGeometryData *)(reinterpret_cast<::AlchemyItem *>((geometry))->FUN_004030b0()));
-                    if (data && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((data))->GetBaseTexture())) == 13)
+                    if (data && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((data))->GetBaseTexture())) == 13)
                     {
                         Property* property = ((::Property *)(reinterpret_cast<::FUN_00a59d30_C *>((object))->FUN_00a59d30(3)));
                         WaterProperty* waterProperty = static_cast<WaterProperty*>(property);
@@ -11422,7 +11422,7 @@ class SoundH
 class NiTMap_S
 {
   public:
-    bool RemoveKey(unsigned int);
+    bool RemoveKey(std::uintptr_t);
 };
 
 
@@ -11615,7 +11615,7 @@ void TESWaterSystem_Impl::FUN_004e5fe0(TESObjectREFR* apRef)
                                 z = 0;
                                 if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((NiTPointerMap<unsigned int, unsigned int>*)((char*)this + 0x7c))))->FUN_00853130((::std::uintptr_t)apRef, (::fnv_00853130::CombatThreatRecord *&)(z)))
                                 {
-                                    ((NiTMap_S*)((char*)this + 0x7c))->RemoveKey((unsigned int)apRef);
+                                    ((NiTMap_S*)((char*)this + 0x7c))->RemoveKey((std::uintptr_t)apRef);
                                 }
                             }
                             else
@@ -11816,7 +11816,7 @@ void Owner::RemoveReferenceFromCell(Ref* pkRef, Cell* pkCell)
             pkCell->m_kActors.FUN_0049f590(pkMatch);
             int iValue = 0;
             if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(&(m_kActorMap))->FUN_00853130((::std::uintptr_t)(pkRef), (*(::fnv_00853130::CombatThreatRecord * *)(&iValue))))
-                reinterpret_cast<::NiTMap_S *>(&(m_kActorMap))->RemoveKey((unsigned int)(pkRef));
+                reinterpret_cast<::NiTMap_S *>(&(m_kActorMap))->RemoveKey((std::uintptr_t)(pkRef));
         }
         else
         {
@@ -12173,7 +12173,7 @@ void System125::FUN_004e3590(Parent125* parent, Ref125* reference)
     {
         Scene125* shader = geometry;
         Shader125* object = ((::Shader125 *)(reinterpret_cast<::AlchemyItem *>((shader))->FUN_004030b0()));
-        if (object && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) == 13)
+        if (object && ((int)(std::uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((object))->GetBaseTexture())) == 13)
         {
             WaterMaterial125* property = ((::WaterMaterial125 *)(reinterpret_cast<::FUN_00a59d30_C *>((geometry))->FUN_00a59d30(3)));
             WaterMaterial125* base = property;

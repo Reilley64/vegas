@@ -1801,7 +1801,7 @@ bool ActivationRef::ActivateWithActorCheck(ActivationRef* source, ActivationRef*
     if (target && target->IsActor())
     {
         ActivationRef* actor = target;
-        ::FUN_00600900((int)(this));
+        ::FUN_00600900((std::intptr_t)(this));
         ::FUN_00600940(1);
         float height2 = reinterpret_cast<::fnv_008be940::FloatValueProvider *>((actor))->FUN_008be940() + actor->Position().z - actor->GroundOffset();
         float sourceHeight = source->Position().z;
@@ -2091,7 +2091,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
     }
     else
     {
-        reinterpret_cast<::FUN_0042e060_class *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->FUN_0042e060((unsigned int)(this), (unsigned int)(apRef));
+        reinterpret_cast<::FUN_0042e060_class *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->FUN_0042e060((std::uintptr_t)(this), (std::uintptr_t)(apRef));
         apRef->SetFlag(0x80000000);
         ExtraHolder* pNewHolder = ((::ExtraHolder *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->GetExtraData()));
         pSpeakerActor = pNewHolder->unk0C;
@@ -2110,7 +2110,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
         if ((void*)apTarget == (void*)::_g_thePlayer)
         {
             reinterpret_cast<::VATS *>(&((*reinterpret_cast<::VATSLike *>(&::g_011f2250))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)pSpeakerActor, 0, unk90, 1);
+            ::FUN_00709470(4, (std::intptr_t)pSpeakerActor, 0, unk90, 1);
         }
         else
         {
@@ -2119,7 +2119,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
             {
                 pCurrentPackage = ((::PackageLike *)(reinterpret_cast<::FUN_009344a0_shell *>((pSpeakerActor))->FUN_009344a0()));
             }
-            if (pCurrentPackage && ::FUN_009ee040((char *)(pCurrentPackage)) == (int)pTargetForm)
+            if (pCurrentPackage && ::FUN_009ee040((char *)(pCurrentPackage)) == (int)(std::uintptr_t)pTargetForm)
             {
                 return true;
             }
@@ -3246,14 +3246,14 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                         ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00516dc0::ActivateMessage *>(&::g_011d276c))))->GetMenuTitle()))), 0, (const char *)(DAT_0102b0d0), 0, ::DAT_010162c0, 0);
                     }
                     else
-                        ::fnv_00705830::FUN_00705830((int)(apTarget), 0, 0);
+                        ::fnv_00705830::FUN_00705830((std::intptr_t)(apTarget), 0, 0);
                 }
                 else
                 {
                     ActivateAnimation* animation = actor2->GetAnimation();
                     if (animation)
                         reinterpret_cast<::Animation *>((animation))->SpecialIdleFree(1, 0);
-                    ::FUN_00600900((int)((*reinterpret_cast<::fnv_00516dc0::ActivateKey * *>(&::g_pLockpickItem))));
+                    ::FUN_00600900((std::intptr_t)((*reinterpret_cast<::fnv_00516dc0::ActivateKey * *>(&::g_pLockpickItem))));
                     ::FUN_00600940(1);
                     ::FUN_00600920(1);
                     ((::fnv_00516dc0::ActivateActorAction *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->Action(actor2, 0, 2, 1, 0, 1);
@@ -3498,7 +3498,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
         h = activator;
     if (h)
     {
-        ::FUN_00600900((int)((ActivationRef*)this));
+        ::FUN_00600900((std::intptr_t)((ActivationRef*)this));
         ::FUN_00600940(1);
         float a = reinterpret_cast<::fnv_008be940::FloatValueProvider *>((h))->FUN_008be940() + h->Position().z - h->GroundOffset();
         float f = ref->Position().z;
@@ -3526,7 +3526,7 @@ bool FUN_005113f0_shell::FUN_005113f0(ActivationRef* ref, ActivationRef* activat
             reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>((((::AnimationView *)(reinterpret_cast<::PlayerCharacter *>((((PlayerView*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))))->GetAnimation(false)))))->FUN_00496080(true, 0.0f);
         }
         if (!reinterpret_cast<::OwnershipReferenceView *>((((RefView*)ref)))->FUN_005785e0((::Actor *)(h), true))
-            reinterpret_cast<::fnv_008c0ec0::Target *>((((ActorView*)h)))->UpdateTargetUnits((int)(ref), (int)(((void *)(reinterpret_cast<::OwnerLookupView *>((((RefView*)ref)))->FUN_00567790()))), -1);
+            reinterpret_cast<::fnv_008c0ec0::Target *>((((ActorView*)h)))->UpdateTargetUnits((std::intptr_t)(ref), (std::intptr_t)(((void *)(reinterpret_cast<::OwnerLookupView *>((((RefView*)ref)))->FUN_00567790()))), -1);
     }
     if (((::SoundView *)(reinterpret_cast<::FUN_00407820_shell *>(this)->FUN_00407820())))
     {
@@ -4387,7 +4387,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     else if (pkActorVal->IsDead(0))
     {
         if (pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
-            ::FUN_00709470(1, (int)(pkRef), 0, 0, 1);
+            ::FUN_00709470(1, (std::intptr_t)(pkRef), 0, 0, 1);
         else if (pkObject && !dynamic_cast<TESNPC*>(pkObject))
             ((AAActor*)pkRef)->ActivateItem(pkObject, 0, iCount, 0, 0, pkActivator, 0, 0, 1, 0);
     }
@@ -4412,14 +4412,14 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
             return false;
         }
         else
-            ::FUN_00709470(1, (int)(pkRef), 0, 0, 2);
+            ::FUN_00709470(1, (std::intptr_t)(pkRef), 0, 0, 2);
     }
     else if (reinterpret_cast<::Standin00898ff0 *>((pkActorVal))->FUN_00898ff0() || pkActivator != (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
     {
         if (reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat() && pkActivatorRef == (TESObjectREFR*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
         {
             if (::FUN_00754d90((::Actor *)(pkActorVal)))
-                ::FUN_00709470(8, (int)(pkRef), 0, 0, 0);
+                ::FUN_00709470(8, (std::intptr_t)(pkRef), 0, 0, 0);
             return false;
         }
         AASceneList* pkScenes = pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) ? ((::AASceneList *)(::fnv_0061a2d0::GetTopicSubTypeName(0, 0))) : 0;
@@ -4432,7 +4432,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         else if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActorVal))->FUN_00493bb0())) && pkActivator == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) && reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat())
         {
             reinterpret_cast<::VATS *>((((AAMusic*)&(*reinterpret_cast<::VATSLike *>(&::g_011f2250)))))->FUN_009c8950(0, 0);
-            ::FUN_00709470(4, (int)(pkActorVal), 0, 0, 1);
+            ::FUN_00709470(4, (std::intptr_t)(pkActorVal), 0, 0, 1);
         }
         else if (pkActorVal && (!((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActorVal))->FUN_00493bb0())) || pkActorVal->IsIncapacitated()) &&
                  (pkActivator != (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)) || !pkActorVal->GetSitSleepState() ||
@@ -4467,7 +4467,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
                     AAActor* pkTarget = pkActivator;
                     if (pkTarget == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
                         pkTarget = pkActorVal;
-                    ::FUN_00709470(4, (int)(pkTarget), iDialogueTopic, 0, 1);
+                    ::FUN_00709470(4, (std::intptr_t)(pkTarget), iDialogueTopic, 0, 1);
                 }
                 else
                     pkActorVal->StartConversation((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)), 0, 0, 1, 0, 0, 0, 0, 0);
@@ -4494,7 +4494,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
                 AAActor* pkTarget2 = pkActivator;
                 if (pkTarget2 == (AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
                     pkTarget2 = pkActorVal;
-                ::FUN_00709470(4, (int)(pkTarget2), iDialogueTopic, 0, 1);
+                ::FUN_00709470(4, (std::intptr_t)(pkTarget2), iDialogueTopic, 0, 1);
             }
             else
             {
@@ -4525,7 +4525,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
     else if (reinterpret_cast<::MiddleHighProcess *>((pkActorVal))->IsActorInCombat() && pkActivatorRef == (TESObjectREFR*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))
     {
         if (::FUN_00754d90((::Actor *)(pkActorVal)))
-            ::FUN_00709470(8, (int)(pkRef), 0, 0, 0);
+            ::FUN_00709470(8, (std::intptr_t)(pkRef), 0, 0, 0);
         return false;
     }
     return true;

@@ -102,7 +102,7 @@ void FUN_00409400_shell::CopySoundAndSpeakerData(MagicItem* apItem)
     EnchantmentItem* info = dynamic_cast<EnchantmentItem*>(apItem);
     if (!info)
         return;
-    reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)((char*)this - 0x18))))->SetValue((int)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)info)))))));
+    reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)((char*)this - 0x18))))->SetValue((std::intptr_t)(((::TESSound *)(::GetField38((char *)(((TESTopicInfo*)info)))))));
     reinterpret_cast<::FUN_00409480_shell *>((((TESTopicInfo*)((char*)this - 0x18))))->FUN_00409480((::TESActorBase *)(::MagicItem *)(((::MagicItem *)(reinterpret_cast<::Twin_00639b40 *>((((EP_008c48d0*)info)))->GetEntryPoint()))));
     reinterpret_cast<::LowProcess *>((((TES*)((char*)this - 0x18))))->SetCurrentBoundObject((::TESBoundObject *)(::TESSound *)(((::TESSound *)(reinterpret_cast<::BGSCameraPath *>((((CP_008c48d0*)info)))->GetPrevPath()))));
     ((char*)this)[0x28] = (*(char*)&info->flags);
@@ -159,7 +159,7 @@ bool FUN_00409fd0_shell::FUN_00409fd0(MagicItem* apCompare)
     EnchantmentItem* penchantment = (EnchantmentItem*)dynamic_cast<IngredientItem*>(apCompare);
     if (!penchantment)
         return true;
-    if (((int)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)penchantment))))->FUN_00586150())) != ((int)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)this - 0x30))))->FUN_00586150())) ||
+    if (((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)penchantment))))->FUN_00586150())) != ((int)(std::uintptr_t)(reinterpret_cast<::InterfaceManager *>((((IMH*)((char*)this - 0x30))))->FUN_00586150())) ||
         *(unsigned char*)((char*)penchantment + 0xa0) != *(unsigned char*)((char*)this + 0x70))
         return true;
     return false;
@@ -225,8 +225,8 @@ bool EnchantmentComparison::FUN_00409360(MagicItem* apMagicItem)
         return true;
 
     if (((unsigned int)(::GetField38((char *)(reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem))))) != ((unsigned int)(::GetField38((char *)this))) ||
-        ((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetEntryPoint())) != ((unsigned int)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) ||
-        ((unsigned int)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetPrevPath())) != ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) ||
+        ((std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetEntryPoint())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) ||
+        ((std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>((reinterpret_cast<EnchantmentComparison*>(pEnchantmentItem)))->GetPrevPath())) != ((unsigned int)(std::uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())) ||
         pEnchantmentItem->flags != flags)
         return true;
     return false;

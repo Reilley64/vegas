@@ -91,7 +91,7 @@ TESFile* TESFile::GetParentTESFile()
     {
         file = file->GetThreadSafeRootFile();
     }
-    if (file && gm_GetCurrentThreadId() == ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0())))
+    if (file && gm_GetCurrentThreadId() == ((unsigned int)(std::uintptr_t)(reinterpret_cast<::MagicCaster_shell *>((g_osGlobals))->FUN_0044edb0())))
     {
         return file;
     }
@@ -973,7 +973,7 @@ struct FUN_00471850_Class
 // @fnv 0x00471a10
 TESFile* FUN_00471a10_shell::GetFileByIndex(unsigned int index)
 {
-    if (index < 0 || index > ((unsigned int)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC())))
+    if (index < 0 || index > ((unsigned int)(std::uintptr_t)(reinterpret_cast<::FUN_00471850_Class *>((this))->GetFieldAt3FC())))
     {
         return 0;
     }
@@ -1915,7 +1915,7 @@ struct FUN_00472f60_arg
     virtual void v11c();
     virtual void v120();
     virtual void v124();
-    virtual void v128(int);
+    virtual void v128(std::intptr_t);
 };
 
 struct FUN_00472f60_cls : public TESFile
@@ -1929,13 +1929,13 @@ void FUN_00472f60_cls::FUN_00472f60(FUN_00472f60_arg* apTarget)
     reinterpret_cast<::FUN_004f15a0_shell *>((apTarget))->FUN_004f15a0(reinterpret_cast<::FUN_00472660_shell *>(this)->FUN_00472660());
     if (reinterpret_cast<::FUN_004077c0_shell *>((apTarget))->FUN_004077c0())
     {
-        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) | 0x4000));
+        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode())) | 0x4000));
     }
     else
     {
-        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode()))));
+        reinterpret_cast<::TESRegionGrassObject *>((apTarget))->AssignLandTexture((::TESLandTexture *)(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFacialAnimationNode()))));
     }
-    apTarget->v128(((int)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFaceGenHeadNode())));
+    apTarget->v128(((std::intptr_t)(reinterpret_cast<::MiddleHighProcess *>(this)->GetFaceGenHeadNode())));
     reinterpret_cast<::TESForm *>((apTarget))->SetFile(this);
 }
 
@@ -3473,7 +3473,7 @@ class B473180Stream
 unsigned int B473180Stream::FUN_00473180(void* pvBuffer, unsigned int uiBytes)
 {
     unsigned int uiElemSize = 1;
-    unsigned int uiRead = ((unsigned int)(reinterpret_cast<::FUN_0044e120_Class *>(this)->CallAndAccumulate((int)(pvBuffer), uiBytes, (int)(&uiElemSize), 1)));
+    unsigned int uiRead = ((unsigned int)(reinterpret_cast<::FUN_0044e120_Class *>(this)->CallAndAccumulate((std::intptr_t)(pvBuffer), uiBytes, (std::intptr_t)(&uiElemSize), 1)));
     return uiRead;
 }
 
@@ -3489,7 +3489,7 @@ void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
     bool bFound;
     if (!apForm)
         return;
-    if (DAT_011c5490 == (int)this && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0())))
+    if (DAT_011c5490 == (int)(std::uintptr_t)this && ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((((S7010*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004048e0())))
         return;
     DAT_011c5490 = (int)this;
     reinterpret_cast<::TextString *>((((BSStr*)&(*reinterpret_cast<::BSStringT<char> *>(&::g_011c5498)))))->FUN_004037f0(0, 0);

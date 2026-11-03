@@ -2207,7 +2207,7 @@ class B81390ContainerObject_rtti2
 void B81390ContainerObject_rtti2::FUN_00481390(TESForm_rtti2* pkOwner)
 {
     unsigned int auiFormId = (unsigned int)(std::uintptr_t)m_pPointer;
-    ::ResolveFormID(&auiFormId, (::TESFile *)(((int)(pkOwner->GetFile(-1)))));
+    ::ResolveFormID(&auiFormId, (::TESFile *)(((std::intptr_t)(pkOwner->GetFile(-1)))));
     m_pPointer = dynamic_cast<TESBoundObject_rtti2*>(reinterpret_cast<TESForm_rtti2*>(FUN_004839c0(auiFormId)));
     if (!m_pPointer)
     {

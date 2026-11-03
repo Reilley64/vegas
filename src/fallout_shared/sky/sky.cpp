@@ -1053,12 +1053,12 @@ void FUN_0063ac70_shell::FUN_0063ac70(float afSecondsPassed)
                                  0x1d8);
     bool bnewPhase;
 
-    if (!((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())))
+    if (!((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())))
         return;
 
     m_fFogFarDistance = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::fnv_0063ac70::Calendar *>(&::g_011de7b8))))->GetGameTime();
 
-    if ((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)) && ((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())) &&
+    if ((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)) && ((std::intptr_t)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer))))->GetTarget())) &&
         FUN_0045bb80(((::fnv_0063ac70::NiAVObject *)(::FUN_00558310((::NiNode_00558310 *)(::fnv_0063ac70::NiNode_00558310 *)(((::fnv_0063ac70::NiNode_00558310 *)(::FUN_0045c670()))))))).z < reinterpret_cast<::FUN_0057b0a0_shell *>((void *)(((MobileObject*)(*reinterpret_cast<::fnv_0063ac70::PC7d * *>(&::_g_thePlayer)))))->FUN_0057b0a0())
         flags |= 4;
     else
@@ -2354,7 +2354,7 @@ struct ImageSpaceModifierInstanceDOF : public TESObjectDoorController
 
 struct GlobalObject_00633c90
 {
-    GlobalObject_00633c90(int v);
+    GlobalObject_00633c90(std::intptr_t v);
     ~GlobalObject_00633c90();
     int m_ptr;
 };
@@ -2410,12 +2410,12 @@ void FUN_0063ef20_shell::FUN_0063ef20()
             {
                 field11c = new ImageSpaceModifierInstanceDOF;
                 field124 = new ImageSpaceModifierInstanceDOF;
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field124)));
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field11c)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field124)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field11c)));
                 field120 = new ImageSpaceModifierInstanceDOF;
                 field128 = new ImageSpaceModifierInstanceDOF;
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field128)));
-                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((int)field120)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field128)));
+                reinterpret_cast<::fnv_00631540::TargetClass *>((((::fnv_0063ef20::ListX *)(reinterpret_cast<::TESObjectTREE *>(((*reinterpret_cast<::fnv_0063ef20::TESX * *>(&::g_TES))))->GetData()))))->FUN_00631540((const ::NiPointer< ::NiNode> &)((const ::fnv_0063ef20::GlobalObject_00633c90 &)((std::intptr_t)field120)));
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field11c)))->FUN_005bbd60(true);
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field124)))->FUN_005bbd60(true);
                 reinterpret_cast<::ImageSpaceModifierInstanceDOF *>((((ImageSpaceModifierInstanceDOF*)field120)))->FUN_005bbd60(true);

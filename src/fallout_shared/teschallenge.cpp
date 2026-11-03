@@ -647,7 +647,7 @@ void FUN_005f5540_shell::Initialize()
     ((FUN_00482cb0_shell*)((char*)this + 0x24))->FUN_00482cb0();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005f5480_shell *>((((ChallengeData*)((char*)this + 0x54))))->SwapEndianFields();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)((char*)this + 0x54)), 0x18);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)((char*)this + 0x54)), 0x18);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005f5480_shell *>((((ChallengeData*)((char*)this + 0x54))))->SwapEndianFields();
     if (*(unsigned int*)((char*)this + 0x74))

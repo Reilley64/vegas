@@ -135,7 +135,7 @@ bool BGSOpenCloseForm::SetOpenState(TESObjectREFR* ref, bool open, bool immediat
     {
         if (::FUN_008c7aa0() && ref != ((::TESObjectREFR *)(::FUN_0047b200())))
         {
-            reinterpret_cast<::FUN_0087b600_Holder *>((TaskQueueInterface::GetSingleton()))->FUN_0087b600((int)(ref), open, immediate);
+            reinterpret_cast<::FUN_0087b600_Holder *>((TaskQueueInterface::GetSingleton()))->FUN_0087b600((std::intptr_t)(ref), open, immediate);
             return true;
         }
         if (open)
@@ -324,7 +324,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
             if (*(*reinterpret_cast<::EventSetting *>(&::g_011d7188)).Bool() && ((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FormType() == 28)
             {
                 if (::FUN_008c7aa0())
-                    reinterpret_cast<::FUN_0087b540_Holder *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b540((int)(ref));
+                    reinterpret_cast<::FUN_0087b540_Holder *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b540((std::intptr_t)(ref));
                 else
                     reinterpret_cast<::ObstMgr0dc0 *>((((::ObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->FUN_006c0dc0((::TESObjectREFR *)(ref));
             }
@@ -344,7 +344,7 @@ void __cdecl ProcessOpenCloseEvent(Ref* ref, SequenceEvent* sequence)
             if (*(*reinterpret_cast<::EventSetting *>(&::g_011d7188)).Bool() && ((::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()))->FormType() == 28)
             {
                 if (::FUN_008c7aa0())
-                    reinterpret_cast<::Holder87b580 *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b580((int)(ref));
+                    reinterpret_cast<::Holder87b580 *>((((::EventQueue *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087b580((std::intptr_t)(ref));
                 else
                     reinterpret_cast<::FUN_006c0f10_shell *>((((::ObstacleManager *)(::fnv_006c0720::GetNavMeshObstacleManager()))))->UpdateDoorObstacle((::TESObjectREFR *)(ref));
             }
@@ -620,7 +620,7 @@ void FUN_0047a560(TESObjectREFR* apRefr, TESObjectREFR* apActor, BGSOpenCloseFor
                 if (pSeqA && pSeqB)
                 {
                     bFlag = true;
-                    if (((int)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqA)))->GetActiveCombatTarget())) != 1 && ((int)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqB)))->GetActiveCombatTarget())) != 1)
+                    if (((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqA)))->GetActiveCombatTarget())) != 1 && ((int)(std::uintptr_t)(reinterpret_cast<::LowProcess *>((((SeqX*)pSeqB)))->GetActiveCombatTarget())) != 1)
                     {
                         NiControllerSequence* p2c;
                         SoundH* p28 = 0;

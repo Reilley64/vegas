@@ -207,7 +207,7 @@ bool TESObjectCONT::Load(TESFile* file)
         case 0x4D414E53: {
             unsigned int snamFormID = 0;
             file->GetChunkData(&snamFormID);
-            reinterpret_cast<::FUN_008cc6d0_class *>((reinterpret_cast<EffectSetting*>(this)))->FUN_008cc6d0((int)(reinterpret_cast<TESSound*>(snamFormID)));
+            reinterpret_cast<::FUN_008cc6d0_class *>((reinterpret_cast<EffectSetting*>(this)))->FUN_008cc6d0((std::intptr_t)(reinterpret_cast<TESSound*>(snamFormID)));
             break;
         }
 
@@ -276,7 +276,7 @@ void FUN_00516b60_shell::CopyFromContainer(TESForm* apCopy)
         return;
     reinterpret_cast<::FormCloneOperation *>((((FUN_00516b60_shell*)this)))->FUN_004851b0(apCopy);
     *(unsigned char*)((char*)this + 0x98) = *((unsigned char *)(reinterpret_cast<::FUN_00461150_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00461150()));
-    reinterpret_cast<::FUN_008cc6d0_class *>((((FUN_00516b60_shell*)this)))->FUN_008cc6d0((int)(reinterpret_cast<::FUN_008ce390_shell *>((((FUN_00516b60_shell*)cont)))->FUN_008ce390()));
+    reinterpret_cast<::FUN_008cc6d0_class *>((((FUN_00516b60_shell*)this)))->FUN_008cc6d0((std::intptr_t)(reinterpret_cast<::FUN_008ce390_shell *>((((FUN_00516b60_shell*)cont)))->FUN_008ce390()));
     reinterpret_cast<::BGSExplosion *>((((FUN_00516b60_shell*)this)))->FUN_004fb0b0((::BGSImpactDataSet *)(::TESObjectREFR *)(((::TESObjectREFR *)(reinterpret_cast<::FUN_00516bf0_shell *>((((FUN_00516b60_shell*)cont)))->FUN_00516bf0()))));
     reinterpret_cast<::BGSTalkingActivator *>((((FUN_00516b60_shell*)this)))->SetVoiceType(((::BGSVoiceType *)(reinterpret_cast<::PlayerMover *>((((FUN_00516b60_shell*)cont)))->GetActorStateFlags())));
 }

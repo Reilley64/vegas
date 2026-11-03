@@ -104,7 +104,7 @@ class FUN_004f33c0_cls
 // @fnv 0x004f33c0
 bool FUN_004f33c0_cls::FUN_004f33c0(ProbeBase* apProbe)
 {
-    if (apProbe == 0 || ((int)(reinterpret_cast<::GList *>(this)->FUN_004f35b0(apProbe->v10()))))
+    if (apProbe == 0 || ((std::intptr_t)(reinterpret_cast<::GList *>(this)->FUN_004f35b0(apProbe->v10()))))
     {
         return false;
     }

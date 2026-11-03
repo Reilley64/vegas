@@ -109,7 +109,7 @@ void BGSRagdoll::ResetFormData()
 
     for (locals.footIndex = 0;
          locals.footIndex <
-         ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kFootIKData.m_kFootNames)))->GetName()));
+         ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kFootIKData.m_kFootNames)))->GetName()));
          ++locals.footIndex)
     {
         locals.footName =
@@ -129,7 +129,7 @@ void BGSRagdoll::ResetFormData()
 
     for (locals.lookIndex = 0;
          locals.lookIndex <
-         ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kLookIKData.m_kLookNames)))->GetName()));
+         ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kLookIKData.m_kLookNames)))->GetName()));
          ++locals.lookIndex)
     {
         locals.lookName =
@@ -142,7 +142,7 @@ void BGSRagdoll::ResetFormData()
 
     for (locals.grabIndex = 0;
          locals.grabIndex <
-         ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kGrabIKData.m_kGrabNames)))->GetName()));
+         ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kGrabIKData.m_kGrabNames)))->GetName()));
          ++locals.grabIndex)
     {
         locals.grabName =
@@ -410,18 +410,18 @@ struct FUN_005ed360_shell : GrabIK_DATA
 void FUN_005ed360_shell::FUN_005ed360(const GrabIK_DATA& arSource)
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x14))))->Clear(true);
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())); ui++)
         delete (void*)*((Arr*)((char*)this + 4))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 4))))->Clear(true);
 
     this->m_kGrabArmData.SetSize(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())), true);
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((_Mem_20a4*)((char*)this + 4))))->FUN_006f2290(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 4))))->GetName())), true);
 
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 0x14))))->GetName())); ui++)
         ((FUN_0069ccf0_obj*)((char*)this + 0x14))->FUN_0069ccf0(ui) =
             ((FUN_0069ccf0_obj*)((char*)&arSource + 0x14))->FUN_0069ccf0(ui);
 
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 4))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)&arSource + 4))))->GetName())); ui++)
     {
         unsigned int uiLength = ::FUN_0044a670((const char*)*((Arr*)((char*)&arSource + 4))->GetAt(ui)) + 1;
         char* pString = new char[uiLength];
@@ -476,7 +476,7 @@ struct FUN_005ed5f0_shell : RagdollFeedbackProfile
 // @fnv 0x005ed5f0
 void FUN_005ed5f0_shell::AssignFrom(const RagdollFeedbackProfile& arSource)
 {
-    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)((char*)this + 4)))->CallAndReturnSelf((int)&(*(const BSStringT<char>*)&arSource.m_kAnimationFileName));
+    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringTCharAssign &)(*(BSStringTCharAssign*)((char*)this + 4)))->CallAndReturnSelf((std::intptr_t)&(*(const BSStringT<char>*)&arSource.m_kAnimationFileName));
     bEnabled = arSource.bEnabled;
     *(unsigned short*)&this->m_kRagdollFeedbackData.m_sFirstRagdollFeedbackIndex = *(const unsigned short*)&arSource.m_kRagdollFeedbackData.m_sFirstRagdollFeedbackIndex;
     *(unsigned short*)&this->m_kRagdollFeedbackData.m_sSecondRagdollFeedbackIndex = *(const unsigned short*)&arSource.m_kRagdollFeedbackData.m_sSecondRagdollFeedbackIndex;
@@ -511,17 +511,17 @@ void FUN_005edfb0_shell::ClearRagdollData()
 {
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x80))))->Clear(true);
 
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xb0))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xb0))))->GetName())); ui++)
         delete (void*)*((Arr*)((char*)this + 0xb0))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0xc0))))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0xb0))))->Clear(true);
 
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xd4))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xd4))))->GetName())); ui++)
         delete (void*)*((Arr*)((char*)this + 0xd4))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0xe4))))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0xd4))))->Clear(true);
 
-    for (unsigned int ui = 0; ui < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xf8))))->GetName())); ui++)
+    for (unsigned int ui = 0; ui < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0xf8))))->GetName())); ui++)
         delete (void*)*((Arr*)((char*)this + 0xf8))->GetAt(ui);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0x108))))->Clear(true);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)((char*)this + 0xf8))))->Clear(true);
@@ -654,7 +654,7 @@ bool BGSRagdoll::Load(TESFile* file)
         case 0x42464152: {
             reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((file))->FUN_00472890(
                 (char *)(void *)(&reinterpret_cast<::FUN_005eeda0_this *>((reinterpret_cast<BSSimpleArray<unsigned short, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetBufferEntry(0)),
-                ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName())) *
+                ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName())) *
                     2);
             locals.count =
                 ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<SandboxProcedureData, 1024>*>(&m_kRagdollAnimationData.m_kFootIndices)))->GetName()));
@@ -937,7 +937,7 @@ void FUN_005ef010_Arr::FUN_005ef010(unsigned int aiNewSize, bool abFreeMemory)
             reinterpret_cast<::FUN_005ef860_class *>(this)->FUN_005ef860(aiNewSize, uiSize);
             uiAllocSize = aiNewSize;
         }
-        reinterpret_cast<::FUN_005ef910 *>(this)->ConstructSpawnItems((int)(pBuffer + uiSize), aiNewSize - uiSize);
+        reinterpret_cast<::FUN_005ef910 *>(this)->ConstructSpawnItems((std::intptr_t)(pBuffer + uiSize), aiNewSize - uiSize);
         uiSize = aiNewSize;
     }
     else if (aiNewSize < uiSize)
@@ -952,7 +952,7 @@ void FUN_005ef010_Arr::FUN_005ef010(unsigned int aiNewSize, bool abFreeMemory)
     }
     else
     {
-        reinterpret_cast<::FUN_005ef910 *>(this)->ConstructSpawnItems((int)(pBuffer + uiSize), aiNewSize - uiSize);
+        reinterpret_cast<::FUN_005ef910 *>(this)->ConstructSpawnItems((std::intptr_t)(pBuffer + uiSize), aiNewSize - uiSize);
         uiSize = aiNewSize;
     }
 }
@@ -1180,7 +1180,7 @@ void FUN_005ee110_shell::FUN_005ee110()
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_005ee380_Data *>((reinterpret_cast<RagdollFeedbackData__RagdollFeedbackSystemData*>(reinterpret_cast<unsigned char*>(this) + 0x44)))->FUN_005ee380();
 
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x80)))->GetName())) > 0)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<unsigned char*>(this) + 0x80)))->GetName())) > 0)
     {
         ::FUN_00485730(reinterpret_cast<void*>(0x42464152),
                      &reinterpret_cast<::FUN_005eeda0_this *>((reinterpret_cast<DA00694f80*>(reinterpret_cast<unsigned char*>(this) + 0x80)))->GetBufferEntry(0),

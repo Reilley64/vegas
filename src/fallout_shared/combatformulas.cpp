@@ -1445,7 +1445,7 @@ void __cdecl RollChanceOutcome(void* unused, ChanceModifier* modifier, int baseC
     }
     if (modifier && (*critical || *success))
     {
-        switch (((int)(reinterpret_cast<::FUN_008a16b0_shell *>((modifier))->FUN_008a16b0())))
+        switch (((int)(std::uintptr_t)(reinterpret_cast<::FUN_008a16b0_shell *>((modifier))->FUN_008a16b0())))
         {
         case 1:
             *critical = 0;
@@ -1567,14 +1567,14 @@ float GetWeaponDamage(TESObjectWEAP* weapon, float condition, DamageExtra* extra
     if (weapon && reinterpret_cast<::FUN_00524b40_class *>((weapon))->FUN_00524b40() && FUN_006450c0(weapon))
     {
         ((FUN_00645320_shell*)weapon)->SetFlag2(false);
-        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((int)weapon), condition, 1.0f, 0, 0,
-                              (::InventoryStackRecord *)((int)extra), specifiedAmmo != 0);
+        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((std::intptr_t)weapon), condition, 1.0f, 0, 0,
+                              (::InventoryStackRecord *)((std::intptr_t)extra), specifiedAmmo != 0);
         ((FUN_00645320_shell*)weapon)->SetFlag2(true);
     }
     else
     {
-        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((int)weapon), condition, 1.0f, 0, 0,
-                              (::InventoryStackRecord *)((int)extra), specifiedAmmo != 0);
+        damage = ::FUN_00644ce0((::ActorValueOwner *)(void *)(static_cast<ActorValueOwner*>(::_g_thePlayer)), (::DmgWeapon *)((std::intptr_t)weapon), condition, 1.0f, 0, 0,
+                              (::InventoryStackRecord *)((std::intptr_t)extra), specifiedAmmo != 0);
     }
     TESAmmo* ammo = 0;
     if (weapon)

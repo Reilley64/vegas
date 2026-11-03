@@ -441,7 +441,7 @@ float ActorBaseTarget::FUN_005f0d60(FormTarget* form)
                     itemComponentOffset = 0x58
                 };
                 result = ConvertUIntToFloat(
-                    ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ComponentTarget*>(reinterpret_cast<char*>(item) + itemComponentOffset)))->FUN_00726070())));
+                    ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<ComponentTarget*>(reinterpret_cast<char*>(item) + itemComponentOffset)))->FUN_00726070())));
             }
             break;
         }

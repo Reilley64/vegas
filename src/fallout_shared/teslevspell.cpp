@@ -219,7 +219,7 @@ bool LevSpellS::FUN_0050ba30(TESFile* apFile)
                 reinterpret_cast<::fnv_00472890::FUN_00472890_cls *>((apFile))->FUN_00472890((char *)(void *)(&levObj), 0xc);
                 if (apFile->IsEndianConversionRequired())
                     ((TmpEndian*)&levObj)->SwapEndian();
-                DAT_011c8f98 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>((((TESLeveledList*)((char*)this + 0x30))))->InsertEntryByPriority(levObj.sLevel, levObj.m_sCount, (int)(levObj.pForm), (int)(0))));
+                DAT_011c8f98 = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>((((TESLeveledList*)((char*)this + 0x30))))->InsertEntryByPriority(levObj.sLevel, levObj.m_sCount, (std::intptr_t)(levObj.pForm), (int)(0))));
                 break;
             }
             case 'DEOC':

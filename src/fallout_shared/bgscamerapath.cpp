@@ -539,7 +539,7 @@ void FUN_0058ac10_shell::FUN_0058ac10()
         if (((bool)(::FUN_00401500())))
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
 
-        reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<int>(&data)), 1);
+        reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(&data)), 1);
 
         if (((bool)(::FUN_00401500())))
             reinterpret_cast<TESForm*>(&data)->TESForm::ClearData();
@@ -684,7 +684,7 @@ FUN_0058a450::~FUN_0058a450()
     {
         if (((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData())))
         {
-            reinterpret_cast<::Holder730 *>((((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData()))))->FUN_0058b730((int)(this));
+            reinterpret_cast<::Holder730 *>((((::FUN_0058a450 *)(reinterpret_cast<::Script *>(this)->GetData()))))->FUN_0058b730((std::intptr_t)(this));
         }
         else
         {

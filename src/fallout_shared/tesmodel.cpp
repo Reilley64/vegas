@@ -287,7 +287,7 @@ struct FakeOwner
 void FUN_00487a00_shell::FUN_00487a00(TESForm* apOwner, unsigned short asLevel, unsigned short asCount, TESForm* apForm,
                                       ContainerItemExtra* apExtra)
 {
-    LeveledObject* plev = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(asLevel, asCount, (int)(apForm), (int)(apExtra))));
+    LeveledObject* plev = ((::LeveledObject *)(reinterpret_cast<::Owner487a60 *>(this)->InsertEntryByPriority(asLevel, asCount, (std::intptr_t)(apForm), (std::intptr_t)(apExtra))));
     if (plev)
     {
         ((G2*)m_kLeveledObjects)->AddHead(plev);
@@ -829,7 +829,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
         if (pcBuffer)
             ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(FUN_0048cee0() + 1));
         if (pkOut)
-            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((std::intptr_t)(pkOut), (int)(GetPath()));
+            reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((std::intptr_t)(pkOut), (std::intptr_t)(GetPath()));
     }
 }
 

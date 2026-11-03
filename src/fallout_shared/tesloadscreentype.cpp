@@ -180,7 +180,7 @@ void FUN_005a7630_shell::SwapEndianAndProcess()
     reinterpret_cast<::fnv_004855a0::ArrSI *>((((FUN_004855a0*)this)))->FUN_004855a0();
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((int)&_data), 0x58);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e00_shell*)this)))->FUN_00485e20((const void *)((std::intptr_t)&_data), 0x58);
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::LoadScreenTypeData_FUN *>(&(_data))->SwapEndianFields();
     reinterpret_cast<::Holder *>((((FUN_00485680*)this)))->FUN_00485680();

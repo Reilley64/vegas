@@ -104,7 +104,7 @@ void FUN_0047bdd0_shell::FUN_0047bdd0(BaseFormComponent* apCopyFC)
     BGSTouchSpellForm* pCopy = dynamic_cast<BGSTouchSpellForm*>(apCopyFC);
     if (!pCopy)
         return;
-    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((unsigned int)(reinterpret_cast<::Callees *>((pCopy))->FUN_00726070()))));
+    reinterpret_cast<::CombatProcedure *>((((TESRaceForm*)this)))->Initialize((::CombatController *)(((std::uintptr_t)(reinterpret_cast<::Callees *>((pCopy))->FUN_00726070()))));
     ((TESEnchantableForm*)this)->SetFormEnchantmentAmount(((TESActorBaseData*)pCopy)->GetFatigue());
 }
 

@@ -168,11 +168,11 @@ void __cdecl FUN_004da4d0(bool abFinalKill)
 
     if (abFinalKill)
     {
-        if ((*reinterpret_cast<GO *>(&::g_011c73b4)) && ((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) != 1)
+        if ((*reinterpret_cast<GO *>(&::g_011c73b4)) && ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) != 1)
         {
             FUN_00461300();
 
-            if (((unsigned int)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) == 2)
+            if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Callees *>((reinterpret_cast<ShaderReference*>((*reinterpret_cast<GO *>(&::g_011c73b4)).operator unsigned int())))->FUN_00726070())) == 2)
             {
                 ::FUN_005b5e40(
                     );
@@ -409,7 +409,7 @@ struct G1690
 struct RendObj;
 struct RefObj_011c73b4
 {
-    void FUN_0066b0d0(int);
+    void FUN_0066b0d0(std::intptr_t);
 };
 struct Rect4
 {
@@ -501,7 +501,7 @@ struct RendObj
     virtual void vfn_a4();
     virtual void vfn_a8();
     virtual void vfn_ac();
-    virtual void vfn_b0(unsigned int);
+    virtual void vfn_b0(std::uintptr_t);
     virtual void vfn_b4();
     virtual void vfn_b8();
     virtual void vfn_bc();
@@ -1637,7 +1637,7 @@ int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
                 }
             }
         }
-        DAT_011c73b4.FUN_0066b0d0(((int)(::GraphicsRenderer::Create(((int)(::FUN_004dc1f0())), ::FUN_004dc200(), ((int)(::FUN_004dc220())), ::FUN_004dc1e0(),
+        DAT_011c73b4.FUN_0066b0d0(((std::intptr_t)(::GraphicsRenderer::Create(((int)(::FUN_004dc1f0())), ::FUN_004dc200(), ((int)(::FUN_004dc220())), ::FUN_004dc1e0(),
                                                ::FUN_004dc1e0(), ::FUN_004dc210(), ::FUN_004dc230(), ::FUN_004dc270(),
                                                ::FUN_004dc280(), ::FUN_004dc2a0(), ::FUN_004dc240(), ::FUN_004dc290(),
                                                ::FUN_004dc250(), ::FUN_004dc260(), flag2))));
@@ -1683,7 +1683,7 @@ int __cdecl FUN_004da670(void* ahWnd, void* ahInstance)
     }
     if (((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4)))) != 0)
     {
-        ((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))->vfn_b0(((int)(::FUN_004dc2c0())));
+        ((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))->vfn_b0(((std::intptr_t)(::FUN_004dc2c0())));
         if (DAT_011c6fba != 0)
         {
             RendObj* sub = ((::fnv_004da670::RendObj *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_004da670::RendObj *)(::FUN_00559450((int *)&(DAT_011c73b4))))))->FUN_004dc020()));

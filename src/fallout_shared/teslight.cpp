@@ -517,7 +517,7 @@ void FUN_00510130_shell::RemoveNode(NiNode* pNode)
 {
     if (pNode == *(NiNode**)((char*)this + 4))
     {
-        *(NiNode**)((char*)this + 4) = (NiNode*)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)(*(NiNode**)((char*)this + 4)))))->FUN_007af430()));
+        *(NiNode**)((char*)this + 4) = (NiNode*)((std::uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((GetNextObj*)(*(NiNode**)((char*)this + 4)))))->FUN_007af430()));
     }
     if (pNode == *(NiNode**)((char*)this + 8))
     {
@@ -664,7 +664,7 @@ void FUN_0050cf20_shell::FUN_0050cf20()
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
 
-    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<int>(&value_009c)), 0x18);
+    reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20((const void *)(reinterpret_cast<std::intptr_t>(&value_009c)), 0x18);
 
     if (((bool)(::FUN_00401500())))
         reinterpret_cast<::FUN_00693dc0_class *>((&value_009c))->SwapEndian();
@@ -1298,7 +1298,7 @@ Light* LightForm::FUN_0050d810(Reference* reference, Scene* pScene, bool force)
     if (reference)
     {
         base = ((::LightCreation::BaseForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
-        if ((flags & 0x20) || (((int)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && reference->GetPosition()->z < reinterpret_cast<::FUN_0057b0a0_shell *>((reference))->FUN_0057b0a0()))
+        if ((flags & 0x20) || (((std::intptr_t)(reinterpret_cast<::LowProcess *>((reference))->GetTarget())) && reference->GetPosition()->z < reinterpret_cast<::FUN_0057b0a0_shell *>((reference))->FUN_0057b0a0()))
         {
             if (base->FUN_00401170() == 30 && ::fnv_00578400::FUN_00578400((::fnv_00578400::_FakeNiNode *)(pScene)))
             {

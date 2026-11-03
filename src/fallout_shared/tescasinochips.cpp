@@ -550,7 +550,7 @@ void FUN_00504710_shell::FUN_00504710()
     }
 
     reinterpret_cast<::SDSaveForm *>((reinterpret_cast<FUN_00485e00_shell*>(this)))->FUN_00485e20(
-        (const void *)(reinterpret_cast<int>(&this->data)),
+        (const void *)(reinterpret_cast<std::intptr_t>(&this->data)),
         0x38);
 
     if (((bool)(::FUN_00401500())))

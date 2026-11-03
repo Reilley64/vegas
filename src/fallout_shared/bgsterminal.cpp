@@ -885,8 +885,8 @@ void BGSTerminalEx::CopyFromTerminal(TESForm* apForm)
         TerminalMenuItem* pSrc = (pIter->item);
         pIter = ((::BSSimpleList< ::TerminalMenuItem *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         TerminalMenuItem* pItem = new TerminalMenuItem;
-        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->ResponseText));
-        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->m_kMenuText))->CallAndReturnSelf((int)&(*(BSStringCopy*)&pSrc->m_kMenuText));
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->ResponseText))->CallAndReturnSelf((std::intptr_t)&(*(BSStringCopy*)&pSrc->ResponseText));
+        reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringCopy &)(*(BSStringCopy*)&pItem->m_kMenuText))->CallAndReturnSelf((std::intptr_t)&(*(BSStringCopy*)&pSrc->m_kMenuText));
         pItem->m_pNote = pSrc->m_pNote;
         pItem->m_pTerminal = pSrc->m_pTerminal;
         pItem->cFlags = pSrc->cFlags;

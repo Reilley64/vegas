@@ -381,7 +381,7 @@ void MessageCopyAccess::CopyFromMessage(TESForm* form)
         PerkButtonEntry* item = (node->m_item);
         node = ((::BSSimpleList< ::PerkButtonEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         PerkButtonEntry* button = new PerkButtonEntry;
-        reinterpret_cast<::FUN_00501c10_cls *>((((ButtonTextAccess*)&button->cButtonText)))->CallAndReturnSelf((int)&(item->cButtonText));
+        reinterpret_cast<::FUN_00501c10_cls *>((((ButtonTextAccess*)&button->cButtonText)))->CallAndReturnSelf((std::intptr_t)&(item->cButtonText));
         reinterpret_cast<::FUN_00680a70_shell *>((((ConditionCopyAccess*)&button->Conditions)))->CopyConditions(&item->Conditions, (::PerkEntryConditionSet *)(false));
         reinterpret_cast<::FUN_005911d0_shell *>(this)->FUN_005911d0(button);
     }
@@ -479,7 +479,7 @@ bool MessageCompare::IsNotEqual(TESForm* form)
         return true;
     if (reinterpret_cast<::FUN_00590ed0_shell *>(this)->IsFlagSet() != reinterpret_cast<::FUN_00590ed0_shell *>((right))->IsFlagSet())
         return true;
-    if (((unsigned int)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) != ((unsigned int)(reinterpret_cast<::Twin_00639b40 *>((right))->GetEntryPoint())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>(this)->GetEntryPoint())) != ((std::uintptr_t)(reinterpret_cast<::Twin_00639b40 *>((right))->GetEntryPoint())))
         return true;
     ButtonListView* left = ((::ButtonListView *)(reinterpret_cast<::TESTopicInfo *>(this)->GetAddTopicList()));
     ButtonListView* other = ((::ButtonListView *)(reinterpret_cast<::TESTopicInfo *>((right))->GetAddTopicList()));

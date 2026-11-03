@@ -940,11 +940,11 @@ class FUN_006139b0_cls
   public:
     char unk00[0xb0];
     FUN_006139b0_elem m_pElements[2][8];
-    void CallElementVirtual(int a, int b, int c);
+    void CallElementVirtual(int a, int b, std::intptr_t c);
 };
 
 // @fnv 0x006139b0
-void FUN_006139b0_cls::CallElementVirtual(int aiRow, int aiColumn, int c)
+void FUN_006139b0_cls::CallElementVirtual(int aiRow, int aiColumn, std::intptr_t c)
 {
     if (aiColumn < 0 || aiColumn >= 8 || aiRow < 0 || aiRow >= 2)
     {
@@ -1117,12 +1117,12 @@ struct S_00613ad0_Class
 
     S_00613ad0_Element m[2];
 
-    void DispatchToElement(int, int);
+    void DispatchToElement(int, std::intptr_t);
 };
 
 // Bounds-checks a against the two-element array m and, if valid, calls the element's virtual V6 with b.
 // @fnv 0x00613ad0
-void S_00613ad0_Class::DispatchToElement(int aiIndex, int b)
+void S_00613ad0_Class::DispatchToElement(int aiIndex, std::intptr_t b)
 {
     if (aiIndex < 0 || aiIndex >= 2)
         return;
@@ -1506,7 +1506,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
         while (hair && ((::RaceListItem *)((void *)(hair))))
         {
-            if (!((int)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(hair)))))->FUN_0084e3a0())))))))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006137b0_shell *>(this)->FindByKey((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(hair)))))->FUN_0084e3a0())))))))
                 return true;
             hair = ((::RaceList *)(reinterpret_cast<::Callees *>((hair))->FUN_00726070()));
         }
@@ -1517,7 +1517,7 @@ bool RaceComparer::IsDifferentFrom(TESForm* form)
             return true;
         while (pEyesList && ((::RaceListItem *)((void *)(pEyesList))))
         {
-            if (!((int)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(pEyesList)))))->FUN_0084e3a0())))))))
+            if (!((int)(std::uintptr_t)(reinterpret_cast<::FUN_006138b0_shell *>(this)->FindRecipeCategoryById((int)(((const char *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::RaceListItem *)((void *)(pEyesList)))))->FUN_0084e3a0())))))))
                 return true;
             pEyesList = ((::RaceList *)(reinterpret_cast<::Callees *>((pEyesList))->FUN_00726070()));
         }
@@ -1767,7 +1767,7 @@ class D3A60Grid
     int unk334;
     D3A60Slot m_aakSlots[2][3];
 
-    void SetSlotValue(int iRow, int iColumn, int iValue);
+    void SetSlotValue(int iRow, int iColumn, std::intptr_t iValue);
 };
 // Copies voice, hair, attributes, skill bonuses, models, textures, hair/eye lists and face data from another TESRace into this race.
 // @fnv 0x00612c90
@@ -1817,7 +1817,7 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
     {
         for (uiPartA = 0; uiPartA < 8; uiPartA++)
         {
-            reinterpret_cast<::FUN_006139b0_cls *>(this)->CallElementVirtual(uiSexB, uiPartA, (int)(reinterpret_cast<::FUN_00613970_shell *>((pRace3))->FUN_00613970(uiSexB, uiPartA)->GetModelFilePath()));
+            reinterpret_cast<::FUN_006139b0_cls *>(this)->CallElementVirtual(uiSexB, uiPartA, (std::intptr_t)(reinterpret_cast<::FUN_00613970_shell *>((pRace3))->FUN_00613970(uiSexB, uiPartA)->GetModelFilePath()));
             reinterpret_cast<::Obj *>(this)->FUN_00613b60(uiSexB, uiPartA, ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((::TextureNameHolder *)(reinterpret_cast<::FUN_00613b20_shell *>((pRace3))->GetBodyPartTexture(uiSexB, uiPartA)))))->FUN_00408da0())));
         }
     }
@@ -1829,9 +1829,9 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
         }
         for (uiPart8 = 0; uiPart8 < 3; uiPart8++)
         {
-            reinterpret_cast<::D3A60Grid *>(this)->SetSlotValue(uiSex4, uiPart8, (int)(reinterpret_cast<::FUN_00613a20_shell *>((pRace3))->FUN_00613a20(uiSex4, uiPart8)->GetModelFilePath()));
+            reinterpret_cast<::D3A60Grid *>(this)->SetSlotValue(uiSex4, uiPart8, (std::intptr_t)(reinterpret_cast<::FUN_00613a20_shell *>((pRace3))->FUN_00613a20(uiSex4, uiPart8)->GetModelFilePath()));
         }
-        reinterpret_cast<::S_00613ad0_Class *>(this)->DispatchToElement(uiSex4, (int)(pRace3->GetBodyTexModel(uiSex4)->GetModelFilePath()));
+        reinterpret_cast<::S_00613ad0_Class *>(this)->DispatchToElement(uiSex4, (std::intptr_t)(pRace3->GetBodyTexModel(uiSex4)->GetModelFilePath()));
     }
     _pHair = ((::BSSimpleList< ::TESHair *> *)(::FUN_0045bb80((std::intptr_t)(pRace3))));
     reinterpret_cast<::FUN_00613850_shell *>(this)->FUN_00613850();
@@ -1856,7 +1856,7 @@ void FUN_00612c90_cls::CopyFromRace(TESForm* apSource)
 
 // Bounds-checks iRow against 2 and iColumn against 3, then calls SetValue(iValue) on the addressed slot.
 // @fnv 0x00613a60
-void D3A60Grid::SetSlotValue(int iRow, int iColumn, int iValue)
+void D3A60Grid::SetSlotValue(int iRow, int iColumn, std::intptr_t iValue)
 {
     if (iColumn < 0 || iColumn >= 3 || iRow < 0 || iRow >= 2)
         return;
@@ -2012,9 +2012,9 @@ void Race::BuildAppearance(NPC* npc, Output* apOutput, int sex, bool skip)
     }
     for (unsigned int i = 0; i < 8; i++)
     {
-        reinterpret_cast<::S_0060ba10 *>(&(apOutput->models))->FUN_0096a610((int)&(const void *const &)(((void *)(reinterpret_cast<::FUN_00613970_shell *>(this)->FUN_00613970(sex, i)))));
-        reinterpret_cast<::S_0060ba10 *>(&(apOutput->textures))->FUN_0096a610((int)&(const void *const &)(((void *)(reinterpret_cast<::FUN_00613b20_shell *>(this)->GetBodyPartTexture(sex, i)))));
-        reinterpret_cast<::S_0060ba10 *>(&(apOutput->slots))->FUN_0096a610((int)&(const void *const &)(::FUN_00605d40(i)));
+        reinterpret_cast<::S_0060ba10 *>(&(apOutput->models))->FUN_0096a610((std::intptr_t)&(const void *const &)(((void *)(reinterpret_cast<::FUN_00613970_shell *>(this)->FUN_00613970(sex, i)))));
+        reinterpret_cast<::S_0060ba10 *>(&(apOutput->textures))->FUN_0096a610((std::intptr_t)&(const void *const &)(((void *)(reinterpret_cast<::FUN_00613b20_shell *>(this)->GetBodyPartTexture(sex, i)))));
+        reinterpret_cast<::S_0060ba10 *>(&(apOutput->slots))->FUN_0096a610((std::intptr_t)&(const void *const &)(::FUN_00605d40(i)));
         if (npc && *(*reinterpret_cast<::RaceAppearance::Setting *>(&::g_011cb99c)).FUN_00408d60() && !skip)
         {
             String path(0);

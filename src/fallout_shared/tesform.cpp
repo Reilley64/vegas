@@ -708,7 +708,7 @@ struct NiTPrimitiveArray_unsigned_int_
 void FUN_005ffbf0_shell::AddIdleToArray(TESIdleForm* apIdle)
 {
     if (apIdle)
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)m_acIdleName)))->FUN_0096a610((int)&((const unsigned int&)apIdle));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)m_acIdleName)))->FUN_0096a610((std::intptr_t)&((const unsigned int&)apIdle));
 }
 
 struct ActiveEffect;
@@ -1208,7 +1208,7 @@ void __cdecl FUN_004856d0(int arg)
 // @fnv 0x004856f0
 void __cdecl FUN_004856f0(void* apArg1, void* apArg2, void* apArg3)
 {
-    ::AppendChunk((unsigned int)(apArg1), apArg2, (unsigned int)(apArg3));
+    ::AppendChunk((std::uintptr_t)(apArg1), apArg2, (unsigned int)(apArg3));
 }
 
 void __cdecl FUN_00485750(void* arg0, void* arg1, void* arg2);
@@ -1223,7 +1223,7 @@ void __cdecl FUN_00485710(void* arg0, void* arg1, void* arg2)
 // @fnv 0x00485730
 void __cdecl FUN_00485730(void* apArg1, void* apArg2, void* apArg3)
 {
-    ::FUN_00485820(apArg1, apArg2, (unsigned int)(apArg3));
+    ::FUN_00485820(apArg1, apArg2, (std::uintptr_t)(apArg3));
 }
 
 extern void* DAT_011c54cc;
@@ -1290,7 +1290,7 @@ struct FUN_005516c0
 // @fnv 0x005516c0
 bool FUN_005516c0::IsCellPersistent()
 {
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) & 0x400)
+    if (((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())) & 0x400)
     {
         return true;
     }
@@ -1540,7 +1540,7 @@ void FUN_00483c70_shell::FUN_00483c70()
         reinterpret_cast<::NiTMap_S *>((((NiTPointerMap<unsigned int, void*>*)::fnv_00483370::DAT_011c54c0)))->RemoveKey(this->iFormID);
     for (unsigned int iIndex = 0; ms_pAllForms && iIndex < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)ms_pAllForms)))->FUN_0084e3a0())); iIndex++)
     {
-        if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)this)
+        if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)(std::uintptr_t)this)
         {
             ((NiTLargeArray<TESTopicInfo*, NiTMallocInterface<TESTopicInfo*> >*)ms_pAllForms)->RemoveAt(iIndex);
             break;
@@ -1703,7 +1703,7 @@ struct PC7d
 void PC7d::FUN_00484c20(unsigned int aiFlags)
 {
     if (aiFlags & 1)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0((void *)((unsigned int)((char*)this + 8)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0((void *)((std::uintptr_t)((char*)this + 8)), 4);
 }
 
 struct SGL_Stub
@@ -2305,7 +2305,7 @@ void FUN_00484730_shell::FUN_00484730(bool abAltered)
             bool bAddToList = true;
             for (unsigned int iIndex = 0; iIndex < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)ms_pAllForms)))->FUN_0084e3a0())); iIndex++)
             {
-                if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)this)
+                if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)(std::uintptr_t)this)
                 {
                     bAddToList = false;
                     break;
@@ -2324,7 +2324,7 @@ void FUN_00484730_shell::FUN_00484730(bool abAltered)
         {
             for (unsigned int iIndex = 0; iIndex < ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)ms_pAllForms)))->FUN_0084e3a0())); iIndex++)
             {
-                if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)this)
+                if (*((Arr*)ms_pAllForms)->GetAt(iIndex) == (unsigned int)(std::uintptr_t)this)
                 {
                     ((NiTLargeArray_TESTopicInfo*)ms_pAllForms)->RemoveAt(iIndex);
                     break;
@@ -2537,7 +2537,7 @@ void FUN_00485340_shell::FUN_00485340(BaseFormComponent* apCopyFC)
     if (reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)this)))->FUN_00460340() != reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)pCopy)))->FUN_00460340())
         SetAltered(reinterpret_cast<::FUN_00460340_shell *>((((Pathing*)pCopy)))->FUN_00460340());
     this->m_ucFormType = pCopy->GetFormType();
-    m_uiFormFlags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pCopy)))->GetName())) & 0xffffbfff | (m_uiFormFlags & 0x4000);
+    m_uiFormFlags = ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)pCopy)))->GetName())) & 0xffffbfff | (m_uiFormFlags & 0x4000);
 }
 }  // namespace fnv_00485340
 
@@ -2709,7 +2709,7 @@ struct FUN_004141e0_class
 };
 
 // @fnv 0x00485990
-void AppendChunk(unsigned int chunk, const void* data, unsigned int size)
+void AppendChunk(std::uintptr_t chunk, const void* data, unsigned int size)
 {
     unsigned int offset;
     {
@@ -3139,7 +3139,7 @@ void FUN_0050f780_Class::ForwardTo008d0600(int arg1, unsigned char arg2)
     reinterpret_cast<::FUN_008d0600_s *>(this)->FUN_008d0600(arg1, arg2);
 }
 
-void __cdecl AppendChunk(unsigned int record, const void* data, unsigned int bytes);
+void __cdecl AppendChunk(std::uintptr_t record, const void* data, unsigned int bytes);
 struct Record
 {
     unsigned char field0;
@@ -3608,17 +3608,17 @@ void __cdecl FUN_00485750(void* apDestination, void* apSource, void* aiCount)
         unsigned int i;
         p4 = new Slot4[(unsigned int)aiCount];
         ::__memcpy(p4, apSource, bytes7);
-        for (i = 0; i < (unsigned int)aiCount; ++i)
+        for (i = 0; i < (unsigned int)(std::uintptr_t)aiCount; ++i)
         {
 
             ::FUN_00401080((int *)(void *)(&p4[i]));
         }
-        ::AppendChunk((unsigned int)(apDestination), p4, (unsigned int)((void*)bytes7));
+        ::AppendChunk((std::uintptr_t)(apDestination), p4, (unsigned int)((void*)bytes7));
         delete[] p4;
     }
     else
     {
-        ::AppendChunk((unsigned int)(apDestination), apSource, (unsigned int)((void*)bytes7));
+        ::AppendChunk((std::uintptr_t)(apDestination), apSource, (unsigned int)((void*)bytes7));
     }
 }
 

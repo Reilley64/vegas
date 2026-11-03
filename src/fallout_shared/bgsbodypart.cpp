@@ -115,7 +115,7 @@ void BGSBodyPart::InitItem(TESForm* form)
     if (formID)
     {
         ::ResolveFormID((unsigned int *)&(formID), form->GetFile(-1));
-        reinterpret_cast<::FUN_00994ef0_Class *>(this)->Set((int)(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID))));
+        reinterpret_cast<::FUN_00994ef0_Class *>(this)->Set((std::intptr_t)(dynamic_cast<BGSImpactDataSet*>(::FUN_004839c0(formID))));
     }
 }
 

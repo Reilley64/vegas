@@ -1817,10 +1817,10 @@ class NiPointModifier : public NiBaseModifier
 // @fnv 0x00c61120
 void NiPointModifier::FUN_00c61120(NiViewerStringsArray* pkStrings)
 {
-    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((int)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_01204398)).GetName())));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kPathOffset))->FUN_00a59af0(str_010c3570)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_00a59af0(str_010c3568)));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550((*reinterpret_cast<const char (*)[]>(&::UNK_01015a9c)), GetAttributeStrength())));
+    reinterpret_cast<::FUN_00c4fab0_shell *>(this)->FUN_00c4fab0((std::intptr_t)(pkStrings));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::NiRTTI *>(&::g_01204398)).GetName())));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kPathOffset))->FUN_00a59af0(str_010c3570)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(reinterpret_cast<::NiPoint3 *>((void *)&(m_kLightVector))->FUN_00a59af0(str_010c3568)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550((*reinterpret_cast<const char (*)[]>(&::UNK_01015a9c)), GetAttributeStrength())));
 }
 #include "generated/data/fallout_shared/tesleveledlist_ob1_variant.inc"

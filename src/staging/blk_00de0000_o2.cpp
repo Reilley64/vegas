@@ -11527,7 +11527,7 @@ struct FUN_00d04e80_cls
 {
 };
 
-typedef void*(* PFN_TlsGetValue)(unsigned long dwTlsIndex);
+using PFN_TlsGetValue = decltype(&TlsGetValue);
 
 // Records a TtCollQueryPairLinearCast profiler tick, calls FUN_00df7760 on a2's fields, records an Et tick, then calls ProcessCallback on a1.
 // @fnv 0x00df79d0

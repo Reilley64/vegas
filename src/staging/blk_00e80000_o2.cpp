@@ -15528,7 +15528,6 @@ typedef void(__cdecl* DispatchFn_b4010)(float, DispatchObj_b4010*, int, int, int
 
 
 
-extern "C" void* __cdecl FUN_00aa1420(unsigned int size);
 
 struct SNAEntryElem
 {
@@ -15594,7 +15593,6 @@ SNAEntryElem* FUN_00e89460(unsigned int count)
 
 struct HeapA {  };
 
-void* __cdecl FUN_00aa1420(unsigned int);
 
 struct ArrayElementE80390 {
     unsigned int unk00;

@@ -8700,11 +8700,6 @@ SseBlock& SseBlock::FUN_00c6d670(const SseBlock& o)
     return *this;
 }
 
-// Reconstruction adapted from an unverified 2026-10-26 contribution by another contributor.
-extern "C" inline float cosf(_In_ float _X)
-{
-    return ((float)cos((double)_X));
-}
 
 struct FxRTTI
 {
@@ -9024,11 +9019,11 @@ bool SceneEffect::FUN_00c77ac0(EffectOutput* pkOutput, EffectRequest* pkRequest)
 
     float fAngleDifference = DAT_01066808 - pkBase->m_fFinalAngle * DAT_0102f248 - DAT_01020758;
     fAngleDifference = fAngleDifference * DAT_01023128;
-    fAngleDifference = cos(fAngleDifference);
+    fAngleDifference = static_cast<float>(std::cos(static_cast<double>(fAngleDifference)));
     context.angleX = -fAngleDifference;
     fAngleDifference = pkBase->m_fOriginAngle * DAT_0102f248 + DAT_01066808 - DAT_0102fc70;
     fAngleDifference = fAngleDifference * DAT_01023128;
-    fAngleDifference = cos(fAngleDifference);
+    fAngleDifference = static_cast<float>(std::cos(static_cast<double>(fAngleDifference)));
     context.angleY = fAngleDifference;
     Vec4 kDirection;
     kDirection = pkBase->m_kInitialDirection;
@@ -16768,10 +16763,6 @@ union __declspec(align(16)) PitchRollQuad
     }
 };
 
-extern "C" inline float sinf(_In_ float _X)
-{
-    return ((float)sin((double)_X));
-}
 
 struct __declspec(align(16)) FUN_005611c0_t
 {
@@ -17261,8 +17252,8 @@ void RotationOwner::FUN_00c6e420(FUN_005611c0_t* arg)
     Rotation rotation;
     if (angle1 != 0.0f && (static_cast<unsigned char>(flags >> 25) & 1))
     {
-        float c = cos(angle1);
-        float s = sin(angle1);
+        float c = static_cast<float>(std::cos(static_cast<double>(angle1)));
+        float s = static_cast<float>(std::sin(static_cast<double>(angle1)));
         rotation.r0 = (_mm_setr_ps)(1.0f, 0.0f, 0.0f, 0.0f);
         rotation.r1 = (_mm_setr_ps)(0.0f, c, -s, 0.0f);
         rotation.r2 = (_mm_setr_ps)(0.0f, s, c, 0.0f);
@@ -17270,8 +17261,8 @@ void RotationOwner::FUN_00c6e420(FUN_005611c0_t* arg)
     }
     if (angle2 != 0.0f && (static_cast<unsigned char>(flags >> 26) & 1))
     {
-        float c = cos(angle2);
-        float s = sin(angle2);
+        float c = static_cast<float>(std::cos(static_cast<double>(angle2)));
+        float s = static_cast<float>(std::sin(static_cast<double>(angle2)));
         rotation.r0 = (_mm_setr_ps)(c, 0.0f, s, 0.0f);
         rotation.r1 = (_mm_setr_ps)(0.0f, 1.0f, 0.0f, 0.0f);
         rotation.r2 = (_mm_setr_ps)(-s, 0.0f, c, 0.0f);

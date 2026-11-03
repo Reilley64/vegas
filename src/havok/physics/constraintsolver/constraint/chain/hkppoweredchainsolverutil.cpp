@@ -1233,54 +1233,7 @@ void __cdecl FUN_00df19e0(int count, const CfmRecord& cfm, StepRecord* motors, L
 
 __declspec(align(16)) struct FUN_00df2040_Blk
 {
-    unsigned int dw00;
-    unsigned int dw04;
-    unsigned int dw08;
-    unsigned int dw0c;
-    unsigned int dw10;
-    unsigned int dw14;
-    unsigned int dw18;
-    unsigned int dw1c;
-    unsigned int dw20;
-    unsigned int dw24;
-    unsigned int dw28;
-    unsigned int dw2c;
-    unsigned int dw30;
-    unsigned int dw34;
-    unsigned int dw38;
-    unsigned int dw3c;
-    unsigned int dw40;
-    unsigned int dw44;
-    unsigned int dw48;
-    unsigned int dw4c;
-    unsigned int dw50;
-    unsigned int dw54;
-    unsigned int dw58;
-    unsigned int dw5c;
-    unsigned int dw60;
-    unsigned int dw64;
-    unsigned int dw68;
-    unsigned int dw6c;
-    unsigned int dw70;
-    unsigned int dw74;
-    unsigned int dw78;
-    unsigned int dw7c;
-    unsigned int dw80;
-    unsigned int dw84;
-    unsigned int dw88;
-    unsigned int dw8c;
-    unsigned int dw90;
-    unsigned int dw94;
-    unsigned int dw98;
-    unsigned int dw9c;
-    unsigned int dwa0;
-    unsigned int dwa4;
-    unsigned int dwa8;
-    unsigned int dwac;
-    unsigned int dwb0;
-    unsigned int dwb4;
-    unsigned int dwb8;
-    unsigned int dwbc;
+    __m128 rows[12];
 };
 
 struct FUN_00df0870_Flag
@@ -1308,34 +1261,34 @@ void __cdecl FUN_00df2040(int index, int count, const char* a3, char* a4)
     if (i != 0)
     {
         char* elem = a4 + i * 0x3c0;
-        *(__m128*)((char*)&buf + 0x0) = *(__m128*)(elem - 0xc0);
-        *(__m128*)((char*)&buf + 0x10) = *(__m128*)(elem - 0xb0);
-        *(__m128*)((char*)&buf + 0x20) = *(__m128*)(elem - 0xa0);
-        *(__m128*)((char*)&buf + 0x30) = *(__m128*)(elem - 0x90);
-        *(__m128*)((char*)&buf + 0x40) = *(__m128*)(elem - 0x80);
-        *(__m128*)((char*)&buf + 0x50) = *(__m128*)(elem - 0x70);
-        *(__m128*)((char*)&buf + 0x60) = *(__m128*)(elem - 0x60);
-        *(__m128*)((char*)&buf + 0x70) = *(__m128*)(elem - 0x50);
-        *(__m128*)((char*)&buf + 0x80) = *(__m128*)(elem - 0x40);
-        *(__m128*)((char*)&buf + 0x90) = *(__m128*)(elem - 0x30);
-        *(__m128*)((char*)&buf + 0xa0) = *(__m128*)(elem - 0x20);
-        *(__m128*)((char*)&buf + 0xb0) = *(__m128*)(elem - 0x10);
+        buf.rows[0] = *(__m128*)(elem - 0xc0);
+        buf.rows[1] = *(__m128*)(elem - 0xb0);
+        buf.rows[2] = *(__m128*)(elem - 0xa0);
+        buf.rows[3] = *(__m128*)(elem - 0x90);
+        buf.rows[4] = *(__m128*)(elem - 0x80);
+        buf.rows[5] = *(__m128*)(elem - 0x70);
+        buf.rows[6] = *(__m128*)(elem - 0x60);
+        buf.rows[7] = *(__m128*)(elem - 0x50);
+        buf.rows[8] = *(__m128*)(elem - 0x40);
+        buf.rows[9] = *(__m128*)(elem - 0x30);
+        buf.rows[10] = *(__m128*)(elem - 0x20);
+        buf.rows[11] = *(__m128*)(elem - 0x10);
         ptr = elem - 0x240;
     }
     else
     {
-        *(__m128*)((char*)&buf + 0x0) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x10) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x20) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x30) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x40) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x50) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x60) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x70) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x80) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0x90) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0xa0) = _mm_setzero_ps();
-        *(__m128*)((char*)&buf + 0xb0) = _mm_setzero_ps();
+        buf.rows[0] = _mm_setzero_ps();
+        buf.rows[1] = _mm_setzero_ps();
+        buf.rows[2] = _mm_setzero_ps();
+        buf.rows[3] = _mm_setzero_ps();
+        buf.rows[4] = _mm_setzero_ps();
+        buf.rows[5] = _mm_setzero_ps();
+        buf.rows[6] = _mm_setzero_ps();
+        buf.rows[7] = _mm_setzero_ps();
+        buf.rows[8] = _mm_setzero_ps();
+        buf.rows[9] = _mm_setzero_ps();
+        buf.rows[10] = _mm_setzero_ps();
+        buf.rows[11] = _mm_setzero_ps();
         ptr = (char*)&buf;
     }
 
@@ -1343,7 +1296,7 @@ void __cdecl FUN_00df2040(int index, int count, const char* a3, char* a4)
     {
         FUN_00df0870_Flag flag;
         flag.b = (count - 1 - k != 0);
-        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (unsigned char *)(a3 + k * 0x40), (__m128 *)(::FUN_00df2040_Blk *)(&buf), (void **)(&ptr));
+        ::FUN_00df0870((*(int *)&(const ::FUN_00df0870_Flag &)(flag)), (::ObjF *__restrict)(a4 + k * 0x3c0), (unsigned char *)(a3 + k * 0x40), buf.rows, (void **)(&ptr));
     }
 }
 

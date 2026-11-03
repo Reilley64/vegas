@@ -1134,36 +1134,14 @@ struct __declspec(align(16)) FourFloatVector
     float x, y, z, w;
 };
 
-struct Allocator
+__forceinline int* kdAllocArray(hkMemoryAllocator* allocator, int& bytes, int n)
 {
-    __forceinline Allocator* same()
-    {
-        return this;
-    }
-    virtual void ReportDiagnostic();
-    virtual void* allocate(int bytes);
-    virtual void freeBlock(void* block, int bytes);
-    virtual void* allocateBuffer(int& bytes);
-    virtual void freeBuffer(void* block, int bytes);
-    int* allocArray(int& bytes, int n)
-    {
-        return static_cast<int*>(allocateBuffer(bytes = n * 4));
-    }
-    void freeArray(int*& data, int& cap)
-    {
-        if ((cap & 0x80000000) == 0)
-            freeBuffer(data, (cap & 0x3fffffff) * 4);
-    }
-};
-struct Router
+    return static_cast<int*>(allocator->bufAlloc(bytes = n * 4));
+}
+__forceinline void kdFreeArray(hkMemoryAllocator* allocator, int*& data, int& cap)
 {
-    int field00, field04, field08;
-    Allocator* stack;
-    Allocator* heap;
-};
-__forceinline Router* getRouter()
-{
-    return reinterpret_cast<Router*>(&hkMemoryRouter::getInstance());
+    if ((cap & 0x80000000) == 0)
+        allocator->bufFree(data, (cap & 0x3fffffff) * 4);
 }
 struct TreeInfo
 {
@@ -1304,21 +1282,21 @@ struct IntBuffer
     void allocate(int count)
     {
         int bytes = count * 4;
-        data = static_cast<int*>(getRouter()->stack->allocateBuffer(bytes));
+        data = static_cast<int*>(hkMemoryRouter::getInstance().m_temp->bufAlloc(bytes));
         capacity = bytes / 4;
         if (capacity == 0)
             capacity = 0x80000000;
     }
     void release()
     {
-        Allocator* allocator = getRouter()->stack;
+        hkMemoryAllocator* allocator = hkMemoryRouter::getInstance().m_temp;
         if (capacity >= 0)
-            allocator->freeBuffer(data, (capacity & 0x3fffffff) * 4);
+            allocator->bufFree(data, (capacity & 0x3fffffff) * 4);
     }
 };
 __forceinline int* AllocateBufferWithSize(int& bytes, int n)
 {
-    return static_cast<int*>(getRouter()->stack->allocArray(bytes, n));
+    return static_cast<int*>(kdAllocArray(hkMemoryRouter::getInstance().m_temp, bytes, n));
 }
 __forceinline void bufCap(int& cap, int bytes)
 {
@@ -1328,7 +1306,7 @@ __forceinline void bufCap(int& cap, int bytes)
 }
 __forceinline void ReturnMemory(int*& data, int& cap)
 {
-    getRouter()->stack->freeArray(data, cap);
+    kdFreeArray(hkMemoryRouter::getInstance().m_temp, data, cap);
 }
 struct Manager
 {
@@ -1356,7 +1334,7 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     if (oldTree)
     {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((oldTree))->ClearBuffers();
-        getRouter()->heap->freeBlock(oldTree, 0x50);
+        hkMemoryRouter::getInstance().m_heap->blockFree(oldTree, 0x50);
     }
     struct Frame
     {
@@ -1387,22 +1365,22 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     job.count = count;
     job.enabled = 1;
     world->bounds->getBounds(&job.minimum, &job.maximum);
-    void* storage = getRouter()->heap->allocate(0x50);
+    void* storage = hkMemoryRouter::getInstance().m_heap->blockAlloc(0x50);
     *tree = storage ? ((::Tree *)(reinterpret_cast<::FUN_00d97970_cls *>((static_cast<Tree*>(storage)))->Init((uintptr_t)(&job)))) : 0;
     Scratch& scratch = early.scratch;
     ::fnv_00d9d800::GetAudioPair((void **)(&scratch), count);
-    Counter* counter = static_cast<Counter*>(getRouter()->heap->allocate(16));
+    Counter* counter = static_cast<Counter*>(hkMemoryRouter::getInstance().m_heap->blockAlloc(16));
     tail.counter = counter;
     counter->value = 4;
-    Allocator* __restrict firstAllocator = getRouter()->stack->same();
-    int* firstData = firstAllocator->allocArray(early.firstBytes, 4);
+    hkMemoryAllocator* __restrict firstAllocator = hkMemoryRouter::getInstance().m_temp;
+    int* firstData = kdAllocArray(firstAllocator, early.firstBytes, 4);
     tail.firstData = firstData;
     bufCap(early.firstCap, early.firstBytes);
-    Allocator* __restrict secondAllocator = getRouter()->stack->same();
-    early.secondData = secondAllocator->allocArray(early.secondBytes, 4);
+    hkMemoryAllocator* __restrict secondAllocator = hkMemoryRouter::getInstance().m_temp;
+    early.secondData = kdAllocArray(secondAllocator, early.secondBytes, 4);
     bufCap(early.secondCap, early.secondBytes);
     Semaphore* semaphore;
-    storage = getRouter()->heap->allocate(4);
+    storage = hkMemoryRouter::getInstance().m_heap->blockAlloc(4);
     if (storage)
         semaphore = ((::Semaphore *)(reinterpret_cast<::FUN_00d04350_cls *>((static_cast<Semaphore*>(storage)))->Create(0, 1000)));
     else
@@ -1467,11 +1445,11 @@ void Manager::FUN_00d0a810(Tree** tree, Input* input, Queue* queue, Workers* wor
     ::FUN_00d9d950((::S9d950_Owner *)(*tree), count2 = const_cast<const int&>(tail.count), (const ::S9d950_Box *)(info.first), info.second);
     timerEvent(str_01076f38);
     ::FreeBufferPair((::BufferPair *)(::Scratch *)(&scratch), count2);
-    getRouter()->heap->freeBlock(const_cast<Counter* const&>(tail.counter), 16);
+    hkMemoryRouter::getInstance().m_heap->blockFree(const_cast<Counter* const&>(tail.counter), 16);
     if (semaphore)
     {
         reinterpret_cast<::FUN_00d04370_cls *>((semaphore))->FUN_00d04370();
-        getRouter()->heap->freeBlock(semaphore, 4);
+        hkMemoryRouter::getInstance().m_heap->blockFree(semaphore, 4);
     }
     ReturnMemory(early.secondData, early.secondCap);
     ReturnMemory(const_cast<int*&>(tail.firstData), early.firstCap);

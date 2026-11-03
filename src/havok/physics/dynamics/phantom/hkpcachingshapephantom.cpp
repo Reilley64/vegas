@@ -449,40 +449,7 @@ void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* pkCol
     pkCollector->endObject();
 }
 
-class hkMemoryAllocatorD4D0
-{
-  public:
-    virtual ~hkMemoryAllocatorD4D0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> T* _bufAlloc(int& iReqNumInOut)
-    {
-        int n = iReqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        iReqNumInOut = n / (int)sizeof(T);
-        return (T*)p;
-    }
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterD4D0
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4D0* m_pStreamAllocator;
-    hkMemoryAllocatorD4D0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 template <class T> __forceinline void copyD4D0(T* dst, const T* src, int n)
@@ -509,9 +476,9 @@ template <class T> class hkArrayD4D0
 
     __forceinline void operator=(const hkArrayD4D0& a)
     {
-        copyFromArray((*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorD4D0& kAlloc, const hkArrayD4D0& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayD4D0& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -584,7 +551,7 @@ class FUN_00d4ce10 : public hkpWorldObjectD4D0
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)(*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectD4D0* p = static_cast<hkpWorldObjectD4D0*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -943,7 +910,7 @@ template <typename T> struct hkArrayD4CF
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    T& _expandOne(hkMemoryAllocatorD4D0& kAlloc)
+    T& _expandOne(hkMemoryAllocator& kAlloc)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -951,7 +918,7 @@ template <typename T> struct hkArrayD4CF
     }
     T& AllocatePair()
     {
-        return _expandOne((*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap());
+        return _expandOne(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -1057,7 +1024,7 @@ struct hkpProcessCollisionInputD4CF : public hkpCollisionInputD4CF
     ~hkpProcessCollisionInputD4CF() throw()
     {
         if (m_pAgent1nSector)
-            (*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap().ReleaseBlock(m_pAgent1nSector, 0x200);
+            hkMemoryRouter::getInstance().heap().blockFree(m_pAgent1nSector, 0x200);
     }
 };
 
@@ -1168,29 +1135,7 @@ void Ca30Derived::QueryCollisionDetails()
 }
 
 namespace fnv_00d4d030 {
-class hkMemoryAllocatorD4D0
-{
-  public:
-    virtual ~hkMemoryAllocatorD4D0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4D0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD4D0* m_pStreamAllocator;
-
-    hkMemoryAllocatorD4D0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD4D0 {
 
@@ -1211,10 +1156,10 @@ template <class T> class hkArrayD4D0
 
     void ClearAndRelease()
     {
-        hkMemoryAllocatorD4D0& alloc = (*static_cast<hkMemoryRouterD4D0*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

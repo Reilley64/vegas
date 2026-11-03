@@ -267,7 +267,7 @@ struct Owner
     unsigned int unkd8;
     unsigned int unkdc;
     Subobject subobjectE0;
-    void FUN_00ca85f0(unsigned int value);
+    void FUN_00ca85f0(uintptr_t value);
 public:
     ::Owner *FUN_00cf5ea0();
 };

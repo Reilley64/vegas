@@ -4,6 +4,7 @@
 
 #include "bsmenu/global_string_header.h"
 #include "fnv/symbols_00c85000.h"
+#include "havok/hkMemoryRouter.h"
 #include "fnv/decl/hkMalleableConstraintData.h"
 #include "fnv/decl/fnv_00cd9d10__Q_00cd9d10.h"
 #include "fnv/symbols_00cc9000.h"
@@ -118,26 +119,6 @@ struct MemContextGuard
     }
 };
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void* allocateChunk(int nbytes);
-};
-
-struct hkMemoryRouterStub
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    hkMemoryAllocator* m_pThreadAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pThreadAllocator;
-    }
-};
-
-
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -175,7 +156,7 @@ struct TransformObj
 
     static void* operator new(std::size_t nbytes)
     {
-        TransformObj* p = (TransformObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        TransformObj* p = (TransformObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -222,25 +203,6 @@ struct __declspec(align(16)) Mat
         return *this;
     }
 };
-
-struct HeapAlloc
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void* p, unsigned int size);
-};
-
-struct ScratchStack
-{
-    char* top;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapAlloc* heap;
-};
-
 
 struct Info2
 {
@@ -309,19 +271,17 @@ struct ScratchBuf
     unsigned int count;
     ScratchBuf(unsigned int n)
     {
-        ScratchStack* ss = static_cast<ScratchStack*>(::FUN_00c85750());
-        data = (Mat*)ss->top;
-        ss->top = (char*)data + ((n * sizeof(Mat) + 0x7f) & ~0x7f);
+        data = (Mat*)hkMemoryRouter::getInstance().allocateStack(int((n * sizeof(Mat) + 0x7f) & ~0x7f));
         count = n | 0x80000000;
     }
     void Release()
     {
-        static_cast<ScratchStack*>(::FUN_00c85750())->top = (char*)data;
-        HeapAlloc* h = static_cast<ScratchStack*>(::FUN_00c85750())->heap;
+        hkMemoryRouter::getInstance().deallocateStack(data);
+        hkMemoryAllocator* h = hkMemoryRouter::getInstance().m_heap;
         if (!(count & 0x80000000))
         {
             count &= 0x3fffffff;
-            h->Free(data, count * sizeof(Mat));
+            h->bufFree(data, int(count * sizeof(Mat)));
         }
     }
 };
@@ -364,26 +324,6 @@ struct hkVector4
     __forceinline void operator=(const hkVector4& v)
     {
         m_vComponents = v.m_vComponents;
-    }
-};
-
-struct Cc6830Alloc
-{
-    virtual void unk00();
-    virtual void* allocate(int nbytes);
-};
-
-struct Cc6830Router
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    Cc6830Alloc* m_pThreadAllocator;
-
-    Cc6830Alloc& heap()
-    {
-        return *m_pThreadAllocator;
     }
 };
 
@@ -465,7 +405,7 @@ class Cc6830Motion
 
     static void* operator new(std::size_t nbytes)
     {
-        Cc6830Motion* p = (Cc6830Motion*)static_cast<Cc6830Router*>(::FUN_00c85750())->heap().allocate((int)nbytes);
+        Cc6830Motion* p = (Cc6830Motion*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -564,28 +504,6 @@ struct hkVector4Pair
     hkVector4 m_kPointB;
 };
 
-struct hkMemoryAllocator;
-
-struct NineIntegerRecord
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    hkMemoryAllocator* m_pStreamAllocator;
-
-    __forceinline hkMemoryAllocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
-__forceinline hkMemoryAllocator& containerHeap()
-{
-    return static_cast<NineIntegerRecord*>(FUN_00c85750())->heap();
-}
-
 
 template <typename T> struct hkArray
 {
@@ -636,7 +554,7 @@ template <typename T> struct hkArray
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        _setSize(containerHeap(), n);
+        _setSize(hkMemoryRouter::getInstance().heap(), n);
     }
 };
 
@@ -1033,21 +951,6 @@ PoseTransform& PoseState::FUN_00cda8e0(int index)
     return local[index];
 }
 
-struct SpawnAllocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct SpawnHolder
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    SpawnAllocator* m_pAllocator;
-};
-
 struct FUN_00d4f2a0
 {
     int unk00;
@@ -1087,8 +990,7 @@ struct FUN_00d4f2a0
     {}
     static __forceinline void* operator new(std::size_t size) throw()
     {
-        SpawnHolder* h = (SpawnHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        void* p = h->m_pAllocator->Alloc((unsigned int)size);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc(int(size));
         ((FUN_00d4f2a0*)p)->m_iElementCount = (unsigned short)size;
         return p;
     }
@@ -1273,7 +1175,7 @@ struct EntityObj
     char unk5C, unk5D;
     static void* operator new(std::size_t nbytes)
     {
-        EntityObj* p = (EntityObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        EntityObj* p = (EntityObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1749,7 +1651,7 @@ struct ShapeObj
 
     static void* operator new(std::size_t nbytes)
     {
-        ShapeObj* p = (ShapeObj*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        ShapeObj* p = (ShapeObj*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -1846,8 +1748,8 @@ struct S00cc4610_Out
     S00cc4610_Out(int a, int b, int c);
     void* operator new(std::size_t n)
     {
-        hkMemoryAllocator& a = static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap();
-        void* p = a.allocateChunk((int)n);
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
+        void* p = a.blockAlloc((int)n);
         ((S00cc4610_Out*)p)->m_iElementCount = (unsigned short)n;
         return p;
     }
@@ -2591,23 +2493,6 @@ struct S00cc2530_ScopedHeap306
     }
 };
 
-struct S00cc2530_Alloc306
-{
-    virtual void f0();
-    virtual void* Allocate(int);
-    virtual void Free(void*, int);
-};
-
-struct S00cc2530_Router306
-{
-    int unk00, unk04, unk08, unk0c;
-    S00cc2530_Alloc306* heap;
-    S00cc2530_Alloc306* GetAllocator()
-    {
-        return heap;
-    }
-};
-
 namespace Memory306 {
 }
 
@@ -2721,13 +2606,13 @@ struct S00cc2530_FUN_00d4ce10
     S00cc2530_FUN_00d4ce10(int, const __m128*, int);
     static void* operator new(std::size_t n)
     {
-        void* p = static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Allocate((int)n);
+        void* p = hkMemoryRouter::getInstance().heap().blockAlloc((int)n);
         static_cast<S00cc2530_FUN_00d4ce10*>(p)->memorySize = (unsigned short)n;
         return p;
     }
     static void operator delete(void* p)
     {
-        static_cast<S00cc2530_Router306*>(::FUN_00c85750())->GetAllocator()->Free(p, 0x170);
+        hkMemoryRouter::getInstance().heap().blockFree(p, 0x170);
     }
 };
 
@@ -2848,8 +2733,7 @@ struct Shape : RefCountedObject
     unsigned char kind;
     static void* operator new(std::size_t bytes)
     {
-        hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        Shape* result = static_cast<Shape*>(router->heap().allocateChunk((int)bytes));
+        Shape* result = static_cast<Shape*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -2876,8 +2760,7 @@ struct FUN_00cc9d00 : RefCountedObject
     FUN_00cc9d00(ObjectType* type, Shape* shape, SourceGeometry* geometry);
     static void* operator new(std::size_t bytes)
     {
-        hkMemoryRouterStub* router = static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(router->heap().allocateChunk((int)bytes));
+        FUN_00cc9d00* result = static_cast<FUN_00cc9d00*>(hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes));
         result->size = (unsigned short)bytes;
         return result;
     }
@@ -3207,7 +3090,7 @@ struct hkReferencedObject
 
     __forceinline static void* operator new(std::size_t nbytes)
     {
-        hkReferencedObject* p = (hkReferencedObject*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        hkReferencedObject* p = (hkReferencedObject*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4230,7 +4113,7 @@ struct FUN_00d569c0
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d569c0* p = (FUN_00d569c0*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        FUN_00d569c0* p = (FUN_00d569c0*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4460,22 +4343,6 @@ class FNVSoftContactTarget
     virtual void vtbl18(void);
 };
 
-class FNVAllocator
-{
-  public:
-    virtual void vtbl00(void);
-    virtual void* vtbl04(unsigned int size);
-};
-
-struct FNVAllocHolder
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    FNVAllocator* m_pAllocator;
-};
-
 struct FNVOwner
 {
     unsigned int unk00;
@@ -4527,9 +4394,7 @@ void __cdecl FUN_00cdf850(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
     FNVEffectRec* rec = (FNVEffectRec*)((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(p), 0x18)));
     if (rec == 0)
     {
-        FNVAllocHolder* holder = (FNVAllocHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FNVAllocator* alloc = holder->m_pAllocator;
-        FNVEffectRec* fresh = (FNVEffectRec*)alloc->vtbl04(0x40);
+        FNVEffectRec* fresh = (FNVEffectRec*)hkMemoryRouter::getInstance().heap().blockAlloc(0x40);
         if (fresh != 0)
         {
             fresh->m_sType = 0x18;
@@ -4595,9 +4460,7 @@ void __cdecl FUN_00cdfac0(FNVSoftContactSource* a1, int a2, int a3, FNVSoftConta
     FNVEffectRec* rec = (FNVEffectRec*)((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(p), 0x1c)));
     if (rec == 0)
     {
-        FNVAllocHolder* holder = (FNVAllocHolder*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750());
-        FNVAllocator* alloc = holder->m_pAllocator;
-        FNVEffectRec* fresh = (FNVEffectRec*)alloc->vtbl04(0x40);
+        FNVEffectRec* fresh = (FNVEffectRec*)hkMemoryRouter::getInstance().heap().blockAlloc(0x40);
         if (fresh != 0)
         {
             fresh->m_sType = 0x1c;
@@ -4801,7 +4664,7 @@ struct FUN_00d58510
 
     static void* operator new(std::size_t nbytes)
     {
-        FUN_00d58510* p = (FUN_00d58510*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)nbytes);
+        FUN_00d58510* p = (FUN_00d58510*)hkMemoryRouter::getInstance().heap().blockAlloc((int)nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
@@ -4916,12 +4779,6 @@ struct AllocationTypeScope {
     ~AllocationTypeScope() {::g_tlsBlock.memoryContext=previous;}
 };
 
-struct RouterHeap {
-    virtual void Unk00();
-    virtual void* Allocate(int bytes);
-    virtual void Release(void* memory,int bytes);
-};
-
 struct SimdReal { hkVec4 m; SimdReal(float f){ m.m_vComponents=_mm_load_ss(&f);} };
 
 union __declspec(align(16)) MotionVector {__m128 quad;hkVec4 storage;
@@ -4940,14 +4797,13 @@ public:
     MotionVector stateC0,stateD0,stateE0,stateF0,state100,state110,state120,state130,state140,state150;
     FUN_00d4edc0();
     static void* operator new(size_t bytes) {
-        void* memory=static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap().allocateChunk((int)bytes);
+        void* memory=hkMemoryRouter::getInstance().heap().blockAlloc((int)bytes);
         ((FUN_00d4edc0*)memory)->allocatedBytes=(unsigned short)bytes;
         return memory;
     }
     static void operator delete(void* memory) {
         FUN_00d4edc0* motion=(FUN_00d4edc0*)memory;
-        RouterHeap* heap=(RouterHeap*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->m_pThreadAllocator;
-        heap->Release(memory,motion->allocatedBytes);
+        hkMemoryRouter::getInstance().heap().blockFree(memory,motion->allocatedBytes);
     }
 };
 
@@ -4978,12 +4834,6 @@ void MotionOwner::FUN_00cc51e0(FUN_00d4edc0* output,MotionScale* scale) {
     }
     reinterpret_cast<::FUN_009ba5f0_shell *>(this)->ReleaseObject((::hkReferencedObject *)(output),(intptr_t)(scale));
 }
-
-struct BlockAllocator {
-    virtual void unknown00();
-    virtual void* allocate(int);
-    virtual void release(void*, int);
-};
 
 struct Motor513 {
     virtual void unknown00();
@@ -5023,14 +4873,14 @@ struct FUN_00d4fe80 : ConstraintReference513 {
     float minimum,maximum;
     FUN_00d4fe80();
     static void* allocate(hkMemoryAllocator& heap,unsigned int size) {
-        FUN_00d4fe80* result=(FUN_00d4fe80*)heap.allocateChunk(size);
+        FUN_00d4fe80* result=(FUN_00d4fe80*)heap.blockAlloc(int(size));
         result->memorySize=(unsigned short)size;
         return result;
     }
     static void* operator new(std::size_t size) {
-        return allocate(static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->heap(),(unsigned int)size);
+        return allocate(hkMemoryRouter::getInstance().heap(),(unsigned int)size);
     }
-    static void operator delete(void* p) { ((BlockAllocator*)static_cast<hkMemoryRouterStub*>(::FUN_00c85750())->m_pThreadAllocator)->release(p,((FUN_00d4fe80*)p)->memorySize); }
+    static void operator delete(void* p) { hkMemoryRouter::getInstance().heap().blockFree(p,((FUN_00d4fe80*)p)->memorySize); }
 };
 
 struct CloneData513 { unsigned int unk00,unk04,unk08,unk0c; float scale; };

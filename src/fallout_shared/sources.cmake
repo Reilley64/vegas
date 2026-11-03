@@ -316,6 +316,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesobjectdoor.cpp
   src/fallout_shared/tesobjectimod.cpp
   src/fallout_shared/tesobjectmisc.cpp
+  src/fallout_shared/tesobjectrefr.cpp
   src/fallout_shared/tesobjectrefr_h_unit.cpp
   src/fallout_shared/tesobjectstat.cpp
   src/fallout_shared/tesobjecttree_h_unit.cpp
@@ -367,7 +368,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/inventorychanges.cpp
   src/fallout_shared/tesobjectcell.cpp
-  src/fallout_shared/tesobjectrefr.cpp
 )
 target_sources(game PRIVATE ${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES})
 set_source_files_properties(${VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES} PROPERTIES

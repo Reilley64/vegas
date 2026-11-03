@@ -1064,7 +1064,7 @@ PSysFactoryObjectB52* __cdecl CreatePSysFactoryObjectB52()
 
 
 // @fnv 0x00c32df0
-bool __cdecl FUN_00c32df0(int param1, int param2)
+bool __cdecl FUN_00c32df0(int param1, intptr_t param2)
 {
     return ((bool)(reinterpret_cast<::S_00c313a0 *>((param1))->IsEquivalentTo((::S_00c313a0 *)(param2))));
 }

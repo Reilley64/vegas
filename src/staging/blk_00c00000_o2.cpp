@@ -371,10 +371,10 @@ struct FUN_00a74480_holder
 };
 struct FUN_00c1a660_holder : FUN_00a74480_holder
 {
-    FUN_00c1a660_holder* FUN_00c1a660(unsigned int a);
+    FUN_00c1a660_holder* FUN_00c1a660(uintptr_t a);
 };
 // @fnv 0x00c1a660
-FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(unsigned int a)
+FUN_00c1a660_holder* FUN_00c1a660_holder::FUN_00c1a660(uintptr_t a)
 {
     new ((void *)this) ::FUN_00a74480((::NiTriBasedGeomData *)(a));
     *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_010bcdc8);
@@ -3043,7 +3043,6 @@ struct S_00c0bba0_B
     int unkac;
     int* unkb0;
 };
-extern int DAT_011f9510;
 
 // Stores the value pointed to by b->unkb0 into dst->unk08, falling back to DAT_011f9510 when that value is zero.
 // @fnv 0x00c0bba0
@@ -4393,12 +4392,12 @@ class FUN_00c1a500_cls
     unsigned int m_iCC;
     unsigned int m_iD0;
     float m_fD4;
-    void UpdateOutput(unsigned int a1);
+    void UpdateOutput(uintptr_t a1);
 };
 
 // Copies m_iC8, m_iCC, m_iD0 and m_fD4 into the output struct at m_pOut20, then calls FUN_00a71d30 when m_wC4 is greater than zero.
 // @fnv 0x00c1a500
-void FUN_00c1a500_cls::UpdateOutput(unsigned int a1)
+void FUN_00c1a500_cls::UpdateOutput(uintptr_t a1)
 {
     unsigned int i00 = m_iC8;
     volatile float f = m_fD4;
@@ -4583,12 +4582,12 @@ struct FUN_00c1a6a0_cls
     int m_cc;
     int m_d0;
     float m_d4;
-    void CopyStateToOutput(int a1);
+    void CopyStateToOutput(intptr_t a1);
 };
 
 // Copies m_c8, m_cc, m_d0 and m_d4 into the output struct's fields and calls unkTail when m_c4 is greater than zero.
 // @fnv 0x00c1a6a0
-void FUN_00c1a6a0_cls::CopyStateToOutput(int a1)
+void FUN_00c1a6a0_cls::CopyStateToOutput(intptr_t a1)
 {
     int c8 = m_c8;
     volatile float f = m_d4;
@@ -4624,12 +4623,12 @@ struct S_00c1a6f0_Self
     unsigned int m_d0;
     float m_d4;
 
-    void CopyStateToDestination(int p);
+    void CopyStateToDestination(intptr_t p);
 };
 
 // Copies m_c8, m_cc, m_d0 and m_d4 into the destination struct pointed to by m_20, then calls FUN_00a74600 if m_c4 is nonzero.
 // @fnv 0x00c1a6f0
-void S_00c1a6f0_Self::CopyStateToDestination(int p)
+void S_00c1a6f0_Self::CopyStateToDestination(intptr_t p)
 {
     unsigned int a = m_c8;
     volatile float tmp = m_d4;
@@ -4691,7 +4690,7 @@ struct FUN_00c1d980_cls
 // @fnv 0x00c1d980
 FUN_00c1d980_cls* FUN_00c1d980_cls::FUN_00c1d980(unsigned char acFlags)
 {
-    int value = m_04;
+    intptr_t value = m_04;
     m_vptr = (int)&::DAT_010bd698;
     ::ReleaseObjectArray((::Obj00a47600 **)(value));
     if (acFlags & 1)
@@ -4720,7 +4719,7 @@ struct FUN_00c1d9b0_cls
 // @fnv 0x00c1d9b0
 FUN_00c1d9b0_cls* FUN_00c1d9b0_cls::FUN_00c1d9b0(unsigned char acFlags)
 {
-    int value = m_04;
+    intptr_t value = m_04;
     m_vptr = (int)&::DAT_010bd6a0;
     ::ReleaseObjectArray((::Obj00a47600 **)(value));
     if (acFlags & 1)
@@ -8227,7 +8226,7 @@ void C16400Shader::FUN_00c16400()
 }
 
 extern int _DAT_012024fc;
-extern int _DAT_012024f8;
+extern intptr_t _DAT_012024f8;
 extern char UNK_00fdd3b0;
 
 struct FUN_00c1d8b0_class
@@ -11139,7 +11138,7 @@ template <class T> inline T S00c04f50_Max(T a, T b)
 struct S00c04f50_cls
 {
     int unk00;
-    int unk04;
+    intptr_t unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -11884,7 +11883,7 @@ void C0CD80Shader::FUN_00c0cd80(unsigned int technique, Renderer* renderer)
 struct SplatterItem
 {
     int unk00;
-    int unk04;
+    intptr_t unk04;
 };
 
 struct SplatterGeom

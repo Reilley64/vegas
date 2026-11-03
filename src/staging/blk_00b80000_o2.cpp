@@ -2728,11 +2728,11 @@ struct FUN_00b812b0_class
     FNVRefCounted* m_refs[2];
     int m_68;
     int unk6c;
-    void FUN_00b812b0(FUN_00b812b0_class* dst, int flag);
+    void FUN_00b812b0(FUN_00b812b0_class* dst, intptr_t flag);
 };
 
 // @fnv 0x00b812b0
-void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, int flag)
+void FUN_00b812b0_class::FUN_00b812b0(FUN_00b812b0_class* dst, intptr_t flag)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(dst), (::BSSP_stub4 *)(flag), {});
     for (int i = 0; i < 2; i++)
@@ -10207,11 +10207,11 @@ struct FUN_00b9b3b0_class
     void* m_038;
     FUN_00b9abc0_class* m_003c;
 
-    void DispatchToSlot(unsigned int arg1, unsigned int arg2, unsigned int arg3);
+    void DispatchToSlot(unsigned int arg1, unsigned int arg2, uintptr_t arg3);
 };
 
 // @fnv 0x00b9b3b0
-void FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, unsigned int arg3)
+void FUN_00b9b3b0_class::DispatchToSlot(unsigned int arg1, unsigned int uiIndex, uintptr_t arg3)
 {
     ::DispatchPass((void *)(reinterpret_cast<FUN_00b9abc0_class**>(&m_003c)[uiIndex]), arg1, (void *)(arg3), {});
 }
@@ -10857,13 +10857,13 @@ void ISEffectX::InitFromTexOwner(TexOwner* owner, int unused)
     reinterpret_cast<::ImageSpaceShaderParam *>((param))->AllocateShaderConstants(3, 6);
     param->bActive = 0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(0, (::KeyPair **)&(param));
-    int t0 = owner->texSet->tex0;
+    intptr_t t0 = owner->texSet->tex0;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(0, (::ImageSpaceEffect *)(t0), (::ImageSpaceEffectParam *)(param), 0);
     ISParam* param2 = new ISParam;
     reinterpret_cast<::ImageSpaceShaderParam *>((param2))->AllocateShaderConstants(3, 6);
     param2->bActive = 0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(params))->FUN_00ba3aa0(1, (::KeyPair **)&(param2));
-    int t1 = owner->texSet->tex1;
+    intptr_t t1 = owner->texSet->tex1;
     reinterpret_cast<::FUN_00ba3c70_shell *>(this)->SetEffectAt(1, (::ImageSpaceEffect *)(t1), (::ImageSpaceEffectParam *)(param2), 0);
 }
 
@@ -11371,7 +11371,7 @@ struct Target
 // @fnv 0x00b9de90
 bool Target::FUN_00b9de90(int a, int b, int c, int aiUnused, Input* input, unsigned short flags)
 {
-    int value = input->unk0c;
+    intptr_t value = input->unk0c;
     TagGuard tagGuard;
     FUN_00bd8290 node(0);
     node.unk058 = a;
@@ -16382,7 +16382,7 @@ struct FUN_00b97690
     int unk30c;
     int unk310;
     int unk314;
-    unsigned int m_textureId;
+    uintptr_t m_textureId;
     ~FUN_00b97690();
 };
 // If active, calls ShutdownAllEffects, ClearTextures and FUN_00b8a7e0, clears active, and passes m_textureId to DAT_011f91a8->FUN_00b6da10.

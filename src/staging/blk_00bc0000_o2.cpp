@@ -2141,12 +2141,12 @@ struct SpawnedObj_b10020 : SpawnedBase_b10020
 
 struct FUN_00bc2020_cls
 {
-    SpawnedBase_b10020* FUN_00bc2020(unsigned int arg);
+    SpawnedBase_b10020* FUN_00bc2020(uintptr_t arg);
 };
 
 // Allocates a SpawnedObj_b10020, initializes it via FUN_00ba8b10 with arg, and returns it as a SpawnedBase_b10020 pointer.
 // @fnv 0x00bc2020
-SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(unsigned int arg)
+SpawnedBase_b10020* FUN_00bc2020_cls::FUN_00bc2020(uintptr_t arg)
 {
     SpawnedBase_b10020* obj = new SpawnedObj_b10020();
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(obj), (::BSSP_stub4 *)(arg), {});
@@ -2647,12 +2647,12 @@ struct SpawnedObj_b9523 : SpawnedBase_b9523
 
 struct FUN_00bc3110_cls
 {
-    SpawnedBase_b9523* FUN_00bc3110(unsigned int arg);
+    SpawnedBase_b9523* FUN_00bc3110(uintptr_t arg);
 };
 
 // Allocates a SpawnedObj_b9523, initializes it via FUN_00a57620 with arg, and returns it as a SpawnedBase_b9523 pointer.
 // @fnv 0x00bc3110
-SpawnedBase_b9523* FUN_00bc3110_cls::FUN_00bc3110(unsigned int arg)
+SpawnedBase_b9523* FUN_00bc3110_cls::FUN_00bc3110(uintptr_t arg)
 {
     SpawnedBase_b9523* p = new SpawnedObj_b9523();
     reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(p), (*(::CloningProcess *)(arg)));
@@ -2801,12 +2801,12 @@ struct FUN_00bc3620_cls
 {
 
     void Attach(Obj_b9218* o, int p);
-    Obj_b9218* CreateAndAttach(int p);
+    Obj_b9218* CreateAndAttach(intptr_t p);
 };
 
 // Allocates a new Obj_b9218, attaches it with the given parameter, and returns the new object.
 // @fnv 0x00bc3620
-Obj_b9218* FUN_00bc3620_cls::CreateAndAttach(int p)
+Obj_b9218* FUN_00bc3620_cls::CreateAndAttach(intptr_t p)
 {
     Obj_b9218* o = new Obj_b9218();
     reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(o), (*(::CloningProcess *)(p)));
@@ -2959,12 +2959,12 @@ struct Bc38Owner
     int unk64;
     int unk68;
     int unk6c;
-    FUN_00bc37b0* CreateFadeNode(int aArg);
+    FUN_00bc37b0* CreateFadeNode(intptr_t aArg);
 };
 
 // Allocates a FUN_00bc37b0, initializes it via FUN_00ba8b10 with aArg, copies the quad at unk60 into the new object, and returns it.
 // @fnv 0x00bc3830
-FUN_00bc37b0* Bc38Owner::CreateFadeNode(int aArg)
+FUN_00bc37b0* Bc38Owner::CreateFadeNode(intptr_t aArg)
 {
     FUN_00bc37b0* pNode = new FUN_00bc37b0();
     ::FUN_00ba8b10((::BSSP_stub4 *)(((_Helper_00ba8b10*)this)), (int)((char*)pNode), (::BSSP_stub4 *)(void *)((void*)aArg), {});
@@ -4746,11 +4746,11 @@ struct EventInvoker
     unsigned int unk88;
     void* channel;
     int DispatchEvent(int unused1, BlockRecord* block, DispatchInfo* info, int unused4, int unused5, int unused6,
-                      unsigned int token, int unused8);
+                      uintptr_t token, int unused8);
 };
 // @fnv 0x00bcb460
 int EventInvoker::DispatchEvent(int unused1, BlockRecord* block, DispatchInfo* info, int unused4, int unused5,
-                                int unused6, unsigned int token, int unused8)
+                                int unused6, uintptr_t token, int unused8)
 {
     if (block != 0 && info != 0 && disabledFlag == 0 && channel != 0)
     {
@@ -7787,7 +7787,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
 
     int* pField2c = m_p2c;
     int* pField1c = m_p1c;
-    int iField2c0 = *pField2c;
+    intptr_t iField2c0 = *pField2c;
     int b = *pField1c;
 
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(0, (::NiAccumulator *)(iField2c0), (const ::NiCamera *)(0));
@@ -8464,13 +8464,13 @@ class BDD80ShaderProperty : public BDD80ShaderPropertyBase
     int unk38;
     BDD80RenderPassArray* m_pkRenderPasses;
 
-    int AddRenderPass(BDD80Geometry* pkGeometry, int iRenderMode, unsigned short* pusPassCount, unsigned char ucMode,
+    int AddRenderPass(BDD80Geometry* pkGeometry, intptr_t iRenderMode, unsigned short* pusPassCount, unsigned char ucMode,
                       bool* pbFirst, bool bSkip, int iArg6, int iArg7, int iArg8, int iArg9, int iArg10, bool bOverride,
                       int iArg12);
 };
 
 // @fnv 0x00bddd80
-int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, int iRenderMode, unsigned short* pusPassCount,
+int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, intptr_t iRenderMode, unsigned short* pusPassCount,
                                        unsigned char ucMode, bool* pbFirst, bool bSkip, int iArg6, int iArg7, int iArg8,
                                        int iArg9, int iArg10, bool bOverride, int iArg12)
 {
@@ -16337,12 +16337,12 @@ class FUN_00bc29e0 : public NiSortAdjustNode, public FUN_00bc29e0Tail
 class OwnerBC2A
 {
   public:
-    FUN_00bc29e0* CreateNode(int iArg);
+    FUN_00bc29e0* CreateNode(intptr_t iArg);
 };
 
 // Allocates and constructs a FUN_00bc29e0 node, passes it and iArg to FUN_00a5dc80, and returns the node.
 // @fnv 0x00bc2a30
-FUN_00bc29e0* OwnerBC2A::CreateNode(int iArg)
+FUN_00bc29e0* OwnerBC2A::CreateNode(intptr_t iArg)
 {
     FUN_00bc29e0* pkNode = new FUN_00bc29e0();
     reinterpret_cast<::NiNode *>(this)->CopyMemberData((::NiNode *)(pkNode), (*(::CloningProcess *)(iArg)));
@@ -22298,7 +22298,7 @@ struct DefaultRenderer
 };
 struct ShaderEngine
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -23705,7 +23705,7 @@ void PShader::FUN_00bdf790(PGeom* geom, int renderFlags, unsigned short* count, 
                 }
             }
             if (doSpecular)
-                reinterpret_cast<::BDD80ShaderProperty *>(this)->AddRenderPass((::BDD80Geometry *)(geom), (int)(sceneLight), count, passMode, &firstPass, skinned, false, flag10, data, castA, false,
+                reinterpret_cast<::BDD80ShaderProperty *>(this)->AddRenderPass((::BDD80Geometry *)(geom), (intptr_t)(sceneLight), count, passMode, &firstPass, skinned, false, flag10, data, castA, false,
                              flag11, flag18);
             if (doAmbient)
             {
@@ -24333,7 +24333,7 @@ class FUN_00bc1fa0 : public ShadowBase_bc1fa0
 {
   public:
     virtual ~FUN_00bc1fa0();
-    int unk04;
+    intptr_t unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -24509,7 +24509,7 @@ class ParticleNiObject
 };
 struct BoundDataBlock
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
+    intptr_t unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24;
     float radius;
 };
 inline float m_kBoundMin(float a, float b)

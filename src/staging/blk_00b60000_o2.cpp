@@ -300,7 +300,7 @@ struct FUN_00b63d60_class
 {
     int* p;
     int x;
-    int y;
+    intptr_t y;
     void FUN_00b63d60();
 };
 // @fnv 0x00b63d60
@@ -489,11 +489,11 @@ struct FUN_00b6f4f0_class
 {
     int m_0x64;
     NiTexture* m_tex;
-    void SetTextureByName(int a);
+    void SetTextureByName(intptr_t a);
 };
 // Calls FUN_00a5c6a0 with a, then if the name at offset 0x64 is set, looks up that texture via BSShaderManager::GetTexture into the pointer at 0x60.
 // @fnv 0x00b6f4f0
-void FUN_00b6f4f0_class::SetTextureByName(int a)
+void FUN_00b6f4f0_class::SetTextureByName(intptr_t a)
 {
     reinterpret_cast<::LinkObjectA5 *>((((NiObjectNET_stub*)this)))->FUN_00a5c6a0((*(::NiStream *)(a)));
     if (*(int*)((char*)this + 0x64))
@@ -819,7 +819,7 @@ void FUN_00b6b840()
     {
         ((NiRendererHelper*)NiRenderer::ms_pRenderer)->TryUnlock();
         ::fnv_00b6b0b0::FUN_00b6b0b0();
-        int r = GetCurrentItem();
+        intptr_t r = GetCurrentItem();
         if (r == 0)
         {
             NiRenderer* p = NiRenderer::ms_pRenderer;
@@ -3359,7 +3359,7 @@ struct RendererSurface
 extern "C" RendererSurface* DAT_011f4748;
 // If the flag at DAT_011f4748+0x200 is unset, sets it when CheckFeature succeeds, then calls FUN_00b6b7d0 with b and a swapped.
 // @fnv 0x00b6b890
-void __cdecl FUN_00b6b890(int a, int b)
+void __cdecl FUN_00b6b890(int a, intptr_t b)
 {
     int* initialized = reinterpret_cast<int*>(reinterpret_cast<char*>(DAT_011f4748) + 0x200);
     if (*initialized == 0)
@@ -3892,21 +3892,21 @@ struct RTManager_b6d170
     int unkA4;
     void* unkA8;
     RenderTarget_b6d170* CreateRenderTarget(std::intptr_t a1, unsigned int width, unsigned int height, int a4, int a5,
-                                            unsigned int flags, int a7, int msaaType, int a9, int a10);
+                                            unsigned int flags, int a7, int msaaType, intptr_t a9, intptr_t a10);
 };
 
 // @fnv 0x00b6d170
 RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(std::intptr_t aiUnused, unsigned int width, unsigned int height, int a4,
                                                           int aiUnused2, unsigned int flags, int aiUnused3,
-                                                          int msaaType, int a9, int a10)
+                                                          int msaaType, intptr_t a9, intptr_t a10)
 {
     void* depth = 0;
-    int msaa = 0;
+    intptr_t msaa = 0;
     RenderTarget_b6d170* result = 0;
     TexPrefs_b6d170 prefs;
     prefs.m_mipMapped = 2;
-    unsigned int w;
-    unsigned int h;
+    uintptr_t w;
+    uintptr_t h;
     if (DAT_011f9183)
     {
         w = width;
@@ -3979,12 +3979,12 @@ RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(std::intptr_t aiUnused
 class FUN_00b6d370_cls
 {
   public:
-    void FUN_00b6d370(int iA, int iB, int iC, int iD);
+    void FUN_00b6d370(int iA, intptr_t iB, int iC, int iD);
 };
 
 // Computes six values from iA and iB via GetRenderTargetDesc, then passes them with iA, iB, iC and iD to CreateRenderTarget.
 // @fnv 0x00b6d370
-void FUN_00b6d370_cls::FUN_00b6d370(int iA, int iB, int iC, int iD)
+void FUN_00b6d370_cls::FUN_00b6d370(int iA, intptr_t iB, int iC, int iD)
 {
     int i0, i1, i2, i3, i4, i5;
     ::GetRenderTargetDesc((::RenderConfigSurface *)this, iA, (unsigned int *)(iB), (unsigned int *)(int *)(&i0), (unsigned int *)(int *)(&i1), (unsigned int *)(int *)(&i2), (unsigned int *)(int *)(&i3), (unsigned int *)(int *)(&i4));
@@ -10599,7 +10599,7 @@ struct Pool
 
     RefObj* Create(unsigned int a, unsigned int p0, unsigned int p1, unsigned int flags, unsigned int p2,
                    unsigned int p3, unsigned int type, unsigned int p5, int zero, unsigned int e);
-    __forceinline RefObj* CreateNew(unsigned int a, unsigned int type, unsigned int flags, unsigned int e)
+    __forceinline RefObj* CreateNew(uintptr_t a, uintptr_t type, unsigned int flags, unsigned int e)
     {
         unsigned int p5;
         struct Properties
@@ -10838,7 +10838,7 @@ struct TexturePool
     unsigned unka0;
     unsigned unka4;
     unsigned unka8;
-    void ResizeActivePool(int kind, unsigned count);
+    void ResizeActivePool(intptr_t kind, unsigned count);
 };
 struct ShaderStageManager
 {
@@ -11068,7 +11068,7 @@ public:
 };
 // Adjusts the active texture pool to hold count+1 entries by popping surplus textures or allocating new ones from the available list or a new render target.
 // @fnv 0x00b6ee70
-void TexturePool::ResizeActivePool(int kind, unsigned count)
+void TexturePool::ResizeActivePool(intptr_t kind, unsigned count)
 {
     PoolGuard guard;
     if (!unka4)
@@ -12647,7 +12647,7 @@ struct Setup051
     FUN_00c1b4a0_holder active0, active1, active2, active3;
     FUN_00c1b4a0_holder spare;
     FUN_00c1b4a0_holder inactive0, inactive1, inactive2, inactive3;
-    __forceinline Target051* Create(NiRenderer_b6d170* r, int kind)
+    __forceinline Target051* Create(NiRenderer_b6d170* r, intptr_t kind)
     {
         unsigned int width, height, format, unused, flags, samples;
         ::GetRenderTargetDesc((::RenderConfigSurface *)this, (unsigned int)(r), (unsigned int *)(kind), &width, &height, &format, &unused, &flags);
@@ -14873,10 +14873,10 @@ struct ShaderPassBuilder
     int unk28, unk2c, unk30, unk34;
     unsigned int cached;
     PassPointer array;
-    PassArray* FUN_00b60790(void*, unsigned int, int, unsigned int, int, int);
+    PassArray* FUN_00b60790(void*, uintptr_t, int, unsigned int, int, int);
 };
 // @fnv 0x00b60790
-PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, unsigned int mode, int unused, unsigned int variant,
+PassArray* ShaderPassBuilder::FUN_00b60790(void* geometry, uintptr_t mode, int unused, unsigned int variant,
                                            int unused2, int FlushUsageData)
 {
     MemScope scope;
@@ -15100,7 +15100,7 @@ struct FUN_00b6b380 : Base
     NiPointer<Node> extra0, extra1, extra2;
     int state;
     NiPointer<Node> nodes[4];
-    FUN_00b6b380(Node* source, bool option, int arg);
+    FUN_00b6b380(Node* source, bool option, intptr_t arg);
     virtual ~FUN_00b6b380();
 };
 inline Node* CastCube(Node* source)
@@ -15116,10 +15116,10 @@ inline Node* CastCube(Node* source)
 }
 // Initializes textures from a Node's faces or texture, setting extra pointers to null and state to -1.
 // @fnv 0x00b6b380
-FUN_00b6b380::FUN_00b6b380(Node* source, bool option, int arg)
+FUN_00b6b380::FUN_00b6b380(Node* source, bool option, intptr_t arg)
 {
     nodes[0] = source;
-    int mode = option ? ((int)(::FUN_00b6b180((::FUN_00b6b180_Obj *)(source), (::FUN_00b6b180_Tex *)(arg)))) : 0;
+    intptr_t mode = option ? ((intptr_t)(::FUN_00b6b180((::FUN_00b6b180_Obj *)(source), (::FUN_00b6b180_Tex *)(arg)))) : 0;
     Node* cube = CastCube(source);
     if (!cube)
     {

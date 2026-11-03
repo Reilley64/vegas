@@ -315,10 +315,10 @@ struct NiTPrimitiveArray_unsigned_int_
 };
 struct FUN_00c3a0c0_Class
 {
-    void AddFirstEmptyFromGlobal(unsigned int a);
+    void AddFirstEmptyFromGlobal(uintptr_t a);
 };
 // @fnv 0x00c3a0c0
-void FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(unsigned int pArray)
+void FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(uintptr_t pArray)
 {
     struct
     {
@@ -695,7 +695,7 @@ int __cdecl FUN_00c33090(const char* p)
 
 typedef void*(__cdecl* PFN_00c3c100)(void*, void*, unsigned int);
 extern PFN_00c3c100 DAT_01202d5c;
-extern int DAT_01202d70;
+extern intptr_t DAT_01202d70;
 void __cdecl FUN_00c3c250();
 void __cdecl FUN_00c3c280();
 // @fnv 0x00c3c100
@@ -1557,14 +1557,14 @@ int __cdecl FUN_00c3c220()
 
 
 
-extern int DAT_01202d70;
+extern intptr_t DAT_01202d70;
 
 // @fnv 0x00c3c250
 void __cdecl FUN_00c3c250()
 {
     if (DAT_01202d70 == 0)
     {
-        DAT_01202d70 = (int)SetWindowsHookExA(5, (HOOKPROC)::CbtHookProc, 0, GetCurrentThreadId());
+        DAT_01202d70 = (intptr_t)SetWindowsHookExA(5, (HOOKPROC)::CbtHookProc, 0, GetCurrentThreadId());
     }
 }
 
@@ -1590,7 +1590,7 @@ extern int(* g_pfnC3C2B0GetWindowText)(C3C2B0HWND hWnd, char* pcString, int m_iM
 // EnumChildWindows callback: finds the "Cancel" button.
 // Searches a window: if it is a Button whose text is non-empty and not "Cancel", stores it through lParam and returns false; otherwise returns true.
 // @fnv 0x00c3c2b0
-int FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
+BOOL CALLBACK FindFirstNonCancelButton(HWND hWnd, LPARAM lParam)
 {
     bool bContinueSearch = true;
     if (hWnd)
@@ -1614,7 +1614,7 @@ int FindFirstNonCancelButton(C3C2B0HWND hWnd, long lParam)
 
 
 // @fnv 0x00c3c3a0
-int CbtHookProc(int code, unsigned int wParam, int lParam)
+int CbtHookProc(int code, uintptr_t wParam, int lParam)
 {
     if (code < 0)
     {
@@ -5712,7 +5712,7 @@ struct ArrayC3D6C0
 {
     void** vtbl;
     void* data;
-    unsigned int size;
+    uintptr_t size;
     unsigned int cap;
     inline void FUN_00c3d870(unsigned int neu, unsigned int count)
     {
@@ -5757,7 +5757,7 @@ struct ArrayC3D6C0
 int ArrayC3D6C0::FUN_00c3d6c0()
 {
     unsigned int first;
-    unsigned int high;
+    uintptr_t high;
     bool last;
     if (size == cap)
         last = true;
@@ -6396,7 +6396,7 @@ struct Owner
 {
     int u0, u1, u2, u3, u4, u5, u6, u7;
     LockObj lock;
-    __forceinline bool pass(H* node, int a, int b, int c)
+    __forceinline bool pass(H* node, int a, int b, intptr_t c)
     {
         return reinterpret_cast<::FUN_00c3fe80_Class *>((node))->FUN_00c3fe80(node->q->v9(a, b), a, b, (void **)(c));
     }
@@ -7431,7 +7431,7 @@ struct ManagerS
     int unk18;
     int unk1C;
     SpinLockS lock;
-    bool FUN_00c3f430(int a, int b, int c, int d, unsigned char e);
+    bool FUN_00c3f430(int a, int b, intptr_t c, int d, unsigned char e);
 };
 
 static __forceinline void Dead35()
@@ -7440,7 +7440,7 @@ static __forceinline void Dead35()
 }
 
 // @fnv 0x00c3f430
-bool ManagerS::FUN_00c3f430(int a, int b, int c, int d, unsigned char e)
+bool ManagerS::FUN_00c3f430(int a, int b, intptr_t c, int d, unsigned char e)
 {
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(lock))->FUN_0040fbf0((char *)(0));
     bool result = reinterpret_cast<::SearchC3 *>((((::WorkerS *)(reinterpret_cast<::FUN_00c3f750_Class *>(this)->FUN_00c3f750()))))->FUN_00c3ffb0(a, (::KeyC3)(b), (::RefC3 *)(c), d);
@@ -7472,12 +7472,12 @@ FUN_00c3f8c0::~FUN_00c3f8c0()
 {
     reinterpret_cast<::NodeMap *>((this))->FUN_00c40b70(1);
     {
-        int unk10 = this->unk0c;
+        intptr_t unk10 = this->unk0c;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060((void*)unk10);
     }
     {
         int unk18 = this->unk04;
-        int unk14 = unk18;
+        intptr_t unk14 = unk18;
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa4060((void*)unk14);
     }
 }

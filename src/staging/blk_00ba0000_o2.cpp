@@ -605,7 +605,7 @@ struct BeamStage
 {
 };
 // @fnv 0x00bb9640
-void FUN_00bb9640(unsigned int pTarget, unsigned int pSource)
+void FUN_00bb9640(uintptr_t pTarget, uintptr_t pSource)
 {
     unsigned int r = ((unsigned int(*)(void*))(*(void***)pSource)[0xe0 / 4])((void*)pSource);
     reinterpret_cast<::E7DE90Owner *>((((BeamStage*)pTarget)))->ApplyPairToState(r);
@@ -743,10 +743,10 @@ public:
 };
 struct FUN_00bae740_Class : NiObjectNET_stub
 {
-    void FUN_00bae740(int a);
+    void FUN_00bae740(intptr_t a);
 };
 // @fnv 0x00bae740
-void FUN_00bae740_Class::FUN_00bae740(int aiArg)
+void FUN_00bae740_Class::FUN_00bae740(intptr_t aiArg)
 {
     reinterpret_cast<::LinkObjectA5 *>(this)->FUN_00a5c6a0((*(::NiStream *)(aiArg)));
     const char* name = *(const char**)((char*)this + 0x74);
@@ -813,15 +813,15 @@ struct BSShaderManager
 };
 struct FUN_00bb79e0_Class
 {
-    void FUN_00bb79e0(int arg);
+    void FUN_00bb79e0(intptr_t arg);
 };
 // Calls FUN_00a5c6a0 on this, then if the pointer at offset 0x94 is set, calls BSShaderManager::GetTexture with it and the texture at offset 0x60.
 // @fnv 0x00bb79e0
-void FUN_00bb79e0_Class::FUN_00bb79e0(int arg)
+void FUN_00bb79e0_Class::FUN_00bb79e0(intptr_t arg)
 {
     NiObjectNET_stub* p = (NiObjectNET_stub*)this;
     reinterpret_cast<::LinkObjectA5 *>((p))->FUN_00a5c6a0((*(::NiStream *)(arg)));
-    int tex = *(int*)((char*)p + 0x94);
+    intptr_t tex = *(int*)((char*)p + 0x94);
     if (tex)
         ::BSShaderManager::GetTexture((const char*)tex, true, (::NiPointer< ::NiTexture> &)(*(NiTexture**)((char*)p + 0x60)), false, false);
 }
@@ -1063,7 +1063,7 @@ struct FUN_00bb3070_Class
     int m_0x1c;
     char m_0x20[0x58 - 0x20];
     int m_0x58;
-    void* FUN_00bb3070(int a);
+    void* FUN_00bb3070(intptr_t a);
 };
 struct FUN_00bb3400_Class
 {
@@ -2425,12 +2425,12 @@ struct Obj_b10008
 
 struct FUN_00ba82a0_cls
 {
-    Obj_b10008* FUN_00ba82a0(int arg);
+    Obj_b10008* FUN_00ba82a0(intptr_t arg);
 };
 
 // Allocates an Obj_b10008, initializes it via FUN_00ba8b10 with arg, and returns the new object.
 // @fnv 0x00ba82a0
-Obj_b10008* FUN_00ba82a0_cls::FUN_00ba82a0(int arg)
+Obj_b10008* FUN_00ba82a0_cls::FUN_00ba82a0(intptr_t arg)
 {
     Obj_b10008* p = new Obj_b10008();
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(p), (::BSSP_stub4 *)(arg), {});
@@ -3764,12 +3764,12 @@ class FUN_00bae980_cls
     unsigned int m_088;
     unsigned int m_08c;
 
-    void FUN_00bae980(FUN_00bae980_cls* arg1, unsigned int arg2);
+    void FUN_00bae980(FUN_00bae980_cls* arg1, uintptr_t arg2);
 };
 
 // Copies ref-counted pointers m_080 and m_070, m_084, m_08c and m_07c from this object into arg1 after calling FUN_00ba8b10.
 // @fnv 0x00bae980
-void FUN_00bae980_cls::FUN_00bae980(FUN_00bae980_cls* apTarget, unsigned int arg2)
+void FUN_00bae980_cls::FUN_00bae980(FUN_00bae980_cls* apTarget, uintptr_t arg2)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(apTarget), (::BSSP_stub4 *)(arg2), {});
 
@@ -4013,7 +4013,7 @@ struct S_baeb00_Obj : S_baeb00_Base
     int unk68;
     int unk6c;
     int unk70;
-    int unk74;
+    intptr_t unk74;
     int unk78;
     int unk7c;
     int unk80;
@@ -5505,12 +5505,12 @@ class SpawnedObject
 class FUN_00bb1080_cls
 {
   public:
-    SpawnedObject* FUN_00bb1080(int a1);
+    SpawnedObject* FUN_00bb1080(intptr_t a1);
 };
 
 // Allocates a SpawnedObject, initializes it via unk_bb0ed0 with a1, and returns it while a TLS flag guard is active.
 // @fnv 0x00bb1080
-SpawnedObject* FUN_00bb1080_cls::FUN_00bb1080(int a1)
+SpawnedObject* FUN_00bb1080_cls::FUN_00bb1080(intptr_t a1)
 {
     TlsFlagGuard guard;
     SpawnedObject* p = new SpawnedObject();
@@ -6453,12 +6453,12 @@ struct FUN_00bb3170_cls
     virtual void v45();
     virtual void v46();
     virtual int GetArg();
-    Obj_b9933* CreateAndAttach(int arg);
+    Obj_b9933* CreateAndAttach(intptr_t arg);
 };
 
 // Allocates an Obj_b9933 with GetArg(), attaches it with arg, and returns the new object.
 // @fnv 0x00bb3170
-Obj_b9933* FUN_00bb3170_cls::CreateAndAttach(int arg)
+Obj_b9933* FUN_00bb3170_cls::CreateAndAttach(intptr_t arg)
 {
     Obj_b9933* p = new Obj_b9933(GetArg());
     reinterpret_cast<::SelfStub *>(this)->FUN_00b665d0((char *)(p), (void *)(arg));
@@ -6777,7 +6777,7 @@ class FUN_00bb3500_cls : public BBB3500Base
 };
 // Calls FUN_00bb3500, sets the vtable to DAT_010b9338 and initializes m_0x58 to 4 and m_0x1c to 10, then returns this.
 // @fnv 0x00bb3070
-void* FUN_00bb3070_Class::FUN_00bb3070(int a)
+void* FUN_00bb3070_Class::FUN_00bb3070(intptr_t a)
 {
     new ((void *)this) ::FUN_00bb3500_cls((::BBB3500RefObject *)(a));
     m_vft = (void*)&DAT_010b9338;
@@ -7412,7 +7412,7 @@ struct FUN_00bb3a50_cls
     FUN_00bb3a50_sub* m_3c;
     unsigned int unk40;
     unsigned int unk44;
-    int m_48;
+    intptr_t m_48;
     unsigned int unk4C;
     unsigned int unk50;
     unsigned int unk54;
@@ -8162,11 +8162,11 @@ struct Obj_b9974 : public BaseObj_b9974
 
 struct FUN_00bb4680_cls
 {
-    Obj_b9974* FUN_00bb4680(int arg);
+    Obj_b9974* FUN_00bb4680(intptr_t arg);
 };
 
 // @fnv 0x00bb4680
-Obj_b9974* FUN_00bb4680_cls::FUN_00bb4680(int arg)
+Obj_b9974* FUN_00bb4680_cls::FUN_00bb4680(intptr_t arg)
 {
     ThreadStateGuard guard;
     Obj_b9974* p = new Obj_b9974();
@@ -8500,11 +8500,11 @@ struct FUN_00bb7170_Node
 
 struct FUN_00bb7210_Class
 {
-    FUN_00bb7170_Node* CreateNode(int a1);
+    FUN_00bb7170_Node* CreateNode(intptr_t a1);
 };
 
 // @fnv 0x00bb7210
-FUN_00bb7170_Node* FUN_00bb7210_Class::CreateNode(int a1)
+FUN_00bb7170_Node* FUN_00bb7210_Class::CreateNode(intptr_t a1)
 {
     FUN_00bb7170_Node* node = new FUN_00bb7170_Node();
     ::FUN_00ba8b10((::BSSP_stub4 *)this, (int)(node), (::BSSP_stub4 *)(a1), {});
@@ -8542,7 +8542,7 @@ struct S_00bb7370_Base
     int unk58;
     int unk5C;
     int unk60;
-    int unk64;
+    intptr_t unk64;
     virtual ~S_00bb7370_Base();
 };
 struct S_00bb7370_Obj : S_00bb7370_Base
@@ -8717,7 +8717,7 @@ void ShaderPassParameters::AppendShaderParameters(StrArr* array)
         GameGraphicsObject* object = ((::GameGraphicsObject *)(reinterpret_cast<::NiObject *>((void *)(&(*reinterpret_cast<char *>(&::g_011f444c))))->DynamicCast({})));
         if (object)
         {
-            unsigned int graphicalValue = *object->GetGraphicsValue();
+            uintptr_t graphicalValue = *object->GetGraphicsValue();
             value = ::fnv_00a7d5e0::FUN_00a7d5e0(DAT_010b9dec, (const char *)(graphicalValue));
             {
                 unsigned int at = arrayView->count;
@@ -11913,10 +11913,10 @@ class FUN_00bb3d80_cls
     int unk84;
     RefObj_b4622* m_088;
     unsigned short m_08c;
-    void FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2);
+    void FUN_00bb3d80(FUN_00bb3d80_cls* arg1, uintptr_t arg2);
 };
 // @fnv 0x00bb3d80
-void FUN_00bb3d80_cls::FUN_00bb3d80(FUN_00bb3d80_cls* arg1, unsigned int arg2)
+void FUN_00bb3d80_cls::FUN_00bb3d80(FUN_00bb3d80_cls* arg1, uintptr_t arg2)
 {
     reinterpret_cast<::FUN_00b702b0_shell *>((this))->FUN_00b702b0((char *)(arg1), (void *)(arg2));
     arg1->v55(m_07c);
@@ -12055,7 +12055,7 @@ struct FUN_00bb3ba0 : BSFaceGenMorphData
 nsbb::FUN_00bb3ba0* nsbb::FUN_00bb3ba0::CloneMorphData(void* process)
 {
     FUN_00bb3ba0* clone = new FUN_00bb3ba0(vFValue(), vCC(), vFC());
-    reinterpret_cast<::FUN_00bb3d80_cls *>(this)->FUN_00bb3d80((::FUN_00bb3d80_cls *)(clone), (unsigned int)(process));
+    reinterpret_cast<::FUN_00bb3d80_cls *>(this)->FUN_00bb3d80((::FUN_00bb3d80_cls *)(clone), (uintptr_t)(process));
     return clone;
 }
 
@@ -12771,7 +12771,7 @@ void FUN_00baeee0_shell::AppendToStringArray(StrArr* arr)
 
     {
         void* bt = baseTex;
-        unsigned int r = ((unsigned int)(::FUN_00c4bb40((::NiObjectC4BB *)(bt))));
+        uintptr_t r = ((uintptr_t)(::FUN_00c4bb40((::NiObjectC4BB *)(bt))));
         if (r)
         {
             char* val = ::fnv_00a7d5e0::FUN_00a7d5e0("base texture", (const char *)(r));
@@ -13327,7 +13327,7 @@ struct ACShader
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14;
     ACSetter* setter;
-    int FUN_00baac10(int, int, int, int, ACObject*, int, const NiTransformBB2*, int);
+    int FUN_00baac10(intptr_t, intptr_t, intptr_t, intptr_t, ACObject*, intptr_t, const NiTransformBB2*, intptr_t);
 };
 struct UpPair
 {
@@ -13335,7 +13335,7 @@ struct UpPair
     NiPoint3 up;
 };
 // @fnv 0x00baac10
-int ACShader::FUN_00baac10(int a, int b, int c, int d, ACObject* object, int f, const NiTransformBB2* transform, int h)
+int ACShader::FUN_00baac10(intptr_t a, intptr_t b, intptr_t c, intptr_t d, ACObject* object, intptr_t f, const NiTransformBB2* transform, intptr_t h)
 {
     reinterpret_cast<::XRenderer *>((setter))->FUN_00e6fbb0((*(const ::XTransform *)(transform)), 0);
     D3DXMATRIXBB2 world, inverse;
@@ -13542,7 +13542,7 @@ void S00bafd50_Cls::FUN_00bafd50(S00bafd50_Arg* argument)
 {
     if (m_a8 != 0)
     {
-        int value = ((S00bafd50_GetFn)m_a8->m_vft[35])(m_a8, 0);
+        intptr_t value = ((S00bafd50_GetFn)m_a8->m_vft[35])(m_a8, 0);
         void* r;
         if (value == 0)
             r = DAT_0109b220;
@@ -14179,7 +14179,7 @@ void FUN_00baea50_cls::FUN_00baea50(FUN_00baea50_arg* a1)
 {
     reinterpret_cast<::S_00ba92c0_Prop *>(this)->FUN_00ba92c0((*(::S_00ba92c0_Stream *)(a1)));
     a1->m_24C->Read(&m_7C, 4);
-    int out = 0;
+    intptr_t out = 0;
     reinterpret_cast<::FUN_00a64ce0_shell *>((a1))->FUN_00a64ce0((char **)(int *)(&out));
     reinterpret_cast<::TextString *>(&(m_74))->FUN_004037f0((const char *)(out), 0);
     FUN_00aa10f0(out);
@@ -16748,7 +16748,7 @@ bool FUN_00bae560_cls::FUN_00bae560(int)
     FUN_00bae560_v* e = h->m_0c;
     FUN_00bae560_sp* r = m_1c->m_08;
     reinterpret_cast<::ImageSpaceShaderParam *>((r))->SetShaderConstantVector4(1, m_6c->m_10, 0.0f, 0.0f, 0.0f);
-    int v = e->v20(0x40);
+    intptr_t v = e->v20(0x40);
     reinterpret_cast<::ImageSpaceShaderParam *>((r))->CopyParamData(0x13, (const float *)(v), {});
     FUN_00bae560_sp* tt = m_1c->m_2c;
     float t = (float)(DAT_011f9410 * ::runtimeInitializationDouble5);
@@ -18119,7 +18119,7 @@ void Badb90This::FUN_00badb90(int a0, int a1, int a2, int a3)
     IST texC;
     IST texE;
     int w;
-    int flag;
+    intptr_t flag;
     Node* argNode;
     if (m_05)
         m_05 = Call7(a2);
@@ -20526,7 +20526,7 @@ struct Buffer
 // @fnv 0x00ba11e0
 extern "C" Buffer* FUN_00ba11e0(Buffer* buffer, void*, unsigned char acFlags)
 {
-    int value = buffer->m_04;
+    intptr_t value = buffer->m_04;
     buffer->m_vptr = (int)&DAT_010b7f00;
     if (value != 0)
     {

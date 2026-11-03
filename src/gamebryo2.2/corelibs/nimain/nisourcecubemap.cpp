@@ -68,13 +68,12 @@ struct NiSourceCubeMap : NiSourceTexture
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a60f30
 NiSourceCubeMap* __cdecl CreateNiSourceCubeMap()
 {
-    void* p = BSFadeNode::operator new(0x4c);
+    void* p = ::operator new(0x4c);
     if (p)
     {
         NiSourceCubeMap* n = static_cast<NiSourceCubeMap*>(p);
@@ -715,10 +714,6 @@ struct SpawnedObject : FUN_00a5fc10_cls
     int m_44;
     int m_48;
 
-    static void* __cdecl operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedObject() throw() : FUN_00a5fc10_cls()
     {
@@ -780,7 +775,6 @@ struct TextureFormatPreferences
 struct NiCubeBase
 {
     NiCubeBase() throw();
-    static void* __cdecl operator new(size_t);
     virtual ~NiCubeBase();
 };
 
@@ -1394,7 +1388,6 @@ struct Pixels
     unsigned int* offsets;
     unsigned int levels;
     unsigned int unk64, unk68, unk6c, unk70;
-    static void* __cdecl operator new(size_t size) throw();
     __declspec(nothrow) unsigned int Width() const
     {
         return *widths;

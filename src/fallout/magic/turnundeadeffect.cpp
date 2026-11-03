@@ -48,7 +48,6 @@ void TurnUndeadEffect::ApplyTurnUndeadEffect(MagicCaster* apCaster)
 }
 
 extern unsigned int _data_011c16bc;
-void* __cdecl operator new(unsigned int);
 
 class ActiveEffect
 {

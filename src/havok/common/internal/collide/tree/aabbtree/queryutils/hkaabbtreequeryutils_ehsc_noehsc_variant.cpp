@@ -5,6 +5,7 @@
 
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/IdxStand_.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d1b000.h"
@@ -15,10 +16,6 @@ struct FUN_00d1bb40_Class
 {
     int* FUN_00d1bb40(unsigned short index);
 };
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 struct S_00d1bcb0_Allocator
 {
     int unk00;

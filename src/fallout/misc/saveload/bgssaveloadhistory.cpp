@@ -220,7 +220,6 @@ struct FUN_0084e250_shell
     void DeleteItemsFrom(unsigned int count);
 };
 
-void __cdecl operator delete(void*);
 
 // @fnv 0x0084e250
 void FUN_0084e250_shell::DeleteItemsFrom(unsigned int uiStartIndex)

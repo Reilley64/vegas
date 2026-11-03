@@ -72,10 +72,6 @@ struct MemoryManager
 {
 };
 
-void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-}
 
 bool operator!=(const NiFixedString& a, const NiFixedString& b)
 {

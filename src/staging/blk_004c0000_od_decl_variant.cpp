@@ -1001,13 +1001,9 @@ struct FUN_0066b0d0_Helper
 {
     void FUN_0066b0d0(int);
 };
-void* __cdecl operator new(unsigned int uiSize);
-void __cdecl operator delete(void* pvMem);
 class C4DF040Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 class C4DF040Point3
 {

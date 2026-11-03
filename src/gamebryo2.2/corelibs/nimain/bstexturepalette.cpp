@@ -147,10 +147,6 @@ struct BSTexMapItem_StandIn
     short field_c;
     short offset;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 
     BSTexMapItem_StandIn(NiTexture* tex, TextureCacheNode* next)
     {

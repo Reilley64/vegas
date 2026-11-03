@@ -712,8 +712,6 @@ struct HitEntry
     HitHandle m_kSource;
     HitEntry* FUN_00623bd0();
     HitEntry();
-    void* operator new(unsigned int uiSize);
-    void operator delete(void* pvMem);
 };
 struct HitList
 {

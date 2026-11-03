@@ -25,7 +25,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 
 extern int DAT_0109b72c;
@@ -34,7 +33,7 @@ extern int DAT_0109b72c;
 // @fnv 0x00a5f280
 NiProperty* FUN_00a5f280()
 {
-    NiProperty* p = static_cast<NiProperty*>(BSFadeNode::operator new(0x1c));
+    NiProperty* p = static_cast<NiProperty*>(::operator new(0x1c));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
@@ -137,10 +136,6 @@ struct NodeBase_b9855
 
 struct NodeObj_b9855 : NodeBase_b9855
 {
-    static void* operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     virtual void unk00();
     NodeObj_b9855() throw()
     {

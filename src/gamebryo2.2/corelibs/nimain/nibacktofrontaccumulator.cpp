@@ -300,7 +300,6 @@ class AA0F30Object
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(size_t auiSize);
 };
 
 class CloningProcess;

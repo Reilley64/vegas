@@ -33,7 +33,6 @@ void* __cdecl FUN_00a4b570()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 void __cdecl FUN_00a57c80(void*);
@@ -44,7 +43,7 @@ extern int DAT_01098a14;
 // @fnv 0x00a4b790
 void* __cdecl FUN_00a4b790()
 {
-    void* p = BSFadeNode::operator new(0x3c);
+    void* p = ::operator new(0x3c);
     if (p)
     {
         ((void(*)(void*))FUN_00a57c80)(p);
@@ -250,7 +249,6 @@ struct Thing
     int m_i18;
     int m_i1c;
 
-    static void* operator new(size_t auiSize) throw();
 
     Thing(Source* apSource) throw();
 };
@@ -627,7 +625,7 @@ struct NiMaterialColorController
 // @fnv 0x00a4b740
 NiMaterialColorController* NiMaterialColorController::Clone(CloningProcess& kCloning)
 {
-    NiMaterialColorController* pkObject = (NiMaterialColorController*)BSFadeNode::operator new(0x3c);
+    NiMaterialColorController* pkObject = (NiMaterialColorController*)::operator new(0x3c);
     if (pkObject)
     {
         new ((void *)(((NiLightColorController*)pkObject))) struct ::FUN_00a57c80();

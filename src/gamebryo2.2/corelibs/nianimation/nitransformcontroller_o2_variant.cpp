@@ -131,7 +131,6 @@ struct NiAVObject
 
 struct BSFadeNode
 {
-    static void* operator new(size_t size);
 };
 
 struct S00a36100
@@ -154,7 +153,7 @@ NiTransformInterpolator* S00a36100::FUN_00a36100(unsigned short usIndex)
     kTransform.m_kRotate = kRotate;
 
     NiTransformInterpolator* pInterp =
-        (NiTransformInterpolator*)BSFadeNode::operator new(sizeof(NiTransformInterpolator));
+        (NiTransformInterpolator*)::operator new(sizeof(NiTransformInterpolator));
     if (pInterp)
     {
         typedef NiTransformInterpolator* (NiTransformInterpolator::*CtorFn)(NiQuatTransform);
@@ -426,20 +425,12 @@ void A36590Controller::FUN_00a36590(A36590Object* pkObject, int iUnused)
 class NiTransformInitA
 {
   public:
-    static void* operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     void* InitA(int a, float b, int c);
 };
 
 class NiTransformInitB
 {
   public:
-    static void* operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 // @fnv 0x00a36620
@@ -448,7 +439,7 @@ void* FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
     void* obj;
     if (a3 != 0)
     {
-        obj = NiTransformInitA::operator new(0x58);
+        obj = ::operator new(0x58);
         if (obj != 0)
         {
             return ((NiTransformInitA*)obj)->InitA(a2, a4, a5);
@@ -456,7 +447,7 @@ void* FUN_00a36620(int a1, int a2, unsigned char a3, float a4, int a5)
     }
     else
     {
-        obj = NiTransformInitB::operator new(0x30);
+        obj = ::operator new(0x30);
         if (obj != 0)
         {
             return ((void *)(new ((void *)(((NiTransformInitB*)obj))) ::FUN_00a40980(a2, a4, a5)));

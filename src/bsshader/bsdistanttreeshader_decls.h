@@ -22,7 +22,6 @@ extern "C" void* fnv_zlib_memset(void*, int, unsigned long);
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int size);
 };
 
 class NiD3DShaderConstantMapCalls

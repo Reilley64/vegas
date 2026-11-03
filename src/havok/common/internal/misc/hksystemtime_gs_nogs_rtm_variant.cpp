@@ -3,6 +3,7 @@
 
 // src/havok/common/internal/misc/hksystemtime.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/misc/hksystemtime.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/symbols_00e29000.h"
 extern "C" __int64 __cdecl __time64(__int64*);
 int FUN_00e29910(void);
@@ -41,12 +42,6 @@ struct E29Src
 {
     int idx[4];
     int n;
-    static __forceinline void* operator new(size_t, void* place) throw()
-    {
-        return place;
-    }
-    static __forceinline void operator delete(void*, void*) throw()
-    {}
     __forceinline E29Src(int index) throw()
     {
         idx[0] = index;

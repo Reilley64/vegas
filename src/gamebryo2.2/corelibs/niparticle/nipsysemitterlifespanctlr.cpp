@@ -77,8 +77,6 @@ class C2B680Base
     C2B680Base() throw();
     virtual ~C2B680Base();
 
-    static void* operator new(size_t uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
     int unk08;

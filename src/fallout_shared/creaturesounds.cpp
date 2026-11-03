@@ -40,8 +40,6 @@ class CreatureSoundCollection
     BSSimpleList<SoundListEntry*>* m_pSoundListsByType[22];
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
 // @fnv 0x005f0360
 CreatureSoundCollection::CreatureSoundCollection()

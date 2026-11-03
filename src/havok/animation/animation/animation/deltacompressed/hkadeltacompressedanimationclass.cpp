@@ -59,7 +59,6 @@ struct FUN_00dfbb80_cls
 
 
     FUN_00dfbb80_cls* ReleaseBuffer(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the data buffer through the allocator, resets the data pointer and capacity, calls BaseRelease, and optionally frees the object itself.

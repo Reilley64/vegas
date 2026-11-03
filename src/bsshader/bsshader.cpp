@@ -794,8 +794,6 @@ struct NiD3DGPUProgramCache
 };
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct ShaderSourceFile_be1750
 {
@@ -948,14 +946,6 @@ template <unsigned int _Size> inline int ShaderStrCat_be1750(char (&_Dest)[_Size
 }
 struct FUN_00be08f0
 {
-    static void* operator new(unsigned int size)
-    {
-        return BSFadeNode::operator new(size);
-    }
-    static void operator delete(void* p)
-    {
-        BSFadeNode::operator delete(p);
-    }
     FUN_00be08f0(GraphicsRenderer*);
     virtual void v00();
     virtual void v01();

@@ -199,7 +199,7 @@ void NiGeometry::ProcessClone(CloningProcess& process)
         unsigned char exactType = NiIsExactKindOf(&(*reinterpret_cast<::NiRTTI *>(&::g_011f5d08)), m_shader);
         if (exactType != (unsigned char)(uintptr_t)shader)
         {
-            void* memory = NiMemObject::operator new(sizeof(NiD3DShaderInterface));
+            void* memory = ::operator new(sizeof(NiD3DShaderInterface));
             if ((uintptr_t)memory != (uintptr_t)shader)
                 shader = new (memory) NiD3DShaderInterface;
             ::AssignFixedString((char *)(((NiAVObject*)shader)), (intptr_t)&((*(const ::NiFixedString *)&(reinterpret_cast<::FUN_00a62660_cls *>((((NiTexture*)m_shader)))->FUN_00a62660()))), {});

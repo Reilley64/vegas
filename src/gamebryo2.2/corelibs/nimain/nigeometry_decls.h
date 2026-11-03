@@ -2,6 +2,7 @@
 #ifndef FNV_TASK_NIGEOMETRY_DECLS_H
 #define FNV_TASK_NIGEOMETRY_DECLS_H
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BA3760Object.h"
@@ -390,11 +391,6 @@ template <> NiPointer<NiAVObject>& NiPointer<NiAVObject>::operator=(NiAVObject*)
 class NiMemObject
 {
   public:
-    static void* operator new(size_t) throw();
-    static void* operator new(size_t, void* memory) throw()
-    {
-        return memory;
-    }
 };
 class NiD3DShaderInterface : public NiMemObject
 {
@@ -430,7 +426,7 @@ class NiD3DShaderInterface : public NiMemObject
 inline NiD3DShaderInterface* CreateGeometryShader()
 {
     NiD3DShaderInterface* shader = 0;
-    void* memory = NiMemObject::operator new(sizeof(NiD3DShaderInterface));
+    void* memory = ::operator new(sizeof(NiD3DShaderInterface));
     if (memory)
         shader = new (memory) NiD3DShaderInterface;
     return shader;

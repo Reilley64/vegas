@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
 
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
 #include "fnv/decl/FUN_00a80610_shell.h"
@@ -28,7 +29,6 @@ NiTriShape::NiTriShape(unsigned short numVertices, NiPoint3* vertices, NiPoint3*
 
 struct FUN_00a74530_DelHelper : NiMemObject
 {
-    static void operator delete(void*, size_t);
 };
 
 // Calls FUN_00a89760 on pThis, frees pThis with operator delete when flags has bit 0 set, and returns pThis.
@@ -99,7 +99,6 @@ FUN_00a744a0::FUN_00a744a0()
 namespace fnv_00a744d0 {
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiTriStrips : BSFadeNode
 {
@@ -222,7 +221,6 @@ void FUN_00a74560_shell::GetTriangleVertices(unsigned short ausTriangleIndex, Ni
 namespace fnv_00a74640 {
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiTriStrips : BSFadeNode
 {

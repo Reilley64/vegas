@@ -114,7 +114,6 @@ struct FUN_00e888c0_Class {
 struct FUN_00e891f0_Class {
     void FUN_00e891f0();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010efc34;
 struct FUN_00e8aa40_Class {
     int FUN_00e8aa40(bool flag);
@@ -134,7 +133,6 @@ struct FUN_00e97790_Class {
     int InitFromSource(int a, int b);
 };
 struct BSFadeNode {
-    static void* __cdecl operator new(unsigned int);
 };
 struct FUN_00e98640_Class {
     void FUN_00e98640();
@@ -217,7 +215,6 @@ struct FUN_00e93750_Class {
 };
 struct FUN_00e941d0_Node { unsigned int pad[9]; unsigned int count; unsigned int pad2[5]; FUN_00e941d0_Node* next; FUN_00e941d0_Node* prev; };
 struct FUN_00e941d0_This { int pad[11]; FUN_00e941d0_Node* head; };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e98610_Node {
     void* m_next;
     void* m_auiShapeKeys;
@@ -338,7 +335,6 @@ struct FUN_00e8ce70_Class : NiTMapBaseStub {
 
     void* FUN_00e8ce70(int flag);
 };
-extern "C" void __cdecl operator delete(void*, unsigned int);
 struct FUN_00e8ceb0_Class {
     void* FUN_00e8d200(bool flag);
 };
@@ -474,7 +470,6 @@ struct FUN_00e96c90_Class {
 
     void FUN_00e96c90();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 extern int DAT_010f1550;
 struct FUN_00e97870_Class {
     void* m_ppVirtualMethodTable;
@@ -482,7 +477,6 @@ struct FUN_00e97870_Class {
 };
 extern unsigned int DAT_011c1118;
 struct A51BF0Base {
-    static void* __cdecl operator new(unsigned int);
 };
 void AllocateNodeList();
 struct FUN_00e98b10_Class {
@@ -6689,7 +6683,6 @@ struct FUN_00e940a0_Class {
     void* m_00;
     void ReleaseGlobalSlot();
 };
-extern "C" void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00e94150_Node {
     int m_00;
     int m_04;
@@ -7001,7 +6994,6 @@ struct E94B0Block {
             m_pkEntryArray = 0;
     }
 
-    static void* operator new(unsigned int uiSize) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::E94B0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize); }
 
     E94B0Entry* GetAt(unsigned int uiIndex)
     {
@@ -7236,10 +7228,7 @@ struct NiColor3 {
 };
 class NiMemObject {
 public:
-    static void* operator new(unsigned int size) throw();
-    static void* operator new(unsigned int, void* p) { return p; }
 };
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
 extern volatile long DAT_011f4400;
 class NiRefObject : public NiMemObject {
 public:
@@ -8176,13 +8165,11 @@ struct Chip8F6D0 {
     int unk30;
     int unk34;
     ~Chip8F6D0();
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Entry8F6D0 {
     int unk00;
     int unk04;
     Chip8F6D0* m_apChips[5];
-    static void operator delete(void* pvMem, unsigned int uiSize);
 };
 struct Item8F6D0 {
     Item8F6D0* m_pkNext;
@@ -8275,7 +8262,6 @@ typedef void (__cdecl *FUN_00e9ca50_Entry)(
 struct FUN_00e9ec90 {
     void* m_pData;
     virtual ~FUN_00e9ec90();
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 static const void* kNull = 0;
 extern "C" void _ReadWriteBarrier();

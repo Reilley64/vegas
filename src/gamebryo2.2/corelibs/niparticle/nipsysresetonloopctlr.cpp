@@ -101,7 +101,6 @@ void FUN_00c28520(StrArr* pkStrings)
 
 struct NiMemObject
 {
-    static void* operator new(size_t size);
 };
 extern int DAT_010be8e4;
 
@@ -135,7 +134,7 @@ struct FUN_00c28430_class : CloneableObj
 // @fnv 0x00c28430
 FUN_00c28430_Object* FUN_00c28430_class::CreateCloneableObject(void* volatile argument)
 {
-    FUN_00c28430_Object* object = (FUN_00c28430_Object*)NiMemObject::operator new(0x38);
+    FUN_00c28430_Object* object = (FUN_00c28430_Object*)::operator new(0x38);
     if (object)
     {
         new ((void *)(object)) class ::FUN_00a6d220();

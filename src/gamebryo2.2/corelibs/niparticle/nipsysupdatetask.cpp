@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c25870
+#include <new>
 #include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -163,14 +164,6 @@ struct C25AC0MemoryManager
 {
 };
 
-inline void __cdecl operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
-inline void __cdecl operator delete[](void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::C25AC0MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 
 struct C25AC0MemObject
 {
@@ -337,7 +330,6 @@ class FUN_00a5d3d0
   public:
     ~FUN_00a5d3d0();
 };
-void __cdecl operator delete(void* pv, int iSize);
 
 struct Elem_c25 : FUN_00a5d3d0
 {

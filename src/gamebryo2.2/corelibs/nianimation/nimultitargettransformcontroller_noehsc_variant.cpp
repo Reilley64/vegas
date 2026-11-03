@@ -42,7 +42,6 @@ class NiQuatTransform
 class NiMemObject
 {
   public:
-    static void* operator new(size_t) throw();
 };
 class NiTransformInterpolator : public NiMemObject
 {
@@ -73,18 +72,12 @@ class MemoryManager
 
 
 
-inline void* operator new(size_t n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-}
 
 class BlendInterp
 {
   public:
     BlendInterp() throw();
     virtual ~BlendInterp();
-    static void* operator new[](size_t);
-    static void operator delete[](void*);
     unsigned int m_uiRefCount;
     int unk08;
     int unk0c;
@@ -143,14 +136,9 @@ struct MMDealloc : public MemoryManager
 {
 };
 
-inline void operator delete(void* p) throw()
-{
-    reinterpret_cast<::FNV_MemoryManager *>((((MMDealloc*)&::g_memoryManager)))->FUN_00aa4060(p);
-}
 
 struct SNAEntry
 {
-    static void* operator new[](size_t size) throw();
 };
 
 struct FUN_00a409b0_class : public SNAEntry

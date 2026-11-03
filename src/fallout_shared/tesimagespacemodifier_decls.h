@@ -42,10 +42,6 @@ enum TESImageModifierChunks
     CHUNK_ID_VNAM_ID = 0x4d414e56,
     CHUNK_ID_WNAM_ID = 0x4d414e57
 };
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 template <int N> struct EndianSizeTag
 {
 };

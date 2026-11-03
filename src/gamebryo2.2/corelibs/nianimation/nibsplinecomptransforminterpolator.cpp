@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/nibsplinecomptransforminterpolator.cpp: NiBSplineCompTransformInterpolator, Holder, SThis (11 functions)
 
 #include <cstdint>
+#include <new>
 #include "fnv/decl/A503E0Light.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSplineTransformLoad.h"
@@ -106,7 +107,6 @@ bool NiBSplineCompTransformInterpolator::Update(float time, NiObjectNET* target,
 
 struct NiMemObject_DeleteHelper : public NiMemObject
 {
-    static void __cdecl operator delete(void* p, size_t s);
 };
 
 // Calls FUN_00a57f80 on pThis, then frees pThis with the delete helper when flags has bit 0 set, and returns pThis.
@@ -266,7 +266,6 @@ struct BA50F00Range
 class BA50F00Interpolator
 {
   public:
-    static void* operator new(size_t uiSize);
 
     BA50F00Interpolator(int iFlags, unsigned short usA, unsigned short usB, unsigned short usC, int iD);
     virtual ~BA50F00Interpolator();
@@ -316,8 +315,6 @@ class A50E70Base
   public:
     A50E70Base(int iA, unsigned short usB, unsigned short usC, unsigned short usD, int iE) throw();
     virtual ~A50E70Base();
-    static void* operator new(size_t uiSize) throw();
-    static void operator delete(void* pvMem);
 
     void CopyMemberData(A50E70Base* pkDest, A50E70CloningProcess& kCloning);
     int unk04;

@@ -12,7 +12,6 @@ struct NiRenderer
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 
 
@@ -32,7 +31,7 @@ NiD3DVertexDeclaration* FUN_00e76700(NiRenderer* renderer, unsigned int maxStrea
     if (streamCount > renderer->m_maxStreamEntries)
         return 0;
 
-    NiD3DVertexDeclaration* pkShaderDeclaration = static_cast<NiD3DVertexDeclaration*>(BSFadeNode::operator new(0x38));
+    NiD3DVertexDeclaration* pkShaderDeclaration = static_cast<NiD3DVertexDeclaration*>(::operator new(0x38));
     if (pkShaderDeclaration)
     {
         reinterpret_cast<::FUN_00e78840_shell *>((pkShaderDeclaration))->Construct();

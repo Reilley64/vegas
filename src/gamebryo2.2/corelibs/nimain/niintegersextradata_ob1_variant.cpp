@@ -4,6 +4,7 @@
 // to their real unit once identified.
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a7b2c0_shell.h"
@@ -105,7 +106,6 @@ struct NiExtraDataSaveHelperShell : NiExtraDataSaveHelper
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t size);
 };
 struct FUN_00c53f10 : A51BF0Base
 {
@@ -190,10 +190,6 @@ struct NiFixedStringD
             return;
         volatile long* pRefCount = (volatile long*)(m_kHandle - 8);
         InterlockedDecrement(pRefCount);
-    }
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 
@@ -416,10 +412,6 @@ struct StreamHeap
 {
 };
 
-inline void* operator new[](size_t size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::StreamHeap *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-}
 
 struct StreamEntry
 {
@@ -470,7 +462,7 @@ struct IntegerEntry
         m_0c = 0;
         m_0e = 0xff;
     }
-    static void* operator new[](size_t size)
+    static void* operator new[](std::size_t size)
     {
         return g_memoryManagerShell.Allocate(size);
     }
@@ -537,10 +529,6 @@ struct NiFS
 {
     intptr_t handle;
 
-    __forceinline void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c546c0::DynamicMemoryAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 
     __forceinline NiFS(char const* s)
     {
@@ -594,14 +582,6 @@ struct NiIntStreamEntryC
     bool operator!=(NiIntStreamEntryC& kOther)
     {
         return !((FUN_00c54cc0_cls*)this)->FUN_00c54cc0((FUN_00c54cc0_cls*)&kOther);
-    }
-    static void* operator new[](size_t stSize)
-    {
-        return ((NiIntStreamMemoryC*)&(*reinterpret_cast<::MM *>(&::g_memoryManager)))->Allocate(stSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
     }
 };
 struct NiIntStreamAllocatorC

@@ -120,7 +120,6 @@ struct FUN_0080c0f0_shell : ActiveEffect
     ActiveEffect* FUN_0080c0f0();
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x0080c0f0
 ActiveEffect* FUN_0080c0f0_shell::FUN_0080c0f0()

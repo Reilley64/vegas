@@ -910,8 +910,6 @@ struct xBound
 };
 struct xNiMem
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 
 struct xAV
@@ -977,15 +975,11 @@ struct xAV
 struct xCam : xAV
 {
     xCam();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     int m_auiShapeKeys[(0x114 - 4) / 4];
 };
 struct xLight : xAV
 {
     xLight();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     void FUN_0050dd50(const xPoint3&);
     int m_auiShapeKeys[(0xfc - 4) / 4];
 };

@@ -336,12 +336,6 @@ class BSFixedString
 class ShaderEntry
 {
   public:
-    static void* operator new(size_t uiSize) throw()
-    {
-        return FUN_00aa13e0(uiSize);
-    }
-    static void operator delete(void*) throw()
-    {}
     ShaderEntry(const BSFixedString& kName, const char* pcName, bool bFlag) throw();
     virtual void f0();
     virtual void f1();

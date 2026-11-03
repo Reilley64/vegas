@@ -92,13 +92,12 @@ struct _Call_a5d3a0
 };
 struct BSFadeNode : _Call_a5d3a0
 {
-    void* operator new(size_t size);
 };
 extern int DAT_0109e574;
 // @fnv 0x00a84d30
 void* __cdecl FUN_00a84d30()
 {
-    void* p = BSFadeNode::operator new(0x48);
+    void* p = ::operator new(0x48);
     if (p)
     {
         new ((void *)(((BSFadeNode*)p))) struct ::FUN_00a5d3a0();
@@ -197,10 +196,6 @@ struct S_00a84e70_Elem
     int unk00;
     int unk04;
     int unk08;
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct S_00a84e70_Array
@@ -732,10 +727,6 @@ struct SkinLoadWeight
     float weight;
     SkinLoadWeight() : vertex(0)
     {}
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct ResetFields
 {
@@ -744,10 +735,6 @@ struct ResetFields
     SkinLoadWeight* weights;
     unsigned short vertices;
     ResetFields() throw();
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00a84e70_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct SkinLoadData : SkinObjectBase
 {

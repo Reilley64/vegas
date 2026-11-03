@@ -36,7 +36,6 @@ void* __cdecl FUN_00a485b0()
 }
 
 struct BSFadeNode {
-    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_01098634;
@@ -44,7 +43,7 @@ extern int DAT_01098634;
 // @fnv 0x00a48750
 void* __cdecl FUN_00a48750()
 {
-    void* pFadeNode = BSFadeNode::operator new(0x3c);
+    void* pFadeNode = ::operator new(0x3c);
     if (pFadeNode)
     {
         new ((void *)(pFadeNode)) class ::FUN_00a6d220();
@@ -97,7 +96,6 @@ typedef size_t A486F0size_t;
 struct A486F0CloningProcess;
 
 struct A486F0Object {
-    static void* operator new(A486F0size_t stSize);
 
     __declspec(nothrow) A486F0Object();
     virtual ~A486F0Object();

@@ -378,7 +378,6 @@ struct FUN_00a40460_shell : public NiTransformInterpolator
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct FUN_00a3fa30 : public NiTransformInterpolator
 {
@@ -392,7 +391,7 @@ struct NiTransformInterpolatorCopy
 // @fnv 0x00a40460
 NiObject* FUN_00a40460_shell::FUN_00a40460(CloningProcess* kCloning)
 {
-    NiTransformInterpolator* pkObject = new (BSFadeNode::operator new(sizeof(NiTransformInterpolator))) FUN_00a3fa30(0);
+    NiTransformInterpolator* pkObject = new (::operator new(sizeof(NiTransformInterpolator))) FUN_00a3fa30(0);
     ((NiTransformInterpolatorCopy*)this)->FUN_00a40360(pkObject, kCloning);
     return (NiObject*)pkObject;
 }
@@ -1116,7 +1115,6 @@ void NiTransformInterpolatorCopy::FUN_00a40360(NiTransformInterpolator* pkDest, 
 }
 
 namespace fnv_00a403f0 {
-
 // @fnv 0x00a403f0
 FUN_00a3fa30* __cdecl FUN_00a403f0()
 {

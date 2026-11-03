@@ -2,6 +2,7 @@
 // src/fallout_shared/distant terrain system/bgsdistanttreeblock.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/distant terrain system/bgsdistanttreeblock.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/A72BB0_DataStreamOwner.h"
 #include "fnv/decl/BB7290Owner.h"
@@ -709,8 +710,6 @@ struct NiPoint2
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Obj44 : NiMemObject
 {
@@ -1372,8 +1371,6 @@ void B6F9570TreeLoader::LoadTreeFile()
 
 struct Lod77Foo1
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Lod77Foo1();
     int unk00;
     int unk04;
@@ -1388,8 +1385,6 @@ struct Lod77Foo1
 
 struct Lod77Foo2
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Lod77Foo2();
     int unk00;
     int unk04;

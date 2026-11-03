@@ -5,10 +5,6 @@
 #include <stddef.h>
 #include <cstring>
 #include "fnv/symbols_01017000.h"
-void* __cdecl operator new(size_t);
-void* __cdecl operator new[](size_t);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 unsigned int __cdecl FUN_0044e330();
 class bhkRigidBody;
 class QueuedReference;

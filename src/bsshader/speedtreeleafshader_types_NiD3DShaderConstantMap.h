@@ -41,7 +41,6 @@ class NiShaderConstantMap : public NiRefObject
 class NiD3DShaderConstantMap : public NiShaderConstantMap
 {
   public:
-    static void* operator new(unsigned int size);
     NiD3DShaderConstantMap(GraphicsRenderer* renderer, unsigned int type);
     // base NiShaderConstantMap at +0x0, size 12
     NiTObjectArray<NiPointer<NiShaderConstantMapEntry> > m_kEntries;         // +0xC, 16 bytes

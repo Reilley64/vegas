@@ -227,13 +227,12 @@ void* FUN_00a652d0_class::FUN_00a652d0(bool abFree)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct NiTriBasedGeomData;
 // @fnv 0x00a7b790
 void* __cdecl FUN_00a7b790()
 {
-    char* p = (char*)BSFadeNode::operator new(0x58);
+    char* p = (char*)::operator new(0x58);
     if (p)
     {
         ::InitializeTriBasedGeomData((NiTriBasedGeomData*)p);
@@ -348,7 +347,6 @@ int FUN_00a72590_Class::FUN_00a72590(unsigned int index, int* out)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
 };
 
 struct FUN_00a7d6e0_Class
@@ -358,7 +356,7 @@ struct FUN_00a7d6e0_Class
 // @fnv 0x00a7d6e0
 void* FUN_00a7d6e0()
 {
-    FUN_00a7d6e0_Class* obj = (FUN_00a7d6e0_Class*)A51BF0Base::operator new(0xfc);
+    FUN_00a7d6e0_Class* obj = (FUN_00a7d6e0_Class*)::operator new(0xfc);
     if (obj)
     {
         new ((void *)(obj)) ::FUN_00a71f60_cls();
@@ -652,7 +650,7 @@ struct NiTriStrips
 // @fnv 0x00a71ce0
 void* CreateNiTriStrips()
 {
-    NiTriStrips* p = (NiTriStrips*)A51BF0Base::operator new(0xc4);
+    NiTriStrips* p = (NiTriStrips*)::operator new(0xc4);
     if (p)
     {
         p->NiTriStrips::NiTriStrips();
@@ -1308,10 +1306,6 @@ struct ShaderState
     ~ShaderState()
     {
         reinterpret_cast<::FUN_00a615c0_Class *>(this)->ClearAllBuckets();
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
     }
 };
 struct ShaderEntry
@@ -2437,7 +2431,7 @@ struct SceneFactoryObject
 // @fnv 0x00a74750
 SceneFactoryObject* CreateSceneFactoryObject()
 {
-    SceneFactoryObject* object = static_cast<SceneFactoryObject*>(BSFadeNode::operator new(196));
+    SceneFactoryObject* object = static_cast<SceneFactoryObject*>(::operator new(196));
     if (object)
     {
         new ((void *)(object)) ::NiGeometry();
@@ -3143,10 +3137,6 @@ template <class T> class NiPointerA61
 
 struct NodeA61
 {
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerA61 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 
     NiPointerA61<NiObjectA61> m_pReferencedObject;
     int m_iData;
@@ -3557,7 +3547,6 @@ class NiTPointerMapA6F : public NiTMapBaseA6F
 class NiObjectA6F
 {
   public:
-    static void* operator new(unsigned int uiSize) throw();
 
     NiObjectA6F() throw();
     virtual ~NiObjectA6F() throw();
@@ -3904,11 +3893,6 @@ struct NodeA616
     NodeA616(EntryA616* entry, NodeA616* next) : m_entry(entry), m_next(next)
     {}
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 
 class HashA616
@@ -5296,10 +5280,6 @@ struct FUN_00a64470
 {
     virtual ~FUN_00a64470();
     void* m_pData;
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(pvMem);
-    }
 };
 
 // @fnv 0x00a64470

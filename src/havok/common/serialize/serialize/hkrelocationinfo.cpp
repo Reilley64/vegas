@@ -2,6 +2,7 @@
 // src/havok/common/serialize/serialize/hkrelocationinfo.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/hkrelocationinfo.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00d87430_class.h"
 #include "fnv/decl/FUN_00d874b0_class.h"
 #include "fnv/decl/SlotBitmap.h"
@@ -44,7 +45,7 @@ struct S_00e028e0_Obj : S_00e028e0_Base
     {
         FUN_00e029d0();
     }
-    void operator delete(void* p, unsigned int n)
+    void operator delete(void* p, std::size_t n)
     {
         S_00e028e0_Router::FUN_00c85750().heap().ReleaseBlock(p, n);
     }

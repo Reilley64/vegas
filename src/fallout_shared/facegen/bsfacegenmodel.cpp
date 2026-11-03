@@ -1,5 +1,6 @@
 // fallout_shared/facegen/bsfacegenmodel.cpp: BSFaceGenModel, FaceGenTriData, DelStandIn, FileSizeInfo and more (43 functions)
 
+#include <new>
 #include <cstdlib>
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/ExtraOwnerB.h"
@@ -111,7 +112,6 @@ void FUN_00659b50(void*);
 
 struct NiMemObject
 {
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 struct FUN_00659b20_thiscall

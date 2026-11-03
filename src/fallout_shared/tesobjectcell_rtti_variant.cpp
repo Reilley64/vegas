@@ -110,7 +110,6 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f6000.h"
 #include "tesobjectcell_packet_rtti_variant.h"
-void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 NiAVObject* FUN_0054f4f0();
 
@@ -992,7 +991,6 @@ void Cell550::FUN_0054b5b0()
     ::FUN_00541ae0((char *)this);
 }
 
-void* __cdecl operator new(unsigned int);
 
 // ExtraCell3D owns the reference count associated with the cell's loaded 3D.
 

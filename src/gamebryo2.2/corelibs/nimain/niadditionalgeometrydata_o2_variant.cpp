@@ -445,14 +445,6 @@ struct SceneElem
     unsigned int unk18;
 
     SceneElem() throw();
-    static void* operator new[](size_t size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a730e0::FixedAllocator *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p) throw()
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a730e0::FixedAllocator *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 
 struct FUN_00a730e0_cls
@@ -574,7 +566,6 @@ Obj_a73e20* __cdecl FUN_00a73e20()
 struct Impl00a8a680
 {
     Impl00a8a680(int a1, int a2, int a3, int a4, int a5, int a6, int a7) throw();
-    static void* operator new(size_t size);
     int unk00;
     int unk04;
     int unk08;
@@ -820,10 +811,6 @@ struct LBMemoryManager
 };
 
 
-inline void* __cdecl operator new[](size_t auiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::LBMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(auiSize);
-}
 
 struct LBKey
 {
@@ -1469,10 +1456,6 @@ struct DummyMM
 struct FUN_00a724e0
 {
     virtual ~FUN_00a724e0();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a724e0::DummyMM *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // @fnv 0x00a724e0
 FUN_00a724e0::~FUN_00a724e0()

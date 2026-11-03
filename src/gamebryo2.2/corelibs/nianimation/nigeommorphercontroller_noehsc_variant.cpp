@@ -211,10 +211,6 @@ struct LoadItem
     {}
     ~LoadItem() throw()
     {}
-    static void* operator new[](size_t size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a3b150::MorphMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct MorphLoad : LoadBase
 {

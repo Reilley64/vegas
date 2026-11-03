@@ -2,6 +2,7 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
 #include "fnv/decl/FUN_00e5c490_cls.h"
@@ -927,7 +928,7 @@ class hkRefObjC904
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjC904* b = static_cast<hkRefObjC904*>(hkRouterC904::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

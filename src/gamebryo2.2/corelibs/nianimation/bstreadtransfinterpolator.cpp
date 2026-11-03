@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include <new>
 #include "fnv/decl/DataA38.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00a3ca30_shell.h"
@@ -603,8 +604,6 @@ void A43600Controller::FUN_00a43600(A43600Stream& kStream)
 class NiMemObject
 {
   public:
-    static void* operator new(size_t stSize);
-    static void operator delete(void* pvMem, size_t stElementSize);
 };
 
 class NiKeyBasedInterpolator : public NiMemObject

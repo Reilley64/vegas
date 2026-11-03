@@ -35,7 +35,6 @@ struct NiExtraData
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 extern void* DAT_0109827c;
@@ -43,7 +42,7 @@ extern void* DAT_0109827c;
 // @fnv 0x00a46b70
 void* __cdecl FUN_00a46b70()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraData*>(p)))->FUN_00a7b2e0();
@@ -295,8 +294,6 @@ class NiPSysBaseA46
     NiPSysBaseA46() throw();
     virtual ~NiPSysBaseA46();
 
-    static void* operator new(size_t uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04, unk08;
 };

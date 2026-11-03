@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/dynamics/savecontactpoints/hkpsavecontactpointsutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91120.h"
@@ -1748,14 +1750,14 @@ struct S_00dcdd80_RefObj
     void* vtbl;
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         S_00dcdd80_RefObj* b =
             static_cast<S_00dcdd80_RefObj*>(S_00dcdd80_Router::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
-    static void operator delete(void*, unsigned int)
+    static void operator delete(void*, std::size_t)
     {}
 };
 struct FUN_00dce930 : S_00dcdd80_RefObj
@@ -3259,7 +3261,7 @@ struct FUN_00e05d10_Base
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    void operator delete(void* p, unsigned int)
+    void operator delete(void* p, std::size_t)
     {
         FUN_00e05d10_Base* b = static_cast<FUN_00e05d10_Base*>(p);
         FUN_00c85750()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -7384,12 +7386,6 @@ class DCEEntryInit : public hkReferencedObjectDCE
 {
   public:
     __forceinline DCEEntryInit();
-    static void* operator new(unsigned int, void* storage)
-    {
-        return storage;
-    }
-    static void operator delete(void*, void*)
-    {}
 
     int m_iUnk08;
     int m_iUnk0C;

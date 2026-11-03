@@ -1,6 +1,7 @@
 
 // to their real unit once identified.
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_00e937f0_shell.h"
@@ -377,14 +378,6 @@ template <class T> class NiPointer
     ~NiPointer()
     {}
 
-    static void* operator new[](size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::sc1d790::MemoryHeap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem, size_t uiSize)
-    {
-        (*reinterpret_cast<::sc1d790::MemoryHeap *>(&::g_memoryManager)).FUN_00aa4060(pvMem);
-    }
 
     T* m_pObject;
 };

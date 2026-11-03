@@ -72,7 +72,6 @@ struct NiPSysGravityModifier : NiPSysModifier
     float m_fTurbulenceAmount;
     float m_fScale;
     bool m_bFieldFlag;
-    void* operator new(size_t);
     NiPSysGravityModifier* FUN_00c22b00(CloningProcess&);
 };
 // Allocates and constructs a copy of this gravity modifier, copies its fields, runs the base clone step with process, and returns the clone.

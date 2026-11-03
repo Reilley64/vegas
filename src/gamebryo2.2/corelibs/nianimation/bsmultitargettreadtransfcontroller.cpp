@@ -350,10 +350,6 @@ struct TreadInterpolator : FUN_00a2f8c0
     unsigned short unk40;
     unsigned short unk42;
 
-    static void* operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     TreadInterpolator() throw()
     {
         vtable = &DAT_01096694;

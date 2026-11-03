@@ -140,7 +140,6 @@ void FUN_00a7b330_shell::FUN_00a7b330(NiBinaryExtraData* pkDest, CloningProcess*
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct _Call_a5d3a0
 {
@@ -150,7 +149,7 @@ struct _Call_a5d3a0
 // @fnv 0x00a7b380
 NiExtraData* FUN_00a7b380()
 {
-    NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(12);
+    NiExtraData* p = (NiExtraData*)::operator new(12);
     if (p)
     {
         new (p) _Call_a5d3a0;

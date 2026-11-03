@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/nid3dpass.cpp: NiD3DPass, Node, MyCls, Shader and more (53 functions)
 
 #include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstdlib>
 #include <cstring>
@@ -284,7 +285,6 @@ void* FUN_00e80020(void* pThis, int, unsigned int uiMaxSize, unsigned int uiGrow
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void* pMem, size_t stElementSize);
 };
 
 void FUN_00e7fea0(void* pThis);

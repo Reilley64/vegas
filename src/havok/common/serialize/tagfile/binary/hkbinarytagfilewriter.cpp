@@ -992,10 +992,6 @@ FUN_00dc0500::FUN_00dc0500(BSAudio* pAudio, BSAudio* a2)
     reinterpret_cast<::hkStringMapD874 *>(&(m_10))->FUN_00d874d0((const char *)(int *)(&(*reinterpret_cast<int *>((void *)&::DAT_01011584))), 0);
 }
 
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 
 struct S_dbf1a0_Map
 {

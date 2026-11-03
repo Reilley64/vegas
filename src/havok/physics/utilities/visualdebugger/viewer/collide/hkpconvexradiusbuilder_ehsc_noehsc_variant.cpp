@@ -6,6 +6,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/collide/hkpconvexradiusbuilder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d5a000.h"
 struct hkMemoryAllocator
@@ -112,7 +113,7 @@ struct hkGeometry
     hkArray<hkVector4> m_kVertices;
     hkArray<hkVector4> m_uiTriangleCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(nbytes);
     }
@@ -131,7 +132,7 @@ struct hkReferencedObject
     unsigned short m_usMemSizeAndFlags;
     unsigned short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

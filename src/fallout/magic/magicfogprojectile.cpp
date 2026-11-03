@@ -364,7 +364,6 @@ void Effect::ScaleEffect(Object* object)
     }
 }
 
-void* __cdecl operator new(unsigned int);
 struct Form
 {
 };
@@ -952,8 +951,6 @@ struct FogLight
 {
     int unk00[7];
     FogLight(unsigned int auiFormId, void* pkNode);
-    void* operator new(unsigned int uiSize);
-    void operator delete(void* pvMem);
 };
 
 struct FogProcess

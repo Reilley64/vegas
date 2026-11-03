@@ -227,10 +227,6 @@ struct Derived_a43370 : Base1_a43370
     Ptr_a43370 unk20;
     Derived_a43370() throw()
     {}
-    static void* __cdecl operator new(size_t s) throw()
-    {
-        return FUN_00aa13e0(s);
-    }
 };
 
 // Allocates and default-constructs a Derived_a43370 object via its operator new and returns the pointer.
@@ -595,7 +591,6 @@ void S00a9b570_Acc::FUN_00a9b570()
 
 struct DelS
 {
-    static void operator delete(void*, size_t);
 };
 struct FUN_00aa0dc0 : DelS
 {

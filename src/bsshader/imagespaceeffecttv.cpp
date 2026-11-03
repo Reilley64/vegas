@@ -2,6 +2,7 @@
 // src/bsshader/imagespaceeffecttv.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/imagespaceeffecttv.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/BA3760Object.h"
 #include "fnv/decl/BSShaderManager.h"
@@ -101,7 +102,7 @@ struct PipboyPass
         unk08 = 0;
         unk0c = 0;
     }
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return (*reinterpret_cast<::MemoryManagerStandIn *>(&::g_memoryManager)).FUN_00aa3e40(uiSize);
     }
@@ -156,7 +157,7 @@ struct PipboyConstants : PipboyConstantsBase
     unsigned int unk084;
 
     PipboyConstants();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return (*reinterpret_cast<::MemoryManagerStandIn *>(&::g_memoryManager)).FUN_00aa3e40(uiSize);
     }

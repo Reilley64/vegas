@@ -77,7 +77,6 @@ void NiColorDataHack::FUN_00a3d0e0(float afValue1, float afValue2)
 namespace fnv_00a3d150 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a5d3a0_standin
@@ -89,7 +88,7 @@ struct FUN_00a5d3a0_standin
 // @fnv 0x00a3d150
 void* CreateNiColorData()
 {
-    char* p = (char*)A51BF0Base::operator new(0x18);
+    char* p = (char*)::operator new(0x18);
     if (p)
     {
         new ((void *)(((FUN_00a5d3a0_standin*)p))) struct ::FUN_00a5d3a0();

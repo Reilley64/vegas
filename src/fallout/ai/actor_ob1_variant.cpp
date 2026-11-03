@@ -145,8 +145,6 @@ struct ArrowGeometry
     int unkbc;
     int unkc0;
     ArrowGeometry(unsigned short, ArrowPoint*, ArrowColor*, void*, void*, void*, unsigned char*);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 __forceinline void ReserveMathWork()
 {

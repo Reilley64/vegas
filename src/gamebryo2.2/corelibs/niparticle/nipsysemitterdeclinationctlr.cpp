@@ -94,7 +94,6 @@ struct S_00c2b9c0_Base
     int unk3c;
     S_00c2b9c0_Base() throw();
     virtual void vf0() throw();
-    static void* operator new(size_t n) throw();
 };
 struct S_00c2b9c0_Obj : S_00c2b9c0_Base
 {

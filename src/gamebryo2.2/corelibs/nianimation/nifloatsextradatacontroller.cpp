@@ -35,13 +35,12 @@ extern int DAT_0109928c;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a4f000
 int* __cdecl FUN_00a4f000()
 {
-    int* p = static_cast<int*>(BSFadeNode::operator new(0x48));
+    int* p = static_cast<int*>(::operator new(0x48));
     if (p)
     {
         InitTimeController(p);
@@ -69,7 +68,7 @@ struct FUN_00a4ef70_shell
 // @fnv 0x00a4ef70
 InterpStub* FUN_00a4ef70_shell::CreateInterpStub(unsigned short usIndex)
 {
-    InterpStub* p = (InterpStub*)BSFadeNode::operator new(0x18);
+    InterpStub* p = (InterpStub*)::operator new(0x18);
     if (p)
         return ((::InterpStub *)(new ((void *)(p)) ::FUN_00a3c390(reinterpret_cast<::FUN_00a89020_cls *>((e))->GetValueAt(idx))));
     return 0;
@@ -97,7 +96,7 @@ struct NiFloatsExtraDataController : NiPSysModifierCtlr
 // @fnv 0x00a4efb0
 NiFloatsExtraDataController* NiFloatsExtraDataController::FUN_00a4efb0(CloningProcess& kCloning)
 {
-    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(BSFadeNode::operator new(0x48));
+    NiFloatsExtraDataController* pkObject = static_cast<NiFloatsExtraDataController*>(::operator new(0x48));
     if (pkObject)
     {
         InitTimeController(reinterpret_cast<int*>(pkObject));

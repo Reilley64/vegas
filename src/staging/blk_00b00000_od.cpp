@@ -2,6 +2,7 @@
 // src/staging/blk_00b00000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <windows.h>
 #include <cmath>
 #include <cstdlib>
@@ -904,13 +905,6 @@ struct FUN_00b108e0_pool
 };
 
 
-struct FUN_00b108e0_err
-{
-    void* m_vptr;
-    unsigned int unk04;
-    unsigned int unk08;
-    void FUN_00ec78f1(unsigned int* out);
-};
 
 // Checks that count * 0x1c does not overflow, reports an error if it does, then allocates count * 0x1c bytes from the pool and returns the pointer.
 // @fnv 0x00b108e0
@@ -924,11 +918,7 @@ void* __cdecl AllocatePoolArray(unsigned int count)
     {
         if (0xffffffffu / count < 0x1c)
         {
-            unsigned int tmp = 0;
-            FUN_00b108e0_err err2;
-            err2.FUN_00ec78f1(&tmp);
-            err2.m_vptr = DAT_010176f8;
-            FUN_00ec7894(&err2, DAT_01140ef8);
+            throw std::bad_alloc();
         }
     }
     return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00b108e0_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count * 0x1c);
@@ -1345,11 +1335,7 @@ int* FUN_00b16b00(unsigned int count, int aiUnused)
         count = 0;
     else if (0xffffffffu / count < 4)
     {
-        FUN_00b108e0_err val;
-        unsigned int err = 0;
-        val.FUN_00ec78f1(&err);
-        val.m_vptr = DAT_010176f8;
-        FUN_00ec7894(&val, DAT_01140ef8);
+        throw std::bad_alloc();
     }
     return (int*)::FUN_00401000(count << 2);
 }
@@ -1480,11 +1466,7 @@ void __cdecl FUN_00b10830(unsigned int count)
     {
         if (0xffffffffu / count < 4u)
         {
-            FUN_00b108e0_err value;
-            unsigned int error = 0;
-            value.FUN_00ec78f1(&error);
-            value.m_vptr = (void*)DAT_010176f8;
-            FUN_00ec7894(&value, DAT_01140ef8);
+            throw std::bad_alloc();
         }
     }
     reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::FUN_00b108e0_pool *>(&::g_memoryManager))))->FUN_00aa3e40(count << 2);

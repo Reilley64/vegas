@@ -1122,7 +1122,6 @@ FUN_00844ff0::~FUN_00844ff0()
 }  // namespace fnv_00844ff0
 
 namespace fnv_00841580 {
-extern void* __cdecl operator new(unsigned int);
 extern unsigned int _data_011c16bc;
 
 struct TESWorldSpace
@@ -1212,7 +1211,6 @@ void SetAtHelper::GetOrCreateAndDispatch(FUN_00544210_shell* pKeySource, unsigne
 }
 
 namespace fnv_008418b0 {
-void* operator new(unsigned int);
 
 
 struct FUN_00841340
@@ -1256,7 +1254,6 @@ void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, 
 }  // namespace fnv_008418b0
 
 namespace fnv_00841fc0 {
-void* __cdecl operator new(unsigned int);
 
 struct DoorH
 {
@@ -1331,7 +1328,6 @@ struct DummyPointerMap : public SetAtHelper
 {
 };
 
-void* __cdecl operator new(unsigned int);
 
 
 struct FUN_008420a0_class : public DummyPointerMap
@@ -1357,7 +1353,6 @@ void FUN_008420a0_class::FUN_008420a0(unsigned int a1, unsigned int a2, unsigned
 }  // namespace fnv_008420a0
 
 namespace fnv_00842600 {
-void* __cdecl operator new(unsigned int);
 
 struct TESObjectCELL
 {
@@ -1422,7 +1417,6 @@ void FUN_00842600_shell::ProcessCell(TESObjectCELL* cell, int aiArg1, int aiArg2
 }  // namespace fnv_00842600
 
 namespace fnv_00842730 {
-void* __cdecl operator new(unsigned int);
 
 struct FUN_00841ea0
 {
@@ -1456,7 +1450,6 @@ void FUN_00842730_shell::EnsureObjectAndCall(int a, int b, int c, int d, int e, 
 }  // namespace fnv_00842730
 
 namespace fnv_00843630 {
-void* __cdecl operator new(unsigned int);
 
 struct TESFormCallProxy
 {
@@ -1637,7 +1630,6 @@ void FUN_00844c90_shell::FUN_00844c90(unsigned int index, bool useArray)
 }  // namespace fnv_00844c90
 
 namespace fnv_00841b20 {
-void* __cdecl operator new(unsigned int);
 
 struct FUN_005441b0_S
 {

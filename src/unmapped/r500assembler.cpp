@@ -369,7 +369,6 @@ void FUN_0085fbd0_class::DeleteAllItems()
     }
 }
 
-void __cdecl operator delete(void*);
 
 struct SaveGameFileDeleteEntry85 : public FUN_0085fbb0
 {

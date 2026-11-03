@@ -985,7 +985,6 @@ struct FUN_004c0cd0_Arg
     int val;
 };
 void SetField1F0(FUN_004c0cd0_This* pThis, FUN_004c0cd0_Arg arg);
-void* __cdecl operator new(unsigned int);
 struct SL
 {
     SL();
@@ -1430,7 +1429,6 @@ struct Placement
 {
     PlacedRef* PlaceObject(PlacedRef*, void*, int, int, NiPoint3*, NiPoint3*);
 };
-void* __cdecl operator new(unsigned int);
 struct Weapon;
 struct Extra;
 struct Item;
@@ -1924,7 +1922,6 @@ struct Target
     FUN_0076b630* FUN_004c8c10(int, int);
     FUN_0076b630* SelectBestWeapon(ActorStand*, float*, int, bool);
 };
-void* __cdecl operator new(unsigned int);
 struct ContainerView
 {
 };
@@ -2936,8 +2933,6 @@ struct W20Entry
     W20Form* form;
     W20Entry(W20Form*, int);
     ~W20Entry();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct W20EntryList
 {
@@ -3036,8 +3031,6 @@ struct W20Inventory
     bool dirty;
     void FUN_004c1c90(W20Ref*, int, int, bool);
 };
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct AddForm;
 struct AddRef;
 struct AddProcess;
@@ -3544,8 +3537,6 @@ struct FUN_00410360
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     FUN_00410360();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 typedef FUN_00410360 Extra;
 struct ExtraNode
@@ -3558,8 +3549,6 @@ struct FUN_004bc550
     int count;
     TESBoundObject* form;
     FUN_004bc550(TESBoundObject*, int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 typedef FUN_004bc550 Item;
 struct BaseEntry
@@ -3788,8 +3777,6 @@ struct MoveExtra
 {
     unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     MoveExtra();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     void FUN_00419700(void*);
 };
 struct MoveExtraNode
@@ -3798,7 +3785,6 @@ struct MoveExtraNode
     void FUN_0063f7b0();
     unsigned int FUN_005ae380();
     ~MoveExtraNode();
-    static void operator delete(void*);
 };
 struct MoveItem
 {
@@ -3806,8 +3792,6 @@ struct MoveItem
     int count;
     TESBoundObject* form;
     MoveItem(TESBoundObject*, int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct MoveItemNode
 {
@@ -4162,16 +4146,12 @@ struct Extra
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     Extra();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct ExtraNode
 {
     Extra* value;
     ExtraNode* next;
     ExtraNode();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     void FUN_005ae3d0(Extra**);
 };
 struct Item
@@ -4181,8 +4161,6 @@ struct Item
     TESBoundObject* form;
     Item();
     ~Item();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct BaseEntry
 {
@@ -5654,7 +5632,6 @@ struct InvHost
     float weight;
     void FUN_009687b0(void* object, InvExtra* extra, int amount);
 };
-void* operator new(unsigned int);
 struct Transfer4c37C37Form
 {
     virtual void Pad48_0();
@@ -6735,8 +6712,6 @@ struct FUN_0096a2d0
     char data[8];
     FUN_0096a2d0();
     ~FUN_0096a2d0();
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     unsigned FUN_005ae380();
     void FUN_005ae3d0(Extra**);
     void* FUN_004702f0(unsigned);
@@ -6747,8 +6722,6 @@ struct FUN_004bc550
     int count;
     Object* form;
     FUN_004bc550(Object*, int);
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 struct Entry
 {

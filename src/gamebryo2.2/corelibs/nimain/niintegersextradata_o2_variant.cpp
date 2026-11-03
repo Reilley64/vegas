@@ -3,6 +3,7 @@
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
 #include <cstdint>
+#include <new>
 #include "fnv/decl/ExtraDataObject.h"
 #include "fnv/decl/ExtraDataStrings.h"
 #include "fnv/decl/FUN_00a7b330_shell.h"
@@ -90,7 +91,6 @@ ST_00a99980* ST_00a99980::FUN_00a99980(int a, intptr_t b)
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiExtraDataShell : NiExtraData
 {
@@ -98,7 +98,7 @@ struct NiExtraDataShell : NiExtraData
 // @fnv 0x00a99a10
 NiExtraData* FUN_00a99a10()
 {
-    NiExtraData* data = static_cast<NiExtraData*>(BSFadeNode::operator new(0x14));
+    NiExtraData* data = static_cast<NiExtraData*>(::operator new(0x14));
     if (data)
     {
         reinterpret_cast<::ExtraDataObject *>((static_cast<NiExtraDataShell*>(data)))->FUN_00a7b2e0();
@@ -121,7 +121,6 @@ struct FUN_00a99a50_shell
     intptr_t d;
     void FUN_00a7b300();
     FUN_00a99a50_shell* FUN_00a99a50(int);
-    void __cdecl operator delete(void* p, size_t);
 };
 // @fnv 0x00a99a50
 FUN_00a99a50_shell* FUN_00a99a50_shell::FUN_00a99a50(int flag)
@@ -259,8 +258,6 @@ class NiPSysBaseA99
     NiPSysBaseA99() throw();
     virtual ~NiPSysBaseA99();
 
-    static void* operator new(size_t uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04, unk08;
 };

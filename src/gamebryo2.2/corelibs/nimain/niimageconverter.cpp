@@ -43,7 +43,6 @@ struct Sub80
 };
 struct BSFadeNode
 {
-    static void* operator new(size_t) throw();
 };
 struct NiImageConverter2 : NiRefObject2
 {
@@ -53,10 +52,6 @@ struct NiImageConverter2 : NiRefObject2
     NiImageConverter2() throw()
     {
         new ((void *)&(s)) ::FUN_00a8ae50();
-    }
-    void* operator new(size_t n)
-    {
-        return BSFadeNode::operator new(n);
     }
 };
 inline void Rel(NiRefObject2* o)
@@ -337,7 +332,6 @@ struct FUN_00a76c10_shell : public NiImageConverter
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t size);
 };
 struct PixelFormatOps
 {
@@ -348,10 +342,6 @@ struct NiPalette
 {
     char data[0x24];
     NiPalette(const NiPalette& other);
-    static void* operator new(size_t, void* p)
-    {
-        return p;
-    }
 };
 struct NiPixelData
 {
@@ -396,7 +386,7 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
             {
                 if (!pkOptDest->m_spPalette)
                 {
-                    void* pal = BSFadeNode::operator new(0x24);
+                    void* pal = ::operator new(0x24);
                     reinterpret_cast<::Owner *>((pkOptDest))->FUN_00a76a60((::Item *)(::fnv_00a76c10::NiPalette *)(pal ? new (pal) NiPalette(*kSrc.GetPalette()) : 0));
                 }
                 else
@@ -405,7 +395,7 @@ NiPixelData* FUN_00a76c10_shell::FUN_00a76c10(void* src, void* apDestFmt, NiPixe
             return pkOptDest;
         }
     }
-    void* pNewPixelData = BSFadeNode::operator new(0x74);
+    void* pNewPixelData = ::operator new(0x74);
     return pNewPixelData ? ((::fnv_00a76c10::NiPixelData *)(new ((void *)(((NiPixelData*)pNewPixelData))) ::FUN_00a7c030((const ::FUN_00a7c030 &)(kSrc)))) : 0;
 }
 }  // namespace fnv_00a76c10
@@ -575,7 +565,6 @@ struct FUN_00a76bb0 : NiRefObject
 {
     char m_data[0x778];
     virtual ~FUN_00a76bb0();
-    static void operator delete(void*, size_t);
 };
 // Frees and clears DAT_011f4a78, then calls FUN_00a8ada0 on the subobject at offset 0x80.
 // @fnv 0x00a76bb0

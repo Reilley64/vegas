@@ -55,10 +55,6 @@ struct SpawnedObj404a80
 {
     char m00[0x120];
     SpawnedObj404a80();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
 };
 class B90Base
 {

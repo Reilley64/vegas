@@ -94,7 +94,6 @@ const void* __cdecl FUN_00a48ab0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_010986f4;
@@ -112,7 +111,7 @@ struct NiQuaternionInterpolator;
 // @fnv 0x00a48d70
 NiQuaternionInterpolator* __cdecl CreateNiQuaternionInterpolator()
 {
-    NiQuaternionInterpolator* p = (NiQuaternionInterpolator*)BSFadeNode::operator new(0x24);
+    NiQuaternionInterpolator* p = (NiQuaternionInterpolator*)::operator new(0x24);
     if (p)
     {
         new ((void *)(((NiKeyBasedInterpolatorHelper*)p))) ::FUN_00a3ca10();
@@ -740,10 +739,6 @@ struct A48E20_Object : A48E20_Base
     int m_1C;
     int m_20;
 
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
     A48E20_Object()
     {
         new ((void *)this) ::FUN_00a3ca10();

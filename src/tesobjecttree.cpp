@@ -1305,7 +1305,6 @@ bool FUN_0051d250_Class::FUN_0051d250()
 class BS9AA340Item
 {
   public:
-    static void operator delete(void* pvMem);
 };
 
 class BS9AA340List
@@ -1483,8 +1482,6 @@ class ImageSpaceEffectParam
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class CreatedObj : public NiMemObject
 {
@@ -1650,8 +1647,6 @@ namespace fnv_0051cba0 {
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int size);
-    static void operator delete(void* pointer, unsigned int);
 };
 class NiSourceTexture
 {
@@ -2112,7 +2107,6 @@ struct FUN_0051d2c0_shell
                                         const void* itemSource, const void* idSource);
 };
 
-void* __cdecl operator new(unsigned int);
 extern unsigned int _data_011c16bc;
 
 // Initializes the shell object by copying four pointers, allocating and copying arrays of items and IDs, then returns this.

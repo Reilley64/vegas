@@ -829,7 +829,6 @@ class TaskQueueInterface
 
 // Getter bodies are shared by the original linker. The receiver overlays below
 // preserve canonical symbol bindings: +0x24 target, +0x28 caster, +0x0c source.
-void* __cdecl operator new(unsigned int);
 class EffectSetting;
 class ActiveEffect
 {

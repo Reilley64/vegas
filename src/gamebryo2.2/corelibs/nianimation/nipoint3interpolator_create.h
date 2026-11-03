@@ -30,8 +30,6 @@ class NiPointLight
 {
   public:
     char storage[252];
-    static void* operator new(size_t);
-    static void operator delete(void*);
     NiPointLight();
 };
 class StateNode

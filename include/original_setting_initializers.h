@@ -1,5 +1,6 @@
 #ifndef FNV_ORIGINAL_SETTING_INITIALIZERS_H
 #define FNV_ORIGINAL_SETTING_INITIALIZERS_H
+#include <new>
 #include <cstdlib>
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01013000.h"
@@ -45,10 +46,6 @@
 #include "fnv/symbols_01066000.h"
 #include "SettingT_GameSettingCollection_.h"
 typedef void(FNV_CDECL* RuntimeSettingExitFunction)();
-FNV_FORCEINLINE void* operator new(size_t, void* storage) throw()
-{
-    return storage;
-}
 
 extern SettingT<GameSettingCollection> originalRuntimeFloatSetting1;
 extern const char runtimeFloatSettingKey1[];

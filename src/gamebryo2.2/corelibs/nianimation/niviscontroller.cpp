@@ -44,7 +44,6 @@ void* __cdecl FUN_00a44eb0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a57790_shell
@@ -58,7 +57,7 @@ extern void* DAT_01097e8c;
 // @fnv 0x00a44f10
 void* __cdecl FUN_00a44f10()
 {
-    void* mem = BSFadeNode::operator new(0x38);
+    void* mem = ::operator new(0x38);
     if (mem)
     {
         reinterpret_cast<FUN_00a57790_shell*>(mem)->FUN_00a57790();
@@ -339,8 +338,6 @@ template <class T> class BA44D50Pointer
 class BA44D50BoolInterpolator : public BA44D50RefObject
 {
   public:
-    static void* operator new(size_t uiSize);
-    static void operator delete(void* pvMem);
 
     BA44D50BoolInterpolator(BA44D50Object* pkData) throw();
 
@@ -386,7 +383,6 @@ void BA44D50Controller::LinkBoolInterpolator(BA44D50Stream& kStream)
 class BSFaceGenMorphData
 {
   public:
-    static void* operator new(size_t uiSize);
 };
 struct CtlA44 : FUN_00a57790_shell
 {
@@ -405,7 +401,7 @@ struct OwnerA44
 // @fnv 0x00a44ec0
 CtlA44* OwnerA44::CreateCtlA44(uintptr_t uiArg)
 {
-    void* pMem = BSFaceGenMorphData::operator new(0x38);
+    void* pMem = ::operator new(0x38);
     CtlA44* pkCtl = pMem ? new (pMem) CtlA44 : 0;
     reinterpret_cast<::NiAlphaController *>(this)->CopyMemberData((::NiAlphaController *)(pkCtl), (*(::CloningProcess *)(uiArg)));
     return pkCtl;

@@ -2,6 +2,7 @@
 // src/staging/blk_009e0000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstddef>
 #include <windows.h>
 #include <objbase.h>
 #include <d3d9.h>
@@ -168,7 +169,6 @@ struct FUN_009fbb30_class
 {
     void* FUN_009fbb30(int flag);
 };
-void __cdecl operator delete(void*);
 struct FUN_009fbca0
 {
     FUN_009fbca0* Method(bool);
@@ -3871,18 +3871,12 @@ long DsBasePin::FUN_009fc190(DsUnknown* pConnector, const void* pmt)
     return hr;
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 
-inline void* __cdecl operator new(unsigned int, unsigned int size)
+inline void* __cdecl operator new(std::size_t, unsigned int size)
 {
     return ::FUN_00401000(size);
 }
 
-inline void __cdecl operator delete(void* p, unsigned int)
-{
-    ::FUN_00401030(p);
-}
 
 struct SourceVirtual
 {
@@ -4041,7 +4035,6 @@ long FUN_009fc780::FUN_009fc7e0(FUN_009fc780** ppEnumMediaTypes)
 }
 }  // namespace fnv_009fc7e0
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_009fcee0
 {
@@ -5245,7 +5238,6 @@ FUN_009fe870::~FUN_009fe870()
 }
 }  // namespace fnv_009fe870
 
-void* __cdecl operator new(unsigned int);
 
 struct Stream_9fe960
 {

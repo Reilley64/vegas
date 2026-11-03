@@ -86,14 +86,6 @@ class ImageSpaceShaderParam : public ImageSpaceEffectParam
     ImageSpaceShaderParam();
     void AllocateShaderConstants(int vertexCount, int pixelCount);
     void SetShaderConstantVector4(int index, float x, float y, float z, float w);
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 
 class ImageSpaceEffect

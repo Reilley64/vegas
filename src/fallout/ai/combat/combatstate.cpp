@@ -516,7 +516,6 @@ void FUN_009a0680_shell::ClearAndDeletePointer()
     *reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x18c) = 0;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_009a0a40_shell
 {
@@ -3160,7 +3159,6 @@ void FUN_009a0470_shell::ReleaseStageHolder(bool bParam)
 }  // namespace fnv_009a0470
 
 namespace fnv_009a06c0 {
-void* __cdecl operator new(unsigned int);
 
 struct TESObjectREFRHelper
 {

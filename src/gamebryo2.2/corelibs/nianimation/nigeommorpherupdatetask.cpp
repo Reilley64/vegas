@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ActiveArray.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -299,10 +300,6 @@ class A56DF0Heap
 };
 
 
-void operator delete(void* pvMem)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::A56DF0Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-}
 
 class A56DF0Entry
 {
@@ -404,7 +401,7 @@ struct TaskBlock
         return i >= m_uiCount ? 0 : &m_pkTasks[i];
     }
 
-    static void* operator new(size_t uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&::g_memoryManager)))->FUN_00aa3e40(uiSize);
     }

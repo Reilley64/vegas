@@ -2,6 +2,7 @@
 // src/fallout/ai/spectatorpackage_od_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout/ai/spectatorpackage.cpp functions whose prologue its flags cannot
 // produce (ebp frame in an /O2 unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSSimpleArray_PathingAvoidNode_1024.h"
@@ -2393,10 +2394,6 @@ struct FUN_006e3850
     unsigned int capacity;
     unsigned int count;
     unsigned int flags;
-    static __forceinline void* __cdecl operator new(unsigned int bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
     FUN_006e3850();
 };
 struct ThreatItem_009f8570
@@ -3199,8 +3196,6 @@ void Package8020::FUN_009f8020(Actor8020* owner)
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(owner));
 }
 
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 
 struct Elem
 {

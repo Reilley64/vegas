@@ -305,7 +305,6 @@ void FUN_00a30900_shell::FUN_00a30900(char cDefaultPriority)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a316a0_shell
@@ -315,7 +314,7 @@ struct FUN_00a316a0_shell
 // @fnv 0x00a326c0
 void* __cdecl FUN_00a326c0()
 {
-    void* p = A51BF0Base::operator new(0x74);
+    void* p = ::operator new(0x74);
     if (p)
         return ((void *)(new ((void *)(reinterpret_cast<FUN_00a316a0_shell*>(p))) ::NiControllerSequence()));
     return 0;
@@ -4790,12 +4789,7 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(size_t);
 
-    static void* __cdecl operator new(size_t, void* p)
-    {
-        return p;
-    }
 
     __declspec(noalias)
         NewSequence(const char* const& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy) throw();

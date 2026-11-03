@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
 #include "fnv/decl/CA8890Object.h"
 #include "fnv/decl/CInstance.h"
 #include "fnv/decl/Cb0StringCopy.h"
@@ -230,10 +232,6 @@ void hkObjD062::RemoveNullEntries()
 }
 
 typedef unsigned int Size64;
-inline void* __cdecl operator new(Size64, void* p)
-{
-    return p;
-}
 struct Shape64
 {
 };
@@ -1259,7 +1257,7 @@ class hkBaseObjectD
 class hkReferencedObjectD : public hkBaseObjectD
 {
   public:
-    void* operator new(unsigned int uiBytes) throw()
+    void* operator new(std::size_t uiBytes) throw()
     {
         hkReferencedObjectD* b = static_cast<hkReferencedObjectD*>(FUN_00c85750().heap().AllocateMemoryBlock(uiBytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(uiBytes);

@@ -5,6 +5,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_010c7000.h"
@@ -57,13 +58,13 @@ struct SpawnedRefObject
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     int unk08, unk0C, unk10, unk14, unk18, unk1C, unk20, unk24, unk28, unk2C;
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         SpawnedRefObject* b = (SpawnedRefObject*)FUN_00c85750()->heap().AllocateMemoryBlock(n);
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
-    static void operator delete(void* p, unsigned int n)
+    static void operator delete(void* p, std::size_t n)
     {
         FUN_00c85750()->m_pHeap->ReleaseBlock(p, n);
     }

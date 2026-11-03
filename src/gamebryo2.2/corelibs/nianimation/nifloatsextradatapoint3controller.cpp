@@ -26,7 +26,6 @@
 #include "fnv/symbols_011bf000.h"
 #include "fnv/symbols_011f3000.h"
 struct BSFadeNode {
-    static void* __cdecl operator new(size_t);
 };
 
 
@@ -35,7 +34,7 @@ extern int DAT_0109917c;
 // @fnv 0x00a4ecd0
 int* __cdecl FUN_00a4ecd0()
 {
-    int* p = (int*)BSFadeNode::operator new(0x48);
+    int* p = (int*)::operator new(0x48);
     if (p)
     {
         InitTimeController(p);
@@ -64,7 +63,7 @@ struct NiFloatsExtraDataPoint3Controller : NiPSysModifierCtlr {
 // @fnv 0x00a4ec80
 NiFloatsExtraDataPoint3Controller* NiFloatsExtraDataPoint3Controller::FUN_00a4ec80(void* proc)
 {
-    NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)BSFadeNode::operator new(0x48);
+    NiFloatsExtraDataPoint3Controller* p = (NiFloatsExtraDataPoint3Controller*)::operator new(0x48);
     if (p) {
         ::InitTimeController((int *)(p));
         p->m_pvt = &DAT_0109917c;

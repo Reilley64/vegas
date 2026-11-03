@@ -23,8 +23,6 @@ class PlayerCharacter;
 #include "menutopic_tesobjectrefr.h"
 #include "menutopic_testopic.h"
 #include "menutopic_testopicinfo.h"
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class MenuTopicText
 {
   public:

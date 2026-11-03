@@ -1,4 +1,5 @@
 // staging/blk_00e20000_od_o2_nood_variant.cpp: Face, Hull (8 functions)
+#include <new>
 #include <windows.h>
 
 // src/staging/blk_00e20000_od_o2_nood_variant.cpp - flag-variant unit created 2026-10-24 by flag_proofs.py: contributor code for these functions matched byte for
@@ -214,7 +215,6 @@ __m128* FUN_00e2ab00(__m128* src, __m128* out1, __m128* out2) {
 }
 }  // namespace fnv_00e2ab00
 
-inline void* operator new(unsigned int, void* p) { return p; }
 
 struct Router_e3a1 {
     int unk00, unk04, unk08, unk0C;

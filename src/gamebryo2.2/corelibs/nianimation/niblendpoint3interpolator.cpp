@@ -139,13 +139,12 @@ bool FUN_00a55a60(NiBlendPoint3Interpolator* p)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 extern int DAT_0109a49c;
 // @fnv 0x00a55a80
 void* FUN_00a55a80()
 {
-    void* p = BSFadeNode::operator new(64);
+    void* p = ::operator new(64);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -203,7 +202,7 @@ struct FUN_00a55b20_shell : public NiBlendPoint3Interpolator
 // @fnv 0x00a55b20
 void* FUN_00a55b20_shell::FUN_00a55b20(CloningProcess* kCloning)
 {
-    NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(BSFadeNode::operator new(0x40));
+    NiBlendPoint3Interpolator* pkObject = static_cast<NiBlendPoint3Interpolator*>(::operator new(0x40));
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();

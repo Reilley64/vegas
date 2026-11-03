@@ -24,7 +24,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a8f520()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a8fce0_shell
@@ -35,7 +34,7 @@ struct FUN_00a8fce0_shell
 // @fnv 0x00a8fd80
 void __cdecl FUN_00a8fd80()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         FUN_00a8fce0_shell* pFadeNode = reinterpret_cast<FUN_00a8fce0_shell*>(p);
@@ -74,7 +73,7 @@ struct NiCullingProperty : NiProperty
 // @fnv 0x00a8f530
 NiCullingProperty* NiCullingProperty::FUN_00a8f530(CloningProcess& kCloning)
 {
-    NiCullingProperty* p = static_cast<NiCullingProperty*>(BSFadeNode::operator new(0x1c));
+    NiCullingProperty* p = static_cast<NiCullingProperty*>(::operator new(0x1c));
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();
@@ -342,7 +341,7 @@ extern int DAT_0109f68c;
 // @fnv 0x00a8f580
 NiProperty* __cdecl CreateProperty()
 {
-    NiProperty* pProperty = (NiProperty*)BSFadeNode::operator new(0x1c);
+    NiProperty* pProperty = (NiProperty*)::operator new(0x1c);
     if (pProperty)
     {
         new (pProperty) NiProperty();

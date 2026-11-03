@@ -1677,8 +1677,6 @@ void This::LoadSaveData()
 }
 
 namespace fnv_009eff60 {
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* object);
 
 class TESSaveLoadGame
 {
@@ -1955,7 +1953,6 @@ struct List0083b830SV
 {
     int a, b, c;
     List0083b830SV();
-    void* operator new(unsigned);
 };
 struct DlgItemX
 {

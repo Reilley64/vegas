@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/tyremarks/hkptyremarksinfoclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/tyremarks/hkptyremarksinfoclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 struct AudioAllocator
 {
     virtual void v00();
@@ -110,7 +111,7 @@ struct FUN_00dfc330
     FUN_00dfc330();
     virtual ~FUN_00dfc330();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dfc330* b = static_cast<FUN_00dfc330*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

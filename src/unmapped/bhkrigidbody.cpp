@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ActionOwnerC9d590.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -830,10 +831,6 @@ struct OwnerBase
     unsigned int m_04;
     unsigned int m_08;
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct Pair8
@@ -1343,8 +1340,6 @@ struct bhkRefObjectBase
     int refCount;
     int unk08;
     bhkRefObjectBase();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 
 struct bhkRefObjectLvl : bhkRefObjectBase
@@ -2391,7 +2386,7 @@ struct FUN_00ca8c90
     unsigned int unk218;
     unsigned int unk21C;
     FUN_00ca8c90(void* settings);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         FUN_00ca8c90* p = (FUN_00ca8c90*)FUN_00c85750()->AllocateBody(size);
         p->allocationSize = (unsigned short)size;

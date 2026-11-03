@@ -53,7 +53,6 @@
 #include "fnv/symbols_011c9000.h"
 #include "fnv/symbols_011ca000.h"
 #include "tesobjectcell_packet.h"
-void __cdecl operator delete(void* pointer);
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
 NiAVObject* FUN_0054f4f0();
 
@@ -242,8 +241,6 @@ void LockCtx::FUN_004d8b90(int arg1, NiControllerSequence* arg2)
     }
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct CellFile
 {
     void ReadChunkInt(void*);

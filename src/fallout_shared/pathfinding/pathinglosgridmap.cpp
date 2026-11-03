@@ -111,7 +111,6 @@ struct PathingLOSGridMap
     void* FUN_006e0270(unsigned int);
 };
 namespace fnv_006e0480 {
-void __cdecl operator delete(void*);
 struct PathingLOSGridMap
 {
     void FUN_006e04b0();
@@ -240,7 +239,6 @@ void PathingLOSGridMap::Reset()
 }
 }  // namespace fnv_006e05b0
 
-void* __cdecl operator new(unsigned int);
 struct BGSLoadFormBuffer
 {
 };
@@ -900,7 +898,6 @@ struct LockX
     void Lock();
 };
 
-void* __cdecl operator new(unsigned int);
 
 struct PathingLOSGridMapX
 {

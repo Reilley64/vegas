@@ -193,13 +193,12 @@ bool MyInterp::FUN_00a4bbe0(NiStream* kStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
     void* FUN_00a4bcf0(unsigned int a, unsigned int b, unsigned int c);
 };
 // @fnv 0x00a4c5a0
 void* __cdecl FUN_00a4c5a0()
 {
-    void* p = BSFadeNode::operator new(0x44);
+    void* p = ::operator new(0x44);
     if (p)
         return ((BSFadeNode*)p)->FUN_00a4bcf0(0, 0, 0);
     return 0;
@@ -1431,7 +1430,7 @@ struct FUN_00a4bcf0 : public NiInterpolator
 // @fnv 0x00a4c5e0
 BSFadeNode* Builder::CreateFadeNode(unsigned int flags)
 {
-    BSFadeNode* allocated = static_cast<BSFadeNode*>(BSFadeNode::operator new(0x44));
+    BSFadeNode* allocated = static_cast<BSFadeNode*>(::operator new(0x44));
     BSFadeNode* node = allocated ? static_cast<BSFadeNode*>(((void *)(new ((void *)(allocated)) ::FUN_00a4bcf0(0, 0, 0)))) : 0;
     FUN_00a4c4b0(node, flags);
     return node;

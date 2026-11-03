@@ -36,7 +36,6 @@
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
 };
 struct MyType : BSFadeNode
 {

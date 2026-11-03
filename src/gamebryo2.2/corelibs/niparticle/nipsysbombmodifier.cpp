@@ -710,10 +710,6 @@ struct C2E570_Modifier : C2E570_Base
     int m_30;
     int m_34;
 
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
     C2E570_Modifier()
     {
         new ((void *)this) ::NiPSysPositionModifier();

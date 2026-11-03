@@ -1,5 +1,6 @@
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/AlphaList.h"
@@ -151,10 +152,6 @@ struct Node_00b98e20
 
     Node_00b98e20(const unsigned short& item) : m_item(item), m_pkNext(0)
     {}
-    void* operator new(size_t stSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(stSize);
-    }
 };
 
 // @fnv 0x00b98e20
@@ -832,8 +829,6 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00b9aa70()
 
 struct BSFadeNode
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 
 struct PassListStandin
@@ -1259,10 +1254,6 @@ class FUN_00b99bb0
   public:
     ~FUN_00b99bb0();
     unsigned char data[0x68];
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 class FUN_00b998f0
@@ -1608,10 +1599,6 @@ void FUN_00b998f0()
 }
 
 namespace fnv_00b9ac80 {
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct SortPt
 {
@@ -1692,10 +1679,6 @@ struct GroupStandin
     PassListStandin PassTextureSlotCollection;
     float m_fProjectionDepth;
 
-    void* operator new(size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 
     GroupStandin()
     {
@@ -2759,10 +2742,6 @@ struct ItemValue
 };
 struct ActivePassNode
 {
-    static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::BSBatchRenderer__ActivePassList_b6359Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
     ActivePassNode(unsigned short x) : item(x), next(0)
     {}
     unsigned short item;
@@ -3208,14 +3187,6 @@ struct FUN_00bd9120
 {
     int data;
     FUN_00bd9120();
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct RenderPassListCollection
 {
@@ -3223,22 +3194,10 @@ struct RenderPassListCollection
     unsigned int count;
     RenderPassListCollection();
     ~RenderPassListCollection();
-    static void* operator new[](size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct FUN_00b9a560 : BSBatchRenderer__GeometryGroup
 {
     FUN_00b9a560(void*) throw();
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
 };
 
 struct AudioTlsState

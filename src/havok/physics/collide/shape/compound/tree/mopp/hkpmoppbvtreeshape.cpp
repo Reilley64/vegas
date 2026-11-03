@@ -334,7 +334,7 @@ hkpSingleChildShapeD548* hkpSingleChildShapeD548::FUN_00d548f0(unsigned int uiFl
 {
     this->hkpSingleChildShapeD548::~hkpSingleChildShapeD548();
     if (uiFlags & 1)
-        hkpSingleChildShapeD548::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 

@@ -5,6 +5,7 @@
 
 // src/staging/blk_00560000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/AlignedVector.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSXFlags_shell.h"
@@ -150,8 +151,6 @@ class MotionType56D
 class Shape56D
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     void* m_pvVtable;
     int unk04;
     int unk08;
@@ -217,8 +216,6 @@ class BodyCinfo56D
 class BoxBody56D
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     BoxBody56D(BoxBodyCinfo56D& kInfo);
     unsigned int unk00;
     unsigned int unk04;
@@ -231,8 +228,6 @@ class BoxBody56D
 class Body56D
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     Body56D(BodyCinfo56D& kInfo);
     unsigned int unk00;
     unsigned int unk04;
@@ -247,8 +242,6 @@ class Node56D;
 class Collision56D
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     Collision56D(Node56D* pkNode);
     unsigned int unk00;
     unsigned int unk04;
@@ -260,8 +253,6 @@ class Collision56D
 class Property56D
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
     Property56D();
     unsigned int unk00;
     unsigned int unk04;

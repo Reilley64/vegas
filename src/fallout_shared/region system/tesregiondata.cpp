@@ -37,7 +37,6 @@ bool FUN_004f15c0_shell::FUN_004f15c0(unsigned char acPriority)
     return false;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_004f1430_shell
 {

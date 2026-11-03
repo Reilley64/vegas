@@ -89,7 +89,6 @@ struct FUN_00e60c30_cls
     void* volatile m_p14;
 
     FUN_00e60c30_cls* Destroy(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 #include <xmmintrin.h>
@@ -192,10 +191,6 @@ void FNV_Owner::FUN_00e608d0(FNV_V4* pA, FNV_V4* pOut)
 
 extern "C" void __debugbreak();
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 class S5fb50_SimdReal
 {

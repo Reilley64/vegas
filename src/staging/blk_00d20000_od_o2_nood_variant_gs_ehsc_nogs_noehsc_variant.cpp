@@ -8,6 +8,7 @@
 // to their real unit once identified.
 // src/staging/blk_00d20000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "../../include/layout_support.h"
 union __declspec(intrin_type) __declspec(align(16)) __m128
 {
@@ -53,12 +54,6 @@ struct ContactBody
     float m_limitC;
 };
 bool FUN_00d28560(void* unused, char** items, int count, int offset);
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void operator delete(void*, void*) throw()
-{}
 struct FinishingFlag
 {
     int m_bFinishing;

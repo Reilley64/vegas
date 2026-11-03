@@ -5,6 +5,8 @@
 
 // src/fallout_shared/tesobjectrefr_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/fallout_shared/tesobjectrefr.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/C68CB0World.h"
 #include "fnv/decl/C8F670Object.h"
@@ -365,7 +367,6 @@ struct FUN_00c9fde0 : bhkRefObject
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int size);
 };
 extern int DAT_01030864;
 struct S_00cb79d0_Base
@@ -861,10 +862,6 @@ struct TlsGuard_t
         g_tlsBlock.m_2b4 = m_saved;
     }
 };
-inline void* operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
 struct FUN_00c9efa0_cls
 {
     bhkRefObject* FUN_00c9efa0(unsigned int flag);
@@ -1418,7 +1415,7 @@ struct FUN_00cf2cb0
 {
     int unk0;
     unsigned short length;
-    static void* operator new(unsigned int count)
+    static void* operator new(std::size_t count)
     {
         Pool* pool = FUN_00c85750();
         FUN_00cf2cb0* p = (FUN_00cf2cb0*)pool->allocator->Allocate(224);
@@ -1908,11 +1905,6 @@ class CA0840Output
     CA0840Output() : m_pkTarget(0), m_fValue(DAT_010c72bc)
     {}
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::CA0840Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     void* m_pkTarget;
     float m_fValue;
@@ -1988,8 +1980,6 @@ class FUN_00ccf740_cls : public FUN_00c9fb00
 class NiObjectC9E
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int uiSize);
 
     virtual ~NiObjectC9E();
 };

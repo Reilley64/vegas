@@ -33,7 +33,6 @@ struct FUN_00cd12b0_cls
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
     BSFadeNode();
     ~BSFadeNode();
 };

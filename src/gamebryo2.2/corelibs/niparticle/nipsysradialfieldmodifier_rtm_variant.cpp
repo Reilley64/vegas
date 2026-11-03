@@ -6,6 +6,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <new>
 #include "fnv/decl/C32060EmitterModifier.h"
 #include "fnv/decl/NiPSysFieldModifierImpl.h"
 #include "fnv/decl/NiPSysParticle.h"
@@ -220,10 +221,6 @@ extern int DAT_010be99c;
 
 struct RadialFieldObject_00c285d0 : FUN_00c31ff0
 {
-    static void* operator new(size_t, void* where) throw()
-    {
-        return where;
-    }
     float m30;
     RadialFieldObject_00c285d0()
     {

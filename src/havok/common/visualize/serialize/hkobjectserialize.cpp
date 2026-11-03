@@ -66,10 +66,6 @@ struct C68E30Pair
     C68E30Listener* m_kListener;
     int m_uiFilterValue;
 
-    static void* operator new(C68E30size_t, void* p) throw()
-    {
-        return p;
-    }
 };
 
 struct C68E30PairArray

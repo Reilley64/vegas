@@ -2,6 +2,7 @@
 // Menu, VATSMenu polymorphic, so dynamic_cast on them compiles next to the file's own names (0x00705780).
 
 
+#include <new>
 #include <windows.h>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorMover.h"
@@ -792,8 +793,6 @@ class B706130Tile
 class B706130Pick
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 
     B706130Pick();
 
@@ -2913,8 +2912,6 @@ struct ObjD4
     int unk0c8;
     int unk0cc;
     int unk0d0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     ObjD4(unsigned short, void*, void*, void*, void*, int, int, unsigned int, void*, int, int, int, int);
 };
 struct ObjB0
@@ -2963,8 +2960,6 @@ struct ObjB0
     int unk0a4;
     int unk0a8;
     int unk0ac;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     ObjB0(bool);
 };
 struct Obj1C
@@ -2976,8 +2971,6 @@ struct Obj1C
     int unk010;
     int unk014;
     int unk018;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Obj1C();
 };
 // map-menu state global, fields at their offsets

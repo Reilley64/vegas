@@ -1992,8 +1992,6 @@ struct EffectSaveReader
 };
 struct ShaderHitEffect : FUN_0081c530
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     ShaderHitEffect();
 };
 struct ModelHitEffect : MagicHitEffect
@@ -2015,8 +2013,6 @@ struct ModelHitEffect : MagicHitEffect
     unsigned int unk60;
     unsigned int unk64;
     unsigned int unk68;
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
     ModelHitEffect();
 };
 struct HitEffectList : BSSimpleList<MagicHitEffect*>
@@ -2520,12 +2516,10 @@ struct HitFxShell806420
 };
 struct Shell81c530 : public FUN_0081c530
 {
-    static void* operator new(unsigned int size);
     Shell81c530();
 };
 struct FUN_0081f220 : public MagicHitEffect
 {
-    static void* operator new(unsigned int size);
     int field28;
     int field2c;
     int field30;

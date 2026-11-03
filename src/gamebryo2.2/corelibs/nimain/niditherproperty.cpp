@@ -28,7 +28,6 @@ struct NiProperty
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 extern void* DAT_010a0f6c;
@@ -36,7 +35,7 @@ extern void* DAT_010a0f6c;
 // @fnv 0x00a9a640
 void* __cdecl FUN_00a9a640()
 {
-    void* p = BSFadeNode::operator new(0x1c);
+    void* p = ::operator new(0x1c);
     if (p)
     {
         NiProperty* property = static_cast<NiProperty*>(p);
@@ -64,7 +63,7 @@ struct NiCullingProperty : NiProperty
 // @fnv 0x00a9a5f0
 NiCullingProperty* NiCullingProperty::FUN_00a9a5f0(CloningProcess& process)
 {
-    NiCullingProperty* copy = (NiCullingProperty*)BSFadeNode::operator new(0x1c);
+    NiCullingProperty* copy = (NiCullingProperty*)::operator new(0x1c);
     if (copy)
     {
         new ((void *)(copy)) struct ::FUN_00a5c200();

@@ -1,4 +1,5 @@
 // fallout_shared/tesobjectrefr.cpp: XActor, Owner, Thing, Ref and more (522 functions)
+#include <cstddef>
 #include "generated/data/vtables.h"
 #include <new>
 #include <cmath>
@@ -4096,7 +4097,6 @@ void FUN_0056d300_S::FUN_0056d300(const void* p)
 
 struct NiMemObject
 {
-    static void operator delete(void*, unsigned int);
 };
 void FUN_00c8e9c0();
 struct Obj56d550
@@ -7130,7 +7130,6 @@ void Dummy::FUN_0057bd60(MobileObject* apMobileObject)
 }
 }  // namespace fnv_0057bd60
 
-void* __cdecl operator new(unsigned int);
 void* FUN_0057c2a0(void*);
 
 struct MobileObjectCellAccess
@@ -11748,7 +11747,6 @@ struct bhkAabbPhantom
 {
     virtual ~bhkAabbPhantom();
     void* FUN_0056e5e0(unsigned int flags);
-    static void operator delete(void* ptr, unsigned int size);
 };
 
 // Calls FUN_00c9f530, then frees this with operator delete when flags has bit 0 set, and returns this.
@@ -20071,8 +20069,6 @@ class SpawnedNode
   public:
     SpawnedNode();
     void Configure(unsigned int a, unsigned int b);
-    void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
     unsigned char pad[0x80];
 };
 
@@ -27495,8 +27491,6 @@ struct Type79
     int unk04, unk08;
 };
 Inventory79* FUN_004bf220(Actor79*);
-void* operator new(unsigned int);
-void operator delete(void*);
 // @fnv 0x005659f0
 void Actor79::FUN_005659f0()
 {
@@ -29027,8 +29021,6 @@ struct NiUpdateData
 struct TargetNode : public TargetObj
 {
     TargetNode(unsigned short = 0);
-    void* operator new(size_t);
-    static void operator delete(void*, unsigned int);
     void Update(const NiUpdateData&);
     void* p0;
     void* p1;
@@ -32459,8 +32451,6 @@ void __cdecl FUN_00573800(MoveRef* ref, MoveCell* apDestCell, MoveWorld* world)
 }  // namespace fnv_00573800
 
 namespace fnv_00574b30 {
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct RefOps;
 struct ExtraOps;
 struct EntryOps;
@@ -35111,8 +35101,6 @@ class BSMultiBoundOBB : public BSMultiBoundShape
     int unk40;
     int unk44;
     BSMultiBoundOBB();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     void rotation(const Mat57&);
 };
 struct Bound57
@@ -40167,7 +40155,7 @@ struct __declspec(align(16)) WaterQuaternion
 };
 struct WaterHavokAllocation
 {
-    static void* __cdecl operator new(unsigned int);
+    static void* __cdecl operator new(std::size_t);
     static void operator delete(void*);
 };
 struct WaterShape
@@ -40273,8 +40261,6 @@ struct __declspec(align(16)) WaterRigidBodyInfo
 };
 struct WaterGameAllocation
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct WaterNode;
 struct WaterExtraData : WaterGameAllocation
@@ -40774,8 +40760,6 @@ struct UpdateParams
 
 struct HeapObject
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 };
 
 struct Shape : HeapObject
@@ -46126,7 +46110,6 @@ class FUN_0055a2f0 : public TESObjectREFR
   public:
     unsigned int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60, unk64;
     FUN_0055a2f0();
-    void* operator new(unsigned int);
 };
 class MobileObject : public TESObjectREFR
 {
@@ -46134,7 +46117,6 @@ class MobileObject : public TESObjectREFR
     unsigned int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C, unk60, unk64, unk68, unk6C, unk70, unk74,
         unk78, unk7C, unk80, unk84;
     MobileObject();
-    void* operator new(unsigned int);
 };
 class Character : public TESObjectREFR
 {
@@ -46147,7 +46129,6 @@ class Character : public TESObjectREFR
         unk168, unk16C, unk170, unk174, unk178, unk17C, unk180, unk184, unk188, unk18C, unk190, unk194, unk198, unk19C,
         unk1A0, unk1A4, unk1A8, unk1AC, unk1B0, unk1B4, unk1B8, unk1BC, unk1C0, unk1C4;
     Character(bool);
-    void* operator new(unsigned int);
 };
 class FUN_008d4500 : public TESObjectREFR
 {
@@ -46160,7 +46141,6 @@ class FUN_008d4500 : public TESObjectREFR
         unk168, unk16C, unk170, unk174, unk178, unk17C, unk180, unk184, unk188, unk18C, unk190, unk194, unk198, unk19C,
         unk1A0, unk1A4, unk1A8, unk1AC, unk1B0, unk1B4, unk1B8, unk1BC;
     FUN_008d4500(bool);
-    void* operator new(unsigned int);
 };
 class FUN_009b7a50 : public TESObjectREFR
 {
@@ -46171,7 +46151,6 @@ class FUN_009b7a50 : public TESObjectREFR
         unkF8, unkFC, unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120, unk124, unk128, unk12C,
         unk130, unk134, unk138, unk13C, unk140, unk144, unk148, unk14C, unk150, unk154, unk158, unk15C;
     FUN_009b7a50(bool);
-    void* operator new(unsigned int);
 };
 class FUN_009b3fa0 : public TESObjectREFR
 {
@@ -46182,7 +46161,6 @@ class FUN_009b3fa0 : public TESObjectREFR
         unkF8, unkFC, unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120, unk124, unk128, unk12C,
         unk130, unk134, unk138, unk13C, unk140, unk144, unk148, unk14C, unk150;
     FUN_009b3fa0(bool);
-    void* operator new(unsigned int);
 };
 class FUN_00978fd0 : public TESObjectREFR
 {
@@ -46193,7 +46171,6 @@ class FUN_00978fd0 : public TESObjectREFR
         unkF8, unkFC, unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120, unk124, unk128, unk12C,
         unk130, unk134, unk138, unk13C, unk140, unk144, unk148, unk14C, unk150;
     FUN_00978fd0(bool);
-    void* operator new(unsigned int);
 };
 class FUN_009b3160 : public TESObjectREFR
 {
@@ -46204,7 +46181,6 @@ class FUN_009b3160 : public TESObjectREFR
         unkF8, unkFC, unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120, unk124, unk128, unk12C,
         unk130, unk134, unk138, unk13C, unk140, unk144, unk148, unk14C, unk150, unk154;
     FUN_009b3160(bool);
-    void* operator new(unsigned int);
 };
 class FUN_009aaff0 : public TESObjectREFR
 {
@@ -46215,7 +46191,6 @@ class FUN_009aaff0 : public TESObjectREFR
         unkF8, unkFC, unk100, unk104, unk108, unk10C, unk110, unk114, unk118, unk11C, unk120, unk124, unk128, unk12C,
         unk130, unk134, unk138, unk13C, unk140, unk144, unk148, unk14C, unk150, unk154;
     FUN_009aaff0(bool);
-    void* operator new(unsigned int);
 };
 // Allocates a new TESObjectREFR subclass based on ucType and returns the pointer, or null if the type is unknown.
 // @fnv 0x00564480

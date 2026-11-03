@@ -2,6 +2,7 @@
 // src/staging/blk_00b40000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
@@ -144,7 +145,6 @@ void* FUN_00b58400_class::FUN_00b58400(int flag)
     return this;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 void __cdecl FUN_00b581c0(void);
 
@@ -217,7 +217,6 @@ void FUN_00b5a9d0_class::SetTripleInts(int aiFirst, int aiSecond, int aiThird)
     *(int*)((char*)this + 0x108) = aiThird;
 }
 
-extern "C" void __cdecl operator delete(void*, unsigned int);
 
 void __cdecl FUN_00b5e5a0();
 
@@ -1219,12 +1218,6 @@ struct BlobObj : public BlobBase
         m_1c = 2;
     }
 
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* p) throw()
-    {}
 };
 
 struct FUN_00b58420_cls
@@ -1331,10 +1324,6 @@ class BB595B0Entry
   public:
     ~BB595B0Entry();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::BB595B0Heap *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 template <class T> struct BB595B0ListNode
@@ -2017,10 +2006,6 @@ struct FUN_00ba3a00
 {
     unsigned int unk00, unk04, unk08, unk0c;
     ~FUN_00ba3a00();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::PoolAllocator_b4009 *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 struct Param
 {
@@ -2225,10 +2210,6 @@ struct B59890MapItem
 struct B59890Value
 {
     ~B59890Value();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct B59890Map : NiTMapBaseStub
 {
@@ -2953,10 +2934,6 @@ struct Frustum
     bool special;
     Frustum();
     ~Frustum() throw();
-    static void* operator new(unsigned size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 struct RenderState
 {
@@ -3481,14 +3458,6 @@ struct RTItem
     unsigned int uiKey;
 
     RTItem(RTTexture* tex, unsigned int key, int flags);
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemoryManagerAllocHelper*>(&g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManagerDealloc*>(&g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 
 struct RTNode
@@ -3536,14 +3505,6 @@ struct RTEntry
 
     RTEntry()
     {}
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<MemoryManagerAllocHelper*>(&g_memoryManager)))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManagerDealloc*>(&g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 
 struct MapObj596a

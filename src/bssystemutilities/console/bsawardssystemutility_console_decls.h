@@ -27,14 +27,6 @@ class DownloadableContentManager
 
     DownloadableContentManager();
     static DownloadableContentManager& GetRandomGenerator();
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static __forceinline void operator delete(void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 
 class IdleSystem
@@ -49,14 +41,6 @@ class IdleSystem
     static void Startup();
     static IdleSystem& GetRandomGenerator();
     static bool Initialize();
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static __forceinline void operator delete(void* pointer)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 
 
@@ -95,11 +79,6 @@ extern "C" __declspec(dllimport) SteamUserStats* __cdecl SteamUserStats();
 struct AwardData
 {
     int id;
-    static __forceinline void operator delete(void* pointer)
-    {
-        int padding[3];
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(pointer);
-    }
 };
 namespace std {
 class StandardLibrarySingletonObject

@@ -55,7 +55,6 @@ template <class T> class NiPointer
 class NiMemObject
 {
   public:
-    static void* operator new(size_t size);
 };
 class NiRefObject : public NiMemObject
 {

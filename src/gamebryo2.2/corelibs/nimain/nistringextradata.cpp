@@ -58,14 +58,13 @@ struct NiExtraDataHelper
 };
 struct BSFadeNode
 {
-    void* operator new(size_t);
 };
 extern "C" int EmptyFS;
 extern "C" void* DAT_0109d39c;
 // @fnv 0x00a74230
 void* __cdecl FUN_00a74230()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((((NiExtraDataHelper*)p)))->FUN_00a7b2e0();

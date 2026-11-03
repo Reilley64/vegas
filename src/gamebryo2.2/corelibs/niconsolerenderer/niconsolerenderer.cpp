@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/niconsolerenderer/niconsolerenderer.cpp: NiDX9Renderer, Renderer, GraphicsRenderer, NiTMapBaseStub and more (204 functions)
 
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -115,7 +116,7 @@ class NiRenderTargetGroup;
 #include "niconsolerenderer_packet.h"
 enum _D3DFORMAT { D3DFMT_PACKET_FORCE_DWORD=0x7fffffff };
 struct RendererPacketEntry { unsigned int pad[2]; void* resource; };
-class NiMemObject { public: static void* operator new(size_t); };
+class NiMemObject { public: };
 class GraphicsRenderer : public NiMemObject {
 public:
  virtual ~GraphicsRenderer() throw();
@@ -3242,7 +3243,7 @@ struct RenderBufferAllocation {
 // @fnv 0x00e69a00
 RenderBufferAllocation* CreateRenderBufferAllocation(void* parameters)
 {
-    RenderBufferAllocation* buffer = static_cast<RenderBufferAllocation*>(NiMemObject::operator new(84));
+    RenderBufferAllocation* buffer = static_cast<RenderBufferAllocation*>(::operator new(84));
     if (buffer)
         return ((::RenderBufferAllocation *)(new ((void *)(buffer)) ::FUN_00e8db90((uintptr_t)(parameters))));
     return 0;
@@ -3330,7 +3331,6 @@ public:
 };
 class NiPixelData : public NiRefObject {
 public:
-    static void* operator new(size_t);
     NiPixelData(unsigned int, unsigned int, const NiPixelFormat&, unsigned int, unsigned int) throw();
     int unk08; int unk0c; int unk10; int unk14; int unk18; int unk1c;
     int unk20; int unk24; int unk28; int unk2c; int unk30; int unk34; int unk38; int unk3c;
@@ -5382,7 +5382,6 @@ class E6EC20Cache {
 public:
     ~E6EC20Cache();
 
-    static void operator delete(void* pvMem, size_t uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int unk00; int unk04; int unk08; int unk0C; int unk10;
 };
@@ -7181,7 +7180,6 @@ struct P3 : Property { P3() throw(); };
 struct NiPropertyState {
  int unk00,unk04,unk08,unk0c,unk10,unk14,unk18;
  NiPropertyState() throw();
- static void* operator new(size_t amount) { return reinterpret_cast<::MemoryManagerStandIn *>((((P03MM*)&g_memoryManager)))->FUN_00aa3e40(amount); }
 };
 struct Input { int unk00,unk04,unk08,unk0c; void* content; Property* property; int unk18; void* extra; };
 struct Manager { virtual void f0(); virtual void f1(); virtual void f2(); virtual void f3(); virtual void Set(unsigned,Input*); };
@@ -10582,8 +10580,6 @@ struct ShaderMemMgr {
     void Deallocate(void* p);
 };
 
-inline void* operator new[](size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa3e40(size); }
-inline void operator delete[](void* p) { reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::ShaderMemMgr *>(&::g_memoryManager))))->FUN_00aa4060(p); }
 
 struct ShaderVertexElement {
     unsigned short Stream;
@@ -11493,7 +11489,6 @@ class E7A6A0Bucket {
 public:
     __forceinline ~E7A6A0Bucket() { m_kEntries.RemoveAll(); }
 
-    static void operator delete(void* pvMem, size_t uiSize) { operator_delete_sized(pvMem, uiSize); }
 
     int m_iKey;
     E7A6A0Array<E7A6A0Entry*> m_kEntries;
@@ -15756,11 +15751,6 @@ struct Node {
 
 
 
-    static void operator delete(void* pvMem, size_t uiSize) {
-
-        operator_delete_sized(pvMem, uiSize);
-
-    }
 
 };
 
@@ -24891,7 +24881,6 @@ struct FUN_00e6eaf0 {
     virtual ~FUN_00e6eaf0();
     int m04;
     void* m08;
-    static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 // Destructor that removes all entries from the map and frees the m08 alias via _NiFreeAlias.
 // @fnv 0x00e6eaf0
@@ -24904,7 +24893,6 @@ FUN_00e6eaf0::~FUN_00e6eaf0()
 struct FUN_00e6eb70 {
  void* m_04;
  virtual ~FUN_00e6eb70();
- static void operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 };
 // Destructor that releases the alias held in m_04 by calling _NiFreeAlias.
 // @fnv 0x00e6eb70
@@ -24913,25 +24901,19 @@ FUN_00e6eb70::~FUN_00e6eb70()
  _NiFreeAlias(m_04);
 }
 
-struct FUN_00e72df0 { void* m_04; virtual ~FUN_00e72df0(); static void operator delete(void*); };
+struct FUN_00e72df0 { void* m_04; virtual ~FUN_00e72df0(); };
 // @fnv 0x00e72df0
 FUN_00e72df0::~FUN_00e72df0() { _NiFreeAlias(m_04); }
-void FUN_00e72df0::operator delete(void* p) { reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p); }
 
 struct FUN_00e7a610 {
  void* m_ptr;
  virtual ~FUN_00e7a610();
- static void operator delete(void* p);
 };
 // Calls _NiFreeAlias with m_ptr.
 // @fnv 0x00e7a610
 FUN_00e7a610::~FUN_00e7a610()
 {
  _NiFreeAlias(m_ptr);
-}
-void FUN_00e7a610::operator delete(void* p)
-{
- reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
 }
 
 struct D3DCapsStandIn;
@@ -26875,7 +26857,6 @@ struct BridgeFields {
 
 
 struct NPFNew : NiPixelFormat {
-    static void* operator new(size_t size) { return reinterpret_cast<::MemoryManagerStandIn *>((((MMStandIn*)&g_memoryManager)))->FUN_00aa3e40(size); }
     NPFNew(const NiPixelFormat& o) : NiPixelFormat(o) {}
 };
 
@@ -32736,7 +32717,7 @@ struct ScrDX9Renderer {
 };
 
 enum ScrAllocationTag { ScrAllocatePixels };
-__forceinline void* operator new(size_t size, ScrAllocationTag) { return NiPixelData::operator new(size); }
+__forceinline void* operator new(std::size_t size, ScrAllocationTag) { return ::operator new(size); }
 
 // Locks a render target surface, copies the pixel rows into a new NiPixelData buffer, and returns it.
 // @fnv 0x00e6f4e0

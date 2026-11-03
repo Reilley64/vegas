@@ -135,8 +135,6 @@ const NavMeshInfo* PathingLocationProxy::GetAssociatedNavMesh()
         return 0;
 }
 
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 // Placement-constructs count PathingLocation objects in the items array.
 // @fnv 0x006d00a0
 void PathingLocationArray::ConstructItems(PathingLocation* items, unsigned int count)

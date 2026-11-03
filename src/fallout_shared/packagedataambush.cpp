@@ -71,7 +71,6 @@ FUN_0067adc0_cls::~FUN_0067adc0_cls()
 }
 
 extern int DAT_0119bdc8;
-void* __cdecl operator new(unsigned int size);
 struct PackageRecord
 {
     int unk00;

@@ -19,7 +19,8 @@ target_include_directories(game PUBLIC src)
 include(src/generated/data/sources.cmake)
 include(src/gamebryo2.2/sources.cmake)
 
-add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp)
+add_executable(FalloutNV EXCLUDE_FROM_ALL src/main.cpp src/runtime/new.cpp)
+target_include_directories(FalloutNV PRIVATE include)
 target_link_libraries(FalloutNV PRIVATE game)
 
 add_subdirectory(tests)

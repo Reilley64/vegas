@@ -28,7 +28,6 @@ const void* __cdecl FUN_00a994c0()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct NiObject;
@@ -44,7 +43,7 @@ extern int DAT_010a0b64;
 // @fnv 0x00a99710
 void* __cdecl FUN_00a99710()
 {
-    void* p = BSFadeNode::operator new(0xd4);
+    void* p = ::operator new(0xd4);
     if (p)
     {
         NiSwitchNode* n = (NiSwitchNode*)p;
@@ -624,7 +623,7 @@ struct FUN_00a996a0_shell : FUN_00a99390_shell
 // @fnv 0x00a996a0
 CloneLODNode* FUN_00a996a0_shell::CreateCloneLODNode(CloningProcess& process)
 {
-    void* memory = BSFadeNode::operator new(0xd4);
+    void* memory = ::operator new(0xd4);
     CloneLODNode* clone = memory ? new (memory) CloneLODNode() : 0;
     if (clone)
     {

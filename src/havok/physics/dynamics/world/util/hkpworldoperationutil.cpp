@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/util/hkpworldoperationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/C67F20List.h"
 #include "fnv/decl/CallRet.h"
@@ -3172,10 +3173,6 @@ void IndexRemap::RemapAndAccumulate(const hkArr& map, int n, hkArr& values)
 }
 }  // namespace fnv_00d282c0
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S00cb5310_Sub;
 struct S00cb5310_Node;
 struct S00cb5310_Piece;
@@ -3476,10 +3473,6 @@ void __cdecl FUN_00cb5310(S00cb5310_Owner* apOwner, S00cb5310_Node* apNode)
 }
 
 namespace fnv_00cb5500 {
-inline void* __cdecl operator new(unsigned int, void* place)
-{
-    return place;
-}
 struct Entry
 {
     unsigned int unk00, unk04, unk08, unk0c;
@@ -3943,10 +3936,6 @@ void __cdecl Cb5750_Owner::AddCollisionShape(Cb5750_Param* param) throw()
 }
 
 namespace fnv_00cb5dd0 {
-inline void* __cdecl operator new(unsigned int, void* place)
-{
-    return place;
-}
 struct Producer;
 struct Actor;
 struct Heap
@@ -4553,10 +4542,6 @@ int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** count
 }
 
 namespace fnv_00cb4790 {
-inline void* __cdecl operator new(unsigned int, void* place)
-{
-    return place;
-}
 
 struct Entry;
 struct Cell
@@ -7213,14 +7198,14 @@ struct MotionBase : RefHeader31
     short m_11c;
     S00cb4230_Half m_fGravityFactor;
     void FUN_00c86610(MotionBase* p);
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         S_00c6aca0_Heap& h = FUN_00c85750()->heap();
         RefHeader31* b = static_cast<RefHeader31*>(((AllocObj*)&h)->v01(static_cast<int>(nbytes)));
         b->m_04 = static_cast<unsigned short>(nbytes);
         return b;
     }
-    __forceinline static void* operator new(unsigned int, void* p)
+    __forceinline static void* operator new(std::size_t, void* p)
     {
         return p;
     }

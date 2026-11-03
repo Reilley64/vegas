@@ -8,6 +8,7 @@
 // that unit declares it this way.
 // src/havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BevelHull.h"
@@ -810,7 +811,6 @@ template <typename T> struct S_00d7a010_Array
 struct S_00d7a010_Obj
 {
     virtual ~S_00d7a010_Obj() throw();
-    void operator delete(void* p) throw();
 };
 void __cdecl DeleteCollectedObjects(int a, int b, int c, float f);
 struct S_00d7c200_Heap
@@ -1735,7 +1735,7 @@ struct FUN_00d76ca0
     int unk08, unk0c;
     D78ea0Listener* m10;
     FUN_00d76ca0() throw();
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         FUN_00d76ca0* p = (FUN_00d76ca0*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(bytes);
         p->m_iElementCount = (unsigned short)bytes;

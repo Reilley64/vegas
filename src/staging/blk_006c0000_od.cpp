@@ -771,7 +771,6 @@ struct FUN_006c60d0_Class
     void* FUN_006c60d0(unsigned int flags);
 };
 
-void __cdecl operator delete(void*);
 struct FUN_006c6100_Class
 {
     void FUN_006c6a80();
@@ -944,7 +943,6 @@ void* FUN_006c71d0_Class::FUN_006c71d0(unsigned int flags)
 }
 }  // namespace fnv_006c71d0
 
-void __cdecl operator delete(void*);
 struct FUN_006c7200_Class : public FUN_006c6be0_Class
 {
     void* FUN_006c7200(unsigned int flags);
@@ -989,7 +987,6 @@ void* FUN_006c6ce0::FUN_006c6c60::FUN_006c7260(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_006c72c0_Class
 {
     void FUN_006c6e00();
@@ -1518,7 +1515,6 @@ void* FUN_006dbc60_Class::FUN_006dbc60(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void*);
 
 struct FUN_006db950_Class
 {
@@ -1964,7 +1960,6 @@ void FUN_006dbfc0_Class::FUN_006dbfc0(char* data, unsigned int size)
     }
 }
 
-void* __cdecl operator new(unsigned int size);
 
 extern const char str_0106649c[];
 
@@ -4156,8 +4151,6 @@ struct FUN_006dba30_Class
     S0069a690* m_items;
     unsigned int FUN_006dba30(S0069a690 const* other);
 };
-void* __cdecl operator new(unsigned int, void* ptr);
-void __cdecl operator delete(void*, void*);
 
 struct FUN_006d5320
 {
@@ -4183,8 +4176,6 @@ void FUN_006dbcf0_Class::FUN_006dbcf0(FUN_006d5320* items, unsigned int count)
     }
 }
 
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void* allocated, void* where);
 
 struct PlacementObject32 : FUN_006d4550_Class
 {
@@ -4571,7 +4562,6 @@ FUN_006c6e00::~FUN_006c6e00()
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<BSSimpleArray_SandBoxChoiceListItem_1024_*>(this)))->Clear(true);
 }
 
-void* operator new(unsigned int);
 class Obj
 {
   public:
@@ -4600,7 +4590,6 @@ FUN_006c7370* Fac::CreateObj()
     return new FUN_006c7370;
 }
 
-void* __cdecl operator new(unsigned int size);
 struct FUN_006c8b30
 {
     int m0;
@@ -4674,9 +4663,6 @@ struct FUN_006e6da0
 {
     int a;
 };
-void* __cdecl operator new(unsigned int uiSize, FUN_006e6da0* pPlace);
-inline void __cdecl operator delete(void*, FUN_006e6da0*)
-{}
 class FUN_006f4f00
 {
   public:
@@ -5032,8 +5018,6 @@ FUN_006db740::~FUN_006db740()
 }
 
 namespace fnv_006dbe40 {
-void* __cdecl operator new(unsigned int, void*);
-void __cdecl operator delete(void*, void*);
 struct FUN_006d3200
 {
     FUN_006d3200();
@@ -5055,8 +5039,6 @@ void FUN_006dbe40_Class::ConstructInPlace(FUN_006d3200* pBase, unsigned int aiCo
 }
 }  // namespace fnv_006dbe40
 
-void* __cdecl operator new(unsigned int size, void* place);
-void __cdecl operator delete(void* object, void* place);
 // Native BSSimpleArray<TwoUIntRecord,1024> elements have two words.
 struct TwoUIntRecord
 {

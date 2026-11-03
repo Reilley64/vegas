@@ -86,7 +86,6 @@ void FUN_00a50660_shell::SetPoint3ControlHandle(unsigned int kControlHandle, uns
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 extern int DAT_010996dc;
 struct FUN_00a57f20_shell
@@ -96,7 +95,7 @@ struct FUN_00a57f20_shell
 // @fnv 0x00a50840
 void* __cdecl FUN_00a50840()
 {
-    void* p = BSFadeNode::operator new(0x2c);
+    void* p = ::operator new(0x2c);
     if (p)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)p)))->FUN_00a57f20((void *)(0), (void *)(0));
@@ -154,7 +153,7 @@ struct FUN_00a507e0_obj
 // @fnv 0x00a507e0
 NiObject* FUN_00a507e0_obj::Clone(CloningProcess& kCloning)
 {
-    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)BSFadeNode::operator new(44);
+    FUN_00a507e0_obj* pkObject = (FUN_00a507e0_obj*)::operator new(44);
     if (pkObject)
     {
         reinterpret_cast<::FUN_00a57f20_cls *>((((FUN_00a57f20_shell*)pkObject)))->FUN_00a57f20((void *)(0), (void *)(0));

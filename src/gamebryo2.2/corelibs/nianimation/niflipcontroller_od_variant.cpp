@@ -16,7 +16,6 @@ struct FUN_00a4f300_shell
 const void* __cdecl FUN_00a4f5d0();
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct NiFlipController
 {

@@ -18,7 +18,6 @@ class TESWeather;
 class TESWeather__WeatherSound;
 class TESWeather__WeatherSoundList;
 
-void __cdecl operator delete(void* ptr);
 
 class TESImageSpaceModifiableCountForm_6_ : public BaseFormComponent
 {

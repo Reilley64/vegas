@@ -2371,7 +2371,6 @@ void FUN_004f6640_cls::FUN_004f6640()
 // FUN_004f6850 worker4 v2: v1 + real new-expr for the collection (EH frame + state stores)
 struct NiMemObject4f
 {
-    static void* operator new(unsigned int);
 };
 struct RDLItemX : RDLItem
 {
@@ -2610,8 +2609,6 @@ void FUN_004ff0e0_cls::FUN_004ff0e0(FUN_004ff0e0_arg* a1)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
 };
 
 class AnimIdle : public NiMemObject
@@ -3828,8 +3825,6 @@ FUN_004ffba0::~FUN_004ffba0()
 
 struct xMemObj
 {
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* p, unsigned int);
 };
 
 struct xPt3

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/WorldQuery.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
@@ -386,13 +387,13 @@ struct hkpSphereShapeq
     int unk18;
     int unk1C;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkpSphereShapeq* p = (hkpSphereShapeq*)FUN_00c85750()->heap().allocateChunk(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, unsigned int nbytes);
+    static void operator delete(void* p, std::size_t nbytes);
 
     hkpSphereShapeq(float radius) throw();
 };

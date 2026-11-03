@@ -5,6 +5,7 @@
 
 // @fnv 0x00cbb950
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
@@ -435,10 +436,6 @@ struct SpawnedObject
     SpawnedObject()
     {}
 
-    static void* operator new(unsigned int, void* apMemory)
-    {
-        return apMemory;
-    }
 };
 
 // Allocates 8 bytes through the holder's allocator, sets m_w04 and m_w06, then placement-constructs a SpawnedObject there.
@@ -596,7 +593,7 @@ struct S_00cbbde0_RefObject
     short m_sReferenceCount;
 
     virtual ~S_00cbbde0_RefObject() throw();
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;

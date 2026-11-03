@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nianimation/nitexturetransformcontroller.cpp: NiTextureTransformController, NiNIFImageReader, TextureTransformOwner (20 functions)
 
+#include <new>
 #include "fnv/decl/AA4610Allocator.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -176,18 +177,11 @@ void* FUN_00a463e0_Holder::GetElementAt(unsigned int index)
 struct CloningProcess;
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct NiAlphaController
 {
     void CopyMemberData(NiAlphaController*, CloningProcess&);
 };
-inline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*)
-{}
 struct FUN_00a468f0_shell
 {
     NiTextureTransformController* Clone(CloningProcess& kCloning);
@@ -196,7 +190,7 @@ struct FUN_00a468f0_shell
 NiTextureTransformController* FUN_00a468f0_shell::Clone(CloningProcess& kCloning)
 {
     NiTextureTransformController* pkObject;
-    pkObject = (NiTextureTransformController*)BSFadeNode::operator new(0x50);
+    pkObject = (NiTextureTransformController*)::operator new(0x50);
     if (pkObject)
         pkObject = new (pkObject) NiTextureTransformController(0, 0, (NiTextureTransformController__TransformMember)0);
     else
@@ -370,10 +364,6 @@ struct TextureTransformOwner : InterpolationControllerBase
         controllerID = 0;
     }
     void* FUN_00a46890(unsigned int flags);
-    static void operator delete(void* memory, size_t size)
-    {
-        FUN_00aa1460(memory, size);
-    }
 };
 
 // Destroys the object and, if the first bit of flags is set, frees its memory with FUN_00aa1460.
@@ -760,7 +750,7 @@ void S00a46970_Ctlr::FUN_00a46970(S00a46970_Stream& kStream)
 // @fnv 0x00a46950
 NiTextureTransformController* __cdecl FUN_00a46950()
 {
-    void* storage = BSFadeNode::operator new(sizeof(NiTextureTransformController));
+    void* storage = ::operator new(sizeof(NiTextureTransformController));
     if (storage != 0)
         return new (storage)
             NiTextureTransformController(0, 0, NiTextureTransformController__TransformMember_TT_TRANSLATE_U);

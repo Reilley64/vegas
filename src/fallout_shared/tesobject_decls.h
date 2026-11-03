@@ -1,5 +1,6 @@
 // fallout_shared/tesobject_decls.h: declares BGSDehydrationStage, TESResponse, TESObjectREFR, TESFile, TESBoundPoint and more
 
+#include <new>
 #include <malloc.h>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/BSXFlags_shell.h"
@@ -457,8 +458,6 @@ class TESModel
     unsigned int GetModelLength() const;
 };
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 class NiUpdateData
 {
   public:
@@ -563,8 +562,6 @@ class TESObjectDoorController : public NiTimeController
 {
   public:
     char data[0x38];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     TESObjectDoorController();
     virtual void doorCtrlSlot0();
     virtual void doorCtrlSlot1();
@@ -611,8 +608,6 @@ class NiExtraData
 {
   public:
     char data[0x10];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     NiExtraData();
 };
 class TESObjectDOOR : public TESBoundObject
@@ -651,8 +646,6 @@ class BSFadeNode : public NiNode
 {
   public:
     char data[0xe0];
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     BSFadeNode();
 };
 class NiLight;

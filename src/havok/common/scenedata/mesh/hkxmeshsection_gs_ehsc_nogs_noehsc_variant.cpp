@@ -5,6 +5,7 @@
 
 // src/havok/common/scenedata/mesh/hkxmeshsection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxmeshsection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -30,10 +31,6 @@ struct FUN_00e61720
     IndexArray m_kUserChannels;
     FUN_00e61720(void* arg);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 class hkMemoryAllocatorE6;
 void __cdecl FUN_00c908c0(hkMemoryAllocatorE6& alloc, void* pArray, int iReqElem, int iElemSize);
 class hkMemoryRouterE6

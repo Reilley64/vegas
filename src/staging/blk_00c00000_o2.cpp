@@ -2182,10 +2182,6 @@ class ImageSpaceTextureC046
   public:
     ~ImageSpaceTextureC046();
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerC046 *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class C04620Object
@@ -4198,10 +4194,6 @@ struct C1A3B0Point3
 class C1A3B0Bound
 {
   public:
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<C1A3B0Heap&>(g_memoryManager)))->FUN_00aa3e40(uiSize);
-    }
 
     C1A3B0Bound& operator=(const C1A3B0Bound& kBound)
     {
@@ -9282,8 +9274,6 @@ class NiD3DShaderConstantMap : public RefObjectStandin
     int unk38;
     int unk3c;
     int unk40;
-    static void* operator new(unsigned);
-    static void operator delete(void*);
     NiD3DShaderConstantMap(void*, int);
 };
 template <class T> class PointerStandin

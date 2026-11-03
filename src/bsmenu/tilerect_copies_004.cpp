@@ -41,7 +41,6 @@ template <> class NiPointer<NiAVObject>
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
     void IncRefCount();
     void DecRefCount();
 };

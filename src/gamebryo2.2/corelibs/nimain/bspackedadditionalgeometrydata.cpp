@@ -14,7 +14,6 @@
 #include "fnv/symbols_011f4000.h"
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct FakeBase
 {
@@ -23,7 +22,7 @@ extern int DAT_0102e1dc;
 // @fnv 0x00a7f740
 void* FUN_00a7f740()
 {
-    void* p = BSFadeNode::operator new(52);
+    void* p = ::operator new(52);
     if (p)
     {
         new ((void *)(((FakeBase*)p))) ::FUN_00a734c0();

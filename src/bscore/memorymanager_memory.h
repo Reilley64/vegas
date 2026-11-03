@@ -15,8 +15,6 @@ class ScrapHeapBuffer
   public:
     char data[16];
     ScrapHeapBuffer();
-    static __forceinline void* operator new(size_t size);
-    static __forceinline void operator delete(void* p);
 };
 template <class K, class V> class BSMapBase
 {
@@ -58,25 +56,4 @@ FNV_FORCEINLINE MemoryManager& MemoryManager::Instance()
 {
     return g_memoryManager;
 }
-FNV_FORCEINLINE void* operator new(size_t size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
-FNV_FORCEINLINE void operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-}
 
-__forceinline void* ScrapHeapBuffer::operator new(size_t size)
-{  // Preserve five unused allocator-local slots from the original PC build.
-    struct Reserved
-    {
-        unsigned int slots[5];
-    };
-    Reserved reserved;
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
-__forceinline void ScrapHeapBuffer::operator delete(void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-}

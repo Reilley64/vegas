@@ -724,10 +724,6 @@ struct A438D0Name
 
 struct A438D0MemObject
 {
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 struct A438D0Entry : A438D0MemObject

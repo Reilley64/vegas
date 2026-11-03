@@ -54,7 +54,6 @@ extern int DAT_010983bc;
 class BSFadeNode
 {
   public:
-    static void* __cdecl operator new(size_t);
 };
 
 class NiProperty : public BSFadeNode
@@ -68,7 +67,7 @@ class NiProperty : public BSFadeNode
 // @fnv 0x00a47380
 void* __cdecl FUN_00a47380()
 {
-    NiProperty* p = (NiProperty*)BSFadeNode::operator new(0x18);
+    NiProperty* p = (NiProperty*)::operator new(0x18);
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5c200();

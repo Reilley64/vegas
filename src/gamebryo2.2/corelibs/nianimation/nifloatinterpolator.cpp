@@ -659,10 +659,6 @@ class A3C8D0_Object : public FUN_00a3ca10
     int m_10;
     NiPointer<NiObject> m_14;
 
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
     A3C8D0_Object() : m_0C(DAT_0109a918), m_10(0)
     {}
     virtual void vf00();

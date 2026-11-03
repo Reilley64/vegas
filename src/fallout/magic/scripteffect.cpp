@@ -64,7 +64,6 @@ void FUN_00827de0_shell::FUN_00827de0(Actor* apActor)
         reinterpret_cast<::FUN_005a9d00_shell *>((m_pScriptLocals))->FUN_005a9d00();
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct ScriptLocalVariable
 {

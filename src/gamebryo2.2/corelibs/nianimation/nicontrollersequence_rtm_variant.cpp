@@ -6,6 +6,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstdint>
 #include <new>
+#include <cstddef>
 #include <windows.h>
 #include <cmath>
 #include <cstdlib>
@@ -188,7 +189,6 @@ struct FUN_00a30900_shell
 };
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t);
 };
 struct FUN_00a316a0_shell
 {
@@ -2653,12 +2653,7 @@ struct OldSequence
 struct NewSequence : SeqRefObject
 {
 
-    static void* __cdecl operator new(size_t);
 
-    static void* __cdecl operator new(size_t, void* p)
-    {
-        return p;
-    }
 
     __declspec(noalias)
         NewSequence(const char* const& kName, unsigned int uiArraySize, unsigned int uiArrayGrowBy) throw();
@@ -2990,14 +2985,14 @@ struct LegacyRef
     LegacyController* pointer;
     ~LegacyRef() throw()
     {}
-    static void* operator new[](size_t bytes, ReferenceAllocation*& allocation) throw();
+    static void* operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw();
 };
 struct ReferenceAllocation
 {
     unsigned int count;
     LegacyRef elements[1];
 };
-__forceinline void* LegacyRef::operator new[](size_t bytes, ReferenceAllocation*& allocation) throw()
+__forceinline void* LegacyRef::operator new[](std::size_t bytes, ReferenceAllocation*& allocation) throw()
 {
     allocation = (ReferenceAllocation*)reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(bytes);
     return allocation;

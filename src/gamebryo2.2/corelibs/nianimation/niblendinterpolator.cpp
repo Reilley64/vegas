@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nianimation/niblendinterpolator.cpp: NiBlendInterpolator, InterpItem, LoadInterpItem, BlendSerializer and more (19 functions)
 
 #include <cstdint>
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -1563,7 +1564,6 @@ void SBObject::FUN_00a37ec0(SBStream& arStream)
 // The engine replaces the global deallocation function with a sized variant;
 // this is the routine the original's deleting destructor calls with the size
 // of the object it is releasing.
-void __cdecl operator delete(void* p, size_t n);
 
 // Stand-in for NiBlendInterpolator (48 bytes, virtual destructor in vftable
 // slot 0).  The real class is the engine's blend interpolator: it owns an
@@ -1572,7 +1572,6 @@ void __cdecl operator delete(void* p, size_t n);
 struct FUN_00a37670_NiBlendInterpolator
 {
     virtual __declspec(noinline) ~FUN_00a37670_NiBlendInterpolator();
-    static void operator delete(void* p, size_t n);
     int unk04;                      // NiObject
     float m_fLastTime;              // NiInterpolator
     unsigned char m_uiObjectFlags;         // +12
@@ -1603,9 +1602,5 @@ FUN_00a37670_NiBlendInterpolator::~FUN_00a37670_NiBlendInterpolator()
     m_ucInterpCount = 0;
 }
 
-void FUN_00a37670_NiBlendInterpolator::operator delete(void* p, size_t n)
-{
-    ::FUN_00aa1460(p, n);
-}
 
 #include "generated/data/gamebryo2.2/corelibs/nianimation/niblendinterpolator.inc"

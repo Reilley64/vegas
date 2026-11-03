@@ -5,6 +5,7 @@
 
 // src/fallout_shared/speedtree/bstreenode.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/speedtree/bstreenode.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/ExtraOwnerB.h"
 #include "fnv/decl/FUN_00439410_cls.h"
 #include "fnv/decl/FUN_004b5020_shell.h"
@@ -1098,7 +1099,7 @@ struct FUN_00cf5990
     unsigned int unk00;
     unsigned short w4;
     FUN_00cf5990(unsigned int, void*);
-    static void* operator new(unsigned int)
+    static void* operator new(std::size_t)
     {
         AllocHolder* h = FUN_00c85750();
         AllocObj* al = h->mpAlloc;
@@ -1435,7 +1436,7 @@ struct FUN_00d22dc0
     int unk84;
     int unk88;
     int unk8c;
-    static void* operator new(unsigned int n);
+    static void* operator new(std::size_t n);
     static void operator delete(void*);
 };
 struct Obj
@@ -1502,7 +1503,7 @@ struct Obj
 };
 extern unsigned int DAT_0126fd98;
 Holder* __cdecl FUN_00c85750();
-void* FUN_00d22dc0::operator new(unsigned int n)
+void* FUN_00d22dc0::operator new(std::size_t n)
 {
     Holder* h = FUN_00c85750();
     Alloc* allocator = h->unk10;

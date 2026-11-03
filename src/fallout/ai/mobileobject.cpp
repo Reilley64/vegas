@@ -9013,7 +9013,6 @@ bool ActorStandIn::UpdateProcessLevel()
     return bResult;
 }
 
-void* __cdecl operator new(unsigned int);
 struct ProcessShim
 {
     virtual ~ProcessShim();
@@ -9539,7 +9538,6 @@ bool FUN_009b1450_Mobile::FUN_009b1450()
     return bResult;
 }
 
-void* __cdecl operator new(unsigned int);
 class MiddleHighProcess : public BaseProcess
 {
   public:

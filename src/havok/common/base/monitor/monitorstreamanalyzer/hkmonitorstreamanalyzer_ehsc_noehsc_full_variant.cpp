@@ -7,6 +7,7 @@
 
 // Returns the smaller of the two float arguments.
 // @fnv 0x00e0c260
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -254,10 +255,6 @@ int __cdecl GetTreeWidth(E0C860Node* node, int depth, int indent, bool onlyExpan
     return width;
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S_e0ce00_Alloc;
 struct S_e0ce00_Router
@@ -2705,7 +2702,7 @@ struct S00e0d180_Node
 
     int unk54;
 
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
 
         return reinterpret_cast<FUN_00e0d000Heap&>(FUN_00c85750()->heap()).allocate(size);
@@ -3650,10 +3647,6 @@ void __cdecl FUN_00e0d880(int parentArg, FUN_00e0d000* source)
 }
 
 namespace fnv_00e0d980 {
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 struct S_e0d980_Heap
 {
     int unk0;
@@ -4208,10 +4201,6 @@ S00e0ee00_Root* __cdecl S00e0ee00_Analyzer::FUN_00e0ee00(int aIndex, S_e0ce00_Bo
 }
 
 namespace fnv_00e0f710 {
-inline void* __cdecl operator new(unsigned int, void* w) throw()
-{
-    return w;
-}
 struct S_00e0f710_Heap
 {
     virtual void v00();

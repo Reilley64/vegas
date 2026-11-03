@@ -5,6 +5,8 @@
 
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/DBA7F0Ref.h"
 #include "fnv/decl/DBAFB0Handle.h"
 #include "fnv/decl/DataClassAccess.h"
@@ -546,10 +548,6 @@ struct FUN_00dc0500 : FUN_00d60830
     FUN_00dc0380 m_58;
     FUN_00dc0500(BSAudio* a1, BSAudio* a2);
 };
-inline void* operator new(size_t, void* p) throw()
-{
-    return p;
-}
 struct S_dbf1a0_Map
 {
     int unk00;
@@ -834,7 +832,7 @@ struct DataObj
     DataObj(const DataObj& o);
     ~DataObj();
     ObjHandle GetObjectHandle() const;
-    static void* operator new(unsigned int n);
+    static void* operator new(std::size_t n);
 };
 struct DataWorld
 {
@@ -906,7 +904,7 @@ template <typename T> struct PtrArray
         constructWithCopy(m_data + m_iElementCount++, 1, t);
     }
 };
-__forceinline void* DataObj::operator new(unsigned int n)
+__forceinline void* DataObj::operator new(std::size_t n)
 {
     return router().block().AllocateMemoryBlock(n);
 }

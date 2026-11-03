@@ -3,6 +3,8 @@
 
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <new>
+#include <cstddef>
 #include <cstring>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/FNV_MemoryManager.h"
@@ -246,7 +248,6 @@ FUN_00e94ab0::FUN_00e94ab0()
 namespace fnv_00e94c00 {
 struct NiMemObject
 {
-    static void* __cdecl operator new(size_t size);
 };
 struct FUN_00e94ab0 : NiMemObject
 {
@@ -391,12 +392,6 @@ struct FUN_00e947c0
     int unk4C;
     int unk50;
     FUN_00e947c0() throw();
-    static void* operator new(size_t n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::S_00e948f0_Pool *>(&::g_memoryManager))))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*)
-    {}
 };
 typedef FUN_00e947c0 S_00e948f0_Data;
 
@@ -686,7 +681,7 @@ struct S00e94b80_Heap
 {
 };
 static S00e94b80_Heap s00e94b80_heap;
-inline void* operator new(size_t n, S00e94b80_Heap) throw()
+inline void* operator new(std::size_t n, S00e94b80_Heap) throw()
 {
     return FUN_00aa13e0(n);
 }
@@ -722,10 +717,6 @@ void* __cdecl FUN_00e94b80(unsigned int a, void* apUnknown, unsigned int key, un
 struct P03MM
 {
 };
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 struct NiScreenTexture
 {
     char _0[0x1c];

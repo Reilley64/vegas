@@ -408,7 +408,6 @@ struct FUN_0040ab70_shell : public MagicItem
     void PreloadModels();
 };
 
-void operator delete(void*);
 
 struct FUN_0040b800_shell
 {

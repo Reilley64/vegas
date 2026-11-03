@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <new>
 #include "fnv/decl/FUN_00a50c70_cls.h"
 #include "fnv/decl/FUN_00a50d30_shell.h"
 #include "fnv/decl/FUN_00a57f20_cls.h"
@@ -191,11 +192,6 @@ bool FUN_00a51530_cls::EvaluateAtTime(float afTime, unsigned int unused, float* 
 }
 
 
-inline void* operator new(size_t, void* q)
-{
-    return q;
-}
-
 static const float kMaxCompScalar = 3.402823466e+38F;
 
 struct FBase
@@ -255,7 +251,6 @@ class Base51620
   public:
     Base51620(int iA, int iB, int iC) throw();
     virtual ~Base51620();
-    static void* operator new(size_t uiSize);
     int unk04;
     int unk08;
     int unk0C;

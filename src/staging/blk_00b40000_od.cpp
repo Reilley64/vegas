@@ -74,7 +74,6 @@ FUN_00b42980& FUN_00b42980::Set(unsigned int v, FUN_00b42980 const& src)
     return *this;
 }
 
-void* operator new(unsigned int);
 
 struct FUN_00b40150 : CIdvCamera
 {
@@ -481,18 +480,9 @@ int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
     return (m_obj.b - arg.b) >> 2;
 }
 
-void* operator new(unsigned int);
 
 extern char DAT_01140ef8[];
 
-struct FnvThrowObj
-{
-    void* vptr;
-    const char* what;
-    bool dofree;
-
-    void FUN_00ec78f1(int* value);
-};
 
 // @fnv 0x00b42df0
 void* __cdecl FUN_00b42df0(unsigned int count, void* allocator)
@@ -503,11 +493,7 @@ void* __cdecl FUN_00b42df0(unsigned int count, void* allocator)
     }
     else if (0xFFFFFFFFu / count < 8u)
     {
-        int value = 0;
-        FnvThrowObj kObj;
-        kObj.FUN_00ec78f1(&value);
-        kObj.vptr = ::DAT_010176f8;
-        _CxxThrowException(&kObj, (_ThrowInfo*)DAT_01140ef8);
+        throw std::bad_alloc();
     }
     return ::FUN_00401000(count << 3);
 }

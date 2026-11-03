@@ -375,8 +375,6 @@ struct GO
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_004ee9f0 : A51BF0Base

@@ -392,7 +392,6 @@ class CloningProcessA535;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(size_t n);
 };
 class FUN_00a3ca10
 {
@@ -420,10 +419,6 @@ class NiBoolInterpA535 : public FUN_00a3ca10
     }
     virtual ~NiBoolInterpA535() throw();
 
-    static void* operator new(size_t n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
 
     bool m_bBoolValue;
     NiPointerA535<void> m_spBoolData;

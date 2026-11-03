@@ -4,6 +4,7 @@
 
 // src/staging/blk_00e00000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -399,10 +400,6 @@ class E00390Object
   public:
     E00390Object(E00390FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 struct S_00e003d0_Arr
 {
@@ -795,10 +792,6 @@ char* __cdecl FUN_00e00af0(void);
 extern int DAT_010ce4bc;
 void* FUN_00e00b30();
 void* __cdecl FUN_00e00b50();
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 struct E00B60FinishFlag
 {
     int m_bFinishing;
@@ -3261,10 +3254,6 @@ struct VecList113
 };
 int FUN_00e16e20(int a, int b, float c);
 struct ExportPlacement;
-inline void* operator new(unsigned int, ExportPlacement* address)
-{
-    return address;
-}
 struct ExportRecord
 {
     const char* name;

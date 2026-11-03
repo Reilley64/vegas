@@ -106,8 +106,6 @@
 #include "fnv/symbols_011da000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
 class NiNode;
 class Tile;
 class TileMenu;

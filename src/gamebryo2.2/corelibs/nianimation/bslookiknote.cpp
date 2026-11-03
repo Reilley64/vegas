@@ -63,14 +63,13 @@ struct BSLookIKNote
     float m_f0c;
     float m_f10;
     void* m_p14;
-    void* operator new(size_t size);
     BSLookIKNote();
 };
 
 // @fnv 0x00a43fb0
 BSLookIKNote* __cdecl CreateLookIKNote()
 {
-    BSLookIKNote* pNote = static_cast<BSLookIKNote*>(BSLookIKNote::operator new(0x18));
+    BSLookIKNote* pNote = static_cast<BSLookIKNote*>(::operator new(0x18));
     if (pNote)
     {
         new ((void *)(pNote)) struct ::FUN_00a5d3a0();
@@ -519,8 +518,6 @@ class A43FF0Object
     A43FF0Object() throw();
     virtual ~A43FF0Object();
 
-    static void* operator new(size_t uiSize);
-    static void operator delete(void* pvMem);
 
     int unk04;
 };

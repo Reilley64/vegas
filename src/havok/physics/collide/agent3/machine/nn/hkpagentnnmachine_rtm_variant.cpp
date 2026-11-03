@@ -4,6 +4,7 @@
 
 // src/havok/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkpagentnnmachine.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include <windows.h>
 #include "fnv/decl/SearchObject.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -950,12 +951,6 @@ class PairBody
         parent = p;
         motion = t;
     }
-    static void* operator new(unsigned, void* p)
-    {
-        return p;
-    }
-    static void operator delete(void*, void*)
-    {}
     const MotionPose* GetMotionState() const
     {
         return static_cast<const MotionPose*>(motion);
@@ -1156,12 +1151,6 @@ class hkpCdBodyCFE3
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
-    inline void operator delete(void*, void*)
-    {}
     inline const hkMotionStateCFE3* GetMotionState() const
     {
         return reinterpret_cast<const hkMotionStateCFE3*>(m_pMotionState);
@@ -1710,12 +1699,6 @@ class hkpCdBodyCFT
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
-    inline void operator delete(void*, void*)
-    {}
     inline const hkMotionStateCFT* GetMotionState() const
     {
         return reinterpret_cast<const hkMotionStateCFT*>(m_pMotionState);
@@ -2360,12 +2343,6 @@ class hkpCdBodyProcessAgentCFEDD0
         m_parent = parent;
         m_pMotionState = t;
     }
-    inline void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
-    inline void operator delete(void*, void*)
-    {}
     inline const hkMotionStateProcessAgentCFEDD0* GetMotionState() const
     {
         return reinterpret_cast<const hkMotionStateProcessAgentCFEDD0*>(m_pMotionState);

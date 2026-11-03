@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/transform/hkptransformagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/transform/hkptransformagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include "fnv/decl/FUN_00cfbbe0_cls.h"
@@ -1296,7 +1297,7 @@ struct S_00d43030_RefObj {
     short m_sReferenceCount;
     virtual ~S_00d43030_RefObj() throw();
     __forceinline S_00d43030_RefObj() throw() { m_sReferenceCount = 1; }
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(std::size_t nbytes)
     {
         S_00d43030_RefObj* b = static_cast<S_00d43030_RefObj*>((void*)static_cast<S_00d43030_Router*>(FUN_00c85750())->heap().allocate(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

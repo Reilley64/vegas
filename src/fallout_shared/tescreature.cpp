@@ -1638,8 +1638,6 @@ void Host_5f7c20::Init()
     reinterpret_cast<::Holder *>(this)->FUN_00485680();
 }
 
-void* operator new(unsigned int);
-void operator delete(void*);
 struct CreatureRecordFile
 {
     void ReadChunkInt(void*);

@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/A5D6E0This.h"
@@ -108,7 +109,6 @@ NiPixelData::NiPixelData(unsigned int width, unsigned int height, const NiPixelF
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, size_t);
 };
 
 void ReleaseSpawnedRefs(void*);
@@ -118,7 +118,7 @@ void* FUN_00a7c450(void* pThis, int, unsigned int flags)
 {
     ReleaseSpawnedRefs(pThis);
     if (flags & 1)
-        NiMemObject::operator delete(pThis, 0x74);
+        ::operator delete(pThis, 0x74);
     return pThis;
 }
 
@@ -232,10 +232,6 @@ struct SpawnedPixelData : NiObject
         unk6c = 0;
         unk64 = 0;
         unk68 = 1;
-    }
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
     }
 };
 
@@ -839,7 +835,6 @@ class NiPalette : public NiObject
     unsigned int unk1C;
     unsigned int unk20;
     NiPalette(const NiPalette& src) throw();
-    static void* __cdecl operator new(size_t size);
     void IncRefCount()
     {
         InterlockedIncrement((LONG*)&m_uiRefCount);

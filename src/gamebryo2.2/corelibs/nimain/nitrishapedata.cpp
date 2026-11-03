@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nitrishapedata.cpp: Obj, Blk, HolderA, HolderB and more (17 functions)
 
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -25,7 +26,6 @@ void FUN_00a7b8c0(void*);
 class NiMemObject
 {
   public:
-    static void __cdecl operator delete(void*, size_t);
 };
 
 // Calls FUN_00a7b8c0 on pThis, then frees pThis with NiMemObject::operator delete when flags has bit 1 set, and returns pThis.
@@ -140,10 +140,6 @@ struct Blk
     char pad[0xc];
     Blk* next;
     Blk* FreeBlock(unsigned int flags);
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<MemoryManagerDealloc&>(::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
 
 // Frees data, recursively frees the next block, and deletes this block when flags has bit 0 set; returns this.
@@ -173,10 +169,6 @@ struct Blk
         ::FUN_00aa10f0(data);
         if (next)
             reinterpret_cast<::Blk *>((next))->FreeBlock(1);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(reinterpret_cast<MemoryManagerDealloc&>(::g_memoryManager)))->FUN_00aa4060(p);
     }
 };
 
@@ -352,10 +344,6 @@ struct FUN_00a7b870
     unsigned short m_usElementCount;
     unsigned short* m_pusArray;
     FUN_00a7b870() throw();
-    static void* operator new[](size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
     void SetArray(unsigned short m_usPassCountLocal, unsigned short* pusArray)
     {
         if (m_usPassCountLocal && pusArray)
@@ -378,10 +366,6 @@ struct IndexBufferBlock
     unsigned int m_uiIndexCapacity;
     unsigned int m_uiUsedIndexCount;
     IndexBufferBlock* m_pkNext;
-    static void* operator new(size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
     IndexBufferBlock(unsigned int uiSize)
     {
         m_pIndices = (unsigned short*)::FUN_00aa1070(uiSize * 2);

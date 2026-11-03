@@ -2450,8 +2450,6 @@ struct XLoc
 struct XDoor
 {
     XDoor(XObj* p, float f, XRef* r);
-    static void* operator new(unsigned int sz);
-    static void operator delete(void*, unsigned int);
     char pad0[0x1a];
     unsigned char m1a;
     unsigned char m1b;
@@ -2743,8 +2741,6 @@ struct DNode : DObj
     unsigned unka8;
     DList* effects;
     unsigned unkb0;
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
     DNode(DArray*, bool);
 };
 struct DOneArg
@@ -2851,8 +2847,6 @@ struct DSkin : DOneArg
     unsigned unka0;
     unsigned unka4;
     unsigned unka8;
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
     DSkin(unsigned);
 };
 struct DEffect : DObj
@@ -2881,8 +2875,6 @@ struct DEffect : DObj
     unsigned unk58;
     unsigned unk5c;
     unsigned unk60;
-    static void* operator new(unsigned);
-    static void operator delete(void*, unsigned int);
     DEffect(unsigned, float, DArg*, DObj*, DVec, DVec, float, float, unsigned);
 };
 struct DParentInterface

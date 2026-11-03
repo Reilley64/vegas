@@ -1829,10 +1829,6 @@ struct FUN_00ee8910
     Binding* vertices;
     unsigned int unk28;
     Binding* pixels;
-    static void* operator new(size_t size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     FUN_00ee8910(char**, unsigned int, unsigned int);
     void AddVertex(unsigned int pass, ConstantEntry* entry, void* data)
     {

@@ -2,6 +2,7 @@
 // src/havok/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/visualdebugger/viewer/dynamics/hkpconstraintviewer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/ConstraintVisualizer.h"
@@ -583,7 +584,7 @@ struct FUN_00d69af0
     FUN_00d69af0();
     virtual ~FUN_00d69af0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00d69af0* b = static_cast<FUN_00d69af0*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nistream.cpp: NiStream, NiStreamImpl, ThisObj, Receiver and more (64 functions)
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstdlib>
@@ -374,12 +375,6 @@ class hkMemorySystemC68
 class hkFreeListMemorySystemC68 : public hkMemorySystemC68
 {
   public:
-    void* operator new(size_t, void* pvWhere)
-    {
-        return pvWhere;
-    }
-    void operator delete(void*, void*)
-    {}
     hkFreeListMemorySystemC68();
 };
 
@@ -396,14 +391,14 @@ class hkBaseSystemC68
 class hkReferencedObjectC68
 {
   public:
-    void* operator new(size_t uiBytes)
+    void* operator new(std::size_t uiBytes)
     {
         hkReferencedObjectC68* b =
             static_cast<hkReferencedObjectC68*>(GetMemoryRouterC68()->heap().AllocateMemoryBlock(uiBytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(uiBytes);
         return b;
     }
-    void operator delete(void* p, size_t)
+    void operator delete(void* p, std::size_t)
     {
         hkReferencedObjectC68* b = static_cast<hkReferencedObjectC68*>(p);
         GetMemoryRouterC68()->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -466,14 +461,6 @@ struct MemoryManagerC68
 class bhkSingletonC68
 {
   public:
-    void* operator new(size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC68 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    void operator delete(void* pvMem)
-    {
-        (*reinterpret_cast<::MemoryManagerC68 *>(&::g_memoryManager)).Deallocate(pvMem);
-    }
     bhkSingletonC68();
     unsigned int unk00;
     unsigned int unk04;
@@ -1053,7 +1040,6 @@ void CreateOrReleaseRef(const char* apPath, int p2, S_00a48070_Ref** ppRef, void
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 extern int DAT_010984ec;
 struct Obj
@@ -1068,7 +1054,7 @@ struct Obj
 // @fnv 0x00a48110
 void* FUN_00a48110()
 {
-    Obj* p = (Obj*)BSFadeNode::operator new(0x18);
+    Obj* p = (Obj*)::operator new(0x18);
     if (p)
     {
         new ((void *)(p)) struct ::FUN_00a5d3a0();
@@ -3293,7 +3279,6 @@ struct FUN_00a647f0_shell : public NiStream
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiTPrimitiveArray_ImageSpaceTexture___
 {
@@ -3372,7 +3357,7 @@ void FUN_00a647f0_shell::LoadGroups()
     {
         unsigned int uiSize;
         QLoadB(**(QBinStream**)&this->m_pUnderlyingStream, uiSize);
-        void* pvMem = BSFadeNode::operator new(sizeof(NiObjectGroup));
+        void* pvMem = ::operator new(sizeof(NiObjectGroup));
         NiObjectGroup* pkGroup = pvMem ? ((::fnv_00a647f0::NiObjectGroup *)(new ((void *)(((QGroupCtor*)pvMem))) ::FUN_00a8a620(uiSize))) : 0;
         ((QGroupArray*)&this->m_kObjectGroups)->SetAt(uiRenderPassIndex, pkGroup);
     }
@@ -5505,11 +5490,6 @@ class A660A0Heap
 class A660A0Object
 {
   public:
-    static void* operator new(size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a660a0::A660A0Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 };
 
 class A660A0MapBase : public A660A0Object

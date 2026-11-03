@@ -3,6 +3,7 @@
 // byte only under /MT /O2 /GS /EHs-c- /Gy (unit src/havok/physics/dynamics/world/broadphaseborder/hkpbroadphaseborder.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00c91620_Class.h"
@@ -490,7 +491,7 @@ struct hkReferencedObject
     {
         m_sReferenceCount = 1;
     }
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkReferencedObject* b = static_cast<hkReferencedObject*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

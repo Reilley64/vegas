@@ -186,10 +186,6 @@ struct FUN_00b8a9e0
     int unk84;
 
     FUN_00b8a9e0();
-    static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgr_cls *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct Sub18_cls

@@ -262,10 +262,6 @@ struct AA3460Pools
         }
     }
 
-    static void operator delete(void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 // Deletes the AA3460Pools object at DAT_011f622c and clears the pointer.

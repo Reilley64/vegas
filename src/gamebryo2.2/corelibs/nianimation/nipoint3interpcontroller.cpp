@@ -14,7 +14,6 @@
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiPoint3
 {
@@ -31,7 +30,7 @@ void* FUN_00a57c20(void* self, int, unsigned short usIndex)
 {
     NiPoint3 kValue;
     (*(GetPoint3Fn**)self)[0xec / 4](self, &kValue);
-    void* pMemory = BSFadeNode::operator new(0x20);
+    void* pMemory = ::operator new(0x20);
     NiPoint3InterpolatorStandIn* pInterpolator = (NiPoint3InterpolatorStandIn*)pMemory;
     if (pInterpolator)
         return pInterpolator->FUN_00a49650(kValue);

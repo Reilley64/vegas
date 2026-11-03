@@ -72,7 +72,6 @@ struct NiD3DShaderProgramCreator;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct NiD3DShaderProgramFactory
@@ -86,10 +85,6 @@ struct CreatorHLSL
 {
     intptr_t vtbl;
     int field4;
-    static void* operator new(size_t sz)
-    {
-        return BSFadeNode::operator new(sz);
-    }
     CreatorHLSL()
     {
         vtbl = (intptr_t)&DAT_010f0a90;
@@ -320,10 +315,6 @@ struct BooleanKey
     int _0;
     int _4;
     ~BooleanKey();
-    void* operator new[](size_t s)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a2cdc0::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(s);
-    }
 };
 // @fnv 0x00a2cdc0
 BooleanKey* __cdecl FUN_00a2cdc0(NiStream& kStream, unsigned int uiElementCount)
@@ -857,13 +848,12 @@ void FUN_00e91190_Holder::SetFlag(bool b)
 namespace fnv_00e916d0 {
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 
 // @fnv 0x00e916d0
 void* FUN_00e916d0()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x94);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x94);
     if (p)
     {
         new ((void *)(p)) ::FUN_00a981d0();
@@ -1457,7 +1447,6 @@ struct ScriptX
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct FUN_00e8a260 : BSFadeNode
 {
@@ -3699,10 +3688,6 @@ struct Renderer_e91590 : RendererBase
     {
         m_b1114 = false;
         std::memmove(&m_kCreateDesc, desc, sizeof(CreateDesc));
-    }
-    static void* operator new(size_t sz)
-    {
-        return BSFadeNode::operator new(sz);
     }
 };
 
@@ -8044,7 +8029,7 @@ extern int DAT_010f049c;
 // @fnv 0x00e901a0
 NiDX9RenderedCubeMapData* __cdecl FUN_00e901a0(NiRenderedCubeMap* pkTexture, NiDX9Renderer* pkRenderer)
 {
-    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::BSFadeNode::operator new(0x70);
+    CubeMapBaseInit* pkShell = (CubeMapBaseInit*)::::operator new(0x70);
     if (pkShell)
     {
         reinterpret_cast<::FUN_00e8fd60_shell *>((pkShell))->InitWithArgs((intptr_t)pkTexture, (intptr_t)pkRenderer, 0);

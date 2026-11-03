@@ -157,7 +157,6 @@ void* FUN_00a97740_shell::DestroyRangeLODData(unsigned int auiFlags)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct Base00aa09a0
 {
@@ -167,7 +166,7 @@ extern int DAT_010a073c;
 // @fnv 0x00a97c00
 NiRangeLODData* CreateRangeLODData()
 {
-    NiRangeLODData* p = (NiRangeLODData*)BSFadeNode::operator new(0x28);
+    NiRangeLODData* p = (NiRangeLODData*)::operator new(0x28);
     if (p)
     {
         ((Base00aa09a0*)p)->FUN_00aa09a0();
@@ -183,7 +182,7 @@ NiRangeLODData* CreateRangeLODData()
 // @fnv 0x00a97c50
 NiRangeLODData* CopyRangeLODData(NiRangeLODData* self, int)
 {
-    NiRangeLODData* pkData = (NiRangeLODData*)BSFadeNode::operator new(0x28);
+    NiRangeLODData* pkData = (NiRangeLODData*)::operator new(0x28);
     if (pkData)
     {
         ((BaseCall*)pkData)->FUN_00aa09a0();
@@ -244,7 +243,6 @@ struct BA97CE0Point3
 class BA97CE0Object
 {
   public:
-    static void* operator new(size_t uiSize);
 
     BA97CE0Object() throw();
     virtual ~BA97CE0Object();

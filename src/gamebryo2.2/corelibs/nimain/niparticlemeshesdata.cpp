@@ -310,8 +310,6 @@ class A98B10Node
   public:
     A98B10Node(unsigned int uiChildren) throw();
 
-    static void* operator new(size_t uiSize) throw();
-    static void operator delete(void* pvMem) throw();
 
     virtual void vfn00();
     virtual void DeleteThis() throw();
@@ -722,13 +720,12 @@ void FUN_00a98c90_shell::UpdateParticleMeshes()
 
 struct NiMemObject
 {
-    static void* __cdecl operator new(size_t size);
 };
 // Allocates a 0x78-byte object, constructs it, sets the bool at offset 0x40 to true, and returns it.
 // @fnv 0x00a98d30
 FUN_00a98b10* __cdecl FUN_00a98d30()
 {
-    FUN_00a98b10* pObject = new (NiMemObject::operator new(0x78)) FUN_00a98b10();
+    FUN_00a98b10* pObject = new (::operator new(0x78)) FUN_00a98b10();
     *(bool*)&pObject->unk40 = true;
     return pObject;
 }

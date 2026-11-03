@@ -855,7 +855,6 @@ struct FUN_0066d410_shell
 {
     void FUN_0066d410();
 };
-void __cdecl operator delete(void* p, unsigned int flags);
 struct FUN_0056d5c0_Class
 {
     void* FUN_0056d5c0(unsigned int flags);
@@ -2528,8 +2527,6 @@ struct FUN_004f91b0
     unsigned int vtable, refCount, name;
     BSSoundHandleEx handle;
     FUN_004f91b0();
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     void IncRefCount();
     void DecRefCount();
 };

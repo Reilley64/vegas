@@ -88,13 +88,12 @@ extern int DAT_0109a3ac;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a55470
 void* __cdecl FUN_00a55470()
 {
-    void* p = BSFadeNode::operator new(0x40);
+    void* p = ::operator new(0x40);
     if (p)
     {
         new ((void *)(p)) class ::FUN_00a36890();
@@ -181,7 +180,7 @@ struct FUN_00a55510_shell : NiBlendQuaternionInterpolator
 // @fnv 0x00a55510
 void* FUN_00a55510_shell::CloneInterpolator(void* kCloning)
 {
-    void* pkObject = BSFadeNode::operator new(0x40);
+    void* pkObject = ::operator new(0x40);
     if (pkObject)
     {
         new ((void *)(pkObject)) class ::FUN_00a36890();

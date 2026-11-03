@@ -763,7 +763,6 @@ namespace sead090 {
 class Node
 {
   public:
-    static void* operator new(unsigned int uiSize);
 
     Node() throw();
 
@@ -2394,14 +2393,7 @@ struct Point139
     {}
     Point139(float _x, float _y, float _z) : x(_x), y(_y), z(_z)
     {}
-    static void* operator new[](unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(((Alloc139&)(*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::FUN_00aa4060_Class *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    };
+    ;
     Point139 operator-(const Point139& b) const
     {
         return Point139(x - b.x, y - b.y, z - b.z);

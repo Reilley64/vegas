@@ -171,7 +171,6 @@
 class SpellItem : public TESForm
 {
 };
-void __cdecl operator delete(void* pointer);
 
 class StageLoadVirtuals
 {

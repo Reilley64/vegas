@@ -132,6 +132,5 @@ class LeveledObject
     ContainerItemExtra* extra;
 };
 extern LeveledObject* DAT_011c8e64;
-void* operator new(unsigned int);
 #pragma intrinsic(_alloca)
 #endif

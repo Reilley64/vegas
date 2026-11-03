@@ -178,7 +178,6 @@ S_008258a0_Effect* FUN_008258a0(int aiArg0, int aiArg1, int aiArg2)
     return new S_008258a0_Effect(aiArg0, aiArg1, aiArg2);
 }
 
-void* operator new(unsigned int size) throw();
 
 struct ActiveEffect;
 

@@ -536,14 +536,6 @@ struct TreadTransformEntry
     NiQuatTransform second;
     NiFixedString name;
     TreadTransformEntry();
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(::g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 class NiRefObject
 {

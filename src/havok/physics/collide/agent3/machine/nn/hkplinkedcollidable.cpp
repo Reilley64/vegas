@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent3/machine/nn/hkplinkedcollidable.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d04000.h"
 #include "fnv/symbols_00d08000.h"
@@ -37,12 +38,6 @@ void FUN_00d08210_Collidable::UpdateCollisionIndices()
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 
 class hkMemoryAllocatorD082;
 

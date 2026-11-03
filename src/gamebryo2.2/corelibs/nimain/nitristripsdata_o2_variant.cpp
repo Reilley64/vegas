@@ -867,7 +867,6 @@ FUN_00a76040::~FUN_00a76040()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct StripFactoryHeader
@@ -878,7 +877,7 @@ struct StripFactoryHeader
 // @fnv 0x00a75ec0
 NiTriBasedGeomData* FUN_00a75ec0(NiTriBasedGeomData*)
 {
-    NiTriStripsData* p = (NiTriStripsData*)BSFadeNode::operator new(sizeof(NiTriStripsData));
+    NiTriStripsData* p = (NiTriStripsData*)::operator new(sizeof(NiTriStripsData));
     if (p)
     {
         InitializeTriBasedGeomData(p);

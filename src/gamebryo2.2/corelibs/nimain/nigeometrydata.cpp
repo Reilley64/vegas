@@ -895,10 +895,6 @@ struct NormalVec
     float z;
     NormalVec()
     {}
-    static void* operator new[](size_t bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryHeap *>(&::g_memoryManager))))->FUN_00aa3e40(bytes);
-    }
 };
 
 struct GeomNormals : public NiGeometryData
@@ -1229,14 +1225,6 @@ class NormalA66A
     NormalA66A()
     {}
 
-    static void* operator new[](size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00a5e3a0_Helper*)&(*reinterpret_cast<::fnv_00a66a60::MemoryManager *>(&::g_memoryManager)))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete[](void* pvMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00a66a60::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(pvMem);
-    }
 };
 
 class GeometryDataA66A
@@ -2264,10 +2252,6 @@ class StreamEA0
 
 struct AllocEA0
 {
-    static void* operator new[](size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00a67ea0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 struct Point2EA0 : AllocEA0

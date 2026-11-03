@@ -2,6 +2,7 @@
 // src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance_o2_variant.cpp - flag-variant unit created 2026-10-17 by flag_variants.py for src/gamebryo2.2/corelibs/nimain/bsdismemberskininstance.cpp functions whose prologue its flags cannot
 // produce (frameless code in an /Od unit). Declarations copied from that unit's skeleton; move the functions to their real unit once identified.
 
+#include <new>
 #include "fnv/decl/A54440Hash.h"
 #include "fnv/decl/CloneObject.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -19,21 +20,16 @@ const NiRTTI BSDismemberSkinInstance::ms_kRTTI;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct _Call_a5d3a0
 {
     _Call_a5d3a0();
 };
 extern int DAT_01069a84;
-inline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
 // @fnv 0x00a6c8a0
 BSDismemberSkinInstance* FUN_00a6c8a0()
 {
-    BSDismemberSkinInstance* p = (BSDismemberSkinInstance*)BSFadeNode::operator new(0x40);
+    BSDismemberSkinInstance* p = (BSDismemberSkinInstance*)::operator new(0x40);
     if (p)
     {
         new (p) _Call_a5d3a0;
@@ -66,10 +62,6 @@ struct BytePairWord
     unsigned char uc2;
     unsigned short m_usTrailingValue;
 
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::P03MM *>(&::g_memoryManager))))->FUN_00aa3e40(size);
-    }
 };
 
 struct S00a6c720
@@ -142,10 +134,6 @@ struct S00a6c7c0 : _Call_a5d3a0
 
     S00a6c7c0() throw();
 
-    static void* operator new(size_t size) throw()
-    {
-        return BSFadeNode::operator new(size);
-    }
 
     S00a6c7c0* FUN_00a6c7c0(CloningProcess& kCloning);
 };
@@ -370,10 +358,6 @@ struct A6C900Partition
     unsigned char m_ucBones;
     unsigned short m_usVertices;
 
-    static void* operator new[](size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A6C900Heap *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
 };
 
 template <class T>

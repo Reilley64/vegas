@@ -49,10 +49,6 @@ struct KeyPair
     void* m_pFirst;
     void* m_pSecond;
 
-    static void* operator new(unsigned int auiSize) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(auiSize);
-    }
 
     KeyPair(void* apFirst, void* apSecond) throw() : m_pFirst(apFirst), m_pSecond(apSecond)
     {}
@@ -79,10 +75,6 @@ template <class T> struct NiPointer
 {
     T* ptr;
     ~NiPointer();
-    static void __cdecl operator delete[](void* memory)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MM *>(&::g_memoryManager))))->FUN_00aa4060(memory);
-    }
 };
 struct S_Interface
 {

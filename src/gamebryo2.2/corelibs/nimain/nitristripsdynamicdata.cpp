@@ -79,7 +79,6 @@ void FUN_00a92480_shell::FUN_00a92480(short value)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 struct FUN_00a75e20_shell
@@ -92,7 +91,7 @@ extern int DAT_0109fc54;
 // @fnv 0x00a923f0
 void* __cdecl FUN_00a923f0()
 {
-    void* pNode = BSFadeNode::operator new(0x54);
+    void* pNode = ::operator new(0x54);
     if (pNode)
     {
         char* pBytes = (char*)pNode;

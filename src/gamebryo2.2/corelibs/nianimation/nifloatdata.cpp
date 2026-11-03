@@ -105,7 +105,6 @@ void FUN_00a3ccb0_Cls::FUN_00a3ccb0(void* keys, unsigned int numKeys, int type)
 namespace fnv_00a3cd00 {
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t size);
 };
 
 
@@ -113,7 +112,7 @@ struct A51BF0Base
 // @fnv 0x00a3cd00
 NiFloatData* CreateNiFloatData()
 {
-    NiFloatData* object = static_cast<NiFloatData*>(A51BF0Base::operator new(0x18));
+    NiFloatData* object = static_cast<NiFloatData*>(::operator new(0x18));
 
     if (object)
     {

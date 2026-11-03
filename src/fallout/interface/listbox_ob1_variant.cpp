@@ -5,6 +5,7 @@
 
 // src/fallout/interface/listbox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/listbox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
 #include "fnv/decl/BSS.h"
 #include "fnv/decl/C7D8EE0List.h"
 #include "fnv/decl/Callees.h"
@@ -1008,8 +1009,6 @@ struct FUN_007a6310_Elem8
     int b;
     FUN_007a6310_Elem8();
 };
-void* __cdecl operator new(unsigned int size, void* where);
-void __cdecl operator delete(void* p, void* where);
 struct FUN_007a6310_cls
 {
     int unk00;
@@ -2085,11 +2084,6 @@ class AGListItem
     AGListItem* m_pNext;
     AGListItem() : m_iIndex(2000), m_pNext(0)
     {}
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::AGMemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* p);
 };
 class AGValueItem : public AGListItem
 {

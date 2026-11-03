@@ -93,7 +93,6 @@ bool FUN_0047fcb0_cls::ContainsName(const char* apName)
     return false;
 }
 
-void* __cdecl operator new(unsigned int);
 struct TaskQueueInterface
 {
     static void __cdecl CopyStringToBuffer(char*, unsigned int, const char*);

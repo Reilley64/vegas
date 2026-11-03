@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkserverprocesshandler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkserverprocesshandler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/DD8FE0_Stream.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -554,7 +555,7 @@ class FUN_00cf6da0
   public:
     FUN_00cf6da0(int iCapacity) throw();
 
-    static void* operator new(unsigned int uiSize) throw()
+    static void* operator new(std::size_t uiSize) throw()
     {
         return FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
     }
@@ -869,7 +870,7 @@ struct __declspec(novtable) RefObject
     unsigned short m_refs;
     RefObject() : m_refs(1)
     {}
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         RefObject* p = (RefObject*)FUN_00c85750().heap().Alloc(size);
         p->m_iElementCount = (unsigned short)size;

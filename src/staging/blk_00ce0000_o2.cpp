@@ -3,6 +3,7 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <new>
 #include <windows.h>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1107,10 +1108,6 @@ class MemoryManager
 class CF4840Saver
 {
   public:
-    void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     virtual void DeleteThis(bool bFree);
     int unk04;
     int unk08;
@@ -3594,10 +3591,6 @@ struct hkMemoryRouterX
     }
 };
 
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct hkArrayUtilX
 {
     static void __cdecl GrowArrayCapacity(hkMemoryAllocator& a, void* array, int reqElements, int sizeElem) throw();

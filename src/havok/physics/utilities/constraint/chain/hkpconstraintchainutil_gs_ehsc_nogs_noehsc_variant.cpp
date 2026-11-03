@@ -5,6 +5,7 @@
 
 // src/havok/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/constraint/chain/hkpconstraintchainutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/D10710Object.h"
@@ -186,12 +187,6 @@ struct ListB
     unsigned int m_3c;
 };
 int FUN_00e5b8f0(KeyOwnerA* a1, ListB* a2, OwnerC* a3, ...);
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct S_00e5c370_Alloc;
 struct __declspec(align(16)) S_00e5c370_Vec
 {
@@ -388,7 +383,7 @@ struct FUN_00e3b8f0 : RefObject
     int capacity;
     int unk24, unk28, unk2c, unk30, unk34, unk38, unk3c;
     FUN_00e3b8f0();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return allocateObject(size);
     }
@@ -400,7 +395,7 @@ struct FUN_00dd0530 : Edge
     Array<Node*> nodes;
     void* action;
     FUN_00dd0530(FUN_00e3b8f0*);
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         return allocateObject(size);
     }

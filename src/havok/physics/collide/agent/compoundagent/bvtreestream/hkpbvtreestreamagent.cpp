@@ -1023,10 +1023,6 @@ void* FUN_00d2e5a0(void* a1, void* a2, void* a3, void* a4)
 }
 }  // namespace fnv_00d2e5a0
 
-inline void* __cdecl operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct AllocationManager
 {

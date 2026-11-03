@@ -89,7 +89,6 @@ public:
 };
 struct BSFadeNode
 {
-    void* __cdecl operator new(size_t);
 };
 struct CtorHelper
 {
@@ -106,7 +105,7 @@ struct CloneHelper
 NiObject* CloneHelper::Clone(CloningProcess& kCloning)
 {
     NiPSysGravityFieldModifier* pkObject;
-    void* pMemory = BSFadeNode::operator new(0x48);
+    void* pMemory = ::operator new(0x48);
     if (pMemory)
         pkObject = ((CtorHelper*)pMemory)->Ctor();
     else
@@ -120,13 +119,12 @@ NiObject* CloneHelper::Clone(CloningProcess& kCloning)
 
 struct A51BF0Base
 {
-    static void* __cdecl operator new(size_t size);
 };
 
 // @fnv 0x00c2aa50
 NiPSysGravityFieldModifier* __cdecl CreateGravityFieldModifier()
 {
-    void* memory = A51BF0Base::operator new(0x48);
+    void* memory = ::operator new(0x48);
     if (memory != 0)
         return reinterpret_cast<CtorHelper*>(memory)->Ctor();
 

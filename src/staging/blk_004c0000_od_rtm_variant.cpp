@@ -4,6 +4,7 @@
 
 // src/staging/blk_004c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/BSShaderManager.h"
@@ -1012,13 +1013,9 @@ struct FUN_0066b0d0_Helper
 {
     void FUN_0066b0d0(int);
 };
-void* __cdecl operator new(unsigned int uiSize);
-void __cdecl operator delete(void* pvMem);
 class C4DF040Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem, unsigned int);
 };
 class C4DF040Point3
 {

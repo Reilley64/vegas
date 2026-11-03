@@ -220,7 +220,6 @@ unsigned short GetInterpControllerIndex(const char* pcControllerID)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct S1
 {
@@ -233,14 +232,14 @@ NiInterpolator* CreateInterpolatorByIndex(unsigned short usInterpolatorIndex)
 {
     if (usInterpolatorIndex == 0)
     {
-        void* p = BSFadeNode::operator new(0x18);
+        void* p = ::operator new(0x18);
         if (!p)
             return 0;
         return (NiInterpolator*)((void *)(new ((void *)(((S1*)p))) ::FUN_00a3c390(0.0f)));
     }
     if (usInterpolatorIndex == 1)
     {
-        void* p = BSFadeNode::operator new(0x18);
+        void* p = ::operator new(0x18);
         if (!p)
             return 0;
         return (NiInterpolator*)((void *)(new ((void *)(((S2*)p))) class ::FUN_00a532d0(0)));
@@ -604,14 +603,14 @@ NiBlendInterpolator* FUN_00c1bb20(unsigned short usVariant, bool bAccumulateAnim
 {
     if (usVariant == 0)
     {
-        void* p = BSFadeNode::operator new(0x34);
+        void* p = ::operator new(0x34);
         if (p)
             return ((::NiBlendInterpolator *)(new ((void *)(reinterpret_cast<FUN_00a40520_shell*>(p))) ::FUN_00a40520(bAccumulateAnimations, fWeightThreshold,
                                                                           ucArraySize)));
     }
     else if (usVariant == 1)
     {
-        void* p = BSFadeNode::operator new(0x34);
+        void* p = ::operator new(0x34);
         if (p)
             return ::ConstructBlendInterpolator((::NiBlendInterpolator *)(reinterpret_cast<FUN_00a56560_shell*>(p)), bAccumulateAnimations,
                                                                                         fWeightThreshold, ucArraySize, {});
@@ -705,7 +704,6 @@ struct CChildA : CBaseA
         m10 = 0;
         m14 = 0;
     }
-    static void* operator new(size_t size);
     void M(uintptr_t a, unsigned int b, unsigned int c);
 };
 
@@ -729,7 +727,7 @@ void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
 
         data->IncRefCount();
 
-        NiFloatInterpolator* floatMemory = static_cast<NiFloatInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
+        NiFloatInterpolator* floatMemory = static_cast<NiFloatInterpolator*>(::operator new(0x18));
         NiFloatInterpolator* floatInterpolator;
         if (floatMemory)
             floatInterpolator = new (floatMemory) NiFloatInterpolator(0);
@@ -744,7 +742,7 @@ void NiPSysEmitterCtlr::LinkObject(NiStream& stream)
         reinterpret_cast<unsigned char*>(data)[0x14] = 0;
         SetInterpolator(floatInterpolator, 0);
 
-        NiBoolInterpolator* boolMemory = static_cast<NiBoolInterpolator*>(NiPSysEmitterCtlr::operator new(0x18));
+        NiBoolInterpolator* boolMemory = static_cast<NiBoolInterpolator*>(::operator new(0x18));
         NiBoolInterpolator* boolInterpolator;
         if (boolMemory)
             boolInterpolator = ((::NiBoolInterpolator *)(reinterpret_cast<::S_00a53280_Foo *>((reinterpret_cast<NiBoolInterpController*>(boolMemory)))->FUN_00a53280(0)));
@@ -1442,7 +1440,6 @@ class CloningProcessC1C5;
 class TESObjectDoorController
 {
   public:
-    static void* operator new(size_t n);
 };
 
 class FUN_00c31260
@@ -1472,10 +1469,6 @@ class NiPSysEmitterCtlrC1C5 : public FUN_00c31260
     {}
     virtual ~NiPSysEmitterCtlrC1C5() throw();
 
-    static void* operator new(size_t n)
-    {
-        return TESObjectDoorController::operator new(n);
-    }
 
     NiPointerC1C5<void> m_spVisibilityInterpolator;
     float m_fParticlesToEmit;

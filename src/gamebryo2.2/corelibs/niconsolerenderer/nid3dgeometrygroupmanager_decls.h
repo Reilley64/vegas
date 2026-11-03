@@ -5,7 +5,6 @@
 class NiMemObject
 {
   public:
-    static void* operator new(size_t);
 };
 class Direct3DDeviceInterface
 {

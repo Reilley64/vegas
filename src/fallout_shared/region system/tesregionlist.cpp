@@ -34,7 +34,6 @@ bool TESRegionList::AddRegion(TESRegion* apRegion)
     return true;
 }
 
-void __cdecl operator delete(void*);
 struct FUN_004f6480_shell
 {
     void FUN_004f64b0();

@@ -5,6 +5,7 @@
 
 // @fnv 0x00a4cf50
 #include <cstdint>
+#include <new>
 #include "fnv/decl/FUN_00a57640_shell.h"
 #include "fnv/decl/FUN_00a6d290.h"
 #include "fnv/decl/NiAlphaController.h"
@@ -56,21 +57,16 @@ GlobalObjectO2_00a7b610* __cdecl FUN_00a4cf90()
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct NiFloatInterpController
 {
     NiFloatInterpController();
 };
 extern int DAT_01098ccc;
-inline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
 // @fnv 0x00a4d0d0
 void* FUN_00a4d0d0()
 {
-    void* p = BSFadeNode::operator new(0x38);
+    void* p = ::operator new(0x38);
     if (p)
     {
         new (p) NiFloatInterpController();

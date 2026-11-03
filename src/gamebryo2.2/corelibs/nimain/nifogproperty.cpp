@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/FUN_00a5d450_class.h"
@@ -135,11 +136,6 @@ struct CalleeA5d7a0
 
 
 
-void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
-
 // @fnv 0x00a99f60
 void* MyClass::FUN_00a99f60(int arg)
 {
@@ -177,10 +173,6 @@ struct NiFogProperty : NiProperty
     float m_fFogDepth;
     NiColor m_kFogTint;
 
-    static void* operator new(size_t, void* memory)
-    {
-        return memory;
-    }
 
     __forceinline NiFogProperty()
     {

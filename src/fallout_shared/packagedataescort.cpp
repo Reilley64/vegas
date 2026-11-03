@@ -139,7 +139,6 @@ FUN_0067bca0::~FUN_0067bca0()
 }
 
 namespace fnv_0067c330 {
-void* __cdecl operator new(unsigned int);
 struct BGSLoadFormBuffer
 {
 };

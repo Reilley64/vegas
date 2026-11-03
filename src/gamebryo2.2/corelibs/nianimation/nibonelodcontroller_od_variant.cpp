@@ -5,6 +5,7 @@
 // src/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/gamebryo2.2/corelibs/nianimation/nibonelodcontroller.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 #include <cstdint>
+#include <new>
 #include "fnv/decl/FUN_00a6d730_shell.h"
 #include "fnv/decl/FUN_00c53e40.h"
 #include "fnv/decl/NiTimeController.h"
@@ -119,7 +120,6 @@ void CloneableObj::FUN_00c533f0(NiControllerManager* a, CloningProcess* b)
     a->m38 = m38;
 }
 
-void operator delete(void*, size_t);
 struct S_00c53e10
 {
     void* FUN_00c53e10(unsigned int);

@@ -4,6 +4,7 @@
 
 // src/havok/physics/dynamics/world/hkpworld.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpworld.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <new>
@@ -1586,8 +1587,6 @@ static __forceinline void SaveBlob(ObjectWriter* writer,char* name,void* address
 struct WorldWatchDogHolder : hkpWorld {
     void* FUN_00c93570();
 };
-inline void* __cdecl operator new(unsigned int, void* p) { return p; }
-inline void __cdecl operator delete(void*, void*) { }
 struct hkpPhantom;
 struct ThreadMemHolder {
     int unk00;
@@ -4185,7 +4184,7 @@ public:
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjC97E* b = static_cast<hkRefObjC97E*>(hkRouterC97E::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -4416,7 +4415,7 @@ struct CFB240ContactMgrFactory {
     virtual ~CFB240ContactMgrFactory();
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
-    void* operator new(unsigned int n) {
+    void* operator new(std::size_t n) {
         CFB240ContactMgrFactory* b = static_cast<CFB240ContactMgrFactory*>(c912::router()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
@@ -5548,7 +5547,7 @@ struct FUN_00d065e0 {
     unsigned char active;
     unsigned char unk41, unk42, unk43;
     FUN_00d065e0() throw();
-    static void* operator new(unsigned int size)
+    static void* operator new(std::size_t size)
     {
         MatchRouter* router = (MatchRouter*)::FUN_00c85750();
         FUN_00d065e0* memory = (FUN_00d065e0*)router->heap->allocate(size);
@@ -6457,7 +6456,6 @@ public:__forceinline TYPE*val()const throw(); __forceinline operator TYPE*()cons
 ;
 template<class TYPE>__forceinline TYPE*TRP<TYPE>::val()const throw(){ return vp4; }
 struct TPNA;
-inline void*operator new(TS4,TPNA*p){ return p; }
 template<bool N>struct TTB{ typedef TTB<N>type; enum{ result=N}
 ; } ;
 typedef TTB<true>TTIP;
@@ -7220,8 +7218,8 @@ struct TPCO;
 extern const TC1 FUN_00d07830Class;
 struct hkpWorldQ;
 class FUN_00d07830:public TCO{
-public:__forceinline void*__cdecl operator new(TS4 nbytes){ ; TRO*b=static_cast<TRO*>(TMR::FUN_00c85750().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
-; return b; } __forceinline void*__cdecl operator new(TS4,void*p){
+public:__forceinline void*__cdecl operator new(std::size_t nbytes){ ; TRO*b=static_cast<TRO*>(TMR::FUN_00c85750().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
+; return b; } __forceinline void*__cdecl operator new(std::size_t,void*p){
 return p; } inline TB isFixed()const throw(); virtual void vs9()const throw();
 protected:friend class TW; friend class TWOU; friend class TWCU; friend class TS2;
 friend class TCS; friend class TAMU; FUN_00d07830(TW*world)throw(); ~FUN_00d07830()throw();
@@ -7619,7 +7617,6 @@ TYPE m_kStorage;};
 class hkMemoryAllocator
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
 virtual void*AllocateMemoryBlock(int numBytes)=0;
 virtual void ReleaseBlock(void*p,int numBytes)=0;public:
 enum MemoryState
@@ -7635,7 +7632,6 @@ ValueWrapper<void*>m_next;};
 class NineIntegerRecord
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}
 typedef hkMemoryAllocator Allocator_S;
 static NineIntegerRecord&__cdecl GetMonitorStream();inline Allocator_S&heap(){return*m_pStreamAllocator;}
 protected:
@@ -7652,7 +7648,7 @@ __forceinline hkBaseObject_S(){}
 class hkReferencedObject_S:public hkBaseObject_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}
 public:
 enum
 {
@@ -7750,7 +7746,7 @@ class hkQsTransform_S;
 class hkVector4_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline void operator=(const hkVector4_S&v);
 __forceinline void set(hkReal_S x,hkReal_S y,hkReal_S z,hkReal_S w=0);
 __forceinline void SetAllComponents(hkSimdRealParameter x);
@@ -7782,7 +7778,7 @@ return m_vComponents;
 class hkQuaternion_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 inline void SetProduct(const hkQuaternion_S&q0,const hkQuaternion_S&q1);
 __forceinline const hkVector4_S&getImag()const;
 public:
@@ -7792,7 +7788,7 @@ void setFlippedRotation(const hkVector4_S&from);};
 class hkQsTransform_S
 {
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
+__forceinline void*__cdecl operator new(std::size_t nbytes){;void*obj=NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes));;return obj;}
 __forceinline const hkVector4_S&getTranslation()const;
 __forceinline const hkQuaternion_S&getRotation()const;
 public:
@@ -7978,7 +7974,7 @@ class hkDebugDisplay:public hkReferencedObject_S,public hkSingleton<hkDebugDispl
 {
 friend class hkSingleton<hkDebugDisplay>;
 public:
-__forceinline void*__cdecl operator new(hk_size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(hk_size_t,void*p){return p;}__forceinline void*__cdecl operator new[](hk_size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
+__forceinline void*__cdecl operator new(std::size_t nbytes){;hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)));b->m_usMemSizeAndFlags=static_cast<hkUint16_S>(nbytes);;return b;}__forceinline void __cdecl operator delete(void*p){hkReferencedObject_S*b=static_cast<hkReferencedObject_S*>(p);;NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p,b->m_usMemSizeAndFlags);}__forceinline void*__cdecl operator new(std::size_t,void*p){return p;}__forceinline void*__cdecl operator new[](std::size_t,void*p){return p;}__forceinline void __cdecl operator delete(void*,void*){}__forceinline void __cdecl operator delete[](void*,void*){}class CommandArgument;
 hkDebugDisplay();
 ~hkDebugDisplay();
 void addDebugDisplayHandler(hkDebugDisplayHandler*debugDisplay);
@@ -8284,7 +8280,6 @@ public:
 };
 class bhkRefObject {
 public:
-    static void* operator new(unsigned int size) { return FUN_00aa13e0(size); }
     const void* m_vtbl;
     unsigned int unk04;
     unsigned int unk08;
@@ -8660,14 +8655,14 @@ class hkReferencedObjectCAA {
 public:
     virtual ~hkReferencedObjectCAA();
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         hkReferencedObjectCAA* b = static_cast<hkReferencedObjectCAA*>(((hkMemoryRouterCAA*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
 
-    void operator delete(void* p, unsigned int nbytes)
+    void operator delete(void* p, std::size_t nbytes)
     {
         ((hkMemoryRouterCAA*)FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
     }
@@ -9324,7 +9319,7 @@ struct CollisionInputCtor {
     unsigned short unk6e;
     ManifoldCtor* manifold;
     int unk74,unk78,unk7c;
-    static void* operator new(unsigned int n) { return worldAlloc(n); }
+    static void* operator new(std::size_t n) { return worldAlloc(n); }
     CollisionInputCtor() { unk64=0;unk04=0; }
 };
 

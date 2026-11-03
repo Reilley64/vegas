@@ -9,8 +9,6 @@
 class NiMemObjectAllocation
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 class ShadowSceneLight;
 class CloningProcess;

@@ -4,6 +4,7 @@
 
 #include <cstdint>
 #include "fnv/symbols_00aa1000.h"
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/ControllerOwner.h"
@@ -138,7 +139,7 @@ struct LcObject
     }
 };
 
-inline void* operator new(size_t, void* pv, int)
+inline void* operator new(std::size_t, void* pv, int)
 {
     return pv;
 }

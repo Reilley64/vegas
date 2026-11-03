@@ -628,7 +628,6 @@ bool __cdecl FUN_00481f10(TESObject* pObj)
 }
 
 namespace fnv_004818e0 {
-void* __cdecl operator new(unsigned int);
 namespace N {
 struct BSSimpleList
 {
@@ -1436,7 +1435,6 @@ bool FUN_00481d10_shell::FUN_00481d10(BaseFormComponent* other)
     return false;
 }
 
-void* __cdecl operator new(unsigned int);
 class InventoryStackRecord
 {
   public:

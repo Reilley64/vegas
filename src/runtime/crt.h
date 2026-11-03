@@ -64,6 +64,15 @@ int access(const char* path, int mode);
 // _getcwd: the current folder, or null when it does not fit in size.
 char* getcwd(char* buffer, int size);
 
+// The parts of _stat's result the game reads.
+struct FileStatus
+{
+    std::uint64_t size;
+    std::int64_t modified; // last write time, in seconds since 1970-01-01 UTC
+};
+// _stat: 0 and the file's status, or -1 when the path does not name a file.
+int stat(const char* path, FileStatus* status);
+
 } // namespace fnv::crt
 
 #endif

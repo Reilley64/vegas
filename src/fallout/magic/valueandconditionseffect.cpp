@@ -161,10 +161,6 @@ struct ValueModifier_b9743
     int unk48;
     int unk4c;
     ValueModifier_b9743(void* a, void* b, void* c);
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
 };
 
 // Allocates and constructs a ValueModifier_b9743 from the three given arguments, returning the new object.

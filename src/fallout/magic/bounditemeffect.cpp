@@ -358,11 +358,6 @@ class B085F0Effect
   public:
     B085F0Effect(MagicCaster* pkCaster, MagicItem* pkItem, EffectItem* pkEffectItem);
 
-    static void* operator new(unsigned int uiSize)
-    {
-        return FUN_00401000(uiSize);
-    }
-    static void operator delete(void* pvMem);
 
     int unk00;
     int unk04;
@@ -1200,7 +1195,6 @@ unsigned short BoundItemEffectSaveSizeLayout::FUN_00809a00(Actor* apActor)
 
 struct Actor;
 
-void* operator new(unsigned int);
 
 struct Obj12
 {
@@ -2257,8 +2251,6 @@ class BIShader
     virtual void v0bc();
     virtual void v0c0();
     virtual bool Init();  // +0xc4
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
     int unk04[14];
 };
 
@@ -2852,31 +2844,16 @@ struct FUN_00410360 : ExtraP
 {
     int u00, u04, u08, u0c, u10, u14, u18, u1c;
     FUN_00410360();
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
 };
 struct FUN_004bc550 : EntryP
 {
     int u04, u08;
     FUN_004bc550(TESBoundObject*, int);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
 };
 struct FUN_004bc650 : EntryP
 {
     int u04, u08;
     FUN_004bc650(EntryP*);
-    static void* operator new(unsigned int n)
-    {
-        return FUN_00401000(n);
-    }
-    static void operator delete(void*);
 };
 struct ArmorSlotsP
 {

@@ -176,10 +176,6 @@ struct FUN_00aa2d90 : NiBinaryStream
     unsigned char flag21;
 
     virtual ~FUN_00aa2d90();
-    static void operator delete(void* ptr)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::NiAlloc *>(&::g_memoryManager))))->FUN_00aa4060(ptr);
-    }
 };
 
 // When both flags are zero, passes buffer to FUN_00aa10f0, then calls FUN_00aa1d30.

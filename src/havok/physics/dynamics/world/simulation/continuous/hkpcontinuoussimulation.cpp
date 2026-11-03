@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -1241,7 +1242,6 @@ struct S_00d0d150_CollisionOutput {
     S_00d0d150_ToiInfo m_fTimeOfImpact;
 };
 
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
 
 template <typename T>
 struct S_00d0d150_Array {
@@ -3702,7 +3702,7 @@ struct FUN_00d10730 {
     FUN_00d10730();
     virtual ~FUN_00d10730();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00d10730* b = static_cast<FUN_00d10730*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

@@ -1527,8 +1527,6 @@ struct FUN_00497f20_shell : public Animation
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int);
-    static void __cdecl operator delete(void*, unsigned int);
 };
 
 struct TES
@@ -4424,8 +4422,6 @@ struct Root490
 };
 struct Seq490 : Root490
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Seq490(Group490*, Root490*);
     void GetTarget(unsigned int, char*);
     Group490* GetAnimGroup();

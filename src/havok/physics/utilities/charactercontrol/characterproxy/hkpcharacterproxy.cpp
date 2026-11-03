@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/charactercontrol/characterproxy/hkpcharacterproxy.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/Controller197.h"
 #include "fnv/decl/FUN_006212c0_shell.h"
@@ -229,7 +231,7 @@ struct FNVArray {
 struct FNVBuffers {
     FNVArray spare;
     FNVArray elements;
-    static void* operator new(unsigned int bytes) {
+    static void* operator new(std::size_t bytes) {
         return FUN_00c85750()->GetAllocator()->Allocate(bytes);
     }
 };
@@ -287,7 +289,6 @@ struct FUN_00cac120_cls {
     void FUN_00cadb00();
 
     FUN_00cac120_cls* FUN_00cac120(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00cadb00, then if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize, and returns this.
@@ -1492,7 +1493,6 @@ struct S_00caf4d0_Router {
 static __forceinline S_00caf4d0_Router* GetRouter37() throw() { return reinterpret_cast<S_00caf4d0_Router*>(FUN_00c85750()); }
 void ResizeAudioStream(S_00caf4d0_Heap& alloc, void* array, int elemSize) throw();
 
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
 
 struct __declspec(align(16)) S_00caf4d0_Vector4 {
     float x, y, z, w;
@@ -2961,7 +2961,6 @@ typedef S00cae900_TraitBool<false> S00cae900_TypeIsClass;
 template <typename T> struct S00cae900_IsPodType : public S00cae900_TraitBool<false> {};
 template <> struct S00cae900_IsPodType<S00cae900_Vec> : public S00cae900_TraitBool<true> {};
 struct S00cae900_PlacementNewArg;
-inline void* operator new(unsigned int, S00cae900_PlacementNewArg* p) { return p; }
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsPod) {}
 template <typename T> __forceinline void S00cae900_construct(T* t, int n, S00cae900_TypeIsClass) {
     for (int i = 0; i < n; ++i) {

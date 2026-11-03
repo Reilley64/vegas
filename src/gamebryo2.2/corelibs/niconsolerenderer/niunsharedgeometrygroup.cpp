@@ -4,6 +4,7 @@
 // Placeholder declarations
 
 #include <cstdint>
+#include <new>
 #include <cstring>
 #include "fnv/decl/FUN_00e98710_cls.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
@@ -49,10 +50,6 @@ struct NiGeometryBufferData
 {
     NiGeometryBufferData();
 };
-__forceinline void* __cdecl operator new(size_t, void* p)
-{
-    return p;
-}
 struct S
 {
     void CreateScreenTextureBufferData(NiScreenTexture* pkScreenTexture);
@@ -394,7 +391,6 @@ struct IDirect3DDevice9_E94
 class NiMemObject_E94
 {
   public:
-    static void* operator new(size_t uiSize);
 };
 class NiVBChipE94 : public NiMemObject_E94
 {

@@ -441,8 +441,6 @@ namespace std {
 float abs(float);
 int abs(int);
 }
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
 extern bool DAT_011dcfb0, DAT_011dcfb1;
 extern unsigned int DAT_011dcfac;
 extern BGSAcousticSpace* DAT_011dcfb8;

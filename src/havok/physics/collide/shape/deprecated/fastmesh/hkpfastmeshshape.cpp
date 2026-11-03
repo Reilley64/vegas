@@ -2,6 +2,7 @@
 // src/havok/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/fastmesh/hkpfastmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
 #include "havok/hkpFastMeshShape.h"
 
 union __declspec(intrin_type) __declspec(align(16)) __m128
@@ -14,10 +15,6 @@ extern "C" __m128 _mm_setzero_ps();
 extern "C" __m128 _mm_mul_ps(__m128 kA, __m128 kB);
 extern "C" __m128 _mm_load_ps(const float*);
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkVector4E48C
 {

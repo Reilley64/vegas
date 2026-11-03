@@ -3258,7 +3258,6 @@ void* FUN_007d64a0::DeleteThis(unsigned int flags)
 }  // namespace fnv_007d64a0
 
 namespace fnv_007d6ff0 {
-void* __cdecl operator new(unsigned int);
 struct Tile
 {
     struct Value;

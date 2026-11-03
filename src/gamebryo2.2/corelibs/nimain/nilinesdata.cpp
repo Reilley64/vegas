@@ -5,6 +5,7 @@
 
 // @fnv 0x00a8a7b0
 #include <cstdint>
+#include <new>
 #include "fnv/decl/GeomData.h"
 #include "fnv/decl/GeometryEquality.h"
 #include "fnv/decl/ViewerStrings.h"
@@ -27,7 +28,6 @@ struct FUN_00a68800_shell
 
 extern int DAT_0109f23c;
 
-void __cdecl operator delete(void* p, size_t size);
 
 struct FUN_00a8a7c0_shell : public FUN_00a68800_shell
 {

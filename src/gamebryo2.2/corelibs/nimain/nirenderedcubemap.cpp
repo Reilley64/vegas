@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <cstdint>
+#include <new>
 #include "fnv/decl/FUN_00a5c240_shell.h"
 #include "fnv/symbols_00a5f000.h"
 #include "fnv/symbols_00a8f000.h"
@@ -42,8 +43,6 @@ void* __cdecl FUN_00ee82a0()
     return &(*reinterpret_cast<void * *>(&::g_012708e4));
 }
 
-void __cdecl operator delete(void* p, size_t size);
-void* __cdecl operator new(size_t);
 struct NiRenderedCubeMap
 {
     virtual ~NiRenderedCubeMap();
@@ -239,7 +238,6 @@ inline bool S_00ee8330_IsPowerOf2(unsigned int ui)
 
 struct S_00ee8330_CubeMap
 {
-    static void* operator new(size_t n);
     S_00ee8330_CubeMap() throw();
     virtual ~S_00ee8330_CubeMap();
     int unk04;

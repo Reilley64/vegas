@@ -2,6 +2,7 @@
 #ifndef FNV_NIFIXEDSTRING_FACEGEN_H
 #define FNV_NIFIXEDSTRING_FACEGEN_H
 
+#include <new>
 #include <cstring>
 #include "fnv/decl/FGOwner.h"
 #include "fnv/decl/FUN_004048e0_cls.h"
@@ -39,8 +40,6 @@ template <class T> class BSStringT
 class NiMemObject
 {
   public:
-    static void* operator new(size_t);
-    static void operator delete(void*, size_t);
 };
 namespace ActorValue { enum Index; }
 class TESRecipe
@@ -109,7 +108,6 @@ struct TextureBasis
 struct FaceGenTextureFile
 {
     ~FaceGenTextureFile();
-    static void operator delete(void*);
     unsigned int flags;
     TextureBasis basis[2];
 };
@@ -151,6 +149,4 @@ FaceGenTextureFile* FUN_00659780(const char*);
 extern float DAT_01065b9c;
 extern float DAT_01065b98;
 struct NiPoint3StartupTable;
-void* __cdecl operator new[](size_t);
-void __cdecl operator delete[](void*);
 #endif

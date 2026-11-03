@@ -70,7 +70,6 @@ void FUN_00e951e0(NiGeometryBufferData* pkBuffData, unsigned int uiStream)
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 
@@ -81,7 +80,7 @@ NiGeometryGroup* __cdecl GetGeometryGroup()
     NiGeometryGroup* pkGroup = DAT_0126fa34;
     if (pkGroup == 0)
     {
-        pkGroup = static_cast<NiGeometryGroup*>(BSFadeNode::operator new(0xc));
+        pkGroup = static_cast<NiGeometryGroup*>(::operator new(0xc));
         if (pkGroup != 0)
         {
             pkGroup->NiGeometryGroup::NiGeometryGroup();
@@ -307,10 +306,6 @@ inline bool IsKindOfInline(const RttiStub* pkRTTI, GeomDataStub* pkObject)
 struct BuffDataStub
 {
     BuffDataStub() throw();
-    static void* operator new(size_t uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemMgrStub *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
     int unk00;
     unsigned int m_uiValue1;
     int unk08;
@@ -459,7 +454,6 @@ struct Group
 };
 struct NiMemObject
 {
-    static void* __cdecl operator new(size_t uiSize);
 };
 extern NiGeometryGroup* DAT_0126fa38;
 
@@ -468,7 +462,7 @@ extern NiGeometryGroup* DAT_0126fa38;
 NiGeometryGroup* __cdecl GetNiGeometryGroup() throw()
 {
     if (!DAT_0126fa38)
-        DAT_0126fa38 = new (NiMemObject::operator new(sizeof(NiDynamicGeometryGroup))) NiDynamicGeometryGroup;
+        DAT_0126fa38 = new (::operator new(sizeof(NiDynamicGeometryGroup))) NiDynamicGeometryGroup;
     return DAT_0126fa38;
 }
 
@@ -492,10 +486,6 @@ struct BufferSetData
 
     BufferSetData() : unk00(0), unk04(0), size(0), buffer(0), unk10(0)
     {}
-    static void* operator new(size_t bytes)
-    {
-        return FUN_00aa13e0(bytes);
-    }
     void SetBuffer(VertexBufferRef* value)
     {
         if (buffer)
@@ -543,10 +533,6 @@ struct FUN_00e952c0 : NiTMapBaseStub
     int m_04;
     void* m_08;
     virtual ~FUN_00e952c0();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e952c0::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // Destructor that calls RemoveAll and then frees the m_08 alias via _NiFreeAlias.
 // @fnv 0x00e952c0
@@ -570,10 +556,6 @@ struct FUN_00e95340
     int _04;
     void* _08;
     virtual ~FUN_00e95340();
-    void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00e95340::MemoryManager *>(&::g_memoryManager))))->FUN_00aa4060(p);
-    }
 };
 // @fnv 0x00e95340
 FUN_00e95340::~FUN_00e95340()
@@ -780,7 +762,6 @@ struct DynamicSetData
 };
 struct DynamicChipData
 {
-    static void operator delete(void*, size_t);
     ~DynamicChipData()
     {
         buffer = 0;

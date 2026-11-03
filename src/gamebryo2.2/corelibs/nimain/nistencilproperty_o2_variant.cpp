@@ -78,13 +78,12 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 // @fnv 0x00a6f410
 void* __cdecl FUN_00a6f410()
 {
-    void* p = BSFadeNode::operator new(0x24);
+    void* p = ::operator new(0x24);
     if (p)
     {
         new ((void *)(((NiProperty*)p))) struct ::FUN_00a5c200();
@@ -167,7 +166,7 @@ void* FUN_00a6f390::MakeClone(CloningProcess& kCloning)
 {
     if (*(unsigned int*)((char*)this + 0xc))
     {
-        FUN_00a6f390* pkObject = (FUN_00a6f390*)BSFadeNode::operator new(0x24);
+        FUN_00a6f390* pkObject = (FUN_00a6f390*)::operator new(0x24);
         if (pkObject)
         {
             new ((void *)(((NiPropertyCtorStub*)pkObject))) struct ::FUN_00a5c200();
@@ -588,7 +587,7 @@ class StencilRefObj
 // @fnv 0x00a6f450
 void FUN_00a6f450()
 {
-    StencilRefObj* obj = (StencilRefObj*)BSFadeNode::operator new(0x24);
+    StencilRefObj* obj = (StencilRefObj*)::operator new(0x24);
     if (obj != 0)
     {
         new ((void *)(reinterpret_cast<NiProperty*>(obj))) struct ::FUN_00a5c200();

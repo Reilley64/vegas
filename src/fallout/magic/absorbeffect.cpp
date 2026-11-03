@@ -2,6 +2,7 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -446,8 +447,6 @@ struct EffectItem;
 
 struct F40ActiveEffect
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 
     virtual void vfunc00();
     virtual void vfunc04();
@@ -535,10 +534,6 @@ struct AbsorbRecord
     unsigned int unk50;
     unsigned int unk54;
     unsigned int unk58;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
     AbsorbRecord(unsigned int a, unsigned int b, unsigned int c);
 };
 
@@ -1359,7 +1354,7 @@ struct BoltExtraData
 {
     int unk00, unk04, unk08, unk0c;
     BoltExtraData();
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }
@@ -1373,7 +1368,7 @@ struct BoltNode
 {
     int unk00[0xac / 4];
     BoltNode(int iChildren);
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return FUN_00aa13e0(uiSize);
     }

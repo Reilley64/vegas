@@ -1482,10 +1482,6 @@ class E00390Object
   public:
     E00390Object(E00390FinishFlag flag);
 
-    static void* operator new(unsigned int, void* p)
-    {
-        return p;
-    }
 };
 
 // @fnv 0x00e00390
@@ -2027,7 +2023,6 @@ struct FUN_00e00990_cls
 
 
     FUN_00e00990_cls* DestroyIfFlagged(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Calls FUN_00e48740, then if bit 0 of acFlags is set frees this through the allocator from FUN_00c85750 using m_uSize, and returns this.
@@ -2169,10 +2164,6 @@ void* __cdecl FUN_00e00b50()
     return &(*reinterpret_cast<int *>(&::g_0126df40));
 }
 
-inline void* operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 
 struct E00B60FinishFlag
 {
@@ -3497,7 +3488,6 @@ struct FUN_00e025a0_cls
     int m_10;
 
     FUN_00e025a0_cls* FUN_00e025a0(unsigned char acFlags);
-    static void operator delete(void* apMemory) throw();
 };
 
 // Frees the array buffer via the audio allocator, resets the object's fields and vtable, and optionally frees the object itself when acFlags bit 0 is set.
@@ -7601,10 +7591,6 @@ int FUN_00e16e20(int a, int b, float afThreshold)
 }
 
 struct ExportPlacement;
-inline void* operator new(unsigned int, ExportPlacement* address)
-{
-    return address;
-}
 
 struct ExportRecord
 {

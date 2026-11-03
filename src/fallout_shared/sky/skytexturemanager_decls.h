@@ -6,8 +6,6 @@
 #include "fnv/symbols_01202000.h"
 #include "skytexturemanager_task_decls.h"
 
-void* __cdecl operator new(unsigned int size);
-void __cdecl operator delete(void* object);
 
 class SkyTextureManager
 {

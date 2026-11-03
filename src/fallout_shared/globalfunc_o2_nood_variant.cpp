@@ -3,6 +3,7 @@
 // say /MT /O2 /GS /EHsc /Gy /GF (unit src/fallout_shared/globalfunc.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions to their real
 // unit once identified.
 
+#include <cstddef>
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/FUN_009611e0_shell.h"
 #include "fnv/decl/FUN_00a59d30_C.h"
@@ -199,13 +200,13 @@ struct MouseSpringAction
     unsigned short m_usMemSizeAndFlags;
     short unk06;
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         MouseSpringAction* p = (MouseSpringAction*)FUN_00c85750()->heap().allocateChunk(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, unsigned int nbytes);
+    static void operator delete(void* p, std::size_t nbytes);
 
     MouseSpringAction(const hkVector4& kPositionInRbLocal, const hkVector4& kMousePositionInWorld, float fSpringDamping,
                       float fSpringElasticity, float fObjectDamping, void* pkBody, int iUserData);

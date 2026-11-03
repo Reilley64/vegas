@@ -93,10 +93,6 @@ SpawnedCtlr* SpawnedHost::CreateSpawnedCtlr(void* a1)
 struct SpawnedFloat
 {
     unsigned int unk00[6];
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
 
     SpawnedFloat(float value) throw();
 };

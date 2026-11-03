@@ -50,7 +50,6 @@ extern int DAT_01097dd4;
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t size);
 };
 
 struct _Call_a5d3a0
@@ -61,7 +60,7 @@ struct _Call_a5d3a0
 // @fnv 0x00a44940
 void* __cdecl FUN_00a44940()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         _Call_a5d3a0* pFadeNode = (_Call_a5d3a0*)p;
@@ -292,10 +291,6 @@ class A4AF0MemoryManager
   public:
 };
 
-inline void* __cdecl operator new[](size_t uiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::A4AF0MemoryManager *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-}
 
 class A4AF0BinaryStream
 {

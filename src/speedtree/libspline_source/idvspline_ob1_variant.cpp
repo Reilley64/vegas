@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/speedtree/libspline_source/idvspline.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <new>
 #include <cstdlib>
 #include "fnv/decl/FNVTokenParser.h"
 #include "fnv/decl/FUN_00594c80_cls.h"
@@ -623,12 +624,6 @@ struct FUN_00449fd0
 struct FUN_00b37660;
 struct FUN_00b377c0
 {
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00401000(size);
-    }
-    static void operator delete(void* p)
-    {}
     FUN_00b377c0(FUN_00b37660* src);
     float x, y, z;
     FUN_00b31270 unk0c;
@@ -802,10 +797,6 @@ struct Sound_b37a
     ~Sound_b37a()
     {
         reinterpret_cast<::FUN_00b37880_class *>(this)->FUN_00b37880_class::~FUN_00b37880_class();
-    }
-    static void operator delete(void* p)
-    {
-        ::FUN_00401030(p);
     }
 };
 
@@ -3196,12 +3187,6 @@ ElemB5A0* __cdecl FUN_00b3b5a0(ElemB5A0* _First, ElemB5A0* _Last, ElemB5A0* _Des
 }
 }  // namespace fnv_00b3b5a0
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
-inline void operator delete(void*, void*)
-{}
 struct ElQ
 {
     int m[6];
@@ -3620,10 +3605,6 @@ ElemMOVE* __cdecl FUN_00b3b6f0(ElemMOVE* _First, ElemMOVE* _Last, ElemMOVE* _Des
 }  // namespace fnv_00b3b6f0
 
 namespace fnv_00b3b880 {
-inline void* __cdecl operator new(unsigned int, void* where)
-{
-    return where;
-}
 
 namespace std {
 
@@ -3812,7 +3793,6 @@ NodeX* Tree::FUN_00b3b880()
 }
 }  // namespace fnv_00b3b880
 
-void __cdecl operator delete(void*);
 void CopyStringStorage(char*, unsigned int, const char*, unsigned int);
 namespace std {
 template <class T> struct char_traits;
@@ -3892,7 +3872,6 @@ class out_of_range : public logic_error
     {}
 };
 }
-void __cdecl operator delete(void*);
 namespace std {
 template <class A, class B> struct pair
 {
@@ -4365,7 +4344,6 @@ float FUN_00b37ad0_class::FUN_00b37ad0(float a2)
 }
 
 namespace fnv_00b397f0 {
-void operator delete(void*);
 
 class GlobalObject_00b3f100
 {
@@ -5045,7 +5023,6 @@ void FUN_00b3b100_Iterator::FUN_00b3b100()
 }  // namespace fnv_00b3b100
 
 namespace fnv_00b3b330 {
-extern void __cdecl operator delete(void*) throw();
 void __cdecl CopyChars(char*, unsigned int, const char*, unsigned int);
 void __cdecl MoveChars(char*, unsigned int, const char*, unsigned int);
 void __cdecl RangeError();
@@ -5188,14 +5165,6 @@ struct TreeNode
     {}
 };
 
-inline void* __cdecl operator new(size_t, void* _Where) throw()
-{
-    return _Where;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
-extern void __cdecl operator delete(void*) throw();
-extern void* __cdecl operator new(size_t);
 namespace std {
 class exception
 {
@@ -5259,7 +5228,6 @@ struct SplinePoint
         return (&x)[component];
     }
 };
-void __cdecl operator delete(void*);
 __forceinline void DeallocQ(void* p)
 {
     operator delete(p);

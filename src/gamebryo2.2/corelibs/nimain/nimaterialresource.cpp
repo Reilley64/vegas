@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00be0ae0
+#include <new>
+#include <cstddef>
 #include "fnv/decl/FixedStringOwner.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_0126f000.h"
@@ -12,9 +14,7 @@ char const* const* __cdecl FUN_00be0ae0()
     return &(*reinterpret_cast<const char *const *>(&::g_0126f9ac));
 }
 
-void __cdecl operator delete(void* p, size_t flags);
-void* __cdecl operator new(size_t size, unsigned int flags);
-void* __cdecl operator new(size_t size);
+void* __cdecl operator new(std::size_t size, unsigned int flags);
 
 struct FUN_00eea750_shell
 {

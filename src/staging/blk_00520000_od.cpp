@@ -325,7 +325,6 @@ struct FUN_005277a0_Class
     void* FUN_005277a0(unsigned int flags);
 };
 
-void __cdecl operator delete(void*);
 struct FUN_00528be0_Class
 {
     void FUN_00528be0();
@@ -733,7 +732,6 @@ struct FUN_00526c90
     FUN_00526c90();
 };
 
-void* __cdecl operator new(unsigned int);
 
 // @fnv 0x00526e10
 void FUN_00526e10()

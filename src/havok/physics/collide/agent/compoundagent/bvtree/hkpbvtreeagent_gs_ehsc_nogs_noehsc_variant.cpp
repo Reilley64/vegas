@@ -5,6 +5,8 @@
 
 // src/havok/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/compoundagent/bvtree/hkpbvtreeagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <new>
+#include <cstddef>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_00d2f980.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -153,7 +155,7 @@ extern "C" D2FA00MemoryRouter& __cdecl FUN_00c85750();
 class D2FA00ReferencedObject
 {
   public:
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         D2FA00ReferencedObject* b =
             static_cast<D2FA00ReferencedObject*>(fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
@@ -777,10 +779,6 @@ struct SolSortState
 };
 extern void __cdecl QuickSortRange(unsigned*, int, int, SolSortState);
 struct SolPlace;
-inline void* operator new(unsigned int, SolPlace* p)
-{
-    return p;
-}
 struct SolPodTag
 {
 };

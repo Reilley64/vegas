@@ -3419,7 +3419,6 @@ void FUN_008985d0_shell::FUN_008985d0()
     }
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct BaseProcessExt
 {

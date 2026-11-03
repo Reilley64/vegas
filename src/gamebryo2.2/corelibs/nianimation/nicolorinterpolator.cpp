@@ -249,7 +249,6 @@ struct NiKeyBasedInterpolatorHelper : public NiKeyBasedInterpolator
 };
 struct BSFadeNode : public NiKeyBasedInterpolatorHelper
 {
-    static void* operator new(size_t);
     const void* m_ppVirtualMethodTable;
     RgbaColor m_kColorValue;
     NiPointer<NiColorData> m_spColorData;
@@ -261,7 +260,7 @@ extern int DAT_011a943c;
 // @fnv 0x00a3c130
 BSFadeNode* FUN_00a3c130()
 {
-    BSFadeNode* p = (BSFadeNode*)BSFadeNode::operator new(0x24);
+    BSFadeNode* p = (BSFadeNode*)::operator new(0x24);
     if (p)
     {
         new ((void *)(p)) ::FUN_00a3ca10();
@@ -555,7 +554,6 @@ void FUN_00a3c270_cls::AppendColorProperties(ViewerArray* out)
     }
     reinterpret_cast<::fnv_00b5c7d0::StrArr *>((out))->SetAt(uiIndex, (*(char * *)(&pValue)));
 }
-
 
 inline NiColorInterpolator::NiColorInterpolator(NiColorData* data)
     : m_kColorValue(DAT_011a9430), m_spColorData(data), m_uiLastKeyIndex(0)

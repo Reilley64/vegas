@@ -30,7 +30,6 @@ NiRTTI* __cdecl FUN_00a43ab0()
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 struct NiTransformInterpolator
 {
@@ -65,7 +64,7 @@ struct BSRotAccumTransfInterpolator : NiTransformInterpolator
 // @fnv 0x00a43e40
 BSRotAccumTransfInterpolator* CreateRotAccumTransfInterpolator()
 {
-    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)BSFadeNode::operator new(0x58);
+    BSRotAccumTransfInterpolator* pInterpolator = (BSRotAccumTransfInterpolator*)::operator new(0x58);
     if (pInterpolator)
     {
         new ((void *)(pInterpolator)) ::fnv_00a3fa30::FUN_00a3fa30((::NiTransformData *)(0));

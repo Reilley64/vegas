@@ -32,14 +32,13 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 
 // @fnv 0x00a9af90
 void* __cdecl FUN_00a9af90()
 {
-    void* p = BSFadeNode::operator new(0x10);
+    void* p = ::operator new(0x10);
     if (p)
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
@@ -105,10 +104,6 @@ struct S_00a9af40 : NiExtraData
     int unk8;
     bool unkC;
 
-    static void* operator new(size_t n)
-    {
-        return BSFadeNode::operator new(n);
-    }
     S_00a9af40() throw()
     {
         reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();

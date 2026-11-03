@@ -5,6 +5,7 @@
 
 // @fnv 0x00eacd20
 #include <cstdint>
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/BA81100Object.h"
@@ -1020,7 +1021,7 @@ struct GeomObj : NiObjectStub
 struct TriData
 {
     TriData(unsigned short usTriangles, unsigned short* pusTriList, void* pkVertex, void* pkWorldVertex, int iParam);
-    static void* operator new(size_t size)
+    static void* operator new(std::size_t size)
     {
         return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
     }
@@ -1895,10 +1896,6 @@ char* FormatName(const char* name, intptr_t mode)
 struct Allocator
 {
 };
-void* __cdecl operator new[](size_t n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(reinterpret_cast<Allocator&>((*reinterpret_cast<unsigned char *>(&::g_memoryManager)))))->FUN_00aa3e40(n);
-}
 struct Point
 {
     float x, y, z;

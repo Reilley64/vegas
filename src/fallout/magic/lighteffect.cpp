@@ -255,7 +255,6 @@ ActiveEffect* FUN_0080e730_shell::CreateActiveEffect()
 }
 
 namespace fnv_0080ef50 {
-void* __cdecl operator new(unsigned int);
 
 struct FUN_0080e610
 {
@@ -476,8 +475,6 @@ class NiPointLight : public FUN_004bc1f0_S
     int unkf0;
     int unkf4;
     int unkf8;
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
     NiPointLight();
     void FUN_0050dd50(const NiPoint3&);
     void FUN_0050dd20(float);

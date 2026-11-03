@@ -1320,7 +1320,6 @@ int CompareObjects(int aiLeft, int aiRight)
         return 0;
 }
 
-void* __cdecl operator new(unsigned int size, void* placement);
 struct FUN_00644490_Class
 {
     void FUN_00644490(char* items, unsigned int count);
@@ -1669,7 +1668,6 @@ void FUN_00658c60(int a, int b, int c)
 }
 }  // namespace fnv_00658c60
 
-void __cdecl operator delete(void* p);
 struct FUN_00658bb0_Class
 {
     void FUN_00658bb0();
@@ -1692,7 +1690,6 @@ void* FUN_00658ea0_cls::FUN_00658ea0(unsigned int flags)
     return (void*)this;
 }
 
-void __cdecl operator delete(void* p);
 struct FUN_00658ed0_Class
 {
     void FUN_00658e10();
@@ -1726,7 +1723,6 @@ struct FUN_006a68b0_Class
 {
     void FUN_006a68b0();
 };
-void __cdecl operator delete(void*);
 struct FUN_00659140_Class
 {
     void* FUN_00659140(unsigned int flags);
@@ -1817,7 +1813,6 @@ void __cdecl FUN_00659370(int a)
     ((FUN_006593b0_class*)a)->FUN_006593b0(0);
 }
 
-void __cdecl operator delete(void*);
 struct FUN_00659380_class
 {
     void* FUN_00659380(unsigned int flags);
@@ -2363,7 +2358,6 @@ void* FUN_0065ec10_class::FUN_0065ec10(unsigned int flags)
 }
 }  // namespace fnv_0065ec10
 
-void __cdecl operator delete(void*);
 struct FUN_0065eca0_class
 {
     void FUN_0065edd0();
@@ -2398,7 +2392,6 @@ void* FUN_0065ecd0_class::FUN_0065ecd0(unsigned int flags)
     return this;
 }
 
-void __cdecl operator delete(void* p);
 struct FUN_0065ed00_class
 {
     void* FUN_0065ed00(unsigned int flags);
@@ -5833,7 +5826,6 @@ struct S_0065e550_Err
     ~S_0065e550_Err();
 };
 
-void* __cdecl operator new(unsigned int size);
 
 // Clamps n to 0, throws S_0065e550_Err(0) if n * 0x34 would overflow, and returns operator new(n * 0x34).
 // @fnv 0x0065e550
@@ -6402,8 +6394,6 @@ int __cdecl FUN_0065ffe0(int a, int b, int c, int d)
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_0064ec10_obj
 {
@@ -6734,7 +6724,6 @@ FUN_00657af0::~FUN_00657af0()
     reinterpret_cast<::FUN_00657e60_Class *>(this)->FUN_00657e60();
 }
 
-void* __cdecl operator new(unsigned int uiSize);
 
 class C658CA0BadAlloc
 {

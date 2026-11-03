@@ -385,7 +385,6 @@ void FUN_0084ba70_Cls::FUN_0084ba70(void* arg)
     reinterpret_cast<::FUN_006b8310_class *>((reinterpret_cast<Unk6b*>(reinterpret_cast<char*>(this) + 0xc)))->FreeMemory(arg);
 }
 
-void* __cdecl operator new(unsigned int size);
 
 struct FUN_0084bb30_class
 {
@@ -2214,7 +2213,6 @@ FUN_00857280::FUN_00857280(int x, int y, int z, char f)
     d = f;
 }
 
-void* __cdecl operator new(unsigned int size);
 struct FUN_0085ef80_class
 {
     void* AllocateWithPrefix(unsigned short value);
@@ -2428,10 +2426,6 @@ struct Obj_b9971
     int m_08;
     int m_0c;
     Obj_b9971();
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00401000(size);
-    }
 };
 
 struct FUN_0069b8a0_cls
@@ -3796,8 +3790,6 @@ void FUN_0085fe80_cls::SetPair(FUN_0085fe80_pair aPair)
     m_158 = 1;
 }
 
-void* __cdecl operator new(unsigned int);
-void __cdecl operator delete(void*);
 struct SaveMemberA
 {
     int a, b, c, d;
@@ -6645,7 +6637,6 @@ struct Owner
 {
 };
 void FUN_0057d0a0(NiPoint3, NiPoint3, float);
-void __cdecl operator delete(void*);
 
 struct ActorList2
 {

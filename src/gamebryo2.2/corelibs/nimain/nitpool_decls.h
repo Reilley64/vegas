@@ -27,10 +27,6 @@ template <class T, class A> class ObjectPoolBlock
     T* objects;
     unsigned int count;
     ObjectPoolBlock* next;
-    static void* operator new(size_t n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-    }
     ObjectPoolBlock(unsigned int n) throw() : count(n), next(0)
     {
         if (n > 0)

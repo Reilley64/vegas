@@ -374,12 +374,6 @@ struct S_00ea04b0_Obj
     int unk34;
     float m_f38;
 
-    static void* operator new(size_t sz) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00ea04b0::S_00ea04b0_Alloc *>(&::g_memoryManager))))->FUN_00aa3e40(sz);
-    }
-    static void operator delete(void*, size_t) throw()
-    {}
 
     __forceinline S_00ea04b0_Obj(S_00ea04b0_Vec3 v1, S_00ea04b0_Vec3 v2) throw() : m_f1c(1.0f), m_f38(1.0f)
     {

@@ -158,7 +158,7 @@ hkpTransformShapeCF5E* hkpTransformShapeCF5E::DestroyAndMaybeFree(unsigned int u
 {
     this->hkpTransformShapeCF5E::~hkpTransformShapeCF5E();
     if (uiFlags & 1)
-        hkpTransformShapeCF5E::operator delete(this);
+        ::operator delete(this);
     return this;
 }
 

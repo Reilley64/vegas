@@ -20,10 +20,6 @@ class NiBound
         float m_fBoundRadius;
         int m_iRadius;
     };
-    static void* operator new[](size_t size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
     void SetCenterAndRadius(const NiPoint3& center, float radius)
     {
         m_kCenter = center;

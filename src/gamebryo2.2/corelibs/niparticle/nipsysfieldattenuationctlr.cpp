@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00c2b230
+#include <new>
 #include "fnv/decl/NiPSysAirFieldAirFrictionCtlr.h"
 #include "fnv/decl/ViewerStrings.h"
 #include "fnv/decl/fnv_00b5c7d0__StrArr.h"
@@ -63,10 +64,6 @@ bool NiPSysFieldAttenuationCtlr::FUN_00c2b290(NiObjectNET* pkTarget)
 // The game's operator new (0xaa13e0), declared under a stand-in name: the
 // shared symbol map binds the global ??2@YAPAXI@Z to a placeholder address.
 void* NiMemAlloc(unsigned int uiSize);
-inline void* operator new(size_t, void* pvWhere)
-{
-    return pvWhere;
-}
 
 // Stand-in for the base whose ctor lives at 0xc32d80.
 struct FieldCtlrBase

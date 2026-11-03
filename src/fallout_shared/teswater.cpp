@@ -1985,8 +1985,6 @@ void FUN_004e5640_shell::SetBitFlagsOnListItems()
 namespace fnv_004e7680 {
 struct A51BF0Base
 {
-    static void* operator new(unsigned int size);
-    static void operator delete(void*, unsigned int);
 };
 
 struct FUN_00a74480 : A51BF0Base
@@ -5143,7 +5141,6 @@ struct Record
     int unka8;
     int unkac;
     Record();
-    static void* operator new(unsigned int);
 };
 struct List
 {
@@ -5290,8 +5287,6 @@ struct Update61
 };
 struct Shader61
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Shader61();
     int unk000;
     int unk004;
@@ -5380,8 +5375,6 @@ struct Shader61
 };
 struct Material61
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Material61();
     int unk00;
     int unk04;
@@ -5507,8 +5500,6 @@ struct Node61
     int unk0d8;
     int unk0dc;
     int unk0e0;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Node61();
 };
 struct Reference61
@@ -6824,8 +6815,6 @@ extern unsigned char DAT_011c7cfc;
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void*, unsigned int);
 };
 
 struct SpRef4e8
@@ -8005,8 +7994,6 @@ struct FUN_00414430
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct FUN_00a712f0 : NiMemObject
 {
@@ -8881,8 +8868,6 @@ struct Camera60
     int unk108;
     int unk10c;
     int unk110;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Camera60();
 };
 struct Accumulator60
@@ -9082,8 +9067,6 @@ struct Accumulator60
     int unk274;
     int unk278;
     int unk27c;
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     Accumulator60(int, int, int);
 };
 template <class T> struct Smart60
@@ -9449,8 +9432,6 @@ struct WRReflectNode
     int unk10C;
     int unk110;
 
-    static void* __cdecl operator new(unsigned int auiSize);
-    static void __cdecl operator delete(void* apMem, unsigned int);
     WRReflectNode();
 };
 
@@ -9653,8 +9634,6 @@ struct WRAccumulator
     int unk278;
     int unk27C;
 
-    static void* __cdecl operator new(unsigned int auiSize);
-    static void __cdecl operator delete(void* apMem, unsigned int);
     WRAccumulator(int aiMode, unsigned int auiUnk1, unsigned int auiUnk2);
 };
 
@@ -10264,8 +10243,6 @@ struct CellFlag074
 };
 struct NiMemObject
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 struct Update074
 {

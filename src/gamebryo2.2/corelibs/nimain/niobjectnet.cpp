@@ -1,6 +1,7 @@
 // gamebryo2.2/corelibs/nimain/niobjectnet.cpp: NiObjectNET, ShortArray, MorphTarget, bhkSphereShape and more (26 functions)
 
 #include <cstdint>
+#include <new>
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -747,7 +748,6 @@ class C7B0ObjectNET : public C7B0Object
         reinterpret_cast<::FUN_00a5bfa0_shell *>(this)->ClearExtraData();
     }
 
-    static void operator delete(void* pvMem, size_t uiSize);
 
     C7B0ObjectNET* DestroyObject(unsigned int uiFlags);
 
@@ -1231,10 +1231,6 @@ struct FUN_00a5c780
 {
     void* m_pData;
     virtual ~FUN_00a5c780();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 // Frees the m_pData buffer held by the object via NiFree.
 // @fnv 0x00a5c780

@@ -141,7 +141,6 @@ class NiDX9AdditionalDepthStencilBufferData : public NiMemObject
     unsigned int preference;
     DepthSurface* surface;
     unsigned int reserved18, reserved1c, d3dFormat, flags;
-    static void* operator new(size_t) throw();
     NiDX9AdditionalDepthStencilBufferData() throw();
     static NiDX9AdditionalDepthStencilBufferData* Create(DepthDevice*, Ni2DBuffer**, const NiPixelFormat*,
                                                          unsigned int);

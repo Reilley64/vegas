@@ -94,7 +94,6 @@ void S004f51c0::FUN_004f51c0()
     reinterpret_cast<::FUN_00582380_shell *>(&(lst))->WriteWeatherList((void *)(0x54574452));
 }
 
-void* __cdecl operator new(unsigned int);
 struct FUN_004f5140_shell
 {
     char p[0x10];

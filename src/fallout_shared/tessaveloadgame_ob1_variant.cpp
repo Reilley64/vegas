@@ -3,6 +3,7 @@
 // byte only under /MT /Od /Oy- /GS /EHsc /Gy /GF /Ob1 (unit src/fallout_shared/tessaveloadgame.cpp lists /MT /Od /Oy- /GS /EHsc /Gy /GF). Declarations copied from that unit's skeleton; move the functions
 // to their real unit once identified.
 
+#include <cstddef>
 #include <cstring>
 #include "fnv/decl/FUN_004077c0_shell.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
@@ -50,11 +51,6 @@ struct HelperL
 {
     unsigned int m_00, m_04, m_08, m_0c;
     HelperL(int, int, int);
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerL *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    static void operator delete(void* pvMem);
 };
 extern int DAT_010c1604;
 struct FUN_00c3da50 : BaseListL
@@ -220,11 +216,11 @@ struct HeapContextGuard
     }
 };
 
-inline void* operator new[](unsigned int n, MemoryManager*)
+inline void* operator new[](std::size_t n, MemoryManager*)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
 }
-inline void* operator new(unsigned int n, MemoryManager*)
+inline void* operator new(std::size_t n, MemoryManager*)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
 }
@@ -305,10 +301,6 @@ class MemoryManagerC4
   public:
 };
 
-inline void* operator new[](unsigned int uiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC4 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-}
 
 template <class T> inline void ZeroArrayC4(T* pkArray, unsigned int ItemUpdateArray)
 {
@@ -327,12 +319,6 @@ class FUN_00c3e4f0;
 class WorkerC4
 {
   public:
-    inline static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::MemoryManagerC4 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    inline static void operator delete(void* pv)
-    {}
     WorkerC4(FUN_00c3e4f0* pkOwner, unsigned int uiID);
     char m_acData[0x34];
 };
@@ -407,20 +393,10 @@ class MemoryManagerC3
   public:
 };
 
-inline void* operator new[](unsigned int uiSize)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c3e8b0::MemoryManagerC3 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-}
 
 class IOQueueC3
 {
   public:
-    inline static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&((*reinterpret_cast<::fnv_00c3e8b0::MemoryManagerC3 *>(&::g_memoryManager))))->FUN_00aa3e40(uiSize);
-    }
-    inline static void operator delete(void* pv)
-    {}
     IOQueueC3(void* pvA, void* pvB);
     char m_acData[0x40];
 };

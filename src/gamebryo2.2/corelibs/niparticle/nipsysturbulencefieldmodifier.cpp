@@ -59,7 +59,6 @@ struct NiPSysParticle
 };
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 struct FUN_00c31ff0
 {
@@ -80,7 +79,7 @@ struct NiPSysFieldModifier_00c27670
 NiPSysFieldModifier_00c27670* CloneFieldModifier(NiPSysFieldModifier_00c27670* self, int,
                                                             CloningProcess* kCloning)
 {
-    NiPSysFieldModifier_00c27670* pkObject = (NiPSysFieldModifier_00c27670*)BSFadeNode::operator new(0x3c);
+    NiPSysFieldModifier_00c27670* pkObject = (NiPSysFieldModifier_00c27670*)::operator new(0x3c);
     if (pkObject)
     {
         ((FUN_00c31ff0*)pkObject)->FUN_00c31ff0::FUN_00c31ff0();

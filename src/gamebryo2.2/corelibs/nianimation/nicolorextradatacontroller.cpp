@@ -49,7 +49,6 @@ extern "C" void __cdecl FUN_00a572d0(void);
 
 struct BSFadeNode
 {
-    static void* operator new(size_t size);
 };
 
 
@@ -59,7 +58,7 @@ extern int DAT_0109947c;
 // @fnv 0x00a4fac0
 void* __cdecl FUN_00a4fac0()
 {
-    void* mem = BSFadeNode::operator new(0x40);
+    void* mem = ::operator new(0x40);
     if (mem)
     {
         int* p = InitTimeController((int*)mem);
@@ -75,7 +74,7 @@ struct Holder_00a55f80
 // @fnv 0x00a4fa70
 void* FUN_00a4fa70(int a1, int a2, int a3, float a4, int a5)
 {
-    void* p = BSFadeNode::operator new(0x44);
+    void* p = ::operator new(0x44);
     if (p)
         return ((void *)(new ((void *)(((Holder_00a55f80*)p))) ::FUN_00a55f80(a2, a4, a5)));
     return 0;
@@ -102,7 +101,7 @@ struct Ctrl9
 // @fnv 0x00a4fb30
 void* Ctrl9::FUN_00a4fb30(unsigned short usIndex)
 {
-    void* mem = BSFadeNode::operator new(0x24);
+    void* mem = ::operator new(0x24);
     if (mem)
     {
         Interp9* p = (Interp9*)mem;

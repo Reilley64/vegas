@@ -2,6 +2,7 @@
 // src/havok/common/serialize/data/dict/hkdataobjectdict.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/dict/hkdataobjectdict.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include <cstring>
 #include "fnv/decl/CB1A90Owner.h"
@@ -6194,7 +6195,7 @@ struct Shape7DE0
     Shape7DE0() throw() : m_usFlags(0), m_iRefCount(0)
     {}
     virtual ~Shape7DE0();
-    static __forceinline void* operator new(unsigned int nbytes) throw()
+    static __forceinline void* operator new(std::size_t nbytes) throw()
     {
         Context7DE0* pkContext = GetContext7DE0();
         Shape7DE0* pkShape = static_cast<Shape7DE0*>(pkContext->m_pkMemory->allocateChunk(nbytes));
@@ -7804,7 +7805,7 @@ struct ObjectDCB990
     {
         m_kPairs.ClearAndRelease();
     }
-    static void operator delete(void* p, unsigned int nbytes) throw()
+    static void operator delete(void* p, std::size_t nbytes) throw()
     {
         RouterDCB990* pkRouter = GetRouterDCB990();
         pkRouter->m_pkHeap->ReleaseBlock(p, (int)nbytes);
@@ -8024,7 +8025,7 @@ struct Node_dc7c : RefCounted_dc7c
     void* volatile m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         Node_dc7c* p = (Node_dc7c*)Router_dc7c::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -8262,10 +8263,6 @@ void S00dc8ea0_Obj::FUN_00dc8ea0(int key)
     }
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 void __cdecl ResizeAudioStream(hkAllocatorDC76* alloc, void* array, int sizeOfElement);
 
 template <class T> struct hkArray_dc91
@@ -8613,10 +8610,6 @@ template <class T> struct ArrayX
     }
 };
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct OwnerX
 {

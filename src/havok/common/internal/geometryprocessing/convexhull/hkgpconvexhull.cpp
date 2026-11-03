@@ -1,5 +1,6 @@
 // havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp: hkVector4, hkMatrix3, hkTransform, Owner and more (89 functions)
 
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include "fnv/decl/BevelHull.h"
@@ -978,7 +979,6 @@ struct S_00d7a010_Array {
 
 struct S_00d7a010_Obj {
     virtual ~S_00d7a010_Obj() throw();
-    void operator delete(void* p) throw();
 };
 
 void __cdecl FUN_00d79f90(int a, int b, S_00d7a010_Array<S_00d7a010_Obj*>& out, int c, float f) throw();
@@ -2890,7 +2890,6 @@ struct S00d7d1c0_Base {
     virtual void v2(void* p, int size);
     unsigned short m04;
 };
-inline void* operator new(unsigned int, void* p) { return p; }
 struct S00d7d1c0_Derived : S00d7d1c0_Base {
     S00d7d1c0_M08 m08;
     S00d7d1c0_M20 m20;
@@ -5040,7 +5039,6 @@ template<typename T> struct TypeSizeConstant { enum { val = sizeof(T) }; };
 class hkMemoryAllocator
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t, void* p) { return p; }
 virtual ~hkMemoryAllocator() throw();
 virtual void* AllocateMemoryBlock( int numBytes ) throw() =0;
 virtual void ReleaseBlock( void* p, int numBytes ) throw() =0;
@@ -5066,7 +5064,6 @@ ValueWrapper<void*> m_kRayEnd;};
 class NineIntegerRecord
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t, void* p) { return p; }
 typedef hkMemoryAllocator Allocator;
 static NineIntegerRecord& __cdecl GetMonitorStream() throw();inline Allocator& heap() { return *m_pStreamAllocator; }
 protected:
@@ -5083,7 +5080,7 @@ class hkStatisticsCollector;
 class hkReferencedObject : public hkBaseObject
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; }
 virtual ~hkReferencedObject() { }
 virtual const hkClass* GetClassType() const;
 virtual void CalcContentStatistics( hkStatisticsCollector* collector,const hkClass* cls ) const;
@@ -5131,7 +5128,6 @@ class hkErrStream : public hkOstream
 {
 public:
 hkErrStream( void* buf, int bufSize ) throw();
-__forceinline void* __cdecl operator new(hk_size_t, void* p) { return p; }
 };template<bool N> struct BooleanTypeConstant { typedef BooleanTypeConstant<N> type; enum { result = N }; };
 typedef BooleanTypeConstant<true> hkTypeIsPod;
 template <typename T>
@@ -5325,7 +5321,7 @@ class hkRotation;
 class hkVector4
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 hkBool::CompileTimeTrueType operator== (const hkTypeIsPod&) const;
 __forceinline void operator= ( const hkVector4& v );
 __forceinline void set(hkReal x, hkReal y, hkReal z, hkReal w=0);
@@ -5353,7 +5349,7 @@ return (*(hkQuadReal*)&m_quadS);
 class hkQuaternion
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 static inline const hkQuaternion& __cdecl GetIdentityTransform();
 public:
 hkVector4 m_vec;
@@ -5366,7 +5362,7 @@ return (*reinterpret_cast<const ::hkQuaternion *>(&::DAT_012683b0));
 class hkMatrix3
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 __forceinline hkVector4& getColumn(int i);
 __forceinline const hkVector4& getColumn(int i) const;
 __forceinline hkReal& operator() (int row, int col);
@@ -5384,13 +5380,13 @@ hkVector4 m_kColumn1;
 hkVector4 m_kColumn2;};class __declspec(align(16)) hkRotation : public hkMatrix3
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 void set(const hkQuaternion& q) throw();
 };
 class hkTransform
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 __forceinline static const hkTransform& __cdecl GetIdentityTransform();
 __forceinline void setTranslation(const hkVector4& t);
 __forceinline void SetBodyOrientation(const hkRotation& rotation);
@@ -5515,14 +5511,14 @@ return (*reinterpret_cast<::hkTransform *>(&::DAT_01268370));
 class hkAabb
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; }
 public:
 hkVector4 m_kMinimumCorner;
 hkVector4 m_kMaximumCorner;};
 class hkgpConvexHull : public hkReferencedObject
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; }
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; }
 struct Vertex {};
 struct Triangle {};
 public:
@@ -5555,7 +5551,7 @@ hkUint8 m_data[sizeof(T)];
 };
 struct Pool
 {
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Pool)); } } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Pool)); } } __forceinline void* __cdecl operator new(std::size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](std::size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
 Item m_items[N];
 Item* m_free;
 int m_uiBufferCapacity;
@@ -5643,7 +5639,7 @@ struct List
 {
 struct Item : BASE
 {
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Item)); } } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Item)); } } __forceinline void* __cdecl operator new(std::size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](std::size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
 __forceinline T* next() const { return(m_next); }
 __forceinline T*& next() { return(m_next); }
 __forceinline T* prev() const { return(m_pSecondNode); }
@@ -5680,7 +5676,7 @@ template <typename VERTEX,typename BASE>
 struct Vertex : List<VERTEX,BASE>::Item
 {
 typedef typename List<VERTEX,BASE>::Item tBase;
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Vertex)); } } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Vertex)); } } __forceinline void* __cdecl operator new(std::size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](std::size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
 static __forceinline bool isOrdered(const VERTEX* a,const VERTEX* b)
 {
 const int c((*a).compare(*b));
@@ -5695,7 +5691,7 @@ struct Triangle : List<TRIANGLE,BASE>::Item
 {
 typedef typename List<TRIANGLE,BASE>::Item tBase;
 typedef const VERTEX& vParm;
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Triangle)); } } __forceinline void* __cdecl operator new(hk_size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](hk_size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; void* obj = NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes)); ; return obj; } __forceinline void __cdecl operator delete(void* p) { if (p) { ; NineIntegerRecord::GetMonitorStream().heap().ReleaseBlock(p, sizeof(Triangle)); } } __forceinline void* __cdecl operator new(std::size_t n, void* p){ ; return p; } __forceinline void* __cdecl operator new[](std::size_t, void* p){ return p; } __forceinline void __cdecl operator delete(void*, void*) { } __forceinline void __cdecl operator delete[](void*, void*) { } class CommandArgument;
 __forceinline void setVertices(vParm a,vParm b,vParm c) { m_kVertices[0]=a;m_kVertices[1]=b;m_kVertices[2]=c; }
 __forceinline bool hasReferences() const { return(0!=((link(0)|link(1)|link(2))>>2)); }
 __forceinline VERTEX vertex(int i) const { return(m_kVertices[i]); }
@@ -5710,7 +5706,7 @@ template <typename EDGE,typename VERTEX,typename TRIANGLE,typename ALLOCATOR=Rou
 class hkgpAbstractMesh : public hkReferencedObject
 {
 public:
-__forceinline void* __cdecl operator new(hk_size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; } typedef hkGeometryProcessing::DynamicMemoryAllocator<VERTEX,32,ALLOCATOR> VertexPoolAllocator;
+__forceinline void* __cdecl operator new(std::size_t nbytes) { ; hkReferencedObject* b = static_cast<hkReferencedObject*>(NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->m_usMemSizeAndFlags = static_cast<hkUint16>(nbytes); ; return b; } typedef hkGeometryProcessing::DynamicMemoryAllocator<VERTEX,32,ALLOCATOR> VertexPoolAllocator;
 typedef hkGeometryProcessing::DynamicMemoryAllocator<TRIANGLE,32,ALLOCATOR> TrianglePoolAllocator;
 typedef AllocatedLinkedList::List<VERTEX,typename VERTEX::tBase,VertexPoolAllocator> VertexList;
 typedef AllocatedLinkedList::List<TRIANGLE,typename VERTEX::tBase,TrianglePoolAllocator> TriangleList;

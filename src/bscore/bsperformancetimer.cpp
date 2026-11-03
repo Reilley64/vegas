@@ -22,7 +22,6 @@ PerformanceTimerManager* PerformanceTimerManager::BeginFrame()
     return this;
 }
 
-void* __cdecl operator new(unsigned int);
 
 struct FUN_006ff690
 {

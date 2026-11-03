@@ -309,19 +309,7 @@ template <class T> class BSSimpleList
     {
         return (m_pkNext == 0 && m_item == 0) ? 1 : 0;
     }
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((MM*)&::g_memoryManager)))->FUN_00aa4060(p);
-    }
 };
-inline void* __cdecl operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(n);
-}
 inline void CopyQ(char* d, const char* s, unsigned int n)
 {
     std::memmove(d, s, n);
@@ -397,14 +385,6 @@ struct FileMatchList
     bool IsEmpty() const
     {
         return next == 0 && data == 0;
-    }
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(::g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* object)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((static_cast<FinderMemory*>(&::g_memoryManager)))->FUN_00aa4060(object);
     }
 };
 // Finds files matching a pattern in a directory, using wildcards or exact match, and returns a list of matches.

@@ -14,7 +14,7 @@
 NiD3DGeometryGroupManager* NiD3DGeometryGroupManager::Create(Direct3DDeviceInterface* device,
                                                              VertexDeclarationLayout* buffers)
 {
-    NiD3DGeometryGroupManager* p = (NiD3DGeometryGroupManager*)NiMemObject::operator new(28);
+    NiD3DGeometryGroupManager* p = (NiD3DGeometryGroupManager*)::operator new(28);
     if (p)
     {
         new ((void *)(p)) ::FUN_00a7f810();

@@ -196,7 +196,6 @@ class BC28C60CloningProcess;
 class BC28C60Modifier
 {
   public:
-    static void* operator new(size_t uiSize);
 
     BC28C60Modifier() throw();
     virtual ~BC28C60Modifier();

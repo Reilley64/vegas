@@ -6,6 +6,7 @@
 // src/staging/blk_00c40000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 #include <cstdint>
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cmath>
@@ -599,7 +600,6 @@ struct FUN_00c43620_Class
 {
     void FUN_00c43070();
     void* FUN_00c43620(unsigned int flags);
-    static void __cdecl operator delete(void* p, unsigned int size);
 };
 struct FUN_00c43850_Class
 {
@@ -700,7 +700,6 @@ struct FUN_00878690_shell
 {
     void FUN_00c51df0();
 };
-void __cdecl operator delete(void* ptr, unsigned int size);
 struct FUN_00c52830_class
 {
     void* FUN_00c52830(unsigned int flags);
@@ -723,7 +722,6 @@ struct FUN_00a7b300_shell
 struct FUN_00c55330_class
 {
     void* FUN_00c55330(unsigned int flags);
-    void operator delete(void* p, unsigned int size);
 };
 extern int DAT_010c2d54;
 struct FUN_00c1c280_class
@@ -790,12 +788,10 @@ struct FUN_00c5e560_class : public NiNode_Helper
 struct FUN_00c5db90_Class
 {
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5eb20_Class
 {
     void* FUN_00c5eb20(unsigned int flags);
 };
-void __cdecl operator delete(void* p, unsigned int size);
 struct FUN_00c5ed60_Class
 {
     void FUN_00c5ed60();
@@ -817,7 +813,6 @@ struct FUN_00c5f500_class
 struct FUN_00c5fc20_class
 {
     void* FUN_00c5fc20(unsigned int flags);
-    void __cdecl operator delete(void* p, unsigned int size);
     void FUN_00c5faa0();
 };
 struct BaseForCall
@@ -1002,7 +997,6 @@ struct FUN_00c450d0 : FUN_00c5f570_Class
 };
 struct FUN_00c465a0_class
 {
-    void* operator new(unsigned int);
     FUN_00c465a0_class();
     char pad[0x1c];
 };
@@ -1021,7 +1015,6 @@ struct FUN_00c465a0
     int f;
     FUN_00c465a0();
     ~FUN_00c465a0();
-    static void* operator new(unsigned int);
 };
 FUN_00c465a0* __cdecl FUN_00c46740();
 struct FUN_00c48fe0_Class
@@ -1205,7 +1198,6 @@ struct A51BF0Base
 {
     char pad[0xb4];
 
-    static void* __cdecl operator new(unsigned int size);
     A51BF0Base();
 
     A51BF0Base* FUN_00c46ba0(int a);
@@ -1318,7 +1310,6 @@ struct FUN_00c5ce40_Class
 };
 struct FUN_00c5d260_view
 {
-    static void __cdecl operator delete(void* p, unsigned int sz);
 };
 struct FUN_00c5d260 : FUN_00c5d260_view
 {
@@ -1423,17 +1414,12 @@ struct SpawnedObject_b9874
 {
     char m00[0x10];
     SpawnedObject_b9874();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct S_00c437c0_Obj
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
         unk40, unk44, unk48, unk4c, unk50, unk54, unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c,
         unk80, unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8, unkac, unkb0, unkb4;
-    static void* operator new(unsigned int);
     S_00c437c0_Obj();
 };
 struct S_00c437c0 : FUN_00c43850_Class
@@ -1443,10 +1429,6 @@ struct S_00c437c0 : FUN_00c43850_Class
 void* __cdecl FUN_00aa13e0(unsigned int size);
 struct SpawnedObject_b9504 : FUN_00c43660
 {
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 class FUN_00c43be0_cls
 {
@@ -1874,10 +1856,6 @@ struct NewObject_b9649
     unsigned int unkAC;
     unsigned int unkB0;
     NewObject_b9649();
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 struct UpdateContext
 {
@@ -3419,7 +3397,6 @@ struct FUN_00c5c400
     unsigned int unk58;
     unsigned int m_0x5c;
     unsigned int m_0x60;
-    static void* __cdecl operator new(unsigned int size);
     FUN_00c5c400();
 };
 struct NiPSysEmitterCtlr_CloneShell
@@ -3443,8 +3420,6 @@ struct FUN_00c5cb50_cls
 class BC5CBB0Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 };
 class BC5CBB0Controller : public BC5CBB0Object
 {
@@ -3533,8 +3508,6 @@ struct EmitterObjectStub
     int unkcc;
     int unkd0;
     EmitterObjectStub();
-    static void* operator new(unsigned int size);
-    static void operator delete(void* p);
 };
 struct EmitterOwnerStub
 {
@@ -4274,7 +4247,6 @@ struct BSShaderAccumulator
     int unk10;
     int unk14;
     int unk18;
-    static void* __cdecl operator new(unsigned int size);
     BSShaderAccumulator();
 };
 struct FUN_00a7b4a0_cls
@@ -4304,7 +4276,6 @@ class FUN_00c5f100_cls
 class NiMemObject
 {
   public:
-    static void* __cdecl operator new(unsigned int size);
 };
 struct NiTransformView
 {
@@ -4424,10 +4395,6 @@ struct PositionModifierInstance
     bool active;
     float lastTime;
     void* next;
-    static __forceinline void* operator new(unsigned int amount)
-    {
-        return FUN_00aa13e0(amount);
-    }
 };
 struct MyStream;
 struct ParticlePositionModifier
@@ -4512,8 +4479,6 @@ class BC45120CloningProcess;
 class BC45120Object
 {
   public:
-    static void* operator new(unsigned int uiSize);
-    static void operator delete(void* pvMem);
 
     BC45120Object();
     virtual ~BC45120Object();
@@ -4998,7 +4963,6 @@ struct C45440_Obj : FUN_00c450d0
     int uA4;
     int uA8;
     int uAC;
-    static void* __cdecl operator new(unsigned int size);
 };
 C45440_Obj* __cdecl CreateC45440Obj(void);
 struct Animation;
@@ -5016,8 +4980,6 @@ struct C5EDC0_AnimExtra
 };
 struct BSFaceGenMorphData
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*);
 };
 namespace c30 {
 struct FUN_00c5fd30 : BSFaceGenMorphData
@@ -5246,14 +5208,6 @@ struct Pointer351
     {
         if (pointer)
             pointer->DecRefCount();
-    }
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete[](void* memory)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManager*>(&g_memoryManager)))->FUN_00aa4060(memory);
     }
 };
 // @fnv 0x00c46170
@@ -5834,10 +5788,6 @@ struct ItemAB
     {
         FreeAB(m_pData);
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((HeapAB*)&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 template <class T> class ArrAB
 {
@@ -5901,10 +5851,6 @@ struct FixedString_c55
             InterlockedDecrement(p);
         }
     }
-    static void operator delete(void* apMem)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((Heap_c55*)&DAT_011f6238)))->FUN_00aa4060(apMem);
-    }
 };
 // @fnv 0x00c552a0
 void FUN_00c552a0()
@@ -5946,10 +5892,6 @@ class NiTriShape
   public:
     NiTriShape(unsigned short, NiPoint3*, NiPoint3*, void*, NiPoint2*, unsigned short, unsigned int, unsigned short,
                unsigned short*);
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     virtual ~NiTriShape();
     virtual void v01();
     virtual void v02();
@@ -6058,10 +6000,6 @@ class NiTriShape
     unsigned int unkBC;
     unsigned int unkC0;
 };
-inline void* __cdecl operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
 // @fnv 0x00c55360
 NiTriShape* __cdecl FUN_00c55360(float extent, NiPoint3* center, ColorA* color)
 {
@@ -6740,23 +6678,11 @@ struct HandlerRegistration
     QueueRefPtr item;
     __forceinline HandlerRegistration() : next(0)
     {}
-    __forceinline static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(size);
-    }
-    __forceinline static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 
 struct InnerOwnedItem
 {
     ~InnerOwnedItem();
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
-    }
 };
 struct InnerEntry
 {
@@ -6781,14 +6707,6 @@ struct Inner
             delete unk08[i].object;
         reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(unk08);
         DAT_0fdf050(unk04);
-    }
-    __forceinline static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(_g_memoryManager))->FUN_00aa3e40(size);
-    }
-    __forceinline static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -7414,10 +7332,6 @@ void FUN_00c4a070::SetSize(unsigned int uiNewSize, bool bFree)
     }
 }
 
-inline void* operator new(unsigned int, void* pv)
-{
-    return pv;
-}
 struct ElemY
 {
     int a, b, c;
@@ -7534,10 +7448,6 @@ struct DerQ : FUN_00c450d0
 {
     int unk64, unk68, unk6C, unk70, unk74, unk78, unk7C, unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C, unkA0,
         unkA4, unkA8, unkAC;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     DerQ()
     {
         vtbl = (int)&DAT_010c1eb4;
@@ -7596,7 +7506,6 @@ struct S_00c4aca0_Base
     int unka4;
     int unka8;
     int unkac;
-    static void* operator new(unsigned int);
 };
 struct S_00c4aca0_Obj : S_00c4aca0_Base
 {
@@ -7836,10 +7745,6 @@ struct C55010Obj : NiExtraDataStandIn
     int m_08;
     NiPoint3 m_0c;
     NiPoint3 m_18;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     C55010Obj(const NiFixedString& name) : NiExtraDataStandIn(name)
     {
         m_vtbl = &DAT_010c2b64;
@@ -7857,10 +7762,6 @@ C55010Obj* FUN_00c55010()
 }
 
 namespace fnv_00c5f390 {
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct T4
 {
     int v;
@@ -8215,10 +8116,6 @@ struct WeightedMapNode
     int unk04;
     MapRefPtr m_spObj;
     TaggedMapLink m_next;
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memMgr))->FUN_00aa4060(p);
-    }
 };
 
 unsigned int __cdecl GetMapThreadId();
@@ -8268,14 +8165,6 @@ struct Pool
     }
     Pool(int a);
     ~Pool();
-    static void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memMgr))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_memMgr))->FUN_00aa4060(p);
-    }
 };
 
 struct NodeMap
@@ -8573,10 +8462,6 @@ struct Arg41fe0
     {
         DtorScratch41fe0 scratch;
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<MemoryManager*>(&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 
 class C41FE0_Owner
@@ -8706,10 +8591,6 @@ struct BucketQ
         BucketQ* pThis = this;
         pThis->p0 = 0;
         pThis->p4 = 0;
-    }
-    static void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((MemMgrQ*)&DAT_011f6238)))->FUN_00aa3e40(size);
     }
 };
 struct FUN_00c42180
@@ -9154,10 +9035,6 @@ struct S_00c42960_Node
     int unk04;
     NodeLink m_pNext;
     void FUN_0044dd60();
-    static __forceinline void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa4060(p);
-    }
     __forceinline S_00c42960_Node* GetNext()
     {
         return m_pNext.value;
@@ -9172,14 +9049,6 @@ __forceinline NodeLink::~NodeLink()
 struct S_00c42960_Slot
 {
     S_00c42960_Node* m_pReferencedNode;
-    static void* operator new[](unsigned int bytes)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa3e40(bytes);
-    }
-    static void operator delete[](void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((reinterpret_cast<S_00c42960_Heap*>(&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 
 struct S_00c42960_Counter
@@ -10749,10 +10618,6 @@ struct ObjC4aa40 : FUN_00c450d0
     int unka4;
     int unka8;
     int unkac;
-    __forceinline static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     __forceinline ObjC4aa40()
     {
         vtbl = (int)&DAT_010c1eb4;
@@ -10797,10 +10662,6 @@ struct BSDebrisNode : FUN_00c450d0
     int unka4;
     int unka8;
     int unkac;
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
     BSDebrisNode()
     {
         vtbl = (int)&DAT_010c1fc4;
@@ -10842,10 +10703,6 @@ struct S00c4af00_Obj : FUN_00c450d0
     {
         vtbl = (int)&DAT_010c20d4;
     }
-    static void* operator new(unsigned int size) throw()
-    {
-        return FUN_00aa13e0(size);
-    }
 };
 
 struct S00c4af00_Cls
@@ -10883,10 +10740,6 @@ struct C4B0C0_Obj : FUN_00c450d0
     int uA4;
     int uA8;
     int uAC;
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
     __forceinline C4B0C0_Obj()
     {
         vtbl = (int)&DAT_010c20d4;
@@ -11497,11 +11350,6 @@ struct NewShorts086 : Shorts086
         table = &DAT_0106abe4;
         reinterpret_cast<::FUN_00692290_class *>(this)->FUN_00692290(0, 0);
     }
-    __forceinline static void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((Alloc086*)&DAT_011f6238)))->FUN_00aa3e40(n);
-    }
-    static void operator delete(void*);
 };
 struct RefBase086
 {
@@ -11616,7 +11464,7 @@ struct FUN_00a5ecb0 : RefBase086
     int unka4;
     int unka8;
     FUN_00a5ecb0(unsigned int);
-    static inline void* operator new(unsigned int size)
+    static inline void* operator new(std::size_t size)
     {
         if (size == 0)
             size = 1;
@@ -11717,11 +11565,6 @@ struct FUN_006917d0_Arr
 {
     int unk00, unk04, unk08, unk0c;
     FUN_006917d0_Arr();
-    static __forceinline void* operator new(unsigned int size)
-    {
-        S00c4db20_Pt t;
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 struct S00c4db20_Child
@@ -11812,12 +11655,6 @@ struct NP3
         y = b;
         z = c;
     }
-    __forceinline static void* operator new[](size_t n)
-    {
-        return NiAlloc(n);
-    }
-    static void operator delete[](void*)
-    {}
 };
 struct NP2
 {
@@ -11829,12 +11666,6 @@ struct NP2
         x = a;
         y = b;
     }
-    __forceinline static void* operator new[](size_t n)
-    {
-        return NiAlloc(n);
-    }
-    static void operator delete[](void*)
-    {}
 };
 struct NC4
 {
@@ -11848,12 +11679,6 @@ struct NC4
         b = e;
         a = t;
     }
-    __forceinline static void* operator new[](size_t n)
-    {
-        return NiAlloc(n);
-    }
-    static void operator delete[](void*)
-    {}
 };
 
 inline NP3* At3(NP3* p, int i)
@@ -11883,8 +11708,6 @@ struct ShArr
 struct TESObjectDoorController
 {
     char pad[0x58];
-    static void* operator new(unsigned int n);
-    static void operator delete(void*);
     TESObjectDoorController(unsigned short a1, NP3* a2, NP3* a3, NC4* a4, NP2* a5, int a6, int a7, unsigned short a8,
                             void* a9);
 };
@@ -12293,10 +12116,6 @@ struct FUN_00c504e0_task
 // @fnv 0x00c504e0
     ~FUN_00c504e0_task()
     {}
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((FUN_00c504e0_pool*)&DAT_011f6238)))->FUN_00aa4060(p);
-    }
 };
 
 struct ScopeBase_c5
@@ -12672,7 +12491,6 @@ class NiRefObjectStandIn : public NiMemObject
 {
   public:
     virtual ~NiRefObjectStandIn();
-    static void operator delete(void* pvMem, unsigned int uiSize);
     virtual void DeleteThis();
     void IncRefCount()
     {
@@ -12814,10 +12632,6 @@ class FUN_004a0eb0
 {
   public:
     FUN_004a0eb0(NiVisibleArray* pkArray);
-    static void* operator new(unsigned int uiSize)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(uiSize);
-    }
     int unk00;
     int unk04;
     int unk08;
@@ -13061,10 +12875,6 @@ struct OwnedB
     ~OwnedB()
     {
         NiFree(data);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(g_011f6238))->FUN_00aa4060(p);
     }
 };
 struct FUN_00c51df0 : BaseForC51df0
@@ -13689,11 +13499,6 @@ struct Q5Obj
         v78(), v7c(), v80(), v84(), v88(), v8c(), v90(), v94();
     virtual void v98(Q5Item*);
     char pad[0x48];
-    static __forceinline void* operator new(unsigned int amount)
-    {
-        int dq[2];
-        return FUN_00aa13e0(amount);
-    }
     Q5Obj();
     bool FUN_00c52d80(Q5Item* it);
 };
@@ -16242,10 +16047,6 @@ struct S00c5f240_Holder
         else
             m_uiFilterValue = ::NiGlobalStringTable::AddString(text);
     }
-    __forceinline static void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<S00c5f240_MM*>(&DAT_011f6238)))->FUN_00aa3e40(size);
-    }
     static void FUN_00c5f240();
 };
 
@@ -17040,10 +16841,6 @@ namespace fnv_00c44980 {
 extern unsigned int DAT_011af714[];
 extern char DAT_010c1ad4[];
 extern int DAT_010c1af0[];
-__forceinline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
 unsigned long RunThreadProc(void*);
 
 struct ThreadCriticalSection
@@ -17101,11 +16898,6 @@ struct WorkerThread : BSLinearTaskThread
 {
     FUN_00c44980* manager;
     int unk50, unk54, unk58;
-    static __forceinline void* operator new(unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
-    static void operator delete(void*);
     virtual ~WorkerThread();
     WorkerThread(FUN_00c44980* owner)
     {
@@ -17186,10 +16978,6 @@ struct ObjC44
     }
 };
 
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
-}
 
 struct OwnerC44
 {
@@ -17211,10 +16999,6 @@ void OwnerC44::FUN_00c44b70()
 }
 
 namespace fnv_00c45b20 {
-__forceinline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
 struct ResizeObject
 {
     virtual void first();
@@ -17799,10 +17583,6 @@ struct LinkSet
     int* data;
     unsigned int count;
     unsigned int capacity;
-    static __forceinline void* operator new(unsigned int n)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((LinkAllocator*)&DAT_011f6238)))->FUN_00aa3e40(n);
-    }
     __forceinline LinkSet(int n)
     {
         new ((void *)this) ::FUN_00a54110(n);
@@ -18165,13 +17945,8 @@ struct Vec4
     Vec4() : x(0), y(0), z(0), w(0)
     {}
 };
-__forceinline void* operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(n);
-}
 struct TESObjectDoorController
 {
-    static void* operator new(unsigned int);
 };
 char* __cdecl FUN_00a5b690(const char*);
 extern char* DAT_0109b220;
@@ -18394,10 +18169,6 @@ struct MeshAllocator
     void* Allocate(unsigned int);
 };
 extern MeshAllocator meshMemory;
-__forceinline void* operator new[](unsigned int n)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(meshMemory))->FUN_00aa3e40(n);
-}
 struct MeshPoint
 {
     float x, y, z;
@@ -18408,10 +18179,6 @@ struct MeshPoint
         x = a;
         y = b;
         z = c;
-    }
-    static __forceinline void* operator new[](unsigned int n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(meshMemory))->FUN_00aa3e40(n);
     }
 };
 struct MeshUV
@@ -18424,20 +18191,12 @@ struct MeshUV
         x = a;
         y = b;
     }
-    static __forceinline void* operator new[](unsigned int n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(meshMemory))->FUN_00aa3e40(n);
-    }
 };
 struct MeshColor
 {
     float r, g, b, a;
     __forceinline MeshColor() : r(0), g(0), b(0), a(0)
     {}
-    static __forceinline void* operator new[](unsigned int n) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(meshMemory))->FUN_00aa3e40(n);
-    }
 };
 extern float DAT_010c2c34;
 extern char* DAT_0109b220;
@@ -18574,7 +18333,6 @@ struct CylinderMesh
     int unkb8;
     int unkbc;
     int unkc0;
-    static void* operator new(unsigned int);
     CylinderMesh(unsigned short, MeshPoint*, MeshPoint*, MeshColor*, MeshUV*, unsigned short, int, unsigned short,
                  unsigned short, unsigned short*, unsigned short*);
 };
@@ -18677,10 +18435,6 @@ struct Vec3Item
     {}
     __forceinline Vec3Item(float a, float b, float c) : x(a), y(b), z(c)
     {}
-    static __forceinline void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00aa3e40_alloc*)&DAT_011f6238)))->FUN_00aa3e40(size);
-    }
 };
 
 struct Vec4Item
@@ -18691,10 +18445,6 @@ struct Vec4Item
     float w;
     __forceinline Vec4Item() : x(0), y(0), z(0), w(0)
     {}
-    static __forceinline void* operator new[](unsigned int size)
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00aa3e40_alloc*)&DAT_011f6238)))->FUN_00aa3e40(size);
-    }
 };
 
 struct SpawnedObject_b10495 : NiMemObject
@@ -18758,10 +18508,6 @@ __forceinline float CircleTrigA(float a)
 __forceinline float CircleTrigB(float a)
 {
     return (double)(float)sin(a);
-}
-__forceinline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>((((FUN_00aa3e40_alloc*)&DAT_011f6238)))->FUN_00aa3e40(size);
 }
 
 // @fnv 0x00c58f00
@@ -18835,10 +18581,6 @@ struct Color4
     Color4() : r(0), g(0), b(0), a(0)
     {}
 };
-__forceinline void* operator new[](unsigned int size)
-{
-    return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-}
 
 extern float DAT_010c2c34;
 extern double DAT_01011590;
@@ -18969,7 +18711,6 @@ struct Mesh : NiMemObject
 struct ScopedName;
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
 };
 struct FUN_00a5ecb0 : NiMemObjectAllocation, Node_cls
 {
@@ -19182,10 +18923,6 @@ struct NiFixedString
             return;
         volatile long* count = (volatile long*)m_kHandle - 2;
         InterlockedDecrement(count);
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(_g_memoryManager))->FUN_00aa4060(p);
     }
 };
 
@@ -19672,10 +19409,6 @@ class NiFixedStringQ
         else
             m_p = ((void *)(::NiGlobalStringTable::AddString(text)));
     }
-    static __forceinline void* operator new(unsigned int size) throw()
-    {
-        return reinterpret_cast<::MemoryManagerStandIn *>(&(g_memoryManager))->FUN_00aa3e40(size);
-    }
 };
 
 struct NiFixedString_c43500
@@ -19703,10 +19436,6 @@ struct NiFixedStringQ
             volatile long* off = (volatile long*)(m_kHandle - 8);
             InterlockedDecrement(off);
         }
-    }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>((((SpawnHeap_cls*)&DAT_011f6238)))->FUN_00aa4060(p);
     }
 };
 
@@ -20013,7 +19742,7 @@ struct S00c59660_Pt3 : public NiPoint3
         z = afDepth;
     }
 };
-inline void* operator new[](unsigned int size, S_00c42960_Heap& pool)
+inline void* operator new[](std::size_t size, S_00c42960_Heap& pool)
 {
     return reinterpret_cast<::MemoryManagerStandIn *>(&(pool))->FUN_00aa3e40(size);
 }
@@ -20023,11 +19752,6 @@ inline void operator delete[](void*, S_00c42960_Heap&)
 class FUN_00a746e0 : public NiAVObject
 {
   public:
-    static void* operator new(unsigned int size)
-    {
-        return FUN_00aa13e0(size);
-    }
-    static void operator delete(void* p);
     FUN_00a746e0(int n, NiPoint3* pts, ColorA* cols, int a, int b, int c, unsigned char* flags);
     int unk00;
     int unk04;
@@ -20958,7 +20682,6 @@ struct Mesh : NiMemObject
 struct ScopedName;
 struct NiMemObjectAllocation
 {
-    static void* operator new(unsigned int);
 };
 namespace SphereBuild {
 struct FUN_00a5ecb0 : NiMemObjectAllocation, Node_cls
@@ -21291,19 +21014,7 @@ struct C42Node
     {
         return m_04.m_00;
     }
-    static void operator delete(void* p)
-    {
-        reinterpret_cast<::FNV_MemoryManager *>(&(c42heap))->FUN_00aa4060(p);
-    }
 };
-inline void* operator new[](unsigned n)
-{
-    return c42heap.FUN_00aa3e40(n);
-}
-inline void operator delete[](void* p)
-{
-    reinterpret_cast<::FNV_MemoryManager *>(&(c42heap))->FUN_00aa4060(p);
-}
 struct C42Count
 {
     unsigned m_00;

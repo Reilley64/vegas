@@ -398,6 +398,5 @@ class BaseProcess
     {}
     virtual void vfn_44(Actor*, int, int, int, int, int);
 };
-void* __cdecl operator new(unsigned int);
 extern bool DAT_011dbe50;
 #endif

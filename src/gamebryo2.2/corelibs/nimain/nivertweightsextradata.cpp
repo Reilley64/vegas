@@ -41,7 +41,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* operator new(size_t);
 };
 
 extern void* DAT_0109ee9c;
@@ -49,7 +48,7 @@ extern void* DAT_0109ee9c;
 // @fnv 0x00a89b80
 void* __cdecl CreateNiExtraData()
 {
-    NiExtraData* p = (NiExtraData*)BSFadeNode::operator new(0xc);
+    NiExtraData* p = (NiExtraData*)::operator new(0xc);
     if (p)
     {
         reinterpret_cast<::ExtraDataObject *>((p))->FUN_00a7b2e0();

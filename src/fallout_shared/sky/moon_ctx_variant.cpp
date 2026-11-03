@@ -1,6 +1,7 @@
 
 // moon_ctx_variant.cpp: context variant of src/fallout_shared/sky/moon.cpp: its stripped skeleton, as these functions were checked
 // against, for verified matches whose own declarations clash with the unit's current types.
+#include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/F940Owner.h"
 #include "fnv/decl/FUN_00439410_cls.h"
@@ -21,15 +22,9 @@
 #include "fnv/symbols_00aa1000.h"
 #include "moon_types.h"
 
-void* __cdecl operator new(unsigned int);
-void* __cdecl operator new[](unsigned int);
-void __cdecl operator delete(void*);
-void __cdecl operator delete[](void*);
 class NiMemObject
 {
   public:
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
 };
 class NiObject : public NiMemObject
 {

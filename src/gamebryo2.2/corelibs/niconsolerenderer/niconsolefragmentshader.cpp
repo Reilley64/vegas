@@ -518,7 +518,6 @@ struct NiD3DShaderConstantMap
     int unk3c;
     int unk40;
     NiD3DShaderConstantMap(void* pkRenderer, int eType) throw();
-    static void* operator new(size_t uiSize);
 };
 
 struct NiD3DPass
@@ -682,7 +681,6 @@ bool SetBloodSplatter(unsigned int auiShaderType, bool abEnabled, bool bParam3, 
 }
 
 extern unsigned int DAT_010eff44;
-void operator delete(void* pvObject, size_t uiSize);
 
 struct ShaderObj
 {

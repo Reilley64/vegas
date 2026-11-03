@@ -18,7 +18,6 @@ struct SNAEntry
 {
     unsigned int m_data[4];
     SNAEntry() throw();
-    static void* operator new[](size_t bytes) throw();
 };
 class UnknownPoolReceiver
 {

@@ -2,6 +2,7 @@
 #define FNV_NITEXTURETRANSFORMCONTROLLER_DECLS_H
 
 
+#include <new>
 #include "fnv/symbols_00a30000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_01016000.h"
@@ -126,10 +127,6 @@ class TextureMapTransform
     float rotate;
     NiPoint2 scale;
     char pad[52];
-    static void* operator new(size_t, void* p) throw()
-    {
-        return p;
-    }
     TextureMapTransform(const NiPoint2&, float, const NiPoint2&, const NiPoint2&, int) throw();
 };
 class NiTexturingProperty__Map

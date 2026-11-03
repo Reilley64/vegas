@@ -245,10 +245,6 @@ __declspec(align(16)) struct QueryBuffer
 int FUN_00dde4c0(Iface* self, void* a, void* b, int idx, int zero, int* out);
 bool* CheckSubQueries(bool* result, void* key, Iface* self);
 void* FUN_00c908c0(void* alloc, void* arr, int numElems, int elemSize);
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 struct S_00ddeab0_Elem
 {
     int a, b, c;

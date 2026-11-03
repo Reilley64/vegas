@@ -2,6 +2,8 @@
 // src/havok/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/compound/collection/storageextendedmesh/hkpstorageextendedmeshshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <new>
+#include <cstddef>
 #include "fnv/decl/Container.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/S_00d55950.h"
@@ -267,12 +269,6 @@ __declspec(noinline) FUN_00d49c40::FUN_00d49c40(hkFinishLoadedObjectFlagD4A1 fla
 __declspec(noinline) FUN_00d4a170::FUN_00d4a170(hkFinishLoadedObjectFlagD4A1 flag) throw()
 {}
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void operator delete(void*, void*) throw()
-{}
 
 struct hkpTrianglesSubpartD4A1
 {
@@ -977,10 +973,6 @@ hkpExtendedMeshShapeTrianglesSubpartD4AB& hkpExtendedMeshShapeTrianglesSubpartD4
 }
 
 namespace fnv_00d4ad60 {
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 struct FUN_00d1df70
 {
@@ -1286,7 +1278,7 @@ struct StorageReferencedObject : hkBaseObject
     hkInt16 m_sReferenceCount;
     __forceinline StorageReferencedObject() : m_sReferenceCount(1)
     {}
-    __forceinline void* operator new(unsigned int nbytes)
+    __forceinline void* operator new(std::size_t nbytes)
     {
         StorageReferencedObject* b = static_cast<StorageReferencedObject*>(
             NineIntegerRecord::GetMonitorStream().heap().AllocateMemoryBlock(nbytes));
@@ -1576,10 +1568,6 @@ extern "C"
     int _mm_movemask_ps(__m128 a);
 }
 
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
 
 typedef float hkReal;
 typedef signed char hkInt8;

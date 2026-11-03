@@ -5,6 +5,7 @@
 
 // src/havok/animation/ragdoll/instance/hkaragdollinstance.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/instance/hkaragdollinstance.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstddef>
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/FUN_00c86490_Class.h"
@@ -278,7 +279,7 @@ class hkaSkeletonR : public hkReferencedObjectR
 class hkaRagdollInstanceR : public hkReferencedObjectR
 {
   public:
-    __forceinline void* operator new(hk_size_tR uiBytes)
+    __forceinline void* operator new(std::size_t uiBytes)
     {
         hkReferencedObjectR* b =
             static_cast<hkReferencedObjectR*>(GetMemoryRouterR().heap().AllocateMemoryBlock(uiBytes));

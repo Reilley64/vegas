@@ -33,7 +33,6 @@ public:
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(size_t);
 };
 
 extern int DAT_010a0134;
@@ -41,7 +40,7 @@ extern int DAT_010a0134;
 // @fnv 0x00a94930
 void* __cdecl FUN_00a94930()
 {
-    void* p = BSFadeNode::operator new(0x14);
+    void* p = ::operator new(0x14);
     if (p)
     {
         NiExtraData* pExtraData = static_cast<NiExtraData*>(p);
@@ -286,10 +285,6 @@ struct CloneObject
     unsigned int m_uiItemCount;
     void** m_ppData;
 
-    static void* operator new(size_t size)
-    {
-        return FUN_00aa13e0(size);
-    }
     CloneObject() throw()
     {
         reinterpret_cast<::ExtraDataObject *>(this)->FUN_00a7b2e0();

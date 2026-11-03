@@ -6459,7 +6459,6 @@ struct Message86
     int x;
     int y;
 };
-void* __cdecl operator new(unsigned int);
 typedef int(__cdecl* code)(...);
 
 int __cdecl FUN_00408d60(...);
@@ -10606,15 +10605,8 @@ struct Output : Scene
     unsigned int unk278;
     unsigned int unk27c;
     Output(int, int, int);
-    static __forceinline void* operator new(unsigned int);
-    static __forceinline void operator delete(void*)
-    {}
 };
 void* FUN_00aa13e0(unsigned int);
-__forceinline void* Output::operator new(unsigned int n)
-{
-    return FUN_00aa13e0(n);
-}
 struct Pointer
 {
     Scene* value;

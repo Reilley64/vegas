@@ -697,7 +697,6 @@ class NiD3DHLSLPixelShaderStandIn : public NiD3DPixelShaderStandIn
         m_pcShaderProfile = 0;
         m_pShaderConstantTable = 0;
     }
-    static void* operator new(size_t uiSize);
     virtual void v01();
     virtual void v02();
     virtual void v03();
@@ -1139,7 +1138,6 @@ NiD3DHLSLPixelShaderStandIn* HLSLCreator_b10814::FUN_00e95f20(void* pvBuffer, un
 
 struct NiMemObject
 {
-    static void* operator new(size_t uiSize);
 };
 const char* FUN_00ee6e28(void* pkDevice);
 
@@ -1536,7 +1534,6 @@ struct S00e96610_VS : S00e96610_VSMid
         m_i44 = 0;
     }
     virtual ~S00e96610_VS();
-    static void* operator new(size_t);
 };
 
 struct S00e96610_Creator

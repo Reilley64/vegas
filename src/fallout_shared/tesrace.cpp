@@ -2116,16 +2116,12 @@ struct FUN_005dd590_C
 
 struct FUN_00649680_C
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     char pad[0x1c0];
     FUN_00649680_C();
 };
 
 struct FUN_006628c0_C
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
     char pad[0xec];
     FUN_006628c0_C();
     virtual void v00();

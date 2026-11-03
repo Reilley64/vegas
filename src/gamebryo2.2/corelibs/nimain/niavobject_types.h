@@ -35,8 +35,6 @@ class NiUpdateData;
 class FourComponentFloatVector;
 template <class T> class NiTPrimitiveArray;
 typedef NiTPrimitiveArray<char*> NiViewerStringsArray;
-void* __cdecl operator new(size_t);
-void __cdecl operator delete(void*);
 class NiPoint3
 {
   public:

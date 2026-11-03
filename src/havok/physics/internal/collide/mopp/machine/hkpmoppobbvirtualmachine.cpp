@@ -52,7 +52,7 @@ struct __declspec(align(16)) GridScratch {
 };
 
 struct GridCell {
-    int m00;
+    void* m00;
     int unk04;
     int unk08;
     int unk0c;
@@ -97,7 +97,7 @@ struct GridCell {
     void* m30;
     int m34;
 
-    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3);
+    void FUN_00dd1da0(GridSource* a1, GridBounds* a2, void* a3);
 };
 
 extern "C" void _ReadWriteBarrier();
@@ -144,7 +144,7 @@ struct VirtualMachine {
   int* destination=&out->data[out->size]; ++out->size; *destination=value; }
 };
 // @fnv 0x00dd1da0
-void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, int a3) {
+void GridCell::FUN_00dd1da0(GridSource* a1, GridBounds* a2, void* a3) {
     m30 = a1;
     m00 = a3;
     float s = a1->f1c;
@@ -356,11 +356,11 @@ struct ObbCodeView {
 
 
 struct ObbMachine : GridCell {
-    void FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, unsigned int key);
+    void FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, void* key);
 };
 
 // @fnv 0x00dd1bf0
-void ObbMachine::FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, unsigned int key)
+void ObbMachine::FUN_00dd1bf0(const ObbCodeView* src, const ObbTransform* t, const ObbVector* halfExtents, float radius, void* key)
 {
     m00 = key;
     m30 = (void*)src;

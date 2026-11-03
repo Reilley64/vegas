@@ -173,13 +173,6 @@ struct Object : Base {
     void ProcessEntries(void**, int, S00cfa430_Data*, unsigned int);
 };
 struct Callback { virtual void Invoke(int value); };
-struct Receiver {
-    virtual void Slot00();
-    virtual void Slot04();
-    virtual void Slot08();
-    virtual void Slot0c();
-    virtual void Invoke(void* data, unsigned int size);
-};
 
 struct FUN_00d0d0d0_cls {
     const void* unk00; int unk04; int unk08; int unk0c;
@@ -203,11 +196,10 @@ void FUN_00d0d0d0_cls::Destroy() {
         sub3c.unk0c->Invoke(1);
     reinterpret_cast<::CB1A90Owner *>(&(sub3c))->ProcessArgument((::CB1A90Argument *)(void *)(hkMemoryRouter::getInstance().m_heap));
     ::FUN_00a29680();
-    hkMemoryRouter* manager = (&hkMemoryRouter::getInstance());
-    Receiver* writer = (Receiver*)manager->m_heap;
+    hkMemoryAllocator* writer = hkMemoryRouter::getInstance().m_heap;
     unk34 = 0;
     if ((unk38 & 0x80000000) != 0) goto skip_writer;
-    writer->Invoke(unk30, (unk38 & 0x3fffffff) * 0x70);
+    writer->bufFree(unk30, (unk38 & 0x3fffffff) * 0x70);
 skip_writer:
     unk30 = 0;
     unk38 = 0x80000000;

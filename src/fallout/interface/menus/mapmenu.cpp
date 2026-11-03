@@ -3,6 +3,7 @@
 #include "fallout/interface/tile_fields.h"
 #include "fnv/result_slot.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/list_box_fields.h"
 #include <cstdint>
 #include <new>
 #include "runtime/crt.h"
@@ -2793,8 +2794,6 @@ struct UIManager
 };
 struct Clock
 {
-    char pad[0x14];
-    WidgetTile* scrollBar;
 };
 struct Metrics
 {
@@ -4535,7 +4534,7 @@ bool Controller::HandleInputCommand(int command, int ignored)
             case 0x22:
             case 0x23: {
                 WidgetTile* item =
-                    mode == 0x22 ? clock.scrollBar : ((::WidgetTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((source))->FUN_00a03da0((char *)(DAT_01074ec8))));
+                    mode == 0x22 ? (WidgetTile*)(reinterpret_cast<::ListBoxFields *>(&clock)->scrollBar) : ((::WidgetTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((source))->FUN_00a03da0((char *)(DAT_01074ec8))));
                 if (item && ((double)(reinterpret_cast<::TileListBoxCalls *>((item))->GetFloat(0xfa3))) != ::_DAT_01012060)
                 {
                     int direction = 0;

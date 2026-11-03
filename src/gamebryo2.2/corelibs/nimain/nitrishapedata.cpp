@@ -63,15 +63,15 @@ struct FUN_00a7b700_T
     char pad[0x40];
     unsigned short a;
     unsigned int b;
-    unsigned int c;
+    unsigned short* c;
 };
 
 // @fnv 0x00a7b700
-void FUN_00a7b700(FUN_00a7b700_T* self, int, unsigned short ausValue, unsigned int auiValue)
+void FUN_00a7b700(FUN_00a7b700_T* self, int, unsigned short ausValue, uintptr_t auiValue)
 {
     self->a = ausValue;
     self->b = ausValue * 3;
-    self->c = auiValue;
+    self->c = (unsigned short*)auiValue;
 }
 
 struct FUN_00a7b720_T

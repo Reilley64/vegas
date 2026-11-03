@@ -1627,7 +1627,7 @@ void SpawnedSourceOwner::FUN_00cab820(SpawnedSource* apSource)
 {
     __m128 vA = _mm_setr_ps(apSource->m_f20, apSource->m_f24, apSource->m_f28, apSource->m_f2C);
     __m128 vB = _mm_setr_ps(apSource->m_f10, apSource->m_f14, apSource->m_f18, apSource->m_f1C);
-    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((int)(&vB), (int)(&vA), apSource->m_f04);
+    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((intptr_t)(&vB), (intptr_t)(&vA), apSource->m_f04);
     Apply(apSource);
 }
 
@@ -1856,7 +1856,7 @@ bhkCapsuleShapeCtor::bhkCapsuleShapeCtor(const NiPoint3& kPoint1, const NiPoint3
     kA.set(kPoint1.x * DAT_01268328, kPoint1.y * DAT_01268328, kPoint1.z * DAT_01268328, 0.0f);
     hkVector4 kB;
     kB.set(kPoint2.x * DAT_01268328, kPoint2.y * DAT_01268328, kPoint2.z * DAT_01268328, 0.0f);
-    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((int)&(kA), (int)&(kB), fRadius * DAT_01268328);
+    reinterpret_cast<::Owner *>(this)->FUN_00cab0e0((intptr_t)&(kA), (intptr_t)&(kB), fRadius * DAT_01268328);
 }
 }  // namespace fnv_00cab710
 

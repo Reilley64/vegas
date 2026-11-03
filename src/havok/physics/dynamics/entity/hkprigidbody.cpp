@@ -819,19 +819,19 @@ struct FUN_00ca9240_Base
 {
     int unk04;
     unsigned char type;
-    FUN_00ca9240_Base(int a, int b, int c);
+    FUN_00ca9240_Base(intptr_t a, intptr_t b, int c);
     virtual void unk00();
 };
 
 struct FUN_00ca9240 : FUN_00ca9240_Base
 {
-    FUN_00ca9240(int a, int b);
+    FUN_00ca9240(intptr_t a, intptr_t b);
     virtual void unk04();
 };
 
 // Constructs the base with a and b and a zero, then sets type to 7.
 // @fnv 0x00ca9240
-FUN_00ca9240::FUN_00ca9240(int aiValueA, int aiValueB) : FUN_00ca9240_Base(aiValueA, aiValueB, 0)
+FUN_00ca9240::FUN_00ca9240(intptr_t aiValueA, intptr_t aiValueB) : FUN_00ca9240_Base(aiValueA, aiValueB, 0)
 {
     type = 7;
 }

@@ -13305,7 +13305,7 @@ struct PropertyKey
 };
 struct PropertyValue
 {
-    int value;
+    intptr_t value;
     unsigned int extra;
 };
 struct PropertyEntry
@@ -13354,22 +13354,22 @@ struct PropertyOwner
 {
     unsigned int unknown00, unknown04;
     PropertyStore* store;
-    int ReadProperty(void* key);
-    int FUN_00c85c80(void* key);
+    intptr_t ReadProperty(void* key);
+    intptr_t FUN_00c85c80(void* key);
 };
-__forceinline int PropertyOwner::ReadProperty(void* key)
+__forceinline intptr_t PropertyOwner::ReadProperty(void* key)
 {
     PropertyStore* object = store;
-    int result = 0;
+    intptr_t result = 0;
     if (object)
         result = object->FindEntry(key, 0).value;
     return result;
 }
 // Defaults key to DAT_011f4280 if null; if a store entry has that key, returns ReadProperty(key), otherwise 0.
 // @fnv 0x00c85c80
-int PropertyOwner::FUN_00c85c80(void* key)
+intptr_t PropertyOwner::FUN_00c85c80(void* key)
 {
-    int result = 0;
+    intptr_t result = 0;
     if (!key)
         key = &(*reinterpret_cast<::PropertyKey *>(&::g_011f4280));
     PropertyStore* object = store;

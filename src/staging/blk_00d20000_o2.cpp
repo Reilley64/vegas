@@ -1595,16 +1595,16 @@ FOUND:
 struct Base {
     int unk4;
     char m_8;
-    Base(int a, int b);
+    Base(intptr_t a, intptr_t b);
     virtual void v0();
 };
 struct FUN_00d21930 : Base {
-    FUN_00d21930(int a, int b);
+    FUN_00d21930(intptr_t a, intptr_t b);
     virtual void v0();
 };
 // Constructs the object by forwarding a and b to the Base constructor and setting m_8 to 6.
 // @fnv 0x00d21930
-FUN_00d21930::FUN_00d21930(int a, int b) : Base(a, b) { m_8 = 6; }
+FUN_00d21930::FUN_00d21930(intptr_t a, intptr_t b) : Base(a, b) { m_8 = 6; }
 
 struct FUN_00d219e0_node
 {

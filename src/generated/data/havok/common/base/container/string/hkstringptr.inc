@@ -2,4 +2,4 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-int DAT_01268358;
+uintptr_t DAT_01268358;

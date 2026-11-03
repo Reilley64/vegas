@@ -142,7 +142,7 @@ extern "C" extern int DAT_0126834c;
 // 0x01268350
 extern ::GlobalObjectO2_00a7b610 g_01268350;
 // 0x01268358
-extern int DAT_01268358;
+extern uintptr_t DAT_01268358;
 // 0x0126835c
 extern unsigned long DAT_0126835c;
 // 0x01268360
@@ -174,7 +174,7 @@ extern ::GlobalObjectO2_00a7b610 g_01268400;
 // 0x01268414
 extern "C" extern unsigned char DAT_01268414;
 // 0x01268418
-extern unsigned int DAT_01268418;
+extern uintptr_t DAT_01268418;
 // 0x0126841c
 extern int DAT_0126841c;
 // 0x01268420

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class NiExtraData;
 struct FUN_00a7b6c0_T;
 struct FUN_00a7b700_T;
@@ -10,7 +12,7 @@ struct FUN_00a7b870_T;
 // 0x00a7b6c0
 void FUN_00a7b6c0(::FUN_00a7b6c0_T *, int, unsigned short, unsigned short *);
 // 0x00a7b700
-void FUN_00a7b700(::FUN_00a7b700_T *, int, unsigned short, unsigned int);
+void FUN_00a7b700(::FUN_00a7b700_T *, int, unsigned short, uintptr_t);
 // 0x00a7b790
 void *FUN_00a7b790();
 // 0x00a7b7d0

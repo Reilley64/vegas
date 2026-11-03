@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdint>
+
 struct PropertyOwner {
 public:
     // 0x00c85c80
-    int FUN_00c85c80(void *);
+    intptr_t FUN_00c85c80(void *);
 };

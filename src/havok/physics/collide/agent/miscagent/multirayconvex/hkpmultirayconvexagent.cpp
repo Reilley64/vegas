@@ -40,7 +40,7 @@ struct FUN_00cfbbe0_Class
 
 // Builds two FUN_00cfbbe0_Arg descriptors from function pointers and flags and passes each to FUN_00cfbbe0 with size arguments 0x12/0x18 and 0x18/0x12.
 // @fnv 0x00d377d0
-void FUN_00d377d0(int pClass)
+void FUN_00d377d0(intptr_t pClass)
 {
     FUN_00cfbbe0_Class* p = (FUN_00cfbbe0_Class*)pClass;
     FUN_00cfbbe0_Arg arg;

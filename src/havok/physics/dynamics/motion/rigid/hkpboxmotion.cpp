@@ -582,17 +582,17 @@ extern const float DAT_01012068;
 struct FUN_00c86530_Obj
 {
     virtual ~FUN_00c86530_Obj();
-    FUN_00c86530_Obj(int a1, int a2, int a3);
+    FUN_00c86530_Obj(intptr_t a1, intptr_t a2, int a3);
 };
 
 struct S00d1e690_cls : hkpMotion
 {
-    S00d1e690_cls* FUN_00d1e690(int a1, int a2);
+    S00d1e690_cls* FUN_00d1e690(intptr_t a1, intptr_t a2);
 };
 
 // Constructs the object in place via FUN_00c86530_Obj, sets m_kInertiaAndMassInv to DAT_01012068, and assigns m_type to 3.
 // @fnv 0x00d1e690
-S00d1e690_cls* S00d1e690_cls::FUN_00d1e690(int a1, int a2)
+S00d1e690_cls* S00d1e690_cls::FUN_00d1e690(intptr_t a1, intptr_t a2)
 {
     __assume(this != 0);
     new (this) FUN_00c86530_Obj(a1, a2, 0);

@@ -30,7 +30,7 @@ struct FUN_00cfbbe0_Class
 {
     void FUN_00cfbbe0(FUN_00cfbbe0_Arg* a, int b, int c);
 };
-void FUN_00d377d0(int pClass);
+void FUN_00d377d0(intptr_t pClass);
 struct Handler
 {
     virtual void slot0();

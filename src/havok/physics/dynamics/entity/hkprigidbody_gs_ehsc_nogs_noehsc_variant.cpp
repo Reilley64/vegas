@@ -693,12 +693,12 @@ struct FUN_00ca9240_Base
 {
     int unk04;
     unsigned char type;
-    FUN_00ca9240_Base(int a, int b, int c);
+    FUN_00ca9240_Base(intptr_t a, intptr_t b, int c);
     virtual void unk00();
 };
 struct FUN_00ca9240 : FUN_00ca9240_Base
 {
-    FUN_00ca9240(int a, int b);
+    FUN_00ca9240(intptr_t a, intptr_t b);
     virtual void unk04();
 };
 struct BaseRecord

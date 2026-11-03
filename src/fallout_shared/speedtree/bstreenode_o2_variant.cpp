@@ -1941,7 +1941,7 @@ struct FUN_00d22590
     int unk34;
     int unk38;
     int unk3C;
-    FUN_00d22590(int a, int b, float c);
+    FUN_00d22590(intptr_t a, intptr_t b, float c);
     static void* operator new(std::size_t size)
     {
         FUN_00d22590* p = (FUN_00d22590*)FUN_00c85750()->Alloc(size);
@@ -1989,11 +1989,11 @@ struct Owner
     virtual void f33();
     virtual void f34();
     virtual void AddElement(FUN_00d22590* e);
-    void FUN_00cab0e0(int a, int b, float c);
+    void FUN_00cab0e0(intptr_t a, intptr_t b, float c);
 };
 
 // @fnv 0x00cab0e0
-void Owner::FUN_00cab0e0(int a, int b, float c)
+void Owner::FUN_00cab0e0(intptr_t a, intptr_t b, float c)
 {
     ScopedContext scope(0x10);
     FUN_00d22590* e = new FUN_00d22590(a, b, c);

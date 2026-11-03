@@ -1580,7 +1580,7 @@ bool Manager::FUN_00ca2ad0(void* source, unsigned int flags)
     {
         ScratchVec left(64);
         RightScratchVec right(64);
-        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), (int)(&left), (int)(&right));
+        reinterpret_cast<::SceneWalker_cls *>(this)->TraverseSceneNode((::SceneNode_cls *)(original.data[outer]), (intptr_t)(&left), (intptr_t)(&right));
         if (right.count == 0)
             continue;
         bool reused = false;

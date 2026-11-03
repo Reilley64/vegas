@@ -289,11 +289,11 @@ extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct FUN_00c86530_Obj
 {
     virtual ~FUN_00c86530_Obj();
-    FUN_00c86530_Obj(int a1, int a2, int a3);
+    FUN_00c86530_Obj(intptr_t a1, intptr_t a2, int a3);
 };
 struct S00d1e690_cls : hkpMotion
 {
-    S00d1e690_cls* FUN_00d1e690(int a1, int a2);
+    S00d1e690_cls* FUN_00d1e690(intptr_t a1, intptr_t a2);
 };
 extern "C" __m128 _mm_setr_ps(float, float, float, float);
 struct S00d1e750_cls : hkpMotion

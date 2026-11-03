@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 class hkpCdBody;
 class hkpCdPointCollector;
 namespace fnv_00d37da0 { struct S_00d37da0_Agent; }
@@ -23,7 +25,7 @@ namespace fnv_00d37740 { void FUN_00d37740(int, int, int, int); }
 // 0x00d37780
 namespace fnv_00d37780 { void *FUN_00d37780_impl(int, int, int, int); }
 // 0x00d377d0
-void FUN_00d377d0(int);
+void FUN_00d377d0(intptr_t);
 // 0x00d37860
 void FUN_00d37860(void *, void *, void *, int);
 // 0x00d37da0

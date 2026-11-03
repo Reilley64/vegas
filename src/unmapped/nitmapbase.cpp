@@ -425,16 +425,17 @@ void C6b7f20_Map::FUN_006b7f20(C6b7f20_Node** position, unsigned int* outKey, vo
 struct FUN_00844700_Node
 {
     FUN_00844700_Node* next;
-    unsigned int key;
-    unsigned int value;
+    std::uintptr_t key;
+    std::uintptr_t value;
 };
 
+// The map stores pointer and integer keys and values, so both are pointer-sized.
 struct FUN_00844700_Class
 {
     virtual void vf00();
-    virtual int vf04(unsigned int key);
-    virtual bool vf08(unsigned int key, unsigned int nodeKey);
-    virtual void vf0c(void* node, unsigned int key, unsigned int value);
+    virtual int vf04(std::uintptr_t key);
+    virtual bool vf08(std::uintptr_t key, std::uintptr_t nodeKey);
+    virtual void vf0c(void* node, std::uintptr_t key, std::uintptr_t value);
     virtual void vf10();
     virtual void* vf14();
 
@@ -442,22 +443,20 @@ struct FUN_00844700_Class
     FUN_00844700_Node** nodes;
     int count;
 
-    void FUN_00844700(unsigned int key, unsigned int value);
+    void FUN_00844700(std::uintptr_t key, std::uintptr_t value);
 };
 
-// Empty inline virtual method body; does nothing.
-// @fnv 0x00844700
 inline void FUN_00844700_Class::vf00()
 {}
-inline int FUN_00844700_Class::vf04(unsigned int)
+inline int FUN_00844700_Class::vf04(std::uintptr_t)
 {
     return 0;
 }
-inline bool FUN_00844700_Class::vf08(unsigned int, unsigned int)
+inline bool FUN_00844700_Class::vf08(std::uintptr_t, std::uintptr_t)
 {
     return false;
 }
-inline void FUN_00844700_Class::vf0c(void*, unsigned int, unsigned int)
+inline void FUN_00844700_Class::vf0c(void*, std::uintptr_t, std::uintptr_t)
 {}
 inline void FUN_00844700_Class::vf10()
 {}
@@ -466,7 +465,9 @@ inline void* FUN_00844700_Class::vf14()
     return 0;
 }
 
-void FUN_00844700_Class::FUN_00844700(unsigned int key, unsigned int value)
+// Sets the value for key: updates the matching node in the key's bucket, or links a new node at the bucket head.
+// @fnv 0x00844700
+void FUN_00844700_Class::FUN_00844700(std::uintptr_t key, std::uintptr_t value)
 {
     int counter = this->vf04(key);
     FUN_00844700_Node* node = this->nodes[counter];
@@ -826,7 +827,7 @@ struct TexMap : TexBase
 // @fnv 0x00b60240
 void TexMap::FUN_00b60240(NiStream* stream)
 {
-    ::FUN_00ba8be0((::BSSP_stub *)this, (int)(stream), {});
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, reinterpret_cast<std::intptr_t>(stream));
     if (m_path)
         ::BSShaderManager::GetTexture(m_path, true, (::NiPointer< ::NiTexture> &)(m_texture), true, false);
 }

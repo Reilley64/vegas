@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <windows.h>
 #include <cstring>
 #include "fnv/decl/ActiveArray.h"
@@ -35,31 +36,48 @@ struct NiD3DRenderState
     void FUN_00e87980(void*);
 };
 
-struct FUN_009ba5f0_shell
+struct C89C80_Source
 {
+    char pad00[0xc];
+    ::C89AC0_Child* m_pChild;
+    int m_10;
+    int m_14;
+    int m_18;
+    unsigned char m_1c;
+};
+
+struct C89C80_Dest
+{
+    char pad00[8];
+    unsigned int m_08;
+    int m_0c;
+    int m_10;
 };
 
 struct FUN_00c89c80_obj
 {
-    void CopyFromSource(unsigned int uiMaxSize);
+    char pad00[8];
+    C89C80_Source* m_pSource;
+    void CopyFromSource(std::uintptr_t auDest);
 };
 
 // @fnv 0x00c89c80
-void FUN_00c89c80_obj::CopyFromSource(unsigned int pDest)
+void FUN_00c89c80_obj::CopyFromSource(std::uintptr_t auDest)
 {
-    if (this && *(void**)((char*)this + 8))
+    C89C80_Dest* pDest = reinterpret_cast<C89C80_Dest*>(auDest);
+    if (this && m_pSource)
     {
-        void* p = *(void**)((char*)this + 8);
-        reinterpret_cast<::C89AC0_Owner *>((((FUN_009ba5f0_shell*)pDest)))->SetChildObject((::C89AC0_Child *)(*(int*)((char*)p + 0xc)));
-        *(int*)((char*)pDest + 0xc) = *(int*)((char*)p + 0x14);
-        *(int*)((char*)pDest + 0x10) = *(int*)((char*)p + 0x18);
-        *(unsigned int*)((char*)pDest + 8) = *(unsigned char*)((char*)p + 0x1c);
+        C89C80_Source* p = m_pSource;
+        reinterpret_cast<::C89AC0_Owner *>(pDest)->SetChildObject(p->m_pChild);
+        pDest->m_0c = p->m_14;
+        pDest->m_10 = p->m_18;
+        pDest->m_08 = p->m_1c;
     }
     else
     {
-        reinterpret_cast<::C89AC0_Owner *>((((FUN_009ba5f0_shell*)pDest)))->SetChildObject((::C89AC0_Child *)(0));
-        *(int*)((char*)pDest + 0xc) = 0;
-        *(int*)((char*)pDest + 0x10) = 0;
+        reinterpret_cast<::C89AC0_Owner *>(pDest)->SetChildObject((::C89AC0_Child *)(0));
+        pDest->m_0c = 0;
+        pDest->m_10 = 0;
     }
 }
 
@@ -81,8 +99,8 @@ struct KeyPair
 
 struct FUN_00a41520_cls
 {
-    int unk00;
-    int unk04;
+    void* vfptr;
+    KeyPair** m_pBase;
     unsigned short m_uCapacity;
     unsigned short m_uCount;
     unsigned short m_u0c;
@@ -97,7 +115,7 @@ struct FUN_00a41520_cls
 // @fnv 0x00a41520
 bool FUN_00a41520_cls::FUN_00a41520(void* apFirst, void* apSecond)
 {
-    if (reinterpret_cast<::FUN_00a413d0_cls *>(this)->FindPairIndex((unsigned int)(apFirst), (unsigned int)(apSecond)) == -1)
+    if (reinterpret_cast<::FUN_00a413d0_cls *>(this)->FindPairIndex(reinterpret_cast<std::uintptr_t>(apFirst), reinterpret_cast<std::uintptr_t>(apSecond)) == -1)
     {
         KeyPair* pEntry = new KeyPair(apFirst, apSecond);
 
@@ -147,31 +165,31 @@ void FUN_00a41520_cls::FUN_00a90180(unsigned int auiNewSize)
     {
         for (unsigned short i = (unsigned short)auiNewSize; i < m_uCount; i++)
         {
-            if (((KeyPair**)unk04)[i] != 0)
+            if (m_pBase[i] != 0)
             {
-                ((KeyPair**)unk04)[i] = 0;
+                m_pBase[i] = 0;
                 m_u0c += 0xffff;
             }
         }
         m_uCount = (unsigned short)auiNewSize;
     }
 
-    KeyPair** oldEntries = (KeyPair**)unk04;
+    KeyPair** oldEntries = m_pBase;
     m_uCapacity = (unsigned short)auiNewSize;
 
     if (auiNewSize > 0)
     {
-        unk04 = (int)S_Interface::Allocate(m_uCapacity);
+        m_pBase = S_Interface::Allocate(m_uCapacity);
 
         for (unsigned short i = 0; i < m_uCount; i++)
-            ((KeyPair**)unk04)[i] = oldEntries[i];
+            m_pBase[i] = oldEntries[i];
 
         for (unsigned short j = m_uCount; j < m_uCapacity; j++)
-            ((KeyPair**)unk04)[j] = 0;
+            m_pBase[j] = 0;
     }
     else
     {
-        unk04 = 0;
+        m_pBase = 0;
     }
 
     FUN_00aa10f0(oldEntries);
@@ -193,7 +211,7 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
     {
         if (*appEntry != 0)
         {
-            KeyPair** pEntries = (KeyPair**)unk04;
+            KeyPair** pEntries = m_pBase;
             if (pEntries[auiIndex] == 0)
             {
                 m_u0c++;
@@ -201,7 +219,7 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
         }
         else
         {
-            KeyPair** pEntries = (KeyPair**)unk04;
+            KeyPair** pEntries = m_pBase;
             if (pEntries[auiIndex] != 0)
             {
                 unsigned short minusOne = 0xffff;
@@ -209,7 +227,7 @@ void FUN_00a41520_cls::FUN_00ba3aa0(unsigned int auiIndex, KeyPair** appEntry)
             }
         }
     }
-    KeyPair** store = (KeyPair**)unk04;
+    KeyPair** store = m_pBase;
     store[auiIndex] = *appEntry;
 }
 
@@ -797,7 +815,6 @@ FUN_00b8a9e0::FUN_00b8a9e0() : m_24(0), m_28(0), m_3c(0), m_40(0), m_44(0), m_48
 }
 
 #include <windows.h>
-#include <cstdint>
 #include "fnv/decl/FUN_00537e90.h"
 #include "fnv/decl/FUN_00658930_class.h"
 #include "fnv/decl/FUN_00844700_Class.h"
@@ -1469,7 +1486,7 @@ void NiTObjectArrayA47::FUN_0060bef0(uintptr_t uiMaxSize)
     {
         m_pBase = 0;
     }
-    ::FUN_004b0220((int)(pSaveBase));
+    ::FUN_004b0220(reinterpret_cast<std::intptr_t>(pSaveBase));
 }
 
 namespace fnv_009a5a70 {
@@ -1494,14 +1511,14 @@ void FUN_009a5a70_cls::FUN_009a5a70(ItemList* list)
     {
         bool failed = false;
         SpawnedObject* object = new SpawnedObject;
-        void* output;
-        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((list))->FUN_008648e0((unsigned int *)(void **)(&output));
-        reinterpret_cast<::FUN_00537e90 *>((object))->SetQuantity((unsigned int)(output));
+        unsigned int output;
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((list))->FUN_008648e0(&output);
+        reinterpret_cast<::FUN_00537e90 *>((object))->SetQuantity(output);
         reinterpret_cast<::FUN_009a4ef0_Class *>((object))->FUN_009a4ef0((::BGSLoadFormBuffer *)(list));
         if (output == 0)
             failed = true;
         if (!failed)
-            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(output), (unsigned int)(object));
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(output, reinterpret_cast<std::uintptr_t>(object));
         else
             delete object;
     }

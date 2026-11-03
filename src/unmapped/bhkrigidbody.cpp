@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include "fnv/decl/ActionOwnerC9d590.h"
@@ -79,27 +80,27 @@ void __cdecl AddMotionTypeName(StrArr* arr, int type)
     {
     case 1:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "DYNAMIC");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 2:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "SPHERE");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 3:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "BOX");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 4:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "KEYFRAMED");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 5:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "FIXED");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     case 6:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "THIN BOX");
-        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610((int)&((unsigned int&)s));
+        reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)arr)))->FUN_0096a610(reinterpret_cast<std::intptr_t>(&s));
         break;
     default:
         s = ::fnv_00a7d5e0::FUN_00a7d5e0("MOTION", "INVALID");
@@ -707,7 +708,7 @@ void FUN_00c8e770_cls::ProcessListNodes()
                 {
                     if (p == (ListNode*)&(*reinterpret_cast<char *>(&::g_01268158)))
                     {
-                        r = ((int)(reinterpret_cast<::FUN_00c87a40_obj *>((o))->FUN_00c87a40()));
+                        r = reinterpret_cast<::FUN_00c87a40_obj *>((o))->FUN_00c87a40() != 0;
                         goto L_070;
                     }
                 }
@@ -1443,18 +1444,18 @@ struct bhkRigidBodyX
     virtual void vfF4();
     virtual void vfF8();
     virtual void SetLockedStub(bool locked);
-    bhkLiquidAction* CreateAndAddLiquidAction(int param);
+    bhkLiquidAction* CreateAndAddLiquidAction(::CloningProcess* apCloning);
 };
 
 // Creates a new bhkLiquidAction, adds it to the rigid body with param, and returns it while locking and unlocking the world.
 // @fnv 0x00c8f400
-bhkLiquidAction* bhkRigidBodyX::CreateAndAddLiquidAction(int param)
+bhkLiquidAction* bhkRigidBodyX::CreateAndAddLiquidAction(::CloningProcess* apCloning)
 {
     ThreadFlagsGuard guard;
     ::FUN_00c876f0();
     SetLockedStub(false);
     bhkLiquidAction* action = new bhkLiquidAction;
-    reinterpret_cast<::RigidBodyS *>(this)->CopyBodyToClone((::RigidBodyS *)(action), (::CloningProcess *)(param));
+    reinterpret_cast<::RigidBodyS *>(this)->CopyBodyToClone((::RigidBodyS *)(action), apCloning);
     SetLockedStub(true);
     ::FUN_00c87700();
     return action;
@@ -1740,7 +1741,7 @@ class SceneC8E
 // @fnv 0x00c8f3c0
 void bhkRigidBody::FUN_00c8f3c0(NiStream* stream)
 {
-    reinterpret_cast<::S00c859e0_cls *>(this)->FUN_00c859e0((unsigned int)(stream));
+    reinterpret_cast<::S00c859e0_cls *>(this)->FUN_00c859e0(stream);
     unsigned int count = reinterpret_cast<::FUN_00a63460_shell *>((stream))->FUN_00a63460();
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -1815,7 +1816,7 @@ void C8EC60World::FUN_00c8ec60()
         C8EC60Object* pkObject = pkIter->m_pkCurrent;
         if (pkObject->IsKindOfType((*reinterpret_cast<const ::C8EC60RTTI *>(&::g_0126818c))))
         {
-            if (((void *)(reinterpret_cast<::RigidLinkSource *>((static_cast<C8EC60Constraint*>(pkObject)))->GetLinkedRecordValue())))
+            if (reinterpret_cast<::RigidLinkSource *>((static_cast<C8EC60Constraint*>(pkObject)))->GetLinkedRecordValue() != 0)
                 pkObject->ResetWorldObject();
         }
         else if (pkObject->IsKindOfType((*reinterpret_cast<const ::C8EC60RTTI *>(&::g_01268158))))
@@ -1887,7 +1888,6 @@ void __cdecl FUN_00c8ecf0(HavokObject* object)
 
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
-#include <cstdint>
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/decl/FUN_0040fbf0_shell.h"
 #include "fnv/decl/FUN_005610f0_cls.h"
@@ -3503,7 +3503,7 @@ struct MemScope
     MemScope()
     {
         unsigned int index = *(volatile unsigned int*)&DAT_0126fd98;
-        block = ((TlsBlock**)__readfsdword(0x2c))[index];
+        block = ((TlsBlock**)__readgsqword(0x58))[index];
         saved = block->unk2b4;
         block->unk2b4 = 16;
     }
@@ -4667,7 +4667,7 @@ struct This160
     virtual V4_160* V160f0(V4_160* in);
     unsigned int unk04;
     Linked160* m_08;
-    void FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3);
+    void FUN_00c8e160(float* p1, RotationArg160 input, void* p3);
 };
 struct SmartObj160
 {
@@ -4700,7 +4700,7 @@ struct Ws160
     V4_160 tmpC0;
 };
 // @fnv 0x00c8e160
-void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
+void This160::FUN_00c8e160(float* p1, RotationArg160 input, void* p3)
 {
     V4_160 separate_q;
     V4_160 separate_p;
@@ -4709,7 +4709,7 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     float inv, s1, len;
     DotSpeed160 pair;
     SmartObj160* a3;
-    a3 = (SmartObj160*)p3;
+    a3 = static_cast<SmartObj160*>(p3);
     Linked160* linked = this ? m_08 : 0;
     Inner160* inner = linked->unk08;
     if (!inner)
@@ -4856,7 +4856,7 @@ void This160::FUN_00c8e160(float* p1, RotationArg160 input, unsigned int p3)
     {
         if (a3)
             reinterpret_cast<::FUN_0040fbf0_shell *>((a3))->FUN_0040fbf0((char *)(0));
-        reinterpret_cast<::FUN_005610f0_cls *>(this)->FUN_005610f0((int)(p1));
+        reinterpret_cast<::FUN_005610f0_cls *>(this)->FUN_005610f0(reinterpret_cast<std::intptr_t>(p1));
         if (a3)
         {
             if (--a3->ref04 == 0)

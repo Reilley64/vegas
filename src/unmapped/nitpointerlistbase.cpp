@@ -1,6 +1,7 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/FUN_00438af0_Class.h"
 #include "fnv/decl/FUN_0043a010_shell.h"
@@ -203,37 +204,45 @@ void* FUN_004ed960::Init(unsigned int uiSize)
 extern int DAT_01023274;
 struct FUN_004eda60_t
 {
+    void* vtbl;
+    unsigned int size;
+    void* data;
+    unsigned int count;
     void* FUN_004eda60(unsigned int count);
 };
 // Sets the vtable, stores count, allocates count*4 bytes, zeroes the buffer, and returns this.
 // @fnv 0x004eda60
-void* FUN_004eda60_t::FUN_004eda60(unsigned int count)
+void* FUN_004eda60_t::FUN_004eda60(unsigned int uiCount)
 {
-    unsigned int size;
-    *(int*)this = (int)&DAT_01023274;
-    *(unsigned int*)((char*)this + 4) = count;
-    *(int*)((char*)this + 12) = 0;
-    size = *(unsigned int*)((char*)this + 4) * 4;
-    *(void**)((char*)this + 8) = ::FUN_00aa1070(size);
-    ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) * 4);
+    unsigned int uiBytes;
+    vtbl = &DAT_01023274;
+    size = uiCount;
+    count = 0;
+    uiBytes = size * 4;
+    data = ::FUN_00aa1070(uiBytes);
+    ::FUN_00403d30(data, 0, size * 4);
     return this;
 }
 
 struct FUN_004edb60_t
 {
+    void* vtbl;
+    int size;
+    void* data;
+    int count;
     int* FUN_004edb60(int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes, zeroes the buffer and returns this.
 // @fnv 0x004edb60
-int* FUN_004edb60_t::FUN_004edb60(int size)
+int* FUN_004edb60_t::FUN_004edb60(int iSize)
 {
     int tmp;
-    *(int*)this = (int)&DAT_01023294;
-    *(int*)((char*)this + 4) = size;
-    *(int*)((char*)this + 0xc) = 0;
-    tmp = *(int*)((char*)this + 4) << 2;
-    *(int*)((char*)this + 8) = (int)::FUN_00aa1070((unsigned int)tmp);
-    ::FUN_00403d30(*(void**)((char*)this + 8), 0, (unsigned int)(*(int*)((char*)this + 4) << 2));
+    vtbl = &DAT_01023294;
+    size = iSize;
+    count = 0;
+    tmp = size << 2;
+    data = ::FUN_00aa1070((unsigned int)tmp);
+    ::FUN_00403d30(data, 0, (unsigned int)(size << 2));
     return (int*)this;
 }
 
@@ -531,7 +540,7 @@ struct A5E930Buffer
 {
     virtual ~A5E930Buffer()
     {
-        ::FUN_004b0220((int)(m_pBase));
+        ::FUN_004b0220(reinterpret_cast<std::intptr_t>(m_pBase));
     }
 
     void* m_pBase;

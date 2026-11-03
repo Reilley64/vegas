@@ -303,10 +303,10 @@ FUN_0050b9b0::~FUN_0050b9b0()
 
 struct FUN_0050bf90_cls
 {
-    unsigned int FUN_0050bf90(void* a1, unsigned short a2);
+    std::uintptr_t FUN_0050bf90(void* a1, unsigned short a2);
 };
 
-unsigned int __cdecl FUN_00ec43fb(unsigned int, int, void*, void*, int);
+std::uintptr_t __cdecl FUN_00ec43fb(std::uintptr_t, int, void*, void*, int);
 
 struct SpellItem : TESForm
 {
@@ -431,7 +431,7 @@ FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
     FUN_0096a2d0* pkResult = 0;
     for (std::intptr_t i = 0; i < 6; i++)
     {
-        List_009e03e0* pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::SpellSelector *>(this)->FUN_0050c000((void *)(i), (unsigned short)(pkOwner->m_kSource.GetEntry(::GetMinusOne())))));
+        List_009e03e0* pkIter = ((::fnv_0050c1d0::List_009e03e0 *)(reinterpret_cast<::SpellSelector *>(this)->FUN_0050c000((void *)(i), (unsigned short)(std::uintptr_t)(pkOwner->m_kSource.GetEntry(::GetMinusOne())))));
         List_009e03e0* pkListCur = pkIter;
         while (pkIter)
         {
@@ -457,11 +457,11 @@ FUN_0096a2d0* FUN_0050c1d0_shell::CollectHeadParts(SpellOwner* pkOwner)
 }  // namespace fnv_0050c1d0
 
 extern int DAT_01187818;
-unsigned int __cdecl FUN_00ec43fb(unsigned int, int, void*, void*, int);
+std::uintptr_t __cdecl FUN_00ec43fb(std::uintptr_t, int, void*, void*, int);
 
 struct Entry
 {
-    unsigned int form;
+    std::uintptr_t form;
     unsigned short count;
     unsigned short level;
 };
@@ -497,23 +497,23 @@ struct FieldLayout
 };
 struct LeveledSpellList : FUN_0050bf90_cls
 {
-    void SelectLeveledSpell(void*, unsigned short, unsigned int*, unsigned short*, unsigned char);
+    void SelectLeveledSpell(void*, unsigned short, std::uintptr_t*, unsigned short*, unsigned char);
 };
 // @fnv 0x0050bf90
-unsigned int FUN_0050bf90_cls::FUN_0050bf90(void* a1, unsigned short a2)
+std::uintptr_t FUN_0050bf90_cls::FUN_0050bf90(void* a1, unsigned short a2)
 {
-    unsigned int aa = 0;
-    unsigned int zz = 0;
+    std::uintptr_t aa = 0;
+    std::uintptr_t zz = 0;
     unsigned short word = 0;
     reinterpret_cast<::LeveledSpellList *>((this))->SelectLeveledSpell(a1, a2, &zz, &word, 1);
     if (zz != 0)
     {
-        aa = ((unsigned int)(std::uintptr_t)(dynamic_cast<::SpellItem *>(reinterpret_cast<::TESForm *>(zz))));
+        aa = reinterpret_cast<std::uintptr_t>(dynamic_cast<::SpellItem *>(reinterpret_cast<::TESForm *>(zz)));
     }
     return aa;
 }
 // @fnv 0x0050bd60
-void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short level, unsigned int* outForm,
+void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short level, std::uintptr_t* outForm,
                                           unsigned short* outCount, unsigned char recurse)
 {
     *outForm = 0;
@@ -540,7 +540,7 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         FUN_0050bf90_cls* mapped =
             (FUN_0050bf90_cls*)FUN_00ec43fb(entryLevel->form, 0, &DAT_01183028, &DAT_01183140, 0);
         int entry = entryLevel->level;
-        if (entry > level || (mapped != 0 && ((void *)(::GetSix())) != desiredForm))
+        if (entry > level || (mapped != 0 && ((void *)(std::uintptr_t)(::GetSix())) != desiredForm))
             break;
         if (entry > maxLevel && (maxLevel == 0 || !((unsigned char)(reinterpret_cast<::TESLeveledList *>(&(((FieldLayout*)this)->list30))->GetAllBelow()))))
         {
@@ -567,14 +567,14 @@ void LeveledSpellList::SelectLeveledSpell(void* desiredForm, unsigned short leve
         }
         unsigned short nestedRecord;
         Entry* chosen = *((::Entry **)((void *)(node)));
-        unsigned int foundForm = chosen->form;
+        std::uintptr_t foundForm = chosen->form;
         nestedRecord = chosen->count;
         FUN_0050bf90_cls* selectedEntry =
             (FUN_0050bf90_cls*)((std::uintptr_t)(dynamic_cast<::TESLevSpell *>(reinterpret_cast<::TESForm *>(chosen->form))));
         if (selectedEntry != 0 && recurse != 0)
         {
             unsigned short recursiveCount;
-            unsigned int recursiveForm = 0;
+            std::uintptr_t recursiveForm = 0;
             recursiveCount = 0;
             reinterpret_cast<::LeveledSpellList *>((selectedEntry))->SelectLeveledSpell(desiredForm, level, &recursiveForm, &recursiveCount, recurse);
             foundForm = recursiveForm;

@@ -121,7 +121,7 @@ void BGSPrimitiveBox::Build()
     if (!m_pController)
     {
         m_pController = new BSFadeNode;
-        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Box")), {});
+        ::AssignFixedString((char *)((m_pController).operator->()), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Box")), {});
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
     }
 }
@@ -1702,7 +1702,7 @@ struct FUN_004a5300_shell
 void FUN_004a5300_shell::CreatePlaneFadeNode()
 {
     m_go = new BSFadeNode;
-    ::AssignFixedString((char *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))), (int)&(const ::NiFixedString &)(NiFixedString("Plane")), {});
+    ::AssignFixedString((char *)(reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Plane")), {});
     reinterpret_cast<::FUN_00a5a040_Class *>((reinterpret_cast<NiAVObject*>(static_cast<unsigned int>(m_go))))->FUN_00a5a040();
 }
 }  // namespace fnv_004a5300
@@ -2975,14 +2975,14 @@ void BGSPrimitiveSphere::CreateSphereGeometry()
         m_kGeometry = lines2;
 
         NiPointer<NiAlphaProperty> spAlphaProperty2 = new NiAlphaProperty;
-        ::AssignFixedString((char *)(((NiAlphaProperty*)spAlphaProperty2)), (int)&(const ::NiFixedString &)(NiFixedString("primitive: alpha")), {});
+        ::AssignFixedString((char *)(((NiAlphaProperty*)spAlphaProperty2)), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("primitive: alpha")), {});
         reinterpret_cast<::FUN_0049ed90_shell *>((((NiAlphaProperty*)spAlphaProperty2)))->FUN_0049ed90(true);
         reinterpret_cast<::FUN_00439410_cls *>((((Lines_Standin*)(NiGeometry*)m_kGeometry)))->FUN_00439410((::ArgObject *)(void *)((NiAlphaProperty*)spAlphaProperty2));
         ((::fnv_004a72d0::NiPropertyHelper *)(reinterpret_cast<::FUN_00a59d30_C *>((((NiGeometryHelper*)(NiGeometry*)m_kGeometry)))->FUN_00a59d30(3)))->FUN_00441130(32, false);
 
         m_pController = new BSFadeNode;
         ((BSFadeNodeHelper*)(BSFadeNode*)m_pController)->AttachChildInAvailableSlot(m_kGeometry, true);
-        ::AssignFixedString((char *)((m_pController).operator->()), (int)&(const ::NiFixedString &)(NiFixedString("Sphere")), {});
+        ::AssignFixedString((char *)((m_pController).operator->()), (std::intptr_t)&(const ::NiFixedString &)(NiFixedString("Sphere")), {});
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_pController).operator->()))->FUN_00a5a040();
         reinterpret_cast<::FUN_00a5a040_Class *>(((m_kGeometry).operator->()))->FUN_00a5a040();
     }

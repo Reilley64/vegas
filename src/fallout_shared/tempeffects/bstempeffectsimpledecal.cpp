@@ -234,7 +234,7 @@ double FUN_0068b050(double adValue, float afValue)
 
 struct Flt
 {
-    operator unsigned int();
+    operator std::uintptr_t();
 };
 struct DecalHolder
 {
@@ -243,7 +243,7 @@ struct DecalHolder
 namespace fnv_0068acc0 {
 struct Flt
 {
-    operator unsigned int() const;
+    operator std::uintptr_t() const;
 };
 
 struct FUN_0068acc0_shell
@@ -256,7 +256,7 @@ struct FUN_0068acc0_shell
 // @fnv 0x0068acc0
 void* FUN_0068acc0_shell::FUN_0068acc0()
 {
-    return (void*)m_flt.operator unsigned int();
+    return (void*)m_flt.operator std::uintptr_t();
 }
 }  // namespace fnv_0068acc0
 
@@ -624,7 +624,7 @@ bool DecalHost::UpdateDecalFade(float alpha)
         if (elapsed >= ::_DAT_01012060 && elapsed <= ::g_01012070)
         {
             intensity = (float)((1.0 - elapsed) / ::g_01012070);
-            DecalEffect* pDecalEffect = ((::DecalEffect *)(reinterpret_cast<::FUN_00a59d30_C *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_00a59d30((int)(((void *)(::FUN_004af350()))))));
+            DecalEffect* pDecalEffect = ((::DecalEffect *)(reinterpret_cast<::FUN_00a59d30_C *>((((::DecalState *)(::FUN_00559450((int *)&(decalRef))))))->FUN_00a59d30((std::intptr_t)(((void *)(std::uintptr_t)(::FUN_004af350()))))));
             DecalEffect* pEffect = pDecalEffect;
             if (pEffect && reinterpret_cast<::TESObjectREFR *>((pEffect))->GetScale() != intensity)
                 reinterpret_cast<::DecalStub *>((pEffect))->FUN_0068c9f0(intensity);
@@ -1984,7 +1984,7 @@ void FUN_0068d230_Class::ProcessDecalTriangles(Geometry* input)
 {
     Geometry* data = input;
     Point* normals = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((data))->GetNext()));
-    Point* geometry = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((data))->FUN_004a8030()));
+    Point* geometry = ((::Point *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((data))->FUN_004a8030()));
     UnsignedShortBuffer* vertices = ((::UnsignedShortBuffer *)(::fnv_005495f0::FUN_005495f0((const char *)(data))));
     if (normals && !geometry)
     {
@@ -2667,7 +2667,7 @@ void FUN_0068dea0_cls::UpdateDebugDecalBox(const xColorA* COLOR, bool FLAG)
         {
             if (::GetRefAt21C((const char *)(::xStream *)(&qfTOqo)) == 1)
                 (*reinterpret_cast<::xGO *>(&::g_011c58e0)) = ((::xAV *)(reinterpret_cast<::MLx *>(&(qfTOqo))->GetStringAt(0)));
-            ::AssignFixedString((char *)(((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()), (int)&(const ::xFixedStr &)(xFixedStr("Debug Decal Box")), {});
+            ::AssignFixedString((char *)(((*reinterpret_cast<::xGO *>(&::g_011c58e0))).operator->()), (std::intptr_t)&(const ::xFixedStr &)(xFixedStr("Debug Decal Box")), {});
         }
     }
     if ((*reinterpret_cast<::xGO *>(&::g_011c58e0)))

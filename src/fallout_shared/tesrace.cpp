@@ -2214,12 +2214,12 @@ bool FUN_00613c50_C::CreateFaceGenNodes(FUN_006628c0_C** pA, FUN_006628c0_C** pB
     *pB = 0;
     FUN_00649680_C* biped2 = new FUN_00649680_C();
     *pA = new FUN_006628c0_C();
-    ::AssignFixedString((char *)(((NiObjectNET*)*pA)), (int)&(const ::fnv_00613c50::NiFixedString &)(NiFixedString("BSFaceGenNiNodeBiped")), {});
+    ::AssignFixedString((char *)(((NiObjectNET*)*pA)), (std::intptr_t)&(const ::fnv_00613c50::NiFixedString &)(NiFixedString("BSFaceGenNiNodeBiped")), {});
     (*pA)->v65(biped2);
     (*pA)->v69(true);
     (*pA)->v71(true);
     *pB = new FUN_006628c0_C();
-    ::AssignFixedString((char *)(((NiObjectNET*)*pB)), (int)&(const ::fnv_00613c50::NiFixedString &)(NiFixedString("BSFaceGenNiNodeSkinned")), {});
+    ::AssignFixedString((char *)(((NiObjectNET*)*pB)), (std::intptr_t)&(const ::fnv_00613c50::NiFixedString &)(NiFixedString("BSFaceGenNiNodeSkinned")), {});
     (*pB)->v65(biped2);
     (*pB)->v69(false);
     (*pB)->v71(false);
@@ -2317,7 +2317,7 @@ bool RaceTexture::ApplyBodyTexture(NiPointer<NiSourceTexture>& source, NiPointer
     BuildBodyTexturePath(npc, buf26);
     if (reinterpret_cast<::fnv_006148f0::FUN_006148f0_shell *>(this)->BuildBodyModTexturePath(npc, buf26, path3) && !force)
         reinterpret_cast<::TESTexLoader *>(((*reinterpret_cast<::fnv_006149b0::TES * *>(&::g_TES))))->FUN_004568c0(path3, (::TexPtr< ::NiSourceTexture> &)((NiPointer<NiSourceTexture>&)texture), true, false);
-    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_006149b0::NiPointer< ::fnv_006149b0::NiTexture> &)(texture))->operator==((int)((NiTexture*)0)) || force)
+    if (reinterpret_cast<::_FUN_00822510_Class *>((void *)&(const ::fnv_006149b0::NiPointer< ::fnv_006149b0::NiTexture> &)(texture))->operator==(0) || force)
     {
         if (!force && (void*)npc != (void*)((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((::_g_thePlayer))->FUN_007af430())))
             ::FUN_005b5e40();
@@ -2617,8 +2617,8 @@ bool RaceLoadTarget::FUN_00610cd0(TESFile* apFile)
                     for (int i = 0; i < 2; i++)
                         ::FUN_00401080((int*)&ptempint[i]);
                 }
-                SetDefaultVoiceType(SEX_SEX_MALE, (BGSVoiceType*)ptempint[0]);
-                SetDefaultVoiceType(SEX_SEX_FEMALE, (BGSVoiceType*)ptempint[1]);
+                SetDefaultVoiceType(SEX_SEX_MALE, (BGSVoiceType*)(std::uintptr_t)ptempint[0]);
+                SetDefaultVoiceType(SEX_SEX_FEMALE, (BGSVoiceType*)(std::uintptr_t)ptempint[1]);
             }
             break;
         case 0x4d414e43:

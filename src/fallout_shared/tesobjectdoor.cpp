@@ -716,7 +716,7 @@ bool DoorCompare_shell::CompareDoor(TESForm* form)
         return true;
     if (m_pOpenSound != ((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((door))->FUN_00407820())))
         return true;
-    if (m_pSecondarySound != ((::TESSound *)(reinterpret_cast<::TESPackage *>((door))->GetRefCount())))
+    if (m_pSecondarySound != ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((door))->GetRefCount())))
         return true;
     if (m_pLoopingSound != reinterpret_cast<::EffectSetting *>((door))->GetCastSound())
         return true;
@@ -828,7 +828,7 @@ void DoorCopy::CopyFromDoor(TESForm* form)
     }
     flags = source3->flags;
     openSound = ((::TESSound *)(reinterpret_cast<::FUN_00407820_shell *>((source3))->FUN_00407820()));
-    closeSound = ((::TESSound *)(reinterpret_cast<::TESPackage *>((source3))->GetRefCount()));
+    closeSound = ((::TESSound *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((source3))->GetRefCount()));
     loopSound = reinterpret_cast<::EffectSetting *>((source3))->GetCastSound();
     reinterpret_cast<::FormCloneOperation *>(this)->FUN_004851b0(form);
 }
@@ -2320,14 +2320,14 @@ void __cdecl PlaySoundForRef(unsigned int id)
             reinterpret_cast<::FUN_0054af80_shell *>((((::fnv_00518cf0::Proc *)(reinterpret_cast<::LowProcess *>((((Player*)(*reinterpret_cast<::S_00518f80_Player * *>(&::_g_thePlayer)))))->GetTarget()))))->LockAndProcessPerks();
         }
         Obj* obj = ((::fnv_00518cf0::Obj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430()));
-        if (((::fnv_00518cf0::FUN_0084e3a0_Class *)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount())))
+        if (((::fnv_00518cf0::FUN_0084e3a0_Class *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount())))
         {
             if (((::fnv_00518cf0::VObj *)(::FUN_00559450((int *)(((::fnv_00518cf0::Mid *)(reinterpret_cast<::TESObjectREFR *>((ref))->GetExtraRadioData())))))))
             {
                 if (((::fnv_00518cf0::VObj *)(::FUN_00559450((int *)(((::fnv_00518cf0::Mid *)(reinterpret_cast<::TESObjectREFR *>((ref))->GetExtraRadioData()))))))->Gate1d0())
                 {
                     BSAudioSoundHandle soundHandle =
-                        ((::fnv_00518cf0::FUN_00ad73b0_t *)(::FUN_00453a70()))->FUN_00ad73b0(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00518cf0::FUN_0084e3a0_Class *)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount()))))->FUN_0084e3a0(), 0x121);
+                        ((::fnv_00518cf0::FUN_00ad73b0_t *)(::FUN_00453a70()))->FUN_00ad73b0(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00518cf0::FUN_0084e3a0_Class *)(std::uintptr_t)(reinterpret_cast<::TESPackage *>((obj))->GetRefCount()))))->FUN_0084e3a0(), 0x121);
                     reinterpret_cast<::FUN_00ad8830_shell *>(&(soundHandle))->FUN_00ad8830(0);
                 }
             }

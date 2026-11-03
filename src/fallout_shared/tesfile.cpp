@@ -821,7 +821,7 @@ struct FUN_004744d0_arg
 int* FUN_004744d0(int* self, FUN_004744d0_arg a)
 {
     new ((void *)(self)) ::FUN_00474660_class((*(int *)&(const ::FUN_004744d0_arg &)(a)));
-    *self = (int)&DAT_01031fac;
+    *self = (std::intptr_t)&DAT_01031fac;
     return self;
 }
 
@@ -1254,12 +1254,12 @@ bool FUN_00472bc0_shell::ReadFormHeader()
             pMaster = reinterpret_cast<::FUN_00471a10_shell *>((((FUN_00485d50_file*)this)))->GetFileByIndex((((FUN_00472bc0_view*)this)->formID >> 24) + 1);
         if (pMaster)
             ((FUN_00472bc0_view*)this)->formID = (pMaster->GetFileCompileIndex() << 24) |
-                                                 (((FUN_00472bc0_view*)this)->formID & (unsigned int)&::DAT_00ffffff);
+                                                 (((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff);
         else
             ((FUN_00472bc0_view*)this)->formID = (((FUN_00472bc0_view*)this)->m_ucCompileIndex << 24) |
-                                                 (((FUN_00472bc0_view*)this)->formID & (unsigned int)&::DAT_00ffffff);
-        if (FUN_00484b40(((FUN_00472bc0_view*)this)->formID & (unsigned int)&::DAT_00ffffff))
-            ((FUN_00472bc0_view*)this)->formID = ((FUN_00472bc0_view*)this)->formID & (unsigned int)&::DAT_00ffffff;
+                                                 (((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff);
+        if (FUN_00484b40(((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff))
+            ((FUN_00472bc0_view*)this)->formID = ((FUN_00472bc0_view*)this)->formID & (std::uintptr_t)&::DAT_00ffffff;
     }
     return true;
 }
@@ -1467,7 +1467,7 @@ int FUN_00471400_shell::FUN_00471400()
                 this->m_kFileMetadata.m_uiThirdUnsignedValue = 0x800;
             this->m_kFileMetadata.m_uiThirdUnsignedValue =
                 (this->m_ucCompileIndex << 24) |
-                (this->m_kFileMetadata.m_uiThirdUnsignedValue & (unsigned int)&::DAT_00ffffff);
+                (this->m_kFileMetadata.m_uiThirdUnsignedValue & (std::uintptr_t)&::DAT_00ffffff);
             break;
             break;
         case 0x4d414e43: {

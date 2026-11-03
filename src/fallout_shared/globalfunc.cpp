@@ -2342,7 +2342,7 @@ BSShaderPPLightingProperty* __cdecl FindPPLightingProperty(NiNode* apNode)
             break;
         n--;
     }
-    return ((::BSShaderPPLightingProperty *)(::FindAcceptedForm((::FNVNode *)(apNode))));
+    return ((::BSShaderPPLightingProperty *)(std::uintptr_t)(::FindAcceptedForm((::FNVNode *)(apNode))));
 }
 
 
@@ -2695,7 +2695,7 @@ float GetAnimValueByPrefix(NiObj6220* obj, const char* name, const char* prefix)
         {
             AnimData6220* data8 = seq3->GetData();
             unsigned int aCount;
-            AnimEntry6220* entries3 = ((::AnimEntry6220 *)(reinterpret_cast<::FUN_00495f30_shell *>((data8))->FUN_00495f30((int *)(unsigned int *)(&aCount))));
+            AnimEntry6220* entries3 = ((::AnimEntry6220 *)(std::uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((data8))->FUN_00495f30((int *)(unsigned int *)(&aCount))));
             unsigned int len = ::FUN_0044a670(prefix);
             if (len > 0)
             {
@@ -3450,12 +3450,12 @@ bool __cdecl MatchGeometryVertices(Geometry* source, Geometry* target, float thr
     if (!source || !target || source == target)
         return false;
     Point* sourceVertices7 = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((source))->GetNext()));
-    Point* sourceNormals2 = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((source))->FUN_004a8030()));
+    Point* sourceNormals2 = ((::Point *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((source))->FUN_004a8030()));
     unsigned int uiCountX = reinterpret_cast<::FUN_00456650_shell *>((source))->FUN_00456650();
     if (!sourceVertices7 || !sourceNormals2 || !uiCountX)
         return false;
     Point* targetVertices5 = ((::Point *)(reinterpret_cast<::FUN_0049ec60 *>((target))->GetNext()));
-    Point* targetNormals2 = ((::Point *)(reinterpret_cast<::FUN_004a8030_shell *>((target))->FUN_004a8030()));
+    Point* targetNormals2 = ((::Point *)(std::uintptr_t)(reinterpret_cast<::FUN_004a8030_shell *>((target))->FUN_004a8030()));
     unsigned int uiCountVal = reinterpret_cast<::FUN_00456650_shell *>((target))->FUN_00456650();
     if (!targetVertices5 || !targetNormals2 || !uiCountVal)
         return false;

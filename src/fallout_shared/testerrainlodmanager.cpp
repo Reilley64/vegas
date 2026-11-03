@@ -285,7 +285,7 @@ void UpdateTerrainLODMaxRange()
     DAT_011ca434 = fmaxrange;
     BaseNodeV* pbasenode = ((::fnv_0057cf00::BaseNodeV *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)));
     (*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438)) = new NiNode(0);
-    ::AssignFixedString((char *)((*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438))), (int)&(*FUN_0057d090()), {});
+    ::AssignFixedString((char *)((*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438))), (std::intptr_t)&(*FUN_0057d090()), {});
     pbasenode->SetAt(6, (*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438)));
     reinterpret_cast<::FUN_00a5a040_Class *>(((*reinterpret_cast<::fnv_0057cf00::NiNode * *>(&::DAT_011ca438))))->FUN_00a5a040();
     ::TerrainLOD::DAT_011ca430 = true;
@@ -682,18 +682,18 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiP
                     for (int iY = iStart4; iY < 0x10; iY += iDelta)
                     {
                         iSampleIdx = iY * 0x11 + iX;
-                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
+                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(std::uintptr_t)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
                         kPos.z = akPos.z;
                         kPos.x = kPos.x - 256.0;
                         kPos.y = kPos.y - 256.0;
                         iV1b8 = PackFloatPairToInt(&kPos.x);
-                        ppEntries = ((int **)(reinterpret_cast<::B3CA80Owner *>((pData30))->FUN_0053ca80(iQuad, iSampleIdx)));
+                        ppEntries = ((int **)(std::uintptr_t)(reinterpret_cast<::B3CA80Owner *>((pData30))->FUN_0053ca80(iQuad, iSampleIdx)));
                         iEntry = 0;
                         while (ppEntries != 0 && ppEntries[iEntry] != 0 && iEntry < 0x10 && ppEntries[iEntry][0] != 0)
                         {
                             if (ppEntries[iEntry] != 0)
                             {
-                                if (!FUN_00b617b0((const char*)ppEntries[iEntry][1], (const char*)iV1b8))
+                                if (!FUN_00b617b0(*reinterpret_cast<const char**>(&ppEntries[iEntry][1]), (const char*)iV1b8))
                                 {
                                     pBase = ((::CellForm *)(::FUN_004839c0(ppEntries[iEntry][1])));
                                     if (pBase != 0)
@@ -720,7 +720,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, std::intptr_t aiParam, NiPoint3 akPos, NiP
                     for (int iY2 = iStart4; iY2 < 0x10; iY2 += iDelta)
                     {
                         iSampleIdx = iY2 * 0x11 + iX2;
-                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
+                        kPos = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>((pData30))->FUN_0053b450((::FNv53b450_Point *)(std::uintptr_t)((unsigned char)iQuad), (unsigned short)iSampleIdx, 0, (const int *)(0), {})));
                         kPos.x = kPos.x - 256.0;
                         kPos.y = kPos.y - 256.0;
                         std::intptr_t iSample = PackFloatPairToInt(&kPos.x);
@@ -952,7 +952,7 @@ void GenerateGrassPositions(int iA, int iB, int iUnused08, LODLand* pkLand, void
                 if (bOnLand)
                     reinterpret_cast<::TerrainOwner *>((pkLand))->ComputeTerrainNormalAndTangent((::TerrainInput *)(::fnv_0057de00::FUN_0053a510_LandData *)(&kTheLandData), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kNormal), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kSlopeValue));
                 else
-                    reinterpret_cast<::FUN_004573f0_shell *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_004573f0((const ::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kNormal), (int)(&kSlopeValue));
+                    reinterpret_cast<::FUN_004573f0_shell *>(((*reinterpret_cast<::fnv_0057de00::LODWorld * *>(&::g_TES))))->FUN_004573f0((const ::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kPosPos), (::NiPoint3 *)(::fnv_0057de00::NiPoint3 *)(&kNormal), (std::intptr_t)(&kSlopeValue));
                 if (pkSettings->bUseSlope && pkSettings->bSlopeOnly)
                     kNormal = kSlopeValue;
                 else if (pkSettings->bUseSlope && !pkSettings->bSlopeOnly)

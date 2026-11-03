@@ -752,7 +752,7 @@ struct FUN_00408d60_shell
 struct Cls
 {
     unsigned char m_00;
-    unsigned int* m_04;
+    std::uintptr_t* m_04;
     void LoadTextureArchiveEntries(Elem* arr, unsigned int count, ModelRef* form, const char* model);
 };
 bool __cdecl FUN_004898e0();
@@ -761,19 +761,19 @@ bool __cdecl FUN_004898e0();
 // @fnv 0x00489670
 void Cls::LoadTextureArchiveEntries(Elem* aElems, unsigned int count, ModelRef* form, const char* model)
 {
-    FUN_004898a0_shell* s = ((::FUN_004898a0_shell *)(::fnv_004898f0::GetFltValue(1)));
+    FUN_004898a0_shell* s = ((::FUN_004898a0_shell *)(std::uintptr_t)(::fnv_004898f0::GetFltValue(1)));
     if (!(s != 0 && ((FUN_004898a0_shell*)((char*)s + 0x160))->FUN_004898a0() &&
           *((FUN_00408d60_shell*)&(*reinterpret_cast<char *>(&::g_011c5574)))->FUN_00408d60() != 0))
         return;
     m_00 = (unsigned char)count;
-    m_04 = new unsigned int[count];
+    m_04 = new std::uintptr_t[count];
     for (unsigned int i = 0; i < count; i++)
     {
         FUN_00489860_shell key0;
         key0.FUN_00489860(aElems[i].b0, aElems[i].b1, aElems[i].b2, aElems[i].b3, aElems[i].i4);
         FUN_00489860_shell key1;
         key1.FUN_00489860(aElems[i].c0, aElems[i].c1, aElems[i].c2, aElems[i].c3, aElems[i].i14);
-        m_04[i] = ((unsigned int)(::fnv_00af6540::FindFileEntryInArchives(1, (*(::fnv_00af6540::FileNameHash *)(&key1)), (*(::fnv_00af6540::FileNameHash *)(&key0)), (const char *)(0))));
+        m_04[i] = ((std::uintptr_t)(::fnv_00af6540::FindFileEntryInArchives(1, (*(::fnv_00af6540::FileNameHash *)(&key1)), (*(::fnv_00af6540::FileNameHash *)(&key0)), (const char *)(0))));
         if (*((FUN_00408d60_shell*)&(*reinterpret_cast<char *>(&::g_011c555c)))->FUN_00408d60() != 0)
         {
             if (FUN_004898e0())
@@ -827,7 +827,7 @@ void FUN_004891d0_cls::WriteToBuffer(char* pcBuffer, void* pkOut)
     if (FUN_0048cee0())
     {
         if (pcBuffer)
-            ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(FUN_0048cee0() + 1));
+            ::FUN_004856f0(pcBuffer, (void *)(GetPath()), (void *)(std::uintptr_t)(FUN_0048cee0() + 1));
         if (pkOut)
             reinterpret_cast<::FUN_008d0600_s *>(&(m_kObjectMap))->FUN_008d0600((std::intptr_t)(pkOut), (std::intptr_t)(GetPath()));
     }

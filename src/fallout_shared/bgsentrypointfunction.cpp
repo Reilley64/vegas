@@ -160,7 +160,7 @@ class E5DF0Modifier
 // @fnv 0x005e5df0
 void FUN_005e5df0(E5DF0Actor* pkActor, void* pvTarget, bool bFlag, float** ppfResult, E5DF0Modifier* pkModifier)
 {
-    if (!::FUN_005e5b80(0, 2, (::TESObjectREFR *)(pkActor), (int)(pvTarget), bFlag, (void **)(ppfResult), pkModifier))
+    if (!::FUN_005e5b80(0, 2, (::TESObjectREFR *)(pkActor), (std::intptr_t)(pvTarget), bFlag, (void **)(ppfResult), pkModifier))
         return;
 
     float* pfOut3 = *ppfResult;
@@ -207,7 +207,7 @@ void __cdecl FUN_005e5c70(void* apArg1, void* apArg2, unsigned char a3, float** 
                           EntryPointSingleValueSource* apSource)
 {
     EntryPointSingleValueSource* pSource;
-    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(apArg1), (int)(apArg2), a3, (void **)(ppValue), apSource))
+    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(apArg1), (std::intptr_t)(apArg2), a3, (void **)(ppValue), apSource))
         return;
     {
         float* pValue;
@@ -587,7 +587,7 @@ void FUN_005e6e50_obj::FUN_005e6e50()
     reinterpret_cast<::EntryPointFunctionDataStartView *>(this)->FUN_005e6250();
     unsigned int z = 0;
     if (m_kChoiceText && ::std::strlen(m_kChoiceText))
-        ::FUN_004856f0((void *)(0x32465045), m_kChoiceText, (void *)(::FUN_0044a670(m_kChoiceText) + 1));
+        ::FUN_004856f0((void *)(0x32465045), m_kChoiceText, (void *)(std::uintptr_t)(::FUN_0044a670(m_kChoiceText) + 1));
     ::FUN_00485950((void *)(0x33465045), *(unsigned short*)((char*)this + 0x5c));
     reinterpret_cast<::FUN_005abe00 *>((((::FUN_005abe00_shell *)(reinterpret_cast<::TESTopicInfoData *>((reinterpret_cast<FUN_00413f40_shell*>(this)))->GetLinkToList()))))->ProcessHeader();
 }
@@ -710,7 +710,7 @@ struct FUN_005e61b0_Local
 // @fnv 0x005e61b0
 void __cdecl FUN_005e61b0(void* arg1, void* arg2, bool arg3, FUN_005e61b0_Local* apLocal, TESChallenge* apChallenge)
 {
-    if (!::FUN_005e5b80(2, 4, (::TESObjectREFR *)(arg1), (int)(arg2), arg3, (void **)(apLocal), apChallenge))
+    if (!::FUN_005e5b80(2, 4, (::TESObjectREFR *)(arg1), (std::intptr_t)(arg2), arg3, (void **)(apLocal), apChallenge))
         return;
 
     G2* pChallenge = apLocal->pList;

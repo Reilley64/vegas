@@ -23,9 +23,9 @@ int* __cdecl FUN_00dd13c0(DD13C0Object* object)
 }
 
 // @fnv 0x00dd13b0
-int __cdecl FUN_00dd13b0(unsigned int arg0)
+void* __cdecl FUN_00dd13b0(void* arg0)
 {
-    return (int)(arg0 + 16u);
+    return (char*)arg0 + 16;
 }
 
 // @fnv 0x00dd13d0

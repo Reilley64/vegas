@@ -44,14 +44,17 @@
 #include "fnv/symbols_00e06000.h"
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010d7000.h"
+// An object with a pointer map after its vtable; looks a key up, 0 when absent.
 struct FUN_00dce8d0_class
 {
-    unsigned long GetValueOrDefault(unsigned long key);
+    void* m_vtbl;
+    FUN_00cb1930_t m_map;
+    uintptr_t GetValueOrDefault(uintptr_t key);
 };
 // @fnv 0x00dce8d0
-unsigned long FUN_00dce8d0_class::GetValueOrDefault(unsigned long key)
+uintptr_t FUN_00dce8d0_class::GetValueOrDefault(uintptr_t key)
 {
-    return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((((FUN_00dce8d0_class*)((char*)this + 4))))->LookupHashEntry(key, 0)));
+    return m_map.LookupHashEntry(key, 0);
 }
 
 void __cdecl FUN_00d40d80(void);
@@ -1669,6 +1672,20 @@ struct DCD6A0Item
     unsigned char m_uiEdgeIndex;
 };
 
+// Item types 2 and 4: the agent data follows a 0x20- or 0x30-byte entry header.
+struct DCD6A0ItemType2
+{
+    DCD6A0Item m_header;
+    unsigned char m_unk02[0x1e];
+    unsigned char m_agentData[1];
+};
+struct DCD6A0ItemType4
+{
+    DCD6A0Item m_header;
+    unsigned char m_unk02[0x2e];
+    unsigned char m_agentData[1];
+};
+
 void __cdecl DCD6A0Agent1();
 void __cdecl DCD6A0Agent2();
 void __cdecl DCD6A0Agent3();
@@ -1712,10 +1729,10 @@ int __cdecl DispatchItemToAgent(int aiExpectedAgentId, DCD6A0Context** contextPt
     switch (item->m_type)
     {
     case 2:
-        data = (char*)item + 0x20;
+        data = reinterpret_cast<DCD6A0ItemType2*>(item)->m_agentData;
         break;
     case 4:
-        data = (char*)item + 0x30;
+        data = reinterpret_cast<DCD6A0ItemType4*>(item)->m_agentData;
         break;
     case 6:
         return 1;
@@ -2511,6 +2528,12 @@ struct S00dcd720_Hdr
     int u24;
     int u28;
     int u2c;
+
+    // The 32-byte elements stored after the header.
+    struct S00dcd720_Elem* elements()
+    {
+        return reinterpret_cast<struct S00dcd720_Elem*>(this + 1);
+    }
 };
 struct S00dcd720_Shape
 {
@@ -3311,9 +3334,9 @@ int __cdecl FUN_00dcd720(S00dcd720_Cb* cb, S00dcd720_Src* src, int c, S00dcd720_
             out->m_arr68.m_data[i] = shape->m_bytes[i];
         S00dcd720_Hdr* hdr = shape->m_hdr;
         out->m_arr50.SetSizeAndGrow(hdr->m_iElementIndex * hdr->m_numA);
-        ::FUN_00cb1260(out->m_arr50.m_data, (char*)hdr + hdr->m_numB * 32 + 0x30, hdr->m_iElementIndex * hdr->m_numA);
+        ::FUN_00cb1260(out->m_arr50.m_data, hdr->elements() + hdr->m_numB, hdr->m_iElementIndex * hdr->m_numA);
         out->m_arr5c.SetSizeAndGrow(hdr->m_numA);
-        ::FUN_00cb1260(out->m_arr5c.m_data, (char*)hdr + 0x30, hdr->m_numA * 32);
+        ::FUN_00cb1260(out->m_arr5c.m_data, hdr->elements(), hdr->m_numA * sizeof(S00dcd720_Elem));
         out->m_hdr = *shape->m_hdr;
         S00dcd720_Part* pPartA = S00dcd720_get(src->m_partA);
         S00dcd720_Part* pPartB = S00dcd720_get(src->m_partB);

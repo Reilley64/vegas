@@ -2205,12 +2205,12 @@ static void __declspec(noinline)
         if (threshold == 3.402820018375656e38)
         {
             out->axis.x += 1.1920928955078125e-7;
-            ((unsigned char*)out)[0] = 5;
+            *reinterpret_cast<unsigned char*>(&out->axis.x) = 5;
         }
         else
         {
             out->axis.x += 1.1920928955078125e-7;
-            ((unsigned char*)out)[0] = 6;
+            *reinterpret_cast<unsigned char*>(&out->axis.x) = 6;
             out->angularB.w = threshold;
         }
         ++out;
@@ -3241,7 +3241,7 @@ static __declspec(noinline) void FUN_00d6ced0(const BallSocketAtom* atom, const 
                    bodyA->m_vInverseInertiaAndMass.z + bodyA->m_kCenterPosition.x + bodyA->m_kCenterPosition.y;
     s[0].unk08 = bodyA->unk04 + in->unk6c;
     s[1].m_word0 = baseB->col(1).y + rB.y + baseA->col(2).z;
-    out->m_pQueryResultSchema = (char*)(s + 3);
+    out->m_pQueryResultSchema = reinterpret_cast<char*>(&s[3]);
 }
 static __forceinline void setHeader(SchemaHeader* h, int whole, int low, int high, SolverResults* runtime,
                                     unsigned char size)
@@ -3569,7 +3569,7 @@ static __forceinline void case7(const Atom*& atoms, QueryIn& in, hkTrans& baseA,
     info.m_kAxisEndPoints.q = baseB.col(a->m_ucAxisIndex).q;
     ::FUN_00dcf280((::Input_dcf280 *)(::LinInfo *)(&info), (::S_00dcf100_Cfg *)(&in), (::Jacobian_dcf280 **)(out));
     in.m_pByteBuffer += 1;
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pUserData += 1;
 }
 static __forceinline void case8(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -3674,7 +3674,7 @@ static __forceinline void case12(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     info.m_kPointB.q = _mm_xor_ps(mask, ((const hkVec4*)(bb + o1))->q);
     ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&info)), (*(const ::S_00dcee80_QueryIn *)(&in)), (*(::S_00dcee80_QueryOut *)(out)));
     in.m_pByteBuffer += 2;
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pUserData += 2;
 }
 static __forceinline void case13(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
@@ -3688,7 +3688,7 @@ static __forceinline void case13(const Atom*& atoms, QueryIn& in, hkTrans& baseA
         info.m_iThirdValue.q = ((const hkVec4*)((const char*)&baseB + ::DAT_010d33c0[i + 2]))->q;
         ::FUN_00dcee80((*(const ::S_00dcee80_Info *)(&info)), (*(const ::S_00dcee80_QueryIn *)(&in)), (*(::S_00dcee80_QueryOut *)(out)));
     }
-    atoms = (const Atom*)((const char*)a + 4);
+    atoms = (const Atom*)(a + 1);
     in.m_pByteBuffer += a->m_ucNumConstrainedAxes;
     in.m_pUserData += a->m_ucNumConstrainedAxes;
 }
@@ -4390,7 +4390,7 @@ static __forceinline void case25(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     {
         FUN_00d6f460(child, childSize, &in4, out);
     }
-    atoms = (const Atom*)((const char*)a + 0x20);
+    atoms = (const Atom*)(a + 1);
 }
 static __forceinline void case24(const Atom*& atoms, QueryIn& in, hkTrans& baseA, hkTrans& baseB, QueryOut* out)
 {
@@ -4472,7 +4472,7 @@ static __forceinline void case26(const Atom*& atoms, QueryIn& in, hkTrans& baseA
     ::FUN_00d72190((::Node *)((const Atom*)contact), (::Buffer *)(&in5), (*(int *)&(const ::hkBool &)(hkBool(false))), (int *)(out));
     tangent = _mm_xor_ps(tangent, DAT_010c44d0);
     ::FUN_00dcedd0((const __m128 *)(const ::hkVec4 *)((const hkVec4*)&tangent), which, (::FUN_00dcedd0_Record **)(out));
-    atoms = (const Atom*)((const char*)a + 0x30);
+    atoms = (const Atom*)(a + 1);
 }
 struct AngularStorage : AngLimitInfo
 {
@@ -4600,7 +4600,7 @@ void __cdecl FUN_00d6f460(const Atom* atoms, int sizeOfAllAtoms, const QueryIn* 
             break;
         case 27:
             out->m_pQueryResultSchema -= 16;
-            atoms = (const Atom*)((const char*)atoms + 0x20);
+            atoms = (const Atom*)((const ModifierAtom*)atoms + 1);
             break;
         default:
             break;
@@ -5335,8 +5335,8 @@ static __declspec(noinline) void FUN_00d6f300(S00d6f300_A* s, S00d6f300_O* o, S0
             info.ab = *(S00d6f300_Pair*)o->m_64;
             info.c = s->m_08 - *b;
             S00d6f300_V4 d;
-            d.setSub4(a2->m_30, ((const S00d6f300_V4*)a3)[3]);
-            info.d = *b - d.dot3(((const S00d6f300_V4*)a3)[s->m_03]);
+            d.setSub4(a2->m_30, reinterpret_cast<const S00d6f300_V4&>(a3[3]));
+            info.d = *b - d.dot3(reinterpret_cast<const S00d6f300_V4&>(a3[s->m_03]));
             ::FUN_00dcfff0((::ObjA *)(h), (::ObjB *)(::S00d6f300_Info *)(&info), (float *)(::S00d6f300_Out *)(&info.out));
             FUN_00dd03c0(&info.out, o, cur, p);
             if (*b != s->m_08 || *a == 0)

@@ -24,17 +24,6 @@
 #include "fnv/symbols_01268000.h"
 
 
-// @fnv 0x00d3ab90
-void __cdecl FUN_00d3ab90(void** apTable)
-{
-    apTable[0] = (void*)&((void (&)())::CreateAllocatedObject);
-    apTable[1] = (void*)&((void (&)())::fnv_00d3b1a0::FUN_00d3b1a0);
-    apTable[2] = (void*)&((void (&)())::FUN_00d3b220);
-    apTable[3] = (void*)&((void (&)())::FUN_00d3ac80);
-    ((unsigned char*)apTable)[0x10] = 1;
-    ((unsigned char*)apTable)[0x11] = 0;
-}
-
 
 typedef void (__cdecl *S_00d389f0_Func)();
 
@@ -47,6 +36,17 @@ struct S_00d389f0_AgentFuncs
     bool m_bIsFlipped;
     bool m_bIsPredictive;
 };
+
+// @fnv 0x00d3ab90
+void __cdecl FUN_00d3ab90(S_00d389f0_AgentFuncs* apTable)
+{
+    apTable->m_pCreateFunc = ((void (&)())::CreateAllocatedObject);
+    apTable->m_pQueryPenetrationsFunc = ((void (&)())::fnv_00d3b1a0::FUN_00d3b1a0);
+    apTable->m_getClosestPointsFunc = ((void (&)())::FUN_00d3b220);
+    apTable->m_pLinearCastFunc = ((void (&)())::FUN_00d3ac80);
+    apTable->m_bIsFlipped = true;
+    apTable->m_bIsPredictive = false;
+}
 
 struct S_00d389f0_Dispatcher
 {
@@ -423,8 +423,8 @@ int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile apParams, void* q, Contac
     Par* input = apParams;
     ::FUN_00cd6520((const ::ContactVector *)(workspace.la), shapes[0]->radius, (const ::ContactVector *)(workspace.lb), shapes[1]->radius, (const float *)(q), input->c, 0, reinterpret_cast<::ContactRecord *>(res), reinterpret_cast<::Feature *>(info));
 
-    float fDistA = ((float*)res)[7];
-    float fDistB = ((float*)res)[15];
+    float fDistA = res[1][3];
+    float fDistB = res[3][3];
     int idx;
     if (fDistA < fDistB) {
         if (!(fDistA < input->c)) goto fail;
@@ -930,7 +930,7 @@ void __cdecl FUN_00d3a8c0(Body* apBodyA, Body* apBodyB, Input* input, Penetratio
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/symbols_00c85000.h"
 void FUN_00d3ab60(void* apObject);
-void __cdecl FUN_00d3ab90(void** apTable);
+void __cdecl FUN_00d3ab90(S_00d389f0_AgentFuncs* apTable);
 void __cdecl TransformAndDispatch(const hkpCdBody* a1, const hkpCdBody* a2, const CollisionInput* pExtra, void* a4, int a5, ::ContactRecord* a6);
 int __cdecl FUN_00d39bf0(Obj* a, Obj* b, Par* volatile p, void* q, Contact* out);
 
@@ -1891,7 +1891,7 @@ void __cdecl FUN_00d3abc0(S_00d389f0_Dispatcher* obj)
     S_00d389f0_AgentFuncs s;
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
-    FUN_00d3ab90((void**)&s);
+    FUN_00d3ab90(&s);
     reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 3, 5);
     s.m_bIsFlipped = 0;
     s.m_bIsPredictive = 0;
@@ -1899,28 +1899,19 @@ void __cdecl FUN_00d3abc0(S_00d389f0_Dispatcher* obj)
     reinterpret_cast<::FUN_00cfbbe0_cls *>((obj))->FUN_00cfbbe0((::FUN_00cfbbe0_rec *)&(s), 5, 3);
 }
 
-struct FNVHookStruct
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    unsigned char unk10;
-    unsigned char unk11;
-};
 struct FNVHookOwner
 {
 };
 // @fnv 0x00d3ac20
 void FUN_00d3ac20(FNVHookOwner* p)
 {
-    FNVHookStruct h;
-    h.unk10 = 0;
-    h.unk11 = 0;
-    FUN_00d3ab90((void**)&h);
+    S_00d389f0_AgentFuncs h;
+    h.m_bIsFlipped = false;
+    h.m_bIsPredictive = false;
+    FUN_00d3ab90(&h);
     reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 3, 5);
-    h.unk10 = 0;
-    h.unk11 = 0;
+    h.m_bIsFlipped = false;
+    h.m_bIsPredictive = false;
     FUN_00d3ab60(&h);
     reinterpret_cast<::FUN_00cfbcc0_cls *>((p))->AddSpawnEntry((::SpawnRequest *)(void *)(&h), 5, 3);
 }

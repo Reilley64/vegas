@@ -27,7 +27,7 @@ void ForwardToTarget(void *, void *, void *, void *, void *);
 // 0x00d418d0
 void *DispatchInputRecord(::InputData *, unsigned char *, ::ResultData *);
 // 0x00d41930
-void FUN_00d41930(::Input_s *, int, ::hkpGskCache_s *, ::Output_s *);
+void FUN_00d41930(::Input_s *, const void *, ::hkpGskCache_s *, ::Output_s *);
 // 0x00d41a30
 void *FUN_00d41a30(::Request *, unsigned char *, ::ResultData *, ::AlignedVec *, ::Output *);
 // 0x00d41ec0

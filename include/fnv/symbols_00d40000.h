@@ -22,6 +22,6 @@ void FUN_00d406c0(::Input *, ::Input *, ::Parameters *, struct ::Callback *);
 // 0x00d40910
 void FUN_00d40910(::BoxAgentRegistry *);
 // 0x00d40b90
-int ConvertPairFlags(::FNVPair *, int, ::FNVFlags *);
+void *ConvertPairFlags(::FNVPair *, unsigned char *, ::FNVFlags *);
 // 0x00d40d80
 ::Cache *FUN_00d40d80(::Pair *, ::State *, ::Cache *, ::VecArg, ::Output *);

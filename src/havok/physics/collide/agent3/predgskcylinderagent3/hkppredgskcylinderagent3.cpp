@@ -13,7 +13,7 @@
 #include "fnv/symbols_00d41000.h"
 struct FNVTypeRecord
 {
-    int unknown0;
+    void* unknown0;
     int unknown4;
     int unknown8;
     int type;
@@ -36,9 +36,9 @@ struct FNVFlags
     unsigned char flags;
 };
 // @fnv 0x00d40b90
-int __cdecl ConvertPairFlags(FNVPair* pair, int mode, FNVFlags* result)
+void* __cdecl ConvertPairFlags(FNVPair* pair, unsigned char* mode, FNVFlags* result)
 {
-    int converted = ((int)(::DispatchInputRecord((::InputData *)(pair), (unsigned char *)(mode), (::ResultData *)(result))));
+    void* converted = ::DispatchInputRecord((::InputData *)(pair), mode, (::ResultData *)(result));
     result->flags &= 0xF0;
     if (pair->first->record->type == 2)
     {
@@ -215,7 +215,7 @@ float __cdecl ComputeExtendedResult(LocalSource* source, void* apArg, FNVFlags* 
     reinterpret_cast<::Cls_dafcd0 *>(&(local_flags))->FUN_00dafcd0((::Node *)(pFirstRecord), (::Node *)(pSecondRecord), (const ::Vec4Blk *)(void *)((char*)&source->unk20));
 
     FNVResult result;
-    ::FUN_00d41930((::Input_s *)(void *)(&local_source), (int)(apArg), (::hkpGskCache_s *)(void *)(&local_flags), (::Output_s *)(void *)(&result));
+    ::FUN_00d41930((::Input_s *)(void *)(&local_source), apArg, (::hkpGskCache_s *)(void *)(&local_flags), (::Output_s *)(void *)(&result));
 
     for (int i = 0; i < 2; ++i)
     {
@@ -547,27 +547,34 @@ struct State
     unsigned char numContacts;
 };
 
+struct TraceEntry
+{
+    const char* name;
+    unsigned int ticks;
+    unsigned int unk08;
+};
+
 struct Trace
 {
     int unk00;
-    unsigned int* current;
+    TraceEntry* current;
     int unk08;
-    unsigned int* end;
+    TraceEntry* end;
 };
 
 
 void profile(const char* label)
 {
     Trace* t = (Trace*)TlsGetValue(DAT_0126835c);
-    volatile unsigned int* cursor = t->current;
+    volatile TraceEntry* cursor = t->current;
     if (cursor < t->end)
     {
-        cursor[0] = (unsigned int)label;
+        cursor->name = label;
         _ReadWriteBarrier();
         volatile unsigned int ticks = (unsigned int)__rdtsc();
-        cursor[1] = ticks;
-        cursor += 3;
-        t->current = (unsigned int*)cursor;
+        cursor->ticks = ticks;
+        cursor += 1;
+        t->current = (TraceEntry*)cursor;
     }
 }
 
@@ -3786,19 +3793,19 @@ struct VecArg
 Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg normal, Output* output)
 {
     Trace* stampTrace;
-    volatile unsigned int* stampCursor;
+    volatile TraceEntry* stampCursor;
     volatile unsigned int stampTicks;
 
     stampTrace = (Trace*)TlsGetValue(DAT_0126835c);
     stampCursor = stampTrace->current;
     if (stampCursor < stampTrace->end)
     {
-        stampCursor[0] = (unsigned int)::DAT_010cf220;
+        stampCursor->name = ::DAT_010cf220;
         _ReadWriteBarrier();
         stampTicks = (unsigned int)__rdtsc();
-        stampCursor[1] = stampTicks;
-        stampCursor += 3;
-        stampTrace->current = (unsigned int*)stampCursor;
+        stampCursor->ticks = stampTicks;
+        stampCursor += 1;
+        stampTrace->current = (TraceEntry*)stampCursor;
     }
     union
     {
@@ -3864,7 +3871,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
 
     Vec direction;
 
-    ::FUN_00d41930((::Input_s *)(pair), (int)(state), (::hkpGskCache_s *)(cache), (::Output_s *)(void *)(&direction));
+    ::FUN_00d41930((::Input_s *)(pair), state, (::hkpGskCache_s *)(cache), (::Output_s *)(void *)(&direction));
 
     ContactData* contact = &cache->contactData;
     for (int i = 0; i < 2; ++i)
@@ -3952,7 +3959,7 @@ Cache* __cdecl FUN_00d40d80(Pair* pair, State* state, Cache* cache, VecArg norma
             scalarScratch.minArg = settings->otherOffset * radius + depth;
             float other = smaller(leftMin, scalarScratch.minArg);
 
-            ::FUN_00db60c0((*(const ::AgentSubtypeMarker *)(pair)), radius, len, other, (*(::ConvexFeaturePairCache *)(cache)), (*(::hkVector4 *)(normal)), (*(::WorldOperationEntry *)(output)));
+            ::FUN_00db60c0((*(const ::AgentSubtypeMarker *)(pair)), radius, len, other, (*(::ConvexFeaturePairCache *)(cache)), (*(::hkVector4 *)(normal.ptr)), (*(::WorldOperationEntry *)(output)));
             goto distant;
         }
     }
@@ -4184,12 +4191,12 @@ cleanup:
     stampCursor = stampTrace->current;
     if (stampCursor < stampTrace->end)
     {
-        stampCursor[0] = (unsigned int)::DAT_010c41f8;
+        stampCursor->name = ::DAT_010c41f8;
         _ReadWriteBarrier();
         stampTicks = (unsigned int)__rdtsc();
-        stampCursor[1] = stampTicks;
-        stampCursor += 3;
-        stampTrace->current = (unsigned int*)stampCursor;
+        stampCursor->ticks = stampTicks;
+        stampCursor += 1;
+        stampTrace->current = (TraceEntry*)stampCursor;
     }
 
     return (

@@ -757,7 +757,7 @@ struct SeparatingNormal
 };
 
 // @fnv 0x00d41930
-void __cdecl FUN_00d41930(Input_s* input, int unused, hkpGskCache_s* cache, Output_s* output)
+void __cdecl FUN_00d41930(Input_s* input, const void* unused, hkpGskCache_s* cache, Output_s* output)
 {
     hkpConvexShape_s* shapeA = input->m_pBodyA->m_pCollisionShape;
     hkpConvexShape_s* shapeB = input->m_pBodyB->m_pCollisionShape;

@@ -2663,11 +2663,11 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
                     const hkpShape* shapeB = (*modifiedBodyBPtr)->m_pCollisionShape;
                     const hkpShape* shapeA = (*modifiedBodyAPtr)->m_pCollisionShape;
                     ValueWrapper<hkUchar> cdBodyHasTransformFlag = 0;
-                    *modifiedBodyBPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB),
+                    *modifiedBodyBPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyBPtr).val()), (::Entry *)(cdBodyForTransformedShapeB),
                                                              (::Vector *)(transformForTransformedShapeB),
                                                              numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeB = (*modifiedBodyBPtr)->m_pCollisionShape;
-                    *modifiedBodyAPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyAPtr), (::Entry *)(cdBodyForTransformedShapeA),
+                    *modifiedBodyAPtr = ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyAPtr).val()), (::Entry *)(cdBodyForTransformedShapeA),
                                                              (::Vector *)(transformForTransformedShapeA),
                                                              numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeA = (*modifiedBodyAPtr)->m_pCollisionShape;
@@ -2738,10 +2738,10 @@ void __cdecl FUN_00da5b80(AgentSectorPointerArray& agentTrack, const AgentSubtyp
                                    shapeBufferB, childBodyA, childBodyB);
                 ValueWrapper<hkUchar> dummyCdBodyHasTransformFlag = 0;
                 *modifiedBodyBPtr =
-                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyBPtr).val()), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
                                          numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
                 *modifiedBodyAPtr =
-                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyAPtr), (::Entry *)(cdBodyForTransformedShapeA), (::Vector *)(transformForTransformedShapeA),
+                    ((const ::hkpCdBody *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyAPtr).val()), (::Entry *)(cdBodyForTransformedShapeA), (::Vector *)(transformForTransformedShapeA),
                                          numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
                 reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
                                                  (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));
@@ -3067,7 +3067,7 @@ typedef unsigned char Q42;
 typedef unsigned char Q150;
 typedef unsigned short Q133;
 typedef unsigned int Q49;
-typedef unsigned long __w64 Q165;
+typedef uintptr_t Q165;
 typedef intptr_t hkLong;
 typedef size_t Q3;
 typedef hkReal hkTime;
@@ -5146,7 +5146,7 @@ void __cdecl FUN_00da4aa0(Q30& agentTrack, const Q14& inputIn, const Q24* shapeC
                     const Q70* shapeA = (*modifiedBodyAPtr)->q130;
                     Q20<Q42> cdBodyHasTransformFlag = 0;
                     *modifiedBodyBPtr =
-                        ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                        ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyBPtr).val()), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
                             numSlotsForTransformedCdBodies, (unsigned char *)&(cdBodyHasTransformFlag))));
                     shapeB = (*modifiedBodyBPtr)->q130;
                     reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
@@ -5210,7 +5210,7 @@ void __cdecl FUN_00da4aa0(Q30& agentTrack, const Q14& inputIn, const Q24* shapeC
             case Q7::STREAM_CALL_AGENT_WITH_TRANSFORM: {
                 extractChildShapes(shapeKeyPair.q23, shapeContainerB, shapeBufferB, childBodyB);
                 Q20<Q42> dummyCdBodyHasTransformFlag = 0;
-                *modifiedBodyBPtr = ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)(*modifiedBodyBPtr), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
+                *modifiedBodyBPtr = ((const ::fnv_00da4aa0::Q5 *)(::FUN_00cfe1d0((::Entry *)((*modifiedBodyBPtr).val()), (::Entry *)(cdBodyForTransformedShapeB), (::Vector *)(transformForTransformedShapeB),
                                         numSlotsForTransformedCdBodies, (unsigned char *)&(dummyCdBodyHasTransformFlag))));
                 reinterpret_cast<::hkTransformCB22 *>(&(input.m_kTransform))->FUN_00cb22f0((const ::hkTransformCB22 &)((*modifiedBodyAPtr)->getTransform()),
                                                  (const ::hkTransformCB22 &)((*modifiedBodyBPtr)->getTransform()));

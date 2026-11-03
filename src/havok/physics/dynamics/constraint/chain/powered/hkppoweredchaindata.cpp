@@ -880,7 +880,7 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         }
         {
             Vector product;
-            ::fnv_00c66320::FUN_00c66320((__m128 *)&(product), (void *)(&rotationB), (const __m128 *)(const ::Vector *)(&getInfo(i).targetB), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(product), nullptr, (const ::fnv_00c66320::__m128 *)((&rotationB)), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&getInfo(i).targetB));
             rotationB.simd = product.simd;
         }
         Vector& target = getInfo(i).target;
@@ -896,8 +896,8 @@ void PoweredChain::FUN_00e3ba40(const QueryInput& input, QueryOutput& output)
         if (squaredLength == 0.0f)
             previousTarget.simd = target.simd;
         Vector targetWorld, oldTargetWorld;
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(targetWorld), (void *)(&rotationA), (const __m128 *)(const ::Vector *)(&target), {});
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(oldTargetWorld), (void *)(&rotationA), (const __m128 *)(const ::Vector *)(&previousTarget), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(targetWorld), nullptr, (const ::fnv_00c66320::__m128 *)((&rotationA)), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&target));
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oldTargetWorld), nullptr, (const ::fnv_00c66320::__m128 *)((&rotationA)), (const ::fnv_00c66320::__m128 *)(const ::Vector *)(&previousTarget));
         previous->x = target.x;
         previous->y = target.y;
         previous->z = target.z;

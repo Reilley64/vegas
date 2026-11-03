@@ -959,7 +959,7 @@ __forceinline void _stepMotionState(const hkStepInfo& info, hkVector4& linearVel
             dq.m_vec(3) = w;
         }
 
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(newRotation), (void *)&(dq), (const __m128 *)&(newRotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(newRotation), nullptr, (const ::fnv_00c66320::__m128 *)(&(dq)), (const ::fnv_00c66320::__m128 *)&(newRotation));
         newRotation.normalize();
 
         motionState.m_kDeltaAngle.setAdd4(dq.m_vec, dq.m_vec);
@@ -1364,7 +1364,7 @@ static __forceinline void integrateMotion(Motion* motion, const TimeInterval* st
         float fourth = h * h;
         angle.w = (float)((1.0 - ((double)0.822948f) * h - DAT_010ce4a0 * fourth) - (h * DAT_010ce498) * fourth);
     }
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), &angle, (const __m128 *)(::ApplyForcesStepPrivate::Vec4f *)(&rotation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)(&angle), (const ::fnv_00c66320::__m128 *)(::ApplyForcesStepPrivate::Vec4f *)(&rotation));
     reinterpret_cast<::FUN_005611c0_t *>(&(rotation))->FUN_005611c0();
     s->deltaAngle.quad = _mm_add_ps(angle.q(), angle.q());
     ((float*)&s->deltaAngle)[3] = (float)((float)sqrt(halfSquare) * 3.1415927410125732);

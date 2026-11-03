@@ -5869,8 +5869,8 @@ void S00e384e0_WheelCollectorE38::FUN_00e384e0(const S00e384e0_ChassisE38* pkCha
     S00e384e0_hkQuaternionE38 kSpin;
     kSpin.SetAxisAngle(kWheel.m_spinAxis, -kWheel.m_fSpinAngle);
     S00e384e0_hkQuaternionE38 kSteer;
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(kSteer), (void *)&(pkChassis->m_rotation), (const __m128 *)&(kWheel.m_steeringOrientation), {});
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(kRotOut), (void *)&(kSteer), (const __m128 *)&(kSpin), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(kSteer), nullptr, (const ::fnv_00c66320::__m128 *)(&(pkChassis->m_rotation)), (const ::fnv_00c66320::__m128 *)&(kWheel.m_steeringOrientation));
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(kRotOut), nullptr, (const ::fnv_00c66320::__m128 *)(&(kSteer)), (const ::fnv_00c66320::__m128 *)&(kSpin));
 
     float fLen = kWheel.m_fContactFriction;
     float fSuspension = (fLen < ::_DAT_01012060) ? 0.0f : fLen;

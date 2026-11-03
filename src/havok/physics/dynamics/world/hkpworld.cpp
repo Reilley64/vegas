@@ -4162,7 +4162,7 @@ public:
 // @fnv 0x00c982e0
 FUN_00cfa860* FUN_00cfa860::FUN_00c982e0(unsigned int uiFlags) throw()
 {
-    reinterpret_cast<::FUN_00cfa860 *>((this))->FUN_00cfa860::~FUN_00cfa860();
+    reinterpret_cast<::FUN_00cfa860 *>((this))->::FUN_00cfa860::~FUN_00cfa860();
     if (uiFlags & 1)
         FUN_00cfa860::operator delete(this);
     return this;
@@ -12981,7 +12981,7 @@ boneLen=(boneLen>10.0f)? 10.0f:boneLen;
 boneLen=(boneLen<0.1f)? 0.1f:boneLen;
 }
 const hkVector4_S worldPosition=p1;
-hkQuaternion_S worldRotation;::fnv_00c66320::FUN_00c66320((__m128 *)&(worldRotation), (void *)&(worldFromModel.getRotation()),(const __m128 *)&(modelSpacePose[i].getRotation()), {});
+hkQuaternion_S worldRotation;::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(worldRotation), nullptr, (const ::fnv_00c66320::__m128 *)&(worldFromModel.getRotation()), (const ::fnv_00c66320::__m128 *)&(modelSpacePose[i].getRotation()));
 {
 hkVector4_S boneLocalFrame;
 hkVector4_S p2;
@@ -13059,7 +13059,7 @@ public:
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), nullptr, (const ::fnv_00c66320::__m128 *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation));
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 

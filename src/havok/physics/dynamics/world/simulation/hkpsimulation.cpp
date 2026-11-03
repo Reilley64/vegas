@@ -2847,7 +2847,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         axis=_mm_mul_ps(_mm_shuffle_ps(inverseScalar,inverseScalar,0),axis);
                         Quaternion turn, rotated;
                         turn.FUN_00cb2450(&axis,savedRotation);
-                        ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotated), (void *)(&turn),(const __m128 *)(const ::Quaternion *)(&body->motion.rotation1), {});
+                        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotated), nullptr, (const ::fnv_00c66320::__m128 *)((&turn)), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&body->motion.rotation1));
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&rotated));
                         updateTranslation(body);
                         ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));
@@ -2862,7 +2862,7 @@ void SimulationContext::FUN_00cf9480(Body** bodies, int count, CollisionInput* i
                         perpendicular=_mm_mul_ps(_mm_shuffle_ps(refined,refined,0),perpendicular);
                         Quaternion sideways, oriented;
                         sideways.FUN_00cb2450(&perpendicular,savedRotation);
-                        ::fnv_00c66320::FUN_00c66320((__m128 *)&(oriented), (void *)(&sideways),(const __m128 *)(const ::Quaternion *)((Quaternion*)&angle), {});
+                        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(oriented), nullptr, (const ::fnv_00c66320::__m128 *)((&sideways)), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)((Quaternion*)&angle));
                         reinterpret_cast<::RotationRows *>(&(transform))->FUN_00cb2d90((void *)(&oriented));
                         updateTranslation(body);
                         ::FUN_00cfdbe0((::InvalidateTimDetail::Node *)((int)pair),(*(const ::InvalidateTimDetail::Input *)((int)input)));

@@ -2509,7 +2509,7 @@ void WheelCollide::FUN_00e367d0(LcVehicle* vehicle, unsigned char wheelNum)
     LcWheelState& wheelState = m_kWheelStates[wheelNum];
 
     LcQuat rotation;
-    ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)(&vehicle->m_pChassisCollidable->m_rotation), (const __m128 *)(const void *)(&wheelInfo.m_steeringOrientation), {});
+    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)((&vehicle->m_pChassisCollidable->m_rotation)), (const ::fnv_00c66320::__m128 *)(const void *)(&wheelInfo.m_steeringOrientation));
 
     LcTransform& transform = wheelState.m_kMotionTransform;
     reinterpret_cast<::RotationRows *>(&(transform.m_rotation))->FUN_00cb2d90(&rotation);

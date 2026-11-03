@@ -58,8 +58,8 @@ ActiveEffect* ValueModifierEffect::Copy()
 // @fnv 0x0082bd20
 void ValueModifierEffect::Finalize()
 {
-    Actor* actor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                       ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+    Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                       ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                        : 0;
     if (((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))->IsDetrimentalToActorValue(GetActorValue()))
     {
@@ -86,8 +86,8 @@ float ValueModifierEffect::GetModifiedMagnitude(float magnitude)
          ::FUN_0047f060((*(int *)&(const ::ActorValue::Index &)(GetActorValue())))) &&
         magnitude <= 0.0)
     {
-        Actor* actor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                           ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+        Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                           ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                            : 0;
         float result = actor->avOwner.GetActorValue(GetActorValue()) + adjusted;
         if (result < 0.0)
@@ -101,8 +101,8 @@ void ValueModifierEffect::Update(float delta)
 {
     if (!reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItem*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
     {
-        Actor* actor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                           ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+        Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                           ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                            : 0;
         if (IsFlagged() || fDuration > 0.0 || m_eSpellType == 4 || m_eSpellType == 1)
         {
@@ -130,7 +130,7 @@ void ValueModifierEffect::Update(float delta)
 // @fnv 0x0082be10
 void ValueModifierEffect::RefreshPlayerActorValue()
 {
-    if ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType() == (::_g_thePlayer ? &::_g_thePlayer->target : 0) &&
+    if ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target == (::_g_thePlayer ? &::_g_thePlayer->target : 0) &&
         (::FUN_005d1260((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)((EffectItem*)pEffect)->GetAffectedActorValue()))) ||
          ::FUN_0047f060((*(int *)&(const ::ActorValue::Index &)((ActorValue::Index)((EffectItem*)pEffect)->GetAffectedActorValue())))) &&
         ((EffectItem*)pEffect)->IsHostile())
@@ -284,7 +284,7 @@ void LoadedValueEffect::FUN_0082cd10(Actor* apActor)
     reinterpret_cast<::FUN_00805760_shell *>(this)->FUN_00805760(apActor);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::TESSaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x5f && reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::TESSaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 0x62)
     {
-        ActorAVExt* pTarget = ((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorAVExt *)(reinterpret_cast<::MagicTarget *>((((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+        ActorAVExt* pTarget = ((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorAVExt *)(reinterpret_cast<::MagicTarget *>((((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         if (pTarget && pTarget->IsPlayerRef() && IsFlagged() &&
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItemStub*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
         {
@@ -947,7 +947,7 @@ struct Cls
 void Cls::ApplyEffect()
 {
     Actor* pActor =
-        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? reinterpret_cast<::MagicTarget *>((((Obj822b40*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->GetOwnerActor() : 0;
+        reinterpret_cast<::ActiveEffectFields *>(this)->target ? reinterpret_cast<::MagicTarget *>((((Obj822b40*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->GetOwnerActor() : 0;
     if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pEffect))->FUN_00825c00()))))->FUN_00403e60(2))
     {
         if (pActor != 0 && m_fElapsedTime > ::_DAT_01012060)
@@ -1134,7 +1134,7 @@ struct FUN_004044d0_shell
 // @fnv 0x0082c490
 void LocalEffect::FUN_0082c490()
 {
-    Actor* target = ((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? reinterpret_cast<::MagicTarget *>((((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor() : 0;
+    Actor* target = ((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? reinterpret_cast<::MagicTarget *>((((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor() : 0;
     if (target == (Actor*)::_g_thePlayer && effect && reinterpret_cast<::FUN_004044d0_shell *>((effect))->FUN_004044d0() > 0 && which == 16)
     {
         float missing = ((LocalPlayer*)::_g_thePlayer)->values.base(16) - ((LocalPlayer*)::_g_thePlayer)->values.current(16);
@@ -1674,8 +1674,8 @@ struct PlayerCharacter
 // @fnv 0x0082c000
 void FUN_0082c000_shell::FUN_0082c000()
 {
-    Actor* pActor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                        ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+    Actor* pActor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                        ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                         : 0;
 
     if (reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*(EffectItem**)&this->pEffect)))->FUN_00825c00()))))->FUN_00403e60(2) ||

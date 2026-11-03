@@ -543,7 +543,7 @@ void ShieldEffectUpdate::UpdateShieldEffect(float dt)
     if (!reinterpret_cast<::S3e60 *>((((EffectSetting*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)(*(unsigned int*)((char*)this + 0xc)))))->FUN_00825c00())))->FUN_00403e60(2))
     {
         Actor* actor =
-            reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->GetOwnerActor() : 0;
+            reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
         if (*(float*)((char*)this + 0x20) > ::_DAT_01012060 || *(unsigned int*)((char*)this + 0x2c) == 4)
             reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)((char*)this + 0x1c) * dt);
     }
@@ -556,8 +556,8 @@ void FUN_00828120_cls::FUN_00828120()
     reinterpret_cast<::FUN_0082c000_shell *>((((FUN_00828120_a*)this)))->FUN_0082c000();
     if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((FUN_00828120_y*)this->pad2)))->FUN_00825c00()))))->FUN_00403e60({}))) || *(float*)&this->pad7 == ::_DAT_01012060)
     {
-        actor = (reinterpret_cast<::ActorMover *>((((FUN_00828120_a*)this)))->GetCurrentMoveModeType() != 0)
-                    ? ((FUN_00828120_z*)reinterpret_cast<::ActorMover *>((((FUN_00828120_a*)this)))->GetCurrentMoveModeType())->FUN_00822b40()
+        actor = (reinterpret_cast<::ActiveEffectFields *>(this)->target != 0)
+                    ? ((FUN_00828120_z*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->FUN_00822b40()
                     : 0;
         reinterpret_cast<::ActiveEffect828 *>((((ShieldEffectMod*)this)))->FUN_008282e0((::Actor828 *)(actor), *(float*)&this->pad6);
     }
@@ -595,7 +595,7 @@ void FUN_00828260_cls::FUN_00828260()
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
     if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}))))
     {
-        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->FUN_00822b40() : 0;
+        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
         reinterpret_cast<::ActiveEffect828 *>(this)->FUN_008282e0((::Actor828 *)(actor), -unk1c);
     }
 }

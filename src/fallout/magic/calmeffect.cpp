@@ -352,7 +352,7 @@ struct FUN_0080abf0_Effect : ValueModifierEffect
 void FUN_0080abf0_Effect::FUN_0080abf0()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    FUN_0080abf0_Target* target = ((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::FUN_0080abf0_Target *)(reinterpret_cast<::MagicTarget *>((((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    FUN_0080abf0_Target* target = ((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_0080abf0_Target *)(reinterpret_cast<::MagicTarget *>((((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (target && target->v428())
     {
         reinterpret_cast<::TESForm *>((target->v428()))->ClearData();
@@ -873,7 +873,7 @@ void FUN_0080aa90_cls::FUN_0080aa90()
     FUN_0080aa90_Obj* pObject;
 
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    pObject = ((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) != 0 ? ((::FUN_0080aa90_Obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    pObject = ((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? ((::FUN_0080aa90_Obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pObject != 0)
     {
         if (pObject->Virt266() != 0)
@@ -1166,7 +1166,7 @@ void FUN_0080ab10_cls::FUN_0080ab10(float afValue)
     unsigned char flag;
     FUN_0080ab10_obj* obj;
     reinterpret_cast<::ValueModifierEffect *>((this))->Update(afValue);
-    obj = (((::FUN_0080ab10_obj *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) != 0) ? ((::FUN_0080ab10_obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080ab10_obj *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    obj = (((::FUN_0080ab10_obj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::FUN_0080ab10_obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080ab10_obj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (obj != 0)
     {
         flag = (obj != 0 && obj->v266() != 0) ? ((unsigned char)(reinterpret_cast<::FUN_0047c850 *>((obj->v266()))->EvaluateCondition())) : (unsigned char)1;

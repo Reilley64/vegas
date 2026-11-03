@@ -2,6 +2,7 @@
 // src/fallout/magic/cureeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/cureeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B824800MagicTarget.h"
 #include "fnv/decl/MagicTargetTypedDispel.h"
@@ -43,9 +44,9 @@ struct CureEffect
 void CureEffect::FUN_0080c210()
 {
     if (m_iCureType == -1)
-        reinterpret_cast<::MagicTargetTypedDispel *>((((Unk824630*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->FUN_00824630(m_eSpellType);
+        reinterpret_cast<::MagicTargetTypedDispel *>((((Unk824630*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->FUN_00824630(m_eSpellType);
     else
-        reinterpret_cast<::B824800MagicTarget *>((((Unk824800*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->RemoveEffectsByArchetype(m_iCureType, 0);
+        reinterpret_cast<::B824800MagicTarget *>((((Unk824800*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->RemoveEffectsByArchetype(m_iCureType, 0);
 }
 
 struct MagicCaster;

@@ -72,7 +72,7 @@ struct ActiveEffect
 // @fnv 0x0080f470
 void ActiveEffect::ApplyLockEffect()
 {
-    NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)));
+    NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)));
     if (!pTarget || !pTarget->GetParent())
         return;
 

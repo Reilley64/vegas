@@ -4,6 +4,7 @@
 
 
 // @fnv 0x0080cec0
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/Cls.h"
@@ -87,7 +88,7 @@ struct DetectLifeEffect : FUN_0082a670_shell
 void DetectLifeEffect::FUN_0080ce60()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    if (((RetObj*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
+    if (((RetObj*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
         FUN_0080cec0();
 }
 
@@ -112,7 +113,7 @@ struct DetectLifeEffect : ValueModifierEffect
 void DetectLifeEffect::FUN_0080d0e0()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    if (((ActorWrapper*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->Unk1() == (*reinterpret_cast<::fnv_0080d0e0::PC7d * *>(&::_g_thePlayer)))
+    if (((ActorWrapper*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->Unk1() == (*reinterpret_cast<::fnv_0080d0e0::PC7d * *>(&::_g_thePlayer)))
         FUN_0080cec0();
 }
 }  // namespace fnv_0080d0e0

@@ -765,7 +765,7 @@ public:
 // @fnv 0x0080e830
 void Host::FUN_0080e830()
 {
-    Effect* effect = ((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    Effect* effect = ((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (effect)
         ::FUN_0080ee50((::MagicTarget *)(int *)(effect ? &effect->field94 : 0));
 }
@@ -773,7 +773,7 @@ void Host::FUN_0080e830()
 void FUN_0080e900_cls::FUN_0080e900()
 {
     reinterpret_cast<::LightEffect *>(this)->FUN_0080ed60();
-    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (a != 0)
     {
         ::FUN_0080ee50((::MagicTarget *)(char *)(a != 0 ? a + 0x94 : 0));
@@ -785,7 +785,7 @@ void LightEffect::FUN_0080ed60()
     void* pActor2;
     void* pTmp;
     void* pObj;
-    pActor2 = ((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())))))->GetOwnerActor())) : 0;
+    pActor2 = ((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
 
     if (((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))) != 0)
     {
@@ -842,7 +842,7 @@ public:
 // @fnv 0x0080e970
 void LightEffectDerived::AttachLightEffect()
 {
-    Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))->GetOwnerActor() : 0;
+    Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
     if (!this->m_spLight && pTarget3 && !((int)(reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
     {
         TESObjectLIGH* pLightTmp = ((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<::ActiveEffect *>((((FUN_0082ccb0_Cls*)this)))->GetEffectSetting()))->FUN_004fd380()));

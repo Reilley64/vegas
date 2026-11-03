@@ -516,9 +516,9 @@ bool FUN_00804250_shell::HasMatchingActiveEffect()
         }
     }
     SpellItem* pspell = dynamic_cast<SpellItem*>(pSpell);
-    if (pMagicItem && ((ActorMover*)this)->GetCurrentMoveModeType())
+    if (pMagicItem && reinterpret_cast<::ActiveEffectFields *>(this)->target)
     {
-        ListNodeFns* node = (ListNodeFns*)((ListNodeStub*)((ActorMover*)this)->GetCurrentMoveModeType())->s2();
+        ListNodeFns* node = (ListNodeFns*)((ListNodeStub*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->s2();
         while (node && !bresult)
         {
             ActiveEffect* pitem = *((::ActiveEffect **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
@@ -1605,7 +1605,7 @@ void ActiveEffectUpdateShell::FUN_00804560(float afSecondsElapsed)
     if (afSecondsElapsed > 0.0 && !bPickResultFound)
     {
         MagicItem* pspell = (MagicItem*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
-        MagicTarget* ptarget = (MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType();
+        MagicTarget* ptarget = (MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target;
         TESObjectREFR* ptargetStatsObject = ((MagicTargetStatsDispatch*)ptarget)->GetMagicTargetReference();
         bool bpermanent = ::FUN_00804b30(m_eSpellType);
         if (!bEffectFlag && !bWasPlaying && bActive)
@@ -1748,12 +1748,12 @@ void Self::PlaySoundForEffect()
     var10_2 = ((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound())) ? reinterpret_cast<::FUN_0084e3a0_Class *>((((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound()))))->FUN_0084e3a0() : 0;
     if (var10_2 != 0)
     {
-        if (((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)))
+        if (((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))
         {
             if (((::Obj80 *)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()))->GetVal18() != 4)
             {
                 AudioPlaybackHandle sound8;
-                var4 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Obj14 *)(reinterpret_cast<::MagicTarget *>((((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+                var4 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Obj14 *)(reinterpret_cast<::MagicTarget *>((((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
                 flag_ = reinterpret_cast<::S3e60 *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00403e60(0x400);
                 if (((::MidObj *)(reinterpret_cast<::EffectSetting *>((((::EffSetting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->GetHitSound())))
                 {
@@ -1769,7 +1769,7 @@ void Self::PlaySoundForEffect()
                 else
                 {
                     ObjC* objC2;
-                    objC2 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetObjC();
+                    objC2 = ((::ObjB *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetObjC();
                     if (objC2)
                     {
                         NiPoint3 pt5;

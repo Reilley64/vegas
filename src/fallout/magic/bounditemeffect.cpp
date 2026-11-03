@@ -302,9 +302,9 @@ FUN_00807ee0::~FUN_00807ee0()
     if (unka7)
     {
         int iSex = 0;
-        if (((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) && ((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetCasterRef())
+        if (((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) && ((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef())
         {
-            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetCasterRef()))->FUN_007af430())));
+            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::CasterS *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef()))->FUN_007af430())));
             if (pNPC)
                 iSex = pNPC->GetSex();
         }
@@ -500,9 +500,9 @@ AEEffect* AEEffect::Clone()
     if (bBipedQueued)
     {
         int iSex = 0;
-        if (((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetCasterRef())
+        if (((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef())
         {
-            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetCasterRef()))->FUN_007af430())));
+            TESNPC* pNPC = dynamic_cast<TESNPC*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::AECaster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetCasterRef()))->FUN_007af430())));
             if (pNPC)
                 iSex = pNPC->GetSex();
         }
@@ -2345,7 +2345,7 @@ class ActiveEffect
 // @fnv 0x00808680
 void ActiveEffect::FUN_00808680()
 {
-    void* pTarget = ((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    void* pTarget = ((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((::fnv_00808680::MagicTarget_00822b40 *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!FUN_006733e0() || !pTarget)
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(false);
@@ -2897,7 +2897,7 @@ void EffectObj::Update(float delta)
     }
     else
     {
-        ActorObj* actor = ((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorObj *)(reinterpret_cast<::MagicTarget *>((((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+        ActorObj* actor = ((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorObj *)(reinterpret_cast<::MagicTarget *>((((::TargetObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         TESObjectWEAP* weaponA = dynamic_cast<TESObjectWEAP*>(GetAssociated());
         if (actor && ((::Proc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())) && weaponA)
         {
@@ -2936,7 +2936,7 @@ void EffectObj::Update(float delta)
 void EffectP::FUN_00808a30()
 {
     TESObjectARMO* armor;
-    ActorP* weapon = ((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorP *)(reinterpret_cast<::MagicTarget *>((((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    ActorP* weapon = ((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorP *)(reinterpret_cast<::MagicTarget *>((((::CasterP *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     TESObjectWEAP* actor = dynamic_cast<TESObjectWEAP*>(FUN_006733e0());
     armor = dynamic_cast<TESObjectARMO*>(FUN_006733e0());
     if (actor)
@@ -3068,7 +3068,7 @@ public:
 // @fnv 0x008091a0
 void BIEffect::StopEffect()
 {
-    BIActor* pkActor = ((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::BIActor *)(reinterpret_cast<::MagicTarget *>((((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    BIActor* pkActor = ((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::BIActor *)(reinterpret_cast<::MagicTarget *>((((::BITarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (m_bModifierActive && pkActor)
     {
         TESObjectWEAP* pkWeapon = dynamic_cast<TESObjectWEAP*>(FUN_006733e0());
@@ -3433,7 +3433,7 @@ void BoundLoadEffectView::FUN_0080a2d0(int arg)
 {
     int actor;
     reinterpret_cast<::fnv_00806e70::AssociatedItemEffect *>(this)->FUN_00806e70((::fnv_00806e70::Actor *)(arg));
-    ActorA* j = ((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorA *)(reinterpret_cast<::MagicTarget *>((((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    ActorA* j = ((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorA *)(reinterpret_cast<::MagicTarget *>((((::TargetA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (a4)
     {
         if (weapon)

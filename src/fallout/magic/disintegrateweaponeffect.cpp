@@ -471,7 +471,7 @@ struct FUN_0080d7b0_cls
 // @fnv 0x0080d7b0
 void FUN_0080d7b0_cls::ApplyDisintegrateWeaponDamage()
 {
-    Effect* pEffect = ((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    Effect* pEffect = ((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pEffect == 0)
         return;
 

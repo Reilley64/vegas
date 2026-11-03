@@ -92,7 +92,7 @@ struct FUN_0080b7c0_shell : Proc_S
 void FUN_0080b7c0_shell::FUN_0080b7c0()
 {
     Actor* ptarget =
-        reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType() ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())))->GetOwnerActor())) : 0;
+        reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicTarget *>((void *)(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)))->GetOwnerActor())) : 0;
     Actor* pcaster = ((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b7c0::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b7c0::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (ptarget && pcaster)
         ::FUN_0080b9e0(ptarget, (int)(pcaster), 1);
@@ -186,7 +186,7 @@ struct FUN_0080b660_class : FUN_0045cd60_shell
 // @fnv 0x0080b660
 void FUN_0080b660_class::FUN_0080b660()
 {
-    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : (Actor*)0;
+    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : (Actor*)0;
     Actor* pCasterActor = ((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : (Actor*)0;
     if (pSourceActor && pCasterActor)
         ::StartHostilityAndCombat((::B850Actor *)(pSourceActor), (::B850Actor *)(pCasterActor));
@@ -403,7 +403,7 @@ void FUN_0080b6f0_cls::FUN_0080b6f0(int)
 {
     EffectHost* a;
     void* b;
-    a = ((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType())) != 0 ? ((::EffectHost *)(reinterpret_cast<::MagicTarget *>((((::EffectSource *)(reinterpret_cast<::ActorMover *>((((FUN_0080b6f0_owner*)this)))->GetCurrentMoveModeType()))))->GetOwnerActor()))
+    a = ((::EffectSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? ((::EffectHost *)(reinterpret_cast<::MagicTarget *>((((::EffectSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor()))
                                                          : 0;
     b = ((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60())) != 0 ? ((void *)(reinterpret_cast<::MagicCaster *>((((::EffectSource *)(reinterpret_cast<::FUN_0045cd60_shell *>((((FUN_0080b6f0_owner*)this)))->FUN_0045cd60()))))->GetCasterActor()))
                                                          : 0;

@@ -591,7 +591,7 @@ void EffectController::RestoreEffect()
 {
     if (!enabled)
         return;
-    Actor* target = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetOwnerActor() : 0;
+    Actor* target = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
     Actor* caster = reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60() ? reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()->GetCasterActor() : 0;
     if (target)
     {
@@ -1288,7 +1288,7 @@ struct S_0080ca50_Effect
 // @fnv 0x0080ca50
 void S_0080ca50_Effect::FUN_0080ca50()
 {
-    S_0080ca50_Actor* caster = ((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    S_0080ca50_Actor* caster = ((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     S_0080ca50_Actor* target2 = ((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicCaster *>((((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (caster && target2)
     {

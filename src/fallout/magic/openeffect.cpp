@@ -82,7 +82,7 @@ struct S_00826190_Effect
 // @fnv 0x00826190
 void S_00826190_Effect::FUN_00826190()
 {
-    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)));
+    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)));
     if (!target || !target->GetRef())
     {
         return;

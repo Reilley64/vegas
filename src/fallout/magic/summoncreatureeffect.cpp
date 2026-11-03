@@ -601,7 +601,7 @@ struct S_008287e0
 // @fnv 0x008287e0
 void S_008287e0::FUN_008287e0()
 {
-    S_008287e0_Actor* ref = ((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::S_008287e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    S_008287e0_Actor* ref = ((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_008287e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008287e0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!ref)
         return;
 
@@ -1017,7 +1017,7 @@ struct FUN_008289e0_cls : public SummonCreatureEffect
 // @fnv 0x008289e0
 void FUN_008289e0_cls::CleanupSummonedCreature()
 {
-    FxnNode* a = (((::FxnNode *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) != 0) ? ((::FxnNode *)(reinterpret_cast<::MagicTarget *>((((::FxnNode *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    FxnNode* a = (((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::FxnNode *)(reinterpret_cast<::MagicTarget *>((((::FxnNode *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (this->m_4c != 0 && a != 0)
     {
         if (((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture())) != 0 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::FxnNode *)(reinterpret_cast<::BSShaderNoLightingProperty *>((this->m_4c))->GetBaseTexture()))))->FUN_0045cd60())) == 0)
@@ -2123,7 +2123,7 @@ struct S_008294e0_Summon : S_008294e0_Effect
 // @fnv 0x00828ba0
 void S_00828ba0::FUN_00828ba0(int unused)
 {
-    S_00828ba0_Actor* actor = ((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::S_00828ba0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    S_00828ba0_Actor* actor = ((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_00828ba0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_00828ba0_Owner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!actor || (m_70 && (!m_4c || m_4c->vfn8b(0))))
     {
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(0);
@@ -2143,7 +2143,7 @@ void S_00828ba0::FUN_00828ba0(int unused)
 // @fnv 0x008294e0
 void S_008294e0_Summon::SpawnSummonedActor(int unused)
 {
-    S_008294e0_Actor* actor = ((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::S_008294e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    S_008294e0_Actor* actor = ((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_008294e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!actor)
         return;
     S_008294e0_Ref* ref;
@@ -2761,7 +2761,7 @@ struct TES
 // @fnv 0x00828f00
 bool SummonCreatureEffectHelper::FUN_00828f00(int iUnused, NiPoint3* pkPos)
 {
-    MobileObject* pkActor = ((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::MobileObject *)(reinterpret_cast<::MagicTarget *>((((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    MobileObject* pkActor = ((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MobileObject *)(reinterpret_cast<::MagicTarget *>((((::EffectTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     TESBoundObject* pkBound = dynamic_cast<TESBoundObject*>(GetBaseForm());
     float fRadius = reinterpret_cast<::fnv_0050ebf0::FUN_0050ebf0_shell *>((pkBound))->FUN_0050ebf0();
     if (64.0 > fRadius)

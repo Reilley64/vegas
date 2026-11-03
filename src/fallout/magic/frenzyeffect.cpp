@@ -140,7 +140,7 @@ struct FUN_0080dd30_shell : ValueModifierEffect
 void FUN_0080dd30_shell::FUN_0080dd30()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    Actor* target = reinterpret_cast<::ActiveEffectFields *>(this)->caster ? ((MagicTarget*)(void*)reinterpret_cast<::ActiveEffectFields *>(this)->caster)->GetOwnerActor() : 0;
+    Actor* target = reinterpret_cast<::ActiveEffectFields *>(this)->target ? ((MagicTarget*)(void*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor() : 0;
     Actor* caster = ((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())) ? ((MagicCaster*)((void *)(reinterpret_cast<::FUN_0045cd60_shell *>((((Proc_S*)this)))->FUN_0045cd60())))->GetCasterActor() : 0;
     if (target && caster && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)target)))->FUN_00493bb0())))
         ((char*)this)[0x4c] = 1;
@@ -297,7 +297,7 @@ void FrenzyEffectCore::FUN_0080ddd0()
     if (exhausted)
         return;
     {
-        Actor* actor = ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->FUN_00822b40() : 0;
+        Actor* actor = ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Ref *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->FUN_00822b40() : 0;
         if (actor != 0 && ((unsigned char)(reinterpret_cast<::FUN_00493bb0_Class *>((actor))->FUN_00493bb0())))
         {
             ((ActorAction)actor->vtbl[269])(actor, 0);

@@ -1687,7 +1687,7 @@ void BoltEffectImpl::InitBoltEffect()
     }
     reinterpret_cast<::BSXFlags_shell *>((pkDataZ))->FUN_00519230(1, 1);
 
-    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor() : 0;
+    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor() : 0;
     BoltActor* pkBOut = ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetActor() : 0;
     BoltAttachTarget* pkAttachTmp;
     BoltRoot* pkRootRes;
@@ -1825,7 +1825,7 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(fTimeOffset);
     BoltActorStandIn* pkCaster = ((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicCaster *>((((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
-    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!reinterpret_cast<::S3e60 *>((((::BoltFlags *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}) && unk20 > 0.0)
     {
         int iAV = GetActorValue();

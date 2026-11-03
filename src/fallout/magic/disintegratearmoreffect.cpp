@@ -2,6 +2,7 @@
 // src/fallout/magic/disintegratearmoreffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/disintegratearmoreffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
@@ -508,7 +509,7 @@ void FUN_0080d340_cls::FUN_0080d340()
     Result* p;
     Sub* t;
     Sub* u;
-    p = ((::Node *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? ((::Result *)(reinterpret_cast<::MagicTarget *>((((::Node *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    p = ((::Node *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Result *)(reinterpret_cast<::MagicTarget *>((((::Node *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (p == 0)
         return;
     {

@@ -605,9 +605,9 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
     {
         b4d = 0;
     }
-    else if (((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) && ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor())
+    else if (((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) && ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor())
     {
-        S_00829bb0_Actor* actor = ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor();
+        S_00829bb0_Actor* actor = ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor();
         S_00829bb0_Cell* cell = ((::S_00829bb0_Cell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()));
         if (reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((actor))->FUN_00575d10() && (!cell || !((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((cell))->GetFakeExterior()))))
         {
@@ -653,7 +653,7 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
 void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
 {
     void* form = ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::S_00829e00_Setting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00407820()));
-    if (!form || !((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) || ((int)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) != 4)
+    if (!form || !((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) || ((int)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) != 4)
         return;
     if (abApply)
     {
@@ -665,7 +665,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
                 delete m_effects;
                 m_effects = 0;
             }
-            S_00829e00_Effect* effect = new S_00829e00_Effect(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetTarget(), form, -1.0f);
+            S_00829e00_Effect* effect = new S_00829e00_Effect(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetTarget(), form, -1.0f);
             if (effect->vC4())
             {
                 reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(effect));
@@ -692,7 +692,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
         reinterpret_cast<::FileMatchList *>((m_effects))->RemoveAll();
         delete m_effects;
         m_effects = 0;
-        reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(::S_00829e00_Target *)(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetTarget()), form);
+        reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(::S_00829e00_Target *)(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetTarget()), form);
     }
 }
 
@@ -852,7 +852,7 @@ double S_0082a150::FUN_0082a1b0()
 {
     H_Calls* p;
     H_Calls* aQ;
-    p = ((::H_Calls *)(reinterpret_cast<::ActorMover *>((((H_Calls*)this)))->GetCurrentMoveModeType())) ? ((::H_Calls *)(reinterpret_cast<::ActorMover *>((((H_Calls*)this)))->GetCurrentMoveModeType()))->v1() : 0;
+    p = ((::H_Calls *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::H_Calls *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->v1() : 0;
     aQ = p ? ((::H_Calls *)(reinterpret_cast<::LowProcess *>((p))->GetTarget())) : 0;
     if (p && (!reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((p))->FUN_00575d10() || (aQ && ((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((aQ))->GetFakeExterior())))))
     {

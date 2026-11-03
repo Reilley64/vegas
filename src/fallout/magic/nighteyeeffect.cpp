@@ -2,6 +2,7 @@
 // src/fallout/magic/nighteyeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/nighteyeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect805670.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
@@ -75,7 +76,7 @@ void NightEyeEffect::FUN_00825810()
 {
     FUN_00804cb0(this, 1.0f);
     reinterpret_cast<::FUN_0082c000_shell *>((((FUN_0082a670_shell*)this)))->FUN_0082c000();
-    if (((VirtualObj*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
+    if (((VirtualObj*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->f1() == (*reinterpret_cast<::PC7d * *>(&::_g_thePlayer)))
         UpdateImageSpaceEffectFromPlayerState();
 }
 
@@ -100,7 +101,7 @@ struct NightEyeEffect : ValueModifierEffect
 void NightEyeEffect::FUN_00825860()
 {
     reinterpret_cast<::Cls *>((((Helper082c810*)this)))->ApplyEffect();
-    if (((RetObj*)reinterpret_cast<::ActorMover *>((((BSThread*)this)))->GetCurrentMoveModeType())->f1() == (*reinterpret_cast<::fnv_00825860::PC7d * *>(&::_g_thePlayer)))
+    if (((RetObj*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->f1() == (*reinterpret_cast<::fnv_00825860::PC7d * *>(&::_g_thePlayer)))
         ::UpdateImageSpaceEffectFromPlayerState();
 }
 }  // namespace fnv_00825860

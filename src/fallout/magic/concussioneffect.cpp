@@ -1,5 +1,6 @@
 // fallout/magic/concussioneffect.cpp: ConcussionEffect (7 functions)
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004534f0_shell.h"
 #include "fnv/decl/FUN_00ad8830_shell.h"
@@ -32,8 +33,8 @@ void ConcussionEffect::Update(float deltaTime)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((MagicProjectile*)this)))->FUN_004534f0(deltaTime);
     m_fPackageValue += deltaTime;
-    Actor* actor = ((ActorMover*)this)->GetCurrentMoveModeType()
-                       ? ((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetOwnerActor()
+    Actor* actor = reinterpret_cast<::ActiveEffectFields *>(this)->target
+                       ? ((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetOwnerActor()
                        : 0;
     if (actor)
         ApplyConcussion(actor);

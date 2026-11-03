@@ -1871,7 +1871,7 @@ void Reanimation::StartReanimation()
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
         return;
     }
-    RActorAccess* actor = ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->AsActor() : 0;
+    RActorAccess* actor = ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->AsActor() : 0;
     if (actor && actor->IsDead(0))
     {
         actor->SetStateFlags(0);

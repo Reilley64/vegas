@@ -348,7 +348,7 @@ void C::FUN_0082b530()
 {
     int b;
     int a;
-    b = ((int)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((int)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)))))->GetOwnerActor())) : 0;
+    b = ((int)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((int)(reinterpret_cast<::MagicTarget *>((((O*)((int)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
     a = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((int)(reinterpret_cast<::MagicCaster *>((((O*)((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())))))->GetCasterActor())) : 0;
     if (b != 0 && a != 0 && (*(int(**)(int))(*(int**)b + 266))(b) != 0)
     {
@@ -892,7 +892,7 @@ void B82B5E0Request::ApplyPackageToActor()
 {
     if (!m_bModifierActive)
         return;
-    B82B5E0Actor* pkActor = ((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::B82B5E0Actor *)(reinterpret_cast<::MagicTarget *>((((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    B82B5E0Actor* pkActor = ((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::B82B5E0Actor *)(reinterpret_cast<::MagicTarget *>((((::B82B5E0ActorHandle *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     B82B5E0Package* pkPackage3 = ((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::B82B5E0Package *)(reinterpret_cast<::MagicCaster *>((((::B82B5E0PackageHandle *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (pkActor && ((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((pkActor))->FUN_00493bb0())))
     {

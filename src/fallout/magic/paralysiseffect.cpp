@@ -232,7 +232,7 @@ struct ParalysisEffectStandIn : ParalysisValueModifierEffect
 void ParalysisEffectStandIn::UpdateParalysisEffect(float afElapsed)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(afElapsed);
-    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pActor && pActor->IsParalysisImmune(false))
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
 }
@@ -490,7 +490,7 @@ void FUN_008263c0_cls::FUN_008263c0()
 {
     bool active;
     {
-        ParalysisEffectSubject* subject = (((::ParalysisSourceHolder *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) != 0) ? ((::ParalysisEffectSubject *)(reinterpret_cast<::MagicTarget *>((((::ParalysisSourceHolder *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+        ParalysisEffectSubject* subject = (((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0) ? ((::ParalysisEffectSubject *)(reinterpret_cast<::MagicTarget *>((((::ParalysisSourceHolder *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
         if (subject == 0)
         {
         }

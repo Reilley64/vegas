@@ -1125,7 +1125,7 @@ struct Effect
 // @fnv 0x0080e110
 void Effect::FUN_0080e110()
 {
-    ActorData* actor = ((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    ActorData* actor = ((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     if (actor && actor->values.slot8(unk48) > 0.0)
     {
@@ -1587,7 +1587,7 @@ struct MVEffect
 void MVEffect::FUN_0080e230()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
+    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pTarget && pTarget->kAVOwner.GetActorValueInt(m_eAssociatedActorValue) == 0.0)
     {
         if (FUN_005b9b00() && pTarget == (*reinterpret_cast<::MVActor * *>(&::_g_thePlayer)))

@@ -34,7 +34,7 @@ void ScriptEffect::Update(float elapsed)
 {
     if (pScript)
     {
-        pScript->AdvanceScript(((MagicTarget*)((ActorMover*)this)->GetCurrentMoveModeType())->GetActor(),
+        pScript->AdvanceScript(((MagicTarget*)reinterpret_cast<::ActiveEffectFields *>(this)->target)->GetActor(),
                                m_pScriptLocals, elapsed);
     }
 }
@@ -327,7 +327,7 @@ void ScriptEffectShell::FUN_00827ac0()
     if (pScript != 0)
     {
         m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
-        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor(m_pScriptLocals), {});
+        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetActor(m_pScriptLocals), {});
     }
 }
 
@@ -451,7 +451,7 @@ void FUN_00827b20_t::ReleaseLocals()
     if (m_48 && (!reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition() ||
                  reinterpret_cast<::FUN_0047c850 *>((((TESBipedModelForm*)g_TESSaveLoadGame)))->EvaluateCondition()))
     {
-        reinterpret_cast<::FUN_005ac380 *>((m_48))->ExecuteEffectOnTarget((::TESObjectREFR *)(void *)(((Cell827b*)((::TESObjectCELL *)(reinterpret_cast<::ActorMover *>((((NavMesh*)this)))->GetCurrentMoveModeType())))->v01(m_pLocals)), {});
+        reinterpret_cast<::FUN_005ac380 *>((m_48))->ExecuteEffectOnTarget((::TESObjectREFR *)(void *)(((Cell827b*)((::TESObjectCELL *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))->v01(m_pLocals)), {});
     }
     if (m_pLocals)
     {

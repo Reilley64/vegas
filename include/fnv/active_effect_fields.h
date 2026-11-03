@@ -6,21 +6,23 @@ class EffectItem;
 class MagicTarget;
 class MagicCaster;
 
-// The leading data members of ActiveEffect, for effect units whose ActiveEffect
-// stand-ins declare no fields. The 32-bit getters folded into 0x0059bb30
-// (ActorMover::GetCurrentMoveModeType) read `caster` when called on an effect.
+// The leading data members of ActiveEffect (as in magic/activeeffect_local.h),
+// for effect units whose ActiveEffect stand-ins declare no fields. The 32-bit
+// getter folded into 0x0059bb30 (ActorMover::GetCurrentMoveModeType) reads
+// `target` when called on an effect.
 struct ActiveEffectFields
 {
     void* vtable;
-    float timeElapsed;
-    MagicItem* magicItem;
-    EffectItem* effectItem;
-    bool applied;
-    bool terminated;
-    unsigned char flags12;
-    unsigned char byte13;
-    unsigned int field14;
     float magnitude;
+    MagicItem* spell;
+    EffectItem* effect;
+    bool active;
+    bool effectFlag;
+    bool wasPlaying;
+    bool pickResultFound;
+    bool effectState;
+    int flags;
+    float elapsedTime;
     float duration;
     MagicTarget* target;
     MagicCaster* caster;

@@ -1236,10 +1236,10 @@ void FUN_00872df0(unsigned char value)
     DAT_011f9fc5 = value;
 }
 
-extern int DAT_01204368;
+extern void* DAT_01204368;
 void __cdecl FUN_00877960();
 // @fnv 0x00877950
-int __cdecl FUN_00877950()
+void* __cdecl FUN_00877950()
 {
     FUN_00877960();
     return DAT_01204368;
@@ -1579,13 +1579,13 @@ struct FUN_008779f0
     char data[0x114];
     FUN_008779f0();
 };
-extern int DAT_01204368;
+extern void* DAT_01204368;
 // Allocates a FUN_008779f0 instance and stores it in DAT_01204368 if that global is currently null.
 // @fnv 0x00877960
 void FUN_00877960()
 {
     if (!DAT_01204368)
-        DAT_01204368 = (int)new FUN_008779f0;
+        DAT_01204368 = new FUN_008779f0;
 }
 
 extern int DAT_01082f04;

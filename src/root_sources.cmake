@@ -16,8 +16,6 @@ set(VEGAS_ROOT_SOURCES
   "src/generated/global_object_initializers.cpp"
   "src/generated/global_object_initializers2.cpp"
   "src/generated/global_object_initializers_o2.cpp"
-  "src/generated/global_object_initializers_o2_od_variant.cpp"
-  "src/generated/global_object_initializers_o2_variant.cpp"
   "src/generated/setting_eh_initializers.cpp"
   "src/generated/setting_float_initializers.cpp"
   "src/imagespaceshaderblur_h_unit.cpp"

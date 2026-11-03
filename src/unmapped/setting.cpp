@@ -13,12 +13,14 @@
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_00404000.h"
 #include "fnv/symbols_0044f000.h"
+#include "fnv/symbols_0045d000.h"
 #include "fnv/symbols_00450000.h"
+#include "fnv/symbols_00877000.h"
 #include "fnv/symbols_00c33000.h"
 #include "fnv/symbols_00c3b000.h"
 #include "fnv/symbols_01012000.h"
 #include "fnv/symbols_01016000.h"
-#include "Setting.h"
+#include "SettingT.h"
 
 extern void* DAT_0101772c;
 struct FUN_0044f600_class
@@ -62,56 +64,209 @@ void* FUN_00877a10_Class::FUN_0044f6d0(unsigned int flags)
 }
 }  // namespace fnv_0044f6d0
 
-struct FUN_00404920
+// Setting constructors for 4-byte values and floats share their code with other classes' two-field constructors
+// (0x00404920, 0x0040e130), so only the bool form has an address of its own.
+Setting::Setting(const char* key, int value)
 {
-    FUN_00404920(int, int);
-    ~FUN_00404920();
-};
-struct GameSettingCollection
-{
-    virtual void v0();
-    virtual void v1(void*);
-};
-struct FUN_0040e0b0
-{
-    virtual void v0();
-    virtual void v1(void*);
-    static const void* vftable;
-};
-struct FUN_0040c150 : FUN_00404920
-{
-    FUN_0040c150(int a, int b);
-};
-// @fnv 0x0040c150
-FUN_0040c150::FUN_0040c150(int aiArg1, int aiArg2) : FUN_00404920(aiArg1, aiArg2)
-{
-    *(int*)this = (int)&FUN_0040e0b0::vftable;
-    ::GetGameSettingCollection()->v1(this);
+    uValue.i = value;
+    pKey = key;
 }
 
-struct FUN_0040e130
+Setting::Setting(const char* key, char* value)
 {
-    FUN_0040e130(int, float);
-    ~FUN_0040e130();
-    virtual void v0();
-    virtual void v1(void*);
-};
-struct FUN_0044f440 : FUN_0040e130
+    uValue.str = value;
+    pKey = key;
+}
+
+Setting::Setting(const char* key, const char* value)
 {
-    FUN_0044f440(int a, float b);
-    virtual void v0();
-    virtual void v1(void*);
-};
-struct FUN_0044f560
+    uValue.str = value;
+    pKey = key;
+}
+
+Setting::Setting(const char* key, float value)
 {
-    static void* __cdecl GetCollection();
-    virtual void v0();
-    virtual void v1(void*);
-};
+    uValue.f = value;
+    pKey = key;
+}
+
+// @fnv 0x0045cfb0
+Setting::Setting(const char* key, bool value)
+{
+    uValue.b = value;
+    pKey = key;
+}
+
+// @fnv 0x00404950
+Setting::~Setting()
+{
+    if (pKey && *pKey == 'S')
+        ::FUN_00401030(const_cast<char*>(pKey));
+}
+
+template <> GameSettingCollection* SettingT<GameSettingCollection>::GetCollection()
+{
+    return ::GetGameSettingCollection();
+}
+
+template <> SettingCollection_011f35a4* SettingT<SettingCollection_011f35a4>::GetCollection()
+{
+    return static_cast<SettingCollection_011f35a4*>(::FUN_0045d180());
+}
+
+template <> SettingCollection_01204368* SettingT<SettingCollection_01204368>::GetCollection()
+{
+    return static_cast<SettingCollection_01204368*>(::FUN_00877950());
+}
+
+void FUN_00632e30();
+extern void* DAT_011cc694;
+
+// @fnv 0x00632e20
+void* FUN_00632e20()
+{
+    FUN_00632e30();
+    return DAT_011cc694;
+}
+
+template <> SettingCollection_011cc694* SettingT<SettingCollection_011cc694>::GetCollection()
+{
+    return static_cast<SettingCollection_011cc694*>(FUN_00632e20());
+}
+
+// @fnv 0x0040c150
+template <> SettingT<GameSettingCollection>::SettingT(const char* key, const char* value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// Same code as the const char* form (0x0040c150).
+template <> SettingT<GameSettingCollection>::SettingT(const char* key, int value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+template <> SettingT<GameSettingCollection>::SettingT(const char* key, float value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x00404a00
+template <> SettingT<GameSettingCollection>::~SettingT()
+{
+    GetCollection()->Remove(this);
+}
+
+// @fnv 0x0045cfe0
+template <> SettingT<INISettingCollection>::SettingT(const char* key, const char* value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// Same code as the const char* form (0x0045cfe0).
+template <> SettingT<INISettingCollection>::SettingT(const char* key, int value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
 // @fnv 0x0044f440
-FUN_0044f440::FUN_0044f440(int aiValue, float afValue) : FUN_0040e130(aiValue, afValue)
+template <> SettingT<INISettingCollection>::SettingT(const char* key, float value) : Setting(key, value)
 {
-    ((FUN_0044f560*)FUN_0044f560::GetCollection())->v1(this);
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x0045cf30
+template <> SettingT<INISettingCollection>::SettingT(const char* key, bool value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x0044f4f0
+template <> SettingT<INISettingCollection>::~SettingT()
+{
+    GetCollection()->Remove(this);
+}
+
+// @fnv 0x004a4a40
+template <> SettingT<SettingCollection_011f35a4>::SettingT(const char* key, const char* value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// Same code as the const char* form (0x004a4a40).
+template <> SettingT<SettingCollection_011f35a4>::SettingT(const char* key, int value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x0045d060
+template <> SettingT<SettingCollection_011f35a4>::SettingT(const char* key, float value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x004de2f0
+template <> SettingT<SettingCollection_011f35a4>::SettingT(const char* key, bool value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x0045d110
+template <> SettingT<SettingCollection_011f35a4>::~SettingT()
+{
+    GetCollection()->Remove(this);
+}
+
+// @fnv 0x00719c00
+template <> SettingT<INIPrefSettingCollection>::SettingT(const char* key, int value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x004de370
+template <> SettingT<INIPrefSettingCollection>::SettingT(const char* key, float value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x00709f00
+template <> SettingT<INIPrefSettingCollection>::SettingT(const char* key, bool value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x004de420
+template <> SettingT<INIPrefSettingCollection>::~SettingT()
+{
+    GetCollection()->Remove(this);
+}
+
+// @fnv 0x00633000
+template <> SettingT<SettingCollection_011cc694>::SettingT(const char* key, const char* value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x00632ee0
+template <> SettingT<SettingCollection_011cc694>::SettingT(const char* key, float value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+// @fnv 0x00632f90
+template <> SettingT<SettingCollection_011cc694>::~SettingT()
+{
+    GetCollection()->Remove(this);
+}
+
+template <> SettingT<SettingCollection_01204368>::SettingT(const char* key, const char* value) : Setting(key, value)
+{
+    GetCollection()->Add(this);
+}
+
+template <> SettingT<SettingCollection_01204368>::~SettingT()
+{
+    GetCollection()->Remove(this);
 }
 
 extern int _data_011c16bc;
@@ -255,13 +410,6 @@ bool EntryEnumerator::FUN_0044f9c0()
     return succeeded;
 }
 
-template <class T> class SettingCollection
-{
-  public:
-    virtual ~SettingCollection();
-    char path[260];
-    void* handle;
-};
 class FUN_0044f650 : public SettingCollection<Setting>
 {
   public:

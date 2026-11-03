@@ -1,7 +1,7 @@
 {
  "note": "Build recipe: every unit, the compiler and flags it is built with, and the functions it must reproduce. Addresses are those of Fallout: New Vegas PC 1.4.0.525. Read by tools/build_and_match.py.",
  "totals": {
-  "units": 2771,
+  "units": 2773,
   "functions": 61729,
   "bytes": 11354149,
   "eh_tails": 1954,
@@ -322313,54 +322313,9 @@
    ],
    "functions": [
     {
-     "address": "0x0045cf30",
-     "symbol": "??0FUN_0045cf30@@QAE@IE@Z",
-     "size": 125
-    },
-    {
-     "address": "0x0045cfb0",
-     "symbol": "??0FUN_0045cfb0@@QAE@IE@Z",
-     "size": 43
-    },
-    {
-     "address": "0x0045d060",
-     "symbol": "??0FUN_0045d060@@QAE@PBDM@Z",
-     "size": 127
-    },
-    {
-     "address": "0x004a4a40",
-     "symbol": "??0FUN_004a4a40@@QAE@PBDH@Z",
-     "size": 124
-    },
-    {
-     "address": "0x004de2f0",
-     "symbol": "??0FUN_004de2f0@@QAE@IE@Z",
-     "size": 125
-    },
-    {
-     "address": "0x004de370",
-     "symbol": "??0FUN_004de370@@QAE@HM@Z",
-     "size": 127
-    },
-    {
      "address": "0x00559cc0",
      "symbol": "?FUN_00559cc0@StandIn_00559cc0@@QAEPAU1@H@Z",
      "size": 37
-    },
-    {
-     "address": "0x00632e20",
-     "symbol": "?FUN_00632e20@@YAHXZ",
-     "size": 15
-    },
-    {
-     "address": "0x00632ee0",
-     "symbol": "??0FUN_00632ee0@fnv_00632ee0@@QAE@PBDM@Z",
-     "size": 127
-    },
-    {
-     "address": "0x00633000",
-     "symbol": "??0FUN_00633000@@QAE@HH@Z",
-     "size": 124
     },
     {
      "address": "0x006ffc90",
@@ -322373,19 +322328,9 @@
      "size": 40
     },
     {
-     "address": "0x00709f00",
-     "symbol": "??0FUN_00709f00@S709F@@QAE@IE@Z",
-     "size": 125
-    },
-    {
      "address": "0x00709f80",
      "symbol": "?FUN_00709f80@FUN_00709f80_Obj@@QAEPAU1@XZ",
      "size": 73
-    },
-    {
-     "address": "0x00719c00",
-     "symbol": "??0FUN_00719c00@fnv_00719c00@@QAE@PBDH@Z",
-     "size": 124
     },
     {
      "address": "0x008699c0",
@@ -377369,7 +377314,7 @@
    }
   },
   {
-   "source": "src/generated/global_object_initializers_o2_od_variant.cpp",
+   "source": "src/generated/global_object_initializers_o2.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -377381,44 +377326,14 @@
    ],
    "functions": [
     {
-     "address": "0x00404950",
-     "symbol": "??1FUN_00404950@@UAE@XZ",
-     "size": 66
-    },
-    {
-     "address": "0x00404a00",
-     "symbol": "??1FUN_00404a00_cls@@UAE@XZ",
-     "size": 111
-    },
-    {
-     "address": "0x0044f4f0",
-     "symbol": "??1FUN_0044f4f0@@UAE@XZ",
-     "size": 111
-    },
-    {
      "address": "0x0044fb00",
      "symbol": "?FUN_0044fb00@FUN_0044fb00_Shim@@QAEXXZ",
      "size": 21
     },
     {
-     "address": "0x0045d110",
-     "symbol": "??1FUN_0045d110@@UAE@XZ",
-     "size": 111
-    },
-    {
-     "address": "0x004de420",
-     "symbol": "??1FUN_004de420@@UAE@XZ",
-     "size": 111
-    },
-    {
      "address": "0x00559d90",
      "symbol": "??1FUN_00559d90@@UAE@XZ",
      "size": 92
-    },
-    {
-     "address": "0x00632f90",
-     "symbol": "??1FUN_00632f90@@UAE@XZ",
-     "size": 111
     },
     {
      "address": "0x006b3830",
@@ -377500,7 +377415,7 @@
    ]
   },
   {
-   "source": "src/generated/global_object_initializers_o2_variant.cpp",
+   "source": "src/generated/global_object_initializers.cpp",
    "compiler": "sp1",
    "flags": [
     "/MT",
@@ -571172,6 +571087,133 @@
     "$SG3306": "0x11ad6a4",
     "$SG3305": "0x11ad694"
    }
+  },
+  {
+   "source": "src/unmapped/setting.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "functions": [
+    {
+     "address": "0x0045cf30",
+     "symbol": "??0FUN_0045cf30@@QAE@IE@Z",
+     "size": 125
+    },
+    {
+     "address": "0x0045cfb0",
+     "symbol": "??0FUN_0045cfb0@@QAE@IE@Z",
+     "size": 43
+    },
+    {
+     "address": "0x0045d060",
+     "symbol": "??0FUN_0045d060@@QAE@PBDM@Z",
+     "size": 127
+    },
+    {
+     "address": "0x004a4a40",
+     "symbol": "??0FUN_004a4a40@@QAE@PBDH@Z",
+     "size": 124
+    },
+    {
+     "address": "0x004de2f0",
+     "symbol": "??0FUN_004de2f0@@QAE@IE@Z",
+     "size": 125
+    },
+    {
+     "address": "0x004de370",
+     "symbol": "??0FUN_004de370@@QAE@HM@Z",
+     "size": 127
+    },
+    {
+     "address": "0x00632e20",
+     "symbol": "?FUN_00632e20@@YAHXZ",
+     "size": 15
+    },
+    {
+     "address": "0x00632ee0",
+     "symbol": "??0FUN_00632ee0@fnv_00632ee0@@QAE@PBDM@Z",
+     "size": 127
+    },
+    {
+     "address": "0x00633000",
+     "symbol": "??0FUN_00633000@@QAE@HH@Z",
+     "size": 124
+    },
+    {
+     "address": "0x00709f00",
+     "symbol": "??0FUN_00709f00@S709F@@QAE@IE@Z",
+     "size": 125
+    },
+    {
+     "address": "0x00719c00",
+     "symbol": "??0FUN_00719c00@fnv_00719c00@@QAE@PBDH@Z",
+     "size": 124
+    }
+   ],
+   "symbols": {}
+  },
+  {
+   "source": "src/unmapped/setting.cpp",
+   "compiler": "sp1",
+   "flags": [
+    "/MT",
+    "/Od",
+    "/Oy-",
+    "/GS",
+    "/EHsc",
+    "/Gy"
+   ],
+   "eh_tails": [
+    {
+     "address": "0x00ef6ba0",
+     "size": 35,
+     "parent": "0x00559d90"
+    },
+    {
+     "address": "0x00efc910",
+     "size": 35,
+     "parent": "0x00404a00"
+    }
+   ],
+   "functions": [
+    {
+     "address": "0x00404950",
+     "symbol": "??1FUN_00404950@@UAE@XZ",
+     "size": 66
+    },
+    {
+     "address": "0x00404a00",
+     "symbol": "??1FUN_00404a00_cls@@UAE@XZ",
+     "size": 111
+    },
+    {
+     "address": "0x0044f4f0",
+     "symbol": "??1FUN_0044f4f0@@UAE@XZ",
+     "size": 111
+    },
+    {
+     "address": "0x0045d110",
+     "symbol": "??1FUN_0045d110@@UAE@XZ",
+     "size": 111
+    },
+    {
+     "address": "0x004de420",
+     "symbol": "??1FUN_004de420@@UAE@XZ",
+     "size": 111
+    },
+    {
+     "address": "0x00632f90",
+     "symbol": "??1FUN_00632f90@@UAE@XZ",
+     "size": 111
+    }
+   ],
+   "symbols": {}
   }
  ]
 }

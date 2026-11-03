@@ -2456,7 +2456,7 @@ void FUN_00493d50_shell::CheckAnimGroupMovement(TESAnimGroup* apAnimGroup)
                 pinterp->vfn_35(fstopTime, 0, &quatStop);
                 if (reinterpret_cast<::FUN_004942c0_shell *>(&(quatStart))->IsTranslateXNotNegatedConstant() && reinterpret_cast<::FUN_004942c0_shell *>(&(quatStop))->IsTranslateXNotNegatedConstant())
                 {
-                    NiPoint3 delta = (*(const ::fnv_00493d50::NiPoint3_sub *)(new ((void *)&(quatStop)) ::Vec3())) - (*(const ::fnv_00493d50::NiPoint3_sub *)(new ((void *)&(quatStart)) ::Vec3()));
+                    NiPoint3 delta = (*(const ::fnv_00493d50::NiPoint3_sub *)((void *)&(quatStop))) - (*(const ::fnv_00493d50::NiPoint3_sub *)((void *)&(quatStart)));
                     reinterpret_cast<::FUN_004941c0_shell *>((((FUN_004941c0_shell*)&delta)))->ScaleByInverse(fstopTime - fstartTime);
                     reinterpret_cast<::FUN_005f4c40_shell *>((((FUN_005f4c40_shell*)apAnimGroup)))->SetSpeed(&delta);
                 }
@@ -6344,7 +6344,7 @@ void FUN_00499080_shell::FUN_00499080()
     }
     while (((FUN_00493830_shell*)this)->FUN_00493830())
     {
-        KFModel* model = ((::KFModel *)(new ((void *)&(kfModelList)) ::Vec3()));
+        KFModel* model = (kfModelList.m_item);
         FinishScriptRunLockIfActive(model);
         FinishScriptRunLockIfActive(model);
         kfModelList.RemoveHead();
@@ -8144,7 +8144,7 @@ void FUN_00491180_shell::FUN_00491180(TESObjectREFR* apRef, float afDelta, float
     {
         for (; (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingStub *>(&::g_011c5778)))))); (*reinterpret_cast<unsigned int *>(&::DAT_011c56e8))++)
         {
-            KFModel* m_kModelObjectsItem = ((::KFModel *)(new ((void *)&(kfModelList)) ::Vec3()));
+            KFModel* m_kModelObjectsItem = (kfModelList.m_item);
             reinterpret_cast<::Anim490 *>(this)->AddModel((::Model490 *)(m_kModelObjectsItem), false);
             FinishScriptRunLockIfActive(m_kModelObjectsItem);
             kfModelList.RemoveHead();

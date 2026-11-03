@@ -341,7 +341,7 @@ void TermHack::FUN_005015f0(TESObjectREFR* apRef, PlayerCharacter* apActor)
             BSStringT_char kMsg;
             ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT_char *)(&kMsg), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::SettingString *>(&::g_011c8394))))->IsDLCAvailable())), ActorValue::GetActorValueName((ActorValue::Index)0x28),
                          (int)::InventoryStackRecord::RoundToNearestStep(FUN_005017a0(apRef), 1.0f));
-            ::DispatchMessageToSink((int)(kMsg), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(kMsg), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"), (std::intptr_t)(0), 2.0f, false);
         }
         break;
         }

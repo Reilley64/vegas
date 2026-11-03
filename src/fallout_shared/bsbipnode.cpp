@@ -45,7 +45,7 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
             if (m_pkBlendInterpolators[iIndex].Update(time, target, transform))
             {
                 if (reinterpret_cast<::FUN_004942c0_shell *>(&(transform))->IsTranslateXNotNegatedConstant())
-                    reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)(new ((void *)&(transform)) ::Vec3()))));
+                    reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)((void *)&(transform)))));
                 if (reinterpret_cast<::FUN_004f02e0_This *>(&(transform))->FUN_004f02e0())
                     target->FUN_004f0160(transform.GetOffsetC());
                 if (reinterpret_cast<::FUN_004f0320_class *>(&(transform))->FUN_004f0320())
@@ -59,7 +59,7 @@ void AnimationInterpolatorNode::UpdateInterpolatorsAtTime(float time, bool selec
         if (m_pkBlendInterpolators[iIndex].Update(time, target, transform))
         {
             if (reinterpret_cast<::FUN_004942c0_shell *>(&(transform))->IsTranslateXNotNegatedConstant())
-                reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)(new ((void *)&(transform)) ::Vec3()))));
+                reinterpret_cast<::FUN_00440460_S *>((target))->FUN_00440460((const ::V3 *)&((*(const ::NiPoint3 *)((void *)&(transform)))));
             if (reinterpret_cast<::FUN_004f02e0_This *>(&(transform))->FUN_004f02e0())
                 target->FUN_004f0160(transform.GetOffsetC());
             if (reinterpret_cast<::FUN_004f0320_class *>(&(transform))->FUN_004f0320())

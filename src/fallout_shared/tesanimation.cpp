@@ -27,7 +27,7 @@ void TESAnimation::ClearComponent()
 {
     while (!m_kKFFileList.IsEmpty())
     {
-        const char* filename = ((const char *)(new ((void *)&(m_kKFFileList)) ::Vec3()));
+        const char* filename = (m_kKFFileList.m_item);
         m_kKFFileList.RemoveHead();
         delete const_cast<char*>(filename);
     }

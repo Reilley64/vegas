@@ -764,7 +764,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>((reinterpret_cast<FormOps*>(this)))->FUN_00485270(pOther))
         return true;
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList1)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList1)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList1.m_item) && (m_kMediaSetList1.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList1)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList1)->FUN_005ae380())
     {
@@ -792,7 +792,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
     {
         return true;
     }
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList2)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList2)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList2.m_item) && (m_kMediaSetList2.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList2)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList2)->FUN_005ae380())
     {
@@ -820,7 +820,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
     {
         return true;
     }
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList3)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList3)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList3.m_item) && (m_kMediaSetList3.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList3)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList3)->FUN_005ae380())
     {
@@ -848,7 +848,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
     {
         return true;
     }
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList4)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList4)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList4.m_item) && (m_kMediaSetList4.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList4)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList4)->FUN_005ae380())
     {
@@ -876,7 +876,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
     {
         return true;
     }
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList5)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList5)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList5.m_item) && (m_kMediaSetList5.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList5)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList5)->FUN_005ae380())
     {
@@ -904,7 +904,7 @@ bool FUN_00596d70_shell::FUN_00596d70(TESForm* apForm)
     {
         return true;
     }
-    if (((::MediaSet *)(new ((void *)&(pOther->m_kMediaSetList6)) ::Vec3())) && ((::MediaSet *)(new ((void *)&(m_kMediaSetList6)) ::Vec3())) &&
+    if ((pOther->m_kMediaSetList6.m_item) && (m_kMediaSetList6.m_item) &&
         reinterpret_cast<ListOps*>(&pOther->m_kMediaSetList6)->FUN_005ae380() ==
             reinterpret_cast<ListOps*>(&m_kMediaSetList6)->FUN_005ae380())
     {

@@ -1688,7 +1688,7 @@ bool DecalSetup::Initialize()
                 (*reinterpret_cast<int *>(&::DAT_011d6a20))++;
                 if ((*reinterpret_cast<int *>(&::DAT_011d6a20)) > DAT_0119c298)
                 {
-                    reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::DecalSetup *)((DecalSetup*)(Graph*)(*(::NiPointer< ::Graph> *)(new ((void *)&((*reinterpret_cast<::EffectList *>(&::g_011d6a30)))) ::Vec3()))));
+                    reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(::DecalSetup *)((DecalSetup*)(Graph*)(*(::NiPointer< ::Graph> *)((void *)&((*reinterpret_cast<::EffectList *>(&::g_011d6a30)))))));
                     reinterpret_cast<::DecalListManager *>(&((*reinterpret_cast<::EffectList *>(&::g_011d6a30))))->PopHead();
                     (*reinterpret_cast<int *>(&::DAT_011d6a20))--;
                     if (*(*reinterpret_cast<::Setting *>(&::g_011c5904)).Bool())
@@ -2331,9 +2331,7 @@ bool Host::FUN_0068b4c0(Param* apParam)
     P3 bValue0;
     bool resultValue23;
 
-    new ((void *)&(aValue1)) ::Vec3();
 
-    new ((void *)&(bValue0)) ::Vec3();
     if (apParam && ::FUN_0043b300((const ::NiRTTI *)(const char *)((const char*)&(*reinterpret_cast<int *>(&::g_011f4a20))), (::NiAVObject *)(apParam)))
     {
 
@@ -2341,11 +2339,8 @@ bool Host::FUN_0068b4c0(Param* apParam)
 
         d40Value6 = m_40;
 
-        new ((void *)&(fValue3)) ::Vec3();
 
-        new ((void *)&(gValue23)) ::Vec3();
 
-        new ((void *)&(m1Value12)) ::Vec3();
         if (flag140)
             m1Value12 = *((::M3 *)(::FUN_006a9540((char *)(apParam))));
         else
@@ -2354,7 +2349,6 @@ bool Host::FUN_0068b4c0(Param* apParam)
         reinterpret_cast<::ThreeByThreeMatrix *>(&(m1Value12))->FUN_004b45b0((::ThreeByThreeMatrix *)(::M3 *)(&mecValue16));
         fValue3 = mecValue16.FUN_004b4500(&d40Value6);
 
-        new ((void *)&(eValue2)) ::Vec3();
         if (flag140)
         {
             eValue2 = c34Value43;
@@ -2373,7 +2367,6 @@ bool Host::FUN_0068b4c0(Param* apParam)
 
         FUN_00c4b600(&m2Value40, fValue3);
 
-        new ((void *)&(hValue8)) ::Vec3();
         reinterpret_cast<::FUN_004a0c90_shell *>(&(hValue8))->FUN_004a0c90(f114);
         m2Value40 = hValue8.FUN_0043f8d0(&m2Value40);
         reinterpret_cast<::ThreeByThreeMatrix *>(&(m2Value40))->GetRow(0, (*(::NiPoint3 *)(&aValue1)));

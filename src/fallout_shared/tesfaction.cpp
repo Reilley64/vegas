@@ -90,7 +90,7 @@ void TESFaction::InitLoadGame(BGSLoadFormBuffer* buffer)
 void TESFaction::Revert(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->FUN_004534f0((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         m_iFirstFactionValue = 0;
         m_iSecondFactionValue = 0;
@@ -131,9 +131,9 @@ void TESFaction::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>((reinterpret_cast<TESFormBufferAccess*>(static_cast<TESForm*>(this))))->LoadGame(buffer);
     reinterpret_cast<::FUN_0048ca90 *>(&(reinterpret_cast<TESFactionReactionView&>(*this).reaction))->LoadReaction(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data), 4);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iFirstFactionValue), 4);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&m_iSecondFactionValue), 4);
@@ -320,11 +320,11 @@ void FUN_005fd730_shell::FUN_005fd730(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
     reinterpret_cast<::FUN_0048ca90 *>((((TESReactionFormBufferAccess*)static_cast<TESReactionForm *>(this))))->LoadReaction(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(2)))->FUN_004280f0(2))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->data), 4);
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iFirstFactionValue), 4);
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)&this->m_iSecondFactionValue), 4);
@@ -340,7 +340,7 @@ struct FUN_005fd800_shell : public TESFaction
 void FUN_005fd800_shell::FUN_005fd800(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         this->m_iFirstFactionValue = 0;
         this->m_iSecondFactionValue = 0;
@@ -778,9 +778,9 @@ void FUN_005fd690_s::FUN_005fd690(BGSSaveFormBuffer* buffer)
 {
     reinterpret_cast<::FakeForm *>((((BGSSaveFormBuffer*)this)))->SaveIfChanged(buffer);
     reinterpret_cast<::FUN_0048c9d0_Class *>((((BGSSaveFormBuffer*)((char*)this + 0x24))))->FUN_0048c9d0((::FUN_0048c9d0_SaveBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x34, 4, 0);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x44, 4, 0);
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 0x48, 4, 0);

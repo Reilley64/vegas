@@ -1299,7 +1299,7 @@ void __cdecl FUN_004a8bb0(float* cost, float* count, bool include, bool addons)
     }
     while (!map._ref_008256d0())
     {
-        FUN_004a7c40* current = ((::fnv_004a8bb0::FUN_004a7c40 *)(new ((void *)&(map)) ::Vec3()));
+        FUN_004a7c40* current = ((::fnv_004a8bb0::FUN_004a7c40 *)((void *)&(map)));
         map.FUN_0063f7b0();
         *count += ((unsigned int)(reinterpret_cast<::FUN_004a7cf0_shell *>((current))->GetValueAt(9)));
         for (int i = 0; i < 16; i++)

@@ -3458,7 +3458,7 @@ WaterSurface* WaterZoneManager::GetWaterZone(TESObjectREFR* apWaterRef, TESObjec
             if (pGroupPos)
             {
                 pWaterGroup = ((::WaterSurface *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((int)(pGroupPos))));
-                if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)(new ((void *)&(pWaterGroup->m_kWaterPlane)) ::Vec3()))), (const float *)&((*(const ::NiPoint3 *)(new ((void *)&(m_kFogPlane)) ::Vec3()))), 0.01f) &&
+                if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)((void *)&(pWaterGroup->m_kWaterPlane)))), (const float *)&((*(const ::NiPoint3 *)((void *)&(m_kFogPlane)))), 0.01f) &&
                     IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(pWaterGroup->m_kWaterPlane))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>((void *)&(m_kFogPlane))->GetStoredFloatValue(),
                                          0.01f) &&
                     pWaterGroup->m_pOwningWater == m_pOwningWater)
@@ -3507,9 +3507,6 @@ struct FUN_004e8e40_owner
 // @fnv 0x004e8e40
 FUN_004e8e40_owner* FUN_004e8e40_owner::FUN_004e8e40()
 {
-    new ((void *)&(first)) ::Vec3();
-    new ((void *)&(second)) ::Vec3();
-    new ((void *)&(third)) ::Vec3();
     first = *reinterpret_cast<const Vec2*>(&DAT_011f4980);
     second = *reinterpret_cast<const Vec2*>(&DAT_011f4980);
     third = (*reinterpret_cast<::Vec3 *>((void *)&::NiPoint3::ZERO));
@@ -5214,7 +5211,7 @@ bool Owner::FUN_004e4730(Object* object, const Vector* origin, Matrix* rotation)
         if (pos2)
         {
             Record* record = ((::PlaneRegistry::Record *)(reinterpret_cast<::FUN_006317a0_struct *>(&(records))->AddEight((int)(pos2))));
-            if (::AreVectorsEqual((const float *)&((*(const ::PlaneRegistry::Vector *)(new ((void *)&(record->first)) ::Vec3()))), (const float *)&((*(const ::PlaneRegistry::Vector *)(new ((void *)&(plane)) ::Vec3()))), ::DAT_01013ea4) &&
+            if (::AreVectorsEqual((const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(record->first)))), (const float *)&((*(const ::PlaneRegistry::Vector *)((void *)&(plane)))), ::DAT_01013ea4) &&
                 ::IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>(&(record->first))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>(&(plane))->GetStoredFloatValue(), ::FUN_00403e20((float *)&((*reinterpret_cast<::PlaneRegistry::FloatSetting *>(&::g_011c7a7c))))))
             {
                 void* type = base->GetType();
@@ -6059,7 +6056,7 @@ bool WaterSystem5370::RemoveWaterRef(TESObjectREFR* apRef, const NiPoint3* apPos
             if (pos5)
             {
                 WaterGroup* pGroup = (WaterGroup*)((void *)(reinterpret_cast<::FUN_006317a0_struct *>((void *)&(m_kWaterZoneList))->AddEight((int)(pos5))));
-                if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)(new ((void *)&(pGroup->m_kWaterPlane)) ::Vec3()))), (const float *)&((*(const ::NiPoint3 *)(new ((void *)&(m_kFogPlane)) ::Vec3()))), 0.01f) &&
+                if (::AreVectorsEqual((const float *)&((*(const ::NiPoint3 *)((void *)&(pGroup->m_kWaterPlane)))), (const float *)&((*(const ::NiPoint3 *)((void *)&(m_kFogPlane)))), 0.01f) &&
                     IsApproximatelyEqual(reinterpret_cast<::Twin_0084d030 *>((void *)&(pGroup->m_kWaterPlane))->GetStoredFloatValue(), reinterpret_cast<::Twin_0084d030 *>((void *)&(m_kFogPlane))->GetStoredFloatValue(), 0.01f))
                 {
                     void* refPos5 = ((void *)(::FUN_00559450((int *)&(pGroup->m_kWaterReferences))));
@@ -9785,8 +9782,8 @@ void WaterPassOwner::FUN_004eb220(WaterPass* pass)
     reinterpret_cast<::FUN_004a0dd0_cls *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->FUN_004a0dd0((int)(::FUN_004a0d10((char *)(static_cast<WaterPassTexture*>(pass->target)))));
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::fnv_004eb220::WaterPassThread *)(::TaskThreadManager::GetSingleton()))), (void *)(1), pass->index + 1, {});
     reinterpret_cast<::CameraState4E9 *>((static_cast<WaterPassRenderer*>(::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(pass->target)));
-    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)(new ((void *)&(pass->plane)) ::Vec3())).x, (*(const ::NiPoint3 *)(new ((void *)&(pass->plane)) ::Vec3())).y,
-                                 (*(const ::NiPoint3 *)(new ((void *)&(pass->plane)) ::Vec3())).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->plane))->GetStoredFloatValue()))), {}, {}, {}, {});
+    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)((void *)&(pass->plane))).x, (*(const ::NiPoint3 *)((void *)&(pass->plane))).y,
+                                 (*(const ::NiPoint3 *)((void *)&(pass->plane))).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->plane))->GetStoredFloatValue()))), {}, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::fnv_004eb220::WaterPassTexture *)(pass->target), (::BSShaderAccumulator *)(::fnv_004eb220::WaterPassTexture *)(pass->scene), 0);
     FUN_004eb510(0);
@@ -10100,7 +10097,7 @@ void Water197::UpdateWaterRendering()
     Plane197 toggle(clearColor, point);
     reinterpret_cast<::CameraState4E9 *>((((RendererOps197*)::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44)))))))));
     reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0(
-        (*(float *)&(const ::Color197 &)(Color197((*(const ::NiPoint3 *)(new ((void *)&(toggle)) ::Vec3())).x, (*(const ::NiPoint3 *)(new ((void *)&(toggle)) ::Vec3())).y, (*(const ::NiPoint3 *)(new ((void *)&(toggle)) ::Vec3())).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(toggle))->GetStoredFloatValue()))), {}, {}, {}, {});
+        (*(float *)&(const ::Color197 &)(Color197((*(const ::NiPoint3 *)((void *)&(toggle))).x, (*(const ::NiPoint3 *)((void *)&(toggle))).y, (*(const ::NiPoint3 *)((void *)&(toggle))).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(toggle))->GetStoredFloatValue()))), {}, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::Texture197 *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7b44))))))), (::BSShaderAccumulator *)(::Texture197 *)(((::Texture197 *)(::FUN_00559450((int *)&((*reinterpret_cast<::Handle197 *>(&::g_011c7cb8))))))), 0);
     FUN_004eb510(0);
@@ -10232,8 +10229,8 @@ void WaterPass::FUN_004ebbe0()
     NiPoint3 point(0, 0, reinterpret_cast<::BGSProjectile *>((void *)(((::WorldOps *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::TesOps * *>(&::g_TES))))->GetHitSound()))))->GetExplosionProximity());
     NiPlane plane(normal, point);
     reinterpret_cast<::CameraState4E9 *>((((RenderOps*)::FUN_0043c4b0())))->SetFromCamera((*(const ::Camera4E9 *)(((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7cbc)))))))));
-    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)(new ((void *)&(((PlaneWater&)plane))) ::Vec3())).x, (*(const ::NiPoint3 *)(new ((void *)&(((PlaneWater&)plane))) ::Vec3())).y,
-                                           (*(const ::NiPoint3 *)(new ((void *)&(((PlaneWater&)plane))) ::Vec3())).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(plane))->GetStoredFloatValue()))),
+    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::NiPoint3 *)((void *)&(((PlaneWater&)plane)))).x, (*(const ::NiPoint3 *)((void *)&(((PlaneWater&)plane)))).y,
+                                           (*(const ::NiPoint3 *)((void *)&(((PlaneWater&)plane)))).z, -reinterpret_cast<::Twin_0084d030 *>((void *)&(plane))->GetStoredFloatValue()))),
                            0, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(::TextureOps *)(((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7cbc))))))), (::BSShaderAccumulator *)(::TextureOps *)(((::TextureOps *)(::FUN_00559450((int *)&((*reinterpret_cast<::PtrWater *>(&::g_011c7be8))))))), 0);
@@ -11154,7 +11151,7 @@ void WaterSetup::FUN_004ec800(WaterPass* pass, unsigned short flags)
     ::AddToSlot((void *)(0), 1);
     reinterpret_cast<::CameraState4E9 *>((((::fnv_004ec800::Renderer *)(::FUN_0043c4b0()))))->SetFromCamera((*(const ::Camera4E9 *)(pass->target)));
     (*reinterpret_cast<::fnv_004ec800::Plane *>(&::DAT_011f9604)) = pass->reflect;
-    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::fnv_004ec800::Vec *)(new ((void *)&(pass->refract)) ::Vec3())).x, (*(const ::fnv_004ec800::Vec *)(new ((void *)&(pass->refract)) ::Vec3())).y, (*(const ::fnv_004ec800::Vec *)(new ((void *)&(pass->refract)) ::Vec3())).z,
+    reinterpret_cast<::WaterPlaneHost *>(this)->FUN_004ecef0((*(float *)&(const ::WaterColorParam &)(WaterColorParam((*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).x, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).y, (*(const ::fnv_004ec800::Vec *)((void *)&(pass->refract))).z,
                           -reinterpret_cast<::Twin_0084d030 *>((void *)&(pass->refract))->GetStoredFloatValue() + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_004ec800::Setting *>(&::g_011c7c10))))))))),
           0, {}, {}, {});
     ::UpdateSpawnedObjectFlags(1, 0, 0, 0, 0, 0, 0);

@@ -1041,7 +1041,7 @@ void TESTopicInfoData::InitItem(TESForm* owner)
         }
 
         pPreviousTopic = 0;
-        pTopicList = ((::BSSimpleList< ::TESTopic *> *)(new ((void *)this) ::Vec3()));
+        pTopicList = ((::BSSimpleList< ::TESTopic *> *)((void *)this));
         while (pTopicList && (pTopicList->m_item))
         {
             struct TopicResolution
@@ -1517,7 +1517,7 @@ void TopicLinkLists::CopyLinksFrom(int unused, TopicLinkLists* source)
         {
             item9 = (iter->m_item);
             iter = ((::BSSimpleList<int> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
-            reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)(new ((void *)this) ::Vec3()))))->FUN_00905820((void *)&(item9));
+            reinterpret_cast<::Callees *>((((::BSSimpleList<int> *)((void *)this))))->FUN_00905820((void *)&(item9));
         }
     }
     BSSimpleList<int>* follow2 = ((::BSSimpleList<int> *)(::FUN_00460140((int)(source))));

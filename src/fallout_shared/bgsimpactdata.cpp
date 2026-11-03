@@ -296,16 +296,16 @@ bool BGSImpactData::Load(TESFile* file)
                 Data.m_fAngleThreshold = oldData.m_fAngleThreshold;
                 Data.m_fPlacementRadius = oldData.m_fPlacementRadius;
                 Data.m_eSoundLevel = oldData.m_eSoundLevel;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fProjectionDepth = oldData.m_fProjectionDepth;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fShininess = oldData.m_fShininess;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_fParallaxScale = oldData.m_fParallaxScale;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->cFlags = oldData.cFlags;
-                ((::ImpactDecalData *)(new ((void *)&(ImpactDecalInfo)) ::Vec3()))->iColor = oldData.iColor;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinWidth = oldData.m_fDecalMinWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxWidth = oldData.m_fDecalMaxWidth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMinHeight = oldData.m_fDecalMinHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fDecalMaxHeight = oldData.m_fDecalMaxHeight;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fProjectionDepth = oldData.m_fProjectionDepth;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fShininess = oldData.m_fShininess;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_fParallaxScale = oldData.m_fParallaxScale;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->m_ucParallaxPasses = oldData.m_ucParallaxPasses;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->cFlags = oldData.cFlags;
+                ((::ImpactDecalData *)((void *)&(ImpactDecalInfo)))->iColor = oldData.iColor;
             }
             else
             {

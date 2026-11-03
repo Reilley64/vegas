@@ -314,11 +314,11 @@ BGSQuestObjective* TESQuest::GetObjective(unsigned int index)
 void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>(this)->LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.m_ucEntryType), 1);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&data.fQuestDelayTime), 4);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000U)))->FUN_004280f0(0x80000000U))
     {
         unsigned int stageCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         for (unsigned int i = 0; i < stageCount; ++i)
@@ -356,7 +356,7 @@ void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
         m_ucEnabled = 0;
         UpdateStageMask();
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x40000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x40000000U)))->FUN_004280f0(0x40000000U))
     {
         if (m_pScriptLocals)
             reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>((m_pScriptLocals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
@@ -366,7 +366,7 @@ void TESQuest::LoadGame(BGSLoadFormBuffer* buffer)
             reinterpret_cast<::fnv_005a9f20::FUN_005a9f20_shell *>(&(locals))->FUN_005a9f20((::fnv_005a9f20::BGSLoadFormBuffer *)(buffer));
         }
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20000000U)))->FUN_004280f0(0x20000000U))
     {
         unsigned int objectiveCount = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60();
         for (unsigned int k = 0; k < objectiveCount; ++k)
@@ -718,7 +718,7 @@ struct FUN_0060e7c0_outer
 // @fnv 0x0060e7c0
 void FUN_0060e7c0_outer::FUN_0060e7c0(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x40000000)))->FUN_004280f0() && _5c == 0)
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x40000000)))->FUN_004280f0(0x40000000) && _5c == 0)
         reinterpret_cast<::FormChangeRecord *>((apSaveGameBuffer))->FUN_005621f0(0x40000000);
 }
 
@@ -1163,7 +1163,7 @@ struct FUN_004534f0_shell
 void TESQuest::Revert(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000U)))->FUN_004280f0(0x80000000U))
     {
         BSSimpleList<QuestStage*>* stages = &m_kStageList;
         while (stages)
@@ -1188,9 +1188,9 @@ void TESQuest::Revert(BGSLoadFormBuffer* buffer)
         }
         m_ucEnabled = 0;
     }
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000U)))->FUN_004280f0() && m_pScriptLocals)
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x40000000U)))->FUN_004280f0(0x40000000U) && m_pScriptLocals)
         reinterpret_cast<::fnv_005aa090::FUN_005aa090 *>((m_pScriptLocals))->Method((int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x20000000U)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x20000000U)))->FUN_004280f0(0x20000000U))
     {
         BSSimpleList<BGSQuestObjective*>* objectives = &m_kObjectives;
         while (objectives)

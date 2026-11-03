@@ -771,7 +771,7 @@ extern "C" const char str_0106eb78[];
 
 // Creates a scope object, and if an interface manager and message sink exist, forwards the six arguments to the sink; returns false.
 // @fnv 0x007052f0
-bool __cdecl DispatchMessageToSink(int aiArg1, int aiArg2, int aiArg3, int aiArg4, float value, unsigned char option)
+bool __cdecl DispatchMessageToSink(std::intptr_t aiArg1, int aiArg2, std::intptr_t aiArg3, std::intptr_t aiArg4, float value, unsigned char option)
 {
     FUN_00404eb0 scope(13, 1, str_0106eb78, 0x901);
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0() && (*reinterpret_cast<::MessageSink * *>(&::g_pHudMainMenuInstance)))

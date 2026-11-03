@@ -657,7 +657,7 @@ void __cdecl FUN_0057d4f0(Mgr* apMgr, int aiParam, NiPoint3 akPos, NiPoint3 akDi
             int iV1b8 = 0;
             NiBound kBounds = (*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pCell))->FUN_0043d450()));
             NiPoint3 kNone = ::NiPoint3::ZERO;
-            float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((akPos - (*(const ::NiPoint3 *)(new ((void *)&(kBounds)) ::Vec3())))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(kBounds))->GetStoredFloatValue();
+            float fDist = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((akPos - (*(const ::NiPoint3 *)((void *)&(kBounds))))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>((void *)&(kBounds))->GetStoredFloatValue();
             Node45* pAt = ((::Node45 *)(reinterpret_cast<::NiNode *>((((::NiNodeHelper *)(reinterpret_cast<::TESObjectCELL *>((apMgr))->GetCellChildAt(2)))))->GetAt({})));
             int eState = ((int)(reinterpret_cast<::Twin_0044ddc0 *>((((FormKind*)((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData())))))))))->GetName()));
             unsigned char bProjectedOnScreen = ((::CellForm *)(::fnv_0043b230::FUN_0043b230((const char *)(((::ModelOps *)(reinterpret_cast<::BSFaceGenNiNode *>((pAt))->GetAnimationData()))))))->IsInFrustum(&kTester);

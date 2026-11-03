@@ -141,7 +141,7 @@ void BGSMessage::ClearButtons()
 {
     while (!m_kButtonEntries.IsEmpty())
     {
-        PerkButtonEntry* button = ((::PerkButtonEntry *)(new ((void *)&(m_kButtonEntries)) ::Vec3()));
+        PerkButtonEntry* button = (m_kButtonEntries.m_item);
         m_kButtonEntries.RemoveHead();
         delete button;
     }

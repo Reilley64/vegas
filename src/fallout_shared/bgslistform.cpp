@@ -159,14 +159,14 @@ struct ThisHolder
 void BGSListForm::Revert(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::ThisHolder *>(this)->FUN_0058ffd0();
 }
 // @fnv 0x00590120
 void BGSListForm::LoadGame(BGSLoadFormBuffer* buffer)
 {
     reinterpret_cast<::TESForm *>(this)->LoadGame(buffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         if (m_uiFormCount != 0)
             reinterpret_cast<::ThisHolder *>(this)->FUN_0058ffd0();
@@ -339,7 +339,7 @@ struct FUN_00590080_shell : public BGSListForm
 void FUN_00590080_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FakeForm *>((reinterpret_cast<FUN_00484d60_holder*>(this)))->SaveIfChanged((::BGSSaveFormBuffer *)(reinterpret_cast<unsigned int>(apSaveGameBuffer)));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(reinterpret_cast<BGSLoadFormBuffer*>(apSaveGameBuffer)->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         BSSimpleList<TESForm*>* pCurrentElementNext =
             reinterpret_cast<BSSimpleList<TESForm*>*>(reinterpret_cast<unsigned char*>(this) + 0x18);

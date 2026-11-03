@@ -2485,7 +2485,6 @@ struct FUN_004b5020_shell
 // @fnv 0x004b5020
 FUN_004b5020_shell* FUN_004b5020_shell::FUN_004b5020()
 {
-    new ((void *)this) ::Vec3();
     vftable = 0;
     return this;
 }
@@ -3575,7 +3574,7 @@ struct FUN_004b4ee0_cls
 // @fnv 0x004b4ee0
 void FUN_004b4ee0_cls::FUN_004b4ee0()
 {
-    reinterpret_cast<::TESTopicInfo *>((((FUN_004b4ee0_sub*)((void *)(new ((void *)&(unk10)) ::Vec3())))))->GetAddTopicList();
+    reinterpret_cast<::TESTopicInfo *>((((FUN_004b4ee0_sub*)((void *)((void *)&(unk10))))))->GetAddTopicList();
 }
 
 struct S4b52f0_List

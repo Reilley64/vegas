@@ -903,7 +903,7 @@ struct FUN_00488c50_shell : TESLeveledList
 // @fnv 0x00488c50
 void FUN_00488c50_shell::SaveLeveledListEntries(BGSSaveFormBuffer* apSaveGameBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         unsigned int isaveGameCount = 0;
         unsigned int isaveGameBufferPos = reinterpret_cast<::FUN_00865f20_shell *>((apSaveGameBuffer))->FUN_00865f20();
@@ -1342,13 +1342,13 @@ struct FUN_00487980_shell : TESLeveledList
 // @fnv 0x00488f10
 void TESLeveledList::Revert(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();
 }
 // @fnv 0x00488d70
 void TESLeveledList::LoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         if (!reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(m_kLeveledObjects)->IsEmpty())
             reinterpret_cast<::FUN_00487980_shell *>(this)->FUN_00487980();

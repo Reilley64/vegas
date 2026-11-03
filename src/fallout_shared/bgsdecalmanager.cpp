@@ -601,7 +601,6 @@ struct FUN_0056d340_helper
 void FUN_004a3da0_shell::FUN_004a3da0(void* arFrom)
 {
     hkVector4 hkv;
-    new ((void *)&(hkv)) ::Vec3();
     ((FUN_0056d340_helper*)this)->FUN_0056d340((*(::fnv_004a3da0::hkVector4 *)&(::fnv_004a3e00::FUN_004a3e00((::fnv_004a3e00::bhkCharacterController &)(hkv), (const ::fnv_004a3e00::NiPoint3 &)(*(const NiPoint3*)arFrom)))));
 }
 }  // namespace fnv_004a3da0
@@ -1794,25 +1793,19 @@ void Camera::UpdateCamera(Input* input)
     Matrix rotationSlot17Slot12;
     FUN_00c4b600(&rotationSlot17Slot12, (*(::CameraPass::Vec *)(reinterpret_cast<::P3 *>(&(directionSlot1Slot0))->FUN_004a0bd0({}))));
     Matrix scaleSlot22Slot0Slot10;
-    new ((void *)&(scaleSlot22Slot0Slot10)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(scaleSlot22Slot0Slot10))->FUN_004a0c90(reinterpret_cast<::FUN_004e3d00_shell *>((input))->FUN_004e3d00());
     rotationSlot17Slot12 = scaleSlot22Slot0Slot10.FUN_0043f8d0(rotationSlot17Slot12);
     Vec column0Slot30Slot0;
-    new ((void *)&(column0Slot30Slot0)) ::Vec3();
     Vec column1Slot41Slot18;
-    new ((void *)&(column1Slot41Slot18)) ::Vec3();
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(0, (::NiPoint3 &)(column0Slot30Slot0));
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(1, (::NiPoint3 &)(column1Slot41Slot18));
     reinterpret_cast<::ThreeByThreeMatrix *>(&(rotationSlot17Slot12))->GetRow(2, (::NiPoint3 &)(directionSlot1Slot0));
     Matrix basisSlot28Slot36;
-    new ((void *)&(basisSlot28Slot36)) ::Vec3();
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(0, (float *)&(directionSlot1Slot0));
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(1, (float *)&(column0Slot30Slot0));
     reinterpret_cast<::FUN_004769c0_shell *>(&(basisSlot28Slot36))->FUN_004769c0(2, (float *)&(column1Slot41Slot18));
     Vec startSlot14Slot30;
-    new ((void *)&(startSlot14Slot30)) ::Vec3();
     Vec endSlot11;
-    new ((void *)&(endSlot11)) ::Vec3();
     float widthSlot15Slot25 = (reinterpret_cast<::FUN_00507b20Class *>((input))->FUN_00507b20() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
     float heightSlot21 = (reinterpret_cast<::FUN_004a0d90_Class *>((input))->GetField11C() / ::DAT_01011590) * (1.0f / reinterpret_cast<::FUN_008d01e0_Class *>((((::CameraPass::Ref *)(reinterpret_cast<::fnv_004a0330::FUN_004a0330_shell *>((input))->FUN_004a0330()))))->FUN_008d01e0());
     float farPlaneSlot12Slot43 = reinterpret_cast<::FUN_004a0db0_class *>((input))->GetFloatAt120() + DAT_0101e2c0;
@@ -2303,7 +2296,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kEyeOut = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
             DecalBound kBound = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pTarget))->FUN_0043d450()));
-            float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kBound)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kEyeOut), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
+            float fBoundDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)((void *)&(kBound)))))->FUN_00439ef0((::NiPoint3 *)&(kEyeOut), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() - reinterpret_cast<::Twin_0084d030 *>(&(kBound))->GetStoredFloatValue();
             if ((FUN_004a1a00() >= fBoundDistance && (*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) < *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4))))))) || abForce)
                 FUN_004a2070(apRequest);
             else if ((*reinterpret_cast<unsigned int *>(&::DAT_011c57f0)) >= *((unsigned int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::DecalAdd::DecalIntSetting *>(&::g_011c58e4)))))) && *(*reinterpret_cast<::DecalAdd::DecalBoolSetting *>(&::g_011c5904)).FUN_00408d60())
@@ -2313,7 +2306,7 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
         {
             DecalPoint kViewerNew = *(*reinterpret_cast<::DecalAdd::DecalPlayer * *>(&::_g_thePlayer))->GetPos();
             DecalBound kHolderBoundCur = *((::DecalAdd::DecalBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((apRequest->pHolder->Get3D()))->FUN_0043d450()));
-            float fHolderDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)(new ((void *)&(kHolderBoundCur)) ::Vec3()))))->FUN_00439ef0((::NiPoint3 *)&(kViewerNew), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() -
+            float fHolderDistance = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::DecalAdd::DecalPoint &)((*(::DecalAdd::DecalPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::DecalAdd::DecalPoint *)((void *)&(kHolderBoundCur)))))->FUN_00439ef0((::NiPoint3 *)&(kViewerNew), *(const ::NiPoint3 *)nullptr)))))->ComputeMagnitude() -
                                     reinterpret_cast<::Twin_0084d030 *>(&(kHolderBoundCur))->GetStoredFloatValue();
             DecalNode* pObject = apRequest->pHolder->Get3D();
             DecalNode* pNode = pObject ? pObject->GetNode() : 0;
@@ -2350,8 +2343,6 @@ void DecalManager::AddGeometryDecal(DecalRequest* apRequest, int aiType, bool ab
             {
                 DecalPoint kHitPos;
                 DecalPoint kHitNormal;
-                new ((void *)&(kHitPos)) ::Vec3();
-                new ((void *)&(kHitNormal)) ::Vec3();
                 DecalNode* pHitTmp = ((::DecalAdd::DecalNode *)(reinterpret_cast<::DecalCaster *>((DAT_011c57e0))->GetCollisionFlags(i)));
                 if (pHitTmp)
                 {

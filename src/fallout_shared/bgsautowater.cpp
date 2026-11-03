@@ -369,7 +369,6 @@ void BuildMeshBoundaryGeometry(MeshInput* pMeshInput)
                     int aCount2 = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_delta)))));
                     int _current = ((int)(::GetCellCornerFlags((::Cell *)(pMeshInput), (*(::Pt *)&(const ::MeshPoint &)(_point)))));
                     MeshPoint _orient;
-                    new ((void *)&(_orient)) ::Vec3();
                     int result3 = ::FUN_006b9a10((const ::S006b9a10_Pt &)(_cross), (const ::S006b9a10_Pt &)(_delta), (const ::S006b9a10_Pt &)(origin6), (const ::S006b9a10_Pt &)(normalVal), (::S006b9a10_Pt &)(_orient));
                     if (result3 == 1)
                     {

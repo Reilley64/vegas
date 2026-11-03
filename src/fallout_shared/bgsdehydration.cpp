@@ -2080,7 +2080,7 @@ bool DialogueStarter::FUN_004feeb0(RefLike* apRef, RefLike* apTarget, int aiUnus
         ExtraHolder* kPHolder = ((::ExtraHolder *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraListLike *)(reinterpret_cast<::FUN_005d43c0_ *>((apRef))->FUN_005d43c0()))))->GetExtraData()));
         if (kPHolder && kPHolder->unk0C)
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GameSettingLike *>(&::g_011d4810))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, 0);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GameSettingLike *>(&::g_011d4810))))->GetMenuTitle()))), 0, (std::intptr_t)(0), (std::intptr_t)(0), DAT_010162c0, 0);
             return false;
         }
     }
@@ -2373,7 +2373,7 @@ bool Action::TryAddTopic(TopicInfo* pTopicInfo, TESObjectREFR* reference, int ar
             {
                 BSStringT<char> sound;
                 ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&sound), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00508a40::SettingView *>(&::g_011c856c))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(script->name))->FUN_00408da0())));
-                ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(sound))))), 0, (int)(0), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(::FUN_00559450((int *)&(sound))))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
                 GlobalObject_0041a250 message;
                 reinterpret_cast<::SoundPlaybackHandle *>(&(message))->operator=((const ::SoundPlaybackHandle &)((const ::fnv_00508a40::GlobalObject_0041a250 &)(((::fnv_00508a40::BSAudio *)(::FUN_00453a70()))->FUN_00ad7550("ITMPickupOrganic", 0x120))));
                 reinterpret_cast<::FUN_00ad8830_shell *>(&(message))->FUN_00ad8830(false);
@@ -2381,7 +2381,7 @@ bool Action::TryAddTopic(TopicInfo* pTopicInfo, TESObjectREFR* reference, int ar
         }
         else if (actor == (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         {
-            ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00508a40::SettingView *>(&::g_011c8590))))->GetMenuTitle()))), 0, (int)(0), (int)(0), 2.0f, false);
+            ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00508a40::SettingView *>(&::g_011c8590))))->GetMenuTitle()))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
             ::FUN_00706f30(29);
         }
         reinterpret_cast<::FUN_00484580_shell *>((pTopicInfo))->FUN_00484580(true);
@@ -2755,31 +2755,31 @@ bool ActionHandler::FUN_005095b0(ActionReference* reference, ActionActor* activa
             {
                 if (actor == (ActionActor*)::_g_thePlayer)
                 {
-                    ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d2898))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d2898))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
                     return false;
                 }
             }
             else if (actor == (ActionActor*)::_g_thePlayer &&
                      ::FUN_005444c0((::TESObjectCELL *)(((::ActionCell *)(reinterpret_cast<::LowProcess *>((((ActionActor*)::_g_thePlayer)))->GetTarget())))))
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d20ac))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d20ac))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
                 return false;
             }
             else if (((ActionActor*)::_g_thePlayer)->IsActionBlocked())
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d421c))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d421c))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
             }
             else if (reinterpret_cast<::DetectionList *>(&((*reinterpret_cast<::ActionManager *>(&::g_011e0e80))))->HasNearbyDetectedActor(reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((((ActionActor*)::_g_thePlayer)))->FUN_00575d10()))
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d384c))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d384c))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
             }
             else if (reinterpret_cast<::FUN_005098e0_Object *>(&((*reinterpret_cast<::ActionManager *>(&::g_011e0e80))))->IsFlagged())
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d252c))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d252c))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
             }
             else if (reinterpret_cast<::FUN_00822e00_shell *>(&(((ActionActor*)::_g_thePlayer)->state))->FUN_00822e00())
             {
-                ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d1e0c))->GetMenuTitle()))), 0, (int)(g_011cba18_arg1), (int)(0), 2.0f, false);
+                ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&(::g_011d1e0c))->GetMenuTitle()))), 0, (std::intptr_t)(g_011cba18_arg1), (std::intptr_t)(0), 2.0f, false);
             }
             else
             {
@@ -3227,7 +3227,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                     {
                         char message[256];
                         ::FUN_00406d00(message, 255, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00516dc0::ActivateMessage *>(&::g_011d5110))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(lock->key->name))->FUN_00408da0())));
-                        ::DispatchMessageToSink((int)(message), 0, (int)(DAT_0102b108), 0, ::DAT_010162c0, 0);
+                        ::DispatchMessageToSink((std::intptr_t)(message), 0, (std::intptr_t)(DAT_0102b108), 0, ::DAT_010162c0, 0);
                         DAT_011c92d0->FUN_00573170((*reinterpret_cast<::fnv_00516dc0::ActivateActor * *>(&::_g_thePlayer)), 0, 0, 1);
                         DAT_011c92d0 = 0;
                         return true;
@@ -3243,7 +3243,7 @@ bool ActivateObject::FUN_00516dc0(ActivateReference* apTarget, TESObjectREFR* ac
                     ::ApplyPerkModifiers(32, (::Actor *)((*reinterpret_cast<::fnv_00516dc0::ActivateActor * *>(&::_g_thePlayer))), &level2);
                     if (locked && (reinterpret_cast<::LockExtraData *>((locked->script))->GetLockLevel((::TESObjectREFR *)(apTarget)) == 5 || reinterpret_cast<::LockExtraData *>((locked->script))->MeetsMinimumLockLevel()))
                     {
-                        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00516dc0::ActivateMessage *>(&::g_011d276c))))->GetMenuTitle()))), 0, (int)(DAT_0102b0d0), 0, ::DAT_010162c0, 0);
+                        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_00516dc0::ActivateMessage *>(&::g_011d276c))))->GetMenuTitle()))), 0, (std::intptr_t)(DAT_0102b0d0), 0, ::DAT_010162c0, 0);
                     }
                     else
                         ::fnv_00705830::FUN_00705830((int)(apTarget), 0, 0);
@@ -4370,7 +4370,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (((char)(reinterpret_cast<::TESCreature *>(this)->GetCreatureType())) != 6)
         {
             std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d210c))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSurprisedIcon), (int)(0), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(acMessage), 0, (std::intptr_t)(s_szSurprisedIcon), (std::intptr_t)(0), 2.0f, 0);
         }
         return false;
     }
@@ -4380,7 +4380,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (!pkFaction || !reinterpret_cast<::Unk_0097fa10 *>((pkFaction))->FUN_0097fa10((::Actor *)(::AAActor *)((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))) || reinterpret_cast<::FUN_00894d60_shell *>((((AAActor*)(*reinterpret_cast<::ActivationRef * *>(&::_g_thePlayer)))))->FUN_00894d60())
         {
             std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2538))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSadIcon), (int)(0), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(acMessage), 0, (std::intptr_t)(s_szSadIcon), (std::intptr_t)(0), 2.0f, 0);
             return false;
         }
     }
@@ -4408,7 +4408,7 @@ bool AAHandler::OnActivate(TESObjectREFR* pkRef, TESObjectREFR* pkActivatorRef, 
         if (!pkActorVal->IsIncapacitated() && ((::AAProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pkActorVal))->GetBaseTexture()))->IsArrested())
         {
             std::sprintf(acMessage, s_szNameFormat, reinterpret_cast<::FUN_0055d520_shell *>((pkActorVal))->FUN_0055d520(), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::AAString *>(&::g_011d2394))))->GetMenuTitle())));
-            ::DispatchMessageToSink((int)(acMessage), 0, (int)(s_szSadIcon), (int)(0), 2.0f, 0);
+            ::DispatchMessageToSink((std::intptr_t)(acMessage), 0, (std::intptr_t)(s_szSadIcon), (std::intptr_t)(0), 2.0f, 0);
             return false;
         }
         else

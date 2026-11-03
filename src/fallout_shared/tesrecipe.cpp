@@ -180,7 +180,7 @@ bool TESRecipe::Load(TESFile* file)
             break;
         }
         }
-        if (component > 0 && ((unsigned int)(::FUN_00559450((int *)(component)))) > 0 && formID > 0)
+        if (component && ((unsigned int)(::FUN_00559450((int *)(component)))) > 0 && formID > 0)
         {
             reinterpret_cast<::CombatProcedure *>((component))->Initialize((::CombatController *)(::TESForm *)(reinterpret_cast<TESForm*>(formID)));
             if (bOutput)

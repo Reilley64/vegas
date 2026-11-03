@@ -235,7 +235,7 @@ void TESCreature::CopyFromTemplateForm(TESActorBase* selectedForm)
         templateSelection.leveled = ((::TESForm *)(::FindFirstNonActorBaseTemplate((::DummyVtable *)(::TESActorBase *)(this), (unsigned short *)&(templateSelection.useFlags))));
         if (templateSelection.leveled)
         {
-            reinterpret_cast<::TESRecipe *>((reinterpret_cast<TESResponse*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))))->SetRequiredSkill((::ActorValue::Index)((TESIdleForm*)templateSelection.leveled));
+            reinterpret_cast<TESActorBaseData*>(reinterpret_cast<char*>(&actorData) - offsetof(TESActorBaseData, actorData))->m_ppTemplateForms = templateSelection.leveled;
             reinterpret_cast<::FUN_0047cd90_shell *>(this)->FUN_0047cd90(templateSelection.useFlags);
         }
         reinterpret_cast<::FUN_0047ccc0_shell *>(this)->FUN_0047ccc0(true);

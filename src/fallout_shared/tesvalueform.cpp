@@ -1095,7 +1095,7 @@ struct TESValueForm
 // @fnv 0x0048ea40
 void TESValueForm::FUN_0048ea40(BGSSaveFormBuffer* aBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0048ea40::FormChangeMask &)(((BGSLoadFormBuffer*)aBuffer)->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_0048ea40::FormChangeMask &)(((BGSLoadFormBuffer*)aBuffer)->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::FUN_00865e50_shell *>((aBuffer))->FUN_00865e50((char*)this + 4, 4, 0);
 }
 }
@@ -1121,7 +1121,7 @@ struct FUN_0048ea80_Class
 // @fnv 0x0048ea80
 void FUN_0048ea80_Class::FUN_0048ea80(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(2)))->FUN_004280f0(2))
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 4), 4);
 }
 

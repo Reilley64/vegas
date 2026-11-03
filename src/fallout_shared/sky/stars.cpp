@@ -844,7 +844,7 @@ void StarsLoader::FUN_0063fdb0(const char* path)
     ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&fileName), "%s%s%s", "Meshes", "\\", path);
     {
         BSStream stream;
-        if (!reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(fileName), false) || ((unsigned int)(::GetRefAt21C((const char *)&(stream)))) != 1 ||
+        if (!reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(fileName.data), false) || ((unsigned int)(::GetRefAt21C((const char *)&(stream)))) != 1 ||
             !::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<const char *const *>(&::g_011f4428))), (::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::MLx *>(&(stream))->GetStringAt(0))))))
         {
             ::FUN_005b5e40();

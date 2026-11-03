@@ -105,7 +105,7 @@ void TESActorBase::LoadGame(BGSLoadFormBuffer* buffer)
     reinterpret_cast<::TESSpellList *>((reinterpret_cast<Crime*>(reinterpret_cast<char*>(this) + 0x7c)))->LoadGame((::BGSLoadFormBuffer *)(buffer));
     reinterpret_cast<::fnv_004802b0::FUN_004802b0_Class *>((reinterpret_cast<TESAttributes*>(reinterpret_cast<char*>(this) + 0xb8)))->LoadDataIfChanged((::fnv_004802b0::BGSLoadFormBuffer *)(buffer));
     reinterpret_cast<::fnv_0047f980::FUN_0047f980_Class *>((reinterpret_cast<TESAIForm*>(reinterpret_cast<char*>(this) + 0x90)))->FUN_0047f980((::fnv_0047f980::BGSLoadFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
     {
         char name[264];
         reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((buffer))->FUN_008649a0(name);
@@ -358,7 +358,7 @@ void FUN_005f1f30_shell::FUN_005f1f30(unsigned int buffer)
     reinterpret_cast<::FormListPair *>((((FUN_0048e040_holder*)((char*)this + 0x7c))))->FUN_0048e040((::SaveFormBuf0048 *)(buffer));
     reinterpret_cast<::FUN_00480270_shell *>((((FUN_00480270_holder*)((char*)this + 0xb8))))->FUN_00480270((::PacketSerializer *)(buffer));
     reinterpret_cast<::fnv_0047f940::BGSChangeHandler *>((((FUN_0047f940_holder*)((char*)this + 0x90))))->SaveChangeData((::fnv_0047f940::BGSSaveFormBuffer *)(buffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(0x20)))->FUN_004280f0(0x20))
     {
         const char* pfullname = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>((((FNStub*)((char*)this + 0xd0))))->FUN_00408da0()));
         reinterpret_cast<::FUN_00865e70_shell *>((((BGSSaveGameBuffer*)buffer)))->FUN_00865e70(pfullname, 0);

@@ -1807,7 +1807,7 @@ struct FUN_004732d0
 // @fnv 0x004732d0
 BGSPerk* FUN_004732d0::FUN_004732d0_impl()
 {
-    return ((::BGSPerk *)(new ((void *)&(list)) ::Vec3()));
+    return (list.m_item);
 }
 
 namespace fnv_00473490 {

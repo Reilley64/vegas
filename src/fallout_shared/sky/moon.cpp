@@ -502,8 +502,6 @@ void FUN_00636020_shell::FUN_00636020(::Sky* apSky, float afSecondsPassed)
         }
         Mtx matrixMoonZ;
         Mtx matrixMoonX;
-        new ((void *)&(matrixMoonX)) ::Vec3();
-        new ((void *)&(matrixMoonZ)) ::Vec3();
         reinterpret_cast<::FUN_00524ac0_shell *>((((FUN_00524ac0_shell*)&matrixMoonX)))->FUN_00524ac0(-fPos * DAT_01023128);
         reinterpret_cast<::FUN_004a0c90_shell *>((((FUN_004a0c90_shell*)&matrixMoonZ)))->FUN_004a0c90(m_fGlyphVerticalOffset * DAT_01023128);
         reinterpret_cast<::FUN_0043fa80_s *>((((NiAVObject*)((const Flt*)&m_pRootNode)->operator unsigned int())))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::MoonUpdateDetail::Mtx &)(matrixMoonX * matrixMoonZ)));

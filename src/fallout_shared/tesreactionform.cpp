@@ -82,7 +82,7 @@ template <> BSMapBase<int, DistantTreeTextureInfo*>::BSMapBase(unsigned int size
 // @fnv 0x0048cb40
 void TESReactionForm::InitLoadGame(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
     {
         BSSimpleList<BGSCameraShot*>* current = reinterpret_cast<BSSimpleList<BGSCameraShot*>*>(&m_kReactionList);
         BSSimpleList<BGSCameraShot*>* previous = 0;
@@ -304,7 +304,7 @@ struct FUN_0048ca90 : TESReactionForm
 // @fnv 0x0048ca90
 void FUN_0048ca90::LoadReaction(BGSLoadFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(buffer->GetChangeFlags(4)))->FUN_004280f0(4))
     {
         ClearReactionList();
         unsigned int count = reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((((BGSLoadFormBufferA*)buffer)))->FUN_00864a60();

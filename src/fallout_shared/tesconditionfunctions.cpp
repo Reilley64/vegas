@@ -19224,7 +19224,6 @@ bool FUN_005a25f0(void* reference, void* arg1, void* arg2, double& afHeight)
             if (dst)
             {
                 NodeH* p3D = dst->Get3D();
-                new ((void *)&(kPos)) ::Vec3();
                 f = false;
                 if (fB != -1 && dst->IsActor())
                 {

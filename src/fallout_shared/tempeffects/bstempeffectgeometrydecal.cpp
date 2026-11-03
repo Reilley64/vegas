@@ -1288,16 +1288,13 @@ void ThisObj::BuildSkinPartitions()
         return;
     flagsLocalBC = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::CtrlObj *)(::fnv_0043b230::FUN_0043b230((const char *)(((SkinBase*)skinInstLocalAA)))))))->GetName()));
 
-    new ((void *)&(sph1LocalAC.m_afExtents)) ::Vec3();
 
     nineLocalBC = *((::NineDw *)(::FUN_00461130((int)(((ConvObjA*)((const char *)(::FUN_00559450((int *)&(m_2c)))))))));
 
     reinterpret_cast<::ThreeByThreeMatrix *>(&(nineLocalBC))->FUN_004b45b0((::ThreeByThreeMatrix *)(void *)(&obj1bcLocalAE));
 
-    new ((void *)&(sph2LocalAI)) ::Vec3();
     *(NiPoint3*)&sph2LocalAI = obj1bcLocalAE.FUN_004b4500(&m_44);
 
-    new ((void *)&(sph3LocalCK.m_afExtents)) ::Vec3();
     reinterpret_cast<::FUN_004a0c90_shell *>(&(sph3LocalCK))->FUN_004a0c90(m_54);
     sph1LocalAC = sph3LocalCK.FUN_0043f8d0(FUN_00c4b600(m_44));
 
@@ -1405,9 +1402,7 @@ void ThisObj::BuildSkinPartitions()
 
     ptE4LocalAB = *(NiPoint3*)&sph2LocalAI;
 
-    new ((void *)&(pt50LocalAN)) ::Vec3();
 
-    new ((void *)&(ptCCLocalAD)) ::Vec3();
     for (int kValueBC = 0; kValueBC < cntFcLocalBB; kValueBC = kValueBC + 1)
     {
         {
@@ -1685,9 +1680,7 @@ void ThisObj::BuildSkinPartitions()
                 Pt3Obj t2a0ValueAI;
                 Pt3Obj t294ValueAJ;
 
-                new ((void *)&(t294ValueAJ)) ::Vec3();
 
-                new ((void *)&(t2a0ValueAI)) ::Vec3();
                 if (aD4LocalAA[pValueFC] != -1)
                 {
                     reinterpret_cast<::FUN_00534570_shell *>(&(s1LocalBB))->FUN_00534570(pValueFC, (*(::NiPoint3 *)(&t294ValueAJ)));

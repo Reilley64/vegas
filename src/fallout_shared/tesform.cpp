@@ -262,7 +262,7 @@ void TESForm::MarkAsUnmodified(unsigned int flags)
 // @fnv 0x00484da0
 void TESForm::LoadGame(void* apLoadBuffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(static_cast<BGSLoadFormBuffer*>(apLoadBuffer)->GetChangeFlags(1)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(static_cast<BGSLoadFormBuffer*>(apLoadBuffer)->GetChangeFlags(1)))->FUN_004280f0(1))
     {
         unsigned int flags = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((static_cast<BGSLoadFormBuffer*>(apLoadBuffer)))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flags), 4);
@@ -1733,7 +1733,7 @@ struct FakeForm
 // @fnv 0x00484d60
 void FakeForm::SaveIfChanged(BGSSaveFormBuffer* buffer)
 {
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(1)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(((BGSLoadFormBuffer*)buffer)->GetChangeFlags(1)))->FUN_004280f0(1))
         reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50(&_v08, 4, 0);
 }
 

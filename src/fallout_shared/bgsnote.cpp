@@ -416,7 +416,7 @@ struct BGSNoteStandin : TESForm
 void BGSNoteStandin::FUN_005e9480(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::TESForm *>((((TESFormBufferAccess*)this)))->LoadGame(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(unsigned char*)((char*)this + 0x7d) = 1;
 }
 
@@ -441,7 +441,7 @@ struct FUN_005e94d0_shell : TESForm
 void FUN_005e94d0_shell::FUN_005e94d0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>((((FUN_004534f0_shell*)this)))->FUN_004534f0(reinterpret_cast<unsigned int>(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005e94d0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005e94d0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(char*)((char*)this + 0x7d) = 0;
 }
 }  // namespace fnv_005e94d0

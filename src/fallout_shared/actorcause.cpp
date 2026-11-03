@@ -155,7 +155,6 @@ struct FUN_0066e010_cls
 // @fnv 0x0066e010
 FUN_0066e010_cls* FUN_0066e010_cls::FUN_0066e010(CauseRef* apCauseRef)
 {
-    new ((void *)&(m_08)) ::Vec3();
     m_00 = apCauseRef;
     Pair12* src2 = (m_00 != 0) ? ((::Pair12 *)(reinterpret_cast<::TESTopicInfo *>((m_00))->GetAddTopicList())) : &(*reinterpret_cast<::Pair12 *>((void *)&::NiPoint3::ZERO));
     m_08 = *src2;

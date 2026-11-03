@@ -421,7 +421,7 @@ struct FUN_004ff800_shell : public FUN_00511860_shell
 void FUN_004ff800_shell::FUN_004ff800(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::FUN_00511860_holder *>(this)->FUN_00511860((::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0(0x800000))
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(((void**)this)[36]), 0);
 }
 
@@ -448,7 +448,7 @@ struct FUN_004ff850_shell
 void FUN_004ff850_shell::LoadForm(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::S_005118c0 *>((((Base005118c0*)this)))->FUN_005118c0((::FUN_00428110_cls *)(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff850::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff850::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x800000)))->FUN_004280f0(0x800000))
     {
         reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&_90));
     }
@@ -473,7 +473,7 @@ struct FUN_004ff930_shell : TESForm
 void FUN_004ff930_shell::RevertAndClearField(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     TESForm::Revert((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff930::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_004ff930::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x800000)))->FUN_004280f0(0x800000))
         *(int*)((char*)this + 0x90) = 0;
 }
 }  // namespace fnv_004ff930

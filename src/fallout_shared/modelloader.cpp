@@ -14928,7 +14928,6 @@ void FnvRoot::FUN_0043f2f0()
                                             if (!FUN_0043faf0() || reinterpret_cast<::FUN_0065a970_shell *>((fallback))->ApplyMorphs((::FaceGenCoordinate *)(p), (::NiTriBasedGeom *)(geometry), 0))
                                             {
                                                 FnvMatrix3 matForward;
-                                                new ((void *)&(matForward)) ::Vec3();
                                                 reinterpret_cast<::ThreeByThreeMatrix *>(&(matForward))->SetYRotation(::DAT_01016b78);
                                                 FnvMatrix3 matTransform;
                                                 reinterpret_cast<::FUN_0043fa80_s *>((geometry))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(((::FnvGeometry *)(::FUN_006a9540((char *)(((FnvGeometry*)geometry)))))

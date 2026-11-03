@@ -1150,11 +1150,8 @@ bool R01FxPlayer::LoadFromSave()
         char aActive8[0x104];
         ::FUN_00403d30(aActive8, 0, sizeof(aActive8));
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(aActive8, aAF8);
-        new ((void *)&(a1c4_2)) ::Vec3();
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a1c4_2, 0x10);
-        new ((void *)&(aAccuracy5)) ::Vec3();
         reinterpret_cast<::FUN_004f0180_Class *>(&(a1c4_2))->FUN_004f0180((::M3_ *)(::R01Matrix3 *)(&aAccuracy5));
-        new ((void *)&(aAPGeom)) ::Vec3();
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&aAPGeom, 0xc);
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&aAction2, 4);
         reinterpret_cast<::FUN_008579e0_shell *>((reinterpret_cast<R01SaveReader*>((*reinterpret_cast<::GlobalState * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&a3_2, 2);

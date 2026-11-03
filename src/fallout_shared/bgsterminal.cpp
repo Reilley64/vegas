@@ -569,7 +569,7 @@ void Host501bb0::FUN_00501bb0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     unsigned char ucTempData;
     reinterpret_cast<::S_005118c0 *>(this)->FUN_005118c0((::FUN_00428110_cls *)(apLoadGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
     {
         if (apLoadGameBuffer->GetVersion() < 13)
         {
@@ -902,7 +902,7 @@ void FUN_00501050_cls::FUN_00501050()
 {
     while (sub.FUN_008256d0() == 0)
     {
-        FUN_00501050_ref* a = *((::FUN_00501050_ref **)(new ((void *)&(sub)) ::Vec3()));
+        FUN_00501050_ref* a = *((::FUN_00501050_ref **)((void *)&(sub)));
         sub.FUN_0063f7b0();
         FUN_00501050_ref* tmp = a;
         FUN_00501050_ref* b2 = tmp;
@@ -1194,12 +1194,12 @@ bool Terminal::ActivateTerminal(Ref* target, Ref* user, int arg3, int arg4, int 
     {
         Text message;
         ::FUN_00406f60((::FUN_00406f90_this *)(::Text *)(&message), ((const char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Setting *>(&::g_011c8394))))->IsDLCAvailable())), ::ActorValue::GetActorValueName((::ActorValue::Index)(40)), (int)::InventoryStackRecord::RoundToNearestStep(reinterpret_cast<::TermHack *>(this)->FUN_005017a0((::TESObjectREFR *)(target)), 1.0f));
-        ::DispatchMessageToSink((int)(message), 0, (int)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((std::intptr_t)(message.data), 0, (std::intptr_t)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_angry.dds"), (std::intptr_t)(0), 2.0f, false);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundHandleByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
     }
     else if (user == (Ref*)(*reinterpret_cast<::Player * *>(&::_g_thePlayer)) && ::FUN_005012c0((::TESObjectREFR *)(target)))
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4810))))->GetMenuTitle()))), 0, (int)(0), (int)(0), 2.0f, false);
+        ::DispatchMessageToSink((std::intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Setting *>(&::g_011d4810))))->GetMenuTitle()))), 0, (std::intptr_t)(0), (std::intptr_t)(0), 2.0f, false);
         return false;
     }
     else

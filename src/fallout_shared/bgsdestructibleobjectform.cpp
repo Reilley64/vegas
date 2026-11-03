@@ -953,7 +953,7 @@ NiPoint3 TargetLocation::GetTargetPosition()
     {
         if (pRef->Get3D())
         {
-            kPos = (*(const ::NiPoint3 *)(new ((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pRef->Get3D()))->FUN_0043d450())))) ::Vec3()));
+            kPos = (*(const ::NiPoint3 *)((void *)&((*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pRef->Get3D()))->FUN_0043d450())))));
         }
         else
         {
@@ -2070,7 +2070,7 @@ void __cdecl FUN_00477d10(ReferenceView* reference)
                 BSFadeNode_Dummy* node = fade ? fade->AsFadeNode() : 0;
                 if (node)
                     FUN_00476ab0(node);
-                ::FUN_00c6a270((int)(object), true, true, 0);
+                ::FUN_00c6a270((std::intptr_t)(object), true, true, 0);
             }
         }
     }

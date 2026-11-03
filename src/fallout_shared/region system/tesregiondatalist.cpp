@@ -40,7 +40,7 @@ void RegionDataList::Clear()
     TESRegionData* pkRegionData = 0;
     while (ItemsInList() != 0)
     {
-        pkRegionData = ((::TESRegionData *)(new ((void *)this) ::Vec3()));
+        pkRegionData = ((::TESRegionData *)((void *)this));
         RemoveHead();
         if (m_bDataFlag)
             delete pkRegionData;

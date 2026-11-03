@@ -4975,7 +4975,7 @@ extern ChildPoolBlock* DAT_011c5f58;
 unsigned int __cdecl gm_GetCurrentThreadId();
 int __cdecl FUN_0043b460(volatile long*, long, long);
 void __cdecl FUN_0040fca0(unsigned long);
-void __cdecl FUN_0040fbe0();
+void __cdecl FUN_0040fbe0(...);
 struct ChildPoolLock {
     volatile long thread;
     unsigned int depth;
@@ -6822,7 +6822,7 @@ struct ParsedNode {
 };
 unsigned int FUN_0040fc90();
 void FUN_0040fca0(unsigned int);
-void FUN_0040fbe0();
+void FUN_0040fbe0(...);
 unsigned int FUN_0043b460(volatile unsigned int*, unsigned int, unsigned int);
 struct ParsedPoolLock {
     volatile unsigned int owner;

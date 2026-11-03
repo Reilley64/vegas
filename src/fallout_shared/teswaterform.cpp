@@ -423,7 +423,7 @@ struct FUN_005806e0_s
 void FUN_005806e0_s::FUN_005806e0(FUN_00865df0_buf* apSaveGameBuffer)
 {
     reinterpret_cast<::FakeForm *>(this)->SaveIfChanged((::BGSSaveFormBuffer *)(apSaveGameBuffer));
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apSaveGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(m_pWaterForm), 0);
 }
 
@@ -451,7 +451,7 @@ struct FUN_005807a0_shell : TESForm
 void FUN_005807a0_shell::FUN_005807a0(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::fnv_005807a0::FormChangeMask &)(apLoadGameBuffer->GetOldChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         *(void**)((char*)this + 0x80) = 0;
 }
 }  // namespace fnv_005807a0
@@ -483,7 +483,7 @@ struct FUN_00580730_shell : public TESWaterForm
 void FUN_00580730_shell::FUN_00580730(BGSLoadGameBuffer* apLoadGameBuffer)
 {
     TESForm::LoadGame(apLoadGameBuffer);
-    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0())
+    if (reinterpret_cast<::fnv_004280f0::FUN_004280f0_shell *>((void *)&(const ::FormChangeMask &)(apLoadGameBuffer->GetChangeFlags(0x80000000)))->FUN_004280f0(0x80000000))
         m_pWaterForm = dynamic_cast<TESWaterForm*>(::FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((apLoadGameBuffer))->FUN_008648a0()));
 }
 

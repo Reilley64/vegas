@@ -159,7 +159,7 @@ void MusicTypeFileList_005913b0::FUN_005913b0()
     void* pEntry = 0;
     while (!m_kMusicFiles.IsEmpty())
     {
-        pEntry = ((::BGSMusicType::MusicTrack *)(new ((void *)&(m_kMusicFiles)) ::Vec3()));
+        pEntry = ((::BGSMusicType::MusicTrack *)((void *)&(m_kMusicFiles)));
         m_kMusicFiles.RemoveHead();
         void* p = pEntry;
         ::FUN_00401030(p);

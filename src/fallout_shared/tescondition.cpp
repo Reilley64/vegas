@@ -25,7 +25,7 @@ bool PerkEntryConditionSet::ContainsTrait(TESObjectREFR* subject, TESObjectREFR*
 // @fnv 0x00680a20
 void PerkEntryConditionSet::InitItem(TESForm* form)
 {
-    BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
+    BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&(m_kConditionItems.m_item);
     while (current && !current->IsEmpty())
     {
         (current->m_item)->InitItem(form);
@@ -37,7 +37,7 @@ void PerkEntryConditionSet::InitItem(TESForm* form)
 // @fnv 0x00680fe0
 void PerkEntryConditionSet::InitializeConditionItems()
 {
-    BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
+    BSSimpleList<TESConditionItem*>* current = (BSSimpleList<TESConditionItem*>*)&(m_kConditionItems.m_item);
     while (current && !current->IsEmpty())
     {
         delete (current->m_item);
@@ -65,8 +65,8 @@ void PerkEntryConditionSet::Load(TESFile* file)
 // @fnv 0x00680b70
 bool PerkEntryConditionSet::Compare(PerkEntryConditionSet* other)
 {
-    BSSimpleList<TESConditionItem*>* left = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
-    BSSimpleList<TESConditionItem*>* right = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(other->m_kConditionItems)) ::Vec3()));
+    BSSimpleList<TESConditionItem*>* left = (BSSimpleList<TESConditionItem*>*)&(m_kConditionItems.m_item);
+    BSSimpleList<TESConditionItem*>* right = (BSSimpleList<TESConditionItem*>*)&(other->m_kConditionItems.m_item);
     struct ItemPair
     {
         TESConditionItem* leftItem;
@@ -108,7 +108,7 @@ bool PerkEntryConditionSet::ContainsTrait(TESObjectREFR* subject, TESObjectREFR*
         bool definiteFalse;
         bool orUnknown;
     } state;
-    state.current = (BSSimpleList<TESConditionItem*>*)&((::TESConditionItem *)(new ((void *)&(m_kConditionItems)) ::Vec3()));
+    state.current = (BSSimpleList<TESConditionItem*>*)&(m_kConditionItems.m_item);
     if (state.current->IsEmpty())
     {
         result = false;
@@ -390,7 +390,7 @@ struct FUN_00680f70_cls : ListNode_680910
 TESItem_680910* FUN_00680f70_cls::GetItemByIndex(int index)
 {
     int iCurrent = 0;
-    ListNode_680910* pNode = ((::ListNode_680910 *)(new ((void *)this) ::Vec3()));
+    ListNode_680910* pNode = ((::ListNode_680910 *)((void *)this));
     while (pNode != 0 && !pNode->_ref_008256d0())
     {
         if (iCurrent == index)

@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
+#include "havok/hkpCollisionDispatcher.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -58,6 +60,12 @@ struct FUN_00d04300
 };
 
 // @fnv 0x00d04300
+// hkpWorld::m_uiMinDesiredIslandSize.
+struct WorldMinIslandSize
+{
+    char pad00[0xb4];
+    int m_uiMinDesiredIslandSize;  // +0xb4
+};
 FUN_00d04300::FUN_00d04300(bool del)
 {
     m_p = &DAT_010c63bc;
@@ -68,14 +76,14 @@ FUN_00d04300::FUN_00d04300(bool del)
 // @fnv 0x00d021e0
 int FUN_00d021e0(char* self, int, int* out)
 {
-    *out = *(int*)(self + 0xb4);
+    *out = reinterpret_cast<WorldMinIslandSize*>(self)->m_uiMinDesiredIslandSize;
     return *out;
 }
 
 // @fnv 0x00d021f0
 void FUN_00d021f0(void* this_, int, int* arg, int)
 {
-    *(int*)((char*)this_ + 0xb4) = *arg;
+    static_cast<WorldMinIslandSize*>(this_)->m_uiMinDesiredIslandSize = *arg;
 }
 
 struct S_00d02020_Owner
@@ -512,6 +520,13 @@ struct PairArray
 
 void __cdecl FUN_00cc0f40(char* a, char* b, char* c);
 
+// Layouts read by ProcessPair: broad-phase handle, collidable, entity, simulation, world and collision input.
+struct D026_Handle { char pad00[5]; signed char m_ownerOffset; };
+struct D026_Collidable { char pad00[0x10]; signed char m_ownerOffset; char pad11[0x9]; signed char m_objectQualityType; };
+struct D026_Entity { char pad00[0xcc]; void* m_pSimulationIsland; char padd0[0x18]; unsigned char m_motionType; };
+struct D026_Input { const hkpCollisionDispatcher* m_dispatcher; char pad04[0x10]; int m_qualityValue14; };
+struct D026_World { char pad00[0x78]; D026_Input* m_pCollisionInput; };
+struct D026_Simulation { char pad00[0xc]; D026_World* m_world; char pad10[0x58]; char m_deferPairs; char pad69[0x3]; PairArray m_deferredPairs; };
 struct FUN_00d026e0_cls
 {
     int unk00;
@@ -523,22 +538,21 @@ struct FUN_00d026e0_cls
 // @fnv 0x00d026e0
 void FUN_00d026e0_cls::ProcessPair(char** aiPair)
 {
-    char* a = aiPair[0];
-    char* x = a + *(signed char*)(a + 5);
-    char* b = aiPair[1];
-    char* y = b + *(signed char*)(b + 5);
-    char* x2 = x + *(signed char*)(x + 0x10);
-    char* y2 = y + *(signed char*)(y + 0x10);
-    char* world = m_04;
+    D026_Handle* a = reinterpret_cast<D026_Handle*>(aiPair[0]);
+    D026_Collidable* x = reinterpret_cast<D026_Collidable*>((char*)a + a->m_ownerOffset);
+    D026_Handle* b = reinterpret_cast<D026_Handle*>(aiPair[1]);
+    D026_Collidable* y = reinterpret_cast<D026_Collidable*>((char*)b + b->m_ownerOffset);
+    D026_Entity* x2 = reinterpret_cast<D026_Entity*>((char*)x + x->m_ownerOffset);
+    D026_Entity* y2 = reinterpret_cast<D026_Entity*>((char*)y + y->m_ownerOffset);
+    D026_Simulation* world = reinterpret_cast<D026_Simulation*>(m_04);
 
-    if (world[0x68] != 0 && *(char*)(x2 + 0xe8) != 5 && *(char*)(y2 + 0xe8) != 5 &&
-        *(int*)(x2 + 0xcc) != *(int*)(y2 + 0xcc))
+    if (world->m_deferPairs != 0 && x2->m_motionType != 5 && y2->m_motionType != 5 &&
+        x2->m_pSimulationIsland != y2->m_pSimulationIsland)
     {
-        PairArray* arr = (PairArray*)(world + 0x6c);
-        char* h = static_cast<char*>(::FUN_00c85750());
+        PairArray* arr = &world->m_deferredPairs;
         if (arr->m_iElementCount == (int)(arr->m_pRayCursor & 0x3fffffff))
         {
-            void* alloc = *(void**)(h + 0x10);
+            void* alloc = hkMemoryRouter::getInstance().m_heap;
             ::ResizeAudioStream((::AudioAllocator *)(alloc), (::AudioStream *)(arr), 8);
         }
         PairEntry* slot = arr->m_data + arr->m_iElementCount;
@@ -551,17 +565,14 @@ void FUN_00d026e0_cls::ProcessPair(char** aiPair)
         return;
     }
 
-    char* pContext = *(char**)(world + 0x0c);
-    char* sub = *(char**)(pContext + 0x78);
-    char* base = *(char**)sub;
-    char* pIndex = base + *(signed char*)(y + 0x1a);
-    int iOffset = *(signed char*)(x + 0x1a) * 5;
-    signed char t = *(signed char*)(pIndex + iOffset * 2 + 0x1bb0);
+    D026_Input* sub = world->m_world->m_pCollisionInput;
+    const hkpCollisionDispatcher* base = sub->m_dispatcher;
+    signed char t = base->m_collisionQualityTable[x->m_objectQualityType][y->m_objectQualityType];
     if (t != 0)
     {
-        int v = *(int*)(base + ((int)t << 6) + 0x1c30);
-        *(int*)(sub + 0x14) = v;
-        FUN_00cc0f40(x, y, sub);
+        int v = base->m_collisionQualityInfo[t].m_qualityInfoValue10;
+        sub->m_qualityValue14 = v;
+        FUN_00cc0f40((char*)x, (char*)y, (char*)sub);
     }
 }
 
@@ -2090,6 +2101,17 @@ struct FUN_00d02e70_cls
     void AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTION* cs);
 };
 
+// hkpProcessCollisionOutput's TOI info, after the 256 contact points.
+struct ToiEventInput
+{
+    char pad0000[0x3010];
+    __m128 m_contactPosition;      // +0x3010
+    __m128 m_contactNormal;        // +0x3020
+    float m_time;                  // +0x3030
+    float m_separatingVelocity;    // +0x3034
+    char m_gskCache[0x18];         // +0x3038
+    int m_properties[12];          // +0x3050, hkpContactPointProperties
+};
 // If the event array is full, logs a TOI queue-full message and returns; otherwise appends an Event under cs and fills it from input and meta.
 // @fnv 0x00d02e70
 void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTION* cs)
@@ -2119,7 +2141,7 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
         float* p = &edx->u;
         do
         {
-            Event* e = (Event*)((char*)p - 0x18);
+            Event* e = (Event*)((char*)p - offsetof(Event, u));
             if (e)
             {
                 p[0] = 0.0f;
@@ -2132,23 +2154,24 @@ void FUN_00d02e70_cls::AddToiEvent(char* input, EventMeta* meta, CRITICAL_SECTIO
     Event* dest = (Event*)((char*)items30 + ecx);
     LeaveCriticalSection(cs);
     WriteTrace("Et");
-    dest->x = *reinterpret_cast<float*>(input + 0x3030);
+    const ToiEventInput* toiIn = reinterpret_cast<const ToiEventInput*>(input);
+    dest->x = toiIn->m_time;
     dest->kind = owner0c->subTable80[0x1c34 + (meta->unk0c << 6)];
-    int* pSrc = reinterpret_cast<int*>(input + 0x3064);
-    dest->y = *reinterpret_cast<float*>(reinterpret_cast<char*>(pSrc) - 0x30);
-    dest->mat50 = *reinterpret_cast<__m128*>(reinterpret_cast<char*>(pSrc) - 0x54);
-    dest->mat60 = *reinterpret_cast<__m128*>(reinterpret_cast<char*>(pSrc) - 0x44);
+    dest->y = toiIn->m_separatingVelocity;
+    dest->mat50 = toiIn->m_contactPosition;
+    dest->mat60 = toiIn->m_contactNormal;
     char* b10 = meta->begin10;
     dest->ptr0c = b10 + b10[0x10];
     char* b14 = meta->begin14;
     dest->ptr10 = b14 + b14[0x10];
-    *reinterpret_cast<int*>(&dest->u) = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x14);
-    *reinterpret_cast<int*>(&dest->v) = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x10);
-    dest->unk20 = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0xc);
-    dest->unk24 = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x8);
-    dest->unk28 = *reinterpret_cast<int*>(reinterpret_cast<char*>(pSrc) - 0x4);
+    *reinterpret_cast<int*>(&dest->u) = toiIn->m_properties[0];
+    *reinterpret_cast<int*>(&dest->v) = toiIn->m_properties[1];
+    dest->unk20 = toiIn->m_properties[2];
+    dest->unk24 = toiIn->m_properties[3];
+    dest->unk28 = toiIn->m_properties[4];
     dest->count14 = meta->resource08;
     int* d = &dest->unk2c;
+    const int* pSrc = &toiIn->m_properties[5];
     int count = 7;
     do
     {
@@ -3615,7 +3638,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
             _ReadWriteBarrier();
             pairStamp = (unsigned)__rdtsc();
             r->counter = pairStamp;
-            p->next = (TraceRecord*)((char*)r + 12);
+            p->next = r + 1;
         }
     }
 
@@ -3654,7 +3677,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 pairStamp = (unsigned)__rdtsc();
                 r->counter = pairStamp;
-                p->next = (TraceRecord*)((char*)r + 16);
+                p->next = (TraceRecord*)((ProfileNamedRecord*)r + 1);
             }
         }
 
@@ -3669,7 +3692,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 pairStamp = (unsigned)__rdtsc();
                 r->counter = pairStamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
 
@@ -3685,7 +3708,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 pairStamp = (unsigned)__rdtsc();
                 r->counter = pairStamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
 
@@ -3766,7 +3789,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 pairStamp = (unsigned)__rdtsc();
                 r->counter = pairStamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
         for (int j = 0; j < removed.size(); ++j)
@@ -3789,7 +3812,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 pairStamp = (unsigned)__rdtsc();
                 r->counter = pairStamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
     }
@@ -3834,7 +3857,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 scratch.stamp = (unsigned)__rdtsc();
                 r->counter = scratch.stamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
     }
@@ -3853,7 +3876,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                     _ReadWriteBarrier();
                     scratch.stamp = (unsigned)__rdtsc();
                     r->counter = scratch.stamp;
-                    p->next = (TraceRecord*)((char*)r + 12);
+                    p->next = r + 1;
                 }
             }
 
@@ -3876,7 +3899,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                     _ReadWriteBarrier();
                     scratch.stamp = (unsigned)__rdtsc();
                     r->counter = scratch.stamp;
-                    p->next = (TraceRecord*)((char*)r + 12);
+                    p->next = r + 1;
                 }
             }
         }
@@ -3891,7 +3914,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 scratch.stamp = (unsigned)__rdtsc();
                 r->counter = scratch.stamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
 
@@ -3918,7 +3941,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 scratch.stamp = (unsigned)__rdtsc();
                 r->counter = scratch.stamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
         reinterpret_cast<::D049D0World *>((job))->SetSimulationEnabled(0);
@@ -3933,7 +3956,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
                 _ReadWriteBarrier();
                 jobState.stamp = (unsigned)__rdtsc();
                 r->counter = jobState.stamp;
-                p->next = (TraceRecord*)((char*)r + 12);
+                p->next = r + 1;
             }
         }
     }

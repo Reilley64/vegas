@@ -761,17 +761,6 @@ struct OffsetDescriptor {
     int unk0c;
     signed char relativeOffset;
 };
-struct AllocatorInterface {
-    virtual void unk00();
-    virtual void* allocate(unsigned int size);
-};
-struct MemoryContext {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocatorInterface* allocator;
-};
 
 struct ContactObject {
     int unk00;
@@ -788,8 +777,7 @@ ContactObject* FUN_00cfd780_class::AllocateContactObject(OffsetDescriptor* first
 {
     void* relativeFirst = (char*)first + first->relativeOffset;
     void* relativeSecond = (char*)second + second->relativeOffset;
-    MemoryContext* manager = static_cast<MemoryContext*>(::FUN_00c85750());
-    ContactObject* pContactObject = (ContactObject*)manager->allocator->allocate(128);
+    ContactObject* pContactObject = static_cast<ContactObject*>(hkMemoryRouter::getInstance().heap().blockAlloc(128));
     pContactObject->GetAllocationSize = 128;
     return ((::ContactObject *)(reinterpret_cast<::ContactManager *>((pContactObject))->InitContact((const unsigned char *)(m_08), (const unsigned char *)(relativeFirst), (const unsigned char *)(relativeSecond))));
 }
@@ -843,19 +831,6 @@ void hkpShapeKeyMaskCFD9::FUN_00cfd9f0(hkArrayCFD9<hkUint16>& kIndicesOut) const
 }  // namespace fnv_00cfd9f0
 
 namespace fnv_00cfdb10 {
-struct AudioVtable_00cfdb10 {
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(void* object, unsigned short value);
-};
-
-struct AudioObject_00cfdb10 {
-    void* m_00;
-    void* m_04;
-    void* m_08;
-    void* m_0c;
-    AudioVtable_00cfdb10* m_10;
-};
 
 
 
@@ -870,23 +845,14 @@ __declspec(noinline) void ContactManager_00cfdb10::FUN_00cfd720() {
     g_sink_00cfd660 = 1;
 }
 
-void AudioVtable_00cfdb10::vf00() {
-}
 
-void AudioVtable_00cfdb10::vf04() {
-}
-
-void AudioVtable_00cfdb10::vf08(void* object, unsigned short value) {
-}
-
-// Calls FUN_00cfd720, and if bit 0 of flags is set, fetches an audio object and invokes its vtable vf08 with this and m_04.
+// Calls FUN_00cfd720, and if bit 0 of flags is set, returns the block to the heap allocator with the size in m_04.
 // @fnv 0x00cfdb10
 void* ContactManager_00cfdb10::FUN_00cfdb10(unsigned char flags) {
     reinterpret_cast<::FUN_00cfd720 *>(this)->FUN_00cfd720::~FUN_00cfd720();
 
     if ((flags & 1) != 0) {
-        AudioObject_00cfdb10* audio = static_cast<AudioObject_00cfdb10*>(::FUN_00c85750());
-        audio->m_10->vf08(this, m_04);
+        hkMemoryRouter::getInstance().heap().blockFree(this, m_04);
     }
 
     return this;

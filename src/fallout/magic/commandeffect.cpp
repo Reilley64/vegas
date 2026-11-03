@@ -66,7 +66,7 @@ void* FUN_0080b370_shell::FUN_0080b370(int aiArg1, int aiArg2, int aiArg3)
 FUN_0080b560::FUN_0080b560(MagicCaster* a, MagicItem* pItem, EffectItem* pEffectItem)
     : ActiveEffect(a, pItem, pEffectItem)
 {
-    *(int*)this = (int)&DAT_01079a9c;
+    *(void**)this = (void*)&DAT_01079a9c;
 }
 
 namespace fnv_0080b7c0 {

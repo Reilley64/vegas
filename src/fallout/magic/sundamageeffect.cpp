@@ -150,7 +150,7 @@ struct FUN_00829a70 : FUN_0080bc70_base
 // @fnv 0x00829a70
 FUN_00829a70::FUN_00829a70(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect) : FUN_0080bc70_base(a, pItem, pEffect)
 {
-    *(int*)this = (int)&DAT_0107c3ec;
+    *(void**)this = (void*)&DAT_0107c3ec;
     f48 = 0.0f;
     b4d = 0;
     b4c = 0;

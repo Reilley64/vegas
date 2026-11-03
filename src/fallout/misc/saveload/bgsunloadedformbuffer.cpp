@@ -23,7 +23,7 @@ struct FUN_0084b4e0_shell
 int FUN_0084b4e0_shell::FUN_0084b4e0(void* arg)
 {
     new ((void *)this) ::FUN_0084b750((int)(arg));
-    *(int*)this = (int)&DAT_0107f494;
+    *(void**)this = (void*)&DAT_0107f494;
     return (int)this;
 }
 

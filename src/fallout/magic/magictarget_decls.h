@@ -227,8 +227,9 @@ void DebugLog(const char*, ...);
 bool FUN_0040dfa0(EffectItem*, EffectItem*);
 // Getter bodies are folded in the original executable. These expressions use
 // their existing canonical bindings while retaining each receiver's layout.
-#define EFFECT_ITEM(e) ((EffectItem*)((TESForm*)(e))->GetFormID())
-#define EFFECT_SPELL(e) ((MagicItem*)((BSSimpleArray<ParentSpaceNode, 1024>*)(e))->GetSize())
+#include "fnv/active_effect_fields.h"
+#define EFFECT_ITEM(e) (reinterpret_cast<::ActiveEffectFields*>(e)->effect)
+#define EFFECT_SPELL(e) (reinterpret_cast<::ActiveEffectFields*>(e)->spell)
 class ParentSpaceNode;
 template <class T, unsigned int N> class BSSimpleArray
 {

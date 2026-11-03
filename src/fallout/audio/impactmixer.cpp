@@ -651,9 +651,9 @@ static const char kStr_PHYTumbleweed[] = "PHYTumbleweed";
 
 // Maps a material type and two size values to a material name string via DAT_011c3f2c->FUN_004616c0, returning the resulting id.
 // @fnv 0x00839e00
-int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
+::TESSound* __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
 {
-    int result = 0;
+    ::TESSound* result = 0;
 
     switch (aiMaterialType)
     {
@@ -661,47 +661,47 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
     case 15:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9c8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9b0)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneLarge);
         }
         break;
     case 2:
         if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd918)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9bc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthLarge);
         }
         break;
     case 4:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassSmall);
         }
         else if (afSizeA < DAT_01073568)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassLarge);
         }
         break;
     case 5:
@@ -709,178 +709,178 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
         {
             if (afSizeA < DAT_01032980)
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumL);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeL);
             }
         }
         else
         {
             if (afSizeA < DAT_01032980)
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumH);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeH);
             }
         }
         break;
     case 9:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd930)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9d8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 1:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothH);
         }
         break;
     case 6:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_COrganicSmall)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_COrganicSmall);
         break;
     case 7:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
             if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumL);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeL);
             }
         }
         else
         {
             if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumH);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeH);
             }
         }
         break;
     case 3:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassSmall);
         }
         else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassLarge);
         }
         break;
     case 8:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
         else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 13:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChain)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChain);
         break;
     case 10:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyStone)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyStone);
         break;
     case 11:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyMetal)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyMetal);
         break;
     case 12:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyWood)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyWood);
         break;
     case 16:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowLarge);
         }
         break;
     case 17:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetLarge);
         }
         break;
     case 18:
@@ -891,123 +891,123 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
     case 20:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyH);
         }
         break;
     case 21:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidH);
         }
         break;
     case 22:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowH);
         }
         break;
     case 23:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelH);
         }
         break;
     case 24:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleH);
         }
         break;
     case 25:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaH);
         }
         break;
     case 26:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolH);
         }
         break;
     case 27:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleH);
         }
         break;
     case 28:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartH);
         }
         break;
     case 29:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxH);
         }
         break;
     case 30:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBabyRattle)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBabyRattle);
         break;
     case 31:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYRubberBall)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYRubberBall);
         break;
     case 14:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottlecaps)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottlecaps);
         break;
     case 32:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChainlink)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChainlink);
         break;
     case 33:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTile)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTile);
         break;
     case 34:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCarpet)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCarpet);
         break;
     case 35:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTumbleweed)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTumbleweed);
         break;
     }
     return result;

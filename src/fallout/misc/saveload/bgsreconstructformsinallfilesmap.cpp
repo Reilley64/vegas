@@ -479,7 +479,7 @@ struct FUN_00841340_standin : FUN_00844070_standin
 void* FUN_00841340_standin::FUN_00841340()
 {
     FUN_00844070(0x25);
-    *(int*)this = (int)&DAT_0107e950;
+    *(void**)this = (void*)&DAT_0107e950;
     return this;
 }
 }  // namespace fnv_00841340
@@ -523,7 +523,7 @@ struct FUN_008416c0 : FUN_008440a0
 // @fnv 0x008416c0
 FUN_008416c0::FUN_008416c0() : FUN_008440a0(0x25)
 {
-    *(int*)this = (int)&DAT_0107e970;
+    *(void**)this = (void*)&DAT_0107e970;
 }
 
 namespace fnv_00841990 {
@@ -754,7 +754,7 @@ FUN_00842180::FUN_00842180()
 S_844070* S_844070::FUN_00844070(int a)
 {
     new ((void *)this) ::FUN_00844590(a);
-    *(int*)this = (int)&DAT_0107ebc8;
+    *(void**)this = (void*)&DAT_0107ebc8;
     return this;
 }
 
@@ -800,7 +800,7 @@ struct C844100
 FUN_00841ea0::FUN_00841ea0()
 {
     reinterpret_cast<::C844100 *>(this)->FUN_00844100(0x25);
-    *(int*)this = (int)&DAT_0107e9b0;
+    *(void**)this = (void*)&DAT_0107e9b0;
 }
 // Calls FUN_00844970 with a, sets f0 to point at DAT_0107ec28, and returns this.
 // @fnv 0x00844100

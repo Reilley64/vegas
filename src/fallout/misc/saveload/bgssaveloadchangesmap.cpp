@@ -196,7 +196,7 @@ void FUN_005890c0(int* self, FUN_00845b30_arg a);
 int* FUN_00845b30(int* self, FUN_00845b30_arg aArg)
 {
     FUN_005890c0(self, aArg);
-    *self = (int)&DAT_01031fac;
+    *(void**)self = (void*)&DAT_01031fac;
     return self;
 }
 

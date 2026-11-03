@@ -35,7 +35,7 @@ struct FUN_0080e030 : ValueModifierEffect
 // @fnv 0x0080e030
 FUN_0080e030::FUN_0080e030(void* a, void* b, void* c) : ValueModifierEffect(a, b, c)
 {
-    *(int*)this = (int)&DAT_0107a21c;
+    *(void**)this = (void*)&DAT_0107a21c;
 }
 
 struct Actor

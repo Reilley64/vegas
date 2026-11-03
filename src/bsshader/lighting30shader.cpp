@@ -5828,7 +5828,7 @@ void Shadow::FUN_00bbef90(Arg* apArgs)
         ::FUN_00bbbda0((const char *)this);
         ::fnv_00bbe9c0::FUN_00bbe9c0((const ::fnv_00bbe9c0::SolPosition *)this, (::fnv_00bbe9c0::S00bbe9c0_Obj *)(name), (::fnv_00bbe9c0::S00bbe9c0_Flags **)(pc), (unsigned int)(apArgs));
         ::ApplyLightSource((::LightSource *)this, (::RenderContext *)(p8));
-        ::FUN_00bbbdf0((void *)this, (int)(pc), {});
+        ::FUN_00bbbdf0((void *)this, 0, (char *)((pc)));
         if ((*reinterpret_cast<::fnv_00bbef90::GHold * *>(&::ConstantMaps::DAT_012010dc))->b)
         {
             (*reinterpret_cast<float *>(&::ConstantMaps::DAT_01201ba0)) = pc->fe8;

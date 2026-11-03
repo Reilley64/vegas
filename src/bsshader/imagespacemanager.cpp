@@ -98,7 +98,7 @@ void ImageSpaceManager::CreateMenuBackgroundGeometry()
     m_pMenuBackgroundScreenGeometry->GetData()->SetRectangle(0, DAT_01012054, 1.0f, ::DAT_010162c0, DAT_0104a494);
     m_pMenuBackgroundScreenGeometry->GetData()->SetRectangleBounds(0, 0, 0.0f, 0.0f, 1.0f, 1.0f);
     reinterpret_cast<::FUN_00a87900_class *>((m_pMenuBackgroundScreenGeometry->GetData()))->FUN_00a87900();
-    ::AssignFixedString((char *)((m_pMenuBackgroundScreenGeometry).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Imagespace Effect Geometry")), {});
+    ::AssignFixedString((char *)((m_pMenuBackgroundScreenGeometry).operator->()), 0, (char **)&(const ::NiFixedString &)(GeometryString("Imagespace Effect Geometry")));
     reinterpret_cast<::FUN_00a5a040_Class *>(((m_pMenuBackgroundScreenGeometry).operator->()))->FUN_00a5a040();
     NiUpdateData update;
     update.time = 0.0f;
@@ -2781,7 +2781,7 @@ void PartialScreenGeometryReceiver::FUN_00b8c3b0(float afWidth, float afHeight,
     reinterpret_cast<::FUN_00a5a040_Class *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a5a040();
     NiUpdateData updateData = {0.0f, false, false, false, false, false};
     reinterpret_cast<::FUN_00a59c60_cls *>(((this->m_pMenuBackgroundScreenElements).operator->()))->FUN_00a59c60((int)&(updateData));
-    ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), (int)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")), {});
+    ::AssignFixedString((char *)((this->m_pMenuBackgroundScreenElements).operator->()), 0, (char **)&(const ::NiFixedString &)(GeometryString("Interface Effect Partial Screen Trishape")));
     apScreenElements = this->m_pMenuBackgroundScreenElements;
 }
 

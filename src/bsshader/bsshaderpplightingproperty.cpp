@@ -1643,7 +1643,7 @@ inline float NiClamp_b68(float fValue, float fMin, float fScaledValue)
 // @fnv 0x00b68fe0
 void ShaderProp_b68::FUN_00b68fe0(ShaderProp_b68* apOther)
 {
-    ::FUN_00ba8be0((::BSSP_stub *)this, (int)(apOther), {});
+    ::FUN_00ba8be0((::BSSP_stub *)this, 0, (int)((apOther)));
     if (!((m_uiValue1 & (unsigned int)&DAT_01000000) > 0))
     {
         if (!m_spTextureSet)

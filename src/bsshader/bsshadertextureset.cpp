@@ -55,7 +55,7 @@ NiNode* BipedAnim::GetBoneNode(BIPED_BONE boneIndex)
 void BSShaderTextureSet::GetTexture(BSShaderProperty::TextureTypeEnum textureType, NiPointer<NiTexture>& textureOut)
 {
     NiPointer<NiTexture> texture;
-    register const char* textureName = GetTexture(textureType);
+    const char* textureName = GetTexture(textureType);
     if (textureName)
         BSShaderManager::GetTexture(textureName, true, texture, true, textureType == BSShaderProperty::TEXTYPE_ENV);
     if (textureOut.m_pObject != texture.m_pObject)

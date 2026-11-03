@@ -1,3 +1,4 @@
+#include <new>
 #include <cstddef>
 
 // src/bsshader/precipitationshader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsshader/precipitationshader.cpp).
@@ -54,7 +55,6 @@ void FUN_00bb0d30_shell::FUN_00bb0d30(int value)
 }
 
 void* __cdecl FUN_00bb0550();
-extern "C" void __cdecl operator delete(void*, std::size_t);
 struct FUN_00bb0a50_shell
 {
     void* DestroyIfFlagged(int flags);

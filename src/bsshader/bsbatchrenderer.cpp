@@ -1,3 +1,4 @@
+#include <new>
 #include <cstddef>
 // bsshader/bsbatchrenderer.cpp: BSBatchRenderer, BSBatchRenderer__GeometryGroup, Thing, BSBatchRenderer_AlphaDepth and more (43 functions)
 
@@ -891,11 +892,11 @@ void DispatchPass(void* pThis, int dummy, void* pPass, bool bFlag)
     {
         if (bFlag)
         {
-            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
+            ::PushFront((::FUN_00b99890_List *)(((PassListStandin*)(pBytes + 0xc))), 0, (unsigned int *)((&pPass)));
         }
         else
         {
-            ::FUN_00b99840((int *)(((PassListStandin*)(pBytes + 0xc))), (int)(&pPass), {});
+            ::FUN_00b99840((int *)(((PassListStandin*)(pBytes + 0xc))), 0, (const int *)((&pPass)));
         }
     }
     else
@@ -1243,8 +1244,6 @@ void FUN_00b994f0(Pass_b994f0* prenderpass, unsigned int uiPassId, bool balphaTe
 }
 }  // namespace fnv_00b994f0
 
-namespace fnv_00b9aa80 {
-
 template <> class NiTPointerMap<unsigned int, unsigned int>
 {
   public:
@@ -1254,6 +1253,8 @@ template <> class NiTPointerMap<unsigned int, unsigned int>
     void* m_ppkHashTable;
     unsigned int m_kItemCount;
 };
+
+namespace fnv_00b9aa80 {
 
 class FUN_00b99bb0
 {
@@ -1609,10 +1610,6 @@ void FUN_00b998f0()
 }
 
 namespace fnv_00b9ac80 {
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct SortPt
 {
@@ -2799,7 +2796,7 @@ void ActivePassNode::InsertItem(ItemValue volatile item, ActivePassCompare afCom
         {
             if (prev == 0)
             {
-                ::FUN_00b98e20((::Node_00b98e20 *)(this), (int)((const unsigned short*)&item), {});
+                ::FUN_00b98e20((::Node_00b98e20 *)(this), 0, (const unsigned short *)(((const unsigned short*)&item)));
             }
             else
             {
@@ -2846,8 +2843,6 @@ struct Thing
     int m_total;
     void AddNode(int index, int value);
 };
-
-extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a free node, stores value, and prepends it to the entry's linked list, updating counts.
 // @fnv 0x00b99a90
@@ -2906,7 +2901,6 @@ struct Thing
     void AppendNode(int index, int value);
 };
 
-extern "C" Node* FUN_0043a010(void* alloc);
 
 // Allocates or reuses a Node, sets its value, and appends it to the linked list at the given index.
 // @fnv 0x00b99b00
@@ -2916,7 +2910,7 @@ void Thing::AppendNode(int index, int value)
     Node* node;
     if (entry->m_free == 0)
     {
-        node = FUN_0043a010(&entry->m_uiItemCount);
+        node = (Node*)(reinterpret_cast<::FUN_0043a010_shell *>(&entry->m_uiItemCount)->FUN_0043a010());
     }
     else
     {
@@ -3165,7 +3159,7 @@ struct MapBase
         {
             unsigned int s;
         };
-        S sz = {hashSize * sizeof(void*)};
+        S sz = {static_cast<unsigned int>(hashSize * sizeof(void*))};
         std::memset(buckets, 0, sz.s);
     }
     ~MapBase();

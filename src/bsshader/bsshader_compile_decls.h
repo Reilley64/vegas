@@ -27,10 +27,6 @@ struct _D3DXMACRO
     const char* Name;
     const char* Definition;
 };
-struct _FILETIME
-{
-    unsigned int dwLowDateTime, dwHighDateTime;
-};
 class BSFile;
 class NiBinaryStream
 {

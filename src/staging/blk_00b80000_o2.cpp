@@ -16209,12 +16209,12 @@ struct EffectManager975
     int unk00;
     int unk04;
     ImageSpaceEffectB979** effects;
-    void FUN_00b975f0(unsigned int index, int a, int b, int c, int d, int e);
+    void FUN_00b975f0(unsigned int index, void* a, void* b, void* c, void* d, void* e);
 };
 
 // Calls FUN_00b8c980 with effects[index] and the five int arguments while a memory context of 0x27 is set.
 // @fnv 0x00b975f0
-void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, int a, int b, int c, int d, int e)
+void EffectManager975::FUN_00b975f0(unsigned int uiEffectIndex, void* a, void* b, void* c, void* d, void* e)
 {
     ScopedMemoryContext context(0x27);
     reinterpret_cast<::ImageSpaceOwner *>(this)->FUN_00b8c980((::ISEffectShader *)(effects[uiEffectIndex]), (void *)(a), (::NiTexture *)(b), (::BSRenderedTexture *)(c), (void *)(d), (void *)(e));

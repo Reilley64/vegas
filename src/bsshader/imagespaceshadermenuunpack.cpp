@@ -668,7 +668,7 @@ void HudInner::UpdateHudGeometry(int aiUnk, SurfaceOwner* apSurface, HudParam* a
                 pScreenElementsData->SetRectangleBounds(i, 0, v4, v5, e0, e1);
                 pScreenElements->unkb8->FUN_00a67050(0);
                 NiFixedString sName(NiGlobalStringTable::AddString("Interface: HUD Unpack Geometry"));
-                ::AssignFixedString((char *)(pScreenElements), (int)(&sName), {});
+                ::AssignFixedString((char *)(pScreenElements), 0, (char **)&sName);
             }
             reinterpret_cast<::FUN_00a5a040_Class *>((pScreenElements))->FUN_00a5a040();
             NiUpdateData ud;

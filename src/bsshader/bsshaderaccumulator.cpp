@@ -1300,7 +1300,7 @@ NiNode* __cdecl CreateRenderPassesNode()
 
     {
         NiFixedString fixedString(NiGlobalStringTable::AddString("RenderPasses"));
-        ::AssignFixedString((char *)(pNode), (int)&(fixedString), {});
+        ::AssignFixedString((char *)(pNode), 0, (char **)&(fixedString));
     }
 
     UpdateData.fTime = 0.0f;
@@ -1608,9 +1608,9 @@ void ViewX::UpdatePasses(void* p)
         reinterpret_cast<::fnv_00b9af60::Renderer_af60 *>((m_apPass[i]))->UpdateVisibility((int)(p), (::fnv_00b9af60::Cam_af60 *)(m8), m31, afValues[1 - i]);
         afValues[i] = reinterpret_cast<::BSBatchRenderer_AlphaDepth *>((m_apPass[i]))->ComputeAlphaDepth((int)(p), (::SortCamera *)(m8), (*(bool *)&(const ::FlagB &)(FlagB(m31))));
     }
-    ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[0]), (int)(p), {});
+    ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[0]), 0, (unsigned int)((p)));
     if (m18c == 2)
-        ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[1]), (int)(p), {});
+        ::FUN_00b64f20((::BSBatchRendererView *)(m_apPass[1]), 0, (unsigned int)((p)));
     ::fnv_00b988e0::FUN_00b988e0();
 }
 

@@ -18,7 +18,9 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_011fa000.h"
+#include "fnv/symbols_01272000.h"
 #include "bsshaderutil_decls.h"
+#include <d3d9.h>
 
 #pragma optimize("", off)
 // @fnv 0x00469860
@@ -238,9 +240,6 @@ void __cdecl FUN_00b6bfc0(void* pkCamera, PointerList6b& kList, Accumulator6b* p
 }
 
 namespace fnv_00b6bbd0 {
-#include <d3d9.h>
-#include "fnv/symbols_01272000.h"
-#include "bsshaderutil_decls_decl_bsshaderutil.h"
 
 
 class NiPixelFormat

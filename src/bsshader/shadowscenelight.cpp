@@ -455,7 +455,7 @@ void FUN_00b9fba0_s::FUN_00b9fba0()
     if (fence.m_p == 0)
     {
         fence = reinterpret_cast<NiAVObject*>(new FUN_00a74480(0));
-        ::AssignFixedString((char *)((fence).operator->()), (int)&(const ::NiFixedString &)("fence"), {});
+        ::AssignFixedString((char *)((fence).operator->()), 0, (char **)&(const ::NiFixedString &)("fence"));
     }
     reinterpret_cast<::fnv_00c1b4a0::RefObjectList *>((reinterpret_cast<FUN_00c1b4a0_holder*>(self + 0xe0)))->FUN_00c1b4a0((*(const ::fnv_00c1b4a0::NiRefObjectPtr *)(&fence)));
     *reinterpret_cast<int*>(self + 0x138) = *reinterpret_cast<int*>(self + 0xe0);
@@ -1683,7 +1683,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         BSRenderedTexture* texture = ((::BSRenderedTexture *)(reinterpret_cast<::MultiBoundLists *>(((*reinterpret_cast<::fnv_00b9dfc0::ShadowManager * *>(&::DAT_011f91a8))))->ActivatePending()));
         if (!texture)
             reinterpret_cast<NiAVObject*>(m_pMenuLight.m_pObject)->m_uiObjectFlags |= 1;
-        ::AssignRefObject((char *)this, (int)(texture), {});
+        ::AssignRefObject((char *)this, 0, (::NiRefObject *)((texture)));
     }
 
     if (updateShadow && m_usEnabledState != 255 && m_fShadowParameter5 > ::DAT_01082cb0 &&
@@ -1732,7 +1732,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
         NiFrustum frustum(false);
         frustum.orthographic = true;
         ShadowExtraData* pExtraData =
-            ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<const void * *>(&::g_pkString_c55)))))));
+            ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
         float radius;
         {
             ShadowObject* __restrict scene = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
@@ -1786,7 +1786,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             reinterpret_cast<::FUN_00a59c60_cls *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->FUN_00a59c60((int)&(a.initialUpdate));
             memcpy(&b.position, &reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)->world.translation,
                    sizeof(b.position));
-            pExtraData = ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)((*reinterpret_cast<const void * *>(&::g_pkString_c55)))))));
+            pExtraData = ((::fnv_00b9dfc0::ShadowExtraData *)(reinterpret_cast<::NiAVObject *>((reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject)))->GetExtraData((*(const ::NiFixedString *)(::g_pkString_c55)))));
             ShadowVector tempOffset;
             ShadowObject* __restrict scaleSource = reinterpret_cast<ShadowObject*>(m_pLightNode.m_pObject);
             float scale = static_cast<const volatile float&>(scaleSource->world.scale);
@@ -2155,7 +2155,7 @@ void ShadowSceneLight_b9f480::AddGeometry(Geom_b9f480* apGeom)
                     if (kGeomList.GetNext(pNode) == apGeom)
                     {
                         if (pStart)
-                            ::MoveNodeBefore((::List_00b702e0 *)&(kGeomList), (int)(pCur), (::Node_00b702e0 *)(pStart), {});
+                            ::MoveNodeBefore((::List_00b702e0 *)&(kGeomList), 0, (::Node_00b702e0 *)((pCur)), (::Node_00b702e0 *)((pStart)));
                         reinterpret_cast<::Obj_b71560 *>((pProp))->InsertOrMoveNode((::Light_b71560 *)(::ShadowSceneLight_b9f480 *)(this), apGeom->pBound ? apGeom->pBound : &::g_defaultBound);
                         return;
                     }

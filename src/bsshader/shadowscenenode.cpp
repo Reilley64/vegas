@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <new>
+#include "fnv/decl/FUN_00c5b5a0_cls.h"
 #include <cstdlib>
 #include <cstring>
 #include "fnv/decl/B9BB10Effect.h"
@@ -420,15 +421,15 @@ void FUN_00b5ade0(FUN_00b5ade0_arr* self, int, unsigned index, bool shrink)
     }
     {
         unsigned* p = self->data + index;
-        ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(p), p + 1, (unsigned int *)(self->count - index - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((p)), (unsigned int *)(p + 1), (unsigned int)((self->count - index - 1)));
         self->count--;
         return;
     }
 resize:
     unsigned newCap = self->capacity > 0x800 ? self->capacity - 0x400 : self->capacity >> 1;
     unsigned* puiNewData = (unsigned*)self->Alloc(newCap);
-    ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(puiNewData), self->data, (unsigned int *)(index), {});
-    ::FUN_00cb9930((void *)(((ArrOps*)self)), (int)(puiNewData + index), self->data + index + 1, (unsigned int *)(self->count - 1), {});
+    ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((puiNewData)), (unsigned int *)(self->data), (unsigned int)((index)));
+    ::FUN_00cb9930((void *)(((ArrOps*)self)), 0, (unsigned int *)((puiNewData + index)), (unsigned int *)(self->data + index + 1), (unsigned int)((self->count - 1)));
     self->Free(self->data);
     self->count--;
     self->data = puiNewData;
@@ -450,7 +451,7 @@ void FUN_00b5aea0_self::RemoveRange(unsigned int start, unsigned int n)
     unsigned int m = count - start - n;
     if (m >= n)
         m = n;
-    ::FUN_00cb9930((void *)this, (int)(data + start), (unsigned int *)(int *)(data + (count - m)), (unsigned int *)(m), {});
+    ::FUN_00cb9930((void *)this, 0, (unsigned int *)((data + start)), (unsigned int *)((int *)(data + (count - m))), (unsigned int)((m)));
     count -= n;
 }
 
@@ -501,7 +502,7 @@ void FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
     {
         NiNode* pnode = ((NiAVObjectVirt*)apObject)->vfunc3();
         if (pnode)
-            ::ProcessNodeChildren((void *)(((FUN_00b5b150_Struct*)thisptr)), (int)(pnode), {});
+            ::ProcessNodeChildren((void *)(((FUN_00b5b150_Struct*)thisptr)), 0, (void *)((pnode)));
     }
 }
 
@@ -2609,7 +2610,7 @@ struct GlobalLock_t
             m_uiThread = 0;
     }
 };
-extern GlobalLock_t DAT_011f9ea0;
+static GlobalLock_t& kLock_011f9ea0_a = reinterpret_cast<GlobalLock_t&>(::fnv_00b5ddf0::DAT_011f9ea0);
 
 struct BoundOwner_t
 {
@@ -2751,9 +2752,9 @@ void BoundOwner_t::AddBound(BoundRef_t* pkBound)
         return;
     if (!m_b1FC)
         return;
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_011f9ea0))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(kLock_011f9ea0_a))->FUN_0040fbf0((char *)(0));
     m_kBounds.AddTail(*pkBound);
-    DAT_011f9ea0.Unlock();
+    kLock_011f9ea0_a.Unlock();
 }
 
 
@@ -3734,7 +3735,7 @@ struct FUN_00b5e0f0 : Base
 // @fnv 0x00b5e0f0
 FUN_00b5e0f0::FUN_00b5e0f0() : Base(0)
 {
-    ::AssignFixedString((char *)this, (int)&(const ::Fixed &)(Fixed("shadow scene node")), {});
+    ::AssignFixedString((char *)this, 0, (char **)&(const ::Fixed &)(Fixed("shadow scene node")));
     lights.FUN_00e74d40();
     shadowLights.FUN_00e74d40();
     ref124 = (Ref*)0;
@@ -5338,15 +5339,15 @@ struct LocalArray
                 goto slow;
         }
         _ReadWriteBarrier();
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)(data + i)), (unsigned*)(data + i + 1), (unsigned int *)(n - i - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)(data + i))), (unsigned int *)((data + i + 1)), (unsigned int)((n - i - 1)));
     done:
         --count;
         return;
     slow:
         unsigned cap = capacity > 2048 ? capacity - 1024 : capacity / 2;
         void** fresh = Allocate(cap);
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)fresh), (unsigned*)data, (unsigned int *)(i), {});
-        ::FUN_00cb9930((void *)(((ArrOps*)this)), (int)((unsigned*)(fresh + i)), (unsigned*)(data + i + 1), (unsigned int *)(count - 1), {});
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)fresh)), (unsigned int *)(data), (unsigned int)((i)));
+        ::FUN_00cb9930((void *)(((ArrOps*)this)), 0, (unsigned int *)(((unsigned*)(fresh + i))), (unsigned int *)((data + i + 1)), (unsigned int)((count - 1)));
         Free(data);
         data = fresh;
         capacity = cap;
@@ -7181,7 +7182,7 @@ struct GlobalObject_0096a2d0
             m_pOwnerObject = 0;
     }
 };
-extern "C" GlobalObject_0096a2d0 DAT_011f9ea0;
+static GlobalObject_0096a2d0& kLock_011f9ea0_b = reinterpret_cast<GlobalObject_0096a2d0&>(::fnv_00b5ddf0::DAT_011f9ea0);
 extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 struct LightEx;
 
@@ -7240,12 +7241,12 @@ LightEx* ShadowSceneNode_Self::FUN_00b5cbd0(void* key)
         }
     }
 
-    DAT_011f9ea0.Lock(0);
+    kLock_011f9ea0_b.Lock(0);
     LightEx* light = new LightEx;
-    ::FUN_00b5af30((char *)(light), (int)(key), {});
+    ::FUN_00b5af30((char *)(light), 0, (::NiRefObject *)((key)));
     reinterpret_cast<::FUN_00b9dcb0_Class *>((light))->SetShadowEnabled(true);
     m_activeLights.FUN_00a5a310(NiPointer<NiRefObject>(light));
-    DAT_011f9ea0.Unlock();
+    kLock_011f9ea0_b.Unlock();
     return light;
 }
 }  // namespace fnv_00b5cbd0
@@ -7587,7 +7588,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
     }
     else
     {
-        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(m_pD4), (::Node_00b702e0 *)(pShadowList->head), {});
+        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((m_pD4)), (::Node_00b702e0 *)((pShadowList->head)));
     }
 
     if (!m_pD0)
@@ -7597,7 +7598,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
     }
     else
     {
-        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(m_pD0), (::Node_00b702e0 *)(pShadowList->head), {});
+        ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((m_pD0)), (::Node_00b702e0 *)((pShadowList->head)));
     }
 
     if (!m_pD4)
@@ -7653,7 +7654,7 @@ void SSN_cand::FUN_00b5cde0(MyShadowSceneLight* apLight)
             {
                 if (light == apLight)
                 {
-                    ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), (int)(node), (::Node_00b702e0 *)(m_pD4), {});
+                    ::MoveNodeBefore((::List_00b702e0 *)(pShadowList), 0, (::Node_00b702e0 *)((node)), (::Node_00b702e0 *)((m_pD4)));
                 }
                 else
                 {
@@ -7673,7 +7674,7 @@ struct S00b5d9f0_Lock
 
 };
 
-extern S00b5d9f0_Lock DAT_011f9ec0;
+static S00b5d9f0_Lock& kLock_011f9ec0_c = reinterpret_cast<S00b5d9f0_Lock&>(::fnv_00b5ddf0::DAT_011f9ec0);
 extern int DAT_011f9ec4;
 
 class S00b5d9f0_Obj
@@ -7798,7 +7799,7 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj, unsigned char flag)
     if (obj == 0)
         return;
 
-    reinterpret_cast<::FUN_0040fbf0_shell *>(&(DAT_011f9ec0))->FUN_0040fbf0((char *)(0));
+    reinterpret_cast<::FUN_0040fbf0_shell *>(&(kLock_011f9ec0_c))->FUN_0040fbf0((char *)(0));
 
     switch (!flag)
     {
@@ -7815,7 +7816,7 @@ void S00b5d9f0_Owner::FUN_00b5d9f0(S00b5d9f0_Obj* obj, unsigned char flag)
 
     --DAT_011f9ec4;
     if (DAT_011f9ec4 == 0)
-        DAT_011f9ec0.m_pOwnerObject = 0;
+        kLock_011f9ec0_c.m_pOwnerObject = 0;
 }
 
 namespace fnv_00b5e870 {
@@ -7823,10 +7824,6 @@ extern "C" void _ReadWriteBarrier();
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
 
-void* operator new(std::size_t, void* p)
-{
-    return p;
-}
 
 
 
@@ -9419,7 +9416,7 @@ ShadowSceneLight* S00b5eca0_Node::FUN_00b5eca0(ShadowSceneLight* pkLight)
         {
             pkTexture = ((::S00b5eca0_Tex *)(reinterpret_cast<::MultiBoundLists *>((((S00b5eca0_Mgr*)DAT_011f91a8)))->ActivatePending()));
         }
-        ::AssignRefObject((char *)(pkL), (int)(pkTexture), {});
+        ::AssignRefObject((char *)(pkL), 0, (::NiRefObject *)((pkTexture)));
     }
     FUN_00b5d300(pkLight);
     return 0;
@@ -10017,7 +10014,6 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
 #include "fnv/decl/FUN_00b9bc50_t.h"
 #include "fnv/decl/NiCamera.h"
 #include "fnv/decl/NiUpdateData.h"
-#include "fnv/decl/S00b5d9f0_Owner.h"
 #include "fnv/decl/_Cam_00712e60.h"
 #include "fnv/symbols_00403000.h"
 #include "fnv/symbols_0045c000.h"
@@ -10050,11 +10046,6 @@ void SceneCull::FUN_00b5f9b0(CullProcess* process)
 #include "fnv/symbols_00653000.h"
 #include "fnv/symbols_00655000.h"
 #include "fnv/symbols_0104a000.h"
-
-struct FUN_00c5b5a0_cls
-{
-    int FUN_00c5b5a0(int idx);
-};
 
 struct LightObj
 {
@@ -10241,7 +10232,7 @@ struct Globals
     void* unk1E0;
     NiPoint3 g;
 };
-extern Globals* DAT_011f91c8;
+
 struct FUN_00b9dae0_cls
 {
     void* unk00;
@@ -10321,7 +10312,7 @@ bool FUN_00b9dae0_cls::FUN_00b9dae0(NiPoint3* apPoint, LightObj* apLight, float 
     d.x = apLight->pos.x - apPoint->x;
     d.y = apLight->pos.y - apPoint->y;
     d.z = apLight->pos.z - apPoint->z;
-    NiPoint3 g = DAT_011f91c8->g;
+    NiPoint3 g = reinterpret_cast<Globals*>(::DAT_011f91c8[0])->g;
     NiPoint3 s;
     s.x = g.x + d.x;
     s.y = g.y + d.y;
@@ -10489,7 +10480,7 @@ template <class T> struct ArrayLikeT
 
     __forceinline int Find(const T& key)
     {
-        return reinterpret_cast<::FUN_00b5a930_cls *>(this)->FindFirstMatch(&key, 0, (bool (*)(void **, void *))(::FUN_00b5a980));
+        return reinterpret_cast<::FUN_00b5a930_cls *>(this)->FindFirstMatch((void*)&key, 0, (bool (*)(void **, void *))(::FUN_00b5a980));
     }
 
     __forceinline void Clear()
@@ -11827,7 +11818,7 @@ FUN_00a712f0* Target2180::FUN_007c2180()
     Update2180 update2;
     new ((void *)&(update2)) ::NiUpdateData(0.0f, false, false);
     reinterpret_cast<::FUN_00a59c60_cls *>((camera5))->FUN_00a59c60((int)&(update2));
-    ::AssignFixedString((char *)(camera5), (int)&(const ::String2180 &)(String2180(&DAT_01070c70)), {});
+    ::AssignFixedString((char *)(camera5), 0, (char **)&(const ::String2180 &)(String2180(&DAT_01070c70)));
     return camera5;
 }
 

@@ -83,4 +83,21 @@ FUN_00bc0600::FUN_00bc0600()
     *(RgbaColor*)&DAT_01201f30 = kWhiteColor;
 }
 
+class NiTexture
+{
+  public:
+    virtual ~NiTexture();
+    virtual void DeleteThis();
+    volatile long m_uiRefCount;
+    void IncRefCount()
+    {
+        InterlockedIncrement(&m_uiRefCount);
+    }
+    void DecRefCount()
+    {
+        if (InterlockedDecrement(&m_uiRefCount) == 0)
+            DeleteThis();
+    }
+};
+
 #include "generated/data/bsshader/imagespaceeffectvatsscan.inc"

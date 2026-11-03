@@ -22,14 +22,14 @@ void BSShaderInitializer::InitializeMultiBounds()
 
 // Calls FUN_00bc2660 with a and b when flag is false, otherwise calls FUN_00bc1cc0 with a and c.
 // @fnv 0x00bc28b0
-void DispatchFloatPair(float afFirst, float afSecond, float afThird, bool abUseThird)
+void DispatchFloatPair(void* apObject, float afSecond, float afThird, bool abUseThird)
 {
     if (!abUseThird)
     {
-        reinterpret_cast<::FUN_00bc2660_cls *>((afFirst))->FUN_00bc2660(afSecond, {});
+        reinterpret_cast<::FUN_00bc2660_cls *>(apObject)->FUN_00bc2660(afSecond, {});
         return;
     }
-    reinterpret_cast<::FUN_00bc1cc0_class *>((afFirst))->FUN_00bc1cc0(afThird, {});
+    reinterpret_cast<::FUN_00bc1cc0_class *>(apObject)->FUN_00bc1cc0(afThird, {});
 }
 
 struct StrArr

@@ -3418,12 +3418,12 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     Node_b71560* p78 = m_p78;
     if (p78)
     {
-        if (::FindNodeByItemValue((::Obj_00b70340 *)this, (int)(item), (int)(a2), (int)(&a2), {}))
+        if (::FindNodeByItemValue((::Obj_00b70340 *)this, 0, (int)((item)), (int)((a2)), (::Node_00b70340 **)((&a2))))
         {
             if (a2)
-                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), (int)(static_cast<Node_b71560*>(a2)), (::Node_00b702e0 *)(p78), {});
+                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), 0, (::Node_00b702e0 *)((static_cast<Node_b71560*>(a2))), (::Node_00b702e0 *)((p78)));
             else
-                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), (int)(m_list60.tail), (::Node_00b702e0 *)(p78), {});
+                ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), 0, (::Node_00b702e0 *)((m_list60.tail)), (::Node_00b702e0 *)((p78)));
             return;
         }
         reinterpret_cast<::BSShaderLightingProperty *>(&(m_list60))->CopyMemberData((::BSShaderLightingProperty *)(p78), (::CloningProcess &)(item));
@@ -3432,7 +3432,7 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     }
     void* key = a2;
     Light_b71560* light = item;
-    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, (int)(light), (int)(key), (int)(&a2), {}))
+    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, 0, (int)((light)), (int)((key)), (::Node_00b70340 **)((&a2))))
     {
         reinterpret_cast<::FUN_00b58570_Class *>(&(m_list60))->FUN_00b58570((void *)&(item));
     }

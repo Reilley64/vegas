@@ -102,8 +102,6 @@ class BSRenderStateManager
     static void __cdecl SetDepthBufferEnabled(bool, BSRENDERSTATE_LOCK);
 };
 
-void __cdecl FUN_00b97e30(unsigned int, unsigned int);
-void __cdecl FUN_00b97e80(unsigned int, unsigned int);
 
 // @fnv 0x00be0e50
 void FUN_00be0e50(int)
@@ -334,14 +332,14 @@ void SetFromGlobalManager(void* this_ptr, int edx_unused, int aiUnused)
 }
 }  // namespace fnv_00be1f90
 
-int __cdecl FUN_00b97f20(unsigned int, unsigned int, int);
 
 // Reads a byte array from param, extracts a 3-bit value from offset 0x18 and a byte at 0x1a, and passes them to FUN_00b97f20.
 // @fnv 0x00be20b0
 int FUN_00be20b0(unsigned char** apData)
 {
     unsigned char* p = *apData;
-    return FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
+    FUN_00b97f20((*(unsigned short*)(p + 0x18) >> 10) & 7, p[0x1a], 0);
+    return 0;
 }
 
 
@@ -2012,7 +2010,6 @@ inline void Cat(char* d, unsigned n, const char* s)
 {
     fnv::crt::strcat_s(d, n, s);
 }
-extern "C" void* memset(void*, int, unsigned int);
 class FileView;
 struct FileViewMethods
 {

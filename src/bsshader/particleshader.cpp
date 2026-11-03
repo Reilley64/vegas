@@ -28,7 +28,7 @@
 // @fnv 0x00ba52d0
 unsigned int ParticleShader::GetShaderParticleCount()
 {
-    register unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
+    unsigned int count = (*reinterpret_cast<unsigned int *>(&::DAT_012003ec));
     if (count == 0)
     {
         count = 26 + (::DAT_011f91c0 < 2 ? 0 : 52);

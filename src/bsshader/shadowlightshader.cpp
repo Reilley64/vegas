@@ -7054,7 +7054,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc398 = 0x3c;
     DAT_011fb7b8 = 0x360;
     DAT_011fabd8 = 0xc;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe304), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe304)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7095,7 +7095,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3ac = 0x13c;
     DAT_011fb7cc = 0x300;
     DAT_011fabec = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe308), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe308)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7136,7 +7136,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3b0 = 0x13c;
     DAT_011fb7d0 = 0x300;
     DAT_011fabf0 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe310), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe310)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7177,7 +7177,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3b8 = 0x13c;
     DAT_011fb7d8 = 0x300;
     DAT_011fabf8 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe314), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe314)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7218,7 +7218,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3bc = 0x13c;
     DAT_011fb7dc = 0x300;
     DAT_011fabfc = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe31c), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe31c)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7259,7 +7259,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3c4 = 0x13c;
     DAT_011fb7e4 = 0x300;
     DAT_011fac04 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe320), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe320)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7295,7 +7295,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3c8 = 0x13c;
     DAT_011fb7e8 = 0x300;
     DAT_011fac08 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe324), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe324)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7336,7 +7336,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3cc = 0x13c;
     DAT_011fb7ec = 0x300;
     DAT_011fac0c = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe32c), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe32c)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7377,7 +7377,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3d4 = 0x13c;
     DAT_011fb7f4 = 0x300;
     DAT_011fac14 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe330), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe330)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7418,7 +7418,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3d8 = 0x13c;
     DAT_011fb7f8 = 0x300;
     DAT_011fac18 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe338), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe338)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7459,7 +7459,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3e0 = 0x13c;
     DAT_011fb800 = 0x300;
     DAT_011fac20 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe33c), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe33c)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7495,7 +7495,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3e4 = 0x13c;
     DAT_011fb804 = 0x300;
     DAT_011fac24 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe340), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe340)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7536,7 +7536,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3e8 = 0x13c;
     DAT_011fb808 = 0x300;
     DAT_011fac28 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe348), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe348)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7577,7 +7577,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3f0 = 0x13c;
     DAT_011fb810 = 0x300;
     DAT_011fac30 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe34c), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe34c)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7618,7 +7618,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fc3f4 = 0x13c;
     DAT_011fb814 = 0x300;
     DAT_011fac34 = 0x0;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe8bc), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe8bc)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7674,7 +7674,7 @@ void __cdecl SetupRenderPasses()
     (*reinterpret_cast<unsigned int *>(&::DAT_011fd544)) = 0x184;
     (*reinterpret_cast<unsigned int *>(&::DAT_011fc964)) = 0x8;
     (*reinterpret_cast<unsigned int *>(&::DAT_011fbd84)) = 0x100;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe8c0), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe8c0)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);
@@ -7730,7 +7730,7 @@ void __cdecl SetupRenderPasses()
     DAT_011fd548 = 0x984;
     DAT_011fc968 = 0x8;
     DAT_011fbd88 = 0x100;
-    ::AssignNiD3DPass((void *)&(p), (int)&(DAT_011fe8c4), {});
+    ::AssignNiD3DPass((void *)&(p), 0, (void *)(&(DAT_011fe8c4)));
     if (p->GetVersion() < 8)
     {
         AssignStageFromPool(&t);

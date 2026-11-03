@@ -1048,7 +1048,7 @@ void RenderOwner::DrawSlots(void* destination)
     float ratioClamped = Larger(1.0f, ratio);
     float horizontal = ratio / ratioClamped;
     float vertical = 1.0f / Second(1.0f, ratio);
-    RenderRectangle viewportRect = {::DAT_010181bc, horizontal, vertical - 0.0500000007450580596923828125, 0.0f};
+    RenderRectangle viewportRect = {::DAT_010181bc, horizontal, static_cast<float>(vertical - 0.0500000007450580596923828125), 0.0f};
 
     FNV_STUB_NiPointer<RenderContext> context;
     context = this->context;

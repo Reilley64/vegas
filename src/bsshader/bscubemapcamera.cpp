@@ -745,29 +745,29 @@ void Camera::FUN_00bd7bb0(int aiFace)
         case 1: {
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(1.5707963267948966), Sin(1.5707963267948966), 0.0f, 0.0f);
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(1.5707963267948966), Cos(1.5707963267948966), 0.0f, 0.0f);
-            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (int)(renderer), (int)(destination), (int)(target), (int)(&imageSpaceParams), 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 0: {
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(4.7123889923095703), Sin(4.7123889923095703), 0.0f, 0.0f);
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(4.7123889923095703), Cos(4.7123889923095703), 0.0f, 0.0f);
-            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (int)(renderer), (int)(destination), (int)(target), (int)(&imageSpaceParams), 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 3: {
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(3.1415927410125732), Sin(3.1415927410125732), 0.0f, 0.0f);
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(3.1415927410125732), Cos(3.1415927410125732), 0.0f, 0.0f);
-            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (int)(renderer), (int)(destination), (int)(target), (int)(&imageSpaceParams), 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 2: {
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(0, Cos(0.0), Sin(0.0), 0.0f, 0.0f);
             reinterpret_cast<::H *>(&(imageSpaceParams))->SetFloat4At(1, -Sin(0.0), Cos(0.0), 0.0f, 0.0f);
-            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (int)(renderer), (int)(destination), (int)(target), (int)(&imageSpaceParams), 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         case 4:
-            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (int)(renderer), (int)(destination), (int)(target), (int)(&imageSpaceParams), 0);
+            reinterpret_cast<::EffectManager975 *>((manager))->FUN_00b975f0(47, (void *)(renderer), (void *)(destination), (void *)(target), (void *)(&imageSpaceParams), 0);
             break;
         }
         --DAT_011ff9f0;

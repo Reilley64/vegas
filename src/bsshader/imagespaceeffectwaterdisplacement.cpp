@@ -538,7 +538,7 @@ void GameObject::FUN_00ba0900(void* arg1, void* arg2, int arg3, int arg4)
                     NiUpdateData kData(0.0f);
                     reinterpret_cast<::FUN_00a59c60_cls *>(((widget).operator->()))->FUN_00a59c60((int)(&kData));
 
-                    ::AssignFixedString((char *)((widget).operator->()), (int)(NiFixedString("Partial Screen Trishape")), {});
+                    ::AssignFixedString((char *)((widget).operator->()), 0, (char **)&(const ::NiFixedString &)(NiFixedString("Partial Screen Trishape")));
                 }
 
                 for (int i = 0; i < DAT_011ada08; ++i)

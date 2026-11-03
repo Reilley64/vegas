@@ -143,23 +143,6 @@ TargetClass* TargetClass::Clear()
     return this;
 }
 
-#include <windows.h>
-
-// @fnv 0x00c85730
-void __cdecl SetThreadLocalValue(void* apValue)
-{
-    TlsSetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)), apValue);
-}
-
-namespace fnv_00c85760 {
-// Global TLS slot index used by the thread-local accessor.
-
-// @fnv 0x00c85760
-void* FUN_00c85760()
-{
-    return TlsGetValue((*reinterpret_cast<unsigned long *>(&::DAT_01268108)));
-}
-}
 
 
 struct ReturnType

@@ -2420,10 +2420,15 @@ unsigned int __cdecl FUN_005a00a0(unsigned int);
 void __cdecl DebugLog(char const*, ...);
 // Stores a random percentage from FUN_005a00a0(100) into result, logs it when tlsData.dbg is set, and returns true.
 // @fnv 0x005a0040
+struct FUN_005a0040_tls
+{
+    char pad[0x268];
+    unsigned char dbg;
+};
 bool __cdecl FUN_005a0040(TESObjectREFR* ref, void* apUnused1, void* apUnused2, double& result)
 {
     result = (double)FUN_005a00a0(100);
-    if ((*reinterpret_cast<:: (*)(unnamed struct at src/fallout_shared/tesconditionfunctions.cpp:2250:27)>(&::g_tlsBlock)).dbg)
+    if ((*reinterpret_cast<::FUN_005a0040_tls *>(&::g_tlsBlock)).dbg)
         DebugLog("GetRandomPercent >> %0.2f", result);
     return true;
 }
@@ -3056,12 +3061,17 @@ struct TESObjectREFR_standin
 void __cdecl DebugLog(char const*, ...);
 // Sets result to 1.0 if ref is valid and FUN_00477ba0 returns true, otherwise 0.0, logs it when tlsData.dbg is set, and returns true.
 // @fnv 0x005a2330
+struct FUN_005a2330_tls
+{
+    char pad[0x268];
+    unsigned char dbg;
+};
 bool __cdecl FUN_005a2330(TESObjectREFR_standin* ref, void* a1, void* a2, double& result)
 {
     result = 0.0;
     if (ref && reinterpret_cast<::FUN_00477ba0_shell *>((ref))->FUN_00477ba0())
         result = 1.0;
-    if ((*reinterpret_cast<::fnv_005a2330:: (*)(unnamed struct at src/fallout_shared/tesconditionfunctions.cpp:2919:27)>(&::g_tlsBlock)).dbg)
+    if ((*reinterpret_cast<::fnv_005a2330::FUN_005a2330_tls *>(&::g_tlsBlock)).dbg)
         DebugLog("GetDestroyed >> %.0f", result);
     return true;
 }

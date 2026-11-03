@@ -24,7 +24,8 @@ struct hkpCachingShapePhantomStandIn
 {
     char m_padding000[0x8];
     char* unk08;
-    char pad0c[0x154];
+    char pad0c[0x4];
+    char m_kCollidable[0x150];  // +0x10, hkpWorldObject::m_collidable
     void* m_kCollisionDetails;
     int m_collisionDetailsSize;
     char m_padding168[4];
@@ -701,6 +702,7 @@ FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsig
 struct Aligned_00d4cc50
 {
     __m128 column0, column1, column2;
+    __m128 translation;  // +0x30
 };
 struct FUN_00d4cc50_cls
 {
@@ -1174,7 +1176,7 @@ void Ca30Derived::QueryCollisionDetails()
     for (int i = 0; i < m_collisionDetailsSize; ++i)
     {
         PairDC4A30* pair = (PairDC4A30*)m_kCollisionDetails + i;
-        pair->m_obj->v20((char*)this + 0x10, pair->m_data, buffer, &query);
+        pair->m_obj->v20(m_kCollidable, pair->m_data, buffer, &query);
     }
 }
 
@@ -1343,14 +1345,14 @@ struct hkpCachingShapePhantomLocal : public hkpCachingShapePhantom
     void FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input, hkpCdPointCollector& castCollector,
                       hkpCdPointCollector* startCollector);
 };
-// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
+// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source's translation and a, b, c.
 // @fnv 0x00d4cc50
 void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, const void* a, void* b, void* c)
 {
     output0 = source->column0;
     output1 = source->column1;
     output2 = source->column2;
-    reinterpret_cast<::hkpCachingShapePhantomLocal *>(this)->FUN_00d4cab0((*(const ::hkVector4 *)(reinterpret_cast<const char*>(source) + 0x30)), (*(const ::LinearCastParameters *)(a)), (*(::hkpCdPointCollector *)(b)), (::hkpCdPointCollector *)(c));
+    reinterpret_cast<::hkpCachingShapePhantomLocal *>(this)->FUN_00d4cab0((*(const ::hkVector4 *)(&source->translation)), (*(const ::LinearCastParameters *)(a)), (*(::hkpCdPointCollector *)(b)), (::hkpCdPointCollector *)(c));
 }
 
 class hkpCollisionAgentLinear : public hkpCollisionAgent

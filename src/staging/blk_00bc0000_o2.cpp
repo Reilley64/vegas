@@ -1248,17 +1248,18 @@ struct FUN_00bd5d70_Class
     char FUN_00bd5d70(void* src, unsigned int idx);
 };
 
+// A 16-byte shader constant (four 32-bit words), copied as a unit.
+struct ConstantEntry16
+{
+    unsigned int words[4];
+};
+
 // @fnv 0x00bd5d70
 char FUN_00bd5d70_Class::FUN_00bd5d70(void* pSource, unsigned int uiIndex)
 {
     if (m_usMax == m_usElementCount || pSource == 0)
         return 0;
-    unsigned int off = (unsigned int)m_usMax << 4;
-    char* dst = (char*)m_pData + off;
-    *(unsigned int*)(dst + 0) = *(unsigned int*)((char*)pSource + 0);
-    *(unsigned int*)(dst + 4) = *(unsigned int*)((char*)pSource + 4);
-    *(unsigned int*)(dst + 8) = *(unsigned int*)((char*)pSource + 8);
-    *(unsigned int*)(dst + 0xc) = *(unsigned int*)((char*)pSource + 0xc);
+    ((ConstantEntry16*)m_pData)[m_usMax] = *(const ConstantEntry16*)pSource;
     ((unsigned int*)m_pDataEnd)[m_usMax] = uiIndex;
     m_usMax++;
     return 1;
@@ -1359,12 +1360,7 @@ bool FUN_00bd8550_Class::PushEntry(void* src, std::intptr_t value)
 {
     if (m_usIndex != m_usElementCount && src)
     {
-        unsigned int idx = m_usIndex;
-        void* dst = (char*)m_pData + (idx << 4);
-        *(int*)dst = *(int*)src;
-        *(int*)((char*)dst + 4) = *(int*)((char*)src + 4);
-        *(int*)((char*)dst + 8) = *(int*)((char*)src + 8);
-        *(int*)((char*)dst + 0xc) = *(int*)((char*)src + 0xc);
+        ((ConstantEntry16*)m_pData)[m_usIndex] = *(const ConstantEntry16*)src;
         m_pEntryData[m_usIndex] = value;
         m_usIndex++;
         return true;

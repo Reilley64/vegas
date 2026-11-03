@@ -44384,7 +44384,8 @@
     "?FUN_00524cf0@@YAPAVNiAVObject@@PAUTESObjectCELL@@@Z": "0x00524cf0",
     "?FUN_005b5e40@@YAHZZ": "0x005b5e40",
     "?FUN_00586150@InterfaceManager@@QAEPAUTile@@XZ": "0x00586150",
-    "?FUN_005d8550@@YAPBXI@Z": "0x005d8550"
+    "?FUN_005d8550@@YAPBXI@Z": "0x005d8550",
+    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z": "0x00c58d30"
    }
   },
   {
@@ -182966,7 +182967,8 @@
     "?FUN_0042f830@@YAXPAUFUN_0042f830_struct@@@Z": "0x0042f830",
     "?FUN_0042fa40@@YAXPAX@Z": "0x0042fa40",
     "?FUN_00559450@@YAHPAH@Z": "0x00559450",
-    "?FUN_00558200@@YAIPAD@Z": "0x00558200"
+    "?FUN_00558200@@YAIPAD@Z": "0x00558200",
+    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z": "0x00c58d30"
    },
    "eh_tails": [
     {
@@ -532832,7 +532834,7 @@
     },
     {
      "address": "0x00c58d30",
-     "symbol": "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGH@Z",
+     "symbol": "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z",
      "size": 461
     }
    ],
@@ -532846,7 +532848,7 @@
     "??2BoundingVolumeNode@@SAPAXI@Z": "0x00aa13e0",
     "??0BoundingVolumeNode@@QAE@G@Z": "0x00a5ecb0",
     "?DAT_010c2c34@@3MA": "0x010c2c34",
-    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGH@Z": "0x00c58d30"
+    "?FUN_00c58d30@@YAPAVBoundingVolumeNode@@MMMGGPAUMeshColor@fnv_00c584a0@@@Z": "0x00c58d30"
    }
   },
   {
@@ -561505,7 +561507,7 @@
     },
     {
      "address": "0x00e552f0",
-     "symbol": "?FUN_00e552f0@@YAMHHAAUCurveArray@@AAUPointArray@@MHH@Z",
+     "symbol": "?FUN_00e552f0@@YAMHHAAU?$KnotArray@M@@AAU?$KnotArray@UKnotVector@@@@MHH@Z",
      "size": 754
     },
     {
@@ -561660,7 +561662,7 @@
     },
     {
      "address": "0x00e59340",
-     "symbol": "?InvertMatrix2x2@@YA?AVhkBool@@PBMPAMM@Z",
+     "symbol": "?InvertMatrix2x2@@YADPBMPAMM@Z",
      "size": 141
     },
     {
@@ -562133,7 +562135,6 @@
     "?ScatterBytes@FUN_00e484e0_class@@QAEXPAUFUN_00e484e0_dst@@@Z": "0x00e484e0",
     "?BinomialCoefficient@fnv_00e53130@@YAHHH@Z": "0x00e53130",
     "?PrefixSum@@YAXPAMI@Z": "0x00e592a0",
-    "?InvertMatrix2x2@@YA?AVhkBool@@PBMPAMM@Z": "0x00e59340",
     "??0CurvePoint@@QAE@MMMM@Z": "0x00e53160",
     "?FUN_00e58310@@YAXHPBU?$FitOwnedArray@UCurvePoint@@@@PBU?$FitOwnedArray@M@@HMPAHPAU2@PAU1@@Z": "0x00e58310",
     "?DAT_01091c00@@3NB": "0x01091c00",
@@ -562155,8 +562156,8 @@
     "?Create@FUN_00d04350_cls@@QAEPAU1@JJ@Z": "0x00d04350",
     "?EvaluateBasisFunction@fnv_00e57620@@YAMHHPAU?$ElevationArray@M@1@HM@Z": "0x00e54110",
     "?FitSpline@@YAXPAUEvaluationResult@@HHPAUVertexVector@@PAUFloatVector@@HPBUInputVertices@@PBUInputFloats@@MM@Z": "0x00e57620",
-    "?ProcessGeometryPasses@@YAXHHPAUSpawnedBlockRef@@VhkBool@@HMHHH@Z": "0x00e57d60",
-    "?ProcessGeometryPasses@@YAXHABU?$S00e58310_Array@US00e58310_Point@@@@AAU?$S00e58310_Array@M@@VhkBool@@HMAAH1AAU1@@Z": "0x00e57d60",
+    "?ProcessGeometryPasses@@YAXHHPAUSpawnedBlockRef@@DHMHHH@Z": "0x00e57d60",
+    "?ProcessGeometryPasses@@YAXHABU?$S00e58310_Array@US00e58310_Point@@@@AAU?$S00e58310_Array@M@@DHMAAH1AAU1@@Z": "0x00e57d60",
     "?UpdateMinMax@FUN_00e40740_cls@@QAEXHM@Z": "0x00e40740",
     "?Initialize@LoadedObject@@QAEPAU1@ULoadedFlag@@@Z": "0x00e45120",
     "?AddActor@EntityShape@@QAE?AUSmallBool@@PAUActor@@@Z": "0x00e46a30",
@@ -562181,7 +562182,8 @@
     "?InitFromFloatAndPointer@FUN_00e48db0_class@@QAEPAU1@MH@Z": "0x00e48db0",
     "?FUN_00e54ad0@FUN_00e54ad0_cls@@QAEMXZ": "0x00e54ad0",
     "?GetHelperValueAsFloat@FUN_00e54ad0_cls@@QAEMXZ": "0x00e54ae0",
-    "?GetAttributeValue@FUN_00e5c8b0_cls@@QAEHPBD_NPAI@Z": "0x00e5c8b0"
+    "?GetAttributeValue@FUN_00e5c8b0_cls@@QAEHPBD_NPAI@Z": "0x00e5c8b0",
+    "?InvertMatrix2x2@@YADPBMPAMM@Z": "0x00e59340"
    }
   },
   {
@@ -562286,7 +562288,7 @@
    "functions": [
     {
      "address": "0x00e41bf0",
-     "symbol": "?FUN_00e41bf0@@YA?AVhkQsTransform@@MPBV1@IM@Z",
+     "symbol": "?FUN_00e41bf0@@YA?AUhkQsTransform@@MPBU1@IM@Z",
      "size": 443
     },
     {
@@ -562366,12 +562368,12 @@
     },
     {
      "address": "0x00e555f0",
-     "symbol": "?FUN_00e555f0@@YAXHHPAPAMH0HH@Z",
+     "symbol": "?FUN_00e555f0@@YAXHHAAU?$KnotArray@M@@AAU?$KnotArray@UKnotVector@@@@PAU?$TypedTemporary@M@@HH@Z",
      "size": 253
     },
     {
      "address": "0x00e556f0",
-     "symbol": "?FUN_00e556f0@@YAHHHAAU?$KnotArray@M@@AAU?$KnotArray@URemovalVector@@@@MHHHM@Z",
+     "symbol": "?FUN_00e556f0@@YAHHHAAU?$KnotArray@M@@AAU?$KnotArray@UKnotVector@@@@MHHHM@Z",
      "size": 1531
     },
     {
@@ -562435,7 +562437,7 @@
     "?FUN_00e53260@FourFloatVector@@QAE?AU1@H@Z": "0x00e53260",
     "?GetRunLength@@YAHHHPAPAM@Z": "0x00e547d0",
     "?EvaluateBasisFunction@@YAMHHPAPAMHM@Z": "0x00e54110",
-    "?FUN_00e555f0@@YAXHHPAPAMH0HH@Z": "0x00e555f0"
+    "?FUN_00e555f0@@YAXHHAAU?$KnotArray@M@@AAU?$KnotArray@UKnotVector@@@@PAU?$TypedTemporary@M@@HH@Z": "0x00e555f0"
    }
   },
   {

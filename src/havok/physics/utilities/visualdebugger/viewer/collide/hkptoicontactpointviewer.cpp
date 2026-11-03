@@ -65,11 +65,11 @@ struct FUN_00d66bf0_cls {
     int unk28;
     SpawnedChild* m_pChildObject;
 
-    void DispatchToChild(int arg);
+    void DispatchToChild(const void* arg);
 };
 
 // @fnv 0x00d66bf0
-void FUN_00d66bf0_cls::DispatchToChild(int arg)
+void FUN_00d66bf0_cls::DispatchToChild(const void* arg)
 {
     SpawnedChild* child = m_pChildObject;
     if (child != 0 && child->m_i08 != 0) {
@@ -119,14 +119,14 @@ struct FUN_00d682d0_cls {
     int unk24;
     void* m_vtbl28;
 
-    void* FUN_00d682d0(int a1);
+    void* FUN_00d682d0(void* a1);
 };
 
 // Calls FUN_00ddccb0 with a1, then stores five DAT_ pointers into this at offsets 0x28, 0x00, 0x08, 0x20 and 0x28, and returns this.
 // @fnv 0x00d682d0
-void* FUN_00d682d0_cls::FUN_00d682d0(int aiArg)
+void* FUN_00d682d0_cls::FUN_00d682d0(void* aiArg)
 {
-    new ((void *)(aiArg)) ::FUN_00ddccb0_cls(*(const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *)nullptr);
+    new ((void *)this) ::FUN_00ddccb0_cls(*static_cast<const ::BDDCCB0Array< ::BDDCCB0ProcessContext *> *>(aiArg));
     this->m_vtbl28 = (void*)&DAT_0104dd7c;
     *(void* volatile*)((char*)this + 0x00) = (void*)&DAT_010d1f0c;
     *(void* volatile*)((char*)this + 0x08) = (void*)&DAT_010d1eec;
@@ -227,7 +227,7 @@ struct ListBlob_t
     int unk60;
     int unk64;
     int unk68;
-    int* m_items;
+    void** m_items;
     int m_uiItemCount;
 };
 
@@ -462,7 +462,7 @@ struct Handler {
     virtual void v06();
     virtual void v07();
     virtual void v08();
-    virtual void DisplayLine(const Vec& a, const Vec& b, int color, int id, int tag);
+    virtual void DisplayLine(const Vec& a, const Vec& b, int color, uintptr_t id, int tag);
 };
 
 struct TimerCmd {
@@ -503,7 +503,7 @@ __forceinline __m128 splat(float s) {
 }
 
 // @fnv 0x00d683b0
-static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir, int color, int id, int tag) {
+static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir, int color, uintptr_t id, int tag) {
     float lenSq;
 
     _mm_store_ss(&lenSq, lengthSquared3(dir->m));
@@ -563,7 +563,7 @@ static __declspec(noinline) void FUN_00d683b0(Handler* self, Vec* from, Vec* dir
     }
 }
 
-void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, int id, int tag) {
+void RenderLine(Handler* handler, Vec* direction, Vec* origin, int color, uintptr_t id, int tag) {
     FUN_00d683b0(handler, origin, direction, color, id, tag);
 }
 
@@ -628,7 +628,7 @@ void S00d68670_ToiContactPointViewer::FUN_00d68670(const S00d68670_ContactPointE
     if (event.isToi())
     {
         const S00d68670_Collidable* collidable = event.m_apEntities[0]->getCollidable();
-        FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, (int)collidable, DAT_01269004);
+        FUN_00d683b0(m_pDisplayHandler, (Vec*)&event.m_vContactPoint->getPosition(), (Vec*)&event.m_vContactPoint->getNormal(), 0xffff0000, reinterpret_cast<uintptr_t>(collidable), DAT_01269004);
     }
 }
 

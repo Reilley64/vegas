@@ -84,7 +84,7 @@ struct hkLayerFilter
 // @fnv 0x00e45990
 void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
 {
-    reinterpret_cast<::hkLayerFilter *>((reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<int>(this) - 0x14)))->FUN_00e455f0((int)(arg1), *reinterpret_cast<int*>(reinterpret_cast<char*>(arg2) + 0x24));
+    *static_cast<hkBoolC*>(arg1) = reinterpret_cast<::hkLayerFilter *>(reinterpret_cast<char*>(this) - 0x14)->FUN_00e455f0(*reinterpret_cast<int*>(reinterpret_cast<char*>(arg2) + 0x24), *reinterpret_cast<int*>(reinterpret_cast<char*>(arg3) + 0x1c));
 
     return arg1;
 }
@@ -93,7 +93,7 @@ void* FUN_00e45990_Class::FUN_00e45990(void* arg1, void* arg2, void* arg3)
 void* FUN_00e45890_Class::FUN_00e45890(void* param1, void* pObjectA, void* pObjectB)
 {
     FUN_00e455f0_Class* base = (FUN_00e455f0_Class*)((char*)this - 8);
-    reinterpret_cast<::hkLayerFilter *>((base))->FUN_00e455f0((int)(param1), static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C);
+    *static_cast<hkBoolC*>(param1) = reinterpret_cast<::hkLayerFilter *>((base))->FUN_00e455f0(static_cast<FUN_00e45890_Object*>(pObjectA)->unk1C, static_cast<FUN_00e45890_Object*>(pObjectB)->unk1C);
     return param1;
 }
 // @fnv 0x00e458c0
@@ -106,7 +106,7 @@ void* FUN_00e458c0_class::FUN_00e458c0(void* p1, void* apUnused, FUN_00e458c0_No
     {
         pLast = pLast->m_0c;
     }
-    reinterpret_cast<::hkLayerFilter *>((reinterpret_cast<FUN_00e455f0_Class*>(reinterpret_cast<char*>(this) - 0xc)))->FUN_00e455f0((int)(p1), pLast->m_1c);
+    *static_cast<hkBoolC*>(p1) = reinterpret_cast<::hkLayerFilter *>(reinterpret_cast<char*>(this) - 0xc)->FUN_00e455f0(iResult, pLast->m_1c);
     return p1;
 }
 

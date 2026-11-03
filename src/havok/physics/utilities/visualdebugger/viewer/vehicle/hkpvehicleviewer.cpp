@@ -462,12 +462,12 @@ struct FUN_00d63d60_obj
 
 // Allocates a 0x3c-byte object via the global allocator, sets its size, calls FUN_00d63c50(a1), and returns the result offset by 8 or null.
 // @fnv 0x00d63d60
-void* AllocAndInitObject(int a1)
+void* AllocAndInitObject(::ViewerArg* a1)
 {
     AllocHolder* pAllocHolder = reinterpret_cast<AllocHolder*>(getMemoryRouter());
     FUN_00d63d60_obj* obj = reinterpret_cast<FUN_00d63d60_obj*>(pAllocHolder->m_pAllocator->Alloc(0x3c));
     obj->m_wSize = 0x3c;
-    void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50((::ViewerArg *)(a1))));
+    void* pResult = ((void *)(new ((void *)(obj)) ::FUN_00d63c50(a1)));
     if (pResult != 0)
     {
         return (char*)pResult + 8;
@@ -740,10 +740,10 @@ Own_00d63e00* make_00d63e00()
 
 struct D63590Array
 {
-    unsigned int* m_data;
+    ItemList** m_data;
     int m_iElementCount;
 
-    int indexOf(unsigned int value) const
+    int indexOf(ItemList* value) const
     {
         for (int i = 0; i < m_iElementCount; ++i)
         {
@@ -767,18 +767,18 @@ class D63590List
     int unk04;
     D63590Array m_items;
 
-    void FUN_00d63590(unsigned int value);
+    void FUN_00d63590(ItemList* value);
 };
 
 // Finds value in m_items, removes it at that index, and calls FUN_00c905b0 on the ItemList.
 // @fnv 0x00d63590
-void D63590List::FUN_00d63590(unsigned int value)
+void D63590List::FUN_00d63590(ItemList* value)
 {
     int index = m_items.indexOf(value);
     if (index != -1)
     {
         m_items.removeAt(index);
-        reinterpret_cast<::hkReferencedObjectC905 *>((((ItemList*)value)))->FUN_00c905b0();
+        reinterpret_cast<::hkReferencedObjectC905 *>(value)->FUN_00c905b0();
     }
 }
 
@@ -802,29 +802,6 @@ char *FUN_00d634d0();
 void __cdecl FUN_00d63da0();
 int __cdecl FUN_00d63dc0();
 void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iSizeElem) throw();
-template <class T>
-class hkArrayD635 {
-public:
-    __forceinline void AddBack(const T& t)
-    {
-        _pushBack(hkD635::getMemoryRouter(), t);
-    }
-    __forceinline void _pushBack(hkMemoryRouterD635& router, const T& t)
-    {
-        if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ResizeAudioStream(&router.heap(), this, sizeof(T));
-        constructWithCopy(m_data + m_iElementCount, 1, t);
-        m_iElementCount++;
-    }
-    static __forceinline void constructWithCopy(T* p, int n, const T& tcopy)
-    {
-        for (int i = 0; i < n; ++i)
-            p[i] = tcopy;
-    }
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
 
 namespace VehicleStepD63680 {
 extern "C" void __cdecl __debugbreak(void);

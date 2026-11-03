@@ -363,7 +363,7 @@ void Base2::FUN_00d66e10(unsigned char type)
         ::FUN_00ddac60((::FUN_00ddac60_Obj *)(stream));
         if (stream->GetStreamResult(&buf.b1)[0])
         {
-            reinterpret_cast<::FUN_00d66bf0_cls *>((getDerived()))->DispatchToChild((int)(&u.b1_vec));
+            reinterpret_cast<::FUN_00d66bf0_cls *>((getDerived()))->DispatchToChild(&u.b1_vec);
         }
         return;
     }

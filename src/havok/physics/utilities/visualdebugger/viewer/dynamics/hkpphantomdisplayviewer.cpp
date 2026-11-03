@@ -30,10 +30,10 @@ struct HKProcessFactory
 };
 void* __cdecl FUN_00dd9380(void* factory, const char* name, void* creator);
 // @fnv 0x00d66af0
-void* __cdecl RegisterPhantomsProcess()
+int __cdecl RegisterPhantomsProcess()
 {
     DAT_01268ff0 = (int)(reinterpret_cast<::S_00dd9380 *>((((HKProcessFactory*)(::DAT_01269cd0))))->FUN_00dd9380("Phantoms", reinterpret_cast<intptr_t>((void*)&((void *(&)())::FUN_00d66770))));
-    return (void*)DAT_01268ff0;
+    return DAT_01268ff0;
 }
 
 struct Container
@@ -42,6 +42,9 @@ struct Container
 
 struct World
 {
+    char m_beforePhantoms[0x110];  // hkpWorld members before m_phantoms
+    void** m_phantoms;
+    int m_phantomCount;
 };
 
 struct hkpPhantomDisplayViewer
@@ -57,17 +60,18 @@ void hkpPhantomDisplayViewer::FUN_00d66250(void* arg)
     void* p2 = this ? (char*)this + 0x2c : 0;
     reinterpret_cast<::SearchArray *>((((Container*)arg)))->ClearValue((p2));
     int i = 0;
-    if (*(int*)((char*)arg + 0x114) > 0)
+    World* world = static_cast<World*>(arg);
+    if (world->m_phantomCount > 0)
     {
         char* base = (char*)this + 0x28;
         do
         {
-            void* item = *(void**)(*(int*)((char*)arg + 0x110) + i * 4);
+            void* item = world->m_phantoms[i];
             void* vt = *(void**)base;
             void* fn = *(void**)((char*)vt + 8);
             ((void(*)(void*, void*))fn)(base, item);
             ++i;
-        } while (i < *(int*)((char*)arg + 0x114));
+        } while (i < world->m_phantomCount);
     }
 }
 
@@ -1230,7 +1234,7 @@ struct Vw66530Entry
 
 struct Vw66530Info
 {
-    int unk00;
+    const void* unk00;
     int unk04;
     int unk08;
 };
@@ -1289,7 +1293,7 @@ struct Vw66530Col
 struct Vw66530Disp
 {
     virtual void v00();
-    virtual void add(Vw66530Array<Vw66530Entry*>* arr, int a, Vw66530Info* info, int tag, int root);
+    virtual void add(Vw66530Array<Vw66530Entry*>* arr, int a, Vw66530Info* info, int tag, const void* root);
     virtual void v08();
     virtual void update(int b, Vw66530Info* info, int tag);
 };
@@ -1315,7 +1319,7 @@ struct Vw66530Outer
 // @fnv 0x00d66530
 void Vw66530Self::FUN_00d66530(Vw66530Arg* arg)
 {
-    int root = arg->m_info.unk00;
+    const void* root = arg->m_info.unk00;
     Vw66530Info* info = &arg->m_info;
     int type = arg->getType();
     Vw66530Array<Vw66530Entry*> entries;
@@ -1329,8 +1333,8 @@ void Vw66530Self::FUN_00d66530(Vw66530Arg* arg)
     if (!bValid || root == 0)
         goto done;
     reinterpret_cast<::FUN_00ddfb70_cls *>(&(o))->FUN_00ddfb70();
-    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(col), (int)(&o), {});
-    reinterpret_cast<::Node *>(&(col))->FUN_00de0f90((void *)(root), (::XfResult *)(::fnv_00d66530::Vw66530Array< ::fnv_00d66530::Vw66530Entry *> *)(&entries));
+    ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(col), &o, {});
+    reinterpret_cast<::Node *>(&(col))->FUN_00de0f90(const_cast<void *>(root), (::XfResult *)(::fnv_00d66530::Vw66530Array< ::fnv_00d66530::Vw66530Entry *> *)(&entries));
     for (int i = entries.m_iElementCount - 1; i >= 0; i--)
     {
         Vw66530Entry* pEntry = entries.m_data[i];

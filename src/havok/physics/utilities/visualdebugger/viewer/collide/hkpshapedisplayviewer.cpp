@@ -2229,7 +2229,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
             S65_Val val;
             reinterpret_cast<::FUN_00ddfb70_cls *>(&(val))->FUN_00ddfb70();
             S65_Work work;
-            ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(work), (int)(&val), {});
+            ::FUN_00ddfb80((::FUN_00ddfb80_s *)&(work), &val, {});
             reinterpret_cast<::Node *>(&(work))->FUN_00de0f90(key, (::XfResult *)(::S65_Vec *)(&vec));
             for (int i = vec.count - 1; i >= 0; i--)
             {

@@ -312,34 +312,55 @@ void FUN_00de4530Owner::FUN_00de4530(hkUlong arg1, int arg2)
     reinterpret_cast<::ArrowDraw::ArrowDrawObject *>(&(unkc0))->FUN_00e10d50((const ::ArrowDraw::ArrowDrawVector *)(const void *)(&unk30), (const ::ArrowDraw::ArrowDrawVector *)(&b2), (const ::ArrowDraw::ArrowDrawVector *)(const ::Vec4 *)(&b0), color3, width, arg1, arg2);
 }
 
+// The constraint's two bodies (hkpConstraintInstance::m_entities at +0x14/+0x18, 32-bit) and each body's world transform at +0xf0.
+struct DrawerBodyDE4
+{
+    unsigned char m_unk000[0xf0];
+    __m128 m_transform[4];
+};
+struct DrawerConstraintDE4
+{
+    void* m_vtable;
+    int m_memSizeAndFlags;
+    void* m_owner;
+    void* m_data;
+    void* m_constraintModifiers;
+    DrawerBodyDE4* m_entities[2];
+};
+
 class FUN_00de47e0_cls
 {
   public:
+    unsigned char m_unk00[0x20];
+    __m128 m_bodyAWPos;    // +0x20 (32-bit)
+    __m128 m_bodyBWPos;    // +0x30
+    __m128 m_unk40[2];
+    __m128 m_RA[3];        // +0x60
+    __m128 m_RB[3];        // +0x90
     void FUN_00de47e0(char* a1, __m128* a2, __m128* a3);
 };
 
-// Copies 16-byte blocks from two objects at offset 0xf0 into a2 and a3, then stores them into this object at scattered offsets.
+// Copies the world transforms of the constraint's bodies into a2 and a3, then keeps their translations and rotations.
 // @fnv 0x00de47e0
 void FUN_00de47e0_cls::FUN_00de47e0(char* a1, __m128* apOutA, __m128* apOutB)
 {
-    char* pFirst = *(char**)(a1 + 0x18);
-    char* pSecond = *(char**)(a1 + 0x14);
-    __m128* pSrcA = (__m128*)(pFirst + 0xf0);
+    const DrawerConstraintDE4* constraint = reinterpret_cast<const DrawerConstraintDE4*>(a1);
+    const __m128* pSrcA = constraint->m_entities[1]->m_transform;
     apOutA[0] = pSrcA[0];
     apOutA[1] = pSrcA[1];
     apOutA[2] = pSrcA[2];
     apOutA[3] = pSrcA[3];
-    __m128* pSrcB = (__m128*)(pSecond + 0xf0);
+    const __m128* pSrcB = constraint->m_entities[0]->m_transform;
     apOutB[0] = pSrcB[0];
     apOutB[1] = pSrcB[1];
     apOutB[2] = pSrcB[2];
     apOutB[3] = pSrcB[3];
-    *(__m128*)((char*)this + 0x90) = apOutA[0];
-    *(__m128*)((char*)this + 0xa0) = apOutA[1];
-    *(__m128*)((char*)this + 0xb0) = apOutA[2];
-    *(__m128*)((char*)this + 0x60) = apOutB[0];
-    *(__m128*)((char*)this + 0x70) = apOutB[1];
-    *(__m128*)((char*)this + 0x80) = apOutB[2];
-    *(__m128*)((char*)this + 0x30) = apOutA[3];
-    *(__m128*)((char*)this + 0x20) = apOutB[3];
+    m_RB[0] = apOutA[0];
+    m_RB[1] = apOutA[1];
+    m_RB[2] = apOutA[2];
+    m_RA[0] = apOutB[0];
+    m_RA[1] = apOutB[1];
+    m_RA[2] = apOutB[2];
+    m_bodyBWPos = apOutA[3];
+    m_bodyAWPos = apOutB[3];
 }

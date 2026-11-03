@@ -28,6 +28,8 @@ typedef unsigned int BlockPoolsize_t;
 
 struct BlockPoolBlock
 {
+    static constexpr int SECTOR_SIZE = 512;  // every sector is one 512-byte block: a 16-byte header, then the agent entries
+
     int unk00;
     int unk04;
     int unk08;
@@ -82,7 +84,7 @@ void __cdecl InitBlockPool(BlockPoolArray* blocks)
     blocks->m_iElementCount = 0;
     blocks->GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), 4);
     blocks->_expandOne(hkMemoryRouter::getInstance().heap());
-    BlockPoolBlock* block = new (hkMemoryRouter::getInstance().heap().blockAlloc(0x200)) BlockPoolBlock();
+    BlockPoolBlock* block = new (hkMemoryRouter::getInstance().heap().blockAlloc(BlockPoolBlock::SECTOR_SIZE)) BlockPoolBlock();
     blocks->m_data[0] = block;
     block->unk13 = 0x10;
     block->unk10 = 1;
@@ -2125,7 +2127,7 @@ void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_0
             {
                 BlockPoolBlock* done = sectors[index++];
                 if (done)
-                    fullHeap().blockFree(done, 512);
+                    fullHeap().blockFree(done, BlockPoolBlock::SECTOR_SIZE);
             }
             sector = blocks->m_data[index];
             cursor = (unsigned char*)&sector->unk10;
@@ -2135,7 +2137,7 @@ void FUN_00da42b0(BlockPoolArray* blocks, S_00da40e0_Dispatcher* dispatcher, S_0
 finished: {
     BlockPoolBlock* done = sectors[index];
     if (done)
-        fullHeap().blockFree(done, 512);
+        fullHeap().blockFree(done, BlockPoolBlock::SECTOR_SIZE);
 }
     hkMemoryAllocator& heap = fullHeap();
     int flags = blocks->m_iCapacityState;
@@ -2187,12 +2189,12 @@ void FUN_00da44d0(BlockPoolArray* blocks, const void* apHeader, void* apTransfor
     int outIndex = 0;
     BlockPoolBlock* input = blocks->m_data[0];
     BlockPoolBlock* previous = 0;
-    BlockPoolBlock* output = new (hkMemoryRouter::getInstance().heap().blockAlloc(512)) BlockPoolBlock;
+    BlockPoolBlock* output = new (hkMemoryRouter::getInstance().heap().blockAlloc(BlockPoolBlock::SECTOR_SIZE)) BlockPoolBlock;
     unsigned char* cursor = (unsigned char*)&input->unk10;
     unsigned char* out = (unsigned char*)&output->unk10;
     int inIndex = 1;
     unsigned char* end = (unsigned char*)input + input->unk00 + 16;
-    unsigned char* limit = (unsigned char*)output + 512;
+    unsigned char* limit = (unsigned char*)output + BlockPoolBlock::SECTOR_SIZE;
     int used = 0;
     bool staging = false;
     StreamHeader header;
@@ -2221,7 +2223,7 @@ process:
     if (cursor == end)
     {
         if (previous)
-            hkMemoryRouter::getInstance().heap().blockFree(previous, 512);
+            hkMemoryRouter::getInstance().heap().blockFree(previous, BlockPoolBlock::SECTOR_SIZE);
         previous = input;
         if (inIndex >= blocks->m_iElementCount)
             goto finish;
@@ -2271,9 +2273,9 @@ process:
         previous = 0;
     }
     else
-        output = new (hkMemoryRouter::getInstance().heap().blockAlloc(512)) BlockPoolBlock;
+        output = new (hkMemoryRouter::getInstance().heap().blockAlloc(BlockPoolBlock::SECTOR_SIZE)) BlockPoolBlock;
     out = (unsigned char*)&output->unk10;
-    limit = (unsigned char*)output + 512;
+    limit = (unsigned char*)output + BlockPoolBlock::SECTOR_SIZE;
     if (staging)
     {
         streamCopy(out, scratch, staged >> 4);
@@ -2296,7 +2298,7 @@ finish:
     blocks->m_iElementCount = newCount;
     blocks->m_data[outIndex] = output;
     if (previous)
-        hkMemoryRouter::getInstance().heap().blockFree(previous, 512);
+        hkMemoryRouter::getInstance().heap().blockFree(previous, BlockPoolBlock::SECTOR_SIZE);
 }
 
 struct __declspec(align(16)) TOIBody

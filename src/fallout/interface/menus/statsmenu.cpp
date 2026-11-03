@@ -1550,7 +1550,7 @@ void FUN_00404210_t::CopyFrom(FUN_00404210_t* apSource)
     reinterpret_cast<::Unk004043d0 *>(this)->FUN_004043d0(reinterpret_cast<::FUN_00404390_shell *>((apSource))->FUN_00404390());
     reinterpret_cast<::EffectItem_shell *>(this)->FUN_00404470(reinterpret_cast<::FUN_00404420_shell *>((apSource))->FUN_00404420());
     reinterpret_cast<::S00404510 *>(this)->FUN_00404510(reinterpret_cast<::FUN_004044d0_shell *>((apSource))->FUN_004044d0());
-    reinterpret_cast<::BGSQuestObjective *>(this)->SetOwner((::TESQuest *)(reinterpret_cast<::EffectItem *>((apSource))->GetAffectedActorValue()));
+    data.m_eAssociatedActorValue = (ActorValue::Index)reinterpret_cast<::EffectItem *>((apSource))->GetAffectedActorValue();
     reinterpret_cast<::FUN_00404760_shell *>(this)->FUN_00404760(((::PerkEntryConditionSet *)(reinterpret_cast<::BGSDebris *>((apSource))->GetDataList())));
     m_fCost = -1.0f;
 }

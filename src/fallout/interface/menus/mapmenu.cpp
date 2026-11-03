@@ -658,7 +658,7 @@ void FUN_0079be80(Tile* pThis)
 
 
 // @fnv 0x0079c070
-unsigned int __cdecl FUN_0079c070()
+std::uintptr_t __cdecl FUN_0079c070()
 {
     return DAT_011dd42c;
 }
@@ -3327,7 +3327,7 @@ void FUN_0079bea0_Shell::RefreshRadioList()
                 ->FUN_007a3820((RadioEntry*)((uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)), ((uintptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((((RadioEntry*)((uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_0055d520())), 0, 0);
         tile->Set(0xfaa, 0x19);
         reinterpret_cast<::Tile *>((tile))->SetName((const char *)(((std::uintptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((((RadioEntry*)((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_0055d520()))));
-        tile->Set(::DAT_011da348, ::FUN_0079c070() && ((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) == *(unsigned int*)::FUN_0079c070());
+        tile->Set(::DAT_011da348, ::FUN_0079c070() && ((std::uintptr_t)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item)) == *(std::uintptr_t*)::FUN_0079c070());
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(::DAT_011da344, reinterpret_cast<::RefList *>(&(record))->FUN_005f65d0((void **)(unsigned int *)(((unsigned int *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))) ? ::DAT_01023cd8 : ::DAT_0101e704, true);
     }
     ((RadioList*)&m_kMapMarkerListBox)->FUN_007a3d20(&::FUN_0079be30);

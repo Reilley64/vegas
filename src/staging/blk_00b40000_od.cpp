@@ -68,23 +68,41 @@ struct FUN_00ec7c56_t
     static void FUN_00ec7c56();
 };
 
+// VC9 checked const_iterator {aux proxy, element pointer}.
 struct FUN_00b42980
 {
-    int a;
-    int b;
-    FUN_00b42980& Set(unsigned int v, FUN_00b42980 const& src);
+    void* a;
+    void* b;
+    FUN_00b42980& Set(void* v, FUN_00b42980 const& src);
+};
+
+// VC9 vector layout as seen by its iterators: _Myownedaux and _Alaux, then _Alval, then the element range.
+struct VectorAuxB42980
+{
+    void* ownedAux;
+    char auxAllocator;
+};
+struct VectorValB42980 : VectorAuxB42980
+{
+    char allocator;
+};
+struct VectorB42980 : VectorValB42980
+{
+    char* first;
+    char* last;
 };
 
 // Clears a, validates v against src's bounds (calling FUN_00ec7c56 on failure), then copies src.a into a and stores v into b.
 // @fnv 0x00b42980
-FUN_00b42980& FUN_00b42980::Set(unsigned int v, FUN_00b42980 const& src)
+FUN_00b42980& FUN_00b42980::Set(void* v, FUN_00b42980 const& src)
 {
+    const VectorB42980* vector = (const VectorB42980*)&src;
     a = 0;
-    if (!(&src && ((unsigned int*)&src)[3] <= v && v <= ((unsigned int*)&src)[4]))
+    if (!(vector && vector->first <= (char*)v && (char*)v <= vector->last))
     {
         std::abort();
     }
-    a = src.a;
+    a = vector->ownedAux;
     b = v;
     return *this;
 }
@@ -118,6 +136,10 @@ struct FUN_00b40800_t
 {
     int pos;
     int pad;
+    int unk08;
+    int unk0c;
+    char* first;
+    char* last;
     char GetNextChar();
 };
 
@@ -127,10 +149,9 @@ char FUN_00b40800_t::GetNextChar()
 {
     int idx = pos;
     pos = pos + 1;
-    int* p = &this->pad;
-    if ((unsigned int)idx >= (unsigned int)(p[4] - p[3]))
+    if ((unsigned int)idx >= (unsigned int)(last - first))
         std::abort();
-    return *(char*)(p[3] + idx);
+    return first[idx];
 }
 
 struct FUN_00b40070_Point
@@ -429,7 +450,7 @@ bool FnvCamera::ReserveEntries(unsigned int count)
 
 struct FUN_00b42be0_cls
 {
-    unsigned int* m_00;
+    void** m_00;
     unsigned int m_04;
     unsigned int m_08;
 
@@ -439,9 +460,9 @@ struct FUN_00b42be0_cls
 // @fnv 0x00b42be0
 FUN_00b42be0_cls* FUN_00b42be0_cls::FUN_00b42be0(FUN_00b42be0_cls* src)
 {
-    unsigned int* x8;
-    unsigned int* y;
-    unsigned int* r;
+    void** x8;
+    void** y;
+    void** r;
     unsigned int _q;
     unsigned int s;
 
@@ -449,7 +470,7 @@ FUN_00b42be0_cls* FUN_00b42be0_cls::FUN_00b42be0(FUN_00b42be0_cls* src)
     {
         x8 = src->m_00;
         r = y;
-        r = (unsigned int*)*x8;
+        r = (void**)*x8;
     }
     else
     {
@@ -464,7 +485,7 @@ FUN_00b42be0_cls* FUN_00b42be0_cls::FUN_00b42be0(FUN_00b42be0_cls* src)
     {
         std::abort();
     }
-    m_00 = (unsigned int*)*r;
+    m_00 = (void**)*r;
     return this;
 }
 
@@ -481,7 +502,7 @@ int FUN_00b420a0_cls::CompareAndGetDelta(FUN_00b42980 const& arg)
 {
     if (!((bool)(int)(m_obj.a != 0) && (bool)(int)(m_obj.a == arg.a)))
         std::abort();
-    return (m_obj.b - arg.b) >> 2;
+    return (int)((void**)m_obj.b - (void**)arg.b);
 }
 
 
@@ -2573,7 +2594,7 @@ struct RecordVector
 ItQ_aceeb0 VecQ_aceeb0::FUN_00b41b50(CItQ_aceeb0 _Where, const ElQ_aceeb0& _Val)
 {
     unsigned int _Off = size() == 0 ? 0 : _Where - begin();
-    reinterpret_cast<::RecordVector *>(this)->FUN_00b42180((*(void * *)&(const ::CItQ_aceeb0 &)(_Where)), (::FUN_00b42980 *)(1), (unsigned int)&(_Val), *(const ::FUN_00b42980 *)nullptr);
+    reinterpret_cast<::RecordVector *>(this)->FUN_00b42180(_Where._Myaux, (::FUN_00b42980 *)(_Where._Myptr), 1, *(const ::FUN_00b42980 *)&(_Val));
     return begin() + _Off;
 }
 
@@ -3003,7 +3024,7 @@ template <> inline bool VecValue<Elem>::ReserveEntries(unsigned int count)
     v7 = v6 + 38;
     v8 = v7 + 39;
     v9 = v8 + 40;
-    _Myfirst = (Elem*)v0;
+    _Myfirst = (Elem*)(intptr_t)v0;
     return v0 != 0;
 }
 
@@ -4342,7 +4363,7 @@ struct P133ConstIter : IteratorBaseAuxB42
     void FUN_00b42980(P133Pair*, P133Pairs const*);
     P133ConstIter(P133Pair* p, P133Pairs const* v)
     {
-        reinterpret_cast<::FUN_00b42980 *>(this)->Set((unsigned int)(p), (*(const ::FUN_00b42980 *)(v)));
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set(p, (*(const ::FUN_00b42980 *)(v)));
     }
     P133Pair const& FUN_00b2ab50() const;
     P133Pair const& operator*() const

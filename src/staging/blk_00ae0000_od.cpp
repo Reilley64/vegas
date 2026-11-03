@@ -174,13 +174,14 @@ extern int DAT_010a4288;
 
 struct FUN_00af2f20_Class
 {
+    const void* vtable;
     void FUN_00af2f20();
 };
 
 // @fnv 0x00af2f20
 void FUN_00af2f20_Class::FUN_00af2f20()
 {
-    *(int*)this = (int)&DAT_010a4288;
+    vtable = &DAT_010a4288;
 }
 
 struct FUN_00af3120_Class
@@ -558,19 +559,23 @@ FUN_00ae7bc0_Class::FUN_00ae7bc0_Class(int count)
 
 struct FUN_00ae7c40_Class
 {
+    const void* vtable;
+    int size;
+    void* buffer;
+    int count;
     void* InitBuffer(int size);
 };
 // Sets the vtable, stores size, allocates size*4 bytes with NiMalloc, zeroes the buffer and returns this.
 // @fnv 0x00ae7c40
 void* FUN_00ae7c40_Class::InitBuffer(int size)
 {
-    *(int*)this = (int)&DAT_010a33b0;
-    ((int*)this)[1] = size;
-    ((int*)this)[3] = 0;
-    int s3 = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)::FUN_00aa1070(s3);
-    int s2 = ((int*)this)[1] << 2;
-    void* p2 = *(void**)((int*)this + 2);
+    vtable = &DAT_010a33b0;
+    this->size = size;
+    count = 0;
+    int s3 = this->size << 2;
+    buffer = ::FUN_00aa1070(s3);
+    int s2 = this->size << 2;
+    void* p2 = buffer;
     std::memset(p2, 0, s2);
     return this;
 }
@@ -683,12 +688,20 @@ void FUN_00aefd90_Class::FUN_00aefd90(int a, int b, int c)
 
 // Returns 0 when param_1 is null, otherwise returns the int at offset 0x38 if it is not -1, else the int at offset 0x150.
 // @fnv 0x00af2290
-int __cdecl FUN_00af2290(int apObject)
+struct OggTellSource
+{
+    char pad00[0x38];
+    int position;
+    char pad3c[0x150 - 0x3c];
+    int fallbackPosition;
+};
+
+long __cdecl FUN_00af2290(void* apObject)
 {
     if (apObject == 0)
         return 0;
-    int* pLocal = (int*)apObject;
-    return pLocal[0x38 / 4] != -1 ? pLocal[0x38 / 4] : pLocal[0x150 / 4];
+    OggTellSource* pLocal = (OggTellSource*)apObject;
+    return pLocal->position != -1 ? pLocal->position : pLocal->fallbackPosition;
 }
 
 struct FUN_00af2ed0_Class
@@ -3220,7 +3233,7 @@ void FnvEmptyThiscall_Class::FUN_00af2c80()
 {}
 
 extern "C" __declspec(dllimport) bool __cdecl SteamAPI_IsSteamRunning();
-extern "C" __declspec(dllimport) unsigned int __cdecl SteamUser();
+extern "C" __declspec(dllimport) void* __cdecl SteamUser();
 
 struct SteamUserObj
 {
@@ -4397,7 +4410,7 @@ int AudioFileOp(AudioState* state, unsigned int op, void* data, int size)
                 return result2;
             }
             case 2: {
-                offset = (int)data;
+                offset = (int)(intptr_t)data;
                 originX = DAT_010a2484;
                 if (size == 0)
                     originX = DAT_010a2480;
@@ -4852,7 +4865,7 @@ bool FUN_00aee580_cls::UpdateStreamBuffer(int aiUnused)
             else
                 pStream->uiLastPos = dwPlayCursor;
         }
-        else if (v04() && (bool)(uiFlags08 & (unsigned int)&DAT_01000000 ? 1 : 0))
+        else if (v04() && (bool)(uiFlags08 & 0x1000000u ? 1 : 0))
         {
             if (!(bool)(uiFlags10 & 0x100000 ? 1 : 0) &&
                 (bool)((pAudioMgr = (FUN_00aee580_audio*)DAT_011f6d98)->uiFlags & 1 ? 1 : 0))
@@ -5116,7 +5129,7 @@ void* FUN_00afe9f0_Class::FUN_00afe9f0(unsigned int a)
 {
     int x;
     int y;
-    *(int*)this = (int)&DAT_010472d0;
+    *reinterpret_cast<const void**>(this) = &DAT_010472d0;
     FUN_006b3eb0(a, a);
     return this;
 }
@@ -5125,7 +5138,7 @@ struct FUN_00ae8090_Node
 {
     FUN_00ae8090_Node* next;
     FUN_00ae8090_Node* prev;
-    unsigned int value;
+    void* value;
 };
 
 struct FUN_00ae8090_Allocator
@@ -5157,12 +5170,12 @@ class FUN_00ae8090_Class
     FUN_00ae8090_Node* tail;
     FUN_00ae8090_Allocator allocator;
 
-    unsigned int FUN_00ae8090(FUN_00ae8090_Node** position);
+    void* FUN_00ae8090(FUN_00ae8090_Node** position);
 };
 
 // Removes the node at the given position from the linked list, updates the position pointer, and returns the node's value.
 // @fnv 0x00ae8090
-unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
+void* FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
 {
     int m[13];
 
@@ -5170,12 +5183,12 @@ unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
     if (node == head)
     {
         *position = node->next;
-        return ((unsigned int)(reinterpret_cast<::SndStack70 *>(this)->FUN_00ae7f90()));
+        return reinterpret_cast<::SndStack70 *>(this)->FUN_00ae7f90();
     }
     if (node == tail)
     {
         *position = 0;
-        return ((unsigned int)(reinterpret_cast<::FUN_00ae8010_cls *>(this)->PopFront()));
+        return reinterpret_cast<::FUN_00ae8010_cls *>(this)->PopFront();
     }
 
     FUN_00ae8090_Node* prevNode = node->prev;
@@ -5187,7 +5200,7 @@ unsigned int FUN_00ae8090_Class::FUN_00ae8090(FUN_00ae8090_Node** position)
     if (pNext)
         pNext->prev = prevNode;
 
-    unsigned int value = node->value;
+    void* value = node->value;
     node->value = 0;
     reinterpret_cast<::FUN_0045cee0_shell *>(&(allocator))->FUN_0045cee0(node);
     allocator.count = allocator.count - 1;
@@ -6364,7 +6377,7 @@ struct FUN_00aeac20 : Worker114::FUN_00ae9360_Base
     unsigned int unk1a8;
     unsigned int unk1ac;
     unsigned int unk1b0;
-    unsigned int unk1b4;
+    void* unk1b4;
     unsigned int unk1b8;
     unsigned int unk1bc;
     unsigned int unk1c0;
@@ -6422,7 +6435,7 @@ FUN_00aeac20::FUN_00aeac20(const char* name)
     position218 = ::NiPoint3::ZERO;
     std::memset(&unk1a4, 0, 0x24);
     void* allocation = reinterpret_cast<::MemoryManagerStandIn *>((reinterpret_cast<Allocate114*>(&g_memoryManager)))->FUN_00aa3e40(0x12);
-    unk1b4 = reinterpret_cast<unsigned int>(allocation);
+    unk1b4 = allocation;
     unk1c8 = 0;
     unk20c = 0;
     unk20e = 600;
@@ -6534,7 +6547,7 @@ int __cdecl _strcpy_s(char* dst, size_t size, const char* src);
 
 long FUN_00aeabf0(void* stream, long offset, int whence, int pad);
 
-int __cdecl FUN_00af2290(int param_1);
+long __cdecl FUN_00af2290(void* param_1);
 
 void* __cdecl SndMemCopy(void* dst, const void* src, unsigned int n);
 
@@ -8851,7 +8864,7 @@ void FUN_00aec530_cls::FUN_00aec530()
                 hashA = m_pBinaryStream->uiTailSize;
                 gammaA = m_pBinaryStream->pTail;
                 std::memmove(gammaA, data4, hashA);
-                handleA = (char*)(m_pBinaryStream->uiTailSize + *(volatile unsigned int*)&m_pBinaryStream->pTail);
+                handleA = (char*)*(void* volatile*)&m_pBinaryStream->pTail + m_pBinaryStream->uiTailSize;
                 std::memset(handleA, 0, gap);
                 m_pBinaryStream->uiTailSize = m_pBinaryStream->uiTailSize + gap;
             }

@@ -9,7 +9,7 @@ int CallProcAndAccumulate(void *, int, int, ::FUN_00af2180_cls *);
 // 0x00af2200
 int DispatchHandlerEvent(void *, void *, void *, void *);
 // 0x00af2290
-int FUN_00af2290(int);
+long FUN_00af2290(void *);
 // 0x00af2750
 char FUN_00af2750();
 // 0x00af27c0

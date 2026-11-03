@@ -279,25 +279,12 @@ struct AutoMemHelper
     void* padding;
 };
 
-struct ArrSI
-{
-};
-
-struct DummyPointerMap
-{
-    bool GetAt(unsigned int, unsigned int&);
-};
-
-struct TESGlobalMap
-{
-};
-
 struct Setting;
 
 
-struct SettingCollectionMap
+struct SettingCollectionMap : SettingCollection<Setting>
 {
-    void* padding[67];
+    ::fnv_00853130::NiTMapBase m_kSettingMap;
 
     void AddSetting(Setting*);
 };
@@ -307,17 +294,19 @@ void SettingCollectionMap::AddSetting(Setting* apSetting)
 {
     AutoMemHelper tempMemContext(9, true, ::str_01012220, 539);
 
-    if (apSetting && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apSetting)))->GetName())))
+    if (apSetting && reinterpret_cast<::Twin_0044ddc0*>(apSetting)->GetName())
     {
-        unsigned int key;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(reinterpret_cast<char*>(this) + 0x10c)))->FUN_00853130(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apSetting)))->GetName())), (::fnv_00853130::CombatThreatRecord *&)(key)))
+        ::fnv_00853130::CombatThreatRecord* existing;
+        const char* name = reinterpret_cast<::Twin_0044ddc0*>(apSetting)->GetName();
+        if (m_kSettingMap.FUN_00853130(reinterpret_cast<std::uintptr_t>(name), existing))
         {
-            ::fnv_00c335a0::FUN_00c335a0(str_010121d0, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apSetting)))->GetName())));
+            ::fnv_00c335a0::FUN_00c335a0(str_010121d0, reinterpret_cast<::Twin_0044ddc0*>(apSetting)->GetName());
         }
         else
         {
-            reinterpret_cast<::TMapStandIn *>((reinterpret_cast<TESGlobalMap*>(reinterpret_cast<char*>(this) + 0x10c)))->InsertOrUpdate((unsigned int)(reinterpret_cast<char const*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(apSetting)))->GetName())))),
-                        reinterpret_cast<TESGlobal*>(apSetting));
+            reinterpret_cast<::TMapStandIn*>(&m_kSettingMap)
+                ->InsertOrUpdate(reinterpret_cast<std::uintptr_t>(reinterpret_cast<::Twin_0044ddc0*>(apSetting)->GetName()),
+                                 reinterpret_cast<TESGlobal*>(apSetting));
         }
     }
 }
@@ -348,30 +337,32 @@ struct SettingStore : SettingNode
     bool FUN_008256d0();
     void FUN_005ae3d0(SettingName**);
 };
-struct Registry
+struct Registry : SettingCollection<Setting>
 {
+    BSSimpleList<SettingName*> m_kSettingList;
+
     void AddSettingKey(SettingName*);
 };
 // @fnv 0x0044f770
 void Registry::AddSettingKey(SettingName* key)
 {
     AutoMemHelper scope(9, true, ::g_ac5E0200SourceFile, 765);
-    if (!((SettingStore*)((char*)this + 0x10c))->FUN_008256d0())
+    if (!reinterpret_cast<SettingStore*>(&m_kSettingList)->FUN_008256d0())
     {
-        SettingNode* position = (SettingNode*)((char*)this + 0x10c);
+        BSSimpleList<SettingName*>* position = &m_kSettingList;
         while (position)
         {
-            SettingName* entry = *((::SettingName **)(new ((void *)(position)) ::Vec3()));
-            if (FUN_00404dc0((const char*)reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName(), (const char*)reinterpret_cast<::Twin_0044ddc0 *>((key))->GetName()) == 0)
+            SettingName* entry = position->m_item;
+            if (FUN_00404dc0(reinterpret_cast<::Twin_0044ddc0*>(entry)->GetName(), reinterpret_cast<::Twin_0044ddc0*>(key)->GetName()) == 0)
             {
                 ::fnv_00c335a0::FUN_00c335a0("DEFAULT: Setting key '%s' already used in list.\nSetting keys must be unique.\n",
-                             (const char*)reinterpret_cast<::Twin_0044ddc0 *>((key))->GetName());
+                                             reinterpret_cast<::Twin_0044ddc0*>(key)->GetName());
                 return;
             }
-            position = ((::SettingNode *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
+            position = static_cast<BSSimpleList<SettingName*>*>(reinterpret_cast<::Callees*>(position)->FUN_00726070());
         }
     }
-    ((SettingStore*)((char*)this + 0x10c))->FUN_005ae3d0(&key);
+    reinterpret_cast<SettingStore*>(&m_kSettingList)->FUN_005ae3d0(&key);
 }
 
 

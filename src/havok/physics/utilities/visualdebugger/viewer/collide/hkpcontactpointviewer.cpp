@@ -398,11 +398,11 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
         {
             HkArrayPairBlock* p = (HkArrayPairBlock*)pMemory;
             *(void* volatile*)&p->m_arrA.m_pData = (void*)zero;
-            *(volatile int*)&p->m_arrA.m_iArrayLength = zero;
+            *(volatile int*)&p->m_arrA.m_iArrayLength = 0;
             unsigned int uiCapFlag = 0x80000000u;
             *(volatile unsigned int*)&p->m_arrA.m_uCapFlags = uiCapFlag;
             *(void* volatile*)&p->m_arrB.m_pData = (void*)zero;
-            *(volatile int*)&p->m_arrB.m_iArrayLength = zero;
+            *(volatile int*)&p->m_arrB.m_iArrayLength = 0;
             p->m_arrB.m_uCapFlags = uiCapFlag;
             pPairBlock = p;
         }
@@ -410,7 +410,7 @@ HkDisplayConvexObj* FUN_00de4340_cls::GetOrCreateConvex(HkArrayRaw* a1)
         h = getMemoryRouter();
         pMemory = h->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)pMemory)->m_u04 = 0x60;
-        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)pMemory))) ::FUN_00de1d20((int)(pPairBlock))));
+        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)pMemory))) ::FUN_00de1d20(pPairBlock)));
 
         h = getMemoryRouter();
         if (a1->m_iArrayLength == (int)(a1->m_uCapFlags & 0x3fffffffu))

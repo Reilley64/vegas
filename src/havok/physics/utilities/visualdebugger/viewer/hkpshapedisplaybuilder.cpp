@@ -145,7 +145,7 @@ HkDisplayConvexObj* FUN_00ddfc30_cls::FUN_00ddfc30(HkArrayRaw* apArray)
         pHolder = (HkAllocHolder*)getMemoryRouter();
         mem = pHolder->m_pAllocator->Alloc(0x60);
         ((HkDisplayConvexObj*)mem)->m_u04 = 0x60;
-        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20((int)(pBlock))));
+        m_pConvex = ((::HkDisplayConvexObj *)(new ((void *)(((HkDisplayConvexObj*)mem))) ::FUN_00de1d20(pBlock)));
 
         pHolder = (HkAllocHolder*)getMemoryRouter();
         if (apArray->m_iArrayLength == (int)(apArray->m_uCapFlags & 0x3fffffffu))

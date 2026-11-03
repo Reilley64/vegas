@@ -2261,7 +2261,7 @@ void S65_Self::FUN_00d65ad0(S65_Param* param)
                 param->FUN_00cd2a50(0x1131);
             S65_NewObj* mem = (S65_NewObj*)s65Router().heap().allocate(0x60);
             mem->s04 = (short)0x60;
-            S65_NewObj* obj = ((::S65_NewObj *)(new ((void *)(mem)) ::FUN_00de1d20((int)(a ? a : alt))));
+            S65_NewObj* obj = ((::S65_NewObj *)(new ((void *)(mem)) ::FUN_00de1d20(a ? a : alt)));
             obj->c0.q = _mm_setzero_ps();
             obj->c1.q = _mm_setzero_ps();
             obj->c2.q = _mm_setzero_ps();

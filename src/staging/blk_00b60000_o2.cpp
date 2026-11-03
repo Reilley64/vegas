@@ -2,6 +2,7 @@
 // src/staging/blk_00b60000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include <cstddef>
@@ -2454,12 +2455,12 @@ struct TlsGuard
     int saved;
     TlsGuard()
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 0x1d;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x1d;
     }
     ~TlsGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 
@@ -6359,7 +6360,7 @@ bool __cdecl AddEntriesToAccumulator(B644B0Shape* pkShape, void* pvKey, int iUnu
             for (unsigned int i = 0; i < pkList->m_uiCount; i++)
             {
                 B644B0Entry* pkEntry = pkList->m_ppkEntries[i];
-                pkShape->m_apkAccumulators[(*reinterpret_cast<unsigned int *>(&::DAT_012722bc))]->Add(pkEntry, pkEntry->m_usIndex);
+                pkShape->m_apkAccumulators[::g_tlsBlock.renderThreadIndex]->Add(pkEntry, pkEntry->m_usIndex);
             }
         }
     }
@@ -7818,12 +7819,12 @@ struct MemContextGuard
     int m_iSaved;
     MemContextGuard(int aiMemoryContext)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -8618,12 +8619,12 @@ struct MemoryContextGuard
     int m_iSaved;
     MemoryContextGuard(int aiMemoryContext)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiMemoryContext;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiMemoryContext;
     }
     ~MemoryContextGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -9784,7 +9785,7 @@ bool __cdecl AccumulateRenderPasses(BB63F90Accumulator* pkAccum, int iArg, int i
 
             if (usPassCount)
 
-                pkAccum->m_apkRenderers[(*reinterpret_cast<unsigned int *>(&::DAT_012722bc))]->ShaderPassEntry(pkPass, usPassCount);
+                pkAccum->m_apkRenderers[::g_tlsBlock.renderThreadIndex]->ShaderPassEntry(pkPass, usPassCount);
         }
     }
 
@@ -10144,185 +10145,6 @@ struct RSThreadData
 {
     unsigned int unk00;
 };
-struct TLSData
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00C;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01C;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02C;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03C;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04C;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05C;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06C;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07C;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08C;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09C;
-    unsigned int unk0A0;
-    unsigned int unk0A4;
-    unsigned int unk0A8;
-    unsigned int unk0AC;
-    unsigned int unk0B0;
-    unsigned int unk0B4;
-    unsigned int unk0B8;
-    unsigned int unk0BC;
-    unsigned int unk0C0;
-    unsigned int unk0C4;
-    unsigned int unk0C8;
-    unsigned int unk0CC;
-    unsigned int unk0D0;
-    unsigned int unk0D4;
-    unsigned int unk0D8;
-    unsigned int unk0DC;
-    unsigned int unk0E0;
-    unsigned int unk0E4;
-    unsigned int unk0E8;
-    unsigned int unk0EC;
-    unsigned int unk0F0;
-    unsigned int unk0F4;
-    unsigned int unk0F8;
-    unsigned int unk0FC;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10C;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11C;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12C;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13C;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14C;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15C;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16C;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17C;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18C;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19C;
-    unsigned int unk1A0;
-    unsigned int unk1A4;
-    unsigned int unk1A8;
-    unsigned int unk1AC;
-    unsigned int unk1B0;
-    unsigned int unk1B4;
-    unsigned int unk1B8;
-    unsigned int unk1BC;
-    unsigned int unk1C0;
-    unsigned int unk1C4;
-    unsigned int unk1C8;
-    unsigned int unk1CC;
-    unsigned int unk1D0;
-    unsigned int unk1D4;
-    unsigned int unk1D8;
-    unsigned int unk1DC;
-    unsigned int unk1E0;
-    unsigned int unk1E4;
-    unsigned int unk1E8;
-    unsigned int unk1EC;
-    unsigned int unk1F0;
-    unsigned int unk1F4;
-    unsigned int unk1F8;
-    unsigned int unk1FC;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20C;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21C;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22C;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23C;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24C;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25C;
-    unsigned int unk260;
-    unsigned int unk264;
-    unsigned int unk268;
-    unsigned int unk26C;
-    unsigned int unk270;
-    unsigned int unk274;
-    unsigned int unk278;
-    unsigned int unk27C;
-    unsigned int unk280;
-    unsigned int unk284;
-    unsigned int unk288;
-    unsigned int unk28C;
-    unsigned int unk290;
-    unsigned int unk294;
-    unsigned int unk298;
-    unsigned int unk29C;
-    unsigned int unk2A0;
-    unsigned int unk2A4;
-    unsigned int unk2A8;
-    unsigned int unk2AC;
-    unsigned int unk2B0;
-    unsigned int unk2B4;
-    unsigned int unk2B8;
-    unsigned int m_uiThreadIndex;
-};
 struct RSHelpers
 {
 };
@@ -10339,12 +10161,12 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
         if (pCmd)
         {
             if (pSettings->m_bExtra)
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 12, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 12, 0);
             else
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 11, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 11, 0);
         }
     }
-    RSGroup* pGroup = pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex % pSettings->m_uiGroupCount];
+    RSGroup* pGroup = pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex % pSettings->m_uiGroupCount];
     if (pGroup->IsActive() != pPacket->GetBit(pPacket->m_uiValue1, 0x200))
     {
         if (pGroup->IsActive())
@@ -10379,31 +10201,31 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                     RSCmdOwnerParam* pParam = pOwner->m_pParam ? pOwner->m_pParam : &(*reinterpret_cast<::RSCmdOwnerParam *>(&::g_defaultBound));
                     if (pParam->m_fValue < pSettings->m_iLodLevel)
                     {
-                        reinterpret_cast<::B9B3D0Shader *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->SetupStage((::B9B3D0Pass *)(pCmd), 1);
+                        reinterpret_cast<::B9B3D0Shader *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->SetupStage((::B9B3D0Pass *)(pCmd), 1);
                         break;
                     }
                 }
-                reinterpret_cast<::B9B3D0Shader *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->SetupStage((::B9B3D0Pass *)(pCmd), 0);
+                reinterpret_cast<::B9B3D0Shader *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->SetupStage((::B9B3D0Pass *)(pCmd), 0);
                 break;
             case 2:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 10, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 10, 0);
                 break;
             case 3:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 1, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 1, 0);
                 break;
             case 4:
                 if (pSettings->m_bDecals)
-                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 2, 1);
+                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 2, 1);
                 break;
             case 5:
                 if (pSettings->m_bDecals)
-                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 3, 0);
+                    reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 3, 0);
                 break;
             case 6:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 6, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 6, 0);
                 break;
             case 7:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 8, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 8, 0);
                 break;
             case 8:
             case 9:
@@ -10412,13 +10234,13 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
             case 13:
                 break;
             case 10:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 0, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 0, 0);
                 break;
             case 14:
-                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 9, 0);
+                reinterpret_cast<::FUN_00b9b3b0_class *>((pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]))->DispatchToSlot((uintptr_t)(pCmd), 9, 0);
                 break;
             default:
-                pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]->Submit(pCmd, usId);
+                pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]->Submit(pCmd, usId);
                 break;
             }
         }
@@ -10432,7 +10254,7 @@ bool __cdecl ProcessCommands(RSSettings* pSettings, void* pRef, void* pUnused, R
                     RSCommand* pCmd = pList->m_ppItems[i];
                     if (pSettings->m_bAlt)
                     {
-                        pSettings->m_apGroups[(*reinterpret_cast<::TLSData *>(&::g_tlsBlock)).m_uiThreadIndex]->Submit(pCmd, 0);
+                        pSettings->m_apGroups[::g_tlsBlock.renderThreadIndex]->Submit(pCmd, 0);
                     }
                     else
                     {
@@ -10679,12 +10501,12 @@ struct PoolGuard
     int saved;
     PoolGuard()
     {
-        saved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 32;
+        saved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 32;
     }
     ~PoolGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = saved;
+        ::g_tlsBlock.memoryContext = saved;
     }
 };
 struct PoolGroup
@@ -14584,197 +14406,17 @@ void FUN_00b7deb0_class::FUN_00b7c600()
 namespace fnv_00b60790 {
 #include <intrin.h>
 
-struct ThreadState
-{
-    unsigned int unk000;
-    unsigned int unk004;
-    unsigned int unk008;
-    unsigned int unk00c;
-    unsigned int unk010;
-    unsigned int unk014;
-    unsigned int unk018;
-    unsigned int unk01c;
-    unsigned int unk020;
-    unsigned int unk024;
-    unsigned int unk028;
-    unsigned int unk02c;
-    unsigned int unk030;
-    unsigned int unk034;
-    unsigned int unk038;
-    unsigned int unk03c;
-    unsigned int unk040;
-    unsigned int unk044;
-    unsigned int unk048;
-    unsigned int unk04c;
-    unsigned int unk050;
-    unsigned int unk054;
-    unsigned int unk058;
-    unsigned int unk05c;
-    unsigned int unk060;
-    unsigned int unk064;
-    unsigned int unk068;
-    unsigned int unk06c;
-    unsigned int unk070;
-    unsigned int unk074;
-    unsigned int unk078;
-    unsigned int unk07c;
-    unsigned int unk080;
-    unsigned int unk084;
-    unsigned int unk088;
-    unsigned int unk08c;
-    unsigned int unk090;
-    unsigned int unk094;
-    unsigned int unk098;
-    unsigned int unk09c;
-    unsigned int unk0a0;
-    unsigned int unk0a4;
-    unsigned int unk0a8;
-    unsigned int unk0ac;
-    unsigned int unk0b0;
-    unsigned int unk0b4;
-    unsigned int unk0b8;
-    unsigned int unk0bc;
-    unsigned int unk0c0;
-    unsigned int unk0c4;
-    unsigned int unk0c8;
-    unsigned int unk0cc;
-    unsigned int unk0d0;
-    unsigned int unk0d4;
-    unsigned int unk0d8;
-    unsigned int unk0dc;
-    unsigned int unk0e0;
-    unsigned int unk0e4;
-    unsigned int unk0e8;
-    unsigned int unk0ec;
-    unsigned int unk0f0;
-    unsigned int unk0f4;
-    unsigned int unk0f8;
-    unsigned int unk0fc;
-    unsigned int unk100;
-    unsigned int unk104;
-    unsigned int unk108;
-    unsigned int unk10c;
-    unsigned int unk110;
-    unsigned int unk114;
-    unsigned int unk118;
-    unsigned int unk11c;
-    unsigned int unk120;
-    unsigned int unk124;
-    unsigned int unk128;
-    unsigned int unk12c;
-    unsigned int unk130;
-    unsigned int unk134;
-    unsigned int unk138;
-    unsigned int unk13c;
-    unsigned int unk140;
-    unsigned int unk144;
-    unsigned int unk148;
-    unsigned int unk14c;
-    unsigned int unk150;
-    unsigned int unk154;
-    unsigned int unk158;
-    unsigned int unk15c;
-    unsigned int unk160;
-    unsigned int unk164;
-    unsigned int unk168;
-    unsigned int unk16c;
-    unsigned int unk170;
-    unsigned int unk174;
-    unsigned int unk178;
-    unsigned int unk17c;
-    unsigned int unk180;
-    unsigned int unk184;
-    unsigned int unk188;
-    unsigned int unk18c;
-    unsigned int unk190;
-    unsigned int unk194;
-    unsigned int unk198;
-    unsigned int unk19c;
-    unsigned int unk1a0;
-    unsigned int unk1a4;
-    unsigned int unk1a8;
-    unsigned int unk1ac;
-    unsigned int unk1b0;
-    unsigned int unk1b4;
-    unsigned int unk1b8;
-    unsigned int unk1bc;
-    unsigned int unk1c0;
-    unsigned int unk1c4;
-    unsigned int unk1c8;
-    unsigned int unk1cc;
-    unsigned int unk1d0;
-    unsigned int unk1d4;
-    unsigned int unk1d8;
-    unsigned int unk1dc;
-    unsigned int unk1e0;
-    unsigned int unk1e4;
-    unsigned int unk1e8;
-    unsigned int unk1ec;
-    unsigned int unk1f0;
-    unsigned int unk1f4;
-    unsigned int unk1f8;
-    unsigned int unk1fc;
-    unsigned int unk200;
-    unsigned int unk204;
-    unsigned int unk208;
-    unsigned int unk20c;
-    unsigned int unk210;
-    unsigned int unk214;
-    unsigned int unk218;
-    unsigned int unk21c;
-    unsigned int unk220;
-    unsigned int unk224;
-    unsigned int unk228;
-    unsigned int unk22c;
-    unsigned int unk230;
-    unsigned int unk234;
-    unsigned int unk238;
-    unsigned int unk23c;
-    unsigned int unk240;
-    unsigned int unk244;
-    unsigned int unk248;
-    unsigned int unk24c;
-    unsigned int unk250;
-    unsigned int unk254;
-    unsigned int unk258;
-    unsigned int unk25c;
-    unsigned int unk260;
-    unsigned int unk264;
-    unsigned int unk268;
-    unsigned int unk26c;
-    unsigned int unk270;
-    unsigned int unk274;
-    unsigned int unk278;
-    unsigned int unk27c;
-    unsigned int unk280;
-    unsigned int unk284;
-    unsigned int unk288;
-    unsigned int unk28c;
-    unsigned int unk290;
-    unsigned int unk294;
-    unsigned int unk298;
-    unsigned int unk29c;
-    unsigned int unk2a0;
-    unsigned int unk2a4;
-    unsigned int unk2a8;
-    unsigned int unk2ac;
-    unsigned int unk2b0;
-    unsigned int context;
-};
 struct MemScope
 {
-    ThreadState* state;
-    unsigned int old;
+    int old;
     __forceinline MemScope()
     {
-        unsigned int index = ::DAT_0126fd98;
-        state = ((ThreadState**)__readfsdword(0x2c))[index];
-        old = state->context;
-        state->context = 0x1c;
+        old = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = 0x1c;
     }
     __forceinline ~MemScope()
     {
-        state->context = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 struct PassArray

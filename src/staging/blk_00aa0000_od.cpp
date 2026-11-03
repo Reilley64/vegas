@@ -2,6 +2,7 @@
 // src/staging/blk_00aa0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <windows.h>
 #include <cstdlib>
@@ -4461,7 +4462,7 @@ void* MemoryManagerStandIn::FUN_00aa3e40(unsigned int size)
     {
         size = (size + 3) & ~3;
     }
-    int heapIndex6 = (*reinterpret_cast<int *>(&::currentAllocationContext));
+    int heapIndex6 = ::g_tlsBlock.memoryContext;
     if (usePools)
     {
         PoolStandIn* pool = size <= 0x3fc ? reinterpret_cast<PoolStandIn*>(DAT_011f67b8[size >> 2]) : 0;

@@ -2,6 +2,7 @@
 // src/staging/blk_00460000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -1015,25 +1016,17 @@ void S_00462230::FUN_00462230()
     ::FUN_00401080((int *)(unsigned int *)((unsigned int*)((char*)this + 4)));
 }
 
-struct TlsBlock462480
-{
-    unsigned char pad[0x294];
-    int flag;
-};
-__declspec(thread) TlsBlock462480 g_tls462480;
-extern int __tls_index;
 struct FUN_00462480_Class
 {
     unsigned char FUN_00462480();
 };
-// Returns true when the TLS flag at g_tls462480 has bit 0 clear.
+// Returns true when bit 0 of the thread flags is clear.
 // @fnv 0x00462480
 unsigned char FUN_00462480_Class::FUN_00462480()
 {
-    return ((*reinterpret_cast<::TlsBlock462480 *>(&::g_tlsBlock)).flag & 1) == 0;
+    return (::g_tlsBlock.threadFlags & 1) == 0;
 }
 
-__declspec(thread) unsigned int TLS_PAD[166];
 struct S69570
 {
     unsigned char FUN_00469570();
@@ -1041,7 +1034,7 @@ struct S69570
 // @fnv 0x00469570
 unsigned char S69570::FUN_00469570()
 {
-    return ((*reinterpret_cast<unsigned int (*)[166]>(&::g_tlsBlock))[165] & 2) != 0;
+    return (::g_tlsBlock.threadFlags & 2) != 0;
 }
 
 struct KFModel

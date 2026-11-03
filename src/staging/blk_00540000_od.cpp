@@ -2,6 +2,7 @@
 // src/staging/blk_00540000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -1248,20 +1249,16 @@ FUN_00559ad0_Class::FUN_00559ad0_Class(unsigned short ausCount, unsigned short b
 }
 }  // namespace fnv_00559ad0
 
-__declspec(thread) char g_tls_00551680[0x25e];
-
 // @fnv 0x00551680
 char __cdecl FUN_00551680()
 {
-    return (*reinterpret_cast<char (*)[606]>(&::g_tlsBlock))[0x25d];
+    return ::g_tlsBlock.flag25d;
 }
-
-__declspec(thread) bool g_tlsValue;
 
 // @fnv 0x005516a0
 void __cdecl FUN_005516a0(bool value)
 {
-    g_tlsValue = value;
+    ::g_tlsBlock.flag25d = value;
 }
 
 struct FUN_00556850_Class

@@ -1,5 +1,6 @@
 // staging/blk_00a40000_o2.cpp: Owner, Controller, Arr, ExtraOwner and more (111 functions)
 
+#include "fnv/tls.h"
 #include "generated/data/vtables.h"
 #include <windows.h>
 #include <string.h>
@@ -5585,7 +5586,6 @@ NiSequence* NiSequence::FUN_00a47bd0(const char* pcName, unsigned int uiArraySiz
     return this;
 }
 
-extern "C" unsigned long __readfsdword(unsigned long);
 extern unsigned int DAT_011f42c8;
 extern unsigned int DAT_011f42c4;
 
@@ -5598,14 +5598,12 @@ struct ThreadedTable
     void FUN_00a5b5a0(const char** key, unsigned int flags);
 };
 
-// Temporarily sets per-thread field 0x2b4 to 8; under the lock calls FUN_00a5b4b0 on the entry indexed by FUN_00a5b270 and updates two counters.
+// Temporarily sets the thread's memory context to 8; under the lock calls FUN_00a5b4b0 on the entry indexed by FUN_00a5b270 and updates two counters.
 // @fnv 0x00a5b5a0
 void ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
 {
-    unsigned int tlsIndex = (*reinterpret_cast<volatile unsigned long *>(&::DAT_0126fd98));
-    unsigned char* threadData = reinterpret_cast<unsigned char**>(__readfsdword(0x2c))[tlsIndex];
-    const unsigned int previousMode = *reinterpret_cast<unsigned int*>(threadData + 0x2b4);
-    *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = 8;
+    const int previousMode = ::g_tlsBlock.memoryContext;
+    ::g_tlsBlock.memoryContext = 8;
 
     unsigned int index = ::FUN_00a5b270((const char *)(*key), (unsigned int)(flags));
     CRITICAL_SECTION_STUB* criticalSection =
@@ -5619,7 +5617,7 @@ void ThreadedTable::FUN_00a5b5a0(const char** key, unsigned int flags)
     reinterpret_cast<::CharPtrArr *>((reinterpret_cast<ThreadedTableEntry*>(reinterpret_cast<char*>(this) + entryOffset)))->FUN_00a5b4b0((*(char * *)(key)));
     ++DAT_011f42c4;
     LeaveCriticalSection(criticalSection);
-    *reinterpret_cast<unsigned int*>(threadData + 0x2b4) = previousMode;
+    ::g_tlsBlock.memoryContext = previousMode;
 }
 
 struct FUN_00a5d310_Class

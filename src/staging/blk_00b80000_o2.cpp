@@ -2,6 +2,7 @@
 // src/staging/blk_00b80000_o2.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
+#include "fnv/tls.h"
 #include <cstdint>
 #include <new>
 #include <windows.h>
@@ -2305,21 +2306,18 @@ struct GlobalObjectO2_00b8a9e0
     ~GlobalObjectO2_00b8a9e0();
     void* DestroyAndFree(bool);
 };
-__declspec(thread) int g_tls_2b4 = 59;
 struct FUN_00b8cad0_class
 {
     void SetValue(int value);
 };
-// Stores value at offset 0xac of this object, saving and restoring the thread-local g_tls_2b4 around the write.
+// Stores value at offset 0xac of this object, saving and restoring the thread's memory context around the write.
 // @fnv 0x00b8cad0
 void FUN_00b8cad0_class::SetValue(int value)
 {
-    int old = (*reinterpret_cast<int *>(&::currentAllocationContext));
+    int old = ::g_tlsBlock.memoryContext;
     *(int*)((char*)this + 0xac) = value;
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+    ::g_tlsBlock.memoryContext = old;
 }
-
-extern int __tls_index;
 
 struct FUN_00b8cb00_class
 {
@@ -2328,14 +2326,13 @@ struct FUN_00b8cb00_class
     void FUN_00b8cb00(int value);
 };
 
-// Stores value into m_00b0 and re-reads/writes the thread-local tlsValue.
+// Stores value into m_00b0, saving and restoring the thread's memory context.
 // @fnv 0x00b8cb00
 void FUN_00b8cb00_class::FUN_00b8cb00(int value)
 {
-    static __declspec(thread) volatile int tlsValue = 59;
-    int iTlsValue = tlsValue;
+    int iTlsValue = ::g_tlsBlock.memoryContext;
     m_00b0 = value;
-    tlsValue = iTlsValue;
+    ::g_tlsBlock.memoryContext = iTlsValue;
 }
 
 void FUN_00c03a20();
@@ -3132,7 +3129,6 @@ void B8C690Shader::ClearTextures()
     m_spTexture3 = 0;
 }
 
-extern __declspec(thread) int g_tls_2b4;
 struct FUN_00b8cc20_class
 {
     void AccumulateComponentValues(int mode, int component, const float* values, float scale);
@@ -3141,8 +3137,8 @@ struct FUN_00b8cc20_class
 // @fnv 0x00b8cc20
 void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, const float* values, float scale)
 {
-    int previousContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = 39;
+    int previousContext = ::g_tlsBlock.memoryContext;
+    ::g_tlsBlock.memoryContext = 39;
     int index = 0;
     float* destination = (float*)((char*)this + component * 4 + 0xb4);
     do
@@ -3162,7 +3158,7 @@ void FUN_00b8cc20_class::AccumulateComponentValues(int mode, int component, cons
         ++index;
         destination += 38;
     } while (index < 2);
-    (*reinterpret_cast<int *>(&::currentAllocationContext)) = previousContext;
+    ::g_tlsBlock.memoryContext = previousContext;
 }
 
 extern int DAT_010b0674;
@@ -11353,13 +11349,13 @@ struct Input
 struct TagGuard
 {
     int old;
-    TagGuard() : old((*reinterpret_cast<int *>(&::currentAllocationContext)))
+    TagGuard() : old(::g_tlsBlock.memoryContext)
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = 32;
+        ::g_tlsBlock.memoryContext = 32;
     }
     ~TagGuard()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = old;
+        ::g_tlsBlock.memoryContext = old;
     }
 };
 struct Target
@@ -11389,12 +11385,12 @@ struct AllocTagScopeB8C
 
     AllocTagScopeB8C(int aiAllocationTag)
     {
-        m_iSaved = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiAllocationTag;
+        m_iSaved = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiAllocationTag;
     }
     ~AllocTagScopeB8C()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = m_iSaved;
+        ::g_tlsBlock.memoryContext = m_iSaved;
     }
 };
 
@@ -11584,12 +11580,12 @@ struct ScopedMemoryContext
     int iOldContext;
     ScopedMemoryContext(int aiContext)
     {
-        iOldContext = (*reinterpret_cast<int *>(&::currentAllocationContext));
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = aiContext;
+        iOldContext = ::g_tlsBlock.memoryContext;
+        ::g_tlsBlock.memoryContext = aiContext;
     }
     ~ScopedMemoryContext()
     {
-        (*reinterpret_cast<int *>(&::currentAllocationContext)) = iOldContext;
+        ::g_tlsBlock.memoryContext = iOldContext;
     }
 };
 struct ImageSpaceTexture
@@ -15202,11 +15198,11 @@ char Self_b89970::FUN_00b89970()
 
 inline unsigned int GetMemContextB979()
 {
-    return ::currentAllocationContext;
+    return ::g_tlsBlock.memoryContext;
 }
 inline void SetMemContextB979(unsigned int m_uiGeometryShaderFlags)
 {
-    ::currentAllocationContext = m_uiGeometryShaderFlags;
+    ::g_tlsBlock.memoryContext = m_uiGeometryShaderFlags;
 }
 class AutoMemContextB979
 {

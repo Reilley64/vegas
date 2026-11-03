@@ -20,7 +20,7 @@ int CallWithDefaults(void *, int, int);
 // 0x00d1d4d0
 int FUN_00d1d4d0(void *, void *, void *, void *);
 // 0x00d1d500
-int FUN_00d1d500(void *, int, int);
+int FUN_00d1d500(void *, const void *, void *);
 // 0x00d1d530
 extern "C" void FUN_00d1d530();
 // 0x00d1d540

@@ -298,17 +298,25 @@ float DF6A60CastCollector::LinearCastAgainst(const DF6A60Collidable* collidableB
 // GetHelperResultForOffset: thiscall member that forwards a byte-adjusted pointer to a
 // sibling thiscall helper (the helper receives `this` in ecx and pops its
 // single stack argument).
+// hkpTypedBroadPhaseHandle: m_ownerOffset is the signed distance from the handle to its collidable.
+struct DF6AF0Handle
+{
+    int m_id;
+    signed char m_type;
+    signed char m_ownerOffset;
+};
+
 struct FUN_00df6af0_cls
 {
-    float GetHelperResultForOffset(int a1, int a2);
+    float GetHelperResultForOffset(const DF6AF0Handle* a1, int a2);
 };
 
 // @fnv 0x00df6af0
-float FUN_00df6af0_cls::GetHelperResultForOffset(int aiBase, int aiUnused)
+float FUN_00df6af0_cls::GetHelperResultForOffset(const DF6AF0Handle* aiBase, int aiUnused)
 {
-    signed char c = *(signed char*)(aiBase + 5);
-    int v = c + aiBase;
-    return reinterpret_cast<::DF6A60CastCollector *>((this))->LinearCastAgainst((const ::DF6A60Collidable *)(v));
+    signed char c = aiBase->m_ownerOffset;
+    const char* v = reinterpret_cast<const char*>(aiBase) + c;
+    return reinterpret_cast<::DF6A60CastCollector *>((this))->LinearCastAgainst(reinterpret_cast<const ::DF6A60Collidable *>(v));
 }
 
 struct SiblingCls_df6a60
@@ -317,13 +325,13 @@ struct SiblingCls_df6a60
 
 struct FUN_00df6b30_cls
 {
-    unsigned char* FUN_00df6b30(unsigned char* out, int a);
+    unsigned char* FUN_00df6b30(unsigned char* out, const void* a);
 };
 
 // @fnv 0x00df6b30
-unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, int a)
+unsigned char* FUN_00df6b30_cls::FUN_00df6b30(unsigned char* out, const void* a)
 {
-    reinterpret_cast<::DF6A60CastCollector *>((((SiblingCls_df6a60*)((char*)this - 8))))->LinearCastAgainst((const ::DF6A60Collidable *)(a));
+    reinterpret_cast<::DF6A60CastCollector *>((((SiblingCls_df6a60*)((char*)this - 8))))->LinearCastAgainst(static_cast<const ::DF6A60Collidable *>(a));
     *out = 0;
     return out;
 }
@@ -1067,256 +1075,6 @@ ShapeSweepParameters::ShapeSweepParameters()
 {
 m_fMaxExtraPenetration=1.192092896e-07F;
 }
-extern "C"{
-typedef unsigned long ULONG;
-typedef unsigned long DWORD;
-typedef unsigned char BYTE;
-typedef unsigned short WORD;
-typedef void*LPVOID;
-extern "C"{
-typedef void*PVOID;
-typedef char CHAR;
-typedef long LONG;
-typedef wchar_t WCHAR;
-typedef const WCHAR*LPCWSTR,*PCWSTR;
-typedef unsigned __int64 ULONGLONG;
-typedef union _ULARGE_INTEGER{
-struct{
-DWORD LowPart;
-DWORD HighPart;
-};
-struct{
-DWORD LowPart;
-DWORD HighPart;
-}u;
-ULONGLONG QuadPart;
-}ULARGE_INTEGER;
-typedef struct _LUID{
-DWORD LowPart;
-LONG HighPart;
-}LUID,*PLUID;
-typedef struct _LIST_ENTRY{
-struct _LIST_ENTRY*Flink;
-struct _LIST_ENTRY*Blink;
-}LIST_ENTRY,*PLIST_ENTRY,*PRLIST_ENTRY;
-typedef struct LIST_ENTRY32{
-DWORD Flink;
-DWORD Blink;
-}LIST_ENTRY32;
-typedef struct LIST_ENTRY64{
-ULONGLONG Flink;
-ULONGLONG Blink;
-}LIST_ENTRY64;
-typedef struct _GUID{
-unsigned long Data1;
-unsigned short Data2;
-unsigned short Data3;
-unsigned char Data4[8];
-}GUID;
-extern "C"{
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-extern "C++"{}
-}
-typedef struct _WOW64_FLOATING_SAVE_AREA{
-DWORD ControlWord;
-DWORD StatusWord;
-DWORD TagWord;
-DWORD ErrorOffset;
-DWORD ErrorSelector;
-DWORD DataOffset;
-DWORD DataSelector;
-BYTE RegisterArea[80];
-DWORD Cr0NpxState;
-}WOW64_FLOATING_SAVE_AREA;
-typedef struct _WOW64_CONTEXT{
-DWORD ContextFlags;
-DWORD Dr0;
-DWORD Dr1;
-DWORD Dr2;
-DWORD Dr3;
-DWORD Dr6;
-DWORD Dr7;
-WOW64_FLOATING_SAVE_AREA FloatSave;
-DWORD SegGs;
-DWORD SegFs;
-DWORD SegEs;
-DWORD SegDs;
-DWORD Edi;
-DWORD Esi;
-DWORD Ebx;
-DWORD Edx;
-DWORD Ecx;
-DWORD Eax;
-DWORD Ebp;
-DWORD Eip;
-DWORD SegCs;
-DWORD EFlags;
-DWORD Esp;
-DWORD SegSs;
-BYTE ExtendedRegisters[512];
-}WOW64_CONTEXT;
-typedef DWORD ACCESS_MASK;
-typedef struct _GENERIC_MAPPING{
-ACCESS_MASK GenericRead;
-ACCESS_MASK GenericWrite;
-ACCESS_MASK GenericExecute;
-ACCESS_MASK GenericAll;
-}GENERIC_MAPPING;
-typedef struct _LUID_AND_ATTRIBUTES{
-LUID Luid;
-DWORD Attributes;
-}SID_AND_ATTRIBUTES,*PSID_AND_ATTRIBUTES;
-typedef enum{
-LT_DONT_CARE,
-LT_LOWEST_LATENCY
-}BATTERY_REPORTING_SCALE,*PBATTERY_REPORTING_SCALE;
-typedef struct _IMAGE_THUNK_DATA64{
-union{
-ULONGLONG ForwarderString;
-ULONGLONG Function;
-ULONGLONG Ordinal;
-ULONGLONG AddressOfData;
-}u1;
-}IMAGE_THUNK_DATA64;
-typedef struct _IMAGE_THUNK_DATA32{
-union{
-DWORD ForwarderString;
-DWORD Function;
-DWORD Ordinal;
-DWORD AddressOfData;
-}u1;
-}IMAGE_BOUND_IMPORT_DESCRIPTOR,*PIMAGE_BOUND_IMPORT_DESCRIPTOR;
-typedef struct _OSVERSIONINFOA{
-DWORD dwOSVersionInfoSize;
-DWORD dwMajorVersion;
-DWORD dwMinorVersion;
-DWORD dwBuildNumber;
-DWORD dwPlatformId;
-CHAR szCSDVersion[128];
-}OSVERSIONINFOA,*POSVERSIONINFOA,*LPOSVERSIONINFOA;
-typedef struct _OSVERSIONINFOEXA{
-DWORD dwOSVersionInfoSize;
-DWORD dwMajorVersion;
-DWORD dwMinorVersion;
-DWORD dwBuildNumber;
-DWORD dwPlatformId;
-CHAR szCSDVersion[128];
-WORD wServicePackMajor;
-WORD wServicePackMinor;
-WORD wSuiteMask;
-BYTE wProductType;
-BYTE wReserved;
-}OSVERSIONINFOEXA,*POSVERSIONINFOEXA,*LPOSVERSIONINFOEXA;
-typedef struct _OSVERSIONINFOEXW{
-DWORD dwOSVersionInfoSize;
-DWORD dwMajorVersion;
-DWORD dwMinorVersion;
-DWORD dwBuildNumber;
-DWORD dwPlatformId;
-WCHAR szCSDVersion[128];
-WORD wServicePackMajor;
-WORD wServicePackMinor;
-WORD wSuiteMask;
-BYTE wProductType;
-BYTE wReserved;
-}OSVERSIONINFOEXW,*POSVERSIONINFOEXW,*LPOSVERSIONINFOEXW,RTL_OSVERSIONINFOEXW,*PRTL_OSVERSIONINFOEXW;
-typedef struct _RTL_CRITICAL_SECTION_DEBUG{
-WORD Type;
-WORD CreatorBackTraceIndex;
-struct _RTL_CRITICAL_SECTION*CriticalSection;
-LIST_ENTRY ProcessLocksList;
-DWORD EntryCount;
-DWORD ContentionCount;
-DWORD Flags;
-WORD CreatorBackTraceIndexHigh;
-WORD SpareWORD;
-}RTL_CRITICAL_SECTION,*PRTL_CRITICAL_SECTION;
-typedef struct _RTL_SRWLOCK{
-PVOID Ptr;
-}RTL_CONDITION_VARIABLE,*PRTL_CONDITION_VARIABLE;
-typedef struct _ASSEMBLY_FILE_DETAILED_INFORMATION{
-DWORD ulFlags;
-DWORD ulFilenameLength;
-DWORD ulPathLength;
-PCWSTR lpFileName;
-PCWSTR lpFilePath;
-}TAPE_DRIVE_PROBLEM_TYPE;
-extern "C"{
-extern "C"{
-typedef ULONG SAVEPOINT_ID,*PSAVEPOINT_ID;
-typedef struct _TRANSACTION_NOTIFICATION_SAVEPOINT_ARGUMENT{
-SAVEPOINT_ID SavepointId;
-}TRANSACTION_NOTIFICATION_PROPAGATE_ARGUMENT,*PTRANSACTION_NOTIFICATION_PROPAGATE_ARGUMENT;
-typedef struct _TRANSACTION_NOTIFICATION_MARSHAL_ARGUMENT{
-ULONG MarshalCookie;
-GUID UOW;
-}TRANSACTION_NOTIFICATION_MARSHAL_ARGUMENT,*PTRANSACTION_NOTIFICATION_MARSHAL_ARGUMENT;}
-}
-}
-typedef struct _RECTL
-{
-LONG left;
-LONG top;
-LONG right;
-LONG bottom;
-}RECTL,*PRECTL,*LPRECTL;
-typedef struct tagPOINT
-{
-LONG x;
-LONG y;
-}FILETIME,*PFILETIME,*LPFILETIME;}
-extern "C"{
-typedef RTL_CRITICAL_SECTION CRITICAL_SECTION;
-typedef struct _DCB{
-DWORD DCBlength;
-DWORD BaudRate;
-DWORD fBinary:1;
-DWORD fParity:1;
-DWORD fOutxCtsFlow:1;
-DWORD fOutxDsrFlow:1;
-DWORD fDtrControl:2;
-DWORD fDsrSensitivity:1;
-DWORD fTXContinueOnXoff:1;
-DWORD fOutX:1;
-DWORD fInX:1;
-DWORD fErrorChar:1;
-DWORD fNull:1;
-DWORD fRtsControl:2;
-DWORD fAbortOnError:1;
-DWORD fDummy2:17;
-WORD wReserved;
-WORD XonLim;
-WORD XoffLim;
-BYTE ByteSize;
-BYTE Parity;
-BYTE StopBits;
-char XonChar;
-char XoffChar;
-char ErrorChar;
-char EofChar;
-char EvtChar;
-WORD wReserved1;
-}JIT_DEBUG_INFO,*LPJIT_DEBUG_INFO;
-}
 class PhysicsSimulationContext
 {
 public:
@@ -1855,11 +1613,11 @@ broadphase->CollectAabbCastResults(aabb,&broadPhaseCollector);
 }
 if(aabbTreeInt)
 {
-::FUN_00d1d500((void *)(aabbTreeInt),(int)&(aabb),(int)(&broadPhaseCollector));
+::FUN_00d1d500((void *)(aabbTreeInt),&aabb,&broadPhaseCollector);
 }
 if(kdTree)
 {
-::FUN_00d1b9b0((::QueryObj *)(kdTree),(int)&(aabb),(int)(&broadPhaseCollector));
+::FUN_00d1b9b0((::QueryObj *)(kdTree),&aabb,&broadPhaseCollector);
 }
 }
 command->m_iResultCapacity=castCollector.m_iPointCount;

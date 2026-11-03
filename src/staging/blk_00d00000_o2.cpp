@@ -1652,7 +1652,7 @@ typedef void*(* S00d1b9b0_TlsGet)(unsigned long dwTlsIndex);
 
 // Records a TtqueryAabb timer, calls FUN_00d1b4d0 with the query AABB and count, then records an Et timer.
 // @fnv 0x00d1b9b0
-void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
+void __cdecl FUN_00d1b9b0(QueryObj* pQuery, const void* p1, void* p2)
 {
     volatile unsigned int tick;
     S00d1b9b0_TlsGet pfnTls = TlsGetValue;
@@ -1675,7 +1675,7 @@ void __cdecl FUN_00d1b9b0(QueryObj* pQuery, int p1, int p2)
     int count = pQuery->unk0c;
     if (count <= 0)
         count = 0x80;
-    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(a), (::S00d1b4d0_Entry *)(b), (*(const ::RealVec *)(&vExtent)), (*(const ::RealVec *)(&vMin)), (::S00d1b4d0_Bounds *)(p1), count, (::S00d1b4d0_List *)(0), (::S00d1b4d0_Callback *)(p2), (unsigned int **)(0), 0);
+    ::FUN_00d1b4d0((::S00d1b4d0_Node *)(a), (::S00d1b4d0_Entry *)(b), (*(const ::RealVec *)(&vExtent)), (*(const ::RealVec *)(&vMin)), (::S00d1b4d0_Bounds *)(p1), count, (::S00d1b4d0_List *)(0), static_cast<::S00d1b4d0_Callback *>(p2), (unsigned int **)(0), 0);
 
     pBuf = (HkTimer*)pfnTls((*reinterpret_cast<unsigned int *>(&::DAT_0126835c)));
     if (pBuf->head < pBuf->end)

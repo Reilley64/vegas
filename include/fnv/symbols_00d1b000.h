@@ -28,7 +28,7 @@ void FUN_00d1b850(::QueryObj *, int, int);
 // 0x00d1b930
 void FUN_00d1b930(::S00d1b7f0_Input *, int, int, int);
 // 0x00d1b9b0
-void FUN_00d1b9b0(::QueryObj *, int, int);
+void FUN_00d1b9b0(::QueryObj *, const void *, void *);
 // 0x00d1bad0
 float FUN_00d1bad0(float *, float *);
 // 0x00d1bb50

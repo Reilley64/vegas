@@ -122,21 +122,16 @@ FUN_00d5e850_Class* FUN_00d5e850_Class::Destroy(int flags)
     return this;
 }
 
-struct FUN_00d5e0f0_cls
+// The convex list shape's layout: the convex shape, then the shape container interface (+0x14 in the 32-bit build).
+struct FUN_00d5e0f0_cls : public hkpConvexShape, public hkpShapeContainer
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-
     char* FUN_00d5e0f0();
 };
 
 // @fnv 0x00d5e0f0
 char* FUN_00d5e0f0_cls::FUN_00d5e0f0()
 {
-    return this != 0 ? (char*)this + 0x14 : 0;
+    return this != 0 ? reinterpret_cast<char*>(static_cast<hkpShapeContainer*>(this)) : 0;
 }
 
 // @fnv 0x00d5e0d0

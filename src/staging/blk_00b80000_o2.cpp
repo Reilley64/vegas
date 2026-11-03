@@ -401,13 +401,18 @@ int* FUN_00b8dfe0_class::FUN_00b8dfe0(bool abFree)
     return (int*)this;
 }
 
+extern int DAT_010b1340;
+extern int DAT_010b1320;
+
 namespace fnv_00b8e020 {
 struct ImageSpaceEffectShader
 {
     ImageSpaceEffectShader();
     ~ImageSpaceEffectShader();
     void* m_vft;
-    int m_6c;
+    char pad04[0x6c - 0x4];
+    void* m_6c;
+    char pad70[0x94 - 0x70];
     struct TextureArray
     {
         void SetSize(unsigned int n);
@@ -420,14 +425,12 @@ struct FUN_00b8e020 : ImageSpaceEffectShader
 // @fnv 0x00b8e020
 FUN_00b8e020::FUN_00b8e020()
 {
-    m_vft = (void*)0x010b1340;
-    ((int*)this)[0x1b] = (int)0x010b1320;
-    reinterpret_cast<::FUN_00a41520_cls *>((((TextureArray*)((char*)this + 0x94))))->FUN_00a90180(2);
+    m_vft = (void*)&::DAT_010b1340;
+    m_6c = (void*)&::DAT_010b1320;
+    reinterpret_cast<::FUN_00a41520_cls *>(&m_tex)->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8e020
 
-extern int DAT_010b1340;
-extern int DAT_010b1320;
 void FUN_00c03a20();
 struct FUN_00b8e130_class
 {
@@ -505,7 +508,9 @@ struct ImageSpaceEffectShader
 
 struct FUN_00b8ee20_class : ImageSpaceEffectShader
 {
-    char pad[0x94 - sizeof(ImageSpaceEffectShader)];
+    char pad00[0x6c];
+    void* unk6c;
+    char pad70[0x94 - 0x70];
     struct
     {
         unsigned int size;
@@ -520,7 +525,7 @@ struct FUN_00b8ee20_class : ImageSpaceEffectShader
 FUN_00b8ee20_class::FUN_00b8ee20_class()
 {
     *(void**)this = (void*)&::DAT_010b2140;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b211c;
+    unk6c = (void*)&::DAT_010b211c;
     reinterpret_cast<::FUN_00a41520_cls *>(&(textures))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8ee20
@@ -821,13 +826,17 @@ struct FUN_00b8fbe0 : public ImageSpaceEffectShader
     FUN_00b8fbe0();
     char pad00[0x6c];
     void * unk6c;
+    char pad70[0x94 - 0x70];
+    struct TextureArray
+    {
+    } unk94;
 };
 // @fnv 0x00b8fbe0
 FUN_00b8fbe0::FUN_00b8fbe0()
 {
     *(void**)this = (void*)&::DAT_010b30e0;
     this->unk6c = (void*)&::DAT_010b30c0;
-    reinterpret_cast<::FUN_00a41520_cls *>((((FUN_00b8fbe0*)((char*)this + 0x94))))->FUN_00a90180(2);
+    reinterpret_cast<::FUN_00a41520_cls *>(&unk94)->FUN_00a90180(2);
 }
 }  // namespace fnv_00b8fbe0
 
@@ -1029,6 +1038,10 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 };
 struct FUN_00b917c0 : public ImageSpaceEffectShader
 {
+    char pad04[0x6c - sizeof(ImageSpaceEffectShader)];
+    void* unk6c;
+    char pad70[0x94 - 0x70];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
     FUN_00b917c0();
     ~FUN_00b917c0();
 };
@@ -1036,8 +1049,8 @@ struct FUN_00b917c0 : public ImageSpaceEffectShader
 FUN_00b917c0::FUN_00b917c0()
 {
     vtbl = (void*)&::DAT_010b4de8;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b4dc8;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(2);
+    unk6c = (void*)&::DAT_010b4dc8;
+    reinterpret_cast<::FUN_00a41520_cls *>(&unk94)->FUN_00a90180(2);
 }
 }  // namespace fnv_00b917c0
 
@@ -1130,7 +1143,7 @@ struct ImageSpaceEffectShader
 {
     ImageSpaceEffectShader();
     ~ImageSpaceEffectShader();
-    int f0;
+    int* f0;
     int f4;
     int f8;
     int fc;
@@ -1157,7 +1170,7 @@ struct ImageSpaceEffectShader
     int f60;
     int f64;
     int f68;
-    int f6c;
+    int* f6c;
     int f70;
     int f74;
     int f78;
@@ -1210,8 +1223,8 @@ struct FUN_00b91e40 : ImageSpaceEffectShader
 // @fnv 0x00b91e40
 FUN_00b91e40::FUN_00b91e40()
 {
-    *reinterpret_cast<int**>(this) = &::DAT_010b5640;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &::DAT_010b5620;
+    f0 = &::DAT_010b5640;
+    f6c = &::DAT_010b5620;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->f94)))->FUN_00a90180(2);
 }
 }  // namespace fnv_00b91e40
@@ -1749,15 +1762,19 @@ struct NiTPrimitiveArray_ImageSpaceTexture___
 };
 struct FUN_00b93bf0 : public ImageSpaceEffectShader
 {
+    char pad04[0x6c - sizeof(ImageSpaceEffectShader)];
+    void* unk6c;
+    char pad70[0x94 - 0x70];
+    NiTPrimitiveArray_ImageSpaceTexture___ unk94;
     FUN_00b93bf0();
 };
-// Initializes two pointers at offsets 0x0 and 0x6c and sets the primitive array at offset 0x94 to size 4.
+// Initializes the two vtable pointers and sets the texture array to size 4.
 // @fnv 0x00b93bf0
 FUN_00b93bf0::FUN_00b93bf0()
 {
     m_ppVirtualMethodTable = (void*)&::DAT_010b7278;
-    *(void**)((char*)this + 0x6c) = (void*)&::DAT_010b7258;
-    reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)((char*)this + 0x94))))->FUN_00a90180(4);
+    unk6c = (void*)&::DAT_010b7258;
+    reinterpret_cast<::FUN_00a41520_cls *>(&unk94)->FUN_00a90180(4);
 }
 }  // namespace fnv_00b93bf0
 
@@ -1982,6 +1999,11 @@ FUN_00b944e0_class* FUN_00b944e0_class::FUN_00b944e0(bool abFree)
     return this;
 }
 
+struct FUN_00b9cfd0_Ref
+{
+    void** vtbl;
+    long m_lRefCount;
+};
 struct FUN_00b9cfd0_class
 {
     char pad00[0x1a0];
@@ -1997,18 +2019,22 @@ void FUN_00b9cfd0_class::AssignRefCounted(void* apObject)
     {
         if (old)
         {
-            if (InterlockedDecrement((volatile long*)((char*)old + 4)) == 0)
-                ((void(**)(void*)) * (void**)((char*)old + 0))[1](old);
+            if (InterlockedDecrement(&((FUN_00b9cfd0_Ref*)old)->m_lRefCount) == 0)
+                ((void(*)(void*))((FUN_00b9cfd0_Ref*)old)->vtbl[1])(old);
         }
         this->unk1a0 = apObject;
         if (apObject)
-            InterlockedIncrement((volatile long*)((char*)apObject + 4));
+            InterlockedIncrement(&((FUN_00b9cfd0_Ref*)apObject)->m_lRefCount);
     }
 }
 
 struct NiRenderer
 {
     void* vtbl;
+    char pad004[0x288 - 0x4];
+    void* m_pkD3DDevice;
+    char pad28c[0x8b8 - 0x28c];
+    void* m_pkRenderState;
 public:
     static ::NiRenderer *ms_pRenderer;
 };
@@ -2019,20 +2045,18 @@ extern unsigned int DAT_011ffd30;
 // @fnv 0x00b983d0
 void __cdecl FUN_00b983d0(int a, int b, int c, int d)
 {
+    typedef void(* SetStateFn)(void*, unsigned int, int, int, int);
     unsigned int e = DAT_011ffd28;
     if (DAT_011ff9d8[e] == 0)
-        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
-            void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xbe, a, 0, 0);
+        ((SetStateFn)(*(void***)::DAT_011f9508->m_pkRenderState)[26])(::DAT_011f9508->m_pkRenderState, 0xbe, a, 0, 0);
     DAT_011ff9d8[e] += d;
     e = DAT_011ffd2c;
     if (DAT_011ff9d8[e] == 0)
-        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
-            void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xbf, b, 0, 0);
+        ((SetStateFn)(*(void***)::DAT_011f9508->m_pkRenderState)[26])(::DAT_011f9508->m_pkRenderState, 0xbf, b, 0, 0);
     DAT_011ff9d8[e] += d;
     e = DAT_011ffd30;
     if (DAT_011ff9d8[e] == 0)
-        ((void(*)(void*, unsigned int, int, int, int))(*(void***)*(
-            void**)((char*)::DAT_011f9508 + 0x8b8))[0x68 / 4])(*(void**)((char*)::DAT_011f9508 + 0x8b8), 0xc0, c, 0, 0);
+        ((SetStateFn)(*(void***)::DAT_011f9508->m_pkRenderState)[26])(::DAT_011f9508->m_pkRenderState, 0xc0, c, 0, 0);
     DAT_011ff9d8[e] += d;
 }
 
@@ -2134,7 +2158,10 @@ FUN_00b8ded0::FUN_00b8ded0()
 
 struct FUN_00b8e170 : ImageSpaceEffectShader
 {
-    char m_00b8e170[0x95 - sizeof(ImageSpaceEffectShader)];
+    void* m_vft;
+    char pad04[0x6c - 0x4];
+    void* unk6c;
+    char pad70[0x94 - 0x70];
     NiTPrimitiveArray_ImageSpaceTexture___ m_00b8e204;
     FUN_00b8e170();
 };
@@ -2142,8 +2169,8 @@ struct FUN_00b8e170 : ImageSpaceEffectShader
 // @fnv 0x00b8e170
 FUN_00b8e170::FUN_00b8e170()
 {
-    *(void**)((char*)this + 0x0) = (void*)&DAT_010b14c0;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b14a0;
+    m_vft = (void*)&DAT_010b14c0;
+    unk6c = (void*)&DAT_010b14a0;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_00b8e204))->FUN_00a90180(2);
 }
 
@@ -2167,16 +2194,19 @@ FUN_00b8efa0::FUN_00b8efa0()
 
 struct FUN_00b8f010_class : ImageSpaceEffectShader
 {
-    char m_00[0x94];
+    void* m_vft;
+    char pad04[0x6c - 0x4];
+    void* unk6c;
+    char pad70[0x94 - 0x70];
     NiTPrimitiveArray_ImageSpaceTexture___ m_094;
     FUN_00b8f010_class();
 };
-// Initialises the vtable pointers at offsets 0 and 0x6c and sets the texture array at 0x94 to size 2.
+// Initialises the two vtable pointers and sets the texture array to size 2.
 // @fnv 0x00b8f010
 FUN_00b8f010_class::FUN_00b8f010_class()
 {
-    *(void**)this = (void*)&DAT_010b2308;
-    *(void**)((char*)this + 0x6c) = (void*)&DAT_010b22e8;
+    m_vft = (void*)&DAT_010b2308;
+    unk6c = (void*)&DAT_010b22e8;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_094))->FUN_00a90180(2);
 }
 
@@ -2468,51 +2498,18 @@ extern int DAT_010b7bf0;
 extern int DAT_010b7bcc;
 struct FUN_00b943d0_class : public ImageSpaceEffectShader
 {
-    int m_04;
-    int m_08;
-    int m_0c;
-    int m_10;
-    int m_14;
-    int m_18;
-    int m_1c;
-    int m_20;
-    int m_24;
-    int m_28;
-    int m_2c;
-    int m_30;
-    int m_34;
-    int m_38;
-    int m_3c;
-    int m_40;
-    int m_44;
-    int m_48;
-    int m_4c;
-    int m_50;
-    int m_54;
-    int m_58;
-    int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
-    int m_74;
-    int m_78;
-    int m_7c;
-    int m_80;
-    int m_84;
-    int m_88;
-    int m_8c;
-    int m_90;
-    int m_94;
+    int* m_vft;
+    char pad04[0x6c - 0x4];
+    int* unk6c;
+    char pad70[0x94 - 0x70];
     NiTPrimitiveArray_ImageSpaceTexture___ arr;
     FUN_00b943d0_class();
 };
 // @fnv 0x00b943d0
 FUN_00b943d0_class::FUN_00b943d0_class()
 {
-    *reinterpret_cast<int**>(this) = &DAT_010b7bf0;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x6c) = &DAT_010b7bcc;
+    m_vft = &DAT_010b7bf0;
+    unk6c = &DAT_010b7bcc;
     reinterpret_cast<::FUN_00a41520_cls *>(&(arr))->FUN_00a90180(2);
 }
 
@@ -10273,14 +10270,14 @@ void __cdecl AccumulateAndDispatch(int a0, int a1, int a2, int a3, int aiDelta)
 
 extern int DAT_011ffa30[];
 
-// Looks up the index for a, and if its counter is zero calls virtual method 26 on the object at DAT_011f9508+0x8b8, then adds c to the counter.
+// Looks up the index for a, and if its counter is zero calls virtual method 26 on the renderer's render state, then adds c to the counter.
 // @fnv 0x00b97d90
 void __cdecl FUN_00b97d90(unsigned int uiIndex, unsigned int b, unsigned int uiDelta)
 {
     int idx = DAT_011ffa30[uiIndex];
     if (DAT_011ff9d8[idx] == 0)
     {
-        void* obj = *(void**)((char*)::DAT_011f9508 + 0x8b8);
+        void* obj = ::DAT_011f9508->m_pkRenderState;
         void** vt = *(void***)obj;
         ((void(*)(void*, unsigned int, unsigned int, int, int))vt[26])(obj, uiIndex, b, 0, 0);
     }
@@ -10326,7 +10323,7 @@ void FUN_00b97e30(unsigned char a1, unsigned int uiAmount)
     unsigned int idx = DAT_011ffa68;
     if (DAT_011ff9d8[idx] == 0)
     {
-        FUN_00b97e30_obj* obj = *reinterpret_cast<FUN_00b97e30_obj**>(reinterpret_cast<char*>(::DAT_011f9508) + 0x8b8);
+        FUN_00b97e30_obj* obj = (FUN_00b97e30_obj*)::DAT_011f9508->m_pkRenderState;
         obj->vfn26(14, a1, 0, 0);
     }
     DAT_011ff9d8[idx] += uiAmount;
@@ -10345,7 +10342,7 @@ struct Dispatcher
 
 __forceinline Dispatcher* GetDispatcher(NiRenderer* renderer)
 {
-    return *reinterpret_cast<Dispatcher**>(reinterpret_cast<char*>(renderer) + 0x8b8);
+    return (Dispatcher*)renderer->m_pkRenderState;
 }
 
 extern int DAT_011ad888[];
@@ -10402,13 +10399,13 @@ void __cdecl FUN_00b988e0()
         const unsigned int eventCode = ::DAT_011ffe30;
         if (eventCode == 0xfe || eventCode == 0x10b)
         {
-            UIService* pUIService = *(UIService**)((char*)(*reinterpret_cast<void * *>(&::NiRenderer::ms_pRenderer)) + 0x288);
+            UIService* pUIService = (UIService*)::NiRenderer::ms_pRenderer->m_pkD3DDevice;
             DispatchUI pfnDispatchUI = (DispatchUI)pUIService->vtable[0x114 / 4];
             pfnDispatchUI(pUIService, 7, 8, 0);
         }
         else if (eventCode == 0x230)
         {
-            UIService* pUIService = *(UIService**)((char*)(*reinterpret_cast<void * *>(&::NiRenderer::ms_pRenderer)) + 0x288);
+            UIService* pUIService = (UIService*)::NiRenderer::ms_pRenderer->m_pkD3DDevice;
             DispatchUI pfnDispatchUI = (DispatchUI)pUIService->vtable[0x114 / 4];
             pfnDispatchUI(pUIService, 2, 8, 0);
         }
@@ -12924,14 +12921,14 @@ struct FUN_00b98480_Sub
     virtual void f25();
     virtual void f26(int a, int b, int c, int d);
 };
-// If the counter at DAT_011ff9d8[idx] is zero, calls f26(8, 2 or 3, 0, 0) on the object at DAT_011f9508+0x8b8, then adds param_2 to the counter.
+// If the counter at DAT_011ff9d8[idx] is zero, calls f26(8, 2 or 3, 0, 0) on the renderer's render state, then adds param_2 to the counter.
 // @fnv 0x00b98480
 void __cdecl FUN_00b98480(char abFlag, int aiAmount)
 {
     unsigned int idx = DAT_011ffa50;
     if (DAT_011ff9d8[idx] == 0)
     {
-        FUN_00b98480_Sub* sub = *(FUN_00b98480_Sub**)((char*)::DAT_011f9508 + 0x8b8);
+        FUN_00b98480_Sub* sub = (FUN_00b98480_Sub*)::DAT_011f9508->m_pkRenderState;
         int secondArg = (abFlag == 0) + 2;
         sub->f26(8, secondArg, 0, 0);
     }

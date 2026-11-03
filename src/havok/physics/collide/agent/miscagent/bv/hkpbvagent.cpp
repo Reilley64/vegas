@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/miscagent/bv/hkpbvagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/miscagent/bv/hkpbvagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
@@ -359,28 +360,12 @@ struct FUN_00d453d0_BvShape : FUN_00d453d0_Shape
     const FUN_00d453d0_Shape* m_boundingVolumeShape;
 };
 
-struct FUN_00d453d0_Funcs
-{
-    void* m_createFunc;
-    void* m_getPenetrationsFunc;
-    void* m_getClosestPointsFunc;
-    void* m_linearCastFunc;
-    unsigned char m_isFlipped;
-    unsigned char m_isPredictive;
-};
 
 // Offsets are the 32-bit release's.
-struct FUN_00d453d0_Dispatcher
-{
-    char m_000[0x1a0];
-    unsigned char m_agent2Types[32][32];      // +0x1a0
-    unsigned char m_agent2TypesPred[32][32];  // +0x5a0
-    FUN_00d453d0_Funcs m_agent2Func[64];      // +0x9a0
-};
 
 struct FUN_00d453d0_Input
 {
-    FUN_00d453d0_Dispatcher* m_dispatcher;
+    hkpCollisionDispatcher* m_dispatcher;
     int m_04;
     int m_08;
     int m_0c;
@@ -424,10 +409,10 @@ FUN_00d453d0_cls* FUN_00d453d0_cls::Construct(FUN_00d452a0* a1, void* apArg2, vo
     const FUN_00d453d0_Input* input = static_cast<const FUN_00d453d0_Input*>(apArg3);
     args.m_0C = a1;
     const FUN_00d453d0_Shape* y = static_cast<const FUN_00d453d0_BvShape*>(a1->a)->m_boundingVolumeShape;
-    FUN_00d453d0_Dispatcher* dispatcher = input->m_dispatcher;
+    hkpCollisionDispatcher* dispatcher = input->m_dispatcher;
     args.m_00 = y;
     args.m_04 = -1;
-    const unsigned char (*tab)[32] = (input->m_createPredictiveAgents != 0) ? dispatcher->m_agent2TypesPred : dispatcher->m_agent2Types;
+    const signed char (*tab)[32] = (input->m_createPredictiveAgents != 0) ? dispatcher->m_agent2TypesPred : dispatcher->m_agent2Types;
     unsigned char idx = tab[y->m_type][shapeB->m_type];
     void* fn = dispatcher->m_agent2Func[idx].m_createFunc;
     m_0C = ((void*(__cdecl*)(FUN_00d453d0_args*, void*, void*, void*))fn)(&args, apArg2, apArg3, aiValue);
@@ -626,15 +611,9 @@ struct CdBody
 };
 struct CollisionInput;
 typedef void(__cdecl* CollideFn)(CdBody* a, CdBody* b, CollisionInput* input, void* collector);
-struct DispatchEntry
-{
-    CollideFn m_fn0;
-    CollideFn m_fn1;
-    int unk08, unk0c, unk10;
-};
 struct CollisionInput
 {
-    unsigned char* m_pCollisionDispatcher;
+    const hkpCollisionDispatcher* m_pCollisionDispatcher;
 };
 struct EarlyOutCollector
 {
@@ -671,9 +650,9 @@ void __cdecl FUN_00d45af0(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, v
     child.m_pCollisionShape = bv->m_boundingShape;
     child.m_key = 0xffffffff;
     unsigned int typeB = bodyB->m_pCollisionShape->m_type;
-    unsigned char* table = input->m_pCollisionDispatcher;
-    DispatchEntry* entries = (DispatchEntry*)(table + 0x9a4);
-    CollideFn firstHandler = entries[table[(child.m_pCollisionShape->m_type + 13) * 32 + typeB]].m_fn0;
+    const hkpCollisionDispatcher* dispatcher = input->m_pCollisionDispatcher;
+    CollideFn firstHandler = reinterpret_cast<CollideFn>(
+        dispatcher->m_agent2Func[(unsigned char)dispatcher->m_agent2Types[child.m_pCollisionShape->m_type][typeB]].m_getPenetrationsFunc);
     scratch.early.m_vtbl = &DAT_010cebd0;
     scratch.early.m_bHasHit = false;
     firstHandler(&child, bodyB, input, &scratch.early);
@@ -682,16 +661,17 @@ void __cdecl FUN_00d45af0(CdBody* bodyA, CdBody* bodyB, CollisionInput* input, v
         TimerMark(DAT_010cec4c);
         child.m_pCollisionShape = bv->m_pContainedShape;
         child.m_key = 0;
-        table = input->m_pCollisionDispatcher;
-        entries = (DispatchEntry*)(table + 0x9a4);
-        entries[table[(child.m_pCollisionShape->m_type + 13) * 32 + typeB]].m_fn1(&child, bodyB, input, collector);
+        dispatcher = input->m_pCollisionDispatcher;
+        reinterpret_cast<CollideFn>(
+            dispatcher->m_agent2Func[(unsigned char)dispatcher->m_agent2Types[child.m_pCollisionShape->m_type][typeB]].m_getClosestPointsFunc)(
+            &child, bodyB, input, collector);
     }
     TimerMark(::str_01076f38);
 }
 
 struct S00d454c0_Input
 {
-    unsigned char* m_pCollisionDispatcher;
+    const hkpCollisionDispatcher* m_pCollisionDispatcher;
     int unk04, unk08, unk0c, unk10;
     int m_useAlt;
 };
@@ -715,14 +695,14 @@ struct S00d454c0_Filter
     virtual void v08();
     virtual void check(CdBody* a, CdBody* b, S00d454c0_Input* input, EarlyOutCollector* out);
 };
-__forceinline S00d454c0_Agent* S00d454c0_getNewAgent(unsigned char* d, CdBody& a, CdBody& b, S00d454c0_Input& input,
+__forceinline S00d454c0_Agent* S00d454c0_getNewAgent(const hkpCollisionDispatcher* d, CdBody& a, CdBody& b, S00d454c0_Input& input,
                                                      void* mgr)
 {
     unsigned int typeA = a.m_pCollisionShape->m_type;
     unsigned int typeB = b.m_pCollisionShape->m_type;
-    unsigned char* agents = input.m_useAlt ? d + 0x5a0 : d + 0x1a0;
-    int idx = agents[typeA * 32 + typeB];
-    S00d454c0_CreateFn f = *(S00d454c0_CreateFn*)(d + 0x9a0 + idx * 20);
+    const signed char (*agents)[32] = input.m_useAlt ? d->m_agent2TypesPred : d->m_agent2Types;
+    int idx = (unsigned char)agents[typeA][typeB];
+    S00d454c0_CreateFn f = reinterpret_cast<S00d454c0_CreateFn>(d->m_agent2Func[idx].m_createFunc);
     return f(&a, &b, &input, mgr);
 }
 struct S00d454c0_Result
@@ -883,8 +863,8 @@ struct __declspec(align(16)) D45800Collector
 
 static inline CollideFn D45800Get(CollisionInput* input, BvShape* a, unsigned int typeB)
 {
-    unsigned char* disp = input->m_pCollisionDispatcher;
-    return ((DispatchEntry*)(disp + 0x9ac))[disp[(a->m_type + 13) * 32 + typeB]].m_fn0;
+    const hkpCollisionDispatcher* disp = input->m_pCollisionDispatcher;
+    return reinterpret_cast<CollideFn>(disp->m_agent2Func[(unsigned char)disp->m_agent2Types[a->m_type][typeB]].m_linearCastFunc);
 }
 
 static __forceinline void D458Begin(const char* name, const char* obj, volatile unsigned int& t)
@@ -1095,31 +1075,12 @@ struct S_00d45970_ContactMgr;
 typedef S_00d45970_Agent*(__cdecl* S_00d45970_CreateFunc)(const S_00d45970_CdBody&, const S_00d45970_CdBody&,
                                                           const S_00d45970_Input&, S_00d45970_ContactMgr*);
 
-struct S_00d45970_Funcs
-{
-    S_00d45970_CreateFunc m_pCreateFunc;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-};
 
-struct S_00d45970_Dispatcher
+struct S_00d45970_Dispatcher : hkpCollisionDispatcher
 {
-    char unk000[0x1a0];
-    unsigned char m_agent2TypeMap[32][32];
-    unsigned char m_agent3TypeMap[32][32];
-    S_00d45970_Funcs m_agent2Funcs[64];
-
     __forceinline int getAgentType(int typeA, int typeB, unsigned int predictive) const
     {
-        const unsigned char* table = predictive ? &m_agent3TypeMap[0][0] : &m_agent2TypeMap[0][0];
-        table += typeA * 32;
-        return table[typeB];
-    }
-    __forceinline int getAgentType2(int typeA, int typeB, unsigned int predictive) const
-    {
-        return predictive ? m_agent3TypeMap[typeA][typeB] : m_agent2TypeMap[typeA][typeB];
+        return (unsigned char)(predictive ? m_agent2TypesPred : m_agent2Types)[typeA][typeB];
     }
     S_00d45970_Agent* getNewCollisionAgent(const S_00d45970_CdBody& bodyA, const S_00d45970_CdBody& bodyB,
                                            const S_00d45970_Input& input, S_00d45970_ContactMgr* mgr) const;
@@ -1143,7 +1104,7 @@ __forceinline S_00d45970_Agent* S_00d45970_Dispatcher::getNewCollisionAgent(cons
     int typeA = bodyA.m_pCollisionShape->m_type;
     int typeB = bodyB.m_pCollisionShape->m_type;
     int idx = getAgentType(typeA, typeB, input.m_bCreatePredictiveAgents);
-    S_00d45970_CreateFunc f = m_agent2Funcs[idx].m_pCreateFunc;
+    S_00d45970_CreateFunc f = reinterpret_cast<S_00d45970_CreateFunc>(m_agent2Func[idx].m_createFunc);
     return f(bodyA, bodyB, input, mgr);
 }
 
@@ -1335,31 +1296,12 @@ struct S_00d45c50_ContactMgr;
 typedef S_00d45c50_Agent*(__cdecl* S_00d45c50_CreateFunc)(const S_00d45c50_CdBody&, const S_00d45c50_CdBody&,
                                                           const S_00d45c50_Input&, S_00d45c50_ContactMgr*);
 
-struct S_00d45c50_Funcs
-{
-    S_00d45c50_CreateFunc m_pCreateFunc;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    void* unk10;
-};
 
-struct S_00d45c50_Dispatcher
+struct S_00d45c50_Dispatcher : hkpCollisionDispatcher
 {
-    char unk000[0x1a0];
-    unsigned char m_agent2TypeMap[32][32];
-    unsigned char m_agent3TypeMap[32][32];
-    S_00d45c50_Funcs m_agent2Funcs[64];
-
     __forceinline int getAgentType(int typeA, int typeB, unsigned int predictive) const
     {
-        const unsigned char* table = predictive ? &m_agent3TypeMap[0][0] : &m_agent2TypeMap[0][0];
-        table += typeA * 32;
-        return table[typeB];
-    }
-    __forceinline int getAgentType2(int typeA, int typeB, unsigned int predictive) const
-    {
-        return predictive ? m_agent3TypeMap[typeA][typeB] : m_agent2TypeMap[typeA][typeB];
+        return (unsigned char)(predictive ? m_agent2TypesPred : m_agent2Types)[typeA][typeB];
     }
     S_00d45c50_Agent* getNewCollisionAgent(const S_00d45c50_CdBody& bodyA, const S_00d45c50_CdBody& bodyB,
                                            const S_00d45c50_Input& input, S_00d45c50_ContactMgr* mgr) const;
@@ -1383,7 +1325,7 @@ __forceinline S_00d45c50_Agent* S_00d45c50_Dispatcher::getNewCollisionAgent(cons
     int typeA = bodyA.m_pCollisionShape->m_type;
     int typeB = bodyB.m_pCollisionShape->m_type;
     int idx = getAgentType(typeA, typeB, input.m_bCreatePredictiveAgents);
-    S_00d45c50_CreateFunc f = m_agent2Funcs[idx].m_pCreateFunc;
+    S_00d45c50_CreateFunc f = reinterpret_cast<S_00d45c50_CreateFunc>(m_agent2Func[idx].m_createFunc);
     return f(bodyA, bodyB, input, mgr);
 }
 
@@ -1887,7 +1829,7 @@ struct BvB
 
 struct BvC
 {
-    FUN_00d453d0_Dispatcher* m_vt;
+    hkpCollisionDispatcher* m_vt;
     DWORD unk04;
     DWORD unk08;
     DWORD unk0C;
@@ -1979,10 +1921,10 @@ void Agent228::CheckBvShape(BvA* a1, BvB* a2, BvC* a3, void* a4, void* a5)
         r.m_04 = 0;
         if (m_10 == 0)
         {
-            FUN_00d453d0_Dispatcher* vt = a3->m_vt;
+            hkpCollisionDispatcher* vt = a3->m_vt;
             DWORD tbl = a2->m_vt->m_0c;
             DWORD row = p->m_0c;
-            const unsigned char (*base)[32] = vt->m_agent2TypesPred;
+            const signed char (*base)[32] = vt->m_agent2TypesPred;
             if (a3->m_14 == 0)
                 base = vt->m_agent2Types;
             unsigned char k = base[row][tbl];

@@ -5,6 +5,6 @@ is the copyrighted work of its owners, and nothing in this repository grants any
 grant a licence to their own contributions either. You may view this repository and fork it on GitHub as GitHub's
 Terms of Service allow.
 
-Code under third_party/ keeps its own licence (zlib 1.2.1: see third_party/zlib-1.2.1/README).
+Libraries the build downloads keep their own licences (see third_party/README.md).
 
 Questions and takedown requests: contact@fnvdecomp.com

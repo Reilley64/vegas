@@ -461,7 +461,7 @@ FUN_00aa3a40::~FUN_00aa3a40()
     ScrapView* heap;
     while (position)
     {
-        reinterpret_cast<::RecursiveLock *>(&(unk114))->Unlock((::BSCriticalSectionEntry **)&(position), (unsigned int *)&(key), (unsigned int *)&(heap));
+        reinterpret_cast<::RecursiveLock *>(&(unk114))->Unlock((::BSCriticalSectionEntry **)&(position), (unsigned int *)&(key), (void **)&(heap));
         delete heap;
     }
     reinterpret_cast<::AE91F0Map *>(&(unk114))->ClearAll();

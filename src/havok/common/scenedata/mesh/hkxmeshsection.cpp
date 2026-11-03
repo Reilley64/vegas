@@ -15,6 +15,7 @@
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
 #include "havok/hkxMeshSection.h"
+#include "havok/hkxIndexBuffer.h"
 
 extern int DAT_010e9b7c;
 struct IndexArray
@@ -181,10 +182,6 @@ hkxMeshSectionE6& hkxMeshSectionE6::FUN_00e61770(const hkxMeshSectionE6& o)
     return *this;
 }
 
-class hkxIndexBuffer
-{
-  public:
-};
 struct MeshSection : public hkxMeshSection
 {
     void FUN_00e61420(unsigned int position, unsigned int& a, unsigned int& b, unsigned int& c) const;

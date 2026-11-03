@@ -2,6 +2,9 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <xmmintrin.h>
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_00e29000.h"
 #include <math.h>
 #include "fnv/symbols_simd.h"
@@ -10,27 +13,6 @@
 int FUN_00e29910(void)
 {
     return (int)std::time(0);
-}
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;extern "C"
-{
-    __m128 _mm_setzero_ps();
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    float _mm_cvtss_f32(__m128);
-    void _mm_store_ss(float*, __m128);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_load_ss(const float*);
 }
 
 // ---- stand-ins for the analysed image's types
@@ -490,7 +472,7 @@ template <typename T> class S29cd0_hkLocalArray : public S29cd0_hkArray<T>
 
 struct S29cd0_int4
 {
-    __forceinline static void* operator new(unsigned int, void* p)
+    __forceinline static void* operator new(std::size_t, void* p)
     {
         return p;
     }

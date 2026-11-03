@@ -4,6 +4,8 @@
 
 
 // @fnv 0x00e014c0
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_0126e000.h"
 int* __cdecl FUN_00e014c0()
 {
@@ -64,7 +66,7 @@ struct FUN_00e014d0
     FUN_00e014d0();
     virtual ~FUN_00e014d0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00e014d0* b = static_cast<FUN_00e014d0*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

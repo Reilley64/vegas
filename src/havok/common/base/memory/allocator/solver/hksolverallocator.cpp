@@ -2,6 +2,8 @@
 // src/havok/common/base/memory/allocator/solver/hksolverallocator.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/memory/allocator/solver/hksolverallocator.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include <windows.h>
 #include "fnv/decl/FUN_00cbf1a0_cls.h"
 #include "fnv/decl/SearchObject.h"
@@ -431,11 +433,6 @@ char* hkBlockAllocatorD5E9::Allocate(int* piSizeInOut) throw()
     return pResult;
 }
 }  // namespace fnv_00d5e9b0
-
-inline void* operator new(unsigned int, void* ptr)
-{
-    return ptr;
-}
 
 
 struct Element

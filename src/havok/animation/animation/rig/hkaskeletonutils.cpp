@@ -2,6 +2,7 @@
 // src/havok/animation/animation/rig/hkaskeletonutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/rig/hkaskeletonutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00cdd000.h"
@@ -454,12 +455,9 @@ void __cdecl CollectReachableNodes(S_00cde450_Graph* g, short asStartIndex, S_00
 }
 }  // namespace fnv_00cde450
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
+
 #include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_load_ss(const float* p);
+
 struct __declspec(align(16)) V4
 {
     __m128 q;
@@ -476,14 +474,6 @@ void __cdecl FUN_00cdd550(unsigned int count, const short* idx, char* b1, char* 
         ::FUN_00cde740((const ::PoseBlend *)(void *)(b1 + off), (const ::PoseBlend *)(void *)(b2 + off), (const ::Vec4f *)(::V4 *)(&v), (::PoseBlend *)(void *)(b3 + off));
     }
 }
-
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
 
 
 struct hkVector4
@@ -602,7 +592,7 @@ void __cdecl FUN_00cde1d0(const hkaSkeleton* skeleton, hkQsTransform* poseModel)
     }
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
+
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
 extern char DAT_010cb7dc[];
@@ -702,7 +692,7 @@ struct Property
     unsigned short size, unk12;
     int unk14, unk18, unk1c;
     __m128 vector;
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         AllocationService* service = reinterpret_cast<AllocationService*>(FUN_00c85750());
         return service->allocator->Allocate(bytes);
@@ -784,18 +774,8 @@ void __cdecl MultiplyBoneScales(S_00cdd600_Obj* obj, S_00cdd600_Bone* bones, int
 
 extern "C"
 {
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_rsqrt_ps(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
+
+
     void _ReadWriteBarrier(void);
 }
 
@@ -923,13 +903,6 @@ void FUN_00cdd660(Item* items, int count)
     }
 }
 
-extern "C" __m128 _mm_rcp_ps(__m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
-
-extern "C"
-{
-}
 
 class SReal
 {
@@ -1199,7 +1172,7 @@ struct QsXform
         QVec moved;
         moved.rotate(ab.m_rotation, bc.m_vTranslation);
         m_vTranslation.setAdd4(ab.m_vTranslation, moved);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(ab.m_rotation), (const ::fnv_00c66320::__m128 *)&(bc.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(ab.m_rotation), (const __m128 *)&(bc.m_rotation), {});
         m_vScale.setMul4(ab.m_vScale, bc.m_vScale);
     }
 
@@ -1368,7 +1341,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -1475,7 +1448,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -1581,7 +1554,7 @@ class hkQsTransformDAD
         hkVector4DAD temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 
@@ -1748,7 +1721,7 @@ class hkQsTransformCDE
         hkVector4CDE temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetMulInverse(const hkQsTransformCDE& a, const hkQsTransformCDE& b)

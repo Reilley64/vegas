@@ -2,16 +2,12 @@
 // src/havok/common/visualize/shape/hkdisplayplane.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplayplane.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_00c90000.h"
-struct __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
+
+
 struct Float4
 {
     float x, y, z, w;
@@ -285,7 +281,7 @@ struct S_00de5110_Geometry
 
     S_00de5110_Geometry() throw()
     {}
-    static void* operator new(unsigned int n) throw()
+    static void* operator new(std::size_t n) throw()
     {
         return FUN_00c85750().heap().AllocateMemoryBlock(n);
     }
@@ -342,8 +338,6 @@ void S_00de5110_Pyramid::BuildPyramidGeometry()
     m_pSourceGeometry->m_uiTriangleCount.expandBy(1)->set(3, 4, 1);
 }
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
 
 union Vec4f
 {
@@ -416,7 +410,7 @@ FUN_00de4f20_cls* FUN_00de4f20_cls::FUN_00de4f20(const Vec4i* p0, const Vec4i* p
 
 // Today's unit (hkdisplayplane.cpp) defines __m128 and its intrinsics itself;
 // declare the one the matched code needs that the unit does not have.
-extern "C" __m128 _mm_setzero_ps(void);
+
 
 struct S_00de4ff0_Vec4
 {

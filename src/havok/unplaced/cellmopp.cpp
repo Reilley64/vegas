@@ -2,6 +2,7 @@
 // src/havok/unplaced/cellmopp.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/cellmopp.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <windows.h>
 #include "fnv/decl/FUN_00622490.h"
 #include "fnv/decl/FUN_00a645b0_cls.h"
@@ -192,7 +193,7 @@ unsigned char* FUN_00622570_Class::FUN_00622570(unsigned char aucValue)
 struct CellMopp_00621d90
 {
     void* Destroy(unsigned int flags);
-    static void operator delete(void* p, unsigned int size);
+    static void operator delete(void* p, std::size_t size);
 };
 struct FUN_00622390_Class
 {
@@ -210,7 +211,7 @@ void* FUN_00622390_Class::FUN_00622390()
 struct FUN_00622440_Class
 {
     void* FUN_00622440(unsigned int flags);
-    static void operator delete(void* p, unsigned int size);
+    static void operator delete(void* p, std::size_t size);
 };
 
 // @fnv 0x00622440
@@ -243,7 +244,7 @@ struct CellMopp_00621e80
 {
     void FUN_00621e80();
 };
-void __cdecl operator delete(void* p, unsigned int size);
+
 struct FUN_00ca4da0
 {
     ~FUN_00ca4da0();
@@ -1442,7 +1443,6 @@ void FUN_00ca4fd0_cls::FUN_00ca4fd0(int first, int second)
 }
 
 
-
 struct RefCounted
 {
     int unk00;
@@ -1475,7 +1475,7 @@ struct SpawnedObject
         m_vtbl = (void*)"@$b";
         DAT_0126834c++;
     }
-    void* operator new(unsigned int size) throw()
+    void* operator new(std::size_t size) throw()
     {
         return FUN_00aa13e0(size);
     }
@@ -1623,13 +1623,13 @@ struct S00cb0820_Ref
     void* m_vtbl;
     unsigned short m_usAllocationSize;
     short m_iObjectReferenceCount;
-    void* operator new(unsigned int size)
+    void* operator new(std::size_t size)
     {
         S00cb0820_Ref* b = (S00cb0820_Ref*)((S00cb0820_Mem*)FUN_00c85750())->heap().Alloc(size);
         b->m_usAllocationSize = (unsigned short)size;
         return b;
     }
-    void operator delete(void* p, unsigned int size);
+    void operator delete(void* p, std::size_t size);
 };
 
 struct S00cb0820_Src
@@ -2290,8 +2290,8 @@ struct __declspec(align(16)) xShapeCinfo
 };
 struct xNiAlloc
 {
-    static void* operator new(unsigned int);
-    static void operator delete(void*, unsigned int);
+    static void* operator new(std::size_t);
+    static void operator delete(void*, std::size_t);
 };
 struct xShape : xNiAlloc
 {

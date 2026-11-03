@@ -2,6 +2,7 @@
 // src/havok/common/visualize/shape/hkdisplaycapsule.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycapsule.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_simd.h"
 #include "fnv/symbols_0104f000.h"
 #include <xmmintrin.h>
 #include <cmath>
@@ -32,22 +33,12 @@ void hkDisplayCapsule::FUN_00d22d70()
 void FUN_00d22db0(int, int)
 {}
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
 extern "C"
 {
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
+
+
     void _ReadWriteBarrier();
 }
 struct Vector
@@ -199,13 +190,6 @@ void invokeProjection()
     FUN_00d234e0(inputLimit, inputPoint, outputPoint, inputOther);
 }
 
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 static __forceinline float root(float f)
 {
     return (float)sqrt(f);
@@ -601,13 +585,13 @@ static __declspec(noinline) void FUN_00d23850(IntersectionContext* ctx, PairPlan
 
             float projection = dot(difference, direction.v);
 
-            float threshold = (float)((a->auxiliary.m128_f32[0] + b->auxiliary.m128_f32[0] +
+            float threshold = (float)((fnv_simd_as<float>(a->auxiliary)[0] + fnv_simd_as<float>(b->auxiliary)[0] +
                                        radius * ((projection * radius > 0.0f)
-                                                     ? a->auxiliary.m128_f32[1] + b->auxiliary.m128_f32[1]
-                                                     : a->auxiliary.m128_f32[2] + b->auxiliary.m128_f32[2])) *
+                                                     ? fnv_simd_as<float>(a->auxiliary)[1] + fnv_simd_as<float>(b->auxiliary)[1]
+                                                     : fnv_simd_as<float>(a->auxiliary)[2] + fnv_simd_as<float>(b->auxiliary)[2])) *
                                       DAT_01011588);
 
-            float blend = (float)((a->auxiliary.m128_f32[3] + b->auxiliary.m128_f32[3]) * DAT_01011588);
+            float blend = (float)((fnv_simd_as<float>(a->auxiliary)[3] + fnv_simd_as<float>(b->auxiliary)[3]) * DAT_01011588);
 
             if ((squared - projection * projection) * threshold * threshold >= projection * projection)
             {
@@ -969,12 +953,12 @@ static __declspec(noinline) void FUN_00d23850(SimplexInfo& ctx_, const PlaneReco
             float squared = dot(difference, difference);
             float radius = dot(ctx->geometry->unk30, direction.v);
             float projection = dot(difference, direction.v);
-            float threshold = (float)((a->auxiliary.m128_f32[0] + b->auxiliary.m128_f32[0] +
+            float threshold = (float)((fnv_simd_as<float>(a->auxiliary)[0] + fnv_simd_as<float>(b->auxiliary)[0] +
                                        radius * ((projection * radius > 0.0f)
-                                                     ? a->auxiliary.m128_f32[1] + b->auxiliary.m128_f32[1]
-                                                     : a->auxiliary.m128_f32[2] + b->auxiliary.m128_f32[2])) *
+                                                     ? fnv_simd_as<float>(a->auxiliary)[1] + fnv_simd_as<float>(b->auxiliary)[1]
+                                                     : fnv_simd_as<float>(a->auxiliary)[2] + fnv_simd_as<float>(b->auxiliary)[2])) *
                                       DAT_01011588);
-            float blend = (float)((a->auxiliary.m128_f32[3] + b->auxiliary.m128_f32[3]) * DAT_01011588);
+            float blend = (float)((fnv_simd_as<float>(a->auxiliary)[3] + fnv_simd_as<float>(b->auxiliary)[3]) * DAT_01011588);
             if ((squared - projection * projection) * threshold * threshold >= projection * projection)
             {
                 rw.m_vComponents = position;

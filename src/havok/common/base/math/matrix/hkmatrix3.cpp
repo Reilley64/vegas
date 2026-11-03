@@ -2,6 +2,8 @@
 // src/havok/common/base/math/matrix/hkmatrix3.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix3.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include <cmath>
 #include "fnv/symbols_00cd5000.h"
 #include "fnv/symbols_01011000.h"
@@ -186,33 +188,29 @@ void FUN_00cd5880_cls::FUN_00cd5880(unsigned int a1)
 }
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #endif
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
+
 #endif
 
 class hkMatrix3CD4B;
@@ -518,8 +516,6 @@ void MProduct::FUN_00cd55b0(const MProduct& aLeft, const MProduct& aRight)
     }
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct SrcRec
 {
@@ -557,7 +553,6 @@ void S00cd54d0_wrap(const SrcRec* src, Matrix34* dest)
     FUN_00cd54d0(dest, src);
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct S00cd4cc0_V
 {
@@ -584,12 +579,6 @@ void S00cd4cc0_M::FUN_00cd4cc0(const float* apVec)
     c1.set(-apVec[2], 0.0f, apVec[0]);
     c2.set(apVec[1], -apVec[0], 0.0f);
 }
-
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_div_ss(__m128 a, __m128 b);
 
 
 typedef __m128 VectorComponentValue;
@@ -621,7 +610,7 @@ struct hkVector4
 
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
 };
 
@@ -688,10 +677,6 @@ int hkMatrix3::FUN_00cd4f10(float epsilon)
     return 1;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern double DAT_010cb418;
 extern float DAT_010cb414;
@@ -785,7 +770,7 @@ const __m128* FUN_00cd5180_cls::Subtract(const __m128* apVector)
     return apVector;
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 struct DiagVec
 {
     union
@@ -875,9 +860,6 @@ __m128 FUN_00cd51c0_cls::FUN_00cd51c0()
     return _mm_add_ss(_mm_shuffle_ps(d, d, 0xAA), t);
 }
 
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_cmple_ps(__m128, __m128);
-extern "C" int _mm_movemask_ps(__m128);
 
 // Compares each column of m_mat against other within epsilon and stores the result as a byte in out.
 // @fnv 0x00cd4e00
@@ -950,7 +932,6 @@ void MatrixProduct::FUN_00cd5610(const hkMatrix3CD4B& apLeft, const CD4BA0Matrix
     }
 }
 
-extern "C" __m128 _mm_load_ps(float const* p);
 
 struct FUN_00cd55b0_cls
 {
@@ -1024,7 +1005,6 @@ void FUN_00cd5680_cls::FUN_00cd5680(int arg)
     this->m_v2 = _mm_load_ps((float*)&tmp.unk20);
 }
 
-extern "C" __m128 _mm_load_ps(const float* p);
 
 struct MatrixAddReceiver : hkMatrix3
 {
@@ -1044,7 +1024,6 @@ const __m128* MatrixAddReceiver::FUN_00cd5140(const __m128* apOther)
     return apOther;
 }
 
-extern "C" __m128 _mm_load_ps(const float* p);
 
 // out[i] = m * in[i] for the three columns of a 3x4 SSE matrix (columns processed last to first).
 // @fnv 0x00cd5530

@@ -2,6 +2,7 @@
 // src/havok/common/internal/collide/gsk/hkgsk.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/gsk/hkgsk.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_simd.h"
 #include <xmmintrin.h>
 #include "fnv/decl/Solver.h"
 #include "fnv/symbols_00e62000.h"
@@ -10,28 +11,8 @@
 #include "fnv/symbols_00d22000.h"
 extern "C" void _ReadWriteBarrier(void);
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 
 typedef float hkReal;
 
@@ -188,7 +169,7 @@ int TriangleSolver::FUN_00e4da90(const hkVector4& p, TriangleVerts& tri, hkVecto
             hkSwap(tri.m_kVertices[0], tri.m_kVertices[1]);
             _ReadWriteBarrier();
             normalOut = normal;
-            hkSwap(m_barycentric.m_vComponents.m128_f32[0], m_barycentric.m_vComponents.m128_f32[1]);
+            hkSwap(fnv_simd_as<float>(m_barycentric.m_vComponents)[0], fnv_simd_as<float>(m_barycentric.m_vComponents)[1]);
             hkVector4* __restrict pExtra = &tri.m_extra40;
             hkSwap(pExtra[0], pExtra[1]);
             m_flipped = 1;
@@ -198,25 +179,7 @@ int TriangleSolver::FUN_00e4da90(const hkVector4& p, TriangleVerts& tri, hkVecto
 }
 
 namespace fnv_00e4dc70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    int _mm_movemask_ps(__m128);
-}
+
 struct hkVector4
 {
     __m128 m_vComponents;
@@ -301,25 +264,6 @@ int hkVector4::FUN_00e4dc70(const hkVector4& point, const hkVector4* apTriangle,
 }
 }  // namespace fnv_00e4dc70
 
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_setzero_ps();
-    int _mm_movemask_ps(__m128);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct Out
 {
@@ -794,34 +738,6 @@ void Simplex::FUN_00e4c230(const void* shapeA, const void* shapeB, const Transfo
     result.quad = output->quad;
 }
 
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_cmplt_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_load_ss(float const*);
-    void _mm_store_ss(float*, __m128);
-}
 
 typedef float Real;
 typedef unsigned char UChar;

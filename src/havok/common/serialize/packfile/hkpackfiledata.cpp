@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/hkpackfiledata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/hkpackfiledata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00c90510_class.h"
@@ -312,12 +313,6 @@ struct hkMemoryRouterE054
     }
 };
 
-inline void* __cdecl operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
 
 template <typename T> __forceinline T min2E054(T x, T y)
 {

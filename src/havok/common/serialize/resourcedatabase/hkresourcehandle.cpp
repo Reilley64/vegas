@@ -2,6 +2,7 @@
 // src/havok/common/serialize/resourcedatabase/hkresourcehandle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/resourcedatabase/hkresourcehandle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/FUN_00cb1600.h"
 #include "fnv/decl/FUN_00cc00e0.h"
@@ -1152,10 +1153,6 @@ FUN_00e2ebc0_class* FUN_00e2ebc0_class::Init(F_e2ebc0 flags)
     return this;
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct Heap_e2ef
 {
@@ -1188,7 +1185,7 @@ struct Resource_e2ef
     unsigned short m_sReferenceCount;
     int unk08;
     Container_e2ef* m_parent;
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         Resource_e2ef* p = (Resource_e2ef*)Router_e2ef::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -2114,7 +2111,7 @@ void __cdecl hkArrayUtil_reserveMore(hkMemoryAllocatorE2E* alloc, void* array, i
 template <class T> struct hkRefPtrE2E
 {
     T* m_pRetainedObject;
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(std::size_t, void* p) throw()
     {
         return p;
     }

@@ -2,6 +2,8 @@
 // src/havok/common/visualize/shape/hkdisplaycone.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaycone.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include <math.h>
 #include "fnv/symbols_simd.h"
 #include <xmmintrin.h>
@@ -28,7 +30,7 @@ struct GeometryBuffers
     DynamicArray<Edge> edges;
     GeometryBuffers() : vertices(), edges()
     {}
-    static void* operator new(unsigned int, void* position)
+    static void* operator new(std::size_t, void* position)
     {
         return position;
     }
@@ -297,9 +299,9 @@ struct __declspec(align(16)) Q
     void SetRotatedDirection(const Q& quaternion, const Q& vector);
     __forceinline void addMul(float scale, const Q& direction)
     {
-        ::__m128 factor = ::_mm_load_ss(&scale);
-        factor = ::_mm_shuffle_ps(factor, factor, 0);
-        quad = ::_mm_add_ps(::_mm_mul_ps(factor, direction.quad), quad);
+        ::__m128 factor = _mm_load_ss(&scale);
+        factor = _mm_shuffle_ps(factor, factor, 0);
+        quad = _mm_add_ps(_mm_mul_ps(factor, direction.quad), quad);
     }
 };
 struct ArrayRef
@@ -345,34 +347,34 @@ static __forceinline ::__m128 rot(const Q& quaternion, const Q& vector)
 {
     const ::__m128& q = quaternion.get();
     const ::__m128& v = vector.get();
-    ::__m128 w = ::_mm_shuffle_ps(q, q, 0xff);
-    ::__m128 d = ::_mm_mul_ps(v, q);
-    ::__m128 d_y = ::_mm_shuffle_ps(d, d, 0x55);
-    ::__m128 sum_xy = ::_mm_add_ss(d_y, d);
-    ::__m128 d_z = ::_mm_shuffle_ps(d, d, 0xaa);
-    ::__m128 dot = ::_mm_add_ss(d_z, sum_xy);
+    ::__m128 w = _mm_shuffle_ps(q, q, 0xff);
+    ::__m128 d = _mm_mul_ps(v, q);
+    ::__m128 d_y = _mm_shuffle_ps(d, d, 0x55);
+    ::__m128 sum_xy = _mm_add_ss(d_y, d);
+    ::__m128 d_z = _mm_shuffle_ps(d, d, 0xaa);
+    ::__m128 dot = _mm_add_ss(d_z, sum_xy);
 
-    ::__m128 q_c9 = ::_mm_shuffle_ps(q, q, 0xc9);
-    ::__m128 v_d2 = ::_mm_shuffle_ps(v, v, 0xd2);
-    ::__m128 c1 = ::_mm_mul_ps(q_c9, v_d2);
+    ::__m128 q_c9 = _mm_shuffle_ps(q, q, 0xc9);
+    ::__m128 v_d2 = _mm_shuffle_ps(v, v, 0xd2);
+    ::__m128 c1 = _mm_mul_ps(q_c9, v_d2);
 
-    ::__m128 q_d2 = ::_mm_shuffle_ps(q, q, 0xd2);
-    ::__m128 v_c9 = ::_mm_shuffle_ps(v, v, 0xc9);
-    ::__m128 c2 = ::_mm_mul_ps(q_d2, v_c9);
+    ::__m128 q_d2 = _mm_shuffle_ps(q, q, 0xd2);
+    ::__m128 v_c9 = _mm_shuffle_ps(v, v, 0xc9);
+    ::__m128 c2 = _mm_mul_ps(q_d2, v_c9);
 
-    ::__m128 cross = ::_mm_sub_ps(c1, c2);
-    ::__m128 cross_w = ::_mm_mul_ps(cross, w);
+    ::__m128 cross = _mm_sub_ps(c1, c2);
+    ::__m128 cross_w = _mm_mul_ps(cross, w);
 
-    ::__m128 w2 = ::_mm_mul_ps(w, w);
-    ::__m128 w2_c = ::_mm_add_ps(w2, DAT_010c71e0);
-    ::__m128 term1 = ::_mm_mul_ps(w2_c, v);
+    ::__m128 w2 = _mm_mul_ps(w, w);
+    ::__m128 w2_c = _mm_add_ps(w2, DAT_010c71e0);
+    ::__m128 term1 = _mm_mul_ps(w2_c, v);
 
-    ::__m128 dot_splat = ::_mm_shuffle_ps(dot, dot, 0);
-    ::__m128 term2 = ::_mm_mul_ps(dot_splat, q);
+    ::__m128 dot_splat = _mm_shuffle_ps(dot, dot, 0);
+    ::__m128 term2 = _mm_mul_ps(dot_splat, q);
 
-    ::__m128 sum2 = ::_mm_add_ps(term1, term2);
-    ::__m128 res = ::_mm_add_ps(cross_w, sum2);
-    return ::_mm_add_ps(res, res);
+    ::__m128 sum2 = _mm_add_ps(term1, term2);
+    ::__m128 res = _mm_add_ps(cross_w, sum2);
+    return _mm_add_ps(res, res);
 }
 __forceinline void Q::SetRotatedDirection(const Q& quaternion, const Q& vector)
 {
@@ -424,17 +426,17 @@ void Cls::FUN_00de54b0(ArrayRef output)
         j = scratch.minIdx;
 
     Q ls;
-    ls.quad = ::_mm_setzero_ps();
+    ls.quad = _mm_setzero_ps();
     ls.component(i) = axis->component(j);
     ls.component(j) = -axis->component(i);
     ::__m128 pv = ls.quad;
-    ::__m128 cur = ::_mm_mul_ps(pv, pv);
-    ::__m128 t = ::_mm_add_ss(::_mm_shuffle_ps(cur, cur, 0xaa), ::_mm_add_ss(::_mm_shuffle_ps(cur, cur, 0x55), cur));
-    ::__m128 r = ::_mm_rsqrt_ss(t);
-    ::__m128 inv = ::_mm_mul_ss(::_mm_mul_ss(::_mm_set_ss(0.5f), r),
-                                ::_mm_sub_ss(::_mm_set_ss(3.0f), ::_mm_mul_ss(::_mm_mul_ss(t, r), r)));
-    inv = ::_mm_andnot_ps(::_mm_cmpeq_ss(t, ::_mm_set_ss(0.0f)), inv);
-    ls.quad = ::_mm_mul_ps(::_mm_shuffle_ps(inv, inv, 0), pv);
+    ::__m128 cur = _mm_mul_ps(pv, pv);
+    ::__m128 t = _mm_add_ss(_mm_shuffle_ps(cur, cur, 0xaa), _mm_add_ss(_mm_shuffle_ps(cur, cur, 0x55), cur));
+    ::__m128 r = _mm_rsqrt_ss(t);
+    ::__m128 inv = _mm_mul_ss(_mm_mul_ss(_mm_set_ss(0.5f), r),
+                                _mm_sub_ss(_mm_set_ss(3.0f), _mm_mul_ss(_mm_mul_ss(t, r), r)));
+    inv = _mm_andnot_ps(_mm_cmpeq_ss(t, _mm_set_ss(0.0f)), inv);
+    ls.quad = _mm_mul_ps(_mm_shuffle_ps(inv, inv, 0), pv);
     Q q1, q2;
     q1.FUN_00cb2450(&ls, m_fConeAngle);
     scratch.v1 = 2.0f * 3.14159265f / (float)m_uiItemCount;

@@ -2,6 +2,8 @@
 // src/havok/common/visualize/process/hkdebugdisplayprocess.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/process/hkdebugdisplayprocess.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/S_00dd9380.h"
 #include "fnv/decl/fnv_00c99ce0__hkOwnerXc99ce0.h"
 #include "fnv/decl/hkListenerListC995.h"
@@ -145,7 +147,7 @@ struct S_00ddcb90_RefObj
     short m_sReferenceCount;
     virtual ~S_00ddcb90_RefObj() throw()
     {}
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         S_00ddcb90_RefObj* b = static_cast<S_00ddcb90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

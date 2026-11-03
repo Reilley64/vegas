@@ -2,6 +2,7 @@
 // src/havok/common/internal/convexhull/hkgeometryutility.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkgeometryutility.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_simd.h"
 #include "fnv/decl/FUN_00d5d660_cls.h"
 #include "fnv/symbols_00d5c000.h"
 #include "fnv/symbols_01011000.h"
@@ -248,15 +249,11 @@ unsigned char S00d5ad60_cls::S00d5ad60_call(float* other, float threshold)
 }
 
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 #endif
 extern float DAT_01011d78;
 
@@ -268,9 +265,9 @@ static __declspec(noinline) int FUN_00d5ad90(const float* pVec, float fTol)
     float a1 = fabs(pVec[1]);
     float a0 = fabs(pVec[0]);
     __m128 v = _mm_setr_ps(a0, a1, a2, DAT_01011d78);
-    float fMaxAbs = (v.m128_f32[0] > v.m128_f32[1]) ? v.m128_f32[0] : v.m128_f32[1];
-    if (v.m128_f32[2] > fMaxAbs)
-        fMaxAbs = v.m128_f32[2];
+    float fMaxAbs = (fnv_simd_as<float>(v)[0] > fnv_simd_as<float>(v)[1]) ? fnv_simd_as<float>(v)[0] : fnv_simd_as<float>(v)[1];
+    if (fnv_simd_as<float>(v)[2] > fMaxAbs)
+        fMaxAbs = fnv_simd_as<float>(v)[2];
     float fDeviation = fabs((float)(fMaxAbs - 1.0));
     if (fDeviation < fTol)
         return 1;
@@ -330,14 +327,10 @@ S00d5c060_Result FUN_00d5c060(const S00d5c060_Src* src, float scale)
 
 namespace fnv_00d5d270 {
 #ifndef _INCLUDED_MM2
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 #endif
 
 extern float DAT_01011d78;
@@ -357,15 +350,15 @@ struct ObbVec
     __m128 q;
     float x() const
     {
-        return q.m128_f32[0];
+        return fnv_simd_as<float>(q)[0];
     }
     float y() const
     {
-        return q.m128_f32[1];
+        return fnv_simd_as<float>(q)[1];
     }
     float z() const
     {
-        return q.m128_f32[2];
+        return fnv_simd_as<float>(q)[2];
     }
 };
 
@@ -572,15 +565,6 @@ void FUN_00d5d270(const void* shape, ObbVec* outExt, ObbXf* outXf, int mode)
 }
 }  // namespace fnv_00d5d270
 
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" float _mm_cvtss_f32(__m128);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-
 
 struct __declspec(align(16)) Vec4
 {
@@ -681,15 +665,7 @@ __m128* __cdecl FUN_00d5beb0(__m128* apResult, MyPoint* apPoints, int count, int
     return apResult;
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ss(const float*);
+
 class ObbScalar
 {
     __m128 val;
@@ -937,15 +913,7 @@ void obbCaller()
     obbAnswer = FUN_00d5b640(obbVerts, obbCount, obbStride, obbAxes, obbStep, obbDir, obbIter);
 }
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
+
 extern const float DAT_010d1018 = 0.0000011920928955078125f;
 
 struct S4
@@ -1332,13 +1300,6 @@ void runProbe()
 
 
 namespace MeanCovIntrinsics {
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ss(const float*);
-}
 }
 struct MeanCovObbVec
 {
@@ -1361,31 +1322,31 @@ struct MeanCovObbVec
     }
     __forceinline void setAdd(const MeanCovObbVec& x, const MeanCovObbVec& y)
     {
-        q = MeanCovIntrinsics::_mm_add_ps(x.q, y.q);
+        q = _mm_add_ps(x.q, y.q);
     }
     __forceinline void addL(const MeanCovObbVec& x)
     {
-        MeanCovIntrinsics::_mm_store_ps(
-            (float*)this, MeanCovIntrinsics::_mm_add_ps(x.q, MeanCovIntrinsics::_mm_load_ps((const float*)this)));
+        _mm_store_ps(
+            (float*)this, _mm_add_ps(x.q, _mm_load_ps((const float*)this)));
     }
     __forceinline void addR(const MeanCovObbVec& x)
     {
-        MeanCovIntrinsics::_mm_store_ps(
-            (float*)this, MeanCovIntrinsics::_mm_add_ps(MeanCovIntrinsics::_mm_load_ps((const float*)this), x.q));
+        _mm_store_ps(
+            (float*)this, _mm_add_ps(_mm_load_ps((const float*)this), x.q));
     }
     inline void addLi(const MeanCovObbVec& x)
     {
-        MeanCovIntrinsics::_mm_store_ps(
-            (float*)this, MeanCovIntrinsics::_mm_add_ps(x.q, MeanCovIntrinsics::_mm_load_ps((const float*)this)));
+        _mm_store_ps(
+            (float*)this, _mm_add_ps(x.q, _mm_load_ps((const float*)this)));
     }
     __forceinline void addV(__m128 x)
     {
-        MeanCovIntrinsics::_mm_store_ps(
-            (float*)this, MeanCovIntrinsics::_mm_add_ps(x, MeanCovIntrinsics::_mm_load_ps((const float*)this)));
+        _mm_store_ps(
+            (float*)this, _mm_add_ps(x, _mm_load_ps((const float*)this)));
     }
     __forceinline void setAddS(const MeanCovObbVec& x, const MeanCovObbVec& y)
     {
-        MeanCovIntrinsics::_mm_store_ps((float*)this, MeanCovIntrinsics::_mm_add_ps(x.q, y.q));
+        _mm_store_ps((float*)this, _mm_add_ps(x.q, y.q));
     }
     __forceinline void set(float x, float y, float z, float w)
     {
@@ -1500,7 +1461,7 @@ struct MeanCovObbRandom
 };
 static __forceinline __m128 MeanCovsplat(float x)
 {
-    __m128 r = MeanCovIntrinsics::_mm_load_ss(&x);
+    __m128 r = _mm_load_ss(&x);
     return _mm_shuffle_ps(r, r, 0);
 }
 static __forceinline float MeanCovarea(__m128 e0, __m128 e1)
@@ -1557,7 +1518,7 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d5c1a0(const void* vertices, 
             MeanCovObbVec delta;
             reinterpret_cast<::FUN_00d5d660_cls *>(&(random))->NextFloat4((float *)&(delta));
             MeanCovObbVec moved;
-            moved.q = _mm_sub_ps(MeanCovIntrinsics::_mm_add_ps(_mm_mul_ps(MeanCovsplat(0.01f), delta.q), av), bv);
+            moved.q = _mm_sub_ps(_mm_add_ps(_mm_mul_ps(MeanCovsplat(0.01f), delta.q), av), bv);
             MeanCovObbVec edge;
             edge.q = _mm_sub_ps(av, c.q);
             triangleArea = MeanCovarea(moved.q, edge.q);
@@ -1573,11 +1534,11 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d5c1a0(const void* vertices, 
         if (triangleArea > 0)
         {
             totalArea += triangleArea;
-            centroid->q = _mm_mul_ps(MeanCovIntrinsics::_mm_add_ps(MeanCovIntrinsics::_mm_add_ps(bv, av), c.q),
+            centroid->q = _mm_mul_ps(_mm_add_ps(_mm_add_ps(bv, av), c.q),
                                      MeanCovsplat(1.0f / 3.0f));
             {
                 __m128 sa = MeanCovsplat(triangleArea);
-                weighted.q = MeanCovIntrinsics::_mm_add_ps(_mm_mul_ps(sa, centroid->q), weighted.q);
+                weighted.q = _mm_add_ps(_mm_mul_ps(sa, centroid->q), weighted.q);
             }
             const float* cj = (const float*)centroid;
             for (int j = 0; j < 3; j++, cj++)
@@ -1591,12 +1552,12 @@ extern "C" __declspec(noinline) void __cdecl FUN_00d5c1a0(const void* vertices, 
         }
         else
         {
-            centroid->q = MeanCovIntrinsics::_mm_add_ps(bv, av);
-            MeanCovIntrinsics::_mm_store_ps((float*)&all[t], MeanCovIntrinsics::_mm_add_ps(c.q, all[t].q));
+            centroid->q = _mm_add_ps(bv, av);
+            _mm_store_ps((float*)&all[t], _mm_add_ps(c.q, all[t].q));
             {
                 __m128 s3 = MeanCovsplat(1.0f / 3.0f);
-                MeanCovIntrinsics::_mm_store_ps((float*)centroid,
-                                                _mm_mul_ps(s3, MeanCovIntrinsics::_mm_load_ps((const float*)centroid)));
+                _mm_store_ps((float*)centroid,
+                                                _mm_mul_ps(s3, _mm_load_ps((const float*)centroid)));
             }
             for (int j = 0; j < 3; j++)
             {
@@ -1793,41 +1754,6 @@ static __declspec(noinline) S00d5bb80_hkSphere
     return s;
 }
 
-extern "C"
-{
-
-    __m128 _mm_mul_ps(__m128, __m128);
-
-    __m128 _mm_add_ps(__m128, __m128);
-
-    __m128 _mm_sub_ps(__m128, __m128);
-
-    __m128 _mm_add_ss(__m128, __m128);
-
-    __m128 _mm_sub_ss(__m128, __m128);
-
-    __m128 _mm_mul_ss(__m128, __m128);
-
-    __m128 _mm_load_ps(const float*);
-
-    __m128 _mm_rsqrt_ss(__m128);
-
-    __m128 _mm_set_ss(float);
-
-    __m128 _mm_set_ps1(float);
-
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-
-    __m128 _mm_andnot_ps(__m128, __m128);
-
-    __m128 _mm_load_ss(const float*);
-
-    __m128 _mm_set_ps(float, float, float, float);
-
-    float _mm_cvtss_f32(__m128);
-
-    void _mm_store_ss(float*, __m128);
-}
 
 struct BoundsVector
 {
@@ -1954,10 +1880,7 @@ static __declspec(noinline) void FUN_00d5b2a0(int a1, int a2, int a3, float d, i
     }
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" void _mm_store_ps(float*, __m128);
+
 struct hkBool
 {
     char m_cBooleanValue;
@@ -2124,8 +2047,7 @@ hkBool __cdecl FUN_00d5a6e0(float m[3][4], int maxIterations)
     }
     return true;
 }
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
-extern "C" __m128 _mm_set_ps1(float);
+
 
 class S00d5ae60_SimdReal
 {
@@ -2262,21 +2184,10 @@ static __declspec(noinline) void FUN_00d5ae60(const float* verts, int numVerts, 
 }
 static unsigned char FUN_00d5ad60(S00d5ad60_cls* self, float* other, float threshold);
 namespace BoxGeometrySse {
-extern "C"
-{
-
-    __m128 _mm_and_ps(__m128, __m128);
-
-    void _mm_store_ps(float*, __m128);
-}
 }
 
 
 extern const double DAT_010d1020;
-
-
-
-
 
 
 struct ObbVec
@@ -2286,17 +2197,17 @@ struct ObbVec
 
     float x() const
     {
-        return q.m128_f32[0];
+        return fnv_simd_as<float>(q)[0];
     }
 
     float y() const
     {
-        return q.m128_f32[1];
+        return fnv_simd_as<float>(q)[1];
     }
 
     float z() const
     {
-        return q.m128_f32[2];
+        return fnv_simd_as<float>(q)[2];
     }
 
     void FUN_00c7f640(const void* transform, const ObbVec* v) throw();
@@ -2404,7 +2315,7 @@ struct ObbArray
         if (size == (cap & 0x3fffffff))
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&a), (::AudioStream *)(void *)(this), 16);
 
-        BoxGeometrySse::_mm_store_ps((float*)&data[size], v.q);
+        _mm_store_ps((float*)&data[size], v.q);
 
         ++size;
     }
@@ -2540,7 +2451,7 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
         _mm_store_ss(&distance, _mm_sqrt_ss(dot3(diff, diff)));
 
-        float error = distance - sphere.q.m128_f32[3];
+        float error = distance - fnv_simd_as<float>(sphere.q)[3];
 
         error = (float)fabs(error);
 
@@ -2650,25 +2561,25 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
     for (int i = 0; i < 8; i++)
     {
 
-        if ((!hlpA(&scratch.data[i].q.m128_f32[0], &minX, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
+        if ((!hlpA(&fnv_simd_as<float>(scratch.data[i].q)[0], &minX, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[0], &maxX, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
+             !hlpA(&fnv_simd_as<float>(scratch.data[i].q)[0], &maxX, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
 
-            (!hlpA(&scratch.data[i].q.m128_f32[1], &minY, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
+            (!hlpA(&fnv_simd_as<float>(scratch.data[i].q)[1], &minY, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[1], &maxY, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
+             !hlpA(&fnv_simd_as<float>(scratch.data[i].q)[1], &maxY, ::AngularDashpotApplyD4DCB0::DAT_01017d00)) ||
 
-            (!hlpA(&scratch.data[i].q.m128_f32[2], &minZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
+            (!hlpA(&fnv_simd_as<float>(scratch.data[i].q)[2], &minZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00) &&
 
-             !hlpA(&scratch.data[i].q.m128_f32[2], &maxZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00)))
+             !hlpA(&fnv_simd_as<float>(scratch.data[i].q)[2], &maxZ, ::AngularDashpotApplyD4DCB0::DAT_01017d00)))
             return false;
     }
 
-    halfExtents.q.m128_f32[0] = maxX - minX;
+    fnv_simd_as<float>(halfExtents.q)[0] = maxX - minX;
 
-    halfExtents.q.m128_f32[1] = maxY - minY;
+    fnv_simd_as<float>(halfExtents.q)[1] = maxY - minY;
 
-    halfExtents.q.m128_f32[2] = maxZ - minZ;
+    fnv_simd_as<float>(halfExtents.q)[2] = maxZ - minZ;
 
     __m128 h = _mm_load_ss(&::fnv_00c88020::DAT_01016248);
     halfExtents.q = _mm_mul_ps(_mm_shuffle_ps(h, h, 0), halfExtents.q);
@@ -2697,18 +2608,18 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
 
         halfExtents.FUN_00c7f700(&output, &halfExtents);
 
-        halfExtents.q.m128_f32[3] = 0;
+        fnv_simd_as<float>(halfExtents.q)[3] = 0;
 
-        halfExtents.q = BoxGeometrySse::_mm_and_ps(halfExtents.q, DAT_01017d10);
+        halfExtents.q = _mm_and_ps(halfExtents.q, DAT_01017d10);
 
         rotation.c0.q = _mm_setzero_ps();
-        rotation.c0.q.m128_f32[0] = 1;
+        fnv_simd_as<float>(rotation.c0.q)[0] = 1;
 
         rotation.c1.q = _mm_setzero_ps();
-        rotation.c1.q.m128_f32[1] = 1;
+        fnv_simd_as<float>(rotation.c1.q)[1] = 1;
 
         rotation.c2.q = _mm_setzero_ps();
-        rotation.c2.q.m128_f32[2] = 1;
+        fnv_simd_as<float>(rotation.c2.q)[2] = 1;
 
         output.c0.q = rotation.c0.q;
 
@@ -2729,9 +2640,9 @@ bool __cdecl ObbInput::FUN_00d5c6d0(ObbVec& halfExtents, ObbXf& output, float to
         for (int j = 0; j < 3; j++)
         {
 
-            float d = (float)fabs(transformed.q.m128_f32[j]);
+            float d = (float)fabs(fnv_simd_as<float>(transformed.q)[j]);
 
-            if (d > halfExtents.q.m128_f32[j] * DAT_010d1020)
+            if (d > fnv_simd_as<float>(halfExtents.q)[j] * DAT_010d1020)
                 return false;
         }
     }
@@ -3137,7 +3048,7 @@ __declspec(noinline) Vec4* FUN_00d5bb10(Vec4* result, Vec4* first, Vec4* second,
     delta.multiply(half);
     float distance = delta.length();
     out->setAdd(base, delta);
-    out->q.m128_f32[3] = distance + radius;
+    fnv_simd_as<float>(out->q)[3] = distance + radius;
     return result;
 }
 

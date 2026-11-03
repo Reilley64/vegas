@@ -2,24 +2,13 @@
 // src/havok/common/visualize/shape/hkdisplaysphere.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysphere.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00e0a000.h"
 #include "fnv/decl/RotationRows.h"
 #include "fnv/symbols_01268000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 struct hkVector4
 {
@@ -30,7 +19,7 @@ struct hkVector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
     void operator=(const hkVector4& v)
     {
@@ -113,19 +102,7 @@ FUN_00e0af50::FUN_00e0af50(const hkVec4f& aVec, int a, int b)
 void FUN_00e0af40(int a, int b)
 {}
 
-extern "C" void _mm_store_ps(float*, __m128);
-extern "C" __m128 _mm_load_ss(const float* p);
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" __m128 _mm_set_ss(float w);
-extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 void* FUN_00c85750(void);
 
 struct AllocatorHolder
@@ -276,7 +253,7 @@ void __cdecl FUN_00e0afe0(SubdivMesh* self, int idx, float w, float t)
     }
 }
 
-extern "C" ::__m128 _mm_setr_ps(float, float, float, float);
+
 extern "C" void _ReadWriteBarrier();
 
 extern double DAT_010ea650;
@@ -304,7 +281,7 @@ struct SphereBuildVertex
     ::__m128 q;
     __forceinline void set(float x, float y, float z, float w)
     {
-        q = (_mm_setr_ps)(x, y, z, w);
+        q = _mm_setr_ps(x, y, z, w);
     }
 };
 
@@ -433,7 +410,7 @@ __declspec(noinline) void SphereMeshBuilder::FUN_00e0b360()
     geo->verts.m_pData[8].set(t, s, 0.0f, 0.0f);
     geo->verts.m_pData[9].set(-t, s, 0.0f, 0.0f);
     ((SphereBuildVertex* const&)geo->verts.m_pData)[10].set(t, -s, 0.0f, 0.0f);
-    geo->verts.m_pData[11].q = (_mm_setr_ps)(-t, -s, 0.0f, 0.0f);
+    geo->verts.m_pData[11].q = _mm_setr_ps(-t, -s, 0.0f, 0.0f);
     SphereBuildFaces* fv = &((SphereBuildGeometry*)m_08)->faces;
     SphereBuildMemory* faceHolder = FUN_00c85750();
     SphereBuildAllocator* fa = faceHolder->m_10;

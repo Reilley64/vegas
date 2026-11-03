@@ -2,6 +2,8 @@
 // src/havok/common/base/system/io/ostream/hkostream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/io/ostream/hkostream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <cstddef>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_00cb1000.h"
@@ -232,7 +234,7 @@ class hkRefObjCC06
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         hkRefObjCC06* b = static_cast<hkRefObjCC06*>(hkRouterCC06::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -475,7 +477,7 @@ template <class T> class hkArrayCC07
     int m_iElementCount;
     int m_iCapacityState;
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         hkRouterCC07::FUN_00c85750().heap().ReleaseBlock(p, nbytes);
     }
@@ -585,7 +587,7 @@ class hkRefObjD60B
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjD60B* b = static_cast<hkRefObjD60B*>(hkRouterD60B::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -827,20 +829,8 @@ void __cdecl FUN_00cc0410(hkOstream* self, const char* fmt, ...)
     FUN_00cc0080((hkWriter0080*)self->m_pStreamWriter, buf);
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
-extern "C"
-{
-    extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-    extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-    extern __m128 _mm_set_ps1(float _A);
-    extern __m128 _mm_setr_ps(float _A, float _B, float _C, float _D);
-    extern __m128 _mm_load_ss(float const* _A);
-};
+
+;
 typedef float hkReal_X;
 typedef signed char hkInt8_X;
 typedef unsigned char hkUchar;
@@ -848,7 +838,7 @@ typedef unsigned char hkUint8_X;
 typedef unsigned short hkUint16_X;
 typedef unsigned int hkUint32_X;
 typedef unsigned long __w64 hkUlong_X;
-typedef unsigned __w64 hk_size_t;
+typedef std::size_t hk_size_t;
 class FinishingFlag
 {
   public:

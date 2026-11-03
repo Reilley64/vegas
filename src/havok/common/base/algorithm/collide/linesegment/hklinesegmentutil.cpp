@@ -2,20 +2,6 @@
 // src/havok/common/base/algorithm/collide/linesegment/hklinesegmentutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/algorithm/collide/linesegment/hklinesegmentutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkSimdRealD230
 {
@@ -86,8 +72,9 @@ int __cdecl FUN_00d230e0(const hkVector4D230& akPoint, const hkVector4D230& kA, 
     return 0;
 }
 
+#include <xmmintrin.h>
 #include <math.h>
-extern "C" __m128 _mm_set_ps1(float);
+
 
 typedef float hkReal;
 

@@ -6,6 +6,9 @@
 void FUN_00d58500(int, int)
 {}
 
+#include "fnv_simd.h"
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_010c7000.h"
 #include <math.h>
@@ -21,7 +24,7 @@ struct DE1F50Vector4
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
     void operator=(const DE1F50Vector4& v)
     {
@@ -161,7 +164,7 @@ struct MathVector
     }
     __forceinline float& at(int i)
     {
-        return lanes.m128_f32[i];
+        return fnv_simd_as<float>(lanes)[i];
     }
     __forceinline void subtract(const MathVector& a, const MathVector& b)
     {
@@ -310,7 +313,7 @@ template <class T> struct List
 };
 struct Geometry
 {
-    static void* operator new(unsigned int, void* p)
+    static void* operator new(std::size_t, void* p)
     {
         return p;
     }
@@ -428,7 +431,7 @@ __declspec(noinline) void FUN_00d58590(CylinderMeshBuilder* self)
                 _ReadWriteBarrier();
                 Quaternion& previous = axisWork.previous;
                 previous = rotation;
-                ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), (void *)&(previous), (const ::fnv_00c66320::__m128 *)&(delta), {});
+                ::fnv_00c66320::FUN_00c66320((__m128 *)&(rotation), (void *)&(previous), (const __m128 *)&(delta), {});
                 ++a;
             } while (a < sectors);
         }

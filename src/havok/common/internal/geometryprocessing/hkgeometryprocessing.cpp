@@ -2,6 +2,9 @@
 // src/havok/common/internal/geometryprocessing/hkgeometryprocessing.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/geometryprocessing/hkgeometryprocessing.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_simd.h"
+#include <cstddef>
+#include <new>
 #include "fnv/decl/FUN_00d9be30_class.h"
 #include "fnv/decl/FUN_00e241a0_cls.h"
 #include "fnv/decl/HostE10.h"
@@ -107,24 +110,6 @@ FUN_00dee6c0_cls* FUN_00dee6c0_cls::FUN_00dee6c0(unsigned char acFlags)
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-
-extern "C"
-{
-    __m128 _mm_add_ss(__m128 a, __m128 b);
-    __m128 _mm_sub_ss(__m128 a, __m128 b);
-    __m128 _mm_div_ss(__m128 a, __m128 b);
-    __m128 _mm_add_ps(__m128 a, __m128 b);
-    __m128 _mm_sub_ps(__m128 a, __m128 b);
-    __m128 _mm_mul_ps(__m128 a, __m128 b);
-    __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-    __m128 _mm_load_ps1(const float* p);
-    void _mm_store_ss(float* p, __m128 a);
-}
 
 struct VectorComponentValue
 {
@@ -205,20 +190,6 @@ float __cdecl FUN_00de94b0(const hkVector4& a, const hkVector4& b, const hkVecto
 }
 
 namespace fnv_00dea810 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_cmplt_ps(__m128, __m128);
-extern "C" __m128 _mm_and_ps(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_or_ps(__m128, __m128);
 
 
 struct hkVector4Comparisonq
@@ -274,7 +245,7 @@ struct hkVector4q
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
 };
 
@@ -339,8 +310,8 @@ void __cdecl FUN_00dea810(const FourPointsArray& rotatedVertices, const hkVector
 
     const hkFourTransposedPointsq& f = rotatedVertices.m_data[(unsigned int)vertexId >> 2];
     int c = vertexId & 3;
-    supportingVertexOut.set(f.m_kVertices[0].m_vComponents.m128_f32[c], f.m_kVertices[1].m_vComponents.m128_f32[c],
-                            f.m_kVertices[2].m_vComponents.m128_f32[c], 0.0f);
+    supportingVertexOut.set(fnv_simd_as<float>(f.m_kVertices[0].m_vComponents)[c], fnv_simd_as<float>(f.m_kVertices[1].m_vComponents)[c],
+                            fnv_simd_as<float>(f.m_kVertices[2].m_vComponents)[c], 0.0f);
     *(int*)&supportingVertexOut(3) = vertexId | 0x3f000000;
 }
 }  // namespace fnv_00dea810
@@ -510,16 +481,7 @@ void FUN_00e19200_cls::FUN_00e19200(Triangle* apTriangle, const __m128* b, int a
 }
 
 namespace fnv_00dea6b0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
+
 
 struct S00dea6b0_Vec
 {
@@ -592,11 +554,6 @@ bool __cdecl FUN_00dea6b0(const S00dea6b0_Vec& p, const S00dea6b0_Vec& a, const 
 }
 }  // namespace fnv_00dea6b0
 
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_setr_ps(float, float, float, float);
-}
 extern __m128 DAT_01017d10;
 extern float DAT_01011d78;
 
@@ -662,9 +619,7 @@ void __cdecl FUN_00de9590(CubeBox* box)
 
 #include <math.h>
 extern const float DAT_0104da4c = 1.1920928955078125e-7f;
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_load_ss(const float*);
+
 
 // Computes the closest distance between two line segments defined by start and end points, writing clamped parameters to the output pointers.
 // @fnv 0x00dea450
@@ -735,14 +690,6 @@ Vec4 __cdecl FUN_00de9b90(const Vec4& a, const Vec4& b, const Vec4& c, const Vec
     return result;
 }
 
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
 
 class ScalarValue
 {
@@ -952,19 +899,6 @@ float __cdecl FUN_00de9f10(const GeomVector& point, const GeomVector& a, const G
 
 #include <float.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_div_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_setr_ps(float, float, float, float);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct S00dea980_Vec
 {
@@ -1051,8 +985,6 @@ hkVector4 __cdecl FUN_00de9b10(const hkVector4& first, const hkVector4& second)
     medianInterpolate(result, first, second, VectorComponentValue(_mm_load_ss(&::fnv_00c88020::DAT_01016248)));
     return result;
 }
-
-extern "C" __m128 _mm_load_ps(const float*);
 
 
 struct CentroidVector
@@ -1296,7 +1228,7 @@ class Sdedf10_Vector4
 class Sdedf10_Aabb
 {
   public:
-    __forceinline static void* __cdecl operator new(unsigned int, Sdedf10_PlacementArg* p) throw()
+    __forceinline static void* __cdecl operator new(std::size_t, Sdedf10_PlacementArg* p) throw()
     {
         return p;
     }
@@ -2264,7 +2196,6 @@ struct Owner
 struct Obj
 {
 };
-
 
 
 // @fnv 0x00dedbb0

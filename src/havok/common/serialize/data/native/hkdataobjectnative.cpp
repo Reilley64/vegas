@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dbb610
+#include <cstddef>
 #include "fnv/decl/TargetClass.h"
 #include "fnv/decl/fnv_00dbbe80__hkDataClassNativeDBBE.h"
 #include "fnv/decl/FUN_00d87440_Class.h"
@@ -716,7 +717,7 @@ class hkRefObjDBB5
         m_sReferenceCount = 0;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjDBB5* b = static_cast<hkRefObjDBB5*>(hkRouterDBB5::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
@@ -1074,7 +1075,7 @@ class FUN_00dbbb90
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
 
-    void* operator new(unsigned int nbytes)
+    void* operator new(std::size_t nbytes)
     {
         FUN_00dbbb90* b = static_cast<FUN_00dbbb90*>(FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
@@ -1585,7 +1586,7 @@ class hkRefObjDBB6
         m_sReferenceCount = 0;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjDBB6* b = static_cast<hkRefObjDBB6*>(hkRouterDBB6::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

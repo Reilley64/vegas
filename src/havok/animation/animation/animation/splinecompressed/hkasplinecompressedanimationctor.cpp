@@ -2,6 +2,8 @@
 // src/havok/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/splinecompressed/hkasplinecompressedanimationctor.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <cstddef>
 #include <new>
 #include <cmath>
 #include "fnv/decl/CC0280Writer.h"
@@ -18,21 +20,7 @@
 #include "fnv/symbols_00e30000.h"
 #include "fnv/symbols_00e31000.h"
 #include "fnv/symbols_010eb000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 struct __declspec(align(16)) FUN_005611c0_t
 {
@@ -459,10 +447,7 @@ struct RouterL
     }
 };
 RouterL* GetRouterL() throw();
-inline void* operator new(unsigned int, void* p) throw()
-{
-    return p;
-}
+
 
 template <class T> struct ArrL
 {
@@ -564,9 +549,6 @@ FUN_00e32af0::FUN_00e32af0(SrcL* pSource, const Elem28L* elem, void* arg3) throw
 }
 
 #include <stdlib.h>
-extern "C"
-{
-}
 
 struct Vector4Array
 {
@@ -760,19 +742,7 @@ extern "C" const char str_010eb468[];  // " bytes."
 extern "C" const char str_010eb470[];  // .\Animation\SplineCompressed\hkaSplineCompressedAnimationCtor.cpp
 extern "C" const char str_010eb4b4[];  // "Number of blocks: "
 extern "C" const char str_010eb4c8[];  // "Compression"
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_setzero_ps();
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
+
 
 struct Se31d50_Alloc
 {

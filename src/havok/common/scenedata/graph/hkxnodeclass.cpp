@@ -4,6 +4,8 @@
 
 // Destructor: release every (key, object) entry, free the entry array, then the base part goes.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/FUN_00e3ed80.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 struct DFD840Allocator
@@ -161,7 +163,7 @@ struct FUN_00dfd8d0
     FUN_00dfd8d0();
     virtual ~FUN_00dfd8d0();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dfd8d0* b = static_cast<FUN_00dfd8d0*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

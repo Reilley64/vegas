@@ -2,6 +2,7 @@
 // src/havok/animation/animation/animation/util/hkatrackanalysis.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/util/hkatrackanalysis.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_0104e000.h"
 #include "fnv/symbols_01267000.h"
@@ -360,15 +361,8 @@ void __cdecl FUN_00e4ebb0(const unsigned short* apFirst, void* apSecond, unsigne
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00e4f640 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_set_ps1(float a);
+
+
 struct TrackData
 {
     unsigned int numTransforms;
@@ -899,7 +893,7 @@ class TrackQuaternion
 class TrackTransform
 {
   public:
-    static __forceinline void* operator new(unsigned int, void* memory)
+    static __forceinline void* operator new(std::size_t, void* memory)
     {
         return memory;
     }

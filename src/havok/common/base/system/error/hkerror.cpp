@@ -2,6 +2,7 @@
 // src/havok/common/base/system/error/hkerror.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/system/error/hkerror.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CC0280Writer.h"
 #include "fnv/decl/FUN_00c903a0_class.h"
@@ -71,7 +72,7 @@ class CB1600ReferencedObject
 class CB1600MemoryStreamWriter : public CB1600ReferencedObject
 {
   public:
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(std::size_t, void* p) throw()
     {
         return p;
     }

@@ -2,6 +2,8 @@
 // src/havok/common/base/math/matrix/hkmatrix4.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hkmatrix4.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include "fnv/decl/Matrix4V.h"
 #include <cmath>
 #include "fnv/decl/FUN_00cb20b0_shell.h"
@@ -135,16 +137,7 @@ void FUN_00de9080_Class::CopyFromFloats(const float* apSource)
     m_data[15] = apSource[15];
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
+
 #include "fnv/symbols_simd.h"
 
 struct __declspec(align(16)) hkVector4
@@ -287,7 +280,6 @@ void FUN_00cdf230_cls::FUN_00cdf230(int iArg)
     reinterpret_cast<::MProduct *>(&(m_kRoomNode))->FUN_00cd55b0((*(const ::MProduct *)(&m_kSource)), (*(const ::MProduct *)(iArg)));
 }
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
 
 struct Row
 {
@@ -369,7 +361,6 @@ struct S00de9270_cls
     void FUN_00de9270(void* dst, const S00de9270_Mat* src);
 };
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 struct MatrixSubtract : hkMatrix4
 {
@@ -387,11 +378,6 @@ const hkMatrix4* MatrixSubtract::FUN_00de8ce0(const hkMatrix4* rhs)
     return rhs;
 }
 
-extern "C"
-{
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-}
 
 struct C
 {
@@ -416,16 +402,6 @@ const __m128* C::FUN_00de8d30(const __m128* apVector)
     return apVector;
 }
 
-extern "C"
-{
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    void _mm_store_ss(float*, __m128);
-}
 
 struct Matrix4Q
 {
@@ -520,16 +496,6 @@ void Matrix4V::FUN_00de8da0(const Matrix4Q* left, MatrixPointerQ right)
     }
 }
 
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
-
 
 struct FUN_00de8ea0_cls
 {
@@ -552,14 +518,6 @@ int FUN_00de8ea0_cls::FUN_00de8ea0()
     return mask == 7;
 }
 
-
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_load_ss(const float*);
-}
 
 class S00de9140_SimdReal
 {
@@ -744,7 +702,7 @@ void S00de9140_Matrix4::FUN_00de9140(const S00de9140_Matrix4& a, const S00de9140
 
 static __forceinline float zvalue(const S00de9140_Vector4& v)
 {
-    return v.m_vComponents.m128_f32[2];
+    return fnv_simd_as<float>(v.m_vComponents)[2];
 }
 static __forceinline float scalarIdentity(float x)
 {
@@ -760,36 +718,36 @@ struct S00de8910_Work_b10903
 int S00de9140_Matrix4::FUN_00de8910(float epsilon)
 {
     const S00de9140_Vector4& column2 = m_kColumn2;
-    const float& val2x = column2.m_vComponents.m128_f32[0];
-    const float& val2y = column2.m_vComponents.m128_f32[1];
-    const float& val2z = column2.m_vComponents.m128_f32[2];
-    const float& val2w = column2.m_vComponents.m128_f32[3];
+    const float& val2x = fnv_simd_as<float>(column2.m_vComponents)[0];
+    const float& val2y = fnv_simd_as<float>(column2.m_vComponents)[1];
+    const float& val2z = fnv_simd_as<float>(column2.m_vComponents)[2];
+    const float& val2w = fnv_simd_as<float>(column2.m_vComponents)[3];
 
     float s0 =
-        -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * m_kColumn1.m_vComponents.m128_f32[0]) +
-        m_kColumn0.m_vComponents.m128_f32[0] * m_kColumn1.m_vComponents.m128_f32[1];
-    float s1 = -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * val2x) +
-               (*(const volatile float*)&val2y) * m_kColumn0.m_vComponents.m128_f32[0];
+        -((*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * fnv_simd_as<float>(m_kColumn1.m_vComponents)[0]) +
+        fnv_simd_as<float>(m_kColumn0.m_vComponents)[0] * fnv_simd_as<float>(m_kColumn1.m_vComponents)[1];
+    float s1 = -((*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * val2x) +
+               (*(const volatile float*)&val2y) * fnv_simd_as<float>(m_kColumn0.m_vComponents)[0];
     float s2 =
-        -((*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * m_kColumn3.m_vComponents.m128_f32[0]) +
-        m_kColumn0.m_vComponents.m128_f32[0] * m_kColumn3.m_vComponents.m128_f32[1];
-    float s3 = -(val2x * m_kColumn1.m_vComponents.m128_f32[1]) + val2y * m_kColumn1.m_vComponents.m128_f32[0];
-    float s4 = -(m_kColumn3.m_vComponents.m128_f32[0] * m_kColumn1.m_vComponents.m128_f32[1]) +
-               m_kColumn3.m_vComponents.m128_f32[1] * m_kColumn1.m_vComponents.m128_f32[0];
-    float s5 = -(m_kColumn3.m_vComponents.m128_f32[0] * val2y) + val2x * m_kColumn3.m_vComponents.m128_f32[1];
+        -((*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * fnv_simd_as<float>(m_kColumn3.m_vComponents)[0]) +
+        fnv_simd_as<float>(m_kColumn0.m_vComponents)[0] * fnv_simd_as<float>(m_kColumn3.m_vComponents)[1];
+    float s3 = -(val2x * fnv_simd_as<float>(m_kColumn1.m_vComponents)[1]) + val2y * fnv_simd_as<float>(m_kColumn1.m_vComponents)[0];
+    float s4 = -(fnv_simd_as<float>(m_kColumn3.m_vComponents)[0] * fnv_simd_as<float>(m_kColumn1.m_vComponents)[1]) +
+               fnv_simd_as<float>(m_kColumn3.m_vComponents)[1] * fnv_simd_as<float>(m_kColumn1.m_vComponents)[0];
+    float s5 = -(fnv_simd_as<float>(m_kColumn3.m_vComponents)[0] * val2y) + val2x * fnv_simd_as<float>(m_kColumn3.m_vComponents)[1];
 
-    float c0 = -(m_kColumn1.m_vComponents.m128_f32[2] * m_kColumn0.m_vComponents.m128_f32[3]) +
-               m_kColumn1.m_vComponents.m128_f32[3] * m_kColumn0.m_vComponents.m128_f32[2];
-    float c1 = val2w * m_kColumn0.m_vComponents.m128_f32[2] -
-               (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[3]) * (float)(+val2z);
-    float c2 = -(m_kColumn3.m_vComponents.m128_f32[2] * m_kColumn0.m_vComponents.m128_f32[3]) +
-               m_kColumn3.m_vComponents.m128_f32[3] * m_kColumn0.m_vComponents.m128_f32[2];
-    float c3 = -((*(const volatile float*)&m_kColumn1.m_vComponents.m128_f32[3]) * (*(const volatile float*)&val2z)) +
-               val2w * m_kColumn1.m_vComponents.m128_f32[2];
-    float c4 = -(m_kColumn3.m_vComponents.m128_f32[2] * m_kColumn1.m_vComponents.m128_f32[3]) +
-               (*(const volatile float*)&m_kColumn3.m_vComponents.m128_f32[3]) * m_kColumn1.m_vComponents.m128_f32[2];
-    float c5 = -(m_kColumn3.m_vComponents.m128_f32[2] * (*(const volatile float*)&val2w)) +
-               (*(const volatile float*)&m_kColumn3.m_vComponents.m128_f32[3]) * (float)(double)val2z;
+    float c0 = -(fnv_simd_as<float>(m_kColumn1.m_vComponents)[2] * fnv_simd_as<float>(m_kColumn0.m_vComponents)[3]) +
+               fnv_simd_as<float>(m_kColumn1.m_vComponents)[3] * fnv_simd_as<float>(m_kColumn0.m_vComponents)[2];
+    float c1 = val2w * fnv_simd_as<float>(m_kColumn0.m_vComponents)[2] -
+               (*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[3]) * (float)(+val2z);
+    float c2 = -(fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * fnv_simd_as<float>(m_kColumn0.m_vComponents)[3]) +
+               fnv_simd_as<float>(m_kColumn3.m_vComponents)[3] * fnv_simd_as<float>(m_kColumn0.m_vComponents)[2];
+    float c3 = -((*(const volatile float*)&fnv_simd_as<float>(m_kColumn1.m_vComponents)[3]) * (*(const volatile float*)&val2z)) +
+               val2w * fnv_simd_as<float>(m_kColumn1.m_vComponents)[2];
+    float c4 = -(fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * fnv_simd_as<float>(m_kColumn1.m_vComponents)[3]) +
+               (*(const volatile float*)&fnv_simd_as<float>(m_kColumn3.m_vComponents)[3]) * fnv_simd_as<float>(m_kColumn1.m_vComponents)[2];
+    float c5 = -(fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * (*(const volatile float*)&val2w)) +
+               (*(const volatile float*)&fnv_simd_as<float>(m_kColumn3.m_vComponents)[3]) * (float)(double)val2z;
 
     S00de8910_Work_b10903 w;
     float det = (float)(s0)*c5 - s1 * c4 + s2 * c3 + s3 * c2 - s4 * c1 + s5 * c0;
@@ -801,55 +759,45 @@ int S00de9140_Matrix4::FUN_00de8910(float epsilon)
         return 1;
     }
 
-    w.adj.m_kColumn0.x = m_kColumn1.m_vComponents.m128_f32[1] * c5 - scalarIdentity(val2y) * c4 +
-                         m_kColumn3.m_vComponents.m128_f32[1] * c3;
-    w.adj.m_kColumn0.y = -(*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c5 + val2y * c2 -
-                         m_kColumn3.m_vComponents.m128_f32[1] * c1;
-    w.adj.m_kColumn0.z = -m_kColumn1.m_vComponents.m128_f32[1] * c2 +
-                         (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c4 +
-                         m_kColumn3.m_vComponents.m128_f32[1] * scalarIdentity(c0);
-    w.adj.m_kColumn0.w = m_kColumn1.m_vComponents.m128_f32[1] * c1 -
-                         (*(const volatile float*)&m_kColumn0.m_vComponents.m128_f32[1]) * c3 - val2y * c0;
+    w.adj.m_kColumn0.x = fnv_simd_as<float>(m_kColumn1.m_vComponents)[1] * c5 - scalarIdentity(val2y) * c4 +
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[1] * c3;
+    w.adj.m_kColumn0.y = -(*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * c5 + val2y * c2 -
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[1] * c1;
+    w.adj.m_kColumn0.z = -fnv_simd_as<float>(m_kColumn1.m_vComponents)[1] * c2 +
+                         (*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * c4 +
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[1] * scalarIdentity(c0);
+    w.adj.m_kColumn0.w = fnv_simd_as<float>(m_kColumn1.m_vComponents)[1] * c1 -
+                         (*(const volatile float*)&fnv_simd_as<float>(m_kColumn0.m_vComponents)[1]) * c3 - val2y * c0;
 
     w.adj.m_kColumn1.x =
-        -m_kColumn1.m_vComponents.m128_f32[0] * c5 + val2x * c4 - m_kColumn3.m_vComponents.m128_f32[0] * c3;
+        -fnv_simd_as<float>(m_kColumn1.m_vComponents)[0] * c5 + val2x * c4 - fnv_simd_as<float>(m_kColumn3.m_vComponents)[0] * c3;
     w.adj.m_kColumn1.y =
-        m_kColumn0.m_vComponents.m128_f32[0] * c5 - val2x * c2 + m_kColumn3.m_vComponents.m128_f32[0] * c1;
-    w.adj.m_kColumn1.z = -m_kColumn0.m_vComponents.m128_f32[0] * c4 + m_kColumn1.m_vComponents.m128_f32[0] * c2 -
-                         m_kColumn3.m_vComponents.m128_f32[0] * c0;
+        fnv_simd_as<float>(m_kColumn0.m_vComponents)[0] * c5 - val2x * c2 + fnv_simd_as<float>(m_kColumn3.m_vComponents)[0] * c1;
+    w.adj.m_kColumn1.z = -fnv_simd_as<float>(m_kColumn0.m_vComponents)[0] * c4 + fnv_simd_as<float>(m_kColumn1.m_vComponents)[0] * c2 -
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[0] * c0;
     w.adj.m_kColumn1.w =
-        m_kColumn0.m_vComponents.m128_f32[0] * c3 - m_kColumn1.m_vComponents.m128_f32[0] * c1 + val2x * c0;
+        fnv_simd_as<float>(m_kColumn0.m_vComponents)[0] * c3 - fnv_simd_as<float>(m_kColumn1.m_vComponents)[0] * c1 + val2x * c0;
 
     w.adj.m_kColumn2.x =
-        m_kColumn1.m_vComponents.m128_f32[3] * s5 - val2w * s4 + m_kColumn3.m_vComponents.m128_f32[3] * s3;
+        fnv_simd_as<float>(m_kColumn1.m_vComponents)[3] * s5 - val2w * s4 + fnv_simd_as<float>(m_kColumn3.m_vComponents)[3] * s3;
     w.adj.m_kColumn2.y =
-        -m_kColumn0.m_vComponents.m128_f32[3] * s5 + val2w * s2 - (float)(m_kColumn3.m_vComponents.m128_f32[3]) * s1;
-    w.adj.m_kColumn2.z = m_kColumn0.m_vComponents.m128_f32[3] * s4 - m_kColumn1.m_vComponents.m128_f32[3] * s2 +
-                         m_kColumn3.m_vComponents.m128_f32[3] * s0;
+        -fnv_simd_as<float>(m_kColumn0.m_vComponents)[3] * s5 + val2w * s2 - (float)(fnv_simd_as<float>(m_kColumn3.m_vComponents)[3]) * s1;
+    w.adj.m_kColumn2.z = fnv_simd_as<float>(m_kColumn0.m_vComponents)[3] * s4 - fnv_simd_as<float>(m_kColumn1.m_vComponents)[3] * s2 +
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[3] * s0;
     w.adj.m_kColumn2.w =
-        -m_kColumn0.m_vComponents.m128_f32[3] * s3 + m_kColumn1.m_vComponents.m128_f32[3] * s1 - val2w * s0;
+        -fnv_simd_as<float>(m_kColumn0.m_vComponents)[3] * s3 + fnv_simd_as<float>(m_kColumn1.m_vComponents)[3] * s1 - val2w * s0;
 
-    w.adj.m_kColumn3.x = -m_kColumn1.m_vComponents.m128_f32[2] * s5 + zvalue(m_kColumn2) * s4 -
-                         m_kColumn3.m_vComponents.m128_f32[2] * s3;
-    w.adj.m_kColumn3.y = m_kColumn0.m_vComponents.m128_f32[2] * s5 - *(&m_kColumn2.m_vComponents.m128_f32[2]) * s2 +
-                         m_kColumn3.m_vComponents.m128_f32[2] * s1;
-    w.adj.m_kColumn3.z = -m_kColumn0.m_vComponents.m128_f32[2] * s4 + m_kColumn1.m_vComponents.m128_f32[2] * s2 -
-                         m_kColumn3.m_vComponents.m128_f32[2] * s0;
+    w.adj.m_kColumn3.x = -fnv_simd_as<float>(m_kColumn1.m_vComponents)[2] * s5 + zvalue(m_kColumn2) * s4 -
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * s3;
+    w.adj.m_kColumn3.y = fnv_simd_as<float>(m_kColumn0.m_vComponents)[2] * s5 - *(&fnv_simd_as<float>(m_kColumn2.m_vComponents)[2]) * s2 +
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * s1;
+    w.adj.m_kColumn3.z = -fnv_simd_as<float>(m_kColumn0.m_vComponents)[2] * s4 + fnv_simd_as<float>(m_kColumn1.m_vComponents)[2] * s2 -
+                         fnv_simd_as<float>(m_kColumn3.m_vComponents)[2] * s0;
     w.adj.m_kColumn3.w =
-        m_kColumn0.m_vComponents.m128_f32[2] * s3 - m_kColumn1.m_vComponents.m128_f32[2] * s1 + (float)(+val2z) * s0;
+        fnv_simd_as<float>(m_kColumn0.m_vComponents)[2] * s3 - fnv_simd_as<float>(m_kColumn1.m_vComponents)[2] * s1 + (float)(+val2z) * s0;
 
     FUN_00de88a0(*(const S00de9140_SimdReal*)&w.invDetVec, *(const S00de9140_Matrix4*)&w.adj);
     return 0;
-}
-
-extern "C"
-{
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_setr_ps(float, float, float, float);
-    void _mm_store_ss(float*, __m128);
 }
 
 

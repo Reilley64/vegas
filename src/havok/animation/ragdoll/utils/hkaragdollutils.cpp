@@ -2,6 +2,7 @@
 // src/havok/animation/ragdoll/utils/hkaragdollutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/utils/hkaragdollutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00ce9000.h"
 #include "fnv/symbols_01012000.h"
@@ -659,26 +660,8 @@ void __cdecl FUN_00ceaf60(Ragdoll* original, int aiSourceBone, Ragdoll** first, 
 }  // namespace fnv_00ceaf60
 
 extern "C" void _ReadWriteBarrier();
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-#include "fnv/symbols_simd.h"
-extern "C" __m128 _mm_load_ps(const float*);
 
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_rcp_ps(__m128);
-}
+#include "fnv/symbols_simd.h"
 
 
 struct hkBoolR
@@ -947,7 +930,7 @@ struct hkQsXform
         hkVec4 extra;
         extra.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(t1.m_vTranslation, extra);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
     __forceinline void SetConjugate(const hkQsXform& t)
@@ -1297,7 +1280,7 @@ static __forceinline void composeTransforms(Transform& destination, const Transf
     tForward = _mm_add_ps(tForward, _mm_mul_ps(_mm_shuffle_ps(dForward, dForward, 0), qForward));
     tForward = _mm_add_ps(crossForward, tForward);
     destination.translation = _mm_add_ps(_mm_add_ps(tForward, tForward), parent.translation);
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(destination.rotation), (void *)(&parent.rotation), (const ::fnv_00c66320::__m128 *)(const ::Quaternion *)(&child.rotation), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(destination.rotation), (void *)(&parent.rotation), (const __m128 *)(const ::Quaternion *)(&child.rotation), {});
     destination.scale = _mm_mul_ps(child.scale, parent.scale);
 }
 template <class T> struct Array
@@ -1376,7 +1359,7 @@ struct Skeleton : SkeletonHeader
     Array<int> localFrames;
     __forceinline Skeleton() throw()
     {}
-    __forceinline void* operator new(unsigned int bytes)
+    __forceinline void* operator new(std::size_t bytes)
     {
         SpawnedGlobal* holder = FUN_00c85750();
         SpawnedAllocator* allocator = holder->m_pAllocator;

@@ -2,6 +2,8 @@
 // src/havok/common/internal/kdtree/hkkdtree.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/kdtree/hkkdtree.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d9d000.h"
 #include "fnv/symbols_0104d000.h"
@@ -109,7 +111,7 @@ struct D97770Interval
     int m_kRayStart;
     int m_data;
 
-    static void* operator new(unsigned int, void* p) throw()
+    static void* operator new(std::size_t, void* p) throw()
     {
         return p;
     }

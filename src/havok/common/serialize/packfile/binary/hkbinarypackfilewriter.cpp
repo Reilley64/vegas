@@ -2,6 +2,7 @@
 // src/havok/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/packfile/binary/hkbinarypackfilewriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/Archive.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -1976,10 +1977,7 @@ struct SubVec
     int v08;
     void SwapThreeInts(Arr8* a);
 };
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
+
 struct Entry52
 {
     Triple first;

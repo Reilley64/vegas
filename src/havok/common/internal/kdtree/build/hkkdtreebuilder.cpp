@@ -1,3 +1,7 @@
+#include <emmintrin.h>
+#include <xmmintrin.h>
+#include <cstddef>
+#include <new>
 #include "fnv_asm_helpers.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/SinkOwner.h"
@@ -20,7 +24,7 @@ typedef signed int hkInt32;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
 typedef unsigned long __w64 hkUlong;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef std::size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag():m_bFinishing(0){}
@@ -207,8 +211,7 @@ typedef Allocator AllocatorType;protected:
 __forceinline hkArray(const hkArray&a);
 public:
 __forceinline hkArray&operator=(const HavokElementArray<T>&a);};
-typedef union __declspec(intrin_type)__declspec(align(16))__m128{
-unsigned __int16 m128_u16[8];}__m128;
+
 typedef __m128 hkQuadReal;
 class Vector4Comparison;
 typedef const Vector4Comparison&hkVector4ComparisonParameter;
@@ -278,18 +281,8 @@ dst32+=4;
 }
 }
 }
-typedef union __declspec(intrin_type)__declspec(align(16))__m128i{
-__int8 m128i_i8[16];
-__int16 m128i_i16[8];
-__int32 m128i_i32[4];
-__int64 m128i_i64[2];
-unsigned __int8 m128i_u8[16];
-unsigned __int16 m128i_u16[8];
-unsigned __int32 m128i_u32[4];
-unsigned __int64 m128i_u64[2];
-}__m128d;
-extern "C"{
-extern __m128i _mm_setzero_si128(void);};
+
+;
 typedef __m128i hkQuadUint;
 class UnsignedIntegerVector4
 {

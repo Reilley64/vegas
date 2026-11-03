@@ -3,6 +3,8 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00dda830
+#include <cstddef>
+#include <new>
 #include "fnv/decl/Archive.h"
 #include "fnv/decl/CpuObject.h"
 #include "fnv/decl/D60590Object.h"
@@ -94,10 +96,6 @@ inline void* hkAlloc(int n)
     return p;
 }
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct FUN_00d60830 : RefObj
 {

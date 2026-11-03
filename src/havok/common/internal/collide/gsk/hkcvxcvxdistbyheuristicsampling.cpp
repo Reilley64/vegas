@@ -4,40 +4,15 @@
 // Baseline from an unnamed contributor, 2026-10-28, packet score 58 (unverified).
 // The inherited volatile-global caller is replaced by an ordinary argument-forwarding caller.
 // No unverified non-aliasing qualifier is imposed on the result pointer.
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    struct
-    {
-        float x, y, z, w;
-    };
-};
+
+#include <xmmintrin.h>
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_01268000.h"
 #include <string.h>
 #include <math.h>
 #include "fnv/symbols_simd.h"
-extern "C"
-{
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_movehl_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    void _mm_store_ss(float*, __m128);
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float*);
-    int _mm_movemask_ps(__m128);
-    float _mm_cvtss_f32(__m128);
-}
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 struct Matrix;
 struct Scalar
 {
@@ -173,17 +148,17 @@ void ProjectShapes(const Matrix* matrix, Shape* shape, Shape* other, const Vec* 
 static void FUN_00e625c0(const Matrix* matrix, Shape* shape, Shape* other, const Vec* normal, Result* result);
 extern const float DAT_01017d00 = 0.001f;
 
-extern "C" ::__m128(_mm_setzero_ps)();
+extern "C" ::__m128_mm_setzero_ps();
 
-extern "C" ::__m128(_mm_set_ss)(float);
+extern "C" ::__m128_mm_set_ss(float);
 
-extern "C" ::__m128(_mm_rsqrt_ss)(::__m128);
+extern "C" ::__m128_mm_rsqrt_ss(::__m128);
 
-extern "C" ::__m128(_mm_cmpeq_ss)(::__m128, ::__m128);
+extern "C" ::__m128_mm_cmpeq_ss(::__m128, ::__m128);
 
-extern "C" ::__m128(_mm_andnot_ps)(::__m128, ::__m128);
+extern "C" ::__m128_mm_andnot_ps(::__m128, ::__m128);
 
-extern "C" ::__m128(_mm_mul_ss)(::__m128, ::__m128);
+extern "C" ::__m128_mm_mul_ss(::__m128, ::__m128);
 
 
 struct SamplingOutPair_e62740
@@ -196,22 +171,22 @@ static __forceinline ::__m128 SamplingRecipSqrt_e62740(::__m128 r, const ::Vec& 
 
 {
 
-    ::__m128 e = (_mm_rsqrt_ss)(r);
+    ::__m128 e = _mm_rsqrt_ss(r);
 
-    ::__m128 cmp = (_mm_cmpeq_ss)(r, zero.v);
+    ::__m128 cmp = _mm_cmpeq_ss(r, zero.v);
 
-    ::__m128 t = (_mm_mul_ss)((_mm_mul_ss)(r, e), e);
+    ::__m128 t = _mm_mul_ss(_mm_mul_ss(r, e), e);
 
-    ::__m128 q = (_mm_mul_ss)((_mm_mul_ss)(half.v, e), (_mm_sub_ss)(three.v, t));
+    ::__m128 q = _mm_mul_ss(_mm_mul_ss(half.v, e), _mm_sub_ss(three.v, t));
 
-    return (_mm_andnot_ps)(cmp, q);
+    return _mm_andnot_ps(cmp, q);
 }
 
 static __forceinline void SamplingSetMul_e62740(::Vec& o, ::__m128 s, const ::Vec& a)
 
 {
 
-    o.v = (_mm_mul_ps)(s, a.v);
+    o.v = _mm_mul_ps(s, a.v);
 }
 
 struct SamplingShuffles_e62740
@@ -221,26 +196,26 @@ struct SamplingShuffles_e62740
 
 static __forceinline void SamplingPrepare_e62740(SamplingShuffles_e62740& sh, ::__m128 q)
 {
-    sh.d.v = (_mm_shuffle_ps)(q, q, 0xd2);
-    sh.c.v = (_mm_shuffle_ps)(q, q, 0xc9);
+    sh.d.v = _mm_shuffle_ps(q, q, 0xd2);
+    sh.c.v = _mm_shuffle_ps(q, q, 0xc9);
 }
 
 static __forceinline void SamplingCross_e62740(::Vec& o, const ::Vec& a, const SamplingShuffles_e62740& sh)
 
 {
 
-    ::__m128 m1 = (_mm_mul_ps)((_mm_shuffle_ps)(a.v, a.v, 0xd2), sh.c.v);
+    ::__m128 m1 = _mm_mul_ps(_mm_shuffle_ps(a.v, a.v, 0xd2), sh.c.v);
 
-    ::__m128 m2 = (_mm_mul_ps)((_mm_shuffle_ps)(a.v, a.v, 0xc9), sh.d.v);
+    ::__m128 m2 = _mm_mul_ps(_mm_shuffle_ps(a.v, a.v, 0xc9), sh.d.v);
 
-    o.v = (_mm_sub_ps)(m2, m1);
+    o.v = _mm_sub_ps(m2, m1);
 }
 
 static __forceinline void SamplingSetMulS_e62740(::Vec& o, ::__m128 s, const ::Vec& a)
 
 {
 
-    o.v = (_mm_mul_ps)((_mm_shuffle_ps)(s, s, 0), a.v);
+    o.v = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), a.v);
 }
 
 // @fnv 0x00e62740
@@ -266,7 +241,7 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
         axisPtr += 1;
 
-        axis.v = (_mm_xor_ps)(DAT_010c44d0, axis.v);
+        axis.v = _mm_xor_ps(DAT_010c44d0, axis.v);
 
         FUN_00e625c0(matrix, shape, other, &axis, &result);
 
@@ -276,19 +251,19 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
     ::Vec zeroA;
 
-    zeroA.v = (_mm_setzero_ps)();
+    zeroA.v = _mm_setzero_ps();
 
     ::Vec zeroB;
 
-    zeroB.v = (_mm_set_ss)(0.0f);
+    zeroB.v = _mm_set_ss(0.0f);
 
     ::Vec cThree;
 
-    cThree.v = (_mm_set_ss)(3.0f);
+    cThree.v = _mm_set_ss(3.0f);
 
     ::Vec cHalf;
 
-    cHalf.v = (_mm_set_ss)(0.5f);
+    cHalf.v = _mm_set_ss(0.5f);
 
     float limit = 1.0f;
 
@@ -335,9 +310,9 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
         SamplingSetMulS_e62740(perpN, SamplingRecipSqrt_e62740(perp.dot(perp).v, cThree, cHalf, zeroB), perp);
 
-        ::__m128 ls1 = (_mm_load_ss)(&limit);
+        ::__m128 ls1 = _mm_load_ss(&limit);
 
-        ::__m128 ls2 = (_mm_load_ss)(&limit);
+        ::__m128 ls2 = _mm_load_ss(&limit);
 
         SamplingShuffles_e62740 sh;
         SamplingPrepare_e62740(sh, perpN.v);
@@ -356,11 +331,11 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
         ::Vec sum;
 
-        sum.v = (_mm_add_ps)(result.plane.v, scaledPerp.v);
+        sum.v = _mm_add_ps(result.plane.v, scaledPerp.v);
 
         ::__m128 is2 = SamplingRecipSqrt_e62740(sum.dot(sum).v, cThree, cHalf, zeroB);
 
-        ::__m128 splat2 = (_mm_shuffle_ps)(is2, is2, 0);
+        ::__m128 splat2 = _mm_shuffle_ps(is2, is2, 0);
 
         ::Vec n1;
 
@@ -368,19 +343,19 @@ __declspec(noinline) void FUN_00e62740(Shape* shape, Shape* other, const Matrix*
 
         ::Vec n2;
 
-        n2.v = (_mm_mul_ps)((_mm_sub_ps)(result.plane.v, scaledPerp.v), splat2);
+        n2.v = _mm_mul_ps(_mm_sub_ps(result.plane.v, scaledPerp.v), splat2);
 
-        ::__m128 add3 = (_mm_add_ps)(crossScaled.v, result.plane.v);
+        ::__m128 add3 = _mm_add_ps(crossScaled.v, result.plane.v);
 
-        ::__m128 sub4 = (_mm_sub_ps)(result.plane.v, crossScaled.v);
+        ::__m128 sub4 = _mm_sub_ps(result.plane.v, crossScaled.v);
 
         ::Vec n3;
 
-        n3.v = (_mm_mul_ps)(add3, splat2);
+        n3.v = _mm_mul_ps(add3, splat2);
 
         ::Vec n4;
 
-        n4.v = (_mm_mul_ps)(sub4, splat2);
+        n4.v = _mm_mul_ps(sub4, splat2);
 
         FUN_00e625c0(matrix, shape, other, &n1, &result);
 

@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/attributes/hkxattributegroup.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributegroup.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/symbols_00e5c000.h"
 #include <new>
 #include "fnv/decl/Cb0StringCopy.h"
@@ -20,10 +21,6 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkxAttributeGroup.h"
 
-__forceinline void* __cdecl operator new(unsigned int, void* pvWhere) throw()
-{
-    return pvWhere;
-}
 
 struct FUN_00cb0c00_class
 {
@@ -317,12 +314,6 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     return *this;
 }
 
-
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct AttributeObj
 {

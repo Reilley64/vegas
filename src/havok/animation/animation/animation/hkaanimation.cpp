@@ -2,6 +2,8 @@
 // src/havok/animation/animation/animation/hkaanimation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/animation/hkaanimation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/Cb0StringCopy.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00dfb5a0_cls.h"
@@ -97,10 +99,6 @@ extern "C" hkMemoryRouterE2F& __cdecl FUN_00c85750() throw();
 }
 
 
-inline void* operator new(unsigned int, void* pvWhere)
-{
-    return pvWhere;
-}
 struct TrackE2F
 {
     int unk00, unk04, unk08, unk0C;

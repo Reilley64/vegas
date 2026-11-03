@@ -88,11 +88,7 @@ FUN_00de1d20::FUN_00de1d20(int aiValue) : S_00de1d20_Mid(aiValue)
 }
 
 namespace fnv_00de1d70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 
 struct hkMemoryAllocator;
 

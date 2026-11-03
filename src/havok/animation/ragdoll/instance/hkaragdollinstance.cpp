@@ -1080,7 +1080,7 @@ static __declspec(noinline) void FUN_00ce0ff0(SubObj* object, Pose32* pose)
     Quaternion conjugate;
     conjugate.value = _mm_xor_ps(orient.value, _mm_set_ps(0.0f, -0.0f, -0.0f, -0.0f));
     Quaternion result;
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(result), (void *)&(conjugate), (const ::fnv_00c66320::__m128 *)&(*reinterpret_cast<Quaternion*>(pose)), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(result), (void *)&(conjugate), (const __m128 *)&(*reinterpret_cast<Quaternion*>(pose)), {});
     _mm_store_ps(reinterpret_cast<float*>(pose), result.value);
 }
 
@@ -1275,7 +1275,7 @@ class hkQsTransformCE2
         hkVector4CE2 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -1589,7 +1589,7 @@ class hkQsTransformC21
         hkVector4C21 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -2025,7 +2025,7 @@ class hkQsTransformC18
         hkVector4C18 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.m_vComponents = _mm_mul_ps(m_vScale.m_vComponents, t1.m_vScale.m_vComponents);
     }
     __forceinline void SetMulInverse(const hkQsTransformC18& a, const hkQsTransformC18& b)
@@ -2148,7 +2148,7 @@ static __declspec(noinline) void FUN_00ce0ff0(const hkVec4& dir, hkQuat& q)
     _ReadWriteBarrier();
     inv.m_vec.m_vComponents = _mm_xor_ps(value, mask);
     hkQuat res;
-    ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(res), (void *)&(inv), (const ::fnv_00c66320::__m128 *)&(q), {});
+    ::fnv_00c66320::FUN_00c66320((__m128 *)&(res), (void *)&(inv), (const __m128 *)&(q), {});
     q.m_vec.m_vComponents = res.m_vec.m_vComponents;
 }
 class ScalarLane
@@ -2439,7 +2439,7 @@ class hkQsTransformC17
         hkVector4C17 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -2646,7 +2646,7 @@ struct RagQsTransform
         hkVec4 extraTrans;
         extraTrans.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(extraTrans, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)(&t1.m_rotation), (const ::fnv_00c66320::__m128 *)(const ::fnv_00ce1ad0::FUN_005611c0_t *)(&t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)(&t1.m_rotation), (const __m128 *)(const ::fnv_00ce1ad0::FUN_005611c0_t *)(&t2.m_rotation), {});
         m_vScale.set(_mm_mul_ps(_mm_load_ps(&t1.m_vScale.x), t2.m_vScale.get()));
     }
 };

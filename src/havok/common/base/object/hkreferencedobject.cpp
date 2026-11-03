@@ -2,6 +2,8 @@
 // src/havok/common/base/object/hkreferencedobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/object/hkreferencedobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/fnv_00cc49b0__FUN_00cc49b0_class.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/symbols_00c90000.h"
@@ -484,7 +486,6 @@ void __cdecl EnterTlsGuard()
 }
 
 
-
 struct hkCriticalSectionDataC905
 {
     void* m_debugInfo;
@@ -931,7 +932,7 @@ class hkRefObjC904
         m_sReferenceCount = 1;
     }
 
-    static void* operator new(unsigned int nbytes)
+    static void* operator new(std::size_t nbytes)
     {
         hkRefObjC904* b = static_cast<hkRefObjC904*>(hkRouterC904::FUN_00c85750().heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;

@@ -2,6 +2,7 @@
 // src/havok/common/serialize/data/util/hkdataobjectutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/data/util/hkdataobjectutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/AudioHandle.h"
 #include "fnv/decl/CB1A90Owner.h"
@@ -176,10 +177,6 @@ struct S_00dc3ce0_Entry
     {}
 };
 
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S_00dc3ce0_Array
 {
@@ -257,7 +254,6 @@ struct GlobalObj_cls
     virtual int v0c();
     virtual int v10();
 };
-
 
 
 // Calls v0c on DAT_01268b08, then passes a1, obj->v10() and that result to FUN_00dc32c0 and returns its result.
@@ -1827,10 +1823,7 @@ struct S_00dc4a80
 };
 
 namespace fnv_00dc4fa0 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-} __m128;
+
 
 struct S_00dc4fa0_Reader
 {
@@ -2257,7 +2250,7 @@ struct DWC_MemberInfo
     DWC_MemberInfo() throw() : m_name(0), m_type(0), m_tuple(0), m_class(0), m_valuePtr(0)
     {}
 };
-inline void* operator new(unsigned int, DWC_MemberInfo* p) throw()
+inline void* operator new(std::size_t, DWC_MemberInfo* p) throw()
 {
     return p;
 }
@@ -2778,7 +2771,7 @@ struct S_00dc4710_Ref
     short m_iElementCount;
     short m_iObjectReferenceCount;
       // FUN_00c905b0
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         void* p = ((S_00dc4710_Router*)FUN_00c85750())->heap().AllocateMemoryBlock(n);
         ((S_00dc4710_Ref*)p)->m_iElementCount = (short)n;

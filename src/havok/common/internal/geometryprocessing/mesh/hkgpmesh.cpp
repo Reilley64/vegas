@@ -1,5 +1,8 @@
 // havok/common/internal/geometryprocessing/mesh/hkgpmesh.cpp: QhkVector4, BigSolver, BoundsMesh, TriangleChecker and more (160 functions)
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
+#include <cstddef>
 #include "fnv/decl/FUN_00d76100_cls.h"
 #include "fnv/decl/MeshSol.h"
 #include "fnv/decl/S00e25cd0_Tri.h"
@@ -299,13 +302,13 @@ struct FourFloatVector {float x,y,z,w;};
 struct VectorArray {FourFloatVector* data; int size; int capacity;
  VectorArray():data(0),size(0),capacity(0x80000000) {}
  void release(Allocator& heap) {size=0; if(!(capacity&0x80000000)) heap.freeBlock(data,(capacity&0x3fffffff)*16);}
- 
+
 };
 struct Options {unsigned int unk00,unk04; unsigned char flag08,flag09,flag0a,flag0b; unsigned int unk0c; };
 struct FUN_00d76ca0 {__declspec(nothrow) virtual ~FUN_00d76ca0(); unsigned short memorySize,referenceCount; int unk08,unk0c,unk10;
  __declspec(nothrow) FUN_00d76ca0();
  static void* allocate(Allocator& heap,unsigned int bytes) { void* memory=heap.allocate(bytes); ((FUN_00d76ca0*)memory)->memorySize=(unsigned short)bytes; return memory;}
- static void* operator new(unsigned int bytes) {return allocate(FUN_00c85750().getHeap(),bytes);}
+ static void* operator new(std::size_t bytes) {return allocate(FUN_00c85750().getHeap(),bytes);}
 };
 struct Hull {
 unsigned int unk00;
@@ -3210,7 +3213,7 @@ struct E24850Node {
     E24850Node* m_next;
     E24850Node* m_pSecondNode;
 
-    static void* operator new(unsigned int, void* p) { return p; }
+    static void* operator new(std::size_t, void* p) { return p; }
     E24850Node(void* data);
 };
 
@@ -4002,37 +4005,37 @@ FUN_00e27df0_cls* FUN_00e27df0_cls::FUN_00e27df0(unsigned char acFlags)
 // Havok ray/plane-triangle cast step: intersect the cast ray with the triangle's plane, test the hit point
 // against the triangle, and keep the closest hit fraction.
 #ifndef _INCLUDED_MM2
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; } __m128;
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ps(const float* p);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" void _mm_store_ps(float* p, __m128 a);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" void _mm_store_ss(float* p, __m128 a);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_mul_ss(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_div_ss(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
+
 #endif
 
     // constant vector (zero)
@@ -4546,7 +4549,6 @@ namespace fnv_00e136c0 {
 // out of the source shape.
 
 
-
                // 0x01034208 = __real@4018000000000000
 
 // A holder object: the three per-node values live in the member at +0x10.
@@ -5000,7 +5002,7 @@ void FUN_00e22f90_cls::FUN_00e22f90(PoolItemAB* item)
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
 #endif
 extern int DAT_010eade0;
 struct FUN_00e121c0_probe {
@@ -5508,10 +5510,10 @@ void S_00e11a90_Class::FUN_00e11a90(int value) {
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
+
 #endif
 
 struct S_00e12360_Vtx {
@@ -5593,7 +5595,7 @@ struct HullFloodTriangle {
     int unk2c;
     int m_vis;
 };
-inline void* operator new(unsigned int, void* storage) { return storage; }
+
 struct HullFloodEdge {
     HullFloodTriangle* m_node;
     int m_k;
@@ -5793,10 +5795,10 @@ void HullMesh::FUN_00e12bc0(Vertex* from, Vertex* to)
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float *p);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_set_ps1(float f);
+
 #endif
 
 
@@ -5876,7 +5878,7 @@ float S_00e14160::FUN_00e14160(const S_00e14160_Vec& dir, float limit)
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_setzero_ps(void);
+
 #endif
 
 struct E142Vec {
@@ -6044,9 +6046,8 @@ template<class T> __forceinline void SwapVertices(T& a, T& b) {
     b = temp;
 }
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
-#endif
 
+#endif
 
 
 struct EdgeNode : S_00e13910_Triangle {
@@ -6141,7 +6142,7 @@ void EdgeMeshFlip::FUN_00e150e0(int a1) {
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
 #endif
 
 struct E153F0Vector4
@@ -6366,10 +6367,10 @@ void FUN_00e226b0_cls::FUN_00e226b0(SceneVec* v, SceneVec* out) {
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sqrt_ss(__m128 a);
+
 #endif
 
 struct TriAreaGreater {
@@ -7095,7 +7096,7 @@ float __cdecl FUN_00e13870(char* self, unsigned int idx)
 // Clamped-distance accumulation with a dot3 weighted correction.
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
+
 #endif
 
 struct CollideShape
@@ -7146,22 +7147,22 @@ float CollideShape::FUN_00e144d0(float x, __m128* a, __m128* out, int count)
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_min_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_max_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_set_ps(float, float, float, float);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpacklo_ps(__m128, __m128);
+
 #endif
 
 struct __declspec(align(16)) CellVec {
@@ -7313,7 +7314,7 @@ void FUN_00e21dd0_cls::FUN_00e21dd0(__m128* result) {
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float* p);
+
 #endif
 
 
@@ -7663,16 +7664,16 @@ LocResult LocTriangulator::LocatePoint(int x, int y)
 
 #include <math.h>
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sqrt_ss(__m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ps1(const float*);
+
 #endif
 #ifndef _INCLUDED_MM2
 static __m128 _mm_set1_ps(const float& f) {__m128 a=_mm_load_ss(&f);return _mm_shuffle_ps(a,a,0);}
@@ -7724,7 +7725,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
     if(apParams->flag15) {
         t=nodes;
         while(t) {
-            
+
             EVec point;
             store(point,_mm_add_ps(_mm_mul_ps(_mm_set1_ps(matrix),load(t->normal)),load(t->position)));
             float r=FUN_00e16e50(apParams->value,&point,apParams->filter);
@@ -7733,7 +7734,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
                 Router& router=FUN_00c85750();
                 if(out->size==(int)(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(out),16);
                 store(EAppend(out),load(point));
-                
+
             }
             t=t->next;
         }
@@ -7755,7 +7756,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
                 if(face->edges[i]&~3) {
                     char validOther;
                     if(!*((EFace*)(face->edges[i]&~3))->normal.FUN_00c7f520(&validOther,DAT_010141cc)) goto nextEdge;
-                    
+
                     float dot; _mm_store_ss(&dot,((EFace*)(face->edges[i]&~3))->normal.dot(face->normal));
                     if(dot>apParams->angle) goto nextEdge;
                     normal.simd=_mm_add_ps(((EFace*)(face->edges[i]&~3))->normal.quad(),normal.simd);
@@ -7802,7 +7803,7 @@ void EMesh::FUN_00e17010(EParams* apParams,EArray* out) {
                             Router& router=FUN_00c85750();
                             if(out->size==(int)(out->capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(router.heap),(::AudioStream *)(out),16);
                             store(EAppend(out),load(point));
-                            
+
                         }
                         if(apParams->flag17) break;
                     }
@@ -7831,7 +7832,7 @@ struct FUN_00e21e30 {
 // Empty virtual destructor of the FUN_00e21e30 class.
 // @fnv 0x00e21e30
     virtual ~FUN_00e21e30() {}
-    void operator delete(void* p, unsigned int nbytes) {
+    void operator delete(void* p, std::size_t nbytes) {
         S_00e21e30_Router::FUN_00c85750().heap().ReleaseBlock(p, static_cast<int>(nbytes));
     }
 };
@@ -7899,7 +7900,7 @@ struct FUN_00e22db0 {
 // Empty virtual destructor for the FUN_00e22db0 class.
 // @fnv 0x00e22db0
     virtual ~FUN_00e22db0() {}
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         S_00e22db0_Service* sv = fnvc_adapt::FUN_00c85750();
         sv->unk10->release(p, 0x60);
@@ -7910,13 +7911,13 @@ FUN_00e22db0::FUN_00e22db0() {}
 }  // namespace fnv_00e22db0
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_set_ps1(float);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sqrt_ss(__m128);
+
 #endif
 
 typedef float hkReal;
@@ -7935,7 +7936,7 @@ struct CheckVector {
     __m128 m_vComponents;
 
     __forceinline void operator=(const CheckVector& v) { m_vComponents = v.m_vComponents; }
-    __forceinline hkReal& operator()(int i) { return m_vComponents.m128_f32[i]; }
+    __forceinline hkReal& operator()(int i) { return fnv_simd_as<float>(m_vComponents)[i]; }
     __forceinline void setSub4(const CheckVector& a, const CheckVector& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
     __forceinline void mul4(hkReal s) { __m128 scale = _mm_load_ss(&s); m_vComponents = _mm_mul_ps(_mm_shuffle_ps(scale, scale, 0), m_vComponents); }
     __forceinline void setCross(const CheckVector& v1, const CheckVector& v2)
@@ -8154,31 +8155,31 @@ void FUN_00e124d0(S00e124d0_Table* t) {
 
 static __forceinline void setXYZ(float* p, float v) { p[0]=v;p[1]=v;p[2]=v; }
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_min_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_max_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_set_ps1(float);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
+
 #endif
 
 struct __declspec(align(16)) BoundsCopy { float x,y,z,w; };
 static __forceinline float fMinimumInputValue(float a, float b) { return a > b ? a : b; }
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_unpackhi_ps(__m128, __m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_rcp_ps(__m128);
+
 #endif
 
 
@@ -8284,14 +8285,14 @@ bool BoundsMesh::FUN_00e11710(const __m128* a,const __m128* b,const __m128* c,__
     __m128 d=_mm_add_ss(_mm_shuffle_ps(q,q,0xaa),_mm_add_ss(_mm_shuffle_ps(q,q,0x55),q));
     d=_mm_sqrt_ss(d);
     float len;_mm_store_ss(&len,d);
-    out->m128_f32[3]=len;
+    fnv_simd_as<float>(*out)[3]=len;
     if(check && areaThreshold>len) {badGeometry=1;valid=false;}
-    float inv=1.0f/out->m128_f32[3];
+    float inv=1.0f/fnv_simd_as<float>(*out)[3];
     *out=_mm_mul_ps(_mm_set_ps1(inv),*out);
     __m128 product=_mm_mul_ps(*a,*out);
     __m128 dot=_mm_add_ss(_mm_shuffle_ps(product,product,0xaa),_mm_add_ss(_mm_shuffle_ps(product,product,0x55),product));
     __m128 neg=_mm_sub_ss(DAT_010c7160,dot);
-    _mm_store_ss(&out->m128_f32[3],neg);
+    _mm_store_ss(&fnv_simd_as<float>(*out)[3],neg);
     return valid;
 }
 bool BoundsMesh::FUN_00e11910(BoundFace* face) {
@@ -8629,7 +8630,7 @@ int __cdecl FUN_00e155b0(const HullDescriptor* const* descriptors,int count) {
 }
 
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ps1(const float*);
+
 #endif
 float ZToReal(__m128 v) {
     float f;
@@ -8637,13 +8638,13 @@ float ZToReal(__m128 v) {
     return f;
 }
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float*);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
+
 #endif
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_sqrt_ss(__m128);
+
 #endif
 struct ZBox {
     __m128 low,high;
@@ -8911,7 +8912,7 @@ struct Builder360 {
     int* FUN_00e1de00(int**, int);
     void FUN_00e1b820(Pieces*, int, int);
 };
-struct Factory360 { 
+struct Factory360 {
 int* FUN_00e1f360(int* result, int input, Pieces* output, float low, float high); };
 struct Hull360 {
 };
@@ -8961,7 +8962,7 @@ int* Factory360::FUN_00e1f360(int* result, int input, Pieces* output, float low,
 extern int DAT_010eae0c;
 extern int DAT_0126ec00;
 #ifndef _INCLUDED_MM2
-extern "C" __m128 _mm_load_ss(const float* p);
+
 #endif
 
 struct S00e4c730_Obj
@@ -9223,11 +9224,11 @@ struct S_00e248b0_Arr {
     int m_iElementCount;
     int m_cap;
     S_00e248b0_Arr() : m_data(0), m_iElementCount(0), m_cap(0x80000000) {}
-    static void* operator new(unsigned int size) { return S_00e248b0_heap(FUN_00c85750())->AllocateMemoryBlock(size); }
+    static void* operator new(std::size_t size) { return S_00e248b0_heap(FUN_00c85750())->AllocateMemoryBlock(size); }
 };
 
 static __forceinline S_00e248b0_Arr* BoundaryCore(S_00e248b0_Edge& cur, S_00e248b0_Edge start) { S_00e248b0_Arr* arr=0;
-        
+
         arr = new S_00e248b0_Arr;
         do
         {
@@ -9341,10 +9342,7 @@ EdgeT S00e24aa0_Obj::FUN_00e24aa0(int x0, int y0, int x1, int y1)
 }
 
 struct GateE10 { char value; GateE10() {} GateE10(bool b):value(b) {} operator bool() const { return value != 0; } };
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128,__m128);
-extern "C" __m128 _mm_andnot_ps(__m128,__m128);
+
 
 struct Vec4E10 {
     float x, y, z, w;
@@ -9531,7 +9529,7 @@ struct hkVec4 {
         default: return _mm_shuffle_ps(m_vComponents,m_vComponents,0xff);
         }
     }
-    const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    const float& operator()(int i) const { return fnv_simd_as<float>(m_vComponents)[i]; }
 };
 template<class T> struct ListLinks { T* next; T* prev; };
 struct MeshVertex : ListLinks<MeshVertex> {
@@ -9614,7 +9612,7 @@ struct __declspec(align(16)) ClosestQuery {
     }
 };
 
-extern "C" __m128 _mm_load_ss(const float* p);
+
 static __forceinline __m128 Splat(__m128 v) { return _mm_shuffle_ps(v, v, 0); }
 
 static __forceinline void SetMul4(__m128& d, __m128 r, const __m128& a) { d = _mm_mul_ps(Splat(r), a); }
@@ -9776,7 +9774,6 @@ void hkgpMeshStub::FUN_00e13210(const MeshPoint* apPoint, MeshResult* apResult)
     }
 }
 
-extern "C" __m128 _mm_set_ss(float);
 
 void FUN_00c7f640(int arg, void* p);
 
@@ -9884,7 +9881,7 @@ void LocalOwner::FUN_00e15020(int key, int arg2, unsigned int arg3, unsigned cha
             if (node->m_30 == key) {
                 LocalVec a;
                 a.set(node->m_0c->m_10, node->m_08->m_10);
-                
+
                  __m128 t = _mm_set_ss(0.3333333432674408f);
 __m128 K = _mm_shuffle_ps(t,t,0);
                 a.add(node->m_10->m_10);
@@ -9996,7 +9993,7 @@ struct E17Array
     void FUN_00e22640(E17Mem* heap, const T* data, int n);
     void append(const T* data, int n) { FUN_00e22640(&e17Heap(), data, n); }
 
-    static void* operator new(unsigned int size) { return e17Heap().allocate(size); }
+    static void* operator new(std::size_t size) { return e17Heap().allocate(size); }
     static void operator delete(void* p) { e17Heap().deallocate(p, sizeof(E17Array)); }
 };
 
@@ -10378,16 +10375,13 @@ int PartMesh::FUN_00e1b820(PartArray<PartMesh*>& output,bool simplify,bool conve
 }
 }  // namespace fnv_00e1b820
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
 
 struct CutVec {
     __m128 q;
     __forceinline __m128& quad() {return q;}
     __forceinline const __m128& quad() const {return q;}
-    __forceinline float& component(int i) {return q.m128_f32[i];}
-    __forceinline const float& component(int i) const {return q.m128_f32[i];}
+    __forceinline float& component(int i) {return fnv_simd_as<float>(q)[i];}
+    __forceinline const float& component(int i) const {return fnv_simd_as<float>(q)[i];}
 };
 template<class T> struct CutLinks {
     T* next;
@@ -10688,25 +10682,13 @@ int* CutMesh::FUN_00e1bd30(int* result,const CutVec& p,bool splitSides) {
 }
 
 namespace N {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    struct { float x, y, z, w; };
-} __m128;
-extern "C" {
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_xor_ps(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, int);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*, __m128);
-}
+
 }
 
 extern int DAT_010eadb4;
 
 struct S_00e22050_V4 {
-    N::__m128 m_vComponents;
+    __m128 m_vComponents;
 };
 
 struct S_00e22050_Plane {
@@ -10745,22 +10727,22 @@ struct S_00e22050 {
     float FUN_00e22050(S_00e22050_Arg* a);
 };
 
-static __forceinline float getReal(N::__m128 v) {
+static __forceinline float getReal(__m128 v) {
     float f;
-    N::_mm_store_ss(&f, v);
+    _mm_store_ss(&f, v);
     return f;
 }
 
-static N::__m128 Dot4(N::__m128 a, N::__m128 b) {
-    N::__m128 m = N::_mm_mul_ps(a, b);
-    N::__m128 r = N::_mm_add_ss(N::_mm_shuffle_ps(m, m, 0xaa), N::_mm_shuffle_ps(a, a, 0xff));
-    return N::_mm_add_ps(r, N::_mm_add_ss(N::_mm_shuffle_ps(m, m, 0x55), m));
+static __m128 Dot4(__m128 a, __m128 b) {
+    __m128 m = _mm_mul_ps(a, b);
+    __m128 r = _mm_add_ss(_mm_shuffle_ps(m, m, 0xaa), _mm_shuffle_ps(a, a, 0xff));
+    return _mm_add_ps(r, _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
 
-static N::__m128 Dot4B(N::__m128 a, N::__m128 b) {
-    N::__m128 m;
-    N::__m128 r = N::_mm_add_ss(N::_mm_shuffle_ps((m = N::_mm_mul_ps(a, b)), m, 0xaa), N::_mm_shuffle_ps(a, a, 0xff));
-    return N::_mm_add_ps(r, N::_mm_add_ss(N::_mm_shuffle_ps(m, m, 0x55), m));
+static __m128 Dot4B(__m128 a, __m128 b) {
+    __m128 m;
+    __m128 r = _mm_add_ss(_mm_shuffle_ps((m = _mm_mul_ps(a, b)), m, 0xaa), _mm_shuffle_ps(a, a, 0xff));
+    return _mm_add_ps(r, _mm_add_ss(_mm_shuffle_ps(m, m, 0x55), m));
 }
 
 // Queries m_pSupport along the plane normal and its negation; if both band checks pass, calls m_cast->v1, sets m_bHasHit and returns 0 when below m_tol, else 1.
@@ -10771,16 +10753,16 @@ float S_00e22050::FUN_00e22050(S_00e22050_Arg* a)
     S_00e22050_V4 n;
     S_00e22050_V4 neg;
     n.m_vComponents = pPlane->m_kTriangleNormal.m_vComponents;
-    neg.m_vComponents = N::_mm_xor_ps(pPlane->m_kTriangleNormal.m_vComponents, *(N::__m128*)&::DAT_010c44d0);
+    neg.m_vComponents = _mm_xor_ps(pPlane->m_kTriangleNormal.m_vComponents, *(__m128*)&::DAT_010c44d0);
     float f = -m_tol;
     float fThreshold = f < ::DAT_01017cf8 ? ::DAT_010959f4 : f;
     S_00e22050_Obj o;
     S_00e22050_V4 out;
-    N::__m128 threshold = N::_mm_load_ss(&fThreshold);
+    __m128 threshold = _mm_load_ss(&fThreshold);
     m_pSupport->v2(n, out);
     if (!(getReal(Dot4(pPlane->m_kTriangleNormal.m_vComponents, out.m_vComponents)) < getReal(threshold))) {
         m_pSupport->v2(neg, out);
-        if (!(getReal(Dot4B(pPlane->m_kTriangleNormal.m_vComponents, out.m_vComponents)) > getReal(N::_mm_sub_ss(*(N::__m128*)&DAT_010c7160, threshold)))) {
+        if (!(getReal(Dot4B(pPlane->m_kTriangleNormal.m_vComponents, out.m_vComponents)) > getReal(_mm_sub_ss(*(__m128*)&DAT_010c7160, threshold)))) {
             o.vtbl = &DAT_010eadb4;
             o.m_kTriangleNormal = pPlane;
             float r = m_cast->v1(m_pSupport, &o, m_flag);
@@ -11602,12 +11584,10 @@ t1->m_ppLinks[0]=t1->m_ppLinks[1]=t1->m_ppLinks[2]=0;t2->m_ppLinks[0]=t2->m_ppLi
 }
 }  // namespace fnv_00e275d0
 
-extern "C" __m128 _mm_setr_ps(float x, float y, float z, float w);
+
 struct __declspec(align(16)) BoundVec { union { __m128 q; float f[4]; }; };
-extern "C" __m128 _mm_set_ps(float w, float z, float y, float x);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
+
+
 extern double DAT_010cbf48;
 struct BigConst { Float4 v[4]; };
 struct PointsArg { float* m_data; int m_uiItemCount; int m_iElementIndex; };
@@ -12171,7 +12151,7 @@ void FUN_00e12890_cls::FUN_00e12890(FUN_00e12890_List* apList, int flag) {
 }  // namespace fnv_00e12890
 
 namespace fnv_00e15830 {
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+
 
 struct S_00e15830_Heap {
     virtual void v00() throw();
@@ -12320,7 +12300,7 @@ enum QhkResult
 HK_SUCCESS=0,
 HK_FAILURE=1
 };
-typedef unsigned __w64 Qhk_size_t;class QhkFinishLoadedObjectFlag
+typedef std::size_t Qhk_size_t;class QhkFinishLoadedObjectFlag
 {
 public:
 QhkFinishLoadedObjectFlag():m_bFinishing(0){}
@@ -12969,7 +12949,7 @@ edgesOut.AddBack(*b);
 }
 
 namespace fnv_00e1a7a0 {
-inline void* __cdecl operator new(unsigned int, void* where) throw() { return where; }
+
 
 struct S_00e1a7a0_Heap {
     virtual void v00() throw();
@@ -13216,9 +13196,7 @@ int S_00e1a7a0_Mesh::FUN_00e1a7a0(int aiOperationType)
 }
 }  // namespace fnv_00e1a7a0
 
-extern "C" __m128 _mm_load_ss(const float*); 
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
-extern "C" __m128 _mm_set_ps1(float);
+
 // hkVector4 stand-in: four floats, SIMD access through a reinterpret cast
 struct __declspec(align(16)) S_e1ce10_Vec4 {
     float x, y, z, w;
@@ -13744,19 +13722,6 @@ void S_e1ce10_Mesh::FUN_00e1ce10(const S_e1ce10_Geometry& geom, const S_e1ce10_T
 extern "C" void _ReadBarrier();
 
 
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
-extern "C" __m128 _mm_set_ps1(float a);
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_rsqrt_ss(__m128 a);
-extern "C" __m128 _mm_set_ss(float a);
-extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
-extern "C" __m128 _mm_setzero_ps(void);
-
 struct __declspec(align(16)) LocalVec4 {
     union { struct { float x,y,z,w; }; __m128 quad; }; LocalVec4& operator=(const LocalVec4& b) {quad=b.quad;return *this;}
 };
@@ -14205,10 +14170,10 @@ __declspec(noinline) void BigObj::FUN_00e27b50(const LocalVec4& a,const LocalVec
     reinterpret_cast<::fnv_00e275d0::Mesh *>(this)->FUN_00e275d0(1);
 }
 
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
+
 template<class T> __forceinline void fillRange(T* output,int count,const T& value)throw(){for(int index=0;index<count;++index)output[index]=value;}
 template<class T> __forceinline void copyConstructRange(T* output,int count,const T& value)throw(){for(int index=0;index<count;++index)new(output+index) T(value);}
-extern "C" __m128 _mm_set_ps(float,float,float,float);
+
 template<class T> __forceinline void destroyRange(T* p,int n) throw() {
  for(int i=0;i<n;++i) {p[i].~T();}
 }
@@ -14299,8 +14264,8 @@ struct ReferenceBase {virtual void identity();unsigned short allocationSize,refe
 struct GridPool {
  void* data;int count;int capacity;GridFace* head;int used;int unk14;
  GridPool() throw():data(0),count(0),capacity(0x80000000),head(0),used(0){}
-  
- void clearFaces() throw(); 
+
+ void clearFaces() throw();
 };
 struct GridInner : ReferenceBase {
  GridPool vertices;GridPool faces;
@@ -14503,7 +14468,7 @@ void* FUN_00e235d0_cls::FUN_00e235d0()
 }  // namespace fnv_00e235d0
 
 namespace fnv_00e237b0 {
-inline void* __cdecl operator new(unsigned int, void* where) { return where; }
+
 struct FUN_00e237b0_Input {
     void* unk00; void* unk04; void* unk08; void* unk0c;
     void* unk10; void* unk14; void* unk18; void* unk1c; void* entry;
@@ -15329,9 +15294,6 @@ bool Mesh14::FUN_00e14bd0(Edge14 edge, bool abSkipLinked, bool report)
     return true;
 }
 
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_sub_ps(__m128,__m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
 
 struct __declspec(align(16)) ClipScalar160 {
     __m128 quad;
@@ -15570,7 +15532,6 @@ void CollisionWorld::FUN_00e160f0(const void* inputTransform,SourceMesh* apSourc
     Release160(original,48);
 }
 
-extern "C" __m128 _mm_load_ps1(float const* p);
 
 struct __declspec(align(16)) S_00e16e50_Vec { float x, y, z, w; };
 
@@ -15641,13 +15602,6 @@ float S_00e16e50::FUN_00e16e50(float scale, S_00e16e50_Vec* v, int n)
     return s;
 }
 
-extern "C" {
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-__m128 _mm_load_ss(const float* p);
-__m128 _mm_sqrt_ss(__m128 a);
-__m128 _mm_move_ss(__m128 a, __m128 b);
-__m128 _mm_set_ss(float);
-}
 struct DistanceScalar {
     union {__m128 value; float lanes[4];};
     DistanceScalar() {}
@@ -15742,7 +15696,7 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
             if(!overlapFaces(a,b)) continue;
             SplitPoint plane=a->m_20;
             __m128 normal=plane.get();
-            
+
             __m128 p0=splitPosition(b->vertices[0]),p1=splitPosition(b->vertices[1]);
             __m128 p2;
             DistanceScalar distance[3]={splitPlaneDot(p0,normal),splitPlaneDot(p1,normal),splitPlaneDot(p2=splitPosition(b->vertices[2]),normal)};
@@ -15813,7 +15767,6 @@ void SplitHull::FUN_00e1aec0(int firstTag, int secondTag) {
 struct EdgeByte {char value;EdgeByte(int b):value((char)b) {} __forceinline operator bool() const {return value!=0;}};
 
 extern "C" void _ReadWriteBarrier();
-
 
 
 struct EdgeFlag {int value;EdgeFlag(int b):value(b) {} __forceinline operator bool() const {return value!=0;}};
@@ -16214,7 +16167,6 @@ struct ConstraintHashBucket {ConstraintHashEntry* data;int size,capacity;};
 struct ConstraintHash {ConstraintHashBucket* buckets;unsigned bucketCount;int unk08;int size;};
 
 
-
 struct ConstraintMesh {
 
     int unk00,unk04,unk08,unk0c,unk10,unk14,unk18,unk1c;
@@ -16409,7 +16361,7 @@ union SharedB51 {TriNode* face; SubArr* array;}; SharedB51 scratchB;
                                     SubArr *sub;
                                     sub = ((SubArr **)y.m_pData)[cap];
                                     int iPointCount = sub->m_iArrayLength;
-                                    
+
                                     for (int iInnerIndex = 0; iInnerIndex < iPointCount; iInnerIndex++)
                                     {
                                         if (((Rec*)sub->m_pData)[iInnerIndex].m_00 + ((Rec*)sub->m_pData)[iInnerIndex].m_04 == (int)((char *)scratchB.face + basis3))
@@ -16670,7 +16622,7 @@ if(va==q)continue;reinterpret_cast<::HullMesh *>(this)->FUN_00e12bc0((*(::Vertex
                         Rec* x = (Rec*)segmentRing->m_pData;
                         RecPoint* next = &x[(pVertexPos + 1) % segmentRing->m_iArrayLength].point;
                         Out26010 result51 = (*(::Out26010 *)(reinterpret_cast<::ConstraintMesh *>(&(slotPtr))->FUN_00e26010((::ConstraintResult *)(x[pVertexPos].point.x), x[pVertexPos].point.y, next->x, next->y, 1, 0, {})));
-                        
+
                         _ReadWriteBarrier();
                         if (result51.m_00 != 0)
                         {
@@ -17059,9 +17011,7 @@ ConstraintResult* ConstraintMesh::FUN_00e26010(ConstraintResult* apResult,int x0
 }
 
 
-
 __declspec(noinline) ConstraintResult* ConstraintResult::FUN_00e22c80(unsigned s, ConstraintEdge* e) {status=s;edge=*e;return this;}
-
 
 
 __declspec(noinline) void ConstraintMesh::FUN_00e25cd0(ConstraintEdge* edge,const int* input) {
@@ -17271,19 +17221,13 @@ void S_00e27c90_Obj::FUN_00e27c90(int a, int angle, int b, int c)
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_setr_ps(float,float,float,float);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_setzero_ps();
+
 
 struct __declspec(align(16)) OptVec4 {
     float x, y, z, w;
 __forceinline OptVec4& operator=(const OptVec4& o) {_mm_store_ps(&x,o.q());return *this;}
     __forceinline const __m128 &q() const { return *(const __m128 *)this; }
 };
-
-
-
-
 
 
 struct LogGlobal {
@@ -17350,7 +17294,7 @@ struct Pair {
     int a; int b;
     Pair() {}
     Pair(int aa,int bb) : a(aa),b(bb) {}
-    static void *operator new(unsigned int,void *p) throw() {return p;}
+    static void *operator new(std::size_t,void *p) throw() {return p;}
 };
 struct EdgeSelection { Pair first,second; };
 struct PairArrRaw {
@@ -17957,7 +17901,7 @@ state=DAT_0126ebf0;selection.first=nextBlank(state);selection.second=nextBlank(s
                 nb->vertices[0] = vA;
                 nb->vertices[1] = closingVertices[0];
                 nb->vertices[2] = closingVertices[1];
-                
+
                 reinterpret_cast<::TriangleChecker *>((((BoundsMesh*)&owner)))->FUN_00e11710((*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(0))->position)),(*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(1))->position)),(*(const ::CheckVector *)((const __m128*)&((VertexRecord*)nb->corner(2))->position)),(*(::CheckVector *)((__m128*)&nb->plane)),true);
                 unsigned __int64 packedOther=*(unsigned __int64*)&selection.second;
                 bn->m_14[bi] = (int)nb;
@@ -18098,8 +18042,8 @@ void FillHolesMesh::FUN_00e1f4e0(ParameterHandle param)
                 }
 // <</REGION solver>>
 // <<REGION constraints>>
-                
-                
+
+
                 PairArr pairs;
                 {
                     for (int iConstraint = 0; iConstraint < res->m_04; iConstraint++) {
@@ -18314,10 +18258,8 @@ appendCountSummary(os,m_uiTriangleCount.count-iSavedTriangleCount,m_kVertices.co
 }
 
 namespace PointBoundsIntrinsics {
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_set_ps1(float value);
+
+
 }
 
 struct PointBoundsOutput {
@@ -18332,8 +18274,8 @@ void __cdecl FUN_00cbeb70(void* apPoints, int count, PointBoundsOutput p)
 {
     if (count == 0) {
         __m128* dst = (__m128*)*(void* volatile*)&p.value;
-        dst[0] = PointBoundsIntrinsics::_mm_set_ps1(::DAT_0104da48);
-        dst[1] = PointBoundsIntrinsics::_mm_set_ps1(::DAT_0104e148);
+        dst[0] = _mm_set_ps1(::DAT_0104da48);
+        dst[1] = _mm_set_ps1(::DAT_0104e148);
         return;
     }
     const __m128* points = (const __m128*)apPoints;
@@ -18345,15 +18287,15 @@ void __cdecl FUN_00cbeb70(void* apPoints, int count, PointBoundsOutput p)
         do {
             __m128 q = *points;
             points++;
-            mn = PointBoundsIntrinsics::_mm_min_ps(mn, q);
-            mx = PointBoundsIntrinsics::_mm_max_ps(mx, q);
+            mn = _mm_min_ps(mn, q);
+            mx = _mm_max_ps(mx, q);
             count--;
         } while (count != 0);
     }
-    __m128 lo = PointBoundsIntrinsics::_mm_and_ps(::DAT_010c4c10, mn);
+    __m128 lo = _mm_and_ps(::DAT_010c4c10, mn);
     __m128* dst = (__m128*)p.value;
     dst[0] = lo;
-    dst[1] = PointBoundsIntrinsics::_mm_and_ps(::DAT_010c4c10, mx);
+    dst[1] = _mm_and_ps(::DAT_010c4c10, mx);
 }
 
 struct Point2I { int unk00, unk04; int x,y; };
@@ -18864,14 +18806,12 @@ void E17F40Hull::FUN_00e17f40(float* options)
 
 namespace MeshTransformE27 {
 
-extern "C" ::__m128 _mm_setr_ps(float x, float y, float z, float w);
-
 
 struct hkVector4 {
     ::__m128 m_vComponents;
-    void set(float x, float y, float z, float w) { m_vComponents = (_mm_setr_ps)(x, y, z, w); }
-    float& operator()(int i) { return m_vComponents.m128_f32[i]; }
-    const float& operator()(int i) const { return m_vComponents.m128_f32[i]; }
+    void set(float x, float y, float z, float w) { m_vComponents = _mm_setr_ps(x, y, z, w); }
+    float& operator()(int i) { return fnv_simd_as<float>(m_vComponents)[i]; }
+    const float& operator()(int i) const { return fnv_simd_as<float>(m_vComponents)[i]; }
 };
 
 struct hkMatrix4 {
@@ -20668,7 +20608,7 @@ struct GpPool
     int unk380;
     int m_iAllocatedCount;
 
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         ((BlockAllocAB*)&FUN_00c85750().getHeap())->ReleaseBlock(p, size);
     }
@@ -20711,25 +20651,10 @@ void GpPoolAllocator::FUN_00e24e40(GpPoolItem* item)
     }
 }
 bool __cdecl FUN_00dea6b0(const Vec4f* pkPoint, const Vec4f& kA, const Vec4f& kB, const Vec4f& kC, float fTolerance);namespace S00e19d60_SIMD {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" void _mm_store_ss(float*, __m128);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
+
+
 }
-typedef S00e19d60_SIMD::__m128 S00e19d60_Quad;
+typedef __m128 S00e19d60_Quad;
 
 struct S00e19d60_SimdReal
 {
@@ -20738,17 +20663,17 @@ struct S00e19d60_SimdReal
     {}
     __forceinline S00e19d60_SimdReal(float x)
     {
-        m_vValue = S00e19d60_SIMD::_mm_load_ss(&x);
+        m_vValue = _mm_load_ss(&x);
     }
     __forceinline operator float() const
     {
         float s;
-        S00e19d60_SIMD::_mm_store_ss(&s, m_vValue);
+        _mm_store_ss(&s, m_vValue);
         return s;
     }
     __forceinline S00e19d60_Quad broadcast() const
     {
-        return S00e19d60_SIMD::_mm_shuffle_ps(m_vValue, m_vValue, 0);
+        return _mm_shuffle_ps(m_vValue, m_vValue, 0);
     }
     __forceinline const S00e19d60_Quad& getQuad() const
     {
@@ -20778,30 +20703,30 @@ struct S00e19d60_Vec4
     }
     __forceinline void setSub4(const S00e19d60_Vec4& v0, const S00e19d60_Vec4& v1)
     {
-        m_vComponents = S00e19d60_SIMD::_mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
+        m_vComponents = _mm_sub_ps(v0.m_vComponents, v1.m_vComponents);
     }
     __forceinline void setCross(const S00e19d60_Vec4& v0, const S00e19d60_Vec4& v1)
     {
         S00e19d60_Quad cross0;
-        cross0 = S00e19d60_SIMD::_mm_mul_ps(S00e19d60_SIMD::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
-                                            S00e19d60_SIMD::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9),
+                                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
         S00e19d60_Quad cross1;
-        cross1 = S00e19d60_SIMD::_mm_mul_ps(S00e19d60_SIMD::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
-                                            S00e19d60_SIMD::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
-        m_vComponents = S00e19d60_SIMD::_mm_sub_ps(cross0, cross1);
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2),
+                                            _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
     }
     __forceinline void setInterpolate4(const S00e19d60_Vec4& v0, const S00e19d60_Vec4& v1, const S00e19d60_SimdReal& _t)
     {
         S00e19d60_Quad t = _t.broadcast();
-        S00e19d60_Quad s = S00e19d60_SIMD::_mm_sub_ps((*reinterpret_cast<::S00e19d60_SIMD::__m128 *>((void *)&::DAT_010ec7f0)), t);
-        m_vComponents = S00e19d60_SIMD::_mm_add_ps(S00e19d60_SIMD::_mm_mul_ps(s, v0.m_vComponents),
-                                                   S00e19d60_SIMD::_mm_mul_ps(t, v1.m_vComponents));
+        S00e19d60_Quad s = _mm_sub_ps((*reinterpret_cast<__m128 *>((void *)&::DAT_010ec7f0)), t);
+        m_vComponents = _mm_add_ps(_mm_mul_ps(s, v0.m_vComponents),
+                                                   _mm_mul_ps(t, v1.m_vComponents));
     }
     __forceinline S00e19d60_SimdReal dot3(const S00e19d60_Vec4& a) const
     {
-        S00e19d60_Quad x2 = S00e19d60_SIMD::_mm_mul_ps(m_vComponents, a.m_vComponents);
-        S00e19d60_Quad xySum = S00e19d60_SIMD::_mm_add_ss(S00e19d60_SIMD::_mm_shuffle_ps(x2, x2, 0x55), x2);
-        return S00e19d60_SIMD::_mm_add_ss(S00e19d60_SIMD::_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+        S00e19d60_Quad x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        S00e19d60_Quad xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
     }
     __forceinline S00e19d60_SimdReal lengthSquared3() const
     {
@@ -20809,22 +20734,22 @@ struct S00e19d60_Vec4
     }
     __forceinline S00e19d60_SimdReal lengthInverse3() const
     {
-        const S00e19d60_Quad half = S00e19d60_SIMD::_mm_set_ss(0.5f);
-        const S00e19d60_Quad three = S00e19d60_SIMD::_mm_set_ss(3.0f);
-        const S00e19d60_Quad zero = S00e19d60_SIMD::_mm_set_ss(0.0f);
+        const S00e19d60_Quad half = _mm_set_ss(0.5f);
+        const S00e19d60_Quad three = _mm_set_ss(3.0f);
+        const S00e19d60_Quad zero = _mm_set_ss(0.0f);
         const S00e19d60_Quad len2 = this->dot3(*this).getQuad();
-        const S00e19d60_Quad len2EqualsZero = S00e19d60_SIMD::_mm_cmpeq_ss(len2, zero);
-        const S00e19d60_Quad approx = S00e19d60_SIMD::_mm_rsqrt_ss(len2);
-        const S00e19d60_Quad refined = S00e19d60_SIMD::_mm_mul_ss(
-            S00e19d60_SIMD::_mm_mul_ss(half, approx),
-            S00e19d60_SIMD::_mm_sub_ss(three,
-                                       S00e19d60_SIMD::_mm_mul_ss(S00e19d60_SIMD::_mm_mul_ss(len2, approx), approx)));
-        return S00e19d60_SIMD::_mm_andnot_ps(len2EqualsZero, refined);
+        const S00e19d60_Quad len2EqualsZero = _mm_cmpeq_ss(len2, zero);
+        const S00e19d60_Quad approx = _mm_rsqrt_ss(len2);
+        const S00e19d60_Quad refined = _mm_mul_ss(
+            _mm_mul_ss(half, approx),
+            _mm_sub_ss(three,
+                                       _mm_mul_ss(_mm_mul_ss(len2, approx), approx)));
+        return _mm_andnot_ps(len2EqualsZero, refined);
     }
     __forceinline void normalize3()
     {
         S00e19d60_Quad lenInv = lengthInverse3().broadcast();
-        m_vComponents = S00e19d60_SIMD::_mm_mul_ps(lenInv, m_vComponents);
+        m_vComponents = _mm_mul_ps(lenInv, m_vComponents);
     }
     __forceinline S00e19d60_SimdReal distanceToSquared3(const S00e19d60_Vec4& p) const
     {
@@ -20839,12 +20764,12 @@ struct S00e19d60_Vec4
         case 0:
             return m_vComponents;
         case 1:
-            return S00e19d60_SIMD::_mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0x55);
         case 2:
-            return S00e19d60_SIMD::_mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xaa);
         case 3:
         default:
-            return S00e19d60_SIMD::_mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
+            return _mm_shuffle_ps(m_vComponents, m_vComponents, 0xff);
         }
     }
     S00e19d60_Bool FUN_00c7f520(float eps) const;

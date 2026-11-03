@@ -449,11 +449,7 @@ void FUN_00e33e10_Class::EvaluateSpline(float time, int track, int enabled, int 
 }
 
 namespace fnv_00e33e90 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 
 struct hkVector4E33E
 {
@@ -553,13 +549,7 @@ void FUN_00e33f90(unsigned int frameIndex, float delta, unsigned int maxNumTrans
 }
 
 namespace fnv_00e34310 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps(void);
 
 template <class T> inline T& hkArrayAtE343(hkArray<T>& a, int i)
 {

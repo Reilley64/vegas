@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/mesh/hkxvertexbuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/mesh/hkxvertexbuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/DFD680MeshData.h"
 #include "fnv/decl/FUN_00e3dfb0_cls.h"
 #include "fnv/decl/ScriptRecordList.h"
@@ -500,12 +502,7 @@ void BufferHelper::FUN_00e3e030(const hkxVertexBuffer* src, int srcIndex, int ds
 
 extern "C" void _ReadWriteBarrier();
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
-inline void __cdecl operator delete(void*, void*) throw()
-{}
+
 struct VertexDeclMatch
 {
     unsigned int offset;

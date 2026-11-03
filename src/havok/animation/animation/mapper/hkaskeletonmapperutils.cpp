@@ -2,6 +2,8 @@
 // src/havok/animation/animation/mapper/hkaskeletonmapperutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/mapper/hkaskeletonmapperutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/AttributeFormatter.h"
 #include "fnv/decl/SinkOwner.h"
 #include "fnv/symbols_01268000.h"
@@ -64,20 +66,7 @@ void __cdecl FUN_00ce5560(const VertexRecord* apVertices, int aiCount, __m128* a
 }
 
 namespace fnv_00ce55d0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ss(float*, __m128);
 
 typedef float hkReal;
 
@@ -121,7 +110,7 @@ struct hkQsTransformq
     __forceinline void setIdentity()
     {
         m_vTranslation.setZero4();
-        m_rotation.m_vComponents = (*reinterpret_cast<::fnv_00ce55d0::__m128 *>((void *)&::DAT_010c71b0));
+        m_rotation.m_vComponents = (*reinterpret_cast<__m128 *>((void *)&::DAT_010c71b0));
         m_vScale.SetAllComponents(1.0f);
     }
 };
@@ -225,22 +214,7 @@ unsigned char __cdecl FUN_00ce57c0(ThresholdState* state, void* unused1, void* u
 }
 
 namespace fnv_00ce5e60 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    void _mm_store_ss(float*, __m128);
-}
+
 
 typedef float hkReal;
 typedef short hkInt16;
@@ -332,24 +306,7 @@ void FUN_00ce5e60(const hkaSkeletonq* apSkeleton, const hkQsTransformq* poses, h
 }  // namespace fnv_00ce5e60
 
 namespace fnv_00ce5fe0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_set_ps1(float);
-}
+
 
 typedef float hkReal;
 typedef short hkInt16;
@@ -446,10 +403,6 @@ void FUN_00ce5fe0(const void* data, const hkaSkeleton* skelA, const hkQsTransfor
 
 typedef unsigned int size_t;
 
-inline void* operator new(size_t, void* p)
-{
-    return p;
-}
 
 struct hkMemoryAllocator;
 
@@ -2543,27 +2496,7 @@ __declspec(nothrow) void __cdecl FUN_00ce61c0(const HkMapperParams& originalPara
 
     hkErrorInstance().endSection();
 }namespace fnv_00ce5a70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-};
-extern "C"
-{
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_rcp_ps(__m128);
-    __m128 _mm_sqrt_ss(__m128);
-    __m128 _mm_unpackhi_ps(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_movelh_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    void _mm_store_ss(float*, __m128);
-}
+
 
 extern const __m128 DAT_010c71e0;
 extern const __m128 DAT_010c7170;

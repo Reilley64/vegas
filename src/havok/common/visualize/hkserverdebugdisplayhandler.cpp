@@ -2,6 +2,8 @@
 // src/havok/common/visualize/hkserverdebugdisplayhandler.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkserverdebugdisplayhandler.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include <windows.h>
 #include "fnv/decl/DDA8C0Writer.h"
 #include "fnv/decl/FUN_00d605d0_class.h"
@@ -247,7 +249,6 @@ void FUN_00dd9da0_cls::ApplyItemList(ItemList* pItemList)
     }
     LeaveCriticalSection(m_pUserData);
 }
-
 
 
 struct ParentRec
@@ -1084,7 +1085,7 @@ struct FUN_00dda660
     FUN_00dda660();
     virtual ~FUN_00dda660();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00dda660* b = static_cast<FUN_00dda660*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);

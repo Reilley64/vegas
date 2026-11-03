@@ -2,6 +2,8 @@
 // src/havok/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/collide/tree/aabbtree/queryutils/hkaabbtreequeryutils.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/symbols_00d1b000.h"
 #include "fnv/symbols_0104d000.h"
 #include <xmmintrin.h>
@@ -30,10 +32,6 @@ int* FUN_00d1bb40_Class::FUN_00d1bb40(unsigned short index)
     return *reinterpret_cast<int**>(this) + index * 12;
 }
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 
 struct S_00d1bcb0_Allocator
 {
@@ -165,17 +163,6 @@ int __cdecl FUN_00d1d490()
     return FUN_00d1bfa0();
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    int _mm_movemask_ps(__m128);
-}
 
 struct DNode
 {
@@ -334,15 +321,6 @@ extern "C" void* __cdecl FUN_00d1d240(void* apOwner, int apQueryBox, int apVisit
 }
 
 namespace fnv_00d1d5a0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_cmple_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmpge_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" int _mm_movemask_ps(__m128 a);
 
 
 struct hkMemoryAllocatorV
@@ -674,19 +652,6 @@ void __cdecl ProcessAabbTree(Target* apTarget, Frame* apFrame)
     reinterpret_cast<::LunaOwner *>((apTarget))->ProcessCallback((int)(pFrame), (int)(pFrame), 0);
 }
 
-extern "C" __m128 _mm_set_ps1(float a);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_andnot_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_or_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmpeq_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_cmplt_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_rcp_ps(__m128 a);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
   // (1,1,1,1)
    // zero vector (bss)
@@ -884,8 +849,6 @@ void FUN_00d1d0b0(NodeTree* tree, const TreeVector4* from, const TreeVector4* to
             break;
     }
 }
-
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 
 struct hkVector4
@@ -1152,7 +1115,6 @@ void FUN_00d1bfa0(const hkAabbTree16* tree, const Node16* apStartNode, const Nod
     }
 }
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct S1c2b0_Cmp
 {
@@ -1730,7 +1692,6 @@ int __cdecl FUN_00d1c560(const QueryTree16* tree, const QueryAabb& apQueryAabb, 
     return iHits;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
 
 struct hkVector4f
 {
@@ -2205,7 +2166,6 @@ void __cdecl FUN_00e2bbd0(const FilterRays_Tree* tree, const FilterRays_Node* no
         }
     }
 }
-
 
 
 struct VectorQ

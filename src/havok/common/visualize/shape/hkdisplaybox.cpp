@@ -2,20 +2,10 @@
 // src/havok/common/visualize/shape/hkdisplaybox.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaybox.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_00c90000.h"
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
+
 
 struct hkTransform;
 struct hkMemoryAllocator;
@@ -110,7 +100,7 @@ void hkBoxGeometry::GetEdgeLines(hkVector4Array& aEdgeLines, hkMemoryAllocator& 
     }
 }
 
-extern "C" __m128 _mm_setzero_ps(void);
+
 struct __declspec(align(16)) Vector4D22DC0
 {
     float x;
@@ -199,7 +189,6 @@ FUN_00d58510::FUN_00d58510(const Vector4D22DC0& kA, const Vector4D22DC0& kB, flo
 }
 
 
-extern "C" __m128 _mm_setr_ps(float x, float y, float z, float w);
 extern "C" void _ReadWriteBarrier();
 extern const float DAT_01011d78 = 0.0f;
 
@@ -307,7 +296,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(-m_vHalfExtents.x, m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(-m_vHalfExtents.x, m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -315,7 +304,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(m_vHalfExtents.x, m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(m_vHalfExtents.x, m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -323,7 +312,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(m_vHalfExtents.x, -m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(m_vHalfExtents.x, -m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -331,7 +320,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(-m_vHalfExtents.x, -m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(-m_vHalfExtents.x, -m_vHalfExtents.y, m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -339,7 +328,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(-m_vHalfExtents.x, m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(-m_vHalfExtents.x, m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -347,7 +336,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(m_vHalfExtents.x, m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(m_vHalfExtents.x, m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -355,7 +344,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(m_vHalfExtents.x, -m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(m_vHalfExtents.x, -m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
     }
     {
         BoxBuild2190MatchArray<hkVector4>* arr = &m_08->m_verts;
@@ -363,7 +352,7 @@ void BoxBuild2190BoxShell::FUN_00de2190()
         _ReadWriteBarrier();
         hkVector4* dst = arr->append(*allocp);
         *reinterpret_cast<__m128*>(dst) =
-            (_mm_setr_ps)(-m_vHalfExtents.x, -m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
+            _mm_setr_ps(-m_vHalfExtents.x, -m_vHalfExtents.y, -m_vHalfExtents.z, DAT_01011d78);
     }
 
     for (int i = 0; i < m_08->m_verts.m_iElementCount; i++)

@@ -2,6 +2,8 @@
 // src/havok/common/base/thread/jobqueue/hkjobqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/thread/jobqueue/hkjobqueue.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/CriticalSectionOwner.h"
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/QueueLockView.h"
@@ -1226,7 +1228,7 @@ struct PoolEntry
 
 struct PoolTable
 {
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         return FUN_00c85750()->heap()->AllocateMemoryBlock(nbytes);
     }
@@ -1510,7 +1512,6 @@ struct FUN_00d04bd0_cls : Owner
 {
     void AddJobBatch(ArrayOfJobs* jobs, int priority);
 };
-
 
 
 struct S_00d05020_Job
@@ -2735,7 +2736,7 @@ struct RTL_CRITICAL_SECTION_
 typedef signed char hkInt8;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
-typedef unsigned int hk_size_t;
+typedef std::size_t hk_size_t;
 
 class hkMemoryAllocator
 {

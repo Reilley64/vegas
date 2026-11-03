@@ -28,6 +28,7 @@ float FUN_00e41080_Obj::GetUnk30()
     return unk30;
 }
 
+#include "fnv_simd.h"
 #include "fnv/symbols_simd.h"
 #include "fnv/symbols_00e41000.h"
 #include <new>
@@ -205,11 +206,11 @@ void FUN_00e41220(Projection363_Owner* a, Motion363* __restrict b, Projection363
         {
             f1 += TWO_PI;
         }
-        out->m_vComponents.m128_f32[3] = f1;
+        fnv_simd_as<float>(out->m_vComponents)[3] = f1;
     }
     else
     {
-        out->m_vComponents.m128_f32[3] = 0.0f;
+        fnv_simd_as<float>(out->m_vComponents)[3] = 0.0f;
     }
 }
 
@@ -443,7 +444,7 @@ struct hkTransform
         hkVector4 shift;
         shift.SetRotatedDirection(a.m_rotation, b.m_vTranslation);
         m_vTranslation.setAdd4(a.m_vTranslation, shift);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const ::fnv_00c66320::__m128 *)&(b.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(a.m_rotation), (const __m128 *)&(b.m_rotation), {});
         m_vScale.setMul4(a.m_vScale, b.m_vScale);
     }
     __forceinline void SetMulInverse(const hkTransform& a, const hkTransform& b)
@@ -565,7 +566,7 @@ void S00e41100_LinearKeyTrack::FUN_00e41100(float time, S00e41100_hkQsTransform&
         v = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(::DAT_010ec7f0, t), a.getQuad()), _mm_mul_ps(b.getQuad(), t));
     }
     out.m_vTranslation.setQuad(v);
-    out.m_rotation.FUN_00cb2450(m_kAxisEndPoints, v.m128_f32[3]);
+    out.m_rotation.FUN_00cb2450(m_kAxisEndPoints, fnv_simd_as<float>(v)[3]);
     out.m_vScale.setQuad(_mm_set_ps1(1.0f));
 }
 

@@ -2,6 +2,7 @@
 // src/havok/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/tagfile/binary/hkbinarytagfilereader.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/S00dc5f30_Obj.h"
 #include <new>
 #include <cstring>
@@ -582,11 +583,6 @@ unsigned int FUN_00dc5d50(unsigned int a, unsigned int b, unsigned int c)
     return a;
 }
 
-
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct S00dc5f30_Tag
 {

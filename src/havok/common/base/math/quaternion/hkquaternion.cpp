@@ -7,6 +7,7 @@
    for compilation. Do not write or repeat packet-declarations, nor any headers that might
    be present in the checker's context. */
 
+#include "fnv_simd.h"
 #include "fnv/symbols_00c74000.h"
 #include "fnv/symbols_01011000.h"
 #include "fnv/symbols_01012000.h"
@@ -190,33 +191,7 @@ void S00cb2550_caller(S00cb2550_Quat* q, const S00cb2550_Rot& r)
     FUN_00cb2550(q, r);
 }
 namespace fnv_00cb2700 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-};
-extern "C"
-{
-    __m128 _mm_setzero_ps();
-    void _mm_store_ps(float*, __m128);
-    __m128 _mm_load_ps(const float*);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-}
+
 
 union VecStorage
 {
@@ -295,7 +270,7 @@ void PerpendicularVector::FUN_00cb2700(const float* v)
 
     __m128 sv = _mm_shuffle_ps(s, s, 0);
     __m128 r = _mm_mul_ps(sv, w.quad);
-    r.m128_f32[3] = zz;
+    fnv_simd_as<float>(r)[3] = zz;
     m_result = r;
 }
 }extern double DAT_010c8758;

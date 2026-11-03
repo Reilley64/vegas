@@ -2,6 +2,8 @@
 // src/havok/animation/animation/hkaanimationcontainerclass.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/animation/hkaanimationcontainerclass.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/hkReferencedObjectC905.h"
 struct CpuAllocator
 {
@@ -70,7 +72,7 @@ struct CpuVtableHolder
     CpuVtableHolder()
     {}
     virtual void Vf();
-    void* operator new(unsigned int, void* p)
+    void* operator new(std::size_t, void* p)
     {
         __assume(p != 0);
         return p;

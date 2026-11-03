@@ -2,6 +2,7 @@
 // src/havok/unplaced/focollisionlistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/havok/focollisionlistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/C00624070.h"
 #include "fnv/decl/FUN_00450410_Class.h"
@@ -712,7 +713,7 @@ struct HitEntry
     HitHandle m_kSource;
     HitEntry* FUN_00623bd0();
     HitEntry();
-    void* operator new(unsigned int uiSize);
+    void* operator new(std::size_t uiSize);
     void operator delete(void* pvMem);
 };
 struct HitList

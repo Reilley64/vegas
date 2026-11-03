@@ -2,6 +2,7 @@
 // src/havok/common/visualize/hkvisualdebugger.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/hkvisualdebugger.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00cd1970.h"
 #include "fnv/decl/Owner_cd0e.h"
 #include "fnv/symbols_00c85000.h"
@@ -39,7 +40,7 @@ struct FUN_00cd12b0_cls
 
 struct BSFadeNode
 {
-    static void* __cdecl operator new(unsigned int size);
+    static void* __cdecl operator new(std::size_t size);
     BSFadeNode();
     ~BSFadeNode();
 };
@@ -1193,7 +1194,7 @@ struct Process_cd14
     int unk44;
     int unk48;
     int unk4C;
-    static void* operator new(unsigned int nbytes) throw()
+    static void* operator new(std::size_t nbytes) throw()
     {
         Process_cd14* p = (Process_cd14*)Router_cd14::FUN_00c85750().heap().AllocateMemoryBlock(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;

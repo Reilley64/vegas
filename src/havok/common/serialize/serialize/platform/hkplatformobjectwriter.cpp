@@ -2,6 +2,7 @@
 // src/havok/common/serialize/serialize/platform/hkplatformobjectwriter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/serialize/serialize/platform/hkplatformobjectwriter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
 #include "fnv/decl/FUN_00cb1fe0_t.h"
@@ -432,7 +433,7 @@ struct FUN_00e02e40
     FUN_00e02e40();
     virtual ~FUN_00e02e40();
 
-    static void operator delete(void* p, unsigned int nbytes)
+    static void operator delete(void* p, std::size_t nbytes)
     {
         FUN_00e02e40* b = static_cast<FUN_00e02e40*>(p);
         FUN_00c85750().heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
@@ -454,7 +455,6 @@ __declspec(noinline) char* E02A80LayoutView::FUN_00e02a70()
 {
     return unk08 + 12;
 }
-
 
 
 struct E02A80Helper

@@ -2,6 +2,9 @@
 // src/havok/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/animation/ragdoll/penetration/hkadetectragdollpenetration.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include <cstddef>
+#include <new>
 #include "fnv/decl/FUN_005609f0_shell.h"
 #include "fnv/decl/FnvBounds.h"
 #include "fnv/decl/PhantomBounds.h"
@@ -30,11 +33,6 @@ inline AudioMgr* audio()
     return (AudioMgr*)FUN_00c85750();
 }
 
-
-inline void* operator new(unsigned int, void* p)
-{
-    return p;
-}
 
 struct hkIntArray
 {
@@ -115,15 +113,6 @@ FUN_00d1fa50::FUN_00d1fa50(const Desc& d)
     m_aiIndexedValues.SetSizeAndGrow(n, 1);
     m_flag = false;
 }
-
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_set_ps1(float);
-extern "C" __m128 _mm_min_ps(__m128, __m128);
-extern "C" __m128 _mm_max_ps(__m128, __m128);
 
 
 struct hkVector4

@@ -2,6 +2,8 @@
 // src/havok/common/scenedata/attributes/hkxattributeholder.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/attributes/hkxattributeholder.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/FUN_00dfb720.h"
 #include "fnv/decl/FUN_00dfd840.h"
 #include "fnv/decl/S00e5cce0_Class.h"
@@ -76,10 +78,6 @@ struct FUN_00e3eaa0 : S_00e3eaa0_Base
 FUN_00e3eaa0::~FUN_00e3eaa0() throw()
 {}
 
-inline void* __cdecl operator new(unsigned int, void* where) throw()
-{
-    return where;
-}
 
 struct S_00e3e950_Heap;
 struct S_00e3e950_Router

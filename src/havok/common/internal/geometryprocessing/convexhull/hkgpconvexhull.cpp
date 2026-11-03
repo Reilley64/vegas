@@ -1,5 +1,8 @@
 // havok/common/internal/geometryprocessing/convexhull/hkgpconvexhull.cpp: hkVector4, hkMatrix3, hkTransform, Owner and more (89 functions)
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
+#include <cstddef>
 #include "fnv/decl/FUN_00d7ac40_cls.h"
 #include "fnv/decl/FnvCpu_FUN_00d74e00_CpuObject.h"
 #include "fnv/decl/S00d76120_cls.h"
@@ -843,17 +846,6 @@ void FUN_00d76990_Class::SetValue(float value, bool clearFlag) {
     reinterpret_cast<::HullBuilder *>((unk08))->FUN_00d7d2a0();
 }
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128 {
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
-
-extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
 
 struct Vec3 { float x, y, z; };
 
@@ -2819,13 +2811,6 @@ void __cdecl FUN_00d7b160(SortRec12* apRecords, int lo, int hi, int aiUnused)
     }
 }
 
-extern "C" {
-__m128 __cdecl _mm_sub_ps(__m128, __m128);
-__m128 __cdecl _mm_mul_ps(__m128, __m128);
-__m128 __cdecl _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 __cdecl _mm_add_ss(__m128, __m128);
-void __cdecl _mm_store_ss(float*, __m128);
-}
 struct DistanceScalar {
     __m128 q;
     __forceinline DistanceScalar(__m128 v) : q(v) {}
@@ -2914,7 +2899,7 @@ struct S00d7d1c0_Base {
     virtual void v2(void* p, int size);
     unsigned short m04;
 };
-inline void* operator new(unsigned int, void* p) { return p; }
+
 struct S00d7d1c0_Derived : S00d7d1c0_Base {
     S00d7d1c0_M08 m08;
     S00d7d1c0_M20 m20;
@@ -2938,10 +2923,6 @@ S00d7d1c0_Derived* S00d7d1c0_Derived::FUN_00d7d1c0(int flags)
     return this;
 }
 
-extern "C" __m128 _mm_load_ps(const float*);
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" void _mm_store_ps(float*, __m128);
 
 // Writes a 4x4 array using the input components and the value minus 1.
 // @fnv 0x00d74c70
@@ -2956,27 +2937,26 @@ void __cdecl FUN_00d74c70(const __m128* input, float value, float* apMatrix)
     _mm_store_ps(product, _mm_mul_ps(splat, vector));
     _mm_store_ps(squared, _mm_mul_ps(_mm_shuffle_ps(_mm_load_ss(&scalar), _mm_load_ss(&scalar), 0), _mm_mul_ps(vector, vector)));
     apMatrix[0] = squared[0] + 1.0f;
-    float first = input->m128_f32[0] * product[1];
+    float first = fnv_simd_as<float>(*input)[0] * product[1];
     apMatrix[4] = first;
-    float second = input->m128_f32[0] * product[2];
+    float second = fnv_simd_as<float>(*input)[0] * product[2];
     apMatrix[8] = second;
-    apMatrix[12] = product[0] * input->m128_f32[3];
+    apMatrix[12] = product[0] * fnv_simd_as<float>(*input)[3];
     apMatrix[1] = apMatrix[4];
     apMatrix[5] = squared[1] + 1.0f;
-    apMatrix[9] = input->m128_f32[1] * product[2];
-    apMatrix[13] = product[1] * input->m128_f32[3];
+    apMatrix[9] = fnv_simd_as<float>(*input)[1] * product[2];
+    apMatrix[13] = product[1] * fnv_simd_as<float>(*input)[3];
     apMatrix[2] = apMatrix[8];
     apMatrix[6] = apMatrix[9];
     apMatrix[10] = squared[2] + 1.0f;
-    apMatrix[14] = product[2] * input->m128_f32[3];
+    apMatrix[14] = product[2] * fnv_simd_as<float>(*input)[3];
     apMatrix[3] = 0.0f;
     apMatrix[7] = 0.0f;
     apMatrix[11] = 0.0f;
     apMatrix[15] = 1.0f;
 }
 
-extern "C" __m128 _mm_sub_ps(__m128, __m128);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
+
 extern const double DAT_010d3698;
 extern const float DAT_010d3690;
 extern const double DAT_010d3688;
@@ -3080,7 +3060,6 @@ struct S00d75fc0_Cfg {
     __m128 origin;
     __m128 invCellSize;
 };
-
 
 
 struct S00d75fc0_Grid {
@@ -3251,11 +3230,6 @@ void* FUN_00d74db0_cls::FUN_00d74db0() {
     return &m_0c;
 }
 
-extern "C" __m128 _mm_xor_ps(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" __m128 _mm_mul_ps(__m128, __m128);
-extern "C" __m128 _mm_add_ss(__m128, __m128);
-extern "C" void _mm_store_ss(float*, __m128);
 
 struct ShapeHelper {
 };
@@ -4026,11 +4000,6 @@ cleanupSecond:
     }
     return best;
 }
-
-extern "C" __m128 _mm_load_ss(const float*);
-extern "C" __m128 _mm_move_ss(__m128, __m128);
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-extern "C" void _mm_store_ps(float*, __m128);
 
 
 struct FUN_00d7ac40_sub {
@@ -5041,7 +5010,7 @@ HK_SUCCESS = 0,
 HK_FAILURE = 1
 };
 typedef __int64 hkInt64;
-typedef unsigned __w64 hk_size_t;class FinishingFlag
+typedef std::size_t hk_size_t;class FinishingFlag
 {
 public:
 FinishingFlag() : m_bFinishing(0) {}
@@ -5299,16 +5268,7 @@ __forceinline S00d7b600_Array<T,Allocator>::~S00d7b600_Array()
 ClearAndRelease();
 }
 
-extern "C" {
-extern __m128 _mm_add_ss(__m128 _A, __m128 _B);
-extern __m128 _mm_add_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_sub_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_mul_ps(__m128 _A, __m128 _B);
-extern __m128 _mm_sqrt_ss(__m128 _A);
-extern __m128 _mm_shuffle_ps(__m128 _A, __m128 _B, unsigned int _Imm8);
-extern __m128 _mm_setr_ps(float _A, float _B, float _C, float _D);
-extern __m128 _mm_load_ss(float const*_A);
-extern void _mm_store_ss(float *_V, __m128 _A);};
+;
 typedef __m128 hkQuadReal;
 union __declspec(intrin_type) __declspec(align(16)) S00d7b600_Quad { float m128_f32[4]; unsigned __int64 m128_u64[2]; };
 class VectorComponentValue
@@ -5320,17 +5280,17 @@ VectorComponentValue(const hkQuadReal& x)
 }
 VectorComponentValue(hkReal x)
 {
-(*(hkQuadReal*)&m_realS) = (_mm_load_ss)(&x);
+(*(hkQuadReal*)&m_realS) = _mm_load_ss(&x);
 }
 operator hkReal() const
 {
 hkReal s;
-(_mm_store_ss)(&s, (*(hkQuadReal*)&m_realS));
+_mm_store_ss(&s, (*(hkQuadReal*)&m_realS));
 return s;
 }
 __forceinline hkQuadReal broadcast() const
 {
-return (_mm_shuffle_ps)((*(hkQuadReal*)&m_realS), (*(hkQuadReal*)&m_realS), 0);
+return _mm_shuffle_ps((*(hkQuadReal*)&m_realS), (*(hkQuadReal*)&m_realS), 0);
 }
 __forceinline const hkQuadReal& getQuad() const
 {
@@ -5427,56 +5387,56 @@ hkVector4 m_vTranslation;};inline void hkVector4::operator= (const hkVector4& v)
 }
 inline void hkVector4::set(hkReal a, hkReal b, hkReal c, hkReal d)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_setr_ps)(a,b,c,d);
+(*(hkQuadReal*)&m_quadS) = _mm_setr_ps(a,b,c,d);
 }
 inline void hkVector4::add4(const hkVector4& v)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_add_ps)( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
+(*(hkQuadReal*)&m_quadS) = _mm_add_ps( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
 }
 inline void hkVector4::setAdd4(const hkVector4& v0, const hkVector4& v1)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_add_ps)((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v1.m_quadS));
+(*(hkQuadReal*)&m_quadS) = _mm_add_ps((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v1.m_quadS));
 }
 inline void hkVector4::sub4(const hkVector4& v)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_sub_ps)( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
+(*(hkQuadReal*)&m_quadS) = _mm_sub_ps( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
 }
 inline void hkVector4::setSub4(const hkVector4& v0, const hkVector4& v1)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_sub_ps)((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v1.m_quadS));
+(*(hkQuadReal*)&m_quadS) = _mm_sub_ps((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v1.m_quadS));
 }
 inline void hkVector4::mul4(const hkVector4& v)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_mul_ps)( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
+(*(hkQuadReal*)&m_quadS) = _mm_mul_ps( (*(hkQuadReal*)&m_quadS), (*(hkQuadReal*)&v.m_quadS) );
 }
 inline void hkVector4::mul4(hkSimdRealParameter s)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_mul_ps)( s.broadcast(), (*(hkQuadReal*)&m_quadS) );
+(*(hkQuadReal*)&m_quadS) = _mm_mul_ps( s.broadcast(), (*(hkQuadReal*)&m_quadS) );
 }
 inline void hkVector4::addMul4(hkSimdRealParameter r, const hkVector4& v1)
 {
-(*(hkQuadReal*)&m_quadS) = (_mm_add_ps)( (*(hkQuadReal*)&m_quadS),
-(_mm_mul_ps)( r.broadcast(), (*(hkQuadReal*)&v1.m_quadS)) );
+(*(hkQuadReal*)&m_quadS) = _mm_add_ps( (*(hkQuadReal*)&m_quadS),
+_mm_mul_ps( r.broadcast(), (*(hkQuadReal*)&v1.m_quadS)) );
 }
 inline void hkVector4::setCross( const hkVector4& v0, const hkVector4& v1 )
 {
 hkQuadReal cross0;
-cross0 = (_mm_mul_ps)(
-(_mm_shuffle_ps)((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v0.m_quadS), (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))),
-(_mm_shuffle_ps)((*(hkQuadReal*)&v1.m_quadS), (*(hkQuadReal*)&v1.m_quadS), (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))) );
+cross0 = _mm_mul_ps(
+_mm_shuffle_ps((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v0.m_quadS), (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))),
+_mm_shuffle_ps((*(hkQuadReal*)&v1.m_quadS), (*(hkQuadReal*)&v1.m_quadS), (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))) );
 hkQuadReal cross1;
-cross1 = (_mm_mul_ps)(
-(_mm_shuffle_ps)((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v0.m_quadS), (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))),
-(_mm_shuffle_ps)((*(hkQuadReal*)&v1.m_quadS), (*(hkQuadReal*)&v1.m_quadS), (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))) );
-(*(hkQuadReal*)&m_quadS) = (_mm_sub_ps)(cross0, cross1);}
+cross1 = _mm_mul_ps(
+_mm_shuffle_ps((*(hkQuadReal*)&v0.m_quadS), (*(hkQuadReal*)&v0.m_quadS), (((3) << 6) | ((1) << 4) | ((0) << 2) | ((2)))),
+_mm_shuffle_ps((*(hkQuadReal*)&v1.m_quadS), (*(hkQuadReal*)&v1.m_quadS), (((3) << 6) | ((0) << 4) | ((2) << 2) | ((1)))) );
+(*(hkQuadReal*)&m_quadS) = _mm_sub_ps(cross0, cross1);}
 inline VectorComponentValue hkVector4::dot3(const hkVector4& a) const
 {
-hkQuadReal x2 = (_mm_mul_ps)((*(hkQuadReal*)&m_quadS),(*(hkQuadReal*)&a.m_quadS));
-hkQuadReal xySum = (_mm_add_ss)( (_mm_shuffle_ps)(x2,x2,(((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))), x2);
-return (_mm_add_ss)( (_mm_shuffle_ps)(x2,x2,(((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))), xySum);}
+hkQuadReal x2 = _mm_mul_ps((*(hkQuadReal*)&m_quadS),(*(hkQuadReal*)&a.m_quadS));
+hkQuadReal xySum = _mm_add_ss( _mm_shuffle_ps(x2,x2,(((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))), x2);
+return _mm_add_ss( _mm_shuffle_ps(x2,x2,(((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))), xySum);}
 inline VectorComponentValue hkVector4::length3() const
 {
-return (_mm_sqrt_ss)( this->dot3(*this).getQuad() );
+return _mm_sqrt_ss( this->dot3(*this).getQuad() );
 }
 inline hkReal& hkVector4::operator() (int a)
 {
@@ -6012,7 +5972,7 @@ struct FUN_00d76ca0
     int unk08, unk0c;
     D78ea0Listener* m10;
     FUN_00d76ca0() throw();
-    static void* operator new(unsigned int bytes)
+    static void* operator new(std::size_t bytes)
     {
         FUN_00d76ca0* p = (FUN_00d76ca0*)fnvc_adapt::FUN_00c85750().heap().AllocateMemoryBlock(bytes);
         p->m_iElementCount = (unsigned short)bytes;
@@ -6103,7 +6063,7 @@ void* __cdecl FUN_00d78ea0(int first, ArgPair* apPairs, int count)
     }
     return 0;
 }
-extern "C" __m128 _mm_shuffle_ps(__m128, __m128, int);
+
 extern "C" void __debugbreak();
 struct __declspec(align(16)) QuantVector
 {
@@ -6910,13 +6870,6 @@ extern float DAT_0104da4c;
 void __cdecl ResizeAudioStream(void*, void*, int);
 void __cdecl FUN_00c908c0(D76250Allocator* alloc, void* array, int numElements, int sizeElem);
 
-extern "C" __m128 _mm_load_ss(const float* p);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern float DAT_0104da48;
 
@@ -7089,8 +7042,7 @@ FUN_00cc02d0_cls* FUN_00cc02d0_cls::FUN_00cc02d0(int arg) {
     return this;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
+
 struct GridVec4 {
     __m128 m_vComponents;
 };
@@ -7126,16 +7078,6 @@ void GridOwner::FUN_00d74e80(GridVec4& out, const GridCell& c) const
     m_grid->getCellPosition(c, out);
 }
 
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_rcp_ps(__m128 a);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 extern const __m128 DAT_010c7170;
 extern const __m128 DAT_01017d10;
@@ -7201,7 +7143,7 @@ void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
     S00d756a0_Vec absv;
     absv.setAbs4(ext);
 
-    const float* c = absv.m_vComponents.m128_f32;
+    const float* c = fnv_simd_as<float>(absv.m_vComponents);
     int idx;
     if (c[0] < c[1]) {
         idx = (c[1] < c[2]) ? 2 : 1;
@@ -7218,24 +7160,8 @@ void S00d756a0_Shape::FUN_00d756a0(S00d756a0_Plain& out)
     out.w = w;
     }
 }
-extern "C" __m128 _mm_set_ss(float);
+
 extern "C" void _ReadWriteBarrier();
-extern "C" {
-__m128 _mm_load_ps(const float*);
-void _mm_store_ps(float*, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_min_ps(__m128, __m128);
-__m128 _mm_max_ps(__m128, __m128);
-__m128 _mm_cmple_ps(__m128, __m128);
-int _mm_movemask_ps(__m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sqrt_ss(__m128);
-__m128 _mm_set_ps(float, float, float, float);
-__m128 _mm_set1_ps(float);
-float _mm_cvtss_f32(__m128);
-}
 
 struct Vec4 {
     __m128 q;
@@ -7283,8 +7209,7 @@ __declspec(noinline) Vec4* HullAccess::FUN_00d74e80(Vec4* out, PointNode* node) 
     return out;
 }
 
-extern "C" void _mm_store_ss(float*,__m128);
-extern "C" __m128 _mm_load_ps1(const float*);
+
 static __forceinline __m128 broadcast(float f) { __m128 q=_mm_load_ss(&f); return _mm_shuffle_ps(q,q,0); }
 static __forceinline float scalar(__m128 q) { float f; _mm_store_ss(&f,q); return f; }
 
@@ -7376,8 +7301,6 @@ tail:
     return temp;
 }
 
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
 
 struct S00d76120_Node {
     S00d76120_Node* m_00;
@@ -7583,7 +7506,7 @@ struct S_00d76410_Array {
     __forceinline T* expandBy(int n) { return _expandBy(getRouter().heap(), n); }
     __forceinline void pushBackUnchecked(const T& e) { m_data[m_iElementCount] = e; m_iElementCount++; }
 };
-extern "C" __m128 _mm_add_ps(__m128, __m128);
+
 struct S_00d76410_Vec4 {
     __m128 m_vComponents;
     S_00d76410_Vec4& operator=(const S_00d76410_Vec4& o) { m_vComponents = o.m_vComponents; return *this; }
@@ -7901,9 +7824,8 @@ int S_00d77380::FUN_00d77380(S_00d77380_Strided* s, int a, int b)
 }
 
 void __cdecl FUN_00c908c0(void*,void*,int,int);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_sqrt_ss(__m128);
-extern "C" __m128 _mm_load_ps1(const float*);
+
+
 struct OffsetVector { int x,y,z,w; };
 struct OffsetView { __m128* data; int size; int stride; };
 struct OffsetArray {
@@ -7940,9 +7862,7 @@ struct OffsetOwner {
     void FUN_00d774a0(__m128*,int,void*);
 };
 static __forceinline float OffsetMaximum(float a,float b) { return a>b?a:b; }
-extern "C" __m128 _mm_mul_ps(__m128,__m128);
-extern "C" __m128 _mm_add_ps(__m128,__m128);
-extern "C" __m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
+
 
 struct BlendOptions {
     unsigned char m_00;
@@ -8032,12 +7952,11 @@ BlendObject* __cdecl FUN_00d78ca0(const BlendInput* a,const BlendInput* b,const 
     }
     return result;
 }
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
-extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_load_ps1(const float*);
 
-extern "C" __m128 _mm_add_ps(__m128, __m128);
+
+extern "C" void _ReadWriteBarrier();
+
+
 struct Scalar352 {
     __m128 value;
     Scalar352(const float& scalar) { value = _mm_load_ps1(&scalar); }
@@ -8068,7 +7987,7 @@ struct Centroid352 {
 const Vector352& Centroid352::FUN_00d7a180() {
 
     Vector352& output = centroid;
-    if (output.value.m128_f32[3] == DAT_0104e138) {
+    if (fnv_simd_as<float>(output.value)[3] == DAT_0104e138) {
         output.SetZero();
         Node352* node=head;
         if (node) {
@@ -8082,16 +8001,12 @@ const Vector352& Centroid352::FUN_00d7a180() {
             __m128 scalar=_mm_load_ss(&inverse); __m128 s=_mm_shuffle_ps(scalar,scalar,0);
             output.value=_mm_mul_ps(s,output.value);
         }
-        output.value.m128_f32[3]=0.0f;
+        fnv_simd_as<float>(output.value)[3]=0.0f;
     }
     return output;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
+
 struct __declspec(align(16)) S_00d7a200_V4 {
     float x, y, z, w;
 };
@@ -8204,7 +8119,7 @@ struct PoolBlock40
     int unk800;
     int m_iAllocatedCount;
 
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
     }
@@ -8297,7 +8212,7 @@ struct PoolBlock48
     int unk900;
     int m_iAllocatedCount;
 
-    static void operator delete(void* p, unsigned int size)
+    static void operator delete(void* p, std::size_t size)
     {
         ((BlockAllocAB*)FUN_00c85750()->heap())->ReleaseBlock(p, size);
     }
@@ -8338,13 +8253,6 @@ void PoolAllocator48::FUN_00d7aea0(PoolItem48* item)
 }
 }  // namespace fnv_00d7aea0
 
-extern "C" {
-__m128 _mm_xor_ps(__m128,__m128);
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
-__m128 _mm_add_ss(__m128,__m128);
-void _mm_store_ss(float*,__m128);
-}
 extern __m128 DAT_010c44d0;
 struct ProjectionAllocator {
     virtual void v0(); virtual void v4(); virtual void v8(); virtual void vc();
@@ -8607,7 +8515,7 @@ int ExportShape::FUN_00d7e740(ExportArray<unsigned char>& sizes,ExportArray<unsi
     return count;
 }
 }
-extern "C" __m128 _mm_add_ps(__m128, __m128);
+
 
 struct __declspec(align(16)) FUN_00d7a0b0_Matrix {
     __m128 m_row0;
@@ -8667,11 +8575,6 @@ void FUN_00d7a0b0_cls::FUN_00d7a0b0(const FUN_00d7a0b0_Matrix* m, const __m128* 
         }
         node = node->m_next;
     }
-}
-
-extern "C" {
-__m128 __cdecl _mm_load_ss(float const*);
-void __cdecl _mm_store_ps(float*, __m128);
 }
 
 
@@ -8984,7 +8887,6 @@ int PolygonMesh::FUN_00d7df60(PolygonArray<int>& counts, PolygonArray<int>& indi
     }
     return numPolygons;
 }
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
 
 union D81340Vec4 {
@@ -9201,14 +9103,6 @@ float PlaneHull::FUN_00d75880(PlaneArgument point) {
 }
 extern "C" unsigned __int64 __rdtsc(void);
 
-extern "C" __m128 _mm_sub_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
 
 extern const __m128 DAT_010c7160;
 
@@ -9442,14 +9336,6 @@ int S_00d77840::FUN_00d77840(const D76250Vector4* pts, int n, const D76250Vector
     return -1;
 }
 
-extern "C" {
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_set_ss(float);
-}
 extern const __m128 DAT_010c7160;
 
 class S00d79ab0_SimdReal {
@@ -9999,12 +9885,7 @@ float S00d7cf00_Hull::FUN_00d7cf00() const
     return sum;
 }
 
-extern "C" __m128 __cdecl _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 __cdecl _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 __cdecl _mm_xor_ps(__m128 a, __m128 b);
-extern "C" void __cdecl _mm_store_ss(float* p, __m128 a);
+
 extern double DAT_01032980;
 extern __m128 DAT_010c44d0;
 
@@ -10079,11 +9960,7 @@ struct S_00d827b0_Owner {
     void FUN_00d81510(D76250Vector4* data, int n, int a, int b);
     void FUN_00d827b0(S_00d827b0_Param* param);
 };
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_mul_ss(__m128, __m128);
-extern "C" __m128 _mm_rsqrt_ss(__m128);
-extern "C" __m128 _mm_cmpeq_ss(__m128, __m128);
-extern "C" __m128 _mm_andnot_ps(__m128, __m128);
+
 
 static __forceinline __m128 dotThree(__m128 a, __m128 b)
 {
@@ -10119,7 +9996,7 @@ __declspec(noinline) float S_00d827b0_Owner::FUN_00d7a810(S_00d827b0_Param* p, S
             plane.quad=_mm_mul_ps(_mm_shuffle_ps(inv,inv,0),n);
             float offset;
             _mm_store_ss(&offset,_mm_sub_ss(DAT_010c7160,dotThree(plane.quad,positions[0].quad)));
-            plane.quad.m128_f32[3]=offset;
+            fnv_simd_as<float>(plane.quad)[3]=offset;
             float distance;
             _mm_store_ss(&distance,_mm_add_ss(dotThree(p->points[i].m_vComponents,plane.quad),_mm_shuffle_ps(plane.quad,plane.quad,0xff)));
             if (best<distance) { best=distance; out->quad=plane.quad; }
@@ -10128,8 +10005,6 @@ __declspec(noinline) float S_00d827b0_Owner::FUN_00d7a810(S_00d827b0_Param* p, S
     return best;
 }
 
-
-extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
 
 struct S00d82ad0_Vec {
     __m128 q;
@@ -10327,7 +10202,6 @@ struct S00d82ad0_VtxList {
 };
 
 
-
 struct S00d82ad0_Hull {
     int unk00;
     int unk04;
@@ -10494,8 +10368,8 @@ static __forceinline void S00d82ad0_sort(T* p, int size, L cmp = L())
 {
     if (size > 1) ::FUN_00d7b160((::SortRec12 *)(p), 0, size - 1, (*(int *)&(const ::S00d82ad0_Less &)(cmp)));
 }
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-extern "C" __m128 _mm_load_ps1(const float*);
+
+
 static __forceinline __m128 HullBroadcast(float f) { __m128 v=_mm_load_ss(&f); return _mm_shuffle_ps(v,v,0); }
 struct HullAllocator {
     virtual void v00();
@@ -10649,9 +10523,7 @@ __declspec(noinline) int HullImpl::FUN_00d7a200(const HullVec& plane,float eps,i
  return 0;
 }
 extern "C" void _ReadWriteBarrier();
-extern "C" __m128 _mm_add_ps(__m128, __m128);
 
-extern "C" __m128 _mm_setr_ps(float, float, float, float);
 
 struct VecNode {
     VecNode* m_next;
@@ -10719,11 +10591,8 @@ void* CentroidHull::FUN_00d7aa30()
     }
     return out;
 }
-extern "C" __m128 _mm_sub_ss(__m128, __m128);
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_load_ps1(const float*);
-extern "C" void _mm_store_ss(float*,__m128);
-extern "C" float _mm_cvtss_f32(__m128);
+
+
 extern const __m128 DAT_010c7160;
 struct MessageStream {
     int unk00, unk04, unk08;
@@ -10794,7 +10663,7 @@ void PlaneShape::FUN_00d76a20(PlaneVector* planes) {
         CopyMajorPlane(planes[k],transform.axes[indices[k]]);
         normalize(planes[k]);
         float offset=scalarValue(_mm_sub_ss(DAT_010c7160,dot3(planes[k].value,transform.origin.value)));
-        planes[k].value.m128_f32[3]=offset;
+        fnv_simd_as<float>(planes[k].value)[3]=offset;
     }
 }
 
@@ -10868,15 +10737,10 @@ accepted:
 }
 
 namespace tolerance { extern const float DAT_0104da4c=1.1920928955078125e-7f; }
-extern "C" __m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
-extern "C" __m128 _mm_sub_ss(__m128,__m128);
-extern "C" __m128 _mm_mul_ps(__m128,__m128);
-extern "C" __m128 _mm_add_ps(__m128,__m128);
-extern "C" __m128 _mm_add_ss(__m128,__m128);
-extern "C" void _mm_store_ss(float*,__m128);
+
+
 extern "C" unsigned __int64 __rdtsc();
 extern "C" void _ReadWriteBarrier();
-
 
 
 void __cdecl ResizeAudioStream(void*,void*,int);
@@ -10890,8 +10754,8 @@ public:
     operator __m128() const {return value;}
     __forceinline void operator=(const PlaneVector& v) {value=v.value;}
     __forceinline void operator=(const __m128& v) {value=v;}
-    __forceinline float& lane(int i) {return value.m128_f32[i];}
-    __forceinline const float& lane(int i) const {return value.m128_f32[i];}
+    __forceinline float& lane(int i) {return fnv_simd_as<float>(value)[i];}
+    __forceinline const float& lane(int i) const {return fnv_simd_as<float>(value)[i];}
     __forceinline void set(float x,float y,float z,float w=0) {value=_mm_setr_ps(x,y,z,w);}
     __forceinline PlaneScalar scalar(int i) const {
         switch(i) {
@@ -11017,28 +10881,11 @@ int PlaneHull::FUN_00d774a0(const PlaneVector* planes,int count,int config)
 }
 
 extern "C" {
-__m128 _mm_load_ps(const float* a);
-void _ReadWriteBarrier();
-__m128 _mm_add_ss(__m128 a, __m128 b);
-__m128 _mm_add_ps(__m128 a, __m128 b);
-__m128 _mm_sub_ss(__m128 a, __m128 b);
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-__m128 _mm_mul_ss(__m128 a, __m128 b);
-__m128 _mm_mul_ps(__m128 a, __m128 b);
-__m128 _mm_sqrt_ss(__m128 a);
-__m128 _mm_rsqrt_ss(__m128 a);
-__m128 _mm_cmpeq_ss(__m128 a, __m128 b);
-__m128 _mm_andnot_ps(__m128 a, __m128 b);
-__m128 _mm_xor_ps(__m128 a, __m128 b);
-__m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm8);
-__m128 _mm_set_ss(float a);
-__m128 _mm_load_ss(const float* a);
 
-void _mm_store_ss(float* p, __m128 a);
+void _ReadWriteBarrier();
+
 
 }
-
-
 
 
 struct AllocHolder {
@@ -11542,9 +11389,6 @@ void HullBuilder::FUN_00d7d2a0()
         }
     }
 }
-extern "C" __m128 _mm_set_ss(float);
-extern "C" __m128 _mm_add_ps(__m128, __m128);
-
 
 
 class MatchScalar {
@@ -11813,16 +11657,6 @@ bool ClipHull::FUN_00d7a5a0(const ClipVector& a,const ClipVector& b,float& t0,fl
     return true;
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_load_ps(const float* p);
-extern "C" __m128 _mm_load_ps1(const float* p);
-
-
 
 class BevelScalar {
     __m128 q;
@@ -12031,10 +11865,6 @@ void BevelHull::FUN_00d7caa0(float maxCos, BevelArray& out) const {
         }
     }
 }
-
-extern "C" __m128 __cdecl _mm_mul_ss(__m128, __m128);
-extern "C" __m128 __cdecl _mm_add_ps(__m128, __m128);
-
 
 
 struct BoxStream {
@@ -12302,7 +12132,7 @@ void D81340Cls::FUN_00d81340(D81340Vec4& a0, D81340Transform& a1) {
                 t24 = r;
                 t2c = t14;
                 a0.q = v30.q;
-                a0.q.m128_f32[2] = r;
+                fnv_simd_as<float>(a0.q)[2] = r;
                 a1.c0.q = v40.c0.q;
                 a1.c1.q = v40.c1.q;
                 a1.c2.q = v40.c2.q;
@@ -12421,22 +12251,6 @@ int result=DAT_01268360->message(3, 0x79f9d886, (const char*)buf, str_010d3540, 
 }
 
 namespace S00d81510_Intrinsics {
-extern "C" {
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_min_ps(__m128,__m128);
-__m128 _mm_max_ps(__m128,__m128);
-__m128 _mm_and_ps(__m128,__m128);
-__m128 _mm_rcp_ps(__m128);
-__m128 _mm_unpackhi_ps(__m128,__m128);
-__m128 _mm_shuffle_ps(__m128,__m128,unsigned int);
-__m128 _mm_load_ss(const float*);
-__m128 _mm_setr_ps(float,float,float,float);
-void _mm_store_ss(float*,__m128);
-}
 }
 extern const char str_010d3718[];
 extern const __m128 DAT_010c7160;
@@ -12455,9 +12269,9 @@ struct S00d81510_Stream {
 class S00d81510_SimdReal {
 public:
     __forceinline S00d81510_SimdReal(const __m128& x) : m_vValue(x) {}
-    __forceinline S00d81510_SimdReal(float x) { m_vValue = S00d81510_Intrinsics::_mm_load_ss(&x); }
-    __forceinline operator float() const { float s; S00d81510_Intrinsics::_mm_store_ss(&s, m_vValue); return s; }
-    __forceinline __m128 broadcast() const { return S00d81510_Intrinsics::_mm_shuffle_ps(m_vValue, m_vValue, 0); }
+    __forceinline S00d81510_SimdReal(float x) { m_vValue = _mm_load_ss(&x); }
+    __forceinline operator float() const { float s; _mm_store_ss(&s, m_vValue); return s; }
+    __forceinline __m128 broadcast() const { return _mm_shuffle_ps(m_vValue, m_vValue, 0); }
     __forceinline const __m128& getQuad() const { return m_vValue; }
     __m128 m_vValue;
 };
@@ -12469,8 +12283,8 @@ template <typename T> __forceinline T S00d81510_max2(T x, T y) { return x > y ? 
 template <typename T> __forceinline void S00d81510_swap(T& x, T& y) { T t(x); x = y; y = t; }
 __forceinline __m128 S00d81510_quadReciprocal(__m128 r)
 {
-    __m128 e = S00d81510_Intrinsics::_mm_rcp_ps(r);
-    return S00d81510_Intrinsics::_mm_sub_ps(S00d81510_Intrinsics::_mm_add_ps(e, e), S00d81510_Intrinsics::_mm_mul_ps(S00d81510_Intrinsics::_mm_mul_ps(e, r), e));
+    __m128 e = _mm_rcp_ps(r);
+    return _mm_sub_ps(_mm_add_ps(e, e), _mm_mul_ps(_mm_mul_ps(e, r), e));
 }
 
 class __declspec(align(16)) S00d81510_Vector4 {
@@ -12479,18 +12293,18 @@ public:
     __forceinline float& operator()(int a) { return reinterpret_cast<float*>(&m_vComponents)[a]; }
     __forceinline const float& operator()(int a) const { return reinterpret_cast<const float*>(&m_vComponents)[a]; }
     __forceinline __m128& getQuad() { return m_vComponents; }
-    __forceinline void set(float a, float b, float c, float d) { m_vComponents = S00d81510_Intrinsics::_mm_setr_ps(a, b, c, d); }
-    __forceinline void mul4(S00d81510_SimdParam s) { m_vComponents = S00d81510_Intrinsics::_mm_mul_ps(s.broadcast(), m_vComponents); }
-    __forceinline void mul4(const S00d81510_Vector4& v) { m_vComponents = S00d81510_Intrinsics::_mm_mul_ps(m_vComponents, v.m_vComponents); }
-    __forceinline void sub4(const S00d81510_Vector4& v) { m_vComponents = S00d81510_Intrinsics::_mm_sub_ps(m_vComponents, v.m_vComponents); }
-    __forceinline void setAdd4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = S00d81510_Intrinsics::_mm_add_ps(a.m_vComponents, b.m_vComponents); }
-    __forceinline void setSub4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = S00d81510_Intrinsics::_mm_sub_ps(a.m_vComponents, b.m_vComponents); }
-    __forceinline void setMin4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = S00d81510_Intrinsics::_mm_min_ps(a.m_vComponents, b.m_vComponents); }
-    __forceinline void setMax4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = S00d81510_Intrinsics::_mm_max_ps(a.m_vComponents, b.m_vComponents); }
-    __forceinline void setAbs4(const S00d81510_Vector4& v) { m_vComponents = S00d81510_Intrinsics::_mm_and_ps(DAT_01017d10, v.m_vComponents); }
+    __forceinline void set(float a, float b, float c, float d) { m_vComponents = _mm_setr_ps(a, b, c, d); }
+    __forceinline void mul4(S00d81510_SimdParam s) { m_vComponents = _mm_mul_ps(s.broadcast(), m_vComponents); }
+    __forceinline void mul4(const S00d81510_Vector4& v) { m_vComponents = _mm_mul_ps(m_vComponents, v.m_vComponents); }
+    __forceinline void sub4(const S00d81510_Vector4& v) { m_vComponents = _mm_sub_ps(m_vComponents, v.m_vComponents); }
+    __forceinline void setAdd4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = _mm_add_ps(a.m_vComponents, b.m_vComponents); }
+    __forceinline void setSub4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = _mm_sub_ps(a.m_vComponents, b.m_vComponents); }
+    __forceinline void setMin4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = _mm_min_ps(a.m_vComponents, b.m_vComponents); }
+    __forceinline void setMax4(const S00d81510_Vector4& a, const S00d81510_Vector4& b) { m_vComponents = _mm_max_ps(a.m_vComponents, b.m_vComponents); }
+    __forceinline void setAbs4(const S00d81510_Vector4& v) { m_vComponents = _mm_and_ps(DAT_01017d10, v.m_vComponents); }
     __forceinline void setXYZW(const S00d81510_Vector4& xyz, const S00d81510_Vector4& w)
     {
-        m_vComponents = S00d81510_Intrinsics::_mm_shuffle_ps(xyz.m_vComponents, S00d81510_Intrinsics::_mm_unpackhi_ps(xyz.m_vComponents, w.m_vComponents), 0xc4);
+        m_vComponents = _mm_shuffle_ps(xyz.m_vComponents, _mm_unpackhi_ps(xyz.m_vComponents, w.m_vComponents), 0xc4);
     }
     __forceinline void setReciprocal4(const S00d81510_Vector4& v) { m_vComponents = S00d81510_quadReciprocal(v.m_vComponents); }
     __forceinline void setReciprocal3(const S00d81510_Vector4& v)
@@ -12502,16 +12316,16 @@ public:
     __forceinline void setCross(const S00d81510_Vector4& v0, const S00d81510_Vector4& v1)
     {
         __m128 cross0;
-        cross0 = S00d81510_Intrinsics::_mm_mul_ps(S00d81510_Intrinsics::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), S00d81510_Intrinsics::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
+        cross0 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xc9), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xd2));
         __m128 cross1;
-        cross1 = S00d81510_Intrinsics::_mm_mul_ps(S00d81510_Intrinsics::_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), S00d81510_Intrinsics::_mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
-        m_vComponents = S00d81510_Intrinsics::_mm_sub_ps(cross0, cross1);
+        cross1 = _mm_mul_ps(_mm_shuffle_ps(v0.m_vComponents, v0.m_vComponents, 0xd2), _mm_shuffle_ps(v1.m_vComponents, v1.m_vComponents, 0xc9));
+        m_vComponents = _mm_sub_ps(cross0, cross1);
     }
     __forceinline S00d81510_SimdReal dot3(const S00d81510_Vector4& a) const
     {
-        __m128 x2 = S00d81510_Intrinsics::_mm_mul_ps(m_vComponents, a.m_vComponents);
-        __m128 xySum = S00d81510_Intrinsics::_mm_add_ss(S00d81510_Intrinsics::_mm_shuffle_ps(x2, x2, 0x55), x2);
-        return S00d81510_Intrinsics::_mm_add_ss(S00d81510_Intrinsics::_mm_shuffle_ps(x2, x2, 0xaa), xySum);
+        __m128 x2 = _mm_mul_ps(m_vComponents, a.m_vComponents);
+        __m128 xySum = _mm_add_ss(_mm_shuffle_ps(x2, x2, 0x55), x2);
+        return _mm_add_ss(_mm_shuffle_ps(x2, x2, 0xaa), xySum);
     }
     __forceinline S00d81510_SimdReal lengthSquared3() const { return this->dot3(*this); }
     __forceinline int normalize3IfNotZero()
@@ -12770,14 +12584,14 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             unsigned int gy = g[1];
             unsigned int gz = g[2];
             unsigned int gw = g[3];
-            S_00d827b0_store(&neg.quad.m128_f32[0], nq);
-            S_00d827b0_uput(&support.quad.m128_f32[0], gx);
-            S_00d827b0_uput(&support.quad.m128_f32[1], gy);
-            S_00d827b0_uput(&support.quad.m128_f32[2], gz);
-            S_00d827b0_uput(&support.quad.m128_f32[3], gw);
+            S_00d827b0_store(&fnv_simd_as<float>(neg.quad)[0], nq);
+            S_00d827b0_uput(&fnv_simd_as<float>(support.quad)[0], gx);
+            S_00d827b0_uput(&fnv_simd_as<float>(support.quad)[1], gy);
+            S_00d827b0_uput(&fnv_simd_as<float>(support.quad)[2], gz);
+            S_00d827b0_uput(&fnv_simd_as<float>(support.quad)[3], gw);
             FUN_00d7a0b0(&xf, &neg, &support);
 
-            const float& wkeep = plane.m128_f32[3];
+            const float& wkeep = fnv_simd_as<float>(plane)[3];
             __m128 prod = _mm_mul_ps(support.quad, plane);
             float dot;
             _mm_store_ss(&dot, _mm_add_ss(_mm_shuffle_ps(prod,prod,0xaa),_mm_add_ss(_mm_shuffle_ps(prod,prod,0x55),prod)));
@@ -12785,7 +12599,7 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             if (!(negSum * negSum > DAT_0101dae8))
                 break;
 
-            vec.quad.m128_f32[3] = -dot;
+            fnv_simd_as<float>(vec.quad)[3] = -dot;
             S_00d827b0_Xf backup;
             memcpy(&backup, &xf, 0x40);
             float t = (negSum + result) / negSum;
@@ -12818,11 +12632,11 @@ void S_00d827b0_Owner::FUN_00d827b0(S_00d827b0_Param* param)
             for (int i = 0; i < arr.m_iElementCount; ++i) {
                 unsigned int* s = (unsigned int*)&arr.m_data[i].m_vComponents;
                 S_00d827b0_V4 v;
-                S_00d827b0_uput(&v.quad.m128_f32[0], s[0]);
-                S_00d827b0_uput(&v.quad.m128_f32[1], s[1]);
-                S_00d827b0_uput(&v.quad.m128_f32[2], s[2]);
-                S_00d827b0_uput(&v.quad.m128_f32[3], s[3]);
-                __m128 q = S_00d827b0_load(&v.quad.m128_f32[0]);
+                S_00d827b0_uput(&fnv_simd_as<float>(v.quad)[0], s[0]);
+                S_00d827b0_uput(&fnv_simd_as<float>(v.quad)[1], s[1]);
+                S_00d827b0_uput(&fnv_simd_as<float>(v.quad)[2], s[2]);
+                S_00d827b0_uput(&fnv_simd_as<float>(v.quad)[3], s[3]);
+                __m128 q = S_00d827b0_load(&fnv_simd_as<float>(v.quad)[0]);
                 __m128 yy = _mm_shuffle_ps(q, q, 0x55);
                 __m128 xx = _mm_shuffle_ps(q, q, 0x00);
                 __m128 zz = _mm_shuffle_ps(q, q, 0xaa);
@@ -13150,8 +12964,8 @@ void HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
     s = _mm_andnot_ps(mask, s);
 
     __m128 nn = _mm_mul_ps(_mm_shuffle_ps(s, s, 0), n);
-    _mm_store_ps(out.m128_f32, n);
-    _mm_store_ps(out.m128_f32, nn);
+    _mm_store_ps(fnv_simd_as<float>(out), n);
+    _mm_store_ps(fnv_simd_as<float>(out), nn);
 
     __m128 q = _mm_mul_ps(nn, p0);
     __m128 d = _mm_add_ss(_mm_shuffle_ps(q, q, 0xaa), _mm_add_ss(_mm_shuffle_ps(q, q, 0x55), q));
@@ -13159,7 +12973,7 @@ void HullPlaneOwner::FUN_00d75b80(__m128& out, const int* triangle)
 
     float wf;
     _mm_store_ss(&wf, w);
-    out.m128_f32[3] = wf;
+    fnv_simd_as<float>(out)[3] = wf;
 }
 
 class ScalarPlaneQ {
@@ -13177,7 +12991,7 @@ struct PlaneVectorQ {
     __m128 q;
     __forceinline void SetTransformedPoint(const PlaneTransformQ& t,const PlaneVectorQ& src);
     __forceinline void operator=(const PlaneVectorQ& a) { q=a.q; }
-    __forceinline void setW(float w) { q.m128_f32[3]=w; }
+    __forceinline void setW(float w) { fnv_simd_as<float>(q)[3]=w; }
     __forceinline ScalarPlaneQ dot(const PlaneVectorQ& point) const {
         __m128 product=_mm_mul_ps(q,point.q);
         __m128 xy=_mm_add_ss(_mm_shuffle_ps(product,product,0x55),product);
@@ -13251,19 +13065,11 @@ float PlaneHullQ::FUN_00d7a810(const PlanePointsQ& points,const PlaneTransformQ&
 }
 
 namespace N {
-union __declspec(intrin_type) __declspec(align(16)) __m128 { float m128_f32[4]; unsigned __int64 m128_u64[2]; short m128_i16[8]; int m128_i32[4]; __int64 m128_i64[2]; unsigned short m128_u16[8]; unsigned int m128_u32[4]; };
-extern "C" {
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_mul_ps(__m128 a, __m128 b);
-__m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-__m128 _mm_sqrt_ss(__m128);
-void _mm_store_ss(float*, __m128);
-__m128 _mm_sub_ps(__m128 a, __m128 b);
-}
+
 }
 extern const char str_010d37a8[];
 struct S83_Vec4 {
-    N::__m128 q;
+    __m128 q;
     __forceinline void operator=(const S83_Vec4& v) { q = v.q; }
 };
 struct S83_Vertex {
@@ -13381,25 +13187,25 @@ struct S83_Fmt {
     void FUN_00cc01c0();
 };
 static __forceinline float S83_lenSq(const S83_Vertex* a, const S83_Vertex* b) {
-    N::__m128 d = N::_mm_sub_ps(a->point.q, b->point.q);
-    N::__m128 sq = N::_mm_mul_ps(d, d);
-    N::__m128 y = N::_mm_shuffle_ps(sq, sq, 0x55);
-    N::__m128 z = N::_mm_shuffle_ps(sq, sq, 0xaa);
+    __m128 d = _mm_sub_ps(a->point.q, b->point.q);
+    __m128 sq = _mm_mul_ps(d, d);
+    __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 z = _mm_shuffle_ps(sq, sq, 0xaa);
     float f;
-    N::_mm_store_ss(&f, N::_mm_add_ss(z, N::_mm_add_ss(y, sq)));
+    _mm_store_ss(&f, _mm_add_ss(z, _mm_add_ss(y, sq)));
     return f;
 }
 static __forceinline float S83_area(const S83_Tri* t) {
-    const N::__m128& p0 = t->v[0]->point.q;
-    N::__m128 u = N::_mm_sub_ps(t->v[1]->point.q, p0);
-    N::__m128 w = N::_mm_sub_ps(t->v[2]->point.q, p0);
-    N::__m128 cr = N::_mm_sub_ps(N::_mm_mul_ps(N::_mm_shuffle_ps(w, w, 0xd2), N::_mm_shuffle_ps(u, u, 0xc9)),
-                           N::_mm_mul_ps(N::_mm_shuffle_ps(w, w, 0xc9), N::_mm_shuffle_ps(u, u, 0xd2)));
-    N::__m128 sq = N::_mm_mul_ps(cr, cr);
-    N::__m128 y = N::_mm_shuffle_ps(sq, sq, 0x55);
-    N::__m128 z = N::_mm_shuffle_ps(sq, sq, 0xaa);
+    const __m128& p0 = t->v[0]->point.q;
+    __m128 u = _mm_sub_ps(t->v[1]->point.q, p0);
+    __m128 w = _mm_sub_ps(t->v[2]->point.q, p0);
+    __m128 cr = _mm_sub_ps(_mm_mul_ps(_mm_shuffle_ps(w, w, 0xd2), _mm_shuffle_ps(u, u, 0xc9)),
+                           _mm_mul_ps(_mm_shuffle_ps(w, w, 0xc9), _mm_shuffle_ps(u, u, 0xd2)));
+    __m128 sq = _mm_mul_ps(cr, cr);
+    __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 z = _mm_shuffle_ps(sq, sq, 0xaa);
     float f;
-    N::_mm_store_ss(&f, N::_mm_sqrt_ss(N::_mm_add_ss(z, N::_mm_add_ss(y, sq))));
+    _mm_store_ss(&f, _mm_sqrt_ss(_mm_add_ss(z, _mm_add_ss(y, sq))));
     return f;
 }
 struct S83_Options;
@@ -13631,7 +13437,6 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
         } while (state == 3);
 
 
-
     }
     if (changed && state == 3) {
         S83_Array<S83_Vec4> all;
@@ -13645,19 +13450,6 @@ void S83_Mesh::FUN_00d83f30(S83_Options* options)
     }
 }
 
-extern "C" {
-__m128 _mm_mul_ps(__m128,__m128);
-__m128 _mm_add_ps(__m128,__m128);
-__m128 _mm_sub_ps(__m128,__m128);
-__m128 _mm_add_ss(__m128,__m128);
-__m128 _mm_sub_ss(__m128,__m128);
-__m128 _mm_mul_ss(__m128,__m128);
-__m128 _mm_cmpeq_ss(__m128,__m128);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_andnot_ps(__m128,__m128);
-__m128 _mm_set_ss(float);
-void _mm_store_ss(float*,__m128);
-}
 extern const char str_010d36ec[];
 extern const __m128 DAT_010c7160;
 
@@ -14313,22 +14105,6 @@ bool S00d7fb80_Hull::FUN_00d7fb80()
     return result;
 }
 
-extern "C" {
-__m128 _mm_sub_ps(__m128, __m128);
-__m128 _mm_add_ps(__m128, __m128);
-__m128 _mm_mul_ps(__m128, __m128);
-__m128 _mm_add_ss(__m128, __m128);
-__m128 _mm_sub_ss(__m128, __m128);
-__m128 _mm_mul_ss(__m128, __m128);
-__m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-__m128 _mm_rsqrt_ss(__m128);
-__m128 _mm_cmpeq_ss(__m128, __m128);
-__m128 _mm_andnot_ps(__m128, __m128);
-__m128 _mm_setzero_ps();
-__m128 _mm_set_ss(float);
-__m128 _mm_load_ss(const float*);
-void _mm_store_ss(float*, __m128);
-}
 
 static __forceinline float expandAbs(float f) { return fabs(f); }
 class ExpandTruth {
@@ -14349,8 +14125,8 @@ struct ExpandScalar {
 struct __declspec(align(16)) ExpandVector {
     union { __m128 q; struct { int x,y,z,w; } bits; };
     __forceinline void assign(const ExpandVector& v) { q=v.q; }
-    __forceinline float& operator[](int i) { return q.m128_f32[i]; }
-    __forceinline const float& operator[](int i) const { return q.m128_f32[i]; }
+    __forceinline float& operator[](int i) { return fnv_simd_as<float>(q)[i]; }
+    __forceinline const float& operator[](int i) const { return fnv_simd_as<float>(q)[i]; }
     __forceinline void setZero() { q=_mm_setzero_ps(); }
     __forceinline void setSub(const ExpandVector& a,const ExpandVector& b) { q=_mm_sub_ps(a.q,b.q); }
     __forceinline void setAdd(const ExpandVector& a,const ExpandVector& b) { q=_mm_add_ps(a.q,b.q); }
@@ -14670,7 +14446,7 @@ seed.bits.w=source->first->point.bits.w;
         for (int f=((int)(reinterpret_cast<::fnv_00d75140::Owner *>((void *)this)->FUN_00d75140()));f;f=::FUN_00d75200((const int *)this)) {
             ExpandVector plane;
             FUN_00d75b80(&plane,f);
-            
+
             if (*(unsigned char*)plane.FUN_00c7f520(&av.validity.valid,DAT_010141cc)) {
                 for (int i=0;i<3;++i) {
                     const ExpandVector& pos=(*(const ::ExpandVector *)(::FUN_00d74ed0((::PayloadOwner *)this::FUN_00d752c0((int *)this, f))));

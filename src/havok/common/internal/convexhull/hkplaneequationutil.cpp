@@ -2,6 +2,8 @@
 // src/havok/common/internal/convexhull/hkplaneequationutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/build/20091222_000100_aianbecldeph/source/common/internal/convexhull/hkplaneequationutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
+#include "fnv_simd.h"
 #include <cmath>
 #include "fnv/symbols_00dd6000.h"
 #include "fnv/symbols_01011000.h"
@@ -70,26 +72,6 @@ int __cdecl ProcessArg(Arg* a, int second)
 }
 
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_setr_ps(float, float, float, float);
-    __m128 _mm_set_ps(float, float, float, float);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 typedef __m128 hkQuadReal;
 struct S00dd6380_hkSimdReal
 {
@@ -151,7 +133,7 @@ struct S00dd6380_hkVector4
     }
     __forceinline float operator()(int i) const
     {
-        return m_vComponents.m128_f32[i];
+        return fnv_simd_as<float>(m_vComponents)[i];
     }
 };
 __forceinline void SetCrossPtr(S00dd6380_hkVector4* dst, const S00dd6380_hkVector4* v1, const S00dd6380_hkVector4* v2)
@@ -207,8 +189,8 @@ int FUN_00dd6380(S00dd6380_PlaneSet* set, int a, int b, int c, S00dd6380_PointRe
         return 1;
     const float invDet = 1.0f / det;
     S00dd6380_hkVector4 d;
-    d.m_vComponents = Dd6380NegativeDistances(planes[a].m_vComponents.m128_f32[3], planes[b].m_vComponents.m128_f32[3],
-                                              planes[c].m_vComponents.m128_f32[3]);
+    d.m_vComponents = Dd6380NegativeDistances(fnv_simd_as<float>(planes[a].m_vComponents)[3], fnv_simd_as<float>(planes[b].m_vComponents)[3],
+                                              fnv_simd_as<float>(planes[c].m_vComponents)[3]);
     S00dd6380_hkVector4 p;
     p.setMul4(d.getSimdAt<1>(), m.m_kColumn1);
     p.addMul4(d.getSimdAt<0>(), m.m_kColumn0);
@@ -221,21 +203,6 @@ int FUN_00dd6380(S00dd6380_PlaneSet* set, int a, int b, int c, S00dd6380_PointRe
     if (a > b)
         hkSwap(out->m_kPointA, out->m_kPointB);
     return 0;
-}
-extern "C"
-{
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_xor_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_unpacklo_ps(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_load_ss(const float*);
-    __m128 _mm_load_ps(const float*);
 }
 struct VectorComponentValue
 {
@@ -276,8 +243,8 @@ struct hkVector4
     }
     void setCross(const hkVector4& av, const hkVector4& bv)
     {
-        hkQuadReal a = _mm_load_ps(av.m_vComponents.m128_f32);
-        hkQuadReal b = _mm_load_ps(bv.m_vComponents.m128_f32);
+        hkQuadReal a = _mm_load_ps(fnv_simd_as<float>(av.m_vComponents));
+        hkQuadReal b = _mm_load_ps(fnv_simd_as<float>(bv.m_vComponents));
         hkQuadReal c0 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xc9), _mm_shuffle_ps(b, b, 0xd2));
         hkQuadReal c1 = _mm_mul_ps(_mm_shuffle_ps(a, a, 0xd2), _mm_shuffle_ps(b, b, 0xc9));
         m_vComponents = _mm_sub_ps(c0, c1);
@@ -302,7 +269,7 @@ struct hkVector4
     }
     float getW() const
     {
-        return m_vComponents.m128_f32[3];
+        return fnv_simd_as<float>(m_vComponents)[3];
     }
     VectorComponentValue getComponent(int i) const
     {

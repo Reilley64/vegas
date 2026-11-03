@@ -1,6 +1,8 @@
 // src/havok/common/visualize/shape/hkdisplaysemicircle.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/shape/hkdisplaysemicircle.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/FUN_00cb2e30_cls.h"
 #include <xmmintrin.h>
 #include "fnv/decl/ArcPointsPrivate__ArcSamples_de4af0.h"
@@ -154,7 +156,7 @@ struct S_de4d20_Grid
     int cellSize;
     unsigned int cellCap;
 
-    static void* operator new(unsigned int n)
+    static void* operator new(std::size_t n)
     {
         return FUN_00c85750()->heap().AllocateMemoryBlock(n);
     }

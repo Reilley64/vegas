@@ -579,7 +579,7 @@ class hkQsTransformE40
         hkVector4E40 temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const ::fnv_00c66320::__m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
         m_vScale.setMul4(t1.m_vScale, t2.m_vScale);
     }
 };
@@ -759,22 +759,7 @@ void S00e3f9b0_Anim::FUN_00e3f9b0(float time, const short* tracks, unsigned int 
 }
 
 namespace E3fda0Simd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float x, y, z, w;
-};
-extern "C"
-{
-    E3fda0Simd::__m128 _mm_load_ss(const float*);
-    E3fda0Simd::__m128 _mm_load_ps(const float*);
-    void _mm_store_ps(float*, E3fda0Simd::__m128);
-    void _mm_store_ss(float*, E3fda0Simd::__m128);
-    E3fda0Simd::__m128 _mm_shuffle_ps(E3fda0Simd::__m128, E3fda0Simd::__m128, unsigned int);
-    E3fda0Simd::__m128 _mm_mul_ps(E3fda0Simd::__m128, E3fda0Simd::__m128);
-    E3fda0Simd::__m128 _mm_add_ps(E3fda0Simd::__m128, E3fda0Simd::__m128);
-    E3fda0Simd::__m128 _mm_sub_ps(E3fda0Simd::__m128, E3fda0Simd::__m128);
-    E3fda0Simd::__m128 _mm_sub_ss(E3fda0Simd::__m128, E3fda0Simd::__m128);
-}
+
 
 }struct DataChunk
 {
@@ -795,10 +780,10 @@ struct FUN_005611c0_t
 };
 
 
-inline float scalarValue(E3fda0Simd::__m128 value)
+inline float scalarValue(__m128 value)
 {
     float result;
-    E3fda0Simd::_mm_store_ss(&result, value);
+    _mm_store_ss(&result, value);
     return result;
 }
 
@@ -806,7 +791,7 @@ struct VectorLane
 {
     union
     {
-        E3fda0Simd::__m128 v;
+        __m128 v;
         struct
         {
             float x, y, z, w;
@@ -833,55 +818,55 @@ void FUN_00e3fda0(unsigned int frameIndex, float frameDelta, unsigned int maxNum
             TransformLane* transformTracksOut = (TransformLane*)transformOutArg;
             for (unsigned int left = 0; left < maxNumTransformTracks; ++left)
             {
-                E3fda0Simd::__m128 invScalar;
+                __m128 invScalar;
                 (void)invScalar;
 
-                E3fda0Simd::__m128 tss = E3fda0Simd::_mm_load_ss(&frameDelta);
-                E3fda0Simd::__m128 tAll = E3fda0Simd::_mm_shuffle_ps(tss, tss, 0);
-                E3fda0Simd::__m128 ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&::DAT_010ec7f0));
-                E3fda0Simd::__m128 inv = E3fda0Simd::_mm_sub_ps(ones, tAll);
-                E3fda0Simd::__m128 scale = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(inv, pose0->scale.v),
-                                                                  E3fda0Simd::_mm_mul_ps(tAll, pose1->scale.v));
+                __m128 tss = _mm_load_ss(&frameDelta);
+                __m128 tAll = _mm_shuffle_ps(tss, tss, 0);
+                __m128 ones = (*reinterpret_cast<const __m128*>(&::DAT_010ec7f0));
+                __m128 inv = _mm_sub_ps(ones, tAll);
+                __m128 scale = _mm_add_ps(_mm_mul_ps(inv, pose0->scale.v),
+                                                                  _mm_mul_ps(tAll, pose1->scale.v));
                 transformTracksOut->scale.v = scale;
 
-                ones = (*reinterpret_cast<const E3fda0Simd::__m128*>(&::DAT_010ec7f0));
-                inv = E3fda0Simd::_mm_sub_ps(ones, tAll);
-                E3fda0Simd::__m128 trans = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(inv, pose0->translation.v),
-                                                                  E3fda0Simd::_mm_mul_ps(tAll, pose1->translation.v));
+                ones = (*reinterpret_cast<const __m128*>(&::DAT_010ec7f0));
+                inv = _mm_sub_ps(ones, tAll);
+                __m128 trans = _mm_add_ps(_mm_mul_ps(inv, pose0->translation.v),
+                                                                  _mm_mul_ps(tAll, pose1->translation.v));
                 transformTracksOut->translation.v = trans;
 
-                E3fda0Simd::__m128 r0 = pose0->rotation.v;
+                __m128 r0 = pose0->rotation.v;
                 float oneMinus = 1.0f - scalarValue(tss);
-                E3fda0Simd::__m128 prod = E3fda0Simd::_mm_mul_ps(r0, pose1->rotation.v);
-                prod = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_shuffle_ps(prod, prod, 0x4e), prod);
-                prod = E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_shuffle_ps(prod, prod, 0xb1), prod);
+                __m128 prod = _mm_mul_ps(r0, pose1->rotation.v);
+                prod = _mm_add_ps(_mm_shuffle_ps(prod, prod, 0x4e), prod);
+                prod = _mm_add_ps(_mm_shuffle_ps(prod, prod, 0xb1), prod);
                 Vec4 pos;
-                E3fda0Simd::_mm_store_ps(&pos.x, tss);
+                _mm_store_ps(&pos.x, tss);
                 Vec4 neg;
                 const Vec4* picked;
                 if (scalarValue(prod) < 0.0f)
                 {
-                    E3fda0Simd::_mm_store_ps(
+                    _mm_store_ps(
                         &neg.x,
-                        E3fda0Simd::_mm_sub_ss((*reinterpret_cast<const E3fda0Simd::__m128*>(&DAT_010c7160)), tss));
+                        _mm_sub_ss((*reinterpret_cast<const __m128*>(&DAT_010c7160)), tss));
                     picked = &neg;
                 }
                 else
                 {
                     picked = &pos;
                 }
-                E3fda0Simd::__m128 chosen = E3fda0Simd::_mm_load_ps(&picked->x);
+                __m128 chosen = _mm_load_ps(&picked->x);
                 float signedT = scalarValue(chosen);
-                E3fda0Simd::__m128 signedScalar = E3fda0Simd::_mm_load_ss(&signedT);
-                invScalar = E3fda0Simd::_mm_load_ss(&oneMinus);
-                E3fda0Simd::__m128 signedAll = E3fda0Simd::_mm_shuffle_ps(signedScalar, signedScalar, 0);
-                E3fda0Simd::__m128 invAll = E3fda0Simd::_mm_shuffle_ps(invScalar, invScalar, 0);
+                __m128 signedScalar = _mm_load_ss(&signedT);
+                invScalar = _mm_load_ss(&oneMinus);
+                __m128 signedAll = _mm_shuffle_ps(signedScalar, signedScalar, 0);
+                __m128 invAll = _mm_shuffle_ps(invScalar, invScalar, 0);
                 FUN_005611c0_t quat;
-                E3fda0Simd::_mm_store_ps(&quat.x,
-                                         E3fda0Simd::_mm_add_ps(E3fda0Simd::_mm_mul_ps(signedAll, pose1->rotation.v),
-                                                                E3fda0Simd::_mm_mul_ps(invAll, r0)));
+                _mm_store_ps(&quat.x,
+                                         _mm_add_ps(_mm_mul_ps(signedAll, pose1->rotation.v),
+                                                                _mm_mul_ps(invAll, r0)));
                 quat.FUN_005611c0();
-                transformTracksOut->rotation.v = E3fda0Simd::_mm_load_ps(&quat.x);
+                transformTracksOut->rotation.v = _mm_load_ps(&quat.x);
                 pose0++;
                 pose1++;
                 transformTracksOut++;

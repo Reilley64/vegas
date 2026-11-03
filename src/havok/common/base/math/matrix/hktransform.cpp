@@ -2,6 +2,7 @@
 // src/havok/common/base/math/matrix/hktransform.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/base/math/matrix/hktransform.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/Cls_c7f4e0.h"
 #include "fnv/decl/CD4BA0Matrix3.h"
 #include "fnv/decl/CMatrixOps.h"
@@ -104,21 +105,9 @@ bool* S_cb2110_Foo::FUN_00cb2110(bool* result)
     return result;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
+
 #include "fnv/symbols_simd.h"
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_unpacklo_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movelh_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_movehl_ps(__m128 a, __m128 b);
 
 class hkMatrix3CB22;
 
@@ -267,8 +256,6 @@ void Obj::FUN_00cb23e0(int a)
     FUN_00cb2240(&localMatrix, a);
 }
 
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
-
 
 struct FUN_00cb2050_cls
 {
@@ -291,10 +278,6 @@ void FUN_00cb2050_cls::FUN_00cb2050(FUN_00cb2050_cls* apOut)
     __m128 kRow3 = m_kRow3;
     apOut->m_kRow3 = _mm_shuffle_ps(kRow3, _mm_unpackhi_ps(kRow3, ::DAT_010c7170), 0xc4);
 }
-
-extern "C" __m128 _mm_load_ps(float const* p);
-extern "C" void _mm_store_ps(float* p, __m128 a);
-extern "C" __m128 _mm_and_ps(__m128 a, __m128 b);
 
 
 struct FUN_00cb20b0_shell
@@ -321,8 +304,6 @@ const Matrix44* FUN_00cb20b0_shell::FUN_00cb20b0(const Matrix44* source)
 
     return source;
 }
-
-extern "C" __m128 _mm_xor_ps(__m128 a, __m128 b);
 
 
 struct S_00cb21e0_Vector4
@@ -371,11 +352,6 @@ void FUN_00cb21e0_shell::FUN_00cb21e0(const Matrix44* source)
 {
     ((S_00cb21e0_Transform*)this)->Body(*(const S_00cb21e0_Transform*)source);
 }
-
-extern "C" __m128 _mm_set_ps1(float _A);
-extern "C" __m128 _mm_and_ps(__m128 _A, __m128 _B);
-extern "C" __m128 _mm_cmple_ps(__m128 _A, __m128 _B);
-extern "C" int _mm_movemask_ps(__m128 _A);
 
 
 struct FUN_00cb2160_cls : hkTransformCB22

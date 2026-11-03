@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/scene/hkxscene.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/scene/hkxscene.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <xmmintrin.h>
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00cb0000.h"
 #include "fnv/symbols_0102e000.h"
@@ -213,11 +214,6 @@ void Scene::ClearScene()
     unk00 = &(*reinterpret_cast<int *>(&::DAT_0102e388));
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
 struct hkVector4E4A6
 {

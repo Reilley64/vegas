@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 // @fnv 0x00cf1480
+#include "fnv_simd.h"
 #include "fnv/decl/C74C20Quat.h"
 #include "fnv/decl/Quat74.h"
 #include "fnv/symbols_00cf1000.h"
@@ -468,20 +469,8 @@ int __cdecl LoadIntArray(S_00cf10f0_Stream* kStream, S_00cf10f0_Arr4* pArray)
 }
 
 namespace fnv_00cf1270 {
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    char m128_i8[16];
-    short m128_i16[8];
-    int m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned char m128_u8[16];
-    unsigned short m128_u16[8];
-    unsigned int m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_setzero_ps(void);
+
 extern "C" unsigned long __cdecl _byteswap_ulong(unsigned long value);
 
 
@@ -767,11 +756,11 @@ __forceinline void interpolate(__m128& dst, __m128 a, __m128 b, float w)
 // @fnv 0x00cf1d50
 void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTransform)
 {
-    float t0 = apTransform->com0.q.m128_f32[3];
+    float t0 = fnv_simd_as<float>(apTransform->com0.q)[3];
     if (!(time > t0))
         time = t0;
 
-    float alpha = (time - apTransform->com0.q.m128_f32[3]) * apTransform->com1.q.m128_f32[3];
+    float alpha = (time - fnv_simd_as<float>(apTransform->com0.q)[3]) * fnv_simd_as<float>(apTransform->com1.q)[3];
 
     __m128 q0 = apTransform->rot0.q;
     __m128 q1 = apTransform->rot1.q;
@@ -809,9 +798,9 @@ void __cdecl UpdateRotationInterpolation(float time, FUN_008cd6a0_Class* apTrans
     __m128 com = _mm_add_ps(_mm_mul_ps(_mm_sub_ps(_mm_load_ps(DAT_010ec7f0), qAlpha), apTransform->com0.q),
                             _mm_mul_ps(qAlpha, apTransform->com1.q));
     apTransform->com0.q = com;
-    apTransform->com0.q.m128_f32[3] = time;
+    fnv_simd_as<float>(apTransform->com0.q)[3] = time;
     apTransform->com1.q = com;
-    apTransform->com1.q.m128_f32[3] = 0.0f;
+    fnv_simd_as<float>(apTransform->com1.q)[3] = 0.0f;
 
     reinterpret_cast<::RotationRows *>((apTransform))->FUN_00cb2d90(&apTransform->rot1);
 
@@ -1123,7 +1112,7 @@ struct MotionExtR : FUN_008cd6a0_Class
 // @fnv 0x00cf1b10
 void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
 {
-    float t0 = (time - self->com0.q.m128_f32[3]) * self->com1.q.m128_f32[3];
+    float t0 = (time - fnv_simd_as<float>(self->com0.q)[3]) * fnv_simd_as<float>(self->com1.q)[3];
     float w = (::DAT_0104da4c < t0) ? t0 : ::DAT_0104da4c;
 
     __m128 vRot0 = self->rot0.q;
@@ -1152,7 +1141,7 @@ void __cdecl FUN_00cf1b10(float time, FUN_008cd6a0_Class* self)
     }
     normalize4(self->rot1.q);
 
-    float& wRef = self->com1.q.m128_f32[3];
+    float& wRef = fnv_simd_as<float>(self->com1.q)[3];
     float oldW = wRef;
     interpolate(self->com1.q, self->com0.q, self->com1.q, w);
     wRef = oldW / w;

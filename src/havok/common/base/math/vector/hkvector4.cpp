@@ -18,6 +18,7 @@
 // to EAX; the parameter order (out, self, count) is what makes the call site
 // materialise EDX before ESI.
 
+#include "fnv_simd.h"
 #include <cmath>
 #include "fnv/symbols_01012000.h"
 #include <math.h>
@@ -1553,10 +1554,10 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                 {
                     direction.q = make4(0.0f, (float)(x5f4 * 0.5), scale, 0.0f);
                     if (i == 1)
-                        direction.q.m128_f32[1] = (float)(direction.q.m128_f32[1] * -1.0);
+                        fnv_simd_as<float>(direction.q)[1] = (float)(fnv_simd_as<float>(direction.q)[1] * -1.0);
                 }
                 slots[i].FUN_00c7f640(tm, &direction);
-                slots[i].q.m128_f32[2] += x470;
+                fnv_simd_as<float>(slots[i].q)[2] += x470;
                 input.vectors[i] = subtractVectors(pos, slots[i]);
             }
             float d0 = scalar(squared3(input.vectors[0].q));
@@ -1570,10 +1571,10 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
         __m128 vLeft = origin.q;
         _ReadWriteBarrier();
         direction.q = _mm_sub_ps(vLeft, pos.q);
-        direction.q.m128_f32[2] = 0.0f;
+        fnv_simd_as<float>(direction.q)[2] = 0.0f;
         origin(2) += x470;
         __m128 vNormalized = normalized3(direction.q);
-        pos.q.m128_f32[2] = (float)origin.get(2);
+        fnv_simd_as<float>(pos.q)[2] = (float)origin.get(2);
         float fDeltaZ = sourceZ - (float)origin.get(2);
         direction.q = vNormalized;
         char side = 1;
@@ -1584,7 +1585,7 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
         {
             if (!(sub.flags & 1))
                 goto end;
-            fDeltaZ = sourceZ - slots[iIndex].q.m128_f32[2] + x470;
+            fDeltaZ = sourceZ - fnv_simd_as<float>(slots[iIndex].q)[2] + x470;
             if (fDeltaZ > 0.0f)
             {
                 if (fDeltaZ > limit)
@@ -1615,8 +1616,8 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
                 ::ComputeInverseLengths((::__m128 *)(scratch.col), (float *)(::Plane *)(&plane));
                 input.vectors[1].q = pos.q;
                 input.vectors[0].q = pos.q;
-                input.vectors[1].q.m128_f32[0] -= scalar(direction.q) * x474;
-                input.vectors[1].q.m128_f32[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * x474;
+                fnv_simd_as<float>(input.vectors[1].q)[0] -= scalar(direction.q) * x474;
+                fnv_simd_as<float>(input.vectors[1].q)[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * x474;
                 ::FUN_00cd6520((const ::ContactVector *)(input.vectors), 0.05f, (const ::ContactVector *)(scratch.col), triangle->radius, (const float *)(const ::Plane *)(&plane), 0.0f, 0, (::ContactRecord *)(::Contacts *)(&output.contacts), (::Feature *)(void *)(0));
                 flag = output.contacts.hit[0].distance >= 0.0f && output.contacts.hit[1].distance >= 0.0f;
                 goto end;
@@ -1632,8 +1633,8 @@ char ThisCls::FUN_00c6eb00(ArgObj* arg)
             output.ray.keys[0] = -1;
             endpoint.q = origin.q;
             scale = x474 + scale;
-            endpoint.q.m128_f32[0] -= scalar(direction.q) * scale;
-            endpoint.q.m128_f32[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * scale;
+            fnv_simd_as<float>(endpoint.q)[0] -= scalar(direction.q) * scale;
+            fnv_simd_as<float>(endpoint.q)[1] -= scalar(_mm_shuffle_ps(direction.q, direction.q, 85)) * scale;
             scratch.col[0].q = decoded48->mat.col[0].q;
             scratch.col[1].q = decoded48->mat.col[1].q;
             scratch.col[2].q = decoded48->mat.col[2].q;

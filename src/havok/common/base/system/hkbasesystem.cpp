@@ -4,6 +4,7 @@
 
 
 // @fnv 0x00cbb950
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/BufferOwner.h"
@@ -434,7 +435,7 @@ struct SpawnedObject
     SpawnedObject()
     {}
 
-    static void* operator new(unsigned int, void* apMemory)
+    static void* operator new(std::size_t, void* apMemory)
     {
         return apMemory;
     }
@@ -595,7 +596,7 @@ struct S_00cbbde0_RefObject
     short m_sReferenceCount;
 
     virtual ~S_00cbbde0_RefObject() throw();
-    void* operator new(unsigned int n)
+    void* operator new(std::size_t n)
     {
         S_00cbbde0_RefObject* b = static_cast<S_00cbbde0_RefObject*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;

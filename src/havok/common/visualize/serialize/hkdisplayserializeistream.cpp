@@ -1,6 +1,9 @@
 // src/havok/common/visualize/serialize/hkdisplayserializeistream.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/visualize/serialize/hkdisplayserializeistream.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_simd.h"
+#include <cstddef>
+#include <new>
 #include "fnv/decl/hkDisplaySerializeIStream.h"
 #include "fnv/decl/hkMatrix4CD60.h"
 #include "fnv/decl/DD8FE0_Stream.h"
@@ -233,13 +236,6 @@ __declspec(noinline) void FUN_00ddacd0_shell::FUN_00ddac00(void* output)
 }
 
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_set_ps1(float a);
-
 typedef float hkReal;
 typedef signed char hkInt8;
 
@@ -270,7 +266,7 @@ struct hkSphereQ
     hkSphereQ(const hkVector4Q& pos, hkReal radius)
     {
         m_pos = pos;
-        m_pos.m_vComponents.m128_f32[3] = radius;
+        fnv_simd_as<float>(m_pos.m_vComponents)[3] = radius;
     }
 };
 
@@ -307,7 +303,7 @@ struct hkGeometryQ
     int unk10;
     int unk14;
     hkGeometryQ();
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         return getRouterQ()->heap().AllocateMemoryBlock(nbytes);
     }
@@ -324,7 +320,7 @@ struct hkDisplayGeometryQ
     int unk0C;
     hkTransformQ m_kMotionTransform;
 
-    __forceinline static void* operator new(unsigned int nbytes)
+    __forceinline static void* operator new(std::size_t nbytes)
     {
         void* b = getRouterQ()->heap().AllocateMemoryBlock(nbytes);
         static_cast<hkDisplayGeometryQ*>(b)->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);

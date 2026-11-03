@@ -2,6 +2,7 @@
 // src/havok/common/scenedata/environment/hkxenvironment.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/common/scenedata/environment/hkxenvironment.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
 #include "fnv/decl/FUN_00d619d0.h"
 #include "fnv/decl/FUN_00d61df0_cls.h"
 #include "fnv/decl/SinkOwner.h"
@@ -140,7 +141,7 @@ void HKXEnvironmentStandIn::DestroyEnvironment()
 struct PlaceTagE3F3
 {
 };
-inline void* operator new(unsigned int, void* p, PlaceTagE3F3) throw()
+inline void* operator new(std::size_t, void* p, PlaceTagE3F3) throw()
 {
     return p;
 }

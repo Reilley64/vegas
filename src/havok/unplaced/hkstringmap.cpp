@@ -1,6 +1,8 @@
 
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstddef>
+#include <new>
 #include "fnv/decl/WorldData.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00cb0000.h"
@@ -560,7 +562,7 @@ class FUN_00d87790
 
     FUN_00d87790(hkBoolE028 bOwnsKeys) throw();
 
-    static void* operator new(unsigned int uiSize)
+    static void* operator new(std::size_t uiSize)
     {
         return hkRouterE028::FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
     }

@@ -65,23 +65,7 @@ FUN_00cb2ff0::~FUN_00cb2ff0()
 #include <xmmintrin.h>
 #include <math.h>
 namespace fnv_00cb2e70 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_and_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_cmple_ps(__m128, __m128);
-    __m128 _mm_set_ps1(float);
-    void _mm_store_ss(float*, __m128);
-    int _mm_movemask_ps(__m128);
-}
+
 
 extern __m128 DAT_01017d10;
 

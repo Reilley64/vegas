@@ -2064,22 +2064,6 @@ void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, World
 // Havok-style query: collect candidate pairs from the source into a temporary array, skip entries
 // below the level or already flagged (>= 8), mark unflagged owners once (callback), and append every
 // accepted object to the output array.
-struct HeapL {
-    virtual void v00() throw();
-    virtual void v04() throw();
-    virtual void v08() throw();
-    virtual void v0c() throw();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-struct RouterL {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HeapL* m_pStreamAllocator;
-    HeapL& heap() { return *m_pStreamAllocator; }
-};
-RouterL* GetRouterL() throw();
 template <typename T> inline void ConstructWithCopyL(T* p, int n, const T& t) { for (int i = 0; i < n; i++) p[i] = t; }
 
 template <class T> struct ArrL {
@@ -2087,22 +2071,22 @@ template <class T> struct ArrL {
     int m_iElementCount;
     int m_iCapacityState;
     ArrL() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~ArrL() { _clearAndDeallocate(GetRouterL()->heap()); }
+    ~ArrL() { _clearAndDeallocate(hkMemoryRouter::getInstance().heap()); }
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    void _clearAndDeallocate(HeapL& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
     }
-    void _pushBack(HeapL& alloc, const T& t)
+    void _pushBack(hkMemoryAllocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)&(alloc), (::AudioStream *)(void *)(this), sizeof(T));
         ConstructWithCopyL<T>(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
     }
-    void AddBack(const T& t) { _pushBack(GetRouterL()->heap(), t); }
+    void AddBack(const T& t) { _pushBack(hkMemoryRouter::getInstance().heap(), t); }
     T& operator[](int i) { return m_data[i]; }
 };
 
@@ -3138,22 +3122,7 @@ static inline void S_00d0e210_Timer(const char* name)
     }
 }
 
-struct S_00d0e210_Heap {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 
-struct S_00d0e210_Router {
-    char* m_stackCurrent;
-    int unk04;
-    int unk08;
-    int unk0c;
-    S_00d0e210_Heap* m_pStreamAllocator;
-    S_00d0e210_Heap& heap() { return *m_pStreamAllocator; }
-};
 
 
 template <typename T>
@@ -3163,12 +3132,12 @@ struct S_00d0e210_Array {
     int m_iCapacityState;
 
     S_00d0e210_Array() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
-    ~S_00d0e210_Array() throw() { _clearAndDeallocate(((S_00d0e210_Router*)(&hkMemoryRouter::getInstance()))->heap()); }
-    void _clearAndDeallocate(S_00d0e210_Heap& alloc) throw()
+    ~S_00d0e210_Array() throw() { _clearAndDeallocate(hkMemoryRouter::getInstance().heap()); }
+    void _clearAndDeallocate(hkMemoryAllocator& alloc) throw()
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -3687,11 +3656,6 @@ struct D0FE00Simulation {
 };
 
 namespace fnv_00d10730 {
-struct D10730Allocator {
-    virtual void unk00();
-    virtual void unk04();
-    virtual void ReleaseBlock(void* p, int numBytes);
-};
 
 
 
@@ -3716,22 +3680,6 @@ FUN_00d10730::FUN_00d10730()
 }
 }  // namespace fnv_00d10730
 
-struct Se4b0_Heap {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-struct Se4b0_Router {
-    int unk00, unk04, unk08, unk0c;
-    Se4b0_Heap* m_pStreamAllocator;
-    Se4b0_Heap& heap() { return *m_pStreamAllocator; }
-};
-inline Se4b0_Router* Se4b0_router()
-{
-    return reinterpret_cast<Se4b0_Router*>((&hkMemoryRouter::getInstance()));
-}
 template <typename T> inline void Se4b0_construct(T* p, int n, const T& t)
 {
     for (int i = 0; i < n; i++) p[i] = t;
@@ -3741,11 +3689,11 @@ template <class T> struct Se4b0_Arr {
     int m_iElementCount;
     int m_iCapacityState;
     int getCapacity() const { return m_iCapacityState & 0x3fffffff; }
-    void _clearAndDeallocate(Se4b0_Heap& alloc)
+    void _clearAndDeallocate(hkMemoryAllocator& alloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
+            alloc.bufFree(m_data, getCapacity() * sizeof(T));
     }
     void AddBack(const T& t)
     {
@@ -3777,7 +3725,7 @@ template <class T> struct Se4b0_LocalArr : Se4b0_Arr<T> {
         if (m_pStackAllocation == this->m_data)
             this->m_iElementCount = 0;
         Se4b0_freeStack(m_pStackAllocation);
-        this->_clearAndDeallocate(Se4b0_router()->heap());
+        this->_clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 struct Se4b0_Body;
@@ -4135,23 +4083,6 @@ struct Dispatcher {
 public:
     void DispatchPairs(::Pair *, int);
 };
-struct Allocator {
-    virtual void slot00(); virtual void slot04();
-    virtual void slot08(); virtual void slot0c();
-    virtual void Free(unsigned*, unsigned);
-    virtual void slot14(); virtual void slot18();
-    virtual void slot1c(); virtual void slot20();
-    virtual bool Available(int);
-};
-struct S00d0d3f0_Router {
-    int cur;
-    int unk04;
-    int unk08;
-    int unk0c;
-    Allocator* alloc;
-    Allocator& heap() { return *alloc; }
-};
-static inline S00d0d3f0_Router* S00d0d3f0_router() { return (S00d0d3f0_Router*)(&hkMemoryRouter::getInstance()); }
 struct Region { unsigned unk00, unk04; unsigned data; };
 struct RenderParams {
     unsigned unk000;
@@ -4533,7 +4464,7 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
         reinterpret_cast<::FUN_00c911d0_Class *>((context))->EnterLock(sources[0]->handle);
         reinterpret_cast<::Dispatcher *>((context->sink))->DispatchPairs((::Pair *)(secondary.start),secondary.count);
         int pairs=primary.count;
-        if(!S00d0d3f0_router()->heap().Available(pairs<<10)) {
+        if(!hkMemoryRouter::getInstance().heap().canAllocTotal(pairs<<10)) {
             reinterpret_cast<::FUN_00c91210_Class *>((context))->FUN_00c91210(sources[0]->handle);
         } else {
             Trace((unsigned char*)&DAT_010cc5d8);
@@ -4546,19 +4477,19 @@ void FUN_00d0d3f0(Source** sources, int count, RenderParams* context, void* mark
     unsigned* secondaryOriginal=secondary.original;
     if (secondaryOriginal==secondary.start) secondary.count=0;
     hkMemoryRouter::getInstance().deallocateStack(secondaryOriginal);
-    Allocator& secondaryAllocator=S00d0d3f0_router()->heap();
+    hkMemoryAllocator& secondaryAllocator=hkMemoryRouter::getInstance().heap();
     secondary.count=0;
     if ((secondary.capacity&0x80000000u)==0)
-        secondaryAllocator.Free(secondary.start,(secondary.capacity&0x3fffffffu)*8);
+        secondaryAllocator.bufFree(secondary.start,(secondary.capacity&0x3fffffffu)*8);
     secondary.start=0;
     secondary.capacity=0x80000000u;
     unsigned* primaryOriginal=primary.original;
     if (primaryOriginal==primary.start) primary.count=0;
     hkMemoryRouter::getInstance().deallocateStack(primaryOriginal);
-    Allocator& primaryAllocator=S00d0d3f0_router()->heap();
+    hkMemoryAllocator& primaryAllocator=hkMemoryRouter::getInstance().heap();
     primary.count=0;
     if ((primary.capacity&0x80000000u)==0)
-        primaryAllocator.Free(primary.start,(primary.capacity&0x3fffffffu)*8);
+        primaryAllocator.bufFree(primary.start,(primary.capacity&0x3fffffffu)*8);
 }
 
 struct S00d0d8b0_Array {
@@ -4677,34 +4608,14 @@ public:
     inline BoolFlag operator==(bool b) const {return int(value)==int(b);}
     inline BoolFlag operator!=(bool b) const {return int(value)!=int(b);}
 };
-struct Heap {
-    virtual void s00();virtual void s04();virtual void s08();virtual void s0c();
-    virtual __declspec(nothrow) void freeBuffer(void*,int) throw();
-    template<class T> inline void release(void* p,int n) {freeBuffer(p,n*sizeof(T));}
-};
-struct StackArena {
-    char* top;
-    int unk04,unk08;
-    __forceinline void* take(int n) {char* p=top;top=p+n;return p;}
-    __forceinline void put(void* p) {top=static_cast<char*>(p);}
-};
-class RouterFacade {
-    StackArena arena;
-    Heap* temporary;
-    Heap* regular;
-public:
-    
-    inline StackArena& stack() {return arena;}
-    inline Heap& heap() {return *regular;}
-};
 struct ArrayOps {
-    static __declspec(nothrow) void __cdecl ResizeAudioStream(Heap&,void*,int) throw();
-    __forceinline static void GrowArray(Heap& a,void* p,int n) {ResizeAudioStream(a,p,n);}
+    static __declspec(nothrow) void __cdecl ResizeAudioStream(hkMemoryAllocator&,void*,int) throw();
+    __forceinline static void GrowArray(hkMemoryAllocator& a,void* p,int n) {ResizeAudioStream(a,p,n);}
 };
-template<class T> __forceinline void releaseArena(T* p) {(*static_cast<RouterFacade*>(::FUN_00c85750())).stack().put(p);}
-template<class T> __forceinline T* allocateArena(int n) {return static_cast<T*>((*static_cast<RouterFacade*>(::FUN_00c85750())).stack().take((n*sizeof(T)+127)&~127));}
+template<class T> __forceinline void releaseArena(T* p) {hkMemoryRouter::getInstance().deallocateStack(p);}
+template<class T> __forceinline T* allocateArena(int n) {return static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n*int(sizeof(T))+127)&~127));}
 struct SelectHeap {
-    inline Heap& get(const void*) const {return (*static_cast<RouterFacade*>(::FUN_00c85750())).heap();}
+    inline hkMemoryAllocator& get(const void*) const {return hkMemoryRouter::getInstance().heap();}
 };
 template<class T> __forceinline void copyOne(T* dst,const T* src) {*reinterpret_cast<unsigned int*>(dst)=*reinterpret_cast<const unsigned int*>(src);}
 struct ScalarTag {};
@@ -4736,12 +4647,12 @@ public:
     __forceinline T& operator[](int i) {return data[i];}
     __forceinline const T& operator[](int i) const {return data[i];}
     __forceinline void clear() {destroyRange(data,size);size=0;}
-    __forceinline void drop(Heap& a) {
+    __forceinline void drop(hkMemoryAllocator& a) {
         clear();
-        if((flags&Borrowed)==0)a.release<T>(data,getCapacity());
+        if((flags&Borrowed)==0)a._bufFree<T>(data,getCapacity());
         data=0;flags=Borrowed;
     }
-    __forceinline void reserveWith(Heap& a,int n) {
+    __forceinline void reserveWith(hkMemoryAllocator& a,int n) {
         const int capacity=getCapacity();if(capacity<n) {int doubled=2*capacity;int requested=(n<doubled)?doubled:n;::FUN_00c908c0((::SpawnedObject *)&(a),(::SpawnedArray *)(void *)(this),requested,sizeof(T));}
     }
     __forceinline void pushBackUnchecked(const T& value) {
@@ -4749,12 +4660,12 @@ public:
     }
     __forceinline T* expandByUnchecked(int n) {int old=size;size=old+n;return data+old;}
     __forceinline void removeAt(int i) {--size;if(size!=i)copyOne(data+i,data+size);}
-    __declspec(nothrow) void splice(Heap&,int,int,const T*,int);
-    __declspec(noinline) __declspec(nothrow) void Search(Heap&,int,const T*,int) throw();
-    __declspec(noinline) __declspec(nothrow) void CallWithFlag(Heap&,int,const T&) throw();
+    __declspec(nothrow) void splice(hkMemoryAllocator&,int,int,const T*,int);
+    __declspec(noinline) __declspec(nothrow) void Search(hkMemoryAllocator&,int,const T*,int) throw();
+    __declspec(noinline) __declspec(nothrow) void CallWithFlag(hkMemoryAllocator&,int,const T&) throw();
 
 };
-template<class T> __declspec(nothrow) void ListBase<T>::splice(Heap& a,int at,int erased,const T* source,int n) {
+template<class T> __declspec(nothrow) void ListBase<T>::splice(hkMemoryAllocator& a,int at,int erased,const T* source,int n) {
         int result=n+size-erased;
         int moving=size-at-erased;
         if(result>getCapacity())reserveWith(a,result);
@@ -4763,8 +4674,8 @@ template<class T> __declspec(nothrow) void ListBase<T>::splice(Heap& a,int at,in
         assignRange(data+at,n,source);
         size=result;
     }
-template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::Search(Heap& a,int at,const T* source,int n) throw() {splice(a,at,0,source,n);}
-template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(Heap& a,int at,const T& value) throw() {Search(a,at,&value,1);}
+template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::Search(hkMemoryAllocator& a,int at,const T* source,int n) throw() {splice(a,at,0,source,n);}
+template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(hkMemoryAllocator& a,int at,const T& value) throw() {Search(a,at,&value,1);}
 template<class T> class List : public ListBase<T> {
 public:
     __forceinline __declspec(nothrow) List() throw() {}
@@ -5017,7 +4928,7 @@ __declspec(noinline) __declspec(nothrow) BoolFlag CollectMatchingEntries(Resourc
         satisfied=false;
         
         if(rejected->GetLogicalSize()==rejected->getCapacity())
-            ArrayOps::GrowArray((*static_cast<RouterFacade*>(::FUN_00c85750())).heap(),rejected,12);
+            ArrayOps::GrowArray(hkMemoryRouter::getInstance().heap(),rejected,12);
         SolveViolation& entry=*rejected->expandByUnchecked(1);
         entry.constraint=record.constraint;
         if(record.constraint->data->GetType()==11) {
@@ -5188,18 +5099,7 @@ namespace fnv_00d0d020 {
 // 0x010cd45c with a plain `mov`, and a real vptr would drag in an EH frame
 // (the base class has a non-trivial constructor) and a vtable whose bytes the
 // checker would compare literally.
-struct Allocator {
-    virtual void v00();
-    virtual void *Alloc(unsigned int bytes);
-};
 
-struct AllocHolder {
-    void *unk00;
-    void *unk04;
-    void *unk08;
-    void *unk0c;
-    Allocator *m_pThreadAllocator;
-};
 
 struct SpawnedNode {
     int unk00;
@@ -5472,18 +5372,14 @@ FUN_00d0d020_cls *FUN_00d0d020_cls::FUN_00d0d020(Owner *apOwner) {
     arrB[0] = zero;
     arrB[1] = zero;
     arrB[2] = 0xffffffffu;
-    AllocHolder *h = static_cast<AllocHolder*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1fe0_t *>((((Stub_cb1fe0 *)&m_3c)))->EnsureCapacity(reinterpret_cast<intptr_t>(h->m_pThreadAllocator), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>((((Stub_cb1fe0 *)&m_3c)))->EnsureCapacity(reinterpret_cast<intptr_t>(hkMemoryRouter::getInstance().m_heap), 0);
     m_10 = 1;
-    AllocHolder *h2 = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator *al = h2->m_pThreadAllocator;
-    SpawnedNode *node = (SpawnedNode *)al->Alloc(0x10);   // virtual call, vtable slot 1
+    SpawnedNode *node = static_cast<SpawnedNode *>(hkMemoryRouter::getInstance().heap().blockAlloc(0x10));
     node->m_04 = 0x10;
     m_48 = ((void *)(new ((void *)(((Stub_d9fb90 *)node))) ::FUN_00d9fb90()));
     m_4c = 0;
     int n = apOwner->m_334;
-    AllocHolder *h3 = static_cast<AllocHolder*>(::FUN_00c85750());
-    Allocator *al3 = h3->m_pThreadAllocator;
+    hkMemoryAllocator *al3 = hkMemoryRouter::getInstance().m_heap;
     int cap = (int)(arr[2] & 0x3fffffffu);
     if (cap < n) {
         // grow the array: the new capacity is max(needed, 2 * old)
@@ -5514,13 +5410,6 @@ struct ProfRec { const char* m_pName; DWORD m_iTick; DWORD unk08;
 };
 struct ProfBuf { DWORD unk00; ProfRec* m_pCur; DWORD unk08; ProfRec* m_pRecordEnd; };
 struct ProfPairRec : ProfRec {const char* m_subName;};
-struct HeapObj {
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
 struct Node {
     int unk00; int unk04; int unk08;
     int unk0c;
@@ -5711,10 +5600,10 @@ struct PtrArr {
     __forceinline void clear() {m_iElementCount=0;}
     __forceinline void removeAt(int i) {--m_iElementCount;if(m_iElementCount!=i)m_data[i]=m_data[m_iElementCount];}
     __forceinline void dispose() {
-        HeapObj* heap=(HeapObj*)hkMemoryRouter::getInstance().m_heap;
+        hkMemoryAllocator* heap=hkMemoryRouter::getInstance().m_heap;
         int cap=m_iCapacityState;
         m_iElementCount=0;
-        if(cap>=0)heap->ReturnMemory(m_data,(cap&0x3fffffff)*4);
+        if(cap>=0)heap->bufFree(m_data,(cap&0x3fffffff)*4);
     }
 };
 struct EventReleaseObj {
@@ -5873,17 +5762,17 @@ int __cdecl FUN_00d0f300(const EventQuery&,SolverState&,Entry70&,PhaseObj&,Arg0*
 struct SolveConstraint;
 struct SolveSchemaInfo {SolveConstraint* constraint;void* schema;float depth;};
 
-void __cdecl reserveSolveArray(HeapObj&,void*,int,int);
+void __cdecl reserveSolveArray(hkMemoryAllocator&,void*,int,int);
 template<class T> struct SolveArray {
     T* data;int size,capacity;
     __forceinline SolveArray():data(0),size(0),capacity(0x80000000){}
-    __forceinline ~SolveArray(){if(capacity>=0)((HeapObj*)hkMemoryRouter::getInstance().m_heap)->ReturnMemory(data,(capacity&0x3fffffff)*sizeof(T));}
+    __forceinline ~SolveArray(){if(capacity>=0)(hkMemoryRouter::getInstance().m_heap)->bufFree(data,(capacity&0x3fffffff)*sizeof(T));}
     __forceinline int GetLogicalSize()const{return size;}
     __forceinline T* begin(){return data;}
     __forceinline T& operator[](int i){return data[i];}
     __forceinline const T& operator[](int i)const{return data[i];}
     __forceinline void clear(){size=0;}
-    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))reserveSolveArray(*(HeapObj*)hkMemoryRouter::getInstance().m_heap,this,n,sizeof(T));}
+    __forceinline void reserve(int n){if(n>(capacity&0x3fffffff))reserveSolveArray(*hkMemoryRouter::getInstance().m_heap,this,n,sizeof(T));}
     __forceinline void pushBackUnchecked(const T& v){data[size++]=v;}
     __forceinline void AddBack(const T& v){reserve(size+1);pushBackUnchecked(v);}
     __forceinline void removeAt(int i){--size;if(size!=i)data[i]=data[size];}
@@ -6098,10 +5987,10 @@ void Self::FUN_00d100a0(Arg0* world,Entry70* pair,float delta,float rotation) {
     }
     clockOne(::str_01076f38);
     hkMemoryRouter* router3=(&hkMemoryRouter::getInstance());
-    HeapObj* heap=(HeapObj*)router3->m_heap;
+    hkMemoryAllocator* heap=router3->m_heap;
     int cap=active.m_iCapacityState;
     active.m_iElementCount=0;
-    if(!(cap&0x80000000))heap->ReturnMemory(active.m_data,(cap&0x3fffffff)*4);
+    if(!(cap&0x80000000))heap->bufFree(active.m_data,(cap&0x3fffffff)*4);
 }
 
 extern "C" void _ReadBarrier(void);
@@ -6307,7 +6196,7 @@ unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc
 void FUN_00d0bf30(World_b2089* world, EntryList_b2089* pEntries);
 void __cdecl ProcessCollisionEvent(void* context, CollisionEvent* event, float deltaTime, CollisionQueue* queue);
 void UpdateBroadPhasePairs(CollidableD0** collidables, int numCollidables, WorldD0* world, PairArrayD0& newPairs, PairArrayD0& delPairs);
-void ReserveMoreL(HeapL& alloc, void* arr, int elemSize) throw();
+void ReserveMoreL(hkMemoryAllocator& alloc, void* arr, int elemSize) throw();
 void CollectUnsaturatedObjects(SrcL* pSource, int level, float fValue, unsigned char** ppFlags, ArrL<ObjL*>* out);
 void FUN_00d0bc50(int, int, int);
 void FUN_00d0bcf0(int a);
@@ -6326,12 +6215,6 @@ public:
     __forceinline operator T() const { return val(); }
     __forceinline T operator->() const { return value; }
 };
-struct S00d0db40_Router {
-    int unk00, unk04, unk08, unk0c;
-    HeapL* m_alloc;
-    HeapL& heap() { return *m_alloc; }
-};
-static inline S00d0db40_Router* S00d0db40_router() { return (S00d0db40_Router*)(&hkMemoryRouter::getInstance()); }
 struct S00d0db40_Quality {
     int unk00;
     int unk04;
@@ -6606,17 +6489,17 @@ template<class T> struct SolArrayBase {
     __forceinline const T& operator[](int i) const { return m_data[i]; }
     __forceinline void setSizeUnchecked(int n) { m_iElementCount = n; }
     __forceinline void clear() { m_iElementCount = 0; }
-    __forceinline void deallocate(HeapL& heap) {
+    __forceinline void deallocate(hkMemoryAllocator& heap) {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
-            heap.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            heap.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
 };
 template<class T> struct SolArray : SolArrayBase<T> {
     __forceinline SolArray() : SolArrayBase<T>() {}
-    __forceinline ~SolArray() { this->deallocate(S00d0db40_router()->heap()); }
+    __forceinline ~SolArray() { this->deallocate(hkMemoryRouter::getInstance().heap()); }
 };
 typedef SolArray<S00d0db40_Entry> S00d0db40_EntryArray;
 struct S00d0db40_AgentSrc {
@@ -6652,7 +6535,7 @@ struct S00d0db40_ContactMgr {
 };
 struct S00d0db40_Pending {
     __forceinline S00d0db40_Entity* get(unsigned int key, S00d0db40_Entity* def) const { return (S00d0db40_Entity*)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key, (intptr_t)def)); }
-    __forceinline int insert(unsigned int key, S00d0db40_Entity* value) { return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&S00d0db40_router()->heap())), key, (uintptr_t)value); }
+    __forceinline int insert(unsigned int key, S00d0db40_Entity* value) { return reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(&hkMemoryRouter::getInstance().heap())), key, (uintptr_t)value); }
 };
 class SolVector {
     __m128 q;

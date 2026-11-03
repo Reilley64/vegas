@@ -920,7 +920,7 @@ struct FUN_006b6990_shell : public NavMeshInfoMap
 // @fnv 0x006b6990
 void FUN_006b6990_shell::FUN_006b6990(std::uintptr_t id)
 {
-    unsigned int info;
+    std::uintptr_t info;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(reinterpret_cast<NiTPointerMap<unsigned int, unsigned int>*>(&m_kNavMeshInfosByFormID)))->FUN_00853130(id, (::fnv_00853130::CombatThreatRecord *&)(info)))
     {
         reinterpret_cast<::NiTMap_S *>((reinterpret_cast<CellKeyMap*>(&m_kNavMeshInfosByFormID)))->RemoveKey(id);

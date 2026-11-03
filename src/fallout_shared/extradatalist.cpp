@@ -5282,10 +5282,10 @@ unsigned int S2f850::AppendValue(const NavMeshPtr& aValue)
 
 struct S0042fa20
 {
-    S0042fa20* FUN_0042fa20(int a);
+    S0042fa20* FUN_0042fa20(std::intptr_t a);
 };
 // @fnv 0x0042fa20
-S0042fa20* S0042fa20::FUN_0042fa20(int a)
+S0042fa20* S0042fa20::FUN_0042fa20(std::intptr_t a)
 {
     reinterpret_cast<::fnv_0042fd40::FUN_0042fd40_shell *>(this)->FUN_0042fd40((void *)(a));
     return this;
@@ -19720,7 +19720,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
         case 28: {
             if (auiChangeFlags & 0)
             {
-                unsigned int id;
+                std::uintptr_t id;
                 reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
                 reinterpret_cast<::fnv_0041c7f0::FUN_0041c7f0_cls *>(this)->FUN_0041c7f0((::TESObjectREFR *)(id));
             }
@@ -19764,7 +19764,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
             reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&qidnYUK, 2);
             for (qbfQdhM = 0; qbfQdhM < qidnYUK; qbfQdhM++)
             {
-                unsigned int id;
+                std::uintptr_t id;
                 reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
                 reinterpret_cast<::fnv_00422480::FUN_00422480_shell *>(this)->FUN_00422480((::fnv_00422480::Actor *)(id));
             }
@@ -19807,7 +19807,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
         case 63: {
             if (auiChangeFlags & 0)
             {
-                unsigned int id;
+                std::uintptr_t id;
                 reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
                 reinterpret_cast<::FUN_00419d10 *>(this)->SetExtra((void *)(id));
             }
@@ -19884,7 +19884,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
             reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&itemCount, 1);
             for (unsigned int j = 0; j < itemCount; j++)
             {
-                unsigned int id;
+                std::uintptr_t id;
                 reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
                 if (id)
                     reinterpret_cast<::E000ExtraDataList *>(this)->FUN_0041e000((::E000Item *)(id));
@@ -19892,7 +19892,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
             break;
         }
         case 57: {
-            unsigned int id;
+            std::uintptr_t id;
             reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
             if (id)
                 reinterpret_cast<::FUN_0041de40_class *>(this)->FUN_0041de40((::TESObjectREFR *)(id));
@@ -19901,7 +19901,7 @@ void Extras::FUN_00424960(unsigned int auiChangeFlags, unsigned int unused, TESO
         case 69:
             break;
         case 70: {
-            unsigned int id;
+            std::uintptr_t id;
             reinterpret_cast<::FUN_00857aa0 *>(((*reinterpret_cast<::p376::Stream * *>(&::g_TESSaveLoadGame))))->ValidateFormIDArray((unsigned int *)(void *)(&id), 4);
             if (id)
                 reinterpret_cast<::fnv_00419dc0::FUN_00419dc0_shell2 *>(this)->FUN_00419dc0((::fnv_00419dc0::TESObjectREFRHelper *)(id));
@@ -20213,8 +20213,8 @@ void Owner::WriteNodeList(BufObj* apBuffer)
 {
     int r3 = 0;
     int count = ((int)(reinterpret_cast<::FUN_00865f20_shell *>((apBuffer))->FUN_00865f20()));
-    int b19 = apBuffer->v4();
-    int r1 = apBuffer->v8();
+    std::intptr_t b19 = apBuffer->v4();
+    std::intptr_t r1 = apBuffer->v8();
     unsigned char hasOwner6 = b19 != 0 ? ((unsigned char)(reinterpret_cast<::BSShaderRenderUtility *>(((*reinterpret_cast<::fnv_00426a30::GlobObj * *>(&::g_dataHandler))))->IsRenderTargetId(reinterpret_cast<::FUN_0084e3a0_Class *>((((XObj*)b19)))->FUN_0084e3a0()))) : (unsigned char)0;
     Node* node = this->m_04;
     while (node != 0)
@@ -25800,7 +25800,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
         case 27: {
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
             short n = 0;
-            unsigned int pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            std::uintptr_t pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
             SExtraRunOncePacks* x = (SExtraRunOncePacks*)reinterpret_cast< ::ExtraRunOncePacks_rtti2*>((::BSExtraData*)extra);
             ListNode* kIter = x->list;
@@ -25840,7 +25840,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&type, 1);
             ::ExtraFollower_rtti2* x = reinterpret_cast< ::ExtraFollower_rtti2*>((::BSExtraData*)extra);
             short n = 0;
-            unsigned int pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
+            std::uintptr_t pos2 = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_00825c00();
             reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::extra_save::SSaveGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&n, 2);
             FormNode* kIter = x->list;
             while (kIter && !kIter->FUN_008256d0())

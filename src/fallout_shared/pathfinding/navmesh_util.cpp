@@ -1214,7 +1214,7 @@ struct S006997b0
 {
     char _pad[0xE0];
     S0069afb0* p;
-    int FUN_006997b0(unsigned short, int);
+    int FUN_006997b0(unsigned short, std::intptr_t);
 };
 struct ArrSI
 {
@@ -1321,7 +1321,7 @@ struct FUN_0069b0a0_shell
 };
 struct FUN_0069a9d0_shell : NavMesh
 {
-    void FUN_0069a9d0(unsigned short, unsigned int);
+    void FUN_0069a9d0(unsigned short, std::uintptr_t);
 };
 struct FUN_0069b240_Holder
 {
@@ -1576,11 +1576,11 @@ struct Obj00696c00
 {
     char _pad[0xA8];
     Sub0069d4b0 sub;
-    void ForwardToSub(std::intptr_t a, int b, std::intptr_t c);
+    void ForwardToSub(std::intptr_t a, std::intptr_t b, std::intptr_t c);
 };
 // Calls FUN_0069d4b0 on the sub object at offset 0xA8, passing the three arguments through.
 // @fnv 0x00696c00
-void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, int aiArg2, std::intptr_t aiArg3)
+void Obj00696c00::ForwardToSub(std::intptr_t aiArg1, std::intptr_t aiArg2, std::intptr_t aiArg3)
 {
     reinterpret_cast<::Sub0069d4b0 *>(&(sub))->FUN_0069d4b0((::Pt_0069d4b0 *)(aiArg1), (::Pt_0069d4b0 *)(aiArg2), (::Out_0069d4b0 *)(aiArg3));
 }
@@ -1929,7 +1929,7 @@ struct FUN_0069afb0_shell
     bool FUN_0069afb0(unsigned short a, Helper62d0& out);
 };
 // @fnv 0x006997b0
-int S006997b0::FUN_006997b0(unsigned short a, int b)
+int S006997b0::FUN_006997b0(unsigned short a, std::intptr_t b)
 {
     return ((int)(reinterpret_cast<::FUN_0069afb0_shell *>((p))->FUN_0069afb0(a, (*(::Helper62d0 *)(b)))));
 }
@@ -2498,7 +2498,7 @@ struct SearchContext
 };
 struct NavMeshSearch
 {
-    bool Search(int first, int second);
+    bool Search(std::intptr_t first, int second);
 };
 struct FUN_006993c0_sub
 {
@@ -2615,7 +2615,7 @@ class FUN_0069b0a0_cls
     bool LookupValue(unsigned short key, unsigned int* out);
 };
 // @fnv 0x0069a9d0
-void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, unsigned int a2)
+void FUN_0069a9d0_shell::FUN_0069a9d0(unsigned short a1, std::uintptr_t a2)
 {
     if (::IsFieldCZero((::Dummy_0069b080 *)(((NiTPointerMap<unsigned int, SoundPlaybackHandle*>*)((char*)this + 0x88)))))
         reinterpret_cast<::FUN_00699b60_shell *>(this)->BuildPortalPOVs();
@@ -3828,7 +3828,7 @@ struct NavChangeBuilder
 };
 // Builds a SearchContext and forwards the two ints and this to SearchContext::FUN_006bbd30, returning its result.
 // @fnv 0x00698f40
-bool NavMeshSearch::Search(int first, int second)
+bool NavMeshSearch::Search(std::intptr_t first, int second)
 {
     SearchContext searchContext;
     bool result = reinterpret_cast<::NavChangeBuilder *>(&(searchContext))->FUN_006bbd30((::NavMeshOwner *)(void *)(this), (*(const ::NavObstaclePtr *)(first)), second);
@@ -4086,7 +4086,7 @@ void GridMesh::FUN_006959b0()
         }
         else
         {
-            for (unsigned int x = minCellX4; x <= maxX2; x++)
+            for (std::uintptr_t x = minCellX4; x <= maxX2; x++)
             {
                 for (unsigned int y = minY2; y <= maxCellYVal; y++)
                 {

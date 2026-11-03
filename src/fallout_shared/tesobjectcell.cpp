@@ -4171,12 +4171,12 @@ struct FUN_0041c290_shell
 
 struct FUN_00547750_shell : public TESDataHandler
 {
-    void FUN_00547750(int a);
+    void FUN_00547750(std::intptr_t a);
 };
 
 // Calls SetImageSpaceExtra on the TESImageSpaceModifierList obtained from GetTESImageSpaceModifierList, passing a.
 // @fnv 0x00547750
-void FUN_00547750_shell::FUN_00547750(int a)
+void FUN_00547750_shell::FUN_00547750(std::intptr_t a)
 {
     reinterpret_cast<::fnv_0041c290::FUN_0041c290_shell *>((((FUN_0041c290_shell*)((::BSSimpleList< ::TESImageSpaceModifier *> *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList())))))->SetImageSpaceExtra((::fnv_0041c290::TESImageSpace *)(a));
 }
@@ -5185,11 +5185,11 @@ struct LEmpty_008256d0
 };
 struct S00553bf0
 {
-    bool FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, int aiArg, float afDist);
+    bool FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, std::intptr_t aiArg, float afDist);
 };
 
 // @fnv 0x00553bf0
-bool S00553bf0::FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, int aiArg, float afDist)
+bool S00553bf0::FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, std::intptr_t aiArg, float afDist)
 {
     bool bResult = false;
     if (apPick)
@@ -7132,11 +7132,11 @@ struct FUN_0041c580_Class
 
 struct FUN_005477f0_Class : public TESObjectCELL
 {
-    int FUN_005477f0(int arg1, int arg2);
+    int FUN_005477f0(std::intptr_t arg1, std::intptr_t arg2);
 };
 
 // @fnv 0x005477f0
-int FUN_005477f0_Class::FUN_005477f0(int arg1, int arg2)
+int FUN_005477f0_Class::FUN_005477f0(std::intptr_t arg1, std::intptr_t arg2)
 {
     if (IsCellInterior())
         return 0;
@@ -9853,7 +9853,7 @@ struct SpawnedVecC
 
 
 // @fnv 0x00558330
-bool __cdecl FUN_00558330(int a1, int a2, int a3)
+bool __cdecl FUN_00558330(int a1, std::intptr_t a2, std::intptr_t a3)
 {
     bool ok5 = true;
     int i = 0x2d;
@@ -10063,15 +10063,15 @@ extern LinkProbe* DAT_011de45c;
 class FUN_00585e00_cls
 {
   public:
-    void FUN_00585e00(int arg);
+    void FUN_00585e00(std::intptr_t arg);
 };
 
 // @fnv 0x00585e00
-void FUN_00585e00_cls::FUN_00585e00(int pProbe)
+void FUN_00585e00_cls::FUN_00585e00(std::intptr_t pProbe)
 {
     LinkProbe* probe;
     LinkOwner* o3;
-    int copy;
+    std::intptr_t copy;
     if (pProbe != 0 && ((void *)(reinterpret_cast<::TESObjectCELL *>((((LinkProbe*)pProbe)))->GetParentWorldSpace())) == this)
     {
         probe = ((::fnv_00585e00::LinkProbe *)(reinterpret_cast<::TESForm *>((((LinkProbe*)pProbe)))->GetFile(-1)));
@@ -11957,10 +11957,10 @@ ExtraDataList* FUN_005d43c0(TESObjectREFR* p1);
 
 struct FUN_005497c0_shell : public TESObjectCELL
 {
-    bool FUN_005497c0(AObj* p1, P2Obj* p2, int p3, unsigned char* p4, unsigned char p5);
+    bool FUN_005497c0(AObj* p1, P2Obj* p2, std::intptr_t p3, unsigned char* p4, unsigned char p5);
 };
 // @fnv 0x005497c0
-bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, int p3, unsigned char* apbHandled,
+bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, std::intptr_t p3, unsigned char* apbHandled,
                                       unsigned char p5)
 {
     VObj* kIter_;
@@ -15480,7 +15480,7 @@ void Cell::LoadChanged(unsigned int auiChangedFlags, int file)
 {
     if (reinterpret_cast<::FUN_008df040_shell *>((DAT_011de45c))->FUN_008df040() >= 90 && (auiChangedFlags & 0x40000000))
     {
-        unsigned int id;
+        std::uintptr_t id;
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&id, 4);
         reinterpret_cast<::FUN_00421850_shell *>((((::CellLoad::Ref *)(reinterpret_cast<::FUN_004610d0_shell *>(this)->GetExtraDataList()))))->FUN_00421850((::BSExtraData *)(id));
     }
@@ -17238,7 +17238,7 @@ void FNV_Cell::FUN_00548880(FNV_Ref* reference, int unused)
                     {
                         if (EntryLocVal && EntryLocVal[Diff_2])
                         {
-                            int Diff4 = ((int)(reinterpret_cast<::Ref5699 *>((EntryLocVal[Diff_2]))->FUN_005699b0()));
+                            std::intptr_t Diff4 = ((int)(reinterpret_cast<::Ref5699 *>((EntryLocVal[Diff_2]))->FUN_005699b0()));
                             if (!Diff4)
                             {
                                 Diff4 = ((int)(reinterpret_cast<::Ref5699 *>((((::fnv_00548880::FNV_Ref *)(std::uintptr_t)(reinterpret_cast<::FUN_004208b0_cls *>((((::fnv_00548880::FNV_Sub *)(reinterpret_cast<::FUN_005d43c0_ *>((EntryLocVal[Diff_2]))->FUN_005d43c0()))))->FUN_004208b0()))))->FUN_005699b0()));
@@ -17979,7 +17979,7 @@ void FUN_00552970_Call::UpdateCellScene(NiNode* node)
 {
     AutoMemHelper helper2(0x1a, true, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\TESObjectCELL.cpp",
                           0x395d);
-    int v = ((int)(reinterpret_cast<::FUN_00545cf0_Cls *>(this)->GetOrCreateWidget()));
+    std::intptr_t v = ((int)(reinterpret_cast<::FUN_00545cf0_Cls *>(this)->GetOrCreateWidget()));
     reinterpret_cast<::FUN_004512a0_shell *>(this)->SetState(5);
     ((ShNiVt*)node)->v55((void*)v, 1);
     void* world = reinterpret_cast<::FUN_004543c0_cls *>(this)->FUN_004543c0();
@@ -20657,7 +20657,7 @@ void* FUN_00553ee0_shell::FUN_00553ee0(TESObjectREFR* refr)
     {
         if (world->FUN_00c8(refr))
         {
-            int value7 = ((int)(::FUN_00c66fd0((::BhkPickData *)(((RefrThing*)refr)))));
+            std::intptr_t value7 = ((int)(::FUN_00c66fd0((::BhkPickData *)(((RefrThing*)refr)))));
             bhkWorldObject* object = (bhkWorldObject*)::FUN_004b5a80((const void *)(value7));
 
             if (object && reinterpret_cast<::FUN_0043b4d0_shell *>((void *)&(const ::bhkFilter &)(object->GetFilter()))->FUN_0043b4d0() == 0x11)

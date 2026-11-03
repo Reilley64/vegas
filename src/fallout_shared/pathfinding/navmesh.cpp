@@ -721,17 +721,17 @@ bool FUN_00690e10_shell::FUN_00690e10()
 struct FUN_00691000_shell
 {
     char _pad38[0x38];
-    void FUN_00691000(int arg);
+    void FUN_00691000(std::intptr_t arg);
 };
 
 struct FUN_00691020_shell
 {
     char _pad48[0x48];
-    void FUN_00691020(int a);
+    void FUN_00691020(std::intptr_t a);
 };
 
 // @fnv 0x00691020
-void FUN_00691020_shell::FUN_00691020(int a)
+void FUN_00691020_shell::FUN_00691020(std::intptr_t a)
 {
     reinterpret_cast<::FUN_00691c10_class *>((((FUN_00691020_shell*)((char*)this + 0x48))))->FUN_00691c10((*(const ::S00691c60 *)(a)));
 }
@@ -1154,7 +1154,7 @@ struct Arr16
     unsigned int FUN_00691b60(Elem16*);
 };
 // @fnv 0x00691000
-void FUN_00691000_shell::FUN_00691000(int arg)
+void FUN_00691000_shell::FUN_00691000(std::intptr_t arg)
 {
     reinterpret_cast<::Arr16 *>((((FUN_00691000_shell*)((char*)this + 0x38))))->FUN_00691b60((::Elem16 *)(arg));
 }
@@ -1404,11 +1404,11 @@ struct FUN_00691240_shell
     {
     };
     Inner inner;
-    void ForwardToInner(int arg);
+    void ForwardToInner(std::intptr_t arg);
 };
 
 // @fnv 0x00691240
-void FUN_00691240_shell::ForwardToInner(int arg)
+void FUN_00691240_shell::ForwardToInner(std::intptr_t arg)
 {
     reinterpret_cast<::NavMeshGrid *>(&(inner))->GetCellIndex((*(const ::NiPoint3 *)(arg)));
 }
@@ -2627,7 +2627,7 @@ template <class T> class NiPointer
 class NavMeshEdgeQuery
 {
   public:
-    bool FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& pFoundNavMesh, int a4, int a5);
+    bool FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& pFoundNavMesh, std::intptr_t a4, std::intptr_t a5);
 };
 struct ProxyX
 {
@@ -2656,8 +2656,8 @@ bool Holder670::MatchNavMesh(In670* pIn, Out670* pOut)
     return reinterpret_cast<::MeshX *>((((NavMesh_MatchHelper*)this)))->FindAdjacentEdge(pIn->_f4, pIn->_f8, (::MeshX **)&(pOut->_f0), (unsigned short *)&(pOut->_f4), (int *)&(pOut->_f8));
 }
 // @fnv 0x0068f3b0
-bool NavMeshEdgeQuery::FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& apMeshOut, int a4,
-                                    int a5)
+bool NavMeshEdgeQuery::FUN_0068f3b0(unsigned short usTri, int m_iEdgeNumber, NiPointer<NavMesh>& apMeshOut, std::intptr_t a4,
+                                    std::intptr_t a5)
 {
     NavMesh* pMesh = 0;
     if (reinterpret_cast<::MeshX *>(this)->FindAdjacentEdge(usTri, m_iEdgeNumber, (::MeshX **)(::NavMesh **)(&pMesh), (unsigned short *)(a4), (int *)(a5)))

@@ -1417,10 +1417,10 @@ struct FUN_005858b0_shell
 };
 struct FUN_005857b0_shell : FUN_005858b0_shell
 {
-    void FUN_005857b0(int a, int b);
+    void FUN_005857b0(std::intptr_t a, int b);
 };
 // @fnv 0x005857b0
-void FUN_005857b0_shell::FUN_005857b0(int a, int aiDelta)
+void FUN_005857b0_shell::FUN_005857b0(std::intptr_t a, int aiDelta)
 {
     FileH* p = ((::fnv_005857b0::FileH *)(reinterpret_cast<::fnv_00588a90::TESWorldSpace_shell *>(this)->FUN_00588a90((::TESFile *)(a))));
     if (p && p->m_uiData && aiDelta)
@@ -3578,10 +3578,10 @@ struct CELL_SHELL : public TESObjectCELL
 };
 struct WORLD_SHELL : public TESWorldSpace
 {
-    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, unsigned int context);
+    void ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, std::uintptr_t context);
 };
 // @fnv 0x005885f0
-void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, unsigned int context)
+void WORLD_SHELL::ProcessCellsInRadius(const NiPoint3* point, float distance, const NiPoint3* otherPoint, float otherDistance, std::intptr_t options, std::uintptr_t context)
 {
     if (options == 0)
         return;
@@ -4402,7 +4402,7 @@ void WorldObj::FUN_005878d0(RefObj* pRef)
                             if (!map)
                                 map = new DummyPointerMap(0x25);
                             unsigned int key3 = ::PackShortPair((short)i_, (short)j2);
-                            int val = 0;
+                            std::intptr_t val = 0;
                             reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(map))->FUN_00853130(key3, (::fnv_00853130::CombatThreatRecord *&)(val));
                             if (!val)
                             {

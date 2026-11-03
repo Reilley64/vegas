@@ -1630,7 +1630,7 @@ void FUN_006d0680_cls::FUN_006d0680(int a1, int a2)
         }
         else
         {
-            int tmp = v04(a1);
+            std::intptr_t tmp = v04(a1);
             reinterpret_cast<::FUN_006d0730_shell *>(this)->FUN_006d0730((void *)(tmp), (const void *)(m_04), a2);
             ::FUN_006a8500((::DummyClass_006a8500 *)this);
             m_04 = tmp;
@@ -1703,7 +1703,7 @@ class S_006d5340_Obj
 
 // Constructs an S_006d5340_Obj from a1 and a2, then returns the result of calling its Method with a3 and a4.
 // @fnv 0x006d5340
-int __cdecl ConstructAndCallMethod(int aiFirst, int aiSecond, int aiThird, int aiFourth)
+int __cdecl ConstructAndCallMethod(int aiFirst, int aiSecond, int aiThird, std::intptr_t aiFourth)
 {
     S_006d5340_Obj obj(aiFirst, aiSecond);
     return reinterpret_cast<::PathBuilderUpdate *>(&(obj))->UpdatePathFromIndex(aiThird, (const ::NiPoint3 *)(aiFourth));
@@ -5334,8 +5334,8 @@ bool __cdecl BuildPathNodeHolder(NiPointer<PathSource>& pSource, EntryListNode* 
         float weight4 = weights ? ((float)(reinterpret_cast<::S3e60 *>((weights))->FUN_006a7ad0(iA))) : DAT_01012054;
         ::MarkReachableTriangles((::P110Location *)(entryB), (::P110DataPtr *)&(holder), 1, reinterpret_cast<::FUN_00639aa0_shell *>((((PathSource*)pSource)))->FUN_00639aa0(), weight4);
     }
-    int pos2 = 0;
-    int neg2 = 0;
+    std::intptr_t pos2 = 0;
+    std::intptr_t neg2 = 0;
     for (unsigned int j2 = 0; j2 < reinterpret_cast<::BGSMessageInitAccess *>((((PathNodeHolder*)holder)))->GetIconFormID(); j2++)
     {
         char v5 = reinterpret_cast<::FUN_006d7ee0_shell *>((((PathNodeHolder*)holder)))->GetByteAt(j2);

@@ -164,7 +164,7 @@ struct S6Point
 
 // @fnv 0x006cd5c0
 bool CheckLineOfSightFilterWater::IsLineOfSightClear(unsigned int firstMesh, unsigned int firstTriangle,
-                                                     unsigned int firstEdge, unsigned int secondMesh,
+                                                     unsigned int firstEdge, std::uintptr_t secondMesh,
                                                      unsigned int secondTriangle, unsigned int secondEdge)
 {
     NavMeshTriangle* triangle =

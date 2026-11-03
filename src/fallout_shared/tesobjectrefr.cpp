@@ -9855,7 +9855,7 @@ PathingLocation* FUN_006dcd70(PathingLocation* pPathingLocation, RefArg aRefArg)
 {
     *(int**)pPathingLocation = &::DAT_0102583c;
     _ref_006815c0((char*)&pPathingLocation->Location);
-    int pcell = ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)aRefArg.p)))->GetTarget()));
+    std::intptr_t pcell = ((int)(reinterpret_cast<::LowProcess *>((void *)(((BSOcclusionPlane*)aRefArg.p)))->GetTarget()));
     TESWorldSpace* pworld = ((::fnv_006dcd70::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((aRefArg.p))->FUN_00575d70()));
     if (pcell == 0 && pworld == 0 && (PC7d*)aRefArg.p == g_thePlayer)
     {
@@ -10782,7 +10782,7 @@ struct FUN_0056fba0_cls : public TESObjectREFR
 // @fnv 0x0056fba0
 NiPoint3* FUN_0056fba0_cls::FUN_0056fba0(NiPoint3* out)
 {
-    int anim = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0()));
+    std::intptr_t anim = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((this))->FUN_0043fcd0()));
     if (anim)
     {
         ExtraX* extra = ((NiAVObjectX*)anim)->GetExtraData(::FUN_0050ea90());
@@ -13456,11 +13456,11 @@ struct ShellH
 struct XActor
 {
     ShellH* GetExtra() const;
-    int FUN_00572b30(int);
+    int FUN_00572b30(std::intptr_t);
 };
 // Calls FUN_0041b0d0 on the extra data with a and this, then returns a.
 // @fnv 0x00572b30
-int XActor::FUN_00572b30(int a)
+int XActor::FUN_00572b30(std::intptr_t a)
 {
     reinterpret_cast<::FUN_0041b0d0_cls *>((GetExtra()))->FUN_0041b0d0((::Vec3 *)(a), (std::intptr_t)(this));
     return a;
@@ -15444,13 +15444,13 @@ struct bhkConvexShape
 
 struct FUN_0056e610 : bhkConvexShape
 {
-    FUN_0056e610(unsigned int);
+    FUN_0056e610(std::uintptr_t);
 };
 
 
 // Sets the vtable pointer, increments DAT_0126825c, and calls FUN_0056e810 with the given value.
 // @fnv 0x0056e610
-FUN_0056e610::FUN_0056e610(unsigned int a)
+FUN_0056e610::FUN_0056e610(std::uintptr_t a)
 {
     *reinterpret_cast<void**>(this) = (void*)fnv_vftable_FUN_00c9fd70_cls;
     DAT_0126825c++;
@@ -15584,11 +15584,11 @@ struct FUN_0083c850
     int m10;
     int m14;
     int m18;
-    void AppendTopicInfo(int);
+    void AppendTopicInfo(std::intptr_t);
 };
 // If mInfo is set and passes the check, adds its topic list and runs its result script for ap with m18 as the character.
 // @fnv 0x0083c850
-void FUN_0083c850::AppendTopicInfo(int aiArg)
+void FUN_0083c850::AppendTopicInfo(std::intptr_t aiArg)
 {
     if (mInfo && !FUN_00579200(reinterpret_cast<char const*>(mInfo)))
     {
@@ -19317,7 +19317,7 @@ void FUN_00564c60_cls::FUN_00564c60(unsigned char abSet)
     {
         if (FUN_00401170(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((this))->FUN_007af430()))) != 0x1c)
         {
-            int v = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
+            std::intptr_t v = ((int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((this))->GetName()));
             if (abSet != 0)
             {
                 v = v | 0x100;
@@ -34386,9 +34386,9 @@ class DataHandler
 // @fnv 0x00578300
 bool __cdecl FUN_00578300(NiNode* pNode)
 {
-    long v5;
-    int v7;
-    int v4;
+    std::intptr_t v5;
+    std::intptr_t v7;
+    std::intptr_t v4;
     unsigned long b;
     char* v3;
     bool v6;
@@ -36366,12 +36366,12 @@ class OwnQ
     virtual void o137();
     virtual void Lock(int a);
     ListQ* FUN_005d43c0(std::intptr_t type);
-    ResQ* FUN_0055c050(int a1, int a2);
+    ResQ* FUN_0055c050(int a1, std::intptr_t a2);
 public:
     void FUN_00426720(unsigned int, int, ::P3Q *);
 };
 // @fnv 0x0055c050
-ResQ* OwnQ::FUN_0055c050(int a1, int a2)
+ResQ* OwnQ::FUN_0055c050(int a1, std::intptr_t a2)
 {
     ExtraTeleport* pTeleport_mcxj = dynamic_cast<ExtraTeleport*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((FUN_005d43c0(0x2b)))->FUN_00410220({}));
     if (pTeleport_mcxj)
@@ -38762,7 +38762,7 @@ bool Thing::FUN_005656d0()
         int value = ((int)(reinterpret_cast<::s55d310::Owner *>(this)->FUN_0055d310()));
         if (value != 0)
         {
-            int inv = (int)FUN_004bf220((::TESObjectREFR *)this);
+            std::intptr_t inv = (int)FUN_004bf220((::TESObjectREFR *)this);
             result = reinterpret_cast<::fnv_004d0490::FUN_004d0490_shell *>((((Obj*)inv)))->FUN_004d0490();
         }
     }
@@ -42889,10 +42889,10 @@ struct S
     virtual void a230(), a231(), a232(), a233(), a234(), a235(), a236(), a237(), a238();
     virtual Entry* entry(int);
     void* FUN_0055d310();
-    int FUN_005750a0(Item*, void*, int, bool, bool, int, int, int, bool, bool);
+    int FUN_005750a0(Item*, void*, int, bool, bool, std::intptr_t, int, int, bool, bool);
 };
 // @fnv 0x005750a0
-int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, int p1, int p2, int p3, bool b3, bool b4)
+int S::FUN_005750a0(Item* arg, void* extra, int count, bool b1, bool b2, std::intptr_t p1, int p2, int p3, bool b3, bool b4)
 {
     int result2 = 0;
     if (!arg)
@@ -42987,7 +42987,7 @@ int Thing::FUN_00575590(unsigned char abUseGlobal, unsigned char value)
     int out = -1;
     if (result != 0)
     {
-        int inv = 0;
+        std::intptr_t inv = 0;
         if (abUseGlobal != 0)
         {
             inv = ((int)(reinterpret_cast<::FUN_00740960_Class *>(((*reinterpret_cast<::fnv_00575590::Global * *>(&::g_dataHandler))))->FUN_00740960()));
@@ -52903,14 +52903,14 @@ class BhkWrapperBaseDAD
 class BhkWrapperDAD : public BhkWrapperBaseDAD
 {
   public:
-    void FUN_00cb3150(int a);
+    void FUN_00cb3150(std::intptr_t a);
 
     hkVector4DAD m_v20;
     hkVector4DAD m_v30;
 };
 
 // @fnv 0x00cb3150
-void BhkWrapperDAD::FUN_00cb3150(int a)
+void BhkWrapperDAD::FUN_00cb3150(std::intptr_t a)
 {
     int iToken;
     PhantomDataDAD* pkData = GetData(&iToken);
@@ -56821,12 +56821,12 @@ struct S_00cb3070
     virtual void v42();
     virtual void v43();
     virtual void v43b();
-    virtual void v44(int*);
-    void FUN_00cb3070(int);
+    virtual void v44(std::intptr_t*);
+    void FUN_00cb3070(std::intptr_t);
 };
 
 // @fnv 0x00cb3070
-void S_00cb3070::FUN_00cb3070(int a)
+void S_00cb3070::FUN_00cb3070(std::intptr_t a)
 {
     reinterpret_cast<::Entity_c8ea *>(this)->FUN_00c8ea30((char *)(a));
     v44(&a);
@@ -61807,11 +61807,11 @@ struct S00cbe9f0_cls
     FUN_00cbe9f0_Target* m18;
     unsigned char m1c;
 
-    void FUN_00cbe9f0(int a1, FUN_00cbe9f0_Target* a2);
+    void FUN_00cbe9f0(std::intptr_t a1, FUN_00cbe9f0_Target* a2);
 };
 
 // @fnv 0x00cbe9f0
-void S00cbe9f0_cls::FUN_00cbe9f0(int a1, FUN_00cbe9f0_Target* a2)
+void S00cbe9f0_cls::FUN_00cbe9f0(std::intptr_t a1, FUN_00cbe9f0_Target* a2)
 {
     m1c = 0;
     reinterpret_cast<::F9_Owner *>(this)->FUN_00c9f050((::F9_Arg *)((const void*)a1));

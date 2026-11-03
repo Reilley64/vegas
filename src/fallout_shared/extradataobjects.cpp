@@ -4236,7 +4236,7 @@ void FUN_004305f0::Run(int arg1, char arg2)
     unsigned int i;
     for (i = 0; i < ((unsigned int)(std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x20))))->GetName())); ++i)
     {
-        unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
+        std::uintptr_t v = ((unsigned int)(reinterpret_cast<::S3e60 *>((((BSSimpleArrayStandIn*)((char*)this + 0x20))))->FUN_006a7ad0(i)));
         if (v != 0)
         {
             if (*(unsigned char*)v == arg1)
@@ -4848,7 +4848,7 @@ struct FUN_00431450_cls
     int unk08;
     FUN_00431450_callee* m_0c;
 
-    bool FUN_00431450(int a1);
+    bool FUN_00431450(std::intptr_t a1);
 };
 
 struct FUN_00431450_callee
@@ -4858,7 +4858,7 @@ struct FUN_00431450_callee
 void* __cdecl FUN_00ec43fb(int a1, int a2, void* a3, void* a4, int a5);
 
 // @fnv 0x00431450
-bool FUN_00431450_cls::FUN_00431450(int a1)
+bool FUN_00431450_cls::FUN_00431450(std::intptr_t a1)
 {
     FUN_00431450_cls* p = (FUN_00431450_cls*)dynamic_cast<::ExtraMapMarker *>(reinterpret_cast<::BSExtraData *>(a1));
     if (p == 0)

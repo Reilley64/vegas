@@ -616,12 +616,12 @@ struct FUN_006f4da0
     unsigned int flags;
     FUN_006dcbb0 path;
     int context;
-    FUN_006f4da0(int, int);
+    FUN_006f4da0(std::intptr_t, int);
 };
 
 // Initialises the path from source, stores contextValue, sets flags to 6 and adds bit 1 when the path check for 0 succeeds.
 // @fnv 0x006f4da0
-FUN_006f4da0::FUN_006f4da0(int source, int contextValue) : path()
+FUN_006f4da0::FUN_006f4da0(std::intptr_t source, int contextValue) : path()
 {
     reinterpret_cast<::PathingLocation *>(&(path))->operator=((*(const ::PathingLocation *)(source)));
     context = contextValue;

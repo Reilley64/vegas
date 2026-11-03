@@ -1918,7 +1918,7 @@ void FUN_004ce300(TESForm* apForm, unsigned int uiValue)
 
 struct FUN_004ce340_stand
 {
-    void FUN_004ce340(std::intptr_t a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7);
+    void FUN_004ce340(std::intptr_t a0, std::intptr_t a1, bool a2, bool a3, bool a4, bool a5, int a6, std::intptr_t a7);
 };
 struct C008256d0
 {
@@ -7540,7 +7540,7 @@ struct IN4cb4b0
 struct Inv4cb4b0
 {
     IN4cb4b0* m_pEntryList;
-    void FUN_004cb4b0(int a1, int a2, int a3);
+    void FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3);
 };
 
 namespace InventoryCopy {
@@ -11391,8 +11391,8 @@ struct Transfer4c37C37This
     float m0c;
     unsigned char m10;
     Transfer4c37Cont* FUN_004bffb0();
-    int FUN_004c37d0(Transfer4c37C37Obj* p0, int p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
-                     Transfer4c37C37Form* p6, int p7, int p8, unsigned char p9, unsigned char p10,
+    int FUN_004c37d0(Transfer4c37C37Obj* p0, std::intptr_t p1, unsigned char p2, int p3, Transfer4c37Form4* p4, unsigned char p5,
+                     Transfer4c37C37Form* p6, std::intptr_t p7, std::intptr_t p8, unsigned char p9, unsigned char p10,
                      Transfer4c37Entry* p11);
 };
 struct FUN_008c71b0
@@ -15016,7 +15016,7 @@ void FUN_004bfe50_t::RemoveWornItems(bool abSkipCanNotWear, TESObjectREFR* apRef
 }
 // Forwards all arguments unchanged to FUN_004ce380.
 // @fnv 0x004ce340
-void FUN_004ce340_stand::FUN_004ce340(std::intptr_t a0, int a1, bool a2, bool a3, bool a4, bool a5, int a6, int a7)
+void FUN_004ce340_stand::FUN_004ce340(std::intptr_t a0, std::intptr_t a1, bool a2, bool a3, bool a4, bool a5, int a6, std::intptr_t a7)
 {
     reinterpret_cast<::InventoryMove *>(this)->FUN_004ce380((::MoveOwner *)(a0), (::MoveOwner *)(a1), a2, a3, a4, a5, a6, (::MoveFilter *)(a7));
 }
@@ -16595,7 +16595,7 @@ void FUN_004c6d40_cls::ResetAndProcess(int aiArg, unsigned char a2, int aiCount)
     }
 }
 // @fnv 0x004cb4b0
-void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
+void Inv4cb4b0::FUN_004cb4b0(std::intptr_t a1, int a2, std::intptr_t a3)
 {
     TESObject* pObj = 0;
     Cont4cb4b0* pCont3 = ((::Cont4cb4b0 *)(reinterpret_cast<::FUN_004bffb0_shell *>(this)->FUN_004bffb0()));
@@ -16623,16 +16623,16 @@ void Inv4cb4b0::FUN_004cb4b0(int a1, int a2, int a3)
     }
 }
 // @fnv 0x004c37d0
-int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsigned char p2, int aiCount,
+int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, std::intptr_t p1, unsigned char p2, int aiCount,
                                       Transfer4c37Form4* apExtra, unsigned char abCreateRef,
-                                      Transfer4c37C37Form* apTarget, int p7, int p8, unsigned char p9,
+                                      Transfer4c37C37Form* apTarget, std::intptr_t p7, std::intptr_t p8, unsigned char p9,
                                       unsigned char abRecurse, Transfer4c37Entry* apEntry)
 {
     AutoMemContext memoryContext72((MEM_CONTEXT)54, true, ::DAT_01020778, 3700);
     this->m10 = 1;
     this->m0c = this->m08;
     this->m08 = ::DAT_01012054;
-    int resultRef6 = 0;
+    std::intptr_t resultRef6 = 0;
     if (this->m04 != 0)
         this->m04->Vcall48(0x20);
     if (apTarget != 0)
@@ -17056,7 +17056,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                             Transfer4c37Node84* node84 = (Transfer4c37Node84*)transferEntry7->m00;
                             while (node84 != 0 && *((::Transfer4c37ItemObj **)((void *)(node84))) != 0)
                             {
-                                int item88 = 0;
+                                std::intptr_t item88 = 0;
                                 raw1ec = (Transfer4c37Obj20*)*((::Transfer4c37ItemObj **)((void *)(node84)));
                                 if (!((void *)(reinterpret_cast<::FUN_00418660_shell *>((raw1ec))->FUN_00418660())))
                                 {
@@ -17089,7 +17089,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                         else
                         {
                             {
-                                long item90 = 0;
+                                std::intptr_t item90 = 0;
                                 if (apSource->Vcall100())
                                 {
                                     int item94 = 0;
@@ -17177,7 +17177,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
             if (plainCount1 < 0)
                 plainCount1 = 0;
             Transfer4c37ItemObj* sourceList32 = 0;
-            int destinationList14 = 0;
+            std::intptr_t destinationList14 = 0;
             Transfer4c37Node84* remainingNode23 = (Transfer4c37Node84*)itemChange7->m00;
             if (plainCount1 > 0)
             {
@@ -17631,7 +17631,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                                 transferEntry7->m00 = new Transfer4c37Obj96;
                                 ((Transfer4c37CurHead*)transferEntry7->m00)->FUN_005ae3d0((int*)&item_fc);
                             }
-                            int item_100 = 0;
+                            std::intptr_t item_100 = 0;
                             if (apSource->Vcall100())
                             {
                                 int t104 = 0;
@@ -17745,7 +17745,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
         }
         else if (apTarget != 0)
         {
-            unsigned int item_114 = 0;
+            std::uintptr_t item_114 = 0;
             if (apSource->Vcall100())
             {
                 int a = 0;
@@ -17780,13 +17780,13 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
                         if (FUN_00401170(item_114) == 8)
                         {
-                            int pObj = item_114;
+                            std::intptr_t pObj = item_114;
                             if (!reinterpret_cast<::FUN_0047d7c0_Class *>((((Transfer4c37D7Obj*)pObj)))->FUN_0047d7c0())
                                 flag_11d = 1;
                         }
                         else
                         {
-                            int tmp_128 = item_114;
+                            std::intptr_t tmp_128 = item_114;
                             if (tmp_128 != 0)
                             {
                                 int res_12c = ::fnv_0047e040::FUN_0047e040(((Transfer4c37ActorValueView*)tmp_128)->values.Vcall3(0x17));
@@ -17799,7 +17799,7 @@ int Transfer4c37C37This::FUN_004c37d0(Transfer4c37C37Obj* apSource, int p1, unsi
                     {
                         reinterpret_cast<::KarmaActor *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0094fd30((int)*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Transfer4c37Glob20 *>(&::originalRuntimeFloatSetting282)))))));
                     }
-                    int weapon = p1;
+                    std::intptr_t weapon = p1;
                     reinterpret_cast<::PlayerNoteStub *>((((Transfer4c37C37Obj*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_00966a70((::NoteStub *)(weapon), 1);
                 }
                 else

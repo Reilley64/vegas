@@ -151,10 +151,10 @@ struct LocS
 };
 struct FUN_006aabd0_shell
 {
-    int GetLocationAndReturn(int a);
+    int GetLocationAndReturn(std::intptr_t a);
 };
 // @fnv 0x006aabd0
-int FUN_006aabd0_shell::GetLocationAndReturn(int aiValue)
+int FUN_006aabd0_shell::GetLocationAndReturn(std::intptr_t aiValue)
 {
     reinterpret_cast<::TaskQueueInterface *>((((LocS*)((char*)this + 0x1c))))->QueueActorAnimationTask((*(::NiPoint3 *)(aiValue)));
     return aiValue;

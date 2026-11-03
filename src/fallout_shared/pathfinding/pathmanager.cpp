@@ -2530,7 +2530,7 @@ struct FUN_006eb250_VirtualObject
 
 struct FUN_006ea780_Obj
 {
-    unsigned int RequestLocationStatus(int a1, int a2, int a3, int a4);
+    unsigned int RequestLocationStatus(std::intptr_t a1, int a2, std::intptr_t a3, int a4);
 };
 
 struct FUN_006eb250_Class
@@ -3886,7 +3886,7 @@ class EB2B0Owner
     int unk147C;
     EB2B0Map m_kFormatEntries;
 
-    int ProcessKeyedItem(unsigned int uiKey, int a, int b, int c);
+    int ProcessKeyedItem(unsigned int uiKey, std::intptr_t a, std::intptr_t b, int c);
 };
 
 extern const char g_acB6EB310Name[];
@@ -5650,7 +5650,7 @@ struct Host17
 };
 // Looks up the item for uiKey in the map and forwards a, b, c to its Process; returns 2 if the key is not found.
 // @fnv 0x006eb2b0
-int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, int aiArg1, int aiArg2, int aiArg3)
+int EB2B0Owner::ProcessKeyedItem(unsigned int uiKey, std::intptr_t aiArg1, std::intptr_t aiArg2, int aiArg3)
 {
     EB2B0Item* pkItem = 0;
     if (m_kFormatEntries.GetAt(uiKey, pkItem))
@@ -5751,7 +5751,7 @@ struct RequestManager
 };
 // Locks the manager, searches statuses for a matching type and location, updates or creates the request/status entries, unlocks, and returns the status.
 // @fnv 0x006ea780
-unsigned int FUN_006ea780_Obj::RequestLocationStatus(int pShape, int iLocation, int a3, int bTypeFlag)
+unsigned int FUN_006ea780_Obj::RequestLocationStatus(std::intptr_t pShape, int iLocation, std::intptr_t a3, int bTypeFlag)
 {
     unsigned int status = 0;
     reinterpret_cast<::FUN_0040fbf0_shell *>(&(((RequestManager*)this)->lock))->FUN_0040fbf0((char *)(0));
@@ -7313,12 +7313,12 @@ struct FUN_006e9cc0 : PathTaskBase
     PathListB listB;
     PathHandle handle;
     bool enabled;
-    FUN_006e9cc0(int, PathHandle);
+    FUN_006e9cc0(std::intptr_t, PathHandle);
     virtual ~FUN_006e9cc0();
 };
 // Constructs a path task, default-initializes its members, then calls Initialize with the given mode and handle.
 // @fnv 0x006e9cc0
-FUN_006e9cc0::FUN_006e9cc0(int mode, PathHandle value) : first(0), second(0), handle(0), enabled(false)
+FUN_006e9cc0::FUN_006e9cc0(std::intptr_t mode, PathHandle value) : first(0), second(0), handle(0), enabled(false)
 {
     reinterpret_cast<::PathingTaskShell *>(this)->AssignRequestAndQueue((::PathingRequest *)(mode), (*(::NiPointer< ::ActorPathingMessageQueue> *)&(const ::PathHandle &)(value)));
 }

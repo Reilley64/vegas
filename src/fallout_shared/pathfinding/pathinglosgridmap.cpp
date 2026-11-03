@@ -165,7 +165,7 @@ bool FUN_006e0bc0_shell::FUN_006e0bc0(BSAudio* aArg, bool aFlag)
     void* pTopic = ((void *)(reinterpret_cast<::MagicCaster_shell *>((aArg))->FUN_0044edb0()));
     if (!pTopic || ((FUN_006df760_shell*)aArg)->GetShortValueAtOffset24() == 0xFFFF)
         return false;
-    unsigned int key = 0;
+    std::uintptr_t key = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((((DummyPointerMap*)((char*)this + 8))))->FUN_00853130(*(Flt*)pTopic, (::fnv_00853130::CombatThreatRecord *&)(key)))
         return reinterpret_cast<::FUN_006dfe90_S *>((((FUN_006dfe90_shell*)key)))->FUN_006dfe90((::PathingLocation *)(aArg), aFlag);
     return false;
@@ -740,11 +740,11 @@ struct FUN_006e0320_cls
     float m_44;
     int unk48;
     Sub4c m_4c;
-    void FUN_006e0320(unsigned int aArg, float aF);
+    void FUN_006e0320(std::uintptr_t aArg, float aF);
 };
 
 // @fnv 0x006e0320
-void FUN_006e0320_cls::FUN_006e0320(unsigned int aArg, float aF)
+void FUN_006e0320_cls::FUN_006e0320(std::uintptr_t aArg, float aF)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(m_4c));
     reinterpret_cast<::PathingLocation *>(&(m_1c))->operator=((*(const ::PathingLocation *)(aArg)));

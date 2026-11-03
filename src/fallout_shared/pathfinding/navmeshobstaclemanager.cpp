@@ -1354,13 +1354,13 @@ struct FUN_00c9c0f0_shell
 
 struct FUN_006c1e70_shell
 {
-    void FUN_006c1e70(int a1);
+    void FUN_006c1e70(std::intptr_t a1);
 };
 
 // @fnv 0x006c1e70
-void FUN_006c1e70_shell::FUN_006c1e70(int a1)
+void FUN_006c1e70_shell::FUN_006c1e70(std::intptr_t a1)
 {
-    int result = ::FUN_004ae750((void *)(((ScriptLocalsX*)this)));
+    std::intptr_t result = ::FUN_004ae750((void *)(((ScriptLocalsX*)this)));
     if (result)
     {
         reinterpret_cast<::fnv_00c9c0f0::hkpWorldC9C0 *>((((FUN_00c9c0f0_shell*)result)))->RemoveListener((::fnv_00c9c0f0::hkpListenerC9C0 *)(a1));
@@ -2893,12 +2893,12 @@ class TargetObj
 class FUN_006c0280_cls
 {
   public:
-    void CallResolvedObject(int id);
+    void CallResolvedObject(std::intptr_t id);
 };
 
 // Looks up an object by id; if found, resolves it and calls UnkCall on the result.
 // @fnv 0x006c0280
-void FUN_006c0280_cls::CallResolvedObject(int id)
+void FUN_006c0280_cls::CallResolvedObject(std::intptr_t id)
 {
     void* obj = ::FUN_004b5a80((const void *)(id));
     if (obj != 0)
@@ -6129,8 +6129,8 @@ struct FUN_00963d60_shell
 void FUN_00963d60_shell::FUN_00963d60(std::intptr_t param_2)
 {
     BSSimpleList<int>* pNode;
-    int pEntry;
-    int pEntryCopy;
+    std::intptr_t pEntry;
+    std::intptr_t pEntryCopy;
 
     if (unk60c == 0 || param_2 == 0)
         return;

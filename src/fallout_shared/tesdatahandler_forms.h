@@ -647,8 +647,6 @@ class TESClass : public TESForm
     TESFullName fullName;
     unsigned char formData[0x3c];
 };
-// Keep the verified faction RTTI identity separate from the conflicting shared binding.
-namespace TESDataHandlerTypes {
 class TESFaction : public TESForm
 {
   public:
@@ -657,8 +655,6 @@ class TESFaction : public TESForm
     TESReactionForm reaction;
     unsigned char layout_30[0x1c];
 };
-}
-using TESDataHandlerTypes::TESFaction;
 class TESReputation : public TESForm
 {
   public:

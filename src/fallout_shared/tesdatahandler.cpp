@@ -625,12 +625,12 @@ void TESDataHandler::MarkGameSettingsLoaded()
     for (int i = 0; i < nCount - 1; ++i)
     {
         BSSimpleList<TESClass*>* node = pClassList;
-        while (node && (node->m_item))
+        while (node && (node->item))
         {
             if (((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                TESClass* first = (node->m_item);
-                TESClass* second = ((((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->m_item);
+                TESClass* first = (node->item);
+                TESClass* second = ((((::BSSimpleList< ::TESClass *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->item);
                 if (first && second &&
                     _mbsicmp((const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(first->fullName))->FUN_00408da0())),
                              (const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(second->fullName))->FUN_00408da0()))) > 0)
@@ -647,12 +647,12 @@ void TESDataHandler::MarkGameSettingsLoaded()
     for (int i = 0; i < nCount - 1; ++i)
     {
         BSSimpleList<TESRace*>* node = pRaceList;
-        while (node && (node->m_item))
+        while (node && (node->item))
         {
             if (((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
             {
-                TESRace* pRace = (node->m_item);
-                TESRace* second = ((((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->m_item);
+                TESRace* pRace = (node->item);
+                TESRace* second = ((((::BSSimpleList< ::TESRace *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))->item);
                 if (pRace && second &&
                     _mbsicmp((const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(pRace->fullName))->FUN_00408da0())),
                              (const unsigned char*)((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(second->fullName))->FUN_00408da0()))) > 0)
@@ -1814,7 +1814,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
             if (!pfile->IsMasterFile() && !((LC3_DH*)this)->b618 && reinterpret_cast<::FUN_00471af0_shell *>((pfile))->HasMasterFileChanged())
             {
                 badmaster = true;
-                ::FUN_005b5e40((*reinterpret_cast<::fnv_00463070::StartMenu *>(&::g_011c4024))))->GetMenuTitle(), ::FUN_00464f30(pfile))->GetShotList()));
+                ::FUN_005b5e40((const char *)reinterpret_cast<::StartMenu *>(&::g_011c4024)->GetMenuTitle());
             }
             if (reinterpret_cast<::FUN_00471d60_shell *>((pfile))->IsFlag8Set())
             {
@@ -1852,7 +1852,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
     }
     ((LC3_DH*)this)->u208 = 0xff000800;
     if (badmaster)
-        ::FUN_005b5e40((*reinterpret_cast<::fnv_00463070::StartMenu *>(&::g_011c4048))))->GetMenuTitle());
+        ::FUN_005b5e40((const char *)reinterpret_cast<::StartMenu *>(&::g_011c4048)->GetMenuTitle());
     FUN_0043b2b0(false);
     if (((LC3_DH*)this)->m_pActiveFile)
     {
@@ -1952,7 +1952,7 @@ bool FUN_00463070_shell::LoadDataFiles(bool abDownloadedContentOnly)
         n->InitItem();
         pzone = (LC3_Node*)((::TESObject *)(reinterpret_cast<::Callees *>((pzone))->FUN_00726070()));
     }
-    pFactList = (LC3_Node*)((::BSSimpleList< ::TESDataHandlerTypes::TESFaction *> *)(::FUN_00871a30((int)this)));
+    pFactList = (LC3_Node*)((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)));
     while (pFactList && (pFaction = (TESForm*)*((void **)((void *)(pFactList)))) != 0)
     {
         pFaction->InitItem();
@@ -2314,7 +2314,7 @@ void FUN_00465040_shell::InitAllScripts()
 {
     BSSimpleList<Script*>* pList = ((::BSSimpleList< ::Script *> *)(::FUN_006377e0((int)this)));
     Script* pScript;
-    while (pList && (pScript = (pList->m_item)) != 0)
+    while (pList && (pScript = (pList->item)) != 0)
     {
         pScript->InitItem();
         pList = (BSSimpleList<Script*>*)((::TESObject *)(reinterpret_cast<::Callees *>((((TESFormList*)pList)))->FUN_00726070()));
@@ -2433,9 +2433,9 @@ TESFile* TESDataHandler::LookupTESFile(const char* name)
     BSSimpleList<TESFile*>* list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     if (name)
     {
-        while (list && (list->m_item))
+        while (list && (list->item))
         {
-            TESFile* file = (list->m_item);
+            TESFile* file = (list->item);
             if (!FUN_00404dc0(name, ((const char *)(reinterpret_cast<::BGSCameraPath *>((file))->GetShotList()))))
                 return file;
             list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -2448,9 +2448,9 @@ void TESDataHandler::SetSaveLoadGameState(int size)
 {
     BSSimpleList<TESFile*>* pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     TESFile* file = 0;
-    while (pList && (pList->m_item))
+    while (pList && (pList->item))
     {
-        file = (pList->m_item);
+        file = (pList->item);
         if (file->IsMasterFile())
             ::fnv_00473ce0::SetField22C((char *)(file), size);
         pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
@@ -2462,7 +2462,7 @@ void TESDataHandler::BuildCompiledFileList()
     BSSimpleList<TESFile*>* list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
     while (list && !list->IsEmpty())
     {
-        TESFile* file = (list->m_item);
+        TESFile* file = (list->item);
         if (file->GetIsChecked())
             file->GetParentTESFile();
         list = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -2473,9 +2473,9 @@ void TESDataHandler::BuildCompiledFileList()
 void FUN_00460360_shell::ProcessAllFiles()
 {
     BSSimpleList<TESFile*>* pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::FUN_0045dfc0_shell *>(this)->FUN_0045dfc0()));
-    while (pList && (pList->m_item))
+    while (pList && (pList->item))
     {
-        TESFile* pfile = (pList->m_item);
+        TESFile* pfile = (pList->item);
         reinterpret_cast<::FUN_00471130_shell *>((pfile))->FUN_00471130();
         pList = ((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((pList))->FUN_00726070()));
     }
@@ -2947,7 +2947,7 @@ void TESDataHandler::InitializeMagicSystem()
     if (!pDefaultWorld)
     {
     }
-    else if (((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->m_item) != pDefaultWorld)
+    else if (((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->item) != pDefaultWorld)
     {
         reinterpret_cast<::ItemChangeListNode *>((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))))->FUN_00905330((::InventoryStackRecord *const &)(pDefaultWorld));
         ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)))->AddHead(pDefaultWorld);
@@ -3128,7 +3128,7 @@ void TESDataHandler::InitializeMagicSystem()
         DAT_011cb550 = new TESFaction;
         DAT_011cb550->SetRefID(0x13, true);
         DAT_011cb550->SetEditorID_AtRuntime("CreatureFaction");
-        ((::BSSimpleList< ::TESDataHandlerTypes::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(DAT_011cb550);
+        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(DAT_011cb550);
         DAT_011cb550->reaction.SetReactionValue(DAT_011cb550, 100);
         reinterpret_cast<::FUN_005fd460_shell *>((DAT_011cb550))->FUN_005fd460();
         DAT_011cb550->SetInitializationState(true);
@@ -3601,7 +3601,7 @@ TESObjectCELL* FUN_00461ae0_shell::FUN_00461ae0(const char* pcEditorID)
     BSSimpleList<TESWorldSpace*>* pWorldList = ((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this)));
     while (pWorldList)
     {
-        TESWorldSpace* pspace = (pWorldList->m_item);
+        TESWorldSpace* pspace = (pWorldList->item);
         if (pspace)
         {
             TESObjectCELL* pCell = ((::TESObjectCELL *)(reinterpret_cast<::fnv_00588560::FUN_00588560_shell *>((((TESWorldSpaceCell*)pspace)))->FindEntryByName(pcEditorID)));
@@ -3647,7 +3647,7 @@ bool TESDataHandler::AddFormToDataHandler(TESForm* form)
     }
     case 8: {
         TESFaction* entry = static_cast<TESFaction*>(form);
-        ((::BSSimpleList< ::TESDataHandlerTypes::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(entry);
+        ((::BSSimpleList< ::TESFaction *> *)(::FUN_00871a30((int)this)))->AddHead(entry);
         break;
     }
     case 104: {
@@ -4388,10 +4388,10 @@ struct FormX
     virtual const char* GetEditorID();
     int GetFormType();
 };
-template <class T> struct ListX
+template <class T> struct ListXT
 {
     T item;
-    ListX* next;
+    ListXT* next;
     T& GetItem();
     void RemoveHead();
 };
@@ -4415,62 +4415,62 @@ struct DataHandlerX
 {
     void* vtbl;
     SubX* p004;
-    ListX<FormX*> kList008;
-    ListX<FormX*> kList010;
-    ListX<FormX*> kList018;
-    ListX<FormX*> kList020;
-    ListX<FormX*> kList028;
-    ListX<FormX*> kList030;
-    ListX<FormX*> kList038;
-    ListX<FormX*> kList040;
-    ListX<FormX*> kList048;
-    ListX<FormX*> kList050;
-    ListX<FormX*> kList058;
-    ListX<FormX*> kList060;
-    ListX<FormX*> kList068;
-    ListX<FormX*> kList070;
-    ListX<FormX*> kList078;
-    ListX<FormX*> kList080;
-    ListX<FormX*> kList088;
-    ListX<FormX*> kList090;
-    ListX<FormX*> kList098;
-    ListX<FormX*> kList0a0;
-    ListX<FormX*> kList0a8;
-    ListX<FormX*> kList0b0;
-    ListX<FormX*> kList0b8;
-    ListX<FormX*> kList0c0;
-    ListX<FormX*> kList0c8;
-    ListX<FormX*> kList0d0;
-    ListX<FormX*> kList0d8;
-    ListX<FormX*> kList0e0;
-    ListX<FormX*> kList0e8;
-    ListX<FormX*> kList0f0;
-    ListX<FormX*> kList0f8;
-    ListX<FormX*> kList100;
-    ListX<FormX*> kList108;
-    ListX<FormX*> kList110;
-    ListX<FormX*> kList118;
-    ListX<FormX*> kList120;
-    ListX<FormX*> kList128;
-    ListX<FormX*> kList130;
-    ListX<FormX*> kList138;
-    ListX<FormX*> kList140;
-    ListX<FormX*> kList148;
-    ListX<FormX*> kList150;
-    ListX<FormX*> kList158;
-    ListX<FormX*> kList160;
-    ListX<FormX*> kList168;
-    ListX<FormX*> kList170;
-    ListX<FormX*> kList178;
-    ListX<FormX*> kList180;
-    ListX<FormX*> kList188;
-    ListX<FormX*> kList190;
-    ListX<FormX*> kList198;
-    ListX<FormX*> kList1a0;
-    ListX<FormX*> kList1a8;
-    ListX<FormX*> kList1b0;
+    ListXT<FormX*> kList008;
+    ListXT<FormX*> kList010;
+    ListXT<FormX*> kList018;
+    ListXT<FormX*> kList020;
+    ListXT<FormX*> kList028;
+    ListXT<FormX*> kList030;
+    ListXT<FormX*> kList038;
+    ListXT<FormX*> kList040;
+    ListXT<FormX*> kList048;
+    ListXT<FormX*> kList050;
+    ListXT<FormX*> kList058;
+    ListXT<FormX*> kList060;
+    ListXT<FormX*> kList068;
+    ListXT<FormX*> kList070;
+    ListXT<FormX*> kList078;
+    ListXT<FormX*> kList080;
+    ListXT<FormX*> kList088;
+    ListXT<FormX*> kList090;
+    ListXT<FormX*> kList098;
+    ListXT<FormX*> kList0a0;
+    ListXT<FormX*> kList0a8;
+    ListXT<FormX*> kList0b0;
+    ListXT<FormX*> kList0b8;
+    ListXT<FormX*> kList0c0;
+    ListXT<FormX*> kList0c8;
+    ListXT<FormX*> kList0d0;
+    ListXT<FormX*> kList0d8;
+    ListXT<FormX*> kList0e0;
+    ListXT<FormX*> kList0e8;
+    ListXT<FormX*> kList0f0;
+    ListXT<FormX*> kList0f8;
+    ListXT<FormX*> kList100;
+    ListXT<FormX*> kList108;
+    ListXT<FormX*> kList110;
+    ListXT<FormX*> kList118;
+    ListXT<FormX*> kList120;
+    ListXT<FormX*> kList128;
+    ListXT<FormX*> kList130;
+    ListXT<FormX*> kList138;
+    ListXT<FormX*> kList140;
+    ListXT<FormX*> kList148;
+    ListXT<FormX*> kList150;
+    ListXT<FormX*> kList158;
+    ListXT<FormX*> kList160;
+    ListXT<FormX*> kList168;
+    ListXT<FormX*> kList170;
+    ListXT<FormX*> kList178;
+    ListXT<FormX*> kList180;
+    ListXT<FormX*> kList188;
+    ListXT<FormX*> kList190;
+    ListXT<FormX*> kList198;
+    ListXT<FormX*> kList1a0;
+    ListXT<FormX*> kList1a8;
+    ListXT<FormX*> kList1b0;
     char _pad1b8[0x8];
-    ListX<FormX*> kList1c0;
+    ListXT<FormX*> kList1c0;
     char _pad1c8[0x10];
     SubX* p1d8;
     ArrayX kArray1dc;
@@ -4969,19 +4969,19 @@ bool DataHandlerX::FUN_0045dfe0()
         kList0d0.RemoveHead();
         delete pqTbwG;
     }
-    while ((pQPLnsU = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090())))))) != 0)
+    while ((pQPLnsU = ((::FormX *)((void *)(((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090())))))) != 0)
     {
-        ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090()))->RemoveHead();
+        ((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_00460090_shell *>(this)->FUN_00460090()))->RemoveHead();
         delete pQPLnsU;
     }
-    while ((pYvOhy = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0())))))) != 0)
+    while ((pYvOhy = ((::FormX *)((void *)(((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0())))))) != 0)
     {
-        ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0()))->RemoveHead();
+        ((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_004600b0_shell *>(this)->FUN_004600b0()))->RemoveHead();
         delete pYvOhy;
     }
-    while ((pqZjhC = ((::FormX *)((void *)(((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0())))))) != 0)
+    while ((pqZjhC = ((::FormX *)((void *)(((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0())))))) != 0)
     {
-        ((::ListX< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0()))->RemoveHead();
+        ((::ListXT< ::FormX *> *)(reinterpret_cast<::FUN_004600d0_shell *>(this)->FUN_004600d0()))->RemoveHead();
         delete pqZjhC;
     }
     while ((pLeVG = kList0d8.item) != 0)
@@ -5448,7 +5448,7 @@ bool TESDataHandler::ConstructObject(TESFile* file, bool skipExisting, TESForm* 
             else
             {
                 if (!DAT_011c3f34)
-                    DAT_011c3f34 = ((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->m_item);
+                    DAT_011c3f34 = ((((::BSSimpleList< ::TESWorldSpace *> *)(::FUN_00460140((int)this))))->item);
                 if (!reinterpret_cast<::FUN_00587670_shell *>((DAT_011c3f34))->FUN_00587670(cell))
                 {
                     TESObjectCELL* existingCell =

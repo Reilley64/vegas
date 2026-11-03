@@ -32,9 +32,20 @@ void FUN_00401030(void* memory)
 namespace
 {
 
+// Clang may remove a new-expression whose result never escapes, even when
+// operator new is replaced. Storing the pointer through a volatile keeps the
+// allocation, so the tests see the calls the game would make.
+template <class T>
+T* Escape(T* pointer)
+{
+    static T* volatile sink;
+    sink = pointer;
+    return pointer;
+}
+
 void SingleObjects(Checks& checks)
 {
-    int* value = new int(7);
+    int* value = Escape(new int(7));
     checks.Equal("new size", 4u, lastSize);
     checks.Equal("new uses the game heap", true, static_cast<void*>(value) == lastAllocated);
     delete value;
@@ -43,7 +54,7 @@ void SingleObjects(Checks& checks)
 
 void Arrays(Checks& checks)
 {
-    int* values = new int[5];
+    int* values = Escape(new int[5]);
     checks.Equal("new[] size", 20u, lastSize);
     checks.Equal("new[] uses the game heap", true, static_cast<void*>(values) == lastAllocated);
     delete[] values;
@@ -66,7 +77,7 @@ void StandardContainers(Checks& checks)
     void* data = nullptr;
     {
         std::vector<int> values(100);
-        data = values.data();
+        data = Escape(values.data());
         checks.Equal("vector uses the game heap", true, data == lastAllocated);
     }
     checks.Equal("vector frees into the game heap", true, data == lastFreed);

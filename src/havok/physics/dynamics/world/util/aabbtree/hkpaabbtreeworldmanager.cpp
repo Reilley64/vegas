@@ -875,17 +875,6 @@ void hkpEntityListD08C::FUN_00d08c90(hkpEntityD08C* pkEntity)
 }
 
 namespace fnv_00d08cf0 {
-struct IAllocator {
-    virtual void unk00();
-    virtual void* allocate(unsigned int size);
-};
-
-struct BSAudio {
-    int unk00; int unk04; int unk08; int unk0c;
-    IAllocator* allocator;
-};
-
-
 
 struct MyArray {
     void* m_data;
@@ -1016,14 +1005,14 @@ struct FUN_00d08cf0 : MyBase1, MyBase2, MyBase3, MyBase4, MyBase5
 FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afValue)
     : unk28(apListenerManager)
 {
-    BSAudio* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(this->unk50))->EnsureCapacity(reinterpret_cast<intptr_t>(audio->allocator), 0);
+    hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(this->unk50))->EnsureCapacity(reinterpret_cast<intptr_t>(audio->m_heap), 0);
     this->unk30 = 0;
     this->unk34 = 0;
-    BSAudio* pAudio = static_cast<BSAudio*>(::FUN_00c85750());
-    this->unk3c = pAudio->allocator->allocate(0x10);
-    BSAudio* audio3 = static_cast<BSAudio*>(::FUN_00c85750());
-    void* pSemaphore = audio3->allocator->allocate(4);
+    hkMemoryRouter* pAudio = &hkMemoryRouter::getInstance();
+    this->unk3c = pAudio->m_heap->blockAlloc(0x10);
+    hkMemoryRouter* audio3 = &hkMemoryRouter::getInstance();
+    void* pSemaphore = audio3->m_heap->blockAlloc(4);
     if (pSemaphore) {
         pSemaphore = ((void *)(reinterpret_cast<::FUN_00d04350_cls *>((((Semaphore*)pSemaphore)))->Create(0, 1000)));
     } else {
@@ -1046,8 +1035,8 @@ FUN_00d08cf0::FUN_00d08cf0(ListenerManager* apListenerManager, int a2, float afV
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((this->unk28))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(void *)((MyBase5*)this));
     if (this->unk24) {
         char* edi = this->unk28->unk78 + 0x20;
-        BSAudio* audio4 = static_cast<BSAudio*>(::FUN_00c85750());
-        void* pObj = audio4->allocator->allocate(0x80);
+        hkMemoryRouter* audio4 = &hkMemoryRouter::getInstance();
+        void* pObj = audio4->m_heap->blockAlloc(0x80);
         if (pObj) {
             pObj = ((void *)(new ((void *)(((Class0xd9c180*)pObj))) ::FUN_00d9c180((const ::S_00d9c180_Vec *)(edi), (const ::S_00d9c180_Vec *)(void *)(edi + 0x10), (const ::S_00d9c180_Vec *)(void *)(edi + 0x20))));
         } else {
@@ -1124,18 +1113,6 @@ char FUN_00d0a1e0_class::FUN_00d0a1e0() {
 }
 
 namespace fnv_00d0a240 {
-struct FnvCpu_FUN_00d0a240_CpuAllocator {
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d0a240_CpuAllocatorHolder {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d0a240_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00d0a240_CpuObject {
     unsigned int unk00;
@@ -1148,8 +1125,8 @@ FnvCpu_FUN_00d0a240_CpuObject* FnvCpu_FUN_00d0a240_CpuObject::FUN_00d0a240(unsig
 {
     Destructor();
     if (flags & 1) {
-        FnvCpu_FUN_00d0a240_CpuAllocatorHolder* pAllocatorHolder = static_cast<FnvCpu_FUN_00d0a240_CpuAllocatorHolder*>(::FUN_00c85750());
-        pAllocatorHolder->allocator->Invoke(this, size);
+        hkMemoryRouter* pAllocatorHolder = &hkMemoryRouter::getInstance();
+        pAllocatorHolder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -1378,22 +1355,6 @@ extern "C" void* DAT_010cd044;
 extern "C" void* DAT_010cd034;
 extern "C" void* DAT_010cd024;
 
-struct Hk_d08e80_Alloc {
-    virtual void func0() = 0;
-    virtual void func1() = 0;
-    virtual void ReleaseBlock(void* p, int numBytes) = 0;
-    virtual void func3() = 0;
-    virtual void ReturnMemory(void* p, int numBytes) = 0;
-};
-
-struct Hk_d08e80_Mem {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    Hk_d08e80_Alloc* m_alloc;
-    Hk_d08e80_Alloc& heap() { return *m_alloc; }
-};
 
 namespace fnvc_adapt {  }
 
@@ -1415,10 +1376,10 @@ struct Arr_d08e80 {
     int m_iElementCount;
     int m_capFlags;
     ~Arr_d08e80() {
-        Hk_d08e80_Alloc& a = static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& a = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_capFlags & 0x80000000) == 0) {
-            a.ReturnMemory(m_data, (m_capFlags & 0x3fffffff) * 4);
+            a.bufFree(m_data, (m_capFlags & 0x3fffffff) * 4);
         }
         m_data = 0;
         m_capFlags = 0x80000000;
@@ -1479,19 +1440,19 @@ void Tgt_d08e80::Destructor()
     Cls_00d97850* p10 = unk10;
     if (p10) {
         reinterpret_cast<::fnv_00d97850::FUN_00d97850_cls *>((p10))->ClearBuffers();
-        static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(p10, 0x50);
+        hkMemoryRouter::getInstance().heap().blockFree(p10, 0x50);
     }
 
     void* pBlock3C = unk3C;
-    static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(pBlock3C, 0x10);
+    hkMemoryRouter::getInstance().heap().blockFree(pBlock3C, 0x10);
 
     Cls_00d04370* pBlock6C = unk6C;
     if (pBlock6C) {
         reinterpret_cast<::FUN_00d04370_cls *>((pBlock6C))->FUN_00d04370();
-        static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->heap().ReleaseBlock(pBlock6C, 4);
+        hkMemoryRouter::getInstance().heap().blockFree(pBlock6C, 4);
     }
 
-    reinterpret_cast<::CB1A90Owner *>((((Cls_00cb1a90*)&unk50)))->ProcessArgument((::CB1A90Argument *)(static_cast<Hk_d08e80_Mem*>(::FUN_00c85750())->m_alloc));
+    reinterpret_cast<::CB1A90Owner *>((((Cls_00cb1a90*)&unk50)))->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap));
     ::FUN_00a29680();
 
     m_aiIndexedValues.destroy();
@@ -2013,21 +1974,6 @@ void S00d094a0_Owner::FUN_00d094a0(S00d094a0_Tree** tree, S00d094a0_Input* input
 }
 
 namespace fnv_00d0a170 {
-class hkMemoryAllocatorD0A1 {
-public:
-    virtual ~hkMemoryAllocatorD0A1() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD0A1 {
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD0A1* m_pStreamAllocator;
-
-    hkMemoryAllocatorD0A1& heap() { return *m_pStreamAllocator; }
-};
-
-
 
 class hkKdTreeCastCollector {
 public:
@@ -2040,7 +1986,7 @@ public:
 
     static void operator delete(void* p)
     {
-        (*static_cast<hkMemoryRouterD0A1*>(::FUN_00c85750())).heap().ReleaseBlock(p, sizeof(CollectorD0A1));
+        hkMemoryRouter::getInstance().heap().blockFree(p, sizeof(CollectorD0A1));
     }
     CollectorD0A1* FUN_00d0a170(unsigned int uiFlags);
 };
@@ -2057,24 +2003,6 @@ CollectorD0A1* CollectorD0A1::FUN_00d0a170(unsigned int uiFlags)
 }  // namespace fnv_00d0a170
 
 namespace fnv_00d0b0d0 {
-class hkMemoryAllocatorD0B0 {
-public:
-    virtual ~hkMemoryAllocatorD0B0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void unk08() throw();
-    virtual void unk0C() throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD0B0 {
-    int unk00, unk04, unk08, unk0C;
-    hkMemoryAllocatorD0B0* m_pStreamAllocator;
-
-    hkMemoryAllocatorD0B0& heap() { return *m_pStreamAllocator; }
-};
-
-
-
 
 template <class T>
 class hkArrayD0B0 {
@@ -2085,10 +2013,10 @@ public:
 
     ~hkArrayD0B0() throw()
     {
-        hkMemoryAllocatorD0B0& kAlloc = (*static_cast<hkMemoryRouterD0B0*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReleaseBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }

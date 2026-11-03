@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/contact/hkpsimplecontactconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/symbols_simd.h"
@@ -32,24 +33,7 @@ void FUN_00d927d0(int, int* paiValues)
     paiValues[1] = 0;
 }
 
-struct S_00d92690_Alloc
-{
-    virtual void* Alloc(int size);
-    virtual void* Alloc2(int size);
-    virtual void Free(void* p, int size);
-};
-struct S_00d92690_Mgr
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00d92690_Alloc* unk10;
-    S_00d92690_Alloc* GetAllocator()
-    {
-        return unk10;
-    }
-};
+
 struct S_00d92690
 {
     unsigned short unk0;
@@ -79,7 +63,7 @@ S_00d92690* FUN_00d92690(S_00d92690* apContainer, bool* grew)
         result = ((::S_00d92690 *)(::AllocateBlock(iNewCapacity, apContainer->unk8, apContainer->unk9, apContainer->maxCapacity)));
         ::fnv_00d925b0::FUN_00d925b0((::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(result), (const ::fnv_00d925b0::hkpSimpleContactConstraintAtom *)(apContainer));
         int size = RoundUpToBucketSize(apContainer->unk2);
-        static_cast<S_00d92690_Mgr*>(::FUN_00c85750())->GetAllocator()->Free(apContainer, size);
+        hkMemoryRouter::getInstance().m_heap->blockFree(apContainer, size);
         pContainer = result;
         *grew = true;
     }
@@ -183,7 +167,7 @@ struct S_00d92fd0_Atom
     void FUN_00d21d10(const void* a, float b, void* c, void* d, void* e, void* f);
     void FUN_00d21fc0(const void* a, float b, void* c, void* d, void* e, void* f);
 };
-struct S_00d92fd0_Alloc : S_00d92690_Alloc
+struct S_00d92fd0_Alloc : hkMemoryAllocator
 {
     virtual void v3();
     virtual void Free2(void* p, int size);
@@ -224,9 +208,9 @@ void S_00d92fd0_This::DispatchAtomHandlers(const void* aiArg1, float afArg2, voi
     S_00d92fd0_Atom* a = holder->head;
     while (a->type >= 0x17)
     {
-        S_00d92690_Mgr* pMgr = static_cast<S_00d92690_Mgr*>(::FUN_00c85750());
+        hkMemoryRouter* pMgr = &hkMemoryRouter::getInstance();
         if (arr.size == (arr.cap & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(::S_00d92690_Alloc *)(pMgr->GetAllocator()), (::AudioStream *)(::S_00d92fd0_Arr *)(&arr), 4);
+            ::ResizeAudioStream((::AudioAllocator *)(hkMemoryAllocator *)(pMgr->m_heap), (::AudioStream *)(::S_00d92fd0_Arr *)(&arr), 4);
         arr.data[arr.size] = a;
         arr.size++;
         a = a->next;
@@ -250,7 +234,7 @@ void S_00d92fd0_This::DispatchAtomHandlers(const void* aiArg1, float afArg2, voi
             break;
         }
     }
-    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)static_cast<S_00d92690_Mgr*>(::FUN_00c85750())->GetAllocator();
+    S_00d92fd0_Alloc* pAlloc = (S_00d92fd0_Alloc*)hkMemoryRouter::getInstance().m_heap;
     arr.size = 0;
     if ((arr.cap & 0x80000000) == 0)
         pAlloc->Free2(arr.data, (arr.cap & 0x3fffffff) * 4);
@@ -279,10 +263,10 @@ unsigned int FUN_00d93140_cls::ReplaceOrAppendByte(unsigned char value)
         }
         i--;
     }
-    S_00d92690_Mgr* mgr = static_cast<S_00d92690_Mgr*>(::FUN_00c85750());
+    hkMemoryRouter* mgr = &hkMemoryRouter::getInstance();
     if (m_len == (m_cap & 0x3fffffff))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(mgr->unk10), (::AudioStream *)(void *)(this), 1);
+        ::ResizeAudioStream((::AudioAllocator *)(mgr->m_heap), (::AudioStream *)(void *)(this), 1);
     }
     unsigned char* slot = m_data + m_len;
     _ReadWriteBarrier();

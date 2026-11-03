@@ -364,7 +364,6 @@ struct D0A6A0_World
     D0A6A0_EntityArray m_kPhantoms;
 };
 
-struct D0A6A0_Allocator;
 
 struct D0A6A0_CollidableArray
 {
@@ -376,7 +375,7 @@ struct D0A6A0_CollidableArray
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    void reserve(D0A6A0_Allocator& alloc, int n)
+    void reserve(hkMemoryAllocator& alloc, int n)
     {
         const int capacity = getCapacity();
         if (capacity < n)
@@ -390,22 +389,6 @@ struct D0A6A0_CollidableArray
     {
         D0A6A0_constructWithCopy<D0A6A0_Collidable*>(m_data + m_iElementCount, 1, c);
         m_iElementCount++;
-    }
-};
-
-struct D0A6A0_Allocator;
-
-struct D0A6A0_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    D0A6A0_Allocator* m_pStreamAllocator;
-
-    D0A6A0_Allocator& heap()
-    {
-        return *m_pStreamAllocator;
     }
 };
 
@@ -430,7 +413,7 @@ void D0A6A0_Manager::CollectCollidables(D0A6A0_CollidableArray& aCollidables)
 {
     aCollidables.m_iElementCount = 0;
     int n = m_pOwningWorld->m_pJobSemaphore->GetBroadphaseType();
-    aCollidables.reserve((*static_cast<D0A6A0_Router*>(::FUN_00c85750())).heap(), n);
+    aCollidables.reserve(hkMemoryRouter::getInstance().heap(), n);
 
     {
         D0A6A0_IslandArray& islands = m_pOwningWorld->m_activeIslands;
@@ -482,29 +465,6 @@ struct FUN_00d0ac40_Owner
     void FUN_00d0ac40(void* a, void* b, void* c, void* d);
 };
 namespace fnv_00d0adc0 {
-class hkMemoryAllocatorD0A
-{
-  public:
-    virtual ~hkMemoryAllocatorD0A() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD0A
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD0A* m_pStreamAllocator;
-
-    hkMemoryAllocatorD0A& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
 
 class hkObjD0AD : public FUN_00d0a4f0
 {
@@ -513,7 +473,7 @@ class hkObjD0AD : public FUN_00d0a4f0
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterD0A*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<hkObjD0AD*>(p)->GetAllocationSize());
     }
     int GetAllocationSize() const
     {
@@ -753,22 +713,7 @@ struct D0ARange
     int m_kPointB;
     int m_iThirdValue;
 };
-struct D0AHeap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void bufDealloc(void* p, int bytes);
-};
-struct D0ARouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    D0AHeap* m_pStreamAllocator;
-};
+
 namespace fnvc_adapt {
 
 }
@@ -843,12 +788,12 @@ void D0AObj::CollectAndProcessCollidables(void* a, void* b)
             mon->m_kRayEnd = pos + sizeof(D0ATimer12);
         }
     }
-    D0ARouter* router = static_cast<D0ARouter*>(::FUN_00c85750());
-    D0AHeap* heap = router->m_pStreamAllocator;
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* heap = router->m_heap;
     int cap = r.m_iThirdValue;
     r.m_kPointB = 0;
     if ((cap & 0x80000000) == 0)
-        heap->bufDealloc(r.m_kPointA, (cap & 0x3fffffff) * 4);
+        heap->bufFree(r.m_kPointA, (cap & 0x3fffffff) * 4);
 }
 
 class hkReferencedObjectD0A
@@ -1218,7 +1163,7 @@ struct Router
 };
 __forceinline Router* getRouter()
 {
-    return reinterpret_cast<Router*>(&(*static_cast<D0A6A0_Router*>(::FUN_00c85750())));
+    return reinterpret_cast<Router*>(&hkMemoryRouter::getInstance());
 }
 struct TreeInfo
 {

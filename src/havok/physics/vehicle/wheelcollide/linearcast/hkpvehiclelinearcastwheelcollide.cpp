@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/wheelcollide/linearcast/hkpvehiclelinearcastwheelcollide.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -320,25 +321,6 @@ struct WheelState
     int unk5c;
 };
 
-struct HavokMemoryRouter
-{
-    virtual void v00() throw();
-    virtual void v04() throw();
-    virtual void v08() throw();
-    virtual void v0c() throw();
-    virtual void deallocate(void* p, int numBytes) throw();
-};
-
-struct HavokAllocatorContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    HavokMemoryRouter* m_router;
-};
-
-
 
 struct WheelStatesArray
 {
@@ -348,13 +330,13 @@ struct WheelStatesArray
 
     inline ~WheelStatesArray() throw()
     {
-        HavokAllocatorContext* mem = static_cast<HavokAllocatorContext*>(::FUN_00c85750());
-        HavokMemoryRouter* router = mem->m_router;
+        hkMemoryRouter* mem = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* router = mem->m_heap;
         int cap = this->m_iCapacityState;
         this->m_iElementCount = 0;
         if (!(cap & 0x80000000))
         {
-            router->deallocate(this->m_data, (cap & 0x3fffffff) * sizeof(WheelState));
+            router->bufFree(this->m_data, (cap & 0x3fffffff) * sizeof(WheelState));
         }
         this->m_data = 0;
         this->m_iCapacityState = 0x80000000;
@@ -391,23 +373,6 @@ FUN_00e36b80::~FUN_00e36b80() throw()
 }
 
 namespace fnv_00e36e20 {
-struct hkAllocatorE36E
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
-
-struct hkMemoryRouterE36E
-{
-    void* m_apvUnk00[4];
-    hkAllocatorE36E* m_pkHeap;
-    hkAllocatorE36E& heap()
-    {
-        return *m_pkHeap;
-    }
-};
-
-
 
 template <typename T> struct hkArrayE36E
 {
@@ -431,7 +396,7 @@ template <typename T> struct hkArrayE36E
     {
         return m_data[i];
     }
-    void GrowArrayCapacity(hkAllocatorE36E& kAlloc, int n)
+    void GrowArrayCapacity(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCapacity = getCapacity();
         if (iCapacity < n)
@@ -443,7 +408,7 @@ template <typename T> struct hkArrayE36E
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity(static_cast<hkMemoryRouterE36E*>(::FUN_00c85750())->heap(), n);
+        GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
 };
@@ -520,7 +485,7 @@ class FUN_00e36b20 : public hkpVehicleLinearCastWheelCollideE36E
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkReferencedObjectE36E* p = (hkReferencedObjectE36E*)static_cast<hkMemoryRouterE36E*>(::FUN_00c85750())->heap().AllocateMemoryBlock(uiSize);
+        hkReferencedObjectE36E* p = (hkReferencedObjectE36E*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -1023,20 +988,7 @@ void FUN_00e369d0_Class::CastWheel(hkUint8* hitOut, const void* b, hkUint8 wheel
     }
 }
 
-class hkMemoryAllocatorE36;
 
-struct hkMemoryRouterE36
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    hkMemoryAllocatorE36* m_pTemp;
-    hkMemoryAllocatorE36* m_pStreamAllocator;
-    hkMemoryAllocatorE36& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterE36 {
 
@@ -1066,7 +1018,7 @@ template <class T> class hkArrayE36
     {
         return m_data[i];
     }
-    __forceinline void reserve(hkMemoryAllocatorE36& alloc, int n)
+    __forceinline void reserve(hkMemoryAllocator& alloc, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
@@ -1078,7 +1030,7 @@ template <class T> class hkArrayE36
     }
     __forceinline void SetSizeAndGrow(int n)
     {
-        reserve((*static_cast<hkMemoryRouterE36*>(::FUN_00c85750())).heap(), n);
+        reserve(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
 };
@@ -1126,21 +1078,7 @@ void hkpVehicleRayCastWheelCollideE36::SetWheelPhantoms(const hkpVehicleInstance
     }
 }
 
-struct hkAllocatorE36C
-{
-    virtual void V0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-};
 
-struct hkMemoryRouterE36C
-{
-    void* m_apvUnk00[4];
-    hkAllocatorE36C* m_pkHeap;
-    hkAllocatorE36C& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 namespace fnvc_adapt {
 
 }
@@ -1168,7 +1106,7 @@ template <typename T> struct hkArrayE36C
     {
         return m_data[i];
     }
-    void GrowArrayCapacity(hkAllocatorE36C& kAlloc, int n)
+    void GrowArrayCapacity(hkMemoryAllocator& kAlloc, int n)
     {
         const int iCapacity = getCapacity();
         if (iCapacity < n)
@@ -1180,7 +1118,7 @@ template <typename T> struct hkArrayE36C
     }
     void SetSizeAndGrow(int n)
     {
-        GrowArrayCapacity((*static_cast<hkMemoryRouterE36C*>(::FUN_00c85750())).heap(), n);
+        GrowArrayCapacity(hkMemoryRouter::getInstance().heap(), n);
         m_iElementCount = n;
     }
 };
@@ -1239,7 +1177,7 @@ class FUN_00cf2cb0 : public hkpPhantomE36C
     static __forceinline void* operator new(size_t uiSize) throw()
     {
         hkReferencedObjectE36C* p =
-            (hkReferencedObjectE36C*)(*static_cast<hkMemoryRouterE36C*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
+            (hkReferencedObjectE36C*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
         p->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -1758,9 +1696,9 @@ void WheelPhantomCollector::FUN_00e36ab0(hkArray<hkpPhantomE36C*>* output)
     for (int wheel = 0; wheel < wheelCount; ++wheel)
     {
         hkpPhantomE36C* phantom = m_kWheelStates[wheel].m_pPhantom;
-        HavokAllocatorContext* memory = static_cast<HavokAllocatorContext*>(::FUN_00c85750());
+        hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
         if (output->m_iElementCount == (output->m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(memory->m_router), (::AudioStream *)(output), sizeof(phantom));
+            ::ResizeAudioStream((::AudioAllocator *)(memory->m_heap), (::AudioStream *)(output), sizeof(phantom));
         hkpPhantomE36C** slot = output->m_data + output->m_iElementCount;
         __assume(slot != 0);
         new (slot) hkpPhantomE36C*(phantom);

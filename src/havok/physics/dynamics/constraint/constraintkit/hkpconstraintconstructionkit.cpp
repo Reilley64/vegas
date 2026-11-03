@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpconstraintconstructionkit.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/PivotBWriter.h"
@@ -11,14 +12,6 @@
 #include "fnv/symbols_01016000.h"
 
 
-struct FUN_00d522b0_Ctx
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    void* m_10;
-};
 
 struct FUN_00d522b0_Vec
 {
@@ -50,9 +43,9 @@ struct FUN_00d522b0_cls
 int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
 {
     FUN_00d522b0_Vec* pCmds = &m_04->m_cmds;
-    FUN_00d522b0_Ctx* ctx = (FUN_00d522b0_Ctx*)::FUN_00c85750();
+    hkMemoryRouter* ctx = &hkMemoryRouter::getInstance();
     if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(pCmds), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_heap), (::AudioStream *)(pCmds), 4);
     int* piSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
     *piSlot = 0x11;
     *piSlot = 0x11;
@@ -61,9 +54,9 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     int flag = aFlag;
 
     pCmds = &m_04->m_cmds;
-    ctx = (FUN_00d522b0_Ctx*)::FUN_00c85750();
+    ctx = &hkMemoryRouter::getInstance();
     if (pCmds->m_uiItemCount == (pCmds->m_cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(pCmds), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_heap), (::AudioStream *)(pCmds), 4);
     int* piFlagSlot = (int*)pCmds->m_ptr + pCmds->m_uiItemCount;
     *piFlagSlot = flag;
     *piFlagSlot = flag;
@@ -73,9 +66,9 @@ int FUN_00d522b0_cls::AddVertexCommand(unsigned char aFlag, float aX, float aY)
     int iOldVertexCount = m_04->m_verts.m_uiItemCount;
 
     FUN_00d522b0_Vec* vert = &m_04->m_verts;
-    ctx = (FUN_00d522b0_Ctx*)::FUN_00c85750();
+    ctx = &hkMemoryRouter::getInstance();
     if (vert->m_uiItemCount == (vert->m_cap & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_10), (::AudioStream *)(vert), 16);
+        ::ResizeAudioStream((::AudioAllocator *)(ctx->m_heap), (::AudioStream *)(vert), 16);
     _mm_store_ps((float*)((char*)vert->m_ptr + (vert->m_uiItemCount << 4)), v);
     ++vert->m_uiItemCount;
 
@@ -125,18 +118,6 @@ int FUN_00d52140_cls::FUN_00d52140(char* a1, char* a2, const __m128* a3)
     return iResult;
 }
 
-struct hkMemoryAllocatorD;
-
-struct hkMemoryRouterD
-{
-    unsigned int unk, unkCur, unkValue, unk0C;
-    hkMemoryAllocatorD* m_pStreamAllocator;
-
-    hkMemoryAllocatorD& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 struct hkVector4D521
@@ -177,10 +158,10 @@ template <class T> struct hkArrayD
     }
     void AddBack(const T& t)
     {
-        hkMemoryAllocatorD& kAlloc = static_cast<hkMemoryRouterD*>(::FUN_00c85750())->heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
         {
-            ::ResizeAudioStream((::AudioAllocator *)(::hkMemoryAllocatorD *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(hkMemoryAllocator *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
         }
         constructWithCopyD<T>(m_data + m_iElementCount, 1, t);
         m_iElementCount++;
@@ -231,14 +212,6 @@ inline void FillWords328(int* dest, int n, const int& value)
 }
 
 
-struct Draw328_Holder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_pAllocator;
-};
 
 struct Draw328_intarr
 {
@@ -277,20 +250,20 @@ struct Draw328_cls
 unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
 {
     Draw328_intarr* ints = &m_pMgr->m_auiHeaderValues;
-    Draw328_Holder* holder = (Draw328_Holder*)::FUN_00c85750();
+    hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
     if (ints->count == (int)(ints->capFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(ints), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(ints), 4);
     }
     FillWords328(ints->data + ints->count, 1, 0x12);
     ++ints->count;
 
     int tag = a1;
     ints = &m_pMgr->m_auiHeaderValues;
-    holder = (Draw328_Holder*)::FUN_00c85750();
+    holder = &hkMemoryRouter::getInstance();
     if (ints->count == (int)(ints->capFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(ints), 4);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(ints), 4);
     }
     FillWords328(ints->data + ints->count, 1, tag);
     ++ints->count;
@@ -302,10 +275,10 @@ unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
     unsigned int uiIndex = (unsigned int)mgr->m_vec.count;
 
     Draw328_vecarr* vec = &mgr->m_vec;
-    holder = (Draw328_Holder*)::FUN_00c85750();
+    holder = &hkMemoryRouter::getInstance();
     if (vec->count == (int)(vec->capFlags & 0x3fffffffu))
     {
-        ::ResizeAudioStream((::AudioAllocator *)(holder->m_pAllocator), (::AudioStream *)(vec), 0x10);
+        ::ResizeAudioStream((::AudioAllocator *)(holder->m_heap), (::AudioStream *)(vec), 0x10);
     }
     vec->data[vec->count] = v;
     vec->count++;
@@ -317,24 +290,11 @@ unsigned int Draw328_cls::AppendHeaderAndVector(unsigned char a1, float a2)
     return uiIndex;
 }
 
-struct hkMemAlloc;
 
-struct MemRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemAlloc* m_pStreamAllocator;
-    hkMemAlloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
-__forceinline MemRouter* getRouter()
+__forceinline hkMemoryRouter* getRouter()
 {
-    return (MemRouter*)::FUN_00c85750();
+    return (&hkMemoryRouter::getInstance());
 }
 
 template <class T> __forceinline void hkConstructWithCopy(T* p, int n, const T& t)
@@ -355,7 +315,7 @@ template <class T> struct hkArr
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    __forceinline void _pushBack(hkMemAlloc& alloc, const T& t)
+    __forceinline void _pushBack(hkMemoryAllocator& alloc, const T& t)
     {
         if (m_iElementCount == getCapacity())
         {

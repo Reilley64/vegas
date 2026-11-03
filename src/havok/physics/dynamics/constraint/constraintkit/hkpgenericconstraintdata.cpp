@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/constraintkit/hkpgenericconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00d21ce0_cls.h"
@@ -863,25 +864,6 @@ struct FUN_00d50bd0_owner
     void FUN_00d50bd0(SolverItem* item, void* index);
 };
 
-struct FUN_00d51620_Alloc
-{
-    virtual void a();
-    virtual void b();
-    virtual void c();
-    virtual void d();
-    virtual void free(void* p, unsigned int n);
-};
-
-struct FUN_00d51620_Router
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    FUN_00d51620_Alloc* m_pThreadAllocator;
-};
-
-
 
 struct FUN_00d51620_class
 {
@@ -908,55 +890,41 @@ struct FUN_00d51620_class
 // @fnv 0x00d51620
 void FUN_00d51620_class::FreeArrays()
 {
-    FUN_00d51620_Router* m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
-    FUN_00d51620_Alloc* alloc = m->m_pThreadAllocator;
+    hkMemoryRouter* m = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = m->m_heap;
     int c = m_3c;
     m_38 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_34, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_34, (c & 0x3fffffff) * 4);
     m_34 = 0;
     m_3c = 0x80000000;
-    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_30;
     m_2c = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_28, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_28, (c & 0x3fffffff) * 4);
     m_28 = 0;
     m_30 = 0x80000000;
-    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_24;
     m_20 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_1c, (c & 0x3fffffff) * 4);
+        alloc->bufFree(m_1c, (c & 0x3fffffff) * 4);
     m_1c = 0;
     m_24 = 0x80000000;
-    m = static_cast<FUN_00d51620_Router*>(::FUN_00c85750());
-    alloc = m->m_pThreadAllocator;
+    m = &hkMemoryRouter::getInstance();
+    alloc = m->m_heap;
     c = m_a18;
     m_a14 = 0;
     if (!(c & 0x80000000))
-        alloc->free(m_a10, (c & 0x3fffffff) * 16);
+        alloc->bufFree(m_a10, (c & 0x3fffffff) * 16);
     m_a10 = 0;
     m_a18 = 0x80000000;
 }
 
 namespace fnv_00d516f0 {
-struct FnvCpu_FUN_00d516f0_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d516f0_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d516f0_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00d516f0_CpuObject
 {
@@ -970,8 +938,8 @@ FnvCpu_FUN_00d516f0_CpuObject* FnvCpu_FUN_00d516f0_CpuObject::FUN_00d516f0(unsig
     reinterpret_cast<::FUN_00d50c50 *>(this)->FUN_00d50c50::~FUN_00d50c50();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d516f0_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d516f0_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/linearcastbatchingmanager/hkpvehiclelinearcastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 
 #include <windows.h>
@@ -126,28 +127,7 @@ struct ProfBuf
     ProfRec* m_pRecordEnd;
 };
 
-struct AllocV;
-struct CharacterBufferState
-{
-    char* m_pCur;
-    DWORD unk04, unk08, unk0c;
-    AllocV* m_pSharedOwner;
-    AllocV& heap()
-    {
-        return *m_pSharedOwner;
-    }
-};
 
-
-
-struct AllocV
-{
-    virtual void u0();
-    virtual void u1();
-    virtual void u2();
-    virtual void u3();
-    virtual void Free(void* p, unsigned int size);
-};
 
 struct HkArr
 {
@@ -158,8 +138,8 @@ struct HkArr
     {
         return m_cap & 0x3fffffff;
     }
-    void reserve(AllocV& a, int n);
-    void SetSizeAndGrow(AllocV& a, int n)
+    void reserve(hkMemoryAllocator& a, int n);
+    void SetSizeAndGrow(hkMemoryAllocator& a, int n)
     {
         reserve(a, n);
         m_iElementCount = n;
@@ -167,7 +147,7 @@ struct HkArr
 };
 
 
-inline void HkArr::reserve(AllocV& a, int n)
+inline void HkArr::reserve(hkMemoryAllocator& a, int n)
 {
     if (getCapacity() < n)
     {
@@ -308,9 +288,9 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     arr.m_data = 0;
     arr.m_iElementCount = 0;
     arr.m_cap = (int)0x80000000;
-    CharacterBufferState* ar = static_cast<CharacterBufferState*>(::FUN_00c85750());
-    char* scratch = ar->m_pCur;
-    ar->m_pCur = scratch + kInlineSlotCount * kInlineSlotBytes;
+    hkMemoryRouter* ar = &hkMemoryRouter::getInstance();
+    char* scratch = ar->m_stackCurrent;
+    ar->m_stackCurrent = scratch + kInlineSlotCount * kInlineSlotBytes;
     arr.m_data = scratch;
     arr.m_cap = (int)0x80000010;
     slot.m_saved = scratch;
@@ -319,7 +299,7 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
         {
             Vehicle433* veh = self->m_ppVehicles[i];
             int numWheels = veh->m_data1c->m_iWheelCount;
-            arr.SetSizeAndGrow(static_cast<CharacterBufferState*>(::FUN_00c85750())->heap(), numWheels);
+            arr.SetSizeAndGrow(hkMemoryRouter::getInstance().heap(), numWheels);
             Counted433* counted = veh->m_counted;
             unsigned char j = 0;
             if (numWheels > 0)
@@ -342,14 +322,14 @@ void S00e43320_Mgr::FUN_00e43320(void* param1, void* param2, void* param3)
     char* saved = slot.m_saved;
     if (saved == arr.m_data)
         arr.m_iElementCount = 0;
-    static_cast<CharacterBufferState*>(::FUN_00c85750())->m_pCur = saved;
+    hkMemoryRouter::getInstance().m_stackCurrent = saved;
     {
-        CharacterBufferState* ar5 = static_cast<CharacterBufferState*>(::FUN_00c85750());
-        AllocV* alloc = ar5->m_pSharedOwner;
+        hkMemoryRouter* ar5 = &hkMemoryRouter::getInstance();
+        hkMemoryAllocator* alloc = ar5->m_heap;
         int cap = arr.m_cap;
         arr.m_iElementCount = 0;
         if (!(cap & (int)0x80000000))
-            alloc->Free(arr.m_data, (cap & 0x3fffffff) * 96);
+            alloc->bufFree(arr.m_data, (cap & 0x3fffffff) * 96);
     }
 }
 

@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/hkpvehiclemanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/hkpvehiclemanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/VUBCD_Instance.h"
@@ -51,22 +52,6 @@ found:
     reinterpret_cast<::hkReferencedObjectC905 *>((pObj))->FUN_00c905b0();
 }
 
-struct E426F0Allocator;
-
-struct E426F0MemoryRouter
-{
-    char* unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E426F0Allocator* m_pStreamAllocator;
-
-    E426F0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 struct E426F0Object
@@ -92,7 +77,7 @@ struct E426F0ObjectArray
 
     void AddBack(E426F0Object* const& e)
     {
-        E426F0Allocator& alloc = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&alloc), (::AudioStream *)(void *)(this), sizeof(E426F0Object*));
         construct(m_data + m_iElementCount, 1, e);
@@ -117,30 +102,6 @@ void E426F0Container::AddObject(E426F0Object* object)
 }
 
 namespace fnv_00e42740 {
-struct E42740Allocator
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void ReturnMemory(void* p, int numBytes);
-};
-
-struct E42740MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    E42740Allocator* m_pStreamAllocator;
-
-    E42740Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
-
 
 class E42740ReferencedObject
 {
@@ -161,10 +122,10 @@ struct E42740ObjectArray
 
     ~E42740ObjectArray()
     {
-        E42740Allocator& alloc = (*static_cast<E42740MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(E42740ReferencedObject*));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(E42740ReferencedObject*));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -187,15 +148,6 @@ FUN_00e42740::~FUN_00e42740() throw()
         reinterpret_cast<::hkReferencedObjectC905 *>((void *)(m_kTrackedObjects.m_data[i]))->FUN_00c905b0();
 }
 }  // namespace fnv_00e42740
-
-struct E426F0Allocator
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0C();
-    virtual void Free(void* p, unsigned int size);
-};
 
 
 struct ParamObj
@@ -274,9 +226,9 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
     buffer.m_data = 0;
     buffer.m_iElementCount = 0;
     buffer.m_iCapacityState = 0x80000000;
-    E426F0MemoryRouter& router = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-    void* initial = router.unk00;
-    router.unk00 += 0x600;
+    hkMemoryRouter& router = hkMemoryRouter::getInstance();
+    void* initial = router.m_stackCurrent;
+    router.m_stackCurrent += 0x600;
     buffer.m_data = initial;
     buffer.m_iCapacityState = 0x80000010;
     buffer.m_initialBuffer = initial;
@@ -289,8 +241,8 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
         {
             ItemRec* item = m_items[i];
             int flag = item->m_1c->m_20;
-            E426F0MemoryRouter& h2 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-            E426F0Allocator* pAllocator = h2.m_pStreamAllocator;
+            hkMemoryRouter& h2 = hkMemoryRouter::getInstance();
+            hkMemoryAllocator* pAllocator = h2.m_heap;
             int cap = buffer.m_iCapacityState & 0x3fffffff;
             if (cap < flag)
             {
@@ -314,14 +266,14 @@ void FUN_00e427b0_cls::ProcessItems(ParamObj* p)
         buffer.m_iElementCount = 0;
     }
     void* last = buffer.m_initialBuffer;
-    E426F0MemoryRouter& h3 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-    h3.unk00 = (char*)last;
-    E426F0MemoryRouter& h4 = (*static_cast<E426F0MemoryRouter*>(::FUN_00c85750()));
-    E426F0Allocator* alloc = h4.m_pStreamAllocator;
+    hkMemoryRouter& h3 = hkMemoryRouter::getInstance();
+    h3.m_stackCurrent = (char*)last;
+    hkMemoryRouter& h4 = hkMemoryRouter::getInstance();
+    hkMemoryAllocator* alloc = h4.m_heap;
     unsigned int flags = buffer.m_iCapacityState;
     buffer.m_iElementCount = 0;
     if ((flags & 0x80000000) == 0)
     {
-        alloc->Free(buffer.m_data, (flags & 0x3fffffff) * 0x60);
+        alloc->bufFree(buffer.m_data, (flags & 0x3fffffff) * 0x60);
     }
 }

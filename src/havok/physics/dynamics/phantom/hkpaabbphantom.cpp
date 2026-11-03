@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpaabbphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpaabbphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -449,34 +450,6 @@ void hkObjCF2B::SortIfDirty()
 }
 
 namespace fnv_00cf2bf0 {
-class hkMemoryAllocatorCF2B
-{
-  public:
-    virtual ~hkMemoryAllocatorCF2B() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterCF2B
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF2B* m_pStreamAllocator;
-    hkMemoryAllocatorCF2B& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 template <class T> __forceinline void destructCF2B(T* t, int n)
 {
@@ -498,14 +471,14 @@ template <class T> class hkArrayCF2B
 
     __forceinline ~hkArrayCF2B()
     {
-        ClearAndRelease((*static_cast<hkMemoryRouterCF2B*>(::FUN_00c85750())).heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructCF2B(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorCF2B& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -669,41 +642,6 @@ void hkPhantomCF2C::ClearOverlapsIfEmpty()
 }  // namespace fnv_00cf2c50
 
 namespace fnv_00cf2d50 {
-class hkMemoryAllocatorCF2D
-{
-  public:
-    virtual ~hkMemoryAllocatorCF2D() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-
-    template <typename T> T* _bufAlloc(int& iReqNumInOut)
-    {
-        int n = iReqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        iReqNumInOut = n / (int)sizeof(T);
-        return (T*)p;
-    }
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterCF2D
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF2D* m_pStreamAllocator;
-    hkMemoryAllocatorCF2D& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 template <class T> __forceinline void copyCF2D(T* dst, const T* src, int n)
 {
@@ -729,9 +667,9 @@ template <class T> class hkArrayCF2D
 
     __forceinline void operator=(const hkArrayCF2D& a)
     {
-        copyFromArray((*static_cast<hkMemoryRouterCF2D*>(::FUN_00c85750())).heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorCF2D& kAlloc, const hkArrayCF2D& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayCF2D& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -802,7 +740,7 @@ class FUN_00cf2cb0 : public hkpWorldObjectCF2D
   public:
     static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)(*static_cast<hkMemoryRouterCF2D*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectCF2D* p = (hkpWorldObjectCF2D*)hkMemoryRouter::getInstance().heap().blockAlloc(uiSize);
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -832,27 +770,6 @@ hkpWorldObjectCF2D* FUN_00cf2cb0::FUN_00cf2d50() const throw()
 }  // namespace fnv_00cf2d50
 
 namespace fnv_00cf2f60 {
-class hkMemoryAllocatorCF2F
-{
-  public:
-    virtual ~hkMemoryAllocatorCF2F() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterCF2F
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorCF2F* m_pStreamAllocator;
-    hkMemoryAllocatorCF2F& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 class FUN_00cf2bf0
 {
@@ -863,7 +780,7 @@ class FUN_00cf2bf0
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterCF2F*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00cf2bf0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00cf2bf0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00cf2bf0* DestroyAndFree(unsigned int uiFlags) throw();

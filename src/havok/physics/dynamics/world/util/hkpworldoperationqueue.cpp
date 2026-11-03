@@ -1,3 +1,4 @@
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 
 // src/havok/physics/dynamics/world/util/hkpworldoperationqueue.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/util/hkpworldoperationqueue.cpp).
@@ -47,20 +48,6 @@
 #include "fnv/symbols_01017000.h"
 #include "fnv/symbols_01267000.h"
 #include "fnv/symbols_01272000.h"
-struct S_00cf7540_Alloc
-{
-};
-
-struct S_00cf7540_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00cf7540_Alloc* m_pStreamAllocator;
-};
-
-
 
 struct S_00cf7540_Ref
 {
@@ -84,9 +71,9 @@ template <class T> struct S_00cf7540_Array
 
     T& AllocatePair()
     {
-        S_00cf7540_Router* router = static_cast<S_00cf7540_Router*>(::FUN_00c85750());
+        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         return m_data[m_iElementCount++];
     }
 };
@@ -594,8 +581,8 @@ static __forceinline void release(Body* p)
 }
 static __forceinline Heap* heap()
 {
-    S_00cf7540_Router* router = static_cast<S_00cf7540_Router*>(::FUN_00c85750());
-    return reinterpret_cast<Heap*>(router->m_pStreamAllocator);
+    hkMemoryRouter* router = &hkMemoryRouter::getInstance();
+    return reinterpret_cast<Heap*>(router->m_heap);
 }
 static __forceinline void freeBlock(void* p, int n)
 {

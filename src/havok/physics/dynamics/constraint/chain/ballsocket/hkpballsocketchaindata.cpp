@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/chain/ballsocket/hkpballsocketchaindata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -215,29 +216,6 @@ FUN_00d53df0::FUN_00d53df0(hkFinishLoadedObjectFlagD53D flag) : hkpConstraintDat
 }  // namespace fnv_00d53df0
 
 namespace fnv_00d53e30 {
-class hkMemoryAllocatorD53E
-{
-  public:
-    virtual ~hkMemoryAllocatorD53E() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iNumBytes) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD53E
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD53E* m_pStreamAllocator;
-    hkMemoryAllocatorD53E& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 template <class T> class hkArrayD53E
 {
@@ -248,10 +226,10 @@ template <class T> class hkArrayD53E
 
     void ClearAndRelease() throw()
     {
-        hkMemoryAllocatorD53E& kAlloc = (*static_cast<hkMemoryRouterD53E*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& kAlloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -297,27 +275,6 @@ FUN_00d53e30::~FUN_00d53e30() throw()
 }
 }  // namespace fnv_00d53e30
 
-class hkMemoryAllocatorD541
-{
-  public:
-    virtual ~hkMemoryAllocatorD541() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
-
-struct hkMemoryRouterD541
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD541* m_pStreamAllocator;
-    hkMemoryAllocatorD541& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 class FUN_00d53e30
 {
@@ -328,7 +285,7 @@ class FUN_00d53e30
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterD541*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00d53e30*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00d53e30* DestroyAndFree(unsigned int uiFlags) throw();
@@ -345,25 +302,6 @@ FUN_00d53e30* FUN_00d53e30::DestroyAndFree(unsigned int uiFlags) throw()
 }
 
 namespace fnv_00d549d0 {
-struct MemManager
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void deallocateChunk(void* p, int nbytes);
-};
-
-struct ThreadContext
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    MemManager* memory;
-};
-
-
 
 struct Elem
 {
@@ -386,24 +324,24 @@ struct DummyClass
 // @fnv 0x00d549d0
 void DummyClass::ClearArrays()
 {
-    ThreadContext* pThreadContext2 = (ThreadContext*)::FUN_00c85750();
-    MemManager& mem2 = *pThreadContext2->memory;
+    hkMemoryRouter* pThreadContext2 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator& mem2 = *pThreadContext2->m_heap;
     int iCapacity2 = cap2;
     size2 = 0;
     if ((iCapacity2 & 0x80000000) == 0)
     {
-        mem2.deallocateChunk(data2, (iCapacity2 & 0x3FFFFFFF) * 8);
+        mem2.bufFree(data2, (iCapacity2 & 0x3FFFFFFF) * 8);
     }
     data2 = 0;
     cap2 = 0x80000000;
 
-    ThreadContext* pThreadContext1 = (ThreadContext*)::FUN_00c85750();
-    MemManager& mem1 = *pThreadContext1->memory;
+    hkMemoryRouter* pThreadContext1 = &hkMemoryRouter::getInstance();
+    hkMemoryAllocator& mem1 = *pThreadContext1->m_heap;
     int iCapacity1 = cap1;
     size1 = 0;
     if ((iCapacity1 & 0x80000000) == 0)
     {
-        mem1.deallocateChunk(data1, (iCapacity1 & 0x3FFFFFFF) * 8);
+        mem1.bufFree(data1, (iCapacity1 & 0x3FFFFFFF) * 8);
     }
     data1 = 0;
     cap1 = 0x80000000;
@@ -411,14 +349,6 @@ void DummyClass::ClearArrays()
 }  // namespace fnv_00d549d0
 
 
-struct Router_00d53d30
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    void* m_10;
-};
 
 struct Pair_00d53d30
 {
@@ -447,9 +377,9 @@ struct Chain_00d53d30
 void Chain_00d53d30::Push(const __m128& a, const __m128& b)
 {
     hkArray<Pair_00d53d30>& arr = m_aiIndexedValues;
-    Router_00d53d30* r = static_cast<Router_00d53d30*>(::FUN_00c85750());
+    hkMemoryRouter* r = &hkMemoryRouter::getInstance();
     if (arr.m_iElementCount == (arr.m_iCapacityState & 0x3fffffff))
-        ::ResizeAudioStream((::AudioAllocator *)(r->m_10), (::AudioStream *)(void *)(&arr), 0x20);
+        ::ResizeAudioStream((::AudioAllocator *)(r->m_heap), (::AudioStream *)(void *)(&arr), 0x20);
     Pair_00d53d30& e = arr.m_data[arr.m_iElementCount++];
     e.a = a;
     e.b = b;
@@ -550,7 +480,7 @@ struct PortRouter
 };
 inline PortRouter& chainRouter()
 {
-    return reinterpret_cast<PortRouter&>((*static_cast<hkMemoryRouterD541*>(::FUN_00c85750())));
+    return reinterpret_cast<PortRouter&>(hkMemoryRouter::getInstance());
 }
 struct PortAllocator
 {

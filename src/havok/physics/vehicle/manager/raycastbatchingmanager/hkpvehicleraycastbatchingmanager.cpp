@@ -2,6 +2,7 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <intrin.h>
 #include <windows.h>
@@ -67,40 +68,35 @@ struct Vehicle {
  unsigned field20, field24, field28, field2c, field30, field34, field38;
  WheelCaster* caster;
 };
-struct Allocator {
- virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
- virtual void freeBlock(void*, int);
-};
-struct ThreadMemory { char* stack; unsigned field04, field08, field0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
 
 struct LocalWheelResults : hkArray<WheelResult> {
  WheelResult* original;
  void initialize() {
   m_data = 0; m_iElementCount = 0; m_iCapacityState = 0x80000000;
-  ThreadMemory* memory = static_cast<ThreadMemory*>(::FUN_00c85750());
-  WheelResult* block = (WheelResult*)memory->stack;
-  memory->stack = reinterpret_cast<char*>(block + 16);
+  hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
+  WheelResult* block = (WheelResult*)memory->m_stackCurrent;
+  memory->m_stackCurrent = reinterpret_cast<char*>(block + 16);
   m_data = block; m_iCapacityState = 0x80000010; original = block;
  }
  void resize(int size) {
-  Allocator& allocator = static_cast<ThreadMemory*>(::FUN_00c85750())->heap();
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   _ReadWriteBarrier();
   int capacity = m_iCapacityState & 0x3fffffff;
   if (capacity < size) {
    int grown = capacity * 2;
    if (size >= grown) grown = size;
-   ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
+   ::FUN_00c908c0((::SpawnedObject *)(hkMemoryAllocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
   }
   m_iElementCount = size;
  }
  void release() {
   WheelResult* saved = original;
   if (saved == m_data) m_iElementCount = 0;
-  static_cast<ThreadMemory*>(::FUN_00c85750())->stack = (char*)saved;
-  Allocator& allocator = static_cast<ThreadMemory*>(::FUN_00c85750())->heap();
+  hkMemoryRouter::getInstance().m_stackCurrent = (char*)saved;
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   m_iElementCount = 0;
   if ((m_iCapacityState & 0x80000000) == 0)
-   allocator.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
+   allocator.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
  }
 };
 struct BatchOutputs { WheelCommand* commands; void* temporary; unsigned char* flags; void* end; };

@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/entity/hkprigidbody.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/entity/hkprigidbody.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "havok/hkMemoryRouter.h"
 #include <cstdint>
 #include <new>
 
@@ -1361,22 +1362,6 @@ void FUN_00ca88e0_cls::FUN_00ca88e0(float afValue)
     m_sub.v10(afValue);
 }
 
-struct CA92A0Allocator;
-
-struct CA92A0MemoryRouter
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    CA92A0Allocator* m_pStreamAllocator;
-
-    CA92A0Allocator& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 
 struct CA92A0Element
@@ -1399,20 +1384,20 @@ struct CA92A0Array
         return m_iCapacityState & 0x3fffffff;
     }
 
-    void reserve(CA92A0Allocator& alloc, int n)
+    void reserve(hkMemoryAllocator& alloc, int n)
     {
         const int cap = getCapacity();
         if (cap < n)
         {
             int cap2 = 2 * cap;
             int newSize = (n < cap2) ? cap2 : n;
-            ::FUN_00c908c0((::SpawnedObject *)(::CA92A0Allocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(CA92A0Element));
+            ::FUN_00c908c0((::SpawnedObject *)(hkMemoryAllocator *)(&alloc), (::SpawnedArray *)(void *)(this), newSize, sizeof(CA92A0Element));
         }
     }
 
     __forceinline CA92A0Array& operator=(const CA92A0Array& a)
     {
-        CA92A0Allocator& alloc = (*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         const int oldSize = m_iElementCount;
         const int newSize = a.m_iElementCount;
         const int copiedSize = newSize > oldSize ? oldSize : newSize;
@@ -1477,12 +1462,6 @@ void CA92A0Object::CopyEntriesFrom(const CA92A0Object* other)
 {
     m_entries = other->m_entries;
 }
-
-struct CA92A0Allocator
-{
-    virtual void v00();
-    virtual void* Alloc(unsigned int auiSize);
-};
 
 
 static __forceinline void memCpy16NonEmpty(void* dst, const void* src, int numQuads)
@@ -1847,22 +1826,6 @@ int S_00ca84b0_Entity::FUN_00ca84b0(S_00ca84b0_Shape* shape)
 
 #include <xmmintrin.h>
 namespace fnv_00ca8af0 {
-struct AllocIface
-{
-    virtual void* unk00();
-    virtual void* Alloc(unsigned int size);
-};
-
-struct AllocHolder
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    AllocIface* m_pAllocator;
-};
-
-
 
 struct EventBlock
 {
@@ -2012,8 +1975,8 @@ void FUN_00ca8af0_cls::DispatchEvent(void* a1, void* a2)
             EventBlock ev;
             ev.m_type = 0x1c;
             ev.m_pSender = this;
-            AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
-            ev.m_pData = holder->m_pAllocator->Alloc(0x20);
+            hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+            ev.m_pData = holder->m_heap->blockAlloc(0x20);
             *(__m128*)ev.m_pData = *(__m128*)a2;
             *((__m128*)ev.m_pData + 1) = *(__m128*)a1;
             reinterpret_cast<::WorldWithPending *>((m_08))->FUN_00c91160();
@@ -2269,25 +2232,6 @@ void S_00ca8f50_Src::WriteToInfo(S_00ca8f50_Info* info)
 }
 
 namespace fnv_00ca9210 {
-struct S_00ca9210_Alloc
-{
-    virtual ~S_00ca9210_Alloc();
-    virtual void* AllocateMemoryBlock(int n);
-    virtual void ReleaseBlock(void* p, int n);
-};
-struct S_00ca9210_Router
-{
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
-    S_00ca9210_Alloc* m_pStreamAllocator;
-    S_00ca9210_Alloc& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-
 
 struct S_00ca9210_RefObj
 {
@@ -2298,7 +2242,7 @@ struct S_00ca9210_RefObj
     void operator delete(void* p)
     {
         S_00ca9210_RefObj* b = static_cast<S_00ca9210_RefObj*>(p);
-        static_cast<S_00ca9210_Router*>(::FUN_00c85750())->heap().ReleaseBlock(p, b->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, b->m_usMemSizeAndFlags);
     }
 };
 
@@ -2910,7 +2854,7 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     FnvScratch cinfo;
     reinterpret_cast<::Owner *>(&(cinfo))->FUN_00cf5ea0();
     reinterpret_cast<::S_00ca8f50_Src *>(this)->WriteToInfo((::S_00ca8f50_Info *)(::FnvScratch *)(&cinfo));
-    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(0x220);
+    FUN_00ca90c0_cls* pBlock = (FUN_00ca90c0_cls*)hkMemoryRouter::getInstance().heap().blockAlloc(0x220);
     *(unsigned short*)&pBlock->unk00 = 0x220;
     FUN_00ca90c0_cls* pCopy = ((::FUN_00ca90c0_cls *)(reinterpret_cast<::S00ca8c90_Body *>((pBlock))->FUN_00ca8c90((*(const ::CInfo181 *)(&cinfo)))));
     hkpEntity* self = reinterpret_cast<hkpEntity*>(this);
@@ -2918,7 +2862,7 @@ FUN_00ca90c0_cls* FUN_00ca90c0_cls::Clone()
     memCpy16NonEmpty((char*)&copy->m_pMotionState, (char*)&self->m_pMotionState, int(sizeof(hkpMaxSizeMotion) / 16));
     if (self->m_pMotionState.m_pSavedMotion)
     {
-        hkpMaxSizeMotion* pObj = (hkpMaxSizeMotion*)(*static_cast<CA92A0MemoryRouter*>(::FUN_00c85750())).heap().Alloc(int(sizeof(hkpMaxSizeMotion)));
+        hkpMaxSizeMotion* pObj = (hkpMaxSizeMotion*)hkMemoryRouter::getInstance().heap().blockAlloc(int(sizeof(hkpMaxSizeMotion)));
         pObj->m_usMemSizeAndFlags = (hkUint16)sizeof(hkpMaxSizeMotion);
         pObj->m_pSavedMotion = 0;
         *(const void**)pObj = &::g_unk010c6c64;

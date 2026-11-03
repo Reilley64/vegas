@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
@@ -664,20 +665,6 @@ void __cdecl SortEntriesByCollisionKey(CollisionKeyEntry* entries, int left, int
 }
 
 namespace fnv_00d4d310 {
-struct FnvCpu_FUN_00d4d310_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d4d310_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d4d310_CpuAllocator* allocator;
-};
 
 struct FnvCpu_FUN_00d4d310_CpuObject
 {
@@ -691,8 +678,8 @@ FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsig
     reinterpret_cast<::fnv_00d4ce60::FUN_00d4ce60 *>(this)->fnv_00d4ce60::FUN_00d4ce60::~FUN_00d4ce60();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = static_cast<FnvCpu_FUN_00d4d310_CpuAllocatorHolder*>(::FUN_00c85750());
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }

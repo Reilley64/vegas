@@ -53,12 +53,12 @@ void hkpCharacterMotionD1E::SetInertiaAndMassInv(const hkMatrix3D1E& inertia)
     m_kInertiaAndMassInv.z = fInvMaxDiag;
 }
 
-struct FUN_00d1edd0_stub
+struct FUN_00d1edd0_stub : hkpCharacterMotionD1E
 {
     void SetMinOfThree(const float* src);
 };
 
-// Stores the minimum of src[0], src[5], and src[10] into the three floats at offsets 0xc0, 0xc4, and 0xc8 of this.
+// Stores the minimum of src[0], src[5], and src[10] into the x, y and z of m_kInertiaAndMassInv.
 // @fnv 0x00d1edd0
 void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
 {
@@ -67,9 +67,9 @@ void FUN_00d1edd0_stub::SetMinOfThree(const float* src)
     float c = a < b ? a : b;
     float fThird = src[10];
     float fMinAll = c < fThird ? c : fThird;
-    *(float*)((char*)this + 0xc0) = fMinAll;
-    *(float*)((char*)this + 0xc4) = fMinAll;
-    *(float*)((char*)this + 0xc8) = fMinAll;
+    m_kInertiaAndMassInv.x = fMinAll;
+    m_kInertiaAndMassInv.y = fMinAll;
+    m_kInertiaAndMassInv.z = fMinAll;
 }
 
 
@@ -316,16 +316,16 @@ void FUN_00d1ecc0_Class::FUN_00d1ecc0(FUN_00d1ecc0_Matrix& inertia) const
     inertia.m_Values[10] = value;
 }
 
-struct FUN_00d1ed00_t
+struct FUN_00d1ed00_t : hkpCharacterMotionD1E
 {
     void GetInverseDiagonal(float* out);
 };
 
-// Writes to out three rows of four floats with 1/(float at offset 0xC0) at indices 0, 5 and 10 and zeros elsewhere.
+// Writes to out three rows of four floats with 1/m_kInertiaAndMassInv.x at indices 0, 5 and 10 and zeros elsewhere.
 // @fnv 0x00d1ed00
 void FUN_00d1ed00_t::GetInverseDiagonal(float* out)
 {
-    float inv = 1.0f / ((float*)this)[48];
+    float inv = 1.0f / m_kInertiaAndMassInv.x;
     __m128 z = _mm_setzero_ps();
     *(__m128*)out = z;
     *(__m128*)(out + 4) = z;

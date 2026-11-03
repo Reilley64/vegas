@@ -8,6 +8,7 @@
 #include "mtrenderingsystem_decls.h"
 #include <windows.h>
 #include "runtime/crt.h"
+#include "fnv/tls.h"
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_004a0f60_cls.h"
 #include "fnv/decl/FUN_00aa63c0.h"
@@ -485,7 +486,7 @@ void FUN_00ba3390(AccumTaskReceiver* self, void*, NiRefObject* a1, TaskArg1* a2,
 }
 
 namespace RenderShutdownDetail {
-typedef int(* SemaphoreRelease)(void*, long, long*);
+using SemaphoreRelease = decltype(&ReleaseSemaphore);
 struct TaskSemaphore
 {
     volatile long count;
@@ -961,7 +962,7 @@ void FUN_00ba3190()
         ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((MTRenderingSystem_Helper*)&(*reinterpret_cast<::TaskThreadManager *>(&::g_01200088)))), (void *)(0), i, {});
         if (rec->unk14)
         {
-            *(int*)(((char**)__readfsdword(0x2c))[::DAT_0126fd98] + 0x2bc) = rec->unk1C;
+            g_tlsBlock.renderThreadIndex = rec->unk1C;
             CullProc cull;
             RefObjMt* p = rec->unk14;
             if (p)

@@ -286,7 +286,6 @@ struct MM
 {
 };
 bool __cdecl FUN_00b01af0(const char*);
-void __cdecl strcat_s(char*, unsigned int, const char*);
 template <class T> class BSSimpleList
 {
   public:
@@ -314,7 +313,7 @@ inline void CopyQ(char* d, const char* s, unsigned int n)
 }
 inline void CatQ(char* d, unsigned int n, const char* s)
 {
-    strcat_s(d, n, s);
+    fnv::crt::strcat_s(d, n, s);
 }
 // Validates a path and name, builds a combined string, adds it to a BSSimpleList, and returns the list or null if empty.
 // @fnv 0x00afe5b0

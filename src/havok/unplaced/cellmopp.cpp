@@ -1442,7 +1442,6 @@ struct Owner_Ext : public Owner
     void FUN_00ca5130(bool flag);
 };
 
-extern "C" void* __cdecl FUN_00aa13e0(unsigned int);
 
 struct SpawnedObject
 {

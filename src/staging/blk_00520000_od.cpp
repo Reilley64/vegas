@@ -464,10 +464,10 @@ struct FUN_00527350
     void* vtbl;
     int f4;
     int f8;
-    int fc;
+    void* fc;
     int f10;
     int f14;
-    int f18;
+    void* f18;
     int f1c;
     int f20;
     int f24;
@@ -484,10 +484,10 @@ void FUN_00527350::FUN_00527350_Init()
     f10 = 0;
     f14 = 0;
     f34 = 0;
-    fc = (int)((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((uintptr_t)(vtbl))));
+    fc = ((void *)(reinterpret_cast<::FUN_005271b0_Class *>((((FUN_005271b0_Class*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetFieldByType((uintptr_t)(vtbl))));
     if (!fc)
-        fc = (int)((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
-    f18 = (int)reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();
+        fc = ((void *)(reinterpret_cast<::BGSCameraPath *>((((ScriptS*)(*reinterpret_cast<::fnv_00527350::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->GetConditions()));
+    f18 = reinterpret_cast<::BGSReconstructFormsInAllFilesMap *>((((MapX*)fc)))->GetFirstPos();
 }
 }  // namespace fnv_00527350
 
@@ -1089,9 +1089,9 @@ struct QIOTask
 
 struct QCellTask : public QIOTask
 {
-    int m_18;
-    int m_1c;
-    QCellTask(int a, int b);
+    intptr_t m_18;
+    intptr_t m_1c;
+    QCellTask(intptr_t a, intptr_t b);
 };
 
 struct QTaskPtr
@@ -1153,7 +1153,7 @@ void QCellQueue::FUN_005283c0(QWorldSpace* ws, intptr_t x, intptr_t y)
     void* entry7 = reinterpret_cast<::FUN_005285c0_Class *>(this)->FUN_005285c0(ws, (void *)(x), (void *)(y));
     if (entry7)
     {
-        QTaskPtr ptr(new QCellTask((int)this, (int)entry7));
+        QTaskPtr ptr(new QCellTask((intptr_t)this, (intptr_t)entry7));
         int key = ::PackShortPair((unsigned short)x, (unsigned short)y);
         bool ok6 = Insert(key, &ptr, 1);
         (*reinterpret_cast<::fnv_005283c0::IOManager * *>(&::DAT_01202d98))->AddTask(ptr);
@@ -1625,7 +1625,7 @@ struct State
 {
     int type;
     Form* filter;
-    int context;
+    void* context;
     Map* map;
     Ref* current;
     Entries* entries;
@@ -1834,7 +1834,8 @@ struct TerrainOwner
 bool TerrainOwner::ComputeTerrainNormalAndTangent(TerrainInput* input, NiPoint3* normal, NiPoint3* tangent)
 {
     NiPoint3 origin;
-    NiPoint3 position = (*(::NiPoint3 *)(reinterpret_cast<::FNv53b450_Source *>(this)->FUN_0053b450((::FNv53b450_Point *)((unsigned char)input->region), (unsigned short)input->position, (unsigned short)(0), 0, {})));
+    NiPoint3 position;
+    reinterpret_cast<::FNv53b450_Source *>(this)->FUN_0053b450((::FNv53b450_Point *)&position, (unsigned char)input->region, (unsigned short)input->position, 0, 0);
     reinterpret_cast<::LandObject *>(this)->FUN_00534240(input->region, input->position, (::LandPoint3 *)&(origin));
     NiPoint3 location;
     location = NiPoint3(reinterpret_cast<::FUN_00534050_Class *>(this)->FUN_00534050() + 2048.0, ((float)(reinterpret_cast<::FUN_00534080_Class *>(this)->FUN_00534080())) + 2048.0, 0.0f);

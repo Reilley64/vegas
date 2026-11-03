@@ -1959,10 +1959,10 @@ struct FUN_005533f0_cls
 {
     char pad[0x70];
     FUN_006299c0_stub sub;
-    void FUN_005533f0(unsigned int a);
+    void FUN_005533f0(uintptr_t a);
 };
 // @fnv 0x005533f0
-void FUN_005533f0_cls::FUN_005533f0(unsigned int uiValue)
+void FUN_005533f0_cls::FUN_005533f0(uintptr_t uiValue)
 {
     TESBoundObject* p = ((ScriptLocals*)this)->GetLocalData();
     if (p)
@@ -1987,10 +1987,10 @@ struct ObjX
 };
 struct S
 {
-    void FUN_00553440(int a);
+    void FUN_00553440(intptr_t a);
 };
 // @fnv 0x00553440
-void S::FUN_00553440(int aiArg)
+void S::FUN_00553440(intptr_t aiArg)
 {
     TESBoundObjectX* o = ((::fnv_00553440::TESBoundObjectX *)(reinterpret_cast<::ScriptLocals *>((((ScriptLocalsX*)this)))->GetLocalData()));
     if (o)

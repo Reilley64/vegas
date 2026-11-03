@@ -327,12 +327,12 @@ void FUN_00580680_Class::FUN_00580680(intptr_t a)
     if (this == (FUN_00580680_Class*)a)
     {
         *(int*)((char*)this + 0x80) = 0;
-        (*(void(*)(FUN_00580680_Class*, int))(*(int**)this)[0x4c / 4])(this, 0x80000000);
+        ((void(*)(FUN_00580680_Class*, int))(*(void***)this)[0x4c / 4])(this, 0x80000000);
     }
     else
     {
         *(int*)((char*)this + 0x80) = a;
-        (*(void(*)(FUN_00580680_Class*, int))(*(int**)this)[0x48 / 4])(this, 0x80000000);
+        ((void(*)(FUN_00580680_Class*, int))(*(void***)this)[0x48 / 4])(this, 0x80000000);
     }
 }
 
@@ -374,6 +374,8 @@ struct TESSound
 };
 struct FUN_00582040_Class
 {
+    void* m_00;
+    TESSound* m_apSounds[6];
     void ReleaseSoundSlots();
 };
 // @fnv 0x00582040
@@ -381,9 +383,9 @@ void FUN_00582040_Class::ReleaseSoundSlots()
 {
     for (unsigned int i = 0; i < 6; ++i)
     {
-        if (((int*)this)[i + 1])
+        if (m_apSounds[i])
         {
-            int v = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((TESSound*)((int*)this)[i + 1])))->FUN_0084e3a0()));
+            int v = ((unsigned int)(uintptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>((m_apSounds[i]))->FUN_0084e3a0()));
             ::FUN_00485910(0x44414900 + i, v);
         }
     }
@@ -513,13 +515,21 @@ struct FUN_005892c0_t
 // @fnv 0x005892c0
 void* FUN_005892c0_t::InitArray(unsigned int count)
 {
+    struct Layout
+    {
+        void* m_pVtbl;
+        unsigned int m_uiCount;
+        void* m_pData;
+        unsigned int m_uiUnk0c;
+    };
+    Layout* self = reinterpret_cast<Layout*>(this);
     unsigned int size;
-    *(void**)this = &::DAT_0103204c;
-    ((unsigned int*)this)[1] = count;
-    ((unsigned int*)this)[3] = 0;
-    size = ((unsigned int*)this)[1] << 2;
-    ((unsigned int*)this)[2] = (unsigned int)::FUN_00aa1070(size);
-    memset(*(void**)((unsigned int*)this + 2), 0, ((unsigned int*)this)[1] << 2);
+    self->m_pVtbl = &::DAT_0103204c;
+    self->m_uiCount = count;
+    self->m_uiUnk0c = 0;
+    size = self->m_uiCount << 2;
+    self->m_pData = ::FUN_00aa1070(size);
+    memset(self->m_pData, 0, self->m_uiCount << 2);
     return this;
 }
 }  // namespace fnv_005892c0
@@ -657,8 +667,8 @@ void FUN_0058b6c0_shell::RemoveSoundAt(unsigned int index)
         prev = ((FUN_0058b630_shell*)this)->GetCameraPathAt(index - 1);
         if (next)
             reinterpret_cast<::LowProcess *>((((TES*)next)))->SetCurrentBoundObject((::TESBoundObject *)(prev));
-        ((NiTLargeArray_TESTopicInfo*)*(unsigned int*)((char*)this + 0x2c))->RemoveAt(index);
-        ((NiTLargeArray_TESTopicInfo*)*(unsigned int*)((char*)this + 0x2c))->Compact();
+        (*(NiTLargeArray_TESTopicInfo**)((char*)this + 0x2c))->RemoveAt(index);
+        (*(NiTLargeArray_TESTopicInfo**)((char*)this + 0x2c))->Compact();
     }
 }
 
@@ -1015,7 +1025,7 @@ struct FUN_0058cb00_Class
 intptr_t FUN_0058cb00_Class::FUN_0058cb00(unsigned int* puiValue, int* piValue, unsigned char* pbValue)
 {
     if ((unsigned int)*(Flt*)((char*)this + 0x2c))
-        return ((FUN_0058cb60_Class*)(unsigned int)*(Flt*)((char*)this + 0x2c))
+        return ((FUN_0058cb60_Class*)(uintptr_t)(unsigned int)*(Flt*)((char*)this + 0x2c))
             ->FUN_0058cb60(puiValue, piValue, pbValue);
     *puiValue = 0;
     *piValue = 0;
@@ -1044,7 +1054,7 @@ struct TESModel : FNStub
 // @fnv 0x00589560
 void TESModel::WriteToStream()
 {
-    ::FUN_004856f0((void *)(0x4c4c5546), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())), (void *)(GetModelLength() + 1));
+    ::FUN_004856f0((void *)(0x4c4c5546), ((char *)(reinterpret_cast<::FUN_00408da0_Class *>(this)->FUN_00408da0())), (void *)(uintptr_t)(GetModelLength() + 1));
 
     if (m_24 != 0)
         ::FUN_00485910(0x4d414e43, m_24);
@@ -1426,7 +1436,7 @@ void Owner_58cbc0::SetNode(Node_58cbc0* pNode)
         {
             reinterpret_cast<::FUN_0043fa80_s *>((((Node_58cbc0*)m_pController)))->FUN_0043fa80((const ::ThreeByThreeMatrix &)((const ::Mat3_58cbc0 &)(pSource->GetRotation())));
         }
-        reinterpret_cast<::FUN_004f00e0_shell *>((((Node_58cbc0*)m_pController)))->FUN_004f00e0(((void *)(::FUN_0045bb80((int)(pNode)))));
+        reinterpret_cast<::FUN_004f00e0_shell *>((((Node_58cbc0*)m_pController)))->FUN_004f00e0(((void *)(::FUN_0045bb80((intptr_t)(pNode)))));
     }
     ::DAT_011e07c3 = true;
 }

@@ -621,11 +621,11 @@ void* FUN_0069b920_class::FUN_0069b920()
 struct FUN_0069ccf0_class
 {
     int m_00;
-    int m_04;
-    int FUN_0069ccf0(int a);
+    intptr_t m_04;
+    intptr_t FUN_0069ccf0(int a);
 };
 // @fnv 0x0069ccf0
-int FUN_0069ccf0_class::FUN_0069ccf0(int aiValue)
+intptr_t FUN_0069ccf0_class::FUN_0069ccf0(int aiValue)
 {
     return aiValue * 6 + m_04;
 }

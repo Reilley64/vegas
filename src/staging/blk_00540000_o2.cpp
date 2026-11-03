@@ -324,12 +324,12 @@ ParticleSystem* __cdecl FUN_00554010(const FUN_006815c0* origin)
     *((float *)&(reinterpret_cast<::bhkCharacterController *>(&(acceleration))->GetVectorElement(2))) = FUN_004a3e90(DAT_0102f0fc);
     ParticleSystem* system = new FUN_00c99ff0(&source, &velocity, &acceleration);
     reinterpret_cast<::TESForm *>((((::Component *)(reinterpret_cast<::ScriptLocals *>((system))->GetLocalData()))))->ClearData();
-    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((unsigned int)(new FUN_00554590()));
+    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((uintptr_t)(new FUN_00554590()));
     reinterpret_cast<::fnv_00553480::FUN_00553480_cls *>((system))->FUN_00553480((char *)(::CurveBase *)(new FUN_0062d5c0()));
     reinterpret_cast<::FUN_00c6a620_cls *>((system))->SetField(((void *)(::FUN_0062f3d0())));
     reinterpret_cast<::_Helper_005534f0 *>((system))->FUN_005534f0(new FUN_0061f460());
-    reinterpret_cast<::fnv_00553440::S *>((system))->FUN_00553440((int)(((void *)(::FUN_00453720()))));
-    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((unsigned int)(new FUN_0062a460()));
+    reinterpret_cast<::fnv_00553440::S *>((system))->FUN_00553440((intptr_t)(((void *)(::FUN_00453720()))));
+    reinterpret_cast<::FUN_005533f0_cls *>((system))->FUN_005533f0((uintptr_t)(new FUN_0062a460()));
     if (!DAT_011ca088)
         DAT_011ca088 = new FUN_00624150();
     reinterpret_cast<::FUN_006242a0_cls *>((DAT_011ca088))->NotifyActivation((::ActivationListener *)(::Component *)(((::Component *)(reinterpret_cast<::ScriptLocals *>((system))->GetLocalData()))));

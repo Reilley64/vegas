@@ -440,7 +440,7 @@ extern "C" void* DAT_0102b3d0;
 struct FUN_00519b20_cls
 {
     void* m_p;
-    void* FUN_00519b20(void* arg);
+    void* FUN_00519b20(unsigned int auiCount);
 };
 
 namespace fnv_0051cee0 {
@@ -753,9 +753,9 @@ struct FUN_00519b20
 };
 // Calls ConstructArray with arg, sets m_p to the address of DAT_0102b3d0, and returns this.
 // @fnv 0x00519b20
-void* FUN_00519b20_cls::FUN_00519b20(void* arg)
+void* FUN_00519b20_cls::FUN_00519b20(unsigned int auiCount)
 {
-    reinterpret_cast<::FUN_00519b20 *>(this)->ConstructArray((unsigned int)(arg));
+    reinterpret_cast<::FUN_00519b20 *>(this)->ConstructArray(auiCount);
     m_p = &DAT_0102b3d0;
     return this;
 }
@@ -1789,8 +1789,6 @@ void S_5102e0_List::FUN_005102e0()
 }
 
 
-extern "C" unsigned int __cdecl FindNextMatch(void* p, unsigned int n, char* c);
-extern "C" unsigned int __cdecl CompareRun(unsigned int found, char* a1, unsigned int count);
 
 struct FUN_005103d0_cls
 {
@@ -1813,8 +1811,8 @@ void FUN_005103a0_class::FUN_005103a0(const char* a, const char* b)
 unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, uintptr_t start, unsigned int count)
 {
     unsigned int remaining;
-    unsigned int pos;
-    unsigned int found4;
+    const char* pos;
+    const char* found4;
 
     if (count == 0 && start <= m_14)
     {
@@ -1826,13 +1824,13 @@ unsigned int FUN_005103d0_cls::FindSubstring(char* pPattern, uintptr_t start, un
         if (count <= remaining)
         {
             remaining = remaining - (count - 1);
-            pos = ((unsigned int)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970())) + start;
-            for (; (found4 = FindNextMatch((void*)pos, remaining, pPattern)) != 0;
+            pos = ((const char *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970())) + start;
+            for (; (found4 = (const char *)std::memchr(pos, *pPattern, remaining)) != 0;
                  remaining -= found4 - pos + 1, pos = found4 + 1)
             {
-                if (CompareRun(found4, pPattern, count) == 0)
+                if (std::memcmp(found4, pPattern, count) == 0)
                 {
-                    return found4 - ((unsigned int)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()));
+                    return found4 - ((const char *)(reinterpret_cast<::FUN_0044a970_Cls *>(this)->FUN_0044a970()));
                 }
             }
         }
@@ -2379,7 +2377,7 @@ void* Selector::FindRandomSelection(Reference* apReference, int unused)
         {
             SelectionMap visitedMap(37);
             unsigned int attempts = 0;
-            unsigned int uiListSize = ((::Node *)(::FUN_00871a30((int)this)))->Size();
+            unsigned int uiListSize = ((::Node *)(::FUN_00871a30((intptr_t)this)))->Size();
             unsigned int previous = -1;
             unsigned int index = -1;
             int size = reinterpret_cast<::FUN_00962810_Class *>(((*reinterpret_cast<::PlayerSelection * *>(&::_g_thePlayer))))->FUN_00962810((::TESSound *)(::Selector *)(this));
@@ -2388,14 +2386,14 @@ void* Selector::FindRandomSelection(Reference* apReference, int unused)
                 attempts++;
                 previous = DialogueRandom() % uiListSize;
                 bool seen = false;
-                while (reinterpret_cast<::FUN_0057c850_cls *>(&(visitedMap))->FUN_0057c850((void *)(previous), &seen) && seen)
+                while (reinterpret_cast<::FUN_0057c850_cls *>(&(visitedMap))->FUN_0057c850((void *)(uintptr_t)(previous), &seen) && seen)
                 {
                     previous = DialogueRandom() % uiListSize;
                     seen = false;
                 }
                 void* current = 0;
                 unsigned int entry = 0;
-                Node* node = ((::Node *)(::FUN_00871a30((int)this)));
+                Node* node = ((::Node *)(::FUN_00871a30((intptr_t)this)));
                 while (node && !node->Empty())
                 {
                     if (entry == previous)
@@ -2776,7 +2774,7 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
                     float afValueAfterThirdFloat = FUN_00404010(fDist, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting35)))))) + 100.0);
                     float fPi = 3.1415927f;
 
-                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataA))->SetQuantity((unsigned int)(apDoorB));
+                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataA))->SetQuantity((uintptr_t)(apDoorB));
                     DoorRef* pMarkerB = apDoorB->FUN_00569b20();
                     if (pMarkerB)
                     {
@@ -2795,7 +2793,7 @@ void __cdecl FUN_00519810(DoorRef* apDoorA, DoorRef* apDoorB)
                         reinterpret_cast<::FUN_0043a280_shell *>((pTeleportDataA))->SetVec(NiPoint3Init(0.0f, 0.0f, (*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>((void *)(apDoorB))->GetData())).z + fPi));
                     }
 
-                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataB))->SetQuantity((unsigned int)(apDoorA));
+                    reinterpret_cast<::FUN_00537e90 *>((pTeleportDataB))->SetQuantity((uintptr_t)(apDoorA));
                     pMarkerB = apDoorA->FUN_00569b20();
                     if (pMarkerB)
                     {
@@ -2843,7 +2841,7 @@ void TESObjectREFR_Flags::SetRefFlag40000000(bool set)
         flags |= 0x40000000;
     else
         flags &= ~0x40000000;
-    reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(flags));
+    reinterpret_cast<::TESRegionGrassObject *>(this)->AssignLandTexture((::TESLandTexture *)(uintptr_t)(flags));
     reinterpret_cast<::TESForm *>(this)->MarkAsModified(1);
 }
 // @fnv 0x00508450
@@ -2937,7 +2935,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
         return applied;
     if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((actor2))->FUN_00493bb0())) && !FUN_00702360())
     {
-        ::DispatchMessageToSink((int)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
+        ::DispatchMessageToSink((intptr_t)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d4ccc))))->GetMenuTitle()))), 0, (int)(0), (int)(0), DAT_010162c0, false);
         return applied;
     }
     ActorValue::Index skill2 = FUN_00514fd0();
@@ -2952,7 +2950,7 @@ bool SkillBookEffect552::FUN_00515040(TESObjectREFR* reference)
             ::TopicMenuController::IncrementMiscStat(15);
             ::FUN_00406f60((::FUN_00406f90_this *)(::StrMem *)(&message), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting552 *>(&::g_011d49c0))))->GetMenuTitle())), ActorValue::GetActorValueName(skill2),
                          static_cast<int>(amount5));
-            ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (int)(0), (int)(0), DAT_010162c0, false);
+            ::DispatchMessageToSink((intptr_t)(((const char *)(::FUN_00559450((int *)&(message))))), 1, (int)(0), (int)(0), DAT_010162c0, false);
             applied = true;
         }
     }

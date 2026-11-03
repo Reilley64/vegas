@@ -635,15 +635,15 @@ void TESAttributes::FUN_005f1570(unsigned char index)
 
 struct FUN_005f3710_Class
 {
-    int GetEntryAt(int index);
+    intptr_t GetEntryAt(int index);
 };
 
 // @fnv 0x005f3710
-int FUN_005f3710_Class::GetEntryAt(int index)
+intptr_t FUN_005f3710_Class::GetEntryAt(int index)
 {
     if ((unsigned int)index < *(unsigned int*)((char*)this + 0x34))
     {
-        return index * 16 + *(int*)((char*)this + 0x38);
+        return index * 16 + *(intptr_t*)((char*)this + 0x38);
     }
     return 0;
 }
@@ -799,7 +799,7 @@ struct FUN_005f4bd0_class
     int m8;
     int mc;
     int m10;
-    int m14;
+    char* m14;
     void SetEntryByte(unsigned int index, unsigned char value);
 };
 // If index is below the count in mc, writes value to byte 13 of the 16-byte entry at m14 + index*16.
@@ -1017,7 +1017,7 @@ void FUN_005e0aa0(int a, int b)
 struct FUN_005e0b10_holder
 {
 };
-unsigned int __cdecl FUN_005e0b50(void*, int);
+uintptr_t __cdecl FUN_005e0b50(void*, int);
 struct S_005e0ad0
 {
     void* FUN_005e0ad0(int a, int b);
@@ -1177,7 +1177,7 @@ struct FUN_005ef860_class
     virtual void v0();
     virtual void* v4(int a);
     virtual void v8();
-    virtual void* vC(int a, int b);
+    virtual void* vC(void* a, int b);
     void* m4;
     int m8;
     int mC;
@@ -1254,7 +1254,7 @@ struct FUN_005f2b20_Class
     int m2c;
     int m30;
     unsigned int m34;
-    int m38;
+    char* m38;
     void SetEntryFloat(unsigned int a, float b);
 };
 // If index a is below m34 and m38 is set, writes float b at offset 8 of the 16-byte entry at m38 + a*16.
@@ -1634,7 +1634,7 @@ struct FUN_005e08e0_class
 // @fnv 0x005e0310
 FUN_005e0310_class* FUN_005e0310_class::FUN_005e0310(void* apArg, void* apArg2)
 {
-    reinterpret_cast<::FUN_005e08e0_class *>(this)->FUN_005e08e0((unsigned short)(apArg), (unsigned short)(apArg2));
+    reinterpret_cast<::FUN_005e08e0_class *>(this)->FUN_005e08e0((unsigned short)(uintptr_t)(apArg), (unsigned short)(uintptr_t)(apArg2));
     vtbl = &DAT_0103d3f0;
     return this;
 }
@@ -1657,12 +1657,12 @@ FUN_005e08e0_class* FUN_005e08e0_class::FUN_005e08e0(unsigned short x, unsigned 
 struct FUN_005ef9a0_shell
 {
     virtual void v0();
-    virtual int v1(unsigned int);
+    virtual void* v1(unsigned int);
 };
 struct FUN_005efb30_class
 {
     void* vtbl;
-    unsigned int m4;
+    void* m4;
     unsigned int m8;
     unsigned int mc;
     void FUN_005efb30(unsigned int requested, unsigned int savedSize);
@@ -1701,7 +1701,7 @@ void FUN_005ef860_class::FUN_005ef860(int a, int b)
     {
         if (b == mC)
         {
-            m4 = vC((int)m4, a);
+            m4 = vC(m4, a);
         }
         else
         {
@@ -1775,8 +1775,8 @@ struct NiTMallocInterface_0096afc0
 };
 struct FUN_005e0950
 {
-    int m0;
-    int m4;
+    void* m0;
+    void* m4;
     unsigned short m8;
     unsigned short ma;
     unsigned short mc;
@@ -1794,13 +1794,13 @@ void* FUN_005e0370_Class::FUN_005e0370(int aiArg1, int aiArg2)
 // @fnv 0x005e0950
 FUN_005e0950::FUN_005e0950(unsigned short ausSize, unsigned short b)
 {
-    m0 = (int)&DAT_0103d3f8;
+    m0 = &DAT_0103d3f8;
     m8 = ausSize;
     me = b;
     ma = 0;
     mc = 0;
     if (m8 > 0)
-        m4 = (int)NiTMallocInterface_0096afc0::Allocate(m8);
+        m4 = NiTMallocInterface_0096afc0::Allocate(m8);
     else
         m4 = 0;
 }
@@ -2027,7 +2027,7 @@ struct FUN_005e0600_Class
 // @fnv 0x005e0600
 void FUN_005e0600_Class::FUN_005e0600()
 {
-    FUN_005e0b60((void*)(unsigned int)*(GO*)this);
+    FUN_005e0b60((void*)(uintptr_t)(unsigned int)*(GO*)this);
 }
 
 void* __cdecl FUN_00885750();
@@ -2220,9 +2220,9 @@ int __cdecl FUN_005e0b40(unsigned int arg0, unsigned int arg1)
 }
 
 // @fnv 0x005e0b50
-unsigned int __cdecl FUN_005e0b50(void* base, int offset)
+uintptr_t __cdecl FUN_005e0b50(void* base, int offset)
 {
-    return (unsigned int)base + offset;
+    return (uintptr_t)base + offset;
 }
 
 struct ObjectHeader
@@ -2541,7 +2541,7 @@ struct FUN_005efa80_cls
     virtual void* vC(void* a, void* b);
     void* m_04;
     unsigned int m_08;
-    void* m_0c;
+    unsigned int m_0c;
     void FUN_005efa80(void* a1, unsigned int a2);
 };
 
@@ -2550,7 +2550,7 @@ void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
 {
     if (m_04 != 0)
     {
-        if (a2 == (unsigned int)m_0c)
+        if (a2 == m_0c)
         {
             m_04 = vC(m_04, a1);
         }
@@ -2565,7 +2565,7 @@ void FUN_005efa80_cls::FUN_005efa80(void* a1, unsigned int a2)
     else
     {
         m_04 = v4(a1);
-        m_0c = a1;
+        m_0c = (unsigned int)(uintptr_t)a1;
     }
 }
 
@@ -2994,7 +2994,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
     Ext* pExt6 = ref->GetExt();
     if (fTo < fFrom)
         bWrap5 = true;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::BGSCameraPath *>(this)->GetPrevPath())); i++)
     {
         Entry* pEntry7 = ((::Entry *)(reinterpret_cast<::FUN_005f3710_Class *>(this)->GetEntryAt(i)));
         float fTime_2 = pEntry7->fTime_2;
@@ -3033,7 +3033,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     break;
                 case 0xc: {
                     int iFoundB;
-                    StrElem* pArrVal = ((::StrElem *)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundB)))->FUN_00495f30({})));
+                    StrElem* pArrVal = ((::StrElem *)(uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundB)))->FUN_00495f30({})));
                     float fVal8 = 1.0f;
                     if (iFoundB != 0)
                     {
@@ -3041,7 +3041,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                         unsigned int uOff_2 = (pEntry7->data.u & 0xffffff00) >> 8;
                         fVal8 = (float)std::atof(pStr7 + uOff_2 + 0x11);
                     }
-                    reinterpret_cast<::FUN_00ad8570_S *>((((::AudioMgr *)(::FUN_00453a70()))))->FUN_00ad8570((int)(ref->GetNode()), fVal8, 0x40000000);
+                    reinterpret_cast<::FUN_00ad8570_S *>((((::AudioMgr *)(::FUN_00453a70()))))->FUN_00ad8570((intptr_t)(ref->GetNode()), fVal8, 0x40000000);
                     break;
                 }
                 case 0:
@@ -3153,7 +3153,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                     if (script != 0)
                     {
                         int iFoundTmp;
-                        StrElem* pArr2 = ((::StrElem *)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundTmp)))->FUN_00495f30({})));
+                        StrElem* pArr2 = ((::StrElem *)(uintptr_t)(reinterpret_cast<::FUN_00495f30_shell *>((script->GetData(&iFoundTmp)))->FUN_00495f30({})));
                         if (iFoundTmp != 0)
                         {
                             char* pStr6 = ((::StrHolder *)(reinterpret_cast<::BaseProcess *>(&(pArr2[pEntry7->data.u & 0xff]))->GetCurrentProcessData()))->GetStr();
@@ -3891,23 +3891,23 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                 continue;
             }
             found->FUN_005f60e0(amount);
-            if (((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType())
+            if (((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) >= reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType())
             {
                 if (((::ChallengeNode *)(reinterpret_cast<::Callees *>(&(found->rewards))->FUN_00726070())))
                     reinterpret_cast<::FUN_005ac340_t *>((((ChallengeReward*)((::ChallengeNode *)(reinterpret_cast<::Callees *>(&(found->rewards))->FUN_00726070())))))->RunScriptOnTarget((::TESObjectREFR *)((*reinterpret_cast<void * *>(&::_g_thePlayer))), (::ScriptLocals *)(0));
-                if (((int)(reinterpret_cast<::FUN_006a1b60_Class *>((found))->GetField54())) != 11 || reinterpret_cast<::FUN_005f5fa0_cls *>((found))->GetShortAtOffset64() != 27)
+                if (((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((found))->GetField54())) != 11 || reinterpret_cast<::FUN_005f5fa0_cls *>((found))->GetShortAtOffset64() != 27)
                     ::TopicMenuController::IncrementMiscStat(27);
                 if (found->name.FUN_00408da0() && found->description.GetText(0, 0x43534544) && *::g_011cb4d4.Bool())
                 {
                     char message[512];
                     FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                  reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(), found->description.GetText(0, 0x43534544));
-                    ::DispatchMessageToSink((int)(message), 0, (int)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                    ::DispatchMessageToSink((intptr_t)(message), 0, (intptr_t)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
                     FUN_00706f30(21);
                 }
                 if (reinterpret_cast<::FUN_005f5f60_class *>((found))->FUN_005f5f60() && !reinterpret_cast<::FUN_005f60c0_Class *>((found))->HasFlag8())
                 {
-                    int remainder = ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType();
+                    int remainder = ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())) - reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType();
                     reinterpret_cast<::FUN_005f5820_shell *>((found))->ClearField6C();
                     reinterpret_cast<::FUN_005f6060_class *>((found))->FUN_005f6060(true);
                     found->FUN_005f60e0(remainder);
@@ -3920,8 +3920,8 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
             }
             else
             {
-                int value = ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList()));
-                int item = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) ? ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) : 100;
+                int value = ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList()));
+                int item = ((int)(uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) ? ((int)(uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((found))->FUN_005f5f80())) : 100;
                 for (int current = value; current >= 0; current -= item)
                 {
                     if (current == 0)
@@ -3931,9 +3931,9 @@ bool __cdecl FUN_005f6110(ChallengeView* pSourceChallenge, int amount)
                         {
                             char message[512];
                             FUN_00406d00(message, 512, "%s   %d\\%d\n%s", found->name.FUN_00408da0(),
-                                         ((int)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
+                                         ((int)(uintptr_t)(reinterpret_cast<::DialogueItem *>((found))->SelectDefaultResponseList())), reinterpret_cast<::LowProcess *>((found))->GetPackageObjectType(),
                                          found->description.GetText(0, 0x43534544));
-                            ::DispatchMessageToSink((int)(message), 0, (int)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
+                            ::DispatchMessageToSink((intptr_t)(message), 0, (intptr_t)(::FUN_0048e730((::TESForm *)(found), 0)), (int)(0), 2.0f, false);
                         }
                     }
                 }
@@ -4076,7 +4076,7 @@ struct FUN_005e2c30_class
 // @fnv 0x005e2c30
 const char* FUN_005e2c30_class::FUN_005e2c30()
 {
-    return (const char*)(unsigned int)m3c ? (const char*)(unsigned int)m3c : $SG3295;
+    return (const char*)(uintptr_t)(unsigned int)m3c ? (const char*)(uintptr_t)(unsigned int)m3c : $SG3295;
 }
 
 struct FUN_005e2ca0_s
@@ -4727,7 +4727,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
     }
 
     int vk = 0;
-    int vi = 0;
+    intptr_t vi = 0;
     int vl = 0;
     bool vw = false;
     int vc = 0;
@@ -4750,7 +4750,7 @@ bool Runner::RunScript(A8* apScript, void* apObject, SLoc* a3, int a4, bool a5, 
             if (va == 0x1e)
                 break;
             if (!vi)
-                vi = (int)apObject;
+                vi = (intptr_t)apObject;
             if (!reinterpret_cast<::ScriptRunner *>((this))->ParseBlock((::Script *)(apScript), (const ::SCRIPT_OUTPUT)(va), (::TESObjectREFR *)(void *)((void*)vi), (*(int *)(&vk)), vd, (*(unsigned int *)(&vl)), vc, 0, 0))
             {
                 vw = true;
@@ -5146,7 +5146,7 @@ struct Actor
 // @fnv 0x005e5d20
 void FUN_005e5d20(void* pvArg0, void* pvArg1, unsigned char ucArg2, float** ppfValue, Actor* pkActor)
 {
-    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(pvArg0), (int)(pvArg1), ucArg2, (void **)(ppfValue), pkActor))
+    if (!::FUN_005e5b80(0, 1, (::TESObjectREFR *)(pvArg0), (int)(intptr_t)(pvArg1), ucArg2, (void **)(ppfValue), pkActor))
         return;
     float* pfValue = *ppfValue;
     Actor* pkTarget = pkActor;
@@ -5360,11 +5360,11 @@ void FUN_005ef3b0_class::FUN_005ef3b0()
 struct FUN_005efbc0_s
 {
     virtual void v0();
-    virtual int v4(unsigned int);
+    virtual void* v4(unsigned int);
 };
 struct FUN_005efd40_s : FUN_005efbc0_s
 {
-    int m4;
+    void* m4;
     int m8;
     int mc;
     void FUN_005efd40(unsigned int requested, unsigned int savedSize);
@@ -5624,7 +5624,7 @@ void* __cdecl FUN_00ec7230(char* dst, const char* src, unsigned int count);
 
 void FUN_005e0b60(void* p);
 
-unsigned int __cdecl FUN_005e0b50(void* base, int offset);
+uintptr_t __cdecl FUN_005e0b50(void* base, int offset);
 
 int strcpy_s(char* dst, unsigned int size, const char* src);
 

@@ -844,12 +844,12 @@ ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void*
     void* pvRefB = ((void *)(::FUN_0056f930((::NiAVObject *)(pvObjB))));
     void* pvSourceBody = pvRefA == pvSource ? pkInfo->m_pvBodyA : (pvRefB == pvSource ? pkInfo->m_pvBodyB : 0);
     void* pvTargetBody = pvRefA == pvTarget ? pkInfo->m_pvBodyA : (pvRefB == pvTarget ? pkInfo->m_pvBodyB : 0);
-    ImpactHandler620* pkHandler = ((::ImpactHandler620 *)(reinterpret_cast<::S_00620260_C *>(this)->FUN_00620260((int)(pvSource), (int)(pvSourceBody))));
+    ImpactHandler620* pkHandler = ((::ImpactHandler620 *)(reinterpret_cast<::S_00620260_C *>(this)->FUN_00620260((intptr_t)(pvSource), (intptr_t)(pvSourceBody))));
     if (pkHandler)
     {
         ImpactEvent620* pkEvent = 0;
         if (bDirect)
-            pkEvent = ((::ImpactEvent620 *)(reinterpret_cast<::FUN_0057b700_class *>((pkHandler))->FUN_0061fd70((unsigned int)(pvTarget), (unsigned int)(pvTargetBody), (unsigned int)(pvData))));
+            pkEvent = ((::ImpactEvent620 *)(reinterpret_cast<::FUN_0057b700_class *>((pkHandler))->FUN_0061fd70((uintptr_t)(pvTarget), (uintptr_t)(pvTargetBody), (uintptr_t)(pvData))));
         else
             pkEvent = pkHandler->CreateEvent(pvTarget, pvTargetBody, pvData);
         if (pkEvent)
@@ -860,14 +860,14 @@ ImpactHandler620* ImpactManager620::FUN_00620340(CollisionInfo620* pkInfo, void*
             int iSize = 0x24;
             if (pkRef)
             {
-                reinterpret_cast<::AlignedVector *>(&(kPos))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(::FUN_00560dc0((::TESDataHandler *)(pkRef)))))));
+                reinterpret_cast<::AlignedVector *>(&(kPos))->FUN_004a3f10((*(const ::AlignedVector *)(((const void *)(uintptr_t)(::FUN_00560dc0((::TESDataHandler *)(pkRef)))))));
                 Actor620* pkActor = (Actor620*)FUN_004b5a80(pkRef);
                 bhkNode620* pkNode = pkActor ? ((::bhkNode620 *)(reinterpret_cast<::FUN_004ae6a0_shell *>((pkActor))->FUN_004ae6a0())) : 0;
                 bhkCharacter620* pkCharacter = pkNode ? pkNode->GetCharacter() : 0;
                 if (pkCharacter && pkInfo->m_iBodyIndex != -1)
                     reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>((pkEvent))->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(void *)(pkCharacter->GetBody(pkInfo->m_iBodyIndex)));
                 else if (pkNode)
-                    reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>((pkEvent))->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::FUN_006205a0_Class *>((pkNode))->FUN_006205a0()))));
+                    reinterpret_cast<::fnv_0087ce80::FUN_0087ce80_shell *>((pkEvent))->FUN_0087ce80((::fnv_0087ce80::TESObjectCELL *)(void *)(((void *)(intptr_t)(reinterpret_cast<::FUN_006205a0_Class *>((pkNode))->FUN_006205a0()))));
             }
             else
             {
@@ -1605,7 +1605,7 @@ void MotionOwner::FUN_00622f80(const void* origin, const void* rotation, float t
         MotionFrame frame;
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&vector)), (*(const ::fnv_004a3e00::NiPoint3 *)(origin)));
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&frame)), (*(const ::fnv_004a3e00::NiPoint3 *)(rotation)));
-        reinterpret_cast<::ScriptX *>((((::MotionWorld *)(::FUN_00559450((int *)&(world))))))->InvokeInterfaceCall((int)&(vector), (int)&(frame), (int)(this), 0);
+        reinterpret_cast<::ScriptX *>((((::MotionWorld *)(::FUN_00559450((int *)&(world))))))->InvokeInterfaceCall((intptr_t)&(vector), (intptr_t)&(frame), (intptr_t)(this), 0);
         bool temporary;
         result = reinterpret_cast<::FUN_005609f0_shell *>((((::MotionStatus *)(reinterpret_cast<::Hld621210 *>(this)->FUN_00621210((::Rcv621210 *)&(temporary))))))->FUN_005609f0();
     }
@@ -2820,7 +2820,7 @@ void __cdecl FUN_0062a7e0(const hkVector4V& kTarget, void* pvRef)
     kNewVelocity.setSub4(kMotionVelocity, kIntersectionOffset);
     hkSimdRealV kInv(1.0f / (fTime + ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))))));
     reinterpret_cast<::S_00627920 *>(&(kNewVelocity))->FUN_00627920((::S_00561240 *)&(kInv));
-    reinterpret_cast<::Owner *>((((::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((unsigned int)&(kNewVelocity));
+    reinterpret_cast<::Owner *>((((::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((uintptr_t)&(kNewVelocity));
     reinterpret_cast<::hkpEntityC9C *>((((::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00c9c1d0();
     pkEntry->m_fTime = fTime + ::FUN_00403e20((float *)&((*reinterpret_cast<::SettingV *>(&::originalRuntimeFloatSetting676))));
     pkEntry->m_iArrayLength++;
@@ -3002,7 +3002,7 @@ void __cdecl FUN_0062ab60(const hkVector4V& kTarget, void* pvRef)
     reinterpret_cast<::S00458a10_Vector *>(&(kNewVelocity))->FUN_00458a10((const ::S00458a10_Vector *)&(kMotionVelocity), (const ::S00458a10_Vector *)&(kIntersectionOffset));
     hkSimdRealV kInv(1.0f / (fTime - ::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0062ab60::SettingV *>(&::originalRuntimeFloatSetting676))))));
     reinterpret_cast<::S_00627920 *>(&(kNewVelocity))->FUN_00627920((::S_00561240 *)&(kInv));
-    reinterpret_cast<::Owner *>((((::fnv_0062ab60::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((unsigned int)&(kNewVelocity));
+    reinterpret_cast<::Owner *>((((::fnv_0062ab60::MotionV *)(::FUN_004ae750((void *)(pkBody))))))->FUN_00ca85f0((uintptr_t)&(kNewVelocity));
     hkVector4V kWorldPosition;
     reinterpret_cast<::S00458a10_Vector *>(&(kWorldPosition))->FUN_00458a10((const ::S00458a10_Vector *)&(kMotionVelocity), (const ::S00458a10_Vector *)&(kIntersectionOffset));
     reinterpret_cast<::S0062aea0_Vector *>(&(kWorldPosition))->FUN_0062aea0();
@@ -3230,7 +3230,7 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
     if (reinterpret_cast<::DummyFlagsShell *>((apRef))->FUN_00621240() && (*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer)) && ((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture())) &&
         ((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4())
     {
-        xP3 DIFF = akPos - *((const ::xP3 *)(uintptr_t)(::FUN_0045bb80((int)(((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4()))));
+        xP3 DIFF = akPos - *((const ::xP3 *)(uintptr_t)(::FUN_0045bb80((intptr_t)(((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4()))));
         if (reinterpret_cast<::NiPoint3 *>((void *)&(DIFF))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc188)))))))
             RESULT = true;
         return RESULT;
@@ -3262,14 +3262,14 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
         reinterpret_cast<::S219c0 *>((CAST))->DestroyDate();
         if (EFF)
         {
-            reinterpret_cast<::FUN_00537e90 *>(&(EV.m_iWordAt00))->SetQuantity((unsigned int)EFF);
+            reinterpret_cast<::FUN_00537e90 *>(&(EV.m_iWordAt00))->SetQuantity((uintptr_t)EFF);
             reinterpret_cast<::S219c0 *>((CAST))->DestroyDate();
             reinterpret_cast<::FUN_00537e90 *>(&(EV.m_iThirdValue))->SetQuantity(reinterpret_cast<::TESPackage *>((((::xEffItem *)(reinterpret_cast<::ScriptLocals *>((CAST))->GetLocalData()))))->GetRefCount());
             reinterpret_cast<::S219c0 *>((CAST))->DestroyDate();
             reinterpret_cast<::FUN_006219f0_Class *>((BODY))->FUN_006219f0((::hkpRigidBody *)(::xVec4 *)(&POSV));
             xMotion* MOTION = ((::xMotion *)(::GetStringCStr((::Dummy_004ae6c0 *)(BODY))));
             xCastFn FN =
-                ((void (*)(xModelPtr *, xModelPtr *, xEvent *, xCollector *))(reinterpret_cast<::FUN_006218f0_Owner *>((EFF))->GetIndexedValue((intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(WMODEL))))))))), (intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(SMODEL))))))))))));
+                ((void (*)(xModelPtr *, xModelPtr *, xEvent *, xCollector *))(uintptr_t)(reinterpret_cast<::FUN_006218f0_Owner *>((EFF))->GetIndexedValue((intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(WMODEL))))))))), (intptr_t)(((::xNode *)(::fnv_0043b230::FUN_0043b230((const char *)(((::xModel *)(::FUN_00559450((int *)(SMODEL))))))))))));
             if (FN)
             {
                 float SAVED = reinterpret_cast<::FUN_00621b00_shell *>((MOTION))->FUN_00621b00();
@@ -3571,7 +3571,7 @@ bool ShapeCaster::FUN_00626b30(const NiPoint3& kFrom, const NiPoint3& kWorldPosi
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&qxQHW)), (const ::fnv_004a3e00::NiPoint3 &)(kFrom));
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&qAhbO)), (const ::fnv_004a3e00::NiPoint3 &)(qfTOqo));
         Reset2();
-        reinterpret_cast<::ScriptX *>((((::ShapePhantom *)(::FUN_00559450((int *)&(m_spWorld))))))->InvokeInterfaceCall((int)(&qxQHW), (int)(&qAhbO), (int)(this), 0);
+        reinterpret_cast<::ScriptX *>((((::ShapePhantom *)(::FUN_00559450((int *)&(m_spWorld))))))->InvokeInterfaceCall((intptr_t)(&qxQHW), (intptr_t)(&qAhbO), (intptr_t)(this), 0);
         xHitFlag qArxcFu;
         if (reinterpret_cast<::FUN_005609f0_shell *>((((::xHitRes *)(reinterpret_cast<::Hld621210 *>(this)->FUN_00621210((::Rcv621210 *)(::xHitFlag *)(&qArxcFu))))))->FUN_005609f0())
         {
@@ -3657,7 +3657,7 @@ void Main_006286f0::FUN_006286f0()
     {
         float* p28 = shape->unk28;
         float* p34 = shape->unk34;
-        unsigned int kind = ((unsigned int)(reinterpret_cast<::FUN_006288a0_Class *>((shape))->GetOffset110()));
+        uintptr_t kind = ((uintptr_t)(reinterpret_cast<::FUN_006288a0_Class *>((shape))->GetOffset110()));
         reinterpret_cast<::FUN_00628df0_class *>(this)->FUN_00628df0((::Arg1 *)(::Box_006286f0 *)(&box), (::Arg2 *)(kind), (::Arg3 *)(shape));
         reinterpret_cast<::Owner628980 *>(this)->FUN_00628980((::Filter628980 *)(::Box_006286f0 *)(&box), (::List628980 *)(p28));
         reinterpret_cast<::Owner628980 *>(this)->FUN_00628980((::Filter628980 *)(::Box_006286f0 *)(&box), (::List628980 *)(p34));
@@ -3722,7 +3722,7 @@ bool SpawnAreaB::FUN_006281d0(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkO
                                     bhkRigidBodyB* pkRigid = ((::bhkRigidBodyB *)(::FUN_00559450((int *)(pkBodies->GetAt(k)))));
                                     pkRigid->GetTransform(&kTransform);
                                     bhkShapeB* pkShape = ((::bhkShapeB *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((((::ShapeOwnerB *)(reinterpret_cast<::FUN_004ae6a0_shell *>((((::bhkRigidBodyB *)(::FUN_00559450((int *)(pkBodies->GetAt(k)))))))->FUN_004ae6a0()))))->GetReferenceFlags()));
-                                    reinterpret_cast<::FUN_006286a0_Holder *>((pkShape))->ForwardToTarget((int)(&kTransform), 0.1f, (int)(&kAabb));
+                                    reinterpret_cast<::FUN_006286a0_Holder *>((pkShape))->ForwardToTarget((intptr_t)(&kTransform), 0.1f, (intptr_t)(&kAabb));
                                 }
                                 reinterpret_cast<::S00628640_Vector *>(&(kMaxPoint))->FUN_00628640((const ::S00628640_Source *)&(kMaxPoint), (const ::S00628640_Source *)&(kAabb.m_kMaximumCorner));
                                 reinterpret_cast<::VecHolder *>(&(kMinBoundsCur))->FUN_006285e0((const void *)&(kMinBoundsCur), (const void *)&(kAabb.m_kMinimumCorner));

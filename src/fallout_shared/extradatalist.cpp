@@ -5782,17 +5782,17 @@ struct TESCreature
 {
     char pad[0x30];
     ABD_005f92d0 abd;
-    int FUN_005f92d0(int a);
+    intptr_t FUN_005f92d0(int a);
 };
 // If flag 0x100 is set, forwards a to the creature sounds object; otherwise recurses into the sound creature; returns 0 if none.
 // @fnv 0x005f92d0
-int TESCreature::FUN_005f92d0(int a)
+intptr_t TESCreature::FUN_005f92d0(int a)
 {
     if (reinterpret_cast<::TESActorBaseData *>((void *)&(abd))->GetFlag(0x100))
     {
         CS_005f92d0* psounds = ((::CS_005f92d0 *)(reinterpret_cast<::FUN_005f91d0_shell *>(this)->FUN_005f91d0()));
         if (psounds)
-            return ((int)(reinterpret_cast<::FUN_005f0a30_shell *>((psounds))->GetRandomCreatureSound((::CREATURE_SOUND_TYPE)(a))));
+            return ((intptr_t)(reinterpret_cast<::FUN_005f0a30_shell *>((psounds))->GetRandomCreatureSound((::CREATURE_SOUND_TYPE)(a))));
     }
     else
     {

@@ -3308,10 +3308,10 @@ struct BSAudioManager
 };
 struct FUN_00ad8570_S
 {
-    void FUN_00ad8570(int a, float b, int c);
+    void FUN_00ad8570(intptr_t a, float b, int c);
 };
 // @fnv 0x00ad8570
-void FUN_00ad8570_S::FUN_00ad8570(int a, float b, int c)
+void FUN_00ad8570_S::FUN_00ad8570(intptr_t a, float b, int c)
 {
     reinterpret_cast<::fnv_00adb690::FUN_00adb690_cls *>((((::BSAudioManager *)(::FUN_00ad9060()))))->FUN_00adb690((::fnv_00adb690::NiRefObject_audio *)(a), b, c);
 }

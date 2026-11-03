@@ -595,7 +595,7 @@ void FUN_00564d20_Class::SetFlag100000(unsigned char abSet)
             flags |= 0x100000;
         else
             flags &= 0xffefffff;
-        reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(flags));
+        reinterpret_cast<::TESRegionGrassObject *>((reinterpret_cast<TESObjectREFR*>(this)))->AssignLandTexture((::TESLandTexture *)(uintptr_t)(flags));
     }
 }
 
@@ -634,7 +634,7 @@ BGSEncounterZone* ActorS::FUN_00567d90()
         return reinterpret_cast<::TESObjectCELL *>((void *)((*(TESWorldSpace**)((char*)this + 0x40))))->FindEncounterZone();
     TESWorldSpace* ws = ((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(this)->FUN_00575d70()));
     if (ws != 0)
-        return (BGSEncounterZone*)((FUN_00458400_cls*)ws)->GetFieldD0();
+        return (BGSEncounterZone*)(uintptr_t)((FUN_00458400_cls*)ws)->GetFieldD0();
     return 0;
 }
 
@@ -1069,13 +1069,21 @@ int* FUN_0057c470Class::FUN_0057c470(int a)
 // @fnv 0x0057c7e0
 int* FUN_0057c7e0_Class::InitArray(int count)
 {
+    struct Layout
+    {
+        int* m_piVtbl;
+        int m_iCount;
+        void* m_pData;
+        int m_iUnk0c;
+    };
+    Layout* self = reinterpret_cast<Layout*>(this);
     unsigned int uiByteCount;
-    *(int**)((char*)this + 0) = &DAT_01030fb4;
-    *(int*)((char*)this + 4) = count;
-    *(int*)((char*)this + 0xc) = 0;
-    uiByteCount = *(unsigned int*)((char*)this + 4) << 2;
-    *(int*)((char*)this + 8) = (int)::FUN_00aa1070(uiByteCount);
-    ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(unsigned int*)((char*)this + 4) << 2);
+    self->m_piVtbl = &DAT_01030fb4;
+    self->m_iCount = count;
+    self->m_iUnk0c = 0;
+    uiByteCount = (unsigned int)self->m_iCount << 2;
+    self->m_pData = ::FUN_00aa1070(uiByteCount);
+    ::FUN_00403d30(self->m_pData, 0, (unsigned int)self->m_iCount << 2);
     return (int*)this;
 }
 
@@ -1155,7 +1163,7 @@ void FUN_0057cb20_Class::FUN_0057cb20(intptr_t pTarget)
     reinterpret_cast<::FUN_00621c90_Class *>((this))->FUN_00626870();
     if (!(m_8 & 0x80000000))
     {
-        reinterpret_cast<::FUN_0057cc10_Cls *>((((FUN_0057cc10_Class*)pTarget)))->FUN_0057cc10((intptr_t)(m_iWordAt00), (intptr_t)(((void *)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()))));
+        reinterpret_cast<::FUN_0057cc10_Cls *>((((FUN_0057cc10_Class*)pTarget)))->FUN_0057cc10((intptr_t)(m_iWordAt00), (intptr_t)(reinterpret_cast<::fnv_0062a100::FUN_0062a100_shell *>((((H_A100*)this)))->GetSizeMasked()));
     }
     m_iWordAt00 = 0;
     m_8 = 0x80000000;
@@ -1203,7 +1211,7 @@ void FUN_00568f30_shell::FUN_00568f30()
     {
         FUN_004534f0_shell* form = *(FUN_004534f0_shell**)((char*)portal + 0xc);
         if (form)
-            form->FUN_004534f0((unsigned int)this);
+            form->FUN_004534f0((uintptr_t)this);
         reinterpret_cast<::FUN_0042e730_cls *>((((FUN_0042dec0_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)this)))->FUN_005d43c0())))))->FUN_0042e730();
     }
     (*(void(**)(void*, unsigned int))(*(void***)this + 0x13))(this, 0x20000);
@@ -1705,7 +1713,7 @@ void __cdecl FUN_00563380(bhkCollisionObject_563380* collObj, Param_563380* para
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer2))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&rot2), 0x10);
             }
             reinterpret_cast<::S00561150_Object *>((aBody))->FUN_00561150((const ::S00561150_Source *)&(rot2));
-            reinterpret_cast<::FUN_005610f0_cls *>((aBody))->FUN_005610f0((int)&(pos4));
+            reinterpret_cast<::FUN_005610f0_cls *>((aBody))->FUN_005610f0((intptr_t)&(pos4));
             bool setVel4 = false;
             if (data7->flags & 1)
                 setVel4 = true;
@@ -1724,7 +1732,7 @@ void __cdecl FUN_00563380(bhkCollisionObject_563380* collObj, Param_563380* para
                 Vec3_563380 angularVelocity;
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer2))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&linVel), 0xc);
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer2))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&angularVelocity), 0xc);
-                reinterpret_cast<::Owner5615 *>((aBody))->FUN_005615d0((int)&(linVel));
+                reinterpret_cast<::Owner5615 *>((aBody))->FUN_005615d0((intptr_t)&(linVel));
                 reinterpret_cast<::bhkCharacterController *>((aBody))->FUN_00561630((const ::NiPoint3 &)(angularVelocity));
                 reinterpret_cast<::fnv_00561580::FUN_00561580_Class *>((aBody))->FUN_00561580(true);
             }
@@ -1813,7 +1821,7 @@ bool Ref563530::FUN_00563530()
     for (unsigned int i = 0; i < ItemUpdateArray; i++)
     {
         NiControllerSequence* pForwardSequence = reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((pManager))->FUN_00495d20(i);
-        if (((int)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())))
+        if (((int)(uintptr_t)(reinterpret_cast<::LowProcess *>((pForwardSequence))->GetActiveCombatTarget())))
         {
             if (::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), ((const char *)::DAT_011977d8)) && ::FUN_00404dc0((*(::NiFixedString *)(reinterpret_cast<::TESTopicInfoData *>((pForwardSequence))->GetLinkToList())), ((const char *)::DAT_01197820)))
                 return true;
@@ -2575,7 +2583,7 @@ void SceneSounds57::FUN_0057a410(NiAVObject* object, bool stop)
     if (::FUN_0043b300(&(*reinterpret_cast<::NiRTTI *>(&::g_01202de8)), object))
     {
         NiAVObject* soundObject = object;
-        SoundRecord57* record = ((::SoundRecord57 *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundLookup57 * *>(&::g_dataHandler))))->GetAddonNodeByIndex((unsigned int)(((const char *)(::FUN_009ee040((char *)(soundObject))))))));
+        SoundRecord57* record = ((::SoundRecord57 *)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::SoundLookup57 * *>(&::g_dataHandler))))->GetAddonNodeByIndex((unsigned int)(::FUN_009ee040((char *)(soundObject))))));
         if (record && ((::Sound57 *)(reinterpret_cast<::FUN_006a1b60_Class *>((record))->GetField54())))
         {
             NiPointer<FUN_004f91b0> extra(((::FUN_004f91b0 *)(object->GetExtraData(FUN_004f9230()))));
@@ -2978,7 +2986,7 @@ struct FUN_00576870_class
 void* FUN_00576830_shell::FUN_00576830(BSOcclusionPlane* apOcclusionPlane)
 {
     return *(FUN_00576870_class**)((char*)this + 4)
-               ? ((void *)(reinterpret_cast<::FUN_00576870_cls *>(((*(FUN_00576870_class**)((char*)this + 4))))->FUN_00576870((int)(apOcclusionPlane))))
+               ? ((void *)(reinterpret_cast<::FUN_00576870_cls *>(((*(FUN_00576870_class**)((char*)this + 4))))->FUN_00576870((intptr_t)(apOcclusionPlane))))
                : 0;
 }
 

@@ -1627,7 +1627,7 @@ unsigned char FUN_00871a10()
 }  // namespace fnv_00871a10
 
 // @fnv 0x00871a30
-int FUN_00871a30(int param_1)
+intptr_t FUN_00871a30(intptr_t param_1)
 {
     return param_1 + 0x88;
 }

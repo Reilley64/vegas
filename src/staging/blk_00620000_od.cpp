@@ -1637,12 +1637,12 @@ struct FUN_006286a0_Holder
     virtual void d4();
     virtual void d5();
     virtual void d6();
-    virtual void Target(int a, float b, int c);
-    void ForwardToTarget(int a, float b, int c);
+    virtual void Target(intptr_t a, float b, intptr_t c);
+    void ForwardToTarget(intptr_t a, float b, intptr_t c);
 };
 // Calls the virtual Target method on this object, forwarding the three arguments unchanged.
 // @fnv 0x006286a0
-void FUN_006286a0_Holder::ForwardToTarget(int aiArg, float afArg, int aiArg2)
+void FUN_006286a0_Holder::ForwardToTarget(intptr_t aiArg, float afArg, intptr_t aiArg2)
 {
     Target(aiArg, afArg, aiArg2);
 }

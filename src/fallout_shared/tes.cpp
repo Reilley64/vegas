@@ -976,10 +976,10 @@ int FUN_00453470_shell::FUN_00453470(void)
 
 struct FUN_004534f0_shell
 {
-    void FUN_004534f0(unsigned int);
+    void FUN_004534f0(uintptr_t);
 };
 // @fnv 0x004534f0
-void FUN_004534f0_shell::FUN_004534f0(unsigned int)
+void FUN_004534f0_shell::FUN_004534f0(uintptr_t)
 {}
 
 struct FUN_00453500_shell

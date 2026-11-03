@@ -2301,10 +2301,10 @@ struct AlignedLocal5615
 };
 struct Owner5615
 {
-    void FUN_005615d0(int value);
+    void FUN_005615d0(intptr_t value);
 };
 // @fnv 0x005615d0
-void Owner5615::FUN_005615d0(int value)
+void Owner5615::FUN_005615d0(intptr_t value)
 {
     AlignedLocal5615 local;
     reinterpret_cast<::S *>(this)->FUN_00561690((std::intptr_t)(((void *)&(::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&local)), (*(const ::fnv_004a3e00::NiPoint3 *)(value)))))));

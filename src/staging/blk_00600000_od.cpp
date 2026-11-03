@@ -87,7 +87,7 @@ FUN_00600b00_shell::~FUN_00600b00_shell()
 extern int DAT_0104a068;
 struct FUN_00600d10_class
 {
-    int m_vft;
+    int* m_vft;
     void FUN_00601000(int a, int b);
     FUN_00600d10_class(int a, int b);
 };
@@ -333,15 +333,15 @@ extern int DAT_0104d948;
 struct FUN_0061fa10_class
 {
     void FUN_0061fa70(int);
-    int FUN_0061fa10(int a);
+    void* FUN_0061fa10(int a);
 };
 // Calls FUN_0061fa70 with a, stores the address of DAT_0104d948 at this, and returns this.
 // @fnv 0x0061fa10
-int FUN_0061fa10_class::FUN_0061fa10(int a)
+void* FUN_0061fa10_class::FUN_0061fa10(int a)
 {
     FUN_0061fa70(a);
     *reinterpret_cast<void**>(this) = &DAT_0104d948;
-    return reinterpret_cast<int>(this);
+    return this;
 }
 
 extern int DAT_0104a0b0;
@@ -788,12 +788,20 @@ struct FUN_0061fa70_class
 // @fnv 0x0061fa70
 void* FUN_0061fa70_class::FUN_0061fa70(int aiCount)
 {
-    *reinterpret_cast<void**>(this) = &DAT_0104d968;
-    reinterpret_cast<int*>(this)[1] = aiCount;
-    reinterpret_cast<int*>(this)[3] = 0;
-    unsigned int iAllocationSize = (unsigned int)reinterpret_cast<int*>(this)[1] << 2;
-    reinterpret_cast<int*>(this)[2] = (int)::FUN_00aa1070(iAllocationSize);
-    memset((void*)reinterpret_cast<int*>(this)[2], 0, (unsigned int)reinterpret_cast<int*>(this)[1] << 2);
+    struct Layout
+    {
+        void* m_pVtbl;
+        int m_iCount;
+        void* m_pData;
+        int m_iUnk0c;
+    };
+    Layout* self = reinterpret_cast<Layout*>(this);
+    self->m_pVtbl = &DAT_0104d968;
+    self->m_iCount = aiCount;
+    self->m_iUnk0c = 0;
+    unsigned int iAllocationSize = (unsigned int)self->m_iCount << 2;
+    self->m_pData = ::FUN_00aa1070(iAllocationSize);
+    memset(self->m_pData, 0, (unsigned int)self->m_iCount << 2);
     return this;
 }
 }  // namespace fnv_0061fa70
@@ -831,7 +839,7 @@ struct FUN_00601000
 FUN_00600d10_class::FUN_00600d10_class(int aiArg1, int aiArg2)
 {
     new ((void *)this) ::FUN_00601000(aiArg1, aiArg2);
-    m_vft = (int)&DAT_0104a068;
+    m_vft = &DAT_0104a068;
 }
 // Sets the vtable, stores x and y, zeroes c and b, and allocates a elements into p when a is positive, otherwise p is null.
 // @fnv 0x00601000
@@ -2169,7 +2177,7 @@ bool VFDialogue::BuildVoiceFilePath(VFForm* apSpeaker, void* apTopic, void* apQu
             VFVoiceOwner* pOwner4 = ((::VFVoiceOwner *)(::FUN_00617270((::TESForm *)(apSpeaker))));
             if (!pOwner4)
                 return false;
-            pVoice4 = ((::VFVoiceType *)(reinterpret_cast<::FUN_00604780_shell *>((pOwner4))->FUN_00604780(0)));
+            pVoice4 = ((::VFVoiceType *)(uintptr_t)(reinterpret_cast<::FUN_00604780_shell *>((pOwner4))->FUN_00604780(0)));
         }
     }
     if (!pVoice4)

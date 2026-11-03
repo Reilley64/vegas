@@ -1449,14 +1449,18 @@ float __cdecl GetActorValueScaledSetting(ActorValueOwner* apActorValueOwner)
 
 struct S_0064dac0
 {
-    int FUN_0064dac0(int, int);
+    char pad00[0x50];
+    char* m_pcBase;
+    char pad54[8];
+    int* m_piPitches;
+    int m_iLevel;
+    intptr_t FUN_0064dac0(int, int);
 };
 // Returns the value at this+0x50 plus b times the element at index this+0x60 of the array at this+0x5C, plus the element at index a of that array.
 // @fnv 0x0064dac0
-int S_0064dac0::FUN_0064dac0(int a, int b)
+intptr_t S_0064dac0::FUN_0064dac0(int a, int b)
 {
-    return *(int*)((char*)this + 0x50) + b * *(int*)(*(int*)((char*)this + 0x5C) + *(int*)((char*)this + 0x60) * 4) +
-           *(int*)(*(int*)((char*)this + 0x5C) + a * 4);
+    return (intptr_t)(m_pcBase + b * m_piPitches[m_iLevel] + m_piPitches[a]);
 }
 
 struct FUN_0064db20_Class

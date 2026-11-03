@@ -130,7 +130,7 @@ struct FUN_00456a60_class
 // @fnv 0x005b9220
 bool FUN_005b9220()
 {
-    reinterpret_cast<::fnv_00456a60::S_456a60 *>((((FUN_00456a60_class*)g_TES)))->FUN_00456a60();
+    reinterpret_cast<::fnv_00456a60::S_456a60 *>((*reinterpret_cast<FUN_00456a60_class **>(&g_TES)))->FUN_00456a60();
     return true;
 }
 
@@ -142,7 +142,7 @@ struct FUN_00456a60_Class
 char __cdecl FUN_005b9240()
 {
     (*reinterpret_cast<char *>(&::g_bC11F0Debug)) = 1;
-    reinterpret_cast<::fnv_00456a60::S_456a60 *>((((FUN_00456a60_Class*)(int)g_TES)))->FUN_00456a60();
+    reinterpret_cast<::fnv_00456a60::S_456a60 *>((*reinterpret_cast<FUN_00456a60_Class **>(&g_TES)))->FUN_00456a60();
     (*reinterpret_cast<char *>(&::g_bC11F0Debug)) = 0;
     return 1;
 }
@@ -228,10 +228,10 @@ struct FUN_005a8e20_cls
 // @fnv 0x005a8ef0
 char FUN_005a8e20_cls::FUN_005a8ef0(intptr_t param_2, int param_3)
 {
-    int result = ((int)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
+    char* result = ((char *)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
     if (!result)
         reinterpret_cast<::fnv_005a8d20::FUN_005a8d20_shell *>(this)->AttachScriptLocals((::ScriptLocals *)(void *)((void*)param_2));
-    else if (*(int*)((char*)result + 4) & param_3)
+    else if (*(int*)(result + 4) & param_3)
         return 1;
     return 0;
 }
@@ -263,7 +263,7 @@ bool __cdecl FUN_005bac20()
 {
     if ((unsigned int)(*reinterpret_cast<::fnv_005bac20::Flt *>(&::g_011c786c)) == 0)
         return false;
-    return 0 < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((NiNode*)(unsigned int)(*reinterpret_cast<::fnv_005bac20::Flt *>(&::g_011c786c)))))->FUN_00453470()));
+    return 0 < ((unsigned int)(uintptr_t)(reinterpret_cast<::FUN_00453470_shell *>((*reinterpret_cast<NiNode **>(&::g_011c786c)))->FUN_00453470()));
 }
 }  // namespace fnv_005bac20
 
@@ -540,8 +540,8 @@ void CopyForm::CopyFrom(void* apSource)
         iter = ((::fnv_005a8660::CopyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     reinterpret_cast<::TESRecipe *>(this)->SetRequiredSkill((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((source3))->GetCurrentMoveModeType()))));
-    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(((int)(reinterpret_cast<::FUN_0045cd60_shell *>((source3))->FUN_0045cd60())));
-    reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54(((int)(reinterpret_cast<::FUN_006a1b60_Class *>((source3))->GetField54())));
+    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((source3))->FUN_0045cd60())));
+    reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54(((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((source3))->GetField54())));
     reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType(reinterpret_cast<::LowProcess *>((source3))->GetPackageObjectType());
 }
 }  // namespace fnv_005a8660
@@ -572,13 +572,13 @@ bool SubChallenge::IsNotEqual(void* input)
     SubChallenge* other = (SubChallenge*)FUN_00ec43fb(input, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_011864b0, 0);
     if (!other)
         return true;
-    if (((int)(reinterpret_cast<::FUN_006a1b60_Class *>(this)->GetField54())) != ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((other))->GetField54())))
+    if (((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>(this)->GetField54())) != ((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((other))->GetField54())))
         return true;
     if (reinterpret_cast<::LowProcess *>(this)->GetPackageObjectType() != reinterpret_cast<::LowProcess *>((other))->GetPackageObjectType())
         return true;
     if (reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType() != reinterpret_cast<::ActorMover *>((other))->GetCurrentMoveModeType())
         return true;
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) != ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((other))->FUN_0045cd60())))
+    if (((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) != ((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((other))->FUN_0045cd60())))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(other)))
         return true;

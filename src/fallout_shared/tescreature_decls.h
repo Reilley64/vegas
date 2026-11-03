@@ -127,7 +127,8 @@ class TESActorBaseData
     virtual void D20();
     virtual void D21();
     virtual int GetBloodImpactMaterial();
-    unsigned char componentLayout[0x30];
+    unsigned int uiFlags;
+    unsigned char componentLayout[0x2c];
     bool GetFlag(unsigned int flag) const;
 public:
     unsigned short GetFatigue() const;

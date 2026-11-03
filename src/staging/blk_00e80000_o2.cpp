@@ -3,6 +3,17 @@
 // (128 KB address window, o2 code style). Not a real source path: move functions to their real units once identified.
 
 #include <cstdint>
+#include <d3d9.h>
+#include "fnv/decl/FUN_00e68830.h"
+#include "fnv/decl/NiD3DTextureData.h"
+#include "fnv/symbols_00e6e000.h"
+#include "fnv/symbols_00e83000.h"
+#include "fnv/symbols_00e94000.h"
+#include "fnv/symbols_00e97000.h"
+#include "fnv/symbols_00e98000.h"
+#include "fnv/symbols_00e9c000.h"
+#include "fnv/symbols_00e9e000.h"
+#include <cstddef>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -65,7 +76,8 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_0126f000.h"
-#include "../../include/layout_support.h"
+
+extern volatile long DAT_011f4400;
 
 struct FUN_00e87a40_This {
     void FUN_00e87a40();
@@ -456,7 +468,6 @@ void ClearFields(void* self)
     *(int*)((char*)self + 0xac) = 0;
 }
 
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
 struct FUN_00e89560_Class {
     void* m_ptr;
     void* m_obj;
@@ -1097,6 +1108,8 @@ void* FUN_00e8ce70_Class::FUN_00e8ce70(int flag)
     return this;
 }
 
+struct ShaderManagerRelease093 { void FUN_00e8ceb0(); };
+
 struct FUN_00e8ceb0_Class {
     void* FUN_00e8d200(bool flag);
 };
@@ -1716,13 +1729,16 @@ public:
     const char* m_kHandle;
 };
 
-class NiRefObjectE81 {
-public:
-    virtual ~NiRefObjectE81() throw() { InterlockedDecrement(&ms_lObjectCount); }
+class NiRefObjectE81
+{
+  public:
+    virtual ~NiRefObjectE81() throw()
+    {
+        InterlockedDecrement(&DAT_011f4400);
+    }
 
     unsigned int m_uiRefCount;
 
-    static long ms_lObjectCount;
 };
 
 class FUN_00e81c00 : public NiRefObjectE81 {
@@ -6742,9 +6758,7 @@ void* ScalarDeletingObject::DestroyScalarObject(unsigned char flags) {
     return this;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void*);
 extern int DAT_010ef73c;
-extern volatile long DAT_011f4400;
 struct ReleaseInterface {
     virtual void GetType();
     virtual void GetFlags();
@@ -8627,7 +8641,6 @@ void Target::FUN_00e8b630() {
 
 extern int DAT_010efdd8;
 extern int DAT_010efdf8;
-extern "C" void* __cdecl FUN_00aa1070(unsigned int);
 struct Observer {
     virtual void Slot0();
     virtual void Slot1();
@@ -8877,9 +8890,14 @@ struct ComStub {
     virtual unsigned long Release();
 };
 
-struct RefObjStub {
+struct RefObjStub
+{
     unsigned int m_uiRefCount;
-    RefObjStub() { m_uiRefCount = 0; InterlockedIncrement(&DAT_011f4400); }
+    RefObjStub()
+    {
+        m_uiRefCount = 0;
+        InterlockedIncrement(&DAT_011f4400);
+    }
     virtual void DeleteThis();
 };
 
@@ -8904,13 +8922,7 @@ struct MapStub : MapBaseStub {
     virtual void MapV1();
 };
 
-struct CritSecStub {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
+struct CritSecStub : CRITICAL_SECTION {
 };
 
 struct FUN_00e8d0e0 : RefObjStub {
@@ -9064,7 +9076,7 @@ static inline unsigned int& NextKey_b5254(ListNode_b5254*& pos) {
 // Searches the linked list for key; if absent, allocates a node, sets its key and links it at the tail (or as head when the list is empty).
 // @fnv 0x00e91d50
 void AddKeyToList(unsigned int key) {
-    ListNode_b5254* cur = DAT_0126f0f8;
+    ListNode_b5254* cur = static_cast<ListNode_b5254*>(DAT_0126f0f8);
     ListNode_b5254* pFound = 0;
     if (cur != 0) {
         do {
@@ -9948,7 +9960,6 @@ f20=1.0f; return true;
 } return false;
 }
 
-extern "C" void __cdecl FUN_00aa10f0(void* p);
 extern int DAT_010f0ef0;
 
 struct FUN_00e93540_Node {
@@ -10188,7 +10199,7 @@ void FUN_00e89840_Class::FUN_00e89840()
     if (m_20 != 0) m_20->Release();
     m_20 = 0;
     m_ppVirtualMethodTable = &DAT_0101dce4;
-    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedDecrement(&DAT_011f4400);
 }
 
 class NiProperty : public NiRefObject {
@@ -11377,7 +11388,7 @@ struct ThisObj {
     int unk50; int unk54; int unk58; int unk5c;
     int unk60; int unk64; int unk68; int unk6c;
     int unk70; int unk74; int unk78; int unk7c;
-    SixIntegerRecord kLock;
+    CRITICAL_SECTION kLock;
     VBEntry* FUN_00e8c570(C_00e8f010* owner, unsigned short count, const TwoComponentVector* pos, const float* col, const unsigned int* uv, unsigned int streamFlags, VBEntry* existing, void* data);
 };
 // @fnv 0x00e8c570
@@ -11854,7 +11865,6 @@ struct FUN_00e93470_Class {
     unsigned char m_copyText;
     void FUN_00e93470(FUN_00e93470_Output* out, const char* text, unsigned int data);
 };
-extern "C" void* __cdecl FUN_00aa1070(unsigned int length);
 extern "C" void __cdecl FUN_00ec65a6(void* destination, unsigned int length, const char* source);
 
 // @fnv 0x00e93470
@@ -11874,7 +11884,7 @@ void FUN_00e93470_Class::FUN_00e93470(FUN_00e93470_Output* out, const char* text
 struct RefBaseE989 {
     unsigned int m_uiRefCount;
     RefBaseE989() : m_uiRefCount(0) {}
-    virtual ~RefBaseE989() { InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount))); }
+    virtual ~RefBaseE989() { InterlockedDecrement(&DAT_011f4400); }
 };
 struct ComReleaseE989 {
     virtual long QueryInterface(void* riid, void** out);
@@ -12775,31 +12785,6 @@ void FUN_00e88b00_Class::FUN_00e88b00()
 }  // namespace fnv_00e88b00
 
 namespace fnv_00e8aa70 {
-#include <d3d9.h>
-#include "fnv/decl/FUN_00e68830.h"
-#include "fnv/decl/NiD3DTextureData.h"
-#include "fnv/symbols_00e6e000.h"
-#include "fnv/symbols_00e83000.h"
-#include "fnv/symbols_00e94000.h"
-#include "fnv/symbols_00e97000.h"
-#include "fnv/symbols_00e98000.h"
-#include "fnv/symbols_00e9c000.h"
-#include "fnv/symbols_00e9e000.h"
-#include "fnv/decl/FUN_00e68830.h"
-#include "fnv/symbols_00e83000.h"
-#include "fnv/symbols_00e94000.h"
-#include "fnv/symbols_00e97000.h"
-#include "fnv/symbols_00e98000.h"
-#include "fnv/symbols_00e9c000.h"
-#include "fnv/symbols_00e9e000.h"
-#include <cstddef>
-#include "fnv/decl/FUN_00e68830.h"
-#include "fnv/symbols_00e83000.h"
-#include "fnv/symbols_00e94000.h"
-#include "fnv/symbols_00e97000.h"
-#include "fnv/symbols_00e98000.h"
-#include "fnv/symbols_00e9c000.h"
-#include "fnv/symbols_00e9e000.h"
 
 
 extern char DAT_010efcf0[];
@@ -14579,7 +14564,7 @@ FUN_00e98910_Class::FUN_00e98910(int* context) {
     this->unk00 = &DAT_0101dce4;
     this->unk04 = 0;
 
-    InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedIncrement(&DAT_011f4400);
 
     this->unk00 = &DAT_010f16cc;
     this->unk08 = 0;
@@ -14627,7 +14612,6 @@ FUN_00e98910_Class::FUN_00e98910(int* context) {
 }
 
 extern "C" void __cdecl NiFree(void*);
-extern "C" void __cdecl FUN_00aa1490(void*, unsigned int);
 
 struct E895A0_Sdo {
     void FUN_00e89560();
@@ -14673,7 +14657,7 @@ extern unsigned char kVtbl_NiDX9IndexBufferManager;
 class NiRefObject2
 {
 public:
-    virtual ~NiRefObject2() { InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount))); }
+    virtual ~NiRefObject2() { InterlockedDecrement(&DAT_011f4400); }
     virtual void DeleteThis();
 
     unsigned int m_uiRefCount;
@@ -15112,1272 +15096,24 @@ void __cdecl FreeNodeList();
 
 void FUN_00e92080();
 
-// VEGAS17-CONFLICT: FUN_00e81b60_Class (variant definition below differs from the one above)
-struct FUN_00e81b60_Class {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int m_uiEdgeIndex[3];
-    FUN_00e81b60_Entry* m_entries[3];
-
-    int LookupEntry(unsigned int a, unsigned int b, int c, int d);
-};
 
 char FUN_00e88ac0(void* self);
 
-// VEGAS17-CONFLICT: FUN_00e89ae0_cls (variant definition below differs from the one above)
-struct FUN_00e89ae0_cls {
-    int unk0000; int unk0004; int unk0008; int unk000C; int unk0010; int unk0014; int unk0018; int unk001C; int unk0020; int unk0024; int unk0028; int unk002C;
-    int unk0030; int unk0034; int unk0038; int unk003C; int unk0040; int unk0044; int unk0048; int unk004C; int unk0050; int unk0054; int unk0058; int unk005C;
-    int unk0060; int unk0064; int unk0068; int unk006C; int unk0070; int unk0074; int unk0078; int unk007C; int unk0080; int unk0084; int unk0088; int unk008C;
-    int unk0090; int unk0094; int unk0098; int unk009C; int unk00A0; int unk00A4; int unk00A8; int unk00AC; int unk00B0; int unk00B4; int unk00B8; int unk00BC;
-    int unk00C0; int unk00C4; int unk00C8; int unk00CC; int unk00D0; int unk00D4; int unk00D8; int unk00DC; int unk00E0; int unk00E4; int unk00E8; int unk00EC;
-    int unk00F0; int unk00F4; int unk00F8; int unk00FC; int unk0100; int unk0104; int unk0108; int unk010C; int unk0110; int unk0114; int unk0118; int unk011C;
-    int unk0120; int unk0124; int unk0128; int unk012C; int unk0130; int unk0134; int unk0138; int unk013C; int unk0140; int unk0144; int unk0148; int unk014C;
-    int unk0150; int unk0154; int unk0158; int unk015C; int unk0160; int unk0164; int unk0168; int unk016C; int unk0170; int unk0174; int unk0178; int unk017C;
-    int unk0180; int unk0184; int unk0188; int unk018C; int unk0190; int unk0194; int unk0198; int unk019C; int unk01A0; int unk01A4; int unk01A8; int unk01AC;
-    int unk01B0; int unk01B4; int unk01B8; int unk01BC; int unk01C0; int unk01C4; int unk01C8; int unk01CC; int unk01D0; int unk01D4; int unk01D8; int unk01DC;
-    int unk01E0; int unk01E4; int unk01E8; int unk01EC; int unk01F0; int unk01F4; int unk01F8; int unk01FC; int unk0200; int unk0204; int unk0208; int unk020C;
-    int unk0210; int unk0214; int unk0218; int unk021C; int unk0220; int unk0224; int unk0228; int unk022C; int unk0230; int unk0234; int unk0238; int unk023C;
-    int unk0240; int unk0244; int unk0248; int unk024C; int unk0250; int unk0254; int unk0258; int unk025C; int unk0260; int unk0264; int unk0268; int unk026C;
-    int unk0270; int unk0274; int unk0278; int unk027C; int unk0280; int unk0284; int unk0288; int unk028C; int unk0290; int unk0294; int unk0298; int unk029C;
-    int unk02A0; int unk02A4; int unk02A8; int unk02AC; int unk02B0; int unk02B4; int unk02B8; int unk02BC; int unk02C0; int unk02C4; int unk02C8; int unk02CC;
-    int unk02D0; int unk02D4; int unk02D8; int unk02DC; int unk02E0; int unk02E4; int unk02E8; int unk02EC; int unk02F0; int unk02F4; int unk02F8; int unk02FC;
-    int unk0300; int unk0304; int unk0308; int unk030C; int unk0310; int unk0314; int unk0318; int unk031C; int unk0320; int unk0324; int unk0328; int unk032C;
-    int unk0330; int unk0334; int unk0338; int unk033C; int unk0340; int unk0344; int unk0348; int unk034C; int unk0350; int unk0354; int unk0358; int unk035C;
-    int unk0360; int unk0364; int unk0368; int unk036C; int unk0370; int unk0374; int unk0378; int unk037C; int unk0380; int unk0384; int unk0388; int unk038C;
-    int unk0390; int unk0394; int unk0398; int unk039C; int unk03A0; int unk03A4; int unk03A8; int unk03AC; int unk03B0; int unk03B4; int unk03B8; int unk03BC;
-    int unk03C0; int unk03C4; int unk03C8; int unk03CC; int unk03D0; int unk03D4; int unk03D8; int unk03DC; int unk03E0; int unk03E4; int unk03E8; int unk03EC;
-    int unk03F0; int unk03F4; int unk03F8; int unk03FC; int unk0400; int unk0404; int unk0408; int unk040C; int unk0410; int unk0414; int unk0418; int unk041C;
-    int unk0420; int unk0424; int unk0428; int unk042C; int unk0430; int unk0434; int unk0438; int unk043C; int unk0440; int unk0444; int unk0448; int unk044C;
-    int unk0450; int unk0454; int unk0458; int unk045C; int unk0460; int unk0464; int unk0468; int unk046C; int unk0470; int unk0474; int unk0478; int unk047C;
-    int unk0480; int unk0484; int unk0488; int unk048C; int unk0490; int unk0494; int unk0498; int unk049C; int unk04A0; int unk04A4; int unk04A8; int unk04AC;
-    int unk04B0; int unk04B4; int unk04B8; int unk04BC; int unk04C0; int unk04C4; int unk04C8; int unk04CC; int unk04D0; int unk04D4; int unk04D8; int unk04DC;
-    int unk04E0; int unk04E4; int unk04E8; int unk04EC; int unk04F0; int unk04F4; int unk04F8; int unk04FC; int unk0500; int unk0504; int unk0508; int unk050C;
-    int unk0510; int unk0514; int unk0518; int unk051C; int unk0520; int unk0524; int unk0528; int unk052C; int unk0530; int unk0534; int unk0538; int unk053C;
-    int unk0540; int unk0544; int unk0548; int unk054C; int unk0550; int unk0554; int unk0558; int unk055C; int unk0560; int unk0564; int unk0568; int unk056C;
-    int unk0570; int unk0574; int unk0578; int unk057C; int unk0580; int unk0584; int unk0588; int unk058C; int unk0590; int unk0594; int unk0598; int unk059C;
-    int unk05A0; int unk05A4; int unk05A8; int unk05AC; int unk05B0; int unk05B4; int unk05B8; int unk05BC; int unk05C0; int unk05C4; int unk05C8; int unk05CC;
-    int unk05D0; int unk05D4; int unk05D8; int unk05DC; int unk05E0; int unk05E4; int unk05E8; int unk05EC; int unk05F0; int unk05F4; int unk05F8; int unk05FC;
-    int unk0600; int unk0604; int unk0608; int unk060C; int unk0610; int unk0614; int unk0618; int unk061C; int unk0620; int unk0624; int unk0628; int unk062C;
-    int unk0630; int unk0634; int unk0638; int unk063C; int unk0640; int unk0644; int unk0648; int unk064C; int unk0650; int unk0654; int unk0658; int unk065C;
-    int unk0660; int unk0664; int unk0668; int unk066C; int unk0670; int unk0674; int unk0678; int unk067C; int unk0680; int unk0684; int unk0688; int unk068C;
-    int unk0690; int unk0694; int unk0698; int unk069C; int unk06A0; int unk06A4; int unk06A8; int unk06AC; int unk06B0; int unk06B4; int unk06B8; int unk06BC;
-    int unk06C0; int unk06C4; int unk06C8; int unk06CC; int unk06D0; int unk06D4; int unk06D8; int unk06DC; int unk06E0; int unk06E4; int unk06E8; int unk06EC;
-    int unk06F0; int unk06F4; int unk06F8; int unk06FC; int unk0700; int unk0704; int unk0708; int unk070C; int unk0710; int unk0714; int unk0718; int unk071C;
-    int unk0720; int unk0724; int unk0728; int unk072C; int unk0730; int unk0734; int unk0738; int unk073C; int unk0740; int unk0744; int unk0748; int unk074C;
-    int unk0750; int unk0754; int unk0758; int unk075C; int unk0760; int unk0764; int unk0768; int unk076C; int unk0770; int unk0774; int unk0778; int unk077C;
-    int unk0780; int unk0784; int unk0788; int unk078C; int unk0790; int unk0794; int unk0798; int unk079C; int unk07A0; int unk07A4; int unk07A8; int unk07AC;
-    int unk07B0; int unk07B4; int unk07B8; int unk07BC; int unk07C0; int unk07C4; int unk07C8; int unk07CC; int unk07D0; int unk07D4; int unk07D8; int unk07DC;
-    int unk07E0; int unk07E4; int unk07E8; int unk07EC; int unk07F0; int unk07F4; int unk07F8; int unk07FC; int unk0800; int unk0804; int unk0808; int unk080C;
-    int unk0810; int unk0814; int unk0818; int unk081C; int unk0820; int unk0824; int unk0828; int unk082C; int unk0830; int unk0834; int unk0838; int unk083C;
-    int unk0840; int unk0844; int unk0848; int unk084C; int unk0850; int unk0854; int unk0858; int unk085C; int unk0860; int unk0864; int unk0868; int unk086C;
-    int unk0870; int unk0874; int unk0878; int unk087C; int unk0880; int unk0884; int unk0888; int unk088C; int unk0890; int unk0894; int unk0898; int unk089C;
-    int unk08A0; int unk08A4; int unk08A8; int unk08AC; int unk08B0; int unk08B4; int unk08B8; int unk08BC; int unk08C0; int unk08C4; int unk08C8; int unk08CC;
-    int unk08D0; int unk08D4; int unk08D8; int unk08DC; int unk08E0; int unk08E4; int unk08E8; int unk08EC; int unk08F0; int unk08F4; int unk08F8; int unk08FC;
-    int unk0900; int unk0904; int unk0908; int unk090C; int unk0910; int unk0914; int unk0918; int unk091C; int unk0920; int unk0924; int unk0928; int unk092C;
-    int unk0930; int unk0934; int unk0938; int unk093C; int unk0940; int unk0944; int unk0948; int unk094C; int unk0950; int unk0954; int unk0958; int unk095C;
-    int unk0960; int unk0964; int unk0968; int unk096C; int unk0970; int unk0974; int unk0978; int unk097C; int unk0980; int unk0984; int unk0988; int unk098C;
-    int unk0990; int unk0994; int unk0998; int unk099C; int unk09A0; int unk09A4; int unk09A8; int unk09AC; int unk09B0; int unk09B4; int unk09B8; int unk09BC;
-    int unk09C0; int unk09C4; int unk09C8; int unk09CC; int unk09D0; int unk09D4; int unk09D8; int unk09DC; int unk09E0; int unk09E4; int unk09E8; int unk09EC;
-    int unk09F0; int unk09F4; int unk09F8; int unk09FC; int unk0A00; int unk0A04; int unk0A08; int unk0A0C; int unk0A10; int unk0A14; int unk0A18; int unk0A1C;
-    int unk0A20; int unk0A24; int unk0A28; int unk0A2C; int unk0A30; int unk0A34; int unk0A38; int unk0A3C; int unk0A40; int unk0A44; int unk0A48; int unk0A4C;
-    int unk0A50; int unk0A54; int unk0A58; int unk0A5C; int unk0A60; int unk0A64; int unk0A68; int unk0A6C; int unk0A70; int unk0A74; int unk0A78; int unk0A7C;
-    int unk0A80; int unk0A84; int unk0A88; int unk0A8C; int unk0A90; int unk0A94; int unk0A98; int unk0A9C; int unk0AA0; int unk0AA4; int unk0AA8; int unk0AAC;
-    int unk0AB0; int unk0AB4; int unk0AB8; int unk0ABC; int unk0AC0; int unk0AC4; int unk0AC8; int unk0ACC; int unk0AD0; int unk0AD4; int unk0AD8; int unk0ADC;
-    int unk0AE0; int unk0AE4; int unk0AE8; int unk0AEC; int unk0AF0; int unk0AF4; int unk0AF8; int unk0AFC; int unk0B00; int unk0B04; int unk0B08; int unk0B0C;
-    int unk0B10; int unk0B14; int unk0B18; int unk0B1C; int unk0B20; int unk0B24; int unk0B28; int unk0B2C; int unk0B30; int unk0B34; int unk0B38; int unk0B3C;
-    int unk0B40; int unk0B44; int unk0B48; int unk0B4C; int unk0B50; int unk0B54; int unk0B58; int unk0B5C; int unk0B60; int unk0B64; int unk0B68; int unk0B6C;
-    int unk0B70; int unk0B74; int unk0B78; int unk0B7C; int unk0B80; int unk0B84; int unk0B88; int unk0B8C; int unk0B90; int unk0B94; int unk0B98; int unk0B9C;
-    int unk0BA0; int unk0BA4; int unk0BA8; int unk0BAC; int unk0BB0; int unk0BB4; int unk0BB8; int unk0BBC; int unk0BC0; int unk0BC4; int unk0BC8; int unk0BCC;
-    int unk0BD0; int unk0BD4; int unk0BD8; int unk0BDC; int unk0BE0; int unk0BE4; int unk0BE8; int unk0BEC; int unk0BF0; int unk0BF4; int unk0BF8; int unk0BFC;
-    int unk0C00; int unk0C04; int unk0C08; int unk0C0C; int unk0C10; int unk0C14; int unk0C18; int unk0C1C; int unk0C20; int unk0C24; int unk0C28; int unk0C2C;
-    int unk0C30; int unk0C34; int unk0C38; int unk0C3C; int unk0C40; int unk0C44; int unk0C48; int unk0C4C; int unk0C50; int unk0C54; int unk0C58; int unk0C5C;
-    int unk0C60; int unk0C64; int unk0C68; int unk0C6C; int unk0C70; int unk0C74; int unk0C78; int unk0C7C; int unk0C80; int unk0C84; int unk0C88; int unk0C8C;
-    int unk0C90; int unk0C94; int unk0C98; int unk0C9C; int unk0CA0; int unk0CA4; int unk0CA8; int unk0CAC; int unk0CB0; int unk0CB4; int unk0CB8; int unk0CBC;
-    int unk0CC0; int unk0CC4; int unk0CC8; int unk0CCC; int unk0CD0; int unk0CD4; int unk0CD8; int unk0CDC; int unk0CE0; int unk0CE4; int unk0CE8; int unk0CEC;
-    int unk0CF0; int unk0CF4; int unk0CF8; int unk0CFC; int unk0D00; int unk0D04; int unk0D08; int unk0D0C; int unk0D10; int unk0D14; int unk0D18; int unk0D1C;
-    int unk0D20; int unk0D24; int unk0D28; int unk0D2C; int unk0D30; int unk0D34; int unk0D38; int unk0D3C; int unk0D40; int unk0D44; int unk0D48; int unk0D4C;
-    int unk0D50; int unk0D54; int unk0D58; int unk0D5C; int unk0D60; int unk0D64; int unk0D68; int unk0D6C; int unk0D70; int unk0D74; int unk0D78; int unk0D7C;
-    int unk0D80; int unk0D84; int unk0D88; int unk0D8C; int unk0D90; int unk0D94; int unk0D98; int unk0D9C; int unk0DA0; int unk0DA4; int unk0DA8; int unk0DAC;
-    int unk0DB0; int unk0DB4; int unk0DB8; int unk0DBC; int unk0DC0; int unk0DC4; int unk0DC8; int unk0DCC; int unk0DD0; int unk0DD4; int unk0DD8; int unk0DDC;
-    int unk0DE0; int unk0DE4; int unk0DE8; int unk0DEC; int unk0DF0; int unk0DF4; int unk0DF8; int unk0DFC; int unk0E00; int unk0E04; int unk0E08; int unk0E0C;
-    int unk0E10; int unk0E14; int unk0E18; int unk0E1C; int unk0E20; int unk0E24; int unk0E28; int unk0E2C; int unk0E30; int unk0E34; int unk0E38; int unk0E3C;
-    int unk0E40; int unk0E44; int unk0E48; int unk0E4C; int unk0E50; int unk0E54; int unk0E58; int unk0E5C; int unk0E60; int unk0E64; int unk0E68; int unk0E6C;
-    int unk0E70; int unk0E74; int unk0E78; int unk0E7C; int unk0E80; int unk0E84; int unk0E88; int unk0E8C; int unk0E90; int unk0E94; int unk0E98; int unk0E9C;
-    int unk0EA0; int unk0EA4; int unk0EA8; int unk0EAC; int unk0EB0; int unk0EB4; int unk0EB8; int unk0EBC; int unk0EC0; int unk0EC4; int unk0EC8; int unk0ECC;
-    int unk0ED0; int unk0ED4; int unk0ED8; int unk0EDC; int unk0EE0; int unk0EE4; int unk0EE8; int unk0EEC; int unk0EF0; int unk0EF4; int unk0EF8; int unk0EFC;
-    int unk0F00; int unk0F04; int unk0F08; int unk0F0C; int unk0F10; int unk0F14; int unk0F18; int unk0F1C; int unk0F20; int unk0F24; int unk0F28; int unk0F2C;
-    int unk0F30; int unk0F34; int unk0F38; int unk0F3C; int unk0F40; int unk0F44; int unk0F48; int unk0F4C; int unk0F50; int unk0F54; int unk0F58; int unk0F5C;
-    int unk0F60; int unk0F64; int unk0F68; int unk0F6C; int unk0F70; int unk0F74; int unk0F78; int unk0F7C; int unk0F80; int unk0F84; int unk0F88; int unk0F8C;
-    int unk0F90; int unk0F94; int unk0F98; int unk0F9C; int unk0FA0; int unk0FA4; int unk0FA8; int unk0FAC; int unk0FB0; int unk0FB4; int unk0FB8; int unk0FBC;
-    int unk0FC0; int unk0FC4; int unk0FC8; int unk0FCC; int unk0FD0; int unk0FD4; int unk0FD8; int unk0FDC; int unk0FE0; int unk0FE4; int unk0FE8; int unk0FEC;
-    int unk0FF0; int unk0FF4; int unk0FF8; int unk0FFC; int unk1000; int unk1004; int unk1008; int unk100C; int unk1010; int unk1014; int unk1018; int unk101C;
-    int unk1020; int unk1024; int unk1028; int unk102C; int unk1030; int unk1034; int unk1038; int unk103C; int unk1040; int unk1044; int unk1048; int unk104C;
-    int unk1050; int unk1054; int unk1058; int unk105C; int unk1060; int unk1064; int unk1068; int unk106C; int unk1070; int unk1074; int unk1078; int unk107C;
-    int unk1080; int unk1084; int unk1088; int unk108C; int unk1090; int unk1094; int unk1098; int unk109C; int unk10A0; int unk10A4; int unk10A8; int unk10AC;
-    int unk10B0; int unk10B4; int unk10B8; int unk10BC; int unk10C0; int unk10C4; int unk10C8; int unk10CC; int unk10D0; int unk10D4; int unk10D8; int unk10DC;
-    int unk10E0; int unk10E4; int unk10E8; int unk10EC; int unk10F0; int unk10F4;
-    FUN_00e89ae0_obj* m_10f8;
-    bool IsVtblCallSucceeded(int a1, int a2, int a3, int a4);
-};
 
-// VEGAS17-CONFLICT: E89B40Renderer (variant definition below differs from the one above)
-class E89B40Renderer {
-public:
-    int unk0000;
-    int unk0004;
-    int unk0008;
-    int unk000C;
-    int unk0010;
-    int unk0014;
-    int unk0018;
-    int unk001C;
-    int unk0020;
-    int unk0024;
-    int unk0028;
-    int unk002C;
-    int unk0030;
-    int unk0034;
-    int unk0038;
-    int unk003C;
-    int unk0040;
-    int unk0044;
-    int unk0048;
-    int unk004C;
-    int unk0050;
-    int unk0054;
-    int unk0058;
-    int unk005C;
-    int unk0060;
-    int unk0064;
-    int unk0068;
-    int unk006C;
-    int unk0070;
-    int unk0074;
-    int unk0078;
-    int unk007C;
-    int unk0080;
-    int unk0084;
-    int unk0088;
-    int unk008C;
-    int unk0090;
-    int unk0094;
-    int unk0098;
-    int unk009C;
-    int unk00A0;
-    int unk00A4;
-    int unk00A8;
-    int unk00AC;
-    int unk00B0;
-    int unk00B4;
-    int unk00B8;
-    int unk00BC;
-    int unk00C0;
-    int unk00C4;
-    int unk00C8;
-    int unk00CC;
-    int unk00D0;
-    int unk00D4;
-    int unk00D8;
-    int unk00DC;
-    int unk00E0;
-    int unk00E4;
-    int unk00E8;
-    int unk00EC;
-    int unk00F0;
-    int unk00F4;
-    int unk00F8;
-    int unk00FC;
-    int unk0100;
-    int unk0104;
-    int unk0108;
-    int unk010C;
-    int unk0110;
-    int unk0114;
-    int unk0118;
-    int unk011C;
-    int unk0120;
-    int unk0124;
-    int unk0128;
-    int unk012C;
-    int unk0130;
-    int unk0134;
-    int unk0138;
-    int unk013C;
-    int unk0140;
-    int unk0144;
-    int unk0148;
-    int unk014C;
-    int unk0150;
-    int unk0154;
-    int unk0158;
-    int unk015C;
-    int unk0160;
-    int unk0164;
-    int unk0168;
-    int unk016C;
-    int unk0170;
-    int unk0174;
-    int unk0178;
-    int unk017C;
-    int unk0180;
-    int unk0184;
-    int unk0188;
-    int unk018C;
-    int unk0190;
-    int unk0194;
-    int unk0198;
-    int unk019C;
-    int unk01A0;
-    int unk01A4;
-    int unk01A8;
-    int unk01AC;
-    int unk01B0;
-    int unk01B4;
-    int unk01B8;
-    int unk01BC;
-    int unk01C0;
-    int unk01C4;
-    int unk01C8;
-    int unk01CC;
-    int unk01D0;
-    int unk01D4;
-    int unk01D8;
-    int unk01DC;
-    int unk01E0;
-    int unk01E4;
-    int unk01E8;
-    int unk01EC;
-    int unk01F0;
-    int unk01F4;
-    int unk01F8;
-    int unk01FC;
-    int unk0200;
-    int unk0204;
-    int unk0208;
-    int unk020C;
-    int unk0210;
-    int unk0214;
-    int unk0218;
-    int unk021C;
-    int unk0220;
-    int unk0224;
-    int unk0228;
-    int unk022C;
-    int unk0230;
-    int unk0234;
-    int unk0238;
-    int unk023C;
-    int unk0240;
-    int unk0244;
-    int unk0248;
-    int unk024C;
-    int unk0250;
-    int unk0254;
-    int unk0258;
-    int unk025C;
-    int unk0260;
-    int unk0264;
-    int unk0268;
-    int unk026C;
-    int unk0270;
-    int unk0274;
-    int unk0278;
-    int unk027C;
-    int unk0280;
-    int unk0284;
-    int unk0288;
-    int unk028C;
-    int unk0290;
-    int unk0294;
-    int unk0298;
-    int unk029C;
-    int unk02A0;
-    int unk02A4;
-    int unk02A8;
-    int unk02AC;
-    int unk02B0;
-    int unk02B4;
-    int unk02B8;
-    int unk02BC;
-    int unk02C0;
-    int unk02C4;
-    int unk02C8;
-    int unk02CC;
-    int unk02D0;
-    int unk02D4;
-    int unk02D8;
-    int unk02DC;
-    int unk02E0;
-    int unk02E4;
-    int unk02E8;
-    int unk02EC;
-    int unk02F0;
-    int unk02F4;
-    int unk02F8;
-    int unk02FC;
-    int unk0300;
-    int unk0304;
-    int unk0308;
-    int unk030C;
-    int unk0310;
-    int unk0314;
-    int unk0318;
-    int unk031C;
-    int unk0320;
-    int unk0324;
-    int unk0328;
-    int unk032C;
-    int unk0330;
-    int unk0334;
-    int unk0338;
-    int unk033C;
-    int unk0340;
-    int unk0344;
-    int unk0348;
-    int unk034C;
-    int unk0350;
-    int unk0354;
-    int unk0358;
-    int unk035C;
-    int unk0360;
-    int unk0364;
-    int unk0368;
-    int unk036C;
-    int unk0370;
-    int unk0374;
-    int unk0378;
-    int unk037C;
-    int unk0380;
-    int unk0384;
-    int unk0388;
-    int unk038C;
-    int unk0390;
-    int unk0394;
-    int unk0398;
-    int unk039C;
-    int unk03A0;
-    int unk03A4;
-    int unk03A8;
-    int unk03AC;
-    int unk03B0;
-    int unk03B4;
-    int unk03B8;
-    int unk03BC;
-    int unk03C0;
-    int unk03C4;
-    int unk03C8;
-    int unk03CC;
-    int unk03D0;
-    int unk03D4;
-    int unk03D8;
-    int unk03DC;
-    int unk03E0;
-    int unk03E4;
-    int unk03E8;
-    int unk03EC;
-    int unk03F0;
-    int unk03F4;
-    int unk03F8;
-    int unk03FC;
-    int unk0400;
-    int unk0404;
-    int unk0408;
-    int unk040C;
-    int unk0410;
-    int unk0414;
-    int unk0418;
-    int unk041C;
-    int unk0420;
-    int unk0424;
-    int unk0428;
-    int unk042C;
-    int unk0430;
-    int unk0434;
-    int unk0438;
-    int unk043C;
-    int unk0440;
-    int unk0444;
-    int unk0448;
-    int unk044C;
-    int unk0450;
-    int unk0454;
-    int unk0458;
-    int unk045C;
-    int unk0460;
-    int unk0464;
-    int unk0468;
-    int unk046C;
-    int unk0470;
-    int unk0474;
-    int unk0478;
-    int unk047C;
-    int unk0480;
-    int unk0484;
-    int unk0488;
-    int unk048C;
-    int unk0490;
-    int unk0494;
-    int unk0498;
-    int unk049C;
-    int unk04A0;
-    int unk04A4;
-    int unk04A8;
-    int unk04AC;
-    int unk04B0;
-    int unk04B4;
-    int unk04B8;
-    int unk04BC;
-    int unk04C0;
-    int unk04C4;
-    int unk04C8;
-    int unk04CC;
-    int unk04D0;
-    int unk04D4;
-    int unk04D8;
-    int unk04DC;
-    int unk04E0;
-    int unk04E4;
-    int unk04E8;
-    int unk04EC;
-    int unk04F0;
-    int unk04F4;
-    int unk04F8;
-    int unk04FC;
-    int unk0500;
-    int unk0504;
-    int unk0508;
-    int unk050C;
-    int unk0510;
-    int unk0514;
-    int unk0518;
-    int unk051C;
-    int unk0520;
-    int unk0524;
-    int unk0528;
-    int unk052C;
-    int unk0530;
-    int unk0534;
-    int unk0538;
-    int unk053C;
-    int unk0540;
-    int unk0544;
-    int unk0548;
-    int unk054C;
-    int unk0550;
-    int unk0554;
-    int unk0558;
-    int unk055C;
-    int unk0560;
-    int unk0564;
-    int unk0568;
-    int unk056C;
-    int unk0570;
-    int unk0574;
-    int unk0578;
-    int unk057C;
-    int unk0580;
-    int unk0584;
-    int unk0588;
-    int unk058C;
-    int unk0590;
-    int unk0594;
-    int unk0598;
-    int unk059C;
-    int unk05A0;
-    int unk05A4;
-    int unk05A8;
-    int unk05AC;
-    int unk05B0;
-    int unk05B4;
-    int unk05B8;
-    int unk05BC;
-    int unk05C0;
-    int unk05C4;
-    int unk05C8;
-    int unk05CC;
-    int unk05D0;
-    int unk05D4;
-    int unk05D8;
-    int unk05DC;
-    int unk05E0;
-    int unk05E4;
-    int unk05E8;
-    int unk05EC;
-    int unk05F0;
-    int unk05F4;
-    int unk05F8;
-    int unk05FC;
-    int unk0600;
-    int unk0604;
-    int unk0608;
-    int unk060C;
-    int unk0610;
-    int unk0614;
-    int unk0618;
-    int unk061C;
-    int unk0620;
-    int unk0624;
-    int unk0628;
-    int unk062C;
-    int unk0630;
-    int unk0634;
-    int unk0638;
-    int unk063C;
-    int unk0640;
-    int unk0644;
-    int unk0648;
-    int unk064C;
-    int unk0650;
-    int unk0654;
-    int unk0658;
-    int unk065C;
-    int unk0660;
-    int unk0664;
-    int unk0668;
-    int unk066C;
-    int unk0670;
-    int unk0674;
-    int unk0678;
-    int unk067C;
-    int unk0680;
-    int unk0684;
-    int unk0688;
-    int unk068C;
-    int unk0690;
-    int unk0694;
-    int unk0698;
-    int unk069C;
-    int unk06A0;
-    int unk06A4;
-    int unk06A8;
-    int unk06AC;
-    int unk06B0;
-    int unk06B4;
-    int unk06B8;
-    int unk06BC;
-    int unk06C0;
-    int unk06C4;
-    int unk06C8;
-    int unk06CC;
-    int unk06D0;
-    int unk06D4;
-    int unk06D8;
-    int unk06DC;
-    int unk06E0;
-    int unk06E4;
-    int unk06E8;
-    int unk06EC;
-    int unk06F0;
-    int unk06F4;
-    int unk06F8;
-    int unk06FC;
-    int unk0700;
-    int unk0704;
-    int unk0708;
-    int unk070C;
-    int unk0710;
-    int unk0714;
-    int unk0718;
-    int unk071C;
-    int unk0720;
-    int unk0724;
-    int unk0728;
-    int unk072C;
-    int unk0730;
-    int unk0734;
-    int unk0738;
-    int unk073C;
-    int unk0740;
-    int unk0744;
-    int unk0748;
-    int unk074C;
-    int unk0750;
-    int unk0754;
-    int unk0758;
-    int unk075C;
-    int unk0760;
-    int unk0764;
-    int unk0768;
-    int unk076C;
-    int unk0770;
-    int unk0774;
-    int unk0778;
-    int unk077C;
-    int unk0780;
-    int unk0784;
-    int unk0788;
-    int unk078C;
-    int unk0790;
-    int unk0794;
-    int unk0798;
-    int unk079C;
-    int unk07A0;
-    int unk07A4;
-    int unk07A8;
-    int unk07AC;
-    int unk07B0;
-    int unk07B4;
-    int unk07B8;
-    int unk07BC;
-    int unk07C0;
-    int unk07C4;
-    int unk07C8;
-    int unk07CC;
-    int unk07D0;
-    int unk07D4;
-    int unk07D8;
-    int unk07DC;
-    int unk07E0;
-    int unk07E4;
-    int unk07E8;
-    int unk07EC;
-    int unk07F0;
-    int unk07F4;
-    int unk07F8;
-    int unk07FC;
-    int unk0800;
-    int unk0804;
-    int unk0808;
-    int unk080C;
-    int unk0810;
-    int unk0814;
-    int unk0818;
-    int unk081C;
-    int unk0820;
-    int unk0824;
-    int unk0828;
-    int unk082C;
-    int unk0830;
-    int unk0834;
-    int unk0838;
-    int unk083C;
-    int unk0840;
-    int unk0844;
-    int unk0848;
-    int unk084C;
-    int unk0850;
-    int unk0854;
-    int unk0858;
-    int unk085C;
-    int unk0860;
-    int unk0864;
-    int unk0868;
-    int unk086C;
-    int unk0870;
-    int unk0874;
-    int unk0878;
-    int unk087C;
-    int unk0880;
-    int unk0884;
-    int unk0888;
-    int unk088C;
-    int unk0890;
-    int unk0894;
-    int unk0898;
-    int unk089C;
-    int unk08A0;
-    int unk08A4;
-    int unk08A8;
-    int unk08AC;
-    int unk08B0;
-    int unk08B4;
-    int unk08B8;
-    int unk08BC;
-    int unk08C0;
-    int unk08C4;
-    int unk08C8;
-    int unk08CC;
-    int unk08D0;
-    int unk08D4;
-    int unk08D8;
-    int unk08DC;
-    int unk08E0;
-    int unk08E4;
-    int unk08E8;
-    int unk08EC;
-    int unk08F0;
-    int unk08F4;
-    int unk08F8;
-    int unk08FC;
-    int unk0900;
-    int unk0904;
-    int unk0908;
-    int unk090C;
-    int unk0910;
-    int unk0914;
-    int unk0918;
-    int unk091C;
-    int unk0920;
-    int unk0924;
-    int unk0928;
-    int unk092C;
-    int unk0930;
-    int unk0934;
-    int unk0938;
-    int unk093C;
-    int unk0940;
-    int unk0944;
-    int unk0948;
-    int unk094C;
-    int unk0950;
-    int unk0954;
-    int unk0958;
-    int unk095C;
-    int unk0960;
-    int unk0964;
-    int unk0968;
-    int unk096C;
-    int unk0970;
-    int unk0974;
-    int unk0978;
-    int unk097C;
-    int unk0980;
-    int unk0984;
-    int unk0988;
-    int unk098C;
-    int unk0990;
-    int unk0994;
-    int unk0998;
-    int unk099C;
-    int unk09A0;
-    int unk09A4;
-    int unk09A8;
-    int unk09AC;
-    int unk09B0;
-    int unk09B4;
-    int unk09B8;
-    int unk09BC;
-    int unk09C0;
-    int unk09C4;
-    int unk09C8;
-    int unk09CC;
-    int unk09D0;
-    int unk09D4;
-    int unk09D8;
-    int unk09DC;
-    int unk09E0;
-    int unk09E4;
-    int unk09E8;
-    int unk09EC;
-    int unk09F0;
-    int unk09F4;
-    int unk09F8;
-    int unk09FC;
-    int unk0A00;
-    int unk0A04;
-    int unk0A08;
-    int unk0A0C;
-    int unk0A10;
-    int unk0A14;
-    int unk0A18;
-    int unk0A1C;
-    int unk0A20;
-    int unk0A24;
-    int unk0A28;
-    int unk0A2C;
-    int unk0A30;
-    int unk0A34;
-    int unk0A38;
-    int unk0A3C;
-    int unk0A40;
-    int unk0A44;
-    int unk0A48;
-    int unk0A4C;
-    int unk0A50;
-    int unk0A54;
-    int unk0A58;
-    int unk0A5C;
-    int unk0A60;
-    int unk0A64;
-    int unk0A68;
-    int unk0A6C;
-    int unk0A70;
-    int unk0A74;
-    int unk0A78;
-    int unk0A7C;
-    int unk0A80;
-    int unk0A84;
-    int unk0A88;
-    int unk0A8C;
-    int unk0A90;
-    int unk0A94;
-    int unk0A98;
-    int unk0A9C;
-    int unk0AA0;
-    int unk0AA4;
-    int unk0AA8;
-    int unk0AAC;
-    int unk0AB0;
-    int unk0AB4;
-    int unk0AB8;
-    int unk0ABC;
-    int unk0AC0;
-    int unk0AC4;
-    int unk0AC8;
-    int unk0ACC;
-    int unk0AD0;
-    int unk0AD4;
-    int unk0AD8;
-    int unk0ADC;
-    int unk0AE0;
-    int unk0AE4;
-    int unk0AE8;
-    int unk0AEC;
-    int unk0AF0;
-    int unk0AF4;
-    int unk0AF8;
-    int unk0AFC;
-    int unk0B00;
-    int unk0B04;
-    int unk0B08;
-    int unk0B0C;
-    int unk0B10;
-    int unk0B14;
-    int unk0B18;
-    int unk0B1C;
-    int unk0B20;
-    int unk0B24;
-    int unk0B28;
-    int unk0B2C;
-    int unk0B30;
-    int unk0B34;
-    int unk0B38;
-    int unk0B3C;
-    int unk0B40;
-    int unk0B44;
-    int unk0B48;
-    int unk0B4C;
-    int unk0B50;
-    int unk0B54;
-    int unk0B58;
-    int unk0B5C;
-    int unk0B60;
-    int unk0B64;
-    int unk0B68;
-    int unk0B6C;
-    int unk0B70;
-    int unk0B74;
-    int unk0B78;
-    int unk0B7C;
-    int unk0B80;
-    int unk0B84;
-    int unk0B88;
-    int unk0B8C;
-    int unk0B90;
-    int unk0B94;
-    int unk0B98;
-    int unk0B9C;
-    int unk0BA0;
-    int unk0BA4;
-    int unk0BA8;
-    int unk0BAC;
-    int unk0BB0;
-    int unk0BB4;
-    int unk0BB8;
-    int unk0BBC;
-    int unk0BC0;
-    int unk0BC4;
-    int unk0BC8;
-    int unk0BCC;
-    int unk0BD0;
-    int unk0BD4;
-    int unk0BD8;
-    int unk0BDC;
-    int unk0BE0;
-    int unk0BE4;
-    int unk0BE8;
-    int unk0BEC;
-    int unk0BF0;
-    int unk0BF4;
-    int unk0BF8;
-    int unk0BFC;
-    int unk0C00;
-    int unk0C04;
-    int unk0C08;
-    int unk0C0C;
-    int unk0C10;
-    int unk0C14;
-    int unk0C18;
-    int unk0C1C;
-    int unk0C20;
-    int unk0C24;
-    int unk0C28;
-    int unk0C2C;
-    int unk0C30;
-    int unk0C34;
-    int unk0C38;
-    int unk0C3C;
-    int unk0C40;
-    int unk0C44;
-    int unk0C48;
-    int unk0C4C;
-    int unk0C50;
-    int unk0C54;
-    int unk0C58;
-    int unk0C5C;
-    int unk0C60;
-    int unk0C64;
-    int unk0C68;
-    int unk0C6C;
-    int unk0C70;
-    int unk0C74;
-    int unk0C78;
-    int unk0C7C;
-    int unk0C80;
-    int unk0C84;
-    int unk0C88;
-    int unk0C8C;
-    int unk0C90;
-    int unk0C94;
-    int unk0C98;
-    int unk0C9C;
-    int unk0CA0;
-    int unk0CA4;
-    int unk0CA8;
-    int unk0CAC;
-    int unk0CB0;
-    int unk0CB4;
-    int unk0CB8;
-    int unk0CBC;
-    int unk0CC0;
-    int unk0CC4;
-    int unk0CC8;
-    int unk0CCC;
-    int unk0CD0;
-    int unk0CD4;
-    int unk0CD8;
-    int unk0CDC;
-    int unk0CE0;
-    int unk0CE4;
-    int unk0CE8;
-    int unk0CEC;
-    int unk0CF0;
-    int unk0CF4;
-    int unk0CF8;
-    int unk0CFC;
-    int unk0D00;
-    int unk0D04;
-    int unk0D08;
-    int unk0D0C;
-    int unk0D10;
-    int unk0D14;
-    int unk0D18;
-    int unk0D1C;
-    int unk0D20;
-    int unk0D24;
-    int unk0D28;
-    int unk0D2C;
-    int unk0D30;
-    int unk0D34;
-    int unk0D38;
-    int unk0D3C;
-    int unk0D40;
-    int unk0D44;
-    int unk0D48;
-    int unk0D4C;
-    int unk0D50;
-    int unk0D54;
-    int unk0D58;
-    int unk0D5C;
-    int unk0D60;
-    int unk0D64;
-    int unk0D68;
-    int unk0D6C;
-    int unk0D70;
-    int unk0D74;
-    int unk0D78;
-    int unk0D7C;
-    int unk0D80;
-    int unk0D84;
-    int unk0D88;
-    int unk0D8C;
-    int unk0D90;
-    int unk0D94;
-    int unk0D98;
-    int unk0D9C;
-    int unk0DA0;
-    int unk0DA4;
-    int unk0DA8;
-    int unk0DAC;
-    int unk0DB0;
-    int unk0DB4;
-    int unk0DB8;
-    int unk0DBC;
-    int unk0DC0;
-    int unk0DC4;
-    int unk0DC8;
-    int unk0DCC;
-    int unk0DD0;
-    int unk0DD4;
-    int unk0DD8;
-    int unk0DDC;
-    int unk0DE0;
-    int unk0DE4;
-    int unk0DE8;
-    int unk0DEC;
-    int unk0DF0;
-    int unk0DF4;
-    int unk0DF8;
-    int unk0DFC;
-    int unk0E00;
-    int unk0E04;
-    int unk0E08;
-    int unk0E0C;
-    int unk0E10;
-    int unk0E14;
-    int unk0E18;
-    int unk0E1C;
-    int unk0E20;
-    int unk0E24;
-    int unk0E28;
-    int unk0E2C;
-    int unk0E30;
-    int unk0E34;
-    int unk0E38;
-    int unk0E3C;
-    int unk0E40;
-    int unk0E44;
-    int unk0E48;
-    int unk0E4C;
-    int unk0E50;
-    int unk0E54;
-    int unk0E58;
-    int unk0E5C;
-    int unk0E60;
-    int unk0E64;
-    int unk0E68;
-    int unk0E6C;
-    int unk0E70;
-    int unk0E74;
-    int unk0E78;
-    int unk0E7C;
-    int unk0E80;
-    int unk0E84;
-    int unk0E88;
-    int unk0E8C;
-    int unk0E90;
-    int unk0E94;
-    int unk0E98;
-    int unk0E9C;
-    int unk0EA0;
-    int unk0EA4;
-    int unk0EA8;
-    int unk0EAC;
-    int unk0EB0;
-    int unk0EB4;
-    int unk0EB8;
-    int unk0EBC;
-    int unk0EC0;
-    int unk0EC4;
-    int unk0EC8;
-    int unk0ECC;
-    int unk0ED0;
-    int unk0ED4;
-    int unk0ED8;
-    int unk0EDC;
-    int unk0EE0;
-    int unk0EE4;
-    int unk0EE8;
-    int unk0EEC;
-    int unk0EF0;
-    int unk0EF4;
-    int unk0EF8;
-    int unk0EFC;
-    int unk0F00;
-    int unk0F04;
-    int unk0F08;
-    int unk0F0C;
-    int unk0F10;
-    int unk0F14;
-    int unk0F18;
-    int unk0F1C;
-    int unk0F20;
-    int unk0F24;
-    int unk0F28;
-    int unk0F2C;
-    int unk0F30;
-    int unk0F34;
-    int unk0F38;
-    int unk0F3C;
-    int unk0F40;
-    int unk0F44;
-    int unk0F48;
-    int unk0F4C;
-    int unk0F50;
-    int unk0F54;
-    int unk0F58;
-    int unk0F5C;
-    int unk0F60;
-    int unk0F64;
-    int unk0F68;
-    int unk0F6C;
-    int unk0F70;
-    int unk0F74;
-    int unk0F78;
-    int unk0F7C;
-    int unk0F80;
-    int unk0F84;
-    int unk0F88;
-    int unk0F8C;
-    int unk0F90;
-    int unk0F94;
-    int unk0F98;
-    int unk0F9C;
-    int unk0FA0;
-    int unk0FA4;
-    int unk0FA8;
-    int unk0FAC;
-    int unk0FB0;
-    int unk0FB4;
-    int unk0FB8;
-    int unk0FBC;
-    int unk0FC0;
-    int unk0FC4;
-    int unk0FC8;
-    int unk0FCC;
-    int unk0FD0;
-    int unk0FD4;
-    int unk0FD8;
-    int unk0FDC;
-    int unk0FE0;
-    int unk0FE4;
-    int unk0FE8;
-    int unk0FEC;
-    int unk0FF0;
-    int unk0FF4;
-    int unk0FF8;
-    int unk0FFC;
-    int unk1000;
-    int unk1004;
-    int unk1008;
-    int unk100C;
-    int unk1010;
-    int unk1014;
-    int unk1018;
-    int unk101C;
-    int unk1020;
-    int unk1024;
-    int unk1028;
-    int unk102C;
-    int unk1030;
-    int unk1034;
-    int unk1038;
-    int unk103C;
-    int unk1040;
-    int unk1044;
-    int unk1048;
-    int unk104C;
-    int unk1050;
-    int unk1054;
-    int unk1058;
-    int unk105C;
-    int unk1060;
-    int unk1064;
-    int unk1068;
-    int unk106C;
-    int unk1070;
-    int unk1074;
-    int unk1078;
-    int unk107C;
-    int unk1080;
-    int unk1084;
-    int unk1088;
-    int unk108C;
-    int unk1090;
-    int unk1094;
-    int unk1098;
-    int unk109C;
-    int unk10A0;
-    int unk10A4;
-    int unk10A8;
-    int unk10AC;
-    int unk10B0;
-    int unk10B4;
-    int unk10B8;
-    int unk10BC;
-    int unk10C0;
-    int unk10C4;
-    int unk10C8;
-    int unk10CC;
-    int unk10D0;
-    int unk10D4;
-    int unk10D8;
-    int unk10DC;
-    int unk10E0;
-    int unk10E4;
-    int unk10E8;
-    int unk10EC;
-    int unk10F0;
-    int unk10F4;
-    E89B40Device* m_pkDevice;
-
-    bool SetDeviceState(unsigned int uiA, unsigned int uiB, unsigned int uiC, unsigned int uiUnused);
-};
 
 extern "C" void* __cdecl FUN_00ec61c0(void*, int, unsigned int);
 
 void* __cdecl NiMemset(void* dst, int val, unsigned int size);
 
-// VEGAS17-CONFLICT: MapBaseStub (variant definition below differs from the one above)
-struct MapBaseStub {
-    unsigned int m_uiHashSize;
-    void** m_ppkHashTable;
-    unsigned int m_uiCount;
-    MapBaseStub(unsigned int hashSize)
-    {
-        m_uiHashSize = hashSize;
-        m_uiCount = 0;
-        unsigned int size = sizeof(void*) * m_uiHashSize;
-        m_ppkHashTable = (void**)::FUN_00aa1070(size);
-        NiMemset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
-    }
-    virtual void MapV0();
-    void RemoveAll();
-};
 
 
 void FUN_00e89740();
 
-// VEGAS17-CONFLICT: StageSet (variant definition below differs from the one above)
-struct StageSet {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int m_14;
-    int m_18;
-    int m_1C;
-    StageArray m_20;
-
-    int FUN_00e802b0(unsigned int index, Stage321* obj);
-};
 
 static void CopyMatrix(S00e81b00_Mat* dst, const S00e81b00_Mat* src);
 
 void S00e81b00_Caller(S00e81b00_Mat* dst, const S00e81b00_Mat* src);
 
-// VEGAS17-CONFLICT: BlockAllocator (variant definition below differs from the one above)
-struct BlockAllocator {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1C;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    FUN_00a64330_Obj unk2C;
-    unsigned int FUN_00e98660(unsigned int size);
-};
 
 struct Item_cd60 {
     int unk00; int unk04; int unk08; int unk0C;
@@ -16511,7 +15247,6 @@ struct ShaderManagerLayout093 {
     CritSecStub lock;
 };
 
-struct ShaderManagerRelease093 { void FUN_00e8ceb0(); };
 
 // @fnv 0x00e8ceb0
 void ShaderManagerRelease093::FUN_00e8ceb0() {
@@ -16553,7 +15288,7 @@ void ShaderManagerRelease093::FUN_00e8ceb0() {
     self->second.Dispose();
     self->first.Dispose();
     self->vtable = &DAT_0101dce4;
-    InterlockedDecrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
+    InterlockedDecrement(&DAT_011f4400);
 }
 
 void __cdecl FUN_00e89740();
@@ -16626,18 +15361,6 @@ void FUN_00e8b490(int* a, int b, int c);
 
 void __cdecl FUN_00e941a0(void* a);
 
-// VEGAS17-CONFLICT: NiRefObjectE81 (variant definition below differs from the one above)
-class NiRefObjectE81
-{
-  public:
-    virtual ~NiRefObjectE81() throw()
-    {
-        InterlockedDecrement(&(*reinterpret_cast<long *>(&::NiRefObject::ms_lObjectCount)));
-    }
-
-    unsigned int m_uiRefCount;
-
-};
 
 typedef void(* FUN_00e88780_D3DCall)(FUN_00e88780_D3DObject* pObject, int index, int value);
 
@@ -16652,35 +15375,7 @@ typedef int(* FUN_00e89ae0_vfn)(FUN_00e89ae0_obj*, int, int, int);
 void _delete(void*, unsigned int);
 
 
-// VEGAS17-CONFLICT: RefObjStub (variant definition below differs from the one above)
-struct RefObjStub
-{
-    unsigned int m_uiRefCount;
-    RefObjStub()
-    {
-        m_uiRefCount = 0;
-        InterlockedIncrement(&(*reinterpret_cast<volatile long *>(&::NiRefObject::ms_lObjectCount)));
-    }
-    virtual void DeleteThis();
-};
 
-// VEGAS17-CONFLICT: MapBaseStub (variant definition below differs from the one above)
-struct MapBaseStub
-{
-    unsigned int m_uiHashSize;
-    void** m_ppkHashTable;
-    unsigned int m_uiCount;
-    MapBaseStub(unsigned int hashSize)
-    {
-        m_uiHashSize = hashSize;
-        m_uiCount = 0;
-        unsigned int size = sizeof(void*) * m_uiHashSize;
-        m_ppkHashTable = (void**)NiMalloc(size);
-        NiMemset(m_ppkHashTable, 0, sizeof(void*) * m_uiHashSize);
-    }
-    virtual void MapV0();
-    void RemoveAll();
-};
 
 extern "C" void(* DAT_00fdf1c0)(void*);
 

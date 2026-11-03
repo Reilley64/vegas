@@ -41,7 +41,7 @@ extern intptr_t DAT_0126f0ec;
 // 0x0126f0f0
 extern ::GlobalObjectO2_00a7b610 g_0126f0f0;
 // 0x0126f0f8
-extern "C" extern unsigned int DAT_0126f0f8;
+extern "C" extern void *DAT_0126f0f8;
 // 0x0126f108
 extern void * DAT_0126f108[];
 // 0x0126f554

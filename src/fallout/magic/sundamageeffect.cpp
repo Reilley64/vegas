@@ -41,6 +41,13 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 
+
+// The SunDamageEffect member after ActiveEffect, saved when the save version is at least 0x71.
+struct SunDamageEffectFields : ActiveEffectFields
+{
+    unsigned int unk48;
+};
+
 // The current and next weather of the sky.
 struct SkyWeatherView
 {
@@ -93,7 +100,7 @@ void FUN_0082a420_shell::FUN_0082a420(void* apActor)
 {
     reinterpret_cast<::ActiveEffectLoader *>(this)->FUN_00805330((::Actor *)(apActor));
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0082a420::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x71)
-        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0082a420::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0((char*)this + 0x48, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>(((*reinterpret_cast<::fnv_0082a420::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579e0(&reinterpret_cast<SunDamageEffectFields*>(this)->unk48, 4);
 }
 }  // namespace fnv_0082a420
 
@@ -136,7 +143,7 @@ void FUN_0082a3e0_shell::SaveSunDamageEffect(Actor* apActor)
 {
     reinterpret_cast<::EffectSaveShell *>((((ActiveEffectSaveHelper*)this)))->FUN_008050d0(apActor);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x71)
-        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0((char*)this + 0x48, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGameHelper*)g_TESSaveLoadGame)))->FUN_008579b0(&reinterpret_cast<SunDamageEffectFields*>(this)->unk48, 4);
 }
 
 struct MagicCaster;

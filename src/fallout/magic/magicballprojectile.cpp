@@ -211,12 +211,14 @@
 struct FUN_00810a80_shell
 {
     float GetFloatAtOffset53C();
+    char pad00[0x53c];
+    float unk53c;
 };
 
 // @fnv 0x00810a80
 float FUN_00810a80_shell::GetFloatAtOffset53C()
 {
-    return ((float*)((char*)this + 0x53c))[0];
+    return unk53c;
 }
 
 
@@ -274,8 +276,9 @@ struct FUN_0081e830_shell
 
 struct FUN_00811070_shell
 {
-    unsigned short eState;
     unsigned short FUN_00811070(unsigned int aiFlags);
+    char pad00[0xac];
+    int eState;
 };
 
 // @fnv 0x00811070
@@ -289,7 +292,7 @@ unsigned short FUN_00811070_shell::FUN_00811070(unsigned int aiFlags)
         isize += 4;
     isize += 4;
     isize += 4;
-    if (*(unsigned int*)((char*)this + 0xac) == 2)
+    if (eState == 2)
         isize += 4;
     return isize;
 }
@@ -776,7 +779,8 @@ struct FUN_008111e0_shell : FUN_008111e0_vtable
 
     void LoadFromSave(unsigned int, unsigned int);
     unsigned int unkb0;
-    unsigned int padb4[0x4];
+    unsigned int padb4[0x3];
+    float unkc0;
 };
 
 
@@ -806,7 +810,7 @@ void FUN_008111e0_shell::LoadFromSave(unsigned int aiFlags, unsigned int aiCurre
     {
         reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>((reinterpret_cast<STR00*>(this)))->FUN_00484d00(&ffadeTimer, 4);
 
-        ::__memcpy(reinterpret_cast<void*>(reinterpret_cast<char*>(this) + 0xc0), &ffadeTimer, 4);
+        ::__memcpy(&this->unkc0, &ffadeTimer, 4);
     }
 }
 }  // namespace fnv_008111e0
@@ -3291,7 +3295,19 @@ struct FUN_008ce610_owner : PC7d
 
 
     void FUN_008ce610(int);
-    char pad01[0xc0];
+    char pad00[0x88];
+    MotionStateRecord* pMotionState;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    SaveHandle* unka4;
+    SaveHandle* unka8;
+    int eState;
+    SaveHandle* unkb0;
+    Vec3f unkb4;
     unsigned char unkc0;
     unsigned char unkc1;
     unsigned char unkc2;
@@ -4984,44 +5000,44 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
         reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&idB, 2);
     }
 
-    reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(reinterpret_cast<char*>(this) + 0x8c, 4);
+    reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&unk8c, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x90, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk90, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x94, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk94, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x98, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk98, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0x9c, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk9c, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xa0, 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unka0, 4);
 
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(reinterpret_cast<char*>(this) + 0xb4, 12);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unkb4, 12);
 
     unsigned int hasState = 0;
 
-    if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa4))
-        hasState = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa4))))->FUN_0084e3a0();
+    if (unka4)
+        hasState = reinterpret_cast<::FUN_0084e3a0_Class *>((unka4))->FUN_0084e3a0();
 
     reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&hasState), 4);
 
     unsigned int idA = 0;
 
-    if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa8))
-        idA = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xa8))))->FUN_0084e3a0();
+    if (unka8)
+        idA = reinterpret_cast<::FUN_0084e3a0_Class *>((unka8))->FUN_0084e3a0();
 
     reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&idA), 4);
 
     unsigned int blockLength = 0;
 
-    if (*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xb0))
-        blockLength = reinterpret_cast<::FUN_0084e3a0_Class *>(((*reinterpret_cast<SaveHandle**>(reinterpret_cast<char*>(this) + 0xb0))))->FUN_0084e3a0();
+    if (unkb0)
+        blockLength = reinterpret_cast<::FUN_0084e3a0_Class *>((unkb0))->FUN_0084e3a0();
 
     reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&blockLength), 4);
 
     bool idC = false;
 
-    if (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
+    if (pMotionState)
         idC = true;
 
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&idC, 1);
@@ -5029,13 +5045,13 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
     if (idC)
     {
 
-        reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88)), 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(pMotionState, 4);
 
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->origin, 12);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&pMotionState->origin, 12);
 
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->axis, 12);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&pMotionState->axis, 12);
 
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&(*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->velocity, 12);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&pMotionState->velocity, 12);
 
         if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x50)
         {
@@ -5044,20 +5060,20 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
 
             reinterpret_cast<::NiQuaternion *>(&(transform))->FromRotationMatrix(
-                (*(const ::ThreeByThreeMatrix *)(&(*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->extended)));
+                (*(const ::ThreeByThreeMatrix *)(&pMotionState->extended)));
 
             reinterpret_cast<::FUN_008579b0_shell *>((reinterpret_cast<TESSaveLoadGameHelper*>((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&transform, 16);
         }
 
-        if ((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->type == 1 ||
-            (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->type == 0)
+        if (pMotionState->type == 1 ||
+            pMotionState->type == 0)
         {
 
             unsigned int handleID = 0;
 
-            if ((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->handle)
+            if (pMotionState->handle)
                 handleID = reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<SaveHandle*>(
-                               (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->handle)))->FUN_0084e3a0();
+                               pMotionState->handle)))->FUN_0084e3a0();
 
             reinterpret_cast<::FUN_00484d20_Class *>(this)->ForwardToSaveLoadGame((intptr_t)(&handleID), 4);
 
@@ -5065,24 +5081,24 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
 
             short high = -1;
 
-            if ((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->handle &&
-                (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed)
+            if (pMotionState->handle &&
+                pMotionState->packed)
             {
 
                 if (this->unkc0 == 0)
                 {
 
                     bool invert =
-                        (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->type == 0;
+                        pMotionState->type == 0;
 
-                    low = ((unsigned short)(::CountCollisionObjects((::NiAVObject *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
+                    low = ((unsigned short)(::CountCollisionObjects((::NiAVObject *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pMotionState
                                            ->handle))->FUN_0043fcd0()))),
                                        invert, invert, 1)));
 
                     int prepared = ((int)(::FUN_004a8b00(
-                        (::BGSBodyPart *)((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed))));
+                        (::BGSBodyPart *)(pMotionState->packed))));
 
-                    high = ((unsigned short)(::FilterByFlags((void *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>(((*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))
+                    high = ((unsigned short)(::FilterByFlags((void *)(((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pMotionState
                                              ->handle))->FUN_0043fcd0()))),
                                          prepared, invert, invert, 1)));
                 }
@@ -5090,7 +5106,7 @@ void FUN_008ce610_owner::FUN_008ce610(int arg)
                 {
 
                     unsigned int packedValue =
-                        (*reinterpret_cast<MotionStateRecord**>(reinterpret_cast<char*>(this) + 0x88))->packed;
+                        pMotionState->packed;
 
                     low = static_cast<unsigned short>(packedValue >> 16);
 

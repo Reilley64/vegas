@@ -61,17 +61,23 @@ extern int DAT_0107a16c;
 struct ValueModifierEffectCtor
 {
 };
+// The FrenzyEffect member after ValueModifierEffect.
+struct FrenzyEffectFields : ValueModifierEffectFields
+{
+    char unk4c;
+};
+
 struct FrenzyEffectShell : ValueModifierEffect
 {
     void* ConstructFrenzyEffect(void* a, void* b, void* c);
 };
-// Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte at offset 0x4c, and returns this.
+// Runs the ValueModifierEffect constructor, installs the vtable pointer at DAT_0107a16c, clears the byte after the ValueModifierEffect members, and returns this.
 // @fnv 0x0080dbb0
 void* FrenzyEffectShell::ConstructFrenzyEffect(void* apArg1, void* apArg2, void* apArg3)
 {
     new ((void *)(((ValueModifierEffectCtor*)this))) ::FUN_0082ba60((::MagicCaster *)(apArg1), (::MagicItem *)(apArg2), (::EffectItem *)(apArg3));
     *reinterpret_cast<void**>(this) = &DAT_0107a16c;
-    *reinterpret_cast<char*>(this + 0x4c) = 0;
+    reinterpret_cast<FrenzyEffectFields*>(this)->unk4c = 0;
     return this;
 }
 

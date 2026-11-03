@@ -30,6 +30,12 @@ struct hkVector4
 struct ScriptLocalsX
 {
 };
+// The object FUN_004ae750 returns, as far as this effect reads it.
+struct TurnUndeadSourceFields
+{
+    char pad00[0x30];
+    hkVector4 unk30;
+};
 class Actor;
 class MagicCaster
 {
@@ -40,13 +46,13 @@ struct TurnUndeadEffect : ScriptLocalsX
 {
     void ApplyTurnUndeadEffect(MagicCaster* apCaster);
 };
-// Gets a script-local object and, if present, converts its hkVector4 at offset 0x30 into the caster's NiPoint3.
+// Gets a script-local object and, if present, converts its hkVector4 into the caster's NiPoint3.
 // @fnv 0x0082aa50
 void TurnUndeadEffect::ApplyTurnUndeadEffect(MagicCaster* apCaster)
 {
-    void* bresult = ((void *)(::FUN_004ae750((void *)this)));
+    TurnUndeadSourceFields* bresult = ((TurnUndeadSourceFields *)(::FUN_004ae750((void *)this)));
     if (bresult)
-        ::SetNiPoint3FromHkVector4(*(NiPoint3*)apCaster, *(hkVector4 const*)((char*)bresult + 0x30));
+        ::SetNiPoint3FromHkVector4(*(NiPoint3*)apCaster, bresult->unk30);
 }
 
 extern unsigned int _data_011c16bc;

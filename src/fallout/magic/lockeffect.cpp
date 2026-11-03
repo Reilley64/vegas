@@ -14,19 +14,19 @@
 struct FUN_0080f390
 {
     char d[0x48];
-    FUN_0080f390(int, int, int);
+    FUN_0080f390(void*, void*, void*);
     ~FUN_0080f390();
 };
 struct FUN_0080f3c0 : FUN_0080f390
 {
     void* Copy();
 };
-// Allocates a FUN_0080f390 from three fields of this object, copies into it via the object's vtable slot 0x11, and returns the new object.
+// Allocates a FUN_0080f390 from this effect's caster, spell and effect item, copies into it via the object's vtable slot 0x11, and returns the new object.
 // @fnv 0x0080f3c0
 void* FUN_0080f3c0::Copy()
 {
     FUN_0080f390* pCopy =
-        new FUN_0080f390(*(int*)((char*)this + 0x28), *(int*)((char*)this + 8), *(int*)((char*)this + 0xc));
+        new FUN_0080f390(reinterpret_cast<ActiveEffectFields*>(this)->caster, reinterpret_cast<ActiveEffectFields*>(this)->spell, reinterpret_cast<ActiveEffectFields*>(this)->effect);
     ((void(*)(void*, FUN_0080f390*))(*(void***)this)[0x11])(this, pCopy);
     return pCopy;
 }

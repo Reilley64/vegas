@@ -244,12 +244,14 @@ struct FUN_00803ab0_arg
 struct FUN_00803ab0_shell
 {
     void SetArg(FUN_00803ab0_arg p);
+    char pad00[0x154];
+    FUN_00803ab0_arg unk154;
 };
 // Copies the four-int argument struct into the object at offset 0x154.
 // @fnv 0x00803ab0
 void FUN_00803ab0_shell::SetArg(FUN_00803ab0_arg aArg)
 {
-    *(FUN_00803ab0_arg*)((char*)this + 0x154) = aArg;
+    unk154 = aArg;
 }
 
 struct FUN_00803ae0_Data
@@ -262,12 +264,14 @@ struct FUN_00803ae0_Data
 struct FUN_00803ae0_shell
 {
     void SetData(FUN_00803ae0_Data aVal);
+    char pad00[0x164];
+    FUN_00803ae0_Data unk164;
 };
 // Stores the four-int value aVal into the object at offset 0x164.
 // @fnv 0x00803ae0
 void FUN_00803ae0_shell::SetData(FUN_00803ae0_Data aVal)
 {
-    *reinterpret_cast<FUN_00803ae0_Data*>((char*)this + 0x164) = aVal;
+    unk164 = aVal;
 }
 
 class NiNode;

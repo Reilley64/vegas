@@ -175,14 +175,14 @@ struct FUN_0081bd80_s
     unsigned int unk08;
     unsigned int pad0c[0x5];
     unsigned int unk20;
-    unsigned int pad24[0x1];
+    unsigned char unk24;
 };
 
 // @fnv 0x0081bd80
 void FUN_0081bd80_s::FUN_0081bd80(ActiveEffect* apEffect, TESObjectREFR* apTarget)
 {
     reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk20, 4);
-    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0((char*)this + 0x24, 1);
+    reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk24, 1);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x72)
         reinterpret_cast<::FUN_008579b0_shell *>(((*reinterpret_cast<::fnv_0081bd80::TESSaveLoadGame * *>(&::g_TESSaveLoadGame))))->FUN_008579b0(&this->unk08, 4);
 }
@@ -216,9 +216,10 @@ struct FUN_00682a30_base
 struct FUN_0081be80_s : FUN_00682a30_base
 {
     void FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer);
-    char pad01[0x24];
+    char pad00[0x1c];
+    TESObjectREFR* unk1c;
+    unsigned int unk20;
     unsigned char unk24;
-    char pad25[0x2];
 };
 
 // Calls the base save, writes the 4-byte field at 0x20 and the byte at 0x24, then saves the TESObjectREFR pointer at 0x1c.
@@ -226,9 +227,9 @@ struct FUN_0081be80_s : FUN_00682a30_base
 void FUN_0081be80_s::FUN_0081be80(BGSSaveFormBuffer* apSaveGameBuffer)
 {
     reinterpret_cast<::Holder00682a30 *>(this)->FUN_00682a30(apSaveGameBuffer);
-    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50((char*)this + 0x20, 4, 0);
+    reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&this->unk20, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((apSaveGameBuffer))->FUN_00865e50(&this->unk24, 1, 0);
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*(TESObjectREFR**)((char*)this + 0x1c)), 0);
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(this->unk1c), 0);
 }
 
 struct BGSLoadFormBuffer
@@ -243,18 +244,19 @@ struct FUN_00682a80_shell
 struct FUN_0081bed0_s : FUN_00682a80_shell
 {
     void LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer);
-    char pad01[0x24];
+    char pad00[0x1c];
+    TESObjectREFR* unk1c;
+    unsigned int unk20;
     unsigned char unk24;
-    char pad25[0x2];
 };
 
 // @fnv 0x0081bed0
 void FUN_0081bed0_s::LoadFormData(BGSLoadFormBuffer* apLoadGameBuffer)
 {
     FUN_00682a80(apLoadGameBuffer);
-    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)((char*)this + 0x20), 4);
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk20), 4);
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&this->unk24), 1);
-    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)((char*)this + 0x1c));
+    reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((apLoadGameBuffer))->FUN_008648e0((unsigned int *)(void *)(&this->unk1c));
 }
 
 namespace fnv_0081bde0 {

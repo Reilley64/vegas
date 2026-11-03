@@ -118,7 +118,10 @@ public:
 struct FUN_00807e10 : AssociatedItemEffect
 {
     FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem* apEffect);
-    char pad01[0xa4];
+    char pad00[0x4c];
+    InventoryStackRecord* unk4c;
+    InventoryStackRecord* unk50[0x14];
+    float unka0;
     char unka4;
     char unka5;
     char unka6;
@@ -135,11 +138,11 @@ FUN_00807e10::FUN_00807e10(MagicCaster* apCaster, MagicItem* apSpell, EffectItem
 {
     new ((void *)this) ::FUN_00806c20_cls(apCaster, apSpell, (::FUN_00806c20_helper1 *)(apEffect));
     *(void**)this = &DAT_0107979c;
-    *(InventoryStackRecord**)((char*)this + 0x4c) = 0;
+    this->unk4c = 0;
     int i;
     for (i = 0; i < 0x14; i++)
-        *(InventoryStackRecord**)((char*)this + 0x50 + i * 4) = 0;
-    *(float*)((char*)this + 0xa0) = 0.0f;
+        this->unk50[i] = 0;
+    this->unka0 = 0.0f;
     this->unka4 = 0;
     this->unka5 = 0;
     this->unka6 = 0;

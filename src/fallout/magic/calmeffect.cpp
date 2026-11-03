@@ -53,7 +53,7 @@ struct FUN_0080a930_shell : ActiveEffect
 FUN_0080a900* FUN_0080a930_shell::FUN_0080a930()
 {
     FUN_0080a900* presult =
-        new FUN_0080a900(*(void**)((char*)this + 0x28), *(void**)((char*)this + 8), *(void**)((char*)this + 0xc));
+        new FUN_0080a900(reinterpret_cast<ActiveEffectFields*>(this)->caster, reinterpret_cast<ActiveEffectFields*>(this)->spell, reinterpret_cast<ActiveEffectFields*>(this)->effect);
     ((void(*)(void*, void*))(*(void***)this)[17])(this, presult);
     return presult;
 }

@@ -2,6 +2,7 @@
 // src/fallout/magic/valueandconditionseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/valueandconditionseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/FUN_008579e0_shell.h"
 #include "fnv/symbols_00401000.h"
@@ -45,16 +46,21 @@ public:
     void ApplyActorValueModifier(::Actor *, float, ::ActorValue::Index);
 };
 extern int DAT_0107c5dc;
+struct ValueAndConditionsEffectFields : ValueModifierEffectFields
+{
+    int unk4c;
+};
+
 struct FUN_0082b7b0 : ValueModifierEffect
 {
     FUN_0082b7b0(void*, void*, void*);
 };
-// Initialises a ValueModifierEffect via its base constructor, sets the vtable pointer to DAT_0107c5dc and stores -1 at offset 0x4c.
+// Initialises a ValueModifierEffect via its base constructor, sets the vtable pointer to DAT_0107c5dc and sets the int after the ValueModifierEffect members to -1.
 // @fnv 0x0082b7b0
 FUN_0082b7b0::FUN_0082b7b0(void* a, void* b, void* c) : ValueModifierEffect(a, b, c)
 {
     *(void**)this = (void*)&DAT_0107c5dc;
-    *(int*)((char*)this + 0x4c) = -1;
+    reinterpret_cast<ValueAndConditionsEffectFields*>(this)->unk4c = -1;
 }
 
 struct Actor;

@@ -125,9 +125,15 @@ struct TESBoundObject
 {
     virtual void v0();
 };
+struct Sub70
+{
+};
+
 struct TESObjectARMO : TESBoundObject
 {
     virtual void v1();
+    char pad04[0x6c];
+    Sub70 bipedModel;
 };
 extern char DAT_01183108[];
 extern char DAT_01183a34[];
@@ -137,10 +143,6 @@ struct GlobalMgr
 };
 
 struct Holder48
-{
-};
-
-struct Sub70
 {
 };
 
@@ -171,7 +173,7 @@ void FUN_0080d540_cls::FUN_0080d540(uintptr_t arg)
             {
                 for (i2 = 0; i2 < 0x14; i2++)
                 {
-                    if (reinterpret_cast<::TESBipedModelForm *>((((Sub70*)((char*)obj + 0x70))))->HasBipedModel((::BIPED_OBJECT)(i2), 0, (::BGSBipedModelList *)(0)))
+                    if (reinterpret_cast<::TESBipedModelForm *>((&obj->bipedModel))->HasBipedModel((::BIPED_OBJECT)(i2), 0, (::BGSBipedModelList *)(0)))
                     {
                         result = i2;
                         break;

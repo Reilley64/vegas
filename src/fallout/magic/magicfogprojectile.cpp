@@ -99,12 +99,14 @@ struct RefH
 struct FUN_0081a920_shell : public RefH
 {
     bool FUN_0081a920();
+    char pad00[0xb4];
+    int unkb4;
 };
-// Returns true when the int at offset 0xb4 is not 1 and the object is not deleted.
+// Returns true when unkb4 is not 1 and the object is not deleted.
 // @fnv 0x0081a920
 bool FUN_0081a920_shell::FUN_0081a920()
 {
-    return *(int*)((char*)this + 0xb4) != 1 && !reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80();
+    return unkb4 != 1 && !reinterpret_cast<::FUN_00440d80_shell *>((void *)this)->FUN_00440d80();
 }
 
 namespace fnv_0081ad00 {

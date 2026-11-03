@@ -182,26 +182,28 @@ struct FUN_0040a1e0_shell
 struct FUN_0081e8c0_shell : FUN_00932070_shell
 {
     void FUN_0081e8c0(unsigned int aiFlags);
+    char pad00[0x8c];
+    unsigned int unk8c;
+    unsigned int unk90;
+    FUN_00818be0_shell* caster;
+    FUN_0040a1e0_shell* spell;
+    unsigned int pad9c[0x2];
+    unsigned int unka4;
 };
 // @fnv 0x0081e8c0
 void FUN_0081e8c0_shell::FUN_0081e8c0(unsigned int aiFlags)
 {
     reinterpret_cast<::FUN_00932070_MobileObject *>(this)->SaveProcess(aiFlags);
     unsigned int icasterID =
-        ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((reinterpret_cast<FUN_00818be0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x94))))->FUN_00818be0()));
+        ((unsigned int)(reinterpret_cast<::FUN_00818be0_cls *>((caster))->FUN_00818be0()));
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&icasterID), 4);
-    unsigned int ispellID =
-        reinterpret_cast<FUN_0040a1e0_shell*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x98))
-            ->FUN_0040a1e0();
+    unsigned int ispellID = spell->FUN_0040a1e0();
     reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&ispellID), 4);
-    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0xa4)), 4);
+    reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unka4, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x48)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unk90, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((g_TESSaveLoadGame))->FUN_008df040() >= 0x64)
-        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x8c)), 4);
+        reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(&unk8c, 4);
 }
 
 struct STR00

@@ -775,7 +775,7 @@ struct ActiveEffectUpdateShell : public ActiveEffect
 // @fnv 0x00804cb0
 void FUN_00804cb0(void* thisPtr, float value)
 {
-    *(float*)((char*)thisPtr + 0x1c) = value;
+    reinterpret_cast<ActiveEffectFields*>(thisPtr)->elapsedTime = value;
 }
 
 struct FUN_00805650_shell : ActiveEffect

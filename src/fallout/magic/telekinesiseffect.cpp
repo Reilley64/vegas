@@ -2,6 +2,7 @@
 // src/fallout/magic/telekinesiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/telekinesiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <cstdint>
 #include "fnv/form_fields.h"
 #include "fnv/decl/C857A10Buffer.h"
@@ -60,6 +61,18 @@
 #include "fnv/decl/TESRecipe.h"
 #include "fnv/symbols_004a3000.h"
 #include <xmmintrin.h>
+
+
+struct TESObjectREFR;
+
+// The TelekinesisEffect members after ValueModifierEffect.
+struct TelekinesisEffectFields : ValueModifierEffectFields
+{
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    TESObjectREFR* unk58;
+};
 struct FUN_0082a510_shell
 {
     void FUN_0082a540();
@@ -153,11 +166,11 @@ void TelekinesisEffect::LoadFromSave(Actor* apActor)
     reinterpret_cast<::ValueModifierEffect_LoadGame_Helper *>(this)->FUN_00802dd0((::Actor *)(apActor));
     unsigned int irefID;
     reinterpret_cast<::FUN_00857aa0 *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->ValidateFormIDArray(&irefID, 4);
-    *(unsigned int*)((char*)this + 0x58) = irefID;
+    reinterpret_cast<TelekinesisEffectFields*>(this)->unk58 = (TESObjectREFR*)(std::uintptr_t)irefID;
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
-        reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0((void*)((char*)this + 0x50), 4);
-        reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0((void*)((char*)this + 0x54), 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&reinterpret_cast<TelekinesisEffectFields*>(this)->unk50, 4);
+        reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame_shell*)(*reinterpret_cast<::fnv_0082b290::TESSaveLoadGame * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&reinterpret_cast<TelekinesisEffectFields*>(this)->unk54, 4);
     }
 }
 }  // namespace fnv_0082b290
@@ -179,12 +192,14 @@ struct Flt
 struct FUN_0082aa90_shell
 {
     uintptr_t GetFloatAsUInt();
+    char pad00[0x634];
+    Flt unk634;
 };
 
 // @fnv 0x0082aa90
 uintptr_t FUN_0082aa90_shell::GetFloatAsUInt()
 {
-    return ((Flt*)((char*)this + 0x634))->operator unsigned int();
+    return unk634.operator unsigned int();
 }
 
 
@@ -350,13 +365,13 @@ void FUN_0082b200_shell::SaveLoad(Actor* apActor)
     unsigned int irefID;
     reinterpret_cast<::ValueModifierEffect *>(this)->FUN_00802db0(apActor);
     irefID = 0;
-    if (*(void**)((char*)this + 0x58))
-        irefID = reinterpret_cast<::FormFields *>(*(void**)((char*)this + 0x58))->iFormID;
+    if (reinterpret_cast<TelekinesisEffectFields*>(this)->unk58)
+        irefID = reinterpret_cast<::FormFields *>(reinterpret_cast<TelekinesisEffectFields*>(this)->unk58)->iFormID;
     reinterpret_cast<::C857A10Buffer *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_00857a10(&irefID, 4);
     if (reinterpret_cast<::FUN_008df040_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008df040() >= 0x40)
     {
-        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((char*)this + 0x50, 4);
-        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0((char*)this + 0x54, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&reinterpret_cast<TelekinesisEffectFields*>(this)->unk50, 4);
+        reinterpret_cast<::FUN_008579b0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<::FUN_008df040_shell * *>(&::g_TESSaveLoadGame)))))->FUN_008579b0(&reinterpret_cast<TelekinesisEffectFields*>(this)->unk54, 4);
     }
 }
 
@@ -631,12 +646,12 @@ struct TelekinesisStartEffect
     TelekinesisReference* target;
     void StartTelekinesisEffect();
 };
-// Calls FUN_0082c000, stores the result of FUN_00703390 at offset 0x58, calls StartTelekinesisEffect, and clears the byte at offset 0x5d.
+// Calls FUN_0082c000, stores the result of FUN_00703390 in unk58, calls StartTelekinesisEffect, and clears the byte at offset 0x5d.
 // @fnv 0x0082a670
 void FUN_0082a670_shell::FUN_0082a670()
 {
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    *(void**)((char*)this + 0x58) = ::fnv_00703390::FUN_00703390();
+    reinterpret_cast<TelekinesisEffectFields*>(this)->unk58 = (TESObjectREFR*)::fnv_00703390::FUN_00703390();
     reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
     this->unk5d = 0;
 }
@@ -644,11 +659,11 @@ void FUN_0082a670_shell::FUN_0082a670()
 void FUN_0082b300_shell::FUN_0082b300(Actor* apActor)
 {
     reinterpret_cast<::LoadedValueEffect *>(this)->FUN_0082cd10(apActor);
-    TESObjectREFR* pRef = *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58);
+    TESObjectREFR* pRef = reinterpret_cast<TelekinesisEffectFields*>(this)->unk58;
     if (pRef)
-        *reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58) =
+        reinterpret_cast<TelekinesisEffectFields*>(this)->unk58 =
             dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)reinterpret_cast<std::uintptr_t>(pRef)));
-    if (*reinterpret_cast<TESObjectREFR**>(reinterpret_cast<unsigned char*>(this) + 0x58))
+    if (reinterpret_cast<TelekinesisEffectFields*>(this)->unk58)
         reinterpret_cast<::TelekinesisStartEffect *>(this)->StartTelekinesisEffect();
     this->unk5d = 1;
 }

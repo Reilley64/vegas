@@ -3025,7 +3025,7 @@ void D0C3E0Owner::FUN_00d0c3e0(void* obj)
 
 struct __declspec(align(16)) S00d0c9c0_Ctx {
     void* m_pData;
-    int m_iValue;
+    const void* m_iValue;
     int unk08;
     int unk0c;
     ThingBlock m_kStorage[192];
@@ -3065,7 +3065,7 @@ struct __declspec(align(16)) S00d0c9c0_Ctx {
 
 // Iterates apEntries, builds a context struct, configures apP table offsets, calls FUN_00cfedd0, and invokes v18 on the object when m_pData changed.
 // @fnv 0x00d0c9c0
-void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt)
+void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, const void* aiValue, bool abAlt)
 {
     TimerCommandD0Write(str_010cd440);
     for (int i = 0; i < aiCount; ++i) {
@@ -5678,7 +5678,7 @@ struct Arg0 {
     int unk1ac;
     int unk1b0;
     int unk1b4;
-    int m_1b8;
+    void* m_1b8;
     int unk1bc;
     int unk1c0;
     int unk1c4;
@@ -6327,7 +6327,7 @@ void FUN_00d0bc50(int, int, int);
 void FUN_00d0bcf0(int a);
 void PartitionMotionPairs(PairEntryArray* apEntryArray, int* apiFixedCount, int index);
 void FUN_00d0ef40(ThisFull* th, void* edx_unused, StepArg arg);
-void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, int aiValue, bool abAlt);
+void FUN_00d0c9c0(ThingX** apEntries, int aiCount, ThingP* apP, const void* aiValue, bool abAlt);
 template<class T> __declspec(noinline) __declspec(nothrow) void ListBase<T>::CallWithFlag(Heap& a,int at,const T& value) throw() {Search(a,at,&value,1);}
 template<class T> class List : public ListBase<T> {
 public:

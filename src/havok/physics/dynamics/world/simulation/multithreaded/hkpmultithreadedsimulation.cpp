@@ -66,7 +66,7 @@ FUN_00d04300::FUN_00d04300(bool del)
 }
 
 // @fnv 0x00d021e0
-int FUN_00d021e0(int self, int, int* out)
+int FUN_00d021e0(char* self, int, int* out)
 {
     *out = *(int*)(self + 0xb4);
     return *out;
@@ -473,11 +473,11 @@ void FUN_00d01fc0(HandlePair* pHandlePair)
 }
 
 // @fnv 0x00d02160
-bool FUN_00d02160(int* apPairA, int* apPairB)
+bool FUN_00d02160(char** apPairA, char** apPairB)
 {
-    char* p1 = (char*)*apPairA;
+    char* p1 = *apPairA;
     char* b1 = p1 + p1[5];
-    char* p2 = (char*)*apPairB;
+    char* p2 = *apPairB;
     char* b2 = p2 + p2[5];
     int v1 = *(int*)(b1 + b1[0x10] + 0xd4);
     int iValueB = *(int*)(b2 + b2[0x10] + 0xd4);
@@ -485,10 +485,10 @@ bool FUN_00d02160(int* apPairA, int* apPairB)
         return true;
     if (v1 == iValueB)
     {
-        char* q1 = (char*)apPairA[1];
+        char* q1 = apPairA[1];
         char* c1 = q1 + q1[5];
         int iValueA2 = *(int*)(c1 + c1[0x10] + 0xd4);
-        char* q2 = (char*)apPairB[1];
+        char* q2 = apPairB[1];
         char* c2 = q2 + q2[5];
         int iValueB2 = *(int*)(c2 + c2[0x10] + 0xd4);
         return iValueA2 < iValueB2;
@@ -498,8 +498,8 @@ bool FUN_00d02160(int* apPairA, int* apPairB)
 
 struct PairEntry
 {
-    int first;
-    int second;
+    char* first;
+    char* second;
 };
 
 struct PairArray
@@ -516,19 +516,19 @@ struct FUN_00d026e0_cls
 {
     int unk00;
     char* m_04;
-    void ProcessPair(int* pr);
+    void ProcessPair(char** pr);
 };
 
 // Resolves two records from pr, and either appends the pair to the array at world+0x6c or updates sub+0x14 and calls FUN_00cc0f40 based on a grid lookup.
 // @fnv 0x00d026e0
-void FUN_00d026e0_cls::ProcessPair(int* aiPair)
+void FUN_00d026e0_cls::ProcessPair(char** aiPair)
 {
-    int a = aiPair[0];
-    int x = a + *(signed char*)(a + 5);
-    int b = aiPair[1];
-    int y = b + *(signed char*)(b + 5);
-    int x2 = x + *(signed char*)(x + 0x10);
-    int y2 = y + *(signed char*)(y + 0x10);
+    char* a = aiPair[0];
+    char* x = a + *(signed char*)(a + 5);
+    char* b = aiPair[1];
+    char* y = b + *(signed char*)(b + 5);
+    char* x2 = x + *(signed char*)(x + 0x10);
+    char* y2 = y + *(signed char*)(y + 0x10);
     char* world = m_04;
 
     if (world[0x68] != 0 && *(char*)(x2 + 0xe8) != 5 && *(char*)(y2 + 0xe8) != 5 &&
@@ -561,7 +561,7 @@ void FUN_00d026e0_cls::ProcessPair(int* aiPair)
     {
         int v = *(int*)(base + ((int)t << 6) + 0x1c30);
         *(int*)(sub + 0x14) = v;
-        FUN_00cc0f40((char*)x, (char*)y, sub);
+        FUN_00cc0f40(x, y, sub);
     }
 }
 
@@ -787,7 +787,7 @@ struct HkWorld
     int unk1ac;
     int unk1b0;
     int unk1b4;
-    int unk1b8;
+    void* unk1b8;
     int unk1bc;
     int unk1c0;
     int unk1c4;
@@ -815,7 +815,7 @@ struct HkInput
     short unk26;
     short unk28;
     short unk2a;
-    int unk2c;
+    int* unk2c;
     HkVec4 unk30;
     char unk40;
 };
@@ -987,7 +987,7 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
 {
     if (dispatcher == 0 || aiCount <= world->unkec)
     {
-        ::FUN_00d0c9c0((::ThingX **)this, (int)(paiData), (::ThingP *)(aiCount), (int)(pSource), (bool)(param));
+        ::FUN_00d0c9c0((::ThingX **)paiData, aiCount, (::ThingP *)pSource, param, flag);
         return;
     }
 
@@ -1005,7 +1005,7 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
     in.unk20 = 0;
     in.unk00 = 0xf;
     in.unk02 = 1;
-    in.unk2c = (int)paiData;
+    in.unk2c = paiData;
     in.unk40 = flag;
     in.unk28 = (short)aiCount;
     in.unk2a = (short)perBlock;
@@ -1064,8 +1064,8 @@ void HkProcessor::FUN_00d03030(int* paiData, int aiCount, HkSource* pSource, HkP
 
 struct SortPair8
 {
-    int m_key;
-    int m_uiFilterValue;
+    const void* m_key;
+    const void* m_uiFilterValue;
 };
 
 typedef bool(__cdecl* SortPairLess)(const SortPair8* lhs, const SortPair8* rhs);
@@ -1292,7 +1292,8 @@ struct PhysicsOwner
     GroupIdentity* unk20;
     int unk24, unk28, unk2C, unk30, unk34, unk38, unk3C;
     int unk40, unk44, unk48, unk4C, unk50, unk54, unk58, unk5C;
-    int unk60, unk64, unk68, unk6C, unk70, unk74;
+    int unk60, unk64, unk68, unk6C, unk70;
+    void* unk74;
     CollisionInput* input;
     int unk7C;
     int unk80, unk84, unk88, unk8C, unk90, unk94, unk98, unk9C;
@@ -1307,7 +1308,9 @@ struct PhysicsOwner
     int unk140, unk144, unk148, unk14C, unk150, unk154, unk158, unk15C;
     int unk160, unk164, unk168, unk16C, unk170, unk174, unk178, unk17C;
     int unk180, unk184, unk188, unk18C, unk190, unk194, unk198, unk19C;
-    int unk1A0, unk1A4, unk1A8, unk1AC, unk1B0, unk1B4, unk1B8, unk1BC;
+    int unk1A0, unk1A4, unk1A8, unk1AC, unk1B0, unk1B4;
+    void* unk1B8;
+    int unk1BC;
     int unk1C0, unk1C4, unk1C8, unk1CC, unk1D0, unk1D4, unk1D8, unk1DC;
     int unk1E0;
 };
@@ -1342,7 +1345,8 @@ struct JobBase : JobHeader
 {
     unsigned short count, unk12;
     GroupIdentity* unk14;
-    int unk18, header;
+    int unk18;
+    void* header;
     __forceinline JobBase(unsigned char t, unsigned char st, unsigned short sz, unsigned char sp)
         : JobHeader(t, st, sz, sp)
     {
@@ -1382,7 +1386,8 @@ struct __declspec(align(16)) ResultJob : JobHeader
 {
     unsigned short count, unk12;
     GroupIdentity* group;
-    int unk18, header;
+    int unk18;
+    void* header;
     void* results;
     int unk24, unk28, unk2C;
     __forceinline ResultJob(BuildJob* j) : JobHeader(14, 0, 48, 2)
@@ -1686,7 +1691,7 @@ void CollideSimQ::ProcessCollisionEntries(EntityQ** entities, int numEntities, v
                     {
                         reinterpret_cast<::FUN_00c90510_class *>((entity))->FUN_00c90510();
                         key = entity->m_d4;
-                        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((collInput))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(getRouter().m_pStreamAllocator)), key, (unsigned int)(entity));
+                        reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((collInput))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(getRouter().m_pStreamAllocator)), key, (uintptr_t)(entity));
                     }
                 }
             }
@@ -3125,13 +3130,13 @@ void Processor::ProcessGroups(int** items, int total, Group* groups, int count, 
             }
         }
         if (pSpecialGroup)
-            ::FUN_00d0c9c0((::ThingX **)this, (int)(items + pSpecialGroup->start), (::ThingP *)(pSpecialGroup->count), (int)(input), (bool)(pSpecialGroup->id));
+            ::FUN_00d0c9c0((::ThingX **)(items + pSpecialGroup->start), pSpecialGroup->count, (::ThingP *)input, pSpecialGroup->id, false);
         ((ThreadState*)static_cast<char*>(::FUN_00c85750()))->top = (char*)jobs;
     }
     else
     {
         for (int i = 0; i < count; ++i)
-            ::FUN_00d0c9c0((::ThingX **)this, (int)(items + groups[i].start), (::ThingP *)(groups[i].count), (int)(input), (bool)(groups[i].id));
+            ::FUN_00d0c9c0((::ThingX **)(items + groups[i].start), groups[i].count, (::ThingP *)input, groups[i].id, flag.m_cBooleanValue != 0);
     }
 }
 
@@ -3535,7 +3540,7 @@ struct Stepper
 
     int f0bc;
 
-    int f0c0;
+    void* f0c0;
 
     int f0c4;
 
@@ -3796,7 +3801,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
     const int n = count < 128 ? count : 128;
 
     for (int k = 0; k < n; ++k)
-        ::FUN_00d00aa0((::OwnerD *)(f00c), (int)(f00c->f1b8->entries[k]));
+        ::FUN_00d00aa0((::OwnerD *)(f00c), f00c->f1b8->entries[k]);
 
     f018 += f01c;
 
@@ -3891,7 +3896,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
         }
 
         if (f00c->f0e4)
-            f0c0 = (int)job;
+            f0c0 = job;
 
         reinterpret_cast<::FUN_00c91190_Class *>((f00c))->FUN_00c91190();
         v18();
@@ -3935,7 +3940,7 @@ int Stepper::FUN_00d03290(Job* job, Jobs* jobs)
 
     f028 = result;
 
-    if (result && ((int)(reinterpret_cast<::WorldWatchDogHolder *>((f00c))->FUN_00c93570())))
+    if (result && reinterpret_cast<::WorldWatchDogHolder *>((f00c))->FUN_00c93570() != 0)
         ::ProcessChildLoop((::ParamObj *)(f00c));
 
     return f028;
@@ -3968,7 +3973,7 @@ static inline Singleton* GetSingleton()
 struct Pair
 {
     void* m_00;
-    int m_04;
+    void* m_04;
 };
 
 struct ArrPair
@@ -3976,7 +3981,7 @@ struct ArrPair
     Pair* m_pData;
     int m_iArrayLength;
     int m_iCapacity;
-    __forceinline void AppendN(void* a, int b, int n)
+    __forceinline void AppendN(void* a, void* b, int n)
     {
         for (int k = 0; k < n; ++k)
         {
@@ -4029,30 +4034,6 @@ struct ArrGroup
         return m_pData[m_iArrayLength - 1];
     }
 public:
-    __forceinline Group& FindOrAdd(GroupIdentity* key)
-    {
-        for (int k = 0; k < m_iArrayLength; ++k)
-        {
-            if (key == m_pData[k].id)
-                return m_pData[k];
-        }
-        Singleton* allocator = GetSingleton();
-        if (m_iArrayLength == (m_iCapacity & 0x3fffffff))
-            ResizeAudioStream(allocator->m_10, (PairArray*)this, 24);
-        ZeroNew(m_iArrayLength);
-        Group* added = m_pData + m_iArrayLength++;
-        if (added != 0)
-        {
-            added->id = 0;
-            added->count = 0;
-            added->start = 0;
-            added->unk0C = 0;
-            added->job = 0;
-            added->unk14 = 0;
-        }
-        m_pData[m_iArrayLength - 1].id = key;
-        return m_pData[m_iArrayLength - 1];
-    }
 };
 
 struct ObjA
@@ -6240,7 +6221,7 @@ struct Elem
     unsigned char unk18_b1;
     unsigned char unk18_b2;
     unsigned char unk18_b3;
-    int m_cc;
+    GroupIdentity* m_cc;
     unsigned char unkD0_00;
     unsigned char unkD0_01;
     unsigned char unkD0_02;
@@ -6442,7 +6423,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     L.seen.m_04 = 0;
     L.seen.m_08 = -1;
     Singleton* pSingleton = GetSingleton();
-    reinterpret_cast<::FUN_00cb1fe0_t *>(&(L.seen))->EnsureCapacity((int)(pSingleton->m_10), 0);
+    reinterpret_cast<::FUN_00cb1fe0_t *>(&(L.seen))->EnsureCapacity((intptr_t)(pSingleton->m_10), 0);
     int sentinel = (int)0x80000000;
     pairs.m_pData = 0;
     pairs.m_iArrayLength = 0;
@@ -6466,7 +6447,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
             for (; j < iContactCount; j++)
             {
                 Elem* e2 = (Elem*)L.contacts.m_pData[j].m_00;
-                if (reinterpret_cast<::FUN_00cb1930_t *>(&(L.seen))->LookupHashEntry((int)(e2), 0) != 0)
+                if (reinterpret_cast<::FUN_00cb1930_t *>(&(L.seen))->LookupHashEntry((intptr_t)(e2), 0) != 0)
                     continue;
                 int idx = e2->m_0c;
                 int cell = m_0c->m_80->cells[idx].active;
@@ -6474,22 +6455,22 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
                 bool atRest = savedElem->m_14c == 0.0f;
                 if (cell != 0 && (!enabled || !atRest))
                     continue;
-                GroupIdentity* key = (GroupIdentity*)savedElem->m_cc;
+                GroupIdentity* key = savedElem->m_cc;
                 if (savedElem->m_e8 == 5)
                 {
                     SubNode* node10 = e2->links.first;
                     SubNode* node14 = e2->links.second;
-                    int right = (int)node10 + node10->off10;
-                    int left = (int)node14 + node14->off10;
-                    int h = right ^ left ^ (int)savedElem;
-                    key = (GroupIdentity*)((Elem*)h)->m_cc;
+                    uintptr_t right = (uintptr_t)node10 + node10->off10;
+                    uintptr_t left = (uintptr_t)node14 + node14->off10;
+                    uintptr_t h = right ^ left ^ (uintptr_t)savedElem;
+                    key = ((Elem*)h)->m_cc;
                 }
                 Singleton* pSingleton1 = GetSingleton();
-                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(L.seen))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton1->m_10)), (unsigned int)(e2), 1);
+                reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(&(L.seen))->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(pSingleton1->m_10)), (uintptr_t)(e2), 1);
                 Singleton* pSingleton2 = GetSingleton();
                 if (pairs.m_iArrayLength == (pairs.m_iCapacity & 0x3fffffff))
                     ::ResizeAudioStream((::AudioAllocator *)(pSingleton2->m_10), (::AudioStream *)(::PairArray *)((PairArray*)&pairs), 8);
-                pairs.AppendN(e2, (int)key, 1);
+                pairs.AppendN(e2, key, 1);
                 Group& entry = groups.FindOrAdd(key);
                 ++entry.count;
                 total++;
@@ -6516,7 +6497,7 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
     }
     Singleton* pSingleton5 = GetSingleton();
     p1 = (ParamObj*)pSingleton5->m_00;
-    pSingleton5->m_00 = (int*)((char*)p1 + ((total * 4 + 0x7f) & ~0x7f));
+    pSingleton5->m_00 = (int*)((char*)p1 + ((total * sizeof(void*) + 0x7f) & ~0x7f));
     for (int pi = 0; pi < pairs.m_iArrayLength; pi++)
     {
         void* pfirst = pairs.m_pData[pi].m_00;
@@ -6524,9 +6505,9 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
         Group& triple = groups.FindOrAdd(pkey);
         int slot = triple.unk0C;
         triple.unk0C = slot + 1;
-        ((int*)p1)[slot] = (int)pfirst;
+        ((void**)p1)[slot] = pfirst;
     }
-    reinterpret_cast<::Processor *>(this)->ProcessGroups((int **)(int *)((int*)p1), total, groups.m_pData, groups.m_iArrayLength, (::TaskInput *)(void *)(m_0c->GetIn()), (*(::hkBoolX *)&(const ::CollisionFlag &)((char)0)));
+    reinterpret_cast<::Processor *>(this)->ProcessGroups((int **)(void *)(p1), total, groups.m_pData, groups.m_iArrayLength, (::TaskInput *)(void *)(m_0c->GetIn()), (*(::hkBoolX *)&(const ::CollisionFlag &)((char)0)));
     SubObj* sub = m_0c;
     sub->m_94--;
     if (sub->m_94 == 0 && sub->m_9c == 0)
@@ -6572,59 +6553,23 @@ void ThisCls::FUN_00d03c20(ParamObj* apUnused, ParamObj* p1)
 // Moved from hkpmultithreadedsimulation_rtm_variant.cpp (VEGAS-15).
 #include "fnv/decl/FUN_00c92b50_Class.h"
 #include "fnv/decl/fnv_00cf8b00__Sim.h"
-#include "fnv/decl/fnv_00d03030__HkProcessor.h"
 #include "fnv/symbols_00cb5000.h"
 #include "fnv/symbols_00cc0000.h"
 #include "fnv/symbols_00d89000.h"
 #include "fnv/symbols_01076000.h"
 #include "fnv/symbols_010cc000.h"
-int FUN_00d021e0(int self, int, int* out);
+int FUN_00d021e0(char* self, int, int* out);
 void FUN_00d021f0(void* this_, int, int* arg, int);
 void FUN_00d02020(S_00d02020_Pair* pair);
 void __cdecl CompareObjectKeys(bool* result, CompareObject* left, CompareObject* right);
 void FUN_00d01fc0(HandlePair* pHandlePair);
-bool FUN_00d02160(int* apPairA, int* apPairB);
+bool FUN_00d02160(char** apPairA, char** apPairB);
 void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void FUN_00d020f0(S_00d02020_Pair* pair);
 void FUN_00d02200(int);
 void FUN_00d02210(int, int, int);
 void NotifyPhantomCollision(PairD020* pkPair);
 void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
-template <class T> struct hkArrayQ
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    __forceinline hkArrayQ() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-    __forceinline int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    __forceinline void _clearAndDeallocate(hkMemoryAllocatorQ& alloc)
-    {
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, getCapacity() * sizeof(T));
-        m_data = 0;
-        m_iCapacityState = 0x80000000;
-    }
-    __forceinline void ClearAndRelease()
-    {
-        _clearAndDeallocate(*getRouter().m_pStreamAllocator);
-    }
-    __forceinline void _pushBack(hkMemoryAllocatorQ& alloc, const T& t)
-    {
-        if (m_iElementCount == getCapacity())
-            ResizeAudioStream(&alloc, this, sizeof(T));
-        m_data[m_iElementCount++] = t;
-    }
-    __forceinline void AddBack(const T& t)
-    {
-        _pushBack(*getRouter().m_pStreamAllocator, t);
-    }
-};
 static S00d02880_Elem* FUN_00d02880(S00d02880_Arr* b, S00d02880_Key t);
 S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key);
 void __cdecl ResizeAudioStream(void*, PairArray*, int);
@@ -7214,7 +7159,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
     edi->m_114 = &world->m_1d0;
     new ((void *)&(edi->m_90)) ::FUN_00cfa7d0((*(const ::FUN_00cfa7d0 *)(m_0c->m_78)));
     world = m_0c;
-    reinterpret_cast<::S00cfa6e0_Dst *>(&(edi->m_10))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::StepBeginDetail::Sub *)(&world->m_1e0), (::S00cfa6e0_Pair *)(::StepBeginDetail::Vec4 *)(&world->m_1d0), (int)(world->m_1b8));
+    reinterpret_cast<::S00cfa6e0_Dst *>(&(edi->m_10))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::StepBeginDetail::Sub *)(&world->m_1e0), (::S00cfa6e0_Pair *)(::StepBeginDetail::Vec4 *)(&world->m_1d0), world->m_1b8);
     edi->m_110 = this;
     edi->m_118 = m_0c->m_78->m_08;
     edi->m_11c = &DAT_01269210;
@@ -7232,7 +7177,7 @@ int Simulation::FUN_00d022b0(ArgCls* arg, float dt)
         }
         Msg msg;
         msg.d20 = count;
-        msg.header = (int)m_0c->m_74;
+        msg.header = m_0c->m_74;
         reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(0, count);
         reinterpret_cast<::Owner *>((arg))->FUN_00d04a80(1, count);
         reinterpret_cast<::D04B90World *>((arg))->AddObjectCopy((const ::D04B90Object *)(::StepBeginDetail::Msg *)(&msg), (void *)(1));

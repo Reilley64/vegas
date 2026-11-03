@@ -4391,7 +4391,7 @@ struct Phantom
     virtual void v04();
     virtual void v08();
     virtual void v0c();
-    virtual void v10(int a);
+    virtual void v10(const void* a);
 };
 struct OwnerD
 {
@@ -4409,7 +4409,7 @@ struct OwnerD
 };
 // Iterates owner's m_kListeners in reverse, calling v10 with a2 on each non-null listener between timer samples, then calls FUN_00d00370 on the array.
 // @fnv 0x00d00aa0
-void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
+void __cdecl FUN_00d00aa0(OwnerD* owner, const void* a2)
 {
     D00370Array& listen = owner->m_kListeners;
     for (int i = listen.m_iElementCount - 1; i >= 0; i--)

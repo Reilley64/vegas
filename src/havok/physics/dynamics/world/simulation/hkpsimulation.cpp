@@ -1064,14 +1064,14 @@ struct S00cfa6e0_Dst {
     int i5c;
     int u60;
     int u64;
-    int i68;
+    void* i68;
     int u6c;
-    void FUN_00cfa6e0(S00cfa6e0_Src* s, S00cfa6e0_Pair* p, int v);
+    void FUN_00cfa6e0(S00cfa6e0_Src* s, S00cfa6e0_Pair* p, void* v);
 };
 
 // Copies float and int fields from s and p into this object, computing several products of source floats.
 // @fnv 0x00cfa6e0
-void S00cfa6e0_Dst::FUN_00cfa6e0(S00cfa6e0_Src* apSource, S00cfa6e0_Pair* apPair, int aiValue)
+void S00cfa6e0_Dst::FUN_00cfa6e0(S00cfa6e0_Src* apSource, S00cfa6e0_Pair* apPair, void* aiValue)
 {
     f00 = apSource->f10c;
     f04 = apSource->f11c * apSource->f10c;
@@ -2019,7 +2019,7 @@ int Simulation::FUN_00cf8da0(const TimeInterval* step) {
         allocator->frameCounter = 0;
     }
     IntegrationContext context;
-    reinterpret_cast<::S00cfa6e0_Dst *>(&(context))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::SolverInfo *)(&m_pOwningWorld->solver), (::S00cfa6e0_Pair *)(step), (int)(m_pOwningWorld->collisionInput));
+    reinterpret_cast<::S00cfa6e0_Dst *>(&(context))->FUN_00cfa6e0((::S00cfa6e0_Src *)(::SolverInfo *)(&m_pOwningWorld->solver), (::S00cfa6e0_Pair *)(step), m_pOwningWorld->collisionInput);
     MonitorStream::get()->timer(str_010cc5a4, (unsigned int&)scalar.i);
     resources.islands = &m_pOwningWorld->activeIslands;
     for (scalar.i = resources.islands->m_iElementCount - 1; scalar.i >= 0; --scalar.i) {

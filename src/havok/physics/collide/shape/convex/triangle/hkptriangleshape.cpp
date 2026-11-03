@@ -6,6 +6,7 @@
 #include <new>
 #include <cstddef>
 #include <xmmintrin.h>
+#include <bit>
 #include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -251,7 +252,7 @@ void TriangleSupport::FUN_00d20270(float const* pf, float* out)
         idx += 3;
         reinterpret_cast<SupportVector*>(out)->add(*reinterpret_cast<const SupportVector*>(&m_kVertexTransform));
     }
-    ((int*)out)[3] = idx | 0x3f000000;
+    out[3] = std::bit_cast<float>(idx | 0x3f000000);
 }
 
 #include <math.h>
@@ -1375,9 +1376,7 @@ struct FUN_00d20370_Triangle
 {
     __m128 unknown00;
     __m128 unknown10;
-    __m128 vertexA;
-    __m128 vertexB;
-    __m128 vertexC;
+    __m128 vertices[3];
     __m128 extrusion;
 
     void FUN_00d20370(const unsigned short* indexes, int count, __m128* output);
@@ -1388,14 +1387,14 @@ void FUN_00d20370_Triangle::FUN_00d20370(const unsigned short* indexes, int coun
 {
     for (int remaining = count - 1; remaining >= 0; --remaining)
     {
-        const __m128* src = (const __m128*)((const char*)this + (DAT_011b3b4c[*indexes] + 2) * 16);
+        const __m128* src = &vertices[DAT_011b3b4c[*indexes]];
         __m128 original = *src;
         *output = original;
 
         __m128 a = _mm_load_ss(&DAT_011b3b20[*indexes]);
         __m128 b = _mm_shuffle_ps(a, a, 0);
         *output = _mm_add_ps(_mm_mul_ps(b, extrusion), original);
-        ((unsigned int*)output)[3] = (unsigned int)(*indexes) | 0x3f000000u;
+        (*output)[3] = std::bit_cast<float>((unsigned int)(*indexes) | 0x3f000000u);
 
         output += 1;
         indexes += 1;

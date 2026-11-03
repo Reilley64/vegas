@@ -713,11 +713,11 @@ struct LeafGeometryB28480
     unsigned short unk1E;
     Vec3B28480* m_pPositions;
     Vec3B28480* m_pLeafVectors;
-    void FUN_00b28480(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource);
+    void FUN_00b28480(unsigned short usLod, void* nSeed, const LeafSourceB28480* pSource);
 };
 
 // @fnv 0x00b28480
-void LeafGeometryB28480::FUN_00b28480(unsigned short usLod, int nSeed, const LeafSourceB28480* pSource)
+void LeafGeometryB28480::FUN_00b28480(unsigned short usLod, void* nSeed, const LeafSourceB28480* pSource)
 {
     m_usValueAt28 = pSource->m_usValueAt28;
     m_nStyle = pSource->m_nStyle;

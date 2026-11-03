@@ -298,7 +298,7 @@ float FUN_00b2bd40_Obj::GetNormalizedValue()
 {
     float local;
     float fUnused;
-    float value = reinterpret_cast<::V3cdd0 *>(&((*reinterpret_cast<::FUN_00b04d40_Obj *>(&::DAT_011f8e9c))))->FUN_00b04d40((const ::V3cdd0 *)((int)((char*)&this->unk04)));
+    float value = reinterpret_cast<::V3cdd0 *>(&((*reinterpret_cast<::FUN_00b04d40_Obj *>(&::DAT_011f8e9c))))->FUN_00b04d40((const ::V3cdd0 *)((char*)&this->unk04));
 
     unk14 = 1.0f - (value - unk44) / (unk40 - unk44);
 
@@ -930,7 +930,7 @@ inline basic_string<C, T, A>& basic_string<C, T, A>::assign(const basic_string<C
         v01 = _Roff;
         v02 = _Count;
         v03 = v01 + v02;
-        v04 = (unsigned int)&_Right;
+        v04 = (unsigned int)sizeof(_Right);
         v05 = v03 + v04;
         v06 = v05 + v01;
         v07 = v06 + v02;

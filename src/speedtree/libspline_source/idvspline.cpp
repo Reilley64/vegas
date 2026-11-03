@@ -1153,8 +1153,8 @@ void HostB37::FUN_00b37cc0(InputB37* input)
 
 struct FUN_0044d6c0_class
 {
-    int m0;
-    int m1;
+    void* m0;
+    void* m1;
     int m2;
     void* FUN_00ec78f1(void*** ppArg);
 };
@@ -1169,7 +1169,7 @@ void __cdecl FUN_00b3b540(int aiCount, int aiUnused)
         void** p = 0;
         FUN_0044d6c0_class e5;
         e5.FUN_00ec78f1(&p);
-        e5.m0 = (int)&(*reinterpret_cast<void * *>(&::DAT_010176f8));
+        e5.m0 = &(*reinterpret_cast<void * *>(&::DAT_010176f8));
         throw e5;
     }
     ::FUN_00401000(aiCount * 0x30);

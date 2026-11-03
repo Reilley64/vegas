@@ -4993,14 +4993,14 @@ struct TreeCQ
     int c[(0xd8 - 0xb8) / 4];
     int iD8;
     int d[(0xec - 0xdc) / 4];
-    int mEC;
+    void* mEC;
     int e[(0x10c - 0xf0) / 4];
     int o10c;
     O94Q* GetO94()
     {
         return &o94;
     }
-    int GetEC()
+    void* GetEC()
     {
         return mEC;
     }
@@ -5084,7 +5084,7 @@ inline void InitLeaves(TreeCQ* t)
 {
     reinterpret_cast<::S_00b3cf40 *>(&(t->o94))->Init(t->leaves.size());
 }
-inline void InitBr(BrQ* b, O94Q* o, int ec, unsigned short d8)
+inline void InitBr(BrQ* b, O94Q* o, void* ec, unsigned short d8)
 {
     reinterpret_cast<::LeafGeometryB28480 *>((b))->FUN_00b28480(d8, ec, (const ::LeafSourceB28480 *)(o));
 }

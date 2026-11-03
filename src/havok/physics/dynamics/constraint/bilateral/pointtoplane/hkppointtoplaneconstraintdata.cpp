@@ -51,16 +51,16 @@ struct Transform
 {
     ValidationResult IsTransformValid(float tolerance);
 };
-struct FUN_00d84b70
+struct FUN_00d84b70 : hkpPointToPlaneConstraintData
 {
     ValidationResult CheckValid();
 };
-// Returns true if the Transform at offset 0x20 and the one at offset 0x60 both pass a 0.001 tolerance validation.
+// Returns true if both local frames of the transforms atom pass a 0.001 tolerance validation.
 // @fnv 0x00d84b70
 ValidationResult FUN_00d84b70::CheckValid()
 {
-    Transform* pFirstTransform = (Transform*)((char*)this + 0x20);
-    Transform* pSecondTransform = (Transform*)((char*)this + 0x60);
+    Transform* pFirstTransform = reinterpret_cast<Transform*>(&m_kBridgeAtoms.m_kTransforms.m_kBodyALocalFrame);
+    Transform* pSecondTransform = reinterpret_cast<Transform*>(&m_kBridgeAtoms.m_kTransforms.m_kBodyBLocalFrame);
     return pFirstTransform->IsTransformValid(0.001f).value && pSecondTransform->IsTransformValid(0.001f).value;
 }
 

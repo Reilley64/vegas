@@ -2303,21 +2303,21 @@ class C857950
 
 
 extern int DAT_01183028;
-extern "C" int __cdecl FUN_00ec43fb(unsigned int a, unsigned int b, void* c, void* d, unsigned int e);
+extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 
 struct FUN_0085a450_cls
 {
-    int FUN_0085a450(unsigned int a1, unsigned int a2);
+    int FUN_0085a450(void* a1, unsigned int a2);
 };
 
 // Calls FUN_00ec43fb twice with DAT_01183028 and DAT_011841cc/DAT_01183fb4, then returns a code derived from a2 and the results.
 // @fnv 0x0085a450
-int FUN_0085a450_cls::FUN_0085a450(unsigned int a1, unsigned int auiFlags)
+int FUN_0085a450_cls::FUN_0085a450(void* a1, unsigned int auiFlags)
 {
-    int r1 = FUN_00ec43fb(a1, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_011841cc)), 0);
+    void* r1 = FUN_00ec43fb(a1, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_011841cc)), 0);
     if (r1 == 0)
     {
-        int r2 = FUN_00ec43fb(a1, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183fb4)), 0);
+        void* r2 = FUN_00ec43fb(a1, 0, &DAT_01183028, &(*reinterpret_cast<int *>(&::DAT_01183fb4)), 0);
         if (r2 != 0)
         {
             if ((auiFlags & 0) != 0)
@@ -3909,7 +3909,6 @@ struct Point
     float x, y, z;
 };
 extern char DAT_01183028;
-void* __cdecl FUN_00ec43fb(void*, int, void*, void*, int);
 struct Base
 {
 };
@@ -4526,7 +4525,6 @@ struct SaveQuest
 {
 };
 extern const int DAT_01183028;
-void* FUN_00ec43fb(void*, int, const void*, const void*, int);
 int FUN_00406d50(char*, unsigned int, const char*);
 struct SaveFormatter
 {
@@ -4929,7 +4927,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_CELL_CREATED\r\n");
                 else
                 {
-                    ::FUN_00406d00(text, 50, "Cell Created(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(form), 0x0))) : 0);
+                    ::FUN_00406d00(text, 50, "Cell Created(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(form), 0x0))) : 0);
 
                     while (::FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -5051,7 +5049,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_CREATED_NEW_REFERENCE\r\n");
                 else
                 {
-                    ::FUN_00406d00(text, 50, "Created(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(form), 0x0))) : 0);
+                    ::FUN_00406d00(text, 50, "Created(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(form), 0x0))) : 0);
 
                     while (::FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -5079,7 +5077,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     FUN_00406d50(buffer, 500, "CHANGE_REFR_MOVE\r\n");
                 else
                 {
-                    ::FUN_00406d00(text, 50, "Moved(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(form), 0x2))) : 0);
+                    ::FUN_00406d00(text, 50, "Moved(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(form), 0x2))) : 0);
 
                     while (::FUN_0044a670(text) < 25)
                         FUN_00406d50(text, 50, " ");
@@ -5100,7 +5098,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     else
                     {
                         ::FUN_00406d00(text, 50, "Havok Moved(%i)",
-                                     form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(form), 4))) + form->GetSaveSize(4) - baseSize : 0);
+                                     form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(form), 4))) + form->GetSaveSize(4) - baseSize : 0);
                     }
 
                     while (::FUN_0044a670(text) < 25)
@@ -5135,7 +5133,7 @@ void SaveFormatter::FormatChangeFlags(char* buffer, SaveForm* form, unsigned int
                     }
                     else
                     {
-                        ::FUN_00406d00(text, 50, "Oblivion Flag(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(form), 0x0))) : 0);
+                        ::FUN_00406d00(text, 50, "Oblivion Flag(%i)", form ? ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(form), 0x0))) : 0);
                     }
 
                     while (::FUN_0044a670(text) < 25)
@@ -7186,7 +7184,7 @@ class FormX
     virtual void F2c();
     char FUN_00401170();
 };
-extern "C" void* __cdecl FUN_00ec43fb(void* p, long off, void* src, void* dst, int isRef);
+extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 extern char DAT_01183028, DAT_01183108, DAT_01183060, DAT_011839b4;
 class EnchX
 {
@@ -8391,7 +8389,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&revision), 1);
     if (!unka8)
     {
-        GetSystemTime(&unk98);
+        GetSystemTime((LPSYSTEMTIME)&unk98);
         unka8 = revision;
     }
     reinterpret_cast<::FUN_00857b50_slg *>(this)->FUN_00857b50((::BSFile *)(file), (const char *)(const void *)(&unk98), 16);
@@ -8409,7 +8407,7 @@ void SaveHeader::WriteSaveHeader(void* file, const char* name)
         _c0 = ::FUN_0044a670(_h) + 1;
     float _b = reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CalendarHeader *>(&::g_011de7b8))))->GetGameDaysPassed() + ((double)(reinterpret_cast<::Calendar *>(&((*reinterpret_cast<::CalendarHeader *>(&::g_011de7b8))))->GetGameTime())) / 24.0;
     TimeHeader _n;
-    GetLocalTime(&_n);
+    GetLocalTime((LPSYSTEMTIME)&_n);
     unsigned int _image = 0;
     int _ap = 256;
     int _cb_ = 256;
@@ -8580,6 +8578,11 @@ struct Cls56
     void FUN_00858700(void*);
     bool FUN_00856ca0(int, int, unsigned char);
 };
+// The callee address is unknown; the original source declared it on its local TESObjectREFR view without one.
+struct RefrCellLookup_861f20
+{
+    ::TESObjectCELL* GetContainingCell(::TESWorldSpace*);
+};
 // @fnv 0x00861f20
 void TESSaveLoadGame_861f20::FUN_00861f20(int aiType)
 {
@@ -8609,7 +8612,7 @@ void TESSaveLoadGame_861f20::FUN_00861f20(int aiType)
             for (j3 = 0; j3 < 5; j3++)
             {
                 pRef3 = ((::TESObjectREFR_861f20 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandler_861f20 * *>(&::g_dataHandler))))->PlaceObjectReference(pObj8, (*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer))->GetPos(), (::NiPoint3 *)&((*(const ::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer))))->GetData()))),
-                                               (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer))))->GetTarget((*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer))))->FUN_00575d70())))), (::TESWorldSpace *)(0),
+                                               (::TESObjectCELL *)(reinterpret_cast<::RefrCellLookup_861f20 *>((*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer)))->GetContainingCell((::TESWorldSpace *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((*reinterpret_cast<::TESObjectREFR_861f20 * *>(&::_g_thePlayer)))->FUN_00575d70()))), (::TESWorldSpace *)(0),
                                                (::TESObjectREFR *)(0), (const char *)(0), {})));
                 kPos = *pRef3->GetPos();
                 kPos.z += 1000.0;
@@ -8716,7 +8719,7 @@ bool Cls56::FUN_00856ca0(int aiFileHandle, int apSavePath, unsigned char p2)
                     recs++;
                     reinterpret_cast<::FUN_00857230_shell *>((((EffectSetting*)this)))->SetSound((TESSound*)&recData);
                     unsigned short soundVal = obj->Vu(*(int*)&recData.c0);
-                    soundVal += ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((unsigned int)(obj), *(int*)&recData.c0)));
+                    soundVal += ((unsigned short)(reinterpret_cast<::FUN_0085a450_cls *>(this)->FUN_0085a450((void *)(obj), *(int*)&recData.c0)));
                     reinterpret_cast<::FUN_00857b50_slg *>((((::FUN_008586a0_class*)this)))->FUN_00857b50((::BSFile *)((int)pForm), (const char *)((int)&soundVal), 2);
                     if (soundVal)
                     {

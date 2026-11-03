@@ -1,4 +1,6 @@
 // staging/blk_00cc0000_o2.cpp: CacheOwner_cls, Owner, Obj, hkVector4CDA and more (425 functions)
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_00c90000.h"
 #include <cstdint>
 #include <cstddef>
 #include <windows.h>
@@ -64,7 +66,6 @@
 #include "fnv/decl/LunaTarget.h"
 #include "fnv/decl/MProduct.h"
 #include "fnv/decl/MemoryManagerStandIn.h"
-#include "fnv/decl/Mesh654.h"
 #include "fnv/decl/MyOwner.h"
 #include "fnv/decl/NiGlobalStringTable.h"
 #include "fnv/decl/Owner253.h"
@@ -169,6 +170,32 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
 #include "../../include/layout_support.h"
+#include <xmmintrin.h>
+#include <string.h>
+#include <intrin.h>
+#include "fnv/symbols_simd.h"
+#include "fnv/decl/FUN_004381b0_shell.h"
+#include "fnv/decl/FUN_00a5d2f0_class.h"
+#include "fnv/decl/FUN_00ccd080.h"
+#include "fnv/decl/FUN_00d50020.h"
+#include "fnv/decl/FUN_00d54e60.h"
+#include "fnv/decl/FnvCpu_FUN_00c89720_CpuInterface.h"
+#include "fnv/decl/S_00c6d5c0.h"
+#include "fnv/decl/VectorSourceB00.h"
+#include "fnv/decl/hkpCharacterStateView.h"
+#include "fnv/symbols_00cc1000.h"
+#include "fnv/symbols_00cc2000.h"
+#include "fnv/symbols_00cc3000.h"
+#include "fnv/symbols_00cc4000.h"
+#include "fnv/symbols_00cc6000.h"
+#include "fnv/symbols_00cc7000.h"
+#include "fnv/symbols_00cc9000.h"
+#include "fnv/symbols_00ccb000.h"
+#include "fnv/symbols_00ccd000.h"
+#include "fnv/symbols_00cce000.h"
+#include "fnv/symbols_00cd7000.h"
+#include "fnv/symbols_00cdf000.h"
+#include "fnv/symbols_00d6a000.h"
 
 struct hkReferencedObject {
 };
@@ -190,7 +217,6 @@ hkOstream* hkOstream::FUN_00cc00b0(void* owner)
     return this;
 }
 
-extern "C" void __cdecl _delete(void* p, int flags);
 
 void __cdecl FUN_00cc1520();
 
@@ -204,7 +230,7 @@ FUN_00cc1710_Class* FUN_00cc1710_Class::FUN_00cc1710(int aiFlags)
 {
     FUN_00cc1520();
     if (aiFlags & 1)
-        _delete(this, 24);
+        ::FUN_00aa1460(this, 24);
     return this;
 }
 
@@ -301,7 +327,6 @@ FUN_00cc2b40_class* FUN_00cc2b40_class::FUN_00cc2b40(int flag)
 }
 
 namespace fnv_00cc3a30 {
-extern "C" void __cdecl _delete(void*, unsigned int);
 
 void __cdecl FUN_00cc39b0();
 
@@ -318,13 +343,12 @@ GSGeometry* GSGeometry::FUN_00cc3a30(int flags)
 {
     FUN_00cc39b0();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 }  // namespace fnv_00cc3a30
 
 namespace fnv_00cc5110 {
-extern "C" void __cdecl _delete(void* p, size_t size);
 
 void FUN_00cc5090();
 
@@ -338,7 +362,7 @@ FUN_00cc5110_Class* FUN_00cc5110_Class::FUN_00cc5110(int flags)
 {
     FUN_00cc5090();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 }  // namespace fnv_00cc5110
@@ -364,7 +388,6 @@ void* FUN_00cc74e0_Class::FUN_00cc74e0(int flags)
 }  // namespace fnv_00cc74e0
 
 namespace fnv_00cc8500 {
-extern "C" void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00cc8500_class {
     void FUN_00cc8480();
@@ -377,7 +400,7 @@ void* FUN_00cc8500_class::FUN_00cc8500(int flags)
 {
     FUN_00cc8480();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 }  // namespace fnv_00cc8500
@@ -385,7 +408,11 @@ void* FUN_00cc8500_class::FUN_00cc8500(int flags)
 struct MemoryManager {  };
 struct MM {  };
 extern int DAT_0108ffb4;
-struct FUN_009ba5f0_shell {  };
+struct FUN_009ba5f0_shell
+{
+public:
+    void ReleaseObject(::hkReferencedObject *, int);
+};
 struct FUN_00cc8920_shell : FUN_009ba5f0_shell {
     int* m_p;
     FUN_00cc8920_shell* FUN_00cc8920(int a);
@@ -434,7 +461,6 @@ FUN_00cc8da0_Class* FUN_00cc8da0_Class::FUN_00cc8da0(bool b)
     return this;
 }
 
-extern "C" void __cdecl _delete(void*, int);
 extern "C" void __cdecl FUN_00d54e60();
 
 struct FUN_00ccb160_class {
@@ -446,13 +472,12 @@ void* FUN_00ccb160_class::FUN_00ccb160(int arg)
 {
     FUN_00d54e60();
     if (arg & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
 void __cdecl FUN_00ccbc00();
 
-void __cdecl _delete(void*, unsigned int);
 
 struct FUN_00ccc420_class {
     void* FUN_00ccc420(int);
@@ -464,7 +489,7 @@ void* FUN_00ccc420_class::FUN_00ccc420(int aiFlags)
 {
     FUN_00ccbc00();
     if (aiFlags & 1)
-        _delete(this, 0x18);
+        ::FUN_00aa1460(this, 0x18);
     return this;
 }
 
@@ -491,7 +516,6 @@ FUN_00ccd150_cls* FUN_00ccd150_cls::FUN_00ccd150(int flags)
     return this;
 }
 
-extern "C" void __cdecl _delete(void*, int);
 
 struct FUN_00ccf870_class {
     int FUN_00ccf870(int flags);
@@ -502,7 +526,7 @@ int FUN_00ccf870_class::FUN_00ccf870(int flags)
 {
     reinterpret_cast<::FUN_00ccf740_cls *>(this)->FUN_00ccf740_cls::~FUN_00ccf740_cls();
     if (flags & 1)
-        _delete((void*)this, 0x14);
+        ::FUN_00aa1460((void*)this, 0x14);
     return (int)this;
 }
 
@@ -519,7 +543,6 @@ void FUN_00cd3290_class::FUN_00cd3290()
 }
 
 namespace fnv_00cd7f30 {
-extern "C" void __cdecl _delete(void*, unsigned int);
 
 void __cdecl FUN_00ccdbc0();
 
@@ -533,7 +556,7 @@ FUN_00cd7f30_class* FUN_00cd7f30_class::FUN_00cd7f30(unsigned char flags)
 {
     FUN_00ccdbc0();
     if (flags & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 }  // namespace fnv_00cd7f30
@@ -664,9 +687,6 @@ FUN_00cc66b0::~FUN_00cc66b0()
 }
 
 namespace fnv_00cca950 {
-extern int DAT_012680f8;
-extern int DAT_01268250;
-extern int DAT_01268274;
 extern int DAT_01268660;
 extern int DAT_010ca3f4;
 struct bhkRefObject {
@@ -698,9 +718,7 @@ FUN_00cca950_class* FUN_00cca950_class::FUN_00cca950()
 }  // namespace fnv_00cca950
 
 extern "C" void __cdecl FUN_00d54e60();
-extern "C" void __cdecl _delete(void*, int);
 extern int DAT_010ca4dc;
-extern int DAT_0126866c;
 
 struct FUN_00ccb180_class {
     int* m_p;
@@ -715,15 +733,12 @@ FUN_00ccb180_class* FUN_00ccb180_class::FUN_00ccb180(int flag)
     --DAT_0126866c;
     FUN_00d54e60();
     if (flag & 1)
-        _delete(this, 20);
+        ::FUN_00aa1460(this, 20);
     return this;
 }
 
 namespace fnv_00ccd100 {
 extern int DAT_010ca834;
-extern int DAT_012680f8;
-extern int DAT_01268250;
-extern int DAT_01268274;
 extern int DAT_0126868c;
 struct bhkRefObject {
     void* m_pVtable;
@@ -760,9 +775,6 @@ struct bhkRefObject {
     int m_iUnk;
     int m_iUnk2;
 };
-extern int DAT_012680f8;
-extern int DAT_01268274;
-extern int DAT_01268250;
 extern int DAT_012686ac;
 extern int DAT_010caa0c;
 struct FUN_00cce990_shell : bhkRefObject {
@@ -787,9 +799,6 @@ bhkRefObject* FUN_00cce990_shell::FUN_00cce990()
 }  // namespace fnv_00cce990
 
 namespace fnv_00ccf7c0 {
-extern int DAT_012680f8;
-extern int DAT_01268250;
-extern int DAT_01268274;
 extern int DAT_012686c0;
 extern int DAT_010cabdc;
 struct bhkRefObject {
@@ -963,7 +972,6 @@ extern int DAT_010c5ef4;
 extern int DAT_010c955c;
 extern int DAT_01268154;
 extern int DAT_01268194;
-extern int DAT_012685ac;
 
 struct A51BF0Base {
 };
@@ -1133,7 +1141,7 @@ struct NiPoint3 {
     char* FUN_00a59af0(char const* name);
 };
 
-typedef NiPoint3 NiPoint3_local;
+struct NiPoint3_local : NiPoint3 {};
 
 struct hkVector4 {
     float x;
@@ -1143,7 +1151,8 @@ struct hkVector4 {
 };
 
 
-struct StrArr {
+struct StrArr
+{
     void* m_pVtable;
     void* m_pData;
     unsigned short m_usSize;
@@ -1152,6 +1161,7 @@ struct StrArr {
     unsigned short m_usIncrement;
 
     void SetSize(unsigned int size);
+    void SetAt(unsigned int index, char*& value);
 };
 
 
@@ -1240,7 +1250,6 @@ FUN_00cc7590::FUN_00cc7590()
     m_pVtable = (void*)&DAT_010c9d60;
 }
 
-extern "C" void __cdecl _delete(void* p, int flags);
 extern "C" void __cdecl FUN_00d50020();
 struct FUN_00cc7da0_shell {
     FUN_00cc7da0_shell* FUN_00cc7da0(int flags);
@@ -1251,7 +1260,7 @@ FUN_00cc7da0_shell* FUN_00cc7da0_shell::FUN_00cc7da0(int flags)
 {
     FUN_00d50020();
     if (flags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
@@ -1339,7 +1348,6 @@ struct S_00cb79d0_Base {
 };
 
 extern int DAT_010ca24c;
-extern int DAT_012680f8;
 extern int _DAT_012682cc;
 extern int DAT_01268654;
 
@@ -1384,7 +1392,7 @@ FUN_00cca8d0_shell* FUN_00cca9a0_class::DestroyOrDelete(int flags)
 {
     reinterpret_cast<::FUN_00cca8d0 *>(this)->FUN_00cca8d0::~FUN_00cca8d0();
     if (flags & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
@@ -1426,8 +1434,6 @@ struct S_00cb79d0_Base : A51BF0Base {
     S_00cb79d0_Base();
 };
 
-extern int DAT_012680f8;
-extern int DAT_01268678;
 extern int DAT_012686d0;
 
 struct BD70_Object : S_00cb79d0_Base {
@@ -1513,7 +1519,6 @@ void FUN_00ccf570_class::FUN_00ccf570(NiStream* stream)
     reinterpret_cast<NiStreamVirtual*>(stream)->m_pVtable28(resolved);
 }
 
-extern "C" void __cdecl _delete(void* p, int flags);
 
 struct FUN_00ccf5b0_shell {
     FUN_00ccf5b0_shell* FUN_00ccf5b0(bool flag);
@@ -1525,7 +1530,7 @@ FUN_00ccf5b0_shell* FUN_00ccf5b0_shell::FUN_00ccf5b0(bool abFree)
 {
     reinterpret_cast<::FUN_00ccf4f0_cls *>(this)->FUN_00ccf4f0_cls::~FUN_00ccf4f0_cls();
     if (abFree & 1)
-        _delete(this, 0x14);
+        ::FUN_00aa1460(this, 0x14);
     return this;
 }
 
@@ -4540,7 +4545,6 @@ struct FUN_00cc4220_class {
     void FUN_00cc4220(void* p);
 };
 
-extern "C" float DAT_012683b0[4];
 
 // Calls WriteScriptTargetInfo, then copies m_f34, the four floats at m_f20 and m_f30 from m_p into the output, using defaults when m_p is null.
 // @fnv 0x00cc4220
@@ -4557,7 +4561,7 @@ void FUN_00cc4220_class::FUN_00cc4220(void* apOutput)
 
     const float* values = (this != 0 && this->m_p != 0)
         ? &this->m_p->m_f20
-        : DAT_012683b0;
+        : &::DAT_012683b0;
 
     out->m_f10 = values[0];
     out->m_f14 = values[1];
@@ -4897,7 +4901,6 @@ void CC4400Object::FUN_00cc4400(CC4400Stream* pkStream)
 }
 
 namespace fnv_00cc4500 {
-extern "C" float DAT_012683b0;
 extern "C" float DAT_012683b4;
 extern "C" float DAT_012683b8;
 extern "C" float DAT_012683bc;
@@ -4939,12 +4942,11 @@ FUN_00cc4500_cls* FUN_00cc4500_cls::FUN_00cc4500() {
 }
 }  // namespace fnv_00cc4500
 
-extern int g_012685e0;
 
 // @fnv 0x00cc4860
 int* __cdecl FUN_00cc4860()
 {
-    return &g_012685e0;
+    return reinterpret_cast<int*>(&::g_012685e0);
 }
 
 extern int g_ctorCountA;
@@ -5175,13 +5177,12 @@ struct S_00cc4b90_Router {
     S_00cc4b90_Alloc* unk10;
     S_00cc4b90_Alloc& heap() { return *unk10; }
 };
-S_00cc4b90_Router* FUN_00c85750() throw();
 struct S_00cc4b90_RefObj {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     virtual ~S_00cc4b90_RefObj();
     void* operator new(std::size_t n) {
-        S_00cc4b90_RefObj* b = static_cast<S_00cc4b90_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00cc4b90_RefObj* b = static_cast<S_00cc4b90_RefObj*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -5565,12 +5566,11 @@ struct MemorySystem {
     }
 };
 
-extern "C" MemorySystem* __cdecl FUN_00c85750();
 
 struct FUN_00d4edc0 {
     FUN_00d4edc0();
     static void* operator new(std::size_t size) {
-        void* memory = FUN_00c85750()->Allocate(0x160);
+        void* memory = static_cast<MemorySystem*>(::FUN_00c85750())->Allocate(0x160);
         *reinterpret_cast<unsigned short*>(
             static_cast<char*>(memory) + 4) = 0x160;
         return memory;
@@ -6052,7 +6052,7 @@ FUN_00cc5f10_Class* FUN_00cc5f10_Class::FUN_00cc5f10(unsigned int flag)
 {
     reinterpret_cast<::FUN_00cc5e60 *>(this)->FUN_00cc5e60::~FUN_00cc5e60();
     if (flag & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
@@ -6397,7 +6397,6 @@ struct AudioMgr {
 };
 
 struct BSAudio;
-__declspec(nothrow) BSAudio* __cdecl FUN_00c85750();
 
 class RefObj {
 public:
@@ -6407,7 +6406,7 @@ public:
 
     static void* operator new(std::size_t nbytes)
     {
-        RefObj* b = (RefObj*)((AudioMgr*)FUN_00c85750())->heap().AllocateMemoryBlock(nbytes);
+        RefObj* b = (RefObj*)((AudioMgr*)static_cast<BSAudio*>(::FUN_00c85750()))->heap().AllocateMemoryBlock(nbytes);
         b->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return b;
     }
@@ -7256,7 +7255,6 @@ struct AllocHolder {
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct SpawnedScopeOwner;
 
@@ -7297,7 +7295,7 @@ void SpawnedScopeOwner::FreeSpawnedStorage()
 {
     SpawnedScopeGuard guard(this);
 
-    AllocHolder* pHolder = FUN_00c85750();
+    AllocHolder* pHolder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCapacity = m_uCap;
     m_iArrayLength = 0;
@@ -7748,7 +7746,8 @@ struct CpuInterface {
     virtual void slot0c();
     virtual void Invoke();
 };
-struct CpuObject {
+struct CpuObject
+{
     unsigned int unk00;
     unsigned int unk04;
     unsigned int unk08;
@@ -7764,6 +7763,8 @@ struct CpuObject {
     unsigned int unk30;
     CpuInterface* target;
     void FUN_00cc9d70();
+public:
+    unsigned int FUN_00cac910();
 };
 // @fnv 0x00cc9d70
 void CpuObject::FUN_00cc9d70()
@@ -7786,7 +7787,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00cc9d80_cls {
     int unk00;
@@ -7803,7 +7803,7 @@ FUN_00cc9d80_cls* FUN_00cc9d80_cls::FUN_00cc9d80(unsigned char acFlags)
 {
     reinterpret_cast<::FUN_00d54960 *>(this)->FUN_00d54960::~FUN_00d54960();
     if (acFlags & 1) {
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         pAllocator->Free(this, m_uSize);
     }
@@ -8160,7 +8160,6 @@ CCA1B0Level3* CCA1B0World::FUN_00cca1b0(void* pvInfo)
 }
 
 namespace fnv_00cca4e0 {
-extern int DAT_012680f8;
 
 struct FUN_00c87c30_owner {
     FUN_00c87c30_owner();
@@ -9055,9 +9054,6 @@ void* FUN_00ccb150()
 
 extern int DAT_010ca5c4;
 extern int DAT_010ca4dc;
-extern int DAT_012680f8;
-extern int DAT_01268f8c;
-extern int DAT_0126866c;
 
 struct AllocationBase {
 };
@@ -9712,9 +9708,6 @@ struct TlsGuard_t
 };
 
 
-extern "C" int DAT_012680f8;
-extern "C" int DAT_01268f8c;
-extern "C" int DAT_0126866c;
 
 struct SpawnRoot_cls
 {
@@ -9850,12 +9843,12 @@ inline void* CCB730AlignedAlloc(unsigned int uiSize)
     return pcMem;
 }
 
-struct CCB730Child {
+struct CCB730Child
+{
     CCB730Child() throw()
         : m_pkOwnerManager(0), m_f10(0.0f), m_f14(0.0f), m_f18(0.0f), m_f1C(0.0f), m_f20(0.0f), m_f24(0.0f),
           m_f28(0.0f), m_f2C(0.0f), m_f30(0.0f), m_f34(0.0f), m_f38(0.0f), m_f3C(0.0f)
-    {
-    }
+    {}
 
     void* m_pkOwnerManager;
     int unk04;
@@ -11844,14 +11837,13 @@ struct S_00ccd610_Router {
     S_00ccd610_Alloc* unk10;
     S_00ccd610_Alloc& heap() { return *unk10; }
 };
-S_00ccd610_Router* FUN_00c85750() throw();
 
 struct S_00ccd610_RefObj {
     unsigned short m_usMemSizeAndFlags;
     short m_sReferenceCount;
     virtual ~S_00ccd610_RefObj();
     void* operator new(std::size_t n) {
-        S_00ccd610_RefObj* b = static_cast<S_00ccd610_RefObj*>(FUN_00c85750()->heap().AllocateMemoryBlock(n));
+        S_00ccd610_RefObj* b = static_cast<S_00ccd610_RefObj*>(static_cast<S_00ccd610_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n));
         b->m_usMemSizeAndFlags = (unsigned short)n;
         return b;
     }
@@ -11934,12 +11926,11 @@ void S_00ccd610_Cls::CreateAndDispatchObject(int aiArg1, int aiArg2, float afVal
 }
 }  // namespace fnv_00ccd610
 
-extern int g_012686a0;
 
 // @fnv 0x00ccdc30
 int* __cdecl FUN_00ccdc30()
 {
-    return &g_012686a0;
+    return reinterpret_cast<int*>(&::g_012686a0);
 }
 
 // Constructor of a four-level Havok wrapper class: each level bumps its own live-instance counter.
@@ -12320,7 +12311,6 @@ struct AllocHolder {
     SpawnedAllocator* m_pAllocator;
 };
 
-AllocHolder* FUN_00c85750();
 
 struct FUN_00cce0d0_cls {
     void* m_pData;
@@ -12333,7 +12323,7 @@ struct FUN_00cce0d0_cls {
 // @fnv 0x00cce0d0
 void FUN_00cce0d0_cls::ClearAndFree()
 {
-    AllocHolder* holder = FUN_00c85750();
+    AllocHolder* holder = static_cast<AllocHolder*>(::FUN_00c85750());
     SpawnedAllocator* alloc = holder->m_pAllocator;
     unsigned int flags = m_08;
     m_04 = 0;
@@ -12413,7 +12403,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750();
 
 struct AudioScopeGuard {
     void* m_pSharedOwner;
@@ -12440,7 +12429,7 @@ void FUN_00cce290_cls::FUN_00cce290()
 {
     {
         AudioScopeGuard guard(this);
-        AudioHolder* pHolder = FUN_00c85750();
+        AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
         AudioAllocator* pAllocator = pHolder->m_pAllocator;
         unsigned int uCapBits1 = m_uCapBits1;
         m_iCount1 = 0;
@@ -12452,7 +12441,7 @@ void FUN_00cce290_cls::FUN_00cce290()
         m_uCapBits1 = 0x80000000u;
     }
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCapBits2 = m_uCapBits2;
     m_iCount2 = 0;
@@ -12665,7 +12654,6 @@ struct hkThreadMem {
     hkMemAllocator* m_pAllocator;
 };
 
-hkThreadMem* FUN_00c85750();
 
 struct IntegerBlock18 {
     int unk00;
@@ -12703,7 +12691,7 @@ struct hkObj {
     int unk5C;
 
     static void* operator new(std::size_t size) {
-        hkThreadMem* t = FUN_00c85750();
+        hkThreadMem* t = static_cast<hkThreadMem*>(::FUN_00c85750());
         hkObj* p = (hkObj*)t->m_pAllocator->AllocateMemoryBlock(size);
         p->m_usMemSizeAndFlags = (unsigned short)size;
         return p;
@@ -13028,8 +13016,6 @@ struct Output403 {
 };
 struct Link403 { int unk00,unk04; Output403* target; };
 struct Data403 { int unk00,unk04,unk08,unk0c,unk10,unk14; Link403* link; int unk1c; Transform403 transform; };
-extern Transform403 DAT_01268370;
-extern const char* g_012686b0;
 extern const char g_010c6050[],g_010c604c[];
 struct StringArray403 : StrArr {
  void Add(char* value) {
@@ -13043,7 +13029,7 @@ struct Holder403 {
  Data403* data;
  const Transform403& GetTransform() const {
   if(this && data) return data->transform;
-  return DAT_01268370;
+  return *reinterpret_cast<const Transform403*>(&::DAT_01268370);
  }
  void AppendTransformStrings(StringArray403*);
 };
@@ -13051,7 +13037,7 @@ struct Holder403 {
 void Holder403::AppendTransformStrings(StringArray403* strings) {
  AutoMemContext context(16);
  reinterpret_cast<::SphereShape *>(this)->FUN_00c9fc50((::ViewerStringArray *)(strings));
- strings->Add(FUN_00a7d330(g_012686b0));
+ strings->Add(FUN_00a7d330(*reinterpret_cast<const char* const*>(&::g_012686b0)));
  const Transform403& transform=GetTransform();
  NiTransform converted;
  ::FUN_00624b10((::FUN_004769c0_shell *)(::NiTransform *)(&converted),(::FUN_004b4cf0_shell *)(&transform));
@@ -13154,9 +13140,6 @@ namespace fnv_00ccf5d0 {
 
 extern "C" void __cdecl FUN_00c87c30();
 extern "C" char DAT_010caaf4[];
-extern "C" int DAT_012680f8;
-extern "C" int DAT_01268274;
-extern "C" int DAT_01268250;
 
 struct PackedObj {
     void* m_vtbl;
@@ -13997,7 +13980,6 @@ struct CCFMemoryRouter {
     CCFAllocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" CCFMemoryRouter& __cdecl FUN_00c85750();
 
 
 struct CCFAllocTagScope {
@@ -14016,7 +13998,7 @@ public:
     virtual ~hkReferencedObjectCCF();
 
     static void* operator new(std::size_t uiSize) {
-        void* p = FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        void* p = (*static_cast<CCFMemoryRouter*>(::FUN_00c85750())).heap().AllocateMemoryBlock(uiSize);
         static_cast<hkReferencedObjectCCF*>(p)->m_usMemSizeAndFlags = (unsigned short)uiSize;
         return p;
     }
@@ -14667,9 +14649,6 @@ void ShapeOwner::CreateShapeAndApplyParam(ShapeParam* apParam) {
 }  // namespace fnv_00cd7d60
 
 namespace fnv_00cd7e80 {
-extern unsigned int DAT_012680f8;
-extern unsigned int DAT_01268274;
-extern unsigned int DAT_01268250;
 extern unsigned int DAT_0126869c;
 
 struct FUN_00c87c30_owner {
@@ -14735,9 +14714,6 @@ int* __cdecl FUN_00cd7f20()
 
 namespace fnv_00cd8820 {
 extern "C" int DAT_010cb644;
-extern "C" unsigned int DAT_01267e34;
-extern "C" unsigned int DAT_01267e38;
-extern "C" unsigned int DAT_01267e3c;
 
 struct FUN_00cd8820_Block128 {
     unsigned int m_auiBitFieldWords[32];
@@ -15081,7 +15057,9 @@ struct NineIntegerRecord {
 
 NineIntegerRecord& __cdecl GetMemoryRouter();
 
-struct HavokArrayUtilities {
+struct HavokArrayUtilities
+{
+    static void __cdecl GrowArrayCapacity(hkMemoryAllocator& alloc, void* array, int capacity, int elemSize);
 };
 
 struct RouterHeapAllocatorProvider {
@@ -15277,7 +15255,6 @@ struct AudioHolder {
     AudioAllocator* m_pAllocator;
 };
 
-AudioHolder* __cdecl FUN_00c85750() throw();
 
 struct FUN_00cdb6f0_sub {
 };
@@ -15311,7 +15288,7 @@ void FUN_00cdb6f0_cls::ClearArrays()
 {
     reinterpret_cast<::hkReferencedObjectC905 *>((m_pSub))->FUN_00c905b0();
 
-    AudioHolder* pHolder = FUN_00c85750();
+    AudioHolder* pHolder = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator = pHolder->m_pAllocator;
     unsigned int uCap1 = m_uCap1;
     m_iCount1 = 0;
@@ -15321,7 +15298,7 @@ void FUN_00cdb6f0_cls::ClearArrays()
     m_pData1 = 0;
     m_uCap1 = 0x80000000u;
 
-    AudioHolder* pHolder2 = FUN_00c85750();
+    AudioHolder* pHolder2 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator2 = pHolder2->m_pAllocator;
     unsigned int uCap2 = m_uCap2;
     m_iCount2 = 0;
@@ -15331,7 +15308,7 @@ void FUN_00cdb6f0_cls::ClearArrays()
     m_pData2 = 0;
     m_uCap2 = 0x80000000u;
 
-    AudioHolder* pHolder3 = FUN_00c85750();
+    AudioHolder* pHolder3 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator3 = pHolder3->m_pAllocator;
     unsigned int uCap3 = m_uCap3;
     m_iCount3 = 0;
@@ -15341,7 +15318,7 @@ void FUN_00cdb6f0_cls::ClearArrays()
     m_pData3 = 0;
     m_uCap3 = 0x80000000u;
 
-    AudioHolder* pHolder4 = FUN_00c85750();
+    AudioHolder* pHolder4 = static_cast<AudioHolder*>(::FUN_00c85750());
     AudioAllocator* pAllocator4 = pHolder4->m_pAllocator;
     unsigned int uCap4 = m_uCap4;
     m_iCount4 = 0;
@@ -17488,7 +17465,6 @@ void FUN_00cca450_class::FUN_00cca450(FUN_00cca450_param_item* pItem)
     reinterpret_cast<::FUN_00c876d0_cls *>(this)->TailOne((int)(pItem));
 }
 
-extern const char* g_01268658;
 struct MoppCode570 {
  int unk00, unk04, unk08, unk0c;
  hkVector4 offset;
@@ -17506,7 +17482,7 @@ struct MoppOwner570 {
 void MoppOwner570::OutputMoppCodeInfo(StringArray403* output) {
  AutoMemContext context(16);
  reinterpret_cast<::StringBuilder_ca5190 *>(this)->FUN_00ca5190((::NiStringArray *)(output));
- output->Add(FUN_00a7d330(g_01268658));
+ output->Add(FUN_00a7d330(*reinterpret_cast<const char* const*>(&::g_01268658)));
  MoppCode570* code = this && data ? data->code : 0;
  char buffer[32];
  ::FUN_00406d00(buffer, 32, "0x%8X", code);
@@ -17584,7 +17560,6 @@ CCADB0Child* CCADB0Owner::FUN_00ccadb0(bool* pbCreated)
 }
 
 extern int DAT_012686d0;
-extern int DAT_01268678;
 
 struct BccObj : S_00c87c30_Base {
     unsigned int m_14;
@@ -17666,6 +17641,18 @@ BccObj* BccOwner::CreateBccObj(int a1) {
     FUN_00c87700();
     return p;
 }
+
+struct MeshMetadata654;
+
+struct Mesh654
+{
+    unsigned int vertexCount;
+    float* vertices;
+    unsigned int triangleCount;
+    unsigned short* triangles;
+    MeshMetadata654* metadata;
+    void FUN_00ccc440(BCC9B80Stream&);
+};
 
 namespace fnv_00ccc7e0 {
 struct MemoryManagerAllocHelper { void* Allocate(unsigned int size); };
@@ -17862,6 +17849,7 @@ struct FUN_00ccc7e0_class {
     FiveIntegerLoadRecord* m_pEntries;
     void LoadEntries(LoadContext* ctx);
 };
+
 
 // Reads a count from the stream, allocates an array of entries, and loads each entry from the context.
 // @fnv 0x00ccc7e0
@@ -18607,7 +18595,7 @@ bool DerivedCCE::ProcessWithTarget(ArgCCE* pkArg)
     return bResult;
 }
 
-__declspec(thread) unsigned int currentAllocationContext = 0x3b;
+unsigned int currentAllocationContext = 0x3b;
 
 struct ThreadContextGuard
 {
@@ -18872,7 +18860,7 @@ struct hkArrayStub {
     hkArrayStub() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000) {}
     ~hkArrayStub()
     {
-        hkMemoryAllocStub* mem = reinterpret_cast<hkMemoryAllocStub*>(FUN_00c85750()->unk10);
+        hkMemoryAllocStub* mem = reinterpret_cast<hkMemoryAllocStub*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->unk10);
         if ((m_iCapacityState & 0x80000000) == 0)
             mem->deallocateChunk(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
     }
@@ -19618,9 +19606,9 @@ template<class T> struct Array {
  T* data; int size; int capacity;
  Array():data(0),size(0),capacity(0x80000000) {}
  __forceinline void reserve(S_00cc4b90_Alloc& alloc,int n) { int c=capacity&0x3fffffff; if(c<n) { int doubled=c*2; ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc),(::SpawnedArray *)(void *)(this),n<doubled?doubled:n,sizeof(T)); } }
- __forceinline void resizeUninitialized(int n) { reserve(FUN_00c85750()->heap(),n); size=n; }
- __forceinline void resize(int n) { reserve(FUN_00c85750()->heap(),n); int delta=n-size; T* start=data+size; for(int i=0;i<delta;i++) new(start+i) T; size=n; }
- __forceinline void resize(int n,T value) { reserve(FUN_00c85750()->heap(),n); int delta=n-size; T* start=data+size; for(int i=0;i<delta;i++) start[i]=value; size=n; }
+ __forceinline void resizeUninitialized(int n) { reserve(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap(),n); size=n; }
+ __forceinline void resize(int n) { reserve(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap(),n); int delta=n-size; T* start=data+size; for(int i=0;i<delta;i++) new(start+i) T; size=n; }
+ __forceinline void resize(int n,T value) { reserve(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap(),n); int delta=n-size; T* start=data+size; for(int i=0;i<delta;i++) start[i]=value; size=n; }
 };
 struct Skeleton { int u00,u04,u08; short* parents; int u10,u14,u18; int count; };
 struct Binding { int u00,u04; void* name; int boneCount; int u10,u14,u18,u1c; int* remapping; int u24,u28; Skeleton* skeleton;  };
@@ -19699,7 +19687,6 @@ struct OwnerManager {
     virtual void* CreateOwner(void* owner);
 };
 
-extern "C" OwnerManager* DAT_01268364;
 
 struct FUN_00cc04d0_Class {
     void* m_pVtable;
@@ -19715,7 +19702,7 @@ FUN_00cc04d0_Class* FUN_00cc04d0_Class::FUN_00cc04d0(void* owner)
 {
     m_iUnk = 1;
     m_pVtable = &DAT_010c9314;
-    m_pSharedOwner = DAT_01268364->CreateOwner(owner);
+    m_pSharedOwner = reinterpret_cast<OwnerManager*>(::DAT_01268364)->CreateOwner(owner);
     return this;
 }
 
@@ -19758,7 +19745,7 @@ FUN_00cc0550_class* FUN_00cc0550_class::InitializeWithValue(int value) {
     m_pVtable = &DAT_010c9314;
 
     FUN_00cc0550_Holder* holder =
-        reinterpret_cast<FUN_00cc0550_Holder*>(FUN_00c85750());
+        reinterpret_cast<FUN_00cc0550_Holder*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750()));
     FUN_00cc0550_Allocated* pValueBlock =
         reinterpret_cast<FUN_00cc0550_Allocated*>(holder->unk10->vf04(0x10));
 
@@ -19783,7 +19770,6 @@ struct hkSourceCC08 {
     virtual int v0C();
 };
 
-extern hkSourceCC08* DAT_01268b08;
 
 struct hkObjCC08 {
     virtual void v00();
@@ -19801,7 +19787,7 @@ struct hkObjCC08 {
 // @fnv 0x00cc0820
 void hkObjCC08::FUN_00cc0820()
 {
-    int value = DAT_01268b08->v0C();
+    int value = reinterpret_cast<hkSourceCC08*>(::DAT_01268b08)->v0C();
     v18(reinterpret_cast<::FnvClassNameNode *>((((::FUN_00d46d40_s *)(::FUN_00d47f90()))))->FUN_00d46d40(), value);
 }
 
@@ -20388,7 +20374,7 @@ struct hkWorldCD29 {
     int unkB8;
     int unkBC;
     int unkC0;
-    void* m_pWorldLock;
+    CRITICAL_SECTION* m_pWorldLock;
 };
 
 class hkWorldObjectCD29 {
@@ -20632,14 +20618,14 @@ struct MyArray {
     }
 
     __forceinline void SetSizeAndGrow(int n, T fill) throw() {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        NineIntegerRecord* router = (NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         GrowArrayCapacity(router->m_pStreamAllocator, n);
         ConstructWithCopy<T>(m_data + m_iElementCount, n - m_iElementCount, fill);
         m_iElementCount = n;
     }
 
     __forceinline void AddBack(const T& val) throw() {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        NineIntegerRecord* router = (NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         if (m_iElementCount == getCapacity()) {
             ::ResizeAudioStream((::AudioAllocator *)(router->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(T));
         }
@@ -20648,7 +20634,7 @@ struct MyArray {
     }
 
     __forceinline ~MyArray() throw() {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        NineIntegerRecord* router = (NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         hkMemoryAllocator* alloc = router->m_pStreamAllocator;
         m_iElementCount = 0;
         if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0) {
@@ -20662,7 +20648,7 @@ struct MyLocalArray : public MyArray<T> {
     void* m_initialStack;
 
     __forceinline MyLocalArray(int capacity) throw() {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
+        NineIntegerRecord* router = (NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         int numBytes = capacity * sizeof(T);
         int aligned = (numBytes + 0x7f) & ~0x7f;
         void* p = (void*)router->unk00;
@@ -20677,7 +20663,7 @@ struct MyLocalArray : public MyArray<T> {
         if (p == this->m_data) {
             this->m_iElementCount = 0;
         }
-        ((NineIntegerRecord*)FUN_00c85750())->unk00 = (int)p;
+        ((NineIntegerRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750()))->unk00 = (int)p;
     }
 };
 
@@ -20855,7 +20841,7 @@ FUN_00cc0500_Class* FUN_00cc0500(int first,int second,Param4 third);
 FUN_00cc0500_Class* FUN_00cc0500_Class::FUN_00cc0500(int first,int second,Param4 third)
 {
 m_sReferenceCount=1;m_ppVirtualMethodTable=&DAT_010c9314;
-D274C0Child* child=static_cast<D274C0Child*>(FUN_00c85750()->heap().AllocateMemoryBlock(28));
+D274C0Child* child=static_cast<D274C0Child*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(28));
 child->m_memorySize=28;
 m_pChildAtom=((::D274C0Child *)(new ((void *)(child)) ::FUN_00d274c0((void *)(first),second,(*(char *)&(const ::Param4 &)(third)))));
 return this;
@@ -21247,7 +21233,11 @@ template <typename T> __forceinline void constructWithCopyC01(T* p, int n, const
     for (int i = 0; i < n; i++)
         p[i] = t;
 }
-struct hkArrayUtilC01 {
+struct hkArrayUtilC01
+{
+    static void __cdecl GrowArray(hkMemoryAllocatorC01& kAlloc, void* apvArray, int iSizeElem);
+    static void __cdecl GrowArrayCapacity(hkMemoryAllocatorC01& kAlloc, void* apvArray, int iNumElements,
+                                          int iSizeElem);
 };
 
 template <typename T> struct hkArrayC01 {
@@ -21793,7 +21783,7 @@ int context;
 };
 struct LoadScope { int old; LoadScope() { old=(*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context; (*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context=16; } ~LoadScope() { (*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context=old; } };
 struct LoadIO { int unk00; unsigned int position; unsigned int (__cdecl *read)(LoadIO*,void*,unsigned int,unsigned int*,unsigned int); void Read(void* p) { unsigned int size=4; position+=read(this,p,4,&size,1); } };
-struct LoadString { void* value; LoadString(); ~LoadString(); };
+struct LoadStringEntry { void* value; LoadStringEntry(); ~LoadStringEntry(); };
 struct LoadElem { int a,b,c,d,e,f,g,h,i,j,k,l; };
 struct LoadGroup { unsigned int count; LoadElem* data; LoadGroup() : count(0), data(0) {} };
 struct LoadGroupPtr { LoadGroup* value; };
@@ -21946,10 +21936,10 @@ int unk240;
 int unk244;
 int unk248;
 LoadIO* io;  };
-struct LoadObject { int unk00,unk04; unsigned int stringCount; LoadString* strings; unsigned int groupCount; LoadGroup** groups;  void FUN_00cc1730(LoadStream278&); };
-// Reads string and group counts from the stream, allocates LoadString and LoadGroup arrays, and reads each string and group element.
+struct LoadObject { int unk00,unk04; unsigned int stringCount; LoadStringEntry* strings; unsigned int groupCount; LoadGroup** groups;  void FUN_00cc1730(LoadStream278&); };
+// Reads string and group counts from the stream, allocates LoadStringEntry and LoadGroup arrays, and reads each string and group element.
 // @fnv 0x00cc1730
-void LoadObject::FUN_00cc1730(LoadStream278& stream) { LoadScope scope;unsigned& uiGroupCount=groupCount; reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream)); stream.io->Read(&stringCount); if (stringCount>0) strings=new LoadString[stringCount]; for(unsigned int n=0;n<stringCount;++n) reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(strings[n])); stream.io->Read(&uiGroupCount); if(groupCount>0) groups=(LoadGroup**)new LoadGroupPtr[groupCount]; for(unsigned int n=0;n<groupCount;++n) { groups[n]=new LoadGroup; LoadGroup* group=groups[n]; stream.io->Read(&group->count); for(unsigned int j=0;j<group->count;++j) ::FUN_00cf0b00((::StreamViewCF0 *)&(stream),(::hkMatrixCF0 *)&(group->data[j])); } }
+void LoadObject::FUN_00cc1730(LoadStream278& stream) { LoadScope scope;unsigned& uiGroupCount=groupCount; reinterpret_cast<::FUN_00a5d610_Object *>(this)->ReadGroup((::NiStream *)&(stream)); stream.io->Read(&stringCount); if (stringCount>0) strings=new LoadStringEntry[stringCount]; for(unsigned int n=0;n<stringCount;++n) reinterpret_cast<::fnv_00a64df0::FUN_00a64df0_Stream *>(&(stream))->FUN_00a64df0((::fnv_00a64df0::NiFixedString &)(strings[n])); stream.io->Read(&uiGroupCount); if(groupCount>0) groups=(LoadGroup**)new LoadGroupPtr[groupCount]; for(unsigned int n=0;n<groupCount;++n) { groups[n]=new LoadGroup; LoadGroup* group=groups[n]; stream.io->Read(&group->count); for(unsigned int j=0;j<group->count;++j) ::FUN_00cf0b00((::StreamViewCF0 *)&(stream),(::hkMatrixCF0 *)&(group->data[j])); } }
 
 extern int DAT_010c970c;
 extern int DAT_012685c4;
@@ -22047,7 +22037,6 @@ CC3D60Object* CC3D60Owner::CreateObject(unsigned int argument)
     return object;
 }
 
-#include <xmmintrin.h>
 struct ScopedMemoryCategory {
     unsigned int previous;
     ScopedMemoryCategory() : previous(::currentAllocationContext) { ::currentAllocationContext = 16; }
@@ -22093,13 +22082,13 @@ public:
 
     void* operator new(std::size_t nbytes)
     {
-        hkReferencedObjectCC3* b = static_cast<hkReferencedObjectCC3*>(FUN_00c85750()->heap().AllocateMemoryBlock(nbytes));
+        hkReferencedObjectCC3* b = static_cast<hkReferencedObjectCC3*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(nbytes));
         b->m_usMemSizeAndFlags = static_cast<unsigned short>(nbytes);
         return b;
     }
     void operator delete(void* p, std::size_t nbytes)
     {
-        ((hkMemoryRouterCC3*)FUN_00c85750())->heap().ReleaseBlock(p, nbytes);
+        ((hkMemoryRouterCC3*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750()))->heap().ReleaseBlock(p, nbytes);
     }
      // removeReference
 
@@ -22620,7 +22609,7 @@ struct FUN_00d4f2a0 {
     unsigned short m_us4;
     FUN_00d4f2a0();
     void* operator new(std::size_t, unsigned int n) {
-        void* b = FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        void* b = static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n);
         ((FUN_00d4f2a0*)b)->m_us4 = (unsigned short)n;
         return b;
     }
@@ -22779,7 +22768,7 @@ G9410::~G9410()
 void O9410::FUN_00cc9410()
 {
     G9410 guard(this);
-    S_00cc4b90_Router* router = FUN_00c85750();
+    S_00cc4b90_Router* router = static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
     A9410Alloc* alloc = (A9410Alloc*)router->unk10;
     m_uiCount = 0;
     if ((m_uiValue1 & 0x80000000u) == 0)
@@ -22902,7 +22891,6 @@ CC7970_RefData* CC9A20_Owner::EnsureReference(bool* created)
     return m_pData;
 }
 
-extern "C" int DAT_01268678;
 extern "C" int (__cdecl *DAT_00fdf1c4)(void*);
 
 class NiRefObject {
@@ -23099,7 +23087,7 @@ struct EE60Vec
 
     __forceinline void operator=(const EE60Vec& v) { m_vComponents = v.m_vComponents; }
     __forceinline void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    __forceinline float& operator()(int i) { return m_vComponents[i]; }
+    __forceinline float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
 };
 
 struct EE60Mat
@@ -23232,7 +23220,7 @@ void CD05E0_Owner::FUN_00cd05e0(bool release)
     if (release) {
         CD05E0_Obj* obj = m_pEntryObject;
         if (obj) {
-            S_00cc4b90_Router* router = FUN_00c85750();
+            S_00cc4b90_Router* router = static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
             CD05E0_Heap* alloc = (CD05E0_Heap*)router->unk10;
             obj->m_iElementCount = 0;
             if ((obj->m_iCapacityState & 0x80000000) == 0)
@@ -23358,9 +23346,9 @@ template<class T> struct AllocatorArray {
         capacityAndFlags = 0x80000000;
     }
     void ClearAndRelease() {
-        ClearAndRelease(reinterpret_cast<TargetAllocator&>(FUN_00c85750()->heap()));
+        ClearAndRelease(reinterpret_cast<TargetAllocator&>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap()));
     }
-    ~AllocatorArray() { ClearAndRelease(reinterpret_cast<TargetAllocator&>(FUN_00c85750()->heap())); }
+    ~AllocatorArray() { ClearAndRelease(reinterpret_cast<TargetAllocator&>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap())); }
 };
 struct TargetCollectorBase {
     virtual ~TargetCollectorBase();
@@ -23864,7 +23852,7 @@ void FUN_00cdd360(Table* pkTable, Flag kOnlyActive)
 struct hkVector4_s {
     __m128 m_vComponents;
     void setZero4() { m_vComponents = _mm_setzero_ps(); }
-    float& operator()(int i) { return m_vComponents[i]; }
+    float& operator()(int i) { return reinterpret_cast<float*>(&m_vComponents)[i]; }
 };
 
 struct hkRotation_s {
@@ -24356,7 +24344,6 @@ CdfObject* CdfObject::FUN_00cdf460()
     return this;
 }
 
-#include <string.h>
 struct NamedEntryC136 {
     const char* m_name;
     int m_uiFilterValue;
@@ -24505,7 +24492,8 @@ struct FUN_00cc1d80 : FUN_00a7b2e0 {
 // @fnv 0x00cc1d80
 FUN_00cc1d80::FUN_00cc1d80() {
 
- ::AssignFixedString((char *)this, (int)(&NameRef(&str_010c9488)), {});
+ NameRef name(&str_010c9488);
+ ::AssignFixedString((char *)this, 0, (char **)&name);
 }
 
 class CC4180Base {
@@ -24525,7 +24513,7 @@ void* FUN_00cc4180_Class::FUN_00cc4200(int flag)
 {
     reinterpret_cast<::FUN_00cc4180 *>(this)->FUN_00cc4180::~FUN_00cc4180();
     if (flag & 1)
-        _delete(this, 16);
+        ::FUN_00aa1460(this, 16);
     return this;
 }
 
@@ -24556,7 +24544,7 @@ FUN_00cc47f0_t* FUN_00cc47f0_t::FUN_00cc48e0(int aiFlags)
 {
     reinterpret_cast<::FUN_00cc47f0 *>(this)->FUN_00cc47f0::~FUN_00cc47f0();
     if (aiFlags & 1)
-        _delete(this, 0x10);
+        ::FUN_00aa1460(this, 0x10);
     return this;
 }
 
@@ -24652,7 +24640,6 @@ struct CD3AD0MemoryRouter {
     CD3AD0Allocator& heap() { return *m_pStreamAllocator; }
 };
 
-extern "C" CD3AD0MemoryRouter& __cdecl FUN_00c85750();
 
 class FUN_00cd3ad0 {
 // @fnv 0x00cd3ad0
@@ -24665,7 +24652,7 @@ public:
     static void operator delete(void* p, std::size_t nbytes)
     {
         if (p)
-            FUN_00c85750().heap().ReleaseBlock(p, nbytes);
+            (*static_cast<CD3AD0MemoryRouter*>(::FUN_00c85750())).heap().ReleaseBlock(p, nbytes);
     }
 
     int unk004;
@@ -24908,7 +24895,6 @@ void* CD3AD0Construct(void* pvMem)
 }  // namespace fnv_00cd3ad0
 
 extern "C" unsigned __int64 __rdtsc(void);
-extern "C" int DAT_0126835c;
 extern "C" void* DAT_00fdf044;
 
 struct FUN_00cdfe00_Object {
@@ -25294,7 +25280,6 @@ void BCC8950Constraint::FUN_00cc8950(BCC8950Stream& kStream)
 
 
 extern const float DAT_01011d78;
-extern const float DAT_01016248;
 extern const float DAT_01017718;
 __forceinline void Normalize(__m128& v) {
     __m128 vector = v;
@@ -25629,7 +25614,7 @@ void CopyOwner::FUN_00cce010(CopyOutput* apOutput)
     if (p) {
         reinterpret_cast<::ConvexVertsQ_d59200 *>((p))->FUN_00d59200((*(::VertArray96Q *)(&apOutput->vertices)));
         const CopyArray& src = (*(const ::CopyArray *)(reinterpret_cast<::FnvCpu_FUN_00d58d50_CpuObject *>((p))->FUN_00d58d50()));
-        CopyAllocator* alloc = reinterpret_cast<CopyAllocator*>(FUN_00c85750()->unk10);
+        CopyAllocator* alloc = reinterpret_cast<CopyAllocator*>(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->unk10);
         int cap = apOutput->planes.capacity & 0x3fffffff;
         if (cap < src.size) {
             if ((apOutput->planes.capacity & 0x80000000) == 0)
@@ -26073,25 +26058,9 @@ public:
     hkVector4CDA m_vec;
 
     __forceinline void SetConjugate(const hkQuaternionCDA& q) { quad(m_vec.m_vComponents) = _mm_xor_ps(quad(q.m_vec.m_vComponents), ::DAT_010c4c00); }
-    void FUN_00c66320(const hkQuaternionCDA& q0, const hkQuaternionCDA& q1);
 };
 
 
-__declspec(noinline) void hkQuaternionCDA::FUN_00c66320(const hkQuaternionCDA& a, const hkQuaternionCDA& b)
-{
-    struct RawVector { __m128 value; };
-    RawVector storage;
-    hkVector4CDA& imaginary = *(hkVector4CDA*)&storage;
-    imaginary.setCross(a.m_vec, b.m_vec);
-    __m128 aw = _mm_shuffle_ps(quad(a.m_vec.m_vComponents), quad(a.m_vec.m_vComponents), 0xff);
-    __m128 bw = _mm_shuffle_ps(quad(b.m_vec.m_vComponents), quad(b.m_vec.m_vComponents), 0xff);
-    quad(imaginary.m_vComponents) = _mm_add_ps(quad(imaginary.m_vComponents), _mm_mul_ps(aw, quad(b.m_vec.m_vComponents)));
-    quad(imaginary.m_vComponents) = _mm_add_ps(quad(imaginary.m_vComponents), _mm_mul_ps(bw, quad(a.m_vec.m_vComponents)));
-    __m128 dot = a.m_vec.dot3(b.m_vec);
-    dot = _mm_shuffle_ps(dot, dot, 0);
-    __m128 real = _mm_sub_ps(_mm_mul_ps(quad(a.m_vec.m_vComponents), quad(b.m_vec.m_vComponents)), dot);
-    quad(m_vec.m_vComponents) = _mm_shuffle_ps(quad(imaginary.m_vComponents), _mm_unpackhi_ps(quad(imaginary.m_vComponents), real), 0xc4);
-}
 
 __forceinline void hkVector4CDA::SetRotatedDirection(const hkQuaternionCDA& quat, const hkVector4CDA& direction)
 {
@@ -26155,7 +26124,7 @@ public:
         hkVector4CDA temp;
         temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
         m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
+        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), nullptr, (const __m128 *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation));
         quad(m_vScale.m_vComponents) = _mm_mul_ps(quad(t2.m_vScale.m_vComponents), quad(t1.m_vScale.m_vComponents));
     }
     __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
@@ -26295,7 +26264,6 @@ hkQsTransformCDA& hkaPoseCDA::FUN_00cdad80(int boneIdx, int propagate)
 }
 
 namespace fnv_00cc1cf0 {
-#include <windows.h>
 
 
 // Stand-in for the game's NiTimeController: a reference-counted, polymorphic
@@ -26350,7 +26318,6 @@ void FNV_TCtrlArray::FUN_00cc1cf0() {
 
 
 
-extern "C" int DAT_0126835c;
 
 unsigned __int64 __cdecl __rdtsc(void);
 extern "C" void _ReadWriteBarrier(void);
@@ -26640,7 +26607,6 @@ void PickSelf::FUN_00cc26c0(RayArg *arg1, BestOut *arg2)
         }
 }
 
-extern "C" int DAT_012685ac;
 struct FUN_00c8a720 {
   void* vtable;
   virtual ~FUN_00c8a720();
@@ -26898,7 +26864,6 @@ Inner* FUN_00cc5c70_cls::FUN_00cc5c70(bool* abCreated)
 namespace fnv_00cc81c0 {
 
 struct hkTransformStub { float m00, m04, m08, m0C, m10, m14, m18, m1C, m20, m24, m28, m2C, m30, m34, m38, m3C; };
-extern hkTransformStub DAT_01268370;
 
 struct ShapeInner { int unk00; int unk04; int unk08; };
 struct ShapeHolder { int unk00; int unk04; int unk08; ShapeInner* unk0C; };
@@ -27136,7 +27101,7 @@ struct PointVector { __m128 value; void FUN_00c7f700(const PointMatrix&,const Po
 template<class T> struct PointArray {
     T* data; int count; unsigned capacity;
     void reserve() {
-        S_00cc4b90_Router* ctx=FUN_00c85750();
+        S_00cc4b90_Router* ctx=static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         if(count==int(capacity&0x3fffffff)) ::ResizeAudioStream((::AudioAllocator *)(ctx->unk10),(::AudioStream *)(void *)(this),sizeof(T));
     }
     __forceinline void append(const T& value) {reserve(); new(data+count) T(value); ++count;}
@@ -27449,10 +27414,6 @@ PointVector direction; (void)direction.value;
     }
 }
 
-extern float DAT_01267e34;
-extern float DAT_01267e38;
-extern float DAT_01267e3c;
-extern const float DAT_01016248;
 
 struct S00cd8920_Vec {
     float x;
@@ -27520,7 +27481,6 @@ S00cd8920_Obj* S00cd8920_Obj::FUN_00cd8920()
     return this;
 }
 
-#include <xmmintrin.h>
 namespace fnv_00cd9d10 {
 
 extern __m128 DAT_010cb620;
@@ -27529,7 +27489,6 @@ extern __m128 DAT_010c71c0;
 extern __m128 DAT_010cb630;
 extern float DAT_01011d78;
 extern float DAT_01017718;
-extern float DAT_01016248;
 
 
 
@@ -27615,7 +27574,7 @@ void Q_00cd9d10::FUN_00cd9d10(const __m128* from, const __m128* to)
         __m128 eq = _mm_cmpeq_ss(lc2, czc);
         __m128 t3 = _mm_set_ss(DAT_01017718);
         __m128 sub = _mm_sub_ss(t3, zl);
-        __m128 t5 = _mm_set_ss(DAT_01016248);
+        __m128 t5 = _mm_set_ss(::fnv_00c88020::DAT_01016248);
         __m128 g1 = _mm_mul_ss(t5, rsc);
         __m128 g2 = _mm_mul_ss(g1, sub);
         __m128 guard = _mm_andnot_ps(eq, g2);
@@ -27638,8 +27597,6 @@ void Q_00cd9d10::FUN_00cd9d10(const __m128* from, const __m128* to)
 }
 }  // namespace fnv_00cd9d10
 
-#include <windows.h>
-#include <intrin.h>
 
 
 
@@ -27682,7 +27639,7 @@ struct ConstraintRecord {
     unsigned int unk14, unk18, unk1c;
     ConstraintRecord() : type(27), size(32) {}
     static void* operator new(std::size_t n) {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        return static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n);
     }
 };
 
@@ -27921,7 +27878,7 @@ void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int aiUnk2, int aiUnk3, Const
     }
     else
     {
-        S_00cc4b90_Router* holder = FUN_00c85750();
+        S_00cc4b90_Router* holder = static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         S_00cc4b90_Alloc* alloc = holder->unk10;
         rec = (FNVEffectRec*)alloc->AllocateMemoryBlock(0x30);
         if (rec != 0)
@@ -27974,7 +27931,7 @@ void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
         }
         if (((void *)(::FindModifierConstraintAtom((::hkpConstraintInstance *)(h), 0x19))) == 0)
         {
-            ConstraintRecord* m = (ConstraintRecord*)FUN_00c85750()->heap().AllocateMemoryBlock(0x20);
+            ConstraintRecord* m = (ConstraintRecord*)static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(0x20);
             if (m)
             {
                 m->type = 0x19;
@@ -27997,37 +27954,7 @@ void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj)
     }
 }
 
-#include <xmmintrin.h>
-#include "fnv/symbols_simd.h"
-#include "fnv/decl/FUN_004381b0_shell.h"
-#include "fnv/decl/FUN_00a5d2f0_class.h"
-#include "fnv/decl/FUN_00ccd080.h"
-#include "fnv/decl/FUN_00d50020.h"
-#include "fnv/decl/FUN_00d54e60.h"
-#include "fnv/decl/FnvCpu_FUN_00c89720_CpuInterface.h"
-#include "fnv/decl/S_00c6d5c0.h"
-#include "fnv/decl/VectorSourceB00.h"
-#include "fnv/decl/fnv_00cc1cf0__FNV_TCtrlArray.h"
-#include "fnv/decl/fnv_00cc94b0__SpawnedScopeOwner.h"
-#include "fnv/decl/fnv_00ccb1b0__FUN_00ccb1b0_class.h"
-#include "fnv/decl/fnv_00ccfd40__NodeRelease_cls.h"
-#include "fnv/decl/fnv_00cde880__FUN_00cde880_cls.h"
-#include "fnv/decl/hkpCharacterStateView.h"
-#include "fnv/symbols_00cc1000.h"
-#include "fnv/symbols_00cc2000.h"
-#include "fnv/symbols_00cc3000.h"
-#include "fnv/symbols_00cc4000.h"
-#include "fnv/symbols_00cc6000.h"
-#include "fnv/symbols_00cc7000.h"
-#include "fnv/symbols_00cc9000.h"
-#include "fnv/symbols_00ccb000.h"
-#include "fnv/symbols_00ccd000.h"
-#include "fnv/symbols_00cce000.h"
-#include "fnv/symbols_00cd7000.h"
-#include "fnv/symbols_00cdf000.h"
-#include "fnv/symbols_00d6a000.h"
 namespace CE6Memory {
-S_00cc4b90_Router* FUN_00c85750();
 }
 
 struct CE6Heap {
@@ -28038,10 +27965,10 @@ struct CE6Vec { __m128 v; };
 struct CE6Array {
  CE6Vec* data; int size; int capacity;
  CE6Array():data(0),size(0),capacity(0x80000000) {}
- ~CE6Array() { clear(CE6Memory::FUN_00c85750()->heap()); }
+ ~CE6Array() { clear(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap()); }
  void clear(S_00cc4b90_Alloc& alloc) { size=0; if(!(capacity&0x80000000)) reinterpret_cast<CE6Heap&>(alloc).Free(data,(capacity&0x3fffffff)*sizeof(CE6Vec)); data=0;capacity=0x80000000; }
  void reserve(S_00cc4b90_Alloc& heap,int n) { int cap=capacity&0x3fffffff; if(cap<n) { int doubled=cap*2; ::FUN_00c908c0((::SpawnedObject *)(void *)(&heap),(::SpawnedArray *)(void *)(this),n<doubled?doubled:n,sizeof(CE6Vec)); } }
- void resize(int n) { reserve(CE6Memory::FUN_00c85750()->heap(),n); size=n; }
+ void resize(int n) { reserve(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap(),n); size=n; }
 };
 struct CE6Hull { CE6Array a,b; ~CE6Hull(); };
 struct CE6View { CE6Vec* data; int count; int stride; CE6View(const CE6Array& a) { count=a.size; stride=sizeof(CE6Vec); data=a.data; } };
@@ -28404,112 +28331,21 @@ void* FUN_00cceda0_cls::FUN_00cceda0(unsigned int arg)
     return res;
 }
 
-// VEGAS17-CONFLICT: NiExtraData (variant definition below differs from the one above)
-struct NiExtraData
-{
-};
 
 struct hkReferencedObject;
 
-// VEGAS17-CONFLICT: FUN_009ba5f0_shell (variant definition below differs from the one above)
-struct FUN_009ba5f0_shell
-{
-public:
-    void ReleaseObject(::hkReferencedObject *, int);
-};
 
-// VEGAS17-CONFLICT: StrArr (variant definition below differs from the one above)
-struct StrArr
-{
-    void* m_pVtable;
-    void* m_pData;
-    unsigned short m_usSize;
-    unsigned short m_usElementCount;
-    unsigned char m_pad000C;
-    unsigned short m_usIncrement;
 
-    void SetSize(unsigned int size);
-    void SetAt(unsigned int index, char*& value);
-};
-
-// VEGAS17-CONFLICT: FUN_00cc94b0_Class (variant definition below differs from the one above)
-struct FUN_00cc94b0_Class
-{
-};
 
 bool FUN_00ccba20(char* p, int, char* q);
 
 void FUN_00cdf270(char* self, int, char* apMatrix);
 
-// VEGAS17-CONFLICT: CC1AD0BinaryStream (variant definition below differs from the one above)
-class CC1AD0BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(CC1AD0BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int(__cdecl* m_pfnWrite)(CC1AD0BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 
-    unsigned int BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int written = m_pfnWrite(this, p, n, sizes, count);
-        m_uiStreamFlags += written;
-        return written;
-    }
-};
-
-// VEGAS17-CONFLICT: RefBool (variant definition below differs from the one above)
-struct RefBool
-{
-    bool value;
-    RefBool(bool v) : value(v)
-    {}
-    operator bool() const
-    {
-        return value;
-    }
-};
 
 int __cdecl FUN_00cc1e30();
 
-// VEGAS17-CONFLICT: Member_00cc1e40 (variant definition below differs from the one above)
-struct Member_00cc1e40
-{
-    virtual void unk00();
-    void* m_04;
-    ~Member_00cc1e40()
-    {
-        void* p = m_04;
-        FUN_00aa10f0(p);
-    }
-};
 
-// VEGAS17-CONFLICT: BCC1F80StringArray (variant definition below differs from the one above)
-class BCC1F80StringArray
-{
-  public:
-    virtual ~BCC1F80StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
 
 void* FUN_00aa13e0(unsigned int size);
 
@@ -28517,218 +28353,10 @@ void* __cdecl FUN_00aa13e0(unsigned int size);
 
 extern __declspec(thread) TlsBlock_t g_tlsBlock;
 
-// VEGAS17-CONFLICT: TlsGuard_t (variant definition below differs from the one above)
-struct TlsGuard_t
-{
-    int m_saved;
-    TlsGuard_t(int saved)
-    {
-        m_saved = saved;
-        g_tlsBlock.m_2b4 = 0x10;
-    }
-    ~TlsGuard_t()
-    {
-        g_tlsBlock.m_2b4 = m_saved;
-    }
-};
 
 void* __cdecl FUN_00cc2b30();
 
-// VEGAS17-CONFLICT: S_00cc2d20_class (variant definition below differs from the one above)
-struct S_00cc2d20_class
-{
-    virtual void* v00(char*)
-    {
-        return 0;
-    }
-    virtual void* v01(char*)
-    {
-        return 0;
-    }
-    virtual void* v02(char*)
-    {
-        return 0;
-    }
-    virtual void* v03(char*)
-    {
-        return 0;
-    }
-    virtual void* v04(char*)
-    {
-        return 0;
-    }
-    virtual void* v05(char*)
-    {
-        return 0;
-    }
-    virtual void* v06(char*)
-    {
-        return 0;
-    }
-    virtual void* v07(char*)
-    {
-        return 0;
-    }
-    virtual void* v08(char*)
-    {
-        return 0;
-    }
-    virtual void* v09(char*)
-    {
-        return 0;
-    }
-    virtual void* v10(char*)
-    {
-        return 0;
-    }
-    virtual void* v11(char*)
-    {
-        return 0;
-    }
-    virtual void* v12(char*)
-    {
-        return 0;
-    }
-    virtual void* v13(char*)
-    {
-        return 0;
-    }
-    virtual void* v14(char*)
-    {
-        return 0;
-    }
-    virtual void* v15(char*)
-    {
-        return 0;
-    }
-    virtual void* v16(char*)
-    {
-        return 0;
-    }
-    virtual void* v17(char*)
-    {
-        return 0;
-    }
-    virtual void* v18(char*)
-    {
-        return 0;
-    }
-    virtual void* v19(char*)
-    {
-        return 0;
-    }
-    virtual void* v20(char*)
-    {
-        return 0;
-    }
-    virtual void* v21(char*)
-    {
-        return 0;
-    }
-    virtual void* v22(char*)
-    {
-        return 0;
-    }
-    virtual void* v23(char*)
-    {
-        return 0;
-    }
-    virtual void* v24(char*)
-    {
-        return 0;
-    }
-    virtual void* v25(char*)
-    {
-        return 0;
-    }
-    virtual void* v26(char*)
-    {
-        return 0;
-    }
-    virtual void* v27(char*)
-    {
-        return 0;
-    }
-    virtual void* v28(char*)
-    {
-        return 0;
-    }
-    virtual void* v29(char*)
-    {
-        return 0;
-    }
-    virtual void* v30(char*)
-    {
-        return 0;
-    }
-    virtual void* v31(char*)
-    {
-        return 0;
-    }
-    virtual void* v32(char*)
-    {
-        return 0;
-    }
-    virtual void* v33(char*)
-    {
-        return 0;
-    }
-    virtual void* v34(char*)
-    {
-        return 0;
-    }
-    virtual void* v35(char*)
-    {
-        return 0;
-    }
-    virtual void* v36(char*)
-    {
-        return 0;
-    }
-    virtual void* v37(char*)
-    {
-        return 0;
-    }
-    virtual void* v38(char*)
-    {
-        return 0;
-    }
-    virtual void* v39(char*)
-    {
-        return 0;
-    }
-    virtual void* v40(char*)
-    {
-        return 0;
-    }
-    virtual void* v41(char*)
-    {
-        return 0;
-    }
-    virtual void* v42(char*)
-    {
-        return 0;
-    }
-    virtual void* v43(char*)
-    {
-        return 0;
-    }
-    virtual void* v44(char*)
-    {
-        return 0;
-    }
-    virtual S_00cc2d20_result* v45(char*)
-    {
-        return 0;
-    }
 
-    void FUN_00cc2d20(void* arg1, S_00cc2d20_argument* arg2);
-};
-
-// VEGAS17-CONFLICT: CC2F90MemoryManager (variant definition below differs from the one above)
-struct CC2F90MemoryManager
-{
-};
 
 void* __cdecl FUN_00cc32e0();
 
@@ -28744,53 +28372,13 @@ int* __cdecl FUN_00cc4860();
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-// VEGAS17-CONFLICT: ChainA_cls (variant definition below differs from the one above)
-struct ChainA_cls : public OwnerBase
-{
-    virtual void unkA0();
-    unsigned int m_0c;
-    ChainA_cls()
-    {
-        m_0c = 0;
-        ::DAT_01268188 += 1;
-    }
-};
 
 typedef unsigned int(__cdecl* FUN_00cc4e90_readfn)(FUN_00cc4e90_stream* s, void* dst, unsigned int size,
                                                    unsigned int* outCount, unsigned int count);
 
 void* __cdecl FUN_00cc5100(void);
 
-// VEGAS17-CONFLICT: BinaryStream (variant definition below differs from the one above)
-struct BinaryStream
-{
-    void* m_ppVirtualMethodTable;
-    unsigned int m_vContactPosition;
-    void* m_pOwnerObject;
-    int(__cdecl* m_write)(BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
-    void Write(const void* data, unsigned int count)
-    {
-        unsigned int actualCount = count;
-        m_vContactPosition += m_write(this, data, count, &actualCount, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: CC5DD0BinaryStream (variant definition below differs from the one above)
-class CC5DD0BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(CC5DD0BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int(__cdecl* m_pfnWrite)(CC5DD0BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
-
-    unsigned int BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int written = m_pfnWrite(this, p, n, sizes, count);
-        m_uiStreamFlags += written;
-        return written;
-    }
-};
 
 int* __cdecl FUN_00cc5ed0();
 
@@ -28798,28 +28386,6 @@ void* __cdecl FUN_00cc74c0();
 
 void* FUN_00cc74d0();
 
-// VEGAS17-CONFLICT: NiBinaryStreamSI (variant definition below differs from the one above)
-struct NiBinaryStreamSI
-{
-    void* m_pVtable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(NiBinaryStreamSI* pThis, void* pvBuffer, unsigned int uiBytes,
-                                     unsigned int* puiComponentSizes, unsigned int uiNumComponents);
-
-    unsigned int Read(void* pvBuffer, unsigned int uiBytes)
-    {
-        unsigned int uiRead = m_pfnRead(this, pvBuffer, uiBytes, 0, 0);
-        m_uiStreamFlags += uiRead;
-        return uiRead;
-    }
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes,
-                            unsigned int uiNumComponents)
-    {
-        unsigned int uiRead = m_pfnRead(this, pvBuffer, uiBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiRead;
-        return uiRead;
-    }
-};
 
 int* __cdecl FUN_00cc7d70();
 
@@ -28829,31 +28395,7 @@ CpuOpaque* __cdecl FUN_00cc7d90();
 
 void* __cdecl FUN_00cc84f0();
 
-// VEGAS17-CONFLICT: BCC8770Shape (variant definition below differs from the one above)
-class BCC8770Shape : public BCC8770RefObject
-{
-  public:
-    BCC8770Shape() : m_pkShape(0)
-    {
-        (*reinterpret_cast<unsigned int *>(&::DAT_01268188))++;
-    }
-    virtual ~BCC8770Shape();
 
-    void* m_pkShape;
-
-};
-
-// VEGAS17-CONFLICT: BCC8770DerivedShape (variant definition below differs from the one above)
-class BCC8770DerivedShape : public BCC8770Shape
-{
-  public:
-    BCC8770DerivedShape()
-    {
-        (*reinterpret_cast<unsigned int *>(&::DAT_01268630))++;
-    }
-    virtual ~BCC8770DerivedShape();
-
-};
 
 int* __cdecl FUN_00cc8d50();
 
@@ -28861,176 +28403,20 @@ int __cdecl FUN_00cc8d60();
 
 int* FUN_00cc8d70();
 
-// VEGAS17-CONFLICT: NiBinaryStreamStandIn (variant definition below differs from the one above)
-struct NiBinaryStreamStandIn
-{
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void SetEndianSwap(bool bSwap);
 
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(NiBinaryStreamStandIn* pkThis, void* pvBuffer, unsigned int uiBytes,
-                                     unsigned int* puiComponentSizes, unsigned int uiNumComponents);
-    unsigned int(__cdecl* m_pfnWrite)(NiBinaryStreamStandIn* pkThis, const void* pvBuffer, unsigned int uiBytes,
-                                      unsigned int* puiComponentSizes, unsigned int uiNumComponents);
 
-    unsigned int BinaryWrite(const void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-                             unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesWritten = m_pfnWrite(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesWritten;
-        return uiBytesWritten;
-    }
-    template <class T> unsigned int Write(const T* pValue)
-    {
-        unsigned int uiSize = sizeof(T);
-        return BinaryWrite(pValue, sizeof(T), &uiSize, 1);
-    }
-    template <class T> unsigned int Write(const T* pArray, unsigned int ItemUpdateArray)
-    {
-        unsigned int uiSize = sizeof(T);
-        return BinaryWrite(pArray, sizeof(T) * ItemUpdateArray, &uiSize, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: CC90D0Level1 (variant definition below differs from the one above)
-class CC90D0Level1 : public CC90D0RefObject
-{
-  public:
-    CC90D0Level1() : m_pPointer(0)
-    {
-        ++(*reinterpret_cast<unsigned int *>(&::DAT_01268188));
-    }
-    virtual ~CC90D0Level1();
 
-    void* m_pPointer;
 
-};
 
-// VEGAS17-CONFLICT: CC90D0Level3 (variant definition below differs from the one above)
-class CC90D0Level3 : public CC90D0Level2
-{
-  public:
-    CC90D0Level3()
-    {
-        ++(*reinterpret_cast<unsigned int *>(&::DAT_0126863c));
-    }
-    virtual ~CC90D0Level3();
-
-};
-
-// VEGAS17-CONFLICT: CC9940RefObject (variant definition below differs from the one above)
-class CC9940RefObject : public CC9940Holder
-{
-  public:
-    CC9940RefObject()
-    {
-        ++::DAT_01268188;
-    }
-    virtual ~CC9940RefObject();
-};
-
-// VEGAS17-CONFLICT: CC9940Wrapper (variant definition below differs from the one above)
-class CC9940Wrapper : public CC9940RefObject
-{
-  public:
-    CC9940Wrapper()
-    {
-        ++::DAT_01268648;
-    }
-    virtual ~CC9940Wrapper();
-
-    CC9940Wrapper* FUN_00cc9940(int iCloning);
-};
-
-// VEGAS17-CONFLICT: BCC9B80BinaryStream (variant definition below differs from the one above)
-class BCC9B80BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(BCC9B80BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-                            unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesRead = m_pfnRead(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesRead;
-        return uiBytesRead;
-    }
-};
-
-// VEGAS17-CONFLICT: CpuObject (variant definition below differs from the one above)
-struct CpuObject
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    unsigned int unk10;
-    unsigned int unk14;
-    unsigned int unk18;
-    unsigned int unk1c;
-    unsigned int unk20;
-    unsigned int unk24;
-    unsigned int unk28;
-    unsigned int unk2c;
-    unsigned int unk30;
-    CpuInterface* target;
-    void FUN_00cc9d70();
-public:
-    unsigned int FUN_00cac910();
-};
 
 void* __cdecl FUN_00cc9db0();
 
 int __cdecl FUN_00cc9dc0();
 
-// VEGAS17-CONFLICT: CCA1B0Level1 (variant definition below differs from the one above)
-class CCA1B0Level1 : public CCA1B0RefObject
-{
-  public:
-    CCA1B0Level1() : m_pkFirst(0), m_pkSecond(0)
-    {
-        ++(*reinterpret_cast<unsigned int *>(&::DAT_012680f8));
-    }
-    virtual ~CCA1B0Level1();
-
-    void* m_pkFirst;
-    void* m_pkSecond;
-
-};
 
 int __cdecl FUN_00cca940();
 
-// VEGAS17-CONFLICT: BCCB080StringArray (variant definition below differs from the one above)
-class BCCB080StringArray
-{
-  public:
-    virtual ~BCCB080StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
 
 void* __cdecl FUN_00ccb130();
 
@@ -29038,37 +28424,7 @@ int __cdecl FUN_00ccb140();
 
 void* FUN_00ccb150();
 
-// VEGAS17-CONFLICT: CCB730MemoryManager (variant definition below differs from the one above)
-struct CCB730MemoryManager
-{
-};
 
-// VEGAS17-CONFLICT: CCB730Child (variant definition below differs from the one above)
-struct CCB730Child
-{
-    CCB730Child() throw()
-        : m_pkOwnerManager(0), m_f10(0.0f), m_f14(0.0f), m_f18(0.0f), m_f1C(0.0f), m_f20(0.0f), m_f24(0.0f),
-          m_f28(0.0f), m_f2C(0.0f), m_f30(0.0f), m_f34(0.0f), m_f38(0.0f), m_f3C(0.0f)
-    {}
-
-    void* m_pkOwnerManager;
-    int unk04;
-    int unk08;
-    int unk0C;
-    float m_f10;
-    float m_f14;
-    float m_f18;
-    float m_f1C;
-    float m_f20;
-    float m_f24;
-    float m_f28;
-    float m_f2C;
-    float m_f30;
-    float m_f34;
-    float m_f38;
-    float m_f3C;
-
-};
 
 void* __cdecl FUN_00ccb990();
 
@@ -29078,49 +28434,10 @@ int __cdecl FUN_00ccbb30();
 
 int __cdecl FUN_00ccbb40();
 
-// VEGAS17-CONFLICT: FNVRefVTable (variant definition below differs from the one above)
-struct FNVRefVTable
-{
-    void(* m_method00)(FNVRefObj*);
-    void(* m_release)(FNVRefObj*);
-};
 
 typedef FNVHolder*(* FNVQuery)(FNVTarget*, bool*);
 
-// VEGAS17-CONFLICT: S_00ccc620_BinStream (variant definition below differs from the one above)
-struct S_00ccc620_BinStream
-{
-    int unk00;
-    unsigned int m_uiStreamFlags;
-    int unk08;
-    unsigned int(__cdecl* m_pfnWrite)(S_00ccc620_BinStream*, const void*, unsigned int, unsigned int*, unsigned int);
-    void Write(const void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSize, unsigned int uiNumComponents)
-    {
-        m_uiStreamFlags += m_pfnWrite(this, pvBuffer, uiBytes, puiComponentSize, uiNumComponents);
-    }
-};
 
-// VEGAS17-CONFLICT: CCCF00BinaryStream (variant definition below differs from the one above)
-class CCCF00BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(CCCF00BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int(__cdecl* m_pfnWrite)(CCCF00BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
-
-    unsigned int BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int written = m_pfnWrite(this, p, n, sizes, count);
-        m_uiStreamFlags += written;
-        return written;
-    }
-    unsigned int Write(const void* p, unsigned int n)
-    {
-        unsigned int size = n;
-        return BinaryWrite(p, n, &size, 1);
-    }
-};
 
 // FUN_00ccd0f0 : a one-line function - getter
 void* FUN_00ccd0f0();
@@ -29129,142 +28446,24 @@ extern void* __cdecl FUN_00aa13e0(unsigned int size);
 
 int* __cdecl FUN_00ccdc30();
 
-// VEGAS17-CONFLICT: CDC40LevelA (variant definition below differs from the one above)
-class CDC40LevelA : public CDC40Holder
-{
-  public:
-    CDC40LevelA()
-    {
-        ++::DAT_012680f8;
-    }
-    virtual ~CDC40LevelA();
-};
 
-// VEGAS17-CONFLICT: CDC40LevelB (variant definition below differs from the one above)
-class CDC40LevelB : public CDC40LevelA
-{
-  public:
-    CDC40LevelB()
-    {
-        ++::DAT_01268274;
-    }
-    virtual ~CDC40LevelB();
-};
 
-// VEGAS17-CONFLICT: CDC40LevelC (variant definition below differs from the one above)
-class CDC40LevelC : public CDC40LevelB
-{
-  public:
-    CDC40LevelC()
-    {
-        ++::DAT_01268250;
-    }
-    virtual ~CDC40LevelC();
-};
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-// VEGAS17-CONFLICT: BCCE110StringArray (variant definition below differs from the one above)
-class BCCE110StringArray
-{
-  public:
-    virtual ~BCCE110StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
 
 int* __cdecl FUN_00cce970();
 
 int __cdecl FUN_00cce980();
 
-// VEGAS17-CONFLICT: AutoMemContext (variant definition below differs from the one above)
-struct AutoMemContext
-{
-    int old;
-    AutoMemContext(int value)
-    {
-        old = (*reinterpret_cast<::TaskTls *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::TaskTls *>(&::g_tlsBlock)).context = value;
-    }
-    ~AutoMemContext()
-    {
-        (*reinterpret_cast<::TaskTls *>(&::g_tlsBlock)).context = old;
-    }
-};
 
-// VEGAS17-CONFLICT: ThreeByThreeMatrix (variant definition below differs from the one above)
-struct ThreeByThreeMatrix
-{
-    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
-};
 
-// VEGAS17-CONFLICT: Transform403 (variant definition below differs from the one above)
-struct Transform403
-{
-    hkVector4 row0, row1, row2, translation;
-};
 
-// VEGAS17-CONFLICT: Link403 (variant definition below differs from the one above)
-struct Link403
-{
-    int unk00, unk04;
-    Output403* target;
-};
 
-// VEGAS17-CONFLICT: Data403 (variant definition below differs from the one above)
-struct Data403
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14;
-    Link403* link;
-    int unk1c;
-    Transform403 transform;
-};
 
 extern const char g_010c6050[], g_010c604c[];
 
-// VEGAS17-CONFLICT: StringArray403 (variant definition below differs from the one above)
-struct StringArray403 : StrArr
-{
-    void Add(char* value)
-    {
-        unsigned int index = m_usElementCount;
-        if (index >= m_usSize)
-            SetSize(index + m_usIncrement);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
-    }
-};
 
-// VEGAS17-CONFLICT: Holder403 (variant definition below differs from the one above)
-struct Holder403
-{
-    int unk00, unk04;
-    Data403* data;
-    const Transform403& GetTransform() const
-    {
-        if (this && data)
-            return data->transform;
-        return (*reinterpret_cast<::Transform403 *>(&::DAT_01268370));
-    }
-    void AppendTransformStrings(StringArray403*);
-};
 
 void* __cdecl FUN_00ccf550();
 
@@ -29276,7 +28475,6 @@ typedef bool(* CheckRef)(RefObject*, void*);
 
 typedef RefObject*(* FindRef)(RefObject*, void*);
 
-extern void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize);
 
 void FUN_00cd3b00(int a, int b, int c, int d);
 
@@ -29286,557 +28484,44 @@ int* __cdecl FUN_00cd7f20();
 
 void FUN_00cd9ed0(unsigned char* flag, int unused);
 
-// VEGAS17-CONFLICT: HavokArrayUtilities (variant definition below differs from the one above)
-struct HavokArrayUtilities
-{
-    static void __cdecl GrowArrayCapacity(hkMemoryAllocator& alloc, void* array, int capacity, int elemSize);
-};
 
-// VEGAS17-CONFLICT: hkArr (variant definition below differs from the one above)
-template <class T> struct hkArr
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
 
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
 
-    void GrowArrayCapacity(hkMemoryAllocator& alloc, int n)
-    {
-        int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = cap * 2;
-            int newSize = n < cap2 ? cap2 : n;
-            HavokArrayUtilities::GrowArrayCapacity(alloc, this, newSize, sizeof(T));
-        }
-    }
 
-    void _setSize(hkMemoryAllocator& alloc, int n)
-    {
-        GrowArrayCapacity(alloc, n);
-        m_iElementCount = n;
-    }
 
-    void _setSize(hkMemoryAllocator& alloc, int n, T fill)
-    {
-        GrowArrayCapacity(alloc, n);
-        int num = n - m_iElementCount;
-        T* p = m_data + m_iElementCount;
-        for (int i = 0; i < num; i++)
-        {
-            p[i] = fill;
-        }
-        m_iElementCount = n;
-    }
 
-    void _reserveExactly(hkMemoryAllocator& alloc, int n)
-    {
-        if (getCapacity() < n)
-        {
-            HavokArrayUtilities::GrowArrayCapacity(alloc, this, n, sizeof(T));
-        }
-    }
 
-    void SetSizeAndGrow(int n)
-    {
-        _setSize(RouterHeapAllocatorProvider().get(), n);
-    }
-    void SetSizeAndGrow(int n, T fill)
-    {
-        _setSize(RouterHeapAllocatorProvider().get(), n, fill);
-    }
-    void reserveExactly(int n)
-    {
-        _reserveExactly(RouterHeapAllocatorProvider().get(), n);
-    }
-};
 
-// VEGAS17-CONFLICT: CallTarget_00cde880 (variant definition below differs from the one above)
-struct CallTarget_00cde880
-{
-};
 
-// VEGAS17-CONFLICT: FUN_00cde940_cls (variant definition below differs from the one above)
-class FUN_00cde940_cls
-{
-  public:
-    void FUN_00cde940(int p1, int p2, int p3);
-};
 
-// VEGAS17-CONFLICT: BCC2950StringArray (variant definition below differs from the one above)
-class BCC2950StringArray
-{
-  public:
-    virtual ~BCC2950StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
 
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
 
-// VEGAS17-CONFLICT: BinaryInput (variant definition below differs from the one above)
-struct BinaryInput
-{
-    int unk00;
-    unsigned int position;
-    unsigned int(__cdecl* reader)(BinaryInput*, void*, unsigned int, unsigned int*, unsigned int);
-    void Read(void* dst, unsigned int size)
-    {
-        unsigned int componentSize = size;
-        position += reader(this, dst, size, &componentSize, 1);
-    }
-};
-
-// VEGAS17-CONFLICT: CC61F0BinaryStream (variant definition below differs from the one above)
-struct CC61F0BinaryStream
-{
-    void* m_pVtable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(CC61F0BinaryStream* pThis, void* pvBuffer, unsigned int uiBytes,
-                                     unsigned int* puiComponentSizes, unsigned int uiNumComponents);
-
-    unsigned int Read(void* pvBuffer, unsigned int uiBytes)
-    {
-        unsigned int uiRead = m_pfnRead(this, pvBuffer, uiBytes, 0, 0);
-        m_uiStreamFlags += uiRead;
-        return uiRead;
-    }
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiBytes, unsigned int* puiComponentSizes,
-                            unsigned int uiNumComponents)
-    {
-        unsigned int uiRead = m_pfnRead(this, pvBuffer, uiBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiRead;
-        return uiRead;
-    }
-};
-
-// VEGAS17-CONFLICT: CC63E0_Stream (variant definition below differs from the one above)
-struct CC63E0_Stream
-{
-    void* m_ppVirtualMethodTable;
-    unsigned int m_vContactPosition;
-    void* m_pOwnerObject;
-    unsigned int(__cdecl* m_write)(CC63E0_Stream*, const void*, unsigned int, unsigned int*, unsigned int);
-    void Write(const void* data, unsigned int count)
-    {
-        unsigned int actualCount = count;
-        m_vContactPosition += m_write(this, data, count, &actualCount, 1);
-    }
-};
-
-// VEGAS17-CONFLICT: CC69D0Shape (variant definition below differs from the one above)
-class CC69D0Shape : public CC69D0RefObject
-{
-  public:
-    CC69D0Shape() : m_pUserData(0)
-    {
-        ++::DAT_01268188;
-    }
-    virtual ~CC69D0Shape();
-
-    void* m_pUserData;
-
-};
-
-// VEGAS17-CONFLICT: CC69D0ListShape (variant definition below differs from the one above)
-class CC69D0ListShape : public CC69D0Shape
-{
-  public:
-    CC69D0ListShape()
-    {
-        ++::DAT_0126860c;
-    }
-    virtual ~CC69D0ListShape();
-
-};
-
-// VEGAS17-CONFLICT: BCC8950BinaryStream (variant definition below differs from the one above)
-class BCC8950BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(BCC8950BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-                            unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesRead = m_pfnRead(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesRead;
-        return uiBytesRead;
-    }
-};
-
-__declspec(thread) unsigned int DAT_0126fd98;
-
-// VEGAS17-CONFLICT: CCADB0MemoryManager (variant definition below differs from the one above)
-struct CCADB0MemoryManager
-{
-};
-
-// VEGAS17-CONFLICT: CCADB0Child (variant definition below differs from the one above)
-struct CCADB0Child
-{
-    CCADB0Child() throw()
-        : m_pkOwnerManager(0), m_fScale(::DAT_010c72bc), m_f10(0.0f), m_f14(0.0f), m_f18(0.0f), m_f1C(0.0f),
-          m_f20(0.0f), m_f24(0.0f), m_f28(0.0f), m_f2C(0.0f), m_f30(0.0f), m_f34(0.0f), m_f38(0.0f), m_f3C(0.0f)
-    {}
-
-    void* m_pkOwnerManager;
-    float m_fScale;
-    int unk08;
-    int unk0C;
-    float m_f10;
-    float m_f14;
-    float m_f18;
-    float m_f1C;
-    float m_f20;
-    float m_f24;
-    float m_f28;
-    float m_f2C;
-    float m_f30;
-    float m_f34;
-    float m_f38;
-    float m_f3C;
-
-};
 
 // VEGAS17-CONFLICT: CCC920BinaryStream (variant definition below differs from the one above)
 // SaveBinary of an element array: the count, then each element saves itself.
-class CCC920BinaryStream
-{
-  public:
-    void* m_ppVirtualMethodTable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(CCC920BinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int(__cdecl* m_pfnWrite)(CCC920BinaryStream*, const void*, unsigned int, unsigned int*, unsigned int);
 
-    unsigned int BinaryWrite(const void* p, unsigned int n, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int written = m_pfnWrite(this, p, n, sizes, count);
-        m_uiStreamFlags += written;
-        return written;
-    }
-    unsigned int Write(const void* p, unsigned int n, unsigned int uiComponentSize)
-    {
-        unsigned int size = uiComponentSize;
-        return BinaryWrite(p, n, &size, 1);
-    }
-};
 
-__declspec(thread) unsigned int currentAllocationContext = 0x3b;
 
-// VEGAS17-CONFLICT: MemoryManagerAllocHelper (variant definition below differs from the one above)
-struct MemoryManagerAllocHelper
-{
-};
-
-// VEGAS17-CONFLICT: CCFFD0MemoryManager (variant definition below differs from the one above)
-class CCFFD0MemoryManager
-{
-  public:
-};
 
 typedef unsigned int(__cdecl* SaveStreamWriteFn)(SaveStream*, const void*, unsigned int, unsigned int*, unsigned int);
 
 namespace cce {
-struct Block
-{
-    char pad[0x30];
-    unsigned long m_kPointA;
-    unsigned long m_kPointB;
-    unsigned long m_iThirdValue;
-    unsigned long m_iFourthElementInteger;
-};
-inline void Swap32(unsigned long& v)
-{
-    v = _byteswap_ulong(v);
-}
-inline void SwapBlock(Block* b)
-{
-    Swap32(b->m_kPointA);
-    Swap32(b->m_kPointB);
-    Swap32(b->m_iThirdValue);
-    Swap32(b->m_iFourthElementInteger);
-    ::FUN_00c8c020((unsigned int *)(b));
-}
-struct Hdr
-{
-    char pad[0x10];
-    Block m_kBlock;
-};
-struct Info
-{
-    int unk;
-    int unkCur;
-    void* m_pName;
-};
-struct Meta
-{
-    char pad[0x18];
-    Info* m_pObjectInfo;
-};
-struct Writer
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void SetName(void* p);
-    char pad[0x1e4 - 4];
-    unsigned char m_ucMode;
-};
-struct Obj
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va();
-    virtual void vaCur();
-    virtual void vaValue();
-    virtual void vac();
-    virtual void vb();
-    virtual Hdr* GetHeader(int* pSize);
-    int unkCur;
-    Meta* m_pMeta;
-    void FUN_00ccec00(Writer* w);
-};
-static inline void* GetName(Obj* o)
-{
-    return (o && o->m_pMeta && o->m_pMeta->m_pObjectInfo) ? o->m_pMeta->m_pObjectInfo->m_pName : 0;
-}
 // @fnv 0x00ccec00
-void Obj::FUN_00ccec00(Writer* w)
-{
-    w->SetName(GetName(this));
-    int iSize;
-    Hdr* h = GetHeader(&iSize);
-    if (w->m_ucMode != 1)
-        SwapBlock(&h->m_kBlock);
-    reinterpret_cast<::C9FC00Object *>(this)->FUN_00c9fc00((*(::C9FC00Stream *)(w)));
-    if (w->m_ucMode != 1)
-        SwapBlock(&h->m_kBlock);
-}
 }
 
-// VEGAS17-CONFLICT: Defaults (variant definition below differs from the one above)
-struct Defaults
-{
-    float strength, damping, gain, recovery, maxVelocity, u14, u18, u1c, u20, u24, u28, u2c;
-    Defaults()
-        : strength(.17f), damping(0), gain(1), recovery(.6f), maxVelocity(.05f), u14(runtimeFloatSettingDefault92),
-          u18(runtimeFloatSettingDefault506), u1c(.1f), u20(.3f), u24(.3f), u28(g_011db1d4_arg1), u2c(.1f)
-    {}
-    Defaults(int)
-    {}
-};
 
-// VEGAS17-CONFLICT: Array (variant definition below differs from the one above)
-template <class T> struct Array
-{
-    T* data;
-    int size;
-    int capacity;
-    Array() : data(0), size(0), capacity(0x80000000)
-    {}
-    __forceinline void reserve(S_00cc4b90_Alloc& alloc, int n)
-    {
-        int c = capacity & 0x3fffffff;
-        if (c < n)
-        {
-            int doubled = c * 2;
-            FUN_00c908c0(&alloc, this, n < doubled ? doubled : n, sizeof(T));
-        }
-    }
-    __forceinline void resizeUninitialized(int n)
-    {
-        reserve(FUN_00c85750()->heap(), n);
-        size = n;
-    }
-    __forceinline void resize(int n)
-    {
-        reserve(FUN_00c85750()->heap(), n);
-        int delta = n - size;
-        T* start = data + size;
-        for (int i = 0; i < delta; i++)
-            new (start + i) T;
-        size = n;
-    }
-    __forceinline void resize(int n, T value)
-    {
-        reserve(FUN_00c85750()->heap(), n);
-        int delta = n - size;
-        T* start = data + size;
-        for (int i = 0; i < delta; i++)
-            start[i] = value;
-        size = n;
-    }
-};
 
-// VEGAS17-CONFLICT: Skeleton (variant definition below differs from the one above)
-struct Skeleton
-{
-    int u00, u04, u08;
-    short* parents;
-    int u10, u14, u18;
-    int count;
-};
 
-// VEGAS17-CONFLICT: Binding (variant definition below differs from the one above)
-struct Binding
-{
-    int u00, u04;
-    void* name;
-    int boneCount;
-    int u10, u14, u18, u1c;
-    int* remapping;
-    int u24, u28;
-    Skeleton* skeleton;
-};
 
-// VEGAS17-CONFLICT: Transform (variant definition below differs from the one above)
-struct Transform
-{
-    float x00, x04, x08, x0c, x10, x14, x18, x1c, x20, x24, x28, x2c, x30, x34, x38, x3c;
-};
 
-// VEGAS17-CONFLICT: FUN_00cdb400 (variant definition below differs from the one above)
-struct FUN_00cdb400
-{
-    Array<Defaults> defaults;
-    Array<int> auxiliary;
-    PoseView pose;
-    int u24, u28;
-    Array<Transform> transforms;
-    Binding* binding;
-    Array<short> parents;
-    FUN_00cdb400(Binding* input);
-};
 
 CpuOpaque* __cdecl FUN_00cc1280();
 
-// VEGAS17-CONFLICT: FUN_00a5d2f0_shell (variant definition below differs from the one above)
-struct FUN_00a5d2f0_shell
-{
-};
 
 void __cdecl FUN_00cc1960(void);
 
-// VEGAS17-CONFLICT: LargeArrayC (variant definition below differs from the one above)
-template <class T> struct LargeArrayC
-{
-    virtual ~LargeArrayC();
-    T* m_pBase;
-    unsigned int m_uiMaxSize;
-    unsigned int m_uiSize;
-    unsigned int m_uiESize;
-    unsigned int m_uiGrowBy;
-    void SetSize(unsigned int uiMaxSize);
-    __declspec(noinline) void SetAt(unsigned int uiIndex, const T& element)
-    {
-        if (uiIndex >= m_uiSize)
-        {
-            m_uiSize = uiIndex + 1;
-            if (element.m_pObject)
-                m_uiESize++;
-        }
-        else
-        {
-            if (element.m_pObject)
-            {
-                if (!m_pBase[uiIndex].m_pObject)
-                    m_uiESize++;
-            }
-            else
-            {
-                if (m_pBase[uiIndex].m_pObject)
-                    m_uiESize--;
-            }
-        }
-        m_pBase[uiIndex] = element;
-    }
-    unsigned int SetAtGrow(unsigned int uiIndex, const T& element)
-    {
-        if (uiIndex >= m_uiMaxSize)
-            SetSize(uiIndex + m_uiGrowBy);
-        SetAt(uiIndex, element);
-        return uiIndex;
-    }
-    unsigned int Add(const T& element)
-    {
-        return SetAtGrow(m_uiSize, element);
-    }
-};
 
-// VEGAS17-CONFLICT: S_54d0_Heap (variant definition below differs from the one above)
-struct S_54d0_Heap
-{
-};
 
 void FUN_00cc7ce0();
 
@@ -29853,24 +28538,7 @@ void __cdecl FUN_00cc9ce0();
 
 void __cdecl FUN_00cc9cf0();
 
-void __cdecl FUN_00c908c0(void* alloc, void* arr, int cap, int elemSize);
 
-// VEGAS17-CONFLICT: AGBinStream (variant definition below differs from the one above)
-struct AGBinStream
-{
-    void* m_pVtable;
-    unsigned int m_uiStreamFlags;
-    unsigned int(__cdecl* m_pfnRead)(AGBinStream* pkThis, void* pvBuffer, unsigned int uiBytes,
-                                     unsigned int* puiComponentSizes, unsigned int uiNumComponents);
-
-    unsigned int BinaryRead(void* pvBuffer, unsigned int uiTotalBytes, unsigned int* puiComponentSizes,
-                            unsigned int uiNumComponents)
-    {
-        unsigned int uiBytesRead = m_pfnRead(this, pvBuffer, uiTotalBytes, puiComponentSizes, uiNumComponents);
-        m_uiStreamFlags += uiBytesRead;
-        return uiBytesRead;
-    }
-};
 
 extern void(* DAT_00fdf100)(int*);
 
@@ -29886,97 +28554,13 @@ void FUN_00cd3b10(int, int, int, int);
 
 int FUN_00cd7d10(int arg0, int arg1);
 
-void __cdecl ResizeAudioStream(void* allocator, void* array, int elementSize) throw();
 
-void __cdecl FUN_00c908c0(void* allocator, void* array, int newCapacity, int elementSize) throw();
 
-// VEGAS17-CONFLICT: MyArray (variant definition below differs from the one above)
-template <typename T> struct MyArray
-{
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-
-    enum
-    {
-        DONT_DEALLOCATE_FLAG = 0x80000000
-    };
-
-    __forceinline MyArray() throw() : m_data(0), m_iElementCount(0), m_iCapacityState(DONT_DEALLOCATE_FLAG)
-    {}
-
-    __forceinline int getCapacity() const throw()
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-
-    __forceinline void GrowArrayCapacity(hkMemoryAllocator* alloc, int n) throw()
-    {
-        int cap = getCapacity();
-        if (cap < n)
-        {
-            int cap2 = cap * 2;
-            int newCap = n < cap2 ? cap2 : n;
-            FUN_00c908c0(alloc, this, newCap, sizeof(T));
-        }
-    }
-
-    __forceinline void SetSizeAndGrow(int n, T fill) throw()
-    {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        GrowArrayCapacity(router->m_pStreamAllocator, n);
-        ConstructWithCopy<T>(m_data + m_iElementCount, n - m_iElementCount, fill);
-        m_iElementCount = n;
-    }
-
-    __forceinline void AddBack(const T& val) throw()
-    {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        if (m_iElementCount == getCapacity())
-        {
-            ResizeAudioStream(router->m_pStreamAllocator, this, sizeof(T));
-        }
-        ConstructWithCopy<T>(m_data + m_iElementCount, 1, val);
-        m_iElementCount++;
-    }
-
-    __forceinline ~MyArray() throw()
-    {
-        NineIntegerRecord* router = (NineIntegerRecord*)FUN_00c85750();
-        hkMemoryAllocator* alloc = router->m_pStreamAllocator;
-        m_iElementCount = 0;
-        if ((m_iCapacityState & DONT_DEALLOCATE_FLAG) == 0)
-        {
-            alloc->ReleaseBlock(m_data, m_iCapacityState & 0x3fffffff);
-        }
-    }
-};
 
 void __cdecl CollectUnusedIndices(SomeFilter* filter, MyArray<short>& out) throw();
 
-// VEGAS17-CONFLICT: D274C0Child (variant definition below differs from the one above)
-struct D274C0Child
-{
-    void* m_ppVirtualMethodTable;
-    unsigned short m_memorySize;
-    unsigned short m_sReferenceCount;
-    int unk08, unk0c, unk10, unk14, unk18;
-};
 
-// VEGAS17-CONFLICT: FUN_00cc0500_Class (variant definition below differs from the one above)
-struct FUN_00cc0500_Class
-{
-    void* m_ppVirtualMethodTable;
-    unsigned short m_memorySize;
-    unsigned short m_sReferenceCount;
-    D274C0Child* m_pChildAtom;
-    FUN_00cc0500_Class* FUN_00cc0500(int first, int second, Param4 third);
-};
 
-// VEGAS17-CONFLICT: S00cc0850_Entry (variant definition below differs from the one above)
-struct S00cc0850_Entry
-{
-};
 
 int __cdecl FUN_00cc0850(int owner, int* result);
 
@@ -29984,1313 +28568,91 @@ extern "C" void FUN_00ec5fce(void*, unsigned int, unsigned int, const void*);
 
 extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
 
-// VEGAS17-CONFLICT: S_00cc5b90_Scope (variant definition below differs from the one above)
-struct S_00cc5b90_Scope
-{
-    volatile int savedState;
-    S_00cc5b90_Scope()
-    {
-        int* currentState = reinterpret_cast<int*>(reinterpret_cast<char*>(&(*reinterpret_cast<int *>(&::g_tlsBlock))) + 0x2b4);
-        savedState = *currentState;
-        *currentState = 16;
-    }
-    __forceinline ~S_00cc5b90_Scope()
-    {
-        int* currentState = reinterpret_cast<int*>(reinterpret_cast<char*>(&(*reinterpret_cast<int *>(&::g_tlsBlock))) + 0x2b4);
-        *currentState = savedState;
-    }
-};
 
-// VEGAS17-CONFLICT: SaveBody (variant definition below differs from the one above)
-struct SaveBody
-{
-    unsigned int field000;
-    unsigned int field004;
-    unsigned int field008;
-    unsigned int field00c;
-    unsigned int field010;
-    unsigned int field014;
-    unsigned int field018;
-    unsigned int field01c;
-    SaveMatrix transform;
-    SaveMatrix inverse;
-    unsigned short flags;
-    unsigned char enabled;
-    unsigned char unk0a3;
-    unsigned int field0a4;
-    unsigned int field0a8;
-    unsigned int field0ac;
-    unsigned int field0b0;
-    unsigned int field0b4;
-    unsigned int field0b8;
-    unsigned int field0bc;
-    unsigned int field0c0;
-    unsigned int field0c4;
-    unsigned int field0c8;
-    unsigned int field0cc;
-    unsigned int field0d0;
-    unsigned int field0d4;
-    unsigned int field0d8;
-    unsigned int field0dc;
-    unsigned int field0e0;
-    unsigned int field0e4;
-    unsigned int field0e8;
-    unsigned int field0ec;
-    unsigned int field0f0;
-    unsigned int field0f4;
-    unsigned int field0f8;
-    unsigned int field0fc;
-    unsigned int field100;
-    unsigned int field104;
-    unsigned int field108;
-    unsigned int field10c;
-    unsigned int field110;
-    unsigned int field114;
-    unsigned int field118;
-    unsigned int field11c;
-    unsigned int field120;
-    unsigned int field124;
-    unsigned int field128;
-    unsigned int field12c;
-    unsigned int field130;
-};
 
-// VEGAS17-CONFLICT: SaveObject (variant definition below differs from the one above)
-struct SaveObject
-{
-    int unk00;
-    SaveBody* body;
-    void FUN_00cc6ef0(SaveCtx*);
-};
 
 void* FUN_00aa13e0(unsigned int size);
 
-// VEGAS17-CONFLICT: CCE1C0MemoryManager (variant definition below differs from the one above)
-struct CCE1C0MemoryManager
-{
-};
 
-// VEGAS17-CONFLICT: CCE1C0Child (variant definition below differs from the one above)
-struct CCE1C0Child
-{
-    CCE1C0Child() throw() : m_pkOwnerManager(0), m_fScale(::DAT_010c72bc), m_arr08(), m_arr14()
-    {}
 
-    void* m_pkOwnerManager;
-    float m_fScale;
-    CCE1C0Array<CCE1C0Vec> m_arr08;
-    CCE1C0Array<CCE1C0Vec> m_arr14;
 
-};
-
-// VEGAS17-CONFLICT: hkArrayUtilC01 (variant definition below differs from the one above)
-struct hkArrayUtilC01
-{
-    static void __cdecl GrowArray(hkMemoryAllocatorC01& kAlloc, void* apvArray, int iSizeElem);
-    static void __cdecl GrowArrayCapacity(hkMemoryAllocatorC01& kAlloc, void* apvArray, int iNumElements,
-                                          int iSizeElem);
-};
-
-// VEGAS17-CONFLICT: hkArrayC01 (variant definition below differs from the one above)
-template <typename T> struct hkArrayC01
-{
-    hkArrayC01() : m_data(0), m_iElementCount(0), m_iCapacityState(0x80000000)
-    {}
-    __forceinline ~hkArrayC01()
-    {
-        hkMemoryAllocatorC01& kAlloc = GetMemoryRouterC01().heap();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
-        m_data = 0;
-        m_iCapacityState = 0x80000000;
-    }
-    int GetLogicalSize() const
-    {
-        return m_iElementCount;
-    }
-    int getCapacity() const
-    {
-        return m_iCapacityState & 0x3fffffff;
-    }
-    T& operator[](int i)
-    {
-        return m_data[i];
-    }
-    void clear()
-    {
-        m_iElementCount = 0;
-    }
-    __forceinline void ClearAndRelease()
-    {
-        hkMemoryAllocatorC01& kAlloc = GetMemoryRouterC01().heap();
-        m_iElementCount = 0;
-        if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
-        m_data = 0;
-        m_iCapacityState = 0x80000000;
-    }
-    __forceinline void AddBack(const T& t)
-    {
-        hkMemoryAllocatorC01& kAlloc = GetMemoryRouterC01().heap();
-        if (m_iElementCount == getCapacity())
-            hkArrayUtilC01::GrowArray(kAlloc, this, sizeof(T));
-        constructWithCopyC01(m_data + m_iElementCount, 1, t);
-        m_iElementCount++;
-    }
-    __forceinline void reserve(hkMemoryAllocatorC01& kAlloc, int n)
-    {
-        const int iCap = getCapacity();
-        if (iCap < n)
-        {
-            int iCap2 = 2 * iCap;
-            int iNewSize = (n < iCap2) ? iCap2 : n;
-            hkArrayUtilC01::GrowArrayCapacity(kAlloc, this, iNewSize, sizeof(T));
-        }
-    }
-    __forceinline void SetSizeAndGrow(int n)
-    {
-        reserve(GetMemoryRouterC01().heap(), n);
-        m_iElementCount = n;
-    }
-    T* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
 
 static T* FUN_00cc0e00(T* a, T* b);
 
-T* volatile g_a;
 
 void caller();
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-// VEGAS17-CONFLICT: LoadMM (variant definition below differs from the one above)
-struct LoadMM
-{
-};
 
-// VEGAS17-CONFLICT: LoadScope (variant definition below differs from the one above)
-struct LoadScope
-{
-    int old;
-    LoadScope()
-    {
-        old = (*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context;
-        (*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context = 16;
-    }
-    ~LoadScope()
-    {
-        (*reinterpret_cast<::LoadTLS *>(&::g_tlsBlock)).context = old;
-    }
-};
 
-// VEGAS17-CONFLICT: LoadIO (variant definition below differs from the one above)
-struct LoadIO
-{
-    int unk00;
-    unsigned int position;
-    unsigned int(__cdecl* read)(LoadIO*, void*, unsigned int, unsigned int*, unsigned int);
-    void Read(void* p)
-    {
-        unsigned int size = 4;
-        position += read(this, p, 4, &size, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: LoadElem (variant definition below differs from the one above)
-struct LoadElem
-{
-    int a, b, c, d, e, f, g, h, i, j, k, l;
-};
 
-// VEGAS17-CONFLICT: LoadObject (variant definition below differs from the one above)
-struct LoadObject
-{
-    int unk00, unk04;
-    unsigned int stringCount;
-    LoadString* strings;
-    unsigned int groupCount;
-    LoadGroup** groups;
-    void FUN_00cc1730(LoadStream278&);
-};
 
-// VEGAS17-CONFLICT: CCVector (variant definition below differs from the one above)
-struct CCVector
-{
-    __m128 value;
-    __forceinline void set(float x, float y, float z, float w)
-    {
-        value = _mm_setr_ps(x, y, z, w);
-    }
-    __forceinline CCVector& operator=(const CCVector& other)
-    {
-        value = other.value;
-        return *this;
-    }
-};
 
-// VEGAS17-CONFLICT: ShapeInfoCC3 (variant definition below differs from the one above)
-struct ShapeInfoCC3
-{
-    unsigned int unk00;
-    unsigned int m_uiArg1;
-    unsigned int m_uiArg2;
-    unsigned int unk0c;
-    float pivotAx, pivotAy, pivotAz, pivotAw;
-    float pivotBx, pivotBy, pivotBz, pivotBw;
-    float m_fBoundRadius;
-    float m_fFriction;
-};
 
-// VEGAS17-CONFLICT: FUN_00d4d980 (variant definition below differs from the one above)
-class FUN_00d4d980 : public hkReferencedObjectCC3
-{
-  public:
-    FUN_00d4d980(unsigned int a, unsigned int b, int c);  // FUN_00d4d980
 
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    __forceinline void assign(float ax, float ay, float az, float aw, float bx, float by, float bz, float bw)
-    {
-        m_kMinimumCorner.value = _mm_setr_ps(ax, ay, az, aw);
-        m_kMaximumCorner.value = _mm_setr_ps(bx, by, bz, bw);
-    }
-    CCVector m_kMinimumCorner;
-    CCVector m_kMaximumCorner;
-    float m_fBoundRadius;
-    float m_fFriction;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-};
 
-// VEGAS17-CONFLICT: MemoryManager4D40 (variant definition below differs from the one above)
-struct MemoryManager4D40
-{
-};
-
-// VEGAS17-CONFLICT: Owner4D40 (variant definition below differs from the one above)
-class Owner4D40
-{
-  public:
-    Interface4D40* GetOrCreateInterface(bool* pbCreated);
-
-    int unk00;
-    int unk04;
-    int m_iActive;
-    Interface4D40* m_pkInterface;
-};
 
 extern "C" int(__cdecl* DAT_00fdf1c4)(void*);
 
-// VEGAS17-CONFLICT: S00ccd2c0_cls (variant definition below differs from the one above)
-class S00ccd2c0_cls
-{
-  public:
-    virtual void v00();
-    virtual void v01();
-    virtual void v02();
-    virtual void v03();
-    virtual void v04();
-    virtual void v05();
-    virtual void v06();
-    virtual void v07();
-    virtual void v08();
-    virtual void v09();
-    virtual void v10();
-    virtual void v11();
-    virtual void v12();
-    virtual void v13();
-    virtual void v14();
-    virtual void v15();
-    virtual void v16();
-    virtual void v17();
-    virtual void v18();
-    virtual void v19();
-    virtual void v20();
-    virtual void v21();
-    virtual void v22();
-    virtual void v23();
-    virtual void v24();
-    virtual void v25();
-    virtual void v26();
-    virtual void v27();
-    virtual void v28();
-    virtual void v29();
-    virtual void v30();
-    virtual void v31();
-    virtual void v32();
-    virtual void v33();
-    virtual void v34();
-    virtual void v35();
-    virtual void v36();
-    virtual void v37();
-    virtual void v38();
-    virtual void v39();
-    virtual void v40();
-    virtual void v41();
-    virtual void v42();
-    virtual void v43();
-    virtual void v44();
-    virtual S00ccd2c0_Obj* v45(bool* flag);
-    int FUN_00ccd2c0(void* a1, S00ccd2c0_Arg2* a2);
-};
 
-// VEGAS17-CONFLICT: EE60MemMgr (variant definition below differs from the one above)
-class EE60MemMgr
-{
-  public:
-};
 
-// VEGAS17-CONFLICT: AllocatorArray (variant definition below differs from the one above)
-template <class T> struct AllocatorArray
-{
-    T* data;
-    int size;
-    int capacityAndFlags;
-    static void deallocate(TargetAllocator& a, T* p, int n)
-    {
-        a.ReturnMemory(p, n * int(sizeof(T)));
-    }
-    int GetLogicalSize() const
-    {
-        return size;
-    }
-    int getCapacity() const
-    {
-        return capacityAndFlags & 0x3fffffff;
-    }
-    void ClearAndRelease(TargetAllocator& allocator)
-    {
-        size = 0;
-        if (!(capacityAndFlags & 0x80000000))
-            deallocate(allocator, data, getCapacity());
-        data = 0;
-        capacityAndFlags = 0x80000000;
-    }
-    void ClearAndRelease()
-    {
-        ClearAndRelease(reinterpret_cast<TargetAllocator&>(FUN_00c85750()->heap()));
-    }
-    ~AllocatorArray()
-    {
-        ClearAndRelease(reinterpret_cast<TargetAllocator&>(FUN_00c85750()->heap()));
-    }
-};
 
 void* __cdecl FUN_00aa13e0(unsigned int size);
 
-// VEGAS17-CONFLICT: EntryState (variant definition below differs from the one above)
-struct EntryState
-{
-    unsigned int id;
-    unsigned char active, mode;
-    unsigned short category;
-};
 
-struct __declspec(align(16)) EntryData
-{
-    __m128 coordinates, rotation, metadata;
-};
 
-// VEGAS17-CONFLICT: FUN_00cdd2d0_Input (variant definition below differs from the one above)
-struct FUN_00cdd2d0_Input
-{
-    int unk00, unk04, unk08, unk0c, unk10, unk14;
-    EntryState* states;
-    int size;
-    int unk20;
-    EntryData* entries;
-};
 
-// VEGAS17-CONFLICT: ConstraintDataBase_s (variant definition below differs from the one above)
-struct ConstraintDataBase_s : RefObjectBase_s
-{
-    int m_ulUserData;
-    ConstraintDataBase_s()
-    {
-        m_ulUserData = 0;
-    }
-};
 
-// VEGAS17-CONFLICT: ExtraMember (variant definition below differs from the one above)
-struct ExtraMember
-{
-    void* vptr;
-    unsigned int unk10, unk14, unk18, unk1c, count;
-    ExtraMember()
-    {
-        unk14 = 0;
-        count = 1;
-        unk18 = 0;
-        unk1c = 0;
-        unk10 = 0;
-        vptr = &DAT_010c9498;
-    }
-    ~ExtraMember();
-};
 
-// VEGAS17-CONFLICT: NameRef (variant definition below differs from the one above)
-struct NameRef
-{
-    char* name;
-    NameRef(const char* n)
-    {
-        name = ::NiGlobalStringTable::AddString(n);
-    }
-    ~NameRef() throw()
-    {
-        if ((unsigned int)name != (*reinterpret_cast<unsigned int *>(&::DAT_0109b220)))
-            InterlockedDecrement((long volatile*)(name - 8));
-    }
-};
 
-// VEGAS17-CONFLICT: FUN_00cc4180 (variant definition below differs from the one above)
-class FUN_00cc4180 : public CC4180Base
-{
-  public:
-    virtual ~FUN_00cc4180();
 
-};
-
-// VEGAS17-CONFLICT: FUN_00cc47f0 (variant definition below differs from the one above)
-class FUN_00cc47f0 : public CC47F0Base
-{
-  public:
-
-    virtual ~FUN_00cc47f0();
-};
 
 typedef void*(* TlsGetValueFunc)(int);
 
 void FUN_00cdfe00(FUN_00cdfe00_Object* param1, FUN_00cdfe00_Object* param2);
 
-// VEGAS17-CONFLICT: LocalBinaryStream (variant definition below differs from the one above)
-struct LocalBinaryStream
-{
-    void* vtable;
-    unsigned int position;
-    unsigned int(__cdecl* read)(LocalBinaryStream*, void*, unsigned int, unsigned int*, unsigned int);
-    unsigned int BinaryRead(void* p, unsigned int bytes, unsigned int* sizes, unsigned int count)
-    {
-        unsigned int result = read(this, p, bytes, sizes, count);
-        position += result;
-        return result;
-    }
-    void Read(void* p, unsigned int bytes)
-    {
-        unsigned int size = bytes;
-        BinaryRead(p, bytes, &size, 1);
-    }
-};
 
-// VEGAS17-CONFLICT: FUN_00d53200_class (variant definition below differs from the one above)
-struct FUN_00d53200_class
-{
-    void* vtable;
-    RagdollConstraintData* data;
-    void FUN_00cc6b80(LocalStream&);
-public:
-    void FUN_00c8a230(::NiStream &);
-};
 
-__forceinline void Normalize(__m128& v)
-{
-    __m128 vector = v;
-    __m128 squared = _mm_mul_ps(vector, vector);
-    __m128 sum = _mm_shuffle_ps(squared, squared, 0x55);
-    sum = _mm_add_ss(sum, squared);
-    squared = _mm_shuffle_ps(squared, squared, 0xaa);
-    sum = _mm_add_ss(squared, sum);
-    __m128 reciprocal = _mm_rsqrt_ss(sum);
-    __m128 zero = _mm_set_ss(0.0f);
-    __m128 three = _mm_set_ss(3.0f);
-    __m128 half = _mm_set_ss(0.5f);
-    __m128 correction = _mm_mul_ss(sum, reciprocal);
-    correction = _mm_mul_ss(correction, reciprocal);
-    correction = _mm_sub_ss(three, correction);
-    __m128 scale = _mm_mul_ss(half, reciprocal);
-    scale = _mm_mul_ss(scale, correction);
-    sum = _mm_cmpeq_ss(sum, zero);
-    scale = _mm_andnot_ps(sum, scale);
-    scale = _mm_shuffle_ps(scale, scale, 0);
-    v = _mm_mul_ps(scale, vector);
-}
 
-// VEGAS17-CONFLICT: MemCpyAligned (variant definition below differs from the one above)
-template <int N> struct MemCpyAligned
-{
-    static __forceinline void copy(void* dst, const void* src)
-    {
-        const CopyBlock8* s = (const CopyBlock8*)src;
-        CopyBlock8* d = (CopyBlock8*)dst;
-        for (int i = 0; i < N / 8; i++)
-            d[i] = s[i];
-        if (N == 4)
-            *(unsigned int*)dst = *(const unsigned int*)src;
-    }
-};
 
-// VEGAS17-CONFLICT: hkQsTransformCDA (variant definition below differs from the one above)
-class hkQsTransformCDA
-{
-  public:
-    hkVector4CDA m_vTranslation;
-    hkQuaternionCDA m_rotation;
-    hkVector4CDA m_vScale;
 
-    struct InvTR
-    {
-        hkVector4CDA m_vTranslation;
-        hkQuaternionCDA m_rotation;
-        hkVector4CDA m_vScale;
 
-        __forceinline void SetConjugate(const hkQsTransformCDA& t)
-        {
-            m_vTranslation.setRotatedInverseDir(t.m_rotation, t.m_vTranslation);
-            m_vTranslation.setNeg4(m_vTranslation);
-            m_rotation.SetConjugate(t.m_rotation);
-            hkVector4CDA scale;
-            quad(scale.m_vComponents) = _mm_shuffle_ps(
-                quad(t.m_vScale.m_vComponents), _mm_unpackhi_ps(quad(t.m_vScale.m_vComponents), ::DAT_010c7170), 0xc4);
-            m_vScale.setReciprocal4(scale);
-            quad(m_vScale.m_vComponents) = _mm_and_ps(quad(m_vScale.m_vComponents), ::DAT_010c4c10);
-        }
-    };
 
-    __forceinline void SetProduct(const InvTR& t1, const hkQsTransformCDA& t2)
-    {
-        hkVector4CDA temp;
-        temp.SetRotatedDirection(t1.m_rotation, t2.m_vTranslation);
-        m_vTranslation.setAdd4(temp, t1.m_vTranslation);
-        ::fnv_00c66320::FUN_00c66320((__m128 *)&(m_rotation), (void *)&(t1.m_rotation), (const __m128 *)&(t2.m_rotation), {});
-        quad(m_vScale.m_vComponents) = _mm_mul_ps(quad(t2.m_vScale.m_vComponents), quad(t1.m_vScale.m_vComponents));
-    }
-    __forceinline void SetMulInverse(const hkQsTransformCDA& a, const hkQsTransformCDA& b)
-    {
-        InvTR h;
-        h.SetConjugate(a);
-        SetProduct(h, b);
-    }
-};
 
-// VEGAS17-CONFLICT: ProfRec (variant definition below differs from the one above)
-struct ProfRec
-{
-    const char* m_pName;
-    unsigned long m_iTick;
-    unsigned long unk08;
-};
 
-// VEGAS17-CONFLICT: ProfBuf (variant definition below differs from the one above)
-struct ProfBuf
-{
-    unsigned long unk00;
-    ProfRec* m_pCur;
-    unsigned long unk08;
-    ProfRec* m_pRecordEnd;
-};
 
-// VEGAS17-CONFLICT: PickObj (variant definition below differs from the one above)
-class PickObj
-{
-  public:
-    virtual void unk0();
-    virtual void unk4();
-    virtual void unk8();
-    virtual void unkC();
-    virtual void unk10();
-    virtual void unk14();
-    virtual void unk18();
-    virtual void unk1c();
-    virtual HitBool TestInfo(PointPair* pts, ObjInfo* info);
-};
-
-// VEGAS17-CONFLICT: Entry (variant definition below differs from the one above)
-struct Entry
-{
-    PickObj* obj;
-    int f04;
-    Mat4* mat;
-    int f0c;
-    int f10;
-    int f14;
-    int f18;
-    Key4 key;
-};
-
-// VEGAS17-CONFLICT: EntryPair (variant definition below differs from the one above)
-struct EntryPair
-{
-    int first;
-    Entry* second;
-};
-
-// VEGAS17-CONFLICT: BestOut (variant definition below differs from the one above)
-struct BestOut
-{
-    __m128 v;
-    float f10;
-    int f14;
-    int f18;
-    int f1c;
-    int f20;
-    int f24;
-    int f28;
-    int f2c;
-    int f30;
-    int f34;
-    int f38;
-    int f3c;
-    int f40;
-    int f44;
-    int f48;
-    int f4c;
-    Entry* entry;
-};
 
 void FUN_00c7f700(void* a, BestOut* b);
 
-static __forceinline void TransformPoint(__m128& out, const Mat4* m, const __m128& pt)
-{
-    __m128 t0 = _mm_sub_ps(pt, m->rows[3]);
-    __m128 c0 = m->rows[0];
-    __m128 c1 = m->rows[1];
-    __m128 c2 = m->rows[2];
-    {
-        __m128 tmp = _mm_unpacklo_ps(c0, c1);
-        __m128 ctmp = _mm_shuffle_ps(_mm_unpackhi_ps(c0, c1), c2, 0xe4);
-        c0 = _mm_movelh_ps(tmp, c2);
-        tmp = _mm_movehl_ps(c0, tmp);
-        c1 = _mm_shuffle_ps(tmp, c2, 0xd4);
-        c2 = ctmp;
-    }
-    __m128 b0 = _mm_shuffle_ps(t0, t0, 0);
-    __m128 b1 = _mm_shuffle_ps(t0, t0, 0x55);
-    __m128 b2 = _mm_shuffle_ps(t0, t0, 0xaa);
-    __m128 r0 = _mm_mul_ps(c0, b0);
-    __m128 r1 = _mm_mul_ps(c1, b1);
-    __m128 r2 = _mm_mul_ps(c2, b2);
-    out = _mm_add_ps(_mm_add_ps(r0, r1), r2);
-}
 
-// VEGAS17-CONFLICT: PickSelf (variant definition below differs from the one above)
-class PickSelf
-{
-  public:
-    int f00;
-    int f04;
-    SubObj* sub;
-    int f0c, f10, f14, f18, f1c, f20, f24, f28, f2c;
-    int f30, f34, f38, f3c, f40, f44, f48, f4c;
-    int f50, f54, f58, f5c, f60, f64, f68, f6c;
-    int f70, f74, f78, f7c, f80, f84, f88, f8c;
-    int f90, f94, f98, f9c, fa0, fa4, fa8, fac;
-    int fb0, fb4, fb8, fbc, fc0, fc4, fc8, fcc;
-    int fd0, fd4, fd8, fdc, fe0, fe4, fe8, fec;
-    int ff0, ff4, ff8, ffc, f100, f104, f108, f10c;
-    int f110, f114, f118, f11c, f120, f124, f128, f12c;
-    int f130, f134, f138, f13c, f140, f144, f148, f14c;
-    int f150, f154, f158, f15c;
-    EntryPair* pairs;
-    int count;
-    void FUN_00cc26c0(RayArg* arg1, BestOut* arg2);
-};
 
-inline float scalar(const __m128& value)
-{
-    float result;
-    _mm_store_ss(&result, value);
-    return result;
-}
 
-static const __m128 signMask = {-0.0f, -0.0f, -0.0f, -0.0f};
 
-inline float cosineAngle(float angle)
-{
-    return static_cast<float>(cos(angle));
-}
-__forceinline __m128 readQuad(const __m128* __restrict p)
-{
-    return *p;
-}
-__forceinline const __m128& readQuadRef(const __m128* __restrict p)
-{
-    return *p;
-}
-__forceinline __m128 readFloats(const float* __restrict p)
-{
-    return _mm_load_ps(p);
-}
-__forceinline const __m128& readFloatsRef(const float* __restrict p)
-{
-    return *reinterpret_cast<const __m128*>(p);
-}
 
-// VEGAS17-CONFLICT: Bool (variant definition below differs from the one above)
-struct Bool
-{
-    char value;
-    Bool(bool v) : value(v)
-    {}
-    operator bool() const
-    {
-        return value != 0;
-    }
-};
 
-// VEGAS17-CONFLICT: Shape (variant definition below differs from the one above)
-struct Shape
-{
-    int unk00, unk04, unk08, type;
-    __m128 unk10, vertexA, vertexB, vertexC;
-    Bool isTriangle() const
-    {
-        Bool result = type == 3;
-        _ReadWriteBarrier();
-        return result;
-    }
-};
 
-// VEGAS17-CONFLICT: Body (variant definition below differs from the one above)
-struct Body
-{
-    Shape* shape;
-    int key;
-    void* transform;
-    Body* parent;
-    signed char bodyOffset;
-    char unk11, unk12, unk13;
-    int unk14, unk18, unk1c, unk20, unk24;
-    char kind, unk29, unk2a, unk2b;
-    unsigned flags;
-    Bool isSpecial() const
-    {
-        Bool result = kind == 1;
-        _ReadWriteBarrier();
-        return result;
-    }
-    Bool isFlagged() const
-    {
-        Bool result = (flags & 0x7f) == 30;
-        _ReadWriteBarrier();
-        return result;
-    }
-};
 
-// VEGAS17-CONFLICT: Input (variant definition below differs from the one above)
-struct Input
-{
-    __m128 position, direction;
-    Body* a;
-    Body* b;
-};
 
-// VEGAS17-CONFLICT: Collision (variant definition below differs from the one above)
-struct Collision
-{
-    __m128 position, direction;
-    Body* a;
-    int state;
-    ShapeKeys shapeKeysA;
-    Body* b;
-    int key;
-    ShapeKeys shapeKeysB;
-    Collision()
-    {}
-    __forceinline Collision(const Collision& c)
-    {
-        _mm_store_ps(reinterpret_cast<float*>(&position), c.position);
-        _mm_store_ps(reinterpret_cast<float*>(&direction), c.direction);
-        a = c.a;
-        state = c.state;
-        shapeKeysA = c.shapeKeysA;
-        b = c.b;
-        key = c.key;
-        shapeKeysB = c.shapeKeysB;
-    }
-};
 
-// VEGAS17-CONFLICT: PointMatrix (variant definition below differs from the one above)
-struct PointMatrix
-{
-    __m128 x, y, z;
-};
 
-// VEGAS17-CONFLICT: PointVector (variant definition below differs from the one above)
-struct PointVector
-{
-    __m128 value;
-    void FUN_00c7f700(const PointMatrix&, const PointVector&);
-};
 
-// VEGAS17-CONFLICT: PointArray (variant definition below differs from the one above)
-template <class T> struct PointArray
-{
-    T* data;
-    int count;
-    unsigned capacity;
-    void reserve()
-    {
-        S_00cc4b90_Router* ctx = FUN_00c85750();
-        if (count == int(capacity & 0x3fffffff))
-            ResizeAudioStream(ctx->unk10, this, sizeof(T));
-    }
-    __forceinline void append(const T& value)
-    {
-        reserve();
-        new (data + count) T(value);
-        ++count;
-    }
-    T& expand()
-    {
-        reserve();
-        return data[count++];
-    }
-    __forceinline void appendPointer(Body* value)
-    {
-        reserve();
-        T* item = data + count;
-        _ReadWriteBarrier();
-        *item = value;
-        ++count;
-    }
-    int find(Body* value) const
-    {
-        for (int i = 0; i < count; ++i)
-            if (data[i] == value)
-                return i;
-        return -1;
-    }
-};
 
-// VEGAS17-CONFLICT: Collector (variant definition below differs from the one above)
-struct Collector
-{
-    int unk00, unk04, unk08, unk0c;
-    PointArray<Collision> collisions;
-    int unk01c;
-    int unk020;
-    int unk024;
-    int unk028;
-    int unk02c;
-    int unk030;
-    int unk034;
-    int unk038;
-    int unk03c;
-    int unk040;
-    int unk044;
-    int unk048;
-    int unk04c;
-    int unk050;
-    int unk054;
-    int unk058;
-    int unk05c;
-    int unk060;
-    int unk064;
-    int unk068;
-    int unk06c;
-    int unk070;
-    int unk074;
-    int unk078;
-    int unk07c;
-    int unk080;
-    int unk084;
-    int unk088;
-    int unk08c;
-    int unk090;
-    int unk094;
-    int unk098;
-    int unk09c;
-    int unk0a0;
-    int unk0a4;
-    int unk0a8;
-    int unk0ac;
-    int unk0b0;
-    int unk0b4;
-    int unk0b8;
-    int unk0bc;
-    int unk0c0;
-    int unk0c4;
-    int unk0c8;
-    int unk0cc;
-    int unk0d0;
-    int unk0d4;
-    int unk0d8;
-    int unk0dc;
-    int unk0e0;
-    int unk0e4;
-    int unk0e8;
-    int unk0ec;
-    int unk0f0;
-    int unk0f4;
-    int unk0f8;
-    int unk0fc;
-    int unk100;
-    int unk104;
-    int unk108;
-    int unk10c;
-    int unk110;
-    int unk114;
-    int unk118;
-    int unk11c;
-    int unk120;
-    int unk124;
-    int unk128;
-    int unk12c;
-    int unk130;
-    int unk134;
-    int unk138;
-    int unk13c;
-    int unk140;
-    int unk144;
-    int unk148;
-    int unk14c;
-    int unk150;
-    int unk154;
-    int unk158;
-    int unk15c;
-    int unk160;
-    int unk164;
-    int unk168;
-    int unk16c;
-    int unk170;
-    int unk174;
-    int unk178;
-    int unk17c;
-    int unk180;
-    int unk184;
-    int unk188;
-    int unk18c;
-    int unk190;
-    int unk194;
-    int unk198;
-    int unk19c;
-    int unk1a0;
-    int unk1a4;
-    int unk1a8;
-    int unk1ac;
-    int unk1b0;
-    int unk1b4;
-    int unk1b8;
-    int unk1bc;
-    int unk1c0;
-    int unk1c4;
-    int unk1c8;
-    int unk1cc;
-    int unk1d0;
-    int unk1d4;
-    int unk1d8;
-    int unk1dc;
-    int unk1e0;
-    int unk1e4;
-    int unk1e8;
-    int unk1ec;
-    int unk1f0;
-    int unk1f4;
-    int unk1f8;
-    int unk1fc;
-    int unk200;
-    int unk204;
-    int unk208;
-    int unk20c;
-    int unk210;
-    int unk214;
-    int unk218;
-    int unk21c;
-    int unk220;
-    int unk224;
-    int unk228;
-    int unk22c;
-    int unk230;
-    int unk234;
-    int unk238;
-    int unk23c;
-    int unk240;
-    int unk244;
-    int unk248;
-    int unk24c;
-    int unk250;
-    int unk254;
-    int unk258;
-    int unk25c;
-    int unk260;
-    int unk264;
-    int unk268;
-    int unk26c;
-    int unk270;
-    int unk274;
-    int unk278;
-    int unk27c;
-    int unk280;
-    int unk284;
-    int unk288;
-    int unk28c;
-    int unk290;
-    int unk294;
-    int unk298;
-    int unk29c;
-    int unk2a0;
-    int unk2a4;
-    int unk2a8;
-    int unk2ac;
-    int unk2b0;
-    int unk2b4;
-    int unk2b8;
-    int unk2bc;
-    int unk2c0;
-    int unk2c4;
-    int unk2c8;
-    int unk2cc;
-    int unk2d0;
-    int unk2d4;
-    int unk2d8;
-    int unk2dc;
-    int unk2e0;
-    int unk2e4;
-    int unk2e8;
-    int unk2ec;
-    int unk2f0;
-    int unk2f4;
-    int unk2f8;
-    int unk2fc;
-    int unk300;
-    int unk304;
-    int unk308;
-    int unk30c;
-    int unk310;
-    int unk314;
-    int unk318;
-    int unk31c;
-    int unk320;
-    int unk324;
-    int unk328;
-    int unk32c;
-    int unk330;
-    int unk334;
-    int unk338;
-    int unk33c;
-    int unk340;
-    int unk344;
-    int unk348;
-    int unk34c;
-    int unk350;
-    int unk354;
-    int unk358;
-    int unk35c;
-    int unk360;
-    int unk364;
-    int unk368;
-    int unk36c;
-    int unk370;
-    int unk374;
-    int unk378;
-    int unk37c;
-    int unk380;
-    int unk384;
-    int unk388;
-    int unk38c;
-    int unk390;
-    int unk394;
-    int unk398;
-    int unk39c;
-    int unk3a0;
-    PointArray<Body*> bodies;
-    PointArray<int> states;
-    PointArray<Collision> pending;
-    void FUN_00cd36a0(Input* input);
-};
 
-// VEGAS17-CONFLICT: S00cd8920_Obj (variant definition below differs from the one above)
-struct S00cd8920_Obj
-{
-    const struct Skeleton* unk00;
-    short unk04a;
-    short unk04b;
-    short unk08;
-    unsigned short unk0A;
-    unsigned int unk0C;
-    S00cd8920_Vec unk10;
-    S00cd8920_Vec unk20;
-    S00cd8920_Vec unk30;
-    S00cd8920_Vec unk40;
-    float unk50;
-    float unk54;
-    float unk58;
-    float unk5C;
-    float unk60;
-    float unk64;
-    float unk68;
-    float unk6C;
-    float unk70;
-    bool unk74;
-
-    S00cd8920_Obj* FUN_00cd8920();
-};
 
 void __cdecl FUN_00cdfbd0(FUN_00cdfe00_Object* a1, int a2, int a3, ConstraintInput* a4, float a5, float a6);
 
 void __cdecl FUN_00cdfe90(FUN_00cdfe00_Object* pNode, ConstraintInput* pObj);
 
 namespace CE6Memory {
-S_00cc4b90_Router* FUN_00c85750();
-void __cdecl FUN_00c908c0(void*, void*, int, int);
 }
 
-// VEGAS17-CONFLICT: CE6Heap (variant definition below differs from the one above)
-struct CE6Heap
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void Free(void* p, int n);
-};
 
-// VEGAS17-CONFLICT: CE6Array (variant definition below differs from the one above)
-struct CE6Array
-{
-    CE6Vec* data;
-    int size;
-    int capacity;
-    CE6Array() : data(0), size(0), capacity(0x80000000)
-    {}
-    ~CE6Array()
-    {
-        clear(CE6Memory::FUN_00c85750()->heap());
-    }
-    void clear(S_00cc4b90_Alloc& alloc)
-    {
-        size = 0;
-        if (!(capacity & 0x80000000))
-            reinterpret_cast<CE6Heap&>(alloc).Free(data, (capacity & 0x3fffffff) * sizeof(CE6Vec));
-        data = 0;
-        capacity = 0x80000000;
-    }
-    void reserve(S_00cc4b90_Alloc& heap, int n)
-    {
-        int cap = capacity & 0x3fffffff;
-        if (cap < n)
-        {
-            int doubled = cap * 2;
-            CE6Memory::FUN_00c908c0(&heap, this, n < doubled ? doubled : n, sizeof(CE6Vec));
-        }
-    }
-    void resize(int n)
-    {
-        reserve(CE6Memory::FUN_00c85750()->heap(), n);
-        size = n;
-    }
-};
 
-// VEGAS17-CONFLICT: CE6Hull (variant definition below differs from the one above)
-struct CE6Hull
-{
-    CE6Array a, b;
-    ~CE6Hull();
-};
 
-// VEGAS17-CONFLICT: CE6View (variant definition below differs from the one above)
-struct CE6View
-{
-    CE6Vec* data;
-    int count;
-    int stride;
-    CE6View(const CE6Array& a)
-    {
-        count = a.size;
-        stride = sizeof(CE6Vec);
-        data = a.data;
-    }
-};
 
-// VEGAS17-CONFLICT: CE6Owner (variant definition below differs from the one above)
-struct CE6Owner
-{
-    virtual void v00();
-    virtual void v04();
-    virtual void v08();
-    virtual void v0c();
-    virtual void v10();
-    virtual void v14();
-    virtual void v18();
-    virtual void v1c();
-    virtual void v20();
-    virtual void v24();
-    virtual void v28();
-    virtual void v2c();
-    virtual void v30();
-    virtual void v34();
-    virtual void v38();
-    virtual void v3c();
-    virtual void v40();
-    virtual void v44();
-    virtual void v48();
-    virtual void v4c();
-    virtual void v50();
-    virtual void v54();
-    virtual void v58();
-    virtual void v5c();
-    virtual void v60();
-    virtual void v64();
-    virtual void v68();
-    virtual void v6c();
-    virtual void v70();
-    virtual void v74();
-    virtual void v78();
-    virtual void v7c();
-    virtual void v80();
-    virtual void v84();
-    virtual void v88();
-    virtual void v8c();
-    virtual void v90();
-    virtual void v94();
-    virtual void v98();
-    virtual void v9c();
-    virtual void va0();
-    virtual void va4();
-    virtual void va8();
-    virtual void vac();
-    virtual void vb0();
-    virtual void vb4();
-    virtual void vb8();
-    virtual void vbc();
-    virtual void vc0();
-    virtual void vc4();
-    virtual void vc8();
-    virtual void vcc();
-    virtual void vd0();
-    virtual void vd4();
-    virtual void vd8();
-    virtual void Output(void* first, CE6Hull* hull, void* second, const char* name);
-    int unk04;
-    CE6Shape* unk08;
-    void FUN_00cce600(void* first, void* second);
-};
 
-// VEGAS17-CONFLICT: TlsGuard_t_SV (variant definition below differs from the one above)
-struct TlsGuard_t_SV
-{
-    int m_saved;
-    TlsGuard_t_SV()
-    {
-        m_saved = g_tlsBlock.m_2b4;
-        g_tlsBlock.m_2b4 = 0x10;
-    }
-    ~TlsGuard_t_SV()
-    {
-        g_tlsBlock.m_2b4 = m_saved;
-    }
-};
 
 struct Vector59
 {
@@ -31326,7 +28688,7 @@ struct FUN_00d4f0f0
 
     void* operator new(std::size_t n)
     {
-        S_00cc4b90_Router* r = FUN_00c85750();
+        S_00cc4b90_Router* r = static_cast<S_00cc4b90_Router*>(::FUN_00c85750());
         FUN_00d4f0f0* b = (FUN_00d4f0f0*)r->heap().AllocateMemoryBlock(n);
         b->GetAllocationSize = (unsigned short)n;
         return b;
@@ -31433,12 +28795,12 @@ struct Cc9Arr
         if (cap < n)
         {
             int doubled = cap * 2;
-            FUN_00c908c0(&allocator, this, n < doubled ? doubled : n, sizeof(Pair));
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(&allocator), (::SpawnedArray *)(void *)(this), n < doubled ? doubled : n, sizeof(Pair));
         }
     }
     __forceinline void resizeUninitialized(int n)
     {
-        reserve(FUN_00c85750()->heap(), n);
+        reserve(static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap(), n);
         size = n;
     }
 };
@@ -31598,11 +28960,11 @@ class GroundVector
     }
     __forceinline float& operator()(int i)
     {
-        return lanes[i];
+        return reinterpret_cast<float*>(&lanes)[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return lanes[i];
+        return reinterpret_cast<const float*>(&lanes)[i];
     }
     __forceinline void setSub4(const GroundVector& a, const GroundVector& b)
     {
@@ -32615,7 +29977,7 @@ void MotionController::FUN_00cd4800(FUN_00c6cba0_class* character)
         input.movement.set(character->movement.getSimdAt(1), character->movement.getSimdAt(0), 0.0f, 0.0f);
     input.maxSpeed = 500.0f;
     input.constraint = character->constraint;
-    ::FUN_00d6aef0(&input, (float)(&character->velocity));
+    ::FUN_00d6aef0(&input, &character->velocity);
     if (!character->flags.airborne())
     {
         character->velocity(2) = input.velocity(2);
@@ -32989,7 +30351,7 @@ struct Property
     }
     static void* operator new(std::size_t n)
     {
-        return FUN_00c85750()->heap().AllocateMemoryBlock(n);
+        return static_cast<S_00cc4b90_Router*>(::FUN_00c85750())->heap().AllocateMemoryBlock(n);
     }
 };
 
@@ -33090,23 +30452,6 @@ void FUN_00cdf960(Obj40* a, int b, ObjArg c, const Vec4* d)
 namespace fnv_00cd44e0 {
 extern "C" void _ReadBarrier();
 extern "C" void _WriteBarrier();
-#include <xmmintrin.h>
-#include "fnv/decl/CC2F90Owner_SV.h"
-#include "fnv/decl/FUN_00cc1520.h"
-#include "fnv/decl/FUN_00cc2ac0.h"
-#include "fnv/decl/FUN_00cc4180.h"
-#include "fnv/decl/FUN_00cc47f0.h"
-#include "fnv/decl/FUN_00ccbc00.h"
-#include "fnv/decl/FUN_00ccc720.h"
-#include "fnv/decl/FUN_00cdb360_cls.h"
-#include "fnv/decl/FUN_00d53200_class.h"
-#include "fnv/decl/ViewerConstraint.h"
-#include "fnv/decl/ViewerStrings.h"
-#include "fnv/decl/CC2F90Owner_SV.h"
-#include "fnv/decl/CopyOwner.h"
-#include "fnv/decl/FUN_00cc2ac0.h"
-#include "fnv/decl/FUN_00d53200_class.h"
-#include "fnv/decl/hkaPoseCDA.h"
 inline float altScalar(__m128 v)
 {
     float f;
@@ -33574,7 +30919,7 @@ __declspec(noinline) void FUN_00cd44e0(MotionState* object)
     else
         state.previous = rotation;
     __m128* __restrict velocity = &object->field4f0;
-    ::FUN_00d6aef0((const ::MotionInput *)(void *)(&state), (float)(velocity));
+    ::FUN_00d6aef0((const ::MotionInput *)(void *)(&state), velocity);
     __m128* parent = (__m128*)&DAT_01267e30;
     MotionState* parentObject = object->field008;
     if (parentObject)
@@ -33637,162 +30982,17 @@ done:
 }
 }
 
-// VEGAS17-CONFLICT: FUN_00ccc720_holder (variant definition below differs from the one above)
-struct FUN_00ccc720_holder
-{
-    void* DestroyHolder(int arg);
-};
 
-// VEGAS17-CONFLICT: FUN_00cc4180_Class (variant definition below differs from the one above)
-struct FUN_00cc4180_Class
-{
-    void* FUN_00cc4200(int flag);
-};
 
-// VEGAS17-CONFLICT: FUN_00cc47f0_t (variant definition below differs from the one above)
-struct FUN_00cc47f0_t
-{
-    FUN_00cc47f0_t* FUN_00cc48e0(int a);
-};
 
 void FUN_00cdf270(char* self, int, char* arg);
 
-// VEGAS17-CONFLICT: BCC1F80StringArray (variant definition below differs from the one above)
-class BCC1F80StringArray
-{
-  public:
-    virtual ~BCC1F80StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
 
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
 
-inline void AppendConstraintString(StrArr* strings, char* text)
-{
-    unsigned int index = strings->m_usElementCount;
-    if (index >= strings->m_usSize)
-    {
-        reinterpret_cast<::ViewerStrings *>((strings))->SetSize(index + strings->m_usIncrement);
-    }
-    reinterpret_cast<::fnv_00b5c7d0::StrArr *>((strings))->SetAt(index, text);
-}
 
-// VEGAS17-CONFLICT: BCCB080StringArray (variant definition below differs from the one above)
-class BCCB080StringArray
-{
-  public:
-    virtual ~BCCB080StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
 
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
 
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
-
-// VEGAS17-CONFLICT: BCCE110StringArray (variant definition below differs from the one above)
-class BCCE110StringArray
-{
-  public:
-    virtual ~BCCE110StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
-
-// VEGAS17-CONFLICT: StringArray403 (variant definition below differs from the one above)
-struct StringArray403 : StrArr
-{
-    void Add(char* value)
-    {
-        unsigned int index = m_usElementCount;
-        if (index >= m_usSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + m_usIncrement);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, value);
-    }
-};
-
-// VEGAS17-CONFLICT: BCC2950StringArray (variant definition below differs from the one above)
-class BCC2950StringArray
-{
-  public:
-    virtual ~BCC2950StringArray();
-    void SetSize(unsigned int uiMaxSize);
-    void SetAt(unsigned int uiIndex, char* const& pcElement);
-
-    unsigned int SetAtGrow(unsigned int uiIndex, char* const& pcElement)
-    {
-        if (uiIndex >= m_usMaxSize)
-            reinterpret_cast<::ViewerStrings *>(this)->SetSize(uiIndex + m_usGrowBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(uiIndex, (char *&)(pcElement));
-        return uiIndex;
-    }
-    unsigned int Add(char* const& pcElement)
-    {
-        return SetAtGrow(m_usSize, pcElement);
-    }
-
-    char** m_pBase;
-    unsigned short m_usMaxSize;
-    unsigned short m_usSize;
-    unsigned short m_usESize;
-    unsigned short m_usGrowBy;
-};
-
-// VEGAS17-CONFLICT: CC69D0Owner (variant definition below differs from the one above)
-class CC69D0Owner
-{
-  public:
-    CC69D0Shape* CreateListShape(int iIndex);
-};
 
 struct MeshMetadata654
 {
@@ -33810,16 +31010,6 @@ struct MeshMetadata654
         b = y;
         a = x;
     }
-};
-
-struct Mesh654
-{
-    unsigned int vertexCount;
-    float* vertices;
-    unsigned int triangleCount;
-    unsigned short* triangles;
-    MeshMetadata654* metadata;
-    void FUN_00ccc440(BCC9B80Stream&);
 };
 
 // @fnv 0x00ccc440

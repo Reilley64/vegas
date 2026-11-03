@@ -477,7 +477,7 @@ struct CollisionHelper
 // @fnv 0x00c29af0
 int __cdecl FUN_00c29af0()
 {
-    CollisionHelper* helper = FUN_00aa13e0(0x100);
+    CollisionHelper* helper = static_cast<CollisionHelper*>(FUN_00aa13e0(0x100));
     if (helper)
     {
         return helper->FUN_00c29900(1.0f, 0, 0, 0, 0, 1.0f, 1.0f, (*reinterpret_cast<::fnv_00c29af0::Vector3f *>(&::DAT_011a946c)), (*reinterpret_cast<::fnv_00c29af0::Vector3f *>(&::DAT_011a9478)));

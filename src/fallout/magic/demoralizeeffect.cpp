@@ -2,6 +2,7 @@
 // src/fallout/magic/demoralizeeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/demoralizeeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/EffectSaveShell.h"
@@ -590,7 +591,7 @@ void EffectController::RestoreEffect()
 {
     if (!enabled)
         return;
-    Actor* target = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetOwnerActor() : 0;
+    Actor* target = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetOwnerActor() : 0;
     Actor* caster = reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60() ? reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()->GetCasterActor() : 0;
     if (target)
     {
@@ -1287,7 +1288,7 @@ struct S_0080ca50_Effect
 // @fnv 0x0080ca50
 void S_0080ca50_Effect::FUN_0080ca50()
 {
-    S_0080ca50_Actor* caster = ((::S_0080ca50_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_0080ca50_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    S_0080ca50_Actor* caster = ((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_0080ca50_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     S_0080ca50_Actor* target2 = ((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::S_0080ca50_Actor *)(reinterpret_cast<::MagicCaster *>((((::S_0080ca50_Target *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
     if (caster && target2)
     {

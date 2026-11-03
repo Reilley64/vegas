@@ -2,6 +2,7 @@
 // src/fallout/magic/lockeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lockeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/FUN_00569160_shell.h"
 #include "fnv/decl/FUN_00569250_shell.h"
@@ -71,7 +72,7 @@ struct ActiveEffect
 // @fnv 0x0080f470
 void ActiveEffect::ApplyLockEffect()
 {
-    NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())));
+    NonActorMagicTarget* pTarget = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)));
     if (!pTarget || !pTarget->GetParent())
         return;
 

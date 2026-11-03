@@ -2,6 +2,7 @@
 // src/fallout/magic/openeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/openeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/FUN_00569160_shell.h"
 #include "fnv/decl/LockExtraData.h"
@@ -81,7 +82,7 @@ struct S_00826190_Effect
 // @fnv 0x00826190
 void S_00826190_Effect::FUN_00826190()
 {
-    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())));
+    NonActorMagicTarget* target = dynamic_cast<NonActorMagicTarget*>(((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)));
     if (!target || !target->GetRef())
     {
         return;

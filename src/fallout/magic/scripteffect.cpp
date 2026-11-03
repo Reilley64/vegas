@@ -1,5 +1,6 @@
 // fallout/magic/scripteffect.cpp: ScriptEffect, ScriptEffectShell (14 functions)
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectLoader.h"
@@ -326,7 +327,7 @@ void ScriptEffectShell::FUN_00827ac0()
     if (pScript != 0)
     {
         m_pScriptLocals = reinterpret_cast<::FUN_005abf60_shell *>((pScript))->FUN_005abf60();
-        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor(m_pScriptLocals), {});
+        reinterpret_cast<::FUN_005ac340_t *>((((ScriptExtended*)pScript)))->RunScriptOnTarget(((::TargetContext *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor(m_pScriptLocals), {});
     }
 }
 

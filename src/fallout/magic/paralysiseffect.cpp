@@ -2,6 +2,7 @@
 // src/fallout/magic/paralysiseffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/paralysiseffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
@@ -231,7 +232,7 @@ struct ParalysisEffectStandIn : ParalysisValueModifierEffect
 void ParalysisEffectStandIn::UpdateParalysisEffect(float afElapsed)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(afElapsed);
-    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    ParalysisActor* pActor = ((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ParalysisActor *)(reinterpret_cast<::MagicTarget *>((((::ParalysisMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (pActor && pActor->IsParalysisImmune(false))
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
 }

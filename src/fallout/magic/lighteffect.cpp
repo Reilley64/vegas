@@ -2,6 +2,7 @@
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B5Owner.h"
@@ -764,7 +765,7 @@ public:
 // @fnv 0x0080e830
 void Host::FUN_0080e830()
 {
-    Effect* effect = ((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    Effect* effect = ((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (effect)
         ::FUN_0080ee50((::MagicTarget *)(int *)(effect ? &effect->field94 : 0));
 }
@@ -772,7 +773,7 @@ void Host::FUN_0080e830()
 void FUN_0080e900_cls::FUN_0080e900()
 {
     reinterpret_cast<::LightEffect *>(this)->FUN_0080ed60();
-    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (a != 0)
     {
         ::FUN_0080ee50((::MagicTarget *)(char *)(a != 0 ? a + 0x94 : 0));

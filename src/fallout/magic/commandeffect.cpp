@@ -2,6 +2,7 @@
 // src/fallout/magic/commandeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/commandeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -185,7 +186,7 @@ struct FUN_0080b660_class : FUN_0045cd60_shell
 // @fnv 0x0080b660
 void FUN_0080b660_class::FUN_0080b660()
 {
-    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : (Actor*)0;
+    Actor* pSourceActor = ((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicTarget *>((((::fnv_0080b660::SourceA *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : (Actor*)0;
     Actor* pCasterActor = ((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_0080b660::Actor *)(reinterpret_cast<::MagicCaster *>((((::fnv_0080b660::MagicCaster *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : (Actor*)0;
     if (pSourceActor && pCasterActor)
         ::StartHostilityAndCombat((::B850Actor *)(pSourceActor), (::B850Actor *)(pCasterActor));

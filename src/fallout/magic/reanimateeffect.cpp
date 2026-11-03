@@ -2,6 +2,7 @@
 // src/fallout/magic/reanimateeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/reanimateeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <cstdint>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
@@ -1870,7 +1871,7 @@ void Reanimation::StartReanimation()
         reinterpret_cast<::fnv_00804210::ActiveEffectUpdateShell *>(this)->FUN_00804210(true);
         return;
     }
-    RActorAccess* actor = ((::RTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::RTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->AsActor() : 0;
+    RActorAccess* actor = ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::RTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->AsActor() : 0;
     if (actor && actor->IsDead(0))
     {
         actor->SetStateFlags(0);

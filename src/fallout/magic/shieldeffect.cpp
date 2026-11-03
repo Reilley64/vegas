@@ -2,6 +2,7 @@
 // src/fallout/magic/shieldeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/shieldeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/EffectItem.h"
@@ -594,7 +595,7 @@ void FUN_00828260_cls::FUN_00828260()
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
     if (((unsigned char)(reinterpret_cast<::S3e60 *>((((::FUN_00828120_x *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}))))
     {
-        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->FUN_00822b40() : 0;
+        Actor* actor = ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::FUN_00828120_z *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->FUN_00822b40() : 0;
         reinterpret_cast<::ActiveEffect828 *>(this)->FUN_008282e0((::Actor828 *)(actor), -unk1c);
     }
 }

@@ -2,6 +2,7 @@
 // src/fallout/magic/absorbeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/absorbeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include <cstddef>
 #include "fnv/decl/ActiveEffectLoader.h"
 #include "fnv/decl/ActorMover.h"
@@ -1686,7 +1687,7 @@ void BoltEffectImpl::InitBoltEffect()
     }
     reinterpret_cast<::BSXFlags_shell *>((pkDataZ))->FUN_00519230(1, 1);
 
-    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor() : 0;
+    BoltActor* pkAY = ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::fnv_008034c0::BoltCasterSource *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor() : 0;
     BoltActor* pkBOut = ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::fnv_008034c0::BoltTargetSource *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))->GetActor() : 0;
     BoltAttachTarget* pkAttachTmp;
     BoltRoot* pkRootRes;
@@ -1824,7 +1825,7 @@ void BoltEffectUpd::UpdateEffect(float fTimeOffset)
 {
     reinterpret_cast<::ValueModifierEffect *>(this)->Update(fTimeOffset);
     BoltActorStandIn* pkCaster = ((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicCaster *>((((::BoltCasterSrc *)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60()))))->GetCasterActor())) : 0;
-    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    BoltActorStandIn* pkTarget = ((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::BoltActorStandIn *)(reinterpret_cast<::MagicTarget *>((((::BoltTargetSrc *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (!reinterpret_cast<::S3e60 *>((((::BoltFlags *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((unk0c))->FUN_00825c00()))))->FUN_00403e60({}) && unk20 > 0.0)
     {
         int iAV = GetActorValue();

@@ -2,6 +2,7 @@
 // src/fallout/magic/sundamageeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/sundamageeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include "fnv/decl/ActiveEffectLoader.h"
@@ -604,9 +605,9 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
     {
         b4d = 0;
     }
-    else if (((::S_00829bb0_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) && ((::S_00829bb0_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor())
+    else if (((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) && ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor())
     {
-        S_00829bb0_Actor* actor = ((::S_00829bb0_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetActor();
+        S_00829bb0_Actor* actor = ((::S_00829bb0_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetActor();
         S_00829bb0_Cell* cell = ((::S_00829bb0_Cell *)(reinterpret_cast<::LowProcess *>((actor))->GetTarget()));
         if (reinterpret_cast<::fnv_00575d10::FUN_00575d10_shell *>((actor))->FUN_00575d10() && (!cell || !((bool)(reinterpret_cast<::fnv_00454b10::TESObjectCELL *>((cell))->GetFakeExterior()))))
         {
@@ -652,7 +653,7 @@ void S_00829bb0_Eff::UpdateEffect(float arg)
 void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
 {
     void* form = ((void *)(reinterpret_cast<::FUN_00407820_shell *>((((::S_00829e00_Setting *)(reinterpret_cast<::ActiveEffect *>(this)->GetEffectSetting()))))->FUN_00407820()));
-    if (!form || !((::S_00829e00_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) || ((int)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) != 4)
+    if (!form || !((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) || ((int)(reinterpret_cast<::BGSMessageInitAccess *>(this)->GetIconFormID())) != 4)
         return;
     if (abApply)
     {
@@ -664,7 +665,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
                 delete m_effects;
                 m_effects = 0;
             }
-            S_00829e00_Effect* effect = new S_00829e00_Effect(((::S_00829e00_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetTarget(), form, -1.0f);
+            S_00829e00_Effect* effect = new S_00829e00_Effect(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetTarget(), form, -1.0f);
             if (effect->vC4())
             {
                 reinterpret_cast<::FUN_00973fd0_cls *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00973fd0((::FnvArgObj *)(effect));
@@ -691,7 +692,7 @@ void S_00829e00_ActiveEffect::FUN_00829e00(bool abApply)
         reinterpret_cast<::FileMatchList *>((m_effects))->RemoveAll();
         delete m_effects;
         m_effects = 0;
-        reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(::S_00829e00_Target *)(((::S_00829e00_Caster *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))->GetTarget()), form);
+        reinterpret_cast<::fnv_00974a50::FUN_00974a50_shell *>(&((*reinterpret_cast<::S_00829e00_Manager *>(&::g_011e0e80))))->FUN_00974a50((::TESObjectREFR *)(::S_00829e00_Target *)(((::S_00829e00_Caster *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))->GetTarget()), form);
     }
 }
 

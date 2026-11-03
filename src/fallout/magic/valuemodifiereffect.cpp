@@ -1,5 +1,6 @@
 // fallout/magic/valuemodifiereffect.cpp: ValueModifierEffect, ActorValue, LocalEffect, Cls (16 functions)
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/B968730Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
@@ -283,7 +284,7 @@ void LoadedValueEffect::FUN_0082cd10(Actor* apActor)
     reinterpret_cast<::FUN_00805760_shell *>(this)->FUN_00805760(apActor);
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::TESSaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x5f && reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::TESSaveLoadGameStub * *>(&::g_TESSaveLoadGame))))->FUN_008df040() < 0x62)
     {
-        ActorAVExt* pTarget = ((::ParentCellStub *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::ActorAVExt *)(reinterpret_cast<::MagicTarget *>((((::ParentCellStub *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+        ActorAVExt* pTarget = ((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorAVExt *)(reinterpret_cast<::MagicTarget *>((((::ParentCellStub *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
         if (pTarget && pTarget->IsPlayerRef() && IsFlagged() &&
             reinterpret_cast<::S3e60 *>((((::EffectSetting *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((EffectItemStub*)pEffect)))->FUN_00825c00()))))->FUN_00403e60(2))
         {
@@ -1133,7 +1134,7 @@ struct FUN_004044d0_shell
 // @fnv 0x0082c490
 void LocalEffect::FUN_0082c490()
 {
-    Actor* target = ((::TargetGetter *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? reinterpret_cast<::MagicTarget *>((((::TargetGetter *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor() : 0;
+    Actor* target = ((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? reinterpret_cast<::MagicTarget *>((((::TargetGetter *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor() : 0;
     if (target == (Actor*)::_g_thePlayer && effect && reinterpret_cast<::FUN_004044d0_shell *>((effect))->FUN_004044d0() > 0 && which == 16)
     {
         float missing = ((LocalPlayer*)::_g_thePlayer)->values.base(16) - ((LocalPlayer*)::_g_thePlayer)->values.current(16);

@@ -2,6 +2,7 @@
 // src/fallout/magic/calmeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/calmeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
 #include "fnv/decl/FUN_0047c850.h"
@@ -351,7 +352,7 @@ struct FUN_0080abf0_Effect : ValueModifierEffect
 void FUN_0080abf0_Effect::FUN_0080abf0()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    FUN_0080abf0_Target* target = ((::FUN_00822b40_Class *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::FUN_0080abf0_Target *)(reinterpret_cast<::MagicTarget *>((((::FUN_00822b40_Class *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    FUN_0080abf0_Target* target = ((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::FUN_0080abf0_Target *)(reinterpret_cast<::MagicTarget *>((((::FUN_00822b40_Class *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (target && target->v428())
     {
         reinterpret_cast<::TESForm *>((target->v428()))->ClearData();
@@ -872,7 +873,7 @@ void FUN_0080aa90_cls::FUN_0080aa90()
     FUN_0080aa90_Obj* pObject;
 
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
-    pObject = ((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 0 ? ((::FUN_0080aa90_Obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    pObject = ((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) != 0 ? ((::FUN_0080aa90_Obj *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080aa90_Holder *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (pObject != 0)
     {
         if (pObject->Virt266() != 0)

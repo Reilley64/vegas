@@ -2,6 +2,7 @@
 // src/fallout/magic/disintegrateweaponeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/disintegrateweaponeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004be2d0_shell.h"
@@ -470,7 +471,7 @@ struct FUN_0080d7b0_cls
 // @fnv 0x0080d7b0
 void FUN_0080d7b0_cls::ApplyDisintegrateWeaponDamage()
 {
-    Effect* pEffect = ((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    Effect* pEffect = ((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (pEffect == 0)
         return;
 

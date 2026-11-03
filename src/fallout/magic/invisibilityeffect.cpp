@@ -2,6 +2,7 @@
 // src/fallout/magic/invisibilityeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/invisibilityeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -1124,7 +1125,7 @@ struct Effect
 // @fnv 0x0080e110
 void Effect::FUN_0080e110()
 {
-    ActorData* actor = ((::Target *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    ActorData* actor = ((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     if (actor && actor->values.slot8(unk48) > 0.0)
     {
@@ -1586,7 +1587,7 @@ struct MVEffect
 void MVEffect::FUN_0080e230()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster)) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->caster))))->GetOwnerActor())) : 0;
     if (pTarget && pTarget->kAVOwner.GetActorValueInt(m_eAssociatedActorValue) == 0.0)
     {
         if (FUN_005b9b00() && pTarget == (*reinterpret_cast<::MVActor * *>(&::_g_thePlayer)))

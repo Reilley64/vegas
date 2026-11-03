@@ -197,6 +197,9 @@ void FUN_00756960(intptr_t thisPtr)
 
 struct FUN_00755680_shell
 {
+    char pad00[0x7d];
+    unsigned char unk7d;
+
     bool FUN_00755680();
 };
 
@@ -204,7 +207,7 @@ struct FUN_00755680_shell
 // @fnv 0x00755680
 bool FUN_00755680_shell::FUN_00755680()
 {
-    if (!::FUN_004b71d0() || ((unsigned char*)this)[0x7d] == 1)
+    if (!::FUN_004b71d0() || this->unk7d == 1)
         return true;
     return false;
 }
@@ -270,6 +273,11 @@ struct Tile2
 };
 struct FUN_007560c0_shell
 {
+    char pad00[0x3c];
+    Tile2* unk3c;
+    char pad40[0x2c];
+    bool unk6c;
+
     void PlayTopicResponse(TESTopic*);
     void RunTopicResultScripts(TESTopic*);
     void ToggleFollowersTacticsDistance();
@@ -1553,9 +1561,9 @@ struct CompanionWheelStandin
 void FUN_007560c0_shell::ToggleFollowersTacticsDistance()
 {
     bool bSuccess;
-    *((bool*)((char*)this + 0x6c)) = !*((bool*)((char*)this + 0x6c));
+    this->unk6c = !this->unk6c;
     bSuccess = false;
-    if (*((bool*)((char*)this + 0x6c)))
+    if (this->unk6c)
     {
         TESTopic* pRelatedTopic =
             dynamic_cast<TESTopic*>(TESForm::LookupFormByEditorID("FollowersTacticsDistanceLong"));
@@ -1571,9 +1579,9 @@ void FUN_007560c0_shell::ToggleFollowersTacticsDistance()
         RunTopicResultScripts(pRelatedTopic);
         bSuccess = true;
     }
-    if (bSuccess && *((Tile2**)((char*)this + 0x3c)))
+    if (bSuccess && this->unk3c)
     {
-        reinterpret_cast<::Tile *>((((Tile2**)((char*)this + 0x3c))[0]))->Set(0x100f, *((bool*)((char*)this + 0x6c)));
+        reinterpret_cast<::Tile *>(((&this->unk3c)[0]))->Set(0x100f, this->unk6c);
     }
 }
 
@@ -1605,6 +1613,13 @@ struct CRandom_757690
 };
 struct CWheelMenu_757690
 {
+    char pad00[0x58];
+    CWheelItem_757690* unk58;
+    char pad5c[0xc];
+    CRelatedActor_757690* unk68;
+    char pad6c[0xc];
+    unsigned int unk78;
+
     void SetItemTextAndValue(CStringArg_757690 text, CValueArg_757690 value);
 };
 // @fnv 0x007573d0
@@ -1644,12 +1659,12 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
     float shift = 0.0f;
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(text))->FUN_004048e0())) > 0)
     {
-        if (*(*reinterpret_cast<::CInterface_757690 *>(&::g_011d8928)).FUN_00408d60() || (*(CRelatedActor_757690**)((char*)this + 0x68) != 0 &&
-                                             ::FUN_008c1bc0((intptr_t)((*(CRelatedActor_757690**)((char*)this + 0x68))))))
+        if (*(*reinterpret_cast<::CInterface_757690 *>(&::g_011d8928)).FUN_00408d60() || (this->unk68 != 0 &&
+                                             ::FUN_008c1bc0((intptr_t)((this->unk68)))))
         {
-            if (*(CWheelItem_757690**)((char*)this + 0x58))
+            if (this->unk58)
             {
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(CWheelItem_757690**)((char*)this + 0x58))))->FUN_00a01350(0xfc4, (char *)(::FUN_00559450((int *)&(text))), {});
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((this->unk58)))->FUN_00a01350(0xfc4, (char *)(::FUN_00559450((int *)&(text))), {});
             }
             shift = (float)::FUN_00ad8b30((unsigned int *)&(value));
             if (shift == ::_DAT_01012060)
@@ -1657,7 +1672,7 @@ void CWheelMenu_757690::SetItemTextAndValue(CStringArg_757690 text, CValueArg_75
                 shift =
                     (float)((double)std::strlen((const char *)(::FUN_00559450((int *)&(text)))) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CRandom_757690 *>(&::originalRuntimeFloatSetting1229))))))) * DAT_01017b70);
             }
-            *(unsigned*)((char*)this + 0x78) = (unsigned)((double)((unsigned int)(::FUN_00457fe0())) + shift);
+            this->unk78 = (unsigned)((double)((unsigned int)(::FUN_00457fe0())) + shift);
         }
     }
 }

@@ -199,14 +199,18 @@ struct Tile
 };
 struct BarterMenu
 {
+    char pad00[0x78];
+    int* unk78;
+    int* unk7c;
+
     void FUN_0072e530(int, Tile*);
 };
 // Calls Set(0xfa3, 0) on the Tile objects at offsets 0x7c and 0x78 of this BarterMenu.
 // @fnv 0x0072e530
 void BarterMenu::FUN_0072e530(int aiID, Tile* apTarget)
 {
-    ((Tile*)*(int**)((char*)this + 0x7c))->Set(0xfa3, 0);
-    ((Tile*)*(int**)((char*)this + 0x78))->Set(0xfa3, 0);
+    ((Tile*)this->unk7c)->Set(0xfa3, 0);
+    ((Tile*)this->unk78)->Set(0xfa3, 0);
 }
 }  // namespace fnv_0072e530
 

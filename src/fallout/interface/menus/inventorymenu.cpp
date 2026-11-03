@@ -365,7 +365,8 @@ bool InventoryMenu::FUN_0077ff90()
 struct StatsMenu
 {
     static StatsMenu* ms_pInventoryMenu;
-    unsigned char m_bHealingMode;  // +0x2a0
+    char pad00[0x2a0];
+    unsigned char m_bHealingMode;
 };
 
 // @fnv 0x00704390
@@ -373,7 +374,7 @@ void __cdecl FUN_00704390()
 {
     if (StatsMenu::ms_pInventoryMenu != 0)
     {
-        if (*(reinterpret_cast<unsigned char*>(StatsMenu::ms_pInventoryMenu) + 0x2a0) != 0)
+        if (StatsMenu::ms_pInventoryMenu->m_bHealingMode != 0)
         {
             reinterpret_cast<::FUN_007e0230 *>((StatsMenu::ms_pInventoryMenu))->RefreshHealingOptions();
         }
@@ -427,6 +428,9 @@ void __cdecl FUN_00780c00(Tile* pTile)
 
 struct FUN_00781b10_shell
 {
+    char pad00[0x3c];
+    void* unk3c;
+
     void ClearActionPointSource();
 };
 struct FUN_00781620_shell : public InventoryMenu
@@ -2699,7 +2703,7 @@ void FUN_00781b10_shell::ClearActionPointSource()
     reinterpret_cast<InventoryMenu*>(this)->m_pTiles[22]->Set(0xFA3, 0);
 
     (*reinterpret_cast<FUN_0073ac90_shell*>(
-          reinterpret_cast<char*>(*reinterpret_cast<void**>(reinterpret_cast<unsigned char*>(this) + 0x3C)) + 4)
+          reinterpret_cast<char*>(this->unk3c) + 4)
           ->FUN_0073ac90())
         ->Set(0xFA3, 0);
 

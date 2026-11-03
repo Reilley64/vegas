@@ -1927,13 +1927,16 @@ void* FUN_007d0660_class::GetField418()
 
 struct FUN_007d0b90_cls
 {
+    char pad00[0x2];
+    unsigned char unk2;
+
     void FUN_007d0b90();
 };
 
 // @fnv 0x007d0b90
 void FUN_007d0b90_cls::FUN_007d0b90()
 {
-    ((unsigned char*)this)[2] = 1;
+    this->unk2 = 1;
 }
 
 namespace fnv_007d0dc0 {
@@ -2888,6 +2891,12 @@ struct IDirectInput8A
 };
 struct MouseInputStandIn
 {
+    char pad00[0x4];
+    unsigned int unk4;
+    IDirectInput8A* unk8;
+    char pad0c[0x24];
+    IDirectInputDevice8A* unk30;
+
     void RecreateDevice(bool abNonExclusive);
 };
 
@@ -2895,24 +2904,24 @@ struct MouseInputStandIn
 // @fnv 0x00a23c00
 void MouseInputStandIn::RecreateDevice(bool abNonExclusive)
 {
-    if (!*(IDirectInputDevice8A**)((char*)this + 0x30))
+    if (!this->unk30)
         return;
-    (*(IDirectInputDevice8A**)((char*)this + 0x30))->Unacquire();
-    (*(IDirectInputDevice8A**)((char*)this + 0x30))->Release();
+    (this->unk30)->Unacquire();
+    (this->unk30)->Release();
     IDirectInputDevice8A* pDevice;
-    long hr = (*(IDirectInput8A**)((char*)this + 8))->CreateDevice((*reinterpret_cast<::DIGUID *>(&::DAT_01100f74)), &pDevice, 0);
+    long hr = (this->unk8)->CreateDevice((*reinterpret_cast<::DIGUID *>(&::DAT_01100f74)), &pDevice, 0);
     if (hr == 0)
     {
-        *(IDirectInputDevice8A**)((char*)this + 0x30) = pDevice;
+        this->unk30 = pDevice;
         if (abNonExclusive)
         {
-            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetActiveWindow(), 2 | 4);
-            *(unsigned int*)((char*)this + 4) |= 8;
+            hr = (this->unk30)->SetCooperativeLevel(GetActiveWindow(), 2 | 4);
+            this->unk4 |= 8;
         }
         else
         {
-            hr = (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetCooperativeLevel(GetActiveWindow(), 1 | 4);
-            *(unsigned int*)((char*)this + 4) &= ~8;
+            hr = (this->unk30)->SetCooperativeLevel(GetActiveWindow(), 1 | 4);
+            this->unk4 &= ~8;
         }
         switch (hr)
         {
@@ -2926,7 +2935,7 @@ void MouseInputStandIn::RecreateDevice(bool abNonExclusive)
             hr = 1;
             break;
         }
-        (*(IDirectInputDevice8A**)((char*)this + 0x30))->SetDataFormat(&(*reinterpret_cast<::DIDATAFORMAT *>(&::DAT_01100aac)));
+        (this->unk30)->SetDataFormat(&(*reinterpret_cast<::DIDATAFORMAT *>(&::DAT_01100aac)));
     }
 }
 
@@ -3153,24 +3162,30 @@ void FUN_007ce690_cls::InitPointer()
 
 struct FUN_007d1240_Class
 {
+    char pad00[0x7b8];
+    int unk7b8;
+
     void FUN_007d1240(int value);
 };
 
 // @fnv 0x007d1240
 void FUN_007d1240_Class::FUN_007d1240(int value)
 {
-    *(int*)((char*)this + 0x7b8) = value;
+    this->unk7b8 = value;
 }
 
 struct FUN_007d1320_Class
 {
+    char pad00[0x7c0];
+    int unk7c0;
+
     void FUN_007d1320(int value);
 };
 
 // @fnv 0x007d1320
 void FUN_007d1320_Class::FUN_007d1320(int value)
 {
-    *(int*)((char*)this + 0x7c0) = value;
+    this->unk7c0 = value;
 }
 
 
@@ -3190,13 +3205,16 @@ void FUN_007d5120_Class::FUN_007d5120()
 
 struct FUN_007d6100_class
 {
+    char pad00[0x18f4];
+    unsigned int unk18f4;
+
     unsigned int GetField18F4();
 };
 
 // @fnv 0x007d6100
 unsigned int FUN_007d6100_class::GetField18F4()
 {
-    return *(unsigned int*)((char*)this + 0x18f4);
+    return this->unk18f4;
 }
 
 // Increments the integer pointed to by counter and wraps it back to 0 once it reaches 4.
@@ -3870,6 +3888,9 @@ struct S7d8
 };
 struct SM7d6
 {
+    char pad00[0x48];
+    ::fnv_007d0440::Tile* unk48;
+
     Tile* GetTile();
     S7d8* GetS7d8();
 };
@@ -3879,7 +3900,7 @@ void FUN_007d0440()
 {
     if (::FUN_0070edf0())
     {
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(Tile**)((char*)(*reinterpret_cast<::fnv_007d0440::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0)) + 0x48))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007d0440::GlobalObject_0040c150 *>(&::g_011d2be0))))->GetMenuTitle()))), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((*reinterpret_cast<::fnv_007d0440::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0))->unk48)))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007d0440::GlobalObject_0040c150 *>(&::g_011d2be0))))->GetMenuTitle()))), true);
         reinterpret_cast<::S7d8 *>((((S7d8*)(*reinterpret_cast<::fnv_007d0440::SM7d6 * *>(&::fnv_007d0700::DAT_011daac0)))))->FUN_007d48a0((void*)0x100, 0);
     }
     else
@@ -4058,6 +4079,9 @@ struct FUN_007d6030_shell
 };
 struct FUN_007d6160_shell
 {
+    char pad00[0x1c8];
+    int unk1c8;
+
     void FUN_007d6160();
 };
 // Loops up to four times calling AdvanceCounter on the object at offset 0x1c8, stopping early if IsKeyActive returns true.
@@ -4067,7 +4091,7 @@ void FUN_007d6160_shell::FUN_007d6160()
     unsigned char i = 4;
     while (i)
     {
-        ::AdvanceCounter((int*)((char*)this + 0x1c8));
+        ::AdvanceCounter(&this->unk1c8);
         if (reinterpret_cast<::FUN_007d6030_shell *>((((FUN_007d6030_shell*)this)))->IsKeyActive())
             break;
         --i;

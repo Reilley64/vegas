@@ -818,6 +818,11 @@ struct Setting
 
 struct Wheel
 {
+    char pad00[0x24];
+    unsigned char unk24;
+    char pad25[0x3];
+    int unk28;
+
     void FUN_00701e80();
 };
 class HotkeyStringCalls
@@ -853,11 +858,11 @@ public:
 void Wheel::FUN_00701e80()
 {
     Inventory* inv3 = ((::Inventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))));
-    Entry* entry5 = inv3 ? ((::Entry *)(reinterpret_cast<::InventoryChangesIter *>((inv3))->FindEntryWithExtraListType(*(int*)((char*)this + 0x28)))) : 0;
+    Entry* entry5 = inv3 ? ((::Entry *)(reinterpret_cast<::InventoryChangesIter *>((inv3))->FindEntryWithExtraListType(this->unk28))) : 0;
     void* extra = entry5 && ((::Data *)(::FUN_00559450((int *)(entry5)))) ? *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::Data *)(::FUN_00559450((int *)(entry5)))))->m_item)) : 0;
     bool ammo4 =
         (entry5 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))->FUN_00401170() == 0x28 && ::FUN_004c0bf0((::TESObjectWEAP *)(((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))))) ? 1 : 0;
-    if (!*((unsigned char*)this + 0x24) || !inv3 || !entry5)
+    if (!this->unk24 || !inv3 || !entry5)
         return;
     if (reinterpret_cast<::FUN_008a7570_shell *>(((*reinterpret_cast<::Player * *>(&::_g_thePlayer))))->FUN_008a7570() != -1 && ((::Form *)(reinterpret_cast<::InventoryEntryFields *>((entry5))->pObject))->FUN_00401170() == 0x18)
         return;

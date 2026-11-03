@@ -326,15 +326,21 @@ bool FUN_0075c250_Holder::HandleKey(int aiKey)
 
 struct FUN_0075cf70_shell
 {
+    char pad00[0x4c];
+    Tile* unk4c;
+    char pad50[0x8];
+    Tile* unk58;
+    Tile* unk5c;
+
     void ClearTileValues(int aiID, Tile* apTarget);
 };
 // Sets the value 0xFA3 to 0 on the Tile objects at offsets 0x5C, 0x58 and 0x4C of this object.
 // @fnv 0x0075cf70
 void FUN_0075cf70_shell::ClearTileValues(int aiID, Tile* apTarget)
 {
-    (*(Tile**)((char*)this + 0x5C))->Set(0xFA3, 0);
-    (*(Tile**)((char*)this + 0x58))->Set(0xFA3, 0);
-    (*(Tile**)((char*)this + 0x4C))->Set(0xFA3, 0);
+    (this->unk5c)->Set(0xFA3, 0);
+    (this->unk58)->Set(0xFA3, 0);
+    (this->unk4c)->Set(0xFA3, 0);
 }
 
 struct FUN_0075b710_shell

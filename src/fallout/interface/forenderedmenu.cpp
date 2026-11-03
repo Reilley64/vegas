@@ -511,33 +511,49 @@ void S007fb100::FUN_007fb100()
 
 struct FUN_007fb250_owner
 {
+    char pad00[0x60];
+    bool unk60;
+    char pad61[0x3];
+    float unk64;
+    float unk68;
+    float unk6c;
+    float unk70;
+
     void FUN_007fb250(float afDuration, float afIntensity);
 };
 // @fnv 0x007fb250
 void FUN_007fb250_owner::FUN_007fb250(float afDuration, float afIntensity)
 {
-    *(bool*)((char*)this + 0x60) = true;
-    *(float*)((char*)this + 0x68) = afDuration;
-    *(float*)((char*)this + 0x6c) = afIntensity * (double)0.0001f;
-    *(float*)((char*)this + 0x64) = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
-    *(float*)((char*)this + 0x70) = 0.0f;
+    this->unk60 = true;
+    this->unk68 = afDuration;
+    this->unk6c = afIntensity * (double)0.0001f;
+    this->unk64 = (float)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::TimeGlobal *>(&::g_timeGlobal))))->FUN_00825c00();
+    this->unk70 = 0.0f;
 }
 
 namespace fnv_007fb420 {
 struct MenuStub
 {
+    char pad00[0x4d];
+    bool unk4d;
+    char pad4e[0x2];
+    float unk50;
+    float unk54;
+    float unk58;
+    float unk5c;
+
     void FUN_007fb420(float afTime);
 };
 // @fnv 0x007fb420
 void MenuStub::FUN_007fb420(float afTime)
 {
-    float fintensityValue = afTime - *(float*)((char*)this + 0x50);
-    if (fintensityValue > *(float*)((char*)this + 0x54))
-        *(bool*)((char*)this + 0x4D) = 0;
+    float fintensityValue = afTime - this->unk50;
+    if (fintensityValue > this->unk54)
+        this->unk4d = 0;
     else
     {
-        float fRemaining = 1.0F - fintensityValue / *(float*)((char*)this + 0x54);
-        *(float*)((char*)this + 0x5C) = *(float*)((char*)this + 0x58) * fRemaining;
+        float fRemaining = 1.0F - fintensityValue / this->unk54;
+        this->unk5c = this->unk58 * fRemaining;
     }
 }
 }  // namespace fnv_007fb420
@@ -708,21 +724,30 @@ void FUN_007fdf10_shell::SetGo(void* apValue)
 float __cdecl FUN_004e44d0(float);
 struct FUN_007fb3a0_shell
 {
+    char pad00[0x74];
+    unsigned char unk74;
+    char pad75[0x3];
+    float unk78;
+    float unk7c;
+    float unk80;
+    float unk84;
+    float unk88;
+
     void FUN_007fb3a0(float afTime);
 };
 // @fnv 0x007fb3a0
 void FUN_007fb3a0_shell::FUN_007fb3a0(float afTime)
 {
-    float fdelta = afTime - *(float*)((char*)this + 0x78);
-    if (fdelta > *(float*)((char*)this + 0x7c))
+    float fdelta = afTime - this->unk78;
+    if (fdelta > this->unk7c)
     {
-        *(unsigned char*)((char*)this + 0x74) = 0;
+        this->unk74 = 0;
     }
     else
     {
-        float fRemainder = 1.0f - (fdelta / *(float*)((char*)this + 0x7c));
-        *(float*)((char*)this + 0x88) =
-            FUN_004e44d0(fdelta * *(float*)((char*)this + 0x84)) * *(float*)((char*)this + 0x80) * fRemainder;
+        float fRemainder = 1.0f - (fdelta / this->unk7c);
+        this->unk88 =
+            FUN_004e44d0(fdelta * this->unk84) * this->unk80 * fRemainder;
     }
 }
 
@@ -733,6 +758,10 @@ struct GlobalObject_0044f440 : SettingT_GameSettingCollection_
 
 struct FUN_007fb530_shell
 {
+    char pad00[0x8c];
+    float unk8c;
+    float unk90;
+
     void FUN_007fb530(float afDuration);
 };
 
@@ -740,8 +769,8 @@ struct FUN_007fb530_shell
 void FUN_007fb530_shell::FUN_007fb530(float afDuration)
 {
     float f04 = ApplyNoise(afDuration * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::g_011db408))))->f) * 2.0f;
-    *(float*)((char*)this + 0x8c) = f04 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::g_011db3a4))))->f;
-    *(float*)((char*)this + 0x90) = f04 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::g_011db424))))->f;
+    this->unk8c = f04 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::g_011db3a4))))->f;
+    this->unk90 = f04 * ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(::g_011db424))))->f;
 }
 
 struct FUN_007f8010_shell : public FORenderedMenu

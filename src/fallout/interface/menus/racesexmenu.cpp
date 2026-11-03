@@ -249,13 +249,16 @@ int __cdecl FUN_007ac9c0()
 
 struct FUN_007b2550_shell
 {
+    char pad00[0xe4];
+    unsigned char unke4;
+
     void SetByteAtOffsetE4(unsigned char param);
 };
 
 // @fnv 0x007b2550
 void FUN_007b2550_shell::SetByteAtOffsetE4(unsigned char ucValue)
 {
-    ((unsigned char*)this)[0xe4] = ucValue;
+    this->unke4 = ucValue;
 }
 
 struct FUN_007b2570_shell
@@ -282,13 +285,16 @@ char FUN_007b2570_shell::FUN_007b2570()
 
 struct FUN_007b3720_shell
 {
+    char pad00[0x1d8];
+    int unk1d8;
+
     void FUN_007b3720(int value);
 };
 
 // @fnv 0x007b3720
 void FUN_007b3720_shell::FUN_007b3720(int value)
 {
-    *(int*)((char*)this + 0x1d8) = value;
+    this->unk1d8 = value;
 }
 
 struct TGF
@@ -645,6 +651,8 @@ public:
 struct FUN_007af180_shell : FUN_007adc30_shell
 {
     bool FUN_007af180(intptr_t aeList);
+    char padf0[0x30];
+    int unk120;
 };
 struct TESActorBase
 {
@@ -3938,8 +3946,8 @@ bool FUN_007af180_shell::FUN_007af180(intptr_t aeList)
             reinterpret_cast<::MenuDriver *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->GetActiveRenderedMenu()))->UpdateSlotSelection(aeList);
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk88)))->Set(0xfa3, reinterpret_cast<::FUN_0084e3a0_Class *>((((OptList**)&this->unk28)[aeList]))->FUN_0084e3a0() < 20);
         reinterpret_cast<::Tile *>(((*(Tile_Set_Helper**)&this->unk8c)))->Set(0xfa3, ((std::intptr_t)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio**)&this->unk28)[aeList]))->FUN_0044edb0())) < 20 ||
-                             aeList == *(int*)((char*)this + 0x120));
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)&this->unk8c)))->FUN_00a01350(0xfc4, (char *)((const char*)(uintptr_t)(aeList == *(int*)((char*)this + 0x120) ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
+                             aeList == this->unk120);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(TileHelper**)&this->unk8c)))->FUN_00a01350(0xfc4, (char *)((const char*)(uintptr_t)(aeList == this->unk120 ? (*reinterpret_cast<::Flt *>(&::g_011da70c)) : (*reinterpret_cast<::Flt *>(&::g_011da700)))),
                   true);
         return true;
     }

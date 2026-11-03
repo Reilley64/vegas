@@ -425,6 +425,9 @@ void* FUN_00724290_shell::FUN_00724290(unsigned int flags)
 
 struct FUN_007242c0_shell
 {
+    char pad00[0x2c];
+    unsigned short unk2c;
+
     bool FUN_007242c0(unsigned int flags);
 };
 
@@ -432,7 +435,7 @@ struct FUN_007242c0_shell
 // @fnv 0x007242c0
 bool FUN_007242c0_shell::FUN_007242c0(unsigned int uiFlagIndex)
 {
-    return (*(unsigned short*)((char*)this + 0x2c) & (1 << uiFlagIndex)) != 0;
+    return (this->unk2c & (1 << uiFlagIndex)) != 0;
 }
 
 struct VATSMenu
@@ -730,6 +733,11 @@ void FUN_007a63b0_holder::FUN_007a63b0(FUN_007a86b0_Item* apItems, unsigned int 
 
 struct FUN_007a63f0_shell
 {
+    char pad00[0x4];
+    int unk4;
+    int unk8;
+    int unkc;
+
     void FUN_007a63f0(unsigned int requested, unsigned int savedSize);
 };
 struct FUN_007d9000_shell
@@ -756,6 +764,9 @@ void FUN_007d8420_shell::SortList(int(__cdecl* cmp)(void*, void*))
 
 struct FUN_007a6fa0_shell
 {
+    char pad00[0x4];
+    int* unk4;
+
     int* FindNodeValue(int* a, unsigned char b);
 };
 struct FUN_007d86c0_shell
@@ -766,7 +777,7 @@ struct FUN_007d86c0_shell
 int* FUN_007d86c0_shell::FUN_007d86c0(int* apItem, unsigned char apSelect)
 {
     FUN_007a6fa0_shell* result = (FUN_007a6fa0_shell*)((FUN_007a6fa0_shell*)this)->FindNodeValue(apItem, apSelect);
-    return result ? *(int**)((char*)result + 4) : 0;
+    return result ? result->unk4 : 0;
 }
 
 struct NavMeshSearchLOSArray
@@ -943,6 +954,9 @@ struct Tile_Set_Helper
 };
 struct FUN_007d74f0_shell
 {
+    char pad00[0xc];
+    char* unkc;
+
     void FUN_007d74f0(bool abVal);
 };
 // Sets the "_enabled" trait on the tile via the helper at this+0xc.
@@ -950,7 +964,7 @@ struct FUN_007d74f0_shell
 void FUN_007d74f0_shell::FUN_007d74f0(bool abVal)
 {
     static int s_trait = ::FUN_00a00940("_enabled", -1);
-    reinterpret_cast<::Tile *>((((Tile_Set_Helper*)*(char**)((char*)this + 0xc))))->Set(s_trait, abVal);
+    reinterpret_cast<::Tile *>((((Tile_Set_Helper*)this->unkc)))->Set(s_trait, abVal);
 }
 }  // namespace fnv_007d74f0
 
@@ -2312,23 +2326,23 @@ struct FUN_007a6310_cls
 // @fnv 0x007a63f0
 void FUN_007a63f0_shell::FUN_007a63f0(unsigned int uiRequestedSize, unsigned int savedSize)
 {
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
-    *(int*)((char*)this + 12) = 0;
+    this->unk4 = 0;
+    this->unk8 = 0;
+    this->unkc = 0;
     if (savedSize > uiRequestedSize)
     {
         uiRequestedSize = savedSize;
     }
     if (uiRequestedSize > 0)
     {
-        *(int*)((char*)this + 4) =
+        this->unk4 =
             ((int(*)(void*, unsigned int))(*(int**)(*(intptr_t*)this + 4)))((void*)this, uiRequestedSize);
-        *(int*)((char*)this + 12) = uiRequestedSize;
+        this->unkc = uiRequestedSize;
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::FUN_007a6310_cls *>(this)->ConstructElements(*(int*)((char*)this + 4), savedSize);
-        *(int*)((char*)this + 8) = savedSize;
+        reinterpret_cast<::FUN_007a6310_cls *>(this)->ConstructElements(this->unk4, savedSize);
+        this->unk8 = savedSize;
     }
 }
 

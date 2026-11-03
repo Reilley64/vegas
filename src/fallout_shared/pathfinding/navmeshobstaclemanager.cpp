@@ -1595,13 +1595,13 @@ struct ReferenceObstacleArray
 namespace fnv_006c1da0 {
 struct ScriptLocalsX
 {
-    void FUN_006c1da0(int);
+    void FUN_006c1da0(void*);
 };
 struct S_00c9c5b0
 {
 };
 // @fnv 0x006c1da0
-void ScriptLocalsX::FUN_006c1da0(int a)
+void ScriptLocalsX::FUN_006c1da0(void* a)
 {
     void* p = ((void *)(::FUN_004ae750((void *)this)));
     if (p)
@@ -2782,7 +2782,7 @@ FUN_00807790::FUN_00807790(int a1, ScriptLocalsX* a2, unsigned int auiFlags) : m
     m_kFlags.uiFlags = auiFlags;
     m_18 = false;
     reinterpret_cast<::FUN_008078b0_Class *>((m_10))->FUN_008078b0(this);
-    reinterpret_cast<::fnv_006c1da0::ScriptLocalsX *>((m_10))->FUN_006c1da0((int)(static_cast<FUN_0061f580*>(this)));
+    reinterpret_cast<::fnv_006c1da0::ScriptLocalsX *>((m_10))->FUN_006c1da0((static_cast<FUN_0061f580*>(this)));
     reinterpret_cast<::ScriptLocalsX *>((m_10))->FUN_006c1dd0(static_cast<FUN_006c0100*>(this));
 }
 }  // namespace fnv_00807790

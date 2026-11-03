@@ -433,7 +433,7 @@ struct Array
         hkMemoryAllocator* alloc = mgr->m_heap;
         count = 0;
         if (!(capacity & 0x80000000))
-            alloc->blockFree(data, (capacity & 0x3fffffff) * 4);
+            alloc->bufFree(data, (capacity & 0x3fffffff) * (int)sizeof(void*));
         data = 0;
         capacity = 0x80000000;
     }

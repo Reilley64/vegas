@@ -4,6 +4,7 @@
 
 // @fnv 0x00d60b90
 #include "havok/hkMemoryRouter.h"
+#include "havok/hkBase.h"
 #include "fnv/symbols_00c85000.h"
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -762,7 +763,7 @@ struct ContactViewer
     int unk0c;
     int unk10;
     int unk14;
-    int m_18;
+    ::S00d67a50_Owner377* m_18;
     int unk1c;
     int unk20;
     int unk24;
@@ -803,7 +804,7 @@ void ContactViewer::FUN_00d68030(void* entry, int mode)
         reinterpret_cast<::StringBuf *>(&(name))->FUN_00d61d00("%d(%d)", flags & 0xffffff, tag);
     else
         reinterpret_cast<::StringBuf *>(&(name))->FUN_00d61d00("%d", flags & 0xffffff);
-    ::FUN_00d67a50((::S00d67a50_Owner377 *)(m_18), m_notifier.v1(), (::S00d67a50_Context377 *)(entry), mode, (int)(name.m_data), 0xff800000u, 0.1f, (*(unsigned char *)&(const ::BSAudioValue &)(BSAudioValue())));
+    ::FUN_00d67a50(m_18, m_notifier.v1(), (::S00d67a50_Context377 *)(entry), mode, name.m_data, 0xff800000u, 0.1f, (*(unsigned char *)&(const ::BSAudioValue &)(BSAudioValue())));
     m_table.m_entries[index].m_flags = flags & 0xffffff;
     name.Release();
 }
@@ -885,7 +886,7 @@ struct FUN_00d68230
         hkMemoryRouter* pHolder = &hkMemoryRouter::getInstance();
         unsigned int uiSize = ((FUN_00d68230*)apMemory)->m_u04;
         hkMemoryAllocator* pAllocator = pHolder->m_heap;
-        pAllocator->bufFree(apMemory, uiSize);
+        pAllocator->blockFree(apMemory, uiSize);
     }
 };
 
@@ -922,7 +923,7 @@ struct Item
 struct ArgBlock
 {
     int unk00;
-    int m_items[2];
+    void* m_items[2];
     int unk0c;
     int unk10;
 };
@@ -947,11 +948,11 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         return;
     }
     Table* t = &m_0c;
-    int* p = apBlock->m_items;
+    void** p = apBlock->m_items;
     int n = 2;
     do
     {
-        Item* item = (Item*)*p;
+        Item* item = static_cast<Item*>(*p);
         int idx = reinterpret_cast<::FUN_00cb18f0_t *>((t))->FindSlot(reinterpret_cast<intptr_t>(item));
         if (idx <= m_14)
         {
@@ -974,7 +975,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
             hkMemoryRouter* h = &hkMemoryRouter::getInstance();
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870(*reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18 *>(h->m_heap), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
             char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
-            reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0((int)owner);
+            reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0(owner);
         }
         p++;
     } while (--n != 0);
@@ -1071,10 +1072,10 @@ class S00d67a50_Owner377
     virtual void v18_unused();
     virtual void v1c_unused();
     virtual void v20_unused();
-    virtual void v09(__m128* anchor, void* ctx140, int a1c, void* ctx10, int a2);
+    virtual void v09(__m128* anchor, void* ctx140, int a1c, hkUlong id, int a2);
     virtual void v0a();
     virtual void v0b();
-    virtual void v0c(int a18, __m128* pos, int a1c, void* ctx10, int a2);
+    virtual void v0c(const char* text, __m128* pos, int a1c, hkUlong id, int a2);
 };
 __declspec(align(16)) struct Bounds377
 {
@@ -1214,7 +1215,7 @@ inline double abs377(float x)
 }
 
 // @fnv 0x00d67a50
-void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, int i, int a18, int a1c, float dist,
+void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, int i, const char* text, int a1c, float dist,
                   unsigned char flag)
 {
     Bounds377 box;
@@ -1232,8 +1233,8 @@ void FUN_00d67a50(S00d67a50_Owner377* self, int a2, S00d67a50_Context377* ctx, i
     S00d67a50_MathVector377 anchor, pos;
     anchor.offset(center, S00d67a50_Scalar377(abs377((float)extent.dot(direction))), direction);
     pos.offset(anchor, S00d67a50_Scalar377(dist), direction);
-    self->v0c(a18, (__m128*)&pos, a1c, p10, a2);
+    self->v0c(text, (__m128*)&pos, a1c, reinterpret_cast<hkUlong>(p10), a2);
     if (flag)
-        self->v09((__m128*)&anchor, &ctx->unk140, a1c, p10, a2);
+        self->v09((__m128*)&anchor, &ctx->unk140, a1c, reinterpret_cast<hkUlong>(p10), a2);
 }
 #include "generated/data/havok/physics/utilities/visualdebugger/viewer/collide/hkptoicountviewer.inc"

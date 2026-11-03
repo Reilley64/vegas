@@ -298,20 +298,15 @@ NiNode* TESObjectLIGH::Create3DModel(TESObjectREFR* reference)
     return 0;
 }
 
-namespace std {
-template <class _Elem> struct char_traits;
-template <class _Ty> class allocator;
-template <class _Elem, class _Traits, class _Ax> class basic_string
+struct String_0044a540
 {
-  public:
     void _Tidy(bool, unsigned int);
 };
-}
 
 // @fnv 0x0044a540
 void FUN_0044a540(std::basic_string<char, std::char_traits<char>, std::allocator<char> >* apString)
 {
-    apString->_Tidy(true, 0);
+    reinterpret_cast<String_0044a540*>(apString)->_Tidy(true, 0);
 }
 
 namespace fnv_0044a580 {
@@ -3168,38 +3163,14 @@ struct El
     std::vector<unsigned int> v;
 };
 
-namespace std {
-template <> class allocator<El>
+class ElAllocator
 {
   public:
-    typedef El value_type;
-    typedef value_type* pointer;
-    typedef const value_type* const_pointer;
-    typedef value_type& reference;
-    typedef const value_type& const_reference;
-    typedef size_t size_type;
-    typedef ptrdiff_t difference_type;
-    template <class U> struct rebind
+    typedef El* pointer;
+    typedef std::size_t size_type;
+    pointer allocate(size_type n)
     {
-        typedef allocator<U> other;
-    };
-    allocator() throw()
-    {}
-    allocator(const allocator&) throw()
-    {}
-    template <class U> allocator(const allocator<U>&) throw()
-    {}
-    pointer address(reference x) const
-    {
-        return &x;
-    }
-    const_pointer address(const_reference x) const
-    {
-        return &x;
-    }
-    pointer allocate(size_type n, const void* = 0)
-    {
-        return _Allocate(n, (pointer)0);
+        return static_cast<pointer>(::operator new(n * sizeof(El)));
     }
     void deallocate(pointer p, size_type)
     {
@@ -3207,11 +3178,11 @@ template <> class allocator<El>
     }
     void construct(pointer p, const El& v)
     {
-        _Construct(p, v);
+        ::new (static_cast<void*>(p)) El(v);
     }
     void destroy(pointer p)
     {
-        _Destroy(p);
+        p->~El();
     }
     size_type max_size() const throw()
     {
@@ -3219,23 +3190,16 @@ template <> class allocator<El>
         return 0 < c ? c : 1;
     }
 };
-}
 
-typedef std::vector<El> V;
-
-template <class T> class InsertVector_ob1_nogf : public std::_Vector_val<T, std::allocator<T> >
+// The original's vector<El> storage: the allocator, then the first, last and end pointers.
+class InsertVector_ob1_nogf
 {
   public:
-    typedef std::vector<T> V;
-    typedef unsigned int size_type;
-    typedef T* pointer;
-    typedef T value_type;
-    typedef typename V::const_iterator const_iterator;
+    typedef std::size_t size_type;
+    typedef El* pointer;
+    typedef El value_type;
+    ElAllocator _Alval;
     pointer _Myfirst, _Mylast, _Myend;
-    static void _Xlen()
-    {
-        throw std::length_error("vector<T> too long");
-    }
     size_type capacity() const
     {
         return _Myfirst == 0 ? 0 : _Myend - _Myfirst;
@@ -3246,26 +3210,30 @@ template <class T> class InsertVector_ob1_nogf : public std::_Vector_val<T, std:
     }
     size_type max_size() const
     {
-        return this->_Alval.max_size();
+        return _Alval.max_size();
     }
     void _Destroy(pointer first, pointer last)
     {
-        std::_Destroy_range(first, last, this->_Alval);
+        for (; first != last; ++first)
+            _Alval.destroy(first);
     }
-    template <class Iter> pointer _Umove(Iter first, Iter last, pointer dest)
+    pointer _Umove(pointer first, pointer last, pointer dest)
     {
-        return stdext::_Unchecked_uninitialized_move(first, last, dest, this->_Alval);
+        for (; first != last; ++dest, ++first)
+            _Alval.construct(dest, *first);
+        return dest;
     }
-    pointer _Ufill(pointer dest, size_type count, const T& value)
+    pointer _Ufill(pointer dest, size_type count, const El& value)
     {
-        stdext::unchecked_uninitialized_fill_n(dest, count, value, this->_Alval);
+        for (size_type i = 0; i < count; ++i)
+            _Alval.construct(dest + i, value);
         return dest + count;
     }
-    inline void FUN_00abfa90(const_iterator, size_type, const T&);
+    void FUN_00abfa90(pointer _Where, size_type _Count, const El& _Val);
 };
 
 // @fnv 0x00abfa90
-template <> void InsertVector_ob1_nogf<El>::FUN_00abfa90(V::const_iterator _Where, V::size_type _Count, const El& _Val)
+void InsertVector_ob1_nogf::FUN_00abfa90(pointer _Where, size_type _Count, const El& _Val)
 {
     size_type _Capacity = capacity();
     if (_Count == 0)
@@ -3277,53 +3245,54 @@ template <> void InsertVector_ob1_nogf<El>::FUN_00abfa90(V::const_iterator _Wher
         _Capacity = max_size() - _Capacity / 2 < _Capacity ? 0 : _Capacity + _Capacity / 2;
         if (_Capacity < size() + _Count)
             _Capacity = size() + _Count;
-        pointer _Newvec = this->_Alval.allocate(_Capacity);
+        pointer _Newvec = _Alval.allocate(_Capacity);
         pointer _Ptr = _Newvec;
-        _TRY_BEGIN
-        _Ptr = _Umove(this->_Myfirst, _VEC_ITER_BASE(_Where), _Newvec);
-        _Ptr = _Ufill(_Ptr, _Count, _Val);
-        _Umove(_VEC_ITER_BASE(_Where), this->_Mylast, _Ptr);
-        _CATCH_ALL
-        _Destroy(_Newvec, _Ptr);
-        this->_Alval.deallocate(_Newvec, _Capacity);
-        _RERAISE;
-        _CATCH_END
+        try
+        {
+            _Ptr = _Umove(_Myfirst, _Where, _Newvec);
+            _Ptr = _Ufill(_Ptr, _Count, _Val);
+            _Umove(_Where, _Mylast, _Ptr);
+        }
+        catch (...)
+        {
+            _Destroy(_Newvec, _Ptr);
+            _Alval.deallocate(_Newvec, _Capacity);
+            throw;
+        }
         _Count += size();
         if (_Myfirst != 0)
         {
             _Destroy(_Myfirst, _Mylast);
-            this->_Alval.deallocate(_Myfirst, _Myend - _Myfirst);
+            _Alval.deallocate(_Myfirst, _Myend - _Myfirst);
         }
         _Myend = _Newvec + _Capacity;
         _Mylast = _Newvec + _Count;
         _Myfirst = _Newvec;
     }
-    else if ((size_type)(_Mylast - _VEC_ITER_BASE(_Where)) < _Count)
+    else if ((size_type)(_Mylast - _Where) < _Count)
     {
         value_type _Tmp = _Val;
-        _Umove(_VEC_ITER_BASE(_Where), _Mylast, _VEC_ITER_BASE(_Where) + _Count);
-        _TRY_BEGIN
-        _Ufill(_Mylast, _Count - (_Mylast - _VEC_ITER_BASE(_Where)), _Tmp);
-        _CATCH_ALL
-        _Destroy(_VEC_ITER_BASE(_Where) + _Count, _Mylast + _Count);
-        _RERAISE;
-        _CATCH_END
+        _Umove(_Where, _Mylast, _Where + _Count);
+        try
+        {
+            _Ufill(_Mylast, _Count - (_Mylast - _Where), _Tmp);
+        }
+        catch (...)
+        {
+            _Destroy(_Where + _Count, _Mylast + _Count);
+            throw;
+        }
         _Mylast += _Count;
-        std::fill(_VEC_ITER_BASE(_Where), _Mylast - _Count, _Tmp);
+        std::fill(_Where, _Mylast - _Count, _Tmp);
     }
     else
     {
         value_type _Tmp = _Val;
         pointer _Oldend = _Mylast;
         _Mylast = _Umove(_Oldend - _Count, _Oldend, _Mylast);
-        _STDEXT _Unchecked_move_backward(_VEC_ITER_BASE(_Where), _Oldend - _Count, _Oldend);
-        std::fill(_VEC_ITER_BASE(_Where), _VEC_ITER_BASE(_Where) + _Count, _Tmp);
+        std::copy_backward(_Where, _Oldend - _Count, _Oldend);
+        std::fill(_Where, _Where + _Count, _Tmp);
     }
-}
-
-void emit_insert(InsertVector_ob1_nogf<El>* p, V::const_iterator w, V::size_type n, const El& x)
-{
-    p->FUN_00abfa90(w, n, x);
 }
 
 namespace skac53 {
@@ -3420,7 +3389,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -4123,7 +4092,7 @@ template <class E> class allocator_ob1
   public:
     void deallocate(E* ptr, unsigned int)
     {
-        ::FUN_00401030 delete(ptr);
+        ::FUN_00401030(ptr);
     }
 };
 struct SecureTraitsTag
@@ -4878,7 +4847,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -5262,7 +5231,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -5624,6 +5593,7 @@ template <class T> inline void GvDestroyOne(T* _Ptr)
 {
     reinterpret_cast<::fnv_0065ed70::FUN_0065ed70 *>((_Ptr))->fnv_0065ed70::FUN_0065ed70::~FUN_0065ed70();
 }
+template <class T1, class T2> inline void GvConstruct(T1* _Ptr, const T2& _Val);
 template <class T> struct GvAlloc
 {
     typedef T* pointer;
@@ -6248,7 +6218,6 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
 };
 struct GvFileHandle;
-extern "C" unsigned int __cdecl fwrite(const void* _Str, unsigned int _Size, unsigned int _Count, GvFileHandle* _File);
 void FUN_00ac6430(int code, BxString message);
 }
 using namespace wrac52;
@@ -6269,7 +6238,7 @@ bool GvBinaryFile::FUN_00ac5220(const void* data, unsigned int size, unsigned in
     {
         return false;
     }
-    if (fwrite(data, size, count, pFile) != count)
+    if (fwrite(data, size, count, (FILE*)pFile) != count)
     {
         FUN_00ac6430(6, kPath);
         reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
@@ -6369,7 +6338,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -6642,7 +6611,6 @@ void FUN_00ac6430(int code, BxString message)
 // namespace fnv_00ac6430
 
 namespace fnv_00ac9790 {
-extern "C" int __cdecl fclose(void*);
 
 void __cdecl FUN_00ec7c56();
 namespace std {
@@ -6773,7 +6741,7 @@ template <class C, class Traits> class basic_filebuf : public basic_streambuf<C,
         {
             if (!_Endwrite())
                 answer = 0;
-            if (fclose(stream) != 0)
+            if (fclose((FILE*)stream) != 0)
                 answer = 0;
         }
         _Init(0, 2);
@@ -6945,7 +6913,6 @@ struct _iobuf_ob1
     char* _tmpfname;
 };
 
-extern "C" int __cdecl fclose(struct _iobuf_ob1* _File);
 
 template <class _Ty> class allocatorDEB0
 {
@@ -7122,7 +7089,7 @@ class basic_filebufDEB0 : public basic_streambufDEB0
         {
             if (!_Endwrite())
                 _Ans = 0;
-            if (fclose(_Myfile) != 0)
+            if (fclose((FILE*)_Myfile) != 0)
                 _Ans = 0;
         }
         _Init(0, _Closefl);
@@ -8831,7 +8798,7 @@ void FUN_00ac6430(int, Str);  // -> 0x00ac6430  SetError(int, string)
 }
 
 // @fnv 0x00ac8c50
-bool FUN_00ac8c50(const Str& name, const Str& arg2, Vec* pVec)
+bool FUN_00ac8c50(const Str& name, const Str& arg2, ac8parse::Vec* pVec)
 {
     Str msg5;
     Big kObj(name.c_str(), 1, 0x40);
@@ -8954,7 +8921,7 @@ template <class E, class Tr> class basic_ifstream : public basic_istream<E, Tr>
     {}
     basic_filebufDEB0 filebuf;
 };
-typedef basic_ifstream<char, char_traits_ob1<char> > ifstream;
+typedef basic_ifstream<char, char_traits_ob1<char> > ifstream_ob1;
 inline basic_istream<char, char_traits_ob1<char> >& getline(basic_istream<char, char_traits_ob1<char> >& input, BxString& line)
 {
     return (*(::std::basic_istream<char, ::std::char_traits_ob1<char>> *)&(::fnv_00ad5770::FUN_00ad5770((::fnv_00ad5770::FUN_00ad5770_Q &)(input), (::fnv_00ad5770::StrQ &)(line), reinterpret_cast<::GvIos *>((void *)&(input))->FUN_00ad30c0('\n'))));
@@ -8975,7 +8942,7 @@ bool __cdecl FUN_00ac9120(const BxString& path, CsvArray<CsvRow>& table)
         return false;
     }
 
-    std::ifstream input(path.c_str(), 1, 64);
+    std::ifstream_ob1 input(path.c_str(), 1, 64);
 
     if (input.fail())
     {
@@ -10314,7 +10281,6 @@ int FUN_00ad5500(ObjNew** output, SrcCls* source)
 
 // namespace fnv_00ad5500
 
-using ::DAT_010173f0;
 
 namespace rdac5e {
 int FUN_00ec7c6b(void* _Dst, unsigned int _Size, const void* _Src, unsigned int _Count);
@@ -10401,7 +10367,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -10707,7 +10673,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -11794,7 +11760,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {
@@ -12780,8 +12746,6 @@ template <class T> struct GvVector : GvVectorVal<T>
     }
 };
 struct GvFileHandle;
-extern "C" unsigned int __cdecl fread(void* _DstBuf, unsigned int _ElementSize, unsigned int _Count,
-                                      GvFileHandle* _File);
 void FUN_00ac6430(int code, BxString message);
 }
 
@@ -12801,7 +12765,7 @@ bool GvBinaryFile_SV::FUN_00ac52b0(void* data, unsigned int size, unsigned int c
     {
         return false;
     }
-    if (rdac52::fread(data, size, count, pFile) != count)
+    if (fread(data, size, count, (FILE*)pFile) != count)
     {
         rdac52::FUN_00ac6430(1, kPath);
         reinterpret_cast<::FUN_00ac5430_cls *>(this)->FUN_00ac5430();
@@ -12904,7 +12868,7 @@ template <class T> struct BxAllocT
     }
     void deallocate(pointer _Ptr, unsigned int)
     {
-        ::FUN_00401030 delete(_Ptr);
+        ::FUN_00401030(_Ptr);
     }
     unsigned int max_size() const
     {

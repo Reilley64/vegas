@@ -328,7 +328,7 @@ char* BGSSaveLoadFileEntry::FUN_007d5140()
     return m_pSaveFileName;
 }
 
-// @fnv 0x007d5280
+// Historical save-entry view; the free FUN_007d5280 owns the recipe binding.
 NiTexture* BGSSaveLoadFileEntry::FUN_007d5280()
 {
     return spScreenshot.operator->();

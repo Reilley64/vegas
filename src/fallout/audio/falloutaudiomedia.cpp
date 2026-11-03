@@ -84,7 +84,7 @@ void FalloutAudioMedia::FadeOutMedia(int fadeTime, MEDIATYPE mediaType)
 namespace fnv_anon_falloutaudiomedia {}
 using namespace fnv_anon_falloutaudiomedia;
 namespace fnv_anon_falloutaudiomedia {
-// @fnv 0x0082f7b0
+// Historical member-form copy; FUN_0082f7b0 owns the recipe binding.
 unsigned int FAMThread::ThreadProc()
 {
     state |= 2;

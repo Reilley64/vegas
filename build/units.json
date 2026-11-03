@@ -45508,7 +45508,7 @@
    "functions": [
     {
      "address": "0x009a7580",
-     "symbol": "?FUN_009a7580@@YAEPAX0IPAUNiPoint3@@IIM@Z",
+     "symbol": "?FUN_009a7580@@YAEPAX0PAUFUN_009a7f00_obj@@PAUNiPoint3@@PAEPAUS_009a7670_P3@@M@Z",
      "size": 232
     },
     {
@@ -47233,7 +47233,7 @@
    "functions": [
     {
      "address": "0x009d6030",
-     "symbol": "??0FUN_009d6030@@QAE@HM_N0@Z",
+     "symbol": "??0FUN_009d6030@@QAE@PAXM_N1@Z",
      "size": 168
     },
     {
@@ -75205,7 +75205,7 @@
     },
     {
      "address": "0x0082f7b0",
-     "symbol": "?FUN_0082f7b0@@YIIPAVFAMThread@fnv_anon_falloutaudiomedia@@@Z",
+     "symbol": "?FUN_0082f7b0@@YAIPAVFAMThread@fnv_anon_falloutaudiomedia@@@Z",
      "size": 120
     },
     {
@@ -105233,7 +105233,7 @@
     },
     {
      "address": "0x007d5280",
-     "symbol": "?FUN_007d5280@@YIPBDPAX@Z",
+     "symbol": "?FUN_007d5280@@YAPBDPAX@Z",
      "size": 22
     },
     {
@@ -105640,7 +105640,7 @@
     "?FUN_005407b0@FUN_005407b0_Class@@QAEXD@Z": "0x005407b0",
     "?SetTexture@TileImage@@QAEXPAVNiAVObject@@@Z": "0x00a20610",
     "?Set@Tile@@QAEXHI@Z": "0x00715c60",
-    "?FUN_007d5280@@YIPBDPAX@Z": "0x007d5280",
+    "?FUN_007d5280@@YAPBDPAX@Z": "0x007d5280",
     "?FUN_009c8660@NodeObj@fnv_007d51a0@@QAEHXZ": "0x009c8660",
     "??BFltOps@fnv_007d51a0@@QBEIXZ": "0x00559450",
     "?FUN_007700b0@NodeObj@fnv_007d51a0@@QAEXI@Z": "0x007700b0",
@@ -110791,7 +110791,7 @@
     },
     {
      "address": "0x00809e60",
-     "symbol": "?FUN_00809e60@This@@QAEXPAUActor@@@Z",
+     "symbol": "?FUN_00809e60@This@@QAEXPAVActor@@@Z",
      "size": 1128
     },
     {
@@ -116304,7 +116304,7 @@
    "functions": [
     {
      "address": "0x008265b0",
-     "symbol": "??0FUN_008265b0@@QAE@HHH@Z",
+     "symbol": "??0FUN_008265b0@@QAE@PAX00@Z",
      "size": 240
     },
     {
@@ -116329,7 +116329,7 @@
     },
     {
      "address": "0x008273c0",
-     "symbol": "?FUN_008273c0@@YAPAUFUN_008265b0_shell@@HHH@Z",
+     "symbol": "?FUN_008273c0@@YAPAUFUN_008265b0_shell@@PAX00@Z",
      "size": 126
     },
     {

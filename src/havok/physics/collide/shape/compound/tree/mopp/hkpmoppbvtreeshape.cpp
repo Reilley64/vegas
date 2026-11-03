@@ -18,6 +18,7 @@
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpMoppBvTreeShape.h"
+#include "havok/hkpMoppCode.h"
 
 struct FUN_00d54420_Interface
 {
@@ -48,10 +49,6 @@ void FUN_00d54420_Owner::FUN_00d54420(int a, float b, int c)
     m_pInterface->FUN_00d54420_f6(a, b, c);
 }
 
-struct hkReferencedObject
-{
-};
-
 
 struct FUN_00d54490
 {
@@ -60,15 +57,20 @@ struct FUN_00d54490
 
 struct FUN_00d544f0 : public FUN_00d54490
 {
+    int* m_vtable;
+    unsigned char m_bvTreeShapeBase[0x2c];  // filled by FUN_00d54490
+    int* m_childVtable;                     // +0x30, the hkpSingleShapeContainer child
+    hkReferencedObject* m_childShape;       // +0x34
+
     FUN_00d544f0(hkReferencedObject*, int);
 };
 
 // @fnv 0x00d544f0
 FUN_00d544f0::FUN_00d544f0(hkReferencedObject* pReferencedObject, int value) : FUN_00d54490(10, value)
 {
-    *reinterpret_cast<int**>(this) = &DAT_010d0dac;
-    *reinterpret_cast<int**>(reinterpret_cast<char*>(this) + 0x30) = &DAT_010c6fd0;
-    *reinterpret_cast<hkReferencedObject**>(reinterpret_cast<char*>(this) + 0x34) = pReferencedObject;
+    m_vtable = &DAT_010d0dac;
+    m_childVtable = &DAT_010c6fd0;
+    m_childShape = pReferencedObject;
 
     reinterpret_cast<::FUN_00c90510_class *>((pReferencedObject))->FUN_00c90510();
 }
@@ -410,27 +412,26 @@ struct S00d54490_Obj
     int unk0C;
     volatile unsigned char unk10;
     void* unk14;
-    int unk18;
+    hkUint8* unk18;
     int unk1C;
     float unk20[4];
-    S00d54490_Obj* FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2);
+    S00d54490_Obj* FUN_00d54490(int arg1, const hkpMoppCode& arg2);
 };
-// Initializes the object from a hkpMoppBvTreeShape, copying its data and calling FUN_00c90510 on the source.
+// Initializes the object from a hkpMoppCode, copying its code info and data and calling FUN_00c90510 on the source.
 // @fnv 0x00d54490
-S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppBvTreeShape& arg2)
+S00d54490_Obj* S00d54490_Obj::FUN_00d54490(int arg1, const hkpMoppCode& arg2)
 {
-    const hkpMoppBvTreeShape* src = &arg2;
+    const hkpMoppCode* src = &arg2;
     this->unk06 = 1;
     this->unk08 = 0;
     this->unk0C = arg1;
     this->unk10 = 0;
     this->unk00 = &DAT_010d0d70;
-    this->unk14 = const_cast<hkpMoppBvTreeShape*>(src);
-    reinterpret_cast<::FUN_00c90510_class *>((reinterpret_cast<S00d54490_Ref*>(const_cast<hkpMoppBvTreeShape*>(src))))->FUN_00c90510();
-    *reinterpret_cast<__m128*>(&this->unk20) =
-        *reinterpret_cast<const __m128*>(reinterpret_cast<const char*>(src) + 0x10);
-    this->unk18 = *reinterpret_cast<const int*>((void *)&src->m_kMoppCodeInfo.x);
-    this->unk1C = *reinterpret_cast<const int*>((void *)&src->m_kMoppCodeInfo.y);
+    this->unk14 = const_cast<hkpMoppCode*>(src);
+    reinterpret_cast<::FUN_00c90510_class *>(const_cast<hkpMoppCode*>(src))->FUN_00c90510();
+    *reinterpret_cast<__m128*>(&this->unk20) = *reinterpret_cast<const __m128*>(&src->m_info.m_offset);
+    this->unk18 = src->m_data.m_data;
+    this->unk1C = src->m_data.m_iElementCount;
     return this;
 }
 

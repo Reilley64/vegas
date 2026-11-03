@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/filter/pair/hkppaircollisionfilter.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -768,7 +769,7 @@ typedef signed short hkInt16;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef signed long __w64 hkLong;
+typedef intptr_t hkLong;
 typedef size_t hk_size_t;
 template <typename TYPE> __forceinline TYPE* __cdecl hkAddByteOffset(TYPE* base, hkLong offset)
 {

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/limitedhinge/hkplimitedhingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_004b4ab0_Class.h"
@@ -24,17 +25,16 @@ void FUN_00cb8a90_class::SetConstraintFlag(int aiBitIndex)
     ((char*)this)[0xd6] = (char)(1 << aiBitIndex);
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* self, int a, int b);
 
-struct FUN_00cb8af0_cls
+struct FUN_00cb8af0_cls : public hkpLimitedHingeConstraintData
 {
-    void* FUN_00cb8af0(int arg);
+    void FUN_00cb8af0(::GenericConstraintAtomScheme* arg) const;
 };
 
 // @fnv 0x00cb8af0
-void* FUN_00cb8af0_cls::FUN_00cb8af0(int arg)
+void FUN_00cb8af0_cls::FUN_00cb8af0(::GenericConstraintAtomScheme* arg) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0xcc, arg);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xcc, arg);
 }
 
 struct FUN_00cb8b10Class
@@ -329,7 +329,7 @@ struct hkVector4D4FE
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 
@@ -572,14 +572,14 @@ void hkpLimitedHingeConstraintDataEx::FUN_00cb8b60(const hkTransform& bodyATrans
 
     hkpLimitedHingeTransforms& t = *reinterpret_cast<hkpLimitedHingeTransforms*>(&m_kBridgeAtoms);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyALocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(axisN.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle1.m_vec));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle2.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn0)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(axisN.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn1)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle1.m_vec));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_rotation.m_kColumn2)))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle2.m_vec));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(static_cast<hkVector4Out&>(t.m_kBodyBLocalFrame.m_vTranslation)))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 

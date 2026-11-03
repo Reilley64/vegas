@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/wheel/hkpwheelconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d21000.h"
 
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/symbols_01267000.h"
@@ -22,15 +23,14 @@ void FUN_00d4e580(char a1, int* a2)
     }
 }
 
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
-struct FUN_00d4e560
+struct FUN_00d4e560 : public hkpWheelConstraintData
 {
-    void* PopulateInfo(int ai);
+    void PopulateInfo(::GenericConstraintAtomScheme* ai) const;
 };
 // @fnv 0x00d4e560
-void* FUN_00d4e560::PopulateInfo(int aiIndex)
+void FUN_00d4e560::PopulateInfo(::GenericConstraintAtomScheme* aiIndex) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x124, aiIndex);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x124, aiIndex);
 }
 
 // @fnv 0x00d4e5b0
@@ -143,7 +143,7 @@ static __forceinline void hkSetCross(hkVector4q& out, const hkVector4q& v0, cons
 
 static __forceinline void hkSetRotatedInverseDir(hkVector4q& out, const hkTransform& t, const hkVector4& v)
 {
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(out.m_vec)))->FUN_004b4ab0((int)&(t.m_rotation), (int)&(v));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<hkVector4Out&>(out.m_vec)))->FUN_004b4ab0(&(t.m_rotation), &(v));
 }
 
 static __forceinline void hkSetTransformedInversePos(hkVector4q& out, const hkTransform& t, const hkVector4& p)

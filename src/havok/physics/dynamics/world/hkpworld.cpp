@@ -4395,23 +4395,21 @@ public:
     virtual void V6() throw();
     virtual void V7() throw();
     virtual void V8() throw();
-    virtual void notify(int a, int b, int c, int d, int e) throw();
+    virtual void notify(const void* a, const void* b, int c, int d, int e) throw();
 };
 
-class hkpListenerListC98B {
+class hkpListenerListC98B : public hkReferencedObject {
 public:
-    int unk00;
-    int unk04;
     hkpListenerC98B** m_data;
     int m_iElementCount;
-    int unk10;
+    int m_iCapacityAndFlags;
     void* m_pWorldLock;
 
-    void FUN_00c986c0(int a, int b, int c, int d, int e);
+    void FUN_00c986c0(const void* a, const void* b, int c, int d, int e);
 };
 
 // @fnv 0x00c986c0
-void hkpListenerListC98B::FUN_00c986c0(int aiArg0, int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+void hkpListenerListC98B::FUN_00c986c0(const void* aiArg0, const void* aiArg1, int aiArg2, int aiArg3, int aiArg4)
 {
     EnterCriticalSection(m_pWorldLock);
     for (int i = 0; i < m_iElementCount; i++)
@@ -4481,7 +4479,7 @@ void FUN_00c98b60_Class::FUN_00c98b60(__m128* v, float f, int c, int d, int e)
         vecAxis.f[i] = f;
         __m128 vecSum = _mm_add_ps(*v, vecAxis.v);
         __m128 diff = _mm_sub_ps(*v, vecAxis.v);
-        reinterpret_cast<::hkpListenerListC98B *>((reinterpret_cast<FUN_00c986c0_Obj*>(this)))->FUN_00c986c0((int)(&vecSum), (int)(&diff), c, d, e);
+        reinterpret_cast<::hkpListenerListC98B *>((reinterpret_cast<FUN_00c986c0_Obj*>(this)))->FUN_00c986c0((&vecSum), (&diff), c, d, e);
     }
 }
 
@@ -13180,14 +13178,14 @@ if(showRootTranslation)
 hkVector4_S p2;
 p2.set(0,0,0,0);
 reinterpret_cast<::TransformedPosDAD *>(&(p2))->FUN_00c7f7a0((const ::hkQsTransformDAD &)(worldFromModel),(const ::hkVector4DAD &)(p2));
-reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(p2),color,id,tag);
+reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(p1), &(p2),color,id,tag);
 }
 }
 else
 {
 hkVector4_S p2;
 reinterpret_cast<::TransformedPosDAD *>(&(p2))->FUN_00c7f7a0((const ::hkQsTransformDAD &)(worldFromModel),(const ::hkVector4DAD &)(modelSpacePose[parent].getTranslation()));
-reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(p2),color,id,tag);
+reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(p1), &(p2),color,id,tag);
 hkVector4_S bone;
 bone.setSub4(p1,p2);
 boneLen=bone.length3();
@@ -13203,17 +13201,17 @@ p1=worldPosition;
 boneLocalFrame.set(boneAxisSize*boneLen,0,0,0);
 p2.SetRotatedDirection(worldRotation,boneLocalFrame);
 p2.add4(p1);
-reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(p2),0x7fff0000,id,tag);
+reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(p1), &(p2),0x7fff0000,id,tag);
 p1=worldPosition;
 boneLocalFrame.set(0,boneAxisSize*boneLen,0,0);
 p2.SetRotatedDirection(worldRotation,boneLocalFrame);
 p2.add4(p1);
-reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(p2),0x7f00ff00,id,tag);
+reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(p1), &(p2),0x7f00ff00,id,tag);
 p1=worldPosition;
 boneLocalFrame.set(0,0,boneAxisSize*boneLen,0);
 p2.SetRotatedDirection(worldRotation,boneLocalFrame);
 p2.add4(p1);
-reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(p1),(int)&(p2),0x7f0000ff,id,tag);
+reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(p1), &(p2),0x7f0000ff,id,tag);
 }
 }
 }
@@ -14256,7 +14254,7 @@ void Cls_00c98780::FUN_00c98780(const hkTransform& tr, const hkVector4& a, const
     reinterpret_cast<::TransformedPosDAD *>(&(pa))->FUN_00c7f7a0((const ::hkQsTransformDAD &)(tr), (const ::hkVector4DAD &)(a));
     Vec_00c98780 pb;
     reinterpret_cast<::TransformedPosDAD *>(&(pb))->FUN_00c7f7a0((const ::hkQsTransformDAD &)(tr), (const ::hkVector4DAD &)(b));
-    reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(pa), (int)&(pb), x, y, z);
+    reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(pa), &(pb), x, y, z);
 }
 
 
@@ -14316,7 +14314,7 @@ void Disp_00c98c80::FUN_00c98c80(const Aabb_00c98c80* box, int p2, int p3, int p
 
     for (int i = 0; i < 12; i++)
     {
-        reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)(&aabbEdges[i].a), (int)(&aabbEdges[i].b), p2, p3, p4);
+        reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((&aabbEdges[i].a), (&aabbEdges[i].b), p2, p3, p4);
     }
 }
 
@@ -16132,11 +16130,11 @@ WorldCtor* WorldCtor::FUN_00c95a80(WorldInfoCtor* info, int version) {
     in->offset=_mm_xor_ps(info->minimum,::DAT_010c44d0);
     ::hkQuadReal scalarCoeff=_mm_load_ss(&DAT_010c6840);
     ::hkQuadReal splatCoeff=_mm_shuffle_ps(scalarCoeff,scalarCoeff,0);
-    _mm_store_ps(&in->extent[0],_mm_add_ps(_mm_mul_ps(splatCoeff,extent),in->offset));
+    _mm_store_ps(reinterpret_cast<float*>(&in->extent),_mm_add_ps(_mm_mul_ps(splatCoeff,extent),in->offset));
     ::hkQuadReal zero=_mm_setzero_ps();
     in->scale=_mm_shuffle_ps(in->scale,_mm_unpackhi_ps(in->scale,zero),0xc4);
-    ::hkQuadReal voffset=_mm_load_ps(&in->offset[0]); _mm_store_ps(&in->offset[0],_mm_shuffle_ps(voffset,_mm_unpackhi_ps(voffset,zero),0xc4));
-    _mm_store_ps(&in->extent[0],_mm_shuffle_ps(in->extent,_mm_unpackhi_ps(in->extent,zero),0xc4));
+    ::hkQuadReal voffset=_mm_load_ps(reinterpret_cast<float*>(&in->offset)); _mm_store_ps(reinterpret_cast<float*>(&in->offset),_mm_shuffle_ps(voffset,_mm_unpackhi_ps(voffset,zero),0xc4));
+    _mm_store_ps(reinterpret_cast<float*>(&in->extent),_mm_shuffle_ps(in->extent,_mm_unpackhi_ps(in->extent,zero),0xc4));
     broadphase->vtable->vf70(broadphase,&in->offset,&in->extent,&in->scale);
     WorldCtorFactorySetup::RegisterContactMgrFactories((::CFB240Dispatcher*)dispatcher,this);
     if(DAT_012681dc) info->simulationType=3;
@@ -16282,11 +16280,11 @@ __forceinline void drawDebugArrow(::FUN_00c986c0_Obj* drawer, ArrowVectorView* a
     o3.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue3), cross.q));
     float scaleValue4 = ::DAT_010c69c0;
     o4.q = _mm_add_ps(base, _mm_mul_ps(arrowSplat(scaleValue4), cross.q));
-    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&a->q), (int)(&sum.q), a3, a4, a5);
-    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o1.q), a3, a4, a5);
-    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o2.q), a3, a4, a5);
-    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o3.q), a3, a4, a5);
-    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((int)(&sum.q), (int)(&o4.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&a->q), (&sum.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o1.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o2.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o3.q), a3, a4, a5);
+    reinterpret_cast<::hkpListenerListC98B *>((drawer))->FUN_00c986c0((&sum.q), (&o4.q), a3, a4, a5);
 }
 struct DebugArrowEntry : ::hkDebugDisplay {
     void FUN_00c98880(const ::hkVector4_S&, const ::hkVector4_S&, int, int, int);
@@ -16336,7 +16334,7 @@ void PlaneDraw::FUN_00c98e60(const V4& plane, const V4& offset, float scale, int
         if ((n%4)/2) c.minus(base,side); else c.plus(side,base);
         int n1=n+1;
         if ((n1%4)/2) c.minus(c,basis); else c.plus(c,basis);
-        reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0((int)&(a), (int)&(c), color, id, tag);
+        reinterpret_cast<::hkpListenerListC98B *>(this)->FUN_00c986c0(&(a), &(c), color, id, tag);
         n = n1;
         --left;
     } while (left != 0);

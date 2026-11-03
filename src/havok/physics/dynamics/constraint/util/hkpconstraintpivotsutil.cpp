@@ -28,7 +28,7 @@ struct hkVector4q
     }
     float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 

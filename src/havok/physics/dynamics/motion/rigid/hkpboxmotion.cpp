@@ -290,11 +290,11 @@ struct V4
     }
     float& operator()(int i)
     {
-        return q[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q[i];
+        return reinterpret_cast<const float*>(&q)[i];
     }
 };
 struct Mat3
@@ -302,7 +302,7 @@ struct Mat3
     V4 c0, c1, c2;
     float& operator()(int r, int c)
     {
-        return (&c0)[c].q[r];
+        return reinterpret_cast<float*>(&(&c0)[c].q)[r];
     }
     void setZero()
     {

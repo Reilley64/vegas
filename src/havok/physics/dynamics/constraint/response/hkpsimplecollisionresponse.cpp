@@ -70,11 +70,11 @@ struct __declspec(align(16)) D9Vector
     }
     __forceinline float& component(int i)
     {
-        return unk00[i];
+        return reinterpret_cast<float*>(&unk00)[i];
     }
     __forceinline const float& component(int i) const
     {
-        return unk00[i];
+        return reinterpret_cast<const float*>(&unk00)[i];
     }
     __forceinline void subtract(const D9Vector& a, const D9Vector& b)
     {

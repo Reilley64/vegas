@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "havok/hkpBallAndSocketConstraintDataAtoms.h"
+#include "havok/hkpConstraintData.h"
 #include "fnv/symbols_0104e000.h"
 struct FUN_00d541f0_class
 {
@@ -14,15 +17,16 @@ void FUN_00d541f0_class::FUN_00d541f0(int aiBitIndex)
     *(reinterpret_cast<char*>(this) + 0x42) = 1 << aiBitIndex;
 }
 
-extern void* __cdecl FUN_00d21a60(void* a, int b, int c);
-struct hkpBallAndSocketConstraintData
+struct hkpBallAndSocketConstraintData : public hkpConstraintData
 {
-    void* FUN_00d54210(int a);
+    char padC[0x4];
+    hkpBallAndSocketConstraintDataAtoms m_kBridgeAtoms;  // +0x10
+    void FUN_00d54210(::GenericConstraintAtomScheme* a) const;
 };
 // @fnv 0x00d54210
-void* hkpBallAndSocketConstraintData::FUN_00d54210(int a)
+void hkpBallAndSocketConstraintData::FUN_00d54210(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((void*)((char*)this + 0x10), 0x38, a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x38, a);
 }
 
 struct FUN_00d54230_class

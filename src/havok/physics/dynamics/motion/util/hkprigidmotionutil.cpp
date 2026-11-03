@@ -7,6 +7,7 @@
 
 // src/havok/physics/dynamics/motion/util/hkprigidmotionutil.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/motion/util/hkprigidmotionutil.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
 #include <xmmintrin.h>
 #include "fnv/decl/CD4BA0Matrix3.h"
@@ -299,7 +300,7 @@ typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef short hkInt16;
 typedef unsigned int hkUint32;
-typedef long hkLong;
+typedef intptr_t hkLong;
 
 // zeroElement, the identity transform.
 extern const double DAT_010ce4a8;
@@ -1449,7 +1450,7 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
             applyGravity(motion, gravity, gravityFactor);
             applyDamping(motion, step);
             FUN_004b4ab0_Class localAngular;
-            reinterpret_cast<::FUN_004b4ab0_Class *>(&(localAngular))->FUN_004b4ab0((int)(&motion->state), (int)((const Vec4f*)&motion->angularVelocity));
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(localAngular))->FUN_004b4ab0((&motion->state), ((const Vec4f*)&motion->angularVelocity));
             __m128 inertia = motion->inverseInertia.quad;
             __m128 reciprocal = _mm_rcp_ps(inertia);
             reciprocal =
@@ -1459,7 +1460,7 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
             momentum.FUN_00c7f700(&motion->state, &localAngular);
             integrateMotion(motion, step);
             FUN_004b4ab0_Class transformed;
-            reinterpret_cast<::FUN_004b4ab0_Class *>(&(transformed))->FUN_004b4ab0((int)(&motion->state), (int)(&momentum));
+            reinterpret_cast<::FUN_004b4ab0_Class *>(&(transformed))->FUN_004b4ab0((&motion->state), (&momentum));
             transformed.q() = _mm_mul_ps(transformed.q(), motion->inverseInertia.quad);
             ((RotationVector*)&motion->angularVelocity)->FUN_00c7f700(&motion->state, &transformed);
             clampVelocities(motion);

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/prismatic/hkpprismaticconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
 #include "fnv/decl/FUN_00c7f690_cls.h"
@@ -11,17 +12,16 @@
 #include "fnv/symbols_0102e000.h"
 #include "havok/hkpPrismaticConstraintData.h"
 
-extern "C" void* __cdecl FUN_00d21a60(void* self, int a, void* b);
 
-struct FUN_00d4f880_class
+struct FUN_00d4f880_class : public hkpPrismaticConstraintData
 {
-    void* FUN_00d4f880(int a);
+    void FUN_00d4f880(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d4f880
-void* FUN_00d4f880_class::FUN_00d4f880(int a)
+void FUN_00d4f880_class::FUN_00d4f880(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0xc0, (void*)a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0xc0, a);
 }
 
 // @fnv 0x00d4f8a0

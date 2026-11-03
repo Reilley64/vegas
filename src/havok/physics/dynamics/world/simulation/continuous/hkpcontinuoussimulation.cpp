@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/continuous/hkpcontinuoussimulation.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
@@ -6851,7 +6852,7 @@ typedef unsigned char hkUchar;
 typedef unsigned char hkUint8;
 typedef unsigned short hkUint16;
 typedef unsigned int hkUint32;
-typedef unsigned long __w64 hkUlong;
+typedef uintptr_t hkUlong;
 enum hkResult
 {
 HK_SUCCESS=0,

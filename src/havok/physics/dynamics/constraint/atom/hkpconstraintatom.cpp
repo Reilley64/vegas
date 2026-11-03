@@ -131,11 +131,11 @@ struct hkVector4q
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     __forceinline const float& operator()(int i) const
     {
-        return m_vComponents[i];
+        return reinterpret_cast<const float*>(&m_vComponents)[i];
     }
 };
 

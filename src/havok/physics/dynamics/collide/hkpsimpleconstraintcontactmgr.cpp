@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/collide/hkpsimpleconstraintcontactmgr.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include <cstdint>
 
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -1098,7 +1099,7 @@ FUN_00cfda50::~FUN_00cfda50() throw()
 
 
 typedef unsigned short hkContactPointId;
-typedef unsigned long hkUlong;
+typedef uintptr_t hkUlong;
 
 struct hkVec4
 {

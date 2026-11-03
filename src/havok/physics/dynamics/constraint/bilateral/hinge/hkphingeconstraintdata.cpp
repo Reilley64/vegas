@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/hinge/hkphingeconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpHingeConstraintData.h"
@@ -17,17 +18,16 @@ void FUN_00cbe1b0_class::FUN_00cbe1b0(int index)
     reinterpret_cast<unsigned char*>(this)[0xa6] = (unsigned char)(1 << index);
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void* thisPtr, int size, int param);
 
-struct hkpHingeConstraintData_ : public hkpConstraintData
+struct hkpHingeConstraintData_ : public hkpHingeConstraintData
 {
-    void* FUN_00cbe210(int param);
+    void FUN_00cbe210(::GenericConstraintAtomScheme* param) const;
 };
 
 // @fnv 0x00cbe210
-void* hkpHingeConstraintData_::FUN_00cbe210(int param)
+void hkpHingeConstraintData_::FUN_00cbe210(::GenericConstraintAtomScheme* param) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x9c, param);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x9c, param);
 }
 
 // Writes 5 and 0x28 into target[1] and target[0] when param is nonzero, otherwise writes zeros.
@@ -320,14 +320,14 @@ void hkpHingeConstraintDataEx::SetLocalTransforms(const hkTransform& bodyATransf
     hkNormalize3(perpToAxle1);
     hkSetCross(perpToAxle2, axle, perpToAxle1);
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(axle));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle1));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0((int)&(bodyATransform.m_rotation), (int)&(perpToAxle2));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[0]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[1]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationA[2]))->FUN_004b4ab0(&(bodyATransform.m_rotation), &(perpToAxle2));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationA))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyATransform), (const ::S_00c7f690_V *)&(pivot));
 
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(axle));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle1));
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0((int)&(bodyBTransform.m_rotation), (int)&(perpToAxle2));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[0]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(axle));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[1]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle1));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(t.m_kRotationB[2]))->FUN_004b4ab0(&(bodyBTransform.m_rotation), &(perpToAxle2));
     reinterpret_cast<::FUN_00c7f690_cls *>(&(t.m_kTranslationB))->FUN_00c7f690((const ::S_00c7f690_M *)&(bodyBTransform), (const ::S_00c7f690_V *)&(pivot));
 }
 }  // namespace fnv_00cbe240

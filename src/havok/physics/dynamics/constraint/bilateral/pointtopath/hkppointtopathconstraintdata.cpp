@@ -72,7 +72,7 @@ int __cdecl FUN_00dee740()
 
 struct FUN_00c7f640_Class
 {
-    void FUN_00c7f640(unsigned int arg, void* position);
+    void FUN_00c7f640(const void* arg, void* position);
 };
 class FUN_00dee820_Class
 {
@@ -102,10 +102,10 @@ class FUN_00dee820_Class
     unsigned int unk58;
     unsigned int unk5c;
     unsigned int m_60;
-    void FUN_00dee820(unsigned int a, FUN_00c7f640_Class* owner);
+    void FUN_00dee820(const void* a, FUN_00c7f640_Class* owner);
 };
 // @fnv 0x00dee820
-void FUN_00dee820_Class::FUN_00dee820(unsigned int uiValue, FUN_00c7f640_Class* owner)
+void FUN_00dee820_Class::FUN_00dee820(const void* uiValue, FUN_00c7f640_Class* owner)
 {
     owner->FUN_00c7f640(uiValue, &m_60);
 }

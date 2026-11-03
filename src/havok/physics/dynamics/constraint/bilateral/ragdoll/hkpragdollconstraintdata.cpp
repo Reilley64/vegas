@@ -1,6 +1,7 @@
 
 // src/havok/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ragdoll/hkpragdollconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00d21000.h"
 
 #include "fnv/symbols_00c85000.h"
 
@@ -39,15 +40,14 @@ void FUN_00cde960_cls::FUN_00cde960(float a)
     *(float*)((char*)this + 0x13c) = a;
 }
 
-void* __cdecl FUN_00d21a60(void* a, int b, int c);
-struct FUN_00cde9b0_cls
+struct FUN_00cde9b0_cls : public hkpRagdollConstraintData
 {
-    char* FUN_00cde9b0(int a);
+    void FUN_00cde9b0(::GenericConstraintAtomScheme* a) const;
 };
 // @fnv 0x00cde9b0
-char* FUN_00cde9b0_cls::FUN_00cde9b0(int aiIndex)
+void FUN_00cde9b0_cls::FUN_00cde9b0(::GenericConstraintAtomScheme* aiIndex) const
 {
-    return (char*)FUN_00d21a60((char*)this + 0x10, 0x130, aiIndex);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x130, aiIndex);
 }
 
 extern int DAT_010cb71c;
@@ -327,7 +327,7 @@ struct hkVector4B90
     }
     __forceinline float& operator()(int i)
     {
-        return m_vComponents[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
 };
 

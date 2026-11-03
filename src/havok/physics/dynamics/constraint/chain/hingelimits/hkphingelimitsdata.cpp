@@ -5,14 +5,14 @@
 #include "fnv/symbols_00d21000.h"
 #include "havok/hkpHingeLimitsData.h"
 
-struct hkPhingeLimitsData
+struct hkPhingeLimitsData : public hkpHingeLimitsData
 {
-    void FUN_00d52f10(int arg);
+    void FUN_00d52f10(::GenericConstraintAtomScheme* arg) const;
 };
 // @fnv 0x00d52f10
-void hkPhingeLimitsData::FUN_00d52f10(int arg)
+void hkPhingeLimitsData::FUN_00d52f10(::GenericConstraintAtomScheme* arg) const
 {
-    ::FUN_00d21a60((const ::hkpConstraintAtom *)(void *)((char*)this + 0x10), 0x84, (::GenericConstraintAtomScheme *)(arg));
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x84, arg);
 }
 
 struct hkHingeLimitsData

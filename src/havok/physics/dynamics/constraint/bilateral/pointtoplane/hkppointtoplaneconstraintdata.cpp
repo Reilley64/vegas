@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/constraint/bilateral/pointtoplane/hkppointtoplaneconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/pointtoplane/hkppointtoplaneconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
 #include "fnv/decl/FUN_004b4ab0_Class.h"
 #include "fnv/decl/FUN_00c7f690_cls.h"
 #include "havok/hkpPointToPlaneConstraintData.h"
@@ -22,17 +23,16 @@ void FUN_00d84780(unsigned char a, int* pData)
     }
 }
 
-extern "C" void* __cdecl FUN_00d21a60(void*, int, int);
 
-struct FUN_00d84760
+struct FUN_00d84760 : public hkpPointToPlaneConstraintData
 {
-    void* PopulateInfo(int a);
+    void PopulateInfo(::GenericConstraintAtomScheme* a) const;
 };
 
 // @fnv 0x00d84760
-void* FUN_00d84760::PopulateInfo(int a)
+void FUN_00d84760::PopulateInfo(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((char*)this + 0x10, 0x94, a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x94, a);
 }
 
 // @fnv 0x00d847b0
@@ -73,11 +73,11 @@ struct Vec_d849a0
     __m128 q;
     float& operator()(int i)
     {
-        return q[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q[i];
+        return reinterpret_cast<const float*>(&q)[i];
     }
     void setZero4()
     {
@@ -196,7 +196,7 @@ void PointToPlane_d847c0::SetFromTransforms(const Trans_d847c0& bodyA, const Tra
 
     Rot_d849a0& rot = m_60;
     int n = m_a2;
-    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<Out_d847c0&>(rot.getColumn(n))))->FUN_004b4ab0((int)&(bodyB.m_rotation), (int)&(normal));
+    reinterpret_cast<::FUN_004b4ab0_Class *>(&(static_cast<Out_d847c0&>(rot.getColumn(n))))->FUN_004b4ab0(&(bodyB.m_rotation), &(normal));
     int i1 = (n + 1) % 3;
 
     Perp_d849a0(rot.getColumn(n), rot.getColumn(i1));
@@ -213,11 +213,11 @@ struct Vec_d849a0
     __m128 q;
     float& operator()(int i)
     {
-        return q[i];
+        return reinterpret_cast<float*>(&q)[i];
     }
     const float& operator()(int i) const
     {
-        return q[i];
+        return reinterpret_cast<const float*>(&q)[i];
     }
     void setZero4()
     {

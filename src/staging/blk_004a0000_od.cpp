@@ -565,12 +565,12 @@ int __cdecl FUN_004b4a10(unsigned short a1, int a2, int a3, int a4)
 
 struct FUN_004b4ab0_Class
 {
-    void FUN_004b4ab0(int a, int b);
+    void FUN_004b4ab0(const void* a, const void* b);
     void FUN_004b4ad0(int a, int b);
 };
 
 // @fnv 0x004b4ab0
-void FUN_004b4ab0_Class::FUN_004b4ab0(int a, int b)
+void FUN_004b4ab0_Class::FUN_004b4ab0(const void* a, const void* b)
 {
     FUN_004b4ad0(a, b);
 }

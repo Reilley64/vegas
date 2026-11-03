@@ -2,6 +2,7 @@
 
 #include "fallout/interface/tile_fields.h"
 #include "fnv/simple_list_node_view.h"
+#include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -2051,8 +2052,8 @@ void FUN_007181d0_shell::SetRenderedMenu(FORenderedMenu* apRenderedMenu)
             apRenderedMenu->v9();
         apRenderedMenu->v12();
         *(char*)((char*)this + 0x168) = 1;
-        if (((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)apRenderedMenu)))->FUN_009611e0())))
-            reinterpret_cast<::Tile *>((((TileHelper*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)apRenderedMenu)))->FUN_009611e0())))))->Set(0xfa3, 0);
+        if (reinterpret_cast<::RenderedMenuFields *>(apRenderedMenu)->m_pFourthMenuObject)
+            reinterpret_cast<::RenderedMenuFields *>(apRenderedMenu)->m_pFourthMenuObject->Set(0xfa3, 0);
     }
     else
     {
@@ -2851,8 +2852,8 @@ void FUN_0070c4a0_shell::UpdateInterface()
         ((IMX*)this)->FUN_007118d0();
         if (!((IMX*)this)->bed)
         {
-            if (!((::fnv_0070c4a0::TileH *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMX*)this))))) || !reinterpret_cast<::sa040a0::Owner *>((((::fnv_0070c4a0::TileH *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMX*)this)))))))->IsAllChildrenFlag0() ||
-                !reinterpret_cast<::FUN_00a01230_shell *>((((::fnv_0070c4a0::TileH *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMX*)this)))))))->IsTraitNonZero(0xfaf))
+            if (!((IMX*)this)->tbc || !reinterpret_cast<::sa040a0::Owner *>((((IMX*)this)->tbc))->IsAllChildrenFlag0() ||
+                !reinterpret_cast<::FUN_00a01230_shell *>((((IMX*)this)->tbc))->IsTraitNonZero(0xfaf))
             {
                 ((IMX*)this)->UpdateFocusTarget();
             }
@@ -6468,6 +6469,8 @@ struct MenuMgr
 };
 struct IMGamepad
 {
+    char pad[0xbc];
+    Tile* tbc;
     int GetGamepadInput(bool repeatsV, bool repeatsH, bool* isUpEvent);
     Tile* FindFocusTile(int* maxFocus, int unk);
     void SetActiveTile(Tile* tile, int type, int unk);
@@ -6504,7 +6507,7 @@ void FUN_0070f6e0_shell::HandleGamepadButton(int aiButton)
         bool brepeats_v;
         brepeats_v = false;
         brepeats_h = false;
-        ptarget = ((::Tile *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMGamepad*)this)))));
+        ptarget = ((IMGamepad*)this)->tbc;
         if (ptarget && ((::fnv_0070f6e0::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileCalls*)ptarget)))->FUN_00a03c90())) && reinterpret_cast<::ActorMover *>((((::fnv_0070f6e0::Menu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((TileCalls*)ptarget)))->FUN_00a03c90()))))->GetCurrentMoveModeType() != 1)
             return;
         if (ptarget)
@@ -6549,7 +6552,7 @@ void FUN_0070f6e0_shell::HandleGamepadButton(int aiButton)
                 iid = 0xfd9;
             else if (aiButton == 3)
                 iid = 0xfda;
-            ptarget = ((::Tile *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMGamepad*)this)))));
+            ptarget = ((IMGamepad*)this)->tbc;
             if (!ptarget)
             {
                 int imax_focus = 0x80000000;
@@ -6647,7 +6650,7 @@ void FUN_0070f6e0_shell::HandleGamepadButton(int aiButton)
                 iid = 0xfe3;
             else if (aiButton == 5)
                 iid = 0xfe7;
-            ptarget = ((::Tile *)(::GetFieldBC((::FUN_0097ae90_Class *)(((IMGamepad*)this)))));
+            ptarget = ((IMGamepad*)this)->tbc;
             if (!ptarget)
                 ptarget = *(Tile**)&this->unkcc;
             if (!ptarget)
@@ -7384,9 +7387,6 @@ void UnpackBytes(unsigned int auiPacked, unsigned int* puiByte3, unsigned int* p
 }
 
 namespace fnv_0071d380 {
-struct ArrSI
-{
-};
 struct GlobalObject2_0040c150
 {
 };
@@ -7395,24 +7395,35 @@ struct GlobalObject_0045cfe0
 };
 extern GlobalObject_0045cfe0 g_011d8cfc;
 
+// The leading fields of ConsoleManager (src/fallout/interface/menuconsole.h).
 struct FUN_0071d380_t
 {
+    void* m_pScriptCompiler;
+    void* m_pkOutputLinesHead;
+    void* m_pkOutputLinesTail;
+    unsigned int m_uiOutputLineCount;
+    void* m_pkCommandHistoryHead;
+    void* m_pkCommandHistoryTail;
+    unsigned int m_uiCommandHistoryCount;
+    int m_iCommandHistoryPosition;
+    int m_iScrollPosition;
+    int m_iOutputLineCount;
     void ClampIndexByDelta(int aiDelta);
 };
 
-// Adds aiDelta to the value at offset 0x24, clamps it to the array's flags and to the global int, then stores it back.
+// Adds aiDelta to m_iOutputLineCount, clamps it to the number of output lines and to the global int, then stores it back.
 // @fnv 0x0071d380
 void FUN_0071d380_t::ClampIndexByDelta(int aiDelta)
 {
-    int iIndex = *(int*)((char*)this + 0x24) + aiDelta;
-    if (iIndex > (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
-        iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName()));
+    int iIndex = m_iOutputLineCount + aiDelta;
+    if (iIndex > (int)m_uiOutputLineCount)
+        iIndex = m_uiOutputLineCount;
     int iTop = iIndex - *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
     if (iTop <= 0)
         iIndex = *((int *)&(::FUN_0043d4d0((int *)(((GlobalObject2_0040c150*)&g_011d8cfc)))));
-    if (iIndex > (int)((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())))
-        iIndex = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName()));
-    *(int*)((char*)this + 0x24) = iIndex;
+    if (iIndex > (int)m_uiOutputLineCount)
+        iIndex = m_uiOutputLineCount;
+    m_iOutputLineCount = iIndex;
 }
 }  // namespace fnv_0071d380
 
@@ -12265,6 +12276,10 @@ struct RT
 
 struct ScreenObj
 {
+    void* vtable;
+    unsigned int m_uiRefCount;
+    unsigned int m_uiWidth;
+    unsigned int m_uiHeight;
 };
 
 struct Renderer
@@ -12344,10 +12359,15 @@ struct Renderer
 
 
 
+    char pad[0x284];
+    struct Dev* m_pkD3DDevice9;
 };
 
 struct Obj10
 {
+    void* vtable;
+    bool m_bUseVirtualAppend;
+    void* m_pkVisibleSet;
 };
 
 struct Obj6629
@@ -12356,6 +12376,8 @@ struct Obj6629
 
 struct Obj7fa
 {
+    char pad[0xb4];
+    struct Obj10* unkB4;
     Obj6629* FUN_006629f0();
 };
 
@@ -12379,7 +12401,7 @@ struct ObjE4
 
     int u0c0, u0c4;
 
-    ObjE4(unsigned int v);
+    ObjE4(void* v);
 
     ~ObjE4();
 };
@@ -12515,9 +12537,9 @@ void MenuMgr::RenderMenu(int a, int b)
         if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9426)))
         {
 
-            unsigned int uiWidth = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->GetScreen()))->GetName()));
+            unsigned int uiWidth = ((unsigned int)((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->GetScreen())->m_uiWidth));
 
-            unsigned int uiHeighth = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->GetScreen()))->FUN_0084e3a0()));
+            unsigned int uiHeighth = ((unsigned int)((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->GetScreen())->m_uiHeight));
 
             D3DVP kViewportb;
 
@@ -12533,7 +12555,7 @@ void MenuMgr::RenderMenu(int a, int b)
 
             kViewportb.Height = (unsigned int)((::DAT_011ad848 - ::DAT_011ad84c) * uiHeighth);
 
-            ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetViewport(&kViewportb);
+            ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetViewport(&kViewportb);
         }
 
         ::FUN_00b6b890(7, 0);
@@ -12595,9 +12617,9 @@ void MenuMgr::RenderMenu(int a, int b)
         return;
     }
 
-    Obj10* pTilea_ = ((::fnv_00713fb0::Obj10 *)(reinterpret_cast<::MiddleLowProcess *>((pMenuh8))->GetProcessInteger()));
+    Obj10* pTilea_ = pMenuh8->unkB4;
 
-    ObjE4 kE4g(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pTilea_))->GetName())));
+    ObjE4 kE4g(pTilea_->m_pkVisibleSet);
 
     ObjF0 kF0f6(((void *)(reinterpret_cast<::TESRegionDataMap *>((pkRenderer))->GetRegionMapName())));
 
@@ -12646,23 +12668,23 @@ void MenuMgr::RenderMenu(int a, int b)
 
         kVPl.Height = pRTh->GetHeight(0);
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetViewport(&kVPl);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetViewport(&kVPl);
 
         int iShadero = 0;
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->GetPixelShader(&iShadero);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->GetPixelShader(&iShadero);
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetRenderState(0x1b, 0);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetRenderState(0x1b, 0);
 
         ((::fnv_00713fb0::Shadow *)(reinterpret_cast<::FUN_004ecaf0_shell *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->GetField8B8()))->s08c(0, 0);
 
         ((::fnv_00713fb0::Shadow *)(reinterpret_cast<::FUN_004ecaf0_shell *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->GetField8B8()))->s07c(0, 0);
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetFVF(0);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetFVF(0);
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetVertexShader(0);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetVertexShader(0);
 
-        ((::fnv_00713fb0::Dev *)(reinterpret_cast<::FUN_004dc020_Class *>((((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))))->FUN_004dc020()))->SetPixelShader(iShadero);
+        ((::fnv_00713fb0::Dev *)(((::fnv_00713fb0::Renderer *)(::FUN_0043c4b0()))->m_pkD3DDevice9))->SetPixelShader(iShadero);
 
         ::FUN_00714a40(0);
 

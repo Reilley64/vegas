@@ -223,17 +223,17 @@ void FUN_008456c0(void* self)
 
 
 // @fnv 0x00847d70
-void FUN_00847d70(int a)
+void FUN_00847d70(void* a)
 {
-    ::ScanRefsInRange((void *)(a), 0, 12);
+    ::ScanRefsInRange(a, 0, 12);
 }
 
 namespace fnv_00847d90 {
 
 // @fnv 0x00847d90
-void __cdecl FUN_00847d90(int a)
+void __cdecl FUN_00847d90(void* a)
 {
-    ::ScanRefsInRange((void *)(a), 0x3e8, 0x3e9);
+    ::ScanRefsInRange(a, 0x3e8, 0x3e9);
 }
 }  // namespace fnv_00847d90
 
@@ -316,8 +316,8 @@ void FUN_0084b490_class::FUN_0084b490(unsigned int a, unsigned int b)
 extern int DAT_0107f474;
 struct FUN_0084b4b0_class
 {
-    int vtbl;
-    int* InitializeVtbl(int a);
+    const void* vtbl;
+    void* InitializeVtbl(int a);
 };
 
 struct AX
@@ -420,9 +420,9 @@ void* FUN_0084d240_class::FUN_0084d240(int a)
 }
 
 // @fnv 0x0084da90
-int GetCombinedValue(int this_)
+char* GetCombinedValue(std::intptr_t this_)
 {
-    return *(int*)(this_ + 4) + *(int*)(this_ + 0xc);
+    return *(char**)(this_ + 4) + *(int*)(this_ + 0xc);
 }
 
 struct TaskQueueInterface
@@ -432,11 +432,11 @@ struct TaskQueueInterface
 
 struct WeaponQueue
 {
-    void QueueWeapon(unsigned int);
+    void QueueWeapon(std::uintptr_t);
 };
 
 // @fnv 0x0084dd70
-void WeaponQueue::QueueWeapon(unsigned int param_2)
+void WeaponQueue::QueueWeapon(std::uintptr_t param_2)
 {
     TaskQueueInterface::CopyStringToBuffer((char*)this + 0x3c, 0x40, (const char*)param_2);
 }
@@ -594,7 +594,7 @@ extern int DAT_01080028;
 
 struct FUN_00852fa0_class
 {
-    int FUN_00852fa0(int arg);
+    void* FUN_00852fa0(int arg);
 };
 
 extern int DAT_01080048;
@@ -602,13 +602,16 @@ extern int DAT_01080048;
 struct FUN_00852fd0_cls
 {
     void* m_p;
-    void* InitializeBuffer(void* arg);
-    void* FUN_00852fd0(void* arg);
+    int m_iCount;
+    void* m_pBuffer;
+    int m_0c;
+    void* InitializeBuffer(unsigned int arg);
+    void* FUN_00852fd0(unsigned int arg);
 };
 
 // Calls InitializeBuffer with arg, stores the address of DAT_01080048 in m_p, and returns this.
 // @fnv 0x00852fd0
-void* FUN_00852fd0_cls::FUN_00852fd0(void* arg)
+void* FUN_00852fd0_cls::FUN_00852fd0(unsigned int arg)
 {
     this->InitializeBuffer(arg);
     m_p = &DAT_01080048;
@@ -664,7 +667,7 @@ FUN_00854af0::FUN_00854af0()
 extern int DAT_01080434;
 struct FUN_00854c80_class
 {
-    int m_vf_00;
+    const void* m_vf_00;
     int* FUN_00854c80(int a);
 };
 
@@ -804,13 +807,13 @@ char FUN_0085feb0_class::GetByteAt158()
     return *(char*)((char*)this + 0x158);
 }
 
-extern "C" void* __cdecl _NiFreeAlias(void*);
+extern "C" void __cdecl _NiFreeAlias(void*);
 
 struct FUN_00844660_Class
 {
     void* m_vtbl;
     int m_auiShapeKeys;
-    int m_data;
+    void* m_data;
     void FUN_00844660();
 };
 
@@ -820,7 +823,7 @@ void FUN_00844660_Class::FUN_00844660()
 {
     m_vtbl = fnv_vftable_DAT_0107ec88;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
-    ::FUN_00aa10f0((void*)m_data);
+    ::FUN_00aa10f0(m_data);
 }
 
 namespace fnv_00844840 {
@@ -872,7 +875,7 @@ struct FUN_00844a40
 {
     void* vtbl;
     int a;
-    int b;
+    void* b;
     void RemoveAll();
 };
 
@@ -881,7 +884,7 @@ void FUN_00844a40::RemoveAll()
 {
     *reinterpret_cast<int**>(this) = &DAT_0107ece8;
     reinterpret_cast<::FUN_00438af0_Class *>((reinterpret_cast<NiTPointerMap<int, int>*>(this)))->FUN_00438af0();
-    ::FUN_00aa10f0(reinterpret_cast<void**>(this)[2]);
+    ::FUN_00aa10f0(b);
 }
 
 namespace fnv_0084b720 {
@@ -1004,7 +1007,6 @@ FUN_00844690_class* FUN_00844690_class::FUN_00844690(int aiCount)
 }
 
 namespace fnv_00844870 {
-extern "C" void* __cdecl memset(void*, int, unsigned int);
 
 struct FUN_00844870_Cls
 {
@@ -1218,10 +1220,10 @@ struct FUN_0084b650_t
 };
 // Calls FUN_0084b650 with a, sets vtbl to the address of DAT_0107f474, and returns &vtbl.
 // @fnv 0x0084b4b0
-int* FUN_0084b4b0_class::InitializeVtbl(int a)
+void* FUN_0084b4b0_class::InitializeVtbl(int a)
 {
     reinterpret_cast<::FUN_0084b650_t *>(this)->FUN_0084b650(a);
-    vtbl = (int)&DAT_0107f474;
+    vtbl = &DAT_0107f474;
     return &vtbl;
 }
 // Sets the vtable, stores the element count, allocates count*4 bytes, zeroes them, and returns this.
@@ -1296,7 +1298,6 @@ struct FUN_0084d270_class
 };
 
 namespace fnv_0084d2a0 {
-extern "C" void* __cdecl memset(void* dst, int c, unsigned int n);
 struct FUN_0084d2a0_t
 {
     int* vtbl;
@@ -1348,7 +1349,7 @@ void FUN_0084e340_Class::FUN_0084e340(const char* p)
     m_iWordAt04 = (short)p[2];
     m_8 = (short)p[3];
     m_iThirdValue = *(int*)(p + 4);
-    m_iWordAt00 = ((FUN_00846d20_shell*)((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((g_BGSSaveLoadGame))->FUN_0084e3a0())))->FUN_00846d20(*(unsigned short*)p);
+    m_iWordAt00 = ((FUN_00846d20_shell*)(reinterpret_cast<::FUN_0084e3a0_Class *>((g_BGSSaveLoadGame))->FUN_0084e3a0()))->FUN_00846d20(*(unsigned short*)p);
 }
 
 struct FUN_0084e420_class
@@ -1435,7 +1436,6 @@ struct FUN_008532e0_class
     void FUN_008532e0();
     void* FUN_00853060(unsigned int flags);
 };
-void FUN_008533e0();
 struct FUN_00853090_class
 {
     void FUN_008533e0();
@@ -1451,11 +1451,11 @@ struct FUN_008530c0_obj
 };
 // Calls FUN_008530c0 with arg, stores the address of DAT_01080028 into this, and returns this.
 // @fnv 0x00852fa0
-int FUN_00852fa0_class::FUN_00852fa0(int arg)
+void* FUN_00852fa0_class::FUN_00852fa0(int arg)
 {
     reinterpret_cast<::FUN_008530c0_obj *>(this)->FUN_008530c0(arg);
-    *(int*)this = (int)&DAT_01080028;
-    return (int)this;
+    *(const void**)this = &DAT_01080028;
+    return this;
 }
 // @fnv 0x008530c0
 FUN_008530c0_obj* FUN_008530c0_obj::FUN_008530c0(unsigned int auiSize)
@@ -1528,8 +1528,8 @@ struct FUN_00854b80_class
 // @fnv 0x00854b80
 void FUN_00854b80_class::FUN_00854b80(const char* pcString)
 {
-    if (*(int*)((char*)this + 0x18))
-        reinterpret_cast<::FUN_00473180_shell *>((((BSFile*)*(int*)((char*)this + 0x18))))->FUN_00473180((void *)(pcString), ((int)(::FUN_0044a670(pcString))));
+    if (*(BSFile**)((char*)this + 0x18))
+        reinterpret_cast<::FUN_00473180_shell *>((*(BSFile**)((char*)this + 0x18)))->FUN_00473180((void *)(pcString), ((int)(::FUN_0044a670(pcString))));
 }
 
 void FUN_00854d50(void* self);
@@ -1551,7 +1551,7 @@ struct FUN_00854ce0_class
 int* FUN_00854c80_class::FUN_00854c80(int a)
 {
     reinterpret_cast<::FUN_00854ce0_class *>(this)->FUN_00854ce0(a);
-    m_vf_00 = (int)&DAT_01080434;
+    m_vf_00 = &DAT_01080434;
     return (int*)this;
 }
 // Sets the vtable, stores the element count, allocates count*4 bytes, zeroes them, and returns this.
@@ -1641,11 +1641,11 @@ struct FUN_0084e460_t
     Vec3 f;
     Vec3 g;
     unsigned char flag;
-    void FUN_0084e460(unsigned int arg);
+    void FUN_0084e460(const char* arg);
 };
 // Reads a value from arg via FUN_00853500, zeroes b-e, copies two Vec3s from arg+3 and arg+15, and clears flag.
 // @fnv 0x0084e460
-void FUN_0084e460_t::FUN_0084e460(unsigned int auiData)
+void FUN_0084e460_t::FUN_0084e460(const char* auiData)
 {
     a = reinterpret_cast<::FUN_00853500_shell *>(((void*)auiData))->FUN_00853500();
     b = 0;
@@ -1709,7 +1709,7 @@ struct FUN_0084fe50_class
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
+    void* m_14;
     int m_18;
     int m_1c;
     int m_20;
@@ -1723,7 +1723,7 @@ struct FUN_0084fe50_class
 FUN_0084fe50_class::~FUN_0084fe50_class()
 {
     reinterpret_cast<::RecordList *>(this)->FUN_00851540();
-    void* oldData = (void*)m_14;
+    void* oldData = m_14;
     ::FUN_00401030(oldData);
 }
 
@@ -1735,7 +1735,6 @@ struct FUN_0084ff30_shell
 {
     void CreateScriptMessageDirectory(char* a);
 };
-int __cdecl strcat_s(char* dst, unsigned int size, const char* src);
 
 struct FUN_0084ff90_shell : FUN_0084fec0_shell
 {
@@ -1758,14 +1757,14 @@ void FUN_0084ff90_shell::BuildWeaponPath(char* weapon, char* name, bool tmp)
 
 // Sets the vtable, stores arg as the element count, allocates a zeroed count*4 byte buffer via NiMalloc, and returns this.
 // @fnv 0x00853270
-void* FUN_00852fd0_cls::InitializeBuffer(void* aiCount)
+void* FUN_00852fd0_cls::InitializeBuffer(unsigned int aiCount)
 {
-    *(void**)this = &DAT_010800a8;
-    ((int*)this)[1] = (int)aiCount;
-    ((int*)this)[3] = 0;
-    int size = ((int*)this)[1] << 2;
-    ((int*)this)[2] = (int)::FUN_00aa1070(size);
-    ::FUN_00403d30((void*)((int*)this)[2], 0, ((int*)this)[1] << 2);
+    m_p = &DAT_010800a8;
+    m_iCount = aiCount;
+    m_0c = 0;
+    int size = m_iCount << 2;
+    m_pBuffer = ::FUN_00aa1070(size);
+    ::FUN_00403d30(m_pBuffer, 0, m_iCount << 2);
     return this;
 }
 
@@ -1789,7 +1788,7 @@ int FUN_00857bf0_Class::FUN_00857bf0(int auiPacked)
     {
         c = ((unsigned char*)*(void**)((char*)this + 0x50))[b];
         if (c != 0xff)
-            return (auiPacked & (int)&DAT_00ffffff) + (c << 24);
+            return (auiPacked & 0x00ffffff) + (c << 24);
     }
     return 0;
 }
@@ -1834,13 +1833,13 @@ struct FUN_0085f3d0
     void* pc;
     void* p10;
     void* p14;
-    void Method(TESForm* form, unsigned int value);
+    void Method(TESForm* form, void* value);
 };
 // @fnv 0x0085f3d0
-void FUN_0085f3d0::Method(TESForm* form, unsigned int value)
+void FUN_0085f3d0::Method(TESForm* form, void* value)
 {
     void* old = p14;
-    p14 = (void*)value;
+    p14 = value;
     unsigned int ui;
     reinterpret_cast<::FUN_008579e0_shell *>((::g_TESSaveLoadGame))->FUN_008579e0(&ui, 2);
     reinterpret_cast<::FUN_004534f0_shell *>((form))->FUN_004534f0(0);
@@ -2144,11 +2143,11 @@ struct FUN_00854c10_Class
 {
     char pad[0x10];
     AEList list;
-    void FUN_00854c10(int a1, int a2, int a3);
+    void FUN_00854c10(std::intptr_t a1, int a2, int a3);
 };
 
 // @fnv 0x00854c10
-void FUN_00854c10_Class::FUN_00854c10(int a1, int a2, int a3)
+void FUN_00854c10_Class::FUN_00854c10(std::intptr_t a1, int a2, int a3)
 {
     char* buf;
     {
@@ -2221,7 +2220,7 @@ struct FUN_0085ef80_class
 // @fnv 0x0085f2b0
 void Holder::FUN_0085f2b0(TESSound* sound, unsigned short flag)
 {
-    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0((DummyPointerMap*)*(int*)((char*)this + 0x5c), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
+    reinterpret_cast<::FUN_0085efc0_Class *>(this)->FUN_0085efc0(*(DummyPointerMap**)((char*)this + 0x5c), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((sound))->FUN_0084e3a0())), flag);
 }
 // @fnv 0x0085efc0
 void FUN_0085efc0_Class::FUN_0085efc0(DummyPointerMap* pMap, unsigned int uiKey, unsigned short usIndex)
@@ -2229,7 +2228,7 @@ void FUN_0085efc0_Class::FUN_0085efc0(DummyPointerMap* pMap, unsigned int uiKey,
     TESSaveLoadGame* q = ((::TESSaveLoadGame *)(reinterpret_cast<::FUN_0085ef80_class *>((((FUN_0085ef80_shell*)this)))->AllocateWithPrefix(usIndex)));
     TESSaveLoadGame* p = q + 2;
     reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame*)this)))->FUN_008579e0((void*)p, usIndex);
-    reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)pMap)))->FUN_00844700(uiKey, (unsigned int)q);
+    reinterpret_cast<::FUN_00844700_Class *>((((SetAtHelper*)pMap)))->FUN_00844700(uiKey, (unsigned int)(std::uintptr_t)q);
 }
 // Allocates value + 2 bytes, copies the 2-byte value to the start of the block, and returns the block.
 // @fnv 0x0085ef80
@@ -2249,7 +2248,7 @@ struct FUN_0085f5a0_Class : public Holder
     int m_08;
     int m_0c;
     int m_10;
-    int m_14;
+    void* m_14;
     int m_18;
     int m_1c;
     int m_20;
@@ -2268,7 +2267,7 @@ struct FUN_0085f5a0_Class : public Holder
     int m_54;
     int m_58;
     int m_5c;
-    int m_60;
+    void* m_60;
     int m_64;
     void FUN_0085f5a0(TESSound* sound, unsigned short flag);
 };
@@ -2288,14 +2287,14 @@ struct FUN_00560530_Class
 struct FUN_0085f6c0_Class
 {
     char pad[0x14];
-    int m_14;
-    void FUN_0085f6c0(int arg1, int arg2);
+    void* m_14;
+    void FUN_0085f6c0(void* arg1, void* arg2);
 };
 
 // @fnv 0x0085f6c0
-void FUN_0085f6c0_Class::FUN_0085f6c0(int apTarget, int aiValue)
+void FUN_0085f6c0_Class::FUN_0085f6c0(void* apTarget, void* aiValue)
 {
-    int saved = m_14;
+    void* saved = m_14;
     m_14 = aiValue;
     unsigned short buf;
     reinterpret_cast<::FUN_008579e0_shell *>((((TESSaveLoadGame*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&buf, 2);
@@ -2588,7 +2587,7 @@ int ScanRefsInRange(void* owner, unsigned int begin, unsigned int end)
     {
         if (::FUN_0084bcd0(i, (::BGSSaveFormBuffer *)(::RefScanBuffer *)(&_buf)))
         {
-            ::ForwardToShell((::FUN_00846330_shell *)(owner), (int)(&i), 4);
+            ::ForwardToShell((::FUN_00846330_shell *)(owner), (std::intptr_t)(&i), 4);
             reinterpret_cast<::FUN_00865c40_shell *>(&(_buf))->FUN_00865c40((::FUN_00846330_shell *)(owner));
             reinterpret_cast<::FUN_00847db0_shell *>(&(_buf))->FUN_00847db0();
             iHits++;
@@ -2911,7 +2910,7 @@ unsigned int FUN_00857c70_StandIn::FUN_00857c70(unsigned int value)
         }
 
         if (foundIndex != 0xFF)
-            return (value & static_cast<unsigned int>(reinterpret_cast<unsigned int>(&DAT_00ffffff))) +
+            return (value & 0x00ffffff) +
                    (static_cast<unsigned int>(foundIndex) << 24);
 
         return 0;
@@ -2966,15 +2965,15 @@ extern char DAT_01080864;
 struct BinaryRecord36
 {
     void* value00;
-    void* value04;
-    void* value08;
+    unsigned int value04;
+    unsigned int value08;
     unsigned int value0c, value10, value14, value18, value1c, value20;
 };
 struct BinaryRecord44
 {
-    void* value00;
+    unsigned int value00;
     unsigned int value04, value08, value0c;
-    void* value10;
+    unsigned int value10;
     unsigned int value14, value18, value1c, value20, value24, value28;
 };
 class TESForm;
@@ -3405,8 +3404,8 @@ struct SaveManagerAccess
 struct ReferenceSaveContext
 {
     unsigned int unk00, unk04, unk08, unk0C, unk10;
-    int mode;
-    void SaveReferenceState(TESObjectREFR*, int, int);
+    void* mode;
+    void SaveReferenceState(TESObjectREFR*, int, void*);
 };
 // @fnv 0x0085f070
 void FUN_0085f070_shell::FUN_0085f070()
@@ -3424,13 +3423,13 @@ void FUN_0085f070_shell::FUN_0085f070()
             ref = (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer));
         if (ref)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(ref)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<P09H*>(ref)))->FUN_0043fcd0())))
             {
                 ::FUN_00401030(value2);
                 reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(*(void**)((char*)this + 0x58))))->RemoveKey(key);
                 continue;
             }
-            reinterpret_cast<::ReferenceSaveContext *>(this)->SaveReferenceState(ref, key, (int)(value2));
+            reinterpret_cast<::ReferenceSaveContext *>(this)->SaveReferenceState(ref, key, value2);
         }
         ::FUN_00401030(value2);
         reinterpret_cast<::NiTMap_S *>((reinterpret_cast<MapH*>(*(void**)((char*)this + 0x58))))->RemoveKey(key);
@@ -3438,7 +3437,7 @@ void FUN_0085f070_shell::FUN_0085f070()
 }
 // Saves the reference's data, temporarily sets mode, and restores the high process saved state and token for first-person references.
 // @fnv 0x0085f150
-void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firstPerson, int newMode)
+void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firstPerson, void* newMode)
 {
     SavedReferenceData* dataB;
     if (reference == (*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))
@@ -3465,7 +3464,7 @@ void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firs
             token = process->GetSavedToken();
         }
     }
-    int oldMode = mode;
+    void* oldMode = mode;
     mode = newMode;
     int index;
     reinterpret_cast<::FUN_008579e0_shell *>((static_cast<SaveManagerAccess*>((*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&index, 2);
@@ -3477,7 +3476,7 @@ void ReferenceSaveContext::SaveReferenceState(TESObjectREFR* reference, int firs
         if (token)
         {
             char* start = token - 8;
-            token = ((char *)(reinterpret_cast<::FUN_00491040_shell *>((dataB))->FUN_00491040((int)(start))));
+            token = ((char *)(reinterpret_cast<::FUN_00491040_shell *>((dataB))->FUN_00491040((int)(std::uintptr_t)(start))));
         }
         process->RestoreSavedState(savedState4, token);
     }
@@ -3513,7 +3512,7 @@ void FUN_0085f5d0_class::ProcessMapEntries()
         TESObjectREFR* refObject = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(key));
         if (refObject)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<FnvRefMethod*>(refObject)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((reinterpret_cast<FnvRefMethod*>(refObject)))->FUN_0043fcd0())))
             {
                 if (reinterpret_cast<FnvState*>(this)->unk04)
                     reinterpret_cast<::FUN_00855010_cls *>((reinterpret_cast<FnvState*>(this)->unk04))->GetOrCreateNode(refObject, 0);
@@ -3522,7 +3521,7 @@ void FUN_0085f5d0_class::ProcessMapEntries()
                 reinterpret_cast<::NiTMap_S *>((reinterpret_cast<FnvState*>(this)->unk64))->RemoveKey(key);
                 continue;
             }
-            reinterpret_cast<FUN_0085f6c0_Class*>(this)->FUN_0085f6c0((int)refObject, (int)data);
+            reinterpret_cast<FUN_0085f6c0_Class*>(this)->FUN_0085f6c0(refObject, data);
         }
         ::FUN_00401030(data);
         reinterpret_cast<::NiTMap_S *>((reinterpret_cast<FnvState*>(this)->unk64))->RemoveKey(key);
@@ -3606,7 +3605,7 @@ void B5F750Owner::DetachProjectiles()
     B5F750List* pkNode = &m_kProjectiles;
     while (pkNode)
     {
-        TESForm* pkForm = *((::TESForm **)(new ((void *)(pkNode)) ::Vec3()));
+        TESForm* pkForm = *((::TESForm **)(((::Vec3 *)(void *)(pkNode))));
         if (pkForm)
         {
             ArrowProjectile* pkArrow = dynamic_cast<ArrowProjectile*>(pkForm);
@@ -4580,17 +4579,17 @@ struct FUN_00856300_cls
 {
     int unk00;
 
-    bool FUN_00856300(ProbeTarget* target, int value);
+    bool FUN_00856300(ProbeTarget* target, std::intptr_t value);
 };
 
 // Computes a key from value, calls target->Probe with it, and returns true when Probe returns zero.
 // @fnv 0x00856300
-bool FUN_00856300_cls::FUN_00856300(ProbeTarget* target, int value)
+bool FUN_00856300_cls::FUN_00856300(ProbeTarget* target, std::intptr_t value)
 {
     bool result = false;
     unsigned __int64 key = ::FUN_0044a670((const char *)(value));
     int out[3];
-    result = !((int)(reinterpret_cast<::FUN_00856350_shell *>((target))->SetAndReturnPointer((void *)(value), (void *)(key), out, {})));
+    result = !((intptr_t)(reinterpret_cast<::FUN_00856350_shell *>((target))->SetAndReturnPointer((void *)(value), (void *)(key), out, {})));
     return result;
 }
 
@@ -4919,10 +4918,10 @@ bool Manager859::FUN_00859690(Cell859* cell)
         List859* node2 = list8;
         while (node2)
         {
-            Entry859* entry7 = *((::Entry859 **)(new ((void *)(node2)) ::Vec3()));
+            Entry859* entry7 = *((::Entry859 **)(((::Vec3 *)(void *)(node2))));
             if (entry7)
             {
-                reinterpret_cast<::FUN_008598d0_shell *>(this)->ProcessSourceItem((unsigned)entry7);
+                reinterpret_cast<::FUN_008598d0_shell *>(this)->ProcessSourceItem((unsigned int)(std::uintptr_t)entry7);
                 result5 = true;
             }
             node2 = ((::List859 *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
@@ -4943,7 +4942,7 @@ bool Manager859::FUN_00859690(Cell859* cell)
         int y7 = reinterpret_cast<::TESObjectCELL *>((cell))->GetCellGridY();
         while (nodeExterior8)
         {
-            Entry859* entryExterior2 = *((::Entry859 **)(new ((void *)(nodeExterior8)) ::Vec3()));
+            Entry859* entryExterior2 = *((::Entry859 **)(((::Vec3 *)(void *)(nodeExterior8))));
             if (entryExterior2 && x7 == entryExterior2->x && y7 == entryExterior2->y)
             {
                 reinterpret_cast<::FUN_008598d0_shell *>(this)->ProcessSourceItem(entryExterior2->key);
@@ -5154,8 +5153,8 @@ void FUN_008598d0_shell::ProcessSourceItem(unsigned int key)
                 reinterpret_cast<::FUN_008572c0_cls *>(&(record))->FUN_008572c0();
                 bytes += 4;
                 memcpy(&record, bytes, sizeof(record));
-                record.value04 = ((void *)(reinterpret_cast<::FUN_00861c00 *>(this)->GetID((unsigned int)(record.value04))));
-                record.value08 = ((void *)(reinterpret_cast<::FUN_00861c00 *>(this)->GetID((unsigned int)(record.value08))));
+                record.value04 = reinterpret_cast<::FUN_00861c00 *>(this)->GetID(record.value04);
+                record.value08 = reinterpret_cast<::FUN_00861c00 *>(this)->GetID(record.value08);
                 pCreated = reinterpret_cast<::Save77 *>(this)->FUN_00859a90(key, (::Record77 *)(::BinaryRecord36 *)(&record));
                 if (pCreated != 0)
                 {
@@ -5178,8 +5177,8 @@ void FUN_008598d0_shell::ProcessSourceItem(unsigned int key)
                 new ((void *)&(record2)) ::FUN_00857320();
                 bytes2 += 4;
                 memcpy(&record2, bytes2, sizeof(record2));
-                record2.value00 = ((void *)(reinterpret_cast<::FUN_00861c00 *>(this)->GetID((unsigned int)(record2.value00))));
-                record2.value10 = ((void *)(reinterpret_cast<::FUN_00861c00 *>(this)->GetID((unsigned int)(record2.value10))));
+                record2.value00 = reinterpret_cast<::FUN_00861c00 *>(this)->GetID(record2.value00);
+                record2.value10 = reinterpret_cast<::FUN_00861c00 *>(this)->GetID(record2.value10);
                 TESForm* newObject2 = ((::TESForm *)(reinterpret_cast<::ObjectRestorer *>(this)->FUN_00859f20(key, (::RestoreLocation *)(::BinaryRecord44 *)(&record2))));
                 if (newObject2 != 0)
                     reinterpret_cast<::fnv_00858730::FUN_00858730_shell *>(this)->FUN_00858730(newObject2);
@@ -5247,7 +5246,7 @@ RestoredObject* ObjectRestorer::FUN_00859f20(unsigned int id, RestoreLocation* l
     object5->Reset();
     RestoredActor* actor = (RestoredActor*)FUN_00ec43fb(object5, 0, &DAT_011841cc, &DAT_011846d4, 0);
     if (actor)
-        reinterpret_cast<::CellPlaceStub *>((actor))->SetPlacement((int)(world), (::TESObjectCELL *)(cellTmp), (::CellPlaceVec *)(::RestoreVector *)(object5->Position()), ((::RestoreVector *)(reinterpret_cast<::TESRecipe *>((object5))->GetData()))->z);
+        reinterpret_cast<::CellPlaceStub *>((actor))->SetPlacement((int)(std::uintptr_t)(world), (::TESObjectCELL *)(cellTmp), (::CellPlaceVec *)(::RestoreVector *)(object5->Position()), ((::RestoreVector *)(reinterpret_cast<::TESRecipe *>((object5))->GetData()))->z);
     else
     {
         (*(::RestoreAction *)(reinterpret_cast<::FUN_005d43c0_ *>((object5))->FUN_005d43c0())).SetPositionExtraData();
@@ -5307,7 +5306,7 @@ int CompareFileWriteTimes(TimedFile* apFirstFile, TimedFile* apSecondFile)
     }
     else
     {
-        findHandle = FindFirstFileA(apFirstFile->GetPath(), &kFindData);
+        findHandle = FindFirstFileA(apFirstFile->GetPath(), reinterpret_cast<WIN32_FIND_DATAA*>(&kFindData));
         if (findHandle != (void*)-1)
             firstTime9 = kFindData.ftLastWriteTime;
         FindClose(findHandle);
@@ -5321,7 +5320,7 @@ int CompareFileWriteTimes(TimedFile* apFirstFile, TimedFile* apSecondFile)
     }
     else
     {
-        findHandle = FindFirstFileA(apSecondFile->GetPath(), &kFindData);
+        findHandle = FindFirstFileA(apSecondFile->GetPath(), reinterpret_cast<WIN32_FIND_DATAA*>(&kFindData));
         if (findHandle != (void*)-1)
             secondTime = kFindData.ftLastWriteTime;
         FindClose(findHandle);
@@ -5469,10 +5468,10 @@ void FUN_0085f850_class::FUN_0085f850(bool arg)
         reinterpret_cast<::FUN_00978420_shell *>(&((*reinterpret_cast<::FUN_00978420_class *>(&::g_011e0e80))))->FUN_00978420(0.0f, 0);
         (*reinterpret_cast<::Zt5TES * *>(&::g_TES))->FUN_00453550(0.0f);
 
-        int cullResult = ((int)(reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget()));
+        TESObjectREFR* cullResult = reinterpret_cast<::LowProcess *>((void *)((*reinterpret_cast<::BSOcclusionPlane * *>(&::_g_thePlayer))))->GetTarget();
         if (cullResult)
         {
-            unsigned int room = ((unsigned int)(reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataList*>(cullResult)))->FUN_004543c0()));
+            void* room = reinterpret_cast<::FUN_004543c0_cls *>((reinterpret_cast<ExtraDataList*>(cullResult)))->FUN_004543c0();
             if (room)
                 reinterpret_cast<::C6A870_Self *>((reinterpret_cast<FUN_00c6a870_class*>(room)))->FUN_00c6a870();
         }
@@ -5493,7 +5492,7 @@ void StQ::FUN_0085f2e0()
         TESObjectREFR* pRef_zaxvzc = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(uiID));
         if (pRef_zaxvzc)
         {
-            if (!((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FnvRefMethod*)pRef_zaxvzc)))->FUN_0043fcd0())))
+            if (!((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((FnvRefMethod*)pRef_zaxvzc)))->FUN_0043fcd0())))
             {
                 if (pQ4)
                     reinterpret_cast<::FUN_00855010_cls *>((pQ4))->GetOrCreateNode(pRef_zaxvzc, 0);
@@ -5502,7 +5501,7 @@ void StQ::FUN_0085f2e0()
                 reinterpret_cast<::NiTMap_S *>((pMap))->RemoveKey(uiID);
                 continue;
             }
-            reinterpret_cast<::fnv_0085f3d0::FUN_0085f3d0 *>(this)->Method((::fnv_0085f3d0::TESForm *)(pRef_zaxvzc), (unsigned int)(pData_zbax));
+            reinterpret_cast<::fnv_0085f3d0::FUN_0085f3d0 *>(this)->Method((::fnv_0085f3d0::TESForm *)(pRef_zaxvzc), pData_zbax);
         }
         ::FUN_00401030(pData_zbax);
         reinterpret_cast<::NiTMap_S *>((pMap))->RemoveKey(uiID);
@@ -5879,7 +5878,7 @@ void RefLoader::LoadChange(TESForm* pkForm, unsigned int uiChangeFlags)
                     if (((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((RefView*)pkRef)))->GetTarget())))
                         reinterpret_cast<::fnv_0054ca90::Cell *>((((CellView*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((RefView*)pkRef)))->GetTarget())))))->FUN_0054ca90((::fnv_0054ca90::Ref *)(pkRef));
                     ((RefView*)pkRef)->SetParentCell(0);
-                    reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::s85ac30::ProcessLists * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(pkRef));
+                    reinterpret_cast<::fnv_00445570::FUN_00445570_cls *>(((*reinterpret_cast<::s85ac30::ProcessLists * *>(&::g_modelLoader))))->FUN_00445570((unsigned int)(std::uintptr_t)(pkRef));
                     ((RefView*)pkRef)->Update3D(0, 1);
                 }
             }
@@ -6059,7 +6058,7 @@ void* FUN_00853440_class::FUN_008534d0(unsigned int flags)
 // @fnv 0x00853440
 void FUN_00853440_shell::FUN_00853440()
 {
-    *(int*)this = (int)&DAT_010800c8;
+    *(const void**)this = &DAT_010800c8;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
@@ -6086,7 +6085,7 @@ struct GlobalObject_0040c150 : public StartMenu
 
 struct FUN_0085fed0_Class
 {
-    void FUN_0085fed0(FUN_0085fed0_Object* object, int value, char* buffer, char const* suffix, unsigned int flag);
+    void FUN_0085fed0(FUN_0085fed0_Object* object, std::intptr_t value, char* buffer, char const* suffix, std::uintptr_t flag);
 };
 
 
@@ -6096,8 +6095,8 @@ extern char const str_01081aa8[];
 
 // After ParseSaveName and ReadSaveMetadata, fills buffer with a menu title plus suffix for two special save names, else the file name with its last 4 chars cut.
 // @fnv 0x0085fed0
-void FUN_0085fed0_Class::FUN_0085fed0(FUN_0085fed0_Object* object, int value, char* buffer, char const* suffix,
-                                      unsigned int flag)
+void FUN_0085fed0_Class::FUN_0085fed0(FUN_0085fed0_Object* object, std::intptr_t value, char* buffer, char const* suffix,
+                                      std::uintptr_t flag)
 {
     if (buffer)
         TaskQueueInterface::CopyStringToBuffer(buffer, 0xff, $SG3295);
@@ -6163,10 +6162,10 @@ void FUN_0084fd30()
 {
     FUN_0084fd30_cls* tmp = (*reinterpret_cast<::fnv_0084fd30::FUN_0084fd30_cls * *>(&::DAT_011de134));
     FUN_0084fd30_cls* obj2 = tmp;
-    int result;
+    void* result;
     if (obj2 != 0)
     {
-        result = ((int)(reinterpret_cast<::FUN_0084fd70_class *>((reinterpret_cast<FUN_0084fd70_cls*>(obj2)))->DestroyAndFree(1)));
+        result = reinterpret_cast<::FUN_0084fd70_class *>((reinterpret_cast<FUN_0084fd70_cls*>(obj2)))->DestroyAndFree(1);
     }
     else
     {
@@ -6441,8 +6440,8 @@ void FUN_0085f450_class::FUN_0085f450()
             HighProcess* process = dynamic_cast<HighProcess*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((id))->GetBaseTexture())));
             if (process)
             {
-                int saved = ((FUN_0085f5a0_Class*)this)->m_14;
-                ((FUN_0085f5a0_Class*)this)->m_14 = (int)object;
+                void* saved = ((FUN_0085f5a0_Class*)this)->m_14;
+                ((FUN_0085f5a0_Class*)this)->m_14 = object;
                 int mode;
                 reinterpret_cast<::FUN_008579e0_shell *>((((SaveManagerAccess*)(*reinterpret_cast<void * *>(&::g_TESSaveLoadGame)))))->FUN_008579e0(&mode, 2);
                 if (((CharControllerProcess*)process)->GetPhysicsCharacterController())
@@ -6690,7 +6689,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
                 if (own)
                 {
                     Actor* a = dynamic_cast<Actor*>(e->form);
-                    if (a && !((int)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
+                    if (a && !((intptr_t)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
                         actors.list.FUN_005ae3d0(&a);
                 }
                 ::CopyByteToOffset80((char *)this);
@@ -6702,10 +6701,10 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         ActorList* it = &actors.list;
         while (it && !it->FUN_008256d0())
         {
-            Actor* a = *((::Actor **)(new ((void *)(it)) ::Vec3()));
+            Actor* a = *((::Actor **)(((::Vec3 *)(void *)(it))));
             reinterpret_cast<::fnv_00893340::FUN_00893340_shell *>((a))->FUN_00893340(0);
             reinterpret_cast<::FUN_00855010_cls *>((owner))->GetOrCreateNode(a, 2);
-            if (!((int)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((int)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
+            if (!((intptr_t)(reinterpret_cast<::LowProcess *>((a))->GetTarget())) && !((intptr_t)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((a))->FUN_00575d70())))
             {
                 unsigned int id = 0;
                 TESObjectCELL* cell = dynamic_cast<TESObjectCELL*>(::FUN_004839c0(id));
@@ -6733,8 +6732,8 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         Node3d* node1 = ((::Sub10 *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->GetPrevPath())) ? ((::Node3d *)(reinterpret_cast<::FUN_004543c0_cls *>((((::Sub10 *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->GetPrevPath()))))->FUN_004543c0())) : 0;
         if (node1)
             reinterpret_cast<::C00c66300 *>((node1))->FUN_00c66300();
-        if (((::Node3d *)(::FUN_00451010())))
-            reinterpret_cast<::C00c66300 *>((((::Node3d *)(::FUN_00451010()))))->FUN_00c66300();
+        if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
+            reinterpret_cast<::C00c66300 *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c66300();
         reinterpret_cast<::FUN_00459920_shell *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->FUN_00459920();
         if (!((int)(reinterpret_cast<::FUN_00950bb0_shell *>((((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->FUN_00950bb0(0))))
             reinterpret_cast<::ML *>(((*reinterpret_cast<::Mgr3c * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::Actor *)((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer))), 0, 0);
@@ -6742,14 +6741,14 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         ::FUN_008495b0((char *)((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))));
         if (node1)
             reinterpret_cast<::C6B540Manager *>((node1))->FUN_00c6b540(0);
-        if (((::Node3d *)(::FUN_00451010())))
-            reinterpret_cast<::C6B540Manager *>((((::Node3d *)(::FUN_00451010()))))->FUN_00c6b540(0);
+        if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
+            reinterpret_cast<::C6B540Manager *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c6b540(0);
         cam = *((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))->GetPos();
         ::FUN_00451590(0);
         FUN_0057d0a0(cam, ::DAT_011a9478, 1.0f);
         ::FUN_00451590(1);
     }
-    if (ctx && ((int)(reinterpret_cast<::LowProcess *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->GetTarget())))
+    if (ctx && ((intptr_t)(reinterpret_cast<::LowProcess *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->GetTarget())))
         reinterpret_cast<::TESForm *>((((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->ClearData();
     if (ctx)
         ((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))->Leave(ctx->a, ctx->b);
@@ -6779,13 +6778,13 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         Node3d* node1 = ((::Sub10 *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->GetPrevPath())) ? ((::Node3d *)(reinterpret_cast<::FUN_004543c0_cls *>((((::Sub10 *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->GetPrevPath()))))->FUN_004543c0())) : 0;
         if (node1)
             reinterpret_cast<::C00c66300 *>((node1))->FUN_00c66300();
-        if (((::Node3d *)(::FUN_00451010())))
-            reinterpret_cast<::C00c66300 *>((((::Node3d *)(::FUN_00451010()))))->FUN_00c66300();
+        if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
+            reinterpret_cast<::C00c66300 *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c66300();
         reinterpret_cast<::FUN_00456520_Class *>(((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))))->FUN_00456520();
         if (node1)
             reinterpret_cast<::C6B540Manager *>((node1))->FUN_00c6b540(0);
-        if (((::Node3d *)(::FUN_00451010())))
-            reinterpret_cast<::C6B540Manager *>((((::Node3d *)(::FUN_00451010()))))->FUN_00c6b540(0);
+        if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
+            reinterpret_cast<::C6B540Manager *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c6b540(0);
     }
     reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0(0);
 }

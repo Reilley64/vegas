@@ -2385,10 +2385,10 @@ BSTaskletManagerCallback* BSTaskletManagerCallback::FUN_00b00e40(int a)
     switch (a)
     {
     case 0:
-        b = ((bool)(::FUN_00b00d50((int)(this))));
+        b = ((bool)(::FUN_00b00d50((void *)(this))));
         break;
     default:
-        b = ((bool)(::QueueTasklet((int)(this))));
+        b = ((bool)(::QueueTasklet((void *)(this))));
         break;
     }
     return this;

@@ -1593,7 +1593,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
     bool invalid3 = alternateVal ? reinterpret_cast<::FUN_008ba470_shell *>((((TargetView*)target)))->FUN_008ba470() : reinterpret_cast<::FUN_008ba410_shell *>((((TargetView*)target)))->FUN_008ba410();
     int type = invalid3 ? 4 : reinterpret_cast<::Actor *>((target))->GetActorBase()->attributes.get();
     EquipmentView* equipment3 = target ? ((::BaseData *)(reinterpret_cast<::Actor *>((((TargetView*)target)))->GetActorBase()))->equipment() : 0;
-    InventoryView* item = equipment3 ? ((::InventoryView *)(reinterpret_cast<::FUN_005e50f0_Obj *>((equipment3))->GetValueByIndex(hit->kind))) : 0;
+    InventoryView* item = equipment3 ? ((::InventoryView *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((equipment3))->GetValueByIndex(hit->kind))) : 0;
     EffectList* effects2 = item ? ((::EffectList *)(reinterpret_cast<::MagicProjectile *>((item))->FUN_004fd400())) : 0;
     ProjectileView* _projectile = effects2 ? ((::ProjectileView *)(reinterpret_cast<::BGSImpactDataSet *>((effects2))->GetImpactDataForMaterial(type))) : 0;
     EffectView* effect = _projectile ? _projectile->FUN_006733e0() : 0;
@@ -1615,7 +1615,7 @@ void SpellActor::FUN_0088fb00(float distance, HitSource* hit, SpellActor* target
                 node2 = reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::SpellActor * *>(&::_g_thePlayer))))->FUN_004eaf60() ? node2 : bipedNode5;
                 Bound bound = (*(const ::Bound *)(reinterpret_cast<::FUN_0043d450_Owner *>((node2))->FUN_0043d450()));
                 scale = reinterpret_cast<::Twin_0084d030 *>(&(bound))->GetStoredFloatValue() / reinterpret_cast<::FUN_008d01e0_Class *>((node2))->FUN_008d01e0();
-                NiPoint3 origin6 = (*(::NiPoint3 *)(new ((void *)&(bound)) ::Vec3())) - node2->FUN_0045bb80();
+                NiPoint3 origin6 = (*(::NiPoint3 *)(((::Vec3 *)(void *)&(bound)))) - node2->FUN_0045bb80();
                 int h = 0;
                 AnimView* s = ((::AnimView *)(reinterpret_cast<::FUN_00950a10_shell *>(((*reinterpret_cast<::SpellActor * *>(&::_g_thePlayer))))->FUN_00950a10()));
                 if (s)
@@ -2234,7 +2234,7 @@ bool SubActor::FUN_00884b50()
     if (this->v218())
     {
         B5512Target* pTarget = this->m_pFlagTarget ? this->m_pFlagTarget->v8b() : 0;
-        if (pTarget && ::FUN_0067a560((int)(pTarget)))
+        if (pTarget && ::FUN_0067a560((std::intptr_t)(pTarget)))
         {
             result = true;
         }

@@ -71,6 +71,19 @@
 #include "fnv/symbols_011f4000.h"
 #include "fnv/symbols_011f6000.h"
 #include "../../include/layout_support.h"
+#include "fnv/decl/FUN_007e6700_Class.h"
+#include "fnv/decl/FUN_00a011f0_shell.h"
+#include "fnv/decl/FUN_00a1dc70_shell.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/S6a70.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/Twin_007e6580.h"
+#include "fnv/decl/fnv_00a01b00__TileLoader.h"
+#include "fnv/symbols_00458000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007ff000.h"
+#include "fnv/symbols_00a09000.h"
+#include "fnv/symbols_011d3000.h"
 
 
 struct FUN_007e6760_cls
@@ -190,7 +203,7 @@ struct RaceSexMenu
 // @fnv 0x007fe910
 void RaceSexMenu::FUN_007fe910(void* apList)
 {
-    reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180((int)(apList));
+    reinterpret_cast<::FUN_007af180_shell *>(this)->FUN_007af180((int)(intptr_t)(apList));
 }
 
 struct NavMeshPtr
@@ -271,7 +284,7 @@ struct Loader_S
 void FUN_007ffe00()
 {
     if ((unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
-        reinterpret_cast<::FUN_00445300_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_00445300((char*)DAT_011a0bb0, true, true);
+        reinterpret_cast<::FUN_00445300_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_00445300(*reinterpret_cast<char **>(&DAT_011a0bb0), true, true);
     *(GO*)&(*reinterpret_cast<::Flt *>(&::g_011db63c)) = 0;
 }
 
@@ -346,9 +359,29 @@ bool FUN_007eb8d0_Class::HasAllSlotsSet(int* piIndex)
 struct Tile
 {
     void Set(int, int);
+    virtual ~Tile();
+    public:
+    static float GetInterfaceScale();
 };
 struct Menu
 {
+    virtual ~Menu();  // the original class is polymorphic (rtti_variants.py)
+    virtual void M01();
+    virtual void M02();
+    virtual void M03();
+    virtual void M04();
+    virtual void M05();
+    virtual void M06();
+    virtual void M07();
+    virtual void M08();
+    virtual void M09();
+    virtual void M10();
+    virtual void M11();
+    virtual void M12();
+    virtual int GetID();
+    char menuData[0x24];
+public:
+    void SetMenuVisibility(bool);
 };
 struct SimpleList
 {
@@ -440,9 +473,9 @@ FUN_007e0d80_shell* FUN_007e0d80_shell::AppendString(FUN_007e0d80_shell* other)
             unsigned int newLength = ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())) + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((other))->FUN_004048e0()));
             if (newLength > FUN_004039a0())
             {
-                reinterpret_cast<::TextString *>(this)->FUN_004037f0((char*)(unsigned int)*this, newLength);
+                reinterpret_cast<::TextString *>(this)->FUN_004037f0((char*)(uintptr_t)(unsigned int)*this, newLength);
             }
-            memcpy(m_buffer + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())), (char*)(unsigned int)*other, reinterpret_cast<::S7010 *>((other))->GetLengthPlusOne());
+            memcpy(m_buffer + ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(this)->FUN_004048e0())), (char*)(uintptr_t)(unsigned int)*other, reinterpret_cast<::S7010 *>((other))->GetLengthPlusOne());
             FUN_004039c0(newLength);
         }
         else
@@ -1737,6 +1770,88 @@ bool RemoveView::RemoveNodeFromList(RemoveNode* node, RemoveNode* previous)
         if (reinterpret_cast<::FUN_007242c0_shell *>(this)->FUN_007242c0(false))
             reinterpret_cast<::FUN_00726090_cls *>(this)->FUN_00726090();
         return true;
+    }
+    return false;
+}
+
+void __cdecl FUN_007f7a50(float a, float b);
+
+struct Menu;
+
+
+void FUN_007e65b0();
+
+int FUN_007e1970();
+
+int __cdecl FUN_007e65a0();
+
+int __cdecl WXRand();
+
+class TileMenu;
+
+class TextEditMenu;
+
+class Menu;
+
+struct TextEditState
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20;
+    void FUN_00716aa0(int maxLength);
+};
+
+struct TextEditSetting
+{
+};
+
+class TileMenu : public Tile
+{
+  public:
+    virtual ~TileMenu();
+};
+
+class TextEditMenu : public Menu
+{
+  public:
+    Tile* input;
+    Tile* accept;
+    Tile* title;
+    TextEditState editor;
+    void(__cdecl* callback)(const char*);
+};
+
+// @fnv 0x007e6320
+bool __cdecl FUN_007e6320(const char* titleText, const char* initialText, void(__cdecl* callback)(const char*))
+{
+    Menu* previous = ((::Menu *)(uintptr_t)(::FUN_00a09030(0x41b)));
+    if (previous)
+        delete previous;
+
+    RemoveInterface* interfaceManager = ((::RemoveInterface *)(::fnv_004b7210::FUN_004b7210()));
+    float depthA = ::Tile::GetInterfaceScale();
+    Tile* root2 = reinterpret_cast<::fnv_00a01b00::TileLoader *>((reinterpret_cast<::InterfaceManager *>((interfaceManager))->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\Dialog\\TextEditMenu.xml"));
+    Menu* menu = reinterpret_cast<::FUN_00a03c90_shell *>((root2))->FUN_00a03c90();
+    if (menu && menu->GetID() == FUN_007e65a0())
+    {
+        reinterpret_cast<::FUN_00a1dc70_shell *>((menu))->FUN_00a1dc70(dynamic_cast<TileMenu*>(root2), false);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4)) = dynamic_cast<TextEditMenu*>(menu);
+        if (reinterpret_cast<::TileListBoxCalls *>((root2))->GetFloat(0xfa7) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((root2))->GetFloat(0xfa7) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((root2))->FUN_00a012d0(0xfad, depthA, true);
+
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->title))->FUN_00a01350(0xfc4, (char *)(titleText), true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->FUN_00a01350(0xfc4, (char *)(initialText), true);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor.FUN_00716aa0((int)reinterpret_cast<::TileListBoxCalls *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->GetFloat(0xfba));
+        reinterpret_cast<::S6a70 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->SetBothStrings(reinterpret_cast<::FUN_00a011f0_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->input))->FUN_00a011f0(0xfc4));
+        reinterpret_cast<::S7010 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->FUN_00717010(true);
+        reinterpret_cast<::Twin_007e6580 *>(&((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->editor))->SetIsForegroundEffect(true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->accept))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::TextEditSetting *>(&::g_011d38b8))))->GetMenuTitle()))), true);
+        (*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))->callback = callback;
+        reinterpret_cast<::FUN_007e6700_Class *>(((*reinterpret_cast<::TextEditMenu * *>(&::DAT_011daec4))))->FUN_007e6700();
+        menu->SetMenuVisibility(false);
+        return true;
+    }
+    else if (menu && ((int)(uintptr_t)(reinterpret_cast<::Callees *>((menu))->FUN_00726070())))
+    {
+        delete menu;
     }
     return false;
 }

@@ -306,20 +306,21 @@ struct BGSReconstructCellSubBlocksMap
     void* ScalarDeletingDestructor(unsigned int flags);
 };
 
+struct E006950d0;
 struct S006950d0
 {
-    unsigned int GetElement(unsigned int);
+    E006950d0* GetElement(unsigned int);
 };
 
 struct FUN_00844160_shell
 {
-    unsigned int FUN_00844160(unsigned int);
+    std::uintptr_t FUN_00844160(unsigned int);
 };
 
 // @fnv 0x00844160
-unsigned int FUN_00844160_shell::FUN_00844160(unsigned int a)
+std::uintptr_t FUN_00844160_shell::FUN_00844160(unsigned int a)
 {
-    return ((S006950d0*)this)->GetElement(a);
+    return (std::uintptr_t)((S006950d0*)this)->GetElement(a);
 }
 
 namespace fnv_00844180 {

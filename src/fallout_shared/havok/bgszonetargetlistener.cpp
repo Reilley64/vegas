@@ -402,12 +402,12 @@ struct FUN_0057b700_class
     int unk0c;
     int unk10;
     ZoneNode* unk14;
-    ZoneNode* FUN_0061fd70(unsigned int key, unsigned int arg2, unsigned int arg3);
+    ZoneNode* FUN_0061fd70(uintptr_t key, uintptr_t arg2, uintptr_t arg3);
 };
 
 // Finds a ZoneNode by key in the list, or creates and attaches a new FUN_0061fe70 node with the given key, arg2, and arg3 values.
 // @fnv 0x0061fd70
-ZoneNode* FUN_0057b700_class::FUN_0061fd70(unsigned int key, unsigned int auiData, unsigned int auiValue)
+ZoneNode* FUN_0057b700_class::FUN_0061fd70(uintptr_t key, uintptr_t auiData, uintptr_t auiValue)
 {
     ZoneNode* result = (unk14 != 0) ? ((ZoneList*)this)->Find(key) : 0;
     if (result == 0)

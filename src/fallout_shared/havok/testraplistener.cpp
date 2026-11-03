@@ -194,11 +194,11 @@ void* FUN_0062e200_shell::FUN_0062e200(unsigned int flags)
 
 struct FUN_0062e230_shell
 {
-    void* FUN_0062e230(unsigned int a, unsigned int b, unsigned int c);
+    void* FUN_0062e230(std::uintptr_t a, std::uintptr_t b, unsigned int c);
 };
 // Calls FUN_004a4960 with the three arguments and returns this.
 // @fnv 0x0062e230
-void* FUN_0062e230_shell::FUN_0062e230(unsigned int a, unsigned int b, unsigned int c)
+void* FUN_0062e230_shell::FUN_0062e230(std::uintptr_t a, std::uintptr_t b, unsigned int c)
 {
     reinterpret_cast<::FUN_004a4960_class *>(this)->FUN_004a4960((void *)(a), (void *)(b), c);
     return this;

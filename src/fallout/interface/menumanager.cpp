@@ -1,5 +1,6 @@
 // fallout/interface/menumanager.cpp: MenuSystem, TutorialMenu, QuantityMenu, StatsMenu and more (50 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Callees.h"
@@ -150,11 +151,11 @@ MenuSystem::MenuSystem()
 
 struct FUN_006317a0_struct
 {
-    int AddEight(int param_1);
+    intptr_t AddEight(intptr_t param_1);
 };
 
 // @fnv 0x006317a0
-int FUN_006317a0_struct::AddEight(int aiValue)
+intptr_t FUN_006317a0_struct::AddEight(intptr_t aiValue)
 {
     return aiValue + 8;
 }

@@ -111,17 +111,17 @@ extern int DAT_01079170;
 struct FUN_00802b20_class
 {
     int* p;
-    int FUN_00802b20(int a);
+    void* FUN_00802b20(int a);
 };
 struct FUN_00807770_Class
 {
-    int FUN_00807770(int);
+    char* FUN_00807770(int);
 };
 
 // @fnv 0x00807770
-int FUN_00807770_Class::FUN_00807770(int aiIndex)
+char* FUN_00807770_Class::FUN_00807770(int aiIndex)
 {
-    return aiIndex * 0x70 + *(int*)this;
+    return aiIndex * 0x70 + *(char**)this;
 }
 
 extern float DAT_011dc778;
@@ -267,7 +267,7 @@ struct FUN_00802c50
 {
     void* vft;
     int a;
-    int b;
+    void* b;
     void Init();
 };
 
@@ -277,7 +277,7 @@ void FUN_00802c50::Init()
 {
     vft = &DAT_01079190;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
-    ::FUN_00aa10f0((void*)b);
+    ::FUN_00aa10f0(b);
 }
 
 struct FUN_00800700_Class
@@ -361,21 +361,21 @@ struct FUN_00802b80_t
 };
 // Calls InitBuffer with a, sets p to point at DAT_01079170, and returns this.
 // @fnv 0x00802b20
-int FUN_00802b20_class::FUN_00802b20(int a)
+void* FUN_00802b20_class::FUN_00802b20(int a)
 {
     reinterpret_cast<::FUN_00802b80_t *>(this)->InitBuffer(a);
     p = &DAT_01079170;
-    return (int)this;
+    return this;
 }
 // Sets the vtable, stores a count, allocates count*4 bytes, zeroes them, and returns this.
 // @fnv 0x00802b80
 void* FUN_00802b80_t::InitBuffer(int aiCount)
 {
-    *(int*)this = (int)&DAT_01079190;
+    *(const void**)this = &DAT_01079190;
     *(int*)((char*)this + 4) = aiCount;
     *(int*)((char*)this + 12) = 0;
     int s = *(int*)((char*)this + 4) * 4;
-    *(int*)((char*)this + 8) = (int)::FUN_00aa1070(s);
+    *(void**)((char*)this + 8) = ::FUN_00aa1070(s);
     ::FUN_00403d30(*(void**)((char*)this + 8), 0, *(int*)((char*)this + 4) * 4);
     return this;
 }
@@ -424,10 +424,10 @@ struct FUN_00cac960_class
 };
 struct FUN_0080fb00_Class
 {
-    void FUN_0080fb00(int a);
+    void FUN_0080fb00(std::intptr_t a);
 };
 // @fnv 0x0080fb00
-void FUN_0080fb00_Class::FUN_0080fb00(int a)
+void FUN_0080fb00_Class::FUN_0080fb00(std::intptr_t a)
 {
     void* r = ((void *)(::FUN_004ae750((void *)(((ScriptLocalsX*)this)))));
     if (r)
@@ -508,21 +508,29 @@ void* FUN_0081de70_shell::FUN_0081dcd0(unsigned int flags)
 
 struct FUN_00800e50_Class
 {
+    struct Entry
+    {
+        std::intptr_t node;
+        void* spNode;
+    };
     void* vft;
-    int f04;
-    int f08;
+    std::intptr_t f04;
+    void* f08;
     int f0c;
     int f10;
-    void FUN_00800d50(int a);
-    void FUN_00800e50(int a);
+    Entry entries[0x20];
+    char pad[0x1a0];
+    char f2b4;
+    void FUN_00800d50(std::intptr_t a);
+    void FUN_00800e50(std::intptr_t a);
 };
 // @fnv 0x00800e50
-void FUN_00800e50_Class::FUN_00800e50(int aiValue)
+void FUN_00800e50_Class::FUN_00800e50(std::intptr_t aiValue)
 {
     int result = -1;
     for (int i = 0; i < f0c; i++)
     {
-        if (*(int*)((char*)this + 0x14 + i * 8) == aiValue)
+        if (entries[i].node == aiValue)
             result = i;
     }
     if (result != -1)
@@ -721,7 +729,7 @@ struct EffectItem;
 struct ActiveEffect
 {
     ActiveEffect(MagicCaster*, MagicItem*, EffectItem*);
-    int m_00;
+    const void* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -750,7 +758,7 @@ struct FUN_0080c070 : ActiveEffect
 FUN_0080c070::FUN_0080c070(MagicCaster* a, MagicItem* pItem, EffectItem* pEffect, int d)
     : ActiveEffect(a, pItem, pEffect)
 {
-    m_00 = (int)&DAT_01079c8c;
+    m_00 = &DAT_01079c8c;
     m_48 = d;
     m_4c = -1;
 }
@@ -870,7 +878,7 @@ struct FUN_0080ba90 : EffectStorage
 FUN_0080ba90::FUN_0080ba90(MagicCaster* a, MagicItem* pItem, EffectItem* pEffectItem)
     : EffectStorage(a, pItem, pEffectItem)
 {
-    *(int*)this = (int)&DAT_01079b3c;
+    *(const void**)this = &DAT_01079b3c;
 }
 
 struct S_0080bac0_Obj
@@ -1419,12 +1427,12 @@ extern char DAT_01078e78;
 
 // Clears a flag, returns if a is already in the list, else appends a and its getter result, sets f04 if empty, and calls FUN_00ba91a0.
 // @fnv 0x00800d50
-void FUN_00800e50_Class::FUN_00800d50(int pNode)
+void FUN_00800e50_Class::FUN_00800d50(std::intptr_t pNode)
 {
-    ((char*)this)[0x2b4] = 0;
+    f2b4 = 0;
     for (int i = 0; i < this->f0c; ++i)
     {
-        if (*(int*)((char*)this + i * 8 + 0x14) == pNode)
+        if (entries[i].node == pNode)
         {
             return;
         }
@@ -1434,17 +1442,17 @@ void FUN_00800e50_Class::FUN_00800d50(int pNode)
         ::FUN_005b5e40();
         return;
     }
-    *(int*)((char*)this + this->f0c * 8 + 0x14) = pNode;
-    ((Ptr_0066b0d0*)((char*)this + this->f0c * 8 + 0x18))
-        ->FUN_0066b0d0(((FUN_00800d50_getter)(*(unsigned int*)(*(unsigned int*)pNode + 0x1d0)))((NiNode*)pNode));
+    entries[this->f0c].node = pNode;
+    ((Ptr_0066b0d0*)&entries[this->f0c].spNode)
+        ->FUN_0066b0d0((*(FUN_00800d50_getter**)pNode)[0x1d0 / 4]((NiNode*)pNode));
     this->f0c++;
     if (this->f04 == 0)
     {
         this->f04 = pNode;
         ((Ptr_0066b0d0*)&this->f08)
-            ->FUN_0066b0d0(((FUN_00800d50_getter)(*(unsigned int*)(*(unsigned int*)pNode + 0x1d0)))((NiNode*)pNode));
+            ->FUN_0066b0d0((*(FUN_00800d50_getter**)pNode)[0x1d0 / 4]((NiNode*)pNode));
     }
-    ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(void *)((NiNode*)*((NiPointer<NiNode>*)((char*)this + this->f0c * 8 + 0x18))), 0x31, (bool)(0));
+    ::fnv_00ba91a0::FUN_00ba91a0((::fnv_00ba91a0::Obj *)(void *)((NiNode*)*((NiPointer<NiNode>*)&entries[this->f0c].spNode)), 0x31, (bool)(0));
 }
 
 struct FnvBase
@@ -1505,7 +1513,7 @@ void FUN_00806ba0(void* a1, B9277Node* pNode)
     B9277Node* cur = pNode;
     while (cur != 0)
     {
-        B9277Node* obj5 = ((::B9277Holder *)(new ((void *)(cur)) ::Vec3()))->m_node;
+        B9277Node* obj5 = ((::B9277Holder *)(((::Vec3 *)(void *)(cur))))->m_node;
         if (obj5 != 0)
         {
             obj5->v30(a1);
@@ -1628,7 +1636,7 @@ void FUN_0080fc90(float);
 // @fnv 0x0080fb30
 FUN_0080fb30::~FUN_0080fb30()
 {
-    Actor* actor = ((::EffectActor *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::EffectActor *)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->f11() : 0;
+    Actor* actor = ((::EffectActor *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags())) ? ((::EffectActor *)(std::uintptr_t)(reinterpret_cast<::PlayerMover *>(this)->GetActorStateFlags()))->f11() : 0;
     if (actor != (*reinterpret_cast<::Actor * *>(&::_g_thePlayer)))
         FUN_0080fc90(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::GlobalObject_0044f440 *>(&::g_011d1c28)))))));
     if (reinterpret_cast<::SoundPlaybackHandle *>(&(sound))->IsValid())
@@ -1704,10 +1712,10 @@ void EffectBase::FUN_00812700(float a, EffectParams* pParams)
     SceneObj* node5 = pParams->m_pController;
     if (pParams->aspObstacleData)
     {
-        pParams->pos = *((::Pt3 *)(::FUN_0045bb80((int)((pParams->aspObstacleData).operator->()))));
+        pParams->pos = *((::Pt3 *)(::FUN_0045bb80((std::intptr_t)((pParams->aspObstacleData).operator->()))));
     }
     reinterpret_cast<::FUN_00440460_S *>((node5))->FUN_00440460((const ::V3 *)&(pParams->pos));
-    Pt3 dir = *((::Pt3 *)(::FUN_0045bb80((int)((pParams->m_spTargetObject).operator->())))) - pParams->pos;
+    Pt3 dir = *((::Pt3 *)(::FUN_0045bb80((std::intptr_t)((pParams->m_spTargetObject).operator->())))) - pParams->pos;
     bool bFar = reinterpret_cast<::FUN_00812870_t *>(this)->GetUnka4() - fD4 > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_811d1b14 *>(&::g_011d1b14))))));
     reinterpret_cast<::Ring216 *>(((pParams->spEmitter).operator->()))->AddValue(a, reinterpret_cast<::NiPoint3 *>(&(dir))->ComputeMagnitude(), f88, bFar);
     Mat3 rot2;
@@ -2524,7 +2532,7 @@ void EquipVisibility::UpdateEquipmentVisibility()
         for (int slotIndex = 0; slotIndex < 15; slotIndex++)
         {
             EquipTable* table = ((::EquipBase *)(reinterpret_cast<::Actor *>((actor))->GetActorBase()))->GetEquipment();
-            EquipSlot* entry3 = ((::EquipSlot *)(reinterpret_cast<::FUN_005e50f0_Obj *>((table))->GetValueByIndex(current)));
+            EquipSlot* entry3 = ((::EquipSlot *)(std::uintptr_t)(reinterpret_cast<::FUN_005e50f0_Obj *>((table))->GetValueByIndex(current)));
             if (entry3)
             {
                 EquipObject* node9 = actor->GetRoot()->Find(NiFixedString(reinterpret_cast<::StrOwner *>((entry3))->FUN_007fa950()));
@@ -2775,7 +2783,7 @@ class SpawnedBase
 FUN_0080d1a0::FUN_0080d1a0(int a, int b, int c)
 {
     reinterpret_cast<SpawnedBase*>(this)->SpawnedInit(a, b, c);
-    *(int*)this = (int)&DAT_01079f2c;
+    *(const void**)this = &DAT_01079f2c;
     *(int*)((char*)this + 0x48) = 0;
 }
 
@@ -2837,7 +2845,7 @@ struct FUN_0080f390_shell : ActiveEffect
 FUN_0080f390_shell::FUN_0080f390_shell(MagicCaster* apCaster, MagicItem* apItem, EffectItem* apEffect)
     : ActiveEffect(apCaster, apItem, apEffect)
 {
-    *(int*)this = (int)&DAT_0107a4ac;
+    *(const void**)this = &DAT_0107a4ac;
 }
 
 namespace fnv_0081de70 {
@@ -2868,7 +2876,7 @@ class SecondaryBase
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual int v5(int a, int b);
+    virtual char* v5(int a, int b);
     unsigned int Check();
 };
 
@@ -2930,13 +2938,13 @@ FUN_0081de70_cls::~FUN_0081de70_cls()
 {
     if (m_68 != 0)
     {
-        reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_0081de70::GlobalGate *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::fnv_0081de70::FUN_0081de70_cls *)(this), ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((m_68))->FUN_0045cd60())));
+        reinterpret_cast<::ActorDeletionQueue *>(&((*reinterpret_cast<::fnv_0081de70::GlobalGate *>(&::g_011e0e80))))->FUN_0096d470((::MobileObject *)(::fnv_0081de70::FUN_0081de70_cls *)(this), ((int)(std::uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((m_68))->FUN_0045cd60())));
     }
     if (m_a0 != 0)
     {
         if (((SecondaryBase*)(m_a0 + 0x18))->Check() > 0)
         {
-            reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::fnv_0081de70::Logger * *>(&::g_modelLoader))))->FUN_00445300((char *)(((SecondaryBase*)(m_a0 + 0x18))->v5(0, 1)), {}, {});
+            reinterpret_cast<::FUN_00445300_shell *>(((*reinterpret_cast<::fnv_0081de70::Logger * *>(&::g_modelLoader))))->FUN_00445300(((SecondaryBase*)(m_a0 + 0x18))->v5(0, 1), {}, {});
         }
     }
     if (!reinterpret_cast<::FUN_004226e0_shell *>(((*reinterpret_cast<::fnv_0081de70::GlobalMgr * *>(&::g_dataHandler))))->FUN_004226e0())

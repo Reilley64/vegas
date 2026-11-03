@@ -601,7 +601,7 @@ void MiddleHighProcess::UpdateActorAppearance(bool abWeapon, bool abBody, bool a
 }
 
 // @fnv 0x006377e0
-int FUN_006377e0(int param_1)
+intptr_t FUN_006377e0(intptr_t param_1)
 {
     return param_1 + 0xC8;
 }

@@ -25,4 +25,4 @@ float DAT_011a4d70 = 1.0e+02f;
 float DAT_011a4d74 = 1.0e+02f;
 float DAT_011a4d78 = 1.0e+03f;
 float DAT_011f18b0;
-int DAT_011f18b4[5];
+void* DAT_011f18b4[5];

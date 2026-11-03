@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00ad10e0 { struct VectorAllocator; }
 namespace fnv_00ad5180 { struct Vec; }
 namespace fnv_00ad5250 { namespace std { struct String; } }
@@ -48,7 +50,7 @@ void FUN_00ad5bd0(::S00ad5bd0_Elem *, unsigned int, int);
 // 0x00ad5cc0
 void FUN_00ad5cc0(::S00ad5cc0_Elem *, unsigned int, const ::S00ad5cc0_Elem &);
 // 0x00ad5dd0
-namespace fnv_00ad5dd0 { void FUN_00ad5dd0(int, int, int, int); }
+namespace fnv_00ad5dd0 { void FUN_00ad5dd0(int, int, std::intptr_t, std::intptr_t); }
 // 0x00ad5e20
 namespace fnv_00ad10e0 { char *FUN_00ad5e20(char *, char *, char *, ::fnv_00ad10e0::VectorAllocator *); }
 // 0x00ad5ec0

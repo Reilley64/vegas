@@ -111,7 +111,7 @@
 
 struct FUN_00700270_class
 {
-    bool operator==(int other);
+    bool operator==(intptr_t other);
 };
 
 struct BSStr
@@ -121,7 +121,7 @@ struct BSStr
 };
 // Returns true when Equals returns zero for the given value.
 // @fnv 0x00700270
-bool FUN_00700270_class::operator==(int other)
+bool FUN_00700270_class::operator==(intptr_t other)
 {
     return !((unsigned char)(reinterpret_cast<::BSStr *>(this)->Equals((const char *)(other))));
 }
@@ -280,7 +280,7 @@ void FUN_00709c80(bool abValue)
 
 
 // @fnv 0x00709d20
-void __cdecl FUN_00709d20(int aiValue)
+void __cdecl FUN_00709d20(intptr_t aiValue)
 {
     ::FUN_007a1880((::EffectSetting *)(aiValue));
 }
@@ -391,14 +391,14 @@ void FUN_0071aa60_class::FUN_0071aa60(bool value)
 
 
 // @fnv 0x0071cfd0
-void __cdecl FUN_0071cfd0(int aiArg1, int aiArg2, int aiArg3)
+void __cdecl FUN_0071cfd0(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 {
     fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
 
 
 // @fnv 0x0071cff0
-void __cdecl FUN_0071cff0(int aiArg1, int aiArg2, int aiArg3)
+void __cdecl FUN_0071cff0(intptr_t aiArg1, intptr_t aiArg2, int aiArg3)
 {
     fnv::crt::strnicmp((const char *)(aiArg1), (const char *)(aiArg2), aiArg3);
 }
@@ -477,7 +477,7 @@ struct SL
 };
 struct FUN_0071f5d0
 {
-    int m;
+    void* m;
     SL s;
     FUN_0071f5d0();
 };
@@ -485,7 +485,7 @@ struct FUN_0071f5d0
 // @fnv 0x0071f5d0
 FUN_0071f5d0::FUN_0071f5d0() : s()
 {
-    m = (int)&DAT_01070028;
+    m = &DAT_01070028;
 }
 
 struct FUN_0071fb20_Class
@@ -659,7 +659,7 @@ extern char vftable_TileMenu;
 // @fnv 0x00709810
 TileMenu* TileMenu::TileMenuConstructor(int aiUnused1, int aiUnused2)
 {
-    ::FUN_00709840((void *)(((FUN_00709840*)this)));
+    ::FUN_00709840((void *)this);
     *(void**)this = (void*)&vftable_TileMenu;
     *(int*)((char*)this + 0x3c) = 0;
     return this;
@@ -801,7 +801,7 @@ struct FUN_00719250_class
     void* a;
     void* b;
     int c;
-    FUN_00719250_class* Construct(int, int, int);
+    FUN_00719250_class* Construct(intptr_t, int, int);
 };
 void __cdecl FUN_007192c0();
 struct FUN_00719290_class
@@ -843,7 +843,7 @@ int _FNV_GetFormType(unsigned int);
 unsigned char __cdecl FUN_00719da0(ArrSI* p)
 {
     int result;
-    if (p != 0 && _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName()))) == 0x28)
+    if (p != 0 && _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((p))->GetName()))) == 0x28)
         result = 1;
     else
         result = 0;
@@ -861,7 +861,7 @@ char FUN_00719de0(void* arg)
 {
     int result;
     if (arg &&
-        (FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)arg)))->GetName()))) == 0x1a || FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)arg)))->GetName()))) == 0x18))
+        (FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)arg)))->GetName()))) == 0x1a || FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)arg)))->GetName()))) == 0x18))
         result = 1;
     else
         result = 0;
@@ -908,7 +908,7 @@ struct S71df20
 void S71df20::AssignString(const BSStringTCharAssign& aString)
 {
     void* tmp = ((A71e0d0*)this)->FUN_0071e0d0();
-    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf=((int)&(aString));
+    reinterpret_cast<::FUN_00501c10_cls *>((((BSStringTCharAssign*)((char*)tmp + 8))))->CallAndReturnSelf((intptr_t)&(aString));
     reinterpret_cast<::FUN_0049fa20_List *>((((B49fa20*)this)))->FUN_0049fa20((::FUN_0049fa20_Node *)(tmp));
 }
 
@@ -929,7 +929,7 @@ void FUN_0071e1a0_cls::FUN_0071e1a0(const void* apObject)
         a = apObject;
         b = (FUN_0071e200_Helper*)a;
     }
-    b ? ((int)(reinterpret_cast<::S_0071e200 *>((b))->FUN_0071e200(1))) : 0;
+    b ? ((uintptr_t)(reinterpret_cast<::S_0071e200 *>((b))->FUN_0071e200(1))) : 0;
 }
 // @fnv 0x0071e200
 void* S_0071e200::FUN_0071e200(unsigned int flags)
@@ -953,7 +953,7 @@ struct S
 // @fnv 0x0071f310
 void S::DestroyMenu()
 {
-    *(int*)this = (int)&DAT_0106ff84;
+    *(void**)this = &DAT_0106ff84;
     DAT_011db088 = 0;
     reinterpret_cast<::fnv_00a1c520::FUN_00a1c520 *>((((Menu_007a8b10*)this)))->fnv_00a1c520::FUN_00a1c520::~FUN_00a1c520();
 }
@@ -1104,8 +1104,8 @@ extern int DAT_0106e8dc;
 FUN_00700560::FUN_00700560(void* ausSize, void* b)
 {
     *(void**)this = &DAT_0106e8dc;
-    *(unsigned short*)((char*)this + 0x08) = (unsigned short)(unsigned int)ausSize;
-    *(unsigned short*)((char*)this + 0x0e) = (unsigned short)(unsigned int)b;
+    *(unsigned short*)((char*)this + 0x08) = (unsigned short)(uintptr_t)ausSize;
+    *(unsigned short*)((char*)this + 0x0e) = (unsigned short)(uintptr_t)b;
     *(unsigned short*)((char*)this + 0x0a) = 0;
     *(unsigned short*)((char*)this + 0x0c) = 0;
     if (*(unsigned short*)((char*)this + 0x08) > 0)
@@ -1173,10 +1173,10 @@ unsigned char __cdecl FUN_00719e30(ArrSI* apForm)
 {
     int result;
 
-    if (apForm && (_FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x1f || _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x29 ||
-                   _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x67 || _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x32 ||
-                   _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x6c || _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x74 ||
-                   _FNV_GetFormType(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x73))
+    if (apForm && (_FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x1f || _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x29 ||
+                   _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x67 || _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x32 ||
+                   _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x6c || _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x74 ||
+                   _FNV_GetFormType(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((apForm))->GetName()))) == 0x73))
         result = 1;
     else
         result = 0;
@@ -1419,11 +1419,11 @@ class FUN_00719160_cls
     virtual void Unk00();
     StrHolderSub m_04;
 
-    FUN_00719160_cls(const char* a1, int a2);
+    FUN_00719160_cls(const char* a1, intptr_t a2);
 };
 // Calls FUN_00719160 with p2 and p4, sets vtbl to DAT_0106f430 and c to p3, then returns this.
 // @fnv 0x00719250
-FUN_00719250_class* FUN_00719250_class::Construct(int aiArg1, int aiValue, int aiArg2)
+FUN_00719250_class* FUN_00719250_class::Construct(intptr_t aiArg1, int aiValue, int aiArg2)
 {
     new ((void *)this) ::FUN_00719160_cls((const char *)(aiArg1), aiArg2);
     vtbl = &DAT_0106f430;
@@ -1434,14 +1434,14 @@ FUN_00719250_class* FUN_00719250_class::Construct(int aiArg1, int aiValue, int a
 // @fnv 0x007192e0
 FUN_007192e0_Class::FUN_007192e0_Class(void* a, void* b, void* c)
 {
-    new ((void *)this) ::FUN_00719160_cls((const char *)((int)a), (int)c);
+    new ((void *)this) ::FUN_00719160_cls((const char *)(a), (intptr_t)c);
     vtbl = &DAT_0106f448;
     m_0c = b;
 }
 
 // Formats "&%s;" into m_04, resets it, then calls ReleaseWith with m_04.Get() and a2.
 // @fnv 0x00719160
-FUN_00719160_cls::FUN_00719160_cls(const char* a1, int a2)
+FUN_00719160_cls::FUN_00719160_cls(const char* a1, intptr_t a2)
 {
     ::FUN_00406f60((::FUN_00406f90_this *)(::StrHolderSub *)(&m_04), "&%s;", a1);
     ::FUN_004afad0((::BSStringT_layout *)&(m_04));
@@ -1470,13 +1470,13 @@ class FUN_00719ca0_cls
 // @fnv 0x00719ca0
 int __cdecl FUN_00719ca0(FUN_00719ca0_cls* apLeft, FUN_00719ca0_cls* apRight)
 {
-    if (((int)(reinterpret_cast<::Callees *>((apLeft))->FUN_00726070())) < ((int)(reinterpret_cast<::Callees *>((apRight))->FUN_00726070())))
+    if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((apLeft))->FUN_00726070())) < ((int)(uintptr_t)(reinterpret_cast<::Callees *>((apRight))->FUN_00726070())))
     {
         return -1;
     }
     else
     {
-        if (((int)(reinterpret_cast<::Callees *>((apLeft))->FUN_00726070())) > ((int)(reinterpret_cast<::Callees *>((apRight))->FUN_00726070())))
+        if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((apLeft))->FUN_00726070())) > ((int)(uintptr_t)(reinterpret_cast<::Callees *>((apRight))->FUN_00726070())))
         {
             return 1;
         }
@@ -1553,12 +1553,12 @@ struct FUN_00501c10_Class
 struct FUN_0071df60_Class
 {
     void* FUN_0071e0d0();
-    void FUN_0071df60(int value);
+    void FUN_0071df60(intptr_t value);
 };
 
 // Retrieves an object via FUN_0071e0d0, passes value to the object at offset 8, then forwards the object to FUN_00559a70.
 // @fnv 0x0071df60
-void FUN_0071df60_Class::FUN_0071df60(int value)
+void FUN_0071df60_Class::FUN_0071df60(intptr_t value)
 {
     void* result = this->FUN_0071e0d0();
 
@@ -1793,7 +1793,7 @@ void FUN_007031e0(DbgRef* ref)
             int x = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSetting *>(&::g_011debac))))));
             reinterpret_cast<::A0F8Self *>((((::DbgText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)&(text)))), 640.0f, (float)x, 2, -1, -1.0f, 0, (::A0F8Color *)(0));
         }
-        reinterpret_cast<::FUN_00714d70 *>((((::DbgIface *)(::fnv_004b7210::FUN_004b7210()))))->SetField((int)(ref));
+        reinterpret_cast<::FUN_00714d70 *>((((::DbgIface *)(::fnv_004b7210::FUN_004b7210()))))->SetField((int)(intptr_t)(ref));
     }
 }
 
@@ -1819,7 +1819,7 @@ TESSound* GetDialogCastSound()
 {
     if (((void *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
     {
-        TileStandIn* pTile = (TileStandIn*)((void *)(::FUN_00a09030(0x3f1)));
+        TileStandIn* pTile = (TileStandIn*)((void *)(uintptr_t)(::FUN_00a09030(0x3f1)));
         DialogMenu* pDialogMenu = pTile != 0 ? dynamic_cast<DialogMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((pTile))->FUN_00a03c90()) : 0;
         if (pDialogMenu != 0)
             return reinterpret_cast<::EffectSetting *>((pDialogMenu))->GetCastSound();
@@ -2300,7 +2300,7 @@ void MenuState::UpdateMenuSelection()
             actor = ((::MenuActor *)(reinterpret_cast<::FUN_00a03c90_shell *>((pSource))->FUN_00a03c90()));
         if (actor && ((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070())) && !((bool)(reinterpret_cast<::QueuedFileLoad *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->GetFileIndex())))
         {
-            float amount = ::FUN_00716660((int)(actor));
+            float amount = ::FUN_00716660((int)(intptr_t)(actor));
             bool leftSlot = FUN_00408840(amount) == ::g_01012070;
             int selection = ((int)(reinterpret_cast<::ActorMover *>((actor))->GetCurrentMoveModeType()));
             int rightSlot = reinterpret_cast<::InterfaceManager *>(this)->GetTopEnterStackEntry();
@@ -2325,11 +2325,11 @@ void MenuState::UpdateMenuSelection()
                     else
                     {
                         reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 0);
-                        reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 0.0f, 0.0f);
+                        reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 0.0f, 0.0f);
                         if (shouldUpdate)
                         {
-                            reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
-                            reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0({});
+                            reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(0.0f);
+                            reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0(0);
                         }
                     }
                 }
@@ -2337,9 +2337,9 @@ void MenuState::UpdateMenuSelection()
                 {
                     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
                     if (shouldUpdate)
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(1.0f - amount);
                 }
             }
             else if (selection == 8)
@@ -2349,21 +2349,21 @@ void MenuState::UpdateMenuSelection()
                 if (leftSlot)
                 {
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f, 0.0f);
                     reinterpret_cast<::TESRecipe *>((actor))->SetRequiredSkill((::ActorValue::Index)(1));
                     if (shouldUpdate)
                     {
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
-                        reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(1.0f);
+                        reinterpret_cast<::S4 *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123a0(0);
                     }
                 }
                 else
                 {
                     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
                     if (shouldUpdate)
-                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
+                        reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0(amount);
                 }
             }
         }
@@ -2375,7 +2375,7 @@ void MenuState::UpdateMenuSelection()
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 1;
         if (!FUN_004b71d0() || *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x7d))
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_0056c7f0()))))->QueueActorDisarm(1);
+            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_0056c7f0()))))->QueueActorDisarm(1);
             reinterpret_cast<::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->Set(0xfa3, 0);
         }
         reinterpret_cast<::RenderTile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_00a04640(1);
@@ -2573,7 +2573,7 @@ void __cdecl GetControlLabel(int control, char* output, bool prefix)
             text = output;
         else
             text = ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d37b0))))->GetMenuTitle()));
-        if (setting && setting->name && ((int)(::FUN_004b75a0(setting->name, "trigger"))))
+        if (setting && setting->name && ((uintptr_t)(::FUN_004b75a0(setting->name, "trigger"))))
             sprintf(output, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d4a08))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(text)))));
         else
             sprintf(output, "%s %s", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d3fc4))))->GetMenuTitle())), ((const char *)(::FUN_00559450((int *)&(text)))));
@@ -2638,14 +2638,14 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
     for (int q = 0; q < h; ++q)
     {
         bool j = false;
-        if (currentLine == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())))
+        if (currentLine == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())))
             j = true;
         BSStringT<char> l;
         l = f;
-        reinterpret_cast<::FUN_0071df60_Class *>(&(lines))->FUN_0071df60((int)&(l));
+        reinterpret_cast<::FUN_0071df60_Class *>(&(lines))->FUN_0071df60((intptr_t)&(l));
         if (j)
-            currentLine = ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName()));
-        while (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8cf0)))))))
+            currentLine = ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName()));
+        while (((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::ConsoleSetting *>(&::g_011d8cf0)))))))
         {
             lines.PopFront();
             currentLine--;
@@ -2657,7 +2657,7 @@ void ConsoleText::FUN_0071d0a0(const char* format, char* arguments)
             ++f;
         }
     }
-    if (currentLine == ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())))
+    if (currentLine == ((int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(lines))->GetName())))
         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
 }
 
@@ -2727,20 +2727,20 @@ class FUN_00701520_cls
 // @fnv 0x00701520
 void FUN_00701520_cls::FUN_00701520()
 {
-    void* a = ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
+    void* a = ((void *)(::InventoryChanges::CreateForReference((*reinterpret_cast<::TESObjectREFR **>(&::_g_thePlayer)))));
 
     for (int i = 0; i < 8; i++)
     {
         void* b = ((void *)(reinterpret_cast<::InventoryChangesIter *>((((GameObjStub*)a)))->FindEntryWithExtraListType(i)));
 
-        if (b != 0 && ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((GameObjStub*)b)))->GetName())) != 0)
+        if (b != 0 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((GameObjStub*)b)))->GetName())) != 0)
         {
-            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
+            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(uintptr_t)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (*reinterpret_cast<::TESObjectREFR **>(&::_g_thePlayer)))));
 
             if (c == 0)
             {
                 c = dynamic_cast<TESModelTextureSwap*>(
-                    (TESBoundObject*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName())));
+                    (TESBoundObject*)((uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName())));
             }
 
             if (c != 0)

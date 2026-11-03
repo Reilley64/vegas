@@ -1,9 +1,10 @@
 #pragma once
+#include <cstdint>
 
 struct FNV_MapKey;
 
 struct FNV_HashMap {
 public:
     // 0x00658950
-    void InsertOrUpdate(int, ::FNV_MapKey);
+    void InsertOrUpdate(intptr_t, ::FNV_MapKey);
 };

@@ -18,7 +18,7 @@ public:
     // 0x005f9210
     ::CreatureSoundCollection *GetMutableCreatureSounds();
     // 0x005f92d0
-    int FUN_005f92d0(int);
+    intptr_t FUN_005f92d0(int);
     // 0x005fa310
     void SetBodyPartData(::BGSBodyPartData *);
     // 0x005fbf20

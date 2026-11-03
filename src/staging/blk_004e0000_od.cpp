@@ -78,7 +78,6 @@
 #include "fnv/decl/ListReader.h"
 #include "fnv/decl/Manager.h"
 #include "fnv/decl/NiCamera.h"
-#include "fnv/decl/NiTPointerListBase.h"
 #include "fnv/decl/Obj43c.h"
 #include "fnv/decl/ObsList.h"
 #include "fnv/decl/PatrolActorPackageData.h"
@@ -142,6 +141,7 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_011ff000.h"
 #include "../../include/layout_support.h"
+#include "NiRefObject.h"
 
 // Returns the smaller of the two arguments: a if a is less than b, otherwise b.
 // @fnv 0x004e2050
@@ -349,20 +349,20 @@ struct FUN_004ea9e0_Class
 // @fnv 0x004ea9e0
 NiNode* FUN_004ea9e0_Class::FUN_004ea9e0()
 {
-    return (NiNode*)((Flt*)&(*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d86bc)))->operator unsigned int();
+    return (NiNode*)(*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d86bc));
 }
 
 extern "C" void* DAT_010231f4;
 struct FUN_004ed7a0_class
 {
     void* m_ptr;
-    void* FUN_004ed7a0(void* a);
+    void* FUN_004ed7a0(unsigned int auiSize);
 };
 // Calls FUN_004ed960(a), sets m_ptr to &DAT_010231f4, and returns this.
 // @fnv 0x004ed7a0
-void* FUN_004ed7a0_class::FUN_004ed7a0(void* apArg)
+void* FUN_004ed7a0_class::FUN_004ed7a0(unsigned int auiSize)
 {
-    reinterpret_cast<::FUN_004ed960 *>(this)->Init((unsigned int)(apArg));
+    reinterpret_cast<::FUN_004ed960 *>(this)->Init(auiSize);
     m_ptr = &DAT_010231f4;
     return this;
 }
@@ -410,11 +410,11 @@ struct FUN_0043ba10_shell
 
 struct FUN_004eeae0_shell
 {
-    void FUN_004eeae0(int arg);
+    void FUN_004eeae0(intptr_t arg);
 };
 
 // @fnv 0x004eeae0
-void FUN_004eeae0_shell::FUN_004eeae0(int arg)
+void FUN_004eeae0_shell::FUN_004eeae0(intptr_t arg)
 {
     ((FUN_0043ba10_shell*)((char*)this + 0x5c))->FUN_0043ba10((FUN_0043ba10_shell*)arg);
 }
@@ -537,7 +537,7 @@ FUN_004f6fc0_shell* FUN_004f6fc0_shell::FUN_004f87e0()
 
 struct FUN_004f8a60_class
 {
-    void FUN_004f8ac0(int);
+    void FUN_004f8ac0(intptr_t);
     void SetField108(int);
 };
 
@@ -746,7 +746,7 @@ void FUN_004e20f0(unsigned char value)
 struct GlobalObject_00633c90;
 
 // @fnv 0x004e7ff0
-unsigned int FUN_004e7ff0()
+std::uintptr_t FUN_004e7ff0()
 {
     return ((Flt*)&::g_011c7c28)->operator unsigned int();
 }
@@ -815,7 +815,6 @@ bool FUN_004f02e0_This::FUN_004f02e0()
     return reinterpret_cast<::TimeoutTimer *>(&(mod))->FUN_006b9130() != -DAT_01023900;
 }
 
-extern "C" float DAT_01023900;
 struct FUN_004f0320_class
 {
     bool FUN_004f0320();
@@ -870,7 +869,7 @@ struct FUN_004f5590 : FUN_004f5600_shell
 // @fnv 0x004f5590
 FUN_004f5590::FUN_004f5590(int aiFirst, int aiSecond)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01023ec4);
+    *reinterpret_cast<void**>(this) = &DAT_01023ec4;
     this->m8 = aiFirst;
     *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 8) = aiSecond;
 }
@@ -988,10 +987,10 @@ void* FUN_004f7070_shell::SetValues(float afFirst, float afSecond)
 struct FUN_004f71f0_Class
 {
     float SquaredDistanceTo(int);
-    float FUN_004f71f0(int);
+    float FUN_004f71f0(intptr_t);
 };
 // @fnv 0x004f71f0
-float FUN_004f71f0_Class::FUN_004f71f0(int a)
+float FUN_004f71f0_Class::FUN_004f71f0(intptr_t a)
 {
     if (a == 0)
         return -1.0f;
@@ -1025,7 +1024,7 @@ struct TaskQueueAttachHelper
 {
 };
 // @fnv 0x004f8ac0
-void FUN_004f8a60_class::FUN_004f8ac0(int apSource)
+void FUN_004f8a60_class::FUN_004f8ac0(intptr_t apSource)
 {
     if (apSource)
         ::TaskQueueInterface::CopyStringToBuffer((char*)this + 4, 0x104, (const char*)apSource);
@@ -1086,7 +1085,7 @@ struct NiTPointerList
 };
 struct FUN_006317a0_struct
 {
-    int AddEight(int);
+    intptr_t AddEight(intptr_t);
 };
 struct FUN_004e8950_class
 {
@@ -1098,7 +1097,7 @@ bool FUN_004e8950_class::FUN_004e8950()
 {
     if (FUN_004e89e0())
     {
-        unsigned int count = *reinterpret_cast<Flt*>(reinterpret_cast<unsigned char*>(this) + 0x3c);
+        uintptr_t count = (unsigned int)*reinterpret_cast<Flt*>(reinterpret_cast<unsigned char*>(this) + 0x3c);
         void* next = 0;
         while (count)
         {
@@ -1111,7 +1110,7 @@ bool FUN_004e8950_class::FUN_004e8950()
                 if (reinterpret_cast<::WaterScanner_004e83e0 *>((reinterpret_cast<FUN_004e83e0_class*>(this)))->IsPlayerNearWaterActor(item))
                     return true;
             }
-            count = reinterpret_cast<unsigned int>(next);
+            count = reinterpret_cast<uintptr_t>(next);
         }
     }
     return false;
@@ -1369,7 +1368,7 @@ void NiInterpController::FUN_004f0640(NiAVObject* object)
     if (object)
     {
         unsigned short index;
-        index = reinterpret_cast<::FUN_0043b3b0_class *>((reinterpret_cast<FUN_0043b3b0_class*>(this)))->FUN_0043b3b0(reinterpret_cast<unsigned int>(object));
+        index = reinterpret_cast<::FUN_0043b3b0_class *>((reinterpret_cast<FUN_0043b3b0_class*>(this)))->FUN_0043b3b0(reinterpret_cast<uintptr_t>(object));
 
         if (index != NiInterpController::INVALID_INDEX)
         {
@@ -2186,14 +2185,14 @@ bool __cdecl FUN_004f2640(RDLItem* target)
     QueryContext queryBuffer;
     if (regionNode == 0 || *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3())) == 0)
     {
-        regionNode = ((::NodeHolder *)(reinterpret_cast<::TESObjectCELL *>((((::InnerRegion *)(reinterpret_cast<::FUN_00527900_shell *>((((::RegionSource *)(reinterpret_cast<::FUN_00575650_Class *>((reinterpret_cast<RegionPlayer*>((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00575650((::FUN_00575650_Result *)(::QueryContext *)(&queryBuffer))))))->FUN_00527900()))))->GetRegionList({})));
+        regionNode = ((::NodeHolder *)(reinterpret_cast<::TESObjectCELL *>((((::InnerRegion *)(reinterpret_cast<::FUN_00527900_shell *>((((::RegionSource *)(reinterpret_cast<::FUN_00575650_Class *>((reinterpret_cast<RegionPlayer*>((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00575650((::FUN_00575650_Result *)(::QueryContext *)(&queryBuffer))))))->FUN_00527900()))))->GetRegionList(true)));
     }
     while (regionNode != 0 && *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3())) != 0)
     {
         listEntry = *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3()));
         if (listEntry != 0)
         {
-            childList = ((::RegionList *)(reinterpret_cast<::GList *>((((::RegionContainer *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<RegionEntry*>(listEntry)))->FUN_009611e0()))))->FUN_004f35b0({})));
+            childList = ((::RegionList *)(reinterpret_cast<::GList *>((((::RegionContainer *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<RegionEntry*>(listEntry)))->FUN_009611e0()))))->FUN_004f35b0(8)));
             if (childList != 0)
             {
                 listReference = childList;
@@ -2406,7 +2405,7 @@ struct FUN_004f6850_Class
 {
     int m0;
     RDLNode m_node;
-    RDLItem* FUN_004f6850(int arg0, int arg1, int arg2);
+    RDLItem* FUN_004f6850(intptr_t arg0, intptr_t arg1, intptr_t arg2);
 };
 
 class TESForm
@@ -2607,11 +2606,6 @@ void FUN_004ff0e0_cls::FUN_004ff0e0(FUN_004ff0e0_arg* a1)
     }
 }
 
-class NiMemObject
-{
-  public:
-};
-
 class AnimIdle : public NiMemObject
 {
   public:
@@ -2769,7 +2763,7 @@ extern int DAT_011c7a3c;
 extern int DAT_011c7a44;
 extern int DAT_011c7a40;
 
-unsigned int __cdecl FUN_004e7ff0();
+std::uintptr_t __cdecl FUN_004e7ff0();
 
 class FUN_004e1650
 {
@@ -2929,16 +2923,16 @@ FUN_004e19c0::~FUN_004e19c0()
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7be8)) = 0;
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7cb8)) = 0;
     if ((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c)))
-        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c))));
+        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(const char *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c))));
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7c2c)) = 0;
     if ((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4)))
-        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4))));
+        reinterpret_cast<::Manager *>((((::fnv_004e19c0::BSTextureManager *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(const char *)((*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4))));
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7ad4)) = 0;
     (*reinterpret_cast<::fnv_004e19c0::TexName_4e19c0 *>(&::g_011c7b68)) = 0;
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7bcc))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7c30))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7ce4))))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7b80))))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7bcc))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7c30))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7ce4))))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&((*reinterpret_cast<::fnv_004e19c0::TexList_4e19c0 *>(&::g_011c7b80))))->RemoveAll();
     delete (*reinterpret_cast<::fnv_004e19c0::Owned_4e19c0 * *>(&::DAT_011c7a54));
     (*reinterpret_cast<::fnv_004e19c0::Owned_4e19c0 * *>(&::DAT_011c7a54)) = 0;
 }
@@ -3059,17 +3053,17 @@ FUN_004ed3e0::~FUN_004ed3e0()
 {
     ptr94.FUN_0066b0d0(0);
     ptr98.FUN_0066b0d0(0);
-    reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures({}, {}, {});
-    if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
+    reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures((::Owner58a0 *)(void *)(this), 1, 0);
+    if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(uintptr_t)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
     {
-        reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_004a0ea0()))))->FUN_00b6da10({});
+        reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(::FUN_00559450((int *)&(owner->node))));
         owner->node.FUN_0066b0d0(0);
     }
-    reinterpret_cast<::NiTPointerListBase *>(&(list30))->FUN_004ed900();
-    reinterpret_cast<::NiTPointerListBase *>(&(list3c))->FUN_004ed900();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(list30))->RemoveAll();
+    reinterpret_cast<::NiTPointerListBase<::NiTPointerAllocator<unsigned int>, void*> *>(&(list3c))->RemoveAll();
     if (((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(ptr58)))))
     {
-        ((CleanupManager*)FUN_004e7ff0())->Release(((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(ptr58)))));
+        ((CleanupManager*)(uintptr_t)FUN_004e7ff0())->Release(((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(ptr58)))));
         ptr58.FUN_0066b0d0(0);
     }
 }
@@ -3158,10 +3152,10 @@ FUN_004ee9f0::FUN_004ee9f0(const void* pvTarget, Source4EE* pkSource)
 {
     m_kRoomNode.Reset(pvTarget);
     m_kName.Reset(pkSource->GetName());
-    m_iInterval = ((int)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((pkSource))->FUN_005f5f80()));
-    reinterpret_cast<::FUN_004eeae0_shell *>(this)->FUN_004eeae0(((int)(reinterpret_cast<::FUN_006c9900_shell *>((pkSource))->FUN_006c9900())));
+    m_iInterval = ((int)(uintptr_t)(reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((pkSource))->FUN_005f5f80()));
+    reinterpret_cast<::FUN_004eeae0_shell *>(this)->FUN_004eeae0(((intptr_t)(reinterpret_cast<::FUN_006c9900_shell *>((pkSource))->FUN_006c9900())));
     CopyInfo4EE kInfo(0x101);
-    reinterpret_cast<::Obj43c *>((pkSource))->ClearInterpolatorRefs((::Src43c *)(::Base4EE *)(this), (int)&(kInfo));
+    reinterpret_cast<::Obj43c *>((pkSource))->ClearInterpolatorRefs((::Src43c *)(::Base4EE *)(this), (intptr_t)&(kInfo));
 }
 
 struct TESRegionData
@@ -3359,7 +3353,7 @@ struct Polygon : PolygonNode
     bool FUN_004f8360(PolygonPoint*);
 };
 // @fnv 0x004f6850
-RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
+RDLItem* FUN_004f6850_Class::FUN_004f6850(intptr_t arg0, intptr_t arg1, intptr_t arg2)
 {
     bool foundC = false;
     unsigned short bestPrioB = 0;
@@ -3379,12 +3373,12 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
             continue;
         }
-        if (arg2 != 0 && arg2 != ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RDLItemX*)curB)))->FUN_007af430())))
+        if (arg2 != 0 && arg2 != ((int)(uintptr_t)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((RDLItemX*)curB)))->FUN_007af430())))
         {
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
             continue;
         }
-        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)curB)))->FUN_009611e0()))))->FUN_004f35b0({})));
+        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)curB)))->FUN_009611e0()))))->FUN_004f35b0(arg0)));
         if (itemB == 0 || reinterpret_cast<::FUN_004f6de0_shell *>((((RDLItemX*)itemB)))->FUN_004f6de0())
         {
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
@@ -3392,10 +3386,10 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
         }
         if (arg1 != 0)
         {
-            node2C = ((::RDLNode *)(reinterpret_cast<::BGSTerrainManager *>((((RDLItemX*)curB)))->GetMinLevel()));
+            node2C = ((::RDLNode *)(uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((((RDLItemX*)curB)))->GetMinLevel()));
             while (node2C != 0 && *((::RDLItem **)(new ((void *)(node2C)) ::Vec3())) != 0)
             {
-                if (reinterpret_cast<::Polygon *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(node2C)) ::Vec3())))))->FUN_004f8360((::PolygonPoint *)(arg1)))
+                if (reinterpret_cast<struct ::Polygon *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(node2C)) ::Vec3())))))->FUN_004f8360((::PolygonPoint *)(arg1)))
                 {
                     reinterpret_cast<::TESRegionList *>((collH))->AddRegion((::TESRegion *)(curB));
                     break;
@@ -3438,7 +3432,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, int arg1, int arg2)
     nodeB = collH ? (RDLNode*)&collH->m4 : 0;
     while (nodeB != 0 && *((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())) != 0)
     {
-        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_009611e0()))))->FUN_004f35b0({})));
+        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_009611e0()))))->FUN_004f35b0(arg0)));
         if (itemB == 0)
         {
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
@@ -3592,7 +3586,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
     d = false;
     if (cache && reinterpret_cast<::PointObject *>((cache))->IsInRegion((::RegionNode *)(point), range))
         return cache->value;
-    h = reinterpret_cast<::Polygon *>(this)->FUN_004f8360((::PolygonPoint *)(point));
+    h = reinterpret_cast<struct ::Polygon *>(this)->FUN_004f8360((::PolygonPoint *)(point));
     if (!point || !h)
         return 0.0f;
     if (range < 1.0 && h)
@@ -3609,7 +3603,7 @@ float RegionMatch::ComputeRegionValue(RegionPointMatch* point, float range)
         }
         j = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>((point))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3()))));
         a = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>((point))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
-        c = reinterpret_cast<::FUN_004f71f0_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->FUN_004f71f0((int)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
+        c = reinterpret_cast<::FUN_004f71f0_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->FUN_004f71f0((intptr_t)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
         b = reinterpret_cast<::fnv_004f7230::FUN_004f7230_Class *>(((*((::RegionPointMatch **)(new ((void *)(g)) ::Vec3())))))->SquaredDistanceTo((::fnv_004f7230::RegionPoint *)(*((::RegionPointMatch **)(new ((void *)(l)) ::Vec3()))));
         e = b - a + j;
         e /= (2.0 * c);
@@ -3688,7 +3682,7 @@ class Owner4FF
 int Owner4FF::FUN_004ff070(Ref4FF* pkRef)
 {
     int iResult = 0;
-    reinterpret_cast<::FUN_0042e060_class *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->FUN_0042e060((unsigned int)(this), (unsigned int)(pkRef));
+    reinterpret_cast<::FUN_0042e060_class *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->FUN_0042e060((uintptr_t)(this), (uintptr_t)(pkRef));
     pkRef->SetFlag(0x80000000);
     if (((::ExtraOwner4FF *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->GetExtraData())))
         iResult = ((::ExtraOwner4FF *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((::ExtraList4FF *)(reinterpret_cast<::FUN_005d43c0_ *>((pkRef))->FUN_005d43c0()))))->GetExtraData()))->m_iValue;
@@ -4276,16 +4270,16 @@ void Self::FUN_004e3d60(ParamObj* param)
     while (zpos != 0)
     {
         next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(param->m_24))->DereferenceIfNotNull((int **)(zpos))));
-        Refr* rrefr = ((::Refr *)(reinterpret_cast<::FUN_006317a0_struct *>(&(param->m_24))->AddEight((int)(zpos))));
+        Refr* rrefr = ((::Refr *)(reinterpret_cast<::FUN_006317a0_struct *>(&(param->m_24))->AddEight((intptr_t)(zpos))));
         BoundObj* bound = ((::BoundObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((rrefr))->FUN_007af430()));
         Obj20* obj = (Obj20*)bound->getObj80();
         if (obj != 0)
         {
             if (reinterpret_cast<::FUN_00580080_shell *>((obj))->FUN_00580080() != 0)
             {
-                if (!reinterpret_cast<::FUN_004e4690_shell *>((((G4680Obj*)FUN_004e4680())))->GetByteAtOffset2B8())
+                if (!reinterpret_cast<::FUN_004e4690_shell *>((((G4680Obj*)(uintptr_t)FUN_004e4680())))->GetByteAtOffset2B8())
                 {
-                    reinterpret_cast<::FUN_00b9b7f0_cls *>((((G4680Obj*)FUN_004e4680())))->FUN_00b9b7f0();
+                    reinterpret_cast<::FUN_00b9b7f0_cls *>((((G4680Obj*)(uintptr_t)FUN_004e4680())))->FUN_00b9b7f0();
                 }
                 ItemObj* item = ((::ItemObj *)(reinterpret_cast<::Finder *>(this)->FUN_004e8030((::Ref *)(rrefr))));
                 if (item != 0)
@@ -4294,7 +4288,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                     ProcObj* proc = ((::ProcObj *)(reinterpret_cast<::AlchemyItem *>((item3))->FUN_004030b0()));
                     if (proc != 0)
                     {
-                        if (((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((proc))->GetBaseTexture())) == 13)
+                        if (((int)(uintptr_t)(reinterpret_cast<::BSShaderNoLightingProperty *>((proc))->GetBaseTexture())) == 13)
                         {
                             PropObj* propTemp = ((::PropObj *)(reinterpret_cast<::FUN_00a59d30_C *>((item))->FUN_00a59d30(3)));
                             PropObj* pprop = propTemp;
@@ -4317,7 +4311,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     }
                                     else
                                     {
-                                        reinterpret_cast<::TESTexLoader *>((((TESObj*)(*reinterpret_cast<::TES4e1 * *>(&::g_TES)))))->FUN_004568c0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_005800a0_shell *>((obj))->FUN_005800a0()))), *(::TexPtr< ::NiSourceTexture> *)nullptr, {}, {});
+                                        reinterpret_cast<::TESTexLoader *>((((TESObj*)(*reinterpret_cast<::TES4e1 * *>(&::g_TES)))))->FUN_004568c0((const char *)(void *)(((void *)(reinterpret_cast<::FUN_005800a0_shell *>((obj))->FUN_005800a0()))), *(::TexPtr< ::NiSourceTexture> *)(void *)(&pprop->m_134), true, false);
                                     }
                                     reinterpret_cast<::FUN_004e4660_shell *>((obj))->SetByteAtOffset190(0);
                                 }
@@ -4328,7 +4322,7 @@ void Self::FUN_004e3d60(ParamObj* param)
                                 {
                                     DAT_011ad81c = ((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))->get37();
                                     DAT_011ad820 = ((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))->get38();
-                                    obj->m_30.FUN_0066b0d0(((void *)(reinterpret_cast<::Pool *>((((::BSTextureManager *)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((void *)(::FUN_004a0e90()))), 0x13, 0, 0, 0))));
+                                    obj->m_30.FUN_0066b0d0(((void *)(reinterpret_cast<::Pool *>((((::BSTextureManager *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6e110((std::uintptr_t)(((void *)(uintptr_t)(::FUN_004a0e90()))), 0x13, 0, 0, 0))));
                                 }
                             }
                             pprop->m_138.FUN_006e5cc0(obj->m_30);
@@ -4369,11 +4363,11 @@ void Self::FUN_004e3d60(ParamObj* param)
                                     DAT_011ffe8c = ::FUN_00567470((char *)(obj));
                                     DAT_011ffe90 = reinterpret_cast<::FUN_00821680_Class *>((obj))->FUN_00821680();
                                     DAT_011ffe94 = reinterpret_cast<::FUN_008133b0_class *>((obj))->GetFloatAt144();
-                                    reinterpret_cast<::EffectManager975 *>((((::ImgMgr *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b975f0(0x21, (int)(((void *)(::FUN_004a0e90()))),
-                                                                         (int)(((::VObj *)(::FUN_00559450((int *)&(pprop->m_134))))),
-                                                                         (int)(((void *)(::FUN_00559450((int *)&(obj->m_30))))), 0, 1);
+                                    reinterpret_cast<::EffectManager975 *>((((::ImgMgr *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_00b975f0(0x21, (void *)(uintptr_t)(::FUN_004a0e90()),
+                                                                         (void *)(::FUN_00559450((int *)&(pprop->m_134))),
+                                                                         (void *)(::FUN_00559450((int *)&(obj->m_30))), nullptr, (void *)(std::uintptr_t)1);
                                 }
-                                reinterpret_cast<::FUN_0084d310_class *>(&(m_6c))->FUN_0084d310((int)(obj), true);
+                                reinterpret_cast<::FUN_0084d310_class *>(&(m_6c))->FUN_0084d310((int)(intptr_t)(obj), true);
                             }
                         }
                     }
@@ -4384,4 +4378,7 @@ void Self::FUN_004e3d60(ParamObj* param)
     }
 }
 
+class NiTexture : public NiRefObject
+{
+};
 #include "generated/data/staging/blk_004e0000_od.inc"

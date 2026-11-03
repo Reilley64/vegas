@@ -2,6 +2,7 @@
 // src/staging/blk_005a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActList.h"
@@ -16,7 +17,6 @@
 #include "fnv/decl/FUN_004f15a0_shell.h"
 #include "fnv/decl/FUN_00509540_obj.h"
 #include "fnv/decl/FUN_00537e90.h"
-#include "fnv/decl/FUN_005a7d40.h"
 #include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/FUN_0061cc40_shell.h"
 #include "fnv/decl/FUN_00680910_shell.h"
@@ -50,6 +50,10 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_01268000.h"
 #include "../../include/layout_support.h"
+#include "fnv/symbols_005a3000.h"
+#include "fnv/symbols_005ac000.h"
+#include "fnv/symbols_005b4000.h"
+#include "fnv/symbols_005ba000.h"
 
 struct FUN_005a3740_cls
 {
@@ -127,7 +131,7 @@ struct FUN_00456a60_class
 // @fnv 0x005b9220
 bool FUN_005b9220()
 {
-    reinterpret_cast<::fnv_00456a60::S_456a60 *>((((FUN_00456a60_class*)g_TES)))->FUN_00456a60();
+    reinterpret_cast<::fnv_00456a60::S_456a60 *>((*reinterpret_cast<FUN_00456a60_class **>(&g_TES)))->FUN_00456a60();
     return true;
 }
 
@@ -139,7 +143,7 @@ struct FUN_00456a60_Class
 char __cdecl FUN_005b9240()
 {
     (*reinterpret_cast<char *>(&::g_bC11F0Debug)) = 1;
-    reinterpret_cast<::fnv_00456a60::S_456a60 *>((((FUN_00456a60_Class*)(int)g_TES)))->FUN_00456a60();
+    reinterpret_cast<::fnv_00456a60::S_456a60 *>((*reinterpret_cast<FUN_00456a60_Class **>(&g_TES)))->FUN_00456a60();
     (*reinterpret_cast<char *>(&::g_bC11F0Debug)) = 0;
     return 1;
 }
@@ -164,7 +168,7 @@ struct FUN_005a71d0_class
 };
 struct FUN_005a7220_cls
 {
-    int Initialize();
+    void* Initialize();
 };
 // Calls Initialize on the sub-objects at offsets 4 and 0x2c, then sets the fields at 0, 0x50 and 0x54 and returns this.
 // @fnv 0x005a71d0
@@ -178,7 +182,7 @@ void* FUN_005a71d0_class::FUN_005a71d0()
     return this;
 }
 // @fnv 0x005a7220
-int FUN_005a7220_cls::Initialize()
+void* FUN_005a7220_cls::Initialize()
 {
     *(int*)this = 0;
     *(int*)(this + 4) = 0;
@@ -190,7 +194,7 @@ int FUN_005a7220_cls::Initialize()
     *(float*)(this + 28) = 255.0f;
     *(float*)(this + 32) = 255.0f;
     *(int*)(this + 36) = 1;
-    return (int)this;
+    return this;
 }
 
 struct Flt
@@ -220,15 +224,15 @@ char FUN_005a7c00_class::FUN_005a7c00(BSSimpleListBase* other)
 
 struct FUN_005a8e20_cls
 {
-    char FUN_005a8ef0(int param_2, int param_3);
+    char FUN_005a8ef0(intptr_t param_2, int param_3);
 };
 // @fnv 0x005a8ef0
-char FUN_005a8e20_cls::FUN_005a8ef0(int param_2, int param_3)
+char FUN_005a8e20_cls::FUN_005a8ef0(intptr_t param_2, int param_3)
 {
-    int result = ((int)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
+    char* result = ((char *)(reinterpret_cast<::ActList *>(this)->FUN_005a90b0((::TESForm *)(void *)((void*)param_2), false)));
     if (!result)
         reinterpret_cast<::fnv_005a8d20::FUN_005a8d20_shell *>(this)->AttachScriptLocals((::ScriptLocals *)(void *)((void*)param_2));
-    else if (*(int*)((char*)result + 4) & param_3)
+    else if (*(int*)(result + 4) & param_3)
         return 1;
     return 0;
 }
@@ -260,7 +264,7 @@ bool __cdecl FUN_005bac20()
 {
     if ((unsigned int)(*reinterpret_cast<::fnv_005bac20::Flt *>(&::g_011c786c)) == 0)
         return false;
-    return 0 < ((unsigned int)(reinterpret_cast<::FUN_00453470_shell *>((((NiNode*)(unsigned int)(*reinterpret_cast<::fnv_005bac20::Flt *>(&::g_011c786c)))))->FUN_00453470()));
+    return 0 < ((unsigned int)(uintptr_t)(reinterpret_cast<::FUN_00453470_shell *>((*reinterpret_cast<NiNode **>(&::g_011c786c)))->FUN_00453470()));
 }
 }  // namespace fnv_005bac20
 
@@ -270,7 +274,7 @@ struct Flt
     operator unsigned int() const;
 };
 // @fnv 0x005bac50
-unsigned int FUN_005bac50()
+std::uintptr_t FUN_005bac50()
 {
     return (*reinterpret_cast<::fnv_005bac50::Flt *>(&::g_011c786c));
 }
@@ -295,7 +299,7 @@ void* FUN_005bac70()
 
 
 // @fnv 0x005bac80
-void FUN_005bac80(int value)
+void FUN_005bac80(intptr_t value)
 {
     (*reinterpret_cast<int *>(&::DAT_011c6f18)) = value;
 }
@@ -467,11 +471,11 @@ struct FUN_005a7b00_Class
     unsigned int unk1c;
     unsigned int unk20;
     unsigned int m_24;
-    void InitializeFromRecord(unsigned int id);
+    void InitializeFromRecord(uintptr_t id);
 };
 // Looks up a record by id, copies its m_24 field into this object's m_24, then calls FUN_004851b0 with the id.
 // @fnv 0x005a7b00
-void FUN_005a7b00_Class::InitializeFromRecord(unsigned int id)
+void FUN_005a7b00_Class::InitializeFromRecord(uintptr_t id)
 {
     FUN_005a7b00_Record* record = FUN_00ec43fb(id, 0, &DAT_01183028, &DAT_01186490, 0);
     if (record == 0)
@@ -537,8 +541,8 @@ void CopyForm::CopyFrom(void* apSource)
         iter = ((::fnv_005a8660::CopyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     reinterpret_cast<::TESRecipe *>(this)->SetRequiredSkill((::ActorValue::Index)(((int)(reinterpret_cast<::ActorMover *>((source3))->GetCurrentMoveModeType()))));
-    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(((int)(reinterpret_cast<::FUN_0045cd60_shell *>((source3))->FUN_0045cd60())));
-    reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54(((int)(reinterpret_cast<::FUN_006a1b60_Class *>((source3))->GetField54())));
+    reinterpret_cast<::FUN_0061cc40_shell *>(this)->FUN_0061cc40(((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((source3))->FUN_0045cd60())));
+    reinterpret_cast<::FUN_005a8040_class *>(this)->SetField54(((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((source3))->GetField54())));
     reinterpret_cast<::LowProcess *>(this)->SetPackageObjectType(reinterpret_cast<::LowProcess *>((source3))->GetPackageObjectType());
 }
 }  // namespace fnv_005a8660
@@ -569,13 +573,13 @@ bool SubChallenge::IsNotEqual(void* input)
     SubChallenge* other = (SubChallenge*)FUN_00ec43fb(input, 0, &(*reinterpret_cast<char *>(&::DAT_01183028)), &DAT_011864b0, 0);
     if (!other)
         return true;
-    if (((int)(reinterpret_cast<::FUN_006a1b60_Class *>(this)->GetField54())) != ((int)(reinterpret_cast<::FUN_006a1b60_Class *>((other))->GetField54())))
+    if (((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>(this)->GetField54())) != ((int)(uintptr_t)(reinterpret_cast<::FUN_006a1b60_Class *>((other))->GetField54())))
         return true;
     if (reinterpret_cast<::LowProcess *>(this)->GetPackageObjectType() != reinterpret_cast<::LowProcess *>((other))->GetPackageObjectType())
         return true;
     if (reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType() != reinterpret_cast<::ActorMover *>((other))->GetCurrentMoveModeType())
         return true;
-    if (((int)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) != ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((other))->FUN_0045cd60())))
+    if (((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(this)->FUN_0045cd60())) != ((int)(uintptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((other))->FUN_0045cd60())))
         return true;
     if (reinterpret_cast<::FUN_00509540_obj *>(this)->FUN_00485270((::TESForm *)(other)))
         return true;
@@ -629,7 +633,7 @@ void FUN_005a7a90_shell::FUN_005a7a90()
     ((FUN_00487010_shell*)&this->unk18)->FUN_00487010();
     if (FUN_00401500())
         reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
-    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)((int)((char*)&this->unk24)), 1);
+    reinterpret_cast<::SDSaveForm *>((((FUN_00485e20_shell*)this)))->FUN_00485e20((const void *)(((char*)&this->unk24)), 1);
     if (FUN_00401500())
         reinterpret_cast<::TESForm *>((((FUN_00483710_shell*)&this->unk24)))->ClearData();
     reinterpret_cast<::Holder *>((((FUN_00485680_shell*)this)))->FUN_00485680();
@@ -678,16 +682,8 @@ bool FUN_005a7b60_cls::FUN_005a7b60(TESForm* pkForm)
 struct DeletingObject
 {
     void* Destroy(unsigned int flags);
+    void FUN_005a7d40();
 };
-// Calls FUN_005a7d40, then frees this via operator delete when the low bit of flags is set, and returns this.
-// @fnv 0x005a7d10
-void* DeletingObject::Destroy(unsigned int flags)
-{
-    reinterpret_cast<::FUN_005a7d40 *>(this)->FUN_005a7d40::~FUN_005a7d40();
-    if (flags & 1)
-        ::FUN_00401030(this);
-    return this;
-}
 
 namespace fnv_005a8490 {
 class BaseFormComponent
@@ -795,7 +791,7 @@ struct Script
 
 // Reads a short count and that many values from data via Script::GetValue, then formats them into string using format; returns false if any read fails.
 // @fnv 0x005b4960
-bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
+bool __cdecl FUN_005b4960(intptr_t unused, char const* data, TESObjectREFR* reference1, TESObjectREFR* reference2,
                           Script* script, ScriptLocals* locals, int unused2, unsigned int& value, char const* format,
                           BSStringT<char>* string)
 {
@@ -821,6 +817,82 @@ bool __cdecl FUN_005b4960(int unused, char const* data, TESObjectREFR* reference
     ::FUN_00406f60((::FUN_00406f90_this *)(string), format, values[0], values[1], values[2], values[3], values[4], values[5], values[6], values[7],
                     values[8], values[9]);
     return true;
+}
+
+void FUN_005b4940();
+
+bool FUN_005b9220();
+
+char __cdecl FUN_005b9240();
+
+void FUN_005b4a70();
+
+void FUN_005b9200(unsigned char value);
+
+struct FUN_00680890_r005a7d40
+{
+    unsigned int first;
+    unsigned int second;
+    FUN_00680890_r005a7d40();
+    ~FUN_00680890_r005a7d40();
+};
+
+// Generated address-based names identify the native TESForm base destructor
+// and TESRecipe destructor to this checker; layouts/ownership follow native RTTI.
+class BaseFormComponent
+{
+  public:
+    virtual ~BaseFormComponent();
+};
+
+class FUN_00483630_holder : public BaseFormComponent
+{
+  public:
+    unsigned char formType;
+    unsigned char unk05;
+    unsigned short unk06;
+    unsigned int flags;
+    unsigned int formID;
+    unsigned int unk10;
+    unsigned int unk14;
+    virtual ~FUN_00483630_holder();
+};
+
+class TESFullName : public BaseFormComponent
+{
+  public:
+    BSStringT<char> fullName;
+    virtual ~TESFullName();
+};
+
+class FUN_005a7d40 : public FUN_00483630_holder, public TESFullName
+{
+  public:
+    unsigned int skill;
+    unsigned int requiredSkill;
+    unsigned int category;
+    unsigned int subcategory;
+    FUN_00680890_r005a7d40 conditions;
+    BSSimpleList<void*> ingredients;
+    BSSimpleList<void*> outputs;
+    BSSimpleList<void*> unk4c;
+    virtual ~FUN_005a7d40();
+};
+
+// @fnv 0x005a7d40
+FUN_005a7d40::~FUN_005a7d40()
+{
+    reinterpret_cast<::TESRecipe *>(this)->ClearData();
+}
+
+// Calls FUN_005a7d40, then frees this via operator delete when the low bit of flags is set, and returns this.
+// @fnv 0x005a7d10
+void* DeletingObject::Destroy(unsigned int flags)
+{
+    reinterpret_cast<::FUN_005a7d40 *>(this)->FUN_005a7d40::~FUN_005a7d40();
+    if (flags & 1)
+        ::FUN_00401030(this);
+    return this;
 }
 
 #include "generated/data/staging/blk_005a0000_od.inc"

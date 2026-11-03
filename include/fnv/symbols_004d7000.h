@@ -1,9 +1,10 @@
 #pragma once
+#include <cstdint>
 
 class NiObject;
 
 // 0x004d74c0
-void ExpandTreeItemsRecursively(void *, int, int);
+void ExpandTreeItemsRecursively(void *, intptr_t, int);
 // 0x004d75b0
 long FUN_004d75b0(::HWND__ *, unsigned int, unsigned int, long);
 // 0x004d78c0

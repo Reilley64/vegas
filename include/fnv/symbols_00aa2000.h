@@ -8,7 +8,7 @@ struct S_00aa2dd0;
 // 0x00aa2020
 namespace fnv_00aa2020 { extern "C" void InitHolder(); }
 // 0x00aa2060
-extern "C" void FUN_00aa2060(int, int);
+extern "C" void FUN_00aa2060(void (*)(), void (*)());
 // 0x00aa2080
 void FUN_00aa2080(void (*)(), intptr_t);
 // 0x00aa20b0

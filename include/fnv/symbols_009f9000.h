@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 struct FUN_009f9c20_cls;
 struct S_009f9bb0_Rec;
 struct SpectatorPackage;
@@ -17,4 +19,4 @@ void FUN_009f9c20(::FUN_009f9c20_cls *);
 // 0x009f9cb0
 void FUN_009f9cb0(::SpectatorPackage *);
 // 0x009f9cd0
-namespace fnv_009f9cd0 { int FUN_009f9cd0(int); }
+namespace fnv_009f9cd0 { std::intptr_t FUN_009f9cd0(std::intptr_t); }

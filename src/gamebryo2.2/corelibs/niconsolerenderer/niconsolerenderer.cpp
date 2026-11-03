@@ -35588,7 +35588,7 @@ bool FUN_00e7a760() {
 
 extern "C" const char* FUN_00ee6e2e(void* pDevice);
 extern "C" const char* FUN_00ee6e28(void* pDevice);
-int __cdecl GetGlobalDataPtr() throw();
+intptr_t __cdecl GetGlobalDataPtr() throw();
 
 
 struct ShaderName

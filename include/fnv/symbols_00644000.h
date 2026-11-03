@@ -9,7 +9,7 @@ struct Obj641;
 struct Obj;
 
 // 0x00644300
-int CompareObjects(int, int);
+int CompareObjects(intptr_t, intptr_t);
 // 0x00644520
 namespace fnv_00644520 { float FUN_00644520(); }
 // 0x00644540

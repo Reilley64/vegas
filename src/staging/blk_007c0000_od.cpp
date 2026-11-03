@@ -137,7 +137,7 @@ struct GlobalObject_007da090
 
 struct NavMeshSearchLOSArray
 {
-    int m_p;
+    void* m_p;
     void FUN_007d8e20(bool);
     void Init();
 };
@@ -145,7 +145,7 @@ struct NavMeshSearchLOSArray
 // @fnv 0x007da0f0
 void NavMeshSearchLOSArray::Init()
 {
-    m_p = (int)&DAT_01077200;
+    m_p = &DAT_01077200;
     reinterpret_cast<::NavMeshSearchLOSArray *>(this)->FUN_007d8e20(true);
 }
 }  // namespace fnv_007da0f0
@@ -800,11 +800,11 @@ void __cdecl FUN_007ca700(void* pObject)
     int iValue = *(int*)((char*)pObject + 0x24);
     if (((FUN_007ca700_Virt*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->v07(iValue) > 1)
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(false);
     }
     else
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
     }
     if (FUN_004b71d0())
     {
@@ -812,7 +812,7 @@ void __cdecl FUN_007ca700(void* pObject)
         {
             if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
             {
-                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm({});
+                reinterpret_cast<::TaskQueueInterface *>((((::FUN_00450f90_Obj *)(::FUN_00559450((int *)(((FUN_00559450_Owner*)((char*)pObject + 8))))))))->QueueActorDisarm(true);
             }
         }
     }
@@ -938,7 +938,7 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
 {
     if (*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x48) < 9)
     {
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
                                          reinterpret_cast<char*>(this) + 0x70 +
                                          (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
              ++i)
@@ -951,7 +951,7 @@ void FUN_007c9dc0_Class::InvokeCallbacksForSlot()
                                  (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->FUN_006a7ad0(i))));
         }
         for (unsigned int uiSecondaryIndex = 0;
-             uiSecondaryIndex < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
+             uiSecondaryIndex < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<CallbackCollection*>(
                                     reinterpret_cast<char*>(this) + 0x60 +
                                     (*reinterpret_cast<unsigned int*>(reinterpret_cast<char*>(this) + 0x48) << 5))))->GetName()));
              ++uiSecondaryIndex)
@@ -1091,7 +1091,7 @@ struct FUN_007cb330 : Menu
 // @fnv 0x007cb330
 FUN_007cb330::FUN_007cb330() : unk1b8(0)
 {
-    unk1d0 = ((void *)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)));
+    unk1d0 = ((void *)(intptr_t)(::FUN_00a00940(&(*reinterpret_cast<char *>((void *)&::kListBoxEnabled)), -1)));
     FUN_00403d30(&unk028, 0, 0x5c);
     unk1a8 = 0;
     unk1a4 = 0;
@@ -1205,7 +1205,7 @@ void FUN_007da110_StandIn::FUN_007da110(unsigned int uiRequestedSize, unsigned i
     }
     if (savedSize > 0)
     {
-        reinterpret_cast<::CopyCollection *>(this)->ConstructRecords((::FUN_007da240 *)(((int*)this)[1]), savedSize);
+        reinterpret_cast<::CopyCollection *>(this)->ConstructRecords(*(::FUN_007da240 **)((char*)this + 4), savedSize);
         ((int*)this)[2] = savedSize;
     }
 }
@@ -1450,7 +1450,7 @@ FUN_00a712f0* CameraContext::CreateSurgery3DCamera()
     reinterpret_cast<::FUN_00a59c60_cls *>((distance))->FUN_00a59c60((std::intptr_t)&(aspect));
     reinterpret_cast<::CamLook *>((distance))->SetLookAt((const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 0.0f, 0.0f))), (const ::CamPoint &)((const ::NiPoint3 &)(NiPoint3(0.0f, 1.0f, 0.0f))));
     reinterpret_cast<::FUN_00733fd0_shell *>((distance))->FUN_00733fd0(1.0f);
-    ::AssignFixedString((char *)(distance), (int)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")), {});
+    ::AssignFixedString((char *)(distance), 0, (char **)&(const ::NiFixedString &)(NiFixedString("Surgery3DCamera")));
     return distance;
 }
 
@@ -1746,18 +1746,18 @@ void __cdecl FUN_007ca7a0(CsParam* param_1)
     if (((CsVObj*)((*reinterpret_cast<char * *>(&::_g_thePlayer)) + 0xa4))->vf07(iValue) < 10 &&
         (DAT_011daa38 == 0 || FUN_00794d80(DAT_011daa38) < *(int*)((char*)DAT_011daa38 + 0x58)))
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(false);
     }
     else
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+        reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
     }
 
     if (FUN_004b71d0() && *(int*)((char*)DAT_011daa38 + 0x48) == 8)
     {
         if (iValue != *(int*)((char*)DAT_011daa38 + 0x4c) + 4)
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm({});
+            reinterpret_cast<::TaskQueueInterface *>((((::CsTarget *)(::FUN_00559450((int *)&(param_1->sub08))))))->QueueActorDisarm(true);
         }
     }
 }
@@ -2028,9 +2028,9 @@ void __cdecl FUN_007cc6e0()
 {
     if (!::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))))
     {
-        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011dabcc))))->FUN_004037f0((const char *)(((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4630))))->GetMenuTitle()))), {});
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011dabcc))))->FUN_004037f0((const char *)(((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4630))))->GetMenuTitle()))), {});
         reinterpret_cast<::FUN_007b52a0_class *>(&((*reinterpret_cast<::Mgr *>(&::g_011dabcc))))->FUN_007b52a0();
-        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011daad0))))->FUN_004037f0((const char *)(((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4354))))->GetMenuTitle()))), {});
+        reinterpret_cast<::TextString *>(&((*reinterpret_cast<::Mgr *>(&::g_011daad0))))->FUN_004037f0((const char *)(((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4354))))->GetMenuTitle()))), {});
         reinterpret_cast<::FUN_007b52a0_class *>(&((*reinterpret_cast<::Mgr *>(&::g_011daad0))))->FUN_007b52a0();
     }
     ClearStartMenuEntries();
@@ -2059,34 +2059,34 @@ void __cdecl FUN_007cc6e0()
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab88))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007ce620(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3828))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d0c50::FUN_007d0c50)), 64)));
 
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d366c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1260::FUN_007d1260)), 8, 0, 3, 0x55,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4ed0))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d466c))))->GetMenuTitle())),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4fc0))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4ed0))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d466c))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4fc0))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1d78))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d13a0::FUN_007d13a0)), 8, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1e30))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d11d0)), 8, 0, 5, 0x55,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39e8))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a70))))->GetMenuTitle())),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2fc4))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a94))))->GetMenuTitle())),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39a8))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39e8))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a70))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2fc4))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c3a94))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011c39a8))))->GetMenuTitle())))));
 
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4a20))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1510)), 8, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3bec))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1570::FUN_007d1570)), 8, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3a50))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d15d0::FUN_007d15d0)), 8, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3ef8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d16f0::FUN_007d16f0)), 8, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2520))))->IsDLCAvailable())), DAT_007d19c0, 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2f34))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1750::FUN_007d1750)), 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2940))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateColorSlotIndex)), 0x10, 0, 4, 0x37,
                                                ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011daad0)))), ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d23c4))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d1900::ApplyOrSyncColorSlot)), 0x10, 0, 4, 0x37,
                                                ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011daad0)))), ::FUN_00559450((int *)&((*reinterpret_cast<::Mgr *>(&::g_011dabcc)))),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d5074))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2124))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d21f0))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1b40)), 0x10, 0, 3, 0x37,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4270))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2cdc))))->GetMenuTitle())),
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2430))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4270))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2cdc))))->GetMenuTitle())),
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2430))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4e40))))->IsDLCAvailable())), DAT_007d1bb0, 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d22bc))))->IsDLCAvailable())), DAT_007d1d10, 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d31b0))))->IsDLCAvailable())), DAT_007d1e60, 0x10, 2, 0x10, 0)));
@@ -2097,11 +2097,11 @@ void __cdecl FUN_007cc6e0()
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2bec))))->IsDLCAvailable())), DAT_007d2510, 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2afc))))->IsDLCAvailable())), DAT_007d2650, 0x10, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d28f8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateSaveOptionsMenu)), 0x10, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2e5c))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1630)), 0x10, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3c28))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d1690)), 0x10, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d2e8c))))->IsDLCAvailable())), DAT_007d2790, 0x20, 2, 0x1a, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3054))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d29d0::FUN_007d29d0)), 0x20, 2, 0x1a, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4abc))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d28b0)), 0x20, 2, 0x1a, 0)));
@@ -2109,12 +2109,12 @@ void __cdecl FUN_007cc6e0()
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d399c))))->IsDLCAvailable())), DAT_007d2c10, 0x20, 2, 0x1a, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d1dc0))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2d30::FUN_007d2d30)), 0x20, 2, 0x1a, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4648))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::UpdateMenuSaveOptions)), 0x40, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d25c8))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2eb0::SyncSliderWithSetting)), 0x40, 2, 0x10, 0)));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d49fc))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::fnv_007d2fc0::UpdateSaveOption)), 0x40, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
     reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::Mgr *>(&::g_011dab50))))->FUN_007cb2e0((unsigned int *)&(const void *const &)(new FUN_007d6350(((char *)(reinterpret_cast<::DownloadableContentManager *>(&((*reinterpret_cast<::Mgr *>(&::g_011d3750))))->IsDLCAvailable())), (*reinterpret_cast<char (*)[]>(&::FUN_007d30e0)), 0x40, 0, 2, 0,
-                                               ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
+                                               ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d258c))))->GetMenuTitle())), ((uintptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::Mgr *>(&::g_011d4dec))))->GetMenuTitle())))));
 }
 
 struct BookMenu;
@@ -2235,11 +2235,11 @@ void __cdecl FUN_007ca960(void* apSelf)
         if (iCount > 1)
         {
             GlobalObject_0041a250 kSound;
-            reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->operator=(
-                (*(const ::SoundPlaybackHandle *)(&((FUN_00ad7550_shell*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumber", 0x121))));
+            BSSoundHandleEx kNewSound = ((FUN_00ad7550_shell*)::FUN_00453a70())->FUN_00ad7550("OBJBookSpecialNumber", 0x121);
+            reinterpret_cast<::SoundPlaybackHandle *>(&(kSound))->operator=((*(const ::SoundPlaybackHandle *)(&kNewSound)));
             reinterpret_cast<::FUN_00ad8830_shell *>(&(kSound))->FUN_00ad8830(false);
         }
-        reinterpret_cast<::FUN_0093a7c0_Owner *>((((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(m_uiSoundID), FUN_00647b70(iCount - 1, 1));
+        reinterpret_cast<::FUN_0093a7c0_Owner *>((((FUN_007ca960_Owner*)(*reinterpret_cast<char * *>(&::_g_thePlayer)))))->FUN_0093a7c0((void *)(uintptr_t)(m_uiSoundID), FUN_00647b70(iCount - 1, 1));
     }
     ((FUN_007c9dc0_Class*)DAT_011daa38)->InvokeCallbacksForSlot();
 }

@@ -131,6 +131,17 @@
 #include "fnv/symbols_0106c000.h"
 #include "../../include/layout_support.h"
 
+namespace {
+// Twelve bytes for a NiPoint3 result that a call writes through its hidden result pointer;
+// the temporary lives until the end of the full expression.
+struct PointResult
+{
+    float v[3];
+};
+template <class T> T& PointSlot(PointResult&& r) { return *reinterpret_cast<T*>(&r); }
+}  // namespace
+#undef SearchPath
+
 
 struct FUN_006c8bd0_Class
 {
@@ -157,11 +168,11 @@ void FUN_006c8bd0_Class::FUN_006c8bd0(const char* dst, const char* src, unsigned
 struct FUN_006dc1d0_Class
 {
     virtual int vfn();
-    int m_iElementCount;
+    intptr_t m_iElementCount;
     int m_vContactPosition;
     int m_dataLength;
-    virtual int Write(unsigned int);
-    void ConstructPlacementObjects(int, unsigned int);
+    virtual intptr_t Write(unsigned int);
+    void ConstructPlacementObjects(intptr_t, unsigned int);
     void FUN_006dc1d0(unsigned int requested, unsigned int savedSize);
 };
 
@@ -209,7 +220,7 @@ struct Caller00822860
 // @fnv 0x006c6160
 Caller00822860* Caller00822860::FUN_006c6160()
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_0106c640);
+    *reinterpret_cast<void**>(this) = &DAT_0106c640;
     FUN_00822860(0, false);
     return this;
 }
@@ -303,7 +314,7 @@ struct FUN_006c78f0_Class
 // @fnv 0x006c78f0
 void FUN_006c78f0_Class::FUN_006c78f0()
 {
-    *(int*)this = (int)&DAT_0106c814;
+    *(void**)this = &DAT_0106c814;
 }
 
 struct FUN_006caa20_Class
@@ -413,11 +424,11 @@ void FUN_006d2c60_Class::FUN_006d2c60(float value)
 
 struct FUN_006d30e0_Class
 {
-    void FUN_006d30e0(int value);
+    void FUN_006d30e0(intptr_t value);
 };
 
 // @fnv 0x006d30e0
-void FUN_006d30e0_Class::FUN_006d30e0(int value)
+void FUN_006d30e0_Class::FUN_006d30e0(intptr_t value)
 {
     *(int*)((char*)this + 0x108) = value;
 }
@@ -684,7 +695,7 @@ struct FUN_006dc100_Class
 // @fnv 0x006dc100
 AX* FUN_006dc100_Class::FUN_006dc100()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106cc14;
+    *reinterpret_cast<const void**>(this) = &DAT_0106cc14;
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
     return reinterpret_cast<AX*>(this);
 }
@@ -705,7 +716,7 @@ struct FUN_006dc2f0_Class
 // @fnv 0x006dc2f0
 void* FUN_006dc2f0_Class::FUN_006dc2f0()
 {
-    *(int*)this = (int)&::fnv_006db720::DAT_0106cc64;
+    *(void**)this = &::fnv_006db720::DAT_0106cc64;
     ((AX*)this)->FUN_006b3eb0(0, 0);
     return this;
 }
@@ -750,7 +761,7 @@ void FUN_006c63b0_Class::FUN_006c63b0()
 extern int DAT_0106c6ac;
 struct FUN_006c6be0_Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     int m_auiShapeKeys;
     void* m_ptr;
     void FUN_006c6be0();
@@ -759,7 +770,7 @@ struct FUN_006c6be0_Class
 // @fnv 0x006c6be0
 void FUN_006c6be0_Class::FUN_006c6be0()
 {
-    m_vtbl = (int)&DAT_0106c6ac;
+    m_vtbl = &DAT_0106c6ac;
     reinterpret_cast<::FUN_00438af0_Class *>((((NiTPointerMap<int, int>*)this)))->FUN_00438af0();
     ::FUN_00aa10f0(m_ptr);
 }
@@ -787,7 +798,7 @@ struct FUN_006c6130_Class
 extern int DAT_0106c654;
 struct FUN_006c6260_Class
 {
-    int m_vtbl;
+    void* m_vtbl;
     int m_uiItemCount;
     void* m_data;
     int m_auiShapeKeys;
@@ -797,7 +808,7 @@ struct FUN_006c6260_Class
 // @fnv 0x006c6260
 FUN_006c6260_Class::FUN_006c6260_Class(unsigned int count)
 {
-    m_vtbl = (int)&DAT_0106c654;
+    m_vtbl = &DAT_0106c654;
     m_uiItemCount = count;
     m_auiShapeKeys = 0;
     int size = m_uiItemCount * 4;
@@ -853,7 +864,7 @@ struct FUN_006c6ae0_S : public NiTPointerMap<int, int>
 // @fnv 0x006c6ae0
 void FUN_006c6ae0_S::FUN_006c6ae0()
 {
-    *(int*)this = (int)&DAT_0106c68c;
+    *(void**)this = &DAT_0106c68c;
     reinterpret_cast<::FUN_00438af0_Class *>(this)->FUN_00438af0();
     ::FUN_00aa10f0(*(void**)&this->m_ppkHashTable);
 }
@@ -1102,7 +1113,7 @@ public:
 struct FUN_006cee30_Class
 {
     int m_vtbl;
-    int m_base;
+    char* m_base;
     unsigned int m_iElementCount;
     unsigned int m_uiBufferCapacity;
     void FUN_006cee30(unsigned int n);
@@ -1114,7 +1125,7 @@ void FUN_006cee30_Class::FUN_006cee30(unsigned int n)
         return;
     if (n < m_iElementCount)
     {
-        ((FUN_0072ba80_shell*)this)->FUN_0072ba80((char*)m_base + n * 12, m_iElementCount - n);
+        ((FUN_0072ba80_shell*)this)->FUN_0072ba80(m_base + n * 12, m_iElementCount - n);
         m_iElementCount = n;
     }
     reinterpret_cast<::FUN_006dc590 *>((((S5460*)this)))->FUN_006dc590_(n, m_iElementCount);
@@ -1552,17 +1563,17 @@ struct RetObj
 struct FUN_006dbd90_Class
 {
     int m_unk0;
-    int m_unk4;
-    void* FUN_006dc500();
+    char* m_unk4;
+    int FUN_006dc500();
     void ConstructInPlace(void* dst, unsigned int n);
-    void* AllocateSlot(void* src);
+    int AllocateSlot(void* src);
 };
 // @fnv 0x006dbd90
-void* FUN_006dbd90_Class::AllocateSlot(void* src)
+int FUN_006dbd90_Class::AllocateSlot(void* src)
 {
-    void* dst = FUN_006dc500();
-    ConstructInPlace((void*)(m_unk4 + (unsigned int)dst * 0x54), 1);
-    reinterpret_cast<::FUN_006e4430_class *>((((RetObj*)((char*)m_unk4 + (unsigned int)dst * 0x54))))->operator=((*(const ::FUN_006e4430_class *)(src)));
+    int dst = FUN_006dc500();
+    ConstructInPlace(m_unk4 + (unsigned int)dst * 0x54, 1);
+    reinterpret_cast<::FUN_006e4430_class *>((((RetObj*)(m_unk4 + (unsigned int)dst * 0x54))))->operator=((*(const ::FUN_006e4430_class *)(src)));
     return dst;
 }
 
@@ -1580,12 +1591,12 @@ void FUN_006dbf20_Class::FUN_006dbf20(char* dst, char* src, unsigned int count)
     }
     else
     {
-        if ((unsigned int)dst < (unsigned int)src)
+        if (dst < src)
         {
             for (unsigned int i = 0; i < count; ++i)
                 std::memmove(dst + i * 0x54, src + i * 0x54, 0x54);
         }
-        else if ((unsigned int)dst > (unsigned int)src)
+        else if (dst > src)
         {
             for (int i = (int)count - 1; i >= 0; --i)
                 std::memmove(dst + i * 0x54, src + i * 0x54, 0x54);
@@ -1636,8 +1647,8 @@ struct FUN_006dfd70_Class
 bool FUN_006dfd70_Class::FUN_006dfd70(unsigned int idx)
 {
     unsigned int i = 0;
-    for (; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++i)
-        reinterpret_cast<::FUN_006df440_owner *>((((FUN_006dfd70_Class*)*GetAt(i, idx))))->InitFromLookup({});
+    for (; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); ++i)
+        reinterpret_cast<::FUN_006df440_owner *>((((FUN_006dfd70_Class*)(uintptr_t)*GetAt(i, idx))))->InitFromLookup({});
     return true;
 }
 
@@ -1700,17 +1711,17 @@ struct FUN_006d05e0_Class
 struct FUN_006d0310_Class
 {
     virtual int vfn();
-    int m_iElementCount;
+    void* m_iElementCount;
     int m_vContactPosition;
     int m_dataLength;
-    virtual int Write(unsigned int);
+    virtual void* Write(unsigned int);
     void FUN_006d05e0(int, unsigned int);
     void FUN_006d0310(unsigned int requested, unsigned int savedSize);
 };
 // @fnv 0x006d0310
 void FUN_006d0310_Class::FUN_006d0310(unsigned int requested, unsigned int savedSize)
 {
-    m_iElementCount = 0;
+    m_iElementCount = nullptr;
     m_vContactPosition = 0;
     m_dataLength = 0;
     if (savedSize > requested)
@@ -1760,12 +1771,12 @@ void FUN_006dc640_Class::FUN_006dc640(char* apDest, char* apSource, unsigned int
 {
     if (count <= 0)
         return;
-    if ((unsigned int)apDest < (unsigned int)apSource)
+    if (apDest < apSource)
     {
         for (unsigned int i = 0; i < count; i++)
             std::memmove(apDest + i * 32, apSource + i * 32, 32);
     }
-    else if ((unsigned int)apDest > (unsigned int)apSource)
+    else if (apDest > apSource)
     {
         for (int i = (int)count - 1; i >= 0; i--)
             std::memmove(apDest + i * 32, apSource + i * 32, 32);
@@ -1851,14 +1862,14 @@ bool FUN_006dfe90_S::FUN_006dfe90(PathingLocation* pLocation, bool bFlag)
     if (reinterpret_cast<::PathingLocation *>((((PathingLocation_Helper*)pLocation)))->ResolveNavMesh(apSearchNavMesh))
     {
         PSM3 triangles;
-        reinterpret_cast<::NavMeshStub *>((((FUN_00691350_S*)(unsigned int)*(Flt*)&apSearchNavMesh)))->CollectTriangleCells(((FUN_006df760_shell*)pLocation)->GetShortValueAtOffset24(), (::OutArr &)(triangles));
+        reinterpret_cast<::NavMeshStub *>((((FUN_00691350_S*)apSearchNavMesh.m_pObject)))->CollectTriangleCells(((FUN_006df760_shell*)pLocation)->GetShortValueAtOffset24(), (::OutArr &)(triangles));
         bResult = false;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&triangles)))->GetName())); i++)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&triangles)))->GetName())); i++)
         {
             unsigned int index = ((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)&triangles)))->FUN_006a7ad0(i)));
-            if (index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
+            if (index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName())))
             {
-                if (reinterpret_cast<::Owner6df780 *>((((FUN_006df780_S*)*((Arr*)this)->GetAt(index))))->UpdateNavMeshResults((::FUN_006df760_shell *)(pLocation), bFlag))
+                if (reinterpret_cast<::Owner6df780 *>((((FUN_006df780_S*)(uintptr_t)*((Arr*)this)->GetAt(index))))->UpdateNavMeshResults((::FUN_006df760_shell *)(pLocation), bFlag))
                     bResult = true;
             }
         }
@@ -1901,10 +1912,10 @@ struct FUN_006db4f0_Class
 {
     int m_auiShapeKeys;
     char* m_data;
-    unsigned int FUN_006db4f0(int value);
+    unsigned int FUN_006db4f0(intptr_t value);
 };
 // @fnv 0x006db4f0
-unsigned int FUN_006db4f0_Class::FUN_006db4f0(int value)
+unsigned int FUN_006db4f0_Class::FUN_006db4f0(intptr_t value)
 {
     unsigned int idx = reinterpret_cast<::S5460 *>((((FUN_0069b310_S*)this)))->FUN_00978bc0();
     reinterpret_cast<::PlacementRange *>((((FUN_0069b310_S*)this)))->ConstructBounds((::NiBound *)(void *)(m_data + idx * 0xc), 1);
@@ -1915,13 +1926,13 @@ unsigned int FUN_006db4f0_Class::FUN_006db4f0(int value)
 struct FUN_006dbfc0_Class
 {
     virtual void v0();
-    virtual char* v1(char*);
+    virtual char* v1(unsigned int);
     virtual char* v2(char*, unsigned int);
     virtual char* v3(char*, unsigned int);
     char* m_ptr;
     unsigned int m_iElementCount;
     unsigned int m_data;
-    void FUN_006dbfc0(char* data, unsigned int size);
+    void FUN_006dbfc0(unsigned int data, unsigned int size);
 };
 // @fnv 0x006daeb0
 void FUN_006daeb0_Class::FUN_006daeb0(unsigned int pos)
@@ -1933,17 +1944,17 @@ void FUN_006daeb0_Class::FUN_006daeb0(unsigned int pos)
         ((FUN_006dbee0_s*)this)->FUN_006dbee0((Elem*)((char*)m_data + pos * 0x54), m_uiBufferCapacity - pos);
         m_uiBufferCapacity = pos;
     }
-    reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0((char *)(pos), m_uiBufferCapacity);
+    reinterpret_cast<::FUN_006dbfc0_Class *>(this)->FUN_006dbfc0(pos, m_uiBufferCapacity);
     m_cap = pos;
 }
 // @fnv 0x006dbfc0
-void FUN_006dbfc0_Class::FUN_006dbfc0(char* data, unsigned int size)
+void FUN_006dbfc0_Class::FUN_006dbfc0(unsigned int data, unsigned int size)
 {
     if (m_ptr)
     {
         if (size == m_data)
         {
-            m_ptr = v3(m_ptr, (unsigned int)data);
+            m_ptr = v3(m_ptr, data);
         }
         else
         {
@@ -1956,7 +1967,7 @@ void FUN_006dbfc0_Class::FUN_006dbfc0(char* data, unsigned int size)
     else
     {
         m_ptr = v1(data);
-        m_data = (unsigned int)data;
+        m_data = data;
     }
 }
 
@@ -2161,7 +2172,7 @@ void FUN_006dc070_Class::FUN_006dc070(unsigned int requested, unsigned int saved
     if (requested > 0)
     {
         this->m_unk4 =
-            reinterpret_cast<FUN_006dc1d0_Class*>(this)->Write(requested);
+            (char*)reinterpret_cast<FUN_006dc1d0_Class*>(this)->Write(requested);
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 12) = requested;
     }
 
@@ -2254,7 +2265,7 @@ int FUN_006dc500_Class::FUN_006dc500()
         else
         {
             unsigned int size = ((unsigned int)(reinterpret_cast<::FUN_009a3910_cls *>((reinterpret_cast<FUN_006925b0_class*>(this)))->FUN_009a3910()));
-            reinterpret_cast<::FUN_006dbfc0_Class *>((reinterpret_cast<FUN_006daeb0_Class*>(this)))->FUN_006dbfc0((char *)(size), m_vContactPosition);
+            reinterpret_cast<::FUN_006dbfc0_Class *>((reinterpret_cast<FUN_006daeb0_Class*>(this)))->FUN_006dbfc0(size, m_vContactPosition);
             m_dataLength = size;
         }
     }
@@ -2274,7 +2285,7 @@ struct LocS
 
 struct FUN_00691240_shell
 {
-    unsigned int ForwardToInner(int location);
+    unsigned int ForwardToInner(::NiPoint3* location);
 };
 
 struct GO
@@ -2332,7 +2343,7 @@ void FUN_006d01d0_Class::FUN_006d01d0(unsigned int count, bool clear)
         }
 
         reinterpret_cast<::Array6d0 *>((reinterpret_cast<FUN_006d0310_Class*>(this)))->FUN_006d05e0(
-            (struct ::FUN_006a0480 *)(reinterpret_cast<int>(reinterpret_cast<char*>(m_data) + m_vContactPosition * 24)), count - m_vContactPosition);
+            (struct ::FUN_006a0480 *)(reinterpret_cast<char*>(m_data) + m_vContactPosition * 24), count - m_vContactPosition);
         m_vContactPosition = count;
     }
     else if (count < m_vContactPosition)
@@ -2350,7 +2361,7 @@ void FUN_006d01d0_Class::FUN_006d01d0(unsigned int count, bool clear)
     else
     {
         reinterpret_cast<::Array6d0 *>((reinterpret_cast<FUN_006d0310_Class*>(this)))->FUN_006d05e0(
-            (struct ::FUN_006a0480 *)(reinterpret_cast<int>(reinterpret_cast<char*>(m_data) + m_vContactPosition * 24)), count - m_vContactPosition);
+            (struct ::FUN_006a0480 *)(reinterpret_cast<char*>(m_data) + m_vContactPosition * 24), count - m_vContactPosition);
         m_vContactPosition = count;
     }
 }
@@ -2498,16 +2509,16 @@ void TSQueueHandle::Push(const int& item)
             continue;
         if (next)
         {
-            ::FUN_004491c0((volatile long *)(void *)(&queue->tail), (int)next, (int)tail);
+            ::FUN_004491c0((volatile long *)(void *)(&queue->tail), (int)(intptr_t)next, (int)(intptr_t)tail);
             continue;
         }
-        if (::FUN_004491c0((volatile long *)(tail), (int)node2, 0))
+        if (::FUN_004491c0((volatile long *)(tail), (int)(intptr_t)node2, 0))
         {
             queue->OnPush();
             break;
         }
     }
-    ::FUN_004491c0((volatile long *)(void *)(&queue->tail), (int)node2, (int)tail);
+    ::FUN_004491c0((volatile long *)(void *)(&queue->tail), (int)(intptr_t)node2, (int)(intptr_t)tail);
     *hazard = 0;
 }
 }  // namespace fnv_006c6e60
@@ -2619,12 +2630,12 @@ bool QueueConsumer::FUN_006c6fe0(void** ppOutValue)
 
         if (head7 == tail)
         {
-            ::FUN_004491c0((volatile long *)(void *)(&m_queue->m_pTail), (long)(next2), (long)(tail));
+            ::FUN_004491c0((volatile long *)(void *)(&m_queue->m_pTail), (long)(intptr_t)next2, (long)(intptr_t)tail);
             continue;
         }
 
         *ppOutValue = next2->m_data;
-        if (::FUN_004491c0((volatile long *)(void *)(&m_queue->m_pFirstNode), (long)(next2), (long)(head7)))
+        if (::FUN_004491c0((volatile long *)(void *)(&m_queue->m_pFirstNode), (long)(intptr_t)next2, (long)(intptr_t)head7))
         {
             m_queue->vfn3();
             next2->m_data = 0;
@@ -2642,7 +2653,7 @@ void FUN_006c7560_shell::FUN_006c7560(FUN_006c7560_arg* arg)
 {
     arg->m04 = 0;
     reinterpret_cast<::CombatProcedure *>((reinterpret_cast<AlchEquip*>(arg)))->Initialize(
-        (::CombatController *)(reinterpret_cast<unsigned int>(reinterpret_cast<FUN_006c7560_self*>(this)->m10)));
+        (::CombatController *)(reinterpret_cast<FUN_006c7560_self*>(this)->m10));
     reinterpret_cast<FUN_006c7560_self*>(this)->m10 = arg;
     reinterpret_cast<FUN_006c7560_self*>(this)->m0C = reinterpret_cast<FUN_006c7560_self*>(this)->m0C + 1;
     if (reinterpret_cast<FUN_006c7560_self*>(this)->m0C ==
@@ -2920,7 +2931,7 @@ class PathHandler
     PathingSolution* m_pPathingSolution;
     void* m_unk08;
 
-    bool FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, int flag);
+    bool FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, intptr_t flag);
 };
 
 struct PathBuilder
@@ -2940,34 +2951,34 @@ bool PathBuilder::FUN_006c9b20()
     PathingActorData* current = 0;
     if (!reinterpret_cast<::DoorAccessData *>((void *)(request))->ReadState98())
         current = reinterpret_cast<::FUN_006c9900_shell *>((request))->FUN_006c9900();
-    bool _result = reinterpret_cast<::DoorSearchInit *>(&(searchB))->InitDoorSearch((::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::GetOffsetC((int)(request))))), (::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))), (::SearchResult *)(::TeleportPathHelper *)(&dataB), 0, 0.0f, current, 0);
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dataB.edges))->GetName())) <= 1)
+    bool _result = reinterpret_cast<::DoorSearchInit *>(&(searchB))->InitDoorSearch((::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))), (::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))), (::SearchResult *)(::TeleportPathHelper *)(&dataB), 0, 0.0f, current, 0);
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dataB.edges))->GetName())) <= 1)
     {
         if (_result)
         {
-            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr),
+            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})),
                           (::PathingContext *)(void *)(dataB.edges.FUN_006a1440(0)), (int)(0)))
                 return false;
         }
     }
     else
     {
-        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}));
         NiPoint3 origin6 = *((::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door))->FUN_00568fa0()));
-        if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::EdgeArr *>(&(dataB.edges))->FUN_006ced70()))), (int)(((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door)))
+        if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::EdgeArr *>(&(dataB.edges))->FUN_006ced70()))), (intptr_t)(((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door)))
             return false;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(dataB.doors))->GetName())) - 1; ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dataB.doors))->GetName())) - 1; ++i)
         {
             NiPoint3 origin = dataB.doors.FUN_00558dd0(i).point;
             NiPoint3 point2 = *((::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((dataB.doors.FUN_00558dd0(i + 1).door))->FUN_00568fa0()));
-            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(origin, point2, (::PathingContext *)(void *)(dataB.edges.FUN_006a1440(i + 1)), (int)(dataB.doors.FUN_00558dd0(i + 1).door)))
+            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(origin, point2, (::PathingContext *)(void *)(dataB.edges.FUN_006a1440(i + 1)), (intptr_t)(dataB.doors.FUN_00558dd0(i + 1).door)))
             {
                 reinterpret_cast<::FUN_006c9fa0_shell *>((solution))->SetByteAtOffset40(1);
                 return false;
             }
         }
         end3 = dataB.doors.FUN_006cedb0().point;
-        origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        origin6 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}));
         if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::FUN_006ced90_stand *>(&(dataB.edges))->GetLastEdge()))), (int)(0)))
         {
             reinterpret_cast<::FUN_006c9fa0_shell *>((solution))->SetByteAtOffset40(1);
@@ -3025,7 +3036,7 @@ bool PathBuilder::BuildPathSegment(unsigned int uiStartIndex, unsigned int uiEnd
         FUN_006dcc40 kTargetPoint(((void *)(reinterpret_cast<::BaseProcess *>((((::fnv_006cec40::VirtualPathingNodeS *)(reinterpret_cast<::FUN_006e78b0_shell *>((m_pSolution))->FUN_006e78b0(i)))))->GetCurrentProcessData())));
         if (!::FUN_006cac70((const int *)(::fnv_006cec40::VirtualPathingNodeS *)(((::fnv_006cec40::VirtualPathingNodeS *)(reinterpret_cast<::FUN_006e78b0_shell *>((m_pSolution))->FUN_006e78b0(i))))))
             reinterpret_cast<::FUN_006dd460 *>(&(kTargetPoint))->FUN_006dd460_1((*(const ::NiPoint3 *)(&((::fnv_006cec40::LocationData6cec *)(reinterpret_cast<::PathingLocationProxy *>(&(kTargetPoint))->GetAssociatedNavMesh()))->kPos)));
-        reinterpret_cast<::FUN_0069f920_cls *>((m_pSolution))->FUN_0069f920((int)(&kTargetPoint), (int)(&::NiPoint3::ZERO));
+        reinterpret_cast<::FUN_0069f920_cls *>((m_pSolution))->FUN_0069f920((intptr_t)(&kTargetPoint), (intptr_t)(&::NiPoint3::ZERO));
     }
     if (reinterpret_cast<::PathingGraphNode *>((((::fnv_006cec40::VirtualPathingNodeS *)(reinterpret_cast<::FUN_006e78b0_shell *>((m_pSolution))->FUN_006e78b0(uiEndIndex)))))->IsTransitionNode())
         reinterpret_cast<::Mid *>((((::fnv_006cec40::Mid6cec *)(reinterpret_cast<::S_FUN_006b05a0 *>((m_pSolution))->FUN_006b05a0()))))->FUN_006cc560(((int)(reinterpret_cast<::BGSMessageInitAccess *>((((::fnv_006cec40::VirtualPathingNodeS *)(reinterpret_cast<::FUN_006e78b0_shell *>((m_pSolution))->FUN_006e78b0(uiEndIndex)))))->GetIconFormID())));
@@ -3046,12 +3057,12 @@ struct Array6cff
     unsigned int m_uiSize;
     unsigned int m_uiCapacity;
     void FUN_006d00a0(Elem6cff* pkItems, unsigned int ItemUpdateArray);
-    void FUN_006cff60(unsigned int uiNewSize, bool bFree);
+    void FUN_006cff60(uintptr_t uiNewSize, bool bFree);
 };
 
 // Resizes the array to uiNewSize: frees when zero, grows capacity and constructs new items, or shrinks and optionally reallocates when bFree is set.
 // @fnv 0x006cff60
-void Array6cff::FUN_006cff60(unsigned int uiNewSize, bool bFree)
+void Array6cff::FUN_006cff60(uintptr_t uiNewSize, bool bFree)
 {
     if (uiNewSize == 0)
     {
@@ -3748,11 +3759,11 @@ bool FUN_006d91d0(PathBuilderDetailedPathMeshes*);
 // @fnv 0x006d3b40
 bool __cdecl FindPathToTarget(RequestAccess* request, NiPoint3* output)
 {
-    if (!reinterpret_cast<::NLLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((int)(request))))))->UpdateMeshLocation())
+    if (!reinterpret_cast<::NLLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((intptr_t)(request))))))->UpdateMeshLocation())
         return false;
     NavMeshPtr mesh_;
     unsigned short aLocation = 0xffff;
-    if (!reinterpret_cast<::PathingLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((int)(request))))))->FindNavMeshTriangle(mesh_, aLocation))
+    if (!reinterpret_cast<::PathingLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((intptr_t)(request))))))->FindNavMeshTriangle(mesh_, aLocation))
         return false;
     MeshTriangle origin_;
     origin_.mesh = reinterpret_cast<MeshAccess*>(&mesh_)->FUN_00458b50();
@@ -3907,17 +3918,18 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
         if (!reinterpret_cast<::PathingLocation *>((location))->FindNavMeshTriangle((*(::NavMeshPtr *)(&i)), (*(unsigned short *)(&f))))
             return false;
         TriangleHandle h;
-        h.FUN_0069a690(&MeshTriangle(i.FUN_00458b50(), f));
+        MeshTriangle kTriangle(i.FUN_00458b50(), f);
+        h.FUN_0069a690(&kTriangle);
         for (int edge = 0; edge < 3; ++edge)
         {
             Point q;
             Point b;
             reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((((::Mesh *)(::FUN_00559450((int *)&(i))))))->FUN_0068f0c0(f, edge, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
-            h.enabled[edge] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
+            h.enabled[edge] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
         }
-        reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((int)(&h));
+        reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&h));
         bool s = false;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(p))->GetName())); ++i)
+        for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(p))->GetName())); ++i)
         {
             CopyTriangle current(*p.FUN_006a1440(i));
             for (int edge = 0; edge < 3; ++edge)
@@ -3936,7 +3948,7 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                         if (reinterpret_cast<::Holder670 *>((current.mesh))->MatchNavMesh((::In670 *)(::MeshEdgeRecord *)(&eb), (::Out670 *)(::TriangleHandle *)(&neighbor)))
                         {
                             bool found = false;
-                            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(p))->GetName())); ++j)
+                            for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(p))->GetName())); ++j)
                             {
                                 if (((FUN_006d4ca0_Class*)p.FUN_006a1440(j))->Equals((FUN_006d4ca0_Class*)&neighbor))
                                 {
@@ -3953,9 +3965,9 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
                                     Point q;
                                     Point b;
                                     reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((neighbor.mesh))->FUN_0068f0c0(neighbor.triangle, side, (::NiPoint3 *)&(q), (::NiPoint3 *)&(b));
-                                    next.enabled[side] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
+                                    next.enabled[side] = ::DistanceToSegment((::V006b9b10 *)&(const ::Point &)((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))))), (::V006b9b10 *)&(q), (::V006b9b10 *)&(b), (unsigned char *)(float *)(0)) < radius;
                                 }
-                                reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((int)(&next));
+                                reinterpret_cast<::FUN_006db4f0_Class *>(&(p))->FUN_006db4f0((intptr_t)(&next));
                             }
                         }
                     }
@@ -3967,18 +3979,18 @@ bool __cdecl FUN_006d4570(LocationView* location, float radius, LocationView* re
             MeshEdgeRecord eb;
             Point h;
             float p = 3.402823466e+38F;
-            for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(a))->GetName())); ++j)
+            for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(a))->GetName())); ++j)
             {
                 Point i;
                 Point cf;
                 reinterpret_cast<::fnv_0068f0c0::FUN_0068f0c0_shell *>((a.FUN_006a1440(j)->mesh))->FUN_0068f0c0(a.FUN_006a1440(j)->triangle, a.FUN_006a1440(j)->edge, (::NiPoint3 *)&(i), (::NiPoint3 *)&(cf));
-                Point f = GetClosestPointOnSegment((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))), i, cf);
-                float s = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Point &)((f - (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr))))))->UpdateCombatStyle();
+                Point f = GetClosestPointOnSegment((*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))), i, cf);
+                float s = reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::Point &)((f - (*(::Point *)&(reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{})))))))->UpdateCombatStyle();
                 if (s < p)
                 {
                     p = s;
                     h = f;
-                    reinterpret_cast<::FUN_006bc870_shell *>(&(eb))->CopyFromNavMeshEdge=((void *)&(*a.FUN_006a1440(j)));
+                    reinterpret_cast<::FUN_006bc870_shell *>(&(eb))->CopyFromNavMeshEdge((void *)&(*a.FUN_006a1440(j)));
                 }
             }
             result->meshInfo = reinterpret_cast<::FUN_0068efb0_shell *>((eb.mesh))->FUN_0068efb0();
@@ -4122,14 +4134,14 @@ struct FUN_006db890 : FUN_006dc370
     int unk04;
     int unk08;
     int unk0c;
-    int m_uiFilterValue;
-    FUN_006db890(int arg8, int argC, int arg10);
+    intptr_t m_uiFilterValue;
+    FUN_006db890(int arg8, int argC, intptr_t arg10);
 };
 // @fnv 0x006db890
-FUN_006db890::FUN_006db890(int aiFirst, int aiSecond, int aiValue)
+FUN_006db890::FUN_006db890(int aiFirst, int aiSecond, intptr_t aiValue)
 {
     m_vtbl = &DAT_0106cc78;
-    m_uiFilterValue = aiValue ? aiValue : ((int)(reinterpret_cast<::MemoryManager *>((((FUN_00aa42e0_Obj*)((void *)(::FUN_00401020())))))->GetGeneralAllocator()));
+    m_uiFilterValue = aiValue ? aiValue : ((intptr_t)(reinterpret_cast<::MemoryManager *>((((FUN_00aa42e0_Obj*)((void *)(::FUN_00401020())))))->GetGeneralAllocator()));
     reinterpret_cast<::FUN_006dc440_Class *>(this)->FUN_006dc440(aiFirst, aiSecond);
 }
 
@@ -4191,7 +4203,7 @@ struct PlacementObject32 : FUN_006d4550_Class
 
 // Placement-constructs count PlacementObject32 objects at 32-byte intervals starting at base.
 // @fnv 0x006dc130
-void FUN_006dc1d0_Class::ConstructPlacementObjects(int base, unsigned int count)
+void FUN_006dc1d0_Class::ConstructPlacementObjects(intptr_t base, unsigned int count)
 {
     for (unsigned int index = 0; index < count; ++index)
     {
@@ -4226,13 +4238,13 @@ float Falloff6dc::EvaluateFalloff(const Pt6dc& kPt)
     {
     case 0:
     case 2: {
-        Pt6dc kToPoint = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kStartPoint))->FUN_00439ef0((::NiPoint3 *)&(kPt), *(const ::NiPoint3 *)nullptr)));
+        Pt6dc kToPoint = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kStartPoint))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(kPt))));
         fDist = reinterpret_cast<::TESCombatStyle *>((void *)&(kToPoint))->UpdateCombatStyle();
         break;
     }
     case 1: {
-        Pt6dc kKSeg = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kEnd))->FUN_00439ef0((::NiPoint3 *)&(m_kStartPoint), *(const ::NiPoint3 *)nullptr)));
-        Pt6dc kPtRel = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPt))->FUN_00439ef0((::NiPoint3 *)&(m_kStartPoint), *(const ::NiPoint3 *)nullptr)));
+        Pt6dc kKSeg = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(m_kEnd))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(m_kStartPoint))));
+        Pt6dc kPtRel = (*(::Pt6dc *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kPt))->FUN_00439ef0(&PointSlot<::NiPoint3>(PointResult{}), *(const ::NiPoint3 *)&(m_kStartPoint))));
         float fSegLen = reinterpret_cast<::TESCombatStyle *>((void *)&(kKSeg))->UpdateCombatStyle();
         float fDot2 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(kPtRel))->DotProduct((void *)&(kKSeg));
         if (fDot2 < ::_DAT_01012060 || fDot2 > fSegLen)
@@ -4303,7 +4315,7 @@ struct TriFlags6df2
 // @fnv 0x006df230
 bool TriFlags6df2::ApplyTriFlags(GridOwner6df2* pkOwner)
 {
-    char* pcFlags = reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::Grid6df2 *)(::FUN_00559450((int *)(pkOwner))))))->GetTriangleScore((unsigned int)(((void *)(::FUN_00559450((int *)(m_pkLocation))))));
+    char* pcFlags = reinterpret_cast<::fnv_006e1610::PathingLOSMap *>((((::Grid6df2 *)(::FUN_00559450((int *)(pkOwner))))))->GetTriangleScore((unsigned int)(uintptr_t)(((void *)(::FUN_00559450((int *)(m_pkLocation))))));
     if (!pcFlags)
         return false;
     NavMeshPtr kNavMesh;
@@ -4314,18 +4326,18 @@ bool TriFlags6df2::ApplyTriFlags(GridOwner6df2* pkOwner)
         return false;
     if (!reinterpret_cast<::FUN_0076b610_Class *>(&(m_kValues))->FUN_0076b610())
     {
-        unsigned int ItemUpdateArray = FUN_0042f5a0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kValues))->GetName())), ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())));
+        unsigned int ItemUpdateArray = FUN_0042f5a0(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kValues))->GetName())), ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())));
         for (unsigned int i = 0; i < ItemUpdateArray; i++)
             pcFlags[*((const unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(pkTriList))->FUN_0069dec0(i)))] = *m_kValues.AddOffset(i);
     }
     else if (m_bEnableState)
     {
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())); j++)
+        for (unsigned int j = 0; j < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())); j++)
             pcFlags[*((const unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(pkTriList))->FUN_0069dec0(j)))] = 3;
     }
     else
     {
-        for (unsigned int k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())); k++)
+        for (unsigned int k = 0; k < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkTriList))->GetName())); k++)
             if (pcFlags[*((const unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(pkTriList))->FUN_0069dec0(k)))] == 0x7f)
                 pcFlags[*((const unsigned short *)&(reinterpret_cast<::FUN_0069dec0_class *>((void *)(pkTriList))->FUN_0069dec0(k)))] = 0;
     }
@@ -4377,9 +4389,9 @@ bool FUN_006dfdc0_Class::FUN_006dfdc0(PathingLocation* path)
     {
         NiPoint3 location;
         unsigned int index = reinterpret_cast<GO*>(&navMesh)->operator FUN_00691240_shell*()->ForwardToInner(
-            ((int)(reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<LocS*>(path)))->QueueActorAnimationTask((*(::NiPoint3 *)(&location))))));
+            &reinterpret_cast<::TaskQueueInterface *>((reinterpret_cast<LocS*>(path)))->QueueActorAnimationTask(location));
 
-        if (index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())))
+        if (index < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(this)))->GetName())))
         {
             return reinterpret_cast<::Path6df5 *>((reinterpret_cast<FUN_006df5f0_Class*>(*reinterpret_cast<Arr*>(this)->GetAt(index))))->IsLocationOnPath((::Loc6df5 *)(path));
         }
@@ -4398,9 +4410,9 @@ bool Path6df5::IsLocationOnPath(Loc6df5* pkLoc)
     if (!reinterpret_cast<::NavMeshInfo *>((m_pkOwnerManager))->ResolveNavMesh(kNavMesh))
         return false;
     TriList6df5* pkTris = ((::NavMesh6df5 *)(::FUN_00559450((int *)(((NavMeshAccess6df5*)&kNavMesh)))))->FUN_006911f0(m_iTriangle);
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTris))->GetName())) != ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kFlags))->GetName())))
+    if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkTris))->GetName())) != ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(m_kFlags))->GetName())))
         return false;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pkTris))->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((pkTris))->GetName())); i++)
     {
         unsigned short usTri = reinterpret_cast<::FUN_0069dec0_class *>((pkTris))->FUN_0069dec0(i);
         if (usTri == reinterpret_cast<::FUN_006df760_shell *>((pkLoc))->GetShortValueAtOffset24())
@@ -4879,14 +4891,14 @@ bool __cdecl FUN_006d2c80(NavMeshContext* context, NavMeshRoute* route)
     if (!acceptedNew)
         return false;
     float thresholdRes = ::DAT_010231a0;
-    NavMeshBuffer initial(((void *)(::GetOffsetC((int)(context)))));
+    NavMeshBuffer initial(((void *)(::GetOffsetC((intptr_t)(context)))));
     NavMeshPlan* plan = new NavMeshPlan;
     NavMeshTriangleVertexIndices* edgeTmp = new NavMeshTriangleVertexIndices;
     NavMeshContext currentVal(context);
     reinterpret_cast<::HX *>(&(currentVal))->FUN_006d3100((::CombatCoverPointData *)(plan));
-    reinterpret_cast<::FUN_006d30e0_Class *>(&(currentVal))->FUN_006d30e0((int)(edgeTmp));
+    reinterpret_cast<::FUN_006d30e0_Class *>(&(currentVal))->FUN_006d30e0((intptr_t)(edgeTmp));
     reinterpret_cast<::HX *>((context))->FUN_006d3100((::CombatCoverPointData *)(plan));
-    reinterpret_cast<::FUN_006d30e0_Class *>((context))->FUN_006d30e0((int)(edgeTmp));
+    reinterpret_cast<::FUN_006d30e0_Class *>((context))->FUN_006d30e0((intptr_t)(edgeTmp));
     unsigned int index = 1;
     while (::GetObjectFlags((char *)(route)) > index)
     {
@@ -4894,13 +4906,13 @@ bool __cdecl FUN_006d2c80(NavMeshContext* context, NavMeshRoute* route)
         reinterpret_cast<::PathingRequest *>(&(currentVal))->SetDestination((::PathingLocation *)&(candidate));
         if (::CombatPosition::FindCombatPosition((::CombatPosition::Actor *)(&currentVal), thresholdRes, true))
         {
-            NavMeshBuffer replacement(((void *)(::FUN_006377e0((int)&(currentVal)))), candidate);
+            NavMeshBuffer replacement(((void *)(::FUN_006377e0((intptr_t)&(currentVal)))), candidate);
             reinterpret_cast<::PathingRequest *>(&(currentVal))->SetDestination((::PathingLocation *)&(replacement));
             NavMeshResult resultTmp;
             bool found = ::FUN_006d0b10((::PathingRequest *)(&currentVal), (::PathingSolution *)(&resultTmp));
             if (found)
             {
-                reinterpret_cast<::FUN_006d30b0_Class2 *>((context))->FUN_006d30b0((*(const ::NiPoint3 *)(((void *)(::FUN_006377e0((int)&(currentVal)))))));
+                reinterpret_cast<::FUN_006d30b0_Class2 *>((context))->FUN_006d30b0((*(const ::NiPoint3 *)(((void *)(::FUN_006377e0((intptr_t)&(currentVal)))))));
                 reinterpret_cast<::PathingRequest *>((context))->SetDestination((::PathingLocation *)&(replacement));
                 reinterpret_cast<::FUN_006d3120_Class *>(&(currentVal))->FUN_006d3120();
                 reinterpret_cast<::MyClass *>(&(resultTmp))->FUN_006e8ab0((::MyClass *)(route));
@@ -5126,7 +5138,7 @@ class List6DFD
 // @fnv 0x006dfd20
 bool List6DFD::ApplyAllTriFlags(int arg)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
+    for (unsigned int i = 0; i < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
         reinterpret_cast<::TriFlags6df2 *>(((*FUN_00877a30(i, arg))))->ApplyTriFlags({});
     return true;
 }
@@ -5164,12 +5176,12 @@ struct FUN_006dffc0_Class
 void FUN_006dffc0_Class::WriteToBuffer(FUN_00865db0_shell* buffer)
 {
     buffer->FUN_00865db0(m_ref ? ((unsigned int)(::FUN_00559450((int *)(m_ref)))) : 0, 0);
-    unsigned int count = this ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_0044ddc0_shell*)this)))->GetName())) : 0;
+    unsigned int count = this ? ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((FUN_0044ddc0_shell*)this)))->GetName())) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((((FUN_00865f60_shell*)buffer)))->FUN_00865f60(count);
     for (unsigned int index = 0; index < count; ++index)
     {
-        unsigned int* item = &((unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index)));
-        ((FUN_006df9c0_shell*)*item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
+        unsigned int item = (unsigned int)(reinterpret_cast<::S3e60 *>((((FUN_006a7ad0_shell*)this)))->FUN_006a7ad0(index));
+        ((FUN_006df9c0_shell*)(uintptr_t)item)->FUN_006df9c0((::BGSSaveGameBuffer *)(buffer));
     }
 }
 
@@ -5211,7 +5223,7 @@ struct Entry6C74
 struct Owner6C74
 {
     unsigned int m_uiCount;
-    void* pvContextData;
+    unsigned long m_uiTlsIndex;
     Entry6C74* m_pkEntryArray;
 
     void Destroy();
@@ -5226,14 +5238,14 @@ void* FUN_006c74a0_Class::FUN_006c71a0(unsigned int flags)
     return this;
 }
 
-// Deletes each entry's value, deletes m_pkEntryArray, and calls FUN_0044e360 on pvContextData.
+// Deletes each entry's value, deletes m_pkEntryArray, and frees the TLS index through FUN_0044e360.
 // @fnv 0x006c74a0
 void Owner6C74::Destroy()
 {
     for (unsigned int i = 0; i < ((unsigned int)(::FUN_00559450((int *)this))); i++)
         delete m_pkEntryArray[i].m_pkValue;
     delete m_pkEntryArray;
-    ::FUN_0044e360((unsigned long)(pvContextData));
+    ::FUN_0044e360(m_uiTlsIndex);
 }
 
 struct NavMeshEdgeData;
@@ -5256,7 +5268,7 @@ public:
 // @fnv 0x006dcea0
 void* FUN_006dcea0_Class::ConstructWithSetup(void* apArg, void* apOther)
 {
-    *(int*)this = (int)&DAT_0102583c;
+    *(void**)this = &DAT_0102583c;
     new ((void *)(((Inner04*)((char*)this + 4)))) ::Vec3();
     reinterpret_cast<::SetupPathingLocation *>((((SetupHelper*)this)))->FUN_006dd280((*(const ::NiPoint3 *)(apArg)), (::TESObjectCELL *)(0), (::TESWorldSpace *)(apOther));
     return this;
@@ -5270,7 +5282,7 @@ FUN_006dd220_Class* FUN_006dd220_Class::ConstructFromSource(void* source)
     int a = 0;
     reinterpret_cast<FUN_00527990_shell*>(source)->FUN_00527990(&b, &a);
     reinterpret_cast<::SetupPathingLocation *>((reinterpret_cast<FUN_006dd280_shell*>(this)))->FUN_006dd280(
-        (*(const ::NiPoint3 *)(&((::BGSPerk *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(source))) ::Vec3())))), (::TESObjectCELL *)(b), (::TESWorldSpace *)(void *)(reinterpret_cast<void*>(a)));
+        (*(const ::NiPoint3 *)(new ((void *)(reinterpret_cast<BSSimpleList<BGSPerk*>*>(source))) ::Vec3())), (::TESObjectCELL *)(intptr_t)(b), (::TESWorldSpace *)(intptr_t)(a));
     return this;
 }
 extern float DAT_0106cb30;
@@ -5307,7 +5319,7 @@ FUN_006d32e0::FUN_006d32e0()
 
 // Finds a navmesh path between two points, building a pathing solution with intermediate nodes and a final node or item.
 // @fnv 0x006ce8b0
-bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, int flag)
+bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingContext* ctx, intptr_t flag)
 {
     FUN_006dcee0 loc1(pt1, ctx->cell, ctx->worldSpace);
     FUN_006dcee0 loc4(pt2, ctx->cell, ctx->worldSpace);
@@ -5321,9 +5333,9 @@ bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingCont
     FUN_006b8420 var20cc;
     FUN_006cf340 var5(0x14, 0, m_unk08);
     FUN_006cf440 var4(0x14, 0, m_unk08);
-    int var14 = 0;
+    ::fnv_006b8c50::PathingActorData* var14 = nullptr;
 
-    bool retVal = reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(var20cc))->SetupNavMeshSearch((::fnv_006b8c50::PathingActorData *)(var14), (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc1))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc1))->GetAssociatedNavMesh())), (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc4))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)),
+    bool retVal = reinterpret_cast<::fnv_006b8c50::FUN_006b8c50_shell *>(&(var20cc))->SetupNavMeshSearch(var14, (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc1))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))), ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc1))->GetAssociatedNavMesh())), (void *)&(const ::NiPoint3 &)(reinterpret_cast<::TaskQueueInterface *>((void *)&(loc4))->QueueActorAnimationTask(PointSlot<::NiPoint3>(PointResult{}))),
                                              ((void *)(reinterpret_cast<::PathingLocationProxy *>(&(loc4))->GetAssociatedNavMesh())), &var5, &var4, 0);
 
     if (!retVal)
@@ -5340,9 +5352,9 @@ bool PathHandler::FindPath(const NiPoint3& pt1, const NiPoint3& pt2, PathingCont
 
     reinterpret_cast<::FUN_006c90d0_fix *>((m_pPathingSolution))->FUN_006c90d0((const ::PathingInfoEntry &)(loc1));
 
-    for (unsigned int i2 = 1; i2 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(var5))->GetName())) - 1; ++i2)
+    for (unsigned int i2 = 1; i2 < ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(var5))->GetName())) - 1; ++i2)
     {
-        reinterpret_cast<::FUN_006c9920_cls *>((m_pPathingSolution))->ConstructThing((unsigned int)(*var5.FUN_00877a30(i2)));
+        reinterpret_cast<::FUN_006c9920_cls *>((m_pPathingSolution))->ConstructThing((unsigned int)(uintptr_t)(*var5.FUN_00877a30(i2)));
     }
 
     if (retVal)

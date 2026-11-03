@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00b0fc00 { struct VectorAllocator; }
 namespace fnv_00b0fc00 { struct VectorRecord; }
 namespace fnv_00b10890 { struct EUMB; }
@@ -22,7 +24,7 @@ namespace fnv_00b10890 { ::fnv_00b10890::EUMB *FUN_00b10890(::fnv_00b10890::EUMB
 // 0x00b108e0
 void *AllocatePoolArray(unsigned int);
 // 0x00b10940
-void FUN_00b10940(unsigned int, unsigned int, unsigned int, unsigned int);
+void FUN_00b10940(std::uintptr_t, std::uintptr_t, std::uintptr_t, std::uintptr_t);
 // 0x00b10990
 void FUN_00b10990(::ElQ *, unsigned int, const ::ElQ &);
 // 0x00b10a60

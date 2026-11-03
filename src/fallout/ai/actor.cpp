@@ -102675,7 +102675,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
         reinterpret_cast<::HitDataEx *>(((obj1).operator->()))->FUN_009b4ec0((*(const ::BooleanFloatQuery *)(((Ptr2Obj*)ptrTable)->m_14)));
         {
             Node9b nodeCur;
-            ::FUN_009b5120((int)(&nodeCur), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
+            ::FUN_009b5120((std::intptr_t)(&nodeCur), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
             obj1->m_44 = nodeCur.m_44;
             obj1->m_38 = nodeCur.m_38;
             if (!((Ptr2Obj*)ptrTable)->m_04_byte)
@@ -102734,7 +102734,7 @@ void This899::SpawnProjectile(Actor* apActor, unsigned char arg2, void* apSource
     }
     else
     {
-        ::FUN_009b5120((int)(obj1), (int)(this), (int)(apActor), (int)(proc3), arg2, (int)(apSource), {});
+        ::FUN_009b5120((std::intptr_t)(obj1), (std::intptr_t)(this), (std::intptr_t)(apActor), (std::intptr_t)(proc3), arg2, (std::intptr_t)(apSource), {});
     }
 
     ((ThisV*)this)->V202(((ThisV*)this)->V203() + 1);
@@ -111423,19 +111423,19 @@ struct Thing
 {
     char pad[0x68];
     Obj* m_obj;
-    int FUN_00881510();
+    std::intptr_t FUN_00881510();
 };
 
 // Returns m_obj->get() (0 if m_obj is null), replaced by FUN_005d43c0()->FUN_0041cb10() when that result is non-null and its FUN_00678610() is true.
 // @fnv 0x00881510
-int Thing::FUN_00881510()
+std::intptr_t Thing::FUN_00881510()
 {
-    int result = 0;
+    std::intptr_t result = 0;
     if (m_obj != 0)
-        result = (int)m_obj->get();
+        result = (std::intptr_t)m_obj->get();
     if (result != 0 && reinterpret_cast<::TESPackage *>((((Obj*)result)))->IsPackageBlockingGreeting())
     {
-        result = ((int)(reinterpret_cast<::FUN_0041cb10_shell *>((((::Sub *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cb10()));
+        result = ((std::intptr_t)(reinterpret_cast<::FUN_0041cb10_shell *>((((::Sub *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_0041cb10()));
     }
     return result;
 }

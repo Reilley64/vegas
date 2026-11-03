@@ -11,7 +11,7 @@ public:
     // 0x00910b10
     void FUN_00910b10();
     // 0x009a44e0
-    TimeoutTimer(int, float, float, float, float);
+    TimeoutTimer(void *, float, float, float, float);
     // 0x009a5f20
     void LoadGame(::BGSLoadFormBuffer *);
 };

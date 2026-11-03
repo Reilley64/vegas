@@ -1,3 +1,4 @@
+#include <cstdint>
 #include "fnv/decl/FUN_00b0cf90_class.h"
 #include "result_slot.h"
 #include "fnv/decl/FUN_00b12790_class.h"
@@ -127,7 +128,7 @@ struct Iterator
     int unk00, unk04;
     __forceinline Iterator(int value, Record* owner)
     {
-        reinterpret_cast<::FUN_00b42980 *>(this)->Set(value, (*(const ::FUN_00b42980 *)(owner)));
+        reinterpret_cast<::FUN_00b42980 *>(this)->Set((void *)(std::intptr_t)(value), (*(const ::FUN_00b42980 *)(owner)));
     }
     __forceinline bool operator!=(Iterator const& rhs)
     {

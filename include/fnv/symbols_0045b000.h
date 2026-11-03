@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+#include <cstdint>
+
 namespace fnv_0045bad0 { class NiObject; }
 namespace fnv_0045bad0 { struct NiRTTI; }
 

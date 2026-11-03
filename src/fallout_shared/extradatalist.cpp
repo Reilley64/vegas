@@ -6774,17 +6774,17 @@ struct TESCreature
 {
     char pad[0x30];
     ABD_005f92d0 abd;
-    int FUN_005f92d0(int a);
+    intptr_t FUN_005f92d0(int a);
 };
 // If flag 0x100 is set, forwards a to the creature sounds object; otherwise recurses into the sound creature; returns 0 if none.
 // @fnv 0x005f92d0
-int TESCreature::FUN_005f92d0(int a)
+intptr_t TESCreature::FUN_005f92d0(int a)
 {
     if (reinterpret_cast<::TESActorBaseData *>((void *)&(abd))->GetFlag(0x100))
     {
         CS_005f92d0* psounds = ((::CS_005f92d0 *)(reinterpret_cast<::FUN_005f91d0_shell *>(this)->FUN_005f91d0()));
         if (psounds)
-            return ((int)(reinterpret_cast<::FUN_005f0a30_shell *>((psounds))->GetRandomCreatureSound((::CREATURE_SOUND_TYPE)(a))));
+            return ((intptr_t)(reinterpret_cast<::FUN_005f0a30_shell *>((psounds))->GetRandomCreatureSound((::CREATURE_SOUND_TYPE)(a))));
     }
     else
     {
@@ -12578,18 +12578,18 @@ void FUN_00422ac0_shell::FUN_00422ac0(char* apBuffer)
 
 struct FUN_0042e210_Class : BSExtraData
 {
-    int a;
-    int b;
-    FUN_0042e210_Class(int, int);
+    intptr_t a;
+    intptr_t b;
+    FUN_0042e210_Class(intptr_t, intptr_t);
     ~FUN_0042e210_Class();
 };
 struct FUN_0042e150_StandIn : BaseExtraList
 {
-    void FUN_0042e150(int, int);
+    void FUN_0042e150(intptr_t, intptr_t);
 };
 // Finds the extra data of type 0x5b; if absent, allocates it with the two values and adds it, otherwise overwrites its two fields.
 // @fnv 0x0042e150
-void FUN_0042e150_StandIn::FUN_0042e150(int aiValueA, int aiValueB)
+void FUN_0042e150_StandIn::FUN_0042e150(intptr_t aiValueA, intptr_t aiValueB)
 {
     FUN_0042e210_Class* extra = static_cast<FUN_0042e210_Class*>(reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>(this)->FUN_00410220(0x5b));
     if (!extra)

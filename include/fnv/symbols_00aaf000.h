@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace fnv_00aaf330 { struct FGMatQ; }
 namespace fnv_00aaf750 { struct Elem; }
 namespace fnv_00aaf9a0 { struct Elem; }
@@ -34,7 +36,7 @@ void FUN_00aaf8a0(::FUN_00aaec10 *, unsigned int, const ::FUN_00aaec10 &);
 // 0x00aaf9a0
 namespace fnv_00aaf9a0 { ::fnv_00aaf9a0::Elem *FUN_00aaf9a0(::fnv_00aaf9a0::Elem *, ::fnv_00aaf9a0::Elem *, ::fnv_00aaf9a0::Elem *, ::fnv_00aaf9a0::TagRand, ::fnv_00aaf9a0::TagNon, ::fnv_00aaf9a0::TagRange); }
 // 0x00aafa30
-void FUN_00aafa30(int, int, int, int);
+void FUN_00aafa30(int, int, std::intptr_t, int);
 // 0x00aafa80
 namespace fnv_00aafa80 { ::fnv_00aafa80::FUN_00aaec10 *FUN_00aafa80(::fnv_00aafa80::FUN_00aaec10 *, ::fnv_00aafa80::FUN_00aaec10 *, ::fnv_00aafa80::FUN_00aaec10 *); }
 // 0x00aafb90

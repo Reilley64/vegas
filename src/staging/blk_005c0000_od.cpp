@@ -44,7 +44,7 @@ struct EffectSetting
 // @fnv 0x005d2a50
 unsigned char FUN_005d2a50()
 {
-    ::FUN_0070ec90((char *)(((EffectSetting*)g_TES)));
+    ::FUN_0070ec90((char *)(*reinterpret_cast<EffectSetting **>(&::g_TES)));
     if (FUN_005d2a40())
         DAT_011c7a64 = 1;
     return 1;
@@ -411,5 +411,5 @@ void Me::FUN_005d8a90(Src* pSource)
         if (Tgt* pTgt = ((::Tgt *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pMid))->GetBaseTexture())))
             pTgt->Act(0);
     }
-    reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Res *)(reinterpret_cast<::FUN_005d43c0_ *>((pSource))->FUN_005d43c0()))))->RemoveExtra({});
+    reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Res *)(reinterpret_cast<::FUN_005d43c0_ *>((pSource))->FUN_005d43c0()))))->RemoveExtra(0x73);
 }

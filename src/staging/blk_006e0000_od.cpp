@@ -197,7 +197,6 @@ struct Interface
 {
 };
 
-int __cdecl FUN_0043b460(long volatile* a1, long a2, long a3);
 
 struct FUN_006ec0d0_Class
 {
@@ -11269,7 +11268,6 @@ struct FUN_006eca50 : Arr2_006e9e20
 FUN_006eca50::~FUN_006eca50()
 {}
 
-int __cdecl FUN_0043b460(long volatile* a1, long a2, long a3);
 struct NodeX
 {
     int unk00;

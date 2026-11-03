@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
+#include "fnv/symbols_0043b000.h"
 #include "fnv/decl/A5d470Class.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/ControlGraph.h"
@@ -6011,7 +6012,6 @@ struct Stream_c3e1b0 : StreamBase_c3e1b0
 
 extern unsigned gm_GetCurrentThreadId();
 
-extern int FUN_0043b460(volatile long*, long, long);
 
 extern void LockBarrier();
 
@@ -7209,7 +7209,6 @@ bool F1f0Cls::FUN_00c3f1f0(int a1, int a2, int a3, bool a4)
 
 unsigned int __cdecl FUN_0040fc90();
 
-int __cdecl FUN_0043b460(unsigned int* p, unsigned int a, unsigned int b);
 
 struct SpinLockS
 {
@@ -7224,7 +7223,7 @@ struct SpinLockS
             return;
         }
         unsigned int spinCount = 0;
-        while (FUN_0043b460(&owningThread, 0, threadID))
+        while (FUN_0043b460(reinterpret_cast<long volatile*>(&owningThread), 0, (long)threadID))
         {
             if (++spinCount > 10000)
                 ::FUN_0040fca0(1);

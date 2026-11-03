@@ -22,7 +22,7 @@ void FUN_0043b2b0(bool);
 // 0x0043b300
 bool FUN_0043b300(const ::NiRTTI *, ::NiAVObject *);
 // 0x0043b460
-void FUN_0043b460(void *, void *, unsigned int);
+long __cdecl FUN_0043b460(long volatile *, long, long);
 // 0x0043b540
 uintptr_t FUN_0043b540(char *);
 // 0x0043ba60

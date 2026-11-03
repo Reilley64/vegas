@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include "havok/hkMemoryRouter.h"
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/symbols_00c85000.h"
 #include <windows.h>
@@ -403,17 +404,30 @@ struct S00d2d890_Rec3
     unsigned int stamp;
     unsigned int unk08;
 };
-struct S00d2d890_Obj
+// hkpAgent3ProcessInput; offsets are the 32-bit release's.
+struct S00d2d890_Input
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    const ::hkpCdBody* m_bodyA;          // +0x00
+    const ::hkpCdBody* m_bodyB;          // +0x04
+    const ::hkpCdBody* m_overrideBodyA;  // +0x08
+    const ::GskAgentInput* m_input;      // +0x0c
+    void* m_contactMgr;                  // +0x10
+    __m128 m_aTb[4];                     // +0x20
+    float m_distAtT1;                    // +0x60
+    __m128 m_linearTimInfo;              // +0x70
 };
-int FUN_00d2d4f0(int a, int b, S00d2d890_Local* l, void* c, int d, int e, char* f, int g);
+
+// The agent's data is its child track (hkpAgent1nTrack), padded to 16 bytes.
+struct S00d2d890_Track
+{
+    void** m_sectors;
+    int m_size;
+    int m_capacityAndFlags;
+};
+
 void* FUN_00d2d4b0(void* a, S00d2d890_Hits* h);
 
-// Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns child + 0x10.
+// Takes 0x4000 bytes from an arena, calls FUN_00d2d4f0, FUN_00d2d4b0 and FUN_00da4aa0 between timing markers, restores the arena and returns the end of the agent's data.
 // @fnv 0x00d2d890
 char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, void* a4)
 {
@@ -430,15 +444,14 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, void* a4)
         t->cur = (char*)(r + 1);
     }
     char* mark = static_cast<char*>(hkMemoryRouter::getInstance().allocateStack(0x4000));
+    const S00d2d890_Input* in = reinterpret_cast<const S00d2d890_Input*>(self);
     S00d2d890_Local loc;
-    reinterpret_cast<::FUN_00cb21e0_shell *>(&(loc))->FUN_00cb21e0((const ::Matrix44 *)(void *)(self + 0x20));
+    reinterpret_cast<::FUN_00cb21e0_shell *>(&(loc))->FUN_00cb21e0((const ::Matrix44 *)(const void *)(in->m_aTb));
     S00d2d890_Hits hits;
-    int c = *(int*)(self + 0xc);
-    int p1 = *(int*)(self + 4);
-    int p0 = *(int*)self;
-    int numHits = FUN_00d2d4f0(p0, p1, &loc, self + 0x70, c, 0, mark, 0x1000);
-    void* tree = *(void**)(self + 4);
-    void* r4b = FUN_00d2d4b0(tree, &hits);
+    int numHits = ::FUN_00d2d4f0(*in->m_bodyA, *in->m_bodyB, *(const ::hkTransform *)(void *)(&loc),
+                                 *(const ::hkVector4 *)(const void *)(&in->m_linearTimInfo), *in->m_input, 0,
+                                 (unsigned int *)(void *)(mark), 0x1000);
+    void* r4b = FUN_00d2d4b0(const_cast<::hkpCdBody*>(in->m_bodyB), &hits);
 
     t = (S00d2d890_Buf*)TlsGetValue(DAT_0126835c);
     if (t->cur < t->end)
@@ -463,7 +476,7 @@ char* __cdecl FUN_00d2d890(char* self, int a1, char* child, int a3, void* a4)
         t->cur = (char*)(r + 1);
     }
     hkMemoryRouter::getInstance().deallocateStack(mark);
-    return child + 0x10;
+    return child + ((sizeof(S00d2d890_Track) + 15) & ~15);
 }
 
 struct FUN_00cfbd60_Obj

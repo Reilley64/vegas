@@ -5372,11 +5372,28 @@ inline float FUN_00e54ba0(const KnotVector& a, const KnotVector& b)
 }
 
 
-struct CurveArray { float* data; int size; int capacity; };
-struct PointArray { KnotVector* data; int size; int capacity; };
+template<class T> struct KnotArray {
+    T* data; int size; int capacity;
+    __forceinline void reserve(int num) {
+        HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
+        void* alloc = h->m_pAllocator;
+        int cap = capacity & 0x3fffffff;
+        if (cap < num) {
+            int doubled = cap * 2;
+            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), num < doubled ? doubled : num, sizeof(T));
+        }
+    }
+    __forceinline void resize(int num) {
+        reserve(num);
+        int added = num - size;
+        T* start = data + size;
+        for (int k = 0; k < added; ++k) new(start + k) T;
+        size = num;
+    }
+};
 // Blends Pw points with knot-ratio alphas from U at parameter u into a temp array, then returns FUN_00e54ba0 applied to the blended values.
 // @fnv 0x00e552f0
-float __cdecl FUN_00e552f0(int n,int p,CurveArray& apKnots,PointArray& apPoints,float afParam,int r,int s)
+float __cdecl FUN_00e552f0(int n,int p,KnotArray<float>& apKnots,KnotArray<KnotVector>& apPoints,float afParam,int r,int s)
 {
     KnotVector temp[7];
     int ord=p+1;
@@ -5441,7 +5458,6 @@ template<class T> struct MarkArray:MarkStorage<T> {
 };
 struct MarkBounds { float* data; };
 int FindFloatInterval(int,int,float,MarkBounds*);
-bool* IsSampleBoundary(bool*,int,MarkBounds*,int);
 // Marks the bounds intervals containing each point (shrunk by epsilon); writes 0 to output if any IsSampleBoundary sample is unmarked, else 1.
 // @fnv 0x00e57490
 bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBounds* points,float epsilon) {
@@ -5460,7 +5476,7 @@ bool* FUN_00e57490(bool* output,int n,int start,MarkBounds* bounds,int m,MarkBou
  }
  for(int j=0;j<=n;++j) {
   bool result;
-  if(*IsSampleBoundary(&result,start+j,bounds,total) && !marked[j]) { *output=0; marked.release();return output; }
+  if(*IsSampleBoundary(&result,start+j,&bounds->data,total) && !marked[j]) { *output=0; marked.release();return output; }
  }
  *output = 1;
 res:
@@ -7168,8 +7184,8 @@ float FUN_00e535a0(const Vec4f* left, const Vec4f* right)
 }
 
 namespace e54 {
-int __cdecl FindFloatInterval(int a, int degree, float u, float** knots);
-void __cdecl ComputeBasisFunctions(int span, float u, int degree, float** knots, float* basis);
+using ::FindFloatInterval;
+using ::ComputeBasisFunctions;
 // Finds the span for u, computes the basis functions, and accumulates the weighted control points into a KnotVector result.
 // @fnv 0x00e54630
 KnotVector FUN_00e54630(int a, int degree, float** knots, KnotVector** points, float u)
@@ -7373,7 +7389,7 @@ extern double __cdecl FUN_00ec9e10(double x);
 
 KnotVector FUN_00e533a0(float f,const KnotVector& v);
 
-float __cdecl FUN_00e552f0(int n,int p,CurveArray& U,PointArray& Pw,float u,int r,int s);
+float __cdecl FUN_00e552f0(int n,int p,KnotArray<float>& U,KnotArray<KnotVector>& Pw,float u,int r,int s);
 
 void* _fnv_zlib_memset(void*,int,int);
 
@@ -7765,25 +7781,10 @@ __declspec(nothrow) int __cdecl GetRunLength(int index, int end, float** knots);
 
 __declspec(nothrow) void __cdecl FUN_00e54c10(int index, FNVTemporaryFloats* array, int size);
 
-__declspec(nothrow) void __cdecl FUN_00e555f0(int count, int degree, float** knots, intptr_t context, FNVTemporaryFloats* temporary, int start, int end);
+void __cdecl FUN_00e555f0(int count, int degree, KnotArray<float>& knots, KnotArray<KnotVector>& points, FNVTemporaryFloats* errors, int start, int end);
 
-__declspec(nothrow) int __cdecl FUN_00e556f0(int count, int degree, float** knots, intptr_t context, float value, int index, int removed, int active, float fill);
+int __cdecl FUN_00e556f0(int count, int degree, KnotArray<float>& knots, KnotArray<KnotVector>& points, float value, int index, int removed, int active, float tolerance);
 
-struct ErrorDecision { unsigned char value; };
-
-ErrorDecision* IsSampleBoundary(ErrorDecision*,int,float**,int);
-
-float FUN_00e552f0(int,int,float**,intptr_t,float,int,int);
-
-__declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e555f0(int count,int degree,float** knots,intptr_t context,FNVTemporaryFloats* bounds,int begin,int end) {
-    int last=count+degree+1;
-    for(int i=begin;i<=end;++i) bounds->data[i]=DAT_010ec990;
-    for(int i=begin;i<=end;++i) {
-        ErrorDecision decision;
-        if(IsSampleBoundary(&decision,i,knots,last)->value)
-            bounds->data[i]=FUN_00e552f0(count,degree,knots,context,(*knots)[i],i,GetRunLength(i,last,knots));
-    }
-}
 __declspec(nothrow) __declspec(noinline) void __cdecl FUN_00e54c10(int first,FNVTemporaryFloats* bounds,int count) {
     --bounds->size;
     for(int i=first;i<bounds->size;++i) bounds->data[i]=bounds->data[i+1];
@@ -7802,7 +7803,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
     FNVTemporaryFloats updatedWeights(pointCount+1,0.0f);
     TypedTemporary<int> lowerLimits(pointCount+1);
     TypedTemporary<int> upperLimits(pointCount+1);
-    FUN_00e555f0(*count, degree, ((float**)knots), ((intptr_t)context), &knotErrors, degree + 1, m - degree - 1);
+    FUN_00e555f0(*count, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, &knotErrors, degree + 1, m - degree - 1);
     int knot = FUN_00e54930(&knotErrors.data, m+1);
     int removalCount = GetRunLength(knot, m, ((float**)knots));
     float* currentError = errorValues + knot;
@@ -7834,7 +7835,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             FNVTemporaryFloats originalWeights(*((FNVFloatValues*)weights));
             for (int j = lower; j <= upper; ++j)
                 ((FNVFloatValues*)weights)->data[j] = updatedWeights[j];
-            FUN_00e556f0(*count, degree, ((float**)knots), ((intptr_t)context), (*((float**)knots))[knot],
+            FUN_00e556f0(*count, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, (*((float**)knots))[knot],
                            knot, removalCount, 1, DAT_010ec990);
             --m;
             --*count;
@@ -7846,7 +7847,7 @@ int __cdecl FUN_00e56a00(int* count, int degree, FloatVector* knots, VertexVecto
             int currentCount = *count;
             int lastAffected = knot - removalCount + degree < currentCount ?
                                knot - removalCount + degree : currentCount;
-            FUN_00e555f0(currentCount, degree, ((float**)knots), ((intptr_t)context), &knotErrors,
+            FUN_00e555f0(currentCount, degree, *(KnotArray<float>*)knots, *(KnotArray<KnotVector>*)context, &knotErrors,
                 FindFirstNonZero(firstAffected, (intptr_t)((float**)knots), m),
                 FindFirstNonZero(lastAffected, (intptr_t)((float**)knots), m));
         } else {
@@ -7892,20 +7893,16 @@ extern const float DAT_010ec990 = 3.40282e38f;
 bool* IsSampleBoundary(bool* a, int b, float** c, int d);
 
 
-float FUN_00e552f0(int a1, int a2, float** a3, intptr_t a4, float f, int i, int p);
-
 // @fnv 0x00e555f0
-void FUN_00e555f0(int a1, int a2, float** a3, intptr_t a4, float** a5, int start, int end)
+void FUN_00e555f0(int n, int p, KnotArray<float>& U, KnotArray<KnotVector>& Pw, FNVTemporaryFloats* errors, int start, int end)
 {
-    int v = a1 + a2 + 1;
+    int v = n + p + 1;
     bool result;
-for(int k=start; k<=end; ++k) (*a5)[k] = DAT_010ec990;
+    for (int k = start; k <= end; ++k)
+        errors->data[k] = DAT_010ec990;
     for (int i = start; i <= end; i++) {
-        if (*IsSampleBoundary(&result, i, a3, v) != 0) {
-            float* src = *a3 + i;
-            float* dst = *a5 + i;
-            *dst = FUN_00e552f0(a1, a2, a3, a4, *src, i, GetRunLength(i, v, a3));
-        }
+        if (*IsSampleBoundary(&result, i, &U.data, v) != 0)
+            errors->data[i] = FUN_00e552f0(n, p, U, Pw, U.data[i], i, GetRunLength(i, v, &U.data));
     }
 }
 
@@ -7926,65 +7923,14 @@ int __cdecl FUN_00e54a00(float** arr, int count)
     return index;
 }
 
-struct RemovalVector : KnotVector {
-    RemovalVector(float a=0,float b=0,float c=0,float d=0);
-    RemovalVector& operator=(const RemovalVector&);
-    RemovalVector& add(const RemovalVector&);
-    RemovalVector& subtract(const RemovalVector&);
-    RemovalVector& scale(float);
-    RemovalVector& divide(float);
-    RemovalVector operator*(float) const;
-    RemovalVector operator-(const RemovalVector&) const;
-    RemovalVector operator+(const RemovalVector&) const;
-    RemovalVector operator/(float) const;
-};
-
-__declspec(noinline) RemovalVector::RemovalVector(float a,float b,float c,float d) : KnotVector(a,b,c,d) {}
-__declspec(noinline) RemovalVector& RemovalVector::operator=(const RemovalVector& v) { x=v.x;y=v.y;z=v.z;w=v.w;return *this; }
-__declspec(noinline) RemovalVector& RemovalVector::add(const RemovalVector& v) {x+=v.x;y+=v.y;z+=v.z;w+=v.w;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::subtract(const RemovalVector& v) {x-=v.x;y-=v.y;z-=v.z;w-=v.w;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::scale(float f) {x*=f;y*=f;z*=f;w*=f;return *this;}
-__declspec(noinline) RemovalVector& RemovalVector::divide(float f) {x/=f;y/=f;z/=f;w/=f;return *this;}
-__declspec(noinline) RemovalVector RemovalVector::operator+(const RemovalVector& v) const {RemovalVector a=*this;return a.add(v);}
-__declspec(noinline) RemovalVector RemovalVector::operator-(const RemovalVector& v) const {RemovalVector a=*this;return a.subtract(v);}
-__declspec(noinline) RemovalVector RemovalVector::operator*(float f) const {RemovalVector a=*this;return a.scale(f);}
-__declspec(noinline) RemovalVector RemovalVector::operator/(float f) const {RemovalVector a=*this;return a.divide(f);}
-__declspec(noinline) RemovalVector operator*(float f,const RemovalVector& v) {return v*f;}
-
-inline float FUN_00e54ba0(const RemovalVector& a, const RemovalVector& b)
-{
-    return ::FUN_00e54ba0(reinterpret_cast<const FUN_00e54ad0_cls&>(a), reinterpret_cast<const FUN_00e54ad0_cls&>(b));
-}
-
-
-template<class T> struct KnotArray {
-    T* data; int size; int capacity;
-    __forceinline void reserve(int num) {
-        HolderStub* h = static_cast<HolderStub*>(::FUN_00c85750());
-        void* alloc = h->m_pAllocator;
-        int cap = capacity & 0x3fffffff;
-        if (cap < num) {
-            int doubled = cap * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(void *)(alloc), (::SpawnedArray *)(void *)(this), num < doubled ? doubled : num, sizeof(T));
-        }
-    }
-    __forceinline void resize(int num) {
-        reserve(num);
-        int added = num - size;
-        T* start = data + size;
-        for (int k = 0; k < added; ++k) new(start + k) T;
-        size = num;
-    }
 // @fnv 0x00e556f0
-};
-
-int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector>& Pw,float u,int r,int s,int num,float TOL) {
+int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<KnotVector>& Pw,float u,int r,int s,int num,float TOL) {
     int m=n+p+1;
     int ord=p+1;
     int fout=(2*r-p-s)/2;
     int last=r-s;
     int first=r-p;
-    RemovalVector temp[7];
+    KnotVector temp[7];
     int t;
     for(t=0;t<num;++t) {
         int off=first-1;
@@ -7995,15 +7941,15 @@ int __cdecl FUN_00e556f0(int n,int p,KnotArray<float>& U,KnotArray<RemovalVector
         while(j-i>t) {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
             float alfj=(u-U.data[j-t])/(U.data[j+ord]-U.data[j-t]);
-            temp[ii]=(Pw.data[i]-(1.0f-alfi)*temp[ii-1])/alfi;
-            temp[jj]=(Pw.data[j]-alfj*temp[jj+1])/(1.0f-alfj);
+            temp[ii]=Pw.data[i].FUN_00e532b0(FUN_00e533a0(1.0f-alfi,temp[ii-1])).EvalCopy(alfi);
+            temp[jj]=Pw.data[j].FUN_00e532b0(FUN_00e533a0(alfj,temp[jj+1])).EvalCopy(1.0f-alfj);
             ++i; ++ii; --j; --jj;
         }
         if(j-i<t) {
             if(!(FUN_00e54ba0(temp[ii-1],temp[jj+1])<=TOL)) break;
         } else {
             float alfi=(u-U.data[i])/(U.data[i+ord+t]-U.data[i]);
-            if(!(FUN_00e54ba0(Pw.data[i],alfi*temp[ii+t+1]+(1.0f-alfi)*temp[ii-1])<=TOL)) break;
+            if(!(FUN_00e54ba0(Pw.data[i],FUN_00e533a0(alfi,temp[ii+t+1]).FUN_00e53260(FUN_00e533a0(1.0f-alfi,temp[ii-1])))<=TOL)) break;
         }
         i=first; j=last;
         while(j-i>t) {

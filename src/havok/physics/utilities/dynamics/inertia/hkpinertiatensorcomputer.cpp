@@ -344,10 +344,7 @@ void __cdecl ProcessArrayWithValue(Edge** source, int count, Node* unk, float va
     }
 }
 
-namespace fnv_anon_00cec3d0 {}
-using namespace fnv_anon_00cec3d0;
-namespace fnv_anon_00cec3d0 {
-struct S00cec3d0_Base
+struct VertexComponentData
 {
     int A;
     int B;
@@ -363,11 +360,15 @@ struct S00cec3d0_Base
     float m_fComponent5;
     float m_fComponent6;
 
-    __declspec(noinline) void FUN_00cec000(const float* v);
+    void FUN_00cec000(const float* verts);
 };
+
+namespace fnv_anon_00cec3d0 {}
+using namespace fnv_anon_00cec3d0;
+namespace fnv_anon_00cec3d0 {
 }
 
-struct S00cec3d0_Face : S00cec3d0_Base
+struct S00cec3d0_Face : ::VertexComponentData
 {
     float Fa;
     float Fb;
@@ -394,11 +395,6 @@ static inline float S00cec3d0_Cube(float x)
     return x * x * x;
 }
 
-void S00cec3d0_Base::FUN_00cec000(const float* v)
-{
-    P1 = v[A] * v[B];
-    Pa = v[A];
-}
 
 // Calls FUN_00cec000, then fills Fa, Fb, Fc and the m_fVertex fields from verts, normal n and the base fields using polynomials in 1/n[C].
 // @fnv 0x00cec3d0
@@ -1753,24 +1749,6 @@ int __cdecl FUN_00ceba60(float a, float b, Target* t)
 }
 
 
-struct VertexComponentData
-{
-    int A;
-    int B;
-    int C;
-    float P1;
-    float Pa;
-    float Pb;
-    float m_fComponent0;
-    float m_fComponent1;
-    float m_fComponent2;
-    float m_fComponent3;
-    float m_fComponent4;
-    float m_fComponent5;
-    float m_fComponent6;
-
-    void FUN_00cec000(const float* verts);
-};
 
 // Accumulates polynomial integrals over three segments of verts and stores the scaled results in P1, Pa, Pb and m_fComponent0 through m_fComponent6.
 // @fnv 0x00cec000
@@ -3982,78 +3960,8 @@ struct Integrals159
     float first[3];
     float second[3];
     float products[3];
-    void FUN_00cec000(const IntegralVector159* triangle);
-    void FUN_00cec3d0(const IntegralVector159* triangle, const IntegralVector159* normal);
     void FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset);
 };
-__declspec(noinline) void Integrals159::FUN_00cec000(const IntegralVector159* triangle)
-{
-    P1 = Pa = Pb = m_fComponent0 = m_fComponent1 = m_fComponent2 = m_fComponent3 = m_fComponent4 = m_fComponent5 =
-        m_fComponent6 = 0.0f;
-    for (int i = 0; i < 3; ++i)
-    {
-        const IntegralVector159& p = triangle[i];
-        const IntegralVector159& q = triangle[(i + 1) % 3];
-        float a0 = p[axisA], b0 = p[axisB], a1 = q[axisA], b1 = q[axisB];
-        float da = a1 - a0, db = b1 - b0;
-        float a02 = a0 * a0, a03 = a02 * a0, a04 = a03 * a0;
-        float b02 = b0 * b0, b03 = b02 * b0, b04 = b03 * b0;
-        float a12 = a1 * a1, a13 = a12 * a1;
-        float b12 = b1 * b1, b13 = b12 * b1;
-        float c1 = a1 + a0;
-        float ca = a1 * c1 + a02, caa = a1 * ca + a03, caaa = a1 * caa + a04;
-        float cb = b1 * (b1 + b0) + b02, cbb = b1 * cb + b03, cbbb = b1 * cbb + b04;
-        float cab = 3 * a12 + 2 * a1 * a0 + a02;
-        float kab = a12 + 2 * a1 * a0 + 3 * a02;
-        float caab = a0 * cab + 4 * a13, kaab = a1 * kab + 4 * a03;
-        float cabb = 4 * b13 + 3 * b12 * b0 + 2 * b1 * b02 + b03;
-        float kabb = b13 + 2 * b12 * b0 + 3 * b1 * b02 + 4 * b03;
-        P1 += db * c1;
-        Pa += db * ca;
-        m_fComponent0 += db * caa;
-        m_fComponent3 += db * caaa;
-        Pb += da * cb;
-        m_fComponent2 += da * cbb;
-        m_fComponent6 += da * cbbb;
-        m_fComponent1 += db * (b1 * cab + b0 * kab);
-        m_fComponent4 += db * (b1 * caab + b0 * kaab);
-        m_fComponent5 += da * (a1 * cabb + a0 * kabb);
-    }
-    P1 /= 2.0f;
-    Pa /= 6.0f;
-    m_fComponent0 /= 12.0f;
-    m_fComponent3 /= 20.0f;
-    Pb /= -6.0f;
-    m_fComponent2 /= -12.0f;
-    m_fComponent6 /= -20.0f;
-    m_fComponent1 /= 24.0f;
-    m_fComponent4 /= 60.0f;
-    m_fComponent5 /= -60.0f;
-}
-__declspec(noinline) void Integrals159::FUN_00cec3d0(const IntegralVector159* triangle, const IntegralVector159* normal)
-{
-    FUN_00cec000(triangle);
-    float w = -normal->x * triangle[0].x - normal->y * triangle[0].y - normal->z * triangle[0].z;
-    float na = (*normal)[axisA], nb = (*normal)[axisB];
-    float k1 = 1.0f / (*normal)[axisC], k2 = k1 * k1, k3 = k2 * k1, k4 = k3 * k1;
-    face[0] = k1 * Pa;
-    face[1] = k1 * Pb;
-    face[2] = -k2 * (na * Pa + nb * Pb + w * P1);
-    face[3] = k1 * m_fComponent0;
-    face[4] = k1 * m_fComponent2;
-    face[5] = k3 * (na * na * m_fComponent0 + 2 * na * nb * m_fComponent1 + nb * nb * m_fComponent2 +
-                    w * (2 * (na * Pa + nb * Pb) + w * P1));
-    face[6] = k1 * m_fComponent3;
-    face[7] = k1 * m_fComponent6;
-    face[8] = -k4 * (na * na * na * m_fComponent3 + 3 * na * na * nb * m_fComponent4 +
-                     3 * na * nb * nb * m_fComponent5 + nb * nb * nb * m_fComponent6 +
-                     3 * w * (na * na * m_fComponent0 + 2 * na * nb * m_fComponent1 + nb * nb * m_fComponent2) +
-                     w * w * (3 * (na * Pa + nb * Pb) + w * P1));
-    face[9] = k1 * m_fComponent4;
-    face[10] = -k2 * (na * m_fComponent5 + nb * m_fComponent6 + w * m_fComponent2);
-    face[11] = k3 * (na * na * m_fComponent3 + 2 * na * nb * m_fComponent4 + nb * nb * m_fComponent5 +
-                     w * (2 * (na * m_fComponent0 + nb * m_fComponent1) + w * Pa));
-}
 // @fnv 0x00ced390
 void Integrals159::FUN_00ced390(Mesh159* mesh, const IntegralVector159* offset)
 {

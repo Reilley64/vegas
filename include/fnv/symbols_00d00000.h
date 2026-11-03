@@ -65,7 +65,7 @@ void NotifyTargets(::ProfOwner *, unsigned long);
 // 0x00d00aa0
 void FUN_00d00aa0(::OwnerD *, int);
 // 0x00d00b40
-void FUN_00d00b40(::ListenerOwnerQ *, unsigned long);
+void FUN_00d00b40(::ListenerOwnerQ *, void *);
 // 0x00d00bf0
 void FUN_00d00bf0(::ListenerOwner *, void *);
 // 0x00d00ca0

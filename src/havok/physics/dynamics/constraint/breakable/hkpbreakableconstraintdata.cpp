@@ -447,12 +447,12 @@ __forceinline void store3(const hkVector4& v, hkReal* p)
 
 struct S00d4e0f0_Object : hkpBreakableConstraintData
 {
-    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out);
+    void FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out);
 };
 
 // If the runtime flag is clear, saves body velocities and calls FUN_00d72190 or FUN_00d6f460; else calls FUN_00d4de30 and optionally removes the constraint.
 // @fnv 0x00d4e0f0
-void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
+void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, void* out)
 {
     RuntimeD4E0* runtime = reinterpret_cast<RuntimeD4E0*>(in.m_pByteBuffer + m_usRuntimeOffset);
 
@@ -472,16 +472,16 @@ void S00d4e0f0_Object::FUN_00d4e0f0(const hkpConstraintQueryInD4E0& in, int out)
         {
             hkpBoolResultD4E0 flag;
             flag.m_cBooleanValue = 1;
-            ::FUN_00d72190((::Node *)(info.m_kBridgeAtoms), (::Buffer *)&(in), (*(int *)&(const ::hkpBoolResultD4E0 &)(flag)), (int *)(out));
+            ::FUN_00d72190((::Node *)(info.m_kBridgeAtoms), (::Buffer *)&(in), (*(int *)&(const ::hkpBoolResultD4E0 &)(flag)), static_cast<int *>(out));
         }
         else
         {
-            ::FUN_00d6f460((const ::Atom *)(info.m_kBridgeAtoms), info.m_usSizeOfAllAtoms, (const ::QueryIn *)&(in), (::QueryOut *)(out));
+            ::FUN_00d6f460((const ::Atom *)(info.m_kBridgeAtoms), info.m_usSizeOfAllAtoms, (const ::QueryIn *)&(in), static_cast<::QueryOut *>(out));
         }
     }
     else
     {
-        ::FUN_00d4de30((int)&(in), out);
+        ::FUN_00d4de30((intptr_t)&(in), (intptr_t)out);
 
         if (m_bRemoveWhenBroken)
         {
@@ -871,7 +871,7 @@ void hkpBreakableConstraintDataD4E0::FUN_00d4e020(BrkInstance* apInstance, hkBoo
         {
             FUN_00d85fa0(&event);
         }
-        ::FUN_00d00b40((::ListenerOwnerQ *)(world), (unsigned long)(&event));
+        ::FUN_00d00b40((::ListenerOwnerQ *)(world), &event);
     }
     else
     {

@@ -341,7 +341,7 @@ void D00370CleanupBoth(D00370Array* a, D00370Array* b)
 
 struct FNV_SmallArray_00d00320
 {
-    int* m_pItems;
+    void** m_pItems;
     unsigned short m_uiItemCount;
 };
 
@@ -3047,7 +3047,6 @@ void __cdecl FUN_00d01650(D01650World* world, void* pvEvent, void* pvContext)
     D01650CleanupNullPointers(listeners);
 }
 
-extern "C" unsigned long DAT_0126835c;
 
 struct Listener
 {
@@ -4428,7 +4427,6 @@ void __cdecl FUN_00d00aa0(OwnerD* owner, int a2)
 }
 
 extern "C" void _ReadWriteBarrier(void);
-extern "C" unsigned long DAT_0126835c;
 extern "C" char str_010ccaf8;
 extern "C" char str_010ccaec;
 struct Scene;
@@ -4694,12 +4692,20 @@ struct Scene
     Entity** field48;
     int field4c;
 };
+// One hkMonitorStream timer record: the command name and the low 32 bits of the time-stamp counter.
+struct LogRecord
+{
+    const char* name;
+    unsigned int tick;
+    unsigned int unused;
+};
+
 struct LogBuffer
 {
     int ReportDiagnostic;
-    unsigned int* current;
+    LogRecord* current;
     int unused8;
-    unsigned int* limit;
+    LogRecord* limit;
 };
 static __declspec(noinline) void RemoveZeroEntries(CallbackList* list)
 {
@@ -4734,27 +4740,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
         {
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&str_010ccaf8;
+                    current->name = (const char*)&str_010ccaf8;
                     _ReadWriteBarrier();
                     timer.tick1 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick1;
-                    log->current = current + 3;
+                    current->tick = timer.tick1;
+                    log->current = current + 1;
                 }
             }
             ((Callback*)pSlots->m_data[i])->invoke(scene);
             {
                 LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                unsigned int* current = log->current;
+                LogRecord* current = log->current;
                 if (current < log->limit)
                 {
-                    current[0] = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
+                    current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                     _ReadWriteBarrier();
                     timer.tick2 = (unsigned int)__rdtsc();
-                    current[1] = timer.tick2;
-                    log->current = current + 3;
+                    current->tick = timer.tick2;
+                    log->current = current + 1;
                 }
             }
         }
@@ -4772,27 +4778,27 @@ void __cdecl ProcessSceneCallbacks(Game* game, Scene* scene)
                 {
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&str_010ccaec;
+                            current->name = (const char*)&str_010ccaec;
                             _ReadWriteBarrier();
                             timer.tick2 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick2;
-                            log->current = current + 3;
+                            current->tick = timer.tick2;
+                            log->current = current + 1;
                         }
                     }
                     callbacks->slots[j]->execute(scene->field48[i]);
                     {
                         LogBuffer* log = (LogBuffer*)TlsGetValue(DAT_0126835c);
-                        unsigned int* current = log->current;
+                        LogRecord* current = log->current;
                         if (current < log->limit)
                         {
-                            current[0] = (unsigned int)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
+                            current->name = (const char*)&(*reinterpret_cast<char *>(&::DAT_010c41f8));
                             _ReadWriteBarrier();
                             timer.tick1 = (unsigned int)__rdtsc();
-                            current[1] = timer.tick1;
-                            log->current = current + 3;
+                            current->tick = timer.tick1;
+                            log->current = current + 1;
                         }
                     }
                 }
@@ -4886,7 +4892,7 @@ class ListenerObjQ
     virtual void v02(void);
     virtual void v03(void);
     virtual void v04(void);
-    virtual void v05(unsigned long a1);
+    virtual void v05(void* a1);
 };
 struct ListenerArrayQ
 {
@@ -4909,7 +4915,7 @@ struct ListenerOwnerQ
 };
 // Iterates pOwner's listener array, profiling each call to v05(a2), then calls FUN_00d00370 on the array.
 // @fnv 0x00d00b40
-void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, unsigned long a2)
+void __cdecl FUN_00d00b40(ListenerOwnerQ* pOwner, void* a2)
 {
     volatile unsigned long tick1;
     struct ProfileState

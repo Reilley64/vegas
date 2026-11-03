@@ -99,7 +99,7 @@ void __cdecl FUN_00d49530(FUN_00c9ce00_cls* pObject, int aiValue)
 
 
 // @fnv 0x00d4de30
-void FUN_00d4de30(int a, int b)
+void FUN_00d4de30(intptr_t a, intptr_t b)
 {
     ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)(a), (::fnv_00d6f2b0::EventRecord **)(b), 0, 8);
 }

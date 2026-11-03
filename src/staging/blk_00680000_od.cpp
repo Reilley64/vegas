@@ -1821,7 +1821,7 @@ void FUN_0069d1d0_class::ReadFromFile(TESFile* file, unsigned int* puiValue)
     if (file->IsEndianConversionRequired())
         ::FUN_00401080((int *)(unsigned char *)((unsigned char*)this));
     puiValue++;
-    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((*reinterpret_cast<TES **>(&g_TES)))->FUN_0045af00())), {}, {});
+    reinterpret_cast<::DFD0Data *>((((PortalHolder*)((char*)this + 4))))->LoadFormRef(((void *)(reinterpret_cast<::Owner45A *>((*reinterpret_cast<TES **>(&g_TES)))->FUN_0045af00())), (::DFD0File *)(void *)(file), (const char *)(puiValue));
 }
 
 struct NiTMallocInterface_006826d0
@@ -5954,7 +5954,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
         {
             if (reinterpret_cast<::_FUN_0052aa80_shell *>(&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))->operator!=(0))
             {
-                reinterpret_cast<::FUN_006ebbd0_Cls *>((((GRes2*)((void *)(::GetPathManager())))))->ForwardToHost({}, {});
+                reinterpret_cast<::FUN_006ebbd0_Cls *>((((GRes2*)((void *)(::GetPathManager())))))->ForwardToHost((int)(intptr_t)(&::g_011d6ddc), false);
             }
             (*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc)).FUN_0066b0d0(new ObjX(0));
         }
@@ -6037,7 +6037,7 @@ bool ThisCls::FUN_0069f010(Vec3Obj* apStart, Vec3Obj* apEnd, void* a2, int a3, A
             reinterpret_cast<::FUN_00a5a040_Class *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))))->FUN_00a5a040();
             VecObj vobj(0.0f, 0, 0);
             reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0069f010::ResObj *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0069f010::GObj *>(&::g_011d6ddc))))))))->FUN_00a59c60((std::intptr_t)(&vobj));
-            reinterpret_cast<::FUN_006ebbd0_Cls *>((((GRes2*)((void *)(::GetPathManager())))))->ForwardToHost({}, {});
+            reinterpret_cast<::FUN_006ebbd0_Cls *>((((GRes2*)((void *)(::GetPathManager())))))->ForwardToHost((int)(intptr_t)(&::g_011d6ddc), true);
         }
         {
             unsigned int m;

@@ -411,5 +411,5 @@ void Me::FUN_005d8a90(Src* pSource)
         if (Tgt* pTgt = ((::Tgt *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pMid))->GetBaseTexture())))
             pTgt->Act(0);
     }
-    reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Res *)(reinterpret_cast<::FUN_005d43c0_ *>((pSource))->FUN_005d43c0()))))->RemoveExtra({});
+    reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>((((::Res *)(reinterpret_cast<::FUN_005d43c0_ *>((pSource))->FUN_005d43c0()))))->RemoveExtra(0x73);
 }

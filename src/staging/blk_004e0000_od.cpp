@@ -2185,14 +2185,14 @@ bool __cdecl FUN_004f2640(RDLItem* target)
     QueryContext queryBuffer;
     if (regionNode == 0 || *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3())) == 0)
     {
-        regionNode = ((::NodeHolder *)(reinterpret_cast<::TESObjectCELL *>((((::InnerRegion *)(reinterpret_cast<::FUN_00527900_shell *>((((::RegionSource *)(reinterpret_cast<::FUN_00575650_Class *>((reinterpret_cast<RegionPlayer*>((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00575650((::FUN_00575650_Result *)(::QueryContext *)(&queryBuffer))))))->FUN_00527900()))))->GetRegionList({})));
+        regionNode = ((::NodeHolder *)(reinterpret_cast<::TESObjectCELL *>((((::InnerRegion *)(reinterpret_cast<::FUN_00527900_shell *>((((::RegionSource *)(reinterpret_cast<::FUN_00575650_Class *>((reinterpret_cast<RegionPlayer*>((*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))))->FUN_00575650((::FUN_00575650_Result *)(::QueryContext *)(&queryBuffer))))))->FUN_00527900()))))->GetRegionList(true)));
     }
     while (regionNode != 0 && *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3())) != 0)
     {
         listEntry = *((::RDLItem **)(new ((void *)(regionNode)) ::Vec3()));
         if (listEntry != 0)
         {
-            childList = ((::RegionList *)(reinterpret_cast<::GList *>((((::RegionContainer *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<RegionEntry*>(listEntry)))->FUN_009611e0()))))->FUN_004f35b0({})));
+            childList = ((::RegionList *)(reinterpret_cast<::GList *>((((::RegionContainer *)(reinterpret_cast<::FUN_009611e0_shell *>((reinterpret_cast<RegionEntry*>(listEntry)))->FUN_009611e0()))))->FUN_004f35b0(8)));
             if (childList != 0)
             {
                 listReference = childList;
@@ -3053,7 +3053,7 @@ FUN_004ed3e0::~FUN_004ed3e0()
 {
     ptr94.FUN_0066b0d0(0);
     ptr98.FUN_0066b0d0(0);
-    reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures({}, {}, {});
+    reinterpret_cast<::Cls58a0 *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_0070ec90((char *)((*reinterpret_cast<::fnv_004ed3e0::CleanupRegistry * *>(&::g_TES))))))))->ClearTextureAndShaderTextures((::Owner58a0 *)(void *)(this), 1, 0);
     if (owner && ((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node)))) && ((unsigned int)(uintptr_t)(reinterpret_cast<::Callees *>((((::fnv_004ed3e0::CleanupObject *)(::FUN_00559450((int *)&(owner->node))))))->FUN_00726070())) == 2)
     {
         reinterpret_cast<::Manager *>((((::fnv_004ed3e0::CleanupObject *)(uintptr_t)(::FUN_004a0ea0()))))->FUN_00b6da10((::Item *)(::FUN_00559450((int *)&(owner->node))));
@@ -3378,7 +3378,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, intptr_t arg1, int arg2)
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
             continue;
         }
-        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)curB)))->FUN_009611e0()))))->FUN_004f35b0({})));
+        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)curB)))->FUN_009611e0()))))->FUN_004f35b0(arg0)));
         if (itemB == 0 || reinterpret_cast<::FUN_004f6de0_shell *>((((RDLItemX*)itemB)))->FUN_004f6de0())
         {
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));
@@ -3432,7 +3432,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, intptr_t arg1, int arg2)
     nodeB = collH ? (RDLNode*)&collH->m4 : 0;
     while (nodeB != 0 && *((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())) != 0)
     {
-        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_009611e0()))))->FUN_004f35b0({})));
+        itemB = ((::RDLItem *)(reinterpret_cast<::GList *>((((::MidX *)(reinterpret_cast<::FUN_009611e0_shell *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(nodeB)) ::Vec3())))))->FUN_009611e0()))))->FUN_004f35b0(arg0)));
         if (itemB == 0)
         {
             nodeB = ((::RDLNode *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070()));

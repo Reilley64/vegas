@@ -2099,7 +2099,7 @@ int Walk::WalkTree(Node* node, Receiver* receiver, unsigned int mode, Context* c
         Node* typed = node;
         if (((unsigned char)(reinterpret_cast<::FUN_00c455a0_cls *>((typed))->FUN_00c455a0((unsigned char)mode))))
         {
-            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(reinterpret_cast<::LowProcess *>((context))->GetTarget()), {}, {}, {});
+            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(reinterpret_cast<::LowProcess *>((context))->GetTarget()), (::Vec3 *)(::FUN_0045bb80((intptr_t)(typed))), (unsigned int)(uintptr_t)(extra), reinterpret_cast<::fnv_00567400::FUN_00567400_shell *>((context))->FUN_00567400());
             count++;
         }
     }
@@ -2600,7 +2600,7 @@ void FUN_0047ead0_cls::FUN_0047ead0(int mode)
             FUN_0047ead0_cls* vt = *(FUN_0047ead0_cls**)obj;
             if (obj != 0)
             {
-                if (reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((FUN_0047ead0_cls*)((char*)((::FUN_0047ead0_cls *)(reinterpret_cast<::Actor *>(((*reinterpret_cast<::FUN_0047ead0_cls * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->GetFactionRank({}, {}) != -1)
+                if (reinterpret_cast<::fnv_0047d680::FUN_0047d680_shell *>((((FUN_0047ead0_cls*)((char*)((::FUN_0047ead0_cls *)(reinterpret_cast<::Actor *>(((*reinterpret_cast<::FUN_0047ead0_cls * *>(&::_g_thePlayer))))->GetActorBase())) + 0x30))))->GetFactionRank((::fnv_0047d680::TESFaction *)(vt), true) != -1)
                 {
                     switch (mode)
                     {
@@ -4072,7 +4072,7 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
                             DMatrix changes = j.rotation;
                             DMatrix newNodes = ref->GetRotation();
                             DMatrix res = changes * i * newNodes;
-                            reinterpret_cast<::fnv_0056fa90::Holder *>((ref))->FUN_0056fa90((*(float *)&(const ::DMatrix &)(res)), {}, {}, {}, {}, {}, {}, {}, {});
+                            reinterpret_cast<::fnv_0056fa90::Holder *>((ref))->FUN_0056fa90(res.m00, res.m01, res.m02, res.m10, res.m11, res.m12, res.m20, res.m21, res.m22);
                             ::fnv_00562020::FUN_00562020((::TESObjectREFR *)(ref));
                             found = ((::DNode *)(reinterpret_cast<::S3e60 *>(&(bound))->FUN_006a7ad0(0)))->Transform();
                             DPoint pForm = j.translation - found.translation;

@@ -438,7 +438,7 @@ struct FUN_006232f0_Class
 // @fnv 0x006232f0
 void FUN_006232f0_Class::FUN_006232f0(int aiIndex)
 {
-    reinterpret_cast<::FUN_00807770_Class *>((((FUN_00807770_Class*)((void *)(::FUN_00460140((intptr_t)(((TgtOps*)this))))))))->FUN_00807770({});
+    reinterpret_cast<::FUN_00807770_Class *>((((FUN_00807770_Class*)((void *)(::FUN_00460140((intptr_t)(((TgtOps*)this))))))))->FUN_00807770(aiIndex);
 }
 }  // namespace fnv_006232f0
 

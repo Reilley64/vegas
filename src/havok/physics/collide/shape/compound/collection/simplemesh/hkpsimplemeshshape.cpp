@@ -12,6 +12,7 @@
 #include "fnv/symbols_011b2000.h"
 #include "fnv/symbols_01269000.h"
 #include "havok/hkpSimpleMeshShape.h"
+#include "havok/hkpSimpleMeshShapeTriangle.h"
 
 struct FUN_00dfd080Object
 {
@@ -44,7 +45,7 @@ struct FUN_00dfd080Router
 
 FUN_00dfd080Router* _D1A0E0GetMemoryRouter();
 
-struct FUN_00e3c240_s
+struct FUN_00e3c240_s : public ::hkpSimpleMeshShape
 {
     void FUN_00e3c240(int ai, unsigned short aw);
 };
@@ -52,8 +53,7 @@ struct FUN_00e3c240_s
 // @fnv 0x00e3c240
 void FUN_00e3c240_s::FUN_00e3c240(int aiIndex, unsigned short auValue)
 {
-    int* p = *(int**)((char*)this + 0x24);
-    *(unsigned short*)(p + aiIndex * 4 + 3) = auValue;
+    m_uiTriangleCount.m_data[aiIndex].m_kWeldingInfo = auValue;
 }
 
 struct CpuObject

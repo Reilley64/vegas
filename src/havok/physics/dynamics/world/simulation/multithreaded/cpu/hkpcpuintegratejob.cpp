@@ -1,6 +1,8 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpApplyForcesStep.h"
+#include "fnv/symbols_00d28000.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <intrin.h>
@@ -316,8 +318,8 @@ class EntityIndexMap {
 public:
     EntityIndexMap(void* ptr,int bytes) { new ((void *)this) ::FUN_00cb1830(ptr,bytes); }
     void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(TaskMemory::GetMonitorStream().heap)); ::FUN_00a29680(); }
-    void insert(unsigned long key,unsigned long val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(TaskMemory::GetMonitorStream().heap)),key,val); }
-    unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key,value))); }
+    void insert(uintptr_t key,uintptr_t val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(TaskMemory::GetMonitorStream().heap)),key,val); }
+    uintptr_t FindValueForKey(uintptr_t key,uintptr_t value) const { return (uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry((intptr_t)key,(intptr_t)value)); }
 };
 __declspec(noinline) unsigned long EntityIndexMap::FUN_00cb1930(unsigned long key,unsigned long fallback) const throw() {
  if(mask>0) {
@@ -573,7 +575,7 @@ template<bool Partial> static __forceinline void appendProbe(const JobHeader* he
         pending.clear();
         schema = byteAdvance(schema, 16);
         task->m_akBuildBuffer = schema;
-        temporary = reinterpret_cast<int*>(((unsigned long)(temporary) + 15) & ~15);
+        temporary = reinterpret_cast<int*>(((uintptr_t)(temporary) + 15) & ~(uintptr_t)15);
         previousBuild = task;
     }
     if (makeSolve) {
@@ -661,10 +663,10 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
         int mapWords = 64;
         while (mapWords < bodyCount) mapWords *= 2;
         mapWords *= 4;
-        unsigned long* mapStorage = taskTempAllocate<unsigned long>(mapWords);
+        uintptr_t* mapStorage = taskTempAllocate<uintptr_t>(mapWords);
         {
-            EntityIndexMap map(mapStorage, mapWords * sizeof(unsigned long));
-            for (int index = 0; index < bodyCount; ++index) map.insert((unsigned long)(bodies[index]), index);
+            EntityIndexMap map(mapStorage, mapWords * int(sizeof(uintptr_t)));
+            for (int index = 0; index < bodyCount; ++index) map.insert((uintptr_t)(bodies[index]), index);
             TaskEntity* const* body = bodies;
             unsigned int accumulatorOffset = 128;
             int index;
@@ -681,7 +683,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
                         int slave = 1 - constraint->m_ucByteAfterTemporaryCount;
                         unsigned short* indices = (&entry.firstIndex);
                         indices[constraint->m_ucByteAfterTemporaryCount] = index;
-                        indices[slave] = (unsigned short)map.FindValueForKey((unsigned long)(constraint->m_kActorEntries[slave]), 0xffff);
+                        indices[slave] = (unsigned short)map.FindValueForKey((uintptr_t)(constraint->m_kActorEntries[slave]), 0xffff);
                     }
                     allNormal &= constraint->m_kRuntimeFlagByte;
                     if (constraint->m_priority < 4) normal.pushBackUnchecked(entry);
@@ -838,8 +840,8 @@ template <class E, class S> struct EnumField {
 
 template <class T> struct TlsSlot {
     unsigned long slotId;
-    __forceinline T get() const { return (T)TlsGetValue(slotId); }
-    __forceinline void set(T p) { DAT_00fdf04c(slotId, (void*)p); }
+    __forceinline T get() const { return (T)(intptr_t)TlsGetValue(slotId); }
+    __forceinline void set(T p) { DAT_00fdf04c(slotId, (void*)(intptr_t)p); }
 };
 
 template <class T> struct PaddedPtr {
@@ -1187,7 +1189,6 @@ struct AccumulatorsPacket : DynamicsPacket {
     unsigned short numEntities;
 };
 
-extern int __cdecl FUN_00d28a30(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
 
 __declspec(noinline) void __cdecl FUN_00d95130(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
 {
@@ -1210,7 +1211,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
     char* buffer;
     if (island->schemaSize)
     {
-        bufferSize = ((int)(::fnv_00d889f0::FUN_00d889f0((void *)&(*island))));
+        bufferSize = (int)reinterpret_cast<intptr_t>(::fnv_00d889f0::FUN_00d889f0((void *)&(*island)));
         bufferCapacity = bufferSize;
         buffer = solverBufAlloc<char>(bufferCapacity);
         while (!buffer)
@@ -1218,7 +1219,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             Command retryJob;
             int prevThread = (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).get();
             (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(1);
-            int status = reinterpret_cast<::Obj *>(&(queue))->ForwardWithZero((int)&(retryJob), 1);
+            int status = reinterpret_cast<::Obj *>(&(queue))->ForwardWithZero((intptr_t)&(retryJob), 1);
             (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(prevThread);
             if (status == 0)
             {
@@ -1417,7 +1418,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 stream.setEnd((char*)(ev + 1));
             }
         }
-        int inactiveFrames = FUN_00d28a30(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
+        int inactiveFrames = ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(&stepCtx.solver)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(&stepCtx.timing), {(const ::ApplyForcesStepPrivate::Vec *)(&stepCtx.gravityStep)}, {(::ApplyForcesStepPrivate::Motion **)(island->GetEntities().begin())}, island->GetEntities().GetLogicalSize(), 0xe0);
         ::FUN_00d1a330((const ::CollisionContext *)(const void *)(island->getWorld()->getCollisionInput()), (::EntityNode *const *)(void *const *)(island->GetEntities().begin()), island->GetEntities().GetLogicalSize());
         if (inactiveFrames <= 5)
         {
@@ -1508,7 +1509,7 @@ FINISH_BROAD_PHASE:
 
         BuildCollection outBuilds;
         SolveCollection outSolves;
-        ::FUN_00d95130((::SceneInput)(island), (*(::FlagByte *)&(const ::fnv_00d95cf0::FlagByte &)(stepCtx.buildOnSpu)), (::JobHeader *)(header), (::BuildCollection *)(::fnv_00d95cf0::BuildCollection *)(&outBuilds), (::SolveCollection *)(::fnv_00d95cf0::SolveCollection *)(&outSolves));
+        ::FUN_00d95130(::SceneInput((::SceneIsland *)(island)), (*(::FlagByte *)&(const ::fnv_00d95cf0::FlagByte &)(stepCtx.buildOnSpu)), (::JobHeader *)(header), (::BuildCollection *)(::fnv_00d95cf0::BuildCollection *)(&outBuilds), (::SolveCollection *)(::fnv_00d95cf0::SolveCollection *)(&outSolves));
         {
             MonitorStream& stream = MonitorStream::GetMonitorStream();
             if (stream.memoryAvailable())
@@ -1523,7 +1524,7 @@ FINISH_BROAD_PHASE:
         header->solveTasks = outSolves;
 
         FinishPacket FinalizePacket(currentJob, header);
-        int status = reinterpret_cast<::LunaOwner *>(&(queue))->ProcessCallback((int)(&FinalizePacket), (int)&(nextJobOut), 0);
+        int status = reinterpret_cast<::LunaOwner *>(&(queue))->ProcessCallback((intptr_t)(&FinalizePacket), (intptr_t)&(nextJobOut), 0);
         return status;
     }
 }

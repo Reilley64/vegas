@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratemotionjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpApplyForcesStep.h"
+#include "fnv/symbols_00d28000.h"
 #include "fnv/decl/LunaOwner.h"
 #include "fnv/symbols_00d1a000.h"
 #include "fnv/symbols_00d29000.h"
@@ -296,7 +298,6 @@ struct S_00d943d0_Obj
 {
 };
 
-int __cdecl FUN_00d28a30(int* p1e0, int* p1d0, int* p200, void** ints, int n, int sz);
 
 // Picks FUN_00d28a30 or FUN_00d29bf0 by item->m_flag to set item->m_result, calls FUN_00d1a330, then obj->ProcessCallback.
 // @fnv 0x00d943d0
@@ -312,7 +313,7 @@ void __cdecl FUN_00d943d0(S_00d943d0_Ctx* ctx, S_00d943d0_Obj* obj, S_00d943d0_I
     if (item->m_flag)
     {
         item->m_result =
-            FUN_00d28a30(&ctx->m_inner->unk1E0, &ctx->m_inner->unk1D0, &ctx->m_inner->unk200, ints, n, 0xe0);
+            ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(&ctx->m_inner->unk1E0)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(&ctx->m_inner->unk1D0), {(const ::ApplyForcesStepPrivate::Vec *)(&ctx->m_inner->unk200)}, {(::ApplyForcesStepPrivate::Motion **)(ints)}, n, 0xe0);
     }
     else
     {

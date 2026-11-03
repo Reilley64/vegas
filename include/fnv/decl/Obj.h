@@ -30,7 +30,7 @@ public:
     // 0x00cb23e0
     void FUN_00cb23e0(intptr_t);
     // 0x00d05190
-    int ForwardWithZero(int, int);
+    int ForwardWithZero(intptr_t, int);
     // 0x00dbe790
     void WriteVarint(long long);
     // 0x00de6390

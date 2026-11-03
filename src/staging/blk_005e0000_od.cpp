@@ -3134,7 +3134,7 @@ void FUN_005f2b60_cls::ProcessSoundEntries(Ref* ref, float fFrom, float fTo, Scr
                         Proc* pProc5 = ((::Proc *)(reinterpret_cast<::FUN_008a1710_shell *>((pActor7))->FUN_008a1710()));
                         if (pProc5 != 0)
                         {
-                            SndForm* pSnd4 = ((::SndForm *)(reinterpret_cast<::FUN_008bffa0_shell *>((pProc5))->GetField228()));
+                            SndForm* pSnd4 = ((::SndForm *)(uintptr_t)(reinterpret_cast<::FUN_008bffa0_shell *>((pProc5))->GetField228()));
                             if (pSnd4 != 0)
                             {
                                 AudioPlaybackHandle snd5 = ((::AudioMgr *)(::FUN_00453a70()))->Make2(

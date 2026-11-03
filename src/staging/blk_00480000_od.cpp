@@ -2242,7 +2242,7 @@ FUN_0048fb50::~FUN_0048fb50()
             reinterpret_cast<::ControllerOwner *>((((::AVObj *)(::FUN_00559450((int *)&(m8))))))->FUN_00a5c480((::NiTimeController *)(ctlB0));
         reinterpret_cast<::NiControllerManager *>((((::AVObj *)(::FUN_00559450((int *)&(mD8))))))->DeactivateAllSequences(0.0f);
         reinterpret_cast<::NiTMapBase_StandIn *>((((::AVObj *)(::FUN_00559450((int *)&(mD8))))))->ClearEntries();
-        objP_c = ((::VObj *)(reinterpret_cast<::BGSMessageInitAccess *>((((::AVObj *)(::FUN_00559450((int *)&(mD8))))))->GetIconFormID()));
+        objP_c = ((::VObj *)(uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((((::AVObj *)(::FUN_00559450((int *)&(mD8))))))->GetIconFormID()));
         if (objP_c)
         {
             if (objP_c->Call3())
@@ -3486,8 +3486,8 @@ void AnimDataN::SaveAnimData(SaveBufN* pBuffer)
     reinterpret_cast<::FUN_00865ff0_shell *>((pBuffer))->FUN_00865ff0(iCountTmp, uiCountPos_);
 
     SeqN* pSequence = m_spSeq128 ? m_spSeq128 : m_spSeq124;
-    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(pSequence ? ((void *)(reinterpret_cast<::BGSMessageInitAccess *>((pSequence))->GetIconFormID())) : 0), 0);
-    if (pSequence && ((void *)(reinterpret_cast<::BGSMessageInitAccess *>((pSequence))->GetIconFormID())))
+    reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)(pSequence ? ((void *)(uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((pSequence))->GetIconFormID())) : 0), 0);
+    if (pSequence && ((void *)(uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((pSequence))->GetIconFormID())))
     {
         unsigned int uiPosition = reinterpret_cast<::FUN_00865f20_shell *>((pBuffer))->FUN_00865f20();
         unsigned int uiStartSize = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pBuffer))->FUN_0084e3a0()));
@@ -3770,7 +3770,7 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
             next3 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((DAT_011c57b0))->DereferenceIfNotNull((int **)(pos3))));
             if (pos3)
             {
-                FUN_00c4cba0* other3 = ((::FUN_00c4cba0 *)(reinterpret_cast<::FUN_006317a0_struct *>((DAT_011c57b0))->AddEight((int)(pos3))));
+                FUN_00c4cba0* other3 = ((::FUN_00c4cba0 *)(reinterpret_cast<::FUN_006317a0_struct *>((DAT_011c57b0))->AddEight((intptr_t)(pos3))));
                 void* otherNextX = ((void *)(::FUN_00559450((int *)(DAT_011c57b0))));
                 void* a = 0;
                 while (otherNextX)
@@ -3778,7 +3778,7 @@ void __cdecl BuildWaterSurfaces(CellView* cell)
                     a = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((DAT_011c57b0))->DereferenceIfNotNull((int **)(otherNextX))));
                     if (otherNextX)
                     {
-                        FUN_00c4cba0* b = ((::FUN_00c4cba0 *)(reinterpret_cast<::FUN_006317a0_struct *>((DAT_011c57b0))->AddEight((int)(otherNextX))));
+                        FUN_00c4cba0* b = ((::FUN_00c4cba0 *)(reinterpret_cast<::FUN_006317a0_struct *>((DAT_011c57b0))->AddEight((intptr_t)(otherNextX))));
                         if (other3 != b && ::AnyPointInListMatches((::FUN_0049eed0_list *)(other3), (::FUN_0049eed0_target *)(b)))
                         {
                             DAT_011c57b0->FUN_0049f590(pos3);

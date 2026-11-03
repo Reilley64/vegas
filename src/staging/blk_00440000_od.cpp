@@ -5182,7 +5182,7 @@ void World::FUN_0045b070(View* view)
             next9 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>((((::SceneUpdate::List *)(reinterpret_cast<struct ::FUN_005a8080 *>((((::SceneUpdate::Area *)(::FUN_0070ec90((char *)this)))))->GetField()))))->DereferenceIfNotNull((int **)(position))));
             if (position)
             {
-                region = (Region*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>((((::SceneUpdate::List *)(reinterpret_cast<struct ::FUN_005a8080 *>((((::SceneUpdate::Area *)(::FUN_0070ec90((char *)this)))))->GetField()))))->AddEight((int)(position))));
+                region = (Region*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>((((::SceneUpdate::List *)(reinterpret_cast<struct ::FUN_005a8080 *>((((::SceneUpdate::Area *)(::FUN_0070ec90((char *)this)))))->GetField()))))->AddEight((intptr_t)(position))));
                 void* actorPos3 = ((void *)(::FUN_00559450((int *)&(region->actors))));
                 void* actorNext = 0;
                 while (actorPos3)
@@ -5190,7 +5190,7 @@ void World::FUN_0045b070(View* view)
                     actorNext = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(region->actors))->DereferenceIfNotNull((int **)(actorPos3))));
                     if (actorPos3)
                     {
-                        Actor* actor = (Actor*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>(&(region->actors))->AddEight((int)(actorPos3))));
+                        Actor* actor = (Actor*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>(&(region->actors))->AddEight((intptr_t)(actorPos3))));
                         void* unused = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor))->FUN_007af430()));
                         Array* actorNodes = actor->Nodes();
                         if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(reinterpret_cast<::NiNode *>((actorNodes))->GetAt(0))))))
@@ -5214,7 +5214,7 @@ void World::FUN_0045b070(View* view)
                 next2 = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(region->actors))->DereferenceIfNotNull((int **)(pos2))));
                 if (pos2)
                 {
-                    Actor* actor2 = (Actor*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>(&(region->actors))->AddEight((int)(pos2))));
+                    Actor* actor2 = (Actor*)*((void **)(reinterpret_cast<::FUN_006317a0_struct *>(&(region->actors))->AddEight((intptr_t)(pos2))));
                     void* unused2 = ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((actor2))->FUN_007af430()));
                     Array* actorNodes3 = actor2->Nodes();
                     if (::fnv_0045bad0::FUN_0045bad0((const ::fnv_0045bad0::NiRTTI *)(const void *)(&(*reinterpret_cast<int *>(&::g_01202e74))), (const ::fnv_0045bad0::NiObject *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(reinterpret_cast<::NiNode *>((actorNodes3))->GetAt(0))))))
@@ -5230,7 +5230,7 @@ void World::FUN_0045b070(View* view)
     if (((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((((::SceneUpdate::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30())))
     {
         reinterpret_cast<::FUN_0045bc60_class *>((((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((((::SceneUpdate::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()))))->FUN_0045bc60();
-        Handle chosen(((::SceneUpdate::Entity *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((((::SceneUpdate::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()))))->FUN_0056c7f0())));
+        Handle chosen(((::SceneUpdate::Entity *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((((::SceneUpdate::Renderer *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()))))->FUN_0056c7f0())));
         View* active8 = 0;
         if (!active8)
             active8 = view;
@@ -5240,7 +5240,7 @@ void World::FUN_0045b070(View* view)
             if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))->Contains(point3))
                 chosen.FUN_0066b0d0(0);
             else
-                reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))), (::View *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+                reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen))))), (::View *)(uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
         }
         bool firstB = true;
         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
@@ -5254,7 +5254,7 @@ void World::FUN_0045b070(View* view)
                     Entity* entity = ((::SceneUpdate::Entity *)(::FUN_00559450((int *)(((::SceneUpdate::Handle *)(reinterpret_cast<::ListStandIn *>((list))->FUN_0057cbe0((int **)(void **)(&p))))))));
                     if (entity && entity->Contains(point3))
                     {
-                        reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(entity), (::View *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+                        reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(entity), (::View *)(uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
                         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
                         {
                             chosen.FUN_0066b0d0(entity);
@@ -5265,7 +5265,7 @@ void World::FUN_0045b070(View* view)
             }
         }
         if (!((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))))
-            reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(0), (::View *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
+            reinterpret_cast<::Traversal *>((renderer))->UpdateVisibility((::Region *)(::SceneUpdate::Entity *)(0), (::View *)(uintptr_t)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(query))->FUN_0084e3a0()))), ((unsigned int)(reinterpret_cast<::TESRegion *>(&(query))->GetDiffuseColor())), {});
         reinterpret_cast<::FUN_0045bc40_Class *>((((::SceneUpdate::State *)(reinterpret_cast<::FUN_00454b30_class *>((renderer))->FUN_00454b30()))))->FUN_0045bc40(((::SceneUpdate::Entity *)(::FUN_00559450((int *)&(chosen)))));
     }
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::SceneUpdate::Marker *>(&::g_011c3c0f))))->ClearData();

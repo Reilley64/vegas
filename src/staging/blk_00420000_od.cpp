@@ -277,7 +277,7 @@ struct AX
 // @fnv 0x00438570
 AX* AX::FUN_00438570()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_01015ffc;
+    *reinterpret_cast<const void**>(this) = &DAT_01015ffc;
     FUN_006b3eb0(0, 0);
     return this;
 }

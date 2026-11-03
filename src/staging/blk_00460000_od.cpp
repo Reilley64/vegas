@@ -2102,7 +2102,7 @@ int Walk::WalkTree(Node* node, Receiver* receiver, unsigned int mode, Context* c
         Node* typed = node;
         if (((unsigned char)(reinterpret_cast<::FUN_00c455a0_cls *>((typed))->FUN_00c455a0((unsigned char)mode))))
         {
-            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(((int)(reinterpret_cast<::LowProcess *>((context))->GetTarget()))), {}, {}, {});
+            reinterpret_cast<::BGSDebris_shell2 *>((receiver))->FUN_004fa6f0((void *)(uintptr_t)(((int)(reinterpret_cast<::LowProcess *>((context))->GetTarget()))), {}, {}, {});
             count++;
         }
     }
@@ -4171,9 +4171,9 @@ void Destruction::FUN_00475b20(DRef* ref, float damage, unsigned int flags)
             rate = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DSetting *>(&::originalRuntimeFloatSetting479))))));
     }
     if (rate != -1.0)
-        reinterpret_cast<::S_9a54a0_Class *>((((::DManager *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->FUN_009a54a0((int)(ref), (::S_9a54a0_Actor *)(replacement), rate);
+        reinterpret_cast<::S_9a54a0_Class *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->FUN_009a54a0((int)(ref), (::S_9a54a0_Actor *)(replacement), rate);
     else
-        reinterpret_cast<::EntryMap9A5 *>((((::DManager *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef((::Ref9A5 *)(ref));
+        reinterpret_cast<::EntryMap9A5 *>((((::DManager *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::DSingleton * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))))->RemoveEntryForRef((::Ref9A5 *)(ref));
 }
 
 struct LoadRecordHeader

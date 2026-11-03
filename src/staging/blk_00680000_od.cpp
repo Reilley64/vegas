@@ -2301,9 +2301,9 @@ void LoopSoundState::InitLoopSounds()
     reinterpret_cast<::FUN_0068a850_shell *>(this)->StopSounds();
     if (((::SoundObject *)(::FUN_00559450((int *)&(object)))) && sounds)
     {
-        if (((::SoundRecord *)(reinterpret_cast<::FUN_0068a810_class *>((sounds))->GetField4C())))
+        if (((::SoundRecord *)(uintptr_t)(reinterpret_cast<::FUN_0068a810_class *>((sounds))->GetField4C())))
         {
-            unsigned int firstId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SoundRecord *)(reinterpret_cast<::FUN_0068a810_class *>((sounds))->GetField4C()))))->FUN_0084e3a0()));
+            unsigned int firstId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::SoundRecord *)(uintptr_t)(reinterpret_cast<::FUN_0068a810_class *>((sounds))->GetField4C()))))->FUN_0084e3a0()));
             reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::ManagedSound &)(first))->operator=((const ::SoundPlaybackHandle &)((const ::ManagedSound &)(((::AudioManager *)(::FUN_00453a70()))->FUN_00ad73b0(firstId, 0x102))));
             reinterpret_cast<::SoundPlaybackHandle *>(&(first))->SetPositionFromArray(((float *)(::FUN_0045bb80((int)(((::SoundObject *)(::FUN_00559450((int *)&(object)))))))));
             reinterpret_cast<::FUN_00ad8f20_shell *>(&(first))->FUN_00ad8f20((::NiAVObject *)(::SoundObject *)(((::SoundObject *)(::FUN_00559450((int *)&(object))))));
@@ -2358,7 +2358,7 @@ void FUN_0068aa50_shell::FUN_0068aa50(void* searchArg)
             if (node)
             {
                 NiMatrix3_0068aa50 a;
-                reinterpret_cast<::ThreeByThreeMatrix *>((((::NavMeshChain_0068aa50 *)(::FUN_00461130((int)(((::NavMeshChain_0068aa50 *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0()))))))))->FUN_004b45b0({});
+                reinterpret_cast<::ThreeByThreeMatrix *>((((::NavMeshChain_0068aa50 *)(uintptr_t)(::FUN_00461130((int)(((::NavMeshChain_0068aa50 *)(reinterpret_cast<::FUN_009611e0_shell *>((node))->FUN_009611e0()))))))))->FUN_004b45b0({});
                 NiMatrix3_0068aa50 b;
                 new ((void *)&(b)) ::Vec3();
                 reinterpret_cast<::ThreeByThreeMatrix *>(&(b))->SetYRotation(DAT_0102b3c8);

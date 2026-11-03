@@ -2163,7 +2163,7 @@ bool VFDialogue::BuildVoiceFilePath(VFForm* apSpeaker, void* apTopic, void* apQu
         else if (apSpeaker->GetFormType() == 0x2b)
             pVoice4 = apSpeaker->kBaseData.GetVoiceType();
         else if (apSpeaker->GetFormType() == 0x16)
-            pVoice4 = ((::VFVoiceType *)(reinterpret_cast<::PlayerMover *>((apSpeaker))->GetActorStateFlags()));
+            pVoice4 = ((::VFVoiceType *)(uintptr_t)(reinterpret_cast<::PlayerMover *>((apSpeaker))->GetActorStateFlags()));
         else
         {
             VFVoiceOwner* pOwner4 = ((::VFVoiceOwner *)(::FUN_00617270((::TESForm *)(apSpeaker))));

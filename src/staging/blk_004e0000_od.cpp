@@ -3386,7 +3386,7 @@ RDLItem* FUN_004f6850_Class::FUN_004f6850(int arg0, intptr_t arg1, int arg2)
         }
         if (arg1 != 0)
         {
-            node2C = ((::RDLNode *)(reinterpret_cast<::BGSTerrainManager *>((((RDLItemX*)curB)))->GetMinLevel()));
+            node2C = ((::RDLNode *)(uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((((RDLItemX*)curB)))->GetMinLevel()));
             while (node2C != 0 && *((::RDLItem **)(new ((void *)(node2C)) ::Vec3())) != 0)
             {
                 if (reinterpret_cast<struct ::Polygon *>((((RDLItemX*)*((::RDLItem **)(new ((void *)(node2C)) ::Vec3())))))->FUN_004f8360((::PolygonPoint *)(arg1)))
@@ -4270,7 +4270,7 @@ void Self::FUN_004e3d60(ParamObj* param)
     while (zpos != 0)
     {
         next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(param->m_24))->DereferenceIfNotNull((int **)(zpos))));
-        Refr* rrefr = ((::Refr *)(reinterpret_cast<::FUN_006317a0_struct *>(&(param->m_24))->AddEight((int)(zpos))));
+        Refr* rrefr = ((::Refr *)(reinterpret_cast<::FUN_006317a0_struct *>(&(param->m_24))->AddEight((intptr_t)(zpos))));
         BoundObj* bound = ((::BoundObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((rrefr))->FUN_007af430()));
         Obj20* obj = (Obj20*)bound->getObj80();
         if (obj != 0)

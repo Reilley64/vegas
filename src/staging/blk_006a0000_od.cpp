@@ -522,7 +522,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006b42a0
 void GlobalObject_00869f00::FUN_006b42a0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106ba94;
+    *reinterpret_cast<const void**>(this) = &DAT_0106ba94;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006b42a0

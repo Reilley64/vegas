@@ -948,7 +948,7 @@ float EffectList405c::FUN_00405c00(int iArchetype, int m_eRange, int m_eAssociat
         Item405c* pkItem = *((::Item405c **)(new ((void *)(pkList)) ::Vec3()));
         if (pkItem)
         {
-            Setting405c* pkSetting = ((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()));
+            Setting405c* pkSetting = ((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()));
             if (reinterpret_cast<::EffectSetting *>((pkSetting))->GetArchetype() == iArchetype &&
                 (m_eAssociatedActorValue == 0x4D || !reinterpret_cast<::S3c60 *>((pkSetting))->HasFlag2() || ((int)(reinterpret_cast<::InterfaceManager *>((pkSetting))->FUN_00586150())) == m_eAssociatedActorValue) &&
                 (m_eRange == 3 || reinterpret_cast<::FUN_0084e3a0_Class *>((pkItem))->FUN_0084e3a0() == m_eRange))
@@ -1115,7 +1115,7 @@ void EffectItemList4056::FUN_004056d0()
         EffectItem4056* pkItem = ((::EffectItem4056 *)(new ((void *)(pkList)) ::Vec3()));
         if (pkItem)
         {
-            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffectSetting4056 *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()))))->FUN_0084e3a0()));
+            unsigned int auiFormId = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::EffectSetting4056 *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((pkItem))->FUN_00825c00()))))->FUN_0084e3a0()));
             ::FUN_00485910(0x44494645, auiFormId);
             reinterpret_cast<::FUN_004040b0_shell *>((pkItem))->Save();
         }
@@ -1309,10 +1309,10 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
     if (timer1 == 0 || timer2 == 0)
         return false;
 
-    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x20000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x20000))
+    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x20000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x20000))
     {
-        TESForm* interval1 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00())))))->FUN_005f5f80();
-        TESForm* interval2 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00())))))->FUN_005f5f80();
+        TESForm* interval1 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00())))))->FUN_005f5f80();
+        TESForm* interval2 = reinterpret_cast<::fnv_005f5f80::FUN_005f5f80_shell *>((reinterpret_cast<AssociatedForm40df*>(((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00())))))->FUN_005f5f80();
 
         TESBipedModelForm* result2 = dynamic_cast<TESBipedModelForm*>(interval1);
         TESBipedModelForm* result1 = dynamic_cast<TESBipedModelForm*>(interval2);
@@ -1324,7 +1324,7 @@ bool __cdecl FUN_0040dfa0(Item405c* timer1, Item405c* timer2)
         }
     }
 
-    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x10000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x10000))
+    if (reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer1))->FUN_00825c00()))))->FUN_00403e60(0x10000) && reinterpret_cast<::S3e60 *>((((::Setting405c *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((timer2))->FUN_00825c00()))))->FUN_00403e60(0x10000))
         return true;
 
     return false;

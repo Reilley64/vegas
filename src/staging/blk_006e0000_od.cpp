@@ -257,7 +257,7 @@ struct FUN_006e1070_Class
 // @fnv 0x006e1070
 FUN_006e1070_Class* FUN_006e1070_Class::FUN_006e1070()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106cf0c;
+    *reinterpret_cast<const void**>(this) = &DAT_0106cf0c;
     reinterpret_cast<::FUN_0069b940_class *>((reinterpret_cast<S006d0420*>(this)))->FUN_0069b940(0, 0);
     return this;
 }
@@ -412,13 +412,13 @@ namespace fnv_006e9080 {
 struct PSClearStub
 {
     void Clear(bool a1);
-    int m_stub;
+    const void* m_stub;
     void FUN_006e9080();
 };
 // @fnv 0x006e9080
 void PSClearStub::FUN_006e9080()
 {
-    m_stub = (int)&(*reinterpret_cast<int *>(&::DAT_0106d4d4));
+    m_stub = &::DAT_0106d4d4;
     reinterpret_cast<::BSSimpleArray_006cefa0 *>(this)->FreeArray(true);
 }
 }  // namespace fnv_006e9080
@@ -432,7 +432,7 @@ struct FUN_006ec1e0_Class
 // @fnv 0x006ec1e0
 void FUN_006ec1e0_Class::FUN_006ec1e0()
 {
-    *reinterpret_cast<long*>(this) = (long)&DAT_0106d6b8;
+    *reinterpret_cast<const void**>(this) = &DAT_0106d6b8;
 }
 
 extern int DAT_0106d6d0;
@@ -449,7 +449,7 @@ struct FUN_006ec410_Class
 // @fnv 0x006ec3f0
 void FUN_006ec3f0_Class::FUN_006ec3f0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106d6d0;
+    *reinterpret_cast<const void**>(this) = &DAT_0106d6d0;
     reinterpret_cast<::FUN_006ec410_Class *>(this)->FUN_006ec410_Class::~FUN_006ec410_Class();
 }
 
@@ -483,7 +483,7 @@ struct FUN_006ecb40_Class
 FUN_006ecb40_Class* FUN_006ecb40_Class::FUN_006ecb40()
 {
     FUN_006ecc00();
-    *reinterpret_cast<long*>(this) = (long)&DAT_0106d698;
+    *reinterpret_cast<const void**>(this) = &DAT_0106d698;
     *reinterpret_cast<long*>(reinterpret_cast<char*>(this) + 4) = 0;
     return this;
 }
@@ -599,7 +599,7 @@ struct FUN_006f26d0_Class
 // @fnv 0x006f26d0
 void FUN_006f26d0_Class::FUN_006f26d0()
 {
-    *reinterpret_cast<long*>(this) = (long)&DAT_0106d828;
+    *reinterpret_cast<const void**>(this) = &DAT_0106d828;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((reinterpret_cast<GlobalObject_00869f00*>(this)))->Clear(true);
 }
 }  // namespace fnv_006f26d0
@@ -613,7 +613,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006f27f0
 void GlobalObject_00869f00::FUN_006f27f0()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106d850;
+    *reinterpret_cast<const void**>(this) = &DAT_0106d850;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(this)->Clear(true);
 }
 }  // namespace fnv_006f27f0
@@ -655,7 +655,7 @@ struct FUN_006f30e0_Class
 // @fnv 0x006f30e0
 AX* FUN_006f30e0_Class::FUN_006f30e0()
 {
-    *reinterpret_cast<unsigned int*>(this) = (unsigned int)"0/o";
+    *reinterpret_cast<const void**>(this) = "0/o";
     ((AX*)this)->FUN_006b3eb0(0, 0);
     return (AX*)this;
 }
@@ -672,7 +672,7 @@ struct FUN_006f3110_Class : AX
 // @fnv 0x006f3110
 FUN_006f3110_Class* FUN_006f3110_Class::FUN_006f3110()
 {
-    *reinterpret_cast<int*>(this) = (int)&::fnv_006f26d0::DAT_0106d828;
+    *reinterpret_cast<const void**>(this) = &::fnv_006f26d0::DAT_0106d828;
     FUN_006b3eb0(0, 0);
     return this;
 }
@@ -763,7 +763,7 @@ struct FUN_006f4880_Class
 // @fnv 0x006f4880
 AX* FUN_006f4880_Class::FUN_006f4880()
 {
-    *reinterpret_cast<unsigned int*>(this) = (unsigned int)"`Fo";
+    *reinterpret_cast<const void**>(this) = "`Fo";
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
     return reinterpret_cast<AX*>(this);
 }
@@ -901,7 +901,7 @@ struct GlobalObject_00869f00
 // @fnv 0x006f9770
 void GlobalObject_00869f00::FUN_006f9770()
 {
-    *reinterpret_cast<long*>(this) = (long)&::DAT_0106df78;
+    *reinterpret_cast<const void**>(this) = &::DAT_0106df78;
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 }  // namespace fnv_006f9770
@@ -2477,7 +2477,7 @@ void Tile::SetNodeFloat(float afValue)
     NiNode* tmp;
     if ((unsigned int)_4)
     {
-        tmp = ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>(this)->FUN_0056c7f0()));
+        tmp = ((::NiNode *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>(this)->FUN_0056c7f0()));
         if (tmp)
             *(float*)((char*)tmp + 0x80) = afValue;
     }
@@ -8524,7 +8524,7 @@ void FUN_006e22d0_Class::FUN_006e22d0()
 // @fnv 0x006e6c00
 bool PathObj_s::SetupFromCellWorld()
 {
-    TESObjectCELL_s* pCell = ((::TESObjectCELL_s *)(reinterpret_cast<::PathingLocation *>((((::Loc_s *)(::GetOffsetC((int)(m_holder))))))->GetContainingCell()));
+    TESObjectCELL_s* pCell = ((::TESObjectCELL_s *)(reinterpret_cast<::PathingLocation *>((((::Loc_s *)(::GetOffsetC((intptr_t)(m_holder))))))->GetContainingCell()));
     if (pCell == 0)
         return false;
     m_pOwningWorld = reinterpret_cast<::FUN_004543c0_cls *>((pCell))->FUN_004543c0();
@@ -11737,7 +11737,7 @@ FUN_006fc490::FUN_006fc490(Source490* apSource) : first(0), second(0)
             first = ((::fnv_006fc490::NiNode *)(reinterpret_cast<::MagicCaster_shell *>(((*reinterpret_cast<::fnv_006fc490::Sky490 * *>(&::g_TES))))->FUN_0044edb0()));
             if ((NiNode*)first)
             {
-                second = ((::fnv_006fc490::NiNode *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_006fc490::Sky490 * *>(&::g_TES))))->FUN_00825c00()));
+                second = ((::fnv_006fc490::NiNode *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_006fc490::Sky490 * *>(&::g_TES))))->FUN_00825c00()));
                 reinterpret_cast<::FUN_00546780_shell *>((((NiNode*)first)))->FUN_00546780(true);
                 reinterpret_cast<::FUN_00546780_shell *>((((::fnv_006fc490::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiNode*)first)))->FUN_009611e0()))))->FUN_00546780(true);
             }

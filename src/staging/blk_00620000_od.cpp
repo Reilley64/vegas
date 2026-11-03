@@ -322,7 +322,7 @@ struct FUN_00621ad0_Class
 // @fnv 0x00621ad0
 void FUN_00621ad0_Class::FUN_00621ad0()
 {
-    ::FUN_00621480((::HighProcess *)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((ObjHelper*)this)->FUN_00621a90())))->GetName()))));
+    ::FUN_00621480((::HighProcess *)(uintptr_t)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((ObjHelper*)this)->FUN_00621a90())))->GetName()))));
 }
 
 struct FUN_00621b20_Class
@@ -1319,7 +1319,7 @@ struct FUN_00cac980_Holder
 // @fnv 0x00621a90
 void* ObjHelper::FUN_00621a90()
 {
-    FUN_00cac980_Holder* p = (FUN_00cac980_Holder*)((reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
+    FUN_00cac980_Holder* p = (FUN_00cac980_Holder*)(uintptr_t)((reinterpret_cast<::FUN_00620b80_shell *>((this))->GetReferenceFlags()));
     return p ? reinterpret_cast<::FUN_00cac980_class *>((p))->FUN_00cac980() : 0;
 }
 
@@ -1757,7 +1757,7 @@ void FUN_00629f70_Class::FUN_00629f70(intptr_t a, int c)
     {
         int e = d << 1;
         int f = c < e ? e : c;
-        ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)((int)this), f, 4);
+        ::FUN_00c908c0((::SpawnedObject *)(a), (::SpawnedArray *)(this), f, 4);
     }
 }
 }  // namespace fnv_00629f70
@@ -4584,7 +4584,7 @@ Obj* ParticleMgr::CreateParticleShape(Obj* node, int unused, unsigned char flag)
                 pElem9 = reinterpret_cast<::TESActorBaseData *>((gl3))->GetFatigue();
                 t2 = ((unsigned short)(reinterpret_cast<::LowProcess *>((gl3))->GetActiveCombatTarget()));
                 srcp_2 = ((::fnv_00637890::Pt3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((gl3))->FUN_007af430()));
-                sn5 = ((::fnv_00637890::Pt2 *)(reinterpret_cast<::BGSMessageInitAccess *>((gl3))->GetIconFormID()));
+                sn5 = ((::fnv_00637890::Pt2 *)(uintptr_t)(reinterpret_cast<::BGSMessageInitAccess *>((gl3))->GetIconFormID()));
                 saB = ((unsigned short *)(reinterpret_cast<::FnvCpu_FUN_00a7b850_CpuObject *>((gl3))->FUN_00a7b850()));
                 count8 = ::MinUnsignedShort(count8, 0xffff / pElem9);
                 aV1 = new Pt3[pElem9 * count8];
@@ -5717,7 +5717,7 @@ void RainSystem::FUN_00636ed0(float elapsed)
     RainState* state8 = ((::RainState *)(::Sky::GetInstance()));
     bool hide10 = ((int)(reinterpret_cast<::FUN_00476c90_Class *>((state8))->FUN_00476c90())) == 1 || ((int)(reinterpret_cast<::FUN_00476c90_Class *>((state8))->FUN_00476c90())) == 0;
     RainWeather* weatherA4 = ((::RainWeather *)(reinterpret_cast<::MagicCaster_shell *>((state8))->FUN_0044edb0()));
-    RainWeather* weatherB13 = ((::RainWeather *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00()));
+    RainWeather* weatherB13 = ((::RainWeather *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00()));
     float blend4 = ::FUN_006447d0((const char *)(state8));
     float thresholdA103 = weatherA4 ? weatherA4->FUN_004ed230(6, 0.999f, 0.0f) : 0.0f;
     float thresholdB7 = weatherB13 ? weatherB13->FUN_004ed230(7, 1.0f, 0.001f) : 0.001f;
@@ -5733,10 +5733,10 @@ void RainSystem::FUN_00636ed0(float elapsed)
             parent->Remove(((::RainNode *)(::FUN_00559450((int *)&(current)))));
             current.FUN_0066b0d0(0);
         }
-        if (((::RainWeather *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00())))
-            reinterpret_cast<::Precipitation *>(this)->Load(((::RainModel *)(::FUN_006377e0((int)(((::RainWeather *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00()))))))->Path());
+        if (((::RainWeather *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00())))
+            reinterpret_cast<::Precipitation *>(this)->Load(((::RainModel *)(uintptr_t)(::FUN_006377e0((int)(((::RainWeather *)(uintptr_t)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((state8))->FUN_00825c00()))))))->Path());
         if (((::RainWeather *)(reinterpret_cast<::MagicCaster_shell *>((state8))->FUN_0044edb0())))
-            reinterpret_cast<::Precipitation *>(this)->Load(((::RainModel *)(::FUN_006377e0((int)(((::RainWeather *)(reinterpret_cast<::MagicCaster_shell *>((state8))->FUN_0044edb0()))))))->Path());
+            reinterpret_cast<::Precipitation *>(this)->Load(((::RainModel *)(uintptr_t)(::FUN_006377e0((int)(((::RainWeather *)(reinterpret_cast<::MagicCaster_shell *>((state8))->FUN_0044edb0()))))))->Path());
     }
     else
     {
@@ -7137,7 +7137,7 @@ void Mover628::MoveToDestination(Body628* body, Group628* moved)
         bool grouped = false;
         Point628 delta;
         reinterpret_cast<::FUN_00439ef0_class *>((void *)&(destination))->FUN_00439ef0((::NiPoint3 *)(::Point628 *)(&delta), (*(const ::NiPoint3 *)(&transform.position)));
-        BodyCollection628* bodies = ((::BodyCollection628 *)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()));
+        BodyCollection628* bodies = ((::BodyCollection628 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((body))->GetReferenceFlags()));
         for (int scan = 0; scan < ::FUN_00c9c380((void *)(bodies), {}) && !grouped; ++scan)
         {
             Shape628* shape = ((::Shape628 *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ShapeWrapper628 *)(reinterpret_cast<::FUN_00c9c390_Class *>((bodies))->GetEntry(scan)))))->FUN_0084e3a0()));

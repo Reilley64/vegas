@@ -492,7 +492,7 @@ void Ref56D::FUN_0056d7e0()
         kXform.m_kRotate = GetRotation();
         kXform.m_kTranslate = *GetPos();
         kXform.m_fScale = 1.0f;
-        Layer56D* pkLayer = ((::Layer56D *)(reinterpret_cast<::FUN_004211a0_StandIn *>((((::ExtraList56D *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_004211a0()));
+        Layer56D* pkLayer = ((::Layer56D *)(uintptr_t)(reinterpret_cast<::FUN_004211a0_StandIn *>((((::ExtraList56D *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->FUN_004211a0()));
         unsigned int uiLayer = pkLayer ? ((unsigned int)(::FUN_00559450((int *)(pkLayer)))) : 0x16;
         if (uiLayer != 0x17 && ((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 1 && reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::Matrix56D &)(kXform.m_kRotate))->operator==((const ::ThreeByThreeMatrix &)((*reinterpret_cast<const ::Matrix56D *>(&::DAT_011a9448)))))
         {
@@ -521,7 +521,7 @@ void Ref56D::FUN_0056d7e0()
             if (((int)(uintptr_t)(reinterpret_cast<::Callees *>((pkBound))->FUN_00726070())) == 2)
                 pkShape = new SphereShape56D(FUN_004a3e90(pkBound->GetExtents().x), 0);
             BodyCinfo56D kInfo;
-            kInfo.m_pvShape = ((void *)(reinterpret_cast<::FUN_00620b80_shell *>((pkShape))->GetReferenceFlags()));
+            kInfo.m_pvShape = ((void *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((pkShape))->GetReferenceFlags()));
             reinterpret_cast<::FUN_005407b0_Class *>(&(kInfo.m_kMotion))->FUN_005407b0(2);
             unsigned int uiFilterInfo = 0x50000;
             uiFilterInfo |= uiLayer;
@@ -677,12 +677,12 @@ void Owner264::FUN_00576d50(Scene264* scene)
         if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682e8))), (::NiAVObject *)(shape)))
         {
             ShapeA264* typed = (ShapeA264*)shape;
-            nativeA = ((::NativeA264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
+            nativeA = ((::NativeA264 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
         }
         else if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682dc))), (::NiAVObject *)(shape)))
         {
             ShapeB264* typed = (ShapeB264*)shape;
-            nativeB = ((::NativeB264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
+            nativeB = ((::NativeB264 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((typed))->GetReferenceFlags()));
         }
         else if (::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682d0))), (::NiAVObject *)(shape)))
         {
@@ -691,12 +691,12 @@ void Owner264::FUN_00576d50(Scene264* scene)
             if (child && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682e8))), (::NiAVObject *)(child)))
             {
                 ShapeA264* typedA = (ShapeA264*)child;
-                nativeA = ((::NativeA264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typedA))->GetReferenceFlags()));
+                nativeA = ((::NativeA264 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((typedA))->GetReferenceFlags()));
             }
             else if (child && ::FUN_0043b300((const ::NiRTTI *)(const void *)(&(*reinterpret_cast<char *>(&::g_012682dc))), (::NiAVObject *)(child)))
             {
                 ShapeB264* typedB = (ShapeB264*)child;
-                nativeB = ((::NativeB264 *)(reinterpret_cast<::FUN_00620b80_shell *>((typedB))->GetReferenceFlags()));
+                nativeB = ((::NativeB264 *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((typedB))->GetReferenceFlags()));
             }
         }
         if (nativeA)

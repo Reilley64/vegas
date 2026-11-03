@@ -131,7 +131,7 @@ void S006e6ae0_Object::FUN_006e6ae0()
     S006e6ae0_Aabb kAabb;
     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kAabb.m_kMinimumCorner)), (*(const ::fnv_004a3e00::NiPoint3 *)(&m_kMin)));
     ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kAabb.m_kMaximumCorner)), (*(const ::fnv_004a3e00::NiPoint3 *)(&m_kMax)));
-    S006e6ae0_World* pkWorld = ((::S006e6ae0_World *)(reinterpret_cast<::FUN_004543c0_cls *>((((::S006e6ae0_Owner2 *)(reinterpret_cast<::PathingLocation *>((((::S006e6ae0_Owner1 *)(::GetOffsetC((int)(m_pkNode))))))->GetContainingCell()))))->FUN_004543c0()));
+    S006e6ae0_World* pkWorld = ((::S006e6ae0_World *)(reinterpret_cast<::FUN_004543c0_cls *>((((::S006e6ae0_Owner2 *)(reinterpret_cast<::PathingLocation *>((((::S006e6ae0_Owner1 *)(::GetOffsetC((intptr_t)(m_pkNode))))))->GetContainingCell()))))->FUN_004543c0()));
     reinterpret_cast<::Script *>((pkWorld))->GetLocalData();
     S006e6ae0_Shape* pkShape = ((::S006e6ae0_Shape *)(reinterpret_cast<::LowProcess *>((((::S006e6ae0_Body *)(reinterpret_cast<::ScriptLocals *>((pkWorld))->GetLocalData()))))->GetPackageObjectType()));
     int iValue = pkShape->vf60();

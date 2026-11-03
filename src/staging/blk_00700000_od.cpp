@@ -1434,7 +1434,7 @@ FUN_00719250_class* FUN_00719250_class::Construct(intptr_t aiArg1, int aiValue, 
 // @fnv 0x007192e0
 FUN_007192e0_Class::FUN_007192e0_Class(void* a, void* b, void* c)
 {
-    new ((void *)this) ::FUN_00719160_cls((const char *)((int)a), (intptr_t)c);
+    new ((void *)this) ::FUN_00719160_cls((const char *)(a), (intptr_t)c);
     vtbl = &DAT_0106f448;
     m_0c = b;
 }
@@ -2325,7 +2325,7 @@ void MenuState::UpdateMenuSelection()
                     else
                     {
                         reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 0);
-                        reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 0.0f, 0.0f);
+                        reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 0.0f, 0.0f);
                         if (shouldUpdate)
                         {
                             reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
@@ -2337,7 +2337,7 @@ void MenuState::UpdateMenuSelection()
                 {
                     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f - amount, 0.0f);
                     if (shouldUpdate)
                         reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
                 }
@@ -2349,7 +2349,7 @@ void MenuState::UpdateMenuSelection()
                 if (leftSlot)
                 {
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), 1.0f, 0.0f);
                     reinterpret_cast<::TESRecipe *>((actor))->SetRequiredSkill((::ActorValue::Index)(1));
                     if (shouldUpdate)
                     {
@@ -2361,7 +2361,7 @@ void MenuState::UpdateMenuSelection()
                 {
                     *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x11) = 1;
                     reinterpret_cast<::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->Set(0xfa3, 1);
-                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
+                    reinterpret_cast<::AlphaInterface *>(this)->SetNodeAlpha((::AlphaNode *)(::MenuComponent *)(((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((::MenuComponent *)(reinterpret_cast<::Callees *>((actor))->FUN_00726070()))))->FUN_0056c7f0()))), amount, 0.0f);
                     if (shouldUpdate)
                         reinterpret_cast<::FUN_007123f0_shell *>((((::MenuComponent *)(::ImageSpaceManager::FUN_004e3270()))))->FUN_007123f0({});
                 }
@@ -2375,7 +2375,7 @@ void MenuState::UpdateMenuSelection()
         *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xc) = 1;
         if (!FUN_004b71d0() || *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this) + 0x7d))
         {
-            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_0056c7f0()))))->QueueActorDisarm(1);
+            reinterpret_cast<::TaskQueueInterface *>((((::MenuComponent *)(uintptr_t)(reinterpret_cast<::fnv_0056c7f0::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_0056c7f0()))))->QueueActorDisarm(1);
             reinterpret_cast<::Tile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->Set(0xfa3, 0);
         }
         reinterpret_cast<::RenderTile *>((reinterpret_cast<MenuComponent*>(*reinterpret_cast<void**>(reinterpret_cast<char*>(this) + 0x28))))->FUN_00a04640(1);
@@ -2735,7 +2735,7 @@ void FUN_00701520_cls::FUN_00701520()
 
         if (b != 0 && ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((GameObjStub*)b)))->GetName())) != 0)
         {
-            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
+            void* c = ((void *)(::GetBipedModelTextureSwap((::TESForm *)(uintptr_t)(((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_Helper*)b)))->GetName()))), (::TESObjectREFR *)((*reinterpret_cast<int *>(&::_g_thePlayer))))));
 
             if (c == 0)
             {

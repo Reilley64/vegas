@@ -1779,7 +1779,7 @@ void S_5102e0_List::FUN_005102e0()
 {
     while (head)
     {
-        S_5102e0_Node* next = ((::S_5102e0_Node *)(reinterpret_cast<::BGSTerrainManager *>((head))->GetMinLevel()));
+        S_5102e0_Node* next = ((::S_5102e0_Node *)(uintptr_t)(reinterpret_cast<::BGSTerrainManager *>((head))->GetMinLevel()));
         delete head;
         head = next;
     }

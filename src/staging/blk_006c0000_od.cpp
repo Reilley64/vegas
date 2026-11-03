@@ -685,7 +685,7 @@ struct FUN_006dc100_Class
 // @fnv 0x006dc100
 AX* FUN_006dc100_Class::FUN_006dc100()
 {
-    *reinterpret_cast<int*>(this) = (int)&DAT_0106cc14;
+    *reinterpret_cast<const void**>(this) = &DAT_0106cc14;
     reinterpret_cast<AX*>(this)->FUN_006b3eb0(0, 0);
     return reinterpret_cast<AX*>(this);
 }
@@ -2941,19 +2941,19 @@ bool PathBuilder::FUN_006c9b20()
     PathingActorData* current = 0;
     if (!reinterpret_cast<::DoorAccessData *>((void *)(request))->ReadState98())
         current = reinterpret_cast<::FUN_006c9900_shell *>((request))->FUN_006c9900();
-    bool _result = reinterpret_cast<::DoorSearchInit *>(&(searchB))->InitDoorSearch((::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::GetOffsetC((int)(request))))), (::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))), (::SearchResult *)(::TeleportPathHelper *)(&dataB), 0, 0.0f, current, 0);
+    bool _result = reinterpret_cast<::DoorSearchInit *>(&(searchB))->InitDoorSearch((::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))), (::SearchLocation *)(::PathLocationView *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))), (::SearchResult *)(::TeleportPathHelper *)(&dataB), 0, 0.0f, current, 0);
     if (((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(dataB.edges))->GetName())) <= 1)
     {
         if (_result)
         {
-            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr),
+            if (!reinterpret_cast<::PathHandler *>(this)->FindPath(reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr), reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::FUN_006a9540((char *)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr),
                           (::PathingContext *)(void *)(dataB.edges.FUN_006a1440(0)), (int)(0)))
                 return false;
         }
     }
     else
     {
-        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((int)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+        NiPoint3 end3 = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathLocationView *)(::GetOffsetC((intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
         NiPoint3 origin6 = *((::NiPoint3 *)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door))->FUN_00568fa0()));
         if (!reinterpret_cast<::PathHandler *>(this)->FindPath(end3, origin6, (::PathingContext *)(void *)(((void *)(reinterpret_cast<::EdgeArr *>(&(dataB.edges))->FUN_006ced70()))), (int)(((::DoorStep *)(reinterpret_cast<::S006949d0 *>(&(dataB.doors))->GetFirst()))->door)))
             return false;
@@ -3749,11 +3749,11 @@ bool FUN_006d91d0(PathBuilderDetailedPathMeshes*);
 // @fnv 0x006d3b40
 bool __cdecl FindPathToTarget(RequestAccess* request, NiPoint3* output)
 {
-    if (!reinterpret_cast<::NLLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((int)(request))))))->UpdateMeshLocation())
+    if (!reinterpret_cast<::NLLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((intptr_t)(request))))))->UpdateMeshLocation())
         return false;
     NavMeshPtr mesh_;
     unsigned short aLocation = 0xffff;
-    if (!reinterpret_cast<::PathingLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((int)(request))))))->FindNavMeshTriangle(mesh_, aLocation))
+    if (!reinterpret_cast<::PathingLocation *>((((::fnv_006d3b40::LocationAccess *)(::GetOffsetC((intptr_t)(request))))))->FindNavMeshTriangle(mesh_, aLocation))
         return false;
     MeshTriangle origin_;
     origin_.mesh = reinterpret_cast<MeshAccess*>(&mesh_)->FUN_00458b50();
@@ -4881,7 +4881,7 @@ bool __cdecl FUN_006d2c80(NavMeshContext* context, NavMeshRoute* route)
     if (!acceptedNew)
         return false;
     float thresholdRes = ::DAT_010231a0;
-    NavMeshBuffer initial(((void *)(::GetOffsetC((int)(context)))));
+    NavMeshBuffer initial(((void *)(::GetOffsetC((intptr_t)(context)))));
     NavMeshPlan* plan = new NavMeshPlan;
     NavMeshTriangleVertexIndices* edgeTmp = new NavMeshTriangleVertexIndices;
     NavMeshContext currentVal(context);

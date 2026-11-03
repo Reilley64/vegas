@@ -196,7 +196,7 @@ void FUN_007615d0_class::FUN_007615d0(bool freeStorage)
 {
     if (data)
     {
-        reinterpret_cast<::NiFixedString *>((((FUN_00761760_class*)this)))->FUN_00761760((int *)((int)data), size);
+        reinterpret_cast<::NiFixedString *>((((FUN_00761760_class*)this)))->FUN_00761760((int *)(data), size);
         if (freeStorage)
         {
             ::FUN_006a8500((::DummyClass_006a8500 *)(((NavMeshSearchLOSArray*)this)));

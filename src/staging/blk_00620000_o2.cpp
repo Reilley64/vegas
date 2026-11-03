@@ -610,7 +610,7 @@ void WorkOwner::FUN_00631370(WorkActor* actor, bool checkDist, bool skip)
         next = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(list))->DereferenceIfNotNull((int **)(it))));
         if (it)
         {
-            WorkItem* item = ((::fnv_00631370::WorkItem *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((int)(it))));
+            WorkItem* item = ((::fnv_00631370::WorkItem *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list))->AddEight((intptr_t)(it))));
             if (!item->actor->IsValid())
             {
                 reinterpret_cast<::WaterZoneRemoval *>(this)->FUN_0062fc70((::ParamStruct *)(item));
@@ -1807,7 +1807,7 @@ void Owner::FUN_006271b0(Cell* next, int flag)
     for (unsigned i = 0; i < 6; i++, mask <<= 1)
     {
         bool interior = reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior() || i == 0;
-        Layer* layer = ((::fnv_006271b0::Layer *)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006271b0::Layer *)(::FUN_00559450((int *)&(layers[i]))))))->GetReferenceFlags()));
+        Layer* layer = ((::fnv_006271b0::Layer *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((((::fnv_006271b0::Layer *)(::FUN_00559450((int *)&(layers[i]))))))->GetReferenceFlags()));
         ItemList* list = ((::fnv_006271b0::ItemList *)(reinterpret_cast<::FUN_0045c650_shell *>((layer))->FUN_0045c650()));
         char dummy;
         if (!reinterpret_cast<::FUN_005609f0_shell *>((((Test*)reinterpret_cast<::FUN_0062e120_shell *>((list))->FUN_0062e120(&dummy))))->FUN_005609f0())
@@ -2618,8 +2618,8 @@ void SpawnPlacerP::FUN_006296d0(TESObjectREFRP* pkRef, const NiPoint3P* pkPos, N
         ::fnv_004a3e00::FUN_004a3e00((*(::fnv_004a3e00::bhkCharacterController *)(&kFrom)), (*(const ::fnv_004a3e00::NiPoint3 *)(pkOut)));
         ShapeCastP kCast;
         reinterpret_cast<::FUN_006295a0_shell *>(&(kCast))->FUN_006295a0();
-        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(&((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyA).operator->()))->GetReferenceFlags()))))))->m_kTransform));
-        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyB).operator->()))->GetReferenceFlags()))))))));
+        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(&((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyA).operator->()))->GetReferenceFlags()))))))->m_kTransform));
+        reinterpret_cast<::FUN_00629560_Class *>(&(kCast))->FUN_00629560((intptr_t)(((::ShapeP *)(::FUN_00984230((char *)(((::NodeP *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>(((m_spBodyB).operator->()))->GetReferenceFlags()))))))));
         bFound = ((int)(reinterpret_cast<::S00629930_Box *>(&(kCast))->FUN_00629930((const ::S00629930_Box *)(::hkVector4P *)(&kFrom))));
     }
     if (!bFound)
@@ -3230,7 +3230,7 @@ bool xCaster::FUN_006214d0(xRef* apRef, const xP3& akPos, float afA, float afB)
     if (reinterpret_cast<::DummyFlagsShell *>((apRef))->FUN_00621240() && (*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer)) && ((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture())) &&
         ((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4())
     {
-        xP3 DIFF = akPos - *((const ::xP3 *)(::FUN_0045bb80((int)(((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4()))));
+        xP3 DIFF = akPos - *((const ::xP3 *)(uintptr_t)(::FUN_0045bb80((int)(((::xMid *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->FUN_6d4()))));
         if (reinterpret_cast<::NiPoint3 *>((void *)&(DIFF))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::xFltSetting *>(&::g_011cc188)))))))
             RESULT = true;
         return RESULT;
@@ -3721,7 +3721,7 @@ bool SpawnAreaB::FUN_006281d0(TESObjectREFRB* pkRef, GridB* pkGrid, hkAabbB* pkO
                                     hkTransformB kTransform;
                                     bhkRigidBodyB* pkRigid = ((::bhkRigidBodyB *)(::FUN_00559450((int *)(pkBodies->GetAt(k)))));
                                     pkRigid->GetTransform(&kTransform);
-                                    bhkShapeB* pkShape = ((::bhkShapeB *)(reinterpret_cast<::FUN_00620b80_shell *>((((::ShapeOwnerB *)(reinterpret_cast<::FUN_004ae6a0_shell *>((((::bhkRigidBodyB *)(::FUN_00559450((int *)(pkBodies->GetAt(k)))))))->FUN_004ae6a0()))))->GetReferenceFlags()));
+                                    bhkShapeB* pkShape = ((::bhkShapeB *)(uintptr_t)(reinterpret_cast<::FUN_00620b80_shell *>((((::ShapeOwnerB *)(reinterpret_cast<::FUN_004ae6a0_shell *>((((::bhkRigidBodyB *)(::FUN_00559450((int *)(pkBodies->GetAt(k)))))))->FUN_004ae6a0()))))->GetReferenceFlags()));
                                     reinterpret_cast<::FUN_006286a0_Holder *>((pkShape))->ForwardToTarget((int)(&kTransform), 0.1f, (int)(&kAabb));
                                 }
                                 reinterpret_cast<::S00628640_Vector *>(&(kMaxPoint))->FUN_00628640((const ::S00628640_Source *)&(kMaxPoint), (const ::S00628640_Source *)&(kAabb.m_kMaximumCorner));

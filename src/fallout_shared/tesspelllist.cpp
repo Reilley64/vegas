@@ -1,5 +1,6 @@
 // fallout_shared/tesspelllist.cpp: TESSpellList, TESAttributes, FloatValueProvider, SpellListTask and more (19 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/C857A10Buffer.h"
 #include "fnv/decl/Callees.h"
@@ -82,7 +83,7 @@ FUN_0048d060::~FUN_0048d060()
 }
 
 // @fnv 0x0048d150
-int GetOffsetC(int apBase)
+intptr_t GetOffsetC(intptr_t apBase)
 {
     return apBase + 0xc;
 }

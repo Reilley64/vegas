@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 // 0x0048d150
-int GetOffsetC(int);
+intptr_t GetOffsetC(intptr_t);

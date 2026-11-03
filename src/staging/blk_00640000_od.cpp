@@ -4421,11 +4421,11 @@ struct Target
 bool Target::FUN_00650480(FileNames* pFileNames)
 {
     NPX a(0);
-    if (!pFileNames || !((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue())) || !FUN_0044a670(((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))))
+    if (!pFileNames || !((const char *)(uintptr_t)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue())) || !FUN_0044a670(((const char *)(uintptr_t)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))))
         return false;
     bool p = false;
     FUN_00652140();
-    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(((const char *)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))), (void **)&(a)) ||
+    if (reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(((const char *)(uintptr_t)(reinterpret_cast<::fnv_006505d0::FUN_006505d0_class *>((pFileNames))->GetFloatValue()))), (void **)&(a)) ||
         (::FUN_00650600((char *)(pFileNames)) && reinterpret_cast<::Map62d0 *>(&(map))->FUN_006c62d0((unsigned int)(::FUN_00650600((char *)(pFileNames))), (void **)&(a))))
     {
         ((::ModelRecord *)(::FUN_00559450((int *)&(a))))->time = ((unsigned int)(::FUN_00457fe0()));
@@ -6521,7 +6521,7 @@ FUN_00649680* FUN_00649680::FUN_0064c5a0()
     position = ((void *)(::FUN_00559450((int *)&(list88))));
     while (position)
     {
-        FUN_0064ec10_obj* eligible0 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list88))->AddEight((int)(position))));
+        FUN_0064ec10_obj* eligible0 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(list88))->AddEight((intptr_t)(position))));
         FUN_0064ec10_obj* item0;
         if (item0 = eligible0->IsCopyable() ? eligible0 : 0)
             cloned = new FUN_0064ec10_obj(*item0);
@@ -6533,7 +6533,7 @@ FUN_00649680* FUN_00649680::FUN_0064c5a0()
     position = ((void *)(::FUN_00559450((int *)&(listbc))));
     while (position)
     {
-        FUN_0064ec10_obj* item1 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(listbc))->AddEight((int)(position))));
+        FUN_0064ec10_obj* item1 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(listbc))->AddEight((intptr_t)(position))));
         FUN_0064ec10_obj* eligible1;
         if (eligible1 = item1->IsCopyable() ? item1 : 0)
             cloned = new FUN_0064ec10_obj(*eligible1);
@@ -6545,7 +6545,7 @@ FUN_00649680* FUN_00649680::FUN_0064c5a0()
     position = ((void *)(::FUN_00559450((int *)&(listf0))));
     while (position)
     {
-        FUN_0064ec10_obj* eligible2 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(listf0))->AddEight((int)(position))));
+        FUN_0064ec10_obj* eligible2 = ((::FUN_0064ec10_obj *)(reinterpret_cast<::FUN_006317a0_struct *>(&(listf0))->AddEight((intptr_t)(position))));
         FUN_0064ec10_obj* item2;
         if (item2 = eligible2->IsCopyable() ? eligible2 : 0)
             cloned = new FUN_0064ec10_obj(*item2);
@@ -6629,7 +6629,7 @@ FGImage* FGOwner::GetOrConvertImage()
         if (!spPixelData)
             return &m_kImage;
 
-        FGPixels* pPixels4 = ((::FGPixels *)(reinterpret_cast<::FUN_004b70d0_shell *>((((FGPixelData*)spPixelData)))->FUN_004b70d0()));
+        FGPixels* pPixels4 = ((::FGPixels *)(uintptr_t)(reinterpret_cast<::FUN_004b70d0_shell *>((((FGPixelData*)spPixelData)))->FUN_004b70d0()));
         FGRGBA* pSrc2 = ((::FGRGBA *)(reinterpret_cast<::S_0064dac0 *>((pPixels4))->FUN_0064dac0(0, 0)));
         unsigned int uiCount2 = ((unsigned int)(reinterpret_cast<::FUN_0064da80_Class *>((pPixels4))->FUN_0064da80(0, 0))) * ((unsigned int)(reinterpret_cast<::FUN_0064daa0_Class *>((pPixels4))->FUN_0064daa0(0, 0)));
         FGColor kBlack2;

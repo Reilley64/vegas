@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/phantom/hkpphantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpphantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -625,7 +626,6 @@ __forceinline void memCpyOneAlignedXd07da0(void* dst, const void* src)
 namespace hkRouterXd07da0 {
     
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
 class hkArrayXd07da0 {
@@ -639,7 +639,7 @@ public:
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXd07da0<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -674,7 +674,6 @@ __forceinline void memCpyOneAlignedXd07de0(void* dst, const void* src)
 namespace hkRouterXd07de0 {
     
 }
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T>
 class hkArrayXd07de0 {
@@ -688,7 +687,7 @@ public:
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXd07de0<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }

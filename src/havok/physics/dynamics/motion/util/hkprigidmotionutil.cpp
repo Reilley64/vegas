@@ -1369,7 +1369,7 @@ static __forceinline void integrateMotion(Motion* motion, const TimeInterval* st
     ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)&(rotation), nullptr, (const ::fnv_00c66320::__m128 *)(&angle), (const ::fnv_00c66320::__m128 *)(::ApplyForcesStepPrivate::Vec4f *)(&rotation));
     reinterpret_cast<::FUN_005611c0_t *>(&(rotation))->FUN_005611c0();
     s->deltaAngle.quad = _mm_add_ps(angle.q(), angle.q());
-    ((float*)&s->deltaAngle)[3] = (float)((float)sqrt(halfSquare) * 3.1415927410125732);
+    s->deltaAngle.quad[3] = (float)((float)sqrt(halfSquare) * 3.1415927410125732);
     s->sweep.rotation.quad = rotation.q();
     updateTransform(s->sweep, *s);
 }
@@ -1474,9 +1474,8 @@ extern "C" int __cdecl FUN_00d28a30(Ref<const SolverInfo> info, const TimeInterv
             float radius = minf2(motion->state.radius, 1.0f);
             float energy = lengthSquared3(motion->linearVelocity.quad) +
                            radius * radius * lengthSquared3(motion->angularVelocity.quad);
-            float& refW = ((float*)&motion->referencePosition[which])[3];
-            refW = maxf2(refW, energy);
             Vec* reference = &motion->referencePosition[which];
+            reference->quad[3] = maxf2(reference->quad[3], energy);
             Quat* rotation = &motion->state.sweep.rotation;
             __m128 difference = _mm_sub_ps(reference->quad, motion->state.sweep.center.quad);
             const DeactivationClass* config = &info->deactivation[motion->state.deactivationClass];

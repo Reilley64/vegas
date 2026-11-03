@@ -190,13 +190,15 @@ void SetGlobalValue(void* value)
 
 struct FUN_006652c0_shell
 {
+    char pad[0x44];
+    unsigned char ucUnk44;
     void SetByteAtOffset44(unsigned char value);
 };
 
 // @fnv 0x006652c0
 void FUN_006652c0_shell::SetByteAtOffset44(unsigned char value)
 {
-    *reinterpret_cast<unsigned char*>(this + 0x44) = value;
+    ucUnk44 = value;
 }
 
 struct Setting_S

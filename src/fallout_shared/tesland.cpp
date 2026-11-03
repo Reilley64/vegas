@@ -205,7 +205,9 @@ struct LoadedLandDataView
 {
     char pad[8];
     void* unk08;
-    char padc[0x98 - 0xc];
+    char padc[0x10 - 0xc];
+    unsigned char** ppaucUnk10;
+    char pad14[0x98 - 0x14];
     int iCellX;
     int iCellY;
 };
@@ -216,6 +218,27 @@ struct LandFormView
     void* pParentCell;
     void* unk24;
     LoadedLandDataView* pLoadedData;
+};
+// TESObjectLAND as its TESForm part and the TESChildCell base its thunks receive as this.
+struct LandFormPart
+{
+    char form[0x18];
+};
+struct LandChildCellPart
+{
+    const void* pChildCellVtable;
+};
+struct LandChildCellView : LandFormPart, LandChildCellPart
+{
+};
+// An object whose first component follows a TESBoundObject part.
+struct BoundObjectPart
+{
+    char boundObject[0x30];
+};
+struct FirstComponentPart
+{
+    char unk;
 };
 #include "fnv/decl/TESFile.h"
 #include "fnv/decl/Vec3.h"
@@ -1757,6 +1780,8 @@ void FUN_00534570_shell::FUN_00534570(unsigned int index, NiPoint3_od& vertex)
 template<int> struct EndianSizeTag {};
 
 struct FUN_00535a60_Class {
+    char pad[6];
+    unsigned short usUnk06;
     void FUN_00535a60();
 };
 
@@ -1764,7 +1789,7 @@ struct FUN_00535a60_Class {
 void FUN_00535a60_Class::FUN_00535a60()
 {
     ::FUN_00401080(reinterpret_cast<int*>(this));
-    ::FUN_00407a90((short *)(unsigned short *)(reinterpret_cast<unsigned short*>(reinterpret_cast<char*>(this) + 6)));
+    ::FUN_00407a90((short *)(unsigned short *)(&usUnk06));
 }
 
 // @fnv 0x00535ae0
@@ -1942,7 +1967,8 @@ extern int DAT_0102e378;
 
 struct FUN_00538ef0_class {
     void* m_ppVirtualMethodTable;
-    int m_kPointA;
+    unsigned short usUnk04;
+    unsigned short usUnk06;
     int m_kPointB;
     void FUN_00538f20();
     void* FUN_00538ef0();
@@ -1958,7 +1984,7 @@ void* FUN_00538ef0_class::FUN_00538ef0()
 {
     new ((void *)this) ::FUN_00538f20();
     m_ppVirtualMethodTable = &DAT_0102e378;
-    *(unsigned short*)((char*)this + 6) = 1;
+    usUnk06 = 1;
     return this;
 }
 
@@ -2052,14 +2078,17 @@ struct FUN_00539fd0 : public FUN_0053a000 {
 };
 
 struct FUN_0053a070_Class {
+    char pad[0xc];
+    int iUnk0c;
+    int iUnk10;
     void FUN_0053a070(int a, int b);
 };
 
 // @fnv 0x0053a070
 void FUN_0053a070_Class::FUN_0053a070(int a, int b)
 {
-    *(int*)((char*)this + 0x10) = a;
-    *(int*)((char*)this + 0xc) = b;
+    iUnk10 = a;
+    iUnk0c = b;
 }
 
 struct B006815c0 { B006815c0(); };
@@ -2121,11 +2150,16 @@ struct FUN_0053a760_Class {
     void FUN_0053a760(unsigned char a, unsigned short b, int c);
 };
 
+struct LandLayerView
+{
+    char pad[0x30];
+    int* apiLayers[4];
+};
 // @fnv 0x0053a760
 void FUN_0053a760_Class::FUN_0053a760(unsigned char a, unsigned short b, int c)
 {
     if (a < 4 && b < 6 && m_28)
-        ((int**)((char*)m_28 + 0x30))[a][b] = c;
+        reinterpret_cast<LandLayerView*>(m_28)->apiLayers[a][b] = c;
 }
 
 struct FUN_0053ae30_class {
@@ -2221,7 +2255,7 @@ struct FUN_0053e260_Class {
 // @fnv 0x0053e260
 unsigned char FUN_0053e260_Class::FUN_0053e260(int index, int offset)
 {
-    return ((unsigned char*)((void**)((void**)m_uiZ)[4])[index])[offset];
+    return static_cast<::LoadedLandDataView*>(m_uiZ)->ppaucUnk10[index][offset];
 }
 
 namespace fnv_0053f0e0 {
@@ -2302,32 +2336,36 @@ struct BGSTextureSet {
 };
 
 struct FUN_00541540_Class {
+    char pad[0x18];
+    BGSTextureSet* pTextureSet;
     void FUN_00541540(int a, QueuedFile* b);
 };
 
 // @fnv 0x00541540
 void FUN_00541540_Class::FUN_00541540(int a, QueuedFile* b)
 {
-    if (*(BGSTextureSet**)((char*)this + 0x18))
-        ((BGSTextureSet**)((char*)this + 0x18))[0]->LoadTextures(a, b, true);
+    if (pTextureSet)
+        pTextureSet->LoadTextures(a, b, true);
 }
 
 struct FUN_00541590_Class {
+    char pad[0x1f];
+    char cUnk1f;
     char FUN_00541590();
 };
 
 // @fnv 0x00541590
 char FUN_00541590_Class::FUN_00541590()
 {
-    return ((char*)this)[0x1f];
+    return cUnk1f;
 }
 
-struct S_00592cf0 { void* FUN_00592cf0(); };
+struct S_00592cf0 : ::BoundObjectPart, ::FirstComponentPart { void* FUN_00592cf0(); };
 
 // @fnv 0x00592cf0
 void* S_00592cf0::FUN_00592cf0()
 {
-    return this ? (void*)((char*)this + 0x30) : 0;
+    return this ? static_cast<::FirstComponentPart*>(this) : 0;
 }
 
 struct Param5380d0 {
@@ -2527,7 +2565,7 @@ struct FUN_005330d8_class
 {
 };
 
-struct FUN_005331f0_class
+struct FUN_005331f0_class : ::LandChildCellPart
 {
     void FUN_005331f0();
 };
@@ -2536,7 +2574,7 @@ struct FUN_005331f0_class
 void FUN_005331f0_class::FUN_005331f0()
 {
     reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reinterpret_cast<FUN_005330d8_class*>(
-        reinterpret_cast<char*>(this) - 0x18)))->FUN_007af430();
+        static_cast<::LandChildCellView*>(static_cast<::LandChildCellPart*>(this)))))->FUN_007af430();
 }
 
 extern int DAT_0102dcd4;

@@ -47,11 +47,11 @@ SL_standin* SL_standin::FUN_005ac150(SL_standin* apCopy)
     return this;
 }
 
-// Zeroes the object's first field, sets the double at offset 0x8 to 0.0, clears the bool at 0x10, and returns the object.
+// Zeroes uiID and fValue, clears m_bIsString, and returns the object.
 // @fnv 0x005e28e0
 ScriptLocalVariable* FUN_005e28e0(ScriptLocalVariable* apObject)
 {
-    *(unsigned int*)((char*)apObject + 0x0) = 0;
+    apObject->uiID = 0;
     apObject->fValue = 0.0;
     apObject->m_bIsString = false;
     return apObject;

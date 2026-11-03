@@ -4303,12 +4303,14 @@ void FUN_005c5a60(std::intptr_t value)
 }
 
 struct FUN_005c6b40_Class {
+    char pad[0x240];
+    char cUnk240;
     void FUN_005c6b40(bool b);
 };
 
 // @fnv 0x005c6b40
 void FUN_005c6b40_Class::FUN_005c6b40(bool b) {
-    *reinterpret_cast<char*>(this + 0x240) = b;
+    cUnk240 = b;
 }
 
 extern "C" bool __cdecl FUN_0059ea10(TESObjectREFR*, void*, void*, double&);

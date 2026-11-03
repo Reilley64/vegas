@@ -382,6 +382,7 @@ void* BSTempNodeManager::FUN_00450630(unsigned int flags)
 
 struct FUN_004512a0_shell
 {
+    char pad[0x26];
     unsigned char m_ucState;
     void SetState(unsigned char ucState);
 };
@@ -389,7 +390,7 @@ struct FUN_004512a0_shell
 // @fnv 0x004512a0
 void FUN_004512a0_shell::SetState(unsigned char ucState)
 {
-    *reinterpret_cast<unsigned char*>(this + 0x26) = ucState;
+    m_ucState = ucState;
 }
 
 extern char DAT_01189184;

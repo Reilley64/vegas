@@ -18,10 +18,10 @@ struct FUN_00dd9580_Interface
 };
 struct FUN_00dd9580_Service
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00dd9580_Interface* unk10;
 };
 struct FUN_00dd9580_Class

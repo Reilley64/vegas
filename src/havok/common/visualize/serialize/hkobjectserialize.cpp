@@ -26,10 +26,10 @@ struct C68E30Allocator;
 
 struct C68E30MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     C68E30Allocator* m_pStreamAllocator;
 
     C68E30Allocator& heap()
@@ -151,10 +151,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* volatile m_pAllocator;
 };
 

@@ -67,7 +67,7 @@ class hkMemoryAllocatorE348
 
 struct hkMemoryRouterE348
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorE348* m_pStreamAllocator;
 
     hkMemoryAllocatorE348& heap()

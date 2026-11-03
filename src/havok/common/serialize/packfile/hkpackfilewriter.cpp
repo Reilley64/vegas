@@ -420,10 +420,10 @@ template <int SIZE> __forceinline void memCpyOneAlignedXdbdd40(void* dst, const 
 
 struct hkMemoryRouterXdbdd40
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
@@ -1054,7 +1054,7 @@ struct SgE150
 };
 struct FUN_00cb18f0_t
 {
-    int unk00;
+    void* unk00;
     int unk04;
     int unk08;
     intptr_t FindSlot(intptr_t key);
@@ -1077,6 +1077,11 @@ struct PairE150
 {
     void* key;
     void* value;
+};
+struct MultiMapEntryE150
+{
+    int value;
+    int next;
 };
 struct PairListE150
 {
@@ -1419,9 +1424,9 @@ __declspec(noinline) void MapB8E150::FUN_00dc9ec0(void* a, int* b)
 {
     intptr_t oldIndex = reinterpret_cast<::FUN_00cb1930_t *>(&(indices))->LookupHashEntry((intptr_t)a, -1);
     int index = AllocateSlot();
-    PairE150* entries = (PairE150*)unk00;
-    entries[index].key = (void*)*b;
-    entries[index].value = (void*)oldIndex;
+    MultiMapEntryE150* entries = (MultiMapEntryE150*)unk00;
+    entries[index].value = *b;
+    entries[index].next = (int)oldIndex;
     indices.insert(a, index);
 }
 
@@ -1557,6 +1562,14 @@ struct Ragdoll
     unsigned short allocationSize;
     unsigned short references;
 };
+struct ErrorReporter
+{
+    virtual void ReportDiagnostic();
+    virtual void unused1();
+    virtual void unused2();
+    virtual void report(int, unsigned int, const char*, const char*, int) throw();
+};
+
 // @fnv 0x00cea810
 Ragdoll* __cdecl FUN_00cea810(Skeleton* skeleton, const Array<RigidBody*>& bodies,
                               const Array<Constraint*>& constraints)

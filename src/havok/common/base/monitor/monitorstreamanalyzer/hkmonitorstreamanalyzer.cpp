@@ -263,10 +263,10 @@ intptr_t __cdecl GetTreeWidth(E0C860Node* node, intptr_t depth, int indent, bool
 struct S_e0ce00_Alloc;
 struct S_e0ce00_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_e0ce00_Alloc* m_pStreamAllocator;
     S_e0ce00_Alloc& heap()
     {
@@ -3365,10 +3365,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     intptr_t m_i10;
     AudioAllocator* m_pAllocator;
 };
@@ -3482,10 +3482,10 @@ struct FUN_00e0d640_alloc
 };
 struct FUN_00e0d640_hold
 {
-    int u0;
-    int u1;
-    int u2;
-    int u3;
+    void* u0;
+    void* u1;
+    void* u2;
+    void* u3;
     FUN_00e0d640_alloc* m_pAllocationContext;
 };
 
@@ -3673,10 +3673,10 @@ struct S_e0d980_Heap
 };
 struct S_e0d980_Holder
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_e0d980_Heap* unk10;
     S_e0d980_Heap& heap()
     {
@@ -3884,10 +3884,10 @@ struct StatsHeap
 };
 struct StatsRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     StatsHeap* heap;
     __forceinline StatsHeap& getHeap()
     {
@@ -4258,10 +4258,10 @@ struct S_00e0f710_Heap
 
 struct S_00e0f710_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00e0f710_Heap* m_pStreamAllocator;
     S_00e0f710_Heap& heap()
     {
@@ -4381,11 +4381,11 @@ struct S_00e0c85750_Object
 
 struct S_00c85750_Result
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     S_00e0c85750_Object* unk14;
 };
 

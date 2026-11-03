@@ -12,7 +12,7 @@ struct AudioAllocator
 };
 struct BSAudio
 {
-    unsigned int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     AudioAllocator* allocator;
     void Release(void* p, unsigned int size)
     {

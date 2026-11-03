@@ -107,10 +107,10 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
 struct CpuObject
@@ -141,10 +141,10 @@ struct FUN_00dfd8d0_Allocator
 
 struct FUN_00dfd8d0_MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00dfd8d0_Allocator* m_pStreamAllocator;
 
     FUN_00dfd8d0_Allocator& heap()

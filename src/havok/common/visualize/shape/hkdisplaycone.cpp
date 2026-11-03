@@ -39,7 +39,7 @@ struct Allocator
 };
 struct GlobalContext
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Allocator* allocator;
 };
 struct ForwardArg
@@ -153,10 +153,10 @@ struct S_00de58c0_Heap
 
 struct S_00de58c0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00de58c0_Heap* m_pStreamAllocator;
     S_00de58c0_Heap& heap()
     {

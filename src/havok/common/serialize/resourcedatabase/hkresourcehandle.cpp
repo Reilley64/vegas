@@ -414,7 +414,7 @@ struct MemoryAllocator
 };
 struct MemoryRouter
 {
-    int m_00, m_04, m_08, m_0c;
+    void* m_00; void* m_04; void* m_08; void* m_0c;
     MemoryAllocator* m_pThreadAllocator;
 };
 struct HandleState
@@ -676,10 +676,10 @@ class hkMemoryAllocatorE2E2;
 
 struct hkMemoryRouterE2E2
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorE2E2* m_pStreamAllocator;
 };
 
@@ -755,10 +755,10 @@ class hkMemoryAllocatorE2E3;
 
 struct hkMemoryRouterE2E3
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorE2E3* m_pStreamAllocator;
 };
 
@@ -1158,7 +1158,7 @@ struct Heap_e2ef
 };
 struct Router_e2ef
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_e2ef* m_pStreamAllocator;
     Heap_e2ef& heap()
     {
@@ -1275,7 +1275,7 @@ class hkMemoryAllocatorE2EA
 
 struct hkMemoryRouterE2EA
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorE2EA* m_pStreamAllocator;
 
     hkMemoryAllocatorE2EA& heap()

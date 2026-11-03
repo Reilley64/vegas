@@ -11,10 +11,10 @@ struct Allocator
 };
 struct Manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* allocator;
 };
 struct Record

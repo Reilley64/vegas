@@ -413,10 +413,10 @@ struct S_00cf10f0_Heap
 };
 struct S_00cf10f0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00cf10f0_Heap* m10;
     __forceinline S_00cf10f0_Heap& heap()
     {

@@ -442,10 +442,10 @@ int FUN_00d273f0_cls::FUN_00d273f0() const
 class hkMemoryAllocatorD274;
 struct hkMemoryRouterD274
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD274* m_pStreamAllocator;
     hkMemoryAllocatorD274& heap()
     {

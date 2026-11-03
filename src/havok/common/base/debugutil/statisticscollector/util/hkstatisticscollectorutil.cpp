@@ -40,7 +40,7 @@ class Hasher
 
 struct Audio
 {
-    char pad[0x10];
+    void* pad[4];
     Hasher* hasher;
     Hasher& GetHasher()
     {
@@ -117,10 +117,10 @@ struct S_00cf6080_Allocator
 };
 struct S_00cf6080_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00cf6080_Allocator* unk10;
     S_00cf6080_Allocator* heap()
     {

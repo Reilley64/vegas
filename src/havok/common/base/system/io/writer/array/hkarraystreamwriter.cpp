@@ -144,10 +144,10 @@ class hkMemoryAllocatorD469
 
 struct hkMemoryRouterD469
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD469* m_pStreamAllocator;
     hkMemoryAllocatorD469& heap()
     {
@@ -258,10 +258,10 @@ class hkMemoryAllocatorD46C
 
 struct hkMemoryRouterD46C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD46C* m_pStreamAllocator;
     hkMemoryAllocatorD46C& heap()
     {
@@ -364,10 +364,10 @@ struct FnvCpu_FUN_00d46cc0_CpuAllocator
 };
 struct FnvCpu_FUN_00d46cc0_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00d46cc0_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00d46cc0_CpuObject
@@ -486,9 +486,9 @@ class hkMemoryAllocatorD468;
 
 struct hkMemoryRouterD468
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorD468* m_pTemp;
     hkMemoryAllocatorD468* m_pStreamAllocator;
     hkMemoryAllocatorD468& heap()
@@ -558,7 +558,7 @@ class hkMemoryAllocatorD46B;
 
 struct hkMemoryRouterD46B
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorD46B* m_pStreamAllocator;
     hkMemoryAllocatorD46B& heap()
     {
@@ -663,10 +663,10 @@ struct Alloc_d467
 
 struct Router_d467
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Alloc_d467* m_pStreamAllocator;
 
     Alloc_d467& heap()
@@ -827,10 +827,10 @@ struct V46a50Alloc
 };
 struct V46a50Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     V46a50Alloc* m_alloc;
     V46a50Alloc& heap()
     {

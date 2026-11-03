@@ -869,10 +869,10 @@ struct MemoryAllocator_dda340
 
 struct ThreadMemory_dda340
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     MemoryAllocator_dda340* m_pMemoryAllocator;
 };
 
@@ -1064,10 +1064,10 @@ struct FUN_00dda660_Allocator
 
 struct FUN_00dda660_MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00dda660_Allocator* m_pStreamAllocator;
 
     FUN_00dda660_Allocator& heap()

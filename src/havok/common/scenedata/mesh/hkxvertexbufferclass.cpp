@@ -14,10 +14,10 @@ struct DFD680Allocator
 
 struct DFD680MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DFD680Allocator* m_pStreamAllocator;
 
     DFD680Allocator& heap()

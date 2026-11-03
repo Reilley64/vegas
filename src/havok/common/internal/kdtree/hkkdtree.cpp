@@ -94,10 +94,10 @@ struct D97770Allocator;
 
 struct D97770MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D97770Allocator* m_pStreamAllocator;
 
     D97770Allocator& heap()
@@ -211,10 +211,10 @@ struct Allocator
 
 struct Holder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Allocator* m_pAllocator;
 };
 

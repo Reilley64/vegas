@@ -19,10 +19,10 @@ struct S_00e3eaa0_Allocator
 };
 struct S_00e3eaa0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e3eaa0_Allocator* m_pStreamAllocator;
     S_00e3eaa0_Allocator& heap()
     {
@@ -82,10 +82,10 @@ FUN_00e3eaa0::~FUN_00e3eaa0() throw()
 struct S_00e3e950_Heap;
 struct S_00e3e950_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00e3e950_Heap* m_pStreamAllocator;
     S_00e3e950_Heap& heap()
     {
@@ -231,10 +231,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 

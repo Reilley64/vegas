@@ -86,7 +86,7 @@ class hkMemoryAllocatorE2F;
 
 struct hkMemoryRouterE2F
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorE2F* m_pStreamAllocator;
 
     hkMemoryAllocatorE2F& heap()

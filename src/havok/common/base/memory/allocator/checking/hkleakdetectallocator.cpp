@@ -703,10 +703,10 @@ struct ListenerD5
 
 struct RouterD5
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     ListenerD5* m_kListener;
     AllocatorD5* m_pStreamAllocator;
 

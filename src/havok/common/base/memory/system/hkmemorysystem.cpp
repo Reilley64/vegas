@@ -220,11 +220,11 @@ struct MemSystemInfo
 
 struct AllocatorHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     hkMemoryAllocator* m_pAllocator;
     hkMemoryAllocator* m_pSolverAllocator;
     hkMemoryAllocator& debugAllocator()

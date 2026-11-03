@@ -11,10 +11,10 @@ struct hkMemoryAllocator
 };
 struct NineIntegerRecord
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocator* m_pStreamAllocator;
     hkMemoryAllocator& heap()
     {

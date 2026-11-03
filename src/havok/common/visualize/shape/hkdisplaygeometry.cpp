@@ -12,10 +12,10 @@ struct S_00da2560_Alloc
 };
 struct S_00da2560_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00da2560_Alloc* m_pStreamAllocator;
     S_00da2560_Alloc& heap()
     {

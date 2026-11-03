@@ -104,7 +104,7 @@ extern "C" void _ReadWriteBarrier();struct AllocObj
 };
 struct Mgr
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     AllocObj* m_10;
 };
 struct Quaternion;

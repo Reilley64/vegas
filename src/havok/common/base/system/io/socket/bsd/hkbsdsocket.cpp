@@ -194,9 +194,9 @@ struct FUN_00cbbd40_router
 };
 struct FUN_00cbbd40_holder
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     FUN_00cbbd40_router* unkC;
 };
 struct FUN_00cbbd40_cls
@@ -518,7 +518,7 @@ struct AllocD32
 };
 struct RouterD32
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     AllocD32* m_pStreamAllocator;
 
     AllocD32& heap()

@@ -105,8 +105,8 @@ class NineIntegerRecord
 
 struct BSAudio
 {
-    int unk00, unk04, unk08, unk0c;
-    int unk10;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
+    void* unk10;
 };
 
 
@@ -115,7 +115,7 @@ struct BSAudio
 void __cdecl FUN_00cb13e0(intptr_t aiArg1, int aiArg2)
 {
     NineIntegerRecord router;
-    intptr_t c = static_cast<BSAudio*>(::FUN_00c85750())->unk10;
+    intptr_t c = (intptr_t)static_cast<BSAudio*>(::FUN_00c85750())->unk10;
     ::fnv_00cb11b0::FUN_00cb11b0((void *)(aiArg1), aiArg2, (void *)(c));
 }
 
@@ -201,7 +201,7 @@ struct S_00cb1410_Buf
 void __cdecl FUN_00cb1410(intptr_t aiValue)
 {
     S_00cb1410_Buf buf;
-    intptr_t r = static_cast<BSAudio*>(::FUN_00c85750())->unk10;
+    intptr_t r = (intptr_t)static_cast<BSAudio*>(::FUN_00c85750())->unk10;
     ::FUN_00cb1160((const char *)(aiValue), (void *)(r));
 }
 

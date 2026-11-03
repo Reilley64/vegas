@@ -59,10 +59,10 @@ struct FUN_00cb18f0_t
 };
 struct FUN_00c85750_return
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     intptr_t unk10;
 };
 struct FUN_00d2b5c0_class
@@ -94,10 +94,10 @@ struct ManagerVTable
 };
 struct AudioState
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     ManagerVTable* unk10;
 };
 struct Base

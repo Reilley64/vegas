@@ -371,9 +371,9 @@ class hkMemoryAllocatorDF6
 
 struct hkMemoryRouterDF6
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorDF6* m_pTemp;
     hkMemoryAllocatorDF6* m_pStreamAllocator;
     hkMemoryAllocatorDF6& heap()

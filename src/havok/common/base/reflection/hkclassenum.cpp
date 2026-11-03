@@ -92,10 +92,10 @@ template <int SIZE> __forceinline void memCpyOneAlignedXdb76f0(void* dst, const 
 
 struct hkMemoryRouterXdb76f0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 

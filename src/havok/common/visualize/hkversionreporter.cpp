@@ -25,9 +25,9 @@ struct S_Alloc
 };
 struct S_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     S_Alloc* m0c;
     S_Alloc* m10;
     S_Alloc& temp()

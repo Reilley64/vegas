@@ -685,7 +685,7 @@ void* S_00dbd620_Owner::ProcessPoly(S_00dbd620_Poly* pPoly, S_00dbd620_Arg* a2)
 
 // Havok patch manager: rebuild patch dependency order (topological sort).
 typedef unsigned __int64 S_00db8670_Uint64;
-typedef unsigned long S_00db8670_Ulong;
+typedef uintptr_t S_00db8670_Ulong;
 
 struct S_00db8670_Heap
 {
@@ -698,10 +698,10 @@ struct S_00db8670_Heap
 
 struct S_00db8670_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00db8670_Heap* m_pStreamAllocator;
     S_00db8670_Heap& heap()
     {
@@ -1097,7 +1097,7 @@ struct Dbc860Sink
 
 extern "C" void __cdecl FUN_00cb1280(void* dst, int a, intptr_t b);
 extern "C" void __cdecl FUN_00cb1260(void* dst, void* src, intptr_t n);
-extern "C" void __cdecl CopyIfNonEmpty(void* dst, void* src, intptr_t n);
+extern "C" void __cdecl CopyIfNonEmpty(char* dst, const char* src, int count);
 
 // Builds a Dbc860Header and initializes a Dbc860Frame, then calls sink->Call with the value, header, DAT_0126c6c8, and frame.
 // @fnv 0x00dbc860
@@ -1121,7 +1121,7 @@ static __declspec(noinline) void __cdecl FUN_00dbc860(Dbc860Src* apSrc, int valu
     }
     else
     {
-        CopyIfNonEmpty(&header.guid, apSrc->m_0c, 0x10);
+        CopyIfNonEmpty((char*)&header.guid, (const char*)apSrc->m_0c, 0x10);
     }
     f.first.z = (int)0x80000000;
     f.second.z = (int)0x80000000;
@@ -1173,10 +1173,10 @@ struct S00dbcdd0_Alloc
 
 struct S00dbcdd0_Holder
 {
-    int u00;
-    int u04;
-    int u08;
-    int u0C;
+    void* u00;
+    void* u04;
+    void* u08;
+    void* u0C;
     S00dbcdd0_Alloc* m_pAllocator;
     S00dbcdd0_Alloc& heap()
     {
@@ -1259,10 +1259,10 @@ struct S_00dbd7f0_Allocator
 };
 struct S_00dbd7f0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00dbd7f0_Allocator* m_pStreamAllocator;
     S_00dbd7f0_Allocator& heap()
     {
@@ -1499,10 +1499,10 @@ struct ReserveAllocator
 };
 struct ReserveRouter
 {
-    int a00;
-    int a04;
-    int a08;
-    int a0c;
+    void* a00;
+    void* a04;
+    void* a08;
+    void* a0c;
     ReserveAllocator* allocator;
     ReserveAllocator& heap()
     {
@@ -2071,10 +2071,10 @@ extern intptr_t DAT_011b7aec;
 extern int __cdecl FUN_00cb10d0(void* p);
 struct Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     BDBD910Allocator* heap;
     __forceinline BDBD910Allocator& getHeap()
     {

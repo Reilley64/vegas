@@ -135,10 +135,10 @@ class hkMemoryAllocatorXd2d3b0
 
 struct hkMemoryRouterXd2d3b0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorXd2d3b0* m_pStreamAllocator;
 
     hkMemoryAllocatorXd2d3b0& heap()

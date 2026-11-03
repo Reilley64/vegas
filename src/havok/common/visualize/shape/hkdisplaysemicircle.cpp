@@ -24,7 +24,7 @@ struct Heap
 };
 struct GlobalContext
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Heap* heap;
     __forceinline Heap* getHeap()
     {
@@ -117,10 +117,10 @@ struct S_de4d20_Heap
 
 struct S_de4d20_Holder
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_de4d20_Heap* unk10;
 
     S_de4d20_Heap& heap()
@@ -264,7 +264,7 @@ void S_de4d20_Context::FUN_00de4d20() throw()
 namespace ArcPointsPrivate {
 struct Holder_de4af0
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     void* m_pAllocator;  // +0x10
 };
 struct Frame_de4af0;

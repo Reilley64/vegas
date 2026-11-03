@@ -115,10 +115,10 @@ struct AllocObj
 };
 struct Singleton
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     AllocObj* m_10;
 };
 

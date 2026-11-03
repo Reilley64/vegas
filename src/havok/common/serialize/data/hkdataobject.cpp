@@ -2232,10 +2232,10 @@ struct S_Alloc
 };
 struct S_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_Alloc* m10;
     S_Alloc& heap()
     {

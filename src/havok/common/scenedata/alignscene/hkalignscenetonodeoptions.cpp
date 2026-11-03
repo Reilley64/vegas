@@ -40,10 +40,10 @@ class hkMemoryAllocatorE4AF
 
 struct hkMemoryRouterE4AF
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorE4AF* m_pStreamAllocator;
     hkMemoryAllocatorE4AF& heap()
     {

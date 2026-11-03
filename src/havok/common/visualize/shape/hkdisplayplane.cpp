@@ -185,10 +185,10 @@ struct S_00de5110_Heap
 
 struct S_00de5110_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00de5110_Heap* m_pStreamAllocator;
     S_00de5110_Heap& heap() throw()
     {

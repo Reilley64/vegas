@@ -442,7 +442,7 @@ struct Alloc
 };
 struct Mgr
 {
-    char pad[0x10];
+    void* pad[4];
     Alloc* m_alloc;
     Obj* New(unsigned n)
     {
@@ -904,10 +904,10 @@ class hkMemoryAllocatorC904
 
 struct hkMemoryRouterC904
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorC904* m_pStreamAllocator;
 
     hkMemoryAllocatorC904& heap()

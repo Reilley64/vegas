@@ -208,10 +208,10 @@ class hkMemoryAllocatorDC12;
 
 struct hkMemoryRouterDC12
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorDC12* m_pStreamAllocator;
     hkMemoryAllocatorDC12& heap()
     {
@@ -341,9 +341,9 @@ struct S00dc15a0_Buffer
 
 struct S00dc15a0_AudioSystem
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     S00dc15a0_Buffer* unk0C;
 };
 

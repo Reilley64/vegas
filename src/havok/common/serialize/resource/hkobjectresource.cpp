@@ -256,10 +256,10 @@ struct Manager_00e04f80
 
 struct Router_00e04f80
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Manager_00e04f80* manager;
 };
 

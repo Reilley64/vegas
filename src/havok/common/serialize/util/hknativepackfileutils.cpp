@@ -110,10 +110,10 @@ struct S_00dc0de0_Allocator
 
 struct S_00dc0de0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00dc0de0_Allocator* m_pStreamAllocator;
     S_00dc0de0_Allocator& heap()
     {

@@ -18,7 +18,7 @@ struct Allocator
 };
 struct Manager
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Allocator* unk10;
 };
 struct Owner

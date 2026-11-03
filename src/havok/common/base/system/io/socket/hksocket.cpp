@@ -69,10 +69,10 @@ struct FUN_00da30a0_class
 };
 struct FUN_00c85750_context
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     struct Allocator
     {
         virtual void first();
@@ -104,10 +104,10 @@ struct RetPart
 };
 struct UnkRet
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     RetPart* part10;
 };
 struct FUN_00d2b8c0_Class

@@ -236,11 +236,11 @@ struct NewElem
 
 struct Allocator
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
 };
 
 struct ElemArray
@@ -292,7 +292,7 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     reinterpret_cast<::Cb0StringCopy *>(this)->FUN_00cb0c30((const ::CB0StringPtr &)(aOther));
     ElemArray& s = arr;
     Allocator* pAllocator = static_cast<Allocator*>(::FUN_00c85750());
-    intptr_t alloc = pAllocator->unk10;
+    intptr_t alloc = (intptr_t)pAllocator->unk10;
     int n = 0;
     int iCapacity = s.capacityAndFlags & 0x3fffffff;
     if (iCapacity < n)
@@ -309,7 +309,7 @@ S00e5cce0_Class& S00e5cce0_Class::FUN_00e5cce0(const S00e5cce0_Class& aOther)
     if (iCount != 0)
     {
         Elem* src = aOther.arr.data;
-        int a = static_cast<Allocator*>(::FUN_00c85750())->unk10;
+        intptr_t a = (intptr_t)static_cast<Allocator*>(::FUN_00c85750())->unk10;
         reinterpret_cast<::FUN_00e5cdb0_class *>(&(s))->FUN_00e5cec0(a, 0, (intptr_t)(src), iCount);
     }
     return *this;

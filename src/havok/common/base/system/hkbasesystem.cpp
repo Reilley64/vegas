@@ -417,10 +417,10 @@ struct SpawnedAllocator
 
 struct SpawnedHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     SpawnedAllocator* m_pAllocator;
 };
 
@@ -461,10 +461,10 @@ struct FNV_Allocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FNV_Allocator* m_pAllocator;
 };
 
@@ -538,9 +538,9 @@ struct S_00cbbde0_Allocator
 
 struct S_00cbbde0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
+    void* unk0;
+    void* unk4;
+    void* unk8;
     S_00cbbde0_Allocator* unkc;
     S_00cbbde0_Allocator* unk10;
     S_00cbbde0_Allocator& temp()

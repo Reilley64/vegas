@@ -207,10 +207,10 @@ class hkMemoryAllocatorCC06
 
 struct hkMemoryRouterCC06
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorCC06* m_pStreamAllocator;
 
     hkMemoryAllocatorCC06& heap()
@@ -279,10 +279,10 @@ class hkMemoryAllocatorCC06
 
 struct hkMemoryRouterCC06
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorCC06* m_pStreamAllocator;
     hkMemoryAllocatorCC06& heap()
     {
@@ -362,9 +362,9 @@ class hkMemoryAllocatorCC06;
 
 struct hkMemoryRouterCC06
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     hkMemoryAllocatorCC06* m_pTemp;
     hkMemoryAllocatorCC06* m_pStreamAllocator;
     hkMemoryAllocatorCC06& heap()
@@ -454,10 +454,10 @@ class hkMemoryAllocatorCC07
 
 struct hkMemoryRouterCC07
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorCC07* m_pStreamAllocator;
     hkMemoryAllocatorCC07& heap()
     {
@@ -556,10 +556,10 @@ class hkMemoryAllocatorD60B
 
 struct hkMemoryRouterD60B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD60B* m_pStreamAllocator;
 
     hkMemoryAllocatorD60B& heap()

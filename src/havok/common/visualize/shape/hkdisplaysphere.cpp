@@ -108,10 +108,10 @@ void FUN_00e0af40(int a, int b)
 
 struct AllocatorHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -268,10 +268,10 @@ struct SphereBuildAllocator
 
 struct SphereBuildMemory
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     SphereBuildAllocator* m_10;
 };
 

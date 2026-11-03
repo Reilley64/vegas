@@ -26,10 +26,10 @@ class hkMemoryAllocatorDD6E
 
 struct hkMemoryRouterDD6E
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorDD6E* m_pStreamAllocator;
     hkMemoryAllocatorDD6E* m_pSolver;
     hkMemoryAllocatorDD6E& solver()
@@ -84,11 +84,11 @@ struct hkMemoryAllocatorQ
 
 struct hkMemoryRouterQ
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
+    void* unk10;
     hkMemoryAllocatorQ* m_pDebugAllocator;
     hkMemoryAllocatorQ& debug()
     {

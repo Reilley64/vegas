@@ -490,7 +490,7 @@ struct EdgeMap
 };
 struct Manager
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Allocator* unk10;
     Allocator& heap()
     {

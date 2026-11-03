@@ -1018,10 +1018,10 @@ struct FUN_00cb0780_Allocator
 };
 struct FUN_00cb0780_Manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00cb0780_Allocator* allocator;
 };
 
@@ -1594,10 +1594,10 @@ struct S00cb0820_Alloc
 };
 struct S00cb0820_Mem
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S00cb0820_Alloc* allocator;
     S00cb0820_Alloc& heap()
     {

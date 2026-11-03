@@ -389,7 +389,7 @@ struct HavokHeap
 };
 struct HavokRouter
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     HavokHeap* heap;
 };
 struct EmbeddedRegistry
@@ -435,10 +435,10 @@ struct D47Array
 };
 struct D47Router
 {
-    int field00;
-    int field04;
-    int field08;
-    int field0c;
+    void* field00;
+    void* field04;
+    void* field08;
+    void* field0c;
     void* heap;
 };
 
@@ -486,7 +486,7 @@ struct Alloc
 };
 struct Holder
 {
-    int a, b, c, d;
+    void* a; void* b; void* c; void* d;
     Alloc* alloc;
 };
 struct Sub
@@ -523,10 +523,10 @@ class hkMemoryAllocatorD47C;
 
 struct hkMemoryRouterD47C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD47C* m_pStreamAllocator;
     hkMemoryAllocatorD47C& heap()
     {
@@ -637,7 +637,7 @@ struct MyAllocator
 
 struct MyRouter
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     MyAllocator* heap;
     __forceinline void* alloc(int size)
     {
@@ -769,10 +769,10 @@ class hkMemoryAllocatorD47E
 
 struct hkMemoryRouterD47E
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD47E* m_pStreamAllocator;
     hkMemoryAllocatorD47E& heap()
     {
@@ -868,10 +868,10 @@ class hkMemoryAllocatorD47B
 
 struct hkMemoryRouterD47B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorD47B* m_pStreamAllocator;
     hkMemoryAllocatorD47B& heap()
     {

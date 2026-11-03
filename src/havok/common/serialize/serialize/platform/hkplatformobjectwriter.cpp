@@ -65,10 +65,10 @@ struct FUN_00e02c70_audio_iface
 };
 struct FUN_00e02c70_audio_holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00e02c70_audio_iface* unk10;
 };
 struct BaseE02c70
@@ -91,10 +91,10 @@ struct AllocIface
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AllocIface* m_pAllocator;
 };
 
@@ -247,10 +247,10 @@ struct E02Allocator
 
 struct E02Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     E02Allocator* unk10;
 };
 
@@ -325,10 +325,10 @@ struct E02DE0Allocator;
 
 struct E02DE0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E02DE0Allocator* m_pStreamAllocator;
 
     E02DE0Allocator& heap()
@@ -411,10 +411,10 @@ struct E02E40Allocator
 
 struct E02E40MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E02E40Allocator* m_pStreamAllocator;
 
     E02E40Allocator& heap()

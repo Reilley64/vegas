@@ -21,10 +21,10 @@ struct hkMemory
 };
 struct hkThreadMemory
 {
-    int pad00;
-    int pad04;
-    int pad08;
-    int pad0c;
+    void* pad00;
+    void* pad04;
+    void* pad08;
+    void* pad0c;
     hkMemory* m_pMemoryAllocator;
 };
 __forceinline hkThreadMemory* getThreadMemory() throw()

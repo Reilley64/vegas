@@ -188,7 +188,7 @@ struct hkMemoryAllocator_e50650;
 
 struct hkMemoryRouter_e50650
 {
-    char m_acPad00[0x10];
+    void* m_acPad00[4];
     hkMemoryAllocator_e50650* m_pkHeap;
     hkMemoryAllocator_e50650& heap()
     {

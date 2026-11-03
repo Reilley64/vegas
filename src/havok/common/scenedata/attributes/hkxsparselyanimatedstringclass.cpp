@@ -16,10 +16,10 @@ struct S_00e01900_Allocator
 
 struct S_00e01900_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00e01900_Allocator* m_pStreamAllocator;
     S_00e01900_Allocator& heap()
     {
@@ -91,10 +91,10 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
 struct CpuObject

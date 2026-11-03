@@ -24,7 +24,7 @@ struct Alloc
 };
 struct Router
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     Alloc* unk10;
 };
 struct FUN_00cb0c00_class
@@ -316,7 +316,7 @@ struct Heap_e4a4
 };
 struct Router_e4a4
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_e4a4* m_pStreamAllocator;
     Heap_e4a4& heap()
     {

@@ -130,10 +130,10 @@ struct S_00ddcb90_Allocator
 
 struct S_00ddcb90_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00ddcb90_Allocator* m_pStreamAllocator;
     S_00ddcb90_Allocator& heap()
     {
@@ -199,7 +199,7 @@ struct Allocator
 };
 struct ProcessServices
 {
-    int a, b, c, d;
+    void* a; void* b; void* c; void* d;
     Allocator* allocator;
 };
 struct Process

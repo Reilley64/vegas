@@ -361,10 +361,10 @@ class hkMemoryAllocatorD610
 
 struct hkMemoryRouterD610
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorD610* m_pStreamAllocator;
     hkMemoryAllocatorD610& heap()
     {
@@ -540,10 +540,10 @@ class hkMemoryAllocatorDD9C
 
 struct hkMemoryRouterDD9C
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorDD9C* m_pStreamAllocator;
     hkMemoryAllocatorDD9C& heap()
     {
@@ -620,10 +620,10 @@ template <int SIZE> __forceinline void memCpyOneAlignedD60E(void* dst, const voi
 
 struct hkMemoryRouterD60E
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
@@ -851,10 +851,10 @@ struct MemManager
 };
 struct BSAudio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     MemManager* m_mm;
     MemManager& heap()
     {

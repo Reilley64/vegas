@@ -20,7 +20,7 @@ namespace fnv_00cb1150 { const char *FUN_00cb1150(const char *, int); }
 // 0x00cb1160
 char *FUN_00cb1160(const char *, void *);
 // 0x00cb1190
-int CallSwappedArgs(uintptr_t, unsigned int);
+int CallSwappedArgs(uintptr_t, uintptr_t);
 // 0x00cb11b0
 namespace fnv_00cb11b0 { void *FUN_00cb11b0(void *, int, void *); }
 // 0x00cb1260

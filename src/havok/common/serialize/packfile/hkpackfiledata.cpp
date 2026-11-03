@@ -655,7 +655,7 @@ hkObje05970* hkObje05970::FUN_00e05970(unsigned int uiFlags) throw()
 
 struct Crux53_HkRouter
 {
-    int unk00, unk04, unk08, unk0c;
+    void* unk00; void* unk04; void* unk08; void* unk0c;
     void* heap;
 };
 void __cdecl FUN_00c856c0(void* heap, void* ptr);

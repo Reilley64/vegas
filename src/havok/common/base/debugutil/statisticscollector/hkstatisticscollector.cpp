@@ -84,10 +84,10 @@ struct SlotAllocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SlotAllocator* m_pAllocator;
 };
 
@@ -241,10 +241,10 @@ struct S_00d06dd0_Heap
 
 struct S_00d06dd0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d06dd0_Heap* unk10;
     S_00d06dd0_Heap& heap()
     {
@@ -300,10 +300,10 @@ struct FUN_00d06e10_obj
 
 struct FUN_00d06e10_holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00d06e10_obj* m_10;
 };
 

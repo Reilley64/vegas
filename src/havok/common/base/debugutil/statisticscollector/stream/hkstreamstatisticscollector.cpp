@@ -155,10 +155,10 @@ struct MemoryAllocator
 };
 struct AllocatorHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     MemoryAllocator* allocator;
 };
 struct StreamStatisticsCollector
@@ -338,7 +338,7 @@ class hkMemoryAllocatorDDF9
 
 struct hkMemoryRouterDDF9
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorDDF9* m_pStreamAllocator;
     hkMemoryAllocatorDDF9& heap()
     {
@@ -403,10 +403,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     AudioAllocator* m_pAllocator;
 };
 
@@ -537,10 +537,10 @@ struct S_00ddeff0_Heap
 
 struct S_00ddeff0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00ddeff0_Heap* m_pStreamAllocator;
     S_00ddeff0_Heap& heap()
     {
@@ -616,10 +616,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -670,10 +670,10 @@ FUN_00ddf240_cls::~FUN_00ddf240_cls() throw()
 namespace fnv_00ddfa10 {
 struct SpawnHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     intptr_t m_10;
 };
 
@@ -734,10 +734,10 @@ void FUN_00ddfa10_cls::FUN_00ddfa10(int a1, intptr_t a2, unsigned char aiFlags)
 namespace fnv_00ddfab0 {
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     intptr_t m_10;
 };
 

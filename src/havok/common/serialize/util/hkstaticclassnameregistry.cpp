@@ -75,10 +75,10 @@ struct FUN_00db7b70_Array
 
 struct FUN_00c85750_Obj
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* unk10;
 };
 

@@ -21,10 +21,10 @@ struct S_00e028e0_Alloc
 };
 struct S_00e028e0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkc;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkc;
     S_00e028e0_Alloc* m_pStreamAllocator;
     S_00e028e0_Alloc& heap()
     {
@@ -104,11 +104,11 @@ FUN_00e028e0::~FUN_00e028e0() throw()
 
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* m_10;
 };
 
 struct FUN_00e029d0_cls
@@ -133,7 +133,7 @@ unsigned int FUN_00e029d0_cls::FUN_00e029d0()
             {
                 uintptr_t item = ((unsigned int)(reinterpret_cast<::FUN_00d87430_class *>(this)->GetEntry(handle)));
                 AllocHolder* pAllocHolder = static_cast<AllocHolder*>(::FUN_00c85750());
-                ::CallSwappedArgs(item, pAllocHolder->m_10);
+                ::CallSwappedArgs(item, (uintptr_t)pAllocHolder->m_10);
                 handle = ((unsigned int)(reinterpret_cast<::SlotBitmap *>(this)->FindNextUsedSlot(handle)));
                 reinterpret_cast<::FUN_00d874b0_class *>(this)->SetBoolFromThreshold((char *)(unsigned char *)(&flag), handle);
             } while (flag != 0);

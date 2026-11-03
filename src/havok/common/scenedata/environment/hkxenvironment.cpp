@@ -30,7 +30,7 @@ struct HKXMemoryManager
 
 struct HKXMemoryRouter
 {
-    char padding[0x10];
+    void* padding[4];
     HKXMemoryManager* manager;
 };
 

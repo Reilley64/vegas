@@ -243,10 +243,10 @@ struct Allocator
 
 struct MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     Allocator* m_pThreadAllocator;
 };
 
@@ -353,7 +353,7 @@ class hkMemoryAllocatorD878
 
 struct hkMemoryRouterD878
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     hkMemoryAllocatorD878* m_pStreamAllocator;
     hkMemoryAllocatorD878& heap()
     {
@@ -528,7 +528,7 @@ class AllocatorE028
 
 struct RouterE028
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     AllocatorE028* m_pStreamAllocator;
 
     AllocatorE028& heap()

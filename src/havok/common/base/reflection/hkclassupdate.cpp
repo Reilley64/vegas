@@ -21,10 +21,10 @@
 struct Allocator;
 struct BSAudio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Allocator* allocator;
 };
 struct TypeNode;
@@ -68,7 +68,7 @@ namespace fnv_00e04bb0 {
 struct Allocator;
 struct BSAudio
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Allocator* allocator;
 };
 struct TypeNode;

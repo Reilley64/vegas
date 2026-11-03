@@ -31,12 +31,11 @@ FUN_00cb0a60::FUN_00cb0a60()
     unk00 = (*reinterpret_cast<void * *>(&::DAT_01268358));
 }
 
-int __cdecl FUN_00c856c0(int, intptr_t);
 // @fnv 0x00cb1190
-int __cdecl CallSwappedArgs(uintptr_t arg0, unsigned int arg1)
+int __cdecl CallSwappedArgs(uintptr_t arg0, uintptr_t arg1)
 {
-    unsigned int callResult0 = (unsigned int)FUN_00c856c0((int)arg1, (int)arg0);
-    return (int)callResult0;
+    ::FUN_00c856c0((::FNV_Dispatch *)arg1, (char *)arg0);
+    return 0;
 }
 
 
@@ -121,10 +120,10 @@ struct hkMemoryAllocatorq
 
 struct hkMemoryRouterq
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorq* m_pStreamAllocator;
 
     __forceinline hkMemoryAllocatorq& heap()

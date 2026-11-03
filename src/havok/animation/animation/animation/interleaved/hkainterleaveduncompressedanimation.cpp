@@ -222,7 +222,7 @@ class HeapMgrX
 
 struct AudioSvcX
 {
-    int m_00, m_04, m_08, m_0c;
+    void* m_00; void* m_04; void* m_08; void* m_0c;
     HeapMgrX* m_pStreamAllocator;
 };
 

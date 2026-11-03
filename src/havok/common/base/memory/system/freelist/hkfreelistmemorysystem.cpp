@@ -154,11 +154,11 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     AudioAllocator* m_pAllocator;
 };
 
@@ -1596,11 +1596,11 @@ extern "C" char str_010cadb4;
 
 struct AudioHolderStub
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* unk10;
     void* m_pAllocator;
 };
 

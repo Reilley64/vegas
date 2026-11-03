@@ -2654,11 +2654,11 @@ int FUN_00e5c9b0_cls::GetFloatAttribute(const char* name, bool log, float* out)
 // with a literal zero inserted as the third argument.
 
 struct FUN_00e5cdb0_class {
-    void FUN_00e5cec0(int a, int b, int c, int d);
+    void FUN_00e5cec0(intptr_t a, int b, intptr_t c, int d);
 };
 
 // @fnv 0x00e5cec0
-void FUN_00e5cdb0_class::FUN_00e5cec0(int a, int b, intptr_t c, int d)
+void FUN_00e5cdb0_class::FUN_00e5cec0(intptr_t a, int b, intptr_t c, int d)
 {
     reinterpret_cast<::hkArrayE5CD *>(this)->SpliceArray((*(::hkMemoryAllocatorE5CD *)(a)), b, 0, (const ::hkxAttributeE5CD *)(c), d);
 }

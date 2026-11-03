@@ -72,10 +72,10 @@ void Object::FUN_00e03160() {
 struct E04A00Allocator;
 
 struct E04A00MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E04A00Allocator* m_pStreamAllocator;
 
     E04A00Allocator& heap() { return *m_pStreamAllocator; }

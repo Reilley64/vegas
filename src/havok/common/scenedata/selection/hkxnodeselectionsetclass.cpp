@@ -18,10 +18,10 @@ struct E01D40Allocator
 
 struct E01D40MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     E01D40Allocator* m_pStreamAllocator;
 
     E01D40Allocator& heap()

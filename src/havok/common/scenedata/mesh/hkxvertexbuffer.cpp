@@ -254,10 +254,10 @@ struct FUN_00e3e760_VirtualTarget
 
 struct FUN_00e3e760_Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00e3e760_VirtualTarget* unk10;
 };
 
@@ -343,10 +343,10 @@ class hkMemoryAllocatorXe3e7b0
 
 struct hkMemoryRouterXe3e7b0
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorXe3e7b0* m_pStreamAllocator;
 
     hkMemoryAllocatorXe3e7b0& heap()

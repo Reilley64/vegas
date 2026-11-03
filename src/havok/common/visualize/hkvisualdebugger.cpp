@@ -399,10 +399,10 @@ struct FUN_00cd12e0_array
 };
 struct FUN_00cd12e0_router
 {
-    unsigned int m_iWordAt00;
-    unsigned int m_iWordAt04;
-    unsigned int m_8;
-    unsigned int m_iThirdValue;
+    void* m_iWordAt00;
+    void* m_iWordAt04;
+    void* m_8;
+    void* m_iThirdValue;
     void* heap;
 };
 struct FUN_00cd12e0_owner
@@ -535,10 +535,10 @@ template <int SIZE> __forceinline void memCpyOneAlignedXcd13c0(void* dst, const 
 
 struct hkMemoryRouterXcd13c0
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 
@@ -1127,7 +1127,7 @@ struct Heap_cd14
 };
 struct Router_cd14
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_cd14* m_pStreamAllocator;
     Heap_cd14& heap()
     {

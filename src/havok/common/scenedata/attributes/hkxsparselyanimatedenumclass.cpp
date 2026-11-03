@@ -14,10 +14,10 @@ struct S_00dfdb90_Allocator
 };
 struct S_00dfdb90_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00dfdb90_Allocator* m_pStreamAllocator;
     S_00dfdb90_Allocator& heap()
     {
@@ -68,10 +68,10 @@ struct Heap
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Heap* unk10;
 };
 struct Helper
@@ -116,10 +116,10 @@ struct S_00dfdc40_Allocator
 };
 struct S_00dfdc40_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     S_00dfdc40_Allocator* m_pStreamAllocator;
     S_00dfdc40_Allocator& heap()
     {
@@ -189,10 +189,10 @@ struct Heap
 };
 struct Holder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     Heap* unk10;
 };
 struct Helper
@@ -240,10 +240,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 

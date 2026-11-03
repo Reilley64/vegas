@@ -688,9 +688,9 @@ struct S00d48680_Alloc
 
 struct S00d48680_Sys
 {
-    int unk00;
-    int unk04;
-    int unk08;
+    void* unk00;
+    void* unk04;
+    void* unk08;
     S00d48680_Alloc* heap;
     S00d48680_Alloc& getHeap()
     {

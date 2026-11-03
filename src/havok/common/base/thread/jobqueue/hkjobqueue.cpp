@@ -291,10 +291,10 @@ struct S_00d056a0_Allocator
 
 struct S_00d056a0_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00d056a0_Allocator* m_pStreamAllocator;
     S_00d056a0_Allocator* heap()
     {
@@ -1016,10 +1016,10 @@ struct D04A20Allocator;
 
 struct D04A20MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D04A20Allocator* m_pStreamAllocator;
 
     D04A20Allocator& heap()
@@ -1765,10 +1765,10 @@ struct S_00d055c0_Heap
 };
 struct S_00d055c0_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d055c0_Heap* m10;
     __forceinline S_00d055c0_Heap& heap()
     {
@@ -2015,10 +2015,10 @@ struct SlotAllocator
 
 struct AllocHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     SlotAllocator* m_pAllocator;
 };
 

@@ -250,10 +250,10 @@ int S_00da2bd0_CallTree::FindOrAddCallTrace(const hkUlong* trace, intptr_t depth
 
 struct Holder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     uintptr_t unk10;
     void* m_pAllocator;
 };

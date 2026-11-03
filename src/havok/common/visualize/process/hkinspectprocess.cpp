@@ -174,10 +174,10 @@ class hkMemoryAllocatorDDB6
 
 struct hkMemoryRouterDDB6
 {
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
+    void* m_00;
+    void* m_04;
+    void* m_08;
+    void* m_0c;
     hkMemoryAllocatorDDB6* m_pStreamAllocator;
     hkMemoryAllocatorDDB6& heap()
     {
@@ -339,10 +339,10 @@ struct MemoryManager
 
 struct ThreadMemory
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     MemoryManager* memoryManager;
 };
 
@@ -1316,7 +1316,7 @@ struct Heap_ddba
 };
 struct Router_ddba
 {
-    int unk00, unk04, unk08, unk0C;
+    void* unk00; void* unk04; void* unk08; void* unk0C;
     Heap_ddba* m_pStreamAllocator;
     Heap_ddba& heap()
     {

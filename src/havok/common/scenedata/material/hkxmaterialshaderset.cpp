@@ -14,10 +14,10 @@ struct FnvCpu_FUN_00e4af10_CpuAllocator
 };
 struct FnvCpu_FUN_00e4af10_CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FnvCpu_FUN_00e4af10_CpuAllocator* allocator;
 };
 struct FnvCpu_FUN_00e4af10_CpuObject

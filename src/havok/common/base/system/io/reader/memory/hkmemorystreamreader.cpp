@@ -259,10 +259,10 @@ class hkMemoryAllocatorE05B;
 
 struct hkMemoryRouterE05B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     hkMemoryAllocatorE05B* m_pStreamAllocator;
 
     hkMemoryAllocatorE05B& heap()
@@ -323,10 +323,10 @@ FUN_00e05b40::FUN_00e05b40(void* data, int size, int external) throw()
 namespace fnv_00e05bb0 {
 struct hkMemoryRouterE05B
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pStreamAllocator;
 };
 

@@ -286,10 +286,10 @@ struct AudioSink {
 
 // The thread local audio system, the sink is its fifth member.
 struct BSAudio {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioSink* m_sink;
 };
 
@@ -344,10 +344,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -466,10 +466,10 @@ struct AudioAllocator {
 };
 
 struct AudioHolder {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -517,10 +517,10 @@ struct D9C360Allocator {
 };
 
 struct D9C360MemoryRouter {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     D9C360Allocator* m_pStreamAllocator;
 
     D9C360Allocator& heap() { return *m_pStreamAllocator; }
@@ -641,10 +641,10 @@ struct S_00d9d650_Heap
 
 struct S_00d9d650_Router
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     S_00d9d650_Heap* m_pStreamAllocator;
     S_00d9d650_Heap& heap() { return *m_pStreamAllocator; }
 };

@@ -19,10 +19,10 @@ struct FUN_00da0860_manager
 };
 struct BSAudio
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     FUN_00da0860_manager* unk10;
 };
 struct FUN_00da0860_class : FUN_00df67d0_Base

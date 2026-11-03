@@ -105,10 +105,10 @@ struct DB7DD0Outer
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     void* m_pAllocator;
 };
 
@@ -165,10 +165,10 @@ struct AudioAllocator
 
 struct AudioHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     AudioAllocator* m_pAllocator;
 };
 
@@ -298,10 +298,10 @@ namespace fnv_00dbe710 {
 struct S_00dbe710_Allocator;
 struct S_00dbe710_Router
 {
-    int unk0;
-    int unk4;
-    int unk8;
-    int unkC;
+    void* unk0;
+    void* unk4;
+    void* unk8;
+    void* unkC;
     S_00dbe710_Allocator* m_pStreamAllocator;
     S_00dbe710_Allocator& heap()
     {
@@ -320,7 +320,7 @@ struct S_00dbe710
     S_00dbe710_Elem* m_data;
     int m_iElementCount;
     int m_iCapacityState;
-    int unkC;
+    void* unkC;
     int unk10;
     int unk14;
     int m_firstFree;
@@ -584,10 +584,10 @@ struct DB7F50Allocator
 
 struct DB7F50MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DB7F50Allocator* m_pStreamAllocator;
 
     DB7F50Allocator& heap()
@@ -785,10 +785,10 @@ struct DB85E0Allocator
 
 struct DB85E0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DB85E0Allocator* m_pStreamAllocator;
 
     DB85E0Allocator& heap()
@@ -893,10 +893,10 @@ struct DBA1E0Allocator
 
 struct DBA1E0MemoryRouter
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     DBA1E0Allocator* m_pStreamAllocator;
 
     DBA1E0Allocator& heap()
@@ -1666,10 +1666,10 @@ void W::FUN_00db7d40(Pair pair)
 namespace fnv_00dba4d0 {
 struct AllocHolder
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0C;
     void* m_pAllocator;
 };
 
@@ -1732,10 +1732,10 @@ struct CpuAllocator
 };
 struct CpuAllocatorHolder
 {
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     CpuAllocator* allocator;
 };
 struct CpuObject

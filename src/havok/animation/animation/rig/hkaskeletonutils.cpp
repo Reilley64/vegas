@@ -277,11 +277,11 @@ int __cdecl MapTracksToBones(Names* names, Src* src, CmpFn cmp, Dst* dst)
 
 struct HolderRec
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int m_10;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* m_10;
 };
 
 struct ScanRec
@@ -311,7 +311,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
             if ((short)idx == sLimit)
                 break;
             HolderRec* h = static_cast<HolderRec*>(::FUN_00c85750());
-            reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&iCurrent));
+            reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940((intptr_t)h->m_10, 0, (intptr_t)(&iCurrent));
             idx = rec->m_0c[(short)idx];
             iCurrent = idx;
         } while ((short)idx > 0);
@@ -319,7 +319,7 @@ unsigned char* WalkChainUntilLimit(unsigned char* pabResult, ScanRec* rec, short
     {
         int out;
         HolderRec* h = static_cast<HolderRec*>(::FUN_00c85750());
-        reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940(h->m_10, 0, (intptr_t)(&out));
+        reinterpret_cast<::FUN_00cde940_cls *>((obj))->FUN_00cde940((intptr_t)h->m_10, 0, (intptr_t)(&out));
     }
     *pabResult = ((short)idx >= 0);
     return pabResult;

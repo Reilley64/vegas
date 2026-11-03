@@ -12,10 +12,10 @@ struct FUN_00c99fb0_Interface
 };
 struct FUN_00c99fb0_Manager
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
+    void* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
     FUN_00c99fb0_Interface* allocator;
 };
 extern "C" void DeleteCriticalSection(void* section);

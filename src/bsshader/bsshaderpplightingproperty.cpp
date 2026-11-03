@@ -1867,12 +1867,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
             if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkac[1])))))
             {
                 value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi diff", name);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi diff", unkac[1]);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
         if (unkb0[1])
@@ -1880,12 +1880,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
             if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[1])))))
             {
                 value = ::fnv_00a7d5e0::FUN_00a7d5e0("multi normal", name);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
             else
             {
                 value = FUN_00a7d5a0("multi normal", unkb0[1]);
-                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
             }
         }
     }
@@ -1922,12 +1922,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                     if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb0[i])))))
                     {
                         value = ::fnv_00a7d5e0::FUN_00a7d5e0(" normal map", name);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" normal map", unkb0[i]);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
                 if (unkcc[i])
@@ -1940,12 +1940,12 @@ void Target::FUN_00b690d0(StrArr* apStrings)
                     if (name = ((const char *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(unkb4[i])))))
                     {
                         value = ::fnv_00a7d5e0::FUN_00a7d5e0(" glow map", name);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                     else
                     {
                         value = FUN_00a7d5a0(" glow map", unkb4[i]);
-                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((int)&(value));
+                        reinterpret_cast<::S_0060ba10 *>((apStrings))->FUN_0096a610((std::intptr_t)&(value));
                     }
                 }
             }
@@ -3464,7 +3464,7 @@ Passes* Shader::GetPasses(Geom* geom, unsigned int pass, unsigned short* output,
         _ReadWriteBarrier();  // Keep the dirty reset before inspecting rebuild flags.
         if ((((flags & 0x4000000) > 0 || GetFlag(5)) && (GetFlag(11) || GetFlag(28))) || GetFlag(5) ||
             (geom->props.alpha->flags & 1))
-            reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((int)(&bound));
+            reinterpret_cast<::LightSortOwner *>(this)->SortShadowSceneLights((const ::B9DBE0Bound *)(&bound));
         if (updatePasses == true)
         {
             mainPasses->count = 0;

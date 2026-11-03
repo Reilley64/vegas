@@ -91,7 +91,8 @@ struct MemoryManager
 extern int DAT_010a3bb4;
 struct BSAudioListenerShell
 {
-    char _pad[0x44];
+    void* m_pVtable;
+    char _pad[0x40];
     unsigned int _m44;
     void* Destroy(unsigned int);
 };
@@ -99,7 +100,7 @@ struct BSAudioListenerShell
 // @fnv 0x00aeabb0
 void* BSAudioListenerShell::Destroy(unsigned int auiFlags)
 {
-    *(int*)this = (int)&DAT_010a3bb4;
+    m_pVtable = &DAT_010a3bb4;
     _m44 = 0;
     if (auiFlags & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);

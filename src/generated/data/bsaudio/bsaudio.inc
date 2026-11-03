@@ -4,6 +4,6 @@
 
 #pragma comment(linker, "/alternatename:?ZERO@NiPoint3@@2V1@B=?ZERO@NiPoint3@@2U1@B")
 
-int DAT_011da9a4;
+void *DAT_011da9a4;
 unsigned char DAT_011dcfa4;
 int DAT_01202800;

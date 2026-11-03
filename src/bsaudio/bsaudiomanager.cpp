@@ -246,10 +246,11 @@ struct Point
 namespace fnv_00adb1a0 {
 struct Record
 {
-    int m_00, m_04, m_08, m_0c;
+    int m_00, m_04;
+    std::intptr_t m_08, m_0c;
     NavMeshPtr m_10;
     float m_14, m_18, m_1c;
-    void Set(int a, int b, int c, int d, NavMeshPtr n, Point p)
+    void Set(int a, int b, std::intptr_t c, std::intptr_t d, NavMeshPtr n, Point p)
     {
         m_00 = a;
         m_04 = b;
@@ -279,7 +280,7 @@ struct Host
     char m_a8[4];
     CritSecA m_ac;
     Record* FUN_00adad60();
-    void FUN_00adb1a0(int, int, int, int, NavMeshPtr, Point);
+    void FUN_00adb1a0(int, int, std::intptr_t, std::intptr_t, NavMeshPtr, Point);
 };
 }
 
@@ -678,8 +679,8 @@ struct SoundMessageRecord
 {
     AudioMessageType_adf080 type;
     int id;
-    int argument1;
-    UInt32 argument2;
+    std::intptr_t argument1;
+    std::uintptr_t argument2;
     AudioRef_adf080 object;
     union
     {
@@ -698,19 +699,19 @@ struct SoundMessageRecord
     {
         return id;
     }
-    __forceinline int GetArgument1() const
+    __forceinline std::intptr_t GetArgument1() const
     {
         return argument1;
     }
-    __forceinline UInt32 GetArgument2() const
+    __forceinline std::uintptr_t GetArgument2() const
     {
         return argument2;
     }
-    __forceinline void SetArgument1(int value)
+    __forceinline void SetArgument1(std::intptr_t value)
     {
         argument1 = value;
     }
-    __forceinline void SetArgument2(UInt32 value)
+    __forceinline void SetArgument2(std::uintptr_t value)
     {
         argument2 = value;
     }
@@ -2039,7 +2040,8 @@ struct NP501 : NiPointer<NiAVObject>
 
 struct Message501
 {
-    unsigned int id, type, data, flags;
+    unsigned int id, type;
+    std::uintptr_t data, flags;
     NiPointer<NiAVObject> node;
     NiPoint3 position;
     void SetObj(NP501 sp);
@@ -2459,7 +2461,7 @@ struct BSAudio : Snd_
 
 struct AE6DE0Slot
 {
-    void* m_pResource;
+    unsigned int m_uiMask;
     unsigned short m_usState;
     unsigned short unk06;
 };
@@ -2564,7 +2566,7 @@ class AE6DE0Table
     AE6DE0Slot* m_pkSlots;
     unsigned int m_uiSlotCount;
 
-    bool AddSlot(void* pvData, bool bPrimary);
+    bool AddSlot(unsigned int uiMask, bool bPrimary);
 };
 
 class BaseObj_b5112
@@ -2591,9 +2593,9 @@ class FUN_00ae6f50 : public BaseObj_b5112
 {
   public:
     virtual void vfn_0000();
-    int m_30;
+    void* m_30;
 
-    FUN_00ae6f50(int aValue);
+    FUN_00ae6f50(void* aValue);
 };
 
 struct Ptr_6e5cc0
@@ -2666,8 +2668,8 @@ struct Owner
 namespace fnv_00addc70 {
 struct LinkedSoundQueue
 {
-    int pHead;
-    int pTail;
+    void* pHead;
+    void* pTail;
     int iCount;
 };
 }
@@ -2794,9 +2796,9 @@ class FUN_00ae6f50 : public BaseObj_b5112
 {
   public:
     virtual void vfn_0000();
-    int m_30;
+    void* m_30;
     unsigned int m_34;
-    FUN_00ae6f50(int value);
+    FUN_00ae6f50(void* value);
 };
 }
 
@@ -3129,10 +3131,10 @@ struct BSGameSound
     UInt16 frequency15a;
     int value15c;
     UInt32 unk160;
-    UInt32 value164;
-    UInt32 value168;
-    int value16c;
-    int value170;
+    std::uintptr_t value164;
+    std::uintptr_t value168;
+    std::intptr_t value16c;
+    std::intptr_t value170;
     UInt32 unk174;
     UInt32 unk178;
     AudioVector_adf080 vector17c;
@@ -3268,19 +3270,19 @@ struct BSGameSound
     {
         v3c(volume);
     }
-    __forceinline void Set164(UInt32 value)
+    __forceinline void Set164(std::uintptr_t value)
     {
         value164 = value;
     }
-    __forceinline void Set168(UInt32 value)
+    __forceinline void Set168(std::uintptr_t value)
     {
         value168 = value;
     }
-    __forceinline void Set16c(int value)
+    __forceinline void Set16c(std::intptr_t value)
     {
         value16c = value;
     }
-    __forceinline void Set170(int value)
+    __forceinline void Set170(std::intptr_t value)
     {
         value170 = value;
     }
@@ -3646,7 +3648,7 @@ struct BSAudioManager_adf080
     AE6DE0Slot* slots178;
     UInt32 slotCount17c;
     bool FUN_00adf080(SoundMessageRecord*);
-    void FUN_00adb1a0(int, UInt32, int, UInt32, AudioRef_adf080, AudioVector_adf080);
+    void FUN_00adb1a0(int, UInt32, std::intptr_t, std::uintptr_t, AudioRef_adf080, AudioVector_adf080);
     BSGameSound* FUN_00add1e0(void*, void*, UInt32);
     void FUN_00add960(BSGameSound*);
     void FUN_00ada5d0(UInt32, BSGameSound*);
@@ -3682,7 +3684,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
                 {
                     if (!pkSound->fileName[0])
                         ::FUN_005b5e40();
-                    AudioTask_adf080::FUN_00ae6f50* task = new AudioTask_adf080::FUN_00ae6f50((int)pkSound);
+                    AudioTask_adf080::FUN_00ae6f50* task = new AudioTask_adf080::FUN_00ae6f50(pkSound);
                     pkSound->Set1000(true);
                     (*reinterpret_cast<::fnv_00adf080::IOManager * *>(&::DAT_01202d98))->v48(task);
                     reinterpret_cast<::FUN_00a0c6c0_cls *>(&(sounds54))->InsertOrUpdate(message->GetID(), (::AnimSequenceBase *)(pkSound));
@@ -3717,7 +3719,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
         case 58: {
             if (reinterpret_cast<::S_00adc830_Map *>(&(sounds54))->GetAt(message->GetID(), (::S_00adc830_Entry *&)(pkSound)) && pkSound)
             {
-                int value = message->GetArgument1();
+                std::intptr_t value = message->GetArgument1();
                 pkSound->Set164(message->GetArgument2());
                 pkSound->Set16c(value);
             }
@@ -3726,7 +3728,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
         case 59: {
             if (reinterpret_cast<::S_00adc830_Map *>(&(sounds54))->GetAt(message->GetID(), (::S_00adc830_Entry *&)(pkSound)) && pkSound)
             {
-                int value = message->GetArgument1();
+                std::intptr_t value = message->GetArgument1();
                 pkSound->Set168(message->GetArgument2());
                 pkSound->Set170(value);
             }
@@ -4281,7 +4283,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
         break;
         case 26: {
             UInt32 mask = message->GetArgument1();
-            reinterpret_cast<::AE6DE0Table *>(this)->AddSlot((void*)mask, false);
+            reinterpret_cast<::AE6DE0Table *>(this)->AddSlot(mask, false);
             AudioSoundItem_adf080* iterator = sounds54.GetFirst();
             UInt32 soundHandle;
             while (iterator)
@@ -4326,7 +4328,7 @@ bool BSAudioManager_adf080::FUN_00adf080(SoundMessageRecord* message)
             UInt32 mask = message->GetArgument1();
             AudioSoundItem_adf080* iterator = sounds54.GetFirst();
             UInt32 soundHandle;
-            reinterpret_cast<::AE6DE0Table *>(this)->AddSlot((void*)mask, true);
+            reinterpret_cast<::AE6DE0Table *>(this)->AddSlot(mask, true);
             while (iterator)
             {
                 reinterpret_cast<::RecursiveLock *>(&(sounds54))->Unlock((::BSCriticalSectionEntry **)&(iterator), (unsigned int *)&(soundHandle), (unsigned int *)&(pkSound));
@@ -5489,15 +5491,13 @@ void FUN_00ad9da0_t::InitAudioVolumes()
 // @fnv 0x00ae6d30
 bool FUN_00ae6d30_shell::HasMatchingEntry(unsigned int mask)
 {
+    AE6DE0Table* table = reinterpret_cast<AE6DE0Table*>(this);
     unsigned int i = 0;
-    for (; i < *(unsigned int*)((char*)this + 0x17c); ++i)
+    for (; i < table->m_uiSlotCount; ++i)
     {
-        if (*(unsigned short*)((char*)*(unsigned int*)((char*)this + 0x178) + i * 8 + 4) == 1 &&
-            (mask & *(unsigned int*)((char*)*(unsigned int*)((char*)this + 0x178) + i * 8)) ==
-                *(unsigned int*)((char*)*(unsigned int*)((char*)this + 0x178) + i * 8))
+        if (table->m_pkSlots[i].m_usState == 1 && (mask & table->m_pkSlots[i].m_uiMask) == table->m_pkSlots[i].m_uiMask)
             return true;
-        else if (*(unsigned short*)((char*)*(unsigned int*)((char*)this + 0x178) + i * 8 + 4) == 2 &&
-                 (mask & *(unsigned int*)((char*)*(unsigned int*)((char*)this + 0x178) + i * 8)))
+        else if (table->m_pkSlots[i].m_usState == 2 && (mask & table->m_pkSlots[i].m_uiMask))
             return true;
     }
     return false;
@@ -5507,15 +5507,16 @@ bool FUN_00ae6d30_shell::HasMatchingEntry(unsigned int mask)
 // @fnv 0x00ae6e60
 bool FUN_00ae6e60_shell::FUN_00ae6e60(int param_2, unsigned char abMatchStateOne)
 {
+    AE6DE0Table* table = reinterpret_cast<AE6DE0Table*>(this);
     int i = 0;
-    for (; i < *(unsigned int*)((char*)this + 0x17c); ++i)
+    for (; i < table->m_uiSlotCount; ++i)
     {
-        if (param_2 == *(int*)((char*)*(int*)((char*)this + 0x178) + i * 8) &&
-            ((!abMatchStateOne && *(unsigned short*)((char*)*(int*)((char*)this + 0x178) + i * 8 + 4) == 2) ||
-             (abMatchStateOne && *(unsigned short*)((char*)*(int*)((char*)this + 0x178) + i * 8 + 4) == 1)))
+        if (param_2 == (int)table->m_pkSlots[i].m_uiMask &&
+            ((!abMatchStateOne && table->m_pkSlots[i].m_usState == 2) ||
+             (abMatchStateOne && table->m_pkSlots[i].m_usState == 1)))
         {
-            *(unsigned short*)((char*)*(int*)((char*)this + 0x178) + i * 8 + 4) = 0;
-            *(int*)((char*)*(int*)((char*)this + 0x178) + i * 8) = 0;
+            table->m_pkSlots[i].m_usState = 0;
+            table->m_pkSlots[i].m_uiMask = 0;
             return true;
         }
     }
@@ -5687,16 +5688,16 @@ void AudioCacheOwner::SetAudioCacheSize(int size)
 
 
 
-// Finds the first slot with state 0, sets its state to 1 or 2 depending on bPrimary, stores pvData in it, and returns true; returns false if no free slot exists.
+// Finds the first slot with state 0, sets its state to 1 or 2 depending on bPrimary, stores uiMask in it, and returns true; returns false if no free slot exists.
 // @fnv 0x00ae6de0
-bool AE6DE0Table::AddSlot(void* pData, bool bPrimary)
+bool AE6DE0Table::AddSlot(unsigned int uiMask, bool bPrimary)
 {
     for (unsigned int i = 0; i < m_uiSlotCount; i++)
     {
         if (m_pkSlots[i].m_usState == 0)
         {
             m_pkSlots[i].m_usState = bPrimary ? 1 : 2;
-            m_pkSlots[i].m_pResource = pData;
+            m_pkSlots[i].m_uiMask = uiMask;
             return true;
         }
     }
@@ -5709,11 +5710,11 @@ bool AE6DE0Table::AddSlot(void* pData, bool bPrimary)
 
 
 // @fnv 0x00ae6f50
-FUN_00ae6f50::FUN_00ae6f50(int aValue) : BaseObj_b5112(0)
+FUN_00ae6f50::FUN_00ae6f50(void* aValue) : BaseObj_b5112(0)
 {
     m_30 = aValue;
     char buf[0x104];
-    ::CopyRelativeDataPath((const char *)(m_30 + 0x36), buf, 0x104);
+    ::CopyRelativeDataPath((const char *)m_30 + 0x36, buf, 0x104);
     reinterpret_cast<::FUN_00c3cee0_shell *>(this)->FUN_00c3cee0(buf);
     reinterpret_cast<::fnv_00c3cf60::FUN_00c3cf60_shell *>(this)->LookupFileEntryByArchive(3);
 }
@@ -6379,12 +6380,12 @@ struct AudioThreadData
 // @fnv 0x00addc70
 void AudioThreadData::ProcessAudioQueue()
 {
-    int item9 = 0;
+    void* item9 = 0;
     LinkedSoundQueue* pListU = &kLists0 + iReadIndex;
-    int aPHead;
-    int kPTail;
-    int pHead2;
-    int pTail2;
+    void* aPHead;
+    void* kPTail;
+    void* pHead2;
+    void* pTail2;
     int unkA;
     int unk1;
     int unk5;
@@ -6397,7 +6398,7 @@ void AudioThreadData::ProcessAudioQueue()
         return;
     while (!(bool)(int)(pListU->iCount == 0) && (aPHead = pListU->pHead) != 0 && (kPTail = pListU->pTail) != 0)
     {
-        item9 = ((int)(reinterpret_cast<::SndStack70 *>((pListU))->FUN_00ae7f90()));
+        item9 = reinterpret_cast<::SndStack70 *>((pListU))->FUN_00ae7f90();
         if (reinterpret_cast<::fnv_00adf080::BSAudioManager_adf080 *>(this)->FUN_00adf080((::fnv_00adf080::SoundMessageRecord *)(item9)))
             return;
         reinterpret_cast<::Stack75f0 *>(&(kQueue))->FUN_00ae75f0((::SoundMessageRecord *)(item9));
@@ -6407,11 +6408,11 @@ void AudioThreadData::ProcessAudioQueue()
     EnterCriticalSection(&kLock);
     iWriteIndex = (iWriteIndex + 1) % 2;
     iReadIndex = (iWriteIndex + 1) % 2;
-    item9 = ((int)(reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>(&(kQueue))->FUN_00ae76b0()));
+    item9 = reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>(&(kQueue))->FUN_00ae76b0();
     while (item9)
     {
         reinterpret_cast<::fnv_00adad80::Manager501 *>(this)->FUN_00adad80((::fnv_00adad80::Message501 *)(item9));
-        item9 = ((int)(reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>(&(kQueue))->FUN_00ae76b0()));
+        item9 = reinterpret_cast<::fnv_00ae76b0::Pool_ae76b0 *>(&(kQueue))->FUN_00ae76b0();
     }
     LeaveCriticalSection(&kLock);
 }
@@ -9618,7 +9619,7 @@ struct StateGuard
 
 
 // @fnv 0x00adb1a0
-void Host::FUN_00adb1a0(int a, int b, int c, int d, NavMeshPtr n, Point p)
+void Host::FUN_00adb1a0(int a, int b, std::intptr_t c, std::intptr_t d, NavMeshPtr n, Point p)
 {
     if (Ready())
     {
@@ -10045,10 +10046,10 @@ template <class T> struct NiPointer_adbfd0
 };
 struct FUN_00adbfd0_cls
 {
-    bool FUN_00adbfd0(int a, int b, int c);
+    bool FUN_00adbfd0(int a, std::intptr_t b, std::intptr_t c);
 };
 // @fnv 0x00adbfd0
-bool FUN_00adbfd0_cls::FUN_00adbfd0(int a, int b, int c)
+bool FUN_00adbfd0_cls::FUN_00adbfd0(int a, std::intptr_t b, std::intptr_t c)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x3a, a, c, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adbfd0::NiPointer_adbfd0< ::fnv_00adbfd0::NiRefObject_adbfd0> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adbfd0::NiPoint3_adbfd0 &)(DAT_011f426c)));
     return true;
@@ -10090,10 +10091,10 @@ typedef NiPointer_audio<NiRefObject_audio> NiRefObjectPtr_audio;
 extern NiPoint3_audio DAT_011f426c;
 struct FUN_00adc050_cls
 {
-    bool FUN_00adc050(int a, int b, int c);
+    bool FUN_00adc050(int a, std::intptr_t b, std::intptr_t c);
 };
 // @fnv 0x00adc050
-bool FUN_00adc050_cls::FUN_00adc050(int a, int b, int c)
+bool FUN_00adc050_cls::FUN_00adc050(int a, std::intptr_t b, std::intptr_t c)
 {
     reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x3b, a, c, b, (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00adc050::NiPointer_audio< ::fnv_00adc050::NiRefObject_audio> &)(0)), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00adc050::NiPoint3_audio &)(DAT_011f426c)));
     return true;
@@ -11256,7 +11257,7 @@ R_00ae5a50 Mgr_00ae5a50::FUN_00ae5a50(char* apName, int aiFlags, void* ap5)
         }
         local1417->m_08 = aiFlags;
     }
-    reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x25, local1417->ID(), 0, (int)(local1417), (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00ae5a50::PtrArg_00ae5a50 &)(PtrArg_00ae5a50((RefObj_00ae5a50*)0))), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00ae5a50::Pos3_00ae5a50 &)(DAT_011f426c)));
+    reinterpret_cast<::fnv_00adb1a0::Host *>(this)->FUN_00adb1a0(0x25, local1417->ID(), 0, (std::intptr_t)(local1417), (*(::fnv_00adb1a0::NavMeshPtr *)&(const ::fnv_00ae5a50::PtrArg_00ae5a50 &)(PtrArg_00ae5a50((RefObj_00ae5a50*)0))), (*(::fnv_00adb1a0::Point *)&(const ::fnv_00ae5a50::Pos3_00ae5a50 &)(DAT_011f426c)));
     if (ap5 && local141)
     {
         iResult3 = ((PFn1_00ae5a50)local141)(&result300, ap5, 0);
@@ -11328,7 +11329,7 @@ struct S00ae9150_Obj
 {
     void* m_vptr;
     int unk04;
-    int m_08;
+    void* m_08;
 
     S00ae9150_Obj* FUN_00ae9150(unsigned int aFlags);
 };
@@ -11346,7 +11347,7 @@ S00ae9150_Obj* S00ae9150_Obj::FUN_00ae9150(unsigned int aFlags)
     }
     m_vptr = &(*reinterpret_cast<char *>(&::DAT_010a33b0));
     reinterpret_cast<::AE91F0Map *>(this)->ClearAll();
-    ::FUN_00aa10f0((void *)(m_08));
+    ::FUN_00aa10f0(m_08);
     if (aFlags & 1)
     {
         reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::fnv_00ae9150::S00ae9150_Pool *>(&::g_memoryManager))))->FUN_00aa4060(this);
@@ -12431,7 +12432,7 @@ void OwnerQ4::FUN_00add960(SoundQ4* SoundAssetTmp)
         }
         SoundAssetTmp->uiFlags = SoundAssetTmp->GetFlags() | 0x8000;
         DeadN();
-        pTask = new ((*reinterpret_cast<::PoolX *>(&::g_memoryManager))) TaskQ4((int)SoundAssetTmp);
+        pTask = new ((*reinterpret_cast<::PoolX *>(&::g_memoryManager))) TaskQ4(SoundAssetTmp);
         SoundAssetTmp->SetFlag1000(true);
         (*reinterpret_cast<::TaskMgrQ4 * *>(&::DAT_01202d98))->AddTask(pTask);
         reinterpret_cast<::FUN_00ae8bf0_t *>(&(m_kTasks))->AddItem((const void *)&(pTask));

@@ -202,17 +202,17 @@ void BSAudio::FUN_00ad77f0(float value, unsigned int flags)
 }
 
 // @fnv 0x00ad8100
-void BSAudio::FUN_00ad8100(unsigned int type, unsigned int flags, unsigned int value)
+void BSAudio::FUN_00ad8100(const char* type, unsigned int flags, std::intptr_t value)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0((const char *)(type), flags, value);
+    reinterpret_cast<::OwnerQ3 *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add6f0(type, flags, value);
 }
 
 // @fnv 0x00ad8050
-void BSAudio::ForwardToManager(unsigned int type, unsigned int value)
+void BSAudio::ForwardToManager(const char* type, unsigned int value)
 {
     BSAudioMemContext m_uiMemoryContext(MEM_CONTEXT_MEM_CONTEXT_AUDIO);
-    reinterpret_cast<::fnv_00add630::ADD630Manager *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add630((const char *)(type), value);
+    reinterpret_cast<::fnv_00add630::ADD630Manager *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00add630(type, value);
 }
 
 struct FUN_00ad8740_shell : public BSAudio
@@ -328,7 +328,7 @@ void FUN_007c2420()
 {
     if (DAT_011da9a4)
     {
-        *(int*)(DAT_011da9a4 + 0x28) = 7;
+        *(int*)((char*)DAT_011da9a4 + 0x28) = 7;
         reinterpret_cast<::FUN_00a012d0_t *>((((Tile*)((reinterpret_cast<::FUN_0045cd60_shell *>((((TESResponse*)((void *)(::fnv_004b7210::FUN_004b7210())))))->FUN_0045cd60())))))->FUN_00a012d0(0xfa9, 255.0f, true);
     }
 }
@@ -737,14 +737,14 @@ struct FUN_00ae5ff0_stub
 };
 struct FUN_00ad7ee0_shell
 {
-    int FUN_00ad7ee0(unsigned int n);
+    void* FUN_00ad7ee0(unsigned int n);
 };
 // Saves the current audio thread mode, sets it to 11 for the duration of the call, then restores it and returns the result of FUN_00ae5ff0(n).
 // @fnv 0x00ad7ee0
-int FUN_00ad7ee0_shell::FUN_00ad7ee0(unsigned int n)
+void* FUN_00ad7ee0_shell::FUN_00ad7ee0(unsigned int n)
 {
     AudioThreadModeScope scope;
-    return ((int)(reinterpret_cast<::AudioSystem *>((((FUN_00ae5ff0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae5ff0(n)));
+    return ((reinterpret_cast<::AudioSystem *>((((FUN_00ae5ff0_stub*)&BSAudioManager::GetRandomGenerator())))->FUN_00ae5ff0(n)));
 }
 }  // namespace fnv_00ad7ee0
 
@@ -1364,12 +1364,12 @@ struct Manager
 
 struct Owner
 {
-    void ForwardToManager(int iArg0, int iArg1);
+    void ForwardToManager(std::intptr_t iArg0, int iArg1);
 };
 
 // Sets the thread memory context to 0xb and forwards iArg0 and iArg1 to FUN_00add630 on the Manager returned by FUN_00ad9060.
 // @fnv 0x00ad8050
-void Owner::ForwardToManager(int iArg0, int iArg1)
+void Owner::ForwardToManager(std::intptr_t iArg0, int iArg1)
 {
     MemContextGuard kGuard(0xb);
     reinterpret_cast<::fnv_00add630::ADD630Manager *>((((::sad8050::Manager *)(::FUN_00ad9060()))))->FUN_00add630((const char *)(iArg0), iArg1);

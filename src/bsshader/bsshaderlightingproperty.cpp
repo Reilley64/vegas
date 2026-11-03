@@ -251,13 +251,13 @@ struct FUN_00b702b0_shell : public NiRTTI
 };
 
 
-// Calls FUN_00ba8b10 with p1 and p2, then invokes the virtual function at offset 0xc8 with this and p1.
+// Calls FUN_00ba8b10 with p1 and p2, then invokes virtual slot 50 (offset 0xc8 in the 32-bit vtable) with this and p1.
 // @fnv 0x00b702b0
 void FUN_00b702b0_shell::FUN_00b702b0(char* p1, void* p2)
 {
     ::FUN_00ba8b10((::BSSP_stub4 *)(this), 0, (::BSSP_stub4 *)(p1), (::CloningProcess *)((p2)));
     typedef void(* VFn)(void*, char*);
-    (*(VFn*)((*(int*)this) + 0xc8))(this, p1);
+    (*reinterpret_cast<VFn**>(this))[50](this, p1);
 }
 
 struct Node_00b702e0
@@ -301,8 +301,8 @@ void MoveNodeBefore(List_00b702e0* list, int, Node_00b702e0* node, Node_00b702e0
 
 struct ItemWrap_00b70340
 {
-    int val;
-    const int& Get() const
+    void* val;
+    void* const& Get() const
     {
         return val;
     }
@@ -311,7 +311,7 @@ struct ItemWrap_00b70340
 struct Node_00b70340
 {
     Node_00b70340* next;
-    int pad;
+    Node_00b70340* prev;
     ItemWrap_00b70340 item;
     const ItemWrap_00b70340& GetItem() const
     {
@@ -327,20 +327,20 @@ struct Obj_00b70340
 {
     char pad[0x60];
     Node_00b70340* head;
-    int pad2;
+    Node_00b70340* tail;
     unsigned int count;
 };
 
 // Searches the linked list for a node whose item value equals target, storing the node in outNode and returning whether it was found.
 // @fnv 0x00b70340
-bool FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused, Node_00b70340** outNode)
+bool FindNodeByItemValue(Obj_00b70340* pThis, int, void* aiTargetValue, int unused, Node_00b70340** outNode)
 {
     *outNode = 0;
     if (pThis->count < 1)
         return false;
 
     Node_00b70340* pCurrent = pThis->head;
-    int item = pCurrent->GetItem().Get();
+    void* item = pCurrent->GetItem().Get();
     Node_00b70340* next = pCurrent->GetNext();
 
     while (item)
@@ -352,7 +352,7 @@ bool FindNodeByItemValue(Obj_00b70340* pThis, int, int aiTargetValue, int unused
         }
         if (!next)
             break;
-        const int& r = next->GetItem().Get();
+        void* const& r = next->GetItem().Get();
         pCurrent = next;
         next = next->GetNext();
         item = r;
@@ -1058,10 +1058,10 @@ struct SelfStub
 
 // Allocates a NewObj, passes it with arg to FUN_00b702b0, and returns the new object.
 // @fnv 0x00bb4140
-NewObj* FUN_00bb4140(SelfStub* self, int unused, int aiValue)
+NewObj* FUN_00bb4140(SelfStub* self, int unused, void* aiValue)
 {
     NewObj* o = new NewObj;
-    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(o), (void *)(aiValue));
+    reinterpret_cast<::FUN_00b702b0_shell *>((self))->FUN_00b702b0((char *)(o), aiValue);
     return o;
 }
 
@@ -1637,18 +1637,18 @@ struct FalloffProperty : ViewerBaseProperty
 void FalloffProperty::FUN_00b6ff20(NiViewerStringsArray* pkStrings)
 {
     reinterpret_cast<::ShaderPropertyRecord *>(this)->WriteToSettingArray((::SettingArray *)(pkStrings));
-    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::ViewerRTTI *>(&::g_011fa05c)).m_pcName)));
+    reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d330((*reinterpret_cast<::ViewerRTTI *>(&::g_011fa05c)).m_pcName)));
     ViewerTexture* pkTex = ((::ViewerTexture *)(::FUN_00c4bb40((::NiObjectC4BB *)(void *)(m_pkTexture))));
     if (pkTex)
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("base texture", (const char *)(pkTex))));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::fnv_00a7d5e0::FUN_00a7d5e0("base texture", (const char *)(pkTex))));
     else
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d5a0("base texture", m_pkTexture)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d5a0("base texture", m_pkTexture)));
     if ((m_uiValue1 & 0x40) > 0)
     {
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff start angle", m_fFalloffStartAngle)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff stop angle", m_fFalloffStopAngle)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff start opacity", m_fFalloffStartOpacity)));
-        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((int)&(const char *const &)(::FUN_00a7d550("falloff stop opacity", m_fFalloffStopOpacity)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff start angle", m_fFalloffStartAngle)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff stop angle", m_fFalloffStopAngle)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff start opacity", m_fFalloffStartOpacity)));
+        reinterpret_cast<::S_0060ba10 *>((pkStrings))->FUN_0096a610((std::intptr_t)&(const char *const &)(::FUN_00a7d550("falloff stop opacity", m_fFalloffStopOpacity)));
     }
 }
 
@@ -2311,12 +2311,12 @@ class LightSortOwner
     int unk58;
     int unk5C;
     ShadowSceneLightList m_kShadowSceneLights;
-    void SortShadowSceneLights(int aiMemoryContext);
+    void SortShadowSceneLights(const ::B9DBE0Bound* apBound);
 };
 
 // Reorders m_kShadowSceneLights by ComputeFade's result and resets iLastRenderPassState to 0 if any node moves.
 // @fnv 0x00b70390
-void LightSortOwner::SortShadowSceneLights(int aiMemoryContext)
+void LightSortOwner::SortShadowSceneLights(const ::B9DBE0Bound* apBound)
 {
     NiTListIterator kIter = m_kShadowSceneLights.GetHeadPos();
     bool bChanged = false;
@@ -2325,11 +2325,11 @@ void LightSortOwner::SortShadowSceneLights(int aiMemoryContext)
         NiTListItem_ShadowSceneLight___* pkNode = (NiTListItem_ShadowSceneLight___*)kIter;
         ShadowSceneLight* pkLight = m_kShadowSceneLights.GetNext(kIter);
         NiTListIterator kTestIter = m_kShadowSceneLights.GetHeadPos();
-        float fKey = reinterpret_cast<::B9DBE0Fader *>((pkLight))->ComputeFade((const ::B9DBE0Bound *)(aiMemoryContext));
+        float fKey = reinterpret_cast<::B9DBE0Fader *>((pkLight))->ComputeFade(apBound);
         while (kTestIter != pkNode && kTestIter)
         {
             NiTListItem_ShadowSceneLight___* pkTest = (NiTListItem_ShadowSceneLight___*)kTestIter;
-            if (fKey < reinterpret_cast<::B9DBE0Fader *>((m_kShadowSceneLights.GetNext(kTestIter)))->ComputeFade((const ::B9DBE0Bound *)(aiMemoryContext)))
+            if (fKey < reinterpret_cast<::B9DBE0Fader *>((m_kShadowSceneLights.GetNext(kTestIter)))->ComputeFade(apBound))
             {
                 if (pkNode != pkTest)
                 {
@@ -2860,7 +2860,7 @@ struct Bdf3e0_list
     int unk08;
     int unk0c;
     int count;
-    void FUN_00ba9ee0(int a, int b, int c, int d, int e, int f, int g, int h);
+    void FUN_00ba9ee0(void* a, int b, int c, int d, void* e, void* f, void* g, void* h);
 };
 
 struct Bdf3e0_cls;
@@ -2947,12 +2947,12 @@ struct Bdf3e0_cls
     int unk34;
     int unk38;
     Bdf3e0_list* list;
-    void FUN_00bdf3e0(int a0, int a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
+    void FUN_00bdf3e0(void* a0, void* a1, unsigned short* a2, char a3, char* a4, int a5, char a6);
 };
 
 // Walks three node iterators past defined vectors, computes an id from vt->vEC and flags, and appends a list entry via FUN_00ba9ee0 or increments *a2.
 // @fnv 0x00bdf3e0
-void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
+void Bdf3e0_cls::FUN_00bdf3e0(void* a0, void* a1, unsigned short* apCount, char acMode, char* apFlag, int a5, char acAdjust)
 {
     ::FUN_00b70600_node* it = 0;
     Bdf3e0_node* p = ((::fnv_00bdf3e0::Bdf3e0_node *)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, &it)));
@@ -2987,7 +2987,7 @@ void Bdf3e0_cls::FUN_00bdf3e0(int a0, int a1, unsigned short* apCount, char acMo
         if (f)
             id += 2;
         if (acMode == 1)
-            list->FUN_00ba9ee0(a0, id, 1, 4, a1, (int)p, (int)q, (int)r);
+            list->FUN_00ba9ee0(a0, id, 1, 4, a1, p, q, r);
         else
             ++*apCount;
     }
@@ -3414,7 +3414,7 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     Node_b71560* p78 = m_p78;
     if (p78)
     {
-        if (::FindNodeByItemValue((::Obj_00b70340 *)this, 0, (int)((item)), (int)((a2)), (::Node_00b70340 **)((&a2))))
+        if (::FindNodeByItemValue((::Obj_00b70340 *)this, 0, item, 0, (::Node_00b70340 **)((&a2))))
         {
             if (a2)
                 ::MoveNodeBefore((::List_00b702e0 *)&(m_list60), 0, (::Node_00b702e0 *)((static_cast<Node_b71560*>(a2))), (::Node_00b702e0 *)((p78)));
@@ -3428,7 +3428,7 @@ void Obj_b71560::InsertOrMoveNode(Light_b71560* item, void* a2)
     }
     void* key = a2;
     Light_b71560* light = item;
-    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, 0, (int)((light)), (int)((key)), (::Node_00b70340 **)((&a2))))
+    if (!::FindNodeByItemValue((::Obj_00b70340 *)this, 0, light, 0, (::Node_00b70340 **)((&a2))))
     {
         reinterpret_cast<::FUN_00b58570_Class *>(&(m_list60))->FUN_00b58570((void *)&(item));
     }

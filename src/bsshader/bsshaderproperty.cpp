@@ -321,7 +321,7 @@ class BB97550Pass;
 class BB97550Shader
 {
   public:
-    void FUN_00b97550(unsigned int uiPass, std::intptr_t iA, int iB, int iC, int iD, int iE);
+    void FUN_00b97550(unsigned int uiPass, std::intptr_t iA, std::intptr_t iB, std::intptr_t iC, std::intptr_t iD, int iE);
 
     int unk00;
     int unk04;
@@ -330,7 +330,7 @@ class BB97550Shader
 
 // Sets the thread-local alloc tag to 0x27 for the scope, then forwards the arguments to the pass at index uiPass.
 // @fnv 0x00b97550
-void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, std::intptr_t iA, int iB, int iC, int iD, int iE)
+void BB97550Shader::FUN_00b97550(unsigned int uiPassIndex, std::intptr_t iA, std::intptr_t iB, std::intptr_t iC, std::intptr_t iD, int iE)
 {
     BB97550AllocTagScope kScope(0x27);
     reinterpret_cast<::FUN_00b8c830_class *>(this)->RenderWithTextures((::HolderForAccum *)(m_ppkPasses[uiPassIndex]), iA, (::BSRenderedTexture *)(iB), (::BSRenderedTexture *)(iC), iD, iE);
@@ -376,7 +376,7 @@ struct FUN_00ba8e50_base
 
 struct FUN_00ba8e50_cls : FUN_00ba8e50_base
 {
-    int m_vptr00;
+    void* m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -411,7 +411,7 @@ FUN_00ba8e50_cls* FUN_00ba8e50_cls::FUN_00ba8e50()
     new ((void *)this) struct ::FUN_00a5c200();
     m_18 = 1;
     m_1c = -1;
-    *(volatile int*)&m_vptr00 = (int)&DAT_010b8488;
+    *(void* volatile*)&m_vptr00 = &DAT_010b8488;
     m_20 = 0;
     m_24 = 0;
     m_28 = 1.0f;
@@ -539,19 +539,19 @@ void FUN_00ba8d00_cls::FUN_00ba8d00(bool enable)
 struct SettingArray
 {
     unsigned int metadata;
-    int* values;
+    char** values;
     unsigned short capacity;
     unsigned short count;
     unsigned short activeCount;
     unsigned short growBy;
-    void AddTextValue(int* value)
+    void AddTextValue(char** value)
     {
         unsigned int index = count;
         if (index >= capacity)
             reinterpret_cast<::ViewerStrings *>(this)->SetSize(index + growBy);
-        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, (*(char * *)(value)));
+        reinterpret_cast<::fnv_00b5c7d0::StrArr *>(this)->SetAt(index, *value);
     }
-    __forceinline void AddNumericValue(int value)
+    __forceinline void AddNumericValue(char* value)
     {
         unsigned int index = count;
         if (index >= capacity)
@@ -573,7 +573,7 @@ struct SettingArray
         }
         values[index] = value;
     }
-    __forceinline void AddFinal(std::intptr_t value)
+    __forceinline void AddFinal(char* value)
     {
         unsigned int index = count;
         if (index >= capacity)
@@ -701,10 +701,10 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
     reinterpret_cast<::FUN_00a81600_cls *>((output))->WriteToArray({});
     union
     {
-        int token;
+        char* token;
         volatile float scalar;
     } formatted;
-    formatted.token = ((int)(::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01200464)))));
+    formatted.token = ::FUN_00a7d330((*reinterpret_cast<const char * *>(&::g_01200464)));
     output->AddTextValue(&formatted.token);
     const char* flagNames[56] = {
         UNK_010b8950, UNK_010b8948, UNK_010b893c, UNK_010b892c, UNK_010b8920, UNK_010b8914, UNK_010b890c, UNK_010b88f8,
@@ -720,44 +720,44 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
     {
         if ((flags[i >> 5] & mask) > 0 && flagNames[i] != 0)
         {
-            formatted.token = ((int)(::FUN_00a7d370(flagNames[i], 1)));
+            formatted.token = ::FUN_00a7d370(flagNames[i], 1);
             output->AddTextValue(&formatted.token);
         }
         mask = (mask << 1) | (mask >> 31);
     }
     if (alpha < 1.0f)
     {
-        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85dc, alpha)));
+        formatted.token = ::FUN_00a7d550(UNK_010b85dc, alpha);
         output->AddTextValue(&formatted.token);
     }
     if (fade < 1.0f)
     {
-        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85d0, fade)));
+        formatted.token = ::FUN_00a7d550(UNK_010b85d0, fade);
         output->AddTextValue(&formatted.token);
     }
     if (depth > 0.0f)
     {
-        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85c4, depth)));
+        formatted.token = ::FUN_00a7d550(UNK_010b85c4, depth);
         output->AddTextValue(&formatted.token);
     }
     if ((flags[0] & 0x80u) > 0)
     {
         formatted.scalar = specular;
-        formatted.token = ((int)(::FUN_00a7d550(UNK_010b85b4, formatted.scalar)));
+        formatted.token = ::FUN_00a7d550(UNK_010b85b4, formatted.scalar);
         output->AddTextValue(&formatted.token);
     }
-    int numericToken = ((int)(::FUN_00a7d4d0(UNK_010b85a4, shaderType)));
+    char* numericToken = ::FUN_00a7d4d0(UNK_010b85a4, shaderType);
     output->AddNumericValue(numericToken);
-    numericToken = ((int)(::FUN_00a7d4d0(UNK_010b858c, material)));
+    numericToken = ::FUN_00a7d4d0(UNK_010b858c, material);
     output->AddNumericValue(numericToken);
     if (!flagsList)
     {
-        formatted.token = ((int)(::FUN_00a7d330(UNK_010b8570)));
+        formatted.token = ::FUN_00a7d330(UNK_010b8570);
         output->AddTextValue(&formatted.token);
         return;
     }
     unsigned int count = flagsList->count;
-    formatted.token = ((unsigned int)(::FUN_00a7d510(UNK_010b855c, count)));
+    formatted.token = ::FUN_00a7d510(UNK_010b855c, count);
     output->AddTextValue(&formatted.token);
     for (unsigned int index = 0; index < count; ++index)
     {
@@ -768,11 +768,11 @@ void ShaderPropertyRecord::WriteToSettingArray(SettingArray* output)
             const unsigned int code = type;
             if (entry->secondary)
             {
-                output->AddFinal(((int)(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b8554, ::FUN_00b4f9d0((unsigned int)entry->type)))));
+                output->AddFinal(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b8554, ::FUN_00b4f9d0((unsigned int)entry->type)));
             }
             else
             {
-                output->AddFinal(((int)(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b854c, ::FUN_00b4f9d0((unsigned int)entry->type)))));
+                output->AddFinal(::fnv_00a7d5e0::FUN_00a7d5e0(UNK_010b854c, ::FUN_00b4f9d0((unsigned int)entry->type)));
             }
         }
     }
@@ -831,16 +831,16 @@ struct FUN_00bb73f0_shell
     int unk50;
     BSShaderProperty::ShaderPassList* m_pRenderPassArray54;
 
-    BSShaderProperty::ShaderPassList* FUN_00bb73f0(int geometry, unsigned int arg2, int arg3, unsigned int arg4,
+    BSShaderProperty::ShaderPassList* FUN_00bb73f0(NiGeometry* geometry, unsigned int arg2, int arg3, unsigned int arg4,
                                                    int arg5, int arg6);
 };
 
 // Computes a pass key from arg2 and arg4, sets alpha and light index, and returns the appropriate render pass list for the given geometry.
 // @fnv 0x00bb73f0
-BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry, unsigned int arg2, int aiUnused,
+BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(NiGeometry* geometry, unsigned int arg2, int aiUnused,
                                                                    unsigned int arg4, int aiUnused2, int aiUnused3)
 {
-    int* shaderSlot = (int*)((char*)geometry + 0x9c);
+    void** shaderSlot = (void**)((char*)geometry + 0x9c);
     float alpha;
     unsigned int pass = (arg4 << 8) | arg2;
     if (arg4 == 7)
@@ -848,7 +848,7 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
 
     if (shaderSlot)
     {
-        int shader = shaderSlot[2];
+        char* shader = (char*)shaderSlot[2];
         if (shader)
             alpha = *(float*)((char*)shader + 0x3c) * m_fAlpha;
         else
@@ -861,7 +861,7 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
         reinterpret_cast<::fnv_00ba9820::FUN_00ba9820_cls *>((((FUN_00ba9820_shell*)this)))->CreateSpawnedObjectIfMissing(1);
         if (m_pRenderPassArray54->iSize == 0)
         {
-            m_pRenderPassArray54->Add((NiGeometry*)geometry, 0x237, true, 0, 0, 0, 0, 0);
+            m_pRenderPassArray54->Add(geometry, 0x237, true, 0, 0, 0, 0, 0);
             m_pRenderPassArray54->m_kRenderPasses.m_pBase[0]->m_ucLightIndex = 0;
         }
         return m_pRenderPassArray54;
@@ -871,7 +871,7 @@ BSShaderProperty::ShaderPassList* FUN_00bb73f0_shell::FUN_00bb73f0(int geometry,
     {
         reinterpret_cast<::TallGrassShader *>((((FUN_00ba95e0_shell*)this)))->InitializeConstants(1);
         m_pRenderPassArray3c->iSize = 0;
-        m_pRenderPassArray3c->Add((NiGeometry*)geometry, 0x236, true, 0, 0, 0, 0, 0);
+        m_pRenderPassArray3c->Add(geometry, 0x236, true, 0, 0, 0, 0, 0);
         m_pRenderPassArray3c->m_kRenderPasses.m_pBase[0]->m_ucLightIndex = 0xa;
         m_uiPass = pass;
     }
@@ -891,9 +891,9 @@ struct PoolMemoryAllocator
 
 struct FUN_0043a010_t
 {
-    unsigned int m_pNext;
-    unsigned int m_pInventoryEntryData;
-    unsigned int m_pItem2;
+    FUN_0043a010_t* m_pNext;
+    void* m_pInventoryEntryData;
+    void* m_pItem2;
 };
 
 struct FUN_0043a010_shell
@@ -908,7 +908,7 @@ FUN_0043a010_t* FUN_0043a010_shell::FUN_0043a010()
     if (DAT_011c5f58 == 0)
         ::FUN_0043a080();
     FUN_0043a010_t* pkNode = (FUN_0043a010_t*)DAT_011c5f58;
-    DAT_011c5f58 = (void*)((FUN_0043a010_t*)DAT_011c5f58)->m_pNext;
+    DAT_011c5f58 = ((FUN_0043a010_t*)DAT_011c5f58)->m_pNext;
     pkNode->m_pItem2 = 0;
     pkNode->m_pNext = 0;
     pkNode->m_pInventoryEntryData = 0;

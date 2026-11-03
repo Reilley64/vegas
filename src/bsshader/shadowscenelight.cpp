@@ -1827,8 +1827,7 @@ void ShadowSceneLightDecompile::UpdateShadow(void* unused, unsigned char* render
             frustum.farPlane = farPlane;
             reinterpret_cast<::NiCamera *>((reinterpret_cast<FUN_00a712f0*>(GetShadowCamera())))->UpdateViewFrustum((const ::NiFrustum &)(frustum));
             reinterpret_cast<::FUN_00b9cfd0_class *>((reinterpret_cast<ShadowAccumulator*>(m_spShadowShaderAccumulator.m_pObject)))->AssignRefCounted(this);
-            ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))), m_pCamera.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(m_pLightNode.m_pObject), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0),
-                                      m_spShadowShaderAccumulator.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (unsigned int)(renderFlags + 0x11), 0, {});
+            ::AccumTaskDetail::FUN_00ba3390((::AccumTaskDetail::AccumTaskReceiver *)&((*reinterpret_cast<::fnv_00b9dfc0::ShadowEvents *>(&::g_01200088))), m_pCamera.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (::AccumTaskDetail::TaskArg1 *)(m_pLightNode.m_pObject), (::AccumTaskDetail::NiRefObject *)(0), (void *)(0), m_spShadowShaderAccumulator.m_pObject, (::AccumTaskDetail::NiRefObject *)(0), (std::uintptr_t)(renderFlags + 0x11), 0, {});
         }
     }
     else if (m_spLightRenderedTexture.m_pObject)
@@ -3171,7 +3170,7 @@ void ShadowPass::FUN_00b9f780(PassContext* context, int pass)
     if (m_bLightFlag4)
     {
         void* texture = ((void *)(reinterpret_cast<::FUN_004bc320_shell *>((reinterpret_cast<RenderTextureView*>(m_spLightRenderedTexture.m_pObject)))->FUN_004bc320(0)));
-        PassDebug* debug = ((::fnv_00b9f780::PassDebug *)(::FUN_00b55560((void *)(9))));
+        PassDebug* debug = ((::fnv_00b9f780::PassDebug *)(::FUN_00b55560(9)));
         reinterpret_cast<::TextureRenderer *>((debug))->AddTexture((::NiTexture *)(texture));
     }
     m_bShadowFrustumInitialized = false;

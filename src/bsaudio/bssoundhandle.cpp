@@ -47,7 +47,7 @@ void SoundPlaybackHandle::SetCompletionCallback(BSSoundCompletionCallback callba
     }
     if (m_uiSoundResourceID != 0xffffffff)
     {
-        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00adbfd0(m_uiSoundResourceID, (int)(callback), (int)(context));
+        reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>(&(BSAudioManager::GetRandomGenerator()))->FUN_00adbfd0(m_uiSoundResourceID, (std::intptr_t)(callback), (std::intptr_t)(context));
     }
 }
 
@@ -606,7 +606,7 @@ void SoundHandleX::FUN_00ad8ec0(LocalCb apCallback, void* arg)
     }
     if (id != 0xFFFFFFFF)
     {
-        reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>(&(((BSAudioManagerX&)BSAudioManager::GetRandomGenerator())))->FUN_00adc050(id, (int)(apCallback), (int)(arg));
+        reinterpret_cast<::fnv_00adc050::FUN_00adc050_cls *>(&(((BSAudioManagerX&)BSAudioManager::GetRandomGenerator())))->FUN_00adc050(id, (std::intptr_t)(apCallback), (std::intptr_t)(arg));
     }
 }
 

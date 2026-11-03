@@ -69,6 +69,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/havok/foislandactivationlistener.cpp
   src/fallout_shared/havok/tesarrowtargetlistener.cpp
   src/fallout_shared/havok/teshavokutilities.cpp
+  src/fallout_shared/havok/testraplistener.cpp
   src/fallout_shared/havok/xblendsettings.cpp
   src/fallout_shared/imagespacemodifierinstance.cpp
   src/fallout_shared/lipsynchanim.cpp
@@ -288,7 +289,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/facegen/bsfacegenninode.cpp
   src/fallout_shared/globalfunc.cpp
   src/fallout_shared/gridcell.cpp
-  src/fallout_shared/havok/testraplistener.cpp
   src/fallout_shared/havok/teswaterlistener.cpp
   src/fallout_shared/inventorychanges.cpp
   src/fallout_shared/magic/alchemyitem.cpp

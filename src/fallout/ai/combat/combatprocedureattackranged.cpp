@@ -2027,7 +2027,7 @@ void RAttack::UpdateAttack()
                     if (GetType(group) == 80 || GetType(group) == 86)
                     {
                         RSequenceBase* sequence;
-                        if (reinterpret_cast<::NiTMapBase *>((((::RMap *)(reinterpret_cast<::FUN_00497280_shell *>((animation0))->GetFieldAt124()))))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
+                        if (reinterpret_cast<::NiTMapBase *>((*reinterpret_cast<::RMap **>(reinterpret_cast<char *>(animation0) + 0xdc)))->Lookup(group, (::AnimSequenceBase *&)(sequence)))
                         {
                             RGroup* animGroup0 = ((::RGroup *)(reinterpret_cast<::BSAnimGroupSequence *>((sequence->GetControllerSequence(-1)))->GetAnimGroup()));
                             float start = reinterpret_cast<::FUN_005f3780_shell *>((animGroup0))->FUN_005f3780(0);

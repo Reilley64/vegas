@@ -1360,7 +1360,7 @@ void EngageProc::UpdateEngagement()
                                     return;
                                 }
                                 reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>(&(m_dest))->FUN_0098ddd0(&navPos3);
-                                reinterpret_cast<::FUN_0041fd00_shell *>(&(m_dest))->FUN_0041fd00((int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()))));
+                                reinterpret_cast<::FUN_0041fd00_shell *>(&(m_dest))->FUN_0041fd00((std::intptr_t)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(targetLocX))->FUN_0084e3a0()));
                                 reinterpret_cast<::fnv_00996e20::FUN_00996e20_shell *>(this)->FUN_00996e20(3);
                                 m_iFadeIndex = 8;
                                 return;

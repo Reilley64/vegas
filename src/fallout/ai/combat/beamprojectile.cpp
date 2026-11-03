@@ -2,6 +2,7 @@
 // src/fallout/ai/combat/beamprojectile.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/beamprojectile.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/geometry_data_fields.h"
 #include <cstdint>
 #include <cmath>
 #include "fnv/decl/BGSMessageInitAccess.h"
@@ -347,7 +348,7 @@ void BeamScale_shell::FUN_009795e0(NiAVObject* apObject, float scale)
                 for (int k = 0; k < reinterpret_cast<::TESActorBaseData *>((((FUN_005f8f10_shell*)data)))->GetFatigue(); k++)
                 {
                     ((NiPoint3*)((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((N_008c48d0*)data)))->FUN_007af430())))[k].y *= scale;
-                    ((BeamPair*)((char *)(reinterpret_cast<::BGSMessageInitAccess *>((((Script*)data)))->GetIconFormID())))[k].b *= scale;
+                    ((BeamPair*)reinterpret_cast<GeometryDataFields*>(data)->m_pkTexture)[k].b *= scale;
                 }
             }
         }

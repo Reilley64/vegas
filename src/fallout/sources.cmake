@@ -14,6 +14,7 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/cachedvalues.cpp
   src/fallout/ai/camerashake.cpp
   src/fallout/ai/character_h_unit.cpp
+  src/fallout/ai/combat/beamprojectile.cpp
   src/fallout/ai/combat/combataction.cpp
   src/fallout/ai/combat/combatactions.cpp
   src/fallout/ai/combat/combatcovermap.cpp
@@ -25,13 +26,17 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/combat/combatplan.cpp
   src/fallout/ai/combat/combatplanner.cpp
   src/fallout/ai/combat/combatprocedure.cpp
+  src/fallout/ai/combat/combatprocedureactivateobject.cpp
   src/fallout/ai/combat/combatprocedureattackgrenade.cpp
   src/fallout/ai/combat/combatprocedureattacklow.cpp
   src/fallout/ai/combat/combatprocedureattackmelee.cpp
+  src/fallout/ai/combat/combatprocedureattackranged.cpp
   src/fallout/ai/combat/combatprocedurebeincover.cpp
+  src/fallout/ai/combat/combatprocedureengagetarget.cpp
   src/fallout/ai/combat/combatprocedureevade.cpp
   src/fallout/ai/combat/combatprocedurehidefromtarget.cpp
   src/fallout/ai/combat/combatproceduremove.cpp
+  src/fallout/ai/combat/combatproceduresearch.cpp
   src/fallout/ai/combat/combatprocedureswitchweapon.cpp
   src/fallout/ai/combat/combatprocedureusecombatitem.cpp
   src/fallout/ai/combat/combatstate.cpp
@@ -40,11 +45,13 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/combat/combattimer.cpp
   src/fallout/ai/combat/combatutilities.cpp
   src/fallout/ai/combat/combatworldstate.cpp
+  src/fallout/ai/combat/continuousbeamprojectile.cpp
   src/fallout/ai/combat/explosion.cpp
   src/fallout/ai/combat/flameprojectile.cpp
   src/fallout/ai/combat/grenadeprojectile.cpp
   src/fallout/ai/combat/hitdata.cpp
   src/fallout/ai/combat/missileprojectile.cpp
+  src/fallout/ai/combat/muzzleflash.cpp
   src/fallout/ai/combat/projectile.cpp
   src/fallout/ai/combat/projectilelistener.cpp
   src/fallout/ai/combat/vats.cpp
@@ -61,8 +68,11 @@ set(VEGAS19_FALLOUT_SOURCES
   src/fallout/ai/lipsyncbackgroundmanager.cpp
   src/fallout/ai/middlehighprocess_h_unit.cpp
   src/fallout/ai/mobileobject_h_unit.cpp
+  src/fallout/ai/movement/actormover.cpp
   src/fallout/ai/movement/actorpathhandler.cpp
+  src/fallout/ai/movement/detailedactorpathhandler.cpp
   src/fallout/ai/movement/playermover.cpp
+  src/fallout/ai/movement/virtualactorpathhandler.cpp
   src/fallout/ai/movement/virtualactorpathhandler_h_unit.cpp
   src/fallout/ai/patrolpackage.cpp
   src/fallout/ai/playercharacter_h_unit.cpp
@@ -201,13 +211,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/ailineartaskthreadmanager.cpp
   src/fallout/ai/baseprocess.cpp
   src/fallout/ai/character.cpp
-  src/fallout/ai/combat/beamprojectile.cpp
-  src/fallout/ai/combat/combatprocedureactivateobject.cpp
-  src/fallout/ai/combat/combatprocedureattackranged.cpp
-  src/fallout/ai/combat/combatprocedureengagetarget.cpp
-  src/fallout/ai/combat/combatproceduresearch.cpp
-  src/fallout/ai/combat/continuousbeamprojectile.cpp
-  src/fallout/ai/combat/muzzleflash.cpp
   src/fallout/ai/combatcontroller.cpp
   src/fallout/ai/falloutcharacterprogression.cpp
   src/fallout/ai/highprocess.cpp
@@ -216,9 +219,6 @@ set(VEGAS19_FALLOUT_NARROWING_SOURCES
   src/fallout/ai/middlelowprocess.cpp
   src/fallout/ai/mobileobject.cpp
   src/fallout/ai/modifierlist.cpp
-  src/fallout/ai/movement/actormover.cpp
-  src/fallout/ai/movement/detailedactorpathhandler.cpp
-  src/fallout/ai/movement/virtualactorpathhandler.cpp
   src/fallout/ai/playercharacter.cpp
   src/fallout/ai/processlists.cpp
   src/fallout/interface/forenderedmenu.cpp

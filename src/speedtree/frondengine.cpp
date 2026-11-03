@@ -1518,7 +1518,14 @@ CopyableStateBlock* FUN_00b264f0(CopyableStateBlock* first, CopyableStateBlock* 
 }  // namespace fnv_00b264f0
 
 
-// Calls FUN_00b26ab0 on (b, a), (c, b), then (b, a) whenever the float at offset 0x2C of the first exceeds that of the second.
+// The sort key of a frond sort element; the pad stands for members not named yet.
+struct FrondSortKey
+{
+    char pad00[0x2c];
+    float m_fKey;
+};
+
+// Calls FUN_00b26ab0 on (b, a), (c, b), then (b, a) whenever the sort key of the first exceeds that of the second.
 // @fnv 0x00b269d0
 void __cdecl FUN_00b269d0(char* a, char* b, char* c)
 {
@@ -1573,15 +1580,15 @@ void __cdecl FUN_00b269d0(char* a, char* b, char* c)
     int pad49;
     int pad50;
     int pad51;
-    if ((bool)((*(float*)(b + 0x2C) > *(float*)(a + 0x2C)) ? 1 : 0))
+    if ((bool)((((FrondSortKey*)b)->m_fKey > ((FrondSortKey*)a)->m_fKey) ? 1 : 0))
     {
         ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(b)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(a)));
     }
-    if ((bool)((*(float*)(c + 0x2C) > *(float*)(b + 0x2C)) ? 1 : 0))
+    if ((bool)((((FrondSortKey*)c)->m_fKey > ((FrondSortKey*)b)->m_fKey) ? 1 : 0))
     {
         ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(c)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(b)));
     }
-    if ((bool)((*(float*)(b + 0x2C) > *(float*)(a + 0x2C)) ? 1 : 0))
+    if ((bool)((((FrondSortKey*)b)->m_fKey > ((FrondSortKey*)a)->m_fKey) ? 1 : 0))
     {
         ::fnv_00b26ab0::FUN_00b26ab0((*(::fnv_00b26ab0::swapb26a::GvElem *)(b)), (*(::fnv_00b26ab0::swapb26a::GvElem *)(a)));
     }

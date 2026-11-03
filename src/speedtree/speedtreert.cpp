@@ -2584,16 +2584,64 @@ struct R;
 struct StrArray;
 struct Tile;
 struct V;
+// Objects that the CSpeedTreeRT accessors below reach through its members.
+// The pads stand for members not named yet and follow the 32-bit layout.
+struct WindMethods
+{
+    int m_i00;
+    int m_i04;
+    int m_iBranchMethod;
+    int m_iFrondMethod;
+    int m_iLeafMethod;
+    unsigned char m_b14;
+};
+struct LeafAngleData
+{
+    char pad00[0x18];
+    float m_f18;
+    float m_f1c;
+};
+struct TreeEngineView
+{
+    int m_i00;
+    float m_afPosition[3];
+    int m_i10;
+    float m_fLodLevel;
+    char pad18[0x9];
+    bool m_bTransientDataIntact;
+    char pad22[0x3a];
+    LeafAngleData* m_p5c;
+    char pad60[0x18];
+    int m_iNumLodLevels;
+    char pad7c[0x1c];
+    float m_f98;
+    float m_f9c;
+    char pada0[0x2c];
+    float m_fcc;
+    float m_fd0;
+    char padd4[0x4];
+    unsigned int m_uiD8;
+};
+struct InstanceView
+{
+    int m_i00;
+    float m_afPosition[3];
+    float m_fLodLevel;
+};
+
 struct FUN_00b02e00_class
 {
+    int m_i00;
+    int m_i04;
+    int m_i08;
     void FUN_00b02e00();
 };
 
 // @fnv 0x00b02e00
 void FUN_00b02e00_class::FUN_00b02e00()
 {
-    *(int*)((char*)this + 4) = 0;
-    *(int*)((char*)this + 8) = 0;
+    m_i04 = 0;
+    m_i08 = 0;
 }
 
 struct FUN_00b2bcf0_shell
@@ -2611,20 +2659,21 @@ void FUN_00b2bcf0_shell::FUN_00b06260(float* pfA, float* pfB)
 
 struct FUN_00b071c0_Class
 {
+    void* m_ap00[4];
+    WindMethods* m_pWind;
     void SetField14(int param);
 };
 
-// Stores the low byte of param at offset 0x14 of the object pointed to by the pointer at this+0x10.
+// Stores the low byte of param in m_pWind->m_b14.
 // @fnv 0x00b071c0
 void FUN_00b071c0_Class::SetField14(int aiValue)
 {
-    int* p = *(int**)((char*)this + 0x10);
-    *(char*)((char*)p + 0x14) = (char)aiValue;
+    m_pWind->m_b14 = (unsigned char)aiValue;
 }
 
 struct FUN_00b07390_class
 {
-    void* m_p;
+    TreeEngineView* m_p;
     void SetField9C(float f);
 };
 
@@ -2634,12 +2683,12 @@ void FUN_00b07390_class::SetField9C(float afValue)
 {
     if (!m_p)
         return;
-    *(float*)((char*)m_p + 0x9c) = afValue;
+    m_p->m_f9c = afValue;
 }
 
 struct FUN_00b073c0_class
 {
-    void* m_p;
+    TreeEngineView* m_p;
     void SetField98(float f);
 };
 
@@ -2649,12 +2698,12 @@ void FUN_00b073c0_class::SetField98(float afValue)
 {
     if (!m_p)
         return;
-    *(float*)((char*)m_p + 0x98) = afValue;
+    m_p->m_f98 = afValue;
 }
 
 struct FUN_00b07490
 {
-    void* m_p;
+    TreeEngineView* m_p;
     void Set(float f);
 };
 // If m_p is non-null, writes f to the float at offset 0xcc of m_p.
@@ -2663,12 +2712,12 @@ void FUN_00b07490::Set(float afValue)
 {
     if (!m_p)
         return;
-    *(float*)((char*)m_p + 0xcc) = afValue;
+    m_p->m_fcc = afValue;
 }
 
 struct FUN_00b074c0_class
 {
-    void* m_p;  // +0x0
+    TreeEngineView* m_p;  // +0x0
     void SetFieldD0(float f);
 };
 
@@ -2678,17 +2727,19 @@ void FUN_00b074c0_class::SetFieldD0(float afValue)
 {
     if (!m_p)
         return;
-    *(float*)((char*)m_p + 0xd0) = afValue;
+    m_p->m_fd0 = afValue;
 }
 
 struct FUN_00b074f0_obj
 {
+    void* m_ap00[4];
+    WindMethods* m_pWind;
     int GetNestedPointer();
 };
 // @fnv 0x00b074f0
 int FUN_00b074f0_obj::GetNestedPointer()
 {
-    int p = *(int*)((char*)*(void**)((char*)this + 0x10) + 0x10);
+    int p = m_pWind->m_iLeafMethod;
     return p;
 }
 
@@ -2698,7 +2749,7 @@ struct FUN_00b076c0_Class
     void* m04;
     void* m08;
     void* m0c;
-    void* m10;
+    WindMethods* m10;
     void* m14;
     void* m18;
     void* m1c;
@@ -2764,7 +2815,7 @@ struct FUN_00b076c0_Class
 // @fnv 0x00b076c0
 int FUN_00b076c0_Class::fun_00b076c0()
 {
-    int result = *(int*)((char*)m10 + 8);
+    int result = m10->m_iBranchMethod;
     return result;
 }
 
@@ -2774,7 +2825,7 @@ struct FUN_00b078e0_Class
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
-    void* m_10;
+    WindMethods* m_10;
     void* m_14;
     void* m_18;
     void* m_1c;
@@ -2785,7 +2836,7 @@ struct FUN_00b078e0_Class
 // @fnv 0x00b078e0
 int FUN_00b078e0_Class::GetFieldAt0C()
 {
-    int result = *(int*)((char*)m_10 + 0xc);
+    int result = m_10->m_iFrondMethod;
     return result;
 }
 
@@ -2809,31 +2860,33 @@ void FUN_00b08500_shell::FUN_00b08500(float afValue, float afOther)
 
 struct FUN_00b086f0_class
 {
+    TreeEngineView* m_pEngine;
     unsigned short GetLowWordAtOffset0x78();
 };
 // @fnv 0x00b086f0
 unsigned short FUN_00b086f0_class::GetLowWordAtOffset0x78()
 {
     int v;
-    v = *reinterpret_cast<int*>(reinterpret_cast<char*>(*reinterpret_cast<int*>(this)) + 0x78);
+    v = m_pEngine->m_iNumLodLevels;
     return *reinterpret_cast<unsigned short*>(&v);
 }
 
 struct CSpeedTreeRT
 {
-    void* m_pFirstPointer;
+    TreeEngineView* m_pFirstPointer;
     unsigned short FUN_00b08710();
 };
 // @fnv 0x00b08710
 unsigned short CSpeedTreeRT::FUN_00b08710()
 {
-    unsigned int v = *(unsigned int*)((char*)m_pFirstPointer + 0xd8);
+    unsigned int v = m_pFirstPointer->m_uiD8;
     return (unsigned short)v;
 }
 
 namespace fnv_00b08730 {
 struct CSpeedTreeRT
 {
+    char pad00[0x64];
     unsigned short m_usId;
     unsigned short GetId();
 };
@@ -2841,7 +2894,7 @@ struct CSpeedTreeRT
 // @fnv 0x00b08730
 unsigned short CSpeedTreeRT::GetId()
 {
-    return ((unsigned short*)((char*)this + 0x64))[0];
+    return m_usId;
 }
 }  // namespace fnv_00b08730
 
@@ -3007,7 +3060,7 @@ FUN_00b050d0_class::~FUN_00b050d0_class()
 
 struct FUN_00b08440_shell
 {
-    void* m_00;
+    TreeEngineView* m_00;
     void* m_04;
     void* m_08;
     void* m_0c;
@@ -3020,7 +3073,7 @@ struct FUN_00b08440_shell
     void* m_28;
     void* m_2c;
     void* m_30;
-    void* m_34;
+    InstanceView* m_34;
     float FUN_00b08440();
 };
 
@@ -3030,11 +3083,11 @@ float FUN_00b08440_shell::FUN_00b08440()
     float fLevel = -1.0f;
     if (m_34)
     {
-        fLevel = *(float*)((char*)m_34 + 0x10);
+        fLevel = m_34->m_fLodLevel;
     }
     else
     {
-        fLevel = *(float*)((char*)m_00 + 0x14);
+        fLevel = m_00->m_fLodLevel;
     }
     return fLevel;
 }
@@ -3051,6 +3104,8 @@ void __cdecl AssignString(const char* s);
 
 struct CSpeedTreeRT_GetBoundingBox
 {
+    char pad00[0x40];
+    void* m_pBoundingBox;
     void FUN_00b08c80(float* dst);
 };
 
@@ -3059,7 +3114,7 @@ void CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
 {
     if (afBounds)
     {
-        void* src = *(void**)((char*)this + 0x40);
+        void* src = m_pBoundingBox;
         ::std::memmove(afBounds, src, 0x18);
     }
     else
@@ -3068,6 +3123,12 @@ void CSpeedTreeRT_GetBoundingBox::FUN_00b08c80(float* afBounds)
     }
 }
 
+struct EntryList
+{
+    char pad00[0xc];
+    char* m_pFirst;
+    char* m_pLast;
+};
 struct FUN_00b0a260_Class
 {
     void* m_iWordAt00;
@@ -3092,7 +3153,7 @@ struct FUN_00b0a260_Class
     void* m_4c;
     void* m_50;
     void* m_54;
-    void* m_58;
+    EntryList* m_58;
     int GetEntryCount();
 };
 // @fnv 0x00b0a260
@@ -3101,8 +3162,8 @@ int FUN_00b0a260_Class::GetEntryCount()
     int result = 0;
     if (m_58)
     {
-        void* p = m_58;
-        result = (((int*)p)[4] - ((int*)p)[3]) / 28;
+        EntryList* p = m_58;
+        result = (p->m_pLast - p->m_pFirst) / 28;
     }
     return result;
 }
@@ -3335,7 +3396,7 @@ void __cdecl FUN_00b06b70(float* pPosition, float* pDirection)
 
 struct FUN_00b08480_shell
 {
-    void* m_iWordAt00;
+    TreeEngineView* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
@@ -3348,7 +3409,7 @@ struct FUN_00b08480_shell
     void* m_28;
     void* m_2c;
     void* m_30;
-    void* m_34;
+    InstanceView* m_34;
     void FUN_00b08480(float f);
 };
 // @fnv 0x00b08480
@@ -3358,12 +3419,12 @@ void FUN_00b08480_shell::FUN_00b08480(float afLevel)
     {
         if (m_34)
         {
-            *(float*)((char*)m_34 + 0x10) = afLevel;
+            m_34->m_fLodLevel = afLevel;
         }
         else
         {
-            void* p = m_iWordAt00;
-            *(float*)((char*)p + 0x14) = afLevel;
+            TreeEngineView* p = m_iWordAt00;
+            p->m_fLodLevel = afLevel;
         }
     }
     else
@@ -3398,36 +3459,37 @@ struct FUN_00b2b940_class
 };
 struct FUN_00b053e0_shell
 {
+    TreeEngineView* m_pEngine;
     void FUN_00b053e0();
 };
 
 // @fnv 0x00b053e0
 void FUN_00b053e0_shell::FUN_00b053e0()
 {
-    unsigned char bFlag = ((unsigned char*)*(void**)((char*)this))[0x21];
+    unsigned char bFlag = m_pEngine->m_bTransientDataIntact;
     if (bFlag)
-        reinterpret_cast<::GvManager *>((((FUN_00b2b940_class*)*(void**)((char*)this))))->FUN_00b2b940();
+        reinterpret_cast<::GvManager *>((((FUN_00b2b940_class*)m_pEngine)))->FUN_00b2b940();
     else
         AssignString("DeleteTransientData() called with no intact transient data");
 }
 
 struct FUN_00b073f0_class
 {
-    void* m_p;  // +0x0
+    TreeEngineView* m_p;  // +0x0
     float FUN_00b073f0();
 };
 
-// Returns the float at offset 0x18 of the object at m_p+0x5c, or 0.0 if m_p or that object is null.
+// Returns m_p->m_p5c->m_f18, or 0.0 if m_p or that object is null.
 // @fnv 0x00b073f0
 float FUN_00b073f0_class::FUN_00b073f0()
 {
     if (m_p != 0)
     {
-        void* a = *(void**)((char*)m_p + 0x5c);
+        LeafAngleData* a = m_p->m_p5c;
         if (a != 0)
         {
-            void* b9 = *(void**)((char*)m_p + 0x5c);
-            float f = *(float*)((char*)b9 + 0x18);
+            LeafAngleData* b9 = m_p->m_p5c;
+            float f = b9->m_f18;
             return f;
         }
     }
@@ -3436,21 +3498,21 @@ float FUN_00b073f0_class::FUN_00b073f0()
 
 struct FUN_00b07440_Class
 {
-    void* m_p;
+    TreeEngineView* m_p;
     float FUN_00b07440();
 };
 
-// Returns the float at offset 0x1c of the object stored at m_p+0x5c, or 0.0f if m_p or that pointer is null.
+// Returns m_p->m_p5c->m_f1c, or 0.0f if m_p or that pointer is null.
 // @fnv 0x00b07440
 float FUN_00b07440_Class::FUN_00b07440()
 {
     if (m_p)
     {
-        void* p = *(void**)((char*)m_p + 0x5c);
+        LeafAngleData* p = m_p->m_p5c;
         if (p)
         {
-            void* RunSeventhVirtualOperation = *(void**)((char*)m_p + 0x5c);
-            float f = *(float*)((char*)RunSeventhVirtualOperation + 0x1c);
+            LeafAngleData* pData = m_p->m_p5c;
+            float f = pData->m_f1c;
             return f;
         }
     }
@@ -3577,7 +3639,7 @@ struct BranchBlock
 struct LeafBlock
 {
     FUN_00b02e00_class contained;
-    int extra04, extra08, extra0c, extra10;
+    int extra0c, extra10;
     __forceinline ~LeafBlock()
     {
         contained.FUN_00b02e00();
@@ -4191,7 +4253,7 @@ struct S00b065e0_Vec
 
 struct S00b065e0_Cls
 {
-    void* m_iWordAt00;
+    TreeEngineView* m_iWordAt00;
     void* m_iWordAt04;
     void* m_8;
     void* m_iThirdValue;
@@ -4204,20 +4266,20 @@ struct S00b065e0_Cls
     void* m_28;
     void* m_2c;
     void* m_30;
-    void* m_34;
+    InstanceView* m_34;
     void FUN_00b065e0(float a, float b, float c);
 };
 // @fnv 0x00b065e0
 void S00b065e0_Cls::FUN_00b065e0(float a, float b, float c)
 {
-    void* base;
+    TreeEngineView* base;
     float* n;
     float x;
     float y;
     float v;
     if (m_34)
     {
-        n = (float*)((char*)m_34 + 4);
+        n = m_34->m_afPosition;
         n[0] = a;
         n[1] = b;
         n[2] = c;
@@ -4228,7 +4290,7 @@ void S00b065e0_Cls::FUN_00b065e0(float a, float b, float c)
         y = b;
         v = c;
         base = m_iWordAt00;
-        *(S00b065e0_Vec*)((char*)base + 4) = *(S00b065e0_Vec*)&x;
+        *(S00b065e0_Vec*)base->m_afPosition = *(S00b065e0_Vec*)&x;
     }
 }
 
@@ -4336,6 +4398,8 @@ short FUN_00b085a0_local_shell::FUN_00b085a0(float fLodLevel)
 
 struct FUN_00ac2f70_shell
 {
+    char pad00[0x70];
+    ::asgnac2::AsVector m_kList;
 };
 struct FUN_00b08750_class
 {
@@ -4380,7 +4444,7 @@ void FUN_00b08750_class::FUN_00b08750()
         if (m_iWordAt04)
         {
             p = (FUN_00ac2f70_shell*)m_iWordAt04;
-            reinterpret_cast<::asgnac2::AsVector *>((((FUN_00ac2f70_shell*)((char*)p + 0x70))))->clear();
+            p->m_kList.clear();
         }
     }
 }

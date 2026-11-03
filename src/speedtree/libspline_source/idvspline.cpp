@@ -1044,7 +1044,7 @@ void FUN_00b3b280_owner::FUN_00b3b280(NodeB* pNode)
     NodeB* pPrev;
 
     pNode->f0 = pOld->f8;
-    if (reinterpret_cast<char*>(pOld->f8)[0x2d] == 0)
+    if ((char)pOld->f8->f2d == 0)
         pOld->f8->f4 = pNode;
     pOld->f4 = pNode->f4;
 

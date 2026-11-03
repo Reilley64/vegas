@@ -2149,6 +2149,10 @@ inline void S2bde0_Reset()
     S2bde0_ResetIn();
 }
 
+struct S00b2c790_Sub
+{
+};
+
 struct S2bde0_Tree
 {
     int iUnk00;
@@ -2162,6 +2166,10 @@ struct S2bde0_Tree
     int iUnk20;
     S2bde0_Name strName;
     float f40, f44, f48, f4c, f50;
+    int iUnk54;
+    int iUnk58;
+    int iUnk5C;
+    S00b2c790_Sub kSub60;
     void FUN_00b2c790(S2bde0_Parser*);
     void FUN_00b2bde0(S2bde0_Parser* p);
 };
@@ -3796,10 +3804,6 @@ struct S00b2c790_Error
     void FUN_00b09480(S2bde0_Str* text, int value);
 };
 
-struct S00b2c790_Sub
-{
-};
-
 struct S00b2c790_Local
 {
     int unk00;
@@ -3900,7 +3904,7 @@ struct S00b2c790_Local
 
 __forceinline S00b2c790_Sub* TreeSub(S2bde0_Tree* tree)
 {
-    return reinterpret_cast<S00b2c790_Sub*>(reinterpret_cast<char*>(tree) + 0x60);
+    return &tree->kSub60;
 }
 
 __forceinline void TreeClear()

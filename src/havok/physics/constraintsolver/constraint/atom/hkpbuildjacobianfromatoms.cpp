@@ -129,17 +129,22 @@ struct EventRecord
 };
 struct RecordSource
 {
+    int m_unk00[0x18];
+    mutable volatile int m_60;  // +0x60
+    int m_unk64[2];
+    mutable volatile int m_6c;  // +0x6c
+    mutable volatile int m_70;  // +0x70
     volatile int& f60() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x60);
+        return m_60;
     }
     volatile int& f6c() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x6c);
+        return m_6c;
     }
     volatile int& f70() const
     {
-        return *reinterpret_cast<volatile int*>(reinterpret_cast<char*>(const_cast<RecordSource*>(this)) + 0x70);
+        return m_70;
     }
 };
 // Advances *dest past a new EventRecord filled from source fields, inputBits and option, with accumulator incremented by DAT_010c9300.

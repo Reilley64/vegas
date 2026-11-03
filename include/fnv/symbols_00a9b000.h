@@ -1,4 +1,5 @@
 #pragma once
+class NiStream;
 
 enum NiShaderAttributeDesc_AttributeType;
 struct NiAlphaAccumulator;
@@ -9,7 +10,7 @@ void FUN_00a9b140();
 // 0x00a9b150
 void *FUN_00a9b150();
 // 0x00a9b1a0
-void FUN_00a9b1a0();
+struct FUN_00a9b1a0_shell { void FUN_00a9b1a0(::NiStream& kStream); };
 // 0x00a9b2e0
 void FUN_00a9b2e0(::StrArr *);
 // 0x00a9b330

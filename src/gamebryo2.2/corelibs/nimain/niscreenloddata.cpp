@@ -827,7 +827,7 @@ struct FUN_00a961d0_cls
 // @fnv 0x00a961d0
 void FUN_00a961d0_cls::LoadFromStream(StreamOwner* owner)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40(*(::NiStream *)owner);
     reinterpret_cast<::NiSphere *>(&(m_08))->LoadBinary((*(::NiStream *)(owner)));
     reinterpret_cast<::NiSphere *>(&(m_18))->LoadBinary((*(::NiStream *)(owner)));
     unsigned int numberOfValues;

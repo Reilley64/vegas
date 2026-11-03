@@ -1,5 +1,8 @@
 // staging/blk_00a60000_o2.cpp: NiShader, PivotGeometry, NiDirectionalLight, NiTMapBaseStub and more (116 functions)
 
+#include "fnv/symbols_00a8a000.h"
+#include "fnv/symbols_00a7b000.h"
+#include "fnv/symbols_00a75000.h"
 #include "fnv/tls.h"
 #include <cstdint>
 #include <windows.h>
@@ -47,7 +50,6 @@
 #include "fnv/symbols_00a63000.h"
 #include "fnv/symbols_00a76000.h"
 #include "fnv/symbols_00a7d000.h"
-#include "fnv/symbols_00a8a000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_00af4000.h"
 #include "fnv/symbols_00ff0000.h"
@@ -3890,9 +3892,9 @@ unsigned int FUN_00a727b0_Class::FUN_00a727b0()
 
 
 // @fnv 0x00a75f00
-void __cdecl FUN_00a75f00()
+bool FUN_00a75f00_shell::FUN_00a75f00(::NiStream& kStream)
 {
-    static_cast<struct ::FUN_00a8a9b0 *>(nullptr)->RegisterStreamables(*(::NiStream *)nullptr);
+    return reinterpret_cast<struct ::FUN_00a8a9b0 *>(this)->RegisterStreamables(kStream);
 }
 
 // @fnv 0x00a75f20
@@ -4442,9 +4444,9 @@ void __cdecl ConvertPixelFormat(unsigned int uiWidth, unsigned int uiHeight, uns
 }
 
 // @fnv 0x00a7b7d0
-void __cdecl FUN_00a7b7d0()
+void FUN_00a7b7d0_shell::FUN_00a7b7d0(::NiStream& kStream)
 {
-    FUN_00a8a9a0();
+    reinterpret_cast<::FUN_00a8a9a0_shell *>(this)->FUN_00a8a9a0(kStream);
 }
 
 struct Vec3
@@ -4700,9 +4702,7 @@ void Thing::WriteData()
 #include "fnv/symbols_00a69000.h"
 #include "fnv/symbols_00a71000.h"
 #include "fnv/symbols_00a74000.h"
-#include "fnv/symbols_00a75000.h"
 #include "fnv/symbols_00a77000.h"
-#include "fnv/symbols_00a7b000.h"
 #include "fnv/symbols_00a7e000.h"
 namespace FrustumPlanes {
 

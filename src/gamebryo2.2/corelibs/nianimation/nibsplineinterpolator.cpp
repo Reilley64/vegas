@@ -21,7 +21,7 @@
 // @fnv 0x00a58080
 void NiBSplineInterpolator::LoadBinary(NiStream& stream)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40(stream);
     stream.input->ReadFloat(m_fStartTime);
     stream.input->ReadFloat(m_fEndTime);
     AssignSplineObject(m_spTransformData, stream.DeserializeObject());

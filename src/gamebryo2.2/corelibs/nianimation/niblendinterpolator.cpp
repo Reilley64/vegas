@@ -2155,7 +2155,7 @@ struct Blend100
 void Blend100::FUN_00a37980(Stream100& stream)
 {
 
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40((::NiStream &)stream);
 
     if (stream.version >= 0x0a010070)
     {

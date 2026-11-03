@@ -1,5 +1,7 @@
 // gamebryo2.2/corelibs/nimain/nitrishape.cpp: NiTriShape (16 functions)
 
+#include "fnv/symbols_00a9b000.h"
+#include "fnv/symbols_00a71000.h"
 #include "fnv/decl/FUN_00a98eb0_shell.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -14,7 +16,6 @@
 #include "fnv/symbols_00450000.h"
 #include "fnv/symbols_00a7d000.h"
 #include "fnv/symbols_00a89000.h"
-#include "fnv/symbols_00a9b000.h"
 #include "fnv/symbols_00aa1000.h"
 #include "fnv/symbols_011f4000.h"
 #include "nitrishape_decls.h"
@@ -346,9 +347,9 @@ void FUN_00a98eb0_shell::FUN_00a98eb0(NiStream& stream)
 
 
 // @fnv 0x00a71d10
-void __cdecl FUN_00a71d10()
+void FUN_00a71d10_shell::FUN_00a71d10(::NiStream& kStream)
 {
-    FUN_00a9b1a0();
+    reinterpret_cast<::FUN_00a9b1a0_shell *>(this)->FUN_00a9b1a0(kStream);
 }
 
 

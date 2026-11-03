@@ -354,10 +354,15 @@ BackToFront_aa0* BackToFront_aa0::FUN_00aa0f50(CloningProcess& kCloning)
     return pkObject;
 }
 
-// @fnv 0x00aa0ac0
-void __cdecl FUN_00aa0ac0()
+struct FUN_00aa0ac0_shell
 {
-    FUN_00a88a40();
+    void FUN_00aa0ac0(::NiStream& kStream);
+};
+
+// @fnv 0x00aa0ac0
+void FUN_00aa0ac0_shell::FUN_00aa0ac0(::NiStream& kStream)
+{
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40(kStream);
 }
 
 

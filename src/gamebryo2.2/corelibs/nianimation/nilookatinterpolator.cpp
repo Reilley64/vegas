@@ -1001,7 +1001,7 @@ class C630Blend : public C630Interpolator
 // @fnv 0x00a4c630
 void C630Blend::FUN_00a4c630(C630Stream& kStream)
 {
-    ::FUN_00a88a40();
+    reinterpret_cast<::FUN_00a88a40_shell *>(this)->FUN_00a88a40((::NiStream &)kStream);
 
     C630LoadBinary(*kStream.m_pUnderlyingStream, m_usFlags);
     m_pkTarget = ((void *)(reinterpret_cast<::NiStream *>(&(kStream))->DeserializeObject()));

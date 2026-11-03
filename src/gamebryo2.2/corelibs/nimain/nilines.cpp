@@ -1,5 +1,6 @@
 // gamebryo2.2/corelibs/nimain/nilines.cpp: NiLines, LinesCloneSource (8 functions)
 
+#include "fnv/symbols_00a9b000.h"
 #include <cstddef>
 #include "fnv/decl/FUN_00a80610_shell.h"
 #include "fnv/decl/GeometryStub.h"
@@ -177,9 +178,9 @@ bool FUN_00a9b190::FUN_00a9b190_Impl(NiStream& s)
 }
 
 // @fnv 0x00a9b1a0
-void __cdecl FUN_00a9b1a0()
+void FUN_00a9b1a0_shell::FUN_00a9b1a0(::NiStream& kStream)
 {
-    static_cast<::GeometryStub *>(nullptr)->FUN_00a80db0(*(::StreamStub *)nullptr);
+    reinterpret_cast<::GeometryStub *>(this)->FUN_00a80db0((::StreamStub &)kStream);
 }
 
 void* __cdecl NiAllocBlock(unsigned int size);

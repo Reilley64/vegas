@@ -1720,8 +1720,8 @@ Entry* __cdecl FUN_00cfe1d0(Entry* h, Entry* out, Vector* b, unsigned int n, uns
             _mm_store_ps(&dst[-3].x, _mm_add_ps(_mm_load_ps(&m[3].x), _mm_load_ps(&dst[-3].x)));
             dst[-2].q = m[4].q;
             dst[-1].q = m[5].q;
-            ::fnv_00c66320::FUN_00c66320((__m128 *)(((FUN_00c66320_cls*)(dst))), (void *)(&m[6].q), (const __m128 *)(const __m128 *)(&node->v20), {});
-            ::fnv_00c66320::FUN_00c66320((__m128 *)(((FUN_00c66320_cls*)(dst + 1))), (void *)(&m[7].q), (const __m128 *)(const __m128 *)(&node->v20), {});
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((FUN_00c66320_cls*)(dst))), nullptr, (const ::fnv_00c66320::__m128 *)(&m[6].q), (const ::fnv_00c66320::__m128 *)(&node->v20));
+            ::fnv_00c66320::FUN_00c66320((::fnv_00c66320::__m128 *)(((FUN_00c66320_cls*)(dst + 1))), nullptr, (const ::fnv_00c66320::__m128 *)(&m[7].q), (const ::fnv_00c66320::__m128 *)(&node->v20));
 
             Entry* a = out;
             node->rows.inversePosition(dst[2], m[8]);

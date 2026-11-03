@@ -3025,7 +3025,7 @@ struct ParserContext
 {
     int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38, unk3c,
         unk40, result44;
-    int FUN_00e63af0(int, void*, float*);
+    int FUN_00e63af0(const void*, void*, float*);
 };
 struct FloatPair
 {
@@ -8540,7 +8540,7 @@ __declspec(noinline) void S00de0fe0_Arr::FUN_00ddfb70()
 
 // Fills a local pointer array, calls ForEachCall on DAT_012681e0 with it, calls vf00(1) on each element, then frees the array buffer.
 // @fnv 0x00de0fe0
-void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4)
+void __cdecl FUN_00de0fe0(intptr_t arg1, const void* arg2, int arg3, int arg4)
 {
     S00de0fe0_Local local;
 
@@ -8552,7 +8552,7 @@ void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4)
     local.arr.cap = 0x80000000;
     reinterpret_cast<::Node *>(&(local.o))->FUN_00de0f90((void *)(arg1), (::XfResult *)(::S00de0fe0_Element ***)(&local.arr.data));
 
-    reinterpret_cast<::FUN_00c983e0_Class *>((((S00de0fe0_C983Obj*)DAT_012681e0)))->ForEachCall((intptr_t)&local.arr, arg2, arg3, 0, arg1);
+    reinterpret_cast<::FUN_00c983e0_Class *>((((S00de0fe0_C983Obj*)DAT_012681e0)))->ForEachCall(&local.arr, arg2, arg3, 0, arg1);
 
     if (local.arr.count != 0)
     {
@@ -13760,7 +13760,7 @@ void __cdecl FUN_00dfe1d0();
 
 void __cdecl FUN_00dfe200();
 
-void __cdecl FUN_00de0fe0(intptr_t arg1, int arg2, int arg3, int arg4);
+void __cdecl FUN_00de0fe0(intptr_t arg1, const void* arg2, int arg3, int arg4);
 
 GlobalObjectO2_00d472a0* __cdecl FUN_00de8370();
 

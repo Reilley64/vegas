@@ -4514,7 +4514,7 @@ SmallBool EntityShape::AddActor(Actor* apActor) {
     {
         CListener* member = &m_kListener;
         if (apActor->listeners()->second.indexOf(member) < 0) {
-            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0((intptr_t)(member));
+            reinterpret_cast<::FNVOwner *>((apActor))->FUN_00c9c5b0(member);
         }
     }
     return true;
@@ -6239,7 +6239,7 @@ Se5b160_Instance* __cdecl CreatePoweredConstraint(const Se5b160_Instance* __rest
         FUN_00cb9090* oldData = static_cast<FUN_00cb9090*>(constraintData);
         FUN_00e5b110(&oldData->m_kBridgeAtoms, &newData->m_kBridgeAtoms);
         reinterpret_cast<::FUN_00cb8ac0_class *>((newData))->SetReferencedObject((::RefObj *)(motor));
-        ::FUN_00cb8fe0((char *)(newData), (int)(0), enableMotors, {});
+        ::FUN_00cb8fe0((char *)(newData), nullptr, enableMotors);
         newConstraint = new Se5b160_Instance(entityA, entityB, newData, original->getPriority());
         reinterpret_cast<::hkReferencedObjectC905 *>((newData))->FUN_00c905b0();
         reinterpret_cast<::SStringPtr *>(&(newConstraint->m_name))->FUN_00cb0c10(original->m_name.cString());
@@ -6987,7 +6987,6 @@ void FUN_00e5d650(const RaySegment* seg, const hkVector4* to, const void* input,
 #include "fnv/symbols_00e50000.h"
 #include "fnv/symbols_00e51000.h"
 #include "fnv/symbols_00e54000.h"
-#include "fnv/symbols_00e59000.h"
 #include "fnv/symbols_00e5b000.h"
 #include "fnv/symbols_00e5c000.h"
 #include "fnv/symbols_00e57000.h"

@@ -1157,7 +1157,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
     char* buffer;
     if (island->schemaSize)
     {
-        bufferSize = (int)reinterpret_cast<intptr_t>(::fnv_00d889f0::FUN_00d889f0((void *)&(*island)));
+        bufferSize = ::fnv_00d889f0::FUN_00d889f0((void *)&(*island));
         bufferCapacity = bufferSize;
         buffer = solverBufAlloc<char>(bufferCapacity);
         while (!buffer)

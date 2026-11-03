@@ -401,7 +401,7 @@ struct E2d0Node
     unsigned int unk10;
     unsigned int unk14;
     E2d0Slot m_slots[3];
-    int Probe(int a, FUN_00e2d0d0_cls* self, int* out);
+    int Probe(const void* a, FUN_00e2d0d0_cls* self, int* out);
 };
 
 struct FUN_00e2d0d0_cls
@@ -1295,11 +1295,11 @@ struct FUN_00e2d0d0_cls
     unsigned int unkDD8;
     unsigned int unkDDC;
     E2d0Node* m_pNodes[100];
-    int TraverseNode(E2d0Node* a1, int a2, int* a3, E2d0Ref** a4);
+    int TraverseNode(E2d0Node* a1, const void* a2, int* a3, E2d0Ref** a4);
 };
 
 // @fnv 0x00e2d0d0
-int FUN_00e2d0d0_cls::TraverseNode(E2d0Node* apNode, int aiArg, int* piCount, E2d0Ref** papMatch)
+int FUN_00e2d0d0_cls::TraverseNode(E2d0Node* apNode, const void* apInput, int* piCount, E2d0Ref** papMatch)
 {
     int result = 0;
     for (int i = 0; i < 3; ++i)
@@ -1309,11 +1309,11 @@ int FUN_00e2d0d0_cls::TraverseNode(E2d0Node* apNode, int aiArg, int* piCount, E2
         int state = node->m_slots[2].m_state0c;
         if (state == 0)
         {
-            state = node->Probe(aiArg, this, &m_04);
+            state = node->Probe(apInput, this, &m_04);
             node->m_slots[2].m_state0c = state;
             if (state == 1)
             {
-                result = this->TraverseNode(node, aiArg, piCount, papMatch);
+                result = this->TraverseNode(node, apInput, piCount, papMatch);
                 if (result == 2)
                     break;
                 continue;

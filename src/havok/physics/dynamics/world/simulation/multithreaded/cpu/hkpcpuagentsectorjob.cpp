@@ -18,25 +18,31 @@
 #include "fnv/symbols_010cd000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
-struct FUN_00d93330 {
+// The counter at +0x18 and the value at +0x1c that FUN_00d93330 and FUN_00d93340 update.
+struct CounterAndValueFields {
+    char pad00[0x18];
+    int m_iCounter;  // +0x18
+    int m_iValue;    // +0x1c
+};
+struct FUN_00d93330 : CounterAndValueFields {
     void UpdateConstraint(int);
 };
 // @fnv 0x00d93330
 void FUN_00d93330::UpdateConstraint(int v)
 {
-    ++(*(int*)((char*)this + 0x18));
-    *(int*)((char*)this + 0x1c) = v;
+    ++m_iCounter;
+    m_iValue = v;
 }
 
-struct FUN_00d93340_StandIn {
+struct FUN_00d93340_StandIn : CounterAndValueFields {
     void FUN_00d93340(int);
 };
 
 // @fnv 0x00d93340
 void FUN_00d93340_StandIn::FUN_00d93340(int a)
 {
-    *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
-    *(int*)((char*)this + 0x1c) = a;
+    m_iCounter = m_iCounter - 1;
+    m_iValue = a;
 }
 
 struct SubTarget {
@@ -305,7 +311,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                         Island *sectorIsland = work.savedIsland;
                         Entry *const &slot = sectorIsland->sectors[index]; prefetched = slot;
                         if (remaining > 0) {
-                            char *p = (char *)sectorIsland->sectors[index + 1];
+                            char *p = reinterpret_cast<char *>(sectorIsland->sectors[index + 1]);
                             _mm_prefetch(p, 0); _mm_prefetch(p + 64, 0); _mm_prefetch(p + 128, 0); _mm_prefetch(p + 192, 0);
                         }
                         end = (index + 1 == sectorIsland->sectorCount ? sectorIsland->lastSize : 512) + (char *)slot;

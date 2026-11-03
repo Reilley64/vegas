@@ -11119,21 +11119,7 @@ struct FnvAdjustedBody {
 struct FnvActionTarget {
 };
 
-struct FnvAllocator {
-    virtual void* vf00();
-    virtual void* vf04(int size);
-    virtual void vf08();
-    virtual void vf0C();
-    virtual void vf10(void* data, int size);
-};
 
-struct FnvAudioManager {
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0C;
-    FnvAllocator* unk10;
-};
 
 struct FnvBroadPhase {
     virtual void vf00();
@@ -11174,8 +11160,7 @@ void FnvWorld::FUN_00c93c30(const void* flags) {
         FnvMsg msg;
         msg.unk00 = 0x20;
 
-        FnvAudioManager* audio = static_cast<FnvAudioManager*>(::FUN_00c85750());
-        void* buffer = audio->unk10->vf04(0x20);
+        void* buffer = hkMemoryRouter::getInstance().heap().blockAlloc(0x20);
         msg.unk04 = buffer;
         ::FUN_00cb1260(buffer, flags, 0x20);
         reinterpret_cast<::WorldWithPending *>((this))->FUN_00c91160();
@@ -11202,11 +11187,10 @@ void FnvWorld::FUN_00c93c30(const void* flags) {
         ++index;
     }
 
-    FnvAudioManager* audio = static_cast<FnvAudioManager*>(::FUN_00c85750());
-    FnvAllocator* alloc = audio->unk10;
+    hkMemoryAllocator* alloc = hkMemoryRouter::getInstance().m_heap;
     bodies.m_uiItemCount = 0;
     if ((bodies.m_pRayCursor & 0x80000000) == 0)
-        alloc->vf10(bodies.m_data, (bodies.m_pRayCursor & 0x3FFFFFFF) * 8);
+        alloc->bufFree(bodies.m_data, (bodies.m_pRayCursor & 0x3FFFFFFF) * 8);
 }
 }  // namespace fnv_00c93c30
 

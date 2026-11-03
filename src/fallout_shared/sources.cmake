@@ -5,6 +5,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/actorvalue.cpp
   src/fallout_shared/actorvalue_h_unit.cpp
   src/fallout_shared/aiformulas.cpp
+  src/fallout_shared/animation.cpp
   src/fallout_shared/audiomarkerdata.cpp
   src/fallout_shared/bgsacousticspace.cpp
   src/fallout_shared/bgsaddonnode.cpp
@@ -130,6 +131,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/medialocationcontroller.cpp
   src/fallout_shared/mediaset.cpp
   src/fallout_shared/miscstats.cpp
+  src/fallout_shared/modelloader.cpp
   src/fallout_shared/modelloader_h_unit.cpp
   src/fallout_shared/multiboundmarkerdata.cpp
   src/fallout_shared/niformarray.cpp
@@ -362,10 +364,8 @@ set_source_files_properties(${VEGAS18_FALLOUT_SHARED_SOURCES} PROPERTIES
 
 # Units that still keep pointers in 32-bit integers build without the narrowing errors until they are clean.
 set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
-  src/fallout_shared/animation.cpp
   src/fallout_shared/extradatalist.cpp
   src/fallout_shared/inventorychanges.cpp
-  src/fallout_shared/modelloader.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectrefr.cpp
 )

@@ -227,19 +227,40 @@ void* S_00d0f2e0::FUN_00d0f2e0(void* a, int b, void* c)
 }
 
 struct TimeStep {float start,end,delta,inverse;};
+// The world's collision input; its step info is at +0x50.
 struct World {
- TimeStep& time(){return *reinterpret_cast<TimeStep*>(reinterpret_cast<char*>(this)+80);}
+ char pad00[0x50];
+ TimeStep m_stepInfo;
+ TimeStep& time(){return m_stepInfo;}
 };
+// The hkpWorld fields the continuous simulation reads (names from include/havok/hkpWorld.h).
 struct Context {
- World*& world(){return *reinterpret_cast<World**>(reinterpret_cast<char*>(this)+120);}
- int& depth(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+148);}
- int& pending(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+140);}
- int& otherPending(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+144);}
- unsigned char& locked(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+156);}
- int& mode(){return *reinterpret_cast<int*>(reinterpret_cast<char*>(this)+164);}
- 
+ char pad00[0x78];
+ World* m_pCollisionInput;                       // +0x78
+ char pad7c[0x10];
+ int m_iPendingOperationCount;                   // +0x8c
+ int m_iQueuedOperationCount;                    // +0x90
+ int m_iCriticalOperationsLockCount;             // +0x94
+ int m_iCriticalOperationsLockCountForPhantoms;  // +0x98
+ unsigned char m_bBlockExecutingPendingOperations;  // +0x9c
+ char pad9d[0x7];
+ int m_iPendingOperationQueueCount;              // +0xa4
+ World*& world(){return m_pCollisionInput;}
+ int& depth(){return m_iCriticalOperationsLockCount;}
+ int& pending(){return m_iPendingOperationCount;}
+ int& otherPending(){return m_iQueuedOperationCount;}
+ unsigned char& locked(){return m_bBlockExecutingPendingOperations;}
+ int& mode(){return m_iPendingOperationQueueCount;}
 };
-struct Body { unsigned char& motion(){return *reinterpret_cast<unsigned char*>(reinterpret_cast<char*>(this)+232);} void* state(){return reinterpret_cast<char*>(this)+240;} };
+// The hkpEntity motion fields: m_motion.m_type (+0xe8) and m_motion.m_motionState (+0xf0).
+struct Body {
+ char pad00[0xe8];
+ unsigned char m_motionType;
+ char pade9[0x7];
+ unsigned char m_motionState[1];
+ unsigned char& motion(){return m_motionType;}
+ void* state(){return m_motionState;}
+};
 void __cdecl FUN_00d28680(TimeStep*,Body**,int,int);
 struct Controller {
  virtual void slot0();virtual void slot1();virtual void slot2();virtual void slot3();virtual void slot4();virtual void slot5();virtual void slot6();virtual void slot7();virtual void process(Body**,int,Context*,int);
@@ -274,14 +295,15 @@ void Controller::ProcessBodies(Body** bodies,int count,Context* context,int flag
 
 struct SpawnedObject
 {
-    unsigned int unkD4_dummy;
+    char pad00[0xd4];
+    unsigned int m_uiUniqueId;  // +0xd4, hkpEntity::m_uiUniqueId
 };
 
 // @fnv 0x00d0bc60
 bool *__cdecl IsLessByUnkD4(bool *pbResult, SpawnedObject *pObjectA, SpawnedObject *pObjectB)
 {
-    unsigned int uiValueA = *(unsigned int *)((char *)pObjectA + 0xd4);
-    unsigned int uiValueB = *(unsigned int *)((char *)pObjectB + 0xd4);
+    unsigned int uiValueA = pObjectA->m_uiUniqueId;
+    unsigned int uiValueB = pObjectB->m_uiUniqueId;
     *pbResult = uiValueA < uiValueB;
     return pbResult;
 }
@@ -747,6 +769,8 @@ struct InfoBlock {
     unsigned char unk08;
     unsigned char unk09;
     unsigned char m_0a;
+    unsigned char pad0b[0x25];
+    unsigned char m_entries[1];  // +0x30, 32-byte entries
 };
 
 struct Child {
@@ -846,8 +870,8 @@ unsigned char* __cdecl CollectMatchingEntries(unsigned char* pResult, SrcA* pSrc
                     if (e->m_00->m_0c->v08() == 0xb) {
                         Child* x = e->m_00->m_0c;
                         InfoBlock* y = x->m_28;
-                        pNewEntry->m_04 = (char*)y + 0x30 + (ret << 5);
-                        pNewEntry->m_08 = (char*)x->m_28 + 0x30 + (x->m_28->m_06 << 5) + (short)ret * x->m_28->m_0a;
+                        pNewEntry->m_04 = (char*)y->m_entries + (ret << 5);
+                        pNewEntry->m_08 = (char*)x->m_28->m_entries + (x->m_28->m_06 << 5) + (short)ret * x->m_28->m_0a;
                     } else {
                         pNewEntry->m_04 = 0;
                         pNewEntry->m_08 = 0;
@@ -4599,6 +4623,8 @@ static __forceinline void WriteClock(const char* name) {
         s->m_kRayEnd = reinterpret_cast<char*>(h + 1);
     }
 }
+// Prefetch distance inside an agent sector: one cache line pair.
+static const int kSectorPrefetchBytes = 0x80;
 // @fnv 0x00d0d8b0
 void S00d0d8b0_Obj::FUN_00d0d8b0(S00d0d8b0_Coll* coll, ThingP* p)
 {
@@ -4618,7 +4644,7 @@ void S00d0d8b0_Obj::FUN_00d0d8b0(S00d0d8b0_Coll* coll, ThingP* p)
             int kind = (signed char)x->m_bKind;
             int a = x->m_iA;
             int b = x->m_iB;
-            _mm_prefetch((const char*)(rec + 0x80), 0);
+            _mm_prefetch((const char*)(rec + kSectorPrefetchBytes), 0);
             p->m_afEntries = (ThingEntry*)(p->m_pTable + kind * 64 + 0x1c20);
             p->m_iCached = p->m_afEntries->m_iValue;
             out.reset();

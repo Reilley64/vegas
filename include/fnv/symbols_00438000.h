@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 // 0x004381d0
 void FUN_004381d0(void *);
 // 0x00438210

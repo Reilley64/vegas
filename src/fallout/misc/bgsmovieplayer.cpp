@@ -1,5 +1,6 @@
 // fallout/misc/bgsmovieplayer.cpp: BGSMoviePlayer (16 functions)
 
+#include "fnv/dx9_renderer_view.h"
 #include "fnv/decl/BSAudio_.h"
 #include "fnv/decl/FUN_004dc020_Class.h"
 #include "fnv/decl/FUN_005bb4d0_shell.h"
@@ -28,7 +29,7 @@
 Direct3DDeviceInterface* BGSMoviePlayer::GetDevice()
 {
     NiRenderer* renderer = ((::NiRenderer *)(::FUN_004bc3f0()));
-    return ((::Direct3DDeviceInterface *)(reinterpret_cast<::FUN_004dc020_Class *>((renderer))->FUN_004dc020()));
+    return ((::Direct3DDeviceInterface *)(reinterpret_cast<::NiDX9RendererView *>(renderer)->m_pkD3DDevice9));
 }
 
 // @fnv 0x008672b0
@@ -115,7 +116,7 @@ bool BGSMoviePlayer::UpdateMoviePlayback(bool continuePlaying)
     if (!reinterpret_cast<::PlaybackContinueState *>(this)->FUN_00ec1840(continuePlaying))
         return false;
 
-    deviceStatus = ((::Direct3DDeviceInterface *)(reinterpret_cast<::FUN_004dc020_Class *>((FUN_0043c4b0()))->FUN_004dc020()))->TestCooperativeLevel();
+    deviceStatus = ((::Direct3DDeviceInterface *)(reinterpret_cast<::NiDX9RendererView *>(FUN_0043c4b0())->m_pkD3DDevice9))->TestCooperativeLevel();
     if (deviceStatus < 0)
         return false;
 

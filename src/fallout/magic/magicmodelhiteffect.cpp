@@ -1,5 +1,6 @@
 // fallout/magic/magicmodelhiteffect.cpp: MagicModelHitEffect, Candidate (22 functions)
 
+#include "fnv/av_object_fields.h"
 #include "fnv/effect_item_fields.h"
 #include "fnv/active_effect_fields.h"
 #include "fnv/save_load_game_view.h"
@@ -558,12 +559,6 @@ struct SNode
     virtual void v57();
     virtual void InsertChild(void*);
 };
-// The parent of a scene graph object (NiAVObject::m_pkParent).
-struct AVObjectParentView
-{
-    char pad00[0x18];
-    NiNode* m_pkParent;
-};
 void __cdecl _Deallocate(void*);
 struct FUN_0081c810 : FUN_0081b6d0_s
 {
@@ -579,7 +574,7 @@ FUN_0081c810::~FUN_0081c810()
 {
     if (m_pRenderedNodeEntry.p)
     {
-        NiNode* pparent = reinterpret_cast<AVObjectParentView*>(m_pRenderedNodeEntry.p)->m_pkParent;
+        NiNode* pparent = reinterpret_cast<::NiAVObjectFields *>(m_pRenderedNodeEntry.p)->m_pkParent;
         if (pparent)
             ((SNode*)pparent)->InsertChild(m_pRenderedNodeEntry.p);
         m_pRenderedNodeEntry = 0;

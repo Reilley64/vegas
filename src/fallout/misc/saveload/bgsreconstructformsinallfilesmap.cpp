@@ -150,8 +150,7 @@ struct TESObjectREFR_GetFlags_caller : public TESObjectREFR
 // @fnv 0x00843bb0
 unsigned int FUN_00843bb0_shell::GetCombinedFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)((char*)this + 0x0))))->GetName())) +
-           ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)&this->m_kSpecialFormChanges)))->GetName()));
+    return m_kOrdinaryFormChanges.iSize + m_kSpecialFormChanges.iSize;
 }
 
 extern int DAT_01031fac;
@@ -622,7 +621,7 @@ struct FUN_008432e0_Host
 // @fnv 0x008432e0
 unsigned int FUN_008432e0_Host::FUN_008432e0(unsigned int auiIndex)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
         return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(auiIndex);
@@ -646,7 +645,7 @@ struct FUN_00844160_shell
 // @fnv 0x00843330
 unsigned int ArrSI::GetElementAt(unsigned int index)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (index < flags)
     {
         return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(index);
@@ -671,7 +670,7 @@ struct ArrSI : Base00844c90
 // @fnv 0x00843380
 bool ArrSI::FUN_00843380(unsigned int auiIndex)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
         FUN_00844c90(auiIndex, 1);
@@ -912,7 +911,7 @@ struct BSScrapArray : ArrSI
 OffsetData* BSScrapArray::ReallocateBuffer(OffsetData* apBuffer, unsigned int aiNewSizeInItem)
 {
     OffsetData* pnewBuffer = (OffsetData*)reinterpret_cast<::FUN_00aa54a0_s *>((m_pAllocator))->FUN_00aa54a0(aiNewSizeInItem * sizeof(OffsetData), ::DAT_010a2720);
-    ::__memcpy(pnewBuffer, apBuffer, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) * sizeof(OffsetData));
+    ::__memcpy(pnewBuffer, apBuffer, reinterpret_cast<::BSSimpleArray<OffsetData, 1024> *>(this)->iSize * sizeof(OffsetData));
     reinterpret_cast<::SHStub *>((m_pAllocator))->FUN_00aa5610(apBuffer);
     return pnewBuffer;
 }
@@ -2371,6 +2370,13 @@ struct RegLand
 {
 };
 
+// The cell a landscape form (form type 0x43) belongs to; the release build reads it through the folded getter at 0x0059bb30.
+struct RegLandOwnerView
+{
+    char pad00[0x24];
+    RegLand* pParentCell;
+};
+
 struct RegRef
 {
     virtual void v000();
@@ -2553,7 +2559,7 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
     else if (iType9 == 0x43)
     {
         RegRef* pLandRef3 = apRef;
-        RegLand* pLand4 = ((::RegLand *)(reinterpret_cast<::ActorMover *>((pLandRef3))->GetCurrentMoveModeType()));
+        RegLand* pLand4 = reinterpret_cast<RegLandOwnerView*>(pLandRef3)->pParentCell;
         void* pLandCell9 = pLand4 ? ((void *)(reinterpret_cast<::TESObjectCELL *>((pLand4))->GetParentWorldSpace())) : 0;
         if (pLandCell9)
             reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>(this)->EnsureObjectAndCall((int)(pLandCell9), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridY(), (int)(apRef), 0, aiArg);
@@ -3047,7 +3053,11 @@ struct RebuildMap
 struct RebuildQueue
 {
 
-    unsigned int unk00, unk04, unk08, unk0c, unk10;
+    void** m_ppVirtualMethodTable;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int iAllocSize;
+    unsigned int unk10;
 
     RebuildQueue();
     ~RebuildQueue();
@@ -3462,7 +3472,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
             if (id == -1 || id == -2)
             {
 
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(queued3))->GetName())))
+                if (queued3.iSize)
                 {
 
                     result = *((::RebuildResult *)(reinterpret_cast<::FUN_00844160_shell *>(&(queued3))->FUN_00844160(next4++)));
@@ -3513,7 +3523,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
         if (groupEndA && groupEndA <= reinterpret_cast<::TESFile *>((file))->GetOffset())
         {
 
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(queued3))->GetName())) > next4)
+            if (queued3.iSize > next4)
                 result = *((::RebuildResult *)(reinterpret_cast<::FUN_00844160_shell *>(&(queued3))->FUN_00844160(next4++)));
 
             else

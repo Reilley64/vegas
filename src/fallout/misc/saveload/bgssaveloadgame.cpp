@@ -2675,6 +2675,10 @@ class BGSLoadGameBuffer
 class LoadBufferArray
 {
   public:
+    void** m_ppVirtualMethodTable;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int SimpleArrayStorage;
     unsigned int GetSize();
     void Clear(bool);
 };
@@ -2752,7 +2756,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
     reinterpret_cast<::FUN_00849540_shell *>(this)->SetFlag8(true);
     if (resetWorld)
         ::FUN_008495b0((char *)((*reinterpret_cast<::fnv_008492b0::IOManager * *>(&::DAT_01202d98))));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(buffers))->GetName())); ++i)
+    for (unsigned int i = 0; i < buffers.iSize; ++i)
     {
         BGSLoadGameBuffer* buffer = ((::fnv_008492b0::BGSLoadGameBuffer *)(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(i)));
         if (buffer)
@@ -2774,7 +2778,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
         reinterpret_cast<::B45CDA0TES *>(((*reinterpret_cast<::fnv_008492b0::TES * *>(&::g_TES))))->FUN_0045cda0();
     }
     reinterpret_cast<::LoadGameSubBufferQueue *>((changes))->QueueAnimationAndCharController();
-    for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(buffers))->GetName())); ++j)
+    for (unsigned int j = 0; j < buffers.iSize; ++j)
     {
         BGSLoadGameBuffer* buffer = ((::fnv_008492b0::BGSLoadGameBuffer *)(reinterpret_cast<::S3e60 *>(&(buffers))->FUN_006a7ad0(j)));
         if (buffer)

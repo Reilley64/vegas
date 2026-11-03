@@ -1,6 +1,7 @@
 // src/fallout/misc/screenshot.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/screenshot.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/dx9_renderer_view.h"
 #include <windows.h>
 #include <d3d9.h>
 #include <wingdi.h>
@@ -61,8 +62,11 @@ struct S_00878f60_PixelFormat
 
 struct S_00878f60_TexData;
 
+// The render target buffer; the release build reads its renderer data through the folded getter at 0x0059bb30.
 struct S_00878f60_RendererData
 {
+    char pad00[0x24];
+    S_00878f60_TexData* pRendererData;
 };
 
 struct S_00878f60_Texture
@@ -372,7 +376,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
                                      "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Misc\\ScreenShot.cpp", 0x139);
     S_00878f60_Renderer* r = ((::S_00878f60_Renderer *)(::FUN_004bc3f0()));
     reinterpret_cast<::ThreadCoordinator_ba2f30 *>((((::S_00878f60_MTRender *)(::TaskThreadManager::GetSingleton()))))->FUN_00ba2f30();
-    IDirect3DDevice9* pDevice = ((::IDirect3DDevice9 *)(reinterpret_cast<::FUN_004dc020_Class *>((r))->FUN_004dc020()));
+    IDirect3DDevice9* pDevice = reinterpret_cast<::NiDX9RendererView *>(r)->m_pkD3DDevice9;
     S_00878f60_Cam frustum = *((::S_00878f60_Cam *)(reinterpret_cast<::FUN_00878f20_shell *>((r->vfD4()))->DeallocateSound()));
     S_00878f60_FormatPrefs prefs2;
     prefs2.m_eMipFlag = 0;
@@ -397,7 +401,7 @@ S_00878f60_PixelData* FUN_00878f60(int* pWidth, int* pHeight, const char* filena
     ::RenderStageWait::FUN_00ba3130((::RenderStageWait::ThreadStages *)(((::S_00878f60_MTRender *)(::TaskThreadManager::GetSingleton()))), (void *)(1), 0x17, {});
     reinterpret_cast<::FUN_00ba2fa0_C *>((((::S_00878f60_MTRender *)(::TaskThreadManager::GetSingleton()))))->FUN_00ba2fa0();
 
-    S_00878f60_TexData* localTexData = ((::S_00878f60_TexData *)(reinterpret_cast<::ActorMover *>((((::S_00878f60_RendererData *)(reinterpret_cast<::FUN_004bc320_shell *>(((eTex).operator->()))->FUN_004bc320(0)))))->GetCurrentMoveModeType()));
+    S_00878f60_TexData* localTexData = ((::S_00878f60_RendererData *)(reinterpret_cast<::FUN_004bc320_shell *>(((eTex).operator->()))->FUN_004bc320(0)))->pRendererData;
     localTexData = localTexData->vfA4();
     IDirect3DTexture9* d3dTexture = localTexData->vf9C();
     D3DSURFACE_DESC d3dDesc;

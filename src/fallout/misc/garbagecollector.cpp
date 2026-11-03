@@ -194,7 +194,7 @@ void FUN_00868d70(bool abTryLock)
         }
         if (!HasFlags(0x20))
         {
-            for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName())); i++)
+            for (unsigned int i = 0; i < g_011de924.iSize; i++)
                 g_011de924.GetAt(i)->debug.FUN_00401970();
             reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(g_011de924))->Clear(true);
         }
@@ -415,9 +415,9 @@ void GarbageCollector::Update()
         ::ForEachNavMesh((::GlobalObject_004aff00 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc))), (::Caller008693c0 *)(void *)(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de874))));
         ::FUN_005e03d0((::NiTArray_Layout *)(reinterpret_cast<NiTPrimitiveArray_unsigned_int_*>(&(*reinterpret_cast<::NiTObjectArray< ::TESObjectREFR *> *>(&::g_011de8bc)))));
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName())))
+    else if (g_011de924.iSize)
     {
-        budget.size = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de924))->GetName()));
+        budget.size = g_011de924.iSize;
         budget.remaining = budget.multiplier * 5;
         while (budget.size && budget.remaining)
         {
@@ -427,7 +427,7 @@ void GarbageCollector::Update()
             reinterpret_cast<::FUN_006bf8f0_Class *>(&(g_011de924))->FUN_006bf8f0(0, true);
         }
     }
-    else if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(g_011de898))->GetName())))
+    else if (g_011de898.iSize)
     {
         ::CopyNonNullElements((::GlobalObject_00869f00 *)(void *)(&g_011de898), (::GlobalObject_00869f00 *)(void *)(&g_011de924));
         reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>(&(g_011de898))->Clear(true);
@@ -481,10 +481,10 @@ struct ProxyArray
 void CopyNonNullElements(GlobalObject_00869f00* apSource, GlobalObject_00869f00* apDest)
 {
     unsigned int i;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((apSource))->GetName())); i++)
+    for (i = 0; i < apSource->iSize; i++)
     {
         NavMesh* v;
-        v = ((::NavMesh *)(reinterpret_cast<::S3e60 *>((((ProxyArray*)apSource)))->FUN_006a7ad0(i)));
+        v = apSource->pBuffer[i];
         if (v)
             reinterpret_cast<::FUN_00438690 *>((apDest))->FUN_007cb2e0((unsigned int *)&(v));
     }

@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadhistory.cpp: SaveLoadChangeHistory (12 functions)
 
+#include "fnv/simple_array_item.h"
 #include "fnv/decl/ActorStandIn008a.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -209,8 +210,8 @@ FUN_0084df30::~FUN_0084df30()
 // @fnv 0x0084df90
 void FUN_0084df90_shell::DeleteAllElements()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())); i++)
-        delete reinterpret_cast<void*>(((unsigned int)(reinterpret_cast<::S3e60 *>(this)->FUN_006a7ad0(i))));
+    for (unsigned int i = 0; i < SimpleArraySize(this); i++)
+        delete static_cast<char*>(SimpleArrayItem<void*>(this, i));
     reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((reinterpret_cast<_Mem_20a4*>(this)))->FUN_006f2290(0, false);
 }
 
@@ -266,7 +267,7 @@ void NavMeshInfoArray84E::SaveTo(SaveTarget84E* pkTarget)
     BGSSaveGameBuffer84E kBuffer;
     BGSSaveGameBuffer84E* pkBuffer6 = &kBuffer;
 
-    unsigned int ItemUpdateArray = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int ItemUpdateArray = SimpleArraySize(this);
     reinterpret_cast<::FUN_00865e50_shell *>((pkBuffer6))->FUN_00865e50(&ItemUpdateArray, 4, 0);
     for (unsigned int uiIndex = 0; uiIndex < ItemUpdateArray; uiIndex++)
     {

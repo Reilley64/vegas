@@ -1,5 +1,7 @@
 // fallout/misc/taskqueueinterface.cpp: TaskQueueInterface, Holder, Host, TaskQueueProxy and more (69 functions)
 
+#include "fnv/active_effect_fields.h"
+#include "InventoryStackRecord.h"
 #include <cstdint>
 #include <new>
 #include "runtime/crt.h"
@@ -1928,11 +1930,11 @@ void TaskQueueInterface::ProcessQueuedTask(const BSPackedTask& akTask)
     }
     case 22: {
         Actor* pTargetActor = static_cast<Actor*>(akTask.m_akPackedTaskVariantData[1].pData);
-        unsigned int uiObjectID = akTask.m_akPackedTaskVariantData[2].iData;
+        void* pObject = akTask.m_akPackedTaskVariantData[2].pData;
         if (TASK_PROCESS(pTargetActor) && TASK_PROCESS(pTargetActor)->GetWeaponInfo())
         {
             BSSimpleArray<ParentSpaceNode, 1024>* pEntry = TASK_PROCESS(pTargetActor)->GetWeaponInfo();
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pEntry))->GetName())) == uiObjectID)
+            if (reinterpret_cast<::InventoryStackRecord *>(pEntry)->m_pItemObject == pObject)
             {
                 reinterpret_cast<BipedAnim*>(pTargetActor)->AttachFaceGenNode();
                 if (TASK_PROCESS(pTargetActor))
@@ -2326,9 +2328,9 @@ void FUN_0087aec0_shell::FUN_0087aec0(EntityRef* reference)
     {
         FakeTask task;
         task.i0 = 0x12;
-        if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActorMover *>((reference))->GetCurrentMoveModeType()))))->GetOwnerActor())))
+        if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActiveEffectFields *>(reference)->target))))->GetOwnerActor())))
         {
-            if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActorMover *>((reference))->GetCurrentMoveModeType()))))->GetOwnerActor()))->IsEligible())
+            if (((::PhysicsState *)(reinterpret_cast<::MagicTarget *>((((::ActorController *)(reinterpret_cast<::ActiveEffectFields *>(reference)->target))))->GetOwnerActor()))->IsEligible())
             {
                 task.p1 = reference;
                 reinterpret_cast<::TaskQueueInterface *>(this)->ProcessPackedTask((const ::BSPackedTask &)(task));

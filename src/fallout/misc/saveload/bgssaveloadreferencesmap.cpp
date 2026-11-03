@@ -1,5 +1,7 @@
 // fallout/misc/saveload/bgssaveloadreferencesmap.cpp: BGSSaveLoadReferencesMap, BGSCellNumericIDArrayMap (10 functions)
 
+#include "fnv/form_fields.h"
+#include "fnv/simple_array_item.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -314,15 +316,15 @@ void BGSSaveLoadReferencesMap::LoadCellReferences(TESObjectCELL* cell, BGSRecons
     else
     {
         cellReferences.cellKey = ::PackShortPair(cell->GetCellGridX(), cell->GetCellGridY());
-        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kWorldspaceCellReferenceMaps))->FUN_00853130(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((cell->GetParentWorldSpace()))->FUN_0084e3a0())), (::fnv_00853130::CombatThreatRecord *&)(cellReferences.referencesMap));
+        reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(m_kWorldspaceCellReferenceMaps))->FUN_00853130(reinterpret_cast<::FormFields *>(cell->GetParentWorldSpace())->iFormID, (::fnv_00853130::CombatThreatRecord *&)(cellReferences.referencesMap));
     }
     if (cellReferences.referencesMap)
     {
         BSSimpleArray<unsigned int, 1024>* referenceIDs = 0;
         if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((cellReferences.referencesMap))->FUN_00853130(cellReferences.cellKey, (::fnv_00853130::CombatThreatRecord *&)(referenceIDs)))
         {
-            for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((referenceIDs))->GetName())); ++index)
-                reinterpret_cast<::Target2e40 *>(this)->FUN_00852e40(((unsigned int)(reinterpret_cast<::S3e60 *>((referenceIDs))->FUN_006a7ad0(index))), (::Forms2e40 *)(forms));
+            for (unsigned int index = 0; index < SimpleArraySize(referenceIDs); ++index)
+                reinterpret_cast<::Target2e40 *>(this)->FUN_00852e40(SimpleArrayItem<unsigned int>(referenceIDs, index), (::Forms2e40 *)(forms));
             reinterpret_cast<::NiTMap_S *>((cellReferences.referencesMap))->RemoveKey(cellReferences.cellKey);
             delete referenceIDs;
         }

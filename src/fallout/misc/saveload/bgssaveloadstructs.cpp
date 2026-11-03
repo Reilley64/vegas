@@ -2,6 +2,8 @@
 // src/fallout/misc/saveload/bgssaveloadstructs.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveloadstructs.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/form_fields.h"
+#include "fnv/save_load_game_view.h"
 #include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstring>
@@ -220,7 +222,7 @@ struct FUN_00853570_shell
 // @fnv 0x00853570
 void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
 {
-    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(g_BGSSaveLoadGame)))->GetName())))
+    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(reinterpret_cast<::BGSSaveLoadGameView *>(g_BGSSaveLoadGame)->pFormIDMap)
                               ->RegisterFormID(numericID);
     unsigned int ifileIndex = iElementIndex >> 24;
     if (ifileIndex == 0xFF)
@@ -761,7 +763,7 @@ class B4B10Dialogue
 void B4B10Dialogue::SetupResponse(B4B10Speaker* pkSpeaker, int iTopic, B4B10Response* pkResponse)
 {
     reinterpret_cast<::FUN_00847db0_shell *>((pkResponse))->FUN_00847db0();
-    reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>((pkResponse))->InitFormEntry((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkSpeaker))->FUN_0084e3a0()))), iTopic, pkSpeaker->GetFormType(),
+    reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>((pkResponse))->InitFormEntry(reinterpret_cast<::FormFields *>(pkSpeaker)->iFormID, iTopic, pkSpeaker->GetFormType(),
                      reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::B4B10DialogueManager * *>(&::DAT_011de134))))->GetConstant27());
     reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((pkResponse))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(pkSpeaker));
     B4B10SetupResponse(pkResponse, pkSpeaker, iTopic);
@@ -1244,7 +1246,7 @@ void SaveLoadStatsDump::FUN_00853e10()
         qrEZrs.m_uiItemCount, reinterpret_cast<::FUN_00854900_shell *>(&(qrEZrs))->FUN_00854900(), qrEZrs.m_data, qrEZrs.m_overhead, qrEZrs.m_pDebugAllocator,
         qrEZrs.m_kMinimumCorner, qrEZrs.m_kMaximumCorner, reinterpret_cast<::FUN_00854920_shell *>(&(qrEZrs))->GetRatio());
     reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
-    qSVM = ((::fnv_00853e10::xHistory *)(reinterpret_cast<::BGSTerrainManager *>(((*reinterpret_cast<::fnv_00853e10::xSaveLoad * *>(&::g_BGSSaveLoadGame))))->GetMinLevel()));
+    qSVM = ((::fnv_00853e10::xHistory *)(reinterpret_cast<::BGSSaveLoadGameView *>(::g_BGSSaveLoadGame)->pSaveLoadHistory));
     qpTd = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((qSVM))->GetReferenceFlags()));
     qsSDDgz = 0;
     if (qpTd)

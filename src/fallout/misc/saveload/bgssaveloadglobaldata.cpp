@@ -100,6 +100,13 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f1000.h"
 #include "bgssaveloadglobaldata_packet.h"
+
+// The image space modifier form of a modifier instance, read through the folded getter at 0x00441110.
+struct ImageSpaceModifierFormView
+{
+    char pad00[0x1c];
+    void* pImageSpaceModifier;
+};
 class BGSLoadGameBuffer;
 class TESObjectCELL;
 
@@ -1342,7 +1349,7 @@ void __cdecl SaveImageSpaceModifierInstances(void* pBuffer)
                 reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(&aV6, 4, 0);
                 v5 = (float)(((double)(::ImageSpaceModifierInstance::GetTime())) - ((double)(reinterpret_cast<::TESActorBaseData *>((((FUN_0047c860_Class*)v2)))->GetHealthRegeneration())));
                 reinterpret_cast<::FUN_00865e50_shell *>((((BGSSaveFormBuffer*)pBuffer)))->FUN_00865e50(&v5, 4, 0);
-                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(void *)((void*)((int)(reinterpret_cast<::BGSTerrainManager *>((((NiTimeController*)v2)))->GetMinLevel()))), 0);
+                reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((((FUN_00865df0_buf*)pBuffer)))->FUN_00865df0((::fnv_00865df0::TESForm *)(reinterpret_cast<::ImageSpaceModifierFormView *>(v2)->pImageSpaceModifier), 0);
                 ++v3;
             }
         }

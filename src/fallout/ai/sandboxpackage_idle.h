@@ -17,22 +17,16 @@
 #define PlayerCharacter SandboxSharedPlayerCharacter
 #define Animation SandboxSharedAnimation
 #define SettingT_GameSettingCollection_ SandboxSharedSettingT_GameSettingCollection_
-#define IsOutdoorCell()                                                                                                  \
-    IsOutdoorCell();                                                                                                     \
-    bool IsCellInterior() const
 #include "layout_support.h"
-#undef IsOutdoorCell
-#define GetFormID()                                                                                                    \
-    GetFormID();                                                                                                       \
-    ENUM_FORM_ID GetFormType() const
-#define GetExtraData                                                                                                   \
-    GetExtraData();                                                                                                    \
+#define FindEncounterZone                                                                                              \
+    FindEncounterZone();                                                                                               \
     TESWorldSpace* GetParentWorldSpace();                                                                                    \
     float GetBoundingRadius
 #define GetActorBase                                                                                                   \
     GetActorBase();                                                                                                    \
     TESPackage* GetCurrentPackage();                                                                                   \
     void* FUN_0087f990
+#include "LowProcess.h"
 #include "Actor.h"
 #undef g_timeGlobal
 #undef TimeGlobal
@@ -41,7 +35,7 @@
 #undef SettingT_GameSettingCollection_
 #undef GetActorBase
 #undef GetFormID
-#undef GetExtraData
+#undef FindEncounterZone
 #define IsActorWithinLocationRadius                                                                                    \
     IsObjectWithinLocationRadius(MobileObject*, float);                                                                \
     bool IsActorWithinLocationRadius

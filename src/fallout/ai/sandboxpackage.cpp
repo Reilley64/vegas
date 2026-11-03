@@ -1,6 +1,7 @@
 
 // Fallout: New Vegas - original source reconstruction.
 // Original: platforms/common/code/fallout/ai/sandboxpackage.cpp
+#include "fnv/result_slot.h"
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/B479FB0IdleList.h"
@@ -626,7 +627,7 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
     if (ppack)
     {
         int ipackageLocRadius;
-        packageLoc = *reinterpret_cast<const NiPoint3POD*>(&ppack->GetPackageLocationPosition(apActor));
+        packageLoc = *reinterpret_cast<const NiPoint3POD*>(&ResultSlot(ppack->GetPackageLocationPosition(apActor)));
         ppackageCell = ((::TESObjectCELL *)(reinterpret_cast<::fnv_00675c20::PHost *>((ppack))->FUN_00675c20((::fnv_00675c20::Ref *)(apActor))));
         ipackageLocRadius = reinterpret_cast<::HighProcess *>((ppack))->UpdateHighProcessState((::Actor *)(apActor));
         fsearchDist = ipackageLocRadius > 0 ? (float)ipackageLocRadius : fsearchDist;
@@ -684,9 +685,9 @@ void SandBoxActorPackageData_ext::SelectSandboxActivity(Actor* apActor, TESPacka
             bisDialogue = (*(::SANDBOX_PROCEDURE *)(reinterpret_cast<::Callees *>((item))->FUN_00726070())) == SANDBOX_PROCEDURE_SANDBOX_PROCEDURE_DIALOGUE;
             fmaxDistSqr = bisDialogue ? fsearchDialogueDistSqr : fsearchDistSqr;
             if (fmaxDistSqr <
-                static_cast<const NiPoint3_ext&>(static_cast<NiPoint3_ext*>(ptargObject->GetPos())
+                reinterpret_cast<const NiPoint3_ext&>(ResultSlot(static_cast<NiPoint3_ext*>(ptargObject->GetPos())
                                                      ->
-                                                     operator-(reinterpret_cast<const NiPoint3&>(packageLoc)))
+                                                     operator-(reinterpret_cast<const NiPoint3&>(packageLoc))))
                     .FUN_004a7290())
             {
                 reinterpret_cast<::FUN_0041fd00_shell *>((item))->FUN_0041fd00(0);

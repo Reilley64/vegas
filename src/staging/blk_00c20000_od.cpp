@@ -323,12 +323,12 @@ void FUN_00c3a0c0_Class::AddFirstEmptyFromGlobal(uintptr_t pArray)
     struct
     {
         void* p;
-        unsigned int u;
+        uintptr_t u;
     } locals;
     char pad[12];
     reinterpret_cast<::E70Owner *>(this)->FUN_00c46e70((::StrArr *)(pArray));
     locals.p = (*reinterpret_cast<void * *>(&::g_01202828));
-    locals.u = (unsigned int)((void *)(::FUN_00a7d330((const char *)(locals.p))));
+    locals.u = (uintptr_t)((void *)(::FUN_00a7d330((const char *)(locals.p))));
     reinterpret_cast<::S_0060ba10 *>((((NiTPrimitiveArray_unsigned_int_*)pArray)))->FUN_0096a610((intptr_t)&(locals.u));
 }
 
@@ -1332,7 +1332,7 @@ namespace fnv_00c3a620 {
 class SpawnedBase
 {
   public:
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
 };
 
@@ -1347,7 +1347,7 @@ class FUN_00c3a620_cls : public SpawnedBase
 void FUN_00c3a620_cls::FUN_00c3a620()
 {
     int unk00;
-    this->m_vptr = (int)&DAT_010c117c;
+    this->m_vptr = (intptr_t)&DAT_010c117c;
     reinterpret_cast<::FUN_00b5af80_self *>((this))->FUN_00b5af80(1);
 }
 }  // namespace fnv_00c3a620
@@ -2275,12 +2275,12 @@ void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
     unsigned int ch;
     bool* d4;
     const char* da;
-    unsigned int dg;
-    unsigned int dt;
-    unsigned int eh;
-    unsigned int fl;
-    unsigned int gf;
-    unsigned int bi;
+    uintptr_t dg;
+    uintptr_t dt;
+    uintptr_t eh;
+    uintptr_t fl;
+    uintptr_t gf;
+    uintptr_t bi;
 
     strcpy_s(aBuf, 256, "  ");
     da = m_08;
@@ -2289,22 +2289,22 @@ void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
     {
     case 0:
         d4 = this ? &value.boolean : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).boolean = false, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).boolean);
-        bi = ((unsigned int)(::FUN_00a7d370(aBuf, *d4)));
+        bi = ((uintptr_t)(::FUN_00a7d370(aBuf, *d4)));
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(bi));
         break;
     case 1:
     case 2:
         by = this ? &value.character : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).character = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).character);
-        gf = ((unsigned int)(::FormatStringAssignment(aBuf, *by)));
+        gf = ((uintptr_t)(::FormatStringAssignment(aBuf, *by)));
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(gf));
     case 3:
         ap = this ? &value.integer : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).integer = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).integer);
-        fl = ((unsigned int)(::FUN_00a7d4d0(aBuf, *ap)));
+        fl = ((uintptr_t)(::FUN_00a7d4d0(aBuf, *ap)));
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(fl));
         break;
     case 5:
         ff = this ? &value.real : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).real = 0.0f, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).real);
-        eh = ((unsigned int)(::FUN_00a7d550(aBuf, *ff)));
+        eh = ((uintptr_t)(::FUN_00a7d550(aBuf, *ff)));
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(eh));
         break;
     case 6:
@@ -2312,13 +2312,13 @@ void FUN_00c33280_Class::FUN_00c33280(NiTPrimitiveArray_unsigned_int_* arr)
             em = value.string;
         else
             em = 0;
-        dt = (unsigned int)::fnv_00a7d5e0::FUN_00a7d5e0(aBuf, em);
+        dt = (uintptr_t)::fnv_00a7d5e0::FUN_00a7d5e0(aBuf, em);
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(dt));
         break;
     case 4:
     default:
         cb = this ? &value.unsignedInteger : ((*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).unsignedInteger = 0, &(*reinterpret_cast<::SettingValue *>(&::DAT_01202800)).unsignedInteger);
-        dg = ((unsigned int)(::FUN_00a7d510(aBuf, *cb)));
+        dg = ((uintptr_t)(::FUN_00a7d510(aBuf, *cb)));
         reinterpret_cast<::S_0060ba10 *>((arr))->FUN_0096a610((intptr_t)&(dg));
         break;
     }
@@ -6803,12 +6803,12 @@ struct NodeC3;
 
 struct TaggedC3
 {
-    unsigned int bits;
+    uintptr_t bits;
     TaggedC3()
     {}
     inline TaggedC3(NodeC3* p)
     {
-        bits = (unsigned int)p;
+        bits = (uintptr_t)p;
     }
     inline NodeC3* Get() const
     {

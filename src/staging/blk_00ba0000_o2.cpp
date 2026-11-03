@@ -198,7 +198,7 @@ void* FUN_00ba1750_Class::FUN_00ba1750(char flag)
 extern "C" void NiFreeAlias(void*);
 struct FUN_00ba3d10_Class
 {
-    int m0;
+    intptr_t m0;
     void* m1;
     void FUN_00ba3d10();
 };
@@ -206,7 +206,7 @@ struct FUN_00ba3d10_Class
 void FUN_00ba3d10_Class::FUN_00ba3d10()
 {
     void* p = m1;
-    m0 = (int)&::DAT_010b9d24;
+    m0 = (intptr_t)&::DAT_010b9d24;
     NiFreeAlias(p);
 }
 
@@ -379,7 +379,7 @@ void* FUN_00bb0ea0_Class::FUN_00bb0ea0(bool abDelete)
 namespace fnv_00bb3140 {
 struct FUN_00bb3140_Class
 {
-    int m_vtbl;
+    intptr_t m_vtbl;
     void FUN_00bb35b0();
     void* FUN_00bb3140(bool del);
 };
@@ -387,7 +387,7 @@ struct FUN_00bb3140_Class
 // @fnv 0x00bb3140
 void* FUN_00bb3140_Class::FUN_00bb3140(bool abDelete)
 {
-    m_vtbl = (int)&::DAT_010b9338;
+    m_vtbl = (intptr_t)&::DAT_010b9338;
     FUN_00bb35b0();
     if (abDelete & 1)
         operator delete(this, 0x108);
@@ -934,7 +934,7 @@ void FUN_00bb74e0(StrArr* a)
 void __cdecl NiFreeAlias(void*);
 struct FUN_00ba4050_Class
 {
-    int m_vft;
+    intptr_t m_vft;
     void* m_obj;
     void* FUN_00ba4050(bool);
 };
@@ -942,7 +942,7 @@ struct FUN_00ba4050_Class
 // @fnv 0x00ba4050
 void* FUN_00ba4050_Class::FUN_00ba4050(bool del)
 {
-    m_vft = (int)&::DAT_010b9d24;
+    m_vft = (intptr_t)&::DAT_010b9d24;
     NiFreeAlias(m_obj);
     if (del & 1)
         reinterpret_cast<::FNV_MemoryManager *>(&(g_memoryManager))->FUN_00aa4060(this);
@@ -1379,17 +1379,17 @@ void FUN_00bb9660_Class::FUN_00bb9660()
         {
             void* p = *(void**)((char*)(*reinterpret_cast<void * (*)[57]>(&::DAT_01200dd8)) + i);
             if (p)
-                (*(void(**)(void*))(*(int*)p + 0xa0))(p);
+                (*(void(**)(void*))(*(uintptr_t*)p + 0xa0))(p);
         }
     }
     for (unsigned int i = 0; i < 0xc8; i += 4)
     {
         void* p = *(void**)((char*)(*reinterpret_cast<void * (*)[50]>(&::DAT_01200c48)) + i);
         if (p)
-            (*(void(**)(void*))(*(int*)p + 0x88))(p);
+            (*(void(**)(void*))(*(uintptr_t*)p + 0x88))(p);
         p = *(void**)((char*)(*reinterpret_cast<void * (*)[50]>(&::DAT_01200d10)) + i);
         if (p)
-            (*(void(**)(void*))(*(int*)p + 0x88))(p);
+            (*(void(**)(void*))(*(uintptr_t*)p + 0x88))(p);
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
 }
@@ -7447,7 +7447,7 @@ void* FUN_00bb3a50_cls::FUN_00bb3a50(int a1, int aiKeyLow, unsigned short* apOut
         else
         {
             aiKeyHigh = 0;
-            int r = ((int)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&aiKeyHigh))));
+            intptr_t r = ((intptr_t)(::FUN_00b70600((::FUN_00b70600_list *)this, 0, (::FUN_00b70600_node **)(&aiKeyHigh))));
             m_3c->FUN_00ba9ee0(a1, 0x3f, 1, 2, edi, r, 0, 0);
         }
         m_38 = key;
@@ -13072,7 +13072,7 @@ struct FUN_00e7de90_Class
 {
     void* m0;
     int m4;
-    int m8;
+    intptr_t m8;
 };
 // @fnv 0x00bb66c0
 void FUN_00bb66c0(unsigned int)
@@ -13080,7 +13080,7 @@ void FUN_00bb66c0(unsigned int)
     if ((*reinterpret_cast<void * *>(&::DAT_012007c4)))
     {
         FUN_00e7de90_Class* p = *(FUN_00e7de90_Class**)((char*)*(int*)(DAT_0126f74c + 0x24));
-        p->m8 = (int)(*reinterpret_cast<void * *>(&::DAT_012007c4));
+        p->m8 = (intptr_t)(*reinterpret_cast<void * *>(&::DAT_012007c4));
         reinterpret_cast<::E7DE90Owner *>((p))->ApplyPairToState(0);
         reinterpret_cast<::E7DEF0TextureStage *>((p))->FUN_00e7def0(5);
         reinterpret_cast<::NiD3DPass *>((p))->ApplyRenderStateChanges(0);
@@ -16463,7 +16463,7 @@ struct PoolHeap
 
 struct BaseShim
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int unk04;
     int unk08;
     int unk0c;
@@ -16514,7 +16514,7 @@ struct FUN_00bb7170 : BaseShim
 // @fnv 0x00bb7170
 FUN_00bb7170::FUN_00bb7170()
 {
-    m_vptr = (int)&DAT_010b9c40;
+    m_vptr = (intptr_t)&DAT_010b9c40;
     m_058 = 8;
     m_060 = ::FUN_00bb6030();
     m_064 = new PoolElement20[m_060];
@@ -20517,7 +20517,7 @@ namespace LocalHeapCleanup {
 
 struct Buffer
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int m_04;
     int unk08;
     int unk0c;
@@ -20527,7 +20527,7 @@ struct Buffer
 extern "C" Buffer* FUN_00ba11e0(Buffer* buffer, void*, unsigned char acFlags)
 {
     intptr_t value = buffer->m_04;
-    buffer->m_vptr = (int)&DAT_010b7f00;
+    buffer->m_vptr = (intptr_t)&DAT_010b7f00;
     if (value != 0)
     {
         DAT_010b7f08((HLOCAL)value);

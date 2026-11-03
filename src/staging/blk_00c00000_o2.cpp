@@ -389,8 +389,8 @@ struct FUN_00c0bb20_class
 // @fnv 0x00c0bb20
 void FUN_00c0bb20_class::FUN_00c0bb20(int apTarget, int apSource)
 {
-    *(int*)(*(int*)(*(int*)(apTarget + 0x24) + 0x10) + 8) = DAT_011f9530;
-    *(int*)(*(int*)(*(int*)(apTarget + 0x24) + 0x14) + 8) = *(int*)(*(int*)(apSource + 0xb4));
+    *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x10) + 8) = DAT_011f9530;
+    *(int*)(*(uintptr_t*)(*(uintptr_t*)(apTarget + 0x24) + 0x14) + 8) = *(int*)(*(int*)(apSource + 0xb4));
 }
 
 struct NiShaderConstantMapEntry
@@ -658,7 +658,7 @@ struct FUN_00c03350_class
 // @fnv 0x00c03350
 bool FUN_00c03350_class::FUN_00c03350(int)
 {
-    ((ImageSpaceShaderParam*)*((int*)(*(int*)((char*)this + 0x1c) + 4)))
+    ((ImageSpaceShaderParam*)*((int*)(*(uintptr_t*)((char*)this + 0x1c) + 4)))
         ->SetShaderConstantVector4(0, DAT_012023f4, DAT_012023f8, 0.0f, 0.0f);
     DAT_011ae680 = 0x80;
     return false;
@@ -931,7 +931,7 @@ void FUN_00c04490_class::ResetStages(int)
 extern int DAT_010bca64;
 struct ImageSpaceEffect
 {
-    int m_iWordAt00;
+    intptr_t m_iWordAt00;
     int m_iWordAt04;
     int m_8;
     int m_iThirdValue;
@@ -963,7 +963,7 @@ struct FUN_00c04600 : ImageSpaceEffect
 // @fnv 0x00c04600
 FUN_00c04600::FUN_00c04600()
 {
-    m_iWordAt00 = (int)&DAT_010bca64;
+    m_iWordAt00 = (intptr_t)&DAT_010bca64;
     m_58 = 0;
 }
 
@@ -1016,7 +1016,7 @@ bool FUN_00c12480(int* pObject)
         pPassEntry++;
         iRemaining--;
     } while (iRemaining != 0);
-    (*(void(**)(int*))(*(int*)pObject + 0x158))(pObject);
+    (*(void(**)(int*))(*(uintptr_t*)pObject + 0x158))(pObject);
     return true;
 }
 }  // namespace fnv_00c12480
@@ -1040,9 +1040,9 @@ bool FUN_00c16350(void* self)
         count--;
     } while (count != 0);
 
-    (*(void(**)(void*))(*(int*)self + 0x15c))(self);
+    (*(void(**)(void*))(*(uintptr_t*)self + 0x15c))(self);
     if (DAT_011f91c0 >= 2)
-        (*(void(**)(void*))(*(int*)self + 0x160))(self);
+        (*(void(**)(void*))(*(uintptr_t*)self + 0x160))(self);
     return true;
 }
 }  // namespace fnv_00c16350
@@ -1050,7 +1050,7 @@ bool FUN_00c16350(void* self)
 extern int DAT_010bcc90;
 struct FUN_00c1a480_class
 {
-    int m_vtbl;
+    intptr_t m_vtbl;
     int m_iWordAt04;
     int FUN_00c1a480(int a);
 };
@@ -1058,7 +1058,7 @@ struct FUN_00c1a480_class
 int FUN_00c1a480_class::FUN_00c1a480(int aiArg)
 {
     reinterpret_cast<::FUN_00a71cc0_cls *>(this)->FUN_00a71cc0(aiArg);
-    m_vtbl = (int)&DAT_010bcc90;
+    m_vtbl = (intptr_t)&DAT_010bcc90;
     return (int)this;
 }
 
@@ -4681,7 +4681,7 @@ class FUN_00c1d980_pool
 
 struct FUN_00c1d980_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int m_04;
 
     FUN_00c1d980_cls* FUN_00c1d980(unsigned char acFlags);
@@ -4691,7 +4691,7 @@ struct FUN_00c1d980_cls
 FUN_00c1d980_cls* FUN_00c1d980_cls::FUN_00c1d980(unsigned char acFlags)
 {
     intptr_t value = m_04;
-    m_vptr = (int)&::DAT_010bd698;
+    m_vptr = (intptr_t)&::DAT_010bd698;
     ::ReleaseObjectArray((::Obj00a47600 **)(value));
     if (acFlags & 1)
     {
@@ -4710,7 +4710,7 @@ class FUN_00c1d9b0_pool
 
 struct FUN_00c1d9b0_cls
 {
-    int m_vptr;
+    intptr_t m_vptr;
     int m_04;
 
     FUN_00c1d9b0_cls* FUN_00c1d9b0(unsigned char acFlags);
@@ -4720,7 +4720,7 @@ struct FUN_00c1d9b0_cls
 FUN_00c1d9b0_cls* FUN_00c1d9b0_cls::FUN_00c1d9b0(unsigned char acFlags)
 {
     intptr_t value = m_04;
-    m_vptr = (int)&::DAT_010bd6a0;
+    m_vptr = (intptr_t)&::DAT_010bd6a0;
     ::ReleaseObjectArray((::Obj00a47600 **)(value));
     if (acFlags & 1)
     {

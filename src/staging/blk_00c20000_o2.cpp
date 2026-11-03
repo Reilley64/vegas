@@ -711,7 +711,7 @@ struct FUN_00c22a80_base
 
 struct FUN_00c22a80_cls : FUN_00c22a80_base
 {
-    int m_vptr00;
+    intptr_t m_vptr00;
     int unk04;
     int unk08;
     int unk0c;
@@ -736,7 +736,7 @@ FUN_00c22a80_cls* FUN_00c22a80_cls::InitDefaults()
 {
     new ((void *)this) ::NiPSysPositionModifier();
     m_18 = 0;
-    m_vptr00 = (int)&DAT_010bdff4;
+    m_vptr00 = (intptr_t)&DAT_010bdff4;
     m_1c = DAT_011a946c;
     m_20 = DAT_011a9470;
     m_24 = DAT_011a9474;

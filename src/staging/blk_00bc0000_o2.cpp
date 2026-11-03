@@ -394,9 +394,9 @@ void FUN_00bc0970_class::FUN_00bc0970()
 {
     if (*(int*)((char*)this + 0x28))
     {
-        void(* f1)(void*) = (void(*)(void*))(*(int**)(*(int*)((char*)this + 0x18c)))[0x28];
+        void(* f1)(void*) = (void(*)(void*))(*(int**)(*(uintptr_t*)((char*)this + 0x18c)))[0x28];
         f1(*(void**)((char*)this + 0x18c));
-        void(* f2)(void*) = (void(*)(void*))(*(int**)(*(int*)((char*)this + 0x190)))[0x22];
+        void(* f2)(void*) = (void(*)(void*))(*(int**)(*(uintptr_t*)((char*)this + 0x190)))[0x22];
         f2(*(void**)((char*)this + 0x190));
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
@@ -3754,7 +3754,7 @@ class SomeObj
 unsigned char ProbeAndApply(SomeObj* obj)
 {
     unsigned char result = ((unsigned char)(reinterpret_cast<::SelfObj *>((obj))->FUN_00b67a40({})));
-    unsigned int value = ((unsigned int)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(0xa)));
+    uintptr_t value = ((uintptr_t)(reinterpret_cast<::FUN_00a59d30_C *>((obj))->FUN_00a59d30(0xa)));
     if (value != 0)
     {
         reinterpret_cast<::S654 *>((obj))->ForwardToSubobject(value);
@@ -22170,7 +22170,7 @@ struct ConfigurationArg
 };
 struct ShaderPassBuilder : DynCastHelper
 {
-    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    uintptr_t unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
     unsigned int renderFlags;
     unsigned int propertyFlags;
     float alphaCutoff;
@@ -22238,7 +22238,7 @@ struct ShaderPassBuilder : DynCastHelper
 };
 struct DefaultRenderer
 {
-    unsigned int unk00;
+    uintptr_t unk00;
     unsigned int unk04;
     unsigned int unk08;
     unsigned int unk0c;
@@ -24130,7 +24130,7 @@ struct FUN_00bd44c0 : NiMemObject
     virtual void Unk_52();
     virtual void Unk_53();
     virtual void Unk_54();
-    int unk04;
+    intptr_t unk04;
     int unk08;
     int unk0c;
     int unk10;

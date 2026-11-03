@@ -201,7 +201,7 @@ struct NiTMapBaseStub
 };
 struct FUN_00b603e0_class
 {
-    int p0;
+    intptr_t p0;
     int p4;
     void* p8;
     void FUN_00b603e0();
@@ -209,7 +209,7 @@ struct FUN_00b603e0_class
 // @fnv 0x00b603e0
 void FUN_00b603e0_class::FUN_00b603e0()
 {
-    p0 = (int)&DAT_010ade18;
+    p0 = (intptr_t)&DAT_010ade18;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     NiFreeAlias(p8);
 }
@@ -526,7 +526,7 @@ struct NiFreeAliasStub
 };
 struct FUN_00b605a0_class
 {
-    int m_iWordAt00;
+    intptr_t m_iWordAt00;
     int m_iWordAt04;
     void* m_8;
     FUN_00b605a0_class* FUN_00b605a0(int flags);
@@ -534,7 +534,7 @@ struct FUN_00b605a0_class
 // @fnv 0x00b605a0
 FUN_00b605a0_class* FUN_00b605a0_class::FUN_00b605a0(int flags)
 {
-    m_iWordAt00 = (int)&DAT_010ade18;
+    m_iWordAt00 = (intptr_t)&DAT_010ade18;
     reinterpret_cast<::S_00b601a0_Map *>((((NiTMapBaseStub*)this)))->FUN_00b601a0();
     NiFreeAlias(m_8);
     if (flags & 1)
@@ -823,7 +823,7 @@ void FUN_00b6b840()
         if (r == 0)
         {
             NiRenderer* p = NiRenderer::ms_pRenderer;
-            r = (*(int(**)(NiRenderer*))(*(int*)p + 0xc8))(p);
+            r = (*(int(**)(NiRenderer*))(*(uintptr_t*)p + 0xc8))(p);
         }
         ((GraphicsRenderer*)NiRenderer::ms_pRenderer)->BeginUsingRenderTargetGroup((::NiRenderTargetGroup *)(void *)((void*)r), 0);
     }
@@ -988,7 +988,7 @@ void PushRefCountedSlot(int* pObject)
             {
                 if (InterlockedDecrement((long*)old + 1) == 0)
                 {
-                    (*(void(**)(int*))(*(int*)old + 4))(old);
+                    (*(void(**)(int*))(*(uintptr_t*)old + 4))(old);
                 }
             }
             *slot = pObject;
@@ -10765,13 +10765,13 @@ struct PoolPtr
 };
 struct PoolList
 {
-    int head, tail;
+    intptr_t head, tail;
     unsigned count;
     PoolPtr PopBack();
     __declspec(noinline) void AddTail(const PoolPtr& p)
     {
         if (p.ptr)
-            head = (int)p.ptr;
+            head = (intptr_t)p.ptr;
     }
 };
 struct OutlinePtr
@@ -15593,7 +15593,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
     case 726:
     case 727: {
         Stage200* stage = ((Renderer200*)DAT_0126f74c)->unk24->unk00;
-        int texture = *shader->unkb4;
+        intptr_t texture = *shader->unkb4;
         if (texture)
             stage->texture = texture;
         else

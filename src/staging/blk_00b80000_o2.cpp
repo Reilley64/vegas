@@ -495,13 +495,13 @@ FUN_00b8ee20_class::FUN_00b8ee20_class()
 void FUN_00c03a20();
 struct FUN_00b8ef60_class
 {
-    int m_vtbl;
+    intptr_t m_vtbl;
     FUN_00b8ef60_class* FUN_00b8ef60(bool del);
 };
 // @fnv 0x00b8ef60
 FUN_00b8ef60_class* FUN_00b8ef60_class::FUN_00b8ef60(bool abFree)
 {
-    m_vtbl = (int)&DAT_010b2140;
+    m_vtbl = (intptr_t)&DAT_010b2140;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b211c;
     FUN_00c03a20();
     if (abFree & 1)
@@ -690,7 +690,7 @@ FUN_00b8f930::FUN_00b8f930()
 
 struct FUN_00b8fa40_class
 {
-    int vtbl;
+    intptr_t vtbl;
     int m_00b2d8c;
     int m_00b2db0;
     void FUN_00c03a20();
@@ -701,7 +701,7 @@ struct FUN_00b8fa40_class
 // @fnv 0x00b8fa40
 FUN_00b8fa40_class::FUN_00b8fa40_class(bool abDelete)
 {
-    vtbl = (int)&DAT_010b2db0;
+    vtbl = (intptr_t)&DAT_010b2db0;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b2d8c;
     reinterpret_cast<::FUN_00c03a20_cls *>(this)->FUN_00c03a20_cls::~FUN_00c03a20_cls();
     if (abDelete & 1)
@@ -1180,13 +1180,13 @@ extern int DAT_010b5b10;
 void FUN_00c03a20();
 struct FUN_00b92570_class
 {
-    int vtbl;
+    intptr_t vtbl;
     FUN_00b92570_class* FUN_00b92570(bool del);
 };
 // @fnv 0x00b92570
 FUN_00b92570_class* FUN_00b92570_class::FUN_00b92570(bool abDelete)
 {
-    vtbl = (int)&DAT_010b5b10;
+    vtbl = (intptr_t)&DAT_010b5b10;
     *(void**)((char*)this + 0x6c) = (void*)&DAT_010b5af0;
     FUN_00c03a20();
     if (abDelete & 1)
@@ -1892,8 +1892,8 @@ FUN_00b8d330::FUN_00b8d330()
 
 struct FUN_00b8d850 : ImageSpaceEffectShader
 {
-    int m_000[0x6c / 4];
-    int m_6c;
+    intptr_t m_000[0x6c / 4];
+    intptr_t m_6c;
     int m_070[0x94 / 4 - 0x6c / 4];
     NiTPrimitiveArray_ImageSpaceTexture___ m_094;
     FUN_00b8d850();
@@ -1902,8 +1902,8 @@ struct FUN_00b8d850 : ImageSpaceEffectShader
 // @fnv 0x00b8d850
 FUN_00b8d850::FUN_00b8d850()
 {
-    m_000[0] = (int)&DAT_010b0a00;
-    m_6c = (int)&DAT_010b09dc;
+    m_000[0] = (intptr_t)&DAT_010b0a00;
+    m_6c = (intptr_t)&DAT_010b09dc;
     reinterpret_cast<::FUN_00a41520_cls *>((((NiTPrimitiveArray_ImageSpaceTexture___*)&this->m_070[9])))->FUN_00a90180(2);
 }
 
@@ -2493,7 +2493,7 @@ FUN_00b93600_class::FUN_00b93600_class()
 struct FUN_00b93950_class : ImageSpaceEffectShader
 {
     char pad[0x6c];
-    int m_6c;
+    intptr_t m_6c;
     char pad2[0x24];
     NiTPrimitiveArray_ImageSpaceTexture___ m_94;
     FUN_00b93950_class();
@@ -2503,7 +2503,7 @@ struct FUN_00b93950_class : ImageSpaceEffectShader
 FUN_00b93950_class::FUN_00b93950_class()
 {
     *(void**)this = (void*)&DAT_010b6f38;
-    m_6c = (int)&DAT_010b6f14;
+    m_6c = (intptr_t)&DAT_010b6f14;
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_94))->FUN_00a90180(4);
 }
 

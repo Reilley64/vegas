@@ -811,18 +811,18 @@ void AgentD::FUN_00d324e0(const BodyD& a, const BodyD& b, const InputD& input, O
     __m128* p = planes;
     __m128* sphere = transformed;
     for (int i = last; i >= 0; ++p,++sphere,++id,--i) {
-        if (((float*)p)[3] > tolerance) {
+        if ((*p)[3] > tolerance) {
             if (*id != 0xffff) {
                 manager->remove(*id,output.constraint);
                 *id = 0xffff;
             }
         } else {
             ContactD* c = output.next;
-            float negW = -((float*)sphere)[3];
+            float negW = -(*sphere)[3];
             __m128 pos = _mm_add_ps(_mm_mul_ps(_mm_set1_ps(negW),*p),*sphere);
             c->position = point(*b.transform,pos);
             c->normal = direction(*b.transform,*p);
-            ((float*)&c->normal)[3] = ((float*)p)[3];
+            c->normal[3] = (*p)[3];
             if (*id == 0xffff) {
                 *id = manager->add(a,b,input,output,0,c);
                 if (*id != 0xffff) ++output.next;

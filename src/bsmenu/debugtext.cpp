@@ -2,6 +2,7 @@
 // src/bsmenu/debugtext.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/bsmenu/debugtext.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "global_string_header.h"
 #include <cstdarg>
 #include <cstdint>
 #include <new>
@@ -3038,7 +3039,7 @@ struct FixedText {
     }
     ~FixedText() {
         if(text==::DAT_0109b220) return;
-        DecrementRef((void*)(text-8));
+        DecrementRef(&((StringHeader*)text - 1)->refs);
     }
 };
 

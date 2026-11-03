@@ -1,5 +1,6 @@
 // bsmenu/tile3d.cpp: Tile3D, Tile3DCalc, AnimTile, Interface and more (12 functions)
 
+#include "global_string_header.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -112,21 +113,31 @@ void FUN_0078bb60(DummyClass_0078a9f0* pThis);
 
 typedef void(* FUN_0078bb60_t)(void*, int);
 
+// The list cursor that FUN_0078a9f0 advances; the pad stands for members not named yet.
+struct ListCursorOwner
+{
+    char pad00[0x1d0];
+    ::BSSimpleList<void*> m_kList;
+    ::BSSimpleList<void*>* m_pCurrent;
+    void* m_pCurrentItem;
+};
+
 // @fnv 0x0078a9f0
 void FUN_0078a9f0(char* pThis)
 {
-    *(int*)(pThis + 0x1dc) = *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(*(void**)(pThis + 0x1d8))->m_item));
-    *(void**)(pThis + 0x1d8) = reinterpret_cast<::Callees *>((*(void**)(pThis + 0x1d8)))->FUN_00726070();
-    if (*(void**)(pThis + 0x1d8) == 0)
+    ListCursorOwner* owner = (ListCursorOwner*)pThis;
+    owner->m_pCurrentItem = owner->m_pCurrent->m_item;
+    owner->m_pCurrent = (::BSSimpleList<void*>*)reinterpret_cast<::Callees *>(owner->m_pCurrent)->FUN_00726070();
+    if (owner->m_pCurrent == 0)
     {
-        *(void**)(pThis + 0x1d8) = pThis + 0x1d0;
+        owner->m_pCurrent = &owner->m_kList;
     }
-    if (*(void**)(pThis + 0x1d8) != 0)
+    if (owner->m_pCurrent != 0)
     {
-        int item = *((int *)(&reinterpret_cast<::BSSimpleList<void*>*>(*(void**)(pThis + 0x1d8))->m_item));
+        void* item = owner->m_pCurrent->m_item;
         if (item != 0)
         {
-            ((void(*)(void*, int))FUN_0078bb60)(pThis, *(int*)(pThis + 0x1dc));
+            ((void(*)(void*, void*))FUN_0078bb60)(pThis, owner->m_pCurrentItem);
         }
     }
 }
@@ -197,6 +208,14 @@ struct AVObj
     virtual void v05();
     virtual PropHelper* IsGeometry();
 };
+// The colour and alpha of a TileShaderProperty; the pad stands for members not named here.
+struct TileShaderPropertyView
+{
+    char pad00[0x68];
+    Col16 m_kColor;
+    float m_fAlpha;
+};
+
 // The children array of a NiNode (a NiTArray); the pad stands for members not named here.
 struct NiNodeChildView
 {
@@ -247,8 +266,8 @@ void FUN_00a21570_shell::ApplyAlphaToChildren(NiNode* apNode, float afAlpha, con
                         {
                             pprop = ((void *)(reinterpret_cast<::FUN_00a59d30_C *>((pgeom))->FUN_00a59d30(3)));
                             ptsp = (char*)pprop;
-                            *(float*)(ptsp + 0x78) = afAlpha;
-                            *(Col16*)(ptsp + 0x68) = *(const Col16*)apColor;
+                            ((TileShaderPropertyView*)ptsp)->m_fAlpha = afAlpha;
+                            ((TileShaderPropertyView*)ptsp)->m_kColor = *(const Col16*)apColor;
                         }
                     }
                 }
@@ -305,7 +324,7 @@ struct NiGlobalStringTable
     static char* __cdecl AddString(const char*);
     static long* GetRealBufferStart(char* const& h)
     {
-        return ((long*)h) - 2;
+        return &((StringHeader*)h - 1)->refs;
     }
     static void DecRefCount(char*& h)
     {

@@ -212,10 +212,17 @@ void CompressedArchiveFile::Seek(int offset, int mode)
     ReadRawData(0, offset);
 }
 
+// The field FUN_0043c030 reads; the pad stands for members not named yet.
+struct FUN_0043c030_View
+{
+    char pad00[0x1c8];
+    unsigned int m_ui1c8;
+};
+
 // @fnv 0x0043c030
 unsigned int FUN_0043c030(const char* pThis)
 {
-    return *(const unsigned int*)(pThis + 0x1c8);
+    return ((const FUN_0043c030_View*)pThis)->m_ui1c8;
 }
 
 class bhkCharacterController;
@@ -431,6 +438,10 @@ class NavMeshEdgeSegment;
 template <class T, unsigned int N = 1024> class BSSimpleArray
 {
   public:
+    void* m_pVtbl;
+    T* m_pBuffer;
+    unsigned int m_uiSize;
+    unsigned int m_uiAllocSize;
     void SetSize(unsigned int, bool);
     unsigned int Find(T const&, unsigned int, bool(__cdecl*)(T const&, T const&));
     bool FUN_0076b610() const;
@@ -454,42 +465,55 @@ class PatrolActorPackageData
 };
 
 
+// The package data BuildLinkedRefChain fills; the pad stands for members not named yet.
+struct LinkedRefChainData
+{
+    char pad00[0x10];
+    Actor* m_pActor;
+    TESPackage* m_pPackage;
+    PatrolActorPackageData* m_pPatrolData;
+    BSSimpleArray<void*, 1024> m_kRefs;
+    bool m_bLooped;
+    unsigned int m_uiLoopIndex;
+};
+
 // @fnv 0x009f2da0
 bool BuildLinkedRefChain(char* _this)
 {
+    LinkedRefChainData* data = (LinkedRefChainData*)_this;
     bool bLoop;
     TESObjectREFR* pRef =
-        ::FUN_009f2d40((::TESObjectREFR *)(*(Actor**)(_this + 0x10)), (::BGSMessageInitAccess *)(*(TESPackage**)(_this + 0x14)));
-    *(bool*)(_this + 0x2c) = false;
-    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<unsigned int, 1024>*)(_this + 0x1c))))->FUN_006f2290(0, true);
+        ::FUN_009f2d40((::TESObjectREFR *)(data->m_pActor), (::BGSMessageInitAccess *)(data->m_pPackage));
+    data->m_bLooped = false;
+    reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>((((BSSimpleArray<unsigned int, 1024>*)(&data->m_kRefs))))->FUN_006f2290(0, true);
     bLoop =
-        *(PatrolActorPackageData**)(_this + 0x18) ? (*(PatrolActorPackageData**)(_this + 0x18))->IsPatrolling() : false;
+        data->m_pPatrolData ? (data->m_pPatrolData)->IsPatrolling() : false;
 
     while (pRef != 0)
     {
         reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((TESObjectREFRHelper*)pRef)))->FUN_00564db0(true);
-        reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(_this + 0x1c))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
+        reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(&data->m_kRefs))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
         pRef = reinterpret_cast<::FUN_00569b80_shell *>((pRef))->FUN_00569b80();
         if (pRef == 0)
             break;
 
-        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(_this + 0x1c))->Find(*(NavMesh**)&pRef, 0, ((bool (&)(NavMesh *const &, NavMesh *const &))::FUN_009a3830));
+        unsigned int idx = ((BSSimpleArray<NavMesh*, 1024>*)(&data->m_kRefs))->Find(*(NavMesh**)&pRef, 0, ((bool (&)(NavMesh *const &, NavMesh *const &))::FUN_009a3830));
         if (idx != (unsigned int)-1)
         {
             if (!bLoop)
             {
-                reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(_this + 0x1c))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
+                reinterpret_cast<::FUN_00438690 *>((((BSSimpleArray<void*, 1024>*)(&data->m_kRefs))))->FUN_007cb2e0((unsigned int *)&(*(void**)&pRef));
             }
             else
             {
-                *(bool*)(_this + 0x2c) = true;
-                *(unsigned int*)(_this + 0x30) = idx;
+                data->m_bLooped = true;
+                data->m_uiLoopIndex = idx;
             }
             break;
         }
     }
 
-    return !reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(_this + 0x1c))))->FUN_0076b610();
+    return !reinterpret_cast<::FUN_0076b610_Class *>((void *)(((BSSimpleArray<NavMeshEdgeSegment, 1024>*)(&data->m_kRefs))))->FUN_0076b610();
 }
 
 extern int DAT_011acdfc;

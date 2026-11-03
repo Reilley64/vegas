@@ -44,13 +44,15 @@ void* BSSearchPath::FUN_00b01480(unsigned int flags)
 
 struct FUN_00b01c40_shell
 {
+    char pad00[0x45];
+    unsigned char m_uc45;
     void SetByteAt45(unsigned char u8);
 };
 
 // @fnv 0x00b01c40
 void FUN_00b01c40_shell::SetByteAt45(unsigned char u8)
 {
-    *reinterpret_cast<unsigned char*>(this + 0x45) = u8;
+    m_uc45 = u8;
 }
 
 struct FUN_00b01c70_shell

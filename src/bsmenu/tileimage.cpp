@@ -1,5 +1,6 @@
 // bsmenu/tileimage.cpp: TileImage, FileFinder, BGSTextureSet, NiNode and more (7 functions)
 
+#include "global_string_header.h"
 #include <windows.h>
 #include <cstring>
 #include "runtime/crt.h"
@@ -161,7 +162,7 @@ struct NiFixedString
     {
         if (m_kHandle == ::DAT_0109b220)
             return;
-        NiGlobalStringTable::DecRef((long*)(m_kHandle - 8));
+        NiGlobalStringTable::DecRef(&((StringHeader*)m_kHandle - 1)->refs);
     }
 };
 struct NiTexture
@@ -268,7 +269,7 @@ struct NiGlobalStringTable
 {
     static long* GetRealBufferStart(char* const& h)
     {
-        return ((long*)h) - 2;
+        return &((StringHeader*)h - 1)->refs;
     }
     static long NiAtomicSubtract(long& v)
     {

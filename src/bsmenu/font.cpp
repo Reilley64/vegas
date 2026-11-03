@@ -1,3 +1,4 @@
+#include "global_string_header.h"
 #include <cstdint>
 #include <cstddef>
 // bsmenu/font.cpp: Font, FontManager, OwnQ, SBox and more (57 functions)
@@ -353,15 +354,16 @@ void FUN_00a16d20_shell::FUN_00a16d20()
 }
 }  // namespace fnv_00a16d20
 
-struct FUN_00a1b410_shell { char* p; void ClearPointer(); };
-// Sets p to null, then if p is non-null increments the counter at p+4 via InterlockedIncrement.
+struct RefCountedView { void* m_pVtbl; long m_lRefCount; };
+struct FUN_00a1b410_shell { RefCountedView* p; void ClearPointer(); };
+// Sets p to null, then if p is non-null increments its reference count via InterlockedIncrement.
 // @fnv 0x00a1b410
 void FUN_00a1b410_shell::ClearPointer()
 {
     p = 0;
     if (p) {
-        char* q = p;
-        InterlockedIncrement((long*)(q + 4));
+        RefCountedView* q = p;
+        InterlockedIncrement(&q->m_lRefCount);
     }
 }
 
@@ -679,7 +681,7 @@ struct NiFixedString : ::NiFixedString {
     NiFixedString(const char* s) { if (s == 0) m_kHandle = ::DAT_0109b220; else m_kHandle = ::NiGlobalStringTable::AddString(s); }
     ~NiFixedString() {
         if (m_kHandle == ::DAT_0109b220) return;
-        NiGlobalStringTable::DecRef((long*)(m_kHandle - 8));
+        NiGlobalStringTable::DecRef(&((StringHeader*)m_kHandle - 1)->refs);
     }
 };
 struct NiGeometryData {
@@ -1888,7 +1890,6 @@ int f0004; float f0008; float f000c; float f0010; float f0014; float f0018; floa
 };
 struct TexName { int id; char name[32]; };
 struct Names { int unk00; int count; TexName textures[8]; };
-struct StringHeader { long refs; int length; };
 struct FixedString { char* handle; FixedString(const char* text) { if(!text) handle=DAT_0109b220; else handle=::NiGlobalStringTable::AddString(text); } ~FixedString() { if(handle==DAT_0109b220) return; StringHeader* header=(StringHeader*)handle-1; InterlockedDecrement(&header->refs); } };
 struct PixelFormat { int value; }; 
 struct PixelData {

@@ -252,10 +252,17 @@ bool FUN_00afc410(void* this_ptr)
     return static_cast<FUN_00afbf60_shell*>(this_ptr)->field_158 != 0;
 }
 
+// The virtual function table entry CallVirtualMethodAtOffset48 calls (slot 18).
+struct VTableSlot48
+{
+    void* apSlots[18];
+    void (*pfnSlot48)(void*, int, int);
+};
+
 // @fnv 0x00aff9f0
 void __cdecl CallVirtualMethodAtOffset48(void* apObject, int aiArg1, int aiArg2)
 {
-    (*(void(**)(void*, int, int))(*(char**)apObject + 0x48))(apObject, aiArg1, aiArg2);
+    (*(VTableSlot48**)apObject)->pfnSlot48(apObject, aiArg1, aiArg2);
 }
 
 struct FUN_00affa10_V

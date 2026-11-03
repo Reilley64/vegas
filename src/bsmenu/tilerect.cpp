@@ -1,3 +1,4 @@
+#include "global_string_header.h"
 #include <cstddef>
 // bsmenu/tilerect.cpp: TileRect (2 functions)
 
@@ -42,6 +43,7 @@ int TileRect::GetType()
                  // the interned empty string shared by NiFixedString
   // interns a string, returns the shared copy
 
+
 class NiFixedString
 {
   public:
@@ -57,7 +59,7 @@ class NiFixedString
     {
         if (m_pString == ::DAT_0109b220)
             return;
-        volatile long* refCount = (volatile long*)m_pString - 2;
+        volatile long* refCount = &((StringHeader*)m_pString - 1)->refs;
         InterlockedDecrement(refCount);
     }
 };

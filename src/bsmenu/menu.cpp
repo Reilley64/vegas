@@ -1,5 +1,6 @@
 // bsmenu/menu.cpp: Menu (27 functions)
 
+#include "global_string_header.h"
 #include <windows.h>
 #include <string.h>
 
@@ -1831,7 +1832,7 @@ struct TemplateName
     {
         if (m_kHandle == g_nullFixedString)
             return;
-        long* p = (long*)(m_kHandle - 8);
+        long* p = &((StringHeader*)m_kHandle - 1)->refs;
         InterlockedDecrement(p);
     }
 };

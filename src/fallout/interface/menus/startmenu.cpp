@@ -439,7 +439,7 @@ void FUN_007cf8e0_shell::FUN_007cf8e0(int aiID, Tile* apTarget)
     }
     if (!FUN_004b71d0())
     {
-        if (reinterpret_cast<::ListOwner *>((reinterpret_cast<ListBox_int_*>(reinterpret_cast<char*>(this) + 0x174)))->ContainsKey((void *)(apTarget)))
+        if (reinterpret_cast<::ListOwner *>((reinterpret_cast<ListBox_int_*>(&this->m_kOptionHelper)))->ContainsKey((void *)(apTarget)))
         {
             UpdateTargetInfo(this);
         }
@@ -1606,7 +1606,7 @@ struct FltOps
 bool FUN_007d51a0_shell::FUN_007d51a0(BGSSaveLoadFileEntry* apSaveGame)
 {
     if (!apSaveGame)
-        apSaveGame = reinterpret_cast<ListOps*>(reinterpret_cast<char*>(this) + 0x174)->GetSelectedData();
+        apSaveGame = reinterpret_cast<ListOps*>(&this->m_kOptionHelper)->GetSelectedData();
     TileImage* pTileImage;
     NiTexture* pTexture = apSaveGame ? ((::fnv_007d51a0::NiTexture *)(reinterpret_cast<::BGSSaveLoadFileEntry *>((reinterpret_cast<EntryOps*>(apSaveGame)))->ReadScreenshotFromFile())) : 0;
     if (pTexture)
@@ -7437,9 +7437,9 @@ struct FUN_007d62e0_shell : public StartMenu
 // @fnv 0x007d6730
 void FUN_007d6730_shell::ProcessSaveLoadList()
 {
-    if (((LB7d6*)((char*)this + 0x84))->IsEnabled() && !IsFlagSet((StartMenu::Flag)0x20000))
+    if (((LB7d6*)&this->m_kFirstOptionListBox)->IsEnabled() && !IsFlagSet((StartMenu::Flag)0x20000))
     {
-        while (!reinterpret_cast<::D7580ListBox *>((((LB7d6*)((char*)this + 0x84))))->FUN_007d7580())
+        while (!reinterpret_cast<::D7580ListBox *>((((LB7d6*)&this->m_kFirstOptionListBox)))->FUN_007d7580())
         {
             HandleBackAction();
             if (IsFlagSet((StartMenu::Flag)0x40000))

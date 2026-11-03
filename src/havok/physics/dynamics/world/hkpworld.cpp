@@ -11232,32 +11232,11 @@ return(T)TlsGetValue(vsI1); } unsigned long vsI1; }
 template<typename T>struct TSOTOV{ enum{ val=sizeof(T)} ;
 } ; template<>struct TSOTOV<void>{ enum{
 val=1} ; } ;
-class TMA{ public:struct SixUnsignedValueRecord{ static const TS4 INFINITE_SIZE=(TS4(0)-1); TS4 va3;
-TS4 viU; TS4 vpIU; TS4 va4; TS4 vtA;
-TS4 vlB; } ; virtual~TMA()throw();
-virtual void*AllocateMemoryBlock(int numBytes)throw()=0; virtual void ReleaseBlock(void*p,int numBytes)throw()=0; virtual void vs0()throw(); virtual void ReturnMemory(void*p,int numBytes)throw();
-virtual void vs11()throw(); virtual void vs21()throw(); virtual void vs31()throw(); virtual void vs41()throw();
-virtual void vs51()throw(); virtual void vs61()throw(); virtual void vs71()throw(); virtual void vs81()throw();
-template<typename TYPE>inline void _bufFree(void*p,int numElem)throw(){ const int SIZE_ELEM=TSOTOV<TYPE>::val; ReturnMemory(p,numElem*SIZE_ELEM); }
-public:enum MemoryState{ MEMORY_STATE_OK,MEMORY_STATE_OUT_OF_MEMORY} ; }
-; namespace TMU{ template<unsigned int NBYTES>struct IntegerTypeByByteSize; template<>struct IntegerTypeByByteSize<1>;
+namespace TMU{ template<unsigned int NBYTES>struct IntegerTypeByByteSize; template<>struct IntegerTypeByByteSize<1>;
 template<>struct IntegerTypeByByteSize<2>; template<>struct IntegerTypeByByteSize<4>; template<>struct IntegerTypeByByteSize<8>; template<unsigned int NBYTES>struct IntegerTypeByByteSize;
-} namespace TMU{ } struct TSM{
-public:static TSM&GetMonitorStream()throw(); void*allocateStack(int numBytes,const char*what)throw(); __forceinline void deallocateStack(void*p)throw(); __forceinline void deallocateStack(int numBytes)throw();
-__forceinline int getFreeStackSize()throw(){ return int(TGBO(vn1,ve)); } protected:TPS<void*>vn1;
-TPS<void*>vs7; TPS<void*>ve; } ;
-__forceinline void*TSM::allocateStack(int numBytes,const char*what)throw(){ ; if(numBytes>getFreeStackSize()){ ;
-} void*current=vn1; vn1=TABO(current,numBytes); return current;
-} void TSM::deallocateStack(void*p)throw(){ ; vn1=p;
-} void TSM::deallocateStack(int numBytes)throw(){ vn1=TABO(vn1.val(),-numBytes); ;
-} class TO1; class TMR{ public:typedef TMA Allocator;
- inline TSM&stack()throw(){ return vs6; }
-inline Allocator&temp()throw(){ return*vt1; } inline Allocator&heap()throw(){
-return*vh; } protected:TSM vs6; Allocator*vt1;
-Allocator*vh; Allocator*vd2; Allocator*vs5; Allocator*vg;
-void*vuD; } ; template<typename TYPE>__forceinline void __cdecl TDC(TYPE*ptr,int numberOfObjects,int cl)throw(){
-(*static_cast<TMR*>(::FUN_00c85750())).heap().ReleaseBlock(static_cast<void*>(ptr),numberOfObjects*TSOTOV<TYPE>::val); } template<typename TYPE>__forceinline TYPE*__cdecl TAS1(int n,const char*what=0)throw(){ TMR&mem=(*static_cast<TMR*>(::FUN_00c85750()));
-return static_cast<TYPE*>(mem.stack().allocateStack((((n*TSOTOV<TYPE>::val)+((128)-1))&(~((128)-1))),what)); } template<typename TYPE>__forceinline void __cdecl TDS(TYPE*ptr)throw(){ (*static_cast<TMR*>(::FUN_00c85750())).stack().deallocateStack(static_cast<void*>(ptr));
+} namespace TMU{ } class TO1; template<typename TYPE>__forceinline void __cdecl TDC(TYPE*ptr,int numberOfObjects,int cl)throw(){
+hkMemoryRouter::getInstance().heap().blockFree(static_cast<void*>(ptr),numberOfObjects*TSOTOV<TYPE>::val); } template<typename TYPE>__forceinline TYPE*__cdecl TAS1(int n,const char*what=0)throw(){ hkMemoryRouter&mem=hkMemoryRouter::getInstance();
+return static_cast<TYPE*>(mem.allocateStack((((n*TSOTOV<TYPE>::val)+((128)-1))&(~((128)-1))))); } template<typename TYPE>__forceinline void __cdecl TDS(TYPE*ptr)throw(){ hkMemoryRouter::getInstance().deallocateStack(static_cast<void*>(ptr));
 } extern const TC1 TBOC; class TBO{ public:__forceinline virtual~TBO()throw();
 public:} ; extern const TC1 TROC; class TSC3;
 class TCS2; class TVCR; class TRO:public TBO{ public:virtual~TRO()throw();
@@ -11297,22 +11276,22 @@ typedef TTB<false>TTIC; template<typename T>TB::CompileTimeFalseType operator==(
 ; template<typename T>struct TIPT<T*>:public TTIP{ } ;
 template<typename T,unsigned int N>struct TIPT<T[N]>:public TIPT<T>{ } ; class TAU{
 public:template<typename T>static __forceinline void construct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void construct(T*t,int n,TTIC)throw(); template<typename T>static __forceinline void constructWithCopy(T*t,int n,const T&tcopy,TTIP)throw(); template<typename T>static __forceinline void constructWithCopy(T*t,int n,const T&tcopy,TTIC)throw();
-template<typename T>static __forceinline void destruct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void destruct(T*t,int n,TTIC)throw(); static void __cdecl FUN_00c908c0(TMA&a,void*,int reqElem,int sizeElem)throw(); static void __cdecl ResizeAudioStream(TMA&a,void*array,int sizeElem)throw();
+template<typename T>static __forceinline void destruct(T*t,int n,TTIP)throw(); template<typename T>static __forceinline void destruct(T*t,int n,TTIC)throw(); static void __cdecl FUN_00c908c0(hkMemoryAllocator&a,void*,int reqElem,int sizeElem)throw(); static void __cdecl ResizeAudioStream(hkMemoryAllocator&a,void*array,int sizeElem)throw();
 } ; template<typename T>__forceinline void TAU::construct(T*t,int n,TTIP)throw(){ }
 template<typename T>__forceinline void TAU::construct(T*t,int n,TTIC)throw(){ for(int i=0;i<n;++i){ ::new(reinterpret_cast<TPNA*>(t+i))T; }
 } template<typename T>__forceinline void TAU::constructWithCopy(T*t,int n,const T&tcopy,TTIP)throw(){ for(int i=0;i<n;++i){ t[i]=tcopy;
 } } template<typename T>__forceinline void TAU::constructWithCopy(T*t,int n,const T&tcopy,TTIC)throw(){ for(int i=0;i<n;++i){
 ::new(reinterpret_cast<TPNA*>(t+i))T(tcopy); } } template<typename T>__forceinline void TAU::destruct(T*t,int n,TTIP)throw(){
 } template<typename T>__forceinline void TAU::destruct(T*t,int n,TTIC)throw(){ for(int i=0;i<n;++i){ static_cast<T*>(t)[i].~T();
-} } struct TCTA{ TMA&get(void*)throw(){
-return (*static_cast<TMR*>(::FUN_00c85750())).temp(); } } ;
-struct TCHA{ TMA&get(const void*)throw(){ return (*static_cast<TMR*>(::FUN_00c85750())).heap(); }
+} } struct TCTA{ hkMemoryAllocator&get(void*)throw(){
+return hkMemoryRouter::getInstance().temp(); } } ;
+struct TCHA{ hkMemoryAllocator&get(const void*)throw(){ return hkMemoryRouter::getInstance().heap(); }
 } ; struct TCDA; template<int OFFSET>struct TCSA;
 template<typename T>class TAB{ friend class TAU; friend class TAS2; public:typedef TAB<T>ThisType;
 __forceinline TAB()throw(); __forceinline TAB(T*buffer,int size,int capacity)throw(); protected:public:__forceinline~TAB()throw(); __forceinline T&operator[](int i)throw();
 __forceinline const T&operator[](int i)const throw(); __forceinline int GetLogicalSize()const throw(); __forceinline int getCapacity()const throw(); __forceinline void clear()throw();
-__forceinline void _clearAndDeallocate(TMA&alloc)throw(); __forceinline void _pushBack(TMA&alloc,const T&e)throw(); __forceinline void pushBackUnchecked(const T&e)throw(); __forceinline void FUN_00c908c0(TMA&alloc,int n)throw();
-__forceinline void _reserveExactly(TMA&alloc,int n)throw(); __forceinline T*expandByUnchecked(int n)throw(); typedef T*iterator; typedef const T*const_iterator;
+__forceinline void _clearAndDeallocate(hkMemoryAllocator&alloc)throw(); __forceinline void _pushBack(hkMemoryAllocator&alloc,const T&e)throw(); __forceinline void pushBackUnchecked(const T&e)throw(); __forceinline void FUN_00c908c0(hkMemoryAllocator&alloc,int n)throw();
+__forceinline void _reserveExactly(hkMemoryAllocator&alloc,int n)throw(); __forceinline T*expandByUnchecked(int n)throw(); typedef T*iterator; typedef const T*const_iterator;
 __forceinline iterator begin()throw(); __forceinline const_iterator begin()const throw(); protected:public:enum{ CAPACITY_MASK=int(0x3FFFFFFF),FLAG_MASK=int(0xC0000000),DONT_DEALLOCATE_FLAG=int(0x80000000),FORCE_SIGNED=-1}
 ; protected:friend class TSC3; T*vd1; int vs4;
 int vcAF; public:} ; template<typename T,typename Allocator=TCHA>class TA2:public TAB<T>{
@@ -11327,15 +11306,15 @@ public:T vs8[N]; public:} ; template<typename T,unsigned N>class TIAA16;
 template<typename T>__forceinline T&TAB<T>::operator[](int i)throw(){ ; return vd1[i]; }
 template<typename T>__forceinline const T&TAB<T>::operator[](int i)const throw(){ ; return vd1[i]; }
 template<typename T>__forceinline int TAB<T>::GetLogicalSize()const throw(){ return vs4; } template<typename T>__forceinline int TAB<T>::getCapacity()const throw(){
-return(vcAF&static_cast<int>(CAPACITY_MASK)); } template<typename T>__forceinline void TAB<T>::_reserveExactly(TMA&alloc,int n)throw(){ if(getCapacity()<n){
-TAU::FUN_00c908c0(alloc,this,n,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::FUN_00c908c0(TMA&alloc,int n)throw(){
+return(vcAF&static_cast<int>(CAPACITY_MASK)); } template<typename T>__forceinline void TAB<T>::_reserveExactly(hkMemoryAllocator&alloc,int n)throw(){ if(getCapacity()<n){
+TAU::FUN_00c908c0(alloc,this,n,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::FUN_00c908c0(hkMemoryAllocator&alloc,int n)throw(){
 const int capacity=getCapacity(); if(capacity<n){ int cap2=2*capacity; int newSize=(n<cap2)?cap2:n;
 TAU::FUN_00c908c0(alloc,this,newSize,sizeof(T)); } } template<typename T>__forceinline void TAB<T>::clear()throw(){
 TAU::destruct(vd1,vs4,typename TIPT<T>::type()); vs4=0; } template<typename T>__forceinline TAB<T>::TAB()throw():vd1(0),vs4(0),vcAF(DONT_DEALLOCATE_FLAG){
 } template<typename T>__forceinline TAB<T>::~TAB()throw(){ ; ;
-} template<typename T>__forceinline void TAB<T>::_clearAndDeallocate(TMA&alloc)throw(){ clear(); if((vcAF&DONT_DEALLOCATE_FLAG)==0){
+} template<typename T>__forceinline void TAB<T>::_clearAndDeallocate(hkMemoryAllocator&alloc)throw(){ clear(); if((vcAF&DONT_DEALLOCATE_FLAG)==0){
 alloc._bufFree<T>(vd1,getCapacity()); } vd1=0; vcAF=DONT_DEALLOCATE_FLAG;
-} template<typename T>__forceinline void TAB<T>::_pushBack(TMA&alloc,const T&t)throw(){ if(vs4==getCapacity()){ ;
+} template<typename T>__forceinline void TAB<T>::_pushBack(hkMemoryAllocator&alloc,const T&t)throw(){ if(vs4==getCapacity()){ ;
 TAU::ResizeAudioStream(alloc,this,sizeof(T)); } TAU::constructWithCopy(vd1+vs4,1,t,typename TIPT<T>::type()); vs4++;
 } template<typename T>__forceinline void TAB<T>::pushBackUnchecked(const T&t)throw(){ ; TAU::constructWithCopy(vd1+vs4,1,t,typename TIPT<T>::type());
 vs4++; } template<typename T>__forceinline T*TAB<T>::expandByUnchecked(int n)throw(){ ;
@@ -11719,7 +11698,7 @@ class TBPL{ public:virtual~TBPL()throw(); virtual void vs59()throw(); virtual vo
 class TE; class TCI2; class TSI1; class TBP;
 class TW; class TCD; struct TWDSI; class TBPHP;
 struct TCI; struct TPCO; extern const TC1 FUN_00d07830Class; class FUN_00d07830:public TCO{
-public:__forceinline void*__cdecl operator new(std::size_t nbytes){ ; TRO*b=static_cast<TRO*>((*static_cast<TMR*>(::FUN_00c85750())).heap().AllocateMemoryBlock(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
+public:__forceinline void*__cdecl operator new(std::size_t nbytes){ ; TRO*b=static_cast<TRO*>(hkMemoryRouter::getInstance().heap().blockAlloc(static_cast<int>(nbytes))); b->vmSAF=static_cast<TU16>(nbytes);
 ; return b; } __forceinline void*__cdecl operator new(std::size_t,void*p){
 return p; } inline TB isFixed()const throw(); virtual void vs9()const throw();
 protected:friend class TW; friend class TWOU; friend class TWCU; friend class TS2;

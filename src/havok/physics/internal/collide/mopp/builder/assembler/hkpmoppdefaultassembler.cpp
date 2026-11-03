@@ -2375,47 +2375,9 @@ void S_00e07d60::FUN_00e07d60(const S_00e07d60_Info& info)
 
 namespace e083 {
 struct Alloc;
-struct Pair
-{
-    int a;
-    int b;
-};
-struct PairArray
-{
-    Pair* m_data;
-    int m_iElementCount;
-    int m_iCapacityState;
-};
-struct SrcW
-{
-    PairArray* p;
-};
 }
 
 
-// Copies all pairs from srcp to dst, adding delta to each pair's a field, growing dst when full.
-// @fnv 0x00e08320
-static __declspec(noinline) void FUN_00e08320(e083::PairArray* srcp, e083::PairArray* dst, int delta)
-{
-    e083::PairArray* const* pp = &srcp;
-    e083::PairArray* src = *pp;
-    for (int i = 0; i < src->m_iElementCount; i++)
-    {
-        hkMemoryRouter* h = (&hkMemoryRouter::getInstance());
-        if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
-            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(dst), 8);
-        int n = dst->m_iElementCount;
-        e083::Pair* out = dst->m_data + n;
-        dst->m_iElementCount = n + 1;
-        out->b = src->m_data[i].b;
-        out->a = src->m_data[i].a + delta;
-    }
-}
-
-void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta)
-{
-    FUN_00e08320(sw.p, dst, delta);
-}
 
 inline hkMemoryAllocator& GetHeap()
 {
@@ -2564,43 +2526,24 @@ struct BvRange
     int unk10;
 };
 
-static void FUN_00e08320(BvArray<BvFixup>* destination, BvArray<BvFixup>* source, int adjustment)
+// Copies all fixups from src to dst, adding delta to each fixup's offset, growing dst when full.
+// @fnv 0x00e08320
+static __declspec(noinline) void FUN_00e08320(BvArray<BvFixup>* src, BvArray<BvFixup>* dst, int delta)
 {
-    for (int i = 0; i < source->m_iElementCount; ++i)
+    for (int i = 0; i < src->m_iElementCount; i++)
     {
-        hkMemoryAllocator& heap = GetHeap();
-        if (destination->m_iElementCount == destination->getCapacity())
-            ::ResizeAudioStream((::AudioAllocator *)(void *)(&heap), (::AudioStream *)(destination), sizeof(BvFixup));
-        BvFixup* out = destination->m_data + destination->m_iElementCount;
-        ++destination->m_iElementCount;
-        out->value = source->m_data[i].value;
-        out->offset = source->m_data[i].offset + adjustment;
+        hkMemoryRouter* h = (&hkMemoryRouter::getInstance());
+        if (dst->m_iElementCount == (dst->m_iCapacityState & 0x3fffffff))
+            ::ResizeAudioStream((::AudioAllocator *)(h->m_heap), (::AudioStream *)(dst), sizeof(BvFixup));
+        int n = dst->m_iElementCount;
+        BvFixup* out = dst->m_data + n;
+        dst->m_iElementCount = n + 1;
+        out->value = src->m_data[i].value;
+        out->offset = src->m_data[i].offset + delta;
     }
 }
-static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, FUN_00e065f0* destination)
-{
-    int padding = (-source->m_offset) & 3;
-    if (!tree->m_converter)
-        refs->m_iElementCount = 0;
-    if (refs->m_iElementCount)
-    {
-        int bytes = tree->m_converter->ConvertReferences(refs->m_data, refs->m_iElementCount);
-        reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(bytes);
-        hkMemoryRouter* router = &hkMemoryRouter::getInstance();
-        unsigned char* temporary = static_cast<unsigned char*>(router->allocateStack((bytes + 127) & ~127));
-        tree->m_converter->writeBuffer(refs->m_data, refs->m_iElementCount, temporary);
-        ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset, temporary, bytes);
-        hkMemoryRouter::getInstance().deallocateStack(temporary);
-    }
-    int before = destination->m_offset;
-    reinterpret_cast<::FUN_00e06a60_cls *>((destination))->FillWithPattern(source->m_offset + padding);
-    ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
-                 source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
-    ::FUN_00e06480();
-    FUN_00e08320(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
-    ::FUN_00e06480();
-    return destination->m_offset - before;
-}
+static __declspec(noinline) int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs,
+                                             FUN_00e065f0* destination);
 
 struct BvBuilder
 {
@@ -3162,13 +3105,9 @@ int S_00e08470_Class::FUN_00e08470(S_00e08470_Context* context)
 }
 }  // namespace fnv_00e08470
 
-struct CodeCopySource : FUN_00e065f0
-{
-};
-
 // Writes converter-produced reference data and then source's data into destination, adjusts fixups, and returns how far destination's offset grew.
 // @fnv 0x00e08380
-static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs,
+static __declspec(noinline) int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs,
                                              FUN_00e065f0* destination)
 {
     int padding = (-source->m_offset) & 3;
@@ -3191,14 +3130,9 @@ static __declspec(noinline) int FUN_00e08380(BvTree* tree, CodeCopySource* sourc
     ::FUN_00cb1260(destination->m_data + destination->m_pRayCursor - destination->m_offset,
                  source->m_data + source->m_pRayCursor - source->m_offset, source->m_offset);
     ::FUN_00e06480();
-    FUN_00e08320(&destination->m_buffer, &source->m_buffer, destination->m_offset - source->m_offset);
+    FUN_00e08320(&source->m_buffer, &destination->m_buffer, destination->m_offset - source->m_offset);
     ::FUN_00e06480();
     return destination->m_offset - before;
-}
-
-int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination)
-{
-    return FUN_00e08380(tree, source, refs, destination);
 }
 
 struct ObjectWriter
@@ -3483,10 +3417,7 @@ void Tree::FUN_00e08cc0(S_00e07da0_Node* node, int arg2, int arg3)
 // Moved from hkpmoppdefaultassembler_gs_ehsc_nogs_noehsc_variant.cpp (VEGAS-15).
 void FUN_00e07b90(const FUN_00e07b90_bounds* bounds, FUN_00e07b90_vector* result);
 void __cdecl ResizeAudioStream(e083::Alloc* a, void* arr, int elemSize);
-static void FUN_00e08320(e083::PairArray* srcp, e083::PairArray* dst, int delta);
-void e08320_caller(e083::SrcW sw, e083::PairArray* dst, int delta);
 void __cdecl ResizeAudioStream(void*, void*, int);
-static int FUN_00e08380(BvTree* tree, FUN_00e065f0* source, BvArray<int>* refs, FUN_00e065f0* destination);
 void __cdecl ResizeAudioStream(hkMemoryAllocator*, void*, int);
 
 typedef signed char hkInt8;
@@ -3941,8 +3872,6 @@ FUN_00e090c0::FUN_00e090c0(const MoppAssemblerSettings& ap, hkpMoppCodeGenerator
 }
 
 // Moved from hkpmoppdefaultassembler_rtm_variant.cpp (VEGAS-15).
-static int FUN_00e08380(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
-int copy_code_caller(BvTree* tree, CodeCopySource* source, BvArray<int>* refs, FUN_00e065f0* destination);
 
 typedef __m128 E078Quad;
 

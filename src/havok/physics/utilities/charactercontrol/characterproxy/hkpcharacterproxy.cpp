@@ -38,26 +38,12 @@
 #include "fnv/symbols_010c8000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01272000.h"
-struct FUN_00cad480_Class {
-    void FUN_00cad480(void* arg);
-};
-
-// Iterates the proxy list at this+0x80 in reverse and calls each proxy's third virtual method with this and arg.
-// @fnv 0x00cad480
-void FUN_00cad480_Class::FUN_00cad480(void* arg)
-{
-    int count = *(int*)((char*)this + 0x84);
-    for (--count; count >= 0; --count) {
-        void* proxy = *(void**)((char*)*(void**)((char*)this + 0x80) + count * 4);
-        (*(void (**)(void*, void*))(*(void***)proxy + 2))(this, arg);
-    }
-}
-
 struct S_00cad440;
 
 struct S_00cad440_Listener {
     virtual void unk0();
     virtual void Notify(S_00cad440* src, void* a, void* b);
+    virtual void ContactPointAdded(S_00cad440* src, void* point);
 };
 
 struct S_00cad440 {
@@ -104,6 +90,18 @@ void S_00cad440::FUN_00cad440(void* a, void* b)
 {
     for (int i = unk84 - 1; i >= 0; i--)
         unk80[i]->Notify(this, a, b);
+}
+
+struct FUN_00cad480_Class : S_00cad440 {
+    void FUN_00cad480(void* arg);
+};
+
+// Iterates the listener array backwards and calls each listener's third virtual method with this and arg.
+// @fnv 0x00cad480
+void FUN_00cad480_Class::FUN_00cad480(void* arg)
+{
+    for (int count = unk84 - 1; count >= 0; --count)
+        unk80[count]->ContactPointAdded(this, arg);
 }
 
 struct CAD4C0Owner;
@@ -224,9 +222,12 @@ struct FNVBuffers {
         return hkMemoryRouter::getInstance().heap().blockAlloc(bytes);
     }
 };
+// hkpEntity up to m_pExtendedListeners (include/havok/hkpEntity.h; this unit's own hkVector4 conflicts with hkBase.h).
 struct FNVOwner {
+    char m_entityHead[0x214];
+    FNVBuffers* m_pExtendedListeners;
     FNVBuffers*& Buffers() {
-        return *reinterpret_cast<FNVBuffers**>(reinterpret_cast<char*>(this) + 0x214);
+        return m_pExtendedListeners;
     }
     void FUN_00c9c5b0(void* value);
 };
@@ -515,11 +516,7 @@ struct BhkProxy {
 // @fnv 0x00cad740
 void BhkProxy::RemoveTarget(BhkTarget* pTarget)
 {
-    void* pProxy;
-    if ((char*)this - 8)
-        pProxy = (void*)this;
-    else
-        pProxy = (void*)0;
+    void* pProxy = this;
     reinterpret_cast<::HostC9C6 *>((pTarget))->FUN_00c9c670(pProxy);
 
     for (int i = m_uiItemCount - 1; i >= 0; i--) {
@@ -808,14 +805,23 @@ struct S00cacaa0_Coll {
 
 typedef void (__cdecl *S00cacaa0_Fn)(S00cacaa0_Coll* a, S00cacaa0_Coll* b, S00cacaa0_Input* in, void* c, void* d);
 
+// hkpCollisionDispatcher::AgentFuncs: four agent functions and two flags.
 struct S00cacaa0_Entry {
     S00cacaa0_Fn m_fn;
-    unsigned int unk04, unk08, unk0c, unk10;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    unsigned char m_isFlipped;
+    unsigned char m_isPredictive;
 };
 
 struct S00cacaa0_Disp {
     unsigned int unk000; unsigned int unk004; unsigned int unk008; unsigned int unk00c; unsigned int unk010; unsigned int unk014; unsigned int unk018; unsigned int unk01c; unsigned int unk020; unsigned int unk024; unsigned int unk028; unsigned int unk02c; unsigned int unk030; unsigned int unk034; unsigned int unk038; unsigned int unk03c; unsigned int unk040; unsigned int unk044; unsigned int unk048; unsigned int unk04c; unsigned int unk050; unsigned int unk054; unsigned int unk058; unsigned int unk05c; unsigned int unk060; unsigned int unk064; unsigned int unk068; unsigned int unk06c; unsigned int unk070; unsigned int unk074; unsigned int unk078; unsigned int unk07c; unsigned int unk080; unsigned int unk084; unsigned int unk088; unsigned int unk08c; unsigned int unk090; unsigned int unk094; unsigned int unk098; unsigned int unk09c; unsigned int unk0a0; unsigned int unk0a4; unsigned int unk0a8; unsigned int unk0ac; unsigned int unk0b0; unsigned int unk0b4; unsigned int unk0b8; unsigned int unk0bc; unsigned int unk0c0; unsigned int unk0c4; unsigned int unk0c8; unsigned int unk0cc; unsigned int unk0d0; unsigned int unk0d4; unsigned int unk0d8; unsigned int unk0dc; unsigned int unk0e0; unsigned int unk0e4; unsigned int unk0e8; unsigned int unk0ec; unsigned int unk0f0; unsigned int unk0f4; unsigned int unk0f8; unsigned int unk0fc; unsigned int unk100; unsigned int unk104; unsigned int unk108; unsigned int unk10c; unsigned int unk110; unsigned int unk114; unsigned int unk118; unsigned int unk11c; unsigned int unk120; unsigned int unk124; unsigned int unk128; unsigned int unk12c; unsigned int unk130; unsigned int unk134; unsigned int unk138; unsigned int unk13c; unsigned int unk140; unsigned int unk144; unsigned int unk148; unsigned int unk14c; unsigned int unk150; unsigned int unk154; unsigned int unk158; unsigned int unk15c; unsigned int unk160; unsigned int unk164; unsigned int unk168; unsigned int unk16c; unsigned int unk170; unsigned int unk174; unsigned int unk178; unsigned int unk17c; unsigned int unk180; unsigned int unk184; unsigned int unk188; unsigned int unk18c; unsigned int unk190; unsigned int unk194; unsigned int unk198; unsigned int unk19c;
     unsigned char m_table[64][32];
+    unsigned int unk9a0;
+    unsigned int unk9a4;
+    unsigned int unk9a8;
+    S00cacaa0_Entry m_agent2Func[64];
 };
 
 struct S00cacaa0_World {
@@ -908,7 +914,7 @@ void S00cacaa0_cls::FUN_00cacaa0(bool flag, float* a2, void* a3, void* a4)
         for (int i = arr.m_iElementCount - 1; i >= 0; --i) {
             S00cacaa0_Coll* const& other = ((S00cacaa0_Coll**)arr.m_data)[i];
             unsigned char k = disp->m_table[coll->m_pCollisionShape->m_type][other->m_pCollisionShape->m_type];
-            ((S00cacaa0_Entry*)((char*)disp + 0x9ac))[k].m_fn(coll, other, &in, a3, a4);
+            disp->m_agent2Func[k].m_fn(coll, other, &in, a3, a4);
         }
     } else {
         S00cacaa0_Arr& arr = m_pPhantom->m_aiIndexedValues;

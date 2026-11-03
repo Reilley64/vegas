@@ -101,7 +101,7 @@ FUN_00663430::FUN_00663430()
 // @fnv 0x006639f0
 char FUN_006639f0(char* pThis)
 {
-    return pThis[0x189];
+    return reinterpret_cast<BSFaceGenAnimationData*>(pThis)->bShouldHeadTrack;
 }
 
 struct FUN_00663a10_shell : public BSFaceGenAnimationData
@@ -112,7 +112,7 @@ struct FUN_00663a10_shell : public BSFaceGenAnimationData
 // @fnv 0x00663a10
 void FUN_00663a10_shell::FUN_00663a10(bool abShouldHeadTrack)
 {
-    *((bool*)((char*)this + 0x189)) = abShouldHeadTrack;
+    bShouldHeadTrack = abShouldHeadTrack;
 }
 
 class Actor;
@@ -207,6 +207,13 @@ struct NiAVObject
 
 struct DummyAccum
 {
+    char pad[0x19c];
+    int iRenderMode;
+};
+struct NiCullingProcess
+{
+    char pad[0xc4];
+    DummyAccum* pAccumulator;
 };
 
 struct DummyNode
@@ -217,8 +224,8 @@ struct DummyNode
 // @fnv 0x00663ae0
 void FUN_00663ae0_shell::CullWithBoundAccum(NiCullingProcess* arCuller)
 {
-    DummyAccum* paccum = ((::DummyAccum *)(::GetStringAtOffsetC4(arCuller)));
-    int kmode = ((int)(::GetField19C((char *)(((::DummyAccum *)(::GetStringAtOffsetC4(arCuller)))))));
+    DummyAccum* paccum = arCuller->pAccumulator;
+    int kmode = arCuller->pAccumulator->iRenderMode;
     if (kmode == 0)
     {
         reinterpret_cast<::FUN_00b63500_shell *>((paccum))->RenderBound((void *)&((*(::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((NiAVObject*)this)))->FUN_0043d450()))), 0);
@@ -246,7 +253,7 @@ unsigned int GetField19C(char* pThis)
     return *(unsigned int*)(pThis + 0x19c);
 }
 
-struct FUN_00662a40_shell
+struct FUN_00662a40_shell : public BSFaceGenNiNode
 {
     char GetByteAtOffsetD6();
 };
@@ -254,7 +261,7 @@ struct FUN_00662a40_shell
 // @fnv 0x00662a40
 char FUN_00662a40_shell::GetByteAtOffsetD6()
 {
-    return *(char*)((char*)this + 0xd6);
+    return bAnimationUpdate;
 }
 
 struct GlobalObject_0044f440
@@ -978,7 +985,7 @@ struct FaceGenUpdateData663510
     float fTime;
     bool m_bUpdateEnabled;
 };
-struct FUN_00663510_t
+struct FUN_00663510_t : public ::BSFaceGenNiNode
 {
     void UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData);
 };
@@ -999,7 +1006,7 @@ void FUN_00663510_t::UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData)
         (!UpdateData->m_bUpdateEnabled && !((FaceGenNode*)this)->GetAnimationData()->NeedsUpdate()))
         return;
 
-    *(float*)((char*)this + 0xdc) = UpdateData->fTime;
+    fLastUpdateTime = UpdateData->fTime;
     if (((BSFaceGenNiNode*)this)->bAnimationUpdate)
     {
         ((FaceGenNode*)this)->GetAnimationData()->SetUpdated(false);
@@ -1015,9 +1022,9 @@ void FUN_00663510_t::UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData)
         bchanged = ((FaceGenNode*)this)->GetAnimationData()->UpdateMorphs();
     }
 
-    if (((BSFaceGenNiNode*)this)->bAnimationUpdate && *(Actor**)((char*)this + 0xe8) &&
-        ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)*(Actor**)((char*)this + 0xe8))))->GetBaseTexture())) &&
-        ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)*(Actor**)((char*)this + 0xe8))))->GetBaseTexture()))->GetCurrentPackage678() &&
+    if (((BSFaceGenNiNode*)this)->bAnimationUpdate && reinterpret_cast<Actor*>(pActor) &&
+        ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)reinterpret_cast<Actor*>(pActor))))->GetBaseTexture())) &&
+        ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)reinterpret_cast<Actor*>(pActor))))->GetBaseTexture()))->GetCurrentPackage678() &&
         ((unsigned char)(::FUN_006639f0((char*)((FaceGenNode*)this)->GetAnimationData()))) &&
         ((BSFaceGenNiNode*)this)->bApplyRotationToParent && !*(*reinterpret_cast<::fnv_00663510::ProcessLists *>(&::g_011df6d0)).GetLifeStateControlFlag() &&
         reinterpret_cast<::FUN_004f0140_class *>((((NiAVObject*)this)))->FUN_004f0140())
@@ -1033,38 +1040,38 @@ void FUN_00663510_t::UpdateFaceGenAnimation(FaceGenUpdateData663510* UpdateData)
         bchanged = bchanged || beyeTrackingChanged;
     }
 
-    if (bchanged || *(bool*)((char*)this + 0xe4))
+    if (bchanged || bDeferredUpdate)
     {
         int inumallowedtoupdate = 10;
         bool bupdate = false;
         if (reinterpret_cast<::FUN_004f0140_class *>((((NiAVObject*)this)))->FUN_004f0140())
         {
             if (((FaceGenNode*)this)->GetAnimationData()->IsDead() ||
-                reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_00663510::ProcessLists *>(&::g_011e0e80))))->CanAddActorToList((::Actor *)(*(Actor**)((char*)this + 0xe8)), inumallowedtoupdate) ||
-                *(Actor**)((char*)this + 0xe8) == (Actor*)(*reinterpret_cast<::fnv_00663510::PlayerCharacter * *>(&::_g_thePlayer)) || ::FUN_00702360())
+                reinterpret_cast<::ProcessLists *>(&((*reinterpret_cast<::fnv_00663510::ProcessLists *>(&::g_011e0e80))))->CanAddActorToList((::Actor *)(reinterpret_cast<Actor*>(pActor)), inumallowedtoupdate) ||
+                reinterpret_cast<Actor*>(pActor) == (Actor*)(*reinterpret_cast<::fnv_00663510::PlayerCharacter * *>(&::_g_thePlayer)) || ::FUN_00702360())
                 bupdate = true;
-            if (*(Actor**)((char*)this + 0xe8) &&
-                !((MobileObject*)*(Actor**)((char*)this + 0xe8))->GetCurrentProcessLevel() &&
-                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)*(Actor**)((char*)this + 0xe8))))->GetBaseTexture()))->IsArrested() &&
-                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)*(Actor**)((char*)this + 0xe8))))->GetBaseTexture()))->GetCombatTarget() &&
-                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)*(Actor**)((char*)this + 0xe8))))->GetBaseTexture()))->GetCombatTarget() ==
+            if (reinterpret_cast<Actor*>(pActor) &&
+                !((MobileObject*)reinterpret_cast<Actor*>(pActor))->GetCurrentProcessLevel() &&
+                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)reinterpret_cast<Actor*>(pActor))))->GetBaseTexture()))->IsArrested() &&
+                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)reinterpret_cast<Actor*>(pActor))))->GetBaseTexture()))->GetCombatTarget() &&
+                ((::fnv_00663510::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(((MobileObject*)reinterpret_cast<Actor*>(pActor))))->GetBaseTexture()))->GetCombatTarget() ==
                     (Actor*)(*reinterpret_cast<::fnv_00663510::PlayerCharacter * *>(&::_g_thePlayer)))
                 bupdate = true;
         }
-        if (bupdate || *(bool*)((char*)this + 0xe4))
+        if (bupdate || bDeferredUpdate)
         {
             ((FaceGenNode*)this)->FUN_00663050(bchanged);
         }
         else
         {
-            *(bool*)((char*)this + 0xd4) = true;
-            *(bool*)((char*)this + 0xe4) = true;
+            unkd4 = true;
+            bDeferredUpdate = true;
         }
     }
 
     reinterpret_cast<::FUN_00663a10_shell *>((((FUN_00663a10_shell*)((FaceGenNode*)this)->GetAnimationData())))->FUN_00663a10(true);
-    if (*(bool*)((char*)this + 0xec) && *(Actor**)((char*)this + 0xe8))
-        ::FUN_00652510((::FG652_Actor *)(*(Actor**)((char*)this + 0xe8)));
+    if (unkec && reinterpret_cast<Actor*>(pActor))
+        ::FUN_00652510((::FG652_Actor *)(reinterpret_cast<Actor*>(pActor)));
 }
 }  // namespace fnv_00663510
 

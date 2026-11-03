@@ -8023,9 +8023,8 @@ int FUN_00afcf00_t::FUN_00afcf00(FUN_00afcf00_t* other)
 }
 
 namespace fnv_00af7800 {
-struct RecursiveMutex
+struct RecursiveMutex : CRITICAL_SECTION
 {
-    unsigned debug, lockCount, recursionCount, owner, semaphore, spin;
 };
 
 

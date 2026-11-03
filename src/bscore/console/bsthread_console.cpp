@@ -67,9 +67,8 @@ unsigned long RunThreadProc(void* thread)
     return static_cast<BSThreadEntryPC*>(thread)->ThreadProc();
 }
 
-struct CRITSEC
+struct CRITSEC : CRITICAL_SECTION
 {
-    int a[6];
 };
 struct FUN_00aa64f0_t
 {
@@ -96,18 +95,12 @@ void FUN_00aa64f0_t::StopAndCloseHandle()
 
 unsigned long RunThreadProc(void* thread);
 
-struct CriticalSectionAA63
+struct CriticalSectionAA63 : CRITICAL_SECTION
 {
     ~CriticalSectionAA63()
     {
         DeleteCriticalSection(this);
     }
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
 };
 
 class FUN_00aa63c0

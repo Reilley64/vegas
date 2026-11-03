@@ -1181,9 +1181,8 @@ void Manager501::FUN_00adad80(Message501* message)
 }
 
 
-struct CritSecA
+struct CritSecA : CRITICAL_SECTION
 {
-    int unk[6];
 };
 
 struct S_00adc830_Entry;
@@ -4056,9 +4055,8 @@ template <int Pad> struct ListView : ListCleanup<Pad>
     }
 };
 
-struct CSView
+struct CSView : CRITICAL_SECTION
 {
-    int offset_00, offset_04, offset_08, offset_0c, offset_10, offset_14;
     ~CSView()
     {
         DeleteCriticalSection(this);
@@ -6374,9 +6372,8 @@ struct AudioList
     }
 };
 
-struct AudioCriticalSection
+struct AudioCriticalSection : CRITICAL_SECTION
 {
-    int debugInfo, lockCount, recursionCount, owningThread, lockSemaphore, spinCount;
     AudioCriticalSection()
     {
         InitializeCriticalSection(this);

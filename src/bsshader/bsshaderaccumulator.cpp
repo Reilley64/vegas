@@ -3818,9 +3818,8 @@ bool DepthAccumulator::FUN_00b64570(NiCamera* camera, TextureView* target)
 }
 }  // namespace fnv_00b64570
 
-struct LocalCriticalSection
+struct LocalCriticalSection : CRITICAL_SECTION
 {
-    unsigned unk00, unk04, unk08, unk0c, unk10, unk14;
     LocalCriticalSection()
     {
         InitializeCriticalSection(this);

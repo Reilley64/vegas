@@ -13,14 +13,8 @@
 #include "fnv/decl/MemoryManagerStandIn.h"
 #include "fnv/symbols_00b02000.h"
 
-struct CritSection
+struct CritSection : CRITICAL_SECTION
 {
-    void* DebugInfo;
-    long LockCount;
-    long RecursionCount;
-    void* OwningThread;
-    void* LockSemaphore;
-    unsigned long SpinCount;
 };
 
 struct JobSemaphore
@@ -353,14 +347,8 @@ void FUN_00b01f50_shell::FUN_00b01f50()
     CloseHandle(*(void**)((char*)this + 0x14));
 }
 
-struct Lock_00b02220
+struct Lock_00b02220 : CRITICAL_SECTION
 {
-    int m_debugInfo;
-    int m_lLockCount;
-    int m_recursionCount;
-    void* m_owningThread;
-    void* m_lockSemaphore;
-    unsigned int m_spinCount;
 };
 struct FUN_00b02220_Owner
 {

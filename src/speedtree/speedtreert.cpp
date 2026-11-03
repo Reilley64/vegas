@@ -4748,9 +4748,8 @@ inline void operator delete[](void* p)
     reinterpret_cast<::FNV_MemoryManager *>(&((*reinterpret_cast<::MemoryManagerAllocHelper *>(&::g_memoryManager))))->FUN_00aa4060(p);
 }
 
-struct CritSecQ
+struct CritSecQ : CRITICAL_SECTION
 {
-    int a, b, c, d, e, f;
 };
 
 extern CritSecQ DAT_011f8bc4;

@@ -43,7 +43,7 @@ struct S_00cc10b0_World
     int unk74;
     int unk78;
     int unk7c;
-    int m_80;
+    ::hkpCollisionDispatcherCFEA* m_80;
 };
 
 struct S_00cc10b0_Island
@@ -208,12 +208,12 @@ void __cdecl FUN_00cc10b0(S_00cc10b0_Agent* agent)
     }
     else
     {
-        island = ((::S_00cc10b0_Island *)(::PickIslandByValue((unsigned int)(agent), (::Island *)(islandA), (::Island *)(islandB))));
+        island = ((::S_00cc10b0_Island *)(::PickIslandByValue(agent, (::Island *)(islandA), (::Island *)(islandB))));
         islandA->markForCheck();
         entityB->m_pCurrentSimulationIsland->markForCheck();
     }
     S_00cc10b0_Listener* listener = agent->m_kListener;
-    ::FUN_00cfea30(&island->m_58, (::hkpAgentNnEntryCFEA *)(agent), (::hkpCollisionDispatcherCFEA *)(island->m_pOwningWorld->m_80), island);
+    ::FUN_00cfea30(&island->m_58, (::hkpAgentNnEntryCFEA *)(agent), island->m_pOwningWorld->m_80, island);
     listener->v24();
 }
 
@@ -515,7 +515,7 @@ struct S_00cc0ed0_Blocks
 
 // Iterates over the block pointers in m5c, calling DispatchSlotCallback on each record up to the block end (m58 for the last block, 0x200 otherwise).
 // @fnv 0x00cc0ed0
-void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
+void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, void* a4)
 {
     int i = 0;
     if (s->m60 > 0)
@@ -535,7 +535,7 @@ void __cdecl ProcessBlocks(S_00cc0ed0_Blocks* s, float a2, float a3, int a4)
             }
             while ((char*)p < end)
             {
-                ::DispatchSlotCallback((::FUN_00cfdc90_Obj *)(p), a2, a3, (void *)(a4));
+                ::DispatchSlotCallback((::FUN_00cfdc90_Obj *)(p), a2, a3, a4);
                 p = (S_00cc0ed0_Rec*)((char*)p + p->size);
             }
         } while (i < s->m60);
@@ -558,7 +558,7 @@ struct S_00cc0f40_Body
 {
     int unk00;
     int unk04;
-    int unk08;
+    ::ObjA* unk08;
     int unk0C;
     int unk10;
     int unk14;
@@ -640,7 +640,7 @@ struct S_00cc0f40_Fn
     virtual void v0();
     virtual void v1();
     virtual void v2();
-    virtual int v3(S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, struct S_00cc0f40_In* in);
+    virtual void* v3(S_00cc0f40_Coll* a, S_00cc0f40_Coll* b, struct S_00cc0f40_In* in);
 };
 struct S_00cc0f40_Tbl
 {
@@ -660,7 +660,7 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
     S_00cc0f40_Body* a = (S_00cc0f40_Body*)((char*)pCollA + pCollA->off);
     S_00cc0f40_Body* b = (S_00cc0f40_Body*)((char*)pCollB + pCollB->off);
     if (a->kind != 5 && b->kind != 5 && a->prop != b->prop)
-        ::FUN_00cb5570((::ObjA *)((int)a->unk08), (::ObjB *)(a), (::ObjB *)(b));
+        ::FUN_00cb5570(a->unk08, (::ObjB *)(a), (::ObjB *)(b));
     S_00cc0f40_Prop* pPropA = a->prop;
     S_00cc0f40_Prop* pPropB = b->prop;
     S_00cc0f40_Prop* z = pPropA->w20 == 0xffff ? (pPropB->w20 == 0xffff ? pPropA : pPropB) : pPropA;
@@ -687,20 +687,20 @@ void __cdecl FUN_00cc0f40(S_00cc0f40_Coll* pCollA, S_00cc0f40_Coll* pCollB, S_00
         s1 = s2;
         s2 = pTemp;
     }
-    int r = in->table->fn[a->b8c * 8 + b->b8c]->v3(pCollA, pCollB, in);
-    ::FUN_00cfe8a0((::CFE820Pool *)(::S_00cc0f40_Body *)((S_00cc0f40_Body*)((char*)z + 0x58)), (::CollidableNode *)(pCollA), (::CollidableBody *)(s1), (::CollidableNode *)(pCollB), (::CollidableBody *)(s2), (*(unsigned char *)&(const ::S_00cc0f40_Flag &)(flag)), o, (::Dispatcher *)(in), (void *)(r));
+    void* r = in->table->fn[a->b8c * 8 + b->b8c]->v3(pCollA, pCollB, in);
+    ::FUN_00cfe8a0((::CFE820Pool *)(::S_00cc0f40_Body *)((S_00cc0f40_Body*)((char*)z + 0x58)), (::CollidableNode *)(pCollA), (::CollidableBody *)(s1), (::CollidableNode *)(pCollB), (::CollidableBody *)(s2), (*(unsigned char *)&(const ::S_00cc0f40_Flag &)(flag)), o, (::Dispatcher *)(in), r);
 }
 
 struct Island
 {
     char pad[0x5c];
-    int* arr;
+    char** arr;
     int count;
 };
 
 // Returns the island with the smaller count if val falls within 0x200 of an entry in its array, otherwise the island with the larger count.
 // @fnv 0x00cc0e20
-Island* __cdecl PickIslandByValue(unsigned int val, Island* apIslandA, Island* apIslandB)
+Island* __cdecl PickIslandByValue(const void* val, Island* apIslandA, Island* apIslandB)
 {
     bool less = apIslandA->count <= apIslandB->count;
     Island* p = less ? apIslandA : apIslandB;
@@ -708,8 +708,8 @@ Island* __cdecl PickIslandByValue(unsigned int val, Island* apIslandA, Island* a
     bool found = false;
     for (int i = 0; i < n; i++)
     {
-        int v = p->arr[i];
-        if (v <= val && val < v + 0x200)
+        const char* v = p->arr[i];
+        if (v <= (const char*)val && (const char*)val < v + 0x200)
         {
             found = true;
             break;
@@ -724,21 +724,21 @@ struct SelectorTarget
 };
 
 // @fnv 0x00cc0e90
-static unsigned int FUN_00cc0e90(SelectorTarget* p)
+static void* FUN_00cc0e90(SelectorTarget* p)
 {
     if (p->m_00 == 4)
     {
-        return (unsigned int)p + 0x30;
+        return (char*)p + 0x30;
     }
-    return (unsigned int)p + 0x20;
+    return (char*)p + 0x20;
 }
 
-unsigned int probe_caller(SelectorTarget* p)
+void* probe_caller(SelectorTarget* p)
 {
     return FUN_00cc0e90(p);
 }
 
-unsigned int probe_sink;
+void* probe_sink;
 
 int main()
 {

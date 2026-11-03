@@ -5923,7 +5923,7 @@ void FUN_00cb5100(S00cb5100_World* apWorld, S00cb5100_Body* apBody, bool merge)
         e->setFilter(apWorld->b305, apWorld->b306, apWorld->b307);
     }
 
-    ::ProcessBlocks((::S_00cc0ed0_Blocks *)(apBody), apBody->f44, apWorld->f1d0, apWorld->unk78);
+    ::ProcessBlocks((::S_00cc0ed0_Blocks *)(apBody), apBody->f44, apWorld->f1d0, (void*)apWorld->unk78);
     S00cb5100_Ent* e0 = apBody->list48[0];
     reinterpret_cast<::FUN_00c90510_class *>((e0))->FUN_00c90510();
     ::ProcessSceneCallbacks((::Game *)(apWorld), (::Scene *)(apBody));

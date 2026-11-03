@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedmenuracesex.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedmenuracesex.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include <new>
 #include <cstdlib>
@@ -413,7 +414,7 @@ void Effect::FUN_007fe9c0(void* apArg1, void* apArg2, void* unused)
         ::DAT_011ae608 = 0.0f;
         ::DAT_01200828 = -1.0f;
     }
-    reinterpret_cast<::BB97550Shader *>((::ImageSpaceManager::FUN_004e3270()))->FUN_00b97550(30, (std::intptr_t)(::FUN_0043c4b0()), (int)(apArg1), (int)(apArg2), 0, 1);
+    reinterpret_cast<::BB97550Shader *>((::ImageSpaceManager::FUN_004e3270()))->FUN_00b97550(30, (std::intptr_t)(::FUN_0043c4b0()), (std::intptr_t)(apArg1), (std::intptr_t)(apArg2), 0, 1);
 }
 
 struct S_007fb5a0_Point3
@@ -637,11 +638,11 @@ struct FORenderedMenuRaceSex : FORenderedMenu
     NodePtr unkD8[4];
     NodePtr unkE8[4];
 
-    bool HandleRaceSexMenuInput(bool abDown, int a2, int a3);
+    bool HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3);
 };
 
 // @fnv 0x007fe6c0
-bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
+bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, intptr_t a2, intptr_t a3)
 {
     InterfaceManager* pInterface = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (abDown)
@@ -660,11 +661,11 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
             reinterpret_cast<::FUN_00458b30_class *>(&(pick))->SetByteAtOffset17(1);
             reinterpret_cast<::CombatProcedure *>(&(pick))->Initialize((::CombatController *)(0));
             reinterpret_cast<::FUN_00792780_Class *>(&(pick))->SetByteAtOffset30(0);
-            int iFound = -1;
+            intptr_t iFound = -1;
             for (int j = 0; iFound < 0 && j < 4; j++)
             {
                 reinterpret_cast<::NiPick *>(&(pick))->FUN_00705fc0(unkD8[j]);
-                reinterpret_cast<::CameraWindowRay *>((((::PickCamera *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterface))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterface))->FUN_00792760(),
+                reinterpret_cast<::CameraWindowRay *>((((::PickCamera *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pMenuLightParameters))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((pInterface))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((pInterface))->FUN_00792760(),
                                                (*(::NiPoint3 *)(&origin)), (*(::NiPoint3 *)(&dir)), (const ::NiRenderTargetGroup *)(0));
                 if (reinterpret_cast<::NiPick *>(&(pick))->PerformPick((*(const ::NiPoint3 *)(&origin)), (*(const ::NiPoint3 *)(&dir)), 0))
                 {
@@ -675,7 +676,7 @@ bool FORenderedMenuRaceSex::HandleRaceSexMenuInput(bool abDown, int a2, int a3)
             if (iFound >= 0)
             {
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID("UIMenuMode", 0x121)))->FUN_00ad8830(false);
-                ((::RaceSexMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::MenuTile *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()))->FUN_007fe910((void *)(iFound));
+                ((::RaceSexMenu *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::MenuTile *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))->FUN_007fe910((void *)(iFound));
                 return true;
             }
         }
@@ -1129,7 +1130,7 @@ void xRenderedMenu::Init()
     xAV* qdqWL = 0;
     if (!((::xAV *)(::FUN_00559450((int *)&(m_f8)))))
     {
-        qdqWL = ((::xAV *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((const char *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::xT2 *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::xT1 *)(reinterpret_cast<::FUN_009611e0_shell *>(this)->FUN_009611e0()))))->FUN_00a03c90()))))->FUN_007fd640()))), 0, true, false, false,
+        qdqWL = ((::xAV *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::xLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(((const char *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::xT2 *)(reinterpret_cast<::FUN_00a03c90_shell *>((((::xT1 *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pFourthMenuObject))))->FUN_00a03c90()))))->FUN_007fd640()))), 0, true, false, false,
                                                 false)));
         m_f8.FUN_0066b0d0(qdqWL);
         ::UpdateObjectVisibility((::NiAVObject *)(qdqWL));
@@ -1319,17 +1320,17 @@ struct RenderToTextureImpl
     char pad000[0x104];
     RtPtr<RtNode> m_spScene;
 
-    void FUN_007fe1f0(int a1, int a2, int a3);
+    void FUN_007fe1f0(intptr_t a1, int a2, int a3);
 };
 
 // Sets a render target and background color, processes m_spScene through render calls, then passes the target to FUN_007fba00.
 // @fnv 0x007fe1f0
-void RenderToTextureImpl::FUN_007fe1f0(int aiUnk, int aiUnk2, int aiUnk3)
+void RenderToTextureImpl::FUN_007fe1f0(intptr_t aiUnk, int aiUnk2, int aiUnk3)
 {
     bool bOverrideTmp = false;
     bOverrideTmp = true;
     RtRenderer* pkRendererY = ((::fnv_007fe1f0::RtRenderer *)(::FUN_0043c4b0()));
-    RtPtr<RtTexture> spTarget5(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::Pool *>((((::fnv_007fe1f0::RtTarget *)(::FUN_004a0ea0(::FUN_0043c4b0())))))->FUN_00b6e110(0x30, 0, 0, 0, {}))));
+    RtPtr<RtTexture> spTarget5(((::fnv_007fe1f0::RtTexture *)(reinterpret_cast<::Pool *>(::FUN_004a0ea0())->FUN_00b6e110(reinterpret_cast<std::uintptr_t>(::FUN_0043c4b0()), 0x30, 0, 0, 0))));
     RtColor kKBorder(0.0f, 0.0f, 0.0f, 0.0f);
     RtColor kBackgroundVal2(0.0f, 0.0f, 0.0f, 0.0f);
     kBackgroundVal2 = (*(const ::fnv_007fe1f0::RtColor *)(reinterpret_cast<::FUN_00503650_shell *>(this)->FUN_00503650()));

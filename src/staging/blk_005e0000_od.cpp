@@ -3682,7 +3682,7 @@ struct SkinPartObj_S
 SkinPartObj_S* NiDynamicCast(const NiRTTI_S* rtti, SkinInst_S* obj);
 
 // @fnv 0x005e4970
-void SetPartitionVisibility(int partition, AVObj_S* root)
+void SetPartitionVisibility(intptr_t partition, AVObj_S* root)
 {
     Node_S* nodeB = root->IsSceneNode();
     unsigned int i = 0;
@@ -4454,12 +4454,12 @@ struct FUN_005e50f0_Obj
     int unk2C;
     int unk30;
     std::intptr_t unk34[16];
-    std::intptr_t GetValueByIndex(int index);
+    std::intptr_t GetValueByIndex(intptr_t index);
 };
 
 // Returns unk34[index] when index is between 0 and 14, otherwise returns 0.
 // @fnv 0x005e50f0
-std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(int index)
+std::intptr_t FUN_005e50f0_Obj::GetValueByIndex(intptr_t index)
 {
     std::intptr_t result = 0;
     if (index > -1 && index < 15)
@@ -5080,12 +5080,12 @@ struct Body55
     int unk2C;
     int unk30;
     Name55* names[15];
-    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object);
+    void HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, intptr_t excluded, Object55* object);
 };
 
 // For each named entry other than excluded, if the object found under root has ancestor as a parent, sets partition i of object's geometry skins not visible.
 // @fnv 0x005e55e0
-void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, int excluded, Object55* object)
+void Body55::HidePartitionsUnderAncestor(Object55* ancestor, Object55* root, intptr_t excluded, Object55* object)
 {
     Node55* node2 = object->IsSceneNode();
     for (int i = 0; i < 15; ++i)
@@ -5161,11 +5161,11 @@ struct PartitionOwner
     int unk2C;
     int unk30;
     ObjectName* names[15];
-    void ApplyPartitionState(SceneObject* target, SceneObject* root, int excluded, SceneObject* source);
+    void ApplyPartitionState(SceneObject* target, SceneObject* root, intptr_t excluded, SceneObject* source);
 };
 // For each non-excluded name, if its node under root has target as an ancestor, enables that partition entry on the skin of each geometry in source.
 // @fnv 0x005e5750
-void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root, int excluded, SceneObject* source)
+void PartitionOwner::ApplyPartitionState(SceneObject* target, SceneObject* root, intptr_t excluded, SceneObject* source)
 {
     SceneNode* node = source->IsSceneNode();
     for (int i = 0; i < 15; ++i)

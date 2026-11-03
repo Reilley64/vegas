@@ -1,5 +1,6 @@
 // fallout/ai/escortpackage.cpp: EscortActorPackageData (10 functions)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorPackageData.h"
 #include "fnv/decl/Callees.h"
@@ -185,7 +186,7 @@ int FUN_009f0a80_shell::FUN_009f0a80(Actor* apEscorter, void* apType)
     pNode = (void*)((char*)this + 0x10);
     while (pNode)
     {
-        Actor* pactor = (Actor*)*((void **)(new ((void *)(pNode)) ::Vec3()));
+        Actor* pactor = (Actor*)*((void **)(((::Vec3 *)(void *)(pNode))));
         pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070();
         if (pactor)
         {
@@ -203,7 +204,7 @@ int FUN_009f0a80_shell::FUN_009f0a80(Actor* apEscorter, void* apType)
     iCount = 0;
     for (pNode = (void*)((char*)this + 0x10); pNode; pNode = reinterpret_cast<::Callees *>((pNode))->FUN_00726070())
     {
-        Actor* pactor = (Actor*)*((void **)(new ((void *)(pNode)) ::Vec3()));
+        Actor* pactor = (Actor*)*((void **)(((::Vec3 *)(void *)(pNode))));
         if (pactor && reinterpret_cast<::fnv_0055d3b0::FUN_0055d3b0 *>((((FUN_0055d3b0_class*)pactor)))->IsOfType(apType))
         {
             iCount++;
@@ -234,7 +235,7 @@ void FUN_009f0bb0_shell::SaveFormList(BGSSaveFormBuffer* apSaveGameBuffer)
     void* pCurrentElementNext = (void*)((char*)this + 0x10);
     while (pCurrentElementNext)
     {
-        void* pForm = *((void **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        void* pForm = *((void **)(((::Vec3 *)(void *)(pCurrentElementNext))));
         if (pForm)
         {
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apSaveGameBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(pForm), 0);
@@ -373,11 +374,11 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
     ActorListNode* pPrev = 0;
     while (pNode && !pNode->IsEmpty())
     {
-        Actor* pActor = *((::Actor **)(new ((void *)(pNode)) ::Vec3()));
+        Actor* pActor = *((::Actor **)(((::Vec3 *)(void *)(pNode))));
         bool bRemove = false;
         if (pActor)
         {
-            pActor = pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)pActor)) : 0;
+            pActor = pActor ? dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(uintptr_t)pActor)) : 0;
             if (pActor)
                 pNode->SetItem(pActor);
             else
@@ -391,7 +392,7 @@ void FUN_009f0cf0_shell::PruneActorList(FUN_009f0cf0_arg* apArg)
         {
             if (pPrev)
             {
-                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(new ((void *)(pNode)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((::InventoryStackRecord *const &)(*((::Actor **)(((::Vec3 *)(void *)(pNode))))));
                 pNode = ((::ActorListNode *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
             }
             else

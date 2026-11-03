@@ -1,5 +1,8 @@
 // fallout/ai/combat/vats.cpp: VATS, PlayerCharacter, SoundListView, ListHolder and more (26 functions)
 
+#include "fnv/havok_array_view.h"
+#include "fnv/form_fields.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/AnimSwap.h"
 #include "fnv/decl/B8C4890Actor.h"
@@ -72,6 +75,23 @@
 #include "fnv/symbols_011f2000.h"
 #include "fnv/symbols_011f6000.h"
 #include "vats_decls.h"
+#include "fnv/decl/FUN_004543c0_cls.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_004a3fb0_shell.h"
+#include "fnv/decl/FUN_004a46b0_class.h"
+#include "fnv/decl/FUN_0059ce80_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/S819.h"
+#include "fnv/decl/ShadowLightData.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/decl/fnv_008cdd90__FUN_008cdd90_shell.h"
+#include "fnv/decl/fnv_009306d0__FUN_009306d0_shell.h"
+#include "fnv/symbols_00460000.h"
+#include "fnv/symbols_004b5000.h"
+#include "fnv/symbols_0056f000.h"
+#include "fnv/symbols_005db000.h"
+#include <xmmintrin.h>
 
 // @fnv 0x0093e770
 void VATS::Update(int mode, bool force)
@@ -179,7 +199,7 @@ void FUN_009ca410_shell::ProcessVATSCommands()
 
     while (!((FUN_009ca410_shell_base*)this)->FUN_008256d0())
     {
-        VATSCommand* pcommand = ((::Node *)(new ((void *)(((FUN_009ca410_shell_base*)this))) ::Vec3()))->item;
+        VATSCommand* pcommand = ((::Node *)(((::Vec3 *)(void *)(((FUN_009ca410_shell_base*)this)))))->item;
         VATSCommand* pItem = pcommand;
         VATSCommand* pItemCopy = pItem;
         pItemCopy ? reinterpret_cast<::FUN_009c8870_Class *>((((StandIn*)pItemCopy)))->FUN_009c8870(1) : 0;
@@ -227,7 +247,7 @@ struct ListHolder
 void* ListHolder::FUN_009c71c0()
 {
     if (!_ref_008256d0())
-        return *(void**)((void *)(new ((void *)this) ::Vec3()));
+        return *(void**)((void *)(((::Vec3 *)(void *)this)));
     return 0;
 }
 
@@ -244,7 +264,7 @@ VATSCommand* MyList::FUN_009c71f0()
     while (iter && !iter->_ref_008256d0())
     {
         if (!((::MyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070())))
-            return *((::VATSCommand **)(new ((void *)(iter)) ::Vec3()));
+            return *((::VATSCommand **)(((::Vec3 *)(void *)(iter))));
         iter = ((::MyList *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
     }
     return 0;
@@ -611,7 +631,7 @@ bool VatsList9c9::IsValidCommand(VatsCmd9c9* pkCmd)
 {
     VatsCmd9c9* pkCommand = pkCmd;
     if (!pkCommand)
-        pkCommand = *((::VatsCmd9c9 **)(new ((void *)this) ::Vec3()));
+        pkCommand = *((::VatsCmd9c9 **)(((::Vec3 *)(void *)this)));
     if (pkCommand)
     {
         switch (pkCommand->m_eRequestType)
@@ -977,7 +997,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
                 else
                 {
                     fDistance =
-                        ::GetActorReach((::A69C0Actor *)(::Actor *)((Actor*)DAT_011f21f0), (::A69C0Weapon *)((int)((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()));
+                        ::GetActorReach((::A69C0Actor *)(::Actor *)((Actor*)DAT_011f21f0), (::A69C0Weapon *)((intptr_t)((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710()));
                     if (!((FUN_008a1710_shell*)DAT_011f21f0)->FUN_008a1710())
                     {
                         fDistance *= ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting554))))->f;
@@ -1019,8 +1039,7 @@ void FUN_009c9280_shell::ExecuteVATSMeleeAttack(VATSCommand* pAttackCmd)
         {
             if (reinterpret_cast<::FUN_005ff160_shell *>((this->m_pIdleForm))->GetFlagsMasked() != 4)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
                 this->m_pIdleForm = 0;
             }
         }
@@ -1240,7 +1259,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
                 ActorObj9c9* pOwner = apActor;
                 if (((::fnv_009c9ae0::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pOwner))->GetBaseTexture())))
                 {
-                    NiPoint3 kCenter5 = (*(::fnv_009c9ae0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))) ::Vec3()));
+                    NiPoint3 kCenter5 = (*(::fnv_009c9ae0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450()))))));
                     NiPoint3 aKDir = *(*reinterpret_cast<::fnv_009c9ae0::ActorObj9c9 * *>(&::DAT_011f21f0))->v125() - *apActor->v125();
 
                     NiMatrix3_9c9 kRotX;
@@ -1274,7 +1293,7 @@ void VATS9c9::FUN_009c9ae0(ActorObj9c9* apActor)
 
                     reinterpret_cast<::MyPoint439180 *>((void *)&(const ::fnv_009c9ae0::NiPoint3 &)(kOffset5))->FUN_00439180(_fRange);
 
-                    fRadiusTmp = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009c9ae0::NiPoint3 &)((kCenter5 - (*(::fnv_009c9ae0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))) ::Vec3())))))->ComputeMagnitude() * 2.0f;
+                    fRadiusTmp = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::fnv_009c9ae0::NiPoint3 &)((kCenter5 - (*(::fnv_009c9ae0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9ae0::NiBound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(apActor->v116()))->FUN_0043d450())))))))))->ComputeMagnitude() * 2.0f;
 
                     reinterpret_cast<::FUN_004f00e0_shell *>((((::fnv_009c9ae0::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::fnv_009c9ae0::LightTarget9c9 *)(::FUN_00559450((int *)&(m_spVATSLight))))))))))->FUN_004f00e0(&kCenter5);
                     ((::fnv_009c9ae0::NiAVObject *)(::fnv_004e6540::FUN_004e6540((char *)(((::fnv_009c9ae0::LightTarget9c9 *)(::FUN_00559450((int *)&(m_spVATSLight))))))))->FUN_0050dd50(NiPoint3(fRadiusTmp, 0.0f, 0.0f));
@@ -1450,22 +1469,22 @@ struct CmdList9c9
 // @fnv 0x009c9fe0
 NiPoint3 CmdList9c9::FUN_009c9fe0(float afScale)
 {
-    NiPoint3 kPlayerPos = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((::fnv_009c9fe0::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((Ref9c9*)DAT_011f21f0)))->FUN_0043fcd0()))))->FUN_0043d450())))) ::Vec3()));
-    Cmd9c9* pkCmd = *((::fnv_009c9fe0::Cmd9c9 **)(new ((void *)this) ::Vec3()));
+    NiPoint3 kPlayerPos = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((::fnv_009c9fe0::NiAVObject *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((((Ref9c9*)DAT_011f21f0)))->FUN_0043fcd0()))))->FUN_0043d450()))))));
+    Cmd9c9* pkCmd = *((::fnv_009c9fe0::Cmd9c9 **)(((::Vec3 *)(void *)this)));
     if ((pkCmd && pkCmd->m_pkTarget) || (*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))
     {
         NiPoint3 kTarget = (*reinterpret_cast<const ::fnv_009c9fe0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
         if (pkCmd && pkCmd->m_pkTarget)
         {
             if (pkCmd->m_pkTarget->GetNode())
-                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pkCmd->m_pkTarget->GetNode()))->FUN_0043d450())))) ::Vec3()));
+                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(pkCmd->m_pkTarget->GetNode()))->FUN_0043d450()))))));
             else
                 kTarget = *pkCmd->m_pkTarget->GetPos();
         }
         else if ((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))
         {
             if (((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode())
-                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(new ((void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode()))->FUN_0043d450())))) ::Vec3()));
+                kTarget = *((::fnv_009c9fe0::NiPoint3 *)(((::Vec3 *)(void *)&((*(const ::fnv_009c9fe0::Bound9c9 *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetNode()))->FUN_0043d450()))))));
             else
                 kTarget = *((Ref9c9*)(*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011f21cc)))->GetPos();
         }
@@ -1807,7 +1826,7 @@ void VATS_ca2c0::FUN_009ca2c0(TESObjectREFR* apTarget, int a2)
     if (((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture())) &&
         ((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget())
     {
-        unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget()))->GetName()));
+        unsigned int flags = reinterpret_cast<FormFields*>((((::BaseProcess_ca2c0 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((Player_ca2c0*)::_g_thePlayer)))->GetBaseTexture()))->GetTarget()))->m_uiFormFlags;
         ((HitData_ca2c0*)cmd->m_pActionObject)->unk30 = flags;
     }
     ((HitData_ca2c0*)cmd->m_pActionObject)->SetFlag(0x10, true);
@@ -1986,7 +2005,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
     {
         return;
     }
-    VATSCommand* pCmd = ((::Node *)(new ((void *)this) ::Vec3()))->item;
+    VATSCommand* pCmd = ((::Node *)(((::Vec3 *)(void *)this)))->item;
     if (pCmd)
     {
         delete (VATS_COMMAND_Del*)pCmd;
@@ -1999,7 +2018,7 @@ void FUN_009c86b0_shell::FUN_009c86b0()
         }
         while (!FUN_008256d0())
         {
-            pCmd = ((::Node *)(new ((void *)this) ::Vec3()))->item;
+            pCmd = ((::Node *)(((::Vec3 *)(void *)this)))->item;
             bool bRemove = false;
             if (pCmd && pCmd->pTarget)
             {
@@ -2133,7 +2152,7 @@ bool FUN_009c9920_shell::FUN_009c9920()
 {
     ::BSSimpleList< ::BGSCameraShot*>* nextCamera = m_pCameraShotList;
     bool found = false;
-    while (nextCamera && ((::BGSCameraShot *)(new ((void *)(nextCamera)) ::Vec3())) != pCamera)
+    while (nextCamera && (((nextCamera))->m_item) != pCamera)
     {
         nextCamera = ((::BSSimpleList< ::BGSCameraShot *> *)(reinterpret_cast<::Callees *>((nextCamera))->FUN_00726070()));
     }
@@ -2148,7 +2167,7 @@ bool FUN_009c9920_shell::FUN_009c9920()
             reinterpret_cast<::CameraState *>((static_cast<CameraShotExtra*>(pCamera)))->ResetCameraState();
             pCamera = 0;
         }
-        pCamera = ((::BGSCameraShot *)(new ((void *)(nextCamera)) ::Vec3()));
+        pCamera = (((nextCamera))->m_item);
         if (pCamera && m_fCameraDuration < reinterpret_cast<::FUN_005081b0_shell *>((static_cast<CameraShotExtra*>(pCamera)))->GetFloatAtOffset58())
         {
             m_fCameraDuration = reinterpret_cast<::FUN_005081b0_shell *>((static_cast<CameraShotExtra*>(pCamera)))->GetFloatAtOffset58();
@@ -2171,4 +2190,309 @@ bool FUN_009c9920_shell::FUN_009c9920()
     return found;
 }
 
+bool __cdecl FUN_009c8ea0();
+class NiPoint3L8
+{
+  public:
+    float x;
+    float y;
+    float z;
+};
+
+class HitResultsL8
+{
+  public:
+    HitResultsL8();
+    ~HitResultsL8();
+    __m128 m_akData[50];
+};
+
+class HitL8
+{
+  public:
+    HitL8(void* pvHit);
+    __m128 m_akPad[5];
+    void* m_pvCollidable;
+    int m_aiPad[3];
+};
+
+class HitListL8
+{
+  public:
+    void* GetAt(int iIndex);
+};
+
+class HitArrayL8
+{
+  public:
+};
+
+class PickFlagsL8
+{
+  public:
+    PickFlagsL8(int iValue);
+    int m_iValue;
+};
+
+class PickQueryL8
+{
+  public:
+    PickQueryL8();
+    void SetFlags(PickFlagsL8 kFlags);
+    __m128 m_akData[11];
+};
+
+class WorldL8
+{
+  public:
+    virtual void w000();
+    virtual void w001();
+    virtual void w002();
+    virtual void w003();
+    virtual void w004();
+    virtual void w005();
+    virtual void w006();
+    virtual void w007();
+    virtual void w008();
+    virtual void w009();
+    virtual void w00a();
+    virtual void w00b();
+    virtual void w00c();
+    virtual void w00d();
+    virtual void w00e();
+    virtual void w00f();
+    virtual void w010();
+    virtual void w011();
+    virtual void w012();
+    virtual void w013();
+    virtual void w014();
+    virtual void w015();
+    virtual void w016();
+    virtual void w017();
+    virtual void w018();
+    virtual void w019();
+    virtual void w01a();
+    virtual void w01b();
+    virtual void w01c();
+    virtual void w01d();
+    virtual void w01e();
+    virtual void w01f();
+    virtual void w020();
+    virtual void w021();
+    virtual void w022();
+    virtual void w023();
+    virtual void w024();
+    virtual void w025();
+    virtual void w026();
+    virtual void w027();
+    virtual void w028();
+    virtual void w029();
+    virtual void w02a();
+    virtual void w02b();
+    virtual void w02c();
+    virtual void w02d();
+    virtual void w02e();
+    virtual void w02f();
+    virtual void w030();
+    virtual void w031();
+    virtual bool Pick(PickQueryL8& kQuery);
+};
+
+class CellL8
+{
+  public:
+};
+
+class ProjL8
+{
+  public:
+};
+
+class RefL8
+{
+  public:
+    virtual void r000();
+    virtual void r001();
+    virtual void r002();
+    virtual void r003();
+    virtual void r004();
+    virtual void r005();
+    virtual void r006();
+    virtual void r007();
+    virtual void r008();
+    virtual void r009();
+    virtual void r00a();
+    virtual void r00b();
+    virtual void r00c();
+    virtual void r00d();
+    virtual void r00e();
+    virtual void r00f();
+    virtual void r010();
+    virtual void r011();
+    virtual void r012();
+    virtual void r013();
+    virtual void r014();
+    virtual void r015();
+    virtual void r016();
+    virtual void r017();
+    virtual void r018();
+    virtual void r019();
+    virtual void r01a();
+    virtual void r01b();
+    virtual void r01c();
+    virtual void r01d();
+    virtual void r01e();
+    virtual void r01f();
+    virtual void r020();
+    virtual void r021();
+    virtual void r022();
+    virtual void r023();
+    virtual void r024();
+    virtual void r025();
+    virtual void r026();
+    virtual void r027();
+    virtual void r028();
+    virtual void r029();
+    virtual void r02a();
+    virtual void r02b();
+    virtual void r02c();
+    virtual void r02d();
+    virtual void r02e();
+    virtual void r02f();
+    virtual void r030();
+    virtual void r031();
+    virtual void r032();
+    virtual void r033();
+    virtual void r034();
+    virtual void r035();
+    virtual void r036();
+    virtual void r037();
+    virtual void r038();
+    virtual void r039();
+    virtual void r03a();
+    virtual void r03b();
+    virtual void r03c();
+    virtual void r03d();
+    virtual void r03e();
+    virtual void r03f();
+    virtual bool IsActor();
+    virtual void r041();
+    virtual void r042();
+    virtual void r043();
+    virtual void r044();
+    virtual void r045();
+    virtual void r046();
+    virtual void r047();
+    virtual void r048();
+    virtual void r049();
+    virtual void r04a();
+    virtual void r04b();
+    virtual void r04c();
+    virtual void r04d();
+    virtual void r04e();
+    virtual void r04f();
+    virtual void r050();
+    virtual void r051();
+    virtual void r052();
+    virtual void r053();
+    virtual void r054();
+    virtual void r055();
+    virtual void r056();
+    virtual void r057();
+    virtual void r058();
+    virtual void r059();
+    virtual void r05a();
+    virtual void r05b();
+    virtual void r05c();
+    virtual void r05d();
+    virtual void r05e();
+    virtual void r05f();
+    virtual void r060();
+    virtual void r061();
+    virtual void r062();
+    virtual void r063();
+    virtual void r064();
+    virtual void r065();
+    virtual void r066();
+    virtual void r067();
+    virtual void r068();
+    virtual void r069();
+    virtual void r06a();
+    virtual void r06b();
+    virtual void r06c();
+    virtual void r06d();
+    virtual void r06e();
+    virtual void r06f();
+    virtual void r070();
+    virtual void r071();
+    virtual void r072();
+    virtual void r073();
+    virtual void r074();
+    virtual void r075();
+    virtual void r076();
+    virtual void r077();
+    virtual void r078();
+    virtual void r079();
+    virtual void r07a();
+    virtual void r07b();
+    virtual void r07c();
+    virtual const NiPoint3L8* GetPos();
+};
+
+class PackageL8
+{
+  public:
+    char m_acPad[0xc];
+    RefL8* m_pkTarget;
+};
+
+
+
+// @fnv 0x009c8f20
+bool CheckerL8::FUN_009c8f20(PackageL8* pkPackage)
+{
+    RefL8* pkTarget = 0;
+    if (pkPackage->m_pkTarget->IsActor())
+        pkTarget = pkPackage->m_pkTarget;
+    if (!pkTarget)
+        return false;
+    WorldL8* pkWorld = ((::CellL8 *)(reinterpret_cast<::LowProcess *>((pkTarget))->GetTarget())) ? ((::WorldL8 *)(reinterpret_cast<::FUN_004543c0_cls *>((((::CellL8 *)(reinterpret_cast<::LowProcess *>((pkTarget))->GetTarget()))))->FUN_004543c0())) : 0;
+    if (!pkWorld)
+        return false;
+    unsigned int uiMask = 0x26206;
+    ::ShadowLightData::SetTargetMaskForSelection(0x27, uiMask);
+    NiPoint3L8 kFrom = *(*reinterpret_cast<::RefL8 * *>(&::DAT_011f21f0))->GetPos();
+    NiPoint3L8 kTo = *pkTarget->GetPos();
+    kFrom.z += 60.0;
+    kTo.z += 60.0;
+    PickQueryL8 kQuery;
+    PickFlagsL8 kFlags(0);
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(kFlags))->FUN_004a39f0(0x27);
+    RefL8* pkActor = pkTarget->IsActor() ? pkTarget : 0;
+    if (pkActor && ((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0())))
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((uintptr_t)(((void *)(reinterpret_cast<::S819 *>((((::ProjL8 *)(reinterpret_cast<::fnv_009306d0::FUN_009306d0_shell *>((pkActor))->FUN_009306d0()))))->FUN_00819250()))));
+    else
+        reinterpret_cast<::FUN_0059ce80_shell *>(&(kFlags))->FUN_0059ce80((uintptr_t)(((void *)(::FUN_005dbe10()))));
+    kQuery.SetFlags(kFlags);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(kQuery))->FUN_004a3da0((void *)&(kFrom));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(kQuery))->FUN_004a3eb0((void *)&(kTo));
+    HitResultsL8 kResults;
+    reinterpret_cast<::FUN_004a3fb0_shell *>(&(kQuery))->FUN_004a3fb0((::hkpAllRayHitCollector *)(::HitResultsL8 *)(&kResults));
+    bool bPickResultFound = false;
+    pkWorld->Pick(kQuery);
+    for (int i = 0; !bPickResultFound && i < HavokArraySize((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90())))))))); i++)
+    {
+        HitL8 kHit(((void *)(reinterpret_cast<::FUN_004a46b0_class *>((((::HitListL8 *)(::FUN_00460140((intptr_t)(((::HitArrayL8 *)(reinterpret_cast<::fnv_008cdd90::FUN_008cdd90_shell *>(&(kQuery))->FUN_008cdd90()))))))))->GetEntryAt(i))));
+        void* pvCollidable = ((void *)(::FUN_004b5820((::FormLike *)(kHit.m_pvCollidable))));
+        RefL8* pkRef = ((::RefL8 *)(::FUN_0056f930((::NiAVObject *)(pvCollidable))));
+        if (pvCollidable)
+        {
+            if (pkRef == pkTarget || pkRef == (*reinterpret_cast<::RefL8 * *>(&::DAT_011f21f0)))
+                continue;
+            else
+                return false;
+        }
+    }
+    return true;
+}
 #include "generated/data/fallout/ai/combat/vats.inc"

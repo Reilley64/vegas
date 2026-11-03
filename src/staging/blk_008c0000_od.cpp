@@ -208,11 +208,11 @@ struct FUN_008c5000_item;
 struct FUN_008c5000_shell
 {
     FUN_008c5000_item* FUN_008c5000(int);
-    int IsNonZero(int arg);
+    int IsNonZero(intptr_t arg);
 };
 
 // @fnv 0x008c4fe0
-int FUN_008c5000_shell::IsNonZero(int arg)
+int FUN_008c5000_shell::IsNonZero(intptr_t arg)
 {
     return FUN_008c5000(arg) != 0;
 }
@@ -227,11 +227,11 @@ void ActorPackageContext::Clear()
 
 struct FUN_008c6c80_Class
 {
-    void FUN_008c6c80(int a);
+    void FUN_008c6c80(intptr_t a);
 };
 
 // @fnv 0x008c6c80
-void FUN_008c6c80_Class::FUN_008c6c80(int a)
+void FUN_008c6c80_Class::FUN_008c6c80(intptr_t a)
 {
     reinterpret_cast<ActorPackageContext*>(this)->Clear();
 }
@@ -608,10 +608,10 @@ struct FUN_008c4f90_Class
 {
     char pad[0xf4];
     GlobalObject2_0096a2d0 unkf4;
-    void FUN_008c4f90(int arg);
+    void FUN_008c4f90(intptr_t arg);
 };
 // @fnv 0x008c4f90
-void FUN_008c4f90_Class::FUN_008c4f90(int arg)
+void FUN_008c4f90_Class::FUN_008c4f90(intptr_t arg)
 {
     FUN_008c5000_shell* result = (FUN_008c5000_shell*)((FUN_008c5000_shell*)this)->FUN_008c5000(arg);
     if (result)
@@ -932,10 +932,10 @@ struct FUN_008d6000_Class
     unsigned int m_iWordAt04;
     unsigned int m_8;
     unsigned int m_iThirdValue;
-    void InitTiming(unsigned int a, unsigned int b);
+    void InitTiming(uintptr_t a, uintptr_t b);
 };
 // @fnv 0x008d6000
-void FUN_008d6000_Class::InitTiming(unsigned int a, unsigned int b)
+void FUN_008d6000_Class::InitTiming(uintptr_t a, uintptr_t b)
 {
     m_iWordAt04 = b;
     m_iWordAt00 = a;
@@ -1632,10 +1632,10 @@ void FUN_008d5680_Class::FUN_008d5680(BGSLoadFormBuffer* apBuffer)
 
 struct FUN_008d56a0_Class
 {
-    void FUN_008d56a0(int value);
+    void FUN_008d56a0(intptr_t value);
 };
 // @fnv 0x008d56a0
-void FUN_008d56a0_Class::FUN_008d56a0(int value)
+void FUN_008d56a0_Class::FUN_008d56a0(intptr_t value)
 {
     ((FUN_008d5720*)*(void**)this)->Init(value);
 }
@@ -3736,7 +3736,7 @@ struct NiAVObject
 
 
 // @fnv 0x008d6970
-int ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotate)
+intptr_t ComputeRelativeRotation(int index, float time, ThreeByThreeMatrix* pOutRotate)
 {
     if (!DAT_011e0110[index] || !DAT_011e00e0[index])
     {
@@ -5644,12 +5644,12 @@ class FUN_008c2630_Owner
   public:
     char unk00[0x88];
     FUN_008c2630_Obj m_88;
-    void FUN_008c2630(TESBoundObject* a1, int a2);
+    void FUN_008c2630(TESBoundObject* a1, intptr_t a2);
 };
 
 // If a1 is form type 0x18 or 0x1a, dynamic_cast it to TESEnchantableForm, read its FUN_00726070() value, and call m_88.v5 with that value's offset 0x18.
 // @fnv 0x008c2630
-void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, int a2)
+void FUN_008c2630_Owner::FUN_008c2630(TESBoundObject* apForm, intptr_t a2)
 {
     if (!(apForm->FUN_00401170() == 0x18 || apForm->FUN_00401170() == 0x1a))
     {

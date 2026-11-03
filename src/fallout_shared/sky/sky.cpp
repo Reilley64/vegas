@@ -3358,10 +3358,10 @@ struct ThisCls
     CloudsObj* m2c;
     int m30, m34;
     PrecipObj* m38;
-    void FUN_0063a630(NiNode*, int);
+    void FUN_0063a630(NiNode*, intptr_t);
 };
 // @fnv 0x0063a630
-void ThisCls::FUN_0063a630(NiNode* apRootNode, int arg)
+void ThisCls::FUN_0063a630(NiNode* apRootNode, intptr_t arg)
 {
     AutoMemContext context(MEM_CONTEXT_MEM_CONTEXT_SKY, true,
                            "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout Shared\\Sky\\Sky.cpp", 0x152);

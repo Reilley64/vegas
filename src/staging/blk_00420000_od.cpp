@@ -2,6 +2,7 @@
 // src/staging/blk_00420000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <cmath>
@@ -978,11 +979,11 @@ struct ExtraListHelper
 };
 struct FUN_0042dee0_shell
 {
-    void FUN_0042dee0(int v);
+    void FUN_0042dee0(intptr_t v);
 };
 // Looks up extra data of type 0x4d; if absent, creates a new FUN_00432470 with v and adds it, otherwise stores v at offset 0xc.
 // @fnv 0x0042dee0
-void FUN_0042dee0_shell::FUN_0042dee0(int aiValue)
+void FUN_0042dee0_shell::FUN_0042dee0(intptr_t aiValue)
 {
     BSExtraData* extra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((ExtraListHelper*)this)))->FUN_00410220(0x4d);
     if (!extra)
@@ -1010,7 +1011,7 @@ struct FUN_0042df90_Extra
 };
 struct FUN_0042df90_shell
 {
-    ExtraLock* FUN_0042df90(int a);
+    ExtraLock* FUN_0042df90(intptr_t a);
 };
 struct FUN_0042e210_Class : public BE
 {
@@ -1680,7 +1681,7 @@ struct FUN_0042dff0_shell
     int FUN_0042dff0();
 };
 // @fnv 0x0042df90
-ExtraLock* FUN_0042df90_shell::FUN_0042df90(int a)
+ExtraLock* FUN_0042df90_shell::FUN_0042df90(intptr_t a)
 {
     ExtraLock* p = 0;
     ExtraDataList* e = (ExtraDataList*)reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((((ExtraDataList*)this)))->FUN_00410220(0x4d);

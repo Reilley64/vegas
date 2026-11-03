@@ -43,4 +43,5 @@
 #include "fnv/symbols_0101d000.h"
 #include "fnv/symbols_01020000.h"
 #include "fnv/symbols_01024000.h"
+#define FNV_MOBILEOBJECT_H_UNIT
 #include "mobileobject.h"

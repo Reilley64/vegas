@@ -1,4 +1,6 @@
 
+#include <cstdint>
+#include "fnv/tls.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/Actor.h"
@@ -149,8 +151,7 @@ struct TESObjectREFR_GetFlags_caller : public TESObjectREFR
 // @fnv 0x00843bb0
 unsigned int FUN_00843bb0_shell::GetCombinedFlags()
 {
-    return ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)((char*)this + 0x0))))->GetName())) +
-           ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((TESObjectREFR_GetFlags_caller*)&this->m_kSpecialFormChanges)))->GetName()));
+    return m_kOrdinaryFormChanges.iSize + m_kSpecialFormChanges.iSize;
 }
 
 extern int DAT_01031fac;
@@ -167,7 +168,7 @@ void FUN_005890c0(int* self, FUN_00844130_arg a);
 int* FUN_00844130(int* self, FUN_00844130_arg a)
 {
     FUN_005890c0(self, a);
-    *self = (int)&DAT_01031fac;
+    *self = (intptr_t)&DAT_01031fac;
     return self;
 }
 
@@ -480,7 +481,7 @@ struct FUN_00841340_standin : FUN_00844070_standin
 void* FUN_00841340_standin::FUN_00841340()
 {
     FUN_00844070(0x25);
-    *(int*)this = (int)&DAT_0107e950;
+    *(void**)this = (void*)&DAT_0107e950;
     return this;
 }
 }  // namespace fnv_00841340
@@ -524,7 +525,7 @@ struct FUN_008416c0 : FUN_008440a0
 // @fnv 0x008416c0
 FUN_008416c0::FUN_008416c0() : FUN_008440a0(0x25)
 {
-    *(int*)this = (int)&DAT_0107e970;
+    *(void**)this = (void*)&DAT_0107e970;
 }
 
 namespace fnv_00841990 {
@@ -622,7 +623,7 @@ struct FUN_008432e0_Host
 // @fnv 0x008432e0
 unsigned int FUN_008432e0_Host::FUN_008432e0(unsigned int auiIndex)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)this)))->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
         return reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(auiIndex);
@@ -646,7 +647,7 @@ struct FUN_00844160_shell
 // @fnv 0x00843330
 unsigned int ArrSI::GetElementAt(unsigned int index)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (index < flags)
     {
         return *(unsigned int*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)this)))->FUN_00844160(index);
@@ -671,7 +672,7 @@ struct ArrSI : Base00844c90
 // @fnv 0x00843380
 bool ArrSI::FUN_00843380(unsigned int auiIndex)
 {
-    unsigned int flags = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName()));
+    unsigned int flags = reinterpret_cast<::FormChangeMap *>(this)->m_kOrdinaryFormChanges.iSize;
     if (auiIndex < flags)
     {
         FUN_00844c90(auiIndex, 1);
@@ -686,7 +687,7 @@ bool ArrSI::FUN_00843380(unsigned int auiIndex)
 class TESFile;
 class TESForm;
 template <typename T> class BSSimpleList;
-unsigned int __cdecl GetOwnerFileByID(unsigned int);
+std::uintptr_t __cdecl GetOwnerFileByID(unsigned int);
 struct FUN_00485b60
 {
 };
@@ -723,7 +724,7 @@ struct S008442a0
 };
 struct FUN_00844040
 {
-    int vfptr;
+    intptr_t vfptr;
     FUN_00844040(int);
 };
 // Calls FUN_008442a0 on this with a, then sets vfptr to the address of DAT_0107eba8.
@@ -731,7 +732,7 @@ struct FUN_00844040
 FUN_00844040::FUN_00844040(int a)
 {
     ((S008442a0*)this)->FUN_008442a0(a);
-    vfptr = (int)&DAT_0107eba8;
+    vfptr = (intptr_t)&DAT_0107eba8;
 }
 }  // namespace fnv_00844040
 
@@ -755,14 +756,14 @@ FUN_00842180::FUN_00842180()
 S_844070* S_844070::FUN_00844070(int a)
 {
     new ((void *)this) ::FUN_00844590(a);
-    *(int*)this = (int)&DAT_0107ebc8;
+    *(void**)this = (void*)&DAT_0107ebc8;
     return this;
 }
 
 extern int DAT_0107ebe8;
 struct C008440a0
 {
-    int m0;
+    intptr_t m0;
     C008440a0* FUN_008440a0(int);
 };
 // Calls FUN_00844690 with a, stores the address of DAT_0107ebe8 in m0, and returns this.
@@ -770,14 +771,14 @@ struct C008440a0
 C008440a0* C008440a0::FUN_008440a0(int a)
 {
     reinterpret_cast<::FUN_00844690_class *>(this)->FUN_00844690(a);
-    m0 = (int)&DAT_0107ebe8;
+    m0 = (intptr_t)&DAT_0107ebe8;
     return this;
 }
 
 extern int DAT_0107ec08;
 struct S008440d0
 {
-    int field0;
+    intptr_t field0;
     void FUN_00844870(int);
     S008440d0* FUN_008440d0(int);
 };
@@ -786,7 +787,7 @@ struct S008440d0
 S008440d0* S008440d0::FUN_008440d0(int a)
 {
     FUN_00844870(a);
-    field0 = (int)&DAT_0107ec08;
+    field0 = (intptr_t)&DAT_0107ec08;
     return this;
 }
 
@@ -801,7 +802,7 @@ struct C844100
 FUN_00841ea0::FUN_00841ea0()
 {
     reinterpret_cast<::C844100 *>(this)->FUN_00844100(0x25);
-    *(int*)this = (int)&DAT_0107e9b0;
+    *(void**)this = (void*)&DAT_0107e9b0;
 }
 // Calls FUN_00844970 with a, sets f0 to point at DAT_0107ec28, and returns this.
 // @fnv 0x00844100
@@ -883,7 +884,7 @@ struct SaveGameSizeState : public S5460
 unsigned int SaveGameSizeState::FUN_00844eb0(Elem* apElem)
 {
     unsigned int idx = FUN_00845460();
-    reinterpret_cast<::Walker8 *>(this)->ConstructArray((::Pair8 *)((unsigned int)&arr[idx]), 1);
+    reinterpret_cast<::Walker8 *>(this)->ConstructArray((::Pair8 *)((&arr)[idx]), 1);
     arr[idx] = *apElem;
     return idx;
 }
@@ -912,7 +913,7 @@ struct BSScrapArray : ArrSI
 OffsetData* BSScrapArray::ReallocateBuffer(OffsetData* apBuffer, unsigned int aiNewSizeInItem)
 {
     OffsetData* pnewBuffer = (OffsetData*)reinterpret_cast<::FUN_00aa54a0_s *>((m_pAllocator))->FUN_00aa54a0(aiNewSizeInItem * sizeof(OffsetData), ::DAT_010a2720);
-    ::__memcpy(pnewBuffer, apBuffer, ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(this)->GetName())) * sizeof(OffsetData));
+    ::__memcpy(pnewBuffer, apBuffer, reinterpret_cast<::BSSimpleArray<OffsetData, 1024> *>(this)->iSize * sizeof(OffsetData));
     reinterpret_cast<::SHStub *>((m_pAllocator))->FUN_00aa5610(apBuffer);
     return pnewBuffer;
 }
@@ -949,11 +950,11 @@ struct FUN_008442a0_shell
     int p2;
     void* p3;
     int p4;
-    int FUN_008442a0(int n);
+    intptr_t FUN_008442a0(int n);
 };
 
 // @fnv 0x008442a0
-int FUN_008442a0_shell::FUN_008442a0(int aiCount)
+intptr_t FUN_008442a0_shell::FUN_008442a0(int aiCount)
 {
     p1 = &DAT_0107ec68;
     p2 = aiCount;
@@ -961,7 +962,7 @@ int FUN_008442a0_shell::FUN_008442a0(int aiCount)
     int iByteSize = p2 * 4;
     p3 = ::FUN_00aa1070(iByteSize);
     memset(p3, 0, p2 * 4);
-    return (int)this;
+    return (intptr_t)this;
 }
 
 extern int DAT_0107ed1c;
@@ -1027,7 +1028,6 @@ bool FUN_00841e20_shell::HasFlagInAnyFile(unsigned int flags)
 }
 }  // namespace fnv_00841e20
 
-__declspec(thread) unsigned int DAT_00843c10_tls;
 
 struct FUN_00843c10_shell
 {
@@ -1038,9 +1038,9 @@ struct FUN_00843c10_shell
 void FUN_00843c10_shell::SetFlag4(bool bSet)
 {
     if (bSet)
-        DAT_00843c10_tls |= 4;
+        ::g_tlsBlock.threadFlags |= 4;
     else
-        DAT_00843c10_tls &= 0xfffffffb;
+        ::g_tlsBlock.threadFlags &= 0xfffffffb;
 }
 
 extern int DAT_0107ec08;
@@ -1135,7 +1135,7 @@ struct SetAtHelper
 
 struct DummyPointerMap : public SetAtHelper
 {
-    void SetAtCoordinates(unsigned int, short, short, unsigned int, unsigned int, unsigned int);
+    void SetAtCoordinates(unsigned int, short, short, uintptr_t, uintptr_t, unsigned int);
 };
 
 struct FUN_00841190
@@ -1146,15 +1146,15 @@ struct FUN_00841190
 
 // Looks up a value by worldspace coordinates, allocating and inserting a new FUN_00841190 if absent, then calls ProcessRef on it with a, b, c.
 // @fnv 0x00841580
-void DummyPointerMap::SetAtCoordinates(unsigned int, short x, short y, unsigned int auiArg1, unsigned int auiArg2,
+void DummyPointerMap::SetAtCoordinates(unsigned int, short x, short y, uintptr_t auiArg1, uintptr_t auiArg2,
                                        unsigned int auiArg3)
 {
     int value = ::PackShortPair(x, y);
-    unsigned int key = 0;
+    uintptr_t key = 0;
 
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(value, (::fnv_00853130::CombatThreatRecord *&)(key)))
     {
-        key = (unsigned int)new FUN_00841190;
+        key = (uintptr_t)new FUN_00841190;
         reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(value, key);
     }
 
@@ -1173,7 +1173,7 @@ struct DummyPointerMap
 
 struct SetAtHelper : public DummyPointerMap
 {
-    void GetOrCreateAndDispatch(FUN_00544210_shell*, unsigned int, unsigned int, unsigned int);
+    void GetOrCreateAndDispatch(FUN_00544210_shell*, uintptr_t, unsigned int, unsigned int);
 };
 
 struct FUN_00841460_shell
@@ -1196,15 +1196,15 @@ void FUN_00841460_shell::FUN_00841460(FUN_00544210_shell* param1, unsigned int p
 
 // Looks up the entry for param1's key, creating a new FUN_00841340 if absent, then forwards param1-param4 to its FUN_00841460.
 // @fnv 0x008417e0
-void SetAtHelper::GetOrCreateAndDispatch(FUN_00544210_shell* pKeySource, unsigned int param2, unsigned int param3,
+void SetAtHelper::GetOrCreateAndDispatch(FUN_00544210_shell* pKeySource, uintptr_t param2, unsigned int param3,
                                          unsigned int param4)
 {
     unsigned int uiKey = pKeySource->FUN_00544210();
-    unsigned int uiEntry = 0;
+    uintptr_t uiEntry = 0;
 
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(uiEntry)))
     {
-        uiEntry = (unsigned int)new FUN_00841340;
+        uiEntry = (uintptr_t)new FUN_00841340;
         reinterpret_cast<::FUN_00844700_Class *>((this))->FUN_00844700(uiKey, uiEntry);
     }
 
@@ -1234,11 +1234,11 @@ struct DummyPointerMap : public SetAtHelper
 
 struct FUN_008418b0_shell : public DummyPointerMap
 {
-    void GetOrCreateEntry(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int);
+    void GetOrCreateEntry(unsigned int, unsigned int, unsigned int, uintptr_t, unsigned int, unsigned int);
 };
 
 // @fnv 0x008418b0
-void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, unsigned int arg3, unsigned int arg4,
+void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, unsigned int arg3, uintptr_t arg4,
                                           unsigned int arg5, unsigned int arg6)
 {
     unsigned int key = ::FUN_005442c0(arg2, arg3);
@@ -1247,7 +1247,7 @@ void FUN_008418b0_shell::GetOrCreateEntry(unsigned int arg1, unsigned int arg2, 
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(key, (::fnv_00853130::CombatThreatRecord *&)(value)))
     {
         value = new FUN_00841340;
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(key, (unsigned int)(value));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(key, (uintptr_t)(value));
     }
 
     reinterpret_cast<::fnv_00841580::DummyPointerMap *>((value))->SetAtCoordinates(arg1, arg2, arg3, arg4, arg5, arg6);
@@ -1295,7 +1295,7 @@ void FUN_00841fc0_class::FUN_00841fc0(DoorH* door, unsigned int arg1, unsigned i
 {
     void* id;
     unsigned int value;
-    unsigned int worldSpace;
+    uintptr_t worldSpace;
 
     id = ((void *)(reinterpret_cast<::TESObjectCELL *>((door))->GetParentWorldSpace()));
     value = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<SoundH*>(id)))->FUN_0084e3a0()));
@@ -1303,7 +1303,7 @@ void FUN_00841fc0_class::FUN_00841fc0(DoorH* door, unsigned int arg1, unsigned i
 
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(value, (::fnv_00853130::CombatThreatRecord *&)(worldSpace)))
     {
-        worldSpace = reinterpret_cast<unsigned int>(new FUN_008419f0(true));
+        worldSpace = reinterpret_cast<uintptr_t>(new FUN_008419f0(true));
         reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(value, worldSpace);
     }
 
@@ -1346,7 +1346,7 @@ void FUN_008420a0_class::FUN_008420a0(unsigned int a1, unsigned int a2, unsigned
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(map, (::fnv_00853130::CombatThreatRecord *&)(object)))
     {
         object = new FUN_008419f0(true);
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(map, (unsigned int)(object));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(map, (uintptr_t)(object));
     }
 
     object->ReconstructFormEntry(a1, a2, a3, a4, a5, a6);
@@ -1382,12 +1382,12 @@ struct FUN_00841fc0_standin
 
 struct FUN_00842600_shell
 {
-    void ProcessCell(TESObjectCELL*, int, int, int);
+    void ProcessCell(TESObjectCELL*, intptr_t, int, int);
 };
 
 // Dispatches the cell to an interior or exterior handler, lazily allocating it, then increments a counter at offset 0x18.
 // @fnv 0x00842600
-void FUN_00842600_shell::ProcessCell(TESObjectCELL* cell, int aiArg1, int aiArg2, int aiArg3)
+void FUN_00842600_shell::ProcessCell(TESObjectCELL* cell, intptr_t aiArg1, int aiArg2, int aiArg3)
 {
     if (reinterpret_cast<::TESObjectCELL *>((cell))->IsCellInterior())
     {
@@ -1432,12 +1432,12 @@ struct FUN_00842730_shell
     FUN_00841ea0* _object;
     int _count;
 
-    void EnsureObjectAndCall(int, int, int, int, int, int);
+    void EnsureObjectAndCall(intptr_t, int, int, intptr_t, int, int);
 };
 
 // Allocates the object if null, forwards the six arguments to its method, and increments the count.
 // @fnv 0x00842730
-void FUN_00842730_shell::EnsureObjectAndCall(int a, int b, int c, int d, int e, int f)
+void FUN_00842730_shell::EnsureObjectAndCall(intptr_t a, int b, int c, intptr_t d, int e, int f)
 {
     if (_object == 0)
     {
@@ -1549,13 +1549,13 @@ void FUN_00843630_shell::FUN_00843630(TESForm* apForm, unsigned int aiFlags)
 
     pformsInFileMap = 0;
 
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(reinterpret_cast<unsigned int>(pfile),
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(reinterpret_cast<uintptr_t>(pfile),
                                                          (::fnv_00853130::CombatThreatRecord *&)(reinterpret_cast<unsigned int&>(pformsInFileMap))))
     {
         pformsInFileMap = reinterpret_cast<BGSReconstructFormsInFileMap*>(new FUN_00842180());
 
-        reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(reinterpret_cast<unsigned int>(pfile),
-                                                    reinterpret_cast<unsigned int>(pformsInFileMap));
+        reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(reinterpret_cast<uintptr_t>(pfile),
+                                                    reinterpret_cast<uintptr_t>(pformsInFileMap));
     }
 
     reinterpret_cast<MapCallProxy*>(pformsInFileMap)->FUN_00842310(apForm, aiFlags);
@@ -1730,11 +1730,11 @@ struct FUN_00841b20_shell
     FUN_00841190* form;
     unsigned char flag;
 
-    void ProcessEntry(FUN_005441b0_S*, FUN_00565450_shell*, unsigned int, unsigned int);
+    void ProcessEntry(FUN_005441b0_S*, FUN_00565450_shell*, uintptr_t, unsigned int);
 };
 
 // @fnv 0x00841b20
-void FUN_00841b20_shell::ProcessEntry(FUN_005441b0_S* first, FUN_00565450_shell* second, unsigned int third,
+void FUN_00841b20_shell::ProcessEntry(FUN_005441b0_S* first, FUN_00565450_shell* second, uintptr_t third,
                                       unsigned int fourth)
 {
     if (flag && second && second->FUN_00841b20_virtual())
@@ -1752,15 +1752,15 @@ void FUN_00841b20_shell::ProcessEntry(FUN_005441b0_S* first, FUN_00565450_shell*
     }
 
     unsigned int key = reinterpret_cast<::FUN_005441b0_S *>((first))->FUN_005441b0();
-    unsigned int value = 0;
+    uintptr_t value = 0;
 
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(key, (::fnv_00853130::CombatThreatRecord *&)(value)))
     {
-        value = reinterpret_cast<unsigned int>(new FUN_008416c0());
+        value = reinterpret_cast<uintptr_t>(new FUN_008416c0());
         reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(key, value);
     }
 
-    reinterpret_cast<::SetAtHelper *>((reinterpret_cast<FUN_008416c0*>(value)))->GetOrCreateAndDispatch((::FUN_00544210_shell *)(first), (unsigned int)(second), third, fourth);
+    reinterpret_cast<::SetAtHelper *>((reinterpret_cast<FUN_008416c0*>(value)))->GetOrCreateAndDispatch((::FUN_00544210_shell *)(first), (uintptr_t)(second), third, fourth);
 }
 }  // namespace fnv_00841b20
 
@@ -1818,7 +1818,7 @@ void BSSimpleArrayActor::Resize(unsigned int size, bool clear)
         }
 
         reinterpret_cast<::Walker8 *>((reinterpret_cast<SaveGameSizeState*>(this)))->ConstructArray(
-            (::Pair8 *)(reinterpret_cast<unsigned int>(this->m_data + this->m_iElementCount * 8)), size - this->m_iElementCount);
+            (::Pair8 *)(reinterpret_cast<uintptr_t>(this->m_data + this->m_iElementCount * 8)), size - this->m_iElementCount);
         this->m_iElementCount = size;
     }
     else if (size < this->m_iElementCount)
@@ -1836,7 +1836,7 @@ void BSSimpleArrayActor::Resize(unsigned int size, bool clear)
     else
     {
         reinterpret_cast<::Walker8 *>((reinterpret_cast<SaveGameSizeState*>(this)))->ConstructArray(
-            (::Pair8 *)(reinterpret_cast<unsigned int>(this->m_data + this->m_iElementCount * 8)), size - this->m_iElementCount);
+            (::Pair8 *)(reinterpret_cast<uintptr_t>(this->m_data + this->m_iElementCount * 8)), size - this->m_iElementCount);
         this->m_iElementCount = size;
     }
 }
@@ -2219,7 +2219,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
 {
     if (primary != 0)
     {
-        unsigned int numericID = (unsigned int)primary;
+        unsigned int numericID = (unsigned int)(uintptr_t)primary;
         ResolveFormID(&numericID, reinterpret_cast<::TESForm *>((context))->GetFile(-1));
         primary = ::FUN_004839c0(numericID);
         if (primary == 0)
@@ -2232,7 +2232,7 @@ void FUN_0040e7f0_owner::ResolveFormReferences(FormContext* context)
     {
         if (((FormTypeReader*)primary)->FUN_00401170() == 42 && secondary != 0)
         {
-            unsigned int uiSecondaryID = (unsigned int)secondary;
+            unsigned int uiSecondaryID = (unsigned int)(uintptr_t)secondary;
             ResolveFormID(&uiSecondaryID, reinterpret_cast<::TESForm *>((context))->GetFile(-1));
             secondary = dynamic_cast<TESGlobal*>(::FUN_004839c0(uiSecondaryID));
             if (secondary == 0)
@@ -2295,11 +2295,11 @@ struct SaveLoadDispatcher
 {
     int state00, state04, state08, state0c;
     ReconstructEntry* helper10;
-    void ReconstructFormEntry(int, int, int, FormWithSaveCheck*, int, int);
+    void ReconstructFormEntry(int, int, int, FormWithSaveCheck*, intptr_t, int);
 };
 // If form is a reference with a save check, forwards it to helper10; otherwise looks up or creates a ReconstructEntry for the handle and reconstructs the entry.
 // @fnv 0x00841ca0
-void SaveLoadDispatcher::ReconstructFormEntry(int value, int formID, int context, FormWithSaveCheck* form, int flag,
+void SaveLoadDispatcher::ReconstructFormEntry(int value, int formID, int context, FormWithSaveCheck* form, intptr_t flag,
                                               int offset)
 {
     int handle3;
@@ -2318,9 +2318,9 @@ void SaveLoadDispatcher::ReconstructFormEntry(int value, int formID, int context
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(handle3, (*(::fnv_00853130::CombatThreatRecord * *)(&entry7))))
         {
             entry7 = (ReconstructEntry*)new ReconstructedCellStorage;
-            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(handle3, (unsigned int)(entry7));
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(handle3, (uintptr_t)(entry7));
         }
-        reinterpret_cast<::fnv_008418b0::FUN_008418b0_shell *>((entry7))->GetOrCreateEntry(value, formID, context, (unsigned int)(form), flag, offset);
+        reinterpret_cast<::fnv_008418b0::FUN_008418b0_shell *>((entry7))->GetOrCreateEntry(value, formID, context, (uintptr_t)(form), flag, offset);
     }
 }
 
@@ -2370,6 +2370,13 @@ struct RegRef;
 
 struct RegLand
 {
+};
+
+// The cell a landscape form (form type 0x43) belongs to; the release build reads it through the folded getter at 0x0059bb30.
+struct RegLandOwnerView
+{
+    char pad00[0x24];
+    RegLand* pParentCell;
 };
 
 struct RegRef
@@ -2452,7 +2459,7 @@ struct RegRef
     virtual void v12C();
     virtual void v130();
     virtual void v134();
-    virtual bool GetPosition(RegPoint* apPos, RegPoint* apRot, int* apIndex, int aiUnk);
+    virtual bool GetPosition(RegPoint* apPos, RegPoint* apRot, intptr_t* apIndex, int aiUnk);
     virtual void v13C();
     virtual void v140();
     virtual void v144();
@@ -2533,7 +2540,7 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
         RegRef* pRef6 = apRef;
         RegPoint _kPos;
         RegPoint kRotX;
-        int iIndex6 = 0;
+        intptr_t iIndex6 = 0;
         void* pWorldX = 0;
         void* pCellB = 0;
         if (pRef6->GetPosition(&_kPos, &kRotX, &iIndex6, 0))
@@ -2546,23 +2553,23 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
         {
             int iX8 = FUN_00406d90(_kPos.x) >> 12;
             int kIY = FUN_00406d90(_kPos.y) >> 12;
-            reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>(this)->EnsureObjectAndCall((int)(pCellB), iX8, kIY, (int)(apRef), 0, aiArg);
+            reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>(this)->EnsureObjectAndCall((intptr_t)(pCellB), iX8, kIY, (intptr_t)(apRef), 0, aiArg);
         }
         else if (pWorldX)
-            reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(pWorldX), (int)(apRef), 0, aiArg);
+            reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(pWorldX), (intptr_t)(apRef), 0, aiArg);
     }
     else if (iType9 == 0x43)
     {
         RegRef* pLandRef3 = apRef;
-        RegLand* pLand4 = ((::RegLand *)(reinterpret_cast<::ActorMover *>((pLandRef3))->GetCurrentMoveModeType()));
+        RegLand* pLand4 = reinterpret_cast<RegLandOwnerView*>(pLandRef3)->pParentCell;
         void* pLandCell9 = pLand4 ? ((void *)(reinterpret_cast<::TESObjectCELL *>((pLand4))->GetParentWorldSpace())) : 0;
         if (pLandCell9)
-            reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>(this)->EnsureObjectAndCall((int)(pLandCell9), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridY(), (int)(apRef), 0, aiArg);
+            reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>(this)->EnsureObjectAndCall((intptr_t)(pLandCell9), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridX(), reinterpret_cast<::TESObjectCELL *>((pLand4))->GetCellGridY(), (intptr_t)(apRef), 0, aiArg);
         else if (pLand4)
-            reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(pLand4), (int)(apRef), 0, aiArg);
+            reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(pLand4), (intptr_t)(apRef), 0, aiArg);
     }
     else if (iType9 == 0x39)
-        reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(apRef), (int)(apRef), 0, aiArg);
+        reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>(this)->ProcessCell((::fnv_00842600::TESObjectCELL *)(apRef), (intptr_t)(apRef), 0, aiArg);
     else if (iType9 == 0x41)
         ;
     else
@@ -2572,7 +2579,7 @@ void RegManager::FUN_00842310(RegRef* apRef, int aiArg)
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(iKey8, (*(::fnv_00853130::CombatThreatRecord * *)(&pList5))))
         {
             pList5 = new RegList;
-            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(iKey8, (unsigned int)(pList5));
+            reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(iKey8, (uintptr_t)(pList5));
         }
         reinterpret_cast<::FUN_00841250_cls *>((pList5))->ProcessRef((::FUN_00841250_ref *)(apRef), (void *)(0), aiArg);
         iCount++;
@@ -2618,7 +2625,7 @@ void ReconstructMapHelper::FUN_008438b0(ExtendedForm* form, unsigned int arg2, u
     if (!form)
         return;
 
-    TESFile* file = reinterpret_cast<::FUN_00843fe0_Holder *>((this))->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(form)))), arg4);
+    TESFile* file = reinterpret_cast<::FUN_00843fe0_Holder *>((this))->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(form)))), arg4);
     if (!file)
     {
         FUN_00845cc0("Worldspace %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
@@ -2627,12 +2634,12 @@ void ReconstructMapHelper::FUN_008438b0(ExtendedForm* form, unsigned int arg2, u
     }
 
     ExtendedFileMap* subMap = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130((unsigned int)(file), (::fnv_00853130::CombatThreatRecord *&)(subMap)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130((uintptr_t)(file), (::fnv_00853130::CombatThreatRecord *&)(subMap)))
     {
         subMap = new ExtendedFileMap();
-        reinterpret_cast<::FUN_00844700_Class *>((this))->FUN_00844700((unsigned int)(file), (unsigned int)(subMap));
+        reinterpret_cast<::FUN_00844700_Class *>((this))->FUN_00844700((uintptr_t)(file), (uintptr_t)(subMap));
     }
-    reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>((subMap))->EnsureObjectAndCall((int)(form), arg2, arg3, 0, arg4, arg5);
+    reinterpret_cast<::fnv_00842730::FUN_00842730_shell *>((subMap))->EnsureObjectAndCall((intptr_t)(form), arg2, arg3, 0, arg4, arg5);
     ++this->iCount;
 }
 
@@ -3028,7 +3035,7 @@ struct RebuildResult
 
 struct RebuildHeader
 {
-    unsigned int type, sizeXA, label, group, formId4;
+    uintptr_t type, sizeXA, label, group, formId4;
 };
 
 struct RebuildFile
@@ -3048,7 +3055,11 @@ struct RebuildMap
 struct RebuildQueue
 {
 
-    unsigned int unk00, unk04, unk08, unk0c, unk10;
+    void** m_ppVirtualMethodTable;
+    void* pBuffer;
+    unsigned int iSize;
+    unsigned int iAllocSize;
+    unsigned int unk10;
 
     RebuildQueue();
     ~RebuildQueue();
@@ -3463,7 +3474,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
             if (id == -1 || id == -2)
             {
 
-                if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(queued3))->GetName())))
+                if (queued3.iSize)
                 {
 
                     result = *((::RebuildResult *)(reinterpret_cast<::FUN_00844160_shell *>(&(queued3))->FUN_00844160(next4++)));
@@ -3503,7 +3514,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
 
                 else
                     FUN_00845cc0("Form %08X with type %s was not able to be reconstructed", id,
-                                 ::GetStringForByte((unsigned char)(((const char *)(::FindFormEnumIndex(pData7->type))))));
+                                 ::GetStringForByte((unsigned char)(::FindFormEnumIndex(pData7->type))));
 
                 ++restoredA;
             }
@@ -3514,7 +3525,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
         if (groupEndA && groupEndA <= reinterpret_cast<::TESFile *>((file))->GetOffset())
         {
 
-            if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(queued3))->GetName())) > next4)
+            if (queued3.iSize > next4)
                 result = *((::RebuildResult *)(reinterpret_cast<::FUN_00844160_shell *>(&(queued3))->FUN_00844160(next4++)));
 
             else
@@ -3524,7 +3535,7 @@ void RebuildRoot::RebuildForms(RebuildFile* file, RebuildOutput* output)
         if (reinterpret_cast<::FUN_005ca4f0_shell *>(&(result))->FUN_005ca4f0())
         {
 
-            reinterpret_cast<::TESOffsetWorker *>((file))->FUN_004723a0((unsigned int)(result.form));
+            reinterpret_cast<::TESOffsetWorker *>((file))->FUN_004723a0((uintptr_t)(result.form));
 
             unsigned int sizeXA = 0;
 
@@ -3626,12 +3637,12 @@ struct ReconstructCellMap
 
 struct BGSReconstructCellsMapImpl : ReconstructCellMap
 {
-    void FUN_00841460(ReconstructCell* apCell, ReconstructCell* apOther, unsigned int auiArg1, unsigned int auiArg2);
+    void FUN_00841460(ReconstructCell* apCell, ReconstructCell* apOther, uintptr_t auiArg1, unsigned int auiArg2);
 };
 
 // Computes a key for apCell, creates a ReconstructCellEntry in the map if missing, then adds flags or stores apOther with auiArg1 and auiArg2.
 // @fnv 0x00841460
-void BGSReconstructCellsMapImpl::FUN_00841460(ReconstructCell* apCell, ReconstructCell* apOther, unsigned int auiArg1,
+void BGSReconstructCellsMapImpl::FUN_00841460(ReconstructCell* apCell, ReconstructCell* apOther, uintptr_t auiArg1,
                                               unsigned int auiArg2)
 {
     unsigned int uiKey4 = 0;
@@ -3644,7 +3655,7 @@ void BGSReconstructCellsMapImpl::FUN_00841460(ReconstructCell* apCell, Reconstru
     if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130(uiKey4, (::fnv_00853130::CombatThreatRecord *&)(pEntry)))
     {
         pEntry = (ReconstructCellEntry*)new FUN_00841190;
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(uiKey4, (unsigned int)(pEntry));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700(uiKey4, (uintptr_t)(pEntry));
     }
 
     if (apCell == apOther)
@@ -3692,9 +3703,9 @@ void FUN_00843750_shell::FUN_00843750(FUN_00843750_Form* apRef, unsigned int aui
         return;
     TESFile* pFile = 0;
     if (reinterpret_cast<::TESObjectCELL *>((apRef))->IsCellInterior())
-        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(apRef)))), auiArg1);
+        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(apRef)))), auiArg1);
     else
-        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((::FUN_00843750_Form *)(reinterpret_cast<::TESObjectCELL *>((apRef))->GetParentWorldSpace())))))), auiArg1);
+        pFile = ((FUN_00843fe0_Holder*)this)->FUN_00843fe0(((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((std::intptr_t)(((::FUN_00843750_Form *)(reinterpret_cast<::TESObjectCELL *>((apRef))->GetParentWorldSpace())))))), auiArg1);
     if (!pFile)
     {
         FUN_00845cc0("Cell %08X %s with no file passed to BGSReconstructFormsInAllFilesMap::AddReference()",
@@ -3702,10 +3713,10 @@ void FUN_00843750_shell::FUN_00843750(FUN_00843750_Form* apRef, unsigned int aui
         return;
     }
     FUN_00842180* pFileMap = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((unsigned int)(pFile), (::fnv_00853130::CombatThreatRecord *&)(pFileMap)))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)this)->FUN_00853130((uintptr_t)(pFile), (::fnv_00853130::CombatThreatRecord *&)(pFileMap)))
     {
         pFileMap = new FUN_00842180;
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(pFile), (unsigned int)(pFileMap));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((uintptr_t)(pFile), (uintptr_t)(pFileMap));
     }
     reinterpret_cast<::fnv_00842600::FUN_00842600_shell *>((((FUN_00842600_shell*)pFileMap)))->ProcessCell((::fnv_00842600::TESObjectCELL *)(apRef), 0, auiArg1, auiArg2);
     iCount++;

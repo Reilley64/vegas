@@ -5509,11 +5509,11 @@ struct Flt {
 struct FUN_005bf820_Class {
     char pad[0x128];
     Flt f;
-    unsigned int FUN_005bf820() const;
+    uintptr_t FUN_005bf820() const;
 };
 
 // @fnv 0x005bf820
-unsigned int FUN_005bf820_Class::FUN_005bf820() const
+uintptr_t FUN_005bf820_Class::FUN_005bf820() const
 {
     return static_cast<unsigned int>(f);
 }
@@ -31348,7 +31348,7 @@ struct FUN_005673e0_shell {
     ScriptLocals* FUN_005673e0();
 };
 struct FUN_005a9140_shell {
-    double FUN_005a9140(unsigned int, Script*);
+    double FUN_005a9140(uintptr_t, Script*);
 };
 struct FUN_004bde40_shell {
     ScrS* FUN_004bde40();
@@ -51565,7 +51565,7 @@ class MobileObject;
 class ActorDeletionQueue {
 public:
 public:
-    void FUN_0096d470(::MobileObject *, int);
+    void FUN_0096d470(::MobileObject *, intptr_t);
 };
 extern bool FUN_005ac750(PackageSV*, ExtraDataList*, unsigned int);
 

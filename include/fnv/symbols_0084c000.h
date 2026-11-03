@@ -18,4 +18,4 @@ void FUN_0084cbd0(const char *, ...);
 // 0x0084ced0
 namespace fnv_0084ced0 { void ReconstructAllGlobals(); }
 // 0x0084cf30
-void SaveImageSpaceModifierInstances(int);
+void SaveImageSpaceModifierInstances(void *);

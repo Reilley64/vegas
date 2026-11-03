@@ -2,6 +2,7 @@
 // src/staging/blk_00760000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cctype>
 #include "fnv/decl/AudioClass_ae5680.h"
@@ -340,7 +341,7 @@ struct ClearPmeIfMatches_HudView
 };
 
 // @fnv 0x00778b40
-bool __cdecl ClearPmeIfMatches(int aiValue)
+bool __cdecl ClearPmeIfMatches(intptr_t aiValue)
 {
     if (::g_pHudMainMenuInstance && (intptr_t)reinterpret_cast<ClearPmeIfMatches_HudView*>(::g_pHudMainMenuInstance)->m_pCrosshairReference == aiValue)
     {
@@ -1578,12 +1579,12 @@ struct C77a400
     int m_unk704;
     Arr77a400 m_Arr708;
 
-    unsigned int GetFirstOrFallback();
+    uintptr_t GetFirstOrFallback();
 };
 
 // Returns the first element of m_Arr708 if the array is non-empty, otherwise returns m_unk6f4.
 // @fnv 0x0077a400
-unsigned int C77a400::GetFirstOrFallback()
+uintptr_t C77a400::GetFirstOrFallback()
 {
     return ((unsigned int)(uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&(this->m_Arr708))->GetName())) > 0 ? (unsigned int)*((int *)(reinterpret_cast<::FUN_00558dd0_class *>(&(this->m_Arr708))->FUN_00558dd0(0))) : (unsigned int)this->m_unk6f4;
 }

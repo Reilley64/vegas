@@ -2,6 +2,7 @@
 // src/fallout/ai/trespasspackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/trespasspackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/FUN_00678fd0_shell.h"
 #include "fnv/decl/FUN_0084e3a0_Class.h"
@@ -68,17 +69,17 @@ struct FUN_00679a90_shell
 
 struct FUN_009f98e0_shell : public TrespassPackage
 {
-    void FUN_009f98e0(unsigned int);
+    void FUN_009f98e0(uintptr_t);
 };
 
 // @fnv 0x009f98e0
-void FUN_009f98e0_shell::FUN_009f98e0(unsigned int a)
+void FUN_009f98e0_shell::FUN_009f98e0(uintptr_t a)
 {
-    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((int)((void*)a));
+    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((intptr_t)((void*)a));
     *(TESForm**)((char*)this + 0x88) =
-        *(TESForm**)((char*)this + 0x88) ? ::FUN_004839c0((unsigned int)(*(TESForm**)((char*)this + 0x88))) : 0;
+        *(TESForm**)((char*)this + 0x88) ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)((char*)this + 0x88))) : 0;
     *(TESForm**)((char*)this + 0x8c) =
-        *(TESForm**)((char*)this + 0x8c) ? ::FUN_004839c0((unsigned int)(*(TESForm**)((char*)this + 0x8c))) : 0;
+        *(TESForm**)((char*)this + 0x8c) ? ::FUN_004839c0((unsigned int)(uintptr_t)(*(TESForm**)((char*)this + 0x8c))) : 0;
 }
 
 struct STR00
@@ -178,7 +179,7 @@ struct PC7d
 
 struct FUN_00484d20_Class
 {
-    void ForwardToSaveLoadGame(int, int);
+    void ForwardToSaveLoadGame(intptr_t, int);
 };
 
 struct SaveManager
@@ -205,29 +206,29 @@ void FUN_009f9570_shell::SaveFormRefs()
     reinterpret_cast<::Package679120 *>((reinterpret_cast<S00679120*>(this)))->SavePackage();
 
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x80)), 4);
+        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x80)), 4);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x84)), 4);
+        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x84)), 4);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-        (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
+        (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x90)), 4);
 
     if (reinterpret_cast<::FUN_008df040_shell *>(((*reinterpret_cast<::SaveManager * *>(&::g_TESSaveLoadGame))))->FUN_008df040() >= 0x6c)
     {
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x94)), 4);
+            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x94)), 4);
         reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>((reinterpret_cast<PC7d*>(this)))->FUN_00484ce0(
-            (void *)(reinterpret_cast<unsigned int>(reinterpret_cast<unsigned char*>(this) + 0x98)), 4);
+            (void *)(reinterpret_cast<uintptr_t>(reinterpret_cast<unsigned char*>(this) + 0x98)), 4);
     }
 
     iownerID = 0;
     if (pOwner != 0)
         iownerID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pOwner))->FUN_0084e3a0()));
 
-    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&iownerID), 4);
+    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&iownerID), 4);
 
     iobjectOwnedID = 0;
     if (pReferencedForm != 0)
         iobjectOwnedID = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pReferencedForm))->FUN_0084e3a0()));
 
-    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<int>(&iobjectOwnedID), 4);
+    reinterpret_cast<FUN_00484d20_Class*>(this)->ForwardToSaveLoadGame(reinterpret_cast<intptr_t>(&iobjectOwnedID), 4);
 }

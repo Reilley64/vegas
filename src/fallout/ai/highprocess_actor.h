@@ -2,6 +2,7 @@
 #ifndef FNV_HIGHPROCESS_ACTOR_H
 #define FNV_HIGHPROCESS_ACTOR_H
 
+#include <cstdint>
 #include "fnv/decl/Actor87.h"
 #include "fnv/decl/B968730Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -381,7 +382,7 @@ class TESObjectREFR : public TESForm
     virtual void vfn_41c();
     virtual void vfn_420();
     virtual void vfn_424();
-    virtual int vfn_428();
+    virtual intptr_t vfn_428();
     virtual Actor* vfn_42c();
     virtual void vfn_430();
     virtual void vfn_434();

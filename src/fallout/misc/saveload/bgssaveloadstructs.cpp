@@ -2,8 +2,14 @@
 // src/fallout/misc/saveload/bgssaveloadstructs.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgssaveloadstructs.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/form_fields.h"
+#include "fnv/save_load_game_view.h"
+#include "fnv/simple_list_node_view.h"
 #include <new>
 #include <cstring>
+#include <windows.h>
+#include <shellapi.h>
 #include "runtime/crt.h"
 #include "fnv/decl/BGSLoadFormBuffer.h"
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
@@ -194,10 +200,10 @@ int FUN_00853640(unsigned char* param_1);
 struct FUN_00849220_shell
 {
     unsigned char* p;
-    int FUN_00849220();
+    intptr_t FUN_00849220();
 };
 // @fnv 0x00849220
-int FUN_00849220_shell::FUN_00849220()
+intptr_t FUN_00849220_shell::FUN_00849220()
 {
     return FUN_00853640(p);
 }
@@ -217,7 +223,7 @@ struct FUN_00853570_shell
 // @fnv 0x00853570
 void FUN_00853570_shell::WriteFormIDBytes(unsigned int numericID)
 {
-    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(g_BGSSaveLoadGame)))->GetName())))
+    unsigned int iElementIndex = reinterpret_cast<FormIDConverter*>(reinterpret_cast<::BGSSaveLoadGameView *>(g_BGSSaveLoadGame)->pFormIDMap)
                               ->RegisterFormID(numericID);
     unsigned int ifileIndex = iElementIndex >> 24;
     if (ifileIndex == 0xFF)
@@ -582,13 +588,13 @@ struct FUN_00854af0
 
 struct FUN_008549b0_shell
 {
-    void FUN_008549b0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int,
-                                 unsigned int, unsigned char);
+    void FUN_008549b0(unsigned int, uintptr_t, unsigned int, unsigned int, unsigned int, unsigned int,
+                                 uintptr_t, unsigned char);
 };
 
 // @fnv 0x008549b0
-void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned int uiKey, unsigned int p3,
-                                                 unsigned int p4, unsigned int p5, unsigned int p6, unsigned char p7)
+void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, uintptr_t p1, unsigned int uiKey, unsigned int p3,
+                                                 unsigned int p4, unsigned int p5, uintptr_t p6, unsigned char p7)
 {
     FUN_00854af0* form = new FUN_00854af0();
 
@@ -601,11 +607,11 @@ void FUN_008549b0_shell::FUN_008549b0(unsigned int p0, unsigned int p1, unsigned
     form->m_data[0x18] = p7;
 
     {
-        unsigned int list = 0;
+        uintptr_t list = 0;
 
         if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>((reinterpret_cast<DummyPointerMap*>(this)))->FUN_00853130(uiKey, (::fnv_00853130::CombatThreatRecord *&)(list)))
         {
-            list = reinterpret_cast<unsigned int>(new SL());
+            list = reinterpret_cast<uintptr_t>(new SL());
             reinterpret_cast<::FUN_00844700_Class *>((reinterpret_cast<SetAtHelper*>(this)))->FUN_00844700(uiKey, list);
         }
 
@@ -690,14 +696,14 @@ FUN_008538b0::~FUN_008538b0()
         reinterpret_cast<::C6b7f20_Map *>(this)->FUN_006b7f20((::C6b7f20_Node **)&(position), (unsigned int *)&(key), (void **)&(list));
         while (list)
         {
-            delete *((char **)(new ((void *)(list)) ::Vec3()));
+            delete *((char **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
             list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
         }
     }
     StringListNode* list = &owned;
     while (list)
     {
-        delete *((char **)(new ((void *)(list)) ::Vec3()));
+        delete *((char **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
         list = ((::StringListNode *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
 }
@@ -758,7 +764,7 @@ class B4B10Dialogue
 void B4B10Dialogue::SetupResponse(B4B10Speaker* pkSpeaker, int iTopic, B4B10Response* pkResponse)
 {
     reinterpret_cast<::FUN_00847db0_shell *>((pkResponse))->FUN_00847db0();
-    reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>((pkResponse))->InitFormEntry((unsigned int)(((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkSpeaker))->FUN_0084e3a0()))), iTopic, pkSpeaker->GetFormType(),
+    reinterpret_cast<::fnv_00865ad0::BGSSaveFormBuffer *>((pkResponse))->InitFormEntry(reinterpret_cast<::FormFields *>(pkSpeaker)->iFormID, iTopic, pkSpeaker->GetFormType(),
                      reinterpret_cast<::FUN_00851110_shell *>(((*reinterpret_cast<::B4B10DialogueManager * *>(&::DAT_011de134))))->GetConstant27());
     reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((pkResponse))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(pkSpeaker));
     B4B10SetupResponse(pkResponse, pkSpeaker, iTopic);
@@ -821,8 +827,8 @@ void SavedStats::LoadStats()
             if (form)
             {
                 reinterpret_cast<::B4B10Dialogue *>(this)->SetupResponse((::B4B10Speaker *)(form), pEntry->topic, (::B4B10Response *)(::SavedBuffer *)(&map));
-                reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (unsigned int)(form), form->FNV_GetFormType(), pEntry->topic, reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(),
-                             reinterpret_cast<::FUN_00865b10_shell *>(&(map))->GetValuePlusNine(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())), reinterpret_cast<::BGSLoadFormBuffer *>(&(map))->GetVersion());
+                reinterpret_cast<::FUN_008549b0_shell *>(this)->FUN_008549b0(entryId, (uintptr_t)(form), form->FNV_GetFormType(), pEntry->topic, reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(),
+                             reinterpret_cast<::FUN_00865b10_shell *>(&(map))->GetValuePlusNine(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())), reinterpret_cast<::BGSLoadFormBuffer *>(&(map))->GetVersion());
             }
         }
     }
@@ -830,13 +836,13 @@ void SavedStats::LoadStats()
     {
         reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
         if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
-            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
     for (unsigned int index = 1000; index < 1001; ++index)
     {
         reinterpret_cast<::FUN_00847db0_shell *>(&(map))->FUN_00847db0();
         if (::FUN_0084bcd0(index, (::BGSSaveFormBuffer *)(::SavedBuffer *)(&map)))
-            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
+            reinterpret_cast<::FUN_00854c10_Class *>(this)->FUN_00854c10(FUN_00853de0(index), reinterpret_cast<::FUN_00853dc0_shell *>(&(map))->GetDifference(), ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(&(map))->FUN_0044edb0())));
     }
 }
 
@@ -942,7 +948,7 @@ struct TextDumpWriter
     int unk0C;
     int unk10;
     int unk14;
-    int unk18;
+    BSFile* file;
     TextDumpWriter();
     ~TextDumpWriter();
     void WriteBody();
@@ -958,7 +964,7 @@ void DumpTextAndOpen(const char* baseName)
     GameStrcat(path, 260, ".txt");
     if (fnv::crt::access(path, 0) != -1)
         DeleteFileA(path);
-    reinterpret_cast<::TESPackage *>(&(writer))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(new BSFile(path, 1, 0x4000, false)));
+    writer.file = new BSFile(path, 1, 0x4000, false);
     reinterpret_cast<::SavedStats *>(&(writer))->LoadStats();
     writer.WriteBody();
     reinterpret_cast<::FUN_008539e0_holder *>(&(writer))->FUN_008539e0();
@@ -1126,7 +1132,7 @@ void SaveLoadStatsDump::FUN_00853e10()
         reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
         while (qArxcFu)
         {
-            xChange* qJDuOZ = (xChange*)*((void **)(new ((void *)(qArxcFu)) ::Vec3()));
+            xChange* qJDuOZ = (xChange*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item));
             if (qJDuOZ)
             {
                 char qpia[0x3e8];
@@ -1152,9 +1158,9 @@ void SaveLoadStatsDump::FUN_00853e10()
                             if (qZWI->HasLevel())
                             {
                                 xForm* qIpA = qZWI;
-                                int qXMUYT = -1;
+                                intptr_t qXMUYT = -1;
                                 if (((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture())))
-                                    qXMUYT = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture()))))->FUN_0045cd60()));
+                                    qXMUYT = ((intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_00853e10::xLevelHolder *)(reinterpret_cast<::BSShaderNoLightingProperty *>((qIpA))->GetBaseTexture()))))->FUN_0045cd60()));
                                 switch (qXMUYT)
                                 {
                                 case -1:
@@ -1226,7 +1232,7 @@ void SaveLoadStatsDump::FUN_00853e10()
     qvyWyw = &m_10;
     while (qvyWyw)
     {
-        xMisc* qBLsiu = (xMisc*)*((void **)(new ((void *)(qvyWyw)) ::Vec3()));
+        xMisc* qBLsiu = (xMisc*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(qvyWyw)->m_item));
         if (qBLsiu)
         {
             ::FUN_00406d00(qHXYKT, 0x3e8, "  %8i      %s\r\n", reinterpret_cast<::FUN_00854810_shell *>((qBLsiu))->GetSumOfFields(), qBLsiu);
@@ -1241,7 +1247,7 @@ void SaveLoadStatsDump::FUN_00853e10()
         qrEZrs.m_uiItemCount, reinterpret_cast<::FUN_00854900_shell *>(&(qrEZrs))->FUN_00854900(), qrEZrs.m_data, qrEZrs.m_overhead, qrEZrs.m_pDebugAllocator,
         qrEZrs.m_kMinimumCorner, qrEZrs.m_kMaximumCorner, reinterpret_cast<::FUN_00854920_shell *>(&(qrEZrs))->GetRatio());
     reinterpret_cast<::FUN_00854b80_class *>(this)->FUN_00854b80(qHXYKT);
-    qSVM = ((::fnv_00853e10::xHistory *)(reinterpret_cast<::BGSTerrainManager *>(((*reinterpret_cast<::fnv_00853e10::xSaveLoad * *>(&::g_BGSSaveLoadGame))))->GetMinLevel()));
+    qSVM = ((::fnv_00853e10::xHistory *)(reinterpret_cast<::BGSSaveLoadGameView *>(::g_BGSSaveLoadGame)->pSaveLoadHistory));
     qpTd = ((int)(reinterpret_cast<::FUN_00620b80_shell *>((qSVM))->GetReferenceFlags()));
     qsSDDgz = 0;
     if (qpTd)

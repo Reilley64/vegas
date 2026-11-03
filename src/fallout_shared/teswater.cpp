@@ -1149,11 +1149,11 @@ struct FUN_004ec7e0_shell
 
 struct FUN_004ecaf0_shell
 {
-    unsigned int GetField8B8();
+    uintptr_t GetField8B8();
 };
 
 // @fnv 0x004ecaf0
-unsigned int FUN_004ecaf0_shell::GetField8B8()
+uintptr_t FUN_004ecaf0_shell::GetField8B8()
 {
     return *(unsigned int*)(this + 0x8b8);
 }
@@ -1690,7 +1690,7 @@ void FUN_004ebb50_shell::FUN_004ebb50()
 struct GO
 {
     int v;
-    GO(int);
+    GO(intptr_t);
 };
 struct FUN_004ebb70
 {

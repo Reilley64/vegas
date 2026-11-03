@@ -1071,9 +1071,9 @@ struct DummyPointerMap
 
 // Looks up aiID in DAT_011c40b0 and returns the mapped owner file value, or 0 if the map is null or the key is absent.
 // @fnv 0x00474060
-unsigned int __cdecl GetOwnerFileByID(unsigned int aiID)
+std::uintptr_t __cdecl GetOwnerFileByID(unsigned int aiID)
 {
-    unsigned int uiOwnerFile = 0;
+    std::uintptr_t uiOwnerFile = 0;
     if ((*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)) && reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)(((DummyPointerMap*)(*reinterpret_cast<::NiTPointerMap<unsigned int, unsigned int> * *>(&::DAT_011c40b0)))))->FUN_00853130(aiID, (::fnv_00853130::CombatThreatRecord *&)(uiOwnerFile)))
         return uiOwnerFile;
     return 0;
@@ -3480,7 +3480,7 @@ unsigned int B473180Stream::FUN_00473180(void* pvBuffer, unsigned int uiBytes)
 
 struct TESOffsetWorker : public TESFile
 {
-    bool FUN_004723a0(unsigned int);
+    bool FUN_004723a0(uintptr_t);
 };
 // @fnv 0x00482f40
 void FUN_00482f40_t::FUN_00482f40(TESForm* apForm, unsigned int auiChunk)
@@ -3532,7 +3532,7 @@ struct SeekFile
 
 // Sets the record offset, seeks there when valid, reads a size, and resets record state on the invalid-offset and success paths.
 // @fnv 0x004723a0
-bool TESOffsetWorker::FUN_004723a0(unsigned int newoffset)
+bool TESOffsetWorker::FUN_004723a0(uintptr_t newoffset)
 {
     unsigned int currentoffset;
     reinterpret_cast<::FUN_00473960_shell *>((this))->FUN_00473960();

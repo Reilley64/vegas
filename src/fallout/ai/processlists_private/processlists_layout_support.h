@@ -296,7 +296,7 @@ template <class T, class Allocator> class NiTArray
     T& GetAt(unsigned int index);
     T RemoveAtAndFill(unsigned int index);
 };
-template <class T> class NiTPrimitiveArray : public NiTArray<T, NiTMallocInterface<T> >
+template <class T, class TAlloc = NiTMallocInterface<T> > class NiTPrimitiveArray : public NiTArray<T, TAlloc>
 {
 };
 template <class T> class NiTObjectArray : public NiTArray<T, NiTNewInterface<T> >

@@ -132,7 +132,7 @@ bool BGSDistantTreeBlockLoadTask::FormatDescription(char* apDescription, unsigne
 struct GO
 {
     void* p;
-    GO(int);
+    GO(intptr_t);
     ~GO();
 };
 struct Helper8

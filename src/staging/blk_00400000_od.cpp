@@ -2,6 +2,7 @@
 // src/staging/blk_00400000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BGSHungerStage.h"
@@ -67,11 +68,11 @@ struct FUN_004036b0_Class
 {
     char pad[0xb8];
     unsigned int unkb8;
-    unsigned int FUN_004036b0();
+    uintptr_t FUN_004036b0();
 };
 
 // @fnv 0x004036b0
-unsigned int FUN_004036b0_Class::FUN_004036b0()
+uintptr_t FUN_004036b0_Class::FUN_004036b0()
 {
     return unkb8;
 }
@@ -439,10 +440,10 @@ bool FUN_00401270_Class::FUN_00401270(int a, int b, int c, int d, int e)
 
 struct FUN_00401290_Class
 {
-    char FUN_00401290(int);
+    char FUN_00401290(intptr_t);
 };
 // @fnv 0x00401290
-char FUN_00401290_Class::FUN_00401290(int)
+char FUN_00401290_Class::FUN_00401290(intptr_t)
 {
     return 1;
 }
@@ -889,7 +890,7 @@ int FUN_00408b50()
 }
 
 // @fnv 0x0040df90
-int __cdecl FUN_0040df90()
+intptr_t __cdecl FUN_0040df90()
 {
     return 0;
 }

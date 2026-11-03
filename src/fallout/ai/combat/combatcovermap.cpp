@@ -2,6 +2,9 @@
 // src/fallout/ai/combat/combatcovermap.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatcovermap.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/combat_manager_fields.h"
+#include <cstdint>
 #include "fnv/decl/BGSReconstructFormsInAllFilesMap.h"
 #include "fnv/decl/C6b7f20_Map.h"
 #include "fnv/decl/Callees.h"
@@ -82,7 +85,7 @@ struct FUN_009a0510_shell
 void FUN_009a0510_shell::FUN_009a0510(StageHolder* pStage)
 {
     if (pStage && !reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
-        ((FUN_00983280_holder*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->FUN_009611e0())))
+        ((FUN_00983280_holder*)((reinterpret_cast<CombatManagerFields*>((((Calendar*)::BGSSaveLoadGlobalDataWorldspacePtr)))->pCoverMap)))
             ->FUN_00983280(m_1c4, pStage);
 }
 
@@ -107,7 +110,7 @@ struct FUN_009a0560_shell
 bool FUN_009a0560_shell::FUN_009a0560(StageHolder* pStageHolder)
 {
     if (pStageHolder && !reinterpret_cast<::FUN_005dc960_shell *>((pStageHolder))->FUN_005dc960())
-        return ((FUN_00983420_shell*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->FUN_009611e0())))
+        return ((FUN_00983420_shell*)((reinterpret_cast<CombatManagerFields*>((((Calendar*)(*reinterpret_cast<::fnv_009a0560::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr)))))->pCoverMap)))
             ->GetOrCreateCoverItem(*(int*)((char*)this + 0x1C4), pStageHolder);
     return true;
 }
@@ -136,7 +139,7 @@ void FUN_009a05b0_shell::FUN_009a05b0(StageHolder* pStage)
 {
     if (pStage && reinterpret_cast<::FUN_005dc960_shell *>((pStage))->FUN_005dc960())
     {
-        ((::fnv_009a05b0::FUN_00983520_obj *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_009a05b0::Calendar * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))->FUN_00983520(fld1c4, pStage);
+        ((::fnv_009a05b0::FUN_00983520_obj *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_009a05b0::Calendar * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))->FUN_00983520(fld1c4, pStage);
     }
 }
 }  // namespace fnv_009a05b0
@@ -171,7 +174,7 @@ void FUN_00983280_holder::FUN_00983280(int value, StageHolder* pStageHolder)
     {
         pCreatedShell = new CreatedShell();
         reinterpret_cast<::FUN_00983400_shell *>((((CreatedShell*)pCreatedShell)))->SetByteAtOffset(((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((((HolderStatus*)pStageHolder)))->FUN_00678ce0())));
-        reinterpret_cast<::FUN_00844700_Class *>((((HolderLookup*)this)))->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), (unsigned int)(pCreatedShell));
+        reinterpret_cast<::FUN_00844700_Class *>((((HolderLookup*)this)))->FUN_00844700(*(unsigned int*)((char*)pStageHolder + 0x68), (uintptr_t)(pCreatedShell));
     }
     reinterpret_cast<::FUN_00982e70_Class *>((((CreatedShell*)pCreatedShell)))->AddItem(value, pStageHolder);
     reinterpret_cast<::FUN_0067fdb0_shell *>((((HolderStatus*)pStageHolder)))->FUN_0067fdb0(1);
@@ -196,7 +199,7 @@ struct FUN_009836d0_class
 struct GlobalObject_00633c90
 {
     int unk00;
-    GlobalObject_00633c90(int);
+    GlobalObject_00633c90(intptr_t);
     ~GlobalObject_00633c90()
     {}
 };
@@ -248,13 +251,13 @@ bool FUN_00983420_class::GetOrCreateCoverItem(void* arg1, Arg2* arg2)
 {
     ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(lock));
     CoverItem* pItem = 0;
-    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)(arg2->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&pItem))))
+    if (!reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((uintptr_t)(arg2->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&pItem))))
     {
         pItem = new CoverItem();
         pItem->SetByteAtOffset(((bool)(reinterpret_cast<::FUN_00678ce0_shell *>((arg2))->FUN_00678ce0())));
-        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((unsigned int)(arg2->unk68), (unsigned int)(pItem));
+        reinterpret_cast<::FUN_00844700_Class *>(this)->FUN_00844700((uintptr_t)(arg2->unk68), (uintptr_t)(pItem));
     }
-    bool kRet = reinterpret_cast<::EventRegistry *>((pItem))->RegisterEvent((int)(arg1), (::EventData *)(arg2));
+    bool kRet = reinterpret_cast<::EventRegistry *>((pItem))->RegisterEvent((intptr_t)(arg1), (::EventData *)(arg2));
     reinterpret_cast<::FUN_0067fdb0_shell *>((arg2))->FUN_0067fdb0(kRet);
     reinterpret_cast<::FUN_00aa62e0_shell *>(&(lock))->FUN_00aa62e0();
     return kRet;
@@ -397,9 +400,9 @@ float FUN_008a88f0_cls::FUN_008a88f0()
         SrcNode* qzxVal = (SrcNode*)m68->GetB();
         if (qzxVal != 0)
         {
-            Chain* ccq4 = ((::Chain *)(reinterpret_cast<::Twin_0044ddc0 *>((qzxVal))->GetName()));
+            Chain* ccq4 = ((::Chain *)reinterpret_cast<InventoryEntryFields*>(qzxVal)->pObject);
             float ofq = (float)reinterpret_cast<::FUN_004fe160_cls *>((ccq4))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((qzxVal))->HasEffect(2));
-            float fc = (float)((int)(reinterpret_cast<::Callees *>((ywqVal))->FUN_00726070()));
+            float fc = (float)reinterpret_cast<InventoryEntryFields*>(ywqVal)->iCountDelta;
             if ((double)ofq == ::_DAT_01012060)
             {
                 return 1.0f;
@@ -565,12 +568,12 @@ struct FUN_009835d0_cls
     int unk10;
     CoverLockCalls lock;
 
-    bool TryUseCoverItem(unsigned int key, unsigned int p2, unsigned int p3, float x, void* target, unsigned char d,
+    bool TryUseCoverItem(uintptr_t key, uintptr_t p2, uintptr_t p3, float x, void* target, unsigned char d,
                          unsigned char e);
 };
 
 // @fnv 0x009835d0
-bool FUN_009835d0_cls::TryUseCoverItem(unsigned int key, unsigned int p2, unsigned int p3, float fValue, void* target,
+bool FUN_009835d0_cls::TryUseCoverItem(uintptr_t key, uintptr_t p2, uintptr_t p3, float fValue, void* target,
                                        unsigned char d, unsigned char e)
 {
     bool ok = true;
@@ -578,7 +581,7 @@ bool FUN_009835d0_cls::TryUseCoverItem(unsigned int key, unsigned int p2, unsign
 
     reinterpret_cast<::FUN_00aa5ff0_Class *>(&(lock))->FUN_00aa5ff0();
     item = 0;
-    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((unsigned int)((void*)key), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
+    if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130((uintptr_t)((void*)key), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
     {
         if (!reinterpret_cast<::FUN_00982df0_class *>((((CoverItemCalls*)item)))->FUN_00982df0(p3))
         {
@@ -613,14 +616,14 @@ void CoverMapUnreserveReceiver::FUN_00983520(void* apOwner, Arg2* apLocation)
     {
         ::fnv_00aa6060::AcquireLock((::ReadWriteLock *)&(this->lock));
         CoverItem* item = 0;
-        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130((unsigned int)(apLocation->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
+        if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((this))->FUN_00853130((uintptr_t)(apLocation->unk68), (*(::fnv_00853130::CombatThreatRecord * *)(&item))))
         {
-            if (reinterpret_cast<::FUN_00982ff0_cls *>((((CoverReservationUnreserveCalls*)item)))->FUN_00982ff0((unsigned int)(apOwner), apLocation))
+            if (reinterpret_cast<::FUN_00982ff0_cls *>((((CoverReservationUnreserveCalls*)item)))->FUN_00982ff0((uintptr_t)(apOwner), apLocation))
             {
                 CoverItem* b = item;
                 CoverItem* a = b;
                 a != 0 ? ((FUN_00983250_shell*)a)->DestroyIfFlagged(1) : 0;
-                reinterpret_cast<::NiTMap_S *>((this))->RemoveKey((unsigned int)(apLocation->unk68));
+                reinterpret_cast<::NiTMap_S *>((this))->RemoveKey((uintptr_t)(apLocation->unk68));
             }
             reinterpret_cast<::FUN_0067fdb0_shell *>((apLocation))->FUN_0067fdb0(false);
         }

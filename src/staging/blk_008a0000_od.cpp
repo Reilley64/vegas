@@ -2,6 +2,7 @@
 // src/staging/blk_008a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/ActorBF.h"
 #include "fnv/decl/BGSDebris_shell2.h"
@@ -843,12 +844,12 @@ struct FUN_008a81e0_Class
     void* unk064;
     FUN_008a81e0_FieldBase* unk068;
 
-    int FUN_008a81e0(int);
+    int FUN_008a81e0(intptr_t);
 };
 
 // If unk068 is set, calls its FUN_008a81e0_FieldCall with param and 0 and returns unk04 of the result, otherwise returns 0.
 // @fnv 0x008a81e0
-int FUN_008a81e0_Class::FUN_008a81e0(int param)
+int FUN_008a81e0_Class::FUN_008a81e0(intptr_t param)
 {
     int result = 0;
 
@@ -3204,13 +3205,13 @@ struct ActorX
     char pad2[0x134 - 0xa4 - sizeof(Sub4)];
     unsigned char m134;
     int m138;
-    void FUN_008bfa40(RefObj* pSrc, int a2, int a3, int a4, TESForm* p5);
+    void FUN_008bfa40(RefObj* pSrc, intptr_t a2, int a3, int a4, TESForm* p5);
 };
 
 int FNV_GetFormType(TESForm* p);
 
 // @fnv 0x008bfa40
-void ActorX::FUN_008bfa40(RefObj* apSource, int a2, int aiArg3, int aiArg4, TESForm* apForm)
+void ActorX::FUN_008bfa40(RefObj* apSource, intptr_t a2, int aiArg3, int aiArg4, TESForm* apForm)
 {
     bool h = false; /* -0x11  bFlag  bucket 14 */
     RefObj* p = 0;  /* -0x10  pRes   bucket 15 */

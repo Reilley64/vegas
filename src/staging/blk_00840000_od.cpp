@@ -465,11 +465,11 @@ void WeaponQueue::QueueWeapon(std::uintptr_t param_2)
 struct FUN_0084e320_Class
 {
     BSSimpleArray<unsigned int, 2> m_Array;
-    unsigned int GetArrayElement(int index);
+    uintptr_t GetArrayElement(int index);
 };
 
 // @fnv 0x0084e320
-unsigned int FUN_0084e320_Class::GetArrayElement(int index)
+uintptr_t FUN_0084e320_Class::GetArrayElement(int index)
 {
     return ((unsigned int)(reinterpret_cast<::S3e60 *>(&(m_Array))->FUN_006a7ad0(index)));
 }
@@ -2691,7 +2691,7 @@ struct FUN_0084d310_class
     FUN_0084d310_entry** m_buckets;
     unsigned int m_uiItemCount;
 
-    void FUN_0084d310(int key, unsigned char value);
+    void FUN_0084d310(intptr_t key, unsigned char value);
 };
 
 struct FUN_0084d310_entry
@@ -2702,7 +2702,7 @@ struct FUN_0084d310_entry
 };
 
 // @fnv 0x0084d310
-void FUN_0084d310_class::FUN_0084d310(int key, unsigned char value)
+void FUN_0084d310_class::FUN_0084d310(intptr_t key, unsigned char value)
 {
     int index = FUN_0084d310_lookup(key);
     FUN_0084d310_entry* entry = m_buckets[index];
@@ -6837,7 +6837,7 @@ void Cls::FUN_00858af0(EntryListNode* list, Entry* ctx, bool reset)
         if (((::Node3d *)(std::uintptr_t)(::FUN_00451010())))
             reinterpret_cast<::C00c66300 *>((((::Node3d *)(std::uintptr_t)(::FUN_00451010()))))->FUN_00c66300();
         reinterpret_cast<::FUN_00459920_shell *>(((*reinterpret_cast<::Mgr10 * *>(&::g_TES))))->FUN_00459920();
-        if (!((int)(reinterpret_cast<::FUN_00950bb0_shell *>((((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->FUN_00950bb0(0))))
+        if (!(reinterpret_cast<::FUN_00950bb0_shell *>((((VObj*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer)))))->FUN_00950bb0(0)))
             reinterpret_cast<::ML *>(((*reinterpret_cast<::Mgr3c * *>(&::g_modelLoader))))->FUN_00444850((::Ref *)(::Actor *)((Actor*)(*reinterpret_cast<::PlayerSaveAccess * *>(&::_g_thePlayer))), 0, 0);
         reinterpret_cast<::FUN_00456520_Class *>(((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))))->FUN_00456520();
         ::FUN_008495b0((char *)((*reinterpret_cast<::Mgr98 * *>(&::DAT_01202d98))));

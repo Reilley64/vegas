@@ -1,5 +1,6 @@
 // fallout/misc/seendata.cpp: SeenData, IntSeenData, SeenData_S, SeenDataShell and more (25 functions)
 
+#include <cstring>
 #include <new>
 #include "fnv/decl/FUN_00416870_t.h"
 #include "fnv/decl/FUN_004bc1f0_S.h"
@@ -149,7 +150,6 @@ bool SeenData_S::HasEnoughSeenPoints(const NiPoint3& aPoint, const NiPoint3& aOf
         if (!reinterpret_cast<::FUN_008799f0_shell *>(this)->IsBitSet(uiIndex))
         {
             Pt diff;
-            new ((void *)&(diff)) ::Vec3();
             SeenData::GetPositionForIndex(uiIndex, reinterpret_cast<NiPoint3&>(diff));
             reinterpret_cast<::FUN_0063c8a0_shell *>((void *)&(const ::Pt &)(diff))->FUN_0063c8a0((void *)&(aOffset));
             {
@@ -466,7 +466,6 @@ void SeenDataShell::AttachMarkersForSeenData(Parent* parent, const NiPoint3& off
             if (reinterpret_cast<::FUN_008799f0_shell *>(this)->IsBitSet(i3))
             {
                 Position position;
-                new ((void *)&(position)) ::Vec3();
                 ::SeenData::GetPositionForIndex(i3, (::NiPoint3 &)(position));
                 reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(offset));
                 Marker* marker3 = ((::Marker *)(::CreateSquareLines(DAT_011a31e8, (*(const ::RgbaColor *)(&effectColor)), 1)));

@@ -1,5 +1,10 @@
 // fallout/interface/menus/messagemenu.cpp: DelStandIn, MessageMenu, MessageMenuHandler, KeyMenu and more (28 functions)
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
 #include <new>
 #include <cctype>
 #include <cstdlib>
@@ -96,6 +101,10 @@
 #include "fnv/symbols_011da000.h"
 #include "fnv/symbols_011de000.h"
 #include "MessageMenu.h"
+#include "fnv/decl/FUN_005ac1e0_shell.h"
+#include "fnv/decl/FUN_00aa4c40_class.h"
+#include "fnv/symbols_00703000.h"
+#include "fnv/symbols_00778000.h"
 
 static const int kGetClassValue = 1001;
 
@@ -160,8 +169,8 @@ void __cdecl FUN_007a8df0()
 {
     if ((*reinterpret_cast<void * *>(&::DAT_011da4f0)))
     {
-        ((::fnv_007a8df0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00726070()))->Set(0x1772, 1);
-        if (((int)(::FUN_00707ad0())))
+        ((::fnv_007a8df0::Tile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->tile))->Set(0x1772, 1);
+        if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d9e0();
         else
             reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<void * *>(&::DAT_011da4f0))))->FUN_00a1d910();
@@ -192,10 +201,10 @@ template <> class BSSimpleArray<unsigned int, 1024>
 
 // Returns the element at index DAT_011da4f4 from g_011da53c if that index is below the object's flags, otherwise 0.
 // @fnv 0x007a92a0
-unsigned int __cdecl GetCurrentArrayElement()
+uintptr_t __cdecl GetCurrentArrayElement()
 {
     unsigned int uiResult = 0;
-    if (DAT_011da4f4 < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(&(*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)))))->GetName())))
+    if (DAT_011da4f4 < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<TESObjectREFR*>(&(*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)))))->GetName())))
     {
         uiResult = (*reinterpret_cast<::BSSimpleArray<unsigned int, 1024> *>(&::g_011da53c)).GetAt(DAT_011da4f4);
     }
@@ -233,7 +242,7 @@ void FUN_007aa070_shell::HandleTileSelection(int aiID, Tile* apTarget)
     if (aiID == 7 && apTarget)
     {
         *(unsigned char*)((char*)((void *)(::fnv_004b7210::FUN_004b7210())) + 0xe4) =
-            (unsigned char)(int)((::fnv_007aa070::PerkForm *)(reinterpret_cast<::LBList *>((((ListBox<PerkForm*>*)((char*)this + 0x40))))->FindItemData((::Tile *)(apTarget))));
+            (unsigned char)(std::intptr_t)((::fnv_007aa070::PerkForm *)(reinterpret_cast<::LBList *>((((ListBox<PerkForm*>*)((char*)this + 0x40))))->FindItemData((::Tile *)(apTarget))));
         ::DAT_011da4ed = true;
         if (((void *)(::GetCurrentArrayElement())) && *(void(__cdecl**)())((char*)((void *)(::GetCurrentArrayElement())) + 0x28))
         {
@@ -266,10 +275,10 @@ struct GlobalObject_007ab590
 // @fnv 0x007aa480
 void ClearAllElements()
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->GetName())); i++)
+    for (unsigned int i = 0; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->GetName())); i++)
     {
         Elem_007aa480* p;
-        unsigned int v = ((unsigned int)(reinterpret_cast<::S3e60 *>(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c))))->FUN_006a7ad0(i)));
+        unsigned int v = ((unsigned int)(SimpleArrayItem<unsigned int>((void *)(&((*reinterpret_cast<::fnv_007aa480::GlobalObject_007ab590 *>(&::g_011da53c)))), i)));
         p = reinterpret_cast<Elem_007aa480*>(v);
         p ? p->Destroy(true) : 0;
     }
@@ -297,7 +306,7 @@ void CleanupGlobalObject()
     unsigned int u;
     if (((int)(::GetCurrentArrayElement())))
     {
-        u = ((unsigned int)(reinterpret_cast<::S3e60 *>(&((*reinterpret_cast<::fnv_007aa530::GlobalObject_007ab590 *>(&::g_011da53c))))->FUN_006a7ad0((*reinterpret_cast<int *>(&::DAT_011da4f4)))));
+        u = ((unsigned int)(SimpleArrayItem<unsigned int>((void *)(&((*reinterpret_cast<::fnv_007aa530::GlobalObject_007ab590 *>(&::g_011da53c)))), (*reinterpret_cast<int *>(&::DAT_011da4f4)))));
         Elem_007aa530* p;
         unsigned int v = u;
         p = reinterpret_cast<Elem_007aa530*>(v);
@@ -482,6 +491,10 @@ void FUN_007aa6a0(unsigned char value)
 namespace fnv_007aaf20 {
 struct ArrSI
 {
+    void* vtable;
+    void** data;
+    unsigned int size;
+    unsigned int capacity;
 };
 
 extern unsigned char DAT_011da594;
@@ -491,7 +504,7 @@ void __cdecl FUN_007aaf20(bool abFlag)
 {
     if (abFlag)
     {
-        ::DAT_011da4f4 = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_007aaf20::ArrSI *>(&::g_011da53c))))->GetName()));
+        ::DAT_011da4f4 = ((unsigned int)(((*reinterpret_cast<::fnv_007aaf20::ArrSI *>(&::g_011da53c))).size));
         ::fnv_007a8df0::FUN_007a8df0();
         DAT_011da594 = (*reinterpret_cast<unsigned char *>(&::DAT_011da4ec));
         ::fnv_007aa6b0::FUN_007aa6b0(0);
@@ -531,7 +544,7 @@ struct FUN_007aafe0_Class
 // @fnv 0x007aafe0
 void FUN_007aafe0_Class::FUN_007aafe0(void* pFirst, void* pSecond)
 {
-    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(void *)(&pFirst), (unsigned int)(pSecond), 1);
+    reinterpret_cast<::FUN_005103d0_cls *>(this)->FindSubstring((char *)(void *)(&pFirst), (uintptr_t)(pSecond), 1);
 }
 
 struct MessageMenuHandler
@@ -573,7 +586,7 @@ int FUN_007aafb0_Class::FUN_007aafb0(unsigned int arg)
     {
     } while (0);
 
-    return ((int)(reinterpret_cast<::FUN_0044a970_Cls *>((this))->FUN_0044a970())) + arg;
+    return ((intptr_t)(reinterpret_cast<::FUN_0044a970_Cls *>((this))->FUN_0044a970())) + arg;
 }
 
 namespace MessageCreation {
@@ -656,10 +669,10 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
     while (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(buttonSlot11))->FUN_004048e0())) > 0)
     {
         Text text(((const char *)(::FUN_00559450((int *)&(buttonSlot11)))));
-        unsigned int hotkeySlot0 = text.FUN_007aafe0('&', 0);
+        uintptr_t hotkeySlot0 = text.FUN_007aafe0('&', 0);
         if (hotkeySlot0 != ::g_010173f0)
         {
-            info->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text.Substr(hotkeySlot0 + 1, 1))));
+            info->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text.Substr(hotkeySlot0 + 1, 1))));
             reinterpret_cast<::MessageMenuHandler *>(&(text))->FUN_007aaf80((void *)(hotkeySlot0), (void *)(1), (void *)(::DAT_01011584));
         }
         if (::FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text)), ::DAT_01020770))
@@ -667,9 +680,9 @@ bool QueueMessage(const char* title, const char* message, const char* icon, cons
         info->buttons.FUN_00404820(::DAT_01063d7c);
         buttonSlot11.FUN_00438390((*arguments += 1)[-1]);
     }
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())))
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())))
     {
-        for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())); index++)
+        for (unsigned int index = 0; index < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c))))->GetName())); index++)
         {
             if (!((bool)(::GetByteAtOffset56((char *)((*(*reinterpret_cast<::MessageCreation::Messages *>(&::g_011da53c)).FUN_00877a30(index)))))) && ((bool)(::GetByteAtOffset56((char *)(info)))))
             {
@@ -758,7 +771,7 @@ bool KeyMenu::HandleKeyInput(int key)
         else if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(((KeyBinding*)GetCurrentArrayElement())->text))->FUN_004048e0())) > 0)
         {
             KeyString text(((const char *)(::FUN_00559450((int *)&(((KeyBinding*)GetCurrentArrayElement())->text)))));
-            for (unsigned int index = 0; index < reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&(text))->FUN_00825c00(); index++)
+            for (unsigned int index = 0; index < text.length; index++)
             {
                 if (toupper(((char)(reinterpret_cast<::FUN_007aafb0_Class *>(&(text))->FUN_007aafb0(index)))) == toupper(key))
                 {
@@ -904,7 +917,7 @@ struct ActionMenuList
 struct ActionMenuEntry
 {
     const char* label;
-    int action;
+    intptr_t action;
     ActionMenuReference* reference;
 };
 template <class T> struct ActionMenuQueue
@@ -926,26 +939,26 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
     char label58[260];
     while (list && !list->FUN_008256d0())
     {
-        ::TaskQueueInterface::CopyStringToBuffer(label58, 260, ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070())));
-        if ((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))->GetKind() == 4)
+        ::TaskQueueInterface::CopyStringToBuffer(label58, 260, ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())));
+        if ((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))->GetKind() == 4)
         {
-            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070())) || !((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->GetLinkToList())))
+            if (!((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070())) || !((std::intptr_t)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList())))
             {
                 list = ((::ActionMenuList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                 continue;
             }
             ActionMenuEntry* entry29 = new ActionMenuEntry;
-            entry29->label = ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->FUN_00726070()));
-            entry29->action = ((int)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(new ((void *)(list)) ::Vec3())))))->GetLinkToList()));
+            entry29->label = ((const char *)(reinterpret_cast<::Callees *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->FUN_00726070()));
+            entry29->action = ((intptr_t)(reinterpret_cast<::TESTopicInfoData *>(((*((::ActionMenuAction **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item)))))->GetLinkToList()));
             entry29->reference = reference;
             reinterpret_cast<::FUN_00438690 *>(&((*reinterpret_cast<::ActionMenuQueue< ::ActionMenuEntry *> *>(&::g_011da524))))->FUN_007cb2e0((unsigned int *)&(entry29));
             if (FUN_0044a670(label58) > 0)
             {
                 ActionMenuText text6(label58);
-                unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
+                uintptr_t hotkey5 = text6.FUN_007aafe0('&', 0);
                 if (hotkey5 != ::g_010173f0)
                 {
-                    menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6.Substr(hotkey5 + 1, 1))));
+                    menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text6.Substr(hotkey5 + 1, 1))));
                     reinterpret_cast<::MessageMenuHandler *>(&(text6))->FUN_007aaf80((void *)(hotkey5), (void *)(1), (void *)(DAT_01011584));
                 }
                 if (FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6)), DAT_01020770))
@@ -993,10 +1006,10 @@ bool BuildActionMenu(ActionMenuList* list, ActionMenuReference* reference)
     if (FUN_0044a670(label58) > 0)
     {
         ActionMenuText text6(label58);
-        unsigned hotkey5 = text6.FUN_007aafe0('&', 0);
+        uintptr_t hotkey5 = text6.FUN_007aafe0('&', 0);
         if (hotkey5 != ::g_010173f0)
         {
-            menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6.Substr(hotkey5 + 1, 1))));
+            menu4->hotkeys.FUN_00404820(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(text6.Substr(hotkey5 + 1, 1))));
             reinterpret_cast<::MessageMenuHandler *>(&(text6))->FUN_007aaf80((void *)(hotkey5), (void *)(1), (void *)(DAT_01011584));
         }
         if (FUN_00408b20(::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(text6)), DAT_01020770))
@@ -1138,7 +1151,7 @@ void MsgMenu::PopulateFromMessageData()
     float fTheTextHeight = 0.0f;
     float fButtonsWidth = 0.0f;
     float fWidths = 0.0f;
-    float fHorBuf = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szHorBuf));
+    float fHorBuf = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szHorBuf));
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(pMessagePtr->kSound))->FUN_004048e0())) > 0 &&
         reinterpret_cast<::GO *>((void *)&(const ::MessageMenuSetup::MsgSound &)(((::MessageMenuSetup::MsgAudio *)(::FUN_00453a70()))->FUN_00ad7550(((const char *)(::FUN_00559450((int *)&(pMessagePtr->kSound)))), 0x121)))->IsNotEqual(-1))
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::MessageMenuSetup::MsgSound &)(((::MessageMenuSetup::MsgAudio *)(::FUN_00453a70()))->FUN_00ad7550(((const char *)(::FUN_00559450((int *)&(pMessagePtr->kSound)))), 0x121)))->FUN_00ad8830(0);
@@ -1176,7 +1189,7 @@ void MsgMenu::PopulateFromMessageData()
                 MsgTile* pText = 0;
                 pItemNew = ((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::IntListBox *>(&((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->kButtons))->FUN_00764430(
                     pMessagePtr->cButtonBase + iIndex,
-                    ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&(kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(::DAT_01063d7c, uiPosNum) - uiPosNum))),
+                    ::FUN_0044a560((::std::basic_string<char, ::std::char_traits<char>, ::std::allocator<char>> *)&ResultSlot(kButtonText.Substr(uiPosNum, kButtonText.FUN_005103a0(::DAT_01063d7c, uiPosNum) - uiPosNum))),
                     (int (*)(BoxItem *, BoxItem *))(0), (const char *)(0))));
                 pText = ((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((pItemNew))->FUN_00a03da0((char *)(s_szListItemText))));
                 reinterpret_cast<::Tile *>((pItemNew))->Set(0xfaa, 7);
@@ -1224,7 +1237,7 @@ void MsgMenu::PopulateFromMessageData()
     if (pMessagePtr->uiWidth > 0)
         fMaxWidthCur = ::InterfaceManager::UpdateInterfaceState() * (pMessagePtr->uiWidth / ::FUN_00706e50());
     else
-        fMaxWidthCur = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))))->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth));
+        fMaxWidthCur = reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))))->tile))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth));
     fMaxWidthCur = fMaxWidthCur - fHorBuf * 2;
     if (reinterpret_cast<::FUN_00a01230_shell *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[2]))->IsTraitNonZero(0xfa3))
         fMaxWidthCur = fMaxWidthCur - 120.0;
@@ -1246,8 +1259,8 @@ void MsgMenu::PopulateFromMessageData()
     {
         fWidths = ::FUN_00404010(fIconHeightIn, fTheTextHeight);
         fWidths = ::FUN_00404010(fWidths, fButtonsWidth);
-        fWidths = ::FUN_0040ebd0(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth)));
-        fWidths = ::FUN_00404010(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetFloat(::FUN_00a01860(s_szMinMenuWidth)));
+        fWidths = ::FUN_0040ebd0(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szMaxMenuWidth)));
+        fWidths = ::FUN_00404010(fWidths, reinterpret_cast<::TileListBoxCalls *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->GetFloat(::FUN_00a01860(s_szMinMenuWidth)));
     }
     else
     {
@@ -1256,8 +1269,8 @@ void MsgMenu::PopulateFromMessageData()
     }
     reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[0]))->FUN_00a012d0(0xfb1, fWidths, true);
     ::DAT_0119f348 = pMessagePtr->iType == 0x17;
-    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 0);
-    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0xfa3, 1);
+    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(0x1772, 0);
+    reinterpret_cast<::Tile *>((((::MessageMenuSetup::MsgTile *)(reinterpret_cast<::MenuFields *>(this)->tile))))->Set(0xfa3, 1);
     if (!((bool)(::GetByteAtOffset56((char *)(pMessagePtr)))))
     {
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::MessageMenuSetup::MsgMenu * *>(&::DAT_011da4f0))->m_pTiles[0]))->FUN_00a012d0(0xfa9, 0.0f, true);
@@ -1321,7 +1334,7 @@ bool __cdecl FUN_007a8ba0()
     if (::fnv_007023c0::FUN_007023c0())
         flag = 1;
     Tile* pTile = reinterpret_cast<::fnv_00a01b00::TileLoader *>((((Helper*)((void *)(reinterpret_cast<::InterfaceManager *>((((Helper*)B)))->FUN_00586150())))))->FUN_00a01b00({});
-    ::DAT_011da4f0 = ((int)(reinterpret_cast<::FUN_00a03c90_shell *>((((Helper*)pTile)))->FUN_00a03c90()));
+    ::DAT_011da4f0 = ((intptr_t)(reinterpret_cast<::FUN_00a03c90_shell *>((((Helper*)pTile)))->FUN_00a03c90()));
     if (::DAT_011da4f0 != 0 &&
         ((int(*)(void*))((*(void***)::DAT_011da4f0)[13]))((void*)::DAT_011da4f0) == ::FUN_007a8de0())
     {
@@ -1344,7 +1357,7 @@ bool __cdecl FUN_007a8ba0()
         }
         if (flag)
         {
-            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::Callees *>((((Helper*)::DAT_011da4f0)))->FUN_00726070()))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((float *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
+            reinterpret_cast<::FUN_00a012d0_t *>((((Helper*)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((Helper*)(reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile))))->FUN_00a03da0((char *)((char*)"MM_Background"))))))->FUN_00a012d0(0xfa9, *(float*)(((void *)&(::FUN_00403e20((float *)(((Helper*)&(*reinterpret_cast<char *>(&::g_011d3bc8)))))))) * ::DAT_0101e568, 1);
         }
         if (((unsigned char)(::fnv_007050d0::FUN_007050d0())))
         {
@@ -1356,7 +1369,7 @@ bool __cdecl FUN_007a8ba0()
     }
     else
     {
-        if (::DAT_011da4f0 != 0 && reinterpret_cast<::Callees *>((((Helper*)::DAT_011da4f0)))->FUN_00726070() != 0)
+        if (::DAT_011da4f0 != 0 && reinterpret_cast<::MenuFields *>((((Helper*)::DAT_011da4f0)))->tile != 0)
         {
             delete (VDel*)::DAT_011da4f0;
         }
@@ -1365,4 +1378,110 @@ bool __cdecl FUN_007a8ba0()
 }
 }  // namespace fnv_007a8ba0
 
+
+struct ArrSI
+{
+};
+struct MessageQueueEntryView
+{
+    BSStringT<char> m_kMessageText;
+    char* m_kTitle;
+    BSStringT<char> m_kPrimaryButtonText;
+    BSStringT<char> m_kTertiaryButtonText;
+    char m_cButtonCount;
+    BSStringT<char> m_kSecondaryButtonText;
+    void(__cdecl* aCallback)();
+    unsigned int m_uiMessageFlags;
+};
+struct MessageQueueComparisonArray
+{
+    MessageQueueEntryView** FUN_00877a30(int);
+};
+struct GlobalObject_00869f00
+{
+};
+struct GlobalObject_007ab590;
+class MessageHandler
+{
+  public:
+    static MessageHandler* pHandler;
+};
+struct FUN_007aa500
+{
+    ~FUN_007aa500();
+};
+
+// @fnv 0x007aa5c0
+void FUN_007aa5c0()
+{
+    if (::GetCurrentArrayElement())
+    {
+        unsigned int uiID = ((MessageQueueEntryView*)::GetCurrentArrayElement())->m_uiMessageFlags;
+        reinterpret_cast<::FUN_00aa4c40_class *>((MessageHandler::pHandler))->FUN_00aa4c40(uiID);
+        ::FUN_007aa6a0(true);
+        for (unsigned int i = DAT_011da4f4; i < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&::g_011da53c)))->GetName())); i++)
+        {
+            if ((*((MessageQueueComparisonArray*)&::g_011da53c)->FUN_00877a30(i))->m_uiMessageFlags == uiID)
+            {
+                FUN_007aa500* pEntry = (FUN_007aa500*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&::g_011da53c)), i)));
+                delete pEntry;
+                reinterpret_cast<::FUN_006bf8f0_Class *>((((GlobalObject_00869f00*)&::g_011da53c)))->FUN_006bf8f0(i--, true);
+            }
+        }
+    }
+}
+
+namespace fnv_007aae70 {
+
+class ScriptLocals;
+class TESBoundObject;
+class Script
+{
+  public:
+};
+struct TESObjectREFR_acc
+{
+    bool Activate(TESObjectREFR*, bool, TESBoundObject*, int);
+};
+struct ArrSI
+{
+};
+struct GlobalObject_00869f00
+{
+    void Clear(bool);
+};
+struct GlobalObject_007ab610;
+struct PC7d;
+
+struct PerkActivationEntry
+{
+    unsigned int uiButton;
+    Script* pScript;
+    TESObjectREFR* pRef;
+};
+
+// @fnv 0x007aae70
+void FUN_007aae70()
+{
+    unsigned int ibuttonClicked;
+    int icount;
+    ibuttonClicked = ::ConsumeByteAtE4();
+    if (ibuttonClicked != ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->GetName())) - 1)
+    {
+        reinterpret_cast<::FUN_005ac1e0_shell *>((((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))
+            ->pScript))->FUN_005ac1e0(
+                ((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))->pRef,
+                (::ScriptLocals *)(::fnv_007aae70::ScriptLocals *)(0), 0, false);
+    }
+    else
+    {
+        icount = ::GetExtraDataShort(
+            ((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))->pRef);
+        ((TESObjectREFR_acc*)((PerkActivationEntry*)((SimpleArrayItem<void *>((void *)(((BSSimpleArray<unsigned int, 1024>*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))), ibuttonClicked))))
+             ->pRef)
+            ->Activate((TESObjectREFR*)(*reinterpret_cast<::fnv_007aae70::PC7d * *>(&::_g_thePlayer)), false, 0, icount);
+    }
+    reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((((GlobalObject_00869f00*)&(*reinterpret_cast<::fnv_007aae70::GlobalObject_007ab610 *>(&::g_011da524)))))->Clear(true);
+}
+}  // namespace fnv_007aae70
 #include "generated/data/fallout/interface/menus/messagemenu.inc"

@@ -267,7 +267,7 @@ void FUN_005a8ea0_shell::FUN_005a8ea0()
 
 struct FUN_005a9140_shell : public ScriptLocals
 {
-    double FUN_005a9140(unsigned int, Script*);
+    double FUN_005a9140(uintptr_t, Script*);
 };
 
 extern int DAT_011cae50;
@@ -276,7 +276,7 @@ bool _ref_008256d0(unsigned int);
 
 // Looks up a script local variable by ID (using a TLS cache), returns its double value, or warns and returns 0.0 if not found.
 // @fnv 0x005a9140
-double FUN_005a9140_shell::FUN_005a9140(unsigned int auiID, Script* apScript)
+double FUN_005a9140_shell::FUN_005a9140(uintptr_t auiID, Script* apScript)
 {
     ScriptLocalVariable* plocalvar = 0;
     if (g_tlsBlock.lastLocalVariableLocals == reinterpret_cast<ScriptLocals*>(this) && g_tlsBlock.lastLocalVariableId == auiID)
@@ -1099,7 +1099,7 @@ void FUN_008586d0_class::FUN_008586d0(int a, int b, int c)
 
 struct FUN_005a9290_shell : public ScriptLocals
 {
-    void SetScriptVariable(unsigned int, double);
+    void SetScriptVariable(uintptr_t, double);
 };
 
 struct SCRIPT_LOCAL_s
@@ -1120,7 +1120,7 @@ struct MobileObject
 
 // Searches the script local list for the given variable ID and assigns the value, warning if the variable is not found.
 // @fnv 0x005a9290
-void FUN_005a9290_shell::SetScriptVariable(unsigned int auiID, double value)
+void FUN_005a9290_shell::SetScriptVariable(uintptr_t auiID, double value)
 {
     BSSimpleList<SCRIPT_LOCAL_s*>* pList = (BSSimpleList<SCRIPT_LOCAL_s*>*)((reinterpret_cast<::FUN_0084e3a0_Class *>((((TESForm*)this)))->FUN_0084e3a0()));
     while (pList && *((::SCRIPT_LOCAL_s **)((void *)(((LocalListStub*)pList)))))

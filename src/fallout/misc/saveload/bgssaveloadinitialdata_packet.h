@@ -9,6 +9,7 @@
 #ifndef FNV_SRC_BGSSAVELOADINITIALDATA_H
 #define FNV_SRC_BGSSAVELOADINITIALDATA_H
 
+#include <cstdint>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/FUN_0041d390_shell.h"
 #include "fnv/decl/FUN_00440e30_This.h"
@@ -356,7 +357,7 @@ extern const char DAT_0107f938[];
 unsigned int LoadFormData(BGSLoadFormBuffer*, INITIAL_DATA_TYPE, void*);
 struct CellDetachTimeData
 {
-    unsigned int a, b, c, m_uiDetachTime;
+    uintptr_t a, b, c, m_uiDetachTime;
 };
 
 #endif

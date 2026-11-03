@@ -3,12 +3,15 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include <cstdint>
 #include "fnv/decl/FUN_008526d0_shell.h"
 #include "fnv/decl/FUN_00856350_shell.h"
 #include "fnv/decl/FUN_008799f0_shell.h"
 #include "fnv/decl/S_008785e0.h"
 #include "fnv/symbols_00401000.h"
 #include "fnv/symbols_01083000.h"
+
+union _LARGE_INTEGER;
 struct FUN_00878430_shell
 {
     int* m_ptr;
@@ -50,7 +53,7 @@ struct FUN_008799c0_shell
 // @fnv 0x008799c0
 bool FUN_008799c0_shell::IsValueSeen(void* pBase, unsigned int uiIndex)
 {
-    unsigned int nValue = (uiIndex << 4) + (unsigned int)pBase;
+    unsigned int nValue = (uiIndex << 4) + (uintptr_t)pBase;
     return reinterpret_cast<::FUN_008799f0_shell *>(&(mSeenData))->IsBitSet(nValue);
 }
 
@@ -90,7 +93,7 @@ struct MemoryManagerFile
 int MemoryManagerFile::Read(void* apData, unsigned int aSize)
 {
     unsigned __int64 uiBytesRead;
-    reinterpret_cast<::FUN_008526d0_shell *>(&(mFile))->SetFromCall((int)(apData), aSize, (int)(&uiBytesRead), {});
+    reinterpret_cast<::FUN_008526d0_shell *>(&(mFile))->SetFromCall((intptr_t)(apData), aSize, (intptr_t)(&uiBytesRead), {});
     return (int)uiBytesRead;
 }
 
@@ -103,11 +106,11 @@ struct MemoryManagerFile
 {
     int _0;
     FileInner _4;
-    int Write(const void* apData, unsigned int aSize);
+    int Write(const void* apData, uintptr_t aSize);
 };
 // Writes aSize bytes from apData through the inner file object and returns the number of bytes written.
 // @fnv 0x00878560
-int MemoryManagerFile::Write(const void* apData, unsigned int aSize)
+int MemoryManagerFile::Write(const void* apData, uintptr_t aSize)
 {
     uint64 uiwritten;
     reinterpret_cast<::FUN_00856350_shell *>(&(_4))->SetAndReturnPointer((void *)(apData), (void *)(aSize), &uiwritten, {});
@@ -127,7 +130,7 @@ struct FUN_00878590_shell : FileSizeInfo
 int FUN_00878590_shell::FUN_00878590()
 {
     unsigned __int64 size;
-    reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290((::_LARGE_INTEGER &)(size));
+    reinterpret_cast<::FileSizeInfo *>((((FileSizeInfo*)((char*)this + 4))))->FUN_0065c290(reinterpret_cast<::_LARGE_INTEGER &>(size));
     return (int)size;
 }
 }  // namespace fnv_00878590
@@ -145,7 +148,7 @@ struct MemoryManagerFile
 void MemoryManagerFile::FUN_008785b0(int aiPos)
 {
     uint64 uipos;
-    reinterpret_cast<::S_008785e0 *>((reinterpret_cast<FUN_008785e0_holder*>(reinterpret_cast<char*>(this) + 4)))->SetAndGetField0(aiPos, 0, (int)(&uipos), {});
+    reinterpret_cast<::S_008785e0 *>((reinterpret_cast<FUN_008785e0_holder*>(reinterpret_cast<char*>(this) + 4)))->SetAndGetField0(aiPos, 0, (intptr_t)(&uipos), {});
 }
 }  // namespace fnv_008785b0
 

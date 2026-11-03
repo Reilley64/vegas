@@ -2,6 +2,8 @@
 // src/fallout/magic/chameleoneffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/chameleoneffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/Cls.h"
@@ -275,7 +277,7 @@ struct ChameleonEffect : TESForm
 // @fnv 0x0080b1b0
 void ChameleonEffect::FUN_0080b1b0(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (FUN_005b9b00())
         apActor->At0x384(1, 0.0F);
     else
@@ -530,7 +532,7 @@ struct ChameleonEffect : TESForm
 void ChameleonEffect::FUN_0080b310(BGSLoadFormBuffer* apActor)
 {
     Actor* actor = apActor->b3();
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (::FUN_005b9b00())
         actor->func225(1, 0.0f);
     else
@@ -1107,7 +1109,7 @@ void ThiS::FUN_0080aef0()
     float interp2;
 
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    actor = ((::MidObj *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::FUN_0080b0c0_arg *)(reinterpret_cast<::MagicTarget *>((((::MidObj *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : (FUN_0080b0c0_arg*)0;
+    actor = ((::MidObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::FUN_0080b0c0_arg *)(reinterpret_cast<::MagicTarget *>((((::MidObj *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : (FUN_0080b0c0_arg*)0;
     if (actor != 0)
     {
         if (FUN_005b9b00())
@@ -1148,7 +1150,7 @@ struct MyActiveEffect : ChamActiveEffect
 // @fnv 0x0080add0
 void MyActiveEffect::UpdateChameleonEffect()
 {
-    MyChamActor* q = ((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MyChamActor *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    MyChamActor* q = ((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MyChamActor *)(reinterpret_cast<::MagicTarget *>((((::EffectOwner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     if (q != 0)
     {

@@ -47,9 +47,9 @@ public:
     // 0x0090ac20
     void SetFlag40(int);
     // 0x0090d480
-    static bool HandlePackageLocationLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageLocationLoaded(::TESObjectREFR *, intptr_t);
     // 0x0090d570
-    static bool HandlePackageTargetLoaded(::TESObjectREFR *, long);
+    static bool HandlePackageTargetLoaded(::TESObjectREFR *, intptr_t);
     // 0x00910630
     void LoadGame(::BGSLoadFormBuffer *);
     // 0x00910820

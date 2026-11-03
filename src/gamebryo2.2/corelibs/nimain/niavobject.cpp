@@ -2061,7 +2061,7 @@ class FUN_00a59d30_C
     char unk00[0x20];
     NiTListA59D<ItemA59D*> m_kList;
 
-    ItemA59D* FUN_00a59d30(int iType);
+    ItemA59D* FUN_00a59d30(intptr_t iType);
 };
 // Retrieves property 2 and, if present, passes it to the renderer's v61 method.
 // @fnv 0x00a59e50
@@ -2074,7 +2074,7 @@ void PropHelper::FUN_00a59e50(NiRenderer* apkRenderer)
 
 // Iterates m_kList and returns the first item whose GetType matches iType, or null if iType is 7 or greater or no match is found.
 // @fnv 0x00a59d30
-ItemA59D* FUN_00a59d30_C::FUN_00a59d30(int iType)
+ItemA59D* FUN_00a59d30_C::FUN_00a59d30(intptr_t iType)
 {
     if (iType >= 7)
         return 0;

@@ -2,6 +2,7 @@
 #ifndef FNV_BGSSAVELOADCHANGESMAP_H
 #define FNV_BGSSAVELOADCHANGESMAP_H
 
+#include <cstdint>
 #include "fnv/decl/FUN_00844700_Class.h"
 #include "fnv/decl/NiTMap_S.h"
 #include "fnv/symbols_00845000.h"
@@ -20,11 +21,11 @@ class BGSSaveLoadChangesMap : public BGSSaveLoadChangesMapBase
   public:
     // base NiTPointerMap<unsigned int,FormChangeRecord *> at +0x0, size 16
     BGSSaveLoadChangesMap();
-    FormChangeRecord* FUN_009a4250(unsigned int formID);
+    FormChangeRecord* FUN_009a4250(uintptr_t formID);
     bool ContainsChangeFlags(unsigned int formID, FormChangeMask flags);
     void AddFormChangeFlags(unsigned int formID, FormChangeMask flags);
     void ApplyFormQuantityChange(unsigned int formID, FormChangeMask flags);
-    bool HasFormChanges(unsigned int formID);
+    bool HasFormChanges(uintptr_t formID);
     bool ClearChangeFlags(unsigned int formID, FormChangeMask flags);
     // BGSSaveLoadChangesMap
     // void __cdecl BGSSaveLoadChangesMap::*()

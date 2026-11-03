@@ -1,5 +1,7 @@
 // fallout/ai/character.cpp: Character, Self, XObj, ActorBF and more (36 functions)
 
+#include "fnv/form_fields.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/ActorData.h"
 #include "fnv/decl/ActorLinkDetail__FUN_008d3380_shell.h"
@@ -127,6 +129,22 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f2000.h"
 #include "character_decls.h"
+#include "fnv/decl/FUN_00491040_shell.h"
+#include "fnv/decl/FUN_00491180_shell.h"
+#include "fnv/decl/FUN_00933150_shell.h"
+#include "fnv/decl/FUN_009dcc80_cls.h"
+#include "fnv/decl/InventoryStackRecord.h"
+#include "fnv/decl/ItemChangeValueShell.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/decl/Target.h"
+#include "fnv/decl/UAMActor.h"
+#include "fnv/decl/fnv_00567050__FUN_00567050_shell.h"
+#include "fnv/decl/fnv_008b28c0__This8b.h"
+#include "fnv/symbols_0040e000.h"
+#include "fnv/symbols_00705000.h"
+#include "fnv/symbols_011d0000.h"
+#include "fnv/symbols_011d1000.h"
+#include "fnv/symbols_011f6000.h"
 
 // @fnv 0x008d1e70
 bool Character_GetTrespassing(Character* self)
@@ -368,10 +386,10 @@ void FUN_008d3330_shell::FUN_008d3330(unsigned int aiFlags)
 
 struct FUN_008d3380_shell : public Character
 {
-    void FUN_008d3380(unsigned int, unsigned int);
+    void FUN_008d3380(uintptr_t, uintptr_t);
 };
 // @fnv 0x008d3380
-void FUN_008d3380_shell::FUN_008d3380(unsigned int a, unsigned int b)
+void FUN_008d3380_shell::FUN_008d3380(uintptr_t a, uintptr_t b)
 {
     reinterpret_cast<::ActorLinkDetail::FUN_008d3380_shell *>(this)->FUN_008aa4c0(a, b);
 }
@@ -544,7 +562,7 @@ struct FUN_008b1910_shell
 TESObjectREFR* FUN_008b1910_shell::FUN_008b1910(TESObjectREFR* apRefr, TESObjectREFR*& apOutRefr)
 {
     BGSTalkingActivator* m_pLinkedReference = ((::BGSTalkingActivator *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((TESObject*)apRefr)))->FUN_007af430()));
-    reinterpret_cast<::FUN_0042e060_class *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->FUN_0042e060((unsigned int)(m_pLinkedReference), (unsigned int)(apRefr));
+    reinterpret_cast<::FUN_0042e060_class *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->FUN_0042e060((uintptr_t)(m_pLinkedReference), (uintptr_t)(apRefr));
     apRefr->MarkAsModified(0x80000000);
     void* extra9 = ((void *)(reinterpret_cast<::fnv_0042e110::FUN_0042e110 *>((((ExtraDataList_Accessor*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((apRefr))->FUN_005d43c0())))))->GetExtraData()));
     if (extra9)
@@ -633,12 +651,12 @@ extern int DAT_01086a6c;
 // @fnv 0x008d1f40
 FUN_008d1f40_t::FUN_008d1f40_t(bool abadd) : FUN_0087d4a0(abadd)
 {
-    *reinterpret_cast<int*>(this) = reinterpret_cast<int>(&DAT_01086a6c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18) = reinterpret_cast<int>(&DAT_01086a60);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x88) = reinterpret_cast<int>(&DAT_01086a0c);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x94) = reinterpret_cast<int>(&DAT_010869d4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xA4) = reinterpret_cast<int>(&DAT_010869a4);
-    *reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0xA8) = reinterpret_cast<int>(&DAT_0108695c);
+    *reinterpret_cast<intptr_t*>(this) = reinterpret_cast<intptr_t>(&DAT_01086a6c);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x18) = reinterpret_cast<intptr_t>(&DAT_01086a60);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x88) = reinterpret_cast<intptr_t>(&DAT_01086a0c);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0x94) = reinterpret_cast<intptr_t>(&DAT_010869d4);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0xA4) = reinterpret_cast<intptr_t>(&DAT_010869a4);
+    *reinterpret_cast<intptr_t*>(reinterpret_cast<char*>(this) + 0xA8) = reinterpret_cast<intptr_t>(&DAT_0108695c);
 
     reinterpret_cast<::FUN_004f15a0_shell *>((reinterpret_cast<SoundPlaybackHandle*>(this)))->FUN_004f15a0(0x3B);
 
@@ -1394,12 +1412,12 @@ struct Self
     bool flag80;
     unsigned int GetID();
     Str MakeStr(Obj*, int, int, int);
-    Str PlaySoundOnObject(Arg* arg, int p2, bool p3, bool p4, int p5, bool p6);
+    Str PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool p4, int p5, bool p6);
 };
 
 // Creates a Proc from arg, registers a callback or builds an audio handle from the sub-object's name, plays it, and optionally spawns it.
 // @fnv 0x008a1bd0
-Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiUnused, bool abWithCallback)
+Str Self::PlaySoundOnObject(Arg* arg, intptr_t p2, bool p3, bool abSkipSpawn, int aiUnused, bool abWithCallback)
 {
     Str result;
     Proc* proc = ((::Proc *)(reinterpret_cast<::FUN_0061b320_shell *>((arg))->FUN_0061b320((::TESObjectREFR *)(void *)(this), (::TESObjectREFR *)(p2), (::TESTopic *)(0), (void *)(0), 0)));
@@ -1425,16 +1443,16 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
                 Obj* tmp = ((::Obj *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::Obj2 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((obj))->FUN_007af430()))))->FUN_0084e3a0()));
                 Str target = MakeStr(tmp, 0, 0x40000102, 1);
                 Mgr* mgr = ((::Mgr *)(::FUN_00ad9060()));
-                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((mgr))->FUN_00adbfd0((int)(((const char *)(::FUN_00559450((int *)&(target))))), (int)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
+                reinterpret_cast<::fnv_00adbfd0::FUN_00adbfd0_cls *>((mgr))->FUN_00adbfd0((intptr_t)(((const char *)(::FUN_00559450((int *)&(target))))), (intptr_t)(((void (&)())::fnv_00935cc0::FUN_00935cc0)), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0())));
                 flag7f = false;
                 bPending = false;
             }
             if (bPending && flag7f)
             {
-                if (((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((int)(obj)))))))))
+                if (((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((intptr_t)(obj)))))))))
                 {
                     char buf[0x200];
-                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x200, ((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((int)(obj)))))))));
+                    ::TaskQueueInterface::CopyStringToBuffer(buf, 0x200, ((const char *)(::FUN_00559450((int *)(((::Named *)(::FUN_00460140((intptr_t)(obj)))))))));
                     if (p3)
                     {
                         reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::Str &)(result))->operator=((const ::SoundPlaybackHandle &)((const ::Str &)(((::Audio *)(::FUN_00453a70()))->GetHandle(buf, 0x105, 0))));
@@ -1456,7 +1474,7 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
                     reinterpret_cast<::FUN_00ad8830_shell *>(&(result))->FUN_00ad8830(0);
                     if (abWithCallback)
                     {
-                        reinterpret_cast<::SoundPlaybackHandle *>(&(result))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(unsigned int, int))::HandleMobileObjectResult)), (void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))));
+                        reinterpret_cast<::SoundPlaybackHandle *>(&(result))->SetCompletionCallback((void (*)(void *, bool))(((void (&)(unsigned int, int))::HandleMobileObjectResult)), (void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(this)->iFormID));
                     }
                     flag80 = false;
                     inner->Play(0, result);
@@ -1464,14 +1482,14 @@ Str Self::PlaySoundOnObject(Arg* arg, int p2, bool p3, bool abSkipSpawn, int aiU
                 }
                 else if (sub && abWithCallback)
                 {
-                    ::HandleMobileObjectResult((void *)(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>(this)->FUN_0084e3a0()))), 1);
+                    ::HandleMobileObjectResult((void *)(std::uintptr_t)(reinterpret_cast<::FormFields *>(this)->iFormID), 1);
                 }
             }
-            if (*(*reinterpret_cast<::BoolSetting *>(&::g_011d8928)).Get() || ::FUN_008c1bc0((int)this))
+            if (*(*reinterpret_cast<::BoolSetting *>(&::g_011d8928)).Get() || ::FUN_008c1bc0((intptr_t)this))
             {
                 if (!abSkipSpawn)
                 {
-                    Spawn(((const char *)(::FUN_00559450((int *)(((::Named *)(new ((void *)(obj)) ::Vec3())))))), result, *GetPos(), p2, 1);
+                    Spawn(((const char *)(::FUN_00559450((int *)(((::Named *)(((::Vec3 *)(void *)(obj)))))))), result, *GetPos(), p2, 1);
                 }
             }
         }
@@ -3767,4 +3785,216 @@ FUN_008d2060::~FUN_008d2060()
         Set3D(0, false);
 }
 
+#define PlayerCharacter PlayerCharacter_ActorHeader
+#define FNV_NIPOINT3_H
+class ActiveEffect;
+template <class T> class BSSimpleList;
+
+class Actor;
+class Animation;
+class NiNode;
+class ParentSpaceNode;
+class GameSettingCollection;
+extern GlobalObject_0045d260 g_011df69c;
+enum ACTOR_LIFE_STATE;
+#undef PlayerCharacter
+
+class MusicMarkerReference;
+struct Biped;
+bool Character_GetTrespassing(Character* self);
+void FUN_008d1e90(Character* this_ptr, float value);
+
+class TESObjectARMO : public TESBoundObject
+{
+};
+struct FUN_004bc5f0
+{
+    void* extraData;
+    int count;
+    TESBoundObject* object;
+    ~FUN_004bc5f0();
+};
+struct EquipmentList536
+{
+};
+struct ExtraList536
+{
+};
+struct Character536 : Character
+{
+    float FUN_008d2110();
+};
+// @fnv 0x008d2110
+float Character536::FUN_008d2110()
+{
+    int count = 0;
+    TESObjectARMO* forms3[20];
+    forms3[0] = 0;
+    if (m_fSecondValue < ::_DAT_01012060)
+    {
+        m_fSecondValue = 0.0f;
+        EquipmentList536* list6 = ((::EquipmentList536 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList536 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+        FUN_004bc5f0* item7 = 0;
+        if (list6)
+        {
+            for (int index = 0; index < 20; ++index)
+            {
+                item7 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list6))->FUN_004c8c10(index, false)));
+                if (item7)
+                {
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item7))->GetName())));
+                    if (armor)
+                    {
+                        bool found4 = false;
+                        if (count != 0)
+                        {
+                            for (int scan5 = 0; scan5 < count && !found4; ++scan5)
+                                found4 = forms3[scan5] == armor;
+                        }
+                        if (!found4)
+                        {
+                            m_fSecondValue += reinterpret_cast<::InventoryStackRecord *>((item7))->GetArmorDamageThreshold((::Actor *)(::ActorValueOwner *)(static_cast<ActorValueOwner*>(this)));
+                            forms3[count] = armor;
+                            ++count;
+                        }
+                    }
+                    delete item7;
+                    item7 = 0;
+                }
+            }
+        }
+    }
+    return m_fSecondValue;
+}
+
+
+// Adapted from an unverified 2026-10-23 contribution by another contributor.
+
+struct InventoryEntry_8d22b0
+{
+    ~InventoryEntry_8d22b0();
+    float GetEntryWeight(ActorValueOwner* owner);
+};
+struct InventoryData_8d22b0
+{
+};
+struct ContainerChanges_8d22b0
+{
+};
+
+union SETTING_VALUE
+{
+    float f;
+    int i;
+    unsigned int u;
+    char* str;
+};
+template <> class SettingT<GameSettingCollection>
+{
+  public:
+};
+
+struct FUN_008d22b0_shell : public Actor
+{
+    int unk1b4;
+    float m_kEighthUnshownMember;
+    float FUN_008d22b0();
+};
+
+// @fnv 0x008d22b0
+float FUN_008d22b0_shell::FUN_008d22b0()
+{
+    int iCount = 0;
+    TESObjectARMO* armors[20];
+    armors[0] = 0;
+    if (m_kEighthUnshownMember < 0.0)
+    {
+        m_kEighthUnshownMember = 0.0f;
+        InventoryData_8d22b0* items = ((::InventoryData_8d22b0 *)(reinterpret_cast<::ExtraDataList *>((((::ContainerChanges_8d22b0 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+        InventoryEntry_8d22b0* entry = 0;
+        if (items)
+        {
+            for (int i = 0; i < 20; i++)
+            {
+                entry = ((::InventoryEntry_8d22b0 *)(reinterpret_cast<::Target *>((items))->FUN_004c8c10(i, 0)));
+                if (entry)
+                {
+                    TESObjectARMO* armor = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));
+                    if (armor)
+                    {
+                        bool found = false;
+                        if (iCount)
+                        {
+                            for (int j = 0; j < iCount && !found; j++)
+                            {
+                                found = armors[j] == armor;
+                            }
+                        }
+                        if (!found)
+                        {
+                            m_kEighthUnshownMember += entry->GetEntryWeight(this);
+                            armors[iCount++] = armor;
+                        }
+                    }
+                    delete entry;
+                    entry = 0;
+                }
+            }
+        }
+    }
+    return ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f > 0.0
+               ? FUN_0040ebd0(m_kEighthUnshownMember, ((::SETTING_VALUE *)&(::FUN_00403e20((float *)&(originalRuntimeFloatSetting1016))))->f)
+               : m_kEighthUnshownMember;
+}
+
+class TESObjectCLOT : public TESBoundObject
+{
+};
+struct InventoryEntryWeight534
+{
+};
+struct EquipmentList534
+{
+};
+struct ExtraList534
+{
+};
+struct Character534 : Character
+{
+    float FUN_008d3110();
+};
+// @fnv 0x008d3110
+float Character534::FUN_008d3110()
+{
+    float weight = 0.0f;
+    EquipmentList534* list = ((::EquipmentList534 *)(reinterpret_cast<::ExtraDataList *>((((::ExtraList534 *)(reinterpret_cast<::FUN_005d43c0_ *>(this)->FUN_005d43c0()))))->GetContainerChangeData()));
+    FUN_004bc5f0* item9 = 0;
+    int index2;
+    TESObjectARMO* armor7;
+    TESObjectCLOT* clothing;
+    if (list)
+    {
+        for (index2 = 0; index2 < 20; ++index2)
+        {
+            item9 = ((::FUN_004bc5f0 *)(reinterpret_cast<::Target *>((list))->FUN_004c8c10(index2, false)));
+            if (item9)
+            {
+                armor7 = dynamic_cast<TESObjectARMO*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
+                clothing = dynamic_cast<TESObjectCLOT*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((item9))->GetName())));
+                if (armor7)
+                    weight +=
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting999)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d1104))))));
+                else if (clothing)
+                    weight +=
+                        ((double)(reinterpret_cast<::ItemChangeValueShell *>((((InventoryEntryWeight534*)item9)))->FUN_004bd400())) * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::originalRuntimeFloatSetting998)))))) + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting *>(&::g_011d043c))))));
+                // GetEquippedItem returns an owned temporary inventory entry.
+                delete item9;
+                item9 = 0;
+            }
+        }
+    }
+    if (weight > 100.0)
+        weight = 100.0f;
+    return weight;
+}
 #include "generated/data/fallout/ai/character.inc"

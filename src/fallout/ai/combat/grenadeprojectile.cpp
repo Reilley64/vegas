@@ -1,5 +1,8 @@
 // fallout/ai/combat/grenadeprojectile.cpp: GrenadeProjectile, GPShell, ImpactProjectile (11 functions)
 
+#include "fnv/havok_cd_body_fields.h"
+#include "fnv/form_fields.h"
+#include "fnv/vats_camera_data_view.h"
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -77,6 +80,29 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f2000.h"
 #include "grenadeprojectile_types.h"
+#include <cstdint>
+#include "fnv/decl/FUN_00439f50_class.h"
+#include "fnv/decl/FUN_00440460_S.h"
+#include "fnv/decl/FUN_0047c850.h"
+#include "fnv/decl/FUN_004b6190_shell.h"
+#include "fnv/decl/FUN_006d2c20_Class.h"
+#include "fnv/decl/FUN_0087ce50_cls.h"
+#include "fnv/decl/FUN_00a59c60_cls.h"
+#include "fnv/symbols_00525000.h"
+#include "fnv/symbols_0062b000.h"
+#include "fnv/symbols_0069e000.h"
+#include "fnv/symbols_00c69000.h"
+#include "fnv/decl/S00561240_Vector.h"
+#include <xmmintrin.h>
+#include "fnv/decl/FUN_00885bd0_St.h"
+#include "fnv/decl/ProjectileHit.h"
+#include "fnv/decl/S.h"
+#include "fnv/decl/bhkUnaryAction.h"
+#include "fnv/symbols_00560000.h"
+#include "fnv/symbols_006fa000.h"
+#include "fnv/symbols_009c2000.h"
+#include "fnv/symbols_00c8c000.h"
+#include "fnv/symbols_01017000.h"
 
 // Returns true if the projectile's explosion detonates, or if it has an alt trigger and a positive explosion proximity.
 // @fnv 0x009bdf80
@@ -208,7 +234,7 @@ void FUN_009b4bf0_shell::DispatchReferenceSourceFiles(ObjHelper* pObjHelper, voi
             BSSimpleList<TESFile*>* m_kSourceFiles;
             int nCount2;
             pRef8 = ::FUN_0056f930((NiAVObject*)((void *)(reinterpret_cast<::FUN_00810660_Class *>((pObjHelper))->FUN_00810660())));
-            m_kSourceFiles = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(pObjHelper->FUN_00621a90()))));
+            m_kSourceFiles = ((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(pObjHelper->FUN_00621a90()))));
             nCount2 = -1;
             ((void(*)(void*, TESObjectREFR*, void**, void**, BSSimpleList<TESFile*>*, int, int))(
                 (*(void***)this)[203]))(this, pRef8, &a2, &a5, m_kSourceFiles, nCount2, 0x24);
@@ -386,6 +412,8 @@ struct hkVector4;
 struct bhkCollisionObject
 {
     static bhkCollisionObject* __cdecl GetFromRigidBody(const hkpRigidBody*);
+public:
+    static ::bhkCollisionObject *GetFromNiAVObject(::NiAVObject *);
 };
 struct ArrSI
 {
@@ -814,24 +842,24 @@ void GPShell::HandleContactHit(GPContact* apContact)
     TESObjectREFR* kPTarget = 0;
     NiPoint3 kPos = NiPoint3::ZERO;
     NiPoint3 _kNormal = NiPoint3::ZERO;
-    int iShapeKey = 0;
+    intptr_t iShapeKey = 0;
     int iBody5 = -1;
     if (pRefA_ && ((GPRefVt*)pRefA_)->Unk_89b())
     {
         kPTarget = pRefB;
-        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(new ((void *)(apContact->pPoint)) ::Vec3())));
-        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180*=(-1.0f);
-        iShapeKey = (int)apContact->pBodyB->GetLastNode();
-        iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyB)))->FUN_00726070()));
+        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((void *)(((::Vec3 *)(void *)(apContact->pPoint)))));
+        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
+        reinterpret_cast<::MyPoint439180 *>((((NiColor*)&_kNormal)))->FUN_00439180(-1.0f);
+        iShapeKey = (intptr_t)apContact->pBodyB->GetLastNode();
+        iBody5 = (int)reinterpret_cast<HavokCdBodyFields*>(apContact->pBodyB)->uiShapeKey;
     }
     else if (pRefB && ((GPRefVt*)pRefB)->Unk_89b())
     {
         kPTarget = pRefA_;
-        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((int)(((TESForm*)apContact->pPoint))))));
-        iShapeKey = (int)apContact->pBodyA->GetLastNode();
-        iBody5 = (int)((::BSSimpleList< ::TESFile *> *)(reinterpret_cast<::Callees *>((((BSSimpleList<TESFile*>*)apContact->pBodyA)))->FUN_00726070()));
+        ::SetNiPoint3FromHkVector4(kPos, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
+        ::SetNiPoint3FromHkVector4(_kNormal, *(const hkVector4*)((::BSSimpleList< ::TESFile *> *)(::FUN_00460140((intptr_t)(((TESForm*)apContact->pPoint))))));
+        iShapeKey = (intptr_t)apContact->pBodyA->GetLastNode();
+        iBody5 = (int)reinterpret_cast<HavokCdBodyFields*>(apContact->pBodyA)->uiShapeKey;
     }
     HandleHit(kPTarget, &kPos, &_kNormal, iShapeKey, iBody5, 0x24);
     if (kPTarget && kPTarget->IsActor() && pCollA2 && pCollB3)
@@ -1295,7 +1323,7 @@ struct Hit
 
     Vec3 normal;
 
-    int itemID;
+    intptr_t itemID;
 
     int unk20;
 
@@ -1497,7 +1525,7 @@ bool ImpactProjectile::ProcessHits()
         while (node && !node->FUN_008256d0())
         {
 
-            Hit* hit = *((::Hit **)(new ((void *)(node)) ::Vec3()));
+            Hit* hit = *((::Hit **)(((::Vec3 *)(void *)(node))));
 
             node = ((::HitList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
 
@@ -1508,7 +1536,7 @@ bool ImpactProjectile::ProcessHits()
             if (aTarget && reinterpret_cast<::FUN_00885d70_Class *>(this)->GetFieldDC() > ::_DAT_01012060 && hit->valid29)
             {
 
-                int oldState = ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((hit->reference))->FUN_0043fcd0()));
+                intptr_t oldState = ((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((hit->reference))->FUN_0043fcd0()));
 
                 if (((::Ref *)(::FUN_00874480((char *)this))) && ((::Ref *)(::FUN_00874480((char *)this)))->IsActor() &&
 
@@ -1561,11 +1589,11 @@ bool ImpactProjectile::ProcessHits()
                         reinterpret_cast<::fnv_00963eb0::PlayerView *>(((*reinterpret_cast<::Ref * *>(&::_g_thePlayer))))->SetEffectValue((void *)(10), DAT_0102918c, (::fnv_00963eb0::EffectSource *)(0));
                 }
 
-                if (oldState != ((int)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((aTarget))->FUN_0043fcd0())))
+                if (oldState != ((intptr_t)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((aTarget))->FUN_0043fcd0())))
                     aChanged = true;
             }
 
-            if (!aTarget || !(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((aTarget))->GetName())) & 0x20))
+            if (!aTarget || !(reinterpret_cast<FormFields*>((aTarget))->m_uiFormFlags & 0x20))
             {
 
                 if (!reinterpret_cast<::BGSProjectile *>((((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->FUN_004fd360() || reinterpret_cast<::BGSProjectile *>((((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))))->GetHasExplosionAltTrigger() || ((::EventStatus *)(reinterpret_cast<::Actor *>(this)->GetActorBase()))->FUN_005de080())
@@ -1583,9 +1611,9 @@ bool ImpactProjectile::ProcessHits()
 
                             PlayMysteriousStrangerSound();
 
-                        Ref* form = hit->itemID ? ((::Ref *)(::FUN_00460140((int)(((FormID*)hit->itemID))))) : 0;
+                        Ref* form = hit->itemID ? ((::Ref *)(::FUN_00460140((intptr_t)(((FormID*)hit->itemID))))) : 0;
 
-                        reinterpret_cast<::ProjectileImpact::ImpProjectile *>(this)->ApplyImpact((::ProjectileImpact::ImpTarget *)(aTarget), (::ProjectileImpact::ImpPoint *)(&hit->position), (::ProjectileImpact::ImpPoint *)(&hit->normal), (int)(form), hit->unk20);
+                        reinterpret_cast<::ProjectileImpact::ImpProjectile *>(this)->ApplyImpact((::ProjectileImpact::ImpTarget *)(aTarget), (::ProjectileImpact::ImpPoint *)(&hit->position), (::ProjectileImpact::ImpPoint *)(&hit->normal), (intptr_t)(form), hit->unk20);
 
                         reinterpret_cast<::ImpulseSource *>(this)->FUN_009c2e80((*(::NiPoint3 *)&(const ::Vec3 &)(hit->position)), (*(::NiPoint3 *)&(const ::Vec3 &)((*(::Vec3 *)&(reinterpret_cast<::FUN_009b7010_shell *>(this)->FUN_009b7010((*(::NiPoint3 *)(form))))))), {});
                     }
@@ -1605,4 +1633,463 @@ bool ImpactProjectile::ProcessHits()
     return processed;
 }
 
+class ActorCause;
+class GrenadeProjectile;
+class NiLight;
+class ThreeByThreeMatrix;
+class NiPoint4;
+class NiTransform;
+class Projectile;
+class Projectile__ImpactData;
+class ProjectileAuxiliaryData;
+class ProjectileSupportData;
+class TESObjectWEAP;
+class FourComponentNumericValue;
+
+class Projectile__ImpactData
+{
+  public:
+    void* unk00;
+    NiPoint3 position;
+    NiPoint3 normal;
+};
+class NiUpdateData
+{
+  public:
+    float time;
+    bool controllers, multithreaded, geometry, bounds, unknown;
+    NiUpdateData(float, bool, bool);
+};
+class NiAVObject
+{
+  public:
+    const ThreeByThreeMatrix& FUN_00461130() const;
+};
+class NiNode : public NiAVObject
+{
+};
+class TESSaveLoadGame
+{
+  public:
+};
+NiPoint3 operator*(float, const NiPoint3&);
+
+// @fnv 0x009b4740
+bool GrenadeProjectile::FUN_009b4740()
+{
+    if (!m_kProjectileImpactList.IsEmpty())
+    {
+        NiNode* node1 = GetNiNode();
+        Projectile__ImpactData* impact = ((::Projectile__ImpactData *)(((::Vec3 *)(void *)&(m_kProjectileImpactList))));
+        if (!reinterpret_cast<::FUN_0047c850 *>((::g_TESSaveLoadGame))->EvaluateCondition())
+        {
+            ::FUN_00c69f50((::S_00c69f50_Obj *)(node1), true, false);
+            reinterpret_cast<::FUN_00440460_S *>((node1))->FUN_00440460((const ::V3 *)&(const ::NiPoint3 &)(impact->position + impact->normal * reinterpret_cast<::FUN_0087ce50_cls *>((node1))->GetHeadTail()));
+            NiUpdateData update0(0.0f, false, false);
+            reinterpret_cast<::FUN_00a59c60_cls *>((node1))->FUN_00a59c60((std::intptr_t)&(update0));
+            NiPoint3 velocity6 = NiPoint3::ZERO;
+            NiPoint3 forward1;
+            reinterpret_cast<::FUN_00439f50_class *>((void *)&(node1->FUN_00461130()))->FUN_00439f50(1, (::NiPoint3 *)&(forward1));
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(forward1))->FUN_00439180(-1.0f);
+            ::FUN_00525340((float *)(::NiPoint3 *)(&forward1));
+            ::FUN_00525340((float *)(::NiPoint3 *)(&impact->normal));
+            float dot0 = reinterpret_cast<::FUN_004b6190_shell *>((void *)&(impact->normal))->DotProduct((void *)&(forward1));
+            NiPoint3 deflection = 2.0f * (dot0 * impact->normal - forward1);
+            velocity6 = forward1 + deflection;
+            reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(velocity6))->FUN_00439180(::GetFloatAtOffset68((const char *)(((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase())))));
+            if (reinterpret_cast<::FUN_006d2c20_Class *>((((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase()))))->GetFloatAtOffsetB0() > 0.0)
+                reinterpret_cast<::MyPoint439180 *>((void *)&(const ::NiPoint3 &)(velocity6))->FUN_00439180(reinterpret_cast<::FUN_006d2c20_Class *>((((::BGSProjectile *)(reinterpret_cast<::Actor *>((void *)this)->GetActorBase()))))->GetFloatAtOffsetB0());
+            ::FUN_0062b8d0(node1, (const void *)&(velocity6), true);
+        }
+    }
+    return true;
+}
+
+struct S_00561240
+{
+};
+
+struct S_00627920
+{
+    __m128 unk00;
+    void FUN_00627920(S_00561240* param);
+};
+
+// @fnv 0x00627920
+void S_00627920::FUN_00627920(S_00561240* param)
+{
+    __m128 tmp;
+    unk00 = _mm_mul_ps(*((::__m128 *)(reinterpret_cast<::S00561240_Vector *>((param))->FUN_00561240((::S00561240_Vector *)(::__m128 *)(&tmp)))), unk00);
+}
+
+
+class NiColorA9B4
+{
+  public:
+    NiColorA9B4();
+    __m128 m_vComponents;
+};
+
+class GameModeState9B4
+{
+  public:
+};
+
+class ActorValueOwner9B4
+{
+  public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual int GetActorValue(int iAV);
+};
+
+class PlayerCharacter9B4
+{
+  public:
+    unsigned int unk00;
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    ActorValueOwner9B4 m_kAVOwner;
+};
+
+class NiAVObject9B4
+{
+  public:
+};
+
+class NiNode9B4
+{
+  public:
+};
+
+class TESObjectREFR9B4
+{
+  public:
+    virtual void vr000();
+    virtual void vr004();
+    virtual void vr008();
+    virtual void vr00c();
+    virtual void vr010();
+    virtual void vr014();
+    virtual void vr018();
+    virtual void vr01c();
+    virtual void vr020();
+    virtual void vr024();
+    virtual void vr028();
+    virtual void vr02c();
+    virtual void vr030();
+    virtual void vr034();
+    virtual void vr038();
+    virtual void vr03c();
+    virtual void vr040();
+    virtual void vr044();
+    virtual void vr048();
+    virtual void vr04c();
+    virtual void vr050();
+    virtual void vr054();
+    virtual void vr058();
+    virtual void vr05c();
+    virtual void vr060();
+    virtual void vr064();
+    virtual void vr068();
+    virtual void vr06c();
+    virtual void vr070();
+    virtual void vr074();
+    virtual void vr078();
+    virtual void vr07c();
+    virtual void vr080();
+    virtual void vr084();
+    virtual void vr088();
+    virtual void vr08c();
+    virtual void vr090();
+    virtual void vr094();
+    virtual void vr098();
+    virtual void vr09c();
+    virtual void vr0a0();
+    virtual void vr0a4();
+    virtual void vr0a8();
+    virtual void vr0ac();
+    virtual void vr0b0();
+    virtual void vr0b4();
+    virtual void vr0b8();
+    virtual void vr0bc();
+    virtual void vr0c0();
+    virtual void vr0c4();
+    virtual void vr0c8();
+    virtual void vr0cc();
+    virtual void vr0d0();
+    virtual void vr0d4();
+    virtual void vr0d8();
+    virtual void vr0dc();
+    virtual void vr0e0();
+    virtual void vr0e4();
+    virtual void vr0e8();
+    virtual void vr0ec();
+    virtual void vr0f0();
+    virtual void vr0f4();
+    virtual void vr0f8();
+    virtual void vr0fc();
+    virtual bool IsActor();
+};
+
+class HighProcess9B4
+{
+  public:
+    bool IsReady();
+};
+
+
+class Actor9B4
+{
+  public:
+    virtual void va000();
+    virtual void va004();
+    virtual void va008();
+    virtual void va00c();
+    virtual void va010();
+    virtual void va014();
+    virtual void va018();
+    virtual void va01c();
+    virtual void va020();
+    virtual void va024();
+    virtual void va028();
+    virtual void va02c();
+    virtual void va030();
+    virtual void va034();
+    virtual void va038();
+    virtual void va03c();
+    virtual void va040();
+    virtual void va044();
+    virtual void va048();
+    virtual void va04c();
+    virtual void va050();
+    virtual void va054();
+    virtual void va058();
+    virtual void va05c();
+    virtual void va060();
+    virtual void va064();
+    virtual void va068();
+    virtual void va06c();
+    virtual void va070();
+    virtual void va074();
+    virtual void va078();
+    virtual void va07c();
+    virtual void va080();
+    virtual void va084();
+    virtual void va088();
+    virtual void va08c();
+    virtual void va090();
+    virtual void va094();
+    virtual void va098();
+    virtual void va09c();
+    virtual void va0a0();
+    virtual void va0a4();
+    virtual void va0a8();
+    virtual void va0ac();
+    virtual void va0b0();
+    virtual void va0b4();
+    virtual void va0b8();
+    virtual void va0bc();
+    virtual void va0c0();
+    virtual void va0c4();
+    virtual void va0c8();
+    virtual void va0cc();
+    virtual void va0d0();
+    virtual void va0d4();
+    virtual void va0d8();
+    virtual void va0dc();
+    virtual void va0e0();
+    virtual void va0e4();
+    virtual void va0e8();
+    virtual void va0ec();
+    virtual void va0f0();
+    virtual void va0f4();
+    virtual void va0f8();
+    virtual void va0fc();
+    virtual void va100();
+    virtual void va104();
+    virtual void va108();
+    virtual void va10c();
+    virtual void va110();
+    virtual void va114();
+    virtual void va118();
+    virtual void va11c();
+    virtual void va120();
+    virtual void va124();
+    virtual void va128();
+    virtual void va12c();
+    virtual void va130();
+    virtual void va134();
+    virtual void va138();
+    virtual void va13c();
+    virtual void va140();
+    virtual void va144();
+    virtual void va148();
+    virtual void va14c();
+    virtual void va150();
+    virtual void va154();
+    virtual void va158();
+    virtual void va15c();
+    virtual void va160();
+    virtual void va164();
+    virtual void va168();
+    virtual void va16c();
+    virtual void va170();
+    virtual void va174();
+    virtual void va178();
+    virtual void va17c();
+    virtual void va180();
+    virtual void va184();
+    virtual void va188();
+    virtual void va18c();
+    virtual void va190();
+    virtual void va194();
+    virtual void va198();
+    virtual void va19c();
+    virtual void va1a0();
+    virtual void va1a4();
+    virtual void va1a8();
+    virtual void va1ac();
+    virtual void va1b0();
+    virtual void va1b4();
+    virtual void va1b8();
+    virtual void va1bc();
+    virtual void va1c0();
+    virtual void va1c4();
+    virtual void va1c8();
+    virtual void va1cc();
+    virtual void* Get3D();
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    HighProcess9B4 m_kProcess;
+    unsigned int unk8c;
+    bool m_bFiring;
+
+    bool FUN_009b4460(TESObjectREFR9B4* pkTarget, intptr_t a2, intptr_t a3, intptr_t a4, int a5, int a6);
+};
+
+// hkVector4::mul4(const hkVector4&): component-wise multiply in place.
+
+struct hkVector4Mul
+{
+    __m128 m_vComponents;
+    void FUN_009b4670(const hkVector4Mul& a);
+};
+// @fnv 0x009b4460
+bool Actor9B4::FUN_009b4460(TESObjectREFR9B4* pkTarget, intptr_t a2, intptr_t a3, intptr_t a4, int a5, int a6)
+{
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4)
+    {
+        NiNode9B4* pkNode = ((::NiNode9B4 *)(::bhkCollisionObject::GetFromNiAVObject((::NiAVObject *)(void *)(Get3D()))));
+        if (pkNode)
+        {
+            NiAVObject9B4* pkObject = ((::NiAVObject9B4 *)(::fnv_006fa820::FUN_006fa820((const char *)(pkNode))));
+            if (pkObject)
+            {
+                int iFlags = reinterpret_cast<::bhkRigidBody_shell *>((pkObject))->FUN_00517630();
+                if (((bool)(::FUN_00c8cce0(&iFlags))))
+                {
+                    NiColorA9B4 kColor;
+                    float fAlpha = ::DAT_010177e8;
+                    fAlpha = (100 - (*reinterpret_cast<::PlayerCharacter9B4 * *>(&::_g_thePlayer))->m_kAVOwner.GetActorValue(0x23)) / 100.0 * fAlpha;
+                    fAlpha = fAlpha + (double)0.1f;
+                    reinterpret_cast<::bhkUnaryAction *>(&(kColor))->Set(fAlpha, fAlpha, fAlpha, 0.0f);
+                    reinterpret_cast<::hkVector4Mul *>(&(kColor))->FUN_009b4670((*(const ::hkVector4Mul *)(((void *)&(::fnv_00560d80::FUN_00560d80((void *)(pkObject)))))));
+                    reinterpret_cast<::S *>((pkObject))->FUN_00561690((std::intptr_t)(&kColor));
+                }
+            }
+        }
+    }
+    if (m_kProcess.IsReady() && ::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(pkTarget), (::fnv_009c2c80::CdBody *)(a4), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) &&
+        reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(pkTarget), (*(const ::Vec *)(a2)), (*(const ::Vec *)(a3)), (::Buffer *)(a4), a5, a6))
+    {
+        if (pkTarget && pkTarget->IsActor())
+        {
+            ::FUN_0062b8d0(Get3D(), (*reinterpret_cast<const float (*)[3]>((void *)&::NiPoint3::ZERO)), 1);
+        }
+        else if (reinterpret_cast<::FUN_00885bd0_St *>(this)->FUN_00885bd0() == 0.0)
+        {
+            reinterpret_cast<::GrenadeProjectile *>(this)->FUN_009b4740();
+            m_bFiring = true;
+        }
+        return true;
+    }
+    return false;
+}
+// @fnv 0x009b4670
+void hkVector4Mul::FUN_009b4670(const hkVector4Mul& a)
+{
+    m_vComponents = _mm_mul_ps(m_vComponents, a.m_vComponents);
+}
 #include "generated/data/fallout/ai/combat/grenadeprojectile.inc"
+#include "generated/data/fallout/ai/combat/grenadeprojectile_decl_variant.inc"
+#include "generated/data/fallout/ai/combat/grenadeprojectile_o2_variant_od_oy_noo2_variant.inc"

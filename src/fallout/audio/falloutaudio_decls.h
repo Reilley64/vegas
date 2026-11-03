@@ -3,6 +3,8 @@
 #define FALLOUTAUDIO_DECLS_H
 
 #include <stddef.h>
+#include <cmath>
+#include <cstdlib>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/FUN_004516b0_shell.h"
@@ -62,6 +64,9 @@ class TESForm
 {
   public:
     virtual void Destroy();
+    unsigned char m_ucFormType;
+    unsigned int m_uiFormFlags;
+    unsigned int iFormID;
 };
 class TESSound;
 class BGSAcousticSpace;
@@ -437,10 +442,6 @@ class SoundPlaybackManager
     static void LoadGame(class BGSLoadGameBuffer*);
     static void SetAcousticSpace(BGSAcousticSpace*);
 };
-namespace std {
-float abs(float);
-int abs(int);
-}
 extern bool DAT_011dcfb0, DAT_011dcfb1;
 extern unsigned int DAT_011dcfac;
 extern BGSAcousticSpace* DAT_011dcfb8;

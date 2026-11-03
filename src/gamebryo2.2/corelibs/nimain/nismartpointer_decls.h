@@ -54,7 +54,7 @@ template <class T> struct NiPointerRefOps
 };
 
 class PathingAvoidNodeArray;
-template <class T, int N> class BSSimpleArray;
+template <class T, unsigned int N> class BSSimpleArray;
 class NavMeshPtr
 {
   public:

@@ -2,6 +2,7 @@
 // src/staging/blk_009c0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/ActorMovement__Mover.h"
@@ -584,7 +585,7 @@ struct SL
 };
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
     void operator=(void*);
     int m_34;
@@ -2790,12 +2791,12 @@ struct FUN_009dfe40_cls
     FUN_009dfe40_Sub m_0c;
     FUN_009dfe40_Tail m_10;
 
-    FUN_009dfe40_cls(int a1, int a2, int a3, int a4);
+    FUN_009dfe40_cls(intptr_t a1, intptr_t a2, intptr_t a3, intptr_t a4);
 };
 
 // Initializes m_04, m_08, m_0c and m_10 from the four constructor arguments.
 // @fnv 0x009dfe40
-FUN_009dfe40_cls::FUN_009dfe40_cls(int aiField04, int aiField08, int aiSubValue, int aiTailValue)
+FUN_009dfe40_cls::FUN_009dfe40_cls(intptr_t aiField04, intptr_t aiField08, intptr_t aiSubValue, intptr_t aiTailValue)
     : m_04(aiField04), m_08(aiField08), m_0c(aiSubValue), m_10(aiTailValue)
 {}
 
@@ -3380,12 +3381,12 @@ struct ImpProjectile
     char pad105[0x1f];
     float m_fLifetime;
 
-    void ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, int a4, int aiMaterial);
+    void ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, intptr_t a4, int aiMaterial);
 };
 
 // Applies impact decals, splatter, and sounds to the target surface at apPos using pImpacts and aiMaterial.
 // @fnv 0x009c20e0
-void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, int a4, int aiMaterial)
+void ImpProjectile::ApplyImpact(ImpTarget* apTarget, ImpPoint* apPos, ImpPoint* apNormal, intptr_t a4, int aiMaterial)
 {
     bool bSplatterTmp = true;
     ImpPoint kDelta = Point3Difference(*(const ::ProjectileImpact::ImpPoint *)((void *)(apPos)), (const void *)&(*((::ProjectileImpact::ImpPoint *)(::FUN_0045bb80((std::intptr_t)(((::ProjectileImpact::ImpCamera *)(::FUN_00524c90()))))))));

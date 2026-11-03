@@ -21,4 +21,4 @@ namespace fnv_007d69f0 { void FUN_007d69f0(); }
 // 0x007d6d70
 namespace fnv_007d6d70 { void FUN_007d6d70(); }
 // 0x007d6e90
-int CallVirtualZero(::fnv_anon_startmenu::Dummy7d6e90 *);
+void* CallVirtualZero(::fnv_anon_startmenu::Dummy7d6e90 *);

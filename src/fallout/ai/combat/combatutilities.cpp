@@ -5,6 +5,12 @@
 
 // Returns a divided by the product of FUN_005b9e80(b) and c.
 // @fnv 0x009a7dd0
+#include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/combat_controller_fields.h"
+#include "fnv/vats_camera_data_view.h"
+#include <cstdint>
+#include "fnv/simple_array_item.h"
+#include "fnv/result_slot.h"
 #include <new>
 #include "fnv/decl/AngleView.h"
 #include "fnv/decl/BGSImpactData.h"
@@ -98,6 +104,19 @@
 #include "fnv/symbols_011e0000.h"
 #include "fnv/symbols_011f1000.h"
 #include "fnv/symbols_011f2000.h"
+#include "fnv/decl/FUN_004a39f0_shell.h"
+#include "fnv/decl/FUN_004a3eb0_shell.h"
+#include "fnv/decl/FUN_00553ee0_shell.h"
+#include "fnv/decl/FUN_0059ceb0_shell.h"
+#include "fnv/decl/LowProcess.h"
+#include "fnv/decl/TESAnimGroup.h"
+#include "fnv/decl/TESForm.h"
+#include "fnv/decl/fnv_004a3da0__FUN_004a3da0_shell.h"
+#include "fnv/symbols_0056f000.h"
+#include <cmath>
+#include "fnv/decl/fnv_004a3a20__FUN_004a3a20_shell.h"
+#include "fnv/symbols_004e4000.h"
+#include "fnv/symbols_009c0000.h"
 float __cdecl FUN_009a7dd0(float afNumerator, float afInput, float c)
 {
     return afNumerator / (::FUN_005b9e80(afInput) * c);
@@ -116,7 +135,6 @@ char FUN_009a97b0(char a1, char a2)
     return a1;
 }
 
-extern "C" int DAT_011a558c;
 
 // Converts arg to int, multiplies by DAT_0103c348, divides by DAT_011a558c, and returns the result as float.
 // @fnv 0x009a99f0
@@ -359,7 +377,7 @@ struct CombatCoverPointData
 void __cdecl FUN_009a9370(CombatController* apCombatController, CombatCoverPointData* b, NiPoint3* apPoint1,
                           NiPoint3* apPoint2)
 {
-    ::fnv_009a93a0::FUN_009a93a0((::fnv_009a93a0::TESAmmoInitCalls *)(apCombatController), (int)(&b->_14), (int)(&b->_70), (int)(apPoint1), (int)(apPoint2));
+    ::fnv_009a93a0::FUN_009a93a0((::fnv_009a93a0::TESAmmoInitCalls *)(apCombatController), (intptr_t)(&b->_14), (intptr_t)(&b->_70), (intptr_t)(apPoint1), (intptr_t)(apPoint2));
 }
 }  // namespace fnv_009a9370
 
@@ -1090,7 +1108,7 @@ Actor* FUN_009a60e0(Actor* actor, float maxDist)
         {
             cand7 = 0;
         }
-        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((TESObjectREFR*)&(*reinterpret_cast<int *>(&::g_011f2250))))->GetName())) == 4 && cand7 && cand7->IsSlot139(false))
+        if (((unsigned int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && cand7 && cand7->IsSlot139(false))
         {
             continue;
         }
@@ -1294,6 +1312,8 @@ struct S_9a64d0_Actor : S_9a64d0_Ref
 
 struct S_9a64d0_Setting
 {
+public:
+    float* Float();
 };
 
 
@@ -1507,7 +1527,7 @@ struct A6830Actor : A69C0Actor
 
 
 // @fnv 0x009a6830
-float __cdecl FUN_009a6830(A6830Actor* pkActor, int iType, float afModifier)
+float __cdecl FUN_009a6830(A6830Actor* pkActor, intptr_t iType, float afModifier)
 {
     float fBase2 = ::FUN_009a6770((::S_009a6770_Ref *)(pkActor), (::S_009a6770_Ref *)(iType));
     if (afModifier == -1.0)
@@ -1762,7 +1782,7 @@ S_009a68b0_Pt FUN_009a68b0(S_009a68b0_Ref* ref, S_009a68b0_Obj* obj, S_009a68b0_
         S_009a68b0_Pt diff = (*(::S_009a68b0_Pt *)(reinterpret_cast<::FUN_00439ef0_class *>((((S_009a68b0_Pt*)ref->v125())))->FUN_00439ef0((::NiPoint3 *)(apPoint), *(const ::NiPoint3 *)nullptr)));
         reinterpret_cast<::FUN_004a0c10_s *>(&(diff))->FUN_004a0c10();
     }
-    reinterpret_cast<::MyPoint439180 *>(&(dir3))->FUN_00439180(::FUN_009a6830((::A6830Actor *)(ref), (int)(obj), f));
+    reinterpret_cast<::MyPoint439180 *>(&(dir3))->FUN_00439180(::FUN_009a6830((::A6830Actor *)(ref), (intptr_t)(obj), f));
     return (*(::S_009a68b0_Pt *)(reinterpret_cast<::Point3Offset *>((apPoint))->ProjectileLaunched((::NiPoint3 *)(::S_009a68b0_Pt *)(&dir3), {})));
 }
 
@@ -2247,7 +2267,7 @@ bool __cdecl IsTargetInCone(ConeRef* pkShooter, ConeRef* pkTarget, float* pfAngl
         float fYA = 0.0f;
         void* pkNodeRes = ((void *)(::FUN_004aae30((::NiAVObject *)(void *)(((void *)(reinterpret_cast<::FUN_00950bb0_shell *>(((*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer))))->FUN_00950bb0(0)))), (::NiFixedString *)(s_szProjectileNode))));
         reinterpret_cast<::fnv_00965620::AimPlayer *>(((*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer))))->UpdateAim((::fnv_00965620::AimObject *)(0), (::fnv_00965620::AimObject *)(pkNodeRes), &fX_2, &fYA, (const ::fnv_00965620::NiPoint3_ext *)(0), 1.175494351e-38F, 1.175494351e-38F);
-        if (((int)(reinterpret_cast<::FUN_00963730_cls *>(((*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer))))->FUN_00963730())))
+        if (((intptr_t)(reinterpret_cast<::FUN_00963730_cls *>(((*reinterpret_cast<::ConePlayer * *>(&::_g_thePlayer))))->FUN_00963730())))
             fAimDirectionOffset = fX_2;
     }
     float fAngleA =
@@ -2319,19 +2339,13 @@ bool IsWithinAimLimits(S_009a6d70_Actor* actor, NiPoint3* target, float afMaxHea
     return true;
 }
 
-struct S_009a7670_P3
-{
-    float x, y, z;
-    S_009a7670_P3()
-    {}
-};
 struct S_009a7670_Setting
 {
 };
 S_009a7670_P3 FUN_009a8f00(S_009a7670_P3 a, S_009a7670_P3 b, S_009a7670_P3 c, float r, float v, unsigned char flag);
 
 // @fnv 0x009a7670
-bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
+bool FUN_009a7670(void* a, void* b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009a7670_P3 p2, S_009a7670_P3 p3,
                   unsigned char* flag, S_009a7670_P3* out, float maxDist)
 {
     if (!a || !b)
@@ -2339,12 +2353,12 @@ bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009
     if (maxDist == ::DAT_0101a6b0)
         maxDist = *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a7670_Setting *>(&::originalRuntimeFloatSetting392))))));
     float dist8 = 0.0f;
-    int found = 0;
+    void* found = 0;
     float v = reinterpret_cast<::FUN_00966980_shell *>((obj))->FUN_00966980() * DAT_011f1c00;
     if (v == ::_DAT_01012060)
     {
         S_009a7670_P3 hit = FUN_009a8f00(p1, p2, p3, ::GetFloatAtOffset68((const char *)(obj)), v, *flag);
-        bool ok = ::FUN_009a6e90(a, obj, 0, (*(float *)&(const ::S_009a7670_P3 &)(p1)), (*(float *)&(const ::S_009a7670_P3 &)(hit)), 0, (float)(&found), (float)(&dist8), {}, {}, {}, {});
+        bool ok = ::FUN_009a6e90(a, obj, 0, *(const ::NiPoint3 *)&(p1), *(const ::NiPoint3 *)&(hit), 0, (void **)&found, &dist8);
         if (ok && found != b && dist8 < maxDist)
             return false;
         *out = hit;
@@ -2363,7 +2377,7 @@ bool FUN_009a7670(void* a, int b, FUN_009a7f00_obj* obj, S_009a7670_P3 p1, S_009
         float r2 = ::GetFloatAtOffset68((const char *)(obj)) * k;
         bool ok;
         S_009a7670_P3 point = FUN_009a8f00(p1, p2, p3, r2, v, *flag);
-        ok = ::FUN_009a6e90(a, obj, r2, (*(float *)&(const ::S_009a7670_P3 &)(p1)), (*(float *)&(const ::S_009a7670_P3 &)(point)), 0, (float)(&found), (float)(&dist8), {}, {}, {}, {});
+        ok = ::FUN_009a6e90(a, obj, r2, *(const ::NiPoint3 *)&(p1), *(const ::NiPoint3 *)&(point), 0, (void **)&found, &dist8);
         if (!ok || found == b || dist8 > maxDist)
         {
             *out = point;
@@ -3421,7 +3435,7 @@ struct FUN_009a8df0_vec
     float z;
 };
 
-FUN_009a8df0_vec* __cdecl FUN_009a8050(FUN_009a8df0_vec* tmp, int a);
+FUN_009a8df0_vec* __cdecl FUN_009a8050(FUN_009a8df0_vec* tmp, intptr_t a);
 void __cdecl FUN_009a8f00(FUN_009a8df0_vec* out, FUN_009a8df0_vec c, FUN_009a8df0_vec b, FUN_009a8df0_vec a, float f1,
                           float f2, unsigned char flag);
 
@@ -3437,7 +3451,6 @@ FUN_009a8df0_vec* __cdecl FUN_009a8df0(FUN_009a8df0_vec* out, int a2, FUN_009a8d
         *out = vecB;
         return out;
     }
-    new ((void *)&(L)) ::Vec3();
     if (p28 != 0)
     {
         L = *p28;
@@ -3542,7 +3555,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
 {
     *pfMin = 512.0f;
     *pfMax = 1024.0f;
-    S_009a9180_Weapon* pWeapon = ((::S_009a9180_Weapon *)(reinterpret_cast<::FUN_00980070_shell *>((pActor))->FUN_00980070()));
+    S_009a9180_Weapon* pWeapon = ((::S_009a9180_Weapon *)(reinterpret_cast<CombatControllerFields*>((pActor))->pCombatStyle));
     if (pData)
     {
         *pfMin = reinterpret_cast<::FUN_004a0db0_class *>((pData))->GetFloatAt120();
@@ -3553,7 +3566,7 @@ void FUN_009a9180(S_009a9180_Actor* pActor, S_009a9180_Data* pData, float* pfMin
             *pfMax = reinterpret_cast<::FUN_00508050_Class *>((pWeapon))->FUN_00508050() * *pfMax;
         }
         *pfDerived = *pfMax * *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::S_009a9180_Setting *>(&::originalRuntimeFloatSetting394))))));
-        S_009a9180_Projectile* pObj = ((::S_009a9180_Projectile *)(reinterpret_cast<::Thing *>((pData))->GetOrFallback(::GetFieldBC((::FUN_0097ae90_Class *)(pActor)))));
+        S_009a9180_Projectile* pObj = ((::S_009a9180_Projectile *)(reinterpret_cast<::Thing *>((pData))->GetOrFallback(reinterpret_cast<std::intptr_t>(reinterpret_cast<CombatControllerFields*>(pActor)->pActor))));
         if (pObj)
         {
             float fValue = FUN_009a7f00(pObj, 0.0f);
@@ -3604,6 +3617,8 @@ class TES
 class GlobalObject_0044f440
 {
   public:
+public:
+    float* Float();
 };
 extern GlobalObject_0044f440 g_011f1c24;
 
@@ -4015,11 +4030,11 @@ bool AssignCombatPlanAngles(Ref* apRef, Ref* apTargetRef)
                 int kIter = 0;
                 unsigned int flags = 0;
                 unsigned int value;
-                value = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((ptr))->GetName()));
+                value = SimpleArraySize((ptr));
                 value = FUN_0042f5a0(value, 0x40);
                 for (unsigned int e = 0; e < value; e++)
                 {
-                    Ref* slot = *((::Ref **)(reinterpret_cast<::S3e60 *>((ptr))->FUN_006a7ad0(e)));
+                    Ref* slot = *(SimpleArrayItem<::Ref **>((void *)ptr, e));
                     {
                         CombatPlan* m;
                         m = slot ? slot->GetCombatPlan() : 0;
@@ -4096,7 +4111,7 @@ S_009a6d70_Point FUN_009a8970(FUN_009a8df0_vec a, S_009a82b0_Point3 b, float tim
 S_009a6d70_Point FUN_009a88e0(S_009a6d70_Actor* actor, NiPoint3 target)
 {
     FUN_009a8df0_vec direction;
-    FUN_009a8050(&direction, (int)actor);
+    FUN_009a8050(&direction, (intptr_t)actor);
     float time = 0.0f;
     return FUN_009a8970(direction, FUN_009a8250(actor), time, target);
 }
@@ -4554,7 +4569,7 @@ NiPoint3 FUN_009a8050(Actor* pkRef)
         Weapon* pkWeap = 0;
         Process* pkProc = pkActor->GetCurrentProcess();
         if (pkProc)
-            pkWeap = ((::s9a8050::Weapon *)(::FUN_007031c0((int)(pkProc))));
+            pkWeap = ((::s9a8050::Weapon *)(::FUN_007031c0((intptr_t)(pkProc))));
         else
             pkWeap = ((::s9a8050::Weapon *)(reinterpret_cast<::FUN_008a1710_shell *>((pkActor))->FUN_008a1710()));
         if (!pkWeap || ::FUN_004c0c30((char *)(pkWeap)))
@@ -4564,16 +4579,16 @@ NiPoint3 FUN_009a8050(Actor* pkRef)
                 (!pkWeap || pkWeap->FUN_00446390() == 0xa || pkWeap->FUN_00446390() == 0xb ||
                  pkWeap->FUN_00446390() == 0xd || pkWeap->FUN_00446390() == 0xc))
             {
-                int iBone = bIsPC ? ((int)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::s9a8050::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::s9a8050::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_004eaf60()))) : pkActor->GetHeadBone();
+                int iBone = bIsPC ? ((intptr_t)(reinterpret_cast<::PlayerCharacter *>(((*reinterpret_cast<::s9a8050::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_00950b00(reinterpret_cast<::FUN_004eaf60_shell *>(((*reinterpret_cast<::s9a8050::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_004eaf60()))) : pkActor->GetHeadBone();
                 NiAVObject* pkBone = pkRoot->GetObjectByBone(iBone);
                 if (pkBone)
-                    return *((::s9a8050::NiPoint3 *)(::FUN_0045bb80((int)(pkBone))));
+                    return *((::s9a8050::NiPoint3 *)(::FUN_0045bb80((intptr_t)(pkBone))));
             }
             else
             {
                 NiAVObject* pkHead = pkActor->GetHead();
                 if (pkHead)
-                    return *((::s9a8050::NiPoint3 *)(::FUN_0045bb80((int)(pkHead))));
+                    return *((::s9a8050::NiPoint3 *)(::FUN_0045bb80((intptr_t)(pkHead))));
             }
         }
     }
@@ -4584,4 +4599,382 @@ NiPoint3 FUN_009a8050(Actor* pkRef)
 
 }
 
+#pragma strict_gs_check(on)
+float __cdecl FUN_009a7dd0(float a, float b, float c);
+float ScaleCharToFloat(char arg);
+float __cdecl FUN_009a6a40(int id);
+
+struct __declspec(align(16)) SightVector4
+{
+    float components[4];
+};
+struct SightFilter
+{
+    unsigned int bits;
+    SightFilter(int bits);
+};
+struct __declspec(align(16)) SightRayInput
+{
+    SightVector4 from, to;
+    bool enableShapeCollectionFilter;
+    SightFilter filter;
+};
+struct __declspec(align(16)) SightRayOutput
+{
+    SightVector4 normal;
+    float hitFraction;
+    unsigned int m_uiExtraInfo, unk18, unk1c;
+    unsigned int shapeKeys[8];
+    void* rootCollidable;
+    unsigned int unk44, unk48, unk4c;
+    void* hitObject;
+};
+struct SightRayHitCollector
+{
+    virtual ~SightRayHitCollector();
+    virtual void AddRayHit(const void*, const SightRayOutput&);
+    float earlyOutHitFraction;
+};
+struct __declspec(align(16)) hkpClosestRayHitCollector : SightRayHitCollector
+{
+    SightRayOutput output;
+    SightFilter filter;
+    float distance;
+    hkpClosestRayHitCollector(int layer, const SightFilter* filter);
+    ~hkpClosestRayHitCollector();
+};
+struct __declspec(align(16)) BhkPickData
+{
+    SightRayInput input;
+    SightRayOutput output;
+    SightVector4 startBounds;
+    void* unkA0;
+    hkpClosestRayHitCollector* collector;
+    unsigned int collectorMode;
+    bool enabled;
+    BhkPickData();
+    void FUN_004a3f70(SightFilter filter);
+};
+struct SightCell
+{
+};
+struct SightReference
+{
+    virtual void unknown00();
+    virtual void unknown01();
+    virtual void unknown02();
+    virtual void unknown03();
+    virtual void unknown04();
+    virtual void unknown05();
+    virtual void unknown06();
+    virtual void unknown07();
+    virtual void unknown08();
+    virtual void unknown09();
+    virtual void unknown10();
+    virtual void unknown11();
+    virtual void unknown12();
+    virtual void unknown13();
+    virtual void unknown14();
+    virtual void unknown15();
+    virtual void unknown16();
+    virtual void unknown17();
+    virtual void unknown18();
+    virtual void unknown19();
+    virtual void unknown20();
+    virtual void unknown21();
+    virtual void unknown22();
+    virtual void unknown23();
+    virtual void unknown24();
+    virtual void unknown25();
+    virtual void unknown26();
+    virtual void unknown27();
+    virtual void unknown28();
+    virtual void unknown29();
+    virtual void unknown30();
+    virtual void unknown31();
+    virtual void unknown32();
+    virtual void unknown33();
+    virtual void unknown34();
+    virtual void unknown35();
+    virtual void unknown36();
+    virtual void unknown37();
+    virtual void unknown38();
+    virtual void unknown39();
+    virtual void unknown40();
+    virtual void unknown41();
+    virtual void unknown42();
+    virtual void unknown43();
+    virtual void unknown44();
+    virtual void unknown45();
+    virtual void unknown46();
+    virtual void unknown47();
+    virtual void unknown48();
+    virtual void unknown49();
+    virtual void unknown50();
+    virtual void unknown51();
+    virtual void unknown52();
+    virtual void unknown53();
+    virtual void unknown54();
+    virtual void unknown55();
+    virtual void unknown56();
+    virtual void unknown57();
+    virtual void unknown58();
+    virtual void unknown59();
+    virtual void unknown60();
+    virtual void unknown61();
+    virtual void unknown62();
+    virtual bool IsMobileObject();
+    SightFilter FUN_00931ed0();
+};
+struct SightMobileReference : SightReference
+{
+};
+class GlobalObject_0045d260
+{
+  public:
+};
+// @fnv 0x009a7940
+bool __cdecl FUN_009a7940(SightReference* source, SightReference* target, const NiPoint3& from, const NiPoint3& to,
+                          int unused, int requestedLayer)
+{
+    reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
+    int layer = 37;
+    if (requestedLayer != -1)
+        layer = requestedLayer;
+    NiPoint3 start = from;
+    start.z += ::GetScaleOrHeightDelta((::TESObjectREFR *)(source), 1);
+    NiPoint3 end = to;
+    if (target)
+        end.z += ::FUN_009a8460((::S_009a8460_Actor *)(target), 2, true);
+    BhkPickData ray;
+    SightFilter filter = source->FUN_00931ed0();
+    if (target && target->IsMobileObject())
+    {
+        SightMobileReference* mobile = static_cast<SightMobileReference*>(target);
+        filter = mobile->FUN_00931ed0();
+    }
+    hkpClosestRayHitCollector collector(layer, &filter);
+    reinterpret_cast<::FUN_0059ceb0_shell *>(&(ray))->FUN_0059ceb0(&collector);
+    filter = source->FUN_00931ed0();
+    reinterpret_cast<::FUN_004a39f0_shell *>(&(filter))->FUN_004a39f0(layer);
+    ray.FUN_004a3f70(filter);
+    reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>(&(ray))->FUN_004a3da0((void *)&(start));
+    reinterpret_cast<::FUN_004a3eb0_shell *>(&(ray))->FUN_004a3eb0((void *)&(end));
+    void* hit = reinterpret_cast<::FUN_00553ee0_shell *>((((::SightCell *)(reinterpret_cast<::LowProcess *>((source))->GetTarget()))))->FUN_00553ee0((::TESObjectREFR *)(::BhkPickData *)(&ray));
+    if (!hit)
+    {
+        reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
+        return true;
+    }
+    SightReference* hitRef = ((::SightReference *)(::FUN_0056f930((::NiAVObject *)(hit))));
+    if (target && hitRef == target)
+    {
+        reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
+        return true;
+    }
+    reinterpret_cast<::TESForm *>(&(g_011f1c7c))->ClearData();
+    return false;
+}
+
+
+// FUN_009a6e90 - trajectory raycast stepper, worker5 v1 one-pass transcription
+struct PtOp
+{
+    NiPoint3 operator-(const NiPoint3& o) const;
+};
+struct Pt
+{
+};
+struct NiPoint3Ex
+{
+    NiPoint3 operator+(const NiPoint3& o) const;
+};
+struct NiPoint3_helper
+{
+    NiPoint3 operator*(float f) const;
+};
+
+struct bhkFilter
+{
+};
+struct FUN_00931ed0_shell
+{
+    bhkFilter* FUN_00931ed0(void* p);
+};
+struct TESObjectCELL;
+class TESObjectREFR;
+struct FUN_0059ce80_shell
+{
+    void FUN_0059ce80(uintptr_t a);
+};
+struct GlobalObject_008c71b0
+{
+    int m_val;
+    GlobalObject_008c71b0(intptr_t a);
+};
+struct LockObj
+{
+};
+struct SETTING_VALUE
+{
+    int value;
+};
+struct GameSettingCollection
+{
+    SETTING_VALUE* Bool();
+};
+struct hkpAllRayHitCollector;
+struct FUN_004a3f70_shell
+{
+    void FUN_004a3f70(int value);
+};
+struct FUN_004a3fb0_shell
+{
+    void FUN_004a3fb0(hkpAllRayHitCollector* p);
+};
+struct FUN_004a3da0_shell
+{
+};
+
+class FUN_004a3a70
+{
+  public:
+    FUN_004a3a70();
+    virtual ~FUN_004a3a70();
+    union HitVec
+    {
+        float components[4];
+        char bytes[16];
+    };
+    HitVec m_kHits[50];
+    int m_tail0;
+};
+struct __declspec(align(16)) FUN_004a3c20_shell
+{
+    FUN_004a3c20_shell();
+    float m_v[44];
+};
+
+
+
+
+// @fnv 0x009a6e90
+bool __cdecl FUN_009a6e90(void* a0, void* a1, float a2, NiPoint3 start, NiPoint3 end, NiPoint3* outPt, void** outRef,
+                          float* outFrac)
+{
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
+    GlobalObject_008c71b0 obj18(0);
+    ((FUN_004a39f0_shell*)&obj18)->FUN_004a39f0(6);
+    int tmp1c;
+    ((FUN_0059ce80_shell*)&obj18)
+        ->FUN_0059ce80((unsigned int)((int)(reinterpret_cast<::fnv_004a3a20::FUN_004a3a20_shell *>((((FUN_00931ed0_shell*)a0)->FUN_00931ed0(&tmp1c)))->FUN_004a3a20())));
+
+    double d28;
+    if (a1)
+    {
+        d28 = (double)(((FUN_00966980_shell*)a1)->FUN_00966980() * ::DAT_011f1c00);
+    }
+    else
+    {
+        d28 = 0.0;
+    }
+    float v2c = (float)d28;
+    intptr_t v30 = 0;
+    intptr_t v34 = 0;
+
+    FUN_004a3a70 obj360;
+    FUN_004a3c20_shell obj410;
+    ((FUN_004a3f70_shell*)&obj410)->FUN_004a3f70(obj18.m_val);
+    ((FUN_004a3fb0_shell*)&obj410)->FUN_004a3fb0((hkpAllRayHitCollector*)&obj360);
+
+    NiPoint3 vecStart;
+    vecStart = start;
+    NiPoint3 pos;
+    pos = end;
+    float frac = 0.0f;
+    unsigned int v430 = 1;
+    unsigned int cnt = 1;
+
+    if (v2c == ::_DAT_01012060)
+    {
+        reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((((FUN_004a3da0_shell*)&obj410)))->FUN_004a3da0(&vecStart);
+        ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
+        v30 = ((intptr_t)(((FUN_00553ee0_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((TESObjectREFR*)a0)))->GetTarget())))->FUN_00553ee0({})));
+        v34 = ::FUN_009c0d80((::Scene *)(void *)(&obj410), (::Controller *)(0), (intptr_t)(a1), &frac, 0, 3.4028234663852886e38f);
+        if (*(unsigned char*)(*reinterpret_cast<::GameSettingCollection *>(&::g_011f1c4c)).Bool() &&
+            (DAT_011dea24 == 0 || DAT_011dea24 == (*reinterpret_cast<int *>(&::_g_thePlayer)) || DAT_011dea24 == (intptr_t)a0))
+        {
+            ::DrawDebugLine((*(const ::DebugPoint *)(&vecStart)), (*(const ::DebugPoint *)(&pos)), v34, frac, (const ::RgbaColor *)(0), (const ::RgbaColor *)(0));
+        }
+    }
+    else
+    {
+        NiPoint3 diff = (*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&end)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(start))));
+        float v448 = FUN_004b54c0(diff.z / reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude());
+        diff.z = 0.0f;
+        float v44c = reinterpret_cast<::NiPoint3 *>((void *)(((Pt*)&diff)))->ComputeMagnitude();
+        float v450 = ::GetAngleFromVector((*(const ::NiPoint3 *)(&diff)));
+        float v454 = a2;
+        if (v454 == ::_DAT_01012060)
+        {
+            v454 = ::GetFloatAtOffset68((const char *)(((PathingRequest*)a1)));
+        }
+        cnt = (unsigned int)((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::GameSettingCollection *>(&::g_011cfd7c))))))->value;
+        float v464 = v44c / cnt;
+        float v468 = FUN_004e44b0(v450) * v464;
+        float v46c = cos(v450) * v464;
+        float v470 = FUN_0057dd70(v448);
+        float v474 = cos(v448);
+        unsigned int i;
+        for (i = 0; i < cnt; i++)
+        {
+            v430 = i + 1;
+            pos = start;
+            float t = (float)(v430 * v464);
+            float v488 = t * v470 - v2c * t * t / (v454 * v454 * v474 * v474 * ::DAT_01011590);
+            pos.x += v430 * v468;
+            pos.y += v430 * v46c;
+            pos.z += v488;
+            reinterpret_cast<::fnv_004a3da0::FUN_004a3da0_shell *>((((FUN_004a3da0_shell*)&obj410)))->FUN_004a3da0(&vecStart);
+            ((FUN_004a3eb0_shell*)&obj410)->FUN_004a3eb0(&pos);
+            v30 = ((intptr_t)(((FUN_00553ee0_shell*)((::TESObjectCELL *)(reinterpret_cast<::LowProcess *>((((TESObjectREFR*)a0)))->GetTarget())))->FUN_00553ee0({})));
+            v34 = ::FUN_009c0d80((::Scene *)(void *)(&obj410), (::Controller *)(0), (intptr_t)(a1), &frac, 0, 3.4028234663852886e38f);
+            if (*(unsigned char*)(*reinterpret_cast<::GameSettingCollection *>(&::g_011f1c4c)).Bool() &&
+                (DAT_011dea24 == 0 || DAT_011dea24 == (*reinterpret_cast<int *>(&::_g_thePlayer)) || DAT_011dea24 == (intptr_t)a0))
+            {
+                ::DrawDebugLine((*(const ::DebugPoint *)(&vecStart)), (*(const ::DebugPoint *)(&pos)), v34, frac, (const ::RgbaColor *)(0), (const ::RgbaColor *)(0));
+            }
+            if (v34)
+                break;
+            vecStart = pos;
+        }
+    }
+
+    if (v34)
+    {
+        if (outRef)
+        {
+            *outRef = (void *)(::FUN_0056f930((::NiAVObject *)(v34)));
+        }
+        if (outPt)
+        {
+            *outPt = (*(::NiPoint3 *)(reinterpret_cast<::Point3Offset *>((void *)(((NiPoint3Ex*)&ResultSlot(((NiPoint3_helper*)&(*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((PtOp*)&pos)))->FUN_00439ef0(&ResultSlot(::NiPoint3()), *(const ::NiPoint3 *)&(vecStart)))))->operator*(frac)))))->ProjectileLaunched(&ResultSlot(::NiPoint3()), (::NiPoint3 *)&(vecStart))));
+        }
+        if (outFrac)
+        {
+            if (cnt == 1)
+            {
+                *outFrac = frac;
+            }
+            else
+            {
+                *outFrac = frac / cnt + (v430 - 1) / (float)cnt;
+            }
+        }
+        reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
+        return true;
+    }
+    reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::LockObj *>(&::g_011f1c7c))))->ClearData();
+    return false;
+}
 #include "generated/data/fallout/ai/combat/combatutilities.inc"

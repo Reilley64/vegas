@@ -1166,7 +1166,7 @@ public:
 
 // Looks up extra data of type 0x2e and returns the int stored at offset 0xc, or 0 if absent.
 // @fnv 0x004216f0
-int FUN_004216f0(BaseExtraList* _this)
+intptr_t FUN_004216f0(BaseExtraList* _this)
 {
     BSExtraData* pextra = reinterpret_cast<::fnv_00410220::FUN_00410220_shell *>((_this))->FUN_00410220(0x2e);
     if (pextra)
@@ -2267,7 +2267,7 @@ public:
 
 
 // @fnv 0x00560dc0
-int FUN_00560dc0(TESDataHandler* apDataHandler)
+intptr_t FUN_00560dc0(TESDataHandler* apDataHandler)
 {
     return ((int)(reinterpret_cast<::FUN_0045c650_shell *>((((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40()))))->FUN_0045c650()));
 }
@@ -7075,7 +7075,7 @@ void FUN_0057ad20_shell::FUN_0057ad20(TESTopic* apTopic)
 namespace fnv_0057ad60 {
 struct FUN_0057ad60_shell : public TESObjectREFR
 {
-    void FUN_0057ad60(unsigned int);
+    void FUN_0057ad60(uintptr_t);
 };
 
 class ExtraDataList
@@ -7112,7 +7112,7 @@ struct Helper_TESObjectREFR
 };
 
 // @fnv 0x0057ad60
-void FUN_0057ad60_shell::FUN_0057ad60(unsigned int anResponseID)
+void FUN_0057ad60_shell::FUN_0057ad60(uintptr_t anResponseID)
 {
     reinterpret_cast<::FUN_0042eec0_Class *>((void *)(reinterpret_cast<Helper_TESObjectREFR*>(this)->GetExtra()))->FUN_0042eec0(anResponseID);
     reinterpret_cast<VTable_0057ad60*>(this)->vfn_18(0x80000000);
@@ -7277,7 +7277,7 @@ void FUN_0057c180(char* this_ptr)
 struct GlobalObject_00633c90
 {
     int m_val;
-    GlobalObject_00633c90(int = 0);
+    GlobalObject_00633c90(intptr_t = 0);
     ~GlobalObject_00633c90();
 };
 
@@ -7331,7 +7331,7 @@ void FUN_0057c300_cls::FUN_0057c300()
 }
 
 // @fnv 0x005d9f90
-int FUN_005d9f90(char* pThis)
+intptr_t FUN_005d9f90(char* pThis)
 {
     return *(int*)(pThis + 0x1b4);
 }
@@ -8927,11 +8927,11 @@ struct Fn47a520
 {
     char _p[0x50];
     DummyPointerMap map;
-    unsigned int FUN_0047a520(NFSHelper* name);
+    uintptr_t FUN_0047a520(NFSHelper* name);
 };
 // Looks up the string key of name in map and returns the stored value, or 0 if not found.
 // @fnv 0x0047a520
-unsigned int Fn47a520::FUN_0047a520(NFSHelper* name)
+uintptr_t Fn47a520::FUN_0047a520(NFSHelper* name)
 {
     unsigned int value;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((void *)&(map))->FUN_00853130((std::uintptr_t)(char const*)*name, (::fnv_00853130::CombatThreatRecord *&)(value)))
@@ -10044,7 +10044,7 @@ FUN_0056e550::FUN_0056e550(const void* arInfo)
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     void* m_pObject;
 };
 struct FUN_005726c0
@@ -11488,7 +11488,7 @@ void FUN_0056c8b0_Class::FUN_0056c8b0(unsigned int flags, bool set)
 
 struct S3e60
 {
-    bool FUN_0056d340(unsigned int index);
+    bool FUN_0056d340(uintptr_t index);
     bool FUN_0056d320(std::uintptr_t index);
 };
 
@@ -12224,11 +12224,11 @@ struct Flt
 
 struct FUN_006546e0_Class
 {
-    unsigned int FUN_006546e0();
+    uintptr_t FUN_006546e0();
 };
 
 // @fnv 0x006546e0
-unsigned int FUN_006546e0_Class::FUN_006546e0()
+uintptr_t FUN_006546e0_Class::FUN_006546e0()
 {
     return ((Flt*)((char*)this + 0xd0))->operator unsigned int();
 }
@@ -12992,7 +12992,7 @@ namespace fnv_00568020 {
 struct BSExtraData;
 struct FUN_00568020_shell : public TESObjectREFR
 {
-    void FUN_00568020(unsigned int, bool);
+    void FUN_00568020(uintptr_t, bool);
 };
 
 struct BSExtraData;
@@ -13042,7 +13042,7 @@ struct FNVVirtStub
 
 // If the reference's object is form type 0x27, flags it changed and sets or creates the ExtraUsedMarkers extra, removing it when its count reaches zero.
 // @fnv 0x00568020
-void FUN_00568020_shell::FUN_00568020(unsigned int aiMarkerIndex, bool abVal)
+void FUN_00568020_shell::FUN_00568020(uintptr_t aiMarkerIndex, bool abVal)
 {
     ExtraUsedMarkers* pextra;
     if (((::fnv_00568020::FNVFormStub *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVRefStub*)this)))->FUN_007af430())) &&
@@ -25004,10 +25004,10 @@ struct LoadObject
     void* FUN_0055d310();
     LoadExtra* FUN_005d43c0();
     void FUN_00567490(float);
-    void FUN_0055ec40(unsigned int flags, unsigned int more);
+    void FUN_0055ec40(uintptr_t flags, uintptr_t more);
 };
 // @fnv 0x0055ec40
-void LoadObject::FUN_0055ec40(unsigned int flags, unsigned int more)
+void LoadObject::FUN_0055ec40(uintptr_t flags, uintptr_t more)
 {
     reinterpret_cast<::form_load_legacy::TESFormLoadProxy *>(this)->FUN_00484c50(flags, more);
     if (!isActor() && (flags & 0x200000))
@@ -33551,7 +33551,7 @@ struct List_009e03e0
 };
 struct Host00881620
 {
-    void FUN_00881620(int iRef);
+    void FUN_00881620(intptr_t iRef);
 };
 struct LinkedRefMgr
 {
@@ -43728,12 +43728,12 @@ class ReferenceView
     BoundForm* baseForm;
     bool FUN_004997b0();
     ActorBaseData* FUN_004181e0();
-    int FUN_00579280();
+    intptr_t FUN_00579280();
 };
 extern ReferenceView* g_thePlayer;
 
 // @fnv 0x00579280
-int ReferenceView::FUN_00579280()
+intptr_t ReferenceView::FUN_00579280()
 {
     if (!IsActor() && reinterpret_cast<::FUN_00477ba0_shell *>(this)->FUN_00477ba0())
         return 0;
@@ -45668,11 +45668,11 @@ struct TESObjectREFRHelper
 struct Fn9a4f40
 {
     void* ref;
-    void FUN_009a4f40(int);
+    void FUN_009a4f40(intptr_t);
 };
 // Resolves the ref pointer to a TESObjectREFR and sets its targeting state to true.
 // @fnv 0x009a4f40
-void Fn9a4f40::FUN_009a4f40(int unused)
+void Fn9a4f40::FUN_009a4f40(intptr_t unused)
 {
     ref = ref ? (TESObjectREFRHelper*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(std::uintptr_t)(ref))) : 0;
     if (ref)

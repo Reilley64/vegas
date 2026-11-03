@@ -2,6 +2,10 @@
 // src/fallout/ai/combat/combatprocedureattackgrenade.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureattackgrenade.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/symbols_009a7000.h"
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CPStandIn009caae0.h"
 #include "fnv/decl/CombatDialogueHandler.h"
@@ -260,12 +264,9 @@ struct NonPodPoint3
 };
 NiPoint3* __cdecl FUN_009a8050(NiPoint3* result, void* actor);
 void __cdecl GetTargetLocationWithOffset(NiPoint3* result, void* target, int mode);
-unsigned char __cdecl FUN_009a7670(void* actor, void* target, unsigned int flags, NiPoint3 origin, NiPoint3 direction,
-                                   NonPodPoint3 offset, unsigned int mode, unsigned int category, float scale);
-
 // @fnv 0x009a7580
-unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags, NiPoint3* optionalOrigin,
-                                   unsigned int mode, unsigned int category, float scale)
+unsigned char __cdecl FUN_009a7580(void* actor, void* target, FUN_009a7f00_obj* apObject, NiPoint3* optionalOrigin,
+                                   unsigned char* apFlag, S_009a7670_P3* apResult, float scale)
 {
     if (!actor || !target)
         return 0;
@@ -281,7 +282,9 @@ unsigned char __cdecl FUN_009a7580(void* actor, void* target, unsigned int flags
     NiPoint3 origin;
     GetTargetLocationWithOffset(&origin, target, 2);
     NonPodPoint3 direction = (*(::NonPodPoint3 *)(::GetTriple12((::Triple12 *)(target), {})));
-    return FUN_009a7670(actor, target, flags, offset, origin, direction, mode, category, scale);
+    return ::FUN_009a7670(actor, target, apObject, *reinterpret_cast<S_009a7670_P3*>(&offset),
+                          *reinterpret_cast<S_009a7670_P3*>(&origin), *reinterpret_cast<S_009a7670_P3*>(&direction), apFlag,
+                          apResult, scale);
 }
 
 struct Vec3
@@ -445,13 +448,13 @@ class B9CB380Package
     int unk30;
     B9CB380Timer m_kTimer;
 
-    bool FUN_009cb380(B9CB380Form* pkForm, int iArg, float fArg);
+    bool FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg);
 };
 
 // @fnv 0x009cb380
-bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, int iArg, float fArg)
+bool B9CB380Package::FUN_009cb380(B9CB380Form* pkForm, intptr_t iArg, float fArg)
 {
-    B9CB380Mobile* pkMobile2 = ((::B9CB380Mobile *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkActor))));
+    B9CB380Mobile* pkMobile2 = ((::B9CB380Mobile *)(reinterpret_cast<CombatControllerFields*>(m_pkActor)->pActor));
     B9CB380Process* pkProcess = ((::B9CB380Process *)(reinterpret_cast<::InterfaceManager *>((m_pkActor))->FUN_00586150()));
     if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::B9CB380World * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(pkMobile2), (::ThreatActor *)(pkForm), (*(const ::ThreatPosition *)(iArg)), fArg))
     {
@@ -517,8 +520,8 @@ NiPoint3 CombatProcedureShell::GetPathingPoint()
     {
         return (*reinterpret_cast<const ::fnv_009cb6e0::NiPoint3 *>((void *)&::NiPoint3::ZERO));
     }
-    TESObjectREFR* ref = ((::fnv_009cb6e0::TESObjectREFR *)(::FUN_007031c0((int)(unk04))));
-    PathingRequest* req = ((::fnv_009cb6e0::PathingRequest *)(reinterpret_cast<::Thing *>((ref))->GetOrFallback((int)(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))));
+    TESObjectREFR* ref = ((::fnv_009cb6e0::TESObjectREFR *)(::FUN_007031c0((intptr_t)(unk04))));
+    PathingRequest* req = ((::fnv_009cb6e0::PathingRequest *)(reinterpret_cast<::Thing *>((ref))->GetOrFallback((intptr_t)(((::fnv_009cb6e0::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))));
     float dist = ::GetFloatAtOffset68((const char *)(req)) * (b30 ? *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting375)))))) : 1.0f);
     NiPoint3 point;
     if (!b14)
@@ -701,9 +704,9 @@ bool Procedure::FUN_009cb460(Point* output, Point* input)
     Target* targetVal;
     targetVal = ((::Target *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     Manager* sound;
-    sound = ((::Manager *)(::FUN_007031c0((int)(owner))));
+    sound = ((::Manager *)(::FUN_007031c0((intptr_t)(owner))));
     Item* z;
-    z = ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((int)(i))));
+    z = ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((intptr_t)(i))));
     void* pForm;
     pForm = ((void *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(z))));
     bool ptr;
@@ -718,7 +721,7 @@ bool Procedure::FUN_009cb460(Point* output, Point* input)
     }
     else
     {
-        if (Direct(((void *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), ((::Target *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())), ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((int)(i)))), input, &category, &destination, ::DAT_01012054))
+        if (Direct(((void *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0())), ((::Target *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00())), ((::Item *)(reinterpret_cast<::Thing *>((sound))->GetOrFallback((intptr_t)(i)))), input, &category, &destination, ::DAT_01012054))
         {
             *output = destination;
             ptr = true;
@@ -736,7 +739,7 @@ bool Procedure::FUN_009cb460(Point* output, Point* input)
         }
         float distance7;
         distance7 = Distance(z, *input, position7, category, 0.0f);
-        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(pForm), (int)(&position7), distance7))
+        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(pForm), (intptr_t)(&position7), distance7))
             ptr = false;
     }
     if (!ptr && active)
@@ -1184,7 +1187,6 @@ struct GlobalObj
 struct Member34
 {
 };
-unsigned char __cdecl FUN_009a7580(ActorObj* a, ActorObj* b, MidObj* c, void* d, unsigned char* e, Pt3* f, float g);
 
 struct Package
 {
@@ -1217,12 +1219,12 @@ void Package::UpdateWeaponFire()
     Obj586* n;
     n = ((::fnv_009cafe0::Obj586 *)(reinterpret_cast<::InterfaceManager *>((m_04))->FUN_00586150()));
     Obj703* s;
-    s = ((::fnv_009cafe0::Obj703 *)(::FUN_007031c0((int)(m_04))));
+    s = ((::fnv_009cafe0::Obj703 *)(::FUN_007031c0((intptr_t)(m_04))));
     Obj70* aPObj;
     aPObj = actor2->vfn_1e4();
-    if (!s || !aPObj || !((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((int)(actor2)))))
+    if (!s || !aPObj || !((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2)))))
     {
-        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Missing either weapon, animation, or weapon projectile"));
+        reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Missing either weapon, animation, or weapon projectile"));
         return;
     }
     if (reinterpret_cast<::FUN_00894900_shell *>((actor2))->FUN_00894900())
@@ -1275,23 +1277,23 @@ void Package::UpdateWeaponFire()
         return;
     }
     SoundObj* idx;
-    idx = ((::fnv_009cafe0::SoundObj *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((int)(actor2))))))));
+    idx = ((::fnv_009cafe0::SoundObj *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2))))))));
     Pt3* AP;
     Pt3 CTmp;
     if (idx)
     {
         AP = m_14 ? &m_18 : i->vfn_1f4();
         CTmp = *AP;
-        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(idx), (int)(&CTmp), 0.0f))
+        if (!reinterpret_cast<::B9CB380Package *>(this)->FUN_009cb380((::B9CB380Form *)(idx), (intptr_t)(&CTmp), 0.0f))
         {
             return;
         }
     }
     MidObj* pForm;
-    pForm = ((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((int)(actor2))));
+    pForm = ((::fnv_009cafe0::MidObj *)(reinterpret_cast<::Thing *>((s))->GetOrFallback((intptr_t)(actor2))));
     if (!m_14)
     {
-        if (!FUN_009a7580(actor2, i, pForm, 0, &m_30, &m_24, -1.0f))
+        if (!::FUN_009a7580(actor2, i, (::FUN_009a7f00_obj *)(pForm), 0, &m_30, reinterpret_cast<::S_009a7670_P3 *>(&m_24), -1.0f))
         {
             return;
         }

@@ -2,6 +2,7 @@
 // src/fallout/interface/forenderedterminal.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/forenderedterminal.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/rendered_menu_fields.h"
 #include <cstdint>
 #include "fnv/decl/AudioClass_ae5680.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -159,7 +160,7 @@ struct NiUpdateData
 };
 struct BSAudio
 {
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
 struct FUN_004bc1f0_S
 {
@@ -246,7 +247,7 @@ void FUN_007ffaf0_shell::FUN_007ffaf0()
     {
         int iSavedValue = ::fnv_007ffb80::FUN_007ffb80();
         ForwardToGlobalObject(0);
-        ((BSFadeNode*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->SetRange(0.0f, 0.0f);
+        ((BSFadeNode*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->SetRange(0.0f, 0.0f);
         ForwardToGlobalObject(iSavedValue);
     }
     ((char*)this)[0xec] = 1;
@@ -271,15 +272,15 @@ bool FUN_007ff820_shell::UpdateAudioFallback()
 {
     if (*((unsigned char*)this + 0xec))
     {
-        if (!(*reinterpret_cast<::Flt *>(&::g_011db63c)) || !((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->FUN_007ff8c0() ||
-            *((float*)((char*)this + 0xe8)) == ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))
+        if (!(*reinterpret_cast<::Flt *>(&::g_011db63c)) || !((AudioClock*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c)))->FUN_007ff8c0() ||
+            *((float*)((char*)this + 0xe8)) == ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))
         {
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::AudioFallback *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu({});
             return true;
         }
         else
         {
-            *((float*)((char*)this + 0xe8)) = ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(unsigned int)(*reinterpret_cast<::Flt *>(&::g_011db63c))));
+            *((float*)((char*)this + 0xe8)) = ::GetFieldB4Float((char *)(::AudioClock *)((AudioClock*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c))));
         }
     }
     return reinterpret_cast<::FUN_007faf10_shell *>((this))->UpdateScreenEffect();
@@ -401,12 +402,12 @@ struct RenderedTerminalStandIn
     int unkE0;
     PickNodePtr spScreenNode;
 
-    bool HandleClick(bool abDown, int aiX, int aiY);
+    bool HandleClick(bool abDown, intptr_t aiX, intptr_t aiY);
 };
 
 // If the screen node is set and the button is down, ray-picks it from the cursor and calls OnScreenClicked on a hit; otherwise falls through to HandleClickBase.
 // @fnv 0x007ffba0
-bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
+bool RenderedTerminalStandIn::HandleClick(bool abDown, intptr_t aiX, intptr_t aiY)
 {
     bool bHandledX = false;
     PickInterfaceMgr* pInterfaceMgr = ((::PickInterfaceMgr *)(::fnv_004b7210::FUN_004b7210()));
@@ -414,7 +415,7 @@ bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
     {
         PickPoint3 kOriginTmp;
         PickPoint3 kDir3;
-        PickCamera* pCamera = ((::PickCamera *)(reinterpret_cast<::fnv_008b6200::FUN_008b6200 *>(this)->GetFlt()));
+        PickCamera* pCamera = ((::PickCamera *)(reinterpret_cast<::RenderedMenuFields *>(this)->m_pMenuLightParameters));
         if (!pCamera)
         {
             pCamera = ((::PickCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::PickFaceGenNode *)(::FUN_0045c670()))))->GetAnimationData()));
@@ -443,7 +444,6 @@ bool RenderedTerminalStandIn::HandleClick(bool abDown, int aiX, int aiY)
 struct FloatSetting
 {
 };
-extern unsigned char DAT_011f9426;
 extern int DAT_011f9434;
 struct Name
 {
@@ -626,13 +626,13 @@ void RenderNode::SetupPowerButtonScreen()
     Resource* rootP = 0;
     if (!(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c)))
     {
-        rootP = ((::Resource *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::Manager * *>(&::g_modelLoader))))->FUN_00447080((char *)((*reinterpret_cast<unsigned int *>(&::DAT_011a0bb0))), 0, 1, 0, 0, 0)));
+        rootP = ((::Resource *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::Manager * *>(&::g_modelLoader))))->FUN_00447080((char *)((*reinterpret_cast<uintptr_t *>(&::DAT_011a0bb0))), 0, 1, 0, 0, 0)));
         ((NodeHolder*)&(*reinterpret_cast<::Flt *>(&::g_011db63c)))->Assign(rootP);
         ::UpdateObjectVisibility((::NiAVObject *)(rootP));
         createdCur = true;
     }
     else
-        rootP = (Resource*)(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c));
+        rootP = (Resource*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c));
     Resource* screenX = rootP->Find(Name("screen"));
     Resource* screenNode = screenX->GetNode();
     if (!screenNode)
@@ -679,7 +679,7 @@ void RenderNode::SetupPowerButtonScreen()
     reinterpret_cast<::FOPipboyManager *>(this)->FUN_007fc2d0((::NiAVObject *)(screenNode));
     reinterpret_cast<::FOPipboyManager *>(this)->SetScreen((::NiAVObject *)(screenNode));
     reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(rootP));
-    reinterpret_cast<::ExtraOwnerB *>((screenNode))->FUN_00a5b230((int)(((void *)(::FUN_0040df90()))));
+    reinterpret_cast<::ExtraOwnerB *>((screenNode))->FUN_00a5b230((int)(((::FUN_0040df90()))));
     reinterpret_cast<::FUN_00439410_cls *>((screenNode))->FUN_00439410((::ArgObject *)(void *)(new Controller));
     reinterpret_cast<::FUN_007fd620_Class *>(this)->SetGo(cameraK);
     reinterpret_cast<::FORenderedMenu *>(this)->OnMenuOpen();
@@ -691,9 +691,9 @@ void RenderNode::SetupPowerButtonScreen()
         reinterpret_cast<::fnv_007ff960::FOPipboyManagerPC *>(this)->CreateTerminalLight();
     reinterpret_cast<::MenuStub *>(this)->FUN_007fae70(0);
     reinterpret_cast<::FUN_00810530_c *>(this)->FUN_00810530(0);
-    reinterpret_cast<::FUN_00b4dec0_shell *>((((Resource*)(unsigned)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))->FUN_00b4dec0(8);
+    reinterpret_cast<::FUN_00b4dec0_shell *>((((Resource*)(uintptr_t)(*reinterpret_cast<::Flt *>(&::g_011db63c)))))->FUN_00b4dec0(8);
     FourFloatVector colorF(0.f, 0.f, 0.f, 0.f);
-    if (reinterpret_cast<::SystemColorManager *>((((::Colors *)(::FUN_00718b60()))))->GetColor((int)&(colorF), *(::NiColor *)nullptr))
+    if (reinterpret_cast<::SystemColorManager *>((((::Colors *)(::FUN_00718b60()))))->GetColor((intptr_t)&(colorF), *(::NiColor *)nullptr))
         reinterpret_cast<::FUN_007f7fb0_Class *>(this)->FUN_007f7fb0((const ::FUN_007f7fb0_Value *)&(colorF));
     *(float*)((char*)this + 0xe8) = 1.f;
 }

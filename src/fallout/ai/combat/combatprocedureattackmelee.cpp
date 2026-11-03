@@ -1,5 +1,8 @@
 // fallout/ai/combat/combatprocedureattackmelee.cpp: CombatProcedureAttackMelee, This, MeleeProc, CombatAttackHelper and more (57 functions)
 
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
 #include <cmath>
 #include <cstring>
 #include "fnv/decl/ActorValueOwner.h"
@@ -453,7 +456,7 @@ struct FUN_009cff10_shell
     bool g;
     bool h;
     NiPoint3 v;
-    FUN_00906f60 m;
+    struct FUN_00906f60 m;
     FUN_009cff10_shell* Reset();
 };
 // Resets all flags, clears c and d, sets v to _NiPoint3_ZERO, constructs m, and returns this.
@@ -528,14 +531,14 @@ struct FUN_009d0610_shell
 {
     bool active;
     unsigned int elapsed;
-    unsigned int UpdateDirection(unsigned int, unsigned int);
+    unsigned int UpdateDirection(void*, unsigned int);
     void FUN_009d0610(TESAmmoInitCalls* src);
 };
 // @fnv 0x009d0610
 void FUN_009d0610_shell::FUN_009d0610(TESAmmoInitCalls* pAmmoInitCalls)
 {
     if (((TimeoutTimer*)((char*)this + 0x1c))->CheckTimer() || elapsed > 0)
-        elapsed = UpdateDirection(((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(pAmmoInitCalls)))), elapsed) + elapsed;
+        elapsed = UpdateDirection((reinterpret_cast<CombatControllerFields*>(pAmmoInitCalls)->pActor), elapsed) + elapsed;
     if (elapsed >= 4)
     {
         active = false;
@@ -618,7 +621,7 @@ void FUN_009d0790_shell::FUN_009d0790(BGSLoadFormBuffer* apBuffer)
 
 struct FUN_00996de0_Class
 {
-    unsigned int FUN_00996de0();
+    uintptr_t FUN_00996de0();
 };
 // Gets the attacker Actor, runs the base procedure, then calls two functions on the attacker with false.
 // @fnv 0x009cc4d0
@@ -681,7 +684,7 @@ char FUN_009cefd0_shell::IsWithinThreshold(float afValue, float afLimit, float a
 {
     char bResult = 0;
     unsigned int pTarget3 = ((FUN_00996de0_Class*)this)->FUN_00996de0();
-    bool bFlag = ((FUN_005524b0_class*)this->m_04->FUN_00980070())->GetByteAtOffset8C() >= 100;
+    bool bFlag = ((FUN_005524b0_class*)reinterpret_cast<CombatControllerFields*>(this->m_04)->pCombatStyle)->GetByteAtOffset8C() >= 100;
     float fElapsed3 = 0.0f;
     if (afValue <= afLimit + fElapsed3)
     {
@@ -893,15 +896,15 @@ int CombatProcedureAttackMelee::FUN_009ccb20(bool abMidAttack, float afDistance,
     ptarget = (ActorV*)((FUN_00996e00_shell*)this)->FUN_00996e00();
     *abSwitchAttack = false;
     iAttack = 0xff;
-    pweapon = (TESObjectWEAP*)FUN_007031c0((int)m_04);
+    pweapon = (TESObjectWEAP*)FUN_007031c0((intptr_t)m_04);
     if (!ptarget)
         return iAttack;
     if (pattacker->V218() && reinterpret_cast<::FUN_005a2030_shell *>((void *)(((MobileObject*)pattacker)))->FUN_005a2030())
         *abDoPowerAttack = false;
     else
-        *abDoPowerAttack = ::CheckChanceSuccess((::C644810Actor *)(m_04->FUN_00980070()), reinterpret_cast<::FUN_00893530_shell *>((((FatigueProxy*)pattacker)))->GetFatigueRatio(),
+        *abDoPowerAttack = ::CheckChanceSuccess((::C644810Actor *)(reinterpret_cast<CombatControllerFields*>(m_04)->pCombatStyle), reinterpret_cast<::FUN_00893530_shell *>((((FatigueProxy*)pattacker)))->GetFatigueRatio(),
                                               abTargetRecoiling, ptarget->V230(), 0);
-    if ((int)((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)this)))->FUN_0044edb0())) == 4)
+    if ((intptr_t)((void *)(reinterpret_cast<::MagicCaster_shell *>((((BSAudio*)this)))->FUN_0044edb0())) == 4)
     {
         afReach += *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::Setting_S *>(&::originalRuntimeFloatSetting597))))));
         if (DialogueRandom() % 100 < 2)
@@ -1747,13 +1750,13 @@ void This::FUN_009cc510()
     if (((bool)(reinterpret_cast<::FUN_009cefd0_shell *>(this)->IsWithinThreshold(s12, v51, 0))))
     {
         n44 = 0.0f;
-        n44 = ::CalculateWeightedValue((::Obj641 *)((int)((void *)(reinterpret_cast<::FUN_00980070_shell *>((m_04))->FUN_00980070()))), reinterpret_cast<::FUN_0097fc70_shell *>((m_04))->FUN_0097fc70(), reinterpret_cast<::ActorValueOwner *>(&(r23->m_a4))->GetActorValueAsInteger((::ActorValue::Index)(11)), s33,
-                                     FUN_007031c0((int)m_04) == 0, s5, t45->V140(), r14);
+        n44 = ::CalculateWeightedValue((::Obj641 *)(reinterpret_cast<CombatControllerFields*>((m_04))->pCombatStyle), reinterpret_cast<::FUN_0097fc70_shell *>((m_04))->FUN_0097fc70(), reinterpret_cast<::ActorValueOwner *>(&(r23->m_a4))->GetActorValueAsInteger((::ActorValue::Index)(11)), s33,
+                                     FUN_007031c0((intptr_t)m_04) == 0, s5, t45->V140(), r14);
         if (reinterpret_cast<::FUN_00435e00_t *>(((*(::Mid1 *)(reinterpret_cast<::InterfaceManager *>((m_04))->FUN_00586150())).GetHandle()))->FUN_00435e00() > 5.0 && n44 != 0.0)
             n44 += 100.0;
         if (!s44 && t45 != (*reinterpret_cast<::ActorB * *>(&::_g_thePlayer)))
             n44 += 100.0;
-        m2 = ::FUN_00644580((::Obj *)(void *)(((void *)(reinterpret_cast<::FUN_00980070_shell *>((m_04))->FUN_00980070()))), 50, 50, false, s33);
+        m2 = ::FUN_00644580((::Obj *)(void *)(((void *)(reinterpret_cast<CombatControllerFields*>((m_04))->pCombatStyle))), 50, 50, false, s33);
         v29 = t45->V141() || t45->V140() || ((bool)(reinterpret_cast<::FUN_00437bd0_stub *>((t45))->FUN_00437bd0())) || ::FUN_00579670((char *)(t45)) || reinterpret_cast<::FUN_00437bf0_shell *>((t45))->FUN_00437bf0();
         m33 = ((void *)(reinterpret_cast<::FUN_008a1710_shell *>((t45))->FUN_008a1710()));
         if (v29 || !reinterpret_cast<::FUN_008a16d0_shell *>((t45))->FUN_008a16d0() || (m33 != 0 && ::FUN_004c0c30((char *)(m33))))
@@ -1765,7 +1768,7 @@ void This::FUN_009cc510()
             if (!((bool)(::FUN_0097f2d0((char *)(m_04)))))
                 m2 = 0.0f;
         }
-        if ((t57 && !t5) || ((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 4 || t19)
+        if ((t57 && !t5) || ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 4 || t19)
             m2 = 0.0f;
         if (!reinterpret_cast<::FUN_00494710_shell *>((s56))->FUN_00494710(0xaa))
             m2 = 0.0f;
@@ -1813,8 +1816,8 @@ void This::FUN_009cc510()
             if (m_18 != 2)
             {
                 reinterpret_cast<::FUN_009cf6d0_shell *>(this)->FUN_009cf6d0(2);
-                float f60 = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::FUN_004565f0_shell *>((((Mid3*)((void *)(reinterpret_cast<::FUN_00980070_shell *>((m_04))->FUN_00980070())))))->GetFloat(),
-                                         reinterpret_cast<::FUN_00812870_t *>((((Mid3*)((void *)(reinterpret_cast<::FUN_00980070_shell *>((m_04))->FUN_00980070())))))->GetUnka4());
+                float f60 = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::FUN_004565f0_shell *>((((Mid3*)((void *)(reinterpret_cast<CombatControllerFields*>((m_04))->pCombatStyle)))))->GetFloat(),
+                                         reinterpret_cast<::FUN_00812870_t *>((((Mid3*)((void *)(reinterpret_cast<CombatControllerFields*>((m_04))->pCombatStyle)))))->GetUnka4());
                 reinterpret_cast<::FUN_008d7f40_shell *>(&(m_20))->FUN_008d7f40(f60);
             }
         }
@@ -2368,7 +2371,7 @@ struct CombatAttackVT
     virtual void v07a();
     virtual void v07b();
     virtual void v07c();
-    virtual int v07d();
+    virtual intptr_t v07d();
 };
 
 struct CombatVec3
@@ -2377,7 +2380,7 @@ struct CombatVec3
     float y;
     float z;
 };
-void __cdecl FUN_009a68b0(CombatVec3* out, void* a, CombatAttackVT* b, int c, float f);
+void __cdecl FUN_009a68b0(CombatVec3* out, void* a, CombatAttackVT* b, intptr_t c, float f);
 
 class CombatAttackHelper
 {
@@ -2576,7 +2579,7 @@ int S009ce870::FUN_009ce870(float afDistance, float afReach, bool, bool, int)
     bool abAllowedA[5];
     ::FUN_00403d30(abAllowedA, 0, 5);
     ActorX* pActorF = ((::ActorX *)(reinterpret_cast<::FUN_00996de0_Class *>((((ProcX*)this)))->FUN_00996de0()));
-    AttackData* pDataVal = ((::AttackData *)(reinterpret_cast<::FUN_00980070_shell *>((((ProcX*)this)->m_04))->FUN_00980070()));
+    AttackData* pDataVal = ((::AttackData *)(reinterpret_cast<CombatControllerFields*>((((ProcX*)this)->m_04))->pCombatStyle));
     if (((bool)(reinterpret_cast<::FUN_00981970_shell *>((((ProcX*)this)->m_04))->FUN_00981970())))
         return 0xff;
     if (!((bool)(reinterpret_cast<::FUN_009cefb0_shell *>((((ProcX*)this)->m_04))->FUN_009cefb0())))
@@ -2715,27 +2718,27 @@ bool MeleeProcedure::IsActionAvailable(unsigned action)
 {
     Actor* actor = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     bool result = false;
-    if (((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))->GetByteAtOffset8C() > ::_DAT_01012060)
+    if (((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))->GetByteAtOffset8C() > ::_DAT_01012060)
     {
         result = true;
-        if (reinterpret_cast<::fnv_009928c0::CombatFlagHolder *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->HasCombatFlag(1))
+        if (reinterpret_cast<::fnv_009928c0::CombatFlagHolder *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->HasCombatFlag(1))
         {
             switch (action)
             {
             case 92:
-                result = ((signed char)(reinterpret_cast<::DoorAccessData *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->ReadState98())) > 0;
+                result = ((signed char)(reinterpret_cast<::DoorAccessData *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->ReadState98())) > 0;
                 break;
             case 93:
-                result = ((signed char)(reinterpret_cast<::FUN_00505c00_shell *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->FUN_00505c00())) > 0;
+                result = ((signed char)(reinterpret_cast<::FUN_00505c00_shell *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->FUN_00505c00())) > 0;
                 break;
             case 94:
-                result = ((signed char)(reinterpret_cast<::FUN_00505c20_class *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetByteAtOffset9A())) > 0;
+                result = ((signed char)(reinterpret_cast<::FUN_00505c20_class *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetByteAtOffset9A())) > 0;
                 break;
             case 95:
-                result = ((signed char)(reinterpret_cast<::FUN_006a9560_Class *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetByteAtOffset9B())) > 0;
+                result = ((signed char)(reinterpret_cast<::FUN_006a9560_Class *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetByteAtOffset9B())) > 0;
                 break;
             case 96:
-                result = ((signed char)(reinterpret_cast<::FUN_009e8670 *>((((::CombatNode *)(reinterpret_cast<::FUN_00980070_shell *>((context))->FUN_00980070()))))->GetMethod())) > 0;
+                result = ((signed char)(reinterpret_cast<::FUN_009e8670 *>((((::CombatNode *)(reinterpret_cast<CombatControllerFields*>((context))->pCombatStyle))))->GetMethod())) > 0;
                 break;
             }
         }
@@ -2925,7 +2928,7 @@ void Procedure::EvaluateReaction()
     bool targetState3 = reinterpret_cast<::FUN_008a7570_shell *>((target))->FUN_008a7570() == 2;
     bool targetCondition3 = ::FUN_009a96c0((::ActH2 *)(target));
     float chance =
-        ::fnv_00644990::FUN_00644990(((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070())), (int)reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>((actor2))->FUN_00884dc0(), reinterpret_cast<::FUN_00893530_shell *>((actor2))->GetFatigueRatio(), targetState3);
+        ::fnv_00644990::FUN_00644990(((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle)), (int)reinterpret_cast<::fnv_00884dc0::FUN_00884dc0_shell *>((actor2))->FUN_00884dc0(), reinterpret_cast<::FUN_00893530_shell *>((actor2))->GetFatigueRatio(), targetState3);
     if (chance < ::_DAT_01012060)
         chance = 0.0f;
     if (special)
@@ -2942,7 +2945,7 @@ void Procedure::EvaluateReaction()
         bool actorState = reinterpret_cast<::FUN_008a7570_shell *>((actor2))->FUN_008a7570() == 2;
         float first2 = reinterpret_cast<::FUN_009cfd20_shell *>(this)->GetModifierValue();
         float second7 = reinterpret_cast<::FUN_009ce560_shell *>(this)->FUN_009ce560();
-        unsigned short action = ::FUN_00644a70((::OCActor *)(::CombatReaction::Config *)(((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))), actorState, targetState3, first2, second7, special,
+        unsigned short action = ::FUN_00644a70((::OCActor *)(::CombatReaction::Config *)(((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))), actorState, targetState3, first2, second7, special,
                                              targetCondition3, reinterpret_cast<::TESActorBaseData *>(&(options))->GetFatigue());
         if (action)
         {
@@ -2958,22 +2961,22 @@ void Procedure::EvaluateReaction()
                     state = 5;
                     allowed = ((bool)(reinterpret_cast<::fnv_009cfbd0::FUN_009cfbd0_shell *>(this)->FUN_009cfbd0(4)));
                     duration3 =
-                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::TESGrass *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_009cdac0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetField60Float());
+                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::TESGrass *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_009cdac0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetField60Float());
                     break;
                 case 8:
                     state = 6;
                     allowed = ((bool)(reinterpret_cast<::fnv_009cfbd0::FUN_009cfbd0_shell *>(this)->FUN_009cfbd0(8)));
                     duration3 =
-                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::TESGrass *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_009cdac0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetField60Float());
+                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::TESGrass *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetLowestAllowedSlope(), reinterpret_cast<::FUN_009cdac0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetField60Float());
                     break;
                 case 2:
                     state = 4;
                     duration3 =
-                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetActorRadius(), reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetSmoothingRandomness());
+                        ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetActorRadius(), reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetSmoothingRandomness());
                     break;
                 default:
-                    duration3 = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::FUN_009cdae0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetFloatAt64(),
-                                             ::GetFloatAtOffset68((const char *)(((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070())))));
+                    duration3 = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::FUN_009cdae0_shell *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetFloatAt64(),
+                                             ::GetFloatAtOffset68((const char *)(((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle)))));
                     break;
                 }
                 if (FUN_005f2440(reinterpret_cast<::fnv_00897910::AnimOwner *>((((::CombatReaction::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))))->FUN_00897910(state, (::fnv_00897910::Equipped *)(0), 0, (::fnv_00897910::AnimData *)(0))) == state)
@@ -2992,9 +2995,9 @@ void Procedure::EvaluateReaction()
             }
         }
     }
-    else if (((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 1)
+    else if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 1)
     {
-        float delay = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetCenterRadius(), reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<::FUN_00980070_shell *>((owner))->FUN_00980070()))))->GetTargetRadius());
+        float delay = ::CombatDamageCalculator::GetDamageMultiplier(reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetCenterRadius(), reinterpret_cast<::PathingRequest *>((((::CombatReaction::Config *)(reinterpret_cast<CombatControllerFields*>((owner))->pCombatStyle))))->GetTargetRadius());
         reinterpret_cast<::FUN_008d7f40_shell *>(&(reactionTimer))->FUN_008d7f40(delay);
         reinterpret_cast<::fnv_009cfc60::FUN_009cfc60_shell *>(this)->FUN_009cfc60();
         reinterpret_cast<::FUN_009cf660_shell *>(this)->SetMode(1);
@@ -3550,7 +3553,7 @@ struct Procedure98
 void FUN_009cde10_shell::FUN_009cde10()
 {
     FUN_00894900_shell* ptarget;
-    if (((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 1)
+    if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 1)
         return;
     ptarget = ((::FUN_00894900_shell *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
     if (((TimeoutTimer*)((char*)this + 0x28))->CheckTimer())
@@ -4107,7 +4110,7 @@ void FUN_009cf660_shell::SetMode(int mode)
         if (mode == 0 && ((int*)this)[4] == 4 && ((unsigned char)(reinterpret_cast<::CombatProcStub *>(this)->IsTargetOutOfRange())))
             return;
         if (mode == 4 || ((int*)this)[4] == 4)
-            reinterpret_cast<::TESForm *>((((Date*)((int*)this)[1])))->ClearData();
+            reinterpret_cast<::TESForm *>((((Date*)((intptr_t*)this)[1])))->ClearData();
         reinterpret_cast<::FUN_009cfc00_shell *>(this)->FUN_009cfc00();
     }
     ((int*)this)[4] = mode;
@@ -4607,7 +4610,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         return 4;
     else if (!active && direction == 0)
     {
-        FUN_00416870 f = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(position))->FUN_00439ef0((::NiPoint3 *)&(actor->Position()), *(const ::NiPoint3 *)nullptr)));
+        FUN_00416870 f = (*(struct ::FUN_00416870 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(position))->FUN_00439ef0((::NiPoint3 *)&(actor->Position()), *(const ::NiPoint3 *)nullptr)));
         if (reinterpret_cast<::NiPoint3 *>((void *)&(f))->ComputeMagnitude() < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingX *>(&::originalRuntimeFloatSetting713)))))))
             return 4;
     }
@@ -4636,7 +4639,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 g(0.0f, -e, 0.0f);
         if (c & 2)
             g.y -= e;
-        g = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(g)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        g = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(g)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(2, back ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(g)) : false);
         break;
     }
@@ -4644,7 +4647,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 h(0.0f, e, 0.0f);
         if (c & 1)
             h.y += e;
-        h = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(h)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        h = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(h)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(1, forward ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(h)) : false);
         break;
     }
@@ -4652,7 +4655,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 i(-b, 0.0f, 0.0f);
         if (c & 4)
             i.x -= b;
-        i = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(i)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        i = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(i)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(4, left ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(i)) : false);
         break;
     }
@@ -4660,7 +4663,7 @@ int State057::UpdateDirection(Actor057* actor, unsigned direction)
         FUN_00416870 j(b, 0.0f, 0.0f);
         if (c & 8)
             j.x += b;
-        j = (*(struct struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(j)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
+        j = (*(struct ::FUN_00416870 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const struct ::FUN_00416870 &)(a.FUN_004b4500(j)))->ProjectileLaunched((::NiPoint3 *)&(position), {})));
         reinterpret_cast<::FUN_009d0530_shell *>(this)->UpdateFlags(8, right ? reinterpret_cast<::fnv_009d0590::FUN_009d0590_shell *>(this)->FUN_009d0590((::fnv_009d0590::TESObjectREFR *)(actor), (const ::fnv_009d0590::NiPoint3 *)&(j)) : false);
         break;
     }
@@ -5011,7 +5014,7 @@ void MeleeProc::FUN_009ccfb0()
     {
         bool bAttacking4 = false;
         if (((::MeleeActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->GetAnimDataM() && ((::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((((::MeleeActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->GetAnimDataM()))->FUN_00491040(2))) &&
-            ((int)(reinterpret_cast<::LowProcess *>((((::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((((::MeleeActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->GetAnimDataM()))->FUN_00491040(2)))))->GetActiveCombatTarget())) != 1)
+            ((intptr_t)(reinterpret_cast<::LowProcess *>((((::AnimSequence *)(reinterpret_cast<::FUN_00491040_shell *>((((::MeleeActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->GetAnimDataM()))->FUN_00491040(2)))))->GetActiveCombatTarget())) != 1)
             bAttacking4 = true;
         float fTime = reinterpret_cast<::FUN_004bcdb0_shell *>((timer5))->FUN_004bcdb0(0);
         if (fTime <= ::_DAT_01012060 && !bAttacking4)
@@ -5039,7 +5042,7 @@ void MeleeProc::FUN_009ccfb0()
 // @fnv 0x009cd430
 void CombatProc9cd430::FUN_009cd430()
 {
-    if (((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())))
+    if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())))
         return;
     Actor9cd430* actor = ((::Actor9cd430 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     void* target = reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00();
@@ -5086,7 +5089,7 @@ void CombatProc9cd430::FUN_009cd430()
 void C150::FUN_009cd150()
 {
     if (((::Actor150 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->anim() && ((::Seq150 *)(reinterpret_cast<::FUN_00491040_shell *>((((::Actor150 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->anim()))->FUN_00491040(2))) &&
-        ((int)(reinterpret_cast<::LowProcess *>((((::Seq150 *)(reinterpret_cast<::FUN_00491040_shell *>((((::Actor150 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->anim()))->FUN_00491040(2)))))->GetActiveCombatTarget())) != 1)
+        ((intptr_t)(reinterpret_cast<::LowProcess *>((((::Seq150 *)(reinterpret_cast<::FUN_00491040_shell *>((((::Actor150 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()))->anim()))->FUN_00491040(2)))))->GetActiveCombatTarget())) != 1)
         return;
     Actor150* actor2 = ((::Actor150 *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     Actor150* target7 = ((::Actor150 *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
@@ -5170,7 +5173,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
     CombatVec3 vec1c3;
     float fX;
 
-    if (((int)(reinterpret_cast<::MagicCaster_shell *>((this))->FUN_0044edb0())) != 3)
+    if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((this))->FUN_0044edb0())) != 3)
     {
         return;
     }
@@ -5187,7 +5190,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
         return;
     }
 
-    FUN_009a68b0(&vec1c3, actor, (CombatAttackVT*)target8, (int)&target8->Position(), reinterpret_cast<::FUN_009ce560_shell *>((this))->FUN_009ce560());
+    FUN_009a68b0(&vec1c3, actor, (CombatAttackVT*)target8, (intptr_t)&target8->Position(), reinterpret_cast<::FUN_009ce560_shell *>((this))->FUN_009ce560());
 
     if (f0c > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::FloatSetting9cd430 *>(&::originalRuntimeFloatSetting593)))))) * 2)
     {
@@ -5209,7 +5212,7 @@ void CombatProcedure_shell::UpdateCombatMovement()
         else if (actor->FUN_008b3840(&pt9))
         {
             float f38 = FUN_009a6770(actor, target8);
-            float f5 = ((NiPoint3_ext&)(pt9 - (const NiPoint3&)target8->Position())).Length() - f38;
+            float f5 = ((NiPoint3_ext&)ResultSlot(pt9 - (const NiPoint3&)target8->Position())).Length() - f38;
             b_ = ((unsigned char)(reinterpret_cast<::FUN_009cefd0_shell *>((this))->IsWithinThreshold(f5, fX, 0)));
         }
         if (!b_)
@@ -6110,7 +6113,7 @@ void FUN_009ce190_shell::FUN_009ce190()
 // @fnv 0x009ce1d0
 void ZMelee::UpdateMeleeCombat()
 {
-    if (((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 4)
+    if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 4)
         return;
     ZActor* actor2 = ((::ZActor *)(reinterpret_cast<::FUN_00996de0_Class *>(this)->FUN_00996de0()));
     ZActor* target2 = ((::ZActor *)(reinterpret_cast<::FUN_00996e00_shell *>(this)->FUN_00996e00()));
@@ -6154,7 +6157,7 @@ void ZMelee::UpdateMeleeCombat()
     {
         if (IsTargetInCone(actor2, target2, 0))
         {
-            int topicB = FUN_007031c0((int)unk04);
+            int topicB = FUN_007031c0((intptr_t)unk04);
             if (DialogueRandom() % 100 < (int)(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::ZSetting *>(&::g_011cf27c)))))) * ::g_d100))
             {
                 int attackVal = 255;
@@ -6249,14 +6252,14 @@ void FUN_009cf090_Class::TryAttackTarget(float afArg1, float afArg2)
             if (reinterpret_cast<::MeleeProcedure *>((this))->IsActionAvailable(iAttack4))
             {
                 iRandA = DialogueRandom() % 100;
-                if (iRandA < ((char)(reinterpret_cast<::FUN_009cf400_shell *>((((::Obj_9cf *)(reinterpret_cast<::FUN_00980070_shell *>((this->m_04))->FUN_00980070()))))->GetByteAtOffsetAD())))
+                if (iRandA < ((char)(reinterpret_cast<::FUN_009cf400_shell *>((((::Obj_9cf *)(reinterpret_cast<CombatControllerFields*>((this->m_04))->pCombatStyle))))->GetByteAtOffsetAD())))
                 {
-                    fChanceTmp = ::CalculateWeightedValue((::Obj641 *)((int)((::Obj_9cf *)(reinterpret_cast<::FUN_00980070_shell *>((this->m_04))->FUN_00980070()))), reinterpret_cast<::FUN_0097fc70_shell *>((this->m_04))->FUN_0097fc70(),
+                    fChanceTmp = ::CalculateWeightedValue((::Obj641 *)(reinterpret_cast<CombatControllerFields*>((this->m_04))->pCombatStyle), reinterpret_cast<::FUN_0097fc70_shell *>((this->m_04))->FUN_0097fc70(),
                                                         reinterpret_cast<::ActorValueOwner *>(&(pkActorVal->m_a4))->GetActorValueAsInteger((::ActorValue::Index)(11)), bTargetAttacking4,
-                                                        !::FUN_007031c0((int)(this->m_04)), bTargetPostAttack_2,
+                                                        !::FUN_007031c0((intptr_t)(this->m_04)), bTargetPostAttack_2,
                                                         pkTarget5->v230(), bTargetRecoiling);
 
-                    fPercent4 = FUN_00644580((Obj*)((::Obj_9cf *)(reinterpret_cast<::FUN_00980070_shell *>((this->m_04))->FUN_00980070())), 50, 50, false, bTargetAttacking4);
+                    fPercent4 = FUN_00644580((Obj*)((::Obj_9cf *)(reinterpret_cast<CombatControllerFields*>((this->m_04))->pCombatStyle)), 50, 50, false, bTargetAttacking4);
 
                     aFMax = FUN_00404010(100.0 - (fChanceTmp + fPercent4), *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingObj *>(&::originalRuntimeFloatSetting690)))))));
 
@@ -6348,7 +6351,7 @@ void CPAM9cc240::UpdateCombatState()
     reinterpret_cast<::fnv_009d0610::FUN_009d0610_shell *>(&(m64))->FUN_009d0610((::fnv_009d0610::TESAmmoInitCalls *)(m4));
     reinterpret_cast<::Procedure98 *>(this)->UpdateState();
     reinterpret_cast<::TESForm *>(this)->ClearData();
-    if (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 3 || ((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 4)
+    if (((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 3 || ((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) == 4)
     {
         if (reinterpret_cast<::FUN_008b3b90_shell *>((dst0))->FUN_008b3b90() && !reinterpret_cast<::FUN_008b3960_Class *>((dst0))->FUN_008b3960())
         {
@@ -6360,7 +6363,7 @@ void CPAM9cc240::UpdateCombatState()
             {
                 reinterpret_cast<::FUN_009cc490_shell *>((((::Proc9cc240 *)(reinterpret_cast<::InterfaceManager *>((m4))->FUN_00586150()))))->FUN_009cc490(2);
                 reinterpret_cast<::fnv_009a0ec0::FUN_009a0ec0_shell *>((((::Proc9cc240 *)(reinterpret_cast<::InterfaceManager *>((m4))->FUN_00586150()))))->SetNodeBlockAndTimestamp((const ::fnv_009a0ec0::FUN_009a0ec0_Block *)(::P12_9cc240 *)(((::P12_9cc240 *)(reinterpret_cast<::FUN_00575650_Class *>((idxTmp))->FUN_00575650((::FUN_00575650_Result *)(::P12_9cc240 *)(&j))))));
-                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((int)("Could not reach target"));
+                reinterpret_cast<::FUN_009caac0_shell *>(this)->FUN_009caac0((intptr_t)("Could not reach target"));
             }
         }
         else if (reinterpret_cast<::FUN_008b3960_Class *>((dst0))->FUN_008b3960())
@@ -6372,7 +6375,7 @@ void CPAM9cc240::UpdateCombatState()
     {
         reinterpret_cast<::TimeoutTimer *>(&(m48))->FUN_00910b10();
     }
-    switch (((unsigned int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())))
+    switch (((uintptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())))
     {
     case 0:
         reinterpret_cast<::CombatProc9cd430 *>(this)->FUN_009cd430();
@@ -6423,7 +6426,7 @@ void CPAM9cc240::UpdateCombatState()
 // @fnv 0x009cdb00
 void xMelee::UpdateDodge()
 {
-    if (((int)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 2)
+    if (((intptr_t)(reinterpret_cast<::MagicCaster_shell *>(this)->FUN_0044edb0())) != 2)
         return;
     if (reinterpret_cast<::TimeoutTimer *>(&(m_kReaction))->CheckTimer())
     {
@@ -6771,7 +6774,7 @@ void C009ce5b0::FUN_009ce5b0(Vec* apPosition)
         Ptr avoidX(new Avoid);
         reinterpret_cast<::FUN_00905450_StandIn *>((((::fnv_009ce5b0::Avoid *)(::FUN_00559450((int *)&(avoidX))))))->AppendNode((::PathingAvoidanceNode *)&(const ::fnv_009ce5b0::Shape &)(Shape(target->v07d(), *((float *)&(::FUN_00403e20((float *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting385))))))),
                                                   *((float *)&(::FUN_00403e20((float *)(((Settings*)&(*reinterpret_cast<char *>(&::originalRuntimeFloatSetting386))))))))));
-        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009ce5b0::Req *)(&request), (void *)(&(*(::fnv_009ce5b0::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (void *)(((unsigned int)(reinterpret_cast<::PathingLocation *>((void *)&(location))->GetContainingCell()))), (void *)(reinterpret_cast<::BGSTerrainManager *>(&(location))->GetMinLevel()), 5.0f,
+        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009ce5b0::Req *)(&request), (void *)(&(*(::fnv_009ce5b0::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))), (void *)(((uintptr_t)(reinterpret_cast<::PathingLocation *>((void *)&(location))->GetContainingCell()))), (void *)(reinterpret_cast<::BGSTerrainManager *>(&(location))->GetMinLevel()), 5.0f,
                              (::fnv_008b3880::PathingAvoidNodeArray *)(::fnv_009ce5b0::Avoid *)(((::fnv_009ce5b0::Avoid *)(::FUN_00559450((int *)&(avoidX))))));
     }
     else
@@ -6779,7 +6782,7 @@ void C009ce5b0::FUN_009ce5b0(Vec* apPosition)
         float distance = 10.0f;
         if ((unsigned char)GetByteAtOffset70(((char *)(reinterpret_cast<::InterfaceManager *>((holder))->FUN_00586150()))))
             distance = FUN_009a6830(actor2, target, reinterpret_cast<::FUN_009ce560_shell *>(this)->FUN_009ce560());
-        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009ce5b0::Req *)(&request), (void *)((void*)target->v07d()), (void *)(((unsigned int)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))), (void *)((unsigned)((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((target))->FUN_00575d70()))),
+        reinterpret_cast<::fnv_008b3880::FUN_008b3880_target *>((actor2))->PathToLocation((::fnv_008b3880::PathingRequest *)(::fnv_009ce5b0::Req *)(&request), (void *)((void*)target->v07d()), (void *)(((uintptr_t)(reinterpret_cast<::LowProcess *>((target))->GetTarget()))), (void *)((uintptr_t)((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((target))->FUN_00575d70()))),
                              distance, (::fnv_008b3880::PathingAvoidNodeArray *)(::fnv_009ce5b0::Avoid *)(0));
     }
     reinterpret_cast<::B_008b3630 *>((actor2))->SetPathingRequestAvoidNodes((::PathingRequest_b *)(::fnv_009ce5b0::Req *)(&request));
@@ -6807,7 +6810,7 @@ unsigned char FUN_009cde10_shell::FUN_009cf030(float a, float b, int aiUnused)
     unsigned char bResult = 0;
 
     pTarget3 = ((::Actor *)(reinterpret_cast<::FUN_00996de0_Class *>((((FUN_00996de0_ClassQ*)this)))->FUN_00996de0()));
-    bFlag = ((FUN_005524b0_classQ*)reinterpret_cast<::FUN_00980070_shell *>(((*(FUN_00980070_shellQ**)((char*)this + 4))))->FUN_00980070())->GetByteAtOffset8C() >= 100;
+    bFlag = ((FUN_005524b0_classQ*)reinterpret_cast<CombatControllerFields*>(((*(FUN_00980070_shellQ**)((char*)this + 4))))->pCombatStyle)->GetByteAtOffset8C() >= 100;
     m_fPackageValue = 0.0f;
     if (a >= b + m_fPackageValue)
     {

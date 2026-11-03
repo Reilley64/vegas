@@ -2,6 +2,8 @@
 // src/fallout/ai/backuppackage.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/backuppackage.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/save_load_game_view.h"
+#include <cstdint>
 #include "fnv/decl/A90Cls.h"
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -46,7 +48,7 @@ struct FUN_009ed010_shell
 // @fnv 0x009ed010
 void FUN_009ed010_shell::ForwardToBase(void* apBuffer)
 {
-    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((int)(apBuffer));
+    reinterpret_cast<::A90Cls *>((((FUN_00679a90_shell*)this)))->DispatchToSubobjects((intptr_t)(apBuffer));
 }
 
 struct BackUpPackage
@@ -337,8 +339,7 @@ unsigned short FUN_009ed5f0_shell::FUN_009ed5f0()
         if (m_pContactSound)
         {
             TESForm* pForm = ::FUN_004839c0(m_pContactSound->formID);
-            ::FUN_0040fbe0(
-                );
+            ::FUN_0040fbe0();
         }
         else
         {
@@ -458,23 +459,23 @@ void OwnerProxy::SaveBackupPackage()
     reinterpret_cast<::Package679120 *>(this)->SavePackage();
     unsigned short a = 0;
     unsigned short* p = 0;
-    char* i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+    char* i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     if (*g_011de4e8.Bool())
-        i = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        i = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
         unsigned int tag = 0x424c4f4b;
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&tag, 4);
-        p = (unsigned short*)((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        p = (unsigned short*)((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&a, 2);
     }
     unsigned short s = 0;
-    char* h = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+    char* h = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
     reinterpret_cast<::FUN_008579b0_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_008579b0(&s, 2);
     reinterpret_cast<::fnv_00484ce0::TESSaveLoadGameHelper *>(this)->FUN_00484ce0(&unk80, 12);
     if (*g_011de4e8.Bool())
     {
-        char* header = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         HeaderProxy* end = ((::HeaderProxy *)(reinterpret_cast<::EffectSetting *>((((SaveProxy*)DAT_011de45c)))->GetHitSound()));
         if (end)
         {
@@ -488,7 +489,7 @@ void OwnerProxy::SaveBackupPackage()
     }
     if (reinterpret_cast<::FUN_00862110_cls *>((((SaveProxy*)DAT_011de45c)))->FUN_00862110())
     {
-        char* finalend = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((SaveProxy*)DAT_011de45c)))->FUN_00825c00()));
+        char* finalend = ((char *)(reinterpret_cast<SaveLoadGameView*>((((SaveProxy*)DAT_011de45c)))->pBufferCursor));
         char* saved = (char*)p;
         if (finalend > saved + 65535)
             ::FUN_005b5e40();
@@ -663,45 +664,11 @@ struct Process897
     virtual void V138();
     virtual void* GetPackageContext();
 };
+// The actor base as far as FUN_00897bd0 reads it: data is the word the folded getter FUN_00825c00 returns.
 struct ActorBase897
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-    int unk14;
-    int unk18;
-    int unk1c;
-    int unk20;
-    int unk24;
-    int unk28;
-    int unk2c;
-    int unk30;
-    int unk34;
-    int unk38;
-    int unk3c;
-    int unk40;
-    int unk44;
-    int unk48;
-    int unk4c;
-    int unk50;
-    int unk54;
-    int unk58;
-    int unk5c;
-    int unk60;
-    int unk64;
-    int unk68;
-    int unk6c;
-    int unk70;
-    int unk74;
-    int unk78;
-    int unk7c;
-    int unk80;
-    int unk84;
-    int unk88;
-    int unk8c;
-    SaveProxy data;
+    char pad[0x90];
+    void* data;
 };
 struct Actor897 : TESForm
 {
@@ -836,11 +803,11 @@ void Actor897::FUN_00897bd0(void* unused)
     reinterpret_cast<::FUN_00672fc0_shell *>((value))->FUN_00672fc0((::PackageTargetRecord *)(target));
     reinterpret_cast<::TESPackage *>((value))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(41));
     reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetKind({});
-    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetObjectReference({});
+    reinterpret_cast<::PackageTargetRecord *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData()))))->SetTargetObjectReference((::TESObjectREFR *)(::Actor897 *)(this));
     void* contextTmp = ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->GetPackageContext();
     if (contextTmp)
         reinterpret_cast<::fnv_0067a1b0::FUN_0067a1b0_shell *>((value))->FUN_0067a1b0((::TESPackage *)(contextTmp));
-    reinterpret_cast<::TESRegionGrassObject *>((((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData(reinterpret_cast<::Actor *>(this)->GetActorBase()->data))->FUN_00825c00())))))->AssignLandTexture({});
+    reinterpret_cast<::TESRegionGrassObject *>(((::PackageData897 *)(reinterpret_cast<::Script *>((value))->GetData())))->AssignLandTexture((::TESLandTexture *)reinterpret_cast<::ActorBase897 *>(reinterpret_cast<::Actor *>(this)->GetActorBase())->data);
     delete target;
     ((::Process897 *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->V010();
     StartPackage(value, 1, 1);
@@ -877,48 +844,42 @@ void PackageReader::LoadPackageBlock()
             if (header)
             {
                 TESForm* form = ::FUN_004839c0(header->formID);
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
-        pBlockStart = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((LoadManager*)DAT_011de45c)))->FUN_00825c00()));
+        pBlockStart = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
         reinterpret_cast<::FUN_008579e0_shell *>((((LoadManager*)DAT_011de45c)))->FUN_008579e0(&usBlockSize, 2);
     }
     reinterpret_cast<::fnv_00484d00::FUN_00484d00_shell *>(this)->FUN_00484d00(&unk80, 12);
     if (reinterpret_cast<::FUN_00862110_cls *>((((LoadManager*)DAT_011de45c)))->FUN_00862110())
     {
-        char* header = ((char *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((LoadManager*)DAT_011de45c)))->FUN_00825c00()));
+        char* header = ((char *)(reinterpret_cast<SaveLoadGameView*>((((LoadManager*)DAT_011de45c)))->pBufferCursor));
         LoadHeader* pBlockHeader = ((::LoadHeader *)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((LoadManager*)DAT_011de45c)))));
         if (pBlockHeader)
         {
             TESForm* form = ::FUN_004839c0(pBlockHeader->formID);
             if (header > pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
         else
         {
             if (header > pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
             else if (header < pBlockStart + usBlockSize)
             {
-                ::FUN_005b5e40(
-                    );
+                ::FUN_005b5e40();
             }
         }
     }

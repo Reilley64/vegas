@@ -2,6 +2,7 @@
 // src/staging/blk_00920000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstdlib>
 #include "fnv/decl/A_00885520.h"
@@ -468,11 +469,11 @@ FUN_00937d30_cls* FUN_00937d30_cls::FUN_00937d30()
 struct ActorValueModifierList
 {
     void RemoveAllModifiers();
-    void FUN_00937d50(int a);
+    void FUN_00937d50(intptr_t a);
 };
 
 // @fnv 0x00937d50
-void ActorValueModifierList::FUN_00937d50(int aiUnused)
+void ActorValueModifierList::FUN_00937d50(intptr_t aiUnused)
 {
     RemoveAllModifiers();
 }
@@ -1026,7 +1027,7 @@ FUN_00937000::FUN_00937000() : SL()
 
 struct FUN_00986500_shell
 {
-    void RemoveByTarget(int);
+    void RemoveByTarget(intptr_t);
 };
 struct FUN_0093a660_class
 {

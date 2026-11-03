@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloaddefines.cpp: SaveGameSizeState (15 functions)
 
+#include <cstdint>
 #include "fnv/decl/FNV_MemoryManager.h"
 #include "fnv/decl/FUN_0084ab00_This.h"
 #include "fnv/decl/Walker8.h"
@@ -25,7 +26,7 @@ class SaveGameSizeState
   public:
     virtual void UnknownSlot();
     virtual unsigned int Write(unsigned int size);
-    unsigned int iSize;
+    uintptr_t iSize;
     unsigned int iPosition;
     unsigned int iDataLength;
     void RecordRequestedSize(unsigned int requested, unsigned int savedSize);
@@ -407,16 +408,16 @@ void WriteValueByType(FUN_00846330_shell* self, unsigned short ausValue, int typ
     {
     case 0: {
         char b = ausValue;
-        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&b), 1);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)(&b), 1);
         break;
     }
     case 1: {
         short s = ausValue;
-        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&s), 2);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)(&s), 2);
         break;
     }
     case 2:
-        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)((int)&ausValue), 4);
+        reinterpret_cast<::FUN_00846330_shell *>((self))->WriteToFile((const void *)(&ausValue), 4);
         break;
     }
 }

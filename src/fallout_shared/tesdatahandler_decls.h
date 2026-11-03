@@ -2,6 +2,7 @@
 #ifndef FNV_TESDATAHANDLER_DECLS_H
 #define FNV_TESDATAHANDLER_DECLS_H
 
+#include <cstdint>
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_004077e0_shell.h"
 #include "fnv/decl/FUN_004169d0_shell.h"
@@ -135,7 +136,7 @@ class TESDataHandler
     void RegisterAddonNode(BGSAddonNode*);
     int GetDLCIndex(const char*);
     void GetReferencesInArea(TESObjectCELL*, const NiPoint3&, float, const NiPoint3&, float,
-                             bool(__cdecl*)(TESObjectREFR*, long), std::intptr_t);
+                             bool(__cdecl*)(TESObjectREFR*, intptr_t), std::intptr_t);
     void GetRegions();
     TESFile* LookupTESFile(const char*);
     unsigned int GetNextID();

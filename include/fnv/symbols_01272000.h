@@ -15,7 +15,7 @@ extern thread_local int tls_clearCount;
 // 0x01272010
 extern thread_local char tls_buffer[588];
 // 0x01272264
-extern int DAT_tls_0264;
+extern __declspec(thread) int DAT_tls_0264;
 // 0x01272298
 extern __declspec(thread) bool g_tls_0298;
 // 0x012722b4

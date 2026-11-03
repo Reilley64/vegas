@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_00968630_stub {
 public:

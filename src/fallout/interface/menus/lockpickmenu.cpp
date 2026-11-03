@@ -2,6 +2,8 @@
 // src/fallout/interface/menus/lockpickmenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/lockpickmenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/menu_fields.h"
+#include "fnv/result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -404,6 +406,8 @@ struct ProcBase
 
 struct ObjB
 {
+    char pad[0xb4];
+    void* unkB4;
 };
 
 struct ObjC
@@ -439,7 +443,7 @@ void __cdecl FUN_0078e7c0()
     }
     reinterpret_cast<::S148c0 *>((reinterpret_cast<ProcBase*>(((void *)(::FUN_0043c4b0())))))->FUN_007148c0({}, {});
     v6 = ((void *)(::FUN_0045c670()));
-    v1c3 = ((void *)(reinterpret_cast<::MiddleLowProcess *>((reinterpret_cast<ObjB*>(v6)))->GetProcessInteger()));
+    v1c3 = ((void *)((reinterpret_cast<ObjB*>(v6))->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((reinterpret_cast<ObjC*>(v1c3)))->FUN_00c4f270(1);
     v18 = ((void *)(::FUN_00559450((int *)(reinterpret_cast<SingletonGetter*>(&(*reinterpret_cast<char *>(&::g_011da224)))))));
     ::UpdateCameraFrustum((::NiCamera *)(v18), ::g_011db5ec_arg1);
@@ -454,7 +458,7 @@ void __cdecl FUN_0078e7c0()
         v24 = ((void *)(reinterpret_cast<::BSFaceGenNiNode *>((reinterpret_cast<ObjB*>(v6)))->GetAnimationData()));
     }
     v14 = v24;
-    ::FUN_00b6bee0(v14, (void *)(((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), (::BSShaderAccumulator *)(v1c3));
+    ::FUN_00b6bee0(v14, (void *)(((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))), (::BSShaderAccumulator *)(v1c3));
     ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(v14), (::BSShaderAccumulator *)(void *)(((void *)(::FUN_00559450((int *)&(g))))), 0);
     reinterpret_cast<::FUN_004a0fd0_shell *>((reinterpret_cast<ObjC*>(v1c3)))->FUN_004a0fd0((::NiNode *)(void *)(0));
     g.FUN_0066b0d0(0);
@@ -691,8 +695,9 @@ int __cdecl FUN_00790290()
     return ((((unsigned char)(::FUN_00709d40())) != 0 ? -1 : 0) & 8) + 0x14;
 }
 
-struct BSStringT
+template <> class BSStringT<char>
 {
+  public:
     char* m_data;
     unsigned short m_dataLen;
     unsigned short m_bufLen;
@@ -813,10 +818,10 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         float fT =
             FUN_00404010(FUN_0040ebd0((float)(unk74 - ::DAT_011da28c[unk70]) / (m_eRange * 2.0f), 1.0f), 0.0f);
         int iDelta = (aiCode != 5 ? 1 : -1) * iStep;
-        BSStringT kStr;
+        BSStringT<char> kStr;
         g_iPickAngle_011da208 += iDelta;
         unk88 += iDelta / 2;
-        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kStr), s_szIntFormat, g_iPickAngle_011da208);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&kStr), s_szIntFormat, g_iPickAngle_011da208);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk3c))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(kStr))))), true);
         reinterpret_cast<::S0042fa20 *>((g_apLockNodes0_011a0328[unk70]))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)(g_apLockNodes0_011a0328[unk70])))) +
                                                      (int)(iDelta * (1.0f - fT)));
@@ -836,10 +841,10 @@ void LockPickMenuImpl::HandleLockPickAction(int aiCode, int aiUnused)
         float fT2_2 =
             FUN_00404010(FUN_0040ebd0((float)(unk74 - ::DAT_011da28c[unk70]) / (iRange7 * 2.0f), 1.0f), 0.0f);
         int iDeltaX = (aiCode != 8 ? 1 : -1) * iStep;
-        BSStringT kStrTmp;
+        BSStringT<char> kStrTmp;
         g_iDriverAngle_011da20c += iDeltaX;
         unk88 += iDeltaX;
-        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT *)(&kStrTmp), s_szIntFormat, g_iDriverAngle_011da20c);
+        ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&kStrTmp), s_szIntFormat, g_iDriverAngle_011da20c);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((unk48))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(kStrTmp))))), true);
         reinterpret_cast<::S0042fa20 *>((g_apLockNodes2_011a0350[unk70]))->FUN_0045ce80(*((int *)&(::FUN_0043d4d0((int *)(g_apLockNodes2_011a0350[unk70])))) +
                                                      (int)(iDeltaX * (1.0f - fT2_2)));
@@ -946,8 +951,8 @@ void C::FUN_007908f0()
         RunSeventhVirtualOperation = (float)((double)reinterpret_cast<::Dummy_00a239e0 *>((((DummyA*)((void *)(reinterpret_cast<::FUN_00877720_shell *>((::g_osGlobals))->FUN_00877720())))))->FUN_00a239e0(1) *
                                              (((double)(::InterfaceManager::UpdateInterfaceState())) / ((double)(::FUN_00706e50()))));
     }
-    float kVal = reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) + RunSeventhVirtualOperation;
-    int remA8 = (int)reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) % 100;
+    float kVal = reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) + RunSeventhVirtualOperation;
+    int remA8 = (int)reinterpret_cast<::TileListBoxCalls *>((m_68))->GetFloat((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc))) % 100;
     int val3 = (int)kVal % 100;
     kVal = FUN_00404010(kVal, 0.0f);
     kVal = FUN_0040ebd0(kVal, reinterpret_cast<::TileListBoxCalls *>((m_64))->GetFloat(0xfb1));
@@ -962,13 +967,13 @@ void C::FUN_007908f0()
     {
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::BSSoundHandleEx &)(::FUN_00453a70()->GetSoundHandleByEditorID(&DAT_0107462c, 0x101)))->FUN_00ad8830(false);
     }
-    reinterpret_cast<::FUN_00a012d0_t *>((m_68))->FUN_00a012d0((int)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc)), kVal, true);
+    reinterpret_cast<::FUN_00a012d0_t *>((m_68))->FUN_00a012d0((intptr_t)(*reinterpret_cast<void * *>(&::fnv_0078eb50::xg_iTileId2_11da1fc)), kVal, true);
     DAT_011da2c0 = RunSeventhVirtualOperation;
     reinterpret_cast<::LockPickState *>(this)->UpdateLockRotation(kVal);
     float x9 = (float)FUN_00408820(kVal - m_84);
     if (x9 < (float)m_88)
     {
-        unsigned long res4;
+        uintptr_t res4;
         float aV5;
         void* elem9 = ((void *)(::FUN_00559450((int *)&(m_64->m_iWordAt04))));
         aV5 = reinterpret_cast<::TileListBoxCalls *>((m_64))->GetFloat(0xfb1);
@@ -980,7 +985,7 @@ void C::FUN_007908f0()
             if (a3 < aV5 && x9 < a3)
             {
                 aV5 = a3;
-                res4 = (int)bestElem6;
+                res4 = (intptr_t)bestElem6;
             }
         }
         if (res4 != 0)
@@ -1275,12 +1280,10 @@ void ThisCls::InitLockInterface()
     ((VObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))->m_dc(pin, 1);
     ((VObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))->m_dc(idx, 1);
     MatA ptr;
-    new ((void *)&(ptr)) ::Vec3();
     MatB z;
-    new ((void *)&(z)) ::Vec3();
     reinterpret_cast<::FUN_00524ac0_shell *>(&(ptr))->FUN_00524ac0(1.57079637f);
     reinterpret_cast<::FUN_004a0c90_shell *>(&(z))->FUN_004a0c90(1.57079637f);
-    reinterpret_cast<::FUN_0043fa80_s *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&((Comb*)&ptr)->FUN_0043f8d0(&z))));
+    reinterpret_cast<::FUN_0043fa80_s *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)(&ResultSlot(((Comb*)&ptr)->FUN_0043f8d0(&z)))));
     reinterpret_cast<::FUN_004bc1f0_S *>((((NiNode*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_004bc1f0(125.0f, 0.0f, 0.0f);
     UpdData i;
     new ((void *)&(i)) ::NiUpdateData(0.0f, false, false);
@@ -1310,7 +1313,7 @@ void ThisCls::InitLockInterface()
     {
         m_a4 = (CtrlNode*)cnt;
         m_a8 = (ChildObj*)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
-        m_ac = (int)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Backward")))));
+        m_ac = (int)((reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Backward")))));
         m_b0 = (ChildObj*)((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((m_a4))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Left")))));
         reinterpret_cast<::NiControllerManager *>((m_a4))->DeactivateAllSequences(0.0f);
         if (!!m_a8)
@@ -1324,10 +1327,10 @@ void ThisCls::InitLockInterface()
         ::fnv_00a6d2d0::FUN_00a6d2d0((::fnv_00a6d2d0::TCTimeNode *)(idx));
     }
     ((Glob*)&(*reinterpret_cast<char *>(&::g_011da224)))->FUN_0066b0d0(((void *)(reinterpret_cast<::fnv_0078e900::FUN_0078e900_shell *>(this)->FUN_0078e900())));
-    ((VObj*)((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->m_dc(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))), 1);
+    ((VObj*)((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))->m_dc(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))), 1);
     float val;
     val = (float)(reinterpret_cast<::Twin_0084d030 *>((((TimeObj*)((::NiPoint3 *)(reinterpret_cast<::FUN_0043d450_Owner *>((((AVObj*)((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c))))))))))->FUN_0043d450())))))->GetStoredFloatValue() * 3.0);
-    reinterpret_cast<::SSN_b5 *>((((SceneNode*)((int)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(void *)(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c)))))))), val);
+    reinterpret_cast<::SSN_b5 *>((((SceneNode*)((std::intptr_t)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1))))))->FUN_00b5ca70((::Node_b5 *)(void *)(((void *)(::FUN_00559450((int *)(((Glob*)&(*reinterpret_cast<::Manager *>(&::g_011da24c)))))))), val);
 }
 
 struct ImageSpaceEffectParam
@@ -1358,7 +1361,9 @@ struct PickRandom
 
 struct PickMenu
 {
-    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
+    int unk00;
+    void* unk04;
+    int unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
     PickTile* unk3c;
     int unk40, unk44;
     PickTile* unk48;
@@ -1401,7 +1406,7 @@ void PickMenu::UpdateSweetSpot()
     range = (int)(unk84 - g_iPickAngle_011da208 / 2);
     for (int i = 0; i < 6; i++)
     {
-        PickTile* tile = ((::PickTile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::PickTemplate *)(reinterpret_cast<::Twin_00639b40 *>((((::PickWrapper *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->GetEntryPoint()))))->FUN_00a1ddb0({}, {}, {})));
+        PickTile* tile = ((::PickTile *)(reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((::PickTemplate *)(reinterpret_cast<::Twin_00639b40 *>((((::PickWrapper *)(this->unk04))))->GetEntryPoint()))))->FUN_00a1ddb0({}, {}, {})));
         reinterpret_cast<::Tile *>((tile))->Set(0xfaa, i + 17);
         reinterpret_cast<::FUN_00a012d0_t *>((tile))->FUN_00a012d0(0xfb1, (unk84 - range) * 2.0f, true);
         reinterpret_cast<::Tile *>((tile))->Set(0xfa1, range);
@@ -1464,7 +1469,7 @@ class LKMenu
     virtual void v02c();
     virtual void v030();
     virtual int GetID();  // +0x34
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1519,7 +1524,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     if (pkLockRef && reinterpret_cast<::ActorValueOwner *>(&((*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer))->kAVOwner))->GetActorValueAsInteger((::ActorValue::Index)(0x24)) < ::DAT_011da28c[iLockLevelNum])
     {
         ::FUN_00406d00(acMessageVal, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d1efc))))->GetMenuTitle())), ::DAT_011da28c[iLockLevelNum]);
-        ::DispatchMessageToSink((const char *)(acMessageVal), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (const char *)(0), 2.0f, 0);
+        ::DispatchMessageToSink((const char *)(acMessageVal), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_padlock.dds"), (int)(0), 2.0f, 0);
         reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::LKSoundHandle &)(((::LKAudio *)(::FUN_00453a70()))->FUN_00ad7550("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
         return 0;
     }
@@ -1539,7 +1544,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
             reinterpret_cast<::FUN_00a012d0_t *>((pkMenuTileNew))->FUN_00a012d0(0xfad, ::Tile::GetInterfaceScale(), 1);
         (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkLockRef = pkLockRef;
         (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_iLockLevel = iLockLevelNum;
-        reinterpret_cast<::Tile *>((((::LKTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))))->FUN_00726070()))))->Set(FUN_00a01860("_DebugMode"), bDebug);
+        reinterpret_cast<::Tile *>((((::LKTile *)((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->unk04))))->Set(FUN_00a01860("_DebugMode"), bDebug);
         ::FUN_00406d00(acLabel, 0x40, "%d", (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_iPickCount);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkSkillTile))->FUN_00a01350(DAT_011da1f8, (char *)(acLabel), 1);
         ::FUN_00406d00(acLabel, 0x40, "%s [%d", ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d345c))))->GetMenuTitle())),
@@ -1552,7 +1557,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthLabel))->FUN_00a01350(0xfc4, (char *)("PICK HEALTH: 100%"), 1);
         reinterpret_cast<::FUN_00a01290_shell *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthBar))->SetTraitAndReset(DAT_011da1f8, 1.0f);
         reinterpret_cast<::Tile *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->m_pkHealthBar))->Set(
-            DAT_011da1f8, pkLockRef ? reinterpret_cast<::CombatState *>((((LKPlayer*)(*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)((*reinterpret_cast<int *>(&::g_pLockpickItem)))) : 0);
+            DAT_011da1f8, pkLockRef ? reinterpret_cast<::CombatState *>((((LKPlayer*)(*reinterpret_cast<::PlayerStandIn * *>(&::_g_thePlayer)))))->GetInventoryItemCount((::TESForm *)((*reinterpret_cast<intptr_t *>(&::g_pLockpickItem)))) : 0);
         if (FUN_00408b20(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011c3cb4))))->GetMenuTitle())), "ENGLISH"))
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::LKTile *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((pkMenuTileNew))->FUN_00a03da0((char *)("LPM_SkillTitle"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StringSetting *>(&::g_011d4d2c))))->GetMenuTitle()))), 1);
@@ -1567,7 +1572,7 @@ LKTile* CreateLockpickMenu(LockRef* pkLockRef, int aiLockLevel, bool bDebug)
     }
     else
     {
-        if ((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204)) && ((::LKTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))))->FUN_00726070())))
+        if ((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204)) && ((::LKTile *)((*reinterpret_cast<::LKMenu * *>(&::DAT_011da204))->unk04)))
             delete (*reinterpret_cast<::LKMenu * *>(&::DAT_011da204));
     }
     return 0;
@@ -2157,7 +2162,7 @@ void xLockPickMenu::FUN_0078eb50()
         reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_0078eb50::xTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(0xfa9, 255.0f, true);
     int qsSDDgz = 0;
     int qfTOqo = 0x7fff;
-    if (((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0())
+    if (::FUN_004b71d0())
     {
         qsSDDgz = reinterpret_cast<::FUN_00a23390_t *>((((::fnv_0078eb50::xControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0078eb50::xOS * *>(&::g_osGlobals))))->FUN_00877720()))))->GetAxisState(0, 9);
         if (((float)(::FUN_00408820((float)qsSDDgz))) <= 8689.0)
@@ -2177,7 +2182,7 @@ void xLockPickMenu::FUN_0078eb50()
             if (xg_fElapsed_11da2ac == 0.0 && m_6c)
             {
                 if (reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) <= 0.0)
-                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (const char *)(0), 2.0f, 0);
+                    ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (int)(0), 2.0f, 0);
                 else
                     reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_0078eb50::xSound &)(((::fnv_0078eb50::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szEnter, 0x121)))->FUN_00ad8830(false);
             }
@@ -2349,8 +2354,8 @@ void xLockPickMenu::FUN_0078eb50()
         }
         break;
     case 4:
-        if (!qpqRa || (((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && qrEZrs <= 0.0) ||
-            (!((::fnv_0078eb50::xIface *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0() && !reinterpret_cast<::C1540Menu *>(this)->FUN_00791540(false)))
+        if (!qpqRa || (::FUN_004b71d0() && qrEZrs <= 0.0) ||
+            (!::FUN_004b71d0() && !reinterpret_cast<::C1540Menu *>(this)->FUN_00791540(false)))
         {
             reinterpret_cast<::SoundPlaybackHandle *>(&(s_kTension))->StopWithFade(500);
             reinterpret_cast<::FUN_00a25810_Class *>((((::fnv_0078eb50::xControls *)(reinterpret_cast<::FUN_00877720_shell *>(((*reinterpret_cast<::fnv_0078eb50::xOS * *>(&::g_osGlobals))))->FUN_00877720()))))->ResetTargetState();
@@ -2420,7 +2425,7 @@ void xLockPickMenu::FUN_0078eb50()
             }
             if (m_6c && reinterpret_cast<::TileListBoxCalls *>((m_30))->GetFloat(::DAT_011da1f8) == 0.0)
             {
-                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (const char *)(0), 2.0f, 0);
+                ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0078eb50::xStrSetting *>(&::g_011d34ec))))->GetMenuTitle()))), 0, (const char *)(s_szIcon), (int)(0), 2.0f, 0);
                 reinterpret_cast<::Tile *>((m_58))->Set(0xfa3, 0);
                 xUpdateData UPD6(0.0f, true, false);
                 reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0078eb50::xAV *)(reinterpret_cast<::NiNode *>((((::fnv_0078eb50::xAV *)(::FUN_00559450((int *)&((*reinterpret_cast<::fnv_0078eb50::xNodePtr *>(&::g_011da24c))))))))->GetAt(1)))))->FUN_00a59c60((std::intptr_t)&(UPD6));

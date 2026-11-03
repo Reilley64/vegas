@@ -1,5 +1,7 @@
 // fallout/ai/combat/continuousbeamprojectile.cpp: ContinuousBeamProjectile, ScScaler, AlignOwner (7 functions)
 
+#include "fnv/geometry_data_fields.h"
+#include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BGSMessageInitAccess.h"
 #include "fnv/decl/FUN_00440460_S.h"
@@ -220,8 +222,8 @@ struct FUN_009ab9c0_struct : FUN_009795c0_shell
 // @fnv 0x009ab9c0
 bool FUN_009ab9c0_struct::FUN_009ab9c0(void* arg1, NiPoint3* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
 {
-    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(arg1), (::fnv_009c2c80::CdBody *)(arg4), (int)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x20) &&
-        reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(arg1), (*(const ::Vec *)(arg2)), (*(const ::Vec *)(arg3)), (::Buffer *)(arg4), (int)(arg5), (int)(arg6)))
+    if (::fnv_009c2c80::CanProjectileHit((::fnv_009c2c80::RefObj *)(arg1), (::fnv_009c2c80::CdBody *)(arg4), (intptr_t)(this), (::fnv_009c2c80::ProjData *)(void *)(((void *)(reinterpret_cast<::Actor *>(this)->GetActorBase())))) && !reinterpret_cast<::FUN_00444d00_Class *>(this)->FUN_00444d00(0x20) &&
+        reinterpret_cast<::ProjectileHit *>(this)->ProcessHit((::Obj *)(arg1), (*(const ::Vec *)(arg2)), (*(const ::Vec *)(arg3)), (::Buffer *)(arg4), (intptr_t)(arg5), (intptr_t)(arg6)))
     {
         if (field_90)
         {
@@ -731,7 +733,7 @@ void ScScaler::ScaleObject(ScAVObject* pkObject, float fScale)
                 for (int k = 0; k < reinterpret_cast<::TESActorBaseData *>((pkGeom))->GetFatigue(); k++)
                 {
                     ((::ScPoint3 *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkGeom))->FUN_007af430()))[k].y *= fScale;
-                    ((::ScPoint2 *)(reinterpret_cast<::BGSMessageInitAccess *>((pkGeom))->GetIconFormID()))[k].y *= fScale;
+                    ((::ScPoint2 *)reinterpret_cast<GeometryDataFields*>(pkGeom)->m_pkTexture)[k].y *= fScale;
                 }
                 pkObject->FUN_vd8(((void *)(::FUN_0043c4b0())));
             }

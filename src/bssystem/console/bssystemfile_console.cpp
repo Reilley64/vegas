@@ -10,11 +10,11 @@
 struct FUN_008526d0_shell
 {
     int m_iWordAt00;
-    int SetFromCall(std::intptr_t a, int b, int c, std::intptr_t d);
+    int SetFromCall(std::intptr_t a, int b, intptr_t c, std::intptr_t d);
 };
 
 // @fnv 0x008526d0
-int FUN_008526d0_shell::SetFromCall(std::intptr_t a, int b, int c, std::intptr_t d)
+int FUN_008526d0_shell::SetFromCall(std::intptr_t a, int b, intptr_t c, std::intptr_t d)
 {
     m_iWordAt00 = (int)((void *)(reinterpret_cast<::Win32ReadFile *>(this)->Read((void *)(a), b, c, (unsigned long long *)(d))));
     return m_iWordAt00;
@@ -37,11 +37,11 @@ void* FUN_00856350_shell::SetAndReturnPointer(void* apArg1, void* apArg2, void* 
 struct S_008785e0
 {
     int field0;
-    int SetAndGetField0(int a, int b, int c, int d);
+    int SetAndGetField0(int a, int b, intptr_t c, int d);
 };
 // Stores the result of FUN_00afeef0(a, b, c, d) into field0 and returns it.
 // @fnv 0x008785e0
-int S_008785e0::SetAndGetField0(int aiArg1, int aiArg2, int aiArg3, int aiArg4)
+int S_008785e0::SetAndGetField0(int aiArg1, int aiArg2, intptr_t aiArg3, int aiArg4)
 {
     field0 = reinterpret_cast<::O *>(this)->FUN_00afeef0(aiArg1, aiArg2, (::_LARGE_INTEGER *)(aiArg3));
     return field0;

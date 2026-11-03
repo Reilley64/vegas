@@ -1,5 +1,6 @@
 // fallout/misc/saveload/bgssaveloadheader.cpp: free functions (4 functions)
 
+#include <cstdint>
 #include <windows.h>
 #include <new>
 #include <cstring>
@@ -117,7 +118,7 @@ int __cdecl ReadSaveHeader(SaveLoadFile* apFile)
     reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((apLoadGameBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&iversion), 4);
     if (iversion == 0x30)
     {
-        char* pdata4 = ((char *)(::GetCombinedValue((int)(apLoadGameBuffer))));
+        char* pdata4 = ((char *)(::GetCombinedValue((intptr_t)(apLoadGameBuffer))));
         if (pdata4[4] == '|')
         {
         }
@@ -186,7 +187,7 @@ void FUN_0084d4b0(HeaderFile* file)
     if (*(*reinterpret_cast<::HeaderSetting *>(&::g_011de2fc)).FUN_00408d60())
     {
         ::TaskQueueInterface::CopyStringToBuffer(screenshotPath_2, 260, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::HeaderSetting *>(&::g_011c3f74))))->GetMenuTitle())));
-        FUN_00406d50(screenshotPath_2, 260, ((const char *)(new ((void *)(file)) ::Vec3())));
+        FUN_00406d50(screenshotPath_2, 260, ((const char *)(static_cast<void *>(file))));
         FUN_00406d50(screenshotPath_2, 260, ".bmp");
     }
     HeaderPixels* pixels = 0;
@@ -199,7 +200,7 @@ void FUN_0084d4b0(HeaderFile* file)
     }
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&height5), 4, false);
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&width2), 4, false);
-    unsigned int numberVal = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(((*reinterpret_cast<::HeaderManager * *>(&::DAT_011de134))))->GetName()));
+    unsigned int numberVal = reinterpret_cast<::BGSSaveLoadManager *>(::DAT_011de134)->m_uiSaveLoadSubstate;
     reinterpret_cast<::FUN_00865e50_shell *>((stream))->FUN_00865e50((void *)(&numberVal), 4, false);
     reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(reinterpret_cast<::FUN_0055d520_shell *>(((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer))))->FUN_0055d520(), false);
     reinterpret_cast<::FUN_00865e70_shell *>((stream))->FUN_00865e70(::FUN_0047e0e0((::Actor *)((*reinterpret_cast<::HeaderPlayer * *>(&::_g_thePlayer)))), false);
@@ -308,7 +309,8 @@ NiTexture* __cdecl LoadScreenshotTexture(SaveLoadFile* file, unsigned int offset
     aTexFormat.iPixelLayout = 2;
     aTexFormat.iMipMapped = 0;
     aTexFormat.iAlphaFormat = 0;
-    return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(ScreenshotName("BGSSaveLoadHeader_Screenshot")), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
+    ScreenshotName textureName("BGSSaveLoadHeader_Screenshot");
+    return ((::NiTexture *)(::fnv_00a5ff10::FUN_00a5ff10((::fnv_00a5ff10::RefCounted *)(pixelData2), (void *)(textureName.pString), (const ::fnv_00a5ff10::OwnerTriple *)(::ScreenshotTexFormat *)(&aTexFormat))));
 }
 
 #include "generated/data/fallout/misc/saveload/bgssaveloadheader.inc"

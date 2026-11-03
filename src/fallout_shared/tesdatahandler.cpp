@@ -695,7 +695,7 @@ int TESDataHandler::GetDLCIndex(const char* name)
 }
 
 // @fnv 0x0046f280
-void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius, const NiPoint3& direction, float angle, bool(__cdecl* callback)(TESObjectREFR*, long), std::intptr_t data)
+void TESDataHandler::GetReferencesInArea(TESObjectCELL* cell, const NiPoint3& point, float radius, const NiPoint3& direction, float angle, bool(__cdecl* callback)(TESObjectREFR*, intptr_t), std::intptr_t data)
 {
     if (!cell || !callback)
         return;
@@ -7690,12 +7690,12 @@ struct FNVRecordManager
 
 struct FUN_0046f640_shell : public TESDataHandler
 {
-    void ProcessInventoryRecords(FNVFile*, int, int);
+    void ProcessInventoryRecords(FNVFile*, int, intptr_t);
 };
 
 // Iterates FNV inventory records from a file group, dispatches each to a virtual handler, and removes or updates entries based on reference counts and uniqueness.
 // @fnv 0x0046f640
-void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, int source)
+void FUN_0046f640_shell::ProcessInventoryRecords(FNVFile* file, int remaining, intptr_t source)
 {
     FNVObject* current = 0;
     bool retrying;

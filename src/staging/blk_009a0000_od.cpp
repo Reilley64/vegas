@@ -241,7 +241,7 @@ struct FUN_0099a9a0_shell
 
 struct FUN_009a0370_shell
 {
-    void SetFieldE4(int a);
+    void SetFieldE4(intptr_t a);
 };
 
 namespace fnv_009a03a0 {
@@ -251,12 +251,12 @@ struct FUN_0099a9a0_shell
 
 struct FUN_009a03a0_shell
 {
-    void SetFieldE8(int a);
+    void SetFieldE8(intptr_t a);
 };
 
 // Calls ReleaseStageHolder with 0, then stores the int argument at offset 0xe8 of this object.
 // @fnv 0x009a03a0
-void FUN_009a03a0_shell::SetFieldE8(int aiValue)
+void FUN_009a03a0_shell::SetFieldE8(intptr_t aiValue)
 {
     reinterpret_cast<::fnv_009a0470::FUN_009a0470_shell *>((((FUN_0099a9a0_shell*)this)))->ReleaseStageHolder(0);
     *(int*)((char*)this + 0xe8) = aiValue;
@@ -512,10 +512,10 @@ void FUN_009bd760_Class::FUN_009bd760(float value)
 
 struct FUN_009bdf60_class
 {
-    void FUN_009bdf60(int value);
+    void FUN_009bdf60(intptr_t value);
 };
 // @fnv 0x009bdf60
-void FUN_009bdf60_class::FUN_009bdf60(int value)
+void FUN_009bdf60_class::FUN_009bdf60(intptr_t value)
 {
     *(int*)((char*)this + 0xf8) = value;
 }
@@ -807,7 +807,7 @@ struct DummyFontManager
 };
 struct FUN_009aad00Class
 {
-    void FUN_009aad00(int a, int b);
+    void FUN_009aad00(int a, intptr_t b);
 };
 
 struct FUN_009aae10_Class
@@ -1724,7 +1724,7 @@ public:
 
 struct FUN_00865db0_shell
 {
-    void FUN_00865db0(unsigned int key, unsigned int flags);
+    void FUN_00865db0(uintptr_t key, unsigned int flags);
 };
 
 // @fnv 0x009a59e0
@@ -2041,7 +2041,7 @@ struct FUN_009a03d0_cls
 };
 // Calls FUN_009a03d0 with 0 on this object, then stores a at offset 0xe4.
 // @fnv 0x009a0370
-void FUN_009a0370_shell::SetFieldE4(int aiValue)
+void FUN_009a0370_shell::SetFieldE4(intptr_t aiValue)
 {
     reinterpret_cast<::FUN_009a03d0_cls *>((((FUN_0099a9a0_shell*)this)))->FUN_009a03d0(0);
     *(int*)((char*)this + 0xe4) = aiValue;
@@ -2437,11 +2437,11 @@ struct CombatEntry
 
 struct CombatEntryOwner
 {
-    void RemoveEntry(int key);
+    void RemoveEntry(intptr_t key);
 };
 
 // @fnv 0x009a41e0
-void CombatEntryOwner::RemoveEntry(int key)
+void CombatEntryOwner::RemoveEntry(intptr_t key)
 {
     CombatEntry* entry = 0;
     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>(this)->FUN_00853130(key, (*(::fnv_00853130::CombatThreatRecord * *)(&entry))))
@@ -3095,12 +3095,12 @@ struct WorldStateNode
 };
 struct FUN_009aadc0_cls
 {
-    unsigned char FUN_009aadc0(int a, unsigned int b);
+    unsigned char FUN_009aadc0(intptr_t a, unsigned int b);
 };
 
 // Checks DAT_011a55b4 for entry a: if set, tests bit b of FUN_005bd5c0(a); otherwise compares FUN_005bd5c0(a) to b.
 // @fnv 0x009aadc0
-unsigned char FUN_009aadc0_cls::FUN_009aadc0(int aiIndex, unsigned int auiBit)
+unsigned char FUN_009aadc0_cls::FUN_009aadc0(intptr_t aiIndex, unsigned int auiBit)
 {
     if ((*reinterpret_cast<unsigned char (*)[256]>(&::DAT_011a55b4))[aiIndex * 8] != 0)
     {
@@ -7472,7 +7472,7 @@ struct Thing9b58d0 : public FUN_009b5a30_Class
 };
 
 // @fnv 0x009b58d0
-void __cdecl FUN_009b58d0(Thing9b58d0* pThing, int iUnused, Actor9b58d0* pActor, float a4, Struct9b58d0* a5)
+void __cdecl FUN_009b58d0(Thing9b58d0* pThing, intptr_t iUnused, Actor9b58d0* pActor, float a4, Struct9b58d0* a5)
 {
     if (!pThing)
         return;
@@ -7506,7 +7506,7 @@ struct DecompTagByte
 
 // Builds a zero-initialized DecompTagByte and passes its value to FUN_009b2e90 along with a and b.
 // @fnv 0x009b2e00
-void __cdecl FUN_009b2e00(void* a, int aiValue)
+void __cdecl FUN_009b2e00(void* a, intptr_t aiValue)
 {
     DecompTagByte tag = {};
     FUN_009b2e90(a, aiValue, tag.value);
@@ -8052,11 +8052,11 @@ struct FUN_009b4020 : Base_9bd5c0
     int unk148;
     int unk14c;
     int unk150;
-    FUN_009b4020(Tgt_9bd5c0* a, Tgt_9bd5c0* b, int c, NiPoint3 pos, float f1, float f2);
+    FUN_009b4020(Tgt_9bd5c0* a, Tgt_9bd5c0* b, intptr_t c, NiPoint3 pos, float f1, float f2);
 };
 
 // @fnv 0x009bd5c0
-Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, int a3, int a4)
+Base_9bd5c0* __cdecl FUN_009bd5c0(Tgt_9bd5c0* a1, Tgt_9bd5c0* a2, intptr_t a3, intptr_t a4)
 {
     Base_9bd5c0* obj = 0;
     if (a1)

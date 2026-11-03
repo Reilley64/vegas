@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class StatsMenu__HealingOption;
 struct Entry;
@@ -12,7 +13,7 @@ namespace fnv_007e0510 { int CompareEntryNames(void *, void *); }
 // 0x007e05f0
 bool IsActorValueBelowPermanent(int *);
 // 0x007e06b0
-namespace fnv_007e06b0 { int GetStatusResult(); }
+namespace fnv_007e06b0 { intptr_t GetStatusResult(); }
 // 0x007e06f0
 bool IsHealingOptionAvailable(::StatsMenu__HealingOption *);
 // 0x007e07f0

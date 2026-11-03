@@ -2,6 +2,7 @@
 // src/staging/blk_00860000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -1328,11 +1329,11 @@ struct FUN_00878f20_shell
 {
     int pad[4];
     Flt f;
-    unsigned DeallocateSound();
+    uintptr_t DeallocateSound();
 };
 // If the stored float converts to a nonzero pointer, calls TESSound::Deallocate on it and returns the result; otherwise returns 0.
 // @fnv 0x00878f20
-unsigned FUN_00878f20_shell::DeallocateSound()
+uintptr_t FUN_00878f20_shell::DeallocateSound()
 {
     if (f.operator unsigned int())
         return ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reinterpret_cast<TESSound*>(f.operator unsigned int())))->FUN_0084e3a0()));

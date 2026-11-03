@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESTopic;
 namespace ImpactSound { struct ImpactData; }

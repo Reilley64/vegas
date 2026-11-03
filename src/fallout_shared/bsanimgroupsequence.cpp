@@ -1,5 +1,6 @@
 // fallout_shared/bsanimgroupsequence.cpp: BSAnimGroupSequence, TaskQueueInterface, TargetClass, SoundPlaybackManager (20 functions)
 
+#include <cstdint>
 #include <new>
 #include "runtime/crt.h"
 #include "fnv/decl/BaseProcess.h"
@@ -367,7 +368,7 @@ struct GO
 {
     int data;
 
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator unsigned int() const;
     void operator=(void*);

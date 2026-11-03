@@ -1825,7 +1825,7 @@ struct S_0050de20_Class
 };
 
 // @fnv 0x0050f6e0
-int FUN_0050f6e0()
+intptr_t FUN_0050f6e0()
 {
     return (*reinterpret_cast<int *>(&::g_fileFinder));
 }

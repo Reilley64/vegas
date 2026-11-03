@@ -3,6 +3,7 @@
 #define TESACTORBASE_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/CombatProcedure.h"
@@ -596,7 +597,7 @@ class GlobalObject_008c71b0
 {
   public:
     int flags;
-    GlobalObject_008c71b0(int);
+    GlobalObject_008c71b0(intptr_t);
     GlobalObject_008c71b0(const GlobalObject_008c71b0&);
 };
 #endif

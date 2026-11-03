@@ -2,6 +2,7 @@
 #ifndef FNV_LOADINGMENU_H
 #define FNV_LOADINGMENU_H
 
+#include <windows.h>
 #include "layout_support.h"
 #include "SoundPlaybackHandle.h"
 #include "Menu.h"
@@ -21,7 +22,6 @@ class NiTPointerListBase_NiTPointerAllocator_unsigned_int__Tile___;
 class NiTexture;
 class TESLoadScreen;
 class TileShaderProperty;
-class tagRECT;
 enum MiscStatManager__MiscStatID
 {
     MiscStatManager__MiscStatID_MS_QUESTS_COMPLETED = 0,
@@ -81,14 +81,6 @@ enum FONTS
     FONTS_FONT_7 = 6,
     FONTS_FONT_8 = 7,
     FONTS_FONT_COUNT = 8
-};
-class tagRECT
-{
-  public:
-    long left;    // +0x0, 4 bytes
-    long top;     // +0x4, 4 bytes
-    long right;   // +0x8, 4 bytes
-    long bottom;  // +0xC, 4 bytes
 };
 class NiTAbstractPoolAllocator_unsigned_int_
 {

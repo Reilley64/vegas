@@ -1,11 +1,12 @@
 #pragma once
+#include <cstdint>
 
 class TESForm;
 
 class CombatState {
 public:
     // 0x00575610
-    int GetInventoryItemCount(::TESForm *);
+    intptr_t GetInventoryItemCount(::TESForm *);
     // 0x0064bf90
     void UpdateCombatStateData(int, float *, float *, float);
     // 0x008be1b0

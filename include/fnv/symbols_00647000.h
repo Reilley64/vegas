@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActorValueOwner;
 class FloatSource;
@@ -10,7 +11,7 @@ struct TESObjectWEAP;
 // 0x006477b0
 float FUN_006477b0(int);
 // 0x006477e0
-float FUN_006477e0(int);
+float FUN_006477e0(intptr_t);
 // 0x00647870
 namespace fnv_00647870 { float ComputeScaledCount(unsigned int, unsigned int, unsigned int); }
 // 0x00647920

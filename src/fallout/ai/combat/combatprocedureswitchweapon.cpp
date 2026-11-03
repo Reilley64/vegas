@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/combatprocedureswitchweapon.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/combatprocedureswitchweapon.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/inventory_entry_fields.h"
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderNoLightingProperty.h"
 #include "fnv/decl/CPStandIn009caae0.h"
@@ -41,7 +43,7 @@ struct FUN_009da7a0_shell : FUN_009ca6c0_shell
 // @fnv 0x009da7a0
 void FUN_009da7a0_shell::FUN_009da7a0(void)
 {
-    *(int*)this = (int)&DAT_010920cc;
+    *(intptr_t*)this = (intptr_t)&DAT_010920cc;
     reinterpret_cast<::FUN_009ca6c0_class *>(this)->FUN_009ca6c0();
 }
 
@@ -131,7 +133,7 @@ struct FUN_009da720 : FUN_009ca680_holder
 FUN_009da720::FUN_009da720(TESObjectWEAP* apWeapon)
 {
     new ((void *)this) ::fnv_009ca680::FUN_009ca680();
-    *reinterpret_cast<unsigned int*>(this) = reinterpret_cast<unsigned int>(&DAT_010920cc);
+    *reinterpret_cast<uintptr_t*>(this) = reinterpret_cast<uintptr_t>(&DAT_010920cc);
     pWeapon = apWeapon;
     m_ucWeaponState = 0;
 }
@@ -452,7 +454,7 @@ void CombatProcedureSW::UpdateWeaponDraw()
     if (reinterpret_cast<::FUN_008a7570_shell *>((actor))->FUN_008a7570() != -1)
         return;
     InvEntry* entry = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->GetWeaponEntry();
-    TESForm* weap = entry ? ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())) : 0;
+    TESForm* weap = entry ? ((::TESForm *)reinterpret_cast<InventoryEntryFields*>(entry)->pObject) : 0;
     if (!m_ucWeaponState && weap != pWeapon)
     {
         if (((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->IsWeaponOut())
@@ -469,7 +471,7 @@ void CombatProcedureSW::UpdateWeaponDraw()
         }
         else
         {
-            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((int)(weap), (int)(((::ExtraDataList *)(reinterpret_cast<::Callees *>((entry))->FUN_00726070()))), false, false, false, true);
+            reinterpret_cast<::s88c790::Actor *>((actor))->FUN_0088c790((intptr_t)(weap), reinterpret_cast<InventoryEntryFields*>(entry)->iCountDelta, false, false, false, true);
         }
         m_ucWeaponState = true;
     }

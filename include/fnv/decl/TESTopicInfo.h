@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Script;
 class TESResponseList;
@@ -22,7 +23,7 @@ public:
     // 0x0061e780
     ::TESResponseList *DuplicateResponseList(::TESResponseList *);
     // 0x0061eb60
-    ::Script *GetResultScript(unsigned int);
+    ::Script *GetResultScript(uintptr_t);
     // 0x0061f150
     void AddTopicList();
     // 0x0061f220

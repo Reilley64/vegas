@@ -2120,7 +2120,7 @@ struct ObjD;
 struct GO
 {
     NiObj* m_p;
-    GO(int a);
+    GO(intptr_t a);
     ~GO();
     operator NiObj*() const;
 };

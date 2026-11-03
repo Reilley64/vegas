@@ -1,5 +1,10 @@
 // fallout/interface/interface.cpp: Interface, ConsoleManager, FileFinder, TESCreature and more (216 functions)
 
+#include "fallout/interface/tile_fields.h"
+#include "fnv/result_slot.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -292,6 +297,20 @@
 #include "fnv/symbols_011ff000.h"
 #include "fnv/symbols_0126f000.h"
 #include "interface_rebase_packet.h"
+#include "fnv/decl/Owner.h"
+#include "fnv/decl/QRequest.h"
+#include "fnv/symbols_00af4000.h"
+#include "fnv/symbols_011f9000.h"
+#include "fnv/decl/fnv_007dd090__StatsMenuImpl.h"
+#include "fnv/decl/AlphaInterface.h"
+#include "fnv/decl/SubtitleHUD.h"
+#include "fnv/symbols_004de000.h"
+#include "fnv/symbols_0078e000.h"
+#include "fnv/symbols_0079f000.h"
+#include "fnv/symbols_007eb000.h"
+#include "fnv/symbols_007c0000.h"
+#include "fnv/symbols_007e9000.h"
+#include "fnv/symbols_007bf000.h"
 
 class TESWorldSpace;
 class Menu;
@@ -302,7 +321,7 @@ class NiControllerSequence;
 class BSSystemUtility
 {
   public:
-    static int s_iUpdateEnabled;
+    static intptr_t s_iUpdateEnabled;
 };
 
 class FOPipboyManager;
@@ -1003,7 +1022,7 @@ TESObjectREFR* FUN_00703180()
 {
     InterfaceManager* pim = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (pim && reinterpret_cast<Modifier*>(pim)->GetKey())
-        return ((::TESObjectREFR *)(::FUN_007031c0((int)(reinterpret_cast<Modifier*>(pim)))));
+        return ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(reinterpret_cast<Modifier*>(pim)))));
     return 0;
 }
 }  // namespace fnv_00703180
@@ -1064,10 +1083,10 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x00704140
-int FUN_00704140()
+void* FUN_00704140()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(::FUN_00796b90()));
+        return ::FUN_00796b90();
     return 0;
 }
 }  // namespace fnv_00704140
@@ -1082,10 +1101,10 @@ class Modifier
 
 // If FUN_004b7210() returns non-null and its GetKey() is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x00704490
-int FUN_00704490()
+void* FUN_00704490()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(::RepairMenu::Create()));
+        return ::RepairMenu::Create();
     return 0;
 }
 }  // namespace fnv_00704490
@@ -1100,10 +1119,10 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, returns FUN_00796b90(); otherwise returns 0.
 // @fnv 0x007046c0
-int FUN_007046c0()
+void* FUN_007046c0()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
-        return ((int)(static_cast<::ItemModMenu *>(nullptr)->Create()));
+        return static_cast<::ItemModMenu *>(nullptr)->Create();
     return 0;
 }
 }  // namespace fnv_007046c0
@@ -1141,10 +1160,10 @@ class Modifier
 
 // If FUN_004b7210 returns a non-null Modifier whose GetKey is nonzero, returns FUN_007da2c0(); otherwise returns 0.
 // @fnv 0x00704be0
-int FUN_00704be0()
+void* FUN_00704be0()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && static_cast<unsigned char>(reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey()))
-        return ((int)(::FUN_007da2c0()));
+        return ::FUN_007da2c0();
     return 0;
 }
 }  // namespace fnv_00704be0
@@ -1264,7 +1283,7 @@ intptr_t FUN_00705910()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {
-        return ((int)(reinterpret_cast<::FUN_00602170_shell *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00602170()));
+        return ((std::intptr_t)(reinterpret_cast<::FUN_00602170_shell *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00602170()));
     }
     else
     {
@@ -1283,11 +1302,11 @@ struct TESNPC
 };
 // If FUN_004b7210() returns a Modifier whose GetKey() is true, returns its FUN_00602170() result; otherwise returns 0.
 // @fnv 0x00705990
-int FUN_00705990()
+void* FUN_00705990()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
     {
-        return ((int)(reinterpret_cast<::Interface *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager()));
+        return reinterpret_cast<::Interface *>((reinterpret_cast<TESNPC*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->GetPipboyManager();
     }
     else
     {
@@ -1356,11 +1375,11 @@ struct FUN_00705b10_Dummy
 {
     char pad[0xc4];
     int val;
-    void Set(int a);
+    void Set(intptr_t a);
 };
 
 // @fnv 0x00705b10
-void FUN_00705b10_Dummy::Set(int aiValue)
+void FUN_00705b10_Dummy::Set(intptr_t aiValue)
 {
     val = aiValue;
 }
@@ -1375,7 +1394,7 @@ struct IMStandIn
 };
 // If FUN_004b7210() returns an object whose GetKey() is true, forwards a to its FUN_00716010 method.
 // @fnv 0x00705b30
-void __cdecl FUN_00705b30(int a)
+void __cdecl FUN_00705b30(intptr_t a)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->GetKey())
         reinterpret_cast<::FUN_00716010_stub *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00716010((void *)(a));
@@ -1724,7 +1743,7 @@ float __cdecl FUN_00706e90()
 // @fnv 0x00706f50
 void __cdecl FUN_00706f50(void* apPointer, float afLength)
 {
-    ::fnv_007164c0::FUN_007164c0((int)(apPointer), afLength);
+    ::fnv_007164c0::FUN_007164c0((intptr_t)(apPointer), afLength);
 }
 
 
@@ -1758,7 +1777,7 @@ struct IMStandIn
 {
 };
 // @fnv 0x00706ff0
-void __cdecl FUN_00706ff0(int a)
+void __cdecl FUN_00706ff0(intptr_t a)
 {
     reinterpret_cast<::FocusManager *>((reinterpret_cast<IMStandIn*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_00715860((::FocusTile *)(a), 0xfc3, 1);
 }
@@ -1896,7 +1915,7 @@ extern int DAT_011d89ac;
 void __cdecl FUN_00709a90();
 
 // @fnv 0x00709470
-void __cdecl FUN_00709470(int param_1, int param_2, int param_3, int param_4, int param_5)
+void __cdecl FUN_00709470(int param_1, intptr_t param_2, int param_3, int param_4, int param_5)
 {
     if (param_1 != 7)
     {
@@ -2062,9 +2081,6 @@ struct MapMenuH
 struct StatsMenuH
 {
 };
-struct fnv_007aa480
-{
-};
 struct FocusH
 {
     void FocusOnActor(MobileObject*, float, bool);
@@ -2111,7 +2127,7 @@ struct FUN_00706cb0_shell2
 {
 };
 // @fnv 0x00706c20
-void ClearInterfaceRefs(unsigned int a)
+void ClearInterfaceRefs(uintptr_t a)
 {
     InterfaceManager* im = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
     if (*(unsigned int*)((char*)im + 0xcc) == a)
@@ -2337,6 +2353,8 @@ class InterfaceManager;
 
 struct FUN_009b4440_holder
 {
+    char pad[0x100];
+    void* unk100;
 };
 
 // If FUN_004b7210() returns a Modifier with a nonzero key, returns its FUN_009b4440() result; otherwise returns 0.
@@ -2344,7 +2362,7 @@ struct FUN_009b4440_holder
 void* FUN_00703390()
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
-        return ((void *)(reinterpret_cast<::FUN_009b4440_shell *>((reinterpret_cast<FUN_009b4440_holder*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009b4440()));
+        return ((void *)((reinterpret_cast<FUN_009b4440_holder*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->unk100));
     return 0;
 }
 }  // namespace fnv_00703390
@@ -2399,7 +2417,7 @@ void FUN_00704450(char bShow)
 
 
 // @fnv 0x00704470
-void __cdecl FUN_00704470(int arg)
+void __cdecl FUN_00704470(intptr_t arg)
 {
     if (arg)
     {
@@ -2415,7 +2433,7 @@ class Modifier
 
 // If FUN_004b7210 returns a Modifier whose GetKey is nonzero, forwards arg to CreateRepairServicesMenu.
 // @fnv 0x00704690
-void FUN_00704690(unsigned int arg)
+void FUN_00704690(uintptr_t arg)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
         ::CreateRepairServicesMenu((::RSMActor *)(arg));
@@ -2518,7 +2536,7 @@ struct Modifier
 
 
 // @fnv 0x00705830
-void FUN_00705830(int a1, int a2, unsigned char a3)
+void FUN_00705830(intptr_t a1, int a2, unsigned char a3)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((unsigned char)(reinterpret_cast<::FUN_009373f0_shell *>((reinterpret_cast<Modifier*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
         ::CreateLockpickMenu((::LockRef *)(a1), a2, a3);
@@ -2644,14 +2662,14 @@ struct FUN_005e3fc0_shell
     unsigned int Get();
 };
 // @fnv 0x00706d10
-unsigned int FUN_00706d10()
+uintptr_t FUN_00706d10()
 {
     return ((FUN_005e3fc0_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->Get();
 }
 
 
 // @fnv 0x00706f30
-void FUN_00706f30(int aiSoundIndex)
+void FUN_00706f30(intptr_t aiSoundIndex)
 {
     ::s717280::FUN_00717280(aiSoundIndex);
 }
@@ -2707,7 +2725,7 @@ bool IsSomethingZero()
 
 
 // @fnv 0x00709c20
-void FUN_00709c20(int a1)
+void FUN_00709c20(intptr_t a1)
 {
     ::FUN_0077f2f0((::FUN_0077f2f0_obj *)(a1));
 }
@@ -2770,7 +2788,7 @@ char __cdecl FUN_00704400()
 {
     if ((*reinterpret_cast<int *>(&::DAT_011da368)) != 0)
     {
-        return *(char*)((*reinterpret_cast<int *>(&::DAT_011da368)) + 0x12C);
+        return *(char*)((*reinterpret_cast<intptr_t *>(&::DAT_011da368)) + 0x12C);
     }
     else
     {
@@ -2909,7 +2927,7 @@ void FUN_00703810(bool abVisible)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && (unsigned char)((char)(reinterpret_cast<::FUN_009373f0_shell *>((((Modifier*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())))
     {
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((FakeTile*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_00586150())))->FUN_0056c7f0()))))->QueueActorDisarm(!abVisible);
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((FakeTile*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))->FUN_00586150())))->renderedNode))))->QueueActorDisarm(!abVisible);
     }
 }
 }  // namespace fnv_00703810
@@ -3123,27 +3141,27 @@ void __cdecl FUN_00703610()
         if (pstat)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pstat))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pinv)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pinv))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (prepair)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(prepair))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pitemmod)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pitemmod))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         if (pmap)
         {
             reinterpret_cast<::TESRecipe *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->SetRequiredSkill((::ActorValue::Index)(4));
-            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::Callees *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->FUN_00726070())))))->Set(0xfa3, 0);
+            reinterpret_cast<::Tile *>((((Tile_Set_Helper*)((::Tile *)(reinterpret_cast<::MenuFields *>((((MenuPC*)reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pmap))->FUN_00a03c90())))->tile)))))->Set(0xfa3, 0);
         }
         ::fnv_00704f50::FUN_00704f50();
         if (((bool)(::IsStartMenuFlag1Set())))
@@ -3355,6 +3373,8 @@ class Modifier
 class SleepWaitMenu : public Menu
 {
   public:
+public:
+    virtual ~SleepWaitMenu();
 };
 
 
@@ -3464,7 +3484,7 @@ bool ResolveSettingString(const char* apString, char* apValueOut)
     if (xstr[((int)(::FUN_0044a670(xstr))) - 1] == ';')
         xstr[((int)(::FUN_0044a670(xstr))) - 1] = 0;
 
-    psetting = ((::fnv_007073d0::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_007073d0::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((int)(xstr))));
+    psetting = ((::fnv_007073d0::Setting *)(reinterpret_cast<::FUN_004f8a30_shell2 *>((((::fnv_007073d0::GameSettingCollection *)(::GetGameSettingCollection()))))->FUN_004f8a30((intptr_t)(xstr))));
     if (!psetting)
     {
         strcat_s(xstr, 0x104, ":LANGUAGE");
@@ -3826,8 +3846,14 @@ class B706130Setting
 
 
 
+// 0x00984f60 is a folded field setter; on rendered menus it stores the menu tile.
+struct RenderedMenuTileView
+{
+    char pad[0x18];
+    void* pTile;
+};
 // @fnv 0x00706130
-bool __cdecl FUN_00706130(int m_uiSoundID)
+bool __cdecl FUN_00706130(intptr_t m_uiSoundID)
 {
     if (((::B706130Manager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::B706130Manager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0())
     {
@@ -3836,8 +3862,8 @@ bool __cdecl FUN_00706130(int m_uiSoundID)
         if (*(*reinterpret_cast<::B706130Setting *>(&::g_011db620)).Bool())
         {
             B706130Pick* pkPick = new B706130Pick;
-            reinterpret_cast<::TESPackage *>((pkPick))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(pkTile));
-            reinterpret_cast<::NiPick *>((pkPick))->FUN_00705fc0(((::B706130Node *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pkTile))->FUN_0056c7f0())));
+            reinterpret_cast<RenderedMenuTileView*>(pkPick)->pTile = pkTile;
+            reinterpret_cast<::NiPick *>((pkPick))->FUN_00705fc0(((::B706130Node *)(reinterpret_cast<::TileFields *>((pkTile))->renderedNode)));
             reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::B706130Manager *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(pkPick));
         }
         return true;
@@ -4291,7 +4317,7 @@ void Player::OpenDialogMenu()
     DialogObject* dialog = FUN_00ec43fb(menuContext, 0, &DAT_011846a0, &DAT_011a32e0, 0);
     if (dialog)
     {
-        reinterpret_cast<::fnv_009ed0d0::SelfQ *>((dialog))->FUN_009ed0d0((::fnv_009ed0d0::FormQ *)(::Player *)(this), (::fnv_009ed0d0::FormQ *)(((int)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {});
+        reinterpret_cast<::fnv_009ed0d0::SelfQ *>((dialog))->FUN_009ed0d0((::fnv_009ed0d0::FormQ *)(::Player *)(this), (::fnv_009ed0d0::FormQ *)(((std::intptr_t)(reinterpret_cast<::LowProcess *>(this)->GetTarget()))), {});
     }
     reinterpret_cast<::TESPackage *>((menuContext))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(48));
     ((::InterfaceObject *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->Release();
@@ -4657,15 +4683,15 @@ void UpdateVisibility(VisibilityTile* tile, bool show, bool alternate, bool queu
             else
                 _second->Set(0x1779, 0);
         }
-        if (_child && ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_child)))->FUN_0056c7f0())))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_child)))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0xfa3) == 0.0 ||
+        if (_child && ((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_child)))->renderedNode)))
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_child)))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0xfa3) == 0.0 ||
                                reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_child)))->GetFloat(0x1779) == 0.0);
-        if (_second && ((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_second)))->FUN_0056c7f0())))
-            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((((VisibilityTile*)_second)))->FUN_0056c7f0()))))->QueueActorDisarm(show || reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0xfa3) == 0.0 ||
+        if (_second && ((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_second)))->renderedNode)))
+            reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((((VisibilityTile*)_second)))->renderedNode))))->QueueActorDisarm(show || reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0xfa3) == 0.0 ||
                                reinterpret_cast<::TileListBoxCalls *>((((VisibilityTile*)_second)))->GetFloat(0x1779) == 0.0);
     }
-    if (((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0())))
-        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1779) == 0.0);
+    if (((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode)))
+        reinterpret_cast<::TaskQueueInterface *>((((::NiNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(0x1779) == 0.0);
 }
 
 struct NiNodeCull
@@ -4703,13 +4729,13 @@ void UpdateMenuTileVisibility()
                 pChildA2->Set(0x1779, 1);
             if (pChildB5)
                 pChildB5->Set(0x1779, 1);
-            if (((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile2))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pTile2))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0x1779) == 0.0);
-            if (pChildA2 && ((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildA2))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildA2))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0xfa3) == 0.0 ||
+            if (((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pTile2))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pTile2))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0xfa3) == 0.0 || reinterpret_cast<::TileListBoxCalls *>((void *)(pTile2))->GetFloat(0x1779) == 0.0);
+            if (pChildA2 && ((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildA2))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildA2))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0xfa3) == 0.0 ||
                                                   reinterpret_cast<::TileListBoxCalls *>((void *)(pChildA2))->GetFloat(0x1779) == 0.0);
-            if (pChildB5 && ((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildB5))->FUN_0056c7f0())))
-                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((pChildB5))->FUN_0056c7f0()))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0xfa3) == 0.0 ||
+            if (pChildB5 && ((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildB5))->renderedNode)))
+                reinterpret_cast<::TaskQueueInterface *>((((::NiNodeCull *)(reinterpret_cast<::TileFields *>((pChildB5))->renderedNode))))->QueueActorDisarm(reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0xfa3) == 0.0 ||
                                                   reinterpret_cast<::TileListBoxCalls *>((void *)(pChildB5))->GetFloat(0x1779) == 0.0);
         }
     }
@@ -4779,18 +4805,6 @@ bool __cdecl FUN_00703f10(const char* a1, const char* a2, const char* a3, const 
 
 #include <stdarg.h>
 struct HWND__;
-struct WinPoint
-{
-    long x, y;
-};
-struct WinMessage
-{
-    HWND__* hwnd;
-    unsigned int message, wParam;
-    long lParam;
-    unsigned int time;
-    WinPoint pt;
-};
 
 struct InterfaceControl
 {
@@ -4804,7 +4818,7 @@ class OSGlobals
   public:
 };
 // @fnv 0x00704010
-char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, ...)
+char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, intptr_t aiArg3, ...)
 {
     DAT_0119f349 = -1;
     bool success = false;
@@ -4821,7 +4835,7 @@ char __cdecl FUN_00704010(const char* text, int aiArg1, int aiArg2, int aiArg3, 
     {
         while (DAT_0119f349 == -1)
         {
-            WinMessage message;
+            MSG message;
             FUN_00403d30(&message, 0, sizeof(message));
             while (PeekMessageA(&message, 0, 0, 0, 1))
             {
@@ -4940,7 +4954,7 @@ bool __cdecl FUN_00705210(int aiArg1, DecompArg12 aArg12, DecompVec3 aVec3, int 
     DecompScopeGuard guard(13, 1, "D:\\_Fallout3\\Platforms\\Common\\Code\\Fallout\\Interface\\Interface.cpp", 0x8ec);
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && ((FUN_009373f0_shell*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0() && (*reinterpret_cast<unsigned int *>(&::g_pHudMainMenuInstance)))
     {
-        ((DecompTarget*)(*reinterpret_cast<unsigned int *>(&::g_pHudMainMenuInstance)))->FUN_00774fd0(aiArg1, aArg12, aVec3, aiArg4, a5);
+        ((DecompTarget*)(*reinterpret_cast<uintptr_t *>(&::g_pHudMainMenuInstance)))->FUN_00774fd0(aiArg1, aArg12, aVec3, aiArg4, a5);
     }
     return false;
 }
@@ -5452,7 +5466,7 @@ NiNode* FUN_00707660(const char* path, bool* flag)
     else if (FileFinder::Exist(path, 0, 0, -1))
     {
         BSStream stream;
-        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((unsigned int)(path), false))
+        if (reinterpret_cast<::FUN_00c3a8a0_cls *>(&(stream))->FUN_00c3a8a0((std::uintptr_t)(path), false))
         {
             S_004431f0* previous = DAT_011d890c;
             S_004431f0* old = previous;
@@ -5611,7 +5625,7 @@ void LoadWeaponWobbleModels()
             unsigned int length = ::FUN_0044a670((*(::fnv_008d66b0::WobbleName *)(reinterpret_cast<::TESTopicInfoData *>(((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]))->GetLinkToList()))) + 1;
             (*reinterpret_cast<char * (*)[]>(&::DAT_011e00e0))[i] = new char[length];
             ::TaskQueueInterface::CopyStringToBuffer((*reinterpret_cast<char * (*)[]>(&::DAT_011e00e0))[i], length, (*(::fnv_008d66b0::WobbleName *)(reinterpret_cast<::TESTopicInfoData *>(((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]))->GetLinkToList())));
-            ::AssignFixedString((char *)((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]), (int)&(const ::fnv_008d66b0::WobbleName &)(WobbleName(path)), {});
+            ::AssignFixedString((char *)((*reinterpret_cast<fnv_008d66b0::WobbleNode * (*)[]>(&::DAT_011e0110))[i]), (std::intptr_t)&(const ::fnv_008d66b0::WobbleName &)(WobbleName(path)), {});
         }
     }
     DAT_01185520 = true;
@@ -5629,7 +5643,7 @@ struct TESObjectREFRMine : TESObjectREFR
 
 // If the interface manager key is held, adjusts aType to 2 for owned non-actor refs that cannot be used, then calls FUN_0075b310; otherwise returns 0.
 // @fnv 0x00704ed0
-int FUN_00704ed0(TESObjectREFR* apRef, int aType)
+intptr_t FUN_00704ed0(TESObjectREFR* apRef, int aType)
 {
     if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceManagerPCMine*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
     {
@@ -5641,7 +5655,7 @@ int FUN_00704ed0(TESObjectREFR* apRef, int aType)
                 aType = 2;
             }
         }
-        return ((int)(::FUN_0075b310(apRef, aType)));
+        return ((intptr_t)(::FUN_0075b310(apRef, aType)));
     }
     return 0;
 }
@@ -6368,6 +6382,8 @@ struct Mesh34;
 struct V3Maker;
 struct ChainObj
 {
+    char pad[0x24];
+    void* unk24;
     void FUN_00a59c60(V3Maker*);
 };
 struct Mesh34
@@ -6691,7 +6707,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     int cellX17;
 
     if (DAT_011da368 == 0 ||
-        reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0() == 0 ||
+        reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode == 0 ||
         !::FUN_007a1750())
         return;
 
@@ -6748,7 +6764,7 @@ void __cdecl FUN_0079ffb0(char param_1)
         pSub10 = ((void *)(reinterpret_cast<::LowProcess *>((reinterpret_cast<ObjD_11dea3c*>((*reinterpret_cast<int *>(&::_g_thePlayer)))))->GetTarget()));
         if (pSub10 != 0)
         {
-            int insideTileX1;
+            intptr_t insideTileX1;
             int ex62;
             int ey21;
             Position adj31 = pos15;
@@ -6759,8 +6775,8 @@ void __cdecl FUN_0079ffb0(char param_1)
             insideTileX1 = ex62 + cellX17 - (gridSize13 >> 1);
             int insideTileY1 = ey21 + cellY10 - (gridSize13 >> 1);
             base9c33 =
-                reinterpret_cast<const Position&>(NiPt3(static_cast<float>((insideTileX1 << 0xc) + 0x800),
-                                                        static_cast<float>((insideTileY1 << 0xc) + 0x800), 0.0f));
+                reinterpret_cast<const Position&>(ResultSlot(NiPt3(static_cast<float>((insideTileX1 << 0xc) + 0x800),
+                                                        static_cast<float>((insideTileY1 << 0xc) + 0x800), 0.0f)));
             reinterpret_cast<::Target556ef0 *>((static_cast<ChainObj*>(pSub10)))->FUN_00556ef0(insideTileX1, insideTileY1, 0);
             ::FUN_004a0370((char *)(static_cast<ChainObj*>(static_cast<void*>(FUN_0043c4b0()))));
             reinterpret_cast<::fnv_0054e750::FUN_0054e750Class *>((static_cast<ChainObj*>(pSub10)))->FUN_0054e750((void *)(insideTileX1), insideTileY1, (::fnv_0054e750::Helper62d0 *)(::Local12 *)(&local1415));
@@ -6782,7 +6798,7 @@ void __cdecl FUN_0079ffb0(char param_1)
         outsideTileX2 = wx5 + cellX17 - (gridSize13 >> 1);
         outsideTileY1 = wy1 + cellY10 - (gridSize13 >> 1);
         base9c33 = reinterpret_cast<const Position&>(
-            NiPt3(static_cast<float>(outsideTileX2 << 0xc), static_cast<float>(outsideTileY1 << 0xc), 0.0f));
+            ResultSlot(NiPt3(static_cast<float>(outsideTileX2 << 0xc), static_cast<float>(outsideTileY1 << 0xc), 0.0f)));
         if (pReg8 != 0)
             pSub10 = ((void *)(reinterpret_cast<::TESWorldSpace *>((static_cast<ChainObj*>(pReg8)))->GetCellAtGridPosition(outsideTileX2, outsideTileY1)));
         if (pSub10 != 0)
@@ -6825,8 +6841,8 @@ void __cdecl FUN_0079ffb0(char param_1)
                          static_cast<C76a*>(((void *)(reinterpret_cast<::EffectSetting *>((reinterpret_cast<PathSrc*>((*reinterpret_cast<::FUN_00707870_Owner * *>(&::g_TES)))))->GetHitSound())))->v076(),
                          (::FUN_00406d90(pos15.x) >> 0xc) + cellX17, (::FUN_00406d90(pos15.y) >> 0xc) + cellY10);
         }
-        p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<unsigned int>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
-                                               (::NiObject *)(reinterpret_cast<::ActorMover *>((reinterpret_cast<ChainObj*>(((unsigned int)(::FUN_00559450((int *)&(local1415)))))))->GetCurrentMoveModeType())))));
+        p3925 = static_cast<C39*>(((void *)(::FUN_00653270((const ::NiRTTI *)(reinterpret_cast<std::uintptr_t>(&(*reinterpret_cast<unsigned int *>(&::g_011f4418)))),
+                                               (::NiObject *)((reinterpret_cast<ChainObj*>(((uintptr_t)(::FUN_00559450((int *)&(local1415))))))->unk24)))));
         ::FUN_00ee6dc2();
         reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 =
             reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
@@ -6925,7 +6941,7 @@ void __cdecl FUN_0079ffb0(char param_1)
                                                   n25 << 1, pIdx11, 0, 0, (int)::InterfaceManager::UpdateInterfaceState(), (int)::FUN_00715da0()));
     pFx44 = new ObjB0(false);
 
-    reinterpret_cast<::TileShaderProperty *>((static_cast<ObjB0*>(pFx44)))->FUN_00bb7a10((::NiTexture *)(((unsigned int)(::FUN_00559450((int *)&(local1415))))));
+    reinterpret_cast<::TileShaderProperty *>((static_cast<ObjB0*>(pFx44)))->FUN_00bb7a10((::NiTexture *)(((uintptr_t)(::FUN_00559450((int *)&(local1415))))));
     reinterpret_cast<::FUN_008cc6d0_class *>((static_cast<ObjB0*>(pFx44)))->FUN_008cc6d0(0);
     reinterpret_cast<::FUN_007a1450_Class *>((static_cast<ObjB0*>(pFx44)))->SetNavMeshInfo((*(::NavMeshInfo4 *)(&objB83)));
     reinterpret_cast<::FUN_007a1430_Class *>((static_cast<ObjB0*>(pFx44)))->SetFlag(1);
@@ -6944,7 +6960,7 @@ void __cdecl FUN_0079ffb0(char param_1)
     reinterpret_cast<::FUN_00a5a040_Class *>((pMesh14))->FUN_00a5a040();
 
     static_cast<C55*>(reinterpret_cast<void*>(
-                          reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))
+                          reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode))
         ->v055(pMesh14, 1);
     reinterpret_cast<::FUN_007a1400_class *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_007a1400(0x20);
 
@@ -6968,12 +6984,12 @@ void __cdecl FUN_0079ffb0(char param_1)
     new ((void *)&(mk8c26)) ::NiUpdateData(0.0f, 0, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((static_cast<ChainObj*>(
         reinterpret_cast<void*>(
-            reinterpret_cast<::fnv_0056c7f0::Tile *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
+            reinterpret_cast<::TileFields *>((static_cast<Tile30*>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30)))->renderedNode))))->FUN_00a59c60((std::intptr_t)(&mk8c26));
     reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 = reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_128 + 1;
     if (::FUN_007a1750() == 0)
     {
         if (reinterpret_cast<MapMenuR6*>(DAT_011da368)->field_84 ==
-            reinterpret_cast<unsigned int>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30))
+            reinterpret_cast<std::uintptr_t>(reinterpret_cast<MapMenuR6*>(DAT_011da368)->tile_30))
             reinterpret_cast<::MapView *>((reinterpret_cast<MapMenuR6*>(DAT_011da368)))->UpdateLocalMap();
     }
 }
@@ -7068,9 +7084,9 @@ bool FUN_00705ec0(void* arg)
         {
             ::fnv_00a04200::FUN_00a04200(0);
             SpawnedObject* obj = new SpawnedObject();
-            reinterpret_cast<::TESPackage *>((obj))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(v));
-            reinterpret_cast<::NiPick *>((obj))->FUN_00705fc0(((void *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((v))->FUN_0056c7f0())));
-            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_00705ec0::IMHelper *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu({});
+            reinterpret_cast<RenderedMenuTileView*>(obj)->pTile = v;
+            reinterpret_cast<::NiPick *>((obj))->FUN_00705fc0(((void *)(reinterpret_cast<::TileFields *>((v))->renderedNode)));
+            reinterpret_cast<::fnv_007181d0::FUN_007181d0_shell *>((((::fnv_00705ec0::IMHelper *)(::fnv_004b7210::FUN_004b7210()))))->SetRenderedMenu((::fnv_007181d0::FORenderedMenu *)(obj));
         }
         return true;
     }
@@ -7523,14 +7539,14 @@ void FUN_007094f0()
             bPickResultFound = ::fnv_00705ec0::FUN_00705ec0((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)));
             break;
         case 3:
-            bPickResultFound = ::FUN_00706130((int)((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954))));
+            bPickResultFound = ::FUN_00706130((intptr_t)((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954))));
             break;
         case 4:
             if (!reinterpret_cast<::FUN_007023a0_shell *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0())
-                bPickResultFound = ((int)(::fnv_00705070::FUN_00705070((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), (void *)(::DAT_011d8958), (void *)(::DAT_011d895c)))) ? 1 : 0;
+                bPickResultFound = ((std::intptr_t)(::fnv_00705070::FUN_00705070((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)), (void *)(::DAT_011d8958), (void *)(::DAT_011d895c)))) ? 1 : 0;
             break;
         case 5:
-            bPickResultFound = ((int)(::GetOrCreateMenuTile(::DAT_011d8960))) ? 1 : 0;
+            bPickResultFound = ((std::intptr_t)(::GetOrCreateMenuTile(::DAT_011d8960))) ? 1 : 0;
             break;
         case 6:
             bPickResultFound = ::InitStartMenu(1, 0);
@@ -7541,12 +7557,12 @@ void FUN_007094f0()
             bPickResultFound = ::fnv_007a8ba0::FUN_007a8ba0();
             break;
         case 8:
-            bPickResultFound = ::DestroyCompanionWheelMenu((int)(dynamic_cast<Actor*>((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)))));
+            bPickResultFound = ::DestroyCompanionWheelMenu((intptr_t)(dynamic_cast<Actor*>((*reinterpret_cast<::TESObjectREFR * *>(&::DAT_011d8954)))));
             break;
         case 9: {
             NameMenu* pkNameMenu = new NameMenu(0, 0);
             NameTile* pkTile = new NameTile;
-            reinterpret_cast<::FUN_00a087d0_shell *>((pkNameMenu))->FUN_00a087d0((::Tile *)(((int)(reinterpret_cast<::InterfaceManager *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))), {});
+            reinterpret_cast<::FUN_00a087d0_shell *>((pkNameMenu))->FUN_00a087d0((::Tile *)(((std::intptr_t)(reinterpret_cast<::InterfaceManager *>((((::s7094f0::InterfaceManagerView *)(::fnv_004b7210::FUN_004b7210()))))->FUN_00586150()))), {});
             reinterpret_cast<::Tile *>((pkNameMenu))->SetName(s_szPlayerNameEntryMenu);
             reinterpret_cast<::FUN_00a1dc70_shell *>((pkTile))->FUN_00a1dc70((::TileMenu *)(pkNameMenu), 1);
             reinterpret_cast<::FUN_00409480_shell *>((pkNameMenu))->FUN_00409480((::TESActorBase *)(pkTile));
@@ -8099,7 +8115,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
         float _worth = reinterpret_cast<::ItemChangeValueShell *>((item))->FUN_004bd400();
         float weight =
-            ::TESWeightForm::GetWeightForForm((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))), ::FUN_004d1360((char *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer))));
+            ::TESWeightForm::GetWeightForForm((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))), ::FUN_004d1360((char *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer))));
 
         DisplayTile* tiles3[13];
         char worthBufTmp[16];
@@ -8136,13 +8152,13 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             float perk;
             float width;
 
-            switch (((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170())
+            switch (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170())
             {
 
             case 0x29: {
 
                 maskB = 12;
-                DisplayForm* book = ((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
+                DisplayForm* book = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 char desc[256];
                 reinterpret_cast<::fnv_00503a70::AmmoEffectList503 *>((book))->FUN_00503a70(desc, 256);
 
@@ -8159,7 +8175,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
             case 0x28: {
 
-                DisplayForm* weapon = ((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
+                DisplayForm* weapon = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 reinterpret_cast<::Tile *>((tiles3[4]))->Set(0x100a, true);
 
                 DisplayForm* ammoForm = 0;
@@ -8167,12 +8183,12 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                 if (((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture())) &&
                     ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon() &&
-                    weapon == ((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon()))->GetName())))
+                    weapon == ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Weapon()))->pObject)))
                 {
 
                     ammoForm =
                         ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()
-                            ? ((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()))->GetName()))
+                            ? ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo()))->pObject))
                             : 0;
                     actor_11 = reinterpret_cast<DisplayPlayer*>(::_g_thePlayer);
                 }
@@ -8236,15 +8252,15 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     DisplayItem* currentAmmo2 = ((::DisplayProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))->GetBaseTexture()))->Ammo();
 
                     const char* name2 = ::GetStringAtOffsetC4((void *)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
-                    int total = reinterpret_cast<::FUN_004c8f30_shell *>((((::DisplayInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::DisplayPlayer *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))))))->FUN_004c8f30((int)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
+                    int total = reinterpret_cast<::FUN_004c8f30_shell *>((((::DisplayInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(::DisplayPlayer *)(reinterpret_cast<DisplayPlayer*>(::_g_thePlayer)))))))->FUN_004c8f30((intptr_t)(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))));
                     int loaded = 0;
 
                     if (!name2 || !*name2)
                         name2 = ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DisplayForm *)(reinterpret_cast<::AmmoOwner *>((weapon))->FUN_00525980((::AmmoActor *)(actor_11))))->name))->FUN_00408da0()));
 
                     if (currentWeapon && ((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))) && ((::DisplayList *)(::FUN_00559450((int *)(item)))) &&
-                        *((void **)(new ((void *)(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))) ::Vec3())) == *((void **)(new ((void *)(((::DisplayList *)(::FUN_00559450((int *)(item)))))) ::Vec3())))
-                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::Callees *>((currentAmmo2))->FUN_00726070())) : 0;
+                        *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(currentWeapon)))))->m_item)) == *((void **)(&reinterpret_cast<::SimpleListNodeView*>(((::DisplayList *)(::FUN_00559450((int *)(item)))))->m_item)))
+                        loaded = currentAmmo2 ? ((int)(reinterpret_cast<::InventoryEntryFields *>((currentAmmo2))->iCountDelta)) : 0;
 
                     else
                         loaded = MinInt(reinterpret_cast<::FUN_004fe160_cls *>((weapon))->GetFlaggedValue(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>((item))->HasEffect(2)), total);
@@ -8275,7 +8291,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                 ::TaskQueueInterface::CopyStringToBuffer(armorBuf_, 128, DAT_01047008);
 
                 TESObjectARMO* armor =
-                    dynamic_cast<TESObjectARMO*>(reinterpret_cast<TESBoundObject*>(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))));
+                    dynamic_cast<TESObjectARMO*>(reinterpret_cast<TESBoundObject*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))));
 
                 if (armor)
                 {
@@ -8289,8 +8305,8 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles3[5]))->FUN_00a01350(label3, (char *)(armorBuf_), true);
 
-                float dt3 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)((float)(::FUN_004be060((void *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))))), conditionArmor);
-                float dr2 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)::FUN_004be180((char *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))), conditionArmor);
+                float dt3 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)((float)(::FUN_004be060((void *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))))), conditionArmor);
+                float dr2 = ::CombatDamageCalculator::CalculateArmorDamageThreshold((int)::FUN_004be180((char *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))), conditionArmor);
 
                 if (dt3 == 0.0 && dr2 == 0.0)
                 {
@@ -8319,7 +8335,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     value,
                     FUN_0040ebd0(1.0f,
                                  reinterpret_cast<::FUN_004bcdb0_shell *>((item))->FUN_004bcdb0(false) /
-                                     (::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))) ? ::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())))) : 1)),
+                                     (::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))) ? ::TESHealthForm::GetBaseHealth((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)))) : 1)),
                     true);
                 break;
             }
@@ -8330,20 +8346,20 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
 
             DisplayEffects* effects5 = 0;
 
-            if (((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x1d)
+            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x1d)
                 effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::FUN_004bd740_stand *>((item))->GetExtraForm()))));
 
-            else if (((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x2f)
-                effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))));
+            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x2f)
+                effects5 = static_cast<EffectForm*>(reinterpret_cast<EffectForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))));
 
             else
             {
-                EnchantForm* enchant = ((::EnchantForm *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))))));
+                EnchantForm* enchant = ((::EnchantForm *)(::TESEnchantableForm::FindFormEnchantment((::TESForm *)(::DisplayForm *)(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))))));
                 if (enchant && !((bool)(reinterpret_cast<::FlaggedData *>((enchant))->ContainsAnyFlag(4))))
                     effects5 = enchant;
             }
 
-            if (effects5 && *((void **)(new ((void *)&(effects5->effects)) ::Vec3())))
+            if (effects5 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(&(effects5->effects))->m_item)))
             {
                 char effectBuf[256];
                 reinterpret_cast<::Description *>((effects5))->BuildDescription(effectBuf, 256);
@@ -8356,12 +8372,12 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                     maskB &= ~64;
             }
 
-            else if (((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() != 0x29)
+            else if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() != 0x29)
                 maskB &= ~64;
 
-            if (((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()))->FUN_00401170() == 0x67)
+            if (((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject))->FUN_00401170() == 0x67)
             {
-                DescriptionForm* note = reinterpret_cast<DescriptionForm*>(((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName())));
+                DescriptionForm* note = reinterpret_cast<DescriptionForm*>(((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject)));
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tiles3[6]))->FUN_00a01350(text3, (char *)(note->description.Text(0, 0x43534544)), true);
                 maskB |= 64;
             }
@@ -8369,7 +8385,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             if (modified3)
             {
 
-                DisplayForm* modWeapon5 = ((::DisplayForm *)(reinterpret_cast<::Twin_0044ddc0 *>((item))->GetName()));
+                DisplayForm* modWeapon5 = ((::DisplayForm *)(reinterpret_cast<::InventoryEntryFields *>((item))->pObject));
                 DisplayForm* mod_16 = 0;
                 unsigned char flags = reinterpret_cast<::FUN_004bd820_stand *>((item))->FUN_004bd820();
                 bool labeled = false;
@@ -8430,9 +8446,9 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
             if (_worth > 0.0)
             {
                 if (_worth >= 1.0)
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_0106ecc8, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
                 else
-                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                    ::FUN_00406d00(worthBufTmp, 16, DAT_01020768, _worth * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
             }
             else
                 ::TaskQueueInterface::CopyStringToBuffer(worthBufTmp, 16, DAT_01047008);
@@ -8445,7 +8461,7 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
                 weight *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::DisplaySetting *>(&::originalRuntimeFloatSetting32))))));
 
             if (weight > 0.0)
-                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((int)(reinterpret_cast<::Callees *>((item))->FUN_00726070())));
+                ::FUN_00406d00(weightBuf, 32, DAT_01030018, weight * ((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((item))->iCountDelta)));
             else
                 ::TaskQueueInterface::CopyStringToBuffer(weightBuf, 32, DAT_01047008);
 
@@ -8515,4 +8531,205 @@ void FUN_00707e30(DisplayItem* item, DisplayTile* root)
     }
 }
 
+unsigned int FUN_00702440();
+
+// @fnv 0x00b60040
+void FUN_00b60040()
+{
+    char** p = &(*reinterpret_cast<char * *>(&::DAT_011f91c8));
+    do
+    {
+        if (*p)
+            reinterpret_cast<::Owner *>((*p))->FUN_00b5fd60();
+        p += 1;
+    } while ((std::intptr_t)p < (std::intptr_t)&(*reinterpret_cast<unsigned char *>(&::fnv_005bf7b0::DAT_011f91d8)));
+}
+
+struct Inner060
+{
+    virtual void f00();
+    virtual void f01();
+    virtual void f02();
+    virtual void f03();
+    virtual void f04();
+    virtual void f05();
+    virtual void f06();
+    virtual void f07();
+    virtual void f08();
+    virtual void f09();
+    virtual void f10();
+    virtual void f11();
+    virtual void f12();
+    virtual void f13();
+    virtual void f14();
+    virtual void f15();
+    virtual void f16();
+    virtual void f17();
+    virtual void f18();
+    virtual void f19();
+    virtual void f20();
+    virtual void f21();
+    virtual void f22();
+    virtual void f23();
+    virtual void f24(char*, int);
+};
+struct Outer060
+{
+    char _pad0[40];
+    intptr_t _m28;
+    char _pad1[4];
+    Inner060 _m30;
+    void FUN_00b60060();
+};
+// @fnv 0x00b60060
+void Outer060::FUN_00b60060()
+{
+    char buf[0x104];
+    ::BuildAssetPath((const char *)(_m28), buf, 0x104);
+    _m30.f24(buf, 0);
+}
+
+extern "C" char DAT_010ade08[];
+
+struct QueuedTreeModel
+{
+    bool FUN_00b600c0(char* pBuf, unsigned int uiSize);
+};
+
+// @fnv 0x00b600c0
+bool QueuedTreeModel::FUN_00b600c0(char* pBuf, unsigned int uiSize)
+{
+    return reinterpret_cast<::QRequest *>(this)->FUN_00c3d0e0(pBuf, uiSize, DAT_010ade08);
+}
+
+
+struct StatsMenuCalls704e10
+{
+};
+
+struct MenuLookup704
+{
+};
+
+struct InterfaceGate704
+{
+  public:
+};
+bool __cdecl FUN_00702680(int, int);
+
+// @fnv 0x00704e10
+void __cdecl FUN_00704e10(intptr_t id)
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceGate704*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        bool b = FUN_00702680(0x3eb, 0xb);
+        if (b)
+        {
+            ::Menu* menu = ((::Menu *)(::FUN_00a09030(0x3eb)));
+            ::StatsMenu* result = menu ? dynamic_cast< ::StatsMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((((MenuLookup704*)menu)))->FUN_00a03c90()) : 0;
+            if (result)
+            {
+                if (id == 0x4d)
+                {
+                    reinterpret_cast<::StatsMenu *>((reinterpret_cast<StatsMenuCalls704e10*>(result)))->UpdateActorValueTiles();
+                }
+                else
+                {
+                    reinterpret_cast<::fnv_007dd090::StatsMenuImpl *>((reinterpret_cast<StatsMenuCalls704e10*>(result)))->UpdateStatEntry(id);
+                }
+            }
+        }
+    }
+}
+
+void FUN_00706f70();
+Tile* FUN_00707040();
+void FUN_00707050(Tile* apTile);
+void FUN_00707080(Menu* apMenu);
+Tile* GetNextTile();
+float FUN_00707b60();
+void FUN_00705780();
+bool __cdecl FUN_00702680(Interface::enumMenus aeMenuID, unsigned int abFadeStatesThatCountAsVisible);
+void __cdecl FUN_00704130();
+void __cdecl FUN_00704470(intptr_t arg);
+char FUN_00706830();
+bool IsSomethingZero();
+void FUN_0086a530();
+void __cdecl FUN_00703100();
+int __cdecl _stricmp(const char* apStr1, const char* apStr2);
+
+class VATSMenu : public Menu
+{
+public:
+    virtual ~VATSMenu();
+};
+// @fnv 0x00705780
+void __cdecl FUN_00705780()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<FUN_009373f0_shell*>(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))->FUN_009373f0())
+    {
+        Tile* pTile = (Tile*)((::TileProxy *)(::FUN_00a09030(Interface::eVATSMenu)));
+        VATSMenu* pVATSMenuInstance = pTile ? dynamic_cast<VATSMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pTile))->FUN_00a03c90()) : 0;
+        if (pVATSMenuInstance)
+            ShutdownVats();
+    }
+}
+
+
+class InterfaceManagerKey
+{
+  public:
+};
+
+// @fnv 0x00705640
+void __cdecl FUN_00705640()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((InterfaceManagerKey*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        Tile* pkTileMenu = ((::Tile *)(::FUN_00a09030(Interface::eVATSMenu)));
+        VATSMenu* pkMenu = pkTileMenu ? dynamic_cast<VATSMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(pkTileMenu))->FUN_00a03c90()) : 0;
+        if (pkMenu)
+            delete pkMenu;
+        ::FUN_007e9200();
+    }
+}
+
+class SleepWaitMenu : public Menu
+{
+  public:
+};
+class Iface2
+{
+  public:
+};
+// @fnv 0x007055c0
+void FUN_007055c0()
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((Iface2*)((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))->FUN_009373f0())
+    {
+        Tile* a = ((::Tile *)(::FUN_00a09030(0x3f4)));
+        SleepWaitMenu* b = a ? dynamic_cast<SleepWaitMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(a))->FUN_00a03c90()) : 0;
+        if (b)
+            ::fnv_007c01b0::FUN_007c01b0();
+    }
+}
+
+class NiNode;
+class TESSound;
+void __cdecl FUN_00705640();
+
+bool __cdecl IsSomethingZero();
+// @fnv 0x007054f0
+void __cdecl FUN_007054f0(bool sleep)
+{
+    if (((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())) && reinterpret_cast<::FUN_009373f0_shell *>((((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()))))->FUN_009373f0() && IsSomethingZero())
+    {
+        Tile* menu = ((::Tile *)(::FUN_00a09030(1012)));
+        SleepWaitMenu* tile = menu ? dynamic_cast<SleepWaitMenu*>(reinterpret_cast<::FUN_00a03c90_shell *>((void *)(menu))->FUN_00a03c90()) : 0;
+        if (tile)
+            delete tile;
+        ::CreateSleepWaitMenu(sleep);
+    }
+}
 #include "generated/data/fallout/interface/interface.inc"
+#include "generated/data/fallout/interface/interface_o2_variant.inc"

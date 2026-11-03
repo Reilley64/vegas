@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 struct FUN_007687d0;
 
@@ -9,7 +10,7 @@ public:
     // 0x00719630
     void UpdateControllerState(int);
     // 0x00769520
-    unsigned int FUN_00769520(::FUN_007687d0 *);
+    uintptr_t FUN_00769520(::FUN_007687d0 *);
     // 0x007d6550
     void UpdatePanelState();
 };

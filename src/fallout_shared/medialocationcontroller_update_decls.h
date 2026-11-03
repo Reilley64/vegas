@@ -4,6 +4,7 @@
 #define FNV_MEDIALOCATIONCONTROLLER_UPDATE_DECLS_H
 
 // Unit-local header for fallout_shared/medialocationcontroller.cpp.
+#include <cstdint>
 #include "fnv/decl/LowProcess.h"
 #include "fnv/decl/PlayerNearbyRefs.h"
 #include "fnv/decl/fnv_00568cb0__FUN_00568cb0_shell.h"
@@ -241,6 +242,6 @@ public:
 class BSAudio
 {
   public:
-    unsigned int GetSynchTime();
+    uintptr_t GetSynchTime();
 };
 #endif

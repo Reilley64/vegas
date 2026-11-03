@@ -796,7 +796,7 @@ int FUN_0043be10(char* pThis)
 
 struct GO
 {
-    GO(int);
+    GO(intptr_t);
     ~GO();
     int v;
 };
@@ -15909,7 +15909,7 @@ void HeadLoader444::FUN_00444350(void* apKey, int aiArg2, QPtr444* apOut, int ae
 struct S_00444d40_Class
 {
 
-    void FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4);
+    void FUN_00444d40(std::intptr_t param1, int param2, intptr_t param3, std::intptr_t param4);
 };
 // @fnv 0x004457d0
 void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr_t aiArg2, void* ref)
@@ -15947,7 +15947,7 @@ void ModelLoaderHelper445::FUN_004457d0(TESModel* model, int aiArg1, std::intptr
 }
 
 // @fnv 0x00444d40
-void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, int param3, std::intptr_t param4)
+void S_00444d40_Class::FUN_00444d40(std::intptr_t param1, int param2, intptr_t param3, std::intptr_t param4)
 {
     GlobalObject_00528cb0 local(0);
 

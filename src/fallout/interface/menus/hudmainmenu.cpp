@@ -1,5 +1,9 @@
 // fallout/interface/menus/hudmainmenu.cpp: HUDMainMenu, HUDMainMenuS, Interface, TESSound and more (82 functions)
 
+#include "fallout/interface/tile_fields.h"
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fnv/inventory_entry_fields.h"
 #include <cstdint>
 #include <windows.h>
 #include <new>
@@ -140,7 +144,6 @@
 #include "fnv/decl/NiCamera.h"
 #include "fnv/decl/NiPoint3Interpolator.h"
 #include "fnv/decl/NiSourceTexture.h"
-#include "fnv/decl/NiUpdateData.h"
 #include "fnv/decl/OwnerLookupView.h"
 #include "fnv/decl/OwnershipReferenceView.h"
 #include "fnv/decl/PlayerCharShell.h"
@@ -164,7 +167,6 @@
 #include "fnv/decl/Twin_0084d030.h"
 #include "fnv/decl/Vec3.h"
 #include "fnv/decl/Wheel.h"
-#include "fnv/decl/XPMenu.h"
 #include "fnv/decl/_Cam_00712e60.h"
 #include "fnv/decl/fnv_00447080__FUN_00447080_shell.h"
 #include "fnv/decl/fnv_004bda70__FUN_004bda70_shell.h"
@@ -312,6 +314,27 @@
 #include "fnv/symbols_011f9000.h"
 #include "fnv/symbols_01203000.h"
 #include "HUDMainMenu.h"
+#include "fnv/decl/ActorValueUtility.h"
+#include "fnv/decl/FUN_00464e10_shell.h"
+#include "fnv/decl/NiNodeBooleanState.h"
+#include "fnv/symbols_005c7000.h"
+#include <cstring>
+#include "fnv/decl/FUN_00438690.h"
+#include "fnv/decl/FUN_0043d450_Owner.h"
+#include "fnv/decl/FUN_0043fa80_s.h"
+#include "fnv/decl/FUN_00440490_shell.h"
+#include "fnv/decl/FUN_004a0c90_shell.h"
+#include "fnv/decl/FUN_004bc1f0_S.h"
+#include "fnv/decl/FUN_00524ac0_shell.h"
+#include "fnv/decl/MyHost.h"
+#include "fnv/decl/NiControllerManager.h"
+#include "fnv/decl/SSN_b5.h"
+#include "fnv/decl/fnv_0047a520__Fn47a520.h"
+#include "fnv/symbols_00713000.h"
+#include "fnv/symbols_0077e000.h"
+#include "fnv/symbols_008c1000.h"
+#include "fnv/symbols_00ad8000.h"
+#include "fnv/symbols_011f3000.h"
 
 static const int kGetClassValue = 1004;
 
@@ -341,6 +364,11 @@ class NiAVObject;
 class NiNode
 {
   public:
+    unsigned int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28;
+    unsigned int unk2c, unk30, unk34, unk38, unk3c, unk40, unk44, unk48, unk4c, unk50, unk54;
+    unsigned int unk58, unk5c, unk60, unk64, unk68, unk6c, unk70, unk74, unk78, unk7c, unk80;
+    unsigned int unk84, unk88, unk8c, unk90, unk94, unk98, unk9c, unka0, unka4, unka8;
+    NiNode(unsigned short childCount);
     void IncRefCount();
     void DecRefCount();
 public:
@@ -579,6 +607,312 @@ void FUN_00771540_shell::UpdateActorValueMeter(int aeActorValue)
 }
 
 struct ActiveEffect;
+class TESForm
+{
+
+  public:
+    virtual void v000();
+    virtual void v004();
+    virtual void v008();
+    virtual void v00c();
+    virtual void v010();
+    virtual void v014();
+    virtual void v018();
+    virtual void v01c();
+
+    virtual void v020();
+    virtual void v024();
+    virtual void v028();
+    virtual void v02c();
+    virtual void v030();
+    virtual void v034();
+    virtual void v038();
+    virtual void v03c();
+
+    virtual void v040();
+    virtual void v044();
+    virtual void v048();
+    virtual void v04c();
+    virtual void v050();
+    virtual void v054();
+    virtual void v058();
+    virtual void v05c();
+
+    virtual void v060();
+    virtual void v064();
+    virtual void v068();
+    virtual void v06c();
+    virtual void v070();
+    virtual void v074();
+    virtual void v078();
+    virtual void v07c();
+
+    virtual void v080();
+    virtual void v084();
+    virtual void v088();
+    virtual void v08c();
+    virtual void v090();
+    virtual void v094();
+    virtual void v098();
+    virtual void v09c();
+
+    virtual void v0a0();
+    virtual void v0a4();
+    virtual void v0a8();
+    virtual void v0ac();
+    virtual void v0b0();
+    virtual void v0b4();
+    virtual void v0b8();
+    virtual void v0bc();
+
+    virtual void v0c0();
+    virtual void v0c4();
+    virtual void v0c8();
+    virtual void v0cc();
+    virtual void v0d0();
+    virtual void v0d4();
+    virtual void v0d8();
+    virtual void v0dc();
+
+    virtual void v0e0();
+    virtual void v0e4();
+    virtual void v0e8();
+    virtual void v0ec();
+    virtual void v0f0();
+    virtual void v0f4();
+    virtual void v0f8();
+    virtual void v0fc();
+
+    virtual bool IsActor();
+
+    virtual void v104();
+    virtual void v108();
+    virtual void v10c();
+    virtual void v110();
+    virtual void v114();
+    virtual void v118();
+    virtual void v11c();
+    virtual void v120();
+
+    virtual void v124();
+    virtual void v128();
+    virtual void v12c();
+    virtual void v130();
+    virtual void v134();
+    virtual void v138();
+    virtual void v13c();
+
+    virtual struct ModelListX* GetModelList();
+
+    virtual void v144();
+    virtual void v148();
+    virtual void v14c();
+    virtual void v150();
+    virtual void v154();
+    virtual void v158();
+    virtual void v15c();
+    virtual void v160();
+
+    virtual void v164();
+    virtual void v168();
+    virtual void v16c();
+    virtual void v170();
+    virtual void v174();
+    virtual void v178();
+    virtual void v17c();
+    virtual void v180();
+
+    virtual void v184();
+    virtual void v188();
+    virtual void v18c();
+    virtual void v190();
+    virtual void v194();
+    virtual void v198();
+    virtual void v19c();
+    virtual void v1a0();
+
+    virtual void v1a4();
+    virtual void v1a8();
+    virtual void v1ac();
+    virtual void v1b0();
+    virtual void v1b4();
+    virtual void v1b8();
+    virtual void v1bc();
+    virtual void v1c0();
+
+    virtual void v1c4();
+    virtual void v1c8();
+    virtual void v1cc();
+    virtual void v1d0();
+    virtual void v1d4();
+    virtual void v1d8();
+    virtual void v1dc();
+    virtual void v1e0();
+
+    virtual void v1e4();
+    virtual void v1e8();
+    virtual void v1ec();
+    virtual void v1f0();
+
+    virtual struct PointX* GetPos();
+
+    virtual void v1f8();
+    virtual void v1fc();
+    virtual void v200();
+    virtual void v204();
+    virtual void v208();
+    virtual void v20c();
+    virtual void v210();
+    virtual void v214();
+
+    virtual void v218();
+    virtual void v21c();
+    virtual void v220();
+
+    virtual bool IsCreature();
+
+    virtual void v228();
+
+    virtual bool IsDead(bool abArg);
+
+    virtual void v230();
+    virtual void v234();
+    virtual void v238();
+    virtual void v23c();
+    virtual void v240();
+    virtual void v244();
+    virtual void v248();
+    virtual void v24c();
+
+    virtual void v250();
+    virtual void v254();
+    virtual void v258();
+    virtual void v25c();
+    virtual void v260();
+    virtual void v264();
+    virtual void v268();
+    virtual void v26c();
+
+    virtual void v270();
+
+    virtual bool IsInCombat(bool abArg);
+
+    virtual void v278();
+    virtual void v27c();
+    virtual void v280();
+    virtual void v284();
+    virtual void v288();
+    virtual void v28c();
+    virtual void v290();
+    virtual void v294();
+
+    virtual void v298();
+    virtual void v29c();
+    virtual void v2a0();
+    virtual void v2a4();
+    virtual void v2a8();
+    virtual void v2ac();
+    virtual void v2b0();
+    virtual void v2b4();
+
+    virtual void v2b8();
+
+    virtual float GetDistanceScale(int aiArg);
+
+    int GetFormType();
+
+
+
+
+
+
+
+public:
+    bool GetDisabled() const;
+public:
+    virtual ~TESForm();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual void v2c();
+    virtual void v30();
+    virtual void v34();
+    virtual void v38();
+    virtual void v3c();
+    virtual void v40();
+    virtual void v44();
+    virtual void v48();
+    virtual void v4c();
+    virtual void v50();
+    virtual void v54();
+    virtual void v58();
+    virtual void v5c();
+    virtual void v60();
+    virtual void v64();
+    virtual void v68();
+    virtual void v6c();
+    virtual void v70();
+    virtual void v74();
+    virtual void v78();
+    virtual void v7c();
+    virtual void v80();
+    virtual void v84();
+    virtual void v88();
+    virtual void v8c();
+    virtual void v90();
+    virtual void v94();
+    virtual void v98();
+    virtual void v9c();
+    virtual void va0();
+    virtual void va4();
+    virtual void va8();
+    virtual void vac();
+    virtual void vb0();
+    virtual void vb4();
+    virtual void vb8();
+    virtual void vbc();
+    virtual void vc0();
+    virtual void vc4();
+    virtual void vc8();
+    virtual void vcc();
+    virtual void vd0();
+    virtual void vd4();
+    virtual void vd8();
+    virtual void vdc();
+    virtual void ve0();
+    virtual void ve4();
+    virtual void ve8();
+    virtual void vec();
+    virtual void vf0();
+    virtual void vf4();
+    virtual void vf8();
+    virtual void vfc();
+};
+class BSExtraData;
+class ExtraRadioData;
+class TESActorBase;
+class BSPackedTask;
+class CompassStub;
+class TESObjectREFR : public TESForm
+{
+public:
+    ::BSExtraData *GetExtraData(unsigned char) const;
+    ::ExtraRadioData *GetExtraRadioData();
+};
+class Actor : public TESObjectREFR
+{
+  public:
+public:
+    ::TESActorBase *GetActorBase();
+    bool IsSneaking();
+};
 struct Actor;
 struct ActorCause;
 struct ActorMover;
@@ -843,8 +1177,8 @@ void __cdecl FUN_007736d0(Script* script)
         Node* pNode = ((::Node *)(reinterpret_cast<::FUN_005d43e0_shell *>((script))->FUN_005d43e0()));
         while (pNode && !pNode->_ref_008256d0())
         {
-            if ((*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))->HasFlag() && !(*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))->HasFlag())
-                ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>(((*((::BGSQuestObjective **)(new ((void *)(pNode)) ::Vec3())))))->GetPromptText(), 0, 1);
+            if ((*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->HasFlag() && !(*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))->HasFlag())
+                ::FUN_0077a5b0(reinterpret_cast<::FUN_005ec330_shell *>(((*((::BGSQuestObjective **)(&reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item)))))->GetPromptText(), 0, 1);
             pNode = ((::Node *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
         }
     }
@@ -951,6 +1285,16 @@ public:
     void Set(int, unsigned int);
 public:
     static float GetInterfaceScale();
+public:
+    virtual ~Tile();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual CompassStub* vf20();
 };
 
 class Interface
@@ -978,13 +1322,6 @@ void FUN_00775670_shell::FUN_00775670()
 
 class BSExtraData;
 class ExtraRadioData;
-struct TESObjectREFR
-{
-public:
-    ::BSExtraData *GetExtraData(unsigned char) const;
-public:
-    ::ExtraRadioData *GetExtraRadioData();
-};
 
 
 // @fnv 0x00778930
@@ -1244,6 +1581,8 @@ class ActorTaskManager
 {
   public:
     void WaitForTasksDuringRendering(void);
+public:
+    void FUN_00453860(bool);
 };
 
 class AnimIdle
@@ -1257,9 +1596,27 @@ class TaskQueueInterface
     static void __cdecl CopyStringToBuffer(char*, unsigned int, char const*);
 public:
     void QueueActorDisarm(bool);
+public:
+    static ::TaskQueueInterface *GetSingleton();
+    void SetTaskFlag(bool);
+    void QueueReferenceStateTask(bool);
+    void FUN_004902f0(bool);
+    void FUN_004ef970(bool);
+    void SetTaskFlag2000(bool);
+    void SetTaskFlag_005468b0(bool);
+    void FUN_00566930(bool);
+    void FUN_00576640(bool);
+    ::NiPoint3 &QueueActorAnimationTask(::NiPoint3 &);
+    void FUN_00635fe0(bool);
+    static void ThreadProcessSecondaryInput();
+    static void ThreadProcessInput(unsigned int);
+    void ProcessTaskQueue();
+    static void ProcessQueuedTask(const ::BSPackedTask &);
+    void ProcessPackedTask(const ::BSPackedTask &);
+    void FUN_0087e100(bool);
+    void SetTaskFlag_008d6f10(bool);
 };
 
-extern ActorTaskManager g_011d9730;
 
 struct HUDMainMenu_pme_access : public HUDMainMenu
 {
@@ -1286,7 +1643,7 @@ void __cdecl FUN_0077a5b0(const char* apObjectiveName, bool abCompleted, bool ab
         pObjective->m_bDisplayed = abReminder;
         ((BSSimpleList<const char*>*)HUDMainMenu_pme_access::g_pHudMainMenuInstance->m_kQuestObjectives)
             ->AddHead((const char*&)pObjective);
-        g_011d9730.WaitForTasksDuringRendering();
+        reinterpret_cast<ActorTaskManager*>(&g_011d9730)->WaitForTasksDuringRendering();
     }
 }
 
@@ -1307,12 +1664,11 @@ struct FUN_0077b2a0_shell : public QuestUpdateManager
     void* GetQuestNamesHead();
 };
 
-extern int g_011d970c;
 
 // @fnv 0x0077b2a0
 void* FUN_0077b2a0_shell::GetQuestNamesHead()
 {
-    return *((void **)(new ((void *)(&g_011d970c)) ::Vec3()));
+    return *((void **)(&reinterpret_cast<::SimpleListNodeView*>(&g_011d970c)->m_item));
 }
 
 namespace fnv_0077b2c0 {
@@ -1333,7 +1689,6 @@ struct FUN_0077b2c0_shell : public QuestUpdateManager
     bool FUN_0077b2c0();
 };
 
-extern int g_011d970c;
 bool _ref_008256d0(void* pThis);
 
 // @fnv 0x0077b2c0
@@ -1482,11 +1837,11 @@ struct Flt
 
 struct FUN_00772820
 {
-    unsigned int Get();
+    uintptr_t Get();
 };
 
 // @fnv 0x00772820
-unsigned int FUN_00772820::Get()
+uintptr_t FUN_00772820::Get()
 {
     return *reinterpret_cast<Flt*>(reinterpret_cast<char*>(this) + 0xcc);
 }
@@ -1580,6 +1935,13 @@ class SoundPlaybackHandle
     bool StopWithFade(unsigned int uiMilliseconds);
 public:
     bool IsValid() const;
+    bool SetPositionFromArray(float *);
+    bool FUN_00877700();
+    bool SchedulePlayback(unsigned int, int);
+    bool IsPlaying() const;
+    bool SetPlaybackFrequency(float);
+    bool Release();
+    void SetCompletionCallback(void (*)(void *, bool), void *);
 };
 class BSAudio
 {
@@ -1700,7 +2062,6 @@ struct FUN_00775210_cls
 // @fnv 0x00775210
 FUN_00775210_cls* FUN_00775210_cls::FUN_00775210()
 {
-    new ((void *)((void*)((char*)this + 0x10c))) ::Vec3();
     return this;
 }
 
@@ -1744,13 +2105,6 @@ struct GlobalObject2_0040c150
 {
 };
 class TESActorBase;
-struct Actor
-{
-public:
-    ::TESActorBase *GetActorBase();
-public:
-    bool IsSneaking();
-};
 struct PC7d : Actor
 {
 };
@@ -1867,7 +2221,7 @@ void FUN_0077f5e0_shell::ResetWaitTiles()
         void* pCurrentElementNext = &g_pHudMainMenuInstance->m_kQuestObjectives;
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext))
         {
-            delete (TileReference*)*((void **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            delete (TileReference*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pCurrentElementNext)->m_item));
             pCurrentElementNext = reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070();
         }
         reinterpret_cast<::FileMatchList *>((&g_pHudMainMenuInstance->m_kQuestObjectives))->RemoveAll();
@@ -2025,7 +2379,6 @@ bool FUN_007737a0_Class::HasFlag(unsigned int mask)
     return (m_20 & mask) ? true : false;
 }
 
-extern int g_011d970c;
 
 struct FUN_009ca410_shell_base
 {
@@ -2047,7 +2400,6 @@ struct List_009e03e0
 {
     void RemoveAll();
 };
-extern int g_011d970c;
 
 struct FUN_0077f5c0_Class
 {
@@ -2125,7 +2477,6 @@ void __cdecl ShowRegionData(const RegionDisplayInfo* aRegionData)
 }  // namespace fnv_007728f0
 
 namespace fnv_00778a90 {
-extern "C" int __cdecl sprintf(char*, const char*, ...);
 struct Tile
 {
     void Set(int, const char*, bool);
@@ -2195,9 +2546,9 @@ void __cdecl UpdateTileOnFlag(bool abUseFirstTile)
     if (*(unsigned int*)(_pme + 0x1bc) & 8)
     {
         if (abUseFirstTile)
-            reinterpret_cast<::Tile *>((((Tile*)(*(unsigned int*)(_pme + 0x174)))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>((((Tile*)(*(uintptr_t*)(_pme + 0x174)))))->Set(0xfa3, 1);
         else
-            reinterpret_cast<::Tile *>((((Tile*)(*(unsigned int*)(_pme + 0x158)))))->Set(0xfa3, 1);
+            reinterpret_cast<::Tile *>((((Tile*)(*(uintptr_t*)(_pme + 0x158)))))->Set(0xfa3, 1);
     }
 }
 }  // namespace fnv_0077f490
@@ -2451,7 +2802,7 @@ TargetMarker* HUDTargetSelector::FindTargetMarker()
     TargetMarker* selected3 = 0;
     float best3 = DAT_01016970;
     MarkerVector player = (*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer))->GetPosition();
-    for (unsigned int index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)))->GetName())); ++index)
+    for (unsigned int index = 0; index < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)))->GetName())); ++index)
     {
         float distance =
             reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::MarkerVector &)((reinterpret_cast<MarkerArray*>(m_kSubtitleArray)->GetAt(index)->position - player)))->UpdateCombatStyle();
@@ -2511,229 +2862,6 @@ struct StringX
 
 };
 
-class TESForm
-{
-
-  public:
-    virtual void v000();
-    virtual void v004();
-    virtual void v008();
-    virtual void v00c();
-    virtual void v010();
-    virtual void v014();
-    virtual void v018();
-    virtual void v01c();
-
-    virtual void v020();
-    virtual void v024();
-    virtual void v028();
-    virtual void v02c();
-    virtual void v030();
-    virtual void v034();
-    virtual void v038();
-    virtual void v03c();
-
-    virtual void v040();
-    virtual void v044();
-    virtual void v048();
-    virtual void v04c();
-    virtual void v050();
-    virtual void v054();
-    virtual void v058();
-    virtual void v05c();
-
-    virtual void v060();
-    virtual void v064();
-    virtual void v068();
-    virtual void v06c();
-    virtual void v070();
-    virtual void v074();
-    virtual void v078();
-    virtual void v07c();
-
-    virtual void v080();
-    virtual void v084();
-    virtual void v088();
-    virtual void v08c();
-    virtual void v090();
-    virtual void v094();
-    virtual void v098();
-    virtual void v09c();
-
-    virtual void v0a0();
-    virtual void v0a4();
-    virtual void v0a8();
-    virtual void v0ac();
-    virtual void v0b0();
-    virtual void v0b4();
-    virtual void v0b8();
-    virtual void v0bc();
-
-    virtual void v0c0();
-    virtual void v0c4();
-    virtual void v0c8();
-    virtual void v0cc();
-    virtual void v0d0();
-    virtual void v0d4();
-    virtual void v0d8();
-    virtual void v0dc();
-
-    virtual void v0e0();
-    virtual void v0e4();
-    virtual void v0e8();
-    virtual void v0ec();
-    virtual void v0f0();
-    virtual void v0f4();
-    virtual void v0f8();
-    virtual void v0fc();
-
-    virtual bool IsActor();
-
-    virtual void v104();
-    virtual void v108();
-    virtual void v10c();
-    virtual void v110();
-    virtual void v114();
-    virtual void v118();
-    virtual void v11c();
-    virtual void v120();
-
-    virtual void v124();
-    virtual void v128();
-    virtual void v12c();
-    virtual void v130();
-    virtual void v134();
-    virtual void v138();
-    virtual void v13c();
-
-    virtual struct ModelListX* GetModelList();
-
-    virtual void v144();
-    virtual void v148();
-    virtual void v14c();
-    virtual void v150();
-    virtual void v154();
-    virtual void v158();
-    virtual void v15c();
-    virtual void v160();
-
-    virtual void v164();
-    virtual void v168();
-    virtual void v16c();
-    virtual void v170();
-    virtual void v174();
-    virtual void v178();
-    virtual void v17c();
-    virtual void v180();
-
-    virtual void v184();
-    virtual void v188();
-    virtual void v18c();
-    virtual void v190();
-    virtual void v194();
-    virtual void v198();
-    virtual void v19c();
-    virtual void v1a0();
-
-    virtual void v1a4();
-    virtual void v1a8();
-    virtual void v1ac();
-    virtual void v1b0();
-    virtual void v1b4();
-    virtual void v1b8();
-    virtual void v1bc();
-    virtual void v1c0();
-
-    virtual void v1c4();
-    virtual void v1c8();
-    virtual void v1cc();
-    virtual void v1d0();
-    virtual void v1d4();
-    virtual void v1d8();
-    virtual void v1dc();
-    virtual void v1e0();
-
-    virtual void v1e4();
-    virtual void v1e8();
-    virtual void v1ec();
-    virtual void v1f0();
-
-    virtual struct PointX* GetPos();
-
-    virtual void v1f8();
-    virtual void v1fc();
-    virtual void v200();
-    virtual void v204();
-    virtual void v208();
-    virtual void v20c();
-    virtual void v210();
-    virtual void v214();
-
-    virtual void v218();
-    virtual void v21c();
-    virtual void v220();
-
-    virtual bool IsCreature();
-
-    virtual void v228();
-
-    virtual bool IsDead(bool abArg);
-
-    virtual void v230();
-    virtual void v234();
-    virtual void v238();
-    virtual void v23c();
-    virtual void v240();
-    virtual void v244();
-    virtual void v248();
-    virtual void v24c();
-
-    virtual void v250();
-    virtual void v254();
-    virtual void v258();
-    virtual void v25c();
-    virtual void v260();
-    virtual void v264();
-    virtual void v268();
-    virtual void v26c();
-
-    virtual void v270();
-
-    virtual bool IsInCombat(bool abArg);
-
-    virtual void v278();
-    virtual void v27c();
-    virtual void v280();
-    virtual void v284();
-    virtual void v288();
-    virtual void v28c();
-    virtual void v290();
-    virtual void v294();
-
-    virtual void v298();
-    virtual void v29c();
-    virtual void v2a0();
-    virtual void v2a4();
-    virtual void v2a8();
-    virtual void v2ac();
-    virtual void v2b0();
-    virtual void v2b4();
-
-    virtual void v2b8();
-
-    virtual float GetDistanceScale(int aiArg);
-
-    int GetFormType();
-
-
-
-
-
-
-
-public:
-    bool GetDisabled() const;
-};
 
 class TESBoundObject : public TESForm
 {
@@ -2916,6 +3044,8 @@ class RefX : public TESForm
 
 
 
+    char pad[0x140];
+    struct EntryX* pEquippedEntry;
 };
 
 struct ActivateDataX
@@ -3220,7 +3350,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         return true;
         break;
     case 0x33:
-        if (((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((apRef))->FUN_009d9f00())) && ((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((apRef))->FUN_009d9f00()))))->GetName()))->GetFormType() != 0x1f)
+        if (((::EntryX *)(apRef->pEquippedEntry)) && ((::TESForm *)(((::EntryX *)(apRef->pEquippedEntry))->pType))->GetFormType() != 0x1f)
             break;
         if (apRef->GetFormType() == 0x3d)
         {
@@ -3375,9 +3505,9 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
     if (apRef)
     {
         RefX* pCreature = apRef->IsCreature() ? apRef : 0;
-        if (pCreature && ((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((pCreature))->FUN_009d9f00())))
+        if (pCreature && ((::EntryX *)(pCreature->pEquippedEntry)))
         {
-            ::TaskQueueInterface::CopyStringToBuffer(xszName, 0x104, ::FUN_00482720(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((pCreature))->FUN_009d9f00()))))->GetName()))));
+            ::TaskQueueInterface::CopyStringToBuffer(xszName, 0x104, ::FUN_00482720(((::TESForm *)(((::EntryX *)(pCreature->pEquippedEntry))->pType))));
         }
         else if (pCreature && ((::TESForm *)(reinterpret_cast<::FUN_00476c90_Class *>((pCreature))->FUN_00476c90())))
         {
@@ -3461,7 +3591,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         PerceivedListX* pNode = ((::PerceivedListX *)(reinterpret_cast<::FUN_00595d10_shell *>(((*reinterpret_cast<::RefX * *>(&::_g_thePlayer))))->FUN_00595d10()));
         while (pNode && !pNode->IsEmpty())
         {
-            PerceivedX* pData = ((::PerceivedX *)(new ((void *)(pNode)) ::Vec3()));
+            PerceivedX* pData = ((::PerceivedX *)(reinterpret_cast<::SimpleListNodeView*>(pNode)->m_item));
             if (pData->pActor == qydrGv && pData->bVisible)
             {
                 qxDeKK = true;
@@ -3479,12 +3609,12 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
             ExtraNameX* pExtraName = ((::ExtraNameX *)(reinterpret_cast<::TESObjectREFR *>((apRef))->GetExtraData(0x53)));
             StringX kName(s_lit5);
             if (pExtraName)
-                reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((int)&(pExtraName->kName));
+                reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((intptr_t)&(pExtraName->kName));
             if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(kName))->FUN_004048e0())) == 0)
             {
                 TESObjectACTI* pActi = dynamic_cast<TESObjectACTI*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())));
                 if (pActi)
-                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((int)&(const ::StringX &)(pActi->GetActivateText()));
+                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::StringX &)(kName))->CallAndReturnSelf((intptr_t)&(const ::StringX &)(pActi->GetActivateText()));
             }
             if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(kName))->FUN_004048e0())) > 0)
             {
@@ -3617,10 +3747,10 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         }
     }
     qqtISP = apRef->IsCreature() ? apRef : 0;
-    qODE = qqtISP && ((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((qqtISP))->FUN_009d9f00()));
+    qODE = qqtISP && ((::EntryX *)(qqtISP->pEquippedEntry));
     qnEqwa = qqtISP ? ((::TESForm *)(reinterpret_cast<::FUN_00476c90_Class *>((qqtISP))->FUN_00476c90())) : 0;
     qAhbO = qnEqwa && ::FUN_004c0bf0((::TESObjectWEAP *)(qnEqwa)) ? qnEqwa : 0;
-    EntryX qsSDDgz(qODE ? *((::EntryX *)(reinterpret_cast<::FUN_009d9f00_Class *>((qqtISP))->FUN_009d9f00())) : EntryX(qAhbO ? qAhbO : ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())), 0));
+    EntryX qsSDDgz(qODE ? *((::EntryX *)(qqtISP->pEquippedEntry)) : EntryX(qAhbO ? qAhbO : ((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((apRef))->FUN_007af430())), 0));
     if (!qsSDDgz.pList)
         qsSDDgz.pList = new ExtraListListX();
     qsSDDgz.pList->AddHead(((::ExtraListX *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(apRef))->FUN_005d43c0())));
@@ -3666,9 +3796,9 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
             ::TaskQueueInterface::CopyStringToBuffer(xszValue, 8, s_lit11);
         }
         float fWeight = 0.0f;
-        if (((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName()))->GetFormType() == 0x28)
+        if (((::TESForm *)(qsSDDgz.pType))->GetFormType() == 0x28)
         {
-            WeaponX* pType = (WeaponX*)((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName()));
+            WeaponX* pType = (WeaponX*)((::TESForm *)(qsSDDgz.pType));
             fWeight = reinterpret_cast<::TESObjectWEAP *>((pType))->GetWeightForForm(((unsigned char)(reinterpret_cast<::fnv_004bda70::FUN_004bda70_shell *>(&(qsSDDgz))->HasEffect(4))));
             if (fWeight >= 10.0)
             {
@@ -3679,7 +3809,7 @@ bool UpdateActivatePrompt(RefX* apRef, int aiUnused, bool abForce)
         }
         else
         {
-            fWeight = ::TESWeightForm::GetWeightForForm(((::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>(&(qsSDDgz))->GetName())), ::FUN_004d1360((char *)((*reinterpret_cast<::RefX * *>(&::_g_thePlayer)))));
+            fWeight = ::TESWeightForm::GetWeightForForm(((::TESForm *)(qsSDDgz.pType)), ::FUN_004d1360((char *)((*reinterpret_cast<::RefX * *>(&::_g_thePlayer)))));
         }
         if (fWeight > 0.0)
             ::FUN_00406d00(xszWeight, 8, s_lit10, fWeight);
@@ -4012,7 +4142,7 @@ struct FUN_0077f2f0_vt55
     virtual void v52();
     virtual void v53();
     virtual void v54();
-    virtual void v55(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+    virtual void v55(intptr_t a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 };
 
 struct FUN_0077f2f0_obj
@@ -4040,6 +4170,17 @@ struct FUN_0077f2f0_mgr
 
 extern int DAT_011d96c0;
 extern char DAT_011d9770;
+class NiUpdateData
+{
+  public:
+    float fTime;
+    bool m_bUpdateEnabled;
+    bool bIsMultiThreaded;
+    bool bUnk06;
+    bool bUnk07;
+    int unk08;
+    NiUpdateData(float time, bool updateControllers, bool multiThreaded);
+};
 
 
 // @fnv 0x0077f2f0
@@ -4057,7 +4198,7 @@ void FUN_0077f2f0(FUN_0077f2f0_obj* pObject)
                 if (pObject->F48cee0() > 0)
                 {
                     vt = ((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))));
-                    vt->v55(((int)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((FUN_0077f2f0_mgr*)(*reinterpret_cast<void * *>(&::g_modelLoader)))))->FUN_00447080({}, {}, {}, {}, {}, {}))), pObject->v5(), 0, 1, 0, 0, 0, 1);
+                    vt->v55(((intptr_t)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>((((FUN_0077f2f0_mgr*)(*reinterpret_cast<void * *>(&::g_modelLoader)))))->FUN_00447080({}, {}, {}, {}, {}, {}))), pObject->v5(), 0, 1, 0, 0, 0, 1);
                     reinterpret_cast<::TaskQueueInterface *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->QueueActorDisarm(1);
                     new ((void *)&(loc)) ::NiUpdateData(0.0f, 0, 0);
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::FUN_0077f2f0_vt55 *)(::FUN_00559450((int *)(((FUN_0077f2f0_mgr*)&DAT_011d9770)))))))->FUN_00a59c60((std::intptr_t)(&loc));
@@ -4140,6 +4281,63 @@ class ShadowSceneNode
     virtual void v56();
     virtual void v57();
     virtual void SetNode(NiNode_st* p);
+public:
+    virtual void vf00();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2c();
+    virtual void vf30();
+    virtual void vf34();
+    virtual void vf38();
+    virtual void vf3c();
+    virtual void vf40();
+    virtual void vf44();
+    virtual void vf48();
+    virtual void vf4c();
+    virtual void vf50();
+    virtual void vf54();
+    virtual void vf58();
+    virtual void vf5c();
+    virtual void vf60();
+    virtual void vf64();
+    virtual void vf68();
+    virtual void vf6c();
+    virtual void vf70();
+    virtual void vf74();
+    virtual void vf78();
+    virtual void vf7c();
+    virtual void vf80();
+    virtual void vf84();
+    virtual void vf88();
+    virtual void vf8c();
+    virtual void vf90();
+    virtual void vf94();
+    virtual void vf98();
+    virtual void vf9c();
+    virtual void vfa0();
+    virtual void vfa4();
+    virtual void vfa8();
+    virtual void vfac();
+    virtual void vfb0();
+    virtual void vfb4();
+    virtual void vfb8();
+    virtual void vfbc();
+    virtual void vfc0();
+    virtual void vfc4();
+    virtual void vfc8();
+    virtual void vfcc();
+    virtual void vfd0();
+    virtual void vfd4();
+    virtual void vfd8();
+    virtual void vfdc(NiNode* node, bool flag);
 };
 
 struct OwnedObj
@@ -4343,7 +4541,7 @@ struct FUN_0076be30 : public HudMenuBase
 // @fnv 0x0076be00
 void* FUN_0076be00_Class::DestroyIfFlagged(unsigned int flags)
 {
-    reinterpret_cast<::FUN_0076be30 *>(this)->FUN_0076be30::~FUN_0076be30();
+    reinterpret_cast<struct ::FUN_0076be30 *>(this)->::FUN_0076be30::~FUN_0076be30();
     if (flags & 1)
         ::FUN_00401030(this);
     return this;
@@ -4358,9 +4556,9 @@ FUN_0076be30::~FUN_0076be30()
     g_011d9770 = 0;
     g_011d975c = 0;
     g_011d96bc = 0;
-    while (((::MsgItem *)(new ((void *)&(m_kMessageList)) ::Vec3())))
+    while (((::MsgItem *)(reinterpret_cast<::SimpleListNodeView*>(&(m_kMessageList))->m_item)))
     {
-        MsgItem* pItem = ((::MsgItem *)(new ((void *)&(m_kMessageList)) ::Vec3()));
+        MsgItem* pItem = ((::MsgItem *)(reinterpret_cast<::SimpleListNodeView*>(&(m_kMessageList))->m_item));
         delete pItem;
         m_kMessageList.RemoveHead();
     }
@@ -4521,16 +4719,16 @@ float __cdecl GetActorValueWithPerkModifiers(MobileObject* pMobileObject, Actor*
     float baseValue = FUN_00404010(((ActorStand*)pActor)->avOwner.GetActorValue(76), 0.0f);
     BaseProcess* proc = ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((void *)(pMobileObject))->GetBaseTexture()));
     TESObjectREFR_GetFlags_Helper* target = proc->GetRef();
-    unsigned int result;
+    uintptr_t result;
     if (target != 0)
     {
-        result = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((target))->GetName()));
+        result = ((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((target))->pObject));
     }
     else
     {
         result = DAT_011ca278;
     }
-    unsigned int modFlags = result;
+    uintptr_t modFlags = result;
     float fPenalty = 0.0f;
     ::ApplyPerkModifiers(58, (Actor*)pMobileObject, modFlags, pActor, &fPenalty);
     float fAdd = 0.0f;
@@ -4633,7 +4831,7 @@ struct HUDMode
 };
 struct HUDDetection
 {
-    int value;
+    intptr_t value;
     bool detected;
     bool ignored;
 };
@@ -4956,7 +5154,6 @@ struct Setting772
 {
     float* FUN_00403e20(float, bool);
 };
-extern Setting772 g_011d9774;
 struct Tile772
 {
 };
@@ -5345,7 +5542,7 @@ void FUN_00773190(EnemyRefV* pkRef)
         return;
     if (!HUDMainMenu_pme)
         return;
-    if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((EnemyListCount*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 4)
+    if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((EnemyListCount*)&(*reinterpret_cast<int *>(&::g_011f2250)))))->GetName())) == 4)
         HUDMainMenu_pme->m_pTargetActor =
             (::DAT_011f21cc && ((EnemyActorV*)::DAT_011f21cc)->IsHostile()) ? ::DAT_011f21cc : 0;
     else
@@ -5969,8 +6166,8 @@ bool MessageHUD::AddMessage(const char* text, unsigned int kind, const char* ico
         if (messages.Empty())
         {
             reinterpret_cast<::Callees *>(&(messages))->FUN_00905820((void *)&(entry));
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->text))->FUN_00a01350(0xfc4, (char *)(((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->text), true);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->icon))->FUN_00a01350(0xfcc, (char *)(((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->icon), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->text))->FUN_00a01350(0xfc4, (char *)(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->text), true);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((messageHUD->icon))->FUN_00a01350(0xfcc, (char *)(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->icon), true);
             if (sound)
                 reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundHandleMsg &)(((::AudioMsg *)(::FUN_00453a70()))->Get(sound, 0x121)))->FUN_00ad8830(false);
         }
@@ -5979,11 +6176,11 @@ bool MessageHUD::AddMessage(const char* text, unsigned int kind, const char* ico
             MessageList* tail = &messages;
             while (((::MessageList *)(reinterpret_cast<::Callees *>((tail))->FUN_00726070())))
                 tail = ((::MessageList *)(reinterpret_cast<::Callees *>((tail))->FUN_00726070()));
-            if (::FUN_00408b20(((::MessageEntry *)(new ((void *)(tail)) ::Vec3()))->text, entry->text))
+            if (::FUN_00408b20(((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(tail)->m_item))->text, entry->text))
             {
                 if (immediate)
                 {
-                    ((::MessageEntry *)(new ((void *)&(messages)) ::Vec3()))->duration = 0.0f;
+                    ((::MessageEntry *)(reinterpret_cast<::SimpleListNodeView*>(&(messages))->m_item))->duration = 0.0f;
                     messages.Head(entry);
                 }
                 else
@@ -6042,7 +6239,7 @@ void HUDMainMenuMessages::FUN_007756e0()
     MessageList* pIter = (MessageList*)m_kMessageList;
     while (pIter)
     {
-        HUDMainMenu__MessageData* pMsg = ((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(pIter)) ::Vec3()));
+        HUDMainMenu__MessageData* pMsg = ((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(pIter)->m_item));
         if (pMsg && !::FUN_00408b20(pMsg->cMessage, reinterpret_cast<::FUN_00a011f0_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a011f0(0xfc4)))
         {
             HUDMainMenu__MessageData* pOld = pMsg;
@@ -6050,12 +6247,12 @@ void HUDMainMenuMessages::FUN_007756e0()
             delete pOld;
             if (!((MessageList*)m_kMessageList)->IsEmpty())
             {
-                if (((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cSoundPath[0])
+                if (((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cSoundPath[0])
                 {
-                    reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::fnv_007756e0::PlayerCharacter * *>(&::_g_thePlayer))))->PlaySoundByEditorName(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cSoundPath, 0, 0x121, 0);
+                    reinterpret_cast<::MobileObject *>(((*reinterpret_cast<::fnv_007756e0::PlayerCharacter * *>(&::_g_thePlayer))))->PlaySoundByEditorName(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cSoundPath, 0, 0x121, 0);
                 }
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a01350(0xfc4, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cMessage), true);
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(new ((void *)(((MessageList*)m_kMessageList))) ::Vec3()))->cIconPath), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[26])))->FUN_00a01350(0xfc4, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cMessage), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((TileStub*)HUDMainMenu_pme->m_pTiles[25])))->FUN_00a01350(0xfcc, (char *)(((::fnv_007756e0::HUDMainMenu__MessageData *)(reinterpret_cast<::SimpleListNodeView*>(((MessageList*)m_kMessageList))->m_item))->cIconPath), true);
                 m_uiMessageCount = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTimerStub*)m_cBuffer)))->FUN_00825c00();
             }
             else
@@ -6248,7 +6445,7 @@ void QHud::UpdateQuestNotification()
     if (!::fnv_007735d0::FUN_007735d0((unsigned char *)this) && !reinterpret_cast<::fnv_0077b2c0::FUN_0077b2c0_shell *>((DAT_011d96bc))->FUN_0077b2c0() &&
         !(::fnv_00773650::FUN_00773650((unsigned char *)this) &&
           reinterpret_cast<::TileListBoxCalls *>((((::fnv_0077a650::QTile **)(reinterpret_cast<::FUN_0073ac90_shell *>(&(((QTile*)HUDMainMenu_pme->m_pTiles[13])->children))->FUN_0073ac90()))[0]))->GetFloat(4009) != 0.0) &&
-        (!reinterpret_cast<::FUN_007023a0_shell *>((((::fnv_0077a650::QInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0() || FUN_00702680(1009, 0) || ::fnv_00703d50::FUN_00703d50()) && !((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0077a650::QFlags *>(&::g_011f2250))))->GetName())))
+        (!reinterpret_cast<::FUN_007023a0_shell *>((((::fnv_0077a650::QInterface *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007023a0() || FUN_00702680(1009, 0) || ::fnv_00703d50::FUN_00703d50()) && !((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_0077a650::QFlags *>(&::g_011f2250))))->GetName())))
     {
         m_bQuestObjectiveUpdatePending = true;
         QEntry* aShared;
@@ -6281,7 +6478,7 @@ void QHud::UpdateQuestNotification()
         reinterpret_cast<::Tile *>((aLocation))->Set(4025, aActor);
         {
             PointX aImpact;
-            reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aImpact), (int)(reinterpret_cast<::FUN_00a011f0_shell *>((aLocation))->FUN_00a011f0(4036)),
+            reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aImpact), (intptr_t)(reinterpret_cast<::FUN_00a011f0_shell *>((aLocation))->FUN_00a011f0(4036)),
                                                 (int)reinterpret_cast<::TileListBoxCalls *>((aLocation))->GetFloat(4025), reinterpret_cast<::TileListBoxCalls *>((aLocation))->GetFloat(4026));
             aBy = (int)aImpact.x;
             reinterpret_cast<::FUN_00a012d0_t *>((aLocation))->FUN_00a012d0(4002, (float)-(aImpact.y + 15.0), true);
@@ -6342,7 +6539,7 @@ void QHud::UpdateQuestNotification()
                 aActor = 8;
                 if (((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->kind == 3 && ((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->textFont != -1)
                     aActor = ((::fnv_0077a650::QEntry *)(reinterpret_cast<::FUN_0077b2a0_shell *>((DAT_011d96bc))->GetQuestNamesHead()))->textFont;
-                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aData7), (int)(aPoint4), aActor, DAT_01016970);
+                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&aData7), (intptr_t)(aPoint4), aActor, DAT_01016970);
                 aOverrideFlagA = (int)((_unused - (1.0f + aOverrideFlag3) * aData7.x) * aOverrideFlag3);
                 aInv = ((void *)(::FUN_00559450((int *)&(((QTile*)HUDMainMenu_pme->m_pTiles[14])->children))));
                 {
@@ -6370,7 +6567,7 @@ void QHud::UpdateQuestNotification()
                                 reinterpret_cast<::Tile *>((tile))->Set(4009, 0);
                                 reinterpret_cast<::Tile *>((tile))->Set(4001, aOverrideFlagA);
                                 PointX size;
-                                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&size), (int)(character), (int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4025),
+                                reinterpret_cast<::fnv_00a1b020::FUN_00a1b020_t *>((((::fnv_0077a650::QFont *)(::FontManager::Instance()))))->FUN_00a1b020((const char *)(::PointX *)(&size), (intptr_t)(character), (int)reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4025),
                                                                     reinterpret_cast<::TileListBoxCalls *>((tile))->GetFloat(4026));
                                 if (index <= aGy)
                                     reinterpret_cast<::Tile *>((tile))->Set(4002, 0);
@@ -7136,7 +7333,7 @@ void BreathHUD::FUN_0077e4f0()
     {
         BreathUpdate update(0.0f, true, false);
         reinterpret_cast<::fnv_00a328b0::SeqExt *>((sequence))->FUN_00a328b0(reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100() + fraction * (reinterpret_cast<::FUN_00759450_shell *>((sequence))->FUN_00759450() - reinterpret_cast<::FUN_00508100_shell *>((sequence))->FUN_00508100()), false);
-        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((tile))->FUN_0056c7f0()))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(update));
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::BreathObject *)(reinterpret_cast<::NiNode *>((((::BreathNode *)(reinterpret_cast<::TileFields *>((tile))->renderedNode))))->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(update));
     }
 }
 
@@ -7226,10 +7423,10 @@ void CompassHUD::UpdateCompassMarkers()
                 float angle2 =
                     ::GetDirectionAngle((const ::NiPoint3 *)&(const ::fnv_0077e750::CompassPoint &)(*(CompassPoint*)reference_2->GetPos() - *(CompassPoint*)(*reinterpret_cast<::fnv_0077e750::CompassReference * *>(&::_g_thePlayer))->GetPos()));
                 float angle5 = ::GetDirectionAngle((const ::NiPoint3 *)&(const ::fnv_0077e750::CompassPoint &)(((::fnv_0077e750::CompassCameraModel *)(reinterpret_cast<::BSFaceGenNiNode *>((((CompassCamera*)((::FovSource *)(::FUN_0045c670())))))->GetAnimationData()))->FUN_0045bba0()));
-                reinterpret_cast<::NiAVObject *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->SetLocalRotation(angle5 - angle2, 0.0f, 1.0f, 0.0f);
+                reinterpret_cast<::NiAVObject *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::TileFields *>((h))->renderedNode))))->SetLocalRotation(angle5 - angle2, 0.0f, 1.0f, 0.0f);
                 CompassUpdate updated5;
                 new ((void *)&(updated5)) ::NiUpdateData(0.0f, true, false);
-                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((h))->FUN_0056c7f0()))))->FUN_00a59c60((std::intptr_t)&(updated5));
+                reinterpret_cast<::FUN_00a59c60_cls *>((((::fnv_0077e750::CompassNode *)(reinterpret_cast<::TileFields *>((h))->renderedNode))))->FUN_00a59c60((std::intptr_t)&(updated5));
             }
         }
     }
@@ -7300,9 +7497,9 @@ void MenuC::UpdateStatsMenu()
         float d;
         int t;
         float state;
-        for (mag = (*reinterpret_cast<::fnv_0077eaf0::PlayerC * *>(&::_g_thePlayer))->m_94.GetFirst(); mag && *((void **)(new ((void *)(mag)) ::Vec3())); mag = ((::fnv_0077eaf0::Node77 *)(reinterpret_cast<::Callees *>((mag))->FUN_00726070())))
+        for (mag = (*reinterpret_cast<::fnv_0077eaf0::PlayerC * *>(&::_g_thePlayer))->m_94.GetFirst(); mag && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(mag)->m_item)); mag = ((::fnv_0077eaf0::Node77 *)(reinterpret_cast<::Callees *>((mag))->FUN_00726070())))
         {
-            if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptObj*)*((void **)(new ((void *)(mag)) ::Vec3())))))->GetIconFormID())) == 10)
+            if (((int)(reinterpret_cast<::BGSMessageInitAccess *>((((ScriptObj*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(mag)->m_item)))))->GetIconFormID())) == 10)
                 result = 10;
         }
         if (result == 0)
@@ -7420,6 +7617,8 @@ struct SceneGraphRoot_0077f0d0
 
 struct FaceGenNode_0077f0d0
 {
+    char pad[0xb4];
+    struct SceneGraphRoot_0077f0d0* unkB4;
 };
 
 struct IfaceMgr_0077f0d0
@@ -7442,7 +7641,7 @@ void RenderFaceGenScene()
         ((::fnv_0077f0d0::SceneNode_0077f0d0 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->AttachNode(g_011d9770, 1);
     reinterpret_cast<::S148c0 *>((((::fnv_0077f0d0::Renderer_0077f0d0 *)(::FUN_0043c4b0()))))->FUN_007148c0(0, 4);
     FaceGenNode_0077f0d0* pFaceGen5 = ((::fnv_0077f0d0::FaceGenNode_0077f0d0 *)(::FUN_0045c670()));
-    SceneGraphRoot_0077f0d0* pRoot4 = ((::fnv_0077f0d0::SceneGraphRoot_0077f0d0 *)(reinterpret_cast<::MiddleLowProcess *>((pFaceGen5))->GetProcessInteger()));
+    SceneGraphRoot_0077f0d0* pRoot4 = ((::fnv_0077f0d0::SceneGraphRoot_0077f0d0 *)(pFaceGen5->unkB4));
     reinterpret_cast<::FUN_00c4f270_Class *>((pRoot4))->FUN_00c4f270(1);
     FaceAnimData_0077f0d0* pGlobalForm = g_011d975c;
     ::UpdateCameraFrustum((::NiCamera *)(pGlobalForm), g_fUpdate_011a0140);
@@ -7645,7 +7844,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             bool qxWmVch =
                 qHVMR ? false
                       : reinterpret_cast<::FUN_00a01230_shell *>((((::xTile *)(reinterpret_cast<::FUN_0073ac90_shell *>(&(xg_pme_11d96c0->m_5c->m_iWordAt04))->FUN_0073ac90()))))->IsTraitNonZero(::FUN_00a01860(s_szIsReminder));
-            bool qJDuOZ = (*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_105;
+            bool qJDuOZ = (*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_105;
             if (!qHVMR && qxWmVch && !qJDuOZ)
             {
                 qArxcFu = ((::xQNode *)(reinterpret_cast<::Callees *>((qArxcFu))->FUN_00726070()));
@@ -7660,11 +7859,11 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             qfTOqo = true;
             xTile* qQMZREG = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qAhbO);
             xTile* qDdzMIp = xg_pme_11d96c0->m_5c->m_iWordAt04.FUN_00683520(qxQHW);
-            if ((*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_104)
+            if ((*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_104)
             {
                 char LINE[0x104];
                 ::TaskQueueInterface::CopyStringToBuffer(LINE, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::xStrSetting *>(&::g_011d1d60))))->GetMenuTitle())));
-                xStrcat(LINE, 0x104, (*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_pText);
+                xStrcat(LINE, 0x104, (*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_pText);
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)(LINE), true);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(::FUN_00a01860(s_szIsReminder), qJDuOZ);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(0x1007, 1);
@@ -7672,7 +7871,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             }
             else
             {
-                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)((*((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))->m_pText), true);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qQMZREG))->FUN_00a01350(0xfc4, (char *)((*((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))->m_pText), true);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(0x1007, 0);
                 reinterpret_cast<::Tile *>((qQMZREG))->Set(::FUN_00a01860(s_szIsReminder), qJDuOZ);
                 reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qDdzMIp))->FUN_00a01350(0xfcc, (char *)(s_szSquare), true);
@@ -7689,7 +7888,7 @@ void xQuestMenu::UpdateQuestMenu(xHolder* HOLDER)
             reinterpret_cast<::Tile *>((qQMZREG))->SetName(NAME);
             ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(qQMZREG), 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::xSound &)(((::xAudio *)(::FUN_00453a70()))->FUN_00ad7550(s_szQuestUpdate, 0x121)))->FUN_00ad8830(false);
-            reinterpret_cast<::ItemChangeListNode *>((qArxcFu))->FUN_00905330((*(::InventoryStackRecord *const *)(((::xQObj **)(new ((void *)(qArxcFu)) ::Vec3())))));
+            reinterpret_cast<::ItemChangeListNode *>((qArxcFu))->FUN_00905330((*(::InventoryStackRecord *const *)(((::xQObj **)(&reinterpret_cast<::SimpleListNodeView*>(qArxcFu)->m_item)))));
         }
     }
     if (qfTOqo)
@@ -8019,7 +8218,7 @@ void AmmoHUD::UpdateAmmoHUD()
             case 13:
                 current4 = reinterpret_cast<::FUN_00524b60_shell *>((weapon5))->GetByteAt102();
                 total2 =
-                    reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(reinterpret_cast<TESBoundObject*>(weapon5))) - current4;
+                    reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(reinterpret_cast<TESBoundObject*>(weapon5))) - current4;
                 break;
             default: {
                 AmmoData* data3 = ((::AmmoProvider *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetAmmo();
@@ -8053,10 +8252,10 @@ void AmmoHUD::UpdateAmmoHUD()
                 }
                 if (((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))) && data3)
                 {
-                    current4 = ((int)(reinterpret_cast<::Callees *>((data3))->FUN_00726070()));
+                    current4 = ((std::intptr_t)(reinterpret_cast<::Callees *>((data3))->FUN_00726070()));
                     if (useInventory5)
                         total2 =
-                            reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)(((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))))) - current4;
+                            reinterpret_cast<::FUN_004c8f30_shell *>((((::AmmoInventory *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)(((::TESBoundObject *)(reinterpret_cast<::AmmoOwner *>((weapon5))->FUN_00525980((::AmmoActor *)((*reinterpret_cast<::AmmoPlayer * *>(&::_g_thePlayer)))))))) - current4;
                 }
                 else if (reinterpret_cast<::FUN_00474a80_Class *>(&(weapon5->flags))->FUN_00474a80())
                 {
@@ -8570,7 +8769,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     TileX* pTileElem = 0;
     float fFadeStart = HUDMainMenu_pme->m_iHudValueSecondAfterUpdateList * 0.800000011920929 * 2.0;
     float m_fGlyphWidthInPixels = HUDMainMenu_pme->m_iHudValueSecondAfterUpdateList * 2.0;
-    float fAlpha = (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00779070::CompassFlags *>(&::g_011f2250))))->GetName())) ? *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) : 1.0f) * 255.0;
+    float fAlpha = (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00779070::CompassFlags *>(&::g_011f2250))))->GetName())) ? *((float *)&(::FUN_00403e20((float *)&(DAT_011d9774)))) : 1.0f) * 255.0;
     int iFlag = 1;
     CompassNode* pWalk = ((::fnv_00779070::CompassNode *)(::FUN_00559450((int *)&(apMapTiles->kTiles))));
     CompassList* pLandmarkIterator = pEntryList;
@@ -8578,9 +8777,9 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     bool bCompassReferenceDead = ((CompassRef*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))->IsDead(false);
     int iFarDst = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::g_011d12cc))))));
     iFarDst = iFarDst * iFarDst;
-    while (pLandmarkIterator && *((void **)(new ((void *)(pLandmarkIterator)) ::Vec3())))
+    while (pLandmarkIterator && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pLandmarkIterator)->m_item)))
     {
-        CompassMarker* pCompassMarker = (CompassMarker*)*((void **)(new ((void *)(pLandmarkIterator)) ::Vec3()));
+        CompassMarker* pCompassMarker = (CompassMarker*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pLandmarkIterator)->m_item));
         pLandmarkIterator = ((::fnv_00779070::CompassList *)(reinterpret_cast<::Callees *>((pLandmarkIterator))->FUN_00726070()));
         if (reinterpret_cast<::TESForm *>((pCompassMarker->pRef))->GetDisabled())
             continue;
@@ -8676,10 +8875,10 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     CompassList* pQuestIt = (CompassList*)HUDMainMenu_pme->m_pRegionObjectListObj;
     float fObjRad = *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::fnv_00779070::CompassSetting *>(&::g_011d0bd8))))));
     fObjRad = fObjRad * fObjRad;
-    while (pQuestIt && *((void **)(new ((void *)(pQuestIt)) ::Vec3())))
+    while (pQuestIt && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(pQuestIt)->m_item)))
     {
         bool bSpecial = false;
-        CompassQuestTarget* pTarget = (CompassQuestTarget*)*((void **)(new ((void *)(pQuestIt)) ::Vec3()));
+        CompassQuestTarget* pTarget = (CompassQuestTarget*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pQuestIt)->m_item));
         pQuestIt = ((::fnv_00779070::CompassList *)(reinterpret_cast<::Callees *>((pQuestIt))->FUN_00726070()));
         CompassRef* pRef = ((::fnv_00779070::CompassRef *)(reinterpret_cast<::FUN_005cbb70_shell *>((pTarget))->FUN_005cbb70()));
         if (pRef && pRef->GetFormType() == 28)
@@ -8775,7 +8974,7 @@ void __cdecl FUN_00779070(CompassMovie* apMovie, CompassTileList* apMapTiles, Co
     while (pActors && !pActors->IsEmpty() && uiShown)
     {
         uiShown = uiShown - 1;
-        CompassActor* pActor = (CompassActor*)*((void **)(new ((void *)(pActors)) ::Vec3()));
+        CompassActor* pActor = (CompassActor*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(pActors)->m_item));
         if (!pActor || pActor->bHidden || !pActor->pActor->Get3D() || !((::fnv_00779070::CompassProcess *)(reinterpret_cast<::LowProcess *>((pActor->pActor))->GetTarget())) ||
             !::FUN_00450ff0((void *)(((::fnv_00779070::CompassProcess *)(reinterpret_cast<::LowProcess *>((pActor->pActor))->GetTarget())))))
         {
@@ -9049,7 +9248,7 @@ void __cdecl FUN_00771700(int aiMenuMode)
                 state = 11;
             else if ((*reinterpret_cast<::fnv_00771700::VisibilityPlayer * *>(&::_g_thePlayer))->GetMode())
                 state = 10;
-            else if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00771700::VisibilityMode *>(&::g_011f2250))))->GetName())) == 4)
+            else if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::fnv_00771700::VisibilityMode *>(&::g_011f2250))))->GetName())) == 4)
                 state = 8;
             else if (reinterpret_cast<::FUN_005a03f0_obj *>(((*reinterpret_cast<::fnv_00771700::VisibilityPlayer * *>(&::_g_thePlayer))))->FUN_005a03f0(1))
                 FUN_00771700(12);
@@ -9466,9 +9665,9 @@ void HUDHotkeys::FUN_0077da60()
                             pIcon = reinterpret_cast<::ItemChange_004be200 *>((pFinalItem))->GetIconFilename((::TESObjectREFR *)(0));
                             if (pIcon)
                                 bHasIcon = true;
-                            if (((int)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())) > 1)
+                            if (((std::intptr_t)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())) > 1)
                                 ::FUN_00406d00(acNameVal, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pFinalItem))->GetTargetFullName(),
-                                             ((int)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())));
+                                             ((std::intptr_t)(reinterpret_cast<::Callees *>((pFinalItem))->FUN_00726070())));
                             else
                                 ::TaskQueueInterface::CopyStringToBuffer(acNameVal, 260, reinterpret_cast<::FUN_004be2d0_shell *>((pFinalItem))->GetTargetFullName());
                             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HotkeyTile*)m_pTiles[41])))->FUN_00a01350(0xfc4, (char *)(acNameVal), true);
@@ -9526,8 +9725,8 @@ void HUDHotkeys::FUN_0077da60()
                         pIconPathOld = reinterpret_cast<::ItemChange_004be200 *>((pEntry))->GetIconFilename((::TESObjectREFR *)(0));
                         if (pIconPathOld)
                             bIconTmp = true;
-                        if (((int)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())) > 1)
-                            ::FUN_00406d00(acLabel, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName(), ((int)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())));
+                        if (((std::intptr_t)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())) > 1)
+                            ::FUN_00406d00(acLabel, 260, s_szNameCount, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName(), ((std::intptr_t)(reinterpret_cast<::Callees *>((pEntry))->FUN_00726070())));
                         else
                             ::TaskQueueInterface::CopyStringToBuffer(acLabel, 260, reinterpret_cast<::FUN_004be2d0_shell *>((pEntry))->GetTargetFullName());
                         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((HotkeyTile*)m_pTiles[41])))->FUN_00a01350(0xfc4, (char *)(acLabel), true);
@@ -9731,7 +9930,7 @@ struct VATSCreateVATSTargetX
 };
 struct VATSCreateVATSMenuX : public VATSCreateMenuX
 {
-    unsigned int unk004;
+    void* unk004;
     unsigned int unk008;
     unsigned int unk00c;
     unsigned int unk010;
@@ -10654,30 +10853,30 @@ bool FUN_007e9200()
         while (qxQHW && !qxQHW->IsEmpty())
         {
             VATSCreateFormX* qArxcFu = 0;
-            if (((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor())
+            if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor())
             {
-                qArxcFu = ((::VATSCreateFormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef))->FUN_007af430()));
+                qArxcFu = ((::VATSCreateFormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef))->FUN_007af430()));
             }
-            VATSCreateRefX* qGfbX = ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor() ? ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef : 0;
-            VATSCreateRefX* qJDuOZ = ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsMobile() ? ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef : 0;
+            VATSCreateRefX* qGfbX = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor() ? ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef : 0;
+            VATSCreateRefX* qJDuOZ = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsMobile() ? ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef : 0;
             bool qAhbO = false;
             if (qJDuOZ && qJDuOZ->GetMobileType() == 4)
             {
                 VATSCreateRefX* qpia = qJDuOZ;
-                if (::FUN_00472380((int)(qpia)) == 3 || ::FUN_00472380((int)(qpia)) == 4)
+                if (::FUN_00472380((intptr_t)(qpia)) == 3 || ::FUN_00472380((intptr_t)(qpia)) == 4)
                 {
                     qAhbO = true;
                 }
             }
-            if ((((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsActor() && ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef->IsDead(0)) ||
+            if ((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsActor() && ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef->IsDead(0)) ||
                 (qsSDDgz && qArxcFu && reinterpret_cast<::RefList *>((((::VATSCreateFormListHeadX *)(reinterpret_cast<::BGSCameraPath *>((qsSDDgz))->GetConditions()))))->FUN_005f65d0((void **)&(qArxcFu))) || (qGfbX && reinterpret_cast<::FUN_005a2030_shell *>((void *)(qGfbX))->FUN_005a2030()) ||
                 qAhbO)
             {
-                if ((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) == ((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))->pRef)
+                if ((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) == ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item))->pRef)
                 {
                     (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = 0;
                 }
-                reinterpret_cast<::ItemChangeListNode *>((qxQHW))->FUN_00905330((::InventoryStackRecord *const &)(((::VATSCreateVATSTargetX *)(new ((void *)(qxQHW)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>((qxQHW))->FUN_00905330(reinterpret_cast<::InventoryStackRecord *const &>(reinterpret_cast<::SimpleListNodeView*>(qxQHW)->m_item));
             }
             qxQHW = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qxQHW))->FUN_00726070()));
         }
@@ -10694,7 +10893,7 @@ bool FUN_007e9200()
     if ((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer)) && ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture())))
     {
         qdqWL = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()
-                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->GetName()))
+                    ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon()))->pObject))
                     : 0;
         if (((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->IsInDialogue())
         {
@@ -10708,7 +10907,7 @@ bool FUN_007e9200()
     }
     if (!(*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)))
     {
-        (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150)))) ::Vec3()))->pRef;
+        (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->m_item))->pRef;
     }
     qpTd = ((::VATSCreateInterfaceMgrX *)(::fnv_004b7210::FUN_004b7210()));
     qfTOqo = ::Tile::GetInterfaceScale();
@@ -10778,7 +10977,7 @@ bool FUN_007e9200()
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::VATSCreatePointX &)(qmgeiw))->FUN_00439180(::g_011d97a8_arg1);
                 reinterpret_cast<::NiPoint3 *>((void *)&(const ::VATSCreatePointX &)(qCTa))->Subtract((const ::NiPoint3 &)(qmgeiw));
                 (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8)) = ((::VATSCreateRefX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::VATSCreateDataHandlerX * *>(&::g_dataHandler))))->PlaceObjectReference(
-                    (::TESBoundObject *)(VATSCreateDAT_011db0ac), (::NiPoint3 *)&(qCTa), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
+                    (::TESBoundObject *)(VATSCreateDAT_011db0ac), (::NiPoint3 *)&(qCTa), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
                     (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetHitSound()))), (::TESObjectREFR *)(0), (const char *)(0), (::TESForm *)(0))));
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))))->FUN_008a6840(1);
                 reinterpret_cast<::Sf030 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))))->GetBaseTexture()))))->FUN_008ff030((::Actor *)((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21e8))));
@@ -10807,7 +11006,7 @@ bool FUN_007e9200()
                 reinterpret_cast<::MyPoint439180 *>((void *)&(const ::VATSCreatePointX &)(qISe))->FUN_00439180(::g_011d97a8_arg1);
                 reinterpret_cast<::NiPoint3 *>((void *)&(const ::VATSCreatePointX &)(qXUDve))->Subtract((const ::NiPoint3 &)(qISe));
                 (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec)) = ((::VATSCreateRefX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::VATSCreateDataHandlerX * *>(&::g_dataHandler))))->PlaceObjectReference(
-                    (::TESBoundObject *)(VATSCreateDAT_011db0b4), (::NiPoint3 *)&(qXUDve), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((int)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
+                    (::TESBoundObject *)(VATSCreateDAT_011db0b4), (::NiPoint3 *)&(qXUDve), (::NiPoint3 *)&((*reinterpret_cast<const ::VATSCreatePointX *>((void *)&::NiPoint3::ZERO))), (::TESObjectCELL *)(((std::intptr_t)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetPrevPath()))),
                     (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::EffectSetting *>(((*reinterpret_cast<::VATSCreateTESX * *>(&::g_TES))))->GetHitSound()))), (::TESObjectREFR *)(0), (const char *)(0), (::TESForm *)(0))));
                 reinterpret_cast<::fnv_008a6840::FUN_008a6840_shell *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))))->FUN_008a6840(1);
                 reinterpret_cast<::Sf030 *>((((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))))->GetBaseTexture()))))->FUN_008ff030((::Actor *)((*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21ec))));
@@ -10825,7 +11024,7 @@ bool FUN_007e9200()
             VATSCreateDAT_011db0b0 = 0;
         }
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = 0;
-        reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070();
+        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004;
         ::fnv_00a04200::FUN_00a04200(0);
         reinterpret_cast<::ItemChangeList *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->SortItems((int (*)(InventoryStackRecord *, InventoryStackRecord *))(((int (&)(void *, void *))::CompareByHeadingToPlayer)));
         qOHwfb = &(*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150));
@@ -10833,30 +11032,30 @@ bool FUN_007e9200()
         qkPflib = (*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))->GetPos();
         if (qOHwfb && !qOHwfb->IsEmpty())
         {
-            (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef;
+            (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef;
         }
         while (qOHwfb && !qOHwfb->IsEmpty())
         {
             float qhQRuW;
             float qRZyE;
             float qQUDQ;
-            if (!((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef || !((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->Get3D())
+            if (!((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef || !((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->Get3D())
             {
                 VATSCreateListX<VATSCreateVATSTargetX*>* qOFvKuu = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qOHwfb))->FUN_00726070()));
-                reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->FUN_00905330((::InventoryStackRecord *const &)(((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))));
+                reinterpret_cast<::ItemChangeListNode *>(&((*reinterpret_cast<::VATSCreateListX< ::VATSCreateVATSTargetX *> *>(&::g_011db150))))->FUN_00905330(reinterpret_cast<::InventoryStackRecord *const &>(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item));
                 qOHwfb = qOFvKuu;
                 continue;
             }
             {
-                qRZyE = ::GetAngleBetweenPoints((const ::NiPoint3 &)(qkPflib), (const ::NiPoint3 &)(((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->GetPos()));
+                qRZyE = ::GetAngleBetweenPoints((const ::NiPoint3 &)(qkPflib), (const ::NiPoint3 &)(((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->GetPos()));
                 qhQRuW = VATSCreateFUN_00408840(qYePyBl - qRZyE);
-                qQUDQ = ::FastSqrt((const float *)&(const ::VATSCreatePointX &)(qkPflib - ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef->GetPos()));
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle =
+                qQUDQ = ::FastSqrt((const float *)&(const ::VATSCreatePointX &)(qkPflib - ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef->GetPos()));
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle =
                     (float)(VATSCreateDAT_01035810 / (qQUDQ > 0 ? qQUDQ : 0.001) +
                             (180.0 - (qhQRuW > 180.0 ? ::DAT_0103c348 - qhQRuW : qhQRuW)) / 180.0);
                 qhQRuW = VATSCreateFUN_00408840((float)(qhQRuW > 180.0 ? ::DAT_0103c348 - qhQRuW : qhQRuW));
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference = qhQRuW;
-                ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fDistance = qQUDQ;
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference = qhQRuW;
+                ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fDistance = qQUDQ;
                 qOHwfb = ((::VATSCreateListX< ::VATSCreateVATSTargetX *> *)(reinterpret_cast<::Callees *>((qOHwfb))->FUN_00726070()));
             }
         }
@@ -10866,24 +11065,24 @@ bool FUN_007e9200()
         qtOMjSX = false;
         while (qOHwfb && !qOHwfb->IsEmpty())
         {
-            if ((((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle > qyFp && !qtOMjSX) ||
-                (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))) && ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->bVisible &&
-                 (!qGTHx || ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fDistance < ((::VATSCreateVATSTargetX *)(new ((void *)(qGTHx)) ::Vec3()))->fDistance)))
+            if ((((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle > qyFp && !qtOMjSX) ||
+                (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))) && ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->bVisible &&
+                 (!qGTHx || ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fDistance < ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qGTHx)->m_item))->fDistance)))
             {
-                if (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))))
+                if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->fAngleDifference < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011cfec4)))))))
                 {
                     qtOMjSX = true;
                 }
-                qyFp = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->m_fTargetAngle;
+                qyFp = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->m_fTargetAngle;
                 qGTHx = qOHwfb;
-                (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->pRef;
-                VATSCreateListX<VATSCreateLimbX*>* qZNIZJV = &((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->kLimbs;
-                (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()));
+                (*reinterpret_cast<::VATSCreateRefX * *>(&::DAT_011f21cc)) = ((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->pRef;
+                VATSCreateListX<VATSCreateLimbX*>* qZNIZJV = &((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->kLimbs;
+                (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item));
                 while (qZNIZJV && !qZNIZJV->IsEmpty())
                 {
-                    if (((::VATSCreateVATSTargetX *)(new ((void *)(qOHwfb)) ::Vec3()))->iType == 1 && ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()))->m_iLimbIndex == 1)
+                    if (((::VATSCreateVATSTargetX *)(reinterpret_cast<::SimpleListNodeView*>(qOHwfb)->m_item))->iType == 1 && ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item))->m_iLimbIndex == 1)
                     {
-                        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(new ((void *)(qZNIZJV)) ::Vec3()));
+                        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTargetChance = ((::VATSCreateLimbX *)(reinterpret_cast<::SimpleListNodeView*>(qZNIZJV)->m_item));
                     }
                     qZNIZJV = ((::VATSCreateListX< ::VATSCreateLimbX *> *)(reinterpret_cast<::Callees *>((qZNIZJV))->FUN_00726070()));
                 }
@@ -11086,7 +11285,7 @@ bool FUN_007e9200()
         }
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[23]))->FUN_00a012d0(0xfb1, reinterpret_cast<::TileListBoxCalls *>((qoPB))->GetFloat(0xfb1), 1);
         reinterpret_cast<::FUN_00a012d0_t *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[23]))->FUN_00a012d0(0xfb0, (float)(reinterpret_cast<::TileListBoxCalls *>((qoPB))->GetFloat(0xfb0) + ::DAT_01020998), 1);
-        reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070();
+        (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004;
         ::fnv_00a04200::FUN_00a04200(0);
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[24] = ((::VATSCreateTileX *)(::FUN_007f4830((::Tile *)(qoPB), "template_enemy_health_bracket")));
         if (!(*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[24])
@@ -11138,7 +11337,7 @@ bool FUN_007e9200()
         VATSCreatePtrX<VATSCreateTexX> qxWmVch(0);
         qxWmVch = ((::VATSCreateTexX *)(::NiSourceTexture::Create(
             (const ::NiFixedString &)((const ::VATSCreateFixedStringX &)(VATSCreateFixedStringX("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"))), (::NiTexture__FormatPrefs &)((*reinterpret_cast<::VATSCreateFormatPrefsX *>(&::DAT_011a9598))), 1, 0)));
-        ::FUN_007700b0((char *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()), (::NodeArg)(qxWmVch));
+        ::FUN_007700b0((char *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()), ::NodeArg{(::NiNode *)(void *)(::VATSCreateTexX *)(qxWmVch)});
         reinterpret_cast<::FUN_007700d0_cls *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[22]->GetNode()))->set(1);
         if (!reinterpret_cast<::FUN_007eb8d0_Class *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->HasAllSlotsSet((int *)(void *)(&qidnYUK)))
         {
@@ -11175,7 +11374,7 @@ bool FUN_007e9200()
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_bStateFlag3 = 0;
         (*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_uiTargetCount = ((int)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::VATSCreateTimerX *>(&::g_timeGlobal))))->FUN_00825c00()));
         qMBds = ((::VATSCreateProcX *)(reinterpret_cast<::BSShaderNoLightingProperty *>(((*reinterpret_cast<::VATSCreateRefX * *>(&::_g_thePlayer))))->GetBaseTexture()))->GetEquippedWeapon();
-        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::Twin_0044ddc0 *>((qMBds))->GetName())) : 0;
+        qYvz = qMBds ? ((::VATSCreateWeaponX *)(reinterpret_cast<::InventoryEntryFields *>((qMBds))->pObject)) : 0;
         if (!qYvz || ::FUN_006450c0((::TESObjectWEAP *)(qYvz)) || qYvz->GetWeaponType() == 10)
         {
             reinterpret_cast<::Tile *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[5]))->Set(0xfa3, 0);
@@ -11193,15 +11392,15 @@ bool FUN_007e9200()
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[3]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d26f4))))->GetMenuTitle()))), 1);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[4]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d21c0))))->GetMenuTitle()))), 1);
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->m_pTiles[5]))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d2b74))))->GetMenuTitle()))), 1);
-            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("Target_button"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d4d38))))->GetMenuTitle()))), 1);
+            reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("Target_button"))))))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::VATSCreateSettingX *>(&::g_011d4d38))))->GetMenuTitle()))), 1);
         }
-        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("BodyPart_button"))));
+        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("BodyPart_button"))));
         if (qIpA)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qIpA))->FUN_00a01350(::FUN_00a01860("_xbox_button"), (char *)("&xbuttonls;"), 1);
             reinterpret_cast<::Tile *>((qIpA))->Set(::FUN_00a01860("_xbox_button"), 0x11);
         }
-        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))))->FUN_00726070()))))->FUN_00a03da0((char *)("Target_button"))));
+        qIpA = ((::VATSCreateTileX *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::VATSCreateTileX *)((*reinterpret_cast<::VATSCreateVATSMenuX * *>(&::DAT_011db0d4))->unk004))))->FUN_00a03da0((char *)("Target_button"))));
         if (qIpA)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((qIpA))->FUN_00a01350(::FUN_00a01860("_xbox_button"), (char *)("&xbuttonrs;"), 1);
@@ -11211,7 +11410,7 @@ bool FUN_007e9200()
         reinterpret_cast<::Menu *>((qSVM))->SetMenuVisibility(0);
         return true;
     }
-    else if (qSVM && ((::VATSCreateTileX *)(reinterpret_cast<::Callees *>((qSVM))->FUN_00726070())))
+    else if (qSVM && ((::VATSCreateTileX *)(reinterpret_cast<::MenuFields *>((qSVM))->tile)))
     {
         delete qSVM;
     }
@@ -11237,14 +11436,11 @@ __if_not_exists(GlobalObject_0040c150::GlobalObject_0040c150)
         const char* FUN_00403df0();
     };
 }
-__if_not_exists(GlobalObject_004de370::GlobalObject_004de370)
+class GlobalObject_004de370
 {
-    class GlobalObject_004de370
-    {
-      public:
-        float* FUN_00403e20();
-    };
-}
+  public:
+    float* FUN_00403e20();
+};
 __if_not_exists(g_011d4804)
 {
     extern GlobalObject_0040c150 g_011d4804;
@@ -11277,14 +11473,11 @@ struct SneakProcess
 {
     int GetHighestDetectionValue(PlayerCharacter*, int);
 };
-__if_not_exists(ProcessLists::ProcessLists)
+class ProcessLists
 {
-    class ProcessLists
-    {
-      public:
-        int GetHighestDetectionValue(PlayerCharacter*, int);
-    };
-}
+  public:
+    int GetHighestDetectionValue(PlayerCharacter*, int);
+};
 __if_not_exists(DAT_011e0e80)
 {
     extern ProcessLists DAT_011e0e80;
@@ -11296,10 +11489,14 @@ struct HUDInteraction : HUDMainMenu
 {
     void FUN_007732d0();
 };
+struct XPMenu : HUDMainMenu
+{
+    void FUN_0077c4e0();
+};
 // @fnv 0x00770430
 void HUDUpdate::FUN_00770430()
 {
-    if (!(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)) || !((int)(reinterpret_cast<::LowProcess *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->GetTarget())))
+    if (!(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)) || !((std::intptr_t)(reinterpret_cast<::LowProcess *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->GetTarget())))
         return;
     reinterpret_cast<::GameTimerRecord *>((((HUDTime*)m_cBuffer)))->Update();
     ::fnv_00779070::FUN_00779070((::fnv_00779070::CompassMovie *)(m_pTiles[6]), (::fnv_00779070::CompassTileList *)(m_pTiles[3]), (::fnv_00779070::CompassTileList *)(m_pTiles[4]), (::fnv_00779070::CompassTileList *)(m_pTiles[5]));
@@ -11376,7 +11573,7 @@ void HUDUpdate::FUN_00770430()
         HUDDetectionList* list = ((::HUDDetectionList *)(reinterpret_cast<::FUN_00595d10_shell *>((((HUDActor*)(*reinterpret_cast<::MarkerPlayer * *>(&::_g_thePlayer)))))->FUN_00595d10()));
         while (list && !list->FUN_008256d0())
         {
-            HUDDetection* detection = *((::HUDDetection **)(new ((void *)(list)) ::Vec3()));
+            HUDDetection* detection = *((::HUDDetection **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
             if ((void*)detection->value == m_pTargetActor && detection->detected && !detection->ignored)
             {
                 DAT_011d96c5 = true;
@@ -11396,7 +11593,7 @@ void HUDUpdate::FUN_00770430()
               !(FUN_00408840(eb - s) < DAT_010357e8))
                  ? 0
                  : 1;
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4)
+    if (((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4)
     {
         if ((*reinterpret_cast<::RefX * *>(&::DAT_011f21cc)) && (*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))->IsActor() && !(*reinterpret_cast<::RefX * *>(&::DAT_011f21cc))->IsDead(false))
         {
@@ -11435,7 +11632,7 @@ void HUDUpdate::FUN_00770430()
         reinterpret_cast<::FUN_00a07530_shell *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[23])))->FUN_00a07530(8);
         reinterpret_cast<::FUN_00a07530_shell *>((((TileX*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[23])))->FUN_00a07530(8);
     }
-    if (m_pTargetActor && (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((HUDActor*)m_pTargetActor)))->FUN_00493bb0())) || ((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4))
+    if (m_pTargetActor && (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((HUDActor*)m_pTargetActor)))->FUN_00493bb0())) || ((std::intptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::HUDMode *>(&::g_011f2250))))->GetName())) == 4))
         reinterpret_cast<::FUN_007701e0_shell *>(this)->UpdateTargetInfo((::HMTarget *)(m_pTargetActor));
     if (m_pCrosshairReference && DAT_011d97c0 != reinterpret_cast<::xRefr *>((((HUDActor*)m_pCrosshairReference)))->FUN_00579690())
     {
@@ -11466,7 +11663,7 @@ void HUDUpdate::FUN_00770430()
         }
         else if (!reinterpret_cast<::FUN_0076b610_Class *>((((HUDSubtitleList*)m_kSubtitleArray)))->FUN_0076b610())
         {
-            for (k = 0; k < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((HUDSubtitleList*)m_kSubtitleArray)))->GetName())); ++k)
+            for (k = 0; k < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((((HUDSubtitleList*)m_kSubtitleArray)))->GetName())); ++k)
             {
                 if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00() -
                         (*((HUDSubtitleList*)m_kSubtitleArray)->FUN_00877a30(k))->time >=
@@ -11501,7 +11698,7 @@ void HUDUpdate::FUN_00770430()
             }
             if (reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((((HUDTile*)HUDMainMenu_WithPme::g_pHudMainMenuInstance->m_pTiles[27])))->FUN_00a07fc0(4009))
             {
-                l = *((::HUDMessage **)(new ((void *)(((HUDMessageList*)m_kMessageList))) ::Vec3()));
+                l = *((::HUDMessage **)(&reinterpret_cast<::SimpleListNodeView*>(((HUDMessageList*)m_kMessageList))->m_item));
                 if (!m_uiMessageCount)
                     m_uiMessageCount = reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00();
                 if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((HUDTime*)m_cBuffer)))->FUN_00825c00() - m_uiMessageCount >= l->duration * ::DAT_01017b70)
@@ -11587,7 +11784,7 @@ void HUDClearMessages::FUN_00775920()
     ClearMessagesList* list = (ClearMessagesList*)m_kMessageList;
     while (list && !list->FUN_008256d0())
     {
-        void* message = *((void **)(new ((void *)(list)) ::Vec3()));
+        void* message = *((void **)(&reinterpret_cast<::SimpleListNodeView*>(list)->m_item));
         FUN_00401030(message);
         list = ((::ClearMessagesList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
     }
@@ -11626,9 +11823,1185 @@ void __cdecl FUN_00719580(VisibilityTile* pTile)
     }
     if (!FUN_00408b20(pTile->FUN_00700300(), "xbox_button") || !FUN_00408b20(pTile->FUN_00700300(), "PCShortcutLabel"))
     {
-        reinterpret_cast<::Tile *>((pTile))->Set(FUN_00a01860("_360Controller"), ((::VisibilityController *)(::fnv_004b7210::FUN_004b7210()))->FUN_004b71d0());
+        reinterpret_cast<::Tile *>((pTile))->Set(FUN_00a01860("_360Controller"), ::FUN_004b71d0());
         reinterpret_cast<::FUN_00a074d0_shell *>((pTile))->FUN_00a074d0(4);
     }
 }
 
+
+struct XPState
+{
+};
+struct XPValues
+{
+    virtual void Slot0();
+    virtual void Slot1();
+    virtual void Slot2();
+    virtual float GetValue(int);
+};
+struct XPPlayer
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+    int unk78;
+    int unk7c;
+    int unk80;
+    int unk84;
+    int unk88;
+    int unk8c;
+    int unk90;
+    int unk94;
+    int unk98;
+    int unk9c;
+    int unka0;
+    XPValues values;
+};
+struct XPVats
+{
+};
+struct XPGate
+{
+};
+struct AmountEntry
+{
+    int unk00;
+    int unk04;
+    int amount;
+};
+struct XPSetting
+{
+};
+struct XPClock
+{
+};
+struct XPSound
+{
+    int soundID;
+    int state;
+    int unk08;
+    XPSound();
+    ~XPSound();
+    XPSound& operator=(const XPSound&);
+};
+struct XPAudio
+{
+    XPSound GetSoundByEditorID(const char*, unsigned int);
+};
+extern int xpCurrentLevel, xpNextLevel;
+
+// @fnv 0x0077c4e0
+void XPMenu::FUN_0077c4e0()
+{
+    static int minTrait = ::FUN_00a00940("_x_min", -1);
+    static int maxTrait = ::FUN_00a00940("_x_max", -1);
+    bool hasPendingLevel18 = ((int)(reinterpret_cast<::FUN_00953c20_shell *>(((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))))->FUN_00953c20())) > 0;
+    bool canLevelUp13 = reinterpret_cast<::NiNodeBooleanState *>((((::XPState *)(reinterpret_cast<::FUN_00464e10_shell *>(((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))))->FUN_00464e10()))))->GetBooleanValue();
+    if ((FUN_00702360() && ::fnv_007023c0::FUN_007023c0() != 1008 && ::fnv_007023c0::FUN_007023c0() != 1055 && ::fnv_007023c0::FUN_007023c0() != 1057 &&
+         ::fnv_007023c0::FUN_007023c0() != 1009) ||
+        ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::XPVats *>(&::g_011f2250))))->GetName())) == 4 || reinterpret_cast<::HotkeyWheelDisplay *>((((XPGate*)m_kMenuData)))->GetVisible())
+    {
+        ::g_pHudMainMenuInstance->m_pTiles[44]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[45]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[46]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[47]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[48]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[49]->Set(4003, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[44]))->FUN_00a012d0(4009, 0.0f, true);
+        reinterpret_cast<::fnv_00a07dc0::FUN_00a07dc0_shell *>((::g_pHudMainMenuInstance->m_pTiles[44]))->RemoveFadeItemsForTile(4009);
+        (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) |= 1;
+        m_bSequenceActive = false;
+    }
+    else if (::DAT_011d979c == 0.0)
+    {
+        m_bSequenceActive = true;
+    }
+    else
+    {
+        float alpha = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[44]))->GetFloat(4009);
+        bool visible = alpha > 0.0;
+        bool done = reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[44]))->FUN_00a07fc0(4009);
+        if ((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 1)
+        {
+            if (!visible && done && !((BSSimpleList<AmountEntry*>*)m_kXPUpdates)->IsEmpty())
+            {
+                BSSimpleList<AmountEntry*>* node = (BSSimpleList<AmountEntry*>*)m_kXPUpdates;
+                int total = 0;
+                while (node && !node->IsEmpty())
+                {
+                    total += ((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(node)->m_item))->amount;
+                    node = ((::BSSimpleList< ::AmountEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+                }
+                while (((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))->m_item)))
+                {
+                    AmountEntry* update = ((::AmountEntry *)(reinterpret_cast<::SimpleListNodeView*>(((BSSimpleList<AmountEntry*>*)m_kXPUpdates))->m_item));
+                    delete update;
+                    ((BSSimpleList<AmountEntry*>*)m_kXPUpdates)->RemoveHead();
+                }
+                if (total > 0 && !m_bSequenceActive)
+                {
+                    float position;
+                    {
+                        XPSound xpSound12;
+                        reinterpret_cast<::SoundPlaybackHandle *>((void *)&(const ::XPSound &)(xpSound12))->operator=((const ::SoundPlaybackHandle &)((const ::XPSound &)(((::XPAudio *)(::FUN_00453a70()))->GetSoundByEditorID("UIPopUpExperienceUp", 0x121))));
+                        reinterpret_cast<::FUN_00ad8830_shell *>(&(xpSound12))->FUN_00ad8830(false);
+                        position = 0.0f;
+                        int levelStartXP28 = 0;
+                        int levelEndXP11 = 0;
+                        int currentXP15 = (int)(*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))->values.GetValue(24);
+                        xpCurrentLevel = reinterpret_cast<::fnv_0087f9f0::FUN_0087f9f0_shell *>(((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))))->FUN_0087f9f0();
+                        xpNextLevel = xpCurrentLevel + 1;
+                        levelStartXP28 = ::ActorValueUtility::ConvertActorValue(xpCurrentLevel);
+                        levelEndXP11 = ::ActorValueUtility::ConvertActorValue(xpNextLevel);
+                        if (currentXP15 > levelEndXP11 && hasPendingLevel18)
+                            position = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(maxTrait);
+                        if (levelStartXP28 == levelEndXP11)
+                            position = (float)levelStartXP28;
+                        else
+                            position = LinearInterpolate(reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(minTrait), reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(maxTrait),
+                                                         (float)levelStartXP28, (float)levelEndXP11,
+                                                         (*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))->values.GetValue(24) - total);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[47]))->FUN_00a012d0(4001,
+                                          ::FUN_0040ebd0(::FUN_00404010(position, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(minTrait)),
+                                                      reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(maxTrait)),
+                                          true);
+                        m_pTiles[44]->Set(4003, 1);
+                        m_pTiles[45]->Set(4003, 1);
+                        m_pTiles[46]->Set(4003, 1);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[46]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::XPSetting *>(&::g_011d3bd4))))->GetMenuTitle()))), true);
+                        m_pTiles[47]->Set(4003, 1);
+                        m_pTiles[48]->Set(4003, 1);
+                        m_pTiles[49]->Set(4003, 1);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[44]))->FUN_00a012d0(4009, 0.0f, true);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[45]))->FUN_00a012d0(4009, 0.0f, true);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[46]))->FUN_00a012d0(4009, 0.0f, true);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[47]))->FUN_00a012d0(4009, 0.0f, true);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[48]))->FUN_00a012d0(4009, 0.0f, true);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[49]))->FUN_00a012d0(4009, 0.0f, true);
+                        char text[16];
+                        ::FUN_00406d00(text, 16, "+%i", total);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[45]))->FUN_00a01350(4036, (char *)(text), true);
+                        ::FUN_00406d00(text, 16, "%i", xpCurrentLevel);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[48]))->FUN_00a01350(4036, (char *)(text), true);
+                        ::FUN_00406d00(text, 16, "%i", xpNextLevel);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[49]))->FUN_00a01350(4036, (char *)(text), true);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[44]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[45]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[46]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[48]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[49]))->StartFade(4009, 0.0f, ::DAT_011d979c, 2.0f, 0);
+                        visible = true;
+                    }
+                }
+            }
+            else
+            {
+                float animatedPosition1 = reinterpret_cast<::fnv_00a07f30::FUN_00a07f30_shell *>((m_pTiles[47]))->GetTraitFloat(4001);
+                float meterMin34 = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(minTrait);
+                float meterMax4 = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(maxTrait);
+                bool meterDone = reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[47]))->FUN_00a07fc0(4001);
+                if (!reinterpret_cast<::FUN_00a01230_shell *>((m_pTiles[47]))->IsTraitNonZero(4111) && done && visible)
+                {
+                    int currentXP15 = (int)(*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))->values.GetValue(24);
+                    if (xpCurrentLevel == xpNextLevel)
+                        ++xpNextLevel;
+                    int levelStartXP8 = ::ActorValueUtility::ConvertActorValue(xpCurrentLevel);
+                    int levelEndXP11 = ::ActorValueUtility::ConvertActorValue(xpNextLevel);
+                    m_pTiles[47]->Set(4111, 1);
+                    if (currentXP15 > levelEndXP11)
+                    {
+                        if (meterMax4 < reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(4001))
+                            reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[47]))->FUN_00a012d0(4001, meterMax4, true);
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(4001, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(4001), meterMax4, 1.0f, 0);
+                    }
+                    else
+                    {
+                        reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(
+                            4001, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(4001),
+                            LinearInterpolate(meterMin34, meterMax4, (float)levelStartXP8, (float)levelEndXP11,
+                                              (float)::MinInt(::FUN_00647b70(currentXP15, levelStartXP8), levelEndXP11)),
+                            2.0f, 0);
+                    }
+                }
+                else if (done && !visible)
+                {
+                    ::g_pHudMainMenuInstance->m_pTiles[44]->Set(4003, 0);
+                    ::g_pHudMainMenuInstance->m_pTiles[45]->Set(4003, 0);
+                    ::g_pHudMainMenuInstance->m_pTiles[46]->Set(4003, 0);
+                    ::g_pHudMainMenuInstance->m_pTiles[47]->Set(4003, 0);
+                    ::g_pHudMainMenuInstance->m_pTiles[48]->Set(4003, 0);
+                    ::g_pHudMainMenuInstance->m_pTiles[49]->Set(4003, 0);
+                    if (((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 8) && !m_bSequenceActive)
+                    {
+                        m_bSequenceActive = true;
+                        m_pTiles[50]->Set(4110, 0);
+                    }
+                }
+                else if (!meterDone && done && visible)
+                {
+                    int currentXP15 = (int)(*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))->values.GetValue(24);
+                    int levelStartXP8 = ::ActorValueUtility::ConvertActorValue(xpCurrentLevel);
+                    int levelEndXP11 = ::ActorValueUtility::ConvertActorValue(xpNextLevel);
+                    if (canLevelUp13 && meterMax4 == reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(4001) && !::FUN_005c7870((const char *)((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer)))) &&
+                        !hasPendingLevel18)
+                        ::s717280::FUN_00717280(21);
+                    if (currentXP15 > levelEndXP11 && xpNextLevel < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::XPSetting *>(&::g_011d0c60)))))) && !hasPendingLevel18)
+                    {
+                        ++xpCurrentLevel;
+                        ++xpNextLevel;
+                        levelStartXP8 = levelEndXP11;
+                        levelEndXP11 = ::ActorValueUtility::ConvertActorValue(xpNextLevel);
+                        reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[47]))->FUN_00a012d0(4001, meterMin34, true);
+                        char levelText[3];
+                        ::FUN_00406d00(levelText, 3, "%i", xpCurrentLevel);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[48]))->FUN_00a01350(4036, (char *)(levelText), true);
+                        ::FUN_00406d00(levelText, 3, "%i", xpNextLevel);
+                        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[49]))->FUN_00a01350(4036, (char *)(levelText), true);
+                        if (currentXP15 > levelEndXP11)
+                        {
+                            if (meterMin34 > meterMax4)
+                                meterMin34 = meterMax4;
+                            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(4001, meterMin34, meterMax4, 1.0f, 0);
+                        }
+                        else
+                        {
+                            reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(4001, meterMin34,
+                                                  LinearInterpolate(meterMin34, meterMax4, (float)levelStartXP8,
+                                                                    (float)levelEndXP11, (float)currentXP15),
+                                                  2.0f, 0);
+                        }
+                    }
+                }
+                else if (reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[47]))->FUN_00a07fc0(4001) && reinterpret_cast<::FUN_00a01230_shell *>((m_pTiles[47]))->IsTraitNonZero(4111) && reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[44]))->FUN_00a07fc0(4009) &&
+                         reinterpret_cast<::TileListBoxCalls *>((m_pTiles[44]))->GetFloat(4009) > 0.0)
+                {
+                    m_pTiles[47]->Set(4111, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[44]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[44]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[45]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[45]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[46]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[46]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[47]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[47]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[48]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[48]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[49]))->StartFade(4009, reinterpret_cast<::TileListBoxCalls *>((m_pTiles[49]))->GetFloat(4009), 0.0f, 2.0f, 0);
+                }
+            }
+            if (canLevelUp13)
+            {
+                if (!hasPendingLevel18 && !visible && !((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 8))
+                    (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) = 2;
+                else
+                    (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) |= 4;
+            }
+        }
+        else if (((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 2) && !((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 8) && !visible && done && !::FUN_005c7870((const char *)((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer)))))
+        {
+            bool noticeDone = reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[50]))->FUN_00a07fc0(4009);
+            bool noticeZero = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[50]))->GetFloat(4009) == 0.0;
+            if (noticeDone && noticeZero && !reinterpret_cast<::FUN_00a01230_shell *>((m_pTiles[50]))->IsTraitNonZero(4110) && ((int)(reinterpret_cast<::FUN_00953c20_shell *>(((*reinterpret_cast<::XPPlayer * *>(&::_g_thePlayer))))->FUN_00953c20())) == 0)
+            {
+                reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::XPSound &)(((::XPAudio *)(::FUN_00453a70()))->GetSoundByEditorID("UILevelUpText", 0x121)))->FUN_00ad8830(false);
+                reinterpret_cast<::FUN_00a012d0_t *>((m_pTiles[50]))->FUN_00a012d0(4009, 0.0f, true);
+                reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[50]))->StartFade(4009, 0.0f, ::DAT_011d979c, 0.5f, 0);
+                reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m_pTiles[50]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::XPSetting *>(&::g_011d4324))))->GetMenuTitle()))), true);
+                m_pTiles[50]->Set(4003, 1);
+                m_pTiles[50]->Set(4109, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00());
+                m_pTiles[50]->Set(4110, 1);
+            }
+            else
+            {
+                if (reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00() - reinterpret_cast<::TileListBoxCalls *>((m_pTiles[50]))->GetFloat(4109) > 1500.0 && !noticeZero && noticeDone)
+                {
+                    m_pTiles[50]->Set(4109, reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(&((*reinterpret_cast<::XPClock *>(&::g_timeGlobal))))->FUN_00825c00() + 2000);
+                    reinterpret_cast<::fnv_00a07c60::FUN_00a07c60_shell *>((m_pTiles[50]))->StartFade(4009, ::DAT_011d979c, 0.0f, 0.5f, 0);
+                }
+                else if (!m_bSequenceActive && noticeDone && noticeZero)
+                {
+                    m_bSequenceActive = true;
+                    (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) = 8;
+                    m_pTiles[50]->Set(4110, 0);
+                }
+            }
+        }
+        else if ((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 4)
+        {
+            bool noticeFinished40 = ((*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) & 8) > 0;
+            bool noticeDone = reinterpret_cast<::fnv_00a07fc0::FUN_00a07fc0_shell *>((m_pTiles[50]))->FUN_00a07fc0(4009);
+            bool noticeIsZero37 = reinterpret_cast<::TileListBoxCalls *>((m_pTiles[50]))->GetFloat(4009) == 0.0;
+            if (!noticeFinished40)
+            {
+                if (hasPendingLevel18)
+                    (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) |= 1;
+                else if (!visible)
+                    (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) = 2;
+            }
+            else if (!m_bSequenceActive && noticeDone && noticeIsZero37)
+            {
+                m_bSequenceActive = true;
+                (*reinterpret_cast<unsigned int *>(&::fnv_00773050::DAT_011a010c)) = 8;
+                m_pTiles[50]->Set(4110, 0);
+            }
+        }
+    }
+}
+
+
+class NiNode;
+class NiTimeController;
+class NiRTTI;
+class NiSourceTexture;
+class NiControllerSequence;
+class ShadowSceneNode;
+struct NiPoint3Stub
+{
+    float x;
+    float y;
+    float z;
+};
+class CompassStub
+{
+  public:
+    void FUN_007700b0(NiSourceTexture* texture);
+};
+class MenuStub;
+class TileMenu : public Tile
+{
+};
+class MenuStub
+{
+  public:
+    virtual ~MenuStub();
+    virtual void vf04();
+    virtual void vf08();
+    virtual void vf0c();
+    virtual void vf10();
+    virtual void vf14();
+    virtual void vf18();
+    virtual void vf1c();
+    virtual void vf20();
+    virtual void vf24();
+    virtual void vf28();
+    virtual void vf2c();
+    virtual void vf30();
+    virtual unsigned int vf34();
+};
+class HotKeyWheelStub
+{
+  public:
+};
+class ATMStub
+{
+  public:
+};
+class FontManagerStub
+{
+  public:
+    NiPoint3Stub FUN_00a1b020(const char* text, int font, float width, int flags);
+};
+class SettingString
+{
+  public:
+};
+class SettingInt
+{
+  public:
+};
+class SettingFloat
+{
+  public:
+};
+class NiFixedString
+{
+  public:
+    const char* m_kHandle;
+    NiFixedString(const char* text);
+    ~NiFixedString();
+};
+class NiTextureFormatPrefs;
+class NiFixedString;
+class NiTexture__FormatPrefs;
+class ThreeByThreeMatrix
+{
+  public:
+    float m00, m01, m02, m10, m11, m12, m20, m21, m22;
+    ThreeByThreeMatrix();
+public:
+    ::ThreeByThreeMatrix operator+(const ::ThreeByThreeMatrix &) const;
+};
+class NiBoundStub
+{
+  public:
+};
+class NiControllerManagerStub
+{
+  public:
+};
+struct HUDEmptyStub
+{
+};
+static const char kTemplateRightBracket[] = "template_right_bracket";
+static const char kTemplateMeter3[] = "template_meter";
+static const char kTemplateJustifyRightText6[] = "template_justify_right_text";
+static const char kTemplateJustifyRightText5[] = "template_justify_right_text";
+static const char kTemplateJustifyRightText4[] = "template_justify_right_text";
+static const char kTemplateMeter2[] = "template_meter";
+static const char kInterfaceVATSVatsBarDds[] = "Interface\\VATS\\vats_bar.dds";
+static const char kTemplateMeterBackground[] = "template_meter_background";
+static const char kCNDArrows[] = "CNDArrows";
+static const char kHitPoints[] = "HitPoints";
+static const char kTemplateLeftBracket[] = "template_left_bracket";
+static const char kTemplateMeter[] = "template_meter";
+static const char kTemplateJustifyRightText3[] = "template_justify_right_text";
+static const char kTemplateCompassWindow[] = "template_compass_window";
+static const char kTemplateCompassIconGroup[] = "template_compass_icon_group";
+static const char kTemplateCompassIconMarker[] = "template_compass_icon_marker";
+static const char kRadiationMeter[] = "RadiationMeter";
+static const char kTestHeight2[] = "Test Height";
+static const char kTemplateJustifyLeftText3[] = "template_justify_left_text";
+static const char kTemplateReticleCenter[] = "template_reticle_center";
+static const char kSneakMeter[] = "SneakMeter";
+static const char kSneakNif[] = "sneak_nif";
+static const char kMessages[] = "Messages";
+static const char kTemplateMessageIcon[] = "template_message_icon";
+static const char kTemplateJustifyLeftText2[] = "template_justify_left_text";
+static const char kTemplateMessageBracket[] = "template_message_bracket";
+static const char kJustifyCenterHotrect[] = "justify_center_hotrect";
+static const char kPCShortcutLabel[] = "PCShortcutLabel";
+static const char kXboxButton[] = "xbox_button";
+static const char kTestHeight[] = "Test Height";
+static const char kTemplateJustifyCenterText3[] = "template_justify_center_text";
+static const char kTemplateJustifyCenterText2[] = "template_justify_center_text";
+static const char kTemplateJustifyRightText2[] = "template_justify_right_text";
+static const char kTemplateJustifyLeftText[] = "template_justify_left_text";
+static const char kTemplateJustifyRightText[] = "template_justify_right_text";
+static const char kTemplateJustifyCenterText[] = "template_justify_center_text";
+static const char kHokeys[] = "Hokeys";
+// @fnv 0x0076bfe0
+Tile* FUN_0076bfe0()
+{
+    InterfaceManager* pInterfaceMgrY;
+    MenuStub* pMenuXB;
+    float fTileAlphaM;
+    Tile* pMenuTileN;
+    TileMenu* pOldMenuT;
+
+    if (!((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))
+        return 0;
+    pOldMenuT = ((::TileMenu *)(::FUN_00a09030(FUN_00706f20())));
+    if (pOldMenuT)
+        delete pOldMenuT;
+    pInterfaceMgrY = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
+    fTileAlphaM = ::Tile::GetInterfaceScale();
+    reinterpret_cast<::GlobalObject_0044fae0 *>((((::ATMStub *)(::FUN_00713d70()))))->FUN_004538a0(0);
+    pMenuTileN = reinterpret_cast<::fnv_00a01b00::TileLoader *>((pInterfaceMgrY->FUN_00586150()))->FUN_00a01b00((void *)("Data\\Menus\\Main\\hud_main_menu.xml"));
+    pMenuXB = ((::MenuStub *)(reinterpret_cast<::FUN_00a03c90_shell *>((pMenuTileN))->FUN_00a03c90()));
+    if (pMenuXB && pMenuXB->vf34() == FUN_00706f20())
+    {
+        reinterpret_cast<::FUN_00a1dc70_shell *>((pMenuXB))->FUN_00a1dc70((::TileMenu *)(pMenuTileN), false);
+        int iInfoRowY;
+        int iTotalWidthTraitA;
+        int iInfoGapLeftAA;
+        NiNode* pBreathNodeYA;
+        int iOriginalXTrait14;
+        float fLimbScaleAC;
+        int iSafeZoneX3;
+        int iInfoPadLeft_;
+        float fShadowRadiusXB;
+        Tile* pPlayerIcon;
+        int iScreenHeightX;
+        int iImageWidthTraitT;
+        int iInfoPadMid34;
+        NiTimeController* pController27;
+        int iScreenWidthC;
+        int iSafeZoneYY;
+        int iQuestYAA;
+        int iMessageOffsetX3;
+        int iLimbOffsetXQ;
+        int iLimbOffsetYB;
+        int iInfoPadRightQ;
+        ::g_pHudMainMenuInstance = (HUDMainMenu*)pMenuXB;
+        iScreenWidthC = (int)::InterfaceManager::UpdateInterfaceState();
+        iScreenHeightX = (int)FUN_00715da0();
+        iSafeZoneX3 = (int)FUN_007177c0();
+        iSafeZoneYY = (int)::fnv_00717820::FUN_00717820();
+        iOriginalXTrait14 = FUN_00a00940("_OriginalX", -1);
+        iTotalWidthTraitA = FUN_00a00940("_TotalWidth", -1);
+        iImageWidthTraitT = FUN_00a00940("_ImageWidth", -1);
+        ::g_pHudMainMenuInstance->m_pTiles[59] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "ActionPoints")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[59]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4017) + 30.0,
+            1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[59]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[59]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[43] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateRightBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[43]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[43]->Set(4001, -37);
+        ::g_pHudMainMenuInstance->m_pTiles[7] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeter3), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[7]->Set(iOriginalXTrait14, 326);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[7]))->FUN_00a012d0(4002, 41.0f, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[7]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[8] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText6), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[8]->Set(4001, 315);
+        ::g_pHudMainMenuInstance->m_pTiles[8]->Set(4002, 8);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[8]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[12] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText5), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4001, 315);
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4002, 80);
+        ::g_pHudMainMenuInstance->m_pTiles[12]->Set(4025, 7);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[12]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[9] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateJustifyRightText4), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[9]->Set(4001, 80);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[9]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[9]->Set(4025, 7);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[9]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4da4))))->GetMenuTitle()))), 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[9]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[10] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeter2), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iOriginalXTrait14, 90);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[10]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002) + 3.0, 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[10]))->FUN_00a01350(4044, (char *)(kInterfaceVATSVatsBarDds), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iTotalWidthTraitA, 60);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(iImageWidthTraitT, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[10]->Set(4024, 200);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[10]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[11] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[59], (char *)(kTemplateMeterBackground), (::Tile *)(0));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[11]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002) + 3.0, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[11]), 4);
+        ::g_pHudMainMenuInstance->m_pTiles[86] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kCNDArrows)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[9]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[10]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[11]))->GetFloat(4017) * 0.75 + 8.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[10]))->GetFloat(4002),
+            1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[86]))->FUN_00a012d0(4016, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[11]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[86]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[60] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kHitPoints)));
+        ::g_pHudMainMenuInstance->m_pTiles[60]->Set(4001, iSafeZoneX3 * 2 + 10);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[60]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4016), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[60]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[42] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateLeftBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[42]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[1] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateMeter), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[1]->Set(iOriginalXTrait14, 20);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[1]))->FUN_00a012d0(4002, 41.0f, 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[1]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[2] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateJustifyRightText3), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[2]->Set(4001, 53);
+        ::g_pHudMainMenuInstance->m_pTiles[2]->Set(4002, 8);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[2]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[6] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[60], (char *)(kTemplateCompassWindow), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[3] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)(kTemplateCompassIconGroup), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[3]->Set(4002, 30);
+        ::g_pHudMainMenuInstance->m_pTiles[3]->Set(4013, 4);
+        ::g_pHudMainMenuInstance->m_pTiles[4] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)("template_compass_icon_group"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[4]->Set(4002, 30);
+        ::g_pHudMainMenuInstance->m_pTiles[4]->Set(4013, 3);
+        ::g_pHudMainMenuInstance->m_pTiles[5] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[6], (char *)("template_compass_icon_group"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[5]->Set(4002, 10);
+        ::g_pHudMainMenuInstance->m_pTiles[5]->Set(4013, 2);
+        for (int l_e8 = 0; l_e8 < *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingInt *>(&::g_011d32d0)))))); l_e8++)
+        {
+            Tile* l_ec =
+                reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[5], (char *)("compass_npc_icon"), (::Tile *)(0));
+        }
+        for (int l_f0 = 0; l_f0 < 10; l_f0++)
+        {
+            Tile* l_f4 = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[4], (char *)("template_compass_icon_quest"), (::Tile *)(0));
+        }
+        pPlayerIcon =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[4], (char *)("template_compass_icon_player"), (::Tile *)(0));
+        for (int l_f8 = 0; l_f8 < 10; l_f8++)
+        {
+            Tile* l_fc =
+                reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[3], (char *)(kTemplateCompassIconMarker), (::Tile *)(0));
+        }
+        ::g_pHudMainMenuInstance->m_pTiles[61] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kRadiationMeter)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[61]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC - iSafeZoneX3 * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[61]))->GetFloat(4017) - 20.0,
+            1);
+        ::g_pHudMainMenuInstance->m_pTiles[61]->Set(4002, iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[17] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_bracket")));
+        ::g_pHudMainMenuInstance->m_pTiles[18] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_pointer")));
+        ::g_pHudMainMenuInstance->m_pTiles[20] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_text")));
+        ::g_pHudMainMenuInstance->m_pTiles[19] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[61]), "radiation_text_value")));
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[19]))->FUN_00a01350(4036, (char *)("+0"), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[20]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d21d8))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "EnemyHealth")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[62]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[62]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002) + 40.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[62]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[21] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_enemy_health_bracket"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[21]), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[21]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[22] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_meter"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(iOriginalXTrait14, 171);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(iTotalWidthTraitA, 240);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(4002, 3);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[22]), 3);
+        ::g_pHudMainMenuInstance->m_pTiles[22]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[23] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[62], (char *)("template_justify_center_text"), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4001, 170);
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4002, 35);
+        ::g_pHudMainMenuInstance->m_pTiles[23]->Set(4026, 350);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[23]), 0);
+        iQuestYAA = iSafeZoneYY * 2 + 170;
+        ::g_pHudMainMenuInstance->m_pTiles[63] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "QuestReminder")));
+        ::g_pHudMainMenuInstance->m_pTiles[63]->Set(4001, iSafeZoneX3 * 2 + 15);
+        ::g_pHudMainMenuInstance->m_pTiles[63]->Set(4002, iQuestYAA);
+        ::g_pHudMainMenuInstance->m_pTiles[13] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[63]), "QuestStages")));
+        ::g_pHudMainMenuInstance->m_pTiles[14] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[63]), "QuestAdded")));
+        for (int l_100 = 0; l_100 < 64; l_100++)
+        {
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[14], (char *)("template_justify_left_text"), (::Tile *)(0));
+        }
+        for (int l_104 = 0; l_104 < 32; l_104++)
+        {
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[13], (char *)("template_filled_checkbox"), (::Tile *)(0));
+        }
+        for (int l_108 = 0; l_108 < 32; l_108++)
+        {
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[13], (char *)("template_justify_left_text"), (::Tile *)(0));
+        }
+        ::g_pHudMainMenuInstance->m_pTiles[64] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Region_Location")));
+        ::g_pHudMainMenuInstance->m_pTiles[64]->Set(4001, iSafeZoneX3 * 2 + 15);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[64]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002) - 75.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[15] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[64], (char *)("template_justify_left_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[15]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[15]->Set(4003, 1);
+        NiPoint3Stub kTextSize1 =
+            ((::FontManagerStub *)(::FontManager::Instance()))->FUN_00a1b020(kTestHeight2, (int)reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[15]))->GetFloat(4025),
+                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[15]))->GetFloat(4026), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[15]))->FUN_00a012d0(4002, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[16] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[64], (char *)(kTemplateJustifyLeftText3), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[16]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[16]->Set(4003, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[16]))->FUN_00a012d0(4002, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "ReticleCenter")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[65]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[65]))->GetFloat(4017) / 2.0 - 3.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[65]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[65]))->GetFloat(4016) / 2.0 - 3.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[65]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[51] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[65], (char *)(kTemplateReticleCenter), (::Tile *)(0));
+        ::g_pHudMainMenuInstance->m_pTiles[51]->Set(4084, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[51]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[66] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kSneakMeter)));
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4001, iScreenWidthC / 2);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4002, iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[66]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[24] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[66]), kSneakNif)));
+        ::g_pHudMainMenuInstance->m_pTiles[24]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[67] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kMessages)));
+        iMessageOffsetX3 = -5;
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4001, iMessageOffsetX3 + iSafeZoneX3 * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4002, iSafeZoneYY * 2 + 25);
+        ::g_pHudMainMenuInstance->m_pTiles[67]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[25] = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateMessageIcon), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[25]), 6);
+        ::g_pHudMainMenuInstance->m_pTiles[26] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateJustifyLeftText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[26]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4001, 130);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4002, 5);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4026, 320);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4013, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[26]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[27] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[67], (char *)(kTemplateMessageBracket), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[27]), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[68] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Info")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[68]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[68]))->FUN_00a012d0(
+            4002, (float)(iScreenHeightX - iSafeZoneYY * 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4016) - 30.0,
+            1);
+        ::g_pHudMainMenuInstance->m_pTiles[68]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[29] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[68]), kJustifyCenterHotrect)));
+        ::g_pHudMainMenuInstance->m_pTiles[30] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[29]), kPCShortcutLabel)));
+        ::g_pHudMainMenuInstance->m_pTiles[31] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[29]), kXboxButton)));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[29]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[29]))->FUN_00a012d0(FUN_00a01860("_x"),
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[32] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_justify_center_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[32]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[32]->Set(4002, 0);
+        kTextSize1 = ((::FontManagerStub *)(::FontManager::Instance()))->FUN_00a1b020(kTestHeight, (int)reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[32]))->GetFloat(4025),
+                                                  reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[32]))->GetFloat(4026), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[32]))->FUN_00a012d0(4108, kTextSize1.y, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyCenterText3), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[33]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4002, 65);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4009, 0);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[33]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d2454))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[33]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[34] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyCenterText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[34]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4002, 65);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4009, 0);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[34]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d1f68))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[34]->Set(4003, 0);
+        iInfoRowY = 60;
+        iInfoGapLeftAA = 25;
+        iInfoPadLeft_ = 10;
+        iInfoPadRightQ = 30;
+        iInfoPadMid34 = 5;
+        ::g_pHudMainMenuInstance->m_pTiles[35] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyRightText2), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[35]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[35]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0 - iInfoGapLeftAA, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[35]->Set(4002, iInfoRowY);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[35]))->FUN_00a012d0(4009, DAT_011d979c, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[36] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyLeftText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[36]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[36]->Set(4001, iInfoPadLeft_);
+        ::g_pHudMainMenuInstance->m_pTiles[36]->Set(4002, iInfoRowY);
+        ::g_pHudMainMenuInstance->m_pTiles[37] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)(kTemplateJustifyRightText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[37]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[37]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) - iInfoPadRightQ, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[37]->Set(4002, iInfoRowY);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[37]))->FUN_00a012d0(4009, DAT_011d979c, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[38] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_justify_left_text"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[38]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[38]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4017) / 2.0 + iInfoPadMid34, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[38]->Set(4002, iInfoRowY);
+        ::g_pHudMainMenuInstance->m_pTiles[39] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[68], (char *)("template_info_seperator"), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[39]), 2);
+        ::g_pHudMainMenuInstance->m_pTiles[69] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Subtitles")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[69]))->FUN_00a012d0(
+            4001, (float)(iScreenWidthC / 2) - reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[69]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[68]))->GetFloat(4002) -
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4016) - 50.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[69]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[28] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[69], (char *)(kTemplateJustifyCenterText), (::Tile *)(0));
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[28]), 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[28]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017) / 2.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[28]))->FUN_00a012d0(4026, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[69]))->GetFloat(4017), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[70] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), kHokeys)));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[70]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) + 15.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[70]))->FUN_00a012d0(4002,
+                                                    (float)(iScreenHeightX - iSafeZoneYY * 2) -
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4016) -
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[70]))->GetFloat(4016) - 20.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[70]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[40] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[70], (char *)("template_hotkey_selector"), (::Tile *)(0));
+        reinterpret_cast<::HotkeyWheelDisplay *>((((HotKeyWheelStub*)::g_pHudMainMenuInstance->m_kMenuData)))->Initialize(::g_pHudMainMenuInstance->m_pTiles[40]);
+        ::g_pHudMainMenuInstance->m_pTiles[41] =
+            reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((pMenuXB))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[70], (char *)("template_justify_center_text"), (::Tile *)(0));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[41]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[70]))->GetFloat(4017) / 2.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[41]->Set(4002, -50);
+        ::g_pHudMainMenuInstance->m_pTiles[41]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[71] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "XPMeter")));
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4001, iScreenWidthC - iSafeZoneX3 * 2 - 390);
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4002, iScreenHeightX - iSafeZoneYY * 2 - 280);
+        ::g_pHudMainMenuInstance->m_pTiles[71]->Set(4103, iScreenHeightX - iSafeZoneYY * 2 - 280);
+        ::g_pHudMainMenuInstance->m_pTiles[45] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPAmount")));
+        ::g_pHudMainMenuInstance->m_pTiles[46] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLabel")));
+        ::g_pHudMainMenuInstance->m_pTiles[47] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPPointer")));
+        ::g_pHudMainMenuInstance->m_pTiles[44] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPBracket")));
+        ::g_pHudMainMenuInstance->m_pTiles[48] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLastLevel")));
+        ::g_pHudMainMenuInstance->m_pTiles[49] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPNextLevel")));
+        ::g_pHudMainMenuInstance->m_pTiles[50] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[71]), "XPLevelUp")));
+        ::g_pHudMainMenuInstance->m_pTiles[72] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "BreathMeter")));
+        ::g_pHudMainMenuInstance->m_pTiles[72]->Set(4001, iScreenWidthC / 2);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[72]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[66]))->GetFloat(4002) + 80.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[73] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "Explosive_positioning_rect")));
+        ::g_pHudMainMenuInstance->m_pTiles[73]->Set(4001, iScreenWidthC / 2);
+        ::g_pHudMainMenuInstance->m_pTiles[73]->Set(4002, iScreenHeightX / 2);
+        for (int l_10c = 0; l_10c < 6; l_10c++)
+        {
+            Tile* l_110 = reinterpret_cast<::fnv_00a1ddb0::FUN_00a1ddb0_shell *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_00a1ddb0(::g_pHudMainMenuInstance->m_pTiles[73], (char *)("template_explosive_indicator"), (::Tile *)(0));
+        }
+        ::g_pHudMainMenuInstance->m_pTiles[74] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "crippled_limb_indicator")));
+        iLimbOffsetXQ = 200;
+        iLimbOffsetYB = 100;
+        fLimbScaleAC = 75.0f;
+        ::g_pHudMainMenuInstance->m_pTiles[74]->Set(4001, iScreenWidthC - iSafeZoneX3 * 2 - iLimbOffsetXQ);
+        ::g_pHudMainMenuInstance->m_pTiles[74]->Set(4002, iLimbOffsetYB + iSafeZoneYY * 2);
+        ::g_pHudMainMenuInstance->m_pTiles[53] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Head")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4017, fLimbScaleAC * 85.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[53]))->FUN_00a012d0(4016, fLimbScaleAC * 92.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[53]->Set(4001, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[53]->Set(4002, 40);
+        ::g_pHudMainMenuInstance->m_pTiles[52] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Face")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4017, fLimbScaleAC * 48.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4016, fLimbScaleAC * 64.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4001) +
+                                                        (reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4017) -
+                                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[52]))->GetFloat(4017)) /
+                                                            2.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[52]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4002) +
+                                                        (reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4016) -
+                                                         reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[52]))->GetFloat(4016)) /
+                                                            2.0 +
+                                                        fLimbScaleAC * 16.0 / 100.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[54] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Torso")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4017, fLimbScaleAC * 102.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(4016, fLimbScaleAC * 128.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4001) + fLimbScaleAC * -14.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[54]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[53]))->GetFloat(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[55] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Left_Arm")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4017, fLimbScaleAC * 100.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4016, fLimbScaleAC * 52.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * 90.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[55]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002), 1);
+        ::g_pHudMainMenuInstance->m_pTiles[56] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Right_Arm")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4017, fLimbScaleAC * 96.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(4016, fLimbScaleAC * 54.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * -88.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[56]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * -5.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[57] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Left_Leg")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4017, fLimbScaleAC * 72.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * 47.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[57]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * 86.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[58] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[74]), "Right_Leg")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4017, fLimbScaleAC * 84.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(4016, fLimbScaleAC * 112.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(
+            4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4001) + fLimbScaleAC * -37.0 / 100.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[58]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[54]))->GetFloat(4002) + fLimbScaleAC * 83.0 / 100.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[75] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIcon")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[75]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4017) + 5.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[75]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4002) - 16.0,
+                                                    1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[75]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[75]->Set(4003, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[76] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIconEnemy")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[76]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4001) - 32.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[76]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4002),
+            1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[76]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[76]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[76]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[82] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIcon")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[82]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4017) + 5.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[82]))->FUN_00a012d0(4002,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4002) - 16.0,
+                                                    1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[82]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[82]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[83] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "DDTIconEnemyAP")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[83]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4001) - 32.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[83]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[62]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[22]))->GetFloat(4002),
+            1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[83]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[83]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[83]->Set(4084, 2);
+        ::g_pHudMainMenuInstance->m_pTiles[77] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "AmmoTypeLabel")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[77]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4001) +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4001) - 165.0,
+                                                    1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[77]))->FUN_00a012d0(
+            4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[59]))->GetFloat(4002) + reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[12]))->GetFloat(4002),
+            1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[77]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[77]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[78] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::Tile *)(((::TileMenu *)(::FUN_00a09030(1004)))), "HardcoreMode")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[78]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4001) + 150.0, 1);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[78]))->FUN_00a012d0(4002, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[60]))->GetFloat(4002), 1);
+        ::fnv_00774800::FUN_00774800((::fnv_00774800::Tile *)(::g_pHudMainMenuInstance->m_pTiles[78]), 0);
+        ::g_pHudMainMenuInstance->m_pTiles[78]->Set(4003, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[78]->Set(4008, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[79] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Dehydration")));
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4001, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[79]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[79]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[81] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Hunger")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[81]))->FUN_00a012d0(4001, reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[81]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[81]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[81]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[80] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Sleep")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[80]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[80]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[80]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[80]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[84] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "Rads")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[84]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[80]))->GetFloat(4017) + 10.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[84]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[84]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[84]->Set(4009, 0);
+        ::g_pHudMainMenuInstance->m_pTiles[85] = ((::Tile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::g_pHudMainMenuInstance->m_pTiles[78]), "LMBs")));
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[85]))->FUN_00a012d0(4001,
+                                                    reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[81]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[79]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[80]))->GetFloat(4017) + 10.0 +
+                                                        reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[84]))->GetFloat(4017) + 10.0,
+                                                    1);
+        ::g_pHudMainMenuInstance->m_pTiles[85]->Set(4002, 0);
+        reinterpret_cast<::FUN_00a012d0_t *>((::g_pHudMainMenuInstance->m_pTiles[85]))->FUN_00a012d0(4024, fLimbScaleAC, 1);
+        ::g_pHudMainMenuInstance->m_pTiles[85]->Set(4009, 0);
+        if (!reinterpret_cast<::FUN_00770070_Class *>((((MenuStub*)::g_pHudMainMenuInstance)))->HasAllTiles())
+        {
+            ::FUN_0040fbe0(
+                );
+            ::fnv_007037e0::FUN_007037e0();
+        }
+        if (reinterpret_cast<::TileListBoxCalls *>((pMenuTileN))->GetFloat(4007) == 6006.0 || reinterpret_cast<::TileListBoxCalls *>((pMenuTileN))->GetFloat(4007) == 102.0)
+            reinterpret_cast<::FUN_00a012d0_t *>((pMenuTileN))->FUN_00a012d0(4013, fTileAlphaM, true);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[12]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d4918))))->GetMenuTitle()))), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[8]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d3e8c))))->GetMenuTitle()))), 1);
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((::g_pHudMainMenuInstance->m_pTiles[2]))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingString *>(&::g_011d300c))))->GetMenuTitle()))), 1);
+        ::g_pHudMainMenuInstance->m_iHudValueFirstAfterUpdateList = 856;
+        ::g_pHudMainMenuInstance->m_iHudValueSecondAfterUpdateList =
+            (int)(reinterpret_cast<::TileListBoxCalls *>((::g_pHudMainMenuInstance->m_pTiles[6]))->GetFloat(4017) / 2.0) - 35;
+        ::g_pHudMainMenuInstance->m_iHudValueThirdAfterUpdateList = 70;
+        pMenuTileN->Set(4003, 1);
+        reinterpret_cast<::MenuFields *>((((MenuStub*)::g_pHudMainMenuInstance)))->tile;
+        ::fnv_00a04200::FUN_00a04200(false);
+        // The texture is held through the NiRefObject reference count that NiNode exposes here.
+        NiPointer<NiNode> spCompassAlphaB(0);
+        spCompassAlphaB = (NiNode*)(void*)::NiSourceTexture::Create(NiFixedString("Textures\\Interface\\HUD\\hud_compass_alphamap.dds"),
+                                       (::NiTexture__FormatPrefs &)((*reinterpret_cast<::NiTextureFormatPrefs *>(&::DAT_011a9598))), true, false);
+        ::g_pHudMainMenuInstance->m_pTiles[6]->vf20()->FUN_007700b0((NiSourceTexture*)(void*)(NiNode*)spCompassAlphaB);
+        reinterpret_cast<::FUN_007700d0_cls *>((::g_pHudMainMenuInstance->m_pTiles[6]->vf20()))->set(true);
+        (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)) = new NiNode(0);
+        ThreeByThreeMatrix kRotZXB;
+        ThreeByThreeMatrix kRotXYB;
+        reinterpret_cast<::FUN_00524ac0_shell *>(&(kRotZXB))->FUN_00524ac0(1.5707964f);
+        reinterpret_cast<::FUN_004a0c90_shell *>(&(kRotXYB))->FUN_004a0c90(1.5707964f);
+        reinterpret_cast<::FUN_0043fa80_s *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(kRotZXB))->operator+(kRotXYB));
+        reinterpret_cast<::FUN_00440490_shell *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00440490(0.1f);
+        reinterpret_cast<::FUN_004bc1f0_S *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_004bc1f0(380.0f, 0.0f, 0.0f);
+        NiUpdateData kUpdateSceneY(0.0f, false, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_00a59c60((std::intptr_t)&(kUpdateSceneY));
+        (*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d975c)) = ((::NiNode *)(reinterpret_cast<::CamBuilder *>((((MenuStub*)::g_pHudMainMenuInstance)))->FUN_0077ee50()));
+        (*reinterpret_cast<::HUDEmptyStub * *>(&::g_011d96bc)) = new HUDEmptyStub;
+        ::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)->vfdc((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770)), true);
+        fShadowRadiusXB = reinterpret_cast<::Twin_0084d030 *>((((::NiBoundStub *)(reinterpret_cast<::FUN_0043d450_Owner *>((((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))).operator->()))->FUN_0043d450()))))->GetStoredFloatValue() * 3.0;
+        reinterpret_cast<::SSN_b5 *>((::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1)))->FUN_00b5ca70((::Node_b5 *)(::NiNode *)((*reinterpret_cast<::NiPointer< ::NiNode> *>(&::g_011d9770))), fShadowRadiusXB);
+        pBreathNodeYA = ((::NiNode *)(reinterpret_cast<::TileFields *>((::g_pHudMainMenuInstance->m_pTiles[72]))->renderedNode));
+        pController27 = ((::NiTimeController *)(reinterpret_cast<::MyHost *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a5c570((const ::MyRTTI *)(::NiRTTI *)(&(*reinterpret_cast<::NiRTTI *>(&::g_011f36ac))))));
+        reinterpret_cast<::NiAVObject *>((pBreathNodeYA))->SetLocalRotation(-1.5707964f, 1.0f, 0.0f, 0.0f);
+        NiUpdateData kUpdateBreath2(0.0f, true, false);
+        reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNode *)(pBreathNodeYA->GetAt(0)))))->FUN_00a59c60((std::intptr_t)&(kUpdateBreath2));
+        if (pController27)
+        {
+            NiControllerManagerStub* l_114 = (NiControllerManagerStub*)pController27;
+            ::g_pHudMainMenuInstance->m_pHudAnimationSequence = ((void *)(reinterpret_cast<::fnv_0047a520::Fn47a520 *>((l_114))->FUN_0047a520((::fnv_0047a520::NFSHelper *)&(const ::NiFixedString &)(NiFixedString("Forward")))));
+            reinterpret_cast<::NiControllerManager *>((l_114))->DeactivateAllSequences(0.0f);
+            if (::g_pHudMainMenuInstance->m_pHudAnimationSequence)
+                reinterpret_cast<::NiControllerManager *>((l_114))->ActivateControllerSequence((::NiControllerSequence *)(::g_pHudMainMenuInstance->m_pHudAnimationSequence), 0, 1, 1.0f, 0.0f, (::NiControllerSequence *)(0));
+        }
+        reinterpret_cast<::Menu *>((pMenuXB))->SetMenuVisibility(1);
+        FUN_0077e430(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingFloat *>(&::g_011d9774)))))));
+        ::fnv_00771700::FUN_00771700(5);
+        reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();
+        return pMenuTileN;
+    }
+    else
+    {
+        if (pMenuXB && ((std::intptr_t)(reinterpret_cast<::MenuFields *>((pMenuXB))->tile)))
+            delete pMenuXB;
+    }
+    reinterpret_cast<::ActorTaskManager *>((((::ATMStub *)(::FUN_00713d70()))))->WaitForTasksDuringRendering();
+    return 0;
+}
+
+struct SubtitlePoint
+{
+    float x, y, z;
+    SubtitlePoint();
+};
+class BSSoundHandleEx
+{
+  public:
+    unsigned int soundID, unk04, unk08;
+    ~BSSoundHandleEx();
+};
+struct SubtitleRecord
+{
+    char text[260];
+    unsigned int timestamp;
+    float duration;
+    SubtitlePoint position;
+    int visibility;
+    SubtitleRecord();
+};
+template <class T> struct SubtitleArray
+{
+    void* table;
+    T* buffer;
+    unsigned int size, capacity;
+    unsigned int Add(T& item);
+};
+struct SubtitleTimer
+{
+    unsigned int unk00, unk04, unk08, unk0c, unk10, timestamp, unk18, unk1c;
+};
+struct SubtitleSettingBool
+{
+    bool* Bool();
+};
+struct SubtitleSettingFloat
+{
+};
+class SubtitleHUD : public Menu
+{
+  public:
+    Tile* tiles[87];
+    void* active;
+    float seenLevel;
+    char messages[8];
+    unsigned int messageStart;
+    SubtitleArray<SubtitleRecord*> subtitles;
+    void* currentSubtitle;
+    BSSoundHandleEx geigerSound;
+    void* lastObject;
+    int visibilityMenuMode, visibilityUserSettings, menuMode;
+    char hotkeyWheel[52];
+    bool scopeVisible;
+    void* breathMeterAnimation;
+    bool xpMeterFinishedMoving, forceObjectiveReminders;
+    unsigned int killRegionDisplay;
+    void* questList;
+    int compassImageWidth, compassDisplayWidth, compassHalfAngle;
+    void* currentEnemy;
+    bool wasSneaking;
+    SubtitleTimer timer;
+    bool FUN_00774fd0(const char*, BSSoundHandleEx, SubtitlePoint, TESObjectREFR*, bool);
+};
+// @fnv 0x00774fd0
+bool SubtitleHUD::FUN_00774fd0(const char* text, BSSoundHandleEx sound, SubtitlePoint position, TESObjectREFR* speaker,
+                               bool persistent)
+{
+    bool added = false;
+    Actor* actor = speaker && speaker->IsActor() ? dynamic_cast<Actor*>(speaker) : 0;
+    if (text && (*(*reinterpret_cast<::SubtitleSettingBool *>(&::g_011d8928)).Bool() || (actor && ::FUN_008c1bc0((intptr_t)(actor)))))
+    {
+        SubtitleRecord* record = new SubtitleRecord;
+        ::TaskQueueInterface::CopyStringToBuffer(record->text, 260, text);
+        record->position = position;
+        record->duration = ::FUN_00ad8b30((unsigned int *)&(sound)) / 1000.0;
+        if (record->duration == 0.0)
+            record->duration = strlen(text) * (*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SubtitleSettingFloat *>(&::originalRuntimeFloatSetting1229)))))));
+        if (persistent)
+            record->visibility = 0x7fffffff;
+        else if (speaker == (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
+            record->visibility = 0;
+        else if (speaker)
+            record->visibility = 2;
+        else
+            record->visibility = 1;
+        record->timestamp = timer.timestamp;
+        reinterpret_cast<::FUN_00438690 *>(&(subtitles))->FUN_007cb2e0((unsigned int *)&(record));
+        added = true;
+    }
+    return added;
+}
 #include "generated/data/fallout/interface/menus/hudmainmenu.inc"
+#include "generated/data/fallout/interface/menus/hudmainmenu_ctx2_variant.inc"

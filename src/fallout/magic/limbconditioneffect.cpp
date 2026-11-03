@@ -167,14 +167,11 @@ template <class T> struct SettingT
 {
     float* Float();
 };
-struct ActorValue
-{
-    enum Index
-    {
-        All = 25,
-        None = -1
-    };
-};
+namespace ActorValue { enum Index; }
+// ActorValue::Index values used below: no actor value, and the first limb
+// condition (perception condition; the limb conditions run to 31).
+constexpr int kActorValueNone = -1;
+constexpr int kActorValuePerceptionCondition = 25;
 struct ValueModifierEffectHelper
 {
 };
@@ -188,7 +185,7 @@ struct LimbConditionEffect_0080f220
 void LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier,
                                                            ActorValue::Index aeOverrideActorValue)
 {
-    if (m_4C != ActorValue::None)
+    if (m_4C != kActorValueNone)
     {
         float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1213))));
         reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, afModifier, (ActorValue::Index)m_4C);
@@ -196,7 +193,7 @@ void LimbConditionEffect_0080f220::FUN_0080f220(Actor* apActor, float afModifier
     else
     {
         float fScaledMagnitude = afModifier * *((float *)&(::FUN_00403e20((float *)&(::originalRuntimeFloatSetting1214))));
-        for (int i = ActorValue::All; i < 32; ++i)
+        for (int i = kActorValuePerceptionCondition; i < 32; ++i)
             reinterpret_cast<::ValueModifierEffect *>((((ValueModifierEffectHelper*)this)))->ApplyActorValueModifier(apActor, fScaledMagnitude, (ActorValue::Index)i);
     }
 }

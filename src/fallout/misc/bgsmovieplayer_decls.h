@@ -3,6 +3,7 @@
 #define FNV_BGSMOVIEPLAYER_DECLS_H
 
 
+#include <cstdint>
 #include "fnv/decl/BSAudio_.h"
 #include "fnv/decl/FUN_004dc020_Class.h"
 #include "fnv/decl/FUN_005bb4d0_shell.h"
@@ -89,7 +90,7 @@ class BGSMoviePlayer
     void FinishScene();
     void BeginMoviePlayback();
     void EndMoviePlayback();
-    unsigned int GetUptimeMilliseconds();
+    uintptr_t GetUptimeMilliseconds();
     unsigned int UpdateInterfaceState();
     unsigned int GetScreenWidthOverride();
     unsigned int GetFirstInterfaceFloat();

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class RgbaColor;
 class TESObjectREFR;
@@ -22,7 +23,7 @@ void FUN_009a9180(::S_009a9180_Actor *, ::S_009a9180_Data *, float *, float *, f
 // 0x009a9370
 namespace fnv_009a9370 { void FUN_009a9370(::fnv_009a9370::CombatController *, ::fnv_009a9370::CombatCoverPointData *, ::fnv_009a9370::NiPoint3 *, ::fnv_009a9370::NiPoint3 *); }
 // 0x009a93a0
-namespace fnv_009a93a0 { void FUN_009a93a0(::fnv_009a93a0::TESAmmoInitCalls *, int, int, int, int); }
+namespace fnv_009a93a0 { void FUN_009a93a0(::fnv_009a93a0::TESAmmoInitCalls *, intptr_t, intptr_t, intptr_t, intptr_t); }
 // 0x009a93e0
 void FUN_009a93e0(float, ::TargetActor *, ::TargetSettings *, ::TargetVector *, ::TargetVector *);
 // 0x009a9630

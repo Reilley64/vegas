@@ -2,6 +2,7 @@
 // src/fallout_shared/bgsconstructibleobject.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bgsconstructibleobject.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <malloc.h>
 #include "fnv/decl/CombatProcedure.h"
 #include "fnv/decl/FUN_00401660_Class.h"
@@ -32,11 +33,11 @@
 #include "fnv/symbols_01183000.h"
 struct FUN_004f9bf0_shell
 {
-    unsigned int FUN_004f9bf0();
+    uintptr_t FUN_004f9bf0();
 };
 
 // @fnv 0x004f9bf0
-unsigned int FUN_004f9bf0_shell::FUN_004f9bf0()
+uintptr_t FUN_004f9bf0_shell::FUN_004f9bf0()
 {
     return ((unsigned int*)this)[0x2b];
 }

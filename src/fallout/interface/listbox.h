@@ -3,6 +3,7 @@
 #define FNV_LISTBOX_MATCH_UNIT_H
 
 
+#include <cstdint>
 #include "fnv/decl/Cls_764e40.h"
 #include "fnv/decl/Cls_764ef0.h"
 #include "fnv/decl/FUN_00730e20_cls.h"
@@ -108,7 +109,7 @@ template <>
 // @fnv 0x007cc5d0
 unsigned int ListBox<StartMenu::Option*>::AddItem(unsigned int mask)
 {
-    return ((unsigned int)m_pListTile & mask) != 0;
+    return ((std::uintptr_t)m_pListTile & mask) != 0;
 }
 
 // @fnv 0x00418900
@@ -131,7 +132,7 @@ template <>
 // @fnv 0x00730ed0
 bool ListBox<InventoryStackRecord*>::Highlight(Tile* tile)
 {
-    if (reinterpret_cast<::FUN_00730e20_cls *>(this)->FUN_00730e20() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+    if (reinterpret_cast<::FUN_00730e20_cls *>(this)->FUN_00730e20() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((void *)(tile)) &&
                                   reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
@@ -147,7 +148,7 @@ template <>
 // @fnv 0x00764a00
 bool ListBox<int>::Highlight(Tile* tile)
 {
-    if (reinterpret_cast<::Cls_764e40 *>(this)->FUN_00764e40() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+    if (reinterpret_cast<::Cls_764e40 *>(this)->FUN_00764e40() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((void *)(tile)) &&
                                   reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
@@ -163,7 +164,7 @@ template <>
 // @fnv 0x007a3170
 bool ListBox<BGSNote*>::Highlight(Tile* tile)
 {
-    if (reinterpret_cast<::FUN_007a6bd0_shell *>(this)->FUN_007a6bd0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+    if (reinterpret_cast<::FUN_007a6bd0_shell *>(this)->FUN_007a6bd0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((void *)(tile)) &&
                                   reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;
@@ -179,7 +180,7 @@ template <>
 // @fnv 0x007a4ce0
 bool ListBox<BGSQuestObjective*>::Highlight(Tile* tile)
 {
-    if (reinterpret_cast<::FUN_007a79b0_shell *>(this)->FUN_007a79b0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((int)(tile)) &&
+    if (reinterpret_cast<::FUN_007a79b0_shell *>(this)->FUN_007a79b0() && (!tile || (reinterpret_cast<::ListOwner *>((((ListBox_int_*)this)))->ContainsKey((void *)(tile)) &&
                                   reinterpret_cast<::FUN_00a01230_shell *>((tile))->IsTraitNonZero(::FUN_00a00940(kListBoxEnabled, -1)))))
     {
         m_pSelectedTile = tile;

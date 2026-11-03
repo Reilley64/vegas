@@ -2,6 +2,7 @@
 // src/fallout/interface/menus/slotmachinemenu.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/menus/slotmachinemenu.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/simple_list_node_view.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/ActorMover.h"
@@ -282,7 +283,7 @@ struct Accum_00733500;
 
 struct S148c0
 {
-    void FUN_007148c0(int, int);
+    void FUN_007148c0(intptr_t, int);
 };
 
 struct MiddleLowProcess
@@ -299,7 +300,7 @@ struct GO
 {
     unsigned int value;
 
-    GO(int);
+    GO(intptr_t);
     ~GO();
     operator unsigned int() const;
     void operator=(void*);
@@ -341,16 +342,16 @@ void FUN_007c19c0()
     Accum_00733500* accum = ((MiddleLowProcess*)go)->GetProcessInteger();
     reinterpret_cast<::FUN_00c4f270_Class *>((accum))->FUN_00c4f270(1);
 
-    AnimIdle* anim2 = (AnimIdle*)(unsigned int)::g_011da9d0;
+    AnimIdle* anim2 = (AnimIdle*)(uintptr_t)::g_011da9d0;
     ::UpdateCameraFrustum((::NiCamera *)(anim2), g_011db5ec_arg1);
 
-    GO selected((int)((::AnimIdle *)(reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
-    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(unsigned int)selected));
+    GO selected((int)((reinterpret_cast<::fnv_007fd640::FUN_007fd640Class *>((((::Mgr_00733500 *)(::fnv_004b7210::FUN_004b7210()))))->FUN_007fd640())));
+    reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected));
 
     AnimIdle* anim = anim2 ? anim2 : (AnimIdle*)((BSFaceGenNiNode*)go)->GetAnimationData();
 
     ::FUN_00b6bee0(anim, NiAdditionalGeometryData::GetShadowSceneNodeForIndex(1), (::BSShaderAccumulator *)(accum));
-    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)(unsigned int)selected), false);
+    ::BSShaderRenderUtility::SetRenderCamera((::NiCamera *)(anim), (::BSShaderAccumulator *)(::AnimIdle *)((AnimIdle*)(uintptr_t)selected), false);
 
     reinterpret_cast<::FUN_004a0fd0_shell *>((accum))->FUN_004a0fd0((::NiNode *)(::AnimIdle *)(0));
     selected = 0;
@@ -958,7 +959,7 @@ struct Casino
     virtual const char* GetName();
     int unk04;
     int unk08;
-    int unk0c;
+    void* unk0c;
     int unk10;
     int unk14;
     StringField name;
@@ -1030,7 +1031,7 @@ struct GameMenu
     virtual void vf2c();
     virtual void vf30();
     virtual int Type();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1119,16 +1120,16 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     DAT_011da9ac = casino;
     DAT_011da9a8 = 0;
     RecordList* node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
-    while (node && *((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))
     {
-        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner || !((int)(::FUN_004839c0((unsigned int)((*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner)))))
+        if (!(*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner || !((intptr_t)(::FUN_004839c0((unsigned int)(uintptr_t)((*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)))))
         {
             ::DispatchMessageToSink((const char *)(DAT_01076694), 0, (const char *)(::DAT_01049638), 0, ::DAT_010162c0, 0);
             return 0;
         }
-        if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0())) == (*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3())))->owner)
+        if (((void *)(((Casino*)DAT_011da9ac)->unk0c)) == (*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))->owner)
         {
-            DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(new ((void *)(node)) ::Vec3()));
+            DAT_011da9a8 = (int*)*((::fnv_007c0a40::FUN_00733f50 **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
             break;
         }
         if (!((::fnv_007c0a40::RecordList *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
@@ -1138,7 +1139,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
     if (!DAT_011da9a8)
     {
         Record* pNewRecord = new Record;
-        pNewRecord->owner = ((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((Casino*)DAT_011da9ac)))->FUN_0084e3a0()));
+        pNewRecord->owner = ((void *)(((Casino*)DAT_011da9ac)->unk0c));
         pNewRecord->count = 0;
         node = ((::fnv_007c0a40::RecordList *)(::FUN_005a6260((char *)((*reinterpret_cast<::fnv_007c0a40::Player * *>(&::_g_thePlayer))))));
         if (!node || node->FUN_008256d0())
@@ -1229,7 +1230,7 @@ GameTile* __cdecl FUN_007c0a40(char* casino, int wager, int mode, int threshold)
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->SetMenuVisibility(0);
         return manager;
     }
-    else if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && ((::fnv_007c0a40::GameTile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))))->FUN_00726070())))
+    else if ((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4)) && ((::fnv_007c0a40::GameTile *)((*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4))->unk04)))
         delete (*reinterpret_cast<::fnv_007c0a40::GameMenu * *>(&::DAT_011da9a4));
     return 0;
 }
@@ -1408,7 +1409,7 @@ struct DataHandler
     virtual void v170();
     virtual void v174();
     virtual void v178();
-    virtual void AddItem(int item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
+    virtual void AddItem(intptr_t item, int a1, int count, int a3, int a4, int a5, int a6, int a7, int a8, int a9);
     InvItem* GetName(int item, int a, int b);
 };
 
@@ -1517,7 +1518,7 @@ struct SlotMenu
     virtual void v2C();
     virtual void v30();
     virtual void* GetTile();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0C;
     int unk10;
@@ -1641,25 +1642,25 @@ void SlotMenu::Update()
     switch (m_uiContentCount)
     {
     case 7:
-        if (((int)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 2)
+        if (((int)(this->unk24)) != 2)
         {
             reinterpret_cast<::FUN_00a012d0_t *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::FUN_0045cd60_shell *>((((::fnv_007c2c70::TileHolder *)(::fnv_004b7210::FUN_004b7210()))))->FUN_0045cd60()))))->FUN_00a012d0(255.0f, 1, {});
-            reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(reinterpret_cast<::Callees *>(this)->FUN_00726070()))))->Set(0x1772, 1);
+            reinterpret_cast<::Tile *>((((::fnv_007c2c70::MenuTile *)(this->unk04))))->Set(0x1772, 1);
             reinterpret_cast<::FUN_00a1d910_shell *>(this)->FUN_00a1d910();
             int diff;
-            if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
+            if ((diff = m_caps - reinterpret_cast<::CombatState *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->GetInventoryItemCount((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))))) < 0)
             {
-                (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
+                (*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))->AddItem(((intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())), 0, -diff, 0, 0, 0, 0, 0, 1, 0);
                 BSStr msg;
-                ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg), "%i %s%s %s", -diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
                              ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3db4))))->GetMenuTitle())));
                 ::DispatchMessageToSink((const char *)((const char*)((void *)(::FUN_00559450((int *)&(msg))))), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_sad.dds"),
-                            (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
+                            (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((const char *)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
             }
             else if (diff > 0)
             {
                 CapsChange change;
-                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(change))->FUN_004818e0((::TESObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), diff, (::ContainerItemExtra *)(0));
+                reinterpret_cast<::fnv_004818e0::FUN_004818e0_t *>(&(change))->FUN_004818e0((::TESObject *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), diff, (::ContainerItemExtra *)(0));
                 if (DAT_011da9a8[1] < ((int)(reinterpret_cast<::FUN_00737e30_shell *>((((Player*)DAT_011da9ac)))->GetFieldAt210())))
                 {
                     reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 0);
@@ -1668,11 +1669,11 @@ void SlotMenu::Update()
                 {
                     reinterpret_cast<::ContainerOperation *>(&(change))->FUN_004821a0((::TESObjectREFR *)((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))), 1);
                     BSStr msg2;
-                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg2), "%i %s%s %s\n%s", diff, ::FUN_00482720((::TESForm *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
+                    ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_007c2c70::BSStr *)(&msg2), "%i %s%s %s\n%s", diff, ::FUN_00482720((::TESForm *)(((std::intptr_t)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0())))),
                                  ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3114))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d4e7c))))->GetMenuTitle())), ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d3abc))))->GetMenuTitle())));
                     ::DispatchMessageToSink((const char *)((const char*)((void *)(::FUN_00559450((int *)&(msg2))))), 0,
                                 (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_very_happy.dds"),
-                                (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((int)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
+                                (const char *)(((::fnv_007c2c70::InvItem *)(reinterpret_cast<::PickupSoundActorView *>(((*reinterpret_cast<::fnv_007c2c70::DataHandler * *>(&::_g_thePlayer))))->FUN_008adcf0((::TESBoundObject *)(((const char *)(reinterpret_cast<::FUN_007316d0_Class *>((((Player*)DAT_011da9ac)))->FUN_007316d0()))), 1, 0)))), 2.0f, 0);
                 }
             }
             if (m_100)
@@ -1951,7 +1952,7 @@ void SlotMenu::Update()
         {
             char text3[0x104];
             ::FUN_00406d00(text3, 0x104, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_007c2c70::GameSetting *>(&::g_011d2424))))->GetMenuTitle())));
-            ::DispatchMessageToSink((const char *)(text3), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (const char *)(0), 2.0f, 0);
+            ::DispatchMessageToSink((const char *)(text3), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f, 0);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::fnv_007c2c70::AudioPlaybackHandle &)(((::fnv_007c2c70::AudioMgr *)(::FUN_00453a70()))->GetHandle("UIPopUpMessageGeneral", 0x121, 0)))->FUN_00ad8830({});
             ::FUN_007c2420();
         }
@@ -2109,11 +2110,10 @@ void MenuW7::InitPayoutMenu()
     ((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))->Vf55(m_108[2], 1);
     MatW7 xObjB;
     MatW7 objC7;
-    new ((void *)&(xObjB)) ::Vec3();
-    new ((void *)&(objC7)) ::Vec3();
     reinterpret_cast<::FUN_00524ac0_shell *>(&(xObjB))->FUN_00524ac0(1.5707963705062866f);
     reinterpret_cast<::FUN_004a0c90_shell *>(&(objC7))->FUN_004a0c90(1.5707963705062866f);
-    reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&xObjB.FUN_0043f8d0(&objC7))));
+    MatW7 rotation = xObjB.FUN_0043f8d0(&objC7);
+    reinterpret_cast<::FUN_0043fa80_s *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_0043fa80((*(const ::ThreeByThreeMatrix *)((const void*)&rotation)));
     reinterpret_cast<::FUN_004bc1f0_S *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_004bc1f0(DAT_0105478c, DAT_0107678c, 0.0f);
     NiUpdateData upd1(0.0f, false, 0);
     reinterpret_cast<::FUN_00a59c60_cls *>((((::NiNodeW7 *)(::FUN_00559450((int *)(((GObjW7*)(void*)&::g_011da9fc)))))))->FUN_00a59c60((std::intptr_t)&(upd1));
@@ -2679,7 +2679,7 @@ bool Reels::InitReels()
             ::FUN_00406d00(
                 message, 260,
                 "Casino Form is not setup properly. # of stops for the slot reels must sum to 14. Exiting out of Slot machine menu.");
-            ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (const char *)(0), 2.0f,
+            ::DispatchMessageToSink((const char *)(message), 0, (const char *)("Interface\\Icons\\Message Icons\\glow_message_vaultboy_surprised.dds"), (int)(0), 2.0f,
                            false);
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::Sound &)(((::Audio *)(::FUN_00453a70()))->GetSoundByEditorID("UIPopUpMessageGeneral", 0x121)))->FUN_00ad8830(false);
             FUN_007c2420();

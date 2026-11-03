@@ -2,6 +2,9 @@
 // src/fallout/magic/lighteffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/lighteffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
+#include "fnv/simple_list_node_view.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/B5Owner.h"
 #include "fnv/decl/FUN_004534f0_shell.h"
@@ -25,6 +28,11 @@
 #include "fnv/symbols_00b5b000.h"
 #include "fnv/symbols_011d1000.h"
 #include "fnv/symbols_011de000.h"
+#include <new>
+#include "fnv/decl/Callees.h"
+#include "fnv/decl/Vec3.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_00572000.h"
 struct FUN_0080ed20_shell
 {
     float f0;
@@ -58,7 +66,7 @@ struct LightEffect : TESForm
 // @fnv 0x0080f030
 void LightEffect::FUN_0080f030(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)(apActor));
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)(apActor));
     FUN_0080ed60();
 }
 
@@ -127,9 +135,9 @@ void FUN_0080e8a0_holder::FUN_0080e8a0(float afSecondsElapsed)
         pnode = NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0);
         if (pnode)
         {
-            if (!((int)(::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
+            if (!((::FUN_00b5b4a0((::FUN_00b5b4a0_self *)(((FUN_00b5b4a0_holder*)pnode)), (unsigned int)(*(Flt*)((char*)this + 0x48)), {}))))
             {
-                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(unsigned int)(*(Flt*)((char*)this + 0x48))), true);
+                reinterpret_cast<::fnv_00b5c940::SSNode *>((pnode))->FUN_00b5c940((::fnv_00b5c940::NiLightObj *)(::NiLight *)((NiLight*)(uintptr_t)(*(Flt*)((char*)this + 0x48))), true);
             }
         }
     }
@@ -201,6 +209,8 @@ public:
     ::EffectSetting *GetEffectSetting() const;
 public:
     void CopyData(::ActiveEffect *);
+public:
+    bool IsDone() const;
 };
 struct LightEffectStandIn : ActiveEffect
 {
@@ -354,6 +364,8 @@ struct Source
 struct Host
 {
     void FUN_0080e830();
+public:
+    Source* FUN_0059bb30();
 };
 struct FUN_0080e900_inner
 {
@@ -362,6 +374,8 @@ struct FUN_0080e900_inner
 struct FUN_0080e900_cls
 {
     void FUN_0080e900();
+public:
+    FUN_0080e900_inner* FUN_0059bb30();
 };
 
 
@@ -371,6 +385,8 @@ struct EdCallee
 {
     void FUN_00572a50(int aiArg);
     void FUN_0066b0d0(int aiArg);
+public:
+    void* FUN_0059bb30();
 };
 
 void* __cdecl FUN_00450b80(int aiArg);
@@ -688,6 +704,8 @@ extern GlobalObject2_0040c150 g_011d1d18;
 class GlobalObject_0040e0b0
 {
   public:
+public:
+    float* Float();
 };
 extern GlobalObject_0040e0b0 g_011d1980;
 extern GlobalObject_0040e0b0 g_011d1a30;
@@ -723,6 +741,8 @@ struct PathingRequest
 
 struct EffectSetting
 {
+public:
+    int GetArchetype();
 };
 
 struct FUN_0082ccb0_Cls
@@ -730,16 +750,23 @@ struct FUN_0082ccb0_Cls
 };
 
 class Actor;
+class TESObjectREFR;
+class ActiveEffect;
+template <class> class BSSimpleList;
 struct MagicTarget
 {
 public:
     ::Actor *GetOwnerActor() const;
+public:
+    virtual ~MagicTarget();
+    virtual TESObjectREFR* GetMagicTargetReference();
+    virtual BSSimpleList<ActiveEffect*>* GetActiveEffectList();
 };
 // Gets an Effect via FUN_0059bb30()->FUN_00822b40() and, if non-null, passes its field94 to FUN_0080ee50.
 // @fnv 0x0080e830
 void Host::FUN_0080e830()
 {
-    Effect* effect = ((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    Effect* effect = ((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::Effect *)(reinterpret_cast<::MagicTarget *>((((::Source *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (effect)
         ::FUN_0080ee50((::MagicTarget *)(int *)(effect ? &effect->field94 : 0));
 }
@@ -747,7 +774,7 @@ void Host::FUN_0080e830()
 void FUN_0080e900_cls::FUN_0080e900()
 {
     reinterpret_cast<::LightEffect *>(this)->FUN_0080ed60();
-    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    char* a = ((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) != 0 ? (char*)((void *)(reinterpret_cast<::MagicTarget *>((((::FUN_0080e900_inner *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (a != 0)
     {
         ::FUN_0080ee50((::MagicTarget *)(char *)(a != 0 ? a + 0x94 : 0));
@@ -759,14 +786,14 @@ void LightEffect::FUN_0080ed60()
     void* pActor2;
     void* pTmp;
     void* pObj;
-    pActor2 = ((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActorMover *>((((EdCallee*)this)))->GetCurrentMoveModeType())))))->GetOwnerActor())) : 0;
+    pActor2 = ((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((void *)(reinterpret_cast<::MagicTarget *>((((EdCallee*)((void *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)))))->GetOwnerActor())) : 0;
 
     if (((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))) != 0)
     {
         pTmp = FUN_00450b80(0);
         if (pTmp != 0)
         {
-            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((unsigned int)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
+            reinterpret_cast<::B5Owner *>((((EdCallee*)pTmp)))->FUN_00b5eed0((uintptr_t)(((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48))))))));
         }
         pObj = ((void *)(reinterpret_cast<::FUN_009611e0_shell *>((((EdCallee*)((void *)(::FUN_00559450((int *)(((EdCallee*)((char*)this + 0x48)))))))))->FUN_009611e0()));
         if (pObj != 0)
@@ -809,13 +836,15 @@ struct LightEffectDerived : ActiveEffect
 
 
     void AttachLightEffect();
+public:
+    MagicTarget* FUN_0059bb30();
 };
 
 // @fnv 0x0080e970
 void LightEffectDerived::AttachLightEffect()
 {
-    Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType())) ? ((::MagicTarget *)(reinterpret_cast<::ActorMover *>((this))->GetCurrentMoveModeType()))->GetOwnerActor() : 0;
-    if (!this->m_spLight && pTarget3 && !((int)(reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
+    Actor* pTarget3 = ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))->GetOwnerActor() : 0;
+    if (!this->m_spLight && pTarget3 && !((reinterpret_cast<::fnv_00572750::XActor *>((((ActorCalls*)pTarget3)))->FUN_00572750())) && DAT_011dc304 <= *((int *)&(::FUN_0043d4d0((int *)&(g_011d1d18)))))
     {
         TESObjectLIGH* pLightTmp = ((::TESObjectLIGH *)(reinterpret_cast<::FUN_004fd380_shell *>((reinterpret_cast<::ActiveEffect *>((((FUN_0082ccb0_Cls*)this)))->GetEffectSetting()))->FUN_004fd380()));
         if (!pLightTmp)
@@ -913,4 +942,46 @@ FUN_0080e610::FUN_0080e610(void* caster, void* item, void* effect) : LightEffect
 
 }  // namespace fnv_0080e610
 
+struct EffectSetting;
+struct MagicTarget;
+
+template <class T> class BSSimpleList
+{
+  public:
+    T item;
+    BSSimpleList* next;
+    bool IsEmpty();
+    T& GetItem();
+    BSSimpleList* GetNext();
+};
+class TESObjectREFR;
+// @fnv 0x0080ee50
+void FUN_0080ee50(MagicTarget* target)
+{
+    if (!target)
+        return;
+    LightEffect* strongest = 0;
+    BSSimpleList<ActiveEffect*>* node = target->GetActiveEffectList();
+    while (node && !node->IsEmpty())
+    {
+        ActiveEffect* effect = (*((::ActiveEffect * *)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)));
+        if (effect && effect->GetEffectSetting()->GetArchetype() == 13 && !effect->IsDone())
+        {
+            LightEffect* light = dynamic_cast<LightEffect*>(effect);
+            if (!strongest || ::GetFloatAtOffset1C((char *)(strongest)) < ::GetFloatAtOffset1C((char *)(light)))
+            {
+                if (strongest)
+                    strongest->FUN_0080ed60();
+                strongest = light;
+            }
+            else
+            {
+                light->FUN_0080ed60();
+            }
+        }
+        node = ((::BSSimpleList< ::ActiveEffect *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
+    }
+    if (strongest)
+        reinterpret_cast<::LightEffectDerived *>((strongest))->AttachLightEffect();
+}
 #include "generated/data/fallout/magic/lighteffect.inc"

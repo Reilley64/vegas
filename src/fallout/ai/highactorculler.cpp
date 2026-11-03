@@ -1,5 +1,6 @@
 // fallout/ai/highactorculler.cpp: HighActorCuller (1 function)
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BGSCameraPath.h"
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -33,7 +34,7 @@ void HighActorCuller::Operate(MobileObject* mobile)
         if (fade && !fade->FUN_00552470())
         {
             NiBound bound = (*(const ::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((void *)(fade))->FUN_0043d450()));
-            m_spMultiBoundSphere->SetGridPosition((*(const ::NiPoint3 *)(new ((void *)&(bound)) ::Vec3())));
+            m_spMultiBoundSphere->SetGridPosition((*(const ::NiPoint3 *)(((::Vec3 *)(void *)&(bound)))));
             reinterpret_cast<::FUN_00819a50_shell *>(((m_spMultiBoundSphere).operator->()))->FUN_00819a50(reinterpret_cast<::Twin_0084d030 *>((void *)&(bound))->GetStoredFloatValue());
             BSPortalGraph* graph = 0;
             if (((::TESObjectCELL *)(reinterpret_cast<::BGSCameraPath *>(((*reinterpret_cast<::TES * *>(&::g_TES))))->GetPrevPath())))
@@ -47,7 +48,7 @@ void HighActorCuller::Operate(MobileObject* mobile)
                 while (position)
                 {
                     BSOcclusionPlane* plane = ((::BSOcclusionPlane *)(reinterpret_cast<::ListStandIn *>(&(occluders))->FUN_0057cbe0((int **)&(position))));
-                    if (plane && ((int)(reinterpret_cast<::LowProcess *>((void *)(plane))->GetTarget())) == 1)
+                    if (plane && ((intptr_t)(reinterpret_cast<::LowProcess *>((void *)(plane))->GetTarget())) == 1)
                     {
                         if (!m_pMultiBoundNode->CheckProcStateAndPlane(((const ::NiCamera *)(reinterpret_cast<::FUN_0084e3a0_Class *>((void *)&(m_kFadeNodeCuller))->FUN_0084e3a0()))->FUN_0045bb80(),
                                                                        m_kFadeNodeCuller, plane))

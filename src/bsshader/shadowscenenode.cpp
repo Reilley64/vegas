@@ -544,7 +544,7 @@ struct FUN_00b5b150_Struct
 
 // If apObject is non-null, gets its node via vfunc3 and, when that node exists, passes it to ProcessNodeChildren on thisptr.
 // @fnv 0x00b5b1c0
-void FUN_00b5b1c0(ShadowSceneNode* thisptr, int, NiAVObject* apObject)
+void FUN_00b5b1c0(ShadowSceneNode* thisptr, intptr_t, NiAVObject* apObject)
 {
     if (apObject)
     {
@@ -658,7 +658,7 @@ struct PosD
     bool _Call_439090(const V3D*);
 };
 // @fnv 0x00b5d930
-void FUN_00b5d930(OwnerD* self, int, LightD* l)
+void FUN_00b5d930(OwnerD* self, intptr_t, LightD* l)
 {
     if (l->f_f4 && l->f_fc && !l->f_ec)
     {
@@ -1936,11 +1936,11 @@ inline bool IsKindOf_b5(const NiRTTI_b5* pkRTTI, AV_b5* pkObj)
 struct SSN_b5
 {
     void FUN_00b5c940(AV_b5* obj, bool flag);
-    int FUN_00b5ca70(Node_b5* node, float time);
+    intptr_t FUN_00b5ca70(Node_b5* node, float time);
 };
 
 // @fnv 0x00b5ca70
-int SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
+intptr_t SSN_b5::FUN_00b5ca70(Node_b5* node, float time)
 {
     int count = 0;
     for (unsigned int i = 0; i < node->GetArrayCount(); i++)

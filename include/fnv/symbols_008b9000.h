@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ActorValueOwner;
 namespace ActorValue { enum Index; }
@@ -18,7 +19,7 @@ void FUN_008b9ab0(::ActorValueOwner *);
 // 0x008b9b10
 void FUN_008b9b10(char *);
 // 0x008b9cc0
-void FUN_008b9cc0(int);
+void FUN_008b9cc0(intptr_t);
 // 0x008b9db0
 void FUN_008b9db0(::ActorValueOwner *);
 // 0x008b9ea0

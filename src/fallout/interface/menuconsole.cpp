@@ -1,5 +1,8 @@
 // fallout/interface/menuconsole.cpp: ConsoleManager, ListHead, ConsoleDisplay, DumpConsole (13 functions)
 
+#include "fnv/av_object_fields.h"
+#include <cstdio>
+#include <cstdint>
 #include <cstring>
 #include "fnv/decl/A0F8Self.h"
 #include "fnv/decl/ActorMover.h"
@@ -267,7 +270,7 @@ void FUN_0071d620_shell::FUN_0071d620(char acState)
                 reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                                  ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
 
-                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<ArrSI*>(reinterpret_cast<char*>(this) + 4)))->GetName())));
+                reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>(this)->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::ConsoleManager *>(this)->m_kOutputLines.m_kItemCount.m_uiCount)));
             }
             else
             {
@@ -349,7 +352,7 @@ void FUN_0071d770_shell::FUN_0071d770()
     {
         reinterpret_cast<::A0F8Self *>((((::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0f8b0("|", (float)m_iConsoleX, (float)m_iConsoleY, 1, -1, -1.0f,
                                          ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
-        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 4))))->GetName())));
+        reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((((InterfaceManager*)this)))->ClampIndexByDelta(((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
         reinterpret_cast<::ConsoleDisplay *>(this)->DrawConsoleLines();
         FUN_00703310(0);
     }
@@ -372,7 +375,7 @@ void ConsoleDisplay::DrawConsoleLines()
         node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
     while (lineIndex < lastLine)
     {
-        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((int)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
+        reinterpret_cast<::A0F8Self *>((((::ConsoleTextRenderer *)(::FUN_00a0d9e0(1)))))->FUN_00a0f8b0(((const char *)(::FUN_00559450((int *)(((::ConsoleLine *)(reinterpret_cast<::FUN_006317a0_struct *>(&(strings))->AddEight((intptr_t)(node)))))))), (float)m_iConsoleX, (float)lineY, 1, -1,
                                       ::DAT_01012054, ((::SETTING_VALUE *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::SettingT_GameSettingCollection_ *>(&::g_011d8d38))))))->i, (::A0F8Color *)(0));
         node = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(strings))->DereferenceIfNotNull((int **)(node))));
         ++lineIndex;
@@ -486,6 +489,8 @@ struct DumpTexture
     virtual void v94();
     virtual void v98();
     virtual DumpName* v9c();
+    char pad[0x28];
+    DumpTexture* m_pkNext;
 };
 struct DumpRTTI
 {
@@ -581,7 +586,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 DAT_011d8ce4 = true;
                 InterfaceManager* manager = ((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210()));
                 reinterpret_cast<::fnv_0071d380::FUN_0071d380_t *>((reinterpret_cast<InterfaceManager*>(this)))->ClampIndexByDelta(
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kOutputLines)))->GetName())));
+                    ((unsigned int)(m_kOutputLines.m_kItemCount.m_uiCount)));
                 ::FUN_0071d030((::Outer *)(::ConsoleManager *)(this), text);
                 BSStringT<char> line(text);
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
@@ -624,15 +629,15 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
                 else if (!_mbsicmp((const unsigned char*)text, (const unsigned char*)"tag"))
                 {
-                    TESObjectREFR* reference = ((::TESObjectREFR *)(::FUN_007031c0((int)(manager))));
+                    TESObjectREFR* reference = ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(manager))));
                     if (reference)
                     {
                         BSStringT<char> label;
                         ::FUN_00406f60((::FUN_00406f90_this *)&(label), "\"%s\" (%08x)", reinterpret_cast<::FUN_0055d520_shell *>((reference))->FUN_0055d520(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((reference))->FUN_0084e3a0())));
                         void* node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(reference->GetNiNode_v()))));
                         if (!node)
-                            node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((reference->GetNiNode_v()))->FUN_009611e0()))))));
-                        ::FUN_00a10c00((::NiObject *)(node), (int)(((const char *)(::FUN_00559450((int *)&(label))))), 0, -1.0f);
+                            node = ((void *)(::FUN_00653270((const ::NiRTTI *)(void *)(&(*reinterpret_cast<unsigned char *>(&::g_011f4428))), (::NiObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((reference->GetNiNode_v()))->m_pkParent))))));
+                        ::FUN_00a10c00((::NiObject *)(node), ((const char *)(::FUN_00559450((int *)&(label)))), 0, -1.0f);
                     }
                 }
                 else if (!FUN_0071cff0(text, "reload strings", 14))
@@ -839,7 +844,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                             script.NotifySaveLoadGameOfFormChange();
                                             reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(batchLine));
                                             reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE,
-                                                                     ((::TESObjectREFR *)(::FUN_007031c0((int)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
+                                                                     ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                                         }
                                     }
                                 }
@@ -911,7 +916,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     Script script;
                     script.NotifySaveLoadGameOfFormChange();
                     reinterpret_cast<::FUN_005abe50_shell *>(&(script))->FUN_005abe50((char *)(text));
-                    reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE, ((::TESObjectREFR *)(::FUN_007031c0((int)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
+                    reinterpret_cast<::ScriptCompileAndRun *>(&(script))->FUN_005ac400(m_pScriptCompiler, COMPILER_NAME_CONSOLE, ((::TESObjectREFR *)(::FUN_007031c0((intptr_t)(((::InterfaceManager *)(::fnv_004b7210::FUN_004b7210())))))));
                 }
             }
         }
@@ -968,12 +973,12 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000003)
                     {
-                        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition++;
                             m_iCommandHistoryPosition = MinInt(
                                 m_iCommandHistoryPosition,
-                                ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())) -
+                                ((unsigned int)(m_kCommandHistory.m_kItemCount.m_uiCount)) -
                                     1);
                             void* position =
                                 ((void *)(::FUN_00559450((int *)(reinterpret_cast<
@@ -986,7 +991,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                     }
                     else if (state.key == (int)0x80000004)
                     {
-                        if (((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+                        if (((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                         {
                             m_iCommandHistoryPosition--;
                             m_iCommandHistoryPosition = FUN_00647b70(m_iCommandHistoryPosition, 0);
@@ -1002,7 +1007,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                                         position = ((void *)(reinterpret_cast<::FUN_007b52d0_cls *>(&(m_kCommandHistory))->DereferenceIfNotNull((int **)(position))));
                                 }
                                 if (position)
-                                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringT<char> &)(line))->CallAndReturnSelf((int)&(m_kCommandHistory.AddEight(position)));
+                                    reinterpret_cast<::FUN_00501c10_cls *>((void *)&(const ::BSStringT<char> &)(line))->CallAndReturnSelf((intptr_t)&(m_kCommandHistory.AddEight(position)));
                                 else
                                     line = "";
                                 sprintf(text, "%s", ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(line))->FUN_004048e0())) ? ((const char *)(::FUN_00559450((int *)&(line)))) : "");
@@ -1075,7 +1080,7 @@ bool ConsoleManager::Idle(int aiKeyCode)
                 }
             }
             BSStringT<char> line(text);
-            if (!((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
+            if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((reinterpret_cast<BSSimpleArray<NavMeshInfo*, 1024>*>(&m_kCommandHistory)))->GetName())))
                 reinterpret_cast<::S71df20 *>(&(m_kCommandHistory))->AssignString((const ::BSStringTCharAssign &)(line));
             else
             {
@@ -1128,7 +1133,7 @@ void DumpConsole::DumpLoadedTextures()
                     }
                 }
             }
-            a1 = ((::DumpTexture *)(reinterpret_cast<::BGSMessageInitAccess *>((a1))->GetIconFormID()));
+            a1 = ((::DumpTexture *)(a1->m_pkNext));
         }
         a8 = new BSFile("textures.txt", NiFile::WRITE_ONLY, 0x1000, true);
         if (!a8 || !a8->vfn_20(false, false))
@@ -1143,7 +1148,7 @@ void DumpConsole::DumpLoadedTextures()
                 buffer, 1024,
                 "Texture dump for cell: %s grid: (%d, %d) worldspace: %s \n---------------------------------------\n",
                 ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))->name))->FUN_00408da0())) : "{unknown}", ((int)(reinterpret_cast<::ActorMover *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->GetCurrentMoveModeType())),
-                ((int)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_0045cd60())),
+                ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_0045cd60())),
                 ((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070())) ? (((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))
                                              ? ((const char *)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::DumpWorld *)(reinterpret_cast<::TESObjectCELL *>((((::DumpCell *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>(((*reinterpret_cast<::DumpTES * *>(&::g_TES))))->FUN_00457070()))))->GetParentWorldSpace()))->name))->FUN_00408da0()))
                                              : "{unknown}")

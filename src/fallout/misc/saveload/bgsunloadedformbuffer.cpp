@@ -15,16 +15,16 @@ extern int DAT_0107f494;
 
 struct FUN_0084b4e0_shell
 {
-    int FUN_0084b4e0(void* arg);
+    void* FUN_0084b4e0(int arg);
 };
 
 // Calls FUN_0084b750 with arg, stores the address of DAT_0107f494 into this, and returns this.
 // @fnv 0x0084b4e0
-int FUN_0084b4e0_shell::FUN_0084b4e0(void* arg)
+void* FUN_0084b4e0_shell::FUN_0084b4e0(int arg)
 {
-    new ((void *)this) ::FUN_0084b750((int)(arg));
-    *(int*)this = (int)&DAT_0107f494;
-    return (int)this;
+    new ((void *)this) ::FUN_0084b750(arg);
+    *(void**)this = (void*)&DAT_0107f494;
+    return this;
 }
 
 struct BGSSaveLoadFormInfo
@@ -60,11 +60,10 @@ char* FormBufferContext::FUN_00866390()
     return 0;
 }
 
-typedef unsigned int SIZE_TYPE;
 
 
 // @fnv 0x00866430
-SIZE_TYPE FUN_00866430(void* a)
+unsigned int FUN_00866430(void* a)
 {
     return ((unsigned int)(reinterpret_cast<::FUN_00864520_shell *>((*(void**)a))->FUN_00864520()));
 }
@@ -137,7 +136,7 @@ struct FUN_00866480_shell : FormBufferContext
 // @fnv 0x00866480
 BGSLoadFormBuffer* FUN_00866480_shell::FUN_00866480()
 {
-    SIZE_TYPE esizeType;
+    unsigned int esizeType;
     char* padvancedBuffer;
     unsigned int isize;
     unsigned int iposition;

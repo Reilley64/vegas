@@ -10,7 +10,7 @@ void CallWithScaledArg(::FUN_0044e120_Cls *, int, int);
 // 0x0044e340
 int FUN_0044e340(unsigned long, void *);
 // 0x0044e360
-void FUN_0044e360(unsigned long);
+void FUN_0044e360(uintptr_t);
 // 0x0044e420
 void FUN_0044e420(void *, void *, void *, void *);
 // 0x0044e440

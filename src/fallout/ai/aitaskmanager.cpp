@@ -1,5 +1,8 @@
 // fallout/ai/aitaskmanager.cpp: MovementTaskData, PackageUpdateTaskData, Owner, ActorsScriptTaskData and more (87 functions)
 
+#include "fnv/simple_list_node_view.h"
+#include <cstdint>
+#include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorStandIn008a.h"
@@ -533,11 +536,11 @@ struct FUN_008c9a50_shell
     int m_uiContentCount;
     int m_auiShapeKeys;
     int m_uiFilterValue;
-    FUN_008c9a50_shell* FUN_008c9a50(int value);
+    FUN_008c9a50_shell* FUN_008c9a50(intptr_t value);
 };
 // Sets the first field to 1 and stores value in the third field, then returns this.
 // @fnv 0x008c9a50
-FUN_008c9a50_shell* FUN_008c9a50_shell::FUN_008c9a50(int value)
+FUN_008c9a50_shell* FUN_008c9a50_shell::FUN_008c9a50(intptr_t value)
 {
     m_uiContentCount = 1;
     m_uiFilterValue = value;
@@ -550,12 +553,12 @@ struct Obj_008c9a80
     int m_items[10];
     int m_40;
     int m_44;
-    void PushItem(int a);
+    void PushItem(intptr_t a);
 };
 
 // Stores a into m_items at a circular index derived from m_44 and m_40, then increments m_40, if m_40 is below 10.
 // @fnv 0x008c9a80
-void Obj_008c9a80::PushItem(int aiValue)
+void Obj_008c9a80::PushItem(intptr_t aiValue)
 {
     if (m_40 < 10)
     {
@@ -797,7 +800,7 @@ bool FUN_008ca5a0_mgr::AppendNode(unsigned int arg)
 {
     bool result;
     FUN_008ca5a0_node* node;
-    if (pool && reinterpret_cast<::FUN_008ca7c0_shell *>((pool))->FUN_008ca7c0((int)(&node), arg))
+    if (pool && reinterpret_cast<::FUN_008ca7c0_shell *>((pool))->FUN_008ca7c0((intptr_t)(&node), arg))
     {
         if (!head)
             tail = &head;
@@ -824,12 +827,12 @@ struct Obj_009529d0
     int m_6b8;
     char pad2[0x6c4 - 0x6bc];
     List_009e03e0 m_6c4;
-    void FUN_009529d0(int a);
+    void FUN_009529d0(intptr_t a);
 };
 
 // If the new value differs from m_6b8, stores it and, when it becomes zero, clears the m_6c4 list.
 // @fnv 0x009529d0
-void Obj_009529d0::FUN_009529d0(int a)
+void Obj_009529d0::FUN_009529d0(intptr_t a)
 {
     if (a != m_6b8)
     {
@@ -1159,7 +1162,7 @@ struct FUN_008ca480 : FUN_008ca500
 FUN_008ca480::~FUN_008ca480()
 {
     Tmp_008ca480 t;
-    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((int)(&t)))
+    while (reinterpret_cast<::FUN_006ec390_Class *>(this)->FUN_006ec390((intptr_t)(&t)))
     {
     }
 }
@@ -1192,7 +1195,7 @@ bool Obj_008ca620::PopNode(Arg_008ca620* a)
     Node_008ca620* node = m_0c;
     if (node)
     {
-        reinterpret_cast<::FUN_008_Struct *>((a))->FUN_008caa70((::FUN_008_Struct *)(void *)(((void *)(new ((void *)(node)) ::Vec3()))));
+        reinterpret_cast<::FUN_008_Struct *>((a))->FUN_008caa70((::FUN_008_Struct *)(void *)(((void *)(((::Vec3 *)(void *)(node))))));
         m_0c = node->m_0c;
         reinterpret_cast<::FUN_008ca770_Class *>((m_08))->FUN_008ca770((::Date **)(::Node_008ca620 **)(&node));
         bPopped = true;
@@ -1657,11 +1660,11 @@ struct H008ca010
 {
     char pad[0x1C];
     S008ca010 inner;
-    void ForwardToInner(int);
+    void ForwardToInner(intptr_t);
 };
 // Calls f1 on the inner object, passing the given int through.
 // @fnv 0x008ca010
-void H008ca010::ForwardToInner(int aiValue)
+void H008ca010::ForwardToInner(intptr_t aiValue)
 {
     inner.f1(aiValue);
 }
@@ -2092,7 +2095,7 @@ void __cdecl FUN_0077a480(TESQuest* quest)
     {
         task->state = 0;
         if (((::fnv_0077a480::TESQuest *)(::FUN_005cbb50((char *)((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer)))))) == 0)
-            reinterpret_cast<::Obj_009529d0 *>(((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_009529d0(reinterpret_cast<int>(quest));
+            reinterpret_cast<::Obj_009529d0 *>(((*reinterpret_cast<::fnv_0077a480::PlayerCharacter * *>(&::_g_thePlayer))))->FUN_009529d0(reinterpret_cast<intptr_t>(quest));
     }
 
     ::FUN_0076bad0(reinterpret_cast<char*>(task));
@@ -2148,7 +2151,7 @@ void TaskOwner::DispatchTask()
     ((::ResourceHandle *)(reinterpret_cast<::MagicCaster_shell *>(&(context))->FUN_0044edb0()))->Dispatch(payload, 0x16800);
     FUN_00cbb990();
     ((::DispatchQueue *)(::FUN_00cbbfc0()))->Queue(&context, TaskToken(1));
-    reinterpret_cast<::QuantitySet *>((((::Completion *)(new ((void *)&(context)) ::Vec3()))))->FUN_008c70c0({}, {});
+    reinterpret_cast<::QuantitySet *>((((::Completion *)(((::Vec3 *)(void *)&(context))))))->FUN_008c70c0({}, {});
 }
 
 // Stand-in for the game's PlayerCharacter.  The unit file only
@@ -2612,31 +2615,31 @@ void TaskOwnerTarget::FUN_008c94e0()
         if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
         {
             CountTask a;
-            reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(a))->FUN_008c9a20(uiActorCount))), a)));
+            reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(a))->FUN_008c9a20(uiActorCount))), a)));
         }
         {
             CountTask b;
-            reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(b))->FUN_008c9a20(uiActorCount))), b)));
+            reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(b))->FUN_008c9a20(uiActorCount))), b)));
         }
         if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
         {
             {
                 CountTask c;
-                reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(c))->FUN_008c9a20(uiActorCount))), c)));
+                reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(c))->FUN_008c9a20(uiActorCount))), c)));
             }
             {
                 CountTask d;
-                reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(d))->FUN_008c9a20(uiActorCount))), d)));
+                reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(d))->FUN_008c9a20(uiActorCount))), d)));
             }
         }
         {
             CountTask e;
-            reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(e))->FUN_008c9a20(uiActorCount))), e)));
+            reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(e))->FUN_008c9a20(uiActorCount))), e)));
         }
         if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
         {
             CountTask f;
-            reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((int)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(f))->FUN_008c9a20(uiActorCount))), f)));
+            reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((intptr_t)&((((::CountTask *)(reinterpret_cast<::FUN_008c9a20_shell *>(&(f))->FUN_008c9a20(uiActorCount))), f)));
         }
         count = 0;
         do
@@ -2644,31 +2647,31 @@ void TaskOwnerTarget::FUN_008c94e0()
             if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
             {
                 ActorTask g;
-                reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(g))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), g)));
+                reinterpret_cast<::H008ca010 *>(&(first))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(g))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), g)));
             }
             {
                 ActorTask h;
-                reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(h))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), h)));
+                reinterpret_cast<::H008ca010 *>(&(third))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(h))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), h)));
             }
             if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
             {
                 {
                     ActorTask j;
-                    reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(j))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), j)));
+                    reinterpret_cast<::H008ca010 *>(&(fourth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(j))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), j)));
                 }
                 {
                     ActorTask k;
-                    reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(k))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), k)));
+                    reinterpret_cast<::H008ca010 *>(&(second))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(k))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), k)));
                 }
             }
             {
                 ActorTask l;
-                reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(l))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), l)));
+                reinterpret_cast<::H008ca010 *>(&(fifth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(l))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), l)));
             }
             if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
             {
                 ActorTask m;
-                reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((int)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(m))->FUN_008c9a50((int)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), m)));
+                reinterpret_cast<::H008ca010 *>(&(sixth))->ForwardToInner((intptr_t)&((((::ActorTask *)(reinterpret_cast<::FUN_008c9a50_shell *>(&(m))->FUN_008c9a50((intptr_t)(((::Actor *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({}))))))), m)));
             }
             ++count;
         } while (count < reinterpret_cast<::FUN_005be5c0_shell *>((((::ActorListView *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::ActorManagerView *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_005be5c0({}));
@@ -2686,15 +2689,15 @@ void TaskOwnerTarget::FUN_008c94e0()
         if (*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb68)).Bool())
         {
             if (*((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::IntSettingView *>(&::g_011c3ea4)))))) == 1)
-                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&fourth));
-            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&third));
-            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&fifth));
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fourth));
+            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&third));
+            reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&fifth));
             if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfc70)).Bool())
-                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&first));
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&first));
             if (!*(*reinterpret_cast<::BoolSettingView *>(&::g_011dfb88)).Bool())
             {
-                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&sixth));
-                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((int)(&second));
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&sixth));
+                reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::QueueManagerView *>(&::g_011dfb98))))->PushItem((intptr_t)(&second));
             }
             reinterpret_cast<::FUN_008c9f70_this *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->CallAllElements();
             reinterpret_cast<::FUN_008c9fd0_this *>(&((*reinterpret_cast<::ThreadManagerView *>(&::g_011dfc24))))->FUN_008c9fd0();
@@ -3062,7 +3065,7 @@ void Owner::UpdateProjectile(R* arg)
                             }
                             else
                             {
-                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((int)(p));
+                                reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((intptr_t)(p));
                             }
                         }
                     }
@@ -3070,7 +3073,7 @@ void Owner::UpdateProjectile(R* arg)
                 else
                 {
                     if (p->s2b4() < 0.0)
-                        reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((int)(p));
+                        reinterpret_cast<::FUN_00967350_shell *>(((*reinterpret_cast<::fnv_008c84c0::R * *>(&::_g_thePlayer))))->FUN_00967350((intptr_t)(p));
                     p->s2b8();
                 }
             }
@@ -3198,24 +3201,24 @@ void UpdateManager::UpdateMobileObject(MobileObject* object)
                 otherListA = new BSSimpleList<Actor*>;
                 nodeVal = otherListA;
                 list_ = otherList3->followers;
-                while (list_ && ((::Actor *)(new ((void *)(list_)) ::Vec3())))
+                while (list_ && (((list_))->m_item))
                 {
-                    reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&(((::Actor *)(new ((void *)(list_)) ::Vec3()))));
-                    list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((list_))->FUN_00726070()));
+                    reinterpret_cast<::Callees *>((otherListA))->FUN_00905820((void *)&((((list_))->m_item)));
+                    list_ = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((list_))->m_pkNext));
                 }
-                while (nodeVal && ((::Actor *)(new ((void *)(nodeVal)) ::Vec3())))
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* actorA = ((::Actor *)(new ((void *)(nodeVal)) ::Vec3()));
+                    Actor* actorA = (((nodeVal))->m_item);
                     if (actorA && actorA != (*reinterpret_cast<::fnv_008c8be0::PlayerCharacter * *>(&::_g_thePlayer)) && !reinterpret_cast<::fnv_008bc860::FUN_008bc860_StandIn *>((static_cast<UpdateActor*>(actorA)))->FUN_008bc860(actorTmp))
                         listVal->AddHead(actorA);
-                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
                 nodeVal = listVal;
-                while (nodeVal && ((::Actor *)(new ((void *)(nodeVal)) ::Vec3())))
+                while (nodeVal && (((nodeVal))->m_item))
                 {
-                    Actor* targetB = ((::Actor *)(new ((void *)(nodeVal)) ::Vec3()));
+                    Actor* targetB = (((nodeVal))->m_item);
                     reinterpret_cast<::fnv_00422690::FUN_00422690_shell *>((static_cast<FollowerExtra*>(((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>((current))->FUN_005d43c0())))))->FUN_00422690((::fnv_00422690::Actor *)(targetB));
-                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((nodeVal))->FUN_00726070()));
+                    nodeVal = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::SimpleListNodeView *>((nodeVal))->m_pkNext));
                 }
                 reinterpret_cast<::FileMatchList *>((listVal))->RemoveAll();
                 delete listVal;
@@ -3275,27 +3278,27 @@ void Obj::FUN_008ca070()
                 {
                     Temp t2;
                     reinterpret_cast<::FUN_008c9a20_shell *>(&(t2))->FUN_008c9a20(b_2);
-                    reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((int)(&t2));
+                    reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((intptr_t)(&t2));
                 }
                 if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
                 {
                     Temp u9;
                     reinterpret_cast<::FUN_008c9a20_shell *>(&(u9))->FUN_008c9a20(b_2);
-                    reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((int)(&u9));
+                    reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((intptr_t)(&u9));
                 }
                 for (i = 0; i < b_2; ++i)
                 {
                     if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
                     {
                         Temp v5;
-                        reinterpret_cast<::FUN_008c9a50_shell *>(&(v5))->FUN_008c9a50((int)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
-                        reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((int)(&v5));
+                        reinterpret_cast<::FUN_008c9a50_shell *>(&(v5))->FUN_008c9a50((intptr_t)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
+                        reinterpret_cast<::H008ca010 *>(this)->ForwardToInner((intptr_t)(&v5));
                     }
                     if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
                     {
                         Temp w2;
-                        reinterpret_cast<::FUN_008c9a50_shell *>(&(w2))->FUN_008c9a50((int)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
-                        reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((int)(&w2));
+                        reinterpret_cast<::FUN_008c9a50_shell *>(&(w2))->FUN_008c9a50((intptr_t)(((void *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::fnv_008ca070::Values *)(reinterpret_cast<::BaseProcess *>(&((*reinterpret_cast<::fnv_008ca070::Container *>(&::g_011e0e80))))->GetCurrentProcessData()))))->FUN_00968670({})))));
+                        reinterpret_cast<::H008ca010 *>((((Obj*)((char*)this + 0x138))))->ForwardToInner((intptr_t)(&w2));
                     }
                 }
                 if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
@@ -3305,9 +3308,9 @@ void Obj::FUN_008ca070()
                 if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb68)).FUN_00408d60())
                 {
                     if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfc70)).FUN_00408d60())
-                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((int)(this));
+                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((intptr_t)(this));
                     if (*(*reinterpret_cast<::fnv_008ca070::BoolSetting *>(&::g_011dfb88)).FUN_00408d60())
-                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((int)((char*)this + 0x138));
+                        reinterpret_cast<::Obj_008c9a80 *>(&((*reinterpret_cast<::fnv_008ca070::Store *>(&::g_011dfb98))))->PushItem((intptr_t)((char*)this + 0x138));
                     reinterpret_cast<::fnv_008ca2e0::FUN_008ca2e0_shell *>(&((*reinterpret_cast<::fnv_008ca070::Mode *>(&::g_011dfc24))))->CallAt(2);
                     *((bool*)this + 0x10180) = true;
                 }
@@ -3356,22 +3359,24 @@ struct GQ
 struct OwnQ
 {
     char pad[0x50];
-    MemQ kMem;
-    char pad2[0x20];
-    int unk74;
+    hkMemoryRouter kMem;
+    void* unk74;
     void InitMemory();
 };
+// Sets up the AI task thread's Havok memory router: temp and solver use the heap, and the stack area is a
+// 0x16800-byte heap block.
 // @fnv 0x008c9d70
 void OwnQ::InitMemory()
 {
-    ((::fnv_008c9d70::FacQ *)(::FUN_00cbbfc0()))->Create(&kMem, "AITaskThread", FUN_008c71b0(1));
+    ((::fnv_008c9d70::FacQ *)(::FUN_00cbbfc0()))->Create((MemQ *)&kMem, "AITaskThread", FUN_008c71b0(1));
     ::FUN_00cbb930(&kMem);
-    reinterpret_cast<::FUN_0041fd00_shell *>(&(kMem))->FUN_0041fd00((int)(((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))));
-    reinterpret_cast<::TESPackage *>(&(kMem))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)(((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))));
-    unk74 = ((::fnv_008c9d70::HeapQ *)(reinterpret_cast<::MagicCaster_shell *>(&(kMem))->FUN_0044edb0()))->Alloc(0x16800);
-    reinterpret_cast<::QuantitySet *>((((::fnv_008c9d70::BufQ *)(new ((void *)&(kMem)) ::Vec3()))))->FUN_008c70c0(unk74, 0x16800);
+    kMem.m_temp = kMem.m_heap;
+    kMem.m_solver = kMem.m_heap;
+    unk74 = kMem.m_heap->blockAlloc(0x16800);
+    reinterpret_cast<::QuantitySet *>(&kMem)->FUN_008c70c0((uintptr_t)unk74, 0x16800);
     reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::fnv_008c9d70::GQ * *>(&::g_dataHandler))))->BuildCompiledFileList();
 }
+
 }  // namespace fnv_008c9d70
 
 struct Obj_008c9cf0

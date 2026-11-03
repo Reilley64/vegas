@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class Actor;
 class DialogueResponse;
@@ -19,7 +20,7 @@ public:
     // 0x008c1680
     bool FUN_008c1680(::Actor *);
     // 0x00907430
-    void CallTargetWithFloat(int, int, int);
+    void CallTargetWithFloat(intptr_t, int, int);
     // 0x00a57c10
     int FUN_00a57c10(::FUN_00a57c10_This *, int);
     // 0x00a97700

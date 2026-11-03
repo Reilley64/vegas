@@ -2,6 +2,7 @@
 // src/fallout_shared/bsclonepool.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/bsclonepool.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/A5D2C0Object.h"
 #include "fnv/decl/Callees.h"
@@ -148,7 +149,7 @@ struct FUN_004ad050 : public FUN_004ad270
 
 struct GlobalObject_00633c90
 {
-    GlobalObject_00633c90(int iObject);
+    GlobalObject_00633c90(intptr_t iObject);
     ~GlobalObject_00633c90();
     int m_pObject;
 };

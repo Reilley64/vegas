@@ -7,7 +7,7 @@
 class Menu
 {
   public:
-    void** m_ppVirtualMethodTable;                                        // +0x0
+    virtual ~Menu();
     TileMenu* pMenu;                                        // +0x4
     BSSimpleList<Tile__TileTemplate*> m_kTileTemplateList;  // +0x8
     Tile* m_pMenuTile;                                        // +0x10

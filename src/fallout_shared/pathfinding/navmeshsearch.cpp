@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearch.cpp: NavMeshSearch, NavMeshSearchEdges (25 functions)
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/FUN_00416870_t.h"

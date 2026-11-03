@@ -3,11 +3,12 @@
 class BGSTouchSpellForm;
 class BaseFormComponent;
 class TESForm;
+class TESObjectREFR;
 struct ItemForm;
 struct RefWithGetNiNode;
 
 // 0x0047b200
-int FUN_0047b200();
+::TESObjectREFR *FUN_0047b200();
 // 0x0047b360
 void FUN_0047b360(::RefWithGetNiNode *);
 // 0x0047b4f0

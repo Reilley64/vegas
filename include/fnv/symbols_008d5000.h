@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class TESTopic;
 
@@ -11,4 +12,4 @@ namespace s8d5830 { int FUN_008d5830(unsigned int); }
 // 0x008d5910
 ::TESTopic *FUN_008d5910(unsigned int);
 // 0x008d5cb0
-void AddTimedEntry(unsigned int, unsigned int);
+void AddTimedEntry(uintptr_t, unsigned int);

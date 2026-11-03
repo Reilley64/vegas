@@ -2,6 +2,7 @@
 // src/fallout/interface/bgsmenupacker.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/interface/bgsmenupacker.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fallout/interface/tile_fields.h"
 #include "fnv/decl/FUN_0045cd60_shell.h"
 #include "fnv/decl/FUN_00658930_class.h"
 #include "fnv/decl/NiAVObject.h"
@@ -54,8 +55,8 @@ void FNVCollection::FUN_00700350()
         FNVEntry* entry = *FUN_00877a30(index);
         FUN_00703c00(UNK_0106e87c, entry->member18->FUN_00700300(), ((::FNVNestedProxy *)(reinterpret_cast<::FUN_0045cd60_shell *>((entry->member18))->FUN_0045cd60()))->FUN_00700300());
         FUN_00703c00(UNK_0106e84c, entry->value00, entry->value04, entry->value10, entry->value14);
-        FUN_00703c00(UNK_0106e820, entry->value08, entry->value0c, ((::FNVVector *)&(reinterpret_cast<::NiAVObject *>((((::FNVAccessor *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((entry->member18))->FUN_0056c7f0()))))->FUN_0043c490()))->x,
-                     ((::FNVVector *)&(reinterpret_cast<::NiAVObject *>((((::FNVAccessor *)(reinterpret_cast<::fnv_0056c7f0::Tile *>((entry->member18))->FUN_0056c7f0()))))->FUN_0043c490()))->z);
+        FUN_00703c00(UNK_0106e820, entry->value08, entry->value0c, ((::FNVVector *)&(reinterpret_cast<::NiAVObject *>((((::FNVAccessor *)(reinterpret_cast<::TileFields *>((entry->member18))->renderedNode))))->FUN_0043c490()))->x,
+                     ((::FNVVector *)&(reinterpret_cast<::NiAVObject *>((((::FNVAccessor *)(reinterpret_cast<::TileFields *>((entry->member18))->renderedNode))))->FUN_0043c490()))->z);
     }
     FUN_00703c00(UNK_0106e800);
 }

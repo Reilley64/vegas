@@ -1026,10 +1026,10 @@ std::intptr_t FUN_00522ba0_obj::FUN_00522ba0(int a1)
 namespace fnv_00522be0 {
 struct Flt { operator unsigned int(); };
 struct FUN_00522be0_shell {
-    unsigned int FUN_00522be0();
+    uintptr_t FUN_00522be0();
 };
 // @fnv 0x00522be0
-unsigned int FUN_00522be0_shell::FUN_00522be0()
+uintptr_t FUN_00522be0_shell::FUN_00522be0()
 {
     return ((Flt*)((char*)this + 0x368))->operator unsigned int();
 }

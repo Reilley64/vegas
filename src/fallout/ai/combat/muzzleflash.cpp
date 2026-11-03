@@ -2,6 +2,8 @@
 // src/fallout/ai/combat/muzzleflash.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/ai/combat/muzzleflash.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/av_object_fields.h"
+#include "fnv/vats_camera_data_view.h"
 #include <cstdint>
 #include "fnv/decl/Actor.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -160,7 +162,7 @@ struct S_009baf50_Item
     virtual void v2();
     virtual void v3();
     virtual void v4();
-    virtual unsigned int v5();
+    virtual uintptr_t v5();
     int FUN_0048cee0();
 };
 struct S_009baf50_Obj
@@ -710,6 +712,9 @@ struct ThisCls
     int m_04;
     int m_08;
     NiPtrC m_0c;
+    void* m_10;
+    void* m_14;
+    void* m_18;
     void UpdateMuzzleFlash(ParamCls*);
 };
 struct SpawnedItem;
@@ -1241,7 +1246,7 @@ void __cdecl FUN_009bb6d0(ProjTarget* pTarget, Projectile* pProjectile)
             if (item != 0)
             {
                 if (!(item->v6b8() != 0 &&
-                      ((void *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((((FUN_00825c00_cls*)item->v6b8())))->FUN_00825c00())) == ((::ProjectileData *)(reinterpret_cast<::Actor *>((pProjectile))->GetActorBase())) &&
+                      reinterpret_cast<::ThisCls*>(item->v6b8())->m_14 == ((::ProjectileData *)(reinterpret_cast<::Actor *>((pProjectile))->GetActorBase())) &&
                       ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((FUN_009611e0_cls*)item->v6b8())))->FUN_009611e0())) == reinterpret_cast<::FUN_00476c90_Class *>((pProjectile))->FUN_00476c90()))
                 {
                     item->v6c4();
@@ -1285,7 +1290,7 @@ void S_009bb080::FUN_009bb080(float afDeltaTime, S_009bb080_Base0* proj)
     }
     if (unk2)
         reinterpret_cast<::FUN_009bb8a0_Class *>(this)->UpdateLightVisibility();
-    if (((int)(reinterpret_cast<::Twin_0044ddc0 *>(&((*reinterpret_cast<::S_009bb080_Global *>(&::g_011f2250))))->GetName())) == 4 && FUN_00716440() > ::_DAT_01012060)
+    if (((int)(reinterpret_cast<::VATSCameraDataView *>(&::g_011f2250)->mode)) == 4 && FUN_00716440() > ::_DAT_01012060)
     {
         afDeltaTime = afDeltaTime / FUN_00716440();
     }
@@ -1343,8 +1348,8 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
     NodeCls* node2 =
         apParam->v64()
             ? (NodeCls*)apParam->v131()
-            : (((FUN_009611e0_shell*)this)->FUN_009611e0()
-                   ? (NodeCls*)((::NodeCls *)(reinterpret_cast<::UnkClass25700 *>((((NodeSrc*)((FUN_009611e0_shell*)this)->FUN_009611e0())))->FUN_00525700((::NiAVObject *)(void *)(apParam->v116()))))
+            : (m_18
+                   ? (NodeCls*)((::NodeCls *)(reinterpret_cast<::UnkClass25700 *>(((NodeSrc*)m_18))->FUN_00525700((::NiAVObject *)(void *)(apParam->v116()))))
                    : (NodeCls*)0);
     bool _flag = false;
     float fResultTmp = 0.0f;
@@ -1365,13 +1370,13 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
             NiTransform B;
             if (target2)
             {
-                B.m_rot = reinterpret_cast<::ThreeByThreeMatrix *>((((::NiTransform *)(::FUN_00461130((int)(target2))))))->Transpose();
-                B.m_vScale = 1.0f / ((::NiTransform *)(::FUN_00461130((int)(target2))))->m_vScale;
-                B.m_trans = (*(::NiPoint3 *)(reinterpret_cast<::P3 *>(&(((::NiTransform *)(::FUN_00461130((int)(target2))))->m_trans))->FUN_004a0bd0({})));
+                B.m_rot = reinterpret_cast<::ThreeByThreeMatrix *>((((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))))->Transpose();
+                B.m_vScale = 1.0f / ((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_vScale;
+                B.m_trans = (*(::NiPoint3 *)(reinterpret_cast<::P3 *>(&(((::NiTransform *)(::FUN_00461130((intptr_t)(target2))))->m_trans))->FUN_004a0bd0({})));
                 B.m_trans = B.FUN_004b4500(&B.m_trans);
                 reinterpret_cast<::MyPoint439180 *>(&(B.m_trans))->FUN_00439180(B.m_vScale);
             }
-            A_2 = reinterpret_cast<::NiTransform *>(&(B))->operator*((*(const ::NiTransform *)(((::NiTransform *)(::FUN_00461130((int)(node2)))))));
+            A_2 = reinterpret_cast<::NiTransform *>(&(B))->operator*((*(const ::NiTransform *)(((::NiTransform *)(::FUN_00461130((intptr_t)(node2)))))));
             _flag = true;
             if (!::FUN_00524d10((bool *)((*reinterpret_cast<::PlayerCls * *>(&::_g_thePlayer)))))
             {
@@ -1384,13 +1389,13 @@ void ThisCls::UpdateMuzzleFlash(ParamCls* apParam)
         }
         else
         {
-            A_2 = *((::NiTransform *)(::FUN_00461130((int)(node2))));
+            A_2 = *((::NiTransform *)(::FUN_00461130((intptr_t)(node2))));
             HolderCls* holder6 = (HolderCls*)((void *)(reinterpret_cast<::LowProcess *>((apParam))->GetTarget()));
             target2 = ((::ObjCls *)(reinterpret_cast<::TESObjectCELL *>((holder6))->GetDynamicNode()));
         }
         if (target2)
         {
-            if (target2 != (void*)((FUN_009611e0_shell*)((::NiAVObject *)(::FUN_00559450((int *)&(m_0c)))))->FUN_009611e0())
+            if (target2 != (void*)reinterpret_cast<NiAVObjectFields*>(::FUN_00559450((int *)&(m_0c)))->m_pkParent)
             {
                 if (!FUN_008c7aa0())
                 {
@@ -1511,7 +1516,7 @@ struct NodeX
     virtual void w55();
     virtual void w56();
     virtual void w57();
-    virtual void Release3D(unsigned int);
+    virtual void Release3D(void*);
 };
 
 struct FUN_009badc0
@@ -1543,13 +1548,13 @@ FUN_009badc0::~FUN_009badc0()
     TESModel* m_kModelObjectsItem = (TESModel*)((FUN_009baee0_owner*)this)->FUN_009baee0();
     if (m_kModelObjectsItem->GetModelLength())
         reinterpret_cast<::FUN_0045a5e0_shell *>((((ModelLoader*)(*reinterpret_cast<::Loader_S * *>(&::g_modelLoader)))))->FUN_0045a5e0((char *)(m_kModelObjectsItem->GetModelFilePath()));
-    if (*(Flt*)&m_pController && ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(unsigned int)*(Flt*)&m_pController)))->FUN_009611e0())))
+    if (m_pController.p && ((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
     {
         if (!::FUN_008c7aa0())
-            ((NodeX*)((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)(unsigned int)*(Flt*)&m_pController)))->FUN_009611e0())))
-                ->Release3D(*(Flt*)&m_pController);
+            ((NodeX*)((std::intptr_t)(reinterpret_cast<::FUN_009611e0_shell *>((((Calendar*)m_pController.p)))->FUN_009611e0())))
+                ->Release3D(m_pController.p);
         else
-            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((::TaskQueueInterface::GetSingleton()))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(*(Flt*)&m_pController));
+            reinterpret_cast<::fnv_0087ac60::FUN_0087AC60_Holder *>((::TaskQueueInterface::GetSingleton()))->FUN_0087ac60((::fnv_0087ac60::G00559a40 *)(m_pController.p));
     }
     m_pController = 0;
     reinterpret_cast<::ShadowNode *>(this)->FUN_009bb850();

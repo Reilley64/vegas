@@ -12,8 +12,8 @@ namespace RadioUpdate { const char DAT_0107ce80[18] = "UIRadioSignalLost"; }
 unsigned char DAT_011a179c = 1;
 unsigned int DAT_011dd424;
 unsigned int DAT_011dd428;
-unsigned int DAT_011dd42c;
-unsigned int DAT_011dd430;
+std::uintptr_t DAT_011dd42c;
+std::uintptr_t DAT_011dd430;
 bool DAT_011dd434;
 unsigned char DAT_011dd435;
 unsigned char DAT_011dd437;

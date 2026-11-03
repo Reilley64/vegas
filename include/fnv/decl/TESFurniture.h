@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class NiPoint3;
 
@@ -15,5 +16,5 @@ public:
     // 0x00509510
     static bool IsFurnitureSitMarker(unsigned int);
     // 0x00509920
-    ::NiPoint3 GetMarkerOffset(unsigned int, float);
+    ::NiPoint3 GetMarkerOffset(uintptr_t, float);
 };

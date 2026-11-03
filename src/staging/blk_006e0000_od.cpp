@@ -10016,7 +10016,7 @@ void FUN_006fa180_StandIn::FUN_006f9ff0(intptr_t apBuffer, unsigned int auiCount
 struct GlobalObject_00633c90
 {
     void* object;
-    GlobalObject_00633c90(int value);
+    GlobalObject_00633c90(intptr_t value);
     ~GlobalObject_00633c90();
     GlobalObject_00633c90& operator=(void* value);
     GlobalObject_00633c90& FUN_006e5cc0(const GlobalObject_00633c90& other);

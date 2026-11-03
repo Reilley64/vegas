@@ -2,6 +2,8 @@
 // src/fallout/magic/invisibilityeffect.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/invisibilityeffect.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
+#include "fnv/active_effect_fields.h"
 #include "fnv/decl/ActiveEffect.h"
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -34,7 +36,7 @@ struct FUN_0080e030 : ValueModifierEffect
 // @fnv 0x0080e030
 FUN_0080e030::FUN_0080e030(void* a, void* b, void* c) : ValueModifierEffect(a, b, c)
 {
-    *(int*)this = (int)&DAT_0107a21c;
+    *(void**)this = (void*)&DAT_0107a21c;
 }
 
 struct Actor
@@ -566,7 +568,7 @@ struct InvisibilityEffect : TESForm
 // @fnv 0x0080e5b0
 void InvisibilityEffect::RevertInvisibility(Actor* apActor)
 {
-    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((unsigned int)apActor);
+    reinterpret_cast<::FUN_004534f0_shell *>(this)->FUN_004534f0((uintptr_t)apActor);
     if (::FUN_005b9b00() && apActor == (Actor*)(*reinterpret_cast<::fnv_0080e5b0::PC7d * *>(&::_g_thePlayer)))
         apActor->v225(1, 0.0f);
     else
@@ -1124,7 +1126,7 @@ struct Effect
 // @fnv 0x0080e110
 void Effect::FUN_0080e110()
 {
-    ActorData* actor = ((::Target *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    ActorData* actor = ((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::ActorData *)(reinterpret_cast<::MagicTarget *>((((::Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     reinterpret_cast<::FUN_0082c000_shell *>(this)->FUN_0082c000();
     if (actor && actor->values.slot8(unk48) > 0.0)
     {
@@ -1137,7 +1139,7 @@ void Effect::FUN_0080e110()
         {
             HighProcess* pHighProcess = dynamic_cast<HighProcess*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture())));
             if (pHighProcess && pHighProcess->vfn_610() != 4)
-                reinterpret_cast<::FUN_008fe960_cls *>((pHighProcess))->FUN_008fe960((int)(actor), 0, 0);
+                reinterpret_cast<::FUN_008fe960_cls *>((pHighProcess))->FUN_008fe960((intptr_t)(actor), 0, 0);
         }
     }
 }
@@ -1586,7 +1588,7 @@ struct MVEffect
 void MVEffect::FUN_0080e230()
 {
     reinterpret_cast<::Cls *>(this)->ApplyEffect();
-    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType())) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActorMover *>(this)->GetCurrentMoveModeType()))))->GetOwnerActor())) : 0;
+    MVActor* pTarget = ((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::MVActor *)(reinterpret_cast<::MagicTarget *>((((::MVMagicTarget *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (pTarget && pTarget->kAVOwner.GetActorValueInt(m_eAssociatedActorValue) == 0.0)
     {
         if (FUN_005b9b00() && pTarget == (*reinterpret_cast<::MVActor * *>(&::_g_thePlayer)))
@@ -1597,7 +1599,7 @@ void MVEffect::FUN_0080e230()
         {
             HighProcess* pProcess = dynamic_cast<HighProcess*>(((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((pTarget))->GetBaseTexture())));
             if (pProcess && pProcess->vfn_610() != 4)
-                reinterpret_cast<::C *>((static_cast<MVHighProcess*>(pProcess)))->SetContentCount((int)(pTarget), 0);
+                reinterpret_cast<::C *>((static_cast<MVHighProcess*>(pProcess)))->SetContentCount((intptr_t)(pTarget), 0);
         }
 
         float m_fElapsedTime = 0.0f;

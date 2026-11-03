@@ -11,9 +11,9 @@ struct Vec3;
 struct Vec3Arg;
 
 // 0x009a7580
-unsigned char FUN_009a7580(void *, void *, unsigned int, ::NiPoint3 *, unsigned int, unsigned int, float);
+unsigned char FUN_009a7580(void *, void *, ::FUN_009a7f00_obj *, ::NiPoint3 *, unsigned char *, ::S_009a7670_P3 *, float);
 // 0x009a7670
-bool FUN_009a7670(void *, int, ::FUN_009a7f00_obj *, ::S_009a7670_P3, ::S_009a7670_P3, ::S_009a7670_P3, unsigned char *, ::S_009a7670_P3 *, float);
+bool FUN_009a7670(void *, void *, ::FUN_009a7f00_obj *, ::S_009a7670_P3, ::S_009a7670_P3, ::S_009a7670_P3, unsigned char *, ::S_009a7670_P3 *, float);
 // 0x009a7940
 bool FUN_009a7940(::SightReference *, ::SightReference *, const ::NiPoint3 &, const ::NiPoint3 &, int, int);
 // 0x009a7c60

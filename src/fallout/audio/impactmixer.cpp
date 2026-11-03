@@ -2,6 +2,7 @@
 // src/fallout/audio/impactmixer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/audio/impactmixer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/ActorMover.h"
 #include "fnv/decl/ActorTaskManager.h"
 #include "fnv/decl/BGSCameraPath.h"
@@ -70,6 +71,17 @@
 #include "fnv/symbols_011dd000.h"
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011f6000.h"
+#include <new>
+#include <cstring>
+#include "fnv/decl/FUN_00439ef0_class.h"
+#include "fnv/decl/FUN_004a0c10_s.h"
+#include "fnv/decl/FUN_00ad73b0_t.h"
+#include "fnv/decl/MemoryManagerStandIn.h"
+#include "fnv/decl/Point3Offset.h"
+#include "fnv/decl/SoundPlayback.h"
+#include "fnv/decl/SoundWrapper.h"
+#include "fnv/symbols_0083a000.h"
+#include "fnv/symbols_010c2000.h"
 extern int DAT_011dd878;
 
 // @fnv 0x00839da0
@@ -103,11 +115,11 @@ int GetTypeValue(int aiType)
 
 struct FUN_00acbb70_shell
 {
-    int FUN_00acbb70();
+    intptr_t FUN_00acbb70();
 };
 
 // @fnv 0x00acbb70
-int FUN_00acbb70_shell::FUN_00acbb70()
+intptr_t FUN_00acbb70_shell::FUN_00acbb70()
 {
     return 0;
 }
@@ -147,7 +159,7 @@ struct FUN_00838750_shell
 // @fnv 0x00838750
 bool FUN_00838750_shell::FUN_00838750()
 {
-    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270((int)&DAT_01000000))) != 0;
+    return ((int)(reinterpret_cast<::bhkCharacterListener *>((((DummyFlags*)((char*)this + 0x410))))->FUN_00621270((intptr_t)&DAT_01000000))) != 0;
 }
 
 struct FUN_00541570_shell
@@ -640,9 +652,9 @@ static const char kStr_PHYTumbleweed[] = "PHYTumbleweed";
 
 // Maps a material type and two size values to a material name string via DAT_011c3f2c->FUN_004616c0, returning the resulting id.
 // @fnv 0x00839e00
-int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
+::TESSound* __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
 {
-    int result = 0;
+    ::TESSound* result = 0;
 
     switch (aiMaterialType)
     {
@@ -650,47 +662,47 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
     case 15:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9c8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9b0)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CStoneLarge);
         }
         break;
     case 2:
         if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd918)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9bc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CEarthLarge);
         }
         break;
     case 4:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassSmall);
         }
         else if (afSizeA < DAT_01073568)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGrassLarge);
         }
         break;
     case 5:
@@ -698,178 +710,178 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
         {
             if (afSizeA < DAT_01032980)
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumL);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeL);
             }
         }
         else
         {
             if (afSizeA < DAT_01032980)
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalStaticH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSmallH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalMediumH);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalLargeH);
             }
         }
         break;
     case 9:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd930)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9d8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 1:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericClothH);
         }
         break;
     case 6:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_COrganicSmall)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_COrganicSmall);
         break;
     case 7:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
             if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallL);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumL);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeL)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeL);
             }
         }
         else
         {
             if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd9a0)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinSmallH);
             }
             else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd924)))))))
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinMediumH);
             }
             else
             {
-                result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeH)));
+                result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYSkinLargeH);
             }
         }
         break;
     case 3:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassSmall);
         }
         else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CGlassLarge);
         }
         break;
     case 8:
         if (afSizeA < DAT_01034208)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodSmall);
         }
         else if (afSizeA < ::runtimeInitializationDouble5)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CWoodLarge);
         }
         break;
     case 13:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChain)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChain);
         break;
     case 10:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyStone)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyStone);
         break;
     case 11:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyMetal)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyMetal);
         break;
     case 12:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyWood)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_CSpecialHeavyWood);
         break;
     case 16:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalHollowLarge);
         }
         break;
     case 17:
         if (afSizeA < DAT_01032980)
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetStatic)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetStatic);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8f4)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetSmall)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetSmall);
         }
         else if (afSizeA < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8cc)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetMedium)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetMedium);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetLarge)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYGenericMetalSheetLarge);
         }
         break;
     case 18:
@@ -880,123 +892,123 @@ int __cdecl FUN_00839e00(int aiMaterialType, float afSizeA, float afSizeB)
     case 20:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalBodyH);
         }
         break;
     case 21:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalSolidH);
         }
         break;
     case 22:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYVehicleMetalHollowH);
         }
         break;
     case 23:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBarrelH);
         }
         break;
     case 24:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottleH);
         }
         break;
     case 25:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCanSodaH);
         }
         break;
     case 26:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponPistolH);
         }
         break;
     case 27:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYWeaponRifleH);
         }
         break;
     case 28:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYShoppingCartH);
         }
         break;
     case 29:
         if (afSizeB < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SetObj *>(&::g_011dd8e8)))))))
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxL)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxL);
         }
         else
         {
-            result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxH)));
+            result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYLunchboxH);
         }
         break;
     case 30:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBabyRattle)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBabyRattle);
         break;
     case 31:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYRubberBall)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYRubberBall);
         break;
     case 14:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottlecaps)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYBottlecaps);
         break;
     case 32:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChainlink)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYChainlink);
         break;
     case 33:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTile)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTile);
         break;
     case 34:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCarpet)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYCarpet);
         break;
     case 35:
-        result = ((int)(reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTumbleweed)));
+        result = reinterpret_cast<::TESDataHandler *>(((*reinterpret_cast<::StrObj * *>(&::g_dataHandler))))->GetSoundByEditorID(kStr_PHYTumbleweed);
         break;
     }
     return result;
@@ -1049,6 +1061,16 @@ public:
 class TESObjectWEAP : public TESBoundObject
 {
   public:
+};
+
+// The TESObjectWEAP sound slots the impact mixer plays.
+struct WeaponSoundSlots
+{
+    char pad00[0x230];
+    TESSound* blockSound;
+    TESSound* idleSound;
+    TESSound* equipSound;
+    TESSound* unequipSound;
 };
 
 struct S_0083a930_EntryData
@@ -1305,10 +1327,10 @@ void PlayWeaponImpactSound(TESObjectREFR* ref, int type)
             switch (type)
             {
             case 9:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522520_shell *>((weapon))->GetField238()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->equipSound;
                 break;
             case 10:
-                snd = ((::TESSound *)(reinterpret_cast<::FUN_00522540_shell *>((weapon))->GetField23C()));
+                snd = reinterpret_cast<::WeaponSoundSlots *>(weapon)->unequipSound;
                 break;
             }
             if (!snd || !::SoundPlaybackManager::CanPlaySoundAt(snd, (*(::NiPoint3 *)&(const ::S_0083a930_Point3 &)(pos)), 1.0f))
@@ -2012,7 +2034,7 @@ struct BSSoundHandleEx
 class BSAudio
 {
   public:
-    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, unsigned int sound);
+    BSSoundHandleEx FUN_00ad7480(const char* path, unsigned int flags, TESSound* sound);
     BSSoundHandleEx GetSoundHandleByEditorID(const char* name, unsigned int flags);
 };
 
@@ -2037,10 +2059,11 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
                     float z1)
 {
     GlobalObject_0041a250 p;
-    if (pObject != 0 && pObject->GetField230() != 0)
+    TESSound* blockSound = pObject ? reinterpret_cast<::WeaponSoundSlots *>(pObject)->blockSound : 0;
+    if (blockSound)
     {
-        p.FUN_copy(&::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(((TESSound*)pObject->GetField230()))), 0x182,
-                                                          pObject->GetField230()));
+        BSSoundHandleEx sound = ::FUN_00453a70()->FUN_00ad7480(::FUN_00511840((char *)(blockSound)), 0x182, blockSound);
+        p.FUN_copy(&sound);
     }
     else
     {
@@ -2048,10 +2071,16 @@ void PlayBlockSound(int aUnused, FUN_00522df0_shell* pObject, float x0, float y0
         switch (weaponType)
         {
         case -1:
-            p.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockHand", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockHand", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         default:
-            p.FUN_copy(&::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182));
+            {
+                BSSoundHandleEx sound = ::FUN_00453a70()->GetSoundHandleByEditorID("WPNBlockMelee", 0x182);
+                p.FUN_copy(&sound);
+            }
             break;
         }
     }
@@ -2322,7 +2351,7 @@ void FUN_00837550(ImpactData* apImpact)
     if (apImpact->pObjectA == apImpact->pObjectB && apImpact->pObjectA)
         return;
     static ImpactTimer s_kTimer;
-    reinterpret_cast<::GlobalObject_0044fae0 *>(&(s_kTimer))->FUN_004538a0((int)(s_szTimerName));
+    reinterpret_cast<::GlobalObject_0044fae0 *>(&(s_kTimer))->FUN_004538a0((std::intptr_t)(s_szTimerName));
     float fScaledImpulseRes = apImpact->fImpulse * 0.014287499710917473;
     float fWaterLevelItem = apImpact->fImpulse / ::DAT_010179e0;
     unsigned int uiFlagsTmp = 0;
@@ -2426,4 +2455,219 @@ void FUN_00837550(ImpactData* apImpact)
 
 }
 
+bool FUN_00839da0();
+void FUN_00839dc0(bool b);
+int GetTypeValue(int aiType);
+
+struct MemoryManager
+{
+};
+struct Point3
+{
+    float x;
+    float y;
+    float z;
+    __forceinline Point3()
+    {}
+    __forceinline Point3(float a, float b, float c) : x(a), y(b), z(c)
+    {}
+    __forceinline Point3 operator+(const Point3& o) const
+    {
+        return Point3(o.x + x, o.y + y, o.z + z);
+    }
+    __forceinline Point3 operator*(float s) const
+    {
+        return Point3(s * x, s * y, s * z);
+    }
+    Point3 FUN_00439ef0(const Point3& other) const
+    {
+        const Point3* self = this;
+        return Point3(self->x - other.x, self->y - other.y, self->z - other.z);
+    }
+    Point3 FUN_004b3800(const Point3& axis) const
+    {
+        const Point3* self = this;
+        return Point3(self->y * axis.z - self->z * axis.y, self->z * axis.x - self->x * axis.z,
+                      self->x * axis.y - self->y * axis.x);
+    }
+};
+
+struct FilterData
+{
+    unsigned int collisionLayer;
+    unsigned int group;
+    unsigned int flags;
+    unsigned int subsystem;
+
+};
+extern void FUN_00401050(void* storage, unsigned int elementSize, unsigned int count,
+                                   void(__cdecl* constructor)(void*));
+extern void __cdecl FUN_004a7800(void* value);
+extern void* __cdecl FUN_00aa13e0(unsigned int bytes);
+struct FilterArray
+{
+    FilterData values[8];
+    __forceinline FilterArray()
+    {
+        FUN_00401050(values, 16, 8, FUN_004a7800);
+    }
+};
+struct CollisionShape
+{
+    virtual void slot000();
+    virtual void slot004();
+    virtual void slot008();
+    virtual void slot00c();
+    virtual void slot010();
+    virtual void slot014();
+    virtual void slot018();
+    virtual void slot01c();
+    virtual void slot020();
+    virtual void slot024();
+    virtual void slot028();
+    virtual void slot02c();
+    virtual void slot030();
+    virtual void slot034();
+    virtual void slot038();
+    virtual void slot03c();
+    virtual void slot040();
+    virtual void slot044();
+    virtual void slot048();
+    virtual void slot04c();
+    virtual void slot050();
+    virtual void slot054();
+    virtual void slot058();
+    virtual void slot05c();
+    virtual void slot060();
+    virtual void slot064();
+    virtual void slot068();
+    virtual void slot06c();
+    virtual void slot070();
+    virtual void slot074();
+    virtual void slot078();
+    virtual void slot07c();
+    virtual void slot080();
+    virtual void slot084();
+    virtual void slot088();
+    virtual void slot08c();
+    virtual void slot090();
+    virtual void slot094();
+    virtual void slot098();
+    virtual void slot09c();
+    virtual void slot0a0();
+    virtual void slot0a4();
+    virtual void slot0a8();
+    virtual void slot0ac();
+    virtual void slot0b0();
+    virtual void slot0b4();
+    virtual void slot0b8();
+    virtual void slot0bc();
+    virtual void slot0c0();
+    virtual void slot0c4();
+    virtual void slot0c8();
+    virtual void slot0cc();
+    virtual void slot0d0();
+    virtual void slot0d4();
+    virtual void slot0d8();
+    virtual void slot0dc();
+    virtual void slot0e0();
+    virtual void slot0e4();
+    virtual void slot0e8();
+};
+struct CollisionGenerator : CollisionShape
+{
+    unsigned int unk04;
+    unsigned int unk08;
+    unsigned int unk0c;
+    unsigned int unk10;
+    unsigned int unk14;
+    unsigned int unk18;
+    unsigned int unk1c;
+    unsigned int unk20;
+    unsigned int unk24;
+    unsigned int unk28;
+    unsigned int unk2c;
+    unsigned int unk30;
+    unsigned int unk34;
+    unsigned int unk38;
+    unsigned int unk3c;
+    unsigned int unk40;
+    unsigned int unk44;
+    unsigned int unk48;
+    unsigned int unk4c;
+    unsigned int unk50;
+    unsigned int unk54;
+    unsigned int unk58;
+    unsigned int unk5c;
+    unsigned int unk60;
+    unsigned int unk64;
+    unsigned int unk68;
+    unsigned int unk6c;
+    unsigned int unk70;
+    unsigned int unk74;
+    unsigned int unk78;
+    unsigned int unk7c;
+    unsigned int unk80;
+    unsigned int unk84;
+    unsigned int unk88;
+    unsigned int unk8c;
+    unsigned int unk90;
+    unsigned int unk94;
+    unsigned int unk98;
+    unsigned int unk9c;
+    unsigned int unka0;
+    unsigned int unka4;
+    unsigned int unka8;
+    unsigned int unkac;
+    unsigned int unkb0;
+    unsigned int unkb4;
+    unsigned int unkb8;
+    unsigned int unkbc;
+    unsigned int unkc0;
+    CollisionGenerator(unsigned int count, Point3* vertices, int unused, FilterData* _filters, int a, int b, int c,
+                       int d, void* data);
+};
+// @fnv 0x00c55d50
+CollisionShape* __cdecl FUN_00c55d50(Point3* start, Point3* end, float forwardExtent, float backwardExtent,
+                                     float upExtent, float downExtent, FilterData* nearFilter, FilterData* farFilter)
+{
+    Point3* verticesX;
+    verticesX = new Point3[8];
+    Point3 directionX = ([&] { ::Point3 difference; reinterpret_cast<::FUN_00439ef0_class *>((void *)(start))->FUN_00439ef0((::NiPoint3 *)&difference, *(const ::NiPoint3 *)((::NiPoint3 *)&(*end))); return difference; }());
+    Point3 verticalAxisB(0.0f, 0.0f, 1.0f);
+    Point3 crossVal2 = directionX.FUN_004b3800(verticalAxisB);
+    crossVal2.z = 0.0f;
+    reinterpret_cast<::FUN_004a0c10_s *>(&(crossVal2))->FUN_004a0c10();
+    Point3 forwardVectorB = crossVal2 * forwardExtent;
+    Point3 reverseVector2 = crossVal2 * (-backwardExtent);
+    Point3 offset(0.0f, 0.0f, upExtent);
+    Point3 below2(0.0f, 0.0f, -downExtent);
+    verticesX[0] = offset + (reverseVector2 + *end);
+    verticesX[1] = offset + (forwardVectorB + *end);
+    verticesX[2] = below2 + (reverseVector2 + *end);
+    verticesX[3] = below2 + (forwardVectorB + *end);
+    verticesX[4] = offset + (reverseVector2 + *start);
+    verticesX[5] = offset + (forwardVectorB + *start);
+    verticesX[6] = below2 + (reverseVector2 + *start);
+    verticesX[7] = (*(::Point3 *)(reinterpret_cast<::Point3Offset *>((void *)(void *)&(const ::Point3 &)((forwardVectorB + *start)))->ProjectileLaunched((::NiPoint3 *)&(below2), {})));
+    FilterData* _filters = 0;
+    if (nearFilter || farFilter)
+    {
+        _filters = reinterpret_cast<FilterData*>(new FilterArray);
+        if (nearFilter && !farFilter)
+            farFilter = nearFilter;
+        else if (farFilter && !nearFilter)
+            nearFilter = farFilter;
+        for (unsigned int indexC = 0; indexC < 4; ++indexC)
+            _filters[indexC] = *farFilter;
+        for (unsigned int index7 = 4; index7 < 8; ++index7)
+            _filters[index7] = *nearFilter;
+    }
+    unsigned short* pData6 = new unsigned short[36];
+    std::memmove(pData6, &(*reinterpret_cast<unsigned char *>(&::DAT_010c2c38)), 0x48);
+    CollisionGenerator* shape2 = new CollisionGenerator(8, verticesX, 0, _filters, 0, 0, 0, 12, pData6);
+    shape2->slot0e8();
+    return shape2;
+}
 #include "generated/data/fallout/audio/impactmixer.inc"
+#include "generated/data/fallout/audio/impactmixer_ob1_variant.inc"

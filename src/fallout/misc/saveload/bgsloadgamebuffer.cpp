@@ -2,6 +2,7 @@
 // src/fallout/misc/saveload/bgsloadgamebuffer.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/misc/saveload/bgsloadgamebuffer.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include "fnv/decl/DetectionViewData.h"
 #include "fnv/decl/FUN_004f0180_Class.h"
 #include "fnv/decl/FUN_0081db90_shell.h"
@@ -396,7 +397,6 @@ void FUN_00864820_shell::LoadRawData(void* apData, unsigned int aiSize)
 }
 }  // namespace fnv_00864820
 
-extern "C" void* __cdecl __memcpy(void*, const void*, unsigned int);
 struct FUN_00857bd0
 {
     void Init(unsigned int);
@@ -522,7 +522,7 @@ struct FUN_00864790_shell
 int FUN_00864740_shell::ReadAndVerifySize(SaveLoadFile* apFile)
 {
     ::ReadFileIntoBuffer(apFile, &m_uiReadOffset, 4);
-    int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)((int)apFile), m_uiReadOffset);
+    int result = reinterpret_cast<::FUN_00864790_shell *>((((S_00864540*)this)))->ReadFromFile((::SaveLoadFile *)(apFile), m_uiReadOffset);
     if (result != m_uiReadOffset)
         return -1;
     return result;
@@ -608,10 +608,10 @@ struct FUN_00864820_wrap
 };
 struct FUN_008648a0_t : public BGSLoadGameBuffer
 {
-    unsigned int FUN_008648a0();
+    uintptr_t FUN_008648a0();
 };
 // @fnv 0x008648a0
-unsigned int FUN_008648a0_t::FUN_008648a0()
+uintptr_t FUN_008648a0_t::FUN_008648a0()
 {
     unsigned int iformID;
     PackedFormID formIDIndex;
@@ -883,7 +883,7 @@ unsigned int FUN_00853500_shell::FUN_00853500()
         uiValue |= 0xff000000;
         return uiValue;
     }
-    return ((FUN_00846d20_shell*)((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
+    return ((FUN_00846d20_shell*)((reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)g_BGSSaveLoadGame)))->GetName())))->FUN_00846d20(uiValue);
 }
 
 

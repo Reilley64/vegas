@@ -86,6 +86,9 @@ template <class T> class BSSimpleList
     void SetItem(const T&);
 };
 
+class Conversation_decl;
+void __cdecl FUN_00832c40();
+
 class FalloutRadio
 {
   public:
@@ -99,13 +102,21 @@ class FalloutRadio
         void* FUN_00832190(bool);
     };
 
-    class RadioConversation;
+    class RadioConversation
+    {
+      public:
+        ::Conversation_decl* conversation;
+        unsigned int unk04;
+        unsigned int nextUpdate;
+        int state;
+        char padding[8];
+    };
 
     class RadioStationState
     {
       public:
         void* form;
-        char padding[24];
+        RadioConversation station;
         BSSimpleList<RadioReceiver*> receivers;
         void* FUN_00832160(bool);
     };
@@ -118,6 +129,7 @@ class FalloutRadio
     static void RadioSynchUnPaused();
 
   protected:
+    friend void __cdecl ::FUN_00832c40();
     static unsigned int ms_uiRadioSyncFlags;
 };
 

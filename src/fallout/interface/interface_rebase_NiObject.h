@@ -24,8 +24,9 @@ class NiStream;
 class NiObjectGroup;
 class NiControllerManager;
 class NiBound;
-template <class T> class NiTPrimitiveArray;
-typedef NiTPrimitiveArray<char*> NiViewerStringsArray;
+template <class, class> struct NiTPrimitiveArray;
+template <class> struct NiTMallocInterface;
+typedef NiTPrimitiveArray<char*, NiTMallocInterface<char*>> NiViewerStringsArray;
 class NiObject : public NiRefObject
 {
   public:

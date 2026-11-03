@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class PathingRequest;
 struct FUN_006abbb0;
@@ -6,7 +7,7 @@ struct PathingSolution;
 struct RouteLocation;
 
 // 0x006d5340
-int ConstructAndCallMethod(int, int, int, int);
+int ConstructAndCallMethod(int, int, int, intptr_t);
 // 0x006d53b0
 int FUN_006d53b0(::PathingRequest *, ::PathingSolution *);
 // 0x006d5420

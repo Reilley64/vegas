@@ -118,4 +118,4 @@ bool DAT_011db0b2;
 bool DAT_011db0b3;
 VATSCreateEffectFormX *VATSCreateDAT_011db0b4;
 bool VATSCreateDAT_011db0cc;
-int DAT_011db0d4;
+intptr_t DAT_011db0d4;

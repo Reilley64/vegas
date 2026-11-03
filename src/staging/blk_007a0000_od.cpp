@@ -2,6 +2,7 @@
 // src/staging/blk_007a0000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/BSStringTChar.h"
@@ -312,7 +313,7 @@ void* GlobalObject_007ab610::FUN_007ab640(unsigned int flags)
 
 
 // @fnv 0x007a1480
-int __cdecl FUN_007a1480()
+intptr_t __cdecl FUN_007a1480()
 {
     return DAT_011dea14;
 }

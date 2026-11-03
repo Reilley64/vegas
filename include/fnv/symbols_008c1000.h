@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class ListWalkNode;
 class ListWalkTarget;
@@ -23,4 +24,4 @@ void FUN_008c1ac0(void *, ::BoolWrap);
 // 0x008c1b50
 namespace fnv_008c1b50 { void SetFlag40000000(char *, ::fnv_008c1b50::BoolWrap); }
 // 0x008c1bc0
-bool FUN_008c1bc0(int);
+bool FUN_008c1bc0(intptr_t);

@@ -2,6 +2,7 @@
 // src/fallout/magic/bhktelekinesislistener.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout/magic/bhktelekinesislistener.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include <cstdint>
 #include <cstddef>
 #include "fnv/decl/FUN_00629ab0_shell.h"
 #include "fnv/decl/FUN_0096a350_class.h"
@@ -284,7 +285,7 @@ struct FNV_807c50
     // what the original's "push 0x10 / call 0x807bf0" pair is.
     static void* operator new(std::size_t n)
     {
-        return (void*)(long)GetTopicResult((int)n);
+        return (void*)(intptr_t)GetTopicResult((int)n);
     }
 };
 
@@ -448,8 +449,8 @@ struct ActivationArray
 extern "C" int DAT_0119d900;
 extern "C" int DAT_011a0eac;
 
-extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacement, unsigned int sourceType,
-                                         unsigned int targetType, unsigned int flags);
+extern "C" void* __cdecl FNV_DynamicCast(void* object, unsigned long displacement, uintptr_t sourceType,
+                                         uintptr_t targetType, unsigned int flags);
 
 }
 
@@ -469,8 +470,8 @@ void __cdecl FUN_00807ac0(void* body)
                 ((::FUN_008079e0_shell *)&(reinterpret_cast<::FUN_00629ab0_shell *>((reinterpret_cast<ActivationArray*>(reinterpret_cast<FNV_807b50_owner*>(entity)->GetOrCreate807c50())))->FUN_00629ab0((unsigned int)index)));
             {
                 FUN_008079e0_shell* telekinesis = reinterpret_cast<FUN_008079e0_shell*>(
-                    FNV_DynamicCast(listener, 0, reinterpret_cast<unsigned int>(&DAT_0119d900),
-                                    reinterpret_cast<unsigned int>(&DAT_011a0eac), 0));
+                    FNV_DynamicCast(listener, 0, reinterpret_cast<uintptr_t>(&DAT_0119d900),
+                                    reinterpret_cast<uintptr_t>(&DAT_011a0eac), 0));
                 if (telekinesis != 0)
                 {
                     telekinesis->FUN_00807a10(entity);
@@ -642,7 +643,7 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
         pav = pRef->v116();
 
         pavlod = static_cast<TelekinesisFadeNodeView*>(::TelekinesisRemovalDetail::FNV_DynamicCast(
-            pav, 0, reinterpret_cast<unsigned int>(&DAT_01186044), reinterpret_cast<unsigned int>(&DAT_0119ba28), 0));
+            pav, 0, reinterpret_cast<uintptr_t>(&DAT_01186044), reinterpret_cast<uintptr_t>(&DAT_0119ba28), 0));
 
         if (pavlod)
             reinterpret_cast<::FUN_00b4dec0_shell *>((pavlod))->FUN_00b4dec0(2);
@@ -657,4 +658,78 @@ void TelekinesisFinishReceiver::FUN_00807a10(::hkpEntity* entity)
 
 }
 
+
+// FUN_00807df0 : MSVC this-adjusting thunk  (sub ecx, 0x04 ; jmp <impl>)
+struct A1_00807df0
+{
+    A1_00807df0();
+    virtual void FUN_00807df0();
+};
+struct A2_00807df0
+{
+    A2_00807df0();
+    virtual void FUN_00807df0();
+};
+struct Own_00807df0 : A1_00807df0, A2_00807df0
+{
+    Own_00807df0();
+    virtual void key_fn();
+// @fnv 0x00807df0
+    void FUN_00807df0();
+};
+Own_00807df0::Own_00807df0()
+{}
+void Own_00807df0::key_fn()
+{}
+Own_00807df0* make_00807df0()
+{
+    static Own_00807df0 o;
+    return &o;
+}
+
+// FUN_00807e00 - MSVC 2008 adjustor thunk (8 bytes):
+//
+//     sub ecx, 8
+//     jmp  0x008078e0
+//
+// The vftable of a secondary base inside a derived class (the one at
+// 0x01079718, RTTI ".?AVbhkTelekinesisListener@@", complete object locator
+// offset 8) points at a compiler generated adjustor thunk for the virtual
+// that the derived class overrides: the secondary base sub-object starts
+// eight bytes into the derived object, so the thunk moves `this' back to the
+// derived object and tail-calls the overriding implementation.
+//
+// The primary base is eight bytes long (its vptr plus one int), which is what
+// puts the secondary base at offset 8.  The overriding implementation is only
+// declared, never defined, so the jmp stays an undefined external exactly
+// like in the image and the checker resolves that relocation from the
+// original bytes.
+
+struct bhkTelekinesisListenerBase
+{
+    bhkTelekinesisListenerBase();
+    virtual void* FUN_00807e00(unsigned int flags);
+    int unk04;
+};
+
+struct bhkTelekinesisListenerSecondary
+{
+    bhkTelekinesisListenerSecondary();
+    virtual void* FUN_00807e00(unsigned int flags);
+};
+
+struct bhkTelekinesisListenerDerived : public bhkTelekinesisListenerBase, public bhkTelekinesisListenerSecondary
+{
+    bhkTelekinesisListenerDerived();
+// @fnv 0x00807e00
+    virtual void* FUN_00807e00(unsigned int flags);
+};
+
+bhkTelekinesisListenerBase::bhkTelekinesisListenerBase()
+{}
+bhkTelekinesisListenerSecondary::bhkTelekinesisListenerSecondary()
+{}
+bhkTelekinesisListenerDerived::bhkTelekinesisListenerDerived()
+    : bhkTelekinesisListenerBase(), bhkTelekinesisListenerSecondary()
+{}
 #include "generated/data/fallout/magic/bhktelekinesislistener.inc"

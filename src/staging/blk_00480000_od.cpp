@@ -2,6 +2,7 @@
 // src/staging/blk_00480000_od.cpp - STAGING unit created 2026-10-16 by stage_units.py for functions with no attributed unit
 // (128 KB address window, od code style). Not a real source path: move functions to their real units once identified.
 
+#include <cstdint>
 #include <new>
 #include <cstring>
 #include <malloc.h>
@@ -1122,10 +1123,10 @@ struct FUN_0049a920_s
     char pad100[0x124 - 0x100];
     void* unk124;
     void* unk128;
-    void FUN_0049a920(unsigned int a);
+    void FUN_0049a920(uintptr_t a);
 };
 // @fnv 0x0049a920
-void FUN_0049a920_s::FUN_0049a920(unsigned int a)
+void FUN_0049a920_s::FUN_0049a920(uintptr_t a)
 {
     reinterpret_cast<::fnv_00496080::FUN_00496080_shell *>(this)->FUN_00496080(0x14, 0.0f);
     reinterpret_cast<::FUN_00496280_shell *>((((FUN_00496280_shell*)this)))->FUN_00496280();

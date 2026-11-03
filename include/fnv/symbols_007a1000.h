@@ -1,10 +1,11 @@
 #pragma once
+#include <cstdint>
 
 class EffectSetting;
 struct Dummy_007a1a70;
 
 // 0x007a1480
-int FUN_007a1480();
+std::intptr_t FUN_007a1480();
 // 0x007a1750
 bool FUN_007a1750();
 // 0x007a17e0

@@ -795,7 +795,7 @@ class TESDataHandler
 int FUN_004b4f20(void* pThis);
 
 // @fnv 0x004b4f00
-int FUN_004b4f00(TESDataHandler* apDataHandler)
+intptr_t FUN_004b4f00(TESDataHandler* apDataHandler)
 {
     return FUN_004b4f20(((::BSSimpleList< ::BGSRagdoll *> *)(reinterpret_cast<::FUN_009d9f40_Class *>((apDataHandler))->FUN_009d9f40())));
 }
@@ -2759,7 +2759,7 @@ struct FUN_004b6980_Context
 
 // Builds a traversal context from the three flags, runs FUN_00c68900 over object with ProcessObjectMatch, and returns the accumulated count.
 // @fnv 0x004b6980
-int __cdecl FUN_004b6980(NiAVObject* object, void* auxiliaryData, bool flag1, bool flag2, bool flag3)
+intptr_t __cdecl FUN_004b6980(NiAVObject* object, void* auxiliaryData, bool flag1, bool flag2, bool flag3)
 {
     FUN_004b6980_Context context;
 

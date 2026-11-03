@@ -1,5 +1,6 @@
 // fallout/interface/fopipboymanager.cpp: FOPipboyManager, FOPipboyManagerPC, SystemColorManager, Interface and more (29 functions)
 
+#include "fnv/av_object_fields.h"
 #include <cstdint>
 #include "fnv/decl/BSAnimGroupSequence.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -31,7 +32,6 @@
 #include "fnv/decl/FUN_00ba8ab0_shell.h"
 #include "fnv/decl/IOManager.h"
 #include "fnv/decl/NiAdditionalGeometryData.h"
-#include "fnv/decl/NiPick.h"
 #include "fnv/decl/S7f.h"
 #include "fnv/decl/S_007fb2b0.h"
 #include "fnv/decl/S_FUN_0045bc00.h"
@@ -70,6 +70,21 @@
 #include "fnv/symbols_011f6000.h"
 #include "fnv/symbols_01202000.h"
 #include "fopipboymanager_decls.h"
+#include "fnv/decl/BGSCameraPath.h"
+#include "fnv/decl/BGSImpactData.h"
+#include "fnv/decl/BSFaceGenNiNode.h"
+#include "fnv/decl/CameraWindowRay.h"
+#include "fnv/decl/CombatProcedure.h"
+#include "fnv/decl/FUN_00458b30_class.h"
+#include "fnv/decl/FUN_00792760_shell.h"
+#include "fnv/decl/FUN_00792780_Class.h"
+#include "fnv/decl/InterfaceManager.h"
+#include "fnv/decl/fnv_00968670__FUN_00968670_shell.h"
+#include "fnv/symbols_0045c000.h"
+#include "fnv/symbols_0050d000.h"
+#include "fnv/symbols_00706000.h"
+#include "fnv/symbols_00717000.h"
+#include <stddef.h>
 
 // @fnv 0x007f9070
 void FOPipboyManager::UpdatePipBoyButton()
@@ -149,8 +164,8 @@ void FOPipboyManager::UpdateScrollKnob()
     if (m_pGaugeObjects[0])
     {
         kLocalRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)((m_pGaugeObjects[0]).operator->()))));
-        kParentRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((m_pGaugeObjects[0]).operator->()))->FUN_009611e0()))))));
-        reinterpret_cast<::FUN_0043fa80_s *>((((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>(((m_pGaugeObjects[0]).operator->()))->FUN_009611e0()))))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(kParentRotate))->operator+(kLocalRotate));
+        kParentRotate = (*(const ::ThreeByThreeMatrix *)(::FUN_006a9540((char *)(((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))));
+        reinterpret_cast<::FUN_0043fa80_s *>((((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>(((m_pGaugeObjects[0]).operator->()))->m_pkParent))))->FUN_0043fa80(reinterpret_cast<::ThreeByThreeMatrix *>((void *)&(const ::ThreeByThreeMatrix &)(kParentRotate))->operator+(kLocalRotate));
         m_pGaugeObjects[0]->SetLocalRotation(m_fChartFirstPoint[0], 1.0f, 0.0f, 0.0f);
     }
     if (m_pGaugeObjects[1])
@@ -244,6 +259,43 @@ struct FUN_004dc540_shell : public FORenderedMenu
 {
     void FUN_004dc540(NiAVObject*);
 };
+class NiPick
+{
+  public:
+    class Record
+    {
+      public:
+        NiPointer<NiAVObject> object;
+        NiPointer<NiNode> proxy;
+        NiPoint3 intersect;
+        float distance;
+        unsigned short triangle, vertices[3];
+        float texture[2];
+        NiPoint3 normal;
+        float color[4];
+        NiAVObject* FUN_00458b50();
+    };
+    class Results
+    {
+      public:
+        virtual ~Results();
+        Record** data;
+        unsigned short capacity, size, effective, grow;
+        unsigned int valid;
+    };
+    int pickType, sortType, intersectType, coordinateType;
+    bool frontOnly, observeCull;
+    NiPointer<NiAVObject> root;
+    Results results;
+    Record* last;
+    bool returnTexture, returnNormal, smoothNormal, returnColor;
+    NiPick(int, int);
+    ~NiPick();
+public:
+    void FUN_00705fc0(void *);
+public:
+    bool PerformPick(const ::NiPoint3 &, const ::NiPoint3 &, bool);
+};
 // @fnv 0x007f8ba0
 void FOPipboyManager::OnMenuOpen()
 {
@@ -269,26 +321,26 @@ void FOPipboyManager::OnMenuOpen()
             if (screenNode)
             {
                 screenObjects.firstPerson = ((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((screenNode))->FUN_0045bc00(0)));
-                m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((screenNode))->FUN_009611e0()));
+                m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenNode))->m_pkParent));
             }
             else
             {
                 screenObjects.firstPerson = ((::NiAVObject *)(::FUN_00653270(
                     &(*reinterpret_cast<::NiRTTI *>(&::g_011f4acc)), (::NiObject *)(::NiAVObject *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))->GetObjectByName(NiFixedString("pipboyscreen:0"))))));
                 if (screenObjects.firstPerson)
-                    m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((screenObjects.firstPerson))->FUN_009611e0()));
+                    m_pPipBoyObject0 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
             }
             reinterpret_cast<::FUN_004dc540_shell *>(this)->FUN_004dc540((::NiAVObject *)(::NiNode *)(((::NiNode *)(reinterpret_cast<::FUN_00950bb0_shell *>((::_g_thePlayer))->FUN_00950bb0(true)))));
             if (screenNode)
             {
                 screenObjects.thirdPerson = ((::NiAVObject *)(::FUN_00653270(&(*reinterpret_cast<::NiRTTI *>(&::g_011f4acc)), (::NiObject *)(::NiAVObject *)(((::NiAVObject *)(reinterpret_cast<::S_FUN_0045bc00 *>((screenNode))->FUN_0045bc00(0)))))));
-                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((screenNode))->FUN_009611e0()));
+                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenNode))->m_pkParent));
                 m_pPipBoyObject2 = screenObjects.thirdPerson;
             }
             else if (screenObjects.firstPerson)
             {
                 screenObjects.thirdPerson = screenObjects.firstPerson;
-                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((screenObjects.firstPerson))->FUN_009611e0()));
+                m_pPipBoyObject1 = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((screenObjects.firstPerson))->m_pkParent));
                 m_pPipBoyObject2 = screenObjects.thirdPerson;
             }
             if (screenObjects.firstPerson && screenObjects.thirdPerson)
@@ -816,7 +868,7 @@ void FUN_007ffd50_shell::FUN_007ffd50()
     VTab* parent;
     FUN_007ffe40();
     {
-        NiNode* obj = ((::NiNode *)(reinterpret_cast<::FUN_009611e0_shell *>((((NiAVObject*)this)))->FUN_009611e0()));
+        NiNode* obj = ((::NiNode *)(reinterpret_cast<::NiAVObjectFields *>((((NiAVObject*)this)))->m_pkParent));
         parent = (VTab*)obj;
     }
     parent ? parent->VFn(1) : 0;
@@ -1545,4 +1597,91 @@ void PipboyStub::UpdatePipboyLight(bool b)
 }
 }  // namespace fnv_007fa7a0
 
+class NiNode;
+class NiGeometry;
+class INISettingCollection;
+class FOPipboyManager;
+class NiColor;
+
+class NiPoint2
+{
+  public:
+    float x, y;
+};
+class NiPoint3;
+class NiCamera
+{
+  public:
+};
+class SceneGraph
+{
+  public:
+};
+extern int DAT_011a0ba0;
+// @fnv 0x007f8720
+bool FOPipboyManager::FUN_007f8720(bool press, bool release, float& x, float& y, int& button)
+{
+    bool result = false;
+    Interface* ui = ((::Interface *)(::fnv_004b7210::FUN_004b7210()));
+    if (!((::NiAVObject *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950())) || !(NiAVObject*)m_cPipBoyButtonAvailability[0] ||
+        !(NiAVObject*)m_cPipBoyButtonAvailability[1] || !(NiAVObject*)m_cPipBoyButtonAvailability[2])
+        return false;
+    if (FUN_007178a0() && ::InterfaceManager::IsInterfaceMenuActive() && (NiNode*)m_pPipBoyObject0)
+    {
+        NiPoint3 origin;
+        NiPoint3 c;
+        NiPick b(0, 8);
+        reinterpret_cast<::FUN_00458b30_class *>(&(b))->SetByteAtOffset17(true);
+        reinterpret_cast<::NiPick *>(&(b))->FUN_00705fc0(((::NiAVObject *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950())));
+        reinterpret_cast<::CombatProcedure *>(&(b))->Initialize((::CombatController *)(0));
+        reinterpret_cast<::FUN_00792780_Class *>(&(b))->SetByteAtOffset30(true);
+        NiCamera* a = ((::NiCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::SceneGraph *)(::FUN_0045c670()))))->GetAnimationData()));
+        reinterpret_cast<::CameraWindowRay *>((a))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((ui))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((ui))->FUN_00792760(), origin, c, (const ::NiRenderTargetGroup *)(false));
+        if (reinterpret_cast<::NiPick *>(&(b))->PerformPick(origin, c, false))
+        {
+            unsigned int firstIndex = 0;
+            NiPick::Record* hit = ((::NiPick::Record *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::NiPick::Results *)(reinterpret_cast<::BGSCameraPath *>(&(b))->GetConditions()))))->FUN_00968670(firstIndex)));
+            if (hit && hit->FUN_00458b50() == ((::NiAVObject *)(reinterpret_cast<::StrOwner *>(this)->FUN_007fa950())))
+            {
+                NiPoint2 horizontal = *((const ::NiPoint2 *)(reinterpret_cast<::BGSCameraPath *>((hit))->GetShotList()));
+                float scale = ((double)(::FUN_00706e20()));
+                float uv = scale * (double)1.333333f;
+                x = horizontal.x * uv;
+                y = horizontal.y * scale;
+                result = true;
+            }
+        }
+        if (press || release)
+        {
+            int selected = -1;
+            reinterpret_cast<::CombatProcedure *>(&(b))->Initialize((::CombatController *)(0));
+            reinterpret_cast<::FUN_00792780_Class *>(&(b))->SetByteAtOffset30(false);
+            for (int i = 0; i < 3; i++)
+            {
+                reinterpret_cast<::NiPick *>(&(b))->FUN_00705fc0(m_cPipBoyButtonAvailability[i]);
+                reinterpret_cast<::CameraWindowRay *>((((::NiCamera *)(reinterpret_cast<::BSFaceGenNiNode *>((((::SceneGraph *)(::FUN_0045c670()))))->GetAnimationData()))))->MapScreenToRay((int)reinterpret_cast<::BGSImpactData *>((ui))->FUN_009a9350(), (int)reinterpret_cast<::FUN_00792760_shell *>((ui))->FUN_00792760(), origin,
+                                                               c, (const ::NiRenderTargetGroup *)(false));
+                if (reinterpret_cast<::NiPick *>(&(b))->PerformPick(origin, c, false))
+                {
+                    unsigned int hit = 0;
+                    NiPick::Record* hitIndex = ((::NiPick::Record *)(reinterpret_cast<::fnv_00968670::FUN_00968670_shell *>((((::NiPick::Results *)(reinterpret_cast<::BGSCameraPath *>(&(b))->GetConditions()))))->FUN_00968670(hit)));
+                    if (hitIndex)
+                    {
+                        if (press)
+                            DAT_011a0ba0 = i;
+                        else
+                            selected = i;
+                    }
+                }
+            }
+            if (release && selected == DAT_011a0ba0)
+            {
+                button = selected + 1;
+                DAT_011a0ba0 = -1;
+            }
+        }
+    }
+    return result;
+}
 #include "generated/data/fallout/interface/fopipboymanager.inc"
+#include "generated/data/fallout/interface/fopipboymanager_decl_variant.inc"

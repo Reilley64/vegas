@@ -8,6 +8,7 @@
 #ifndef FNV_TESFURNITURE_UNIT_H
 #define FNV_TESFURNITURE_UNIT_H
 
+#include <cstdint>
 #include "fnv/decl/FUN_0048a7b0_shell.h"
 #include "fnv/symbols_00478000.h"
 #include "fnv/symbols_005b5000.h"
@@ -144,7 +145,7 @@ class TESFurniture : public TESObjectACTI
     static bool IsFurnitureSitMarker(unsigned int auMarker);
     static bool IsFurnitureSleepMarker(unsigned int auMarker);
     void InitializeMarkerFlags();
-    NiPoint3 GetMarkerOffset(unsigned int auMarker, float afScale);
+    NiPoint3 GetMarkerOffset(uintptr_t auMarker, float afScale);
     float GetMarkerRotation(unsigned int auMarker);
 };
 #endif

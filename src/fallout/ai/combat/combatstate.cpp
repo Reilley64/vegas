@@ -1,5 +1,12 @@
 // fallout/ai/combat/combatstate.cpp: CombatState, Host, Holder, NavMeshSearchLOSArray and more (141 functions)
 
+#include "fnv/decl/S_009a7670_P3.h"
+#include "fnv/combat_manager_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/combat_controller_fields.h"
+#include <cstdint>
+#include "fnv/result_slot.h"
+#include "fnv/simple_array_item.h"
 #include <new>
 #include "fnv/decl/ActionOwner.h"
 #include "fnv/decl/ActorAvoidanceDataArray.h"
@@ -260,9 +267,12 @@
 #include "fnv/symbols_011f1000.h"
 #include "fnv/symbols_011f6000.h"
 #include "combatstate_decls.h"
+#include "fnv/decl/FUN_0067fdb0_shell.h"
+#include "fnv/decl/fnv_006f2290__BSSimpleArrayActor.h"
+#include "fnv/decl/fnv_008648a0__FUN_008648a0_t.h"
 // Gets or adds the InventoryChanges for this reference and returns the count of the given object in it, or 0 if none.
 // @fnv 0x00575610
-int CombatState::GetInventoryItemCount(TESForm* object)
+intptr_t CombatState::GetInventoryItemCount(TESForm* object)
 {
     struct
     {
@@ -272,7 +282,7 @@ int CombatState::GetInventoryItemCount(TESForm* object)
     locals.result = 0;
     locals.inventory = ::InventoryChanges::CreateForReference((TESObjectREFR*)this);
     if (locals.inventory)
-        locals.result = reinterpret_cast<::FUN_004c8f30_shell *>((locals.inventory))->FUN_004c8f30((int)(object));
+        locals.result = reinterpret_cast<::FUN_004c8f30_shell *>((locals.inventory))->FUN_004c8f30((intptr_t)(object));
     return locals.result;
 }
 // If los is set and its check passes, calls los->FUN_008be220(this); otherwise calls Clear().
@@ -576,7 +586,7 @@ void FUN_009a3410(GlobalObject_00869f00* this_)
 namespace fnv_009a35f0 {
 struct GlobalObject_00869f00
 {
-    int m_Data;
+    intptr_t m_Data;
     void Clear(bool);
 };
 
@@ -589,7 +599,7 @@ struct FUN_009a35f0_shell : GlobalObject_00869f00
 // @fnv 0x009a35f0
 void FUN_009a35f0_shell::FUN_009a35f0()
 {
-    m_Data = reinterpret_cast<int>(&::DAT_0108e090);
+    m_Data = reinterpret_cast<intptr_t>(&::DAT_0108e090);
     reinterpret_cast<::fnv_008454f0::FUN_008454f0 *>((this))->Clear(true);
 }
 }  // namespace fnv_009a35f0
@@ -1021,11 +1031,11 @@ struct FUN_0097f220_t
 };
 struct FUN_0099a650_shell : CombatState
 {
-    void FUN_0099a650(int a, bool b);
+    void FUN_0099a650(intptr_t a, bool b);
 };
 // If the flag is false, calls FUN_0097f220 on the object at offset 0x214 of this CombatState.
 // @fnv 0x0099a650
-void FUN_0099a650_shell::FUN_0099a650(int aiUnused, bool b)
+void FUN_0099a650_shell::FUN_0099a650(intptr_t aiUnused, bool b)
 {
     if (!b)
         reinterpret_cast<::FUN_0097f220_Class *>((((FUN_0097f220_t*)((char*)this + 0x214))))->FUN_0097f220();
@@ -1193,7 +1203,7 @@ struct FUN_0099b520_shell : MagicCaster
 // @fnv 0x0099b520
 void FUN_0099b520_shell::FUN_0099b520(MagicItem* spell)
 {
-    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((int)(spell));
+    reinterpret_cast<::FUN_0041fd00_shell *>(this)->FUN_0041fd00((intptr_t)(spell));
 }
 
 struct FUN_0099b580_shell
@@ -1237,7 +1247,7 @@ struct ParentSpaceNode
     int b;
     int c;
 };
-template <class T, int N> struct BSSimpleArray
+template <class T, unsigned int N> struct BSSimpleArray
 {
     T& GetAt(int);
 };
@@ -1250,7 +1260,7 @@ bool __cdecl FUN_0099cb00(void* p1, ArrSI* pNodes)
 {
     unsigned int i;
     ParentSpaceNode node;
-    for (i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pNodes))->GetName())); ++i)
+    for (i = 0; i < SimpleArraySize((pNodes)); ++i)
     {
         node = pNodes->GetAt(i);
         if (FUN_0099cc60(p1, &node, 0))
@@ -1267,10 +1277,10 @@ struct CoordinateTriple
 struct FUN_009a0260_s
 {
     void FUN_009a02a0(CoordinateTriple*);
-    void FUN_009a0260(int a, int b, bool c, bool d);
+    void FUN_009a0260(intptr_t a, intptr_t b, bool c, bool d);
 };
 // @fnv 0x009a0260
-void FUN_009a0260_s::FUN_009a0260(int a, int b, bool c, bool d)
+void FUN_009a0260_s::FUN_009a0260(intptr_t a, intptr_t b, bool c, bool d)
 {
     CoordinateTriple loc;
     FUN_009a02a0(((::fnv_009a0260::CoordinateTriple *)(new ((void *)&(loc)) ::FUN_0043a3c0((*(const ::NiPoint3 *)(a)), (::TESForm *)(b)))));
@@ -1484,7 +1494,7 @@ struct FUN_009a1010_Class
 // @fnv 0x009a1010
 void FUN_009a1010_Class::FUN_009a1010()
 {
-    Actor* ptarget = (Actor*)((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)((*(TESAmmoInitCalls**)((char*)this + 0x1c4))))));
+    Actor* ptarget = (Actor*)(reinterpret_cast<CombatControllerFields*>((*(TESAmmoInitCalls**)((char*)this + 0x1c4)))->pActor);
     *(float*)((char*)this + 0xd4) = ptarget->FUN_008be600();
     *(float*)((char*)this + 0xd0) = reinterpret_cast<::fnv_008acbe0::FUN_008acbe0_shell *>((ptarget))->GetModifiedDamagePerSecond(*(float*)((char*)this + 0xd4));
 }
@@ -1803,12 +1813,12 @@ void FUN_009a2f50_shell::FUN_009a2f50(BGSSaveFormBuffer* buffer)
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 48, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((buffer))->FUN_00865e50((char*)this + 52, 4, 0);
     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>((((CombatTargetTimestamp*)((char*)this + 28))))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(buffer));
-    unsigned int flags = ((char*)this + 32) ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 32))))->GetName())) : 0;
+    unsigned int flags = ((char*)this + 32) ? SimpleArraySize((((ArrSI*)((char*)this + 32)))) : 0;
     reinterpret_cast<::BGSSaveGameBuffer *>((buffer))->FUN_00865f60(flags);
     for (unsigned int i = 0; i < flags; ++i)
     {
         void* cover = reinterpret_cast<::FUN_009a3280_shell *>((((FUN_009a3280_shell*)((char*)this + 32))))->FUN_009a3280(i);
-        ((void(*)(void*, BGSSaveFormBuffer*))(*((int**)cover))[0])(cover, buffer);
+        ((void(*)(void*, BGSSaveFormBuffer*))(*((void***)cover))[0])(cover, buffer);
     }
 }
 }  // namespace fnv_009a2f50
@@ -1963,7 +1973,7 @@ struct C99
 {
     char _pad[0x1C4];
     S81* f1C4;
-    void FUN_0099a780(int);
+    void FUN_0099a780(intptr_t);
 };
 namespace fnv_0099a7d0 {
 bool FUN_00981990(void*);
@@ -2064,7 +2074,7 @@ struct Target
 {
     float f[8];
 public:
-    int GetIntAt(unsigned int);
+    intptr_t GetIntAt(unsigned int);
 };
 struct FUN_009a0b00_s
 {
@@ -2386,7 +2396,7 @@ struct FUN_00997c30_shell : FUN_00997cb0_Class
 // @fnv 0x00997c30
 void FUN_00997c30_shell::InitAmmoState()
 {
-    void* local4 = (void*)((void *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)*(void**)((char*)this + 0x1c4))))));
+    void* local4 = (void*)((void *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)*(void**)((char*)this + 0x1c4)))->pActor));
     *(char*)((char*)this + 0x75) = ::FUN_0097f310((::VtableOwner *)(local4), 0);
     EvaluateWeaponScores();
     reinterpret_cast<::FUN_00997cb0_Class *>(this)->FUN_00997cb0();
@@ -2449,8 +2459,8 @@ struct FUN_00999160_struct
 // @fnv 0x00999160
 void FUN_00999160_struct::FUN_00999160()
 {
-    unsigned int count = ((unsigned int)(::GetFieldBC((::FUN_0097ae90_Class *)(field_1C4))));
-    int target = ((int)(reinterpret_cast<::AlchemyItem *>((field_1C4))->FUN_004030b0()));
+    uintptr_t count = reinterpret_cast<uintptr_t>(reinterpret_cast<CombatControllerFields*>(field_1C4)->pActor);
+    intptr_t target = ((intptr_t)(reinterpret_cast<::AlchemyItem *>((field_1C4))->FUN_004030b0()));
     if (target)
     {
         reinterpret_cast<::CombatAssessment::Group *>((((::fnv_00999160::MyClass *)(reinterpret_cast<::EffectSetting *>((field_1C4))->GetCastSound()))))->UpdateTargetPerception((::CombatAssessment::Actor *)(count), (::CombatAssessment::Actor *)(target), &this->unk6c,
@@ -3146,7 +3156,7 @@ void FUN_009a0470_shell::ReleaseStageHolder(bool bParam)
     {
         if (bParam)
         {
-            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry((const void *)(*(int*)(*(char**)((char*)this + 0xe8) + 0x68)));
+            reinterpret_cast<::fnv_009a0d00::FUN_009a0d00_shell *>(this)->StoreEntry((const void *)(*(intptr_t*)(*(char**)((char*)this + 0xe8) + 0x68)));
         }
         if (reinterpret_cast<::FUN_005dc960_shell *>((((StageHolder*)*(void**)((char*)this + 0xe8))))->FUN_005dc960())
         {
@@ -3180,11 +3190,11 @@ struct FUN_009a06c0_struct : FUN_00981340_shell
     char pad0[0x190];
     SL* array_190[1];
 
-    void SetArrayEntry(int arg1, TESObjectREFRHelper* arg2, int arg3);
+    void SetArrayEntry(int arg1, TESObjectREFRHelper* arg2, intptr_t arg3);
 };
 
 // @fnv 0x009a06c0
-void FUN_009a06c0_struct::SetArrayEntry(int aiIndex, TESObjectREFRHelper* apRefr, int aiValue)
+void FUN_009a06c0_struct::SetArrayEntry(int aiIndex, TESObjectREFRHelper* apRefr, intptr_t aiValue)
 {
     reinterpret_cast<::FUN_00981340_shell *>(this)->FreeSlot(aiIndex);
     if (apRefr)
@@ -3239,7 +3249,7 @@ struct FUN_009a0c50_class
     char padC8[0x1c4 - 0xc8];
     FUN_00980070_shell* field_1C4;
 
-    void FUN_009a0910(int);
+    void FUN_009a0910(intptr_t);
     void UpdateModifierState(bool arg_8);
 };
 
@@ -3254,13 +3264,13 @@ void FUN_009a0c50_class::UpdateModifierState(bool arg_8)
             return;
         }
     }
-    float f = reinterpret_cast<::FUN_00507b00Class *>((((::fnv_009a0c50::CameraShotHelper *)(reinterpret_cast<::FUN_00980070_shell *>((field_1C4))->FUN_00980070()))))->GetField4C();
+    float f = reinterpret_cast<::FUN_00507b00Class *>((((::fnv_009a0c50::CameraShotHelper *)(reinterpret_cast<CombatControllerFields*>((field_1C4))->pCombatStyle))))->GetField4C();
     if (f > ::_DAT_01012060)
     {
-        Ref_997440* pRef = (Ref_997440*)((void *)(::GetFieldBC((::FUN_0097ae90_Class *)(field_1C4))));
+        Ref_997440* pRef = (Ref_997440*)((void *)(reinterpret_cast<CombatControllerFields*>(field_1C4)->pActor));
         {
             Local18 localData;
-            FUN_009a0910(((int)(reinterpret_cast<::FUN_00575650_Class *>((pRef))->FUN_00575650((::FUN_00575650_Result *)(void *)(&localData)))));
+            FUN_009a0910(((intptr_t)(reinterpret_cast<::FUN_00575650_Class *>((pRef))->FUN_00575650((::FUN_00575650_Result *)(void *)(&localData)))));
         }
     }
 }
@@ -3292,7 +3302,7 @@ struct FUN_009a0d70_shell
 // @fnv 0x009a0d70
 bool FUN_009a0d70_shell::ContainsItem(void* apItem)
 {
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((((ArrSI*)((char*)this + 0x164))))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize((((ArrSI*)((char*)this + 0x164)))); ++i)
     {
         void* entry = (void*)reinterpret_cast<::FUN_00844160_shell *>((((FUN_00844160_shell*)((char*)this + 0x164))))->FUN_00844160(i);
         if (reinterpret_cast<::FUN_00435e00_t *>((((CTSHelper*)((char*)entry + 4))))->FUN_00435e00() > 10.0)
@@ -3355,8 +3365,8 @@ struct FUN_009a0e10_shell
 // @fnv 0x009a0e10
 void FUN_009a0e10_shell::CollectAvoidanceItems(BSSimpleArray<void*, 1024>* apArray)
 {
-    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((apArray))->FUN_0084b5c0(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(avoidanceData))->GetName())));
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(avoidanceData))->GetName())); ++i)
+    reinterpret_cast<::fnv_0084b5c0::FUN_0084b5c0_Array *>((apArray))->FUN_0084b5c0(SimpleArraySize(&(avoidanceData)));
+    for (unsigned int i = 0; i < SimpleArraySize(&(avoidanceData)); ++i)
     {
         FUN_00844160_entry* entry = ((::fnv_009a0e10::FUN_00844160_entry *)(reinterpret_cast<::FUN_00844160_shell *>(&(avoidanceData))->FUN_00844160(i)));
         if (reinterpret_cast<::FUN_00435e00_t *>(&(entry->timer))->FUN_00435e00() > 10.0)
@@ -3417,7 +3427,7 @@ bool FUN_009a0f40_struct::HasItemWithinRadius(const CoordinateTriple* arWorldLoc
         maxDistSq = afRadius * afRadius;
     }
 
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(array_174))->GetName())); ++i)
+    for (unsigned int i = 0; i < SimpleArraySize(&(array_174)); ++i)
     {
         Item* item = array_174.FUN_006dad90(i);
         if (reinterpret_cast<::FUN_00435e00_t *>(&(item->time))->FUN_00435e00() > 10.0)
@@ -3612,7 +3622,7 @@ bool FUN_009a9630(void* apActor)
     void* pcombatController = (*(void*(**)(void*))(*(char**)apActor + 0x428))(apActor);
     if (pcombatController)
     {
-        weapon = (TESObjectWEAP*)FUN_007031c0((int)pcombatController);
+        weapon = (TESObjectWEAP*)FUN_007031c0((intptr_t)pcombatController);
     }
     else
     {
@@ -3912,7 +3922,7 @@ struct FUN_00999260_shell
 // @fnv 0x00999260
 void FUN_00999260_shell::UpdateCombatFlags()
 {
-    int iActor = ::GetFieldBC((::FUN_0097ae90_Class *)(pController));
+    void* pActor = reinterpret_cast<CombatControllerFields*>(pController)->pActor;
     if (reinterpret_cast<::TimeoutTimer *>(&(timer1e4))->CheckTimer())
     {
         iFlags &= 0xffff00ff;
@@ -3925,7 +3935,7 @@ void FUN_00999260_shell::UpdateCombatFlags()
     if (reinterpret_cast<::TimeoutTimer *>(&(timer1ec))->CheckTimer())
     {
         iFlags &= 0xffffff00;
-        float fValue = ::GetFloatAtOffset1C((char *)(((::ValueSource999260 *)(reinterpret_cast<::FUN_00980070_shell *>((pController))->FUN_00980070()))));
+        float fValue = ::GetFloatAtOffset1C((char *)(((::ValueSource999260 *)(reinterpret_cast<CombatControllerFields*>((pController))->pCombatStyle))));
         if (RandomBoolean(fValue / 100.0))
         {
             iFlags |= 1;
@@ -4074,12 +4084,12 @@ class AA10Menu
     int unk1C0;
     AA10Source* m_pkSource;
 
-    void HandleMenuEvent(int iArg, unsigned int uiEvent);
+    void HandleMenuEvent(intptr_t iArg, unsigned int uiEvent);
 };
 
 // Handles event 15 by forwarding iArg to the source list, and refreshes when the tracked item's ID equals uiEvent.
 // @fnv 0x0099aa10
-void AA10Menu::HandleMenuEvent(int iArg, unsigned int uiEvent)
+void AA10Menu::HandleMenuEvent(intptr_t iArg, unsigned int uiEvent)
 {
     switch (uiEvent)
     {
@@ -4497,12 +4507,12 @@ struct FUN_0099e190_cls
 bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, unsigned int mask2, float dist,
                                             float minDist)
 {
-    MyActor* A9 = ((::MyActor *)(::GetFieldBC((::FUN_0097ae90_Class *)(proc))));
+    MyActor* A9 = ((::MyActor *)(reinterpret_cast<CombatControllerFields*>(proc)->pActor));
     MyRef* ref = ((::MyRef *)(reinterpret_cast<::AlchemyItem *>((proc))->FUN_004030b0()));
     float radius = A9->FUN_008be1b0() + 8.0;
     PosHolder h7;
     reinterpret_cast<::FUN_00575650_Class *>((A9))->FUN_00575650((::FUN_00575650_Result *)(::PosHolder *)(&h7));
-    Vec3 pp = *new ((void *)&(h7)) ::Vec3();
+    Vec3 pp = *((::Vec3 *)(void *)&(h7));
     Vec3 T = *ref->GetPos();
     Picker p4(A9);
     Vec3 D_ = pp - T;
@@ -4536,7 +4546,7 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
             }
             Vec3 target = pp + off * dist;
             Vec3 end = target + off * radius;
-            if (((::Result *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::Mgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->EvaluateThreats() > 0.0)
+            if (((::Result *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::Mgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->EvaluateThreats() > 0.0)
                 continue;
             Picker hit;
             if (!FUN_006d7490(&p4, &end, &hit, 0))
@@ -4571,13 +4581,13 @@ bool FUN_0099e190_cls::SelectAndMoveToPoint(MyMover* mover, unsigned int mask1, 
         return false;
     if (last != -1 && reinterpret_cast<::FUN_00435e00_t *>(&(timer))->FUN_00435e00() < 10.0 && slot[last] != -1)
     {
-        reinterpret_cast<::FUN_0099b8b0_shell *>((mover))->FUN_0099b8b0((int)(&A5[slot[last]]), 0);
+        reinterpret_cast<::FUN_0099b8b0_shell *>((mover))->FUN_0099b8b0((intptr_t)(&A5[slot[last]]), 0);
         return true;
     }
     int aK = ((int)(::FUN_005a00a0(n)));
     last = dirOf[aK];
     timer = FUN_00435dd0();
-    reinterpret_cast<::FUN_0099b8b0_shell *>((mover))->FUN_0099b8b0((int)(&A5[slot[last]]), 0);
+    reinterpret_cast<::FUN_0099b8b0_shell *>((mover))->FUN_0099b8b0((intptr_t)(&A5[slot[last]]), 0);
     return true;
 }
 
@@ -4674,6 +4684,8 @@ class TESForm
     virtual void v0();
 public:
     void ClearData();
+public:
+    virtual void FormSlot();
 };
 
 class ExtraRadioData;
@@ -4693,14 +4705,14 @@ class FUN_009a3220_cls
   public:
     char unk00[4];
     TESObjectREFR* m_04;
-    void FUN_009a3220(int unkArg);
+    void FUN_009a3220(intptr_t unkArg);
 };
 
 // Re-resolves m_04 through FUN_004839c0 and dynamic_cast to TESObjectREFR, or clears it to null when m_04 is null.
 // @fnv 0x009a3220
-void FUN_009a3220_cls::FUN_009a3220(int unkArg)
+void FUN_009a3220_cls::FUN_009a3220(intptr_t unkArg)
 {
-    m_04 = m_04 != 0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_04))) : 0;
+    m_04 = m_04 != 0 ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)(m_04))) : 0;
 }
 
 struct ElementProxy
@@ -4733,7 +4745,7 @@ struct ArrayProxy
     virtual ElementProxy* Allocate(unsigned int);
     ElementProxy* data;
     unsigned int size, capacity;
-    void FUN_009a32a0(unsigned int, bool);
+    void FUN_009a32a0(uintptr_t, bool);
 };
 // Calls FUN_009a32a0 with cnt and 1, then for each of cnt elements calls FUN_009052c0(i, &arr[i]) and FUN_006e4430 on the result.
 // @fnv 0x009a3780
@@ -4747,7 +4759,7 @@ void Host::ProcessElements(Helper* apHelper)
 }
 // Grows, shrinks or clears the array to count elements, reallocating storage when needed and optionally shrinking capacity.
 // @fnv 0x009a32a0
-void ArrayProxy::FUN_009a32a0(unsigned int count, bool shrink)
+void ArrayProxy::FUN_009a32a0(uintptr_t count, bool shrink)
 {
     if (count == 0)
     {
@@ -5215,7 +5227,7 @@ RefS* CombatNodeFinder::FindNearestCombatNode(ActorS* actor, float maxDist, bool
     LocS actorLoc2 = (*(::LocS *)(reinterpret_cast<::FUN_00575650_Class *>((actor))->FUN_00575650({})));
     RefS* bestX = 0;
     float bestDist5 = maxDist * maxDist;
-    for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(nodes))->GetName())); i++)
+    for (unsigned int i = 0; i < SimpleArraySize(&(nodes)); i++)
     {
         NodeS& node5 = nodes.GetAt(i);
         if (!node5.ref || !node5.other)
@@ -5629,7 +5641,7 @@ void CombatUpdate::FUN_00997cf0()
     float oldDangerX;
     void* space_41;
     CombatActor* owner_21;
-    owner_21 = ((::fnv_00997cf0::CombatActor *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
+    owner_21 = ((::fnv_00997cf0::CombatActor *)(reinterpret_cast<CombatControllerFields*>(controller)->pActor));
     {
         target4 = ((::fnv_00997cf0::CombatActor *)(reinterpret_cast<::AlchemyItem *>((controller))->FUN_004030b0()));
         space_41 = ((void *)(reinterpret_cast<::s575ca0::Owner *>((owner_21))->FUN_00575ca0()));
@@ -5719,7 +5731,7 @@ void CombatUpdate::FUN_00997cf0()
                 }
                 else
                 {
-                    aFoundOther = ((::fnv_00997cf0::CombatActor *)(reinterpret_cast<::FUN_0098de00_class *>((((::fnv_00997cf0::CombatMap *)(reinterpret_cast<::EffectSetting *>((controller))->GetCastSound()))))->GetFieldAtOffset16((int)(owner_21))));
+                    aFoundOther = ((::fnv_00997cf0::CombatActor *)(reinterpret_cast<::FUN_0098de00_class *>((((::fnv_00997cf0::CombatMap *)(reinterpret_cast<::EffectSetting *>((controller))->GetCastSound()))))->GetFieldAtOffset16((intptr_t)(owner_21))));
                     if (aFoundOther)
                         reinterpret_cast<::fnv_009a0910::FUN_009a0910_shell *>(this)->FUN_009a0910((::fnv_009a0910::FUN_009a0910_Vector *)(aFoundOther), 2, nearRange, farRange_5);
                     else
@@ -5807,11 +5819,11 @@ void CombatUpdate::FUN_00997cf0()
             }
         }
         oldDangerX = danger;
-        if (!reinterpret_cast<::FUN_009989d0_shell *>((((::fnv_00997cf0::CombatOptions *)(reinterpret_cast<::FUN_00980070_shell *>((controller))->FUN_00980070()))))->FUN_009989d0())
+        if (!reinterpret_cast<::FUN_009989d0_shell *>((((::fnv_00997cf0::CombatOptions *)(reinterpret_cast<CombatControllerFields*>((controller))->pCombatStyle))))->FUN_009989d0())
         {
             if (danger > *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) || (flags & 0x100))
             {
-                danger = ((::fnv_00997cf0::CombatHazard *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::fnv_00997cf0::CombatHazardHolder * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->EvaluateThreats(*owner_21->GetPosition(), owner_21, 0, 0,
+                danger = ((::fnv_00997cf0::CombatHazard *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_00997cf0::CombatHazardHolder * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->EvaluateThreats(*owner_21->GetPosition(), owner_21, 0, 0,
                                                                        hazardData, 0);
                 if (danger >= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))) && oldDangerX < *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_00997cf0::CombatSetting *>(&::originalRuntimeFloatSetting481)))))))
                     reinterpret_cast<::FUN_0097f200_t *>((controller))->FUN_0097f200();
@@ -5974,7 +5986,7 @@ struct UpdateRef
     virtual void slot122();
     virtual void slot123();
     virtual void slot124();
-    virtual int Query(float);
+    virtual intptr_t Query(float);
 };
 struct UpdateController
 {
@@ -6048,7 +6060,7 @@ struct UpdateState
     int unk06c;
     int unk070;
     int unk074;
-    int pending;
+    intptr_t pending;
     int unk07c;
     int unk080;
     int unk084;
@@ -6632,9 +6644,9 @@ struct Manager
 void Manager::EvaluateWeaponScores()
 {
     Profile profile(43, 1, DAT_0108dfb0, 838);
-    Actor* actor = ((::CombatWeapons::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
+    Actor* actor = ((::CombatWeapons::Actor *)(reinterpret_cast<CombatControllerFields*>(controller)->pActor));
     Actor* target = ((::CombatWeapons::Actor *)(reinterpret_cast<::AlchemyItem *>((controller))->FUN_004030b0()));
-    CombatData* dataSlot17 = ((::CombatWeapons::CombatData *)(reinterpret_cast<::FUN_00980070_shell *>((controller))->FUN_00980070()));
+    CombatData* dataSlot17 = ((::CombatWeapons::CombatData *)(reinterpret_cast<CombatControllerFields*>((controller))->pCombatStyle));
     float distance = 0.0f;
     if (target)
     {
@@ -6709,19 +6721,19 @@ void Manager::EvaluateWeaponScores()
     }
     Weapon* forcedSlot30 = 0;
     Entry* equippedSlot10 = ((::CombatWeapons::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Equipped();
-    if (equippedSlot10 && ((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))) && *((::CombatWeapons::Extra **)(new ((void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))) ::Vec3())) &&
-        reinterpret_cast<::FUN_00418b10_shell *>(((*((::CombatWeapons::Extra **)(new ((void *)(((::CombatWeapons::Extras *)(::FUN_00559450((int *)(equippedSlot10)))))) ::Vec3())))))->FUN_00418b10())
-        forcedSlot30 = ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName()));
+    if (equippedSlot10 && ((::CombatWeapons::Extras *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pExtraLists) && *((::CombatWeapons::Extra **)(((::Vec3 *)(void *)(((::CombatWeapons::Extras *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pExtraLists))))) &&
+        reinterpret_cast<::FUN_00418b10_shell *>(((*((::CombatWeapons::Extra **)(((::Vec3 *)(void *)(((::CombatWeapons::Extras *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pExtraLists))))))))->FUN_00418b10())
+        forcedSlot30 = ((::CombatWeapons::Weapon *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pObject);
     if (!forcedSlot30)
     {
         float bestOutsideSlot13 = 0.0f;
         Weapon* outsideWeaponSlot0 = 0;
         float bestInsideSlot33 = 0.0f;
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(scoresSlot20))->GetName())); i++)
+        for (unsigned int i = 0; i < SimpleArraySize(&(scoresSlot20)); i++)
         {
             WeaponScore* scoreSlot25 = &scoresSlot20.FUN_006dad90(i);
             Weapon* weaponSlot32Slot15 = scoreSlot25->weapon;
-            Actor* ownerSlot16 = (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName()))) ? actor : 0;
+            Actor* ownerSlot16 = (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pObject)) ? actor : 0;
             Ammo* ammoSlot1 = ((::CombatWeapons::Ammo *)(reinterpret_cast<::AmmoOwner *>((weaponSlot32Slot15))->FUN_00525980((::AmmoActor *)(ownerSlot16))));
             if (ammoSlot1 && !reinterpret_cast<::FUN_009962f0_s *>(&(ammosSlot1))->f((::NavMesh *const &)(ammoSlot1)))
             {
@@ -6729,14 +6741,14 @@ void Manager::EvaluateWeaponScores()
                 Ammo* alternativeSlot0 = ((::CombatWeapons::Ammo *)(reinterpret_cast<::FUN_004c7300_shell *>((inventorySlot40))->FindInventoryItem((::TESObjectREFR *)(weaponSlot32Slot15), &special)));
                 if (alternativeSlot0 && reinterpret_cast<::FUN_009962f0_s *>(&(ammosSlot1))->f((::NavMesh *const &)(alternativeSlot0)))
                 {
-                    if (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName())))
+                    if (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pObject))
                     {
                         Animation* animation = actor->AnimationData();
                         bool busySlot0 = reinterpret_cast<::fnv_008a8870::HA *>((actor))->FUN_008a8870() || (animation && reinterpret_cast<::FUN_008846c0_shell *>((animation))->FUN_008846c0());
                         if (!busySlot0)
                         {
                             Process* process = ((::CombatWeapons::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()));
-                            int countSlot11 = reinterpret_cast<::FUN_004c8f30_shell *>((inventorySlot40))->FUN_004c8f30((int)(alternativeSlot0));
+                            int countSlot11 = reinterpret_cast<::FUN_004c8f30_shell *>((inventorySlot40))->FUN_004c8f30((intptr_t)(alternativeSlot0));
                             Equip* replacement = new Equip(alternativeSlot0, countSlot11);
                             process->EquipAmmo(replacement);
                             reinterpret_cast<::CombatProcedure *>((process->Ammunition()))->Initialize((::CombatController *)(0));
@@ -6751,16 +6763,16 @@ void Manager::EvaluateWeaponScores()
                     continue;
                 }
             }
-            else if (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName())))
+            else if (equippedSlot10 && weaponSlot32Slot15 == ((::CombatWeapons::Weapon *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pObject))
             {
                 AmmoState* state = ((::CombatWeapons::Process *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor))->GetBaseTexture()))->Ammunition();
                 if (state)
                 {
                     Animation* animation2Slot1 = actor->AnimationData();
-                    Weapon* active = ((::CombatWeapons::Weapon *)(reinterpret_cast<::Twin_0044ddc0 *>((equippedSlot10))->GetName()));
+                    Weapon* active = ((::CombatWeapons::Weapon *)reinterpret_cast<InventoryEntryFields*>(equippedSlot10)->pObject);
                     if (animation2Slot1 && active)
                     {
-                        bool emptySlot0 = state && ((int)(reinterpret_cast<::Callees *>((state))->FUN_00726070())) <= 0 && active && reinterpret_cast<::FUN_00524b60_shell *>((active))->GetByteAt102() > 0;
+                        bool emptySlot0 = state && reinterpret_cast<InventoryEntryFields*>(state)->iCountDelta <= 0 && active && reinterpret_cast<::FUN_00524b60_shell *>((active))->GetByteAt102() > 0;
                         bool busy2Slot10 =
                             reinterpret_cast<::fnv_008a8870::HA *>((actor))->FUN_008a8870() || (animation2Slot1 && reinterpret_cast<::FUN_008846c0_shell *>((animation2Slot1))->FUN_008846c0());
                         if (emptySlot0 && !busy2Slot10)
@@ -6785,7 +6797,7 @@ void Manager::EvaluateWeaponScores()
                 float farRangeSlot1 = 0.0f;
                 FUN_009a9180(controller, weaponSlot32Slot15, nearRange, middleRangeSlot34, farRangeSlot1);
                 scoreSlot25->range = farRangeSlot1;
-                if (((::CombatWeapons::Weapon *)(::FUN_007031c0((int)(controller)))) == weaponSlot32Slot15)
+                if (((::CombatWeapons::Weapon *)(::FUN_007031c0((intptr_t)(controller)))) == weaponSlot32Slot15)
                     farRangeSlot1 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CombatWeapons::Setting *>(&::originalRuntimeFloatSetting395))))));
                 if (distance > farRangeSlot1 * farRangeSlot1)
                 {
@@ -6802,7 +6814,7 @@ void Manager::EvaluateWeaponScores()
         }
         if (bestInsideSlot33 > ::_DAT_01012060)
             outsideWeaponSlot0 = 0;
-        for (unsigned int j = 0; j < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(scoresSlot20))->GetName())); j++)
+        for (unsigned int j = 0; j < SimpleArraySize(&(scoresSlot20)); j++)
         {
             WeaponScore* candidateSlot0 = &scoresSlot20.FUN_006dad90(j);
             Weapon* weapon2Slot11 = candidateSlot0->weapon;
@@ -6849,7 +6861,7 @@ void Manager::EvaluateWeaponScores()
     }
     if (target && bestWeapons[0])
     {
-        int projectile = ((int)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::CombatWeapons::Projectile *)(reinterpret_cast<::Thing *>((bestWeapons[0]))->GetOrFallback((int)(actor))))))));
+        intptr_t projectile = ((intptr_t)(::fnv_004fd3c0::FUN_004fd3c0((::fnv_004fd3c0::TESSaveLoadGame *)(((::CombatWeapons::Projectile *)(reinterpret_cast<::Thing *>((bestWeapons[0]))->GetOrFallback((intptr_t)(actor))))))));
         if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::CombatWeapons::System * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(actor), (::ThreatActor *)(projectile), (const ::ThreatPosition &)(target->Position()), ::DAT_010162c0))
             reinterpret_cast<::TESObjectACTI *>(this)->SetActivateSound((::TESSound *)(projectile));
     }
@@ -6990,7 +7002,7 @@ struct Combat99a420
 };
 // Looks up entry 2, calls f1C4->FUN_00981380() if its value equals a, then calls FUN_0099a420(a, 1).
 // @fnv 0x0099a780
-void C99::FUN_0099a780(int a)
+void C99::FUN_0099a780(intptr_t a)
 {
     int* b = ((int *)(reinterpret_cast<::fnv_0097cfc0::CombatActionStandIn *>(this)->GetActionAtIndex(2)));
     if (b && *b == a)
@@ -7020,7 +7032,7 @@ void Combat99a420::FUN_0099a420(int aTarget, bool bKeep)
     }
     if (track && track->target == aTarget)
         ::FreeAndClearFieldC4((::FUN_009a0a40_shell *)(::Combat99a420 *)(this));
-    if (caster && ((int)(reinterpret_cast<::MagicCaster_shell *>((caster))->FUN_0044edb0())) == aTarget)
+    if (caster && ((intptr_t)(reinterpret_cast<::MagicCaster_shell *>((caster))->FUN_0044edb0())) == aTarget)
         reinterpret_cast<::FUN_009a0680_shell *>(this)->ClearAndDeletePointer();
     if (target == aTarget)
         target = 0;
@@ -7359,7 +7371,7 @@ bool __cdecl FUN_0099cc60(void* pNodeA, ParentSpaceNode* pNodeB, int c)
     ParentSpaceNode s2;
     if ((unsigned char)c == 0)
     {
-        reinterpret_cast<::FUN_00439ef0_class *>((((FUN_00439ef0_cls*)pNodeB)))->FUN_00439ef0((::NiPoint3 *)(::ParentSpaceNode *)(&s2), (*(const ::NiPoint3 *)(((int)(reinterpret_cast<::TaskQueueInterface *>((((FUN_005c3420_cls*)pNodeA)))->QueueActorAnimationTask((*(::NiPoint3 *)(&s1))))))));
+        reinterpret_cast<::FUN_00439ef0_class *>((((FUN_00439ef0_cls*)pNodeB)))->FUN_00439ef0((::NiPoint3 *)(::ParentSpaceNode *)(&s2), (*(const ::NiPoint3 *)&ResultSlot(reinterpret_cast<::TaskQueueInterface *>((((FUN_005c3420_cls*)pNodeA)))->QueueActorAnimationTask((*(::NiPoint3 *)(&s1))))));
         if (((double)(reinterpret_cast<::TESCombatStyle *>((((FUN_004a7290_cls*)&s2)))->UpdateCombatStyle())) > DAT_0108d658)
         {
             return false;
@@ -7376,9 +7388,6 @@ struct NiPoint3Ex : NiPoint3
 {
     NiPoint3Ex operator-(const NiPoint3& kPt) const;
 };
-namespace std {
-float abs(float);
-}
 struct FUN_0099ccd0_Actor
 {
     virtual void Unk_00();
@@ -7577,7 +7586,7 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
                                 void* first, void* second, int mode, ActorC* actor, ActorC* reference, float nearRange,
                                 float farRange, int* piReason, float* pfDistance, bool force)
 {
-    ActorC* actor13 = ((::ActorC *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
+    ActorC* actor13 = ((::ActorC *)(reinterpret_cast<CombatControllerFields*>(controller)->pActor));
     float range4 = ::DAT_01032adc;
     if (((bool)(reinterpret_cast<::FUN_00982be0_cls *>((segment))->FUN_00982be0())) && !force && !segment->b4f && !segment->b50)
     {
@@ -7624,14 +7633,14 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
             else
                 continue;
         }
-        if (!reinterpret_cast<::FUN_009835d0_cls *>((((::ControllerC *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->TryUseCoverItem((unsigned int)(first), (unsigned int)(segment), (unsigned int)(controller), radius, options, force, alternate4))
+        if (!reinterpret_cast<::FUN_009835d0_cls *>((((::ControllerC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->TryUseCoverItem((uintptr_t)(first), (uintptr_t)(segment), (uintptr_t)(controller), radius, options, force, alternate4))
         {
             failure5 = 9;
             continue;
         }
         PointC fStartB;
         PointC kEnd4;
-        ::fnv_009a93a0::FUN_009a93a0((::fnv_009a93a0::TESAmmoInitCalls *)(controller), (int)(segment), (int)(options), (int)(&fStartB), (int)(&kEnd4));
+        ::fnv_009a93a0::FUN_009a93a0((::fnv_009a93a0::TESAmmoInitCalls *)(controller), (intptr_t)(segment), (intptr_t)(options), (intptr_t)(&fStartB), (intptr_t)(&kEnd4));
         if (reinterpret_cast<::FUN_006e4820_class *>((segment))->FUN_006e4820() && reference && !reinterpret_cast<::Combat99 *>(this)->FUN_0099cec0((::Seg99 *)(segment), (::Pt3 *)(::PointC *)(&fStartB), (::Pt3 *)(target), (::TESObjectREFR *)(reference)))
         {
             failure5 = 6;
@@ -7669,8 +7678,8 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
             continue;
         }
         InfoC pInfo5;
-        reinterpret_cast<::StandIn_00989010 *>(&(pInfo5))->SetTripleAndValue((::ThreeInts_00989010 *)(::PointC *)(&fStartB), (int)(((void *)(reinterpret_cast<::s575ca0::Owner *>((actor))->FUN_00575ca0()))));
-        if (((int)(reinterpret_cast<::B989700List *>((((::QueryC *)(reinterpret_cast<::EffectSetting *>((controller))->GetCastSound()))))->FindRefInRadius((::B9897F0Point *)(::InfoC *)(&pInfo5), range4, 0))))
+        reinterpret_cast<::StandIn_00989010 *>(&(pInfo5))->SetTripleAndValue((::ThreeInts_00989010 *)(::PointC *)(&fStartB), (intptr_t)(((void *)(reinterpret_cast<::s575ca0::Owner *>((actor))->FUN_00575ca0()))));
+        if (((intptr_t)(reinterpret_cast<::B989700List *>((((::QueryC *)(reinterpret_cast<::EffectSetting *>((controller))->GetCastSound()))))->FindRefInRadius((::B9897F0Point *)(::InfoC *)(&pInfo5), range4, 0))))
         {
             failure5 = 10;
             continue;
@@ -7680,14 +7689,14 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
             PointC delta4 = *actor->Position() - fStartB;
             travelTime8 = reinterpret_cast<::NiPoint3 *>((void *)&(delta4))->ComputeMagnitude() / reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((actor))->FUN_008a0b10();
         }
-        if (((::HazardC *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->Evaluate(fStartB, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
+        if (((::HazardC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->Evaluate(fStartB, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
         {
             failure5 = 11;
             continue;
         }
         if (_aim)
         {
-            if (((::HazardC *)(reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_00825c00()))->Evaluate(kEnd4, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
+            if (((::HazardC *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::WorldC * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pThreatMap))->Evaluate(kEnd4, actor, travelTime8, 0.0f, TimeC(0.0f), 0.0f) > 0.0)
             {
                 failure5 = 12;
                 continue;
@@ -7717,7 +7726,7 @@ bool SearchC::FindPathCandidate(SegmentC* segment, DestinationC* destination, Op
                 continue;
             }
         }
-        reinterpret_cast<::FUN_0099b8b0_shell *>((destination))->FUN_0099b8b0((int)(&fStartB), 0);
+        reinterpret_cast<::FUN_0099b8b0_shell *>((destination))->FUN_0099b8b0((intptr_t)(&fStartB), 0);
         return true;
     }
     if (prevA > failure5)
@@ -7793,7 +7802,7 @@ struct FUN_0099d310_shell : C99
 // @fnv 0x0099d310
 void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
 {
-    MobileObject* actor = ((::MobileObject *)(::GetFieldBC((::FUN_0097ae90_Class *)(((TESAmmoInitCalls*)f1C4)))));
+    MobileObject* actor = ((::MobileObject *)(reinterpret_cast<CombatControllerFields*>(((TESAmmoInitCalls*)f1C4))->pActor));
     void* item = ((AlchemyItem*)f1C4)->FUN_004030b0();
     reinterpret_cast<::FUN_00507610_Class *>((param))->FUN_00507610(((FUN_0099d310_actor_calls*)actor)->FUN_008be1b0());
     reinterpret_cast<::FUN_006e5ee0_Class *>((param))->FUN_006e5ee0(reinterpret_cast<::fnv_008a0b10::FUN_008a0b10_shell *>((((FUN_0099d310_actor_calls*)actor)))->FUN_008a0b10());
@@ -7802,17 +7811,17 @@ void FUN_0099d310_shell::FUN_0099d310(FUN_0099d310_arg* param)
     {
         reinterpret_cast<::FUN_006e4320_Class *>((param))->FUN_006e4320(reinterpret_cast<::FUN_00453700_shell *>((((FUN_0099d310_field_calls*)f1C4)))->FUN_00453700());
     }
-    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(unsigned int**)((char*)actor + 0xa4))[2])(
+    reinterpret_cast<::FUN_005076c0Class *>((param))->FUN_005076c0((float)((int(*)(void*, unsigned int))(*(void***)((char*)actor + 0xa4))[2])(
         (char*)actor + 0xa4, 0x10));
     if (item != 0)
     {
         if (FUN_0097ee90() && (unsigned char)_pad[0x74] == 0)
         {
-            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*(const ::NiPoint3 *)(((int(*)(void*))(*(unsigned int**)item)[0x1f4 / 4])(item))));
+            reinterpret_cast<::FUN_006e4f10_class *>((param))->FUN_006e4f10((*((const ::NiPoint3 *(*)(void*))(*(void***)item)[0x1f4 / 4])(item)));
         }
-        reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((int)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
+        reinterpret_cast<::fnv_0099cb70::FUN_0099cb70_struct *>(this)->CollectCastSoundPositions((::fnv_0099cb70::Arr_006cee30 *)(((intptr_t)(reinterpret_cast<::FUN_006e4fb0_shell *>((param))->GetOffsetF4()))));
     }
-    reinterpret_cast<::fnv_009a0e10::FUN_009a0e10_shell *>(this)->CollectAvoidanceItems((::fnv_009a0e10::BSSimpleArray<void *, 1024> *)(((int)(reinterpret_cast<::FUN_006e4f90_shell *>((param))->FUN_006e4f90()))));
+    reinterpret_cast<::fnv_009a0e10::FUN_009a0e10_shell *>(this)->CollectAvoidanceItems((::fnv_009a0e10::BSSimpleArray<void *, 1024> *)(((intptr_t)(reinterpret_cast<::FUN_006e4f90_shell *>((param))->FUN_006e4f90()))));
     if (*((void**)&_pad[0xe4]) != 0 && *((unsigned char*)*((void**)&_pad[0xe4]) + 1) != 0)
     {
         reinterpret_cast<::FUN_00438690 *>((((::FUN_0099d310_window *)(reinterpret_cast<::FUN_006e4f90_shell *>((param))->FUN_006e4f90()))))->FUN_007cb2e0({});
@@ -7853,7 +7862,7 @@ struct FUN_006d3150
     int unk0c;
     int unk10;
     Sub14 sub14;
-    int unk68;
+    intptr_t unk68;
     int unk6c;
     int unk70;
     int unk74;
@@ -7954,12 +7963,12 @@ struct CombatDecompClass : FUN_0099a9a0_shell
     int unk128;
 
     bool FUN_0099d030(void* p1, FUN_006d3150* p2, LocalData2C* p3, int p4, int p5, float p6, int p7);
-    bool InitSubObject(RetObjParam* a1, int a2, int a3, float a4, int a5);
+    bool InitSubObject(RetObjParam* a1, intptr_t a2, int a3, float a4, intptr_t a5);
 };
 
 // Resets the object, allocates a FUN_006d3150, initialises local data and calls FUN_0099d030; on success stores two sub14 values and passes sub14 to a1.
 // @fnv 0x0099e060
-bool CombatDecompClass::InitSubObject(RetObjParam* pRetObj, int a2, int a3, float a4, int a5)
+bool CombatDecompClass::InitSubObject(RetObjParam* pRetObj, intptr_t a2, int a3, float a4, intptr_t a5)
 {
     reinterpret_cast<::fnv_009a0470::FUN_009a0470_shell *>((this))->ReleaseStageHolder(0);
     this->unkE8 = new FUN_006d3150();
@@ -7970,7 +7979,7 @@ bool CombatDecompClass::InitSubObject(RetObjParam* pRetObj, int a2, int a3, floa
         reinterpret_cast<::fnv_009a0470::FUN_009a0470_shell *>((this))->ReleaseStageHolder(0);
         return false;
     }
-    this->unkE8->unk68 = ((int)(reinterpret_cast<::S_006e4570 *>(&(this->unkE8->sub14))->FUN_006e4570()));
+    this->unkE8->unk68 = ((intptr_t)(reinterpret_cast<::S_006e4570 *>(&(this->unkE8->sub14))->FUN_006e4570()));
     this->unkE8->unk6c = reinterpret_cast<::S_006e4740 *>(&(this->unkE8->sub14))->FUN_006e4740();
     reinterpret_cast<::FUN_006e4430_class *>((pRetObj))->operator=((*(const ::FUN_006e4430_class *)(&this->unkE8->sub14)));
     return true;
@@ -8400,7 +8409,7 @@ struct WeaponSearch
 // @fnv 0x0099f6d0
 bool WeaponSearch::SelectBestWeaponTarget()
 {
-    PickActor* aC1 = ((::PickActor *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
+    PickActor* aC1 = ((::PickActor *)(reinterpret_cast<CombatControllerFields*>(controller)->pActor));
     PickRef* aFB = ((::PickRef *)(reinterpret_cast<::AlchemyItem *>((controller))->FUN_004030b0()));
     if (!((bool)(reinterpret_cast<::FUN_009a0240_shell *>((controller))->GetFixedNormals())))
         return false;
@@ -8409,13 +8418,13 @@ bool WeaponSearch::SelectBestWeaponTarget()
     if (aC1->IsCreature())
     {
         PickBase* aPC = ((::PickBase *)(reinterpret_cast<::Actor *>((aC1))->GetActorBase()));
-        PickWeapon* aXi = ((::PickWeapon *)(::GetField158((int)(aPC))));
+        PickWeapon* aXi = ((::PickWeapon *)(::GetField158((intptr_t)(aPC))));
         if (!aXi)
             return false;
     }
     PickPtr* aId = ((::PickProc *)(reinterpret_cast<::BSShaderNoLightingProperty *>((aC1))->GetBaseTexture()))->GetActive();
-    if (aId && ((::PickWrap *)(::FUN_00559450((int *)(aId)))) && ((::PickWrap *)(new ((void *)(((::PickWrap *)(::FUN_00559450((int *)(aId)))))) ::Vec3()))->node &&
-        reinterpret_cast<::FUN_00418b10_shell *>((((::PickWrap *)(new ((void *)(((::PickWrap *)(::FUN_00559450((int *)(aId)))))) ::Vec3()))->node))->FUN_00418b10())
+    if (aId && ((::PickWrap *)(::FUN_00559450((int *)(aId)))) && ((::PickWrap *)(((::Vec3 *)(void *)(((::PickWrap *)(::FUN_00559450((int *)(aId))))))))->node &&
+        reinterpret_cast<::FUN_00418b10_shell *>((((::PickWrap *)(((::Vec3 *)(void *)(((::PickWrap *)(::FUN_00559450((int *)(aId))))))))->node))->FUN_00418b10())
         return false;
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::PickGlobal *>(&::g_011f1a60))))->ClearData();
     PickLoc aI4 = (*(::PickLoc *)(reinterpret_cast<::FUN_00575650_Class *>((aC1))->FUN_00575650({})));
@@ -8423,7 +8432,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
     PickWeapon* aB8 = 0;
     PickRef* aB4 = 0;
     void* aCb = 0;
-    PickWeapon* aFg = ((::PickWeapon *)(::FUN_007031c0((int)(controller))));
+    PickWeapon* aFg = ((::PickWeapon *)(::FUN_007031c0((intptr_t)(controller))));
     bool aC2 = reinterpret_cast<::FUN_0097fd40_shell *>(this)->FUN_0097fd40();
     float aRt = aC2 ? unk05c : unk058;
     float aKB = aRt * (1.0f + *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting362)))))));
@@ -8484,7 +8493,7 @@ bool WeaponSearch::SelectBestWeaponTarget()
         float ap9 = 1.0f;
         if (cbX != -1.0)
             ap9 = cbX / ::TESHealthForm::GetBaseHealth((::TESForm *)(aRy));
-        float ch3 = ::ComputeWeaponDamage((::CombatActorForm *)(aC1), (::DamageWeapon *)(aRy), ap9, (::DamageAmmo *)(reinterpret_cast<::FUN_00980070_shell *>((controller))->FUN_00980070()), (void *)(0), (void *)(0));
+        float ch3 = ::ComputeWeaponDamage((::CombatActorForm *)(aC1), (::DamageWeapon *)(aRy), ap9, (::DamageAmmo *)(reinterpret_cast<CombatControllerFields*>((controller))->pCombatStyle), (void *)(0), (void *)(0));
         if (::FUN_006450c0((::TESObjectWEAP *)(aRy)))
             ch3 *= *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::PickSetting *>(&::originalRuntimeFloatSetting373))))));
         if (ch3 <= aKB)
@@ -8583,8 +8592,8 @@ bool WeaponSearch::SelectBestWeaponTarget()
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::PickGlobal *>(&::g_011f1a60))))->ClearData();
     if (aCr)
     {
-        reinterpret_cast<::fnv_009a06c0::FUN_009a06c0_struct *>(this)->SetArrayEntry(3, (::fnv_009a06c0::TESObjectREFRHelper *)(aB4), (int)(aCb));
-        reinterpret_cast<::fnv_009a06c0::FUN_009a06c0_struct *>(this)->SetArrayEntry(4, (::fnv_009a06c0::TESObjectREFRHelper *)(aCr), (int)(aB8));
+        reinterpret_cast<::fnv_009a06c0::FUN_009a06c0_struct *>(this)->SetArrayEntry(3, (::fnv_009a06c0::TESObjectREFRHelper *)(aB4), (intptr_t)(aCb));
+        reinterpret_cast<::fnv_009a06c0::FUN_009a06c0_struct *>(this)->SetArrayEntry(4, (::fnv_009a06c0::TESObjectREFRHelper *)(aCr), (intptr_t)(aB8));
         return true;
     }
     return false;
@@ -8801,7 +8810,7 @@ struct CS_State
 // @fnv 0x00997cb0
 void FUN_00997cb0_Class::FUN_00997cb0()
 {
-    if (((::MobileObject *)(::GetFieldBC((::FUN_0097ae90_Class *)((*reinterpret_cast<TESAmmoInitCalls**>(reinterpret_cast<char*>(this) + 0x1c4))))))
+    if (((::MobileObject *)(reinterpret_cast<CombatControllerFields*>((*reinterpret_cast<TESAmmoInitCalls**>(reinterpret_cast<char*>(this) + 0x1c4)))->pActor))
             ->GetCurrentProcessLevel() == 0)
     {
         FUN_00997cf0();
@@ -8815,10 +8824,10 @@ void FUN_00997cb0_Class::FUN_00997cb0()
 // @fnv 0x00998a50
 void UpdateState::FUN_00998a50()
 {
-    UpdateActor* count = ((::UpdateActor *)(::GetFieldBC((::FUN_0097ae90_Class *)(controller))));
+    UpdateActor* count = ((::UpdateActor *)(reinterpret_cast<CombatControllerFields*>(controller)->pActor));
     UpdateRef* ref = ((::UpdateRef *)(reinterpret_cast<::AlchemyItem *>((controller))->FUN_004030b0()));
     {
-        int actor = ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName()));
+        int actor = SimpleArraySize(&(targets));
         if (actor > 1)
         {
             unsigned char flag = ((unsigned char)(reinterpret_cast<::FUN_00981970_shell *>((controller))->FUN_00981970()));
@@ -8833,9 +8842,9 @@ void UpdateState::FUN_00998a50()
                     if (randomize && target)
                     {
                         int remaining = GetRandomNumberInRange(0, actor - 1);
-                        for (unsigned index = 0; index < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(targets))->GetName())); ++index)
+                        for (unsigned index = 0; index < SimpleArraySize(&(targets)); ++index)
                         {
-                            int entry = ((int)(reinterpret_cast<::S3e60 *>(&(targets))->FUN_006a7ad0(index)));
+                            int entry = (SimpleArrayItem<int>(&(targets), index));
                             if (entry == target)
                                 continue;
                             if (remaining == 0)
@@ -8849,7 +8858,7 @@ void UpdateState::FUN_00998a50()
                     else
                     {
                         int choice = GetRandomNumberInRange(0, actor);
-                        selected = ((int)(reinterpret_cast<::S3e60 *>(&(targets))->FUN_006a7ad0(choice)));
+                        selected = (SimpleArrayItem<int>(&(targets), choice));
                     }
                     if (selected != target)
                     {
@@ -8961,7 +8970,7 @@ void UpdateState::FUN_00998a50()
 // @fnv 0x009a1060
 void CS_State::UpdateRangeValue()
 {
-    CS_Actor* pActor2 = ((::CS_Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(pOwner))));
+    CS_Actor* pActor2 = ((::CS_Actor *)(reinterpret_cast<CombatControllerFields*>(pOwner)->pActor));
     if (ucD8 != 1)
     {
         fImpulseRadiusSquared = 100.0f;
@@ -8975,7 +8984,7 @@ void CS_State::UpdateRangeValue()
                 if (fA4 >= ::_DAT_01012060 && fDivA4 > ::_DAT_01012060)
                 {
                     fImpulseRadiusSquared = fA4 / fDivA4;
-                    if (fImpulseRadiusSquared > ::_DAT_01012060 && reinterpret_cast<::CombatFlagHolder *>((((::CS_Flags *)(reinterpret_cast<::FUN_00980070_shell *>((pOwner))->FUN_00980070()))))->FUN_009a1240())
+                    if (fImpulseRadiusSquared > ::_DAT_01012060 && reinterpret_cast<::CombatFlagHolder *>((((::CS_Flags *)(reinterpret_cast<CombatControllerFields*>((pOwner))->pCombatStyle))))->FUN_009a1240())
                     {
                         float _fB = reinterpret_cast<::GroupScore *>((pItem5))->GetAverageScore((::GroupActor *)(pActor2));
                         float fDivB5 = reinterpret_cast<::FUN_004536e0_Class *>((pItem5))->GetFieldCC();
@@ -8992,7 +9001,7 @@ void CS_State::UpdateRangeValue()
                 }
                 if (ucD8 == 2 && ucC9 < 4)
                 {
-                    if (((int)(reinterpret_cast<::B989700List *>((pItem5))->FindRefInRadius((::B9897F0Point *)&(const ::CS_Loc16 &)(pActor2->GetLocation(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CS_Setting *>(&::originalRuntimeFloatSetting439)))))))), 1, {}))))
+                    if (((intptr_t)(reinterpret_cast<::B989700List *>((pItem5))->FindRefInRadius((::B9897F0Point *)&(const ::CS_Loc16 &)(pActor2->GetLocation(*((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::CS_Setting *>(&::originalRuntimeFloatSetting439)))))))), 1, {}))))
                     {
                         reinterpret_cast<::fnv_009a1280::CombatLogic *>(this)->FUN_009a1280(1);
                     }
@@ -9153,11 +9162,11 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     for (unsigned i = 0; i < 6; i++)
         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(references[i]), 0);
     {
-        unsigned count = &list24 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list24))->GetName())) : 0;
+        unsigned count = &list24 ? SimpleArraySize(&(list24)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(count);
         for (unsigned j = 0; j < count; j++)
         {
-            void** item = ((void **)(reinterpret_cast<::S3e60 *>(&(list24))->FUN_006a7ad0(j)));
+            void** item = (SimpleArrayItem<void **>(&(list24), j));
             reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((pSaveBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(*item), 0);
         }
     }
@@ -9190,7 +9199,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     reinterpret_cast<::FUN_00865e50_shell *>((pSaveBuffer))->FUN_00865e50(&fd4, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pSaveBuffer))->FUN_00865e50(&f08, 4, 0);
     reinterpret_cast<::FUN_00865e50_shell *>((pSaveBuffer))->FUN_00865e50(&fd8, 1, 0);
-    reinterpret_cast<::FUN_00865db0_shell *>((pSaveBuffer))->FUN_00865db0((unsigned int)(referencedc), 0);
+    reinterpret_cast<::FUN_00865db0_shell *>((pSaveBuffer))->FUN_00865db0((uintptr_t)(referencedc), 0);
     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>(&(s94))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(pSaveBuffer));
     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>(&(s98))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(pSaveBuffer));
     reinterpret_cast<::fnv_009a5f90::FUN_009a5f90_shell *>(&(s9c))->SaveTimeStamp((::fnv_009a5f90::BGSSaveFormBuffer *)(pSaveBuffer));
@@ -9228,7 +9237,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
     if (reinterpret_cast<::CombatTargetTimestamp *>(&(location2.range))->FUN_006a7f50() != -DAT_0108df70)
         reinterpret_cast<::fnv_009a2f50::FUN_009a2f50_shell *>(&(location2))->FUN_009a2f50((::fnv_009a2f50::BGSSaveFormBuffer *)(pSaveBuffer));
     {
-        unsigned uiList164Count = &list164 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list164))->GetName())) : 0;
+        unsigned uiList164Count = &list164 ? SimpleArraySize(&(list164)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(uiList164Count);
         for (unsigned uiList164Index = 0; uiList164Index < uiList164Count; uiList164Index++)
         {
@@ -9237,7 +9246,7 @@ void Owner435::SaveToStream(Save435* pSaveBuffer)
         }
     }
     {
-        unsigned uiList174Count = &list174 ? ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(list174))->GetName())) : 0;
+        unsigned uiList174Count = &list174 ? SimpleArraySize(&(list174)) : 0;
         reinterpret_cast<::BGSSaveGameBuffer *>((pSaveBuffer))->FUN_00865f60(uiList174Count);
         for (unsigned m = 0; m < uiList174Count; m++)
         {
@@ -9302,7 +9311,7 @@ class Holder9A2
 // @fnv 0x009a2cc0
 void Holder9A2::ResolveRef(TESFile9A2* pkFile)
 {
-    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(m_pkRef))) : 0;
+    m_pkRef = m_pkRef ? dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(uintptr_t)(m_pkRef))) : 0;
 }
 
 namespace fnv_0099b5a0 {
@@ -9349,7 +9358,6 @@ struct A1_99
 
 
 void __cdecl FUN_009a8050(Vec3*, void*);
-bool __cdecl FUN_009a7670(void*, void*, Ammo99*, Vec3, P3, Vec3, char*, P3*, float);
 
 struct FUN_0099b5a0_holder
 {
@@ -9366,13 +9374,13 @@ struct FUN_0099b5a0_holder
 // @fnv 0x0099b5a0
 bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
 {
-    if (!apWeapon || !((void *)(reinterpret_cast<::Thing *>((apWeapon))->GetOrFallback((int)(((void *)(::GetFieldBC((::FUN_0097ae90_Class *)(p1c4)))))))))
+    if (!apWeapon || !((void *)(reinterpret_cast<::Thing *>((apWeapon))->GetOrFallback(reinterpret_cast<std::intptr_t>(reinterpret_cast<CombatControllerFields*>(p1c4)->pActor)))))
         return false;
-    Mob99* mobj3 = (Mob99*)((void *)(::GetFieldBC((::FUN_0097ae90_Class *)(p1c4))));
+    Mob99* mobj3 = (Mob99*)((void *)(reinterpret_cast<CombatControllerFields*>(p1c4)->pActor));
     Spell99* spellB = (Spell99*)reinterpret_cast<::AlchemyItem *>((p1c4))->FUN_004030b0();
     if (!spellB)
         return false;
-    Ammo99* ammoA = (Ammo99*)((void *)(reinterpret_cast<::Thing *>((apWeapon))->GetOrFallback((int)(mobj3))));
+    Ammo99* ammoA = (Ammo99*)((void *)(reinterpret_cast<::Thing *>((apWeapon))->GetOrFallback((intptr_t)(mobj3))));
     float f6 = ::FUN_009a7f00((::FUN_009a7f00_obj *)(ammoA), 0.0f);
     Vec3 posVal;
     FUN_009a8050(&posVal, mobj3);
@@ -9388,7 +9396,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 continue;
             if (((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(&(s2))->FUN_0084e3a0())) != ((void *)(reinterpret_cast<::s575ca0::Owner *>((mobj3))->FUN_00575ca0())))
                 continue;
-            v9 = *((::fnv_0099b5a0::P3 *)(new ((void *)&(s2)) ::Vec3()));
+            v9 = *((::fnv_0099b5a0::P3 *)(((::Vec3 *)(void *)&(s2))));
         }
         else
         {
@@ -9411,7 +9419,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 continue;
         }
         P3 tB;
-        if (FUN_009a7670(mobj3, spellB, ammoA, posVal, v9, (*reinterpret_cast<::fnv_0099b5a0::Vec3 *>((void *)&::NiPoint3::ZERO)), acArg, &tB, -1.0f))
+        if (::FUN_009a7670(mobj3, spellB, (::FUN_009a7f00_obj *)(ammoA), *reinterpret_cast<::S_009a7670_P3 *>(&posVal), *reinterpret_cast<::S_009a7670_P3 *>(&v9), *reinterpret_cast<const ::S_009a7670_P3 *>(&::NiPoint3::ZERO), (unsigned char *)(acArg), reinterpret_cast<::S_009a7670_P3 *>(&tB), -1.0f))
         {
             if (snd2)
             {
@@ -9419,7 +9427,7 @@ bool FUN_0099b5a0_holder::FUN_0099b5a0(A1_99* a1, char* acArg, Weap99* apWeapon)
                 if (!reinterpret_cast<::ThreatManager *>(((*reinterpret_cast<::fnv_0099b5a0::SndMgr99 * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->IsThreatWithinLimits((::ThreatActor *)(mobj3), (::ThreatActor *)(snd2), (*(const ::ThreatPosition *)((Vec3*)&v9)), r))
                     continue;
             }
-            reinterpret_cast<::FUN_0099b8b0_shell *>((a1))->FUN_0099b8b0((int)((Vec3*)&v9), 0);
+            reinterpret_cast<::FUN_0099b8b0_shell *>((a1))->FUN_0099b8b0((intptr_t)((Vec3*)&v9), 0);
             return true;
         }
     }
@@ -9673,7 +9681,7 @@ struct QState
     QPoint pos;
     QLocSlot slot;
     char pad18[0x50];
-    int key;
+    intptr_t key;
     unsigned int timeStamp;
     QSearchFlags flags;
     void SetDirty(int);
@@ -9708,17 +9716,17 @@ struct FUN_0099b8e0_cls
     char pad1c8[0x34];
     QCoverMgr coverMgr;
 
-    bool FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int type);
+    bool FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t a4, int type);
 };
 
 // @fnv 0x0099b8e0
-bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int aiSearchType)
+bool FUN_0099b8e0_cls::FUN_0099b8e0(intptr_t a1, QOut* out, QState* st, intptr_t a4, int aiSearchType)
 {
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_0099b8e0::QLock *>(&::g_011f1a61))))->ClearData();
     float kMinHeight = ::DAT_010231a0;
     float dist7 = ::g_011c7b14_arg1;
     const int fMax2 = 200;
-    QRef* self2 = ((::fnv_0099b8e0::QRef *)(::GetFieldBC((::FUN_0097ae90_Class *)(ctrl))));
+    QRef* self2 = ((::fnv_0099b8e0::QRef *)(reinterpret_cast<CombatControllerFields*>(ctrl)->pActor));
     QRef* target = ((::fnv_0099b8e0::QRef *)(reinterpret_cast<::AlchemyItem *>((ctrl))->FUN_004030b0()));
     if (!target)
     {
@@ -9761,7 +9769,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int a
         flagC = true;
         break;
     case 2:
-        dist7 = reinterpret_cast<::BSMultiBoundSphere *>((((::fnv_0099b8e0::QWeapon *)(reinterpret_cast<::FUN_00980070_shell *>((ctrl))->FUN_00980070()))))->GetRadius();
+        dist7 = reinterpret_cast<::BSMultiBoundSphere *>((((::fnv_0099b8e0::QWeapon *)(reinterpret_cast<CombatControllerFields*>((ctrl))->pCombatStyle))))->GetRadius();
         break;
     }
     int aUres = 0;
@@ -9794,7 +9802,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int a
     QPoint pos2;
     if (this->target && (this->target->type == 1 || this->target->type == 2))
     {
-        pos2 = (*(::fnv_0099b8e0::QPoint *)(new ((void *)&(this->target->loc)) ::Vec3()));
+        pos2 = (*(::fnv_0099b8e0::QPoint *)(((::Vec3 *)(void *)&(this->target->loc))));
         dist7 = reinterpret_cast<::FUN_009a0b00_s *>(this)->FUN_009a0b00();
     }
     else
@@ -9845,13 +9853,13 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int a
     reinterpret_cast<::NavMeshSearchLOSArray *>(&(out->locs))->FUN_006dbde0(false);
     if (((int)(::FindNearbyTriangles((::GeometrySource *)(::fnv_0099b8e0::QBuilder *)(&builder2), (::OutputList *)(::fnv_0099b8e0::QLocArray *)(&out->locs)))))
     {
-        reinterpret_cast<::FUN_0099c210_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->LockCombatTargetMap();
-        for (unsigned int i = 0; i < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>(&(out->locs))->GetName())); i++)
+        reinterpret_cast<::FUN_0099c210_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->LockCombatTargetMap();
+        for (unsigned int i = 0; i < SimpleArraySize(&(out->locs)); i++)
         {
             QLocElem* elem = ((::fnv_0099b8e0::QLocElem *)(reinterpret_cast<::FUN_009052c0_shell *>(&(out->locs))->FUN_009052c0(i)));
             int _resC = 0;
             float score8 = 0.0f;
-            int id = ((int)(reinterpret_cast<::S_006e4570 *>((elem))->FUN_006e4570()));
+            intptr_t id = ((intptr_t)(reinterpret_cast<::S_006e4570 *>((elem))->FUN_006e4570()));
             if (id != st->key)
             {
                 unsigned int ts = ((unsigned int)(reinterpret_cast<::S_006e4740 *>((elem))->FUN_006e4740()));
@@ -9885,7 +9893,7 @@ bool FUN_0099b8e0_cls::FUN_0099b8e0(int a1, QOut* out, QState* st, int a4, int a
                 elem->state = aUres;
             }
         }
-        reinterpret_cast<::FUN_00995890_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0()))))->FUN_00995890();
+        reinterpret_cast<::FUN_00995890_shell *>((((::fnv_0099b8e0::QLockable *)(reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099b8e0::QMgr * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap))))->FUN_00995890();
     }
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_0099b8e0::QLock *>(&::g_011f1a61))))->ClearData();
     return false;
@@ -10214,7 +10222,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
     if (pkRequest->m_pkTarget && pkRequest->m_pkTarget->IsAlive())
     {
         Actor9f48* pkTarget = pkRequest->m_pkTarget;
-        if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>((pkGroupList))->FUN_00986a80((int)(pkTarget)))))
+        if (((bool)(reinterpret_cast<::FUN_00986a80_shell *>((pkGroupList))->FUN_00986a80((intptr_t)(pkTarget)))))
         {
             Process9f48* pkProcess = pkTarget->GetProcess();
             if (pkProcess && reinterpret_cast<::fnv_00998980::FUN_00998980_shell *>((((::Tile9f48 *)(reinterpret_cast<::InterfaceManager *>((pkProcess))->FUN_00586150()))))->FUN_00998980())
@@ -10223,7 +10231,7 @@ bool Planner9f48::TryAssignAllyTarget(Request9f48* pkRequest, int iUnused)
                 return true;
         }
     }
-    Actor9f48* pkOwner = ((::Actor9f48 *)(::GetFieldBC((::FUN_0097ae90_Class *)(m_pkController))));
+    Actor9f48* pkOwner = ((::Actor9f48 *)(reinterpret_cast<CombatControllerFields*>(m_pkController)->pActor));
     Pos9f48 kOwnerPos;
     reinterpret_cast<::FUN_00575650_Class *>((pkOwner))->FUN_00575650((::FUN_00575650_Result *)(::Pos9f48 *)(&kOwnerPos));
     Actor9f48* pkAlly = 0;
@@ -10482,7 +10490,7 @@ struct CombatSetting
 struct CombatStateQ
 {
     char pad00[0x18];
-    int iTargetCount;
+    intptr_t iTargetCount;
     char pad1c[0x5a];
     char acFlags[0x4e];
     CombatTargetInfo* pTargetInfo;
@@ -10504,10 +10512,10 @@ struct CombatStateQ
 // @fnv 0x0099ac20
 bool CombatStateQ::FUN_0099ac20(int aiType)
 {
-    CombatRef* pActorOld = ((::CombatFind::CombatRef *)(::GetFieldBC((::FUN_0097ae90_Class *)(pController))));
+    CombatRef* pActorOld = ((::CombatFind::CombatRef *)(reinterpret_cast<CombatControllerFields*>(pController)->pActor));
     CombatRef* pTarget = ((::CombatFind::CombatRef *)(reinterpret_cast<::AlchemyItem *>((pController))->FUN_004030b0()));
     CombatPathing* pPathingTmp = ((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()));
-    CombatLocations* pLocationsRes = ((::CombatFind::CombatLocations *)(reinterpret_cast<::FUN_005e3fc0_shell *>((pController))->Get()));
+    CombatLocations* pLocationsRes = ((::CombatFind::CombatLocations *)reinterpret_cast<CombatControllerFields*>(pController)->pUnknownA4);
     if (reinterpret_cast<::FUN_00980700_shell *>((pLocationsRes))->FUN_00980700(aiType))
     {
         reinterpret_cast<::fnv_00979f70::FUN_00979f70_shell *>((pLocationsRes))->FUN_00979f70(aiType);
@@ -10571,7 +10579,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
         case 2:
         case 4:
         case 5:
-            bFound = reinterpret_cast<::fnv_0099b8e0::FUN_0099b8e0_cls *>(this)->FUN_0099b8e0((int)(((void *)(::FUN_007031c0((int)(pController))))), (::fnv_0099b8e0::QOut *)(kEC), (::fnv_0099b8e0::QState *)(pSearch), (int)(pFinalSpot), aiType);
+            bFound = reinterpret_cast<::fnv_0099b8e0::FUN_0099b8e0_cls *>(this)->FUN_0099b8e0((intptr_t)(((void *)(::FUN_007031c0((intptr_t)(pController))))), (::fnv_0099b8e0::QOut *)(kEC), (::fnv_0099b8e0::QState *)(pSearch), (intptr_t)(pFinalSpot), aiType);
             break;
         case 3:
             bFound = reinterpret_cast<::FUN_0099e190_cls *>(this)->SelectAndMoveToPoint((::MyMover *)(pFinalSpot), 3, 0xf, 128.0f, 128.0f);
@@ -10579,7 +10587,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
         case 6:
             if (pTargetInfo && !pTargetInfo->bInvalid)
             {
-                bFound = FUN_0099d030(kEC, pSearch, pFinalSpot, aiType, (CombatPos*)((::CombatFind::CombatCell *)(new ((void *)&(pTargetInfo->kPos)) ::Vec3())),
+                bFound = FUN_0099d030(kEC, pSearch, pFinalSpot, aiType, (CombatPos*)((::CombatFind::CombatCell *)(((::Vec3 *)(void *)&(pTargetInfo->kPos)))),
                                       0.0f, 0);
             }
             else if (((::CombatFind::CombatRef *)(reinterpret_cast<::AlchemyItem *>((pController))->FUN_004030b0())))
@@ -10626,7 +10634,7 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
             bFound = true;
             break;
         case 15: {
-            CombatPos* pCover = ((::CombatFind::CombatPos *)(reinterpret_cast<::ItemList *>((((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()))))->FindBestItem((::ActorObj *)(pActorOld), 0x32, (::ItemObj *)(::CombatFind::CombatPos *)(((::CombatFind::CombatPos *)(new ((void *)(pFinalSpot)) ::Vec3()))))));
+            CombatPos* pCover = ((::CombatFind::CombatPos *)(reinterpret_cast<::ItemList *>((((::CombatFind::CombatPathing *)(reinterpret_cast<::EffectSetting *>((pController))->GetCastSound()))))->FindBestItem((::ActorObj *)(pActorOld), 0x32, (::ItemObj *)(::CombatFind::CombatPos *)(((::CombatFind::CombatPos *)(((::Vec3 *)(void *)(pFinalSpot))))))));
             if (pCover)
             {
                 reinterpret_cast<::FUN_0097ee60_shell *>((pFinalSpot))->AssignV4((::V4 *)(pCover));
@@ -10664,8 +10672,8 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
     {
         if (!pFinalSpot->CallReferencedFunction())
             reinterpret_cast<::FUN_0099b520_shell *>((pFinalSpot))->FUN_0099b520((::MagicItem *)(void *)(((void *)(reinterpret_cast<::s575ca0::Owner *>((pActorOld))->FUN_00575ca0()))));
-        CombatPos kSpotPosTmp = *((::CombatFind::CombatPos *)(new ((void *)(pFinalSpot)) ::Vec3()));
-        if (reinterpret_cast<::NiPoint3 *>((((::CombatFind::CombatCell *)(new ((void *)&(kSpotPosTmp)) ::Vec3()))))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) || reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&kSpotPosTmp)), 1, bFlag))
+        CombatPos kSpotPosTmp = *((::CombatFind::CombatPos *)(((::Vec3 *)(void *)(pFinalSpot))));
+        if (reinterpret_cast<::NiPoint3 *>((((::CombatFind::CombatCell *)(((::Vec3 *)(void *)&(kSpotPosTmp))))))->FUN_004390c0((*(const ::NiPoint3 *)(&(*reinterpret_cast<char *>((void *)&::NiPoint3::ZERO))))) || reinterpret_cast<::fnv_009a02a0::FUN_009a02a0_struct *>(this)->FUN_009a02a0((*(const ::fnv_009a02a0::CoordinateTriple *)(&kSpotPosTmp)), 1, bFlag))
         {
             float fDistance = 0.0f;
             if ((*reinterpret_cast<CombatFind::CombatTypeInfo (*)[]>(&::MoveModes))[aiType].bMeasure)
@@ -10673,9 +10681,9 @@ bool CombatStateQ::FUN_0099ac20(int aiType)
                 CombatPos kActorPos = (*(::CombatFind::CombatPos *)(reinterpret_cast<::FUN_00575650_Class *>((pActorOld))->FUN_00575650({})));
                 fDistance = ::FUN_0097acb0((::CombatController *)(pController), (::CoordinateTriple *)(::CombatFind::CombatPos *)(&kActorPos), (::CoordinateTriple *)(::CombatFind::CombatPos *)(&kSpotPosTmp));
             }
-            reinterpret_cast<::FUN_00995980_class *>((pLocationsRes))->SetEntry(aiType, (int)(pFinalSpot), fDistance);
+            reinterpret_cast<::FUN_00995980_class *>((pLocationsRes))->SetEntry(aiType, (intptr_t)(pFinalSpot), fDistance);
             if (pSearch->iCount)
-                reinterpret_cast<::FUN_009959c0Class *>((pLocationsRes))->FUN_009959c0(aiType, (int)(pSearch));
+                reinterpret_cast<::FUN_009959c0Class *>((pLocationsRes))->FUN_009959c0(aiType, (intptr_t)(pSearch));
             else
                 delete pSearch;
             return true;
@@ -10881,19 +10889,19 @@ bool CombatController::FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2,
     float fTmp = 1024.0f;
     float f2 = 2048.0f;
     int i1_2 = 200;
-    Actor* actor = ((::fnv_0099d030::Actor *)(::GetFieldBC((::FUN_0097ae90_Class *)(this->member_1c4))));
-    int i4 = ((int)(reinterpret_cast<::AlchemyItem *>((this->member_1c4))->FUN_004030b0()));
+    Actor* actor = ((::fnv_0099d030::Actor *)(reinterpret_cast<CombatControllerFields*>(this->member_1c4)->pActor));
+    intptr_t i4 = ((intptr_t)(reinterpret_cast<::AlchemyItem *>((this->member_1c4))->FUN_004030b0()));
     float val4 = (a5 != 0.0) ? a5 : 256.0f;
     if (a3 == 6)
     {
         val4 = ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f +
-               ((1.0f - ::GetFloatAtOffset1C((char *)(((ActiveEffect*)reinterpret_cast<::FUN_00980070_shell *>((this->member_1c4))->FUN_00980070()))) / 100.0f) *
+               ((1.0f - ::GetFloatAtOffset1C((char *)(((ActiveEffect*)reinterpret_cast<CombatControllerFields*>((this->member_1c4))->pCombatStyle))) / 100.0f) *
                 (((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting402))))))->f - ((::fnv_0099d030::SETTING_VALUE *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::fnv_0099d030::SettingT< ::fnv_0099d030::GameSettingCollection> *>(&::originalRuntimeFloatSetting401))))))->f));
     }
     a0->unk30 = 0;
     if (a1->unk68 != 0 && a3 == a1->unk04)
     {
-        if (reinterpret_cast<::FUN_009835d0_cls *>((((CalendarDays*)reinterpret_cast<::FUN_009611e0_shell *>(((*reinterpret_cast<::fnv_0099d030::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->FUN_009611e0())))->TryUseCoverItem((unsigned int)(a1->unk68), (unsigned int)(&a1->unk14), (unsigned int)(this->member_1c4), actor->FUN_008be1b0(), &a1->unk70, 1,
+        if (reinterpret_cast<::FUN_009835d0_cls *>((((CalendarDays*)reinterpret_cast<CombatManagerFields*>(((*reinterpret_cast<::fnv_0099d030::TESWorldSpace * *>(&::BGSSaveLoadGlobalDataWorldspacePtr))))->pCoverMap)))->TryUseCoverItem((uintptr_t)(a1->unk68), (uintptr_t)(&a1->unk14), (uintptr_t)(this->member_1c4), actor->FUN_008be1b0(), &a1->unk70, 1,
                                   a1->unk75))
         {
             return true;
@@ -10906,14 +10914,14 @@ bool CombatController::FUN_0099d030(Arg0Class* a0, Arg1Class* a1, Arg2Class* a2,
     reinterpret_cast<::FUN_006d3ac0_Class *>(&(req2))->AssignPathingLocation((*(const ::PathingLocation *)(&loc1)));
     PathingLocation loc2(a4, actor);
     reinterpret_cast<::PathingRequest *>(&(req2))->SetDestination((::PathingLocation *)(::fnv_0099d030::PathingLocation *)(&loc2));
-    reinterpret_cast<::FUN_006d30e0_Class *>(&(req2))->FUN_006d30e0((int)a0);
+    reinterpret_cast<::FUN_006d30e0_Class *>(&(req2))->FUN_006d30e0((intptr_t)a0);
     reinterpret_cast<::HX *>(&(req2))->FUN_006d3100((::CombatCoverPointData *)(a1));
     reinterpret_cast<::PathingRequest *>(&(req2))->SetAvoidNodeArray((::BSSimpleArray<void *, 1024> *)(a6));
     reinterpret_cast<::FUN_00705b10_Dummy *>(&(req2))->Set(a3);
     bool retVal7 = ::CombatPosition::FindCombatPosition((::CombatPosition::Actor *)(::fnv_0099d030::PathingRequest *)(&req2), val4, 0);
     if (retVal7)
     {
-        reinterpret_cast<::FUN_0099b8b0_shell *>((a2))->FUN_0099b8b0((int)::FUN_006377e0((int)&(req2)), 0);
+        reinterpret_cast<::FUN_0099b8b0_shell *>((a2))->FUN_0099b8b0((int)::FUN_006377e0((intptr_t)&(req2)), 0);
     }
     reinterpret_cast<::FUN_006d3120_Class *>(&(req2))->FUN_006d3120();
     reinterpret_cast<::TESForm *>(&((*reinterpret_cast<::fnv_0099d030::GlobalObject_0045d260 *>(&::g_011f1a63))))->ClearData();
@@ -11262,23 +11270,601 @@ struct HostA
 void HostA::FUN_009a2a30(BGSLoadFormBuffer* buffer)
 {
     if (memberC4)
-        reinterpret_cast<::FUN_009a3220_cls *>((memberC4))->FUN_009a3220((int)(buffer));
+        reinterpret_cast<::FUN_009a3220_cls *>((memberC4))->FUN_009a3220((intptr_t)(buffer));
     for (unsigned int i = 0; i < 5; i++)
     {
         if (slots[i])
         {
-            slots[i]->ref = slots[i]->ref ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)slots[i]->ref)) : 0;
+            slots[i]->ref = slots[i]->ref ? dynamic_cast<TESObjectREFR*>(FUN_004839c0((unsigned int)(uintptr_t)slots[i]->ref)) : 0;
             if (slots[i]->ref)
                 reinterpret_cast<::fnv_00564db0::FUN_00564db0_cls *>((((RefCalls_9a2a30*)slots[i]->ref)))->FUN_00564db0(true);
         }
     }
     if (member18C)
         reinterpret_cast<::Holder9A2 *>((member18C))->ResolveRef((::TESFile9A2 *)(buffer));
-    actor = actor ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)actor)) : 0;
+    actor = actor ? dynamic_cast<Actor*>(FUN_004839c0((unsigned int)(uintptr_t)actor)) : 0;
     if (index != -1)
         reinterpret_cast<::PRProcedure *>(this)->SetMode(index);
     for (unsigned int j = 0; j < 7; j++)
         maximum = FUN_00404010(maximum, values[j]);
 }
 
+
+struct CombatAvoidanceSphere_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+};
+struct CombatCoverPointData_rtm
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0c;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1c;
+    int unk20;
+    int unk24;
+    int unk28;
+    int unk2c;
+    int unk30;
+    int unk34;
+    int unk38;
+    int unk3c;
+    int unk40;
+    int unk44;
+    int unk48;
+    int unk4c;
+    int unk50;
+    int unk54;
+    int unk58;
+    int unk5c;
+    int unk60;
+    int unk64;
+    int unk68;
+    int unk6c;
+    int unk70;
+    int unk74;
+};
+class TESObjectWEAP : public TESForm
+{
+};
+
+class BGSExplosion : public TESForm
+{
+};
+
+class TESBoundObject : public TESForm
+{
+};
+
+
+struct CombatLoadBuffer
+{
+
+    virtual unsigned char Version();
+
+
+
+
+};
+
+struct LoadStamp4
+{
+    unsigned int value;
+};
+
+struct LoadStamp8
+{
+    unsigned int low, high;
+};
+
+struct LoadCover : CombatCoverPointData_rtm
+{
+
+    LoadCover();
+};
+
+struct LoadLocation : CombatAvoidanceSphere_rtm
+{
+    LoadLocation();
+};
+
+struct LoadInfo
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c;
+    LoadInfo();
+};
+
+struct LoadBoundPair
+{
+    int value;
+    TESBoundObject* object;
+    LoadBoundPair();
+};
+
+struct LoadArea
+{
+    int unk00, unk04, unk08, unk0c, unk10, unk14, unk18, unk1c, unk20, unk24, unk28, unk2c, unk30, unk34, unk38;
+};
+
+struct LoadA
+{
+};
+
+struct LoadB
+{
+};
+
+struct LoadWeaponArray
+{
+    int unk00;
+    TESObjectWEAP** data;
+    unsigned int count, capacity;
+};
+
+struct LoadArrayA
+{
+    int unk00;
+    LoadA* data;
+    unsigned int count, capacity;
+};
+
+struct LoadArrayB
+{
+    int unk00;
+    LoadB* data;
+    unsigned int count, capacity;
+    LoadB* FUN_006dad90(unsigned int);
+};
+
+
+
+struct CombatLoadState
+{
+
+    unsigned char flags;
+
+    unsigned char unk01;
+
+    unsigned char unk02;
+
+    unsigned char unk03;
+
+    int state;
+
+    int unk08;
+
+    TESObjectWEAP* weapons[6];
+
+    LoadWeaponArray otherWeapons;
+
+    TESObjectWEAP* currentWeapon;
+
+    float value38;
+
+    float values3c[7];
+
+    unsigned int unk058;
+
+    unsigned int unk05c;
+
+    unsigned int unk060;
+
+    unsigned int unk064;
+
+    unsigned int unk068;
+
+    unsigned int unk06c;
+
+    unsigned char flag70;
+
+    unsigned char flag71;
+
+    unsigned char flag72;
+
+    unsigned char flag73;
+
+    unsigned char flag74;
+
+    unsigned char flag75;
+
+    unsigned char flag76;
+
+    unsigned char flag77;
+
+    BGSExplosion* explosion;
+
+    unsigned int unk07c;
+
+    unsigned int unk080;
+
+    float position[3];
+
+    unsigned int unk090;
+
+    LoadStamp4 stamp094;
+
+    LoadStamp4 stamp098;
+
+    LoadStamp4 stamp09c;
+
+    LoadStamp4 stamp0a0;
+
+    LoadStamp4 stamp0a4;
+
+    LoadStamp8 stamp0a8;
+
+    LoadStamp8 stamp0b0;
+
+    LoadStamp8 stamp0b8;
+
+    LoadStamp4 stamp0c0;
+
+    LoadInfo* info;
+
+    unsigned char flagc8;
+
+    unsigned char flagc9;
+
+    unsigned char unkca;
+
+    unsigned char unkcb;
+
+    unsigned int unk0cc;
+
+    unsigned int unk0d0;
+
+    unsigned int unk0d4;
+
+    unsigned char flagd8;
+
+    unsigned char unkd9;
+
+    unsigned char unkda;
+
+    unsigned char unkdb;
+
+    unsigned int unk0dc;
+
+    LoadStamp4 stamp0e0;
+
+    LoadCover* cover;
+
+    LoadCover* alternateCover;
+
+    LoadArea area1;
+
+    LoadArea area2;
+
+    LoadArrayA itemsA;
+
+    LoadArrayB itemsB;
+
+    LoadStamp4 stamp184;
+
+    unsigned char flag188;
+
+    unsigned char unk189;
+
+    unsigned char unk18a;
+
+    unsigned char unk18b;
+
+    LoadLocation* location;
+
+    LoadBoundPair* pairs[5];
+
+    TESBoundObject* objects[2];
+
+    LoadStamp8 objectStamps[2];
+
+    unsigned int unk1bc;
+
+    unsigned int unk1c0;
+
+    unsigned int unk1c4;
+
+    unsigned char flag1c8;
+
+    unsigned char unk1c9;
+
+    unsigned char unk1ca;
+
+    unsigned char unk1cb;
+
+    LoadStamp8 stamp1cc;
+
+    LoadStamp8 stamp1d4;
+
+    LoadStamp8 stamp1dc;
+
+    LoadStamp8 stamp1e4;
+
+    LoadStamp8 stamp1ec;
+
+    LoadStamp8 stamp1f4;
+
+    LoadStamp8 stamp1fc;
+
+    LoadStamp8 stamp204;
+
+    LoadStamp8 stamp20c;
+
+    LoadStamp8 stamp214;
+
+    LoadStamp8 stamp21c;
+
+    unsigned int unk224;
+
+    unsigned int unk228;
+
+
+    void FUN_009a2040(CombatLoadBuffer*);
+};
+
+// @fnv 0x009a2040
+void CombatLoadState::FUN_009a2040(CombatLoadBuffer* buffer)
+
+{
+
+    unsigned char presence;
+
+    unsigned char pairPresence;
+
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flags), 1);
+
+    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&state), 4);
+
+    if (state == -1)
+        state = 0;
+
+    for (unsigned int i = 0; i < 6; i++)
+        weapons[i] = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+
+    {
+
+        unsigned int weaponCount = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
+
+        reinterpret_cast<::fnv_006f2290::BSSimpleArrayActor *>(&(otherWeapons))->FUN_006f2290(weaponCount, true);
+
+        for (unsigned int i = 0; i < weaponCount; i++)
+        {
+
+            TESObjectWEAP** item = (SimpleArrayItem<::TESObjectWEAP **>(&(otherWeapons), i));
+
+            *item = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+        }
+
+        currentWeapon = dynamic_cast<TESObjectWEAP*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&value38), 4);
+
+        for (unsigned int i = 0; i < 7; i++)
+            reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&values3c[i]), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk058), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk05c), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk064), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk068), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk06c), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag70), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag71), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag72), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag73), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag74), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag75), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag76), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag77), 1);
+
+        explosion = dynamic_cast<BGSExplosion*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk07c), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk080), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&position), 12);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk090), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flagc8), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flagc9), 1);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk0cc), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk0d0), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk0d4), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk08), 4);
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flagd8), 1);
+
+        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&unk0dc));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp094))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp098))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp09c))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp0a0))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp0a4))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        reinterpret_cast<::TimeoutTimer *>(&(stamp0a8))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+        reinterpret_cast<::TimeoutTimer *>(&(stamp0b0))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+        reinterpret_cast<::CombatTargetTimestamp *>(&(stamp0c0))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+        if (buffer->Version() >= 20)
+        {
+            reinterpret_cast<::TimeoutTimer *>(&(stamp0b8))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+            reinterpret_cast<::CombatTargetTimestamp *>(&(stamp0e0))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+        }
+
+        presence = 0;
+
+        reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&presence), 1);
+
+        if (presence & 1)
+        {
+
+            cover = new LoadCover;
+
+            reinterpret_cast<::fnv_009a2ea0::FUN_009a2ea0_struct *>((cover))->FUN_009a2ea0((::fnv_009a2ea0::BGSLoadFormBuffer *)(buffer));
+
+            if (reinterpret_cast<::FUN_005dc960_shell *>((cover))->FUN_005dc960())
+            {
+                reinterpret_cast<::FUN_0067fdb0_shell *>((cover))->FUN_0067fdb0(0);
+                reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(cover));
+            }
+        }
+
+        if (presence & 4)
+        {
+
+            alternateCover = new LoadCover;
+
+            reinterpret_cast<::fnv_009a2ea0::FUN_009a2ea0_struct *>((alternateCover))->FUN_009a2ea0((::fnv_009a2ea0::BGSLoadFormBuffer *)(buffer));
+
+            if (reinterpret_cast<::FUN_005dc960_shell *>((alternateCover))->FUN_005dc960())
+            {
+                reinterpret_cast<::FUN_0067fdb0_shell *>((alternateCover))->FUN_0067fdb0(0);
+                reinterpret_cast<::FUN_009a0510_shell *>(this)->FUN_009a0510((::StageHolder *)(alternateCover));
+            }
+        }
+
+        if (presence & 16)
+        {
+            location = new LoadLocation;
+            reinterpret_cast<::FUN_009a2c60_Class *>((location))->LoadFormData(buffer);
+        }
+
+        if (presence & 32)
+        {
+            info = new LoadInfo;
+            reinterpret_cast<::fnv_009a31b0::Holder *>((info))->FUN_009a31b0((::fnv_009a31b0::BGSLoadFormBuffer *)(buffer));
+        }
+
+        if (presence & 2)
+            reinterpret_cast<::fnv_009a3050::CombatSaveGameData *>(&(area1))->FUN_009a3050((::fnv_009a3050::BGSLoadFormBuffer *)(buffer));
+
+        if (presence & 8)
+            reinterpret_cast<::fnv_009a3050::CombatSaveGameData *>(&(area2))->FUN_009a3050((::fnv_009a3050::BGSLoadFormBuffer *)(buffer));
+
+        {
+
+            unsigned int countA = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
+
+            reinterpret_cast<::fnv_009a3480::S5460 *>(&(itemsA))->FUN_009a3480(countA, true);
+
+            for (unsigned int i = 0; i < countA; i++)
+            {
+
+                LoadA* item = ((::LoadA *)(reinterpret_cast<::FUN_00844160_shell *>(&(itemsA))->FUN_00844160(i)));
+
+                reinterpret_cast<::fnv_009a2d50::FUN_009a2d50_s *>((item))->FUN_009a2d50((::fnv_009a2d50::BGSLoadFormBuffer *)(buffer));
+            }
+
+            {
+
+                unsigned int countB = ((unsigned int)(reinterpret_cast<::fnv_00864a60::FUN_00864a60_cls *>((buffer))->FUN_00864a60()));
+
+                reinterpret_cast<::fnv_009a3610::FUN_009a3610_arr *>(&(itemsB))->FUN_009a3610(countB, true);
+
+                for (unsigned int i = 0; i < countB; i++)
+                {
+
+                    LoadB* item = itemsB.FUN_006dad90(i);
+
+                    reinterpret_cast<::fnv_009a2db0::FUN_009a2db0_shell *>((item))->FUN_009a2db0((::fnv_009a2db0::BGSLoadGameBuffer *)(buffer));
+                }
+
+                reinterpret_cast<::CombatTargetTimestamp *>(&(stamp184))->LoadGame((::BGSLoadGameBuffer *)(buffer));
+
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag188), 1);
+
+                pairPresence = 0;
+
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&pairPresence), 1);
+
+                for (unsigned int i = 0; i < 5; i++)
+                {
+
+                    if (pairPresence & (1 << i))
+                    {
+
+                        pairs[i] = new LoadBoundPair;
+
+                        reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(pairs[i]));
+
+                        pairs[i]->object = dynamic_cast<TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+                    }
+                }
+
+                for (unsigned int i = 0; i < 2; i++)
+                {
+
+                    objects[i] = dynamic_cast<TESBoundObject*>(FUN_004839c0(reinterpret_cast<::fnv_008648a0::FUN_008648a0_t *>((buffer))->FUN_008648a0()));
+
+                    reinterpret_cast<::TimeoutTimer *>(&(objectStamps[i]))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+                }
+
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk1bc), 4);
+
+                reinterpret_cast<::fnv_008648e0::FUN_008648e0_shell *>((buffer))->FUN_008648e0((unsigned int *)(void *)(&unk1c0));
+
+                reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&flag1c8), 1);
+
+                if (buffer->Version() >= 15)
+                    reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((buffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&unk228), 4);
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1cc))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1d4))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1dc))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1e4))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1ec))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1f4))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp1fc))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp20c))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp204))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp214))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+
+                reinterpret_cast<::TimeoutTimer *>(&(stamp21c))->LoadGame((::BGSLoadFormBuffer *)(buffer));
+            }
+        }
+    }
+}
 #include "generated/data/fallout/ai/combat/combatstate.inc"

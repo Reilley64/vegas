@@ -1,5 +1,11 @@
 // fallout/interface/menus/containermenu.cpp: ContainerMenu, MenuStateTarget, MenuLogic, ContainerValue and more (40 functions)
 
+#include "fnv/simple_array_item.h"
+#include <cstdint>
+#include "fnv/simple_list_node_view.h"
+#include "fallout/interface/menu_fields.h"
+#include "fnv/inventory_entry_fields.h"
+#include "fnv/dialogue_response_fields.h"
 #include <new>
 #include <cstring>
 #include "fnv/decl/ActorSoundStub.h"
@@ -189,24 +195,24 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
         char* saveTime;
         int saveVersion = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&saveVersion), 4);
-        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)pHeader)))->SetValue((int)((TESSound*)saveVersion));
+        reinterpret_cast<::FUN_0040e500_shell *>((((BGSAcousticSpace*)pHeader)))->SetValue((int)(saveVersion));
         if (saveVersion == 48)
         {
-            char* data = ((char *)(::GetCombinedValue((int)(pLoadBuffer))));
+            char* data = ((char *)(::GetCombinedValue((intptr_t)(pLoadBuffer))));
             if (data[4] == '|')
-                reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((unsigned int)(::DAT_01018348));
+                reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((uintptr_t)(::DAT_01018348));
             else
             {
                 char language[64];
                 reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(language), 64);
-                reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((unsigned int)(language));
+                reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((uintptr_t)(language));
             }
         }
         else
         {
             char language[64];
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(language), 64);
-            reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((unsigned int)(language));
+            reinterpret_cast<::WeaponQueue *>((((SaveHeaderOps*)pHeader)))->QueueWeapon((uintptr_t)(language));
         }
         saveTime = 0;
         skill = 0;
@@ -215,16 +221,16 @@ void ReadSaveFileHeader(void* pFile, void* pHeader)
         parentTexture = 0;
         reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&parentTexture), 4);
         ((TESRegionGrassObject*)pHeader)->AssignLandTexture((TESLandTexture*)parentTexture);
-        reinterpret_cast<::FUN_0041fd00_shell *>((((TESEnchantableForm*)pHeader)))->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)(unsigned)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0))));
+        reinterpret_cast<::FUN_0041fd00_shell *>((((TESEnchantableForm*)pHeader)))->FUN_0041fd00((*(int *)&(const ::MagicSystem__CastingType &)((MagicSystem__CastingType)(std::uintptr_t)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0))));
         ((BGSQuestObjective*)pHeader)->SetOwner((TESQuest*)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0));
         if (saveVersion > 47)
         {
-            unsigned spell = 0;
+            uintptr_t spell = 0;
             reinterpret_cast<::fnv_00864980::FUN_00864980_shell *>((pLoadBuffer))->FUN_00864980((::fnv_00864980::NiQuaternion *)(void *)(&spell), 4);
             ((BGSDehydrationStage*)pHeader)->FUN_0050f9a0((SpellItem*)spell);
         }
-        reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)pHeader)))->FUN_00600ab0((int)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0));
-        reinterpret_cast<::TESPackage *>((((InterfaceManager*)pHeader)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((unsigned)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0)));
+        reinterpret_cast<::FUN_00600ab0_shell *>((((TESConditionItem*)pHeader)))->FUN_00600ab0((intptr_t)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0));
+        reinterpret_cast<::TESPackage *>((((InterfaceManager*)pHeader)))->SetProcedureType((::PACKAGE_PROCEDURE_TYPE)((std::uintptr_t)reinterpret_cast<::fnv_008649a0::FUN_008649a0_shell *>((pLoadBuffer))->FUN_008649a0(0)));
         reinterpret_cast<::fnv_0050f9c0::FUN_0050f9c0_shell *>((((TESResponse*)pHeader)))->FUN_0050f9c0((::fnv_0050f9c0::TESForm *)(::TESIdleForm *)((TESIdleForm*)saveTime));
         ((TESRecipe*)pHeader)->SetRequiredSkill((::ActorValue::Index)(skill));
         reinterpret_cast<::FUN_0061cc40_shell *>((((TESRecipe*)pHeader)))->FUN_0061cc40(((SaveLoadFile*)pFile)->GetFilePosition());
@@ -425,12 +431,12 @@ void FUN_0075cc90_cls::AttachAndDeliver(void* a1, void* apObj, void* apSink)
     unsigned int list;
     if (apObj != 0 && a1 != 0 && apSink != 0)
     {
-        reinterpret_cast<::Host_004d4b00 *>((((FUN_0075cc90_Obj*)apObj)))->FindEntriesByType((int)(a1), (::Output_004d4b00 *)(::FUN_0075cc90_Local *)(&pad));
-        reinterpret_cast<::FunctionOwner *>((((FUN_0075cc90_Sink*)apSink)))->FUN_0071a200((int)(a1));
+        reinterpret_cast<::Host_004d4b00 *>((((FUN_0075cc90_Obj*)apObj)))->FindEntriesByType((intptr_t)(a1), (::Output_004d4b00 *)(::FUN_0075cc90_Local *)(&pad));
+        reinterpret_cast<::FunctionOwner *>((((FUN_0075cc90_Sink*)apSink)))->FUN_0071a200((intptr_t)(a1));
         FUN_0075cc90_Node* p;
-        for (p = (FUN_0075cc90_Node*)&pad; p != 0 && *((void **)(new ((void *)(p)) ::Vec3())) != 0; p = ((::FUN_0075cc90_Node *)(reinterpret_cast<::Callees *>((p))->FUN_00726070())))
+        for (p = (FUN_0075cc90_Node*)&pad; p != 0 && *((void **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item)) != 0; p = ((::FUN_0075cc90_Node *)(reinterpret_cast<::Callees *>((p))->FUN_00726070())))
         {
-            reinterpret_cast<::list71a::L71Menu *>((((FUN_0075cc90_Sink*)apSink)))->FUN_0071a320((int)(*((void **)(new ((void *)(p)) ::Vec3()))), (const char *)(((int)(reinterpret_cast<::FUN_004be2d0_shell *>((((FUN_0075cc90_Obj*)*((void **)(new ((void *)(p)) ::Vec3())))))->GetTargetFullName()))), {}, {});
+            reinterpret_cast<::list71a::L71Menu *>((((FUN_0075cc90_Sink*)apSink)))->FUN_0071a320((intptr_t)(*((void **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item))), (const char *)(((intptr_t)(reinterpret_cast<::FUN_004be2d0_shell *>((((FUN_0075cc90_Obj*)*((void **)(&reinterpret_cast<::SimpleListNodeView*>(p)->m_item)))))->GetTargetFullName()))), {}, {});
         }
         reinterpret_cast<::FileMatchList *>(&(pad))->RemoveAll();
     }
@@ -538,7 +544,7 @@ bool IsRefBaseObjectUnplayable(RefEx* apRef)
     bool bResult = false;
     if (DAT_011d93f8)
     {
-        TESBoundObject* pObject = apRef ? ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+        TESBoundObject* pObject = apRef ? ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->pObject)) : 0;
         if (DAT_011d93f8->m_eContainerMenuMode == 4)
         {
             bResult =
@@ -550,8 +556,8 @@ bool IsRefBaseObjectUnplayable(RefEx* apRef)
             TESBipedModelForm* pBiped = ::TESBipedModelForm::GetFormAsBipedModel(pObject);
             TESFullName* pFullName = dynamic_cast<TESFullName*>(pObject);
             TESObjectWEAP* pWeapon =
-                ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName()))->GetFormType() == 0x28 ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
-            TESAmmo* pAmmo = ((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName()))->GetFormType() == 0x29 ? (TESAmmo*)((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apRef))->GetName())) : 0;
+                ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->pObject))->GetFormType() == 0x28 ? (TESObjectWEAP*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->pObject)) : 0;
+            TESAmmo* pAmmo = ((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->pObject))->GetFormType() == 0x29 ? (TESAmmo*)((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apRef))->pObject)) : 0;
             if (!pObject || (pBiped && !reinterpret_cast<::FUN_00480d90_shell *>((pBiped))->FUN_00480d90()) || !pFullName || !pFullName->GetLength() ||
                 (pWeapon && !reinterpret_cast<::FUN_0047bcf0_class *>((pWeapon))->IsFlag80Clear()) || (pAmmo && !reinterpret_cast<::FUN_004c94d0_shell *>((void *)(pAmmo))->GetFlag()))
             {
@@ -577,15 +583,15 @@ void __cdecl FUN_0075d160(void* param1, void* param2)
         reinterpret_cast<::Tile *>(((*(ContainerLikeObj**)reinterpret_cast<::FUN_0073ac90_shell *>((((ContainerLikeObj*)((char*)param1 + 4))))->FUN_0073ac90())))->Set({}, {});
     }
 
-    if (((int)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())) > 1)
+    if (((std::intptr_t)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())) > 1)
     {
         ::FUN_00406d00(buf, 0x80, "%s (%d)", reinterpret_cast<::FUN_004be2d0_shell *>((((ContainerLikeObj*)param2)))->GetTargetFullName(),
-                     ((int)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())));
+                     ((std::intptr_t)(reinterpret_cast<::Callees *>((((ContainerLikeObj*)param2)))->FUN_00726070())));
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((ContainerLikeObj*)param1)))->FUN_00a01350(0xfc4, buf, 1);
     }
 
     reinterpret_cast<::Tile *>((((ContainerLikeObj*)param1)))->SetName(reinterpret_cast<::FUN_004be2d0_shell *>((((ContainerLikeObj*)param2)))->GetTargetFullName());
-    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(ContainerLikeObj**)reinterpret_cast<::InventoryStackRecord *>((((ContainerLikeObj*)((char*)param1 + 4))))->GetPayloadAddress())))->FUN_00a01350((int)(((void *)(reinterpret_cast<::FUN_00a011f0_shell *>((((ContainerLikeObj*)param1)))->FUN_00a011f0(0xfc4)))), {}, {});
+    reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*(ContainerLikeObj**)reinterpret_cast<::InventoryStackRecord *>((((ContainerLikeObj*)((char*)param1 + 4))))->GetPayloadAddress())))->FUN_00a01350((intptr_t)(((void *)(reinterpret_cast<::FUN_00a011f0_shell *>((((ContainerLikeObj*)param1)))->FUN_00a011f0(0xfc4)))), {}, {});
     reinterpret_cast<::FUN_00a012d0_t *>((((ContainerLikeObj*)param1)))->FUN_00a012d0(0xfb0, 0.0f, 1);
 }
 
@@ -916,7 +922,7 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
     if (m_eContainerMenuMode == 2 &&
         *reinterpret_cast<void**>(otherData + 0x70) == static_cast<void*>(otherData + 0x10) &&
         reference == (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)) && reinterpret_cast<::Actor *>(((*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))->IsSneaking() && actor->IsActor() && !actor->IsDisabled(0) &&
-        !actor->CanInteract(0) && ((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))->FUN_00401170() == 0x28 &&
+        !actor->CanInteract(0) && ((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject))->FUN_00401170() == 0x28 &&
         reinterpret_cast<ActiveList*>(&m_kContainerItems)->FUN_008256d0())
     {
         ActorView* a = 0;
@@ -931,12 +937,12 @@ bool MenuLogic::FUN_0075d510(InventoryEntry* entry, ExpectedReference* reference
                     return false;
             }
         }
-        SourceForm* b = ((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
+        SourceForm* b = ((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject));
         if (::FUN_004c0bf0((::TESObjectWEAP *)(b)))
         {
-            if (((::CurrentItem *)(reinterpret_cast<::Thing *>((b))->GetOrFallback((int)(a)))))
+            if (((::CurrentItem *)(reinterpret_cast<::Thing *>((b))->GetOrFallback((intptr_t)(a)))))
             {
-                if (reinterpret_cast<::FUN_004fd4f0_Class *>((((::CurrentItem *)(reinterpret_cast<::Thing *>((b))->GetOrFallback((int)(a))))))->FUN_004fd4f0() == 0x20000)
+                if (reinterpret_cast<::FUN_004fd4f0_Class *>((((::CurrentItem *)(reinterpret_cast<::Thing *>((b))->GetOrFallback((intptr_t)(a))))))->FUN_004fd4f0() == 0x20000)
                 {
                     return true;
                 }
@@ -972,13 +978,13 @@ int ContainerValue::GetContainerValue(ItemEntry* entry, int amount, bool include
         owner = (TESForm*)m_pContainer;
     else
         owner = reinterpret_cast<::OwnerLookupView *>((m_pContainer))->FUN_00567790();
-    for (ItemNode* node = ((::ItemNode *)(::FUN_00559450((int *)(entry)))); count > 0 && node && *((::ExtraDataList **)(new ((void *)(node)) ::Vec3()));
+    for (ItemNode* node = ((::ItemNode *)(::FUN_00559450((int *)(entry)))); count > 0 && node && *((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item));
          node = ((::ItemNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070())))
     {
-        TESForm* itemOwner = reinterpret_cast<::FUN_00418660_shell *>(((*((::ExtraDataList **)(new ((void *)(node)) ::Vec3())))))->FUN_00418660();
-        if ((!itemOwner && includeUnowned) || (itemOwner && reinterpret_cast<::FUN_00418660_shell *>(((*((::ExtraDataList **)(new ((void *)(node)) ::Vec3())))))->FUN_00418660() == owner))
-            total += reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(new ((void *)(node)) ::Vec3())))))->FUN_00418770() * value;
-        count -= reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(new ((void *)(node)) ::Vec3())))))->FUN_00418770();
+        TESForm* itemOwner = reinterpret_cast<::FUN_00418660_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_00418660();
+        if ((!itemOwner && includeUnowned) || (itemOwner && reinterpret_cast<::FUN_00418660_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_00418660() == owner))
+            total += reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_00418770() * value;
+        count -= reinterpret_cast<::FUN_00418770_shell *>(((*((::ExtraDataList **)(&reinterpret_cast<::SimpleListNodeView*>(node)->m_item)))))->FUN_00418770();
     }
     if (includeUnowned)
         total += count * value;
@@ -1329,7 +1335,7 @@ struct MenuList
 struct MenuData
 {
     int unk00;
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -1414,7 +1420,7 @@ MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile2c))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d4378))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile50))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d2d0c))))->GetMenuTitle()))), true);
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((((MenuData*)DAT_011d93f8)->tile54))->FUN_00a01350(4036, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::InventoryMenuSetting *>(&::g_011d33fc))))->GetMenuTitle()))), true);
-        MenuTile* title = ((::MenuTile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::MenuTile *)(((::MenuTile *)(reinterpret_cast<::Callees *>((((MenuData*)DAT_011d93f8)))->FUN_00726070()))), "CM_Subtitle")));
+        MenuTile* title = ((::MenuTile *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(::MenuTile *)(((::MenuTile *)(((MenuData*)DAT_011d93f8)->unk04))), "CM_Subtitle")));
         if (title)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((title))->FUN_00a01350(4036, (char *)(""), true);
         ((MenuData*)DAT_011d93f8)->reference = reference;
@@ -1435,7 +1441,7 @@ MenuTile* FUN_0075b310(TESObjectREFR* reference, int mode)
         ((MenuData*)DAT_011d93f8)->FUN_0075c280(0);
         return manager;
     }
-    else if (DAT_011d93f8 && ((::MenuTile *)(reinterpret_cast<::Callees *>((((MenuData*)DAT_011d93f8)))->FUN_00726070())))
+    else if (DAT_011d93f8 && ((::MenuTile *)(((MenuData*)DAT_011d93f8)->unk04)))
     {
         delete (ContainerVirtual*)DAT_011d93f8;
     }
@@ -1789,7 +1795,7 @@ struct Ref_0075d6b0
     virtual void v184();
     virtual void v188();
     virtual void v18c();
-    virtual void FUN_190(SourceForm* item, XList_0075d6b0* extra, Node_0075d6b0* next);
+    virtual void FUN_190(SourceForm* item, XList_0075d6b0* extra, int count);
     virtual void v194();
     virtual void v198();
     virtual void v19c();
@@ -1954,12 +1960,12 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
     Ref_0075d6b0* to8 = (*(char**)((char*)this + 0xf8) == (char*)&this->otherData[16]) ? (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))
                                                                               : (Ref_0075d6b0*)m_pContainer;
     bool ok = reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(entry), (::ExpectedReference *)(to8), (::ActorView *)(from4));
-    XList_0075d6b0* extra = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))) ? *((::XList_0075d6b0 **)(new ((void *)(((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))))) ::Vec3())) : 0;
+    XList_0075d6b0* extra = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))) ? *((::XList_0075d6b0 **)(&reinterpret_cast<::SimpleListNodeView*>(((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry)))))->m_item)) : 0;
     if (ok)
     {
-        ::FUN_009bd5c0((::Tgt_9bd5c0 *)(::CurrentItem *)(((::CurrentItem *)(reinterpret_cast<::Thing *>((((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))))->GetOrFallback((int)(0))))), (::Tgt_9bd5c0 *)(to8), (int)(from4), (int)(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))));
-        ((List_0075d6b0*)&m_kContainerItems)->FUN_005ae3d0(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())));
-        to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())), extra, count, 0, 0, 0, 0, 0, 1, 0);
+        ::FUN_009bd5c0((::Tgt_9bd5c0 *)(::CurrentItem *)(((::CurrentItem *)(reinterpret_cast<::Thing *>((((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject))))->GetOrFallback((int)(0))))), (::Tgt_9bd5c0 *)(to8), (intptr_t)(from4), (intptr_t)(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject))));
+        ((List_0075d6b0*)&m_kContainerItems)->FUN_005ae3d0(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)));
+        to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)), extra, count, 0, 0, 0, 0, 0, 1, 0);
         return;
     }
     if (extra && ((::XRef_0075d6b0 *)(reinterpret_cast<::FUN_0041de00_shell *>((extra))->FUN_0041de00())) && !reinterpret_cast<::TESForm *>((((::XRef_0075d6b0 *)(reinterpret_cast<::FUN_0041de00_shell *>((extra))->FUN_0041de00()))))->GetDisabled() &&
@@ -1974,30 +1980,30 @@ void Menu_0075d6b0::TransferItem(void* a1, Entry_0075d6b0* entry, int count)
         Node_0075d6b0* nodeB = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry))));
         while (remaining > 0)
         {
-            XList_0075d6b0* x4 = nodeB ? *((::XList_0075d6b0 **)(new ((void *)(nodeB)) ::Vec3())) : 0;
+            XList_0075d6b0* x4 = nodeB ? *((::XList_0075d6b0 **)(&reinterpret_cast<::SimpleListNodeView*>(nodeB)->m_item)) : 0;
             int n7 = x4 ? reinterpret_cast<::FUN_00418770_shell *>((x4))->FUN_00418770() : remaining;
             n7 = MinInt(n7, remaining);
             if (from4 == (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))
             {
-                Entry_0075d6b0* movedB = ((::Entry_0075d6b0 *)(reinterpret_cast<::IRContainer *>((((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_00968be0((::IRForm *)(::SourceForm *)(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()))), (::IRExtraList *)(x4), n7, 1)));
+                Entry_0075d6b0* movedB = ((::Entry_0075d6b0 *)(reinterpret_cast<::IRContainer *>((((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_00968be0((::IRForm *)(::SourceForm *)(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject))), (::IRExtraList *)(x4), n7, 1)));
                 ((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))
-                    ->FUN_190(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((movedB))->GetName())),
-                              ((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))) ? *((::XList_0075d6b0 **)(new ((void *)(((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))))) ::Vec3())) : 0,
-                              ((::Node_0075d6b0 *)(reinterpret_cast<::Callees *>((movedB))->FUN_00726070())));
+                    ->FUN_190(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((movedB))->pObject)),
+                              ((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))) ? *((::XList_0075d6b0 **)(&reinterpret_cast<::SimpleListNodeView*>(((::Node_0075d6b0 *)(::FUN_00559450((int *)(movedB)))))->m_item)) : 0,
+                              reinterpret_cast<::InventoryEntryFields *>(movedB)->iCountDelta);
                 delete movedB;
                 nodeB = ((::Node_0075d6b0 *)(::FUN_00559450((int *)(entry))));
             }
             else if (to8 == (Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))
             {
-                reinterpret_cast<::InvHost *>((((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_009687b0(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())), (::InvExtra *)(x4), n7);
-                to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())), x4, n7, 0, 0, 0, 0, 0, 1, 0);
+                reinterpret_cast<::InvHost *>((((Ref_0075d6b0*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_009687b0(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)), (::InvExtra *)(x4), n7);
+                to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)), x4, n7, 0, 0, 0, 0, 0, 1, 0);
                 nodeB = nodeB ? ((::Node_0075d6b0 *)(reinterpret_cast<::Callees *>((nodeB))->FUN_00726070())) : 0;
             }
             remaining -= n7;
         }
         return;
     }
-    to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName())), extra, count, m_eContainerMenuMode == 2, 0, from4, 0, 0, 1, 0);
+    to8->FUN_17c(((::SourceForm *)(reinterpret_cast<::InventoryEntryFields *>((entry))->pObject)), extra, count, m_eContainerMenuMode == 2, 0, from4, 0, 0, 1, 0);
 }
 
 namespace fnv_0075e0b0 {
@@ -2503,7 +2509,7 @@ bool FUN_0075e0b0_shell::FUN_0075e0b0(Actor_75e0b0* actor, int amount)
         else
         {
             reinterpret_cast<::Actor *>(((*reinterpret_cast<::fnv_0075e0b0::Actor_75e0b0 * *>(&::_g_thePlayer))))->FUN_008c00e0((::TESObjectREFR *)(actor), 0, 0);
-            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (const char *)(0), (const char *)(0), 2.0f, false);
+            ::DispatchMessageToSink((const char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075e0b0::Setting_75e0b0 *>(&::g_011d3f94))))->GetMenuTitle()))), 2, (int)(0), (int)(0), 2.0f, false);
             success = false;
             failed = true;
         }
@@ -2684,7 +2690,6 @@ void TrimMenu::SetLabelText(const char* text)
 }
 
 extern unsigned char DAT_011a002c;
-extern void* DAT_011d93fc;
 
 struct ContainerMenu;
 
@@ -2728,11 +2733,11 @@ struct Cls75eac0
     int m_54;
     int m_58;
     int m_5c;
-    int m_60;
-    int m_64;
-    int m_68;
-    int m_6c;
-    int m_70;
+    intptr_t m_60;
+    intptr_t m_64;
+    intptr_t m_68;
+    intptr_t m_6c;
+    intptr_t m_70;
     int m_74;
     int m_78;
     int m_7c;
@@ -2767,7 +2772,7 @@ void Cls75eac0::Update()
     if (m_fc != 0 && ((unsigned int)(::FUN_00457fe0())) > (unsigned int)m_fc)
     {
         m_fc = 0;
-        TileObj* tile = (TileObj*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::Callees *>((((MenuObj*)DAT_011d93f8)))->FUN_00726070()), ::DAT_010721f4)));
+        TileObj* tile = (TileObj*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::MenuFields *>((((MenuObj*)DAT_011d93f8)))->tile), ::DAT_010721f4)));
         if (tile != 0)
         {
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(DAT_01011584), true);
@@ -2775,15 +2780,15 @@ void Cls75eac0::Update()
     }
     if (((unsigned int)(::GetRaceCount(m_c8))) > 0 && DAT_011a002c != 0)
     {
-        if (DAT_011d93fc != 0 && FUN_00401170(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))) == 0x28)
+        if (DAT_011d93fc != 0 && FUN_00401170(((void *)(reinterpret_cast<::InventoryEntryFields *>((DAT_011d93fc))->pObject))) == 0x28)
         {
             ::UpdateAnimationTileFade((::AnimationTile *)(m_60), (::AnimationTile *)(m_64), (::AnimationTile *)(m_68), (::AnimationReference *)(DAT_011d93fc), 0);
         }
-        else if (DAT_011d93fc != 0 && FUN_00401170(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))) == 0x18)
+        else if (DAT_011d93fc != 0 && FUN_00401170(((void *)(reinterpret_cast<::InventoryEntryFields *>((DAT_011d93fc))->pObject))) == 0x18)
         {
             ::UpdateAnimationTileFade(
-                (::AnimationTile *)((DAT_011d93fc != 0 && ((float)(::FUN_004be060((void *)(((RefObj*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))))))) != 0.0) ? m_6c : 0),
-                (::AnimationTile *)((DAT_011d93fc != 0 && ::FUN_004be180((char *)(((RefObj*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))))) != 0.0) ? m_70 : 0), (::AnimationTile *)(0),
+                (::AnimationTile *)((DAT_011d93fc != 0 && ((float)(::FUN_004be060((void *)(((RefObj*)((void *)(reinterpret_cast<::InventoryEntryFields *>((DAT_011d93fc))->pObject))))))) != 0.0) ? m_6c : 0),
+                (::AnimationTile *)((DAT_011d93fc != 0 && ::FUN_004be180((char *)(((RefObj*)((void *)(reinterpret_cast<::InventoryEntryFields *>((DAT_011d93fc))->pObject))))) != 0.0) ? m_70 : 0), (::AnimationTile *)(0),
                 (::AnimationReference *)(DAT_011d93fc), 0);
         }
     }
@@ -2818,8 +2823,6 @@ FUN_0071f240::FUN_0071f240()
 // thiscall, 2 stack args (ret 8): optional tile lookup, then a switch over the
 // tile id (0x14..0x16) driving two mutually exclusive state objects, then the
 // shared refresh path that re-inits the visible tile texts.
-extern "C" unsigned char DAT_011a002c;
-extern "C" void* DAT_011d93fc;
 
 class HighProcess
 {
@@ -2899,13 +2902,13 @@ void Menu75::UpdateProcessTile(int iTileIndex, HighProcess* pProcess)
         if (pProcess)
         {
             DAT_011a002c = 1;
-            if (state != &a98 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i38)
+            if (state != &a98 && ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i38)
             {
                 v10(0x15, 0);
             }
             else
             {
-                if (state != &b0 && ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i48)
+                if (state != &b0 && ((std::intptr_t)(reinterpret_cast<::FUN_0045cd60_shell *>((pProcess))->FUN_0045cd60())) == i48)
                 {
                     v10(0x16, 0);
                 }
@@ -2925,7 +2928,6 @@ void Menu75::UpdateProcessTile(int iTileIndex, HighProcess* pProcess)
 }
 
 // HandleContainerMenuActivate v1
-extern void* DAT_011d93fc;
 struct EntrySrc75
 {
 };
@@ -2972,7 +2974,7 @@ struct MenuD6B75
 };
 struct MenuC28B75
 {
-    void FUN_0075c280(int a);
+    void FUN_0075c280(intptr_t a);
 };
 struct PlayerAct75
 {
@@ -3105,14 +3107,14 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
                 *(void**)&DAT_011d93f8->otherData[0x70] == (void*)&DAT_011d93f8->otherData[0x10] && refObj != 0)
             {
                 if (((double)(reinterpret_cast<::fnv_00577250::FUN_00577250_shell *>((((Sound75*)refObj)))->FUN_00577250(0))) +
-                        ::TESWeightForm::GetWeightForForm((::TESForm *)((int)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))), ::FUN_004d1360((char *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))) * aiCount >=
+                        ::TESWeightForm::GetWeightForForm((::TESForm *)((std::intptr_t)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()))), ::FUN_004d1360((char *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))) * aiCount >=
                     ((double)(reinterpret_cast<::FUN_008a0c20_shell *>((((FloatThis75*)refObj)))->FUN_008a0c20())))
                 {
                     ::FUN_00406d00(msgtext, 260, DAT_01012058, (char*)reinterpret_cast<::FUN_0055d520_shell *>((((Name75*)refObj)))->FUN_0055d520(),
-                                 (int)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrThis75 *>(&::g_011d2628))))->GetMenuTitle())));
-                    ::DispatchMessageToSink((const char *)(msgtext), 2, (const char *)(0), (const char *)(0), 2.0f, false);
+                                 (std::intptr_t)((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::StrThis75 *>(&::g_011d2628))))->GetMenuTitle())));
+                    ::DispatchMessageToSink((const char *)(msgtext), 2, (int)(0), (int)(0), 2.0f, false);
                     flag = true;
-                    int id = (int)dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID((const char *)(void *)(&DAT_010722dc)));
+                    intptr_t id = (intptr_t)dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID((const char *)(void *)(&DAT_010722dc)));
                     ((MenuEc75*)DAT_011d93f8)->PlaySelectedTopicInfo(id);
                 }
             }
@@ -3146,12 +3148,12 @@ void __cdecl HandleContainerMenuActivate(int aiCount)
             void* processBaseObject;
             void* pCachedForm = (void*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((DAT_011d93fc))->GetName()));
             processBaseObject = ((::ActorProc75 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((ProcGet75*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->GetBaseTexture()))->vfn_014c();
-            reinterpret_cast<::ActorSoundStub *>((((PlayerAct75*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((int)(pCachedForm), 1, 0);
+            reinterpret_cast<::ActorSoundStub *>((((PlayerAct75*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((intptr_t)(pCachedForm), 1, 0);
             reinterpret_cast<::Menu_0075d6b0 *>((((MenuD6B75*)DAT_011d93f8)))->TransferItem(entry, (::Entry_0075d6b0 *)(DAT_011d93fc), aiCount);
-            ((MenuC28B75*)DAT_011d93f8)->FUN_0075c280((int)pCachedForm);
+            ((MenuC28B75*)DAT_011d93f8)->FUN_0075c280((intptr_t)pCachedForm);
             if (processBaseObject != 0)
             {
-                if (reinterpret_cast<::FUN_004c8f30_shell *>((((::Inv75 *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))))))->FUN_004c8f30((int)((void*)((void *)(reinterpret_cast<::Twin_0044ddc0 *>((processBaseObject))->GetName())))) == 0)
+                if (reinterpret_cast<::FUN_004c8f30_shell *>((((::Inv75 *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)(void *)((void*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))))))))->FUN_004c8f30((intptr_t)((void*)((void *)(reinterpret_cast<::InventoryEntryFields *>((processBaseObject))->pObject)))) == 0)
                 {
                     ((::ActorProc75 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((((ProcGet75*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->GetBaseTexture()))->vfn_0168(0);
                 }
@@ -3477,7 +3479,7 @@ class PlaybackActor : public Actor
     virtual void slot278();
     virtual void slot27c();
     virtual void slot280();
-    virtual float PlayVoice(const char*, PlaybackHandle*, unsigned, unsigned, unsigned, unsigned, unsigned,
+    virtual float PlayVoice(const char*, PlaybackHandle*, unsigned, unsigned, unsigned, TESIdleForm*, TESIdleForm*,
                             ExpectedReference*, bool, bool, unsigned, unsigned, bool);
     PlaybackHandle GetActorSoundHandle(unsigned, unsigned, unsigned, bool);
 };
@@ -3634,11 +3636,11 @@ void PlaybackMenu::PlaySelectedTopicInfo(PlaybackTopic* topic)
             else
             {
                 float duration = reinterpret_cast<PlaybackActor*>(_actor)->PlayVoice(
-                    ((const char *)(::FUN_00559450((int *)(((::PlaybackString *)(::FUN_00460140((int)(_entry)))))))), reinterpret_cast<PlaybackHandle*>(&m_kFadeSequence),
-                    ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((_entry))->GetName())), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((_entry))->FUN_0084e3a0())), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(((::PlaybackString *)(new ((void *)(_entry)) ::Vec3()))))->FUN_004048e0())), ((unsigned int)(reinterpret_cast<::FUN_009611e0_shell *>((_entry))->FUN_009611e0())),
-                    reinterpret_cast<::BGSTerrainManager *>((_entry))->GetMinLevel(), (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)), true, true, 0, 0, true);
+                    ((const char *)(::FUN_00559450((int *)(((::PlaybackString *)(::FUN_00460140((std::intptr_t)(_entry)))))))), reinterpret_cast<PlaybackHandle*>(&m_kFadeSequence),
+                    ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->emotionType)), ((unsigned int)(reinterpret_cast<::DialogueResponseFields *>((_entry))->emotionValue)), ((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>((void *)(((::PlaybackString *)(reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item))))->FUN_004048e0())), reinterpret_cast<::DialogueResponseFields *>((_entry))->speakerIdle,
+                    reinterpret_cast<::DialogueResponseFields *>((_entry))->listenerIdle, (*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)), true, true, 0, 0, true);
             }
-            reinterpret_cast<::MenuDeadline539 *>(this)->ShowMessageWithSound((*(::StrMem *)&(const ::PlaybackString &)(*((::PlaybackString *)(new ((void *)(_entry)) ::Vec3())))), (*(::BSSoundHandleEx *)&(const ::PlaybackHandle &)(reinterpret_cast<PlaybackHandle&>(m_kFadeSequence))));
+            reinterpret_cast<::MenuDeadline539 *>(this)->ShowMessageWithSound((*(::StrMem *)&(const ::PlaybackString &)(*((::PlaybackString *)(&reinterpret_cast<::SimpleListNodeView*>(_entry)->m_item)))), (*(::BSSoundHandleEx *)&(const ::PlaybackHandle &)(reinterpret_cast<PlaybackHandle&>(m_kFadeSequence))));
         }
     }
 }
@@ -3650,9 +3652,9 @@ void MenuDeadline539::ShowMessageWithSound(StrMem strMessage, BSSoundHandleEx so
                        ? dynamic_cast<Actor*>(DAT_011d93f8->m_pContainer)
                        : 0;
     if (((unsigned int)(reinterpret_cast<::FUN_004048e0_cls *>(&(strMessage))->FUN_004048e0())) > 0 &&
-        (*(*reinterpret_cast<::BoolSetting539 *>(&::g_011d8928)).FUN_00408d60() || (actor && ::FUN_008c1bc0((int)(((ActorAccess539*)actor))))))
+        (*(*reinterpret_cast<::BoolSetting539 *>(&::g_011d8928)).FUN_00408d60() || (actor && ::FUN_008c1bc0((intptr_t)(((ActorAccess539*)actor))))))
     {
-        TextTile539* tile = (TextTile539*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::Callees *>((((MenuRoot539*)DAT_011d93f8)))->FUN_00726070()), DAT_010721f4)));
+        TextTile539* tile = (TextTile539*)((void *)(::tile_path_resolver::FUN_00a08b20((::tile_path_resolver::UITile *)(void *)(reinterpret_cast<::MenuFields *>((((MenuRoot539*)DAT_011d93f8)))->tile), DAT_010721f4)));
         if (tile)
             reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((tile))->FUN_00a01350(0xfc4, (char *)(((const char *)(::FUN_00559450((int *)&(strMessage))))), true);
         duration3 = (float)::FUN_00ad8b30((unsigned int *)&(soundHandle));
@@ -3785,7 +3787,7 @@ class xCont
     virtual void v92();
     virtual void v93();
     virtual void v94();
-    virtual void AddItem(unsigned int a, void* b, int c, bool d, int e, void* f, int g, int h, int i, int j);
+    virtual void AddItem(uintptr_t a, void* b, int c, bool d, int e, void* f, int g, int h, int i, int j);
 };
 class xPlayer
 {
@@ -4056,7 +4058,7 @@ void FUN_0075da60(xTile* pTile, xItem* pItem)
         return;
     xExtra* qfTOqo = 0;
     if (((::xInner *)(::FUN_00559450((int *)(pItem)))))
-        qfTOqo = *((::xExtra **)(new ((void *)(((::xInner *)(::FUN_00559450((int *)(pItem)))))) ::Vec3()));
+        qfTOqo = *((::xExtra **)(&reinterpret_cast<::SimpleListNodeView*>(((::xInner *)(::FUN_00559450((int *)(pItem)))))->m_item));
     if (qfTOqo && ((::xRef *)(reinterpret_cast<::FUN_0041de00_shell *>((qfTOqo))->FUN_0041de00())) && !reinterpret_cast<::TESForm *>((((::xRef *)(reinterpret_cast<::FUN_0041de00_shell *>((qfTOqo))->FUN_0041de00()))))->GetDisabled() && !reinterpret_cast<::FUN_00440d80_shell *>((((::xRef *)(reinterpret_cast<::FUN_0041de00_shell *>((qfTOqo))->FUN_0041de00()))))->FUN_00440d80())
     {
         (*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer))->Activate(((::xRef *)(reinterpret_cast<::FUN_0041de00_shell *>((qfTOqo))->FUN_0041de00())), 1, 0);
@@ -4067,11 +4069,11 @@ void FUN_0075da60(xTile* pTile, xItem* pItem)
     if (xContMenu->m_iMode == 2)
     {
         xCont* pActor = xContMenu->m_pkCont->IsActorX() ? xContMenu->m_pkCont : 0;
-        int iTransferred = reinterpret_cast<::ContainerValue *>((xContMenu))->GetContainerValue((::ItemEntry *)(pItem), ((int)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())), 1);
+        int iTransferred = reinterpret_cast<::ContainerValue *>((xContMenu))->GetContainerValue((::ItemEntry *)(pItem), ((int)(reinterpret_cast<::InventoryEntryFields *>((pItem))->iCountDelta)), 1);
         xContMenu->m_iTotal += iTransferred;
         xContMenu->m_bDone = !reinterpret_cast<::fnv_0075e0b0::FUN_0075e0b0_shell *>((xContMenu))->FUN_0075e0b0((::fnv_0075e0b0::Actor_75e0b0 *)(pActor), iTransferred);
     }
-    xContMenu->m_pkCont->AddItem(((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((pItem))->GetName())), ((::xInner *)(::FUN_00559450((int *)(pItem)))) ? *((::xExtra **)(new ((void *)(((::xInner *)(::FUN_00559450((int *)(pItem)))))) ::Vec3())) : 0, ((int)(reinterpret_cast<::Callees *>((pItem))->FUN_00726070())),
+    xContMenu->m_pkCont->AddItem(((uintptr_t)(reinterpret_cast<::InventoryEntryFields *>((pItem))->pObject)), ((::xInner *)(::FUN_00559450((int *)(pItem)))) ? *((::xExtra **)(&reinterpret_cast<::SimpleListNodeView*>(((::xInner *)(::FUN_00559450((int *)(pItem)))))->m_item)) : 0, ((int)(reinterpret_cast<::InventoryEntryFields *>((pItem))->iCountDelta)),
                                  xContMenu->m_iMode == 2, 0, (*reinterpret_cast<::xPlayer * *>(&::_g_thePlayer)), 0, 0, 1, 0);
 }
 
@@ -4159,14 +4161,14 @@ void MenuX::FUN_0075bc80()
     case 2:
         if (m74)
         {
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
             reinterpret_cast<::ContainerMenuEx *>(this)->FUN_0075baf0((::TESObjectREFR *)(m74), true);
         }
         break;
     case 3:
         if (m74)
         {
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_0055d520_shell *>((m74))->FUN_0055d520()))));
             reinterpret_cast<::FUN_00ad8830_shell *>((void *)&(const ::SoundPlaybackHandle &)(::FUN_00453a70()->GetSoundHandleByEditorID("DRSTraderOpen", 0x121)))->FUN_00ad8830(false);
             FUN_00763ff0();
             TESTopic* pkForm = dynamic_cast<TESTopic*>(::TESForm::LookupFormByEditorID("FollowersTrade"));
@@ -4175,9 +4177,9 @@ void MenuX::FUN_0075bc80()
         reinterpret_cast<::Tile *>((m50))->Set(0xfa3, 0);
         break;
     case 4:
-        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m2c))->FUN_00a01350(0xfc4, (char *)(((int)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GlobX *>(&::g_011d3c40))))->GetMenuTitle()))), {});
+        reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>((m2c))->FUN_00a01350(0xfc4, (char *)(((std::intptr_t)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::GlobX *>(&::g_011d3c40))))->GetMenuTitle()))), {});
         if (((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710())))
-            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((int)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710()))->kSub))->FUN_00408da0()))));
+            reinterpret_cast<::TrimMenu *>(this)->SetLabelText((const char *)(((std::intptr_t)(reinterpret_cast<::FUN_00408da0_Class *>(&(((::PlayerX *)(reinterpret_cast<::FUN_008a1710_shell *>((((HudX*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->FUN_008a1710()))->kSub))->FUN_00408da0()))));
         reinterpret_cast<::Tile *>((m50))->Set(0xfa3, 0);
         reinterpret_cast<::Tile *>((m28))->Set(0xfa3, 0);
         reinterpret_cast<::Tile *>((m30))->Set(0xfa3, 0);
@@ -4227,12 +4229,12 @@ struct Menu_0075be80
     int unk20;
     int unk24;
     int unk28;
-    int unk2c;
+    intptr_t unk2c;
     int unk30;
     int unk34;
     int unk38;
     int unk3c;
-    int unk40;
+    intptr_t unk40;
     int unk44;
     int unk48;
     int unk4c;
@@ -4347,18 +4349,18 @@ void Menu_0075be80::FUN_0075be80(int aiActionId, void* tile)
         if (g_011d93fc)
         {
             DAT_011a002c = 0;
-            bool take = (::FUN_00481f10((::TESObject *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((g_011d93fc))->GetName())))) ||
-                         ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(void *)(((void *)(reinterpret_cast<::Twin_0044ddc0 *>((g_011d93fc))->GetName()))), ::FUN_004d1360((char *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))))))) <= 0.0) &&
+            bool take = (::FUN_00481f10((::TESObject *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->pObject)))) ||
+                         ((double)(::TESWeightForm::GetWeightForForm((::TESForm *)(void *)(((void *)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->pObject))), ::FUN_004d1360((char *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))))))) <= 0.0) &&
                         (unk80 == 1 || unk80 == 2) && unkf8 == &unkc8;
-            if (((int)(reinterpret_cast<::Callees *>((g_011d93fc))->FUN_00726070())) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
+            if (((std::intptr_t)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->iCountDelta)) > *((int *)&(::FUN_0043d4d0((int *)&((*reinterpret_cast<::Setting75 *>(&::g_011d2418)))))) && !reinterpret_cast<::MenuLogic *>(this)->FUN_0075d510((::InventoryEntry *)(g_011d93fc), (::ExpectedReference *)((*reinterpret_cast<::Player75 * *>(&::_g_thePlayer))), (::ActorView *)(unk74)) &&
                 !take)
             {
                 reinterpret_cast<::FUN_007312e0_shell *>((unkf8))->FUN_007312e0();
                 unkf8->reset(0);
-                ::CreateQuantityMenu(((int)(reinterpret_cast<::Callees *>((g_011d93fc))->FUN_00726070())), HandleContainerMenuActivate, 0x7fffffff);
+                ::CreateQuantityMenu(((int)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->iCountDelta)), HandleContainerMenuActivate, 0x7fffffff);
             }
             else if (take)
-                HandleContainerMenuActivate(((int)(reinterpret_cast<::Callees *>((g_011d93fc))->FUN_00726070())));
+                HandleContainerMenuActivate(((int)(reinterpret_cast<::InventoryEntryFields *>((g_011d93fc))->iCountDelta)));
             else
                 HandleContainerMenuActivate(1);
         }
@@ -4780,8 +4782,8 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
     {
         MenuInventory* _inventory = ((::fnv_0075c280::MenuInventory *)(reinterpret_cast<::FUN_0075cc70_shell *>(((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer))))->FUN_0075cc70()));
         otherList.Clear();
-        for (unsigned int iA = 0; iA < ((unsigned int)(reinterpret_cast<::Twin_0044ddc0 *>((_inventory))->GetName())); iA++)
-            reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA)))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::fnv_0075c280::FUN_004bc550 **)(reinterpret_cast<::S3e60 *>((_inventory))->FUN_006a7ad0(iA))))))->GetTargetFullName(),
+        for (unsigned int iA = 0; iA < ((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((_inventory))->GetName())); iA++)
+            reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((intptr_t)(*((::fnv_0075c280::FUN_004bc550 **)(SimpleArrayItem<void *>((void *)(_inventory), iA)))), reinterpret_cast<::FUN_004be2d0_shell *>(((*((::fnv_0075c280::FUN_004bc550 **)(SimpleArrayItem<void *>((void *)(_inventory), iA))))))->GetTargetFullName(),
                                    (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0));
         if (filter)
             reinterpret_cast<::FUN_0075cc90_cls *>(this)->AttachAndDeliver(filter, ((void *)(::InventoryChanges::CreateForReference((::TESObjectREFR *)((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer)))))), &m_kList);
@@ -4810,15 +4812,15 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
         reinterpret_cast<::InventoryListBox *>(&(m_kList))->PopulateInventoryList((::InventoryOwner *)((*reinterpret_cast<::fnv_0075c280::MenuReference * *>(&::_g_thePlayer))), (bool (*)(InventoryEntry *))(((void (&)())::IsRefBaseObjectUnplayable)), 0, (void (*)(Tile *, InventoryEntry *))(0), 0, 0);
         reinterpret_cast<::InventoryListBox *>(&(otherList))->PopulateInventoryList((::InventoryOwner *)(container), (bool (*)(InventoryEntry *))(((void (&)())::IsRefBaseObjectUnplayable)), 0, (void (*)(Tile *, InventoryEntry *))(0), 0, 0);
     }
-    for (MenuFormList* node9 = &forms; node9 && *((::fnv_0075c280::MenuForm **)(new ((void *)(node9)) ::Vec3())); node9 = ((::fnv_0075c280::MenuFormList *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070())))
+    for (MenuFormList* node9 = &forms; node9 && *((::fnv_0075c280::MenuForm **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)); node9 = ((::fnv_0075c280::MenuFormList *)(reinterpret_cast<::Callees *>((node9))->FUN_00726070())))
     {
-        if (!filter || filter == *((::fnv_0075c280::MenuForm **)(new ((void *)(node9)) ::Vec3())))
+        if (!filter || filter == *((::fnv_0075c280::MenuForm **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)))
         {
-            FUN_004bc550* entry2 = new FUN_004bc550((TESBoundObject*)*((::fnv_0075c280::MenuForm **)(new ((void *)(node9)) ::Vec3())), 1);
+            FUN_004bc550* entry2 = new FUN_004bc550((TESBoundObject*)*((::fnv_0075c280::MenuForm **)(&reinterpret_cast<::SimpleListNodeView*>(node9)->m_item)), 1);
             StrMem name;
             MenuEntry* tile2 = 0;
             ::FUN_00406f60((::FUN_00406f90_this *)(::fnv_0075c280::StrMem *)(&name), ::DAT_01012058, ((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::fnv_0075c280::MenuSetting *>(&::g_011d3f70))))->GetMenuTitle())), reinterpret_cast<::FUN_004be2d0_shell *>((entry2))->GetTargetFullName());
-            tile2 = ((::fnv_0075c280::MenuEntry *)(reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(entry2), ((const char *)(::FUN_00559450((int *)&(name)))), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+            tile2 = ((::fnv_0075c280::MenuEntry *)(reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((intptr_t)(entry2), ((const char *)(::FUN_00559450((int *)&(name)))), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
             reinterpret_cast<::FUN_00a012d0_t *>(((*((::fnv_0075c280::MenuTileValue **)(reinterpret_cast<::InventoryStackRecord *>(&(tile2->tile))->GetPayloadAddress())))))->FUN_00a012d0(::DAT_0101e704, true, {});
         }
     }
@@ -4829,16 +4831,16 @@ void InventoryMenu::FUN_0075c280(MenuForm* filter)
         {
             FUN_004bc550* weaponEntry = new FUN_004bc550((TESBoundObject*)((::fnv_0075c280::MenuForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((weapon))->FUN_007af430())), 1);
             MenuEntry* weaponTile3 = 0;
-            weaponTile3 = ((::fnv_0075c280::MenuEntry *)(reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((int)(weaponEntry), reinterpret_cast<::FUN_004be2d0_shell *>((weaponEntry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
+            weaponTile3 = ((::fnv_0075c280::MenuEntry *)(reinterpret_cast<::list71a::L71Menu *>(&(otherList))->FUN_0071a320((intptr_t)(weaponEntry), reinterpret_cast<::FUN_004be2d0_shell *>((weaponEntry))->GetTargetFullName(), (int (*)(list71a::L71Item *, list71a::L71Item *))(0), (::list71a::L71Tile *)(0))));
             if (((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))
                 weaponEntry->extra = new FUN_0096a2d0;
-            if (!*((::fnv_0075c280::FUN_00410360 **)(new ((void *)(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))) ::Vec3())))
+            if (!*((::fnv_0075c280::FUN_00410360 **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))->m_item)))
             {
                 FUN_00410360* extra6 = new FUN_00410360;
                 ((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry))))->FUN_005ae3d0(&extra6);
             }
-            reinterpret_cast<::FUN_0041de40_class *>(((*((::fnv_0075c280::FUN_00410360 **)(new ((void *)(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))) ::Vec3())))))->FUN_0041de40((::TESObjectREFR *)(weapon));
-            reinterpret_cast<::ExtraDataList *>(((*((::fnv_0075c280::FUN_00410360 **)(new ((void *)(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))) ::Vec3())))))->SetExtraHealth(reinterpret_cast<::HealthReferenceEntry *>((weapon))->FUN_00568ad0());
+            reinterpret_cast<::FUN_0041de40_class *>(((*((::fnv_0075c280::FUN_00410360 **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))->m_item)))))->FUN_0041de40((::TESObjectREFR *)(weapon));
+            reinterpret_cast<::ExtraDataList *>(((*((::fnv_0075c280::FUN_00410360 **)(&reinterpret_cast<::SimpleListNodeView*>(((::fnv_0075c280::FUN_0096a2d0 *)(::FUN_00559450((int *)(weaponEntry)))))->m_item)))))->SetExtraHealth(reinterpret_cast<::HealthReferenceEntry *>((weapon))->FUN_00568ad0());
         }
     }
     reinterpret_cast<::LBList_7314c0 *>(&(m_kList))->FUN_007314c0((void (*)(LBTile_7314c0 *, void *))(((void (&)())::FUN_0075d160)), 0, 0x7fffffff);
@@ -4924,7 +4926,7 @@ void ThiS::FUN_007019e0(ObjRef* apObjRef)
     if (!(apObjRef != 0 && f24 != 0 && aX != 0))
         return;
     ObjRef* b = ((::ObjRef *)(reinterpret_cast<::InventoryChangesIter *>((aX))->FindEntryWithExtraListType(f28)));
-    int v4 = ((void *)(::FUN_00559450((int *)(apObjRef)))) ? *(int*)((int *)(new ((void *)(((ObjRaw*)((void *)(::FUN_00559450((int *)(apObjRef))))))) ::Vec3())) : 0;
+    intptr_t v4 = ((void *)(::FUN_00559450((int *)(apObjRef)))) ? *(int*)((int *)(&reinterpret_cast<::SimpleListNodeView*>(((ObjRaw*)((void *)(::FUN_00559450((int *)(apObjRef))))))->m_item)) : 0;
     TESModelTextureSwap* c_;
     TESModelTextureSwap* d;
     if (b != 0)
@@ -4940,16 +4942,16 @@ void ThiS::FUN_007019e0(ObjRef* apObjRef)
         }
     }
     reinterpret_cast<::InventorySlot *>((aX))->SetInventorySlotExtraData((::RefSlot *)(apObjRef), (::ExtraDataList *)(v4), f28);
-    if (((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apObjRef))->GetName())) != 0)
+    if (((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->pObject)) != 0)
     {
-        d = ::GetBipedModelTextureSwap((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apObjRef))->GetName()))), (::TESObjectREFR *)((*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))));
+        d = ::GetBipedModelTextureSwap((::TESForm *)(::TESBoundObject *)(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->pObject))), (::TESObjectREFR *)((*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer))));
         if (d == 0)
-            d = dynamic_cast<TESModelTextureSwap*>(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apObjRef))->GetName())));
+            d = dynamic_cast<TESModelTextureSwap*>(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->pObject)));
         if (d != 0)
             reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::Loader * *>(&::g_modelLoader))))->FUN_00447080(d->GetSwapName(), 0, 1, 0, 0, 0);
     }
     reinterpret_cast<::HotkeyWheelUpdate *>(this)->FUN_007017b0();
-    reinterpret_cast<::ActorSoundStub *>((((PlayerObj*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((int)(((::TESBoundObject *)(reinterpret_cast<::Twin_0044ddc0 *>((apObjRef))->GetName()))), 1, 0);
+    reinterpret_cast<::ActorSoundStub *>((((PlayerObj*)(*reinterpret_cast<::ExpectedReference * *>(&::_g_thePlayer)))))->PlayActorSound((intptr_t)(((::TESBoundObject *)(reinterpret_cast<::InventoryEntryFields *>((apObjRef))->pObject))), 1, 0);
     f24 = 0;
     ObjRef* aRef = b;
     ObjRef* aCopyP = aRef;

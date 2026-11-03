@@ -3,6 +3,7 @@
 //
 // Recovered quantity-menu translation unit. Every menu derives from Menu and
 // overrides the shared AssignTileByID slot with its own tile table.
+#include <cstdint>
 #include "fnv/decl/BSShaderRenderUtility.h"
 #include "fnv/decl/Callees.h"
 #include "fnv/decl/FUN_0045dfc0_shell.h"
@@ -64,7 +65,7 @@ void FUN_007abdf0()
     if ((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618)))
     {
         ((::fnv_007abdf0::Tile *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00726070()))->Set(0x1772, 1);
-        if (((int)(::FUN_00707ad0())))
+        if (((std::intptr_t)(::FUN_00707ad0())))
             reinterpret_cast<::fnv_00a1d9e0::FUN_00a1d9e0_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d9e0();
         else
             reinterpret_cast<::FUN_00a1d910_shell *>(((*reinterpret_cast<::fnv_007abdf0::Holder * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00a1d910();
@@ -137,7 +138,7 @@ struct Menu_7aba00
     virtual void v2c();
     virtual void v30();
     virtual int GetID();
-    int unk04;
+    void* unk04;
     int unk08;
     int unk0c;
     int unk10;
@@ -183,7 +184,7 @@ static const char kChild1_7aba00[] = "QM_HowManyText";
 static const char kChild2_7aba00[] = "QM_Background";
 // Loads quantity_menu.xml, builds the quantity menu, sets its max/initial/step values and labels, stores the callback, and returns the tile or 0 on failure.
 // @fnv 0x007aba00
-Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
+Tile_7aba00* __cdecl CreateQuantityMenu(intptr_t max, void* callback, int initial)
 {
     IM_7aba00* im4 = ((::IM_7aba00 *)(::fnv_004b7210::FUN_004b7210()));
     bool flag_ = false;
@@ -223,14 +224,14 @@ Tile_7aba00* __cdecl CreateQuantityMenu(int max, void* callback, int initial)
         reinterpret_cast<::fnv_00a01350::FUN_00a01350_shell *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->tile3c))->FUN_00a01350(0xfc4, (char *)(((const char *)(reinterpret_cast<::StartMenu *>(&((*reinterpret_cast<::SettingS_7aba00 *>(&::g_011d29f4))))->GetMenuTitle()))), true);
         if (flag_)
         {
-            reinterpret_cast<::FUN_00a012d0_t *>((((::Tile_7aba00 *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Tile_7aba00 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00726070()))))->FUN_00a03da0((char *)(kChild2_7aba00))))))->FUN_00a012d0(0xfa9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF_7aba00 *>(&::g_011d3bc8)))))) * 255.0, true);
+            reinterpret_cast<::FUN_00a012d0_t *>((((::Tile_7aba00 *)(reinterpret_cast<::fnv_00a03da0::FUN_00a03da0_shell *>((((::Tile_7aba00 *)((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->unk04))))->FUN_00a03da0((char *)(kChild2_7aba00))))))->FUN_00a012d0(0xfa9, *((float *)&(::FUN_00403e20((float *)&((*reinterpret_cast<::SettingF_7aba00 *>(&::g_011d3bc8)))))) * 255.0, true);
         }
         reinterpret_cast<::Menu *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->SetMenuVisibility(false);
         return tile6;
     }
     else
     {
-        if ((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618)) && ((::Tile_7aba00 *)(reinterpret_cast<::Callees *>(((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))))->FUN_00726070())))
+        if ((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618)) && ((::Tile_7aba00 *)((*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618))->unk04)))
             delete (*reinterpret_cast<::Menu_7aba00 * *>(&::fnv_00720a70::DAT_011da618));
     }
     return 0;

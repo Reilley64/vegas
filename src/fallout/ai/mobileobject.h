@@ -7,6 +7,7 @@
 #include "mobileobject_decls.h"
 #include "mobileobject_topicinfo.h"
 
+#ifdef FNV_MOBILEOBJECT_H_UNIT
 // @fnv 0x008ae4c0
 NiPoint3* MobileObject::GetPos() const
 {
@@ -41,4 +42,5 @@ BSSimpleList<TESTopic*>* TESTopicInfo::GetAddTopicList()
 {
     return &m_kAddTopicList;
 }
+#endif  // FNV_MOBILEOBJECT_H_UNIT
 #endif

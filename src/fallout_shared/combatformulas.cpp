@@ -1,5 +1,6 @@
 // fallout_shared/combatformulas.cpp: CombatDamageCalculator, NiCamera (52 functions)
 
+#include <cstdint>
 #include "fnv/decl/Actor8A7.h"
 #include "fnv/decl/AmmoOwner.h"
 #include "fnv/decl/BSShaderNoLightingProperty.h"
@@ -724,7 +725,7 @@ extern "C"
 
 // Returns the float value of the game setting at index a if a is in [0,10), otherwise 0.0f.
 // @fnv 0x006477e0
-float __cdecl FUN_006477e0(int aiIndex)
+float __cdecl FUN_006477e0(intptr_t aiIndex)
 {
     float v = 0.0f;
     if (aiIndex >= 0 && aiIndex < 10)

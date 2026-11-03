@@ -14,7 +14,7 @@ void FUN_00d3e110(const void *, const void *, const void *, void *);
 // 0x00d3e270
 ::D3E270_obj *FUN_00d3e270(int, int, int, int);
 // 0x00d3e2f0
-void FUN_00d3e2f0(int, int, int, int);
+void FUN_00d3e2f0(const void *, const void *, const void *, void *);
 // 0x00d3e330
 void FUN_00d3e330(const ::S_00d3ef70_CdBody &, const ::S_00d3ef70_CdBody &, const ::S_00d3ef70_Input &, ::S_00d3ef70_Collector &);
 // 0x00d3e510

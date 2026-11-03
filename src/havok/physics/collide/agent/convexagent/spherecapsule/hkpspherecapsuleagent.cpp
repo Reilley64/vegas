@@ -85,7 +85,7 @@ struct SmallRecord {
     void* m_vptr;
     unsigned short m_w04;
     unsigned short m_w06;
-    int m_i08;
+    void* m_i08;
     unsigned short m_w0C;
 };
 
@@ -93,11 +93,11 @@ extern char DAT_010cf018[];
 
 
 // @fnv 0x00d3e2f0
-void __cdecl FUN_00d3e2f0(int aiUnused1, int aiUnused2, int aiUnused3, int aiValue) {
-    SmallRecord* pRecord = static_cast<SmallRecord*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x10));
-    pRecord->m_w04 = 0x10;
+void __cdecl FUN_00d3e2f0(const void* apUnused1, const void* apUnused2, const void* apUnused3, void* apContactMgr) {
+    SmallRecord* pRecord = static_cast<SmallRecord*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(SmallRecord)));
+    pRecord->m_w04 = sizeof(SmallRecord);
     pRecord->m_w06 = 1;
-    pRecord->m_i08 = aiValue;
+    pRecord->m_i08 = apContactMgr;
     pRecord->m_w0C = 0xffff;
     pRecord->m_vptr = DAT_010cf018;
 }

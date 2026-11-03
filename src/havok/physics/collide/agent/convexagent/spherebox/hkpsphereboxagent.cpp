@@ -112,8 +112,8 @@ extern char DAT_010cf018[];
 // @fnv 0x00d3c400
 void __cdecl FUN_00d3c400(const void* aiUnused1, const void* aiUnused2, const void* aiUnused3, void* d)
 {
-    SmallRecord* pRecord = static_cast<SmallRecord*>(hkMemoryRouter::getInstance().heap().blockAlloc(0x10));
-    pRecord->m_w04 = 0x10;
+    SmallRecord* pRecord = static_cast<SmallRecord*>(hkMemoryRouter::getInstance().heap().blockAlloc(sizeof(SmallRecord)));
+    pRecord->m_w04 = sizeof(SmallRecord);
     pRecord->m_w06 = 1;
     pRecord->m_i08 = d;
     pRecord->m_w0C = 0xffff;

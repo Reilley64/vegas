@@ -2,6 +2,7 @@
 // src/havok/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/agent/deprecated/multisphere/hkpmultisphereagent.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpCollisionDispatcher.h"
 #include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <xmmintrin.h>
@@ -1601,27 +1602,14 @@ class hkpCdBodyPairCollector;
 typedef void(__cdecl* GetPenetrationsFunc)(const hkpCdBody& a, const hkpCdBody& b, const CollisionAgentContext& input,
                                            hkpCdBodyPairCollector& collector);
 
-struct S00d445e0_AgentFuncs
-{
-    void* m_pCreateFunc;
-    GetPenetrationsFunc m_pQueryPenetrationsFunc;
-    void* m_getClosestPointsFunc;
-    void* m_pLinearCastFunc;
-    int m_bIsFlipped;
-};
 
-class S00d445e0_hkpCollisionDispatcher
+class S00d445e0_hkpCollisionDispatcher : public hkpCollisionDispatcher
 {
   public:
-    int m_pad000;
-    S00d445e0_AgentFuncs* agentFuncs() const
+    GetPenetrationsFunc getGetClosestPointsFunc(int typeA, int typeB) const
     {
-        return (S00d445e0_AgentFuncs*)((char*)this + 0x9a4);
-    }
-    GetPenetrationsFunc getGetPenetrationsFunc(int typeA, int typeB) const
-    {
-        int idx = ((const unsigned char(*)[32])((const char*)this + 0x1a0))[typeA][typeB];
-        return agentFuncs()[idx].m_pQueryPenetrationsFunc;
+        int idx = (unsigned char)m_agent2Types[typeA][typeB];
+        return reinterpret_cast<GetPenetrationsFunc>(m_agent2Func[idx].m_getClosestPointsFunc);
     }
 };
 
@@ -1652,7 +1640,7 @@ void FUN_00d445e0(const hkpCdBody& bodyA, const hkpCdBody& bodyB, const Collisio
         sphereShape.m_fSphereRadius = b(3);
         newOperandA.SetCollisionShapeAndKey(&sphereShape, i);
         GetPenetrationsFunc func =
-            ((S00d445e0_hkpCollisionDispatcher*)input.dispatcher)->getGetPenetrationsFunc(sphereShape.m_type, typeB);
+            ((S00d445e0_hkpCollisionDispatcher*)input.dispatcher)->getGetClosestPointsFunc(sphereShape.m_type, typeB);
         func(newOperandA, bodyB, input, collector);
     }
 }
@@ -1662,27 +1650,14 @@ class CollisionAgentContext;
 typedef void(__cdecl* GetPenetrationsFunc)(const hkpCdBody& a, const hkpCdBody& b, const CollisionAgentContext& input,
                                            hkpCdBodyPairCollector& collector);
 
-struct S00d449f0_AgentFuncs
-{
-    void* m_pCreateFunc;
-    GetPenetrationsFunc m_pQueryPenetrationsFunc;
-    void* m_getClosestPointsFunc;
-    void* m_pLinearCastFunc;
-    int m_bIsFlipped;
-};
 
-class S00d449f0_hkpCollisionDispatcher
+class S00d449f0_hkpCollisionDispatcher : public hkpCollisionDispatcher
 {
   public:
-    int m_pad000;
-    S00d449f0_AgentFuncs* agentFuncs() const
-    {
-        return (S00d449f0_AgentFuncs*)((char*)this + 0x9a0);
-    }
     GetPenetrationsFunc getGetPenetrationsFunc(int typeA, int typeB) const
     {
-        int idx = ((const unsigned char(*)[32])((const char*)this + 0x1a0))[typeA][typeB];
-        return agentFuncs()[idx].m_pQueryPenetrationsFunc;
+        int idx = (unsigned char)m_agent2Types[typeA][typeB];
+        return reinterpret_cast<GetPenetrationsFunc>(m_agent2Func[idx].m_getPenetrationsFunc);
     }
 };
 

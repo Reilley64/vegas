@@ -1,0 +1,55 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 28,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-x64",
+      "displayName": "windows-x64",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/windows-x64",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "clang-cl",
+        "CMAKE_CXX_COMPILER": "clang-cl"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-x64",
+      "configurePreset": "windows-x64"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-x64",
+      "configurePreset": "windows-x64",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ],
+  "workflowPresets": [
+    {
+      "name": "windows-x64",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "windows-x64"
+        },
+        {
+          "type": "build",
+          "name": "windows-x64"
+        },
+        {
+          "type": "test",
+          "name": "windows-x64"
+        }
+      ]
+    }
+  ]
+}

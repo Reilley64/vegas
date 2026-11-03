@@ -3,6 +3,7 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "havok/hkMemoryRouter.h"
 #include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <xmmintrin.h>
@@ -74,26 +75,7 @@ void hkpStiffSpringChain::FUN_00e3af40(ConstraintInfo& info)
     info.m_iSolverElementTemporaryCount = size;
 }
 
-class hkMemoryAllocatorE3B4
-{
-  public:
-    virtual ~hkMemoryAllocatorE3B4() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterE3B4
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE3B4* m_pStreamAllocator;
-    hkMemoryAllocatorE3B4& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 
 class FUN_00e3b0a0
@@ -105,7 +87,7 @@ class FUN_00e3b0a0
 
     static void operator delete(void* p) throw()
     {
-        (*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750())).heap().ReleaseBlock(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00e3b0a0* DestroyAndFree(unsigned int uiFlags) throw();
@@ -293,22 +275,6 @@ struct hkVector4T : public hkVector4
 {
     void SetTransformedPoint(const hkTransform& t, const hkVector4& v) throw();
 };
-struct hkMemoryAllocator
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-struct hkMemoryRouterS
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-};
 struct hkInplaceIntArray32
 {
     int* m_data;
@@ -323,11 +289,11 @@ struct hkInplaceIntArray32
     }
     __forceinline ~hkInplaceIntArray32()
     {
-        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(&(*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750())).heap());
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(int));
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(int));
         }
     }
     __forceinline void pushBackUnchecked(int v)
@@ -335,11 +301,11 @@ struct hkInplaceIntArray32
         m_data[m_iElementCount] = v;
         m_iElementCount++;
     }
-    __forceinline void AddBack(hkMemoryRouterS* alloc, int v)
+    __forceinline void AddBack(hkMemoryRouter* router, int v)
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(alloc->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(int));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(int));
         }
         new (&m_data[m_iElementCount]) int(v);
         m_iElementCount++;
@@ -397,7 +363,7 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         in.m_kBodyALocalFrame = in.m_kBodyBLocalFrame;
         hkpEntityS* rB = instance->m_ppRigidBodies.m_data[i + 1];
         in.m_pBodyB = (const QuantizedBoundsData*)(base + rB->m_uiFilterInfo);
-        velocityAccumulatorsOffsets.AddBack(reinterpret_cast<hkMemoryRouterS*>(&(*static_cast<hkMemoryRouterE3B4*>(::FUN_00c85750()))),
+        velocityAccumulatorsOffsets.AddBack(&hkMemoryRouter::getInstance(),
                                             (hkUint32)((const char*)in.m_pBodyB - base));
         in.m_kBodyBLocalFrame = &rB->m_kMotionTransform;
         hk1dLinearBilateralConstraintInfo bp;

@@ -156,7 +156,7 @@ void FUN_00a4e270_shell::DestroyTransformData()
     if (pkScaleKeys)
     {
         void(__cdecl * pfnScaleDeleteFunc)(TimedAnimationKey*) =
-            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(reinterpret_cast<char*>(this) + 0x18)];
+            (*reinterpret_cast<void (*(*)[6])(TimedAnimationKey *)>(&::DAT_011f38a0))[*reinterpret_cast<int*>(&this->m_eScaleKeyType)];
         pfnScaleDeleteFunc(pkScaleKeys);
     }
     reinterpret_cast<class ::FUN_00a5d3d0 *>((reinterpret_cast<NiObject_Helper*>(this)))->FUN_00a5d3d0::~FUN_00a5d3d0();

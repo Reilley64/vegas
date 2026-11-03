@@ -775,11 +775,11 @@ void FUN_00baf520_Class::CopyTo(FUN_00b66700_Class* dest)
     *(float*)((char*)dest + 0xe8) = *(float*)((char*)this + 0x74);
     *(float*)((char*)dest + 0xec) = *(float*)((char*)this + 0x70);
     if (*(int*)((char*)this + 0x64))
-        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x64))[0x26])(
-            (void*)*(int*)((char*)this + 0x64), dest);
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)((char*)this + 0x64))[0x26])(
+            (void*)*(uintptr_t*)((char*)this + 0x64), dest);
     if (*(int*)((char*)this + 0x68))
-        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(int*)((char*)this + 0x68))[0x26])(
-            (void*)*(int*)((char*)this + 0x68), dest);
+        ((void(*)(void*, FUN_00b66700_Class*))(*(void***)*(uintptr_t*)((char*)this + 0x68))[0x26])(
+            (void*)*(uintptr_t*)((char*)this + 0x68), dest);
 }
 
 extern "C" void __cdecl operator_delete_sized(void*, unsigned int);
@@ -7847,7 +7847,7 @@ extern int DAT_010b9910;
 // @fnv 0x00bb45b0
 void FUN_00bb45b0(unsigned int* param_1)
 {
-    *param_1 = reinterpret_cast<unsigned int>(&DAT_010b9910);
+    *reinterpret_cast<uintptr_t*>(param_1) = reinterpret_cast<uintptr_t>(&DAT_010b9910);
     reinterpret_cast<struct ::FUN_00b67380 *>((param_1))->FUN_00b67380::~FUN_00b67380();
 }
 
@@ -13079,7 +13079,7 @@ void FUN_00bb66c0(unsigned int)
 {
     if ((*reinterpret_cast<void * *>(&::DAT_012007c4)))
     {
-        FUN_00e7de90_Class* p = *(FUN_00e7de90_Class**)((char*)*(int*)(DAT_0126f74c + 0x24));
+        FUN_00e7de90_Class* p = *(FUN_00e7de90_Class**)((char*)*(uintptr_t*)(DAT_0126f74c + 0x24));
         p->m8 = (intptr_t)(*reinterpret_cast<void * *>(&::DAT_012007c4));
         reinterpret_cast<::E7DE90Owner *>((p))->ApplyPairToState(0);
         reinterpret_cast<::E7DEF0TextureStage *>((p))->FUN_00e7def0(5);
@@ -13608,9 +13608,9 @@ struct S00ba1770_Tex
 struct S00ba1770_Src
 {
     int unk00;
-    int GetAt(int i)
+    uintptr_t GetAt(int i)
     {
-        return (&unk00)[0x174 / 4 + i];
+        return ((uintptr_t*)((char*)&unk00 + 0x174))[i];
     }
 };
 struct S00ba1770_Data
@@ -19065,7 +19065,7 @@ struct P368Camera
 
     unsigned int unkDC;
 
-    unsigned int unkE0;
+    uintptr_t unkE0;
 
     unsigned int unkE4;
 
@@ -19415,7 +19415,8 @@ struct P368Context
 
     P368Camera* camera;
 
-    unsigned int unk198, unk19C, unk1A0;
+    unsigned int unk198, unk19C;
+    uintptr_t unk1A0;
 };
 
 

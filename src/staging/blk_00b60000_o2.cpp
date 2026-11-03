@@ -2473,7 +2473,7 @@ struct Obj3c
 {
     char unk00[0x10];
     int m_10;
-    void FUN_00ba9ee0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
+    void FUN_00ba9ee0(intptr_t a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8);
 };
 
 struct ArgQ
@@ -2704,7 +2704,7 @@ Obj3c* ThisCls::FUN_00b69ff0(ArgP* p, int a2, int a3, int a4, int a5, int a6)
                 }
             }
         }
-        m_3c->FUN_00ba9ee0((int)p, code, 1, 0, 0, 0, 0, 0);
+        m_3c->FUN_00ba9ee0((intptr_t)p, code, 1, 0, 0, 0, 0, 0);
         if (m_60 == 0 && m_61 == 0)
         {
             Ret30* r = ((::Ret30 *)(reinterpret_cast<::B9F30Owner *>(this)->FUN_00b69f30((::B9F30Geometry *)(p))));
@@ -2716,22 +2716,22 @@ Obj3c* ThisCls::FUN_00b69ff0(ArgP* p, int a2, int a3, int a4, int a5, int a6)
             {
                 if (flagSlot.flag)
                 {
-                    m_3c->FUN_00ba9ee0((int)p, 0x2ab, 1, 0, 0, 0, 0, 0);
+                    m_3c->FUN_00ba9ee0((intptr_t)p, 0x2ab, 1, 0, 0, 0, 0, 0);
                 }
                 else
                 {
-                    m_3c->FUN_00ba9ee0((int)p, 0x29a, 1, 0, 0, 0, 0, 0);
+                    m_3c->FUN_00ba9ee0((intptr_t)p, 0x29a, 1, 0, 0, 0, 0, 0);
                 }
             }
             else
             {
                 if (flagSlot.flag)
                 {
-                    m_3c->FUN_00ba9ee0((int)p, 0x2ce, 1, 0, 0, 0, 0, 0);
+                    m_3c->FUN_00ba9ee0((intptr_t)p, 0x2ce, 1, 0, 0, 0, 0, 0);
                 }
                 else
                 {
-                    m_3c->FUN_00ba9ee0((int)p, 0x2bc, 1, 0, 0, 0, 0, 0);
+                    m_3c->FUN_00ba9ee0((intptr_t)p, 0x2bc, 1, 0, 0, 0, 0, 0);
                 }
             }
         }
@@ -3979,12 +3979,12 @@ RenderTarget_b6d170* RTManager_b6d170::CreateRenderTarget(std::intptr_t aiUnused
 class FUN_00b6d370_cls
 {
   public:
-    void FUN_00b6d370(int iA, intptr_t iB, int iC, int iD);
+    void FUN_00b6d370(intptr_t iA, intptr_t iB, int iC, int iD);
 };
 
 // Computes six values from iA and iB via GetRenderTargetDesc, then passes them with iA, iB, iC and iD to CreateRenderTarget.
 // @fnv 0x00b6d370
-void FUN_00b6d370_cls::FUN_00b6d370(int iA, intptr_t iB, int iC, int iD)
+void FUN_00b6d370_cls::FUN_00b6d370(intptr_t iA, intptr_t iB, int iC, int iD)
 {
     int i0, i1, i2, i3, i4, i5;
     ::GetRenderTargetDesc((::RenderConfigSurface *)(iA), iB, (unsigned int *)(&i0), (unsigned int *)(&i1), (unsigned int *)(&i2), (unsigned int *)(&i3), (unsigned int *)(&i4), (unsigned int *)(&i5));
@@ -4809,7 +4809,7 @@ struct TexStageStub
 {
     int unk00;
     int unk04;
-    unsigned int m_08;
+    uintptr_t m_08;
 };
 struct StageMgrStub
 {
@@ -10850,7 +10850,7 @@ struct ShaderStageManager
 void ShaderStageManager::FUN_00b7c0e0(NiD3DShader* shader, unsigned int i, unsigned int j)
 {
     TexStageStub* stage = ((StageMgr*)DAT_0126f74c)->m_pElems[i];
-    stage->m_08 = ((unsigned int)(::GetTextureByIndex((char *)(shader), j)));
+    stage->m_08 = ((uintptr_t)(::GetTextureByIndex((char *)(shader), j)));
     if (shader != 0)
         reinterpret_cast<::E7DE90Owner *>((stage))->ApplyPairToState(shader->V56());
 }
@@ -15248,7 +15248,7 @@ struct Arg200
 struct Stage200
 {
     int unk00, unk04;
-    int texture;
+    intptr_t texture;
 };
 struct Stages200
 {
@@ -15760,7 +15760,7 @@ void Host200::FUN_00b7d200(Arg200* arg)
         if (texture && texture->unk6c)
             stage->texture = texture->unk6c;
         else
-            stage->texture = (int)(*reinterpret_cast<::NiTextureB7A * *>(&::DAT_011f952c));
+            stage->texture = (intptr_t)(*reinterpret_cast<::NiTextureB7A * *>(&::DAT_011f952c));
         ::FUN_00b71b10((::BeamStage *)(stage), (::NiD3DShader *)(shader));
     }
     break;

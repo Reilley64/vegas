@@ -394,9 +394,9 @@ void FUN_00bc0970_class::FUN_00bc0970()
 {
     if (*(int*)((char*)this + 0x28))
     {
-        void(* f1)(void*) = (void(*)(void*))(*(int**)(*(uintptr_t*)((char*)this + 0x18c)))[0x28];
+        void(* f1)(void*) = (void(*)(void*))(*(uintptr_t**)(*(uintptr_t*)((char*)this + 0x18c)))[0x28];
         f1(*(void**)((char*)this + 0x18c));
-        void(* f2)(void*) = (void(*)(void*))(*(int**)(*(uintptr_t*)((char*)this + 0x190)))[0x22];
+        void(* f2)(void*) = (void(*)(void*))(*(uintptr_t**)(*(uintptr_t*)((char*)this + 0x190)))[0x22];
         f2(*(void**)((char*)this + 0x190));
     }
     reinterpret_cast<::fnv_00e814b0::UnkShader *>(this)->FUN_00e814b0();
@@ -670,20 +670,20 @@ struct Shader_00bdf650
 // @fnv 0x00bdf650
 void Shader_00bdf650::FUN_00bdf650(NiGeometry* geom, bool abFirstFlag, bool abSecondFlag, ShadowSceneLight* light)
 {
-    ShadowSceneLight* l = (ShadowSceneLight*)*(int*)((char*)light + 0x1a0);
+    ShadowSceneLight* l = (ShadowSceneLight*)*(uintptr_t*)((char*)light + 0x1a0);
     if (!abFirstFlag)
     {
         if (!abSecondFlag)
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x10, true, 1, l, 0, 0, 0);
+            ((BSShaderProperty::ShaderPassList*)*(uintptr_t*)((char*)this + 0x40))->Add(geom, 0x10, true, 1, l, 0, 0, 0);
         else
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x11, true, 1, l, 0, 0, 0);
+            ((BSShaderProperty::ShaderPassList*)*(uintptr_t*)((char*)this + 0x40))->Add(geom, 0x11, true, 1, l, 0, 0, 0);
     }
     else
     {
         if (!abSecondFlag)
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x12, true, 1, l, 0, 0, 0);
+            ((BSShaderProperty::ShaderPassList*)*(uintptr_t*)((char*)this + 0x40))->Add(geom, 0x12, true, 1, l, 0, 0, 0);
         else
-            ((BSShaderProperty::ShaderPassList*)*(int*)((char*)this + 0x40))->Add(geom, 0x13, true, 1, l, 0, 0, 0);
+            ((BSShaderProperty::ShaderPassList*)*(uintptr_t*)((char*)this + 0x40))->Add(geom, 0x13, true, 1, l, 0, 0, 0);
     }
 }
 
@@ -1099,7 +1099,7 @@ void* FUN_00bc3d80_class::FUN_00bc3d80(int flags)
 
 struct FUN_00bc4810_class
 {
-    int* vtbl;
+    uintptr_t* vtbl;
     void CallVtblSlot74WithFieldB4();
 };
 
@@ -1269,19 +1269,19 @@ struct FUN_00bd6980_class
 // @fnv 0x00bd6980
 void FUN_00bd6980_class::UpdateTextures(int)
 {
-    int value;
+    intptr_t value;
 
-    value = reinterpret_cast<int>(&m_Texture1);
+    value = reinterpret_cast<intptr_t>(&m_Texture1);
     reinterpret_cast<::H_00ba3840 *>(&(m_Texture1))->FUN_00ba3840(0x25);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(2, (::KeyPair **)&(value));
 
-    value = reinterpret_cast<int>(&m_Texture2);
+    value = reinterpret_cast<intptr_t>(&m_Texture2);
     reinterpret_cast<::H_00ba3840 *>(&(m_Texture2))->FUN_00ba3840(0x26);
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(3, (::KeyPair **)&(value));
 
     if (m_pFlagOwner[3] != 0)
     {
-        value = reinterpret_cast<int>(m_RenderedTexture);
+        value = reinterpret_cast<intptr_t>(m_RenderedTexture);
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(5, (::KeyPair **)&(value));
     }
     else
@@ -1291,7 +1291,7 @@ void FUN_00bd6980_class::UpdateTextures(int)
         reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(5, (::KeyPair **)&(value));
     }
 
-    value = reinterpret_cast<int>(m_Texture);
+    value = reinterpret_cast<intptr_t>(m_Texture);
     reinterpret_cast<::Holder00ba37f0 *>((reinterpret_cast<ImageSpaceTexture*>(m_Texture)))->FUN_00ba37f0((::Tex00ba37f0 *)(::NiTexture *)(reinterpret_cast<NiTexture*>(((void *)(::GetImageSpaceTexture())))));
     reinterpret_cast<::FUN_00a41520_cls *>(&(m_Array))->FUN_00ba3aa0(4, (::KeyPair **)&(value));
 }
@@ -4696,7 +4696,7 @@ struct DispatchRegistry
     unsigned int unk38;
     unsigned int unk3c;
     unsigned int unk40;
-    unsigned int unk44;
+    uintptr_t unk44;
     unsigned int unk48;
     unsigned int unk4c;
     unsigned int unk50;
@@ -6034,7 +6034,7 @@ void FUN_00bd0540_class::InitRefObjects()
         {
             ::FUN_00be0c00((const char *)(void *)((void*)arrA[i].f00), (char *)(bufB));
             ::FUN_00406d00(bufA, 0x104, str_010bbaf8, i);
-            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrA[i].f04), (const char *)(str_010a93ec), bufA)));
+            RefObject* nv = ((::RefObject *)(::fnv_00be0fe0::FUN_00be0fe0((const char *)(bufB), (::_D3DXMACRO *)(&arrA[i].f04), (const char *)(&str_010a93ec), bufA)));
             RefObject* old = m_arr94[i];
             if (old != nv)
             {
@@ -7126,8 +7126,8 @@ bool FUN_00bd46a0_cls::ClearAllReferences()
 
 struct S_00bd6150_Foo
 {
-    int unk00;
-    int unk04;
+    intptr_t unk00;
+    intptr_t unk04;
     int unk08;
     short unk0c;
     unsigned short m_uiItemCount;
@@ -7766,11 +7766,11 @@ struct FUN_00bd92b0_class
     char m_pad4;
     unsigned char m_b5;
     char unk06[6];
-    int* m_p0c;
+    intptr_t* m_p0c;
     char unk10[0x0c];
     int* m_p1c;
     char unk20[0x0c];
-    int* m_p2c;
+    intptr_t* m_p2c;
 
     void FUN_00bd92b0(int a1, int a2, int a3, int a4);
 };
@@ -7781,11 +7781,11 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     if (m_b5)
         m_b5 = v7(a3);
 
-    int inner = *m_p0c;
+    intptr_t inner = *m_p0c;
     char* base = inner ? (char*)inner - 0x6c : 0;
     FUN_00bd92b0_mgr* pMgr = (FUN_00bd92b0_mgr*)(base + 0x6c);
 
-    int* pField2c = m_p2c;
+    intptr_t* pField2c = m_p2c;
     int* pField1c = m_p1c;
     intptr_t iField2c0 = *pField2c;
     int b = *pField1c;
@@ -7801,7 +7801,7 @@ void FUN_00bd92b0_class::FUN_00bd92b0(int a1, int a2, int a3, int a4)
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(1, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
     reinterpret_cast<::HolderForAccum *>((pMgr))->SetAccumulatorAt(2, (::NiAccumulator *)(0), (const ::NiCamera *)(0));
 
-    FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)(*reinterpret_cast<int *>(&::DAT_011f91a8));
+    FUN_00bd92b0_mgr* g = (FUN_00bd92b0_mgr*)(*reinterpret_cast<uintptr_t *>(&::DAT_011f91a8));
     void* r = reinterpret_cast<::FUN_00ba3770_struct *>((sub))->FUN_00ba3770();
     reinterpret_cast<::Manager *>((g))->FUN_00b6da10((::Item *)(r));
     reinterpret_cast<::Holder *>((sub))->FUN_00ba38b0();
@@ -8487,7 +8487,7 @@ int BDD80ShaderProperty::AddRenderPass(BDD80Geometry* pkGeometry, intptr_t iRend
         }
         return 0;
     }
-    return ((int)(reinterpret_cast<::FUN_00bdac00_t *>(this)->FUN_00bdac00((::NiGeometry *)(pkGeometry), (::ShadowSceneLight *)(iRenderMode), pusPassCount, ucMode, pbFirst, bSkip, iArg6, iArg7, iArg8, iArg9,
+    return ((int)(intptr_t)(reinterpret_cast<::FUN_00bdac00_t *>(this)->FUN_00bdac00((::NiGeometry *)(pkGeometry), (::ShadowSceneLight *)(iRenderMode), pusPassCount, ucMode, pbFirst, bSkip, iArg6, iArg7, iArg8, iArg9,
                               iArg12)));
 }
 
@@ -12287,7 +12287,7 @@ struct Source : Ref
 {
     int data;
     unsigned char mode;
-    int indices;
+    intptr_t indices;
     int multiplier;
     Ptr<Ref> texture;
     Ref* prop1;
@@ -22419,7 +22419,7 @@ __forceinline void ShaderPassBuilder::GenerateLightingPasses(
         return;
     }
     if ((propertyFlags & 0x40) > 0)
-        ((::fnv_00bdb4a0::ShaderPassEntry *)(::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geometry), (unsigned short *)(count), (unsigned char)(effectType), (bool *)(&first), (bool)(hasNoOverlay))))->status = 7;
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(::FUN_00bd9e60((::Shader_00bd9540 *)this, 0, (::NiGeometry *)(geometry), (unsigned short *)(count), (unsigned char)(effectType), (bool *)(&first), (bool)(hasNoOverlay))))->status = 7;
     unsigned short numLights = ((unsigned short)(::FUN_00b707d0((void *)this)));
     if (allowFirstPass && (needsShadow || passMask == DAT_010a91d4))
     {
@@ -22553,8 +22553,8 @@ afterLighting:
     if (extraContext)
     {
         if (0 != extraContext->enabled)
-            ((::fnv_00bdb4a0::ShaderPassEntry *)(reinterpret_cast<::FUN_00bd9f90_class *>(this)->FUN_00bd9f90((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
-        ((::fnv_00bdb4a0::ShaderPassEntry *)(reinterpret_cast<::FUN_00bd9d00_class *>(this)->FUN_00bd9d00((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
+            ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(reinterpret_cast<::FUN_00bd9f90_class *>(this)->FUN_00bd9f90((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
+        ((::fnv_00bdb4a0::ShaderPassEntry *)(intptr_t)(reinterpret_cast<::FUN_00bd9d00_class *>(this)->FUN_00bd9d00((::NiGeometry *)(geometry), count, effectType, &first, hasNoOverlay)))->status = 1;
     }
     if ((*reinterpret_cast<unsigned char *>(&::DAT_011f9422)) && (passMask & 1))
         reinterpret_cast<::fnv_00bdb380::Shader *>(this)->CreatePassMessage(geometry, count, effectType, hasNoOverlay, hasRenderContext);

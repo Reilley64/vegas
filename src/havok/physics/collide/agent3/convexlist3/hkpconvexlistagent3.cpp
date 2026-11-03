@@ -567,7 +567,7 @@ void __cdecl FUN_00d32ca0(void* a, const void* b, void* c, void* output)
     __m128* __restrict p = static_cast<__m128*>(output);
     float finalComponent = DAT_010CEB6C;
     *p = (*reinterpret_cast<__m128 *>(&::DAT_01268370));
-    reinterpret_cast<float*>(p)[3] = finalComponent;
+    (*p)[3] = finalComponent;
 }
 
 struct HK_ASSERT_OBJECT_SIZE_OK_FUNC_t

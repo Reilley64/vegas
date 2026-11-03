@@ -2,6 +2,11 @@
 // src/havok/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/deprecated/convexlist/hkpconvexlistshape.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <xmmintrin.h>
+#include <bit>
+#include "fnv/symbols_simd.h"
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FunctionContext.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -11,7 +16,21 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpConvexListShape.h"
 
-struct FUN_00d5e2e0_Class
+#include "havok/hkpShapeContainer.h"
+
+// hkpConvexListShape with its hkpShapeContainer base, which starts 0x14 bytes into the shape.
+struct ConvexListShapeMI : hkpConvexShape, hkpShapeContainer
+{
+    hkReal m_fMaximumRadius;
+    char pad1C[0x4];
+    hkVector4 m_kAabbHalfExtents;
+    hkVector4 m_kAabbCenter;
+    hkBool m_bUseCachedAabb;
+    char pad41[0x3];
+    hkArray<hkpConvexShape*> m_kChildShapes;
+};
+
+struct FUN_00d5e2e0_Class : hkpShapeContainer
 {
     int GetNextKey(int key);
 };
@@ -20,35 +39,49 @@ struct FUN_00d5e2e0_Class
 int FUN_00d5e2e0_Class::GetNextKey(int key)
 {
     ++key;
-    if (key >= *(int*)((char*)this + 0x34))
+    if (key >= static_cast<ConvexListShapeMI*>(static_cast<hkpShapeContainer*>(this))->m_kChildShapes.m_iElementCount)
         key = -1;
     return key;
 }
 
-// Iterates the objects in the array at offset 0x44 up to the count at 0x48, calling each object's virtual method at vtable offset 0x2c and summing the results.
+struct ConvexListChildD5E1
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0c();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void v1c();
+    virtual void v20();
+    virtual void v24();
+    virtual void v28();
+    virtual int v2c();
+};
+
+// Iterates the child shapes, calling each one's virtual method at vtable offset 0x2c and summing the results.
 // @fnv 0x00d5e190
-int SumVirtualResults(void* self)
+int SumVirtualResults(ConvexListShapeMI* self)
 {
     int iTotal = 0;
     int i = 0;
-    char* p = (char*)self;
-    if (*(int*)(p + 0x48) > 0)
+    if (self->m_kChildShapes.m_iElementCount > 0)
     {
         do
         {
-            void* pObject = *(void**)(*(int*)(p + 0x44) + i * 4);
-            int(* fn)(void*) = *(int(**)(void*))(*(int*)pObject + 0x2c);
-            iTotal += fn(pObject);
+            ConvexListChildD5E1* pObject = reinterpret_cast<ConvexListChildD5E1*>(self->m_kChildShapes.m_data[i]);
+            iTotal += pObject->v2c();
             i++;
-        } while (i < *(int*)(p + 0x48));
+        } while (i < self->m_kChildShapes.m_iElementCount);
     }
     return iTotal;
 }
 
 // @fnv 0x00d5e2f0
-int FUN_00d5e2f0(char* self, int edx, int key, int pad)
+hkpConvexShape* FUN_00d5e2f0(hkpShapeContainer* self, int edx, int key, int pad)
 {
-    return ((int*)((int*)self)[0xc])[key];
+    return static_cast<ConvexListShapeMI*>(self)->m_kChildShapes.m_data[key];
 }
 
 void __cdecl FUN_00d5e7c0();
@@ -90,21 +123,16 @@ FUN_00d5e850_Class* FUN_00d5e850_Class::Destroy(int flags)
     return this;
 }
 
-struct FUN_00d5e0f0_cls
+// The convex list shape's layout: the convex shape, then the shape container interface (+0x14 in the 32-bit build).
+struct FUN_00d5e0f0_cls : public hkpConvexShape, public hkpShapeContainer
 {
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    int unk10;
-
     char* FUN_00d5e0f0();
 };
 
 // @fnv 0x00d5e0f0
 char* FUN_00d5e0f0_cls::FUN_00d5e0f0()
 {
-    return this != 0 ? (char*)this + 0x14 : 0;
+    return this != 0 ? reinterpret_cast<char*>(static_cast<hkpShapeContainer*>(this)) : 0;
 }
 
 // @fnv 0x00d5e0d0
@@ -222,16 +250,7 @@ int FUN_00d5e2d0_cls::FUN_00d5e2d0()
     return unk34;
 }
 
-struct BSAudio
-{
-    void* unk00;
-    void* unk04;
-    void* unk08;
-    void* unk0c;
-    void* allocator;
-};
 
-BSAudio* FUN_00c85750();
 
 struct ConvexList : hkpConvexListShape
 {
@@ -242,8 +261,7 @@ struct ConvexList : hkpConvexListShape
 void ConvexList::SetChildren(hkpConvexShape** children, int numChildren)
 {
     hkArray<hkpConvexShape*>* pChildrenArray = &m_kChildShapes;
-    BSAudio* audio = FUN_00c85750();
-    void* allocator = audio->allocator;
+    hkMemoryAllocator* allocator = &hkMemoryRouter::getInstance().heap();
     int iCapacity = pChildrenArray->m_iCapacityState & 0x3fffffff;
     if (iCapacity < numChildren)
     {
@@ -328,18 +346,7 @@ void ShapeListD5E::GetChildData(const unsigned short* keys, int numKeys, ShapeOu
     }
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_sub_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_load_ps1(const float* p);
 
 static const float DAT_0104da48 = 3.40282e+38f;
 static const float DAT_0104e148 = -3.40282e+38f;
@@ -491,14 +498,7 @@ void hkpConvexListShapeD5E3::UpdateCachedAabb(bool bUseCachedAabb)
 }
 
 namespace fnv_00d5e3c0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
 
-extern "C" __m128 _mm_min_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_max_ps(__m128 a, __m128 b);
 
 struct hkVector4D5E3
 {
@@ -665,7 +665,7 @@ class hkContainerD5E7
 class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
 {
   public:
-    FUN_00d5e750(void* a, void* b) throw();
+    FUN_00d5e750(void* a, int b) throw();
     virtual ~FUN_00d5e750() throw();
 
 
@@ -673,35 +673,17 @@ class FUN_00d5e750 : public hkShapeD5E7, public hkContainerD5E7
 };
 
 // @fnv 0x00d5e750
-FUN_00d5e750::FUN_00d5e750(void* a, void* b) throw() : hkShapeD5E7(0x16)
+FUN_00d5e750::FUN_00d5e750(void* a, int b) throw() : hkShapeD5E7(0x16)
 {
     m_vScale = 1.0f;
-    reinterpret_cast<::ConvexList *>(this)->SetChildren((::hkpConvexShape **)(a), (int)(b));
+    reinterpret_cast<::ConvexList *>(this)->SetChildren((::hkpConvexShape **)(a), b);
     reinterpret_cast<::hkpConvexListShapeD5E3 *>(this)->UpdateCachedAabb(1);
 }
 
 namespace fnv_00d5e7c0 {
-struct hkAllocatorD5E7
-{
-    virtual void V0() throw();
-    virtual void V1() throw();
-    virtual void V2() throw();
-    virtual void V3() throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD5E7
-{
-    int unk00, unk04, unk08, unk0C;
-    hkAllocatorD5E7* m_pkHeap;
-    hkAllocatorD5E7& heap()
-    {
-        return *m_pkHeap;
-    }
-};
 
 namespace hkRouterD5E7 {
-extern "C" hkMemoryRouterD5E7* __cdecl FUN_00c85750() throw();
 }
 
 template <typename T> struct hkArrayD5E7
@@ -714,17 +696,17 @@ template <typename T> struct hkArrayD5E7
     {
         return m_iElementCount;
     }
-    void _clearAndDeallocate(hkAllocatorD5E7& kAlloc)
+    void _clearAndDeallocate(hkMemoryAllocator& kAlloc)
     {
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            kAlloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            kAlloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
     ~hkArrayD5E7() throw()
     {
-        _clearAndDeallocate(hkRouterD5E7::FUN_00c85750()->heap());
+        _clearAndDeallocate(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -835,7 +817,6 @@ void S00d5e480_Class::FUN_00d5e480(S00d5e480_Visitor* visitor, int)
 }
 
 #include <windows.h>
-#include "fnv/symbols_simd.h"
 extern "C" void _ReadWriteBarrier(void);
 
 unsigned __int64 __cdecl __rdtsc(void);
@@ -1097,9 +1078,6 @@ struct Derived : PrimaryBase, SecondaryBase
 Derived::Derived()
 {}
 
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct hkVector4q
 {
@@ -1123,12 +1101,12 @@ struct hkVector4q
 
     __forceinline int getInt24W() const
     {
-        return reinterpret_cast<const int*>(&m_vComponents)[3] & ~0x3f000000;
+        return std::bit_cast<int>(m_vComponents[3]) & ~0x3f000000;
     }
 
     __forceinline void setInt24W(int value)
     {
-        reinterpret_cast<int*>(&m_vComponents)[3] = value | 0x3f000000;
+        m_vComponents[3] = std::bit_cast<float>(value | 0x3f000000);
     }
 };
 

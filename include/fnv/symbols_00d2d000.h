@@ -15,9 +15,10 @@ struct ValueSource;
 // 0x00d2d3e0
 void CallWithValueSource(void *, void *, int, ::ValueSource **, int, int, int);
 // 0x00d2d430
-void FUN_00d2d430(int, int, int, ::Agent *);
+struct Hdr;
+void FUN_00d2d430(void *, ::Hdr *, char **, ::Agent *);
 // 0x00d2d480
-void FUN_00d2d480(void *, void *, float, float, int);
+void FUN_00d2d480(void *, void *, float, float, void **);
 // 0x00d2d4b0
 void FUN_00d2d4b0(::Interface **);
 // 0x00d2d4c0
@@ -25,7 +26,7 @@ void *GetSpawnedObjectPointer(void **);
 // 0x00d2d4f0
 int FUN_00d2d4f0(const ::hkpCdBody &, const ::hkpCdBody &, const ::hkTransform &, const ::hkVector4 &, const ::GskAgentInput &, ::hkAabb *, unsigned int *, int);
 // 0x00d2d890
-char *FUN_00d2d890(char *, int, char *, int, int);
+char *FUN_00d2d890(char *, int, char *, int, void *);
 // 0x00d2da20
 void FUN_00d2da20(::FUN_00cfbd60_Obj *);
 // 0x00d2da70

@@ -2,6 +2,8 @@
 // src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include "fnv/decl/WorldQuery.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
@@ -146,34 +148,7 @@ FUN_00e466a0::FUN_00e466a0(hkFinishFlagE466 flag) : hkRefObjE466(flag), m_name(f
 }  // namespace fnv_00e466a0
 
 namespace fnv_00e466e0 {
-class hkMemoryAllocatorE466
-{
-  public:
-    virtual ~hkMemoryAllocatorE466() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
-
-struct hkMemoryRouterE466
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE466* m_pStreamAllocator;
-    hkMemoryAllocatorE466& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterE466& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void destructE466(T* t, int n)
 {
@@ -195,14 +170,14 @@ template <class T> class hkArrayE466
 
     __forceinline ~hkArrayE466()
     {
-        ClearAndRelease(FUN_00c85750().heap());
+        ClearAndRelease(hkMemoryRouter::getInstance().heap());
     }
     __forceinline void clear()
     {
         destructE466(m_data, m_iElementCount);
         m_iElementCount = 0;
     }
-    __forceinline void ClearAndRelease(hkMemoryAllocatorE466& kAlloc)
+    __forceinline void ClearAndRelease(hkMemoryAllocator& kAlloc)
     {
         clear();
         if ((m_iCapacityState & 0x80000000) == 0)
@@ -219,7 +194,7 @@ class FUN_00cb0c00_class
 
     ~FUN_00cb0c00_class()
     {
-        ::FUN_00cb0c00((int)this);
+        ::FUN_00cb0c00(reinterpret_cast<intptr_t>(this));
     }
 };
 
@@ -264,75 +239,34 @@ struct FUN_00e466e0_Obj
 
 class FUN_00e46750_Obj;
 
-struct VirtualObj
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08(FUN_00e46750_Obj* a, int b);
-};
 
-struct FUN_00c85750_Obj
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    VirtualObj* unk10;
-};
 
-FUN_00c85750_Obj* __cdecl FUN_00c85750();
 
 class FUN_00e46750_Obj : public hkpFirstPersonGun
 {
   public:
     void FUN_00e466e0();
-    int FUN_00e46750(unsigned char flag);
+    FUN_00e46750_Obj* FUN_00e46750(unsigned char flag);
 };
 
 // @fnv 0x00e46750
-int FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
+FUN_00e46750_Obj* FUN_00e46750_Obj::FUN_00e46750(unsigned char flag)
 {
     reinterpret_cast<::fnv_00e466e0::FUN_00e466e0_class *>(this)->fnv_00e466e0::FUN_00e466e0_class::~FUN_00e466e0_class();
 
     if (flag & 1)
     {
-        FUN_00c85750_Obj* audio = FUN_00c85750();
-        audio->unk10->vf08(this, m_usMemSizeAndFlags);
+        hkMemoryRouter* audio = &hkMemoryRouter::getInstance();
+        audio->m_heap->blockFree(this, m_usMemSizeAndFlags);
     }
 
-    return (int)this;
+    return this;
 }
 
 #include <xmmintrin.h>
 namespace fnv_00e464e0 {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
-extern "C" __m128 _mm_unpackhi_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
 
-struct hkMemoryAllocator
-{
-    virtual void v00();
-    virtual void* allocateChunk(int nbytes);
-};
 
-struct hkMemoryRouterStub
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocator* m_pThreadAllocator;
-    hkMemoryAllocator& heap()
-    {
-        return *m_pThreadAllocator;
-    }
-};
-hkMemoryRouterStub* FUN_00c85750();
 
 struct hkVector4q
 {
@@ -348,7 +282,7 @@ struct hkVector4q
     }
     float& operator()(int i)
     {
-        return m_vComponents.m128_f32[i];
+        return reinterpret_cast<float*>(&m_vComponents)[i];
     }
     void setXYZ(const hkVector4q& v)
     {
@@ -387,13 +321,13 @@ struct hkpSphereShapeq
     int unk18;
     int unk1C;
 
-    static void* operator new(std::size_t nbytes)
+    static void* operator new(size_t nbytes)
     {
-        hkpSphereShapeq* p = (hkpSphereShapeq*)FUN_00c85750()->heap().allocateChunk(nbytes);
+        hkpSphereShapeq* p = (hkpSphereShapeq*)hkMemoryRouter::getInstance().heap().blockAlloc(nbytes);
         p->m_usMemSizeAndFlags = (unsigned short)nbytes;
         return p;
     }
-    static void operator delete(void* p, std::size_t nbytes);
+    static void operator delete(void* p, size_t nbytes);
 
     hkpSphereShapeq(float radius) throw();
 };
@@ -558,3 +492,79 @@ hkResult FUN_00e464e0(hkpWorldq* world, const hkVector4q& from, float radius, co
     return HK_FAILURE;
 }
 }  // namespace fnv_00e464e0
+
+// Moved from hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp (VEGAS-15).
+
+// src/havok/physics/utilities/weapons/hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant_rtm_variant.cpp - RTM variant unit created 2026-11-01 by rtm_route.py: community reworks of src/havok/physics/utilities/weapons/hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant.cpp that match byte for byte only
+// with VC9 RTM (cl 15.00.21022.08, the compiler the game was built with). Declarations copied from that unit's skeleton.
+
+// src/havok/physics/utilities/weapons/hkpfirstpersongun_gs_ehsc_nogs_noehsc_variant.cpp - flag-variant unit created 2026-10-29 by flag_proofs.py: contributor code for these functions matched byte for
+// byte only under /MT /O2 /GS- /EHs-c- /Gy (unit src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp lists /MT /O2 /GS /EHsc /Gy). Declarations copied from that unit's skeleton; move the functions
+// to their real unit once identified.
+// src/havok/physics/utilities/weapons/hkpfirstpersongun.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/utilities/weapons/hkpfirstpersongun.cpp).
+// Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
+#include "fnv/symbols_00c85000.h"
+#include "fnv/symbols_01011000.h"
+
+
+static __inline __m128 splat(const float* p)
+{
+    __m128 s = _mm_load_ss(p);
+    return _mm_shuffle_ps(s, s, 0);
+}
+
+// @fnv 0x00e463d0
+void __cdecl FUN_00e463d0(const hkVector4& from, const hkVector4& to, const hkVector4& dir, float t, hkVector4& out)
+{
+    float eps = ::DAT_0104da4c;
+    float temp;
+
+    __m128 a = *(const __m128*)&from;
+    __m128 b = *(const __m128*)&to;
+    __m128 diff = _mm_sub_ps(b, a);
+
+    __m128 sq = _mm_mul_ps(diff, diff);
+    __m128 y = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 z = _mm_shuffle_ps(sq, sq, 0xaa);
+    __m128 sum = _mm_add_ss(y, sq);
+    sum = _mm_add_ss(z, sum);
+    __m128 len = _mm_sqrt_ss(sum);
+
+    float dist;
+    _mm_store_ss(&dist, len);
+
+    if (eps < dist)
+    {
+        float invRatio = dist / t;
+        float factor = (float)(invRatio * DAT_01011598);
+        const __m128 c = *(const __m128*)&dir;
+
+        temp = factor;
+        __m128 vec_a = _mm_mul_ps(splat(&temp), c);
+
+        __m128 sq_a = _mm_mul_ps(vec_a, vec_a);
+        __m128 y_a = _mm_shuffle_ps(sq_a, sq_a, 0x55);
+        __m128 z_a = _mm_shuffle_ps(sq_a, sq_a, 0xaa);
+        __m128 sum_a = _mm_add_ss(y_a, sq_a);
+        sum_a = _mm_add_ss(z_a, sum_a);
+        __m128 len_a_vec = _mm_sqrt_ss(sum_a);
+
+        _mm_store_ss(&temp, len_a_vec);
+
+        float len_a = temp;
+
+        if (len_a > t)
+        {
+            float s = t / len_a;
+            temp = s;
+            vec_a = _mm_mul_ps(splat(&temp), vec_a);
+        }
+        float ratio = t / dist;
+        temp = ratio;
+        *(__m128*)&out = _mm_add_ps(_mm_mul_ps(splat(&temp), diff), vec_a);
+    }
+    else
+    {
+        *(__m128*)&out = diff;
+    }
+}

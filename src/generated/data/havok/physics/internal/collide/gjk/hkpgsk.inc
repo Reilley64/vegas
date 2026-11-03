@@ -4,6 +4,5 @@
 
 #pragma comment(linker, "/alternatename:?signMask@@3T__m128@@B=?DAT_010c44d0@@3T__m128@@B")
 
-const signed char DAT_010cb438[2] = {-1};
 const double DAT_010d51a8 = 100000000000000.0;
 const float DAT_010d51b0 = 1.0e+07f;

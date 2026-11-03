@@ -5,7 +5,7 @@ namespace fnv_00c9bef0 { struct TlsBlock_t; }
 struct TlsBlock_t;
 
 // 0x01272000
-extern __declspec(thread) ::TlsBlock_t g_tlsBlock;
+extern thread_local ::TlsBlock_t g_tlsBlock;
 // 0x01272004
 namespace fnv_00c9bef0 { extern __declspec(thread) ::fnv_00c9bef0::TlsBlock_t g_tlsBlock; }
 // 0x01272008

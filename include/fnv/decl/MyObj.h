@@ -10,5 +10,5 @@ public:
     // 0x00c8c410
     void FUN_00c8c410(void *);
     // 0x00cfa430
-    void FUN_00cfa430(void *, void *, ::S00cfa430_Data *, unsigned char);
+    void FUN_00cfa430(void *, int, ::S00cfa430_Data *, unsigned char);
 };

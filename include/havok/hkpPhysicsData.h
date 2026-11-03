@@ -7,9 +7,13 @@
 #include "hkReferencedObject.h"
 class hkpPhysicsSystem;
 class hkpWorldCinfo;
+class hkpWorldObject;
 class hkpPhysicsData : public hkReferencedObject
 {
   public:
+    hkpPhysicsSystem* findPhysicsSystemByName(const char* name) const;
+    hkpWorldObject* findRigidBodyByName(const char* name) const;
+
     hkpWorldCinfo* m_pWorldCinfo;                  // +0x8
     hkArray<hkpPhysicsSystem*> m_kPhysicsSystems;  // +0xC
 };

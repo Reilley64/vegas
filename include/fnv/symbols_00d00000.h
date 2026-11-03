@@ -61,11 +61,11 @@ void FUN_00d008c0(::D008C0World *, void *);
 // 0x00d00960
 void FUN_00d00960(::ProfOwner *, void *);
 // 0x00d00a00
-void NotifyTargets(::ProfOwner *, unsigned long);
+void NotifyTargets(::ProfOwner *, void *);
 // 0x00d00aa0
-void FUN_00d00aa0(::OwnerD *, int);
+void FUN_00d00aa0(::OwnerD *, const void *);
 // 0x00d00b40
-void FUN_00d00b40(::ListenerOwnerQ *, unsigned long);
+void FUN_00d00b40(::ListenerOwnerQ *, void *);
 // 0x00d00bf0
 void FUN_00d00bf0(::ListenerOwner *, void *);
 // 0x00d00ca0

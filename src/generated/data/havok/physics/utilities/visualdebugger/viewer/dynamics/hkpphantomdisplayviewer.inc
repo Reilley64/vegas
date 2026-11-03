@@ -2,7 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
-namespace fnv_00d66530 { const char str_010d196c[61] = "Unable to build display geometry from hkpShape geometry data"; }
 namespace fnv_00d66530 { const char str_010d1be8[68] = {46, 92, 86, 105, 115, 117, 97, 108, 68, 101, 98, 117, 103, 103, 101, 114, 92, 86, 105, 101, 119, 101, 114, 92, 68, 121, 110, 97, 109, 105, 99, 115, 92, 104, 107, 112, 80, 104, 97, 110, 116, 111, 109, 68, 105, 115, 112, 108, 97, 121, 86, 105, 101, 119, 101, 114, 46, 99, 112, 112}; }
 const char str_010d1c38[26] = "TthkpPhantomDisplayViewer";
 namespace fnv_00d66530 { Vw66530Global *DAT_01268fec; }

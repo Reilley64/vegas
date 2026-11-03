@@ -572,7 +572,7 @@ FUN_00e49f40::~FUN_00e49f40() throw()
 class FilterListAE90
 {
   public:
-    int vftable;
+    void* vftable;
     int unk04;
     FilterRefE4** m_data;
     int m_iElementCount;
@@ -602,5 +602,5 @@ void FilterListAE90::FUN_00e4ae90()
     }
     m_data = 0;
     m_iCapacityState = (int)0x80000000;
-    vftable = (int)&(*reinterpret_cast<int *>(&::DAT_0102e388));
+    vftable = &::DAT_0102e388;
 }

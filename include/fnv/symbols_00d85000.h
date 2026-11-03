@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 class D85660Object;
 namespace fnv_00d853a0 { struct FUN_00d853a0_cls; }
@@ -17,9 +18,9 @@ struct ListenerOwner;
 struct Object858;
 
 // 0x00d85360
-::FUN_00d85360_cls *FUN_00d85360(int);
+::FUN_00d85360_cls *FUN_00d85360(intptr_t);
 // 0x00d853a0
-namespace fnv_00d853a0 { ::fnv_00d853a0::FUN_00d853a0_cls *FUN_00d853a0(int); }
+namespace fnv_00d853a0 { ::fnv_00d853a0::FUN_00d853a0_cls *FUN_00d853a0(intptr_t); }
 // 0x00d853f0
 namespace fnv_00d853f0 { ::fnv_00d853f0::ObjD853 *FUN_00d853f0(char *); }
 // 0x00d85440
@@ -31,15 +32,15 @@ namespace fnv_00d854e0 { ::fnv_00d854e0::D_Stub *CloneStub(::fnv_00d854e0::Src_S
 // 0x00d85530
 namespace fnv_00d85530 { ::fnv_00d85530::SpawnedObject *FUN_00d85530(::fnv_00d85530::SpawnedSource *); }
 // 0x00d85570
-namespace fnv_00d85570 { ::fnv_00d85570::FUN_00d85570_cls *CloneWithInit(int); }
+namespace fnv_00d85570 { ::fnv_00d85570::FUN_00d85570_cls *CloneWithInit(intptr_t); }
 // 0x00d855c0
 namespace fnv_00d855c0 { void *CloneDataBlock(void *); }
 // 0x00d85610
-namespace fnv_00d85610 { ::fnv_00d85610::FUN_00d85610_cls *CloneWithCopiedPayload(int); }
+namespace fnv_00d85610 { ::fnv_00d85610::FUN_00d85610_cls *CloneWithCopiedPayload(intptr_t); }
 // 0x00d85660
 ::D85660Object *FUN_00d85660(const ::D85660Object *);
 // 0x00d856b0
-namespace fnv_00d856b0 { ::fnv_00d856b0::FUN_00d856b0_cls *CloneWithAllocatedCopy(int); }
+namespace fnv_00d856b0 { ::fnv_00d856b0::FUN_00d856b0_cls *CloneWithAllocatedCopy(intptr_t); }
 // 0x00d85700
 ::Object858 *FUN_00d85700(::Object858 *);
 // 0x00d858f0

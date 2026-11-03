@@ -178,7 +178,7 @@ struct __declspec(align(16)) FUN_00e5d010_Block {
 };
 
 // @fnv 0x00e5d010
-extern "C" void __cdecl FUN_00e5d010(intptr_t first, intptr_t second, int third)
+extern "C" void __cdecl FUN_00e5d010(intptr_t first, intptr_t second, void* third)
 {
     FUN_00e5d010_Block instance;
     reinterpret_cast<::GridCell *>(&(instance))->FUN_00dd1da0((::GridSource *)(first),(::GridBounds *)(second),third);
@@ -994,7 +994,7 @@ struct FNV_ALIGN(16) FUN_00dd1bf0
 };
 
 // @fnv 0x00e5cfe0
-void FUN_00e5cfe0(intptr_t a1, intptr_t a2, intptr_t a3, float a4, int a5)
+void FUN_00e5cfe0(intptr_t a1, intptr_t a2, intptr_t a3, float a4, void* a5)
 {
     FUN_00dd1bf0 obj;
     reinterpret_cast<::ObbQueryDetail::ObbMachine *>(&(obj))->FUN_00dd1bf0((const ::ObbQueryDetail::ObbCodeView *)(a1), (const ::ObbQueryDetail::ObbTransform *)(a2), (const ::ObbQueryDetail::ObbVector *)(a3), a4, a5);

@@ -13,4 +13,4 @@ void PropagateStateToChildren(::Object *, int *);
 // 0x00cb6f30
 void FUN_00cb6f30(::Object *);
 // 0x00cb6f70
-void FUN_00cb6f70(::MotionObj *, int, int, ::MotionObj *, int, int, int, int, int);
+void FUN_00cb6f70(::MotionObj *, int, int, int, int, int, int, int, int);

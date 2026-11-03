@@ -2,4 +2,6 @@
 
 // Definitions of the globals this unit refers to that no unit defines.
 
+const char str_010d5100[146] = "Unknown command - This mopp data has been corrupted (check for memory trashing), or an hkpMoppBvTreeShape has been pointed at invalid mopp data.\n";
+char DAT_010ecfbc[61] = ".\\Collide\\Mopp\\Machine\\hkpMoppEarlyExitObbVirtualMachine.cpp";
 char DAT_0126efba;

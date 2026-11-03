@@ -15,4 +15,4 @@ int AccumulateShapes(::Worker **, ::TargetClass *, ::Caller *);
 // 0x00d93380
 int FUN_00d93380(::Globals *, ::Queue *, ::Job *);
 // 0x00d93ba0
-void *FUN_00d93ba0(::S93ba0_Owner *, ::S93ba0_Output *, ::S93ba0_Job *);
+int FUN_00d93ba0(::S93ba0_Owner *, ::S93ba0_Output *, ::S93ba0_Job *);

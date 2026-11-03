@@ -245,41 +245,41 @@ void __cdecl FUN_00d2dc70(Agent* pAgent)
 }
 
 // @fnv 0x00d275a0
-void ReplaceEntry(int pList, int pOldEntry, int pNewEntry, unsigned short usValue)
+void ReplaceEntry(intptr_t pList, intptr_t pOldEntry, intptr_t pNewEntry, unsigned short usValue)
 {
-    int iVar1 = *(int*)(pList + 0x10);
-    int pCached = *(int*)(pList + 0x30);
+    intptr_t iVar1 = *(intptr_t*)(pList + 0x10);
+    intptr_t pCached = *(intptr_t*)(pList + 0x30);
     if (iVar1 == 0)
     {
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
     if (iVar1 == pOldEntry)
     {
-        *(int*)(pList + 0x10) = pNewEntry;
+        *(intptr_t*)(pList + 0x10) = pNewEntry;
         if (pCached != 0)
         {
-            *(int*)(pCached + 0xc) = pNewEntry;
+            *(intptr_t*)(pCached + 0xc) = pNewEntry;
             *(unsigned short*)(pCached + 0x10) = usValue;
         }
         return;
     }
-    int pCur = *(int*)(iVar1 + 0x14);
+    intptr_t pCur = *(intptr_t*)(iVar1 + 0x14);
     while (pCur != pOldEntry)
     {
         iVar1 = pCur;
-        pCur = *(int*)(pCur + 0x14);
+        pCur = *(intptr_t*)(pCur + 0x14);
     }
-    *(int*)(iVar1 + 0x14) = pNewEntry;
+    *(intptr_t*)(iVar1 + 0x14) = pNewEntry;
     *(unsigned short*)(iVar1 + 0x12) = usValue;
 }
 
 struct FUN_00d27f50_Obj {
-    void FUN_00d27f50(int param_1, int param_2);
+    void FUN_00d27f50(int param_1, const void* param_2);
 };
 
 struct FUN_00d27f70 {
@@ -1854,13 +1854,13 @@ void FnvCpu_FUN_00d329b0_CpuObject::DispatchWithBound(void* first, void* second,
 }
 
 // @fnv 0x00d32ac0
-int __cdecl FUN_00d32ac0(int param_1, int param_2)
+void* __cdecl FUN_00d32ac0(void* param_1, unsigned char* param_2)
 {
     return param_2 + 0x10;
 }
 
 // @fnv 0x00d32ad0
-void* __cdecl FUN_00d32ad0(int unused, char* p) {
+void* __cdecl FUN_00d32ad0(const void* unused, char* p) {
     return p + 16;
 }
 
@@ -2126,12 +2126,12 @@ void __cdecl FUN_00d2f540(unsigned char value)
 struct D347D0Query {
     const unsigned char* descriptor;
     float bound;
-    unsigned int filter;
+    void* filter;
 };
 
 // Builds a D347D0Query from DAT_010ce7fc, DAT_0104da48 and filter, then calls GetClosestPointsShapeCollection with b, a, c and the query.
 // @fnv 0x00d347d0
-void __cdecl QueryClosestPoints(void* a, void* b, void* c, unsigned int filter)
+void __cdecl QueryClosestPoints(void* a, void* b, void* c, void* filter)
 {
     D347D0Query query = { &DAT_010ce7fc, ::DAT_0104da48, filter };
     typedef void (__cdecl *Dispatch)(void*, void*, void*, D347D0Query*);
@@ -2484,7 +2484,7 @@ struct hkSmallArrayE {
     void Insert(int i, const E48* a, int numtoinsert);
 };
 // @fnv 0x00d27f50
-void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, int aSecond) {
+void FUN_00d27f50_Obj::FUN_00d27f50(int aFirst, const void* aSecond) {
     reinterpret_cast<::hkSmallArrayE *>((this))->Insert(aFirst, (const ::E48 *)(aSecond), 1);
 }
 
@@ -3187,13 +3187,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs the input vector with DAT_010c44d0, builds a Record_d2e9 with the key and a4, and calls FUN_00d43b90 with an optional second record for a5.
 // @fnv 0x00d34810
-void __cdecl FUN_00d34810(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d34810(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3240,13 +3240,13 @@ struct Record_d2e9 {
     const unsigned int* m_vtbl;
     float m_fScalar;
     Key_d2e9 m_key;
-    int m_uiFilterValue;
+    void* m_uiFilterValue;
 };
 
 
 // XORs input vector with DAT_010c44d0, builds a Record_d2e9 with a4, and calls FUN_00d33ca0 with an optional second record when a5 is non-zero.
 // @fnv 0x00d349b0
-void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, int aiOptionalValue)
+void __cdecl FUN_00d349b0(const void* a2, const void* a1, const Input_d2e9* input, void* aiValue, void* aiOptionalValue)
 {
     Input_d2e9 local = *input;
     local.m_vComponents = _mm_xor_ps(input->m_vComponents, ::DAT_010c44d0);
@@ -3263,9 +3263,9 @@ void __cdecl FUN_00d349b0(int a2, int a1, const Input_d2e9* input, int aiValue, 
         rec2.m_fScalar = ::DAT_0104da48;
         rec2.m_key = input->m_key;
         rec2.m_uiFilterValue = aiOptionalValue;
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(&rec2));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, &rec2);
     } else {
-        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, (int)(&local), (int)(&rec), (int)(0));
+        ::fnv_00d33ca0::FUN_00d33ca0(a1, a2, &local, &rec, nullptr);
     }
 }
 }  // namespace fnv_00d349b0
@@ -3730,8 +3730,8 @@ struct D22260_Object
 // Transforms m_quaternion1/2 by the matrices' rows, crosses each result with the vector's second field, and adds the product to its first field.
 // @fnv 0x00d22260
 void D22260_Object::FUN_00d22260(
-    int ReportDiagnostic,
-    int unused1,
+    const void* ReportDiagnostic,
+    float unused1,
     D22260_Matrix* matrix1,
     D22260_Vector* vector1,
     D22260_Matrix* matrix2,

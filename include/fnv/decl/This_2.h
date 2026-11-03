@@ -1,4 +1,5 @@
 #pragma once
+#include "havok/hkUlong.h"
 #include <cstdint>
 
 struct NiPoint3;
@@ -23,7 +24,7 @@ public:
     // 0x00dba690
     void FUN_00dba690();
     // 0x00de59f0
-    void FUN_00de59f0(::P1 *, ::P2Vtbl *, int, int);
+    void FUN_00de59f0(::P1 *, ::P2Vtbl *, hkUlong, int);
     // 0x00e24140
     void PushFront(::Node *volatile);
 };

@@ -2,6 +2,8 @@
 // src/havok/physics/dynamics/phantom/hkpcachingshapephantom.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/phantom/hkpcachingshapephantom.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
 #include <new>
 #include "fnv/decl/C.h"
@@ -23,7 +25,8 @@ struct hkpCachingShapePhantomStandIn
 {
     char m_padding000[0x8];
     char* unk08;
-    char pad0c[0x154];
+    char pad0c[0x4];
+    char m_kCollidable[0x150];  // +0x10, hkpWorldObject::m_collidable
     void* m_kCollisionDetails;
     int m_collisionDetailsSize;
     char m_padding168[4];
@@ -438,7 +441,7 @@ class hkpCachingShapePhantomD4CD : public FUN_00d08130
 void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* pkCollector,
                                                 const hkClassD4CD* pkClass) const throw()
 {
-    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), (int)(&(*reinterpret_cast<const ::hkClassD4CD *>(&::g_0126902c))));
+    reinterpret_cast<::FUN_00d07cf0_cls *>((void *)this)->WritePhantomLists((::PhArchive *)(pkCollector), &::g_0126902c);
     pkCollector->addArray("AgentPtr", m_kCollisionDetails);
     pkCollector->beginObject("agents");
     for (int i = 0; i < m_kCollisionDetails.GetLogicalSize(); i++)
@@ -446,41 +449,8 @@ void hkpCachingShapePhantomD4CD::AddToCollector(hkStatisticsCollectorD4CD* pkCol
     pkCollector->endObject();
 }
 
-class hkMemoryAllocatorD4D0
-{
-  public:
-    virtual ~hkMemoryAllocatorD4D0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& iReqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
 
-    template <typename T> T* _bufAlloc(int& iReqNumInOut)
-    {
-        int n = iReqNumInOut * sizeof(T);
-        void* p = AllocateBufferWithSize(n);
-        iReqNumInOut = n / (int)sizeof(T);
-        return (T*)p;
-    }
-    template <typename T> void _bufFree(void* p, int aiNumElements)
-    {
-        ReturnMemory(p, aiNumElements * sizeof(T));
-    }
-};
 
-struct hkMemoryRouterD4D0
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorD4D0* m_pStreamAllocator;
-    hkMemoryAllocatorD4D0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterD4D0& __cdecl FUN_00c85750();
 
 template <class T> __forceinline void copyD4D0(T* dst, const T* src, int n)
 {
@@ -506,9 +476,9 @@ template <class T> class hkArrayD4D0
 
     __forceinline void operator=(const hkArrayD4D0& a)
     {
-        copyFromArray(FUN_00c85750().heap(), a);
+        copyFromArray(hkMemoryRouter::getInstance().heap(), a);
     }
-    __forceinline void copyFromArray(hkMemoryAllocatorD4D0& kAlloc, const hkArrayD4D0& a)
+    __forceinline void copyFromArray(hkMemoryAllocator& kAlloc, const hkArrayD4D0& a)
     {
         if (getCapacity() < a.GetLogicalSize())
         {
@@ -579,9 +549,9 @@ class hkpWorldObjectD4D0
 class FUN_00d4ce10 : public hkpWorldObjectD4D0
 {
   public:
-    static __forceinline void* operator new(std::size_t uiSize) throw()
+    static __forceinline void* operator new(size_t uiSize) throw()
     {
-        hkpWorldObjectD4D0* p = (hkpWorldObjectD4D0*)FUN_00c85750().heap().AllocateMemoryBlock(uiSize);
+        hkpWorldObjectD4D0* p = static_cast<hkpWorldObjectD4D0*>(hkMemoryRouter::getInstance().heap().blockAlloc(uiSize));
         p->m_usMemSizeAndFlags = (hkUint16)uiSize;
         return p;
     }
@@ -662,21 +632,7 @@ void __cdecl SortEntriesByCollisionKey(CollisionKeyEntry* entries, int left, int
 }
 
 namespace fnv_00d4d310 {
-struct FnvCpu_FUN_00d4d310_CpuAllocator
-{
-    virtual void slot00();
-    virtual void slot04();
-    virtual void Invoke(void* block, unsigned int size);
-};
-struct FnvCpu_FUN_00d4d310_CpuAllocatorHolder
-{
-    unsigned int unk00;
-    unsigned int unk04;
-    unsigned int unk08;
-    unsigned int unk0c;
-    FnvCpu_FUN_00d4d310_CpuAllocator* allocator;
-};
-FnvCpu_FUN_00d4d310_CpuAllocatorHolder* __cdecl FUN_00c85750();
+
 struct FnvCpu_FUN_00d4d310_CpuObject
 {
     unsigned int unk00;
@@ -689,8 +645,8 @@ FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsig
     reinterpret_cast<::fnv_00d4ce60::FUN_00d4ce60 *>(this)->fnv_00d4ce60::FUN_00d4ce60::~FUN_00d4ce60();
     if (flags & 1)
     {
-        FnvCpu_FUN_00d4d310_CpuAllocatorHolder* holder = FUN_00c85750();
-        holder->allocator->Invoke(this, size);
+        hkMemoryRouter* holder = &hkMemoryRouter::getInstance();
+        holder->m_heap->blockFree(this, size);
     }
     return this;
 }
@@ -700,6 +656,7 @@ FnvCpu_FUN_00d4d310_CpuObject* FnvCpu_FUN_00d4d310_CpuObject::FUN_00d4d310(unsig
 struct Aligned_00d4cc50
 {
     __m128 column0, column1, column2;
+    __m128 translation;  // +0x30
 };
 struct FUN_00d4cc50_cls
 {
@@ -750,7 +707,7 @@ struct FUN_00d4cc50_cls
     __m128 output0;
     __m128 output1;
     __m128 output2;
-    void CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c);
+    void CopyFrom(const Aligned_00d4cc50* source, const void* a, void* b, void* c);
 };
 extern int DAT_010ccebc;
 
@@ -929,7 +886,7 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
     {
         if (m_entries[i].m_object == apOwned)
         {
-            reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(true))));
+            reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(true))));
             if (m_entries[i].m_kListener)
                 m_entries[i].m_kListener->visit(&visitor);
             m_entries.removeAt(i);
@@ -937,7 +894,7 @@ void World_d4cc::FUN_00d4cca0(Owned_d4cc* apOwned)
             return;
         }
     }
-    reinterpret_cast<::C *>(this)->NotifyAll((int)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(false))));
+    reinterpret_cast<::C *>(this)->NotifyAll((intptr_t)(apOwned), (*(char *)&(const ::hkBool_d4cc &)(hkBool_d4cc(false))));
 }
 
 class hkpCollidable;
@@ -953,7 +910,7 @@ template <typename T> struct hkArrayD4CF
     {
         return m_iCapacityState & 0x3fffffff;
     }
-    T& _expandOne(hkMemoryAllocatorD4D0& kAlloc)
+    T& _expandOne(hkMemoryAllocator& kAlloc)
     {
         if (m_iElementCount == getCapacity())
             ::ResizeAudioStream((::AudioAllocator *)(void *)(&kAlloc), (::AudioStream *)(void *)(this), sizeof(T));
@@ -961,7 +918,7 @@ template <typename T> struct hkArrayD4CF
     }
     T& AllocatePair()
     {
-        return _expandOne(FUN_00c85750().heap());
+        return _expandOne(hkMemoryRouter::getInstance().heap());
     }
 };
 
@@ -1067,7 +1024,7 @@ struct hkpProcessCollisionInputD4CF : public hkpCollisionInputD4CF
     ~hkpProcessCollisionInputD4CF() throw()
     {
         if (m_pAgent1nSector)
-            FUN_00c85750().heap().ReleaseBlock(m_pAgent1nSector, 0x200);
+            hkMemoryRouter::getInstance().heap().blockFree(m_pAgent1nSector, 0x200);
     }
 };
 
@@ -1107,7 +1064,7 @@ class hkpCachingShapePhantomD4CF : public hkpShapePhantom
 // @fnv 0x00d4cf10
 void hkpCachingShapePhantomD4CF::FUN_00d4cf10(hkpCollidable* pkCollidable) throw()
 {
-    if (pkCollidable->m_pCollisionShape != 0 && reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((unsigned int)(pkCollidable)) == 0)
+    if (pkCollidable->m_pCollisionShape != 0 && reinterpret_cast<::FUN_00ca94c0_Class *>(this)->FUN_00ca94c0((pkCollidable)) == 0)
     {
         hkpCollisionDetailD4CF& kDetail = m_kCollisionDetails.AllocatePair();
         hkpProcessCollisionInputD4CF kInput = *((hkpWorldD4CF*)m_pOwningWorld)->m_pCollisionInput;
@@ -1144,7 +1101,7 @@ struct PairDC4A30
 
 __declspec(align(8)) struct QueryDC4A30
 {
-    int m_pOwningWorld;
+    const void* m_pOwningWorld;
     hkUint16 m_unk04;
     hkUint16 m_type;
     hkUint64 m_unk08;
@@ -1168,42 +1125,20 @@ void Ca30Derived::QueryCollisionDetails()
     memcpy(buffer, src, 0x50);
 
     query.m_type = 1;
-    query.m_pOwningWorld = (int)&DAT_010ccebc;
+    query.m_pOwningWorld = &DAT_010ccebc;
 
     for (int i = 0; i < m_collisionDetailsSize; ++i)
     {
         PairDC4A30* pair = (PairDC4A30*)m_kCollisionDetails + i;
-        pair->m_obj->v20((char*)this + 0x10, pair->m_data, buffer, &query);
+        pair->m_obj->v20(m_kCollidable, pair->m_data, buffer, &query);
     }
 }
 
 namespace fnv_00d4d030 {
-class hkMemoryAllocatorD4D0
-{
-  public:
-    virtual ~hkMemoryAllocatorD4D0() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-    virtual void* AllocateBufferWithSize(int& reqNumBytesInOut) throw();
-    virtual void ReturnMemory(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterD4D0
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD4D0* m_pStreamAllocator;
-
-    hkMemoryAllocatorD4D0& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD4D0 {
-extern "C" hkMemoryRouterD4D0& __cdecl FUN_00c85750() throw();
+
 }
 
 struct PairD4D0
@@ -1221,10 +1156,10 @@ template <class T> class hkArrayD4D0
 
     void ClearAndRelease()
     {
-        hkMemoryAllocatorD4D0& alloc = hkRouterD4D0::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -1249,26 +1184,6 @@ void hkOwnerD4D0::FUN_00d4d030()
 }
 }  // namespace fnv_00d4d030
 
-namespace CastSimd {
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float f[4];
-    unsigned __int64 u[2];
-};
-extern "C"
-{
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_add_ps(__m128, __m128);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_min_ps(__m128, __m128);
-    __m128 _mm_max_ps(__m128, __m128);
-    __m128 _mm_setzero_ps(void);
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sqrt_ss(__m128);
-    float _mm_cvtss_f32(__m128);
-}
-}
 
 
 class hkpCdPointCollector;
@@ -1343,9 +1258,9 @@ struct ShapeSweepParameters : public CollisionAgentContext
         m_unk0c = input.m_unk0c;
         m_unk10 = input.m_unk10;
         m_unk14 = input.m_unk14;
-        *(CastSimd::__m128*)&m_v0 = *(CastSimd::__m128*)&input.m_v0;
-        *(CastSimd::__m128*)&m_v1 = *(CastSimd::__m128*)&input.m_v1;
-        *(CastSimd::__m128*)&m_v2 = *(CastSimd::__m128*)&input.m_v2;
+        *(__m128*)&m_v0 = *(__m128*)&input.m_v0;
+        *(__m128*)&m_v1 = *(__m128*)&input.m_v1;
+        *(__m128*)&m_v2 = *(__m128*)&input.m_v2;
         m_pConfiguration = input.m_pConfiguration;
     }
 };
@@ -1362,14 +1277,14 @@ struct hkpCachingShapePhantomLocal : public hkpCachingShapePhantom
     void FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input, hkpCdPointCollector& castCollector,
                       hkpCdPointCollector* startCollector);
 };
-// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source + 0x30 and a, b, c.
+// Copies source's three __m128 columns into output0..2, then calls FUN_00d4cab0 with source's translation and a, b, c.
 // @fnv 0x00d4cc50
-void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, int a, int b, int c)
+void FUN_00d4cc50_cls::CopyFrom(const Aligned_00d4cc50* source, const void* a, void* b, void* c)
 {
     output0 = source->column0;
     output1 = source->column1;
     output2 = source->column2;
-    reinterpret_cast<::hkpCachingShapePhantomLocal *>(this)->FUN_00d4cab0((*(const ::hkVector4 *)(reinterpret_cast<const char*>(source) + 0x30)), (*(const ::LinearCastParameters *)(a)), (*(::hkpCdPointCollector *)(b)), (::hkpCdPointCollector *)(c));
+    reinterpret_cast<::hkpCachingShapePhantomLocal *>(this)->FUN_00d4cab0((*(const ::hkVector4 *)(&source->translation)), (*(const ::LinearCastParameters *)(a)), (*(::hkpCdPointCollector *)(b)), (::hkpCdPointCollector *)(c));
 }
 
 class hkpCollisionAgentLinear : public hkpCollisionAgent
@@ -1384,43 +1299,43 @@ class hkpCollisionAgentLinear : public hkpCollisionAgent
 void hkpCachingShapePhantomLocal::FUN_00d4cab0(const hkVector4& position, const LinearCastParameters& input,
                                                hkpCdPointCollector& castCollector, hkpCdPointCollector* startCollector)
 {
-    *(CastSimd::__m128*)&m_kMotionState.m_kMotionTransform.m_vTranslation = *(CastSimd::__m128*)&position;
+    *(__m128*)&m_kMotionState.m_kMotionTransform.m_vTranslation = *(__m128*)&position;
 
     hkAabb aabb;
     hkReal tol =
         (hkReal)(((hkpWorld*)m_pOwningWorld)->m_pCollisionInput->m_fScalar * 0.5) + input.m_fMaxExtraPenetration;
     m_kCollidable.m_pCollisionShape->getAabb(m_kMotionState.m_kMotionTransform, tol, aabb);
 
-    CastSimd::__m128 path = CastSimd::_mm_sub_ps(*(CastSimd::__m128*)&input.m_vTo, *(CastSimd::__m128*)&position);
+    __m128 path = _mm_sub_ps(*(__m128*)&input.m_vTo, *(__m128*)&position);
 
-    CastSimd::__m128 zero = CastSimd::_mm_setzero_ps();
-    CastSimd::__m128 minVal = CastSimd::_mm_min_ps(zero, path);
-    CastSimd::__m128 maxVal = CastSimd::_mm_max_ps(zero, path);
+    __m128 zero = _mm_setzero_ps();
+    __m128 minVal = _mm_min_ps(zero, path);
+    __m128 maxVal = _mm_max_ps(zero, path);
 
-    CastSimd::__m128 auiLowerBounds = *(CastSimd::__m128*)&aabb.m_kMinimumCorner;
-    CastSimd::__m128 auiUpperBounds = *(CastSimd::__m128*)&aabb.m_kMaximumCorner;
+    __m128 auiLowerBounds = *(__m128*)&aabb.m_kMinimumCorner;
+    __m128 auiUpperBounds = *(__m128*)&aabb.m_kMaximumCorner;
 
-    auiLowerBounds = CastSimd::_mm_add_ps(minVal, auiLowerBounds);
-    auiUpperBounds = CastSimd::_mm_add_ps(maxVal, auiUpperBounds);
+    auiLowerBounds = _mm_add_ps(minVal, auiLowerBounds);
+    auiUpperBounds = _mm_add_ps(maxVal, auiUpperBounds);
 
-    *(CastSimd::__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
-    *(CastSimd::__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
+    *(__m128*)&aabb.m_kMinimumCorner = auiLowerBounds;
+    *(__m128*)&aabb.m_kMaximumCorner = auiUpperBounds;
 
     reinterpret_cast<::hkpAabbPhantomD07 *>(this)->FUN_00d07ec0((const ::hkAabbD07 &)(aabb));
 
     ShapeSweepParameters linearInput;
     linearInput.set(*((hkpWorld*)m_pOwningWorld)->m_pCollisionInput);
 
-    *(CastSimd::__m128*)&linearInput.m_path = path;
+    *(__m128*)&linearInput.m_path = path;
 
-    CastSimd::__m128 sq = CastSimd::_mm_mul_ps(path, path);
-    CastSimd::__m128 sh1 = CastSimd::_mm_shuffle_ps(sq, sq, 0x55);
-    CastSimd::__m128 sh2 = CastSimd::_mm_shuffle_ps(sq, sq, 0xAA);
-    CastSimd::__m128 add1 = CastSimd::_mm_add_ss(sh1, sq);
-    CastSimd::__m128 add2 = CastSimd::_mm_add_ss(sh2, add1);
-    CastSimd::__m128 len = CastSimd::_mm_sqrt_ss(add2);
+    __m128 sq = _mm_mul_ps(path, path);
+    __m128 sh1 = _mm_shuffle_ps(sq, sq, 0x55);
+    __m128 sh2 = _mm_shuffle_ps(sq, sq, 0xAA);
+    __m128 add1 = _mm_add_ss(sh1, sq);
+    __m128 add2 = _mm_add_ss(sh2, add1);
+    __m128 len = _mm_sqrt_ss(add2);
 
-    linearInput.m_cachedDistances = CastSimd::_mm_cvtss_f32(len);
+    linearInput.m_cachedDistances = _mm_cvtss_f32(len);
 
     linearInput.m_fScalar = input.m_fMaxExtraPenetration;
     linearInput.m_fMaxExtraPenetration = input.m_fMaxExtraPenetrationAgainstFixed;

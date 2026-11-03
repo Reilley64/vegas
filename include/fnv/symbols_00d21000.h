@@ -11,4 +11,4 @@ unsigned char GetSubtreeDepth(::FUN_00d21960_Node *);
 // 0x00d21a60
 void FUN_00d21a60(const ::hkpConstraintAtom *, int, ::GenericConstraintAtomScheme *);
 // 0x00d21d00
-void FUN_00d21d00(int, int, int, int, int, int);
+void FUN_00d21d00(const void *, const void *, float, void *, void *, void *);

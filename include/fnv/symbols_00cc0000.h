@@ -24,10 +24,10 @@ namespace fnv_00cc0b50 { unsigned char *FUN_00cc0b50(unsigned char *, unsigned i
 // 0x00cc0d60
 ::S_00cc0d60_R FUN_00cc0d60(void *, void *, int, int, int);
 // 0x00cc0e20
-::Island *PickIslandByValue(unsigned int, ::Island *, ::Island *);
+::Island *PickIslandByValue(const void *, ::Island *, ::Island *);
 // 0x00cc0ea0
 void FUN_00cc0ea0(::ItemOwner *, void *);
 // 0x00cc0ed0
-void ProcessBlocks(::S_00cc0ed0_Blocks *, float, float, int);
+void ProcessBlocks(::S_00cc0ed0_Blocks *, float, float, void *);
 // 0x00cc0f40
 void FUN_00cc0f40(::S_00cc0f40_Coll *, ::S_00cc0f40_Coll *, ::S_00cc0f40_In *);

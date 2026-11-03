@@ -1,6 +1,6 @@
 #pragma once
 
-class hkBool;
+#include "havok/hkBase.h"
 namespace VehicleFrictionApply { struct TimeStepInfo; }
 namespace VehicleFrictionApply { struct VehicleSimulationData; }
 namespace VehicleFrictionApply { struct hkpVehicleFrictionDescription; }

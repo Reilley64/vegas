@@ -5,7 +5,15 @@
 
 #include "hkBase.h"
 #include "hkReferencedObject.h"
-class hkpCollisionFilter : public hkReferencedObject
+#include "hkpCollidableCollidableFilter.h"
+#include "hkpRayCollidableFilter.h"
+#include "hkpRayShapeCollectionFilter.h"
+#include "hkpShapeCollectionFilter.h"
+class hkpCollisionFilter : public hkReferencedObject,
+                           public hkpCollidableCollidableFilter,   // +0x8
+                           public hkpShapeCollectionFilter,        // +0xC
+                           public hkpRayShapeCollectionFilter,     // +0x10
+                           public hkpRayCollidableFilter           // +0x14
 {
   public:
     enum hkpFilterType
@@ -18,7 +26,6 @@ class hkpCollisionFilter : public hkReferencedObject
         HK_FILTER_PAIR = 5,
         HK_FILTER_CONSTRAINT = 6
     };
-    char pad8[0x10];
     hkUint32 m_uiPreTypePadding[2];   // +0x18
     hkUint32 m_type;                  // +0x20 (hkpFilterType)
     hkUint32 m_uiPostTypePadding[3];  // +0x24

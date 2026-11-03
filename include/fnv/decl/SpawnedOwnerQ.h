@@ -3,5 +3,5 @@
 struct SpawnedOwnerQ {
 public:
     // 0x00d55530
-    int FUN_00d55530(int);
+    unsigned char *FUN_00d55530(int);
 };

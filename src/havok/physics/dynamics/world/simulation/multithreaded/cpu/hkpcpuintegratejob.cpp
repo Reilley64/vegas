@@ -1,7 +1,12 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuintegratejob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkpApplyForcesStep.h"
+#include "fnv/symbols_00d28000.h"
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstddef>
+#include <intrin.h>
 #include <windows.h>
 #include <new>
 #include "fnv/decl/CB1A90Owner.h"
@@ -65,7 +70,7 @@ struct Record {
 };
 struct Block {
     Block() { count = 0; firstEnd = 0; next = 0; }
-    static void* operator new(std::size_t) throw();
+    static void* operator new(size_t) throw();
     Block* next;
     Owner* owner;
     void* payload;
@@ -76,7 +81,7 @@ struct Block {
 };
 struct Group {
     Group() { next = 0; boundary = false; count = 0; limit = 0; }
-    static void* operator new(std::size_t) throw();
+    static void* operator new(size_t) throw();
     Group* next;
     Owner* owner;
     void* payload;
@@ -93,11 +98,9 @@ struct BlockList { Block* head; unsigned int count; };
 struct EntryListNode { Entry* data; int count; };
 struct Special { Entry entry; Record* record; unsigned int field0c; };
 struct SpecialList { Special* data; int count; };
-struct Allocator { virtual void unused(); virtual void* allocate(unsigned int size); };
-struct AllocationContext { unsigned int field00, field04, field08, field0c; Allocator* allocator; void* allocate(unsigned int size) { return allocator->allocate(size); } };
-void* __cdecl FUN_00c85750();
-inline void* Block::operator new(std::size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x1000); }
-inline void* Group::operator new(std::size_t) throw() { return ((AllocationContext*)FUN_00c85750())->allocate(0x30); }
+
+inline void* Block::operator new(size_t) throw() { return hkMemoryRouter::getInstance().heap().blockAlloc(0x1000); }
+inline void* Group::operator new(size_t) throw() { return hkMemoryRouter::getInstance().heap().blockAlloc(0x30); }
 
 struct SizePointer { unsigned int* value; SizePointer(unsigned int* p):value(p) {} unsigned int& operator*() const { return *value; } };
 // Allocates a Block, links it into the block list, copies entries into records, and optionally creates a Group tracking size ranges.
@@ -201,7 +204,7 @@ void call_target(BlockList* blocks, Owner* owner, Group** groupHead, Block** blo
 #include <xmmintrin.h>
 #include <windows.h>
 extern "C" void _ReadWriteBarrier();
-__declspec(nothrow) void* FUN_00c85750();
+
 struct FlagByte {
     char value;
     FlagByte() {}
@@ -211,34 +214,8 @@ struct FlagByte {
     FlagByte operator==(bool b) const { return int(value)==int(b); }
     FlagByte operator!=(bool b) const { return int(value)!=int(b); }
 };
-struct TaskAllocator {
-    virtual void unused();
-    virtual void* allocate(int bytes) throw();
-    virtual void release(void* ptr,int bytes) throw();
-    virtual void unused0c();
-    virtual void freeBuffer(void* ptr,int bytes) throw();
-    template<class T> void freeElements(void* ptr,int n) {
-        const int stride=sizeof(T);
-        freeBuffer(ptr,n*stride);
-    }
-};
-struct TaskMemory {
-    unsigned char* stackTop;
-    int unknown04,unknown08;
-    TaskAllocator* temporary;
-    TaskAllocator* heap;
-    static TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
-    TaskAllocator& tempAllocator() { return *temporary; }
-    TaskAllocator& heapAllocator() { return *heap; }
-    template<class T> T* takeStack(int n) {
-        unsigned char* result=stackTop;
-        stackTop += (n*int(sizeof(T))+127)&~127;
-        return (T*)result;
-    }
-    void returnStack(void* ptr) { stackTop=(unsigned char*)ptr; }
-};
-struct HeapPolicy { static TaskAllocator& get(const void*) { return TaskMemory::GetMonitorStream().heapAllocator(); } };
-struct TempPolicy { static TaskAllocator& get(const void*) { return TaskMemory::GetMonitorStream().tempAllocator(); } };
+struct HeapPolicy { static hkMemoryAllocator& get(const void*) { return hkMemoryRouter::getInstance().heap(); } };
+struct TempPolicy { static hkMemoryAllocator& get(const void*) { return hkMemoryRouter::getInstance().temp(); } };
 template<class T> struct SmallList {
     T* data;
     unsigned short count;
@@ -269,7 +246,7 @@ public:
     const T& operator[](int i) const { return data[i]; }
     void clear() { destroyRange(data,count); count=0; }
     void setSizeUnchecked(int n) { destroyRange(data+n,count-n); defaultRange(data+count,n-count); count=n; }
-    void reserveWith(TaskAllocator& alloc,int n) {
+    void reserveWith(hkMemoryAllocator& alloc,int n) {
         int old=capacity&0x3fffffff;
         if (old<n) { int grown=old+old; if(n>=grown) grown=n; ::FUN_00c908c0((::SpawnedObject *)(void *)(&alloc),(::SpawnedArray *)(void *)(this),grown,sizeof(T)); }
     }
@@ -278,9 +255,9 @@ public:
         ++count;
     }
     T* expandByUnchecked(int n) { int old=count; count=old+n; defaultRange(data+old,count-old); return data+old; }
-    void releaseWith(TaskAllocator& alloc) {
+    void releaseWith(hkMemoryAllocator& alloc) {
         clear();
-        if(!(capacity&(int)0x80000000)) alloc.freeElements<T>(data,capacity&0x3fffffff);
+        if(!(capacity&(int)0x80000000)) alloc._bufFree<T>(data,capacity&0x3fffffff);
         data=0; capacity=(int)0x80000000;
     }
 };
@@ -295,27 +272,27 @@ public:
 template<class T> class StackArray : public TaskArray<T> {
     T* local;
 public:
-    StackArray(int n) { data=TaskMemory::GetMonitorStream().takeStack<T>(n); capacity=n|(int)0x80000000; local=data; }
+    StackArray(int n) { data=static_cast<T*>(hkMemoryRouter::getInstance().allocateStack((n*int(sizeof(T))+127)&~127)); capacity=n|(int)0x80000000; local=data; }
     void closeStack() {
         if(data==local) clear();
-        TaskMemory::GetMonitorStream().returnStack(local);
+        hkMemoryRouter::getInstance().deallocateStack(local);
         TaskArray<T>::closeArray();
     }
 };
-template<class T> T* taskTempAllocate(int n) { return (T*)TaskMemory::GetMonitorStream().temporary->allocate(n*int(sizeof(T))); }
-template<class T> void taskTempFree(T* ptr,int n) { TaskMemory::GetMonitorStream().temporary->release(ptr,n*int(sizeof(T))); }
-template<class T> T* taskHeapAllocate(int n,int) { return (T*)TaskMemory::GetMonitorStream().heap->allocate(n*int(sizeof(T))); }
+template<class T> T* taskTempAllocate(int n) { return (T*)hkMemoryRouter::getInstance().m_temp->blockAlloc(n*int(sizeof(T))); }
+template<class T> void taskTempFree(T* ptr,int n) { hkMemoryRouter::getInstance().m_temp->blockFree(ptr,n*int(sizeof(T))); }
+template<class T> T* taskHeapAllocate(int n,int) { return (T*)hkMemoryRouter::getInstance().m_heap->blockAlloc(n*int(sizeof(T))); }
 struct IndexPair { unsigned long key,value; };
 class EntityIndexMap {
     IndexPair* data;
     int count,mask;
     unsigned long FUN_00cb1930(unsigned long,unsigned long) const throw();
-    void growMap(TaskAllocator*,int) throw();
+    void growMap(hkMemoryAllocator*,int) throw();
 public:
     EntityIndexMap(void* ptr,int bytes) { new ((void *)this) ::FUN_00cb1830(ptr,bytes); }
-    void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(TaskMemory::GetMonitorStream().heap)); ::FUN_00a29680(); }
-    void insert(unsigned long key,unsigned long val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(TaskMemory::GetMonitorStream().heap)),key,val); }
-    unsigned long FindValueForKey(unsigned long key,unsigned long value) const { return ((unsigned long)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry(key,value))); }
+    void closeMap() { reinterpret_cast<::CB1A90Owner *>(this)->ProcessArgument((::CB1A90Argument *)(hkMemoryRouter::getInstance().m_heap)); ::FUN_00a29680(); }
+    void insert(uintptr_t key,uintptr_t val) { reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>(this)->FUN_00cb1870((*(::fnv_00cb1870::hkMemoryAllocatorCB18 *)(hkMemoryRouter::getInstance().m_heap)),key,val); }
+    uintptr_t FindValueForKey(uintptr_t key,uintptr_t value) const { return (uintptr_t)(reinterpret_cast<::FUN_00cb1930_t *>((void *)this)->LookupHashEntry((intptr_t)key,(intptr_t)value)); }
 };
 __declspec(noinline) unsigned long EntityIndexMap::FUN_00cb1930(unsigned long key,unsigned long fallback) const throw() {
  if(mask>0) {
@@ -463,7 +440,7 @@ struct __declspec(align(128)) BuildTask {
     unsigned char* m_akBuildBuffer;
     int m_iBuildItemCount;
     BuildTaskData m_akBuildTaskEntries[144];
-    static void* operator new(std::size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(size_t n) throw() { return hkMemoryRouter::getInstance().m_heap->blockAlloc(n); }
     BuildTask() { m_iBuildItemCount=0; m_akBuildBuffer=0; m_next=0; }
 };
 struct __declspec(align(16)) SolveTask {
@@ -477,7 +454,7 @@ struct __declspec(align(16)) SolveTask {
     unsigned short m_usSolverElementCount;
     SolveTask* m_pNextSolveTask;
     int unknown24,unknown28,unknown2c;
-    static void* operator new(std::size_t n) throw() { return TaskMemory::GetMonitorStream().heap->allocate(n); }
+    static void* operator new(size_t n) throw() { return hkMemoryRouter::getInstance().m_heap->blockAlloc(n); }
     SolveTask() { m_next=0; m_kSolveTaskFlagByte=false; m_usSolverElementCount=0; m_pNextSolveTask=0; }
 };
 struct BuildCollection {
@@ -571,7 +548,7 @@ template<bool Partial> static __forceinline void appendProbe(const JobHeader* he
         pending.clear();
         schema = byteAdvance(schema, 16);
         task->m_akBuildBuffer = schema;
-        temporary = reinterpret_cast<int*>(((unsigned long)(temporary) + 15) & ~15);
+        temporary = reinterpret_cast<int*>(((uintptr_t)(temporary) + 15) & ~(uintptr_t)15);
         previousBuild = task;
     }
     if (makeSolve) {
@@ -636,12 +613,9 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)bytesCopy(stream.GetStreamEnd());
             event->m_pCommandName=str_010d3f1c; _ReadWriteBarrier();
             DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -662,10 +636,10 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
         int mapWords = 64;
         while (mapWords < bodyCount) mapWords *= 2;
         mapWords *= 4;
-        unsigned long* mapStorage = taskTempAllocate<unsigned long>(mapWords);
+        uintptr_t* mapStorage = taskTempAllocate<uintptr_t>(mapWords);
         {
-            EntityIndexMap map(mapStorage, mapWords * sizeof(unsigned long));
-            for (int index = 0; index < bodyCount; ++index) map.insert((unsigned long)(bodies[index]), index);
+            EntityIndexMap map(mapStorage, mapWords * int(sizeof(uintptr_t)));
+            for (int index = 0; index < bodyCount; ++index) map.insert((uintptr_t)(bodies[index]), index);
             TaskEntity* const* body = bodies;
             unsigned int accumulatorOffset = 128;
             int index;
@@ -682,7 +656,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
                         int slave = 1 - constraint->m_ucByteAfterTemporaryCount;
                         unsigned short* indices = (&entry.firstIndex);
                         indices[constraint->m_ucByteAfterTemporaryCount] = index;
-                        indices[slave] = (unsigned short)map.FindValueForKey((unsigned long)(constraint->m_kActorEntries[slave]), 0xffff);
+                        indices[slave] = (unsigned short)map.FindValueForKey((uintptr_t)(constraint->m_kActorEntries[slave]), 0xffff);
                     }
                     allNormal &= constraint->m_kRuntimeFlagByte;
                     if (constraint->m_priority < 4) normal.pushBackUnchecked(entry);
@@ -699,7 +673,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandFilterEntry* event = reinterpret_cast<MonitorStream::CommandFilterEntry*>(stream.GetStreamEnd());
             event->m_pCommandName = str_010d3d60;
             event->m_uiFilterValue = (float)bodyCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -709,7 +683,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             SceneIsland* valueOwner=island.p;
             event->m_pCommandName = str_010d3f08;
             event->m_uiFilterValue = (float)valueOwner->m_iConstraintCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     {
@@ -719,7 +693,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             SceneIsland* valueOwner=island.p;
             event->m_pCommandName = str_010d3d70;
             event->m_uiFilterValue = (float)valueOwner->m_kConstraintInfo.m_iSolverResultCount;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     JobHeader* flagHeader=bytesCopy(header);
@@ -737,7 +711,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
     SolveTask* priorBatch = 0;
     SolveTask* thisBatch = 0;
     StackArray<ProbeEntry> pending(144);
-    int* groups = (int*)TaskMemory::GetMonitorStream().temporary->allocate(finalPhase.bytes);
+    int* groups = (int*)hkMemoryRouter::getInstance().m_temp->blockAlloc(finalPhase.bytes);
     for (int pass = 0; pass < 2; ++pass) {
         FlagByte ppuOnly = false;
         TaskArray<ProbeEntry,TempPolicy>* source;
@@ -772,7 +746,7 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             source->setSizeUnchecked(int(deferred - source->begin()));
         }
     }
-    TaskMemory::GetMonitorStream().temporary->release(groups,finalPhase.bytes);
+    hkMemoryRouter::getInstance().m_temp->blockFree(groups,finalPhase.bytes);
     if (makeSolve) {
         SolveTask* walk = priorBatch;
         unsigned short size = *batchSize;
@@ -806,12 +780,9 @@ void FUN_00d95130(SceneInput island, FlagByte coherent, JobHeader* header,
             MonitorStream::CommandTimingEntry* event=(MonitorStream::CommandTimingEntry*)stream.GetStreamEnd();
             event->m_pCommandName=::DAT_010c41f8; _ReadWriteBarrier();
             DWORD ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             event->m_uiStartTicks=ticks;
-            stream.setEnd((char*)(event+1));
+            stream.setEnd(reinterpret_cast<char*>(event + 1));
         }
     }
     }
@@ -842,8 +813,8 @@ template <class E, class S> struct EnumField {
 
 template <class T> struct TlsSlot {
     unsigned long slotId;
-    __forceinline T get() const { return (T)TlsGetValue(slotId); }
-    __forceinline void set(T p) { DAT_00fdf04c(slotId, (void*)p); }
+    __forceinline T get() const { return (T)(intptr_t)TlsGetValue(slotId); }
+    __forceinline void set(T p) { DAT_00fdf04c(slotId, (void*)(intptr_t)p); }
 };
 
 template <class T> struct PaddedPtr {
@@ -881,50 +852,20 @@ struct MonitorStream {
 
 __forceinline void MonitorStream::CommandTimingEntry::setTime() {
     unsigned int ticks;
-    __asm {
-        rdtsc
-        mov dword ptr[ticks], eax
-    }
+    ticks = static_cast<unsigned int>(__rdtsc());
     time0 = ticks;
 }
 
 __forceinline MonitorStream& MonitorStream::GetMonitorStream() { return *(*reinterpret_cast<::fnv_00d95cf0::TlsSlot< ::fnv_00d95cf0::MonitorStream *> *>(&::DAT_0126835c)).get(); }
 
-struct TaskAllocator {
-    virtual ~TaskAllocator();
-    virtual void* allocate(int bytes);
-    virtual void release(void* p, int bytes);
-    virtual void* acquireBuffer(int& reqBytesInOut);
-    virtual void releaseBuffer(void* p, int bytes);
-    template <class T> __forceinline T* allocBuf(int& reqCountInOut) {
-        const int elemSize = sizeof(T);
-        int n = reqCountInOut * elemSize;
-        void* p = acquireBuffer(n);
-        reqCountInOut = n / elemSize;
-        return static_cast<T*>(p);
-    }
-    template <class T> __forceinline void freeBuf(void* p, int count) {
-        const int elemSize = sizeof(T);
-        releaseBuffer(p, count * elemSize);
-    }
-};
 
-struct TaskMemory {
-    int stack0, stack1, stack2, stack3;
-    TaskAllocator* heapAlloc;
-    TaskAllocator* debugAlloc;
-    TaskAllocator* solverAlloc;
-    static __forceinline TaskMemory& GetMonitorStream() { return *(TaskMemory*)FUN_00c85750(); }
-    __forceinline TaskAllocator& heap() { return *heapAlloc; }
-    __forceinline TaskAllocator& solver() { return *solverAlloc; }
-};
 
 template <class T> __forceinline T* solverBufAlloc(int& reqCountInOut) {
-    return TaskMemory::GetMonitorStream().solver().allocBuf<T>(reqCountInOut);
+    return hkMemoryRouter::getInstance().solver()._bufAlloc<T>(reqCountInOut);
 }
 
 template <class T> __forceinline void solverBufFree(T* p, int count) {
-    TaskMemory::GetMonitorStream().solver().freeBuf<T>(p, count);
+    hkMemoryRouter::getInstance().solver()._bufFree<T>(p, count);
 }
 
 template <class T> struct TaskArrayBase {
@@ -1097,7 +1038,7 @@ struct SolveCollection {
 };
 
 struct JobHeader {
-    __forceinline void* operator new(std::size_t nbytes) { return TaskMemory::GetMonitorStream().heap().allocate(nbytes); }
+    __forceinline void* operator new(size_t nbytes) { return hkMemoryRouter::getInstance().heap().blockAlloc(nbytes); }
     unsigned int openJobs;
     unsigned int unfinishedJobs;
     unsigned int shouldDeactivate;
@@ -1194,7 +1135,6 @@ struct AccumulatorsPacket : DynamicsPacket {
     unsigned short numEntities;
 };
 
-extern int __cdecl FUN_00d28a30(const SolverParams& solver, const StepTiming& timing, const AccelVec& accel, void* const* entities, int numEntities, int offset);
 
 __declspec(noinline) void __cdecl FUN_00d95130(SceneIsland* island, FlagByte onSpu, JobHeader* header, BuildCollection* builds, SolveCollection* solves)
 {
@@ -1217,7 +1157,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
     char* buffer;
     if (island->schemaSize)
     {
-        bufferSize = ((int)(::fnv_00d889f0::FUN_00d889f0((void *)&(*island))));
+        bufferSize = (int)reinterpret_cast<intptr_t>(::fnv_00d889f0::FUN_00d889f0((void *)&(*island)));
         bufferCapacity = bufferSize;
         buffer = solverBufAlloc<char>(bufferCapacity);
         while (!buffer)
@@ -1225,7 +1165,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             Command retryJob;
             int prevThread = (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).get();
             (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(1);
-            int status = reinterpret_cast<::Obj *>(&(queue))->ForwardWithZero((int)&(retryJob), 1);
+            int status = reinterpret_cast<::Obj *>(&(queue))->ForwardWithZero((intptr_t)&(retryJob), 1);
             (*reinterpret_cast<::fnv_00d95cf0::TlsSlot<int> *>(&::g_dwTlsIndex)).set(prevThread);
             if (status == 0)
             {
@@ -1262,7 +1202,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             ev->tag = ::str_010cc5c4;
             ev->splitTag = ::str_010cc5bc;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1277,7 +1217,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = (*reinterpret_cast<const char (*)[]>(&::DAT_010cc5b0));
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         for (int j = 0; j < observers.GetLogicalSize(); j++)
@@ -1299,7 +1239,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
             ev->tag = DAT_010d3f64;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1325,7 +1265,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
             MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
             ev->tag = DAT_010d3f54;
             ev->setTime();
-            stream.setEnd((char*)(ev + 1));
+            stream.setEnd(reinterpret_cast<char*>(ev + 1));
         }
     }
 
@@ -1399,7 +1339,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                     MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                     ev->tag = ::str_01076f38;
                     ev->setTime();
-                    stream.setEnd((char*)(ev + 1));
+                    stream.setEnd(reinterpret_cast<char*>(ev + 1));
                 }
             }
 
@@ -1421,10 +1361,10 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f48;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
-        int inactiveFrames = FUN_00d28a30(stepCtx.solver, stepCtx.timing, stepCtx.gravityStep, island->GetEntities().begin(), island->GetEntities().GetLogicalSize(), 0xe0);
+        int inactiveFrames = ::ApplyForcesStepPrivate::FUN_00d28a30({(const ::ApplyForcesStepPrivate::SolverInfo *)(&stepCtx.solver)}, (const ::ApplyForcesStepPrivate::TimeInterval *)(&stepCtx.timing), {(const ::ApplyForcesStepPrivate::Vec *)(&stepCtx.gravityStep)}, {(::ApplyForcesStepPrivate::Motion **)(island->GetEntities().begin())}, island->GetEntities().GetLogicalSize(), 0xe0);
         ::FUN_00d1a330((const ::CollisionContext *)(const void *)(island->getWorld()->getCollisionInput()), (::EntityNode *const *)(void *const *)(island->GetEntities().begin()), island->GetEntities().GetLogicalSize());
         if (inactiveFrames <= 5)
         {
@@ -1443,7 +1383,7 @@ int __cdecl FUN_00d95cf0(TaskOwner& owner, Queue& queue, Command& nextJobOut)
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         {
@@ -1469,7 +1409,7 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = ::str_01076f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         header->exportFinished = true;
@@ -1488,7 +1428,7 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = DAT_010d3f2c;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         ::FUN_00d883c0((const ::S883_Island &)(*island), buffer, bufferSize, (::S883_TaskHeader &)(*header));
@@ -1515,7 +1455,7 @@ FINISH_BROAD_PHASE:
 
         BuildCollection outBuilds;
         SolveCollection outSolves;
-        ::FUN_00d95130((::SceneInput)(island), (*(::FlagByte *)&(const ::fnv_00d95cf0::FlagByte &)(stepCtx.buildOnSpu)), (::JobHeader *)(header), (::BuildCollection *)(::fnv_00d95cf0::BuildCollection *)(&outBuilds), (::SolveCollection *)(::fnv_00d95cf0::SolveCollection *)(&outSolves));
+        ::FUN_00d95130(::SceneInput((::SceneIsland *)(island)), (*(::FlagByte *)&(const ::fnv_00d95cf0::FlagByte &)(stepCtx.buildOnSpu)), (::JobHeader *)(header), (::BuildCollection *)(::fnv_00d95cf0::BuildCollection *)(&outBuilds), (::SolveCollection *)(::fnv_00d95cf0::SolveCollection *)(&outSolves));
         {
             MonitorStream& stream = MonitorStream::GetMonitorStream();
             if (stream.memoryAvailable())
@@ -1523,14 +1463,14 @@ FINISH_BROAD_PHASE:
                 MonitorStream::CommandTimingEntry* ev = reinterpret_cast<MonitorStream::CommandTimingEntry*>(stream.GetStreamEnd());
                 ev->tag = ::str_01076f38;
                 ev->setTime();
-                stream.setEnd((char*)(ev + 1));
+                stream.setEnd(reinterpret_cast<char*>(ev + 1));
             }
         }
         header->tasks = outBuilds;
         header->solveTasks = outSolves;
 
         FinishPacket FinalizePacket(currentJob, header);
-        int status = reinterpret_cast<::LunaOwner *>(&(queue))->ProcessCallback((int)(&FinalizePacket), (int)&(nextJobOut), 0);
+        int status = reinterpret_cast<::LunaOwner *>(&(queue))->ProcessCallback((intptr_t)(&FinalizePacket), (intptr_t)&(nextJobOut), 0);
         return status;
     }
 }

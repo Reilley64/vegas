@@ -2,8 +2,17 @@
 // src/havok/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00d21000.h"
+#include "havok/hkpBallAndSocketConstraintDataAtoms.h"
+#include "havok/hkpConstraintData.h"
 #include "fnv/symbols_0104e000.h"
-struct FUN_00d541f0_class
+struct hkpBallAndSocketConstraintData : public hkpConstraintData
+{
+    char padC[0x4];
+    hkpBallAndSocketConstraintDataAtoms m_kBridgeAtoms;  // +0x10
+    void FUN_00d54210(::GenericConstraintAtomScheme* a) const;
+};
+struct FUN_00d541f0_class : hkpBallAndSocketConstraintData
 {
     void FUN_00d541f0(int index);
 };
@@ -11,29 +20,24 @@ struct FUN_00d541f0_class
 // @fnv 0x00d541f0
 void FUN_00d541f0_class::FUN_00d541f0(int aiBitIndex)
 {
-    *(reinterpret_cast<char*>(this) + 0x42) = 1 << aiBitIndex;
+    m_kBridgeAtoms.m_kBallSocket.m_ucBodiesToNotify = (hkUint8)(1 << aiBitIndex);
 }
 
-extern void* __cdecl FUN_00d21a60(void* a, int b, int c);
-struct hkpBallAndSocketConstraintData
-{
-    void* FUN_00d54210(int a);
-};
 // @fnv 0x00d54210
-void* hkpBallAndSocketConstraintData::FUN_00d54210(int a)
+void hkpBallAndSocketConstraintData::FUN_00d54210(::GenericConstraintAtomScheme* a) const
 {
-    return FUN_00d21a60((void*)((char*)this + 0x10), 0x38, a);
+    ::FUN_00d21a60(reinterpret_cast<const ::hkpConstraintAtom *>(&m_kBridgeAtoms), 0x38, a);
 }
 
-struct FUN_00d54230_class
+struct FUN_00d54230_class : hkpBallAndSocketConstraintData
 {
     void FUN_00d54230(char a, int* b);
 };
-// If a is zero and the float at offset 0x44 equals DAT_0104e138, writes 0 and 0 to b; otherwise writes 3 and 0x18.
+// If a is zero and the ball-socket breach impulse equals DAT_0104e138, writes 0 and 0 to b; otherwise writes 3 and 0x18.
 // @fnv 0x00d54230
 void FUN_00d54230_class::FUN_00d54230(char abCondition, int* pOut)
 {
-    if (!abCondition && *(float*)((char*)this + 0x44) == DAT_0104e138)
+    if (!abCondition && m_kBridgeAtoms.m_kBallSocket.m_usFlags == DAT_0104e138)
     {
         pOut[1] = 0;
         pOut[0] = 0;
@@ -74,14 +78,14 @@ void FUN_00d541d0_class::FUN_00d541d0(float value)
     unk44 = value;
 }
 
-struct FUN_00d54200_class
+struct FUN_00d54200_class : hkpBallAndSocketConstraintData
 {
     unsigned char FUN_00d54200();
 };
 // @fnv 0x00d54200
 unsigned char FUN_00d54200_class::FUN_00d54200()
 {
-    return *(unsigned char*)((char*)this + 0x42) >> 1;
+    return m_kBridgeAtoms.m_kBallSocket.m_ucBodiesToNotify >> 1;
 }
 
 struct D54270Bool
@@ -140,5 +144,3 @@ int __cdecl FUN_00d54280()
 {
     return 0;
 }
-
-#include "generated/data/havok/physics/dynamics/constraint/bilateral/ballandsocket/hkpballandsocketconstraintdata.inc"

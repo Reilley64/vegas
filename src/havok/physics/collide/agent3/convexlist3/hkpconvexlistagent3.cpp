@@ -3,7 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
 #include <cstring>
+#include <cstddef>
 // @fnv 0x00d32b20
 #include "fnv/decl/FUN_00cfbd60_cls.h"
 #include "fnv/decl/hkTransformCB22.h"
@@ -16,53 +19,85 @@
 #include "fnv/symbols_0104d000.h"
 #include "fnv/symbols_010ce000.h"
 #include "fnv/symbols_01268000.h"
-void __cdecl CallIfNotFlagged(int aiUnused, int pObject, int c)
+// The convex list agent3's data: bit 0x20 of m_flags selects the gsk path, the list agent track follows.
+struct hkpShapeD32
 {
-    if (!(*(char*)(pObject + 0xb) & 0x20))
-        ::FUN_00da3510((*(::AgentSectorPointerArray *)((void*)(pObject + 0x10))), (*(::CollisionAgentContext *)((void*)c)));
+    int unk00;
+    int unk04;
+    unsigned char unk08;
+    unsigned char unk09;
+    unsigned char unk0A;
+    unsigned char m_flags;
+    int unk0C;
+    struct AgentTrack
+    {
+        void* m_sectors;
+        int m_size;
+        int m_capacityAndFlags;
+    } m_agentTrack;
+};
+
+struct hkpAgent3FuncsD331
+{
+    hkpAgent3FuncsD331()
+    {
+        m_bIsPredictive = false;
+        m_bAgentFlag1 = false;
+        m_bAgentFlag2 = false;
+        m_pAgentFunction7 = 0;
+        m_pAgentFunction8 = 0;
+        m_pUpdateFilterFunc = 0;
+        m_pAgentFunction10 = 0;
+        m_pAgentFunction11 = 0;
+    }
+
+    void* m_pCreateFunc;
+    void* m_pAgent3DestroyFuncs;
+    void* m_pAgentFunction3;
+    void* m_pAgentFunction4;
+    void* m_pAgentFunction5;
+    void* m_createZeroContactFunc;
+    void* m_pAgentFunction7;
+    void* m_pAgentFunction8;
+    void* m_pUpdateFilterFunc;
+    void* m_pAgentFunction10;
+    void* m_pAgentFunction11;
+    void* m_setCollisionQualityFunc;
+    bool m_bIsPredictive;
+    bool m_bAgentFlag1;
+    bool m_bAgentFlag2;
+};
+
+void __cdecl CallIfNotFlagged(void* aiUnused, hkpShapeD32* pObject, void* c)
+{
+    if (!(pObject->m_flags & 0x20))
+        ::FUN_00da3510(*reinterpret_cast<::AgentSectorPointerArray *>(&pObject->m_agentTrack), *static_cast<::CollisionAgentContext *>(c));
 }
 
-void __cdecl SetFlagAndCall(int, int, int);
-void __cdecl FUN_00d32bd0(int, int, int);
-void __cdecl FUN_00d32be0(int, int, int);
-void __cdecl FUN_00d32c00(int, int, int);
-void __cdecl FUN_00d32c20(int, int, int);
-void __cdecl FUN_00d32ae0(int, int, int);
-void __cdecl FUN_00d32b40(int, int, int);
-struct FUN_00d33140_t
-{
-    void* m_ppVirtualMethodTable;
-    int m_04;
-    void* m_08;
-    void* m_0c;
-    void* m_10;
-    void* m_14;
-    void* m_18;
-    void* m_1c;
-    void* m_20;
-    void* m_24;
-    void* m_28;
-    void* m_2c;
-    char m_30;
-};
-// Fills the struct at a with function pointers for its slots, stores a pointer in m_04 and sets m_30 to 1.
+void __cdecl SetFlagAndCall(::InputData*, unsigned char*, hkpShapeD32*);
+void __cdecl FUN_00d32bd0(void*, void*, void*);
+void __cdecl FUN_00d32be0(void*, hkpShapeD32*, void*);
+void __cdecl FUN_00d32c00(void*, hkpShapeD32*, void*);
+void __cdecl FUN_00d32c20(int, hkpShapeD32*, int);
+void __cdecl FUN_00d32ae0(void*, hkpShapeD32*, char**, struct FUN_00d32ae0_agent*);
+void __cdecl FUN_00d32b40(void*, hkpShapeD32*, float, float, void**);
+// Fills the agent3 function table's slots, stores FUN_00d32ba0 in the second slot and sets the predictive flag.
 // @fnv 0x00d33140
-void __cdecl FUN_00d33140(int apStruct)
+void __cdecl FUN_00d33140(hkpAgent3FuncsD331* p)
 {
-    FUN_00d33140_t* p = (FUN_00d33140_t*)apStruct;
-    p->m_ppVirtualMethodTable = (void*)&SetFlagAndCall;
-    p->m_2c = (void*)&((void (&)(int, int, int))::fnv_00d32cd0::FUN_00d32cd0);
-    p->m_28 = (void*)&((void (&)(int, int, int))::FUN_00d32ca0);
-    p->m_08 = (void*)&FUN_00d32bd0;
-    p->m_0c = (void*)&FUN_00d32be0;
-    p->m_10 = (void*)&FUN_00d32c00;
-    p->m_14 = (void*)&FUN_00d32c20;
-    p->m_18 = (void*)&((void (&)(int, int, int))::FUN_00d32c40);
-    p->m_1c = (void*)&FUN_00d32ae0;
-    p->m_20 = (void*)&CallIfNotFlagged;
-    p->m_24 = (void*)&FUN_00d32b40;
-    p->m_04 = (int)&((void (&)(int, int, int))::FUN_00d32ba0);
-    p->m_30 = 1;
+    p->m_pCreateFunc = (void*)&SetFlagAndCall;
+    p->m_setCollisionQualityFunc = (void*)&::fnv_00d32cd0::FUN_00d32cd0;
+    p->m_pAgentFunction11 = (void*)&::FUN_00d32ca0;
+    p->m_pAgentFunction3 = (void*)&FUN_00d32bd0;
+    p->m_pAgentFunction4 = (void*)&FUN_00d32be0;
+    p->m_pAgentFunction5 = (void*)&FUN_00d32c00;
+    p->m_createZeroContactFunc = (void*)&FUN_00d32c20;
+    p->m_pAgentFunction7 = (void*)&::FUN_00d32c40;
+    p->m_pAgentFunction8 = (void*)&FUN_00d32ae0;
+    p->m_pUpdateFilterFunc = (void*)&CallIfNotFlagged;
+    p->m_pAgentFunction10 = (void*)&FUN_00d32b40;
+    p->m_pAgent3DestroyFuncs = (void*)&::FUN_00d32ba0;
+    p->m_bIsPredictive = 1;
 }
 
 struct FUN_00d32ae0_agent
@@ -80,77 +115,62 @@ struct FUN_00d32ae0_agent
 
 // If the flag at offset 0x0b of b is clear, calls f6 with "hkConvexListAgent3", FUN_00d97250 on b+0x10, then f7 on the agent.
 // @fnv 0x00d32ae0
-void __cdecl FUN_00d32ae0(int aiUnused, int b, int c)
+void __cdecl FUN_00d32ae0(void* aiUnused, hkpShapeD32* b, char** c, FUN_00d32ae0_agent* agent)
 {
-    if (reinterpret_cast<unsigned char*>(b)[0x0b] & 0x20)
+    if (b->m_flags & 0x20)
         return;
 
-    FUN_00d32ae0_agent* agent = *reinterpret_cast<FUN_00d32ae0_agent**>(reinterpret_cast<char*>(&c) + 4);
-
     agent->f6("hkConvexListAgent3");
-    ::FUN_00d97250((::Hdr *)(void *)(reinterpret_cast<char*>(b) + 0x10), (char **)(void *)(reinterpret_cast<void*>(c)), (::Logger *)(agent));
+    ::FUN_00d97250(reinterpret_cast<::Hdr *>(&b->m_agentTrack), c, (::Logger *)(agent));
     agent->f7();
 }
 
 
 // If the object's byte at offset 0xb lacks flag 0x20, forwards its fields at +0x10 plus three stack arguments to _FUN_00da35f0.
 // @fnv 0x00d32b40
-void __cdecl FUN_00d32b40(int aiUnused, int aiArg1, int aiArg2)
+void __cdecl FUN_00d32b40(void* aiUnused, hkpShapeD32* object, float first, float second, void** third)
 {
-    struct StackArguments
-    {
-        void* object;
-        float first;
-        float second;
-        int third;
-    };
-
-    StackArguments* pStackArgs = reinterpret_cast<StackArguments*>(&aiArg1);
-    if (!(reinterpret_cast<unsigned char*>(pStackArgs->object)[0xb] & 0x20))
-    {
-        ::FUN_00da35f0((::Da35Stream ***)(void *)(reinterpret_cast<unsigned char*>(pStackArgs->object) + 0x10), pStackArgs->first,
-                      pStackArgs->second, (void **)(pStackArgs->third));
-    }
+    if (!(object->m_flags & 0x20))
+        ::FUN_00da35f0(reinterpret_cast<::Da35Stream ***>(&object->m_agentTrack), first, second, third);
 }
 
 
 // Calls DispatchInputRecord with a, b and c, then sets bit 0x20 and clears bit 0x40 in byte 0xb of c.
 // @fnv 0x00d32b70
-void __cdecl SetFlagAndCall(int aiArg1, int aiArg2, int c)
+void __cdecl SetFlagAndCall(::InputData* aiArg1, unsigned char* aiArg2, hkpShapeD32* c)
 {
-    char* p = (char*)c;
-    ::DispatchInputRecord((::InputData *)(aiArg1), (unsigned char *)(aiArg2), (::ResultData *)(p));
-    p[0xb] = (p[0xb] & 0xbf) | 0x20;
+    ::DispatchInputRecord(aiArg1, aiArg2, reinterpret_cast<::ResultData *>(c));
+    c->m_flags = (c->m_flags & 0xbf) | 0x20;
 }
 
 
 // @fnv 0x00d32be0
-void __cdecl FUN_00d32be0(int, int apObject, int)
+void __cdecl FUN_00d32be0(void*, hkpShapeD32* apObject, void*)
 {
-    if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
+    if ((apObject->m_flags & 0x20) != 0)
     {
-        *reinterpret_cast<volatile int*>(&apObject) = apObject;
+        *reinterpret_cast<hkpShapeD32* volatile*>(&apObject) = apObject;
         ::RemoveEntryById({}, {}, {});
     }
 }
 
 
 // @fnv 0x00d32c00
-void __cdecl FUN_00d32c00(int aiUnused, int apObject, int aiUnused2)
+void __cdecl FUN_00d32c00(void* aiUnused, hkpShapeD32* apObject, void* aiUnused2)
 {
-    if ((reinterpret_cast<unsigned char*>(apObject)[0x0b] & 0x20) != 0)
+    if ((apObject->m_flags & 0x20) != 0)
     {
-        *(volatile int*)&apObject = apObject;
+        *reinterpret_cast<hkpShapeD32* volatile*>(&apObject) = apObject;
         ::InsertSlotId({}, {}, {});
     }
 }
 
 
 // @fnv 0x00d32c20
-void __cdecl FUN_00d32c20(int aiArg1, int apArg2, int aiArg3)
+void __cdecl FUN_00d32c20(int aiArg1, hkpShapeD32* apArg2, int aiArg3)
 {
-    if ((reinterpret_cast<unsigned char*>(apArg2)[0x0b] & 0x20) != 0)
-        ::FindEntryByKey(aiArg1, (::FUN_00d41830_table *)(apArg2), aiArg3);
+    if ((apArg2->m_flags & 0x20) != 0)
+        ::FindEntryByKey(aiArg1, reinterpret_cast<::FUN_00d41830_table *>(apArg2), aiArg3);
 }
 
 struct PackTarget
@@ -347,7 +367,7 @@ void __cdecl FUN_00d32c40(int aiUnused, Arg1* a1, int a2, Arg3* a3, int aiArg4, 
     j.m14 = aiArg5;
     j.m18 = aiArg6;
     j.m0c = iSlotResult;
-    ::FUN_00da48e0((int)(&a1->field_10), (int)(&j));
+    ::FUN_00da48e0((&a1->field_10), (&j));
 }
 
 struct hkpShapeD333
@@ -495,17 +515,6 @@ struct Container
     void FUN_00d33600(void* unusedA, void* unusedB, char* source, Callback* callback);
 };
 
-struct hkpShapeD32
-{
-    int unk00;
-    int unk04;
-    unsigned char unk08;
-    unsigned char unk09;
-    unsigned char unk0A;
-    unsigned char m_flags;
-    int unk0C;
-    int m_data;
-};
 
 
 // If the hkpShapeD32 flag 0x20 is set, forward the call to ForwardToTarget; otherwise call FUN_00da42b0 with the shape data.
@@ -514,48 +523,18 @@ void __cdecl FUN_00d32ba0(void* agent, hkpShapeD32* shape, void* input, void* ou
 {
     if (shape->m_flags & 0x20)
     {
-        ::ForwardToTarget((int)(agent), (int)(shape), (int)(input), (int)(output), (int)(collector));
+        ::ForwardToTarget(agent, shape, input, output, collector);
         return;
     }
-    ::FUN_00da42b0((::BlockPoolArray *)(int *)(&shape->m_data), (::S_00da40e0_Dispatcher *)(collector), (::S_00da40e0_ContactMgr *)(input), (*(::S_00da40e0_ConstraintOwner *)(output)));
+    ::FUN_00da42b0(reinterpret_cast<::BlockPoolArray *>(&shape->m_agentTrack), (::S_00da40e0_Dispatcher *)(collector), (::S_00da40e0_ContactMgr *)(input), (*(::S_00da40e0_ConstraintOwner *)(output)));
 }
 
 // @fnv 0x00d32bd0
-void __cdecl FUN_00d32bd0(int a, int b, int c)
+void __cdecl FUN_00d32bd0(void* a, void* b, void* c)
 {
     ::FUN_00d41860_impl({}, {}, {}, {});
 }
 
-struct hkpAgent3FuncsD331
-{
-    hkpAgent3FuncsD331()
-    {
-        m_bIsPredictive = false;
-        m_bAgentFlag1 = false;
-        m_bAgentFlag2 = false;
-        m_pAgentFunction7 = 0;
-        m_pAgentFunction8 = 0;
-        m_pUpdateFilterFunc = 0;
-        m_pAgentFunction10 = 0;
-        m_pAgentFunction11 = 0;
-    }
-
-    void* m_pCreateFunc;
-    void* m_pAgent3DestroyFuncs;
-    void* m_pAgentFunction3;
-    void* m_pAgentFunction4;
-    void* m_pAgentFunction5;
-    void* m_createZeroContactFunc;
-    void* m_pAgentFunction7;
-    void* m_pAgentFunction8;
-    void* m_pUpdateFilterFunc;
-    void* m_pAgentFunction10;
-    void* m_pAgentFunction11;
-    void* m_setCollisionQualityFunc;
-    bool m_bIsPredictive;
-    bool m_bAgentFlag1;
-    bool m_bAgentFlag2;
-};
 
 
 class hkpCollisionDispatcherD331
@@ -568,7 +547,7 @@ class hkpCollisionDispatcherD331
 void __cdecl RegisterAgent3Entries(hkpCollisionDispatcherD331* pkDispatcher)
 {
     __declspec(align(16)) hkpAgent3FuncsD331 kFuncs;
-    ::FUN_00d33140((int)&(kFuncs));
+    ::FUN_00d33140(&kFuncs);
     reinterpret_cast<::FUN_00cfbd60_cls *>((pkDispatcher))->AddEntry((::SrcRec *)&(kFuncs), 0x12, 0x16);
     reinterpret_cast<::FUN_00cfbd60_cls *>((pkDispatcher))->AddEntry((::SrcRec *)&(kFuncs), 0x16, 0x16);
 }
@@ -578,17 +557,17 @@ void __cdecl RegisterAgent3Entries(hkpCollisionDispatcherD331* pkDispatcher)
 extern float DAT_010CEB6C;
 // If bit 5 of the flag byte at c+11 is set, delegates to FUN_00d41930; otherwise writes DAT_01268370 to output and sets its fourth float to DAT_010CEB6C.
 // @fnv 0x00d32ca0
-void __cdecl FUN_00d32ca0(int a, int b, int c, int output)
+void __cdecl FUN_00d32ca0(void* a, const void* b, void* c, void* output)
 {
-    if ((*reinterpret_cast<const unsigned char*>(c + 11) & 0x20) != 0)
+    if ((static_cast<const hkpShapeD32*>(c)->m_flags & 0x20) != 0)
     {
-        ::FUN_00d41930((::Input_s *)(a), b, (::hkpGskCache_s *)(c), (::Output_s *)(output));
+        ::FUN_00d41930(static_cast<::Input_s *>(a), b, static_cast<::hkpGskCache_s *>(c), static_cast<::Output_s *>(output));
         return;
     }
-    __m128* __restrict p = reinterpret_cast<__m128*>(output);
+    __m128* __restrict p = static_cast<__m128*>(output);
     float finalComponent = DAT_010CEB6C;
-    *p = (*reinterpret_cast<::__m128 *>(&::DAT_01268370));
-    reinterpret_cast<float*>(p)[3] = finalComponent;
+    *p = (*reinterpret_cast<__m128 *>(&::DAT_01268370));
+    (*p)[3] = finalComponent;
 }
 
 struct HK_ASSERT_OBJECT_SIZE_OK_FUNC_t
@@ -846,7 +825,8 @@ struct Body
 };
 struct CollisionInput
 {
-    int unk00, unk04;
+    void* unk00;
+    int unk04;
     float tolerance;
 };
 struct Cache
@@ -891,7 +871,7 @@ struct CacheState
 struct Output
 {
     int count;
-    int owner;
+    void* owner;
     int unk08, unk0c;
     Contact contacts[384];
     CacheState cache;
@@ -907,7 +887,7 @@ struct Manager
     virtual void f14();
     virtual void f18();
     virtual void f1c();
-    virtual void f20(int, Basis*);
+    virtual void f20(void*, Basis*);
 };
 struct Context
 {
@@ -945,7 +925,7 @@ struct Agent
 struct FUN_00d33670
 {
     int count;
-    int owner;
+    void* owner;
     int unk08, unk0c;
     Contact contacts[128];
     CacheState cache;
@@ -999,7 +979,6 @@ struct Monitor
 };
 extern float DAT_010ceb6c;
 int __cdecl FUN_00dabca0(ProbeInput*, Agent*, void*, FourFloatVector*);
-void* __cdecl FUN_00c85750();
 
 struct TLSArgument
 {
@@ -1007,7 +986,7 @@ struct TLSArgument
 };
 // Runs a collision probe or stream on two bodies, updates the agent cache and contact output, and returns a 16-byte-aligned result pointer.
 // @fnv 0x00d32cd0
-void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, CollisionResult* collisionOutput, Output* output)
+void* __cdecl FUN_00d32cd0(Context* context, unsigned char* stream, Agent* agent, CollisionResult* collisionOutput, Output* output)
 {
     struct Scratch
     {
@@ -1036,7 +1015,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
             scratch.stamp = (unsigned int)__rdtsc();
             _ReadWriteBarrier();
             entry->time = scratch.stamp;
-            monitor->current = (MonitorEntry*)((char*)entry + 16);
+            monitor->current = entry + 1;
         }
     }
     scratch.shapeEnd.shape = context->bodyB->shape;
@@ -1067,7 +1046,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
                 scratch.stamp = (unsigned int)__rdtsc();
                 _ReadWriteBarrier();
                 entry->time = scratch.stamp;
-                scratch.outcome.monitor->current = (MonitorEntry*)((char*)entry + 12);
+                scratch.outcome.monitor->current = reinterpret_cast<MonitorEntry*>(reinterpret_cast<char*>(entry) + offsetof(MonitorEntry, detail));
             }
             if (agent->state.countdown-- >= 0)
                 goto fallback;
@@ -1085,7 +1064,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
                 if (!FUN_00dabca0(&arguments.probe, agent, collisionOutput, &separating))
                     goto fallback;
             }
-            ::FUN_00da42b0((::BlockPoolArray *)(::fnv_00d32cd0::Cache *)(&agent->state.cache), (::S_00da40e0_Dispatcher *)(context->input->unk00), (::S_00da40e0_ContactMgr *)(context->manager), (*(::S_00da40e0_ConstraintOwner *)(output->owner)));
+            ::FUN_00da42b0((::BlockPoolArray *)(::fnv_00d32cd0::Cache *)(&agent->state.cache), static_cast<::S_00da40e0_Dispatcher *>(context->input->unk00), (::S_00da40e0_ContactMgr *)(context->manager), (*static_cast<::S_00da40e0_ConstraintOwner *>(output->owner)));
             agent->flags |= 0x20;
             agent->state.packed = 0;
             reinterpret_cast<::Container *>(&(temporary))->FUN_00d33600(context->bodyA, context->bodyB, (char *)(output), (struct ::Callback *)(context->manager));
@@ -1105,7 +1084,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
         phase.process.extra78 = context->extra78;
         phase.process.extra7c = context->extra7c;
         phase.process.manager = (Manager*)&arguments.collector;
-        scratch.outcome.result = ::FUN_00d41a30((::Request *)(::fnv_00d32cd0::ProcessInput *)(&phase.process), (unsigned char *)(stream), (::ResultData *)(agent), (::AlignedVec *)(collisionOutput), (::Output *)(output));
+        scratch.outcome.result = ::FUN_00d41a30((::Request *)(::fnv_00d32cd0::ProcessInput *)(&phase.process), stream, (::ResultData *)(agent), (::AlignedVec *)(collisionOutput), (::Output *)(output));
         phase.process.manager = arguments.collector.manager;
         if (!arguments.collector.hit)
         {
@@ -1133,7 +1112,7 @@ void* __cdecl FUN_00d32cd0(Context* context, int stream, Agent* agent, Collision
         output->count = temporary.count;
         if (output->savedContacts)
             memmove(output->savedContacts, &temporary.owner, 0x1008);
-        ::FUN_00d41860_impl(stream, (int)(agent), (int)(context->manager), output->owner);
+        ::FUN_00d41860_impl(stream, agent, context->manager, output->owner);
         agent->flags &= 0xdf;
         StateRecord* state = &agent->state;
         if (state)
@@ -1150,15 +1129,13 @@ fallback:
     collisionOutput->distance = -1.701410009187828e+38f;
     {
         int count = scratch.shapeEnd.shape->childCount;
-        int** arena = (int**)FUN_00c85750();
-        int* keys = *arena;
-        *arena = (int*)((char*)keys + ((count * 4 + 0x83) & ~0x7f));
+        int* keys = static_cast<int*>(hkMemoryRouter::getInstance().allocateStack((count * 4 + 0x83) & ~0x7f));
         for (int i = 0; i < count; ++i)
             keys[i] = i;
         int* sub = &(*(Shape* volatile*)&scratch.shapeEnd.shape)->unk14;
         Cache* cache = &agent->state.cache;
         ::fnv_00da4aa0::FUN_00da4aa0((*(::fnv_00da4aa0::Q30 *)((keys[count] = -1, cache))), (*(const ::fnv_00da4aa0::Q14 *)(context)), (const ::fnv_00da4aa0::Q24 *)(sub), (const unsigned int *)(keys), (*(::fnv_00da4aa0::Q6 *)(output)));
-        *(int**)FUN_00c85750() = keys;
+        hkMemoryRouter::getInstance().deallocateStack(keys);
         scratch.outcome.result = cache + 1;
     }
 finished:
@@ -1173,9 +1150,9 @@ finished:
         scratch.shapeEnd.stamp = (unsigned int)__rdtsc();
         _ReadWriteBarrier();
         entry->time = scratch.shapeEnd.stamp;
-        monitor->current = (MonitorEntry*)((char*)entry + 12);
+        monitor->current = reinterpret_cast<MonitorEntry*>(reinterpret_cast<char*>(entry) + offsetof(MonitorEntry, detail));
     }
-    return (void*)(((unsigned int)scratch.outcome.result + 15) & ~15);
+    return (void*)(((uintptr_t)scratch.outcome.result + 15) & ~(uintptr_t)15);
 }
 }  // namespace fnv_00d32cd0
 

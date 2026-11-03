@@ -2,6 +2,9 @@
 // src/havok/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/simulation/multithreaded/cpu/hkpcpuagentsectorjob.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <intrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c911d0_Class.h"
 #include "fnv/decl/FUN_00c91210_Class.h"
@@ -16,25 +19,31 @@
 #include "fnv/symbols_010cd000.h"
 #include "fnv/symbols_01268000.h"
 #include "fnv/symbols_01269000.h"
-struct FUN_00d93330 {
+// The counter at +0x18 and the value at +0x1c that FUN_00d93330 and FUN_00d93340 update.
+struct CounterAndValueFields {
+    char pad00[0x18];
+    int m_iCounter;  // +0x18
+    int m_iValue;    // +0x1c
+};
+struct FUN_00d93330 : CounterAndValueFields {
     void UpdateConstraint(int);
 };
 // @fnv 0x00d93330
 void FUN_00d93330::UpdateConstraint(int v)
 {
-    ++(*(int*)((char*)this + 0x18));
-    *(int*)((char*)this + 0x1c) = v;
+    ++m_iCounter;
+    m_iValue = v;
 }
 
-struct FUN_00d93340_StandIn {
+struct FUN_00d93340_StandIn : CounterAndValueFields {
     void FUN_00d93340(int);
 };
 
 // @fnv 0x00d93340
 void FUN_00d93340_StandIn::FUN_00d93340(int a)
 {
-    *(int*)((char*)this + 0x18) = *(int*)((char*)this + 0x18) - 1;
-    *(int*)((char*)this + 0x1c) = a;
+    m_iCounter = m_iCounter - 1;
+    m_iValue = a;
 }
 
 struct SubTarget {
@@ -223,10 +232,7 @@ struct Globals {
 };
 struct Queue {  };
 struct MonitorRecord { const char *name; unsigned int time, field08; __forceinline void sample() { unsigned int stamp;
-        __asm {
-            rdtsc
-            mov dword ptr[stamp], eax
-        }
+        stamp = static_cast<unsigned int>(__rdtsc());
         time = stamp;
     } };
 struct Monitor { int field00; MonitorRecord *end; int field08; MonitorRecord *limit; };
@@ -239,9 +245,7 @@ __forceinline void profile(const char *name, unsigned long tlsIndex) {
         m->end = p + 1;
     }
 }
-struct Allocator { virtual void v0(); virtual void v1(); virtual void release(void *, int); };
-struct Memory { int field00, field04, field08, field0c; Allocator *allocator; };
-Memory *FUN_00c85750();
+
 __forceinline Quality *qualityAt(Context &c, int index) { return ((Dispatcher *)c.dispatcher)->qualities + index; }
 __forceinline void storeResults(Statistics *s, Owner &owner) {
     s->maximum = owner.maximum; s->added = owner.added; s->removed = owner.removed; s->changed = owner.changed;
@@ -306,7 +310,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                         Island *sectorIsland = work.savedIsland;
                         Entry *const &slot = sectorIsland->sectors[index]; prefetched = slot;
                         if (remaining > 0) {
-                            char *p = (char *)sectorIsland->sectors[index + 1];
+                            char *p = reinterpret_cast<char *>(sectorIsland->sectors[index + 1]);
                             _mm_prefetch(p, 0); _mm_prefetch(p + 64, 0); _mm_prefetch(p + 128, 0); _mm_prefetch(p + 192, 0);
                         }
                         end = (index + 1 == sectorIsland->sectorCount ? sectorIsland->lastSize : 512) + (char *)slot;
@@ -320,7 +324,7 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
                 reinterpret_cast<::FUN_00c911d0_Class *>((globals->world))->EnterLock(island);
                 island->maximum = island->maximum > owner.maximum ? island->maximum : owner.maximum;
                 island->added += owner.added; island->removed += owner.removed; island->changed += owner.changed;
-                if (owner.commands.size) ::FUN_00df25f0((int)(globals->world), (::CommandRecord *)(void *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
+                if (owner.commands.size) ::FUN_00df25f0(globals->world, (::CommandRecord *)(void *)((char *)&owner.commands + owner.commands.offset), owner.commands.size);
                 reinterpret_cast<::FUN_00c91210_Class *>((globals->world))->FUN_00c91210(island);
             }
         } else storeResults(job->batch->results[job->index], owner);
@@ -349,9 +353,9 @@ int FUN_00d93380(Globals *globals, Queue *queue, Job *job) {
         storeResults(job->batch->results[job->index], owner);
         profile(str_010d3e14, DAT_0126835c);
     }
-    int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((int)(job), (int)(job), 0);
+    int result = reinterpret_cast<::LunaOwner *>((queue))->ProcessCallback((intptr_t)(job), (intptr_t)(job), 0);
     owner.dispatch = &(*reinterpret_cast<int *>(&::DAT_0102e388));
-    if (context.allocation) { Memory *m = FUN_00c85750(); Allocator *a = m->allocator; a->release(context.allocation, 512); }
+    if (context.allocation) { hkMemoryRouter *m = &hkMemoryRouter::getInstance(); hkMemoryAllocator *a = m->m_heap; a->blockFree(context.allocation, 512); }
     return result;
 }
 

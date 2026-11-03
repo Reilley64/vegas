@@ -3,6 +3,10 @@
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
 #include <new>
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
 #include "fnv/decl/fnv_00e3b0a0__FUN_00e3b0a0_cls.h"
 #include "fnv/symbols_00c90000.h"
 #include "fnv/symbols_00d6f000.h"
@@ -12,9 +16,8 @@
 #include "fnv/symbols_01268000.h"
 #include "havok/hkpStiffSpringChainData.h"
 
-struct hkStiffSpringChainData
+struct hkStiffSpringChainData : hkpStiffSpringChainData
 {
-    unsigned int m_uiCurrentValue;
     void FUN_00e3af80(bool bFlag, unsigned int* pOut);
 };
 
@@ -23,7 +26,7 @@ void hkStiffSpringChainData::FUN_00e3af80(bool bFlag, unsigned int* pOut)
 {
     if (bFlag)
     {
-        unsigned int u = *(unsigned int*)((char*)this + 0x1c);
+        unsigned int u = (unsigned int)m_pConstraintInfo.m_iElementCount;
         pOut[1] = u;
         pOut[0] = u * 8;
     }
@@ -72,27 +75,8 @@ void hkpStiffSpringChain::FUN_00e3af40(ConstraintInfo& info)
     info.m_iSolverElementTemporaryCount = size;
 }
 
-class hkMemoryAllocatorE3B4
-{
-  public:
-    virtual ~hkMemoryAllocatorE3B4() throw();
-    virtual void* AllocateMemoryBlock(int iNumBytes) throw();
-    virtual void ReleaseBlock(void* p, int iNumBytes) throw();
-};
 
-struct hkMemoryRouterE3B4
-{
-    int m_00;
-    int m_04;
-    int m_08;
-    int m_0c;
-    hkMemoryAllocatorE3B4* m_pStreamAllocator;
-    hkMemoryAllocatorE3B4& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
-extern "C" hkMemoryRouterE3B4& __cdecl FUN_00c85750();
+
 
 class FUN_00e3b0a0
 {
@@ -103,7 +87,7 @@ class FUN_00e3b0a0
 
     static void operator delete(void* p) throw()
     {
-        FUN_00c85750().heap().ReleaseBlock(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
+        hkMemoryRouter::getInstance().heap().blockFree(p, static_cast<FUN_00e3b0a0*>(p)->m_usMemSizeAndFlags);
     }
 
     FUN_00e3b0a0* DestroyAndFree(unsigned int uiFlags) throw();
@@ -119,25 +103,6 @@ FUN_00e3b0a0* FUN_00e3b0a0::DestroyAndFree(unsigned int uiFlags) throw()
     return this;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C"
-{
-    __m128 _mm_shuffle_ps(__m128, __m128, unsigned int);
-    __m128 _mm_mul_ps(__m128, __m128);
-    __m128 _mm_sub_ps(__m128, __m128);
-    __m128 _mm_andnot_ps(__m128, __m128);
-    __m128 _mm_add_ss(__m128, __m128);
-    __m128 _mm_sub_ss(__m128, __m128);
-    __m128 _mm_mul_ss(__m128, __m128);
-    __m128 _mm_rsqrt_ss(__m128);
-    __m128 _mm_cmpeq_ss(__m128, __m128);
-    __m128 _mm_set_ss(float);
-    void _mm_store_ss(float*, __m128);
-}
 union hkVector4q
 {
     __m128 m_vComponents;
@@ -310,22 +275,6 @@ struct hkVector4T : public hkVector4
 {
     void SetTransformedPoint(const hkTransform& t, const hkVector4& v) throw();
 };
-struct hkMemoryAllocator
-{
-    virtual void vf00();
-    virtual void vf04();
-    virtual void vf08();
-    virtual void vf0c();
-    virtual void ReturnMemory(void* p, int numBytes) throw();
-};
-struct hkMemoryRouterS
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0c;
-    hkMemoryAllocator* m_pStreamAllocator;
-};
 struct hkInplaceIntArray32
 {
     int* m_data;
@@ -340,11 +289,11 @@ struct hkInplaceIntArray32
     }
     __forceinline ~hkInplaceIntArray32()
     {
-        hkMemoryAllocator* alloc = reinterpret_cast<hkMemoryAllocator*>(&FUN_00c85750().heap());
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
         {
-            alloc->ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(int));
+            alloc->bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(int));
         }
     }
     __forceinline void pushBackUnchecked(int v)
@@ -352,11 +301,11 @@ struct hkInplaceIntArray32
         m_data[m_iElementCount] = v;
         m_iElementCount++;
     }
-    __forceinline void AddBack(hkMemoryRouterS* alloc, int v)
+    __forceinline void AddBack(hkMemoryRouter* router, int v)
     {
         if (m_iElementCount == (m_iCapacityState & 0x3fffffff))
         {
-            ::ResizeAudioStream((::AudioAllocator *)(alloc->m_pStreamAllocator), (::AudioStream *)(void *)(this), sizeof(int));
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(this), sizeof(int));
         }
         new (&m_data[m_iElementCount]) int(v);
         m_iElementCount++;
@@ -384,6 +333,8 @@ static __forceinline hkReal hkNormalizeWithLength3(hkVector4q& v)
     v.m_vComponents = _mm_mul_ps(invLen, v.m_vComponents);
     return length;
 }
+// Bytes of one 1d linear bilateral solver schema written by FUN_00dcf720.
+static const int kLinearBilateralSchemaBytes = 0x30;
 struct hkpStiffSpringChainDataEx : public hkpStiffSpringChainData
 {
 // @fnv 0x00e3b0f0
@@ -391,29 +342,29 @@ struct hkpStiffSpringChainDataEx : public hkpStiffSpringChainData
 };
 void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNonConst, QueryResultSchema& out) volatile
 {
-    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(inNonConst), (::fnv_00d6f2b0::EventRecord **)&(out), (volatile unsigned int)(inNonConst.m_pByteBuffer), 8);
+    ::fnv_00d6f2b0::AppendEventRecord((const ::fnv_00d6f2b0::RecordSource *)&(inNonConst), (::fnv_00d6f2b0::EventRecord **)&(out), inNonConst.m_pByteBuffer, 8);
     SixteenWordFloatRecord in = inNonConst;
     in.m_pConstraintChainInstance = 0;
     in.m_pByteBuffer = 0;
     hkInplaceIntArray32 velocityAccumulatorsOffsets;
     hkpConstraintChainInstanceS* instance = inNonConst.m_pConstraintChainInstance;
     int numConstraints = instance->m_ppRigidBodies.m_iElementCount - 1;
-    hkUint32 base = (hkUint32)inNonConst.m_pBodyA - instance->m_pEntityA->m_uiFilterInfo;
+    const char* base = (const char*)inNonConst.m_pBodyA - instance->m_pEntityA->m_uiFilterInfo;
     hkpEntityS* rA = instance->m_ppRigidBodies.m_data[0];
     in.m_pBodyB = (const QuantizedBoundsData*)(base + rA->m_uiFilterInfo);
-    velocityAccumulatorsOffsets.pushBackUnchecked((hkUint32)in.m_pBodyB - base);
+    velocityAccumulatorsOffsets.pushBackUnchecked((hkUint32)((const char*)in.m_pBodyB - base));
     in.m_kBodyBLocalFrame = &rA->m_kMotionTransform;
     in.m_fFourthQueryValue = 1.0f;
     in.m_iBeforeFourthQueryValue = in.m_fQueryInputValue;
-    SolverSchemaHeader* schema = ((::SolverSchemaHeader *)(::FUN_00dd13b0((unsigned int)(out.m_pQueryResultSchema.value()))));
+    SolverSchemaHeader* schema = ((::SolverSchemaHeader *)(::FUN_00dd13b0(out.m_pQueryResultSchema.value())));
     for (int i = 0; i < numConstraints; i++)
     {
         in.m_pBodyA = in.m_pBodyB;
         in.m_kBodyALocalFrame = in.m_kBodyBLocalFrame;
         hkpEntityS* rB = instance->m_ppRigidBodies.m_data[i + 1];
         in.m_pBodyB = (const QuantizedBoundsData*)(base + rB->m_uiFilterInfo);
-        velocityAccumulatorsOffsets.AddBack(reinterpret_cast<hkMemoryRouterS*>(&FUN_00c85750()),
-                                            (hkUint32)in.m_pBodyB - base);
+        velocityAccumulatorsOffsets.AddBack(&hkMemoryRouter::getInstance(),
+                                            (hkUint32)((const char*)in.m_pBodyB - base));
         in.m_kBodyBLocalFrame = &rB->m_kMotionTransform;
         hk1dLinearBilateralConstraintInfo bp;
         static_cast<hkVector4T&>(bp.m_kPivotA.m_vec)
@@ -429,14 +380,14 @@ void hkpStiffSpringChainDataEx::FUN_00e3b0f0(const SixteenWordFloatRecord& inNon
         }
         else
         {
-            bp.m_kConstraintAxis.m_vComponents = (*reinterpret_cast<const ::__m128 *>(&::DAT_01268370));
+            bp.m_kConstraintAxis.m_vComponents = (*reinterpret_cast<const __m128 *>(&::DAT_01268370));
             length = 0.0f;
         }
         ::FUN_00dcee70();
         hkReal rhs = m_pConstraintInfo.m_data[i].m_fSpringRestLength - length;
         ::FUN_00dcf720((const ::S_00dcf720_Info &)(bp), (const ::S_00dcf720_QueryIn &)(in), (::S_00dcf720_Jacobian *)(schema), rhs);
-        schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + 0x30);
+        schema = reinterpret_cast<SolverSchemaHeader*>(reinterpret_cast<char*>(schema) + kLinearBilateralSchemaBytes);
     }
-    ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), base,
-                 (int)(schema), (int)&(inNonConst), (char **)&(out));
+    ::FUN_00dd1180(numConstraints, m_fTau, m_fMotorDamping, m_fMaxErrorDistance, (char **)(velocityAccumulatorsOffsets.m_data), (intptr_t)(base),
+                 schema, &(inNonConst), (char **)&(out));
 }

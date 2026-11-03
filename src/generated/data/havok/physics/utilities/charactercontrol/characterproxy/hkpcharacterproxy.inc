@@ -5,3 +5,10 @@
 char str_010c8444[11] = "ListnrPntr";
 char str_010c8450[13] = "OverlapsPntr";
 char str_010c8460[16] = {77, 97, 110, 105, 102, 111, 108, 100};
+char str_010c84b8[11] = "StCastMove";
+char str_010c84c4[12] = "StApplySurf";
+char str_010c84d0[11] = "StSlexMove";
+char str_010c84dc[17] = "StUpdateManifold";
+char str_010c84f0[14] = "StInitialCast";
+char str_010c8500[7] = "StCast";
+char str_010c8508[18] = "LtupdateCharacter";

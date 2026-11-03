@@ -2,6 +2,9 @@
 // src/havok/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/vehicle/manager/raycastbatchingmanager/hkpvehicleraycastbatchingmanager.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <intrin.h>
 #include <windows.h>
 #include "fnv/decl/D04B90World.h"
 #include "fnv/decl/VUC_StepInstance.h"
@@ -32,11 +35,11 @@ int hkObjE42A::GetAlignedSize(int n) const
 }
 
 struct Buffers {char* first;char* second;char* third;char* fourth;};
-struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,int unused,Buffers* out) const;};
+struct Obj{int a,b,c,byte_size,d;unsigned short count;void ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const;};
 inline int align16(int n){return (n+15)&~15;}
 // Computes aligned offsets for four buffers from count and byte_size and stores the resulting pointers in out.
 // @fnv 0x00e42b00
-void Obj::ComputeBufferLayout(char* base,int unused,Buffers* out) const {
+void Obj::ComputeBufferLayout(char* base,intptr_t unused,Buffers* out) const {
  int n=count;int iByteSize=byte_size;
  char* p=base+align16(n*80);out->second=p;p+=align16(n*96);char* pThird=p;p+=align16(iByteSize);out->first=base;out->fourth=p;out->third=pThird;
 }
@@ -65,40 +68,35 @@ struct Vehicle {
  unsigned field20, field24, field28, field2c, field30, field34, field38;
  WheelCaster* caster;
 };
-struct Allocator {
- virtual void v00(); virtual void v04(); virtual void v08(); virtual void v0c();
- virtual void freeBlock(void*, int);
-};
-struct ThreadMemory { char* stack; unsigned field04, field08, field0c; Allocator* allocator; Allocator& heap() { return *allocator; } };
-ThreadMemory* FUN_00c85750();
+
 struct LocalWheelResults : hkArray<WheelResult> {
  WheelResult* original;
  void initialize() {
   m_data = 0; m_iElementCount = 0; m_iCapacityState = 0x80000000;
-  ThreadMemory* memory = FUN_00c85750();
-  WheelResult* block = (WheelResult*)memory->stack;
-  memory->stack = (char*)(block + 16);
+  hkMemoryRouter* memory = &hkMemoryRouter::getInstance();
+  WheelResult* block = (WheelResult*)memory->m_stackCurrent;
+  memory->m_stackCurrent = reinterpret_cast<char*>(block + 16);
   m_data = block; m_iCapacityState = 0x80000010; original = block;
  }
  void resize(int size) {
-  Allocator& allocator = FUN_00c85750()->heap();
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   _ReadWriteBarrier();
   int capacity = m_iCapacityState & 0x3fffffff;
   if (capacity < size) {
    int grown = capacity * 2;
    if (size >= grown) grown = size;
-   ::FUN_00c908c0((::SpawnedObject *)(::Allocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
+   ::FUN_00c908c0((::SpawnedObject *)(hkMemoryAllocator *)(&allocator), (::SpawnedArray *)(::hkArray< ::WheelResult> *)(this), grown, sizeof(WheelResult));
   }
   m_iElementCount = size;
  }
  void release() {
   WheelResult* saved = original;
   if (saved == m_data) m_iElementCount = 0;
-  FUN_00c85750()->stack = (char*)saved;
-  Allocator& allocator = FUN_00c85750()->heap();
+  hkMemoryRouter::getInstance().m_stackCurrent = (char*)saved;
+  hkMemoryAllocator& allocator = hkMemoryRouter::getInstance().heap();
   m_iElementCount = 0;
   if ((m_iCapacityState & 0x80000000) == 0)
-   allocator.freeBlock(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
+   allocator.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(WheelResult));
  }
 };
 struct BatchOutputs { WheelCommand* commands; void* temporary; unsigned char* flags; void* end; };
@@ -122,7 +120,7 @@ void RayBatchManager::FUN_00e42da0(void* input, void* world, WheelCommand* comma
  int count = vehicleCount;
  LocalWheelResults results;
  BatchOutputs active;
- reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (int)(world), (::Buffers *)(::BatchOutputs *)(&active));
+ reinterpret_cast<::Obj *>(this)->ComputeBufferLayout((char *)(commands), (intptr_t)(world), (::Buffers *)(::BatchOutputs *)(&active));
  WheelCommand* cursor = active.commands;
  results.initialize();
  for (int i = 0; i < count; ++i) {
@@ -167,10 +165,7 @@ struct VRMonitorStream
         {
             _ReadWriteBarrier();
             hkUint32 ticks;
-            __asm {
-                rdtsc
-                mov dword ptr[ticks], eax
-            }
+            ticks = static_cast<unsigned int>(__rdtsc());
             m_uiStartTicks = ticks;
         }
     };
@@ -191,7 +186,7 @@ struct VRMonitorStream
             CommandTimingEntry* h = (CommandTimingEntry*)m_kRayEnd;
             h->m_pCommandName = name;
             h->setTime();
-            m_kRayEnd = (char*)(h + 1);
+            m_kRayEnd = reinterpret_cast<char*>(h + 1);
         }
     }
 };

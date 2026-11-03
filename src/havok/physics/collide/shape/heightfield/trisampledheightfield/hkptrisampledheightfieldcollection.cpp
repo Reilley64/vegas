@@ -2,12 +2,17 @@
 // src/havok/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/collide/shape/heightfield/trisampledheightfield/hkptrisampledheightfieldcollection.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "havok/hkMemoryRouter.h"
+#include "fnv/symbols_00c85000.h"
+#include <cstddef>
+#include <xmmintrin.h>
 #include <new>
 #include "fnv/decl/FUN_00c90510_class.h"
 #include "fnv/decl/FUN_00d21410.h"
 #include "fnv/decl/hkReferencedObjectC905.h"
 #include "fnv/symbols_00c90000.h"
 #include "havok/hkpTriSampledHeightFieldCollection.h"
+#include "havok/hkpSampledHeightFieldShape.h"
 
 struct FUN_00d263f0_t
 {
@@ -132,12 +137,6 @@ void* FUN_00d26450_Obj::FUN_00d26450()
     return unk18;
 }
 
-class hkpSampledHeightFieldShape : public hkpShape
-{
-  public:
-    int m_unk10;
-};
-
 struct S_d264d0_Coll : public hkpTriSampledHeightFieldCollection
 {
     hkpSampledHeightFieldShape* FUN_00d26450();
@@ -153,17 +152,11 @@ __declspec(noinline) hkpSampledHeightFieldShape* S_d264d0_Coll::FUN_00d26450()
 // @fnv 0x00d264d0
 void S_d264d0_Coll::FUN_00d264d0(unsigned int key, unsigned short value)
 {
-    unsigned int count = ((::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->m_unk10;
+    unsigned int count = ((::hkpSampledHeightFieldShape *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->m_iXResolution;
     unsigned int idx = ((count - 1) * (key >> 16) + ((key >> 1) & 0x7fff)) * 2 | (key & 1);
     m_kWeldingInfo.m_data[idx] = value;
 }
 
-union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-};
-extern "C" __m128 _mm_setzero_ps(void);
 
 extern int DAT_010ce390;
 extern int DAT_010ce370;
@@ -208,31 +201,9 @@ FUN_00d26700::FUN_00d26700(void* p, float f)
     reinterpret_cast<::FUN_00c90510_class *>((((Target26700*)p)))->FUN_00c90510();
 }
 
-class hkMemoryAllocatorD267
-{
-  public:
-    virtual ~hkMemoryAllocatorD267() throw();
-    virtual void* AllocateMemoryBlock(int n) throw();
-    virtual void ReleaseBlock(void* p, int n) throw();
-    virtual void* AllocateBufferWithSize(int& n) throw();
-    virtual void ReturnMemory(void* p, int n) throw();
-};
 
-struct hkMemoryRouterD267
-{
-    int unk00;
-    int unk04;
-    int unk08;
-    int unk0C;
-    hkMemoryAllocatorD267* m_pStreamAllocator;
-    hkMemoryAllocatorD267& heap()
-    {
-        return *m_pStreamAllocator;
-    }
-};
 
 namespace hkRouterD267 {
-extern "C" hkMemoryRouterD267& __cdecl FUN_00c85750() throw();
 }
 
 template <class T> struct hkArrayD267
@@ -243,10 +214,10 @@ template <class T> struct hkArrayD267
 
     ~hkArrayD267() throw()
     {
-        hkMemoryAllocatorD267& alloc = hkRouterD267::FUN_00c85750().heap();
+        hkMemoryAllocator& alloc = hkMemoryRouter::getInstance().heap();
         m_iElementCount = 0;
         if ((m_iCapacityState & 0x80000000) == 0)
-            alloc.ReturnMemory(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
+            alloc.bufFree(m_data, (m_iCapacityState & 0x3fffffff) * sizeof(T));
         m_data = 0;
         m_iCapacityState = 0x80000000;
     }
@@ -309,66 +280,50 @@ struct FUN_00d26450_S
 {
 };
 
-struct FUN_00d267c0_Alloc
-{
-    virtual void unk00();
-    virtual void unk04();
-    virtual void unk08();
-    virtual void unk0C();
-    virtual void Free(void* data, int size);
-};
 
-void* FUN_00c85750(void);
 
-struct FUN_00d267c0_t : FUN_00d26450_S
+
+struct FUN_00d267c0_t : hkpTriSampledHeightFieldCollection
 {
     void FUN_00d267c0(int mode);
 };
 
-// Resizes the internal buffer to the computed index when mode is not 6, otherwise frees the buffer and resets its state fields.
+// Resizes the welding info array to the computed index when mode is not 6, otherwise frees the array and resets its state fields.
 // @fnv 0x00d267c0
 void FUN_00d267c0_t::FUN_00d267c0(int mode)
 {
     if (mode != 6)
     {
-        char* o = (char*)reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450();
-        int idx = (2 * *(int*)(o + 0x14) - 2) * (*(int*)(o + 0x10) - 1);
-        char* arr = (char*)this + 0x24;
-        char* cur = (char*)FUN_00c85750();
-        if ((*(int*)(arr + 8) & 0x3fffffff) < idx)
+        hkpSampledHeightFieldShape* o = static_cast<hkpSampledHeightFieldShape*>(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450());
+        int idx = (2 * o->m_iZResolution - 2) * (o->m_iXResolution - 1);
+        hkArray<hkUint16>* arr = &m_kWeldingInfo;
+        if ((arr->m_iCapacityState & 0x3fffffff) < idx)
         {
-            ::FUN_00c908c0((::SpawnedObject *)(*(int*)(cur + 0x10)), (::SpawnedArray *)((int)arr), idx, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(&hkMemoryRouter::getInstance().heap()), (::SpawnedArray *)(arr), idx, 2);
         }
-        cur = (char*)FUN_00c85750();
-        int alloc = *(int*)(cur + 0x10);
-        int a = *(int*)(arr + 8) & 0x3fffffff;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
+        int a = arr->m_iCapacityState & 0x3fffffff;
         if (a < idx)
         {
             int m = a * 2;
-            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)((int)arr), idx < m ? m : idx, 2);
+            ::FUN_00c908c0((::SpawnedObject *)(alloc), (::SpawnedArray *)(arr), idx < m ? m : idx, 2);
         }
-        *(int*)(arr + 4) = idx;
+        arr->m_iElementCount = idx;
     }
     else
     {
-        char* cur = (char*)FUN_00c85750();
-        FUN_00d267c0_Alloc* alloc = *(FUN_00d267c0_Alloc**)(cur + 0x10);
-        int a = *(int*)((char*)this + 0x2c);
-        *(int*)((char*)this + 0x28) = 0;
+        hkMemoryAllocator* alloc = &hkMemoryRouter::getInstance().heap();
+        int a = m_kWeldingInfo.m_iCapacityState;
+        m_kWeldingInfo.m_iElementCount = 0;
         if (!(a & 0x80000000))
         {
-            alloc->Free(*(void**)((char*)this + 0x24), (a & 0x3fffffff) * 2);
+            alloc->bufFree(m_kWeldingInfo.m_data, (a & 0x3fffffff) * 2);
         }
-        *(int*)((char*)this + 0x24) = 0;
-        *(unsigned int*)((char*)this + 0x2c) = 0x80000000;
+        m_kWeldingInfo.m_data = 0;
+        m_kWeldingInfo.m_iCapacityState = (int)0x80000000;
     }
 }
 
-extern "C" __m128 _mm_mul_ps(__m128 a, __m128 b);
-extern "C" __m128 _mm_add_ss(__m128 a, __m128 b);
-extern "C" __m128 _mm_shuffle_ps(__m128 a, __m128 b, unsigned int imm);
-extern "C" __m128 _mm_setr_ps(float a, float b, float c, float d);
-extern "C" void _mm_store_ss(float* p, __m128 a);
 
 struct S00d26510_Bool
 {
@@ -601,3 +556,54 @@ TtrcHeightFieldCollection::TtrcHeightFieldCollection()
 {}
 void TtrcHeightFieldCollection::key_fn()
 {}
+
+// Moved from hkptrisampledheightfieldcollection_gs_nogs_variant.cpp (VEGAS-15).
+#include "fnv/symbols_00c85000.h"
+int FUN_00d26390();
+int FUN_00d26440(int arg0);
+
+
+struct hkAabb_d26460
+{
+    __m128 m_kMinimumCorner;
+    __m128 m_kMaximumCorner;
+};
+struct hkTransform_d26460;
+struct hkShape_d26460
+{
+    virtual void v00();
+    virtual void v04();
+    virtual void v08();
+    virtual void v0C();
+    virtual void v10();
+    virtual void v14();
+    virtual void v18();
+    virtual void getAabb(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
+};
+struct FUN_00d26460_cls
+{
+    int unk00;
+    int unk04;
+    int unk08;
+    int unk0C;
+    int unk10;
+    int unk14;
+    int unk18;
+    int unk1C;
+    float m_fBoundRadius;
+    int unk24;
+    int unk28;
+    int unk2C;
+    __m128 m_kTranslation;
+    void FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut);
+};
+// @fnv 0x00d26460
+void FUN_00d26460_cls::FUN_00d26460(const hkTransform_d26460& kTransform, float fTolerance, hkAabb_d26460& kAabbOut)
+{
+    hkAabb_d26460 kAabb;
+    ((::hkShape_d26460 *)(reinterpret_cast<::FUN_00d26450_Obj *>(this)->FUN_00d26450()))->getAabb(kTransform, m_fBoundRadius + fTolerance, kAabb);
+    __m128 kMaxPoint = _mm_add_ps(m_kTranslation, kAabb.m_kMaximumCorner);
+    __m128 kMinBoundsCur = _mm_add_ps(m_kTranslation, kAabb.m_kMinimumCorner);
+    kAabbOut.m_kMinimumCorner = _mm_min_ps(kAabb.m_kMinimumCorner, kMinBoundsCur);
+    kAabbOut.m_kMaximumCorner = _mm_max_ps(kAabb.m_kMaximumCorner, kMaxPoint);
+}

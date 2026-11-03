@@ -134,6 +134,23 @@
 #include "fnv/symbols_0045b000.h"
 #include "fnv/symbols_00524000.h"
 #include "fnv/symbols_simd.h"
+
+// Fields reached through fixed offsets on objects this unit gets as plain pointers.
+struct OcclusionCullView
+{
+    char pad[0x14];
+    char kUnk14[4];
+};
+struct RecordField10View
+{
+    char pad[0x10];
+    char kField10[4];
+};
+struct WaterTargetView
+{
+    char pad[0x50];
+    char kList50[4];
+};
 struct FUN_0062e750_shell
 {
     void* FUN_0062e750(unsigned int flags);
@@ -255,18 +272,24 @@ bool FUN_005631e0_shell::IsNonZero(int aiValue)
 
 struct FUN_0062e710_shell
 {
+    char pad[0x20];
+    float* pafValues;
+    int unk24;
+    int iWidth;
     void SetValueAt(float f, int a, int b);
 };
 
 // @fnv 0x0062e710
 void FUN_0062e710_shell::SetValueAt(float afValue, int a, int b)
 {
-    int index = a + b * (*(int*)((char*)this + 0x28));
-    *(float*)((*(int*)((char*)this + 0x20)) + index * 4) = FUN_004a3e90(afValue);
+    int index = a + b * iWidth;
+    pafValues[index] = FUN_004a3e90(afValue);
 }
 
 struct BSSimpleList_Ragdoll
 {
+    char pad[0x10];
+    char kRecord10[4];
     void* FUN_006310e0();
 };
 struct TESDataHandler
@@ -302,14 +325,14 @@ struct FUN_00576830_shell
     void* FUN_00576830(BSOcclusionPlane* pPlane);
 };
 
-// Calls GetOcclusionPlaneThreadID on pPlane; if it returns non-null, calls FUN_00576830 on the object at offset 0x14 and returns its result, otherwise returns null.
+// Calls GetOcclusionPlaneThreadID on pPlane; if it returns non-null, calls FUN_00576830 on its kUnk14 and returns its result, otherwise returns null.
 // @fnv 0x0062fe80
 void* FUN_0062fe80(BSOcclusionPlane* pPlane)
 {
     void* result = 0;
     unsigned int cull = GetOcclusionPlaneThreadID(pPlane);
     if (cull)
-        result = reinterpret_cast<FUN_00576830_shell*>(reinterpret_cast<char*>(cull) + 0x14)->FUN_00576830(pPlane);
+        result = reinterpret_cast<FUN_00576830_shell*>(reinterpret_cast<::OcclusionCullView*>(cull)->kUnk14)->FUN_00576830(pPlane);
     return result;
 }
 
@@ -336,7 +359,7 @@ struct PackedByteIntRecord
 // @fnv 0x006310e0
 void* BSSimpleList_Ragdoll::FUN_006310e0()
 {
-    return (char*)((PackedByteIntRecord*)((char*)this + 0x10))->Endian() + 0x10;
+    return reinterpret_cast<::RecordField10View*>(reinterpret_cast<PackedByteIntRecord*>(kRecord10)->Endian())->kField10;
 }
 
 struct UnkCall
@@ -474,20 +497,22 @@ struct FUN_0057b700_class
 };
 struct FUN_0062e500_shell : FUN_0057b700_class
 {
+    char pad[0x14];
+    int iUnk14;
     void FUN_0062e500(std::intptr_t a, int b);
 };
 
 // @fnv 0x0062e500
 void FUN_0062e500_shell::FUN_0062e500(std::intptr_t aiKey, int auiValue)
 {
-    std::intptr_t ptarget2 = *(int*)((char*)this + 0x14) ? FUN_0057b730(aiKey) : 0;
+    std::intptr_t ptarget2 = iUnk14 ? FUN_0057b730(aiKey) : 0;
     unsigned int uindex;
     if (ptarget2)
     {
-        uindex = ((LS3de0*)((char*)ptarget2 + 0x50))->Find(*(unsigned int*)&auiValue, 0, FUN_009a3830);
+        uindex = reinterpret_cast<LS3de0*>(reinterpret_cast<::WaterTargetView*>(ptarget2)->kList50)->Find(*(unsigned int*)&auiValue, 0, FUN_009a3830);
         if (uindex != (unsigned int)-1)
-            reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>((((LS3de0*)((char*)ptarget2 + 0x50))))->FUN_009a4320(uindex, 1);
-        if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)(((ArrSI*)((char*)ptarget2 + 0x50))))->GetName())))
+            reinterpret_cast<::fnv_009a4320::FUN_009a4320_arr *>(reinterpret_cast<LS3de0*>(reinterpret_cast<::WaterTargetView*>(ptarget2)->kList50))->FUN_009a4320(uindex, 1);
+        if (!((std::uintptr_t)(reinterpret_cast<::Twin_0044ddc0 *>((void *)reinterpret_cast<ArrSI*>(reinterpret_cast<::WaterTargetView*>(ptarget2)->kList50))->GetName())))
             reinterpret_cast<::Holder *>(this)->FUN_0061ff30((::Node *)(ptarget2));
     }
 }
@@ -519,6 +544,8 @@ struct ref_0084e3a0_shell
 };
 struct FUN_006312d0_shell
 {
+    char pad[0x14];
+    char kZoneList14[4];
     void FUN_006312d0(void* apWaterRef);
 };
 // @fnv 0x006312d0
@@ -530,7 +557,7 @@ void FUN_006312d0_shell::FUN_006312d0(void* apWaterRef)
         GameTimerRecord* pentry = (GameTimerRecord*)reinterpret_cast<::fnv_00825c00::FUN_00825c00_shell *>((void *)(((GameTimerRecord*)pzone)))->FUN_00825c00();
         while (pentry)
         {
-            XActor* pActor = (XActor*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>((((ref_0084e3a0_shell*)((char*)pentry + 0x10))))->FUN_0084e3a0()));
+            XActor* pActor = (XActor*)((void *)(reinterpret_cast<::FUN_0084e3a0_Class *>(reinterpret_cast<ref_0084e3a0_shell*>(reinterpret_cast<::RecordField10View*>(pentry)->kField10))->FUN_0084e3a0()));
             if (pActor)
             {
                 while (((FUN_0042f130*)reinterpret_cast<::FUN_005d43c0_ *>((void *)(((XActor*)pActor)))->FUN_005d43c0())->SetWaterZone((::WaterZone *)(pzone)))
@@ -538,7 +565,7 @@ void FUN_006312d0_shell::FUN_006312d0(void* apWaterRef)
             }
             pentry = (GameTimerRecord*)((FUN_0061fef0_Node*)pentry)->FUN_0061fef0();
         }
-        reinterpret_cast<::NodeList620 *>((((FUN_006205e0_shell*)((char*)this + 0x14))))->RemoveNode((::Node620 *)(pzone));
+        reinterpret_cast<::NodeList620 *>(reinterpret_cast<FUN_006205e0_shell*>(kZoneList14))->RemoveNode((::Node620 *)(pzone));
     }
 }
 

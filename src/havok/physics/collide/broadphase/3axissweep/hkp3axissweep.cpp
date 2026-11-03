@@ -1259,7 +1259,7 @@ __forceinline void addArray(hkStatisticsCollector* collector, const char* name, 
     if ((arr.m_iCapacityState & 0x80000000) == 0 || collector->m_reportInplaceAllocations) {
         void* data = arr.m_data;
         int capacity = arr.m_iCapacityState & 0x3fffffff;
-        int allocated = FUN_00d06f80(data, capacity * sizeof(T));
+        int allocated = ::fnv_00d06f80::FUN_00d06f80(static_cast<const char*>(data), capacity * sizeof(T));
         collector->AddMemoryChunk(3, name, arr.m_data, arr.m_iElementCount * sizeof(T), allocated);
     }
 }
@@ -6070,9 +6070,9 @@ __forceinline void S4ef0_memclear16(void* dest,int numBytes) {
 }
 __forceinline void S4ef0_staticFlipBit(unsigned int* bitfield,int nodeIndex) { int word=nodeIndex>>5; int mask=1<<(nodeIndex&31); bitfield[word]^=mask; }
 __forceinline void S4ef0_staticClearBit(unsigned int* bitfield,int nodeIndex) { int word=nodeIndex>>5; int mask=1<<(nodeIndex&31); bitfield[word]&=~mask; }
-struct S4ef0Pair { unsigned int m_kPointA,m_kPointB; };
+struct S4ef0Pair { uintptr_t m_kPointA,m_kPointB; };
 struct S4ef0Node {
- unsigned short m_usValue00,m_usValue02,m_usValue04,m_usValue06,m_usValue08,m_usValue0A; unsigned int m_handle;
+ unsigned short m_usValue00,m_usValue02,m_usValue04,m_usValue06,m_usValue08,m_usValue0A; uintptr_t m_handle;
  __forceinline unsigned int yzDisjoint(const S4ef0Node& other) const {
   unsigned int minA=*(const unsigned int*)&m_usValue00; unsigned int minB=*(const unsigned int*)&other.m_usValue00;
   unsigned int maxA=*(const unsigned int*)&m_usValue04; unsigned int maxB=*(const unsigned int*)&other.m_usValue04;
@@ -6115,7 +6115,7 @@ __forceinline void S4ef0Owner::_convertAabbToIntS(const S4ef0Aabb& aabb,const S4
  aabbOut.m_kMaximumCorner[2]=ma.u16[2]|1;
 }
 __forceinline void S4ef0Owner::querySingleAabbSub(S4ef0Handle* object,const unsigned int* bitField,S4ef0Node& refNode,int type,S4ef0Results* pairsOut,S4ef0NodeArr* nodesOut,S4ef0Collector* collector) const {
- S4ef0Pair pair; pair.m_kPointA=(unsigned int)object;
+ S4ef0Pair pair; pair.m_kPointA=(uintptr_t)object;
  const S4ef0Node* nodes=&m_kNodeCollection[0];
  const unsigned int* bitFieldEnd=bitField+(m_kNodeCollection.GetLogicalSize()>>5)+1;
  for(;bitField<bitFieldEnd;nodes+=32,bitField++) {
@@ -6304,14 +6304,6 @@ __forceinline void quantizeCombinedSweepAabb(const BatchAabb& box,const SweepVec
     out.high[2]=upperResult.values[2]|1;
 }
 
-void ToggleBit(int index,void* storage) {
-    int wordIndex=index>>5;
-    ((unsigned int*)storage)[wordIndex] ^= 1 << (index&31);
-}
-void FUN_00d10af0(int index,unsigned int* storage) {
-    int wordIndex=index>>5;
-    storage[wordIndex] &= ~(1 << (index&31));
-}
 struct Holder { void* p; int a; int b; BatchSweepAllocator* allocObj; void* f10; };
 
 struct BatchSweepKey { unsigned short val,idx; };
@@ -6354,10 +6346,10 @@ struct SweepBatchNode {
   unsigned int second=(*(const unsigned int*)&other.maxY)-(*(const unsigned int*)&minY);
   return (first|second)&0x80008000;
  }
- __forceinline int isMarker() const {return (unsigned int)handle&1;}
+ __forceinline int isMarker() const {return (uintptr_t)handle&1;}
 };
 
-struct Arr:SweepStorageBase<SweepBatchNode*> {
+struct BatchNodeArr:SweepStorageBase<SweepBatchNode*> {
  __forceinline void clear(BatchSweepAllocator& alloc) {
    size=0;if(!(capacity&0x80000000))alloc.ReturnMemory(data,(capacity&0x3fffffff)*4);
    data=0;capacity=0x80000000;
@@ -6401,8 +6393,8 @@ struct Sweep15 : public BroadPhaseBase {
     int m_markerShift;
     BatchMarker* m_pOverlappingMarkerInfo;
 
-    __forceinline void collectSweepCandidates(const BatchAabb& spl,Arr& local);
-    void FUN_00d18400(In1* p1, In2* p2, int p3);
+    __forceinline void collectSweepCandidates(const BatchAabb& spl,BatchNodeArr& local);
+    void FUN_00d18400(In1* p1, In2* p2, void* p3);
 };
 
 struct EndpointOrder { };
@@ -6410,7 +6402,7 @@ __forceinline void sortSweepEndpoints(void* p,int count,EndpointOrder order) {
  if(count>1) ::FUN_00d19fa0((unsigned int *)(p),0,count-1,(*(int *)&(const ::EndpointOrder &)(order)));
 }
 
-__forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,Arr& local)
+__forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,BatchNodeArr& local)
 {
         int capA4=arrA0.size;
         int sz = (capA4 >> 5) + 8;
@@ -6466,18 +6458,18 @@ __forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,Arr& loc
             SortArr15* sa = &axes[1];
             char* d = (char*)sa->data;
             char* end = d + sa->size * 4 - 8;
-            char* r = (char*)((void *)(::LowerBoundEntry((::Entry *)(sa), (::Entry *)(void *)(d + 4), (unsigned short)(end))));
+            char* r = (char*)((void *)(::LowerBoundEntry((::Entry *)(void *)(d + 4), (::Entry *)(void *)(end), (unsigned short)quantized.low[1])));
             sortBounds.minY = (unsigned short)((r - d) >> 2);
-            r = (char*)((void *)(::LowerBoundEntry((::Entry *)(sa), (::Entry *)(void *)(d + 4), (unsigned short)(end))));
+            r = (char*)((void *)(::LowerBoundEntry((::Entry *)(void *)(d + 4), (::Entry *)(void *)(end), (unsigned short)quantized.high[1])));
             sortBounds.maxY = (unsigned short)(((r - d) - 4) >> 2);
         }
         {
             SortArr15* sa = &axes[2];
             char* d = (char*)sa->data;
             char* end = d + sa->size * 4 - 8;
-            char* r = (char*)((void *)(::LowerBoundEntry((::Entry *)(sa), (::Entry *)(void *)(d + 4), (unsigned short)(end))));
+            char* r = (char*)((void *)(::LowerBoundEntry((::Entry *)(void *)(d + 4), (::Entry *)(void *)(end), (unsigned short)quantized.low[2])));
             sortBounds.minZ = (unsigned short)((r - d) >> 2);
-            r = (char*)((void *)(::LowerBoundEntry((::Entry *)(sa), (::Entry *)(void *)(d + 4), (unsigned short)(end))));
+            r = (char*)((void *)(::LowerBoundEntry((::Entry *)(void *)(d + 4), (::Entry *)(void *)(end), (unsigned short)quantized.high[2])));
             sortBounds.maxZ = (unsigned short)(((r - d) - 4) >> 2);
         }
         {
@@ -6521,7 +6513,7 @@ __forceinline void Sweep15::collectSweepCandidates(const BatchAabb& spl,Arr& loc
 }
 
 // @fnv 0x00d18400
-void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
+void Sweep15::FUN_00d18400(In1* p1, In2* p2, void* p3)
 {
     Endpoint* ptrs[3];
     BatchAabb spl;
@@ -6534,7 +6526,7 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
     SweepBuffer<Endpoint> b1(two);
     SweepBuffer<Endpoint> b2(two);
     SweepBuffer<Endpoint> b3(two);
-    Arr local; local.data = 0; local.size = 0; local.capacity = (int)0x80000000;
+    BatchNodeArr local; local.data = 0; local.size = 0; local.capacity = (int)0x80000000;
     {
         Holder* h = (Holder*)static_cast<BSAudio*>(::FUN_00c85750());
         if ((local.capacity & 0x3fffffff) < capA4)
@@ -6684,8 +6676,8 @@ void Sweep15::FUN_00d18400(In1* p1, In2* p2, int p3)
         BatchSweepAllocator* al = h->allocObj;
         if ((oldKeys.capacity & (int)0x80000000) == 0) al->ReturnMemory( oldKeys.data, (oldKeys.capacity & 0x3fffffff) * 4);
     }
-    ::CollectNodePairs(this, (::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Array *)(p3));
-    reinterpret_cast<::C_00d13620 *>(this)->BuildBroadPhasePairs((::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Node *)(sortedOld.data), cntC, 0, (*(::BroadPhasePairArray *)(p3)));
+    ::CollectNodePairs(this, (::S_00d138a0_Node *)(sortedNew.data), savedN, static_cast<::S_00d138a0_Array *>(p3));
+    reinterpret_cast<::C_00d13620 *>(this)->BuildBroadPhasePairs((::S_00d138a0_Node *)(sortedNew.data), savedN, (::S_00d138a0_Node *)(sortedOld.data), cntC, 0, *static_cast<::BroadPhasePairArray *>(p3));
     {
         Holder* h = (Holder*)static_cast<BSAudio*>(::FUN_00c85750());
         BatchSweepAllocator* al = h->allocObj;
@@ -6721,20 +6713,7 @@ void __cdecl FUN_00d19fa0(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl QuickSortByLowWord(unsigned int* base, int lo, int hi, int unkArg);
 void __cdecl FUN_00d10e80();
 void __cdecl FUN_00d19fa0(SweepEndpoint* base, int lo, int hi, S00d13950_Less cmp);
-template <typename T, typename L>
-inline void S00d13950_quickSort(T* pArr, int iSize, L cmpLess)
-{
-    if (iSize > 1) {
-        FUN_00d19fa0(pArr, 0, iSize - 1, cmpLess);
-    }
-}
 void __cdecl QuickSortByLowWord(void*, int, int, KeyLess) throw();
-template <typename L>
-__forceinline void hkQuickSort(KeyPair* p, int size, L cmp) throw() {
-    if (size > 1) {
-        QuickSortByLowWord(p, 0, size - 1, cmp);
-    }
-}
 
 
 
@@ -6772,7 +6751,7 @@ struct SweepAllocator {
 };
 
 struct SweepRouter {
-    int unk00;
+    char* unk00;  // the stack allocator's next free byte
     int unk04;
     int unk08;
     SweepAllocator* allocator;
@@ -6844,7 +6823,7 @@ __forceinline SweepEndpointD16300* searchEndpoints(const SweepAxis& axis,const u
 struct SweepNodeD16300 {
     unsigned short minY, minZ, maxY, maxZ, minX, maxX;
     SweepHandle* handle;
-    int isMarker() const { return (unsigned int)handle & 1; }
+    int isMarker() const { return (uintptr_t)handle & 1; }
 };
 
 struct SweepSpace {
@@ -6927,7 +6906,7 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
     SweepRouter* b0;
     b0 = (SweepRouter*)static_cast<BSAudio*>(::FUN_00c85750());
     float* cnt = (float*)b0->unk00;
-    b0->unk00 += (4 * n + 0x7f) & ~0x7f;
+    b0->unk00 += (sizeof(float) * n + 0x7f) & ~size_t(0x7f);
     for (int q = 0; q < scan.rayCount; ++q) {
         cnt[q] = 1.0f;
     }
@@ -7077,7 +7056,7 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
                             break;
                         }
                         const SweepNodeD16300& y = nodes[handle];
-                        if (!((unsigned int)y.handle & 1)) {
+                        if (!((uintptr_t)y.handle & 1)) {
                             float dimensions = in->intersect(y.handle, ray);
                             if (!(scaledDiff < dimensions)) {
                                 scaledDiff = dimensions;
@@ -7111,7 +7090,7 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
         }
     }
 
-    ((SweepRouter*)static_cast<BSAudio*>(::FUN_00c85750()))->unk00 = (int)cnt;
+    ((SweepRouter*)static_cast<BSAudio*>(::FUN_00c85750()))->unk00 = (char*)cnt;
     SweepAllocator& endpoint = ((SweepRouter*)static_cast<BSAudio*>(::FUN_00c85750()))->heap();
     if ((capacity & 0x80000000) == 0) {
         endpoint.deallocate(a, capacity & 0x3fffffff);
@@ -7119,7 +7098,6 @@ void SweepSpace::FUN_00d16300(const SweepScan& scan, SweepRayCast* rays, int ray
 }
 
 // Moved from hkp3axissweep_rtm_variant.cpp (VEGAS-15).
-#include "fnv/decl/fnv_00d1a040__Container.h"
 unsigned short MaxUnsignedShort(unsigned short ausLeft, unsigned short ausRight);
 void __cdecl ResizeAudioStream(void*, void*, int);
 void ToggleBit(int aiBitIndex, void* apBits);
@@ -7130,84 +7108,9 @@ int __cdecl FUN_00d19d10(const float* afValues, float* pfMin);
 void __cdecl FUN_00d19fa0(unsigned int* auiValues, int lo, int hi, int auiUnused);
 void __cdecl QuickSortByLowWord(unsigned int* auiArray, int lo, int hi, int auiUnused);
 static int FUN_00d10b10(void* self, int index, unsigned int* apuiBits);
-static void PushShort(ShortVec* v, unsigned short val)
-{
-    AllocHolderLocal* h = (AllocHolderLocal*)static_cast<BSAudio*>(::FUN_00c85750());
-    if (v->m_04 == (v->m_08 & 0x3fffffff))
-        ResizeAudioStream(h->m_10, v, 2);
-    v->m_00[v->m_04].v = val;
-    v->m_04++;
-}
-static void PushDynamic(ShortVec* v, unsigned short val)
-{
-    AllocHolderLocal* h = (AllocHolderLocal*)static_cast<BSAudio*>(::FUN_00c85750());
-    if (v->m_04 == (v->m_08 & 0x3fffffff))
-        ResizeAudioStream(h->m_10, v, 2);
-    U16* p = v->m_00 + *(volatile int*)&v->m_04;
-    p->v = val;
-    v->m_04++;
-}
-static __forceinline void HandlePair(ThisCls* idx, Record* rec, Record* other, PairVec* out, char flag)
-{
-    Record* second = rec;
-    Record* first = other;
-    if ((rec->m_0c & 1) == 0) {
-        if ((other->m_0c & 1) == 0) {
-            AllocHolderLocal* r = (AllocHolderLocal*)static_cast<BSAudio*>(::FUN_00c85750());
-            if (out->m_04 == (out->m_08 & 0x3fffffff))
-                ResizeAudioStream(r->m_10, out, 8);
-            AppendN(out, other, rec, 1);
-            return;
-        }
-        first = rec;
-        second = other;
-    }
-    int fidx = (int)((char*)first - (char*)idx->m_a0) >> 4;
-    ObjX* obj = (ObjX*)(idx->m_d8 + (second->m_0c & ~(uintptr_t)1));
-    if (flag != 0) {
-        PushDynamic(&obj->m_04v, (unsigned short)fidx);
-    } else {
-        ShortVec* lv = &obj->m_04v;
-        int self = FindIdx(lv->m_00, lv->m_04, (unsigned short)fidx);
-        int& cnt = lv->m_04;
-        cnt--;
-        int last = cnt;
-        if (last != self)
-            lv->m_00[self] = lv->m_00[last];
-    }
-}
 void __cdecl FUN_00c908c0(void* alloc, void* self, int newCap, int elemSize);
-void CacheOwner::FUN_00d13950(Blk* input, unsigned int out) {
-    int n=(input->b+1)*2;
-    SweepArray<SweepEndpoint>* cache=(SweepArray<SweepEndpoint>*)out;
-    SweepEndpoint* storage=(SweepEndpoint*)(cache+3);
-    new(cache) SweepArray<SweepEndpoint>(storage,0,n);
-    new(cache+1) SweepArray<SweepEndpoint>(storage+n,0,n);
-    new(cache+2) SweepArray<SweepEndpoint>(storage+n*2,0,n);
-    SweepEndpoint sentry(0,0);
-    cache[0].pushBackUnchecked(sentry);
-    cache[1].pushBackUnchecked(sentry);
-    cache[2].pushBackUnchecked(sentry);
-    CacheNode* const* node=(CacheNode* const*)input->a;
-    for(int i=input->b-1;i>=0;--i,++node) {
-        cache[0].pushBackUnchecked(axis[0].m_data[(*node)->minX]);
-        cache[0].pushBackUnchecked(axis[0].m_data[(*node)->maxX]);
-        cache[1].pushBackUnchecked(axis[1].m_data[(*node)->minY]);
-        cache[1].pushBackUnchecked(axis[1].m_data[(*node)->maxY]);
-        cache[2].pushBackUnchecked(axis[2].m_data[(*node)->minZ]);
-        cache[2].pushBackUnchecked(axis[2].m_data[(*node)->maxZ]);
-    }
-    for(int j=0;j<3;++j) {
-        int count=cache[j].m_iElementCount-1;
-        if(count>1) FUN_00d19fa0(cache[j].m_data+1,0,count-1,S00d13950_Less());
-    }
-    sentry.m_uiFilterValue=0xfffc;
-    cache[0].pushBackUnchecked(sentry);
-    cache[1].pushBackUnchecked(sentry);
-    cache[2].pushBackUnchecked(sentry);
-}
 void __cdecl FUN_00c908c0(IAlloc* a, void* arr, int cap, int esz);
-template<class T> struct Arr {
+template<class T> struct RtmArr {
     T* data;
     int size;
     unsigned cap;
@@ -7227,6 +7130,7 @@ template<class T> struct Arr {
 
 struct SweepDeltaPair { const unsigned short* x; const unsigned short* y; };
 struct SweepEdge { unsigned short value,index; };
+struct RtmSweepAxis { SweepEdge* data; int size,capacity; };
 struct SweepHandle { unsigned index; };
 struct __declspec(align(16)) SweepBounds { unsigned v[4]; };
 struct SweepBoundsPair { SweepBounds low,high; };
@@ -7274,7 +7178,7 @@ struct SweepTarget {
  unsigned unk9c;
  CacheNode* nodes;
  unsigned unkA4,unkA8;
- SweepAxis xAxis,yAxis,zAxis;
+ RtmSweepAxis xAxis,yAxis,zAxis;
  unsigned unkD0,unkD4;
  void* pairs;
  template<int Axis> __forceinline unsigned short& minimum(CacheNode& n) { return Axis==0?n.minX:Axis==1?n.minY:n.minZ; }
@@ -7295,7 +7199,7 @@ struct SweepTarget {
   if(Axis==0) ::fnv_00d11d00::RemoveOrAppendTagEntry((char *)(pairs),(::fnv_00d11d00::TagEntity *)(a),index,(::fnv_00d11d00::TagOwner *)(b),(::fnv_00d11d00::PairArray *)(out));
   else ::AppendPairEntry((::FUN_00d11c10_cls *)(a),(::FUN_00d11c10_cls *)(b),(::PairArray *)(out));
  }
- template<int Axis> __forceinline void updateAxis(CacheNode* allNodes,SweepAxis& axis,CacheNode* node,unsigned index,unsigned low,unsigned high,void* add,void* remove) {
+ template<int Axis> __forceinline void updateAxis(CacheNode* allNodes,RtmSweepAxis& axis,CacheNode* node,unsigned index,unsigned low,unsigned high,void* add,void* remove) {
   CacheNode* leftNeighbor; (void)leftNeighbor;
   CacheNode* backNeighbor; (void)backNeighbor;
   CacheNode* rightNeighbor; (void)rightNeighbor;

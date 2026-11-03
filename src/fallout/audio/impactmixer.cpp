@@ -127,12 +127,15 @@ intptr_t FUN_00acbb70_shell::FUN_00acbb70()
 struct FUN_008397d0_shell
 {
     unsigned char GetByteAt7C6();
+    char pad00[0x7c6];
+    unsigned char unk7c6;
+    char pad7c7[0x1];
 };
 
 // @fnv 0x008397d0
 unsigned char FUN_008397d0_shell::GetByteAt7C6()
 {
-    return ((unsigned char*)this)[0x7c6];
+    return this->unk7c6;
 }
 
 struct AutoMemHelper

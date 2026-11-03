@@ -602,12 +602,14 @@ struct FUN_00833bc0_shell
 {
     int mFlags;  // +0x14
     bool IsFlagSet();
+    unsigned int pad04[0x4];
+    int unk14;
 };
 
 // @fnv 0x00833bc0
 bool FUN_00833bc0_shell::IsFlagSet()
 {
-    return (*(int*)((char*)this + 0x14) & 4) != 0;
+    return (this->unk14 & 4) != 0;
 }
 
 // @fnv 0x00833c00
@@ -633,12 +635,14 @@ struct FUN_00835650_shell
 {
     int m_uiSoundFlags;
     bool FUN_00835650();
+    unsigned int pad04[0x4];
+    int unk14;
 };
 
 // @fnv 0x00835650
 bool FUN_00835650_shell::FUN_00835650()
 {
-    return (*(int*)((char*)this + 0x14) & 1) != 0;
+    return (this->unk14 & 1) != 0;
 }
 
 struct FUN_00835670_shell
@@ -728,12 +732,14 @@ void FUN_00833100_shell::FUN_00833100(bool enabled)
 struct FUN_00833be0_shell
 {
     int FUN_00833be0();
+    unsigned int pad00[0x5];
+    int unk14;
 };
 
 // @fnv 0x00833be0
 int FUN_00833be0_shell::FUN_00833be0()
 {
-    return (reinterpret_cast<int*>(this)[5] & 0x10) != 0;
+    return (this->unk14 & 0x10) != 0;
 }
 
 struct FUN_00833c20_shell
@@ -742,11 +748,14 @@ struct FUN_00833c20_shell
     virtual ~FUN_00833c20_shell()
     {}
     unsigned char FUN_00833c20();
+    char pad04[0xc];
+    char unk10;
+    char pad11[0x3];
 };
 
 unsigned char FUN_00833c20_shell::FUN_00833c20()
 {
-    return ((char*)this)[0x10];
+    return this->unk10;
 }
 
 struct FUN_00834210_shell
@@ -949,7 +958,7 @@ bool FUN_00835b90(TESObjectREFR* apTargetStation)
     bretValue = false;
     pstation = FalloutRadio::GetRadioConversation(((::BGSTalkingActivator *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FNVHelper00835b90*)apTargetStation)))->FUN_007af430())));
     if (pstation)
-        bretValue = reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)((char*)pstation + 4))))->IsFlag20Set();
+        bretValue = reinterpret_cast<::FUN_00833040_shell *>((((FUN_00833040_shell*)&pstation->unk04)))->IsFlag20Set();
     return bretValue;
 }
 }  // namespace fnv_00835b90

@@ -510,27 +510,14 @@
 #include "fnv/symbols_01202000.h"
 #include "tesobjectcell_packet.h"
 #include <malloc.h>
-#include "fnv/decl/CollectionView.h"
 #include "fnv/decl/FUN_00401660_Class.h"
-#include "fnv/decl/FUN_004610d0_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
-#include "fnv/decl/FUN_005445d0_shell.h"
-#include "fnv/decl/FUN_00544600_shell.h"
-#include "fnv/decl/FUN_00544630_shell.h"
-#include "fnv/decl/FUN_00545cb0_shell.h"
 #include "fnv/decl/FUN_00547440_Class.h"
-#include "fnv/decl/FUN_00558b40_shell.h"
-#include "fnv/decl/FUN_00558b80_shell.h"
 #include "fnv/decl/FUN_00658930_class.h"
 #include "fnv/decl/FUN_00759d80_Class.h"
-#include "fnv/decl/FUN_009604f0_shell.h"
 #include "fnv/decl/S00485110.h"
-#include "fnv/decl/TESForm.h"
-#include "fnv/decl/TESFullName.h"
 #include "fnv/decl/fnv_0041c390__ExtraDataList2.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
-#include "fnv/decl/fnv_0054def0__S.h"
-#include "fnv/decl/fnv_00558b60__FUN_00558b60_shell.h"
 #include "fnv/decl/fnv_0058f180__FUN_0058f180.h"
 #include "fnv/decl/loader__List.h"
 #include "fnv/symbols_0041c000.h"
@@ -554,8 +541,6 @@
 #include "fnv/symbols_0046e000.h"
 #include "fnv/symbols_004ff000.h"
 #include "fnv/symbols_0101a000.h"
-#include "fnv/decl/CellLike.h"
-#include "fnv/decl/fnv_00545960__S.h"
 #include "fnv/decl/fnv_00569ac0__FUN_00569ac0_shell.h"
 #include "fnv/decl/fnv_00587870__OverlapHolder.h"
 #include "fnv/decl/B56B250Ref.h"
@@ -580,8 +565,6 @@
 #include "fnv/decl/FUN_00565450_shell.h"
 #include "fnv/decl/FUN_00569250_shell.h"
 #include "fnv/decl/FUN_0056ae60_Class.h"
-#include "fnv/decl/fnv_00546b10__FUN_00546b10_class.h"
-#include "fnv/decl/fnv_00550200__FUN_00550200.h"
 #include "fnv/decl/s577de0__Owner.h"
 #include "fnv/symbols_00475000.h"
 #include "fnv/symbols_00526000.h"
@@ -596,20 +579,9 @@
 #include "fnv/symbols_01203000.h"
 #include "fnv/decl/CellShell.h"
 #include "fnv/decl/FUN_00453490_shell.h"
-#include "fnv/decl/FUN_00545cf0_Cls.h"
-#include "fnv/decl/FUN_005535f0_shell.h"
-#include "fnv/decl/fnv_00548880__FNV_Cell.h"
-#include "fnv/decl/fnv_0054bc10__CellStub.h"
-#include "fnv/decl/fnv_0054c740__FUN_0054c740_shell.h"
-#include "fnv/decl/fnv_00550c60__FUN_00550c60_shell.h"
 #include "tesobjectcell_packet_rtti2_tesobjectcell.h"
 #include "fnv/decl/FUN_00410020_t.h"
 #include "fnv/decl/FUN_00519500_class.h"
-#include "fnv/decl/FUN_005455c0_cls.h"
-#include "fnv/decl/FUN_00548700_Class.h"
-#include "fnv/decl/FUN_005495a0Class.h"
-#include "fnv/decl/FUN_00557aa0_Class.h"
-#include "fnv/decl/FUN_00557d10_Class.h"
 #include "fnv/decl/FUN_00569160_shell.h"
 #include "fnv/decl/FUN_005725f0_shell.h"
 #include "fnv/decl/FUN_005e3fc0_shell.h"
@@ -621,15 +593,11 @@
 #include "fnv/decl/FUN_00885a30_Class.h"
 #include "fnv/decl/InventoryMove.h"
 #include "fnv/decl/KillActor.h"
-#include "fnv/decl/NiAdditionalGeometryData.h"
 #include "fnv/decl/PlayerCharacter.h"
 #include "fnv/decl/TESCallHelper.h"
-#include "fnv/decl/TaskQueueInterface.h"
 #include "fnv/decl/WorldSpaceRefShell.h"
 #include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
 #include "fnv/decl/fnv_004bc2e0__NiDynamicEffect.h"
-#include "fnv/decl/fnv_00545560__FUN_00545560Class.h"
-#include "fnv/decl/fnv_0054ca90__Cell.h"
 #include "fnv/decl/fnv_005692a0__FUN_005692a0_shell.h"
 #include "fnv/decl/fnv_0063b630__SkyHelper.h"
 #include "fnv/decl/fnv_0063bab0__FUN_0063bab0_shell.h"
@@ -641,8 +609,6 @@
 #include "fnv/symbols_011f6000.h"
 #include "tesobjectcell_packet_rtti_variant.h"
 #include "fnv/decl/FUN_00484150_shell.h"
-#include "fnv/decl/FUN_005441b0_S.h"
-#include "fnv/decl/FUN_00544210_shell.h"
 #include "tesobjectcell_packet_rtti_variant_decl_tesobjectcell_rtti_variant.h"
 
 const char kTESObjectCELLCellRefLockEnter[] = "TESObjectCELL::CellRefLockEnter()";
@@ -764,7 +730,7 @@ void TESObjectCELL::ClearAudioMarkers()
     BSSimpleList<BGSPerkEntry*>* node = reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(&audioMarkers);
     while (node)
     {
-        BGSPerkEntry* item = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* item = (node->m_item);
         delete item;
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
@@ -2862,9 +2828,9 @@ void FUN_00558c90_shell::FUN_00558c90()
 {
     TESForm* pref = 0;
     void* preflist = this->FUN_009604f0();
-    while (preflist && *((void **)(new ((void *)(preflist)) ::Vec3())))
+    while (preflist && *((void **)((void *)(preflist))))
     {
-        pref = (TESForm*)*((void **)(new ((void *)(preflist)) ::Vec3()));
+        pref = (TESForm*)*((void **)((void *)(preflist)));
         if (!pref->vfn_40() && _FNV_GetFormType(((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pref))->FUN_007af430()))) != 0x1c && reinterpret_cast<::FUN_00549580_shell *>((pref))->FUN_00549580())
         {
             if (reinterpret_cast<::FUN_00545cb0_shell *>((this))->FUN_00545cb0())
@@ -3073,7 +3039,7 @@ void FUN_0054b8c0_shell::AddStaticRefsToList(BSSimpleList<const char*>* list)
         NodeStub* node = (NodeStub*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>((this))->FUN_009604f0()));
         while (node)
         {
-            RefStub* ref = *((::RefStub **)(new ((void *)(node)) ::Vec3()));
+            RefStub* ref = *((::RefStub **)((void *)(node)));
             if (ref)
             {
                 if (((::TESObjectSTAT *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == ::DAT_011ca228)
@@ -3097,7 +3063,7 @@ void FUN_0054b950_shell::FUN_0054b950(bool abAttach)
         BSSimpleList<BGSPerkEntry*>* pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (pCurrentElementNext)
         {
-            RefObj* pcurrentObj = *((::RefObj **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            RefObj* pcurrentObj = *((::RefObj **)(&pCurrentElementNext->m_item));
             pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             if (pcurrentObj && reinterpret_cast<::FUN_0057a2f0_shell *>((pcurrentObj))->FUN_0057a2f0() && (!abAttach || reinterpret_cast<::FUN_0057a370_shell *>((pcurrentObj))->FUN_0057a370()))
             {
@@ -3302,7 +3268,7 @@ void Shell54ca00::FUN_0054ca00(G2* apList)
         NodeStub* node = (NodeStub*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (node)
         {
-            RefStub* ref = *((::RefStub **)(new ((void *)(node)) ::Vec3()));
+            RefStub* ref = *((::RefStub **)((void *)(node)));
             if (ref && reinterpret_cast<::FUN_00568680_shell *>((((RefH*)ref)))->FUN_00568680() && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)ref)))->FUN_00440d80() && !reinterpret_cast<::TESForm *>((((RefH*)ref)))->GetDisabled())
                 apList->AddHead(&ref);
             node = ((::NodeStub *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -3438,7 +3404,7 @@ void FUN_005575d0_shell::UpdateNavMeshObstacles()
     pCurrentElementNext = (NodeStub*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pCurrentElementNext)
     {
-        RefStub* pref = *((::fnv_005575d0::RefStub **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        RefStub* pref = *((::fnv_005575d0::RefStub **)((void *)(pCurrentElementNext)));
         if (pref)
         {
             if ((*(VFn**)pref)[0x15c / 4](pref))
@@ -4628,7 +4594,7 @@ bool FUN_0054c740_shell::FUN_0054c740(bool bIgnore3D, bool bIgnoreActors)
         pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pCurrentElementNext)
     {
-        TESObjectREFR* pref = (TESObjectREFR*)((::BGSPerkEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        TESObjectREFR* pref = (TESObjectREFR*)(pCurrentElementNext->m_item);
         pCurrentElementNext = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         if (pref)
         {
@@ -4647,7 +4613,7 @@ bool FUN_0054c740_shell::FUN_0054c740(bool bIgnore3D, bool bIgnoreActors)
         BSSimpleList<BGSPerkEntry*>* pPrevNode = 0;
         while (pCurrentElementNext && !((RefListOps*)pCurrentElementNext)->FUN_008256d0())
         {
-            TESObjectREFR* pref = (TESObjectREFR*)((::BGSPerkEntry *)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            TESObjectREFR* pref = (TESObjectREFR*)(pCurrentElementNext->m_item);
             if (!((bool)(reinterpret_cast<::FUN_0056a380_shell *>((((FUN_0056a380_cls*)pref)))->FUN_0056a380())))
             {
                 if (pPrevNode)
@@ -4970,7 +4936,7 @@ void FUN_00550c60_shell::RecalcLeveledActorBases(bool abAllowRecalc)
     while (pCurrentElementNext && !pCurrentElementNext->_ref_008256d0())
     {
         bool badvanced = false;
-        FUN_00550c60_Ref* pref = *((::fnv_00550c60::FUN_00550c60_Ref **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+        FUN_00550c60_Ref* pref = *((::fnv_00550c60::FUN_00550c60_Ref **)((void *)(pCurrentElementNext)));
         pCurrentElementNext = ((::fnv_00550c60::FUN_00550c60_List *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
         if (((::fnv_00550c60::FUN_00550c60_AB *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((FUN_00550c60_RefFns*)pref)))->FUN_007af430()))->vf8() && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(((RefH*)pref)))->FUN_00440d80() &&
             !pref->v22c(0))
@@ -5222,7 +5188,7 @@ bool S00553bf0::FUN_00553bf0(ScriptS* apPick, NiPoint3* apPos, int aiArg, float 
         BSSimpleList<Obj553*>* pIter = ((::BSSimpleList< ::fnv_00553bf0::Obj553 *> *)(::FUN_00545710((int)this)));
         while (pIter && !((LEmpty_008256d0*)pIter)->_ref_008256d0())
         {
-            Obj553* pObj = *((::fnv_00553bf0::Obj553 **)(new ((void *)(((LItem_006815c0*)pIter))) ::Vec3()));
+            Obj553* pObj = *((::fnv_00553bf0::Obj553 **)((void *)(((LItem_006815c0*)pIter))));
             if (pObj->v116())
             {
                 if (::fnv_004b2800::PickObjectsInRadius((::fnv_004b2800::NiPick *)(apPick), (*(const ::NiPoint3 *)(apPos)), (*(const ::NiPoint3 *)(aiArg)), afDist, (::NiAVObject *)(void *)(pObj->v116())))
@@ -5736,9 +5702,9 @@ bool FUN_00547250_shell::CheckWaterHeight(void* apPos, float* afHeight)
     if (ploadedData)
     {
         BSSimpleList<TESObjectREFR*>* pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)ploadedData->m_abyData5C;
-        while (pCurrentElementNext && *((::fnv_00547250::WaterRefObj **)(new ((void *)(reinterpret_cast<WaterRefNode_00547250*>(pCurrentElementNext))) ::Vec3())))
+        while (pCurrentElementNext && *((::fnv_00547250::WaterRefObj **)((void *)(reinterpret_cast<WaterRefNode_00547250*>(pCurrentElementNext)))))
         {
-            WaterRefObj* pwaterRef = *((::fnv_00547250::WaterRefObj **)(new ((void *)(reinterpret_cast<WaterRefNode_00547250*>(pCurrentElementNext))) ::Vec3()));
+            WaterRefObj* pwaterRef = *((::fnv_00547250::WaterRefObj **)((void *)(reinterpret_cast<WaterRefNode_00547250*>(pCurrentElementNext))));
             NiPoint3 max;
             NiPoint3 min;
             pwaterRef->GetBoundsMaximum(&min);
@@ -5929,9 +5895,9 @@ void FUN_00558ba0_shell::FUN_00558ba0(int mask)
 {
     BGSPerkEntry* item3 = 0;
     BSSimpleList<BGSPerkEntry*>* list = ((::BSSimpleList< ::fnv_00558ba0::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>((this))->FUN_009604f0()));
-    while (list && ((::fnv_00558ba0::BGSPerkEntry *)(new ((void *)(list)) ::Vec3())))
+    while (list && (list->m_item))
     {
-        item3 = ((::fnv_00558ba0::BGSPerkEntry *)(new ((void *)(list)) ::Vec3()));
+        item3 = (list->m_item);
         if (item3->GetInnerValue() == mask)
             reinterpret_cast<::FUN_00558c60Class *>((item3))->FUN_00558c60(0);
         list = ((::BSSimpleList< ::fnv_00558ba0::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
@@ -8350,7 +8316,7 @@ void FUN_005455c0_cls::FUN_005455c0(FUN_005455c0_ref* ref)
         FUN_005455c0_node* prev = 0;
         while (cur != 0 && !cur->FUN_008256d0())
         {
-            if (((::FUN_005455c0_item *)(new ((void *)(cur)) ::Vec3()))->m_00 == (unsigned int)ref)
+            if (((::FUN_005455c0_item *)((void *)(cur)))->m_00 == (unsigned int)ref)
             {
                 return;
             }
@@ -8905,7 +8871,7 @@ void FUN_0054dcf0_shell::CollectCellReferences(ReferenceCollectorDC* collector)
         ReferenceNodeDC* node = reinterpret_cast<ReferenceNodeDC*>(((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0())));
         while (node != 0)
         {
-            ReferenceDC* reference = *((::ReferenceDC **)(new ((void *)(node)) ::Vec3()));
+            ReferenceDC* reference = *((::ReferenceDC **)((void *)(node)));
             if (reference != 0)
             {
                 if (!((unsigned char)(reinterpret_cast<::TESForm *>((reference))->GetDisabled())))
@@ -9814,7 +9780,7 @@ void FUN_00557c40_cls::FUN_00557c40()
     void* node = reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0();
     while (node != 0)
     {
-        void* item = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* item = *(void**)((void *)((void *)(node)));
         node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
         if (item != 0 && item != DAT_011dea3c)
         {
@@ -10329,11 +10295,11 @@ struct WorkerManager
 void WorkerManager::ProcessWorkerList(WorkerList* pWorkerList, bool enabled)
 {
     WorkerList* start = pWorkerList;
-    while (pWorkerList && *((::WorkerMobile **)(new ((void *)(pWorkerList)) ::Vec3())))
+    while (pWorkerList && *((::WorkerMobile **)((void *)(pWorkerList))))
     {
         WorkerMobile* actor = 0;
-        if ((*((::WorkerMobile **)(new ((void *)(pWorkerList)) ::Vec3())))->v63())
-            actor = *((::WorkerMobile **)(new ((void *)(pWorkerList)) ::Vec3()));
+        if ((*((::WorkerMobile **)((void *)(pWorkerList))))->v63())
+            actor = *((::WorkerMobile **)((void *)(pWorkerList)));
         pWorkerList = ((::WorkerList *)(reinterpret_cast<::Callees *>((pWorkerList))->FUN_00726070()));
         if (actor)
         {
@@ -10387,7 +10353,7 @@ void TESObjectCELL::ClearCellReferenceList()
     BSSimpleList<BGSPerkEntry*>* node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (node)
     {
-        BGSPerkEntry* reference = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* reference = (node->m_item);
         if (reference)
             reinterpret_cast<::CollectionView *>((DAT_011c95c8))->FUN_00526f20((::ReferenceView *)(reference));
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -10591,7 +10557,7 @@ bool FUN_00541e80_shell::SaveCellToFile(CellFileStub* file)
         node_2 = ((::CellRefNodeStub *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (node_2 && !node_2->IsEmpty8256d0())
         {
-            ref = *((::CellFormStub **)(new ((void *)(node_2)) ::Vec3()));
+            ref = *((::CellFormStub **)((void *)(node_2)));
             node_2 = ((::CellRefNodeStub *)(reinterpret_cast<::Callees *>((node_2))->FUN_00726070()));
             refFile5 = ((::CellFileStub *)(reinterpret_cast<::TESForm *>((ref))->GetFile(-1)));
             if (refFile5 == file || !refFile5 || reinterpret_cast<::FUN_00460340_shell *>((ref))->FUN_00460340())
@@ -10645,7 +10611,7 @@ void FUN_00542040_cls::FUN_00542040(SaveFile* file)
     RefNode* node = ((::RefNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (node && !node->Empty())
     {
-        SaveRef* ref = *((::SaveRef **)(new ((void *)(node)) ::Vec3()));
+        SaveRef* ref = *((::SaveRef **)((void *)(node)));
         node = ((::RefNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         bool aKeep = true;
         if (reinterpret_cast<::FUN_004077c0_shell *>((ref))->FUN_004077c0())
@@ -11999,7 +11965,7 @@ bool FUN_005497c0_shell::FUN_005497c0(AObj* apRefr, P2Obj* apTarget, int p3, uns
     NiPoint3 point;
     BSPortalGraph* graphH;
     BSPortalGraph* graph;
-    point = *(NiPoint3*)((void *)(new ((void *)(((FUN_006815c0*)((::fnv_005497c0::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((FUN_0043d450_Owner*)apTarget)))->FUN_0043d450()))))) ::Vec3()));
+    point = *(NiPoint3*)((void *)((void *)(((FUN_006815c0*)((::fnv_005497c0::NiBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((((FUN_0043d450_Owner*)apTarget)))->FUN_0043d450()))))));
     usePt = false;
     if (((::fnv_005497c0::BSOcclusionPlane *)(reinterpret_cast<::FUN_00422120_shell *>((((FUN_00422120_shell*)((::ExtraDataList *)(reinterpret_cast<::FUN_005d43c0_ *>(((TESObjectREFR*)apRefr))->FUN_005d43c0())))))->FUN_00422120())) != 0)
     {
@@ -12664,7 +12630,7 @@ void Cell::UpdateRefPlacement(Ref* ref, bool force, bool skip)
                 Link* link = ((::Link *)(reinterpret_cast<::fnv_004207b0::FUN_004207e0Class *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((linked30))->FUN_005d43c0()))))->FUN_004207b0()));
                 while (link)
                 {
-                    Ref* owner = *((::Ref **)(new ((void *)(link)) ::Vec3()));
+                    Ref* owner = *((::Ref **)((void *)(link)));
                     if (owner)
                     {
                         Ref* candidate = ((::Ref *)(reinterpret_cast<::FUN_00420bc0_cls *>((((::Extra *)(reinterpret_cast<::FUN_005d43c0_ *>((owner))->FUN_005d43c0()))))->FUN_00420bc0(false)));
@@ -12940,12 +12906,12 @@ void Cell54::FUN_0054b260(Ref54* actor, Destination54* destination)
     Ref54* container = ((::Ref54 *)(reinterpret_cast<::fnv_00421400::FUN_00421400 *>((((::Extra54 *)(reinterpret_cast<::FUN_005d43c0_ *>((void *)(actor))->FUN_005d43c0()))))->GetMerchantContainer()));
     CellRefLockEnter();
     Node54* node = (Node54*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
-    while (node && *((::Ref54 **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::Ref54 **)((void *)(node))))
     {
         Ref54* reference;
         {
             Changes54* changes = 0;
-            reference = *((::Ref54 **)(new ((void *)(node)) ::Vec3()));
+            reference = *((::Ref54 **)((void *)(node)));
             {
                 Extra54* extra = 0;
                 if (!reinterpret_cast<::TESForm *>((reference))->GetDisabled() && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(reference))->FUN_00440d80() && reinterpret_cast<::OwnerLookupView *>((reference))->FUN_00567790() &&
@@ -13147,7 +13113,7 @@ void Claim54b750::ProcessRefrList()
     void* node = reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0();
     while (node != 0)
     {
-        Refr54* refr = (Refr54*)*((::RefObj **)(new ((void *)(node)) ::Vec3()));
+        Refr54* refr = (Refr54*)*((::RefObj **)((void *)(node)));
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (refr != 0 && refr != g_011dea3c)
         {
@@ -13186,7 +13152,7 @@ unsigned int FUN_0054bb90_shell::CountReferencesWithFormType30()
 
     while (node)
     {
-        RefStub* reference = *((::RefStub **)(new ((void *)(node)) ::Vec3()));
+        RefStub* reference = *((::RefStub **)((void *)(node)));
         node = ((::NodeStub *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (reference)
         {
@@ -13231,7 +13197,7 @@ void CellStub::ProcessCellReferences()
     NodeStub* pNode = ((::NodeStub *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pNode != 0)
     {
-        RefEx* reference = reinterpret_cast<RefEx*>(*((::RefStub **)(new ((void *)(pNode)) ::Vec3())));
+        RefEx* reference = reinterpret_cast<RefEx*>(*((::RefStub **)((void *)(pNode))));
         if (reference != 0)
         {
             reinterpret_cast<::fnv_0056f700::Ref *>((reference))->FUN_0056f700();
@@ -13424,7 +13390,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
     RotationList* cursorB = ((::fnv_0054c030::RotationList *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (cursorB)
     {
-        RotationReference* ref = *((::fnv_0054c030::RotationReference **)(new ((void *)(cursorB)) ::Vec3()));
+        RotationReference* ref = *((::fnv_0054c030::RotationReference **)((void *)(cursorB)));
         if (ref && ((::fnv_0054c030::RotationForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())))
         {
             bool include = true;
@@ -13668,7 +13634,7 @@ void MoveCell::MoveReferencesToWorldCells(MoveWorld* world)
         MoveNode* node = ((::MoveNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (node)
         {
-            MoveRef* ref = *((::MoveRef **)(new ((void *)(node)) ::Vec3()));
+            MoveRef* ref = *((::MoveRef **)((void *)(node)));
             if (ref)
             {
                 int x = FUN_00406d90(ref->Position().x) >> 12;
@@ -13866,7 +13832,7 @@ void CellX::ProcessCellRefs()
     ListX* list = ((::fnv_0054cd20::ListX *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (list && !list->IsEmpty())
     {
-        RefX* ref = *((::fnv_0054cd20::RefX **)(new ((void *)(list)) ::Vec3()));
+        RefX* ref = *((::fnv_0054cd20::RefX **)((void *)(list)));
         if (ref != g_thePlayer)
         {
             bool skip = false;
@@ -13931,7 +13897,7 @@ RefObject* CellRefScan::FindFirstRefByType(int typeId, bool filtered)
     RefObject* reference;
     while (current && !current->FUN_008256d0())
     {
-        reference = ((::RefWrapper *)(new ((void *)(current)) ::Vec3()))->reference;
+        reference = ((::RefWrapper *)((void *)(current)))->reference;
         itemType = ((int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()));
         current = ((::RefEntry *)(reinterpret_cast<::Callees *>((current))->FUN_00726070()));
         if (itemType && (!filtered || !reinterpret_cast<::FUN_00440d80_shell *>((reference))->FUN_00440d80()) && itemType == typeId)
@@ -14271,7 +14237,7 @@ unsigned int Cell54D::FUN_0054dc00(const Point54D& kPos, float afRadius, RefArra
     RefNode54D* pkNode = ((::RefNode54D *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode)
     {
-        Ref54D* pkRef = *((::Ref54D **)(new ((void *)(pkNode)) ::Vec3()));
+        Ref54D* pkRef = *((::Ref54D **)((void *)(pkNode)));
         if (pkRef && !reinterpret_cast<::FUN_00437b90_shell *>((pkRef))->FUN_00437b90())
         {
             Form54D* pkBase = ((::Form54D *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pkRef))->FUN_007af430()));
@@ -14688,15 +14654,15 @@ float RegionCell::FUN_0054fd70(void* point, int kind, RegionQuery* query)
     RegionDataRecord* cf;
     RegionDataRecord* b;
     RegionQuery* q;
-    while (a && ((::RegionEntry *)(new ((void *)(a)) ::Vec3())))
+    while (a && ((::RegionEntry *)((void *)(a))))
     {
-        if (reinterpret_cast<::FUN_00440d80_shell *>((((::RegionEntry *)(new ((void *)(a)) ::Vec3()))))->FUN_00440d80())
+        if (reinterpret_cast<::FUN_00440d80_shell *>((((::RegionEntry *)((void *)(a)))))->FUN_00440d80())
         {
             a = ((::RegionNode *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
             continue;
         }
         s = 0.0f;
-        i = ((::RegionData *)(reinterpret_cast<::GList *>((((::RegionData *)(reinterpret_cast<::FUN_009611e0_shell *>((((::RegionEntry *)(new ((void *)(a)) ::Vec3()))))->FUN_009611e0()))))->FUN_004f35b0({})));
+        i = ((::RegionData *)(reinterpret_cast<::GList *>((((::RegionData *)(reinterpret_cast<::FUN_009611e0_shell *>((((::RegionEntry *)((void *)(a)))))->FUN_009611e0()))))->FUN_004f35b0({})));
         if (!i || !i->IsValid())
         {
             a = ((::RegionNode *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
@@ -14715,12 +14681,12 @@ float RegionCell::FUN_0054fd70(void* point, int kind, RegionQuery* query)
             a = ((::RegionNode *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
             continue;
         }
-        p = ((::BoundaryNode *)(reinterpret_cast<::BGSTerrainManager *>((((::RegionEntry *)(new ((void *)(a)) ::Vec3()))))->GetMinLevel()));
-        while (p && ((::RegionBoundary *)(new ((void *)(p)) ::Vec3())))
+        p = ((::BoundaryNode *)(reinterpret_cast<::BGSTerrainManager *>((((::RegionEntry *)((void *)(a)))))->GetMinLevel()));
+        while (p && ((::RegionBoundary *)((void *)(p))))
         {
             if (s > 0.0)
                 break;
-            h = reinterpret_cast<::RegionMatch *>((((::RegionBoundary *)(new ((void *)(p)) ::Vec3()))))->ComputeRegionValue((::RegionPointMatch *)(point), (float)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RegionBoundary *)(new ((void *)(p)) ::Vec3()))))->FUN_007af430())));
+            h = reinterpret_cast<::RegionMatch *>((((::RegionBoundary *)((void *)(p)))))->ComputeRegionValue((::RegionPointMatch *)(point), (float)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RegionBoundary *)((void *)(p)))))->FUN_007af430())));
             if (h > 1.0)
                 h = 1.0f;
             s = FUN_00404010(s, h);
@@ -14755,9 +14721,9 @@ float RegionCell::FUN_0054fd70(void* point, int kind, RegionQuery* query)
                 continue;
             }
         }
-        while (p && ((::RegionBoundary *)(new ((void *)(p)) ::Vec3())))
+        while (p && ((::RegionBoundary *)((void *)(p))))
         {
-            h = reinterpret_cast<::RegionMatch *>((((::RegionBoundary *)(new ((void *)(p)) ::Vec3()))))->ComputeRegionValue((::RegionPointMatch *)(point), (float)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RegionBoundary *)(new ((void *)(p)) ::Vec3()))))->FUN_007af430())));
+            h = reinterpret_cast<::RegionMatch *>((((::RegionBoundary *)((void *)(p)))))->ComputeRegionValue((::RegionPointMatch *)(point), (float)((unsigned int)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((((::RegionBoundary *)((void *)(p)))))->FUN_007af430())));
             if (h > 1.0)
                 h = 1.0f;
             s = FUN_00404010(s, h);
@@ -15715,7 +15681,7 @@ void FUN_00557ae0_shell::FUN_00557ae0()
     BSSimpleList<BGSPerkEntry*>* node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (node)
     {
-        void* item = *((void **)(new ((void *)(((FUN_006815c0_Obj*)node))) ::Vec3()));
+        void* item = *((void **)((void *)(((FUN_006815c0_Obj*)node))));
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((((FUN_00726070_Obj*)node)))->FUN_00726070()));
         if (item && item != DAT_011dea3c)
         {
@@ -15866,11 +15832,11 @@ void FUN_00557dd0(RenderCell* cell, render_test::FUN_00557da0* options, bool all
             RenderRefList* refs = (RenderRefList*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>((cell))->FUN_009604f0()));
             while (refs && !refs->FUN_008256d0())
             {
-                RenderReference* pos = *((::fnv_00557dd0::RenderReference **)(new ((void *)(refs)) ::Vec3()));
+                RenderReference* pos = *((::fnv_00557dd0::RenderReference **)((void *)(refs)));
                 refs = ((::fnv_00557dd0::RenderRefList *)(reinterpret_cast<::Callees *>((refs))->FUN_00726070()));
                 RenderVec ref = pos->v1f4();
                 if (pos->vfn_1d0())
-                    ref = (*(::fnv_00557dd0::RenderVec *)(new ((void *)(((::fnv_00557dd0::RenderBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pos->vfn_1d0()))->FUN_0043d450())))) ::Vec3()));
+                    ref = (*(::fnv_00557dd0::RenderVec *)((void *)(((::fnv_00557dd0::RenderBound *)(reinterpret_cast<::FUN_0043d450_Owner *>((pos->vfn_1d0()))->FUN_0043d450())))));
                 if (!FUN_00558330((int)cell, (int)&ref, (int)options))
                     testData = false;
             }
@@ -16260,9 +16226,9 @@ struct FUN_004375c0 : FUN_0040ecb0
 FUN_004375c0::~FUN_004375c0()
 {
     SL<Entry*>* list = m_kNode;
-    while (list && ((::fnv_004375c0::Entry *)(new ((void *)(list)) ::Vec3())))
+    while (list && ((::fnv_004375c0::Entry *)((void *)(list))))
     {
-        Entry* e = ((::fnv_004375c0::Entry *)(new ((void *)(list)) ::Vec3()));
+        Entry* e = ((::fnv_004375c0::Entry *)((void *)(list)));
         list->FUN_0063f7b0();
         delete e;
     }
@@ -18237,9 +18203,9 @@ void Cell5538::PlayCellSoundEffects()
     if (::FUN_00450ff0((void *)this))
     {
         List5538* list3 = ((::fnv_005538e0::List5538 *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
-        while (list3 && ((::fnv_005538e0::Ref5538 *)(new ((void *)(list3)) ::Vec3())))
+        while (list3 && ((::fnv_005538e0::Ref5538 *)((void *)(list3))))
         {
-            Ref5538* ref = ((::fnv_005538e0::Ref5538 *)(new ((void *)(list3)) ::Vec3()));
+            Ref5538* ref = ((::fnv_005538e0::Ref5538 *)((void *)(list3)));
             if (ref && !reinterpret_cast<::TESForm *>((ref))->GetDisabled() && !reinterpret_cast<::FUN_00477ba0_shell *>((ref))->FUN_00477ba0() && reinterpret_cast<::FUN_00553bb0_caller *>((ref))->FUN_00553bb0() &&
                 (!ref->active() || !ref->check(0)))
             {
@@ -18319,7 +18285,7 @@ void S_005574d0_Owner::ProcessPerkEntries()
     BSSimpleList<BGSPerkEntry*>* list = ((::BSSimpleList< ::fnv_005574d0::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (list != 0)
     {
-        BGSPerkEntry* entry = ((::fnv_005574d0::BGSPerkEntry *)(new ((void *)(list)) ::Vec3()));
+        BGSPerkEntry* entry = (list->m_item);
         if (entry != 0)
         {
             reinterpret_cast<::BGSLoadedReferenceCollection *>((((S_005270b0_Coll*)(*reinterpret_cast<::fnv_005574d0::BGSLoadedReferenceCollection * *>(&::DAT_011c95c8)))))->FUN_005270b0((::TESObjectREFR *)(entry));
@@ -18544,7 +18510,7 @@ void MarkerCell::FUN_0054d090(NiPoint3* position, NiPoint3* angle)
     markerC = (MarkerList*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (markerC && !markerC->_ref_008256d0())
     {
-        MarkerRef* ref = *((::MarkerRef **)(new ((void *)(markerC)) ::Vec3()));
+        MarkerRef* ref = *((::MarkerRef **)((void *)(markerC)));
         if (!reinterpret_cast<::FUN_00440d80_shell *>((ref))->FUN_00440d80())
         {
             if (!markerB && ((::MarkerBase *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ref))->FUN_007af430())) == (*reinterpret_cast<::MarkerBase * *>(&::DAT_011ca24c)) &&
@@ -20150,7 +20116,7 @@ void FUN_0054b830_cls::FUN_0054b830(ListArg* pOut)
         NodeX* pNode = ((::NodeX *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (pNode != 0)
         {
-            ItemX* pItem = *((::ItemX **)(new ((void *)(pNode)) ::Vec3()));
+            ItemX* pItem = *((::ItemX **)((void *)(pNode)));
             if (pItem != 0)
             {
                 if (((::FormX *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pItem))->FUN_007af430())) == (*reinterpret_cast<void * *>(&::DAT_011ca224)))
@@ -20192,7 +20158,7 @@ void Owner::FUN_0054ba00()
     Node* pkNode = ((::s54ba00::Node *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode)
     {
-        Actor* pkActor = *((::s54ba00::Actor **)(new ((void *)(pkNode)) ::Vec3()));
+        Actor* pkActor = *((::s54ba00::Actor **)((void *)(pkNode)));
         pkNode = ((::s54ba00::Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         if (pkActor && reinterpret_cast<::FUN_0057a2f0_shell *>((pkActor))->FUN_0057a2f0())
             reinterpret_cast<::RefObj *>((pkActor))->FUN_00579ac0(reinterpret_cast<::FUN_0057a370_shell *>((pkActor))->FUN_0057a370());
@@ -20226,7 +20192,7 @@ void Owner::FUN_0054ba80(bool bEnable)
     Node* pkNode = ((::s54ba80::Node *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode)
     {
-        Actor* pkActor = *((::s54ba80::Actor **)(new ((void *)(pkNode)) ::Vec3()));
+        Actor* pkActor = *((::s54ba80::Actor **)((void *)(pkNode)));
         pkNode = ((::s54ba80::Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         if (pkActor)
         {
@@ -20277,7 +20243,7 @@ void Owner::FUN_0054baf0()
     Node* pkNode = ((::s54baf0::Node *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode)
     {
-        Actor* pkActor = *((::s54baf0::Actor **)(new ((void *)(pkNode)) ::Vec3()));
+        Actor* pkActor = *((::s54baf0::Actor **)((void *)(pkNode)));
         pkNode = ((::s54baf0::Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         if (pkActor)
         {
@@ -20312,7 +20278,7 @@ struct Owner
 int Owner::FUN_0054cee0()
 {
     reinterpret_cast<::TESObjectCELL *>(this)->CellRefLockEnter();
-    int iResult = *((int *)(new ((void *)(((::s54cee0::Entry *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0())))) ::Vec3()));
+    int iResult = *((int *)((void *)(((::s54cee0::Entry *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0())))));
     ::FUN_00541ae0((char *)this);
     return iResult;
 }
@@ -20482,7 +20448,7 @@ bool Owner::FUN_0054da20(Position* pkCenter1, float fRadius1, Position* pkCenter
     Node* pkNode = ((::s54da20::Node *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode && !pkNode->FUN_008256d0())
     {
-        Actor* pkActor = *((::s54da20::Actor **)(new ((void *)(pkNode)) ::Vec3()));
+        Actor* pkActor = *((::s54da20::Actor **)((void *)(pkNode)));
         pkNode = ((::s54da20::Node *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
         if (fRadius1 == 3.402823466e+38F || ((int)(::FUN_004b5440((*(const ::NiPoint3 *)(pkActor->GetPosition())), (*(const ::NiPoint3 *)(pkCenter1)), fRadius1))) < 0)
         {
@@ -20532,7 +20498,7 @@ void FUN_0054db50_cls::FUN_0054db50(ListArg* pOut)
     NodeX* pNode = ((::fnv_0054db50::NodeX *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pNode != 0)
     {
-        ItemX* pItem = *((::fnv_0054db50::ItemX **)(new ((void *)(pNode)) ::Vec3()));
+        ItemX* pItem = *((::fnv_0054db50::ItemX **)((void *)(pNode)));
         if (pItem != 0)
         {
             if (!reinterpret_cast<::TESForm *>((pItem))->GetDisabled())
@@ -20656,7 +20622,7 @@ void FUN_00553700_shell::UpdateCell()
         CellRefNode553* pkNodeCur = ((::CellRefNode553 *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (pkNodeCur)
         {
-            CellRef553* pkRef = ((::CellRef553 *)(new ((void *)(pkNodeCur)) ::Vec3()));
+            CellRef553* pkRef = ((::CellRef553 *)((void *)(pkNodeCur)));
             pkNodeCur = ((::CellRefNode553 *)(reinterpret_cast<::Callees *>((pkNodeCur))->FUN_00726070()));
             if (pkRef)
                 pkRef->Update3D();
@@ -20749,7 +20715,7 @@ void Owner::FUN_005573e0()
     Node* pkNode = ((::s5573e0::Node *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (pkNode)
     {
-        Actor* pkActor = *((::s5573e0::Actor **)(new ((void *)(pkNode)) ::Vec3()));
+        Actor* pkActor = *((::s5573e0::Actor **)((void *)(pkNode)));
         if (pkActor)
         {
             Process* pkProcess = ((::s5573e0::Process *)(reinterpret_cast<::fnv_0043fcd0::FUN_0043fcd0_shell *>((pkActor))->FUN_0043fcd0()));
@@ -20936,7 +20902,7 @@ void FNV_Cell::FUN_005577b0(bool enable)
         RefNode* node = ((::fnv_005577b0::RefNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (node)
         {
-            FNV_Ref* reference = *((::fnv_005577b0::FNV_Ref **)(new ((void *)(node)) ::Vec3()));
+            FNV_Ref* reference = *((::fnv_005577b0::FNV_Ref **)((void *)(node)));
             node = ((::fnv_005577b0::RefNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             if (reference && reinterpret_cast<::Holder4523e0 *>((reference))->FUN_004523e0(2) && reference->v1d0())
             {
@@ -20949,7 +20915,7 @@ void FNV_Cell::FUN_005577b0(bool enable)
         RefNode* node2 = ((::fnv_005577b0::RefNode *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (node2)
         {
-            FNV_Ref* reference2 = *((::fnv_005577b0::FNV_Ref **)(new ((void *)(node2)) ::Vec3()));
+            FNV_Ref* reference2 = *((::fnv_005577b0::FNV_Ref **)((void *)(node2)));
             node2 = ((::fnv_005577b0::RefNode *)(reinterpret_cast<::Callees *>((node2))->FUN_00726070()));
             if (reference2 && reinterpret_cast<::Holder4523e0 *>((reference2))->FUN_004523e0(2) && reference2->v1d0())
             {
@@ -21218,7 +21184,7 @@ bool __cdecl FUN_0054d4b0(PortalVisitCell* cell, const PortalVisitPoint& origin,
         PortalVisitItem* item3 = ((::PortalVisitItem *)(reinterpret_cast<::FUN_009604f0_shell *>((cell))->FUN_009604f0()));
         while (item3 && !stop4)
         {
-            PortalVisitRef* ref = ((::PortalVisitRef *)(new ((void *)(item3)) ::Vec3()));
+            PortalVisitRef* ref = ((::PortalVisitRef *)((void *)(item3)));
             item3 = ((::PortalVisitItem *)(reinterpret_cast<::Callees *>((item3))->FUN_00726070()));
             if (ref)
             {
@@ -22433,7 +22399,7 @@ void FUN_00551110_Cell::FUN_005576c0()
     BSSimpleList<BGSPerkEntry*>* perkList = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (perkList)
     {
-        BGSPerkEntry* perk = ((::BGSPerkEntry *)(new ((void *)(perkList)) ::Vec3()));
+        BGSPerkEntry* perk = (perkList->m_item);
         if (perk)
         {
             if (reinterpret_cast<CellObstacleVirtual*>(perk)->Check())
@@ -24057,7 +24023,7 @@ TESForm_ctx3* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCo
         pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
         while (pCurrentElementNext && !((LNode*)pCurrentElementNext)->FUN_008256d0())
         {
-            TESObjectREFR* pref = (TESObjectREFR*)*((void **)(new ((void *)(((LNode*)pCurrentElementNext))) ::Vec3()));
+            TESObjectREFR* pref = (TESObjectREFR*)*((void **)((void *)(((LNode*)pCurrentElementNext))));
             if (!reinterpret_cast<::FUN_004077c0_shell *>((void *)(((TempIsTemp*)pref)))->FUN_004077c0())
             {
                 if (IsCellInterior() || reinterpret_cast<::FUN_005516c0 *>((((CellH_ctx3*)this)))->IsCellPersistent() || !reinterpret_cast<::fnv_005653d0::FUN_005653d0_shell *>((((RefX*)pref)))->FUN_005653d0())
@@ -24069,7 +24035,7 @@ TESForm_ctx3* FUN_005436e0_shell::FUN_005436e0(bool abCreateEditorID, void* apCo
         pCurrentElementNext = (BSSimpleList<TESObjectREFR*>*)&templist;
         while (pCurrentElementNext && !((LNode*)pCurrentElementNext)->FUN_008256d0())
         {
-            TESObjectREFR* pref = (TESObjectREFR*)*((void **)(new ((void *)(((LNode*)pCurrentElementNext))) ::Vec3()));
+            TESObjectREFR* pref = (TESObjectREFR*)*((void **)((void *)(((LNode*)pCurrentElementNext))));
             TESObjectREFR* pdupref = dynamic_cast<TESObjectREFR*>(((TESForm_ctx3*)pref)->DuplicateForm(false, apCopyMap));
             if (pdupref)
             {
@@ -24377,7 +24343,7 @@ void Cell::FUN_00542d40()
 
     while (node && !node->FUN_008256d0())
     {
-        Reference* reference = *((::CellLoading::Reference **)(new ((void *)(node)) ::Vec3()));
+        Reference* reference = *((::CellLoading::Reference **)((void *)(node)));
         if (!reinterpret_cast<::TESForm_ctx4 *>((reference))->GetInitialized())
         {
             reference->Load();
@@ -24671,7 +24637,7 @@ void Cell_Sub_ctx::FUN_00544ce0()
     BSSimpleList<TESObjectREFR*>* iter = (BSSimpleList<TESObjectREFR*>*)((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (iter != 0 && !iter->FUN_008256d0())
     {
-        TESObjectREFR* item5 = ((::TESObjectREFR *)(new ((void *)(iter)) ::Vec3()));
+        TESObjectREFR* item5 = (iter->m_item);
         iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         if (!reinterpret_cast<::FUN_00440d80_shell *>((void *)(((TESForm_ctx*)item5)))->FUN_00440d80() || reinterpret_cast<::fnv_0042ce10::FUN_0042ce10_shell *>((::g_BGSSaveLoadGame))->FUN_0042ce10())
         {
@@ -24718,7 +24684,7 @@ void Cell_Sub_ctx::FUN_00544ce0()
         iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::fnv_00587870::OverlapHolder *>((((FUN_00587870_shell*)extra9)))->FUN_00587870((::fnv_00587870::CellH *)(::TESObjectCELL *)(this))));
         while (iter != 0 && !iter->FUN_008256d0())
         {
-            reinterpret_cast<::CellLike *>((((FUN_00545740_shell*)this)))->GetOrCreateFaceGenNode((::RefForm *)(((::TESObjectREFR *)(new ((void *)(iter)) ::Vec3()))));
+            reinterpret_cast<::CellLike *>((((FUN_00545740_shell*)this)))->GetOrCreateFaceGenNode((::RefForm *)((iter->m_item)));
             iter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((iter))->FUN_00726070()));
         }
     }
@@ -24751,7 +24717,7 @@ void TESObjectCELL::FUN_005571a0(bool active)
     BSSimpleList<TESObjectREFR*>* terrain = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (terrain)
     {
-        TESObjectREFR* reference = ((::TESObjectREFR *)(new ((void *)(terrain)) ::Vec3()));
+        TESObjectREFR* reference = (terrain->m_item);
         if (reference && (((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == DAT_011ca238 || ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430())) == DAT_011ca230))
         {
             if (!reference->GetNiNode() || reinterpret_cast<::FUN_005651e0_shell *>((reference))->FUN_005651e0())
@@ -24770,7 +24736,7 @@ void TESObjectCELL::FUN_005571a0(bool active)
     terrain = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (terrain)
     {
-        TESObjectREFR* other = ((::TESObjectREFR *)(new ((void *)(terrain)) ::Vec3()));
+        TESObjectREFR* other = (terrain->m_item);
         if (other && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((other))->FUN_007af430())) != DAT_011ca238 && ((::TESForm *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((other))->FUN_007af430())) != DAT_011ca230)
         {
             if (!other->GetNiNode() || reinterpret_cast<::FUN_005651e0_shell *>((other))->FUN_005651e0())
@@ -25110,7 +25076,7 @@ bool CellShell_iso::FUN_0054df30()
         for (; 0 != a && !a->FUN_008256d0();)
         {
             RefrShell* flag6;
-            flag6 = *((::RefrShell **)(new ((void *)(a)) ::Vec3()));
+            flag6 = *((::RefrShell **)((void *)(a)));
             a = ((::RefNode_iso *)(reinterpret_cast<::Callees *>((a))->FUN_00726070()));
             switch (((::TESBoundObject_iso *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((flag6))->FUN_007af430()))->FUN_00401170())
             {
@@ -25167,7 +25133,7 @@ bool CellShell_iso::FUN_0054df30()
         for (; 0 != _item && !_item->FUN_008256d0();)
         {
             RefrShell* refr2;
-            refr2 = *((::RefrShell **)(new ((void *)(_item)) ::Vec3()));
+            refr2 = *((::RefrShell **)((void *)(_item)));
             _item = ((::RefNode_iso *)(reinterpret_cast<::Callees *>((_item))->FUN_00726070()));
             if (_done && reinterpret_cast<::BSShaderRenderUtility *>((((DHShell*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))->IsRenderTargetId(((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((refr2))->FUN_0084e3a0()))))
             {
@@ -25225,7 +25191,7 @@ bool CellShell_iso::FUN_0054df30()
                         for (; 0 != i && !i->FUN_008256d0();)
                         {
                             RefrShell* tmp;
-                            tmp = *((::RefrShell **)(new ((void *)(i)) ::Vec3()));
+                            tmp = *((::RefrShell **)((void *)(i)));
                             reinterpret_cast<::FUN_0041de40_class *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((tmp))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(0));
                             if (!tmp->V88())
                                 reinterpret_cast<::B572270Object *>((tmp))->FUN_00572270();
@@ -25274,7 +25240,7 @@ bool CellShell_iso::FUN_0054df30()
                             for (; p && !p->FUN_008256d0();)
                             {
                                 RefrShell* y;
-                                y = *((::RefrShell **)(new ((void *)(p)) ::Vec3()));
+                                y = *((::RefrShell **)((void *)(p)));
                                 reinterpret_cast<::FUN_0041de40_class *>((((::ExtraShell *)(reinterpret_cast<::FUN_005d43c0_ *>((y))->FUN_005d43c0()))))->FUN_0041de40((::TESObjectREFR *)(0));
                                 if (!y->V88())
                                     reinterpret_cast<::B572270Object *>((y))->FUN_00572270();
@@ -26193,7 +26159,7 @@ void SceneB54::FUN_0054bcf0(bool bArg)
         iPass4 = 0;
         while (iPass4 < 2 && pNode5)
         {
-            TESObjectREFRB54* pRef = *((::TESObjectREFRB54 **)(new ((void *)(pNode5)) ::Vec3()));
+            TESObjectREFRB54* pRef = *((::TESObjectREFRB54 **)((void *)(pNode5)));
             pNode5 = ((::NodeB54 *)(reinterpret_cast<::Callees *>((pNode5))->FUN_00726070()));
             if (!pNode5)
             {
@@ -26787,7 +26753,7 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm_rtti* source, TESForm_rtti* destinat
         lockedCellVal->CellRefLockEnter();
         while (cursor4 && !cursor4->IsEmpty())
         {
-            TESObjectREFR* reference = ((::TESObjectREFR *)(new ((void *)(cursor4)) ::Vec3()));
+            TESObjectREFR* reference = ((::TESObjectREFR *)((void *)(cursor4)));
             if (((::TESBoundObject_rtti *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((reference))->FUN_007af430()))->GetFormType() == 28 && !reinterpret_cast<::FUN_00440d80_shell *>((void *)(reference))->FUN_00440d80() && !reinterpret_cast<::TESForm_rtti *>((reference))->GetDisabled() &&
                 !reinterpret_cast<::FUN_00477ba0_shell *>((reference))->FUN_00477ba0())
             {
@@ -26810,7 +26776,7 @@ TESObjectREFR* __cdecl FUN_0054afb0(TESForm_rtti* source, TESForm_rtti* destinat
             {
                 if (index2 == selectedX)
                 {
-                    result = ((::TESObjectREFR *)(new ((void *)(cursor4)) ::Vec3()));
+                    result = ((::TESObjectREFR *)((void *)(cursor4)));
                     break;
                 }
                 else
@@ -27140,7 +27106,7 @@ void Cell550::FUN_0054b5b0()
     RefList550* position = ((::RefList550 *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
     while (position)
     {
-        TESObjectREFR* reference = ((::TESObjectREFR *)(new ((void *)(position)) ::Vec3()));
+        TESObjectREFR* reference = ((::TESObjectREFR *)((void *)(position)));
         if (reference && reference != (*reinterpret_cast<::TESObjectREFR * *>(&::_g_thePlayer)))
         {
             Actor_rtti* actor = dynamic_cast<Actor_rtti*>(reference);
@@ -27178,9 +27144,9 @@ void Cell548::FUN_00551480(bool RetainReference)
         reinterpret_cast<::fnv_0040ff60::FUN_0040ff60_shell *>((static_cast<ExtraListAccess548*>(&extraDataList)))->FUN_0040ff60(extra);
         CellRefLockEnter();
         RefList548* position = ((::RefList548 *)(reinterpret_cast<::FUN_009604f0_shell *>(this)->FUN_009604f0()));
-        while (position && ((::TESObjectREFR *)(new ((void *)(position)) ::Vec3())))
+        while (position && ((::TESObjectREFR *)((void *)(position))))
         {
-            MobileObject_rtti* mobile = dynamic_cast<MobileObject_rtti*>(((::TESObjectREFR *)(new ((void *)(position)) ::Vec3())));
+            MobileObject_rtti* mobile = dynamic_cast<MobileObject_rtti*>(((::TESObjectREFR *)((void *)(position))));
             position = ((::RefList548 *)(reinterpret_cast<::Callees *>((position))->FUN_00726070()));
             if (mobile && !reinterpret_cast<::TESForm_rtti *>((mobile))->GetDisabled() && ((::BaseProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>((mobile))->GetBaseTexture())) && mobile->FUN_00931850() == 3)
                 reinterpret_cast<::ProcessLists *>(&(g_011e0e80))->AddMobileObjectToList(mobile);
@@ -27743,7 +27709,7 @@ void CellUpdateView::FUN_00551890(float fTimeSinceScaleStart, bool bSkipLoaded)
             RefNodeList* pkIter = &m_pkLoaded->kRefs;
             while (pkIter && !pkIter->FUN_008256d0())
             {
-                RefNodeView* pkRef = *((::RefNodeView **)(new ((void *)(pkIter)) ::Vec3()));
+                RefNodeView* pkRef = *((::RefNodeView **)((void *)(pkIter)));
                 NodeView* pkNode = pkRef->GetNode3D();
                 pkIter = ((::RefNodeList *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
                 if (pkNode)

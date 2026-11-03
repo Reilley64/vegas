@@ -128,12 +128,7 @@
 #include "tesworldspace_packet.h"
 #include <cstring>
 #include "fnv/decl/FUN_00509540_obj.h"
-#include "fnv/decl/FUN_00585fe0_shell.h"
-#include "fnv/decl/FUN_005860c0_shell.h"
-#include "fnv/decl/FUN_00586280_shell.h"
-#include "fnv/decl/FUN_00588070_shell.h"
 #include "fnv/decl/FUN_0058f5c0_shell.h"
-#include "fnv/decl/Unk00586340.h"
 #include "fnv/decl/CPMap00993a80.h"
 #include "fnv/decl/CombatThreatMap.h"
 #include "fnv/decl/FUN_00484150_shell.h"
@@ -145,8 +140,6 @@
 #include "fnv/symbols_0118a000.h"
 #include "fnv/decl/FNV_BucketMap.h"
 #include "fnv/decl/FUN_004867a0_cls.h"
-#include "fnv/decl/FUN_00587670_shell.h"
-#include "fnv/decl/FUN_00588120_host.h"
 #include "fnv/decl/fnv_00484730__FUN_00484730_shell.h"
 // @fnv 0x00425fd0
 bool TESObjectCELL::IsCellInterior() const
@@ -462,8 +455,8 @@ void* FUN_00588b00_shell::GetOrCreateCellOffsetData(TESFile* apFile)
 // @fnv 0x00588c50
 char* FUN_00588c50(char* pThis)
 {
-    new ((void *)(pThis + 4)) ::Vec3();
-    new ((void *)(pThis + 0xC)) ::Vec3();
+    (void *)(pThis + 4);
+    (void *)(pThis + 0xC);
     return pThis;
 }
 
@@ -1801,7 +1794,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
-                pref = *((::TESObjectREFR **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
                 reinterpret_cast<::CellView *>((cell))->FUN_00548230((::RefView *)(pref), false);
                 pCurrentElementNext = ((::fnv_00588150::BSSimpleList *)(reinterpret_cast<::Callees *>((pCurrentElementNext))->FUN_00726070()));
             }
@@ -1813,7 +1806,7 @@ void FUN_00588150_shell::AddCellReferences(TESObjectCELL* cell)
 
             while (pCurrentElementNext != 0 && !pCurrentElementNext->_ref_008256d0())
             {
-                pref = *((::TESObjectREFR **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+                pref = *((::TESObjectREFR **)((void *)(pCurrentElementNext)));
 
                 if (((int)(reinterpret_cast<::LowProcess *>((void *)(reinterpret_cast<BSOcclusionPlane*>(pref)))->GetTarget())) != reinterpret_cast<int>(cell))
                 {
@@ -3434,7 +3427,7 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     RegionNode* f = eb->GetList();
     while (f)
     {
-        b = *((::Region **)(new ((void *)(f)) ::Vec3()));
+        b = *((::Region **)((void *)(f)));
         a = b ? b->Form() : 0;
         if (b && b->Priority() && a && a->Weight() && b->Weight(h, this, false) != 0.0)
         {
@@ -3448,7 +3441,7 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     f = eb->GetList();
     while (f)
     {
-        b = *((::Region **)(new ((void *)(f)) ::Vec3()));
+        b = *((::Region **)((void *)(f)));
         a = b ? b->Form() : 0;
         if (b && !b->Priority() && a && a->Weight() && b->Weight(h, this, false) != 0.0)
         {
@@ -3476,13 +3469,13 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
         results[p].name = 0;
         if (!ba)
             continue;
-        l = *((::Entry **)(new ((void *)(ba)) ::Vec3()));
+        l = *((::Entry **)((void *)(ba)));
         while (!l)
         {
             ba = ((::GlobalObject_0096a2d0 *)(reinterpret_cast<::Callees *>((ba))->FUN_00726070()));
             if (!ba)
                 break;
-            l = *((::Entry **)(new ((void *)(ba)) ::Vec3()));
+            l = *((::Entry **)((void *)(ba)));
         }
         if (!l)
             continue;
@@ -3518,9 +3511,9 @@ void World::BuildRegionResults(float minX, float minY, float maxX, float maxY, R
     {
         GlobalObject_0096a2d0* cleanup = cf;
         Entry* dead = 0;
-        while (cleanup && *((::Entry **)(new ((void *)(cleanup)) ::Vec3())))
+        while (cleanup && *((::Entry **)((void *)(cleanup))))
         {
-            dead = *((::Entry **)(new ((void *)(cleanup)) ::Vec3()));
+            dead = *((::Entry **)((void *)(cleanup)));
             cleanup = ((::GlobalObject_0096a2d0 *)(reinterpret_cast<::Callees *>((cleanup))->FUN_00726070()));
             delete dead;
         }
@@ -3567,7 +3560,7 @@ WsNameList* FUN_005883c0_shell::BuildMapNameList(bool abNoChildren)
             WsListNode* pNode = ((::WsListNode *)(::FUN_00460140((int)(((WsDataHandler*)(*reinterpret_cast<::TESDataHandler * *>(&::g_dataHandler)))))));
             while (pNode)
             {
-                TESWorldSpace* pWorld = *((::TESWorldSpace **)(new ((void *)(pNode)) ::Vec3()));
+                TESWorldSpace* pWorld = *((::TESWorldSpace **)((void *)(pNode)));
                 if (pWorld && pWorld->GetParentWorld((PARENT_USE_FLAG)2) == this)
                 {
                     reinterpret_cast<::FUN_00588520_shell *>((((FUN_005883c0_shell*)pWorld)))->FUN_00588520((::BSSimpleList<const char *> *)(pNameList));
@@ -3717,15 +3710,15 @@ bool WorldQuery::ContainsPoint(const NiPoint3* position)
     QueryPoint2 point3(position->x, position->y);
     bool found = false;
     CellQueryNode* node2 = ((::CellQueryNode *)(reinterpret_cast<::FUN_004169d0_shell *>(((*reinterpret_cast<::QueryData * *>(&::g_dataHandler))))->FUN_004169d0()));
-    while (node2 && *((::CellQuery **)(new ((void *)(node2)) ::Vec3())))
+    while (node2 && *((::CellQuery **)((void *)(node2))))
     {
-        CellQuery* cell2 = *((::CellQuery **)(new ((void *)(node2)) ::Vec3()));
+        CellQuery* cell2 = *((::CellQuery **)((void *)(node2)));
         if (reinterpret_cast<::FUN_00549580_shell *>((cell2))->FUN_00549580() && !reinterpret_cast<::FUN_00440d80_shell *>((cell2))->FUN_00440d80() && ((::WorldQuery *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((cell2))->FUN_007af430())) == this)
         {
             QueryLink<AreaQuery>* link = ((::QueryLink< ::AreaQuery> *)(reinterpret_cast<::BGSTerrainManager *>((cell2))->GetMinLevel()));
-            while (link && *((::AreaQuery **)(new ((void *)(link)) ::Vec3())))
+            while (link && *((::AreaQuery **)((void *)(link))))
             {
-                AreaQuery* area = *((::AreaQuery **)(new ((void *)(link)) ::Vec3()));
+                AreaQuery* area = *((::AreaQuery **)((void *)(link)));
                 if (reinterpret_cast<::Polygon *>((area))->FUN_004f8360((::PolygonPoint *)(&point3)))
                     found = true;
                 link = ((::QueryLink< ::AreaQuery> *)(reinterpret_cast<::Callees *>((link))->FUN_00726070()));
@@ -4552,10 +4545,10 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
         int priority6 = -1;
         bool contains3 = false;
         bool aOverrideFlag = false;
-        while (node5 && *((::Region65 **)(new ((void *)(node5)) ::Vec3())))
+        while (node5 && *((::Region65 **)((void *)(node5))))
         {
             contains3 = false;
-            region4 = *((::Region65 **)(new ((void *)(node5)) ::Vec3()));
+            region4 = *((::Region65 **)((void *)(node5)));
             if (reinterpret_cast<::FUN_00440d80_shell *>((region4))->FUN_00440d80() || ((void *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((region4))->FUN_007af430())) != this || !((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel())) ||
                 ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()))->FUN_008256d0())
             {
@@ -4570,9 +4563,9 @@ bool World65::FUN_00586500(String65* output, Pos65 pos)
                 continue;
             }
             areas = ((::AreaList65 *)(reinterpret_cast<::BGSTerrainManager *>((region4))->GetMinLevel()));
-            while (areas && *((::Area65 **)(new ((void *)(areas)) ::Vec3())))
+            while (areas && *((::Area65 **)((void *)(areas))))
             {
-                area = *((::Area65 **)(new ((void *)(areas)) ::Vec3()));
+                area = *((::Area65 **)((void *)(areas)));
                 if (reinterpret_cast<::Polygon *>((area))->FUN_004f8360((::PolygonPoint *)&(point2)))
                 {
                     contains3 = true;

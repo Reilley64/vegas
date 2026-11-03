@@ -263,50 +263,9 @@
 #include "ExtraContainerChanges.h"
 #include "InventoryChanges.h"
 #include "game_constants.h"
-#include "fnv/decl/ExtraList_419050.h"
 #include "fnv/decl/FNVLoadHost.h"
-#include "fnv/decl/FUN_0040fbf0_shell.h"
-#include "fnv/decl/FUN_0040fe80_shell.h"
-#include "fnv/decl/FUN_00411e20Class.h"
-#include "fnv/decl/FUN_00419a20.h"
-#include "fnv/decl/FUN_00419ad0_shell.h"
-#include "fnv/decl/FUN_00419bb0_cls.h"
-#include "fnv/decl/FUN_00419c60_cls.h"
-#include "fnv/decl/FUN_00419d10.h"
-#include "fnv/decl/FUN_00419ed0_shell.h"
-#include "fnv/decl/FUN_00419f80_shell.h"
-#include "fnv/decl/FUN_00419fb0_StandIn.h"
-#include "fnv/decl/FUN_0041aa20_shell.h"
-#include "fnv/decl/FUN_0041ab70_shell.h"
-#include "fnv/decl/FUN_0041b3d0_shell.h"
-#include "fnv/decl/FUN_0041b580_shell.h"
-#include "fnv/decl/FUN_0041c930_shell.h"
-#include "fnv/decl/FUN_0041d330_Class.h"
-#include "fnv/decl/FUN_0041d5b0_class.h"
-#include "fnv/decl/FUN_0041d700.h"
-#include "fnv/decl/FUN_0041da40_shell.h"
-#include "fnv/decl/FUN_0041dc70_shell.h"
-#include "fnv/decl/FUN_0041e250_cls.h"
-#include "fnv/decl/FUN_0041e440_shell.h"
-#include "fnv/decl/FUN_00420870_cls.h"
 #include "fnv/decl/FUN_00420c10_Class.h"
 #include "fnv/decl/FUN_00420e00_cls.h"
-#include "fnv/decl/FUN_00421430_shell.h"
-#include "fnv/decl/FUN_00421540_shell.h"
-#include "fnv/decl/FUN_00421910_shell.h"
-#include "fnv/decl/FUN_00421b70_shell.h"
-#include "fnv/decl/FUN_00421d20_shell.h"
-#include "fnv/decl/FUN_00421e40_shell.h"
-#include "fnv/decl/FUN_00421f30_shell.h"
-#include "fnv/decl/FUN_00422150_shell.h"
-#include "fnv/decl/FUN_00422220_shell.h"
-#include "fnv/decl/FUN_00422350_shell.h"
-#include "fnv/decl/FUN_0042dde0_cls.h"
-#include "fnv/decl/FUN_0042e2c0_shell.h"
-#include "fnv/decl/FUN_0042e760_shell.h"
-#include "fnv/decl/FUN_0042e800_shell.h"
-#include "fnv/decl/FUN_0042eb60_shell.h"
-#include "fnv/decl/FUN_0042f420_helper.h"
 #include "fnv/decl/FUN_00433b70_shell.h"
 #include "fnv/decl/FUN_00434a70_cls.h"
 #include "fnv/decl/FUN_00434ee0_Class.h"
@@ -316,73 +275,19 @@
 #include "fnv/decl/FUN_00537e90.h"
 #include "fnv/decl/FUN_0055d520_shell.h"
 #include "fnv/decl/FUN_005673e0_shell.h"
-#include "fnv/decl/FUN_0087f3d0_shell.h"
 #include "fnv/decl/ImpactSwapMaps.h"
-#include "fnv/decl/PatrolActorPackageData.h"
 #include "fnv/decl/QuantityData.h"
 #include "fnv/decl/S_00589770_Class.h"
 #include "fnv/decl/Target0067c6f0.h"
 #include "fnv/decl/Unk_00439120.h"
-#include "fnv/decl/Vec3.h"
-#include "fnv/decl/fnv_0040ff60__FUN_0040ff60_shell.h"
-#include "fnv/decl/fnv_00410220__FUN_00410220_shell.h"
-#include "fnv/decl/fnv_00411f20__FUN_00411f20_shell.h"
-#include "fnv/decl/fnv_00418310__FUN_00418310_shell.h"
-#include "fnv/decl/fnv_00418550__FUN_00418550_cls.h"
-#include "fnv/decl/fnv_00419120__FUN_00419120_shell.h"
-#include "fnv/decl/fnv_00419250__FUN_00419250_shell.h"
-#include "fnv/decl/fnv_00419380__FUN_00419380_shell.h"
-#include "fnv/decl/fnv_004194b0__ExtraDataListRemoveTrespassPackage.h"
-#include "fnv/decl/fnv_00419700__FUN_00419700_shell.h"
-#include "fnv/decl/fnv_004198a0__FUN_004198a0.h"
-#include "fnv/decl/fnv_00419dc0__FUN_00419dc0_shell2.h"
-#include "fnv/decl/fnv_0041ac30__FUN_0041ac30List.h"
-#include "fnv/decl/fnv_0041ad00__FUN_0041ad00_shell.h"
-#include "fnv/decl/fnv_0041b7e0__FUN_0041b7e0_cls.h"
-#include "fnv/decl/fnv_0041bd10__FUN_0041bd10_shell.h"
-#include "fnv/decl/fnv_0041c090__FUN_0041c090_shell.h"
-#include "fnv/decl/fnv_0041c190__FUN_0041c190_shell.h"
-#include "fnv/decl/fnv_0041c290__FUN_0041c290_shell.h"
-#include "fnv/decl/fnv_0041c390__ExtraDataList2.h"
-#include "fnv/decl/fnv_0041c490__FUN_0041c490_cls.h"
-#include "fnv/decl/fnv_0041c7f0__FUN_0041c7f0_cls.h"
-#include "fnv/decl/fnv_0041cc90__ExtraDataListStandIn.h"
-#include "fnv/decl/fnv_0041d280__FUN_0041d280_shell.h"
-#include "fnv/decl/fnv_0041d950__S0041d950.h"
-#include "fnv/decl/fnv_0041e160__FUN_0041e160_shell.h"
-#include "fnv/decl/fnv_0041fa60__FUN_0041fa60_shell.h"
-#include "fnv/decl/fnv_0041fc10__FUN_0041fc10_shell.h"
-#include "fnv/decl/fnv_0041fec0__FUN_0041fec0_shell.h"
-#include "fnv/decl/fnv_00420a60__FUN_00420a60_Class.h"
-#include "fnv/decl/fnv_00420f00__FUN_00420f00_shell.h"
-#include "fnv/decl/fnv_00420fd0__FUN_00420fd0_cls.h"
-#include "fnv/decl/fnv_00421c60__FUN_00421c60_shell.h"
-#include "fnv/decl/fnv_00421d50__FUN_00421d50_shell.h"
-#include "fnv/decl/fnv_00422050__FUN_00422050_shell.h"
-#include "fnv/decl/fnv_00422480__FUN_00422480_shell.h"
-#include "fnv/decl/fnv_00422750__FUN_00422750_class.h"
-#include "fnv/decl/fnv_00422c20__FUN_0042dec0_shell.h"
-#include "fnv/decl/fnv_0042e380__FUN_0042e380_Class.h"
-#include "fnv/decl/fnv_0042ef20__FUN_0042ef20_StandIn.h"
-#include "fnv/decl/fnv_0042f200__FUN_0042f200_shell.h"
 #include "fnv/decl/fnv_004342b0__FUN_004342b0_shell.h"
 #include "fnv/decl/fnv_004346f0__FUN_004346f0_shell.h"
 #include "fnv/decl/fnv_004861f0__Form_004861f0.h"
-#include "fnv/decl/fnv_007af430__FUN_007af430_shell.h"
 #include "ExtraDataList.h"
 #include "fnv/decl/BoundOwner_t.h"
-#include "fnv/decl/FUN_004182b0_shell.h"
 #include <xmmintrin.h>
 #include "fnv/decl/BGSDehydrationStage.h"
 #include "fnv/decl/C857A10Buffer.h"
-#include "fnv/decl/E000ExtraDataList.h"
-#include "fnv/decl/FUN_00418460_shell.h"
-#include "fnv/decl/FUN_00419ea0_shell.h"
-#include "fnv/decl/FUN_0041c900_cls.h"
-#include "fnv/decl/FUN_0041de00_shell.h"
-#include "fnv/decl/FUN_0041de40_class.h"
-#include "fnv/decl/FUN_0041df90_shell.h"
-#include "fnv/decl/FUN_00422700_shell.h"
 #include "fnv/decl/FUN_0043a9f0_C.h"
 #include "fnv/decl/FUN_008579b0_shell.h"
 #include "fnv/decl/Thing.h"
@@ -396,12 +301,6 @@
 #include "fnv/decl/BSSimpleArrayActor.h"
 #include "fnv/decl/CombatTargetTimestamp.h"
 #include "fnv/decl/EntryCollection.h"
-#include "fnv/decl/ExtraSecuritronFace.h"
-#include "fnv/decl/FUN_00410020_t.h"
-#include "fnv/decl/FUN_0041fd00_shell.h"
-#include "fnv/decl/FUN_00422670_Cls.h"
-#include "fnv/decl/FUN_00428130_Class.h"
-#include "fnv/decl/FUN_0042cde0_shell.h"
 #include "fnv/decl/FUN_0042ce90_class.h"
 #include "fnv/decl/FUN_00438280_class.h"
 #include "fnv/decl/FUN_0047e340_shell.h"
@@ -411,11 +310,7 @@
 #include "fnv/decl/FakeGame.h"
 #include "fnv/decl/Fn575690.h"
 #include "fnv/decl/Inv4d1440.h"
-#include "fnv/decl/TESLeveledList.h"
 #include "fnv/decl/Twin_0086cf00.h"
-#include "fnv/decl/fnv_0041a960__FUN_0041a960_shell.h"
-#include "fnv/decl/fnv_004280f0__FUN_004280f0_shell.h"
-#include "fnv/decl/fnv_0042ce10__FUN_0042ce10_shell.h"
 #include "fnv/decl/fnv_00438260__FUN_00438260.h"
 #include "fnv/decl/fnv_0043aaa0__FUN_0043aaa0_shell.h"
 #include "fnv/decl/fnv_004d1960__InvInventory.h"
@@ -14564,9 +14459,9 @@ bool FUN_0041d8c0_shell::HasRunOncePackage(TESPackage* apPackage)
     if (pextra != 0)
     {
         RunOnceListNode* pCurrentElementNext = pextra->pList;
-        while (pCurrentElementNext != 0 && *((::PackageReference **)(new ((void *)(pCurrentElementNext)) ::Vec3())) != 0)
+        while (pCurrentElementNext != 0 && *((::PackageReference **)((void *)(pCurrentElementNext))) != 0)
         {
-            PackageReference* pRun = *((::PackageReference **)(new ((void *)(pCurrentElementNext)) ::Vec3()));
+            PackageReference* pRun = *((::PackageReference **)((void *)(pCurrentElementNext)));
             if (pRun->pPackage == apPackage)
             {
                 return true;
@@ -14591,7 +14486,7 @@ void FUN_0041edd0_shell::FUN_0041edd0(TESObjectREFR* apChild)
         FakeList* pCurrentElementNext = &pextra->list;
         while (pCurrentElementNext && !_ref_008256d0(pCurrentElementNext) && !bfound)
         {
-            if ((*((::ReferenceFloatEntry **)(new ((void *)(pCurrentElementNext)) ::Vec3())))->m_pFourthReference == apChild)
+            if ((*((::ReferenceFloatEntry **)((void *)(pCurrentElementNext))))->m_pFourthReference == apChild)
             {
                 bfound = true;
             }
@@ -14615,9 +14510,9 @@ TESObjectREFR* FUN_0041df00_shell::FUN_0041df00()
     if (pextra)
     {
         pretlist = (LN*)((char*)pextra + 0xc);
-        while (!pRef && pretlist && *((::TObj **)(new ((void *)(pretlist)) ::Vec3())))
+        while (!pRef && pretlist && *((::TObj **)((void *)(pretlist))))
         {
-            TObj* ptemp = *((::TObj **)(new ((void *)(pretlist)) ::Vec3()));
+            TObj* ptemp = *((::TObj **)((void *)(pretlist)));
             if (_FNV_GetFormType(((::TObj *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((ptemp))->FUN_007af430()))) == 0x28)
                 pRef = (TESObjectREFR*)ptemp;
             pretlist = ((::LN *)(reinterpret_cast<::Callees *>((((LN3*)pretlist)))->FUN_00726070()));
@@ -15487,7 +15382,7 @@ bool S_00420530_Cls::FUN_00420530(S_00420530_Cls* other)
     S_00420530_Node* b = &o4->unk0c->unk08;
     while (a2 && b)
     {
-        if (*((int *)(new ((void *)(a2)) ::Vec3())) != *((int *)(new ((void *)(b)) ::Vec3())))
+        if (*((int *)((void *)(a2))) != *((int *)((void *)(b))))
             return true;
         a2 = ((::S_00420530_Node *)(reinterpret_cast<::Callees *>((a2))->FUN_00726070()));
         b = ((::S_00420530_Node *)(reinterpret_cast<::Callees *>((b))->FUN_00726070()));
@@ -15650,17 +15545,17 @@ SearchReference* RoomSearch::FUN_00420950(VisitedReferences* visited)
         return 0;
     SearchReference* node = 0;
     extra = &result->data->references;
-    while (extra && *((::SearchReference **)(new ((void *)(extra)) ::Vec3())))
+    while (extra && *((::SearchReference **)((void *)(extra))))
     {
-        SearchReference* candidate = *((::SearchReference **)(new ((void *)(extra)) ::Vec3()));
+        SearchReference* candidate = *((::SearchReference **)((void *)(extra)));
         if (reinterpret_cast<::FUN_00420810_shell *>((((::RoomSearch *)(reinterpret_cast<::FUN_005d43c0_ *>((candidate))->FUN_005d43c0()))))->FUN_00420810())
             return candidate;
         extra = ((::SearchNode *)(reinterpret_cast<::Callees *>((extra))->FUN_00726070()));
     }
     extra = &result->data->references;
-    while (extra && *((::SearchReference **)(new ((void *)(extra)) ::Vec3())))
+    while (extra && *((::SearchReference **)((void *)(extra))))
     {
-        SearchReference* child = *((::SearchReference **)(new ((void *)(extra)) ::Vec3()));
+        SearchReference* child = *((::SearchReference **)((void *)(extra)));
         if (!reinterpret_cast<::FUN_0057c850_cls *>((visited))->FUN_0057c850(child, &position))
         {
             reinterpret_cast<::FUN_0084d310_class *>((visited))->FUN_0084d310((int)(child), position);
@@ -16680,7 +16575,7 @@ void ExtraList::WriteToSave()
                 idsSlot0 = new unsigned int[countSlot0];
                 while (cursor)
                 {
-                    idsSlot0[indexSlot0] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)(new ((void *)(cursor)) ::Vec3()))))->FUN_0084e3a0()));
+                    idsSlot0[indexSlot0] = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)((void *)(cursor)))))->FUN_0084e3a0()));
                     ++indexSlot0;
                     cursor = ((::ExtraSave::List< ::ExtraSave::Form> *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
                 }
@@ -16781,7 +16676,7 @@ void ExtraList::WriteToSave()
             List<PairRecord>* cursor = &activationSlot1->activation;
             while (cursor && !cursor->FUN_008256d0())
             {
-                PairRecord* source = ((::ExtraSave::PairRecord *)(new ((void *)(cursor)) ::Vec3()));
+                PairRecord* source = ((::ExtraSave::PairRecord *)((void *)(cursor)));
                 cursor = ((::ExtraSave::List< ::ExtraSave::PairRecord> *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
                 PairRecord record;
                 new ((void *)&(record)) ::ReferenceFloatEntry();
@@ -16801,7 +16696,7 @@ void ExtraList::WriteToSave()
             List<PairRecord>* cursor = &extra->activation;
             while (cursor && !cursor->FUN_008256d0())
             {
-                PairRecord* source = ((::ExtraSave::PairRecord *)(new ((void *)(cursor)) ::Vec3()));
+                PairRecord* source = ((::ExtraSave::PairRecord *)((void *)(cursor)));
                 PairRecord record;
                 new ((void *)&(record)) ::fnv_00722f60::SL();
                 ::__memcpy(&record, source, 8);
@@ -16819,7 +16714,7 @@ void ExtraList::WriteToSave()
             List<Form>* cursor = &extra->forms;
             while (cursor && !cursor->FUN_008256d0())
             {
-                unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)(new ((void *)(cursor)) ::Vec3()))))->FUN_0084e3a0()));
+                unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)((void *)(cursor)))))->FUN_0084e3a0()));
                 ::FUN_00485910('WTLX', id);
                 cursor = ((::ExtraSave::List< ::ExtraSave::Form> *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
             }
@@ -16829,7 +16724,7 @@ void ExtraList::WriteToSave()
             List<DecalRecord>* cursor = &extra->decals;
             while (cursor && !cursor->FUN_008256d0())
             {
-                DecalRecord* source = ((::ExtraSave::DecalRecord *)(new ((void *)(cursor)) ::Vec3()));
+                DecalRecord* source = ((::ExtraSave::DecalRecord *)((void *)(cursor)));
                 DecalRecord record;
                 ::FUN_0055a400((::ReferenceIntersectionData *)&(record));
                 ::__memcpy(&record, source, 28);
@@ -17015,9 +16910,9 @@ void ExtraList::WriteToSave()
                 countSlot0 |= 0x10000;
             ::FUN_00485910('RMRX', countSlot0);
             List<Form>* cursor = &roomSlot12->room->linked;
-            while (cursor && ((::ExtraSave::Form *)(new ((void *)(cursor)) ::Vec3())))
+            while (cursor && ((::ExtraSave::Form *)((void *)(cursor))))
             {
-                unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)(new ((void *)(cursor)) ::Vec3()))))->FUN_0084e3a0()));
+                unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((::ExtraSave::Form *)((void *)(cursor)))))->FUN_0084e3a0()));
                 ::FUN_00485910('MRLX', id);
                 cursor = ((::ExtraSave::List< ::ExtraSave::Form> *)(reinterpret_cast<::Callees *>((cursor))->FUN_00726070()));
             }
@@ -18292,9 +18187,9 @@ void FUN_0041d7b0_cls::RemoveRunOnceItems(char abKeepFlag)
     if (owner != 0)
     {
         RunOnceListNode* cur = owner->pRunOnceList;
-        while (cur != 0 && *((::PackageReference **)(new ((void *)(cur)) ::Vec3())) != 0)
+        while (cur != 0 && *((::PackageReference **)((void *)(cur))) != 0)
         {
-            RunOnceItem* item = (RunOnceItem*)*((::PackageReference **)(new ((void *)(cur)) ::Vec3()));
+            RunOnceItem* item = (RunOnceItem*)*((::PackageReference **)((void *)(cur)));
             bool match = false;
             if (item != 0 && item->pPackage != 0)
             {
@@ -18960,7 +18855,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                     FixupNode* previous = 0;
                     while (current && !current->FUN_008256d0())
                     {
-                        unsigned int followerID = *((unsigned int *)(new ((void *)(current)) ::Vec3()));
+                        unsigned int followerID = *((unsigned int *)((void *)(current)));
                         bool shouldRemove = false;
                         if (followerID)
                         {
@@ -18976,7 +18871,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                         {
                             if (previous)
                             {
-                                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(*((unsigned int *)(new ((void *)(current)) ::Vec3()))));
+                                reinterpret_cast<::ItemChangeListNode *>((previous))->FUN_00905330((::InventoryStackRecord *const &)(*((unsigned int *)((void *)(current)))));
                                 current = ((::FixupNode *)(reinterpret_cast<::Callees *>((previous))->FUN_00726070()));
                             }
                             else
@@ -19064,7 +18959,7 @@ void FixupList::FixupReferences(FixupStream* stream, TESForm* base)
                     FixupNode* pAnimationNode = (FixupNode*)pAnimExtra->value0c;
                     while (pAnimationNode)
                     {
-                        FixupItem* item = (FixupItem*)*((unsigned int *)(new ((void *)(pAnimationNode)) ::Vec3()));
+                        FixupItem* item = (FixupItem*)*((unsigned int *)((void *)(pAnimationNode)));
                         if (item)
                             reinterpret_cast<::fnv_009eb9c0::Crime *>((item))->AddActor(actor);
                         pAnimationNode = ((::FixupNode *)(reinterpret_cast<::Callees *>((pAnimationNode))->FUN_00726070()));
@@ -20428,7 +20323,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = record2->m_0c;
                 while (cursor4 != 0)
                 {
-                    ListNode* e = *((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(e->f0), 0);
@@ -20447,7 +20342,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = record2->m_0c;
                 while (cursor4 != 0)
                 {
-                    ListNode* e = *((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)((int)e), 0);
@@ -20470,7 +20365,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = record2->m_0c;
                 while (cursor4 != 0)
                 {
-                    ListNode* e = *((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(e->f0), 0);
@@ -20502,7 +20397,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = record2->m_0c;
                 while (cursor4 != 0)
                 {
-                    ListNode* e = *((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         int res1 = ((int)(reinterpret_cast<::FUN_0045cd60_shell *>((e))->FUN_0045cd60()));
@@ -20536,7 +20431,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = record2->m_0c;
                 while (cursor4 != 0)
                 {
-                    ListNode* e = *((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    ListNode* e = *((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         reinterpret_cast<::fnv_00865df0::FUN_00865df0_holder *>((apBuffer))->FUN_00865df0((::fnv_00865df0::TESForm *)(e->f0), 0);
@@ -20785,7 +20680,7 @@ void Owner::WriteNodeList(BufObj* apBuffer)
                 ListObj* cursor4 = (ListObj*)&record2->m_20;
                 while (cursor4 != 0)
                 {
-                    BigNode* e = (BigNode*)*((::fnv_00426a30::ListNode **)(new ((void *)(cursor4)) ::Vec3()));
+                    BigNode* e = (BigNode*)*((::fnv_00426a30::ListNode **)((void *)(cursor4)));
                     if (e != 0)
                     {
                         reinterpret_cast<::FUN_00865e50_shell *>((apBuffer))->FUN_00865e50(e, 0xc, 0);
@@ -22579,18 +22474,18 @@ void RefFlagExtraList::FUN_0041f1a0(TESObjectREFR* apRef, bool abSet)
     if (pExtra)
     {
         RefFlagNode* pNode = &pExtra->kList;
-        while (pNode && *((::RefFlagEntry **)(new ((void *)(pNode)) ::Vec3())))
+        while (pNode && *((::RefFlagEntry **)((void *)(pNode))))
         {
-            if ((*((::RefFlagEntry **)(new ((void *)(pNode)) ::Vec3())))->pRef == apRef)
+            if ((*((::RefFlagEntry **)((void *)(pNode))))->pRef == apRef)
             {
                 if (abSet)
                 {
-                    (*((::RefFlagEntry **)(new ((void *)(pNode)) ::Vec3())))->uiFlags |= 1;
+                    (*((::RefFlagEntry **)((void *)(pNode))))->uiFlags |= 1;
                 }
                 else
                 {
-                    (*((::RefFlagEntry **)(new ((void *)(pNode)) ::Vec3())))->uiFlags &= ~1;
-                    if ((*((::RefFlagEntry **)(new ((void *)(pNode)) ::Vec3())))->uiFlags == 0)
+                    (*((::RefFlagEntry **)((void *)(pNode))))->uiFlags &= ~1;
+                    if ((*((::RefFlagEntry **)((void *)(pNode))))->uiFlags == 0)
                     {
                         reinterpret_cast<::FUN_00434800_shell *>((pExtra))->FUN_00434800(apRef);
                         if (pExtra->kList.IsListEmpty())
@@ -22820,7 +22715,7 @@ void FUN_0041ef20_shell::FUN_0041ef20(TESObjectREFR* reference)
             RefListNode* previous = 0;
             while (current && !current->FUN_008256d0())
             {
-                TESObjectREFR** item = *((::TESObjectREFR ***)(new ((void *)(current)) ::Vec3()));
+                TESObjectREFR** item = *((::TESObjectREFR ***)((void *)(current)));
                 if (*item == reference)
                 {
                     if (previous)
@@ -22849,16 +22744,16 @@ void WorkerExtraList::FUN_0041f650(TESObjectREFR* ref, bool enabled)
     if (p)
     {
         FlagNode* h = &p->list;
-        while (h && *((::FlagItem **)(new ((void *)(h)) ::Vec3())))
+        while (h && *((::FlagItem **)((void *)(h))))
         {
-            if ((*((::FlagItem **)(new ((void *)(h)) ::Vec3())))->ref == ref)
+            if ((*((::FlagItem **)((void *)(h))))->ref == ref)
             {
                 if (enabled)
-                    (*((::FlagItem **)(new ((void *)(h)) ::Vec3())))->flags |= 2;
+                    (*((::FlagItem **)((void *)(h))))->flags |= 2;
                 else
                 {
-                    (*((::FlagItem **)(new ((void *)(h)) ::Vec3())))->flags &= ~2;
-                    if ((*((::FlagItem **)(new ((void *)(h)) ::Vec3())))->flags == 0)
+                    (*((::FlagItem **)((void *)(h))))->flags &= ~2;
+                    if ((*((::FlagItem **)((void *)(h))))->flags == 0)
                     {
                         reinterpret_cast<::FUN_00434800_shell *>((p))->FUN_00434800(ref);
                         if (p->list.FUN_008256d0())
@@ -23550,9 +23445,9 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
         case 123: {
             ResolveExtraLinked* node = static_cast<ResolveExtraLinked*>(pNode);
             ResolveNode* extra = reinterpret_cast<ResolveNode*>(&node->payload->unk08);
-            while (extra && *((void **)(new ((void *)(extra)) ::Vec3())))
+            while (extra && *((void **)((void *)(extra))))
             {
-                unsigned int ref = reinterpret_cast<unsigned int>(*((void **)(new ((void *)(extra)) ::Vec3())));
+                unsigned int ref = reinterpret_cast<unsigned int>(*((void **)((void *)(extra))));
                 ::ResolveFormID(&ref, sourceFile);
                 TESObjectREFR* id = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(ref));
                 if (ref && !id)
@@ -23574,7 +23469,7 @@ void ResolveExtraOwner::FUN_00416be0(TESForm* owner)
             ResolveNode* previous = 0;
             while (node && !node->FUN_008256d0())
             {
-                ResolveItem* item = static_cast<ResolveItem*>(*((void **)(new ((void *)(node)) ::Vec3())));
+                ResolveItem* item = static_cast<ResolveItem*>(*((void **)((void *)(node))));
                 unsigned int id = reinterpret_cast<unsigned int>(item->ref);
                 ::ResolveFormID(&id, sourceFile);
                 item->ref = dynamic_cast<TESObjectREFR*>(::FUN_004839c0(id));
@@ -24706,9 +24601,9 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         break;
     case 0x1D: {
         BSSimpleList<Actor*>* pFollowerIter = ((ExtraFollower*)apExtra)->pFollowers;
-        while (pFollowerIter && ((::Actor *)(new ((void *)(pFollowerIter)) ::Vec3())))
+        while (pFollowerIter && (pFollowerIter->m_item))
         {
-            Actor* pFollower = ((::Actor *)(new ((void *)(pFollowerIter)) ::Vec3()));
+            Actor* pFollower = (pFollowerIter->m_item);
             reinterpret_cast<::fnv_00422480::FUN_00422480_shell *>(this)->FUN_00422480((::fnv_00422480::Actor *)(pFollower));
             pFollowerIter = ((::BSSimpleList< ::Actor *> *)(reinterpret_cast<::Callees *>((pFollowerIter))->FUN_00726070()));
         }
@@ -24767,7 +24662,7 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         pIter = ((ExtraRunOncePacks_ctx*)apExtra)->pPackages;
         while (pIter)
         {
-            PackageReference_ctx* pRunOnce = ((::PackageReference_ctx *)(new ((void *)(pIter)) ::Vec3()));
+            PackageReference_ctx* pRunOnce = (pIter->m_item);
             if (pRunOnce)
             {
                 TESPackage* pPackage = pRunOnce->pPackage;
@@ -24897,9 +24792,9 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         reinterpret_cast<::FUN_0042e760_shell *>(this)->FUN_0042e760();
         ExtraFactionChanges_ctx* pChanges = reinterpret_cast<::FUN_0042e800_shell *>(this)->FUN_0042e800();
         BSSimpleList<FactionRankData*>* pRankIter = ((ExtraFactionChangesData*)apExtra)->pFactions;
-        while (pRankIter && ((::FactionRankData *)(new ((void *)(pRankIter)) ::Vec3())))
+        while (pRankIter && (pRankIter->m_item))
         {
-            FactionRankData* pRank = ((::FactionRankData *)(new ((void *)(pRankIter)) ::Vec3()));
+            FactionRankData* pRank = (pRankIter->m_item);
             if (pRank)
                 pChanges->SetFactionRank(pRank->pFaction, pRank->m_ucRank);
             pRankIter = ((::BSSimpleList< ::FactionRankData *> *)(reinterpret_cast<::Callees *>((pRankIter))->FUN_00726070()));
@@ -24950,9 +24845,9 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         ExtraRoomRefData_ctx* pRefExtra = (ExtraRoomRefData_ctx*)apExtra;
         RoomRefData* pRoomRefData = pRefExtra->pData;
         BSSimpleList<TESObjectREFR*>* pRoomLinkIter = &pRoomRefData->kLinkedRooms;
-        while (pRoomLinkIter && ((::TESObjectREFR *)(new ((void *)(pRoomLinkIter)) ::Vec3())))
+        while (pRoomLinkIter && (pRoomLinkIter->m_item))
         {
-            reinterpret_cast<::FUN_00420c10_Class *>(this)->FUN_00420c10((int)(((::TESObjectREFR *)(new ((void *)(pRoomLinkIter)) ::Vec3()))));
+            reinterpret_cast<::FUN_00420c10_Class *>(this)->FUN_00420c10((int)((pRoomLinkIter->m_item)));
             pRoomLinkIter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pRoomLinkIter))->FUN_00726070()));
         }
         reinterpret_cast<::FUN_00420870_cls *>(this)->SetFlagOnRecord123(pRoomRefData->bIsMaster != 0);
@@ -24966,9 +24861,9 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
     }
     case 0x73: {
         BSSimpleList<TESTopicInfo*>* pInfoIter = ((ExtraSayTopicInfoOnceADay*)apExtra)->m_pTopicInfoList;
-        while (pInfoIter && ((::TESTopicInfo *)(new ((void *)(pInfoIter)) ::Vec3())))
+        while (pInfoIter && (pInfoIter->m_item))
         {
-            reinterpret_cast<::fnv_0042ef20::FUN_0042ef20_StandIn *>(this)->FUN_0042ef20(((::TESTopicInfo *)(new ((void *)(pInfoIter)) ::Vec3())));
+            reinterpret_cast<::fnv_0042ef20::FUN_0042ef20_StandIn *>(this)->FUN_0042ef20((pInfoIter->m_item));
             reinterpret_cast<::Callees *>((pInfoIter))->FUN_00726070();
         }
         break;
@@ -24991,8 +24886,8 @@ void ExtraDataListEx_ctx::FUN_004103d0(BSExtraDataEx* apExtra)
         for (BSSimpleList<FollowerSwimBreadcrumb*>* pCrumbIter = &pSrcBreadcrumbs->kBreadcrumbs; pCrumbIter;
              pCrumbIter = ((::BSSimpleList< ::FollowerSwimBreadcrumb *> *)(reinterpret_cast<::Callees *>((pCrumbIter))->FUN_00726070())))
         {
-            if (((::FollowerSwimBreadcrumb *)(new ((void *)(pCrumbIter)) ::Vec3())))
-                reinterpret_cast<::Callees *>(&(pDstBreadcrumbs->kBreadcrumbs))->FUN_00905820((void *)&(((::FollowerSwimBreadcrumb *)(new ((void *)(pCrumbIter)) ::Vec3()))));
+            if ((pCrumbIter->m_item))
+                reinterpret_cast<::Callees *>(&(pDstBreadcrumbs->kBreadcrumbs))->FUN_00905820((void *)&((pCrumbIter->m_item)));
         }
         break;
     }
@@ -25909,7 +25804,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             ListNode* kIter = x->list;
             while (kIter && !kIter->FUN_008256d0())
             {
-                ListItem* item = *((::extra_save::ListItem **)(new ((void *)(kIter)) ::Vec3()));
+                ListItem* item = *((::extra_save::ListItem **)((void *)(kIter)));
                 if (item)
                 {
                     unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((item->form))->FUN_0084e3a0()));
@@ -25948,7 +25843,7 @@ void SaveShell::FUN_004235e0(unsigned int flags, SForm* form)
             FormNode* kIter = x->list;
             while (kIter && !kIter->FUN_008256d0())
             {
-                SForm* f = *((::extra_save::SForm **)(new ((void *)(kIter)) ::Vec3()));
+                SForm* f = *((::extra_save::SForm **)((void *)(kIter)));
                 if (f)
                 {
                     unsigned int id = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((f))->FUN_0084e3a0()));
@@ -26545,7 +26440,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
                 {
                     G* c6;
                     G* f6 = 0;
-                    c6 = *((::load_extra_fixup::G **)(new ((void *)(n)) ::Vec3()));
+                    c6 = *((::load_extra_fixup::G **)((void *)(n)));
                     if (c6)
                         f6 = (G*)dynamic_cast<Actor*>(::FUN_004839c0((unsigned int)(c6)));
                     if (!f6)
@@ -26596,7 +26491,7 @@ void ThisQ::FUN_00426020(unsigned int a1, int a2, O* a3, void* a4)
             G* prev = 0;
             while (n7 && !n7->FUN_008256d0())
             {
-                G* f7 = *((::load_extra_fixup::G **)(new ((void *)(n7)) ::Vec3()));
+                G* f7 = *((::load_extra_fixup::G **)((void *)(n7)));
                 G* c7 = f7;
                 if (c7)
                     f7 = (G*)dynamic_cast<TESObjectREFR*>(::FUN_004839c0((unsigned int)(c7)));
@@ -28153,7 +28048,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                             iCrimeID, iCrimeType, pRef ? pRef->GetName() : "UNKNOWN", pRef ? ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pRef))->FUN_0084e3a0())) : 0);
                     }
                 }
-                if (*((void **)(new ((void *)(extra_->pList)) ::Vec3())) == 0)
+                if (*((void **)((void *)(extra_->pList))) == 0)
                 {
                     reinterpret_cast<::fnv_00422c20::FUN_0042dec0_shell *>(this)->RemoveExtra(0x35);
                 }
@@ -28189,7 +28084,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                     FormList* pPrev = 0;
                     while (pNode != 0 && !pNode->IsEmpty())
                     {
-                        XPackEntry* data5 = (XPackEntry*)*((void **)(new ((void *)(pNode)) ::Vec3()));
+                        XPackEntry* data5 = (XPackEntry*)*((void **)((void *)(pNode)));
                         bool bRemove = false;
                         if (data5 != 0)
                         {
@@ -28207,7 +28102,7 @@ void ExtraDataLoader::FUN_00428150(LoadBuffer* buf)
                         {
                             if (pPrev != 0)
                             {
-                                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)(new ((void *)(pNode)) ::Vec3())))));
+                                reinterpret_cast<::ItemChangeListNode *>((pPrev))->FUN_00905330((*(::InventoryStackRecord *const *)(((void **)((void *)(pNode))))));
                                 pNode = ((::FormList *)(reinterpret_cast<::Callees *>((pPrev))->FUN_00726070()));
                             }
                             else

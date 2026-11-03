@@ -902,19 +902,13 @@
 #include "fnv/decl/FUN_0041fe90_shell.h"
 #include "fnv/decl/FUN_004726b0_class.h"
 #include "fnv/decl/FUN_0055b9a0_class.h"
-#include "fnv/decl/FUN_00572d50_shell.h"
-#include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/S00485110.h"
-#include "fnv/decl/TESFile.h"
 #include "fnv/decl/fnv_00472890__FUN_00472890_cls.h"
-#include "fnv/decl/fnv_0056b0b0__FUN_0056b0b0_shell.h"
 #include "fnv/decl/loader__List.h"
 #include "fnv/symbols_00446000.h"
 #include "fnv/symbols_0057a000.h"
-#include "fnv/decl/s55d310__Owner.h"
 #include <windows.h>
 #include "fnv/decl/CB2FC0Object.h"
-#include "fnv/decl/FUN_005611c0_t.h"
 #include "fnv/decl/FUN_00c7f750_shell.h"
 #include "fnv/decl/FUN_00c876d0_cls.h"
 #include "fnv/decl/FUN_00c8d960_cls.h"
@@ -964,7 +958,6 @@
 #include "fnv/decl/HavokFilterInfo.h"
 #include "fnv/decl/MaterialInspector.h"
 #include "fnv/decl/NiGlobalStringTable.h"
-#include "fnv/decl/NiPoint3.h"
 #include "fnv/decl/ObjectController.h"
 #include "fnv/decl/PropertyOwner.h"
 #include "fnv/decl/S004b4db0_Quaternion.h"
@@ -980,30 +973,16 @@
 #include "fnv/decl/OwnerCD2A.h"
 #include "fnv/decl/ShapeViewerFields.h"
 #include "fnv/symbols_00ca0000.h"
-#include "fnv/decl/FUN_0041fbe0_shell.h"
 #include "fnv/decl/FUN_004523c0_shell.h"
 #include "fnv/decl/FUN_00458990_Holder.h"
 #include "fnv/decl/FUN_004589c0_cls.h"
 #include "fnv/decl/FUN_004a3c90.h"
-#include "fnv/decl/FUN_00564c60_cls.h"
-#include "fnv/decl/FUN_0056c880_S.h"
-#include "fnv/decl/FUN_0056d230_Class.h"
-#include "fnv/decl/FUN_0056d2c0_cls.h"
-#include "fnv/decl/FUN_0056d300_S.h"
 #include "fnv/decl/FUN_00576d30_shell.h"
 #include "fnv/decl/FUN_00620b80_shell.h"
-#include "fnv/decl/FUN_0086a830_S.h"
 #include "fnv/decl/Ref56D.h"
-#include "fnv/decl/S.h"
 #include "fnv/decl/S00458900_Vector.h"
 #include "fnv/decl/S00458a10_Vector.h"
 #include "fnv/decl/S00458ad0_Vector.h"
-#include "fnv/decl/S3e60.h"
-#include "fnv/decl/Vec3.h"
-#include "fnv/decl/WaterRef.h"
-#include "fnv/decl/fnv_005617c0__FUN_005617c0_.h"
-#include "fnv/decl/fnv_00567490__ScaleReference.h"
-#include "fnv/decl/s56eab0__Actor.h"
 #include "fnv/symbols_00517000.h"
 #include "fnv/symbols_00553000.h"
 #include "fnv/symbols_0062b000.h"
@@ -37535,9 +37514,9 @@ Ref5699* Ref5699::FUN_005699b0()
         if (data)
         {
             LinkedRefNode5699* node = &data->list;
-            while (node && *((::Ref5699 **)(new ((void *)(node)) ::Vec3())))
+            while (node && *((::Ref5699 **)((void *)(node))))
             {
-                Ref5699* item = *((::Ref5699 **)(new ((void *)(node)) ::Vec3()));
+                Ref5699* item = *((::Ref5699 **)((void *)(node)));
                 reinterpret_cast<::FUN_00420c10_Class *>((item->GetExtraList()))->FUN_00420c10((int)(this));
                 reinterpret_cast<::FUN_00420c10_Class *>((GetExtraList()))->FUN_00420c10((int)(item));
                 node = ((::LinkedRefNode5699 *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -37564,8 +37543,8 @@ void FUN_00569cb0_Class::FUN_00569cb0(unsigned char flag, NetworkStream* stream)
     NodeEntry* node = ((::NodeEntry *)(reinterpret_cast<::FUN_0041e500_shell *>((FUN_005d43c0()))->FUN_0041e500()));
     while (node != 0 && !node->FUN_008256d0())
     {
-        reinterpret_cast<::FNV_569BE0_This *>(((*((::FUN_00569cb0_Class **)(new ((void *)(node)) ::Vec3())))))->FUN_00569be0(flag);
-        (*((::FUN_00569cb0_Class **)(new ((void *)(node)) ::Vec3())))->FUN_00569cb0(flag, stream);
+        reinterpret_cast<::FNV_569BE0_This *>(((*((::FUN_00569cb0_Class **)((void *)(node))))))->FUN_00569be0(flag);
+        (*((::FUN_00569cb0_Class **)((void *)(node))))->FUN_00569cb0(flag, stream);
         node = ((::NodeEntry *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
     reinterpret_cast<::FUN_00438af0_Class *>(&(context))->FUN_00438af0();
@@ -37599,7 +37578,7 @@ bool MarkerRef::FUN_005686b0(const MarkerPoint& aQueryPoint, bool sit, bool slee
                                 if ((::TESFurniture::IsFurnitureSitMarker(kind3) && sit) || (::TESFurniture::IsFurnitureSleepMarker(kind3) && sleep) ||
                                     (!::TESFurniture::IsFurnitureSitMarker(kind3) && !::TESFurniture::IsFurnitureSleepMarker(kind3)))
                                 {
-                                    points2[used6] = (*(const ::MarkerPoint *)(new ((void *)(markers->At(kCurrent))) ::Vec3()));
+                                    points2[used6] = (*(const ::MarkerPoint *)((void *)(markers->At(kCurrent))));
                                     indices[used6] = kCurrent;
                                     used6++;
                                 }
@@ -37683,7 +37662,7 @@ void TargetRef::FUN_00569df0(bool abEnabled)
                 NodeEntry* pList3 = ((FUN_005d43c0_*)this)->FUN_005d43c0()->FUN_0041e780();
                 while (pList3 && !pList3->FUN_008256d0())
                 {
-                    TargetRef* targetRef3 = *(TargetRef**)*((::FUN_00569cb0_Class **)(new ((void *)(pList3)) ::Vec3()));
+                    TargetRef* targetRef3 = *(TargetRef**)*((::FUN_00569cb0_Class **)((void *)(pList3)));
                     pList3 = ((::NodeEntry *)(reinterpret_cast<::Callees *>((pList3))->FUN_00726070()));
 
                     _NiPoint3_pod kZeroPos = (*reinterpret_cast<::_NiPoint3_pod *>((void *)&::NiPoint3::ZERO));
@@ -37728,7 +37707,7 @@ void Holder_a1e0::FUN_0056a1e0(unsigned char flag)
         reinterpret_cast<FUN_0041eda0_shell*>(FUN_005d43c0(reinterpret_cast<TESObjectREFR*>(this)))->FUN_0041eda0();
     while (node != 0 && !FUN_008256d0(node))
     {
-        reinterpret_cast<::TargetRef *>((reinterpret_cast<FUN_00569df0_Obj*>(*(void**)(*(void**)((void *)(new ((void *)(reinterpret_cast<NodeLink_a1e0*>(node))) ::Vec3()))))))->FUN_00569df0(flag);
+        reinterpret_cast<::TargetRef *>((reinterpret_cast<FUN_00569df0_Obj*>(*(void**)(*(void**)((void *)((void *)(reinterpret_cast<NodeLink_a1e0*>(node))))))))->FUN_00569df0(flag);
         node = reinterpret_cast<::Callees *>((node))->FUN_00726070();
     }
 }
@@ -37751,7 +37730,7 @@ unsigned char FUN_0056a380_shell::FUN_0056a380()
                     fNewTime = current + extraTime;
                     while (entry && !entry->FUN_008256d0())
                     {
-                        TimedRecord* record = *((::TimedRecord **)(new ((void *)(entry)) ::Vec3()));
+                        TimedRecord* record = *((::TimedRecord **)((void *)(entry)));
                         if (record->deadline > current)
                         {
                             if (record->deadline <= fNewTime)
@@ -39978,7 +39957,7 @@ void ActorX::UpdateLightDescriptors(int iArg)
     IterX* pkIter = ((::fnv_0056a4a0::IterX *)(reinterpret_cast<::FUN_0041f050_shell *>((FUN_005d43c0()))->FUN_0041f050()));
     while (pkIter && !pkIter->FUN_008256d0())
     {
-        EntryX* pkEntry = *((::fnv_0056a4a0::EntryX **)(new ((void *)(pkIter)) ::Vec3()));
+        EntryX* pkEntry = *((::fnv_0056a4a0::EntryX **)((void *)(pkIter)));
         pkIter = ((::fnv_0056a4a0::IterX *)(reinterpret_cast<::Callees *>((pkIter))->FUN_00726070()));
         DescX kDesc;
         kDesc.kPos = pkEntry->m4;
@@ -42837,7 +42816,7 @@ void R::FUN_00573f40()
         L* a = ((::fnv_00573f40::L *)(reinterpret_cast<::Fn56ac90 *>(this)->FUN_0056ac90()));
         while (a && !a->FUN_008256d0())
         {
-            R* item = *((::fnv_00573f40::R **)(new ((void *)(a)) ::Vec3()));
+            R* item = *((::fnv_00573f40::R **)((void *)(a)));
             if (((bool)(reinterpret_cast<::InventoryChanges *>((item))->CreateForReference())))
             {
                 if (reinterpret_cast<::S_0041dc20_Cls *>((item->FUN_005d43c0()))->FUN_0041dc20())
@@ -44844,12 +44823,12 @@ void Actor57::StartDialog(Topic57* apTopic, unsigned char arg2, int iUnused)
                     char buf[0x108];
                     if (((bool)(::fnv_00703150::FUN_00703150())))
                     {
-                        sprintf(buf, "'%s' :%s", reinterpret_cast<::FUN_0055d520_shell *>((this))->FUN_0055d520(), ((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)(new ((void *)(resp4)) ::Vec3())))))));
+                        sprintf(buf, "'%s' :%s", reinterpret_cast<::FUN_0055d520_shell *>((this))->FUN_0055d520(), ((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)((void *)(resp4))))))));
                         FUN_00705210(buf, S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)(new ((void *)(resp4)) ::Vec3())))))), S12(0), *this->v1f4(), DAT_011dea3c, 0);
+                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::fnv_0057b7c0::Txt57 *)((void *)(resp4))))))), S12(0), *this->v1f4(), DAT_011dea3c, 0);
                     }
                     ((::fnv_0057b7c0::Proc57 *)(reinterpret_cast<::BSShaderNoLightingProperty *>((actor2))->GetBaseTexture()))->v24c(0);
                 }
@@ -45633,19 +45612,19 @@ void DlgActor::FUN_00935f60()
             {
                 DlgNode* pLine = ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pResponse))->GetActiveResponse()));
                 bool bShownVal = false;
-                if ((*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() && ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3()))))))) ||
+                if ((*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() && ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine)))))))) ||
                     (IsActor() && ::FUN_008c1bc0((int)this)))
                 {
                     if (((bool)(::fnv_00703150::FUN_00703150())))
                     {
                         char acSubtitle[260];
                         FUN_00ec623a(acSubtitle, s_szSubtitleFormat, reinterpret_cast<::FUN_0055d520_shell *>(this)->FUN_0055d520(),
-                                     ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3())))))));
+                                     ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine))))))));
                         FUN_00705210(acSubtitle, ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                     else
                     {
-                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(pLine)) ::Vec3())))))), ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(),
+                        FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(pLine))))))), ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(),
                                      DAT_011dea3c, 0);
                     }
                 }
@@ -45688,10 +45667,10 @@ void DlgActor::FUN_00935f60()
                 {
                     DlgNode* pTopicInfo = ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::FUN_005e3fc0_shell *>((pDialogue))->Get()));
                     if (pTopicInfo && ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse())) && ((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())) &&
-                        ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))))
+                        ((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse()))))))))))
                     {
                         if (*(*reinterpret_cast<::DialogueUpdate::DlgBoolSetting *>(&::g_011d8928)).FUN_00408d60() || (IsActor() && ::FUN_008c1bc0((int)this)))
-                            FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)(new ((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse())))) ::Vec3())))))),
+                            FUN_00705210(((const char *)(::FUN_00559450((int *)(((::DialogueUpdate::DlgNode *)((void *)(((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((((::DialogueUpdate::DlgNode *)(reinterpret_cast<::DialogueItem *>((pTopicInfo))->GetActiveResponse()))))->GetActiveResponse()))))))))),
                                          ((::DialogueUpdate::DlgProcess *)(reinterpret_cast<::BSShaderNoLightingProperty *>(this)->GetBaseTexture()))->FUN_vt48c(0), *GetPos(), DAT_011dea3c, 0);
                     }
                 }
@@ -46164,7 +46143,7 @@ bool ModelRef::FUN_005710c0()
                 char filename5[260];
                 ::TaskQueueInterface::CopyStringToBuffer(filename5, 260, reinterpret_cast<::TESObjectREFR *>(this)->GetModelFilePath());
                 char* separator270 = ::FUN_0040ab30(filename5, '\\');
-                ::TaskQueueInterface::CopyStringToBuffer(separator270 + 1, 260 - (separator270 - filename5) - 1, *((const char **)(new ((void *)(link14)) ::Vec3())));
+                ::TaskQueueInterface::CopyStringToBuffer(separator270 + 1, 260 - (separator270 - filename5) - 1, *((const char **)((void *)(link14))));
                 ModelNode* loaded338 = ((::fnv_005710c0::ModelNode *)(reinterpret_cast<::fnv_00447080::FUN_00447080_shell *>(((*reinterpret_cast<::fnv_005710c0::AttachModelLoader * *>(&::g_modelLoader))))->FUN_00447080((char *)(filename5), 3, 1, 0, 0, 0)));
                 if (loaded338)
                 {
@@ -46409,7 +46388,7 @@ void InitReference::FUN_0055d760()
                 scale = new InitScaleExtra;
                 reinterpret_cast<::FUN_00421f30_shell *>((FUN_005d43c0()))->FUN_00421f30((::Point3Offset *)(scale));
             }
-            InitVector offset = *((::InitVector *)(new ((void *)(scale)) ::Vec3()));
+            InitVector offset = *((::InitVector *)((void *)(scale)));
             reinterpret_cast<::MyPoint439180 *>(&(offset))->FUN_00439180(FUN_00567400());
             reinterpret_cast<::fnv_0098ddd0::FUN_0098ddd0_shell *>((scale))->FUN_0098ddd0((void *)&(offset));
             FUN_00567490(1.0f);
@@ -46597,7 +46576,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 bool addedBase = false;
                 while (linksOut && !linksOut->FUN_008256d0())
                 {
-                    RemapData* entry = static_cast<RemapData*>(*((void **)(new ((void *)(linksOut)) ::Vec3())));
+                    RemapData* entry = static_cast<RemapData*>(*((void **)((void *)(linksOut))));
                     linksOut = ((::RemapList *)(reinterpret_cast<::Callees *>((linksOut))->FUN_00726070()));
                     mappedOtherNew = 0;
                     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
@@ -46617,7 +46596,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                 RemapList* transformsOld = ((::RemapList *)(reinterpret_cast<::FUN_0041f050_shell *>((FUN_005d43c0()))->FUN_0041f050()));
                 while (transformsOld && !transformsOld->FUN_008256d0())
                 {
-                    RemapTransform* entry = static_cast<RemapTransform*>(*((void **)(new ((void *)(transformsOld)) ::Vec3())));
+                    RemapTransform* entry = static_cast<RemapTransform*>(*((void **)((void *)(transformsOld))));
                     mappedOtherNew = 0;
                     if (reinterpret_cast<::fnv_00853130::NiTMapBase *>((map))->FUN_00853130((unsigned int)(entry->reference), (*(::fnv_00853130::CombatThreatRecord * *)(&mappedOtherNew))) && mappedOtherNew)
                     {
@@ -46722,7 +46701,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         Link* links3 = FUN_005d43c0()->FUN_0041e780();
         while (links3 && !links3->FUN_008256d0())
         {
-            AttachedSceneProvider* data = *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3()));
+            AttachedSceneProvider* data = *((::AttachedSceneProvider **)((void *)(links3)));
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
             reinterpret_cast<::FUN_0041ef20_shell *>((data->ref->FUN_005d43c0()))->FUN_0041ef20((::TESObjectREFR *)(::Ref *)(this));
         }
@@ -46732,22 +46711,22 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
     if (reinterpret_cast<::FUN_004077c0_shell *>((pSource))->FUN_004077c0())
     {
         links3 = ((::Link *)(reinterpret_cast<::S_FUN_0041f170 *>((FUN_005d43c0()))->FUN_0041f170()));
-        while (links3 && *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))
+        while (links3 && *((::AttachedSceneProvider **)((void *)(links3))))
         {
-            reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), false);
-            reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), false);
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
         }
         Link* lights = ((::Link *)(reinterpret_cast<::FUN_0041f810_shell *>((FUN_005d43c0()))->FUN_0041f810()));
-        while (lights && *((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))
+        while (lights && *((::AttachedSceneProvider **)((void *)(lights))))
         {
             CopyHolder* light = ((::CopyHolder *)(reinterpret_cast<::Holder *>((FUN_005d43c0()))->FUN_00418250()));
             if (light && ((::Ref *)(::FUN_00559450((int *)(light)))))
             {
-                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->node();
+                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->node();
                 if (object && ((::Scene *)(::FUN_0070ec90((char *)(g_TES)))))
                 {
-                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3()))))));
+                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)((void *)(lights)))))));
                     CopyNode* geomAlias = geom;
                     CopyNode* kind3 = ((::CopyNode *)(reinterpret_cast<::AlchemyItem *>((geomAlias))->FUN_004030b0()));
                     if (kind3 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
@@ -46758,7 +46737,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
                     }
                 }
             }
-            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), false);
+            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), false);
             lights = ((::Link *)(reinterpret_cast<::Callees *>((lights))->FUN_00726070()));
         }
     }
@@ -46766,24 +46745,24 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
     if (reinterpret_cast<::FUN_004077c0_shell *>((pSource))->FUN_004077c0())
     {
         links3 = ((::Link *)(reinterpret_cast<::S_FUN_0041f170 *>((pSource->FUN_005d43c0()))->FUN_0041f170()));
-        while (links3 && *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))
+        while (links3 && *((::AttachedSceneProvider **)((void *)(links3))))
         {
-            if ((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->flags & 1)
-                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), true);
-            if ((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->flags & 2)
-                reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3())))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), true);
+            if ((*((::AttachedSceneProvider **)((void *)(links3))))->flags & 1)
+                reinterpret_cast<::fnv_0041f4c0::EDL_0041f4c0 *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f4c0((::TESObjectREFR *)(::Ref *)(this), true);
+            if ((*((::AttachedSceneProvider **)((void *)(links3))))->flags & 2)
+                reinterpret_cast<::WorkerExtraList *>(((*((::AttachedSceneProvider **)((void *)(links3))))->ref->FUN_005d43c0()))->FUN_0041f650((::TESObjectREFR *)(::Ref *)(this), true);
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
         }
         Link* lights = ((::Link *)(reinterpret_cast<::FUN_0041f810_shell *>((pSource->FUN_005d43c0()))->FUN_0041f810()));
-        while (lights && *((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))
+        while (lights && *((::AttachedSceneProvider **)((void *)(lights))))
         {
             CopyHolder* light = ((::CopyHolder *)(reinterpret_cast<::Holder *>((FUN_005d43c0()))->FUN_00418250()));
             if (light && ((::Ref *)(::FUN_00559450((int *)(light)))))
             {
-                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->node();
+                CopyNode* object = ((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->node();
                 if (object && ((::Scene *)(::FUN_0070ec90((char *)(g_TES)))))
                 {
-                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3()))))));
+                    CopyNode* geom = ((::CopyNode *)(reinterpret_cast<::Finder *>((((::Scene *)(::FUN_0070ec90((char *)(g_TES))))))->FUN_004e8030((::Ref *)(*((::AttachedSceneProvider **)((void *)(lights)))))));
                     CopyNode* geomAlias = geom;
                     CopyNode* kind3 = ((::CopyNode *)(reinterpret_cast<::AlchemyItem *>((geomAlias))->FUN_004030b0()));
                     if (kind3 && ((int)(reinterpret_cast<::BSShaderNoLightingProperty *>((kind3))->GetBaseTexture())) == 0xd)
@@ -46799,7 +46778,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
                     }
                 }
             }
-            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)(new ((void *)(lights)) ::Vec3())))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), true);
+            reinterpret_cast<::FUN_0041f840 *>((((Ref*)*((::AttachedSceneProvider **)((void *)(lights))))->FUN_005d43c0()))->SetEnableParentReference((::TESObjectREFR *)(::Ref *)(this), true);
             lights = ((::Link *)(reinterpret_cast<::Callees *>((lights))->FUN_00726070()));
         }
     }
@@ -46813,7 +46792,7 @@ void Ref::FUN_0055c3e0(TESForm* apSource)
         Link* links3 = FUN_005d43c0()->FUN_0041e780();
         while (links3 && !links3->FUN_008256d0())
         {
-            AttachedSceneProvider* data = *((::AttachedSceneProvider **)(new ((void *)(links3)) ::Vec3()));
+            AttachedSceneProvider* data = *((::AttachedSceneProvider **)((void *)(links3)));
             links3 = ((::Link *)(reinterpret_cast<::Callees *>((links3))->FUN_00726070()));
             reinterpret_cast<::FUN_0041edd0_shell *>((data->ref->FUN_005d43c0()))->FUN_0041edd0((::TESObjectREFR *)(::Ref *)(this));
         }
@@ -48372,11 +48351,11 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
                     {
                         EqEntry* pkEntryTmp = ((::fnv_0088db20::EqEntry *)(reinterpret_cast<::Target *>((((::fnv_0088db20::EqEntryList *)(reinterpret_cast<::ExtraDataList *>((FUN_005d43c0()))->GetContainerChangeData()))))->FUN_004c8c10(i, 0)));
                         EqExtraList* pkEntryExtra = 0;
-                        if (pkEntryTmp && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))) && *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3())))
+                        if (pkEntryTmp && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))) && *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp))))))))
                         {
-                            if (reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3())))))->FUN_00418b10())
+                            if (reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp))))))))))->FUN_00418b10())
                                 bBlocked = true;
-                            pkEntryExtra = *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))) ::Vec3()));
+                            pkEntryExtra = *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEntryTmp)))))));
                         }
                         if (!bBlocked)
                         {
@@ -48407,11 +48386,11 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             {
                 bool bEquippedBlocked = false;
                 if (pkEquippedData && ((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName())) != pkItem && ((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))) &&
-                    *((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3())) &&
-                    reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3())))))->FUN_00418b10())
+                    *((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData))))))) &&
+                    reinterpret_cast<::FUN_00418b10_shell *>(((*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData))))))))))->FUN_00418b10())
                     bEquippedBlocked = true;
                 bResultNew = reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_0088db20::TESForm *)(((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName()))), 1,
-                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3()))), false, false, false);
+                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))))), false, false, false);
                 if (bEquippedBlocked && !reinterpret_cast<::FUN_0047c850 *>((DAT_011de45c))->EvaluateCondition())
                     return false;
                 if (!Unk_390())
@@ -48439,7 +48418,7 @@ bool EqActorView::FUN_0088db20(TESForm* pkItem, int iCount, EqExtraList* pkExtra
             pkEquippedData = m_pkProcess->GetAmmo();
             if (pkEquippedData && ((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName())) != pkItem)
                 bResultNew = reinterpret_cast<::FUN_0088d7d0_shell *>(this)->FUN_0088d7d0((::TESBoundObject *)(::fnv_0088db20::TESForm *)(((::fnv_0088db20::TESForm *)(reinterpret_cast<::Twin_0044ddc0 *>((pkEquippedData))->GetName()))), 1,
-                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)(new ((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))) ::Vec3()))), false, false, true);
+                                          (::ExtraDataList *)(*((::fnv_0088db20::EqExtraList **)((void *)(((::fnv_0088db20::EqExtraNode *)(::FUN_00559450((int *)(pkEquippedData)))))))), false, false, true);
             break;
         }
     }
@@ -48736,9 +48715,9 @@ void Ref57b240::FUN_0057b240(bool bIncrement)
         }
         case 1: {
             WaterNode_SI* pNode = ((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())) ? ((::WaterNode_SI *)(::FUN_00545710((int)(((::WaterList *)(reinterpret_cast<::LowProcess *>(this)->GetTarget())))))) : 0;
-            while (pNode && *((::WaterRef_SI **)(new ((void *)(pNode)) ::Vec3())))
+            while (pNode && *((::WaterRef_SI **)((void *)(pNode))))
             {
-                WaterRef_SI* pRef = *((::WaterRef_SI **)(new ((void *)(pNode)) ::Vec3()));
+                WaterRef_SI* pRef = *((::WaterRef_SI **)((void *)(pNode)));
                 BGSPlaceableWater* pWater4 = dynamic_cast<BGSPlaceableWater*>(((::TESBoundObject *)(reinterpret_cast<::fnv_007af430::FUN_007af430_shell *>((pRef))->FUN_007af430())));
                 if (reinterpret_cast<::FUN_00452440_shell *>((pWater4))->FUN_00452440())
                 {
@@ -49200,9 +49179,9 @@ void FUN_00576130_shell::FUN_00576130(int aiArg, LinkedRefExtra* pkExtra, int ai
             unsigned int uiFormIDValue = ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((pkTarget))->FUN_0084e3a0()));
             List_009e03e0* pkIter = ((::List_009e03e0 *)(reinterpret_cast<::Target96 *>((((LinkedRefMgr*)&(*reinterpret_cast<::FUN_00578790_obj0 *>(&::g_011e0e80)))))->FUN_0096f450(uiFormIDValue, (::Actor96 *)(void *)(this))));
             List_009e03e0* pkList = pkIter;
-            while (pkIter && ((::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3())))
+            while (pkIter && ((::BGSHeadPart *)((void *)(pkIter))))
             {
-                Host00881620* pkLinked = (Host00881620*)((::BGSHeadPart *)(new ((void *)(pkIter)) ::Vec3()));
+                Host00881620* pkLinked = (Host00881620*)((::BGSHeadPart *)((void *)(pkIter)));
                 if (pkLinked && reinterpret_cast<::FUN_00881650_shell *>((pkLinked))->FUN_00881650())
                     pkLinked->FUN_00881620((int)this);
                 else
@@ -50038,7 +50017,7 @@ void ChildActivateView::FUN_0056a290(TESObjectREFR* apActionRef)
                 ->FUN_0041eda0();
     while (pList && !_ref_008256d0(pList))
     {
-        pData2 = *((::ReferenceFloatEntry **)(new ((void *)(pList)) ::Vec3()));
+        pData2 = pList->m_item;
         pData2->m_fDelay = reinterpret_cast<::fnv_0041e9e0::FUN_0041e9e0_t *>((((Standin_41e9e0*)((ChildActivateExtraView*)pData2->m_pFourthReference)->FUN_005d43c0())))->GetExtraFloat(this);
         if (pData2->m_fDelay <= ::_DAT_01012060)
         {

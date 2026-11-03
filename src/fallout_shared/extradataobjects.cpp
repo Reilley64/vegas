@@ -101,8 +101,6 @@
 #include "fnv/symbols_011de000.h"
 #include "fnv/symbols_011e0000.h"
 #include "extradataobjects_private_packet.h"
-#include "fnv/decl/FUN_0084e3a0_Class.h"
-#include "fnv/decl/FUN_004048e0_cls.h"
 #include "fnv/decl/FUN_0041f840.h"
 #include "fnv/decl/FUN_005d43c0_.h"
 #include "fnv/decl/fnv_005653d0__FUN_005653d0_shell.h"
@@ -283,7 +281,7 @@ bool ExtraFactionChanges::HasFactionEntry(TESFaction* faction)
         reinterpret_cast<BSSimpleList<BGSPerkEntry*>*>(((::BSSimpleList< ::QuestDialogueInfo *> *)(reinterpret_cast<::TESRegion *>((void *)(reinterpret_cast<TESTopic*>(this)))->GetDiffuseColor())));
     while (node)
     {
-        BGSPerkEntry* entry = ((::BGSPerkEntry *)(new ((void *)(node)) ::Vec3()));
+        BGSPerkEntry* entry = (node->m_item);
         if (entry && entry->faction == faction)
             return true;
         node = ((::BSSimpleList< ::BGSPerkEntry *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -339,7 +337,7 @@ ReferenceIntersectionData* ExtraDecalRefs::FindDecalReference(TESObjectREFR* ref
     BSSimpleList<ReferenceIntersectionData*>* node = &m_kDecalReferences;
     while (node && !node->IsEmpty())
     {
-        ReferenceIntersectionData* record = ((::ReferenceIntersectionData *)(new ((void *)(node)) ::Vec3()));
+        ReferenceIntersectionData* record = (node->m_item);
         node = ((::BSSimpleList< ::ReferenceIntersectionData *> *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         if (record->m_pHitReference == reference)
         {
@@ -401,9 +399,9 @@ int LockExtraData::EnumToNumericValue(LOCK_LEVEL level)
 void ExtraFactionChanges::RemoveFaction(TESFaction* faction)
 {
     BSSimpleList<FactionReaction*>* node = m_pFactionChanges;
-    while (node && ((::FactionReaction *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        FactionReaction* rank = ((::FactionReaction *)(new ((void *)(node)) ::Vec3()));
+        FactionReaction* rank = (node->m_item);
         if (faction == rank->pFaction)
         {
             rank->m_ucRank = -1;
@@ -424,9 +422,9 @@ void ExtraFactionChanges::RemoveFaction(TESFaction* faction)
 void ExtraFactionChanges::SetFactionRank(TESFaction* faction, int value)
 {
     BSSimpleList<FactionReaction*>* node = m_pFactionChanges;
-    while (node && ((::FactionReaction *)(new ((void *)(node)) ::Vec3())))
+    while (node && (node->m_item))
     {
-        FactionReaction* rank = ((::FactionReaction *)(new ((void *)(node)) ::Vec3()));
+        FactionReaction* rank = (node->m_item);
         if (faction == rank->pFaction)
         {
             rank->m_ucRank = value;
@@ -1324,9 +1322,9 @@ struct FUN_00437010_stub
 bool FUN_00437010_stub::ContainsKey(int* key)
 {
     FUN_00437010_node* n = list;
-    while (n != 0 && *((::FUN_00437010_item **)(new ((void *)(n)) ::Vec3())) != 0)
+    while (n != 0 && *((::FUN_00437010_item **)((void *)(n))) != 0)
     {
-        FUN_00437010_item* pItem = *((::FUN_00437010_item **)(new ((void *)(n)) ::Vec3()));
+        FUN_00437010_item* pItem = *((::FUN_00437010_item **)((void *)(n)));
         if (key == reinterpret_cast<int*>(pItem->p) && pItem->c > -1)
             return true;
         n = ((::FUN_00437010_node *)(reinterpret_cast<::Callees *>((n))->FUN_00726070()));
@@ -1520,8 +1518,8 @@ void _ref_006815c0(void*);
 // @fnv 0x00692710
 void* FUN_00692710(PositionRotation* pThis)
 {
-    new ((void *)(&pThis->pos)) ::Vec3();
-    new ((void *)(&pThis->rot)) ::Vec3();
+    (void *)(&pThis->pos);
+    (void *)(&pThis->rot);
     return pThis;
 }
 
@@ -3551,7 +3549,7 @@ FUN_00434560::~FUN_00434560()
     ListX* p = &m_kNode;
     while (p && !p->_ref_008256d0())
     {
-        void* tmp = *((void **)(new ((void *)(p)) ::Vec3()));
+        void* tmp = *((void **)((void *)(p)));
         void* arg4 = tmp;
         ::FUN_00401030(arg4);
         p = ((::fnv_00434560::ListX *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
@@ -3583,7 +3581,7 @@ void FUN_00434800_shell::FUN_00434800(void* target)
     ContNode* prev = 0;
     while (node && !node->FUN_008256d0())
     {
-        void* item = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* item = *(void**)((void *)((void *)(node)));
         if (*(void**)item == target)
         {
             if (prev)
@@ -5092,9 +5090,9 @@ void* ExtraRunOncePacks::FUN_004330b0(unsigned int flags)
 FUN_004330e0_cls::~FUN_004330e0_cls()
 {
     B4330E0List<B4330E0Effect*>* pkNode = m_pkEffects;
-    while (pkNode && *((::B4330E0Effect **)(new ((void *)(pkNode)) ::Vec3())))
+    while (pkNode && *((::B4330E0Effect **)((void *)(pkNode))))
     {
-        B4330E0Effect* pkEffect = *((::B4330E0Effect **)(new ((void *)(pkNode)) ::Vec3()));
+        B4330E0Effect* pkEffect = *((::B4330E0Effect **)((void *)(pkNode)));
         delete pkEffect;
         pkNode = ((::B4330E0List< ::B4330E0Effect *> *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -5175,7 +5173,7 @@ bool FUN_004341e0_cls::FUN_004341e0(void* a1)
     node7 = &other->m_0c;
     while (node7 != 0 && !node7->FUN_008256d0())
     {
-        item8 = *((void **)(new ((void *)(node7)) ::Vec3()));
+        item8 = *((void **)((void *)(node7)));
         res5 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(*(void**)item8))));
         if (res5 == 0)
         {
@@ -5239,7 +5237,7 @@ void FUN_004342b0_shell::LoadItemsFromArchive(void* archive)
     Node_004342b0* node = &result->firstNode;
     while (node != 0 && !node->FUN_008256d0())
     {
-        void* pSource = *((void **)(new ((void *)(node)) ::Vec3()));
+        void* pSource = *((void **)((void *)(node)));
         Item_004342b0* item = new Item_004342b0();
         memcpy(item, pSource, sizeof(Item_004342b0));
         entries.FUN_005ae3d0(&item);
@@ -5296,7 +5294,7 @@ bool FUN_00434620_cls::FUN_00434620(unsigned int uiKey)
     FUN_00434620_node* cur = (FUN_00434620_node*)&rec->key;
     while (cur != 0 && !cur->FUN_008256d0())
     {
-        void* x7 = *(void**)((void *)(new ((void *)(cur)) ::Vec3()));
+        void* x7 = *(void**)((void *)((void *)(cur)));
         void* y4 = ((void *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(*(unsigned int*)x7))));
         if (y4 == 0)
         {
@@ -5343,7 +5341,7 @@ bool ExtraReflectorRefs::FUN_00434bb0(BSExtraData* apCompare)
     S_00434bb0_Node* n = &other->list;
     while (n && !n->FUN_008256d0())
     {
-        S_00434bb0_Item* item = *((::S_00434bb0_Item **)(new ((void *)(n)) ::Vec3()));
+        S_00434bb0_Item* item = *((::S_00434bb0_Item **)((void *)(n)));
         S_00434bb0_Item* found5 = ((::S_00434bb0_Item *)(reinterpret_cast<::ExtraDecalRefs *>(this)->FindDecalReference((::TESObjectREFR *)(item->key))));
         if (!found5)
             return true;
@@ -5396,7 +5394,7 @@ void FUN_00434ee0_Class::FUN_00434ee0(int id)
     LinkedNode* node = &container->entries;
     while (node != 0 && !FUN_008256d0(node))
     {
-        reinterpret_cast<::fnv_00434f60::TargetClass *>((this))->AddIfNotInList((*(int *)&(const ::ValueArg &)(*((::ValueArg *)(new ((void *)(node)) ::Vec3())))));
+        reinterpret_cast<::fnv_00434f60::TargetClass *>((this))->AddIfNotInList((*(int *)&(const ::ValueArg &)(*((::ValueArg *)((void *)(node))))));
         node = ((::LinkedNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
     }
 }
@@ -5622,9 +5620,9 @@ struct PredicateOwner
 bool PredicateOwner::HasMatchingValue(unsigned int key)
 {
     PredicateNode* node = unk0c;
-    while (node && *((::PredicateValue **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::PredicateValue **)((void *)(node))))
     {
-        PredicateValue* value = *((::PredicateValue **)(new ((void *)(node)) ::Vec3()));
+        PredicateValue* value = *((::PredicateValue **)((void *)(node)));
         if (key == value->key && value->flag == -1)
             return true;
         node = ((::PredicateNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
@@ -5667,9 +5665,9 @@ void MergeState::FUN_004370f0(MergeSource* source)
 {
     MergeMap keyMap(37);
     MergeNode* node = list;
-    while (node && *((::MergeItem **)(new ((void *)(node)) ::Vec3())))
+    while (node && *((::MergeItem **)((void *)(node))))
     {
-        MergeItem* oldItem = *((::MergeItem **)(new ((void *)(node)) ::Vec3()));
+        MergeItem* oldItem = *((::MergeItem **)((void *)(node)));
         node = ((::MergeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
         oldItem->state = 255;
         reinterpret_cast<::FUN_005594e0_cls *>(&(keyMap))->FUN_005594e0((unsigned int)(oldItem->key), true);
@@ -5677,9 +5675,9 @@ void MergeState::FUN_004370f0(MergeSource* source)
     if (source)
     {
         node = ((::MergeNode *)(reinterpret_cast<::TESRegion *>(&(source->list))->GetDiffuseColor()));
-        while (node && *((::MergeItem **)(new ((void *)(node)) ::Vec3())))
+        while (node && *((::MergeItem **)((void *)(node))))
         {
-            MergeItem* p = *((::MergeItem **)(new ((void *)(node)) ::Vec3()));
+            MergeItem* p = *((::MergeItem **)((void *)(node)));
             node = ((::MergeNode *)(reinterpret_cast<::Callees *>((node))->FUN_00726070()));
             bool j = false;
             if (!reinterpret_cast<::FUN_0057c850_cls *>(&(keyMap))->FUN_0057c850(p->key, &j) || !j)
@@ -6150,7 +6148,7 @@ void FUN_004331c0_cls::FUN_004331c0(unsigned int uiKey, unsigned char ucFlag)
         ContNode* cur = m_0c;
         while (cur != 0)
         {
-            found = (FUN_004331c0_rec*)*(void**)((void *)(new ((void *)(cur)) ::Vec3()));
+            found = (FUN_004331c0_rec*)*(void**)((void *)((void *)(cur)));
             if (found != 0)
             {
                 if (found->key == uiKey)
@@ -6221,7 +6219,7 @@ void* __cdecl FindContRecordByFormId(int wantedFormId, ContNode* first)
     ContNode* node = first;
     while (node != 0 && !node->FUN_008256d0())
     {
-        void* record = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* record = *(void**)((void *)((void *)(node)));
         if (*(int*)record == wantedFormId)
         {
             result = record;
@@ -6275,7 +6273,7 @@ bool ExtraActivateRef::FUN_00433a20(BSExtraData* pOther)
     ActivateList334* other = &references;
     while (other && !other->IsEmpty())
     {
-        ActivateEntry334* entry = ((::ActivateEntry334 *)(new ((void *)(other)) ::Vec3()));
+        ActivateEntry334* entry = ((::ActivateEntry334 *)((void *)(other)));
         ActivateEntry334* match = node->Find(entry->reference);
         if (!match || memcmp(match, entry, 8) != 0)
             return true;
@@ -6323,7 +6321,7 @@ void FUN_004346f0_shell::CopyReflectedRefs(BSExtraData* apSource)
     RefReflectedList* pIter = (RefReflectedList*)pSource->RefList;
     while (pIter && !pIter->IsEmpty())
     {
-        ReflectedReferenceRecord* pData = ((::fnv_004346f0::ReflectedReferenceRecord *)(new ((void *)(pIter)) ::Vec3()));
+        ReflectedReferenceRecord* pData = (pIter->m_item);
         ReflectedReferenceRecord* pCopy = new ReflectedReferenceRecord;
         memcpy(pCopy, pData, sizeof(ReflectedReferenceRecord));
         ((RefReflectedList*)RefList)->AddHead(pCopy);
@@ -6353,7 +6351,7 @@ void FUN_00434a70_cls::FUN_00434a70(int arg)
         ContNode* p = (ContNode*)((char*)ret + 0xc);
         while (p != 0 && p->FUN_008256d0() == 0)
         {
-            reinterpret_cast<::fnv_00434f60::TargetClass *>(this)->AddIfNotInList(*(unsigned int*)((void *)(new ((void *)(p)) ::Vec3())));
+            reinterpret_cast<::fnv_00434f60::TargetClass *>(this)->AddIfNotInList(*(unsigned int*)((void *)((void *)(p))));
             p = ((::ContNode *)(reinterpret_cast<::Callees *>((p))->FUN_00726070()));
         }
     }
@@ -6402,7 +6400,7 @@ FUN_00434af0::~FUN_00434af0()
     List434* pkNode = &m_kEntries;
     while (pkNode && !pkNode->IsEmpty())
     {
-        Entry434* pkEntry = *((::Entry434 **)(new ((void *)(pkNode)) ::Vec3()));
+        Entry434* pkEntry = *((::Entry434 **)((void *)(pkNode)));
         delete pkEntry;
         pkNode = ((::List434 *)(reinterpret_cast<::Callees *>((pkNode))->FUN_00726070()));
     }
@@ -6443,7 +6441,7 @@ void FNVLoadHost::LoadEntriesFromBlock(void* input)
     node = &block->firstNode;
     while (node && !node->FUN_008256d0())
     {
-        void* contents = *(void**)((void *)(new ((void *)(node)) ::Vec3()));
+        void* contents = *(void**)((void *)((void *)(node)));
         {
             FNVLoadEntry* entry = new FNVLoadEntry;
             memcpy(entry, contents, 8);
@@ -6472,9 +6470,9 @@ struct FUN_00436f20_cls
 void FUN_00436f20_cls::SetValueByKey(unsigned int aKey, unsigned char aVal)
 {
     ContNode* cur = m_0c;
-    while (cur != 0 && *(void**)((void *)(new ((void *)(cur)) ::Vec3())) != 0)
+    while (cur != 0 && *(void**)((void *)((void *)(cur))) != 0)
     {
-        unsigned int* item = *(unsigned int**)((void *)(new ((void *)(cur)) ::Vec3()));
+        unsigned int* item = *(unsigned int**)((void *)((void *)(cur)));
         if (aKey == *item)
         {
             ((unsigned char*)item)[4] = aVal;
@@ -7144,7 +7142,7 @@ void __cdecl FUN_00433750(ListNode* pNode)
     {
         while (!FUN_008256d0((ContNode*)pNode))
         {
-            void* p = *(void**)((void *)(new ((void *)(pNode)) ::Vec3()));
+            void* p = *(void**)((void *)((void *)(pNode)));
             ::FUN_00401030(p);
             pNode->FUN_0063f7b0();
         }
@@ -7873,7 +7871,7 @@ void FUN_00433b70_shell::FUN_00433b70(BSExtraData* apSource)
     BSSimpleList<ReferenceFloatEntry*>* pIter = (BSSimpleList<ReferenceFloatEntry*>*)&pSource->references;
     while (pIter && !pIter->IsEmpty())
     {
-        ReferenceFloatEntry* pReferenceEntry = ((::ReferenceFloatEntry *)(new ((void *)(pIter)) ::Vec3()));
+        ReferenceFloatEntry* pReferenceEntry = (pIter->m_item);
         pIter = ((::BSSimpleList< ::ReferenceFloatEntry *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
         ReferenceFloatEntry* pNew = new ReferenceFloatEntry;
         memcpy(pNew, pReferenceEntry, sizeof(ReferenceFloatEntry));
@@ -7944,7 +7942,7 @@ bool ExtraLitWaterRefs::FUN_00434e30(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pIter = &pcomp->kRefs;
     while (pIter && !pIter->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&(((::TESObjectREFR *)(new ((void *)(pIter)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&((pIter->m_item))))
             return true;
         pIter = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
@@ -7987,7 +7985,7 @@ bool ExtraWaterLightRefs::FUN_004349c0(BSExtraData* apCompare)
     BSSimpleList<TESObjectREFR*>* pNode = &pOther->kRefs;
     while (pNode != 0 && !pNode->IsEmpty())
     {
-        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&(((::TESObjectREFR *)(new ((void *)(pNode)) ::Vec3())))))
+        if (!reinterpret_cast<::RefList *>(&(kRefs))->FUN_005f65d0((void **)&((pNode->m_item))))
             return true;
         pNode = ((::BSSimpleList< ::TESObjectREFR *> *)(reinterpret_cast<::Callees *>((pNode))->FUN_00726070()));
     }
@@ -8225,7 +8223,7 @@ void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
     BSSimpleList<LitWaterRef*> kResolved4;
     while (pNodeB8 && !pNodeB8->IsEmpty())
     {
-        LitWaterRef* pItem3 = ((::LitWaterRef *)(new ((void *)(pNodeB8)) ::Vec3()));
+        LitWaterRef* pItem3 = (pNodeB8->m_item);
         unsigned int auiFormId = (unsigned int)pItem3;
         ResolveFormID(&auiFormId, reinterpret_cast<::TESForm *>((apOwner))->GetFile(-1));
         LitWaterRef* pRef = (LitWaterRef*)dynamic_cast<TESObjectREFR*>(FUN_004839c0(auiFormId));
@@ -8246,9 +8244,9 @@ void ExtraLitWaterRefsStandIn::FUN_00434050(LitWaterOwner* apOwner)
     }
     reinterpret_cast<::FileMatchList *>(&(kRefs))->RemoveAll();
     BSSimpleList<LitWaterRef*>* pIter = &kResolved4;
-    while (pIter && ((::LitWaterRef *)(new ((void *)(pIter)) ::Vec3())))
+    while (pIter && (pIter->m_item))
     {
-        kRefs.AddHead(((::LitWaterRef *)(new ((void *)(pIter)) ::Vec3())));
+        kRefs.AddHead((pIter->m_item));
         pIter = ((::BSSimpleList< ::LitWaterRef *> *)(reinterpret_cast<::Callees *>((pIter))->FUN_00726070()));
     }
     reinterpret_cast<::FileMatchList *>(&(kResolved4))->RemoveAll();
@@ -8274,7 +8272,7 @@ void ReflectReferences554::FUN_00433ed0(TESForm* form)
     while (position && !position->IsEmpty())
     {
         bool removed = false;
-        ReflectReference554* item3 = ((::ReflectReference554 *)(new ((void *)(position)) ::Vec3()));
+        ReflectReference554* item3 = (position->m_item);
         unsigned int formID5 = reinterpret_cast<unsigned int>(item3->m_pWorldReferenceInfo);
         ResolveFormID(&formID5, form->GetFile(-1));
         TESObjectREFR* reference_2 = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID5));
@@ -8323,7 +8321,7 @@ void ExtraDecalRefs::FUN_00433db0(TESForm* form)
     while (position && !position->IsEmpty())
     {
         bool removed = false;
-        ReferenceIntersectionData* decal = ((::ReferenceIntersectionData *)(new ((void *)(position)) ::Vec3()));
+        ReferenceIntersectionData* decal = (position->m_item);
         unsigned int formID = reinterpret_cast<unsigned int>(decal->m_pHitReference);
         ResolveFormID(&formID, form->GetFile(-1));
         TESObjectREFR* resolvedB = dynamic_cast<TESObjectREFR*>(FUN_004839c0(formID));

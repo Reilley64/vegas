@@ -1156,7 +1156,6 @@ FUN_00cf2cb0::FUN_00cf2cb0(const Aabb_cf2c& kAabb, unsigned int uiCollisionFilte
 #include "fnv/symbols_010c4000.h"
 int __cdecl FUN_00cf2460();
 int __cdecl FUN_00d06f80(const void* pvChunk, int iNumBytes) throw();
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 
 typedef unsigned long DWORD;
 

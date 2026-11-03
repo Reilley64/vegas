@@ -2358,7 +2358,6 @@ int FUN_00d08390(void* self, int, intptr_t value);
 void FUN_00d083e0(void* arg);
 void FUN_00d08380(int);
 void __cdecl DispatchToOffsetTarget(FUN_00d08400_cls* pkObject, unsigned short usValue);
-void __cdecl ResizeAudioStream(void* pvAlloc, void* apvArray, int iElemSize);
 template <class T>
 void __cdecl FUN_00d083c0();
 void __cdecl FUN_00d08b90(hkArrayD08C<int*>& out, hkpWorldB90* world);
@@ -2922,7 +2921,6 @@ void S00d09020_This::FUN_00d09020(S00d09020_Arg* arg, void* p2, void* p3)
 
 // Moved from hkpaabbtreeworldmanager_rtm_variant.cpp (VEGAS-15).
 #include "fnv/symbols_01016000.h"
-void ResizeAudioStream(void* alloc, void* array, int elemSize);
 template <typename T>
 void FUN_00d08ac0(hkArray<Target*>* out, void* container);
 

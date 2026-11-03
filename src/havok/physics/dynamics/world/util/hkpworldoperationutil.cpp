@@ -8448,7 +8448,6 @@ void __cdecl FUN_00cb4640(TaskCtx* apParent, TaskCtx* apChild, int mode)
 #include "fnv/symbols_00cb5000.h"
 void __cdecl FUN_00cb3e90(CleanupList* apCleanupList);
 S_00cb3f90_Bool FUN_00cb3f90(S_00cb3f90_Obj* pObjA, S_00cb3f90_Obj* pObjB);
-void ResizeAudioStream(void* alloc, S00cb5310_List* list, int n);
 static Item_cb3d10* FindItemForThreshold(Owner_cb3d10* owner, List_cb3d10* list, int threshold, Item_cb3d10* target);
 void CallTarget_cb3d10();
 static void MarkIndexedValues(int count, B10293_List* list, int** out, B10293_Chain* chain, B10293_Ctx* ctx);
@@ -8456,11 +8455,9 @@ int keep_alive_b10293(int count, B10293_List* list, int** out, B10293_Chain* cha
 static void FUN_00cb41e0(int*** indexMap, int** counts, ShapeList* list, int** flags);
 int keep_alive_b11420(ShapeList* list, int** flags, int*** indexMap, int** counts);
 void __cdecl FUN_00c908c0(void*, void*, int, int);
-void __cdecl ResizeAudioStream(void*, void*, int);
 static void RemapElements(const Cb4890_ElemArray& list, Cb4890_RemapTable* remap, Cb4890_Owner* owner,
                           Cb4890_IntArray* src, Cb4890_CharArray* out);
 void Cb4890_caller();
-void ResizeAudioStream(void* heap, void* arr, int elemSize);
 static void UpdateGroupActivity(const Groups4120& map, const View4120<Entry4120*>& entries, int unusedGroups,
                                 View4120<int>& active, View4120<int>& sizes, unsigned char* flags);
 void caller4120();
@@ -8472,7 +8469,6 @@ struct SplitIsland_Node2;
 extern "C" void _ReadWriteBarrier(void);
 // Partition physics island nodes into groups, relink owners, and redistribute stream records.
 void FUN_00c908c0(void* alloc, void* vec, int cap, int elemsz);
-void ResizeAudioStream(void* alloc, void* vec, int elemsz);
 void FUN_00c909d0(void* alloc, void* vec, int elemsz, void* p, int n);
 template <class T> __forceinline void SplitIsland_copyItems(T* destination, int n, const T& value)
 {
@@ -8496,7 +8492,7 @@ struct SplitIsland_Vec48
     __forceinline void SplitIsland_append(void* value)
     {
         if (cnt == (cap & 0x3fffffff))
-            ResizeAudioStream(hkMemoryRouter::getInstance().m_heap, this, int(sizeof(void*)));
+            ::ResizeAudioStream((::AudioAllocator *)(hkMemoryRouter::getInstance().m_heap), (::AudioStream *)(void *)(this), int(sizeof(void*)));
         void** destination = data + cnt;
         __assume(destination != 0);
         *destination = value;

@@ -2,6 +2,7 @@
 // src/havok/physics/dynamics/world/hkpphysicssystem.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/projects/fallout/code/havok/source/physics/dynamics/world/hkpphysicssystem.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv/symbols_00c90000.h"
 #include "havok/hkMemoryRouter.h"
 #include <new>
 #include "fnv/symbols_00c85000.h"
@@ -224,7 +225,6 @@ struct Array64
     unsigned int capacityAndFlags;
 };
 
-void __cdecl ResizeAudioStream(void* allocator, Array64* array, int elementSize);
 struct Container64
 {
     void* vtable;
@@ -243,7 +243,7 @@ void Container64::AddShape(Shape64* pShape)
         hkMemoryRouter* router = &hkMemoryRouter::getInstance();
         if (pArray->size == (pArray->capacityAndFlags & 0x3fffffff))
         {
-            ResizeAudioStream(router->m_heap, pArray, 4);
+            ::ResizeAudioStream((::AudioAllocator *)(router->m_heap), (::AudioStream *)(void *)(pArray), 4);
         }
         ShapePtr64* pSlot = pArray->items + pArray->size;
         __assume(pSlot != 0);
@@ -407,7 +407,6 @@ template <int SIZE> __forceinline void memCpyOneAlignedD064(void* dst, const voi
 }
 
 
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayD064
 {
@@ -424,7 +423,7 @@ template <class T> class hkArrayD064
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedD064<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -467,7 +466,6 @@ template <int SIZE> __forceinline void memCpyOneAlignedXd06540(void* dst, const 
 }
 
 
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayXd06540
 {
@@ -484,7 +482,7 @@ template <class T> class hkArrayXd06540
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXd06540<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }
@@ -527,7 +525,6 @@ template <int SIZE> __forceinline void memCpyOneAlignedXd06590(void* dst, const 
 }
 
 
-void __cdecl ResizeAudioStream(void* m_pPoolBase, void* pArray, int iSizeElem);
 
 template <class T> class hkArrayXd06590
 {
@@ -544,7 +541,7 @@ template <class T> class hkArrayXd06590
     {
         hkMemoryRouter& router = hkMemoryRouter::getInstance();
         if (m_iElementCount == getCapacity())
-            ResizeAudioStream(router.m_heap, this, sizeof(T));
+            ::ResizeAudioStream((::AudioAllocator *)(router.m_heap), (::AudioStream *)(void *)(this), sizeof(T));
         memCpyOneAlignedXd06590<sizeof(T)>(m_data + m_iElementCount, &e);
         m_iElementCount++;
     }

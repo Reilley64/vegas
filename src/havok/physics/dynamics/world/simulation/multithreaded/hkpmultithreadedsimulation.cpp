@@ -6448,15 +6448,12 @@ void FUN_00d02020(S_00d02020_Pair* pair);
 void __cdecl CompareObjectKeys(bool* result, CompareObject* left, CompareObject* right);
 void FUN_00d01fc0(HandlePair* pHandlePair);
 bool FUN_00d02160(char** apPairA, char** apPairB);
-void __cdecl ResizeAudioStream(void* alloc, PairArray* arr, int elemSize);
 void FUN_00d020f0(S_00d02020_Pair* pair);
 void FUN_00d02200(int);
 void FUN_00d02210(int, int, int);
 void NotifyPhantomCollision(PairD020* pkPair);
-void __cdecl ResizeAudioStream(void* alloc, void* arr, int elemSize);
 static S00d02880_Elem* FUN_00d02880(S00d02880_Arr* b, S00d02880_Key t);
 S00d02880_Elem* S00d02880_Call(S00d02880_Arr* a, S00d02880_Key key);
-void __cdecl ResizeAudioStream(void*, PairArray*, int);
 
 extern "C" void _ReadWriteBarrier();
 extern "C" void __debugbreak();

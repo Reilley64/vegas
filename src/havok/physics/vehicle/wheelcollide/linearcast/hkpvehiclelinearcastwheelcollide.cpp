@@ -2027,7 +2027,6 @@ void FUN_00e36510(VehicleInstanceStandIn* vehicle, unsigned char wheelIndex, Hit
 
 // Moved from hkpvehiclelinearcastwheelcollide_rtm_variant.cpp (VEGAS-15).
 #include "fnv/symbols_00d26000.h"
-void __cdecl ResizeAudioStream(void* heap, void* arr, int elementSize);
 
 
 struct E367_Vehicle : hkpVehicleInstanceE36C

@@ -13407,7 +13407,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
                 {
                     RotationPoint midpoint3 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(minimum))->ProjectileLaunched((::NiPoint3 *)&(aMaximum), {}))).FUN_0053d280(::DAT_010162c0);
                     RotationPoint delta;
-                    delta = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint3))->FUN_00439ef0((::NiPoint3 *)&(ref->Rotation()), *(const ::NiPoint3 *)nullptr)));
+                    delta = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint3))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(ref->Rotation())))));
                     different = FUN_00408840(delta.x) > ::FUN_004587d0(DAT_0102efc0) ||
                                 FUN_00408840(delta.y) > ::FUN_004587d0(DAT_0102efc0) ||
                                 FUN_00408840(delta.z) > ::FUN_004587d0(DAT_0102efc0);
@@ -13424,7 +13424,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
                         {
                             RotationPoint midpoint2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::Point3Offset *>((void *)&(minimum))->ProjectileLaunched((::NiPoint3 *)&(aMaximum), {}))).FUN_0053d280(::DAT_010162c0);
                             RotationPoint delta2;
-                            delta2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint2))->FUN_00439ef0((::NiPoint3 *)&(ref->Rotation()), *(const ::NiPoint3 *)nullptr)));
+                            delta2 = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(midpoint2))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(ref->Rotation())))));
                             different = FUN_00408840(delta2.x) > ::FUN_004587d0(DAT_0102efc0) ||
                                         FUN_00408840(delta2.y) > ::FUN_004587d0(DAT_0102efc0) ||
                                         FUN_00408840(delta2.z) > ::FUN_004587d0(DAT_0102efc0);
@@ -13461,7 +13461,7 @@ void RotationCell::ComputeCellRotationCenter(RotationPoint& aRotationCenter)
     }
     if (count > 0)
     {
-        RotationPoint span = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aMaximum))->FUN_00439ef0((::NiPoint3 *)&(minimum), *(const ::NiPoint3 *)nullptr)));
+        RotationPoint span = (*(::fnv_0054c030::RotationPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(aMaximum))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(minimum)))));
         if (span.x > ::FUN_004587d0(DAT_0102efc0) || span.y > ::FUN_004587d0(DAT_0102efc0) ||
             span.z > ::FUN_004587d0(DAT_0102efc0))
         {

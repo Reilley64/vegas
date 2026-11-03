@@ -30190,7 +30190,7 @@ Scene* Reference::FUN_0056b2d0(unsigned char immediate)
                     reinterpret_cast<::FUN_00a59c60_cls *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00a59c60((std::intptr_t)&(secondUpdateSlot12));
                     ::FUN_00c6a040((std::intptr_t)(((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))), 1, 1, 1);
                     Vector differenceSlot0 =
-                        (*(::BuildReferenceScene::Vector *)(reinterpret_cast<::FUN_00439ef0_class *>(&(position))->FUN_00439ef0((::NiPoint3 *)&(*((::BuildReferenceScene::WorldPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043d450()))->FUN_006815c0()), *(const ::NiPoint3 *)nullptr)));
+                        (*(::BuildReferenceScene::Vector *)(reinterpret_cast<::FUN_00439ef0_class *>(&(position))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(*((::BuildReferenceScene::WorldPosition *)(reinterpret_cast<::FUN_0043d450_Owner *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_0043d450()))->FUN_006815c0())))));
                     reinterpret_cast<::FUN_0063c8a0_shell *>(&(position))->FUN_0063c8a0((void *)&(differenceSlot0));
                     reinterpret_cast<::FUN_00440460_S *>((((::BuildReferenceScene::Scene *)(::FUN_00559450((int *)&(scene))))))->FUN_00440460((const ::V3 *)&(position));
                 }
@@ -46610,7 +46610,7 @@ void RemapRef::FUN_0055b9c0(RemapMap* map)
                             reinterpret_cast<::FUN_00537e90 *>((newNodeRes))->SetQuantity((std::uintptr_t)(other));
                             RemapPoint position = *((::RemapPoint *)(::FUN_00460140((std::intptr_t)(nodeVal))));
                             RemapPoint deltaItem =
-                                (*(::RemapPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::RemapPoint *)(reinterpret_cast<::BaseProcess *>((nodeVal))->GetCurrentProcessData()))))->FUN_00439ef0((::NiPoint3 *)&(*((::RemapRef *)(::FUN_00559450((int *)(nodeVal))))->GetPos()), *(const ::NiPoint3 *)nullptr)));
+                                (*(::RemapPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)(((::RemapPoint *)(reinterpret_cast<::BaseProcess *>((nodeVal))->GetCurrentProcessData()))))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(*((::RemapRef *)(::FUN_00559450((int *)(nodeVal))))->GetPos())))));
                             RemapPoint world = (*(::RemapPoint *)(reinterpret_cast<::Point3Offset *>((void *)(other->GetPos()))->ProjectileLaunched((::NiPoint3 *)&(deltaItem), {})));
                             reinterpret_cast<::fnv_006f4ed0::PathingLocation *>((newNodeRes))->FUN_006f4ed0((const ::fnv_006f4ed0::NiPoint3 *)(::RemapPoint *)(&world));
                             reinterpret_cast<::FUN_0043a280_shell *>((newNodeRes))->SetVec((*(const ::NiPoint3 *)(&position)));

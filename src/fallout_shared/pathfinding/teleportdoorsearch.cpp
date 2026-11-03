@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/teleportdoorsearch.cpp: TeleportDoorSearch, DoorSearchInit (6 functions)
 
+#include "fnv_result_slot.h"
 #include "fnv/decl/BGSTerrainManager.h"
 #include "fnv/decl/BaseProcess.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -188,7 +189,7 @@ bool TeleportDoorSearch::CollectConnections(const AStarNode<ParentSpaceNode, Tel
                     ->GetCurrentMoveModeType())
                 b00 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((node->pos - a04)))->ComputeMagnitude();
             else
-                b00 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr) - a04)))->ComputeMagnitude();
+                b00 = reinterpret_cast<::NiPoint3 *>((void *)(void *)&(const ::NiPoint3 &)((reinterpret_cast<::TaskQueueInterface *>((void *)&(location))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>()) - a04)))->ComputeMagnitude();
             if (maxCost != 0.0 && node->cost + b00 > maxCost)
                 continue;
             a01 = node->cost + b00 + a06;
@@ -2423,8 +2424,8 @@ bool DoorSearchInit::InitDoorSearch(SearchLocation* start, SearchLocation* goal,
         }
     }
     lockData = locks;
-    result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
-    result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    result->start = reinterpret_cast<::TaskQueueInterface *>((void *)(start))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
+    result->finish = reinterpret_cast<::TaskQueueInterface *>((void *)(goal))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     reinterpret_cast<::S_006f3d00_Obj *>(this)->FUN_006f3d00((std::intptr_t)(a), (::S_006f3d00_Vec3 *)(::SearchState *)(&startState), 1.0f);
     if (!reinterpret_cast<::PathSearch *>(this)->FindPath((std::intptr_t)(result), (std::intptr_t)(&result->sub), true))
         return false;

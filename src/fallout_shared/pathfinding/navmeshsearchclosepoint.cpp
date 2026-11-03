@@ -2,6 +2,7 @@
 // src/fallout_shared/pathfinding/navmeshsearchclosepoint.cpp - unit created 2026-10-16 from the whole-binary attribution (360 source path: d:/_fallout3/platforms/common/code/fallout shared/pathfinding/navmeshsearchclosepoint.cpp).
 // Functions are listed by their @fnv annotations; compile flags inferred from the PC code.
 
+#include "fnv_result_slot.h"
 #include "fnv/decl/AvoidNodeList.h"
 #include "fnv/decl/DoorAccessData.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -2239,7 +2240,7 @@ bool NavMeshSearch::Search(PathingRequest* request, NavMeshNodeInfo* start, Path
     pRequest = request;
     kStart = *start;
     fRadius = RandomFloat(reinterpret_cast<::FUN_006d2c20_Class *>((request))->GetFloatAtOffsetB0(), ::GetFieldB4Float((char *)(request)));
-    NiPoint3 kStartPos = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kStartPos = reinterpret_cast<::TaskQueueInterface *>((void *)(((::PathingLocation *)(::GetOffsetC((std::intptr_t)(request))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     kDest = ::NiPoint3::ZERO;
     fAvoidCost = 0.0f;
     if (((::PathingAvoidNodeArray *)(reinterpret_cast<::_Dummy_0069e390 *>((void *)(pRequest))->GetString())))

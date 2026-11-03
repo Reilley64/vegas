@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathinglocation.cpp: PathingLocation, PathingLocationProxy, PathingLocationArray, StandInShell and more (34 functions)
 
+#include "fnv_result_slot.h"
 #include "generated/data/vtables.h"
 #include <new>
 #include "fnv/decl/BSShaderRenderUtility.h"
@@ -579,7 +580,7 @@ bool FUN_006deeb0_cls::IsWithinDistanceOfSameLocation(const PathingLocation* oth
             return false;
         }
     }
-    if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(static_cast<const NiPointOps&>(other->Location)))->FUN_00439ef0((::NiPoint3 *)&(Location), *(const ::NiPoint3 *)nullptr)))))->UpdateCombatStyle() > dist * dist)
+    if (reinterpret_cast<::TESCombatStyle *>((void *)(void *)&(const ::NiPoint3 &)((*(::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(static_cast<const NiPointOps&>(other->Location)))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(Location)))))))->UpdateCombatStyle() > dist * dist)
     {
         return false;
     }
@@ -895,7 +896,7 @@ bool PathingLocationCheck::FUN_006ded70(float afRadius)
         return false;
     if (afRadius <= ::_DAT_01012060)
         return true;
-    NiPoint3 kLoc4 = reinterpret_cast<::TaskQueueInterface *>((void *)this)->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    NiPoint3 kLoc4 = reinterpret_cast<::TaskQueueInterface *>((void *)this)->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     NiPoint3 kMinX2 = kLoc4;
     kMinX2.x -= afRadius;
     if (!PathingLocationTestPoint(this, &kMinX2, 0, 0))
@@ -1357,7 +1358,7 @@ bool NLLocation::UpdateMeshLocation()
             else if (((NLMeshPtrView*)&pFoundNavMesh)->FUN_00458b50())
             {
                 NLPoint kToCenter =
-                    (*(::NLPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(Location))->FUN_00439ef0((::NiPoint3 *)&(const ::NLPoint &)(((::NLMesh *)(::FUN_00559450((int *)(((NLMeshPtrView*)&pFoundNavMesh)))))->FUN_00558220(usTri)), *(const ::NiPoint3 *)nullptr)));
+                    (*(::NLPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(Location))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(const ::NLPoint &)(((::NLMesh *)(::FUN_00559450((int *)(((NLMeshPtrView*)&pFoundNavMesh)))))->FUN_00558220(usTri))))));
                 float fDist = reinterpret_cast<::FUN_00595c80_shell *>((void *)&(kToCenter))->GetSquaredXYLength();
                 float m_fGlyphExtent = kToCenter.z;
                 bool bGood = false;

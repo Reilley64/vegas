@@ -1581,10 +1581,10 @@ TwoComponentVector* __cdecl FUN_006ba3d0(TwoComponentVector* result, TwoComponen
     intersection = (crossA + total) - crossB;
     float fraction = crossA / (crossA - intersection);
 
-    TwoComponentVector crossC = apPointC->FUN_004dfe30(FUN_00532fd0(fraction, (*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)(apPointD))->Subtract((::NiPoint2 *)(apPointC), *(const ::NiPoint2 *)nullptr)))));
+    TwoComponentVector crossC = apPointC->FUN_004dfe30(FUN_00532fd0(fraction, (*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)(apPointD))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointC)))))));
     if (crossB * total > ::_DAT_01012060)
     {
-        if (((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)(apPointA), *(const ::NiPoint2 *)nullptr)))))->GetSquaredXYLength())) < ((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)(apPointB), *(const ::NiPoint2 *)nullptr)))))->GetSquaredXYLength())))
+        if (((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointA)))))))->GetSquaredXYLength())) < ((double)(reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::TwoComponentVector &)((*(::TwoComponentVector *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(crossC))->Subtract((::NiPoint2 *)&::ResultSlot<::TwoComponentVector>(), *(const ::NiPoint2 *)((::NiPoint2 *)(apPointB)))))))->GetSquaredXYLength())))
         {
             *result = *apPointA;
             return result;
@@ -5433,7 +5433,7 @@ bool __cdecl MarkReachableTriangles(P110Location* location, P110DataPtr* data, b
     if (reset)
         reinterpret_cast<::fnv_006e2000::FUN_006e2000_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->ClampNonPositiveTextChars();
     NiPoint3 center = reinterpret_cast<::TaskQueueInterface *>((void *)(location))->QueueActorAnimationTask(ResultSlot<::NiPoint3>());
-    NiPoint3 radius = (*(::NiPoint3 *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->GetDest(*(::fnv_006ab380::NiPoint3 *)nullptr)));
+    NiPoint3 radius = (*(::NiPoint3 *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->GetDest(*(::fnv_006ab380::NiPoint3 *)&::ResultSlot<::NiPoint3>())));
     float originMesh = reinterpret_cast<::FUN_00639aa0_shell *>((((::P110Data *)(::FUN_00559450((int *)(data))))))->FUN_00639aa0();
     originTriangle = originMesh * originMesh;
     NiPoint3 origin = NiPoint3::ZERO;

@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/pathingsolution.cpp: PathingSolution, OwnS, DelS, HermiteStub and more (34 functions)
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include "fnv/decl/BGSSaveGameBuffer.h"
@@ -131,7 +132,7 @@ float PathingSolution::CalculatePathLength()
         if (reinterpret_cast<::PathingGraphNode *>((stack.first))->IsTransitionNode())
             continue;
         stack.second = ((::PacketNodeRecord *)(reinterpret_cast<::FUN_006e78b0_shell *>(this)->FUN_006e78b0(stack.index)));
-        stack.distance += reinterpret_cast<::FUN_00589850_Class *>((((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((stack.second))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr)))))->FUN_00589850();
+        stack.distance += reinterpret_cast<::FUN_00589850_Class *>((((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((stack.second))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr)))))->FUN_00589850();
     }
     return stack.distance;
 }
@@ -170,7 +171,7 @@ float FUN_006e7990_shell::FUN_006e7990(int aiIndex)
     NiPoint3 loc1;
     NiPoint3 loc2;
     NiPoint3 loc3;
-    return reinterpret_cast<::NiPoint3 *>((((FUN_00457990_shell*)((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((((::PacketNodeRecord *)(reinterpret_cast<::FUN_006e7970_shell *>(this)->FUN_006e7970(aiIndex)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr))))))->ComputeMagnitude();
+    return reinterpret_cast<::NiPoint3 *>((((FUN_00457990_shell*)((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((((::PacketNodeRecord *)(reinterpret_cast<::FUN_006e7970_shell *>(this)->FUN_006e7970(aiIndex)))))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr))))))->ComputeMagnitude();
 }
 
 struct BaseS
@@ -317,7 +318,7 @@ struct OwnS2
 M24 OwnS2::GetLocationAndTangent()
 {
     M24 m;
-    m.a = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>(&(loc))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+    m.a = (*(::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>(&(loc))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
     m.b = tangent;
     return m;
 }
@@ -459,7 +460,7 @@ float FUN_006e78d0_shell::GetTotalPathLength()
         NiPoint3 a;
         NiPoint3 b;
         NiPoint3 c;
-        ftotalLength += reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3H*)((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((pnextNode))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr))))))->ComputeMagnitude();
+        ftotalLength += reinterpret_cast<::NiPoint3 *>((void *)(((NiPoint3H*)((::PathingPoint *)(reinterpret_cast<::FUN_00439ef0_class *>((((::PathingDoorRef *)&(reinterpret_cast<::TaskQueueInterface *>((((::PathingDoorRef *)(reinterpret_cast<::BaseProcess *>((pnextNode))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())))))->FUN_00439ef0({}, *(const ::NiPoint3 *)nullptr))))))->ComputeMagnitude();
     }
     return ftotalLength;
 }
@@ -591,7 +592,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
             if (apNewParameter)
                 *apNewParameter = isize;
             if (apNewPoint)
-                *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((this))->FUN_006b05a0())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((this))->FUN_006b05a0())))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
             return false;
         }
         int icurrentSpline = (int)afCurrentParameter;
@@ -613,7 +614,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
                 if (apNewParameter)
                     *apNewParameter = isize;
                 if (apNewPoint)
-                    *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((this))->FUN_006b05a0())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                    *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(((::PathingGraphNode *)(reinterpret_cast<::S_FUN_006b05a0 *>((this))->FUN_006b05a0())))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
                 return false;
             }
             reinterpret_cast<::FUN_006e8450_shell *>(&(spline))->FUN_006e8450(
@@ -634,7 +635,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
             if (apNewParameter)
                 *apNewParameter = 0.0f;
             if (apNewPoint)
-                *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(FUN_006e8480(this))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(FUN_006e8480(this))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
             return false;
         }
         int icurrentSpline = (int)afCurrentParameter;
@@ -660,7 +661,7 @@ bool FUN_006e7e70_shell::FUN_006e7e70(float afCurrentParameter, float afDist, bo
                 if (apNewParameter)
                     *apNewParameter = 0.0f;
                 if (apNewPoint)
-                    *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(FUN_006e8480(this))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+                    *apNewPoint = reinterpret_cast<::TaskQueueInterface *>((void *)&(FUN_00717e50(FUN_006e8480(this))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
                 return false;
             }
             reinterpret_cast<::FUN_006e8450_shell *>(&(spline))->FUN_006e8450(
@@ -843,7 +844,7 @@ void FUN_006e7a10_shell::GetLocationAtSplineParameter(float afCurrentSplineParam
     int isize = ::GetObjectFlags((char*)this) - 1;
     if ((int)uiNodeIndex >= isize)
     {
-        *(NP3S*)aOutLoc = (*(::fnv_006e7a10::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)((::fnv_006e7a10::StageItemNode *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(isize)))->GetCurrentProcessData())))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        *(NP3S*)aOutLoc = (*(::fnv_006e7a10::NP3S *)&(reinterpret_cast<::TaskQueueInterface *>((((LocS*)((::fnv_006e7a10::StageItemNode *)(reinterpret_cast<::BaseProcess *>((reinterpret_cast<::FUN_006e7970_shell *>((((FUN_006e7970_shell*)this)))->FUN_006e7970(isize)))->GetCurrentProcessData())))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
         return;
     }
     FUN_006e7b60 spline;
@@ -1370,7 +1371,7 @@ Vec Solution::GetPointAtDistance(float position, float distance)
     if (!::GetObjectFlags((char *)this))
         return (const Vec&)::NiPoint3::ZERO;
     if (position >= ::GetObjectFlags((char *)this) - 1)
-        return (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((((::Location *)(reinterpret_cast<::BaseProcess *>((((::Tail *)(reinterpret_cast<::S_FUN_006b05a0 *>(this)->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        return (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((((::Location *)(reinterpret_cast<::BaseProcess *>((((::Tail *)(reinterpret_cast<::S_FUN_006b05a0 *>(this)->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
     float remaining7 = distance;
     int index = (int)position;
     float parameterTmp = position - index;
@@ -1401,7 +1402,7 @@ Vec Solution::GetPointAtDistance(float position, float distance)
     }
     else
     {
-        return (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((((::Location *)(reinterpret_cast<::BaseProcess *>((((::Tail *)(reinterpret_cast<::S_FUN_006b05a0 *>(this)->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr)));
+        return (*(::Vec *)&(reinterpret_cast<::TaskQueueInterface *>((((::Location *)(reinterpret_cast<::BaseProcess *>((((::Tail *)(reinterpret_cast<::S_FUN_006b05a0 *>(this)->FUN_006b05a0()))))->GetCurrentProcessData()))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>())));
     }
 }
 

@@ -1,4 +1,5 @@
 
+#include "fnv_result_slot.h"
 #include <cstdint>
 #include <new>
 #include <cstring>
@@ -2674,7 +2675,7 @@ void FUN_00799dc0_class::UpdateMapHighlight()
                 NiPoint2 kPos(reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(DAT_011da350), reinterpret_cast<::TileListBoxCalls *>((pTile))->GetFloat(DAT_011da34c));
                 float fDist = 0.0f;
                 reinterpret_cast<::FUN_006ad180_Cls *>(&(kPos))->Scale(reinterpret_cast<::TileListBoxCalls *>((m_pMapTile))->GetFloat(0xfb1));
-                fDist = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint2 &)((*(::NiPoint2 *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(kCursor))->Subtract((::NiPoint2 *)&(kPos), *(const ::NiPoint2 *)nullptr)))))->FUN_00589850();
+                fDist = reinterpret_cast<::FUN_00589850_Class *>((void *)(void *)&(const ::NiPoint2 &)((*(::NiPoint2 *)(reinterpret_cast<::fnv_anon_tile::NiPoint2_Sub *>((void *)&(kCursor))->Subtract(&::ResultSlot<::NiPoint2>(::NiPoint2(0.0f, 0.0f)), *(const ::NiPoint2 *)((::NiPoint2 *)&(kPos)))))))->FUN_00589850();
                 if (fDist < fClosest && reinterpret_cast<::TileListBoxCalls *>((m_pTile40))->GetFloat(0xfb0) / 2.0 > fDist)
                 {
                     fClosest = fDist;
@@ -4568,12 +4569,12 @@ bool UpdateObstacleBounds(Obstacle* obstacle)
         if (FUN_00408840(::FUN_004b1500(worldCorners[snap].x, ::DAT_01017a3c)) < DAT_0106c3ac)
         {
             worldCorners[snap].x += DAT_0106c3ac * 2.0f;
-            localCorners[snap] = fromWorldMat.FUN_004b4500((*(::ObstacleBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(worldCorners[snap]))->FUN_00439ef0((::NiPoint3 *)&(obstacle->position), *(const ::NiPoint3 *)nullptr))));
+            localCorners[snap] = fromWorldMat.FUN_004b4500((*(::ObstacleBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(worldCorners[snap]))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(obstacle->position))))));
         }
         if (FUN_00408840(::FUN_004b1500(worldCorners[snap].y, ::DAT_01017a3c)) < DAT_0106c3ac)
         {
             worldCorners[snap].y += DAT_0106c3ac * 2.0f;
-            localCorners[snap] = fromWorldMat.FUN_004b4500((*(::ObstacleBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(worldCorners[snap]))->FUN_00439ef0((::NiPoint3 *)&(obstacle->position), *(const ::NiPoint3 *)nullptr))));
+            localCorners[snap] = fromWorldMat.FUN_004b4500((*(::ObstacleBounds::Vec *)(reinterpret_cast<::FUN_00439ef0_class *>(&(worldCorners[snap]))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(obstacle->position))))));
         }
     }
     obstacle->localMin = Vec(::DAT_01016970, ::DAT_01016970, ::DAT_01016970);
@@ -6715,8 +6716,8 @@ bool ObstacleManager::MatchPortalEdges()
                     NiPoint3 kB2 = *((NavMesh*)pkOtherObstacle->m_spNavMesh)
                                         ->FUN_0068f040(kOther.m_usTriangle, kOther.m_iEdge)
                                         .m_pkEnd;
-                    if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCornerB))->FUN_00439ef0((::NiPoint3 *)&(kStartA), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < DAT_0106c3a0 &&
-                        reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kEdgeStart))->FUN_00439ef0((::NiPoint3 *)&(kB2), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < DAT_0106c3a0)
+                    if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCornerB))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kStartA)))))))->GetSquaredXYLength() < DAT_0106c3a0 &&
+                        reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kEdgeStart))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kB2)))))))->GetSquaredXYLength() < DAT_0106c3a0)
                     {
                         ConnectEdges(pkOwner->m_spNavMesh, kFirstPortal, pkOtherObstacle->m_spNavMesh, kOther);
                         if (1)
@@ -6793,8 +6794,8 @@ bool ObstacleManager::MatchPortalEdges()
                             NiPoint3 kB3 = *((NavMesh*)apSearchNavMesh)
                                                 ->FUN_0068f040(kLinked.m_usTriangle, kLinked.m_iEdge)
                                                 .m_pkEnd;
-                            if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCornerB))->FUN_00439ef0((::NiPoint3 *)&(kA3), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < DAT_0106c3a0 &&
-                                reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kEdgeStart))->FUN_00439ef0((::NiPoint3 *)&(kB3), *(const ::NiPoint3 *)nullptr)))))->GetSquaredXYLength() < DAT_0106c3a0)
+                            if (reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kCornerB))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kA3)))))))->GetSquaredXYLength() < DAT_0106c3a0 &&
+                                reinterpret_cast<::FUN_00595c80_shell *>((void *)(void *)&(const ::s6c3ba0::NiPoint3 &)((*(::s6c3ba0::NiPoint3 *)(reinterpret_cast<::FUN_00439ef0_class *>((void *)&(kEdgeStart))->FUN_00439ef0(&::ResultSlot<::NiPoint3>(), *(const ::NiPoint3 *)((::NiPoint3 *)&(kB3)))))))->GetSquaredXYLength() < DAT_0106c3a0)
                             {
                                 ConnectEdges(pkOwner->m_spNavMesh, kFirstPortal, apSearchNavMesh, kLinked);
                                 if (1)

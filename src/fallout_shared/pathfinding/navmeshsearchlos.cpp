@@ -1,5 +1,6 @@
 // fallout_shared/pathfinding/navmeshsearchlos.cpp: NavMeshSearchLOSArray, BSMultiBoundRoom, PathingLOSMap, PathSearch (14 functions)
 
+#include "fnv_result_slot.h"
 #include <new>
 #include "fnv/decl/DoorAccessData.h"
 #include "fnv/decl/FUN_00438690.h"
@@ -446,7 +447,7 @@ unsigned char PathSearch::ExpandNeighbors(NodeCost* origin, FlagCollection* outp
                                         if (((double)(reinterpret_cast<::fnv_00979260::Projectile *>((query))->GetFirstLightParameter())) != 0.0)
                                         {
                                             Point3 vecDifference =
-                                                connectedMesh->FUN_00558220(connectedTri) - (*(::Point3 *)&(reinterpret_cast<::FUN_006ab150_shell *>((query))->FUN_006ab150(*(::NiPoint3 *)nullptr)));
+                                                connectedMesh->FUN_00558220(connectedTri) - (*(::Point3 *)&(reinterpret_cast<::FUN_006ab150_shell *>((query))->FUN_006ab150(::ResultSlot<::NiPoint3>())));
                                             if (((double)(reinterpret_cast<::TESCombatStyle *>(&(vecDifference))->UpdateCombatStyle())) >
                                                 ((double)(reinterpret_cast<::fnv_00979260::Projectile *>((query))->GetFirstLightParameter())) * ((double)(reinterpret_cast<::fnv_00979260::Projectile *>((query))->GetFirstLightParameter())))
                                                 continue;
@@ -583,7 +584,7 @@ bool FUN_006ab180_shell::FUN_006ab180(SeqObj* pkObj)
             if ((*(const ::Node_006a08a0 *)(reinterpret_cast<::TESTopicInfoData *>((void *)(pkObj))->GetLinkToList())).m_usTriangle != m_kRoomNode.m_usTriangle ||
                 (*(const ::Node_006a08a0 *)(reinterpret_cast<::TESTopicInfoData *>((void *)(pkObj))->GetLinkToList())).m_pkMesh != m_kRoomNode.m_pkMesh)
             {
-                NiPoint3Ex kDelta = (*(::NiPoint3Ex *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((LOSTarget*)(BSFadeNode*)m_spReferencedObject)))->GetDest(*(::fnv_006ab380::NiPoint3 *)nullptr))) -
+                NiPoint3Ex kDelta = (*(::NiPoint3Ex *)&(reinterpret_cast<::fnv_006ab380::FUN_006ab380_shell *>((((LOSTarget*)(BSFadeNode*)m_spReferencedObject)))->GetDest(::ResultSlot<::fnv_006ab380::NiPoint3>()))) -
                                     *(NiPoint3*)&(*(::NiPoint3Ex *)(reinterpret_cast<::GetCenterX_006a6eb0 *>((void *)&((*(const ::Node_006a08a0 *)(reinterpret_cast<::TESTopicInfoData *>((void *)(pkObj))->GetLinkToList()))))->FUN_006a6eb0({})));
                 float fDist = reinterpret_cast<::TESCombatStyle *>((void *)&(kDelta))->UpdateCombatStyle();
                 if (fDist < m_fClosest)
@@ -2754,7 +2755,7 @@ bool FUN_006aa780_Class::FUN_006aa780(World* apWorld, const Location* apLocation
     reinterpret_cast<::LOSGridOwner *>((((::fnv_006aa780::Mesh *)(::FUN_00559450((int *)(((::fnv_006aa780::WorldStateManager *)(::FUN_00984230((char *)(apWorld))))))))))->UpdateNavMeshes((*(::LOSTargetPtr *)(&entry)));
     state = 0;
     Position v5;
-    reinterpret_cast<::TaskQueueInterface *>((((::fnv_006aa780::Position *)(::GetOffsetC((std::intptr_t)(apWorld))))))->QueueActorAnimationTask(*(::NiPoint3 *)nullptr);
+    reinterpret_cast<::TaskQueueInterface *>((((::fnv_006aa780::Position *)(::GetOffsetC((std::intptr_t)(apWorld))))))->QueueActorAnimationTask(::ResultSlot<::NiPoint3>());
     location.mesh = apLocation->mesh;
     location.triangle = apLocation->triangle;
     NiPoint3 y = location.mesh->FUN_00558220(location.triangle);

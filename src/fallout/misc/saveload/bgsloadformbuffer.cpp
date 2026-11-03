@@ -140,11 +140,11 @@ struct S_00864540
 {
     int pad[8];
     int f20;
-    int CheckValueMatchesField(int);
+    int CheckValueMatchesField(void*);
 };
 // Calls ReadFromFile with a and f20; returns -1 if the result differs from f20, otherwise returns the result.
 // @fnv 0x00864540
-int S_00864540::CheckValueMatchesField(int a)
+int S_00864540::CheckValueMatchesField(void* a)
 {
     int r = reinterpret_cast<::FUN_00864790_shell *>(this)->ReadFromFile((::SaveLoadFile *)(a), f20);
     if (r != f20)

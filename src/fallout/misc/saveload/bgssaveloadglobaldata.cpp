@@ -1212,7 +1212,7 @@ bool __cdecl FUN_0084bcd0(unsigned int type, BGSSaveFormBuffer* buffer)
         ::FUN_007066d0((::Buffer *)(buffer));
         return true;
     case 7:
-        ::SaveImageSpaceModifierInstances((int)(buffer));
+        ::SaveImageSpaceModifierInstances(buffer);
         return true;
     case 0:
         ::SaveMiscStats((::BGSSaveGameBuffer *)(buffer));
@@ -1317,7 +1317,7 @@ struct FUN_0047c860_Class
 };
 
 // @fnv 0x0084cf30
-void __cdecl SaveImageSpaceModifierInstances(int pBuffer)
+void __cdecl SaveImageSpaceModifierInstances(void* pBuffer)
 {
     int aV11;
     BSSimpleList<NiPointer<ImageSpaceModifierInstance> >* i6;

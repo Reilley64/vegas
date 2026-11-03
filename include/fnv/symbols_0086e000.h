@@ -31,7 +31,7 @@ namespace fnv_0086e5e0 { unsigned char FUN_0086e5e0(); }
 // 0x0086e600
 namespace fnv_0086e600 { unsigned char FUN_0086e600(); }
 // 0x0086e620
-void FUN_0086e620(int);
+void FUN_0086e620(void *);
 // 0x0086e630
 void FUN_0086e630(::NiNode *);
 // 0x0086ef30

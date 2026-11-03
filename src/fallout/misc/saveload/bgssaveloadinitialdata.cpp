@@ -196,7 +196,7 @@ void FUN_0084f880_shell::SetFlag10(bool abSet)
 
 struct FUN_0084f8c0_shell
 {
-    void FUN_0084f8c0(int value);
+    void FUN_0084f8c0(void* value);
 };
 // Loads a cell or reference change record from the save buffer and applies its location, angle and cell/worldspace to the form.
 // @fnv 0x0084f330
@@ -312,7 +312,7 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(BGSLoadFo
                 if (eType == INITIAL_DATA_TYPE_INITIAL_DATA_MOVED_REFERENCE && !pActor->vfn_290())
                 {
                     TESForm* pOriginal = ::FUN_004839c0(kRefData.m_uiOriginalBaseFormID);
-                    reinterpret_cast<::FUN_0084f8c0_shell *>((pActor))->FUN_0084f8c0((int)(pOriginal));
+                    reinterpret_cast<::FUN_0084f8c0_shell *>((pActor))->FUN_0084f8c0(pOriginal);
                 }
             }
             break;
@@ -328,9 +328,9 @@ INITIAL_DATA_TYPE BGSSaveLoadInitialDataPacket::LoadInitialDataForForm(BGSLoadFo
 }
 
 // @fnv 0x0084f8c0
-void FUN_0084f8c0_shell::FUN_0084f8c0(int value)
+void FUN_0084f8c0_shell::FUN_0084f8c0(void* value)
 {
-    *(int*)((char*)this + 0x170) = value;
+    *(void**)((char*)this + 0x170) = value;
 }
 
 struct FUN_0084e6a0_shell

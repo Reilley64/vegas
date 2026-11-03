@@ -2118,7 +2118,7 @@ struct S_008294e0_Summon : S_008294e0_Effect
     int unk50, unk54;
     S_008294e0_Point unk58;
     S_008294e0_Point unk64;
-    void SpawnSummonedActor(int unused);
+    void SpawnSummonedActor(void* unused);
 };
 // @fnv 0x00828ba0
 void S_00828ba0::FUN_00828ba0(int unused)
@@ -2131,7 +2131,7 @@ void S_00828ba0::FUN_00828ba0(int unused)
     }
     if (m_04 >= m_54 && !m_70)
     {
-        reinterpret_cast<::S_008294e0_Summon *>(this)->SpawnSummonedActor((int)(actor));
+        reinterpret_cast<::S_008294e0_Summon *>(this)->SpawnSummonedActor(actor);
         if (actor == (*reinterpret_cast<::S_00828ba0_Actor * *>(&::_g_thePlayer)))
             reinterpret_cast<::FUN_00829970_Class *>(this)->DispelOldestQualifyingEffect();
         m_70 = 1;
@@ -2141,7 +2141,7 @@ void S_00828ba0::FUN_00828ba0(int unused)
 }
 
 // @fnv 0x008294e0
-void S_008294e0_Summon::SpawnSummonedActor(int unused)
+void S_008294e0_Summon::SpawnSummonedActor(void* unused)
 {
     S_008294e0_Actor* actor = ((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target)) ? ((::S_008294e0_Actor *)(reinterpret_cast<::MagicTarget *>((((::S_008294e0_Target *)(reinterpret_cast<::ActiveEffectFields *>(this)->target))))->GetOwnerActor())) : 0;
     if (!actor)

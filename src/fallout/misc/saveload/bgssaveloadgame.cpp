@@ -411,9 +411,9 @@ void FUN_00849540_shell::SetFlag8(bool abValue)
 }
 
 // @fnv 0x00849590
-bool FUN_00849590(int pObject)
+bool FUN_00849590(const void* pObject)
 {
-    return (*(unsigned int*)(pObject + 0x28) & 0x10) ? true : false;
+    return (*(const unsigned int*)((const char*)pObject + 0x28) & 0x10) ? true : false;
 }
 
 // @fnv 0x008495b0
@@ -2789,7 +2789,7 @@ void FUN_008492b0_shell::ResetLoadBuffers(bool resetWorld)
             if (form)
             {
                 form->Unk_21(buffer);
-                if (::FUN_00849590((int)buffer))
+                if (::FUN_00849590(buffer))
                 {
                     TESObjectREFR* ref = buffer->GetReference();
                     reinterpret_cast<::BGSSaveLoadGame *>(this)->NotifyFormIDChanged(ref, (*(::FormChangeMask *)&(const ::fnv_008492b0::GlobalObject_008c71b0 &)(GlobalObject_008c71b0(8))), true);
@@ -3372,14 +3372,14 @@ void FUN_0084ab20_shell::FUN_0084ab20()
                         {
                             unsigned int bx;
                             unsigned int bo;
-                            unsigned int bb;
+                            std::uintptr_t bb;
                             unsigned int as;
                             unsigned int am;
                             unsigned int ah;
                             unsigned char pC;
                             unsigned int len;
                             unsigned int pA;
-                            bb = (unsigned int)((void *)(reinterpret_cast<::FormBufferContext *>(&(ev->buffer))->FUN_00866390()));
+                            bb = (std::uintptr_t)(reinterpret_cast<::FormBufferContext *>(&(ev->buffer))->FUN_00866390());
                             len = FUN_0084e800(res100);
                             bb += len;
                             as = 0;
@@ -3826,7 +3826,7 @@ bool ReconstructSession::LoadSaveGame(SaveFile* pSaveFile, bool restoreMode)
                                 ((StatePrefix*)this)->buffers.FUN_0047a110(index2, (BGSLoadFormBuffer*)0);
                                 continue;
                             }
-                            if (reinterpret_cast<::S_00864540 *>((current))->CheckValueMatchesField((int)(pSaveFile)) < 0 || reinterpret_cast<::FUN_00848cf0_Class *>(this)->IsFlag80Set())
+                            if (reinterpret_cast<::S_00864540 *>((current))->CheckValueMatchesField(pSaveFile) < 0 || reinterpret_cast<::FUN_00848cf0_Class *>(this)->IsFlag80Set())
                             {
                                 reinterpret_cast<::FUN_00864580_shell *>((current))->FUN_00864580((::SaveLoadFile *)(pSaveFile), 0);
                                 delete (FUN_0081db60*)current;

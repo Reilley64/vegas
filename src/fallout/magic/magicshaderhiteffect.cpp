@@ -278,7 +278,7 @@ void FUN_00820b70_shell::FUN_00820b70(float afValue)
 }
 
 // @fnv 0x00820b90
-void FUN_00820b90(int pObject)
+void FUN_00820b90(void* pObject)
 {
     *reinterpret_cast<int*>(reinterpret_cast<char*>(pObject) + 0x64) = 1;
 }
@@ -1256,7 +1256,7 @@ bool MagicShaderHitEffect::Init()
                         if (pTarget == ::_g_thePlayer && !b3rdPerson)
                             ::ClearField64((void *)(property));
                         else
-                            ::FUN_00820b90((int)(property));
+                            ::FUN_00820b90(property);
                     }
                 }
                 reinterpret_cast<::FUN_00ba8560_cls *>((property))->DispatchRefOp((::ImgRef *)(scenegraph.particles));

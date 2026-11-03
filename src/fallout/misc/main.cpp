@@ -1505,7 +1505,7 @@ void FUN_00870610_shell::FUN_00870610()
         reinterpret_cast<::fnv_0087a6f0::FUN_0087a6f0_shell *>((((::fnv_00870610::TaskQueueInterface *)(::TaskQueueInterface::GetSingleton()))))->FUN_0087a6f0();
     }
     ::s7094f0::FUN_007094f0();
-    ::FUN_00870680((int)(((void *)(::fnv_004b7210::FUN_004b7210()))));
+    ::FUN_00870680(((void *)(::fnv_004b7210::FUN_004b7210())));
     reinterpret_cast<::AudioManager *>((((::fnv_00870610::DebugText *)(::FUN_00a0d9e0(true)))))->FUN_00a0e770();
 }
 }  // namespace fnv_00870610
@@ -1514,12 +1514,12 @@ void __cdecl FUN_00706320(int);
 
 // If the byte at offset 0x4cc is set, calls FUN_00706320(0) and clears that byte.
 // @fnv 0x00870680
-void FUN_00870680(int param_1)
+void FUN_00870680(void* param_1)
 {
-    if (*(unsigned char*)(param_1 + 0x4cc))
+    if (*((unsigned char*)param_1 + 0x4cc))
     {
         FUN_00706320(0);
-        *(unsigned char*)(param_1 + 0x4cc) = 0;
+        *((unsigned char*)param_1 + 0x4cc) = 0;
     }
 }
 
@@ -2694,9 +2694,9 @@ void FUN_0086e510(unsigned char value)
 
 
 // @fnv 0x0086e620
-void FUN_0086e620(int apLODTreeParent)
+void FUN_0086e620(void* apLODTreeParent)
 {
-    (*reinterpret_cast<int *>(&::g_pkB58070Root)) = apLODTreeParent;
+    (*reinterpret_cast<void **>(&::g_pkB58070Root)) = apLODTreeParent;
 }
 
 
@@ -9074,19 +9074,19 @@ struct RenderMgr
     void* name;
 
     void FUN_00871290();
-    int FUN_00872f50(Rend* r, int p1, bool p2, bool b);
+    int FUN_00872f50(Rend* r, void* p1, bool p2, bool b);
     void FUN_00874c10();
     void FUN_00875110(Rend* r, RootNode* root, int z, int res);
     void FUN_00875bf0();
-    void FUN_00875fd0(bool b, int res, Rend* r, int p1);
+    void FUN_00875fd0(bool b, int res, Rend* r, void* p1);
     void FUN_008761e0(RootNode* root, Rend* r);
 
-    void FUN_008707c0(int p1, bool p2);
+    void FUN_008707c0(void* p1, bool p2);
 };
 
 // Runs the render update: resets helpers, computes a result via FUN_00872f50, sets up a node when FUN_00705a00 is true, and dispatches the remaining render steps.
 // @fnv 0x008707c0
-void RenderMgr::FUN_008707c0(int p1, bool p2)
+void RenderMgr::FUN_008707c0(void* p1, bool p2)
 {
     ISMgr* ism2 = ::ImageSpaceManager::FUN_004e3270();
     Rend* renderer = ((::fnv_008707c0::Rend *)(::FUN_0043c4b0()));
@@ -9130,7 +9130,7 @@ void RenderMgr::FUN_008707c0(int p1, bool p2)
     }
     else if (p1)
     {
-        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flag_, p1);
+        reinterpret_cast<::fnv_00876830::BSRenderedTexture *>(this)->FUN_00876830(flag_, (std::intptr_t)(p1));
     }
     reinterpret_cast<::fnv_00876850::FUN_00876850_shell *>(this)->FUN_00876850((::fnv_00876850::BSRenderedTexture *)(res4), (::fnv_00876850::ImageSpaceManager *)(ism2), (::fnv_00876850::GraphicsRenderer *)(renderer), (::fnv_00876850::Sun *)(0));
 }
@@ -13058,7 +13058,7 @@ void Main86::FUN_0086ff70()
             (unsigned char)FUN_00702680(0x43a, 0) || (unsigned char)FUN_00702680(0x43b, 0))
             reinterpret_cast<::fnv_00872940::MainTarget *>(this)->FUN_00872940((::fnv_00872940::BSRenderedTexture *)(0));
         else if ((*reinterpret_cast<::fnv_0086ff70::Global86 *>(&::g_011ded3c)).FUN_00559450())
-            reinterpret_cast<::fnv_00874b90::FUN_00874b90_shell *>(this)->FUN_00874b90((::fnv_00874b90::ImageSpaceManager *)(((int)(::ImageSpaceManager::FUN_004e3270()))), {}, {}, {});
+            reinterpret_cast<::fnv_00874b90::FUN_00874b90_shell *>(this)->FUN_00874b90((::fnv_00874b90::ImageSpaceManager *)(::ImageSpaceManager::FUN_004e3270()), {}, {}, {});
     }
     if (((bool)(::fnv_005d4a40::FUN_005d4a40())) == 1)
         ::FUN_00b55a10();
@@ -14813,7 +14813,7 @@ void RenderSystem::FUN_0086d590()
     reinterpret_cast<::TaskQueueInterface *>((a))->SetTaskFlag2000(1);
     ::AssignFixedString((char *)(a), (int)&(const ::fnv_0086d590::NiFixedString &)(NiFixedString(str_01082c50)), {});
     s->virtual_dc(a, 1);
-    ::FUN_0086e620((int)a);
+    ::FUN_0086e620(a);
     (::FUN_0086e630)((NiNode*)a);
 
     ::DAT_011dea18 = (int)(InputObject*)new FUN_00a5ecb0(0);

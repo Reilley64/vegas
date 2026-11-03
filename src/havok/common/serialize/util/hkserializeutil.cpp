@@ -195,7 +195,6 @@ void* __cdecl FUN_00d48ec0(void* a1, intptr_t a2, int a3)
 }
 
 namespace fnv_00d48f00 {
-extern int DAT_011b7b88;
 struct Header180
 {
     int unk00;
@@ -458,7 +457,7 @@ extern volatile intptr_t DAT_01269b70;
 
 static __declspec(noinline) int FUN_00d48950(int d, int a, intptr_t b, int c)
 {
-    int* pb = &b;
+    intptr_t* pb = &b;
     if (d)
     {
         return a;
@@ -912,6 +911,11 @@ struct LoadError
 {
     int status;
     hkStringPtr message;
+    void set(int c, const char* text)
+    {
+        status = c;
+        reinterpret_cast<::SStringPtr *>((void *)&(const ::hkStringPtr &)(message))->FUN_00cb0c10(text);
+    }
 };
 struct LoadStream;
 struct LoadBuffer
@@ -935,7 +939,6 @@ struct LoadMemory
     int unk08;
     LoadAllocator* heap;
 };
-extern unsigned int DAT_011b7b88;
 extern const char str_010cf9d8[];
 void __cdecl FUN_00d48680(LoadStream&, LoadBuffer&) throw();
 struct DeprecatedLoader
@@ -1333,9 +1336,9 @@ struct OldLoader
 static __declspec(noinline) void* FUN_00d48760(VersionedDataBlock& input, const LoadFormat& format, LoadError* error,
                                                const void* registry)
 {
-    if (format.kind == 2)
+    if (format.type == 2)
     {
-        if (::FUN_00cb1290((const unsigned char *)(const void *)(&format.pointerSize), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0)
+        if (::FUN_00cb1290((const unsigned char *)(const void *)(&format.layout), (const unsigned char *)(const void *)(&DAT_011b7b88), 4) == 0)
         {
             if (reinterpret_cast<::S_00d49350 *>((void *)&(format.version))->Equals(((const char *)(::FUN_00dc0fb0()))))
             {
@@ -1502,7 +1505,7 @@ inline unsigned int reverseWord(unsigned int word)
     dst.byte[3] = src.byte[0];
     return dst.word;
 }
-inline SmallBool __cdecl CheckMagicPair(unsigned int a, unsigned int b)
+inline SmallBool __cdecl checkMagicPair(unsigned int a, unsigned int b)
 {
     return ((a == 0xcab00d1e && b == 0xd011face) || (reverseWord(a) == 0xcab00d1e && reverseWord(b) == 0xd011face));
 }
@@ -1551,7 +1554,7 @@ static __forceinline void detect(VersionedDataBlock* reader, FormatInfo& out)
     PackHeader baseline;
     const PackHeader* binary = reinterpret_cast<const PackHeader*>(bytes);
     const unsigned int* tag = reinterpret_cast<const unsigned int*>(bytes);
-    if (count >= 8 && CheckMagicPair(tag[0], tag[1]))
+    if (count >= 8 && checkMagicPair(tag[0], tag[1]))
     {
         out.type = 4;
     }

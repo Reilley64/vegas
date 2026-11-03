@@ -345,28 +345,37 @@ int S_00dbe710::AllocateSlot()
 }
 }  // namespace fnv_00dbe710
 
+struct PatchInfoDB7C
+{
+    const char* oldName;
+    const char* newName;
+    int oldVersion;
+    int newVersion;
+};
+
 // @fnv 0x00db7cb0
 int __cdecl FUN_00db7cb0(int* values)
 {
-    if (values[2] == -1)
+    const PatchInfoDB7C* info = reinterpret_cast<const PatchInfoDB7C*>(values);
+    if (info->oldVersion == -1)
     {
-        if ((values[0] != 0 || values[3] == -1) || values[1] == 0)
+        if ((info->oldName != 0 || info->newVersion == -1) || info->newName == 0)
         {
             return 0;
         }
     }
-    else if (values[3] == -1)
+    else if (info->newVersion == -1)
     {
-        if (values[0] == 0)
+        if (info->oldName == 0)
         {
             return 0;
         }
-        if (values[1] != 0)
+        if (info->newName != 0)
         {
             return 0;
         }
     }
-    else if (values[0] == 0)
+    else if (info->oldName == 0)
     {
         return 0;
     }
@@ -835,7 +844,7 @@ struct DB85E0Map : DB85E0MapBase
 {
     __forceinline ~DB85E0Map()
     {
-        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40(fnvc_adapt::(::FUN_00cb1e40_arg_t *)&(const <dependent type> &)(static_cast<AudioHolder*>(::FUN_00c85750()).heap()));
+        reinterpret_cast<::FUN_00cb1e40_t *>(this)->FUN_00cb1e40((::FUN_00cb1e40_arg_t *)&(*static_cast<DB85E0MemoryRouter*>(::FUN_00c85750())).heap());
     }
 };
 
@@ -950,7 +959,7 @@ DBA1E0Object* __cdecl CreateDBA1E0Object()
 
 namespace fnv_00db95c0 {
 // Reordered source-vector loop and allocator acquisition; official check pending.
-extern "C" void* __cdecl FUN_00cb1410(unsigned int);
+extern "C" void* __cdecl FUN_00cb1410(uintptr_t);
 struct AllocObj
 {
     virtual void v0() throw();
@@ -1090,9 +1099,9 @@ struct HelperX
 };
 struct MgrA
 {
-    int m_00;
+    void* m_00;
     int m_04;
-    int m_08;
+    void* m_08;
     void FUN_00d87790(int a) throw();
     void FUN_00d874d0(int a, void* b) throw();
     void* GetValue(int a, int b) throw();
@@ -1109,7 +1118,7 @@ struct MapTag
 };
 struct MgrB
 {
-    int m_00;
+    void* m_00;
     int m_04;
     int m_08;
     int m_0c;
@@ -1143,13 +1152,13 @@ struct VerObj
 struct Pair5
 {
     int m_00;
-    int* m_04;
+    intptr_t* m_04;
 };
 struct Elem
 {
-    int m_00;
-    int m_04;
-    intptr_t m_08;
+    intptr_t m_00;
+    intptr_t m_04;
+    int m_08;
     int m_0c;
     Pair5* m_10;
     int m_14;
@@ -1407,14 +1416,14 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                         case 4:
                             break;
                         case 5: {
-                            int* data5 = pr->m_04;
+                            intptr_t* data5 = pr->m_04;
                             StrX removed;
                             reinterpret_cast<::FUN_00dba650_cls *>(&(removed))->FUN_00dba650((uintptr_t)(reinterpret_cast<::DC7300Owner *>(&(world))->FUN_00dc7300((void *)(data5[0]))));
                             ::FUN_00dba660();
                             break;
                         }
                         case 6: {
-                            int* data6 = pr->m_04;
+                            intptr_t* data6 = pr->m_04;
                             if (data6[0])
                             {
                                 StrX oTmpStr;
@@ -1444,7 +1453,7 @@ int This::ProcessVersionPatches(ArgA* apSource, ArgA* argB, VecP* apOutput)
                 {
                     if (key != saved)
                         reinterpret_cast<::Owner7320 *>(&(world))->FUN_00dc7320((const ::ClassInfo7320 *)(::fnv_00db95c0::StrX *)(&oStr), (const char *)(saved));
-                    reinterpret_cast<::FUN_00dc72e0_class *>(&(world))->FUN_00dc72e0(&oStr, (void *)(ce->m_08));
+                    reinterpret_cast<::FUN_00dc72e0_class *>(&(world))->FUN_00dc72e0(&oStr, (void *)(intptr_t)(ce->m_08));
                 }
                 ::FUN_00dba660();
             }
@@ -1776,7 +1785,7 @@ struct FUN_00db7ef0_sub
 
 struct FUN_00db7ef0_list
 {
-    unsigned int* m_data;
+    uintptr_t* m_data;
     int m_uiItemCount;
     unsigned int m_capFlags;
 };
@@ -1805,10 +1814,10 @@ void FUN_00db7ef0_cls::FUN_00db7ef0(uintptr_t auiValue)
     unsigned int uCap = pList->m_capFlags & 0x3fffffffu;
     if (pList->m_uiItemCount == (int)uCap)
     {
-        ::ResizeAudioStream((AudioAllocator*)pHolder->m_pAllocator, (::AudioStream *)(pList), 4);
+        ::ResizeAudioStream((AudioAllocator*)pHolder->m_pAllocator, (::AudioStream *)(pList), sizeof(uintptr_t));
     }
 
-    unsigned int* pSlot = pList->m_data + pList->m_uiItemCount;
+    uintptr_t* pSlot = pList->m_data + pList->m_uiItemCount;
     _ReadWriteBarrier();
     *pSlot = auiValue;
     pList->m_uiItemCount++;

@@ -4,7 +4,6 @@
 #include <cstdint>
 #include "fnv/decl/Owner.h"
 #include "fnv/decl/TestClass.h"
-#include "fnv/decl/fnv_00e036b0__Host.h"
 #include "fnv/symbols_0126c000.h"
 #include <new>
 #include "fnv/decl/Archive.h"
@@ -492,6 +491,26 @@ void target_driver(unsigned int type, unsigned int count, unsigned int size, voi
     FUN_00e03170(count, size, type, target, data);
 }
 
+struct ZeroArchive;
+struct ZeroMember;
+
+struct ZeroCopier {
+    void* m_ppVirtualMethodTable;
+    short m_usAllocationSize;
+    short m_iObjectReferenceCount;
+    unsigned char m_inputPointerSize;
+    unsigned char m_inputLittleEndian;
+    unsigned char m_inputTailPadding;
+    unsigned char m_inputEmptyBase;
+    unsigned char m_outputPointerSize;
+    unsigned char m_outputLittleEndian;
+    unsigned char m_outputTailPadding;
+    unsigned char m_outputEmptyBase;
+    unsigned int m_flags;
+    unsigned char m_bStreamResult;
+    void FUN_00e03460(ZeroArchive& archive, const ZeroMember& member);
+};
+
 namespace fnv_00e036b0 {
 extern "C" void _ReadWriteBarrier();
 struct Item {
@@ -964,10 +983,31 @@ struct S00e03ea0_VArray {
 };
 
 struct S00e03ea0_Ostream {
-    int unk00;
+    void* unk00;
     int unk04;
-    int unk08;
+    void* unk08;
 };
+
+extern const char str_010ea3e4[];
+__declspec(noinline) static void FUN_00e03170(Target* w, unsigned int count, unsigned int stride, unsigned int kind, void* data)
+{
+    switch (kind) {
+    case 12: case 13: case 14: case 15: case 16: case 17: case 18:
+        count *= stride >> 2;
+        stride = 4;
+    case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9: case 10: case 11: case 32:
+        reinterpret_cast<::Archive *>((w))->WriteSwapped(data, stride, count);
+        break;
+    default:
+        char text[512];
+        S00e03ea0_Ostream diagnostic;
+        new ((void *)&(diagnostic)) ::FUN_00cb1600(text, sizeof(text));
+        reinterpret_cast<::SinkOwner *>(&(diagnostic))->FUN_00cc01c0(str_010ea3e4);
+        if ((*reinterpret_cast<::AssertMgr * *>(&::DAT_01268360))->v3(3, 0x747e1e03, text, ::str_010ea3c8, 0xfb))
+            __debugbreak();
+        reinterpret_cast<struct ::FUN_00cc00e0 *>(&(diagnostic))->FUN_00cc00e0::~FUN_00cc00e0();
+    }
+}
 
 struct S00e03ea0_Locals {
     S00e03ea0_Ostream osDefault;
@@ -1254,25 +1294,6 @@ struct ZeroArchive {
 };
 static __declspec(noinline) int FUN_00e03100(Obj* p);
 extern const char str_010ea424[];
-struct ZeroArchive;
-struct ZeroMember;
-
-struct ZeroCopier {
-    void* m_ppVirtualMethodTable;
-    short m_usAllocationSize;
-    short m_iObjectReferenceCount;
-    unsigned char m_inputPointerSize;
-    unsigned char m_inputLittleEndian;
-    unsigned char m_inputTailPadding;
-    unsigned char m_inputEmptyBase;
-    unsigned char m_outputPointerSize;
-    unsigned char m_outputLittleEndian;
-    unsigned char m_outputTailPadding;
-    unsigned char m_outputEmptyBase;
-    unsigned int m_flags;
-    unsigned char m_bStreamResult;
-    void FUN_00e03460(ZeroArchive& archive, const ZeroMember& member);
-};
 // @fnv 0x00e03460
 void ZeroCopier::FUN_00e03460(ZeroArchive& archive, const ZeroMember& member)
 {

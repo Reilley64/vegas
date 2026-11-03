@@ -1261,8 +1261,8 @@ void InspectConsumer::FUN_00ddbae0(unsigned char command)
         reinterpret_cast<::FUN_00dd90d0_cls *>((input))->FUN_00dd90d0((intptr_t)(payload.begin()));
         if (objectID > 0 && classID > 0 && path.GetLogicalSize() > 0 && bytes > 0)
         {
-            void* object = reinterpret_cast<void*>(unsigned int(objectID));
-            TypeInfo* type = reinterpret_cast<TypeInfo*>(unsigned int(classID));
+            void* object = reinterpret_cast<void*>(static_cast<uintptr_t>(objectID));
+            TypeInfo* type = reinterpret_cast<TypeInfo*>(static_cast<uintptr_t>(classID));
             const MemberInfo& field = (*(::MemberInfo *)(reinterpret_cast<::FUN_00d46f60_Class *>((type))->FUN_00d46f60(path[0])));
             void* destination = FUN_00ddb450(static_cast<char*>(object) + field.getOffset(), path, 0, field.getKind(),
                                              field.getSubtype(), &field);
@@ -1277,8 +1277,8 @@ void InspectConsumer::FUN_00ddbae0(unsigned char command)
         unsigned char flags = input->readByte();
         if (objectID > 0 && classID > 0)
         {
-            void* object = reinterpret_cast<void*>(unsigned int(objectID));
-            hkClassQ* type = reinterpret_cast<hkClassQ*>(unsigned int(classID));
+            void* object = reinterpret_cast<void*>(static_cast<uintptr_t>(objectID));
+            hkClassQ* type = reinterpret_cast<hkClassQ*>(static_cast<uintptr_t>(classID));
             List<hkWrittenObjectQ> visited;
             bool recurse = static_cast<const void*>(type) == &g_0126cae8 || (flags & 2);
             reinterpret_cast<hkInspectProcessQ*>(this)->FUN_00ddb770(

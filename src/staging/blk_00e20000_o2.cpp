@@ -3823,14 +3823,14 @@ struct Chain
     Chain* next;
 };
 
-struct __declspec(align(16)) Vec4
+struct __declspec(align(16)) NodeVec4
 {
     __m128 q;
 };
 
 struct __declspec(align(16)) Node
 {
-    Vec4 vector;
+    NodeVec4 vector;
     float value;
     int id;
     int unk18;
@@ -5187,10 +5187,10 @@ void FUN_00e2b070(const Input* input, BundleCommand* src, void* filter, RayVecto
     fractions.set(limits[0], limits[1], limits[2], limits[3]);
 }
 
-class RayVec4
+class Vec4
 {
   public:
-    void operator=(const RayVec4& v)
+    void operator=(const Vec4& v)
     {
         m_vComponents = v.m_vComponents;
     }
@@ -5209,7 +5209,7 @@ class RayVec4
 
 struct Bundle
 {
-    RayVec4 m_data[3];
+    Vec4 m_data[3];
 };
 
 struct RayQuerySet
@@ -5222,14 +5222,14 @@ struct RayQuerySet
 };
 
 // @fnv 0x00e2baf0
-RayQuerySet __cdecl FUN_00e2baf0(const RayVec4& from0, const RayVec4& invDir0, const RayVec4& from1, const RayVec4& invDir1,
-                                 const RayVec4& from2, const RayVec4& invDir2, const RayVec4& from3, const RayVec4& invDir3,
+RayQuerySet __cdecl FUN_00e2baf0(const Vec4& from0, const Vec4& invDir0, const Vec4& from1, const Vec4& invDir1,
+                                 const Vec4& from2, const Vec4& invDir2, const Vec4& from3, const Vec4& invDir3,
                                  int mask)
 {
     Bundle bundleFrom;
-    RayVec4 tmpFrom;
+    Vec4 tmpFrom;
     Bundle bundleInvDir;
-    RayVec4 tmpInvDir;
+    Vec4 tmpInvDir;
     bundleFrom.m_data[0] = from0;
     bundleFrom.m_data[1] = from1;
     bundleFrom.m_data[2] = from2;
@@ -5531,10 +5531,10 @@ void __cdecl FUN_00e2c100(Tree* tree, QuantizedNode* node, void* arg3, Ray* rays
                 query->callback = 0;
         }
         RayQuerySet batch = ::FUN_00e2baf0(
-            *(const RayVec4*)&rays[index4[0]].origin.v, *(const RayVec4*)&rays[index4[0]].invDirection.v,
-            *(const RayVec4*)&rays[index4[1]].origin.v, *(const RayVec4*)&rays[index4[1]].invDirection.v,
-            *(const RayVec4*)&rays[index4[2]].origin.v, *(const RayVec4*)&rays[index4[2]].invDirection.v,
-            *(const RayVec4*)&rays[index4[3]].origin.v, *(const RayVec4*)&rays[index4[3]].invDirection.v, DAT_011b3830[n]);
+            *(const Vec4*)&rays[index4[0]].origin.v, *(const Vec4*)&rays[index4[0]].invDirection.v,
+            *(const Vec4*)&rays[index4[1]].origin.v, *(const Vec4*)&rays[index4[1]].invDirection.v,
+            *(const Vec4*)&rays[index4[2]].origin.v, *(const Vec4*)&rays[index4[2]].invDirection.v,
+            *(const Vec4*)&rays[index4[3]].origin.v, *(const Vec4*)&rays[index4[3]].invDirection.v, DAT_011b3830[n]);
         Collector* collectors[4] = {queries, queries + 1, queries + 2, 3 + queries};
         FUN_00d1bfa0(tree, node, arg3, &batch, collectors, oldFraction);
         for (int i = 0; i < n; ++i)

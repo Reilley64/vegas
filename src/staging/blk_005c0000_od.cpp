@@ -89,24 +89,32 @@ float FUN_005dc460(float value)
 
 struct FUN_005dd520_class
 {
+
+    char pad[0xd4];
+
+    char unkd4;
     void SetByteAtOffsetD4(char v);
 };
 
 // @fnv 0x005dd520
 void FUN_005dd520_class::SetByteAtOffsetD4(char acValue)
 {
-    *(char*)((char*)this + 0xd4) = acValue;
+    unkd4 = acValue;
 }
 
 struct FUN_005dd540_Class
 {
+
+    char pad[0xe3];
+
+    unsigned char unke3;
     void SetByteAtOffsetE3(unsigned char value);
 };
 
 // @fnv 0x005dd540
 void FUN_005dd540_Class::SetByteAtOffsetE3(unsigned char value)
 {
-    *(unsigned char*)((char*)this + 0xe3) = value;
+    unke3 = value;
 }
 
 struct BGSProjectile

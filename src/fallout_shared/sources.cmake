@@ -5,14 +5,17 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/actorvalue_h_unit.cpp
   src/fallout_shared/aiformulas.cpp
   src/fallout_shared/audiomarkerdata.cpp
+  src/fallout_shared/bgsaddonnode.cpp
   src/fallout_shared/bgsammoform.cpp
   src/fallout_shared/bgsbipedmodellist.cpp
   src/fallout_shared/bgsbodypartdata.cpp
   src/fallout_shared/bgscliproundsform.cpp
+  src/fallout_shared/bgsdebris.cpp
   src/fallout_shared/bgsdefaultobjectmanager.cpp
   src/fallout_shared/bgsentrypointfunction_h_unit.cpp
   src/fallout_shared/bgsexplosion.cpp
   src/fallout_shared/bgsheadpart.cpp
+  src/fallout_shared/bgsidlecollection.cpp
   src/fallout_shared/bgsidlemarker.cpp
   src/fallout_shared/bgsimpactdata.cpp
   src/fallout_shared/bgslightingtemplate.cpp
@@ -70,6 +73,8 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/lipsynchanim.cpp
   src/fallout_shared/magic/alchemyitem_h_unit.cpp
   src/fallout_shared/magic/effectitem_h_unit.cpp
+  src/fallout_shared/magic/effectsettingcollection.cpp
+  src/fallout_shared/magic/ingredientitem.cpp
   src/fallout_shared/magic/ingredientitem_h_unit.cpp
   src/fallout_shared/magic/magicformulas.cpp
   src/fallout_shared/magic/magicitemform.cpp
@@ -108,6 +113,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/navmeshinfosearch.cpp
   src/fallout_shared/pathfinding/navmeshmath.cpp
   src/fallout_shared/pathfinding/navmeshobstaclecutter.cpp
+  src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp
   src/fallout_shared/pathfinding/navmeshobstaclemanager_h_unit.cpp
   src/fallout_shared/pathfinding/navmeshobstacletask.cpp
   src/fallout_shared/pathfinding/navmeshportal.cpp
@@ -148,6 +154,8 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/pathfinding/teleportpath.cpp
   src/fallout_shared/ragdolldata.cpp
   "src/fallout_shared/region system/tesregiondata.cpp"
+  "src/fallout_shared/region system/tesregiondatagrass.cpp"
+  "src/fallout_shared/region system/tesregiondataimposter.cpp"
   "src/fallout_shared/region system/tesregiondatalist.cpp"
   "src/fallout_shared/region system/tesregiondatamanager.cpp"
   "src/fallout_shared/region system/tesregiondataweather.cpp"
@@ -161,6 +169,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/sky/skyobject.cpp
   src/fallout_shared/sky/skytexturemanager.cpp
   src/fallout_shared/sky/stars.cpp
+  src/fallout_shared/speedtree/bstreemanager.cpp
   src/fallout_shared/speedtree/bstreemodel.cpp
   src/fallout_shared/tempeffects/bstecreatetask.cpp
   src/fallout_shared/tempeffects/bstempeffect.cpp
@@ -170,6 +179,7 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesanimation.cpp
   src/fallout_shared/tesattributes.cpp
   src/fallout_shared/tesbipedmodelform.cpp
+  src/fallout_shared/teschallenge.cpp
   src/fallout_shared/tesclass.cpp
   src/fallout_shared/tescombatstyle.cpp
   src/fallout_shared/tescombatstyle_h_unit.cpp
@@ -178,30 +188,36 @@ set(VEGAS18_FALLOUT_SHARED_SOURCES
   src/fallout_shared/tesenchantableform.cpp
   src/fallout_shared/tesenchantableform_h_unit.cpp
   src/fallout_shared/teseyes.cpp
+  src/fallout_shared/tesflora.cpp
   src/fallout_shared/tesfullname.cpp
   src/fallout_shared/tesfurniture.cpp
   src/fallout_shared/tesglobal.cpp
   src/fallout_shared/tesgrass_h_unit.cpp
   src/fallout_shared/teshair.cpp
   src/fallout_shared/teshealthform.cpp
+  src/fallout_shared/tesidleform.cpp
   src/fallout_shared/tesidleform_h_unit.cpp
   src/fallout_shared/tesidlemanager.cpp
   src/fallout_shared/tesimagespace.cpp
   src/fallout_shared/tesimagespacemodifiablecountform_h_unit.cpp
   src/fallout_shared/tesimagespacemodifiableform.cpp
   src/fallout_shared/teskey.cpp
+  src/fallout_shared/teslevcharacter.cpp
   src/fallout_shared/teslevcreature.cpp
   src/fallout_shared/tesleveledlist.cpp
   src/fallout_shared/teslevitem.cpp
   src/fallout_shared/tesloadscreentype.cpp
   src/fallout_shared/tesmodellist.cpp
+  src/fallout_shared/tesmodeltextureswap.cpp
   src/fallout_shared/tesnpc_h_unit.cpp
   src/fallout_shared/tesobjectanio.cpp
+  src/fallout_shared/tesobjectarma.cpp
   src/fallout_shared/tesobjectbook.cpp
   src/fallout_shared/tesobjectclot.cpp
   src/fallout_shared/tesobjectimod.cpp
   src/fallout_shared/tesobjectmisc.cpp
   src/fallout_shared/tesobjectrefr_h_unit.cpp
+  src/fallout_shared/tesobjectstat.cpp
   src/fallout_shared/tesobjecttree_h_unit.cpp
   src/fallout_shared/tesobjectweap_h_unit.cpp
   src/fallout_shared/tesparameters.cpp
@@ -235,13 +251,11 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/actorvalue.cpp
   src/fallout_shared/animation.cpp
   src/fallout_shared/bgsacousticspace.cpp
-  src/fallout_shared/bgsaddonnode.cpp
   src/fallout_shared/bgsautowater.cpp
   src/fallout_shared/bgsbodypart.cpp
   src/fallout_shared/bgscamerapath.cpp
   src/fallout_shared/bgscamerashot.cpp
   src/fallout_shared/bgsconstructibleobject.cpp
-  src/fallout_shared/bgsdebris.cpp
   src/fallout_shared/bgsdecalmanager.cpp
   src/fallout_shared/bgsdecalnode.cpp
   src/fallout_shared/bgsdehydration.cpp
@@ -249,7 +263,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/bgsentrypointfunction.cpp
   src/fallout_shared/bgsequiptype.cpp
   src/fallout_shared/bgshunger.cpp
-  src/fallout_shared/bgsidlecollection.cpp
   src/fallout_shared/bgsmessage.cpp
   src/fallout_shared/bgsmessageicon.cpp
   src/fallout_shared/bgsnote.cpp
@@ -280,19 +293,14 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/magic/effectarchetype.cpp
   src/fallout_shared/magic/effectitem.cpp
   src/fallout_shared/magic/effectitemlist.cpp
-  src/fallout_shared/magic/effectsettingcollection.cpp
   src/fallout_shared/magic/enchantmentitem.cpp
-  src/fallout_shared/magic/ingredientitem.cpp
   src/fallout_shared/magic/magicitem.cpp
   src/fallout_shared/magic/spellitem.cpp
   src/fallout_shared/mediaset.cpp
   src/fallout_shared/miscstats.cpp
   src/fallout_shared/modelloader.cpp
   src/fallout_shared/package.cpp
-  src/fallout_shared/pathfinding/navmeshobstaclemanager.cpp
   "src/fallout_shared/region system/tesregion.cpp"
-  "src/fallout_shared/region system/tesregiondatagrass.cpp"
-  "src/fallout_shared/region system/tesregiondataimposter.cpp"
   "src/fallout_shared/region system/tesregiondatalandscape.cpp"
   "src/fallout_shared/region system/tesregiondatamap.cpp"
   "src/fallout_shared/region system/tesregiongrassobjectlist.cpp"
@@ -307,7 +315,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/sky/precipitation.cpp
   src/fallout_shared/sky/sky.cpp
   src/fallout_shared/sky/sun.cpp
-  src/fallout_shared/speedtree/bstreemanager.cpp
   src/fallout_shared/speedtree/bstreenode.cpp
   src/fallout_shared/teleportdata.cpp
   src/fallout_shared/tempeffects/bstempeffectdebris.cpp
@@ -322,7 +329,6 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/tesattackdamageform.cpp
   src/fallout_shared/tescaravan.cpp
   src/fallout_shared/tescasinochips.cpp
-  src/fallout_shared/teschallenge.cpp
   src/fallout_shared/tescondition.cpp
   src/fallout_shared/tesconditionfunctions.cpp
   src/fallout_shared/tescontainer.cpp
@@ -332,26 +338,20 @@ set(VEGAS18_FALLOUT_SHARED_NARROWING_SOURCES
   src/fallout_shared/teseffectshader.cpp
   src/fallout_shared/tesfaction.cpp
   src/fallout_shared/tesfile.cpp
-  src/fallout_shared/tesflora.cpp
   src/fallout_shared/tesform.cpp
   src/fallout_shared/tesgrass.cpp
-  src/fallout_shared/tesidleform.cpp
   src/fallout_shared/tesimagespacemodifier.cpp
   src/fallout_shared/tesland.cpp
-  src/fallout_shared/teslevcharacter.cpp
   src/fallout_shared/teslevspell.cpp
   src/fallout_shared/teslight.cpp
   src/fallout_shared/tesmodel.cpp
-  src/fallout_shared/tesmodeltextureswap.cpp
   src/fallout_shared/tesnpc.cpp
   src/fallout_shared/tesobject.cpp
   src/fallout_shared/tesobjectacti.cpp
-  src/fallout_shared/tesobjectarma.cpp
   src/fallout_shared/tesobjectcell.cpp
   src/fallout_shared/tesobjectcont.cpp
   src/fallout_shared/tesobjectdoor.cpp
   src/fallout_shared/tesobjectrefr.cpp
-  src/fallout_shared/tesobjectstat.cpp
   src/fallout_shared/tesobjectweap.cpp
   src/fallout_shared/tesquest.cpp
   src/fallout_shared/tesrace.cpp

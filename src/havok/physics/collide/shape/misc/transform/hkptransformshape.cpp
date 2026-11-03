@@ -85,14 +85,14 @@ void hkpSingleShapeContainerCF58::AddChildShapeToCollector(hkStatisticsCollector
     reinterpret_cast<::FunctionContext *>((void *)this)->FUN_00c90360(pkCollector, (void *)(&(*reinterpret_cast<const ::hkClassCF58 *>(&::g_01268910))));
 }
 
-struct FnvCpu_FUN_00cf58f0_CpuObject
+struct FnvCpu_FUN_00cf58f0_CpuObject : public ::hkpTransformShape
 {
     char* FUN_00cf58f0();
 };
 // @fnv 0x00cf58f0
 char* FnvCpu_FUN_00cf58f0_CpuObject::FUN_00cf58f0()
 {
-    return reinterpret_cast<char*>(this) + 16;
+    return reinterpret_cast<char*>(&m_pContainedShape);
 }
 
 

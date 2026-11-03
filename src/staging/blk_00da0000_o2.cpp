@@ -44,9 +44,24 @@
 extern "C" void __cdecl FUN_00cb0a70(void*);
 extern int DAT_010d461c;
 
+struct DAMemoryRouter
+{
+    char* unk00;
+    void* unk04;
+    void* unk08;
+    void* unk0c;
+    void* m_pStreamAllocator;
+};
+
 struct FUN_00da07b0_class
 {
     void FUN_00cb0a70(void*);
+};
+struct DA07B0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x60];
+    FUN_00da07b0_class m_kMember;
 };
 
 // @fnv 0x00da07b0
@@ -55,22 +70,32 @@ void __cdecl FUN_00da07b0(void* apObject, void* b)
     if (apObject)
     {
         *(void**)apObject = (void*)&DAT_010d461c;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00da07b0_class*)((char*)apObject + 0x64))))->FUN_00cb0a70((intptr_t)(b));
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<DA07B0Object*>(apObject)->m_kMember)->FUN_00cb0a70((intptr_t)(b));
     }
 }
 
 
+struct DA6FA0Pool
+{
+    void* m_pData;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int unk0c;
+    char m_kTail[1];
+};
+
 // @fnv 0x00da6fa0
 void* __cdecl InitAndReturnTail(void* apUnused1, void* apUnused2, void* apStruct)
 {
-    if (apStruct)
+    DA6FA0Pool* pkPool = static_cast<DA6FA0Pool*>(apStruct);
+    if (pkPool)
     {
-        *(int*)apStruct = 0;
-        *(int*)((char*)apStruct + 4) = 0;
-        *(int*)((char*)apStruct + 8) = 0x80000000;
+        pkPool->m_pData = 0;
+        pkPool->m_iSize = 0;
+        pkPool->m_iCapacityAndFlags = 0x80000000;
     }
-    ::InitBlockPool((::BlockPoolArray *)(apStruct));
-    return (char*)apStruct + 16;
+    ::InitBlockPool((::BlockPoolArray *)(pkPool));
+    return pkPool->m_kTail;
 }
 
 // @fnv 0x00da08c0
@@ -82,6 +107,12 @@ void __cdecl FUN_00da08c0(void** a)
 extern int DAT_010c6bec;
 
 // If a is non-null, sets its vtable pointer to DAT_010c59f4, optionally writes a 16-bit value at offset 0x11e, then sets the vtable to DAT_010c6bec.
+struct DA08E0Object
+{
+    void* m_pVtbl;
+    char m_pad04[0x11a];
+    unsigned short m_usHalfOne;
+};
 // @fnv 0x00da08e0
 void __cdecl FUN_00da08e0(void* pObject, int bSetField)
 {
@@ -92,7 +123,7 @@ void __cdecl FUN_00da08e0(void* pObject, int bSetField)
         {
             float f = 1.0f;
             *(float*)&f = f;
-            *(unsigned short*)((char*)pObject + 0x11e) = (unsigned short)(*(int*)&f >> 0x10);
+            static_cast<DA08E0Object*>(pObject)->m_usHalfOne = (unsigned short)(*(int*)&f >> 0x10);
         }
         *(void**)pObject = &DAT_010c6bec;
     }
@@ -228,13 +259,19 @@ struct FUN_00cb0a70_class
 {
     void FUN_00cb0a70(int);
 };
+struct DA0760Object
+{
+    void* m_pVtbl;
+    int unk04;
+    FUN_00cb0a70_class m_kMember;
+};
 // @fnv 0x00da0760
 void __cdecl FUN_00da0760(void* pObject, void* b)
 {
     if (pObject)
     {
         *(void**)((char*)pObject + 0) = (void*)fnv_vftable_S00da0780_Object;
-        reinterpret_cast<::FUN_00cb0a70_Class *>((((FUN_00cb0a70_class*)((char*)pObject + 8))))->FUN_00cb0a70((intptr_t)b);
+        reinterpret_cast<::FUN_00cb0a70_Class *>(&static_cast<DA0760Object*>(pObject)->m_kMember)->FUN_00cb0a70((intptr_t)b);
     }
 }
 
@@ -905,6 +942,9 @@ struct FUN_00db7960_Target
 
 struct FUN_00db7960_Data
 {
+    void* m_pElements;
+    int m_iNumElements;
+    int m_iHashMod;
 };
 
 struct FUN_00db7960_Result
@@ -912,9 +952,7 @@ struct FUN_00db7960_Result
     void* unk00;
     unsigned short unk04;
     unsigned short unk06;
-    int unk08;
-    int unk0C;
-    int unk10;
+    FUN_00db7960_Data m_kData;
 };
 
 // Allocates a 0x14-byte result via the audio target's vf04, initialises its header and data fields, then calls EnsureCapacity on the data and returns it.
@@ -922,24 +960,23 @@ struct FUN_00db7960_Result
 void* __cdecl CreateAudioResult()
 {
     void* audio = static_cast<BSAudio*>(::FUN_00c85750());
-    FUN_00db7960_Target* target = *reinterpret_cast<FUN_00db7960_Target**>(reinterpret_cast<char*>(audio) + 0x10);
+    FUN_00db7960_Target* target = static_cast<FUN_00db7960_Target*>(static_cast<::DAMemoryRouter*>(audio)->m_pStreamAllocator);
 
-    void* allocated = target->vf04(0x14);
+    void* allocated = target->vf04(sizeof(FUN_00db7960_Result));
     FUN_00db7960_Result* result = reinterpret_cast<FUN_00db7960_Result*>(allocated);
 
-    result->unk04 = 0x14;
+    result->unk04 = sizeof(FUN_00db7960_Result);
     result->unk06 = 1;
     result->unk00 = &::fnv_00d47d70::DAT_010cf844;
 
-    int* data = reinterpret_cast<int*>(reinterpret_cast<char*>(allocated) + 8);
-    data[0] = 0;
-    data[1] = 0;
-    data[2] = -1;
+    result->m_kData.m_pElements = 0;
+    result->m_kData.m_iNumElements = 0;
+    result->m_kData.m_iHashMod = -1;
 
     void* audio2 = static_cast<BSAudio*>(::FUN_00c85750());
-    void* target2 = *reinterpret_cast<void**>(reinterpret_cast<char*>(audio2) + 0x10);
+    void* target2 = static_cast<::DAMemoryRouter*>(audio2)->m_pStreamAllocator;
 
-    FUN_00db7960_Data* dataObject = reinterpret_cast<FUN_00db7960_Data*>(reinterpret_cast<char*>(allocated) + 8);
+    FUN_00db7960_Data* dataObject = &result->m_kData;
     reinterpret_cast<::FUN_00cb1fe0_t *>((dataObject))->EnsureCapacity((intptr_t)(target2), 0);
 
     return allocated;
@@ -2101,55 +2138,29 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     }
     if (count > 0)
     {
-        const unsigned char* key = reinterpret_cast<const unsigned char*>(records) + 2;
-        ptrdiff_t diff = reinterpret_cast<const char*>(scratch) - reinterpret_cast<const char*>(records);
+        const RadixRecord* rec = records;
         unsigned int blocks = (static_cast<unsigned int>(count - 1) >> 2) + 1;
         do
         {
+            for (int k = 0; k < 2; ++k)
             {
-                unsigned int byte0 = key[-2];
-                unsigned int byte1 = key[-1];
-                unsigned int byte2 = key[0];
-                unsigned int byte3 = key[1];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
+                unsigned int key = rec[k].key;
+                ++histogram0[key & 0xff];
+                ++histogram1[(key >> 8) & 0xff];
+                ++histogram2[(key >> 16) & 0xff];
+                ++histogram3[key >> 24];
             }
+            _mm_prefetch(reinterpret_cast<const char*>(scratch + (rec - records) + 128), 0);
+            _mm_prefetch(reinterpret_cast<const char*>(rec + 128), 0);
+            for (int k = 2; k < 4; ++k)
             {
-                unsigned int byte0 = key[6];
-                unsigned int byte1 = key[7];
-                unsigned int byte2 = key[8];
-                unsigned int byte3 = key[9];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
+                unsigned int key = rec[k].key;
+                ++histogram0[key & 0xff];
+                ++histogram1[(key >> 8) & 0xff];
+                ++histogram2[(key >> 16) & 0xff];
+                ++histogram3[key >> 24];
             }
-            const char* ahead = reinterpret_cast<const char*>(key) + 1022;
-            _mm_prefetch(ahead + diff, 0);
-            _mm_prefetch(ahead, 0);
-            {
-                unsigned int byte0 = key[14];
-                unsigned int byte1 = key[15];
-                unsigned int byte2 = key[16];
-                unsigned int byte3 = key[17];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
-            }
-            {
-                unsigned int byte0 = key[22];
-                unsigned int byte1 = key[23];
-                unsigned int byte2 = key[24];
-                unsigned int byte3 = key[25];
-                ++histogram0[byte0];
-                ++histogram1[byte1];
-                ++histogram2[byte2];
-                ++histogram3[byte3];
-            }
-            key += 32;
+            rec += 4;
         } while (--blocks);
     }
     cursor0[0] = scratch;
@@ -2166,22 +2177,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 0].key)[0];
+            unsigned int bucket = ((records[i + 0].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 0];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 1].key)[0];
+            unsigned int bucket = ((records[i + 1].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 1];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 2].key)[0];
+            unsigned int bucket = ((records[i + 2].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 2];
             cursor0[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 3].key)[0];
+            unsigned int bucket = ((records[i + 3].key >> 0) & 0xff);
             *cursor0[bucket] = records[i + 3];
             cursor0[bucket] += 1;
         }
@@ -2189,22 +2200,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 0].key)[1];
+            unsigned int bucket = ((scratch[i + 0].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 0];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 1].key)[1];
+            unsigned int bucket = ((scratch[i + 1].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 1];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 2].key)[1];
+            unsigned int bucket = ((scratch[i + 2].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 2];
             cursor1[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 3].key)[1];
+            unsigned int bucket = ((scratch[i + 3].key >> 8) & 0xff);
             *cursor1[bucket] = scratch[i + 3];
             cursor1[bucket] += 1;
         }
@@ -2212,22 +2223,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 0].key)[2];
+            unsigned int bucket = ((records[i + 0].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 0];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 1].key)[2];
+            unsigned int bucket = ((records[i + 1].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 1];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 2].key)[2];
+            unsigned int bucket = ((records[i + 2].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 2];
             cursor2[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&records[i + 3].key)[2];
+            unsigned int bucket = ((records[i + 3].key >> 16) & 0xff);
             *cursor2[bucket] = records[i + 3];
             cursor2[bucket] += 1;
         }
@@ -2235,22 +2246,22 @@ void __cdecl RadixSort(RadixRecord* records, int count, RadixRecord* scratch)
     for (int i = 0; i < count; i += 4)
     {
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 0].key)[3];
+            unsigned int bucket = ((scratch[i + 0].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 0];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 1].key)[3];
+            unsigned int bucket = ((scratch[i + 1].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 1];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 2].key)[3];
+            unsigned int bucket = ((scratch[i + 2].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 2];
             cursor3[bucket] += 1;
         }
         {
-            unsigned int bucket = reinterpret_cast<const unsigned char*>(&scratch[i + 3].key)[3];
+            unsigned int bucket = ((scratch[i + 3].key >> 24) & 0xff);
             *cursor3[bucket] = scratch[i + 3];
             cursor3[bucket] += 1;
         }
@@ -2358,11 +2369,15 @@ struct Record
     unsigned char m_ucSize;
     int m_iKey1;
     int m_iKey2;
+    int unk0c;
 };
 
 struct Block
 {
     int m_uiLogicalSize;
+    int unk04;
+    int unk08;
+    int unk0c;
 };
 
 // Searches blocks for a record matching iKey1 and iKey2, sets *ppvData to the record data, and returns the record or null.
@@ -2371,8 +2386,8 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
 {
     Block** ppBlock = *pppBlocks;
     Block* pkBlock = *ppBlock;
-    Record* pkRecord = (Record*)((char*)pkBlock + 0x10);
-    Record* pkEnd = (Record*)((char*)pkBlock + pkBlock->m_uiLogicalSize + 0x10);
+    Record* pkRecord = (Record*)(pkBlock + 1);
+    Record* pkEnd = (Record*)((char*)(pkBlock + 1) + pkBlock->m_uiLogicalSize);
     ++ppBlock;
     for (;;)
     {
@@ -2387,7 +2402,7 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         case 10:
         case 11:
         case 14:
-            pvData = (char*)pkRecord + 0x10;
+            pvData = pkRecord + 1;
             if (pkRecord->m_iKey2 == iKey2 && pkRecord->m_iKey1 == iKey1)
             {
                 *ppvData = pvData;
@@ -2398,7 +2413,7 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         case 5:
         case 12:
         case 13:
-            pvData = (char*)pkRecord + 0x20;
+            pvData = pkRecord + 2;
             if (pkRecord->m_iKey2 == iKey2 && pkRecord->m_iKey1 == iKey1)
             {
                 *ppvData = pvData;
@@ -2415,8 +2430,8 @@ Record* FindRecordByKey(Block*** pppBlocks, int iKey1, int iKey2, void** ppvData
         if (pkRecord >= pkEnd)
         {
             pkBlock = *ppBlock;
-            pkRecord = (Record*)((char*)pkBlock + 0x10);
-            pkEnd = (Record*)((char*)pkBlock + pkBlock->m_uiLogicalSize + 0x10);
+            pkRecord = (Record*)(pkBlock + 1);
+            pkEnd = (Record*)((char*)(pkBlock + 1) + pkBlock->m_uiLogicalSize);
             ++ppBlock;
         }
     }
@@ -2912,6 +2927,14 @@ inline void* S00da6eb0_ListData(S00da6eb0_List* pList)
 }
 
 // Builds an index array from set bits in the router's hash table, passes it to FUN_00da4aa0, and returns an offset from a3.
+struct DA6EB0Out
+{
+    void* m_pSectors;
+    int m_iSize;
+    int m_iCapacityAndFlags;
+    int unk0c;
+    char m_kNext[1];
+};
 // @fnv 0x00da6eb0
 void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* apUnused2, void* a5)
 {
@@ -2946,7 +2969,7 @@ void* __cdecl BuildEventIndex(void* apCtx, void* apUnused, void* apOut, void* ap
 
     reinterpret_cast<S00da6eb0_Alloc*>(static_cast<BSAudio*>(::FUN_00c85750()))->m_pCur = reinterpret_cast<char*>(pEventIndex);
 
-    return reinterpret_cast<char*>(apOut) + 0x10;
+    return static_cast<DA6EB0Out*>(apOut)->m_kNext;
 }
 
 namespace CleanSimd {

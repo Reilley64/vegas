@@ -1,4 +1,5 @@
 // fallout_shared/tesscriptfunctions.cpp: Script, ActorValue, TESActorBaseData, DelStandIn and more (979 functions)
+#include <cmath>
 #include <cstddef>
 #include <windows.h>
 #include <new>
@@ -3218,13 +3219,13 @@ MobileObject* FUN_00968670_shell::FUN_00968670(unsigned int auiIndex)
 struct ExtraH {  };
 struct ShellH {  };
 struct XActor { ShellH* GetExtra() const; };
-struct PCH {  };
+struct PCH_5c1a50 {  };
 // @fnv 0x005c1a50
 bool __cdecl FUN_005c1a50(const ScriptParameter* p, const char* s, TESObjectREFR* ref, TESObjectREFR* cont, Script* scr, ScriptLocals* loc, double& ret, unsigned int& off)
 {
     if (ref && ((bool (*)(TESObjectREFR*))(*(void***)ref)[0x100/4])(ref)) {
         TESObjectREFR* actor = ref;
-        if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH*)actor)))->FUN_00493bb0()))) {
+        if (((bool)(reinterpret_cast<::FUN_00493bb0_Class *>((((PCH_5c1a50*)actor)))->FUN_00493bb0()))) {
             typedef ExtraH* (* GetF)(TESObjectREFR*);
             if (((GetF)(*(void***)actor)[0x428/4])(actor))
                 reinterpret_cast<::FUN_005c1ae0_class *>((((GetF)(*(void***)actor)[0x428/4])(actor)))->FUN_005c1ae0();
@@ -4251,7 +4252,7 @@ struct S5
 
 struct S4
 {
-    S5* FUN_005c9bf0();
+    float FUN_005c9bf0();
 };
 
 struct FUN_005c9c90
@@ -5575,7 +5576,7 @@ bool __cdecl FUN_005c6800(const ScriptParameter*, const char*, TESObjectREFR* re
 }
 
 namespace fnv_005c6990 {
-extern "C" void* g_thePlayer;
+
 // @fnv 0x005c6990
 bool FUN_005c6990(TESObjectREFR* a1, TESObjectREFR* a2, TESObjectREFR* a3,
     TESObjectREFR* a4, TESObjectREFR* a5, TESObjectREFR* a6, TESObjectREFR* a7,
@@ -5720,9 +5721,9 @@ struct FUN_005c9c10_Class
     float FUN_005c9c10();
 };
 // @fnv 0x005c9bf0
-S5* S4::FUN_005c9bf0()
+float S4::FUN_005c9bf0()
 {
-    return ((::S5 *)(reinterpret_cast<::FUN_005c9c10_Class *>((((::S5 *)(reinterpret_cast<::FUN_004ebbc0_shell *>(this)->FUN_004ebbc0(1)))))->FUN_005c9c10()));
+    return reinterpret_cast<::FUN_005c9c10_Class *>(reinterpret_cast<::FUN_004ebbc0_shell *>(this)->FUN_004ebbc0(1))->FUN_005c9c10();
 }
 
 // @fnv 0x005c9c10
@@ -5847,7 +5848,7 @@ bool __cdecl FUN_005cb850(const ScriptParameter* parameters, const char* scriptD
     return true;
 }
 
-extern "C" bool __cdecl FUN_005a10b0(TESObjectREFR*, void*, void*, double&);
+
 // @fnv 0x005cc370
 bool FUN_005cc370(const ScriptParameter* p, const char* s, TESObjectREFR* a, TESObjectREFR* b, Script* c, ScriptLocals* d, double& e, unsigned int& f)
 {
@@ -5888,7 +5889,7 @@ bool __cdecl FUN_005cc460(const ScriptParameter* p, const char* name, TESObjectR
     return true;
 }
 
-extern "C" bool __cdecl FUN_005a1a40(TESObjectREFR*, void*, void*, double&);
+
 
 // @fnv 0x005cc4c0
 bool __cdecl FUN_005cc4c0(const ScriptParameter* p, const char* s, TESObjectREFR* b, TESObjectREFR* a, Script* c, ScriptLocals* d, double& e, unsigned int& f)
@@ -5949,7 +5950,7 @@ bool __cdecl FUN_005cfd90(const ScriptParameter* params, const char* scriptData,
     return ::fnv_005a2810::FUN_005a2810((::fnv_005a2810::PlayerS *)(thisObject), 0, 0, result);
 }
 
-bool __cdecl FUN_0059ff90(TESObjectREFR*, const char*, const char*, double&);
+
 
 // @fnv 0x005d09c0
 bool __cdecl FUN_005d09c0(const ScriptParameter* parameters, const char* scriptData,
@@ -6104,7 +6105,7 @@ bool __cdecl FUN_005d94c0(const ScriptParameter* p, const char* s, TESObjectREFR
     return FUN_005a4aa0(a, 0, 0, e);
 }
 
-extern "C" bool __cdecl FUN_005a4930(TESObjectREFR*, void*, void*, double&);
+
 
 // @fnv 0x005d9590
 bool FUN_005d9590(void* a, void* b, TESObjectREFR* c, void* d, void* e, void* f, double& h)
@@ -6986,7 +6987,6 @@ bool __cdecl FUN_005dc350(const ScriptParameter* parameters, const char* scriptD
     return true;
 }
 
-struct std { static float __cdecl abs(float); };
 // @fnv 0x005dc480
 bool __cdecl FUN_005dc480(const ScriptParameter* parameters, const char* scriptData, TESObjectREFR* thisObject, TESObjectREFR* container, Script* script, ScriptLocals* locals, double& result, unsigned int& opcodeOffset)
 {
@@ -7783,7 +7783,6 @@ bool Script::OnHitWithFunction(const ScriptParameter* parameters, const char* sc
     }
     return true;
 }
-extern BGSCameraPath* DAT_01183028;
 void __cdecl _DebugLog(const char*, const char*);
 // @fnv 0x005cb580
 bool __cdecl FUN_005cb580(const ScriptParameter* parameters, const char* scriptData,
@@ -9140,7 +9139,7 @@ struct BSSimpleListTESRaceSize { unsigned int GetSize(); };
 struct ContentMountRecord;
 extern "C" {
     int _sprintf_s(char*, unsigned int, const char*, ...);
-    void _DebugLog(const char*);
+    void _DebugLog(const char*, ...);
 }
 // @fnv 0x005df930
 bool __cdecl FUN_005df930(const ScriptParameter* apParameters, const char* apScriptData,
@@ -10335,7 +10334,7 @@ struct FUN_005d79e0_TLS
     unsigned char bDebugLogging;
 };
 extern "C" void __cdecl _DebugLog(const char* format, ...);
-bool __cdecl FUN_005a41c0(TESObjectREFR*, void*, void*, double&);
+
 
 // @fnv 0x005d79e0
 bool FUN_005d79e0(const ScriptParameter* apParameters, const char* apCompiledParams,
@@ -11460,6 +11459,7 @@ public:
     float z;
 
     void Set(float, float, float);
+    ::NiPoint3 &Subtract(const ::NiPoint3 &);
 public:
     static const ::NiPoint3 ZERO;
 };
@@ -16055,7 +16055,8 @@ bool FUN_005bbc50(const ScriptParameter* apParameters, const char* apCompiledPar
             DebugLog("SetGlobalRadialBlur strength rampup start rampdown downstart");
         bResult = false;
     } else {
-        g_pRadialBlurInstance = ((::ImageSpaceModifierInstanceDOF *)(::fnv_0052a440::FUN_0052a440(fStrength3, fRampUpTmp, fStart, fRampDown, m_fRampDownStart, (*(const ::NiPoint2 *)(&NiPoint2(::fnv_00c88020::DAT_01016248, ::fnv_00c88020::DAT_01016248))), 0.0f)));
+        NiPoint2 kCenter(::fnv_00c88020::DAT_01016248, ::fnv_00c88020::DAT_01016248);
+        g_pRadialBlurInstance = ((::ImageSpaceModifierInstanceDOF *)(::fnv_0052a440::FUN_0052a440(fStrength3, fRampUpTmp, fStart, fRampDown, m_fRampDownStart, (const ::NiPoint2 &)kCenter, 0.0f)));
         if (g_pRadialBlurInstance)
             g_pRadialBlurInstance->FUN_005bbd60(true);
     }
@@ -16071,8 +16072,8 @@ struct ToggleTarget {
     const char* GetName() const;
 };
 
-extern int DAT_011841cc;
-extern int DAT_011846d4;
+
+
 extern void __cdecl DebugLog(const char*, ...);
 
 // @fnv 0x005bbe10
@@ -17562,8 +17563,8 @@ bool __cdecl FUN_005c1f00(int a1, int a2, int a3, int a4, int a5, int a6, double
 }  // namespace fnv_005c1f00
 
 extern bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9);
-extern int DAT_011841cc;
-extern int DAT_011846d4;
+
+
 
 class FUN_005c20e0_sub94 {
 public:
@@ -17618,8 +17619,8 @@ bool __cdecl FUN_005c2190(int param_0, int param_1, void* param_2)
 }
 }  // namespace fnv_005c2190
 
-extern int DAT_011841cc;
-extern int DAT_011846d4;
+
+
 
 class ItemVT {
 public:
@@ -17846,7 +17847,7 @@ extern char DAT_0103b270;
 extern char DAT_01039690;
 extern bool __cdecl FUN_005accb0(void*, void*, void*, void*, void*, void*, void*, char*);
 extern void __cdecl FUN_0043b2b0(bool);
-extern void __cdecl FUN_00406d00(char*, unsigned int, const char*, const char*);
+
 // @fnv 0x005c6430
 bool __cdecl FUN_005c6430(void* p1,void* p2,void* p3,void* p4,void* p5,void* p6,void* p7,void* p8) {
     char filename[260];
@@ -17931,7 +17932,7 @@ class TESObjectREFR;
 class Script;
 class ScriptLocals;
 
-extern "C" bool __cdecl FUN_0059ec30(TESObjectREFR*, void*, void*, double&);
+
 
 // @fnv 0x005c7490
 bool __cdecl FUN_005c7490(const ScriptParameter* apParameters, const char* apCompiledParams, TESObjectREFR* apRefObject, TESObjectREFR* apContainer, Script* apScript, ScriptLocals* apScriptLocals, double& afReturnValue, unsigned int& auiOffset)
@@ -18002,7 +18003,7 @@ bool __cdecl FUN_005c7890(
 }
 
 namespace fnv_005c7c10 {
-extern "C" unsigned char __cdecl FUN_005accb0(int,int,int,int,int,int,int,int*);
+unsigned char __cdecl FUN_005accb0(int,int,int,int,int,int,int,int*);
 extern "C" int __cdecl FUN_0059f890(int,int,int,int);
 
 // @fnv 0x005c7c10
@@ -18218,7 +18219,7 @@ bool FUN_005c9a00() {
     DebugLog("Current HDR Params:");
     DebugLog("SISG:");
     DebugLog("    iNumBlurpasses: %d fBlurRadius: %f", pManager->GetBlurRadius());
-    DebugLog("    fBrightClamp: %f fBrightScale: %f", pManager->GetBrightClamp(), ((float)(reinterpret_cast<::S4 *>((pManager))->FUN_005c9bf0())));
+    DebugLog("    fBrightClamp: %f fBrightScale: %f", pManager->GetBrightClamp(), reinterpret_cast<::S4 *>((pManager))->FUN_005c9bf0());
     DebugLog("SSP:");
     DebugLog("    fSunlightDimmer: %f Lum Ramp: %f", ::DAT_011f9190, ::DAT_011ad87c);
     DebugLog("SHP:");
@@ -19059,7 +19060,7 @@ struct FUN_0047eb90_Class {
 public:
     void FUN_0047eb90(int);
 };
-extern "C" unsigned char __cdecl FUN_005accb0(
+unsigned char __cdecl FUN_005accb0(
     unsigned int arg1, unsigned int arg2, unsigned int last,
     unsigned int arg3, unsigned int arg4, unsigned int arg5,
     unsigned int arg6, FUN_0047eb90_Class** object, unsigned int* output);
@@ -19785,7 +19786,7 @@ void FUN_005d1150(int a1, int a2, int a3, int a4, int a5, int a6, int a7)
 namespace fnv_005d11b0 {
 struct ValueStore { virtual int Read(unsigned int index); };
 struct GameManager {  };
-extern "C" GameManager* DAT_011dea3c;
+extern GameManager* DAT_011dea3c;
 extern bool __cdecl FUN_005accb0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int*, int*);
 // @fnv 0x005d11b0
 bool __cdecl FUN_005d11b0(unsigned int input, unsigned int actor, unsigned int flags, unsigned int context, unsigned int extra, unsigned int script, unsigned int unused, unsigned int value)
@@ -20146,8 +20147,8 @@ struct S_03c8 {
     virtual void V242(void* apTarget, float afValue, int aiFlag);
 };
 
-extern int DAT_011841cc;
-extern int DAT_011846d4;
+
+
 
 // @fnv 0x005d1290
 bool __cdecl FUN_005d1290(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* locals, double& result, unsigned int& opcodeOffsetPtr)
@@ -21266,7 +21267,7 @@ bool __cdecl FUN_005d4580()
 }
 
 namespace fnv_005d4740 {
-extern "C" unsigned char __cdecl FUN_005accb0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float*);
+unsigned char __cdecl FUN_005accb0(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, float*);
 // @fnv 0x005d4740
 unsigned char __cdecl FUN_005d4740(unsigned int first, unsigned int second, unsigned int third, unsigned int fourth, unsigned int fifth, unsigned int sixth, unsigned int seventh, unsigned int eighth)
 {
@@ -21742,7 +21743,7 @@ struct DebugPageOwner
 {
 };
 
-extern "C" bool __cdecl FUN_005accb0(int, int, int, int, int, int, int, DebugTextBuffer*);
+bool __cdecl FUN_005accb0(int, int, int, int, int, int, int, DebugTextBuffer*);
 extern "C" void __cdecl FUN_00703c00(const char*);
 extern int DAT_011dea3c;
 
@@ -22217,9 +22218,9 @@ virtual void Unk3d();
 virtual void Unk3e();
 virtual void Unk3f(); virtual unsigned char IsActive();};
 struct ScriptNode { unsigned char m_iWordAt00[0xbc]; unsigned char m_flag;  };
-extern "C" bool __cdecl FUN_005accb0(int, int, int, ScriptContextObject*, int, int, int, int*);
+bool __cdecl FUN_005accb0(int, int, int, ScriptContextObject*, int, int, int, int*);
 extern "C" ScriptNode* __cdecl FUN_00ec43fb(ScriptContextObject*, int, const void*, const void*, int);
-extern "C" void __cdecl FUN_00703c00(void*, int, const void*);
+extern void __cdecl FUN_00703c00(void*, int, const void*);
 extern const char DAT_011841cc;
 extern const char DAT_011846d4;
 // @fnv 0x005d6a60
@@ -22844,7 +22845,7 @@ bool __cdecl FUN_005d72f0(int a1, int a2, int a3, int a4, int a5, int a6, int un
 }
 
 namespace fnv_005d7350 {
-extern "C" bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9);
+bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9);
 
 // @fnv 0x005d7350
 bool __cdecl FUN_005d7350(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
@@ -24776,8 +24777,8 @@ struct FNV_ListOwner {
 struct FNV_ScriptResult {
     int FUN_0084e3a0();
 };
-extern "C" FNV_ListOwner* DAT_011dea3c;
-extern "C" void __cdecl FUN_005accb0(unsigned int, unsigned int, unsigned int,
+extern FNV_ListOwner* DAT_011dea3c;
+void __cdecl FUN_005accb0(unsigned int, unsigned int, unsigned int,
                                       unsigned int, unsigned int, unsigned int,
                                       unsigned int, FNV_ParsedScript*);
 
@@ -25152,7 +25153,7 @@ struct HelpersB {
 };
 extern "C" char DAT_01039358;
 extern "C" char DAT_010231e0;
-extern "C" char DAT_011dea3c;
+extern char DAT_011dea3c;
 // @fnv 0x005b4be0
 bool HelpersB::FUN_005b4be0(void* a, void* b, ObjB* c, unsigned* d, ObjB* e, void* f, void* g, void* h) {
     FormB* form_ = 0;
@@ -25320,7 +25321,7 @@ class MemoryManager;
 struct ModelLoader;
 extern bool ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
 extern "C" int __cdecl _sprintf_s(char*, unsigned int, const char*, ...);
-extern "C" void* __cdecl memset(void*, int, unsigned int);
+
 bool __cdecl FUN_0043b300(const void*, void*);
 void* FUN_00413f40(void*);
 char* FUN_0043b1b0(void*);
@@ -25474,7 +25475,7 @@ bool __cdecl FUN_005b5e60(const ScriptParameter* apParameters, const char* apCom
                         }
                         else
                         {
-                            int k2 = ::FUN_005b5e40(::FUN_00559450(&arr19[j]));
+                            int k2 = ::FUN_005b5e40(::FUN_00559450((int *)&arr19[j]));
                             if ((unsigned int)k2 < (unsigned int)key)
                             {
                                 found = j;
@@ -25562,9 +25563,9 @@ bool __cdecl FUN_005b5e60(const ScriptParameter* apParameters, const char* apCom
                             category7 = "MISCREF";
                         }
                     }
-                    unsigned int sz9 = (unsigned int)::FUN_005b5e40(::FUN_00559450(&arr19[i]));
+                    unsigned int sz9 = (unsigned int)::FUN_005b5e40(::FUN_00559450((int *)&arr19[i]));
                     int t18 = FUN_00e7bd20(((void *)(reinterpret_cast<::NonActorMagicTarget *>((((void *)(reinterpret_cast<::ActorMover *>((((void *)(::FUN_00559450((int *)(void *)(&arr19[i]))))))->GetCurrentMoveModeType()))))->GetActiveEffectList())));
-                    char* t2620 = ::GraphicsRenderer::GetD3DFormatName((::_D3DFORMAT)(t18));
+                    const char* t2620 = ::GraphicsRenderer::GetD3DFormatName((::_D3DFORMAT)(t18));
                     char* s261c3 = (char*)((void *)(::FUN_00559450((int *)(void *)(((FormV*)((void *)(::FUN_00559450((int *)(void *)(&arr19[i])))))->V08()))));
                     char line6[0x200];
                     _sprintf_s(line6, 0x200, "TEXTURES: %d:\t%s\t%s\t%dx%d\t%d\t%s\trefcount %d\t%s\t%s\r\n",
@@ -26468,7 +26469,8 @@ bool FUN_005b7b40(int form,int flags,int option,int source,int destination,int q
  NiPoint3 axisX5(0,::DAT_01016088,1);
  NiPoint3 axisY22(::fnv_00c88020::DAT_01016248,::DAT_0102295c,1);
  NiPoint3 axisZ22(::DAT_0102295c,::DAT_0102295c,1);
- NiAVObject* mapMesh=FUN_004b3570(axisX5,axisY22,axisZ22,&RgbaColor(1,0,0,0),1);
+ RgbaColor kRed(1,0,0,0);
+ NiAVObject* mapMesh=FUN_004b3570(axisX5,axisY22,axisZ22,&kRed,1);
  reinterpret_cast<::FUN_00440460_S *>((mapMesh))->FUN_00440460((const ::V3 *)&(cameraOffset38));
  GridRotation placement7=(*reinterpret_cast<::fnv_005b7b40::GridRotation *>(&::DAT_011a9448));
  reinterpret_cast<::FUN_004a0c90_shell *>(&(placement7))->FUN_004a0c90(float(((double)(reinterpret_cast<::TESObjectCELL_Ext *>((((::fnv_005b7b40::GridProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->FUN_00555ad0()))+((::fnv_005b7b40::NiPoint3 *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::fnv_005b7b40::GridPlayer * *>(&::_g_thePlayer))))->GetData()))->z));
@@ -29203,7 +29205,7 @@ bool FUN_005bd410(void* p1,void* p2,void* p3,void* p4,void* p5,void* p6,void* p7
 }
 
 namespace fnv_005bd5e0 {
-extern "C" bool __cdecl FUN_005accb0(int,int,int,int,int,int,int,void*);
+bool __cdecl FUN_005accb0(int,int,int,int,int,int,int,void*);
 extern void __cdecl FUN_00703da0();
 struct Player5bd {  };
 extern Player5bd* g_thePlayer;
@@ -29822,7 +29824,7 @@ public:
     virtual float GetValue(unsigned int actorValue);
 };
 extern bool __cdecl ExtractArgs(const ScriptParameter*, const char*, unsigned int*, TESObjectREFR*, TESObjectREFR*, Script*, ScriptLocals*, ...);
-extern bool __cdecl FUN_00406d70(unsigned int, unsigned int);
+
 extern void __cdecl FUN_00703c00(const char*, const char*);
 extern const char DAT_0103a310[];
 typedef void (*ActorValueChange)(Actor*, unsigned int, float, int);
@@ -30473,7 +30475,7 @@ unsigned char __cdecl FUN_005be6e0(int arg_8h, int arg_ch, int arg_10h, int arg_
 namespace fnv_005be900 {
 #include <intrin.h>
 
-extern "C" unsigned long _tls_index;
+extern unsigned long _tls_index;
 struct GameSettingValue {
     unsigned int FUN_004f8940();
 };
@@ -31298,7 +31300,7 @@ bool __cdecl FUN_005c12a0(const ScriptParameter* apParameters, const char* apCom
                 if (pForwardSequence) {
                     for (unsigned int i = 0; i < reinterpret_cast<::fnv_00495d00::FUN_00495d00_shell *>((pMgr))->FUN_00495d00(); i++) {
                         NiSeq5c* pOther = ((::fnv_005c12a0::NiSeq5c *)(reinterpret_cast<::fnv_00495d20::FUN_00495d20_shell *>((pMgr))->FUN_00495d20(i)));
-                        if (::FUN_00404dc0((*(::fnv_005c12a0::NiFixedStr5c *)(reinterpret_cast<::TESTopicInfoData *>((pOther))->GetLinkToList())), (*reinterpret_cast<const char * *>(&::DAT_011977d8))))
+                        if (::FUN_00404dc0((*(::fnv_005c12a0::NiFixedStr5c *)(reinterpret_cast<::TESTopicInfoData *>((pOther))->GetLinkToList())), (const char *)::DAT_011977d8))
                             reinterpret_cast<::NiControllerManager *>((pMgr))->StopSequence((::NiControllerSequence *)(pOther), 0.0f);
                     }
                     reinterpret_cast<::NiControllerManager *>((pMgr))->ActivateControllerSequence((::NiControllerSequence *)(pForwardSequence), 0, false, 1.0f, 0.0f, (::NiControllerSequence *)(::fnv_005c12a0::NiSeq5c *)(0));
@@ -34266,15 +34268,17 @@ public:
     int FUN_0043c430();
     int FUN_00726070();
 };
-template<> class NiPointer<NiTexture> {
+}  // namespace fnv_005c5a70
+template<> class NiPointer<fnv_005c5a70::NiTexture> {
 public:
-    NiTexture* object;
+    fnv_005c5a70::NiTexture* object;
     NiPointer();
     ~NiPointer();
-    operator NiTexture*() const;
+    operator fnv_005c5a70::NiTexture*() const;
     NiPointer& operator=(const NiPointer&);
-    NiPointer& operator=(NiTexture*);
+    NiPointer& operator=(fnv_005c5a70::NiTexture*);
 };
+namespace fnv_005c5a70 {
 class BSFile {
 public:
     char internalbuf16[16];
@@ -38189,8 +38193,8 @@ bool FUN_005cbf80(const ScriptParameter* parameters, const char* scriptData, Loc
     return true;
 }
 
-extern int DAT_011846d4;
-extern int DAT_011841cc;
+
+
 
 bool __cdecl FUN_005accb0(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int* a8, int* a9, int* a10);
 
@@ -39260,7 +39264,7 @@ void __cdecl FUN_005ccb20(Reference* moved,Reference* destination,float dx,float
 namespace fnv_005cd0e0 {
 extern "C" char DAT_0103a598;
 extern "C" char DAT_0103a538;
-extern "C" char DAT_011c3f2c;
+extern char DAT_011c3f2c;
 extern "C" unsigned long __readfsdword(unsigned long);
 __pragma(intrinsic(__readfsdword))
 struct RefCD {
@@ -39649,7 +39653,7 @@ bool __cdecl FUN_005ce480(const ScriptParameter* parameters, const char* compile
 }
 
 namespace fnv_005ce7b0 {
-extern "C" void* __cdecl FUN_00ec43fb(
+extern void* __cdecl FUN_00ec43fb(
     TESObjectREFR*, unsigned int, const void*, const void*, unsigned int);
 extern unsigned char DAT_011841cc;
 extern unsigned char DAT_011846d4;
@@ -40412,7 +40416,7 @@ bool __cdecl FUN_005d28b0(const ScriptParameter* apParameters, const char* apCom
 }
 
 namespace fnv_005d2910 {
-extern "C" void __cdecl FUN_00703c00(const char*, ...);
+extern void __cdecl FUN_00703c00(const char*, ...);
 extern const char DAT_0103bed4[];
 
 // @fnv 0x005d2910
@@ -40753,11 +40757,11 @@ bool __cdecl FUN_005d2a80(const ScriptParameter* parameters, const char* scriptD
         long long end;
         long long start;
         long long dt;
-        QueryPerformanceFrequency(&start);
+        QueryPerformanceFrequency((LARGE_INTEGER*)&start);
         secondsPerTick = (double)start * 0.000001;
-        QueryPerformanceCounter(&freq);
+        QueryPerformanceCounter((LARGE_INTEGER*)&freq);
         ::FUN_0049c860((::MeshInput *)(void *)(((::HostMid *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>((((Host5d*)(*reinterpret_cast<::FNV_5b6cd0_Host * *>(&::g_TES)))))->FUN_00457070()))));
-        QueryPerformanceCounter(&end);
+        QueryPerformanceCounter((LARGE_INTEGER*)&end);
         dt = end - freq;
         FUN_00406d00(msg, 0xff, "GeneratePlaceableWaterForCell() for cell %s: Ticks: %I64d, Microseconds: %f",
                      ((::HostMid *)(reinterpret_cast<::fnv_00457070::FUN_00457070_shell *>((((Host5d*)(*reinterpret_cast<::FNV_5b6cd0_Host * *>(&::g_TES)))))->FUN_00457070()))->FUN_00451cb0(), dt, (double)dt / secondsPerTick);
@@ -42118,13 +42122,13 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
                     InventoryDiagnosticForm* form3=((::InventoryDiagnosticForm *)(reinterpret_cast<::Twin_0044ddc0 *>((entry))->GetName()));
                     switch(form3->FUN_00401170()) {
                     case 40:
-                        FUN_00703c00(DAT_0103cc30,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName():::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!reinterpret_cast<::ActionOwner *>((actor_11))->FUN_008bc9d0((::TargetObject *)(form3),true)?DAT_0103cc5c:DAT_01011584);
+                        FUN_00703c00(DAT_0103cc30,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584,actor_11&&!reinterpret_cast<::ActionOwner *>((actor_11))->FUN_008bc9d0((::TargetObject *)(form3),true)?DAT_0103cc5c:DAT_01011584);
                         break;
                     case 24:
-                        FUN_00703c00(DAT_0103cc10,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName():::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        FUN_00703c00(DAT_0103cc10,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(0),reinterpret_cast<::FUN_004bcdb0_shell *>((entry))->FUN_004bcdb0(1),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     default:
-                        FUN_00703c00(DAT_0103cbfc,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName():::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
+                        FUN_00703c00(DAT_0103cbfc,((int)(reinterpret_cast<::Callees *>((entry))->FUN_00726070())),((void *)(reinterpret_cast<::BGSCameraPath *>((form3))->HasNameForWarning()))?form3->GetName(): ::FUN_00482720((::TESForm *)(form3)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((form3))->FUN_0084e3a0())),reinterpret_cast<::FUN_004bddd0_shell *>((entry))->FUN_004bddd0(0)?DAT_0103cc54:DAT_01011584);
                         break;
                     }
                     InventoryDiagnosticEnchant* enchant=((::InventoryDiagnosticEnchant *)(::BGSBipedModelList::GetBipedModelList((::TESForm *)(form3))));
@@ -42132,10 +42136,10 @@ bool FUN_005d6d40(const ScriptParameter* parameters,const char* data,InventoryDi
                         InventoryDiagnosticForm* effect=((::InventoryDiagnosticForm *)(reinterpret_cast<::Callees *>((enchant))->FUN_00726070()));
                         if(effect) {
                             InventoryDiagnosticList* list=((::InventoryDiagnosticList *)(reinterpret_cast<::BGSCameraPath *>((effect))->GetConditions()));
-                            FUN_00703c00(DAT_0103cbe8,((void *)(reinterpret_cast<::BGSCameraPath *>((effect))->HasNameForWarning()))?effect->GetName():::FUN_00482720((::TESForm *)(effect)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0())));
+                            FUN_00703c00(DAT_0103cbe8,((void *)(reinterpret_cast<::BGSCameraPath *>((effect))->HasNameForWarning()))?effect->GetName(): ::FUN_00482720((::TESForm *)(effect)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((effect))->FUN_0084e3a0())));
                             while(list) {
                                 InventoryDiagnosticForm* detail=*((::InventoryDiagnosticForm **)((void *)(list)));
-                                FUN_00703c00(DAT_0103cbd4,((void *)(reinterpret_cast<::BGSCameraPath *>((detail))->HasNameForWarning()))?detail->GetName():::FUN_00482720((::TESForm *)(detail)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((detail))->FUN_0084e3a0())));
+                                FUN_00703c00(DAT_0103cbd4,((void *)(reinterpret_cast<::BGSCameraPath *>((detail))->HasNameForWarning()))?detail->GetName(): ::FUN_00482720((::TESForm *)(detail)),((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((detail))->FUN_0084e3a0())));
                                 list=((::InventoryDiagnosticList *)(reinterpret_cast<::Callees *>((list))->FUN_00726070()));
                             }
                         }
@@ -42441,6 +42445,7 @@ struct CmdPoint3 {
 };
 
 struct CmdProcess {
+    void FUN_005578e0(CmdPoint3* apPos, const char* apName, int aiValue);
 };
 
 struct CmdPlayer {
@@ -42471,9 +42476,9 @@ bool __cdecl FUN_005d8420(void* apParamInfo, void* apScriptData, void* apThisObj
     if (((::fnv_005d8420::CmdProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005d8420::CmdPlayer * *>(&::_g_thePlayer))))->GetTarget()))) {
         CmdPoint3 kPos(fX7, fY5, fZ2);
         if (::std::strlen(szName))
-            reinterpret_cast<::Twin_005578e0 *>((((::fnv_005d8420::CmdProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005d8420::CmdPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->SetTraitValue((int)(&kPos), (float)(szName), (const char *)(::FUN_005d8550(iValue)));
+            ((::fnv_005d8420::CmdProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005d8420::CmdPlayer * *>(&::_g_thePlayer))))->GetTarget()))->FUN_005578e0(&kPos, szName, ::FUN_005d8550(iValue));
         else
-            reinterpret_cast<::Twin_005578e0 *>((((::fnv_005d8420::CmdProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005d8420::CmdPlayer * *>(&::_g_thePlayer))))->GetTarget()))))->SetTraitValue((int)(&kPos), (float)(0), (const char *)(::FUN_005d8550(iValue)));
+            ((::fnv_005d8420::CmdProcess *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::fnv_005d8420::CmdPlayer * *>(&::_g_thePlayer))))->GetTarget()))->FUN_005578e0(&kPos, 0, ::FUN_005d8550(iValue));
     }
     return true;
 }
@@ -44591,7 +44596,7 @@ namespace fnv_005dc6a0 {
 // global console manager flag according to whether the helper produced one.
 extern FUN_005dc710_class* DAT_011dea3c;
 
-extern "C" bool __cdecl FUN_005accb0(const ScriptParameter* parameters,
+bool __cdecl FUN_005accb0(const ScriptParameter* parameters,
                                      const char* scriptData,
                                      TESObjectREFR* extraRef,
                                      TESObjectREFR* thisObject,
@@ -44848,7 +44853,7 @@ struct xNode {
 };
 
 bool xExtractArgs(const void* pParams, const char* pData, unsigned int* pOffset, xRef* pThis, xRef* pContainer, void* pScript, void* pLocals, ...);
-extern "C" int __cdecl sprintf_s(char* buf, unsigned int size, const char* fmt, ...);
+
 void xDebugLog(const char* fmt, ...);
 void xConsolePrint(DynamicString kText);
 
@@ -49535,7 +49540,7 @@ public:
 };
 
 
-extern "C" int __cdecl _sprintf_s(char*, size_t, const char*, ...);
+extern int __cdecl _sprintf_s(char*, size_t, const char*, ...);
 void __cdecl _DebugLog(char const*);
 
 
@@ -49979,7 +49984,8 @@ bool __cdecl FUN_005cf860(
     if (targetRef) {
         NiNode* rootNode3 = ((REFR_Shell*)targetRef)->GetNiNode();
         if (rootNode3) {
-            NiAVObject* targetObjVal = rootNode3->GetObjectByName(&NiFixedString(buffer5));
+            NiFixedString kTargetName(buffer5);
+            NiAVObject* targetObjVal = rootNode3->GetObjectByName(&kTargetName);
             if (targetObjVal) {
                 NiSourceTexturePtr spTexture = 0;
 
@@ -50047,7 +50053,7 @@ bool __cdecl FUN_005bb9e0(const ScriptParameter* params, const char* scriptData,
     reinterpret_cast<::FUN_004a0c90_shell *>(&(rot))->FUN_004a0c90(1.5707963f);
     mat4 = mat4.FUN_0043f8d0(rot);
     FXPtr sp(new FX(_pos, _v, mat4));
-    reinterpret_cast<::S_00c5ae70_Class *>((((::fnv_005bb9e0::Mgr2 *)(reinterpret_cast<::FUN_00454b30_class *>((((::fnv_005bb9e0::Mgr1 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()))))->FUN_00c5ae70((int)(sp));
+    reinterpret_cast<::S_00c5ae70_Class *>((((::fnv_005bb9e0::Mgr2 *)(reinterpret_cast<::FUN_00454b30_class *>((((::fnv_005bb9e0::Mgr1 *)(::NiAdditionalGeometryData::GetShadowSceneNodeForIndex(0)))))->FUN_00454b30()))))->FUN_00c5ae70((std::intptr_t)(FX*)sp);
     return true;
 }
 }  // namespace fnv_005bb9e0
@@ -50065,6 +50071,7 @@ struct XActor;
 class NiPoint3 { public: float x, y, z; };
 class PtOp { public: NiPoint3 operator-(const NiPoint3&) const; };
 class Pt { public: float Length() const; };
+static float PtLength(const NiPoint3& d) { return ((const Pt&)d).Length(); }
 extern TESObjectREFR* DAT_011dea3c;
 class TESForm_acc { public:  };
 extern NiPoint3 DAT_011a9c30;
@@ -50551,7 +50558,7 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
             else
                 _DebugLog("Interior cell %s (%08x)", ((PathRef*)aBId.FUN_006a1440(aD1x)->m_08)->EditorID(), ((unsigned int)(reinterpret_cast<::FUN_0084e3a0_Class *>((((PathRef*)aBId.FUN_006a1440(aD1x)->m_08)))->FUN_0084e3a0())));
             PathingLocation shell_(aD1x == 0 ? PathingLocation((TESObjectREFR*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer))) : PathingLocation(aBId.m_10.GetAt(aD1x - 1).position, (TESObjectCELL*)aBId.FUN_006a1440(aD1x)->m_08, (TESWorldSpace*)aBId.FUN_006a1440(aD1x)->m_04));
-            PathingLocation goal4(*(NiPoint3*)((int)(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((S00568fa0*)aBId.m_10.GetAt(aD1x).m_00)))->FUN_00568fa0())), (TESObjectCELL*)aBId.FUN_006a1440(aD1x)->m_08, (TESWorldSpace*)aBId.FUN_006a1440(aD1x)->m_04);
+            PathingLocation goal4(*(NiPoint3*)&(reinterpret_cast<::fnv_00568fa0::Fn568fa0 *>((((S00568fa0*)aBId.m_10.GetAt(aD1x).m_00)))->FUN_00568fa0()), (TESObjectCELL*)aBId.FUN_006a1440(aD1x)->m_08, (TESWorldSpace*)aBId.FUN_006a1440(aD1x)->m_04);
             bool valid4 = true;
             if (!reinterpret_cast<::PathingLocationProxy *>(&(shell_))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0))) valid4 = false;
             else if (!reinterpret_cast<::PathingLocationProxy *>(&(goal4))->FindContainingTriangle((::FindTriangleForLocationFilter *)(0))) valid4 = false;
@@ -50576,9 +50583,9 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
             }
             float travelTime8 = 0.0f;
             if (aD1x > 0)
-                travelTime8 = ((Pt&)((PtOp*)&aBId.m_10.GetAt(aD1x - 1).position)->operator-(*((PathRef*)aBId.m_10.GetAt(aD1x).m_00)->Position())).Length();
+                travelTime8 = PtLength(((PtOp*)&aBId.m_10.GetAt(aD1x - 1).position)->operator-(*((PathRef*)aBId.m_10.GetAt(aD1x).m_00)->Position()));
             else
-                travelTime8 = ((Pt&)((PtOp*)&aBId.start)->operator-(*((PathRef*)aBId.m_10.GetAt(aD1x).m_00)->Position())).Length();
+                travelTime8 = PtLength(((PtOp*)&aBId.start)->operator-(*((PathRef*)aBId.m_10.GetAt(aD1x).m_00)->Position()));
             _DebugLog("Travel %f units", (double)travelTime8);
             TESObjectREFR* refr6 = (TESObjectREFR*)aBId.m_10.GetAt(aD1x).m_00;
             int aux3 = ((int)(reinterpret_cast<::TESObjectREFR *>((((S00568e50*)refr6)))->GetExtraRadioData()));
@@ -50612,8 +50619,8 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
                 _DebugLog("Make sure that the navmeshes on the way are finalized and connected");
             }
             float aE0x;
-            if (reinterpret_cast<::FUN_0076b610_Class *>(&(aBId.m_10))->FUN_0076b610()) aE0x = ((Pt&)((PtOp*)&aBId.start)->operator-(aBId.finish)).Length();
-            else aE0x = ((Pt&)((PtOp*)&aBId.m_10.GetAt(aD1x - 1).position)->operator-(aBId.finish)).Length();
+            if (reinterpret_cast<::FUN_0076b610_Class *>(&(aBId.m_10))->FUN_0076b610()) aE0x = PtLength(((PtOp*)&aBId.start)->operator-(aBId.finish));
+            else aE0x = PtLength(((PtOp*)&aBId.m_10.GetAt(aD1x - 1).position)->operator-(aBId.finish));
             _DebugLog("Travel %f units", (double)aE0x);
             float aBox = reinterpret_cast<::fnv_006f49c0::FUN_006f49c0_shell *>(&(aBId))->GetPathLength();
             int aAll = ((int)(::FUN_004839c0(58)));
@@ -50624,12 +50631,12 @@ bool __cdecl FUN_005c25f0(const ScriptParameter* apParameters, const char* apCom
             _DebugLog("--Estimated Travel Time: %.2f game hours.", (double)ratio);
             if (!reinterpret_cast<::FUN_0076b610_Class *>(&(aBId.m_10))->FUN_0076b610())
             {
-                int rr = ((int)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class class ::FUN_006815c0 *)(((PathRef*)aBId.m_10.GetAt(0).m_00)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
+                int rr = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)aBId.m_10.GetAt(0).m_00)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>((((ActivateObj*)(*reinterpret_cast<void * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(rr), ::DAT_01018f5c);
             }
             else
             {
-                int rr2 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class class ::FUN_006815c0 *)(((PathRef*)apRefObject)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
+                int rr2 = ((int)(::fnv_004b3890::FUN_004b3890((*(const class ::FUN_006815c0 *)(((PathRef*)(*reinterpret_cast<::fnv_005c25f0::TESObjectREFR * *>(&::_g_thePlayer)))->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), (*(const class ::FUN_006815c0 *)(((PathRef*)apRefObject)->Position())), (*(const ::fnv_004b3890::FUN_004a7800 *)(&DAT_011a9c30)), 1)));
                 reinterpret_cast<::FUN_00458e20_shell *>((((ActivateObj*)(*reinterpret_cast<void * *>(&::g_TES)))))->FUN_00458e20((::NiAVObject *)(rr2), ::DAT_01018f5c);
             }
     }
@@ -51122,7 +51129,7 @@ struct DbgCheck {
     bool FUN_00469860(int id);
 };
 namespace FUN_005c09c0_ns {
-extern "C" DbgCheck* DAT_011c3f2c;
+extern DbgCheck* DAT_011c3f2c;
 }
 
 bool FUN_00572c80(TESObjectREFR* ref);
@@ -51138,12 +51145,12 @@ bool FUN_005c09c0(const ScriptParameter* p1, const char* p2, TESObjectREFR* a3, 
     if (!ExtractArgs(p1, p2, &a8, a3, a4, a5, a6, &b, &f))
         return false;
 
-    if (a3 != 0 && !(reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((a3))->FUN_00572c80()) {
+    if (a3 != 0 && !(reinterpret_cast<::fnv_00572c80::FUN_00572c80_shell *>((a3))->FUN_00572c80())) {
         if ((*reinterpret_cast<unsigned char *>(&::bConditionFunctionDebug)) != 0) {
             FUN_00703c00("%s cannot be moved.",
                          ((int (*)(TESObjectREFR*))(*(void***)a3)[0x130 / 4])(a3));
         }
-        if (!FUN_005c09c0_ns::DAT_011c3f2c->FUN_00469860((reinterpret_cast<::FUN_0084e3a0_Class *>((a5))->FUN_0084e3a0())) {
+        if (!FUN_005c09c0_ns::DAT_011c3f2c->FUN_00469860((reinterpret_cast<::FUN_0084e3a0_Class *>((a5))->FUN_0084e3a0()))) {
             ::FUN_005b5e40();
         }
         return true;
@@ -51641,7 +51648,7 @@ public:
 
 extern char DAT_011846d4;
 extern char DAT_011841cc;
-extern "C" void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
+extern void* __cdecl FUN_00ec43fb(void*, int, const void*, const void*, int);
 
 // @fnv 0x005d26b0
 bool FUN_005d26b0(const ScriptParameter* paramInfo, const char* scriptData, TESObjectREFR* thisObj, TESObjectREFR* containingObj, Script* scriptObj, ScriptLocals* eventList, double& result, unsigned int& opcodeOffsetPtr)
@@ -52255,7 +52262,7 @@ class RefractionNameAccess {
 public:
 };
 
-extern "C" TESObjectREFR* g_thePlayer;
+extern TESObjectREFR* g_thePlayer;
 
 void DebugLog(const char*, ...);
 
@@ -53214,7 +53221,7 @@ bool FUN_005cc120(const ScriptParameter* apParameters, const char* apCompiledPar
     return true;
 }
 
-struct MiddleHighProcess { bool ResetAlertState(); };
+struct MiddleHighProcess { bool ResetAlertState(); ::NiAVObject *GetSceneRoot(); };
 void __cdecl _DebugLog(const char*, ...);
 
 // @fnv 0x005ce730
@@ -53520,8 +53527,8 @@ bool FUN_005dfba0(const ScriptParameter* parameters, const char* scriptData,
 
 class PackageTargetFormAccess { public: unsigned int FUN_0084e3a0(); };
 class PackageTargetActorAccess { public:  };
-extern "C" int DAT_011846d4;
-extern "C" int DAT_011841cc;
+
+
 extern "C" void* __cdecl _FNV_DynamicCast(void*, int, const void*, const void*, int);
 void __cdecl _DebugLog(const char*, ...);
 
@@ -56077,7 +56084,7 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_
     int iCount = 0;
     int iFlag = 0;
 
-    if (!::FUN_005accb0((const ::ExtractParameter *)(param), desc, &opcode, obj, obj2, (::ExtractScript *)(script), locals, &pForm, &iCount, &iFlag))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(param), desc, &opcode, (::TESObjectREFR *)(obj), (::TESObjectREFR *)(obj2), (::ExtractScript *)(script), locals, &pForm, &iCount, &iFlag))
         return false;
 
     if (obj)
@@ -56095,15 +56102,15 @@ bool FUN_005d0300(const ScriptParameter* param, const char* desc, TESObjectREFR_
                 if (pChanges)
                 {
                     ExtraDataList_ctx* pExtra = 0;
-                    pExtra = reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pForm), 0);
+                    pExtra = (ExtraDataList_ctx*)reinterpret_cast<::fnv_004bfda0::FUN_004bfda0_shell *>((pChanges))->FUN_004bfda0((::fnv_004bfda0::TESBoundObject *)(pForm), 0);
                     if (pExtra)
                     {
                         reinterpret_cast<::FUN_0041ab70_shell *>((pExtra))->FUN_0041ab70(false);
-                        reinterpret_cast<::s88c790::Actor_ctx *>((pActor))->FUN_0088c790((int)(pForm), 1, 0, 1, bSet, 1);
+                        reinterpret_cast<::s88c790::Actor *>((pActor))->FUN_0088c790((int)(pForm), 1, 0, 1, bSet, 1);
                         if (pActor == (*reinterpret_cast<::Actor_ctx * *>(&::_g_thePlayer)) && iFlag == 0)
                         {
                             BSStringT<char> str;
-                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720(pForm),
+                            ::FUN_00406f60((::FUN_00406f90_this *)(::BSStringT<char> *)(&str), "%s %s.", ::FUN_00482720((::TESForm *)pForm),
                                          ((const char *)(reinterpret_cast<::StartMenu *>((((SettingObj_ctx*)&(*reinterpret_cast<char *>(&::g_011d424c)))))->GetMenuTitle())));
                             ::DispatchMessageToSink((int)(((const char *)(::FUN_00559450((int *)&(str))))), 0,
                                                    (int)("Interface_ctx\\Icons\\Message Icons\\glow_message_vaultboy_neutral.dds"),
@@ -57441,7 +57448,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
                     {
                         pkNew =
                             ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkEntry->m_pkForm), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
-                                                        (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+                                                        (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
                         if (pkNew && pkNew->IsActor())
                         {
                             ActorC4* pkActor = (ActorC4*)pkNew;
@@ -57457,7 +57464,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
         else if (pkForm->IsBoundObject())
         {
             BoundC4* pkBound = (BoundC4*)pkForm;
-            CountC4* pkCountObj = ((::CountC4 *)(::GetHealthForm((::TESForm_o2_od_oy_noo2_nogf *)(pkBound))));
+            CountC4* pkCountObj = ((::CountC4 *)(::GetHealthForm((::TESForm *)(pkBound))));
             bool bOutside = false;
             if (!reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::PickWorldC4 * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(pkRef->GetPos()))))
                 bOutside = true;
@@ -57495,7 +57502,7 @@ RefC4* __cdecl FUN_005c4b30(RefC4* pkRef, FormC4* pkForm, int iCount, int iDista
                     kPos = *pkRef->GetPos();
                 }
                 pkNew = ((::RefC4 *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerC4 * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pkBound), (::NiPoint3 *)(::NiPoint3C4 *)(&kPos), (::NiPoint3 *)(::NiPoint3C4 *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((pkRef))->GetTarget()))),
-                                                    (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+                                                    (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((pkRef))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
                 if (!pkNew)
                     return 0;
                 if (pkNew->IsActor())
@@ -57776,7 +57783,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                           unsigned int& opcodeOffsetPtr)
 {
     int iType = 0;
-    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (TESObjectREFR_o2_od_oy_noo2_nogf*)thisObj, containingObj, (::ExtractScript *)(scriptObj),
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (::TESObjectREFR *)((TESObjectREFR_o2_od_oy_noo2_nogf*)thisObj), (::TESObjectREFR *)(containingObj), (::ExtractScript *)(scriptObj),
                      eventList, &iType))
         return false;
     if (thisObj && thisObj->Is3DLoaded())
@@ -57803,7 +57810,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
         {
             bool bSurface = false;
             ShapeDB* pkShape = ((::ShapeDB *)(::FUN_00559450((int *)(kQuery.m_pkCollidable))));
-            CollObjDB* pkObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR_o2_od_oy_noo2_nogf *)(pkShape))));
+            CollObjDB* pkObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR *)(pkShape))));
             bSurface = reinterpret_cast<::FUN_005dbe40_Class *>((pkObj))->FUN_005dbe40((::OBJECT_ACTION)(0x40));
             if (!bSurface)
             {
@@ -57823,7 +57830,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
                     pkLast = pkCur;
                     pkCur = pkCur->GetContainer()->GetChildShape(kQuery.m_aiKeys[i], reinterpret_cast<::NavMeshPtr *>(&(kBuffer))->FUN_005e05b0(i));
                 }
-                CollObjDB* pkLastObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR_o2_od_oy_noo2_nogf *)(pkLast))));
+                CollObjDB* pkLastObj = ((::CollObjDB *)(::FUN_004a3a40((::TESObjectREFR *)(pkLast))));
                 if (pkLastObj)
                     bSurface = reinterpret_cast<::FUN_00c84f50_cls *>((pkLastObj))->FUN_00c84f50(iKey, 0x40);
             }
@@ -57844,7 +57851,7 @@ bool __cdecl FUN_005db870(const ScriptParameter* paramInfo, const char* scriptDa
         }
         void* pvForm = iType == 2 ? (*reinterpret_cast<void * *>(&::DAT_011ca280)) : (*reinterpret_cast<void * *>(&::DAT_011ca27c));
         RefDB* pkNew = ((::RefDB *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerDB * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(pvForm), (::NiPoint3 *)(::NiPoint3DB *)(&kPos), (::NiPoint3 *)(::NiPoint3DB *)(&kAngle), (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>((thisObj))->GetTarget()))),
-                                                   (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((thisObj))->FUN_00575d70()))), (::TESObjectREFR_o2_od_oy_noo2_nogf *)(void *)(0), (const char *)(void *)(0), (::TESForm_o2_od_oy_noo2_nogf *)(void *)(0))));
+                                                   (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>((thisObj))->FUN_00575d70()))), (::TESObjectREFR *)(void *)(0), (const char *)(void *)(0), (::TESForm *)(void *)(0))));
         reinterpret_cast<::FUN_00564c60_cls *>((pkNew))->FUN_00564c60(!bAligned);
         reinterpret_cast<::FUN_0056c780_t *>((pkNew))->FUN_0056c780(true);
         reinterpret_cast<::fnv_00565480::RefPersistsStandin *>((pkNew))->FUN_00565480(true);
@@ -58061,7 +58068,7 @@ bool __cdecl FUN_005df5d0(const ScriptParameter* paramInfo, const char* scriptDa
     int iUnused2 = 1;
     float fAngleDifference = 0;
     float fDistance = 0;
-    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, thisObj, containingObj, (::ExtractScript *)(scriptObj), eventList,
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (::TESObjectREFR *)(thisObj), (::TESObjectREFR *)(containingObj), (::ExtractScript *)(scriptObj), eventList,
                      &fAngleDifference, &fDistance))
         return false;
     fDistance = FUN_0040ebd0(fDistance, 50000.0f);
@@ -58388,20 +58395,7 @@ struct FUN_00a6aa40_o2_od_oy_noo2 : NiProperty_o2_od_oy_noo2
     virtual void V0();
 };
 
-typedef union __declspec(intrin_type) __declspec(align(16)) __m128
-{
-    float m128_f32[4];
-    unsigned __int64 m128_u64[2];
-    __int8 m128_i8[16];
-    __int16 m128_i16[8];
-    __int32 m128_i32[4];
-    __int64 m128_i64[2];
-    unsigned __int8 m128_u8[16];
-    unsigned __int16 m128_u16[8];
-    unsigned __int32 m128_u32[4];
-} __m128;
 
-extern "C" __m128 _mm_load_ss(float const* _A);
 
 struct FUN_005dbf20
 {
@@ -58425,7 +58419,7 @@ struct NiPoint3_o2_od_oy_noo2
     NiPoint3_o2_od_oy_noo2* FUN_004b4500(void*, NiPoint3_o2_od_oy_noo2*, NiPoint3_o2_od_oy_noo2*);
 };
 
-struct __declspec(align(16)) ObjA
+struct __declspec(align(16)) ObjA_ray
 {
     __m128 rayFrom;
     __m128 rayTo;
@@ -58499,7 +58493,7 @@ struct StrObj
 
 struct TESX
 {
-    int FUN_00458420(ObjA*);
+    int FUN_00458420(ObjA_ray*);
 };
 
 struct HfS
@@ -58984,10 +58978,10 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     int i1 = 1;
     float f10 = 0.0f;
     float f14 = 0.0f;
-    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, (::TESObjectREFR *)(a2), (::TESObjectREFR *)(a3), (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
         return false;
     f14 = FUN_0040ebd0(f14, 50000.0f);
-    ObjA objA;
+    ObjA_ray objA;
     new ((void *)&(objA)) ::FUN_004a3c20();
     NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
     NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
@@ -59020,13 +59014,13 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     if (((FormS*)form)->GateE4())
     {
         void* form2 = form;
-        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm_o2_od_oy_noo2 *)(form2))));
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm *)(form2))));
         if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
         {
             pos180 = pt174;
             result = 1.0;
             ObjX* objX =
-                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3_o2_od_oy_noo2 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), (::NiPoint3 *)&pos180, (::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
                                                     (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
             if (!objX)
                 return false;
@@ -59101,7 +59095,7 @@ void S005dbe60_Object_o2_od_oy_noo2::FUN_005dbe60(S005dbe60_Target* pTarget) con
 {
     S005dbe60_Vector kValue;
     reinterpret_cast<::S005dbec0_Object *>((void *)this)->FUN_005dbec0((::S005dbec0_Result *)(::S005dbe60_Vector *)(&kValue));
-    ::SetNiPoint3FromHkVector4((*(::NiPoint3_o2_od_oy_noo2 *)(pTarget)), (*(const ::hkVector4 *)(&kValue)));
+    ::SetNiPoint3FromHkVector4((*(::NiPoint3 *)(pTarget)), (*(const ::hkVector4 *)(&kValue)));
 }
 
 // @fnv 0x005dbec0
@@ -59173,10 +59167,10 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     int i1 = 1;
     float f10 = 0.0f;
     float f14 = 0.0f;
-    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, a2, a3, (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(a0), a1, &a7, (::TESObjectREFR *)(a2), (::TESObjectREFR *)(a3), (::ExtractScript *)(a4), a5, &form, &i1, &f10, &f14))
         return false;
     f14 = FUN_0040ebd0(f14, 50000.0f);
-    ObjA objA;
+    ObjA_ray objA;
     new ((void *)&(objA)) ::FUN_004a3c20();
     NiPoint3_o2_od_oy_noo2 pt(0.0f, f14, 0.0f);
     NiPoint3_o2_od_oy_noo2 pos = *(*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))->GetPos1f4();
@@ -59209,13 +59203,13 @@ bool FUN_005df040(const ScriptParameter* a0, const char* a1, TESObjectREFR_o2_od
     if (((FormS*)form)->GateE4())
     {
         void* form2 = form;
-        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm_o2_od_oy_noo2 *)(form2))));
+        HfS* hf = ((::HfS *)(::GetHealthForm((::TESForm *)(form2))));
         if (reinterpret_cast<::n451::Grid *>(((*reinterpret_cast<::TESX * *>(&::g_TES))))->ContainsPoint((*(const ::n451::Pt *)(&pt174))))
         {
             pos180 = pt174;
             result = 1.0;
             ObjX* objX =
-                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), &pos180, (::NiPoint3_o2_od_oy_noo2 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
+                ((::ObjX *)(reinterpret_cast<::HandlerView *>(((*reinterpret_cast<::DataHandlerS * *>(&::g_dataHandler))))->PlaceObjectReference((::TESBoundObject *)(form2), (::NiPoint3 *)&pos180, (::NiPoint3 *)(void *)(((void *)(reinterpret_cast<::TESRecipe *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetData()))),
                                                     (::TESObjectCELL *)(void *)(((void *)(reinterpret_cast<::LowProcess *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->GetTarget()))), (::TESWorldSpace *)(void *)(((void *)(reinterpret_cast<::fnv_00575d70::FUN_00575d70_shell *>(((*reinterpret_cast<::PlayerS * *>(&::_g_thePlayer))))->FUN_00575d70()))), {}, {}, {})));
             if (!objX)
                 return false;
@@ -59530,7 +59524,7 @@ bool __cdecl FUN_005c6c80(const ScriptParameter* paramInfo, const char* scriptDa
                           unsigned int& opcodeOffsetPtr)
 {
     TESObjectREFR_rtti2* targetRef7 = 0;
-    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, thisObj, containingObj, (::ExtractScript *)(scriptObj), locals, &targetRef7))
+    if (!::FUN_005accb0((const ::ExtractParameter *)(paramInfo), scriptData, &opcodeOffsetPtr, (::TESObjectREFR *)(thisObj), (::TESObjectREFR *)(containingObj), (::ExtractScript *)(scriptObj), locals, &targetRef7))
         return false;
 
     if (thisObj != 0 && static_cast<TESObjectREFR_StandIn*>(thisObj)->V64() && targetRef7 != 0)

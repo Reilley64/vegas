@@ -178,6 +178,7 @@ struct hkpToiCountViewer
     void* vtable;
     unsigned short size;
     unsigned short unk06;
+    void* m_processVtable;
     hkpToiCountViewer* FUN_00d67ce0(unsigned int);
 };
 // Allocates a 0x40-byte hkpToiCountViewer from the global heap, initializes it with arg, and returns a pointer 8 bytes into it or null.
@@ -189,7 +190,7 @@ void* __cdecl AllocateToiCountViewer(unsigned int arg)
     pViewer->size = 0x40;
     pViewer = ((::fnv_00d67d60::hkpToiCountViewer *)(new ((void *)(pViewer)) ::FUN_00d67ce0(arg)));
     if (pViewer)
-        return (char*)pViewer + 8;
+        return &pViewer->m_processVtable;
     return 0;
 }
 }  // namespace fnv_00d67d60
@@ -322,9 +323,6 @@ struct Query
     Node** groups;
     int groupCount;
 };
-struct BaseHelper
-{
-};
 struct Context
 {
     void ProcessQuery(Query* query);
@@ -347,20 +345,12 @@ struct FUN_00d67970_class
 // @fnv 0x00d67970
 void FUN_00d67970_class::FUN_00d67970(FUN_00d67970_helper* helper)
 {
-    void* base = reinterpret_cast<char*>(this) - 0x20;
-    void* value;
-
-    if (base)
-        value = &unk0c;
-    else
-        value = 0;
+    // The viewer starts 0x20 bytes before this process part; it is never null here, so the listener bases are always passed.
+    void* value = &unk0c;
 
     reinterpret_cast<::fnv_00c93920::hkpWorldXc93920 *>((helper))->FUN_00c93920((::fnv_00c93920::hkpEntityListenerXc93920 *)(value));
 
-    if (base)
-        value = &unk08;
-    else
-        value = 0;
+    value = &unk08;
 
     reinterpret_cast<::fnv_00c93a20::hkpWorldXc93a20 *>((helper))->FUN_00c93a20((::fnv_00c93a20::hkpEntityListenerXc93a20 *)(value));
 }
@@ -395,7 +385,7 @@ struct FUN_00d67b90_cls
 // @fnv 0x00d67b90
 void FUN_00d67b90_cls::BindAndAttach(int* arg)
 {
-    FUN_00d67b90_cls* owner = ((char*)this - 0x30) != 0 ? this : 0;
+    FUN_00d67b90_cls* owner = this;
     reinterpret_cast<::HostC9C6 *>((((OwnerBinding*)arg)))->FUN_00c9c670(owner);
     reinterpret_cast<::FUN_00cb18f0_t *>(&(m_sub))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(arg));
 }
@@ -572,14 +562,14 @@ void FUN_00d67e30_cls::RemoveEntriesForObject(SpawnedObject* a1)
     for (int iMatch = 0; iMatch < size; iMatch++)
     {
         SpawnedObject** it = &out.m_data[iMatch];
-        reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk10) : 0);
+        reinterpret_cast<::HostC9C6 *>(((*it)))->FUN_00c9c670(&this->unk10);
         reinterpret_cast<::FUN_00cb18f0_t *>(&(m_14))->FUN_00cb1fb0(reinterpret_cast<intptr_t>(*it));
     }
 
     out.clear();
 
-    reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk08) : 0);
-    reinterpret_cast<::SearchArray *>((a1))->ClearValue(((char*)this - 0x20 != 0 ? (void*)((char*)&this->unk0C) : 0));
+    reinterpret_cast<::hkWorldXc91a20 *>((a1))->FUN_00c91a20(&this->unk08);
+    reinterpret_cast<::SearchArray *>((a1))->ClearValue(&this->unk0C);
 }
 
 #include <xmmintrin.h>
@@ -778,16 +768,18 @@ struct ContactViewer
 // @fnv 0x00d68130
 void Context::ProcessQuery(Query* query)
 {
+    // This context is the viewer's part at unk2c.
+    ContactViewer* viewer = reinterpret_cast<ContactViewer*>(reinterpret_cast<char*>(this) - offsetof(ContactViewer, unk2c));
     int mode = ::FUN_00d679c0((const __m128 *)(float *)(&query->direction.x));
     for (int groupIndex = 0; groupIndex < query->groupCount; ++groupIndex)
     {
         EntryListNode* list = &query->groups[groupIndex]->entries;
         for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-            reinterpret_cast<::ContactViewer *>((((BaseHelper*)((char*)this - 0x2c))))->FUN_00d68030(list->entries[entryIndex], mode);
+            viewer->FUN_00d68030(list->entries[entryIndex], mode);
     }
     EntryListNode* list = &query->direct->entries;
     for (int entryIndex = 0; entryIndex < list->count; ++entryIndex)
-        reinterpret_cast<::ContactViewer *>((((BaseHelper*)((char*)this - 0x2c))))->FUN_00d68030(list->entries[entryIndex], mode);
+        viewer->FUN_00d68030(list->entries[entryIndex], mode);
 }
 
 
@@ -974,7 +966,7 @@ void FUN_00d67c30_cls::FUN_00d67c30(ArgBlock* apBlock)
         {
             hkMemoryRouter* h = &hkMemoryRouter::getInstance();
             reinterpret_cast<::fnv_00cb1870::hkMapBaseCB18 *>((t))->FUN_00cb1870(*reinterpret_cast<::fnv_00cb1870::hkMemoryAllocatorCB18 *>(h->m_heap), reinterpret_cast<intptr_t>(item), reinterpret_cast<intptr_t>(&DAT_01000001));
-            char* owner = ((char*)this - 0x28) != 0 ? (char*)&this->unk08 : 0;
+            char* owner = reinterpret_cast<char*>(&this->unk08);
             reinterpret_cast<::FNVOwner *>((item))->FUN_00c9c5b0(owner);
         }
         p++;
